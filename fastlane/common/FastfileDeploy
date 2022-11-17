@@ -1,0 +1,54 @@
+platform :android do
+  lane :deploy do |options|
+    load_env(env: options[:env])
+
+    upload_to_play_store(
+      package_name: ENV["app_identifier"],
+      track: "internal",
+      release_status: "completed",
+      json_key: ENV["android_playstore_json_key"],
+      aab: "#{ENV["output_directory"]}/app-prod-release.aab",
+      mapping: "#{ENV["output_directory"]}/mapping.txt",
+    )
+  end
+end
+
+platform :ios do
+  lane :deploy do |options|
+    load_env(env: options[:env])
+
+    version = ios_get_version(
+      xcodeproj: File.join(Dir.pwd, "../ios", ENV["ios_xcode_proj"])
+    )
+
+    build_number = ios_get_build_number(
+      xcodeproj: File.join(Dir.pwd, "../ios", ENV["ios_xcode_proj"])
+    )
+
+    app_store_connect_api_key(
+      key_id: ENV["ios_appstore_connect_key_id"],
+      issuer_id: ENV["ios_appstore_connect_key_issuer_id"],
+      key_filepath: ENV["ios_appstore_connect_key"]
+    )
+
+    upload_to_testflight(
+      app_identifier: ENV["app_identifier"],
+      ipa: "#{ENV["output_directory"]}/#{ENV["ios_ipa_name"]}",
+      skip_submission: true,
+      skip_waiting_for_build_processing: true
+    )
+
+    deliver(
+      app_identifier: ENV["app_identifier"],
+      app_version: version,
+      build_number: build_number,
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      skip_metadata: true,
+      force: true,
+      ignore_language_directory_validation: true,
+      precheck_include_in_app_purchases: false,
+      verbose: true
+    )
+  end
+end

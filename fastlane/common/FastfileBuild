@@ -1,0 +1,56 @@
+platform :android do
+  lane :build do |options|
+    load_env(env: options[:env])
+    do_clean(options)
+
+    keystore_file_path = File.join(Dir.pwd, "../android/keystores", ENV["android_keystore_file"])
+
+    gradle(
+      project_dir: "android/",
+      task: ENV["android_build_task"],
+      build_type: ENV["android_build_type"],
+      print_command: true,
+      properties: {
+        "android.injected.signing.store.file" => keystore_file_path,
+        "android.injected.signing.store.password" => ENV["android_keystore_password"],
+        "android.injected.signing.key.alias" => ENV["android_keystore_alias"],
+        "android.injected.signing.key.password" => ENV["android_keystore_password"]
+      }
+    )
+
+    # copy .apk
+    if (ENV["android_build_task"] === "assemble")
+      copy_artifacts(
+        artifacts: [lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]],
+        target_path: ENV["output_directory"]
+      )
+    end
+
+    # copy .aab
+    if (ENV["android_build_task"] === "bundle")
+      copy_artifacts(
+        artifacts: [lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH]],
+        target_path: ENV["output_directory"]
+      )
+    end
+
+    # copy proguard mapping
+    copy_artifacts(
+      artifacts: [lane_context[SharedValues::GRADLE_MAPPING_TXT_OUTPUT_PATH]],
+      target_path: ENV["output_directory"]
+    )
+  end
+end
+
+platform :ios do
+  lane :build do |options|
+    load_env(env: options[:env])
+    do_clean(options)
+
+    if (options[:sigh])
+      run_sigh(adhoc: options[:adhoc])
+    end
+
+    gym()
+  end
+end

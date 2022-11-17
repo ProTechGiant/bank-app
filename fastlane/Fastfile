@@ -1,0 +1,33 @@
+fastlane_require 'dotenv'
+
+import "common/FastfileVersions"
+import "common/FastfileUtil"
+import "common/FastfileCertificates"
+import "common/FastfileBuild"
+import "common/FastfileDeploy"
+
+# -------------Environment Variables-------------#
+before_all do
+  Dotenv.overload 'envs/.env.secret'
+  Dotenv.overload 'envs/.env'
+end
+
+# -------------Generic Build & Deploy-------------#
+lane :build do |options|
+  raise "Specify an environment" unless options.key?(:env)
+
+  Fastlane::LaneManager.cruise_lane("android", "build", options)
+  Fastlane::LaneManager.cruise_lane("ios", "build", options)
+end
+
+lane :update_version do
+  Fastlane::LaneManager.cruise_lane("android", "update_version")
+  Fastlane::LaneManager.cruise_lane("ios", "update_version")
+end
+
+lane :deploy do |options|
+  raise "Deployment is only supported for prod currently" unless options[:env] == "prod"
+
+  Fastlane::LaneManager.cruise_lane("android", "deploy", options)
+  Fastlane::LaneManager.cruise_lane("ios", "deploy", options)
+end

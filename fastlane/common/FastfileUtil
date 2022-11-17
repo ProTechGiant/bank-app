@@ -1,0 +1,38 @@
+lane :tag_build_git do
+  version = load_json(json_path: File.join(Dir.pwd, "../src/", "version.json"))
+
+  add_git_tag(
+    grouping: "builds/#{version["buildType"]}",
+    includes_lane: false,
+    build_number: version["buildNumber"],
+    postfix: "-v#{version["version"]}",
+  )
+
+  push_git_tags
+end
+
+platform :ios do
+  lane :upload_dsyms_crashlytics do |options|
+    load_env(env: options[:env])
+
+    file_path = "#{ENV["output_directory"]}/#{ENV["ios_dsym_filename"]}"
+    version = load_json(json_path: File.join(Dir.pwd, "../src/", "version.json"))
+    plist_env = version["buildType"] == "test" ? "Acceptance" : "Release"
+
+    upload_symbols_to_crashlytics(
+      dsym_path: file_path,
+      gsp_path: File.join(Dir.pwd, "../ios/GoogleServices/GoogleService-Info.#{plist_env}.plist"),
+      binary_path: File.join(Dir.pwd, "../ios/Pods/FirebaseCrashlytics/upload-symbols")
+    )
+  end
+end
+
+private_lane :load_env do |options|
+  Dotenv.overload("envs/.env.#{options[:env]}")
+end
+
+private_lane :do_clean do | options |
+  if !options[:skip_clean]
+    sh("cd .. && sh scripts/factory-reset.sh")
+  end
+end
