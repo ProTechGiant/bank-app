@@ -9,9 +9,6 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "prepare": "husky install",
-    "update-stories": "sb-rn-get-stories --config-path .ondevice",
-    "prestart": "yarn update-stories",
-    "storybook-watcher": "sb-rn-watcher --config-path .ondevice",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -29,7 +26,6 @@
     "@react-native-community/eslint-config": "^2.0.0",
     "@storybook/addon-react-native-web": "^0.0.19",
     "@storybook/react": "^6.5",
-    "@storybook/react-native": "6.0.1-beta.9",
     "@types/jest": "^29.2.3",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.21",
