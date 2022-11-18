@@ -1,16 +1,9 @@
-import { useState } from "react";
-import { Button, View } from "react-native";
-
-import StorybookUI from "../storybook";
+import { Text, View } from "react-native";
 
 export default function App() {
-  const [mode, setMode] = useState<"start" | "storybook">("start");
-
-  return mode === "start" ? (
+  return (
     <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>
-      <Button onPress={() => setMode("storybook")} title="Move to Storybook" />
+      <Text>Hello World!</Text>
     </View>
-  ) : (
-    <StorybookUI />
   );
 }

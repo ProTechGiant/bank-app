@@ -1,5 +1,6 @@
 /* eslint-env node */
 module.exports = {
+  resolver: ["sbmodern"],
   transformer: {
     getTransformOptions: async () => ({
       transform: {
@@ -8,4 +9,5 @@ module.exports = {
       },
     }),
   },
+  watchFolders: ["./.ondevice"],
 };
