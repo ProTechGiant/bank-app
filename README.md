@@ -18,21 +18,21 @@ We aim to use [Trunk-Based Development](https://trunkbaseddevelopment.com/) to s
 ### Creating a Branch
 When picking up a new piece of work from the backlog, start by branching off the trunk branch ("main"). To ensure some consistency between naming of branches, please adhere to the following format for a branch name:
 
->> type/ticket#-whatever-you-want
+> type/ticket#-whatever-you-want
 
 So, for example `feat/2023948-upgrade-react-native-v070` would be an example of a properly named branch. Please read the section *Committing* to read other examples of what `type` could be.
 
 ### Committing
 We implemented [Commitlint](https://github.com/conventional-changelog/commitlint) to ensure consistency between commit messages. This allows us to automatically extract changelogs from Git metadata. Formatting of commit messages is enforced through Git Hooks. A commit message should have the following format:
 
->> type(scope?): subject # scope is optional, multiple scopes are supported (delimited by a ",")
+> type(scope?): subject # scope is optional, multiple scopes are supported (delimited by a ",")
 
 ... where common types are: `build`, `chore`, `docs`, `feat`, `fix`, `refactor`, `test` and scope generally refers to a JIRA ticket.
 
 ## Creating a Pull Request
 When satisfied with your changes, create a Pull Request from your branch and assign it to 1 or more reviewers. Choose a reviewer based on who else (recently) worked on the piece of code that you edited. Please name your Pull Request according to the Commitlint standard:
 
->> type(scope?): subject # scope is optional, multiple scopes are supported (delimited by a ",")
+> type(scope?): subject # scope is optional, multiple scopes are supported (delimited by a ",")
 
 ### Merging
 Merging a Pull Request is only allowed after a minimum of 1 review by a peer developer. All tests and checks **MUST** pass! Whoever will not adhere to this rule will have to bring cookies.
