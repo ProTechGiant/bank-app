@@ -1,13 +1,7 @@
-import { addParameters } from "@storybook/react";
-
-const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
-    },
-  },
-}
-
-addParameters(parameters);
+export const decorators = [
+  (Story) => (
+    <div style={{ alignItems: "center", display: "flex", justifyContent: "center", flex: 1 }}>
+      <Story />
+    </div>
+  ),
+];
