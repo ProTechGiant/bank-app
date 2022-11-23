@@ -15,6 +15,7 @@ module.exports = {
   transformIgnorePatterns: ["node_modules/?!(expo-file-system)"],
   moduleNameMapper: {
     "\\.svg": "<rootDir>/__mocks__/svgMock.js",
+    "@/(.*)": "<rootDir>/src/$1",
   },
   setupFilesAfterEnv: ["<rootDir>/__mocks__/setupTests.js"],
 };
