@@ -9,13 +9,16 @@ interface TextProps extends RNTextProps {
 }
 
 function Text({ color = "neutralBase+30", size = "body", weight = "regular", style, ...restProps }: TextProps) {
-  const styles = useThemeStyles<TextStyle>(theme => ({
-    color: theme.palette[color],
-    fontSize: theme.typography.text.sizes[size],
-    // @ts-expect-error indexing is correct
-    fontWeight: theme.typography.text.weights[weight],
-    lineHeight: theme.typography.text._lineHeights[size],
-  }));
+  const styles = useThemeStyles<TextStyle>(
+    theme => ({
+      color: theme.palette[color],
+      fontSize: theme.typography.text.sizes[size],
+      // @ts-expect-error indexing is correct
+      fontWeight: theme.typography.text.weights[weight],
+      lineHeight: theme.typography.text._lineHeights[size],
+    }),
+    [color, size, weight]
+  );
 
   return <RNText {...restProps} style={[style, styles]} />;
 }
@@ -27,13 +30,16 @@ interface HeaderProps extends RNTextProps {
 }
 
 function Header({ color = "neutralBase+30", size = "medium", weight = "regular", style, ...restProps }: HeaderProps) {
-  const styles = useThemeStyles<TextStyle>(theme => ({
-    color: theme.palette[color],
-    fontSize: theme.typography.header.sizes[size],
-    // @ts-expect-error indexing is correct
-    fontWeight: theme.typography.header.weights[weight],
-    lineHeight: theme.typography.header._lineHeights[size],
-  }));
+  const styles = useThemeStyles<TextStyle>(
+    theme => ({
+      color: theme.palette[color],
+      fontSize: theme.typography.header.sizes[size],
+      // @ts-expect-error indexing is correct
+      fontWeight: theme.typography.header.weights[weight],
+      lineHeight: theme.typography.header._lineHeights[size],
+    }),
+    [color, size, weight]
+  );
 
   return <RNText {...restProps} style={[style, styles]} />;
 }
