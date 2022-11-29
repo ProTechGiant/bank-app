@@ -1,24 +1,9 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-
+import { StyleSheet, View } from "react-native";
+import SectionHeader from "@/components/SectionHeader";
 import Typography from "@/components/Typography";
 import { palette } from "@/theme/values";
 
 export default function HomeDashboardScreen() {
-  const sectionHeader = (primaryText: string, secondaryText: string) => {
-    return (
-      <View style={styles.sectionContainer}>
-        <Typography.Text size="footnote" weight="medium" color="primaryBase-20">
-          {primaryText.toUpperCase()}
-        </Typography.Text>
-        <TouchableOpacity>
-          <Typography.Text size="footnote" weight="medium" color="primaryBase-20">
-            {secondaryText}
-          </Typography.Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
   const getCardNumber = () => {
     return "8394 2748 2929";
   };
@@ -31,9 +16,9 @@ export default function HomeDashboardScreen() {
         </Typography.Text>
         <Typography.Text color="neutralBase-50">{getCardNumber()}</Typography.Text>
       </View>
-      {sectionHeader("Quick actions", "Edit")}
-      {sectionHeader("Rewards", "See all")}
-      {sectionHeader("ArticleS", "See all")}
+      <SectionHeader title="Quick actions" subTitle={{ text: "Edit" }} />
+      <SectionHeader title="Rewards" subTitle={{ text: "See all" }} />
+      <SectionHeader title="Articles" subTitle={{ text: "See all" }} />
     </View>
   );
 }
@@ -49,11 +34,5 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 20,
     paddingTop: 40,
-  },
-  sectionContainer: {
-    padding: 20,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
 });
