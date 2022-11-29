@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import useNavigation from "@/navigation/use-navigation";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function TemporaryLandingPage() {
+export default function TemporaryLandingScreen() {
   const navigation = useNavigation();
 
   const handleOnOpenApplyForCard = () => {

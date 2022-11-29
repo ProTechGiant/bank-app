@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ApplyForCardScreen from "@/features/Cards/ApplyForCardScreen";
 import HomeDashboardScreen from "@/features/Home/HomeDashboardScreen";
 import MainStackParams from "./mainStackParams";
-import TemporaryLandingPage from "@/features/TemporaryLandingPage/TemporaryLandingPage";
+import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 const Stack = createNativeStackNavigator<MainStackParams>();
 
 export default function MainStack() {
@@ -11,7 +11,7 @@ export default function MainStack() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          component={TemporaryLandingPage}
+          component={TemporaryLandingScreen}
           name="Temporary.LandingPage"
           options={{
             headerShown: false,
