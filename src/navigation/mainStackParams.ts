@@ -1,7 +1,7 @@
 type MainStackParams = {
   "Cards.ApplyForCard": undefined;
   "Home.Dashboard": undefined;
-  "Temporary.LandingPage": undefined;
+  "Temporary.LandingScreen": undefined;
 };
 
 export default MainStackParams;

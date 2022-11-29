@@ -12,7 +12,7 @@ export default function MainStack() {
       <Stack.Navigator>
         <Stack.Screen
           component={TemporaryLandingScreen}
-          name="Temporary.LandingPage"
+          name="Temporary.LandingScreen"
           options={{
             headerShown: false,
           }}
