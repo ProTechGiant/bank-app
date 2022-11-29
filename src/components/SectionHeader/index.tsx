@@ -7,7 +7,6 @@ interface SectionHeaderProps {
 }
 
 export default function SectionHeader({ title, subTitle }: SectionHeaderProps) {
-  console.log("subtitle", subTitle);
   return (
     <View style={styles.container}>
       <Typography.Text size="footnote" weight="medium" color="primaryBase-20">
