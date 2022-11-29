@@ -7,11 +7,18 @@ interface ButtonProps extends Omit<PressableProps, "children" | "style"> {
   children: string | React.ReactNode;
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
-  size: "small" | "medium" | "large";
-  variant: "primary" | "secondary" | "tertiary";
+  size?: "small" | "medium" | "large";
+  variant?: "primary" | "secondary" | "tertiary";
 }
 
-export default function Button({ children, iconLeft, iconRight, onPress, size, variant, ...restProps }: ButtonProps) {
+export default function Button({
+  children,
+  iconLeft,
+  iconRight,
+  size = "medium",
+  variant = "primary",
+  ...restProps
+}: ButtonProps) {
   const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor:

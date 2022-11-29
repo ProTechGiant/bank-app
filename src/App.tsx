@@ -1,9 +1,11 @@
-import { Text, View } from "react-native";
+import MainStack from "@/navigation/MainStack";
+import { flags } from "@/config/feature-flag";
+import { FlagsProvider } from "flagged";
 
 export default function App() {
   return (
-    <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>
-      <Text>Hello World!</Text>
-    </View>
+    <FlagsProvider features={flags}>
+      <MainStack />
+    </FlagsProvider>
   );
 }

@@ -105,7 +105,7 @@ const typography = {
       callout: 16,
       caption1: 12,
       caption2: 11,
-      footnote: 12,
+      footnote: 13,
     },
     // correspond directly with `sizes`
     _lineHeights: {
