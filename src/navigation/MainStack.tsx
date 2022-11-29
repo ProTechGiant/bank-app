@@ -3,9 +3,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ApplyForCardScreen } from "@/features/Cards";
 import { HomeDashboardScreen } from "@/features/Home";
 
-import RouteParams from "./RouteParams";
 import { TemporaryLandingPage } from "@/features/TemporaryLandingPage";
 
+import RouteParams from "./mainStackParams";
 const Stack = createNativeStackNavigator<RouteParams>();
 
 export default function MainStack() {
