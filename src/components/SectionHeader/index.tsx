@@ -20,11 +20,9 @@ export default function SectionHeader({ title, subTitle }: SectionHeaderProps) {
         </TouchableOpacity>
       )}
       {!subTitle?.onPress && subTitle?.text && (
-        <TouchableOpacity onPress={subTitle.onPress}>
-          <Typography.Text size="footnote" weight="medium" color="primaryBase-20">
-            {subTitle.text}
-          </Typography.Text>
-        </TouchableOpacity>
+        <Typography.Text size="footnote" weight="medium" color="primaryBase-20">
+          {subTitle.text}
+        </Typography.Text>
       )}
     </View>
   );
