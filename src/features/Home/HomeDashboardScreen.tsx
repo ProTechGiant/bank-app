@@ -5,9 +5,7 @@ import { palette, spacing } from "@/theme/values";
 import QuickAction from "@/components/QuickAction";
 
 export default function HomeDashboardScreen() {
-  const getCardNumber = () => {
-    return "8394 2748 2929";
-  };
+  const cardNumber = "8394 2748 2929";
 
   return (
     <View style={styles.container}>
@@ -15,7 +13,7 @@ export default function HomeDashboardScreen() {
         <Typography.Text color="neutralBase-50" weight="medium" size="callout">
           MAIN ACCOUNT
         </Typography.Text>
-        <Typography.Text color="neutralBase-50">{getCardNumber()}</Typography.Text>
+        <Typography.Text color="neutralBase-50">{cardNumber}</Typography.Text>
       </View>
       <SectionHeader title="Quick actions" subTitle={{ text: "Edit" }} />
       <View style={styles.quickActionWrapper}>
