@@ -19,7 +19,7 @@ const palette = {
   "primaryBase+30": "#030311",
   "primaryBase+20": "#060622",
   "primaryBase+10": "#090833",
-  primaryBase: "#0F0E55",
+  primaryBase: "#080E53",
   "primaryBase-10": "#6F6E99",
   "primaryBase-20": "#9F9FBB",
   "primaryBase-30": "#CFCFDD",
