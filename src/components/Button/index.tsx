@@ -17,6 +17,7 @@ export default function Button({
   children,
   color = "base",
   iconLeft,
+  loader,
   disabled,
   iconRight,
   type = "no icons",
@@ -45,12 +46,16 @@ export default function Button({
     <Pressable {...restProps}>
       <View style={[styles.container, containerStyles]}>
         {undefined !== iconLeft && <View style={styles.icon}>{iconLeft}</View>}
-        <Typography.Text
-          color={variant === "primary" ? "neutralBase-30" : color === "base" ? "primaryBase" : "complimentBase"}
-          size="body"
-          weight="regular">
-          {children}
-        </Typography.Text>
+        {type === "loader" ? (
+          <View>{loader}</View>
+        ) : (
+          <Typography.Text
+            color={variant === "primary" ? "neutralBase-30" : color === "base" ? "primaryBase" : "complimentBase"}
+            size="body"
+            weight="regular">
+            {children}
+          </Typography.Text>
+        )}
         {undefined !== iconRight && <View style={styles.icon}>{iconRight}</View>}
       </View>
     </Pressable>
