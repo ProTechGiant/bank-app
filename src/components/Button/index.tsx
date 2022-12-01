@@ -5,17 +5,21 @@ import { useThemeStyles } from "@/theme";
 
 interface ButtonProps extends Omit<PressableProps, "children" | "style"> {
   children: string | React.ReactNode;
+  color?: "base" | "alt";
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
-  size?: "small" | "medium" | "large";
+  loader?: React.ReactNode;
+  type?: "has icons" | "no icons" | "loader";
   variant?: "primary" | "secondary" | "tertiary";
 }
 
 export default function Button({
   children,
+  color = "base",
   iconLeft,
+  disabled,
   iconRight,
-  size = "medium",
+  type = "no icons",
   variant = "primary",
   ...restProps
 }: ButtonProps) {
@@ -23,36 +27,28 @@ export default function Button({
     theme => ({
       backgroundColor:
         variant === "primary"
-          ? theme.palette.primaryBase
-          : variant === "secondary"
-          ? theme.palette["primaryBase-30"]
+          ? color === "base"
+            ? theme.palette.primaryBase
+            : theme.palette.complimentBase
           : undefined,
-      borderRadius:
-        variant !== "tertiary"
-          ? size === "large"
-            ? theme.spacing.medium
-            : size === "medium"
-            ? theme.spacing.medium - 2
-            : theme.spacing.medium - 4
-          : 0,
-      paddingHorizontal: variant !== "tertiary" ? theme.spacing.medium : 0,
-      paddingVertical:
-        variant !== "tertiary"
-          ? size === "large"
-            ? theme.spacing.medium
-            : size === "medium"
-            ? theme.spacing.medium - 4
-            : theme.spacing.small
-          : 0,
+      borderRadius: theme.radii.extraSmall,
+      borderWidth: variant === "secondary" ? 1 : 0,
+      borderColor: color === "base" ? theme.palette.primaryBase : theme.palette.complimentBase,
+      opacity: disabled ? 0.5 : 1,
+      paddingHorizontal: type === "has icons" ? theme.spacing.small : theme.spacing.medium,
+      paddingVertical: theme.spacing.medium,
     }),
-    [size, variant]
+    [type, variant]
   );
 
   return (
     <Pressable {...restProps}>
       <View style={[styles.container, containerStyles]}>
         {undefined !== iconLeft && <View style={styles.icon}>{iconLeft}</View>}
-        <Typography.Text color={variant === "primary" ? "neutralBase-30" : "primaryBase"} size="body" weight="regular">
+        <Typography.Text
+          color={variant === "primary" ? "neutralBase-30" : color === "base" ? "primaryBase" : "complimentBase"}
+          size="body"
+          weight="regular">
           {children}
         </Typography.Text>
         {undefined !== iconRight && <View style={styles.icon}>{iconRight}</View>}
@@ -63,8 +59,10 @@ export default function Button({
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: "center",
+    display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   icon: {
     marginHorizontal: 8 / 2,
