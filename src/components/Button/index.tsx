@@ -1,14 +1,13 @@
-import { Pressable, PressableProps, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Pressable, PressableProps, StyleSheet, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface ButtonProps extends Omit<PressableProps, "children" | "style"> {
-  children: string | React.ReactNode;
+  children?: string | React.ReactNode;
   color?: "base" | "alt";
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
-  loader?: React.ReactNode;
   type?: "has icons" | "no icons" | "loader";
   variant?: "primary" | "secondary" | "tertiary";
 }
@@ -17,7 +16,6 @@ export default function Button({
   children,
   color = "base",
   iconLeft,
-  loader,
   disabled,
   iconRight,
   type = "no icons",
@@ -47,7 +45,7 @@ export default function Button({
       <View style={[styles.container, containerStyles]}>
         {undefined !== iconLeft && <View style={styles.icon}>{iconLeft}</View>}
         {type === "loader" ? (
-          <View>{loader}</View>
+          <ActivityIndicator size="small" />
         ) : (
           <Typography.Text
             color={variant === "primary" ? "neutralBase-30" : color === "base" ? "primaryBase" : "complimentBase"}
