@@ -1,8 +1,8 @@
 import { View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
 import useNavigation from "@/navigation/use-navigation";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TemporaryLandingScreen() {
   const navigation = useNavigation();
@@ -14,6 +14,9 @@ export default function TemporaryLandingScreen() {
   const handleOnHomepage = () => {
     navigation.navigate("Home.Dashboard");
   };
+  const handleOnOpenOnboarding = () => {
+    navigation.navigate("Onboarding.SplashScreen");
+  };
 
   return (
     <SafeAreaView>
@@ -22,6 +25,9 @@ export default function TemporaryLandingScreen() {
       </View>
       <View style={{ margin: 20 }}>
         <Button onPress={handleOnHomepage}>Homepage</Button>
+      </View>
+      <View style={{ margin: 20 }}>
+        <Button onPress={handleOnOpenOnboarding}>Onboarding</Button>
       </View>
     </SafeAreaView>
   );
