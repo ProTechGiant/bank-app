@@ -1,11 +1,19 @@
-import { View } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 
-import Typography from "@/components/Typography";
+import ApplyCardHeader from "@/components/ApplyForCardHeader";
 
 export default function ApplyForCardScreen() {
   return (
-    <View>
-      <Typography.Header>Woo! Im a modal!</Typography.Header>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View>
+        <ApplyCardHeader title="Order card" backButton={false} />
+      </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

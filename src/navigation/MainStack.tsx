@@ -34,7 +34,7 @@ export default function MainStack() {
           options={{ headerShown: false }}
         />
         <Stack.Screen component={OnboardingIqamaInput} name="Onboarding.Iqama" options={{ headerShown: false }} />
-        <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Group screenOptions={{ headerShown: false, animation: "slide_from_bottom" }}>
           <Stack.Screen component={ApplyForCardScreen} name="Cards.ApplyForCard" />
         </Stack.Group>
       </Stack.Navigator>
