@@ -1,4 +1,5 @@
 import { GestureResponderEvent, StyleSheet, TouchableOpacity, View } from "react-native";
+
 import Typography from "@/components/Typography";
 import { spacing } from "@/theme/values";
 
@@ -31,10 +32,10 @@ export default function SectionHeader({ title, subTitle }: SectionHeaderProps) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: spacing.medium,
-    paddingHorizontal: spacing.medium,
-    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
+    paddingHorizontal: spacing.medium,
+    paddingTop: spacing.medium,
+    width: "100%",
   },
 });

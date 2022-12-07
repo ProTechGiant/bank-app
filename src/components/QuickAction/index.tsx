@@ -1,7 +1,8 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+
+import { Icons } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { palette, spacing } from "@/theme/values";
-import { Icons } from "@/assets/icons";
 
 interface QuickActionProps {
   iconName: keyof Icons;
@@ -25,18 +26,18 @@ export default function QuickAction({ iconName, title }: QuickActionProps) {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    padding: spacing.medium,
     backgroundColor: palette["neutralBase-50"],
-    height: 95,
-    margin: spacing.small,
     flex: 1,
-  },
-  wrapper: {
-    flexDirection: "row",
-    flexBasis: "33%",
+    height: 95,
+    justifyContent: "center",
+    margin: spacing.small,
+    padding: spacing.medium,
   },
   icon: {
     marginBottom: spacing.small,
+  },
+  wrapper: {
+    flexBasis: "33%",
+    flexDirection: "row",
   },
 });

@@ -14,6 +14,7 @@ export default function TemporaryLandingScreen() {
   const handleOnHomepage = () => {
     navigation.navigate("Home.Dashboard");
   };
+
   const handleOnOpenOnboarding = () => {
     navigation.navigate("Onboarding.SplashScreen");
   };

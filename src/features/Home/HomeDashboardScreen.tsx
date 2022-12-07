@@ -1,8 +1,10 @@
 import { StyleSheet, View } from "react-native";
+
+import NotificationDropdown from "@/components/NotificationDropdown";
+import QuickAction from "@/components/QuickAction";
 import SectionHeader from "@/components/SectionHeader";
 import Typography from "@/components/Typography";
 import { palette, spacing } from "@/theme/values";
-import QuickAction from "@/components/QuickAction";
 
 export default function HomeDashboardScreen() {
   const cardNumber = "8394 2748 2929";
@@ -14,6 +16,9 @@ export default function HomeDashboardScreen() {
           MAIN ACCOUNT
         </Typography.Text>
         <Typography.Text color="neutralBase-50">{cardNumber}</Typography.Text>
+        <View style={styles.notificationDropdownWrapper}>
+          <NotificationDropdown />
+        </View>
       </View>
       <SectionHeader title="Quick actions" subTitle={{ text: "Edit" }} />
       <View style={styles.quickActionWrapper}>
@@ -32,10 +37,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    backgroundColor: palette.primaryBase,
     alignItems: "center",
+    backgroundColor: palette.primaryBase,
     padding: spacing.medium,
     paddingTop: 40,
+  },
+  notificationDropdownWrapper: {
+    marginVertical: spacing.medium,
   },
   quickActionWrapper: {
     flexDirection: "row",

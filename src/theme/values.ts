@@ -138,4 +138,8 @@ const radii = {
   xxlarge: 64,
 };
 
-export { palette, radii, spacing, typography };
+const iconDimensions = {
+  notifications: 21,
+};
+
+export { iconDimensions, palette, radii, spacing, typography };
