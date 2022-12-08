@@ -1,5 +1,7 @@
 type MainStackParams = {
   "Cards.ApplyForCard": undefined;
+  "Cards.ApplyForLuxCard": undefined;
+  "Cards.SecureMessage": undefined;
   "Home.Dashboard": undefined;
   "Temporary.LandingScreen": undefined;
   "Onboarding.SplashScreen": undefined;

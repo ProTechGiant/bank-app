@@ -2,6 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ApplyForCardScreen from "@/features/Cards/ApplyForCardScreen";
+import ApplyForLuxCardScreen from "@/features/Cards/ApplyForLuxCardScreen";
+import SecureMessageScreen from "@/features/Cards/SecureMessageScreen";
 import HomeDashboardScreen from "@/features/Home/HomeDashboardScreen";
 import OnboardingIqamaInput from "@/features/Onboarding/OnboardingIqamaInput";
 import OnboardingSplashScreen from "@/features/Onboarding/OnboardingSplashScreen";
@@ -36,6 +38,12 @@ export default function MainStack() {
         <Stack.Screen component={OnboardingIqamaInput} name="Onboarding.Iqama" options={{ headerShown: false }} />
         <Stack.Group screenOptions={{ headerShown: false, animation: "slide_from_bottom" }}>
           <Stack.Screen component={ApplyForCardScreen} name="Cards.ApplyForCard" />
+          <Stack.Screen
+            options={{ animation: "default" }}
+            component={ApplyForLuxCardScreen}
+            name="Cards.ApplyForLuxCard"
+          />
+          <Stack.Screen options={{ animation: "default" }} component={SecureMessageScreen} name="Cards.SecureMessage" />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
