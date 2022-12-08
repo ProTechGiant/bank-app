@@ -20,7 +20,7 @@ export const notificationData = [
     action_button_text: "Apply",
   },
   {
-    action_id: "2",
+    action_id: "3",
     action_type_id: "Lifestyle Prefs",
     action_status: "completed",
     action_title: "Preferences",

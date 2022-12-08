@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { Dimensions } from "react-native";
 
 import { notificationData } from "@/mocks/notificationData";
-import { palette, radii, spacing } from "@/theme/values";
+import { spacing } from "@/theme/values";
 
 import Carousel from "../Carousel";
 import Dropdown from "../Dropdown";
@@ -21,7 +21,13 @@ export default function NotificationDropdown() {
 
   return (
     <Dropdown
-      Title={<NotificationsTitle length={2} dropdownVisible={dropdownVisible} onPress={toggleDropdown} />}
+      Title={
+        <NotificationsTitle
+          length={pendingNotifications.length}
+          dropdownVisible={dropdownVisible}
+          onPress={toggleDropdown}
+        />
+      }
       dropdownVisible={dropdownVisible}
       Content={
         <Carousel
