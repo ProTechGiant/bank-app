@@ -43,7 +43,7 @@ module.exports = {
     "no-extra-boolean-cast": 1,
     "no-console": 1,
     "no-unused-vars": "off",
-    "simple-import-sort/imports": "error",
+    "simple-import-sort/imports": 0,
     "simple-import-sort/exports": "error",
     "react/jsx-curly-brace-presence": [
       "error",
@@ -63,10 +63,10 @@ module.exports = {
     ],
     "react-native/no-unused-styles": 2,
     "react-native/split-platform-components": 2,
-    "react-native/no-color-literals": 2,
+    "react-native/no-color-literals": 0,
     "react-native/no-raw-text": "off",
     "react-native/sort-styles": [
-      "error",
+      0,
       "asc",
       {
         ignoreClassNames: false,
