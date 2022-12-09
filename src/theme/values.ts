@@ -4,6 +4,7 @@ const palette = {
   "complimentBase+20": "#662400",
   "complimentBase+10": "#993700",
   complimentBase: "#FF7512",
+  "complimentBase-50%": "#FF751280",
   "complimentBase-10": "#FF9D66",
   "complimentBase-20": "#FFBD99",
   "complimentBase-30": "#FFDECC",
@@ -16,10 +17,12 @@ const palette = {
   "neutralBase-30": "#F4F4F4",
   "neutralBase-40": "#F2f2f2",
   "neutralBase-50": "#FFFFFF",
+  "neutralBase-50-50%": "#FFFFFF80",
   "primaryBase+30": "#030311",
   "primaryBase+20": "#060622",
   "primaryBase+10": "#090833",
   primaryBase: "#080E53",
+  "primaryBase-50%": "#080E5380",
   "primaryBase-10": "#6F6E99",
   "primaryBase-20": "#9F9FBB",
   "primaryBase-30": "#CFCFDD",
@@ -125,6 +128,7 @@ const typography = {
 const spacing = {
   small: 8,
   medium: 16,
+  regular: 20,
   large: 24,
   xlarge: 32,
 };

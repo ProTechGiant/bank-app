@@ -5,8 +5,8 @@ import ApplyForCardScreen from "@/features/Cards/ApplyForCardScreen";
 import ApplyForLuxCardScreen from "@/features/Cards/ApplyForLuxCardScreen";
 import SecureMessageScreen from "@/features/Cards/SecureMessageScreen";
 import HomeDashboardScreen from "@/features/Home/HomeDashboardScreen";
-import OnboardingIqamaInput from "@/features/Onboarding/OnboardingIqamaInput";
-import OnboardingSplashScreen from "@/features/Onboarding/OnboardingSplashScreen";
+import OnboardingIqamaInput from "@/screens/Onboarding/OnboardingIqamaInput";
+import OnboardingSplashScreen from "@/screens/Onboarding/OnboardingSplashScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 
 import MainStackParams from "./mainStackParams";
