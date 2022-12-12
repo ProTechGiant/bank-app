@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 4,
   },
   container: {
-    backgroundColor: palette["neutralBase+50"],
+    backgroundColor: palette["neutralBase-50"],
     borderRadius: radii.extraSmall,
     padding: spacing.medium,
   },
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     borderColor: palette["primaryBase"],
   },
   themeSuccess: {
-    borderColor: palette["complimentSuccess"],
+    borderColor: palette["successBase"],
   },
   titleContainer: {
     marginBottom: spacing.small,
