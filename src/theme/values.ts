@@ -18,6 +18,7 @@ const palette = {
   "neutralBase-40": "#F2f2f2",
   "neutralBase-50": "#FFFFFF",
   "neutralBase-50-50%": "#FFFFFF80",
+  "neutralBase-50-12%": "#FFFFFF1F",
   "primaryBase+30": "#030311",
   "primaryBase+20": "#060622",
   "primaryBase+10": "#090833",

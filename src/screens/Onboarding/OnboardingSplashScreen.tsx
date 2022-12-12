@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
 
 import Button from "@/components/Button";
 import DarkOneGradient from "@/components/LinearGradients/GradientBackgrounds";
@@ -29,6 +29,7 @@ const OnboardingSplashScreen = () => {
   return (
     <DarkOneGradient>
       <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" />
         <Pressable style={styles.languageSelectView} onPress={handleLanguageSwitch}>
           <Text style={styles.languageText}>{buttonText}</Text>
         </Pressable>
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
   languageSelectView: {
     alignItems: "center",
     alignSelf: "flex-end",
-    backgroundColor: palette["neutralBase-50-50%"],
+    backgroundColor: palette["neutralBase-50-12%"],
     borderRadius: radii.medium,
     height: 34,
     justifyContent: "center",
@@ -98,8 +99,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   buttonGroup: {
-    marginHorizontal: spacing.large,
-    top: 31 * vh,
+    position: "absolute",
+    bottom: spacing.xlarge,
+    left: spacing.large,
+    right: spacing.large,
   },
 
   signInContainer: {
