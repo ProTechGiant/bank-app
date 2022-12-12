@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
 
 import Button from "@/components/Button";
@@ -7,6 +7,7 @@ import Typography from "@/components/Typography";
 import { vh } from "@/helpers/viewportUnit";
 import useNavigation from "@/navigation/use-navigation";
 import { palette, radii, spacing, typography } from "@/theme/values";
+import * as RNLocalize from "react-native-localize";
 
 const OnboardingSplashScreen = () => {
   const navigation = useNavigation();
@@ -15,6 +16,22 @@ const OnboardingSplashScreen = () => {
   const ButtonPressed = () => {
     Alert.alert("signin button pressed");
   };
+
+  let language: string;
+  const LocalData = RNLocalize.getLocales();
+
+  if (LocalData !== null) {
+    const LangCode = LocalData[0].languageCode;
+    LangCode === "ar" ? (language = "ar") : (language = "en");
+  } else {
+    language = "en";
+  }
+
+  useEffect(() => {
+    if (language === "en") {
+      setIsEnglish(true);
+    }
+  }, [language]);
 
   const handleOnContinueOnboarding = () => {
     navigation.navigate("Onboarding.Iqama");
