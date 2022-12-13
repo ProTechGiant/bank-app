@@ -20,17 +20,23 @@ export default {
 
 const Template: ComponentStory<typeof StackComponent> = args => (
   <StackComponent space={args.space} xAlign={args.xAlign}>
-    <Box padding="medium" backgroundColor="bisque" width={100}>
+    <Box padding="medium" backgroundColor="bisque">
       <Text>Box 1</Text>
     </Box>
-    <Box padding="medium" backgroundColor="bisque" width={100}>
+    <Box padding="medium" backgroundColor="bisque">
       <Text>Box 2</Text>
     </Box>
-    <Box padding="medium" backgroundColor="bisque" width={100}>
+    <Box padding="medium" backgroundColor="bisque">
       <Text>Box 3</Text>
     </Box>
-    <Box padding="medium" backgroundColor="bisque" width={100}>
+    <Box padding="medium" backgroundColor="bisque">
       <Text>Box 4</Text>
+    </Box>
+    <Box padding="medium" backgroundColor="bisque" width={200}>
+      <Text>Box 5 (width 200px)</Text>
+    </Box>
+    <Box padding="medium" backgroundColor="bisque" width={200}>
+      <Text>Box 6 (width 200px)</Text>
     </Box>
   </StackComponent>
 );

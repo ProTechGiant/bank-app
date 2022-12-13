@@ -2,13 +2,13 @@ import { spaceMap } from "@/utils";
 import { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 
-export const Inline = ({
-  children,
-  space = "none",
-}: {
+type Props = {
   children: ReactNode | ReactNode[];
   space?: keyof typeof spaceMap;
-}) => {
+  xAlign?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around" | "space-evenly";
+};
+
+export const Inline = ({ children, space = "none", xAlign }: Props) => {
   if (children instanceof Array) {
     return (
       <View
@@ -18,6 +18,7 @@ export const Inline = ({
             marginLeft: -spaceMap[space],
             marginTop: -spaceMap[space],
           },
+          xAlign && { justifyContent: xAlign },
         ]}>
         {children.map((child, index) => (
           <View

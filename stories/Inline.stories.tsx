@@ -11,11 +11,15 @@ export default {
       options: ["none", "xxxSmall", "xxSmall", "xSmall", "small", "medium", "large", "xLarge", "xxLarge", "xxxLarge"],
       control: { type: "select" },
     },
+    xAlign: {
+      options: ["flex-start", "center", "flex-end", "space-between", "space-around", "space-evenly"],
+      control: { type: "select" },
+    },
   },
 };
 
 const Template: ComponentStory<typeof InlineComponent> = args => (
-  <InlineComponent space={args.space}>
+  <InlineComponent space={args.space} xAlign={args.xAlign}>
     <Box padding="medium" backgroundColor="bisque" width={100}>
       <Text>Box 1</Text>
     </Box>
