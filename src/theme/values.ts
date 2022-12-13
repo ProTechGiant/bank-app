@@ -154,7 +154,10 @@ const radii = {
 };
 
 const iconDimensions = {
+  link: 16,
+  dropdown: 15,
   notifications: 21,
+  accordian: 24,
 };
 
 export { iconDimensions, palette, radii, spacing, typography };

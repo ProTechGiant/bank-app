@@ -27,7 +27,7 @@ export default function NotificationsTitle({ length, dropdownVisible, onPress }:
           </View>
         </View>
         {dropdownVisible ? (
-          <Icons.upArrow width={iconDimensions.notifications} height={iconDimensions.notifications} />
+          <Icons.UpArrow width={iconDimensions.notifications} height={iconDimensions.notifications} />
         ) : (
           <Icons.DownArrow width={iconDimensions.notifications} height={iconDimensions.notifications} />
         )}

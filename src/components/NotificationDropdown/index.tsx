@@ -21,7 +21,7 @@ export default function NotificationDropdown() {
 
   return (
     <Dropdown
-      Title={
+      title={
         <NotificationsTitle
           length={pendingNotifications.length}
           dropdownVisible={dropdownVisible}

@@ -6,6 +6,8 @@ import ApplyForLuxCardScreen from "@/features/Cards/ApplyForLuxCardScreen";
 import SecureMessageScreen from "@/features/Cards/SecureMessageScreen";
 import CreateCardPinScreen from "@/features/Cards/CreateCardPinScreen";
 import HomeDashboardScreen from "@/features/Home/HomeDashboardScreen";
+import ConfirmPersonalDetailsScreen from "@/screens/Onboarding/ConfirmPersonalDetailsScreen";
+import NafathAuthScreen from "@/screens/Onboarding/NafathAuthScreen";
 import OnboardingIqamaInput from "@/screens/Onboarding/OnboardingIqamaInput";
 import OnboardingSplashScreen from "@/screens/Onboarding/OnboardingSplashScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
@@ -37,6 +39,12 @@ export default function MainStack() {
           options={{ headerShown: false }}
         />
         <Stack.Screen component={OnboardingIqamaInput} name="Onboarding.Iqama" options={{ headerShown: false }} />
+        <Stack.Screen component={NafathAuthScreen} name="Onboarding.Nafath" options={{ headerShown: false }} />
+        <Stack.Screen
+          component={ConfirmPersonalDetailsScreen}
+          name="Onboarding.ConfirmDetails"
+          options={{ headerShown: false }}
+        />
         <Stack.Group screenOptions={{ headerShown: false, animation: "slide_from_bottom" }}>
           <Stack.Screen component={ApplyForCardScreen} name="Cards.ApplyForCard" />
           <Stack.Screen
