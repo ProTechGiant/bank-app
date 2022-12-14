@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { Linking, SafeAreaView, StyleSheet, View } from "react-native";
 
 import MoreInfoDropdown from "@/features/MoreInfoDropdown";
 import LinkCard from "@/components/LinkCard";
@@ -18,16 +18,23 @@ const NafathAuthScreen = () => {
     setModalVisible(!modalVisible);
   };
 
-  const navigationHandler = () => {
+  const appNavigationHandler = () => {
     navigation.navigate("Onboarding.ConfirmDetails");
   };
+  const webNavigationHandler = () => {
+    Linking.openURL("https://www.absher.sa/");
+    setTimeout(() => {
+      navigation.navigate("Onboarding.ConfirmDetails");
+    }, 500);
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <LinkModal
           modalVisible={modalVisible}
-          linkText="Open Nafath app"
-          onNavigate={navigationHandler}
+          linkText="Open Nafath App"
+          onNavigate={appNavigationHandler}
           toggleModal={toggleModalHandler}>
           <Inline xAlign="center">
             <View style={styles.numberContainer}>
@@ -57,7 +64,7 @@ const NafathAuthScreen = () => {
               Select this option for a quick ID authentication
             </Typography.Text>
           </LinkCard>
-          <LinkCard onNavigate={navigationHandler}>
+          <LinkCard onNavigate={webNavigationHandler}>
             <Typography.Text size="callout" weight="medium" color="primaryBase+10">
               Nafath site
             </Typography.Text>
