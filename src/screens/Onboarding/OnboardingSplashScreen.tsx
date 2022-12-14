@@ -41,16 +41,15 @@ const OnboardingSplashScreen = () => {
     setIsEnglish(!isEnglish);
   };
 
-  const buttonText = isEnglish ? "EN" : "العربية";
+  const buttonText = isEnglish ? "العربية" : "EN";
 
   return (
     <DarkOneGradient>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Pressable style={styles.languageSelectView} onPress={handleLanguageSwitch}>
+        <Pressable style={[styles.languageSelectView, { width: isEnglish ? 65 : 50 }]} onPress={handleLanguageSwitch}>
           <Text style={styles.languageText}>{buttonText}</Text>
         </Pressable>
-        {/* </View> */}
         <View style={styles.contentView}>
           <View style={styles.headerView}>
             <Typography.Text size="large" weight="bold" color="neutralBase-50">
@@ -93,7 +92,6 @@ const styles = StyleSheet.create({
     marginRight: spacing.medium,
     marginTop: spacing.large,
     paddingHorizontal: spacing.medium,
-    width: 65,
   },
   languageText: {
     color: palette["neutralBase-50"],

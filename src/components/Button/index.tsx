@@ -33,7 +33,6 @@ export default function Button({
       borderRadius: theme.radii.extraSmall,
       borderWidth: variant === "secondary" ? 1 : 0,
       borderColor: color === "base" ? theme.palette.primaryBase : theme.palette.complimentBase,
-      opacity: disabled ? 0.5 : 1,
       paddingHorizontal: type === "has icons" ? theme.spacing.small : theme.spacing.medium,
       paddingVertical: theme.spacing.medium,
     }),
@@ -41,8 +40,8 @@ export default function Button({
   );
 
   return (
-    <Pressable {...restProps}>
-      <View style={[styles.container, containerStyles]}>
+    <Pressable {...restProps} disabled={disabled}>
+      <View style={[styles.container, containerStyles, { opacity: disabled ? 0.5 : 1 }]}>
         {undefined !== iconLeft && <View style={styles.icon}>{iconLeft}</View>}
         {type === "loader" ? (
           <ActivityIndicator size="small" />

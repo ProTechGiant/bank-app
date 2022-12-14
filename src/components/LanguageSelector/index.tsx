@@ -5,8 +5,6 @@ import { Dropdown } from "react-native-element-dropdown";
 import { Icons } from "@/assets/icons";
 import { palette, spacing } from "@/theme/values";
 
-// import AntDesign from "react-native-vector-icons/AntDesign";
-
 const data = [
   { label: "العربية", value: "ar" },
   { label: "English", value: "en" },

@@ -8,7 +8,7 @@ import CreateCardPinScreen from "@/features/Cards/CreateCardPinScreen";
 import HomeDashboardScreen from "@/features/Home/HomeDashboardScreen";
 import ConfirmPersonalDetailsScreen from "@/screens/Onboarding/ConfirmPersonalDetailsScreen";
 import NafathAuthScreen from "@/screens/Onboarding/NafathAuthScreen";
-import OnboardingIqamaInput from "@/screens/Onboarding/OnboardingIqamaInput";
+import IqamaInputScreen from "@/screens/Onboarding/IqamaInputScreen";
 import OnboardingSplashScreen from "@/screens/Onboarding/OnboardingSplashScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 
@@ -33,18 +33,21 @@ export default function MainStack() {
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          component={OnboardingSplashScreen}
-          name="Onboarding.SplashScreen"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen component={OnboardingIqamaInput} name="Onboarding.Iqama" options={{ headerShown: false }} />
-        <Stack.Screen component={NafathAuthScreen} name="Onboarding.Nafath" options={{ headerShown: false }} />
-        <Stack.Screen
-          component={ConfirmPersonalDetailsScreen}
-          name="Onboarding.ConfirmDetails"
-          options={{ headerShown: false }}
-        />
+
+        <Stack.Group screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            component={OnboardingSplashScreen}
+            name="Onboarding.SplashScreen"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen component={IqamaInputScreen} name="Onboarding.Iqama" />
+          <Stack.Screen component={NafathAuthScreen} name="Onboarding.Nafath" options={{ headerShown: false }} />
+          <Stack.Screen
+            component={ConfirmPersonalDetailsScreen}
+            name="Onboarding.ConfirmDetails"
+            options={{ headerShown: false }}
+          />
+        </Stack.Group>
         <Stack.Group screenOptions={{ headerShown: false, animation: "slide_from_bottom" }}>
           <Stack.Screen component={ApplyForCardScreen} name="Cards.ApplyForCard" />
           <Stack.Screen

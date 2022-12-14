@@ -8,6 +8,7 @@ const palette = {
   "complimentBase-10": "#FF9D66",
   "complimentBase-20": "#FFBD99",
   "complimentBase-30": "#FFDECC",
+
   "neutralBase+30": "#000000",
   "neutralBase+20": "#121212",
   "neutralBase+10": "#12121",
@@ -27,6 +28,7 @@ const palette = {
   "primaryBase-10": "#6F6E99",
   "primaryBase-20": "#9F9FBB",
   "primaryBase-30": "#CFCFDD",
+
   "tintBase+30": "#08091B",
   "tintBase+20": "#101336",
   "tintBase+10": "#181C50",
@@ -34,6 +36,7 @@ const palette = {
   "tintBase-10": "#7E82B6",
   "tintBase-20": "#9F9FBB",
   "tintBase-30": "#D4D5E7",
+
   "shadeBase+30": "#00000A",
   "shadeBase+20": "#000014",
   "shadeBase+10": "#00011F",
@@ -41,6 +44,7 @@ const palette = {
   "shadeBase-10": "#666785",
   "shadeBase-20": "#9999AD",
   "shadeBase-30": "#CCCCD6",
+
   "interactionBase+30": "#001321",
   "interactionBase+20": "#002642",
   "interactionBase+10": "#003864",
@@ -48,6 +52,7 @@ const palette = {
   "interactionBase-10": "#669ECA",
   "interactionBase-20": "#99BFDB",
   "interactionBase-30": "#CCDFED",
+
   "successBase+30": "#00221B",
   "successBase+20": "#004536",
   "successBase+10": "#006750",
@@ -55,6 +60,7 @@ const palette = {
   "successBase-10": "#66CDB6",
   "successBase-20": "#99DECF",
   "successBase-30": "#CCEEE7",
+
   "errorBase+30": "#2B1010",
   "errorBase+20": "#562020",
   "errorBase+10": "#813030",
@@ -62,6 +68,8 @@ const palette = {
   "errorBase-10": "#E79696",
   "errorBase-20": "#EFB9B9",
   "errorBase-30": "#F7DCDC",
+  "errorBase-40": "#FFEDED",
+
   "warningBase+30": "#332410",
   "warningBase+20": "#664720",
   "warningBase+10": "#986B2F",

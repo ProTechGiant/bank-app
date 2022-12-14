@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Linking, SafeAreaView, StyleSheet, View } from "react-native";
+import { Linking, SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 
 import MoreInfoDropdown from "@/features/MoreInfoDropdown";
 import LinkCard from "@/components/LinkCard";
@@ -31,6 +31,7 @@ const NafathAuthScreen = () => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
+        <StatusBar barStyle="dark-content" />
         <LinkModal
           modalVisible={modalVisible}
           linkText="Open Nafath App"
