@@ -3,16 +3,16 @@ import { StyleSheet, View } from "react-native";
 import { palette, radii } from "@/theme/values";
 
 interface DropdownProps {
-  Title: JSX.Element;
+  title: JSX.Element;
   dropdownVisible: boolean;
-  Content: JSX.Element;
+  content: JSX.Element;
 }
 
-export default function Dropdown({ Title, dropdownVisible, Content }: DropdownProps) {
+export default function Dropdown({ title, dropdownVisible, content }: DropdownProps) {
   return (
     <View style={styles.container}>
-      {Title}
-      {dropdownVisible && Content}
+      {title}
+      {dropdownVisible && content}
     </View>
   );
 }

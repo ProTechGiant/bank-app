@@ -28,7 +28,7 @@ const MoreInfoDropdown = ({ title, children }: MoreInfoDropdownProps) => {
   return (
     <View style={styles.container}>
       <Dropdown
-        Title={
+        title={
           <View style={styles.toggleContainer}>
             <GreyGradient>
               <Pressable onPress={toggleContent}>
@@ -52,7 +52,7 @@ const MoreInfoDropdown = ({ title, children }: MoreInfoDropdownProps) => {
           </View>
         }
         dropdownVisible={openContent}
-        Content={<View style={styles.contentContainer}>{children}</View>}
+        content={<View style={styles.contentContainer}>{children}</View>}
       />
     </View>
   );

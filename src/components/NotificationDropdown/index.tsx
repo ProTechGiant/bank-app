@@ -29,7 +29,7 @@ export default function NotificationDropdown() {
         />
       }
       dropdownVisible={dropdownVisible}
-      Content={
+      content={
         <Carousel
           data={pendingNotifications}
           onPressSlide={toggleDropdown}
