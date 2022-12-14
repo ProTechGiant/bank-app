@@ -34,7 +34,7 @@ const OnboardingSplashScreen = () => {
   }, [language]);
 
   const handleOnContinueOnboarding = () => {
-    navigation.navigate("Onboarding.Nafath");
+    navigation.navigate("Onboarding.Iqama");
   };
 
   const handleLanguageSwitch = () => {

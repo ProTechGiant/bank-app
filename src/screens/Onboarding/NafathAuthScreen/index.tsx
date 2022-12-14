@@ -26,7 +26,7 @@ const NafathAuthScreen = () => {
       <View style={styles.container}>
         <LinkModal
           modalVisible={modalVisible}
-          linkText="Open Nafath App"
+          linkText="Open Nafath app"
           onNavigate={navigationHandler}
           toggleModal={toggleModalHandler}>
           <Inline xAlign="center">
@@ -36,39 +36,38 @@ const NafathAuthScreen = () => {
               </Typography.Text>
             </View>
             <Typography.Text style={styles.textCenter} color="neutralBase" size="footnote" weight="semiBold">
-              Nafath Requered number is 96. Remember to the end of the autentication
+              Make a note of this number as you will be asked for it shortly
             </Typography.Text>
           </Inline>
         </LinkModal>
         <View style={styles.headerContainer}>
           <Typography.Text size="large" weight="bold">
-            Continue with an authentication method
+            Authentication by Nafath
           </Typography.Text>
         </View>
         <Stack space="medium">
           <LinkCard onNavigate={toggleModalHandler}>
             <Typography.Text size="callout" weight="medium" color="primaryBase+10">
-              Nafath App{" "}
+              Nafath app{" "}
               <Typography.Text weight="regular" size="footnote">
-                fastest
+                Your fastest experience
               </Typography.Text>
             </Typography.Text>
             <Typography.Text size="footnote" color="neutralBase">
-              Verification by using biometric: the app uses your face ID as third level of security
+              Select this option for a quick ID authentication
             </Typography.Text>
           </LinkCard>
           <LinkCard onNavigate={navigationHandler}>
             <Typography.Text size="callout" weight="medium" color="primaryBase+10">
-              Nafath website
+              Nafath site
             </Typography.Text>
             <Typography.Text size="footnote" color="neutralBase">
-              For customers who do not have the Nafath app and choose not to download it
+              You will be taken from this app to the Nafath site
             </Typography.Text>
           </LinkCard>
-          <MoreInfoDropdown title="What is Nafath?">
+          <MoreInfoDropdown title="Why do I have to use Nafath?">
             <Typography.Text color="neutralBase" size="footnote">
-              Nafath is an application that allows Croatia uses to help verify your identity. Lorem ipsum text: Helpful
-              text explaining which option to pick if you haven’t used Nafath before.
+              Nafath enables Croatia to verify your identity
             </Typography.Text>
           </MoreInfoDropdown>
         </Stack>
@@ -85,10 +84,6 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     marginBottom: spacing.large,
-  },
-  modalContent: {
-    alignItems: "center",
-    display: "flex",
   },
   numberContainer: {
     alignContent: "center",
