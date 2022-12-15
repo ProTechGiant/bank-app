@@ -1,7 +1,3 @@
-export const pluralize = (length: number, word: string, addition: string) => {
-  return `${length} ${word}${length > 1 ? addition : ""}`;
-};
-
 export const spaceMap = {
   none: 0,
   xxxSmall: 4,
@@ -33,5 +29,3 @@ export const flexMap = {
   "4/6": 66.6666666,
   "5/6": 83.3333333,
 };
-
-export const saudiPhoneRegExp = /^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/;

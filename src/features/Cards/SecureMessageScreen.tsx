@@ -1,19 +1,31 @@
 import { SafeAreaView, StyleSheet, View } from "react-native";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
-import Button from "@/components/Button";
+import { alphaNumericSpaceRegExp } from "@/utils/strings";
 import ApplyCardHeader from "@/components/ApplyForCardHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
+import TextField from "@/components/TextField/TextField";
+import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import useNavigation from "@/navigation/use-navigation";
 import { spacing } from "@/theme/values";
 
+type SecureMessageFormValuesType = {
+  secureMessage: string;
+};
+
+const validationSchema = Yup.object().shape({
+  secureMessage: Yup.string()
+    .required("Personal message is required")
+    .matches(alphaNumericSpaceRegExp, "Personal message is not valid")
+    .min(10, "Minimum 10 characters")
+    .max(45, "Maximum 45 characters"),
+});
+
 export default function SecureMessageScreen() {
   const navigation = useNavigation();
-
-  const handleOnPress = () => {
-    navigation.navigate("Cards.CreateCardPin");
-  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -27,23 +39,53 @@ export default function SecureMessageScreen() {
             Set up 3D Secure Payments
           </Typography.Text>
         </View>
-        <View style={styles.paragraph}>
-          <Typography.Text>
-            Enter a message of your choice below. It’ll appear when you make a payment so you know it’s a genuine
-            transaction.
-          </Typography.Text>
-        </View>
-        <Toast
-          borderPosition="left"
-          title="What is 3D Secure?"
-          content="An extra layer of security. If you don’t see your message when you’re making a payment, it could be fraud."
-          variant="compliment"
-        />
-        <Button onPress={handleOnPress} style={styles.button}>
-          <Typography.Text color="neutralBase-50" size="body" weight="medium">
-            Save and continue
-          </Typography.Text>
-        </Button>
+        <Formik
+          initialValues={{
+            secureMessage: "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={(values: SecureMessageFormValuesType) => {
+            console.log(values);
+            navigation.navigate("Cards.CreateCardPin");
+          }}>
+          {({ setFieldTouched }) => {
+            return (
+              <View style={styles.contentContainer}>
+                <View>
+                  <View style={styles.paragraph}>
+                    <Typography.Text>
+                      Enter a message of your choice below. It’ll appear when you make a payment so you know it’s a
+                      genuine transaction.
+                    </Typography.Text>
+                  </View>
+                  <View style={{ paddingBottom: 20 }}>
+                    <TextField
+                      name="secureMessage"
+                      placeholder="Enter personal message ..."
+                      helperText="*Required"
+                      onChange={() => {
+                        setFieldTouched("secureMessage", true);
+                      }}
+                      hasCharacterCount
+                      maxLength={45}
+                      multiline
+                      numberOfLines={2}
+                    />
+                  </View>
+                  <Toast
+                    borderPosition="left"
+                    title="What is 3D Secure?"
+                    content="An extra layer of security. If you don’t see your message when you’re making a payment, it could be fraud."
+                    variant="compliment"
+                  />
+                </View>
+                <View style={styles.button}>
+                  <FormSubmitButton title="Save and continue" />
+                </View>
+              </View>
+            );
+          }}
+        </Formik>
       </View>
     </SafeAreaView>
   );
@@ -53,6 +95,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: spacing.medium,
+  },
+  contentContainer: {
+    flex: 1,
   },
   progressIndicator: {
     marginTop: 12,

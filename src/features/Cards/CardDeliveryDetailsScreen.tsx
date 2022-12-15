@@ -54,7 +54,7 @@ export default function CardDeliveryDetailsScreen() {
           </View>
           <Stack space="medium">
             {addressData.map((address, index) => {
-              const addressLine3 = `${address.distinct} ${address.town} ${address.city} ${address.zip}`;
+              const addressLine3 = `${address.distinct} ${address.city} ${address.postalCode}`;
 
               return (
                 <AddressSelector

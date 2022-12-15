@@ -2,7 +2,7 @@ import { GestureResponderEvent, StyleSheet, TouchableOpacity, View } from "react
 
 import { Icons } from "@/assets/icons";
 import { iconDimensions, palette, radii, spacing } from "@/theme/values";
-import { pluralize } from "@/utils";
+import { pluralize } from "@/utils/strings";
 
 import Typography from "../Typography";
 

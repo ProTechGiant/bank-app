@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { saudiPhoneRegExp } from "@/utils";
+import { saudiPhoneRegExp } from "@/utils/strings";
 
 export const iqamaValidationSchema = Yup.object().shape({
   mobileNumber: Yup.string().required("Mobile Required").matches(saudiPhoneRegExp, "Mobile number is not valid"),

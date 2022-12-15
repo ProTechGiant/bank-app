@@ -1,12 +1,16 @@
-import { useState } from "react";
-import { Keyboard, StyleSheet, View } from "react-native";
+import { createRef, useState } from "react";
+import { Keyboard, Pressable, StyleSheet, TextInput, View } from "react-native";
 import PhoneInput from "react-phone-number-input/react-native-input";
 
-import { palette, radii, spacing, typography } from "@/theme/values";
+import { Icons } from "@/assets/icons";
+import { iconDimensions, palette, radii, spacing, typography } from "@/theme/values";
 import Typography from "../Typography";
 
 const MobileNumberField = (props: any) => {
   const [isFocused, setIsFocused] = useState(false);
+  const [hasClear, setHasClear] = useState(false);
+  const ClearIcon = Icons.Clear;
+  const ErrorIcon = Icons.Error;
 
   const {
     placeholder,
@@ -18,6 +22,7 @@ const MobileNumberField = (props: any) => {
   } = props;
 
   const hasError = errors[name] && touched[name];
+  const inputRef = createRef<TextInput>();
 
   let viewStyle;
 
@@ -39,6 +44,11 @@ const MobileNumberField = (props: any) => {
     Keyboard.dismiss();
   };
 
+  const handleClear = () => {
+    inputRef.current?.clear();
+    setHasClear(false);
+  };
+
   return (
     <>
       <View>
@@ -56,7 +66,10 @@ const MobileNumberField = (props: any) => {
           <PhoneInput
             international
             country="SA"
-            onChange={text => onChange(name)(text || "")}
+            onChange={text => {
+              onChange(name)(text || "");
+              setHasClear(text !== undefined && text.length > 0);
+            }}
             style={iconLeft ? [styles.text, { marginLeft: 10 }] : styles.text}
             placeholder={placeholder}
             onBlur={handleOnBlur}
@@ -65,14 +78,31 @@ const MobileNumberField = (props: any) => {
             autoCorrect={false}
             value={value}
             name={name}
+            ref={inputRef}
             {...inputProps}
           />
+          {hasClear && !hasError && (
+            <Pressable
+              onPress={handleClear}
+              accessibilityLabel="Clear"
+              accessibilityRole="button"
+              style={styles.inputIcon}>
+              <ClearIcon width={iconDimensions.clearIcon} />
+            </Pressable>
+          )}
+          {hasError && (
+            <View style={styles.inputIcon}>
+              <ErrorIcon width={iconDimensions.clearIcon} />
+            </View>
+          )}
         </View>
-        {hasError && (
-          <Typography.Text color="errorBase" size="caption1" weight="regular">
-            {errors[name]}
-          </Typography.Text>
-        )}
+        <View style={styles.errorContainer}>
+          {hasError && (
+            <Typography.Text color="errorBase" size="caption1" weight="regular">
+              {errors[name]}
+            </Typography.Text>
+          )}
+        </View>
       </View>
     </>
   );
@@ -94,18 +124,24 @@ const styles = StyleSheet.create({
     height: 54,
     justifyContent: "flex-start",
   },
-  errorView: {
-    backgroundColor: palette["errorBase-40"],
-    borderColor: palette["errorBase-10"],
+  errorContainer: {
+    paddingHorizontal: spacing.medium,
+    marginTop: 4,
   },
   label: {
     marginBottom: spacing.small,
+  },
+  inputIcon: {
+    position: "absolute",
+    right: 16,
+    top: 16,
   },
   text: {
     fontSize: typography.text.sizes.callout,
     fontWeight: typography.text.weights.regular,
     lineHeight: typography.text._lineHeights.callout,
-    paddingHorizontal: spacing.medium,
+    paddingLeft: spacing.medium,
+    paddingRight: 42,
     paddingVertical: spacing.small,
     width: "100%",
   },

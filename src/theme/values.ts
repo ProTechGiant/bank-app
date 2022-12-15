@@ -168,6 +168,7 @@ const iconDimensions = {
   reorderIcons: 23,
   accordian: 24,
   locationPin: 40,
+  clearIcon: 20,
 };
 
 export { iconDimensions, palette, radii, spacing, typography };

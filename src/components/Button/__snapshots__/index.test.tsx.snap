@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/Button renders a primary, small button 1`] = `
+exports[`components/Button renders a primary button 1`] = `
 <View
   accessible={true}
   collapsable={false}
@@ -14,7 +14,6 @@ exports[`components/Button renders a primary, small button 1`] = `
   onResponderTerminate={[Function]}
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
-  size="medium"
 >
   <View
     style={

@@ -15,6 +15,8 @@ import { default as TickOrangeIcon } from "./icons/tick-orange.svg";
 import { default as MinusIcon } from "./icons/minus.svg";
 import { default as PlusIcon } from "./icons/plus.svg";
 import { default as HamburgerIcon } from "./icons/hamburger.svg";
+import { default as ClearIcon } from "./icons/clear.svg";
+import { default as ErrorIcon } from "./icons/error.svg";
 
 export const Icons = {
   Add: AddIcon,
@@ -34,6 +36,8 @@ export const Icons = {
   Minus: MinusIcon,
   Plus: PlusIcon,
   Hamburger: HamburgerIcon,
+  Clear: ClearIcon,
+  Error: ErrorIcon,
 };
 
 export type Icons = typeof Icons;
