@@ -23,9 +23,9 @@ export default function SecureMessageScreen() {
           <ProgressIndicator currentStep={1} totalStep={4} />
         </View>
         <View style={styles.header}>
-          <Typography.Header size="large" weight="bold">
+          <Typography.Text size="large" weight="bold">
             Set up 3D Secure Payments
-          </Typography.Header>
+          </Typography.Text>
         </View>
         <View style={styles.paragraph}>
           <Typography.Text>
@@ -40,7 +40,7 @@ export default function SecureMessageScreen() {
           variant="compliment"
         />
         <Button onPress={handleOnPress} style={styles.button}>
-          <Typography.Text color="neutralBase-50" size="body">
+          <Typography.Text color="neutralBase-50" size="body" weight="medium">
             Save and continue
           </Typography.Text>
         </Button>

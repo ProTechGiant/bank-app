@@ -5,6 +5,9 @@ import ApplyForCardScreen from "@/features/Cards/ApplyForCardScreen";
 import ApplyForLuxCardScreen from "@/features/Cards/ApplyForLuxCardScreen";
 import SecureMessageScreen from "@/features/Cards/SecureMessageScreen";
 import CreateCardPinScreen from "@/features/Cards/CreateCardPinScreen";
+import CardDeliveryDetailsScreen from "@/features/Cards/CardDeliveryDetailsScreen";
+import SetAnotherAddressScreen from "@/features/Cards/SetAnotherAddressScreen";
+import CardOrderedScreen from "@/features/Cards/CardOrderedScreen";
 import HomeDashboardScreen from "@/features/Home/HomeDashboardScreen";
 import ConfirmPersonalDetailsScreen from "@/screens/Onboarding/ConfirmPersonalDetailsScreen";
 import NafathAuthScreen from "@/screens/Onboarding/NafathAuthScreen";
@@ -57,6 +60,17 @@ export default function MainStack() {
           />
           <Stack.Screen options={{ animation: "default" }} component={CreateCardPinScreen} name="Cards.CreateCardPin" />
           <Stack.Screen options={{ animation: "default" }} component={SecureMessageScreen} name="Cards.SecureMessage" />
+          <Stack.Screen
+            options={{ animation: "default" }}
+            component={CardDeliveryDetailsScreen}
+            name="Cards.CardDeliveryDetails"
+          />
+          <Stack.Screen
+            options={{ animation: "default" }}
+            component={SetAnotherAddressScreen}
+            name="Cards.SetAnotherAddress"
+          />
+          <Stack.Screen options={{ animation: "default" }} component={CardOrderedScreen} name="Cards.CardOrdered" />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

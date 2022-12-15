@@ -166,6 +166,7 @@ const iconDimensions = {
   dropdown: 15,
   notifications: 21,
   accordian: 24,
+  locationPin: 40,
 };
 
 export { iconDimensions, palette, radii, spacing, typography };
