@@ -16,6 +16,7 @@ import OnboardingSplashScreen from "@/screens/Onboarding/OnboardingSplashScreen"
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 
 import MainStackParams from "./mainStackParams";
+import QuickActionsReorderCard from "@/features/Cards/QuickActionsReorderModal";
 const Stack = createNativeStackNavigator<MainStackParams>();
 
 export default function MainStack() {
@@ -71,6 +72,13 @@ export default function MainStack() {
             name="Cards.SetAnotherAddress"
           />
           <Stack.Screen options={{ animation: "default" }} component={CardOrderedScreen} name="Cards.CardOrdered" />
+        </Stack.Group>
+        <Stack.Group screenOptions={{ presentation: "modal" }}>
+          <Stack.Screen
+            options={{ animation: "default", headerShown: false }}
+            component={QuickActionsReorderCard}
+            name="Modal.QuickActionsReorderModal"
+          />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

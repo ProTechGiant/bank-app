@@ -12,6 +12,7 @@ type MainStackParams = {
   "Onboarding.Iqama": undefined;
   "Onboarding.Nafath": undefined;
   "Onboarding.ConfirmDetails": undefined;
+  "Modal.QuickActionsReorderModal": undefined;
 };
 
 export default MainStackParams;

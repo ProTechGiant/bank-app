@@ -165,6 +165,7 @@ const iconDimensions = {
   link: 16,
   dropdown: 15,
   notifications: 21,
+  reorderIcons: 23,
   accordian: 24,
   locationPin: 40,
 };

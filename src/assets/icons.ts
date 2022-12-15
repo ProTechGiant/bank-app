@@ -12,6 +12,9 @@ import { default as TransferIcon } from "./icons/transfer.svg";
 import { UpArrowIcon } from "./icons/up-arrow-icon";
 import { default as LocationPinIcon } from "./icons/location-pin.svg";
 import { default as TickOrangeIcon } from "./icons/tick-orange.svg";
+import { default as MinusIcon } from "./icons/minus.svg";
+import { default as PlusIcon } from "./icons/plus.svg";
+import { default as HamburgerIcon } from "./icons/hamburger.svg";
 
 export const Icons = {
   Add: AddIcon,
@@ -28,6 +31,9 @@ export const Icons = {
   Postcard: PostcardIcon,
   LocationPin: LocationPinIcon,
   TickOrange: TickOrangeIcon,
+  Minus: MinusIcon,
+  Plus: PlusIcon,
+  Hamburger: HamburgerIcon,
 };
 
 export type Icons = typeof Icons;
