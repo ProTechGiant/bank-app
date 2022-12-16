@@ -35,7 +35,7 @@ const MoreInfoDropdown = ({ title, children }: MoreInfoDropdownProps) => {
                   <View style={styles.infoIcon}>
                     <InfoCircle />
                   </View>
-                  <Typography.Text weight="semiBold" size="callout" style={styles.title}>
+                  <Typography.Text color="primaryBase" weight="semiBold" size="callout" style={styles.title}>
                     {title}
                   </Typography.Text>
                   <View style={styles.toggleIcon}>

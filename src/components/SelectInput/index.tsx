@@ -57,7 +57,7 @@ const SelectInput = ({ name, title, helperText, label, data, isOptional = false 
   return (
     <View>
       <View>
-        <Typography.Text size="callout" weight="medium">
+        <Typography.Text size="callout" weight="medium" color="primaryBase">
           {title} {isOptional && <Typography.Text size="footnote">- Optional</Typography.Text>}
         </Typography.Text>
         {helperText && (
