@@ -13,6 +13,8 @@ type MainStackParams = {
   "Onboarding.Nafath": undefined;
   "Onboarding.ConfirmDetails": undefined;
   "Modal.QuickActionsReorderModal": undefined;
+  "Onboarding.Financial": undefined;
+  "Onboarding.ForgeignTax": undefined;
 };
 
 export default MainStackParams;

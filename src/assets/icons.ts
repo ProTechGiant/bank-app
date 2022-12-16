@@ -9,6 +9,7 @@ import { default as NotificationIcon } from "./icons/notification.svg";
 import { default as PostcardIcon } from "./icons/postcard.svg";
 import { default as SplitIcon } from "./icons/split.svg";
 import { default as TransferIcon } from "./icons/transfer.svg";
+import { default as TickIcon } from "./icons/tick.svg";
 import { UpArrowIcon } from "./icons/up-arrow-icon";
 import { default as LocationPinIcon } from "./icons/location-pin.svg";
 import { default as TickOrangeIcon } from "./icons/tick-orange.svg";
@@ -38,6 +39,7 @@ export const Icons = {
   Hamburger: HamburgerIcon,
   Clear: ClearIcon,
   Error: ErrorIcon,
+  Tick: TickIcon,
 };
 
 export type Icons = typeof Icons;

@@ -15,7 +15,6 @@ interface MoreInfoDropdownProps {
 }
 
 const MoreInfoDropdown = ({ title, children }: MoreInfoDropdownProps) => {
-  // const ChevronUp = Icons["ChevronUp"];
   const DownArrow = Icons.DownArrow;
   const UpArrow = Icons.UpArrow;
   const InfoCircle = Icons["InfoCircle"];

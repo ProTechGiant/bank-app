@@ -17,6 +17,8 @@ import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen"
 
 import MainStackParams from "./mainStackParams";
 import QuickActionsReorderCard from "@/features/Cards/QuickActionsReorderModal";
+import FinancialInformationScreen from "@/screens/Onboarding/FinancialInformationScreen";
+import ForeignTaxScreen from "@/screens/Onboarding/ForeignTaxScreen";
 const Stack = createNativeStackNavigator<MainStackParams>();
 
 export default function MainStack() {
@@ -51,6 +53,12 @@ export default function MainStack() {
             name="Onboarding.ConfirmDetails"
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            component={FinancialInformationScreen}
+            name="Onboarding.Financial"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen component={ForeignTaxScreen} name="Onboarding.ForgeignTax" options={{ headerShown: false }} />
         </Stack.Group>
         <Stack.Group screenOptions={{ headerShown: false, animation: "slide_from_bottom" }}>
           <Stack.Screen component={ApplyForCardScreen} name="Cards.ApplyForCard" />
