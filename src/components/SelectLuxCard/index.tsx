@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 
 import useNavigation from "@/navigation/use-navigation";
 import { spacing } from "@/theme/values";
@@ -15,16 +15,16 @@ export default function SelectLuxCard() {
 
   return (
     <View style={styles.container}>
-      <View style={{ height: "70%" }}>
-        <Typography.Text>Lux Card</Typography.Text>
+      <View style={{ height: "80%" }}>
+        <Image style={{ height: 220, width: 380 }} source={require("@/assets/images/lux-card-placeholder.png")} />
       </View>
-      <View style={styles.textContainer}>
+      <View>
         <Typography.Text size="caption1" color="neutralBase" style={styles.text}>
-          Lux Card is FREE if you upgrade your tier and subscribe to Croatia Plus
+          Lux is FREE when you upgrade to Croatia Plus
         </Typography.Text>
       </View>
       <Button onPress={handleOnPress} style={styles.button}>
-        <Typography.Text color="neutralBase-50" size="body">
+        <Typography.Text color="neutralBase-50" size="body" weight="medium">
           Get Lux Card with Croatia Plus
         </Typography.Text>
       </Button>
@@ -44,8 +44,5 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-  },
-  textContainer: {
-    padding: spacing.large,
   },
 });

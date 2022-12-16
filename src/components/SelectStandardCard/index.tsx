@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 
 import useNavigation from "@/navigation/use-navigation";
 import { spacing } from "@/theme/values";
@@ -15,9 +15,11 @@ export default function SelectStandardCard() {
 
   return (
     <View style={styles.container}>
-      <Typography.Text>Standard Card</Typography.Text>
+      <View>
+        <Image style={{ height: 220, width: 380 }} source={require("@/assets/images/standard-card-placeholder.png")} />
+      </View>
       <Button onPress={handleOnPress} style={styles.button}>
-        <Typography.Text color="neutralBase-50" size="body">
+        <Typography.Text color="neutralBase-50" size="body" weight="medium">
           Get Standard Card for FREE
         </Typography.Text>
       </Button>
