@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 
 import MoreInfoDropdown from "@/features/MoreInfoDropdown";
@@ -9,10 +9,36 @@ import useNavigation from "@/navigation/use-navigation";
 import { palette, spacing } from "@/theme/values";
 import { Stack } from "@/components/Stack";
 import { Inline } from "@/components/Inline";
+import axios from "axios";
 
 const NafathAuthScreen = () => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+  const [requestNumber, setRequestNumber] = useState(null);
+
+  const postRequestNumber = () => {
+    return axios
+      .post("http://alpha-nafath-adapter.apps.development.projectcroatia.cloud/v1/customers/link", {
+        NationalId: "0123456789",
+      })
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        throw new Error(error);
+      });
+  };
+
+  const getRequestNumber = async () => {
+    const number = await postRequestNumber();
+    setRequestNumber(number.Otp);
+  };
+
+  useEffect(() => {
+    if (modalVisible) {
+      getRequestNumber();
+    }
+  }, [modalVisible]);
 
   const toggleModalHandler = () => {
     setModalVisible(!modalVisible);
@@ -38,11 +64,19 @@ const NafathAuthScreen = () => {
           onNavigate={appNavigationHandler}
           toggleModal={toggleModalHandler}>
           <Inline xAlign="center">
-            <View style={styles.numberContainer}>
-              <Typography.Text style={styles.textCenter} color="neutralBase-50" weight="bold" size="title1">
-                96
-              </Typography.Text>
-            </View>
+            {requestNumber !== null ? (
+              <View style={styles.numberContainer}>
+                <Typography.Text style={styles.textCenter} color="neutralBase-50" weight="bold" size="title1">
+                  {requestNumber}
+                </Typography.Text>
+              </View>
+            ) : (
+              <View style={styles.loadingContainer}>
+                <Typography.Text style={styles.textCenter} color="neutralBase" weight="bold" size="title1">
+                  Loading...
+                </Typography.Text>
+              </View>
+            )}
             <Typography.Text style={styles.textCenter} color="neutralBase" size="footnote" weight="semiBold">
               Make a note of this number as you will be asked for it shortly
             </Typography.Text>
@@ -101,6 +135,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginVertical: spacing.xlarge,
     width: 60,
+  },
+  loadingContainer: {
+    alignContent: "center",
+    justifyContent: "center",
+    marginVertical: spacing.xlarge,
   },
   textCenter: {
     textAlign: "center",
