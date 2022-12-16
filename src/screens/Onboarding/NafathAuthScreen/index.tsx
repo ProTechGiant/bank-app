@@ -10,6 +10,7 @@ import { palette, spacing } from "@/theme/values";
 import { Stack } from "@/components/Stack";
 import { Inline } from "@/components/Inline";
 import axios from "axios";
+import ApplyCardHeader from "@/components/ApplyForCardHeader";
 
 const NafathAuthScreen = () => {
   const navigation = useNavigation();
@@ -56,8 +57,9 @@ const NafathAuthScreen = () => {
 
   return (
     <SafeAreaView>
+      <StatusBar barStyle="dark-content" />
+      <ApplyCardHeader title="AUTHENTICATION" backButton={true} />
       <View style={styles.container}>
-        <StatusBar barStyle="dark-content" />
         <LinkModal
           modalVisible={modalVisible}
           linkText="Open Nafath App"
@@ -126,6 +128,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     marginBottom: spacing.large,
+    marginTop: spacing.medium,
   },
   numberContainer: {
     alignContent: "center",

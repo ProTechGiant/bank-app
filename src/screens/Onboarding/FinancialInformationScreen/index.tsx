@@ -1,4 +1,6 @@
+import ApplyCardHeader from "@/components/ApplyForCardHeader";
 import FinancialForm from "@/components/Forms/FinancialForm/FinancialForm";
+import ProgressIndicator from "@/components/ProgressIndicator";
 import { Stack } from "@/components/Stack";
 import Typography from "@/components/Typography";
 import MoreInfoDropdown from "@/features/MoreInfoDropdown";
@@ -8,9 +10,11 @@ import { StatusBar, StyleSheet, SafeAreaView, View, ScrollView } from "react-nat
 const FinancialInformationScreen = () => {
   return (
     <SafeAreaView>
+      <ApplyCardHeader title="ABOUT YOU" backButton={true} />
       <StatusBar barStyle="dark-content" />
-      <ScrollView>
-        <View style={styles.container}>
+      <View style={styles.container}>
+        <ProgressIndicator currentStep={3} totalStep={6} />
+        <ScrollView>
           <View style={styles.headerContainer}>
             <Typography.Text size="large" weight="bold">
               Tell us about your finances
@@ -25,8 +29,8 @@ const FinancialInformationScreen = () => {
             </MoreInfoDropdown>
             <FinancialForm />
           </Stack>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -39,5 +43,6 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     marginBottom: spacing.large,
+    marginTop: spacing.medium,
   },
 });
