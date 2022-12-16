@@ -16,6 +16,8 @@ type Props = {
   maxLength?: number;
   numberOfLines?: number;
   multiline?: boolean;
+  blurOnSubmit?: boolean;
+  returnKeyType?: "done" | "go" | "next" | "search" | "send";
   onChange: () => void;
 };
 
@@ -29,6 +31,8 @@ const TextField = ({
   maxLength,
   numberOfLines = 1,
   multiline,
+  blurOnSubmit,
+  returnKeyType,
   onChange,
 }: Props) => {
   const [field, meta, helper] = useField(name);
@@ -91,6 +95,7 @@ const TextField = ({
               setHasClear(text.length > 0);
               hasCharacterCount && setCharacterCount(text.length);
             }}
+            blurOnSubmit={blurOnSubmit}
             onChange={onChange}
             onBlur={handleBlur}
             onFocus={handleFocus}
@@ -102,6 +107,7 @@ const TextField = ({
             numberOfLines={numberOfLines}
             multiline={multiline}
             ref={inputRef}
+            returnKeyType={returnKeyType}
           />
           {hasClear && !hasError && (
             <Pressable
