@@ -18,7 +18,7 @@ type Props = {
   multiline?: boolean;
   blurOnSubmit?: boolean;
   returnKeyType?: "done" | "go" | "next" | "search" | "send";
-  onChange: () => void;
+  onChange?: () => void;
 };
 
 const TextField = ({
@@ -78,11 +78,7 @@ const TextField = ({
     <>
       <View>
         {label && (
-          <Typography.Text
-            size="callout"
-            weight="medium"
-            color={hasError ? "errorBase" : "neutralBase+30"}
-            style={styles.label}>
+          <Typography.Text size="callout" weight="medium" color="neutralBase+30" style={styles.label}>
             {label}
           </Typography.Text>
         )}

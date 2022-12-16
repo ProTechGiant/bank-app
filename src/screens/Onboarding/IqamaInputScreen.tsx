@@ -52,13 +52,13 @@ const styles = StyleSheet.create({
   },
   headerView: {
     marginBottom: spacing.large,
-    marginHorizontal: spacing.regular,
+    marginHorizontal: spacing.medium,
   },
   headerTitle: {
     marginVertical: spacing.large,
   },
   body: {
-    marginHorizontal: spacing.regular,
+    marginHorizontal: spacing.medium,
   },
   accountSignIn: {
     alignSelf: "center",

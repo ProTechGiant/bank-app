@@ -114,10 +114,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   buttonGroup: {
-    position: "absolute",
-    bottom: spacing.xlarge,
-    left: spacing.large,
-    right: spacing.large,
+    marginTop: "auto",
+    marginHorizontal: spacing.regular,
   },
 
   signInContainer: {

@@ -9,7 +9,7 @@ import CardDeliveryDetailsScreen from "@/features/Cards/CardDeliveryDetailsScree
 import SetAnotherAddressScreen from "@/features/Cards/SetAnotherAddressScreen";
 import CardOrderedScreen from "@/features/Cards/CardOrderedScreen";
 import HomeDashboardScreen from "@/features/Home/HomeDashboardScreen";
-import ConfirmPersonalDetailsScreen from "@/screens/Onboarding/ConfirmPersonalDetailsScreen";
+import ConfirmPersonalDetailsScreen from "@/screens/Onboarding/ConfirmPersonalDetailsScreen/ConfirmPersonalDetailsScreen";
 import NafathAuthScreen from "@/screens/Onboarding/NafathAuthScreen";
 import IqamaInputScreen from "@/screens/Onboarding/IqamaInputScreen";
 import OnboardingSplashScreen from "@/screens/Onboarding/OnboardingSplashScreen";
@@ -19,6 +19,7 @@ import MainStackParams from "./mainStackParams";
 import QuickActionsReorderCard from "@/features/Cards/QuickActionsReorderModal";
 import FinancialInformationScreen from "@/screens/Onboarding/FinancialInformationScreen";
 import ForeignTaxScreen from "@/screens/Onboarding/ForeignTaxScreen";
+import OptionalEmailScreen from "@/screens/Onboarding/OptionalEmail/OptionalEmailScreen";
 const Stack = createNativeStackNavigator<MainStackParams>();
 
 export default function MainStack() {
@@ -48,9 +49,10 @@ export default function MainStack() {
           />
           <Stack.Screen component={IqamaInputScreen} name="Onboarding.Iqama" />
           <Stack.Screen component={NafathAuthScreen} name="Onboarding.Nafath" options={{ headerShown: false }} />
+          <Stack.Screen component={ConfirmPersonalDetailsScreen} name="Onboarding.ConfirmDetails" />
           <Stack.Screen
-            component={ConfirmPersonalDetailsScreen}
-            name="Onboarding.ConfirmDetails"
+            component={OptionalEmailScreen}
+            name="Onboarding.OptionalEmail"
             options={{ headerShown: false }}
           />
           <Stack.Screen
