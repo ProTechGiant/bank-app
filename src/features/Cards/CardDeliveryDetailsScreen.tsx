@@ -9,16 +9,29 @@ import { Stack } from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { spacing } from "@/theme/values";
-import { mockDeliveryAddress } from "@/mocks/deliveryAddressData";
+import { mockPrimaryDeliveryAddress, mockAlternativeDeliveryAddress } from "@/mocks/deliveryAddressData";
 
 export default function CardDeliveryDetailsScreen() {
   const navigation = useNavigation();
 
-  const [addressData, setAddressData] = useState(
-    mockDeliveryAddress.addresses.map(data => {
-      return { ...data, is_selected: false };
-    })
-  );
+  const hasAlternativeAddress = mockAlternativeDeliveryAddress.addresses.length > 0;
+  const primaryAddress = mockPrimaryDeliveryAddress.addresses.map(data => {
+    return { ...data, id: "primary", is_selected: !hasAlternativeAddress };
+  });
+
+  const alternativeAddress = hasAlternativeAddress
+    ? mockAlternativeDeliveryAddress.addresses.map((data, index) => {
+        return {
+          ...data,
+          id: String(index + 1),
+          is_selected: index === mockAlternativeDeliveryAddress.addresses.length - 1,
+        };
+      })
+    : [];
+
+  const initAddressData = alternativeAddress ? [...primaryAddress, ...alternativeAddress] : primaryAddress;
+
+  const [addressData, setAddressData] = useState(initAddressData);
 
   const handleConfirm = () => {
     navigation.navigate("Cards.CardOrdered");
@@ -54,7 +67,7 @@ export default function CardDeliveryDetailsScreen() {
           </View>
           <Stack space="medium">
             {addressData.map((address, index) => {
-              const addressLine3 = `${address.distinct} ${address.city} ${address.postalCode}`;
+              const addressLine3 = `${address.district} ${address.city} ${address.postalCode}`;
 
               return (
                 <AddressSelector

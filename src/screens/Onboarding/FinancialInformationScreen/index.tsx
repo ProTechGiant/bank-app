@@ -13,7 +13,7 @@ const FinancialInformationScreen = () => {
         <View style={styles.container}>
           <View style={styles.headerContainer}>
             <Typography.Text size="large" weight="bold">
-              Tell us abour your finances
+              Tell us about your finances
             </Typography.Text>
           </View>
           <Stack space="large">
