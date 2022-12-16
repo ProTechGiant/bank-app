@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import {
+  Dimensions,
   FlatList,
   GestureResponderEvent,
   NativeScrollEvent,
@@ -13,14 +14,19 @@ import { palette, spacing } from "@/theme/values";
 interface CarouselProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
-  onPressSlide: (event: GestureResponderEvent) => void;
+  onPressSlide?: (event: GestureResponderEvent) => void;
   Slide: React.ElementType;
-  width: number;
+  width?: number;
+  pagination: boolean;
+  loop?: boolean;
 }
 
-export default function Carousel({ data, onPressSlide, Slide, width }: CarouselProps) {
+export default function Carousel({ pagination, data, onPressSlide, Slide, width, loop }: CarouselProps) {
   const [index, setIndex] = useState(0);
   const indexRef = useRef(index);
+  const flatListRef = useRef<FlatList>(null);
+  const offset = 20;
+  const avaliableWidth = width ? width : Dimensions.get("screen").width;
 
   indexRef.current = index;
   const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -37,18 +43,34 @@ export default function Carousel({ data, onPressSlide, Slide, width }: CarouselP
     }
   }, []);
 
+  const onLoopScroll = ({ layoutMeasurement, contentOffset, contentSize }: any) => {
+    if (data.length <= 1) {
+      return;
+    }
+    if (contentOffset.x <= offset + avaliableWidth) {
+      flatListRef?.current?.scrollToIndex({ index: data.length / 2 + 1, animated: false });
+    }
+    if (layoutMeasurement.width + contentOffset.x >= contentSize.width - (offset + avaliableWidth)) {
+      flatListRef?.current?.scrollToIndex({ index: data.length / 2, animated: false });
+    }
+  };
+
   function Pagination() {
     return (
       <View style={styles.paginationContainer}>
-        {data.map((_, i) => {
-          return <View key={i} style={[styles.paginationDots, index === i ? styles.activeDot : styles.inactiveDot]} />;
-        })}
+        <View style={styles.overlayPagination}>
+          {data.map((_, i) => {
+            return (
+              <View key={i} style={[styles.paginationDots, index === i ? styles.activeDot : styles.inactiveDot]} />
+            );
+          })}
+        </View>
       </View>
     );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function SlideRenderer(item: any) {
+  function SlideRenderer({ item }: any) {
     return (
       <View style={{ width }}>
         <Slide data={item} onPress={onPressSlide} />
@@ -56,30 +78,59 @@ export default function Carousel({ data, onPressSlide, Slide, width }: CarouselP
     );
   }
 
+  const extraProps =
+    loop === true
+      ? {
+          onScroll: ({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => onLoopScroll(nativeEvent),
+          ref: flatListRef,
+          contentContainerStyle: {
+            marginLeft:
+              Dimensions.get("screen").width !== avaliableWidth && width
+                ? (Dimensions.get("screen").width - width) / 2
+                : 0,
+            marginRight:
+              Dimensions.get("screen").width !== avaliableWidth && width
+                ? (Dimensions.get("screen").width - width) / 2
+                : 0,
+          },
+          initialScrollIndex: data.length > 1 ? data.length / 2 + 1 : 0,
+          snapToInterval: avaliableWidth + 3,
+          decelerationRate: 0,
+          initialNumToRender: data.length,
+          maxToRenderPerBatch: data.length,
+          snapToAlignment: "center",
+          onScrollToIndexFailed: (info: {
+            index: number;
+            highestMeasuredFrameIndex: number;
+            averageItemLength: number;
+          }) => {
+            const wait = new Promise(resolve => setTimeout(resolve, 5000));
+            wait.then(() => {
+              flatListRef.current?.scrollToIndex({ index: info.index, animated: false });
+            });
+          },
+        }
+      : {
+          onScroll: onScroll,
+        };
+
   return (
     <View style={styles.container}>
       <FlatList
         data={data}
-        renderItem={({ item }) => {
-          return SlideRenderer(item);
-        }}
+        renderItem={SlideRenderer}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        onScroll={onScroll}
         // scrollview to snap to the beginning of every slide
         pagingEnabled={true}
-        // do not wait for the slides to render flatlist
-        initialNumToRender={0}
-        // slides rendered per batch 1 to speed up
-        maxToRenderPerBatch={1}
-        // scholl events triggered every 16ms while the user drags the carousel to prevent too many calculations
+        // event triggered every 16ms while the user drags the carousel to prevent too many calculations
         scrollEventThrottle={16}
-        // controls how many slides are mounted behind and infront of current. Here window is twice width of flatlist
-        windowSize={2}
         // for react internal optimization
-        keyExtractor={useCallback(e => e.action_id ?? e.id, [])}
+        keyExtractor={(item, index) => `key ${index}`}
+        showsVerticalScrollIndicator={false}
+        {...extraProps}
       />
-      <Pagination />
+      {pagination && <Pagination />}
     </View>
   );
 }
@@ -89,23 +140,27 @@ const styles = StyleSheet.create({
     backgroundColor: palette["complimentBase"],
   },
   container: {
-    paddingVertical: spacing.small,
+    paddingTop: spacing.small,
     width: "100%",
+    position: "relative",
   },
   inactiveDot: {
     backgroundColor: palette["primaryBase-30"],
   },
+  overlayPagination: {
+    bottom: spacing.small,
+    position: "absolute",
+    flexDirection: "row",
+  },
   paginationContainer: {
-    backgroundColor: palette["neutralBase-50"],
     flexDirection: "row",
     justifyContent: "center",
-    paddingBottom: spacing.small,
   },
   paginationDots: {
     borderRadius: 4,
     height: 8,
     marginHorizontal: 2,
-    marginVertical: spacing.small,
     width: 8,
+    marginBottom: spacing.small,
   },
 });

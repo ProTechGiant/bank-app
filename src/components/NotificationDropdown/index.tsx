@@ -35,6 +35,7 @@ export default function NotificationDropdown() {
           onPressSlide={toggleDropdown}
           Slide={SlideContent}
           width={Dimensions.get("screen").width - spacing.medium * 2}
+          pagination={true}
         />
       }
     />

@@ -1,12 +1,12 @@
-import { StyleSheet, View } from "react-native";
-
+import { ScrollView, StyleSheet, View } from "react-native";
 import AccountInfoHeader from "@/components/AccountInfoHeader";
 import QuickAction from "@/components/QuickAction";
 import SectionHeader from "@/components/SectionHeader";
 import { palette, spacing } from "@/theme/values";
 import useNavigation from "@/navigation/use-navigation";
 
-
+import RewardSection from "@/components/RewardSection";
+import ArticleSection from "@/components/ArticleSection";
 
 export default function HomeDashboardScreen() {
   const navigation = useNavigation();
@@ -16,7 +16,7 @@ export default function HomeDashboardScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
         <AccountInfoHeader />
       </View>
@@ -27,8 +27,10 @@ export default function HomeDashboardScreen() {
         <QuickAction title="Transfer" iconName="Transfer" />
       </View>
       <SectionHeader title="Rewards" subTitle={{ text: "See all" }} />
+      <RewardSection />
       <SectionHeader title="Articles" subTitle={{ text: "See all" }} />
-    </View>
+      <ArticleSection />
+    </ScrollView>
   );
 }
 

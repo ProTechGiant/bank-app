@@ -24,7 +24,7 @@ export default function SlideContent({ data, onPress }: SlideContentProps) {
           </Typography.Text>
         </View>
       </View>
-      <View>
+      <View style={styles.buttonRowWrapper}>
         <View style={styles.row}>
           <View style={[styles.row, styles.rowContent]}>
             <Button variant="primary" color="alt" style={styles.buttonContainer}>
@@ -46,15 +46,18 @@ const styles = StyleSheet.create({
   buttonContainer: {
     minWidth: 114,
   },
+  buttonRowWrapper: {
+    paddingBottom: spacing.large,
+  },
   container: {
-    height: 184,
+    minHeight: 184,
     justifyContent: "space-between",
     paddingHorizontal: spacing.medium,
     paddingVertical: spacing.small,
   },
   contentWrapper: {
     flexDirection: "row",
-    paddingBottom: spacing.medium,
+    marginBottom: spacing.medium,
     paddingTop: spacing.small,
   },
   row: {

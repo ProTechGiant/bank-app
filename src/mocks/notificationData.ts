@@ -22,7 +22,7 @@ export const notificationData = [
   {
     action_id: "3",
     action_type_id: "Lifestyle Prefs",
-    action_status: "completed",
+    action_status: "pending",
     action_title: "Preferences",
     action_message: "Set Lifestyle Preferences",
     action_link: "some page url",

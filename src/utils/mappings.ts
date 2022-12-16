@@ -29,3 +29,8 @@ export const flexMap = {
   "4/6": 66.6666666,
   "5/6": 83.3333333,
 };
+
+export const duplicateArr = (arr: unknown[], times: number) =>
+  Array(times)
+    .fill([...arr])
+    .reduce((a, b) => a.concat(b));
