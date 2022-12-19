@@ -28,7 +28,7 @@ export default function HomeDashboardScreen() {
       </View>
       <SectionHeader title="Rewards" subTitle={{ text: "See all" }} />
       <RewardSection />
-      <SectionHeader title="Articles" subTitle={{ text: "See all" }} />
+      <SectionHeader title="What's next" subTitle={{ text: "See all" }} />
       <ArticleSection />
     </ScrollView>
   );
