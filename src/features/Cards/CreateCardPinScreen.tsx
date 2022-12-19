@@ -84,7 +84,7 @@ export default function CreateCardPinScreen() {
       )}
       <View style={styles.container}>
         <View style={styles.progressIndicator}>
-          <ProgressIndicator currentStep={mode === "input" ? 2 : 3} totalStep={4} />
+          <ProgressIndicator currentStep={mode === "input" ? 1 : 2} totalStep={3} />
         </View>
         <View style={styles.header}>
           <Typography.Text size="large" weight="bold">

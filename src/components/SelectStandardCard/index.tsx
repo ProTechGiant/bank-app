@@ -10,7 +10,7 @@ export default function SelectStandardCard() {
   const navigation = useNavigation();
 
   const handleOnPress = () => {
-    navigation.navigate("Cards.SecureMessage");
+    navigation.navigate("Cards.CreateCardPin");
   };
 
   return (

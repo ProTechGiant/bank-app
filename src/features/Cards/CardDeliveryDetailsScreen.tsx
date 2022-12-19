@@ -54,7 +54,7 @@ export default function CardDeliveryDetailsScreen() {
       <ApplyCardHeader title="Order card" backButton={true} />
       <View style={styles.container}>
         <View style={styles.progressIndicator}>
-          <ProgressIndicator currentStep={4} totalStep={4} />
+          <ProgressIndicator currentStep={3} totalStep={3} />
         </View>
         <View style={styles.contentContainer}>
           <View style={styles.header}>
