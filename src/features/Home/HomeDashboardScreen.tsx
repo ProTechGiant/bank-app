@@ -1,16 +1,19 @@
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Dimensions, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import AccountInfoHeader from "@/components/AccountInfoHeader";
 import QuickAction from "@/components/QuickAction";
 import SectionHeader from "@/components/SectionHeader";
 import { palette, spacing } from "@/theme/values";
 import useNavigation from "@/navigation/use-navigation";
 import Typography from "@/components/Typography";
-import RewardSection from "@/components/RewardSection";
-import ArticleSection from "@/components/ArticleSection";
 import { quickActionReorderItem, ReorderItem } from "@/mocks/quickActionOrderData";
 import { useGlobalContext } from "@/contexts/GlobalContext";
+import { AccountInfoHeaderProps } from "@/components/AccountInfoHeader";
+import RewardSection from "@/components/RewardSection";
+import ArticleSection from "@/components/ArticleSection";
+import { useState } from "react";
 
 export default function HomeDashboardScreen() {
+  const [headerSize, setHeaderSize] = useState<AccountInfoHeaderProps["size"]>("full");
   const navigation = useNavigation();
 
   const handleQuickActionsReorder = () => {
@@ -67,35 +70,47 @@ export default function HomeDashboardScreen() {
     });
   };
 
-  return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <AccountInfoHeader />
-      </View>
-      {renderHomepage(homeScreenLayout.homepageOrderData)}
+  const handleScroll = event => {
+    if (event.nativeEvent.contentOffset.y < 44 && headerSize !== "small") {
+      setHeaderSize("full");
+    } else if (
+      event.nativeEvent.contentOffset.y < 74 &&
+      event.nativeEvent.contentOffset.y > 44 &&
+      headerSize !== "medium"
+    ) {
+      setHeaderSize("medium");
+    } else if (event.nativeEvent.contentOffset.y > 74 && headerSize !== "full") {
+      setHeaderSize("small");
+    }
+  };
 
-      <View style={[styles.bottomRow]}>
-        <Pressable onPress={handleHomepageReorder}>
-          <View style={[styles.buttonContainer]}>
-            <Typography.Text color="primaryBase" size="caption1" weight="semiBold">
-              EDIT DASHBOARD
-            </Typography.Text>
-          </View>
-        </Pressable>
-      </View>
-    </ScrollView>
+  return (
+    <View style={styles.container}>
+      <ScrollView
+        onScroll={handleScroll}
+        scrollEventThrottle={20}
+        showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}>
+        <AccountInfoHeader size={headerSize} />
+        {renderHomepage(homeScreenLayout.homepageOrderData)}
+
+        <View style={[styles.bottomRow]}>
+          <Pressable onPress={handleHomepageReorder}>
+            <View style={[styles.buttonContainer]}>
+              <Typography.Text color="primaryBase" size="caption1" weight="semiBold">
+                EDIT DASHBOARD
+              </Typography.Text>
+            </View>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    alignItems: "center",
-    backgroundColor: palette.primaryBase,
-    padding: spacing.medium,
-    paddingTop: 40,
   },
   quickActionWrapper: {
     flexDirection: "row",
@@ -119,6 +134,6 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     marginHorizontal: spacing.small,
-    marginVertical: spacing.medium,
+    marginBottom: spacing.xlarge * 2,
   },
 });
