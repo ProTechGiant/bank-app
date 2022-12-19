@@ -17,6 +17,7 @@ import { default as LocationPinIcon } from "./icons/location-pin.svg";
 import { default as TickOrangeIcon } from "./icons/tick-orange.svg";
 import { default as MinusIcon } from "./icons/minus.svg";
 import { default as PlusIcon } from "./icons/plus.svg";
+import { default as DisabledPlusIcon } from "./icons/disabledPlus.svg";
 import { default as HamburgerIcon } from "./icons/hamburger.svg";
 import { default as ClearIcon } from "./icons/clear.svg";
 import { default as InfoIcon } from "./icons/info.svg";
@@ -42,6 +43,7 @@ export const Icons = {
   TickOrange: TickOrangeIcon,
   Minus: MinusIcon,
   Plus: PlusIcon,
+  DisabledPlus: DisabledPlusIcon,
   Hamburger: HamburgerIcon,
   Clear: ClearIcon,
   Info: InfoIcon,

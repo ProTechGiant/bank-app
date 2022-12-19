@@ -1,9 +1,9 @@
-import { ReorderItem } from "@/mocks/quickActionOrderData";
+import { quickActionReorderItem, ReorderItem } from "@/mocks/quickActionOrderData";
 import { createContext, useContext } from "react";
 
 export type ItemListContextType = {
-  itemList: ReorderItem[];
-  setItemList: React.Dispatch<React.SetStateAction<ReorderItem[]>> | null;
+  itemList: quickActionReorderItem[] | ReorderItem[];
+  setItemList: React.Dispatch<React.SetStateAction<any>>;
   toggleItem: ((key: string) => void) | null;
 };
 export const ItemListContext = createContext<ItemListContextType>({

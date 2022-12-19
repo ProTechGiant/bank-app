@@ -2,7 +2,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { Icons } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { palette, spacing } from "@/theme/values";
+import { iconDimensions, palette, spacing } from "@/theme/values";
 
 interface QuickActionProps {
   iconName: keyof Icons;
@@ -15,7 +15,7 @@ export default function QuickAction({ iconName, title }: QuickActionProps) {
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity style={styles.container}>
-        <Icon height={24} width={24} style={styles.icon} />
+        <Icon height={iconDimensions.accordian} width={iconDimensions.accordian} style={styles.icon} />
         <Typography.Text color="primaryBase" weight="semiBold" size="callout">
           {title}
         </Typography.Text>

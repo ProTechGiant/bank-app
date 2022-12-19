@@ -2,28 +2,28 @@ import Reorderer from "@/components/Reorderer";
 import Typography from "@/components/Typography";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import { ItemListContext } from "@/contexts/ItemListContext";
-import { quickActionOrderData, quickActionReorderItem } from "@/mocks/quickActionOrderData";
+import { homepageOrderData, ReorderItem } from "@/mocks/quickActionOrderData";
 import useNavigation from "@/navigation/use-navigation";
 import { palette } from "@/theme/values";
 import { useEffect, useState } from "react";
 import { LayoutAnimation, Pressable, StyleSheet, View } from "react-native";
 
-export default function QuickActionsReorderCard() {
-  const minActiveSections = 3;
-  const maxActiveSections = 3;
-  const [showTitleBar, setShowTitleBar] = useState<boolean>(true);
-  const [saveEnabled, setSaveEnabled] = useState(true);
+export default function HomepageReorderModal() {
+  const minActiveSections = 0;
+  const maxActiveSections = 4;
   const navigation = useNavigation(); // Provide the useState to the context via a Context Provider.
+  const [showTitleBar, setShowTitleBar] = useState<boolean>(true);
   const { homeScreenLayout, setHomeScreenLayout } = useGlobalContext();
-  let itemList: quickActionReorderItem[], setItemList: React.Dispatch<React.SetStateAction<quickActionReorderItem[]>>;
+  let itemList: ReorderItem[], setItemList: React.Dispatch<React.SetStateAction<ReorderItem[]>>;
   // Seed with either current or mock data
-  if (homeScreenLayout.quickActionOrderData) {
-    [itemList, setItemList] = useState(homeScreenLayout.quickActionOrderData);
+  if (homeScreenLayout.homepageOrderData) {
+    [itemList, setItemList] = useState(homeScreenLayout.homepageOrderData);
   } else {
-    [itemList, setItemList] = useState(quickActionOrderData);
+    [itemList, setItemList] = useState(homepageOrderData);
   }
+  const [saveEnabled, setSaveEnabled] = useState(true);
   const toggleItem = (key: string) => {
-    let updatedItemList: quickActionReorderItem[];
+    let updatedItemList: ReorderItem[];
     if (setItemList && itemList) {
       updatedItemList = itemList.map(item => {
         if (item.key === key) {
@@ -51,11 +51,11 @@ export default function QuickActionsReorderCard() {
 
   const handleSaveButton = () => {
     // Now we update the global state to reflect the item list
-    // Update the quickActions part of the homeScreenLayout
+    // Update the homepageOrderData part of the homeScreenLayout
     if (setHomeScreenLayout && saveEnabled) {
       const newHomeScreenLayout = {
-        quickActionOrderData: itemList,
-        homepageOrderData: homeScreenLayout.homepageOrderData,
+        quickActionOrderData: homeScreenLayout.quickActionOrderData,
+        homepageOrderData: itemList,
       };
       // Create a new homeScreenLayout object to force a rerender
       setHomeScreenLayout(newHomeScreenLayout);
@@ -85,8 +85,8 @@ export default function QuickActionsReorderCard() {
             <Pressable onPress={handleSaveButton} disabled={!saveEnabled}>
               <View style={[styles.buttonContainer]}>
                 <Typography.Text
-                  opacity={saveEnabled ? "opaque" : "semiTransparent"}
                   color={saveEnabled ? "neutralBase-50" : "neutralBase-30"}
+                  opacity={saveEnabled ? "opaque" : "semiTransparent"}
                   size="caption1"
                   weight="semiBold">
                   SAVE
@@ -97,16 +97,17 @@ export default function QuickActionsReorderCard() {
           <View>
             {showTitleBar && (
               <Typography.Text style={styles.subHeader} color="neutralBase-50">
-                Select 3 of your favorite actions to always be accessible on Home.
+                Select your favorite sections to always be accessible on Home.
               </Typography.Text>
             )}
           </View>
         </View>
         <Reorderer
           topSectionTitle="ACTIVE"
-          bottomSectionTitle="NEW ACTIONS"
+          bottomSectionTitle="NEW SECTIONS"
           maxActiveSections={maxActiveSections}
           minActiveSections={minActiveSections}
+          requiredList={["quickactions"]}
           setShowTitleBar={setShowTitleBar}
         />
       </View>

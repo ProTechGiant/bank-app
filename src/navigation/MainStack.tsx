@@ -17,6 +17,7 @@ import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen"
 
 import MainStackParams from "./mainStackParams";
 import QuickActionsReorderCard from "@/features/Cards/QuickActionsReorderModal";
+import HomepageReorderModal from "@/features/Cards/HomepageReorderModal";
 import FinancialInformationScreen from "@/screens/Onboarding/FinancialInformationScreen";
 import ForeignTaxScreen from "@/screens/Onboarding/ForeignTaxScreen";
 import OptionalEmailScreen from "@/screens/Onboarding/OptionalEmail/OptionalEmailScreen";
@@ -88,6 +89,11 @@ export default function MainStack() {
             options={{ animation: "default", headerShown: false }}
             component={QuickActionsReorderCard}
             name="Modal.QuickActionsReorderModal"
+          />
+          <Stack.Screen
+            options={{ animation: "default", headerShown: false }}
+            component={HomepageReorderModal}
+            name="Modal.HomepageReorderModal"
           />
         </Stack.Group>
       </Stack.Navigator>

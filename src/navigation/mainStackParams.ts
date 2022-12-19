@@ -15,6 +15,7 @@ type MainStackParams = {
   "Modal.QuickActionsReorderModal": undefined;
   "Onboarding.Financial": undefined;
   "Onboarding.ForgeignTax": undefined;
+  "Modal.HomepageReorderModal": undefined;
   "Onboarding.OptionalEmail": undefined;
 };
 
