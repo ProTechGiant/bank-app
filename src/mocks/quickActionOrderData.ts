@@ -47,8 +47,8 @@ export const homepageOrderData: ReorderItem[] = [
     description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
   },
   {
-    key: "articles",
-    label: "Articles",
+    key: "whatsnext",
+    label: "What's Next",
     active: false,
     description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
   },

@@ -1,4 +1,4 @@
-import { Dimensions, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import AccountInfoHeader from "@/components/AccountInfoHeader";
 import QuickAction from "@/components/QuickAction";
 import SectionHeader from "@/components/SectionHeader";
@@ -58,10 +58,10 @@ export default function HomeDashboardScreen() {
                 <RewardSection />
               </View>
             );
-          case "articles":
+          case "whatsnext":
             return (
               <View key={homepageItem.key}>
-                <SectionHeader title="Articles" subTitle={{ text: "See all" }} />
+                <SectionHeader title="What's next" subTitle={{ text: "See all" }} />
                 <ArticleSection />
               </View>
             );
@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderColor: palette.primaryBase,
     padding: 9,
+    marginTop: spacing.large,
   },
   bottomRow: {
     flexDirection: "row",
