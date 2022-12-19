@@ -9,9 +9,10 @@ import Typography from "../Typography";
 interface ApplyCardHeaderProps {
   title: string;
   backButton: boolean;
+  backButtonHandler?: () => void;
 }
 
-export default function ApplyCardHeader({ title, backButton }: ApplyCardHeaderProps) {
+export default function ApplyCardHeader({ title, backButton, backButtonHandler }: ApplyCardHeaderProps) {
   const CloseIcon = Icons["Close"];
   const BackIcon = Icons["Back"];
 
@@ -22,7 +23,11 @@ export default function ApplyCardHeader({ title, backButton }: ApplyCardHeaderPr
   };
 
   const handleOnBack = () => {
-    navigation.goBack();
+    if (!backButtonHandler) {
+      navigation.goBack();
+    } else {
+      return backButtonHandler();
+    }
   };
 
   return (

@@ -19,8 +19,10 @@ import { default as MinusIcon } from "./icons/minus.svg";
 import { default as PlusIcon } from "./icons/plus.svg";
 import { default as HamburgerIcon } from "./icons/hamburger.svg";
 import { default as ClearIcon } from "./icons/clear.svg";
+import { default as InfoIcon } from "./icons/info.svg";
 import { default as ErrorIcon } from "./icons/error.svg";
 import { UserIcon } from "./icons/user-icon";
+import { default as ErrorBlackIcon } from "./icons/error-black.svg";
 
 export const Icons = {
   Add: AddIcon,
@@ -42,10 +44,12 @@ export const Icons = {
   Plus: PlusIcon,
   Hamburger: HamburgerIcon,
   Clear: ClearIcon,
+  Info: InfoIcon,
   Error: ErrorIcon,
   Tick: TickIcon,
   CalendarAlt: CalendarAltIcon,
   MapMarker: MapMarkerIcon,
+  ErrorBlack: ErrorBlackIcon,
 };
 
 export type Icons = typeof Icons;
