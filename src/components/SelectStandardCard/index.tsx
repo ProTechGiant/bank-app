@@ -1,5 +1,6 @@
 import { Image, StyleSheet, View } from "react-native";
 
+import { useOrderCardContext } from "@/contexts/OrderCardContext";
 import useNavigation from "@/navigation/use-navigation";
 import { spacing } from "@/theme/values";
 
@@ -7,9 +8,16 @@ import Button from "../Button";
 import Typography from "../Typography";
 
 export default function SelectStandardCard() {
+  const standardCardId = {
+    cardType: 1,
+    cardProductId: 1456,
+  };
+
   const navigation = useNavigation();
+  const { orderCardValues, setOrderCardValues } = useOrderCardContext();
 
   const handleOnPress = () => {
+    setOrderCardValues !== null && setOrderCardValues({ ...orderCardValues, ...standardCardId });
     navigation.navigate("Cards.CreateCardPin");
   };
 

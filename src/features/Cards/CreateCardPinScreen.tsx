@@ -7,6 +7,7 @@ import { palette, radii, spacing } from "@/theme/values";
 import Typography from "@/components/Typography";
 import PinCodeInput from "@/components/PinCodeInput";
 import { Icons } from "@/assets/icons";
+import { useOrderCardContext } from "@/contexts/OrderCardContext";
 
 const height = Dimensions.get("screen").height;
 
@@ -20,6 +21,7 @@ const confirmText = `Re-enter your ${inputLength} numbers`;
 
 export default function CreateCardPinScreen() {
   const pincodeInputRef = React.useRef<React.ElementRef<typeof PinCodeInput>>(null);
+  const { orderCardValues, setOrderCardValues } = useOrderCardContext();
 
   const [inputValue, setInputValue] = React.useState<string>("");
   const [pincode, setPincode] = React.useState<string>("");
@@ -50,6 +52,11 @@ export default function CreateCardPinScreen() {
         }
         if (inputValue === pincode) {
           setPincode(inputValue);
+
+          // @TODO: encryption
+          const encryptedPin =
+            "MnGxFBx75/luCV+v5IKTyAXQsR3BbezzPx7Q5IjNmu78y8uFZoA07Wh4IxHuGcCThLRy1UyOh9GRIK78hX6IFavPci+WTKcohFLhJI7XG9fUs0Q5Sh9eRPOrN+l/jVa8DwEIDmB4ZGYwviCW3anzrHVPsQNhs4jxS8nXqnidVPk=";
+          setOrderCardValues !== null && setOrderCardValues({ ...orderCardValues, pin: encryptedPin });
           setIsSuccessful(true);
         }
       }

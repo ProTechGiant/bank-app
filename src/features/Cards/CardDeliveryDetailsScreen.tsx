@@ -7,12 +7,14 @@ import Button from "@/components/Button";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import { Stack } from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useOrderCardContext } from "@/contexts/OrderCardContext";
 import useNavigation from "@/navigation/use-navigation";
 import { spacing } from "@/theme/values";
 import { mockPrimaryDeliveryAddress, mockAlternativeDeliveryAddress } from "@/mocks/deliveryAddressData";
 
 export default function CardDeliveryDetailsScreen() {
   const navigation = useNavigation();
+  const { orderCardValues } = useOrderCardContext();
 
   const hasAlternativeAddress = mockAlternativeDeliveryAddress.addresses.length > 0;
   const primaryAddress = mockPrimaryDeliveryAddress.addresses.map(data => {
@@ -34,6 +36,8 @@ export default function CardDeliveryDetailsScreen() {
   const [addressData, setAddressData] = useState(initAddressData);
 
   const handleConfirm = () => {
+    // TODO: form submission
+    console.log(orderCardValues);
     navigation.navigate("Cards.CardOrdered");
   };
 
