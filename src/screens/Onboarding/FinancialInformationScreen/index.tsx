@@ -1,4 +1,4 @@
-import ApplyCardHeader from "@/components/ApplyForCardHeader";
+import NavHeader from "@/components/NavHeader";
 import FinancialForm from "@/components/Forms/FinancialForm/FinancialForm";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import { Stack } from "@/components/Stack";
@@ -10,8 +10,7 @@ import { StatusBar, StyleSheet, SafeAreaView, View, ScrollView } from "react-nat
 const FinancialInformationScreen = () => {
   return (
     <SafeAreaView>
-      <ApplyCardHeader title="ABOUT YOU" backButton={true} />
-      <StatusBar barStyle="dark-content" />
+      <NavHeader title="ABOUT YOU" backButton={true} barStyle="dark-content" />
       <View style={styles.container}>
         <ProgressIndicator currentStep={3} totalStep={6} />
         <ScrollView>

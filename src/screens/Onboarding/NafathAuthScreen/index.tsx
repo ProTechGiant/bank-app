@@ -10,7 +10,7 @@ import { palette, spacing } from "@/theme/values";
 import { Stack } from "@/components/Stack";
 import { Inline } from "@/components/Inline";
 import axios from "axios";
-import ApplyCardHeader from "@/components/ApplyForCardHeader";
+import NavHeader from "@/components/NavHeader";
 
 const NafathAuthScreen = () => {
   const navigation = useNavigation();
@@ -57,8 +57,7 @@ const NafathAuthScreen = () => {
 
   return (
     <SafeAreaView>
-      <StatusBar barStyle="dark-content" />
-      <ApplyCardHeader title="AUTHENTICATION" backButton={true} />
+      <NavHeader title="AUTHENTICATION" backButton={true} barStyle="dark-content" />
       <View style={styles.container}>
         <LinkModal
           modalVisible={modalVisible}

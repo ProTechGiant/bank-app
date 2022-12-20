@@ -14,8 +14,8 @@ type MainStackParams = {
   "Onboarding.ConfirmDetails": undefined;
   "Modal.QuickActionsReorderModal": undefined;
   "Onboarding.Financial": undefined;
-  "Onboarding.ForgeignTax": undefined;
   "Modal.HomepageReorderModal": undefined;
+  "Onboarding.ForeignTax": undefined;
   "Onboarding.OptionalEmail": undefined;
 };
 

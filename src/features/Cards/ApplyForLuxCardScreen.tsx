@@ -1,11 +1,11 @@
 import { SafeAreaView } from "react-native";
 
-import ApplyCardHeader from "@/components/ApplyForCardHeader";
+import NavHeader from "@/components/NavHeader";
 
 export default function ApplyForLuxCardScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ApplyCardHeader title="Order Lux Card" backButton={true} />
+      <NavHeader title="Order Lux Card" backButton={true} />
     </SafeAreaView>
   );
 }

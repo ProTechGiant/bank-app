@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 
 import AddressSelector from "@/components/AddressSelector";
-import ApplyCardHeader from "@/components/ApplyForCardHeader";
+import NavHeader from "@/components/NavHeader";
 import Button from "@/components/Button";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import { Stack } from "@/components/Stack";
@@ -51,7 +51,7 @@ export default function CardDeliveryDetailsScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ApplyCardHeader title="Order card" backButton={true} />
+      <NavHeader title="Order card" backButton={true} />
       <View style={styles.container}>
         <View style={styles.progressIndicator}>
           <ProgressIndicator currentStep={3} totalStep={3} />

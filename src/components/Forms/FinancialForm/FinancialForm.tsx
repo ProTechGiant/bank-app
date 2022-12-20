@@ -30,12 +30,12 @@ const FinancialForm = () => {
   const submitHandler = (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
     setTimeout(() => {
       setSubmitting(false);
-      navigation.navigate("Onboarding.ForgeignTax");
+      navigation.navigate("Onboarding.ForeignTax");
     }, 500);
   };
 
   return (
-    <View>
+    <View style={{ marginBottom: 55 }}>
       <Formik initialValues={initialValues} validationSchema={FinancialValidationSchema} onSubmit={submitHandler}>
         <Stack space="large">
           <SelectInput

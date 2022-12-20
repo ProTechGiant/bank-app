@@ -1,6 +1,6 @@
 import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 
-import ApplyCardHeader from "@/components/ApplyForCardHeader";
+import NavHeader from "@/components/NavHeader";
 import { spacing } from "@/theme/values";
 import Typography from "@/components/Typography";
 
@@ -8,7 +8,7 @@ export default function SetAnotherAddressScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <ApplyCardHeader title="Set another address" backButton={false} />
+        <NavHeader title="Set another address" backButton={false} />
         <ScrollView>
           <View style={styles.header}>
             <Typography.Text size="large" weight="bold">

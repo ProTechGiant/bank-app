@@ -4,7 +4,7 @@ import MobileAndNationalIdForm from "@/components/Forms/MobileAndNationalId/Mobi
 import { palette, spacing } from "@/theme/values";
 import Typography from "@/components/Typography";
 import HideKeyboard from "@/helpers/HideKeyboard";
-import ApplyCardHeader from "@/components/ApplyForCardHeader";
+import NavHeader from "@/components/NavHeader";
 
 const IqamaInputScreen = () => {
   const ButtonPressed = () => {
@@ -14,7 +14,7 @@ const IqamaInputScreen = () => {
   return (
     <HideKeyboard>
       <SafeAreaView style={styles.container}>
-        <ApplyCardHeader title="SIGN UP" backButton={true} />
+        <NavHeader title="SIGN UP" backButton={true} barStyle="dark-content" />
 
         <View style={styles.headerView}>
           <Typography.Text size="large" weight="bold" style={styles.headerTitle}>

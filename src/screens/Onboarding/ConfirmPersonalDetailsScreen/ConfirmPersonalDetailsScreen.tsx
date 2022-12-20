@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
-import ApplyCardHeader from "@/components/ApplyForCardHeader";
+import NavHeader from "@/components/NavHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
 import { palette, spacing } from "@/theme/values";
@@ -11,7 +11,7 @@ import ConfirmPersonalDetailsForm from "@/components/Forms/ConfirmPersonalDetail
 const ConfirmPersonalDetailsScreen = () => {
   return (
     <ScrollView style={{ marginTop: 32 }}>
-      <ApplyCardHeader title="CONFIRMATION" backButton={true} />
+      <NavHeader title="CONFIRMATION" backButton={true} />
       <View>
         <View style={styles.paddedView}>
           <View style={styles.progressIndicator}>

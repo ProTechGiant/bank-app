@@ -1,13 +1,13 @@
 import { SafeAreaView, StyleSheet, View } from "react-native";
 
-import ApplyCardHeader from "@/components/ApplyForCardHeader";
+import NavHeader from "@/components/NavHeader";
 import SegmentedControl from "@/components/SegmentedControl";
 
 export default function ApplyForCardScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <ApplyCardHeader title="Order card" backButton={false} />
+        <NavHeader title="Order card" backButton={false} />
       </View>
       <SegmentedControl />
     </SafeAreaView>

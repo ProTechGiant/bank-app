@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 
 import { alphaNumericSpaceRegExp } from "@/utils/strings";
-import ApplyCardHeader from "@/components/ApplyForCardHeader";
+import NavHeader from "@/components/NavHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
@@ -31,7 +31,7 @@ export default function SecureMessageScreen() {
   return (
     <HideKeyboard>
       <SafeAreaView style={{ flex: 1 }}>
-        <ApplyCardHeader title="Order card" backButton={true} />
+        <NavHeader title="Order card" backButton={true} />
         <View style={styles.container}>
           <View style={styles.progressIndicator}>
             <ProgressIndicator currentStep={1} totalStep={4} />

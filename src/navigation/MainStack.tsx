@@ -61,7 +61,7 @@ export default function MainStack() {
             name="Onboarding.Financial"
             options={{ headerShown: false }}
           />
-          <Stack.Screen component={ForeignTaxScreen} name="Onboarding.ForgeignTax" options={{ headerShown: false }} />
+          <Stack.Screen component={ForeignTaxScreen} name="Onboarding.ForeignTax" options={{ headerShown: false }} />
         </Stack.Group>
         <Stack.Group screenOptions={{ headerShown: false, animation: "slide_from_bottom" }}>
           <Stack.Screen component={ApplyForCardScreen} name="Cards.ApplyForCard" />

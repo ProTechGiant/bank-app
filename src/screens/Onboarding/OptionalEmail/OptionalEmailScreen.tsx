@@ -1,6 +1,6 @@
 import { SafeAreaView, StyleSheet, View } from "react-native";
 
-import ApplyCardHeader from "@/components/ApplyForCardHeader";
+import NavHeader from "@/components/NavHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
 import { spacing } from "@/theme/values";
@@ -11,7 +11,7 @@ const OptionalEmailScreen = () => {
   return (
     <HideKeyboard>
       <SafeAreaView style={styles.container}>
-        <ApplyCardHeader title="EMAIL" backButton={true} />
+        <NavHeader title="EMAIL" backButton={true} />
         <View style={styles.innerView}>
           <View style={styles.progressIndicator}>
             <ProgressIndicator currentStep={2} totalStep={6} />

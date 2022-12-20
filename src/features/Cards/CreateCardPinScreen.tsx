@@ -1,7 +1,7 @@
 import { Keyboard, SafeAreaView, StyleSheet, View, Dimensions, Pressable } from "react-native";
 import * as React from "react";
 
-import ApplyCardHeader from "@/components/ApplyForCardHeader";
+import NavHeader from "@/components/NavHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import { palette, radii, spacing } from "@/theme/values";
 import Typography from "@/components/Typography";
@@ -78,9 +78,9 @@ export default function CreateCardPinScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {mode === "input" ? (
-        <ApplyCardHeader title="Order card" backButton={true} />
+        <NavHeader title="Order card" backButton={true} />
       ) : (
-        <ApplyCardHeader title="Order card" backButton={true} backButtonHandler={handleOnBack} />
+        <NavHeader title="Order card" backButton={true} backButtonHandler={handleOnBack} />
       )}
       <View style={styles.container}>
         <View style={styles.progressIndicator}>
