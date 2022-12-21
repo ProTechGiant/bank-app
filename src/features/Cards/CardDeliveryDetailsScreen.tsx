@@ -91,9 +91,18 @@ export default function CardDeliveryDetailsScreen() {
     );
   };
 
+  const handleOnBack = () => {
+    setOrderCardValues !== null &&
+      setOrderCardValues({
+        ...orderCardValues,
+        createCardPinMode: "input",
+      });
+    navigation.navigate("Cards.CreateCardPin");
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <NavHeader title="Order card" backButton={true} />
+      <NavHeader title="Order card" backButton={true} backButtonHandler={handleOnBack} />
       <View style={styles.container}>
         <View style={styles.progressIndicator}>
           <ProgressIndicator currentStep={3} totalStep={3} />

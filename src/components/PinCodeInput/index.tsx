@@ -2,14 +2,12 @@ import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import * as React from "react";
 import { times } from "lodash";
 import { palette, radii, spacing } from "@/theme/values";
-import useNavigation from "@/navigation/use-navigation";
 
 interface PinCodeInputProps {
   inputLength: number;
   value: string;
   onChangeText: (value: string) => void;
   isValid: boolean;
-  isSuccessful: boolean;
 }
 
 interface PinCodeInputRefMethods {
@@ -18,12 +16,11 @@ interface PinCodeInputRefMethods {
 }
 
 function PinCodeInput(
-  { inputLength, value, onChangeText, isValid, isSuccessful }: PinCodeInputProps,
+  { inputLength, value, onChangeText, isValid }: PinCodeInputProps,
   ref: React.ForwardedRef<PinCodeInputRefMethods>
 ) {
   const textInputRef = React.useRef<TextInput>(null);
 
-  const navigation = useNavigation();
   const [temp, setTemp] = React.useState(value);
 
   React.useImperativeHandle(ref, () => ({
@@ -52,12 +49,6 @@ function PinCodeInput(
       return <View />;
     }
   };
-
-  React.useEffect(() => {
-    if (isValid && isSuccessful) {
-      navigation.navigate("Cards.CardDeliveryDetails");
-    }
-  }, [isSuccessful]);
 
   React.useEffect(() => {
     setTemp(value.substring(value.length - 1));

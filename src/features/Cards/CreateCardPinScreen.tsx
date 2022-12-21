@@ -8,6 +8,7 @@ import Typography from "@/components/Typography";
 import PinCodeInput from "@/components/PinCodeInput";
 import { Icons } from "@/assets/icons";
 import { useOrderCardContext } from "@/contexts/OrderCardContext";
+import useNavigation from "@/navigation/use-navigation";
 
 const height = Dimensions.get("screen").height;
 
@@ -22,13 +23,20 @@ const confirmText = `Re-enter your ${inputLength} numbers`;
 export default function CreateCardPinScreen() {
   const pincodeInputRef = React.useRef<React.ElementRef<typeof PinCodeInput>>(null);
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
+  const navigation = useNavigation();
 
   const [inputValue, setInputValue] = React.useState<string>("");
   const [pincode, setPincode] = React.useState<string>("");
-  const [mode, setMode] = React.useState<"input" | "confirm">("input");
   const [isValid, setIsValid] = React.useState<boolean>(true);
-  const [isSuccessful, setIsSuccessful] = React.useState<boolean>(false);
   const [remainingTries, setRemainingTries] = React.useState<number>(maxTries);
+
+  const mode = orderCardValues.createCardPinMode;
+
+  React.useEffect(() => {
+    if (mode === "input") {
+      setInputValue("");
+    }
+  }, [mode]);
 
   React.useEffect(() => {
     if (inputLength !== inputValue.length) {
@@ -37,7 +45,11 @@ export default function CreateCardPinScreen() {
     if (inputLength === inputValue.length) {
       if (mode === "input") {
         setTimeout(() => {
-          setMode("confirm");
+          setOrderCardValues !== null &&
+            setOrderCardValues({
+              ...orderCardValues,
+              createCardPinMode: "confirm",
+            });
           setPincode(inputValue);
           setInputValue("");
         }, 150);
@@ -60,7 +72,7 @@ export default function CreateCardPinScreen() {
               ...orderCardValues,
               formValues: { ...orderCardValues.formValues, pin: encryptedPin },
             });
-          setIsSuccessful(true);
+          navigation.navigate("Cards.CardDeliveryDetails");
         }
       }
     }
@@ -81,7 +93,11 @@ export default function CreateCardPinScreen() {
 
   const handleOnBack = () => {
     setInputValue("");
-    setMode("input");
+    setOrderCardValues !== null &&
+      setOrderCardValues({
+        ...orderCardValues,
+        createCardPinMode: "input",
+      });
     setRemainingTries(maxTries);
   };
 
@@ -111,7 +127,6 @@ export default function CreateCardPinScreen() {
             onChangeText={inputHandler}
             ref={pincodeInputRef}
             isValid={isValid}
-            isSuccessful={isSuccessful}
           />
         </View>
         {mode === "input" && (
