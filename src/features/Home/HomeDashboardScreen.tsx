@@ -10,7 +10,7 @@ import { useGlobalContext } from "@/contexts/GlobalContext";
 import { AccountInfoHeaderProps } from "@/components/AccountInfoHeader";
 import RewardSection from "@/components/RewardSection";
 import ArticleSection from "@/components/ArticleSection";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function HomeDashboardScreen() {
   const [headerSize, setHeaderSize] = useState<AccountInfoHeaderProps["size"]>("full");
@@ -83,6 +83,10 @@ export default function HomeDashboardScreen() {
       setHeaderSize("small");
     }
   };
+
+  useEffect(() => {
+    setHeaderSize("full");
+  }, [homeScreenLayout]);
 
   return (
     <View style={styles.container}>
