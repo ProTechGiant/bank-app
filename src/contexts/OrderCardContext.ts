@@ -1,15 +1,26 @@
+import { FormState } from "@/types/form";
 import { createContext, useContext } from "react";
 
-export type OrderCardValues = {
+export type OrderCardFormValues = {
   cardType: number;
   cardProductId: number;
   pin: string;
 };
 
+export type OrderCardValues = {
+  formValues: OrderCardFormValues;
+  formState: FormState;
+};
+
 export const orderCardInitValues: OrderCardValues = {
-  cardType: 0,
-  cardProductId: 0,
-  pin: "",
+  formValues: {
+    cardType: 0,
+    cardProductId: 0,
+    pin: "",
+  },
+  formState: {
+    isLoading: false,
+  },
 };
 
 export interface OrderCardContextValues {

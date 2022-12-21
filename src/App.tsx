@@ -8,6 +8,9 @@ import { GlobalContext } from "./contexts/GlobalContext";
 import { OrderCardContext, orderCardInitValues } from "@/contexts/OrderCardContext";
 
 import { quickActionOrderData, homepageOrderData } from "./mocks/quickActionOrderData";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const [homeScreenLayout, setHomeScreenLayout] = useState({
@@ -18,18 +21,20 @@ export default function App() {
   const [orderCardValues, setOrderCardValues] = useState(orderCardInitValues);
 
   return (
-    <GlobalContext.Provider value={{ homeScreenLayout, setHomeScreenLayout }}>
-      <OrderCardContext.Provider
-        value={{
-          orderCardValues,
-          setOrderCardValues,
-        }}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <FlagsProvider features={flags}>
-            <MainStack />
-          </FlagsProvider>
-        </GestureHandlerRootView>
-      </OrderCardContext.Provider>
-    </GlobalContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      <GlobalContext.Provider value={{ homeScreenLayout, setHomeScreenLayout }}>
+        <OrderCardContext.Provider
+          value={{
+            orderCardValues,
+            setOrderCardValues,
+          }}>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <FlagsProvider features={flags}>
+              <MainStack />
+            </FlagsProvider>
+          </GestureHandlerRootView>
+        </OrderCardContext.Provider>
+      </GlobalContext.Provider>
+    </QueryClientProvider>
   );
 }

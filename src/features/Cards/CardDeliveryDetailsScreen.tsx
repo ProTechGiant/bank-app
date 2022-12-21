@@ -1,20 +1,60 @@
 import { useState } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
+import axios from "axios";
+import { useMutation } from "react-query";
 
+import { orderCardEndPoint } from "@/Axios/AxiosAgent";
 import AddressSelector from "@/components/AddressSelector";
 import NavHeader from "@/components/NavHeader";
 import Button from "@/components/Button";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import { Stack } from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useOrderCardContext } from "@/contexts/OrderCardContext";
+import { OrderCardValues, useOrderCardContext } from "@/contexts/OrderCardContext";
 import useNavigation from "@/navigation/use-navigation";
 import { spacing } from "@/theme/values";
 import { mockPrimaryDeliveryAddress, mockAlternativeDeliveryAddress } from "@/mocks/deliveryAddressData";
 
 export default function CardDeliveryDetailsScreen() {
   const navigation = useNavigation();
-  const { orderCardValues } = useOrderCardContext();
+  const { orderCardValues, setOrderCardValues } = useOrderCardContext();
+
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+
+  const postOrderCard = async (formData: OrderCardValues) => {
+    const { data: response } = await axios.post(orderCardEndPoint, formData, { headers: headers });
+    return response;
+  };
+
+  const { mutate, isLoading } = useMutation(postOrderCard, {
+    onSuccess: data => {
+      if (data.response === "Successful request card creation") {
+        setOrderCardValues !== null &&
+          setOrderCardValues({
+            ...orderCardValues,
+            formState: {
+              isLoading: false,
+              error: undefined,
+            },
+          });
+        navigation.navigate("Cards.CardOrdered");
+      }
+    },
+    onError: error => {
+      setOrderCardValues !== null &&
+        setOrderCardValues({
+          ...orderCardValues,
+          formState: {
+            isLoading: false,
+            error: error as Error,
+          },
+        });
+      navigation.navigate("Cards.CardOrdered");
+    },
+  });
 
   const hasAlternativeAddress = mockAlternativeDeliveryAddress.addresses.length > 0;
   const primaryAddress = mockPrimaryDeliveryAddress.addresses.map(data => {
@@ -36,9 +76,7 @@ export default function CardDeliveryDetailsScreen() {
   const [addressData, setAddressData] = useState(initAddressData);
 
   const handleConfirm = () => {
-    // TODO: form submission
-    console.log(orderCardValues);
-    navigation.navigate("Cards.CardOrdered");
+    mutate(orderCardValues.formValues);
   };
 
   const handleSetAnotherAddress = () => {
@@ -87,11 +125,14 @@ export default function CardDeliveryDetailsScreen() {
             })}
           </Stack>
         </View>
-        <Button onPress={handleConfirm}>
-          <Typography.Text color="neutralBase-50" size="body" weight="medium">
-            Confirm and continue
-          </Typography.Text>
-        </Button>
+        {!isLoading && (
+          <Button onPress={handleConfirm}>
+            <Typography.Text color="neutralBase-50" size="body" weight="medium">
+              Confirm and continue
+            </Typography.Text>
+          </Button>
+        )}
+        {isLoading && <Button type="loader" />}
         <Button onPress={handleSetAnotherAddress} variant="tertiary">
           <Typography.Text color="tintBase+20" size="body">
             Set another address

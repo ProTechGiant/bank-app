@@ -54,9 +54,12 @@ export default function CreateCardPinScreen() {
           setPincode(inputValue);
 
           // @TODO: encryption
-          const encryptedPin =
-            "MnGxFBx75/luCV+v5IKTyAXQsR3BbezzPx7Q5IjNmu78y8uFZoA07Wh4IxHuGcCThLRy1UyOh9GRIK78hX6IFavPci+WTKcohFLhJI7XG9fUs0Q5Sh9eRPOrN+l/jVa8DwEIDmB4ZGYwviCW3anzrHVPsQNhs4jxS8nXqnidVPk=";
-          setOrderCardValues !== null && setOrderCardValues({ ...orderCardValues, pin: encryptedPin });
+          const encryptedPin = "61D4416E90747D56ACE5FCDDEFC2FDB7";
+          setOrderCardValues !== null &&
+            setOrderCardValues({
+              ...orderCardValues,
+              formValues: { ...orderCardValues.formValues, pin: encryptedPin },
+            });
           setIsSuccessful(true);
         }
       }

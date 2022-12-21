@@ -10,14 +10,19 @@ import Typography from "../Typography";
 export default function SelectStandardCard() {
   const standardCardId = {
     cardType: 1,
-    cardProductId: 1456,
+    cardProductId: 1356,
   };
 
   const navigation = useNavigation();
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
 
   const handleOnPress = () => {
-    setOrderCardValues !== null && setOrderCardValues({ ...orderCardValues, ...standardCardId });
+    setOrderCardValues !== null &&
+      setOrderCardValues({
+        ...orderCardValues,
+        formValues: { ...orderCardValues.formValues, ...standardCardId },
+      });
+
     navigation.navigate("Cards.CreateCardPin");
   };
 
