@@ -1,4 +1,4 @@
 export interface FormState {
-  isLoading: boolean;
+  isLoading?: boolean;
   error?: Error;
 }

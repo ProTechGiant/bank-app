@@ -9,7 +9,7 @@ export type OrderCardFormValues = {
 
 export type OrderCardValues = {
   formValues: OrderCardFormValues;
-  formState: FormState;
+  formState?: FormState;
   createCardPinMode: "input" | "confirm";
 };
 
@@ -18,9 +18,6 @@ export const orderCardInitValues: OrderCardValues = {
     cardType: 0,
     cardProductId: 0,
     pin: "",
-  },
-  formState: {
-    isLoading: false,
   },
   createCardPinMode: "input",
 };

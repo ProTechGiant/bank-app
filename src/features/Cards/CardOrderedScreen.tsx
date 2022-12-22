@@ -69,18 +69,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textContainer: {
-    height: "20%",
+    height: "40%",
     alignItems: "center",
     padding: spacing.small,
   },
   title: {
+    paddingHorizontal: spacing.small,
     paddingBottom: spacing.medium,
   },
   button: {
     minWidth: 350,
   },
   buttons: {
-    height: "60%",
+    height: "40%",
     justifyContent: "flex-end",
   },
 });

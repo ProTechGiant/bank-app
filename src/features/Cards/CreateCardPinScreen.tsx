@@ -71,6 +71,7 @@ export default function CreateCardPinScreen() {
             setOrderCardValues({
               ...orderCardValues,
               formValues: { ...orderCardValues.formValues, pin: encryptedPin },
+              createCardPinMode: "input",
             });
           navigation.navigate("Cards.CardDeliveryDetails");
         }
