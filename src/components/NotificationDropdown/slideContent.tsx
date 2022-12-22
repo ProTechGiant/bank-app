@@ -1,13 +1,13 @@
 import { GestureResponderEvent, StyleSheet, View } from "react-native";
 
 import Button from "@/components/Button";
-import { notificationDataType } from "@/mocks/notificationData";
+import { Notification } from "@/types/notification";
 import { spacing } from "@/theme/values";
 
 import Typography from "../Typography";
 
 interface SlideContentProps {
-  data: notificationDataType;
+  data: Notification;
   onPress?: (event: GestureResponderEvent) => void;
 }
 

@@ -4,8 +4,13 @@ import { IqamaInputs } from "@/types/onboarding";
 import { OrderCardValues } from "@/contexts/OrderCardContext";
 
 export const orderCardEndPoint = "http://alpha-card-service.apps.development.projectcroatia.cloud/v1/cards";
+import { Account, Balance } from "@/types/account";
+import { Notification } from "@/types/notification";
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
+const responseError = <T>(error: AxiosError<T>) => error.response;
+const headers = { headers: { "X-API-KEY": "564c0148-56a1-11ed-9b6a-0242ac120002" } };
+const baseUrlSL = `https://api-dev.apps.dev-dmz.projectcroatia.cloud`;
 
 const requests = {
   get: <T>(url: string, config?: {}) => axios.get<T>(url, config).then(responseBody),
@@ -23,10 +28,17 @@ const OrderCard = {
     requests.post<OrderCardValues>(endpoint, formValue, config),
 };
 
+const SL = {
+  account: async (endpoint: string) => await requests.get<Account[]>(baseUrlSL + endpoint, headers),
+  balance: async (endpoint: string) => await requests.get<Balance[]>(baseUrlSL + endpoint, headers),
+  notification: async (endpoint: string) => await requests.get<Notification[]>(baseUrlSL + endpoint, headers),
+};
+
 const agent = {
   requests,
   Onboarding,
   OrderCard,
+  SL,
 };
 
 export default agent;
