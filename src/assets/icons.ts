@@ -24,6 +24,8 @@ import { default as InfoIcon } from "./icons/info.svg";
 import { default as ErrorIcon } from "./icons/error.svg";
 import { UserIcon } from "./icons/user-icon";
 import { default as ErrorBlackIcon } from "./icons/error-black.svg";
+import { default as ShippingIcon } from "./icons/shipping.svg";
+import { default as CloseWhiteIcon } from "./icons/close-white.svg";
 
 export const Icons = {
   Add: AddIcon,
@@ -52,6 +54,8 @@ export const Icons = {
   CalendarAlt: CalendarAltIcon,
   MapMarker: MapMarkerIcon,
   ErrorBlack: ErrorBlackIcon,
+  Shipping: ShippingIcon,
+  CloseWhite: CloseWhiteIcon,
 };
 
 export type Icons = typeof Icons;

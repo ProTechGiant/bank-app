@@ -11,12 +11,10 @@ interface NavHeaderProps {
   backButton: boolean;
   backButtonHandler?: () => void;
   barStyle?: StatusBarStyle | null | undefined;
+  color?: "black" | "white";
 }
 
-export default function NavHeader({ title, backButton, backButtonHandler, barStyle }: NavHeaderProps) {
-  const CloseIcon = Icons["Close"];
-  const BackIcon = Icons["Back"];
-
+export default function NavHeader({ title, backButton, barStyle, backButtonHandler, color = "black" }: NavHeaderProps) {
   const navigation = useNavigation();
 
   const handleOnClose = () => {
@@ -38,7 +36,7 @@ export default function NavHeader({ title, backButton, backButtonHandler, barSty
         <View style={styles.iconWrapper}>
           {backButton && (
             <Pressable onPress={handleOnBack}>
-              <BackIcon height={iconDimensions.link} width={iconDimensions.link} />
+              <Icons.Back height={iconDimensions.link} width={iconDimensions.link} />
             </Pressable>
           )}
         </View>
@@ -49,7 +47,11 @@ export default function NavHeader({ title, backButton, backButtonHandler, barSty
         </View>
         <View style={styles.iconWrapper}>
           <Pressable onPress={handleOnClose}>
-            <CloseIcon height={iconDimensions.link} width={iconDimensions.link} />
+            {color === "black" ? (
+              <Icons.Close height={iconDimensions.link} width={iconDimensions.link} />
+            ) : (
+              <Icons.CloseWhite height={iconDimensions.link} width={iconDimensions.link} />
+            )}
           </Pressable>
         </View>
       </View>
