@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
-import axios from "axios";
-import { useMutation } from "react-query";
 
 import { orderCardEndPoint } from "@/Axios/AxiosAgent";
 import AddressSelector from "@/components/AddressSelector";
@@ -10,7 +8,7 @@ import Button from "@/components/Button";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import { Stack } from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { OrderCardValues, useOrderCardContext } from "@/contexts/OrderCardContext";
+import { useOrderCardContext } from "@/contexts/OrderCardContext";
 import useNavigation from "@/navigation/use-navigation";
 import { spacing } from "@/theme/values";
 import { mockPrimaryDeliveryAddress, mockAlternativeDeliveryAddress } from "@/mocks/deliveryAddressData";
@@ -23,38 +21,6 @@ export default function CardDeliveryDetailsScreen() {
     Accept: "application/json",
     "Content-Type": "application/json",
   };
-
-  const postOrderCard = async (formData: OrderCardValues) => {
-    const { data: response } = await axios.post(orderCardEndPoint, formData, { headers: headers });
-    return response;
-  };
-
-  const { mutate, isLoading } = useMutation(postOrderCard, {
-    onSuccess: data => {
-      if (data.response === "Successful request card creation") {
-        setOrderCardValues !== null &&
-          setOrderCardValues({
-            ...orderCardValues,
-            formState: {
-              isLoading: false,
-              error: undefined,
-            },
-          });
-        navigation.navigate("Cards.CardOrdered");
-      }
-    },
-    onError: error => {
-      setOrderCardValues !== null &&
-        setOrderCardValues({
-          ...orderCardValues,
-          formState: {
-            isLoading: false,
-            error: error as Error,
-          },
-        });
-      navigation.navigate("Cards.CardOrdered");
-    },
-  });
 
   const hasAlternativeAddress = mockAlternativeDeliveryAddress.addresses.length > 0;
   const primaryAddress = mockPrimaryDeliveryAddress.addresses.map(data => {
@@ -75,8 +41,46 @@ export default function CardDeliveryDetailsScreen() {
 
   const [addressData, setAddressData] = useState(initAddressData);
 
+  const updateFormState = (isLoading: boolean, error?: Error) => {
+    setOrderCardValues !== null &&
+      setOrderCardValues({
+        ...orderCardValues,
+        formState: {
+          isLoading: isLoading,
+          error: error,
+        },
+      });
+  };
+
+  const postOrderCard = async function () {
+    try {
+      const res = await fetch(orderCardEndPoint, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(orderCardValues.formValues),
+      });
+
+      const data = await res.json();
+      if (data.response == "Successful request card creation") {
+        updateFormState(false, undefined);
+      } else {
+        updateFormState(false, {
+          name: data.Code,
+          message: data.Message,
+        });
+      }
+    } catch (error) {
+      updateFormState(false, {
+        name: "error",
+        message: "An error has occurred",
+      });
+    }
+    navigation.navigate("Cards.CardOrdered");
+  };
+
   const handleConfirm = () => {
-    mutate(orderCardValues.formValues);
+    updateFormState(true, undefined);
+    postOrderCard();
   };
 
   const handleSetAnotherAddress = () => {
@@ -134,14 +138,14 @@ export default function CardDeliveryDetailsScreen() {
             })}
           </Stack>
         </View>
-        {!isLoading && (
+        {!orderCardValues.formState.isLoading && (
           <Button onPress={handleConfirm}>
             <Typography.Text color="neutralBase-50" size="body" weight="medium">
               Confirm and continue
             </Typography.Text>
           </Button>
         )}
-        {isLoading && <Button type="loader" />}
+        {orderCardValues.formState.isLoading && <Button type="loader" />}
         <Button onPress={handleSetAnotherAddress} variant="tertiary">
           <Typography.Text color="tintBase+20" size="body">
             Set another address
