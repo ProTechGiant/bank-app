@@ -1,26 +1,26 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import ApplyForCardScreen from "@/features/Cards/ApplyForCardScreen";
-import ApplyForLuxCardScreen from "@/features/Cards/ApplyForLuxCardScreen";
-import SecureMessageScreen from "@/features/Cards/SecureMessageScreen";
-import CreateCardPinScreen from "@/features/Cards/CreateCardPinScreen";
-import CardDeliveryDetailsScreen from "@/features/Cards/CardDeliveryDetailsScreen";
-import SetAnotherAddressScreen from "@/features/Cards/SetAnotherAddressScreen";
-import CardOrderedScreen from "@/features/Cards/CardOrderedScreen";
-import HomeDashboardScreen from "@/features/Home/HomeDashboardScreen";
-import ConfirmPersonalDetailsScreen from "@/screens/Onboarding/ConfirmPersonalDetailsScreen/ConfirmPersonalDetailsScreen";
-import NafathAuthScreen from "@/screens/Onboarding/NafathAuthScreen";
-import IqamaInputScreen from "@/screens/Onboarding/IqamaInputScreen";
-import OnboardingSplashScreen from "@/screens/Onboarding/OnboardingSplashScreen";
+import ApplyForCardScreen from "@/features/ApplyCards/screens/ApplyForCardScreen";
+import ApplyForLuxCardScreen from "@/features/ApplyCards/screens/ApplyForLuxCardScreen";
+import SecureMessageScreen from "@/features/ApplyCards/screens/SecureMessageScreen";
+import CreateCardPinScreen from "@/features/ApplyCards/screens/CreateCardPinScreen";
+import CardDeliveryDetailsScreen from "@/features/ApplyCards/screens/CardDeliveryDetailsScreen";
+import SetAnotherAddressScreen from "@/features/ApplyCards/screens/SetAnotherAddressScreen";
+import CardOrderedScreen from "@/features/ApplyCards/screens/CardOrderedScreen";
+import DashboardScreen from "@/features/Home/screens/DashboardScreen";
+import ConfirmPersonalDetailsScreen from "@/features/Onboarding/screens/ConfirmPersonalDetailsScreen";
+import NafathAuthScreen from "@/features/Onboarding/screens/NafathAuthScreen";
+import IqamaInputScreen from "@/features/Onboarding/screens/IqamaInputScreen";
+import OnboardingSplashScreen from "@/features/Onboarding/screens/OnboardingSplashScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 
 import MainStackParams from "./mainStackParams";
-import QuickActionsReorderCard from "@/features/Cards/QuickActionsReorderModal";
-import HomepageReorderModal from "@/features/Cards/HomepageReorderModal";
-import FinancialInformationScreen from "@/screens/Onboarding/FinancialInformationScreen";
-import ForeignTaxScreen from "@/screens/Onboarding/ForeignTaxScreen";
-import OptionalEmailScreen from "@/screens/Onboarding/OptionalEmail/OptionalEmailScreen";
+import QuickActionsReorderCard from "@/features/Home/screens/QuickActionsReorderModal";
+import HomepageReorderModal from "@/features/Home/screens/HomepageReorderModal";
+import FinancialInformationScreen from "@/features/Onboarding/screens/FinancialInformationScreen";
+import ForeignTaxScreen from "@/features/Onboarding/screens/ForeignTaxScreen";
+import OptionalEmailScreen from "@/features/Onboarding/screens/OptionalEmailScreen";
 const Stack = createNativeStackNavigator<MainStackParams>();
 
 export default function MainStack() {
@@ -35,7 +35,7 @@ export default function MainStack() {
           }}
         />
         <Stack.Screen
-          component={HomeDashboardScreen}
+          component={DashboardScreen}
           name="Home.Dashboard"
           options={{
             headerShown: false,

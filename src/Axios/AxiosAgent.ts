@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-import { IqamaInputs } from "@/types/onboarding";
-import { OrderCardValues } from "@/contexts/OrderCardContext";
+import { IqamaInputs } from "@/Axios/onboarding";
+import { OrderCardValues } from "@/features/ApplyCards/context/OrderCardContext";
 
 export const orderCardEndPoint = "http://alpha-card-service.apps.development.projectcroatia.cloud/v1/cards";
 import { Account, Balance } from "@/types/account";

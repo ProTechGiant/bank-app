@@ -1,4 +1,4 @@
-import { Icons } from "@/assets/icons";
+import * as icons from "@/assets/icons";
 
 export type ReorderItem = {
   key: string;
@@ -7,7 +7,7 @@ export type ReorderItem = {
   description: string;
 };
 export interface quickActionReorderItem extends ReorderItem {
-  icon: keyof Icons;
+  icon: keyof typeof icons;
 }
 
 export const quickActionOrderData: quickActionReorderItem[] = [
@@ -16,23 +16,24 @@ export const quickActionOrderData: quickActionReorderItem[] = [
     label: "Top-up",
     active: true,
     description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
-    icon: "Add",
+    icon: "AddIcon",
   },
   {
     key: "split",
     label: "Split bill",
     active: true,
     description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
-    icon: "Split",
+    icon: "SplitIcon",
   },
   {
     key: "transfer",
     label: "Transfer",
     active: true,
     description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
-    icon: "Transfer",
+    icon: "TransferIcon",
   },
 ];
+
 export const homepageOrderData: ReorderItem[] = [
   {
     key: "quickactions",

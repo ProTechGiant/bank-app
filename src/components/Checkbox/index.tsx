@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { palette, radii, spacing, typography } from "@/theme/values";
-import Typography from "../Typography";
+import { palette, radii, spacing } from "@/theme/values";
+import Typography from "@/components/Typography";
 import { useField } from "formik";
 import CheckBox from "@react-native-community/checkbox";
 

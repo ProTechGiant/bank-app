@@ -1,4 +1,4 @@
-import { spaceMap } from "@/utils/mappings";
+import { spaceMap } from "@/theme/mappings";
 import { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 

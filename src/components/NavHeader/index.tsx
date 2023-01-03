@@ -1,10 +1,10 @@
 import { Pressable, StatusBar, StatusBarStyle, StyleSheet, View } from "react-native";
 
-import { Icons } from "@/assets/icons";
+import { BackIcon, CloseIcon, CloseWhiteIcon } from "@/assets/icons";
 import useNavigation from "@/navigation/use-navigation";
 import { iconDimensions, spacing } from "@/theme/values";
 
-import Typography from "../Typography";
+import Typography from "@/components/Typography";
 
 interface NavHeaderProps {
   title: string;
@@ -36,7 +36,7 @@ export default function NavHeader({ title, backButton, barStyle, backButtonHandl
         <View style={styles.iconWrapper}>
           {backButton && (
             <Pressable onPress={handleOnBack}>
-              <Icons.Back height={iconDimensions.link} width={iconDimensions.link} />
+              <BackIcon height={iconDimensions.link} width={iconDimensions.link} />
             </Pressable>
           )}
         </View>
@@ -48,9 +48,9 @@ export default function NavHeader({ title, backButton, barStyle, backButtonHandl
         <View style={styles.iconWrapper}>
           <Pressable onPress={handleOnClose}>
             {color === "black" ? (
-              <Icons.Close height={iconDimensions.link} width={iconDimensions.link} />
+              <CloseIcon height={iconDimensions.link} width={iconDimensions.link} />
             ) : (
-              <Icons.CloseWhite height={iconDimensions.link} width={iconDimensions.link} />
+              <CloseWhiteIcon height={iconDimensions.link} width={iconDimensions.link} />
             )}
           </Pressable>
         </View>

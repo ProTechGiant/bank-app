@@ -1,8 +1,8 @@
-import { Icons } from "@/assets/icons";
+import { TickIcon } from "@/assets/icons";
 import { spacing, palette } from "@/theme/values";
 import { Pressable, StyleSheet, View } from "react-native";
 import { Option } from ".";
-import Typography from "../Typography";
+import Typography from "@/components/Typography";
 
 interface SelectOptionProps {
   item: Option;
@@ -12,8 +12,6 @@ interface SelectOptionProps {
 }
 
 const SelectOption = ({ item, index, onSelect, selected }: SelectOptionProps) => {
-  const Tick = Icons.Tick;
-
   const selectionHandler = () => {
     onSelect(item.value);
   };
@@ -28,7 +26,7 @@ const SelectOption = ({ item, index, onSelect, selected }: SelectOptionProps) =>
         </Typography.Text>
         {selected === item.value && (
           <View style={styles.tickIcon}>
-            <Tick />
+            <TickIcon />
           </View>
         )}
       </View>

@@ -1,10 +1,10 @@
-import { Icons } from "@/assets/icons";
+import { DownArrowIcon, UpArrowIcon } from "@/assets/icons";
 import { iconDimensions, palette, radii, spacing } from "@/theme/values";
 import { useField } from "formik";
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
-import Dropdown from "../Dropdown";
-import Typography from "../Typography";
+import Dropdown from "@/components/Dropdown";
+import Typography from "@/components/Typography";
 import SelectOption from "./SelectOption";
 
 export type Option = {
@@ -25,9 +25,6 @@ const SelectInput = ({ name, title, helperText, label, data, isOptional = false 
   const [field, , helper] = useField(name);
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(field.value);
-
-  const DownArrow = Icons.DownArrow;
-  const UpArrow = Icons.UpArrow;
 
   const toggleSelect = () => {
     setIsOpen(!isOpen);
@@ -74,7 +71,11 @@ const SelectInput = ({ name, title, helperText, label, data, isOptional = false 
               <View style={[styles.select, isOpen && styles.isActive]}>
                 {renderSelected()}
                 <View style={styles.toggleIcon}>
-                  {isOpen ? <UpArrow width={iconDimensions.dropdown} /> : <DownArrow width={iconDimensions.dropdown} />}
+                  {isOpen ? (
+                    <UpArrowIcon width={iconDimensions.dropdown} />
+                  ) : (
+                    <DownArrowIcon width={iconDimensions.dropdown} />
+                  )}
                 </View>
               </View>
             </Pressable>

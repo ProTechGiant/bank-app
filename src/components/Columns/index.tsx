@@ -1,4 +1,4 @@
-import { flexMap, spaceMap } from "@/utils/mappings";
+import { flexMap, spaceMap } from "@/theme/mappings";
 import { cloneElement } from "react";
 import { View, StyleSheet } from "react-native";
 

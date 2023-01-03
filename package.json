@@ -17,6 +17,7 @@
     "@react-native-community/checkbox": "^0.5.14",
     "@react-navigation/native": "^6.0.14",
     "@react-navigation/native-stack": "^6.9.2",
+    "@types/react-phone-number-input": "^3.0.14",
     "axios": "^1.2.1",
     "flagged": "^2.0.6",
     "formik": "^2.2.9",

@@ -5,7 +5,7 @@ import { flags } from "@/config/feature-flag";
 import { FlagsProvider } from "flagged";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GlobalContext } from "./contexts/GlobalContext";
-import { OrderCardContext, orderCardInitValues } from "@/contexts/OrderCardContext";
+import { OrderCardContext, orderCardInitValues } from "@/features/ApplyCards/context/OrderCardContext";
 
 import { quickActionOrderData, homepageOrderData } from "./mocks/quickActionOrderData";
 import { QueryClient, QueryClientProvider } from "react-query";
