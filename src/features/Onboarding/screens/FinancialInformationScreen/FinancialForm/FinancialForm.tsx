@@ -1,3 +1,6 @@
+import { Formik, FormikHelpers } from "formik";
+import { View } from "react-native";
+
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import SelectInput from "@/components/SelectInput";
 import { Stack } from "@/components/Stack";
@@ -6,8 +9,7 @@ import { mockExpectedAmount } from "@/mocks/expectedAmount";
 import { mockOccuptions } from "@/mocks/occupationData";
 import { mockSources } from "@/mocks/sourceOfIncomeData";
 import useNavigation from "@/navigation/use-navigation";
-import { Formik, FormikHelpers } from "formik";
-import { View } from "react-native";
+
 import { FinancialValidationSchema } from "./FinancialValidation";
 
 type FormValues = {

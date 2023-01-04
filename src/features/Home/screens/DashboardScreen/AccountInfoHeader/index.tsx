@@ -1,8 +1,8 @@
+import { useEffect } from "react";
 import { Dimensions, LayoutAnimation, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native";
 
 import Typography from "@/components/Typography";
 import { palette, spacing } from "@/theme/values";
-import { useEffect } from "react";
 
 import NotificationDropdown from "../NotificationDropdown";
 import { useFetchAccount } from "./use-fetch-account";
@@ -73,12 +73,12 @@ const styles = StyleSheet.create({
   },
   headerWrapper: {
     alignItems: "center",
-    paddingTop: spacing.small,
     paddingBottom: spacing.large,
+    paddingTop: spacing.small,
   },
   notificationsWrapper: {
-    paddingHorizontal: spacing.medium,
     paddingBottom: spacing.medium,
+    paddingHorizontal: spacing.medium,
   },
   row: {
     alignItems: "flex-end",

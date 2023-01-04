@@ -1,4 +1,5 @@
 import Svg, { Path } from "react-native-svg";
+
 import type { IconProps } from "@/assets/icons";
 
 const GlobeIcon = ({ width = 14, height = 14, color = "#1D1D1D" }: IconProps) => (

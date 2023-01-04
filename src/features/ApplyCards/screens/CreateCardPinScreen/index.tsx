@@ -1,14 +1,15 @@
-import { Keyboard, SafeAreaView, StyleSheet, View, Dimensions, Pressable } from "react-native";
 import * as React from "react";
+import { Dimensions, Keyboard, Pressable, SafeAreaView, StyleSheet, View } from "react-native";
 
+import { ErrorBlackIcon, InfoIcon } from "@/assets/icons";
 import NavHeader from "@/components/NavHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
-import { palette, radii, spacing } from "@/theme/values";
 import Typography from "@/components/Typography";
-import PinCodeInput from "./PinCodeInput";
-import { InfoIcon, ErrorBlackIcon } from "@/assets/icons";
-import { useOrderCardContext } from "../../context/OrderCardContext";
 import useNavigation from "@/navigation/use-navigation";
+import { palette, radii, spacing } from "@/theme/values";
+
+import { useOrderCardContext } from "../../context/OrderCardContext";
+import PinCodeInput from "./PinCodeInput";
 
 const height = Dimensions.get("screen").height;
 
@@ -170,45 +171,45 @@ export default function CreateCardPinScreen() {
 }
 
 const styles = StyleSheet.create({
+  button: {
+    alignItems: "center",
+    backgroundColor: palette["errorBase-20"],
+    borderRadius: radii.xlarge,
+    justifyContent: "center",
+    minHeight: 40,
+    minWidth: 100,
+    padding: spacing.small,
+  },
   container: {
     padding: spacing.medium,
   },
-  progressIndicator: {
-    marginTop: 12,
-    marginBottom: 44,
+  errorContainer: {
+    alignItems: "center",
+    backgroundColor: palette["errorBase-40"],
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: spacing.large,
   },
   header: {
     alignItems: "center",
     paddingBottom: spacing.medium,
   },
-  text: {
-    alignItems: "center",
-  },
   infoContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: palette["tintBase-30"],
     borderRadius: radii.extraSmall,
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: spacing.large,
   },
   infoText: {
     paddingHorizontal: spacing.medium,
   },
-  errorContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: palette["errorBase-40"],
-    padding: spacing.large,
+  progressIndicator: {
+    marginBottom: 44,
+    marginTop: 12,
   },
-  button: {
+  text: {
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: palette["errorBase-20"],
-    borderRadius: radii.xlarge,
-    padding: spacing.small,
-    minWidth: 100,
-    minHeight: 40,
   },
 });

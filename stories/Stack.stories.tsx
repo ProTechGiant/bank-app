@@ -1,8 +1,8 @@
 import { ComponentStory } from "@storybook/react";
 import { Text } from "react-native";
 
-import { Stack as StackComponent } from "@/components/Stack";
 import { Box } from "@/components/Box";
+import { Stack as StackComponent } from "@/components/Stack";
 
 export default {
   title: "Layout/Stack",

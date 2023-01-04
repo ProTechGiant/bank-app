@@ -141,16 +141,16 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingTop: spacing.small,
-    width: "100%",
     position: "relative",
+    width: "100%",
   },
   inactiveDot: {
     backgroundColor: palette["primaryBase-30"],
   },
   overlayPagination: {
     bottom: spacing.small,
-    position: "absolute",
     flexDirection: "row",
+    position: "absolute",
   },
   paginationContainer: {
     flexDirection: "row",
@@ -159,8 +159,8 @@ const styles = StyleSheet.create({
   paginationDots: {
     borderRadius: 4,
     height: 8,
+    marginBottom: spacing.small,
     marginHorizontal: 2,
     width: 8,
-    marginBottom: spacing.small,
   },
 });

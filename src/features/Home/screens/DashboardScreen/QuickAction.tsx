@@ -1,10 +1,10 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { cloneElement } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { SvgProps } from "react-native-svg";
 
+import { IconProps } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { iconDimensions, palette, spacing } from "@/theme/values";
-import { IconProps } from "@/assets/icons";
 
 interface QuickActionProps {
   icon: React.ReactElement<SvgProps | IconProps>;

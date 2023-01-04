@@ -1,11 +1,11 @@
 import { Image, StyleSheet, View } from "react-native";
 
-import { useOrderCardContext } from "../../context/OrderCardContext";
+import Button from "@/components/Button";
+import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { spacing } from "@/theme/values";
 
-import Button from "@/components/Button";
-import Typography from "@/components/Typography";
+import { useOrderCardContext } from "../../context/OrderCardContext";
 
 export default function SelectStandardCard() {
   const standardCardId = {

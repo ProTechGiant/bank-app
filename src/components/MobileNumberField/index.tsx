@@ -1,11 +1,11 @@
 import { createRef, useState } from "react";
 import { Keyboard, Pressable, StyleSheet, TextInput, View } from "react-native";
+import { DefaultInputComponentProps, FeatureProps } from "react-phone-number-input";
 import PhoneInput from "react-phone-number-input/react-native-input";
-import { FeatureProps, DefaultInputComponentProps } from "react-phone-number-input";
 
 import { ClearIcon, ErrorIcon } from "@/assets/icons";
-import { iconDimensions, palette, radii, spacing, typography } from "@/theme/values";
 import Typography from "@/components/Typography";
+import { iconDimensions, palette, radii, spacing, typography } from "@/theme/values";
 
 const MobileNumberField = ({
   placeholder,
@@ -108,6 +108,10 @@ const MobileNumberField = ({
 export default MobileNumberField;
 
 const styles = StyleSheet.create({
+  errorContainer: {
+    marginTop: 4,
+    paddingHorizontal: spacing.medium,
+  },
   icon: {
     marginLeft: 7,
   },
@@ -121,17 +125,13 @@ const styles = StyleSheet.create({
     height: 54,
     justifyContent: "flex-start",
   },
-  errorContainer: {
-    paddingHorizontal: spacing.medium,
-    marginTop: 4,
-  },
-  label: {
-    marginBottom: spacing.small,
-  },
   inputIcon: {
     position: "absolute",
     right: 16,
     top: 16,
+  },
+  label: {
+    marginBottom: spacing.small,
   },
   text: {
     fontSize: typography.text.sizes.callout,

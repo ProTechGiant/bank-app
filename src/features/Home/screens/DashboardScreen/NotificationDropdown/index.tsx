@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Dimensions } from "react-native";
-import { spacing } from "@/theme/values";
 
 import Carousel from "@/components/Carousel";
 import Dropdown from "@/components/Dropdown";
+import { spacing } from "@/theme/values";
+
 import NotificationsTitle from "./NotificationsTitle";
-import { useFetchActions } from "./use-fetch-actions";
 import SlideContent from "./SlideContent";
+import { useFetchActions } from "./use-fetch-actions";
 
 export interface Notification {
   action_id: string;

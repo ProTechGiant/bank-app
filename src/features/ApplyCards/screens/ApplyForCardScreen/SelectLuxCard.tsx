@@ -1,10 +1,9 @@
-import { StyleSheet, View, Image } from "react-native";
-
-import useNavigation from "@/navigation/use-navigation";
-import { spacing } from "@/theme/values";
+import { Image, StyleSheet, View } from "react-native";
 
 import Button from "@/components/Button";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
+import { spacing } from "@/theme/values";
 
 export default function SelectLuxCard() {
   const navigation = useNavigation();

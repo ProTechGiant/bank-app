@@ -1,8 +1,8 @@
 import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
-import { spacing } from "@/theme/values";
 import Typography from "@/components/Typography";
+import { spacing } from "@/theme/values";
 
 export default function SetAnotherAddressScreen() {
   return (

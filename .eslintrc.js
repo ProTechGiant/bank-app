@@ -38,12 +38,11 @@ module.exports = {
     "@typescript-eslint/ban-ts-comment": 1,
     "@typescript-eslint/explicit-module-boundary-types": 0,
     "@typescript-eslint/member-ordering": 0,
-    "sort-imports": 0,
     "sort-keys": 0,
     "no-extra-boolean-cast": 1,
     "no-console": 1,
     "no-unused-vars": "off",
-    "simple-import-sort/imports": 0,
+    "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "react/jsx-curly-brace-presence": [
       "error",
@@ -66,7 +65,7 @@ module.exports = {
     "react-native/no-color-literals": 0,
     "react-native/no-raw-text": "off",
     "react-native/sort-styles": [
-      0,
+      "error",
       "asc",
       {
         ignoreClassNames: false,

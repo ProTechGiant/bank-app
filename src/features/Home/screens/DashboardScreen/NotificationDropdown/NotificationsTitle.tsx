@@ -1,10 +1,9 @@
 import { GestureResponderEvent, StyleSheet, TouchableOpacity, View } from "react-native";
 
-import { UpArrowIcon, NotificationIcon } from "@/assets/icons";
+import { NotificationIcon, UpArrowIcon } from "@/assets/icons";
+import Typography from "@/components/Typography";
 import { iconDimensions, palette, radii, spacing } from "@/theme/values";
 import { pluralize } from "@/utils";
-
-import Typography from "@/components/Typography";
 
 interface DropdownContentProps {
   length: number;

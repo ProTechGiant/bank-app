@@ -1,11 +1,10 @@
 import { Formik, FormikHelpers } from "formik";
 import { StyleSheet, View } from "react-native";
 
-import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
-import { spacing } from "@/theme/values";
-
-import useNavigation from "@/navigation/use-navigation";
 import Checkbox from "@/components/Checkbox";
+import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
+import useNavigation from "@/navigation/use-navigation";
+import { spacing } from "@/theme/values";
 
 interface Values {
   detailsConfirmed: boolean;
@@ -40,11 +39,11 @@ const ConfirmPersonalDetailsForm = () => {
 export default ConfirmPersonalDetailsForm;
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    paddingBottom: 30,
-  },
   buttonView: {
     marginHorizontal: spacing.medium,
+  },
+  container: {
+    paddingBottom: 30,
+    width: "100%",
   },
 });

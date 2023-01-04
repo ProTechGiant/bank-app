@@ -1,4 +1,5 @@
 import Svg, { Path } from "react-native-svg";
+
 import { IconTypes } from "@/assets/icons";
 
 const DownArrowIcon = ({ width = 10, height = 10, color = "#FF7512" }: IconTypes) => (

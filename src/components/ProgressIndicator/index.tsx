@@ -1,5 +1,6 @@
-import { View, StyleSheet } from "react-native";
 import { times } from "lodash";
+import { StyleSheet, View } from "react-native";
+
 import { palette } from "@/theme/values";
 
 type ProgressIndicatorProps = {

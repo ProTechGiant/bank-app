@@ -1,8 +1,9 @@
-import { rewardSectionData } from "@/mocks/rewardSectionData";
-import { spacing } from "@/theme/values";
 import Carousel from "@/components/Carousel";
-import RewardSectionContent from "./rewardSectionContent";
+import { rewardSectionData } from "@/mocks/rewardSectionData";
 import { duplicateArr } from "@/theme/mappings";
+import { spacing } from "@/theme/values";
+
+import RewardSectionContent from "./rewardSectionContent";
 
 // for looping functionality we will first multiply the array to ensure smooth rendering
 const newData = rewardSectionData.length > 1 ? duplicateArr(rewardSectionData, 6) : [...rewardSectionData];

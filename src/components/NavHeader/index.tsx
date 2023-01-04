@@ -1,10 +1,9 @@
 import { Pressable, StatusBar, StatusBarStyle, StyleSheet, View } from "react-native";
 
 import { BackIcon, CloseIcon, CloseWhiteIcon } from "@/assets/icons";
+import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { iconDimensions, spacing } from "@/theme/values";
-
-import Typography from "@/components/Typography";
 
 interface NavHeaderProps {
   title: string;

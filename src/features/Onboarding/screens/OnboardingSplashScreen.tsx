@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Alert, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
+import * as RNLocalize from "react-native-localize";
 
 import Button from "@/components/Button";
 import DarkOneGradient from "@/components/LinearGradients/GradientBackgrounds";
 import Typography from "@/components/Typography";
-import { vh } from "@/theme/viewportUnit";
 import useNavigation from "@/navigation/use-navigation";
 import { palette, radii, spacing, typography } from "@/theme/values";
-import * as RNLocalize from "react-native-localize";
+import { vh } from "@/theme/viewportUnit";
 
 const OnboardingSplashScreen = () => {
   const navigation = useNavigation();
@@ -79,8 +79,27 @@ const OnboardingSplashScreen = () => {
 export default OnboardingSplashScreen;
 
 const styles = StyleSheet.create({
+  body: {
+    color: palette["neutralBase-50"],
+    fontSize: typography.text.sizes.footnote,
+    fontWeight: typography.text.weights.regular,
+    lineHeight: typography.text._lineHeights.footnote,
+    textAlign: "center",
+  },
+  buttonGroup: {
+    marginHorizontal: spacing.regular,
+    marginTop: "auto",
+  },
   container: {
     flex: 1,
+  },
+  contentView: {
+    paddingHorizontal: spacing.regular,
+  },
+  headerView: {
+    alignItems: "center",
+    marginBottom: spacing.xlarge,
+    marginTop: 18 * vh,
   },
   languageSelectView: {
     alignItems: "center",
@@ -97,25 +116,6 @@ const styles = StyleSheet.create({
     color: palette["neutralBase-50"],
     fontSize: typography.text.sizes.footnote,
     lineHeight: typography.text._lineHeights.footnote,
-  },
-  contentView: {
-    paddingHorizontal: spacing.regular,
-  },
-  headerView: {
-    alignItems: "center",
-    marginBottom: spacing.xlarge,
-    marginTop: 18 * vh,
-  },
-  body: {
-    color: palette["neutralBase-50"],
-    fontSize: typography.text.sizes.footnote,
-    fontWeight: typography.text.weights.regular,
-    lineHeight: typography.text._lineHeights.footnote,
-    textAlign: "center",
-  },
-  buttonGroup: {
-    marginTop: "auto",
-    marginHorizontal: spacing.regular,
   },
 
   signInContainer: {

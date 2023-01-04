@@ -1,10 +1,9 @@
 import { GestureResponderEvent, StyleSheet, View } from "react-native";
 
 import Button from "@/components/Button";
-import { Notification } from "@/types/notification";
-import { spacing } from "@/theme/values";
-
 import Typography from "@/components/Typography";
+import { spacing } from "@/theme/values";
+import { Notification } from "@/types/notification";
 
 interface SlideContentProps {
   data: Notification;
@@ -50,8 +49,8 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.large,
   },
   container: {
-    minHeight: 184,
     justifyContent: "space-between",
+    minHeight: 184,
     paddingHorizontal: spacing.medium,
     paddingVertical: spacing.small,
   },

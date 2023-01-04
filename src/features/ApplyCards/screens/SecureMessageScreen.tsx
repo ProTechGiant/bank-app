@@ -1,16 +1,16 @@
-import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 import { Formik } from "formik";
+import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 import * as Yup from "yup";
 
-import { alphaNumericSpaceRegExp } from "@/utils";
+import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import NavHeader from "@/components/NavHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
+import TextField from "@/components/TextField";
 import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
-import TextField from "@/components/TextField";
-import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import useNavigation from "@/navigation/use-navigation";
 import { spacing } from "@/theme/values";
+import { alphaNumericSpaceRegExp } from "@/utils";
 
 type SecureMessageFormValuesType = {
   secureMessage: string;
@@ -99,6 +99,10 @@ export default function SecureMessageScreen() {
 }
 
 const styles = StyleSheet.create({
+  button: {
+    marginTop: "auto",
+    minWidth: 350,
+  },
   container: {
     flex: 1,
     padding: spacing.medium,
@@ -106,18 +110,14 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
   },
-  progressIndicator: {
-    marginTop: 12,
-    marginBottom: 44,
-  },
   header: {
     paddingBottom: spacing.medium,
   },
   paragraph: {
     paddingBottom: spacing.large,
   },
-  button: {
-    minWidth: 350,
-    marginTop: "auto",
+  progressIndicator: {
+    marginBottom: 44,
+    marginTop: 12,
   },
 });

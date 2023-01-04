@@ -1,6 +1,7 @@
-import { spaceMap } from "@/theme/mappings";
 import { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
+
+import { spaceMap } from "@/theme/mappings";
 
 type Props = {
   children: ReactNode | ReactNode[];
@@ -31,10 +32,10 @@ export const Stack = ({ children, space = "none", xAlign }: Props) => {
 };
 
 const stackStyles = StyleSheet.create({
-  container: {
+  child: {
     width: "100%",
   },
-  child: {
+  container: {
     width: "100%",
   },
 });

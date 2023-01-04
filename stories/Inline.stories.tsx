@@ -1,8 +1,8 @@
 import { ComponentStory } from "@storybook/react";
 import { Text } from "react-native";
 
-import { Inline as InlineComponent } from "@/components/Inline";
 import { Box } from "@/components/Box";
+import { Inline as InlineComponent } from "@/components/Inline";
 
 export default {
   title: "Layout/Inline",

@@ -1,6 +1,7 @@
-import { spaceMap } from "@/theme/mappings";
 import { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
+
+import { spaceMap } from "@/theme/mappings";
 
 type Props = {
   children: ReactNode | ReactNode[];
@@ -43,8 +44,8 @@ export const Inline = ({ children, space = "none", xAlign }: Props) => {
 
 const inlineStyles = StyleSheet.create({
   container: {
-    width: "100%",
     flexDirection: "row",
     flexWrap: "wrap",
+    width: "100%",
   },
 });

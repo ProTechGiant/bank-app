@@ -1,6 +1,7 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import * as React from "react";
 import { times } from "lodash";
+import * as React from "react";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+
 import { palette, radii, spacing } from "@/theme/values";
 
 interface PinCodeInputProps {
@@ -89,37 +90,37 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: spacing.large,
   },
-  inputBox: {
-    alignItems: "center",
-    backgroundColor: palette["neutralBase-50"],
-    height: 60,
-    width: 50,
-    marginHorizontal: spacing.small,
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: palette["neutralBase-20"],
-    borderRadius: radii.extraSmall,
+  errorBox: {
+    backgroundColor: palette["errorBase-30"],
+    borderColor: palette.errorBase,
+    borderWidth: 2,
   },
   hiddenInput: {
-    opacity: 0,
     left: -200,
+    opacity: 0,
     position: "absolute",
     top: -200,
   },
   highlightedBox: {
-    borderWidth: 2,
     borderColor: palette.complimentBase,
-  },
-  errorBox: {
     borderWidth: 2,
-    borderColor: palette.errorBase,
-    backgroundColor: palette["errorBase-30"],
+  },
+  inputBox: {
+    alignItems: "center",
+    backgroundColor: palette["neutralBase-50"],
+    borderColor: palette["neutralBase-20"],
+    borderRadius: radii.extraSmall,
+    borderWidth: 1,
+    height: 60,
+    justifyContent: "center",
+    marginHorizontal: spacing.small,
+    width: 50,
   },
   inputDot: {
     backgroundColor: palette["neutralBase+30"],
+    borderRadius: 8,
     height: 10,
     width: 10,
-    borderRadius: 8,
   },
 });
 

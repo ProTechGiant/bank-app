@@ -1,7 +1,6 @@
 import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { CloseIcon } from "@/assets/icons";
-
 import Button from "@/components/Button";
 import { palette, radii, spacing } from "@/theme/values";
 

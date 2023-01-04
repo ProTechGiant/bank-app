@@ -1,13 +1,12 @@
 import { Formik, FormikHelpers } from "formik";
 import { StyleSheet, View } from "react-native";
 
-import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
-
-import useNavigation from "@/navigation/use-navigation";
-import TextField from "@/components/TextField";
 import Button from "@/components/Button";
-
+import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import { Stack } from "@/components/Stack";
+import TextField from "@/components/TextField";
+import useNavigation from "@/navigation/use-navigation";
+
 import { stayUpdatedEmailValidationSchema } from "./StayUpdatedEmailValidation";
 
 interface Values {
@@ -53,10 +52,10 @@ const StayUpdatedEmailForm = () => {
 export default StayUpdatedEmailForm;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   buttonView: {
     marginTop: "auto",
+  },
+  container: {
+    flex: 1,
   },
 });

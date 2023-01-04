@@ -1,12 +1,13 @@
 import * as React from "react";
-import { SafeAreaView, View, StyleSheet } from "react-native";
-import { spacing } from "@/theme/values";
+import { SafeAreaView, StyleSheet, View } from "react-native";
+
+import { ShippingIcon } from "@/assets/icons";
+import Button from "@/components/Button";
 import DarkOneGradient from "@/components/LinearGradients/GradientBackgrounds";
 import NavHeader from "@/components/NavHeader";
-import { ShippingIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import Button from "@/components/Button";
 import useNavigation from "@/navigation/use-navigation";
+import { spacing } from "@/theme/values";
 
 import { useOrderCardContext } from "../context/OrderCardContext";
 
@@ -60,28 +61,28 @@ export default function CardOrderedScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-  iconContainer: {
-    paddingVertical: spacing.large,
-    justifyContent: "center",
-  },
-  textContainer: {
-    height: "40%",
-    alignItems: "center",
-    padding: spacing.small,
-  },
-  title: {
-    paddingHorizontal: spacing.small,
-    paddingBottom: spacing.medium,
-  },
   button: {
     minWidth: 350,
   },
   buttons: {
     height: "40%",
     justifyContent: "flex-end",
+  },
+  container: {
+    alignItems: "center",
+    justifyContent: "space-around",
+  },
+  iconContainer: {
+    justifyContent: "center",
+    paddingVertical: spacing.large,
+  },
+  textContainer: {
+    alignItems: "center",
+    height: "40%",
+    padding: spacing.small,
+  },
+  title: {
+    paddingBottom: spacing.medium,
+    paddingHorizontal: spacing.small,
   },
 });

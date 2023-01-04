@@ -1,5 +1,6 @@
-import { radii } from "@/theme/values";
 import { Image } from "react-native";
+
+import { radii } from "@/theme/values";
 
 interface RewardSectionContentProps {
   data: { id: number; image: string };

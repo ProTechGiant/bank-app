@@ -1,4 +1,5 @@
 import Svg, { Path } from "react-native-svg";
+
 import type { IconProps } from "@/assets/icons";
 
 const CalendarAltIcon = ({ width = 14, height = 16, color = "#000000" }: IconProps) => (

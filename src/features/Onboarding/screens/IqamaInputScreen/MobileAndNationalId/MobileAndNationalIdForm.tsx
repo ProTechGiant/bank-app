@@ -1,15 +1,15 @@
 import { Field, Formik, FormikHelpers } from "formik";
 import { Image, StyleSheet, Text, View } from "react-native";
 
-import MobileNumberField from "@/components/MobileNumberField";
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
+import MobileNumberField from "@/components/MobileNumberField";
 import TextField from "@/components/TextField";
-import { vh, vw } from "@/theme/viewportUnit";
-import { iconDimensions, palette, radii, spacing } from "@/theme/values";
-
-import { iqamaValidationSchema } from "./IqamaValidation";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
+import { iconDimensions, palette, radii, spacing } from "@/theme/values";
+import { vh, vw } from "@/theme/viewportUnit";
+
+import { iqamaValidationSchema } from "./IqamaValidation";
 
 interface Values {
   mobileNumber: string;

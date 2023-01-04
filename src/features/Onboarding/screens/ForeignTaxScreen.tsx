@@ -1,5 +1,6 @@
-import Typography from "@/components/Typography";
 import { View } from "react-native";
+
+import Typography from "@/components/Typography";
 
 const ForeignTaxScreen = () => {
   return (

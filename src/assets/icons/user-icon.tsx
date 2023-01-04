@@ -1,4 +1,5 @@
 import Svg, { Path } from "react-native-svg";
+
 import type { IconProps } from "@/assets/icons";
 
 const UserIcon = ({ width = 14, height = 14, color = "#000000" }: IconProps) => (

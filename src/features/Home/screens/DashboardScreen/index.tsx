@@ -1,16 +1,18 @@
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
-import AccountInfoHeader, { AccountInfoHeaderProps } from "./AccountInfoHeader";
-import QuickAction from "./QuickAction";
-import SectionHeader from "../../components/SectionHeader";
-import { palette, spacing } from "@/theme/values";
-import useNavigation from "@/navigation/use-navigation";
-import Typography from "@/components/Typography";
-import { quickActionReorderItem, ReorderItem } from "@/mocks/quickActionOrderData";
-import { useGlobalContext } from "@/contexts/GlobalContext";
-import RewardSection from "./RewardSection";
-import ArticleSection from "./ArticleSection";
 import { useEffect, useState } from "react";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+
 import * as icons from "@/assets/icons";
+import Typography from "@/components/Typography";
+import { useGlobalContext } from "@/contexts/GlobalContext";
+import { quickActionReorderItem, ReorderItem } from "@/mocks/quickActionOrderData";
+import useNavigation from "@/navigation/use-navigation";
+import { palette, spacing } from "@/theme/values";
+
+import SectionHeader from "../../components/SectionHeader";
+import AccountInfoHeader, { AccountInfoHeaderProps } from "./AccountInfoHeader";
+import ArticleSection from "./ArticleSection";
+import QuickAction from "./QuickAction";
+import RewardSection from "./RewardSection";
 
 export default function DashboardScreen() {
   const [headerSize, setHeaderSize] = useState<AccountInfoHeaderProps["size"]>("full");
@@ -108,6 +110,25 @@ export default function DashboardScreen() {
 }
 
 const styles = StyleSheet.create({
+  bottomRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginBottom: spacing.xlarge * 2,
+    marginHorizontal: spacing.small,
+  },
+  buttonContainer: {
+    alignItems: "center",
+    borderColor: palette.primaryBase,
+    borderRadius: 20,
+    borderStyle: "solid",
+    borderWidth: 1,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: spacing.large,
+    padding: 9,
+  },
   container: {
     flex: 1,
   },
@@ -116,24 +137,5 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     marginHorizontal: spacing.small,
-  },
-  buttonContainer: {
-    alignItems: "center",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    borderRadius: 20,
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: palette.primaryBase,
-    padding: 9,
-    marginTop: spacing.large,
-  },
-  bottomRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    marginHorizontal: spacing.small,
-    marginBottom: spacing.xlarge * 2,
   },
 });

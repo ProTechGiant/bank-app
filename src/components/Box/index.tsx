@@ -1,6 +1,7 @@
-import { spaceMap } from "@/theme/mappings";
 import { ReactNode } from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
+
+import { spaceMap } from "@/theme/mappings";
 
 type Props = {
   children: ReactNode;

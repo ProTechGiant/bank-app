@@ -1,6 +1,7 @@
 import { SafeAreaView, StyleSheet, View } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
+
 import SegmentedControl from "./SegmentedControl";
 
 export default function ApplyForCardScreen() {

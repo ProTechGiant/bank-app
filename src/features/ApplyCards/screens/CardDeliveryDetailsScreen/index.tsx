@@ -3,16 +3,17 @@ import { SafeAreaView, StyleSheet, View } from "react-native";
 import { useMutation } from "react-query";
 
 import { orderCardEndPoint } from "@/Axios/AxiosAgent";
-import AddressSelector from "./AddressSelector";
-import NavHeader from "@/components/NavHeader";
 import Button from "@/components/Button";
+import NavHeader from "@/components/NavHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import { Stack } from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
+import { mockAlternativeDeliveryAddress, mockPrimaryDeliveryAddress } from "@/mocks/deliveryAddressData";
 import useNavigation from "@/navigation/use-navigation";
 import { spacing } from "@/theme/values";
-import { mockPrimaryDeliveryAddress, mockAlternativeDeliveryAddress } from "@/mocks/deliveryAddressData";
+
+import AddressSelector from "./AddressSelector";
 
 export default function CardDeliveryDetailsScreen() {
   const API_SUCCESS_MESSAGE = "Successful request card creation";
@@ -183,11 +184,11 @@ const styles = StyleSheet.create({
   header: {
     paddingBottom: spacing.medium,
   },
-  progressIndicator: {
-    marginTop: 12,
-    marginBottom: 44,
-  },
   paragraph: {
     marginBottom: 24,
+  },
+  progressIndicator: {
+    marginBottom: 44,
+    marginTop: 12,
   },
 });

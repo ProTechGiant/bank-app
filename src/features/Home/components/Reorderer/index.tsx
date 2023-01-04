@@ -1,12 +1,14 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
-import { palette } from "@/theme/values";
-import SectionHeader from "../SectionHeader";
-import DraggableFlatList, { ScaleDecorator, RenderItemParams } from "react-native-draggable-flatlist";
-import { quickActionReorderItem, ReorderItem } from "@/mocks/quickActionOrderData";
-import ReordererItem, { RenderMinimumNotReachedPlaceholders } from "./ReordererItem";
-import { useItemListContext } from "../../context/ItemListContext";
-import { ScrollView } from "react-native-virtualized-view";
 import { Dispatch, SetStateAction } from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import DraggableFlatList, { RenderItemParams, ScaleDecorator } from "react-native-draggable-flatlist";
+import { ScrollView } from "react-native-virtualized-view";
+
+import { quickActionReorderItem, ReorderItem } from "@/mocks/quickActionOrderData";
+import { palette } from "@/theme/values";
+
+import { useItemListContext } from "../../context/ItemListContext";
+import SectionHeader from "../SectionHeader";
+import ReordererItem, { RenderMinimumNotReachedPlaceholders } from "./ReordererItem";
 
 interface ReordererProps {
   topSectionTitle: string;
@@ -116,7 +118,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: palette["neutralBase-40"],
     flex: 1,
-    width: "100%",
     paddingBottom: 20,
+    width: "100%",
   },
 });

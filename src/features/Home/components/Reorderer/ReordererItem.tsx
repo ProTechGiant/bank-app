@@ -1,8 +1,10 @@
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+
 import { DisabledPlusIcon, HamburgerIcon, MinusIcon, PlusIcon } from "@/assets/icons";
-import { useItemListContext } from "../../context/ItemListContext";
-import { iconDimensions, palette, spacing } from "@/theme/values";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
 import Typography from "@/components/Typography";
+import { iconDimensions, palette, spacing } from "@/theme/values";
+
+import { useItemListContext } from "../../context/ItemListContext";
 interface ItemProps {
   id: string;
   label: string;
@@ -108,31 +110,56 @@ export default function ReordererItem({
 }
 
 const styles = StyleSheet.create({
-  objectContainer: {
-    backgroundColor: palette["neutralBase-50"],
-    gap: spacing.medium,
-    marginBottom: spacing.small / 2,
-    marginHorizontal: spacing.medium,
-    marginTop: spacing.small / 2,
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    maxHeight: 100,
+  description: {
+    flexGrow: 1,
+    flexShrink: 1,
+    marginBottom: 14,
   },
-  objectContainerPlaceholder: {
-    height: 81,
-    gap: spacing.medium,
-    marginBottom: spacing.small / 2,
-    marginHorizontal: spacing.medium,
-    marginTop: spacing.small / 2,
-    alignItems: "center",
-    borderColor: palette["neutralBase+10"],
-    borderWidth: 1,
-    borderStyle: "dashed",
+  hamburgerIcon: { margin: spacing.medium },
+  iconReplacement: {
+    margin: spacing.medium,
+  },
+  label: {
+    flexGrow: 1,
+    flexShrink: 1,
+    marginBottom: 4,
+    marginTop: 14,
   },
   minusIcon: {
     margin: spacing.medium,
+  },
+  objectContainer: {
+    alignItems: "center",
+    backgroundColor: palette["neutralBase-50"],
+    flex: 1,
+    flexDirection: "row",
+    gap: spacing.medium,
+    justifyContent: "flex-start",
+    marginBottom: spacing.small / 2,
+    marginHorizontal: spacing.medium,
+    marginTop: spacing.small / 2,
+    maxHeight: 100,
+  },
+  objectContainerPlaceholder: {
+    alignItems: "center",
+    borderColor: palette["neutralBase+10"],
+    borderStyle: "dashed",
+    borderWidth: 1,
+    gap: spacing.medium,
+    height: 81,
+    marginBottom: spacing.small / 2,
+    marginHorizontal: spacing.medium,
+    marginTop: spacing.small / 2,
+  },
+  placeholderText: {
+    textAlign: "center",
+  },
+  placeholderTextContainer: {
+    flexDirection: "column",
+    flexGrow: 1,
+    flexShrink: 1,
+    justifyContent: "center",
+    padding: spacing.medium,
   },
   plusIcon: {
     margin: spacing.medium,
@@ -140,34 +167,9 @@ const styles = StyleSheet.create({
   plusIconDisabled: {
     margin: spacing.medium,
   },
-  iconReplacement: {
-    margin: spacing.medium,
-  },
-  hamburgerIcon: { margin: spacing.medium },
   textContainer: {
-    flexGrow: 1,
-    flexShrink: 1,
     flexDirection: "column",
-  },
-  placeholderTextContainer: {
     flexGrow: 1,
     flexShrink: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    padding: spacing.medium,
-  },
-  placeholderText: {
-    textAlign: "center",
-  },
-  label: {
-    flexGrow: 1,
-    flexShrink: 1,
-    marginTop: 14,
-    marginBottom: 4,
-  },
-  description: {
-    flexGrow: 1,
-    flexShrink: 1,
-    marginBottom: 14,
   },
 });

@@ -1,10 +1,12 @@
-import { DownArrowIcon, UpArrowIcon } from "@/assets/icons";
-import { iconDimensions, palette, radii, spacing } from "@/theme/values";
 import { useField } from "formik";
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+
+import { DownArrowIcon, UpArrowIcon } from "@/assets/icons";
 import Dropdown from "@/components/Dropdown";
 import Typography from "@/components/Typography";
+import { iconDimensions, palette, radii, spacing } from "@/theme/values";
+
 import SelectOption from "./SelectOption";
 
 export type Option = {
@@ -104,30 +106,30 @@ const SelectInput = ({ name, title, helperText, label, data, isOptional = false 
 export default SelectInput;
 
 const styles = StyleSheet.create({
-  selectContainer: {
-    marginTop: spacing.medium,
-  },
-  select: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: palette["neutralBase-50"],
-    padding: spacing.medium,
-    borderColor: palette["neutralBase-20"],
-    borderWidth: 1,
-    borderRadius: radii.extraSmall,
-  },
   isActive: {
     borderColor: palette.complimentBase,
     borderWidth: 2,
   },
   optionList: {
-    paddingLeft: spacing.medium,
     maxHeight: 174,
+    paddingLeft: spacing.medium,
+  },
+  select: {
+    backgroundColor: palette["neutralBase-50"],
+    borderColor: palette["neutralBase-20"],
+    borderRadius: radii.extraSmall,
+    borderWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: spacing.medium,
+  },
+  selectContainer: {
+    marginTop: spacing.medium,
   },
   toggleIcon: {
-    height: iconDimensions.accordian,
-    width: iconDimensions.accordian,
-    justifyContent: "center",
     alignItems: "flex-end",
+    height: iconDimensions.accordian,
+    justifyContent: "center",
+    width: iconDimensions.accordian,
   },
 });

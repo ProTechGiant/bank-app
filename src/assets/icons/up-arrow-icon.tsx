@@ -1,4 +1,5 @@
 import Svg, { Path } from "react-native-svg";
+
 import type { IconProps } from "@/assets/icons";
 
 const UpArrowIcon = ({ width = 10, height = 10, color = "#FF7512" }: IconProps) => (

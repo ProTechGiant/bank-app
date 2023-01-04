@@ -1,16 +1,16 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Linking, SafeAreaView, StyleSheet, View } from "react-native";
 
+import { Inline } from "@/components/Inline";
+import NavHeader from "@/components/NavHeader";
+import { Stack } from "@/components/Stack";
+import Typography from "@/components/Typography";
 import MoreInfoDropdown from "@/features/Onboarding/components/MoreInfoDropdown";
 import LinkCard from "@/features/Onboarding/screens/NafathAuthScreen/LinkCard";
 import LinkModal from "@/features/Onboarding/screens/NafathAuthScreen/LinkModal";
-import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { palette, spacing } from "@/theme/values";
-import { Stack } from "@/components/Stack";
-import { Inline } from "@/components/Inline";
-import axios from "axios";
-import NavHeader from "@/components/NavHeader";
 
 const NafathAuthScreen = () => {
   const navigation = useNavigation();
@@ -129,6 +129,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.large,
     marginTop: spacing.medium,
   },
+  loadingContainer: {
+    alignContent: "center",
+    justifyContent: "center",
+    marginVertical: spacing.xlarge,
+  },
   numberContainer: {
     alignContent: "center",
     backgroundColor: palette.complimentBase,
@@ -137,11 +142,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginVertical: spacing.xlarge,
     width: 60,
-  },
-  loadingContainer: {
-    alignContent: "center",
-    justifyContent: "center",
-    marginVertical: spacing.xlarge,
   },
   textCenter: {
     textAlign: "center",

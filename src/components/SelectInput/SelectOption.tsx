@@ -1,8 +1,10 @@
-import { TickIcon } from "@/assets/icons";
-import { spacing, palette } from "@/theme/values";
 import { Pressable, StyleSheet, View } from "react-native";
-import { Option } from ".";
+
+import { TickIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
+import { palette, spacing } from "@/theme/values";
+
+import { Option } from ".";
 
 interface SelectOptionProps {
   item: Option;
@@ -38,15 +40,15 @@ export default SelectOption;
 
 const styles = StyleSheet.create({
   selectItem: {
+    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
     paddingLeft: 0,
     paddingVertical: spacing.medium,
   },
   selectItemSeparator: {
-    borderTopWidth: 1,
     borderColor: palette["neutralBase-20"],
+    borderTopWidth: 1,
   },
   tickIcon: {
     paddingRight: spacing.large,

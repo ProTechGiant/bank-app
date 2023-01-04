@@ -1,10 +1,10 @@
-import { useState, createRef } from "react";
+import { useField } from "formik";
+import { createRef, useState } from "react";
 import { Keyboard, Pressable, StyleSheet, TextInput, View } from "react-native";
 
 import { ClearIcon, ErrorIcon } from "@/assets/icons";
-import { iconDimensions, palette, radii, spacing, typography } from "@/theme/values";
 import Typography from "@/components/Typography";
-import { useField } from "formik";
+import { iconDimensions, palette, radii, spacing, typography } from "@/theme/values";
 
 type Props = {
   name: string;
@@ -143,6 +143,12 @@ const TextField = ({
 export default TextField;
 
 const styles = StyleSheet.create({
+  errorContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 4,
+    paddingHorizontal: spacing.medium,
+  },
   innerView: {
     alignItems: "flex-start",
     backgroundColor: palette["neutralBase-50"],
@@ -153,13 +159,13 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingVertical: 12,
   },
-  label: {
-    marginBottom: spacing.small,
-  },
   inputIcon: {
     position: "absolute",
     right: 16,
     top: 16,
+  },
+  label: {
+    marginBottom: spacing.small,
   },
   text: {
     fontSize: typography.text.sizes.callout,
@@ -168,11 +174,5 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.medium,
     paddingRight: 42,
     paddingVertical: 0,
-  },
-  errorContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 4,
-    paddingHorizontal: spacing.medium,
   },
 });

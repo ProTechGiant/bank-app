@@ -3,10 +3,10 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import NavHeader from "@/components/NavHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
-import { palette, spacing } from "@/theme/values";
-import DetailsTile from "@/features/Onboarding/screens/ConfirmPersonalDetailsScreen/DetailsTile";
 import MoreInfoDropdown from "@/features/Onboarding/components/MoreInfoDropdown";
 import ConfirmPersonalDetailsForm from "@/features/Onboarding/screens/ConfirmPersonalDetailsScreen/ConfirmPersonalDetailsForm";
+import DetailsTile from "@/features/Onboarding/screens/ConfirmPersonalDetailsScreen/DetailsTile";
+import { palette, spacing } from "@/theme/values";
 
 const ConfirmPersonalDetailsScreen = () => {
   return (
@@ -46,20 +46,20 @@ const ConfirmPersonalDetailsScreen = () => {
 export default ConfirmPersonalDetailsScreen;
 
 const styles = StyleSheet.create({
-  paddedView: {
-    flex: 1,
-    padding: spacing.medium,
-    marginBottom: 70,
-  },
-  progressIndicator: {
-    marginTop: 12,
-    marginBottom: 44,
+  footer: {
+    backgroundColor: palette["neutralBase-50"],
+    height: "100%",
   },
   header: {
     paddingBottom: spacing.medium,
   },
-  footer: {
-    height: "100%",
-    backgroundColor: palette["neutralBase-50"],
+  paddedView: {
+    flex: 1,
+    marginBottom: 70,
+    padding: spacing.medium,
+  },
+  progressIndicator: {
+    marginBottom: 44,
+    marginTop: 12,
   },
 });

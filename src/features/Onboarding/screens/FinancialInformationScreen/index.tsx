@@ -1,11 +1,12 @@
+import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+
 import NavHeader from "@/components/NavHeader";
-import FinancialForm from "@/features/Onboarding/screens/FinancialInformationScreen/FinancialForm/FinancialForm";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import { Stack } from "@/components/Stack";
 import Typography from "@/components/Typography";
 import MoreInfoDropdown from "@/features/Onboarding/components/MoreInfoDropdown";
+import FinancialForm from "@/features/Onboarding/screens/FinancialInformationScreen/FinancialForm/FinancialForm";
 import { spacing } from "@/theme/values";
-import { StyleSheet, SafeAreaView, View, ScrollView } from "react-native";
 
 const FinancialInformationScreen = () => {
   return (

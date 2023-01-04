@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+
 import { saudiPhoneRegExp } from "@/utils";
 
 export const iqamaValidationSchema = Yup.object().shape({

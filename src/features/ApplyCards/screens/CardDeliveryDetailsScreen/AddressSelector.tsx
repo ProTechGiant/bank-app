@@ -1,8 +1,8 @@
 import { Pressable, PressableProps, StyleSheet, View } from "react-native";
 
+import { LocationPinIcon, TickOrangeIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { iconDimensions, palette, radii, spacing } from "@/theme/values";
-import { LocationPinIcon, TickOrangeIcon } from "@/assets/icons";
 
 interface AddressSelectorProps extends Omit<PressableProps, "children" | "style"> {
   id: string;
@@ -45,30 +45,30 @@ const AddressSelector = ({
 export default AddressSelector;
 
 const styles = StyleSheet.create({
+  addressContent: {
+    flex: 1,
+    marginLeft: 12,
+  },
   container: {
+    backgroundColor: palette["neutralBase-50"],
+    borderRadius: radii.extraSmall,
+    elevation: 8,
     flexDirection: "row",
     flexShrink: 0,
     padding: spacing.medium,
-    backgroundColor: palette["neutralBase-50"],
-    borderRadius: radii.extraSmall,
     shadowOffset: {
       width: 0,
       height: 4,
     },
     shadowOpacity: 0.08,
     shadowRadius: 8,
-    elevation: 8,
   },
   isSelected: {
     borderColor: palette.complimentBase,
     borderWidth: 2,
   },
-  addressContent: {
-    marginLeft: 12,
-    flex: 1,
-  },
   tickIcon: {
-    width: 18,
     alignItems: "flex-end",
+    width: 18,
   },
 });

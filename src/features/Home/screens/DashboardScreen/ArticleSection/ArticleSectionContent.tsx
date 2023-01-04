@@ -1,5 +1,6 @@
-import { radii, spacing } from "@/theme/values";
 import { Image, StyleSheet, View } from "react-native";
+
+import { radii, spacing } from "@/theme/values";
 
 interface ArticleSectionContentProps {
   data: { id: number; image: string };
@@ -14,12 +15,12 @@ export default function ArticleSectionContent({ data }: ArticleSectionContentPro
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: spacing.medium,
     borderRadius: radii.small,
+    marginHorizontal: spacing.medium,
   },
   imageContainer: {
+    borderRadius: radii.small,
     height: 440,
     width: "100%",
-    borderRadius: radii.small,
   },
 });

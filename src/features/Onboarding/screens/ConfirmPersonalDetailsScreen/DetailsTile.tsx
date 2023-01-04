@@ -1,13 +1,12 @@
+import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import Typography from "@/components/Typography";
-import { palette, radii, spacing } from "@/theme/values";
-import { mockNafathData } from "@/mocks/nafathUserData";
-
-import { CalendarAltIcon, UserIcon, GlobeIcon, MapMarkerIcon } from "@/assets/icons";
-import { useState } from "react";
-import { Stack } from "@/components/Stack";
+import { CalendarAltIcon, GlobeIcon, MapMarkerIcon, UserIcon } from "@/assets/icons";
 import { Inline } from "@/components/Inline";
+import { Stack } from "@/components/Stack";
+import Typography from "@/components/Typography";
+import { mockNafathData } from "@/mocks/nafathUserData";
+import { palette, radii, spacing } from "@/theme/values";
 
 const DetailsTile = () => {
   const data = mockNafathData;

@@ -1,12 +1,14 @@
-import Reorderer from "../components/Reorderer";
+import { useEffect, useState } from "react";
+import { LayoutAnimation, Pressable, StyleSheet, View } from "react-native";
+
 import Typography from "@/components/Typography";
 import { useGlobalContext } from "@/contexts/GlobalContext";
-import { ItemListContext } from "../context/ItemListContext";
 import { homepageOrderData, ReorderItem } from "@/mocks/quickActionOrderData";
 import useNavigation from "@/navigation/use-navigation";
 import { palette } from "@/theme/values";
-import { useEffect, useState } from "react";
-import { LayoutAnimation, Pressable, StyleSheet, View } from "react-native";
+
+import Reorderer from "../components/Reorderer";
+import { ItemListContext } from "../context/ItemListContext";
 
 export default function HomepageReorderModal() {
   const minActiveSections = 0;
@@ -116,12 +118,25 @@ export default function HomepageReorderModal() {
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    alignItems: "center",
+    backgroundColor: palette["neutralBase-50-12%"],
+    borderColor: palette["neutralBase-50-12%"],
+    borderRadius: 20,
+    borderStyle: "solid",
+    borderWidth: 1,
+    color: palette["neutralBase-50"],
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+  },
   container: {
     alignItems: "center",
     flex: 1,
     width: "100%",
   },
-  subHeader: { marginTop: 10, textAlign: "center" },
   header: {
     backgroundColor: palette.tintBase,
     flexDirection: "column",
@@ -129,24 +144,11 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     width: "100%",
   },
+  subHeader: { marginTop: 10, textAlign: "center" },
   topRow: {
+    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    alignItems: "center",
-  },
-  buttonContainer: {
-    alignItems: "center",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    borderRadius: 20,
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: palette["neutralBase-50-12%"],
-    paddingVertical: 9,
-    paddingHorizontal: 12,
-    color: palette["neutralBase-50"],
-    backgroundColor: palette["neutralBase-50-12%"],
   },
 });

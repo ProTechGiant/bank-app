@@ -1,10 +1,10 @@
 import { Alert, Pressable, SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 
-import MobileAndNationalIdForm from "./MobileAndNationalId/MobileAndNationalIdForm";
-
-import { palette, spacing } from "@/theme/values";
-import Typography from "@/components/Typography";
 import NavHeader from "@/components/NavHeader";
+import Typography from "@/components/Typography";
+import { palette, spacing } from "@/theme/values";
+
+import MobileAndNationalIdForm from "./MobileAndNationalId/MobileAndNationalIdForm";
 
 export default function IqamaInputScreen() {
   const ButtonPressed = () => {
@@ -44,23 +44,23 @@ export default function IqamaInputScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: palette["neutralBase-40"],
-  },
-  headerView: {
-    marginBottom: spacing.large,
-    marginHorizontal: spacing.medium,
-  },
-  headerTitle: {
-    marginVertical: spacing.large,
-  },
-  body: {
-    marginHorizontal: spacing.medium,
-  },
   accountSignIn: {
     alignSelf: "center",
     flexDirection: "row",
     marginTop: spacing.small,
+  },
+  body: {
+    marginHorizontal: spacing.medium,
+  },
+  container: {
+    backgroundColor: palette["neutralBase-40"],
+    flex: 1,
+  },
+  headerTitle: {
+    marginVertical: spacing.large,
+  },
+  headerView: {
+    marginBottom: spacing.large,
+    marginHorizontal: spacing.medium,
   },
 });

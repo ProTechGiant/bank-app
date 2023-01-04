@@ -1,14 +1,14 @@
-import { useState } from "react";
-
-import MainStack from "@/navigation/MainStack";
-import { flags } from "@/config/feature-flag";
 import { FlagsProvider } from "flagged";
+import { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { GlobalContext } from "./contexts/GlobalContext";
-import { OrderCardContext, orderCardInitValues } from "@/features/ApplyCards/context/OrderCardContext";
-
-import { quickActionOrderData, homepageOrderData } from "./mocks/quickActionOrderData";
 import { QueryClient, QueryClientProvider } from "react-query";
+
+import { flags } from "@/config/feature-flag";
+import { OrderCardContext, orderCardInitValues } from "@/features/ApplyCards/context/OrderCardContext";
+import MainStack from "@/navigation/MainStack";
+
+import { GlobalContext } from "./contexts/GlobalContext";
+import { homepageOrderData, quickActionOrderData } from "./mocks/quickActionOrderData";
 
 const queryClient = new QueryClient();
 

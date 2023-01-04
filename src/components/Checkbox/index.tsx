@@ -1,10 +1,10 @@
+import CheckBox from "@react-native-community/checkbox";
+import { useField } from "formik";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { palette, radii, spacing } from "@/theme/values";
 import Typography from "@/components/Typography";
-import { useField } from "formik";
-import CheckBox from "@react-native-community/checkbox";
+import { palette, radii, spacing } from "@/theme/values";
 
 type Props = {
   name: string;
@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
     borderColor: palette["neutralBase-20"],
     borderRadius: radii.extraSmall,
     borderWidth: 1,
-    padding: spacing.medium,
     flexDirection: "row",
     minHeight: 54,
+    padding: spacing.medium,
   },
 });

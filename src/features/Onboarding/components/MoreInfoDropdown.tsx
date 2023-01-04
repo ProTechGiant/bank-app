@@ -2,12 +2,11 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
-import { InfoCircleIcon, DownArrowIcon, UpArrowIcon } from "@/assets/icons";
-import { iconDimensions, palette, radii, spacing } from "@/theme/values";
-
-import Typography from "@/components/Typography";
-import { GreyGradient } from "@/components/LinearGradients/GradientButtons";
+import { DownArrowIcon, InfoCircleIcon, UpArrowIcon } from "@/assets/icons";
 import Dropdown from "@/components/Dropdown";
+import { GreyGradient } from "@/components/LinearGradients/GradientButtons";
+import Typography from "@/components/Typography";
+import { iconDimensions, palette, radii, spacing } from "@/theme/values";
 
 interface MoreInfoDropdownProps {
   title: string;

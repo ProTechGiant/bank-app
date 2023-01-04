@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useWindowDimensions } from "react-native";
 import { NavigationState, SceneMap, SceneRendererProps, TabBar, TabBarIndicator, TabView } from "react-native-tab-view";
 
+import Typography from "@/components/Typography";
 import { palette } from "@/theme/values";
 
 import SelectLuxCard from "./SelectLuxCard";
 import SelectStandardCard from "./SelectStandardCard";
-import Typography from "@/components/Typography";
 
 const standardRoute = () => <SelectStandardCard />;
 

@@ -38,19 +38,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  emailFormContainer: {
+    flex: 1,
+    marginTop: spacing.large,
+  },
+  header: {
+    marginBottom: spacing.large,
+    marginTop: spacing.regular,
+  },
   innerView: {
     flex: 1,
     marginHorizontal: spacing.large,
   },
   progressIndicator: {
-    marginTop: spacing.large,
-  },
-  header: {
-    marginTop: spacing.regular,
-    marginBottom: spacing.large,
-  },
-  emailFormContainer: {
-    flex: 1,
     marginTop: spacing.large,
   },
 });

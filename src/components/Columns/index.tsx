@@ -1,6 +1,7 @@
-import { flexMap, spaceMap } from "@/theme/mappings";
 import { cloneElement } from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
+
+import { flexMap, spaceMap } from "@/theme/mappings";
 
 export const Columns = ({ children, space = "none" }: { children: React.ReactNode; space?: keyof typeof spaceMap }) => {
   if (children instanceof Array) {
@@ -33,9 +34,9 @@ export const Column = ({
 };
 
 const styles = StyleSheet.create({
-  columns: {
-    width: "100%",
-    flexDirection: "row",
-  },
   column: {},
+  columns: {
+    flexDirection: "row",
+    width: "100%",
+  },
 });

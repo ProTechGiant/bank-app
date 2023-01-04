@@ -1,8 +1,8 @@
 import { ComponentStory } from "@storybook/react";
 import { Text } from "react-native";
 
-import { Columns as ColumnsComponent, Column } from "@/components/Columns";
 import { Box } from "@/components/Box";
+import { Column, Columns as ColumnsComponent } from "@/components/Columns";
 
 export default {
   title: "Layout/Columns",
