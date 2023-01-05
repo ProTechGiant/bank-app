@@ -1,10 +1,10 @@
 import { useField } from "formik";
 import { createRef, useState } from "react";
-import { Keyboard, Pressable, StyleSheet, TextInput, View } from "react-native";
+import { Keyboard, Pressable, TextInput, View, ViewStyle } from "react-native";
 
 import { ClearIcon, ErrorIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { iconDimensions, palette, radii, spacing, typography } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 type Props = {
   name: string;
@@ -35,6 +35,70 @@ const TextField = ({
   returnKeyType,
   onChange,
 }: Props) => {
+  const errorContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginTop: 4,
+      paddingHorizontal: theme.spacing.medium,
+    }),
+    []
+  );
+  const innerViewStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "flex-start",
+      backgroundColor: theme.palette["neutralBase-50"],
+      borderColor: theme.palette["neutralBase-20"],
+      borderRadius: theme.radii.extraSmall,
+      borderWidth: 1,
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      paddingVertical: 12,
+    }),
+    []
+  );
+  const textStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      fontSize: theme.typography.text.sizes.callout,
+      fontWeight: theme.typography.text.weights.regular,
+      lineHeight: theme.typography.text._lineHeights.callout,
+      paddingLeft: theme.spacing.medium,
+      paddingRight: 42,
+      paddingVertical: 0,
+    }),
+    []
+  );
+  const inputIconStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      position: "absolute",
+      right: theme.spacing.medium,
+      top: theme.spacing.medium,
+    }),
+    []
+  );
+  const labelStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      marginBottom: theme.spacing.small,
+    }),
+    []
+  );
+  const errorStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderWidth: 2,
+      backgroundColor: theme.palette["errorBase-40"],
+      borderColor: theme.palette["errorBase-10"],
+    }),
+    []
+  );
+  const focusedStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderColor: theme.palette.complimentBase,
+      borderWidth: 2,
+    }),
+    []
+  );
+  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.clearIcon, []);
+
   const [field, meta, helper] = useField(name);
   const [isFocused, setIsFocused] = useState(false);
   const [characterCount, setCharacterCount] = useState(0);
@@ -45,10 +109,10 @@ const TextField = ({
   let viewStyle;
 
   if (isFocused) {
-    viewStyle = [{ borderColor: palette.complimentBase, borderWidth: 2 }];
+    viewStyle = [focusedStyle];
   }
   if (hasError) {
-    viewStyle = { borderWidth: 2, backgroundColor: palette["errorBase-40"], borderColor: palette["errorBase-10"] };
+    viewStyle = errorStyle;
   }
 
   const handleFocus = () => {
@@ -76,13 +140,13 @@ const TextField = ({
     <>
       <View>
         {label && (
-          <Typography.Text size="callout" weight="medium" color="neutralBase+30" style={styles.label}>
+          <Typography.Text size="callout" weight="medium" color="neutralBase+30" style={labelStyle}>
             {label}
           </Typography.Text>
         )}
-        <View style={[styles.innerView, viewStyle, innerViewMinHeight]}>
+        <View style={[innerViewStyle, viewStyle, innerViewMinHeight]}>
           <TextInput
-            style={[styles.text, { height: textHeight }]}
+            style={[textStyle, { height: textHeight }]}
             placeholder={placeholder}
             onChangeText={text => {
               helper.setValue(text);
@@ -108,17 +172,17 @@ const TextField = ({
               onPress={handleClear}
               accessibilityLabel="Clear"
               accessibilityRole="button"
-              style={styles.inputIcon}>
-              <ClearIcon width={iconDimensions.clearIcon} />
+              style={inputIconStyle}>
+              <ClearIcon width={iconDimensions} />
             </Pressable>
           )}
           {hasError && (
-            <View style={styles.inputIcon}>
-              <ErrorIcon width={iconDimensions.clearIcon} />
+            <View style={inputIconStyle}>
+              <ErrorIcon width={iconDimensions} />
             </View>
           )}
         </View>
-        <View style={styles.errorContainer}>
+        <View style={errorContainerStyle}>
           {helperText && !hasError && (
             <Typography.Text color="neutralBase" size="caption1">
               {helperText}
@@ -141,38 +205,3 @@ const TextField = ({
 };
 
 export default TextField;
-
-const styles = StyleSheet.create({
-  errorContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 4,
-    paddingHorizontal: spacing.medium,
-  },
-  innerView: {
-    alignItems: "flex-start",
-    backgroundColor: palette["neutralBase-50"],
-    borderColor: palette["neutralBase-20"],
-    borderRadius: radii.extraSmall,
-    borderWidth: 1,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    paddingVertical: 12,
-  },
-  inputIcon: {
-    position: "absolute",
-    right: 16,
-    top: 16,
-  },
-  label: {
-    marginBottom: spacing.small,
-  },
-  text: {
-    fontSize: typography.text.sizes.callout,
-    fontWeight: typography.text.weights.regular,
-    lineHeight: typography.text._lineHeights.callout,
-    paddingLeft: spacing.medium,
-    paddingRight: 42,
-    paddingVertical: 0,
-  },
-});

@@ -7,9 +7,10 @@ import {
   NativeSyntheticEvent,
   StyleSheet,
   View,
+  ViewStyle,
 } from "react-native";
 
-import { palette, spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 interface CarouselProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,6 +23,45 @@ interface CarouselProps {
 }
 
 export default function Carousel({ pagination, data, onPressSlide, Slide, width, loop }: CarouselProps) {
+  const activeDotStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["complimentBase"],
+    }),
+    []
+  );
+  const inactiveDotStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["primaryBase-30"],
+    }),
+    []
+  );
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingTop: theme.spacing.small,
+      width: "100%",
+      position: "relative",
+    }),
+    []
+  );
+  const overlayPaginationStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      bottom: theme.spacing.small,
+      position: "absolute",
+      flexDirection: "row",
+    }),
+    []
+  );
+  const paginationDotsStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderRadius: 4,
+      height: 8,
+      marginHorizontal: 2,
+      width: 8,
+      marginBottom: theme.spacing.small,
+    }),
+    []
+  );
+
   const [index, setIndex] = useState(0);
   const indexRef = useRef(index);
   const flatListRef = useRef<FlatList>(null);
@@ -58,11 +98,9 @@ export default function Carousel({ pagination, data, onPressSlide, Slide, width,
   function Pagination() {
     return (
       <View style={styles.paginationContainer}>
-        <View style={styles.overlayPagination}>
+        <View style={overlayPaginationStyle}>
           {data.map((_, i) => {
-            return (
-              <View key={i} style={[styles.paginationDots, index === i ? styles.activeDot : styles.inactiveDot]} />
-            );
+            return <View key={i} style={[paginationDotsStyle, index === i ? activeDotStyle : inactiveDotStyle]} />;
           })}
         </View>
       </View>
@@ -115,7 +153,7 @@ export default function Carousel({ pagination, data, onPressSlide, Slide, width,
         };
 
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <FlatList
         data={data}
         renderItem={SlideRenderer}
@@ -136,31 +174,8 @@ export default function Carousel({ pagination, data, onPressSlide, Slide, width,
 }
 
 const styles = StyleSheet.create({
-  activeDot: {
-    backgroundColor: palette["complimentBase"],
-  },
-  container: {
-    paddingTop: spacing.small,
-    position: "relative",
-    width: "100%",
-  },
-  inactiveDot: {
-    backgroundColor: palette["primaryBase-30"],
-  },
-  overlayPagination: {
-    bottom: spacing.small,
-    flexDirection: "row",
-    position: "absolute",
-  },
   paginationContainer: {
     flexDirection: "row",
     justifyContent: "center",
-  },
-  paginationDots: {
-    borderRadius: 4,
-    height: 8,
-    marginBottom: spacing.small,
-    marginHorizontal: 2,
-    width: 8,
   },
 });

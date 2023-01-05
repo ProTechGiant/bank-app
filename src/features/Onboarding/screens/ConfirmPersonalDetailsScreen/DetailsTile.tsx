@@ -1,14 +1,24 @@
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import { CalendarAltIcon, GlobeIcon, MapMarkerIcon, UserIcon } from "@/assets/icons";
 import { Inline } from "@/components/Inline";
 import { Stack } from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { mockNafathData } from "@/mocks/nafathUserData";
-import { palette, radii, spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 const DetailsTile = () => {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-50"],
+      borderRadius: theme.radii.small,
+      paddingHorizontal: theme.spacing.medium,
+      paddingVertical: theme.spacing.xlarge,
+    }),
+    []
+  );
+
   const data = mockNafathData;
   const userData = data?.User;
   const [firstname, setFirstname] = useState(userData.Firstname);
@@ -18,7 +28,7 @@ const DetailsTile = () => {
   const [address, setAddress] = useState(userData.Address);
 
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <Stack space="small">
         <View>
           <Typography.Text size="callout" weight="medium" color="primaryBase">
@@ -69,12 +79,3 @@ const DetailsTile = () => {
   );
 };
 export default DetailsTile;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: palette["neutralBase-50"],
-    borderRadius: radii.small,
-    paddingHorizontal: spacing.medium,
-    paddingVertical: spacing.xlarge,
-  },
-});

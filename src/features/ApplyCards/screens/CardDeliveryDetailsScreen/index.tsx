@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
 import { useMutation } from "react-query";
 
 import { orderCardEndPoint } from "@/Axios/AxiosAgent";
@@ -11,11 +11,26 @@ import Typography from "@/components/Typography";
 import { useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
 import { mockAlternativeDeliveryAddress, mockPrimaryDeliveryAddress } from "@/mocks/deliveryAddressData";
 import useNavigation from "@/navigation/use-navigation";
-import { spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 import AddressSelector from "./AddressSelector";
 
 export default function CardDeliveryDetailsScreen() {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      flex: 1,
+      padding: theme.spacing.medium,
+    }),
+    []
+  );
+
+  const headerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingBottom: theme.spacing.medium,
+    }),
+    []
+  );
+
   const API_SUCCESS_MESSAGE = "Successful request card creation";
   const GENERIC_ERROR = {
     name: "error",
@@ -124,12 +139,12 @@ export default function CardDeliveryDetailsScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NavHeader title="Order card" backButton={true} backButtonHandler={handleOnBack} />
-      <View style={styles.container}>
+      <View style={container}>
         <View style={styles.progressIndicator}>
           <ProgressIndicator currentStep={3} totalStep={3} />
         </View>
         <View style={styles.contentContainer}>
-          <View style={styles.header}>
+          <View style={headerStyle}>
             <Typography.Text size="large" weight="bold">
               Card delivery details
             </Typography.Text>
@@ -174,15 +189,8 @@ export default function CardDeliveryDetailsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: spacing.medium,
-  },
   contentContainer: {
     flex: 1,
-  },
-  header: {
-    paddingBottom: spacing.medium,
   },
   paragraph: {
     marginBottom: 24,

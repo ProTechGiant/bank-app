@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { TouchableOpacity, ViewStyle } from "react-native";
 import DraggableFlatList, { RenderItemParams, ScaleDecorator } from "react-native-draggable-flatlist";
 import { ScrollView } from "react-native-virtualized-view";
 
 import { quickActionReorderItem, ReorderItem } from "@/mocks/quickActionOrderData";
-import { palette } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 import { useItemListContext } from "../../context/ItemListContext";
 import SectionHeader from "../SectionHeader";
@@ -46,6 +46,16 @@ export default function reorderer({
   requiredList,
   setShowTitleBar,
 }: ReordererProps) {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-40"],
+      flex: 1,
+      paddingBottom: 20,
+      width: "100%",
+    }),
+    []
+  );
+
   const { itemList, setItemList } = useItemListContext();
   const activeItems = itemList.filter((item: ReorderItem) => item.active).length;
   let activeItemsCounter;
@@ -88,7 +98,7 @@ export default function reorderer({
 
   return (
     <ScrollView
-      style={styles.container}
+      style={container}
       onScroll={handleScroll}
       scrollEventThrottle={20}
       scrollEnabled={handleScroll}
@@ -113,12 +123,3 @@ export default function reorderer({
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: palette["neutralBase-40"],
-    flex: 1,
-    paddingBottom: 20,
-    width: "100%",
-  },
-});

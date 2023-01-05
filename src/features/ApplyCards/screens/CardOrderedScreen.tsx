@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { SafeAreaView, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import { ShippingIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -7,11 +7,35 @@ import DarkOneGradient from "@/components/LinearGradients/GradientBackgrounds";
 import NavHeader from "@/components/NavHeader";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
-import { spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 import { useOrderCardContext } from "../context/OrderCardContext";
 
 export default function CardOrderedScreen() {
+  const iconContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      justifyContent: "center",
+      paddingVertical: theme.spacing.large,
+    }),
+    []
+  );
+
+  const textContainerStyle = useThemeStyles<TextStyle>(
+    theme => ({
+      alignItems: "center",
+      height: "40%",
+      padding: theme.spacing.small,
+    }),
+    []
+  );
+  const titleStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingBottom: theme.spacing.medium,
+      paddingHorizontal: theme.spacing.small,
+    }),
+    []
+  );
+
   const navigation = useNavigation();
 
   const handleOnAddToWallet = () => {
@@ -28,11 +52,11 @@ export default function CardOrderedScreen() {
       <SafeAreaView style={{ flex: 1 }}>
         <NavHeader title="" backButton={false} color="white" />
         <View style={styles.container}>
-          <View style={styles.iconContainer}>
+          <View style={iconContainerStyle}>
             <ShippingIcon />
           </View>
-          <View style={styles.textContainer}>
-            <View style={styles.title}>
+          <View style={textContainerStyle}>
+            <View style={titleStyle}>
               <Typography.Text size="large" weight="bold" color="neutralBase-50">
                 {orderCardValues.formState.error?.message ? orderCardValues.formState.error?.message : "Card ordered"}
               </Typography.Text>
@@ -71,18 +95,5 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "space-around",
-  },
-  iconContainer: {
-    justifyContent: "center",
-    paddingVertical: spacing.large,
-  },
-  textContainer: {
-    alignItems: "center",
-    height: "40%",
-    padding: spacing.small,
-  },
-  title: {
-    paddingBottom: spacing.medium,
-    paddingHorizontal: spacing.small,
   },
 });

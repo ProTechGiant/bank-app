@@ -1,11 +1,11 @@
 import { createRef, useState } from "react";
-import { Keyboard, Pressable, StyleSheet, TextInput, View } from "react-native";
+import { Keyboard, Pressable, StyleSheet, TextInput, View, ViewStyle } from "react-native";
 import { DefaultInputComponentProps, FeatureProps } from "react-phone-number-input";
 import PhoneInput from "react-phone-number-input/react-native-input";
 
 import { ClearIcon, ErrorIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { iconDimensions, palette, radii, spacing, typography } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 const MobileNumberField = ({
   placeholder,
@@ -15,6 +15,70 @@ const MobileNumberField = ({
   form: { errors, touched, setFieldTouched },
   ...inputProps
 }: FeatureProps<DefaultInputComponentProps>) => {
+  const innerViewStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      backgroundColor: theme.palette["neutralBase-50"],
+      borderColor: theme.palette["neutralBase-20"],
+      borderRadius: theme.radii.extraSmall,
+      borderWidth: 1,
+      flexDirection: "row",
+      height: 54,
+      justifyContent: "flex-start",
+    }),
+    []
+  );
+  const textStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      fontSize: theme.typography.text.sizes.callout,
+      fontWeight: theme.typography.text.weights.regular,
+      lineHeight: theme.typography.text._lineHeights.callout,
+      paddingLeft: theme.spacing.medium,
+      paddingRight: 42,
+      paddingVertical: theme.spacing.small,
+      width: "100%",
+    }),
+    []
+  );
+  const errorContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingHorizontal: theme.spacing.medium,
+      marginTop: 4,
+    }),
+    []
+  );
+  const labelStyleStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      marginBottom: theme.spacing.small,
+    }),
+    []
+  );
+  const inputIconStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      position: "absolute",
+      right: theme.spacing.medium,
+      top: theme.spacing.medium,
+    }),
+    []
+  );
+  const isFocusedStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderColor: theme.palette.complimentBase,
+      borderWidth: 2,
+    }),
+    []
+  );
+  const hasErrorStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderWidth: 2,
+      backgroundColor: theme.palette["errorBase-40"],
+      borderColor: theme.palette["errorBase-10"],
+    }),
+    []
+  );
+
+  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.clearIcon, []);
+
   const [isFocused, setIsFocused] = useState(false);
   const [hasClear, setHasClear] = useState(false);
 
@@ -24,10 +88,10 @@ const MobileNumberField = ({
   let viewStyle;
 
   if (isFocused) {
-    viewStyle = [{ borderColor: palette.complimentBase, borderWidth: 2 }];
+    viewStyle = [isFocusedStyle];
   }
   if (hasError) {
-    viewStyle = { borderWidth: 2, backgroundColor: palette["errorBase-40"], borderColor: palette["errorBase-10"] };
+    viewStyle = hasErrorStyle;
   }
 
   const handleFocus = () => {
@@ -54,11 +118,11 @@ const MobileNumberField = ({
             size="callout"
             weight="medium"
             color={hasError ? "errorBase" : "neutralBase+30"}
-            style={styles.label}>
+            style={labelStyleStyle}>
             {label}
           </Typography.Text>
         )}
-        <View style={[styles.innerView, viewStyle]}>
+        <View style={[innerViewStyle, viewStyle]}>
           {iconLeft && <View style={styles.icon}>{iconLeft}</View>}
           <PhoneInput
             international
@@ -67,7 +131,7 @@ const MobileNumberField = ({
               onChange(name)(text || "");
               setHasClear(text !== undefined && text.length > 0);
             }}
-            style={iconLeft ? [styles.text, { marginLeft: 10 }] : styles.text}
+            style={iconLeft ? [textStyle, { marginLeft: 10 }] : textStyle}
             placeholder={placeholder}
             onBlur={handleOnBlur}
             onFocus={handleFocus}
@@ -83,17 +147,17 @@ const MobileNumberField = ({
               onPress={handleClear}
               accessibilityLabel="Clear"
               accessibilityRole="button"
-              style={styles.inputIcon}>
-              <ClearIcon width={iconDimensions.clearIcon} />
+              style={inputIconStyle}>
+              <ClearIcon width={iconDimensions} />
             </Pressable>
           )}
           {hasError && (
-            <View style={styles.inputIcon}>
-              <ErrorIcon width={iconDimensions.clearIcon} />
+            <View style={inputIconStyle}>
+              <ErrorIcon width={iconDimensions} />
             </View>
           )}
         </View>
-        <View style={styles.errorContainer}>
+        <View style={errorContainerStyle}>
           {hasError && (
             <Typography.Text color="errorBase" size="caption1" weight="regular">
               {errors[name]}
@@ -108,38 +172,7 @@ const MobileNumberField = ({
 export default MobileNumberField;
 
 const styles = StyleSheet.create({
-  errorContainer: {
-    marginTop: 4,
-    paddingHorizontal: spacing.medium,
-  },
   icon: {
     marginLeft: 7,
-  },
-  innerView: {
-    alignItems: "center",
-    backgroundColor: palette["neutralBase-50"],
-    borderColor: palette["neutralBase-20"],
-    borderRadius: radii.extraSmall,
-    borderWidth: 1,
-    flexDirection: "row",
-    height: 54,
-    justifyContent: "flex-start",
-  },
-  inputIcon: {
-    position: "absolute",
-    right: 16,
-    top: 16,
-  },
-  label: {
-    marginBottom: spacing.small,
-  },
-  text: {
-    fontSize: typography.text.sizes.callout,
-    fontWeight: typography.text.weights.regular,
-    lineHeight: typography.text._lineHeights.callout,
-    paddingLeft: spacing.medium,
-    paddingRight: 42,
-    paddingVertical: spacing.small,
-    width: "100%",
   },
 });

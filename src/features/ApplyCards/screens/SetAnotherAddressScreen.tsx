@@ -1,16 +1,30 @@
-import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { SafeAreaView, ScrollView, View, ViewStyle } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
 import Typography from "@/components/Typography";
-import { spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 export default function SetAnotherAddressScreen() {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      flex: 1,
+      padding: theme.spacing.medium,
+    }),
+    []
+  );
+  const headerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingVertical: theme.spacing.medium,
+    }),
+    []
+  );
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
+      <View style={container}>
         <NavHeader title="Set another address" backButton={false} />
         <ScrollView>
-          <View style={styles.header}>
+          <View style={headerStyle}>
             <Typography.Text size="large" weight="bold">
               Enter your delivery address
             </Typography.Text>
@@ -20,13 +34,3 @@ export default function SetAnotherAddressScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: spacing.medium,
-  },
-  header: {
-    paddingVertical: spacing.medium,
-  },
-});

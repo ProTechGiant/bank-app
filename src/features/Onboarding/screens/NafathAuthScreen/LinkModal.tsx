@@ -1,8 +1,8 @@
-import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Modal, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 
 import { CloseIcon } from "@/assets/icons";
 import Button from "@/components/Button";
-import { palette, radii, spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 interface LinkModalProps {
   modalVisible: boolean;
@@ -13,6 +13,23 @@ interface LinkModalProps {
 }
 
 const LinkModal = ({ modalVisible, toggleModal, onNavigate, children, linkText }: LinkModalProps) => {
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      marginTop: theme.spacing.small,
+    }),
+    []
+  );
+  const modalViewStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-50"],
+      borderRadius: theme.radii.extraSmall,
+      maxWidth: 348,
+      padding: theme.spacing.large,
+      width: "100%",
+    }),
+    []
+  );
+
   const handlePress = () => {
     toggleModal && toggleModal();
     onNavigate();
@@ -21,12 +38,12 @@ const LinkModal = ({ modalVisible, toggleModal, onNavigate, children, linkText }
   return (
     <Modal transparent={true} visible={modalVisible} onRequestClose={toggleModal}>
       <View style={styles.centeredView}>
-        <View style={styles.modalView}>
+        <View style={modalViewStyle}>
           <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
             <CloseIcon />
           </TouchableOpacity>
           {children}
-          <View style={styles.buttonContainer}>
+          <View style={buttonContainerStyle}>
             <Button onPress={handlePress}>{linkText}</Button>
           </View>
         </View>
@@ -38,9 +55,6 @@ const LinkModal = ({ modalVisible, toggleModal, onNavigate, children, linkText }
 export default LinkModal;
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    marginTop: spacing.small,
-  },
   centeredView: {
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.51)",
@@ -49,12 +63,5 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     alignItems: "flex-end",
-  },
-  modalView: {
-    backgroundColor: palette["neutralBase-50"],
-    borderRadius: radii.extraSmall,
-    maxWidth: 348,
-    padding: spacing.large,
-    width: "100%",
   },
 });

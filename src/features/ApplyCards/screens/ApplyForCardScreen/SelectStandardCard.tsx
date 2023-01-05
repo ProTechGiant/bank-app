@@ -1,13 +1,23 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
-import { spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 import { useOrderCardContext } from "../../context/OrderCardContext";
 
 export default function SelectStandardCard() {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      flex: 1,
+      justifyContent: "space-between",
+      padding: theme.spacing.medium,
+    }),
+    []
+  );
+
   const standardCardId = {
     cardType: 1,
     cardProductId: 1356,
@@ -27,7 +37,7 @@ export default function SelectStandardCard() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <View>
         <Image style={{ height: 220, width: 380 }} source={require("@/assets/images/standard-card-placeholder.png")} />
       </View>
@@ -43,11 +53,5 @@ export default function SelectStandardCard() {
 const styles = StyleSheet.create({
   button: {
     minWidth: 350,
-  },
-  container: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "space-between",
-    padding: spacing.medium,
   },
 });

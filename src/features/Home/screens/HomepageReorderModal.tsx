@@ -1,16 +1,44 @@
 import { useEffect, useState } from "react";
-import { LayoutAnimation, Pressable, StyleSheet, View } from "react-native";
+import { LayoutAnimation, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import { homepageOrderData, ReorderItem } from "@/mocks/quickActionOrderData";
 import useNavigation from "@/navigation/use-navigation";
-import { palette } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 import Reorderer from "../components/Reorderer";
 import { ItemListContext } from "../context/ItemListContext";
 
 export default function HomepageReorderModal() {
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      backgroundColor: theme.palette["neutralBase-50-12%"],
+      borderColor: theme.palette["neutralBase-50-12%"],
+      borderRadius: 20,
+      borderStyle: "solid",
+      borderWidth: 1,
+      color: theme.palette["neutralBase-50"],
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      paddingHorizontal: 12,
+      paddingVertical: 9,
+    }),
+    []
+  );
+  const headerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette.tintBase,
+      flexDirection: "column",
+      padding: theme.spacing.regular,
+      paddingTop: 10,
+      width: "100%",
+    }),
+    []
+  );
+
   const minActiveSections = 0;
   const maxActiveSections = 4;
   const navigation = useNavigation(); // Provide the useState to the context via a Context Provider.
@@ -72,10 +100,10 @@ export default function HomepageReorderModal() {
   return (
     <ItemListContext.Provider value={{ itemList, setItemList, toggleItem }}>
       <View style={styles.container}>
-        <View style={styles.header}>
+        <View style={headerStyle}>
           <View style={styles.topRow}>
             <Pressable onPress={handleCancelButton}>
-              <View style={[styles.buttonContainer]}>
+              <View style={buttonContainerStyle}>
                 <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
                   CANCEL
                 </Typography.Text>
@@ -85,7 +113,7 @@ export default function HomepageReorderModal() {
               Edit Actions
             </Typography.Text>
             <Pressable onPress={handleSaveButton} disabled={!saveEnabled}>
-              <View style={[styles.buttonContainer]}>
+              <View style={buttonContainerStyle}>
                 <Typography.Text
                   color={saveEnabled ? "neutralBase-50" : "neutralBase-30"}
                   opacity={saveEnabled ? "opaque" : "semiTransparent"}
@@ -118,33 +146,15 @@ export default function HomepageReorderModal() {
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    alignItems: "center",
-    backgroundColor: palette["neutralBase-50-12%"],
-    borderColor: palette["neutralBase-50-12%"],
-    borderRadius: 20,
-    borderStyle: "solid",
-    borderWidth: 1,
-    color: palette["neutralBase-50"],
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    paddingHorizontal: 12,
-    paddingVertical: 9,
-  },
   container: {
     alignItems: "center",
     flex: 1,
     width: "100%",
   },
-  header: {
-    backgroundColor: palette.tintBase,
-    flexDirection: "column",
-    padding: 20,
-    paddingTop: 10,
-    width: "100%",
+  subHeader: {
+    marginTop: 10,
+    textAlign: "center",
   },
-  subHeader: { marginTop: 10, textAlign: "center" },
   topRow: {
     alignItems: "center",
     flexDirection: "row",

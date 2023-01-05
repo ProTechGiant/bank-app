@@ -1,11 +1,11 @@
 import { useField } from "formik";
 import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, View, ViewStyle } from "react-native";
 
 import { DownArrowIcon, UpArrowIcon } from "@/assets/icons";
 import Dropdown from "@/components/Dropdown";
 import Typography from "@/components/Typography";
-import { iconDimensions, palette, radii, spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 import SelectOption from "./SelectOption";
 
@@ -24,6 +24,49 @@ interface SelectInputProps {
 }
 
 const SelectInput = ({ name, title, helperText, label, data, isOptional = false }: SelectInputProps) => {
+  const selectContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      marginTop: theme.spacing.medium,
+    }),
+    []
+  );
+  const selectStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      flexDirection: "row",
+      justifyContent: "space-between",
+      backgroundColor: theme.palette["neutralBase-50"],
+      padding: theme.spacing.medium,
+      borderColor: theme.palette["neutralBase-20"],
+      borderWidth: 1,
+      borderRadius: theme.radii.extraSmall,
+    }),
+    []
+  );
+  const isActiveStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderColor: theme.palette.complimentBase,
+      borderWidth: 2,
+    }),
+    []
+  );
+  const optionListStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingLeft: theme.spacing.medium,
+      maxHeight: 174,
+    }),
+    []
+  );
+  const toggleIconStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      height: theme.iconDimensions.accordian,
+      width: theme.iconDimensions.accordian,
+      justifyContent: "center",
+      alignItems: "flex-end",
+    }),
+    []
+  );
+  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.dropdown, []);
+
   const [field, , helper] = useField(name);
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(field.value);
@@ -65,25 +108,21 @@ const SelectInput = ({ name, title, helperText, label, data, isOptional = false 
           </Typography.Text>
         )}
       </View>
-      <View style={styles.selectContainer}>
+      <View style={selectContainerStyle}>
         <Dropdown
           dropdownVisible={isOpen}
           title={
             <Pressable onPress={toggleSelect}>
-              <View style={[styles.select, isOpen && styles.isActive]}>
+              <View style={[selectStyle, isOpen && isActiveStyle]}>
                 {renderSelected()}
-                <View style={styles.toggleIcon}>
-                  {isOpen ? (
-                    <UpArrowIcon width={iconDimensions.dropdown} />
-                  ) : (
-                    <DownArrowIcon width={iconDimensions.dropdown} />
-                  )}
+                <View style={toggleIconStyle}>
+                  {isOpen ? <UpArrowIcon width={iconDimensions} /> : <DownArrowIcon width={iconDimensions} />}
                 </View>
               </View>
             </Pressable>
           }
           content={
-            <View style={styles.optionList}>
+            <View style={optionListStyle}>
               <ScrollView>
                 {data.map((item: Option, index: number) => (
                   <SelectOption
@@ -104,32 +143,3 @@ const SelectInput = ({ name, title, helperText, label, data, isOptional = false 
 };
 
 export default SelectInput;
-
-const styles = StyleSheet.create({
-  isActive: {
-    borderColor: palette.complimentBase,
-    borderWidth: 2,
-  },
-  optionList: {
-    maxHeight: 174,
-    paddingLeft: spacing.medium,
-  },
-  select: {
-    backgroundColor: palette["neutralBase-50"],
-    borderColor: palette["neutralBase-20"],
-    borderRadius: radii.extraSmall,
-    borderWidth: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: spacing.medium,
-  },
-  selectContainer: {
-    marginTop: spacing.medium,
-  },
-  toggleIcon: {
-    alignItems: "flex-end",
-    height: iconDimensions.accordian,
-    justifyContent: "center",
-    width: iconDimensions.accordian,
-  },
-});

@@ -1,10 +1,10 @@
 import CheckBox from "@react-native-community/checkbox";
 import { useField } from "formik";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
-import { palette, radii, spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 type Props = {
   name: string;
@@ -14,14 +14,50 @@ type Props = {
 };
 
 const Checkbox = ({ name, border, title, disabled = false }: Props) => {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      backgroundColor: theme.palette["neutralBase-50"],
+      borderColor: theme.palette["neutralBase-20"],
+      borderRadius: theme.radii.extraSmall,
+      borderWidth: 1,
+      padding: theme.spacing.medium,
+      flexDirection: "row",
+      minHeight: 54,
+    }),
+    []
+  );
+  const checkBoxStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      marginRight: theme.spacing.medium,
+    }),
+    []
+  );
+  const boxCheckedStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderColor: theme.palette["complimentBase"],
+    }),
+    []
+  );
+  const boxUncheckedStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderColor: theme.palette["neutralBase-20"],
+    }),
+    []
+  );
+  const onFillColor = useThemeStyles<string>(theme => theme.palette["complimentBase"], []);
+  const onCheckColor = useThemeStyles<string>(theme => theme.palette["neutralBase-50"], []);
+  const onTintColor = useThemeStyles<string>(theme => theme.palette["complimentBase"], []);
+  const tintColor = useThemeStyles<string>(theme => theme.palette["neutralBase"], []);
+
   const [field, meta, helper] = useField(name);
   const [toggleCheckBox, setToggleCheckBox] = useState<boolean>(false);
 
   const containerStyle = [
-    styles.container,
+    container,
     { borderWidth: toggleCheckBox ? 2 : 1 },
     { borderWidth: border ? 1 : 0 },
-    { borderColor: toggleCheckBox ? palette.complimentBase : palette["neutralBase-20"] },
+    { borderColor: toggleCheckBox ? boxCheckedStyle : boxUncheckedStyle },
     { opacity: disabled ? 0.5 : 1 },
   ];
 
@@ -30,13 +66,13 @@ const Checkbox = ({ name, border, title, disabled = false }: Props) => {
       <View style={containerStyle}>
         <CheckBox
           disabled={disabled}
-          onFillColor={palette.complimentBase}
-          onCheckColor={palette["neutralBase-50"]}
-          onTintColor={palette.complimentBase}
-          tintColor={palette.neutralBase}
+          onFillColor={onFillColor}
+          onCheckColor={onCheckColor}
+          onTintColor={onTintColor}
+          tintColor={tintColor}
           boxType="square"
           value={toggleCheckBox}
-          style={{ marginRight: spacing.medium }}
+          style={checkBoxStyle}
           onValueChange={newValue => {
             setToggleCheckBox(newValue);
             helper.setValue(newValue);
@@ -51,16 +87,3 @@ const Checkbox = ({ name, border, title, disabled = false }: Props) => {
 };
 
 export default Checkbox;
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    backgroundColor: palette["neutralBase-50"],
-    borderColor: palette["neutralBase-20"],
-    borderRadius: radii.extraSmall,
-    borderWidth: 1,
-    flexDirection: "row",
-    minHeight: 54,
-    padding: spacing.medium,
-  },
-});

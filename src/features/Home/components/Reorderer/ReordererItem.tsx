@@ -1,10 +1,10 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 
 import { DisabledPlusIcon, HamburgerIcon, MinusIcon, PlusIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { iconDimensions, palette, spacing } from "@/theme/values";
 
 import { useItemListContext } from "../../context/ItemListContext";
+import { useThemeStyles } from "@/theme";
 interface ItemProps {
   id: string;
   label: string;
@@ -24,6 +24,31 @@ export function RenderMinimumNotReachedPlaceholders({
   minActiveSections,
   activeItems,
 }: RenderMinimumNotReachedPlaceholdersProps) {
+  const objectContainerPlaceholderStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      borderColor: theme.palette["neutralBase+10"],
+      borderStyle: "dashed",
+      borderWidth: 1,
+      gap: theme.spacing.medium,
+      height: 81,
+      marginBottom: theme.spacing.small / 2,
+      marginHorizontal: theme.spacing.medium,
+      marginTop: theme.spacing.small / 2,
+    }),
+    []
+  );
+  const placeholderTextContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      flexDirection: "column",
+      flexGrow: 1,
+      flexShrink: 1,
+      justifyContent: "center",
+      padding: theme.spacing.medium,
+    }),
+    []
+  );
+
   if (
     minActiveSections === undefined ||
     activeItems === undefined ||
@@ -33,8 +58,8 @@ export function RenderMinimumNotReachedPlaceholders({
     return <></>;
   }
   const placeholderBlock = (i: number) => (
-    <View style={styles.objectContainerPlaceholder} key={"ReorderItemPlaceholder_" + i}>
-      <View style={styles.placeholderTextContainer}>
+    <View style={objectContainerPlaceholderStyle} key={"ReorderItemPlaceholder_" + i}>
+      <View style={placeholderTextContainerStyle}>
         <Typography.Text style={styles.placeholderText} color="neutralBase-10" size="callout" weight="medium">
           Select an action from the list below to proceed.
         </Typography.Text>
@@ -54,6 +79,30 @@ export default function ReordererItem({
   isAddAllowed = true,
   isActive,
 }: ItemProps) {
+  const iconStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      margin: theme.spacing.medium,
+    }),
+    []
+  );
+  const objectContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      backgroundColor: theme.palette["neutralBase-50"],
+      flex: 1,
+      flexDirection: "row",
+      gap: theme.spacing.medium,
+      justifyContent: "flex-start",
+      marginBottom: theme.spacing.small / 2,
+      marginHorizontal: theme.spacing.medium,
+      marginTop: theme.spacing.small / 2,
+      maxHeight: 100,
+    }),
+    []
+  );
+
+  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.reorderIcons, []);
+
   const handleToggle = () => {
     if (toggleItem) {
       toggleItem(id);
@@ -61,32 +110,24 @@ export default function ReordererItem({
   };
   const { toggleItem } = useItemListContext();
   return (
-    <View style={styles.objectContainer}>
+    <View style={objectContainerStyle}>
       {isActive && isRemoveAllowed && (
         <TouchableOpacity onPress={handleToggle}>
-          <MinusIcon
-            style={styles.minusIcon}
-            width={iconDimensions.reorderIcons}
-            height={iconDimensions.reorderIcons}
-          />
+          <MinusIcon style={iconStyle} width={iconDimensions} height={iconDimensions} />
         </TouchableOpacity>
       )}
       {(!isActive && isAddAllowed && (
         <TouchableOpacity onPress={handleToggle}>
-          <PlusIcon style={styles.plusIcon} width={iconDimensions.reorderIcons} height={iconDimensions.reorderIcons} />
+          <PlusIcon style={iconStyle} width={iconDimensions} height={iconDimensions} />
         </TouchableOpacity>
       )) ||
         (!isActive && !isAddAllowed && (
           <TouchableOpacity disabled={true}>
-            <DisabledPlusIcon
-              style={styles.plusIconDisabled}
-              width={iconDimensions.reorderIcons}
-              height={iconDimensions.reorderIcons}
-            />
+            <DisabledPlusIcon style={iconStyle} width={iconDimensions} height={iconDimensions} />
           </TouchableOpacity>
         ))}
       {/* If no icons are used then we place a placeholder */}
-      {!isRemoveAllowed && isActive && <View style={styles.iconReplacement} />}
+      {!isRemoveAllowed && isActive && <View style={iconStyle} />}
 
       <View style={styles.textContainer}>
         <Typography.Text
@@ -104,7 +145,7 @@ export default function ReordererItem({
           {description}
         </Typography.Text>
       </View>
-      {isReorderAllowed && <HamburgerIcon style={styles.hamburgerIcon} width="18" height="12.6" />}
+      {isReorderAllowed && <HamburgerIcon style={iconStyle} width="18" height="12.6" />}
     </View>
   );
 }
@@ -115,57 +156,14 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     marginBottom: 14,
   },
-  hamburgerIcon: { margin: spacing.medium },
-  iconReplacement: {
-    margin: spacing.medium,
-  },
   label: {
     flexGrow: 1,
     flexShrink: 1,
     marginBottom: 4,
     marginTop: 14,
   },
-  minusIcon: {
-    margin: spacing.medium,
-  },
-  objectContainer: {
-    alignItems: "center",
-    backgroundColor: palette["neutralBase-50"],
-    flex: 1,
-    flexDirection: "row",
-    gap: spacing.medium,
-    justifyContent: "flex-start",
-    marginBottom: spacing.small / 2,
-    marginHorizontal: spacing.medium,
-    marginTop: spacing.small / 2,
-    maxHeight: 100,
-  },
-  objectContainerPlaceholder: {
-    alignItems: "center",
-    borderColor: palette["neutralBase+10"],
-    borderStyle: "dashed",
-    borderWidth: 1,
-    gap: spacing.medium,
-    height: 81,
-    marginBottom: spacing.small / 2,
-    marginHorizontal: spacing.medium,
-    marginTop: spacing.small / 2,
-  },
   placeholderText: {
     textAlign: "center",
-  },
-  placeholderTextContainer: {
-    flexDirection: "column",
-    flexGrow: 1,
-    flexShrink: 1,
-    justifyContent: "center",
-    padding: spacing.medium,
-  },
-  plusIcon: {
-    margin: spacing.medium,
-  },
-  plusIconDisabled: {
-    margin: spacing.medium,
   },
   textContainer: {
     flexDirection: "column",

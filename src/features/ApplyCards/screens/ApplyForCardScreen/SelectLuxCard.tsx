@@ -1,11 +1,21 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
-import { spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 export default function SelectLuxCard() {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      flex: 1,
+      justifyContent: "space-between",
+      padding: theme.spacing.medium,
+    }),
+    []
+  );
+
   const navigation = useNavigation();
 
   const handleOnPress = () => {
@@ -13,7 +23,7 @@ export default function SelectLuxCard() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <View style={{ height: "80%" }}>
         <Image style={{ height: 220, width: 380 }} source={require("@/assets/images/lux-card-placeholder.png")} />
       </View>
@@ -34,12 +44,6 @@ export default function SelectLuxCard() {
 const styles = StyleSheet.create({
   button: {
     minWidth: 350,
-  },
-  container: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "space-between",
-    padding: spacing.medium,
   },
   text: {
     textAlign: "center",

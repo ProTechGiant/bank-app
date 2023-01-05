@@ -1,6 +1,6 @@
-import { StyleSheet, View } from "react-native";
+import { View, ViewStyle } from "react-native";
 
-import { palette, radii } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 interface DropdownProps {
   title: JSX.Element;
@@ -9,17 +9,18 @@ interface DropdownProps {
 }
 
 export default function Dropdown({ title, dropdownVisible, content }: DropdownProps) {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-50"],
+      paddingTop: theme.spacing.medium,
+    }),
+    []
+  );
+
   return (
-    <View style={styles.container}>
+    <View style={container}>
       {title}
       {dropdownVisible && content}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: palette["neutralBase-50"],
-    borderRadius: radii.extraSmall,
-  },
-});

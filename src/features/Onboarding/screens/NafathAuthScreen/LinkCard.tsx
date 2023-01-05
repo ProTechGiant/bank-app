@@ -1,7 +1,7 @@
 import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
-import { iconDimensions, palette, radii, spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 interface LinkCardProps {
   onNavigate: () => void;
@@ -10,14 +10,34 @@ interface LinkCardProps {
 }
 
 const LinkCard = ({ onNavigate, children, style }: LinkCardProps) => {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      backgroundColor: theme.palette["neutralBase-50"],
+      borderRadius: theme.radii.extraSmall,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-evenly",
+      padding: theme.spacing.large,
+      shadowColor: theme.palette.shadeBase,
+      shadowOffset: {
+        width: 1,
+        height: 3,
+      },
+      shadowOpacity: 0.15,
+    }),
+    []
+  );
+  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.link, []);
+
   const handlePress = () => {
     onNavigate();
   };
   return (
-    <Pressable style={[styles.container, style]} onPress={handlePress}>
+    <Pressable style={[container, style]} onPress={handlePress}>
       <View style={styles.textContainer}>{children}</View>
       <View style={styles.arrowContainer}>
-        <ChevronRightIcon height={iconDimensions.link} width={iconDimensions.link} />
+        <ChevronRightIcon height={iconDimensions} width={iconDimensions} />
       </View>
     </Pressable>
   );
@@ -31,21 +51,6 @@ const styles = StyleSheet.create({
     height: 24,
     justifyContent: "center",
     width: 24,
-  },
-  container: {
-    alignItems: "center",
-    backgroundColor: palette["neutralBase-50"],
-    borderRadius: radii.extraSmall,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    padding: spacing.large,
-    shadowColor: palette.shadeBase,
-    shadowOffset: {
-      width: 1,
-      height: 3,
-    },
-    shadowOpacity: 0.15,
   },
   textContainer: {
     marginEnd: 10,

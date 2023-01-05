@@ -3,7 +3,7 @@ import { Dimensions } from "react-native";
 
 import Carousel from "@/components/Carousel";
 import Dropdown from "@/components/Dropdown";
-import { spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 import NotificationsTitle from "./NotificationsTitle";
 import SlideContent from "./SlideContent";
@@ -20,6 +20,7 @@ export interface Notification {
 }
 
 export default function NotificationDropdown() {
+  const carouselWidth = useThemeStyles<number>(theme => Dimensions.get("screen").width - theme.spacing.medium * 2, []);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const { pendingNotifications } = useFetchActions();
 
@@ -44,7 +45,7 @@ export default function NotificationDropdown() {
           data={pendingNotifications}
           onPressSlide={toggleDropdown}
           Slide={SlideContent}
-          width={Dimensions.get("screen").width - spacing.medium * 2}
+          width={carouselWidth}
           pagination={true}
         />
       }

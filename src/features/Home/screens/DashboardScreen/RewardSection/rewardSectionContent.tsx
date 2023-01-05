@@ -1,20 +1,19 @@
-import { Image } from "react-native";
+import { Image, ImageStyle } from "react-native";
 
-import { radii } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 interface RewardSectionContentProps {
   data: { id: number; image: string };
 }
 
 export default function RewardSectionContent({ data }: RewardSectionContentProps) {
-  return (
-    <Image
-      source={data.image}
-      style={{
-        width: 330,
-        height: 180,
-        borderRadius: radii.small,
-      }}
-    />
+  const imageStyle = useThemeStyles<ImageStyle>(
+    theme => ({
+      width: 330,
+      height: 180,
+      borderRadius: theme.radii.small,
+    }),
+    []
   );
+  return <Image source={data.image} style={imageStyle} />;
 }

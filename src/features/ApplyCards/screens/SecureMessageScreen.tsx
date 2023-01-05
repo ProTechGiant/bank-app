@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
@@ -9,8 +9,8 @@ import TextField from "@/components/TextField";
 import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
-import { spacing } from "@/theme/values";
 import { alphaNumericSpaceRegExp } from "@/utils";
+import { useThemeStyles } from "@/theme";
 
 type SecureMessageFormValuesType = {
   secureMessage: string;
@@ -25,17 +25,38 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function SecureMessageScreen() {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      flex: 1,
+      padding: theme.spacing.medium,
+    }),
+    []
+  );
+  const headerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingBottom: theme.spacing.medium,
+    }),
+    []
+  );
+
+  const paragraphStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingBottom: theme.spacing.large,
+    }),
+    []
+  );
+
   const navigation = useNavigation();
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NavHeader title="Order card" backButton={true} />
       <ScrollView>
-        <View style={styles.container}>
+        <View style={container}>
           <View style={styles.progressIndicator}>
             <ProgressIndicator currentStep={1} totalStep={4} />
           </View>
-          <View style={styles.header}>
+          <View style={headerStyle}>
             <Typography.Text size="large" weight="bold">
               Set up 3D Secure Payments
             </Typography.Text>
@@ -56,7 +77,7 @@ export default function SecureMessageScreen() {
               return (
                 <View style={styles.contentContainer}>
                   <View>
-                    <View style={styles.paragraph}>
+                    <View style={paragraphStyle}>
                       <Typography.Text>
                         Enter a message of your choice below. It’ll appear when you make a payment so you know it’s a
                         genuine transaction.
@@ -103,18 +124,8 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     minWidth: 350,
   },
-  container: {
-    flex: 1,
-    padding: spacing.medium,
-  },
   contentContainer: {
     flex: 1,
-  },
-  header: {
-    paddingBottom: spacing.medium,
-  },
-  paragraph: {
-    paddingBottom: spacing.large,
   },
   progressIndicator: {
     marginBottom: 44,

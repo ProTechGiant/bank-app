@@ -1,15 +1,15 @@
 import * as React from "react";
-import { Dimensions, Keyboard, Pressable, SafeAreaView, StyleSheet, View } from "react-native";
+import { Dimensions, Keyboard, Pressable, SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ErrorBlackIcon, InfoIcon } from "@/assets/icons";
 import NavHeader from "@/components/NavHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
-import { palette, radii, spacing } from "@/theme/values";
 
 import { useOrderCardContext } from "../../context/OrderCardContext";
 import PinCodeInput from "./PinCodeInput";
+import { useThemeStyles } from "@/theme";
 
 const height = Dimensions.get("screen").height;
 
@@ -22,6 +22,59 @@ const confirmHeader = "Confirm PIN";
 const confirmText = `Re-enter your ${inputLength} numbers`;
 
 export default function CreateCardPinScreen() {
+  const buttonStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      backgroundColor: theme.palette["errorBase-20"],
+      borderRadius: theme.radii.xlarge,
+      justifyContent: "center",
+      minHeight: 40,
+      minWidth: 100,
+      padding: theme.spacing.small,
+    }),
+    []
+  );
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      padding: theme.spacing.medium,
+    }),
+    []
+  );
+  const errorContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      backgroundColor: theme.palette["errorBase-40"],
+      flexDirection: "row",
+      justifyContent: "space-between",
+      padding: theme.spacing.large,
+    }),
+    []
+  );
+  const headerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      paddingBottom: theme.spacing.medium,
+    }),
+    []
+  );
+  const infoContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      backgroundColor: theme.palette["tintBase-30"],
+      borderRadius: theme.radii.extraSmall,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      padding: theme.spacing.large,
+    }),
+    []
+  );
+  const infoTestStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingHorizontal: theme.spacing.medium,
+    }),
+    []
+  );
+
   const pincodeInputRef = React.useRef<React.ElementRef<typeof PinCodeInput>>(null);
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
   const navigation = useNavigation();
@@ -171,40 +224,6 @@ export default function CreateCardPinScreen() {
 }
 
 const styles = StyleSheet.create({
-  button: {
-    alignItems: "center",
-    backgroundColor: palette["errorBase-20"],
-    borderRadius: radii.xlarge,
-    justifyContent: "center",
-    minHeight: 40,
-    minWidth: 100,
-    padding: spacing.small,
-  },
-  container: {
-    padding: spacing.medium,
-  },
-  errorContainer: {
-    alignItems: "center",
-    backgroundColor: palette["errorBase-40"],
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: spacing.large,
-  },
-  header: {
-    alignItems: "center",
-    paddingBottom: spacing.medium,
-  },
-  infoContainer: {
-    alignItems: "center",
-    backgroundColor: palette["tintBase-30"],
-    borderRadius: radii.extraSmall,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: spacing.large,
-  },
-  infoText: {
-    paddingHorizontal: spacing.medium,
-  },
   progressIndicator: {
     marginBottom: 44,
     marginTop: 12,

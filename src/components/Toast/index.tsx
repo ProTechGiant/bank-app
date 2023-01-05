@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
-import { palette, radii, spacing, typography } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 interface ToastProps {
   borderPosition?: "left" | "right";
@@ -12,25 +12,64 @@ interface ToastProps {
 }
 
 export default function Toast({ borderPosition, title, content, children, variant }: ToastProps) {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-50"],
+      borderRadius: theme.radii.extraSmall,
+      padding: theme.spacing.medium,
+    }),
+    []
+  );
+  const themeComplimentStyle = useThemeStyles<TextStyle>(
+    theme => ({
+      borderColor: theme.palette["complimentBase"],
+    }),
+    []
+  );
+  const themeErrorStyle = useThemeStyles<TextStyle>(
+    theme => ({
+      borderColor: theme.palette["errorBase"],
+    }),
+    []
+  );
+  const themePrimaryStyle = useThemeStyles<TextStyle>(
+    theme => ({
+      borderColor: theme.palette["primaryBase"],
+    }),
+    []
+  );
+  const themeSuccessStyle = useThemeStyles<TextStyle>(
+    theme => ({
+      borderColor: theme.palette["successBase"],
+    }),
+    []
+  );
+  const titleContainerStyle = useThemeStyles<TextStyle>(
+    theme => ({
+      marginBottom: theme.spacing.small,
+    }),
+    []
+  );
+
   return (
     <View
       style={[
-        styles.container,
+        container,
         borderPosition === "left" && styles.borderLeft,
         borderPosition === "right" && styles.borderRight,
-        variant === "compliment" && styles.themeCompliment,
-        variant === "error" && styles.themeError,
-        variant === "primary" && styles.themePrimary,
-        variant === "success" && styles.themeSuccess,
+        variant === "compliment" && themeComplimentStyle,
+        variant === "error" && themeErrorStyle,
+        variant === "primary" && themePrimaryStyle,
+        variant === "success" && themeSuccessStyle,
       ]}>
       {title && (
-        <View style={styles.titleContainer}>
+        <View style={titleContainerStyle}>
           <Typography.Text size="footnote" weight="semiBold">
             {title}
           </Typography.Text>
         </View>
       )}
-      {content && <Text style={styles.content}>{content}</Text>}
+      {content && <Typography.Text size="caption1">{content}</Typography.Text>}
       {children}
     </View>
   );
@@ -42,29 +81,5 @@ const styles = StyleSheet.create({
   },
   borderRight: {
     borderRightWidth: 4,
-  },
-  container: {
-    backgroundColor: palette["neutralBase-50"],
-    borderRadius: radii.extraSmall,
-    padding: spacing.medium,
-  },
-  content: {
-    fontSize: typography.text.sizes.caption1,
-    lineHeight: typography.text._lineHeights.caption1,
-  },
-  themeCompliment: {
-    borderColor: palette["complimentBase"],
-  },
-  themeError: {
-    borderColor: palette["errorBase"],
-  },
-  themePrimary: {
-    borderColor: palette["primaryBase"],
-  },
-  themeSuccess: {
-    borderColor: palette["successBase"],
-  },
-  titleContainer: {
-    marginBottom: spacing.small,
   },
 });

@@ -1,9 +1,9 @@
-import { GestureResponderEvent, StyleSheet, View } from "react-native";
+import { GestureResponderEvent, StyleSheet, View, ViewStyle } from "react-native";
 
+import { Notification } from "@/Axios/notification";
 import Button from "@/components/Button";
 import Typography from "@/components/Typography";
-import { spacing } from "@/theme/values";
-import { Notification } from "@/types/notification";
+import { useThemeStyles } from "@/theme";
 
 interface SlideContentProps {
   data: Notification;
@@ -11,19 +11,43 @@ interface SlideContentProps {
 }
 
 export default function SlideContent({ data, onPress }: SlideContentProps) {
+  const buttonRowWrapperStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingBottom: theme.spacing.large,
+    }),
+    []
+  );
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      justifyContent: "space-between",
+      minHeight: 184,
+      paddingHorizontal: theme.spacing.medium,
+      paddingVertical: theme.spacing.small,
+    }),
+    []
+  );
+  const contentWrapperStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      flexDirection: "row",
+      marginBottom: theme.spacing.medium,
+      paddingTop: theme.spacing.small,
+    }),
+    []
+  );
+
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <View style={styles.textWrapper}>
         <Typography.Text weight="semiBold" color="primaryBase" size="body">
           {data.action_title}
         </Typography.Text>
-        <View style={styles.contentWrapper}>
+        <View style={contentWrapperStyle}>
           <Typography.Text weight="regular" color="primaryBase">
             {data.action_message}
           </Typography.Text>
         </View>
       </View>
-      <View style={styles.buttonRowWrapper}>
+      <View style={buttonRowWrapperStyle}>
         <View style={styles.row}>
           <View style={[styles.row, styles.rowContent]}>
             <Button variant="primary" color="alt" style={styles.buttonContainer}>
@@ -44,20 +68,6 @@ export default function SlideContent({ data, onPress }: SlideContentProps) {
 const styles = StyleSheet.create({
   buttonContainer: {
     minWidth: 114,
-  },
-  buttonRowWrapper: {
-    paddingBottom: spacing.large,
-  },
-  container: {
-    justifyContent: "space-between",
-    minHeight: 184,
-    paddingHorizontal: spacing.medium,
-    paddingVertical: spacing.small,
-  },
-  contentWrapper: {
-    flexDirection: "row",
-    marginBottom: spacing.medium,
-    paddingTop: spacing.small,
   },
   row: {
     flexDirection: "row",

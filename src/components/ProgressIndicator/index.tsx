@@ -1,7 +1,7 @@
 import { times } from "lodash";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
-import { palette } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 type ProgressIndicatorProps = {
   currentStep: number;
@@ -9,6 +9,23 @@ type ProgressIndicatorProps = {
 };
 
 const ProgressIndicator = ({ currentStep, totalStep }: ProgressIndicatorProps) => {
+  const progressBarStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-20"],
+      borderRadius: 3,
+      flex: 1,
+      height: 3,
+      marginRight: 4,
+    }),
+    []
+  );
+  const progressBarActiveStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["tintBase"],
+    }),
+    []
+  );
+
   return (
     <View
       accessibilityLabel={`Step ${currentStep} of ${totalStep}`}
@@ -18,9 +35,9 @@ const ProgressIndicator = ({ currentStep, totalStep }: ProgressIndicatorProps) =
         <View
           key={index}
           style={[
-            styles.progressBar,
+            progressBarStyle,
             index === totalStep - 1 && styles.progressBarLast,
-            index <= currentStep - 1 && styles.progressBarActive,
+            index <= currentStep - 1 && progressBarActiveStyle,
           ]}
         />
       ))}
@@ -31,16 +48,6 @@ const ProgressIndicator = ({ currentStep, totalStep }: ProgressIndicatorProps) =
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-  },
-  progressBar: {
-    backgroundColor: palette["neutralBase-20"],
-    borderRadius: 3,
-    flex: 1,
-    height: 3,
-    marginRight: 4,
-  },
-  progressBarActive: {
-    backgroundColor: palette["tintBase"],
   },
   progressBarLast: {
     marginRight: 0,

@@ -1,8 +1,7 @@
+import { useThemeStyles } from "@/theme";
 import { times } from "lodash";
 import * as React from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-
-import { palette, radii, spacing } from "@/theme/values";
+import { Pressable, StyleSheet, Text, TextInput, View, ViewStyle } from "react-native";
 
 interface PinCodeInputProps {
   inputLength: number;
@@ -20,6 +19,53 @@ function PinCodeInput(
   { inputLength, value, onChangeText, isValid }: PinCodeInputProps,
   ref: React.ForwardedRef<PinCodeInputRefMethods>
 ) {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      flexDirection: "row",
+      justifyContent: "center",
+      paddingVertical: theme.spacing.large,
+    }),
+    []
+  );
+  const errorBoxStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["errorBase-30"],
+      borderColor: theme.palette.errorBase,
+      borderWidth: 2,
+    }),
+    []
+  );
+  const highlightedBoxStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderColor: theme.palette.complimentBase,
+      borderWidth: 2,
+    }),
+    []
+  );
+  const inputBoxStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      backgroundColor: theme.palette["neutralBase-50"],
+      borderColor: theme.palette["neutralBase-20"],
+      borderRadius: theme.radii.extraSmall,
+      borderWidth: 1,
+      height: 60,
+      justifyContent: "center",
+      marginHorizontal: theme.spacing.small,
+      width: 50,
+    }),
+    []
+  );
+  const inputDotStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase+30"],
+      borderRadius: 8,
+      height: 10,
+      width: 10,
+    }),
+    []
+  );
   const textInputRef = React.useRef<TextInput>(null);
 
   const [temp, setTemp] = React.useState(value);
@@ -41,11 +87,11 @@ function PinCodeInput(
 
     if (isCurrentInput && !isLastInput) {
       if (temp === "showDot") {
-        return <View style={styles.inputDot} />;
+        return <View style={inputDotStyle} />;
       }
       return <Text>{temp}</Text>;
     } else if (input !== emptyInput) {
-      return <View style={styles.inputDot} />;
+      return <View style={inputDotStyle} />;
     } else {
       return <View />;
     }
@@ -60,11 +106,9 @@ function PinCodeInput(
 
   return (
     <>
-      <Pressable style={styles.container} onPress={boxPressHandler}>
+      <Pressable style={container} onPress={boxPressHandler}>
         {times(inputLength, i => (
-          <View
-            key={i}
-            style={[styles.inputBox, i === value.length && styles.highlightedBox, !isValid && styles.errorBox]}>
+          <View key={i} style={[inputBoxStyle, i === value.length && highlightedBoxStyle, !isValid && errorBoxStyle]}>
             {inputToDotOrDigit(value, i)}
           </View>
         ))}
@@ -84,43 +128,11 @@ function PinCodeInput(
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "center",
-    paddingVertical: spacing.large,
-  },
-  errorBox: {
-    backgroundColor: palette["errorBase-30"],
-    borderColor: palette.errorBase,
-    borderWidth: 2,
-  },
   hiddenInput: {
     left: -200,
     opacity: 0,
     position: "absolute",
     top: -200,
-  },
-  highlightedBox: {
-    borderColor: palette.complimentBase,
-    borderWidth: 2,
-  },
-  inputBox: {
-    alignItems: "center",
-    backgroundColor: palette["neutralBase-50"],
-    borderColor: palette["neutralBase-20"],
-    borderRadius: radii.extraSmall,
-    borderWidth: 1,
-    height: 60,
-    justifyContent: "center",
-    marginHorizontal: spacing.small,
-    width: 50,
-  },
-  inputDot: {
-    backgroundColor: palette["neutralBase+30"],
-    borderRadius: 8,
-    height: 10,
-    width: 10,
   },
 });
 

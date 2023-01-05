@@ -1,8 +1,8 @@
-import { GestureResponderEvent, StyleSheet, TouchableOpacity, View } from "react-native";
+import { GestureResponderEvent, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 
 import { NotificationIcon, UpArrowIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { iconDimensions, palette, radii, spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 import { pluralize } from "@/utils";
 
 interface DropdownContentProps {
@@ -12,23 +12,43 @@ interface DropdownContentProps {
 }
 
 export default function NotificationsTitle({ length, dropdownVisible, onPress }: DropdownContentProps) {
+  const paddingLeftStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingLeft: theme.spacing.small,
+    }),
+    []
+  );
+  const titleContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-50"],
+      borderRadius: theme.radii.extraSmall,
+      flexDirection: "row",
+      padding: theme.spacing.medium,
+      shadowColor: theme.palette["tintBase+20"],
+      shadowOffset: { width: 2, height: 2 },
+      shadowOpacity: 0.14,
+    }),
+    []
+  );
+  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.notifications, []);
+
   const title = pluralize(length, "notification", "s");
 
   return (
-    <TouchableOpacity onPress={onPress} style={styles.titleContainer}>
+    <TouchableOpacity onPress={onPress} style={titleContainerStyle}>
       <View style={styles.titleWrapper}>
         <View style={styles.subRow}>
-          <NotificationIcon width={iconDimensions.notifications} height={iconDimensions.notifications} />
-          <View style={styles.paddingLeft}>
+          <NotificationIcon width={iconDimensions} height={iconDimensions} />
+          <View style={paddingLeftStyle}>
             <Typography.Text color="primaryBase" size="callout" weight="semiBold">
               {title}
             </Typography.Text>
           </View>
         </View>
         {dropdownVisible ? (
-          <UpArrowIcon width={iconDimensions.notifications} height={iconDimensions.notifications} />
+          <UpArrowIcon width={iconDimensions} height={iconDimensions} />
         ) : (
-          <UpArrowIcon width={iconDimensions.notifications} height={iconDimensions.notifications} />
+          <UpArrowIcon width={iconDimensions} height={iconDimensions} />
         )}
       </View>
     </TouchableOpacity>
@@ -36,20 +56,8 @@ export default function NotificationsTitle({ length, dropdownVisible, onPress }:
 }
 
 const styles = StyleSheet.create({
-  paddingLeft: {
-    paddingLeft: spacing.small,
-  },
   subRow: {
     flexDirection: "row",
-  },
-  titleContainer: {
-    backgroundColor: palette["neutralBase-50"],
-    borderRadius: radii.extraSmall,
-    flexDirection: "row",
-    padding: spacing.medium,
-    shadowColor: palette["tintBase+20"],
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.14,
   },
   titleWrapper: {
     flexDirection: "row",

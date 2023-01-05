@@ -1,9 +1,10 @@
-import { Pressable, StatusBar, StatusBarStyle, StyleSheet, View } from "react-native";
+import { Pressable, StatusBar, StatusBarStyle, StyleSheet, View, ViewStyle } from "react-native";
 
 import { BackIcon, CloseIcon, CloseWhiteIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
-import { iconDimensions, spacing } from "@/theme/values";
+
+import { useThemeStyles } from "@/theme";
 
 interface NavHeaderProps {
   title: string;
@@ -14,6 +15,19 @@ interface NavHeaderProps {
 }
 
 export default function NavHeader({ title, backButton, barStyle, backButtonHandler, color = "black" }: NavHeaderProps) {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginHorizontal: theme.spacing.small,
+      paddingTop: theme.spacing.medium,
+    }),
+    []
+  );
+  const iconDimension = useThemeStyles<number>(theme => theme.iconDimensions.link, []);
+
   const navigation = useNavigation();
 
   const handleOnClose = () => {
@@ -31,11 +45,11 @@ export default function NavHeader({ title, backButton, barStyle, backButtonHandl
   return (
     <>
       <StatusBar barStyle={barStyle} />
-      <View style={styles.container}>
+      <View style={container}>
         <View style={styles.iconWrapper}>
           {backButton && (
             <Pressable onPress={handleOnBack}>
-              <BackIcon height={iconDimensions.link} width={iconDimensions.link} />
+              <BackIcon height={iconDimension} width={iconDimension} />
             </Pressable>
           )}
         </View>
@@ -47,9 +61,9 @@ export default function NavHeader({ title, backButton, barStyle, backButtonHandl
         <View style={styles.iconWrapper}>
           <Pressable onPress={handleOnClose}>
             {color === "black" ? (
-              <CloseIcon height={iconDimensions.link} width={iconDimensions.link} />
+              <CloseIcon height={iconDimension} width={iconDimension} />
             ) : (
-              <CloseWhiteIcon height={iconDimensions.link} width={iconDimensions.link} />
+              <CloseWhiteIcon height={iconDimension} width={iconDimension} />
             )}
           </Pressable>
         </View>
@@ -59,14 +73,6 @@ export default function NavHeader({ title, backButton, barStyle, backButtonHandl
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginHorizontal: spacing.small,
-    paddingTop: spacing.medium,
-  },
   iconWrapper: {
     alignItems: "center",
     width: "10%",

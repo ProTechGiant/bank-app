@@ -1,15 +1,74 @@
 import { useEffect, useState } from "react";
-import { Alert, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 import * as RNLocalize from "react-native-localize";
 
 import Button from "@/components/Button";
 import DarkOneGradient from "@/components/LinearGradients/GradientBackgrounds";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
-import { palette, radii, spacing, typography } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 import { vh } from "@/theme/viewportUnit";
 
 const OnboardingSplashScreen = () => {
+  const bodyStyle = useThemeStyles<TextStyle>(
+    theme => ({
+      color: theme.palette["neutralBase-50"],
+      fontSize: theme.typography.text.sizes.footnote,
+      fontWeight: theme.typography.text.weights.regular,
+      lineHeight: theme.typography.text._lineHeights.footnote,
+      textAlign: "center",
+    }),
+    []
+  );
+  const buttonGroupStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      marginHorizontal: theme.spacing.regular,
+      marginTop: "auto",
+    }),
+    []
+  );
+  const contentViewStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingHorizontal: theme.spacing.regular,
+    }),
+    []
+  );
+  const headerViewStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      marginBottom: theme.spacing.xlarge,
+      marginTop: 18 * vh,
+    }),
+    []
+  );
+  const languageSelectViewStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      alignSelf: "flex-end",
+      backgroundColor: theme.palette["neutralBase-50-12%"],
+      borderRadius: theme.radii.medium,
+      height: 34,
+      justifyContent: "center",
+      marginRight: theme.spacing.medium,
+      marginTop: theme.spacing.large,
+      paddingHorizontal: theme.spacing.medium,
+      width: isEnglish ? 65 : 50,
+    }),
+    []
+  );
+  const signInContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      borderColor: theme.palette["neutralBase-50"],
+      borderRadius: theme.radii.extraSmall,
+      borderWidth: 1,
+      height: 54,
+      justifyContent: "center",
+      marginTop: theme.spacing.small,
+    }),
+    []
+  );
+
   const navigation = useNavigation();
   const [isEnglish, setIsEnglish] = useState(false);
 
@@ -47,28 +106,32 @@ const OnboardingSplashScreen = () => {
     <DarkOneGradient>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Pressable style={[styles.languageSelectView, { width: isEnglish ? 65 : 50 }]} onPress={handleLanguageSwitch}>
-          <Text style={styles.languageText}>{buttonText}</Text>
+        <Pressable style={languageSelectViewStyle} onPress={handleLanguageSwitch}>
+          <Typography.Text color="neutralBase-50" size="footnote">
+            {buttonText}
+          </Typography.Text>
         </Pressable>
-        <View style={styles.contentView}>
-          <View style={styles.headerView}>
+        <View style={contentViewStyle}>
+          <View style={headerViewStyle}>
             <Typography.Text size="large" weight="bold" color="neutralBase-50">
               You're in control now
             </Typography.Text>
           </View>
           <View>
-            <Typography.Text size="footnote" weight="regular" color="neutralBase-50" style={styles.body}>
+            <Typography.Text size="footnote" weight="regular" color="neutralBase-50" style={bodyStyle}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend commodo.
             </Typography.Text>
           </View>
         </View>
-        <View style={styles.buttonGroup}>
+        <View style={buttonGroupStyle}>
           <Button variant="primary" color="alt" onPress={handleOnContinueOnboarding}>
             Sign up
           </Button>
 
-          <Pressable onPress={ButtonPressed} style={styles.signInContainer}>
-            <Text style={styles.signInText}>Sign in</Text>
+          <Pressable onPress={ButtonPressed} style={signInContainerStyle}>
+            <Typography.Text color="neutralBase-50" size="body" weight="regular">
+              Sign in
+            </Typography.Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -79,58 +142,7 @@ const OnboardingSplashScreen = () => {
 export default OnboardingSplashScreen;
 
 const styles = StyleSheet.create({
-  body: {
-    color: palette["neutralBase-50"],
-    fontSize: typography.text.sizes.footnote,
-    fontWeight: typography.text.weights.regular,
-    lineHeight: typography.text._lineHeights.footnote,
-    textAlign: "center",
-  },
-  buttonGroup: {
-    marginHorizontal: spacing.regular,
-    marginTop: "auto",
-  },
   container: {
     flex: 1,
-  },
-  contentView: {
-    paddingHorizontal: spacing.regular,
-  },
-  headerView: {
-    alignItems: "center",
-    marginBottom: spacing.xlarge,
-    marginTop: 18 * vh,
-  },
-  languageSelectView: {
-    alignItems: "center",
-    alignSelf: "flex-end",
-    backgroundColor: palette["neutralBase-50-12%"],
-    borderRadius: radii.medium,
-    height: 34,
-    justifyContent: "center",
-    marginRight: spacing.medium,
-    marginTop: spacing.large,
-    paddingHorizontal: spacing.medium,
-  },
-  languageText: {
-    color: palette["neutralBase-50"],
-    fontSize: typography.text.sizes.footnote,
-    lineHeight: typography.text._lineHeights.footnote,
-  },
-
-  signInContainer: {
-    alignItems: "center",
-    borderColor: palette["neutralBase-50"],
-    borderRadius: radii.extraSmall,
-    borderWidth: 1,
-    height: 54,
-    justifyContent: "center",
-    marginTop: spacing.small,
-  },
-  signInText: {
-    color: palette["neutralBase-50"],
-    fontSize: typography.text.sizes.body,
-    fontWeight: typography.text.weights.regular,
-    lineHeight: typography.text._lineHeights.body,
   },
 });

@@ -1,7 +1,7 @@
 import Carousel from "@/components/Carousel";
 import { rewardSectionData } from "@/mocks/rewardSectionData";
+import { useThemeStyles } from "@/theme";
 import { duplicateArr } from "@/theme/mappings";
-import { spacing } from "@/theme/values";
 
 import RewardSectionContent from "./rewardSectionContent";
 
@@ -9,7 +9,6 @@ import RewardSectionContent from "./rewardSectionContent";
 const newData = rewardSectionData.length > 1 ? duplicateArr(rewardSectionData, 6) : [...rewardSectionData];
 
 export default function RewardSection() {
-  return (
-    <Carousel data={newData} Slide={RewardSectionContent} pagination={false} width={330 + spacing.small} loop={true} />
-  );
+  const width = useThemeStyles<number>(theme => 330 + theme.spacing.small, []);
+  return <Carousel data={newData} Slide={RewardSectionContent} pagination={false} width={width} loop={true} />;
 }

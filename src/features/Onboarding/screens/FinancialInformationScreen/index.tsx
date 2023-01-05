@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { SafeAreaView, ScrollView, View, ViewStyle } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
@@ -6,16 +6,30 @@ import { Stack } from "@/components/Stack";
 import Typography from "@/components/Typography";
 import MoreInfoDropdown from "@/features/Onboarding/components/MoreInfoDropdown";
 import FinancialForm from "@/features/Onboarding/screens/FinancialInformationScreen/FinancialForm/FinancialForm";
-import { spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 const FinancialInformationScreen = () => {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      padding: theme.spacing.regular,
+    }),
+    []
+  );
+  const headerContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      marginBottom: theme.spacing.large,
+      marginTop: theme.spacing.medium,
+    }),
+    []
+  );
+
   return (
     <SafeAreaView>
       <NavHeader title="ABOUT YOU" backButton={true} barStyle="dark-content" />
-      <View style={styles.container}>
+      <View style={container}>
         <ProgressIndicator currentStep={3} totalStep={6} />
         <ScrollView>
-          <View style={styles.headerContainer}>
+          <View style={headerContainerStyle}>
             <Typography.Text size="large" weight="bold">
               Tell us about your finances
             </Typography.Text>
@@ -36,13 +50,3 @@ const FinancialInformationScreen = () => {
 };
 
 export default FinancialInformationScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    padding: spacing.regular,
-  },
-  headerContainer: {
-    marginBottom: spacing.large,
-    marginTop: spacing.medium,
-  },
-});

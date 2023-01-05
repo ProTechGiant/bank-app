@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useWindowDimensions } from "react-native";
+import { TextStyle, useWindowDimensions, ViewStyle } from "react-native";
 import { NavigationState, SceneMap, SceneRendererProps, TabBar, TabBarIndicator, TabView } from "react-native-tab-view";
 
 import Typography from "@/components/Typography";
-import { palette } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 import SelectLuxCard from "./SelectLuxCard";
 import SelectStandardCard from "./SelectStandardCard";
@@ -18,6 +18,15 @@ const renderScene = SceneMap({
 });
 
 export default function SegmentedControl() {
+  const tabBarIndicatorStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase+30"],
+    }),
+    []
+  );
+  const tabBarStyle = useThemeStyles<ViewStyle>(theme => ({ backgroundColor: theme.palette["neutralBase-40"] }), []);
+  const tablabelStyleStyle = useThemeStyles<TextStyle>(theme => ({ color: theme.palette["neutralBase+30"] }), []);
+
   const layout = useWindowDimensions();
 
   const [index, setIndex] = useState(0);
@@ -36,15 +45,11 @@ export default function SegmentedControl() {
       renderIndicator={indicatorProps => {
         const width = indicatorProps.getTabWidth(index);
         return (
-          <TabBarIndicator
-            {...indicatorProps}
-            width={width / 2}
-            style={{ backgroundColor: palette["neutralBase+30"], left: width / 4 }}
-          />
+          <TabBarIndicator {...indicatorProps} width={width / 2} style={[tabBarIndicatorStyle, { left: width / 4 }]} />
         );
       }}
-      style={{ backgroundColor: palette["neutralBase-40"] }}
-      labelStyle={{ color: palette["neutralBase+30"] }}
+      style={tabBarStyle}
+      labelStyle={tablabelStyleStyle}
       renderLabel={({ route, focused }) => (
         <Typography.Text color="neutralBase+30" weight="medium" size="callout" style={{ opacity: focused ? 1 : 0.5 }}>
           {route.title}

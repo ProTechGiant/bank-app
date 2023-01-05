@@ -1,16 +1,23 @@
 import { Formik, FormikHelpers } from "formik";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import Checkbox from "@/components/Checkbox";
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import useNavigation from "@/navigation/use-navigation";
-import { spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 interface Values {
   detailsConfirmed: boolean;
 }
 
 const ConfirmPersonalDetailsForm = () => {
+  const buttonViewStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      marginHorizontal: theme.spacing.medium,
+    }),
+    []
+  );
+
   const navigation = useNavigation();
 
   return (
@@ -27,7 +34,7 @@ const ConfirmPersonalDetailsForm = () => {
         }}>
         <>
           <Checkbox title="I confirm my details are correct" name="detailsConfirmed" border={false} />
-          <View style={styles.buttonView}>
+          <View style={buttonViewStyle}>
             <FormSubmitButton title="Continue" />
           </View>
         </>
@@ -39,9 +46,6 @@ const ConfirmPersonalDetailsForm = () => {
 export default ConfirmPersonalDetailsForm;
 
 const styles = StyleSheet.create({
-  buttonView: {
-    marginHorizontal: spacing.medium,
-  },
   container: {
     paddingBottom: 30,
     width: "100%",

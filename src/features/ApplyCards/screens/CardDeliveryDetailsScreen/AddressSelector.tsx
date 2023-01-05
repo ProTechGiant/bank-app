@@ -1,8 +1,8 @@
-import { Pressable, PressableProps, StyleSheet, View } from "react-native";
+import { Pressable, PressableProps, StyleSheet, View, ViewStyle } from "react-native";
 
 import { LocationPinIcon, TickOrangeIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { iconDimensions, palette, radii, spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 interface AddressSelectorProps extends Omit<PressableProps, "children" | "style"> {
   id: string;
@@ -21,10 +21,36 @@ const AddressSelector = ({
   isSelected,
   handlePress,
 }: AddressSelectorProps) => {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-50"],
+      borderRadius: theme.radii.extraSmall,
+      elevation: 8,
+      flexDirection: "row",
+      flexShrink: 0,
+      padding: theme.spacing.medium,
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.08,
+      shadowRadius: 8,
+    }),
+    []
+  );
+  const isSelectedStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderColor: theme.palette.complimentBase,
+      borderWidth: 2,
+    }),
+    []
+  );
+  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.locationPin, []);
+
   return (
     <Pressable onPress={() => handlePress(id)}>
-      <View style={[styles.container, isSelected && styles.isSelected]}>
-        <LocationPinIcon width={iconDimensions.locationPin} height={iconDimensions.locationPin} />
+      <View style={[container, isSelected && isSelectedStyle]}>
+        <LocationPinIcon width={iconDimensions} height={iconDimensions} />
         <View style={styles.addressContent}>
           <Typography.Text color="primaryBase+30" size="callout">
             {addressLine1}
@@ -48,24 +74,6 @@ const styles = StyleSheet.create({
   addressContent: {
     flex: 1,
     marginLeft: 12,
-  },
-  container: {
-    backgroundColor: palette["neutralBase-50"],
-    borderRadius: radii.extraSmall,
-    elevation: 8,
-    flexDirection: "row",
-    flexShrink: 0,
-    padding: spacing.medium,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-  },
-  isSelected: {
-    borderColor: palette.complimentBase,
-    borderWidth: 2,
   },
   tickIcon: {
     alignItems: "flex-end",

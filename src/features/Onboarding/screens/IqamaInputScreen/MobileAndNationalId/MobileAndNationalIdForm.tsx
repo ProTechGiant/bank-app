@@ -1,5 +1,5 @@
 import { Field, Formik, FormikHelpers } from "formik";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import MobileNumberField from "@/components/MobileNumberField";
@@ -7,7 +7,7 @@ import TextField from "@/components/TextField";
 import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
-import { iconDimensions, palette, radii, spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 import { vh, vw } from "@/theme/viewportUnit";
 
 import { iqamaValidationSchema } from "./IqamaValidation";
@@ -18,6 +18,53 @@ interface Values {
 }
 
 const MobileAndNationalIdForm = () => {
+  const areaCodeViewStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      backgroundColor: theme.palette["neutralBase-50"],
+      borderColor: theme.palette["neutralBase-20"],
+      borderRadius: theme.radii.extraSmall,
+      borderWidth: 1,
+      flexDirection: "row",
+      height: 54,
+      justifyContent: "center",
+      marginRight: theme.spacing.small,
+      width: 24 * vw,
+    }),
+    []
+  );
+  const iconStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderRadius: theme.radii.medium,
+      height: theme.iconDimensions.notifications,
+      marginRight: 4,
+      width: theme.iconDimensions.notifications,
+    }),
+    []
+  );
+  const inputFieldsStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      marginBottom: theme.spacing.medium,
+    }),
+    []
+  );
+  const mobileNumberContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      flexDirection: "row",
+      marginBottom: theme.spacing.medium,
+      marginTop: theme.spacing.small,
+    }),
+    []
+  );
+  const errorsMobileNumberStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderWidth: 2,
+      backgroundColor: theme.palette["errorBase-40"],
+      borderColor: theme.palette["errorBase-10"],
+    }),
+    []
+  );
+
   const navigation = useNavigation();
 
   return (
@@ -37,23 +84,20 @@ const MobileAndNationalIdForm = () => {
         {({ errors }) => {
           let areaViewMobileCode;
           errors.mobileNumber
-            ? (areaViewMobileCode = [
-                styles.areaCodeView,
-                { borderWidth: 2, backgroundColor: palette["errorBase-40"], borderColor: palette["errorBase-10"] },
-              ])
-            : (areaViewMobileCode = styles.areaCodeView);
+            ? (areaViewMobileCode = [areaCodeViewStyle, errorsMobileNumberStyle])
+            : (areaViewMobileCode = areaCodeViewStyle);
 
           return (
             <View>
-              <View style={styles.inputFields}>
+              <View style={inputFieldsStyle}>
                 <View>
                   <Typography.Text size="callout" weight="medium" color="neutralBase+30">
                     Mobile
                   </Typography.Text>
-                  <View style={styles.mobileNumberContainer}>
+                  <View style={mobileNumberContainerStyle}>
                     <View style={areaViewMobileCode}>
                       <View>
-                        <Image style={styles.icon} source={require("@/assets/images/KSAFlag.png")} />
+                        <Image style={iconStyle} source={require("@/assets/images/KSAFlag.png")} />
                       </View>
                       <Text>+966</Text>
                     </View>
@@ -79,9 +123,8 @@ const MobileAndNationalIdForm = () => {
                 <Typography.Text color="primaryBase+30" size="caption1" weight="regular">
                   To join Croatia, you must be over 18 and have an Absher profile. Register at
                   <Typography.Text color="primaryBase+30" size="caption1" weight="bold">
-                    {" "}
                     absher.sa
-                  </Typography.Text>{" "}
+                  </Typography.Text>
                   before joining us
                 </Typography.Text>
               </Toast>
@@ -99,33 +142,10 @@ const MobileAndNationalIdForm = () => {
 export default MobileAndNationalIdForm;
 
 const styles = StyleSheet.create({
-  areaCodeView: {
-    alignItems: "center",
-    backgroundColor: palette["neutralBase-50"],
-    borderColor: palette["neutralBase-20"],
-    borderRadius: radii.extraSmall,
-    borderWidth: 1,
-    flexDirection: "row",
-    height: 54,
-    justifyContent: "center",
-    marginRight: spacing.small,
-    width: 24 * vw,
+  mobile: {
+    width: 64 * vw,
   },
-  icon: {
-    borderRadius: radii.medium,
-    height: iconDimensions.notifications,
-    marginRight: 4,
-    width: iconDimensions.notifications,
+  submitButtonView: {
+    marginTop: 28 * vh,
   },
-  inputFields: {
-    marginBottom: spacing.medium,
-  },
-  mobile: { width: 64 * vw },
-
-  mobileNumberContainer: {
-    flexDirection: "row",
-    marginBottom: spacing.medium,
-    marginTop: spacing.small,
-  },
-  submitButtonView: { marginTop: 28 * vh },
 });

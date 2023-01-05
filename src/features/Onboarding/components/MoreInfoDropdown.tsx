@@ -1,12 +1,12 @@
 /* eslint-disable react-native/sort-styles */
 import { useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { DownArrowIcon, InfoCircleIcon, UpArrowIcon } from "@/assets/icons";
 import Dropdown from "@/components/Dropdown";
 import { GreyGradient } from "@/components/LinearGradients/GradientButtons";
 import Typography from "@/components/Typography";
-import { iconDimensions, palette, radii, spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 interface MoreInfoDropdownProps {
   title: string;
@@ -14,30 +14,83 @@ interface MoreInfoDropdownProps {
 }
 
 const MoreInfoDropdown = ({ title, children }: MoreInfoDropdownProps) => {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      width: "100%",
+      backgroundColor: theme.palette["neutralBase-50"],
+      borderRadius: theme.radii.extraSmall,
+    }),
+    []
+  );
+  const contentContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingHorizontal: 40,
+      paddingVertical: theme.spacing.medium,
+    }),
+    []
+  );
+  const pressableContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      padding: theme.spacing.medium,
+      flexDirection: "row",
+      alignItems: "center",
+      width: "100%",
+    }),
+    []
+  );
+  const toggleContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderRadius: theme.radii.extraSmall,
+      overflow: "hidden",
+    }),
+    []
+  );
+  const toggleIconStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      height: theme.iconDimensions.accordian,
+      width: theme.iconDimensions.accordian,
+      justifyContent: "center",
+      alignItems: "flex-end",
+    }),
+    []
+  );
+  const infoIconStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      height: theme.iconDimensions.accordian,
+      width: theme.iconDimensions.accordian,
+      justifyContent: "center",
+      alignItems: "flex-start",
+      marginRight: theme.spacing.small,
+    }),
+    []
+  );
+  const primaryBaseColor = useThemeStyles<string>(theme => theme.palette.primaryBase, []);
+  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.dropdown, []);
+
   const [openContent, setOpenContent] = useState<boolean>(false);
   const toggleContent = () => {
     setOpenContent(!openContent);
   };
 
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <Dropdown
         title={
-          <View style={styles.toggleContainer}>
+          <View style={toggleContainerStyle}>
             <GreyGradient>
               <Pressable onPress={toggleContent}>
-                <View style={styles.pressableContainer}>
-                  <View style={styles.infoIcon}>
+                <View style={pressableContainerStyle}>
+                  <View style={infoIconStyle}>
                     <InfoCircleIcon />
                   </View>
                   <Typography.Text color="primaryBase" weight="semiBold" size="callout" style={styles.title}>
                     {title}
                   </Typography.Text>
-                  <View style={styles.toggleIcon}>
+                  <View style={toggleIconStyle}>
                     {openContent ? (
-                      <UpArrowIcon color={palette.primaryBase} width={iconDimensions.dropdown} />
+                      <UpArrowIcon color={primaryBaseColor} width={iconDimensions} />
                     ) : (
-                      <DownArrowIcon color={palette.primaryBase} width={iconDimensions.dropdown} />
+                      <DownArrowIcon color={primaryBaseColor} width={iconDimensions} />
                     )}
                   </View>
                 </View>
@@ -46,7 +99,7 @@ const MoreInfoDropdown = ({ title, children }: MoreInfoDropdownProps) => {
           </View>
         }
         dropdownVisible={openContent}
-        content={<View style={styles.contentContainer}>{children}</View>}
+        content={<View style={contentContainerStyle}>{children}</View>}
       />
     </View>
   );
@@ -55,38 +108,6 @@ const MoreInfoDropdown = ({ title, children }: MoreInfoDropdownProps) => {
 export default MoreInfoDropdown;
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    backgroundColor: palette["neutralBase-50"],
-    borderRadius: radii.extraSmall,
-  },
-  contentContainer: {
-    paddingHorizontal: 40,
-    paddingVertical: spacing.medium,
-  },
-  pressableContainer: {
-    padding: spacing.medium,
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-  },
-  toggleContainer: {
-    borderRadius: radii.extraSmall,
-    overflow: "hidden",
-  },
-  toggleIcon: {
-    height: iconDimensions.accordian,
-    width: iconDimensions.accordian,
-    justifyContent: "center",
-    alignItems: "flex-end",
-  },
-  infoIcon: {
-    height: iconDimensions.accordian,
-    width: iconDimensions.accordian,
-    justifyContent: "center",
-    alignItems: "flex-start",
-    marginRight: spacing.small,
-  },
   title: {
     flex: 1,
   },

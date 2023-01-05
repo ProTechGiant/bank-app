@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Linking, SafeAreaView, StyleSheet, View } from "react-native";
+import { Linking, SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
 
 import { Inline } from "@/components/Inline";
 import NavHeader from "@/components/NavHeader";
@@ -10,9 +10,43 @@ import MoreInfoDropdown from "@/features/Onboarding/components/MoreInfoDropdown"
 import LinkCard from "@/features/Onboarding/screens/NafathAuthScreen/LinkCard";
 import LinkModal from "@/features/Onboarding/screens/NafathAuthScreen/LinkModal";
 import useNavigation from "@/navigation/use-navigation";
-import { palette, spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 const NafathAuthScreen = () => {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      margin: theme.spacing.large,
+    }),
+    []
+  );
+  const headerContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      marginBottom: theme.spacing.large,
+      marginTop: theme.spacing.medium,
+    }),
+    []
+  );
+  const loadingContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignContent: "center",
+      justifyContent: "center",
+      marginVertical: theme.spacing.xlarge,
+    }),
+    []
+  );
+  const numberContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignContent: "center",
+      backgroundColor: theme.palette.complimentBase,
+      borderRadius: 30,
+      height: 60,
+      justifyContent: "center",
+      marginVertical: theme.spacing.xlarge,
+      width: 60,
+    }),
+    []
+  );
+
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [requestNumber, setRequestNumber] = useState(null);
@@ -58,7 +92,7 @@ const NafathAuthScreen = () => {
   return (
     <SafeAreaView>
       <NavHeader title="AUTHENTICATION" backButton={true} barStyle="dark-content" />
-      <View style={styles.container}>
+      <View style={container}>
         <LinkModal
           modalVisible={modalVisible}
           linkText="Open Nafath App"
@@ -66,13 +100,13 @@ const NafathAuthScreen = () => {
           toggleModal={toggleModalHandler}>
           <Inline xAlign="center">
             {requestNumber !== null ? (
-              <View style={styles.numberContainer}>
+              <View style={numberContainerStyle}>
                 <Typography.Text style={styles.textCenter} color="neutralBase-50" weight="bold" size="title1">
                   {requestNumber}
                 </Typography.Text>
               </View>
             ) : (
-              <View style={styles.loadingContainer}>
+              <View style={loadingContainerStyle}>
                 <Typography.Text style={styles.textCenter} color="neutralBase" weight="bold" size="title1">
                   Loading...
                 </Typography.Text>
@@ -83,7 +117,7 @@ const NafathAuthScreen = () => {
             </Typography.Text>
           </Inline>
         </LinkModal>
-        <View style={styles.headerContainer}>
+        <View style={headerContainerStyle}>
           <Typography.Text size="large" weight="bold">
             Authentication by Nafath
           </Typography.Text>
@@ -122,27 +156,6 @@ const NafathAuthScreen = () => {
 export default NafathAuthScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    margin: spacing.large,
-  },
-  headerContainer: {
-    marginBottom: spacing.large,
-    marginTop: spacing.medium,
-  },
-  loadingContainer: {
-    alignContent: "center",
-    justifyContent: "center",
-    marginVertical: spacing.xlarge,
-  },
-  numberContainer: {
-    alignContent: "center",
-    backgroundColor: palette.complimentBase,
-    borderRadius: 30,
-    height: 60,
-    justifyContent: "center",
-    marginVertical: spacing.xlarge,
-    width: 60,
-  },
   textCenter: {
     textAlign: "center",
   },

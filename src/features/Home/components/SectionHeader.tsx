@@ -1,7 +1,7 @@
-import { GestureResponderEvent, StyleSheet, TouchableOpacity, View } from "react-native";
+import { GestureResponderEvent, TouchableOpacity, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
-import { spacing } from "@/theme/values";
+import { useThemeStyles } from "@/theme";
 
 interface SectionHeaderProps {
   title: string;
@@ -9,8 +9,19 @@ interface SectionHeaderProps {
 }
 
 export default function SectionHeader({ title, subTitle }: SectionHeaderProps) {
+  const container = useThemeStyles<ViewStyle>(
+    theme => ({
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingHorizontal: theme.spacing.medium,
+      paddingTop: theme.spacing.medium,
+      width: "100%",
+    }),
+    []
+  );
+
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <Typography.Text size="footnote" weight="medium" color="primaryBase-20">
         {title.toUpperCase()}
       </Typography.Text>
@@ -29,13 +40,3 @@ export default function SectionHeader({ title, subTitle }: SectionHeaderProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: spacing.medium,
-    paddingTop: spacing.medium,
-    width: "100%",
-  },
-});
