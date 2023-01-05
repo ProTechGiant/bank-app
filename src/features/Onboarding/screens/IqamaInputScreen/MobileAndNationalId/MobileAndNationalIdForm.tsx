@@ -4,6 +4,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import MobileNumberField from "@/components/MobileNumberField";
 import TextField from "@/components/TextField";
+import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { iconDimensions, palette, radii, spacing } from "@/theme/values";
@@ -74,8 +75,8 @@ const MobileAndNationalIdForm = () => {
                   keyboardType="number-pad"
                 />
               </View>
-              <View style={styles.infoBlock}>
-                <Typography.Text color="primaryBase+30" size="caption1" weight="regular" style={styles.infoBlockText}>
+              <Toast variant="compliment" borderPosition="left">
+                <Typography.Text color="primaryBase+30" size="caption1" weight="regular">
                   To join Croatia, you must be over 18 and have an Absher profile. Register at
                   <Typography.Text color="primaryBase+30" size="caption1" weight="bold">
                     {" "}
@@ -83,7 +84,7 @@ const MobileAndNationalIdForm = () => {
                   </Typography.Text>{" "}
                   before joining us
                 </Typography.Text>
-              </View>
+              </Toast>
               <View style={styles.submitButtonView}>
                 <FormSubmitButton title="Continue" />
               </View>
@@ -115,15 +116,6 @@ const styles = StyleSheet.create({
     height: iconDimensions.notifications,
     marginRight: 4,
     width: iconDimensions.notifications,
-  },
-  infoBlock: {
-    backgroundColor: palette["neutralBase-50"],
-    borderLeftColor: palette.complimentBase,
-    borderLeftWidth: 4,
-    borderRadius: radii.extraSmall,
-  },
-  infoBlockText: {
-    padding: spacing.medium,
   },
   inputFields: {
     marginBottom: spacing.medium,
