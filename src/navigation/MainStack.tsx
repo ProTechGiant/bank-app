@@ -63,26 +63,38 @@ export default function MainStack() {
           />
           <Stack.Screen component={ForeignTaxScreen} name="Onboarding.ForeignTax" options={{ headerShown: false }} />
         </Stack.Group>
-        <Stack.Group screenOptions={{ headerShown: false, animation: "slide_from_bottom" }}>
-          <Stack.Screen component={ApplyForCardScreen} name="Cards.ApplyForCard" />
+        <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>
+          <Stack.Screen component={ApplyForCardScreen} name="ApplyCards.ApplyForCard" />
           <Stack.Screen
             options={{ animation: "default" }}
             component={ApplyForLuxCardScreen}
-            name="Cards.ApplyForLuxCard"
+            name="ApplyCards.ApplyForLuxCard"
           />
-          <Stack.Screen options={{ animation: "default" }} component={CreateCardPinScreen} name="Cards.CreateCardPin" />
-          <Stack.Screen options={{ animation: "default" }} component={SecureMessageScreen} name="Cards.SecureMessage" />
+          <Stack.Screen
+            options={{ animation: "default" }}
+            component={CreateCardPinScreen}
+            name="ApplyCards.CreateCardPin"
+          />
+          <Stack.Screen
+            options={{ animation: "default" }}
+            component={SecureMessageScreen}
+            name="ApplyCards.SecureMessage"
+          />
           <Stack.Screen
             options={{ animation: "default" }}
             component={CardDeliveryDetailsScreen}
-            name="Cards.CardDeliveryDetails"
+            name="ApplyCards.CardDeliveryDetails"
           />
           <Stack.Screen
             options={{ animation: "default" }}
             component={SetAnotherAddressScreen}
-            name="Cards.SetAnotherAddress"
+            name="ApplyCards.SetAnotherAddress"
           />
-          <Stack.Screen options={{ animation: "default" }} component={CardOrderedScreen} name="Cards.CardOrdered" />
+          <Stack.Screen
+            options={{ animation: "default" }}
+            component={CardOrderedScreen}
+            name="ApplyCards.CardOrdered"
+          />
         </Stack.Group>
         <Stack.Group screenOptions={{ presentation: "modal" }}>
           <Stack.Screen

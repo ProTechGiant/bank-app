@@ -1,7 +1,8 @@
-import { useThemeStyles } from "@/theme";
 import { times } from "lodash";
 import * as React from "react";
 import { Pressable, StyleSheet, Text, TextInput, View, ViewStyle } from "react-native";
+
+import { useThemeStyles } from "@/theme";
 
 interface PinCodeInputProps {
   inputLength: number;

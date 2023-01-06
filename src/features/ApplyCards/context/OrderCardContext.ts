@@ -14,7 +14,6 @@ export type OrderCardFormValues = {
 export type OrderCardValues = {
   formValues: OrderCardFormValues;
   formState?: FormState;
-  createCardPinMode: "input" | "confirm";
 };
 
 export const orderCardInitValues: OrderCardValues = {
@@ -23,17 +22,16 @@ export const orderCardInitValues: OrderCardValues = {
     cardProductId: 0,
     pin: "",
   },
-  createCardPinMode: "input",
 };
 
 export interface OrderCardContextValues {
   orderCardValues: OrderCardValues;
-  setOrderCardValues: React.Dispatch<React.SetStateAction<OrderCardValues>> | null;
+  setOrderCardValues: React.Dispatch<React.SetStateAction<OrderCardValues>>;
 }
 
 export const OrderCardContext = createContext<OrderCardContextValues>({
   orderCardValues: orderCardInitValues,
-  setOrderCardValues: null,
+  setOrderCardValues: () => {},
 });
 
 export const useOrderCardContext = () => useContext(OrderCardContext);

@@ -8,7 +8,7 @@ export default function TemporaryLandingScreen() {
   const navigation = useNavigation();
 
   const handleOnOpenApplyForCard = () => {
-    navigation.navigate("Cards.ApplyForCard");
+    navigation.navigate("ApplyCards.ApplyForCard");
   };
 
   const handleOnHomepage = () => {

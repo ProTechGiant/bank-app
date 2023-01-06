@@ -1,11 +1,11 @@
 type MainStackParams = {
-  "Cards.ApplyForCard": undefined;
-  "Cards.ApplyForLuxCard": undefined;
-  "Cards.SecureMessage": undefined;
-  "Cards.CreateCardPin": undefined;
-  "Cards.CardDeliveryDetails": undefined;
-  "Cards.SetAnotherAddress": undefined;
-  "Cards.CardOrdered": undefined;
+  "ApplyCards.ApplyForCard": undefined;
+  "ApplyCards.ApplyForLuxCard": undefined;
+  "ApplyCards.SecureMessage": undefined;
+  "ApplyCards.CreateCardPin": undefined;
+  "ApplyCards.CardDeliveryDetails": undefined;
+  "ApplyCards.SetAnotherAddress": undefined;
+  "ApplyCards.CardOrdered": undefined;
   "Home.Dashboard": undefined;
   "Temporary.LandingScreen": undefined;
   "Onboarding.SplashScreen": undefined;

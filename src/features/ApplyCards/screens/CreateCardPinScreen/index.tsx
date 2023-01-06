@@ -1,25 +1,22 @@
 import * as React from "react";
-import { Dimensions, Keyboard, Pressable, SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Dimensions, Keyboard, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ErrorBlackIcon, InfoIcon } from "@/assets/icons";
 import NavHeader from "@/components/NavHeader";
+import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { useOrderCardContext } from "../../context/OrderCardContext";
+import encryptPincode from "./encrypt-pincode";
 import PinCodeInput from "./PinCodeInput";
 
-const height = Dimensions.get("screen").height;
-
-const inputLength = 4;
-const maxTries = 3;
-
-const inputHeader = "Set PIN";
-const inputText = `Enter ${inputLength} unique numbers`;
-const confirmHeader = "Confirm PIN";
-const confirmText = `Re-enter your ${inputLength} numbers`;
+const SCREEN_HEIGHT = Dimensions.get("screen").height;
+const PIN_INPUT_LENGTH = 4;
+const PIN_MAX_TRIES = 3;
 
 export default function CreateCardPinScreen() {
   const buttonStyle = useThemeStyles<ViewStyle>(
@@ -81,113 +78,91 @@ export default function CreateCardPinScreen() {
     []
   );
 
-  const pincodeInputRef = React.useRef<React.ElementRef<typeof PinCodeInput>>(null);
+  const pincodeInputRef = useRef<React.ElementRef<typeof PinCodeInput>>(null);
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
   const navigation = useNavigation();
 
-  const [inputValue, setInputValue] = React.useState<string>("");
-  const [pincode, setPincode] = React.useState<string>("");
-  const [isValid, setIsValid] = React.useState<boolean>(true);
-  const [remainingTries, setRemainingTries] = React.useState<number>(maxTries);
+  const [currentInput, setCurrentInput] = useState("");
+  const [selectedPincode, setSelectedPincode] = useState("");
+  const [remainingTries, setRemainingTries] = useState(PIN_MAX_TRIES);
+  const [mode, setMode] = useState<"input" | "confirm">("input");
 
-  const mode = orderCardValues.createCardPinMode;
-
-  React.useEffect(() => {
-    if (mode === "input") {
-      setInputValue("");
-    }
-  }, [mode]);
-
-  React.useEffect(() => {
-    if (inputLength !== inputValue.length) {
-      setIsValid(true);
-    }
-    if (inputLength === inputValue.length) {
+  useEffect(() => {
+    if (PIN_INPUT_LENGTH === currentInput.length) {
       if (mode === "input") {
-        setTimeout(() => {
-          setOrderCardValues !== null &&
-            setOrderCardValues({
-              ...orderCardValues,
-              createCardPinMode: "confirm",
-            });
-          setPincode(inputValue);
-          setInputValue("");
-        }, 150);
+        setMode("confirm");
+        setSelectedPincode(currentInput);
+        setCurrentInput("");
       }
-      if (mode === "confirm") {
-        if (inputValue !== pincode) {
-          setIsValid(false);
-          setRemainingTries(remainingTries - 1);
-        }
-        if (remainingTries === 0) {
-          return;
-        }
-        if (inputValue === pincode) {
-          setPincode(inputValue);
 
-          // @TODO: encryption
-          const encryptedPin = "61D4416E90747D56ACE5FCDDEFC2FDB7";
-          setOrderCardValues !== null &&
-            setOrderCardValues({
-              ...orderCardValues,
-              formValues: { ...orderCardValues.formValues, pin: encryptedPin },
-              createCardPinMode: "input",
-            });
-          navigation.navigate("Cards.CardDeliveryDetails");
+      if (mode === "confirm") {
+        if (currentInput !== selectedPincode) {
+          setRemainingTries(remainingTries - 1);
+          setCurrentInput("");
+        }
+
+        if (currentInput === selectedPincode) {
+          setSelectedPincode(currentInput);
+
+          setOrderCardValues({
+            ...orderCardValues,
+            formValues: { ...orderCardValues.formValues, pin: encryptPincode(currentInput) },
+          });
+
+          setImmediate(() => handleOnResetPincode());
+          navigation.navigate("ApplyCards.CardDeliveryDetails");
         }
       }
     }
-  }, [inputValue]);
+  }, [currentInput]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const unsubscribe = Keyboard.addListener("keyboardDidHide", () => {
       pincodeInputRef.current?.blur();
     });
-    return () => {
-      unsubscribe.remove();
-    };
-  });
 
-  const inputHandler = (value: string) => {
-    setInputValue(value);
-  };
+    return () => unsubscribe.remove();
+  }, []);
 
-  const handleOnBack = () => {
-    setInputValue("");
-    setOrderCardValues !== null &&
-      setOrderCardValues({
-        ...orderCardValues,
-        createCardPinMode: "input",
-      });
-    setRemainingTries(maxTries);
+  const handleOnResetPincode = () => {
+    setCurrentInput("");
+    setRemainingTries(PIN_MAX_TRIES);
+    setMode("input");
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      {mode === "input" ? (
-        <NavHeader title="Order card" backButton={true} />
-      ) : (
-        <NavHeader title="Order card" backButton={true} backButtonHandler={handleOnBack} />
-      )}
+    <Page>
+      <NavHeader
+        title="Order card"
+        backButton={true}
+        backButtonHandler={mode !== "input" ? handleOnResetPincode : undefined}
+      />
       <View style={container}>
         <View style={styles.progressIndicator}>
           <ProgressIndicator currentStep={mode === "input" ? 1 : 2} totalStep={3} />
         </View>
         <View style={headerStyle}>
           <Typography.Text size="large" weight="bold">
-            {mode === "input" ? inputHeader : confirmHeader}
+            {mode === "input" ? "Set PIN" : "Confirm PIN"}
           </Typography.Text>
         </View>
         <View style={styles.text}>
-          <Typography.Text size="callout">{mode === "input" ? inputText : confirmText}</Typography.Text>
+          <Typography.Text size="callout">
+            {mode === "input"
+              ? `Enter ${PIN_INPUT_LENGTH} unique numbers`
+              : `Re-enter your ${PIN_INPUT_LENGTH} numbers`}
+          </Typography.Text>
         </View>
-        <View style={{ height: height / 4 }}>
+        <View style={{ height: SCREEN_HEIGHT / 4 }}>
           <PinCodeInput
-            inputLength={inputLength}
-            value={inputValue}
-            onChangeText={inputHandler}
+            inputLength={PIN_INPUT_LENGTH}
+            value={currentInput}
+            onChangeText={value => {
+              if (remainingTries === 0) handleOnResetPincode();
+              setCurrentInput(value);
+            }}
             ref={pincodeInputRef}
-            isValid={isValid}
+            isValid={remainingTries !== 0}
           />
         </View>
         {mode === "input" && (
@@ -198,34 +173,37 @@ export default function CreateCardPinScreen() {
             </View>
           </View>
         )}
-        {!isValid && remainingTries >= 1 && (
-          <View style={[infoContainerStyle, infoContainerInvalidStyle]}>
-            <ErrorBlackIcon />
-            <View style={infoTextStyle}>
-              <Typography.Text size="callout">
-                Your PINs didn’t match, please try again. {remainingTries}{" "}
-                <Typography.Text>{remainingTries !== 1 ? "tries" : "try"}</Typography.Text> remaining.
-              </Typography.Text>
-            </View>
-          </View>
-        )}
-        {remainingTries <= 0 && (
-          <View style={errorContainerStyle}>
-            <ErrorBlackIcon />
-            <View>
-              <Typography.Text size="callout">Oops! Too many tries</Typography.Text>
-            </View>
-            <View style={buttonStyle}>
-              <Pressable onPress={handleOnBack}>
-                <Typography.Text size="footnote" weight="medium">
-                  Set New PIN
-                </Typography.Text>
-              </Pressable>
-            </View>
-          </View>
+        {mode === "confirm" && remainingTries < PIN_MAX_TRIES && currentInput.length < 1 && (
+          <>
+            {remainingTries > 0 ? (
+              <View style={[infoContainerStyle, infoContainerInvalidStyle]}>
+                <ErrorBlackIcon />
+                <View style={infoTextStyle}>
+                  <Typography.Text size="callout">
+                    Your PINs didn’t match, please try again. {remainingTries}{" "}
+                    <Typography.Text>{remainingTries !== 1 ? "tries" : "try"}</Typography.Text> remaining.
+                  </Typography.Text>
+                </View>
+              </View>
+            ) : (
+              <View style={errorContainerStyle}>
+                <ErrorBlackIcon />
+                <View>
+                  <Typography.Text size="callout">Oops! Too many tries</Typography.Text>
+                </View>
+                <View style={buttonStyle}>
+                  <Pressable onPress={handleOnResetPincode}>
+                    <Typography.Text size="footnote" weight="medium">
+                      Set New PIN
+                    </Typography.Text>
+                  </Pressable>
+                </View>
+              </View>
+            )}
+          </>
         )}
       </View>
-    </SafeAreaView>
+    </Page>
   );
 }
 

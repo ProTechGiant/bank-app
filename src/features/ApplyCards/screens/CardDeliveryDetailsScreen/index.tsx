@@ -92,11 +92,11 @@ export default function CardDeliveryDetailsScreen() {
       } else {
         updateFormState(GENERIC_ERROR);
       }
-      navigation.navigate("Cards.CardOrdered");
+      navigation.navigate("ApplyCards.CardOrdered");
     },
     onError: () => {
       updateFormState(GENERIC_ERROR);
-      navigation.navigate("Cards.CardOrdered");
+      navigation.navigate("ApplyCards.CardOrdered");
     },
   });
 
@@ -105,7 +105,7 @@ export default function CardDeliveryDetailsScreen() {
   };
 
   const handleSetAnotherAddress = () => {
-    navigation.navigate("Cards.SetAnotherAddress");
+    navigation.navigate("ApplyCards.SetAnotherAddress");
   };
 
   const handleAddressSelect = (id: string) => {
@@ -122,7 +122,7 @@ export default function CardDeliveryDetailsScreen() {
         ...orderCardValues,
         createCardPinMode: "input",
       });
-    navigation.navigate("Cards.CreateCardPin");
+    navigation.navigate("ApplyCards.CreateCardPin");
   };
 
   return (

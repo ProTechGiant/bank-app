@@ -70,7 +70,7 @@ export default function SecureMessageScreen() {
               console.log(values);
               setTimeout(() => {
                 setSubmitting(false);
-                navigation.navigate("Cards.CreateCardPin");
+                navigation.navigate("ApplyCards.CreateCardPin");
               }, 500);
             }}>
             {({ setFieldTouched }) => {

@@ -58,23 +58,18 @@ export default function CardOrderedScreen() {
           <View style={textContainerStyle}>
             <View style={titleStyle}>
               <Typography.Text size="large" weight="bold" color="neutralBase-50">
-                {orderCardValues.formState.error?.message ? orderCardValues.formState.error?.message : "Card ordered"}
+                {orderCardValues.formState?.error?.message ? orderCardValues.formState.error?.message : "Card ordered"}
               </Typography.Text>
             </View>
           </View>
           <View style={styles.buttons}>
-            <Button
-              style={styles.button}
-              color="alt"
-              onPress={handleOnAddToWallet}
-              disabled={orderCardValues.formState.error && true}>
+            <Button color="alt" onPress={handleOnAddToWallet} disabled={undefined !== orderCardValues.formState?.error}>
               Add to Wallet
             </Button>
             <Button
-              style={styles.button}
               variant="tertiary"
               onPress={handleOnClose}
-              disabled={orderCardValues.formState.error && true}>
+              disabled={undefined !== orderCardValues.formState?.error}>
               <Typography.Text color="neutralBase-50">Not now</Typography.Text>
             </Button>
           </View>
@@ -85,9 +80,6 @@ export default function CardOrderedScreen() {
 }
 
 const styles = StyleSheet.create({
-  button: {
-    minWidth: 350,
-  },
   buttons: {
     height: "40%",
     justifyContent: "flex-end",

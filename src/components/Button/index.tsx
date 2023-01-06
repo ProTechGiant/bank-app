@@ -4,6 +4,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface ButtonProps extends Omit<PressableProps, "children" | "style"> {
+  block?: boolean;
   children?: string | React.ReactNode;
   color?: "base" | "alt";
   iconLeft?: React.ReactNode;
@@ -13,6 +14,7 @@ interface ButtonProps extends Omit<PressableProps, "children" | "style"> {
 }
 
 export default function Button({
+  block = false,
   children,
   color = "base",
   iconLeft,
@@ -40,7 +42,7 @@ export default function Button({
   );
 
   return (
-    <Pressable {...restProps} disabled={disabled}>
+    <Pressable {...restProps} disabled={disabled} style={block && styles.containerBlock}>
       <View style={[styles.container, containerStyles, { opacity: disabled ? 0.5 : 1 }]}>
         {undefined !== iconLeft && <View style={styles.icon}>{iconLeft}</View>}
         {type === "loader" ? (
@@ -65,6 +67,9 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
+  },
+  containerBlock: {
+    alignSelf: "stretch",
   },
   icon: {
     marginHorizontal: 8 / 2,
