@@ -6,10 +6,10 @@ import NavHeader from "@/components/NavHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 
 import { useOrderCardContext } from "../../context/OrderCardContext";
 import PinCodeInput from "./PinCodeInput";
-import { useThemeStyles } from "@/theme";
 
 const height = Dimensions.get("screen").height;
 
@@ -68,7 +68,13 @@ export default function CreateCardPinScreen() {
     }),
     []
   );
-  const infoTestStyle = useThemeStyles<ViewStyle>(
+  const infoContainerInvalidStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["errorBase-40"],
+    }),
+    []
+  );
+  const infoTextStyle = useThemeStyles<ViewStyle>(
     theme => ({
       paddingHorizontal: theme.spacing.medium,
     }),
@@ -163,11 +169,11 @@ export default function CreateCardPinScreen() {
       ) : (
         <NavHeader title="Order card" backButton={true} backButtonHandler={handleOnBack} />
       )}
-      <View style={styles.container}>
+      <View style={container}>
         <View style={styles.progressIndicator}>
           <ProgressIndicator currentStep={mode === "input" ? 1 : 2} totalStep={3} />
         </View>
-        <View style={styles.header}>
+        <View style={headerStyle}>
           <Typography.Text size="large" weight="bold">
             {mode === "input" ? inputHeader : confirmHeader}
           </Typography.Text>
@@ -185,17 +191,17 @@ export default function CreateCardPinScreen() {
           />
         </View>
         {mode === "input" && (
-          <View style={styles.infoContainer}>
+          <View style={infoContainerStyle}>
             <InfoIcon />
-            <View style={styles.infoText}>
+            <View style={infoTextStyle}>
               <Typography.Text size="callout">Avoid a PIN that’s easy to guess, like 1234 or 1111.</Typography.Text>
             </View>
           </View>
         )}
         {!isValid && remainingTries >= 1 && (
-          <View style={[styles.infoContainer, { backgroundColor: palette["errorBase-40"] }]}>
+          <View style={[infoContainerStyle, infoContainerInvalidStyle]}>
             <ErrorBlackIcon />
-            <View style={styles.infoText}>
+            <View style={infoTextStyle}>
               <Typography.Text size="callout">
                 Your PINs didn’t match, please try again. {remainingTries}{" "}
                 <Typography.Text>{remainingTries !== 1 ? "tries" : "try"}</Typography.Text> remaining.
@@ -204,12 +210,12 @@ export default function CreateCardPinScreen() {
           </View>
         )}
         {remainingTries <= 0 && (
-          <View style={styles.errorContainer}>
+          <View style={errorContainerStyle}>
             <ErrorBlackIcon />
             <View>
               <Typography.Text size="callout">Oops! Too many tries</Typography.Text>
             </View>
-            <View style={styles.button}>
+            <View style={buttonStyle}>
               <Pressable onPress={handleOnBack}>
                 <Typography.Text size="footnote" weight="medium">
                   Set New PIN
