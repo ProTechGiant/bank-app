@@ -34,7 +34,7 @@ export default function CardDeliveryDetailsScreen() {
   const API_SUCCESS_MESSAGE = "Successful request card creation";
   const GENERIC_ERROR = {
     name: "error",
-    message: "An error has occurred",
+    message: "Error occurred. Please try again later or contact Customer Care",
   };
 
   const navigation = useNavigation();
@@ -89,23 +89,12 @@ export default function CardDeliveryDetailsScreen() {
     onSuccess: data => {
       if (data.response === API_SUCCESS_MESSAGE) {
         updateFormState(undefined);
-      } else if (data.Code && data.Message) {
-        updateFormState({
-          name: data.Code,
-          message: data.Message,
-        });
       } else {
         updateFormState(GENERIC_ERROR);
       }
       navigation.navigate("Cards.CardOrdered");
     },
-    onError: error => {
-      if (error instanceof Error) {
-        updateFormState({
-          name: error.name,
-          message: error.message,
-        });
-      }
+    onError: () => {
       updateFormState(GENERIC_ERROR);
       navigation.navigate("Cards.CardOrdered");
     },
