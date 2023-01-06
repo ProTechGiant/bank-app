@@ -1,4 +1,3 @@
-/* eslint-disable react-native/sort-styles */
 import { useState } from "react";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -13,7 +12,7 @@ interface MoreInfoDropdownProps {
   children: JSX.Element | JSX.Element[];
 }
 
-const MoreInfoDropdown = ({ title, children }: MoreInfoDropdownProps) => {
+export default function MoreInfoDropdown({ title, children }: MoreInfoDropdownProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       width: "100%",
@@ -68,9 +67,6 @@ const MoreInfoDropdown = ({ title, children }: MoreInfoDropdownProps) => {
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.dropdown, []);
 
   const [openContent, setOpenContent] = useState<boolean>(false);
-  const toggleContent = () => {
-    setOpenContent(!openContent);
-  };
 
   return (
     <View style={container}>
@@ -78,7 +74,7 @@ const MoreInfoDropdown = ({ title, children }: MoreInfoDropdownProps) => {
         title={
           <View style={toggleContainerStyle}>
             <GreyGradient>
-              <Pressable onPress={toggleContent}>
+              <Pressable onPress={() => setOpenContent(c => !c)}>
                 <View style={pressableContainerStyle}>
                   <View style={infoIconStyle}>
                     <InfoCircleIcon />
@@ -103,9 +99,7 @@ const MoreInfoDropdown = ({ title, children }: MoreInfoDropdownProps) => {
       />
     </View>
   );
-};
-
-export default MoreInfoDropdown;
+}
 
 const styles = StyleSheet.create({
   title: {

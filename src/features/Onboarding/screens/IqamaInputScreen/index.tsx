@@ -1,10 +1,13 @@
-import { Alert, Pressable, SafeAreaView, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Pressable, SafeAreaView, ScrollView, View, ViewStyle } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import IqamaInputs from "./IqamaInputs";
 import MobileAndNationalIdForm from "./MobileAndNationalId/MobileAndNationalIdForm";
+import useSubmitIqama from "./use-submit-iqama";
 
 export default function IqamaInputScreen() {
   const accountSignInStyle = useThemeStyles<ViewStyle>(
@@ -41,9 +44,19 @@ export default function IqamaInputScreen() {
     }),
     []
   );
+  const navigation = useNavigation();
+  const submitIqamaSync = useSubmitIqama();
 
   const ButtonPressed = () => {
     Alert.alert("signin button pressed");
+  };
+
+  const handleOnSubmit = async (values: IqamaInputs) => {
+    try {
+      await submitIqamaSync.mutateAsync(values).then(() => navigation.navigate("Onboarding.Nafath"));
+    } catch (error) {
+      __DEV__ && console.error(error);
+    }
   };
 
   return (
@@ -60,7 +73,7 @@ export default function IqamaInputScreen() {
           </Typography.Text>
         </View>
         <View style={bodyStyle}>
-          <MobileAndNationalIdForm />
+          <MobileAndNationalIdForm onSubmit={handleOnSubmit} />
           <View style={accountSignInStyle}>
             <Typography.Text size="callout" weight="regular">
               Already with us?

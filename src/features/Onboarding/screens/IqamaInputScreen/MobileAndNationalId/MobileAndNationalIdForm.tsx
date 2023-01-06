@@ -1,4 +1,4 @@
-import { Field, Formik, FormikHelpers } from "formik";
+import { Field, Formik } from "formik";
 import { Image, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
@@ -6,18 +6,17 @@ import MobileNumberField from "@/components/MobileNumberField";
 import TextField from "@/components/TextField";
 import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { vh, vw } from "@/theme/viewportUnit";
 
+import IqamaInputs from "../IqamaInputs";
 import { iqamaValidationSchema } from "./IqamaValidation";
 
-interface Values {
-  mobileNumber: string;
-  idNumber: string;
+interface MobileAndNationalIdFormProps {
+  onSubmit: (values: IqamaInputs) => Promise<void>;
 }
 
-const MobileAndNationalIdForm = () => {
+const MobileAndNationalIdForm = ({ onSubmit }: MobileAndNationalIdFormProps) => {
   const areaCodeViewStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
@@ -65,24 +64,18 @@ const MobileAndNationalIdForm = () => {
     []
   );
 
-  const navigation = useNavigation();
-
   return (
     <View>
       <Formik
         initialValues={{
-          mobileNumber: "",
-          idNumber: "",
+          NationalId: "",
+          MobileNumber: "",
         }}
         validationSchema={iqamaValidationSchema}
-        onSubmit={(values: Values, { setSubmitting }: FormikHelpers<Values>) => {
-          setTimeout(() => {
-            setSubmitting(false);
-            navigation.navigate("Onboarding.Nafath");
-          }, 500);
-        }}>
+        onSubmit={onSubmit}>
         {({ errors }) => {
           let areaViewMobileCode;
+
           errors.mobileNumber
             ? (areaViewMobileCode = [areaCodeViewStyle, errorsMobileNumberStyle])
             : (areaViewMobileCode = areaCodeViewStyle);
@@ -104,7 +97,7 @@ const MobileAndNationalIdForm = () => {
                     <View style={styles.mobile}>
                       <Field
                         component={MobileNumberField}
-                        name="mobileNumber"
+                        name="MobileNumber"
                         placeholder="Enter mobile"
                         autoCompleteType="mobile"
                         keyboardType="number-pad"
@@ -113,7 +106,7 @@ const MobileAndNationalIdForm = () => {
                   </View>
                 </View>
                 <TextField
-                  name="idNumber"
+                  name="NationalId"
                   label="National ID or Iqama Number"
                   placeholder="Enter your national ID/Iqama"
                   keyboardType="number-pad"

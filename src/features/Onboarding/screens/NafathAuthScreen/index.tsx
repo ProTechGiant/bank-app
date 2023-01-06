@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Linking, SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
 
 import { Inline } from "@/components/Inline";
@@ -12,13 +11,16 @@ import LinkModal from "@/features/Onboarding/screens/NafathAuthScreen/LinkModal"
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-const NafathAuthScreen = () => {
+import useRequestOtpNumber from "./use-request-number";
+
+export default function NafathAuthScreen() {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       margin: theme.spacing.large,
     }),
     []
   );
+
   const headerContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginBottom: theme.spacing.large,
@@ -26,6 +28,7 @@ const NafathAuthScreen = () => {
     }),
     []
   );
+
   const loadingContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignContent: "center",
@@ -34,6 +37,7 @@ const NafathAuthScreen = () => {
     }),
     []
   );
+
   const numberContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignContent: "center",
@@ -48,45 +52,28 @@ const NafathAuthScreen = () => {
   );
 
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [requestNumber, setRequestNumber] = useState(null);
+  const requestOtpNumberAsync = useRequestOtpNumber();
 
-  const postRequestNumber = () => {
-    return axios
-      .post("http://alpha-nafath-adapter.apps.development.projectcroatia.cloud/v1/customers/link", {
-        NationalId: "0123456789",
-      })
-      .then(response => {
-        return response.data;
-      })
-      .catch(error => {
-        throw new Error(error);
-      });
-  };
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [requestedOtpNumber, setRequestedOtpNumber] = useState<number | undefined>();
 
-  const getRequestNumber = async () => {
-    const number = await postRequestNumber();
-    setRequestNumber(number.Otp);
-  };
+  const handleOnToggleModal = async () => {
+    const nextValue = !isModalVisible;
+    setIsModalVisible(nextValue);
 
-  useEffect(() => {
-    if (modalVisible) {
-      getRequestNumber();
+    if (nextValue) {
+      const response = await requestOtpNumberAsync.mutateAsync();
+      setRequestedOtpNumber(response.Otp);
     }
-  }, [modalVisible]);
-
-  const toggleModalHandler = () => {
-    setModalVisible(!modalVisible);
   };
 
-  const appNavigationHandler = () => {
+  const handleOnOpenNafathApp = () => {
     navigation.navigate("Onboarding.ConfirmDetails");
   };
-  const webNavigationHandler = () => {
+
+  const handleOnOpenNafathWebsite = () => {
     Linking.openURL("https://www.absher.sa/");
-    setTimeout(() => {
-      navigation.navigate("Onboarding.ConfirmDetails");
-    }, 500);
+    setTimeout(() => navigation.navigate("Onboarding.ConfirmDetails"), 500);
   };
 
   return (
@@ -94,15 +81,15 @@ const NafathAuthScreen = () => {
       <NavHeader title="AUTHENTICATION" backButton={true} barStyle="dark-content" />
       <View style={container}>
         <LinkModal
-          modalVisible={modalVisible}
+          modalVisible={isModalVisible}
           linkText="Open Nafath App"
-          onNavigate={appNavigationHandler}
-          toggleModal={toggleModalHandler}>
+          onNavigate={handleOnOpenNafathApp}
+          toggleModal={handleOnToggleModal}>
           <Inline xAlign="center">
-            {requestNumber !== null ? (
+            {requestedOtpNumber !== undefined ? (
               <View style={numberContainerStyle}>
                 <Typography.Text style={styles.textCenter} color="neutralBase-50" weight="bold" size="title1">
-                  {requestNumber}
+                  {requestedOtpNumber}
                 </Typography.Text>
               </View>
             ) : (
@@ -123,7 +110,7 @@ const NafathAuthScreen = () => {
           </Typography.Text>
         </View>
         <Stack space="medium">
-          <LinkCard onNavigate={toggleModalHandler}>
+          <LinkCard onNavigate={handleOnToggleModal}>
             <Typography.Text size="callout" weight="medium" color="primaryBase+10">
               Nafath app{" "}
               <Typography.Text weight="regular" size="footnote">
@@ -134,7 +121,7 @@ const NafathAuthScreen = () => {
               Select this option for a quick ID authentication
             </Typography.Text>
           </LinkCard>
-          <LinkCard onNavigate={webNavigationHandler}>
+          <LinkCard onNavigate={handleOnOpenNafathWebsite}>
             <Typography.Text size="callout" weight="medium" color="primaryBase+10">
               Nafath site
             </Typography.Text>
@@ -151,9 +138,7 @@ const NafathAuthScreen = () => {
       </View>
     </SafeAreaView>
   );
-};
-
-export default NafathAuthScreen;
+}
 
 const styles = StyleSheet.create({
   textCenter: {

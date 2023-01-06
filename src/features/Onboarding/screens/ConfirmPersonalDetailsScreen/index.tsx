@@ -3,12 +3,13 @@ import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import NavHeader from "@/components/NavHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
-import MoreInfoDropdown from "@/features/Onboarding/components/MoreInfoDropdown";
-import ConfirmPersonalDetailsForm from "@/features/Onboarding/screens/ConfirmPersonalDetailsScreen/ConfirmPersonalDetailsForm";
-import DetailsTile from "@/features/Onboarding/screens/ConfirmPersonalDetailsScreen/DetailsTile";
 import { useThemeStyles } from "@/theme";
 
-const ConfirmPersonalDetailsScreen = () => {
+import MoreInfoDropdown from "../../components/MoreInfoDropdown";
+import ConfirmPersonalDetailsForm from "./ConfirmPersonalDetailsForm";
+import DetailsTile from "./DetailsTile";
+
+export default function ConfirmPersonalDetailsScreen() {
   const footerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["neutralBase-50"],
@@ -70,8 +71,7 @@ const ConfirmPersonalDetailsScreen = () => {
       </View>
     </ScrollView>
   );
-};
-export default ConfirmPersonalDetailsScreen;
+}
 
 const styles = StyleSheet.create({
   progressIndicator: {
