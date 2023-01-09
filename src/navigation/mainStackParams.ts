@@ -4,7 +4,7 @@ type MainStackParams = {
   "ApplyCards.SecureMessage": undefined;
   "ApplyCards.CreateCardPin": undefined;
   "ApplyCards.CardDeliveryDetails": undefined;
-  "ApplyCards.SetAnotherAddress": undefined;
+  "ApplyCards.SetTemporaryAddress": undefined;
   "ApplyCards.CardOrdered": undefined;
   "Home.Dashboard": undefined;
   "Temporary.LandingScreen": undefined;

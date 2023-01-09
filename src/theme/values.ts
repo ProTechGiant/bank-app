@@ -5,6 +5,7 @@ const palette = {
   "complimentBase+10": "#993700",
   complimentBase: "#FF7512",
   "complimentBase-50%": "#FF751280",
+  "complimentBase-40%": "#FFDECC66",
   "complimentBase-10": "#FF9D66",
   "complimentBase-20": "#FFBD99",
   "complimentBase-30": "#FFDECC",

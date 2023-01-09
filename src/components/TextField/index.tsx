@@ -1,6 +1,6 @@
 import { useField } from "formik";
 import { createRef, useState } from "react";
-import { Keyboard, Pressable, TextInput, View, ViewStyle } from "react-native";
+import { Keyboard, Pressable, StyleSheet, TextInput, View, ViewStyle } from "react-native";
 
 import { ClearIcon, ErrorIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
@@ -163,6 +163,7 @@ const TextField = ({
             name={field.name}
             keyboardType={keyboardType}
             numberOfLines={numberOfLines}
+            maxLength={maxLength}
             multiline={multiline}
             ref={inputRef}
             returnKeyType={returnKeyType}
@@ -194,14 +195,22 @@ const TextField = ({
             </Typography.Text>
           )}
           {hasCharacterCount && maxLength && (
-            <Typography.Text color={hasError ? "errorBase" : "neutralBase"} size="caption1">
-              {characterCount} / {maxLength}
-            </Typography.Text>
+            <View style={styles.characterCount}>
+              <Typography.Text color={hasError ? "errorBase" : "neutralBase"} size="caption1">
+                {characterCount} / {maxLength}
+              </Typography.Text>
+            </View>
           )}
         </View>
       </View>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  characterCount: {
+    marginLeft: "auto",
+  },
+});
 
 export default TextField;

@@ -1,4 +1,4 @@
-import { alphaNumericSpaceRegExp, saudiPhoneRegExp } from ".";
+import { alphaNumericSpaceRegExp, numericRegExp, saudiPhoneRegExp } from ".";
 
 describe("alphaNumericSpaceRegEx", () => {
   it("string with alphabets, numbers or space", () => {
@@ -8,6 +8,17 @@ describe("alphaNumericSpaceRegEx", () => {
   it("invalid string", () => {
     const string = "@£($)!";
     expect(string).not.toMatch(alphaNumericSpaceRegExp);
+  });
+});
+
+describe("numericRegEx", () => {
+  it("Numbers only", () => {
+    const string = "1234567890";
+    expect(string).toMatch(numericRegExp);
+  });
+  it("invalid string", () => {
+    const string = "123abc";
+    expect(string).not.toMatch(numericRegExp);
   });
 });
 

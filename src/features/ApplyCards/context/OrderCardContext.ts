@@ -1,15 +1,23 @@
 import { createContext, useContext } from "react";
 
 export interface FormState {
-  isLoading: boolean;
   error?: Error;
 }
 
-export type OrderCardFormValues = {
+export interface Address {
+  addressLineOne: string;
+  addressLineTwo?: string;
+  district: string;
+  city: string;
+  postalCode: string;
+}
+
+export interface OrderCardFormValues {
   cardType: number;
   cardProductId: number;
   pin: string;
-};
+  alternateAddress?: Address;
+}
 
 export type OrderCardValues = {
   formValues: OrderCardFormValues;

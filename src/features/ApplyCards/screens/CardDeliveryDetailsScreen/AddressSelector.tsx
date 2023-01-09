@@ -1,24 +1,26 @@
 import { Pressable, PressableProps, StyleSheet, View, ViewStyle } from "react-native";
 
-import { LocationPinIcon, TickOrangeIcon } from "@/assets/icons";
+import { LocationPinIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface AddressSelectorProps extends Omit<PressableProps, "children" | "style"> {
   id: string;
-  addressLine1: string;
-  addressLine2?: string;
-  addressLine3?: string;
+  addressLineOne: string;
+  addressLineTwo?: string;
+  addressLineThree?: string;
   isSelected: boolean;
+  isTemporary: boolean;
   handlePress: (id: string) => void;
 }
 
 const AddressSelector = ({
   id,
-  addressLine1,
-  addressLine2,
-  addressLine3,
+  addressLineOne,
+  addressLineTwo,
+  addressLineThree,
   isSelected,
+  isTemporary,
   handlePress,
 }: AddressSelectorProps) => {
   const container = useThemeStyles<ViewStyle>(
@@ -46,6 +48,16 @@ const AddressSelector = ({
     []
   );
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.locationPin, []);
+  const temporaryTag = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["complimentBase-40%"],
+      borderRadius: theme.radii.xxlarge,
+      height: 21,
+      paddingHorizontal: theme.spacing.small,
+      paddingVertical: 4,
+    }),
+    []
+  );
 
   return (
     <Pressable onPress={() => handlePress(id)}>
@@ -53,16 +65,24 @@ const AddressSelector = ({
         <LocationPinIcon width={iconDimensions} height={iconDimensions} />
         <View style={styles.addressContent}>
           <Typography.Text color="primaryBase+30" size="callout">
-            {addressLine1}
+            {addressLineOne}
           </Typography.Text>
+          {addressLineTwo && (
+            <Typography.Text color="neutralBase-10" size="footnote">
+              {addressLineTwo}
+            </Typography.Text>
+          )}
           <Typography.Text color="neutralBase-10" size="footnote">
-            {addressLine2}
-          </Typography.Text>
-          <Typography.Text color="neutralBase-10" size="footnote">
-            {addressLine3}
+            {addressLineThree}
           </Typography.Text>
         </View>
-        <View style={styles.tickIcon}>{isSelected && <TickOrangeIcon width={18} height={14} />}</View>
+        {isTemporary && (
+          <View style={temporaryTag}>
+            <Typography.Text color="complimentBase" size="caption2">
+              Temporary
+            </Typography.Text>
+          </View>
+        )}
       </View>
     </Pressable>
   );
@@ -74,9 +94,5 @@ const styles = StyleSheet.create({
   addressContent: {
     flex: 1,
     marginLeft: 12,
-  },
-  tickIcon: {
-    alignItems: "flex-end",
-    width: 18,
   },
 });

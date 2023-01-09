@@ -1,15 +1,17 @@
-import { useState } from "react";
-import { SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
+import { isEmpty } from "lodash";
+import { useEffect, useState } from "react";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import { useMutation } from "react-query";
 
 import { orderCardEndPoint } from "@/Axios/AxiosAgent";
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
+import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import { Stack } from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
-import { mockAlternativeDeliveryAddress, mockPrimaryDeliveryAddress } from "@/mocks/deliveryAddressData";
+import { OrderCardFormValues, useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
+import { mockPrimaryDeliveryAddress } from "@/mocks/deliveryAddressData";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -32,6 +34,9 @@ export default function CardDeliveryDetailsScreen() {
   );
 
   const API_SUCCESS_MESSAGE = "Successful request card creation";
+  const PRIMARY_ID = "primary";
+  const TEMPORARY_ID = "temporary";
+
   const GENERIC_ERROR = {
     name: "error",
     message: "Error occurred. Please try again later or contact Customer Care",
@@ -44,25 +49,29 @@ export default function CardDeliveryDetailsScreen() {
     Accept: "application/json",
     "Content-Type": "application/json",
   };
-
-  const hasAlternativeAddress = mockAlternativeDeliveryAddress.addresses.length > 0;
+  const hasTemporaryAddress = orderCardValues.formValues.alternateAddress !== undefined;
+  const buttonText = hasTemporaryAddress ? "Edit Temporary Address" : "Set Temporary Address";
   const primaryAddress = mockPrimaryDeliveryAddress.addresses.map(data => {
-    return { ...data, id: "primary", is_selected: !hasAlternativeAddress };
+    return { ...data, id: PRIMARY_ID, is_selected: !hasTemporaryAddress, is_temp_address: false };
   });
 
-  const alternativeAddress = hasAlternativeAddress
-    ? mockAlternativeDeliveryAddress.addresses.map((data, index) => {
-        return {
-          ...data,
-          id: String(index + 1),
-          is_selected: index === mockAlternativeDeliveryAddress.addresses.length - 1,
-        };
-      })
-    : [];
+  const [addressData, setAddressData] = useState(primaryAddress);
+  const [isTempAddressButtonActive, setIsTempAddressButtonActive] = useState(true);
 
-  const initAddressData = alternativeAddress ? [...primaryAddress, ...alternativeAddress] : primaryAddress;
-
-  const [addressData, setAddressData] = useState(initAddressData);
+  useEffect(() => {
+    const temporaryAddress = hasTemporaryAddress
+      ? [
+          {
+            ...orderCardValues.formValues.alternateAddress,
+            id: TEMPORARY_ID,
+            is_temp_address: true,
+            is_selected: true,
+          },
+        ]
+      : [];
+    const initAddressData = hasTemporaryAddress ? [...temporaryAddress, ...primaryAddress] : primaryAddress;
+    setAddressData(initAddressData);
+  }, [orderCardValues]);
 
   const updateFormState = (error?: Error) => {
     setOrderCardValues !== null &&
@@ -101,14 +110,22 @@ export default function CardDeliveryDetailsScreen() {
   });
 
   const handleConfirm = () => {
-    mutate(orderCardValues.formValues);
+    const selectedAddressType = !isEmpty(addressData) && addressData.filter(data => data.is_selected === true)[0].id;
+    const payload = { ...orderCardValues.formValues };
+
+    if (selectedAddressType === PRIMARY_ID) {
+      delete payload.alternateAddress;
+    }
+
+    mutate(payload);
   };
 
-  const handleSetAnotherAddress = () => {
-    navigation.navigate("ApplyCards.SetAnotherAddress");
+  const handleSetTemporaryAddress = () => {
+    navigation.navigate("ApplyCards.SetTemporaryAddress");
   };
 
   const handleAddressSelect = (id: string) => {
+    setIsTempAddressButtonActive(!hasTemporaryAddress || id === TEMPORARY_ID);
     setAddressData(
       addressData.map(data => {
         return { ...data, is_selected: data.id === id };
@@ -117,16 +134,11 @@ export default function CardDeliveryDetailsScreen() {
   };
 
   const handleOnBack = () => {
-    setOrderCardValues !== null &&
-      setOrderCardValues({
-        ...orderCardValues,
-        createCardPinMode: "input",
-      });
     navigation.navigate("ApplyCards.CreateCardPin");
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <Page>
       <NavHeader title="Order card" backButton={true} backButtonHandler={handleOnBack} />
       <View style={container}>
         <View style={styles.progressIndicator}>
@@ -142,21 +154,23 @@ export default function CardDeliveryDetailsScreen() {
             <Typography.Text>Your card will be sent here:</Typography.Text>
           </View>
           <Stack space="medium">
-            {addressData.map((address, index) => {
-              const addressLine3 = `${address.district} ${address.city} ${address.postalCode}`;
+            {!isEmpty(addressData) &&
+              addressData.map((address, index) => {
+                const addressLineThree = `${address.district} ${address.city} ${address.postalCode}`;
 
-              return (
-                <AddressSelector
-                  key={index}
-                  id={address.id}
-                  addressLine1={address.line1}
-                  addressLine2={address.line2}
-                  addressLine3={addressLine3}
-                  isSelected={address.is_selected}
-                  handlePress={handleAddressSelect}
-                />
-              );
-            })}
+                return (
+                  <AddressSelector
+                    key={index}
+                    id={address.id}
+                    addressLineOne={address.addressLineOne}
+                    addressLineTwo={address.addressLineTwo}
+                    addressLineThree={addressLineThree}
+                    isSelected={address.is_selected}
+                    isTemporary={address.is_temp_address}
+                    handlePress={handleAddressSelect}
+                  />
+                );
+              })}
           </Stack>
         </View>
         {!isLoading && (
@@ -167,13 +181,13 @@ export default function CardDeliveryDetailsScreen() {
           </Button>
         )}
         {isLoading && <Button type="loader" />}
-        <Button onPress={handleSetAnotherAddress} variant="tertiary">
+        <Button onPress={handleSetTemporaryAddress} variant="tertiary" disabled={!isTempAddressButtonActive}>
           <Typography.Text color="tintBase+20" size="body">
-            Set another address
+            {buttonText}
           </Typography.Text>
         </Button>
       </View>
-    </SafeAreaView>
+    </Page>
   );
 }
 

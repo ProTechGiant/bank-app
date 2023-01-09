@@ -22,7 +22,6 @@ import { default as PostcardIcon } from "./postcard.svg";
 import { default as ShippingIcon } from "./shipping.svg";
 import { default as SplitIcon } from "./split.svg";
 import { default as TickIcon } from "./tick.svg";
-import { default as TickOrangeIcon } from "./tick-orange.svg";
 import { default as TransferIcon } from "./transfer.svg";
 import { UpArrowIcon } from "./up-arrow-icon";
 import { UserIcon } from "./user-icon";
@@ -58,7 +57,6 @@ export {
   ShippingIcon,
   SplitIcon,
   TickIcon,
-  TickOrangeIcon,
   TransferIcon,
   UpArrowIcon,
   UserIcon,

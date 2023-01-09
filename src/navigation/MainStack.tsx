@@ -7,7 +7,7 @@ import CardDeliveryDetailsScreen from "@/features/ApplyCards/screens/CardDeliver
 import CardOrderedScreen from "@/features/ApplyCards/screens/CardOrderedScreen";
 import CreateCardPinScreen from "@/features/ApplyCards/screens/CreateCardPinScreen";
 import SecureMessageScreen from "@/features/ApplyCards/screens/SecureMessageScreen";
-import SetAnotherAddressScreen from "@/features/ApplyCards/screens/SetAnotherAddressScreen";
+import SetTemporaryAddressScreen from "@/features/ApplyCards/screens/SetTemporaryAddressScreen";
 import DashboardScreen from "@/features/Home/screens/DashboardScreen";
 import HomepageReorderModal from "@/features/Home/screens/HomepageReorderModal";
 import QuickActionsReorderCard from "@/features/Home/screens/QuickActionsReorderModal";
@@ -87,8 +87,8 @@ export default function MainStack() {
           />
           <Stack.Screen
             options={{ animation: "default" }}
-            component={SetAnotherAddressScreen}
-            name="ApplyCards.SetAnotherAddress"
+            component={SetTemporaryAddressScreen}
+            name="ApplyCards.SetTemporaryAddress"
           />
           <Stack.Screen
             options={{ animation: "default" }}
