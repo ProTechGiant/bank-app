@@ -1,9 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { Pressable, ViewStyle } from "react-native";
 
+import Typography from "@/components/Typography";
 import useThemeStyles from "@/theme/use-theme-styles";
-
-import Typography from "../Typography";
 
 const LanguageToggle = () => {
   const { i18n } = useTranslation();
