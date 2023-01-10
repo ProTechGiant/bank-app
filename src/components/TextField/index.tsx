@@ -160,7 +160,6 @@ const TextField = ({
             autoCapitalize="none"
             autoCorrect={false}
             value={field.value}
-            name={field.name}
             keyboardType={keyboardType}
             numberOfLines={numberOfLines}
             maxLength={maxLength}

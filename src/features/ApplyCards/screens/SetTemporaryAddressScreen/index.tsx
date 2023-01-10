@@ -1,6 +1,7 @@
-import { Formik } from "formik";
+import { Field, Formik } from "formik";
 import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
+import DropdownInput from "@/components/Form/DropdownInput";
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -81,8 +82,13 @@ export default function SetTemporaryAddressScreen() {
                         helperText="Optional"
                       />
                       <TextField label="District" name="district" placeholder="District" />
-                      {/* TODO: Select wheel */}
-                      <TextField label="City" name="city" placeholder="City" />
+                      <Field
+                        component={DropdownInput}
+                        label="City"
+                        name="city"
+                        placeholder="Select your city"
+                        options={CITIES.map(city => ({ value: city, label: city }))}
+                      />
                       <TextField
                         label="Postal Code"
                         name="postalCode"
@@ -113,3 +119,32 @@ const styles = StyleSheet.create({
     marginTop: 80,
   },
 });
+
+const CITIES = [
+  "Abhā",
+  "Abqaiq",
+  "Al-Baḥah",
+  "Al-Dammām",
+  "Al-Hufūf",
+  "Al-Jawf",
+  "Al-Kharj (oasis)",
+  "Al-Khubar",
+  "Al-Qaṭīf",
+  "Al-Ṭaʾif",
+  "ʿArʿar",
+  "Buraydah",
+  "Dhahran",
+  "Ḥāʾil",
+  "Jiddah",
+  "Jīzān",
+  "Khamīs Mushayt",
+  "King Khalīd Military City",
+  "Mecca",
+  "Medina",
+  "Najrān",
+  "Ras Tanura",
+  "Riyadh",
+  "Sakākā",
+  "Tabūk",
+  "Yanbuʿ",
+];

@@ -1,7 +1,7 @@
 import { default as AddIcon } from "./add.svg";
 import { default as BackIcon } from "./back.svg";
 import { CalendarAltIcon } from "./calendar-alt";
-import { default as ChevronRightIcon } from "./chevron-right.svg";
+import { ChevronRightIcon } from "./chevron-right";
 import { default as ClearIcon } from "./clear.svg";
 import { default as CloseIcon } from "./close.svg";
 import { default as CloseWhiteIcon } from "./close-white.svg";
