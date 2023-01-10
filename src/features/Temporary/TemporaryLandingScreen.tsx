@@ -19,6 +19,10 @@ export default function TemporaryLandingScreen() {
     navigation.navigate("Onboarding.SplashScreen");
   };
 
+  const handleOnOpenReferralHub = () => {
+    navigation.navigate("Referral.HubScreen");
+  };
+
   return (
     <SafeAreaView>
       <View style={{ margin: 20 }}>
@@ -29,6 +33,9 @@ export default function TemporaryLandingScreen() {
       </View>
       <View style={{ margin: 20 }}>
         <Button onPress={handleOnOpenOnboarding}>Onboarding</Button>
+      </View>
+      <View style={{ margin: 20 }}>
+        <Button onPress={handleOnOpenReferralHub}>ReferralHub</Button>
       </View>
     </SafeAreaView>
   );

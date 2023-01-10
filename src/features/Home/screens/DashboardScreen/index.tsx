@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import * as icons from "@/assets/icons";
+import SectionHeader from "@/components/SectionHeader";
 import Typography from "@/components/Typography";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import { quickActionReorderItem, ReorderItem } from "@/mocks/quickActionOrderData";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import SectionHeader from "../../components/SectionHeader";
 import AccountInfoHeader, { AccountInfoHeaderProps } from "./AccountInfoHeader";
 import ArticleSection from "./ArticleSection";
 import QuickAction from "./QuickAction";

@@ -1,9 +1,8 @@
-import { Pressable, StatusBar, StatusBarStyle, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StatusBar, StatusBarStyle, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 
-import { BackIcon, CloseIcon, CloseWhiteIcon } from "@/assets/icons";
+import { BackIcon, CloseIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
-
 import { useThemeStyles } from "@/theme";
 
 interface NavHeaderProps {
@@ -12,16 +11,24 @@ interface NavHeaderProps {
   backButtonHandler?: () => void;
   barStyle?: StatusBarStyle | null | undefined;
   color?: "black" | "white";
+  rightComponent?: { text: string; handler: () => void } | "close";
 }
 
-export default function NavHeader({ title, backButton, barStyle, backButtonHandler, color = "black" }: NavHeaderProps) {
+export default function NavHeader({
+  title,
+  backButton,
+  barStyle,
+  backButtonHandler,
+  color = "black",
+  rightComponent = "close",
+}: NavHeaderProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
-      marginHorizontal: theme.spacing.small,
+      marginHorizontal: theme.spacing.regular,
       paddingTop: theme.spacing.medium,
     }),
     []
@@ -49,24 +56,30 @@ export default function NavHeader({ title, backButton, barStyle, backButtonHandl
         <View style={styles.iconWrapper}>
           {backButton && (
             <Pressable onPress={handleOnBack}>
-              <BackIcon height={iconDimension} width={iconDimension} />
+              <BackIcon height={iconDimension} width={iconDimension} color={color} />
             </Pressable>
           )}
         </View>
-        <View style={styles.textWrapper}>
-          <Typography.Text color="neutralBase+30" weight="medium" size="callout">
-            {title}
-          </Typography.Text>
-        </View>
-        <View style={styles.iconWrapper}>
-          <Pressable onPress={handleOnClose}>
-            {color === "black" ? (
-              <CloseIcon height={iconDimension} width={iconDimension} />
-            ) : (
-              <CloseWhiteIcon height={iconDimension} width={iconDimension} />
-            )}
-          </Pressable>
-        </View>
+        {title && (
+          <View style={styles.textWrapper}>
+            <Typography.Text color="neutralBase+30" weight="medium" size="callout">
+              {title}
+            </Typography.Text>
+          </View>
+        )}
+        {rightComponent === "close" ? (
+          <View style={styles.iconWrapper}>
+            <Pressable onPress={handleOnClose}>
+              <CloseIcon height={iconDimension} width={iconDimension} color={color} />
+            </Pressable>
+          </View>
+        ) : (
+          rightComponent.text && (
+            <TouchableOpacity>
+              <Typography.Text color="primaryBase-10">{rightComponent.text}</Typography.Text>
+            </TouchableOpacity>
+          )
+        )}
       </View>
     </>
   );

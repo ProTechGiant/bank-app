@@ -3,14 +3,14 @@ import { SafeAreaView, ScrollView, StyleSheet, View, ViewStyle } from "react-nat
 import * as Yup from "yup";
 
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
+import InfoBox from "@/components/InfoBox";
 import NavHeader from "@/components/NavHeader";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import TextField from "@/components/TextField";
-import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
-import { alphaNumericSpaceRegExp } from "@/utils";
 import { useThemeStyles } from "@/theme";
+import { alphaNumericSpaceRegExp } from "@/utils";
 
 type SecureMessageFormValuesType = {
   secureMessage: string;
@@ -99,7 +99,7 @@ export default function SecureMessageScreen() {
                         blurOnSubmit={true}
                       />
                     </View>
-                    <Toast
+                    <InfoBox
                       borderPosition="left"
                       title="What is 3D Secure?"
                       content="An extra layer of security. If you don’t see your message when you’re making a payment, it could be fraud."

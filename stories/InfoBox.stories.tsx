@@ -1,11 +1,12 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Text } from "react-native";
-import Toast from "@/components/Toast";
+
+import InfoBox from "@/components/InfoBox";
 import Typography from "@/components/Typography";
 
 export default {
-  title: "components/Toast",
-  component: Toast,
+  title: "components/InfoBox",
+  component: InfoBox,
   argTypes: {
     children: {
       table: {
@@ -13,23 +14,23 @@ export default {
       },
     },
   },
-} as ComponentMeta<typeof Toast>;
+} as ComponentMeta<typeof InfoBox>;
 
-const TemplateStandardToast: ComponentStory<typeof Toast> = props => {
-  return <Toast {...props} />;
+const TemplateStandardInfoBox: ComponentStory<typeof InfoBox> = props => {
+  return <InfoBox {...props} />;
 };
 
-export const StandardToast = TemplateStandardToast.bind({});
-StandardToast.args = {
+export const StandardInfoBox = TemplateStandardInfoBox.bind({});
+StandardInfoBox.args = {
   variant: "compliment",
   borderPosition: "left",
   title: "lorem ipsum",
   content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
 };
 
-const TemplateCustomToast: ComponentStory<typeof Toast> = props => {
+const TemplateCustomInfoBox: ComponentStory<typeof InfoBox> = props => {
   return (
-    <Toast {...props}>
+    <InfoBox {...props}>
       <Typography.Text color="primaryBase+30" size="caption1" weight="regular">
         To join Croatia, you must be over 18 and have an Absher profile. Register at
         <Typography.Text color="primaryBase+30" size="caption1" weight="bold">
@@ -38,12 +39,12 @@ const TemplateCustomToast: ComponentStory<typeof Toast> = props => {
         </Typography.Text>{" "}
         before joining us
       </Typography.Text>
-    </Toast>
+    </InfoBox>
   );
 };
 
-export const CustomToast = TemplateCustomToast.bind({});
-CustomToast.args = {
+export const CustomInfoBox = TemplateCustomInfoBox.bind({});
+CustomInfoBox.args = {
   variant: "compliment",
   borderPosition: "left",
   children: <Text>strest</Text>,

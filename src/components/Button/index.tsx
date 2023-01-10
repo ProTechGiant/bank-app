@@ -72,6 +72,6 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   icon: {
-    marginHorizontal: 8 / 2,
+    marginHorizontal: 8,
   },
 });

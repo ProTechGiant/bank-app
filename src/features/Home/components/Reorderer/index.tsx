@@ -3,11 +3,11 @@ import { TouchableOpacity, ViewStyle } from "react-native";
 import DraggableFlatList, { RenderItemParams, ScaleDecorator } from "react-native-draggable-flatlist";
 import { ScrollView } from "react-native-virtualized-view";
 
+import SectionHeader from "@/components/SectionHeader";
 import { quickActionReorderItem, ReorderItem } from "@/mocks/quickActionOrderData";
 import { useThemeStyles } from "@/theme";
 
 import { useItemListContext } from "../../context/ItemListContext";
-import SectionHeader from "../SectionHeader";
 import ReordererItem, { RenderMinimumNotReachedPlaceholders } from "./ReordererItem";
 
 interface ReordererProps {

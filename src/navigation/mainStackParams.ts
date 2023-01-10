@@ -17,6 +17,7 @@ type MainStackParams = {
   "Modal.HomepageReorderModal": undefined;
   "Onboarding.ForeignTax": undefined;
   "Onboarding.OptionalEmail": undefined;
+  "Referral.HubScreen": undefined;
 };
 
 export default MainStackParams;

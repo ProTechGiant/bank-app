@@ -2,9 +2,9 @@ import { Field, Formik } from "formik";
 import { Image, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
+import InfoBox from "@/components/InfoBox";
 import MobileNumberField from "@/components/MobileNumberField";
 import TextField from "@/components/TextField";
-import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { vh, vw } from "@/theme/viewportUnit";
@@ -112,7 +112,7 @@ const MobileAndNationalIdForm = ({ onSubmit }: MobileAndNationalIdFormProps) => 
                   keyboardType="number-pad"
                 />
               </View>
-              <Toast variant="compliment" borderPosition="left">
+              <InfoBox variant="compliment" borderPosition="left">
                 <Typography.Text color="primaryBase+30" size="caption1" weight="regular">
                   To join Croatia, you must be over 18 and have an Absher profile. Register at
                   <Typography.Text color="primaryBase+30" size="caption1" weight="bold">
@@ -120,7 +120,7 @@ const MobileAndNationalIdForm = ({ onSubmit }: MobileAndNationalIdFormProps) => 
                   </Typography.Text>
                   before joining us
                 </Typography.Text>
-              </Toast>
+              </InfoBox>
               <View style={styles.submitButtonView}>
                 <FormSubmitButton title="Continue" />
               </View>

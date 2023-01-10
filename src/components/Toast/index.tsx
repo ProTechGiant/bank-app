@@ -1,85 +1,62 @@
-import { StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
+import { Platform, ViewStyle } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 
+import { TickCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface ToastProps {
-  borderPosition?: "left" | "right";
-  title?: string;
-  content?: string;
-  variant?: "compliment" | "success" | "error" | "primary";
-  children?: React.ReactNode;
+  showToast: boolean;
+  message?: string;
 }
-
-export default function Toast({ borderPosition, title, content, children, variant }: ToastProps) {
+export default function Toast({ showToast, message }: ToastProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: theme.palette["neutralBase-50"],
+      backgroundColor: theme.palette.tintBase,
       borderRadius: theme.radii.extraSmall,
+      alignItems: "center",
+      flexDirection: "row",
+      elevation: 4,
+      height: 56,
+      left: 0,
+      margin: theme.spacing.regular,
       padding: theme.spacing.medium,
+      position: "absolute",
+      right: 0,
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      zIndex: 100,
     }),
     []
   );
-  const themeComplimentStyle = useThemeStyles<TextStyle>(
+  const iconStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      borderColor: theme.palette["complimentBase"],
+      marginRight: theme.spacing.medium,
     }),
     []
   );
-  const themeErrorStyle = useThemeStyles<TextStyle>(
-    theme => ({
-      borderColor: theme.palette["errorBase"],
-    }),
-    []
-  );
-  const themePrimaryStyle = useThemeStyles<TextStyle>(
-    theme => ({
-      borderColor: theme.palette["primaryBase"],
-    }),
-    []
-  );
-  const themeSuccessStyle = useThemeStyles<TextStyle>(
-    theme => ({
-      borderColor: theme.palette["successBase"],
-    }),
-    []
-  );
-  const titleContainerStyle = useThemeStyles<TextStyle>(
-    theme => ({
-      marginBottom: theme.spacing.small,
-    }),
-    []
-  );
+  const position = useThemeStyles<number>(theme => (Platform.OS === "ios" ? theme.spacing.regular : 0), []);
+  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.tick, []);
+
+  // useSharedValue hook from reanimated library to share values for animation
+  const positionY = useSharedValue(-100);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: withSpring(positionY.value) }],
+    };
+  });
+
+  positionY.value = showToast ? position : -position - 100;
 
   return (
-    <View
-      style={[
-        container,
-        borderPosition === "left" && styles.borderLeft,
-        borderPosition === "right" && styles.borderRight,
-        variant === "compliment" && themeComplimentStyle,
-        variant === "error" && themeErrorStyle,
-        variant === "primary" && themePrimaryStyle,
-        variant === "success" && themeSuccessStyle,
-      ]}>
-      {title && (
-        <View style={titleContainerStyle}>
-          <Typography.Text size="footnote" weight="semiBold">
-            {title}
-          </Typography.Text>
-        </View>
-      )}
-      {content && <Typography.Text size="caption1">{content}</Typography.Text>}
-      {children}
-    </View>
+    <Animated.View style={[container, animatedStyle]}>
+      <TickCircleIcon height={iconDimensions} width={iconDimensions} style={iconStyle} />
+      <Typography.Text color="neutralBase-50" weight="regular" size="callout">
+        {message}
+      </Typography.Text>
+    </Animated.View>
   );
 }
-
-const styles = StyleSheet.create({
-  borderLeft: {
-    borderLeftWidth: 4,
-  },
-  borderRight: {
-    borderRightWidth: 4,
-  },
-});
