@@ -9,6 +9,7 @@ interface NavHeaderProps {
   title: string;
   backButton: boolean;
   backButtonHandler?: () => void;
+  closeButtonHandler?: () => void;
   barStyle?: StatusBarStyle | null | undefined;
   color?: "black" | "white";
   rightComponent?: { text: string; handler: () => void } | "close";
@@ -19,6 +20,7 @@ export default function NavHeader({
   backButton,
   barStyle,
   backButtonHandler,
+  closeButtonHandler,
   color = "black",
   rightComponent = "close",
 }: NavHeaderProps) {
@@ -38,7 +40,11 @@ export default function NavHeader({
   const navigation = useNavigation();
 
   const handleOnClose = () => {
-    navigation.navigate("Temporary.LandingScreen");
+    if (!closeButtonHandler) {
+      navigation.navigate("Temporary.LandingScreen");
+    } else {
+      return closeButtonHandler();
+    }
   };
 
   const handleOnBack = () => {

@@ -1,9 +1,7 @@
 import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
-import { StyleSheet, View, ViewStyle } from "react-native";
-import { useMutation } from "react-query";
+import { Alert, StyleSheet, View, ViewStyle } from "react-native";
 
-import { orderCardEndPoint } from "@/Axios/AxiosAgent";
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -16,6 +14,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import AddressSelector from "./AddressSelector";
+import useSubmitOrderCard from "./use-submit-order-card";
 
 export default function CardDeliveryDetailsScreen() {
   const container = useThemeStyles<ViewStyle>(
@@ -39,16 +38,13 @@ export default function CardDeliveryDetailsScreen() {
 
   const GENERIC_ERROR = {
     name: "error",
-    message: "Error occurred. Please try again later or contact Customer Care",
+    title: "We’re sorry, something has gone wrong.",
+    message: "Please try again later or contact Customer Care.",
   };
 
   const navigation = useNavigation();
-  const { orderCardValues, setOrderCardValues } = useOrderCardContext();
+  const { orderCardValues } = useOrderCardContext();
 
-  const headers = {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  };
   const hasTemporaryAddress = orderCardValues.formValues.alternateAddress !== undefined;
   const buttonText = hasTemporaryAddress ? "Edit Temporary Address" : "Set Temporary Address";
   const primaryAddress = mockPrimaryDeliveryAddress.addresses.map(data => {
@@ -73,41 +69,30 @@ export default function CardDeliveryDetailsScreen() {
     setAddressData(initAddressData);
   }, [orderCardValues]);
 
-  const updateFormState = (error?: Error) => {
-    setOrderCardValues !== null &&
-      setOrderCardValues({
-        ...orderCardValues,
-        formState: {
-          error: error,
-        },
+  const showErrorAlert = (title: string, content: string) => {
+    Alert.alert(title, content, [
+      {
+        text: "OK",
+        onPress: () => navigation.navigate("Temporary.LandingScreen"),
+      },
+    ]);
+  };
+
+  const submitOrderCardAsync = useSubmitOrderCard();
+
+  const handleSubmit = async (values: OrderCardFormValues) => {
+    try {
+      await submitOrderCardAsync.mutateAsync(values).then(res => {
+        if (res.response === API_SUCCESS_MESSAGE) {
+          navigation.navigate("ApplyCards.CardOrdered");
+        } else {
+          showErrorAlert(GENERIC_ERROR.title, GENERIC_ERROR.message);
+        }
       });
+    } catch (error) {
+      showErrorAlert(GENERIC_ERROR.title, GENERIC_ERROR.message);
+    }
   };
-
-  const postOrderCard = async (formData: OrderCardFormValues) => {
-    const res = await fetch(orderCardEndPoint, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(formData),
-    });
-
-    const data = await res.json();
-    return data;
-  };
-
-  const { mutate, isLoading } = useMutation(postOrderCard, {
-    onSuccess: data => {
-      if (data.response === API_SUCCESS_MESSAGE) {
-        updateFormState(undefined);
-      } else {
-        updateFormState(GENERIC_ERROR);
-      }
-      navigation.navigate("ApplyCards.CardOrdered");
-    },
-    onError: () => {
-      updateFormState(GENERIC_ERROR);
-      navigation.navigate("ApplyCards.CardOrdered");
-    },
-  });
 
   const handleConfirm = () => {
     const selectedAddressType = !isEmpty(addressData) && addressData.filter(data => data.is_selected === true)[0].id;
@@ -117,7 +102,7 @@ export default function CardDeliveryDetailsScreen() {
       delete payload.alternateAddress;
     }
 
-    mutate(payload);
+    handleSubmit(payload);
   };
 
   const handleSetTemporaryAddress = () => {
@@ -173,14 +158,14 @@ export default function CardDeliveryDetailsScreen() {
               })}
           </Stack>
         </View>
-        {!isLoading && (
+        {!submitOrderCardAsync.isLoading && (
           <Button onPress={handleConfirm}>
             <Typography.Text color="neutralBase-50" size="body" weight="medium">
               Confirm and continue
             </Typography.Text>
           </Button>
         )}
-        {isLoading && <Button type="loader" />}
+        {submitOrderCardAsync.isLoading && <Button type="loader" />}
         <Button onPress={handleSetTemporaryAddress} variant="tertiary" disabled={!isTempAddressButtonActive}>
           <Typography.Text color="tintBase+20" size="body">
             {buttonText}

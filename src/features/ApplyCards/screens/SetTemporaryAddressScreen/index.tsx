@@ -28,6 +28,14 @@ export default function SetTemporaryAddressScreen() {
     }),
     []
   );
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      flex: 1,
+      justifyContent: "flex-end",
+      marginTop: theme.spacing.large,
+    }),
+    []
+  );
 
   const navigation = useNavigation();
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
@@ -42,7 +50,13 @@ export default function SetTemporaryAddressScreen() {
   return (
     <Page keyboardAvoiding={true} keyboardVerticalOffset={55}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <NavHeader title="Set Temporary Address" backButton={false} />
+        <NavHeader
+          title="Set Temporary Address"
+          backButton={false}
+          closeButtonHandler={() => {
+            navigation.navigate("ApplyCards.CardDeliveryDetails");
+          }}
+        />
         <View style={container}>
           <View style={headerStyle}>
             <Typography.Text size="large" weight="bold">
@@ -98,7 +112,7 @@ export default function SetTemporaryAddressScreen() {
                         maxLength={5}
                       />
                     </Stack>
-                    <View style={styles.submitButtonView}>
+                    <View style={buttonContainerStyle}>
                       <FormSubmitButton title="Confirm and continue" />
                     </View>
                   </View>
