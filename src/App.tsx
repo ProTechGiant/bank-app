@@ -1,3 +1,5 @@
+import "./i18n";
+
 import { FlagsProvider } from "flagged";
 import { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";

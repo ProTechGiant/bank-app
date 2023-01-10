@@ -1,15 +1,19 @@
-import { useEffect, useState } from "react";
-import { Alert, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
-import * as RNLocalize from "react-native-localize";
+import { useTranslation } from "react-i18next";
+import { Alert, Pressable, SafeAreaView, StatusBar, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
+import { Inline } from "@/components/Inline";
 import DarkOneGradient from "@/components/LinearGradients/GradientBackgrounds";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { vh } from "@/theme/viewportUnit";
 
+import LanguageToggle from "./LanguageToggle";
+
 const OnboardingSplashScreen = () => {
+  const { t, i18n } = useTranslation();
+
   const bodyStyle = useThemeStyles<TextStyle>(
     theme => ({
       color: theme.palette["neutralBase-50"],
@@ -41,21 +45,7 @@ const OnboardingSplashScreen = () => {
     }),
     []
   );
-  const languageSelectViewStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      alignItems: "center",
-      alignSelf: "flex-end",
-      backgroundColor: theme.palette["neutralBase-50-12%"],
-      borderRadius: theme.radii.medium,
-      height: 34,
-      justifyContent: "center",
-      marginRight: theme.spacing.medium,
-      marginTop: theme.spacing.large,
-      paddingHorizontal: theme.spacing.medium,
-      width: isEnglish ? 65 : 50,
-    }),
-    []
-  );
+
   const signInContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
@@ -70,67 +60,42 @@ const OnboardingSplashScreen = () => {
   );
 
   const navigation = useNavigation();
-  const [isEnglish, setIsEnglish] = useState(false);
 
   const ButtonPressed = () => {
     Alert.alert("signin button pressed");
   };
 
-  let language: string;
-  const LocalData = RNLocalize.getLocales();
-
-  if (LocalData !== null) {
-    const LangCode = LocalData[0].languageCode;
-    LangCode === "ar" ? (language = "ar") : (language = "en");
-  } else {
-    language = "en";
-  }
-
-  useEffect(() => {
-    if (language === "en") {
-      setIsEnglish(true);
-    }
-  }, [language]);
-
   const handleOnContinueOnboarding = () => {
     navigation.navigate("Onboarding.Iqama");
   };
-
-  const handleLanguageSwitch = () => {
-    setIsEnglish(!isEnglish);
-  };
-
-  const buttonText = isEnglish ? "العربية" : "EN";
 
   return (
     <DarkOneGradient>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Pressable style={languageSelectViewStyle} onPress={handleLanguageSwitch}>
-          <Typography.Text color="neutralBase-50" size="footnote">
-            {buttonText}
-          </Typography.Text>
-        </Pressable>
+        <Inline xAlign={i18n.dir() === "ltr" ? "flex-end" : "flex-start"}>
+          <LanguageToggle />
+        </Inline>
         <View style={contentViewStyle}>
           <View style={headerViewStyle}>
             <Typography.Text size="large" weight="bold" color="neutralBase-50">
-              You're in control now
+              {t("Onboarding.SplashScreen.title")}
             </Typography.Text>
           </View>
           <View>
             <Typography.Text size="footnote" weight="regular" color="neutralBase-50" style={bodyStyle}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend commodo.
+              {t("Onboarding.SplashScreen.subTitle")}
             </Typography.Text>
           </View>
         </View>
         <View style={buttonGroupStyle}>
           <Button variant="primary" color="alt" onPress={handleOnContinueOnboarding}>
-            Sign up
+            {t("Onboarding.SplashScreen.buttons.signUp")}
           </Button>
 
           <Pressable onPress={ButtonPressed} style={signInContainerStyle}>
             <Typography.Text color="neutralBase-50" size="body" weight="regular">
-              Sign in
+              {t("Onboarding.SplashScreen.buttons.signIn")}
             </Typography.Text>
           </Pressable>
         </View>

@@ -10,34 +10,28 @@ type Props = {
 };
 
 export const Inline = ({ children, space = "none", xAlign }: Props) => {
-  if (children instanceof Array) {
-    return (
-      <View
-        style={[
-          inlineStyles.container,
-          {
-            marginLeft: -spaceMap[space],
-            marginTop: -spaceMap[space],
-          },
-          xAlign && { justifyContent: xAlign },
-        ]}>
-        {children.map((child, index) => (
-          <View
-            style={{
-              marginLeft: spaceMap[space],
-              marginTop: spaceMap[space],
-            }}
-            key={index}>
-            {child}
-          </View>
-        ))}
-      </View>
-    );
-  }
+  const displayChildren = children instanceof Array ? children : [children];
 
   return (
-    <View style={inlineStyles.container}>
-      <View>{children}</View>
+    <View
+      style={[
+        inlineStyles.container,
+        {
+          marginLeft: -spaceMap[space],
+          marginTop: -spaceMap[space],
+        },
+        xAlign && { justifyContent: xAlign },
+      ]}>
+      {displayChildren.map((child, index) => (
+        <View
+          style={{
+            marginLeft: spaceMap[space],
+            marginTop: spaceMap[space],
+          }}
+          key={index}>
+          {child}
+        </View>
+      ))}
     </View>
   );
 };
