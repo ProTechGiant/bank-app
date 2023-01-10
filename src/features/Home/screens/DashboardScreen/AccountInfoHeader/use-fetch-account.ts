@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
-import agent from "@/Axios/AxiosAgent";
+import api from "@/api";
 import { Account, Balance } from "@/types/account";
 
 export const useFetchAccount = () => {
@@ -13,13 +13,15 @@ export const useFetchAccount = () => {
     currentAccountBalance: "",
     decimalBalance: "",
   });
-  const accountsEndpoint = `/v1/accounts`;
-  const balancesEndpoint = `/v1/accounts/${accountId}/balances`;
 
-  const accounts = useQuery<Account[]>("dataAcc", async () => await agent.SL.account(accountsEndpoint));
+  const accounts = useQuery<Account[]>("accounts", () => {
+    return api<Balance>("api-dev", "v1", "accounts", "GET", undefined, undefined);
+  });
   const balances = useQuery<Balance[]>(
-    ["balanceData", { accountId }],
-    async () => await agent.SL.balance(balancesEndpoint),
+    ["balances", { accountId }],
+    () => {
+      return api<Balance>("api-dev", "v1", `accounts/${accountId}/balances`, "GET", undefined, undefined);
+    },
     {
       enabled: accountId.length > 0,
     }

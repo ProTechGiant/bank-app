@@ -3,10 +3,16 @@ import queryString from "query-string";
 
 import ApiError from "./ApiError";
 
+export interface ResponseError {
+  Message: string;
+  Errors: Array<{ Message: string; Path: string }>;
+}
+
 // TODO: get this from environment variables
 const baseUrl = ".apps.dev-dmz.projectcroatia.cloud";
+const APIKey = "564c0148-56a1-11ed-9b6a-0242ac120002";
 
-export default async function sendApiRequest<TResponse = unknown, TError = unknown>(
+export default async function sendApiRequest<TResponse = unknown, TError = ResponseError>(
   service: string,
   version: string,
   path: string,
@@ -32,6 +38,7 @@ export default async function sendApiRequest<TResponse = unknown, TError = unkno
       Host: service + baseUrl,
       "Content-Type": "application/json",
       ...headers,
+      "X-API-KEY": APIKey,
     },
   });
 
