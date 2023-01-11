@@ -46,33 +46,33 @@ const TextField = ({
   );
   const innerViewStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      alignItems: "flex-start",
+      alignItems: "center",
       backgroundColor: theme.palette["neutralBase-50"],
       borderColor: theme.palette["neutralBase-20"],
       borderRadius: theme.radii.extraSmall,
       borderWidth: 1,
       flexDirection: "row",
       justifyContent: "flex-start",
-      paddingVertical: 12,
+      padding: 0,
     }),
     []
   );
   const textStyle = useThemeStyles<ViewStyle>(
     theme => ({
+      flexBasis: 0,
+      flexGrow: 1,
       fontSize: theme.typography.text.sizes.callout,
       fontWeight: theme.typography.text.weights.regular,
       lineHeight: theme.typography.text._lineHeights.callout,
-      paddingLeft: theme.spacing.medium,
-      paddingRight: 42,
+      paddingHorizontal: theme.spacing.medium,
       paddingVertical: 0,
     }),
     []
   );
   const inputIconStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      position: "absolute",
-      right: theme.spacing.medium,
-      top: theme.spacing.medium,
+      marginRight: theme.spacing.medium,
+      flexShrink: 80,
     }),
     []
   );
@@ -99,6 +99,11 @@ const TextField = ({
   );
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.clearIcon, []);
 
+  const multilineIconStyle = useThemeStyles<ViewStyle>(
+    theme => ({ alignSelf: "flex-start", marginTop: theme.spacing.medium }),
+    []
+  );
+
   const [field, meta, helper] = useField(name);
   const [isFocused, setIsFocused] = useState(false);
   const [characterCount, setCharacterCount] = useState(0);
@@ -123,7 +128,6 @@ const TextField = ({
     field.onBlur(name);
     helper.setTouched(true);
     setIsFocused(false);
-    Keyboard.dismiss();
   };
 
   const handleClear = () => {
@@ -146,7 +150,7 @@ const TextField = ({
         )}
         <View style={[innerViewStyle, viewStyle, innerViewMinHeight]}>
           <TextInput
-            style={[textStyle, { height: textHeight }]}
+            style={[textStyle, { height: textHeight }, numberOfLines > 1 && { alignSelf: "flex-start", marginTop: 10 }]}
             placeholder={placeholder}
             onChangeText={text => {
               helper.setValue(text);
@@ -172,12 +176,12 @@ const TextField = ({
               onPress={handleClear}
               accessibilityLabel="Clear"
               accessibilityRole="button"
-              style={inputIconStyle}>
+              style={[inputIconStyle, numberOfLines > 1 && multilineIconStyle]}>
               <ClearIcon width={iconDimensions} />
             </Pressable>
           )}
           {hasError && (
-            <View style={inputIconStyle}>
+            <View style={[inputIconStyle, numberOfLines > 1 && multilineIconStyle]}>
               <ErrorIcon width={iconDimensions} />
             </View>
           )}

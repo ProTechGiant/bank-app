@@ -1,11 +1,10 @@
-type MainStackParams = {
+import { ApplyCardModalStackParams } from "@/features/ApplyCards/ApplyCardModalStack";
+
+export type MainStackParams = {
   "ApplyCards.ApplyForCard": undefined;
   "ApplyCards.ApplyForLuxCard": undefined;
-  "ApplyCards.SecureMessage": undefined;
-  "ApplyCards.CreateCardPin": undefined;
-  "ApplyCards.CardDeliveryDetails": undefined;
   "ApplyCards.SetTemporaryAddress": undefined;
-  "ApplyCards.CardOrdered": undefined;
+  "ApplyCards.OrderCardModal": undefined;
   "Home.Dashboard": undefined;
   "Temporary.LandingScreen": undefined;
   "Onboarding.SplashScreen": undefined;
@@ -20,4 +19,6 @@ type MainStackParams = {
   "Referral.HubScreen": undefined;
 };
 
-export default MainStackParams;
+export type StackParams = MainStackParams & ApplyCardModalStackParams;
+
+export default StackParams;

@@ -30,20 +30,22 @@ const MobileNumberField = ({
   );
   const textStyle = useThemeStyles<ViewStyle>(
     theme => ({
+      flexBasis: 0,
+      flexGrow: 1,
       fontSize: theme.typography.text.sizes.callout,
       fontWeight: theme.typography.text.weights.regular,
       lineHeight: theme.typography.text._lineHeights.callout,
-      paddingLeft: theme.spacing.medium,
-      paddingRight: 42,
-      paddingVertical: theme.spacing.small,
-      width: "100%",
+      paddingHorizontal: theme.spacing.medium,
+      paddingVertical: 0,
     }),
     []
   );
   const errorContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingHorizontal: theme.spacing.medium,
+      flexDirection: "row",
+      justifyContent: "space-between",
       marginTop: 4,
+      paddingHorizontal: theme.spacing.medium,
     }),
     []
   );
@@ -55,9 +57,8 @@ const MobileNumberField = ({
   );
   const inputIconStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      position: "absolute",
-      right: theme.spacing.medium,
-      top: theme.spacing.medium,
+      marginRight: theme.spacing.medium,
+      flexShrink: 80,
     }),
     []
   );
@@ -102,7 +103,6 @@ const MobileNumberField = ({
     setFieldTouched(name);
     onBlur(name);
     setIsFocused(false);
-    Keyboard.dismiss();
   };
 
   const handleClear = () => {

@@ -42,8 +42,7 @@ export default function DropdownInput({
 
   const handleOnOpen = () => {
     if (!isEditable) return;
-
-    if ("" === field.value && options.length > 0) setSelectedValue(options[0].value);
+    if (field.value === undefined && options.length > 0) setSelectedValue(options[0].value);
     setIsVisible(true);
   };
 

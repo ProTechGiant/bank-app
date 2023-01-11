@@ -1,12 +1,9 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import ApplyCardsStack from "@/features/ApplyCards/ApplyCardModalStack";
 import ApplyForCardScreen from "@/features/ApplyCards/screens/ApplyForCardScreen";
 import ApplyForLuxCardScreen from "@/features/ApplyCards/screens/ApplyForLuxCardScreen";
-import CardDeliveryDetailsScreen from "@/features/ApplyCards/screens/CardDeliveryDetailsScreen";
-import CardOrderedScreen from "@/features/ApplyCards/screens/CardOrderedScreen";
-import CreateCardPinScreen from "@/features/ApplyCards/screens/CreateCardPinScreen";
-import SecureMessageScreen from "@/features/ApplyCards/screens/SecureMessageScreen";
 import SetTemporaryAddressScreen from "@/features/ApplyCards/screens/SetTemporaryAddressScreen";
 import DashboardScreen from "@/features/Home/screens/DashboardScreen";
 import HomepageReorderModal from "@/features/Home/screens/HomepageReorderModal";
@@ -22,6 +19,7 @@ import HubScreen from "@/features/Referral/screens/HubScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 
 import MainStackParams from "./mainStackParams";
+
 const Stack = createNativeStackNavigator<MainStackParams>();
 
 export default function MainStack() {
@@ -67,45 +65,29 @@ export default function MainStack() {
         </Stack.Group>
         <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>
           <Stack.Screen component={ApplyForCardScreen} name="ApplyCards.ApplyForCard" />
+          <Stack.Screen component={ApplyForLuxCardScreen} name="ApplyCards.ApplyForLuxCard" />
           <Stack.Screen
-            options={{ animation: "default" }}
-            component={ApplyForLuxCardScreen}
-            name="ApplyCards.ApplyForLuxCard"
-          />
-          <Stack.Screen
-            options={{ animation: "default" }}
-            component={CreateCardPinScreen}
-            name="ApplyCards.CreateCardPin"
-          />
-          <Stack.Screen
-            options={{ animation: "default" }}
-            component={SecureMessageScreen}
-            name="ApplyCards.SecureMessage"
-          />
-          <Stack.Screen
-            options={{ animation: "default" }}
-            component={CardDeliveryDetailsScreen}
-            name="ApplyCards.CardDeliveryDetails"
-          />
-          <Stack.Screen
-            options={{ animation: "default" }}
             component={SetTemporaryAddressScreen}
             name="ApplyCards.SetTemporaryAddress"
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-            options={{ animation: "default" }}
-            component={CardOrderedScreen}
-            name="ApplyCards.CardOrdered"
+            component={ApplyCardsStack}
+            name="ApplyCards.OrderCardModal"
+            options={{
+              headerShown: false,
+              presentation: "modal",
+            }}
           />
         </Stack.Group>
-        <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>
           <Stack.Screen
-            options={{ animation: "default", headerShown: false }}
+            options={{ headerShown: false }}
             component={QuickActionsReorderCard}
             name="Modal.QuickActionsReorderModal"
           />
           <Stack.Screen
-            options={{ animation: "default", headerShown: false }}
+            options={{ headerShown: false }}
             component={HomepageReorderModal}
             name="Modal.HomepageReorderModal"
           />

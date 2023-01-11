@@ -50,7 +50,7 @@ export default function ApplyForCardScreen() {
       },
     }));
 
-    navigation.navigate("ApplyCards.CreateCardPin");
+    navigation.navigate("ApplyCards.OrderCardModal");
   };
 
   return (

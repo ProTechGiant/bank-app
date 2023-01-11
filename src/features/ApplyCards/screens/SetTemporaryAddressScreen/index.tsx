@@ -1,5 +1,5 @@
 import { Field, Formik } from "formik";
-import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView, View, ViewStyle } from "react-native";
 
 import DropdownInput from "@/components/Form/DropdownInput";
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
@@ -49,7 +49,7 @@ export default function SetTemporaryAddressScreen() {
 
   return (
     <Page keyboardAvoiding={true} keyboardVerticalOffset={55}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
         <NavHeader
           title="Set Temporary Address"
           backButton={false}
@@ -59,8 +59,8 @@ export default function SetTemporaryAddressScreen() {
         />
         <View style={container}>
           <View style={headerStyle}>
-            <Typography.Text size="large" weight="bold">
-              Enter your delivery address
+            <Typography.Text size="title1" weight="bold">
+              Enter Temporary Address
             </Typography.Text>
           </View>
           <View style={{ flex: 1 }}>
@@ -113,7 +113,7 @@ export default function SetTemporaryAddressScreen() {
                       />
                     </Stack>
                     <View style={buttonContainerStyle}>
-                      <FormSubmitButton title="Confirm and continue" />
+                      <FormSubmitButton title="Confirm" />
                     </View>
                   </View>
                 );
@@ -125,14 +125,6 @@ export default function SetTemporaryAddressScreen() {
     </Page>
   );
 }
-
-const styles = StyleSheet.create({
-  submitButtonView: {
-    flex: 1,
-    justifyContent: "flex-end",
-    marginTop: 80,
-  },
-});
 
 const CITIES = [
   "Abhā",
