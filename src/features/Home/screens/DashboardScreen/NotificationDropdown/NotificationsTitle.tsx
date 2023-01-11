@@ -1,6 +1,6 @@
 import { GestureResponderEvent, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 
-import { NotificationIcon, UpArrowIcon } from "@/assets/icons";
+import { DownArrowIcon, NotificationIcon, UpArrowIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { pluralize } from "@/utils";
@@ -48,7 +48,7 @@ export default function NotificationsTitle({ length, dropdownVisible, onPress }:
         {dropdownVisible ? (
           <UpArrowIcon width={iconDimensions} height={iconDimensions} />
         ) : (
-          <UpArrowIcon width={iconDimensions} height={iconDimensions} />
+          <DownArrowIcon width={iconDimensions} height={iconDimensions} />
         )}
       </View>
     </TouchableOpacity>

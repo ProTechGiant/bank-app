@@ -12,7 +12,6 @@ export default function Dropdown({ title, dropdownVisible, content }: DropdownPr
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["neutralBase-50"],
-      paddingTop: theme.spacing.medium,
     }),
     []
   );

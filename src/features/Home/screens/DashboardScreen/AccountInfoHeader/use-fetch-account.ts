@@ -14,13 +14,13 @@ export const useFetchAccount = () => {
     decimalBalance: "",
   });
 
-  const accounts = useQuery<Account[]>("accounts", () => {
-    return api<Balance>("api-dev", "v1", "accounts", "GET", undefined, undefined);
+  const accounts = useQuery("accounts", () => {
+    return api<Account[]>("api-dev", "v1", "accounts", "GET", undefined, undefined);
   });
-  const balances = useQuery<Balance[]>(
+  const balances = useQuery(
     ["balances", { accountId }],
     () => {
-      return api<Balance>("api-dev", "v1", `accounts/${accountId}/balances`, "GET", undefined, undefined);
+      return api<Balance[]>("api-dev", "v1", `accounts/${accountId}/balances`, "GET", undefined, undefined);
     },
     {
       enabled: accountId.length > 0,

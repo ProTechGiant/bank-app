@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
-import agent from "@/Axios/AxiosAgent";
+import api from "@/api";
 import { Notification } from "@/types/notification";
 
 export const useFetchActions = () => {
   const [pendingNotifications, setPendingNotifications] = useState<Notification[]>();
-  const notificationDataEndpoint = `/v1/customer/1/actions`;
+  const notificationDataEndpoint = `customer/1/actions`;
 
-  const notifications = useQuery<Notification[]>("notificaionData", () =>
-    agent.SL.notification(notificationDataEndpoint)
-  );
+  const notifications = useQuery<Notification[]>("notifications", () => {
+    return api<Notification[]>("api-dev", "v1", notificationDataEndpoint, "GET", undefined, undefined);
+  });
 
   useEffect(() => {
     if (notifications.data) {
