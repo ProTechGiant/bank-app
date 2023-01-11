@@ -7,9 +7,7 @@ function updateBuildInfo() {
   const buildVersion = require(__dirname + "/../package.json").version;
   const buildNumber = process.env.BUILD_NUMBER ?? 0;
   const buildTime = new Date().toISOString();
-
-  const gitBranch = process.env.GIT_BRANCH ?? "origin/develop";
-  const buildType = gitBranch.includes("develop") ? "test" : "prod";
+  const buildType = process.env.BUILD_ENVIRONMENT ?? "test";
 
   const template = `
     export default {

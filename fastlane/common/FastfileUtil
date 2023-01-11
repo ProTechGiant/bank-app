@@ -16,7 +16,7 @@ private_lane :load_env do |options|
 end
 
 private_lane :do_clean do | options |
-  if !options[:skip_clean]
-    sh("cd .. && sh scripts/factory-reset.sh")
-  end
+  # if !options[:skip_clean]
+  #   sh("cd .. && sh scripts/factory-reset.sh")
+  # end
 end

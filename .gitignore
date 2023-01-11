@@ -63,3 +63,6 @@ buck-out/
 /ios/Pods/
 /vendor/bundle/
 .vscode/settings.json
+
+# Environment config
+.env.secret

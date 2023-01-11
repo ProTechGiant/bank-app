@@ -58,14 +58,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
-### ios upload_dsyms_crashlytics
-
-```sh
-[bundle exec] fastlane ios upload_dsyms_crashlytics
-```
-
-
-
 ### ios build
 
 ```sh
@@ -107,14 +99,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ```sh
 [bundle exec] fastlane android deploy
-```
-
-
-
-### android extract_apk
-
-```sh
-[bundle exec] fastlane android extract_apk
 ```
 
 
