@@ -65,7 +65,12 @@ export default function DashboardScreen() {
       if (!quickAction.active) return null;
 
       const Icon = quickAction.icon in icons ? icons[quickAction.icon] : icons.InfoCircleIcon;
-      return <QuickAction key={quickAction.key} title={quickAction.label} icon={<Icon />} />;
+      const handleOnPress = () => {
+        if (quickAction.key === "settings") {
+          navigation.navigate("Settings.SettingsScreen");
+        }
+      };
+      return <QuickAction key={quickAction.key} title={quickAction.label} icon={<Icon />} onPress={handleOnPress} />;
     });
   };
 

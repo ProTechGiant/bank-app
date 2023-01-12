@@ -32,6 +32,13 @@ export const quickActionOrderData: quickActionReorderItem[] = [
     description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
     icon: "TransferIcon",
   },
+  {
+    key: "settings",
+    label: "Settings",
+    active: false,
+    description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
+    icon: "SettingsIcon",
+  },
 ];
 
 export const homepageOrderData: ReorderItem[] = [

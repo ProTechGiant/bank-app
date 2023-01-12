@@ -16,6 +16,7 @@ import NafathAuthScreen from "@/features/Onboarding/screens/NafathAuthScreen";
 import OnboardingSplashScreen from "@/features/Onboarding/screens/OnboardingSplashScreen";
 import OptionalEmailScreen from "@/features/Onboarding/screens/OptionalEmailScreen";
 import HubScreen from "@/features/Referral/screens/HubScreen";
+import SettingsScreen from "@/features/Settings/screens/SettingsScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 
 import MainStackParams from "./mainStackParams";
@@ -40,8 +41,14 @@ export default function MainStack() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          component={SettingsScreen}
+          name="Settings.SettingsScreen"
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen component={HubScreen} name="Referral.HubScreen" options={{ headerShown: false }} />
-
         <Stack.Group screenOptions={{ headerShown: false }}>
           <Stack.Screen
             component={OnboardingSplashScreen}

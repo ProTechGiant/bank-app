@@ -9,9 +9,10 @@ import { useThemeStyles } from "@/theme";
 interface QuickActionProps {
   icon: React.ReactElement<SvgProps | IconProps>;
   title: string;
+  onPress: () => void;
 }
 
-export default function QuickAction({ icon: Icon, title }: QuickActionProps) {
+export default function QuickAction({ icon: Icon, title, onPress }: QuickActionProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["neutralBase-50"],
@@ -30,9 +31,10 @@ export default function QuickAction({ icon: Icon, title }: QuickActionProps) {
     []
   );
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.accordian, []);
+
   return (
     <View style={styles.wrapper}>
-      <TouchableOpacity style={container}>
+      <TouchableOpacity style={container} onPress={onPress}>
         {cloneElement(Icon, { height: iconDimensions, width: iconDimensions, style: iconStyle })}
         <Typography.Text color="primaryBase" weight="semiBold" size="callout">
           {title}

@@ -170,6 +170,7 @@ const iconDimensions = {
   locationPin: 40,
   clearIcon: 20,
   friendIcon: 53,
+  settingsPage: 24,
   shareCopy: 30,
   share: 16,
   tick: 18,

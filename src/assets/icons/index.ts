@@ -9,6 +9,7 @@ import { DownArrowIcon } from "./down-arrow-icon";
 import { default as ErrorIcon } from "./error.svg";
 import { default as ErrorBlackIcon } from "./error-black.svg";
 import { default as FriendIcon } from "./friend.svg";
+import { default as FriendsIcon } from "./friends.svg";
 import { GlobeIcon } from "./globe";
 import { default as HamburgerIcon } from "./hamburger.svg";
 import { default as InfoIcon } from "./info.svg";
@@ -19,6 +20,8 @@ import { default as MinusIcon } from "./minus.svg";
 import { default as NotificationIcon } from "./notification.svg";
 import { default as PlusIcon } from "./plus.svg";
 import { default as PostcardIcon } from "./postcard.svg";
+import { default as QuestionIcon } from "./question.svg";
+import { default as SettingsIcon } from "./settings.svg";
 import { default as ShareIcon } from "./share.svg";
 import { default as ShareCopyIcon } from "./share-copy.svg";
 import { default as ShippingIcon } from "./shipping.svg";
@@ -47,6 +50,7 @@ export {
   ErrorBlackIcon,
   ErrorIcon,
   FriendIcon,
+  FriendsIcon,
   GlobeIcon,
   HamburgerIcon,
   InfoCircleIcon,
@@ -57,6 +61,8 @@ export {
   NotificationIcon,
   PlusIcon,
   PostcardIcon,
+  QuestionIcon,
+  SettingsIcon,
   ShareCopyIcon,
   ShareIcon,
   ShippingIcon,

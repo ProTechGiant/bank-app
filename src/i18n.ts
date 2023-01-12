@@ -21,6 +21,12 @@ i18n.use(initReactI18next).init({
             },
           },
         },
+        Settings: {
+          SettingsScreen: {
+            rewards: "Refer For Rewards",
+            FAQs: "FAQ’s",
+          },
+        },
       },
     },
     ar: {
