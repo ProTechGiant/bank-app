@@ -69,13 +69,16 @@ export default function CardOrderedScreen() {
                 Card ordered
               </Typography.Text>
             </View>
+            <Typography.Text size="callout" color="neutralBase-50">
+              Your card will be with you by &lt;deliveryDate&gt;
+            </Typography.Text>
           </View>
           <View style={styles.buttons}>
             <Button color="alt" block onPress={handleOnAddToWallet}>
               Add to Wallet
             </Button>
             <Button variant="tertiary" onPress={handleOnClose}>
-              <Typography.Text color="neutralBase-50">Not now</Typography.Text>
+              <Typography.Text color="neutralBase-50">Finish</Typography.Text>
             </Button>
           </View>
         </View>
