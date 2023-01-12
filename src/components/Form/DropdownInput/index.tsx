@@ -8,21 +8,23 @@ import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 
 import InputBox from "../internal/InputBox";
+import InputText from "../internal/InputText";
 
-interface DropdownProps extends FieldProps<string | null> {
+interface DropdownProps extends FieldProps<string> {
+  extra?: React.ComponentProps<typeof InputBox>["extraStart"];
   isEditable?: boolean;
   placeholder?: string;
-  isRequired?: boolean;
   label?: string;
-  options: Array<{ label: string; value: string | null }>;
+  options: Array<{ label: string; value: string }>;
 }
 
 export default function DropdownInput({
+  extra,
   isEditable = true,
   field,
   label,
+  meta,
   placeholder,
-  isRequired,
   options = [],
 }: DropdownProps) {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -71,14 +73,13 @@ export default function DropdownInput({
         </Picker>
         <Button onPress={handleOnConfirm}>Confirm</Button>
       </Modal>
-      <InputBox
-        buttonIcon={<ChevronRightIcon />}
-        label={label}
-        onPress={handleOnOpen}
-        placeholder={placeholder}
-        isRequired={isRequired}
-        value={options.find(opt => opt.value === field.value)?.label}
-      />
+      <InputBox extraStart={extra} isEditable={isEditable} label={label} meta={meta} onPress={handleOnOpen}>
+        <InputText
+          buttonIcon={<ChevronRightIcon />}
+          placeholder={placeholder}
+          value={options.find(opt => opt.value === field.value)?.label}
+        />
+      </InputBox>
     </>
   );
 }

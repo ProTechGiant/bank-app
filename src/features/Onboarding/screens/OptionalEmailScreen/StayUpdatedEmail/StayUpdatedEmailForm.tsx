@@ -1,10 +1,10 @@
-import { Formik, FormikHelpers } from "formik";
+import { Field, Formik, FormikHelpers } from "formik";
 import { StyleSheet, View } from "react-native";
 
 import Button from "@/components/Button";
+import TextInput from "@/components/Form/TextInput";
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import { Stack } from "@/components/Stack";
-import TextField from "@/components/TextField";
 import useNavigation from "@/navigation/use-navigation";
 
 import { stayUpdatedEmailValidationSchema } from "./StayUpdatedEmailValidation";
@@ -34,7 +34,13 @@ const StayUpdatedEmailForm = () => {
           }, 500);
         }}>
         <>
-          <TextField name="emailAddress" label="Email" placeholder="Your address" keyboardType="email-address" />
+          <Field
+            component={TextInput}
+            name="emailAddress"
+            label="Email"
+            placeholder="Your address"
+            keyboardType="email-address"
+          />
           <View style={styles.buttonView}>
             <Stack space="xSmall">
               <FormSubmitButton title="Continue" />

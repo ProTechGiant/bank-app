@@ -6,21 +6,23 @@ import { StyleSheet, View } from "react-native";
 import { ChevronRightIcon } from "@/assets/icons";
 
 import InputBox from "../internal/InputBox";
+import InputText from "../internal/InputText";
 
-interface DropdownProps extends FieldProps<string | null> {
+interface DropdownProps extends FieldProps<string> {
+  extra?: React.ComponentProps<typeof InputBox>["extraStart"];
   isEditable?: boolean;
   placeholder?: string;
-  isRequired?: boolean;
   label?: string;
-  options: Array<{ label: string; value: string | null }>;
+  options: Array<{ label: string; value: string }>;
 }
 
 export default function DropdownInput({
+  extra,
   isEditable = true,
   label,
   field,
+  meta,
   placeholder,
-  isRequired,
   options = [],
 }: DropdownProps) {
   useEffect(() => {
@@ -36,18 +38,15 @@ export default function DropdownInput({
     field.onChange({ target: { name: field.name, value: value ?? options[0]?.value } });
   };
 
-  const currOptionLabel = options.find(opt => opt.value === field.value)?.label ?? undefined;
-
   return (
     <View>
-      <InputBox
-        buttonIcon={<ChevronRightIcon />}
-        value={currOptionLabel}
-        label={label}
-        placeholder={placeholder}
-        isRequired={isRequired}
-        isEditable={isEditable}
-      />
+      <InputBox extraStart={extra} isEditable={isEditable} label={label} meta={meta}>
+        <InputText
+          buttonIcon={<ChevronRightIcon />}
+          placeholder={placeholder}
+          value={options.find(opt => opt.value === field.value)?.label}
+        />
+      </InputBox>
       <Picker
         enabled={isEditable}
         mode="dropdown"

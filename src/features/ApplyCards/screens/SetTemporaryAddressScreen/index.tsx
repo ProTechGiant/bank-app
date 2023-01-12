@@ -3,11 +3,11 @@ import { ScrollView, View, ViewStyle } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
 import DropdownInput from "@/components/Form/DropdownInput";
+import TextInput from "@/components/Form/TextInput";
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { Stack } from "@/components/Stack";
-import TextField from "@/components/TextField";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -82,20 +82,22 @@ export default function SetTemporaryAddressScreen() {
                 return (
                   <View style={{ flex: 1 }}>
                     <Stack space="medium">
-                      <TextField
+                      <Field
+                        component={TextInput}
                         label="Address line 1"
                         name="addressLineOne"
                         placeholder="Address line 1"
                         maxLength={100}
                       />
-                      <TextField
+                      <Field
+                        component={TextInput}
                         label="Address line 2"
                         name="addressLineTwo"
                         placeholder="Address line 2"
                         maxLength={100}
-                        helperText="Optional"
+                        extra="Optional"
                       />
-                      <TextField label="District" name="district" placeholder="District" />
+                      <Field component={TextInput} label="District" name="district" placeholder="District" />
                       <Field
                         component={DropdownInput}
                         label="City"
@@ -103,12 +105,13 @@ export default function SetTemporaryAddressScreen() {
                         placeholder="Select your city"
                         options={CITIES.map(city => ({ value: city, label: city }))}
                       />
-                      <TextField
+                      <Field
+                        component={TextInput}
                         label="Postal Code"
                         name="postalCode"
                         placeholder="Postal Code"
                         keyboardType="number-pad"
-                        hasCharacterCount
+                        showCharacterCounter
                         maxLength={5}
                       />
                     </Stack>

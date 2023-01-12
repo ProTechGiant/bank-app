@@ -1,10 +1,10 @@
 import { Field, Formik } from "formik";
 import { Image, StyleSheet, Text, View, ViewStyle } from "react-native";
 
+import TextInput from "@/components/Form/TextInput";
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import InfoBox from "@/components/InfoBox";
 import MobileNumberField from "@/components/MobileNumberField";
-import TextField from "@/components/TextField";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { vh, vw } from "@/theme/viewportUnit";
@@ -105,7 +105,8 @@ const MobileAndNationalIdForm = ({ onSubmit }: MobileAndNationalIdFormProps) => 
                     </View>
                   </View>
                 </View>
-                <TextField
+                <Field
+                  component={TextInput}
                   name="NationalId"
                   label="National ID or Iqama Number"
                   placeholder="Enter your national ID/Iqama"
