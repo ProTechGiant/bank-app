@@ -84,6 +84,7 @@ export default function CreateCardPinScreen() {
 
   const [currentInput, setCurrentInput] = useState("");
   const [selectedPincode, setSelectedPincode] = useState("");
+  const [showErrorBox, setShowErrorBox] = useState(false);
   const [remainingTries, setRemainingTries] = useState(PIN_MAX_TRIES);
   const [mode, setMode] = useState<"input" | "confirm">("input");
 
@@ -98,7 +99,9 @@ export default function CreateCardPinScreen() {
       if (mode === "confirm") {
         if (currentInput !== selectedPincode) {
           setRemainingTries(remainingTries - 1);
-          setCurrentInput("");
+          setShowErrorBox(true);
+
+          if (remainingTries - 1 > 0) setCurrentInput("");
         }
 
         if (currentInput === selectedPincode) {
@@ -127,6 +130,7 @@ export default function CreateCardPinScreen() {
   const handleOnResetPincode = () => {
     setCurrentInput("");
     setRemainingTries(PIN_MAX_TRIES);
+    setShowErrorBox(false);
     setMode("input");
   };
 
@@ -173,7 +177,7 @@ export default function CreateCardPinScreen() {
             </View>
           </View>
         )}
-        {mode === "confirm" && remainingTries < PIN_MAX_TRIES && currentInput.length < 1 && (
+        {mode === "confirm" && remainingTries < PIN_MAX_TRIES && showErrorBox && (
           <>
             {remainingTries > 0 ? (
               <View style={[infoContainerStyle, infoContainerInvalidStyle]}>
