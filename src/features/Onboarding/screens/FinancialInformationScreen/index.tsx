@@ -1,6 +1,8 @@
-import { SafeAreaView, ScrollView, View, ViewStyle } from "react-native";
+import { ScrollView, View, ViewStyle } from "react-native";
 
+import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
+import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import { Stack } from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -8,27 +10,21 @@ import MoreInfoDropdown from "@/features/Onboarding/components/MoreInfoDropdown"
 import FinancialForm from "@/features/Onboarding/screens/FinancialInformationScreen/FinancialForm/FinancialForm";
 import { useThemeStyles } from "@/theme";
 
-const FinancialInformationScreen = () => {
-  const container = useThemeStyles<ViewStyle>(
-    theme => ({
-      padding: theme.spacing.regular,
-    }),
-    []
-  );
+export default function FinancialInformationScreen() {
   const headerContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginBottom: theme.spacing.large,
-      marginTop: theme.spacing.medium,
     }),
     []
   );
 
   return (
-    <SafeAreaView>
-      <NavHeader title="ABOUT YOU" backButton={true} barStyle="dark-content" />
-      <View style={container}>
+    <Page>
+      <NavHeader title="ABOUT YOU" backButton={true} barStyle="dark-content">
         <ProgressIndicator currentStep={3} totalStep={6} />
-        <ScrollView>
+      </NavHeader>
+      <ScrollView>
+        <ContentContainer>
           <View style={headerContainerStyle}>
             <Typography.Text size="large" weight="bold">
               Tell us about your finances
@@ -43,10 +39,8 @@ const FinancialInformationScreen = () => {
             </MoreInfoDropdown>
             <FinancialForm />
           </Stack>
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+        </ContentContainer>
+      </ScrollView>
+    </Page>
   );
-};
-
-export default FinancialInformationScreen;
+}

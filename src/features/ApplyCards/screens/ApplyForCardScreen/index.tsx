@@ -34,8 +34,11 @@ export default function ApplyForCardScreen() {
     []
   );
 
-  const tabBarStyle = useThemeStyles<ViewStyle>(theme => ({ backgroundColor: theme.palette["neutralBase-40"] }), []);
-  const tablabelStyleStyle = useThemeStyles<TextStyle>(theme => ({ color: theme.palette["neutralBase+30"] }), []);
+  const tabBarStyle = useThemeStyles<ViewStyle>(
+    theme => ({ backgroundColor: theme.palette["neutralBase-40"], marginBottom: 30 }),
+    []
+  );
+  const tabLabelStyle = useThemeStyles<TextStyle>(theme => ({ color: theme.palette["neutralBase+30"] }), []);
 
   const handleOnLuxCardPress = () => {
     navigation.navigate("ApplyCards.ApplyForLuxCard");
@@ -73,7 +76,7 @@ export default function ApplyForCardScreen() {
               );
             }}
             style={tabBarStyle}
-            labelStyle={tablabelStyleStyle}
+            labelStyle={tabLabelStyle}
             renderLabel={({ route, focused }) => (
               <Typography.Text
                 color="neutralBase+30"

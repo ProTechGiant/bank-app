@@ -1,6 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import ProgressIndicator from "@/components/ProgressIndicator";
 import { View } from "react-native";
+
+import ProgressIndicator from "@/components/ProgressIndicator";
 
 export default {
   title: "components/ProgressIndicator",

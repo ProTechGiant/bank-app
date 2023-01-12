@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { Pressable, StatusBar, StatusBarStyle, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 
 import { BackIcon, CloseIcon } from "@/assets/icons";
@@ -13,6 +14,7 @@ interface NavHeaderProps {
   barStyle?: StatusBarStyle | null | undefined;
   color?: "black" | "white";
   rightComponent?: { text: string; handler: () => void } | "close";
+  children?: ReactNode;
 }
 
 export default function NavHeader({
@@ -23,6 +25,7 @@ export default function NavHeader({
   closeButtonHandler,
   color = "black",
   rightComponent = "close",
+  children,
 }: NavHeaderProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
@@ -30,8 +33,9 @@ export default function NavHeader({
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
-      marginHorizontal: theme.spacing.regular,
+      paddingHorizontal: theme.spacing.regular,
       paddingTop: theme.spacing.medium,
+      paddingBottom: 14,
     }),
     []
   );
@@ -56,7 +60,7 @@ export default function NavHeader({
   };
 
   return (
-    <>
+    <View>
       <StatusBar barStyle={barStyle} />
       <View style={container}>
         <View style={styles.iconWrapper}>
@@ -87,17 +91,16 @@ export default function NavHeader({
           )
         )}
       </View>
-    </>
+      {children}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   iconWrapper: {
     alignItems: "center",
-    width: "10%",
   },
   textWrapper: {
     alignItems: "center",
-    width: "80%",
   },
 });

@@ -1,6 +1,8 @@
-import { SafeAreaView, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView, View, ViewStyle } from "react-native";
 
+import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
+import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -18,52 +20,33 @@ export default function OptionalEmailScreen() {
   const headerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginBottom: theme.spacing.large,
-      marginTop: theme.spacing.regular,
-    }),
-    []
-  );
-  const innerViewStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      flex: 1,
-      marginHorizontal: theme.spacing.large,
-    }),
-    []
-  );
-  const progressIndicatorStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginTop: theme.spacing.large,
     }),
     []
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <NavHeader title="EMAIL" backButton={true} />
+    <Page>
+      <NavHeader title="EMAIL" backButton={true}>
+        <ProgressIndicator currentStep={2} totalStep={6} />
+      </NavHeader>
       <ScrollView>
-        <View style={innerViewStyle}>
-          <View style={progressIndicatorStyle}>
-            <ProgressIndicator currentStep={2} totalStep={6} />
-          </View>
-          <View style={headerStyle}>
-            <Typography.Header size="large" weight="bold">
-              Stay updated
-            </Typography.Header>
-          </View>
-          <Typography.Text size="footnote" weight="regular">
-            Share your email and we’ll keep you up to date with what’s new.
-          </Typography.Text>
+        <ContentContainer>
+          <View style={{ flex: 1 }}>
+            <View style={headerStyle}>
+              <Typography.Header size="large" weight="bold">
+                Stay updated
+              </Typography.Header>
+            </View>
+            <Typography.Text size="footnote" weight="regular">
+              Share your email and we’ll keep you up to date with what’s new.
+            </Typography.Text>
 
-          <View style={emailFormContainerStyle}>
-            <StayUpdatedEmailForm />
+            <View style={emailFormContainerStyle}>
+              <StayUpdatedEmailForm />
+            </View>
           </View>
-        </View>
+        </ContentContainer>
       </ScrollView>
-    </SafeAreaView>
+    </Page>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

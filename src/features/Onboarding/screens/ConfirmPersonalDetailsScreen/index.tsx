@@ -1,6 +1,8 @@
 import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
+import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
+import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -23,14 +25,6 @@ export default function ConfirmPersonalDetailsScreen() {
     }),
     []
   );
-  const paddedViewStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      flex: 1,
-      marginBottom: 70,
-      padding: theme.spacing.medium,
-    }),
-    []
-  );
   const detailsTileStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginBottom: theme.spacing.medium,
@@ -39,13 +33,12 @@ export default function ConfirmPersonalDetailsScreen() {
   );
 
   return (
-    <ScrollView style={{ marginTop: 32 }}>
-      <NavHeader title="CONFIRMATION" backButton={true} />
-      <View>
-        <View style={paddedViewStyle}>
-          <View style={styles.progressIndicator}>
-            <ProgressIndicator currentStep={1} totalStep={6} />
-          </View>
+    <Page>
+      <NavHeader title="CONFIRMATION" backButton={true}>
+        <ProgressIndicator currentStep={1} totalStep={6} />
+      </NavHeader>
+      <ScrollView>
+        <ContentContainer style={styles.contentContainer}>
           <View style={headerStyle}>
             <Typography.Header size="large" weight="bold">
               Confirm your personal details
@@ -64,18 +57,17 @@ export default function ConfirmPersonalDetailsScreen() {
               take up to 72 hours.
             </Typography.Text>
           </MoreInfoDropdown>
-        </View>
+        </ContentContainer>
         <View style={footerStyle}>
           <ConfirmPersonalDetailsForm />
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </Page>
   );
 }
 
 const styles = StyleSheet.create({
-  progressIndicator: {
-    marginBottom: 44,
-    marginTop: 12,
+  contentContainer: {
+    marginBottom: 70,
   },
 });

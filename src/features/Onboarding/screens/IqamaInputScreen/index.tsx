@@ -76,7 +76,7 @@ export default function IqamaInputScreen() {
           <MobileAndNationalIdForm onSubmit={handleOnSubmit} />
           <View style={accountSignInStyle}>
             <Typography.Text size="callout" weight="regular">
-              Already with us?
+              Already with us?{" "}
             </Typography.Text>
             <Pressable onPress={ButtonPressed}>
               <Typography.Text size="callout" weight="regular" color="tintBase">

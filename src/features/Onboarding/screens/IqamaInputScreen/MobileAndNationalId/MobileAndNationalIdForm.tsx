@@ -139,6 +139,6 @@ const styles = StyleSheet.create({
     width: 64 * vw,
   },
   submitButtonView: {
-    marginTop: 28 * vh,
+    marginTop: 24 * vh,
   },
 });

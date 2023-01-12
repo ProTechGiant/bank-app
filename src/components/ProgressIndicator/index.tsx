@@ -9,6 +9,15 @@ type ProgressIndicatorProps = {
 };
 
 const ProgressIndicator = ({ currentStep, totalStep }: ProgressIndicatorProps) => {
+  const containerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      flexDirection: "row",
+      marginVertical: 12,
+      marginHorizontal: theme.spacing.regular,
+    }),
+    []
+  );
   const progressBarStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["neutralBase-20"],
@@ -30,7 +39,7 @@ const ProgressIndicator = ({ currentStep, totalStep }: ProgressIndicatorProps) =
     <View
       accessibilityLabel={`Step ${currentStep} of ${totalStep}`}
       accessibilityRole="progressbar"
-      style={styles.container}>
+      style={containerStyle}>
       {times(totalStep, (index: number) => (
         <View
           key={index}
@@ -46,9 +55,6 @@ const ProgressIndicator = ({ currentStep, totalStep }: ProgressIndicatorProps) =
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-  },
   progressBarLast: {
     marginRight: 0,
   },

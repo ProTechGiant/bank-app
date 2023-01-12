@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Alert, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
+import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
@@ -17,17 +18,9 @@ import AddressSelector from "./AddressSelector";
 import useSubmitOrderCard from "./use-submit-order-card";
 
 export default function CardDeliveryDetailsScreen() {
-  const container = useThemeStyles<ViewStyle>(
-    theme => ({
-      flex: 1,
-      padding: theme.spacing.medium,
-    }),
-    []
-  );
-
   const headerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingBottom: theme.spacing.medium,
+      marginBottom: theme.spacing.medium,
     }),
     []
   );
@@ -124,11 +117,10 @@ export default function CardDeliveryDetailsScreen() {
 
   return (
     <Page>
-      <NavHeader title="Order card" backButton={true} backButtonHandler={handleOnBack} />
-      <View style={container}>
-        <View style={styles.progressIndicator}>
-          <ProgressIndicator currentStep={3} totalStep={3} />
-        </View>
+      <NavHeader title="Order card" backButton={true} backButtonHandler={handleOnBack}>
+        <ProgressIndicator currentStep={3} totalStep={3} />
+      </NavHeader>
+      <ContentContainer>
         <View style={styles.contentContainer}>
           <View style={headerStyle}>
             <Typography.Text size="large" weight="bold">
@@ -141,7 +133,7 @@ export default function CardDeliveryDetailsScreen() {
           <Stack space="medium">
             {!isEmpty(addressData) &&
               addressData.map((address, index) => {
-                const addressLineThree = `${address.district} ${address.city} ${address.postalCode}`;
+                const addressLineFour = `${address.city} ${address.postalCode}`;
 
                 return (
                   <AddressSelector
@@ -149,7 +141,8 @@ export default function CardDeliveryDetailsScreen() {
                     id={address.id}
                     addressLineOne={address.addressLineOne}
                     addressLineTwo={address.addressLineTwo}
-                    addressLineThree={addressLineThree}
+                    addressLineThree={address.district}
+                    addressLineFour={addressLineFour}
                     isSelected={address.is_selected}
                     isTemporary={address.is_temp_address}
                     handlePress={handleAddressSelect}
@@ -171,7 +164,7 @@ export default function CardDeliveryDetailsScreen() {
             {buttonText}
           </Typography.Text>
         </Button>
-      </View>
+      </ContentContainer>
     </Page>
   );
 }
@@ -182,9 +175,5 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     marginBottom: 24,
-  },
-  progressIndicator: {
-    marginBottom: 44,
-    marginTop: 12,
   },
 });

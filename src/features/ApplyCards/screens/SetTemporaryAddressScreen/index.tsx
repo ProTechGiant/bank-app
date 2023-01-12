@@ -1,6 +1,7 @@
 import { Field, Formik } from "formik";
 import { ScrollView, View, ViewStyle } from "react-native";
 
+import ContentContainer from "@/components/ContentContainer";
 import DropdownInput from "@/components/Form/DropdownInput";
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import NavHeader from "@/components/NavHeader";
@@ -15,16 +16,15 @@ import { Address, useOrderCardContext } from "../../context/OrderCardContext";
 import { SetTemporaryAddressValidationSchema } from "./SetTemporaryAddressValidation";
 
 export default function SetTemporaryAddressScreen() {
-  const container = useThemeStyles<ViewStyle>(
+  const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      flex: 1,
-      padding: theme.spacing.medium,
+      paddingTop: theme.spacing.medium,
     }),
     []
   );
   const headerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingVertical: theme.spacing.medium,
+      marginBottom: theme.spacing.medium,
     }),
     []
   );
@@ -49,15 +49,15 @@ export default function SetTemporaryAddressScreen() {
 
   return (
     <Page keyboardAvoiding={true} keyboardVerticalOffset={55}>
+      <NavHeader
+        title="Set Temporary Address"
+        backButton={false}
+        closeButtonHandler={() => {
+          navigation.navigate("ApplyCards.CardDeliveryDetails");
+        }}
+      />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
-        <NavHeader
-          title="Set Temporary Address"
-          backButton={false}
-          closeButtonHandler={() => {
-            navigation.navigate("ApplyCards.CardDeliveryDetails");
-          }}
-        />
-        <View style={container}>
+        <ContentContainer style={containerStyle}>
           <View style={headerStyle}>
             <Typography.Text size="title1" weight="bold">
               Enter Temporary Address
@@ -120,7 +120,7 @@ export default function SetTemporaryAddressScreen() {
               }}
             </Formik>
           </View>
-        </View>
+        </ContentContainer>
       </ScrollView>
     </Page>
   );

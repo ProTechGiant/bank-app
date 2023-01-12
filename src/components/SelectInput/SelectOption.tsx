@@ -33,7 +33,7 @@ const SelectOption = ({ item, index, onSelect, selected }: SelectOptionProps) =>
   );
   const tickIconStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingRight: spacing.large,
+      paddingRight: theme.spacing.large,
     }),
     []
   );

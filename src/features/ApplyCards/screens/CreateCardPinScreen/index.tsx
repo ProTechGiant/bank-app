@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Dimensions, Keyboard, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ErrorBlackIcon, InfoIcon } from "@/assets/icons";
+import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
@@ -31,12 +32,6 @@ export default function CreateCardPinScreen() {
     }),
     []
   );
-  const container = useThemeStyles<ViewStyle>(
-    theme => ({
-      padding: theme.spacing.medium,
-    }),
-    []
-  );
   const errorContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
@@ -50,7 +45,7 @@ export default function CreateCardPinScreen() {
   const headerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
-      paddingBottom: theme.spacing.medium,
+      marginBottom: theme.spacing.medium,
     }),
     []
   );
@@ -139,12 +134,10 @@ export default function CreateCardPinScreen() {
       <NavHeader
         title="Order card"
         backButton={true}
-        backButtonHandler={mode !== "input" ? handleOnResetPincode : undefined}
-      />
-      <View style={container}>
-        <View style={styles.progressIndicator}>
-          <ProgressIndicator currentStep={mode === "input" ? 1 : 2} totalStep={3} />
-        </View>
+        backButtonHandler={mode !== "input" ? handleOnResetPincode : undefined}>
+        <ProgressIndicator currentStep={mode === "input" ? 1 : 2} totalStep={3} />
+      </NavHeader>
+      <ContentContainer>
         <View style={headerStyle}>
           <Typography.Text size="large" weight="bold">
             {mode === "input" ? "Set PIN" : "Confirm PIN"}
@@ -206,16 +199,12 @@ export default function CreateCardPinScreen() {
             )}
           </>
         )}
-      </View>
+      </ContentContainer>
     </Page>
   );
 }
 
 const styles = StyleSheet.create({
-  progressIndicator: {
-    marginBottom: 44,
-    marginTop: 12,
-  },
   text: {
     alignItems: "center",
   },

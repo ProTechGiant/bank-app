@@ -9,6 +9,7 @@ interface AddressSelectorProps extends Omit<PressableProps, "children" | "style"
   addressLineOne: string;
   addressLineTwo?: string;
   addressLineThree?: string;
+  addressLineFour?: string;
   isSelected: boolean;
   isTemporary: boolean;
   handlePress: (id: string) => void;
@@ -19,6 +20,7 @@ const AddressSelector = ({
   addressLineOne,
   addressLineTwo,
   addressLineThree,
+  addressLineFour,
   isSelected,
   isTemporary,
   handlePress,
@@ -74,6 +76,9 @@ const AddressSelector = ({
           )}
           <Typography.Text color="neutralBase-10" size="footnote">
             {addressLineThree}
+          </Typography.Text>
+          <Typography.Text color="neutralBase-10" size="footnote">
+            {addressLineFour}
           </Typography.Text>
         </View>
         {isTemporary && (
