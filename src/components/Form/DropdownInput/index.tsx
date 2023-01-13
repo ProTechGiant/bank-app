@@ -13,6 +13,7 @@ import InputText from "../internal/InputText";
 interface DropdownProps extends FieldProps<string> {
   extra?: React.ComponentProps<typeof InputBox>["extraStart"];
   isEditable?: boolean;
+  headerText?: string;
   placeholder?: string;
   label?: string;
   options: Array<{ label: string; value: string }>;
@@ -21,6 +22,7 @@ interface DropdownProps extends FieldProps<string> {
 export default function DropdownInput({
   extra,
   isEditable = true,
+  headerText,
   field,
   label,
   meta,
@@ -65,7 +67,7 @@ export default function DropdownInput({
 
   return (
     <>
-      <Modal onClose={handleOnClose} headerText="Select a city" visible={isVisible}>
+      <Modal onClose={handleOnClose} headerText={headerText ?? label} visible={isVisible}>
         <Picker onValueChange={handleOnChange} itemStyle={styles.item} selectedValue={selectedValue}>
           {options.map(option => (
             <Picker.Item key={option.value} label={option.label} value={option.value} />

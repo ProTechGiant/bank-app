@@ -24,7 +24,7 @@ import { useThemeStyles } from "@/theme";
 
 interface ModalProps extends Omit<RNModalProps, "animationType" | "onRequestClose" | "transparent"> {
   onClose?: () => void;
-  headerText: string;
+  headerText?: string;
 }
 
 export default function Modal({ children, onClose, headerText, visible = false, ...nativeModalProps }: ModalProps) {
@@ -65,8 +65,9 @@ export default function Modal({ children, onClose, headerText, visible = false, 
       borderBottomColor: theme.palette["neutralBase-30"],
       borderBottomWidth: 1,
       flexDirection: "row",
-      height: 60,
+      minHeight: 60,
       justifyContent: "space-between",
+      paddingVertical: theme.spacing.small,
     }),
     []
   );
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
   },
   headerTextContainer: {
     alignItems: "center",
-    flexGrow: 1,
+    flexShrink: 1,
   },
 });
 

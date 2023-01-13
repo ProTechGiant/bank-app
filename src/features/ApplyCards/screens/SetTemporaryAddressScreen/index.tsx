@@ -101,6 +101,7 @@ export default function SetTemporaryAddressScreen() {
                       <Field
                         component={DropdownInput}
                         label="City"
+                        headerText="Select your city"
                         name="city"
                         placeholder="Select your city"
                         options={CITIES.map(city => ({ value: city, label: city }))}

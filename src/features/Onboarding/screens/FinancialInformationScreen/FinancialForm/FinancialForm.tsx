@@ -1,8 +1,8 @@
-import { Formik, FormikHelpers } from "formik";
+import { Field, Formik, FormikHelpers } from "formik";
 import { View } from "react-native";
 
+import DropdownInput from "@/components/Form/DropdownInput";
 import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
-import SelectInput from "@/components/SelectInput";
 import { Stack } from "@/components/Stack";
 import { mockCroatiaPurpose } from "@/mocks/croatiaPurposeData";
 import { mockExpectedAmount } from "@/mocks/expectedAmount";
@@ -40,31 +40,34 @@ const FinancialForm = () => {
     <View style={{ marginBottom: 55 }}>
       <Formik initialValues={initialValues} validationSchema={FinancialValidationSchema} onSubmit={submitHandler}>
         <Stack space="large">
-          <SelectInput
+          <Field
+            component={DropdownInput}
             name="occupation"
-            title="Occupation"
-            isOptional={true}
-            helperText="We may have taken your latest occupation if it was registed on Absher, but you can change it here"
-            label="Select your occupation"
-            data={mockOccuptions}
+            label="Occupation"
+            extra="Optional - We may have taken your latest occupation if it was registed on Absher, but you can change it here"
+            placeholder="Select your occupation"
+            options={mockOccuptions}
           />
-          <SelectInput
+          <Field
+            component={DropdownInput}
             name="purpose"
-            title="What do you intend to use Croatia for?"
-            label="Select at least one option"
-            data={mockCroatiaPurpose}
+            label="What do you intend to use Croatia for?"
+            placeholder="Select at least one option"
+            options={mockCroatiaPurpose}
           />
-          <SelectInput
+          <Field
+            component={DropdownInput}
             name="sourceOfIncome"
-            title="What your source of income?"
-            label="Select at least one option"
-            data={mockSources}
+            label="What your source of income?"
+            placeholder="Select at least one option"
+            options={mockSources}
           />
-          <SelectInput
+          <Field
+            component={DropdownInput}
             name="expectedMovement"
-            title="What is the expected amount of deposits and withdrawals on a monthly basis?"
-            label="Select an amount"
-            data={mockExpectedAmount}
+            label="What is the expected amount of deposits and withdrawals on a monthly basis?"
+            placeholder="Select an amount"
+            options={mockExpectedAmount}
           />
           <View>
             <FormSubmitButton title="Continue" />
