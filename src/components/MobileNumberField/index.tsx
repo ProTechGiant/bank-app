@@ -1,5 +1,5 @@
 import { createRef, useState } from "react";
-import { Keyboard, Pressable, StyleSheet, TextInput, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, TextInput, View, ViewStyle } from "react-native";
 import { DefaultInputComponentProps, FeatureProps } from "react-phone-number-input";
 import PhoneInput from "react-phone-number-input/react-native-input";
 

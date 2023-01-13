@@ -1,11 +1,9 @@
 import "./i18n";
 
-import { FlagsProvider } from "flagged";
 import { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import { flags } from "@/config/feature-flag";
 import { OrderCardContext, orderCardInitValues } from "@/features/ApplyCards/context/OrderCardContext";
 import MainStack from "@/navigation/MainStack";
 
@@ -31,9 +29,7 @@ export default function App() {
             setOrderCardValues,
           }}>
           <GestureHandlerRootView style={{ flex: 1 }}>
-            <FlagsProvider features={flags}>
-              <MainStack />
-            </FlagsProvider>
+            <MainStack />
           </GestureHandlerRootView>
         </OrderCardContext.Provider>
       </GlobalContext.Provider>

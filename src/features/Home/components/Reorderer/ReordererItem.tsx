@@ -2,9 +2,9 @@ import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 
 import { DisabledPlusIcon, HamburgerIcon, MinusIcon, PlusIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
+import { useThemeStyles } from "@/theme";
 
 import { useItemListContext } from "../../context/ItemListContext";
-import { useThemeStyles } from "@/theme";
 interface ItemProps {
   id: string;
   label: string;
