@@ -1,4 +1,4 @@
-PREV_BUILD_TAG=$(git tag -l --sort=-version:refname "builds/test/*" | tail -1)
+PREV_BUILD_TAG=$(git tag -l --sort=-version:refname "builds/test/*" | head -1)
 PREV_BUILD_TAG_END_IDX=$(echo $PREV_BUILD_TAG | grep -b -o - | cut -d: -f1)
 
 PREV_BUILD_NUMBER=$(echo $PREV_BUILD_TAG | cut -c "13-$PREV_BUILD_TAG_END_IDX")
@@ -7,6 +7,9 @@ export BUILD_ENVIRONMENT="test"
 
 # Update to latest code
 git pull origin main
+
+# Reset working copy
+git reset --hard
 
 # Install/ update dependencies
 yarn install
