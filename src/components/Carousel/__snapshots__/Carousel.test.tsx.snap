@@ -1,0 +1,365 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Carousel renders a Carousel 1`] = `
+<View
+  style={
+    Object {
+      "paddingTop": 8,
+      "position": "relative",
+      "width": "100%",
+    }
+  }
+>
+  <RCTScrollView
+    data={
+      Array [
+        Object {
+          "text": "Slide 1",
+        },
+        Object {
+          "text": "Slide 2",
+        },
+        Object {
+          "text": "Slide 3",
+        },
+      ]
+    }
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={true}
+    keyExtractor={[Function]}
+    onContentSizeChange={[Function]}
+    onLayout={[Function]}
+    onMomentumScrollBegin={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    pagingEnabled={true}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={16}
+    showsHorizontalScrollIndicator={false}
+    showsVerticalScrollIndicator={false}
+    snapToAlignment="center"
+    stickyHeaderIndices={Array []}
+    viewabilityConfigCallbackPairs={Array []}
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          style={
+            Object {
+              "width": undefined,
+            }
+          }
+        >
+          <View
+            testID="slide"
+          >
+            <Text>
+              Slide 1
+            </Text>
+            <View
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={false}
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                    },
+                    Object {
+                      "backgroundColor": "#080E53",
+                      "borderColor": "#080E53",
+                      "borderRadius": 4,
+                      "borderWidth": 0,
+                      "paddingHorizontal": 16,
+                      "paddingVertical": 16,
+                    },
+                    Object {
+                      "opacity": 1,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Array [
+                      undefined,
+                      Object {
+                        "color": "#F4F4F4FF",
+                        "fontSize": 17,
+                        "fontWeight": "400",
+                        "lineHeight": 22,
+                      },
+                    ]
+                  }
+                >
+                  Press Me
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          style={
+            Object {
+              "width": undefined,
+            }
+          }
+        >
+          <View
+            testID="slide"
+          >
+            <Text>
+              Slide 2
+            </Text>
+            <View
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={false}
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                    },
+                    Object {
+                      "backgroundColor": "#080E53",
+                      "borderColor": "#080E53",
+                      "borderRadius": 4,
+                      "borderWidth": 0,
+                      "paddingHorizontal": 16,
+                      "paddingVertical": 16,
+                    },
+                    Object {
+                      "opacity": 1,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Array [
+                      undefined,
+                      Object {
+                        "color": "#F4F4F4FF",
+                        "fontSize": 17,
+                        "fontWeight": "400",
+                        "lineHeight": 22,
+                      },
+                    ]
+                  }
+                >
+                  Press Me
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          style={
+            Object {
+              "width": undefined,
+            }
+          }
+        >
+          <View
+            testID="slide"
+          >
+            <Text>
+              Slide 3
+            </Text>
+            <View
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={false}
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                    },
+                    Object {
+                      "backgroundColor": "#080E53",
+                      "borderColor": "#080E53",
+                      "borderRadius": 4,
+                      "borderWidth": 0,
+                      "paddingHorizontal": 16,
+                      "paddingVertical": 16,
+                    },
+                    Object {
+                      "opacity": 1,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Array [
+                      undefined,
+                      Object {
+                        "color": "#F4F4F4FF",
+                        "fontSize": 17,
+                        "fontWeight": "400",
+                        "lineHeight": 22,
+                      },
+                    ]
+                  }
+                >
+                  Press Me
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "bottom": 8,
+          "flexDirection": "row",
+          "position": "absolute",
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "borderRadius": 4,
+              "height": 8,
+              "marginBottom": 8,
+              "marginHorizontal": 2,
+              "width": 8,
+            },
+            Object {
+              "backgroundColor": "#FF7512",
+            },
+          ]
+        }
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "borderRadius": 4,
+              "height": 8,
+              "marginBottom": 8,
+              "marginHorizontal": 2,
+              "width": 8,
+            },
+            Object {
+              "backgroundColor": "#CFCFDD",
+            },
+          ]
+        }
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "borderRadius": 4,
+              "height": 8,
+              "marginBottom": 8,
+              "marginHorizontal": 2,
+              "width": 8,
+            },
+            Object {
+              "backgroundColor": "#CFCFDD",
+            },
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

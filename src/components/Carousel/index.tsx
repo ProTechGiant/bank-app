@@ -22,7 +22,7 @@ interface CarouselProps {
   loop?: boolean;
 }
 
-export default function Carousel({ pagination, data, onPressSlide, Slide, width, loop }: CarouselProps) {
+export function Carousel({ pagination, data, onPressSlide, Slide, width, loop }: CarouselProps) {
   const activeDotStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["complimentBase"],
@@ -83,7 +83,15 @@ export default function Carousel({ pagination, data, onPressSlide, Slide, width,
     }
   }, []);
 
-  const onLoopScroll = ({ layoutMeasurement, contentOffset, contentSize }: any) => {
+  const onLoopScroll = ({
+    layoutMeasurement,
+    contentOffset,
+    contentSize,
+  }: {
+    layoutMeasurement: { width: number; height: number };
+    contentOffset: { x: number; y: number };
+    contentSize: { width: number; height: number };
+  }) => {
     if (data.length <= 1) {
       return;
     }
@@ -136,7 +144,6 @@ export default function Carousel({ pagination, data, onPressSlide, Slide, width,
           decelerationRate: 0,
           initialNumToRender: data.length,
           maxToRenderPerBatch: data.length,
-          snapToAlignment: "center",
           onScrollToIndexFailed: (info: {
             index: number;
             highestMeasuredFrameIndex: number;
@@ -166,6 +173,7 @@ export default function Carousel({ pagination, data, onPressSlide, Slide, width,
         // for react internal optimization
         keyExtractor={(item, index) => `key ${index}`}
         showsVerticalScrollIndicator={false}
+        snapToAlignment="center"
         {...extraProps}
       />
       {pagination && <Pagination />}

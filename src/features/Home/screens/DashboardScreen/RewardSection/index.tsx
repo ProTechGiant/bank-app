@@ -1,4 +1,4 @@
-import Carousel from "@/components/Carousel";
+import { Carousel } from "@/components/Carousel";
 import { rewardSectionData } from "@/mocks/rewardSectionData";
 import { useThemeStyles } from "@/theme";
 import { duplicateArr } from "@/theme/mappings";

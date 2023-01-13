@@ -7,3 +7,4 @@
 // jest.mock("@react-native-clipboard/clipboard", () => mockClipboard);
 // jest.mock("react-native-safe-area-context", () => mockSafeAreaContext);
 // jest.mock("@react-native-async-storage/async-storage", () => mockAsyncStorage);
+import "@testing-library/jest-native/extend-expect";

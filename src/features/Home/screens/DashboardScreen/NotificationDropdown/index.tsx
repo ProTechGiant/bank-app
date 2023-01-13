@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Dimensions } from "react-native";
 
-import Carousel from "@/components/Carousel";
+import { Carousel } from "@/components/Carousel";
 import Dropdown from "@/components/Dropdown";
 import { useThemeStyles } from "@/theme";
 
