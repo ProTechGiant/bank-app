@@ -67,7 +67,7 @@ export function RenderMinimumNotReachedPlaceholders({
     </View>
   );
   // Return the placeholderBlock as many times as needed
-  return <View>{[...Array(minActiveSections - activeItems)].map(i => placeholderBlock(i))}</View>;
+  return <View>{[...Array(minActiveSections - activeItems)].map((item, i) => placeholderBlock(i))}</View>;
 }
 
 export default function ReordererItem({

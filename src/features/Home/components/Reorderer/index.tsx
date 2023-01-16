@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
-import { TouchableOpacity, ViewStyle } from "react-native";
+import { FlatList, TouchableOpacity, ViewStyle } from "react-native";
 import DraggableFlatList, { RenderItemParams, ScaleDecorator } from "react-native-draggable-flatlist";
-import { ScrollView } from "react-native-virtualized-view";
 
 import SectionHeader from "@/components/SectionHeader";
 import { quickActionReorderItem, ReorderItem } from "@/mocks/quickActionOrderData";
@@ -17,25 +16,6 @@ interface ReordererProps {
   minActiveSections?: number;
   requiredList?: string[];
   setShowTitleBar: Dispatch<SetStateAction<boolean>>;
-}
-
-function ReordererInactiveObjects(data: ReorderItem[], isAddAllowed: boolean) {
-  // Only render inactive objects
-  return data.map(item => {
-    if (!item.active) {
-      return (
-        <ReordererItem
-          label={item.label}
-          description={item.description}
-          isActive={item.active}
-          isReorderAllowed={false}
-          isAddAllowed={isAddAllowed}
-          id={item.key}
-          key={item.key}
-        />
-      );
-    }
-  });
 }
 
 export default function reorderer({
@@ -75,6 +55,24 @@ export default function reorderer({
     }
   };
 
+  function ReordererInactiveObjects({ item }: { item: ReorderItem }) {
+    // Only render inactive objects
+    if (!item.active) {
+      return (
+        <ReordererItem
+          label={item.label}
+          description={item.description}
+          isActive={item.active}
+          isReorderAllowed={false}
+          isAddAllowed={isAddAllowed}
+          id={item.key}
+          key={item.key}
+        />
+      );
+    }
+    return <></>;
+  }
+
   const renderItem = ({ item, drag, isActive }: RenderItemParams<ReorderItem | quickActionReorderItem>) => {
     if (item.active) {
       return (
@@ -97,29 +95,34 @@ export default function reorderer({
   };
 
   return (
-    <ScrollView
+    <FlatList
       style={container}
       onScroll={handleScroll}
       scrollEventThrottle={20}
-      scrollEnabled={handleScroll}
-      showsVerticalScrollIndicator={false}>
-      <SectionHeader title={topSectionTitle} subTitle={{ text: activeItemsCounter }} />
-      {/* Active reorderable items */}
-      <DraggableFlatList
-        data={itemList}
-        onDragEnd={({ data }) => {
-          if (setItemList) {
-            setItemList(data);
-          }
-        }}
-        keyExtractor={item => item.key}
-        renderItem={renderItem}
-      />
-      {/* Optional Placeholders */}
-      <RenderMinimumNotReachedPlaceholders minActiveSections={minActiveSections} activeItems={activeItems} />
-      <SectionHeader title={bottomSectionTitle} />
-      {/* Inactive items */}
-      {ReordererInactiveObjects(itemList, isAddAllowed)}
-    </ScrollView>
+      showsVerticalScrollIndicator={false}
+      alwaysBounceVertical={false}
+      // {/* Inactive items */}
+      data={itemList}
+      renderItem={ReordererInactiveObjects}
+      ListHeaderComponent={
+        <>
+          {/* Active reorderable items */}
+          <SectionHeader title={topSectionTitle} subTitle={{ text: activeItemsCounter }} />
+          <DraggableFlatList
+            data={itemList}
+            onDragEnd={({ data }) => {
+              if (setItemList) {
+                setItemList(data);
+              }
+            }}
+            keyExtractor={item => item.key}
+            renderItem={renderItem}
+          />
+          {/* Optional Placeholders */}
+          <RenderMinimumNotReachedPlaceholders minActiveSections={minActiveSections} activeItems={activeItems} />
+          <SectionHeader title={bottomSectionTitle} />
+        </>
+      }
+    />
   );
 }
