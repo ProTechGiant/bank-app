@@ -1,9 +1,10 @@
-import { Field, Formik, FormikHelpers } from "formik";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 
 import Button from "@/components/Button";
+import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
-import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import { Stack } from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 
@@ -13,8 +14,17 @@ interface Values {
   emailAddress: string;
 }
 
-const StayUpdatedEmailForm = () => {
+export default function StayUpdatedEmailForm() {
   const navigation = useNavigation();
+
+  const { control, handleSubmit } = useForm<Values>({
+    mode: "onBlur",
+    resolver: yupResolver(stayUpdatedEmailValidationSchema),
+  });
+
+  const handleOnSubmit = (_values: Values) => {
+    navigation.navigate("Onboarding.Financial");
+  };
 
   const handleOnContinueOnboarding = () => {
     navigation.navigate("Onboarding.Financial");
@@ -22,40 +32,26 @@ const StayUpdatedEmailForm = () => {
 
   return (
     <View style={styles.container}>
-      <Formik
-        initialValues={{
-          emailAddress: "",
-        }}
-        validationSchema={stayUpdatedEmailValidationSchema}
-        onSubmit={(values: Values, { setSubmitting }: FormikHelpers<Values>) => {
-          setTimeout(() => {
-            setSubmitting(false);
-            navigation.navigate("Onboarding.Financial");
-          }, 500);
-        }}>
-        <>
-          <Field
-            component={TextInput}
-            name="emailAddress"
-            label="Email"
-            placeholder="Your address"
-            keyboardType="email-address"
-          />
-          <View style={styles.buttonView}>
-            <Stack space="xSmall">
-              <FormSubmitButton title="Continue" />
-              <Button variant="secondary" color="base" onPress={handleOnContinueOnboarding}>
-                Skip
-              </Button>
-            </Stack>
-          </View>
-        </>
-      </Formik>
+      <TextInput
+        control={control}
+        name="emailAddress"
+        label="Email"
+        placeholder="Your address"
+        keyboardType="email-address"
+      />
+      <View style={styles.buttonView}>
+        <Stack space="xSmall">
+          <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+            Continue
+          </SubmitButton>
+          <Button variant="secondary" color="base" onPress={handleOnContinueOnboarding}>
+            Skip
+          </Button>
+        </Stack>
+      </View>
     </View>
   );
-};
-
-export default StayUpdatedEmailForm;
+}
 
 const styles = StyleSheet.create({
   buttonView: {

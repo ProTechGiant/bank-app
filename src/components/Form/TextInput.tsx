@@ -1,32 +1,35 @@
-import { FieldProps } from "formik";
 import { useState } from "react";
+import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { TextInput as RNTextInput, TextInputProps as RNTextInputProps, TextStyle } from "react-native";
 
 import { ErrorIcon } from "@/assets/icons";
 import { useThemeStyles } from "@/theme";
 
-import InputBox from "../internal/InputBox";
+import InputBox from "./internal/InputBox";
 
-interface TextInputProps
-  extends FieldProps<string | undefined>,
-    Omit<RNTextInputProps, "onBlur" | "onChangeText" | "onFocus" | "placeholderTextColor" | "style" | "value"> {
+interface TextInputProps<T extends FieldValues>
+  extends Omit<RNTextInputProps, "onBlur" | "onChangeText" | "onFocus" | "placeholderTextColor" | "style" | "value"> {
+  control: Control<T>;
   extra?: React.ComponentProps<typeof InputBox>["extraStart"];
   isEditable?: boolean;
+  name: Path<T>;
   label?: string;
   showCharacterCount?: boolean;
 }
 
-export default function TextInput({
+export default function TextInput<T extends FieldValues>({
+  control,
   extra,
   isEditable,
-  field,
-  meta,
   label,
   maxLength,
   multiline,
+  name,
   showCharacterCount,
   ...restProps
-}: TextInputProps) {
+}: TextInputProps<T>) {
+  const { field, fieldState } = useController({ control, name });
+
   const textStyles = useThemeStyles<TextStyle>(
     theme => ({
       color: theme.palette["neutralBase+20"],
@@ -40,7 +43,6 @@ export default function TextInput({
     []
   );
 
-  const isError = undefined !== meta?.error && meta?.touched;
   const placeholderTextColor = useThemeStyles(theme => theme.palette.neutralBase, []);
   const errorIconColor = useThemeStyles(theme => theme.palette.errorBase, []);
   const [isFocused, setIsFocused] = useState(false);
@@ -48,17 +50,21 @@ export default function TextInput({
   return (
     <InputBox
       extraStart={extra}
-      // eslint-disable-next-line prettier/prettier
-      extraEnd={showCharacterCount && undefined !== maxLength ? `${field.value?.length ?? 0} / ${maxLength}` : undefined}
+      extraEnd={
+        showCharacterCount && undefined !== maxLength ? `${field.value?.length ?? 0} / ${maxLength}` : undefined
+      }
       isEditable={isEditable}
       isFocused={isFocused}
       multiline={multiline}
-      meta={meta}
+      fieldState={fieldState}
       label={label}>
       <RNTextInput
         editable={isEditable}
-        onBlur={() => setIsFocused(false)}
-        onChangeText={value => field.onChange({ target: { name: field.name, value } })}
+        onBlur={() => {
+          field.onBlur();
+          setIsFocused(false);
+        }}
+        onChangeText={value => field.onChange(value)}
         onFocus={() => setIsFocused(true)}
         maxLength={maxLength}
         multiline={multiline}
@@ -67,7 +73,9 @@ export default function TextInput({
         value={field.value}
         {...restProps}
       />
-      {isError && <ErrorIcon fill={errorIconColor} height={20} width={20} />}
+      {undefined !== fieldState.error && fieldState.isTouched && (
+        <ErrorIcon fill={errorIconColor} height={20} width={20} />
+      )}
     </InputBox>
   );
 }

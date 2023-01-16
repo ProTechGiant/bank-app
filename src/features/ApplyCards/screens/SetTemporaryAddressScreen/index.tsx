@@ -1,10 +1,11 @@
-import { Field, Formik } from "formik";
-import { ScrollView, View, ViewStyle } from "react-native";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
 import DropdownInput from "@/components/Form/DropdownInput";
+import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
-import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { Stack } from "@/components/Stack";
@@ -16,9 +17,13 @@ import { Address, useOrderCardContext } from "../../context/OrderCardContext";
 import { SetTemporaryAddressValidationSchema } from "./SetTemporaryAddressValidation";
 
 export default function SetTemporaryAddressScreen() {
+  const navigation = useNavigation();
+  const { orderCardValues, setOrderCardValues } = useOrderCardContext();
+
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       paddingTop: theme.spacing.medium,
+      paddingBottom: theme.spacing.regular,
     }),
     []
   );
@@ -28,23 +33,35 @@ export default function SetTemporaryAddressScreen() {
     }),
     []
   );
-  const buttonContainerStyle = useThemeStyles<ViewStyle>(
+  const formContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      flex: 1,
-      justifyContent: "flex-end",
-      marginTop: theme.spacing.large,
+      marginBottom: theme.spacing.xlarge,
     }),
     []
   );
 
-  const navigation = useNavigation();
-  const { orderCardValues, setOrderCardValues } = useOrderCardContext();
-  const initialValues = {
-    addressLineOne: orderCardValues.formValues.alternateAddress?.addressLineOne,
-    addressLineTwo: orderCardValues.formValues.alternateAddress?.addressLineTwo,
-    district: orderCardValues.formValues.alternateAddress?.district,
-    city: orderCardValues.formValues.alternateAddress?.city,
-    postalCode: orderCardValues.formValues.alternateAddress?.postalCode,
+  const { control, handleSubmit } = useForm({
+    mode: "onBlur",
+    resolver: yupResolver(SetTemporaryAddressValidationSchema),
+    defaultValues: {
+      addressLineOne: orderCardValues.formValues.alternateAddress?.addressLineOne,
+      addressLineTwo: orderCardValues.formValues.alternateAddress?.addressLineTwo,
+      district: orderCardValues.formValues.alternateAddress?.district,
+      city: orderCardValues.formValues.alternateAddress?.city,
+      postalCode: orderCardValues.formValues.alternateAddress?.postalCode,
+    } as Address,
+  });
+
+  const handleOnSubmit = (values: Address) => {
+    setOrderCardValues({
+      ...orderCardValues,
+      formValues: {
+        ...orderCardValues.formValues,
+        alternateAddress: values,
+      },
+    });
+
+    navigation.navigate("ApplyCards.CardDeliveryDetails");
   };
 
   return (
@@ -64,71 +81,62 @@ export default function SetTemporaryAddressScreen() {
             </Typography.Text>
           </View>
           <View style={{ flex: 1 }}>
-            <Formik
-              initialValues={initialValues}
-              validationSchema={SetTemporaryAddressValidationSchema}
-              onSubmit={(values: Address) => {
-                setOrderCardValues !== null &&
-                  setOrderCardValues({
-                    ...orderCardValues,
-                    formValues: {
-                      ...orderCardValues.formValues,
-                      alternateAddress: values,
-                    },
-                  });
-                navigation.navigate("ApplyCards.CardDeliveryDetails");
-              }}>
-              {() => {
-                return (
-                  <View style={{ flex: 1 }}>
-                    <Stack space="medium">
-                      <Field
-                        component={TextInput}
-                        label="Address line 1"
-                        name="addressLineOne"
-                        placeholder="Address line 1"
-                        maxLength={100}
-                      />
-                      <Field
-                        component={TextInput}
-                        label="Address line 2"
-                        name="addressLineTwo"
-                        placeholder="Address line 2"
-                        maxLength={100}
-                        extra="Optional"
-                      />
-                      <Field component={TextInput} label="District" name="district" placeholder="District" />
-                      <Field
-                        component={DropdownInput}
-                        label="City"
-                        headerText="Select your city"
-                        name="city"
-                        placeholder="Select your city"
-                        options={CITIES.map(city => ({ value: city, label: city }))}
-                      />
-                      <Field
-                        component={TextInput}
-                        label="Postal Code"
-                        name="postalCode"
-                        placeholder="Postal Code"
-                        keyboardType="number-pad"
-                        showCharacterCounter
-                        maxLength={5}
-                      />
-                    </Stack>
-                    <View style={buttonContainerStyle}>
-                      <FormSubmitButton title="Confirm" />
-                    </View>
-                  </View>
-                );
-              }}
-            </Formik>
+            <View style={{ flex: 1 }}>
+              <View style={formContainerStyle}>
+                <Stack space="medium">
+                  <TextInput
+                    control={control}
+                    label="Address line 1"
+                    name="addressLineOne"
+                    placeholder="Address line 1"
+                    maxLength={100}
+                  />
+                  <TextInput
+                    control={control}
+                    label="Address line 2"
+                    name="addressLineTwo"
+                    placeholder="Address line 2"
+                    maxLength={100}
+                    extra="Optional"
+                  />
+                  <TextInput control={control} label="District" name="district" placeholder="District" />
+                  <DropdownInput
+                    control={control}
+                    label="City"
+                    name="city"
+                    headerText="Select a city"
+                    placeholder="Select your city"
+                    options={CITIES.map(city => ({ value: city, label: city }))}
+                  />
+                  <TextInput
+                    control={control}
+                    label="Postal Code"
+                    name="postalCode"
+                    placeholder="Postal Code"
+                    keyboardType="number-pad"
+                    showCharacterCount
+                    maxLength={5}
+                  />
+                </Stack>
+              </View>
+              <View style={styles.buttonContainer}>
+                <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+                  Confirm
+                </SubmitButton>
+              </View>
+            </View>
           </View>
         </ContentContainer>
       </ScrollView>
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    marginTop: "auto",
+  },
+});
 
 const CITIES = [
   "Abhā",

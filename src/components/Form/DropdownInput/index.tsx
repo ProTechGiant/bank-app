@@ -1,6 +1,6 @@
 import { Picker } from "@react-native-picker/picker";
-import { FieldProps } from "formik";
-import * as React from "react";
+import { useEffect, useState } from "react";
+import { FieldValues, useController } from "react-hook-form";
 import { StyleSheet } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
@@ -9,43 +9,37 @@ import Modal from "@/components/Modal";
 
 import InputBox from "../internal/InputBox";
 import InputText from "../internal/InputText";
+import DropdownInputProps from "./DropdownInputProps";
 
-interface DropdownProps extends FieldProps<string> {
-  extra?: React.ComponentProps<typeof InputBox>["extraStart"];
-  isEditable?: boolean;
-  headerText?: string;
-  placeholder?: string;
-  label?: string;
-  options: Array<{ label: string; value: string }>;
-}
-
-export default function DropdownInput({
+export default function DropdownInput<T extends FieldValues>({
+  control,
   extra,
   isEditable = true,
   headerText,
-  field,
   label,
-  meta,
+  name,
   placeholder,
   options = [],
-}: DropdownProps) {
-  const [isVisible, setIsVisible] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState<DropdownProps["field"]["value"]>();
+}: DropdownInputProps<T>) {
+  const { field, fieldState } = useController({ control, name });
+  const [isVisible, setIsVisible] = useState(false);
+  const [selectedValue, setSelectedValue] = useState<typeof field["value"]>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setSelectedValue(field.value);
   }, [field.value]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isEditable || undefined !== placeholder || options.length < 1 || undefined !== field.value) return;
 
     const defaultValue = options[0].value;
     setSelectedValue(defaultValue);
-    setImmediate(() => field.onChange({ target: { name: field.name, value: defaultValue } }));
+    setImmediate(() => field.onChange(defaultValue));
   }, [isEditable, placeholder, options]);
 
   const handleOnOpen = () => {
     if (!isEditable) return;
+
     if (field.value === undefined && options.length > 0) setSelectedValue(options[0].value);
     setIsVisible(true);
   };
@@ -53,16 +47,19 @@ export default function DropdownInput({
   const handleOnClose = () => {
     setIsVisible(false);
     setSelectedValue(field.value);
+
+    field.onBlur();
+  };
+
+  const handleOnChange = (value: typeof selectedValue) => {
+    setSelectedValue(value ?? options[0]?.value);
   };
 
   const handleOnConfirm = () => {
     setIsVisible(false);
 
-    field.onChange({ target: { name: field.name, value: selectedValue } });
-  };
-
-  const handleOnChange = (value: string) => {
-    setSelectedValue(value ?? options[0]?.value);
+    field.onBlur();
+    field.onChange(selectedValue);
   };
 
   return (
@@ -75,7 +72,7 @@ export default function DropdownInput({
         </Picker>
         <Button onPress={handleOnConfirm}>Confirm</Button>
       </Modal>
-      <InputBox extraStart={extra} isEditable={isEditable} label={label} meta={meta} onPress={handleOnOpen}>
+      <InputBox extraStart={extra} isEditable={isEditable} label={label} fieldState={fieldState} onPress={handleOnOpen}>
         <InputText
           buttonIcon={<ChevronRightIcon />}
           placeholder={placeholder}

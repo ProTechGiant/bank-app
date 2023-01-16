@@ -1,33 +1,33 @@
 import { Picker } from "@react-native-picker/picker";
-import { FieldProps } from "formik";
 import { useEffect } from "react";
+import { FieldValues, useController } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 
 import InputBox from "../internal/InputBox";
 import InputText from "../internal/InputText";
+import DropdownInputProps from "./DropdownInputProps";
 
-interface DropdownProps extends FieldProps<string> {
-  extra?: React.ComponentProps<typeof InputBox>["extraStart"];
-  isEditable?: boolean;
-  placeholder?: string;
-  label?: string;
-  options: Array<{ label: string; value: string }>;
-}
-
-export default function DropdownInput({
+export default function DropdownInput<T extends FieldValues>({
+  control,
   extra,
   isEditable = true,
   label,
-  field,
-  meta,
+  name,
   placeholder,
   options = [],
-}: DropdownProps) {
+}: DropdownInputProps<T>) {
+  const { field, fieldState } = useController({ control, name });
+
   useEffect(() => {
     const isSelectedValueLegal = options.find(o => o.value === field.value);
-    if (!isEditable || undefined !== placeholder || options.length < 1 || ("" !== field.value && isSelectedValueLegal))
+    if (
+      !isEditable ||
+      undefined !== placeholder ||
+      options.length < 1 ||
+      (undefined !== field.value && isSelectedValueLegal)
+    )
       return;
 
     const defaultValue = options[0].value;
@@ -35,12 +35,12 @@ export default function DropdownInput({
   }, [isEditable, placeholder, options]);
 
   const handleOnChange = (value: string) => {
-    field.onChange({ target: { name: field.name, value: value ?? options[0]?.value } });
+    field.onChange(value ?? options[0]?.value);
   };
 
   return (
     <View>
-      <InputBox extraStart={extra} isEditable={isEditable} label={label} meta={meta}>
+      <InputBox extraStart={extra} isEditable={isEditable} label={label} fieldState={fieldState}>
         <InputText
           buttonIcon={<ChevronRightIcon />}
           placeholder={placeholder}

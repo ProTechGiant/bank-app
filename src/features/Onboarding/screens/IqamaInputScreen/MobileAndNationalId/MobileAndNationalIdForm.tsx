@@ -1,8 +1,10 @@
-import { Field, Formik } from "formik";
-import { Image, StyleSheet, Text, View, ViewStyle } from "react-native";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { Image, ImageStyle, StyleSheet, Text, View, ViewStyle } from "react-native";
 
+import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
+import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
-import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
 import InfoBox from "@/components/InfoBox";
 import MobileNumberField from "@/components/MobileNumberField";
 import Typography from "@/components/Typography";
@@ -16,7 +18,16 @@ interface MobileAndNationalIdFormProps {
   onSubmit: (values: IqamaInputs) => Promise<void>;
 }
 
-const MobileAndNationalIdForm = ({ onSubmit }: MobileAndNationalIdFormProps) => {
+export default function MobileAndNationalIdForm({ onSubmit }: MobileAndNationalIdFormProps) {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IqamaInputs>({
+    resolver: yupResolver(iqamaValidationSchema),
+    mode: "onBlur",
+  });
+
   const areaCodeViewStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
@@ -32,7 +43,7 @@ const MobileAndNationalIdForm = ({ onSubmit }: MobileAndNationalIdFormProps) => 
     }),
     []
   );
-  const iconStyle = useThemeStyles<ViewStyle>(
+  const iconStyle = useThemeStyles<ImageStyle>(
     theme => ({
       borderRadius: theme.radii.medium,
       height: theme.iconDimensions.notifications,
@@ -66,74 +77,54 @@ const MobileAndNationalIdForm = ({ onSubmit }: MobileAndNationalIdFormProps) => 
 
   return (
     <View>
-      <Formik
-        initialValues={{
-          NationalId: "",
-          MobileNumber: "",
-        }}
-        validationSchema={iqamaValidationSchema}
-        onSubmit={onSubmit}>
-        {({ errors }) => {
-          let areaViewMobileCode;
-
-          errors.mobileNumber
-            ? (areaViewMobileCode = [areaCodeViewStyle, errorsMobileNumberStyle])
-            : (areaViewMobileCode = areaCodeViewStyle);
-
-          return (
-            <View>
-              <View style={inputFieldsStyle}>
-                <View>
-                  <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                    Mobile
-                  </Typography.Text>
-                  <View style={mobileNumberContainerStyle}>
-                    <View style={areaViewMobileCode}>
-                      <View>
-                        <Image style={iconStyle} source={require("@/assets/images/KSAFlag.png")} />
-                      </View>
-                      <Text>+966</Text>
-                    </View>
-                    <View style={styles.mobile}>
-                      <Field
-                        component={MobileNumberField}
-                        name="MobileNumber"
-                        placeholder="Enter mobile"
-                        autoCompleteType="mobile"
-                        keyboardType="number-pad"
-                      />
-                    </View>
-                  </View>
-                </View>
-                <Field
-                  component={TextInput}
-                  name="NationalId"
-                  label="National ID or Iqama Number"
-                  placeholder="Enter your national ID/Iqama"
-                  keyboardType="number-pad"
-                />
+      <View style={inputFieldsStyle}>
+        <View>
+          <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+            Mobile
+          </Typography.Text>
+          <View style={mobileNumberContainerStyle}>
+            <View style={[areaCodeViewStyle, undefined !== errors?.MobileNumber && errorsMobileNumberStyle]}>
+              <View>
+                <Image style={iconStyle} source={require("@/assets/images/KSAFlag.png")} />
               </View>
-              <InfoBox variant="compliment" borderPosition="left">
-                <Typography.Text color="primaryBase+30" size="caption1" weight="regular">
-                  To join Croatia, you must be over 18 and have an Absher profile. Register at
-                  <Typography.Text color="primaryBase+30" size="caption1" weight="bold">
-                    absher.sa
-                  </Typography.Text>
-                  before joining us
-                </Typography.Text>
-              </InfoBox>
-              <View style={styles.submitButtonView}>
-                <FormSubmitButton title="Continue" />
-              </View>
+              <Text>+966</Text>
             </View>
-          );
-        }}
-      </Formik>
+            <View style={styles.mobile}>
+              <PhoneNumberInput
+                control={control}
+                name="MobileNumber"
+                placeholder="Enter mobile"
+                autoCompleteType="mobile"
+                keyboardType="number-pad"
+              />
+            </View>
+          </View>
+        </View>
+        <TextInput
+          control={control}
+          name="NationalId"
+          label="National ID or Iqama Number"
+          placeholder="Enter your national ID/Iqama"
+          keyboardType="number-pad"
+        />
+      </View>
+      <InfoBox variant="compliment" borderPosition="left">
+        <Typography.Text color="primaryBase+30" size="caption1" weight="regular">
+          To join Croatia, you must be over 18 and have an Absher profile. Register at
+          <Typography.Text color="primaryBase+30" size="caption1" weight="bold">
+            absher.sa
+          </Typography.Text>
+          before joining us
+        </Typography.Text>
+      </InfoBox>
+      <View style={styles.submitButtonView}>
+        <SubmitButton control={control} onSubmit={handleSubmit(onSubmit)}>
+          Continue
+        </SubmitButton>
+      </View>
     </View>
   );
-};
-
-export default MobileAndNationalIdForm;
+}
 
 const styles = StyleSheet.create({
   mobile: {

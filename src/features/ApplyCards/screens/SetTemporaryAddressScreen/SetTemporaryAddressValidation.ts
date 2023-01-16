@@ -2,7 +2,7 @@ import * as Yup from "yup";
 
 import { alphaNumericSpaceRegExp } from "@/utils";
 
-export const SetTemporaryAddressValidationSchema = Yup.object().shape({
+export const SetTemporaryAddressValidationSchema = Yup.object({
   addressLineOne: Yup.string()
     .required("Address line 1 is required")
     .matches(alphaNumericSpaceRegExp, "Address line 1 is not valid")

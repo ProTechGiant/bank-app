@@ -1,4 +1,4 @@
-import { FieldMetaProps } from "formik";
+import { ControllerFieldState } from "react-hook-form";
 import { Pressable, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
@@ -6,7 +6,8 @@ import { useThemeStyles } from "@/theme";
 
 import InputLabel from "./InputLabel";
 
-interface InputBoxProps<T> {
+interface InputBoxProps {
+  bordered?: boolean;
   children: React.ReactNode;
   extraStart?: string;
   extraEnd?: string;
@@ -14,11 +15,12 @@ interface InputBoxProps<T> {
   isFocused?: boolean;
   label?: string;
   multiline?: boolean;
-  meta: FieldMetaProps<T>;
+  fieldState: ControllerFieldState;
   onPress?: () => void;
 }
 
-export default function InputBox<T>({
+export default function InputBox({
+  bordered = true,
   children,
   extraStart,
   extraEnd,
@@ -26,10 +28,10 @@ export default function InputBox<T>({
   isFocused = false,
   label,
   multiline = false,
-  meta,
+  fieldState,
   onPress,
-}: InputBoxProps<T>) {
-  const isError = undefined !== meta?.error && meta.touched;
+}: InputBoxProps) {
+  const isError = undefined !== fieldState?.error && fieldState.isTouched;
 
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
@@ -46,13 +48,12 @@ export default function InputBox<T>({
         ? theme.palette["neutralBase-20"]
         : theme.palette["neutralBase-30"],
       borderRadius: theme.radii.extraSmall,
-      borderWidth: isFocused ? 2 : 1,
+      borderWidth: bordered ? (isFocused || isError ? 2 : 1) : 0,
       flexDirection: "row",
-      justifyContent: "space-between",
       minHeight: multiline ? 74 : 53,
-      padding: theme.spacing.medium - (isFocused ? 1 : 0),
+      padding: theme.spacing.medium - (isFocused || isError ? 1 : 0),
     }),
-    [isError, isFocused, multiline]
+    [bordered, isError, isEditable, isFocused, multiline]
   );
 
   const optionalLabelStyle = useThemeStyles<ViewStyle>(
@@ -72,7 +73,8 @@ export default function InputBox<T>({
       {(undefined !== extraStart || undefined !== extraEnd || isError) && (
         <View style={optionalLabelStyle}>
           <Typography.Text color={isError ? "errorBase" : "neutralBase"} size="caption1" weight="regular">
-            {isError ? meta.error : extraStart}
+            {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
+            {isError ? fieldState.error!.message : extraStart}
           </Typography.Text>
           {undefined !== extraEnd && (
             <Typography.Text color={isError ? "errorBase" : "neutralBase"} size="caption1" weight="regular">

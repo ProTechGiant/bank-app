@@ -1,8 +1,9 @@
-import { Field, Formik, FormikHelpers } from "formik";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 import { View } from "react-native";
 
 import DropdownInput from "@/components/Form/DropdownInput";
-import FormSubmitButton from "@/components/FormSubmitButton/FormSubmitButton";
+import SubmitButton from "@/components/Form/SubmitButton";
 import { Stack } from "@/components/Stack";
 import { mockCroatiaPurpose } from "@/mocks/croatiaPurposeData";
 import { mockExpectedAmount } from "@/mocks/expectedAmount";
@@ -19,63 +20,56 @@ type FormValues = {
   expectedMovement: string;
 };
 
-const FinancialForm = () => {
+export default function FinancialForm() {
   const navigation = useNavigation();
 
-  const initialValues: FormValues = {
-    occupation: "",
-    purpose: "",
-    sourceOfIncome: "",
-    expectedMovement: "",
-  };
+  const { control, handleSubmit } = useForm<FormValues>({
+    resolver: yupResolver(FinancialValidationSchema),
+    mode: "onBlur",
+  });
 
-  const submitHandler = (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
-    setTimeout(() => {
-      setSubmitting(false);
-      navigation.navigate("Onboarding.ForeignTax");
-    }, 500);
+  const handleOnSubmit = (_values: FormValues) => {
+    navigation.navigate("Onboarding.ForeignTax");
   };
 
   return (
     <View style={{ marginBottom: 55 }}>
-      <Formik initialValues={initialValues} validationSchema={FinancialValidationSchema} onSubmit={submitHandler}>
-        <Stack space="large">
-          <Field
-            component={DropdownInput}
-            name="occupation"
-            label="Occupation"
-            extra="Optional - We may have taken your latest occupation if it was registed on Absher, but you can change it here"
-            placeholder="Select your occupation"
-            options={mockOccuptions}
-          />
-          <Field
-            component={DropdownInput}
-            name="purpose"
-            label="What do you intend to use Croatia for?"
-            placeholder="Select at least one option"
-            options={mockCroatiaPurpose}
-          />
-          <Field
-            component={DropdownInput}
-            name="sourceOfIncome"
-            label="What your source of income?"
-            placeholder="Select at least one option"
-            options={mockSources}
-          />
-          <Field
-            component={DropdownInput}
-            name="expectedMovement"
-            label="What is the expected amount of deposits and withdrawals on a monthly basis?"
-            placeholder="Select an amount"
-            options={mockExpectedAmount}
-          />
-          <View>
-            <FormSubmitButton title="Continue" />
-          </View>
-        </Stack>
-      </Formik>
+      <Stack space="large">
+        <DropdownInput
+          control={control}
+          name="occupation"
+          label="Occupation"
+          extra="Optional - We may have taken your latest occupation if it was registed on Absher, but you can change it here"
+          placeholder="Select your occupation"
+          options={mockOccuptions}
+        />
+        <DropdownInput
+          control={control}
+          name="purpose"
+          label="What do you intend to use Croatia for?"
+          placeholder="Select at least one option"
+          options={mockCroatiaPurpose}
+        />
+        <DropdownInput
+          control={control}
+          name="sourceOfIncome"
+          label="What your source of income?"
+          placeholder="Select at least one option"
+          options={mockSources}
+        />
+        <DropdownInput
+          control={control}
+          name="expectedMovement"
+          label="What is the expected amount of deposits and withdrawals on a monthly basis?"
+          placeholder="Select an amount"
+          options={mockExpectedAmount}
+        />
+        <View>
+          <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+            Continue
+          </SubmitButton>
+        </View>
+      </Stack>
     </View>
   );
-};
-
-export default FinancialForm;
+}
