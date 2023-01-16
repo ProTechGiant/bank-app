@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
-import { Dimensions, Keyboard, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Dimensions, Keyboard, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ErrorBlackIcon, InfoIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -13,6 +13,7 @@ import { useThemeStyles } from "@/theme";
 
 import { useOrderCardContext } from "../../context/OrderCardContext";
 import encryptPincode from "./encrypt-pincode";
+import isValidPincode from "./is-valid-pincode";
 import PinCodeInput from "./PinCodeInput";
 
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
@@ -86,6 +87,12 @@ export default function CreateCardPinScreen() {
   useEffect(() => {
     if (PIN_INPUT_LENGTH === currentInput.length) {
       if (mode === "input") {
+        if (!isValidPincode(currentInput)) {
+          return Alert.alert("Easy PIN", "Avoid a PIN with simple number sequences and repated numbers", [
+            { text: "Change it", onPress: () => handleOnResetPincode(), style: "default" },
+          ]);
+        }
+
         setMode("confirm");
         setSelectedPincode(currentInput);
         setCurrentInput("");
@@ -124,6 +131,7 @@ export default function CreateCardPinScreen() {
 
   const handleOnResetPincode = () => {
     setCurrentInput("");
+    setSelectedPincode("");
     setRemainingTries(PIN_MAX_TRIES);
     setShowErrorBox(false);
     setMode("input");
