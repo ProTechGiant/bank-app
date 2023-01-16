@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Image, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
@@ -15,6 +16,8 @@ export default function SelectStandardCard({ onPress }: { onPress: () => void })
     []
   );
 
+  const { t } = useTranslation();
+
   return (
     <View style={container}>
       <View style={{ height: "80%" }}>
@@ -22,7 +25,7 @@ export default function SelectStandardCard({ onPress }: { onPress: () => void })
       </View>
       <Button block onPress={onPress}>
         <Typography.Text color="neutralBase-50" size="body" weight="medium">
-          Get Standard Card for FREE
+          {t("ApplyCards.ApplyForCardScreen.standard.button")}
         </Typography.Text>
       </Button>
     </View>

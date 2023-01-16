@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
@@ -15,17 +16,19 @@ export default function SelectLuxCard({ onPress }: { onPress: () => void }) {
     []
   );
 
+  const { t } = useTranslation();
+
   return (
     <View style={container}>
       <View style={{ height: "80%" }}>
         <Image style={{ height: 220, width: 380 }} source={require("@/assets/images/lux-card-placeholder.png")} />
       </View>
       <Typography.Text size="caption1" color="neutralBase" style={styles.text}>
-        Lux is FREE when you upgrade to Croatia Plus
+        {t("ApplyCards.ApplyForCardScreen.lux.remarks")}
       </Typography.Text>
       <Button block onPress={onPress}>
         <Typography.Text color="neutralBase-50" size="body" weight="medium">
-          Get Lux Card with Croatia Plus
+          {t("ApplyCards.ApplyForCardScreen.lux.button")}
         </Typography.Text>
       </Button>
     </View>

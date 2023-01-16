@@ -1,5 +1,6 @@
 import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
@@ -25,21 +26,24 @@ export default function CardDeliveryDetailsScreen() {
     []
   );
 
+  const navigation = useNavigation();
+  const { orderCardValues } = useOrderCardContext();
+  const { t } = useTranslation();
+
   const API_SUCCESS_MESSAGE = "Successful request card creation";
   const PRIMARY_ID = "primary";
   const TEMPORARY_ID = "temporary";
 
   const GENERIC_ERROR = {
     name: "error",
-    title: "We’re sorry, something has gone wrong.",
-    message: "Please try again later or contact Customer Care.",
+    title: t("ApplyCards.CardDeliveryDetailsScreen.error.title"),
+    message: t("ApplyCards.CardDeliveryDetailsScreen.error.message"),
   };
 
-  const navigation = useNavigation();
-  const { orderCardValues } = useOrderCardContext();
-
   const hasTemporaryAddress = orderCardValues.formValues.alternateAddress !== undefined;
-  const buttonText = hasTemporaryAddress ? "Edit Temporary Address" : "Set Temporary Address";
+  const buttonText = hasTemporaryAddress
+    ? t("ApplyCards.CardDeliveryDetailsScreen.buttons.edit")
+    : t("ApplyCards.CardDeliveryDetailsScreen.buttons.setAddress");
   const primaryAddress = mockPrimaryDeliveryAddress.addresses.map(data => {
     return { ...data, id: PRIMARY_ID, is_selected: !hasTemporaryAddress, is_temp_address: false };
   });
@@ -117,18 +121,21 @@ export default function CardDeliveryDetailsScreen() {
 
   return (
     <Page>
-      <NavHeader title="Order card" backButton={true} backButtonHandler={handleOnBack}>
+      <NavHeader
+        title={t("ApplyCards.CardDeliveryDetailsScreen.navTitle")}
+        backButton={true}
+        backButtonHandler={handleOnBack}>
         <ProgressIndicator currentStep={3} totalStep={3} />
       </NavHeader>
       <ContentContainer>
         <View style={styles.contentContainer}>
           <View style={headerStyle}>
             <Typography.Text size="large" weight="bold">
-              Card delivery details
+              {t("ApplyCards.CardDeliveryDetailsScreen.title")}
             </Typography.Text>
           </View>
           <View style={styles.paragraph}>
-            <Typography.Text>Your card will be sent here:</Typography.Text>
+            <Typography.Text>{t("ApplyCards.CardDeliveryDetailsScreen.paragraph")}</Typography.Text>
           </View>
           <Stack space="medium">
             {!isEmpty(addressData) &&
@@ -154,7 +161,7 @@ export default function CardDeliveryDetailsScreen() {
         {!submitOrderCardAsync.isLoading && (
           <Button onPress={handleConfirm}>
             <Typography.Text color="neutralBase-50" size="body" weight="medium">
-              Confirm and continue
+              {t("ApplyCards.CardDeliveryDetailsScreen.buttons.confirm")}
             </Typography.Text>
           </Button>
         )}

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert, Dimensions, Keyboard, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ErrorBlackIcon, InfoIcon } from "@/assets/icons";
@@ -77,6 +78,7 @@ export default function CreateCardPinScreen() {
   const pincodeInputRef = useRef<React.ElementRef<typeof PinCodeInput>>(null);
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const [currentInput, setCurrentInput] = useState("");
   const [selectedPincode, setSelectedPincode] = useState("");
@@ -88,9 +90,17 @@ export default function CreateCardPinScreen() {
     if (PIN_INPUT_LENGTH === currentInput.length) {
       if (mode === "input") {
         if (!isValidPincode(currentInput)) {
-          return Alert.alert("Easy PIN", "Avoid a PIN with simple number sequences and repated numbers", [
-            { text: "Change it", onPress: () => handleOnResetPincode(), style: "default" },
-          ]);
+          return Alert.alert(
+            t("ApplyCards.CreateCardPinScreen.setPin.alert.title"),
+            t("ApplyCards.CreateCardPinScreen.setPin.alert.content"),
+            [
+              {
+                text: t("ApplyCards.CreateCardPinScreen.setPin.alert.button"),
+                onPress: () => handleOnResetPincode(),
+                style: "default",
+              },
+            ]
+          );
         }
 
         setMode("confirm");
@@ -135,12 +145,13 @@ export default function CreateCardPinScreen() {
     setRemainingTries(PIN_MAX_TRIES);
     setShowErrorBox(false);
     setMode("input");
+    pincodeInputRef.current?.focus();
   };
 
   return (
     <Page>
       <NavHeader
-        title="Order card"
+        title={t("ApplyCards.CreateCardPinScreen.navTitle")}
         backButton={true}
         backButtonHandler={mode !== "input" ? handleOnResetPincode : undefined}>
         <ProgressIndicator currentStep={mode === "input" ? 1 : 2} totalStep={3} />
@@ -148,14 +159,16 @@ export default function CreateCardPinScreen() {
       <ContentContainer>
         <View style={headerStyle}>
           <Typography.Text size="large" weight="bold">
-            {mode === "input" ? "Set PIN" : "Confirm PIN"}
+            {mode === "input"
+              ? t("ApplyCards.CreateCardPinScreen.setPin.title")
+              : t("ApplyCards.CreateCardPinScreen.confirmPin.title")}
           </Typography.Text>
         </View>
         <View style={styles.text}>
           <Typography.Text size="callout">
             {mode === "input"
-              ? `Enter ${PIN_INPUT_LENGTH} unique numbers`
-              : `Re-enter your ${PIN_INPUT_LENGTH} numbers`}
+              ? t("ApplyCards.CreateCardPinScreen.setPin.intro")
+              : t("ApplyCards.CreateCardPinScreen.confirmPin.intro")}
           </Typography.Text>
         </View>
         <View style={{ height: SCREEN_HEIGHT / 4 }}>
@@ -174,7 +187,9 @@ export default function CreateCardPinScreen() {
           <View style={infoContainerStyle}>
             <InfoIcon />
             <View style={infoTextStyle}>
-              <Typography.Text size="callout">Avoid a PIN that’s easy to guess, like 1234 or 1111.</Typography.Text>
+              <Typography.Text size="callout">
+                {t("ApplyCards.CreateCardPinScreen.setPin.avoidSimplePin")}
+              </Typography.Text>
             </View>
           </View>
         )}
@@ -185,8 +200,7 @@ export default function CreateCardPinScreen() {
                 <ErrorBlackIcon />
                 <View style={infoTextStyle}>
                   <Typography.Text size="callout">
-                    Your PINs didn’t match, please try again. {remainingTries}{" "}
-                    <Typography.Text>{remainingTries !== 1 ? "tries" : "try"}</Typography.Text> remaining.
+                    {t("ApplyCards.CreateCardPinScreen.confirmPin.pinNotMatch", { count: remainingTries })}
                   </Typography.Text>
                 </View>
               </View>
@@ -194,12 +208,14 @@ export default function CreateCardPinScreen() {
               <View style={errorContainerStyle}>
                 <ErrorBlackIcon />
                 <View>
-                  <Typography.Text size="callout">Oops! Too many tries</Typography.Text>
+                  <Typography.Text size="callout">
+                    {t("ApplyCards.CreateCardPinScreen.confirmPin.tooManyTries")}
+                  </Typography.Text>
                 </View>
                 <View style={buttonStyle}>
                   <Pressable onPress={handleOnResetPincode}>
                     <Typography.Text size="footnote" weight="medium">
-                      Set New PIN
+                      {t("ApplyCards.CreateCardPinScreen.confirmPin.button")}
                     </Typography.Text>
                   </Pressable>
                 </View>

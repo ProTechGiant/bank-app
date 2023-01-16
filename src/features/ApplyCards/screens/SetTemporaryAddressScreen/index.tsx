@@ -1,5 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
@@ -17,9 +18,6 @@ import { Address, useOrderCardContext } from "../../context/OrderCardContext";
 import { SetTemporaryAddressValidationSchema } from "./SetTemporaryAddressValidation";
 
 export default function SetTemporaryAddressScreen() {
-  const navigation = useNavigation();
-  const { orderCardValues, setOrderCardValues } = useOrderCardContext();
-
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       paddingTop: theme.spacing.medium,
@@ -39,6 +37,10 @@ export default function SetTemporaryAddressScreen() {
     }),
     []
   );
+
+  const { t } = useTranslation();
+  const navigation = useNavigation();
+  const { orderCardValues, setOrderCardValues } = useOrderCardContext();
 
   const { control, handleSubmit } = useForm({
     mode: "onBlur",
@@ -67,7 +69,7 @@ export default function SetTemporaryAddressScreen() {
   return (
     <Page keyboardAvoiding={true} keyboardVerticalOffset={55}>
       <NavHeader
-        title="Set Temporary Address"
+        title={t("ApplyCards.SetTemporaryAddressScreen.navTitle")}
         backButton={false}
         closeButtonHandler={() => {
           navigation.navigate("ApplyCards.CardDeliveryDetails");
@@ -77,7 +79,7 @@ export default function SetTemporaryAddressScreen() {
         <ContentContainer style={containerStyle}>
           <View style={headerStyle}>
             <Typography.Text size="title1" weight="bold">
-              Enter Temporary Address
+              {t("ApplyCards.SetTemporaryAddressScreen.title")}
             </Typography.Text>
           </View>
           <View style={{ flex: 1 }}>
@@ -86,33 +88,38 @@ export default function SetTemporaryAddressScreen() {
                 <Stack space="medium">
                   <TextInput
                     control={control}
-                    label="Address line 1"
+                    label={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.label")}
                     name="addressLineOne"
-                    placeholder="Address line 1"
+                    placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.placeholder")}
                     maxLength={100}
                   />
                   <TextInput
                     control={control}
-                    label="Address line 2"
+                    label={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineTwo.label")}
                     name="addressLineTwo"
-                    placeholder="Address line 2"
+                    placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineTwo.placeholder")}
                     maxLength={100}
                     extra="Optional"
                   />
-                  <TextInput control={control} label="District" name="district" placeholder="District" />
+                  <TextInput
+                    control={control}
+                    label={t("ApplyCards.SetTemporaryAddressScreen.form.district.label")}
+                    name="district"
+                    placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.district.placeholder")}
+                  />
                   <DropdownInput
                     control={control}
-                    label="City"
+                    label={t("ApplyCards.SetTemporaryAddressScreen.form.city.label")}
                     name="city"
-                    headerText="Select a city"
-                    placeholder="Select your city"
+                    headerText={t("ApplyCards.SetTemporaryAddressScreen.form.city.placeholder")}
+                    placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.city.placeholder")}
                     options={CITIES.map(city => ({ value: city, label: city }))}
                   />
                   <TextInput
                     control={control}
-                    label="Postal Code"
+                    label={t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.label")}
                     name="postalCode"
-                    placeholder="Postal Code"
+                    placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.placeholder")}
                     keyboardType="number-pad"
                     showCharacterCount
                     maxLength={5}
@@ -121,7 +128,7 @@ export default function SetTemporaryAddressScreen() {
               </View>
               <View style={styles.buttonContainer}>
                 <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-                  Confirm
+                  {t("ApplyCards.SetTemporaryAddressScreen.form.button")}
                 </SubmitButton>
               </View>
             </View>

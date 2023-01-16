@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { TextStyle, ViewStyle } from "react-native";
 import { SceneMap, TabBar, TabBarIndicator, TabView } from "react-native-tab-view";
 
@@ -17,16 +18,16 @@ const STANDARD_CARD_ID = {
   cardProductId: 1356,
 };
 
-const TAB_VIEW_ROUTES = [
-  { key: "standard", title: "Standard" },
-  { key: "lux", title: "Lux" },
-];
-
 export default function ApplyForCardScreen() {
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
   const navigation = useNavigation();
   const [index, setIndex] = useState(0);
+  const { t } = useTranslation();
 
+  const TAB_VIEW_ROUTES = [
+    { key: "standard", title: t("ApplyCards.ApplyForCardScreen.tabs.standard") },
+    { key: "lux", title: t("ApplyCards.ApplyForCardScreen.tabs.lux") },
+  ];
   const tabBarIndicatorStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["neutralBase+30"],
@@ -58,7 +59,7 @@ export default function ApplyForCardScreen() {
 
   return (
     <Page>
-      <NavHeader title="Order card" backButton={false} />
+      <NavHeader title={t("ApplyCards.ApplyForCardScreen.navTitle")} backButton={false} />
       <TabView
         navigationState={{ index, routes: TAB_VIEW_ROUTES }}
         renderTabBar={props => (

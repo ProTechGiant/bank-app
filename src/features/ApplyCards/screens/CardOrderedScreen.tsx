@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import { ShippingIcon } from "@/assets/icons";
@@ -46,6 +47,7 @@ export default function CardOrderedScreen() {
   );
 
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const handleOnAddToWallet = () => {
     console.log("pressed Add to Wallet");
@@ -66,19 +68,21 @@ export default function CardOrderedScreen() {
           <View style={textContainerStyle}>
             <View style={titleStyle}>
               <Typography.Text size="large" weight="bold" color="neutralBase-50">
-                Card ordered
+                {t("ApplyCards.CardOrderedScreen.title")}
               </Typography.Text>
             </View>
             <Typography.Text size="callout" color="neutralBase-50">
-              Your card will be with you by &lt;deliveryDate&gt;
+              {t("ApplyCards.CardOrderedScreen.paragraph")} &lt;deliveryDate&gt;
             </Typography.Text>
           </View>
           <View style={styles.buttons}>
             <Button color="alt" block onPress={handleOnAddToWallet}>
-              Add to Wallet
+              {t("ApplyCards.CardOrderedScreen.buttons.addToWallet")}
             </Button>
             <Button variant="tertiary" onPress={handleOnClose}>
-              <Typography.Text color="neutralBase-50">Finish</Typography.Text>
+              <Typography.Text color="neutralBase-50">
+                {t("ApplyCards.CardOrderedScreen.buttons.finish")}
+              </Typography.Text>
             </Button>
           </View>
         </View>
