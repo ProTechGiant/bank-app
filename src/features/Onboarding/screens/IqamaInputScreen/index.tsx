@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Alert, Pressable, SafeAreaView, ScrollView, View, ViewStyle } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
@@ -10,6 +11,8 @@ import MobileAndNationalIdForm from "./MobileAndNationalId/MobileAndNationalIdFo
 import useSubmitIqama from "./use-submit-iqama";
 
 export default function IqamaInputScreen() {
+  const { t, i18n } = useTranslation();
+
   const accountSignInStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignSelf: "center",
@@ -57,30 +60,31 @@ export default function IqamaInputScreen() {
     } catch (error) {
       __DEV__ && console.error(error);
     }
+    navigation.navigate("Onboarding.Nafath");
   };
 
   return (
     <SafeAreaView style={container}>
-      <NavHeader title="SIGN UP" backButton={true} barStyle="dark-content" />
+      <NavHeader title={t("Onboarding.IqamaInputScreen.navHeaderTitle")} backButton={true} barStyle="dark-content" />
       <ScrollView>
         <View style={headerViewStyle}>
           <Typography.Text size="large" weight="bold" style={headerTitleStyle}>
-            Let's go
+            {t("Onboarding.IqamaInputScreen.title")}
           </Typography.Text>
 
           <Typography.Text size="callout" weight="regular">
-            Let's start with your contact and ID details:
+            {t("Onboarding.IqamaInputScreen.subTitle")}
           </Typography.Text>
         </View>
         <View style={bodyStyle}>
           <MobileAndNationalIdForm onSubmit={handleOnSubmit} />
           <View style={accountSignInStyle}>
             <Typography.Text size="callout" weight="regular">
-              Already with us?{" "}
+              {t("Onboarding.IqamaInputScreen.subtext")}
             </Typography.Text>
             <Pressable onPress={ButtonPressed}>
               <Typography.Text size="callout" weight="regular" color="tintBase">
-                Sign in here
+                {t("Onboarding.IqamaInputScreen.signIn")}
               </Typography.Text>
             </Pressable>
           </View>

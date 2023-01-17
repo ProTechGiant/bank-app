@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Linking, SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
 
 import { Inline } from "@/components/Inline";
@@ -14,6 +15,8 @@ import { useThemeStyles } from "@/theme";
 import useRequestOtpNumber from "./use-request-number";
 
 export default function NafathAuthScreen() {
+  const { t, i18n } = useTranslation();
+
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       margin: theme.spacing.large,
@@ -78,11 +81,11 @@ export default function NafathAuthScreen() {
 
   return (
     <SafeAreaView>
-      <NavHeader title="AUTHENTICATION" backButton={true} barStyle="dark-content" />
+      <NavHeader title={t("Onboarding.NafathAuthScreen.navHeaderTitle")} backButton={true} barStyle="dark-content" />
       <View style={container}>
         <LinkModal
           modalVisible={isModalVisible}
-          linkText="Open Nafath App"
+          linkText={t("Onboarding.NafathAuthScreen.modalLink")}
           onNavigate={handleOnOpenNafathApp}
           toggleModal={handleOnToggleModal}>
           <Inline xAlign="center">
@@ -95,43 +98,43 @@ export default function NafathAuthScreen() {
             ) : (
               <View style={loadingContainerStyle}>
                 <Typography.Text style={styles.textCenter} color="neutralBase" weight="bold" size="title1">
-                  Loading...
+                  {t("Onboarding.NafathAuthScreen.modalLoad")}
                 </Typography.Text>
               </View>
             )}
             <Typography.Text style={styles.textCenter} color="neutralBase" size="footnote" weight="semiBold">
-              Make a note of this number as you will be asked for it shortly
+              {t("Onboarding.NafathAuthScreen.modalBody")}
             </Typography.Text>
           </Inline>
         </LinkModal>
         <View style={headerContainerStyle}>
           <Typography.Text size="large" weight="bold">
-            Authentication by Nafath
+            {t("Onboarding.NafathAuthScreen.title")}
           </Typography.Text>
         </View>
         <Stack space="medium">
           <LinkCard onNavigate={handleOnToggleModal}>
             <Typography.Text size="callout" weight="medium" color="primaryBase+10">
-              Nafath app{" "}
+              {t("Onboarding.NafathAuthScreen.appButtonTitle")}
               <Typography.Text weight="regular" size="footnote">
-                Your fastest experience
+                {t("Onboarding.NafathAuthScreen.appButtonSubtitle")}
               </Typography.Text>
             </Typography.Text>
             <Typography.Text size="footnote" color="neutralBase">
-              Select this option for a quick ID authentication
+              {t("Onboarding.NafathAuthScreen.appButtonBody")}
             </Typography.Text>
           </LinkCard>
           <LinkCard onNavigate={handleOnOpenNafathWebsite}>
             <Typography.Text size="callout" weight="medium" color="primaryBase+10">
-              Nafath site
+              {t("Onboarding.NafathAuthScreen.siteButtonTitle")}
             </Typography.Text>
             <Typography.Text size="footnote" color="neutralBase">
-              You will be taken from this app to the Nafath site
+              {t("Onboarding.NafathAuthScreen.siteButtonBody")}
             </Typography.Text>
           </LinkCard>
-          <MoreInfoDropdown title="Why do I have to use Nafath?">
+          <MoreInfoDropdown title={t("Onboarding.NafathAuthScreen.dropdownTitle")}>
             <Typography.Text color="neutralBase" size="footnote">
-              Nafath enables Croatia to verify your identity
+              {t("Onboarding.NafathAuthScreen.dropdownBody")}
             </Typography.Text>
           </MoreInfoDropdown>
         </Stack>
