@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ApplyCardsStack from "@/features/ApplyCards/ApplyCardModalStack";
+import AddToAppleWalletScreen from "@/features/ApplyCards/screens/AddToAppleWalletScreen";
 import ApplyForCardScreen from "@/features/ApplyCards/screens/ApplyForCardScreen";
 import ApplyForLuxCardScreen from "@/features/ApplyCards/screens/ApplyForLuxCardScreen";
 import SetTemporaryAddressScreen from "@/features/ApplyCards/screens/SetTemporaryAddressScreen";
@@ -85,6 +86,11 @@ export default function MainStack() {
               headerShown: false,
               presentation: "modal",
             }}
+          />
+          <Stack.Screen
+            component={AddToAppleWalletScreen}
+            name="ApplyCards.AddToAppleWallet"
+            options={{ headerShown: false }}
           />
         </Stack.Group>
         <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>

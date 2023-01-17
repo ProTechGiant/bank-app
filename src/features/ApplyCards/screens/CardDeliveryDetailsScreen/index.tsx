@@ -158,14 +158,11 @@ export default function CardDeliveryDetailsScreen() {
               })}
           </Stack>
         </View>
-        {!submitOrderCardAsync.isLoading && (
-          <Button onPress={handleConfirm}>
-            <Typography.Text color="neutralBase-50" size="body" weight="medium">
-              {t("ApplyCards.CardDeliveryDetailsScreen.buttons.confirm")}
-            </Typography.Text>
-          </Button>
-        )}
-        {submitOrderCardAsync.isLoading && <Button type="loader" />}
+        <Button onPress={handleConfirm} type={submitOrderCardAsync.isLoading ? "loader" : "no icons"}>
+          <Typography.Text color="neutralBase-50" size="body" weight="medium">
+            {t("ApplyCards.CardDeliveryDetailsScreen.buttons.confirm")}
+          </Typography.Text>
+        </Button>
         <Button onPress={handleSetTemporaryAddress} variant="tertiary" disabled={!isTempAddressButtonActive}>
           <Typography.Text color="tintBase+20" size="body">
             {buttonText}

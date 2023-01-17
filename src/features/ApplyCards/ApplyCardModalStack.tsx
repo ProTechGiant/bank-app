@@ -18,20 +18,16 @@ export const ApplyCardsStack = () => (
       headerShown: true,
     }}>
     <ModalStack.Screen
-      options={{ animation: "default", headerShown: false }}
+      options={{ headerShown: false }}
       component={CreateCardPinScreen}
       name="ApplyCards.CreateCardPin"
     />
     <ModalStack.Screen
-      options={{ animation: "default", headerShown: false }}
+      options={{ headerShown: false }}
       component={CardDeliveryDetailsScreen}
       name="ApplyCards.CardDeliveryDetails"
     />
-    <ModalStack.Screen
-      options={{ animation: "default", headerShown: false }}
-      component={CardOrderedScreen}
-      name="ApplyCards.CardOrdered"
-    />
+    <ModalStack.Screen options={{ headerShown: false }} component={CardOrderedScreen} name="ApplyCards.CardOrdered" />
   </ModalStack.Navigator>
 );
 

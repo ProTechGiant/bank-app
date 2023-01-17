@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { Alert, Platform, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import { ShippingIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -50,7 +50,10 @@ export default function CardOrderedScreen() {
   const { t } = useTranslation();
 
   const handleOnAddToWallet = () => {
-    console.log("pressed Add to Wallet");
+    Platform.OS === "ios"
+      ? navigation.navigate("ApplyCards.AddToAppleWallet")
+      : Alert.alert("This feature is for iOS only");
+    // @TODO: Android
   };
 
   const handleOnClose = () => {

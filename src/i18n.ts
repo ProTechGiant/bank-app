@@ -144,6 +144,14 @@ i18n.use(initReactI18next).init({
               finish: "Finish",
             },
           },
+          AddToAppleWalletScreen: {
+            title: "Add to Apple Wallet",
+            paragraph: "Make payments using Croatia on your Apple devices.",
+            buttons: {
+              addToWallet: "Add to Apple Wallet",
+              skip: "Skip",
+            },
+          },
         },
       },
     },

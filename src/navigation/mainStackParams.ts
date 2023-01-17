@@ -5,6 +5,7 @@ export type MainStackParams = {
   "ApplyCards.ApplyForLuxCard": undefined;
   "ApplyCards.SetTemporaryAddress": undefined;
   "ApplyCards.OrderCardModal": undefined;
+  "ApplyCards.AddToAppleWallet": undefined;
   "Home.Dashboard": undefined;
   "Temporary.LandingScreen": undefined;
   "Onboarding.SplashScreen": undefined;
