@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView, View, ViewStyle } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
 import DropdownInput from "@/components/Form/DropdownInput";
@@ -10,7 +10,6 @@ import TextInput from "@/components/Form/TextInput";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { Stack } from "@/components/Stack";
-import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -20,20 +19,19 @@ import { SetTemporaryAddressValidationSchema } from "./SetTemporaryAddressValida
 export default function SetTemporaryAddressScreen() {
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingTop: theme.spacing.medium,
+      paddingTop: theme.spacing.regular,
       paddingBottom: theme.spacing.regular,
     }),
     []
   );
-  const headerStyle = useThemeStyles<ViewStyle>(
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginBottom: theme.spacing.medium,
-    }),
-    []
-  );
-  const formContainerStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginBottom: theme.spacing.xlarge,
+      marginTop: "auto",
+      borderTopColor: theme.palette["neutralBase-20"],
+      paddingHorizontal: theme.spacing.regular,
+      paddingTop: theme.spacing.regular,
+      borderTopWidth: 0.5,
+      marginHorizontal: -theme.spacing.regular,
     }),
     []
   );
@@ -75,58 +73,51 @@ export default function SetTemporaryAddressScreen() {
           navigation.navigate("ApplyCards.CardDeliveryDetails");
         }}
       />
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <ContentContainer style={containerStyle}>
-          <View style={headerStyle}>
-            <Typography.Text size="title1" weight="bold">
-              {t("ApplyCards.SetTemporaryAddressScreen.title")}
-            </Typography.Text>
-          </View>
           <View style={{ flex: 1 }}>
             <View style={{ flex: 1 }}>
-              <View style={formContainerStyle}>
-                <Stack space="medium">
-                  <TextInput
-                    control={control}
-                    label={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.label")}
-                    name="addressLineOne"
-                    placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.placeholder")}
-                    maxLength={100}
-                  />
-                  <TextInput
-                    control={control}
-                    label={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineTwo.label")}
-                    name="addressLineTwo"
-                    placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineTwo.placeholder")}
-                    maxLength={100}
-                    extra="Optional"
-                  />
-                  <TextInput
-                    control={control}
-                    label={t("ApplyCards.SetTemporaryAddressScreen.form.district.label")}
-                    name="district"
-                    placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.district.placeholder")}
-                  />
-                  <DropdownInput
-                    control={control}
-                    label={t("ApplyCards.SetTemporaryAddressScreen.form.city.label")}
-                    name="city"
-                    headerText={t("ApplyCards.SetTemporaryAddressScreen.form.city.placeholder")}
-                    placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.city.placeholder")}
-                    options={CITIES.map(city => ({ value: city, label: city }))}
-                  />
-                  <TextInput
-                    control={control}
-                    label={t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.label")}
-                    name="postalCode"
-                    placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.placeholder")}
-                    keyboardType="number-pad"
-                    showCharacterCount
-                    maxLength={5}
-                  />
-                </Stack>
-              </View>
-              <View style={styles.buttonContainer}>
+              <Stack space="medium">
+                <TextInput
+                  control={control}
+                  label={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.label")}
+                  name="addressLineOne"
+                  placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.placeholder")}
+                  maxLength={100}
+                />
+                <TextInput
+                  control={control}
+                  label={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineTwo.label")}
+                  name="addressLineTwo"
+                  placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineTwo.placeholder")}
+                  maxLength={100}
+                  extra="Optional"
+                />
+                <TextInput
+                  control={control}
+                  label={t("ApplyCards.SetTemporaryAddressScreen.form.district.label")}
+                  name="district"
+                  placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.district.placeholder")}
+                />
+                <DropdownInput
+                  control={control}
+                  label={t("ApplyCards.SetTemporaryAddressScreen.form.city.label")}
+                  name="city"
+                  headerText={t("ApplyCards.SetTemporaryAddressScreen.form.city.dropdownHeader")}
+                  placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.city.placeholder")}
+                  options={CITIES.map(city => ({ value: city, label: city }))}
+                />
+                <TextInput
+                  control={control}
+                  label={t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.label")}
+                  name="postalCode"
+                  placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.placeholder")}
+                  keyboardType="number-pad"
+                  showCharacterCount
+                  maxLength={5}
+                />
+              </Stack>
+              <View style={[buttonContainerStyle]}>
                 <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
                   {t("ApplyCards.SetTemporaryAddressScreen.form.button")}
                 </SubmitButton>
@@ -138,12 +129,6 @@ export default function SetTemporaryAddressScreen() {
     </Page>
   );
 }
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    marginTop: "auto",
-  },
-});
 
 const CITIES = [
   "Abhā",

@@ -135,7 +135,11 @@ export default function CardDeliveryDetailsScreen() {
             </Typography.Text>
           </View>
           <View style={styles.paragraph}>
-            <Typography.Text>{t("ApplyCards.CardDeliveryDetailsScreen.paragraph")}</Typography.Text>
+            <Typography.Text>
+              {hasTemporaryAddress
+                ? t("ApplyCards.CardDeliveryDetailsScreen.paragraph.checkHighlighted")
+                : t("ApplyCards.CardDeliveryDetailsScreen.paragraph.default")}
+            </Typography.Text>
           </View>
           <Stack space="medium">
             {!isEmpty(addressData) &&
@@ -163,7 +167,10 @@ export default function CardDeliveryDetailsScreen() {
             {t("ApplyCards.CardDeliveryDetailsScreen.buttons.confirm")}
           </Typography.Text>
         </Button>
-        <Button onPress={handleSetTemporaryAddress} variant="tertiary" disabled={!isTempAddressButtonActive}>
+        <Button
+          onPress={handleSetTemporaryAddress}
+          variant="tertiary"
+          disabled={!isTempAddressButtonActive || submitOrderCardAsync.isLoading}>
           <Typography.Text color="tintBase+20" size="body">
             {buttonText}
           </Typography.Text>

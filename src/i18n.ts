@@ -96,8 +96,7 @@ i18n.use(initReactI18next).init({
             },
           },
           SetTemporaryAddressScreen: {
-            navTitle: "Set Temporary Address",
-            title: "Enter Temporary Address",
+            navTitle: "Delivery Address",
             form: {
               addressLineOne: {
                 label: "Address line 1",
@@ -114,25 +113,29 @@ i18n.use(initReactI18next).init({
               city: {
                 label: "City",
                 placeholder: "Select your city",
+                dropdownHeader: "Select city",
               },
               postalCode: {
                 label: "Postal Code",
                 placeholder: "Postal Code",
               },
-              button: "Confirm",
+              button: "Confirm and continue",
             },
           },
           CardDeliveryDetailsScreen: {
             navTitle: "Order Card",
             title: "Card delivery details",
-            paragraph: "Your card will be sent here:",
+            paragraph: {
+              default: "Your card will be sent here:",
+              checkHighlighted: "Check the correct delivery address is highlighted:",
+            },
             buttons: {
               confirm: "Confirm and continue",
-              edit: "Edit Temporary Address",
-              setAddress: "Set Temporary Address",
+              edit: "Edit temporary address",
+              setAddress: "Set temporary address",
             },
             error: {
-              title: "We’re sorry, something has gone wrong.(((",
+              title: "We’re sorry, something has gone wrong.",
               message: "Please try again later or contact Customer Care.",
             },
           },
