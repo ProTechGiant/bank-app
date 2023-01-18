@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { Pressable, StatusBar, StatusBarStyle, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 
 import { BackIcon, CloseIcon } from "@/assets/icons";
@@ -27,6 +28,8 @@ export default function NavHeader({
   rightComponent = "close",
   children,
 }: NavHeaderProps) {
+  const { i18n } = useTranslation();
+
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
@@ -65,7 +68,7 @@ export default function NavHeader({
       <View style={container}>
         <View style={styles.iconWrapper}>
           {backButton && (
-            <Pressable onPress={handleOnBack}>
+            <Pressable onPress={handleOnBack} style={{ transform: [{ scaleX: i18n.dir() === "ltr" ? 1 : -1 }] }}>
               <BackIcon height={iconDimension} width={iconDimension} color={color} />
             </Pressable>
           )}

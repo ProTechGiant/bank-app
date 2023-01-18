@@ -12,7 +12,7 @@ import { vh } from "@/theme/viewportUnit";
 import LanguageToggle from "./LanguageToggle";
 
 const OnboardingSplashScreen = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const bodyStyle = useThemeStyles<TextStyle>(
     theme => ({
@@ -73,7 +73,7 @@ const OnboardingSplashScreen = () => {
     <DarkOneGradient>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Inline xAlign={i18n.dir() === "ltr" ? "flex-end" : "flex-start"}>
+        <Inline xAlign="flex-end">
           <LanguageToggle />
         </Inline>
         <View style={contentViewStyle}>
@@ -92,7 +92,6 @@ const OnboardingSplashScreen = () => {
           <Button variant="primary" color="alt" onPress={handleOnContinueOnboarding}>
             {t("Onboarding.SplashScreen.buttons.signUp")}
           </Button>
-
           <Pressable onPress={ButtonPressed} style={signInContainerStyle}>
             <Typography.Text color="neutralBase-50" size="body" weight="regular">
               {t("Onboarding.SplashScreen.buttons.signIn")}

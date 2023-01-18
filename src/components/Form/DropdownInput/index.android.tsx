@@ -30,8 +30,7 @@ export default function DropdownInput<T extends FieldValues>({
     )
       return;
 
-    const defaultValue = options[0].value;
-    setImmediate(() => field.onChange({ target: { name: field.name, value: defaultValue } }));
+    setImmediate(() => field.onChange(options[0].value));
   }, [isEditable, placeholder, options]);
 
   const handleOnChange = (value: string) => {

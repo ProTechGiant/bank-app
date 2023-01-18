@@ -5,6 +5,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import { OrderCardContext, orderCardInitValues } from "@/features/ApplyCards/context/OrderCardContext";
+import useI18nDirection from "@/i18n/use-i18n-direction";
 import MainStack from "@/navigation/MainStack";
 
 import { GlobalContext } from "./contexts/GlobalContext";
@@ -13,6 +14,8 @@ import { homepageOrderData, quickActionOrderData } from "./mocks/quickActionOrde
 const queryClient = new QueryClient();
 
 export default function App() {
+  useI18nDirection();
+
   const [homeScreenLayout, setHomeScreenLayout] = useState({
     quickActionOrderData,
     homepageOrderData,

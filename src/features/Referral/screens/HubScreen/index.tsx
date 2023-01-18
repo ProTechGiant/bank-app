@@ -1,6 +1,6 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useState } from "react";
-import { Dimensions, Platform, ScrollView, TouchableOpacity, View, ViewStyle } from "react-native";
+import { Platform, ScrollView, TouchableOpacity, View, ViewStyle } from "react-native";
 
 import { FriendIcon, ShareCopyIcon, ShareIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -79,8 +79,6 @@ export default function HubScreen() {
   const referralCode = "FG4JHAF9";
 
   const [showToast, setShowToast] = useState(false);
-  const [contentHeight, setContentHeight] = useState(0);
-  const [footerHeight, setFooterHeight] = useState(0);
 
   const handleOnCopyCodePress = () => {
     Clipboard.setString(referralCode);
@@ -93,13 +91,8 @@ export default function HubScreen() {
   return (
     <View style={{ flex: 1 }}>
       <Toast showToast={showToast} message="Code copied" />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        scrollEnabled={Dimensions.get("screen").height <= contentHeight + footerHeight}>
-        <View
-          onLayout={({ nativeEvent }) => {
-            setContentHeight(nativeEvent.layout.height);
-          }}>
+      <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false}>
+        <View>
           <View style={headerContainerStyle}>
             <NavHeader
               title=""
@@ -134,11 +127,7 @@ export default function HubScreen() {
           </View>
         </View>
       </ScrollView>
-      <View
-        style={buttonStyle}
-        onLayout={({ nativeEvent }) => {
-          setFooterHeight(nativeEvent.layout.height);
-        }}>
+      <View style={buttonStyle}>
         <Button
           variant="primary"
           color="alt"

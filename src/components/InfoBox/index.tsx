@@ -1,67 +1,41 @@
-import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { TextStyle, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface InfoBoxProps {
-  borderPosition?: "left" | "right";
-  title?: string;
-  content?: string;
-  variant?: "compliment" | "success" | "error" | "primary";
+  borderPosition?: "start" | "end";
   children?: React.ReactNode;
+  title?: string;
+  variant: "compliment" | "success" | "error" | "primary";
 }
 
-export default function InfoBox({ borderPosition, title, content, children, variant }: InfoBoxProps) {
+export default function InfoBox({ borderPosition = "start", title, children, variant }: InfoBoxProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["neutralBase-50"],
+      borderColor:
+        variant === "compliment"
+          ? theme.palette.complimentBase
+          : variant === "success"
+          ? theme.palette.successBase
+          : variant === "error"
+          ? theme.palette.errorBase
+          : theme.palette.primaryBase,
       borderRadius: theme.radii.extraSmall,
+      borderStartWidth: borderPosition === "start" ? 4 : undefined,
+      borderEndWidth: borderPosition === "end" ? 4 : undefined,
       padding: theme.spacing.medium,
     }),
-    []
-  );
-  const themeComplimentStyle = useThemeStyles<TextStyle>(
-    theme => ({
-      borderColor: theme.palette["complimentBase"],
-    }),
-    []
-  );
-  const themeErrorStyle = useThemeStyles<TextStyle>(
-    theme => ({
-      borderColor: theme.palette["errorBase"],
-    }),
-    []
-  );
-  const themePrimaryStyle = useThemeStyles<TextStyle>(
-    theme => ({
-      borderColor: theme.palette["primaryBase"],
-    }),
-    []
-  );
-  const themeSuccessStyle = useThemeStyles<TextStyle>(
-    theme => ({
-      borderColor: theme.palette["successBase"],
-    }),
-    []
-  );
-  const titleContainerStyle = useThemeStyles<TextStyle>(
-    theme => ({
-      marginBottom: theme.spacing.small,
-    }),
-    []
+    [borderPosition, variant]
   );
 
+  const titleContainerStyle = useThemeStyles<TextStyle>(theme => ({
+    marginBottom: theme.spacing.small,
+  }));
+
   return (
-    <View
-      style={[
-        container,
-        borderPosition === "left" && styles.borderLeft,
-        borderPosition === "right" && styles.borderRight,
-        variant === "compliment" && themeComplimentStyle,
-        variant === "error" && themeErrorStyle,
-        variant === "primary" && themePrimaryStyle,
-        variant === "success" && themeSuccessStyle,
-      ]}>
+    <View style={container}>
       {title && (
         <View style={titleContainerStyle}>
           <Typography.Text size="footnote" weight="semiBold">
@@ -69,17 +43,7 @@ export default function InfoBox({ borderPosition, title, content, children, vari
           </Typography.Text>
         </View>
       )}
-      {content && <Typography.Text size="caption1">{content}</Typography.Text>}
-      {children}
+      <Typography.Text size="caption1">{children}</Typography.Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  borderLeft: {
-    borderLeftWidth: 4,
-  },
-  borderRight: {
-    borderRightWidth: 4,
-  },
-});

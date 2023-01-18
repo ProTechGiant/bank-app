@@ -1,5 +1,5 @@
 import CheckBox from "@react-native-community/checkbox";
-import { Control, Controller, FieldValues, Path, useController } from "react-hook-form";
+import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";

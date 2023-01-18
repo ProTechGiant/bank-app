@@ -1,9 +1,11 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import { I18nManager } from "react-native";
 
 i18n.use(initReactI18next).init({
   debug: __DEV__,
   fallbackLng: "en",
+  lng: I18nManager.isRTL ? "ar" : "en",
   interpolation: {
     escapeValue: false,
   },

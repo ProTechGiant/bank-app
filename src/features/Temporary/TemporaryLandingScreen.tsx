@@ -1,4 +1,4 @@
-import { View, SafeAreaView } from "react-native";
+import { I18nManager, SafeAreaView, View } from "react-native";
 
 import Button from "@/components/Button";
 import useNavigation from "@/navigation/use-navigation";
@@ -22,6 +22,10 @@ export default function TemporaryLandingScreen() {
     navigation.navigate("Referral.HubScreen");
   };
 
+  const handleOnSwitchDirection = () => {
+    I18nManager.forceRTL(!I18nManager.isRTL);
+  };
+
   return (
     <SafeAreaView>
       <View style={{ margin: 20 }}>
@@ -35,6 +39,9 @@ export default function TemporaryLandingScreen() {
       </View>
       <View style={{ margin: 20 }}>
         <Button onPress={handleOnOpenReferralHub}>ReferralHub</Button>
+      </View>
+      <View style={{ margin: 20 }}>
+        <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>
       </View>
     </SafeAreaView>
   );

@@ -50,6 +50,7 @@ export default function InputBox({
       borderRadius: theme.radii.extraSmall,
       borderWidth: bordered ? (isFocused || isError ? 2 : 1) : 0,
       flexDirection: "row",
+      flexGrow: 1,
       minHeight: multiline ? 74 : 53,
       padding: theme.spacing.medium - (isFocused || isError ? 1 : 0),
     }),
@@ -67,7 +68,7 @@ export default function InputBox({
   );
 
   return (
-    <Pressable disabled={!isEditable} onPress={onPress}>
+    <Pressable disabled={!isEditable} onPress={onPress} style={{ flex: 1 }}>
       {undefined !== label && <InputLabel>{label}</InputLabel>}
       <View style={containerStyle}>{children}</View>
       {(undefined !== extraStart || undefined !== extraEnd || isError) && (

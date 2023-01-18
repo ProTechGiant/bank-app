@@ -56,7 +56,8 @@ export default function IqamaInputScreen() {
 
   const handleOnSubmit = async (values: IqamaInputs) => {
     try {
-      await submitIqamaSync.mutateAsync(values).then(() => navigation.navigate("Onboarding.Nafath"));
+      await submitIqamaSync.mutateAsync(values);
+      navigation.navigate("Onboarding.Nafath");
     } catch (error) {
       __DEV__ && console.error(error);
     }
