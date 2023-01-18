@@ -107,8 +107,8 @@ i18n.use(initReactI18next).init({
                 placeholder: "Address line 2",
               },
               district: {
-                label: "Address line 2",
-                placeholder: "Address line 2",
+                label: "District",
+                placeholder: "District",
               },
               city: {
                 label: "City",
