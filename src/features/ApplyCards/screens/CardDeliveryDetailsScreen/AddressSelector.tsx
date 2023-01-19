@@ -94,6 +94,7 @@ export default AddressSelector;
 
 const styles = StyleSheet.create({
   addressContent: {
+    flex: 1,
     marginLeft: 12,
   },
 });
