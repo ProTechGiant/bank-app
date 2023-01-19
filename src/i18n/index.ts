@@ -61,6 +61,13 @@ i18n.use(initReactI18next).init({
             FAQs: "FAQ’s",
           },
         },
+        Home: {
+          DashboardScreen: {
+            AccountInfoHeader: {
+              IBANCopied: "IBAN copied",
+            },
+          },
+        },
         ApplyCards: {
           ApplyForCardScreen: {
             navTitle: "Order Card",
