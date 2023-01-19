@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { Image, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 
+import BankCard from "@/components/BankCard";
 import Button from "@/components/Button";
 import { useThemeStyles } from "@/theme";
 
@@ -16,10 +17,7 @@ export default function SelectStandardCard({ onPress }: { onPress: () => void })
 
   return (
     <View style={container}>
-      <Image
-        style={{ aspectRatio: 1122 / 709, resizeMode: "contain", width: "100%", height: undefined }}
-        source={require("@/assets/images/standard-card-placeholder.png")}
-      />
+      <BankCard variant="standard" width="100%" />
       <Button block onPress={onPress}>
         {t("ApplyCards.ApplyForCardScreen.standard.button")}
       </Button>

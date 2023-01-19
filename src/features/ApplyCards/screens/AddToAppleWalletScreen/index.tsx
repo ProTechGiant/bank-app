@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
+import BankCard from "@/components/BankCard";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
@@ -64,7 +65,7 @@ export default function AddToAppleWalletScreen() {
         <View style={introStyle}>
           <Typography.Text size="callout">{t("ApplyCards.AddToAppleWalletScreen.paragraph")}</Typography.Text>
         </View>
-        <Image style={styles.card} source={require("@/assets/images/standard-card-placeholder.png")} />
+        <BankCard variant="standard" width="100%" />
 
         <View style={styles.buttons}>
           <Button block onPress={handleOnAddToWallet}>
@@ -82,9 +83,5 @@ export default function AddToAppleWalletScreen() {
 const styles = StyleSheet.create({
   buttons: {
     marginTop: "auto",
-  },
-  card: {
-    height: 218,
-    width: "100%",
   },
 });

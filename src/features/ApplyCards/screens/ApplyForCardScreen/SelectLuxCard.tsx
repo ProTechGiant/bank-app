@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
+import BankCard from "@/components/BankCard";
 import Button from "@/components/Button";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -17,7 +18,7 @@ export default function SelectLuxCard({ onPress }: { onPress: () => void }) {
 
   return (
     <View style={container}>
-      <Image style={styles.image} source={require("@/assets/images/lux-card-placeholder.png")} />
+      <BankCard variant="lux" width="100%" />
       <View style={styles.bottom}>
         <Typography.Text size="caption1" color="neutralBase" style={styles.text}>
           {t("ApplyCards.ApplyForCardScreen.lux.remarks")}
@@ -33,12 +34,6 @@ export default function SelectLuxCard({ onPress }: { onPress: () => void }) {
 const styles = StyleSheet.create({
   bottom: {
     alignSelf: "stretch",
-  },
-  image: {
-    aspectRatio: 1122 / 709,
-    height: undefined,
-    resizeMode: "contain",
-    width: "100%",
   },
   text: {
     marginVertical: 12,
