@@ -18,6 +18,7 @@ export type MainStackParams = {
   "Onboarding.ForeignTax": undefined;
   "Onboarding.OptionalEmail": undefined;
   "Referral.HubScreen": undefined;
+  "Referral.HowItWorksScreen": undefined;
   "Settings.SettingsScreen": undefined;
 };
 

@@ -14,6 +14,9 @@ i18n.use(initReactI18next).init({
   resources: {
     en: {
       translation: {
+        Common: {
+          share: "Share",
+        },
         Onboarding: {
           SplashScreen: {
             title: "You're in control now",
@@ -163,6 +166,30 @@ i18n.use(initReactI18next).init({
               addToWallet: "Add to Apple Wallet",
               skip: "Skip",
             },
+          },
+        },
+        Referral: {
+          read: "Read more in ",
+          termsAndConditions: "Terms & Conditions",
+          HubScreen: {
+            title: "Share Croatia",
+            subtitle: "Send your referral code and track your rewards",
+            recommendations: "your recommendations",
+            copy: "Copy code",
+            progress: "In progress",
+            completed: "Completed",
+            earnt: "Earnt so far",
+            howItWorks: "How it works",
+          },
+          HowItWorksModal: {
+            title: "How recommending for rewards works",
+            stepOne: "Share your referral code",
+            stepTwo: "Sign up and use your account in 30 days (T&Cs apply)",
+            stepThree: "You and your friend receive a cash reward",
+            rewardTitle: "How much will we get?",
+            rewardSubtext:
+              "You’ll both earn 15 SAR. If your friend joins as a Plus Tier customer their reward goes up to 25 SAR.",
+            buttonText: "Start recommending",
           },
         },
       },

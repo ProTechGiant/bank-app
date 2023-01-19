@@ -16,6 +16,7 @@ import IqamaInputScreen from "@/features/Onboarding/screens/IqamaInputScreen";
 import NafathAuthScreen from "@/features/Onboarding/screens/NafathAuthScreen";
 import OnboardingSplashScreen from "@/features/Onboarding/screens/OnboardingSplashScreen";
 import OptionalEmailScreen from "@/features/Onboarding/screens/OptionalEmailScreen";
+import HowItWorksModal from "@/features/Referral/screens/HowItWorksModal";
 import HubScreen from "@/features/Referral/screens/HubScreen";
 import SettingsScreen from "@/features/Settings/screens/SettingsScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
@@ -91,6 +92,14 @@ export default function MainStack() {
             component={AddToAppleWalletScreen}
             name="ApplyCards.AddToAppleWallet"
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            component={HowItWorksModal}
+            name="Referral.HowItWorksModal"
+            options={{
+              headerShown: false,
+              presentation: "fullScreenModal",
+            }}
           />
         </Stack.Group>
         <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>

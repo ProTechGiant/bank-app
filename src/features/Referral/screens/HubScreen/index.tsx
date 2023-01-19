@@ -1,6 +1,7 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useState } from "react";
-import { Platform, ScrollView, TouchableOpacity, View, ViewStyle } from "react-native";
+import { useTranslation } from "react-i18next";
+import { Platform, Pressable, ScrollView, View, ViewStyle } from "react-native";
 
 import { FriendIcon, ShareCopyIcon, ShareIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -8,6 +9,7 @@ import NavHeader from "@/components/NavHeader";
 import SectionHeader from "@/components/SectionHeader";
 import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import CopyCodeCard from "./CopyCodeCard";
@@ -17,7 +19,7 @@ export default function HubScreen() {
   const buttonStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginHorizontal: theme.spacing.regular,
-      marginTop: "auto",
+      marginTop: theme.spacing.medium,
     }),
     []
   );
@@ -80,6 +82,9 @@ export default function HubScreen() {
 
   const [showToast, setShowToast] = useState(false);
 
+  const navigation = useNavigation();
+  const { t } = useTranslation();
+
   const handleOnCopyCodePress = () => {
     Clipboard.setString(referralCode);
     setShowToast(true);
@@ -88,43 +93,45 @@ export default function HubScreen() {
     }, 4000);
   };
 
+  const handleOnHowItWorksPress = () => {
+    navigation.navigate("Referral.HowItWorksModal");
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <Toast showToast={showToast} message="Code copied" />
-      <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false}>
-        <View>
-          <View style={headerContainerStyle}>
-            <NavHeader
-              title=""
-              backButton={true}
-              color="white"
-              rightComponent={{ text: "How it works", handler: () => {} }}
-            />
-            <View style={IconWrapperStyle}>
-              <FriendIcon height={friendIconDimensions} width={friendIconDimensions} />
-            </View>
-            <View style={headerTextWrapperStyle}>
-              <Typography.Text color="neutralBase-50" weight="semiBold" size="title1">
-                Share Croatia
+      <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
+        <View style={headerContainerStyle}>
+          <NavHeader
+            title=""
+            backButton={true}
+            color="white"
+            rightComponent={{ text: t("Referral.HubScreen.howItWorks"), handler: handleOnHowItWorksPress }}
+          />
+          <View style={IconWrapperStyle}>
+            <FriendIcon height={friendIconDimensions} width={friendIconDimensions} />
+          </View>
+          <View style={headerTextWrapperStyle}>
+            <Typography.Text color="neutralBase-50" weight="semiBold" size="title1">
+              {t("Referral.HubScreen.title")}
+            </Typography.Text>
+            <View style={subTextStyle}>
+              <Typography.Text color="neutralBase-20" weight="regular" size="callout" style={{ textAlign: "center" }}>
+                {t("Referral.HubScreen.subtitle")}
               </Typography.Text>
-              <View style={subTextStyle}>
-                <Typography.Text color="neutralBase-20" weight="regular" size="callout" style={{ textAlign: "center" }}>
-                  Send your referral code and track your rewards
-                </Typography.Text>
-              </View>
             </View>
           </View>
-          <SectionHeader title="your recommendations" />
-          <RecommendationCards inProgress={inProgress} completed={completed} earnt={earnt} currency={currency} />
-          <SectionHeader title="Copy code" />
-          <View style={cardContainerStyle}>
-            <CopyCodeCard
-              backgroundColor="neutralBase-50"
-              leftText={referralCode}
-              rightIcon={<ShareCopyIcon />}
-              onPress={handleOnCopyCodePress}
-            />
-          </View>
+        </View>
+        <SectionHeader title={t("Referral.HubScreen.recommendations")} />
+        <RecommendationCards inProgress={inProgress} completed={completed} earnt={earnt} currency={currency} />
+        <SectionHeader title={t("Referral.HubScreen.copy")} />
+        <View style={cardContainerStyle}>
+          <CopyCodeCard
+            backgroundColor="neutralBase-50"
+            leftText={referralCode}
+            rightIcon={<ShareCopyIcon />}
+            onPress={handleOnCopyCodePress}
+          />
         </View>
       </ScrollView>
       <View style={buttonStyle}>
@@ -133,18 +140,18 @@ export default function HubScreen() {
           color="alt"
           iconLeft={<ShareIcon height={shareIconDimensions} width={shareIconDimensions} />}>
           <Typography.Text color="neutralBase-50" weight="semiBold" size="callout">
-            Share
+            {t("Common.share")}
           </Typography.Text>
         </Button>
         <View style={captionTextWrapperStyle}>
           <Typography.Text size="caption2" color="neutralBase" weight="medium">
-            Read more in{" "}
+            {t("Referral.read")}
           </Typography.Text>
-          <TouchableOpacity>
+          <Pressable>
             <Typography.Text size="caption2" color="interactionBase" weight="medium">
-              Terms & Conditions
+              {t("Referral.termsAndConditions")}
             </Typography.Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </View>

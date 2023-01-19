@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
@@ -39,22 +40,24 @@ export default function RecommendationCards({ inProgress, completed, earnt, curr
     []
   );
 
+  const { t } = useTranslation();
+
   return (
     <View style={cardContainerStyle}>
       <View style={[cardContainerInnerStyle, bottomBorderStyle]}>
-        <Typography.Text>In progress</Typography.Text>
+        <Typography.Text>{t("Referral.HubScreen.progress")}</Typography.Text>
         <Typography.Text size="callout" weight="medium">
           {inProgress}
         </Typography.Text>
       </View>
       <View style={[cardContainerInnerStyle, bottomBorderStyle]}>
-        <Typography.Text>Completed</Typography.Text>
+        <Typography.Text>{t("Referral.HubScreen.completed")}</Typography.Text>
         <Typography.Text size="callout" weight="medium">
           {completed}
         </Typography.Text>
       </View>
       <View style={cardContainerInnerStyle}>
-        <Typography.Text>Earnt so far</Typography.Text>
+        <Typography.Text>{t("Referral.HubScreen.earnt")}</Typography.Text>
         <View style={{ flexDirection: "row", alignItems: "baseline" }}>
           <Typography.Text color="shadeBase-20" size="caption2">
             {currency.toUpperCase()}{" "}

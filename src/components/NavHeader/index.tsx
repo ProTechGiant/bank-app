@@ -88,7 +88,7 @@ export default function NavHeader({
           </View>
         ) : (
           rightComponent.text && (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={rightComponent.handler}>
               <Typography.Text color="primaryBase-10">{rightComponent.text}</Typography.Text>
             </TouchableOpacity>
           )
