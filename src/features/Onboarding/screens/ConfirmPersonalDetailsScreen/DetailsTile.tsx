@@ -2,8 +2,7 @@ import { useState } from "react";
 import { View, ViewStyle } from "react-native";
 
 import { CalendarAltIcon, GlobeIcon, MapMarkerIcon, UserIcon } from "@/assets/icons";
-import { Inline } from "@/components/Inline";
-import { Stack } from "@/components/Stack";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { mockNafathData } from "@/mocks/nafathUserData";
 import { useThemeStyles } from "@/theme";
@@ -29,50 +28,50 @@ const DetailsTile = () => {
 
   return (
     <View style={container}>
-      <Stack space="small">
+      <Stack direction="vertical" gap="medium">
         <View>
           <Typography.Text size="callout" weight="medium" color="primaryBase">
             Full Name
           </Typography.Text>
-          <Inline space="xxSmall">
+          <Stack direction="horizontal" gap="small">
             <UserIcon />
             <Typography.Text size="footnote" weight="regular">
               {firstname} {surname}
             </Typography.Text>
-          </Inline>
+          </Stack>
         </View>
         <View>
           <Typography.Text size="callout" weight="medium" color="primaryBase">
             Nationality
           </Typography.Text>
-          <Inline space="xxSmall">
+          <Stack direction="horizontal" gap="small">
             <GlobeIcon width={14} height={14} />
             <Typography.Text size="footnote" weight="regular">
               {nationality}
             </Typography.Text>
-          </Inline>
+          </Stack>
         </View>
         <View>
           <Typography.Text size="callout" weight="medium" color="primaryBase">
             ID/Iqama expiry
           </Typography.Text>
-          <Inline space="xxSmall">
+          <Stack direction="horizontal" gap="small">
             <CalendarAltIcon />
             <Typography.Text size="footnote" weight="regular">
               {idExpiry}
             </Typography.Text>
-          </Inline>
+          </Stack>
         </View>
         <View>
           <Typography.Text size="callout" weight="medium" color="primaryBase">
             KSA address
           </Typography.Text>
-          <Inline space="xxSmall">
+          <Stack direction="horizontal" gap="small">
             <MapMarkerIcon />
             <Typography.Text size="footnote" weight="regular">
               At {address}
             </Typography.Text>
-          </Inline>
+          </Stack>
         </View>
       </Stack>
     </View>

@@ -1,44 +1,28 @@
 import { ComponentStory } from "@storybook/react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 
-import { Box } from "@/components/Box";
-import { Stack as StackComponent } from "@/components/Stack";
+import Stack from "@/components/Stack";
 
 export default {
-  title: "Layout/Stack",
-  argTypes: {
-    space: {
-      options: ["none", "xxxSmall", "xxSmall", "xSmall", "small", "medium", "large", "xLarge", "xxLarge", "xxxLarge"],
-      control: { type: "select" },
-    },
-    xAlign: {
-      options: ["flex-start", "center", "flex-end"],
-      control: { type: "select" },
-    },
-  },
+  component: Stack,
+  title: "components/Stack",
 };
 
-const Template: ComponentStory<typeof StackComponent> = args => (
-  <StackComponent space={args.space} xAlign={args.xAlign}>
-    <Box padding="medium" backgroundColor="bisque">
+const TemplateStack: ComponentStory<typeof Stack> = props => (
+  <Stack {...props}>
+    <View>
       <Text>Box 1</Text>
-    </Box>
-    <Box padding="medium" backgroundColor="bisque">
+    </View>
+    <View>
       <Text>Box 2</Text>
-    </Box>
-    <Box padding="medium" backgroundColor="bisque">
+    </View>
+    <View>
       <Text>Box 3</Text>
-    </Box>
-    <Box padding="medium" backgroundColor="bisque">
+    </View>
+    <View>
       <Text>Box 4</Text>
-    </Box>
-    <Box padding="medium" backgroundColor="bisque" width={200}>
-      <Text>Box 5 (width 200px)</Text>
-    </Box>
-    <Box padding="medium" backgroundColor="bisque" width={200}>
-      <Text>Box 6 (width 200px)</Text>
-    </Box>
-  </StackComponent>
+    </View>
+  </Stack>
 );
 
-export const Stack = Template.bind({});
+export const Default = TemplateStack.bind({});

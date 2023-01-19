@@ -9,7 +9,7 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
-import { Stack } from "@/components/Stack";
+import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -77,7 +77,7 @@ export default function SetTemporaryAddressScreen() {
         <ContentContainer style={containerStyle}>
           <View style={{ flex: 1 }}>
             <View style={{ flex: 1 }}>
-              <Stack space="medium">
+              <Stack direction="vertical" gap="regular">
                 <TextInput
                   control={control}
                   label={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.label")}

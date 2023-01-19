@@ -8,7 +8,7 @@ import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
-import { Stack } from "@/components/Stack";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { OrderCardFormValues, useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
 import { mockPrimaryDeliveryAddress } from "@/mocks/deliveryAddressData";
@@ -141,7 +141,7 @@ export default function CardDeliveryDetailsScreen() {
                 : t("ApplyCards.CardDeliveryDetailsScreen.paragraph.default")}
             </Typography.Text>
           </View>
-          <Stack space="medium">
+          <Stack direction="vertical" gap="regular">
             {!isEmpty(addressData) &&
               addressData.map((address, index) => {
                 const addressLineFour = `${address.city} ${address.postalCode}`;

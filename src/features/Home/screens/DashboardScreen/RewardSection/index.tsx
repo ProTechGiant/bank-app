@@ -1,7 +1,7 @@
 import { Carousel } from "@/components/Carousel";
 import { rewardSectionData } from "@/mocks/rewardSectionData";
 import { useThemeStyles } from "@/theme";
-import { duplicateArr } from "@/theme/mappings";
+import { duplicateArr } from "@/utils";
 
 import RewardSectionContent from "./rewardSectionContent";
 

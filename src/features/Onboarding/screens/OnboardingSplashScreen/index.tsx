@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 import { Alert, Pressable, SafeAreaView, StatusBar, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
-import { Inline } from "@/components/Inline";
 import DarkOneGradient from "@/components/LinearGradients/GradientBackgrounds";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -73,9 +73,9 @@ const OnboardingSplashScreen = () => {
     <DarkOneGradient>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Inline xAlign="flex-end">
+        <Stack justify="flex-end" direction="horizontal">
           <LanguageToggle />
-        </Inline>
+        </Stack>
         <View style={contentViewStyle}>
           <View style={headerViewStyle}>
             <Typography.Text size="large" weight="bold" color="neutralBase-50">

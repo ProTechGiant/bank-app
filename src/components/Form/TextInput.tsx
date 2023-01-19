@@ -13,7 +13,8 @@ interface TextInputProps<T extends FieldValues>
   extra?: React.ComponentProps<typeof InputBox>["extraStart"];
   isEditable?: boolean;
   name: Path<T>;
-  label?: string;
+  placeholder?: string | null;
+  label?: string | null;
   showCharacterCount?: boolean;
 }
 

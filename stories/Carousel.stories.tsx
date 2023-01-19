@@ -7,10 +7,9 @@
  */
 
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { GestureResponderEvent, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
-import { Box } from "@/components/Box";
-import { Carousel as CarouselComponent } from "@/components/Carousel";
+import { Carousel } from "@/components/Carousel";
 
 const carouselData = [
   { text: "Slide 1" },
@@ -20,21 +19,14 @@ const carouselData = [
   { text: "Slide 5" },
 ];
 
-interface SlideContentProps {
-  data: {
-    text: string;
-  };
-  onPress?: (event: GestureResponderEvent) => void;
-}
-
-const SlideContent = ({ data }: SlideContentProps) => (
-  <Box backgroundColor="bisque" padding="large">
+const SlideContent = ({ data }: { data: { text: string } }) => (
+  <View>
     <Text>{data.text}</Text>
-  </Box>
+  </View>
 );
 
 export default {
-  title: "Layout/Carousel",
+  title: "components/Carousel",
   argTypes: {
     width: {
       table: {
@@ -42,20 +34,13 @@ export default {
       },
     },
   },
-} as ComponentMeta<typeof CarouselComponent>;
+} as ComponentMeta<typeof Carousel>;
 
-const Template: ComponentStory<typeof CarouselComponent> = args => (
+const Template: ComponentStory<typeof Carousel> = args => (
   <View style={{ width: 500 }}>
-    <CarouselComponent
-      data={args.data}
-      width={args.width}
-      Slide={args.Slide}
-      pagination={args.pagination}
-      loop={args.loop}
-    />
+    <Carousel data={args.data} width={args.width} Slide={args.Slide} pagination={args.pagination} loop={args.loop} />
   </View>
 );
 
-export const Carousel = Template.bind({});
-
-Carousel.args = { data: carouselData, width: 500, Slide: SlideContent, pagination: true, loop: true };
+export const Default = Template.bind({});
+Default.args = { data: carouselData, width: 500, Slide: SlideContent, pagination: true, loop: true };

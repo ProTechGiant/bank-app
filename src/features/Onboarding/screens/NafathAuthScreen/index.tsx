@@ -4,7 +4,7 @@ import { Linking, SafeAreaView, StyleSheet, View, ViewStyle } from "react-native
 
 import { Inline } from "@/components/Inline";
 import NavHeader from "@/components/NavHeader";
-import { Stack } from "@/components/Stack";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import MoreInfoDropdown from "@/features/Onboarding/components/MoreInfoDropdown";
 import LinkCard from "@/features/Onboarding/screens/NafathAuthScreen/LinkCard";
@@ -15,7 +15,7 @@ import { useThemeStyles } from "@/theme";
 import useRequestOtpNumber from "./use-request-number";
 
 export default function NafathAuthScreen() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const container = useThemeStyles<ViewStyle>(
     theme => ({
@@ -88,7 +88,7 @@ export default function NafathAuthScreen() {
           linkText={t("Onboarding.NafathAuthScreen.modalLink")}
           onNavigate={handleOnOpenNafathApp}
           toggleModal={handleOnToggleModal}>
-          <Inline xAlign="center">
+          <Stack align="center" direction="vertical" justify="center">
             {requestedOtpNumber !== undefined ? (
               <View style={numberContainerStyle}>
                 <Typography.Text style={styles.textCenter} color="neutralBase-50" weight="bold" size="title1">
@@ -105,14 +105,14 @@ export default function NafathAuthScreen() {
             <Typography.Text style={styles.textCenter} color="neutralBase" size="footnote" weight="semiBold">
               {t("Onboarding.NafathAuthScreen.modalBody")}
             </Typography.Text>
-          </Inline>
+          </Stack>
         </LinkModal>
         <View style={headerContainerStyle}>
           <Typography.Text size="large" weight="bold">
             {t("Onboarding.NafathAuthScreen.title")}
           </Typography.Text>
         </View>
-        <Stack space="medium">
+        <Stack direction="vertical" gap="regular">
           <LinkCard onNavigate={handleOnToggleModal}>
             <Typography.Text size="callout" weight="medium" color="primaryBase+10">
               {t("Onboarding.NafathAuthScreen.appButtonTitle")}

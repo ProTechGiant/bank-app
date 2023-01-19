@@ -1,41 +1,52 @@
-import { ReactNode } from "react";
-import { StyleSheet, View } from "react-native";
+import * as React from "react";
+import { View, ViewProps, ViewStyle } from "react-native";
 
-import { spaceMap } from "@/theme/mappings";
+import { Theme, useThemeStyles } from "@/theme";
 
-type Props = {
-  children: ReactNode | ReactNode[];
-  space?: keyof typeof spaceMap;
-  xAlign?: "flex-start" | "center" | "flex-end";
-};
+interface StackProps extends ViewProps {
+  align?: ViewStyle["alignItems"];
+  children: React.ReactNode;
+  direction: "horizontal" | "vertical";
+  justify?: ViewStyle["justifyContent"];
+  gap?: keyof Theme["spacing"] | undefined;
+}
 
-export const Stack = ({ children, space = "none", xAlign }: Props) => {
-  if (children instanceof Array) {
-    return (
-      <View style={[stackStyles.container]}>
-        {children.map((child, index) => (
-          <View
-            style={[
-              stackStyles.child,
-              { marginBottom: children.length - 1 === index ? 0 : spaceMap[space] },
-              xAlign && { alignItems: xAlign },
-            ]}
-            key={index}>
-            {child}
+// @see https://reactnative.dev/blog/2023/01/12/version-071#simplifying-layouts-with-flexbox-gap
+export default function Stack({
+  align = "flex-start",
+  children,
+  direction,
+  justify = "flex-start",
+  gap,
+  style,
+  ...restProps
+}: StackProps) {
+  const elements = React.Children.toArray(children);
+
+  const elementStyle = useThemeStyles(
+    theme => {
+      if (undefined === gap) return undefined;
+
+      const marginDirection = direction === "horizontal" ? "marginRight" : "marginBottom";
+      return { [marginDirection]: theme.spacing[gap] };
+    },
+    [direction, gap]
+  );
+
+  return (
+    <View
+      {...restProps}
+      style={[
+        { alignItems: align, flexDirection: direction === "horizontal" ? "row" : "column", justifyContent: justify },
+        style,
+      ]}>
+      {elements.map((element, index) => {
+        return (
+          <View key={index} style={elements.length - 1 !== index ? elementStyle : undefined}>
+            {element}
           </View>
-        ))}
-      </View>
-    );
-  }
-
-  return <View style={stackStyles.container}>{children}</View>;
-};
-
-const stackStyles = StyleSheet.create({
-  child: {
-    width: "100%",
-  },
-  container: {
-    width: "100%",
-  },
-});
+        );
+      })}
+    </View>
+  );
+}

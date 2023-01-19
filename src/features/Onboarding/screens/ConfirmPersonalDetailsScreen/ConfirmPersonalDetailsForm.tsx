@@ -22,7 +22,7 @@ export default function ConfirmPersonalDetailsForm() {
 
   const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingHorizontal: theme.spacing.medium,
+      padding: theme.spacing.medium,
     }),
     []
   );

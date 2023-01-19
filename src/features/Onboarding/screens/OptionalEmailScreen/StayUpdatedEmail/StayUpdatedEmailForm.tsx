@@ -5,7 +5,7 @@ import { StyleSheet, View } from "react-native";
 import Button from "@/components/Button";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
-import { Stack } from "@/components/Stack";
+import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 
 import { stayUpdatedEmailValidationSchema } from "./StayUpdatedEmailValidation";
@@ -40,7 +40,7 @@ export default function StayUpdatedEmailForm() {
         keyboardType="email-address"
       />
       <View style={styles.buttonView}>
-        <Stack space="xSmall">
+        <Stack direction="vertical" gap="small">
           <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
             Continue
           </SubmitButton>

@@ -1,6 +1,7 @@
 import { I18nManager, SafeAreaView, View } from "react-native";
 
 import Button from "@/components/Button";
+import reloadApp from "@/i18n/reload-app";
 import useNavigation from "@/navigation/use-navigation";
 
 export default function TemporaryLandingScreen() {
@@ -24,6 +25,7 @@ export default function TemporaryLandingScreen() {
 
   const handleOnSwitchDirection = () => {
     I18nManager.forceRTL(!I18nManager.isRTL);
+    reloadApp();
   };
 
   return (

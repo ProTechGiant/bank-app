@@ -8,7 +8,7 @@ import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
 import InfoBox from "@/components/InfoBox";
-import { Stack } from "@/components/Stack";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { vh, vw } from "@/theme/viewportUnit";
@@ -60,7 +60,7 @@ export default function MobileAndNationalIdForm({ onSubmit }: MobileAndNationalI
 
   return (
     <View>
-      <Stack space="medium">
+      <Stack direction="vertical" gap="regular">
         <View>
           <InputLabel>Mobile</InputLabel>
           <View style={{ flexDirection: "row" }}>
@@ -86,7 +86,7 @@ export default function MobileAndNationalIdForm({ onSubmit }: MobileAndNationalI
           placeholder={t("Onboarding.IqamaInputScreen.iqamaPlaceholder")}
           keyboardType="number-pad"
         />
-        <InfoBox variant="compliment" borderPosition="left">
+        <InfoBox variant="compliment" borderPosition="start">
           {t("Onboarding.IqamaInputScreen.notificationText.one")}{" "}
           <Typography.Text color="primaryBase+30" size="caption1" weight="bold">
             {t("Onboarding.IqamaInputScreen.notificationText.two")}
