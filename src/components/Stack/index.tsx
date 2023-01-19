@@ -23,6 +23,15 @@ export default function Stack({
 }: StackProps) {
   const elements = React.Children.toArray(children);
 
+  const containerStyle = React.useMemo(
+    () => ({
+      alignItems: align,
+      flexDirection: direction === "horizontal" ? ("row" as const) : ("column" as const),
+      justifyContent: justify,
+    }),
+    [align, direction, justify]
+  );
+
   const elementStyle = useThemeStyles(
     theme => {
       if (undefined === gap) return undefined;
@@ -34,15 +43,10 @@ export default function Stack({
   );
 
   return (
-    <View
-      {...restProps}
-      style={[
-        { alignItems: align, flexDirection: direction === "horizontal" ? "row" : "column", justifyContent: justify },
-        style,
-      ]}>
+    <View {...restProps} style={[containerStyle, style]}>
       {elements.map((element, index) => {
         return (
-          <View key={index} style={elements.length - 1 !== index ? elementStyle : undefined}>
+          <View key={index} style={[elements.length - 1 !== index ? elementStyle : undefined, { width: "100%" }]}>
             {element}
           </View>
         );

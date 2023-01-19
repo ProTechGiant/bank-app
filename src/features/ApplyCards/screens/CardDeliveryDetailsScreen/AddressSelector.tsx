@@ -1,10 +1,10 @@
-import { Pressable, PressableProps, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { LocationPinIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface AddressSelectorProps extends Omit<PressableProps, "children" | "style"> {
+interface AddressSelectorProps {
   id: string;
   addressLineOne: string;
   addressLineTwo?: string;
@@ -31,7 +31,6 @@ const AddressSelector = ({
       borderRadius: theme.radii.extraSmall,
       elevation: 8,
       flexDirection: "row",
-      flexShrink: 0,
       padding: theme.spacing.medium,
       shadowOffset: {
         width: 0,
@@ -62,33 +61,31 @@ const AddressSelector = ({
   );
 
   return (
-    <Pressable onPress={() => handlePress(id)}>
-      <View style={[container, isSelected && isSelectedStyle]}>
-        <LocationPinIcon width={iconDimensions} height={iconDimensions} />
-        <View style={styles.addressContent}>
-          <Typography.Text color="primaryBase+30" size="callout">
-            {addressLineOne}
-          </Typography.Text>
-          {addressLineTwo && (
-            <Typography.Text color="neutralBase-10" size="footnote">
-              {addressLineTwo}
-            </Typography.Text>
-          )}
+    <Pressable onPress={() => handlePress(id)} style={[container, isSelected && isSelectedStyle]}>
+      <LocationPinIcon width={iconDimensions} height={iconDimensions} />
+      <View style={styles.addressContent}>
+        <Typography.Text color="primaryBase+30" size="callout">
+          {addressLineOne}
+        </Typography.Text>
+        {addressLineTwo && (
           <Typography.Text color="neutralBase-10" size="footnote">
-            {addressLineThree}
+            {addressLineTwo}
           </Typography.Text>
-          <Typography.Text color="neutralBase-10" size="footnote">
-            {addressLineFour}
+        )}
+        <Typography.Text color="neutralBase-10" size="footnote">
+          {addressLineThree}
+        </Typography.Text>
+        <Typography.Text color="neutralBase-10" size="footnote">
+          {addressLineFour}
+        </Typography.Text>
+      </View>
+      {isTemporary && (
+        <View style={temporaryTag}>
+          <Typography.Text color="complimentBase" size="caption2">
+            Temporary
           </Typography.Text>
         </View>
-        {isTemporary && (
-          <View style={temporaryTag}>
-            <Typography.Text color="complimentBase" size="caption2">
-              Temporary
-            </Typography.Text>
-          </View>
-        )}
-      </View>
+      )}
     </Pressable>
   );
 };
@@ -97,7 +94,6 @@ export default AddressSelector;
 
 const styles = StyleSheet.create({
   addressContent: {
-    flex: 1,
     marginLeft: 12,
   },
 });
