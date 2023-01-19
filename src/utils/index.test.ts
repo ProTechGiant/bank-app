@@ -1,13 +1,13 @@
-import { alphaNumericSpaceRegExp, numericRegExp, saudiPhoneRegExp } from ".";
+import { alphaNumericSpecialCharsRegExp, numericRegExp, saudiPhoneRegExp } from ".";
 
-describe("alphaNumericSpaceRegEx", () => {
-  it("string with alphabets, numbers or space", () => {
-    const string = "abc 1234 xyz";
-    expect(string).toMatch(alphaNumericSpaceRegExp);
+describe("alphaNumericSpecialCharsRegExp", () => {
+  it("string with alphabets, numbers, special characters or space", () => {
+    const string = "abc 1234 xyz !-%&?";
+    expect(string).toMatch(alphaNumericSpecialCharsRegExp);
   });
   it("invalid string", () => {
     const string = "@£($)!";
-    expect(string).not.toMatch(alphaNumericSpaceRegExp);
+    expect(string).not.toMatch(alphaNumericSpecialCharsRegExp);
   });
 });
 

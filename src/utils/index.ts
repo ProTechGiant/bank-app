@@ -2,7 +2,7 @@ export const pluralize = (length: number, word: string, addition: string) => {
   return `${length} ${word}${length > 1 ? addition : ""}`;
 };
 
-export const alphaNumericSpaceRegExp = /^[a-zA-Z0-9 ]+$/;
+export const alphaNumericSpecialCharsRegExp = /^[a-zA-Z0-9-’/`~!#*$@_%+=.,^&(){}[\]|;:”<>?\\ ]+$/;
 
 export const numericRegExp = /^[0-9]+$/;
 

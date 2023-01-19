@@ -1,11 +1,11 @@
 import * as Yup from "yup";
 
-import { alphaNumericSpaceRegExp } from "@/utils";
+import { alphaNumericSpecialCharsRegExp } from "@/utils";
 
 export const SetTemporaryAddressValidationSchema = Yup.object({
   addressLineOne: Yup.string()
     .required("Address line 1 is required")
-    .matches(alphaNumericSpaceRegExp, "Address line 1 is not valid")
+    .matches(alphaNumericSpecialCharsRegExp, "Address line 1 is not valid")
     .min(5, "Minimum 5 characters")
     .max(100, "Maximum 100 characters"),
   addressLineTwo: Yup.string().max(100, "Maximum 100 characters"),
