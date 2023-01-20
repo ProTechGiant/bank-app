@@ -100,11 +100,6 @@ const typography = {
       medium: 34,
       small: 28,
     },
-    opacity: {
-      transparent: "00",
-      semiTransparent: "7F",
-      opaque: "FF",
-    },
   },
   text: {
     weights: {
@@ -135,11 +130,6 @@ const typography = {
       caption1: 16,
       caption2: 13,
       footnote: 18,
-    },
-    opacity: {
-      transparent: "00",
-      semiTransparent: "7F",
-      opaque: "FF",
     },
   },
 };

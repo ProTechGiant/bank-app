@@ -115,8 +115,7 @@ export default function QuickActionsReorderCard() {
             <Pressable onPress={handleSaveButton} disabled={!saveEnabled}>
               <View style={buttonContainerStyle}>
                 <Typography.Text
-                  opacity={saveEnabled ? "opaque" : "semiTransparent"}
-                  color={saveEnabled ? "neutralBase-50" : "neutralBase-30"}
+                  color={saveEnabled ? "neutralBase-50" : "neutralBase-50-50%"}
                   size="caption1"
                   weight="semiBold">
                   SAVE

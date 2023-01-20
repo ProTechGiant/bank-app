@@ -92,7 +92,7 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
       {size === "small" && data.decimalBalance && data.currencyType && data.currentAccountBalance && (
         <View style={styles.row}>
           <Typography.Text color="neutralBase-50">{data.currentAccountBalance}</Typography.Text>
-          <Typography.Text color="neutralBase-50" opacity="semiTransparent">
+          <Typography.Text color="neutralBase-50-50%">
             .{data.decimalBalance} {data.currencyType}
           </Typography.Text>
         </View>
@@ -105,7 +105,7 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
             </Typography.Header>
           </View>
           <View style={{ paddingBottom: 2 }}>
-            <Typography.Text color="neutralBase-50" opacity="semiTransparent">
+            <Typography.Text color="neutralBase-50-50%">
               .{data.decimalBalance} {data.currencyType}
             </Typography.Text>
           </View>
