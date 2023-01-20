@@ -3,15 +3,14 @@ import { GestureResponderEvent, StyleSheet, TouchableOpacity, View, ViewStyle } 
 import { DownArrowIcon, NotificationIcon, UpArrowIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-import { pluralize } from "@/utils";
 
-interface DropdownContentProps {
-  length: number;
+interface BulletinTitleProps {
+  title: string;
   dropdownVisible?: boolean;
   onPress?: (event: GestureResponderEvent) => void;
 }
 
-export default function NotificationsTitle({ length, dropdownVisible, onPress }: DropdownContentProps) {
+export default function BulletinTitle({ title, dropdownVisible, onPress }: BulletinTitleProps) {
   const paddingLeftStyle = useThemeStyles<ViewStyle>(
     theme => ({
       paddingLeft: theme.spacing.small,
@@ -27,12 +26,11 @@ export default function NotificationsTitle({ length, dropdownVisible, onPress }:
       shadowColor: theme.palette["tintBase+20"],
       shadowOffset: { width: 2, height: 2 },
       shadowOpacity: 0.14,
+      elevation: 5,
     }),
     []
   );
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.notifications, []);
-
-  const title = pluralize(length, "notification", "s");
 
   return (
     <TouchableOpacity onPress={onPress} style={titleContainerStyle}>

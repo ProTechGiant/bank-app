@@ -10,7 +10,7 @@ export default function ArticleSection() {
     <Carousel
       data={articleSectionData}
       Slide={ArticleSectionContent}
-      pagination={true}
+      pagination="overlay"
       width={Dimensions.get("screen").width}
     />
   );

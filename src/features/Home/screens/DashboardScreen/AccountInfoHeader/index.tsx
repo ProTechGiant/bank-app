@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, LayoutAnimation, Pressable, SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
 
+import BulletinBoard from "@/components/BulletinBoard";
 import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+import { pluralize } from "@/utils";
 
-import NotificationDropdown from "../NotificationDropdown";
-import { useFetchAccount } from "./use-fetch-account";
+import useFetchAccount from "./use-fetch-account";
+import useFetchActions from "./use-fetch-actions";
 
 export interface AccountInfoHeaderProps {
   size: "full" | "medium" | "small";
@@ -20,6 +22,7 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
       alignItems: "flex-end",
       flexDirection: "row",
       paddingTop: theme.spacing.xlarge,
+      paddingBottom: theme.spacing.medium,
     }),
     []
   );
@@ -72,6 +75,39 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
     }, 4000);
   };
 
+  // const { pendingNotifications } = useFetchActions();
+  const pendingNotifications = [
+    {
+      action_id: "1",
+      action_type: "Top-Up",
+      action_status: "pending",
+      action_title: "You have 30 days left to activate your account",
+      action_message: "Add to your balance now and unlock Croatia",
+      action_link: "some page url",
+      action_button_text: "Top up",
+    },
+    {
+      action_id: "2",
+      action_type: "Apply for  Card",
+      action_status: "pending",
+      action_title: "Set lifestyle preferences",
+      action_message: "Tell us more about what you like and want more of. ",
+      action_link: "some page url",
+      action_button_text: "Set now",
+    },
+    {
+      action_id: "3",
+      action_type_id: "Lifestyle Prefs",
+      action_status: "pending",
+      action_title: "Pick a card",
+      action_message: "The Croatia card is a design worth owning. Pick the card design that matches your style.",
+      action_link: "some page url",
+      action_button_text: "Explore cards",
+    },
+  ];
+
+  const bulletinTitle = pluralize(pendingNotifications?.length, "notification", "s");
+
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }, [size]);
@@ -104,7 +140,7 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
               {data.currentAccountBalance}
             </Typography.Header>
           </View>
-          <View style={{ paddingBottom: 2 }}>
+          <View style={{ paddingBottom: 4 }}>
             <Typography.Text color="neutralBase-50-50%">
               .{data.decimalBalance} {data.currencyType}
             </Typography.Text>
@@ -112,7 +148,7 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
         </View>
       )}
       <View style={notificationsStyle}>
-        <NotificationDropdown />
+        <BulletinBoard data={pendingNotifications} title={bulletinTitle} />
       </View>
     </SafeAreaView>
   );

@@ -70,61 +70,6 @@ exports[`components/Carousel renders a Carousel 1`] = `
             <Text>
               Slide 1
             </Text>
-            <View
-              accessible={true}
-              collapsable={false}
-              focusable={true}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              style={false}
-            >
-              <View
-                style={
-                  Array [
-                    Object {
-                      "alignItems": "center",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                    },
-                    Object {
-                      "backgroundColor": "#080E53",
-                      "borderColor": "#080E53",
-                      "borderRadius": 4,
-                      "borderWidth": 0,
-                      "paddingHorizontal": 16,
-                      "paddingVertical": 16,
-                    },
-                    Object {
-                      "opacity": 1,
-                    },
-                  ]
-                }
-              >
-                <Text
-                  style={
-                    Array [
-                      undefined,
-                      Object {
-                        "color": "#F4F4F4FF",
-                        "fontSize": 17,
-                        "fontWeight": "400",
-                        "lineHeight": 22,
-                      },
-                    ]
-                  }
-                >
-                  Press Me
-                </Text>
-              </View>
-            </View>
           </View>
         </View>
       </View>
@@ -152,61 +97,6 @@ exports[`components/Carousel renders a Carousel 1`] = `
             <Text>
               Slide 2
             </Text>
-            <View
-              accessible={true}
-              collapsable={false}
-              focusable={true}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              style={false}
-            >
-              <View
-                style={
-                  Array [
-                    Object {
-                      "alignItems": "center",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                    },
-                    Object {
-                      "backgroundColor": "#080E53",
-                      "borderColor": "#080E53",
-                      "borderRadius": 4,
-                      "borderWidth": 0,
-                      "paddingHorizontal": 16,
-                      "paddingVertical": 16,
-                    },
-                    Object {
-                      "opacity": 1,
-                    },
-                  ]
-                }
-              >
-                <Text
-                  style={
-                    Array [
-                      undefined,
-                      Object {
-                        "color": "#F4F4F4FF",
-                        "fontSize": 17,
-                        "fontWeight": "400",
-                        "lineHeight": 22,
-                      },
-                    ]
-                  }
-                >
-                  Press Me
-                </Text>
-              </View>
-            </View>
           </View>
         </View>
       </View>
@@ -234,61 +124,6 @@ exports[`components/Carousel renders a Carousel 1`] = `
             <Text>
               Slide 3
             </Text>
-            <View
-              accessible={true}
-              collapsable={false}
-              focusable={true}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              style={false}
-            >
-              <View
-                style={
-                  Array [
-                    Object {
-                      "alignItems": "center",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                    },
-                    Object {
-                      "backgroundColor": "#080E53",
-                      "borderColor": "#080E53",
-                      "borderRadius": 4,
-                      "borderWidth": 0,
-                      "paddingHorizontal": 16,
-                      "paddingVertical": 16,
-                    },
-                    Object {
-                      "opacity": 1,
-                    },
-                  ]
-                }
-              >
-                <Text
-                  style={
-                    Array [
-                      undefined,
-                      Object {
-                        "color": "#F4F4F4FF",
-                        "fontSize": 17,
-                        "fontWeight": "400",
-                        "lineHeight": 22,
-                      },
-                    ]
-                  }
-                >
-                  Press Me
-                </Text>
-              </View>
-            </View>
           </View>
         </View>
       </View>
@@ -315,14 +150,15 @@ exports[`components/Carousel renders a Carousel 1`] = `
         style={
           Array [
             Object {
+              "alignSelf": "center",
               "borderRadius": 4,
-              "height": 8,
               "marginBottom": 8,
               "marginHorizontal": 2,
-              "width": 8,
             },
             Object {
               "backgroundColor": "#FF7512",
+              "height": 8,
+              "width": 8,
             },
           ]
         }
@@ -331,14 +167,15 @@ exports[`components/Carousel renders a Carousel 1`] = `
         style={
           Array [
             Object {
+              "alignSelf": "center",
               "borderRadius": 4,
-              "height": 8,
               "marginBottom": 8,
               "marginHorizontal": 2,
-              "width": 8,
             },
             Object {
               "backgroundColor": "#CFCFDD",
+              "height": 6,
+              "width": 6,
             },
           ]
         }
@@ -347,14 +184,15 @@ exports[`components/Carousel renders a Carousel 1`] = `
         style={
           Array [
             Object {
+              "alignSelf": "center",
               "borderRadius": 4,
-              "height": 8,
               "marginBottom": 8,
               "marginHorizontal": 2,
-              "width": 8,
             },
             Object {
               "backgroundColor": "#CFCFDD",
+              "height": 6,
+              "width": 6,
             },
           ]
         }

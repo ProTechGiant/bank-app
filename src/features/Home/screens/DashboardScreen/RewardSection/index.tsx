@@ -10,5 +10,5 @@ const newData = rewardSectionData.length > 1 ? duplicateArr(rewardSectionData, 6
 
 export default function RewardSection() {
   const width = useThemeStyles<number>(theme => 330 + theme.spacing.small, []);
-  return <Carousel data={newData} Slide={RewardSectionContent} pagination={false} width={width} loop={true} />;
+  return <Carousel data={newData} Slide={RewardSectionContent} width={width} loop={true} />;
 }

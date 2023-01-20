@@ -2,7 +2,6 @@ import { useCallback, useRef, useState } from "react";
 import {
   Dimensions,
   FlatList,
-  GestureResponderEvent,
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
@@ -12,26 +11,28 @@ import {
 
 import { useThemeStyles } from "@/theme";
 
-interface CarouselProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any[];
-  onPressSlide?: (event: GestureResponderEvent) => void;
+interface CarouselProps<T> {
+  data: T[];
   Slide: React.ElementType;
   width?: number;
-  pagination: boolean;
+  pagination?: "overlay" | "under";
   loop?: boolean;
 }
 
-export function Carousel({ pagination, data, onPressSlide, Slide, width, loop }: CarouselProps) {
+export function Carousel<T>({ pagination, data, Slide, width, loop }: CarouselProps<T>) {
   const activeDotStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["complimentBase"],
+      height: 8,
+      width: 8,
     }),
     []
   );
   const inactiveDotStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["primaryBase-30"],
+      height: 6,
+      width: 6,
     }),
     []
   );
@@ -51,13 +52,19 @@ export function Carousel({ pagination, data, onPressSlide, Slide, width, loop }:
     }),
     []
   );
+  const underPaginationStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      flexDirection: "row",
+      paddingBottom: theme.spacing.medium,
+    }),
+    []
+  );
   const paginationDotsStyle = useThemeStyles<ViewStyle>(
     theme => ({
       borderRadius: 4,
-      height: 8,
       marginHorizontal: 2,
-      width: 8,
       marginBottom: theme.spacing.small,
+      alignSelf: "center",
     }),
     []
   );
@@ -106,7 +113,7 @@ export function Carousel({ pagination, data, onPressSlide, Slide, width, loop }:
   function Pagination() {
     return (
       <View style={styles.paginationContainer}>
-        <View style={overlayPaginationStyle}>
+        <View style={pagination === "overlay" ? overlayPaginationStyle : underPaginationStyle}>
           {data.map((_, i) => {
             return <View key={i} style={[paginationDotsStyle, index === i ? activeDotStyle : inactiveDotStyle]} />;
           })}
@@ -119,7 +126,7 @@ export function Carousel({ pagination, data, onPressSlide, Slide, width, loop }:
   function SlideRenderer({ item }: any) {
     return (
       <View style={{ width }}>
-        <Slide data={item} onPress={onPressSlide} />
+        <Slide data={item} />
       </View>
     );
   }

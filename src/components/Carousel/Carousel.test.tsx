@@ -1,5 +1,4 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
-import { useState } from "react";
 import { Text, View } from "react-native";
 import { create } from "react-test-renderer";
 
@@ -19,28 +18,23 @@ const data = [
 ];
 
 const TestCarousel = () => {
-  const [toggleText, setToggleText] = useState(false);
-  const onPress = () => {
-    setToggleText(!toggleText);
-  };
   return (
     <View>
-      <Carousel data={data} Slide={CarouselSlide} pagination={true} onPressSlide={onPress} />
-      <Text testID="printed-text">{toggleText && "test"}</Text>
+      <Carousel data={data} Slide={CarouselSlide} pagination="overlay" />
+      <Text testID="printed-text">test</Text>
     </View>
   );
 };
 
-const CarouselSlide = ({ data, onPress }: { data: { text: string }; onPress: () => void }) => (
+const CarouselSlide = ({ data }: { data: { text: string } }) => (
   <View testID="slide">
     <Text>{data.text}</Text>
-    <Button onPress={onPress}>Press Me</Button>
   </View>
 );
 
 describe("components/Carousel", () => {
   it("renders a Carousel", () => {
-    const result = create(<Carousel data={data} Slide={CarouselSlide} pagination={true} />);
+    const result = create(<Carousel data={data} Slide={CarouselSlide} pagination="overlay" />);
 
     expect(result).toMatchSnapshot();
   });
@@ -50,15 +44,5 @@ describe("components/Carousel", () => {
     const slides = await screen.getAllByTestId("slide");
 
     expect(slides.length).toBe(3);
-  });
-
-  it("should fire onPressSlide", async () => {
-    render(<TestCarousel />);
-
-    fireEvent.press(screen.getAllByText("Press Me")[0]);
-
-    const output = await screen.findByTestId("printed-text");
-
-    expect(output).toHaveTextContent("test");
   });
 });

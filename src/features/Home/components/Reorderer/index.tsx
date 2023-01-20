@@ -70,7 +70,7 @@ export default function reorderer({
         />
       );
     }
-    return <></>;
+    return null;
   }
 
   const renderItem = ({ item, drag, isActive }: RenderItemParams<ReorderItem | quickActionReorderItem>) => {
