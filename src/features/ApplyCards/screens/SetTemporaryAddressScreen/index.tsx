@@ -1,7 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View, ViewStyle } from "react-native";
+import * as Yup from "yup";
 
 import ContentContainer from "@/components/ContentContainer";
 import DropdownInput from "@/components/Form/DropdownInput";
@@ -12,9 +14,9 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { alphaNumericSpecialCharsRegExp } from "@/utils";
 
 import { Address, useOrderCardContext } from "../../context/OrderCardContext";
-import { SetTemporaryAddressValidationSchema } from "./SetTemporaryAddressValidation";
 
 export default function SetTemporaryAddressScreen() {
   const containerStyle = useThemeStyles<ViewStyle>(
@@ -40,9 +42,34 @@ export default function SetTemporaryAddressScreen() {
   const navigation = useNavigation();
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
 
+  const validationSchema = useMemo(
+    () =>
+      Yup.object({
+        addressLineOne: Yup.string()
+          .required(t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.required"))
+          .matches(
+            alphaNumericSpecialCharsRegExp,
+            t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.notValid")
+          )
+          .min(5, t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.minLength"))
+          .max(100, t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.maxLength")),
+        addressLineTwo: Yup.string().max(
+          100,
+          t("ApplyCards.SetTemporaryAddressScreen.form.addressLineTwo.validation.maxLength")
+        ),
+        district: Yup.string().required(t("ApplyCards.SetTemporaryAddressScreen.form.district.validation.required")),
+        city: Yup.string().required(t("ApplyCards.SetTemporaryAddressScreen.form.city.validation.required")),
+        postalCode: Yup.string()
+          .required(t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.validation.required"))
+          .min(5, t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.validation.minLength"))
+          .max(5, t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.validation.maxLength")),
+      }),
+    []
+  );
+
   const { control, handleSubmit } = useForm({
     mode: "onBlur",
-    resolver: yupResolver(SetTemporaryAddressValidationSchema),
+    resolver: yupResolver(validationSchema),
     defaultValues: {
       addressLineOne: orderCardValues.formValues.alternateAddress?.addressLineOne,
       addressLineTwo: orderCardValues.formValues.alternateAddress?.addressLineTwo,

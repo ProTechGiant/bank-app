@@ -46,10 +46,10 @@ export default function SetPinAndAddressScreen() {
       if (!isValidPincode(currentInput)) {
         return Alert.alert(
           t("ApplyCards.SetPinAndAddressScreen.SetPin.alert.title"),
-          t("ApplyCards.SetPinAndAddressScreen.SetPin.alert.content") as string,
+          t("ApplyCards.SetPinAndAddressScreen.SetPin.alert.content"),
           [
             {
-              text: t("ApplyCards.SetPinAndAddressScreen.SetPin.alert.button") as string,
+              text: t("ApplyCards.SetPinAndAddressScreen.SetPin.alert.button"),
               onPress: () => handleOnResetPincode(),
               style: "default",
             },

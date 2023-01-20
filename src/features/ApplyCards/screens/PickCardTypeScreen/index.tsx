@@ -61,8 +61,8 @@ export default function PickCardTypeScreen() {
         navigationState={{
           index,
           routes: [
-            { key: "standard", title: t("ApplyCards.ApplyForCardScreen.tabs.standard") as string },
-            { key: "lux", title: t("ApplyCards.ApplyForCardScreen.tabs.lux") as string },
+            { key: "standard", title: t("ApplyCards.ApplyForCardScreen.tabs.standard") },
+            { key: "lux", title: t("ApplyCards.ApplyForCardScreen.tabs.lux") },
           ],
         }}
         renderTabBar={props => (
