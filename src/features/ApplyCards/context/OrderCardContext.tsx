@@ -1,8 +1,4 @@
-import { createContext, useContext } from "react";
-
-export interface FormState {
-  error?: Error;
-}
+import { createContext, useContext, useMemo, useState } from "react";
 
 export interface Address {
   addressLineOne: string;
@@ -21,7 +17,9 @@ export interface OrderCardFormValues {
 
 export type OrderCardValues = {
   formValues: OrderCardFormValues;
-  formState?: FormState;
+  formState?: {
+    error?: Error;
+  };
 };
 
 export const orderCardInitValues: OrderCardValues = {
@@ -39,7 +37,26 @@ export interface OrderCardContextValues {
 
 export const OrderCardContext = createContext<OrderCardContextValues>({
   orderCardValues: orderCardInitValues,
-  setOrderCardValues: () => {},
+  setOrderCardValues: () => {
+    return;
+  },
 });
 
 export const useOrderCardContext = () => useContext(OrderCardContext);
+
+export const OrderCardContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const [orderCardValues, setOrderCardValues] = useState(orderCardInitValues);
+
+  return (
+    <OrderCardContext.Provider
+      value={useMemo(
+        () => ({
+          orderCardValues,
+          setOrderCardValues,
+        }),
+        [orderCardValues]
+      )}>
+      {children}
+    </OrderCardContext.Provider>
+  );
+};

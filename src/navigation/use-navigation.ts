@@ -1,7 +1,7 @@
 import { NavigationProp, useNavigation as rnUseNavigation } from "@react-navigation/native";
 
-import { StackParams } from "./MainStack";
+import type MainStackParams from "./MainStackParams";
 
 export default function useNavigation() {
-  return rnUseNavigation<NavigationProp<StackParams>>();
+  return rnUseNavigation<NavigationProp<MainStackParams>>();
 }

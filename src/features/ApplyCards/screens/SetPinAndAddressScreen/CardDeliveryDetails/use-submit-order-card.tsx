@@ -2,7 +2,7 @@ import { useMutation } from "react-query";
 
 import api from "@/api";
 
-import { OrderCardFormValues } from "../../context/OrderCardContext";
+import { OrderCardFormValues } from "../../../context/OrderCardContext";
 
 interface OrderCardResponse {
   response: string;

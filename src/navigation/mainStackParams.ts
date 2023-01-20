@@ -1,11 +1,7 @@
-import { ApplyCardModalStackParams } from "@/features/ApplyCards/ApplyCardModalStack";
+import { ApplyCardModalStackParams } from "@/features/ApplyCards/ApplyCardsStack";
 
-export type MainStackParams = {
-  "ApplyCards.ApplyForCard": undefined;
-  "ApplyCards.ApplyForLuxCard": undefined;
-  "ApplyCards.SetTemporaryAddress": undefined;
-  "ApplyCards.OrderCardModal": undefined;
-  "ApplyCards.AddToAppleWallet": undefined;
+type MainStackParams = {
+  "ApplyCards.ApplyForCardStack": undefined;
   "Home.Dashboard": undefined;
   "Temporary.LandingScreen": undefined;
   "Onboarding.SplashScreen": undefined;
@@ -18,10 +14,10 @@ export type MainStackParams = {
   "Onboarding.ForeignTax": undefined;
   "Onboarding.OptionalEmail": undefined;
   "Referral.HubScreen": undefined;
-  "Referral.HowItWorksScreen": undefined;
+  "Referral.HowItWorksModal": undefined;
   "Settings.SettingsScreen": undefined;
 };
 
-export type StackParams = MainStackParams & ApplyCardModalStackParams;
+type StackParams = MainStackParams & ApplyCardModalStackParams;
 
 export default StackParams;

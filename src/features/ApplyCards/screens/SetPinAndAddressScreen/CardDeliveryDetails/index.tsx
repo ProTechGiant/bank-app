@@ -5,9 +5,7 @@ import { Alert, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
-import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { OrderCardFormValues, useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
@@ -18,7 +16,7 @@ import { useThemeStyles } from "@/theme";
 import AddressSelector from "./AddressSelector";
 import useSubmitOrderCard from "./use-submit-order-card";
 
-export default function CardDeliveryDetailsScreen() {
+export default function CardDeliveryDetails() {
   const headerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginBottom: theme.spacing.medium,
@@ -36,14 +34,14 @@ export default function CardDeliveryDetailsScreen() {
 
   const GENERIC_ERROR = {
     name: "error",
-    title: t("ApplyCards.CardDeliveryDetailsScreen.error.title"),
-    message: t("ApplyCards.CardDeliveryDetailsScreen.error.message"),
+    title: t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.error.title"),
+    message: t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.error.message"),
   };
 
   const hasTemporaryAddress = orderCardValues.formValues.alternateAddress !== undefined;
   const buttonText = hasTemporaryAddress
-    ? t("ApplyCards.CardDeliveryDetailsScreen.buttons.edit")
-    : t("ApplyCards.CardDeliveryDetailsScreen.buttons.setAddress");
+    ? t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.edit")
+    : t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.setAddress");
   const primaryAddress = mockPrimaryDeliveryAddress.addresses.map(data => {
     return { ...data, id: PRIMARY_ID, is_selected: !hasTemporaryAddress, is_temp_address: false };
   });
@@ -115,30 +113,20 @@ export default function CardDeliveryDetailsScreen() {
     );
   };
 
-  const handleOnBack = () => {
-    navigation.navigate("ApplyCards.CreateCardPin");
-  };
-
   return (
     <Page>
-      <NavHeader
-        title={t("ApplyCards.CardDeliveryDetailsScreen.navTitle")}
-        backButton={true}
-        backButtonHandler={handleOnBack}>
-        <ProgressIndicator currentStep={3} totalStep={3} />
-      </NavHeader>
       <ContentContainer>
         <View style={styles.contentContainer}>
           <View style={headerStyle}>
             <Typography.Text size="large" weight="bold">
-              {t("ApplyCards.CardDeliveryDetailsScreen.title")}
+              {t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.title")}
             </Typography.Text>
           </View>
           <View style={styles.paragraph}>
             <Typography.Text>
               {hasTemporaryAddress
-                ? t("ApplyCards.CardDeliveryDetailsScreen.paragraph.checkHighlighted")
-                : t("ApplyCards.CardDeliveryDetailsScreen.paragraph.default")}
+                ? t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.paragraph.checkHighlighted")
+                : t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.paragraph.default")}
             </Typography.Text>
           </View>
           <Stack direction="vertical" gap="regular">
@@ -164,7 +152,7 @@ export default function CardDeliveryDetailsScreen() {
         </View>
         <Button onPress={handleConfirm} type={submitOrderCardAsync.isLoading ? "loader" : "no icons"}>
           <Typography.Text color="neutralBase-50" size="body" weight="medium">
-            {t("ApplyCards.CardDeliveryDetailsScreen.buttons.confirm")}
+            {t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.confirm")}
           </Typography.Text>
         </Button>
         <Button

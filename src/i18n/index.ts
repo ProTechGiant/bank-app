@@ -86,9 +86,9 @@ i18n.use(initReactI18next).init({
               button: "Get Lux Card with Croatia Plus",
             },
           },
-          CreateCardPinScreen: {
+          SetPinAndAddressScreen: {
             navTitle: "Order Card",
-            setPin: {
+            SetPin: {
               title: "Set PIN",
               intro: "Enter 4 unique numbers",
               avoidSimplePin: "Avoid a PIN that’s easy to guess, like 1234 or 1111.",
@@ -98,13 +98,29 @@ i18n.use(initReactI18next).init({
                 button: "Change it",
               },
             },
-            confirmPin: {
+            ConfirmPin: {
               title: "Confirm PIN",
               intro: "Re-enter your 4 numbers",
               pinNotMatch: "Your PINs didn’t match, please try again. {{count}} try remaining.",
               pinNotMatch_plural: "Your PINs didn’t match, please try again. {{count}} tries remaining.",
               tooManyTries: "Oops! Too many tries",
               button: "Set New PIN",
+            },
+            CardDeliveryDetails: {
+              title: "Card delivery details",
+              paragraph: {
+                default: "Your card will be sent here:",
+                checkHighlighted: "Check the correct delivery address is highlighted:",
+              },
+              buttons: {
+                confirm: "Confirm and continue",
+                edit: "Edit temporary address",
+                setAddress: "Set temporary address",
+              },
+              error: {
+                title: "We’re sorry, something has gone wrong.",
+                message: "Please try again later or contact Customer Care.",
+              },
             },
           },
           SetTemporaryAddressScreen: {
@@ -132,23 +148,6 @@ i18n.use(initReactI18next).init({
                 placeholder: "Postal Code",
               },
               button: "Confirm and continue",
-            },
-          },
-          CardDeliveryDetailsScreen: {
-            navTitle: "Order Card",
-            title: "Card delivery details",
-            paragraph: {
-              default: "Your card will be sent here:",
-              checkHighlighted: "Check the correct delivery address is highlighted:",
-            },
-            buttons: {
-              confirm: "Confirm and continue",
-              edit: "Edit temporary address",
-              setAddress: "Set temporary address",
-            },
-            error: {
-              title: "We’re sorry, something has gone wrong.",
-              message: "Please try again later or contact Customer Care.",
             },
           },
           CardOrderedScreen: {

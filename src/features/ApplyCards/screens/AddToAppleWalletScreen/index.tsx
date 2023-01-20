@@ -44,10 +44,10 @@ export default function AddToAppleWalletScreen() {
 
   const handleOnAddToWallet = async () => {
     const cardId = "335688998"; // Temp card ID
+
     try {
-      await getTokenized.mutateAsync(cardId).then(response => {
-        console.log(JSON.stringify(response)); //@TODO: use secret ID for apple pay
-      });
+      const response = await getTokenized.mutateAsync(cardId);
+      JSON.stringify(response); //@TODO: use secret ID for apple pay
     } catch (error) {
       console.log(JSON.stringify(error)); //@TODO: display error message
     }

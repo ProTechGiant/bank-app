@@ -18,28 +18,25 @@ const STANDARD_CARD_ID = {
   cardProductId: 1356,
 };
 
-export default function ApplyForCardScreen() {
+export default function PickCardTypeScreen() {
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
-  const navigation = useNavigation();
-  const [index, setIndex] = useState(0);
   const { t } = useTranslation();
 
-  const TAB_VIEW_ROUTES = [
-    { key: "standard", title: t("ApplyCards.ApplyForCardScreen.tabs.standard") },
-    { key: "lux", title: t("ApplyCards.ApplyForCardScreen.tabs.lux") },
-  ];
-  const tabBarIndicatorStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["neutralBase+30"],
-    }),
-    []
-  );
+  const navigation = useNavigation();
+  const [index, setIndex] = useState(0);
 
-  const tabBarStyle = useThemeStyles<ViewStyle>(
-    theme => ({ backgroundColor: theme.palette["neutralBase-40"], marginBottom: 30 }),
-    []
-  );
-  const tabLabelStyle = useThemeStyles<TextStyle>(theme => ({ color: theme.palette["neutralBase+30"] }), []);
+  const tabBarIndicatorStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase+30"],
+  }));
+
+  const tabBarStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-40"],
+    marginBottom: 30,
+  }));
+
+  const tabLabelStyle = useThemeStyles<TextStyle>(theme => ({
+    color: theme.palette["neutralBase+30"],
+  }));
 
   const handleOnLuxCardPress = () => {
     navigation.navigate("ApplyCards.ApplyForLuxCard");
@@ -54,14 +51,20 @@ export default function ApplyForCardScreen() {
       },
     }));
 
-    navigation.navigate("ApplyCards.OrderCardModal");
+    navigation.navigate("ApplyCards.SetPinAndAddress");
   };
 
   return (
     <Page>
       <NavHeader title={t("ApplyCards.ApplyForCardScreen.navTitle")} backButton={false} />
       <TabView
-        navigationState={{ index, routes: TAB_VIEW_ROUTES }}
+        navigationState={{
+          index,
+          routes: [
+            { key: "standard", title: t("ApplyCards.ApplyForCardScreen.tabs.standard") as string },
+            { key: "lux", title: t("ApplyCards.ApplyForCardScreen.tabs.lux") as string },
+          ],
+        }}
         renderTabBar={props => (
           <TabBar
             {...props}

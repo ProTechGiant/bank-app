@@ -4,7 +4,6 @@ import { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import { OrderCardContext, orderCardInitValues } from "@/features/ApplyCards/context/OrderCardContext";
 import useI18nDirection from "@/i18n/use-i18n-direction";
 import MainStack from "@/navigation/MainStack";
 
@@ -21,20 +20,12 @@ export default function App() {
     homepageOrderData,
   });
 
-  const [orderCardValues, setOrderCardValues] = useState(orderCardInitValues);
-
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalContext.Provider value={{ homeScreenLayout, setHomeScreenLayout }}>
-        <OrderCardContext.Provider
-          value={{
-            orderCardValues,
-            setOrderCardValues,
-          }}>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <MainStack />
-          </GestureHandlerRootView>
-        </OrderCardContext.Provider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <MainStack />
+        </GestureHandlerRootView>
       </GlobalContext.Provider>
     </QueryClientProvider>
   );

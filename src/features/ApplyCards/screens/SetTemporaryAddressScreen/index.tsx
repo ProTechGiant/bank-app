@@ -60,8 +60,7 @@ export default function SetTemporaryAddressScreen() {
         alternateAddress: values,
       },
     });
-
-    navigation.navigate("ApplyCards.CardDeliveryDetails");
+    navigation.navigate("ApplyCards.SetPinAndAddress");
   };
 
   return (
@@ -70,7 +69,7 @@ export default function SetTemporaryAddressScreen() {
         title={t("ApplyCards.SetTemporaryAddressScreen.navTitle")}
         backButton={false}
         closeButtonHandler={() => {
-          navigation.navigate("ApplyCards.CardDeliveryDetails");
+          navigation.navigate("ApplyCards.SetPinAndAddress");
         }}
       />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>

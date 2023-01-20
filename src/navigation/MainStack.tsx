@@ -1,11 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import ApplyCardsStack from "@/features/ApplyCards/ApplyCardModalStack";
-import AddToAppleWalletScreen from "@/features/ApplyCards/screens/AddToAppleWalletScreen";
-import ApplyForCardScreen from "@/features/ApplyCards/screens/ApplyForCardScreen";
-import ApplyForLuxCardScreen from "@/features/ApplyCards/screens/ApplyForLuxCardScreen";
-import SetTemporaryAddressScreen from "@/features/ApplyCards/screens/SetTemporaryAddressScreen";
+import ApplyCardsStack from "@/features/ApplyCards/ApplyCardsStack";
 import DashboardScreen from "@/features/Home/screens/DashboardScreen";
 import HomepageReorderModal from "@/features/Home/screens/HomepageReorderModal";
 import QuickActionsReorderCard from "@/features/Home/screens/QuickActionsReorderModal";
@@ -21,7 +17,7 @@ import HubScreen from "@/features/Referral/screens/HubScreen";
 import SettingsScreen from "@/features/Settings/screens/SettingsScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 
-import MainStackParams from "./mainStackParams";
+import MainStackParams from "./MainStackParams";
 
 const Stack = createNativeStackNavigator<MainStackParams>();
 
@@ -73,36 +69,11 @@ export default function MainStack() {
           <Stack.Screen component={ForeignTaxScreen} name="Onboarding.ForeignTax" options={{ headerShown: false }} />
         </Stack.Group>
         <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>
-          <Stack.Screen component={ApplyForCardScreen} name="ApplyCards.ApplyForCard" />
-          <Stack.Screen component={ApplyForLuxCardScreen} name="ApplyCards.ApplyForLuxCard" />
-          <Stack.Screen
-            component={SetTemporaryAddressScreen}
-            name="ApplyCards.SetTemporaryAddress"
-            options={{ headerShown: false }}
-          />
           <Stack.Screen
             component={ApplyCardsStack}
-            name="ApplyCards.OrderCardModal"
-            options={{
-              headerShown: false,
-              presentation: "modal",
-            }}
-          />
-          <Stack.Screen
-            component={AddToAppleWalletScreen}
-            name="ApplyCards.AddToAppleWallet"
+            name="ApplyCards.ApplyForCardStack"
             options={{ headerShown: false }}
           />
-          <Stack.Screen
-            component={HowItWorksModal}
-            name="Referral.HowItWorksModal"
-            options={{
-              headerShown: false,
-              presentation: "fullScreenModal",
-            }}
-          />
-        </Stack.Group>
-        <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>
           <Stack.Screen
             options={{ headerShown: false }}
             component={QuickActionsReorderCard}
@@ -112,6 +83,14 @@ export default function MainStack() {
             options={{ headerShown: false }}
             component={HomepageReorderModal}
             name="Modal.HomepageReorderModal"
+          />
+          <Stack.Screen
+            component={HowItWorksModal}
+            name="Referral.HowItWorksModal"
+            options={{
+              headerShown: false,
+              presentation: "fullScreenModal",
+            }}
           />
         </Stack.Group>
       </Stack.Navigator>
