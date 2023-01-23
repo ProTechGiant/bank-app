@@ -47,6 +47,9 @@ export default function DropdownInput<T extends FieldValues>({
         />
       </InputBox>
       <Picker
+        onBlur={() => {
+          field.onBlur();
+        }}
         enabled={isEditable}
         mode="dropdown"
         prompt={label}
