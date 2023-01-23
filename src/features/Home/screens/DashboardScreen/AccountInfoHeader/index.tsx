@@ -10,7 +10,7 @@ import { useThemeStyles } from "@/theme";
 import { pluralize } from "@/utils";
 
 import useFetchAccount from "./use-fetch-account";
-import useFetchActions from "./use-fetch-actions";
+import usePendingNotications from "./use-pending-notications";
 
 export interface AccountInfoHeaderProps {
   size: "full" | "medium" | "small";
@@ -75,36 +75,7 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
     }, 4000);
   };
 
-  // const { pendingNotifications } = useFetchActions();
-  const pendingNotifications = [
-    {
-      action_id: "1",
-      action_type: "Top-Up",
-      action_status: "pending",
-      action_title: "You have 30 days left to activate your account",
-      action_message: "Add to your balance now and unlock Croatia",
-      action_link: "some page url",
-      action_button_text: "Top up",
-    },
-    {
-      action_id: "2",
-      action_type: "Apply for  Card",
-      action_status: "pending",
-      action_title: "Set lifestyle preferences",
-      action_message: "Tell us more about what you like and want more of. ",
-      action_link: "some page url",
-      action_button_text: "Set now",
-    },
-    {
-      action_id: "3",
-      action_type_id: "Lifestyle Prefs",
-      action_status: "pending",
-      action_title: "Pick a card",
-      action_message: "The Croatia card is a design worth owning. Pick the card design that matches your style.",
-      action_link: "some page url",
-      action_button_text: "Explore cards",
-    },
-  ];
+  const pendingNotifications = usePendingNotications();
 
   const bulletinTitle = pluralize(pendingNotifications?.length, "notification", "s");
 
