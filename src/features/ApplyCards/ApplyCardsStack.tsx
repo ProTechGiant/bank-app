@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { OrderCardContextProvider } from "./context/OrderCardContext";
 import AddToAppleWalletScreen from "./screens/AddToAppleWalletScreen";
+import ApplePayActivatedScreen from "./screens/ApplePayActivatedScreen";
 import ApplyForLuxCardScreen from "./screens/ApplyForLuxCardScreen";
 import CardOrderedScreen from "./screens/CardOrderedScreen";
 import PickCardTypeScreen from "./screens/PickCardTypeScreen";
@@ -15,6 +16,7 @@ export type ApplyCardModalStackParams = {
   "ApplyCards.SetTemporaryAddress": undefined;
   "ApplyCards.CardOrdered": undefined;
   "ApplyCards.AddToAppleWallet": undefined;
+  "ApplyCards.ApplePayActivated": undefined;
 };
 
 export const Stack = createNativeStackNavigator<ApplyCardModalStackParams>();
@@ -33,6 +35,7 @@ export default function ApplyCardsStack() {
         />
         <Stack.Screen component={CardOrderedScreen} name="ApplyCards.CardOrdered" />
         <Stack.Screen component={AddToAppleWalletScreen} name="ApplyCards.AddToAppleWallet" />
+        <Stack.Screen component={ApplePayActivatedScreen} name="ApplyCards.ApplePayActivated" />
       </Stack.Navigator>
     </OrderCardContextProvider>
   );

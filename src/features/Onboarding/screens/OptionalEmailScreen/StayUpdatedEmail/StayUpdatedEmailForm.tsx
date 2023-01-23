@@ -40,7 +40,7 @@ export default function StayUpdatedEmailForm() {
         keyboardType="email-address"
       />
       <View style={styles.buttonView}>
-        <Stack direction="vertical" gap="small">
+        <Stack direction="vertical" align="stretch" gap="small">
           <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
             Continue
           </SubmitButton>

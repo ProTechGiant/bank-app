@@ -164,6 +164,7 @@ const iconDimensions = {
   shareCopy: 30,
   share: 16,
   tick: 18,
+  largeTick: 66,
 };
 
 export { iconDimensions, palette, radii, spacing, typography };

@@ -66,7 +66,7 @@ export default function HowItWorksModal() {
           <Typography.Text weight="bold" size="large">
             {t("Referral.HowItWorksModal.title")}
           </Typography.Text>
-          <Stack direction="vertical" gap="medium" style={cardContainerStyle}>
+          <Stack direction="vertical" align="stretch" gap="medium" style={cardContainerStyle}>
             <HowItWorksStepCard text={t("Referral.HowItWorksModal.stepOne")} step={1} />
             <HowItWorksStepCard text={t("Referral.HowItWorksModal.stepTwo")} step={2} />
             <HowItWorksStepCard text={t("Referral.HowItWorksModal.stepThree")} step={3} />

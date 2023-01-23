@@ -28,7 +28,7 @@ const DetailsTile = () => {
 
   return (
     <View style={container}>
-      <Stack direction="vertical" gap="medium">
+      <Stack direction="vertical" align="stretch" gap="medium">
         <View>
           <Typography.Text size="callout" weight="medium" color="primaryBase">
             Full Name

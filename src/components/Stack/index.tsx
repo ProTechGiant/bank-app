@@ -46,7 +46,12 @@ export default function Stack({
     <View {...restProps} style={[containerStyle, style]}>
       {elements.map((element, index) => {
         return (
-          <View key={index} style={[elements.length - 1 !== index ? elementStyle : undefined, { width: "100%" }]}>
+          <View
+            key={index}
+            style={[
+              elements.length - 1 !== index ? elementStyle : undefined,
+              direction === "vertical" && align === "stretch" && { width: "100%" },
+            ]}>
             {element}
           </View>
         );

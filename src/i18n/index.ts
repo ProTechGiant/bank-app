@@ -177,6 +177,10 @@ export const resources = {
             skip: "Skip",
           },
         },
+        ApplePayActivatedScreen: {
+          title: "Apple Pay activated",
+          button: "Finish",
+        },
       },
       Referral: {
         read: "Read more in ",

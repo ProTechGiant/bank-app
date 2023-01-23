@@ -60,7 +60,7 @@ export default function MobileAndNationalIdForm({ onSubmit }: MobileAndNationalI
 
   return (
     <View>
-      <Stack direction="vertical" gap="regular">
+      <Stack direction="vertical" align="stretch" gap="regular">
         <View>
           <InputLabel>Mobile</InputLabel>
           <View style={{ flexDirection: "row" }}>

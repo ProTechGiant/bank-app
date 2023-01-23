@@ -88,7 +88,7 @@ export default function NafathAuthScreen() {
           linkText={t("Onboarding.NafathAuthScreen.modalLink")}
           onNavigate={handleOnOpenNafathApp}
           toggleModal={handleOnToggleModal}>
-          <Stack align="center" direction="vertical" justify="center">
+          <Stack direction="vertical" align="stretch" justify="center">
             {requestedOtpNumber !== undefined ? (
               <View style={numberContainerStyle}>
                 <Typography.Text style={styles.textCenter} color="neutralBase-50" weight="bold" size="title1">
@@ -112,7 +112,7 @@ export default function NafathAuthScreen() {
             {t("Onboarding.NafathAuthScreen.title")}
           </Typography.Text>
         </View>
-        <Stack direction="vertical" gap="regular">
+        <Stack direction="vertical" align="stretch" gap="regular">
           <LinkCard onNavigate={handleOnToggleModal}>
             <Typography.Text size="callout" weight="medium" color="primaryBase+10">
               {t("Onboarding.NafathAuthScreen.appButtonTitle")}
