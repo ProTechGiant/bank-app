@@ -51,18 +51,12 @@ export default function SetTemporaryAddressScreen() {
             alphaNumericSpecialCharsRegExp,
             t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.notValid")
           )
-          .min(5, t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.minLength"))
-          .max(100, t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.maxLength")),
-        addressLineTwo: Yup.string().max(
-          100,
-          t("ApplyCards.SetTemporaryAddressScreen.form.addressLineTwo.validation.maxLength")
-        ),
+          .min(5, t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.minLength")),
         district: Yup.string().required(t("ApplyCards.SetTemporaryAddressScreen.form.district.validation.required")),
         city: Yup.string().required(t("ApplyCards.SetTemporaryAddressScreen.form.city.validation.required")),
         postalCode: Yup.string()
           .required(t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.validation.required"))
-          .min(5, t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.validation.minLength"))
-          .max(5, t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.validation.maxLength")),
+          .min(5, t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.validation.minLength")),
       }),
     []
   );

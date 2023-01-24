@@ -124,15 +124,11 @@ export const resources = {
                 required: "Address line 1 is required",
                 notValid: "Address line 1 is not valid",
                 minLength: "Minimum 5 characters",
-                maxLength: "Maximum 100 characters",
               },
             },
             addressLineTwo: {
               label: "Address line 2",
               placeholder: "Address line 2",
-              validation: {
-                maxLength: "Maximum 100 characters",
-              },
             },
             district: {
               label: "District",
@@ -155,7 +151,6 @@ export const resources = {
               validation: {
                 required: "Postal code is required",
                 minLength: "Postal code is not valid",
-                maxLength: "Postal code is not valid",
               },
             },
             button: "Confirm and continue",

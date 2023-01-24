@@ -15,7 +15,7 @@ interface AddressSelectorProps {
   handlePress: (id: string) => void;
 }
 
-const AddressSelector = ({
+export default function AddressSelector({
   id,
   addressLineOne,
   addressLineTwo,
@@ -24,7 +24,7 @@ const AddressSelector = ({
   isSelected,
   isTemporary,
   handlePress,
-}: AddressSelectorProps) => {
+}: AddressSelectorProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["neutralBase-50"],
@@ -88,9 +88,7 @@ const AddressSelector = ({
       )}
     </Pressable>
   );
-};
-
-export default AddressSelector;
+}
 
 const styles = StyleSheet.create({
   addressContent: {
