@@ -66,17 +66,11 @@ export default function MobileAndNationalIdForm({ onSubmit }: MobileAndNationalI
           <View style={{ flexDirection: "row" }}>
             <View style={[areaCodeViewStyle, undefined !== errors?.MobileNumber && errorsMobileNumberStyle]}>
               <View>
-                <Image style={iconStyle} source={require("@/assets/images/KSAFlag.png")} />
+                <Image style={iconStyle} source={require("./ksa-flag.png")} />
               </View>
               <Text>+966</Text>
             </View>
-            <PhoneNumberInput
-              control={control}
-              name="MobileNumber"
-              placeholder="Enter mobile"
-              autoCompleteType="mobile"
-              keyboardType="number-pad"
-            />
+            <PhoneNumberInput<IqamaInputs> control={control} name="MobileNumber" placeholder="Enter mobile" />
           </View>
         </View>
         <TextInput

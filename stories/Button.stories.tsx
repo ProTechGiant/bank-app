@@ -29,4 +29,4 @@ const TemplateButton: ComponentStory<typeof Button> = props => {
 };
 
 export const Default = TemplateButton.bind({});
-Default.args = { variant: "primary", size: "medium" };
+Default.args = { variant: "primary" };

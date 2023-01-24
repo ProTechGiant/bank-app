@@ -1,9 +1,9 @@
-import { Image, ImageStyle } from "react-native";
+import { Image, ImageSourcePropType, ImageStyle } from "react-native";
 
 import { useThemeStyles } from "@/theme";
 
 interface RewardSectionContentProps {
-  data: { id: number; image: string };
+  data: { id: number; image: ImageSourcePropType };
 }
 
 export default function RewardSectionContent({ data }: RewardSectionContentProps) {

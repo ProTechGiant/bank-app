@@ -4,7 +4,7 @@ import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
-import { Stack } from "@/components/Stack";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import MoreInfoDropdown from "@/features/Onboarding/components/MoreInfoDropdown";
 import FinancialForm from "@/features/Onboarding/screens/FinancialInformationScreen/FinancialForm/FinancialForm";
@@ -30,7 +30,7 @@ export default function FinancialInformationScreen() {
               Tell us about your finances
             </Typography.Text>
           </View>
-          <Stack space="large">
+          <Stack direction="vertical" gap="large">
             <MoreInfoDropdown title="Why are we asking this?">
               <Typography.Text color="neutralBase" size="footnote">
                 This information is required to complete validation checks as part of joining Croatia. If this

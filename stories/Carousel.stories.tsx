@@ -43,4 +43,4 @@ const Template: ComponentStory<typeof Carousel> = args => (
 );
 
 export const Default = Template.bind({});
-Default.args = { data: carouselData, width: 500, Slide: SlideContent, pagination: true, loop: true };
+Default.args = { data: carouselData, width: 500, Slide: SlideContent, loop: true };

@@ -13,7 +13,7 @@ interface InputBoxProps {
   extraEnd?: string;
   isEditable?: boolean;
   isFocused?: boolean;
-  label?: string;
+  label?: string | null;
   multiline?: boolean;
   fieldState: ControllerFieldState;
   onPress?: () => void;
@@ -69,7 +69,7 @@ export default function InputBox({
 
   return (
     <Pressable disabled={!isEditable} onPress={onPress} style={{ flex: 1 }}>
-      {undefined !== label && <InputLabel>{label}</InputLabel>}
+      {label && <InputLabel>{label}</InputLabel>}
       <View style={containerStyle}>{children}</View>
       {(undefined !== extraStart || undefined !== extraEnd || isError) && (
         <View style={optionalLabelStyle}>

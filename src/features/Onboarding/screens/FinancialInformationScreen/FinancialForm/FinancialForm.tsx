@@ -4,7 +4,7 @@ import { View } from "react-native";
 
 import DropdownInput from "@/components/Form/DropdownInput";
 import SubmitButton from "@/components/Form/SubmitButton";
-import { Stack } from "@/components/Stack";
+import Stack from "@/components/Stack";
 import { mockCroatiaPurpose } from "@/mocks/croatiaPurposeData";
 import { mockExpectedAmount } from "@/mocks/expectedAmount";
 import { mockOccuptions } from "@/mocks/occupationData";
@@ -34,7 +34,7 @@ export default function FinancialForm() {
 
   return (
     <View style={{ marginBottom: 55 }}>
-      <Stack space="large">
+      <Stack direction="vertical" gap="large">
         <DropdownInput
           control={control}
           name="occupation"

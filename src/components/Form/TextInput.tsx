@@ -8,12 +8,15 @@ import { useThemeStyles } from "@/theme";
 import InputBox from "./internal/InputBox";
 
 interface TextInputProps<T extends FieldValues>
-  extends Omit<RNTextInputProps, "onBlur" | "onChangeText" | "onFocus" | "placeholderTextColor" | "style" | "value"> {
+  extends Omit<
+    RNTextInputProps,
+    "onBlur" | "onChangeText" | "onFocus" | "placeholderTextColor" | "placeholder" | "style" | "value"
+  > {
   control: Control<T>;
   extra?: React.ComponentProps<typeof InputBox>["extraStart"];
   isEditable?: boolean;
   name: Path<T>;
-  placeholder?: string | null;
+  placeholder?: string | null | undefined;
   label?: string | null;
   showCharacterCount?: boolean;
 }
@@ -27,6 +30,7 @@ export default function TextInput<T extends FieldValues>({
   multiline,
   name,
   showCharacterCount,
+  placeholder,
   ...restProps
 }: TextInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
@@ -69,6 +73,7 @@ export default function TextInput<T extends FieldValues>({
         onFocus={() => setIsFocused(true)}
         maxLength={maxLength}
         multiline={multiline}
+        placeholder={placeholder ?? undefined}
         placeholderTextColor={placeholderTextColor}
         style={textStyles}
         value={field.value}

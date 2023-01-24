@@ -7,11 +7,7 @@ import { useThemeStyles } from "@/theme";
 
 import InputBox from "./internal/InputBox";
 
-interface PhoneNumberInputProps<T extends FieldValues>
-  extends Omit<
-    React.ComponentProps<typeof PhoneInput>,
-    "onBlur" | "onChangeText" | "onFocus" | "placeholderTextColor" | "style" | "value"
-  > {
+interface PhoneNumberInputProps<T extends FieldValues> {
   control: Control<T>;
   extra?: React.ComponentProps<typeof InputBox>["extraStart"];
   isEditable?: boolean;

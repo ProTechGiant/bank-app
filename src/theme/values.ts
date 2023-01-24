@@ -103,10 +103,10 @@ const typography = {
   },
   text: {
     weights: {
-      regular: "400",
-      medium: "500",
-      semiBold: "600",
-      bold: "700",
+      regular: "400" as const,
+      medium: "500" as const,
+      semiBold: "600" as const,
+      bold: "700" as const,
     },
     sizes: {
       large: 34,

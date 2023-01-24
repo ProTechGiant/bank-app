@@ -13,7 +13,6 @@ function Text({ color = "neutralBase+30", size = "body", weight = "regular", sty
     theme => ({
       color: theme.palette[color],
       fontSize: theme.typography.text.sizes[size],
-      // @ts-expect-error indexing is correct
       fontWeight: theme.typography.text.weights[weight],
       lineHeight: theme.typography.text._lineHeights[size],
     }),

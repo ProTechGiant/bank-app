@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Linking, SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
 
-import { Inline } from "@/components/Inline";
 import NavHeader from "@/components/NavHeader";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";

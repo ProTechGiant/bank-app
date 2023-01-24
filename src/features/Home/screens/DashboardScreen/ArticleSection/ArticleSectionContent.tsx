@@ -1,9 +1,9 @@
-import { Image, ImageStyle, View, ViewStyle } from "react-native";
+import { Image, ImageSourcePropType, ImageStyle, View, ViewStyle } from "react-native";
 
 import { useThemeStyles } from "@/theme";
 
 interface ArticleSectionContentProps {
-  data: { id: number; image: string };
+  data: { id: number; image: ImageSourcePropType };
 }
 export default function ArticleSectionContent({ data }: ArticleSectionContentProps) {
   const container = useThemeStyles<ViewStyle>(

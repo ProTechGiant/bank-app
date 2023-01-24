@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 
 import * as icons from "@/assets/icons";
 import SectionHeader from "@/components/SectionHeader";
@@ -104,7 +112,7 @@ export default function DashboardScreen() {
     });
   };
 
-  const handleScroll = event => {
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (event.nativeEvent.contentOffset.y < 44 && headerSize !== "small") {
       setHeaderSize("full");
     } else if (

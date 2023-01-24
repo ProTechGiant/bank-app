@@ -23,9 +23,10 @@ const TemplateStandardInfoBox: ComponentStory<typeof InfoBox> = props => {
 export const StandardInfoBox = TemplateStandardInfoBox.bind({});
 StandardInfoBox.args = {
   variant: "compliment",
-  borderPosition: "left",
+  borderPosition: "start",
   title: "lorem ipsum",
-  content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+  children:
+    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
 };
 
 const TemplateCustomInfoBox: ComponentStory<typeof InfoBox> = props => {
@@ -46,6 +47,6 @@ const TemplateCustomInfoBox: ComponentStory<typeof InfoBox> = props => {
 export const CustomInfoBox = TemplateCustomInfoBox.bind({});
 CustomInfoBox.args = {
   variant: "compliment",
-  borderPosition: "left",
+  borderPosition: "start",
   children: <Text>strest</Text>,
 };

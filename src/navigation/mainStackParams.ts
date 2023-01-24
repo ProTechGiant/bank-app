@@ -1,6 +1,6 @@
 import { ApplyCardModalStackParams } from "@/features/ApplyCards/ApplyCardsStack";
 
-type MainStackParams = {
+type RootStackParams = {
   "ApplyCards.ApplyForCardStack": undefined;
   "Home.Dashboard": undefined;
   "Temporary.LandingScreen": undefined;
@@ -18,6 +18,6 @@ type MainStackParams = {
   "Settings.SettingsScreen": undefined;
 };
 
-type StackParams = MainStackParams & ApplyCardModalStackParams;
+type MainStackParams = RootStackParams & ApplyCardModalStackParams;
 
-export default StackParams;
+export default MainStackParams;
