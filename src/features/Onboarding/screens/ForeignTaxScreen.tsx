@@ -1,12 +1,14 @@
-import { View } from "react-native";
+import { SafeAreaView } from "react-native";
 
+import NavHeader from "@/components/NavHeader";
 import Typography from "@/components/Typography";
 
 const ForeignTaxScreen = () => {
   return (
-    <View>
+    <SafeAreaView>
+      <NavHeader title="ForeignTaxScreen" backButton={true} barStyle="dark-content" />
       <Typography.Text>Your Foreign Tax Residency details</Typography.Text>
-    </View>
+    </SafeAreaView>
   );
 };
 

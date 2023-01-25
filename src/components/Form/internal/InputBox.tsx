@@ -68,7 +68,7 @@ export default function InputBox({
   );
 
   return (
-    <Pressable disabled={!isEditable} onPress={onPress} style={{ flex: 1 }}>
+    <Pressable disabled={!isEditable} onPress={onPress} style={{ flexGrow: 1 }}>
       {label && <InputLabel>{label}</InputLabel>}
       <View style={containerStyle}>{children}</View>
       {(undefined !== extraStart || undefined !== extraEnd || isError) && (

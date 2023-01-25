@@ -41,6 +41,7 @@ export default function TextInput<T extends FieldValues>({
       flexGrow: 1,
       lineHeight: theme.typography.text._lineHeights.callout,
       fontSize: theme.typography.text.sizes.callout,
+      // @ts-expect-error indexing is correct
       fontWeight: theme.typography.text.weights.regular,
       padding: 0,
       marginVertical: theme.typography.text.sizes.callout - theme.typography.text._lineHeights.callout - 2,

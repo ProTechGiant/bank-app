@@ -8,6 +8,7 @@ import useI18nDirection from "@/i18n/use-i18n-direction";
 import MainStack from "@/navigation/MainStack";
 
 import { GlobalContext } from "./contexts/GlobalContext";
+import { OnboardingContextProvider } from "./features/Onboarding/context/OnboardingContext";
 import { homepageOrderData, quickActionOrderData } from "./mocks/quickActionOrderData";
 
 const queryClient = new QueryClient();
@@ -26,9 +27,11 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <GlobalContext.Provider
         value={{ homeScreenLayout, setHomeScreenLayout, referralPageViewed, setReferralPageViewed }}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <MainStack />
-        </GestureHandlerRootView>
+        <OnboardingContextProvider>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <MainStack />
+          </GestureHandlerRootView>
+        </OnboardingContextProvider>
       </GlobalContext.Provider>
     </QueryClientProvider>
   );

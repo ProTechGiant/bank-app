@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Image, ImageStyle, StyleSheet, Text, View, ViewStyle } from "react-native";
+import { Image, ImageStyle, Text, View, ViewStyle } from "react-native";
 
 import InputLabel from "@/components/Form/internal/InputLabel";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
@@ -11,7 +11,6 @@ import InfoBox from "@/components/InfoBox";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-import { vh, vw } from "@/theme/viewportUnit";
 
 import IqamaInputs from "../IqamaInputs";
 import { iqamaValidationSchema } from "./IqamaValidation";
@@ -41,8 +40,8 @@ export default function MobileAndNationalIdForm({ onSubmit }: MobileAndNationalI
     flexDirection: "row",
     height: 54,
     justifyContent: "center",
+    paddingHorizontal: theme.spacing.small,
     marginRight: theme.spacing.small,
-    width: 24 * vw,
   }));
 
   const iconStyle = useThemeStyles<ImageStyle>(theme => ({
@@ -59,8 +58,8 @@ export default function MobileAndNationalIdForm({ onSubmit }: MobileAndNationalI
   }));
 
   return (
-    <View>
-      <Stack direction="vertical" align="stretch" gap="regular">
+    <View style={{ flexDirection: "column", justifyContent: "space-between", flex: 1 }}>
+      <Stack align="stretch" direction="vertical" gap="regular">
         <View>
           <InputLabel>Mobile</InputLabel>
           <View style={{ flexDirection: "row" }}>
@@ -88,7 +87,7 @@ export default function MobileAndNationalIdForm({ onSubmit }: MobileAndNationalI
           {t("Onboarding.IqamaInputScreen.notificationText.three")}
         </InfoBox>
       </Stack>
-      <View style={styles.submitButtonView}>
+      <View>
         <SubmitButton control={control} onSubmit={handleSubmit(onSubmit)}>
           {t("Onboarding.IqamaInputScreen.continue")}
         </SubmitButton>
@@ -96,9 +95,3 @@ export default function MobileAndNationalIdForm({ onSubmit }: MobileAndNationalI
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  submitButtonView: {
-    marginTop: 24 * vh,
-  },
-});

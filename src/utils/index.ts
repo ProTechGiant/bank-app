@@ -12,6 +12,10 @@ export function isKeyOfObject<T extends object>(key: string | number | symbol, o
   return key in obj;
 }
 
+export const generateRandomId = () => {
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+};
+
 export const duplicateArr = (arr: unknown[], times: number) =>
   Array(times)
     .fill([...arr])

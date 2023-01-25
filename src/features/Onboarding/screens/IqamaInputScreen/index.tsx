@@ -1,78 +1,68 @@
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, SafeAreaView, ScrollView, View, ViewStyle } from "react-native";
+import { Alert, Pressable, ScrollView, View, ViewStyle } from "react-native";
 
+import ApiError from "@/api/ApiError";
 import NavHeader from "@/components/NavHeader";
+import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import ApiOnboardingError from "../../types/ApiOnboardingError";
 import IqamaInputs from "./IqamaInputs";
 import MobileAndNationalIdForm from "./MobileAndNationalId/MobileAndNationalIdForm";
-import useSubmitIqama from "./use-submit-iqama";
+import useIqama from "./use-iqama";
 
 export default function IqamaInputScreen() {
-  const { t, i18n } = useTranslation();
-
-  const accountSignInStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      alignSelf: "center",
-      flexDirection: "row",
-      marginTop: theme.spacing.small,
-    }),
-    []
-  );
-  const bodyStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginHorizontal: theme.spacing.medium,
-    }),
-    []
-  );
-  const container = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["neutralBase-40"],
-      flex: 1,
-    }),
-    []
-  );
-  const headerTitleStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginVertical: theme.spacing.large,
-    }),
-    []
-  );
-  const headerViewStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginBottom: theme.spacing.large,
-      marginHorizontal: theme.spacing.medium,
-    }),
-    []
-  );
+  const { t } = useTranslation();
   const navigation = useNavigation();
-  const submitIqamaSync = useSubmitIqama();
+  const { mutateAsync } = useIqama();
 
-  const ButtonPressed = () => {
+  const accountSignInStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignSelf: "center",
+    flexDirection: "row",
+    marginTop: theme.spacing.small,
+    marginBottom: theme.spacing.xlarge,
+  }));
+
+  const bodyStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing.medium,
+    flex: 1,
+  }));
+
+  const headerTitleStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginVertical: theme.spacing.large,
+  }));
+
+  const headerViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginBottom: theme.spacing.large,
+    marginHorizontal: theme.spacing.medium,
+  }));
+
+  const handleOnSignIn = () => {
     Alert.alert("signin button pressed");
   };
 
   const handleOnSubmit = async (values: IqamaInputs) => {
     try {
-      await submitIqamaSync.mutateAsync(values);
+      await mutateAsync(values);
       navigation.navigate("Onboarding.Nafath");
     } catch (error) {
-      __DEV__ && console.error(error);
+      Alert.alert(
+        "Sorry, could not complete your request",
+        error instanceof ApiError<ApiOnboardingError> ? error.errorContent.Message : undefined
+      );
     }
-    navigation.navigate("Onboarding.Nafath");
   };
 
   return (
-    <SafeAreaView style={container}>
+    <Page>
       <NavHeader title={t("Onboarding.IqamaInputScreen.navHeaderTitle")} backButton={true} barStyle="dark-content" />
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ flex: 1 }}>
         <View style={headerViewStyle}>
           <Typography.Text size="large" weight="bold" style={headerTitleStyle}>
             {t("Onboarding.IqamaInputScreen.title")}
           </Typography.Text>
-
           <Typography.Text size="callout" weight="regular">
             {t("Onboarding.IqamaInputScreen.subTitle")}
           </Typography.Text>
@@ -83,7 +73,7 @@ export default function IqamaInputScreen() {
             <Typography.Text size="callout" weight="regular">
               {t("Onboarding.IqamaInputScreen.subtext")}
             </Typography.Text>
-            <Pressable onPress={ButtonPressed}>
+            <Pressable onPress={handleOnSignIn}>
               <Typography.Text size="callout" weight="regular" color="tintBase">
                 {t("Onboarding.IqamaInputScreen.signIn")}
               </Typography.Text>
@@ -91,6 +81,6 @@ export default function IqamaInputScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </Page>
   );
 }

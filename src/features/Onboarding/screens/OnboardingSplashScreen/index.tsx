@@ -1,112 +1,81 @@
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, SafeAreaView, StatusBar, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { Alert, StatusBar, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import DarkOneGradient from "@/components/LinearGradients/GradientBackgrounds";
+import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { vh } from "@/theme/viewportUnit";
 
+import { useOnboardingContext } from "../../context/OnboardingContext";
 import LanguageToggle from "./LanguageToggle";
 
-const OnboardingSplashScreen = () => {
+export default function OnboardingSplashScreen() {
   const { t } = useTranslation();
-
-  const bodyStyle = useThemeStyles<TextStyle>(
-    theme => ({
-      color: theme.palette["neutralBase-50"],
-      fontSize: theme.typography.text.sizes.footnote,
-      fontWeight: theme.typography.text.weights.regular,
-      lineHeight: theme.typography.text._lineHeights.footnote,
-      textAlign: "center",
-    }),
-    []
-  );
-  const buttonGroupStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginHorizontal: theme.spacing.regular,
-      marginTop: "auto",
-    }),
-    []
-  );
-  const contentViewStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      paddingHorizontal: theme.spacing.regular,
-    }),
-    []
-  );
-  const headerViewStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      alignItems: "center",
-      marginBottom: theme.spacing.xlarge,
-      marginTop: 18 * vh,
-    }),
-    []
-  );
-
-  const signInContainerStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      alignItems: "center",
-      borderColor: theme.palette["neutralBase-50"],
-      borderRadius: theme.radii.extraSmall,
-      borderWidth: 1,
-      height: 54,
-      justifyContent: "center",
-      marginTop: theme.spacing.small,
-    }),
-    []
-  );
-
   const navigation = useNavigation();
+  const { startOnboardingAsync } = useOnboardingContext();
 
-  const ButtonPressed = () => {
-    Alert.alert("signin button pressed");
+  const contentViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing.regular,
+    flexDirection: "column",
+    flex: 1,
+    justifyContent: "space-between",
+  }));
+
+  const handleOnSignIn = () => {
+    Alert.alert("Sign-in process not implemented yet. Come back later!");
   };
 
-  const handleOnContinueOnboarding = () => {
-    navigation.navigate("Onboarding.Iqama");
+  const handleOnSignUp = () => {
+    const _retryableStart = async () => {
+      await startOnboardingAsync();
+      navigation.navigate("Onboarding.Iqama");
+    };
+
+    const _woopsFailed = (_error: unknown) => {
+      Alert.alert("Woops! Something went wrong :<");
+      __DEV__ && console.error("Could not start onboarding flow:", _error);
+    };
+
+    _retryableStart()
+      .catch(() => _retryableStart())
+      .catch(error => _woopsFailed(error));
   };
 
   return (
     <DarkOneGradient>
-      <SafeAreaView style={styles.container}>
+      <Page>
         <StatusBar barStyle="light-content" />
         <Stack justify="flex-end" direction="horizontal">
           <LanguageToggle />
         </Stack>
         <View style={contentViewStyle}>
-          <View style={headerViewStyle}>
-            <Typography.Text size="large" weight="bold" color="neutralBase-50">
-              {t("Onboarding.SplashScreen.title")}
-            </Typography.Text>
-          </View>
           <View>
-            <Typography.Text size="footnote" weight="regular" color="neutralBase-50" style={bodyStyle}>
-              {t("Onboarding.SplashScreen.subTitle")}
-            </Typography.Text>
+            <View style={{ alignItems: "center", marginTop: "50%" }}>
+              <Typography.Text size="large" weight="bold" color="neutralBase-50">
+                {t("Onboarding.SplashScreen.title")}
+              </Typography.Text>
+            </View>
+            <View>
+              <Typography.Text size="footnote" weight="regular" color="neutralBase-50" style={{ textAlign: "center" }}>
+                {t("Onboarding.SplashScreen.subTitle")}
+              </Typography.Text>
+            </View>
           </View>
+          <Stack align="stretch" direction="vertical" gap="small">
+            <Button variant="primary" color="alt" onPress={handleOnSignUp}>
+              {t("Onboarding.SplashScreen.buttons.signUp")}
+            </Button>
+            <Button color="alt" onPress={handleOnSignIn} variant="tertiary">
+              <Typography.Text color="neutralBase-50" size="body" weight="regular">
+                {t("Onboarding.SplashScreen.buttons.signIn")}
+              </Typography.Text>
+            </Button>
+          </Stack>
         </View>
-        <View style={buttonGroupStyle}>
-          <Button variant="primary" color="alt" onPress={handleOnContinueOnboarding}>
-            {t("Onboarding.SplashScreen.buttons.signUp")}
-          </Button>
-          <Pressable onPress={ButtonPressed} style={signInContainerStyle}>
-            <Typography.Text color="neutralBase-50" size="body" weight="regular">
-              {t("Onboarding.SplashScreen.buttons.signIn")}
-            </Typography.Text>
-          </Pressable>
-        </View>
-      </SafeAreaView>
+      </Page>
     </DarkOneGradient>
   );
-};
-
-export default OnboardingSplashScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+}
