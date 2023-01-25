@@ -8,12 +8,14 @@ import { default as DisabledPlusIcon } from "./disabledPlus.svg";
 import { DownArrowIcon } from "./down-arrow-icon";
 import { default as ErrorIcon } from "./error.svg";
 import { default as ErrorBlackIcon } from "./error-black.svg";
+import { ErrorFilledCircleIcon } from "./error-filled-circle";
 import { default as FriendIcon } from "./friend.svg";
 import { default as FriendsIcon } from "./friends.svg";
 import { GlobeIcon } from "./globe";
 import { default as HamburgerIcon } from "./hamburger.svg";
 import { default as InfoIcon } from "./info.svg";
 import { default as InfoCircleIcon } from "./info-circle.svg";
+import { InfoFilledCircleIcon } from "./info-filled-circle";
 import { default as LocationPinIcon } from "./location-pin.svg";
 import { MapMarkerIcon } from "./map-marker";
 import { default as MinusIcon } from "./minus.svg";
@@ -49,12 +51,14 @@ export {
   DisabledPlusIcon,
   DownArrowIcon,
   ErrorBlackIcon,
+  ErrorFilledCircleIcon,
   ErrorIcon,
   FriendIcon,
   FriendsIcon,
   GlobeIcon,
   HamburgerIcon,
   InfoCircleIcon,
+  InfoFilledCircleIcon,
   InfoIcon,
   LocationPinIcon,
   MapMarkerIcon,

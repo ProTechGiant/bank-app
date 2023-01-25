@@ -1,8 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Image, ImageStyle, Text, View, ViewStyle } from "react-native";
+import { Image, ImageStyle, Pressable, ScrollView, Text, View, ViewStyle } from "react-native";
 
+import Banner from "@/components/Banner";
 import InputLabel from "@/components/Form/internal/InputLabel";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
@@ -12,16 +13,22 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import { ErrorMessageType } from "..";
 import IqamaInputs from "../IqamaInputs";
 import { iqamaValidationSchema } from "./IqamaValidation";
 
 interface MobileAndNationalIdFormProps {
   onSubmit: (values: IqamaInputs) => Promise<void>;
+  onSigninPress: () => void;
+  errorMessages: ErrorMessageType[];
 }
 
-export default function MobileAndNationalIdForm({ onSubmit }: MobileAndNationalIdFormProps) {
+export default function MobileAndNationalIdForm({
+  onSubmit,
+  onSigninPress,
+  errorMessages,
+}: MobileAndNationalIdFormProps) {
   const { t } = useTranslation();
-
   const {
     control,
     handleSubmit,
@@ -30,6 +37,22 @@ export default function MobileAndNationalIdForm({ onSubmit }: MobileAndNationalI
     resolver: yupResolver(iqamaValidationSchema),
     mode: "onBlur",
   });
+
+  const scrollContainer = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingHorizontal: theme.spacing.medium,
+    }),
+    []
+  );
+
+  const headerViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginBottom: theme.spacing.large,
+    marginHorizontal: theme.spacing.medium,
+  }));
+
+  const headerTitleStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginVertical: theme.spacing.large,
+  }));
 
   const areaCodeViewStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
@@ -51,46 +74,114 @@ export default function MobileAndNationalIdForm({ onSubmit }: MobileAndNationalI
     width: theme.iconDimensions.notifications,
   }));
 
+  const inputFieldsStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      marginBottom: theme.spacing.medium,
+    }),
+    []
+  );
+
   const errorsMobileNumberStyle = useThemeStyles<ViewStyle>(theme => ({
     borderWidth: 2,
     backgroundColor: theme.palette["errorBase-40"],
     borderColor: theme.palette["errorBase-10"],
   }));
 
+  const accountSignInStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignSelf: "center",
+    flexDirection: "row",
+    marginTop: theme.spacing.small,
+    marginBottom: theme.spacing.xlarge,
+  }));
+
+  const submitButtonView = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignSelf: "flex-end",
+      width: "100%",
+      paddingHorizontal: theme.spacing.medium,
+    }),
+    []
+  );
+
   return (
     <View style={{ flexDirection: "column", justifyContent: "space-between", flex: 1 }}>
-      <Stack align="stretch" direction="vertical" gap="regular">
+      <ScrollView style={scrollContainer}>
+        <View style={headerViewStyle}>
+          <Typography.Text size="large" weight="bold" style={headerTitleStyle}>
+            {t("Onboarding.IqamaInputScreen.title")}
+          </Typography.Text>
+          <Typography.Text size="callout" weight="regular">
+            {t("Onboarding.IqamaInputScreen.subTitle")}
+          </Typography.Text>
+        </View>
         <View>
-          <InputLabel>Mobile</InputLabel>
-          <View style={{ flexDirection: "row" }}>
-            <View style={[areaCodeViewStyle, undefined !== errors?.MobileNumber && errorsMobileNumberStyle]}>
+          <View style={inputFieldsStyle}>
+            <Stack direction="vertical" align="stretch" gap="regular">
+              {errorMessages.length > 0 &&
+                errorMessages.map((err, index: number) =>
+                  typeof err.message === "string" ? (
+                    <Banner key={`err_${index}`} color={err.backgroundColor} icon={err.icon} message={err.message} />
+                  ) : (
+                    <InfoBox key={`err_${index}`} variant="compliment" borderPosition="start">
+                      {err.link ? (
+                        <Pressable onPress={onSigninPress}>
+                          <Typography.Text size="footnote" weight="regular">
+                            {err.message}
+                          </Typography.Text>
+                        </Pressable>
+                      ) : (
+                        <Typography.Text size="footnote" weight="regular">
+                          {err.message}
+                        </Typography.Text>
+                      )}
+                    </InfoBox>
+                  )
+                )}
               <View>
-                <Image style={iconStyle} source={require("./ksa-flag.png")} />
+                <InputLabel>Mobile</InputLabel>
+                <View style={{ flexDirection: "row" }}>
+                  <View style={[areaCodeViewStyle, undefined !== errors?.MobileNumber && errorsMobileNumberStyle]}>
+                    <View>
+                      <Image style={iconStyle} source={require("./ksa-flag.png")} />
+                    </View>
+                    <Text>+966</Text>
+                  </View>
+                  <PhoneNumberInput<IqamaInputs> control={control} name="MobileNumber" placeholder="Enter mobile" />
+                </View>
               </View>
-              <Text>+966</Text>
-            </View>
-            <PhoneNumberInput<IqamaInputs> control={control} name="MobileNumber" placeholder="Enter mobile" />
+              <TextInput
+                control={control}
+                name="NationalId"
+                label={t("Onboarding.IqamaInputScreen.iqamaLabel")}
+                placeholder={t("Onboarding.IqamaInputScreen.iqamaPlaceholder")}
+                keyboardType="number-pad"
+              />
+              <InfoBox variant="compliment" borderPosition="start">
+                {t("Onboarding.IqamaInputScreen.notificationText.one")}{" "}
+                <Typography.Text color="primaryBase+30" size="caption1" weight="bold">
+                  {t("Onboarding.IqamaInputScreen.notificationText.two")}
+                </Typography.Text>{" "}
+                {t("Onboarding.IqamaInputScreen.notificationText.three")}
+              </InfoBox>
+            </Stack>
           </View>
         </View>
-        <TextInput
-          control={control}
-          name="NationalId"
-          label={t("Onboarding.IqamaInputScreen.iqamaLabel")}
-          placeholder={t("Onboarding.IqamaInputScreen.iqamaPlaceholder")}
-          keyboardType="number-pad"
-        />
-        <InfoBox variant="compliment" borderPosition="start">
-          {t("Onboarding.IqamaInputScreen.notificationText.one")}{" "}
-          <Typography.Text color="primaryBase+30" size="caption1" weight="bold">
-            {t("Onboarding.IqamaInputScreen.notificationText.two")}
-          </Typography.Text>{" "}
-          {t("Onboarding.IqamaInputScreen.notificationText.three")}
-        </InfoBox>
-      </Stack>
-      <View>
-        <SubmitButton control={control} onSubmit={handleSubmit(onSubmit)}>
+      </ScrollView>
+
+      <View style={submitButtonView}>
+        <SubmitButton block control={control} onSubmit={handleSubmit(onSubmit)}>
           {t("Onboarding.IqamaInputScreen.continue")}
         </SubmitButton>
+        <View style={accountSignInStyle}>
+          <Typography.Text size="callout" weight="regular">
+            {t("Onboarding.IqamaInputScreen.subtext")}
+          </Typography.Text>
+          <Pressable onPress={onSigninPress}>
+            <Typography.Text size="callout" weight="regular" color="tintBase">
+              {t("Onboarding.IqamaInputScreen.signIn")}
+            </Typography.Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );

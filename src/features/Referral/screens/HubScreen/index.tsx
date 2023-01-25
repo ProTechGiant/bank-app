@@ -5,9 +5,9 @@ import { Platform, Pressable, ScrollView, View, ViewStyle } from "react-native";
 
 import { FriendIcon, ShareCopyIcon, ShareIcon } from "@/assets/icons";
 import Button from "@/components/Button";
+import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import SectionHeader from "@/components/SectionHeader";
-import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import useNavigation from "@/navigation/use-navigation";
@@ -107,7 +107,7 @@ export default function HubScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      <Toast showToast={showToast} message="Code copied" />
+      <DismissibleBanner showToast={showToast} message="Code copied" />
       <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
         <View style={headerContainerStyle}>
           <NavHeader

@@ -1,46 +1,91 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, ScrollView, View, ViewStyle } from "react-native";
+import { Alert } from "react-native";
+import { SvgProps } from "react-native-svg";
 
 import ApiError from "@/api/ApiError";
+import { ErrorFilledCircleIcon, IconProps, InfoFilledCircleIcon } from "@/assets/icons";
+import { BannerColorType } from "@/components/Banner";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
 
 import ApiOnboardingError from "../../types/ApiOnboardingError";
 import IqamaInputs from "./IqamaInputs";
 import MobileAndNationalIdForm from "./MobileAndNationalId/MobileAndNationalIdForm";
 import useIqama from "./use-iqama";
+import { IqamaError } from "./use-submit-iqama";
+export interface ErrorMessageType {
+  message: string | JSX.Element;
+  icon: React.ReactElement<SvgProps | IconProps>;
+  backgroundColor: BannerColorType;
+  link?: string;
+}
 
 export default function IqamaInputScreen() {
   const { t } = useTranslation();
+  const [errorMessages, setErrorsMessages] = useState<ErrorMessageType[]>([]);
+  const { mutateAsync, error } = useIqama();
   const navigation = useNavigation();
-  const { mutateAsync } = useIqama();
-
-  const accountSignInStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignSelf: "center",
-    flexDirection: "row",
-    marginTop: theme.spacing.small,
-    marginBottom: theme.spacing.xlarge,
-  }));
-
-  const bodyStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing.medium,
-    flex: 1,
-  }));
-
-  const headerTitleStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginVertical: theme.spacing.large,
-  }));
-
-  const headerViewStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing.large,
-    marginHorizontal: theme.spacing.medium,
-  }));
+  // const submitIqamaError = error as IqamaError;
 
   const handleOnSignIn = () => {
     Alert.alert("signin button pressed");
+  };
+
+  const getErrorMessages = (type: string) => {
+    const messages: { [key: string]: ErrorMessageType } = {
+      "0001": {
+        message: t("Onboarding.IqamaInputScreen.errorText.twoAttemptsLeft"),
+        icon: <InfoFilledCircleIcon />,
+        backgroundColor: "tintBase-30",
+      },
+      "0002": {
+        message: t("Onboarding.IqamaInputScreen.errorText.oneAttemptsLeft"),
+        icon: <InfoFilledCircleIcon />,
+        backgroundColor: "tintBase-30",
+      },
+      "0003": {
+        message: t("Onboarding.IqamaInputScreen.errorText.noAttemptsLeft"),
+        icon: <ErrorFilledCircleIcon />,
+        backgroundColor: "errorBase-40",
+      },
+      "0004": {
+        message: t("Onboarding.IqamaInputScreen.errorText.noMatch"),
+        icon: <ErrorFilledCircleIcon />,
+        backgroundColor: "errorBase-40",
+      },
+      "0005": {
+        message: t("Onboarding.IqamaInputScreen.errorText.cannotOpen"),
+        icon: <ErrorFilledCircleIcon />,
+        backgroundColor: "errorBase-40",
+      },
+      "0006": {
+        message: t("Onboarding.IqamaInputScreen.errorText.regulatoryCheck"),
+        icon: <ErrorFilledCircleIcon />,
+        backgroundColor: "errorBase-40",
+      },
+      "0007": {
+        message: (
+          <>
+            {t("Onboarding.IqamaInputScreen.errorText.hasAccount.warning")}{" "}
+            <Typography.Text color="primaryBase+30" size="caption1" weight="bold">
+              {t("Onboarding.IqamaInputScreen.errorText.hasAccount.signin")}
+            </Typography.Text>
+          </>
+        ),
+        icon: <ErrorFilledCircleIcon />,
+        backgroundColor: "errorBase-40",
+        link: "Sign In",
+      },
+      default: {
+        message: "You cannot open an account this time",
+        icon: <ErrorFilledCircleIcon />,
+        backgroundColor: "errorBase-40",
+      },
+    };
+    return messages[type] || messages["default"];
   };
 
   const handleOnSubmit = async (values: IqamaInputs) => {
@@ -52,6 +97,8 @@ export default function IqamaInputScreen() {
         "Sorry, could not complete your request",
         error instanceof ApiError<ApiOnboardingError> ? error.errorContent.Message : undefined
       );
+      // setErrorsMessages(submitIqamaError.errorContent.Errors.map(err => getErrorMessages(err.ErrorCode)));
+      setErrorsMessages([getErrorMessages("0001")]);
     }
   };
 
@@ -63,29 +110,8 @@ export default function IqamaInputScreen() {
         barStyle="dark-content"
         rightComponent="close"
       />
-      <ScrollView contentContainerStyle={{ flex: 1 }}>
-        <View style={headerViewStyle}>
-          <Typography.Text size="large" weight="bold" style={headerTitleStyle}>
-            {t("Onboarding.IqamaInputScreen.title")}
-          </Typography.Text>
-          <Typography.Text size="callout" weight="regular">
-            {t("Onboarding.IqamaInputScreen.subTitle")}
-          </Typography.Text>
-        </View>
-        <View style={bodyStyle}>
-          <MobileAndNationalIdForm onSubmit={handleOnSubmit} />
-          <View style={accountSignInStyle}>
-            <Typography.Text size="callout" weight="regular">
-              {t("Onboarding.IqamaInputScreen.subtext")}
-            </Typography.Text>
-            <Pressable onPress={handleOnSignIn}>
-              <Typography.Text size="callout" weight="regular" color="tintBase">
-                {t("Onboarding.IqamaInputScreen.signIn")}
-              </Typography.Text>
-            </Pressable>
-          </View>
-        </View>
-      </ScrollView>
+
+      <MobileAndNationalIdForm onSubmit={handleOnSubmit} errorMessages={errorMessages} onSigninPress={handleOnSignIn} />
     </Page>
   );
 }

@@ -15,6 +15,18 @@ export const resources = {
           },
         },
         IqamaInputScreen: {
+          errorText: {
+            twoAttemptsLeft: "You have tried to sign up 3 times. You have 2 attempts remaining.",
+            oneAttemptsLeft: "You have tried to sign up 4 times. You have 1 attempts remaining.",
+            noAttemptsLeft: "You have tried 5 times to sign up.\n\n Please wait until tomorrow before retrying.",
+            noMatch: "The mobile number and ID given aren’t linked to an Absher profile",
+            cannotOpen: "You cannot open an account this time",
+            regulatoryCheck: "Due to a regulatory check we can’t open an account for you right now",
+            hasAccount: {
+              warning: "You’ve already joined Croatia,",
+              signin: "sign in now",
+            },
+          },
           navHeaderTitle: "SIGN UP",
           title: "Let's go",
           subTitle: "Let’s start with your contact and ID details:",

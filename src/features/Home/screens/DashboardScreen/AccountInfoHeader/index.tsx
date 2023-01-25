@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Dimensions, LayoutAnimation, Pressable, SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
 
 import BulletinBoard from "@/components/BulletinBoard";
-import Toast from "@/components/Toast";
+import DismissibleBanner from "@/components/DismissibleBanner";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { pluralize } from "@/utils";
@@ -86,7 +86,7 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
 
   return (
     <SafeAreaView style={[container, headerWrapperStyle]}>
-      <Toast showToast={showToast} message={t("Home.DashboardScreen.AccountInfoHeader.IBANCopied") ?? ""} />
+      <DismissibleBanner showToast={showToast} message={t("Home.DashboardScreen.AccountInfoHeader.IBANCopied") ?? ""} />
       <View style={headerStyle}>
         <Typography.Text color="neutralBase-50" weight="medium" size="callout">
           {data.currentAccountName?.toUpperCase()}

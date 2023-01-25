@@ -65,7 +65,7 @@ const palette = {
   "errorBase+30": "#2B1010",
   "errorBase+20": "#562020",
   "errorBase+10": "#813030",
-  errorBase: "#D75050",
+  errorBase: "#C50707",
   "errorBase-10": "#E79696",
   "errorBase-20": "#EFB9B9",
   "errorBase-30": "#F7DCDC",
