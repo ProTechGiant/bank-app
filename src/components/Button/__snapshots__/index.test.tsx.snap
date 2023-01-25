@@ -44,7 +44,7 @@ exports[`components/Button renders a primary button 1`] = `
         Array [
           undefined,
           Object {
-            "color": "#F4F4F4FF",
+            "color": "#F4F4F4",
             "fontSize": 17,
             "fontWeight": "400",
             "lineHeight": 22,
