@@ -25,7 +25,7 @@ export default function ApplePayActivatedScreen() {
   return (
     <DarkOneGradient>
       <Page>
-        <NavHeader title="" backButton={false} color="white" />
+        <NavHeader title="" backButton={false} color="white" rightComponent="close" />
         <ContentContainer>
           <Stack direction="vertical" justify="space-between" align="center">
             <View style={styles.iconContainer}>

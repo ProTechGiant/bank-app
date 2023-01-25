@@ -62,7 +62,7 @@ export default function ConfirmPersonalDetailsScreen() {
   return (
     <>
       <Page>
-        <NavHeader title="CONFIRMATION" backButton={true}>
+        <NavHeader title="CONFIRMATION" backButton={true} rightComponent="close">
           <ProgressIndicator currentStep={1} totalStep={6} />
         </NavHeader>
         <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12 }}>

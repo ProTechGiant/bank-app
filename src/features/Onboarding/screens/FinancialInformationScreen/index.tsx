@@ -42,7 +42,7 @@ export default function FinancialInformationScreen() {
 
   return (
     <Page>
-      <NavHeader title="ABOUT YOU" backButton={true} barStyle="dark-content">
+      <NavHeader title="ABOUT YOU" backButton={true} barStyle="dark-content" rightComponent="close">
         <ProgressIndicator currentStep={3} totalStep={6} />
       </NavHeader>
       <ScrollView>

@@ -30,7 +30,7 @@ export default function CardOrderedScreen() {
   return (
     <DarkOneGradient>
       <Page>
-        <NavHeader title="" backButton={false} color="white" />
+        <NavHeader title="" backButton={false} color="white" rightComponent="close" />
         <ContentContainer>
           <Stack direction="vertical" gap="medium" align="center">
             <View style={styles.iconContainer}>

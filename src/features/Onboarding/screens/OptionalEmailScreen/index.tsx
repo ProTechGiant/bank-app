@@ -43,7 +43,7 @@ export default function OptionalEmailScreen() {
 
   return (
     <Page>
-      <NavHeader title="EMAIL" backButton={true}>
+      <NavHeader title="EMAIL" backButton={true} rightComponent="close">
         <ProgressIndicator currentStep={2} totalStep={6} />
       </NavHeader>
       <ScrollView>

@@ -57,7 +57,12 @@ export default function IqamaInputScreen() {
 
   return (
     <Page>
-      <NavHeader title={t("Onboarding.IqamaInputScreen.navHeaderTitle")} backButton={true} barStyle="dark-content" />
+      <NavHeader
+        title={t("Onboarding.IqamaInputScreen.navHeaderTitle")}
+        backButton={true}
+        barStyle="dark-content"
+        rightComponent="close"
+      />
       <ScrollView contentContainerStyle={{ flex: 1 }}>
         <View style={headerViewStyle}>
           <Typography.Text size="large" weight="bold" style={headerTitleStyle}>

@@ -92,6 +92,7 @@ export default function SetTemporaryAddressScreen() {
         closeButtonHandler={() => {
           navigation.navigate("ApplyCards.SetPinAndAddress");
         }}
+        rightComponent="close"
       />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <ContentContainer style={containerStyle}>

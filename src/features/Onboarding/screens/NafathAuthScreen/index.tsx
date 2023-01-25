@@ -68,7 +68,12 @@ export default function NafathAuthScreen() {
 
   return (
     <SafeAreaView>
-      <NavHeader title={t("Onboarding.NafathAuthScreen.navHeaderTitle")} backButton={true} barStyle="dark-content" />
+      <NavHeader
+        title={t("Onboarding.NafathAuthScreen.navHeaderTitle")}
+        backButton={true}
+        barStyle="dark-content"
+        rightComponent="close"
+      />
       <View style={container}>
         <LinkModal
           modalVisible={isModalVisible}

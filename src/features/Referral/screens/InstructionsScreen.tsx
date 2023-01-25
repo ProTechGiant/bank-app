@@ -7,9 +7,9 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
+import { useGlobalContext } from "@/contexts/GlobalContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { useGlobalContext } from "@/contexts/GlobalContext";
 
 export default function InstructionsScreen() {
   const { width } = useWindowDimensions();
