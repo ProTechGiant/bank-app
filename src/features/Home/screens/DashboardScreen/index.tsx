@@ -77,6 +77,9 @@ export default function DashboardScreen() {
         if (quickAction.key === "settings") {
           navigation.navigate("Settings.SettingsScreen");
         }
+        if (quickAction.key === "referrals") {
+          navigation.navigate("Referral.HubScreen");
+        }
       };
       return <QuickAction key={quickAction.key} title={quickAction.label} icon={<Icon />} onPress={handleOnPress} />;
     });

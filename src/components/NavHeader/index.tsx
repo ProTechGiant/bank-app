@@ -25,7 +25,7 @@ export default function NavHeader({
   backButtonHandler,
   closeButtonHandler,
   color = "black",
-  rightComponent = "close",
+  rightComponent,
   children,
 }: NavHeaderProps) {
   const { i18n } = useTranslation();
@@ -87,7 +87,8 @@ export default function NavHeader({
             </Pressable>
           </View>
         ) : (
-          rightComponent.text && (
+          rightComponent?.text &&
+          rightComponent?.handler && (
             <TouchableOpacity onPress={rightComponent.handler}>
               <Typography.Text color="primaryBase-10">{rightComponent.text}</Typography.Text>
             </TouchableOpacity>

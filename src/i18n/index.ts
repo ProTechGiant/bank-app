@@ -5,9 +5,6 @@ import { I18nManager } from "react-native";
 export const resources = {
   en: {
     translation: {
-      Common: {
-        share: "Share",
-      },
       Onboarding: {
         SplashScreen: {
           title: "You're in control now",
@@ -178,6 +175,7 @@ export const resources = {
         },
       },
       Referral: {
+        share: "Share",
         read: "Read more in ",
         termsAndConditions: "Terms & Conditions",
         HubScreen: {
@@ -199,6 +197,24 @@ export const resources = {
           rewardSubtext:
             "You’ll both earn 15 SAR. If your friend joins as a Plus Tier customer their reward goes up to 25 SAR.",
           buttonText: "Start recommending",
+        },
+        InstructionsScreen: {
+          skip: "Skip",
+          continue: "Continue",
+          1: {
+            title: "Recommend for rewards",
+            subText: "Tell a friend or family member about Croatia and earn yourself cash rewards.",
+          },
+          2: {
+            title: "Unlimited referrals",
+            subText:
+              "Share your referral code to as many people as you like. You’ll earn cash rewards when they start using the app.",
+          },
+          3: {
+            title: "Both of you get rewards",
+            subText:
+              "You'll both earn 15 SAR. And if your friend joins our Plus Tier, they’ll get an increase to 25 SAR.",
+          },
         },
       },
     },
@@ -244,6 +260,23 @@ export const resources = {
           siteButtonBody: "You will be taken from this app to the Nafath site",
           dropdownTitle: "Why do I have to use Nafath?",
           dropdownBody: "Nafath enables Croatia to verify your identity",
+        },
+      },
+      InstructionsScreen: {
+        skip: "تخطى",
+        continue: "متابعة",
+        1: {
+          title: "علّمهم عن 'يمدي' وحنا نكافئك",
+          subText: "عرّف أصدقائك وعائلتك على 'يمدي' واحصل على مكافأة كاش بحسابك.",
+        },
+        2: {
+          title: "الدعوة مفتوحة",
+          subText: "شارك كود الدعوة مع كل إللي تعرفهم وراح نكافئك بكاش من أول لحظة يستخدمون فيها للتطبيق.",
+        },
+        3: {
+          title: "المكافأة للطرفين",
+          subText:
+            "مرسل ومُستقبِل الدعوة راح يحصلون على مكافأة 15 ريال سعودي. وعملاء فئة بلس 25 ريال سعودي عن كل دعوة.",
         },
       },
     },

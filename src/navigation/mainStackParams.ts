@@ -15,6 +15,7 @@ type RootStackParams = {
   "Onboarding.OptionalEmail": undefined;
   "Referral.HubScreen": undefined;
   "Referral.HowItWorksModal": undefined;
+  "Referral.InstructionsScreen": undefined;
   "Settings.SettingsScreen": undefined;
 };
 

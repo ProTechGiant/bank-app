@@ -21,23 +21,30 @@ export const quickActionOrderData: quickActionReorderItem[] = [
   {
     key: "split",
     label: "Split bill",
-    active: true,
+    active: false,
     description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
     icon: "SplitIcon",
   },
   {
     key: "transfer",
     label: "Transfer",
-    active: true,
+    active: false,
     description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
     icon: "TransferIcon",
   },
   {
     key: "settings",
     label: "Settings",
-    active: false,
+    active: true,
     description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
     icon: "SettingsIcon",
+  },
+  {
+    key: "referrals",
+    label: "Referrals",
+    active: true,
+    description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
+    icon: "ReferralIcon",
   },
 ];
 

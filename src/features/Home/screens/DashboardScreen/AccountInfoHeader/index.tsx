@@ -66,6 +66,7 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
   const { t } = useTranslation();
   const { data } = useFetchAccount();
   const [showToast, setShowToast] = useState(false);
+  const [balanceHidden, setBalanceHidden] = useState(false);
 
   const handleOnCopyCodePress = () => {
     Clipboard.setString(data.currentAccountIBAN);

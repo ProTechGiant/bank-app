@@ -1,5 +1,5 @@
 import Clipboard from "@react-native-clipboard/clipboard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, Pressable, ScrollView, View, ViewStyle } from "react-native";
 
@@ -9,6 +9,7 @@ import NavHeader from "@/components/NavHeader";
 import SectionHeader from "@/components/SectionHeader";
 import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
+import { useGlobalContext } from "@/contexts/GlobalContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -84,6 +85,7 @@ export default function HubScreen() {
 
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const { referralPageViewed } = useGlobalContext();
 
   const handleOnCopyCodePress = () => {
     Clipboard.setString(referralCode);
@@ -96,6 +98,12 @@ export default function HubScreen() {
   const handleOnHowItWorksPress = () => {
     navigation.navigate("Referral.HowItWorksModal");
   };
+
+  useEffect(() => {
+    if (referralPageViewed === false) {
+      navigation.navigate("Referral.InstructionsScreen");
+    }
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -140,7 +148,7 @@ export default function HubScreen() {
           color="alt"
           iconLeft={<ShareIcon height={shareIconDimensions} width={shareIconDimensions} />}>
           <Typography.Text color="neutralBase-50" weight="semiBold" size="callout">
-            {t("Common.share")}
+            {t("Referral.share")}
           </Typography.Text>
         </Button>
         <View style={captionTextWrapperStyle}>

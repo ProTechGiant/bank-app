@@ -14,6 +14,7 @@ import OnboardingSplashScreen from "@/features/Onboarding/screens/OnboardingSpla
 import OptionalEmailScreen from "@/features/Onboarding/screens/OptionalEmailScreen";
 import HowItWorksModal from "@/features/Referral/screens/HowItWorksModal";
 import HubScreen from "@/features/Referral/screens/HubScreen";
+import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
 import SettingsScreen from "@/features/Settings/screens/SettingsScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 
@@ -47,6 +48,11 @@ export default function MainStack() {
           }}
         />
         <Stack.Screen component={HubScreen} name="Referral.HubScreen" options={{ headerShown: false }} />
+        <Stack.Screen
+          component={InstructionsScreen}
+          name="Referral.InstructionsScreen"
+          options={{ headerShown: false }}
+        />
         <Stack.Group screenOptions={{ headerShown: false }}>
           <Stack.Screen
             component={OnboardingSplashScreen}

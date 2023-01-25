@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { ViewStyle, TouchableOpacity } from "react-native";
+import { TouchableOpacity, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import Typography from "@/components/Typography";

@@ -21,6 +21,7 @@ import { default as NotificationIcon } from "./notification.svg";
 import { default as PlusIcon } from "./plus.svg";
 import { default as PostcardIcon } from "./postcard.svg";
 import { default as QuestionIcon } from "./question.svg";
+import { default as ReferralIcon } from "./referral.svg";
 import { default as SettingsIcon } from "./settings.svg";
 import { default as ShareIcon } from "./share.svg";
 import { default as ShareCopyIcon } from "./share-copy.svg";
@@ -62,6 +63,7 @@ export {
   PlusIcon,
   PostcardIcon,
   QuestionIcon,
+  ReferralIcon,
   SettingsIcon,
   ShareCopyIcon,
   ShareIcon,

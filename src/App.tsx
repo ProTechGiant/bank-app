@@ -20,9 +20,12 @@ export default function App() {
     homepageOrderData,
   });
 
+  const [referralPageViewed, setReferralPageViewed] = useState(false);
+
   return (
     <QueryClientProvider client={queryClient}>
-      <GlobalContext.Provider value={{ homeScreenLayout, setHomeScreenLayout }}>
+      <GlobalContext.Provider
+        value={{ homeScreenLayout, setHomeScreenLayout, referralPageViewed, setReferralPageViewed }}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <MainStack />
         </GestureHandlerRootView>
