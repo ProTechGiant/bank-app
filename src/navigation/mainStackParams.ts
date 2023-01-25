@@ -1,24 +1,19 @@
 import { ApplyCardModalStackParams } from "@/features/ApplyCards/ApplyCardsStack";
+import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
 
 type RootStackParams = {
   "ApplyCards.ApplyForCardStack": undefined;
   "Home.Dashboard": undefined;
   "Temporary.LandingScreen": undefined;
-  "Onboarding.SplashScreen": undefined;
-  "Onboarding.Iqama": undefined;
-  "Onboarding.Nafath": undefined;
-  "Onboarding.ConfirmDetails": undefined;
+  "Onboarding.OnboardingStack": undefined;
   "Modal.QuickActionsReorderModal": undefined;
-  "Onboarding.Financial": undefined;
   "Modal.HomepageReorderModal": undefined;
-  "Onboarding.ForeignTax": undefined;
-  "Onboarding.OptionalEmail": undefined;
   "Referral.HubScreen": undefined;
   "Referral.HowItWorksModal": undefined;
   "Referral.InstructionsScreen": undefined;
   "Settings.SettingsScreen": undefined;
 };
 
-type MainStackParams = RootStackParams & ApplyCardModalStackParams;
+type MainStackParams = RootStackParams & ApplyCardModalStackParams & OnboardingStackParams;
 
 export default MainStackParams;

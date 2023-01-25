@@ -16,7 +16,7 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnOpenOnboarding = () => {
-    navigation.navigate("Onboarding.SplashScreen");
+    navigation.navigate("Onboarding.OnboardingStack");
   };
 
   const handleOnSwitchDirection = () => {
