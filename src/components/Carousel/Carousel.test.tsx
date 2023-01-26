@@ -1,8 +1,7 @@
-import { fireEvent, render, screen } from "@testing-library/react-native";
+import { render, screen } from "@testing-library/react-native";
 import { Text, View } from "react-native";
 import { create } from "react-test-renderer";
 
-import Button from "../Button";
 import { Carousel } from "./index";
 
 const data = [

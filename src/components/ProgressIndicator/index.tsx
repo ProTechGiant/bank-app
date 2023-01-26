@@ -1,4 +1,4 @@
-import { times } from "lodash";
+import times from "lodash/times";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { useThemeStyles } from "@/theme";
@@ -8,7 +8,7 @@ type ProgressIndicatorProps = {
   totalStep: number;
 };
 
-const ProgressIndicator = ({ currentStep, totalStep }: ProgressIndicatorProps) => {
+export default function ProgressIndicator({ currentStep, totalStep }: ProgressIndicatorProps) {
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
@@ -36,10 +36,7 @@ const ProgressIndicator = ({ currentStep, totalStep }: ProgressIndicatorProps) =
   );
 
   return (
-    <View
-      accessibilityLabel={`Step ${currentStep} of ${totalStep}`}
-      accessibilityRole="progressbar"
-      style={containerStyle}>
+    <View style={containerStyle}>
       {times(totalStep, (index: number) => (
         <View
           key={index}
@@ -52,12 +49,10 @@ const ProgressIndicator = ({ currentStep, totalStep }: ProgressIndicatorProps) =
       ))}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   progressBarLast: {
     marginRight: 0,
   },
 });
-
-export default ProgressIndicator;

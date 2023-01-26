@@ -119,7 +119,7 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
 
   return (
     <SafeAreaView style={[container, headerWrapperStyle]}>
-      <DismissibleBanner showToast={showToast} message={t("Home.DashboardScreen.AccountInfoHeader.IBANCopied") ?? ""} />
+      <DismissibleBanner visible={showToast} message={t("Home.DashboardScreen.AccountInfoHeader.IBANCopied") ?? ""} />
       <View style={[headerStyle, size !== "full" && smallHeaderStyle]}>
         <Typography.Text color="neutralBase-50" weight="medium" size="callout">
           {data.currentAccountName?.toUpperCase()}

@@ -21,7 +21,7 @@ export default function BulletinBoard<T>({ data, title }: BulletinBoardProps<T>)
     setDropdownVisible(!dropdownVisible);
   };
 
-  if (!data?.length) return <></>;
+  if (data.length === 0) return null;
 
   return (
     <Dropdown

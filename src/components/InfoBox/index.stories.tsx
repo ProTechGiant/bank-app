@@ -1,5 +1,4 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { Text } from "react-native";
 
 import InfoBox from "@/components/InfoBox";
 import Typography from "@/components/Typography";
@@ -7,8 +6,17 @@ import Typography from "@/components/Typography";
 export default {
   title: "components/InfoBox",
   component: InfoBox,
+  args: {
+    variant: "compliment",
+    borderPosition: "start",
+  },
   argTypes: {
     children: {
+      table: {
+        disable: true,
+      },
+    },
+    title: {
       table: {
         disable: true,
       },
@@ -16,20 +24,7 @@ export default {
   },
 } as ComponentMeta<typeof InfoBox>;
 
-const TemplateStandardInfoBox: ComponentStory<typeof InfoBox> = props => {
-  return <InfoBox {...props} />;
-};
-
-export const StandardInfoBox = TemplateStandardInfoBox.bind({});
-StandardInfoBox.args = {
-  variant: "compliment",
-  borderPosition: "start",
-  title: "lorem ipsum",
-  children:
-    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-};
-
-const TemplateCustomInfoBox: ComponentStory<typeof InfoBox> = props => {
+const TemplateInfoBox: ComponentStory<typeof InfoBox> = props => {
   return (
     <InfoBox {...props}>
       <Typography.Text color="primaryBase+30" size="caption1" weight="regular">
@@ -44,9 +39,6 @@ const TemplateCustomInfoBox: ComponentStory<typeof InfoBox> = props => {
   );
 };
 
-export const CustomInfoBox = TemplateCustomInfoBox.bind({});
-CustomInfoBox.args = {
-  variant: "compliment",
-  borderPosition: "start",
-  children: <Text>strest</Text>,
-};
+export const DefaultInfoBox = TemplateInfoBox.bind({});
+export const InfoBoxWithHeader = TemplateInfoBox.bind({});
+InfoBoxWithHeader.args = { title: "Hello World!" };

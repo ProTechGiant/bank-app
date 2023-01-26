@@ -107,7 +107,7 @@ export default function HubScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      <DismissibleBanner showToast={showToast} message="Code copied" />
+      <DismissibleBanner visible={showToast} message="Code copied" />
       <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
         <View style={headerContainerStyle}>
           <NavHeader

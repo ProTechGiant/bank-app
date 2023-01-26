@@ -3,10 +3,11 @@ import { ActivityIndicator, Pressable, PressableProps, StyleSheet, View, ViewSty
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface ButtonProps extends Omit<PressableProps, "children" | "style"> {
+interface ButtonProps extends Omit<PressableProps, "children" | "disabled" | "style"> {
   block?: boolean;
   children?: string | React.ReactNode;
   color?: "base" | "alt";
+  disabled?: boolean;
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
   type?: "has icons" | "no icons" | "loader";
@@ -46,7 +47,7 @@ export default function Button({
       <View style={[styles.container, containerStyles, { opacity: disabled ? 0.5 : 1 }]}>
         {undefined !== iconLeft && <View style={styles.icon}>{iconLeft}</View>}
         {type === "loader" ? (
-          <ActivityIndicator size="small" />
+          <ActivityIndicator color="white" size="small" />
         ) : (
           <Typography.Text
             color={variant === "primary" ? "neutralBase-30" : color === "base" ? "primaryBase" : "complimentBase"}

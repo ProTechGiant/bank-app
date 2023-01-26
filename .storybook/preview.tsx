@@ -5,3 +5,11 @@ export const decorators = [
     </div>
   ),
 ];
+
+export const parameters = {
+  options: {
+    storySort: {
+      method: "alphabetical",
+    },
+  },
+};

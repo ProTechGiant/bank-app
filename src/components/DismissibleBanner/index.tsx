@@ -1,60 +1,60 @@
+import { cloneElement, useEffect } from "react";
 import { Platform, ViewStyle } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import { SvgProps } from "react-native-svg";
 
 import { TickCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface ToastProps {
-  showToast: boolean;
-  message?: string;
+interface DismissibleBannerProps {
+  icon?: React.ReactElement<SvgProps>;
+  message: string;
+  visible: boolean;
 }
-export default function Toast({ showToast, message }: ToastProps) {
-  const container = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette.tintBase,
-      borderRadius: theme.radii.extraSmall,
-      alignItems: "center",
-      flexDirection: "row",
-      elevation: 4,
-      height: 56,
-      left: 0,
-      margin: theme.spacing.regular,
-      padding: theme.spacing.medium,
-      position: "absolute",
-      right: 0,
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      zIndex: 100,
-    }),
-    []
-  );
-  const iconStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginRight: theme.spacing.medium,
-    }),
-    []
-  );
-  const position = useThemeStyles<number>(theme => (Platform.OS === "ios" ? theme.spacing.regular : 0), []);
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.tick, []);
 
-  // useSharedValue hook from reanimated library to share values for animation
+export default function DismissibleBanner({ icon = <TickCircleIcon />, visible, message }: DismissibleBannerProps) {
   const positionY = useSharedValue(-100);
+  const offset_ = useThemeStyles(theme => theme.spacing.regular);
+  const visiblePosY = Platform.OS !== "android" ? offset_ : 0;
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: withSpring(positionY.value) }],
-    };
-  });
+  useEffect(() => {
+    positionY.value = visible ? visiblePosY : -100;
+  }, [visible]);
 
-  positionY.value = showToast ? position : -position - 100;
+  const containerStyles = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette.tintBase,
+    borderRadius: theme.radii.extraSmall,
+    alignItems: "center",
+    flexDirection: "row",
+    elevation: 4,
+    height: 56,
+    left: 0,
+    margin: theme.spacing.regular,
+    padding: theme.spacing.medium,
+    position: "absolute",
+    right: 0,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    zIndex: 100,
+  }));
+
+  const textStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginLeft: theme.spacing.medium,
+  }));
+
+  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.tick);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: withSpring(positionY.value) }],
+  }));
 
   return (
-    <Animated.View style={[container, animatedStyle]}>
-      <TickCircleIcon height={iconDimensions} width={iconDimensions} style={iconStyle} />
-      <Typography.Text color="neutralBase-50" weight="regular" size="callout">
+    <Animated.View style={[containerStyles, animatedStyle]}>
+      {cloneElement(icon, { height: iconDimensions, width: iconDimensions })}
+      <Typography.Text color="neutralBase-50" weight="regular" size="callout" style={textStyle}>
         {message}
       </Typography.Text>
     </Animated.View>
