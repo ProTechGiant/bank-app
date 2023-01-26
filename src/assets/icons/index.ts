@@ -1,3 +1,4 @@
+import { default as AccountIcon } from "./account.svg";
 import { default as AddIcon } from "./add.svg";
 import { BackIcon } from "./back-icon";
 import { CalendarAltIcon } from "./calendar-alt";
@@ -13,6 +14,7 @@ import { default as FriendIcon } from "./friend.svg";
 import { default as FriendsIcon } from "./friends.svg";
 import { GlobeIcon } from "./globe";
 import { default as HamburgerIcon } from "./hamburger.svg";
+import { default as HideIcon } from "./hide.svg";
 import { default as InfoIcon } from "./info.svg";
 import { default as InfoCircleIcon } from "./info-circle.svg";
 import { InfoFilledCircleIcon } from "./info-filled-circle";
@@ -28,6 +30,7 @@ import { default as SettingsIcon } from "./settings.svg";
 import { default as ShareIcon } from "./share.svg";
 import { default as ShareCopyIcon } from "./share-copy.svg";
 import { default as ShippingIcon } from "./shipping.svg";
+import { default as ShowIcon } from "./show.svg";
 import { default as SplitIcon } from "./split.svg";
 import { default as TickIcon } from "./tick.svg";
 import { default as TickCircleIcon } from "./tick-circle.svg";
@@ -42,6 +45,7 @@ export interface IconProps {
 }
 
 export {
+  AccountIcon,
   AddIcon,
   BackIcon,
   CalendarAltIcon,
@@ -57,6 +61,7 @@ export {
   FriendsIcon,
   GlobeIcon,
   HamburgerIcon,
+  HideIcon,
   InfoCircleIcon,
   InfoFilledCircleIcon,
   InfoIcon,
@@ -72,6 +77,7 @@ export {
   ShareCopyIcon,
   ShareIcon,
   ShippingIcon,
+  ShowIcon,
   SplitIcon,
   TickCircleIcon,
   TickIcon,

@@ -147,6 +147,10 @@ export const resources = {
         DashboardScreen: {
           AccountInfoHeader: {
             IBANCopied: "IBAN copied",
+            balanceHidden: "Balance hidden",
+            hideBalance: "Hide balance",
+            showBalance: "Show balance",
+            myAccount: "My account",
           },
         },
       },

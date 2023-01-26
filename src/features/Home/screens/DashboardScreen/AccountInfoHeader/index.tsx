@@ -1,14 +1,18 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Dimensions, LayoutAnimation, Pressable, SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
+import { LayoutAnimation, Pressable, SafeAreaView, useWindowDimensions, View, ViewStyle } from "react-native";
 
+import { AccountIcon, HideIcon, ShowIcon } from "@/assets/icons";
 import BulletinBoard from "@/components/BulletinBoard";
 import DismissibleBanner from "@/components/DismissibleBanner";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useGlobalContext } from "@/contexts/GlobalContext";
 import { useThemeStyles } from "@/theme";
 import { pluralize } from "@/utils";
 
+import TemporaryPillButton from "./TemporaryPillButton";
 import useFetchAccount from "./use-fetch-account";
 import usePendingNotications from "./use-pending-notications";
 
@@ -17,12 +21,12 @@ export interface AccountInfoHeaderProps {
 }
 
 export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
+  const { width } = useWindowDimensions();
   const accountBalanceStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "flex-end",
       flexDirection: "row",
-      paddingTop: theme.spacing.xlarge,
-      paddingBottom: theme.spacing.medium,
+      paddingTop: theme.spacing.large,
     }),
     []
   );
@@ -37,10 +41,18 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
   const headerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
-      marginTop: theme.spacing.xlarge,
+      marginTop: theme.spacing.large,
     }),
     []
   );
+
+  const smallHeaderStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingTop: theme.spacing.large,
+    }),
+    []
+  );
+
   const headerWrapperStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
@@ -52,13 +64,30 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
   const notificationsStyle = useThemeStyles<ViewStyle>(
     theme => ({
       paddingHorizontal: theme.spacing.medium,
-      paddingBottom: theme.spacing.medium,
+      paddingBottom: theme.spacing.xlarge,
     }),
     []
   );
   const currentAccountBalanceStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      maxWidth: Dimensions.get("window").width - theme.spacing.medium * 2 - 30,
+      maxWidth: width - theme.spacing.medium * 2 - 30,
+    }),
+    [width]
+  );
+
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      marginBottom: theme.spacing.xlarge,
+      paddingTop: theme.spacing.medium,
+    }),
+    []
+  );
+
+  const accountBalanceRowStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "flex-end",
+      flexDirection: "row",
+      marginBottom: theme.spacing.medium,
     }),
     []
   );
@@ -66,7 +95,7 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
   const { t } = useTranslation();
   const { data } = useFetchAccount();
   const [showToast, setShowToast] = useState(false);
-  const [balanceHidden, setBalanceHidden] = useState(false);
+  const { showAccountBalance, setShowAccountBalance } = useGlobalContext();
 
   const handleOnCopyCodePress = () => {
     Clipboard.setString(data.currentAccountIBAN);
@@ -84,10 +113,14 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }, [size]);
 
+  const handleOnPressBalanceVisibility = () => {
+    setShowAccountBalance(!showAccountBalance);
+  };
+
   return (
     <SafeAreaView style={[container, headerWrapperStyle]}>
       <DismissibleBanner showToast={showToast} message={t("Home.DashboardScreen.AccountInfoHeader.IBANCopied") ?? ""} />
-      <View style={headerStyle}>
+      <View style={[headerStyle, size !== "full" && smallHeaderStyle]}>
         <Typography.Text color="neutralBase-50" weight="medium" size="callout">
           {data.currentAccountName?.toUpperCase()}
         </Typography.Text>
@@ -97,27 +130,61 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
           <Typography.Text color="neutralBase-50">{data.currentAccountIBAN}</Typography.Text>
         </Pressable>
       )}
-      {size === "small" && data.decimalBalance && data.currencyType && data.currentAccountBalance && (
-        <View style={styles.row}>
-          <Typography.Text color="neutralBase-50">{data.currentAccountBalance}</Typography.Text>
-          <Typography.Text color="neutralBase-50-50%">
-            .{data.decimalBalance} {data.currencyType}
-          </Typography.Text>
-        </View>
-      )}
-      {data.decimalBalance && data.currencyType && data.currentAccountBalance && size !== "small" && (
-        <View style={accountBalanceStyle}>
-          <View style={currentAccountBalanceStyle}>
-            <Typography.Header size="large" color="neutralBase-50" adjustsFontSizeToFit={true} numberOfLines={1}>
-              {data.currentAccountBalance}
-            </Typography.Header>
-          </View>
-          <View style={{ paddingBottom: 4 }}>
+      {size === "small" &&
+        data.decimalBalance &&
+        data.currencyType &&
+        data.currentAccountBalance &&
+        (showAccountBalance ? (
+          <View style={accountBalanceRowStyle}>
+            <Typography.Text color="neutralBase-50">{data.currentAccountBalance}</Typography.Text>
             <Typography.Text color="neutralBase-50-50%">
               .{data.decimalBalance} {data.currencyType}
             </Typography.Text>
           </View>
-        </View>
+        ) : (
+          <View style={{ paddingBottom: 16 }}>
+            <Typography.Text color="neutralBase-50-50%" size="footnote">
+              {t("Home.DashboardScreen.AccountInfoHeader.balanceHidden")}
+            </Typography.Text>
+          </View>
+        ))}
+      {data.decimalBalance &&
+        data.currencyType &&
+        data.currentAccountBalance &&
+        size !== "small" &&
+        (showAccountBalance ? (
+          <View style={accountBalanceStyle}>
+            <View style={currentAccountBalanceStyle}>
+              <Typography.Header size="large" color="neutralBase-50" adjustsFontSizeToFit={true} numberOfLines={1}>
+                {data.currentAccountBalance}
+              </Typography.Header>
+            </View>
+            <View style={{ paddingBottom: 4 }}>
+              <Typography.Text color="neutralBase-50-50%">
+                .{data.decimalBalance} {data.currencyType}
+              </Typography.Text>
+            </View>
+          </View>
+        ) : (
+          <View style={accountBalanceStyle}>
+            <Typography.Text color="neutralBase-50-50%" size="footnote">
+              {t("Home.DashboardScreen.AccountInfoHeader.balanceHidden")}
+            </Typography.Text>
+          </View>
+        ))}
+      {size !== "small" && (
+        <Stack direction="horizontal" gap="small" style={buttonContainerStyle}>
+          <TemporaryPillButton
+            onPress={handleOnPressBalanceVisibility}
+            iconLeft={showAccountBalance ? <ShowIcon /> : <HideIcon />}>
+            {showAccountBalance
+              ? t("Home.DashboardScreen.AccountInfoHeader.hideBalance")
+              : t("Home.DashboardScreen.AccountInfoHeader.showBalance")}
+          </TemporaryPillButton>
+          <TemporaryPillButton iconLeft={<AccountIcon />}>
+            {t("Home.DashboardScreen.AccountInfoHeader.myAccount")}
+          </TemporaryPillButton>
+        </Stack>
       )}
       <View style={notificationsStyle}>
         <BulletinBoard data={pendingNotifications} title={bulletinTitle} />
@@ -125,10 +192,3 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  row: {
-    alignItems: "flex-end",
-    flexDirection: "row",
-  },
-});
