@@ -11,6 +11,9 @@ type RootStackParams = {
   "Referral.HubScreen": undefined;
   "Referral.HowItWorksModal": undefined;
   "Referral.InstructionsScreen": undefined;
+  "SavingsGoals.LandingScreen": undefined;
+  "SavingsGoals.SavingsGoalsScreen": undefined;
+  "SavingsGoals.CreateGoalModal": undefined;
   "Settings.SettingsScreen": undefined;
 };
 

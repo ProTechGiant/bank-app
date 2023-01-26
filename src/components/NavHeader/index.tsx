@@ -74,7 +74,7 @@ export default function NavHeader({
           )}
         </View>
         {title && (
-          <View style={styles.textWrapper}>
+          <View style={[styles.textWrapper, rightComponent === undefined && styles.textWrapperFullWidth]}>
             <Typography.Text color="neutralBase+30" weight="medium" size="callout">
               {title}
             </Typography.Text>
@@ -106,5 +106,8 @@ const styles = StyleSheet.create({
   },
   textWrapper: {
     alignItems: "center",
+  },
+  textWrapperFullWidth: {
+    width: "100%",
   },
 });

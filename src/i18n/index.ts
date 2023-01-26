@@ -312,6 +312,22 @@ export const resources = {
           },
         },
       },
+      SavingsGoals: {
+        LandingScreen: {
+          title: "Achieve your Savings Goals",
+          paragraphOne: "Got a dream but it requires a little saving? We’ve got you.",
+          paragraphTwo: "Croatia makes it simple to set aside what you need, to get what you want.",
+          button: "What’s your goal?",
+        },
+        SavingsGoalsScreen: {
+          navTitle: "Savings Goals",
+          title: "What do you want to save for?",
+        },
+        CreateGoalModal: {
+          navTitle: "Create goal",
+          button: "Continue",
+        },
+      },
     },
   },
   ar: {
