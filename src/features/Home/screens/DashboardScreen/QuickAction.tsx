@@ -20,7 +20,7 @@ export default function QuickAction({ icon: Icon, title, onPress }: QuickActionP
       height: 95,
       justifyContent: "center",
       margin: theme.spacing.small,
-      padding: theme.spacing.medium,
+      padding: theme.spacing.small,
     }),
     []
   );
@@ -30,15 +30,23 @@ export default function QuickAction({ icon: Icon, title, onPress }: QuickActionP
     }),
     []
   );
+  const textWrapperstyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingTop: theme.spacing.small,
+    }),
+    []
+  );
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.accordian, []);
 
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity style={container} onPress={onPress}>
         {cloneElement(Icon, { height: iconDimensions, width: iconDimensions, style: iconStyle })}
-        <Typography.Text color="primaryBase" weight="semiBold" size="callout">
-          {title}
-        </Typography.Text>
+        <View style={textWrapperstyle}>
+          <Typography.Text color="primaryBase" weight="semiBold" size="footnote">
+            {title}
+          </Typography.Text>
+        </View>
       </TouchableOpacity>
     </View>
   );

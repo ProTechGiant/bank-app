@@ -28,7 +28,7 @@ export const quickActionOrderData: quickActionReorderItem[] = [
   {
     key: "transfer",
     label: "Transfer",
-    active: false,
+    active: true,
     description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
     icon: "TransferIcon",
   },
@@ -41,8 +41,8 @@ export const quickActionOrderData: quickActionReorderItem[] = [
   },
   {
     key: "referrals",
-    label: "Referrals",
-    active: true,
+    label: "Invite friends",
+    active: false,
     description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
     icon: "ReferralIcon",
   },
