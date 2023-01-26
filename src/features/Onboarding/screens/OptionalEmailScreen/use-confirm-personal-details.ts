@@ -8,7 +8,7 @@ import ApiOnboardingError from "../../types/ApiOnboardingError";
 export default function useConfirmPersonalDetails() {
   const { fetchLatestWorkflowTask, userId, correlationId } = useOnboardingContext();
 
-  return useMutation(async (email: string | null) => {
+  return useMutation(async (email: string | undefined) => {
     if (!userId || !correlationId) throw new Error("Need valid `userId` and `correlationId` to be available");
 
     const workflowTask = await fetchLatestWorkflowTask();
@@ -23,7 +23,7 @@ export default function useConfirmPersonalDetails() {
       undefined,
       {
         CustomerConfirmationFlag: true,
-        Email: null !== email && email.length > 0 ? email : null,
+        Email: !!email && email.length > 0 ? email : null,
       },
       {
         ["X-Workflow-Task-Id"]: workflowTask?.id,

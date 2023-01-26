@@ -1,5 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { Alert, ScrollView } from "react-native";
 import * as yup from "yup";
 
@@ -24,6 +25,7 @@ import useSubmitFinancialDetails from "./use-submit-financial-details";
 export default function FinancialInformationScreen() {
   const navigation = useNavigation();
   const submitFinancialDetailsAsync = useSubmitFinancialDetails();
+  const { t } = useTranslation();
 
   const { control, handleSubmit } = useForm<FinancialDetails>({
     resolver: yupResolver(validationSchema),
@@ -35,59 +37,63 @@ export default function FinancialInformationScreen() {
       await submitFinancialDetailsAsync.mutateAsync(values);
       navigation.navigate("Onboarding.ForeignTax");
     } catch (error) {
-      Alert.alert("Woops. Could not submit financial details");
+      Alert.alert(t("Onboarding.FinancialInformationScreen.errorText.alert"));
       __DEV__ && console.error("Could not submit financial details: ", error);
     }
   };
 
   return (
     <Page>
-      <NavHeader title="ABOUT YOU" backButton={true} barStyle="dark-content" rightComponent="close">
+      <NavHeader
+        title={t("Onboarding.FinancialInformationScreen.navHeaderTitle")}
+        backButton={true}
+        barStyle="dark-content"
+        rightComponent="close">
         <ProgressIndicator currentStep={3} totalStep={6} />
       </NavHeader>
       <ScrollView>
         <ContentContainer>
           <Stack align="stretch" direction="vertical" gap="large">
             <Typography.Text size="large" weight="bold">
-              Tell us about your finances
+              {t("Onboarding.FinancialInformationScreen.title")}
             </Typography.Text>
-            <MoreInfoDropdown title="Why are we asking this?">
-              <Typography.Text color="neutralBase" size="footnote">
-                This information is required to complete validation checks as part of joining Croatia. If this
-                information changes later, you’ll be able to update it in the app.
-              </Typography.Text>
-            </MoreInfoDropdown>
+
             <DropdownInput
               control={control}
               name="OccupationCode"
-              label="Occupation"
-              extra="Optional - We may have taken your latest occupation if it was registed on Absher, but you can change it here"
-              placeholder="Select your occupation"
+              label={t("Onboarding.FinancialInformationScreen.inputOccupationLabel")}
+              extra={t("Onboarding.FinancialInformationScreen.inputOccupationExtra")}
+              placeholder={t("Onboarding.FinancialInformationScreen.inputOccupationPlaceholder")}
               options={mockOccuptions}
             />
             <DropdownInput
               control={control}
               name="AccountPurpose"
-              label="What do you intend to use Croatia for?"
-              placeholder="Select at least one option"
+              label={t("Onboarding.FinancialInformationScreen.inputAccountPurposeLabel")}
+              placeholder={t("Onboarding.FinancialInformationScreen.inputAccountPurposePlaceholder")}
               options={mockCroatiaPurpose}
             />
             <DropdownInput
               control={control}
               name="SourceOfIncome"
-              label="What your source of income?"
-              placeholder="Select at least one option"
+              label={t("Onboarding.FinancialInformationScreen.inputSourceOfIncomeLabel")}
+              placeholder={t("Onboarding.FinancialInformationScreen.inputSourceOfIncomePlaceholder")}
               options={mockSources}
             />
             <DropdownInput
               control={control}
               name="MonthlyLimit"
-              label="What is the expected amount of deposits and withdrawals on a monthly basis?"
-              placeholder="Select an amount"
+              label={t("Onboarding.FinancialInformationScreen.inputMonthlyLimitLabel")}
+              placeholder={t("Onboarding.FinancialInformationScreen.inputMonthlyLimitPlaceholder")}
               options={mockExpectedAmount}
             />
+            <MoreInfoDropdown title={t("Onboarding.FinancialInformationScreen.moreInfoDropdownTitle")}>
+              <Typography.Text color="neutralBase" size="footnote">
+                {t("Onboarding.FinancialInformationScreen.moreInfoDropdownBody")}
+              </Typography.Text>
+            </MoreInfoDropdown>
             <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-              Continue
+              {t("Onboarding.FinancialInformationScreen.continue")}
             </SubmitButton>
           </Stack>
         </ContentContainer>

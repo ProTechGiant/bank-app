@@ -68,7 +68,7 @@ export default function OnboardingSplashScreen() {
             <Button variant="primary" color="alt" onPress={handleOnSignUp}>
               {t("Onboarding.SplashScreen.buttons.signUp")}
             </Button>
-            <Button color="alt" onPress={handleOnSignIn} variant="tertiary">
+            <Button color="base" onPress={handleOnSignIn} variant="secondary">
               <Typography.Text color="neutralBase-50" size="body" weight="regular">
                 {t("Onboarding.SplashScreen.buttons.signIn")}
               </Typography.Text>

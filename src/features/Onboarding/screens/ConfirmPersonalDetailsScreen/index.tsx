@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { SafeAreaView, ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
@@ -29,6 +30,7 @@ const schema = yup.object({
 export default function ConfirmPersonalDetailsScreen() {
   const navigation = useNavigation();
   const { data, mutateAsync } = useNafathDetails();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (undefined !== data) return;
@@ -62,45 +64,57 @@ export default function ConfirmPersonalDetailsScreen() {
   return (
     <>
       <Page>
-        <NavHeader title="CONFIRMATION" backButton={true} rightComponent="close">
+        <NavHeader
+          title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}
+          backButton={true}
+          rightComponent="close">
           <ProgressIndicator currentStep={1} totalStep={6} />
         </NavHeader>
         <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12 }}>
           <Stack align="stretch" direction="vertical" gap="medium">
             <Typography.Header size="large" weight="bold">
-              Confirm your personal details
+              {t("Onboarding.ConfirmPersonalDetailsScreen.title")}
             </Typography.Header>
             {undefined !== data && (
               <View style={detailsCardStyle}>
                 <Stack direction="vertical" gap="medium">
                   <InfoLine
                     icon={<UserIcon />}
-                    label="Full name"
+                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineName")}
                     value={concatStr(" ", [data.EnglishFamilyName, data.EnglishFirstName])}
                   />
-                  <InfoLine icon={<GlobeIcon />} label="Nationality" value={data.Nationality} />
-                  <InfoLine icon={<CalendarAltIcon />} label="ID/ Iqama expiry" value={data.IqamaExpiryDateGregorian} />
+                  <InfoLine
+                    icon={<GlobeIcon />}
+                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineNationality")}
+                    value={data.Nationality}
+                  />
+                  <InfoLine
+                    icon={<CalendarAltIcon />}
+                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineExpiry")}
+                    value={data.IqamaExpiryDateGregorian}
+                  />
                   <InfoLine
                     icon={<MapMarkerIcon />}
-                    label="KSA address"
+                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineAddress")}
                     value={concatStr(" ", [
-                      data.Addresses?.[0]?.StreetName,
-                      data.Addresses?.[0]?.City + " " + data.Addresses?.[0]?.PostCode,
-                      "Saudi Arabia",
+                      data.Addresses?.[0]?.StreetName +
+                        ", " +
+                        data.Addresses?.[0]?.City +
+                        " " +
+                        data.Addresses?.[0]?.PostCode,
+                      ", Saudi Arabia",
                     ])}
                   />
                 </Stack>
               </View>
             )}
-            <MoreInfoDropdown title="I need to change my details">
+            <MoreInfoDropdown title={t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownTitle")}>
               <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                Visit
+                {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyOne")}
                 <Typography.Text color="neutralBase" size="footnote" weight="bold">
-                  {" "}
-                  absher.sa{" "}
+                  {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyTwo")}
                 </Typography.Text>
-                to change your details. Please restart the process when your Absher profile has been updated. This can
-                take up to 72 hours.
+                {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyThree")}
               </Typography.Text>
             </MoreInfoDropdown>
           </Stack>
@@ -114,10 +128,10 @@ export default function ConfirmPersonalDetailsScreen() {
               control={control}
               isEditable={true}
               name="confirmDetailsAreCorrect"
-              label="I confirm my details are correct"
+              label={t("Onboarding.ConfirmPersonalDetailsScreen.CheckBoxLabel")}
             />
             <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-              Continue
+              {t("Onboarding.ConfirmPersonalDetailsScreen.Continue")}
             </SubmitButton>
           </Stack>
         </SafeAreaView>
