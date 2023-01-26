@@ -139,7 +139,7 @@ export const resources = {
       },
       Settings: {
         SettingsScreen: {
-          rewards: "Refer For Rewards",
+          rewards: "Invite friends",
           FAQs: "FAQ’s",
         },
       },
