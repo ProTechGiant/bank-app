@@ -19,6 +19,7 @@ import useSubmitOrderCard from "./use-submit-order-card";
 export default function CardDeliveryDetails() {
   const headerStyle = useThemeStyles<ViewStyle>(
     theme => ({
+      alignSelf: "flex-start",
       marginBottom: theme.spacing.medium,
     }),
     []
@@ -173,6 +174,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   paragraph: {
+    alignSelf: "flex-start",
     marginBottom: 24,
   },
 });

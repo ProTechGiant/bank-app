@@ -92,6 +92,7 @@ export default function AddressSelector({
 
 const styles = StyleSheet.create({
   addressContent: {
+    alignItems: "flex-start",
     flex: 1,
     marginLeft: 12,
   },

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { TextInput as RNTextInput, TextInputProps as RNTextInputProps, TextStyle } from "react-native";
+import { useTranslation } from "react-i18next";
+import { I18nManager, TextInput as RNTextInput, TextInputProps as RNTextInputProps, TextStyle } from "react-native";
 
 import { ErrorIcon } from "@/assets/icons";
 import { useThemeStyles } from "@/theme";
@@ -53,6 +54,8 @@ export default function TextInput<T extends FieldValues>({
   const errorIconColor = useThemeStyles(theme => theme.palette.errorBase, []);
   const [isFocused, setIsFocused] = useState(false);
 
+  const { i18n } = useTranslation();
+
   return (
     <InputBox
       extraStart={extra}
@@ -78,6 +81,7 @@ export default function TextInput<T extends FieldValues>({
         placeholderTextColor={placeholderTextColor}
         style={textStyles}
         value={field.value}
+        textAlign={I18nManager.isRTL ? "right" : "left"}
         {...restProps}
       />
       {undefined !== fieldState.error && fieldState.isTouched && (

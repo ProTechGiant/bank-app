@@ -1,7 +1,8 @@
 import { Picker } from "@react-native-picker/picker";
 import { useEffect, useState } from "react";
 import { FieldValues, useController } from "react-hook-form";
-import { StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
+import { I18nManager, StyleSheet, View } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -24,6 +25,7 @@ export default function DropdownInput<T extends FieldValues>({
   const { field, fieldState } = useController({ control, name });
   const [isVisible, setIsVisible] = useState(false);
   const [selectedValue, setSelectedValue] = useState<typeof field["value"]>();
+  const { i18n } = useTranslation();
 
   useEffect(() => {
     setSelectedValue(field.value);
@@ -74,7 +76,11 @@ export default function DropdownInput<T extends FieldValues>({
       </Modal>
       <InputBox extraStart={extra} isEditable={isEditable} label={label} fieldState={fieldState} onPress={handleOnOpen}>
         <InputText
-          buttonIcon={<ChevronRightIcon />}
+          buttonIcon={
+            <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
+              <ChevronRightIcon />
+            </View>
+          }
           placeholder={placeholder}
           value={options.find(opt => opt.value === field.value)?.label}
         />
