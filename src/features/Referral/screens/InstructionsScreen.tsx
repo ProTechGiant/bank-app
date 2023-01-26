@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useWindowDimensions, View, ViewStyle } from "react-native";
+import { ScrollView, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
@@ -48,6 +48,14 @@ export default function InstructionsScreen() {
     }),
     []
   );
+
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      paddingTop: theme.spacing.medium,
+      textAlign: "center",
+    }),
+    []
+  );
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [step, setStep] = useState(1);
@@ -79,30 +87,43 @@ export default function InstructionsScreen() {
 
   return (
     <Page backgroundColor="primaryBase">
-      <NavHeader
-        title=""
-        backButton={true}
-        backButtonHandler={handleBackButton}
-        color="white"
-        rightComponent={step < totalStep ? { text: "skip", handler: handleOnSkip } : undefined}
-      />
-      <ProgressIndicator currentStep={step} totalStep={totalStep} />
-      <View style={container}>
-        <View>
-          <View style={blankSpaceStyle}>
-            <Typography.Text>HERO BRAND SCREEN</Typography.Text>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        alwaysBounceVertical={false}>
+        <NavHeader
+          title=""
+          backButton={true}
+          backButtonHandler={handleBackButton}
+          color="white"
+          rightComponent={step < totalStep ? { text: "skip", handler: handleOnSkip } : undefined}
+        />
+        <ProgressIndicator currentStep={step} totalStep={totalStep} />
+        <View style={container}>
+          <View>
+            <View style={blankSpaceStyle}>
+              <Typography.Text>HERO BRAND SCREEN</Typography.Text>
+            </View>
+            <Typography.Text color="neutralBase-50" size="large" weight="bold" style={TitleStyle}>
+              {t(`Referral.InstructionsScreen.${step}.title`)}
+            </Typography.Text>
+            <Typography.Text color="neutralBase-20" size="callout" style={subTextStyle}>
+              {t(`Referral.InstructionsScreen.${step}.subText`)}
+            </Typography.Text>
           </View>
-          <Typography.Text color="neutralBase-50" size="large" weight="bold" style={TitleStyle}>
-            {t(`Referral.InstructionsScreen.${step}.title`)}
-          </Typography.Text>
-          <Typography.Text color="neutralBase-20" size="callout" style={subTextStyle}>
-            {t(`Referral.InstructionsScreen.${step}.subText`)}
-          </Typography.Text>
+          <View style={buttonContainerStyle}>
+            <Button variant="secondary" color="alt" onPress={handleOnContinue}>
+              {t("Referral.InstructionsScreen.continue")}
+            </Button>
+          </View>
         </View>
-        <Button variant="secondary" color="alt" onPress={handleOnContinue}>
-          {t("Referral.InstructionsScreen.continue")}
-        </Button>
-      </View>
+      </ScrollView>
     </Page>
   );
 }
+const styles = StyleSheet.create({
+  scrollView: {
+    flexGrow: 1,
+    justifyContent: "space-between",
+  },
+});
