@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Alert, ScrollView } from "react-native";
 import * as yup from "yup";
 
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
@@ -66,9 +67,9 @@ export default function OptionalEmailScreen() {
               <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
                 Continue
               </SubmitButton>
-              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)} variant="secondary">
+              <Button onPress={handleSubmit(handleOnSubmit)} variant="secondary">
                 Skip
-              </SubmitButton>
+              </Button>
             </Stack>
           </Stack>
         </ContentContainer>
