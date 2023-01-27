@@ -1,7 +1,7 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, Pressable, ScrollView, View, ViewStyle } from "react-native";
+import { Platform, Pressable, ScrollView, Share, ShareContent, View, ViewStyle } from "react-native";
 
 import { FriendIcon, ShareCopyIcon, ShareIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -95,6 +95,11 @@ export default function HubScreen() {
     }, 4000);
   };
 
+  const handleOnSharePress = () => {
+    const url = "https://example.com";
+    return Share.share(Platform.OS === "ios" ? { url } : { message: url });
+  };
+
   const handleOnHowItWorksPress = () => {
     navigation.navigate("Referral.HowItWorksModal");
   };
@@ -146,7 +151,8 @@ export default function HubScreen() {
         <Button
           variant="primary"
           color="alt"
-          iconLeft={<ShareIcon height={shareIconDimensions} width={shareIconDimensions} />}>
+          iconLeft={<ShareIcon height={shareIconDimensions} width={shareIconDimensions} />}
+          onPress={handleOnSharePress}>
           <Typography.Text color="neutralBase-50" weight="semiBold" size="callout">
             {t("Referral.share")}
           </Typography.Text>

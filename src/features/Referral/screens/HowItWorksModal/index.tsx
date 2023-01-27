@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, View, ViewStyle } from "react-native";
+import { Platform, Pressable, ScrollView, Share, ShareContent, View, ViewStyle } from "react-native";
 
 import { ShareIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -49,6 +49,12 @@ export default function HowItWorksModal() {
     }),
     []
   );
+
+  const handleOnSharePress = () => {
+    const url = "https://example.com";
+    return Share.share(Platform.OS === "ios" ? { url } : { message: url });
+  };
+
   const shareIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.share, []);
 
   const navigation = useNavigation();
@@ -82,7 +88,8 @@ export default function HowItWorksModal() {
         <Button
           variant="primary"
           color="alt"
-          iconLeft={<ShareIcon height={shareIconDimensions} width={shareIconDimensions} />}>
+          iconLeft={<ShareIcon height={shareIconDimensions} width={shareIconDimensions} />}
+          onPress={handleOnSharePress}>
           <Typography.Text color="neutralBase-50" weight="semiBold" size="callout">
             {t("Referral.HowItWorksModal.buttonText")}
           </Typography.Text>
