@@ -136,6 +136,13 @@ export const resources = {
           InfoBoxReferenceTitle: "Unique",
           maxCountriesText: "You’ve reached the maximum amount countries",
         },
+        TermsAndConditions: {
+          navHeaderTitle: "TERMS",
+          title: "Terms of signup",
+          checkBoxTermsLabel: "I agree to the Terms and Conditions",
+          checkBoxDeclarationLabel: "I agree to the Customer Declaration",
+          continue: "Continue",
+        },
       },
       Settings: {
         SettingsScreen: {

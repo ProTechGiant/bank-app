@@ -8,6 +8,8 @@ import IqamaInputScreen from "./screens/IqamaInputScreen";
 import NafathAuthScreen from "./screens/NafathAuthScreen";
 import OnboardingSplashScreen from "./screens/OnboardingSplashScreen";
 import OptionalEmailScreen from "./screens/OptionalEmailScreen";
+import PasscodeScreen from "./screens/PasscodeScreen";
+import TermsAndConditionsScreen from "./screens/TermsAndConditionsScreen";
 
 export type OnboardingStackParams = {
   "Onboarding.SplashScreen": undefined;
@@ -17,6 +19,8 @@ export type OnboardingStackParams = {
   "Onboarding.OptionalEmail": undefined;
   "Onboarding.Financial": undefined;
   "Onboarding.ForeignTax": undefined;
+  "Onboarding.Terms": undefined;
+  "Onboarding.Passcode": undefined;
 };
 
 export const Stack = createNativeStackNavigator<OnboardingStackParams>();
@@ -32,6 +36,8 @@ export default function OnboardingStack() {
         <Stack.Screen component={OptionalEmailScreen} name="Onboarding.OptionalEmail" />
         <Stack.Screen component={FinancialInformationScreen} name="Onboarding.Financial" />
         <Stack.Screen component={ForeignTaxScreen} name="Onboarding.ForeignTax" />
+        <Stack.Screen component={TermsAndConditionsScreen} name="Onboarding.Terms" />
+        <Stack.Screen component={PasscodeScreen} name="Onboarding.Passcode" />
       </Stack.Navigator>
     </OnboardingContextProvider>
   );
