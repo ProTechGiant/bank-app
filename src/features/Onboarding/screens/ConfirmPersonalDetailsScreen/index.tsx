@@ -63,10 +63,7 @@ export default function ConfirmPersonalDetailsScreen() {
 
   return (
     <Page safeAreaInsets="top">
-      <NavHeader
-        title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}
-
-        right="close">
+      <NavHeader title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={1} totalStep={6} />
       </NavHeader>
       <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12 }}>
