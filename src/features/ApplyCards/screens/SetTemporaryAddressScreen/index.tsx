@@ -88,11 +88,8 @@ export default function SetTemporaryAddressScreen() {
     <Page keyboardAvoiding={true} keyboardVerticalOffset={55}>
       <NavHeader
         title={t("ApplyCards.SetTemporaryAddressScreen.navTitle")}
-        backButton={false}
-        closeButtonHandler={() => {
-          navigation.navigate("ApplyCards.SetPinAndAddress");
-        }}
-        rightComponent="close"
+        withBackButton={false}
+        right={<NavHeader.CloseEndButton onPress={() => navigation.navigate("ApplyCards.SetPinAndAddress")} />}
       />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <ContentContainer style={containerStyle}>

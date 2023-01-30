@@ -152,6 +152,7 @@ const radii = {
 };
 
 const iconDimensions = {
+  chevronLeft: 21,
   link: 16,
   dropdown: 15,
   notifications: 21,

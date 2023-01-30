@@ -25,7 +25,6 @@ export default function DropdownInput<T extends FieldValues>({
   const { field, fieldState } = useController({ control, name });
   const [isVisible, setIsVisible] = useState(false);
   const [selectedValue, setSelectedValue] = useState<typeof field["value"]>();
-  const { i18n } = useTranslation();
 
   useEffect(() => {
     setSelectedValue(field.value);

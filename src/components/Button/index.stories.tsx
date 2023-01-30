@@ -7,6 +7,9 @@ import Button from "./index";
 export default {
   title: "components/Button",
   component: Button,
+  args: {
+    children: "Hello World",
+  },
   argTypes: {
     disabled: {
       control: "boolean",
@@ -22,7 +25,7 @@ export default {
       },
     },
     onPress: {
-      action: "clicked",
+      action: "onPress",
       table: {
         disable: true,
       },
@@ -30,12 +33,12 @@ export default {
   },
 } as ComponentMeta<typeof Button>;
 
-export const TextButton: ComponentStory<typeof Button> = args => <Button {...args}>Hello World!</Button>;
+export const TextButton: ComponentStory<typeof Button> = args => <Button {...args} />;
 TextButton.args = { variant: "primary" };
 TextButton.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
 
-  await userEvent.click(canvas.getByText("Hello World!"));
+  await userEvent.click(canvas.getByText(args.children as string));
   await expect(args.onPress).toHaveBeenCalled();
 };
 

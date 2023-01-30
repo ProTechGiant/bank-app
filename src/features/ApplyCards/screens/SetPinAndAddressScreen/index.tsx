@@ -126,9 +126,9 @@ export default function SetPinAndAddressScreen() {
     <Page>
       <NavHeader
         title={t("ApplyCards.SetPinAndAddressScreen.navTitle")}
-        backButton={true}
-        backButtonHandler={handleBack}
-        rightComponent="close">
+
+        onBackPress={handleBack}
+        right="close">
         <ProgressIndicator currentStep={currentStep} totalStep={3} />
       </NavHeader>
       <View style={styles.flex}>

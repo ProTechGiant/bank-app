@@ -10,3 +10,9 @@ declare module "*.png" {
   const value: ImageSourcePropType;
   export default value;
 }
+
+declare namespace jest {
+  interface Matchers<R, T = {}> {
+    toBeInTheDocument: R;
+  }
+}

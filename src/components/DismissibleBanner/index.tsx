@@ -11,9 +11,15 @@ interface DismissibleBannerProps {
   icon?: React.ReactElement<SvgProps>;
   message: string;
   visible: boolean;
+  testID?: string;
 }
 
-export default function DismissibleBanner({ icon = <TickCircleIcon />, visible, message }: DismissibleBannerProps) {
+export default function DismissibleBanner({
+  icon = <TickCircleIcon />,
+  visible,
+  message,
+  testID,
+}: DismissibleBannerProps) {
   const positionY = useSharedValue(-100);
   const offset_ = useThemeStyles(theme => theme.spacing.regular);
   const visiblePosY = Platform.OS !== "android" ? offset_ : 0;
@@ -52,7 +58,7 @@ export default function DismissibleBanner({ icon = <TickCircleIcon />, visible, 
   }));
 
   return (
-    <Animated.View style={[containerStyles, animatedStyle]}>
+    <Animated.View style={[containerStyles, animatedStyle]} testID={testID}>
       {cloneElement(icon, { height: iconDimensions, width: iconDimensions })}
       <Typography.Text color="neutralBase-50" weight="regular" size="callout" style={textStyle}>
         {message}

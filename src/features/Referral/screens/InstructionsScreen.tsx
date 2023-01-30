@@ -92,12 +92,12 @@ export default function InstructionsScreen() {
         showsVerticalScrollIndicator={false}
         alwaysBounceVertical={false}>
         <NavHeader
-          title=""
-          backButton={true}
-          backButtonHandler={handleBackButton}
+          onBackPress={handleBackButton}
           color="white"
-          rightComponent={
-            step < totalStep ? { text: t(`Referral.InstructionsScreen.skip`), handler: handleOnSkip } : undefined
+          right={
+            step < totalStep && (
+              <NavHeader.TextEndButton onPress={handleOnSkip} text={t(`Referral.InstructionsScreen.skip`)} />
+            )
           }
         />
         <ProgressIndicator currentStep={step} totalStep={totalStep} />

@@ -1,120 +1,118 @@
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
-import { Pressable, StatusBar, StatusBarStyle, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
+import { cloneElement, isValidElement } from "react";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
-import { BackIcon, CloseIcon } from "@/assets/icons";
+import { ChevronLeft } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import CloseEndButton, { CloseEndButtonProps } from "./CloseEndButton";
+import StatusBar from "./StatusBar";
+import TextEndButton, { TextEndButtonProps } from "./TextEndButton";
+
 interface NavHeaderProps {
-  title: string;
-  backButton: boolean;
-  backButtonHandler?: () => void;
-  closeButtonHandler?: () => void;
-  barStyle?: StatusBarStyle | null | undefined;
+  onBackPress?: () => void;
+  children?: React.ReactElement;
   color?: "black" | "white";
-  rightComponent?: { text: string; handler: () => void } | "close";
-  children?: ReactNode;
+  right?: "close" | React.ReactElement<CloseEndButtonProps> | React.ReactElement<TextEndButtonProps> | false;
+  testID?: string;
+  title?: string;
+  withBackButton?: boolean;
 }
 
-export default function NavHeader({
+const NavHeader = ({
+  testID,
   title,
-  backButton,
-  barStyle,
-  backButtonHandler,
-  closeButtonHandler,
+  withBackButton = true,
+  onBackPress,
   color = "black",
-  rightComponent,
+  right,
   children,
-}: NavHeaderProps) {
-  const { i18n } = useTranslation();
-
-  const container = useThemeStyles<ViewStyle>(
-    theme => ({
-      alignItems: "center",
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      paddingHorizontal: theme.spacing.regular,
-      paddingTop: theme.spacing.medium,
-      paddingBottom: 14,
-    }),
-    []
-  );
-
-  const iconWrapper = useThemeStyles<ViewStyle>(
-    theme => ({
-      alignItems: "center",
-      height: theme.spacing.large,
-    }),
-    []
-  );
-  const iconDimension = useThemeStyles<number>(theme => theme.iconDimensions.link, []);
-
+}: NavHeaderProps) => {
   const navigation = useNavigation();
 
   const handleOnClose = () => {
-    if (!closeButtonHandler) {
-      navigation.navigate("Temporary.LandingScreen");
-    } else {
-      return closeButtonHandler();
-    }
+    navigation.navigate("Temporary.LandingScreen");
   };
 
-  const handleOnBack = () => {
-    if (!backButtonHandler) {
-      navigation.goBack();
-    } else {
-      return backButtonHandler();
-    }
+  const handleOnBackPress = () => {
+    if (undefined === onBackPress) navigation.goBack();
+    else onBackPress();
   };
+
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing.regular,
+    paddingVertical: theme.spacing.medium,
+  }));
+
+  const childrenStyles = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing.medium,
+  }));
+
+  const backIconSize = useThemeStyles<number>(theme => theme.iconDimensions.chevronLeft);
+  const textColor = color === "white" ? "neutralBase-50" : "primaryBase+30";
+  const iconColor = useThemeStyles(theme => theme.palette[textColor], [textColor]);
 
   return (
-    <View>
-      <StatusBar barStyle={barStyle} />
-      <View style={container}>
-        <View style={iconWrapper}>
-          {backButton && (
-            <Pressable onPress={handleOnBack} style={{ transform: [{ scaleX: i18n.dir() === "ltr" ? 1 : -1 }] }}>
-              <BackIcon height={iconDimension} width={iconDimension} color={color} />
-            </Pressable>
-          )}
-        </View>
-        {title && (
-          <View style={[styles.textWrapper, rightComponent === undefined && styles.textWrapperFullWidth]}>
-            <Typography.Text color="neutralBase+30" weight="medium" size="callout">
-              {title}
-            </Typography.Text>
+    <>
+      <StatusBar barStyle={color === "black" ? "dark-content" : "light-content"} />
+      <View style={containerStyle} testID={testID}>
+        <View style={styles.title}>
+          <View style={[styles.column, styles.columnLeft]}>
+            {withBackButton && (
+              <Pressable
+                onPress={handleOnBackPress}
+                style={{ transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }] }}
+                testID={undefined !== testID ? `${testID}-->BackButton` : undefined}>
+                <ChevronLeft height={backIconSize} width={backIconSize} color={iconColor} />
+              </Pressable>
+            )}
           </View>
-        )}
-        {rightComponent === "close" ? (
-          <View style={iconWrapper}>
-            <Pressable onPress={handleOnClose}>
-              <CloseIcon height={iconDimension} width={iconDimension} color={color} />
-            </Pressable>
-          </View>
-        ) : (
-          rightComponent?.text &&
-          rightComponent?.handler && (
-            <TouchableOpacity onPress={rightComponent.handler} style={iconWrapper}>
-              <Typography.Text size="callout" color="primaryBase-10">
-                {rightComponent.text}
+          <View style={[styles.column, styles.columnTitle]}>
+            {undefined !== title && (
+              <Typography.Text color={textColor} weight="medium" size="callout">
+                {title}
               </Typography.Text>
-            </TouchableOpacity>
-          )
-        )}
+            )}
+          </View>
+          <View style={[styles.column, styles.columnRight]}>
+            {right === "close" ? (
+              <CloseEndButton color={textColor} onPress={handleOnClose} />
+            ) : isValidElement(right) ? (
+              cloneElement(right, { color: textColor })
+            ) : undefined}
+          </View>
+        </View>
+        {undefined !== children && <View style={childrenStyles}>{children}</View>}
       </View>
-      {children}
-    </View>
+    </>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  textWrapper: {
-    alignItems: "center",
+  column: {
+    flex: 1 / 3,
   },
-  textWrapperFullWidth: {
-    width: "100%",
+  columnLeft: {
+    alignItems: "flex-start",
+  },
+  columnRight: {
+    alignItems: "flex-end",
+  },
+  columnTitle: {
+    alignItems: "center",
+    flexGrow: 1,
+    justifyContent: "center",
+  },
+  title: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
+
+NavHeader.CloseEndButton = CloseEndButton;
+NavHeader.TextEndButton = TextEndButton;
+
+export default NavHeader;

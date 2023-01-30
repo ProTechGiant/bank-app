@@ -6,7 +6,7 @@ import Typography from "@/components/Typography";
 const ForeignTaxScreen = () => {
   return (
     <SafeAreaView>
-      <NavHeader title="ForeignTaxScreen" backButton={true} barStyle="dark-content" rightComponent="close" />
+      <NavHeader title="ForeignTaxScreen"  right="close" />
       <Typography.Text>Your Foreign Tax Residency details</Typography.Text>
     </SafeAreaView>
   );

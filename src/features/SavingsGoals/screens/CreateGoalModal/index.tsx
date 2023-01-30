@@ -18,9 +18,8 @@ export default function SavingsGoalsModal() {
     <Page>
       <NavHeader
         title={t("SavingsGoals.CreateGoalModal.navTitle")}
-        backButton={false}
-        rightComponent="close"
-        closeButtonHandler={handleOnClosePress}
+        withBackButton={false}
+        right={<NavHeader.CloseEndButton onPress={handleOnClosePress} />}
       />
       <ContentContainer>
         <Button>{t("SavingsGoals.CreateGoalModal.button")}</Button>

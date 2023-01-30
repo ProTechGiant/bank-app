@@ -116,10 +116,10 @@ export default function HubScreen() {
       <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
         <View style={headerContainerStyle}>
           <NavHeader
-            title=""
-            backButton={true}
             color="white"
-            rightComponent={{ text: t("Referral.HubScreen.howItWorks"), handler: handleOnHowItWorksPress }}
+            right={
+              <NavHeader.TextEndButton onPress={handleOnHowItWorksPress} text={t("Referral.HubScreen.howItWorks")} />
+            }
           />
           <View style={IconWrapperStyle}>
             <FriendIcon height={friendIconDimensions} width={friendIconDimensions} />

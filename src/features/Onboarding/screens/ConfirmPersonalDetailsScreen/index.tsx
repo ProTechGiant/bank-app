@@ -62,64 +62,62 @@ export default function ConfirmPersonalDetailsScreen() {
   }));
 
   return (
-    <>
-      <Page>
-        <NavHeader
-          title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}
-          backButton={true}
-          rightComponent="close">
-          <ProgressIndicator currentStep={1} totalStep={6} />
-        </NavHeader>
-        <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12 }}>
-          <Stack align="stretch" direction="vertical" gap="medium">
-            <Typography.Header size="large" weight="bold">
-              {t("Onboarding.ConfirmPersonalDetailsScreen.title")}
-            </Typography.Header>
-            {undefined !== data && (
-              <View style={detailsCardStyle}>
-                <Stack direction="vertical" gap="medium">
-                  <InfoLine
-                    icon={<UserIcon />}
-                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineName")}
-                    value={concatStr(" ", [data.EnglishFamilyName, data.EnglishFirstName])}
-                  />
-                  <InfoLine
-                    icon={<GlobeIcon />}
-                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineNationality")}
-                    value={data.Nationality}
-                  />
-                  <InfoLine
-                    icon={<CalendarAltIcon />}
-                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineExpiry")}
-                    value={data.IqamaExpiryDateGregorian}
-                  />
-                  <InfoLine
-                    icon={<MapMarkerIcon />}
-                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineAddress")}
-                    value={concatStr(" ", [
-                      data.Addresses?.[0]?.StreetName +
-                        ", " +
-                        data.Addresses?.[0]?.City +
-                        " " +
-                        data.Addresses?.[0]?.PostCode,
-                      ", Saudi Arabia",
-                    ])}
-                  />
-                </Stack>
-              </View>
-            )}
-            <MoreInfoDropdown title={t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownTitle")}>
-              <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyOne")}
-                <Typography.Text color="neutralBase" size="footnote" weight="bold">
-                  {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyTwo")}
-                </Typography.Text>
-                {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyThree")}
+    <Page safeAreaInsets="top">
+      <NavHeader
+        title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}
+
+        right="close">
+        <ProgressIndicator currentStep={1} totalStep={6} />
+      </NavHeader>
+      <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12 }}>
+        <Stack align="stretch" direction="vertical" gap="medium">
+          <Typography.Header size="large" weight="bold">
+            {t("Onboarding.ConfirmPersonalDetailsScreen.title")}
+          </Typography.Header>
+          {undefined !== data && (
+            <View style={detailsCardStyle}>
+              <Stack direction="vertical" gap="medium">
+                <InfoLine
+                  icon={<UserIcon />}
+                  label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineName")}
+                  value={concatStr(" ", [data.EnglishFamilyName, data.EnglishFirstName])}
+                />
+                <InfoLine
+                  icon={<GlobeIcon />}
+                  label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineNationality")}
+                  value={data.Nationality}
+                />
+                <InfoLine
+                  icon={<CalendarAltIcon />}
+                  label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineExpiry")}
+                  value={data.IqamaExpiryDateGregorian}
+                />
+                <InfoLine
+                  icon={<MapMarkerIcon />}
+                  label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineAddress")}
+                  value={concatStr(" ", [
+                    data.Addresses?.[0]?.StreetName +
+                      ", " +
+                      data.Addresses?.[0]?.City +
+                      " " +
+                      data.Addresses?.[0]?.PostCode,
+                    ", Saudi Arabia",
+                  ])}
+                />
+              </Stack>
+            </View>
+          )}
+          <MoreInfoDropdown title={t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownTitle")}>
+            <Typography.Text color="neutralBase" size="footnote" weight="regular">
+              {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyOne")}
+              <Typography.Text color="neutralBase" size="footnote" weight="bold">
+                {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyTwo")}
               </Typography.Text>
-            </MoreInfoDropdown>
-          </Stack>
-        </ScrollView>
-      </Page>
+              {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyThree")}
+            </Typography.Text>
+          </MoreInfoDropdown>
+        </Stack>
+      </ScrollView>
       <View style={footerStyle}>
         <SafeAreaView>
           <Stack align="stretch" gap="small" direction="vertical">
@@ -136,7 +134,7 @@ export default function ConfirmPersonalDetailsScreen() {
           </Stack>
         </SafeAreaView>
       </View>
-    </>
+    </Page>
   );
 }
 

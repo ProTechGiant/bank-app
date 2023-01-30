@@ -55,7 +55,7 @@ export default function OptionalEmailScreen() {
 
   return (
     <Page>
-      <NavHeader title={t("Onboarding.OptionalEmailScreen.navHeaderTitle")} backButton={true} rightComponent="close">
+      <NavHeader title={t("Onboarding.OptionalEmailScreen.navHeaderTitle")}  right="close">
         <ProgressIndicator currentStep={2} totalStep={6} />
       </NavHeader>
       <ScrollView>

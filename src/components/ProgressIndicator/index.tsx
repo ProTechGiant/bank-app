@@ -9,34 +9,20 @@ type ProgressIndicatorProps = {
 };
 
 export default function ProgressIndicator({ currentStep, totalStep }: ProgressIndicatorProps) {
-  const containerStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      alignItems: "center",
-      flexDirection: "row",
-      marginVertical: 12,
-      marginHorizontal: theme.spacing.regular,
-    }),
-    []
-  );
-  const progressBarStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["neutralBase-20"],
-      borderRadius: 3,
-      flex: 1,
-      height: 3,
-      marginRight: 4,
-    }),
-    []
-  );
-  const progressBarActiveStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["tintBase"],
-    }),
-    []
-  );
+  const progressBarStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-20"],
+    borderRadius: 3,
+    flex: 1,
+    height: 3,
+    marginRight: 4,
+  }));
+
+  const progressBarActiveStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["tintBase"],
+  }));
 
   return (
-    <View style={containerStyle}>
+    <View style={styles.container}>
       {times(totalStep, (index: number) => (
         <View
           key={index}
@@ -52,6 +38,10 @@ export default function ProgressIndicator({ currentStep, totalStep }: ProgressIn
 }
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    flexDirection: "row",
+  },
   progressBarLast: {
     marginRight: 0,
   },

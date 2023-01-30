@@ -41,7 +41,7 @@ export default function LandingScreen() {
 
   return (
     <Page backgroundColor="primaryBase">
-      <NavHeader title="" color="white" backButton={true} />
+      <NavHeader color="white"  />
       <ContentContainer>
         <Stack direction="vertical" gap="medium" align="stretch">
           <View style={heroBrandStyle}>

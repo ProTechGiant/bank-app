@@ -1,18 +1,34 @@
+import { expect } from "@storybook/jest";
 import { ComponentStory } from "@storybook/react";
+import { within } from "@storybook/testing-library";
 
 import { UserIcon } from "@/assets/icons";
 
-import Toast_ from "./index";
+import DismissibleBanner_ from "./index";
 
 export default {
-  title: "components/Toast",
-  component: Toast_,
+  title: "components/DismissibleBanner",
+  component: DismissibleBanner_,
   args: {
     message: "Hello World",
     visible: true,
+    testID: "dismissible-banner",
+  },
+  argTypes: {
+    testID: {
+      table: {
+        disable: true,
+      },
+    },
   },
 };
 
-export const Toast: ComponentStory<typeof Toast_> = args => {
-  return <Toast_ {...args} icon={<UserIcon />} />;
+export const DismissibleBanner: ComponentStory<typeof DismissibleBanner_> = args => {
+  return <DismissibleBanner_ {...args} icon={<UserIcon />} />;
+};
+
+DismissibleBanner.play = async ({ args, canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  await expect(canvas.getByTestId(args.testID as string)).toBeVisible();
 };
