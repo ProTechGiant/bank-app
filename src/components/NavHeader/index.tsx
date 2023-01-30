@@ -42,6 +42,14 @@ export default function NavHeader({
     }),
     []
   );
+
+  const iconWrapper = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      height: theme.spacing.large,
+    }),
+    []
+  );
   const iconDimension = useThemeStyles<number>(theme => theme.iconDimensions.link, []);
 
   const navigation = useNavigation();
@@ -66,7 +74,7 @@ export default function NavHeader({
     <View>
       <StatusBar barStyle={barStyle} />
       <View style={container}>
-        <View style={styles.iconWrapper}>
+        <View style={iconWrapper}>
           {backButton && (
             <Pressable onPress={handleOnBack} style={{ transform: [{ scaleX: i18n.dir() === "ltr" ? 1 : -1 }] }}>
               <BackIcon height={iconDimension} width={iconDimension} color={color} />
@@ -81,7 +89,7 @@ export default function NavHeader({
           </View>
         )}
         {rightComponent === "close" ? (
-          <View style={styles.iconWrapper}>
+          <View style={iconWrapper}>
             <Pressable onPress={handleOnClose}>
               <CloseIcon height={iconDimension} width={iconDimension} color={color} />
             </Pressable>
@@ -89,8 +97,10 @@ export default function NavHeader({
         ) : (
           rightComponent?.text &&
           rightComponent?.handler && (
-            <TouchableOpacity onPress={rightComponent.handler}>
-              <Typography.Text color="primaryBase-10">{rightComponent.text}</Typography.Text>
+            <TouchableOpacity onPress={rightComponent.handler} style={iconWrapper}>
+              <Typography.Text size="callout" color="primaryBase-10">
+                {rightComponent.text}
+              </Typography.Text>
             </TouchableOpacity>
           )
         )}
@@ -101,9 +111,6 @@ export default function NavHeader({
 }
 
 const styles = StyleSheet.create({
-  iconWrapper: {
-    alignItems: "center",
-  },
   textWrapper: {
     alignItems: "center",
   },

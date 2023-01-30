@@ -96,7 +96,9 @@ export default function InstructionsScreen() {
           backButton={true}
           backButtonHandler={handleBackButton}
           color="white"
-          rightComponent={step < totalStep ? { text: "skip", handler: handleOnSkip } : undefined}
+          rightComponent={
+            step < totalStep ? { text: t(`Referral.InstructionsScreen.skip`), handler: handleOnSkip } : undefined
+          }
         />
         <ProgressIndicator currentStep={step} totalStep={totalStep} />
         <View style={container}>
