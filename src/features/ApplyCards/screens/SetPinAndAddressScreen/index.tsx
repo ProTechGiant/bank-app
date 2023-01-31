@@ -13,6 +13,7 @@ import CardDeliveryDetails from "./CardDeliveryDetails";
 import CreateCardPin from "./CreateCardPin";
 import isValidPincode from "./CreateCardPin/is-valid-pincode";
 import encryptPincode from "./encrypt-pincode";
+import westernArabicNumerals from "./western-arabic-numerals";
 
 const PIN_INPUT_LENGTH = 4;
 const PIN_MAX_TRIES = 3;
@@ -27,23 +28,23 @@ export default function SetPinAndAddressScreen() {
 
   const [currentInput, setCurrentInput] = useState("");
   const [isValid, setIsValid] = useState(true);
-  const [mode, setMode] = useState<"input" | "confirm">("input");
+  const [mode, setMode] = useState<"input" | "confirm" | "address">("input");
   const [remainingTries, setRemainingTries] = useState(PIN_MAX_TRIES);
   const [selectedPincode, setSelectedPincode] = useState("");
   const [showErrorBox, setShowErrorBox] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
 
-  const boxPressHandler = () => {
+  const handleOnInputPress = () => {
     textInputRef.current?.focus();
   };
 
-  useEffect(() => {
-    if (PIN_INPUT_LENGTH !== currentInput.length) {
-      return;
-    }
+  const handleOnChangeText = (input: string) => {
+    setCurrentInput(input);
+
+    if (PIN_INPUT_LENGTH !== input.length) return;
+    const normalizedValue = westernArabicNumerals(input);
 
     if (mode === "input") {
-      if (!isValidPincode(currentInput)) {
+      if (!isValidPincode(normalizedValue)) {
         return Alert.alert(
           t("ApplyCards.SetPinAndAddressScreen.SetPin.alert.title"),
           t("ApplyCards.SetPinAndAddressScreen.SetPin.alert.content"),
@@ -56,44 +57,43 @@ export default function SetPinAndAddressScreen() {
           ]
         );
       }
-      setSelectedPincode(currentInput);
+
+      setSelectedPincode(normalizedValue);
       setCurrentInput("");
-      setCurrentStep(2);
       setMode("confirm");
     }
 
     if (mode === "confirm") {
-      if (currentInput !== selectedPincode) {
-        setRemainingTries(remainingTries - 1);
+      if (normalizedValue !== selectedPincode) {
+        setRemainingTries(c => c - 1);
         setShowErrorBox(true);
         setIsValid(false);
 
-        if (remainingTries - 1 > 0) setCurrentInput("");
+        if (remainingTries - 1 > 0) {
+          setCurrentInput("");
+        }
       }
 
-      if (currentInput === selectedPincode) {
-        setSelectedPincode(currentInput);
+      if (normalizedValue === selectedPincode) {
         setIsValid(true);
+
         setOrderCardValues({
           ...orderCardValues,
-          formValues: { ...orderCardValues.formValues, pin: encryptPincode(currentInput) },
+          formValues: { ...orderCardValues.formValues, pin: encryptPincode(normalizedValue) },
         });
 
         setImmediate(() => handleOnResetPincode());
-        setCurrentStep(3);
+        setMode("address");
       }
     }
-  }, [currentInput]);
+  };
 
   useEffect(() => {
     scrollViewRef.current?.scrollTo({ x: SCREEN_WIDTH * (currentStep - 1) });
 
-    if (currentStep === 3) {
-      Keyboard.dismiss();
-    } else {
-      textInputRef.current?.focus();
-    }
-  }, [currentStep]);
+    if (mode === "address") Keyboard.dismiss();
+    else handleOnInputPress();
+  }, [mode]);
 
   const handleOnResetPincode = () => {
     setIsValid(true);
@@ -101,26 +101,25 @@ export default function SetPinAndAddressScreen() {
     setSelectedPincode("");
     setRemainingTries(PIN_MAX_TRIES);
     setShowErrorBox(false);
-    setMode("input");
-  };
-
-  const handleBack = () => {
-    if (currentStep === 2 || currentStep === 3) {
-      handleOnResetPincode();
-      setCurrentStep(1);
-    } else {
-      navigation.navigate("Temporary.LandingScreen");
-    }
   };
 
   const handleOnSetNewPin = () => {
     handleOnResetPincode();
-    setCurrentStep(1);
+    setMode("input");
   };
 
-  const onChangeText = (value: string) => {
-    setCurrentInput(value);
+  const handleBack = () => {
+    if (mode === "address") {
+      handleOnResetPincode();
+      setMode("input");
+
+      return;
+    }
+
+    navigation.navigate("Temporary.LandingScreen");
   };
+
+  const currentStep = mode === "input" ? 1 : mode === "confirm" ? 2 : 3;
 
   return (
     <Page>
@@ -137,7 +136,7 @@ export default function SetPinAndAddressScreen() {
             blurOnSubmit={false}
             value={currentInput}
             style={styles.hiddenInput}
-            onChangeText={onChangeText}
+            onChangeText={handleOnChangeText}
           />
           <ScrollView
             ref={scrollViewRef}
@@ -156,7 +155,7 @@ export default function SetPinAndAddressScreen() {
                 remainingTries={0}
                 pinInputLength={PIN_INPUT_LENGTH}
                 pinMaxTries={PIN_MAX_TRIES}
-                onBoxPress={boxPressHandler}
+                onBoxPress={handleOnInputPress}
               />
             </View>
             <View style={styles.fullWidth}>
@@ -170,7 +169,7 @@ export default function SetPinAndAddressScreen() {
                 pinInputLength={PIN_INPUT_LENGTH}
                 pinMaxTries={PIN_MAX_TRIES}
                 onSetNewPin={handleOnSetNewPin}
-                onBoxPress={boxPressHandler}
+                onBoxPress={handleOnInputPress}
               />
             </View>
             <View style={styles.fullWidth}>

@@ -14,7 +14,7 @@ interface CreateCardPinProps {
   inputValue: string;
   isValid: boolean;
   remainingTries: number;
-  mode: "input" | "confirm";
+  mode: "input" | "confirm" | "address";
   pinInputLength: number;
   pinMaxTries: number;
   showErrorBox?: boolean;
