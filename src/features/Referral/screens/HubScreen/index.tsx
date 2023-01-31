@@ -117,7 +117,7 @@ export default function HubScreen() {
         <View style={headerContainerStyle}>
           <NavHeader
             color="white"
-            right={
+            end={
               <NavHeader.TextEndButton onPress={handleOnHowItWorksPress} text={t("Referral.HubScreen.howItWorks")} />
             }
           />

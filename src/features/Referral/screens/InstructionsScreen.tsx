@@ -94,7 +94,7 @@ export default function InstructionsScreen() {
         <NavHeader
           onBackPress={handleBackButton}
           color="white"
-          right={
+          end={
             step < totalStep && (
               <NavHeader.TextEndButton onPress={handleOnSkip} text={t(`Referral.InstructionsScreen.skip`)} />
             )

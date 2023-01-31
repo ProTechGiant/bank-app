@@ -56,7 +56,7 @@ export default function PickCardTypeScreen() {
 
   return (
     <Page>
-      <NavHeader title={t("ApplyCards.ApplyForCardScreen.navTitle")} withBackButton={false} right="close" />
+      <NavHeader title={t("ApplyCards.ApplyForCardScreen.navTitle")} withBackButton={false} end="close" />
       <TabView
         navigationState={{
           index,

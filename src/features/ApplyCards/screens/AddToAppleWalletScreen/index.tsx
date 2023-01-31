@@ -55,7 +55,7 @@ export default function AddToAppleWalletScreen() {
 
   return (
     <Page>
-      <NavHeader withBackButton={false} right="close" />
+      <NavHeader withBackButton={false} end="close" />
       <ContentContainer style={contentContainerStyle}>
         <View style={titleStyle}>
           <Typography.Text size="large" weight="bold">

@@ -11,7 +11,7 @@ export default {
   args: {
     testID: "NavHeader",
     title: "Header text",
-    right: "close",
+    end: "close",
   },
   argTypes: {
     color: {
@@ -50,7 +50,7 @@ Default.play = async ({ args, canvasElement }) => {
 };
 
 export const TextEndButton: ComponentStory<typeof NavHeader_> = args => {
-  return <NavHeader_ {...args} right={<NavHeader_.TextEndButton text="Goodbye" onPress={() => {}} />} />;
+  return <NavHeader_ {...args} end={<NavHeader_.TextEndButton text="Goodbye" onPress={() => {}} />} />;
 };
 
 export const WithChildren: ComponentStory<typeof NavHeader_> = args => {

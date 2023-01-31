@@ -14,7 +14,7 @@ interface NavHeaderProps {
   onBackPress?: () => void;
   children?: React.ReactElement;
   color?: "black" | "white";
-  right?: "close" | React.ReactElement<CloseEndButtonProps> | React.ReactElement<TextEndButtonProps> | false;
+  end?: "close" | React.ReactElement<CloseEndButtonProps> | React.ReactElement<TextEndButtonProps> | false;
   testID?: string;
   title?: string;
   withBackButton?: boolean;
@@ -26,7 +26,7 @@ const NavHeader = ({
   withBackButton = true,
   onBackPress,
   color = "black",
-  right,
+  end,
   children,
 }: NavHeaderProps) => {
   const navigation = useNavigation();
@@ -58,7 +58,7 @@ const NavHeader = ({
       <StatusBar barStyle={color === "black" ? "dark-content" : "light-content"} />
       <View style={containerStyle} testID={testID}>
         <View style={styles.title}>
-          <View style={[styles.column, styles.columnLeft]}>
+          <View style={[styles.column, styles.columnStart]}>
             {withBackButton && (
               <Pressable
                 onPress={handleOnBackPress}
@@ -68,18 +68,18 @@ const NavHeader = ({
               </Pressable>
             )}
           </View>
-          <View style={[styles.column, styles.columnTitle]}>
+          <View style={[styles.column, styles.columnCenter]}>
             {undefined !== title && (
               <Typography.Text color={textColor} weight="medium" size="callout">
                 {title}
               </Typography.Text>
             )}
           </View>
-          <View style={[styles.column, styles.columnRight]}>
-            {right === "close" ? (
+          <View style={[styles.column, styles.columnEnd]}>
+            {end === "close" ? (
               <CloseEndButton color={textColor} onPress={handleOnClose} />
-            ) : isValidElement(right) ? (
-              cloneElement(right, { color: textColor })
+            ) : isValidElement(end) ? (
+              cloneElement(end, { color: textColor })
             ) : undefined}
           </View>
         </View>
@@ -93,16 +93,16 @@ const styles = StyleSheet.create({
   column: {
     flex: 1 / 3,
   },
-  columnLeft: {
-    alignItems: "flex-start",
-  },
-  columnRight: {
-    alignItems: "flex-end",
-  },
-  columnTitle: {
+  columnCenter: {
     alignItems: "center",
     flexGrow: 1,
     justifyContent: "center",
+  },
+  columnEnd: {
+    alignItems: "flex-end",
+  },
+  columnStart: {
+    alignItems: "flex-start",
   },
   title: {
     alignItems: "center",

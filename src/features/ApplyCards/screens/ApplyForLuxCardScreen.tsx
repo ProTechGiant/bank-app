@@ -5,7 +5,7 @@ import NavHeader from "@/components/NavHeader";
 export default function ApplyForLuxCardScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <NavHeader title="Order Lux Card" right="close" />
+      <NavHeader title="Order Lux Card" end="close" />
     </SafeAreaView>
   );
 }

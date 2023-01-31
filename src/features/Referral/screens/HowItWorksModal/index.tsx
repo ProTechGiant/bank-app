@@ -67,7 +67,7 @@ export default function HowItWorksModal() {
   return (
     <Page>
       <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
-        <NavHeader withBackButton={false} right={<NavHeader.CloseEndButton onPress={handleOnClosePress} />} />
+        <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={handleOnClosePress} />} />
         <View style={container}>
           <Typography.Text weight="bold" size="large">
             {t("Referral.HowItWorksModal.title")}
