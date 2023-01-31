@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -15,15 +16,17 @@ export default function SavingsGoalsModal() {
   };
 
   return (
-    <Page>
-      <NavHeader
-        title={t("SavingsGoals.CreateGoalModal.navTitle")}
-        withBackButton={false}
-        end={<NavHeader.CloseEndButton onPress={handleOnClosePress} />}
-      />
-      <ContentContainer>
-        <Button>{t("SavingsGoals.CreateGoalModal.button")}</Button>
-      </ContentContainer>
-    </Page>
+    <SafeAreaProvider>
+      <Page>
+        <NavHeader
+          title={t("SavingsGoals.CreateGoalModal.navTitle")}
+          withBackButton={false}
+          end={<NavHeader.CloseEndButton onPress={handleOnClosePress} />}
+        />
+        <ContentContainer>
+          <Button>{t("SavingsGoals.CreateGoalModal.button")}</Button>
+        </ContentContainer>
+      </Page>
+    </SafeAreaProvider>
   );
 }

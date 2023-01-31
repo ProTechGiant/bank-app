@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Platform, Pressable, ScrollView, Share, View, ViewStyle } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { ShareIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -65,46 +66,48 @@ export default function HowItWorksModal() {
   };
 
   return (
-    <Page>
-      <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
-        <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={handleOnClosePress} />} />
-        <View style={container}>
-          <Typography.Text weight="bold" size="large">
-            {t("Referral.HowItWorksModal.title")}
-          </Typography.Text>
-          <Stack direction="vertical" align="stretch" gap="medium" style={cardContainerStyle}>
-            <HowItWorksStepCard text={t("Referral.HowItWorksModal.stepOne")} step={1} />
-            <HowItWorksStepCard text={t("Referral.HowItWorksModal.stepTwo")} step={2} />
-            <HowItWorksStepCard text={t("Referral.HowItWorksModal.stepThree")} step={3} />
-          </Stack>
-          <View style={InfoBoxContainerStyle}>
-            <InfoBox title={t("Referral.HowItWorksModal.rewardTitle") ?? ""} variant="compliment">
-              {t("Referral.HowItWorksModal.rewardSubtext") ?? ""}
-            </InfoBox>
+    <SafeAreaProvider>
+      <Page>
+        <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
+          <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={handleOnClosePress} />} />
+          <View style={container}>
+            <Typography.Text weight="bold" size="large">
+              {t("Referral.HowItWorksModal.title")}
+            </Typography.Text>
+            <Stack direction="vertical" align="stretch" gap="medium" style={cardContainerStyle}>
+              <HowItWorksStepCard text={t("Referral.HowItWorksModal.stepOne")} step={1} />
+              <HowItWorksStepCard text={t("Referral.HowItWorksModal.stepTwo")} step={2} />
+              <HowItWorksStepCard text={t("Referral.HowItWorksModal.stepThree")} step={3} />
+            </Stack>
+            <View style={InfoBoxContainerStyle}>
+              <InfoBox title={t("Referral.HowItWorksModal.rewardTitle") ?? ""} variant="compliment">
+                {t("Referral.HowItWorksModal.rewardSubtext") ?? ""}
+              </InfoBox>
+            </View>
+          </View>
+        </ScrollView>
+        <View style={footerStyle}>
+          <Button
+            variant="primary"
+            color="alt"
+            iconLeft={<ShareIcon height={shareIconDimensions} width={shareIconDimensions} />}
+            onPress={handleOnSharePress}>
+            <Typography.Text color="neutralBase-50" weight="semiBold" size="callout">
+              {t("Referral.HowItWorksModal.buttonText")}
+            </Typography.Text>
+          </Button>
+          <View style={footerTextWrapperStyle}>
+            <Typography.Text size="caption2" color="neutralBase" weight="medium">
+              {t("Referral.read")}
+            </Typography.Text>
+            <Pressable>
+              <Typography.Text size="caption2" color="interactionBase" weight="medium">
+                {t("Referral.termsAndConditions")}
+              </Typography.Text>
+            </Pressable>
           </View>
         </View>
-      </ScrollView>
-      <View style={footerStyle}>
-        <Button
-          variant="primary"
-          color="alt"
-          iconLeft={<ShareIcon height={shareIconDimensions} width={shareIconDimensions} />}
-          onPress={handleOnSharePress}>
-          <Typography.Text color="neutralBase-50" weight="semiBold" size="callout">
-            {t("Referral.HowItWorksModal.buttonText")}
-          </Typography.Text>
-        </Button>
-        <View style={footerTextWrapperStyle}>
-          <Typography.Text size="caption2" color="neutralBase" weight="medium">
-            {t("Referral.read")}
-          </Typography.Text>
-          <Pressable>
-            <Typography.Text size="caption2" color="interactionBase" weight="medium">
-              {t("Referral.termsAndConditions")}
-            </Typography.Text>
-          </Pressable>
-        </View>
-      </View>
-    </Page>
+      </Page>
+    </SafeAreaProvider>
   );
 }

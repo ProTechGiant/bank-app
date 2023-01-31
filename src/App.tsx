@@ -1,6 +1,7 @@
 import "./i18n";
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import useI18nDirection from "@/i18n/use-i18n-direction";
@@ -18,9 +19,11 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <GlobalContextProvider>
         <OnboardingContextProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <MainStack />
-          </GestureHandlerRootView>
+          <SafeAreaProvider>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <MainStack />
+            </GestureHandlerRootView>
+          </SafeAreaProvider>
         </OnboardingContextProvider>
       </GlobalContextProvider>
     </QueryClientProvider>

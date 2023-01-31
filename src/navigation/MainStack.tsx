@@ -62,11 +62,7 @@ export default function MainStack() {
         />
         <Stack.Screen component={OnboardingStack} name="Onboarding.OnboardingStack" options={{ headerShown: false }} />
         <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>
-          <Stack.Screen
-            component={ApplyCardsStack}
-            name="ApplyCards.ApplyForCardStack"
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen component={ApplyCardsStack} name="ApplyCards.ApplyForCardStack" />
 
           <Stack.Screen
             options={{ headerShown: false }}
@@ -82,7 +78,6 @@ export default function MainStack() {
             component={HowItWorksModal}
             name="Referral.HowItWorksModal"
             options={{
-              headerShown: false,
               presentation: "fullScreenModal",
             }}
           />
