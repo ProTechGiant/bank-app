@@ -17,7 +17,7 @@ export { GlobeIcon } from "./globe";
 export { default as HamburgerIcon } from "./hamburger.svg";
 export { default as HideIcon } from "./hide.svg";
 export { default as InfoIcon } from "./info.svg";
-export { default as InfoCircleIcon } from "./info-circle.svg";
+export { InfoCircleIcon } from "./info-circle";
 export { InfoFilledCircleIcon } from "./info-filled-circle";
 export { default as LocationPinIcon } from "./location-pin.svg";
 export { MapMarkerIcon } from "./map-marker";
