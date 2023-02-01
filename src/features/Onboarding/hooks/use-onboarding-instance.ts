@@ -4,8 +4,13 @@ import sendApiRequest from "@/api";
 
 import ApiOnboardingError from "../types/ApiOnboardingError";
 
+interface useOnboardingInstanceRequest {
+  userId: string;
+  correlationId: string;
+}
+
 export default function useOnboardingInstance() {
-  return useMutation(({ userId }: { userId: string }) => {
+  return useMutation(({ userId, correlationId }: useOnboardingInstanceRequest) => {
     return sendApiRequest<number, ApiOnboardingError>(
       "api-dev",
       "v1",
@@ -15,6 +20,7 @@ export default function useOnboardingInstance() {
       undefined,
       {
         ["UserId"]: userId,
+        ["x-Correlation-Id"]: correlationId,
       }
     );
   });

@@ -16,6 +16,8 @@ interface OnboardingContextState {
   userId: string | undefined;
   setCorrelationId: (value: string) => void;
   correlationId: string | undefined;
+  setProcessId: (value: string) => void;
+  processId: string | undefined;
   startOnboardingAsync: () => Promise<void>;
   fetchLatestWorkflowTask: () => Promise<{ id: string; name: string } | undefined>;
 }
@@ -27,6 +29,8 @@ const OnboardingContext = createContext<OnboardingContextState>({
   userId: undefined,
   setCorrelationId: noop,
   correlationId: undefined,
+  setProcessId: noop,
+  processId: undefined,
   startOnboardingAsync: () => Promise.reject(),
   fetchLatestWorkflowTask: () => Promise.reject(),
 });
@@ -35,10 +39,13 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
   const onboardingInstanceAsync = useOnboardingInstance();
   const onboardingTasksAsync = useOnboardingTasks();
 
-  const [state, setState] = useState<Pick<OnboardingContextState, "nationalId" | "userId" | "correlationId">>({
+  const [state, setState] = useState<
+    Pick<OnboardingContextState, "nationalId" | "userId" | "correlationId" | "processId">
+  >({
     nationalId: undefined,
     userId: undefined,
     correlationId: undefined,
+    processId: undefined,
   });
 
   const setNationalId = (nationalId: string) => {
@@ -53,6 +60,10 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
     setState(v => ({ ...v, correlationId }));
   };
 
+  const setProcessId = (processId: string) => {
+    setState(v => ({ ...v, processId }));
+  };
+
   const fetchLatestWorkflowTask = async () => {
     const { userId, correlationId } = state;
     if (!userId || !correlationId) throw new Error("Cannot fetch tasks without `userId` and `correlationId`");
@@ -63,10 +74,12 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
 
   const startOnboardingAsync = async () => {
     const _userId = generateRandomId();
-    const correlationId = await onboardingInstanceAsync.mutateAsync({ userId: _userId });
+    const _correlationId = generateRandomId();
+    const processId = await onboardingInstanceAsync.mutateAsync({ userId: _userId, correlationId: _correlationId });
 
     setUserId(_userId);
-    setCorrelationId(String(correlationId));
+    setCorrelationId(_correlationId);
+    setProcessId(String(processId));
   };
 
   return (
@@ -77,6 +90,7 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
           setNationalId,
           setUserId,
           setCorrelationId,
+          setProcessId,
           startOnboardingAsync,
           fetchLatestWorkflowTask,
         }),
