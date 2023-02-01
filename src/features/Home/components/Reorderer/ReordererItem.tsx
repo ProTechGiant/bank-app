@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 
-import { DisabledPlusIcon, HamburgerIcon, MinusIcon, PlusIcon } from "@/assets/icons";
+import { DisabledPlusIconCircle, HamburgerIcon, MinusIcon, PlusIconCircle } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -118,12 +118,12 @@ export default function ReordererItem({
       )}
       {(!isActive && isAddAllowed && (
         <TouchableOpacity onPress={handleToggle}>
-          <PlusIcon style={iconStyle} width={iconDimensions} height={iconDimensions} />
+          <PlusIconCircle style={iconStyle} width={iconDimensions} height={iconDimensions} />
         </TouchableOpacity>
       )) ||
         (!isActive && !isAddAllowed && (
           <TouchableOpacity disabled={true}>
-            <DisabledPlusIcon style={iconStyle} width={iconDimensions} height={iconDimensions} />
+            <DisabledPlusIconCircle style={iconStyle} width={iconDimensions} height={iconDimensions} />
           </TouchableOpacity>
         ))}
       {/* If no icons are used then we place a placeholder */}

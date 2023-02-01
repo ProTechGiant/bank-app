@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Alert, ScrollView, View, ViewStyle } from "react-native";
@@ -35,7 +36,11 @@ export default function OptionalEmailScreen() {
   const navigation = useNavigation();
   const confirmPersonalDetailsAsync = useConfirmPersonalDetails();
 
-  const { control, handleSubmit } = useForm<OptionalEmailFormValues>({
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<OptionalEmailFormValues>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -82,7 +87,7 @@ export default function OptionalEmailScreen() {
           <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
             {t("Onboarding.OptionalEmailScreen.continue")}
           </SubmitButton>
-          <Button onPress={handleSubmit(handleOnSubmit)} variant="secondary">
+          <Button type={isSubmitting ? "loader" : undefined} onPress={handleSubmit(handleOnSubmit)} variant="secondary">
             {t("Onboarding.OptionalEmailScreen.skip")}
           </Button>
         </Stack>

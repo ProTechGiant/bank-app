@@ -2,8 +2,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { OnboardingContextProvider } from "./context/OnboardingContext";
 import ConfirmPersonalDetailsScreen from "./screens/ConfirmPersonalDetailsScreen";
+import FatcaDetailsScreen from "./screens/FatcaDetailsScreen";
+import CountrySelector from "./screens/FatcaDetailsScreen/CountrySelector";
 import FinancialInformationScreen from "./screens/FinancialInformationScreen";
-import ForeignTaxScreen from "./screens/ForeignTaxScreen";
 import IqamaInputScreen from "./screens/IqamaInputScreen";
 import NafathAuthScreen from "./screens/NafathAuthScreen";
 import OnboardingSplashScreen from "./screens/OnboardingSplashScreen";
@@ -18,7 +19,8 @@ export type OnboardingStackParams = {
   "Onboarding.ConfirmDetails": undefined;
   "Onboarding.OptionalEmail": undefined;
   "Onboarding.Financial": undefined;
-  "Onboarding.ForeignTax": undefined;
+  "Onboarding.Fatca": undefined;
+  "Onboarding.CountrySelector": undefined;
   "Onboarding.Terms": undefined;
   "Onboarding.Passcode": undefined;
 };
@@ -35,7 +37,12 @@ export default function OnboardingStack() {
         <Stack.Screen component={ConfirmPersonalDetailsScreen} name="Onboarding.ConfirmDetails" />
         <Stack.Screen component={OptionalEmailScreen} name="Onboarding.OptionalEmail" />
         <Stack.Screen component={FinancialInformationScreen} name="Onboarding.Financial" />
-        <Stack.Screen component={ForeignTaxScreen} name="Onboarding.ForeignTax" />
+        <Stack.Screen component={FatcaDetailsScreen} name="Onboarding.Fatca" />
+        <Stack.Screen
+          component={CountrySelector}
+          name="Onboarding.CountrySelector"
+          options={{ presentation: "modal" }}
+        />
         <Stack.Screen component={TermsAndConditionsScreen} name="Onboarding.Terms" />
         <Stack.Screen component={PasscodeScreen} name="Onboarding.Passcode" />
       </Stack.Navigator>

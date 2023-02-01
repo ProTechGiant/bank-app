@@ -122,6 +122,7 @@ export default function ConfirmPersonalDetailsScreen() {
             <CheckboxInput
               control={control}
               isEditable={true}
+              bordered={false}
               name="confirmDetailsAreCorrect"
               label={t("Onboarding.ConfirmPersonalDetailsScreen.CheckBoxLabel")}
             />

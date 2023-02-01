@@ -109,7 +109,7 @@ export const resources = {
             alert: "Woops. Could not submit financial details",
           },
         },
-        ForeignTaxScreen: {
+        FatcaDetailsScreen: {
           navHeaderTitle: "ABOUT YOU",
           title: "Your tax residency details",
           subHeader: "Are you a tax resident in any countries outside Saudi Arabia?",
@@ -121,10 +121,11 @@ export const resources = {
           continue: "Continue",
           addCountry: "Add country",
           addCountryExtra: "You can add 3 in total",
-          countryModals: {
-            countryLabel: "Add Country:",
+          CountrySelector: {
+            navHeaderTitle: "Add tax residency",
+            countryLabel: "Select country",
             countryPlaceholder: "Select your country",
-            taxNumberLabel: "Your Unique Taxpayer Reference (UTR):",
+            taxNumberLabel: "Unique Taxpayer Reference (UTR):",
             taxNumberPlaceholder: "0000 0000 0000 0000",
             addButton: "Add",
             continue: "Continue",
@@ -431,7 +432,7 @@ export const resources = {
             alert: "Woops. Could not submit financial details",
           },
         },
-        ForeignTaxScreen: {
+        FatcaDetailsScreen: {
           navHeaderTitle: "بيانات المُستخدم",
           title: "تفاصيل ضريبة الإقامة خارج المملكة",
           subHeader: "هل يترتب عليك ضريبة إقامة بأي بلد خارج المملكة العربية السعودية؟",
@@ -443,7 +444,7 @@ export const resources = {
           continue: "استمرار",
           addCountry: "Add country",
           addCountryExtra: "You can add 3 in total",
-          countryModals: {
+          CountrySelector: {
             countryLabel: "ما هي البلد بالتحديد؟",
             countryPlaceholder: "اختر بلدك من القائمة",
             taxNumberLabel: "الرقم الضريبي",

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, StatusBar, View, ViewStyle } from "react-native";
 
@@ -16,6 +17,7 @@ export default function OnboardingSplashScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { startOnboardingAsync } = useOnboardingContext();
+  const [loading, setLoading] = useState<"loader" | undefined>(undefined);
 
   const contentViewStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing.regular,
@@ -30,7 +32,9 @@ export default function OnboardingSplashScreen() {
 
   const handleOnSignUp = () => {
     const _retryableStart = async () => {
+      setLoading("loader");
       await startOnboardingAsync();
+      setLoading(undefined);
       navigation.navigate("Onboarding.Iqama");
     };
 
@@ -65,7 +69,7 @@ export default function OnboardingSplashScreen() {
             </View>
           </View>
           <Stack align="stretch" direction="vertical" gap="small">
-            <Button variant="primary" color="alt" onPress={handleOnSignUp}>
+            <Button type={loading} variant="primary" color="alt" onPress={handleOnSignUp}>
               {t("Onboarding.SplashScreen.buttons.signUp")}
             </Button>
             <Button color="base" onPress={handleOnSignIn} variant="secondary">

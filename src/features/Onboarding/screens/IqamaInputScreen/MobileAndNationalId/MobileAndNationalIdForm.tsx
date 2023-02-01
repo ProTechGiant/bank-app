@@ -157,10 +157,10 @@ export default function MobileAndNationalIdForm({
                 keyboardType="number-pad"
               />
               <InfoBox variant="compliment" borderPosition="start">
-                {t("Onboarding.IqamaInputScreen.notificationText.one")}{" "}
+                {t("Onboarding.IqamaInputScreen.notificationText.one")}
                 <Typography.Text color="primaryBase+30" size="caption1" weight="bold">
                   {t("Onboarding.IqamaInputScreen.notificationText.two")}
-                </Typography.Text>{" "}
+                </Typography.Text>
                 {t("Onboarding.IqamaInputScreen.notificationText.three")}
               </InfoBox>
             </Stack>

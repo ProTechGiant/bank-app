@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Alert, ScrollView } from "react-native";
@@ -35,7 +36,7 @@ export default function FinancialInformationScreen() {
   const handleOnSubmit = async (values: FinancialDetails) => {
     try {
       await submitFinancialDetailsAsync.mutateAsync(values);
-      navigation.navigate("Onboarding.ForeignTax");
+      navigation.navigate("Onboarding.Fatca");
     } catch (error) {
       Alert.alert(t("Onboarding.FinancialInformationScreen.errorText.alert"));
       __DEV__ && console.error("Could not submit financial details: ", error);
