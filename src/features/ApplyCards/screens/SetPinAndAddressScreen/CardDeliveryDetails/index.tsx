@@ -5,7 +5,6 @@ import { Alert, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { OrderCardFormValues, useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
@@ -115,57 +114,55 @@ export default function CardDeliveryDetails() {
   };
 
   return (
-    <Page>
-      <ContentContainer>
-        <View style={styles.contentContainer}>
-          <View style={headerStyle}>
-            <Typography.Text size="large" weight="bold">
-              {t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.title")}
-            </Typography.Text>
-          </View>
-          <View style={styles.paragraph}>
-            <Typography.Text>
-              {hasTemporaryAddress
-                ? t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.paragraph.checkHighlighted")
-                : t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.paragraph.default")}
-            </Typography.Text>
-          </View>
-          <Stack direction="vertical" align="stretch" gap="regular">
-            {!isEmpty(addressData) &&
-              addressData.map((address, index) => {
-                const addressLineFour = `${address.city} ${address.postalCode}`;
-
-                return (
-                  <AddressSelector
-                    key={index}
-                    id={address.id}
-                    addressLineOne={address.addressLineOne}
-                    addressLineTwo={address.addressLineTwo}
-                    addressLineThree={address.district}
-                    addressLineFour={addressLineFour}
-                    isSelected={address.is_selected}
-                    isTemporary={address.is_temp_address}
-                    handlePress={handleAddressSelect}
-                  />
-                );
-              })}
-          </Stack>
+    <ContentContainer>
+      <View style={styles.contentContainer}>
+        <View style={headerStyle}>
+          <Typography.Text size="large" weight="bold">
+            {t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.title")}
+          </Typography.Text>
         </View>
-        <Button onPress={handleConfirm} type={submitOrderCardAsync.isLoading ? "loader" : "no icons"}>
-          <Typography.Text color="neutralBase-50" size="body" weight="medium">
-            {t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.confirm")}
+        <View style={styles.paragraph}>
+          <Typography.Text>
+            {hasTemporaryAddress
+              ? t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.paragraph.checkHighlighted")
+              : t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.paragraph.default")}
           </Typography.Text>
-        </Button>
-        <Button
-          onPress={handleSetTemporaryAddress}
-          variant="tertiary"
-          disabled={!isTempAddressButtonActive || submitOrderCardAsync.isLoading}>
-          <Typography.Text color="tintBase+20" size="body">
-            {buttonText}
-          </Typography.Text>
-        </Button>
-      </ContentContainer>
-    </Page>
+        </View>
+        <Stack direction="vertical" align="stretch" gap="regular">
+          {!isEmpty(addressData) &&
+            addressData.map((address, index) => {
+              const addressLineFour = `${address.city} ${address.postalCode}`;
+
+              return (
+                <AddressSelector
+                  key={index}
+                  id={address.id}
+                  addressLineOne={address.addressLineOne}
+                  addressLineTwo={address.addressLineTwo}
+                  addressLineThree={address.district}
+                  addressLineFour={addressLineFour}
+                  isSelected={address.is_selected}
+                  isTemporary={address.is_temp_address}
+                  handlePress={handleAddressSelect}
+                />
+              );
+            })}
+        </Stack>
+      </View>
+      <Button onPress={handleConfirm} type={submitOrderCardAsync.isLoading ? "loader" : "no icons"}>
+        <Typography.Text color="neutralBase-50" size="body" weight="medium">
+          {t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.confirm")}
+        </Typography.Text>
+      </Button>
+      <Button
+        onPress={handleSetTemporaryAddress}
+        variant="tertiary"
+        disabled={!isTempAddressButtonActive || submitOrderCardAsync.isLoading}>
+        <Typography.Text color="tintBase+20" size="body">
+          {buttonText}
+        </Typography.Text>
+      </Button>
+    </ContentContainer>
   );
 }
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Dimensions, Keyboard, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { Alert, Dimensions, Keyboard, Platform, ScrollView, StyleSheet, TextInput, View } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -36,6 +36,17 @@ export default function SetPinAndAddressScreen() {
   const handleOnInputPress = () => {
     textInputRef.current?.focus();
   };
+
+  React.useEffect(() => {
+    if (Platform.OS === "android") {
+      const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () => {
+        textInputRef.current?.blur();
+      });
+      return () => {
+        keyboardDidHideListener.remove();
+      };
+    }
+  }, []);
 
   const handleOnChangeText = (input: string) => {
     setCurrentInput(input);
@@ -149,6 +160,7 @@ export default function SetPinAndAddressScreen() {
             <View style={styles.fullWidth}>
               <CreateCardPin
                 title={t("ApplyCards.SetPinAndAddressScreen.SetPin.title")}
+                instruction={t("ApplyCards.SetPinAndAddressScreen.SetPin.instruction")}
                 inputValue={currentInput}
                 isValid={isValid}
                 mode={mode}
@@ -161,6 +173,7 @@ export default function SetPinAndAddressScreen() {
             <View style={styles.fullWidth}>
               <CreateCardPin
                 title={t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.title")}
+                instruction={t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.instruction")}
                 remainingTries={remainingTries}
                 inputValue={currentInput}
                 showErrorBox={showErrorBox}

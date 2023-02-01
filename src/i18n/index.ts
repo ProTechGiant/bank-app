@@ -180,7 +180,7 @@ export const resources = {
           navTitle: "Order Card",
           SetPin: {
             title: "Set PIN",
-            intro: "Enter 4 unique numbers",
+            instruction: "Enter 4 unique numbers",
             avoidSimplePin: "Avoid a PIN that’s easy to guess, like 1234 or 1111.",
             alert: {
               title: "Easy PIN",
@@ -190,7 +190,7 @@ export const resources = {
           },
           ConfirmPin: {
             title: "Confirm PIN",
-            intro: "Re-enter your 4 numbers",
+            instruction: "Re-enter your 4 numbers",
             pinNotMatch: "Your PINs didn’t match, please try again. {{count}} try remaining.",
             pinNotMatch_plural: "Your PINs didn’t match, please try again. {{count}} tries remaining.",
             tooManyTries: "Oops! Too many tries",
