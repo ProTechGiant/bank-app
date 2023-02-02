@@ -48,11 +48,12 @@ const TermsAndConditionsScreen = () => {
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
     paddingHorizontal: theme.spacing.regular,
+    paddingBottom: theme.spacing.regular,
   }));
   return (
     <>
       <Page safeAreaInsets="top">
-        <NavHeader title={t("Onboarding.TermsAndConditions.navHeaderTitle")} backButton={true} rightComponent="close">
+        <NavHeader title={t("Onboarding.TermsAndConditions.navHeaderTitle")} withBackButton rightComponent="close">
           <ProgressIndicator currentStep={5} totalStep={6} />
         </NavHeader>
         <ScrollView>
@@ -68,26 +69,24 @@ const TermsAndConditionsScreen = () => {
           </ContentContainer>
         </ScrollView>
         <View style={footerStyle}>
-          <SafeAreaView>
-            <Stack align="stretch" gap="small" direction="vertical">
-              <View />
-              <CheckboxInput
-                control={control}
-                isEditable={true}
-                name="termAndConditionsAreCorrect"
-                label={t("Onboarding.TermsAndConditions.checkBoxTermsLabel")}
-              />
-              <CheckboxInput
-                control={control}
-                isEditable={true}
-                name="customerDeclarationAreCorrect"
-                label={t("Onboarding.TermsAndConditions.checkBoxDeclarationLabel")}
-              />
-              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-                Continue
-              </SubmitButton>
-            </Stack>
-          </SafeAreaView>
+          <Stack align="stretch" gap="small" direction="vertical">
+            <View />
+            <CheckboxInput
+              control={control}
+              isEditable={true}
+              name="termAndConditionsAreCorrect"
+              label={t("Onboarding.TermsAndConditions.checkBoxTermsLabel")}
+            />
+            <CheckboxInput
+              control={control}
+              isEditable={true}
+              name="customerDeclarationAreCorrect"
+              label={t("Onboarding.TermsAndConditions.checkBoxDeclarationLabel")}
+            />
+            <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+              Continue
+            </SubmitButton>
+          </Stack>
         </View>
       </Page>
     </>

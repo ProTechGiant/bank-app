@@ -1,6 +1,6 @@
 import * as React from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, ViewStyle } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Edge, SafeAreaView } from "react-native-safe-area-context";
 
 import { Theme, useThemeStyles } from "@/theme";
 
@@ -9,7 +9,7 @@ interface PageProps {
   children: React.ReactNode;
   keyboardAvoiding?: boolean;
   keyboardVerticalOffset?: number;
-  safeAreaInsets?: "top" | "bottom";
+  safeAreaInsets?: Edge;
 }
 
 export default function Page({
@@ -32,7 +32,7 @@ export default function Page({
       enabled={keyboardAvoiding}
       keyboardVerticalOffset={keyboardVerticalOffset}
       style={[styles.keyboardAvoidingContainer, backgroundColor]}>
-      <SafeAreaView edges={safeAreaInsets} style={[styles.container, backgroundColor]}>
+      <SafeAreaView edges={safeAreaInsets && [safeAreaInsets]} style={[styles.container, backgroundColor]}>
         {children}
       </SafeAreaView>
     </KeyboardAvoidingView>
