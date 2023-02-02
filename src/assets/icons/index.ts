@@ -2,6 +2,7 @@ export { default as AccountIcon } from "./account.svg";
 export { default as AddIcon } from "./add.svg";
 export { BackIcon } from "./back-icon";
 export { CalendarAltIcon } from "./calendar-alt";
+export { default as CheckmarkCircle } from "./checkmark-circle.svg";
 export { ChevronLeft } from "./chevron-left";
 export { ChevronRightIcon } from "./chevron-right";
 export { default as ClearIcon } from "./clear.svg";
