@@ -8,8 +8,9 @@ import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import useNavigation from "@/navigation/use-navigation";
 
-import { useOrderCardContext } from "../../context/OrderCardContext";
+import { Address, useOrderCardContext } from "../../context/OrderCardContext";
 import CardDeliveryDetails from "./CardDeliveryDetails";
+import useGetPrimaryAddress from "./CardDeliveryDetails/use-get-primary-address";
 import CreateCardPin from "./CreateCardPin";
 import isValidPincode from "./CreateCardPin/is-valid-pincode";
 import encryptPincode from "./encrypt-pincode";
@@ -21,6 +22,7 @@ const PIN_MAX_TRIES = 3;
 export default function SetPinAndAddressScreen() {
   const { t } = useTranslation();
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
+  const getPrimaryAddress = useGetPrimaryAddress();
   const navigation = useNavigation();
 
   const textInputRef = useRef<TextInput>(null);
@@ -32,6 +34,14 @@ export default function SetPinAndAddressScreen() {
   const [remainingTries, setRemainingTries] = useState(PIN_MAX_TRIES);
   const [selectedPincode, setSelectedPincode] = useState("");
   const [showErrorBox, setShowErrorBox] = useState(false);
+  const [showApiErrorAlert, setShowApiErrorAlert] = useState(false);
+  const [primaryAddress, setPrimaryAddress] = useState<Address | undefined>();
+
+  const GENERIC_ERROR = {
+    name: "error",
+    title: t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.error.title"),
+    message: t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.error.message"),
+  };
 
   const handleOnInputPress = () => {
     textInputRef.current?.focus();
@@ -95,9 +105,34 @@ export default function SetPinAndAddressScreen() {
 
         setImmediate(() => handleOnResetPincode());
         setMode("address");
+        if (showApiErrorAlert) {
+          showErrorAlert(GENERIC_ERROR.title, GENERIC_ERROR.message);
+        }
       }
     }
   };
+
+  const showErrorAlert = (title: string, content: string) => {
+    Alert.alert(title, content, [
+      {
+        text: "OK",
+        onPress: () => navigation.navigate("Temporary.LandingScreen"),
+      },
+    ]);
+  };
+
+  useEffect(() => {
+    const retrievePrimaryAddress = async () => {
+      try {
+        const response = await getPrimaryAddress.mutateAsync();
+        setPrimaryAddress(response);
+      } catch (error) {
+        setPrimaryAddress(undefined);
+        setShowApiErrorAlert(true);
+      }
+    };
+    retrievePrimaryAddress();
+  }, []);
 
   useEffect(() => {
     scrollViewRef.current?.scrollTo({ x: SCREEN_WIDTH * (currentStep - 1) });
@@ -186,7 +221,7 @@ export default function SetPinAndAddressScreen() {
               />
             </View>
             <View style={styles.fullWidth}>
-              <CardDeliveryDetails />
+              <CardDeliveryDetails primaryAddress={primaryAddress} />
             </View>
           </ScrollView>
         </View>

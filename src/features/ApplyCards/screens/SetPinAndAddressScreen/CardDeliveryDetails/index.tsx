@@ -1,4 +1,3 @@
-import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet, View, ViewStyle } from "react-native";
@@ -7,15 +6,24 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { OrderCardFormValues, useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
-import { mockPrimaryDeliveryAddress } from "@/mocks/deliveryAddressData";
+import { Address, OrderCardFormValues, useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import AddressSelector from "./AddressSelector";
 import useSubmitOrderCard from "./use-submit-order-card";
 
-export default function CardDeliveryDetails() {
+interface CardDeliveryDetailsProps {
+  primaryAddress?: Address;
+}
+
+interface AddressDataType extends Address {
+  id: string;
+  isSelected: boolean;
+  isTempAddress: boolean;
+}
+
+export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDetailsProps) {
   const headerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignSelf: "flex-start",
@@ -26,6 +34,7 @@ export default function CardDeliveryDetails() {
 
   const navigation = useNavigation();
   const { orderCardValues } = useOrderCardContext();
+
   const { t } = useTranslation();
 
   const API_SUCCESS_MESSAGE = "Successful request card creation";
@@ -42,25 +51,38 @@ export default function CardDeliveryDetails() {
   const buttonText = hasTemporaryAddress
     ? t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.edit")
     : t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.setAddress");
-  const primaryAddress = mockPrimaryDeliveryAddress.addresses.map(data => {
-    return { ...data, id: PRIMARY_ID, is_selected: !hasTemporaryAddress, is_temp_address: false };
-  });
 
-  const [addressData, setAddressData] = useState(primaryAddress);
+  const primaryAddressInit: AddressDataType | undefined =
+    primaryAddress !== undefined
+      ? {
+          ...primaryAddress,
+          id: PRIMARY_ID,
+          isSelected: !hasTemporaryAddress,
+          isTempAddress: false,
+        }
+      : undefined;
+
+  const [addressData, setAddressData] = useState<AddressDataType[] | undefined>();
+
   const [isTempAddressButtonActive, setIsTempAddressButtonActive] = useState(true);
 
   useEffect(() => {
-    const temporaryAddress = hasTemporaryAddress
-      ? [
-          {
+    const temporaryAddress: AddressDataType | undefined =
+      orderCardValues.formValues.alternateAddress !== undefined
+        ? {
             ...orderCardValues.formValues.alternateAddress,
             id: TEMPORARY_ID,
-            is_temp_address: true,
-            is_selected: true,
-          },
-        ]
-      : [];
-    const initAddressData = hasTemporaryAddress ? [...temporaryAddress, ...primaryAddress] : primaryAddress;
+            isTempAddress: true,
+            isSelected: true,
+          }
+        : undefined;
+
+    const initAddressData: AddressDataType[] | undefined =
+      primaryAddressInit !== undefined && temporaryAddress !== undefined
+        ? [temporaryAddress, primaryAddressInit]
+        : temporaryAddress === undefined && primaryAddressInit !== undefined
+        ? [primaryAddressInit]
+        : undefined;
     setAddressData(initAddressData);
   }, [orderCardValues]);
 
@@ -90,7 +112,7 @@ export default function CardDeliveryDetails() {
   };
 
   const handleConfirm = () => {
-    const selectedAddressType = !isEmpty(addressData) && addressData.filter(data => data.is_selected === true)[0].id;
+    const selectedAddressType = addressData !== undefined && addressData.filter(data => data.isSelected === true)[0].id;
     const payload = { ...orderCardValues.formValues };
 
     if (selectedAddressType === PRIMARY_ID) {
@@ -107,9 +129,11 @@ export default function CardDeliveryDetails() {
   const handleAddressSelect = (id: string) => {
     setIsTempAddressButtonActive(!hasTemporaryAddress || id === TEMPORARY_ID);
     setAddressData(
-      addressData.map(data => {
-        return { ...data, is_selected: data.id === id };
-      })
+      addressData !== undefined
+        ? addressData.map(data => {
+            return { ...data, isSelected: data.id === id };
+          })
+        : undefined
     );
   };
 
@@ -129,7 +153,7 @@ export default function CardDeliveryDetails() {
           </Typography.Text>
         </View>
         <Stack direction="vertical" align="stretch" gap="regular">
-          {!isEmpty(addressData) &&
+          {addressData !== undefined &&
             addressData.map((address, index) => {
               const addressLineFour = `${address.city} ${address.postalCode}`;
 
@@ -141,9 +165,9 @@ export default function CardDeliveryDetails() {
                   addressLineTwo={address.addressLineTwo}
                   addressLineThree={address.district}
                   addressLineFour={addressLineFour}
-                  isSelected={address.is_selected}
-                  isTemporary={address.is_temp_address}
-                  handlePress={handleAddressSelect}
+                  isSelected={address.isSelected}
+                  isTemporary={address.isTempAddress}
+                  onPress={handleAddressSelect}
                 />
               );
             })}

@@ -12,7 +12,7 @@ interface AddressSelectorProps {
   addressLineFour?: string;
   isSelected: boolean;
   isTemporary: boolean;
-  handlePress: (id: string) => void;
+  onPress: (id: string) => void;
 }
 
 export default function AddressSelector({
@@ -23,7 +23,7 @@ export default function AddressSelector({
   addressLineFour,
   isSelected,
   isTemporary,
-  handlePress,
+  onPress,
 }: AddressSelectorProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
@@ -61,7 +61,7 @@ export default function AddressSelector({
   );
 
   return (
-    <Pressable onPress={() => handlePress(id)} style={[container, isSelected && isSelectedStyle]}>
+    <Pressable onPress={() => onPress(id)} style={[container, isSelected && isSelectedStyle]}>
       <LocationPinIcon width={iconDimensions} height={iconDimensions} />
       <View style={styles.addressContent}>
         <Typography.Text color="primaryBase+30" size="callout">
