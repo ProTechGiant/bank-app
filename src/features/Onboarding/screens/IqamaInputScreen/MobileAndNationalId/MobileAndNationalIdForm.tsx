@@ -91,7 +91,6 @@ export default function MobileAndNationalIdForm({
     alignSelf: "center",
     flexDirection: "row",
     marginTop: theme.spacing.small,
-    marginBottom: theme.spacing.xlarge,
   }));
 
   const submitButtonView = useThemeStyles<ViewStyle>(

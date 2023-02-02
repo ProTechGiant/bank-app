@@ -62,7 +62,7 @@ export default function ConfirmPersonalDetailsScreen() {
   }));
 
   return (
-    <Page safeAreaInsets="top">
+    <Page>
       <NavHeader title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={1} totalStep={6} />
       </NavHeader>
@@ -116,21 +116,19 @@ export default function ConfirmPersonalDetailsScreen() {
         </Stack>
       </ScrollView>
       <View style={footerStyle}>
-        <SafeAreaView>
-          <Stack align="stretch" gap="small" direction="vertical">
-            <View />
-            <CheckboxInput
-              control={control}
-              isEditable={true}
-              bordered={false}
-              name="confirmDetailsAreCorrect"
-              label={t("Onboarding.ConfirmPersonalDetailsScreen.CheckBoxLabel")}
-            />
-            <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-              {t("Onboarding.ConfirmPersonalDetailsScreen.Continue")}
-            </SubmitButton>
-          </Stack>
-        </SafeAreaView>
+        <Stack align="stretch" gap="small" direction="vertical">
+          <View />
+          <CheckboxInput
+            control={control}
+            isEditable={true}
+            bordered={false}
+            name="confirmDetailsAreCorrect"
+            label={t("Onboarding.ConfirmPersonalDetailsScreen.CheckBoxLabel")}
+          />
+          <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+            {t("Onboarding.ConfirmPersonalDetailsScreen.Continue")}
+          </SubmitButton>
+        </Stack>
       </View>
     </Page>
   );

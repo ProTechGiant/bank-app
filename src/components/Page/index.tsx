@@ -10,6 +10,7 @@ interface PageProps {
   keyboardAvoiding?: boolean;
   keyboardVerticalOffset?: number;
   safeAreaInsets?: Edge;
+  isPadded?: boolean;
 }
 
 export default function Page({
@@ -18,6 +19,7 @@ export default function Page({
   keyboardAvoiding = false,
   keyboardVerticalOffset = undefined,
   safeAreaInsets = undefined,
+  isPadded = true,
 }: PageProps) {
   const backgroundColor = useThemeStyles<ViewStyle>(
     theme => ({
@@ -32,7 +34,9 @@ export default function Page({
       enabled={keyboardAvoiding}
       keyboardVerticalOffset={keyboardVerticalOffset}
       style={[styles.keyboardAvoidingContainer, backgroundColor]}>
-      <SafeAreaView edges={safeAreaInsets && [safeAreaInsets]} style={[styles.container, backgroundColor]}>
+      <SafeAreaView
+        edges={safeAreaInsets && [safeAreaInsets]}
+        style={[styles.container, backgroundColor, isPadded && Platform.OS === "android" && styles.bottomPadding]}>
         {children}
       </SafeAreaView>
     </KeyboardAvoidingView>
@@ -40,6 +44,9 @@ export default function Page({
 }
 
 const styles = StyleSheet.create({
+  bottomPadding: {
+    paddingBottom: 20,
+  },
   container: {
     flex: 1,
   },
