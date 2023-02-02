@@ -166,6 +166,10 @@ const iconDimensions = {
   share: 16,
   tick: 18,
   largeTick: 66,
+  referralInstruction: {
+    width: 51,
+    height: 37,
+  },
 };
 
 export { iconDimensions, palette, radii, spacing, typography };

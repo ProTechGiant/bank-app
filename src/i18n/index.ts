@@ -147,7 +147,7 @@ export const resources = {
       },
       Settings: {
         SettingsScreen: {
-          rewards: "Invite friends",
+          rewards: "Send invite",
           FAQs: "FAQ’s",
         },
       },
@@ -282,30 +282,21 @@ export const resources = {
         read: "Read more in ",
         termsAndConditions: "Terms & Conditions",
         HubScreen: {
-          title: "Share Croatia",
-          subtitle: "Send your referral code and track your rewards",
-          recommendations: "your recommendations",
-          copy: "Copy code",
+          title: "Send invite",
+          subtitle: "Once your friend has created an account with your unique link, you’ll both receive 15 SAR. ",
+          recommendations: "your sent invites",
+          copy: "Copy link",
           progress: "In progress",
           completed: "Completed",
           earnt: "Earnt so far",
-          howItWorks: "How it works",
-        },
-        HowItWorksModal: {
-          title: "How recommending for rewards works",
-          stepOne: "Share your referral code",
-          stepTwo: "Sign up and use your account in 30 days (T&Cs apply)",
-          stepThree: "You and your friend receive a cash reward",
-          rewardTitle: "How much will we get?",
-          rewardSubtext:
-            "You’ll both earn 15 SAR. If your friend joins as a Plus Tier customer their reward goes up to 25 SAR.",
-          buttonText: "Start recommending",
+          linkCopied: "Link copied",
         },
         InstructionsScreen: {
           skip: "Skip",
           continue: "Continue",
+          done: "Done",
           1: {
-            title: "Recommend for rewards",
+            title: "Send invite",
             subText: "Tell a friend or family member about Croatia and earn yourself cash rewards.",
           },
           2: {
@@ -315,8 +306,7 @@ export const resources = {
           },
           3: {
             title: "Both of you get rewards",
-            subText:
-              "You'll both earn 15 SAR. And if your friend joins our Plus Tier, they’ll get an increase to 25 SAR.",
+            subText: "You'll both earn 15 SAR.",
           },
         },
       },

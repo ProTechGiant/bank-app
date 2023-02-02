@@ -41,7 +41,7 @@ export const quickActionOrderData: quickActionReorderItem[] = [
   },
   {
     key: "referrals",
-    label: "Invite friends",
+    label: "Send invite",
     active: false,
     description: "Lorem ipsum dolor sit amet,consectetuer adipiscing elit.",
     icon: "ReferralIcon",

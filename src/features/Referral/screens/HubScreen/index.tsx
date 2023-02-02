@@ -1,9 +1,9 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, Pressable, ScrollView, Share, ShareContent, View, ViewStyle } from "react-native";
+import { Platform, Pressable, ScrollView, Share, View, ViewStyle } from "react-native";
 
-import { FriendIcon, ShareCopyIcon, ShareIcon } from "@/assets/icons";
+import { FriendIcon, ShareCopyIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
@@ -19,7 +19,7 @@ import RecommendationCards from "./RecommendationCards";
 export default function HubScreen() {
   const buttonStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginHorizontal: theme.spacing.regular,
+      marginHorizontal: theme.spacing.medium,
       marginTop: theme.spacing.medium,
     }),
     []
@@ -45,7 +45,7 @@ export default function HubScreen() {
   const headerTextWrapperStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginTop: theme.spacing.large,
-      marginHorizontal: theme.spacing.xlarge,
+      marginHorizontal: theme.spacing.large,
       alignItems: "center",
     }),
     []
@@ -73,13 +73,12 @@ export default function HubScreen() {
   );
 
   const friendIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.friendIcon, []);
-  const shareIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.share, []);
 
   const inProgress = 1;
   const completed = 1;
   const earnt = 15;
   const currency = "SAR";
-  const referralCode = "FG4JHAF9";
+  const referralLink = "https://www.croatia.com/invite";
 
   const [showToast, setShowToast] = useState(false);
 
@@ -88,7 +87,7 @@ export default function HubScreen() {
   const { referralPageViewed } = useGlobalContext();
 
   const handleOnCopyCodePress = () => {
-    Clipboard.setString(referralCode);
+    Clipboard.setString(referralLink);
     setShowToast(true);
     setTimeout(() => {
       setShowToast(false);
@@ -96,12 +95,8 @@ export default function HubScreen() {
   };
 
   const handleOnSharePress = () => {
-    const url = "https://example.com";
+    const url = referralLink;
     return Share.share(Platform.OS === "ios" ? { url } : { message: url });
-  };
-
-  const handleOnHowItWorksPress = () => {
-    navigation.navigate("Referral.HowItWorksModal");
   };
 
   useEffect(() => {
@@ -112,15 +107,10 @@ export default function HubScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      <DismissibleBanner visible={showToast} message="Code copied" />
+      <DismissibleBanner visible={showToast} message={t("Referral.HubScreen.linkCopied")} />
       <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
         <View style={headerContainerStyle}>
-          <NavHeader
-            color="white"
-            end={
-              <NavHeader.TextEndButton onPress={handleOnHowItWorksPress} text={t("Referral.HubScreen.howItWorks")} />
-            }
-          />
+          <NavHeader color="white" />
           <View style={IconWrapperStyle}>
             <FriendIcon height={friendIconDimensions} width={friendIconDimensions} />
           </View>
@@ -141,18 +131,14 @@ export default function HubScreen() {
         <View style={cardContainerStyle}>
           <CopyCodeCard
             backgroundColor="neutralBase-50"
-            leftText={referralCode}
+            leftText={referralLink}
             rightIcon={<ShareCopyIcon />}
             onPress={handleOnCopyCodePress}
           />
         </View>
       </ScrollView>
       <View style={buttonStyle}>
-        <Button
-          variant="primary"
-          color="alt"
-          iconLeft={<ShareIcon height={shareIconDimensions} width={shareIconDimensions} />}
-          onPress={handleOnSharePress}>
+        <Button variant="primary" color="alt" onPress={handleOnSharePress}>
           <Typography.Text color="neutralBase-50" weight="semiBold" size="callout">
             {t("Referral.share")}
           </Typography.Text>

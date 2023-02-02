@@ -9,7 +9,6 @@ type RootStackParams = {
   "Modal.QuickActionsReorderModal": undefined;
   "Modal.HomepageReorderModal": undefined;
   "Referral.HubScreen": undefined;
-  "Referral.HowItWorksModal": undefined;
   "Referral.InstructionsScreen": undefined;
   "SavingsGoals.LandingScreen": undefined;
   "SavingsGoals.SavingsGoalsScreen": undefined;

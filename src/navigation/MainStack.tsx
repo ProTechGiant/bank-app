@@ -6,7 +6,6 @@ import DashboardScreen from "@/features/Home/screens/DashboardScreen";
 import HomepageReorderModal from "@/features/Home/screens/HomepageReorderModal";
 import QuickActionsReorderCard from "@/features/Home/screens/QuickActionsReorderModal";
 import OnboardingStack from "@/features/Onboarding/OnboardingStack";
-import HowItWorksModal from "@/features/Referral/screens/HowItWorksModal";
 import HubScreen from "@/features/Referral/screens/HubScreen";
 import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
 import CreateGoalModal from "@/features/SavingsGoals/screens/CreateGoalModal";
@@ -73,13 +72,6 @@ export default function MainStack() {
             options={{ headerShown: false }}
             component={HomepageReorderModal}
             name="Modal.HomepageReorderModal"
-          />
-          <Stack.Screen
-            component={HowItWorksModal}
-            name="Referral.HowItWorksModal"
-            options={{
-              presentation: "fullScreenModal",
-            }}
           />
           <Stack.Screen
             component={CreateGoalModal}

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
+import { GiftIcon, InviteIcon, ReferraslIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -12,23 +13,10 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 export default function InstructionsScreen() {
-  const { width } = useWindowDimensions();
-
-  const blankSpaceStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["primaryBase-30"],
-      height: width - theme.spacing.regular - theme.spacing.regular,
-      justifyContent: "center",
-      alignItems: "center",
-    }),
-    [width]
-  );
-
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       margin: theme.spacing.regular,
       justifyContent: "space-between",
-      textAlign: "center",
       flex: 1,
     }),
     []
@@ -38,6 +26,18 @@ export default function InstructionsScreen() {
     theme => ({
       marginTop: theme.spacing.medium,
       textAlign: "center",
+    }),
+    []
+  );
+
+  const iconWrapperStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-50"],
+      width: 64,
+      height: 64,
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 32,
     }),
     []
   );
@@ -56,6 +56,9 @@ export default function InstructionsScreen() {
     }),
     []
   );
+  const iconHeight = useThemeStyles<number>(theme => theme.iconDimensions.referralInstruction.height);
+  const iconWidth = useThemeStyles<number>(theme => theme.iconDimensions.referralInstruction.width);
+
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [step, setStep] = useState(1);
@@ -91,20 +94,26 @@ export default function InstructionsScreen() {
         contentContainerStyle={styles.scrollView}
         showsVerticalScrollIndicator={false}
         alwaysBounceVertical={false}>
-        <NavHeader
-          onBackPress={handleBackButton}
-          color="white"
-          end={
-            step < totalStep && (
-              <NavHeader.TextEndButton onPress={handleOnSkip} text={t(`Referral.InstructionsScreen.skip`)} />
-            )
-          }
-        />
-        <ProgressIndicator currentStep={step} totalStep={totalStep} />
         <View style={container}>
-          <View>
-            <View style={blankSpaceStyle}>
-              <Typography.Text>HERO BRAND SCREEN</Typography.Text>
+          <NavHeader
+            onBackPress={handleBackButton}
+            color="white"
+            end={
+              step < totalStep && (
+                <NavHeader.TextEndButton onPress={handleOnSkip} text={t(`Referral.InstructionsScreen.skip`)} />
+              )
+            }>
+            <ProgressIndicator currentStep={step} totalStep={totalStep} />
+          </NavHeader>
+          <View style={styles.contentWrapper}>
+            <View style={iconWrapperStyle}>
+              {step === 1 ? (
+                <InviteIcon width={iconWidth} height={iconHeight} />
+              ) : step === 2 ? (
+                <ReferraslIcon width={iconWidth} height={iconHeight} />
+              ) : (
+                <GiftIcon width={iconWidth} height={iconHeight} />
+              )}
             </View>
             <Typography.Text color="neutralBase-50" size="large" weight="bold" style={TitleStyle}>
               {t(`Referral.InstructionsScreen.${step}.title`)}
@@ -115,7 +124,7 @@ export default function InstructionsScreen() {
           </View>
           <View style={buttonContainerStyle}>
             <Button variant="secondary" color="alt" onPress={handleOnContinue}>
-              {t("Referral.InstructionsScreen.continue")}
+              {step !== totalStep ? t("Referral.InstructionsScreen.continue") : t("Referral.InstructionsScreen.done")}
             </Button>
           </View>
         </View>
@@ -124,6 +133,10 @@ export default function InstructionsScreen() {
   );
 }
 const styles = StyleSheet.create({
+  contentWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   scrollView: {
     flexGrow: 1,
     justifyContent: "space-between",
