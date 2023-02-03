@@ -1,6 +1,6 @@
 import { Picker } from "@react-native-picker/picker";
 import { useEffect, useState } from "react";
-import { FieldValues, Path, PathValue, useController } from "react-hook-form";
+import { FieldValues, useController } from "react-hook-form";
 import { Dimensions, I18nManager, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CheckmarkCircle, ChevronRightIcon } from "@/assets/icons";
@@ -23,6 +23,7 @@ export default function DropdownInput<T extends FieldValues>({
   headerText,
   placeholder,
   options = [],
+  buttonLabel,
 }: DropdownInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
   const [isVisible, setIsVisible] = useState(false);
@@ -82,13 +83,9 @@ export default function DropdownInput<T extends FieldValues>({
     field.onChange(selectedValue);
   };
 
-  const renderCheckMark = (option: { label: string; value: PathValue<T, Path<T>>; disabled?: boolean }) => {
-    if (selectedValue === option.value || option.disabled === true) return <CheckmarkCircle />;
-  };
-
   const modalContainer = useThemeStyles<ViewStyle>(
     () => ({
-      height: Dimensions.get("window").height - 164,
+      height: Dimensions.get("window").height - 204,
     }),
     []
   );
@@ -112,6 +109,16 @@ export default function DropdownInput<T extends FieldValues>({
       borderRadius: 24,
       alignItems: "center",
       justifyContent: "center",
+    }),
+    []
+  );
+
+  const buttonContainer = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-50"],
+      paddingHorizontal: theme.spacing.regular,
+      paddingVertical: theme.spacing.medium,
+      width: "100%",
     }),
     []
   );
@@ -157,13 +164,15 @@ export default function DropdownInput<T extends FieldValues>({
                       {option.label}
                     </Typography.Text>
                   </View>
-                  <View style={checkBoxStyles}>{renderCheckMark(option)}</View>
+                  <View style={checkBoxStyles}>
+                    {(selectedValue === option.value || option.disabled === true) && <CheckmarkCircle />}
+                  </View>
                   <View />
                 </Pressable>
               ))}
             </ScrollView>
-            <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
-              <Button onPress={handleOnConfirm}>Confirm</Button>
+            <View style={buttonContainer}>
+              <Button onPress={handleOnConfirm}>{buttonLabel}</Button>
             </View>
           </Modal>
           <InputBox

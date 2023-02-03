@@ -23,6 +23,7 @@ export default function DropdownInput<T extends FieldValues>({
   name,
   placeholder,
   options = [],
+  buttonLabel,
 }: DropdownInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
   const [isVisible, setIsVisible] = useState(false);
@@ -67,7 +68,7 @@ export default function DropdownInput<T extends FieldValues>({
 
   const modalContainer = useThemeStyles<ViewStyle>(
     () => ({
-      height: Dimensions.get("window").height - 164,
+      height: Dimensions.get("window").height - 254,
     }),
     []
   );
@@ -95,6 +96,16 @@ export default function DropdownInput<T extends FieldValues>({
     []
   );
 
+  const buttonContainer = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-50"],
+      paddingHorizontal: theme.spacing.regular,
+      paddingVertical: theme.spacing.medium,
+      width: "100%",
+    }),
+    []
+  );
+
   return (
     <>
       <Modal onClose={handleOnClose} headerText={headerText ?? label} visible={isVisible}>
@@ -117,15 +128,15 @@ export default function DropdownInput<T extends FieldValues>({
                   </Typography.Text>
                 </View>
                 <View style={checkBoxStyles}>
-                  {selectedValue === option.value || (option.disabled && <CheckmarkCircle />)}
+                  {(selectedValue === option.value || option.disabled === true) && <CheckmarkCircle />}
                 </View>
                 <View />
               </Pressable>
             ))}
           </ScrollView>
         )}
-        <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
-          <Button onPress={handleOnConfirm}>Confirm</Button>
+        <View style={buttonContainer}>
+          <Button onPress={handleOnConfirm}>{buttonLabel}</Button>
         </View>
       </Modal>
       <InputBox extraStart={extra} isEditable={isEditable} label={label} fieldState={fieldState} onPress={handleOnOpen}>

@@ -130,6 +130,7 @@ export default function SetTemporaryAddressScreen() {
                   headerText={t("ApplyCards.SetTemporaryAddressScreen.form.city.dropdownHeader")}
                   placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.city.placeholder")}
                   options={CITIES.map(city => ({ value: city, label: city }))}
+                  buttonLabel={t("ApplyCards.SetTemporaryAddressScreen.form.city.buttonLabel")}
                 />
                 <TextInput
                   control={control}
