@@ -9,7 +9,7 @@ interface PageProps {
   children: React.ReactNode;
   keyboardAvoiding?: boolean;
   keyboardVerticalOffset?: number;
-  safeAreaInsets?: Edge;
+  safeAreaInsets?: Edge[];
   isPadded?: boolean;
 }
 
@@ -28,6 +28,13 @@ export default function Page({
     [color]
   );
 
+  const bottomPadding = useThemeStyles<ViewStyle>(
+    ({ spacing }) => ({
+      paddingBottom: spacing.xlarge,
+    }),
+    []
+  );
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -35,8 +42,8 @@ export default function Page({
       keyboardVerticalOffset={keyboardVerticalOffset}
       style={[styles.keyboardAvoidingContainer, backgroundColor]}>
       <SafeAreaView
-        edges={safeAreaInsets && [safeAreaInsets]}
-        style={[styles.container, backgroundColor, isPadded && Platform.OS === "android" && styles.bottomPadding]}>
+        edges={safeAreaInsets && safeAreaInsets}
+        style={[styles.container, backgroundColor, isPadded && Platform.OS === "android" && bottomPadding]}>
         {children}
       </SafeAreaView>
     </KeyboardAvoidingView>
@@ -44,9 +51,6 @@ export default function Page({
 }
 
 const styles = StyleSheet.create({
-  bottomPadding: {
-    paddingBottom: 20,
-  },
   container: {
     flex: 1,
   },

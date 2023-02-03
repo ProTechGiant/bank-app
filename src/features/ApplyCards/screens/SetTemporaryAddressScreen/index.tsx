@@ -91,7 +91,7 @@ export default function SetTemporaryAddressScreen() {
   };
 
   return (
-    <Page keyboardAvoiding={true} keyboardVerticalOffset={55}>
+    <Page keyboardAvoiding={true} keyboardVerticalOffset={55} safeAreaInsets={["top"]} isPadded={false}>
       <NavHeader
         title={t("ApplyCards.SetTemporaryAddressScreen.navTitle")}
         withBackButton={false}

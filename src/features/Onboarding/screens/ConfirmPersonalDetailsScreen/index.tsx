@@ -59,10 +59,11 @@ export default function ConfirmPersonalDetailsScreen() {
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
     paddingHorizontal: theme.spacing.regular,
+    paddingBottom: theme.spacing.xlarge,
   }));
 
   return (
-    <Page>
+    <Page safeAreaInsets={["top"]} isPadded={false}>
       <NavHeader title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={1} totalStep={6} />
       </NavHeader>
