@@ -27,7 +27,7 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
   const headerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignSelf: "flex-start",
-      marginBottom: theme.spacing.medium,
+      marginBottom: theme.spacing["16p"],
     }),
     []
   );

@@ -20,7 +20,7 @@ export default function CopyCodeCard({ backgroundColor, leftText, rightIcon: Ico
       justifyContent: "space-between",
       alignItems: "center",
       flexDirection: "row",
-      paddingHorizontal: theme.spacing.medium,
+      paddingHorizontal: theme.spacing["16p"],
       borderRadius: theme.radii.extraSmall,
       backgroundColor: backgroundColor ? theme.palette[backgroundColor] : "",
     }),

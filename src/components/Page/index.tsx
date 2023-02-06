@@ -30,7 +30,7 @@ export default function Page({
 
   const bottomPadding = useThemeStyles<ViewStyle>(
     ({ spacing }) => ({
-      paddingBottom: spacing.xlarge,
+      paddingBottom: spacing["32p"],
     }),
     []
   );

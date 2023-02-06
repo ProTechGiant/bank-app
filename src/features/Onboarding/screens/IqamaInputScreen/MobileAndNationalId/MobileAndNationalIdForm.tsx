@@ -40,18 +40,18 @@ export default function MobileAndNationalIdForm({
 
   const scrollContainer = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingHorizontal: theme.spacing.medium,
+      paddingHorizontal: theme.spacing["16p"],
     }),
     []
   );
 
   const headerViewStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing.large,
-    marginHorizontal: theme.spacing.medium,
+    marginBottom: theme.spacing["24p"],
+    marginHorizontal: theme.spacing["16p"],
   }));
 
   const headerTitleStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginVertical: theme.spacing.large,
+    marginVertical: theme.spacing["24p"],
   }));
 
   const areaCodeViewStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -63,8 +63,8 @@ export default function MobileAndNationalIdForm({
     flexDirection: "row",
     height: 54,
     justifyContent: "center",
-    paddingHorizontal: theme.spacing.small,
-    marginRight: theme.spacing.small,
+    paddingHorizontal: theme.spacing["8p"],
+    marginRight: theme.spacing["8p"],
   }));
 
   const iconStyle = useThemeStyles<ImageStyle>(theme => ({
@@ -76,7 +76,7 @@ export default function MobileAndNationalIdForm({
 
   const inputFieldsStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginBottom: theme.spacing.medium,
+      marginBottom: theme.spacing["16p"],
     }),
     []
   );
@@ -90,14 +90,14 @@ export default function MobileAndNationalIdForm({
   const accountSignInStyle = useThemeStyles<ViewStyle>(theme => ({
     alignSelf: "center",
     flexDirection: "row",
-    marginTop: theme.spacing.small,
+    marginTop: theme.spacing["8p"],
   }));
 
   const submitButtonView = useThemeStyles<ViewStyle>(
     theme => ({
       alignSelf: "flex-end",
       width: "100%",
-      paddingHorizontal: theme.spacing.medium,
+      paddingHorizontal: theme.spacing["16p"],
     }),
     []
   );

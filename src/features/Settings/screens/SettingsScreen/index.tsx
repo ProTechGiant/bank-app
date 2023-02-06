@@ -15,17 +15,17 @@ export default function SettingsScreen() {
       justifyContent: "flex-start",
       alignItems: "center",
       flexDirection: "row",
-      paddingHorizontal: theme.spacing.medium,
+      paddingHorizontal: theme.spacing["16p"],
       borderRadius: theme.radii.small,
       backgroundColor: theme.palette["neutralBase-50"],
-      marginHorizontal: theme.spacing.regular,
-      marginTop: theme.spacing.regular,
+      marginHorizontal: theme.spacing["20p"],
+      marginTop: theme.spacing["20p"],
     }),
     []
   );
   const iconContainer = useThemeStyles<ViewStyle>(
     theme => ({
-      marginRight: theme.spacing.small,
+      marginRight: theme.spacing["8p"],
     }),
     []
   );

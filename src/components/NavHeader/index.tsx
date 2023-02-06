@@ -41,12 +41,12 @@ const NavHeader = ({
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing.regular,
-    paddingVertical: theme.spacing.medium,
+    paddingHorizontal: theme.spacing["20p"],
+    paddingVertical: theme.spacing["16p"],
   }));
 
   const childrenStyles = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing.medium,
+    marginTop: theme.spacing["16p"],
   }));
 
   const backIconSize = useThemeStyles<number>(theme => theme.iconDimensions.chevronLeft);

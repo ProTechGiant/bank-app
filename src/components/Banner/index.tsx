@@ -62,8 +62,8 @@ const Banner = ({ color, icon: Icon, message, label, onClear, clearTestID }: Ban
       width: "100%",
       backgroundColor: theme.palette[color],
       borderRadius: theme.radii.extraSmall,
-      paddingHorizontal: theme.spacing.medium,
-      paddingVertical: theme.spacing.small,
+      paddingHorizontal: theme.spacing["16p"],
+      paddingVertical: theme.spacing["8p"],
     }),
     [color]
   );
@@ -75,7 +75,7 @@ const Banner = ({ color, icon: Icon, message, label, onClear, clearTestID }: Ban
       justifyContent: "center",
       alignItems: "center",
       alignSelf: "flex-start",
-      marginRight: theme.spacing.medium,
+      marginRight: theme.spacing["16p"],
     }),
     []
   );
@@ -87,7 +87,7 @@ const Banner = ({ color, icon: Icon, message, label, onClear, clearTestID }: Ban
       justifyContent: "center",
       alignItems: "center",
       alignSelf: "flex-start",
-      marginLeft: theme.spacing.medium,
+      marginLeft: theme.spacing["16p"],
     }),
     []
   );
@@ -96,8 +96,8 @@ const Banner = ({ color, icon: Icon, message, label, onClear, clearTestID }: Ban
     theme => ({
       backgroundColor: theme.palette[colors.label],
       borderRadius: theme.radii.xxlarge,
-      paddingHorizontal: theme.spacing.medium,
-      paddingVertical: theme.spacing.small,
+      paddingHorizontal: theme.spacing["16p"],
+      paddingVertical: theme.spacing["8p"],
       minWidth: 40,
       justifyContent: "center",
       alignItems: "center",

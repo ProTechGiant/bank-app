@@ -13,8 +13,8 @@ export default function PillButton({ children, ...restProps }: PillButtonProps) 
       backgroundColor: theme.palette.complimentBase,
       borderRadius: theme.radii.xxlarge,
       borderColor: theme.palette.complimentBase,
-      paddingHorizontal: theme.spacing.medium,
-      paddingVertical: theme.spacing.small,
+      paddingHorizontal: theme.spacing["16p"],
+      paddingVertical: theme.spacing["8p"],
     }),
     []
   );

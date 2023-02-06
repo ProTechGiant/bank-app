@@ -14,7 +14,7 @@ interface BulletinBoardProps<T> {
 }
 
 export default function BulletinBoard<T>({ data, title }: BulletinBoardProps<T>) {
-  const carouselWidth = useThemeStyles<number>(theme => Dimensions.get("screen").width - theme.spacing.medium * 2, []);
+  const carouselWidth = useThemeStyles<number>(theme => Dimensions.get("screen").width - theme.spacing["16p"] * 2, []);
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const toggleDropdown = () => {

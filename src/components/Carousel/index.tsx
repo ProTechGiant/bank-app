@@ -38,7 +38,7 @@ export function Carousel<T>({ pagination, data, Slide, width, loop }: CarouselPr
   );
   const container = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingTop: theme.spacing.small,
+      paddingTop: theme.spacing["8p"],
       width: "100%",
       position: "relative",
     }),
@@ -46,7 +46,7 @@ export function Carousel<T>({ pagination, data, Slide, width, loop }: CarouselPr
   );
   const overlayPaginationStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      bottom: theme.spacing.small,
+      bottom: theme.spacing["8p"],
       position: "absolute",
       flexDirection: "row",
     }),
@@ -55,7 +55,7 @@ export function Carousel<T>({ pagination, data, Slide, width, loop }: CarouselPr
   const underPaginationStyle = useThemeStyles<ViewStyle>(
     theme => ({
       flexDirection: "row",
-      paddingBottom: theme.spacing.medium,
+      paddingBottom: theme.spacing["16p"],
     }),
     []
   );
@@ -63,7 +63,7 @@ export function Carousel<T>({ pagination, data, Slide, width, loop }: CarouselPr
     theme => ({
       borderRadius: 4,
       marginHorizontal: 2,
-      marginBottom: theme.spacing.small,
+      marginBottom: theme.spacing["8p"],
       alignSelf: "center",
     }),
     []

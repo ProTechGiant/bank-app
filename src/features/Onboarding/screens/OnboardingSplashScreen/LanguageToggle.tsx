@@ -19,9 +19,9 @@ export default function LanguageToggle() {
       borderRadius: theme.radii.medium,
       height: 34,
       justifyContent: "center",
-      marginHorizontal: theme.spacing.medium,
-      marginTop: theme.spacing.large,
-      paddingHorizontal: theme.spacing.medium,
+      marginHorizontal: theme.spacing["16p"],
+      marginTop: theme.spacing["24p"],
+      paddingHorizontal: theme.spacing["16p"],
       minWidth: 50,
     }),
     []

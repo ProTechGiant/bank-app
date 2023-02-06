@@ -27,7 +27,7 @@ export default function DropdownInput<T extends FieldValues>({
 }: DropdownInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<typeof field["value"]>();
+  const [selectedValue, setSelectedValue] = useState<(typeof field)["value"]>();
 
   useEffect(() => {
     setSelectedValue(field.value);
@@ -91,7 +91,7 @@ export default function DropdownInput<T extends FieldValues>({
   );
   const optionContainer = useThemeStyles<ViewStyle>(
     ({ spacing, palette }) => ({
-      paddingVertical: spacing.medium,
+      paddingVertical: spacing["16p"],
       flexDirection: "row",
       justifyContent: "space-between",
       borderBottomWidth: 1,
@@ -116,8 +116,8 @@ export default function DropdownInput<T extends FieldValues>({
   const buttonContainer = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["neutralBase-50"],
-      paddingHorizontal: theme.spacing.regular,
-      paddingVertical: theme.spacing.medium,
+      paddingHorizontal: theme.spacing["20p"],
+      paddingVertical: theme.spacing["16p"],
       width: "100%",
     }),
     []

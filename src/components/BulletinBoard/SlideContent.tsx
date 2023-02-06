@@ -14,7 +14,7 @@ interface SlideContentProps {
 export default function SlideContent({ data }: SlideContentProps) {
   const buttonRowWrapperStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingBottom: theme.spacing.small,
+      paddingBottom: theme.spacing["8p"],
       justifyContent: "flex-end",
     }),
     []
@@ -22,16 +22,16 @@ export default function SlideContent({ data }: SlideContentProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       justifyContent: "space-between",
-      paddingHorizontal: theme.spacing.medium,
-      paddingVertical: theme.spacing.small,
+      paddingHorizontal: theme.spacing["16p"],
+      paddingVertical: theme.spacing["8p"],
     }),
     []
   );
   const contentWrapperStyle = useThemeStyles<ViewStyle>(
     theme => ({
       flexDirection: "row",
-      marginBottom: theme.spacing.large,
-      paddingTop: theme.spacing.small,
+      marginBottom: theme.spacing["24p"],
+      paddingTop: theme.spacing["8p"],
     }),
     []
   );

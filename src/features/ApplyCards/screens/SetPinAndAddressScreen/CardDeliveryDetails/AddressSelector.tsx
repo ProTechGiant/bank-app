@@ -31,7 +31,7 @@ export default function AddressSelector({
       borderRadius: theme.radii.extraSmall,
       elevation: 8,
       flexDirection: "row",
-      padding: theme.spacing.medium,
+      padding: theme.spacing["16p"],
       shadowOffset: {
         width: 0,
         height: 4,
@@ -54,7 +54,7 @@ export default function AddressSelector({
       backgroundColor: theme.palette["complimentBase-40%"],
       borderRadius: theme.radii.xxlarge,
       height: 21,
-      paddingHorizontal: theme.spacing.small,
+      paddingHorizontal: theme.spacing["8p"],
       paddingVertical: 4,
     }),
     []

@@ -13,8 +13,8 @@ export default function SectionHeader({ title, subTitle }: SectionHeaderProps) {
     theme => ({
       flexDirection: "row",
       justifyContent: "space-between",
-      paddingHorizontal: theme.spacing.medium,
-      paddingTop: theme.spacing.medium,
+      paddingHorizontal: theme.spacing["16p"],
+      paddingTop: theme.spacing["16p"],
       width: "100%",
     }),
     []

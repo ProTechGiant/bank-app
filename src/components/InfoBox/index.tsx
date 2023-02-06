@@ -25,13 +25,13 @@ export default function InfoBox({ borderPosition = "start", title, children, var
       borderRadius: theme.radii.extraSmall,
       borderStartWidth: borderPosition === "start" ? 4 : undefined,
       borderEndWidth: borderPosition === "end" ? 4 : undefined,
-      padding: theme.spacing.medium,
+      padding: theme.spacing["16p"],
     }),
     [borderPosition, variant]
   );
 
   const titleContainerStyle = useThemeStyles<TextStyle>(theme => ({
-    marginBottom: theme.spacing.small,
+    marginBottom: theme.spacing["8p"],
   }));
 
   return (

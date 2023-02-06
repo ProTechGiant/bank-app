@@ -14,11 +14,11 @@ const Term = ({ title, desc }: TermProps) => {
     height: 54,
     borderRadius: 54,
     backgroundColor: theme.palette.primaryBase,
-    marginRight: theme.spacing.medium,
+    marginRight: theme.spacing["16p"],
   }));
 
   const headingStyle = useThemeStyles<TextStyle>(theme => ({
-    marginBottom: theme.spacing.medium,
+    marginBottom: theme.spacing["16p"],
   }));
 
   return (

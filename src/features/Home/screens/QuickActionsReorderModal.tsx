@@ -32,7 +32,7 @@ export default function QuickActionsReorderCard() {
     theme => ({
       backgroundColor: theme.palette.tintBase,
       flexDirection: "column",
-      padding: theme.spacing.regular,
+      padding: theme.spacing["20p"],
       paddingTop: 10,
       width: "100%",
     }),

@@ -52,7 +52,7 @@ export default function SavingsGoalsModal() {
   const formContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       textAlign: "center",
-      paddingHorizontal: theme.spacing.medium,
+      paddingHorizontal: theme.spacing["16p"],
       backgroundColor: theme.palette["neutralBase-50"],
       borderRadius: theme.radii.small,
     }),
@@ -60,7 +60,7 @@ export default function SavingsGoalsModal() {
   );
   const titleStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginBottom: theme.spacing.medium,
+      marginBottom: theme.spacing["16p"],
     }),
     []
   );
@@ -74,20 +74,20 @@ export default function SavingsGoalsModal() {
   const buttonContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginTop: "auto",
-      marginBottom: theme.spacing.regular,
+      marginBottom: theme.spacing["20p"],
     }),
     []
   );
   const contentContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingBottom: theme.spacing.large,
+      paddingBottom: theme.spacing["24p"],
       position: "relative",
     }),
     []
   );
   const iconStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginRight: theme.spacing.xsmall,
+      marginRight: theme.spacing["4p"],
     }),
     []
   );

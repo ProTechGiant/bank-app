@@ -11,8 +11,8 @@ interface ContentContainerProps {
 export default function ContentContainer({ style, children }: ContentContainerProps) {
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingTop: theme.spacing.regular,
-      paddingHorizontal: theme.spacing.regular,
+      paddingTop: theme.spacing["20p"],
+      paddingHorizontal: theme.spacing["20p"],
       flex: 1,
     }),
     []

@@ -52,15 +52,15 @@ export default function InputBox({
       flexDirection: "row",
       flexGrow: 1,
       minHeight: multiline ? 74 : 53,
-      padding: theme.spacing.medium - (isFocused || isError ? 1 : 0),
+      padding: theme.spacing["16p"] - (isFocused || isError ? 1 : 0),
     }),
     [bordered, isError, isEditable, isFocused, multiline]
   );
 
   const optionalLabelStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginHorizontal: theme.spacing.medium,
-      marginTop: theme.spacing.xsmall,
+      marginHorizontal: theme.spacing["16p"],
+      marginTop: theme.spacing["4p"],
       flexDirection: "row",
       justifyContent: "space-between",
     }),

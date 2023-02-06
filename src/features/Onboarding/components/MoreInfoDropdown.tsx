@@ -24,13 +24,13 @@ export default function MoreInfoDropdown({ title, children }: MoreInfoDropdownPr
   const contentContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       paddingHorizontal: 40,
-      paddingVertical: theme.spacing.medium,
+      paddingVertical: theme.spacing["16p"],
     }),
     []
   );
   const pressableContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      padding: theme.spacing.medium,
+      padding: theme.spacing["16p"],
       flexDirection: "row",
       alignItems: "center",
       width: "100%",
@@ -59,7 +59,7 @@ export default function MoreInfoDropdown({ title, children }: MoreInfoDropdownPr
       width: theme.iconDimensions.accordian,
       justifyContent: "center",
       alignItems: "flex-start",
-      marginRight: theme.spacing.small,
+      marginRight: theme.spacing["8p"],
     }),
     []
   );

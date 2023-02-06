@@ -52,14 +52,14 @@ export default function ConfirmPersonalDetailsScreen() {
   const detailsCardStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
     borderRadius: theme.radii.small,
-    paddingHorizontal: theme.spacing.medium,
-    paddingVertical: theme.spacing.xlarge,
+    paddingHorizontal: theme.spacing["16p"],
+    paddingVertical: theme.spacing["32p"],
   }));
 
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
-    paddingHorizontal: theme.spacing.regular,
-    paddingBottom: theme.spacing.xlarge,
+    paddingHorizontal: theme.spacing["20p"],
+    paddingBottom: theme.spacing["32p"],
   }));
 
   return (

@@ -26,14 +26,14 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
     theme => ({
       alignItems: "flex-end",
       flexDirection: "row",
-      paddingTop: theme.spacing.large,
+      paddingTop: theme.spacing["24p"],
     }),
     []
   );
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["primaryBase"],
-      paddingTop: theme.spacing.medium,
+      paddingTop: theme.spacing["16p"],
     }),
     []
   );
@@ -41,14 +41,14 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
   const headerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
-      marginTop: theme.spacing.large,
+      marginTop: theme.spacing["24p"],
     }),
     []
   );
 
   const smallHeaderStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingTop: theme.spacing.large,
+      paddingTop: theme.spacing["24p"],
     }),
     []
   );
@@ -56,29 +56,29 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
   const headerWrapperStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
-      paddingTop: theme.spacing.small,
-      paddingBottom: theme.spacing.large,
+      paddingTop: theme.spacing["8p"],
+      paddingBottom: theme.spacing["24p"],
     }),
     []
   );
   const notificationsStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingHorizontal: theme.spacing.medium,
-      paddingBottom: theme.spacing.xlarge,
+      paddingHorizontal: theme.spacing["16p"],
+      paddingBottom: theme.spacing["32p"],
     }),
     []
   );
   const currentAccountBalanceStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      maxWidth: width - theme.spacing.medium * 2 - 30,
+      maxWidth: width - theme.spacing["16p"] * 2 - 30,
     }),
     [width]
   );
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginBottom: theme.spacing.xlarge,
-      paddingTop: theme.spacing.medium,
+      marginBottom: theme.spacing["32p"],
+      paddingTop: theme.spacing["16p"],
     }),
     []
   );
@@ -87,7 +87,7 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
     theme => ({
       alignItems: "flex-end",
       flexDirection: "row",
-      marginBottom: theme.spacing.medium,
+      marginBottom: theme.spacing["16p"],
     }),
     []
   );

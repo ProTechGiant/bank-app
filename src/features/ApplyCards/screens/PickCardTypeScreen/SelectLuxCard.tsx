@@ -13,7 +13,7 @@ export default function SelectLuxCard({ onPress }: { onPress: () => void }) {
     alignItems: "center",
     flex: 1,
     justifyContent: "space-between",
-    padding: theme.spacing.medium,
+    padding: theme.spacing["16p"],
   }));
 
   return (

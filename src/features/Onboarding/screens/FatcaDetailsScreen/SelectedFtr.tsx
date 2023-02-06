@@ -17,8 +17,8 @@ const SelectedFtrCard = ({ index, country, uniqueReference }: SelectedFtrCountry
   const detailsCardStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
     borderRadius: theme.radii.small,
-    paddingHorizontal: theme.spacing.medium,
-    paddingVertical: theme.spacing.medium,
+    paddingHorizontal: theme.spacing["16p"],
+    paddingVertical: theme.spacing["16p"],
     minHeight: 100,
   }));
   const edit = () => {

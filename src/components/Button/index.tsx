@@ -36,8 +36,8 @@ export default function Button({
       borderRadius: theme.radii.extraSmall,
       borderWidth: variant === "secondary" ? 1 : 0,
       borderColor: color === "base" ? theme.palette.primaryBase : theme.palette.complimentBase,
-      paddingHorizontal: type === "has icons" ? theme.spacing.small : theme.spacing.medium,
-      paddingVertical: theme.spacing.medium,
+      paddingHorizontal: type === "has icons" ? theme.spacing["8p"] : theme.spacing["16p"],
+      paddingVertical: theme.spacing["16p"],
     }),
     [type, variant]
   );

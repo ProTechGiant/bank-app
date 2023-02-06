@@ -47,8 +47,8 @@ const TermsAndConditionsScreen = () => {
 
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
-    paddingHorizontal: theme.spacing.regular,
-    paddingBottom: theme.spacing.xlarge,
+    paddingHorizontal: theme.spacing["20p"],
+    paddingBottom: theme.spacing["32p"],
   }));
   return (
     <>

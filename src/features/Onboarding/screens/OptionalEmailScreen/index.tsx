@@ -28,8 +28,8 @@ export default function OptionalEmailScreen() {
 
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingTop: theme.spacing.regular,
-      paddingHorizontal: theme.spacing.regular,
+      paddingTop: theme.spacing["20p"],
+      paddingHorizontal: theme.spacing["20p"],
     }),
     []
   );

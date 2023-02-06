@@ -9,6 +9,6 @@ import RewardSectionContent from "./rewardSectionContent";
 const newData = rewardSectionData.length > 1 ? duplicateArr(rewardSectionData, 6) : [...rewardSectionData];
 
 export default function RewardSection() {
-  const width = useThemeStyles<number>(theme => 330 + theme.spacing.small, []);
+  const width = useThemeStyles<number>(theme => 330 + theme.spacing["8p"], []);
   return <Carousel data={newData} Slide={RewardSectionContent} width={width} loop={true} />;
 }

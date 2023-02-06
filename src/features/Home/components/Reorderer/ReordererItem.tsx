@@ -30,11 +30,11 @@ export function RenderMinimumNotReachedPlaceholders({
       borderColor: theme.palette["neutralBase+10"],
       borderStyle: "dashed",
       borderWidth: 1,
-      gap: theme.spacing.medium,
+      gap: theme.spacing["16p"],
       height: 81,
-      marginBottom: theme.spacing.xsmall,
-      marginHorizontal: theme.spacing.medium,
-      marginTop: theme.spacing.xsmall,
+      marginBottom: theme.spacing["4p"],
+      marginHorizontal: theme.spacing["16p"],
+      marginTop: theme.spacing["4p"],
     }),
     []
   );
@@ -44,7 +44,7 @@ export function RenderMinimumNotReachedPlaceholders({
       flexGrow: 1,
       flexShrink: 1,
       justifyContent: "center",
-      padding: theme.spacing.medium,
+      padding: theme.spacing["16p"],
     }),
     []
   );
@@ -81,7 +81,7 @@ export default function ReordererItem({
 }: ItemProps) {
   const iconStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      margin: theme.spacing.medium,
+      margin: theme.spacing["16p"],
     }),
     []
   );
@@ -91,11 +91,11 @@ export default function ReordererItem({
       backgroundColor: theme.palette["neutralBase-50"],
       flex: 1,
       flexDirection: "row",
-      gap: theme.spacing.medium,
+      gap: theme.spacing["16p"],
       justifyContent: "flex-start",
-      marginBottom: theme.spacing.xsmall,
-      marginHorizontal: theme.spacing.medium,
-      marginTop: theme.spacing.xsmall,
+      marginBottom: theme.spacing["4p"],
+      marginHorizontal: theme.spacing["16p"],
+      marginTop: theme.spacing["4p"],
       maxHeight: 100,
     }),
     []

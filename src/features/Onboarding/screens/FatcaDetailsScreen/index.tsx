@@ -72,12 +72,12 @@ const FatcaDetailsScreen = () => {
   }, [ftrCountries, hasFtr]);
 
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing.regular,
+    paddingHorizontal: theme.spacing["20p"],
   }));
   const yesButton = useThemeStyles<ViewStyle>(
     theme => ({
       borderRadius: theme.radii.small,
-      marginRight: theme.spacing.medium,
+      marginRight: theme.spacing["16p"],
       flex: 1,
       alignSelf: "stretch",
     }),
@@ -86,7 +86,7 @@ const FatcaDetailsScreen = () => {
   const noButton = useThemeStyles<ViewStyle>(
     theme => ({
       borderRadius: theme.radii.small,
-      marginLeft: theme.spacing.medium,
+      marginLeft: theme.spacing["16p"],
       flex: 1,
       alignSelf: "stretch",
     }),

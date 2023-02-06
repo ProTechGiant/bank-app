@@ -16,20 +16,20 @@ import useTokenizedCard from "./use-tokenized-card";
 export default function AddToAppleWalletScreen() {
   const contentContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingHorizontal: theme.spacing.medium,
+      paddingHorizontal: theme.spacing["16p"],
     }),
     []
   );
   const titleStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginTop: 42,
-      marginBottom: theme.spacing.medium,
+      marginBottom: theme.spacing["16p"],
     }),
     []
   );
   const introStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginBottom: theme.spacing.large,
+      marginBottom: theme.spacing["24p"],
     }),
     []
   );

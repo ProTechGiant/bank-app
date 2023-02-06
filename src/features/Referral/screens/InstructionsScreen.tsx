@@ -15,7 +15,7 @@ import { useThemeStyles } from "@/theme";
 export default function InstructionsScreen() {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
-      margin: theme.spacing.regular,
+      margin: theme.spacing["20p"],
       justifyContent: "space-between",
       flex: 1,
     }),
@@ -24,7 +24,7 @@ export default function InstructionsScreen() {
 
   const subTextStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginTop: theme.spacing.medium,
+      marginTop: theme.spacing["16p"],
       textAlign: "center",
     }),
     []
@@ -43,7 +43,7 @@ export default function InstructionsScreen() {
   );
   const TitleStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginTop: theme.spacing.large,
+      marginTop: theme.spacing["24p"],
       textAlign: "center",
     }),
     []
@@ -51,7 +51,7 @@ export default function InstructionsScreen() {
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingTop: theme.spacing.medium,
+      paddingTop: theme.spacing["16p"],
       textAlign: "center",
     }),
     []

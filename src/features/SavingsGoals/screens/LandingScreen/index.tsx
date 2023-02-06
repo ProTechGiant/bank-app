@@ -14,7 +14,7 @@ export default function LandingScreen() {
   const titleStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginTop: 120,
-      paddingHorizontal: theme.spacing.medium,
+      paddingHorizontal: theme.spacing["16p"],
       textAlign: "center",
     }),
     []
@@ -24,7 +24,7 @@ export default function LandingScreen() {
       backgroundColor: theme.palette["primaryBase-30"],
       alignItems: "center",
       justifyContent: "center",
-      marginTop: theme.spacing.medium,
+      marginTop: theme.spacing["16p"],
       height: 86,
       width: "100%",
       borderRadius: theme.radii.extraSmall,
@@ -41,7 +41,7 @@ export default function LandingScreen() {
 
   return (
     <Page backgroundColor="primaryBase">
-      <NavHeader color="white"  />
+      <NavHeader color="white" />
       <ContentContainer>
         <Stack direction="vertical" gap="medium" align="stretch">
           <View style={heroBrandStyle}>

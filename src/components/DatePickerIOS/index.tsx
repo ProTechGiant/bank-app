@@ -31,12 +31,12 @@ export default function DatePickerIOS({
     borderColor: theme.palette["neutralBase-30"],
     borderRadius: theme.radii.small,
     borderWidth: 1,
-    paddingHorizontal: theme.spacing.medium,
-    paddingVertical: theme.spacing.medium,
+    paddingHorizontal: theme.spacing["16p"],
+    paddingVertical: theme.spacing["16p"],
   }));
 
   const helperTextContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginVertical: theme.spacing.medium,
+    marginVertical: theme.spacing["16p"],
   }));
 
   const accentColor = useThemeStyles(theme => theme.palette.complimentBase);

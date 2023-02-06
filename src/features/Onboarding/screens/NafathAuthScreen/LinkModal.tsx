@@ -15,7 +15,7 @@ interface LinkModalProps {
 const LinkModal = ({ modalVisible, toggleModal, onNavigate, children, linkText }: LinkModalProps) => {
   const buttonContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginTop: theme.spacing.small,
+      marginTop: theme.spacing["8p"],
     }),
     []
   );
@@ -24,7 +24,7 @@ const LinkModal = ({ modalVisible, toggleModal, onNavigate, children, linkText }
       backgroundColor: theme.palette["neutralBase-50"],
       borderRadius: theme.radii.extraSmall,
       maxWidth: 348,
-      padding: theme.spacing.large,
+      padding: theme.spacing["24p"],
       width: "100%",
     }),
     []

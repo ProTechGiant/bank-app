@@ -20,7 +20,7 @@ export default function OnboardingSplashScreen() {
   const [loading, setLoading] = useState<"loader" | undefined>(undefined);
 
   const contentViewStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing.regular,
+    paddingHorizontal: theme.spacing["20p"],
     flexDirection: "column",
     flex: 1,
     justifyContent: "space-between",

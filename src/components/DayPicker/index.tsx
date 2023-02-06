@@ -42,8 +42,8 @@ export default function DayPicker({
   }));
 
   const paddingStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing.medium,
-    paddingVertical: theme.spacing.medium,
+    paddingHorizontal: theme.spacing["16p"],
+    paddingVertical: theme.spacing["16p"],
   }));
 
   const daysContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -52,7 +52,7 @@ export default function DayPicker({
   }));
 
   const helperTextContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginVertical: theme.spacing.medium,
+    marginVertical: theme.spacing["16p"],
   }));
 
   const daysInCurrentMonth = daysInThisMonth();

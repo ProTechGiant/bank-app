@@ -17,18 +17,18 @@ export default function NafathAuthScreen() {
   const { t } = useTranslation();
 
   const container = useThemeStyles<ViewStyle>(theme => ({
-    margin: theme.spacing.large,
+    margin: theme.spacing["24p"],
   }));
 
   const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing.large,
-    marginTop: theme.spacing.medium,
+    marginBottom: theme.spacing["24p"],
+    marginTop: theme.spacing["16p"],
   }));
 
   const loadingContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignContent: "center",
     justifyContent: "center",
-    marginVertical: theme.spacing.xlarge,
+    marginVertical: theme.spacing["32p"],
   }));
 
   const numberContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -37,7 +37,7 @@ export default function NafathAuthScreen() {
     borderRadius: 30,
     height: 60,
     justifyContent: "center",
-    marginVertical: theme.spacing.xlarge,
+    marginVertical: theme.spacing["32p"],
     width: 60,
   }));
 

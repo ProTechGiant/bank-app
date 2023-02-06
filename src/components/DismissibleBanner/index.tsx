@@ -21,7 +21,7 @@ export default function DismissibleBanner({
   testID,
 }: DismissibleBannerProps) {
   const positionY = useSharedValue(-100);
-  const offset_ = useThemeStyles(theme => theme.spacing.regular);
+  const offset_ = useThemeStyles(theme => theme.spacing["20p"]);
   const visiblePosY = Platform.OS !== "android" ? offset_ : 0;
 
   useEffect(() => {
@@ -36,8 +36,8 @@ export default function DismissibleBanner({
     elevation: 4,
     height: 56,
     left: 0,
-    margin: theme.spacing.regular,
-    padding: theme.spacing.medium,
+    margin: theme.spacing["20p"],
+    padding: theme.spacing["16p"],
     position: "absolute",
     right: 0,
     shadowOffset: {
@@ -48,7 +48,7 @@ export default function DismissibleBanner({
   }));
 
   const textStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginLeft: theme.spacing.medium,
+    marginLeft: theme.spacing["16p"],
   }));
 
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.tick);

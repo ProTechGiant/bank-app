@@ -135,12 +135,15 @@ const typography = {
 };
 
 const spacing = {
-  xsmall: 4,
-  small: 8,
-  medium: 16,
-  regular: 20,
-  large: 24,
-  xlarge: 32,
+  "4p": 4,
+  "8p": 8,
+  "12p": 12,
+  "16p": 16,
+  "20p": 20,
+  "24p": 24,
+  "32p": 32,
+  "48p": 48,
+  "64p": 64,
 };
 
 const radii = {

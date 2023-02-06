@@ -42,14 +42,14 @@ export default function CreateCardPin({
       alignItems: "center",
       flexDirection: "row",
       justifyContent: "center",
-      paddingVertical: theme.spacing.large,
+      paddingVertical: theme.spacing["24p"],
     }),
     []
   );
   const instructionTextStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
-      paddingTop: theme.spacing.medium,
+      paddingTop: theme.spacing["16p"],
     }),
     []
   );
@@ -62,7 +62,7 @@ export default function CreateCardPin({
       borderWidth: 1,
       height: 60,
       justifyContent: "center",
-      marginHorizontal: theme.spacing.small,
+      marginHorizontal: theme.spacing["8p"],
       width: 50,
     }),
     []
@@ -97,9 +97,9 @@ export default function CreateCardPin({
       backgroundColor: theme.palette["tintBase-30"],
       borderRadius: theme.radii.extraSmall,
       flexDirection: "row",
-      paddingHorizontal: theme.spacing.large,
-      paddingVertical: theme.spacing.medium,
-      marginBottom: theme.spacing.small,
+      paddingHorizontal: theme.spacing["24p"],
+      paddingVertical: theme.spacing["16p"],
+      marginBottom: theme.spacing["8p"],
     }),
     []
   );
@@ -111,7 +111,7 @@ export default function CreateCardPin({
   );
   const infoTextStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingHorizontal: theme.spacing.medium,
+      paddingHorizontal: theme.spacing["16p"],
       alignSelf: "flex-start",
     }),
     []
@@ -123,9 +123,9 @@ export default function CreateCardPin({
       flexDirection: "row",
       justifyContent: "space-between",
       width: "100%",
-      paddingHorizontal: theme.spacing.large,
-      paddingVertical: theme.spacing.medium,
-      marginBottom: theme.spacing.small,
+      paddingHorizontal: theme.spacing["24p"],
+      paddingVertical: theme.spacing["16p"],
+      marginBottom: theme.spacing["8p"],
     }),
     []
   );
@@ -137,7 +137,7 @@ export default function CreateCardPin({
       justifyContent: "center",
       minHeight: 40,
       minWidth: 100,
-      padding: theme.spacing.small,
+      padding: theme.spacing["8p"],
     }),
     []
   );

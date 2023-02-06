@@ -21,14 +21,14 @@ import { Address, useOrderCardContext } from "../../context/OrderCardContext";
 export default function SetTemporaryAddressScreen() {
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingTop: theme.spacing.regular,
-      paddingBottom: theme.spacing.regular,
+      paddingTop: theme.spacing["20p"],
+      paddingBottom: theme.spacing["20p"],
     }),
     []
   );
   const stackStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginBottom: theme.spacing.medium,
+      marginBottom: theme.spacing["16p"],
     }),
     []
   );
@@ -36,10 +36,10 @@ export default function SetTemporaryAddressScreen() {
     theme => ({
       marginTop: "auto",
       borderTopColor: theme.palette["neutralBase-20"],
-      paddingHorizontal: theme.spacing.regular,
-      paddingTop: theme.spacing.regular,
+      paddingHorizontal: theme.spacing["20p"],
+      paddingTop: theme.spacing["20p"],
       borderTopWidth: 0.5,
-      marginHorizontal: -theme.spacing.regular,
+      marginHorizontal: -theme.spacing["20p"],
     }),
     []
   );

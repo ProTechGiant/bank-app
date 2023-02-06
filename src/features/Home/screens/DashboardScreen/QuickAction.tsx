@@ -19,20 +19,20 @@ export default function QuickAction({ icon: Icon, title, onPress }: QuickActionP
       flex: 1,
       height: 95,
       justifyContent: "center",
-      margin: theme.spacing.small,
-      padding: theme.spacing.small,
+      margin: theme.spacing["8p"],
+      padding: theme.spacing["8p"],
     }),
     []
   );
   const iconStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginBottom: theme.spacing.small,
+      marginBottom: theme.spacing["8p"],
     }),
     []
   );
   const textWrapperstyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingTop: theme.spacing.small,
+      paddingTop: theme.spacing["8p"],
     }),
     []
   );

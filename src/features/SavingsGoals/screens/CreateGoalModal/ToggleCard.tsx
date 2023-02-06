@@ -26,7 +26,7 @@ export default function ToggleCards({
   const switchContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       flexDirection: "row",
-      paddingVertical: theme.spacing.medium,
+      paddingVertical: theme.spacing["16p"],
       justifyContent: "space-between",
       alignContent: "center",
     }),
@@ -34,13 +34,13 @@ export default function ToggleCards({
   );
   const infoIconStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingHorizontal: theme.spacing.xsmall,
+      paddingHorizontal: theme.spacing["4p"],
     }),
     []
   );
   const helperTextStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginTop: theme.spacing.xsmall,
+      marginTop: theme.spacing["4p"],
     }),
     []
   );

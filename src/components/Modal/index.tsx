@@ -56,7 +56,7 @@ export default function Modal({ children, onClose, headerText, visible = false, 
       borderTopLeftRadius: theme.radii.small * 1.5,
       borderTopRightRadius: theme.radii.small * 1.5,
       marginTop: "auto",
-      paddingBottom: insets.bottom + theme.spacing.medium,
+      paddingBottom: insets.bottom + theme.spacing["16p"],
     }),
     [insets.bottom]
   );
@@ -66,11 +66,11 @@ export default function Modal({ children, onClose, headerText, visible = false, 
     flexDirection: "row",
     minHeight: 60,
     justifyContent: "space-between",
-    paddingVertical: theme.spacing.small,
+    paddingVertical: theme.spacing["8p"],
   }));
 
   const horizontalSpacing = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing.regular,
+    marginHorizontal: theme.spacing["20p"],
   }));
 
   const containerAnimatedStyles = useAnimatedStyle(() => ({

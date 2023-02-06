@@ -13,7 +13,7 @@ interface BulletinTitleProps {
 export default function BulletinTitle({ title, dropdownVisible, onPress }: BulletinTitleProps) {
   const paddingLeftStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      paddingLeft: theme.spacing.small,
+      paddingLeft: theme.spacing["8p"],
     }),
     []
   );
@@ -22,7 +22,7 @@ export default function BulletinTitle({ title, dropdownVisible, onPress }: Bulle
       backgroundColor: theme.palette["neutralBase-50"],
       borderRadius: theme.radii.extraSmall,
       flexDirection: "row",
-      padding: theme.spacing.medium,
+      padding: theme.spacing["16p"],
       shadowColor: theme.palette["tintBase+20"],
       shadowOffset: { width: 2, height: 2 },
       shadowOpacity: 0.14,

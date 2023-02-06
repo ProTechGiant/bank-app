@@ -19,8 +19,8 @@ import RecommendationCards from "./RecommendationCards";
 export default function HubScreen() {
   const buttonStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginHorizontal: theme.spacing.medium,
-      marginTop: theme.spacing.medium,
+      marginHorizontal: theme.spacing["16p"],
+      marginTop: theme.spacing["16p"],
     }),
     []
   );
@@ -29,30 +29,30 @@ export default function HubScreen() {
       alignItems: "flex-end",
       flexDirection: "row",
       justifyContent: "center",
-      marginTop: theme.spacing.small,
-      marginBottom: theme.spacing.xlarge,
+      marginTop: theme.spacing["8p"],
+      marginBottom: theme.spacing["32p"],
     }),
     []
   );
   const headerContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["primaryBase"],
-      paddingTop: Platform.OS === "android" ? theme.spacing.small : theme.spacing.large,
-      paddingBottom: theme.spacing.large * 2,
+      paddingTop: Platform.OS === "android" ? theme.spacing["8p"] : theme.spacing["24p"],
+      paddingBottom: theme.spacing["24p"] * 2,
     }),
     []
   );
   const headerTextWrapperStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginTop: theme.spacing.large,
-      marginHorizontal: theme.spacing.large,
+      marginTop: theme.spacing["24p"],
+      marginHorizontal: theme.spacing["24p"],
       alignItems: "center",
     }),
     []
   );
   const IconWrapperStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginTop: theme.spacing.regular,
+      marginTop: theme.spacing["20p"],
       alignItems: "center",
       justifyContent: "center",
     }),
@@ -60,14 +60,14 @@ export default function HubScreen() {
   );
   const subTextStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginTop: theme.spacing.small,
+      marginTop: theme.spacing["8p"],
     }),
     []
   );
   const cardContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginVertical: theme.spacing.small,
-      marginHorizontal: theme.spacing.medium,
+      marginVertical: theme.spacing["8p"],
+      marginHorizontal: theme.spacing["16p"],
     }),
     []
   );

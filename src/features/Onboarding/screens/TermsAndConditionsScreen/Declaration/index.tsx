@@ -5,12 +5,12 @@ import { useThemeStyles } from "@/theme";
 
 const Declaration = () => {
   const headingStyle = useThemeStyles<TextStyle>(theme => ({
-    marginTop: theme.spacing.medium,
-    marginBottom: theme.spacing.small,
+    marginTop: theme.spacing["16p"],
+    marginBottom: theme.spacing["8p"],
   }));
 
   const paragraphStyle = useThemeStyles<TextStyle>(theme => ({
-    marginVertical: theme.spacing.small,
+    marginVertical: theme.spacing["8p"],
   }));
 
   return (

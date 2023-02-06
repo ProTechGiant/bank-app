@@ -9,7 +9,7 @@ export default function ArticleSectionContent({ data }: ArticleSectionContentPro
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       borderRadius: theme.radii.small,
-      marginHorizontal: theme.spacing.medium,
+      marginHorizontal: theme.spacing["16p"],
     }),
     []
   );

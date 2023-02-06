@@ -13,8 +13,8 @@ export interface RecommendationCardProps {
 export default function RecommendationCards({ inProgress, completed, earnt, currency }: RecommendationCardProps) {
   const cardContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      marginVertical: theme.spacing.small,
-      marginHorizontal: theme.spacing.medium,
+      marginVertical: theme.spacing["8p"],
+      marginHorizontal: theme.spacing["16p"],
       borderWidth: 1,
       borderColor: theme.palette["tintBase-30"],
       borderRadius: theme.radii.extraSmall,
@@ -27,7 +27,7 @@ export default function RecommendationCards({ inProgress, completed, earnt, curr
       justifyContent: "space-between",
       alignItems: "center",
       flexDirection: "row",
-      marginHorizontal: theme.spacing.medium,
+      marginHorizontal: theme.spacing["16p"],
       borderRadius: theme.radii.extraSmall,
     }),
     []

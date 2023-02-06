@@ -18,7 +18,7 @@ const LinkCard = ({ onNavigate, children, style }: LinkCardProps) => {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-evenly",
-      padding: theme.spacing.large,
+      padding: theme.spacing["24p"],
       shadowColor: theme.palette.shadeBase,
       shadowOffset: {
         width: 1,

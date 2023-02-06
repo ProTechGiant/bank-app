@@ -28,8 +28,8 @@ export default function DashboardScreen() {
       flexDirection: "row",
       flexWrap: "wrap",
       justifyContent: "center",
-      marginBottom: theme.spacing.xlarge * 2,
-      marginHorizontal: theme.spacing.small,
+      marginBottom: theme.spacing["32p"] * 2,
+      marginHorizontal: theme.spacing["8p"],
     }),
     []
   );
@@ -43,7 +43,7 @@ export default function DashboardScreen() {
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
-      marginTop: theme.spacing.large,
+      marginTop: theme.spacing["24p"],
       padding: 9,
     }),
     []
@@ -53,7 +53,7 @@ export default function DashboardScreen() {
       flexDirection: "row",
       flexWrap: "wrap",
       justifyContent: "space-between",
-      marginHorizontal: theme.spacing.small,
+      marginHorizontal: theme.spacing["8p"],
     }),
     []
   );
