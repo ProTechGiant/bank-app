@@ -2,17 +2,15 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   preset: "react-native",
-  globals: {
-    "ts-jest": {
-      tsconfig: "tsconfig.spec.json",
-    },
-  },
   transform: {
     "^.+\\.jsx$": "babel-jest",
-    "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.tsx?$": ["ts-jest", { tsconfig: "tsconfig.spec.json" }],
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  transformIgnorePatterns: ["node_modules/?!(expo-file-system)"],
+  transformIgnorePatterns: [
+    "node_modules/(?!react-native|react-native-gesture-handler|react-navigation|@react-native-async-storage/async-storage|redux-persist|react-native-keychain|)",
+    "jest-runner",
+  ],
   moduleNameMapper: {
     "\\.svg": "<rootDir>/__mocks__/svgMock.js",
     "@/(.*)": "<rootDir>/src/$1",

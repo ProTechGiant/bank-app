@@ -1,21 +1,21 @@
-import path from "path";
-
-module.exports = {
-  "stories": [
+export default {
+  stories: [
     "../src/**/*.stories.@(ts|tsx)"
   ],
-  "addons": [
+  addons: [
     {
       name: '@storybook/addon-react-native-web',
       options: {
         modulesToTranspile: ['react-native-reanimated'],
         babelPlugins: ['react-native-reanimated/plugin', '@babel/plugin-proposal-export-namespace-from'],
-        projectRoot: path.resolve(__dirname, '../../../'),
       },
     },
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
   ],
+  core: {
+    builder: 'webpack5',
+  },
   framework: "@storybook/react",
   features: {
     interactionsDebugger: true,

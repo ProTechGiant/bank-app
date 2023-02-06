@@ -35,19 +35,15 @@ export default function TextInput<T extends FieldValues>({
 }: TextInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
 
-  const textStyles = useThemeStyles<TextStyle>(
-    theme => ({
-      color: theme.palette["neutralBase+20"],
-      flexGrow: 1,
-      lineHeight: theme.typography.text._lineHeights.callout,
-      fontSize: theme.typography.text.sizes.callout,
-      fontWeight: theme.typography.text.weights.regular,
-      padding: 0,
-      marginVertical: theme.typography.text.sizes.callout - theme.typography.text._lineHeights.callout - 2,
-      outline: "none",
-    }),
-    []
-  );
+  const textStyles = useThemeStyles<TextStyle>(theme => ({
+    color: theme.palette["neutralBase+20"],
+    flexGrow: 1,
+    lineHeight: theme.typography.text._lineHeights.callout,
+    fontSize: theme.typography.text.sizes.callout,
+    fontWeight: theme.typography.text.weights.regular,
+    padding: 0,
+    marginVertical: theme.typography.text.sizes.callout - theme.typography.text._lineHeights.callout - 2,
+  }));
 
   const placeholderTextColor = useThemeStyles(theme => theme.palette.neutralBase, []);
   const errorIconColor = useThemeStyles(theme => theme.palette.errorBase, []);
