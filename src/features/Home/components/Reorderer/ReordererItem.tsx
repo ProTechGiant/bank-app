@@ -32,9 +32,9 @@ export function RenderMinimumNotReachedPlaceholders({
       borderWidth: 1,
       gap: theme.spacing.medium,
       height: 81,
-      marginBottom: theme.spacing.small / 2,
+      marginBottom: theme.spacing.xsmall,
       marginHorizontal: theme.spacing.medium,
-      marginTop: theme.spacing.small / 2,
+      marginTop: theme.spacing.xsmall,
     }),
     []
   );
@@ -93,9 +93,9 @@ export default function ReordererItem({
       flexDirection: "row",
       gap: theme.spacing.medium,
       justifyContent: "flex-start",
-      marginBottom: theme.spacing.small / 2,
+      marginBottom: theme.spacing.xsmall,
       marginHorizontal: theme.spacing.medium,
-      marginTop: theme.spacing.small / 2,
+      marginTop: theme.spacing.xsmall,
       maxHeight: 100,
     }),
     []

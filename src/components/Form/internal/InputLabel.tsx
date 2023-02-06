@@ -11,7 +11,7 @@ export default function InputLabel({ children }: InputLabelProps) {
   const labelStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignSelf: "flex-start",
-      marginBottom: theme.spacing.small / 2,
+      marginBottom: theme.spacing.xsmall,
     }),
     []
   );

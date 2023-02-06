@@ -23,9 +23,9 @@ export default {
 const TemplateStack: ComponentStory<typeof Stack> = props => (
   <View style={styles.container}>
     <Stack {...props}>
-      {times(5).map(index => (
+      {times(3).map(index => (
         <View key={index} style={styles.item}>
-          <Typography.Text>Element {index + 1}</Typography.Text>
+          <Typography.Text>Item {index + 1}</Typography.Text>
         </View>
       ))}
     </Stack>
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     borderStyle: "dotted",
     borderWidth: 2,
     padding: 15,
-    width: "80%",
+    width: "100%",
   },
   item: {
     borderColor: "#1EA7FD",

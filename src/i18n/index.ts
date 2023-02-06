@@ -325,6 +325,42 @@ export const resources = {
         },
         CreateGoalModal: {
           navTitle: "Create goal",
+          title: "Create a goal",
+          form: {
+            name: {
+              label: "Name",
+              placeholder: "Type name",
+              validation: {
+                invalid: {
+                  title: "You have entered an invalid name",
+                  content: "Please try again",
+                },
+              },
+            },
+            goal: {
+              label: "Goal",
+              placeholder: "00,00 SAR",
+              currency: "SAR",
+            },
+            targetDate: {
+              label: "Target Date",
+              placeholder: "DD MM, YY",
+            },
+            roundUps: {
+              label: "Turn on Round-ups",
+              helperText: "Only one saving at a time (take away if we don’t need)",
+            },
+            notification: {
+              label: "Turn on Notifications",
+              helperText: "Only this savings",
+            },
+          },
+          aboutRoundUpsPanel: {
+            title: "About Round-ups",
+            content:
+              "You can Round-Up each purchase you make to the next whole saudi riyal and then deposit your spare change to a Savings Pot.",
+            smallText: "Find out more in our FAQs.",
+          },
           button: "Continue",
         },
       },

@@ -30,7 +30,7 @@ export { default as NotificationIcon } from "./notification.svg";
 export { PlusIcon } from "./plus";
 export { default as PlusIconCircle } from "./plus-circle.svg";
 export { default as PostcardIcon } from "./postcard.svg";
-export { default as QuestionIcon } from "./question.svg";
+export { QuestionIcon } from "./question";
 export { default as ReferralIcon } from "./referral.svg";
 export { default as ReferraslIcon } from "./referrals.svg";
 export { default as SettingsIcon } from "./settings.svg";

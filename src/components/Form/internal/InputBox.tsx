@@ -60,7 +60,7 @@ export default function InputBox({
   const optionalLabelStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginHorizontal: theme.spacing.medium,
-      marginTop: theme.spacing.small / 2,
+      marginTop: theme.spacing.xsmall,
       flexDirection: "row",
       justifyContent: "space-between",
     }),

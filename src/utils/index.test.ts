@@ -1,4 +1,21 @@
-import { alphaNumericSpecialCharsRegExp, nationalIdRegEx, numericRegExp, saudiPhoneRegExp } from ".";
+import {
+  alphaNumericSpaceRegExp,
+  alphaNumericSpecialCharsRegExp,
+  nationalIdRegEx,
+  numericRegExp,
+  saudiPhoneRegExp,
+} from ".";
+
+describe("alphaNumericSpaceRegExp", () => {
+  it("String with alphabets, numbers or space", () => {
+    const string = "abc 1234 xyz";
+    expect(string).toMatch(alphaNumericSpaceRegExp);
+  });
+  it("Invalid string", () => {
+    const string = "@£($)!";
+    expect(string).not.toMatch(alphaNumericSpaceRegExp);
+  });
+});
 
 describe("alphaNumericSpecialCharsRegExp", () => {
   it("String with alphabets, numbers, special characters or space", () => {

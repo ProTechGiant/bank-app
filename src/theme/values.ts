@@ -115,9 +115,9 @@ const typography = {
       title3: 20,
       body: 17,
       callout: 16,
+      footnote: 13,
       caption1: 12,
       caption2: 11,
-      footnote: 13,
     },
     // correspond directly with `sizes`
     _lineHeights: {
@@ -127,14 +127,15 @@ const typography = {
       title3: 25,
       body: 22,
       callout: 21,
+      footnote: 18,
       caption1: 16,
       caption2: 13,
-      footnote: 18,
     },
   },
 };
 
 const spacing = {
+  xsmall: 4,
   small: 8,
   medium: 16,
   regular: 20,
@@ -169,6 +170,10 @@ const iconDimensions = {
   referralInstruction: {
     width: 51,
     height: 37,
+  },
+  createGoal: {
+    info: 20,
+    question: 12,
   },
 };
 

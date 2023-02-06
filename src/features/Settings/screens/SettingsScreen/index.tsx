@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, ViewStyle } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 
 import { FriendsIcon, QuestionIcon } from "@/assets/icons";
 import Page from "@/components/Page";
@@ -45,7 +45,9 @@ export default function SettingsScreen() {
         </Typography.Text>
       </Pressable>
       <Pressable style={cardContainerStyle}>
-        <QuestionIcon style={iconContainer} height={iconDimensions} width={iconDimensions} />
+        <View style={iconContainer}>
+          <QuestionIcon height={iconDimensions} width={iconDimensions} />
+        </View>
         <Typography.Text color="primaryBase+30" size="callout" weight="regular">
           {t("Settings.SettingsScreen.FAQs")}
         </Typography.Text>
