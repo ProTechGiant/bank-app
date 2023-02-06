@@ -32,7 +32,7 @@ const SelectedFtrCard = ({ index, country, uniqueReference }: SelectedFtrCountry
   return (
     <View style={detailsCardStyle} key={uniqueReference}>
       <Stack direction="horizontal" style={{ justifyContent: "space-between" }}>
-        <Stack direction="vertical" gap="medium">
+        <Stack direction="vertical" gap="16p">
           <View>
             <Typography.Text size="callout" weight="medium" color="primaryBase">
               Country

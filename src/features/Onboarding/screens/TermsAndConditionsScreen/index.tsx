@@ -58,7 +58,7 @@ const TermsAndConditionsScreen = () => {
         </NavHeader>
         <ScrollView>
           <ContentContainer style={{ marginBottom: 64 }}>
-            <Stack direction="vertical" gap="xlarge" align="stretch">
+            <Stack direction="vertical" gap="32p" align="stretch">
               <Typography.Header size="large" weight="bold">
                 {t("Onboarding.TermsAndConditions.title")}
               </Typography.Header>
@@ -69,7 +69,7 @@ const TermsAndConditionsScreen = () => {
           </ContentContainer>
         </ScrollView>
         <View style={footerStyle}>
-          <Stack align="stretch" gap="small" direction="vertical">
+          <Stack align="stretch" gap="8p" direction="vertical">
             <View />
             <CheckboxInput
               control={control}

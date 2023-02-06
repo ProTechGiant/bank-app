@@ -137,7 +137,7 @@ export default function SavingsGoalsModal() {
         </ContentContainer>
         <Modal visible={isInfoModalVisible} onClose={handleOnModalClose}>
           <View style={contentContainerStyle}>
-            <Stack direction="vertical" gap="small">
+            <Stack direction="vertical" gap="8p">
               <Typography.Text color="primaryBase+30" size="title2" weight="bold">
                 {t("SavingsGoals.CreateGoalModal.aboutRoundUpsPanel.title")}
               </Typography.Text>

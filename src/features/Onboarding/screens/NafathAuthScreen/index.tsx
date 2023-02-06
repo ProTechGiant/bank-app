@@ -99,7 +99,7 @@ export default function NafathAuthScreen() {
             {t("Onboarding.NafathAuthScreen.title")}
           </Typography.Text>
         </View>
-        <Stack align="stretch" direction="vertical" gap="regular">
+        <Stack align="stretch" direction="vertical" gap="20p">
           <LinkCard onNavigate={handleOnToggleModal}>
             <Typography.Text size="callout" weight="medium" color="primaryBase+10">
               {t("Onboarding.NafathAuthScreen.appButtonTitle")}

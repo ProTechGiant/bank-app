@@ -115,7 +115,7 @@ export default function MobileAndNationalIdForm({
         </View>
         <View>
           <View style={inputFieldsStyle}>
-            <Stack direction="vertical" align="stretch" gap="regular">
+            <Stack direction="vertical" align="stretch" gap="20p">
               {errorMessages.length > 0 &&
                 errorMessages.map((err, index: number) =>
                   typeof err.message === "string" ? (

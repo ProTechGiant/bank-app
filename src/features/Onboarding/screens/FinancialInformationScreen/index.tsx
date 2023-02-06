@@ -50,7 +50,7 @@ export default function FinancialInformationScreen() {
       </NavHeader>
       <ScrollView>
         <ContentContainer>
-          <Stack align="stretch" direction="vertical" gap="large">
+          <Stack align="stretch" direction="vertical" gap="24p">
             <Typography.Text size="large" weight="bold">
               {t("Onboarding.FinancialInformationScreen.title")}
             </Typography.Text>

@@ -101,7 +101,7 @@ export default function SetTemporaryAddressScreen() {
         <ContentContainer style={containerStyle}>
           <View style={{ flex: 1 }}>
             <View style={{ flex: 1 }}>
-              <Stack direction="vertical" align="stretch" gap="regular" style={stackStyle}>
+              <Stack direction="vertical" align="stretch" gap="20p" style={stackStyle}>
                 <TextInput
                   control={control}
                   label={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.label")}

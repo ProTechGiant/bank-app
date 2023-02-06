@@ -65,7 +65,7 @@ export default function OptionalEmailScreen() {
       </NavHeader>
       <ScrollView>
         <ContentContainer>
-          <Stack align="stretch" direction="vertical" gap="large">
+          <Stack align="stretch" direction="vertical" gap="24p">
             <Typography.Header size="large" weight="bold">
               {t("Onboarding.OptionalEmailScreen.title")}
             </Typography.Header>
@@ -83,7 +83,7 @@ export default function OptionalEmailScreen() {
         </ContentContainer>
       </ScrollView>
       <View style={containerStyle}>
-        <Stack align="stretch" direction="vertical" gap="small">
+        <Stack align="stretch" direction="vertical" gap="8p">
           <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
             {t("Onboarding.OptionalEmailScreen.continue")}
           </SubmitButton>

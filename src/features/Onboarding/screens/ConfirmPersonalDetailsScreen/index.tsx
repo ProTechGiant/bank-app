@@ -68,13 +68,13 @@ export default function ConfirmPersonalDetailsScreen() {
         <ProgressIndicator currentStep={1} totalStep={6} />
       </NavHeader>
       <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12 }}>
-        <Stack align="stretch" direction="vertical" gap="medium">
+        <Stack align="stretch" direction="vertical" gap="16p">
           <Typography.Header size="large" weight="bold">
             {t("Onboarding.ConfirmPersonalDetailsScreen.title")}
           </Typography.Header>
           {undefined !== data && (
             <View style={detailsCardStyle}>
-              <Stack direction="vertical" gap="medium">
+              <Stack direction="vertical" gap="16p">
                 <InfoLine
                   icon={<UserIcon />}
                   label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineName")}
@@ -117,7 +117,7 @@ export default function ConfirmPersonalDetailsScreen() {
         </Stack>
       </ScrollView>
       <View style={footerStyle}>
-        <Stack align="stretch" gap="small" direction="vertical">
+        <Stack align="stretch" gap="8p" direction="vertical">
           <View />
           <CheckboxInput
             control={control}
@@ -150,7 +150,7 @@ function InfoLine({ icon, label, value }: { icon: React.ReactElement; label: str
       <Typography.Text size="callout" weight="medium" color="primaryBase">
         {label}
       </Typography.Text>
-      <Stack direction="horizontal" gap="small">
+      <Stack direction="horizontal" gap="8p">
         {icon}
         <Typography.Text size="footnote" weight="regular" color={undefined === value ? "errorBase" : "primaryBase"}>
           {value ?? "Missing from Absher"}

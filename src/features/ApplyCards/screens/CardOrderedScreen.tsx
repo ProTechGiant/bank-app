@@ -32,7 +32,7 @@ export default function CardOrderedScreen() {
       <Page>
         <NavHeader withBackButton={false} color="white" end="close" />
         <ContentContainer>
-          <Stack direction="vertical" gap="medium" align="center">
+          <Stack direction="vertical" gap="16p" align="center">
             <View style={styles.iconContainer}>
               <ShippingIcon />
             </View>

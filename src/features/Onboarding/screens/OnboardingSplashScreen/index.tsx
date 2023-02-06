@@ -68,7 +68,7 @@ export default function OnboardingSplashScreen() {
               </Typography.Text>
             </View>
           </View>
-          <Stack align="stretch" direction="vertical" gap="small">
+          <Stack align="stretch" direction="vertical" gap="8p">
             <Button type={loading} variant="primary" color="alt" onPress={handleOnSignUp}>
               {t("Onboarding.SplashScreen.buttons.signUp")}
             </Button>

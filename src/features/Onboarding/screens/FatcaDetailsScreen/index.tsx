@@ -109,7 +109,7 @@ const FatcaDetailsScreen = () => {
         </NavHeader>
         <ScrollView>
           <ContentContainer style={{ marginBottom: 64 }}>
-            <Stack direction="vertical" gap="medium" align="stretch">
+            <Stack direction="vertical" gap="16p" align="stretch">
               <Typography.Header size="medium" weight="bold">
                 {t("Onboarding.FatcaDetailsScreen.title")}
               </Typography.Header>

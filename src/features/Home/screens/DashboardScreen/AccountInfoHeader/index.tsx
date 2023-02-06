@@ -173,7 +173,7 @@ export default function AccountInfoHeader({ size }: AccountInfoHeaderProps) {
           </View>
         ))}
       {size !== "small" && (
-        <Stack direction="horizontal" gap="small" style={buttonContainerStyle}>
+        <Stack direction="horizontal" gap="8p" style={buttonContainerStyle}>
           <TemporaryPillButton
             onPress={handleOnPressBalanceVisibility}
             iconLeft={showAccountBalance ? <ShowIcon /> : <HideIcon />}>
