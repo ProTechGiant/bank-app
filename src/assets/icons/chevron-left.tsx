@@ -1,8 +1,8 @@
 import { Path, Svg } from "react-native-svg";
 
-import { IconProps } from ".";
+import type { IconProps } from "./index";
 
-export function ChevronLeft({ color = "#000000", height = 30, width = 30 }: IconProps) {
+export function ChevronLeftIcon({ color = "#000000", height = 30, width = 30 }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path

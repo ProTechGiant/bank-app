@@ -5,6 +5,12 @@ import { I18nManager } from "react-native";
 export const resources = {
   en: {
     translation: {
+      DayPicker: {
+        currentlyOnDay_one: "On {{count}}st",
+        currentlyOnDay_two: "On {{count}}nd",
+        currentlyOnDay_few: "On {{count}}rd",
+        currentlyOnDay_other: "On {{count}}th",
+      },
       Onboarding: {
         SplashScreen: {
           title: "You're in control now",
@@ -516,7 +522,7 @@ i18n.use(initReactI18next).init({
   interpolation: {
     escapeValue: false,
   },
-  compatibilityJSON: "v3",
+  compatibilityJSON: "v4",
   returnNull: false,
   resources,
 });

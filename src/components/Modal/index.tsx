@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Modal as RNModal,
   ModalProps as RNModalProps,
+  Platform,
   Pressable,
   StyleSheet,
   useWindowDimensions,
@@ -27,6 +28,7 @@ interface ModalProps extends Omit<RNModalProps, "animationType" | "onRequestClos
   headerText?: string;
 }
 
+const NativeModal = Platform.OS === "web" ? View : RNModal;
 export default function Modal({ children, onClose, headerText, visible = false, ...nativeModalProps }: ModalProps) {
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
@@ -54,30 +56,22 @@ export default function Modal({ children, onClose, headerText, visible = false, 
       borderTopLeftRadius: theme.radii.small * 1.5,
       borderTopRightRadius: theme.radii.small * 1.5,
       marginTop: "auto",
-      paddingBottom: insets.bottom,
+      paddingBottom: insets.bottom + theme.spacing.medium,
     }),
     [insets.bottom]
   );
 
-  const headerStyles = useThemeStyles<ViewStyle>(
-    theme => ({
-      alignItems: "center",
-      borderBottomColor: theme.palette["neutralBase-30"],
-      borderBottomWidth: 1,
-      flexDirection: "row",
-      minHeight: 60,
-      justifyContent: "space-between",
-      paddingVertical: theme.spacing.small,
-    }),
-    []
-  );
+  const headerStyles = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    flexDirection: "row",
+    minHeight: 60,
+    justifyContent: "space-between",
+    paddingVertical: theme.spacing.small,
+  }));
 
-  const horizontalSpacing = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginHorizontal: theme.spacing.regular,
-    }),
-    []
-  );
+  const horizontalSpacing = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing.regular,
+  }));
 
   const containerAnimatedStyles = useAnimatedStyle(() => ({
     transform: [
@@ -99,7 +93,7 @@ export default function Modal({ children, onClose, headerText, visible = false, 
   };
 
   return (
-    <RNModal onRequestClose={onClose} transparent visible={isVisible} {...nativeModalProps}>
+    <NativeModal onRequestClose={onClose} transparent visible={isVisible} {...nativeModalProps}>
       <Animated.View onTouchStart={() => onClose?.()} style={[styles.backdrop, backdropAnimatedStyles]} />
       <Animated.View
         onLayout={event => {
@@ -124,7 +118,7 @@ export default function Modal({ children, onClose, headerText, visible = false, 
         </View>
         <View style={horizontalSpacing}>{children}</View>
       </Animated.View>
-    </RNModal>
+    </NativeModal>
   );
 }
 

@@ -1,4 +1,4 @@
-import { times } from "lodash";
+import times from "lodash/times";
 import * as React from "react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -186,7 +186,7 @@ export default function CreateCardPin({
             </View>
           </View>
           <Pressable style={container} onPress={onBoxPress}>
-            {times(pinInputLength, i => (
+            {times(pinInputLength).map(i => (
               <View
                 key={i}
                 style={[inputBoxStyle, i === inputValue.length && highlightedBoxStyle, !isValid && errorBoxStyle]}>

@@ -16,7 +16,7 @@ export default function SavingsGoalsScreen() {
 
   return (
     <Page>
-      <NavHeader title={t("SavingsGoals.SavingsGoalsScreen.navTitle")}  />
+      <NavHeader title={t("SavingsGoals.SavingsGoalsScreen.navTitle")} />
       <ContentContainer>
         <Button onPress={handleOnSetGoal}>Set Goal</Button>
       </ContentContainer>

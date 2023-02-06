@@ -1,4 +1,5 @@
 import { ComponentStory } from "@storybook/react";
+import times from "lodash/times";
 import { StyleSheet, View } from "react-native";
 
 import Stack from "@/components/Stack";
@@ -37,10 +38,6 @@ HorizontalStack.args = { direction: "horizontal" };
 
 export const VerticalStack = TemplateStack.bind({});
 VerticalStack.args = { direction: "vertical" };
-
-function times(i: number) {
-  return [...new Array(i).keys()];
-}
 
 const styles = StyleSheet.create({
   container: {

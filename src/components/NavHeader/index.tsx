@@ -1,7 +1,7 @@
 import { cloneElement, isValidElement } from "react";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
-import { ChevronLeft } from "@/assets/icons";
+import { ChevronLeftIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -64,7 +64,7 @@ const NavHeader = ({
                 onPress={handleOnBackPress}
                 style={{ transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }] }}
                 testID={undefined !== testID ? `${testID}-->BackButton` : undefined}>
-                <ChevronLeft height={backIconSize} width={backIconSize} color={iconColor} />
+                <ChevronLeftIcon height={backIconSize} width={backIconSize} color={iconColor} />
               </Pressable>
             )}
           </View>
