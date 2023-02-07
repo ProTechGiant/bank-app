@@ -43,7 +43,7 @@ export default function LandingScreen() {
     <Page backgroundColor="primaryBase">
       <NavHeader color="white" />
       <ContentContainer>
-        <Stack direction="vertical" gap="16p" align="stretch">
+        <Stack direction="vertical" gap="16p" align="center">
           <View style={heroBrandStyle}>
             <Typography.Text color="primaryBase+30" weight="medium">
               HERO BRAND SCREEN

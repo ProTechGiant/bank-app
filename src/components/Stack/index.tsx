@@ -23,39 +23,20 @@ export default function Stack({
 }: StackProps) {
   const elements = React.Children.toArray(children);
 
-  const containerStyle = React.useMemo(
-    () => ({
+  const containerStyle = useThemeStyles(
+    theme => ({
       alignItems: align,
       flexDirection: direction === "horizontal" ? ("row" as const) : ("column" as const),
+      columnGap: direction === "horizontal" && undefined !== gap ? theme.spacing[gap] : undefined,
+      rowGap: direction === "vertical" && undefined !== gap ? theme.spacing[gap] : undefined,
       justifyContent: justify,
     }),
     [align, direction, justify]
   );
 
-  const elementStyle = useThemeStyles(
-    theme => {
-      if (undefined === gap) return undefined;
-
-      const marginDirection = direction === "horizontal" ? "marginRight" : "marginBottom";
-      return { [marginDirection]: theme.spacing[gap] };
-    },
-    [direction, gap]
-  );
-
   return (
     <View {...restProps} style={[containerStyle, style]}>
-      {elements.map((element, index) => {
-        return (
-          <View
-            key={index}
-            style={[
-              elements.length - 1 !== index ? elementStyle : undefined,
-              direction === "vertical" && align === "stretch" && { width: "100%" },
-            ]}>
-            {element}
-          </View>
-        );
-      })}
+      {elements}
     </View>
   );
 }

@@ -9,6 +9,7 @@ import InputLabel from "./InputLabel";
 
 interface InputBoxProps {
   bordered?: boolean;
+  block?: boolean;
   children: React.ReactNode;
   extraStart?: string;
   extraEnd?: string;
@@ -22,6 +23,7 @@ interface InputBoxProps {
 
 export default function InputBox({
   bordered = true,
+  block = true,
   children,
   extraStart,
   extraEnd,
@@ -70,7 +72,7 @@ export default function InputBox({
   const errorIconColor = useThemeStyles(theme => theme.palette.errorBase);
 
   return (
-    <Pressable disabled={!isEditable} onPress={onPress}>
+    <Pressable disabled={!isEditable} onPress={onPress} style={{ flexGrow: block ? 1 : 0 }}>
       {label && <InputLabel>{label}</InputLabel>}
       <View style={containerStyle}>
         <>

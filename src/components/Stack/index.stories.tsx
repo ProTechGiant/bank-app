@@ -10,7 +10,9 @@ export default {
   component: Stack,
   title: "components/Stack",
   args: {
-    gap: "regular",
+    align: "flex-start",
+    gap: "16p",
+    justify: "center",
   },
   argTypes: {
     direction: {
