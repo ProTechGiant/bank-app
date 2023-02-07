@@ -53,6 +53,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
         placeholder={placeholder}
         placeholderTextColor={placeholderTextColor}
         style={textStyles}
+        value={field.value}
       />
     </InputBox>
   );
