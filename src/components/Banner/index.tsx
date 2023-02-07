@@ -13,28 +13,28 @@ const darkColor = "neutralBase+30";
 
 interface Colors {
   text: keyof typeof palette;
+  labelText?: keyof typeof palette;
   label: keyof typeof palette;
 }
 
 const getColor = (color: keyof typeof palette): Colors => {
   const colors: { [key: string]: Colors } = {
-    tintBase: { text: lightColor, label: "primaryBase" },
-    "tintBase-30": { text: darkColor, label: "tintBase-20" },
+    "interactionBase-30": { text: darkColor, labelText: darkColor, label: "interactionBase-20" },
     "successBase+10": { text: lightColor, label: "successBase+20" },
     "successBase-30": { text: darkColor, label: "successBase-20" },
     warningBase: { text: darkColor, label: "warningBase-10" },
     "warningBase-30": { text: darkColor, label: "warningBase-20" },
     errorBase: { text: lightColor, label: "errorBase+10" },
     "errorBase-40": { text: darkColor, label: "errorBase-20" },
-    default: { text: lightColor, label: "primaryBase" },
+    default: { text: lightColor, labelText: darkColor, label: "interactionBase-30" },
   };
 
   return colors[color] || colors["default"];
 };
 
 export type BannerColorType =
-  | "tintBase"
-  | "tintBase-30"
+  | "interactionBase"
+  | "interactionBase-30"
   | "successBase+10"
   | "successBase-30"
   | "warningBase"
@@ -51,7 +51,7 @@ export interface BannerProps {
   clearTestID?: string;
 }
 
-const Banner = ({ color, icon: Icon, message, label, onClear, clearTestID }: BannerProps) => {
+const Banner = ({ color = "interactionBase", icon: Icon, message, label, onClear, clearTestID }: BannerProps) => {
   const colors = getColor(color);
 
   const container = useThemeStyles<ViewStyle>(
@@ -124,7 +124,7 @@ const Banner = ({ color, icon: Icon, message, label, onClear, clearTestID }: Ban
       </View>
       {label && (
         <View style={labelStyle}>
-          <Typography.Text size="footnote" color={colors.text}>
+          <Typography.Text size="footnote" color={colors.labelText ? colors.labelText : colors.text}>
             {label}
           </Typography.Text>
         </View>

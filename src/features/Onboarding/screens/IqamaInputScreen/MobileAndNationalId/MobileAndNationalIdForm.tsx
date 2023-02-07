@@ -176,7 +176,7 @@ export default function MobileAndNationalIdForm({
             {t("Onboarding.IqamaInputScreen.subtext")}
           </Typography.Text>
           <Pressable onPress={onSigninPress}>
-            <Typography.Text size="callout" weight="regular" color="tintBase">
+            <Typography.Text size="callout" weight="regular" color="primaryBase">
               {t("Onboarding.IqamaInputScreen.signIn")}
             </Typography.Text>
           </Pressable>

@@ -23,7 +23,7 @@ export default function BulletinTitle({ title, dropdownVisible, onPress }: Bulle
       borderRadius: theme.radii.extraSmall,
       flexDirection: "row",
       padding: theme.spacing["16p"],
-      shadowColor: theme.palette["tintBase+20"],
+      shadowColor: theme.palette["primaryBase+20"],
       shadowOffset: { width: 2, height: 2 },
       shadowOpacity: 0.14,
       elevation: 5,

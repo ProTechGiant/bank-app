@@ -10,7 +10,6 @@ export default {
   title: "components/Banner",
   component: Banner_,
   args: {
-    color: "tintBase",
     message: "Content",
     icon: <InfoFilledCircleIcon />,
     label: "Label",

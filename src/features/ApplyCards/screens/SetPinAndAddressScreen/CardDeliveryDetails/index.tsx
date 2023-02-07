@@ -182,7 +182,7 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
         onPress={handleSetTemporaryAddress}
         variant="tertiary"
         disabled={!isTempAddressButtonActive || submitOrderCardAsync.isLoading}>
-        <Typography.Text color="tintBase+20" size="body">
+        <Typography.Text color="primaryBase+20" size="body">
           {buttonText}
         </Typography.Text>
       </Button>

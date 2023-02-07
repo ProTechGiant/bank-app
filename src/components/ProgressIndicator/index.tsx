@@ -18,7 +18,7 @@ export default function ProgressIndicator({ currentStep, totalStep }: ProgressIn
   }));
 
   const progressBarActiveStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["tintBase"],
+    backgroundColor: theme.palette["primaryBase"],
   }));
 
   return (

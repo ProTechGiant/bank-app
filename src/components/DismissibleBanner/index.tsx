@@ -29,7 +29,7 @@ export default function DismissibleBanner({
   }, [visible]);
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.tintBase,
+    backgroundColor: theme.palette.primaryBase,
     borderRadius: theme.radii.extraSmall,
     alignItems: "center",
     flexDirection: "row",

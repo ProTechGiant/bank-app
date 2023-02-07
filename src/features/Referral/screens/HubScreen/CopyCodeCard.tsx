@@ -15,7 +15,7 @@ export default function CopyCodeCard({ backgroundColor, leftText, rightIcon: Ico
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       borderWidth: 1,
-      borderColor: theme.palette["tintBase-30"],
+      borderColor: theme.palette["primaryBase-30"],
       minHeight: 54,
       justifyContent: "space-between",
       alignItems: "center",

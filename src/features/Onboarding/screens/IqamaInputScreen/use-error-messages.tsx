@@ -15,12 +15,12 @@ export default function useErrorMessages(err: ApiError<ApiOnboardingError>) {
       "0081": {
         message: t("Onboarding.IqamaInputScreen.errorText.oneAttemptsLeft"),
         icon: <InfoFilledCircleIcon />,
-        backgroundColor: "tintBase-30",
+        backgroundColor: "interactionBase-30",
       },
       "0082": {
         message: t("Onboarding.IqamaInputScreen.errorText.twoAttemptsLeft"),
         icon: <InfoFilledCircleIcon />,
-        backgroundColor: "tintBase-30",
+        backgroundColor: "interactionBase-30",
       },
       "0083": {
         message: t("Onboarding.IqamaInputScreen.errorText.noAttemptsLeft"),

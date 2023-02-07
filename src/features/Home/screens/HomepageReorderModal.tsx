@@ -30,7 +30,7 @@ export default function HomepageReorderModal() {
   );
   const headerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: theme.palette.tintBase,
+      backgroundColor: theme.palette.primaryBase,
       flexDirection: "column",
       padding: theme.spacing["20p"],
       paddingTop: 10,

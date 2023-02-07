@@ -160,7 +160,7 @@ export default function DropdownInput<T extends FieldValues>({
                   onPress={() => !option.disabled && handleOnModalChange(option.value)}
                   style={[optionContainer, option.disabled && { opacity: 0.4 }]}>
                   <View style={styles.textContainer}>
-                    <Typography.Text color="tintBase+30" size="callout" weight="regular">
+                    <Typography.Text color="primaryBase+30" size="callout" weight="regular">
                       {option.label}
                     </Typography.Text>
                   </View>

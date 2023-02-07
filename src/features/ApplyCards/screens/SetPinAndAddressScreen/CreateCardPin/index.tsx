@@ -94,7 +94,7 @@ export default function CreateCardPin({
   const infoContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
-      backgroundColor: theme.palette["tintBase-30"],
+      backgroundColor: theme.palette["primaryBase-30"],
       borderRadius: theme.radii.extraSmall,
       flexDirection: "row",
       paddingHorizontal: theme.spacing["24p"],

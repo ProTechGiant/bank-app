@@ -47,7 +47,7 @@ export default function CheckboxInput<T extends FieldValues>({
       }}>
       <View style={{ alignItems: "center", flexDirection: "row" }}>
         <View style={checkBoxStyles}>{field.value && <CheckboxCheckmark />}</View>
-        <Typography.Text color="tintBase+30" size="callout" weight="regular">
+        <Typography.Text color="primaryBase+30" size="callout" weight="regular">
           {label}
         </Typography.Text>
       </View>

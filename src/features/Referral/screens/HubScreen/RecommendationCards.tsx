@@ -16,7 +16,7 @@ export default function RecommendationCards({ inProgress, completed, earnt, curr
       marginVertical: theme.spacing["8p"],
       marginHorizontal: theme.spacing["16p"],
       borderWidth: 1,
-      borderColor: theme.palette["tintBase-30"],
+      borderColor: theme.palette["primaryBase-30"],
       borderRadius: theme.radii.extraSmall,
     }),
     []
@@ -34,7 +34,7 @@ export default function RecommendationCards({ inProgress, completed, earnt, curr
   );
   const bottomBorderStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      borderBottomColor: theme.palette["tintBase-30"],
+      borderBottomColor: theme.palette["primaryBase-30"],
       borderBottomWidth: 1,
     }),
     []
@@ -59,7 +59,7 @@ export default function RecommendationCards({ inProgress, completed, earnt, curr
       <View style={cardContainerInnerStyle}>
         <Typography.Text>{t("Referral.HubScreen.earnt")}</Typography.Text>
         <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-          <Typography.Text color="shadeBase-20" size="caption2">
+          <Typography.Text color="primaryBase-20" size="caption2">
             {currency.toUpperCase()}{" "}
           </Typography.Text>
           <Typography.Text>{earnt}</Typography.Text>
