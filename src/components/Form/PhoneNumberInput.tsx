@@ -30,11 +30,9 @@ export default function PhoneNumberInput<T extends FieldValues>({
   const textStyles = useThemeStyles<TextStyle>(theme => ({
     color: theme.palette["neutralBase+20"],
     flexGrow: 1,
-    lineHeight: theme.typography.text._lineHeights.callout,
     fontSize: theme.typography.text.sizes.callout,
     fontWeight: theme.typography.text.weights.regular,
     padding: 0,
-    marginVertical: theme.typography.text.sizes.callout - theme.typography.text._lineHeights.callout - 2,
   }));
 
   const placeholderTextColor = useThemeStyles(theme => theme.palette.neutralBase);

@@ -1,6 +1,7 @@
 import { ControllerFieldState } from "react-hook-form";
 import { Pressable, View, ViewStyle } from "react-native";
 
+import { ErrorIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -50,27 +51,35 @@ export default function InputBox({
       borderRadius: theme.radii.extraSmall,
       borderWidth: bordered ? (isFocused || isError ? 2 : 1) : 0,
       flexDirection: "row",
+      justifyContent: "space-between",
       flexGrow: 1,
-      minHeight: multiline ? 74 : 53,
+      height: false == multiline ? 53 : undefined,
+      minHeight: false !== multiline ? 74 : undefined,
       padding: theme.spacing["16p"] - (isFocused || isError ? 1 : 0),
     }),
     [bordered, isError, isEditable, isFocused, multiline]
   );
 
-  const optionalLabelStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginHorizontal: theme.spacing["16p"],
-      marginTop: theme.spacing["4p"],
-      flexDirection: "row",
-      justifyContent: "space-between",
-    }),
-    []
-  );
+  const optionalLabelStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing["16p"],
+    marginTop: theme.spacing["4p"],
+    flexDirection: "row",
+    justifyContent: "space-between",
+  }));
+
+  const errorIconColor = useThemeStyles(theme => theme.palette.errorBase);
 
   return (
-    <Pressable disabled={!isEditable} onPress={onPress} style={{ flexGrow: 1 }}>
+    <Pressable disabled={!isEditable} onPress={onPress}>
       {label && <InputLabel>{label}</InputLabel>}
-      <View style={containerStyle}>{children}</View>
+      <View style={containerStyle}>
+        <>
+          {children}
+          {undefined !== fieldState.error && fieldState.isTouched && (
+            <ErrorIcon fill={errorIconColor} height={20} width={20} />
+          )}
+        </>
+      </View>
       {(undefined !== extraStart || undefined !== extraEnd || isError) && (
         <View style={optionalLabelStyle}>
           <Typography.Text color={isError ? "errorBase" : "neutralBase"} size="caption1" weight="regular">
