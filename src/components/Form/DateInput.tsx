@@ -1,6 +1,6 @@
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -14,7 +14,7 @@ interface DateInputProps<T extends FieldValues> {
   control: Control<T>;
   format?: string;
   headerText: string;
-  helperText?: string | false;
+  helperText?: string | false | ((value: Date) => string | undefined);
   label?: string | null | false;
   minimumDate?: Date;
   name: Path<T>;
@@ -35,31 +35,38 @@ export default function DateInput<T extends FieldValues>({
   const { field } = useController({ control, name });
 
   const [isVisible, setIsVisible] = useState(false);
-  const [confirmedValue, setConfirmedValue] = useState<Date | undefined>(field.value);
-  const selectedValue = field.value ?? new Date();
+  const [selectedValue, setSelectedValue] = useState(field.value ?? new Date());
+
+  if (field.value !== selectedValue && undefined !== field.value) {
+    setSelectedValue(field.value);
+  }
 
   const handleOnConfirmIOS = () => {
     setIsVisible(false);
-    setConfirmedValue(selectedValue);
 
     field.onChange(selectedValue);
     field.onBlur();
   };
 
   const handleOnChangeIOS = (value: Date) => {
-    field.onChange(value);
+    setSelectedValue(value);
   };
 
   const handleOnCancelIOS = () => {
     setIsVisible(false);
+    setSelectedValue(field.value ?? new Date());
 
-    field.onChange(confirmedValue);
     field.onBlur();
   };
 
   const handleOnOpen = () => {
-    if (Platform.OS === "ios") setIsVisible(true);
-    else if (Platform.OS === "android") handleOnShowDatePickerAndroid();
+    if (Platform.OS === "ios") {
+      setIsVisible(true);
+    }
+
+    if (Platform.OS === "android") {
+      handleOnShowDatePickerAndroid();
+    }
   };
 
   const handleOnShowDatePickerAndroid = () => {
@@ -107,6 +114,13 @@ export default function DateInput<T extends FieldValues>({
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["complimentBase"]);
 
+  const resolvedHelperText =
+    typeof helperText === "function" && undefined !== selectedValue
+      ? helperText(selectedValue)
+      : typeof helperText === "string"
+      ? helperText
+      : undefined;
+
   return (
     <>
       <View style={containerStyle}>
@@ -119,10 +133,10 @@ export default function DateInput<T extends FieldValues>({
             </Typography.Text>
           </View>
         </Pressable>
-        {Platform.OS !== "ios" && !!helperText && (
+        {Platform.OS !== "ios" && undefined !== resolvedHelperText && (
           <View style={helperTextContainerStyle}>
             <Typography.Text color="neutralBase" size="footnote">
-              {helperText}
+              {resolvedHelperText}
             </Typography.Text>
           </View>
         )}
@@ -136,7 +150,7 @@ export default function DateInput<T extends FieldValues>({
           minimumDate={minimumDate}
           onClose={handleOnCancelIOS}
           onConfirm={handleOnConfirmIOS}
-          helperText={helperText}
+          helperText={resolvedHelperText}
           value={selectedValue}
         />
       )}

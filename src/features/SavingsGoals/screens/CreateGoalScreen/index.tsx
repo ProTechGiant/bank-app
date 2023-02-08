@@ -49,7 +49,7 @@ export default function CreateGoalScreen() {
     [i18n.language]
   );
 
-  const { control, handleSubmit, watch } = useForm<CreateGoalInput>({
+  const { control, handleSubmit } = useForm<CreateGoalInput>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -59,8 +59,6 @@ export default function CreateGoalScreen() {
   });
 
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
-  const currentTargetDate = watch("TargetDate") as Date | undefined;
-  const isHelperTextVisible = undefined !== currentTargetDate && differenceInDays(currentTargetDate, new Date()) < 31;
 
   const handleOnSubmit = async (values: CreateGoalInput) => {
     try {
@@ -135,7 +133,11 @@ export default function CreateGoalScreen() {
                 name="TargetDate"
                 buttonText={t("SavingsGoals.CreateGoalScreen.form.targetDate.datePickerButton")}
                 minimumDate={new Date()}
-                helperText={isHelperTextVisible && t("SavingsGoals.CreateGoalScreen.form.targetDate.helperText")}
+                helperText={currentValue => {
+                  return differenceInDays(currentValue, new Date()) < 31
+                    ? t("SavingsGoals.CreateGoalScreen.form.targetDate.helperText")
+                    : undefined;
+                }}
               />
               <ToggleCardGroup>
                 <ToggleCard
