@@ -47,7 +47,6 @@ export default function MobileAndNationalIdForm({
 
   const headerViewStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["24p"],
-    marginHorizontal: theme.spacing["16p"],
   }));
 
   const headerTitleStyle = useThemeStyles<ViewStyle>(theme => ({
