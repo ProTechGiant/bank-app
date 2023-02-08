@@ -166,6 +166,12 @@ export const resources = {
       },
       Home: {
         DashboardScreen: {
+          editDashBoard: "EDIT DASHBOARD",
+          quickActions: "Quick actions",
+          rewards: "Rewards",
+          whatsNext: "What's next",
+          edit: "Edit",
+          seeAll: "See all",
           AccountInfoHeader: {
             IBANCopied: "IBAN copied",
             balanceHidden: "Balance hidden",
@@ -173,6 +179,18 @@ export const resources = {
             showBalance: "Show balance",
             myAccount: "My account",
           },
+        },
+        HomepageReorderModal: {
+          cancel: "CANCEL",
+          editActions: "Edit Actions",
+          save: "SAVE",
+          selectFavourite: "Select your favorite sections to always be accessible on Home.",
+        },
+        QuickActionsReorderCard: {
+          cancel: "CANCEL",
+          editActions: "Edit Actions",
+          save: "SAVE",
+          selectThreeFavourites: "Select 3 of your favorite actions to always be accessible on Home.",
         },
       },
       ApplyCards: {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -59,6 +60,7 @@ export default function DashboardScreen() {
   );
   const [headerSize, setHeaderSize] = useState<AccountInfoHeaderProps["size"]>("full");
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const handleQuickActionsReorder = () => {
     navigation.navigate("Modal.QuickActionsReorderModal");
@@ -92,21 +94,30 @@ export default function DashboardScreen() {
           case "quickactions":
             return (
               <View key={homepageItem.key}>
-                <SectionHeader title="Quick actions" subTitle={{ text: "Edit", onPress: handleQuickActionsReorder }} />
+                <SectionHeader
+                  title={t("Home.DashboardScreen.quickActions")}
+                  subTitle={{ text: t("Home.DashboardScreen.edit"), onPress: handleQuickActionsReorder }}
+                />
                 <View style={quickActionWrapperStyle}>{renderQuickActions(homeScreenLayout.quickActionOrderData)}</View>
               </View>
             );
           case "rewards":
             return (
               <View key={homepageItem.key}>
-                <SectionHeader title="Rewards" subTitle={{ text: "See all" }} />
+                <SectionHeader
+                  title={t("Home.DashboardScreen.rewards")}
+                  subTitle={{ text: t("Home.DashboardScreen.seeAll") }}
+                />
                 <RewardSection />
               </View>
             );
           case "whatsnext":
             return (
               <View key={homepageItem.key}>
-                <SectionHeader title="What's next" subTitle={{ text: "See all" }} />
+                <SectionHeader
+                  title={t("Home.DashboardScreen.whatsNext")}
+                  subTitle={{ text: t("Home.DashboardScreen.seeAll") }}
+                />
                 <ArticleSection />
               </View>
             );
@@ -147,7 +158,7 @@ export default function DashboardScreen() {
           <Pressable onPress={handleHomepageReorder}>
             <View style={buttonContainerStyle}>
               <Typography.Text color="primaryBase" size="caption1" weight="semiBold">
-                EDIT DASHBOARD
+                {t("Home.DashboardScreen.editDashBoard")}
               </Typography.Text>
             </View>
           </Pressable>

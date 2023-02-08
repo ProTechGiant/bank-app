@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { LayoutAnimation, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
@@ -44,6 +45,7 @@ export default function QuickActionsReorderCard() {
   const [showTitleBar, setShowTitleBar] = useState<boolean>(true);
   const [saveEnabled, setSaveEnabled] = useState(true);
   const navigation = useNavigation(); // Provide the useState to the context via a Context Provider.
+  const { t } = useTranslation();
   const { homeScreenLayout, setHomeScreenLayout } = useGlobalContext();
   let itemList: quickActionReorderItem[], setItemList: React.Dispatch<React.SetStateAction<quickActionReorderItem[]>>;
   // Seed with either current or mock data
@@ -105,12 +107,12 @@ export default function QuickActionsReorderCard() {
             <Pressable onPress={handleCancelButton}>
               <View style={buttonContainerStyle}>
                 <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-                  CANCEL
+                  {t("Home.QuickActionsReorderCard.cancel")}
                 </Typography.Text>
               </View>
             </Pressable>
             <Typography.Text color="neutralBase-50" weight="regular" size="footnote">
-              Edit Actions
+              {t("Home.QuickActionsReorderCard.editActions")}
             </Typography.Text>
             <Pressable onPress={handleSaveButton} disabled={!saveEnabled}>
               <View style={buttonContainerStyle}>
@@ -118,7 +120,7 @@ export default function QuickActionsReorderCard() {
                   color={saveEnabled ? "neutralBase-50" : "neutralBase-50-50%"}
                   size="caption1"
                   weight="semiBold">
-                  SAVE
+                  {t("Home.QuickActionsReorderCard.save")}
                 </Typography.Text>
               </View>
             </Pressable>
@@ -126,7 +128,7 @@ export default function QuickActionsReorderCard() {
           <View>
             {showTitleBar && (
               <Typography.Text style={styles.subHeader} color="neutralBase-50">
-                Select 3 of your favorite actions to always be accessible on Home.
+                {t("Home.QuickActionsReorderCard.selectThreeFavourites")}
               </Typography.Text>
             )}
           </View>
