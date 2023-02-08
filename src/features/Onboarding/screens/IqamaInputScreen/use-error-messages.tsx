@@ -32,6 +32,11 @@ export default function useErrorMessages(err: ApiError<ApiOnboardingError>) {
         icon: <ErrorFilledCircleIcon />,
         backgroundColor: "errorBase-40",
       },
+      "0085": {
+        message: t("Onboarding.IqamaInputScreen.errorText.regulatoryCheck"),
+        icon: <ErrorFilledCircleIcon />,
+        backgroundColor: "errorBase-40",
+      },
       "0086": {
         message: (
           <>

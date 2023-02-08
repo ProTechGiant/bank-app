@@ -33,6 +33,7 @@ export const resources = {
             noAttemptsLeft: "You have tried 5 times to sign up.\n\n Please wait until tomorrow before retrying.",
             noMatch: "The mobile number and ID given aren’t linked to an Absher profile",
             cannotOpen: "You cannot open an account this time",
+            regulatoryCheck: "Due to a regulatory check we can’t open an account for you right now ",
             hasAccount: {
               warning: "You’ve already joined Croatia,",
               signin: "sign in now",
