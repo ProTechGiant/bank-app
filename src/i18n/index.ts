@@ -305,7 +305,7 @@ export const resources = {
           skip: "Skip",
           continue: "Continue",
           done: "Done",
-          titleOne: "Send invite",
+          titleOne: "Invite friends",
           subTextOne: "Tell a friend or family member about Croatia and earn yourself cash rewards.",
           titleTwo: "Unlimited referrals",
           subTextTwo:
