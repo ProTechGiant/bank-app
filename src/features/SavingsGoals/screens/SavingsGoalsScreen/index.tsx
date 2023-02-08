@@ -11,12 +11,12 @@ export default function SavingsGoalsScreen() {
   const { t } = useTranslation();
 
   const handleOnSetGoal = () => {
-    navigation.navigate("SavingsGoals.CreateGoalModal");
+    navigation.navigate("SavingsGoals.CreateGoalScreen");
   };
 
   return (
     <Page>
-      <NavHeader title={t("SavingsGoals.SavingsGoalsScreen.navTitle")} />
+      <NavHeader withBackButton={true} title={t("SavingsGoals.SavingsGoalsScreen.navTitle")} />
       <ContentContainer>
         <Button onPress={handleOnSetGoal}>Set Goal</Button>
       </ContentContainer>

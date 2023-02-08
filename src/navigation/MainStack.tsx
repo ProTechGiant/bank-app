@@ -8,7 +8,7 @@ import QuickActionsReorderCard from "@/features/Home/screens/QuickActionsReorder
 import OnboardingStack from "@/features/Onboarding/OnboardingStack";
 import HubScreen from "@/features/Referral/screens/HubScreen";
 import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
-import CreateGoalModal from "@/features/SavingsGoals/screens/CreateGoalModal";
+import CreateGoalScreen from "@/features/SavingsGoals/screens/CreateGoalScreen";
 import SavingsGoalsLandingScreen from "@/features/SavingsGoals/screens/LandingScreen";
 import SavingsGoalsScreen from "@/features/SavingsGoals/screens/SavingsGoalsScreen";
 import SettingsScreen from "@/features/Settings/screens/SettingsScreen";
@@ -59,6 +59,11 @@ export default function MainStack() {
           name="SavingsGoals.SavingsGoalsScreen"
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          component={CreateGoalScreen}
+          name="SavingsGoals.CreateGoalScreen"
+          options={{ headerShown: false }}
+        />
         <Stack.Screen component={OnboardingStack} name="Onboarding.OnboardingStack" options={{ headerShown: false }} />
         <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>
           <Stack.Screen component={ApplyCardsStack} name="ApplyCards.ApplyForCardStack" />
@@ -72,11 +77,6 @@ export default function MainStack() {
             options={{ headerShown: false }}
             component={HomepageReorderModal}
             name="Modal.HomepageReorderModal"
-          />
-          <Stack.Screen
-            component={CreateGoalModal}
-            name="SavingsGoals.CreateGoalModal"
-            options={{ headerShown: false }}
           />
         </Stack.Group>
       </Stack.Navigator>

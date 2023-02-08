@@ -12,8 +12,9 @@ interface DatePickerIOSProps {
   onClose: () => void;
   onChange: (value: Date) => void;
   headerText: string;
-  helperText?: string;
+  helperText?: string | false;
   isVisible: boolean;
+  minimumDate?: Date;
   value: Date;
 }
 
@@ -26,6 +27,7 @@ export default function DatePickerIOS({
   helperText,
   isVisible,
   value,
+  minimumDate,
 }: DatePickerIOSProps) {
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     borderColor: theme.palette["neutralBase-30"],
@@ -48,17 +50,18 @@ export default function DatePickerIOS({
           accentColor={accentColor}
           display="inline"
           onChange={(_event, date) => onChange(date as Date)}
+          minimumDate={minimumDate}
           value={value}
         />
       </View>
       <View style={helperTextContainerStyle}>
-        {undefined !== helperText && (
+        {!!helperText && (
           <Typography.Text color="neutralBase" size="footnote" weight="regular" style={styles.helperText}>
             {helperText}
           </Typography.Text>
         )}
       </View>
-      <Button onPress={onConfirm}>{buttonText}</Button>
+      <Button onPress={() => onConfirm()}>{buttonText}</Button>
     </Modal>
   );
 }

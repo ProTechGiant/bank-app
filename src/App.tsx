@@ -9,6 +9,7 @@ import MainStack from "@/navigation/MainStack";
 
 import { GlobalContextProvider } from "./contexts/GlobalContext";
 import { OnboardingContextProvider } from "./features/Onboarding/context/OnboardingContext";
+import { SavingsGoalsContextProvider } from "./features/SavingsGoals/context/SavingsGoalsContext";
 
 const queryClient = new QueryClient();
 
@@ -19,11 +20,13 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <GlobalContextProvider>
         <OnboardingContextProvider>
-          <SafeAreaProvider>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-              <MainStack />
-            </GestureHandlerRootView>
-          </SafeAreaProvider>
+          <SavingsGoalsContextProvider>
+            <SafeAreaProvider>
+              <GestureHandlerRootView style={{ flex: 1 }}>
+                <MainStack />
+              </GestureHandlerRootView>
+            </SafeAreaProvider>
+          </SavingsGoalsContextProvider>
         </OnboardingContextProvider>
       </GlobalContextProvider>
     </QueryClientProvider>

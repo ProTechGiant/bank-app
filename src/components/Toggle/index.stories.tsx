@@ -1,8 +1,9 @@
 import { expect } from "@storybook/jest";
 import { ComponentStory } from "@storybook/react";
-import { fireEvent, waitFor, within } from "@storybook/testing-library";
+import { userEvent, within } from "@storybook/testing-library";
+import { useEffect, useState } from "react";
 
-import Toggle_ from ".";
+import Toggle_ from "./index";
 
 export default {
   title: "components/Toggle",
@@ -12,24 +13,40 @@ export default {
     testID: "toggle",
   },
   argTypes: {
+    onPress: {
+      action: "onPress",
+      table: {
+        disable: true,
+      },
+    },
     testID: {
       table: {
         disable: true,
       },
     },
-    onPress: { action: "pressed" },
   },
 };
 
 export const Toggle: ComponentStory<typeof Toggle_> = args => {
-  return <Toggle_ {...args} />;
+  const [currentValue, setCurrentValue] = useState(args.value);
+
+  useEffect(() => {
+    setCurrentValue(args.value);
+  }, [args.value]);
+
+  const handleOnPress = () => {
+    setCurrentValue(c => !c);
+    args.onPress();
+  };
+
+  return <Toggle_ {...args} onPress={handleOnPress} value={currentValue} />;
 };
 
 Toggle.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
-  const toggle = canvas.getByTestId(args.testID as string);
-  await expect(toggle).toBeVisible();
+  const toggleElement = canvas.getByTestId(args.testID as string);
 
-  await waitFor(() => fireEvent.click(toggle));
-  await expect(args.onPress).toHaveBeenCalled();
+  await expect(toggleElement).toBeVisible();
+  await userEvent.click(toggleElement);
+  await expect(args.onPress).toBeCalled();
 };

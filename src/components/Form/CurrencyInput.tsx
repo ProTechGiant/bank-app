@@ -61,17 +61,7 @@ export default function CurrencyInput<T extends FieldValues>({
     if (fractionalDigits > 2) return;
 
     setCurrentValue(mask(numberValue) + (includeDecimalSep ? "." : "") + (includeTrailingZero ? "0" : ""));
-    field.onChange(numberValue > 0 ? numberValue : undefined);
-
-    console.log({
-      rawValue,
-      lastCharacter,
-      endsOnDecimalSep,
-      numberValue,
-      includeDecimalSep,
-      includeTrailingZero,
-      fractionalDigits,
-    });
+    field.onChange(numberValue > 0 ? Number(numberValue) : undefined);
   };
 
   const handleOnBlur = () => {

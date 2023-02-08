@@ -1,7 +1,7 @@
-export interface SavingsGoal {
-  name: string;
-  goal: string;
-  targetDate: string;
-  hasRoundUps: boolean;
-  hasNotifications: boolean;
+export interface CreateGoalInput {
+  GoalName: string;
+  GoalAmount: number;
+  TargetDate: Date;
+  IsRoundupActive: boolean;
+  IsNotificationActive: boolean;
 }

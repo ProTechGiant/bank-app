@@ -43,8 +43,8 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
 
   const GENERIC_ERROR = {
     name: "error",
-    title: t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.error.title"),
-    message: t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.error.message"),
+    title: t("errors.generic.title"),
+    message: t("errors.generic.message"),
   };
 
   const hasTemporaryAddress = orderCardValues.formValues.alternateAddress !== undefined;

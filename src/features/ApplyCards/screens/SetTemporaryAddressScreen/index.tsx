@@ -55,7 +55,7 @@ export default function SetTemporaryAddressScreen() {
           .required(t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.required"))
           .matches(
             alphaNumericSpecialCharsRegExp,
-            t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.notValid")
+            t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.invalid")
           )
           .min(5, t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.minLength")),
         district: Yup.string().required(t("ApplyCards.SetTemporaryAddressScreen.form.district.validation.required")),

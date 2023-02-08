@@ -11,6 +11,12 @@ export const resources = {
         currentlyOnDay_few: "On {{count}}rd",
         currentlyOnDay_other: "On {{count}}th",
       },
+      errors: {
+        generic: {
+          title: "We’re sorry, something has gone wrong.",
+          message: "Please try again later or contact Customer Care.",
+        },
+      },
       Onboarding: {
         SplashScreen: {
           title: "You're in control now",
@@ -214,10 +220,6 @@ export const resources = {
               edit: "Edit temporary address",
               setAddress: "Set temporary address",
             },
-            error: {
-              title: "We’re sorry, something has gone wrong.",
-              message: "Please try again later or contact Customer Care.",
-            },
           },
         },
         SetTemporaryAddressScreen: {
@@ -228,7 +230,7 @@ export const resources = {
               placeholder: "Address line 1",
               validation: {
                 required: "Address line 1 is required",
-                notValid: "Address line 1 is not valid",
+                invalid: "Address line 1 is not valid",
                 minLength: "Minimum 5 characters",
               },
             },
@@ -322,28 +324,36 @@ export const resources = {
           navTitle: "Savings Goals",
           title: "What do you want to save for?",
         },
-        CreateGoalModal: {
+        CreateGoalScreen: {
           navTitle: "Create goal",
           title: "Create a goal",
           form: {
             name: {
-              label: "Name",
-              placeholder: "Type name",
+              label: "Goal Name",
+              placeholder: "Name",
               validation: {
-                invalid: {
-                  title: "You have entered an invalid name",
-                  content: "Please try again",
-                },
+                required: "Required*",
+                invalid: "Special symbols are not allowed",
               },
             },
-            goal: {
-              label: "Goal",
-              placeholder: "00,00 SAR",
+            amount: {
+              label: "Goal amount",
+              placeholder: "0 SAR",
               currency: "SAR",
+              validation: {
+                required: "Required*",
+                invalid: "Maximum limit for savings goals is 9,999,999,999.99 SAR",
+              },
             },
             targetDate: {
               label: "Target Date",
-              placeholder: "DD MM, YY",
+              headerText: "Target Date",
+              openDatePickerButton: "Set",
+              datePickerButton: "Set",
+              validation: {
+                required: "Required*",
+              },
+              helperText: "Note that your target date is within first 31 days from today",
             },
             roundUps: {
               label: "Turn on Round-ups",
