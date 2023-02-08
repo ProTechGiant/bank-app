@@ -10,10 +10,12 @@ import { CloseEndButtonProps } from "@/components/NavHeader/CloseEndButton";
 import { TextEndButtonProps } from "@/components/NavHeader/TextEndButton";
 import { useThemeStyles } from "@/theme";
 
+import HeroSlide, { HeroSlideProps } from "./HeroSlide";
+
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
-interface SlideViewProps {
-  children: JSX.Element[];
+interface HeroSliderProps {
+  data: HeroSlideProps[];
   onFinishPress: () => void;
   onBackPress?: () => void;
   buttonText: string;
@@ -21,18 +23,19 @@ interface SlideViewProps {
   end?: "close" | React.ReactElement<CloseEndButtonProps> | React.ReactElement<TextEndButtonProps> | false;
 }
 
-export default function SlideView({
-  children,
+export default function HeroSlider({
+  data,
   onFinishPress,
   onBackPress,
   buttonText,
   lastButtonText,
   end,
-}: SlideViewProps) {
+}: HeroSliderProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["primaryBase"],
       paddingHorizontal: theme.spacing["16p"],
+      paddingBottom: theme.spacing["16p"],
       flex: 1,
     }),
     []
@@ -45,7 +48,7 @@ export default function SlideView({
   );
   const inactiveDotStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: theme.palette["tintBase"],
+      backgroundColor: theme.palette["neutralBase"],
     }),
     []
   );
@@ -71,7 +74,7 @@ export default function SlideView({
 
   const [step, setStep] = useState(0);
   const ref = useRef<NativeScrollEvent>(null);
-  const totalStep = children.length;
+  const totalStep = data.length;
 
   const onPageSelected = (event: PagerViewOnPageSelectedEvent) => {
     const position = event.nativeEvent.position;
@@ -93,7 +96,9 @@ export default function SlideView({
     <SafeAreaView style={container}>
       <NavHeader onBackPress={onBackPress} color="white" end={step + 1 < totalStep && end ? end : undefined} />
       <AnimatedPagerView style={styles.PagerView} onPageSelected={onPageSelected} ref={ref}>
-        {children}
+        {times(totalStep, i => (
+          <HeroSlide key={i} topElement={data[i].topElement} title={data[i].title} subText={data[i].subText} />
+        ))}
       </AnimatedPagerView>
       <View style={paginationContainerStyle}>
         {times(totalStep, i => (

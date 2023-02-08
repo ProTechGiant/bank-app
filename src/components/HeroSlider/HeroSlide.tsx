@@ -1,15 +1,15 @@
-import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
-import { GiftIcon, InviteIcon, ReferraslIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface IntroductionSlideProps {
-  step: number;
+export interface HeroSlideProps {
+  topElement: React.ReactElement;
+  title: string;
+  subText: string;
 }
 
-export default function IntroductionSlide({ step }: IntroductionSlideProps) {
+export default function HeroSlide({ topElement, title, subText }: HeroSlideProps) {
   const subTextStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginTop: theme.spacing["16p"],
@@ -36,26 +36,15 @@ export default function IntroductionSlide({ step }: IntroductionSlideProps) {
     []
   );
 
-  const { height: iconHeight, width: iconWidth } = useThemeStyles(theme => theme.iconDimensions.referralInstruction);
-  const { t } = useTranslation();
-
   return (
     <View style={styles.container}>
       <View style={styles.contentWrapper}>
-        <View style={iconWrapperStyle}>
-          {step === 1 ? (
-            <InviteIcon width={iconWidth} height={iconHeight} />
-          ) : step === 2 ? (
-            <ReferraslIcon width={iconWidth} height={iconHeight} />
-          ) : (
-            <GiftIcon width={iconWidth} height={iconHeight} />
-          )}
-        </View>
+        <View style={iconWrapperStyle}>{topElement}</View>
         <Typography.Text color="neutralBase-50" size="large" weight="bold" style={TitleStyle}>
-          {t(`Referral.InstructionsScreen.${step}.title`)}
+          {title}
         </Typography.Text>
         <Typography.Text color="neutralBase-20" size="callout" style={subTextStyle}>
-          {t(`Referral.InstructionsScreen.${step}.subText`)}
+          {subText}
         </Typography.Text>
       </View>
     </View>

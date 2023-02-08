@@ -302,19 +302,13 @@ export const resources = {
           skip: "Skip",
           continue: "Continue",
           done: "Done",
-          1: {
-            title: "Send invite",
-            subText: "Tell a friend or family member about Croatia and earn yourself cash rewards.",
-          },
-          2: {
-            title: "Unlimited referrals",
-            subText:
-              "Share your referral code to as many people as you like. You’ll earn cash rewards when they start using the app.",
-          },
-          3: {
-            title: "Both of you get rewards",
-            subText: "You'll both earn 15 SAR.",
-          },
+          titleOne: "Send invite",
+          subTextOne: "Tell a friend or family member about Croatia and earn yourself cash rewards.",
+          titleTwo: "Unlimited referrals",
+          subTextTwo:
+            "Share your referral code to as many people as you like. You’ll earn cash rewards when they start using the app.",
+          titleThree: "Both of you get rewards",
+          subTextThree: "You'll both earn 15 SAR.",
         },
       },
       SavingsGoals: {
@@ -496,19 +490,14 @@ export const resources = {
       InstructionsScreen: {
         skip: "تخطى",
         continue: "متابعة",
-        1: {
-          title: "علّمهم عن 'يمدي' وحنا نكافئك",
-          subText: "عرّف أصدقائك وعائلتك على 'يمدي' واحصل على مكافأة كاش بحسابك.",
-        },
-        2: {
-          title: "الدعوة مفتوحة",
-          subText: "شارك كود الدعوة مع كل إللي تعرفهم وراح نكافئك بكاش من أول لحظة يستخدمون فيها للتطبيق.",
-        },
-        3: {
-          title: "المكافأة للطرفين",
-          subText:
-            "مرسل ومُستقبِل الدعوة راح يحصلون على مكافأة 15 ريال سعودي. وعملاء فئة بلس 25 ريال سعودي عن كل دعوة.",
-        },
+        done: "إنهاء",
+        titleOne: "علّمهم عن 'يمدي' وحنا نكافئك",
+        subTextOne: "عرّف أصدقائك وعائلتك على 'يمدي' واحصل على مكافأة كاش بحسابك.",
+        titleTwo: "الدعوة مفتوحة",
+        subTextTwo: "شارك كود الدعوة مع كل إللي تعرفهم وراح نكافئك بكاش من أول لحظة يستخدمون فيها للتطبيق.",
+        titleThree: "المكافأة للطرفين",
+        subTextThree:
+          "مرسل ومُستقبِل الدعوة راح يحصلون على مكافأة 15 ريال سعودي. وعملاء فئة بلس 25 ريال سعودي عن كل دعوة.",
       },
     },
   },
