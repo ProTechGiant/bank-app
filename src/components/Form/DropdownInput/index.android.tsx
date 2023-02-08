@@ -24,6 +24,7 @@ export default function DropdownInput<T extends FieldValues>({
   placeholder,
   options = [],
   buttonLabel,
+  autoselect = true,
 }: DropdownInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
   const [isVisible, setIsVisible] = useState(false);
@@ -48,9 +49,11 @@ export default function DropdownInput<T extends FieldValues>({
     } else {
       if (!isEditable || undefined !== placeholder || options.length < 1 || undefined !== field.value) return;
 
-      const defaultValue = options[0].value;
-      setSelectedValue(defaultValue);
-      setImmediate(() => field.onChange(defaultValue));
+      if (autoselect) {
+        const defaultValue = options[0].value;
+        setSelectedValue(defaultValue);
+        setImmediate(() => field.onChange(defaultValue));
+      }
     }
   }, [isEditable, placeholder, options]);
 
@@ -61,7 +64,7 @@ export default function DropdownInput<T extends FieldValues>({
   const handleOnOpen = () => {
     if (!isEditable) return;
 
-    if (field.value === undefined && options.length > 0) setSelectedValue(options[0].value);
+    if (autoselect && field.value === undefined && options.length > 0) setSelectedValue(options[0].value);
     setIsVisible(true);
   };
 
@@ -172,7 +175,7 @@ export default function DropdownInput<T extends FieldValues>({
               ))}
             </ScrollView>
             <View style={buttonContainer}>
-              <Button onPress={handleOnConfirm}>{buttonLabel}</Button>
+              <Button onPress={handleOnConfirm} disabled={selectedValue === undefined}>{buttonLabel}</Button>
             </View>
           </Modal>
           <InputBox

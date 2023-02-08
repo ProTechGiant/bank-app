@@ -13,4 +13,5 @@ export default interface DropdownInputProps<T extends FieldValues> {
   label?: string;
   options: Array<{ label: string; value: PathValue<T, Path<T>>; disabled?: boolean }>;
   buttonLabel: string;
+  autoselect: boolean;
 }
