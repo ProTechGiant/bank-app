@@ -1,11 +1,38 @@
-import { I18nManager, SafeAreaView, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { Alert, I18nManager, SafeAreaView, View } from "react-native";
 
 import Button from "@/components/Button";
 import reloadApp from "@/i18n/reload-app";
 import useNavigation from "@/navigation/use-navigation";
 
+import useGetSavingsGoalNumber from "./use-get-savings-goal-number";
+
 export default function TemporaryLandingScreen() {
   const navigation = useNavigation();
+  const { t } = useTranslation();
+
+  // PC-4353 show or skip saving goals instructions
+  const getSavingsGoalNumAsync = useGetSavingsGoalNumber();
+
+  const handleOnSavingsGoals = async () => {
+    try {
+      const response = await getSavingsGoalNumAsync.mutateAsync();
+      // @TODO: uncomment this once we have response 0
+      // parseInt(response.SavingsPotsNumber) > 0
+      //   ? navigation.navigate("SavingsGoals.SavingsGoalsScreen")
+      //   : navigation.navigate("SavingsGoals.InstructionsScreen");
+      navigation.navigate("SavingsGoals.InstructionsScreen");
+    } catch (error) {
+      Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
+        {
+          text: "OK",
+          onPress: () => navigation.goBack(),
+        },
+      ]);
+
+      __DEV__ && console.error("Could not get number of savings goal: ", error);
+    }
+  };
 
   const handleOnOpenApplyForCard = () => {
     navigation.navigate("ApplyCards.ApplyForCardStack");
@@ -17,10 +44,6 @@ export default function TemporaryLandingScreen() {
 
   const handleOnOpenOnboarding = () => {
     navigation.navigate("Onboarding.OnboardingStack");
-  };
-
-  const handleOnSavingsGoals = () => {
-    navigation.navigate("SavingsGoals.LandingScreen");
   };
 
   const handleOnSwitchDirection = () => {

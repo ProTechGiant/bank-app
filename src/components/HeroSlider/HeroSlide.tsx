@@ -17,17 +17,6 @@ export default function HeroSlide({ topElement, title, subText }: HeroSlideProps
     }),
     []
   );
-  const iconWrapperStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["neutralBase-50"],
-      width: 64,
-      height: 64,
-      alignItems: "center",
-      justifyContent: "center",
-      borderRadius: 32,
-    }),
-    []
-  );
   const TitleStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginTop: theme.spacing["20p"],
@@ -39,7 +28,7 @@ export default function HeroSlide({ topElement, title, subText }: HeroSlideProps
   return (
     <View style={styles.container}>
       <View style={styles.contentWrapper}>
-        <View style={iconWrapperStyle}>{topElement}</View>
+        <View>{topElement}</View>
         <Typography.Text color="neutralBase-50" size="large" weight="bold" style={TitleStyle}>
           {title}
         </Typography.Text>
@@ -58,6 +47,6 @@ const styles = StyleSheet.create({
   },
   contentWrapper: {
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
   },
 });

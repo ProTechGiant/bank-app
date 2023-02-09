@@ -333,11 +333,19 @@ export const resources = {
         },
       },
       SavingsGoals: {
-        LandingScreen: {
-          title: "Achieve your Savings Goals",
-          paragraphOne: "Got a dream but it requires a little saving? We’ve got you.",
-          paragraphTwo: "Croatia makes it simple to set aside what you need, to get what you want.",
-          button: "What’s your goal?",
+        InstructionsScreen: {
+          skip: "Skip",
+          continueButton: "Continue",
+          createGoalButton: "Create a new goal",
+          titleOne: "Title 1",
+          subTextOne:
+            "Lorem ipsum dolor sit amet consectetur. Penatibus fermentum placerat auctor neque porttitor convallis in varius et.",
+          titleTwo: "Title 2",
+          subTextTwo:
+            "Lorem ipsum dolor sit amet consectetur. Penatibus fermentum placerat auctor neque porttitor convallis in varius et.",
+          titleThree: "Title 3",
+          subTextThree:
+            "Lorem ipsum dolor sit amet consectetur. Penatibus fermentum placerat auctor neque porttitor convallis in varius et.",
         },
         SavingsGoalsScreen: {
           navTitle: "Savings Goals",

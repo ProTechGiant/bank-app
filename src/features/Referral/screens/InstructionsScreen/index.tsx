@@ -1,8 +1,9 @@
-import times from "lodash/times";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { View } from "react-native";
+import { ViewStyle } from "react-native/types";
 
-import { GiftIcon, InviteIcon, ReferraslIcon } from "@/assets/icons";
+import { GiftIcon, InviteIcon, ReferralsIcon } from "@/assets/icons";
 import HeroSlider from "@/components/HeroSlider";
 import { HeroSlideProps } from "@/components/HeroSlider/HeroSlide";
 import NavHeader from "@/components/NavHeader";
@@ -19,7 +20,7 @@ export default function InstructionsScreen() {
     setReferralPageViewed(true);
   }, []);
 
-  const handleOnfinish = () => {
+  const handleOnFinish = () => {
     navigation.goBack();
   };
 
@@ -28,21 +29,46 @@ export default function InstructionsScreen() {
     navigation.goBack();
     navigation.goBack();
   };
+
+  const iconWrapperStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-50"],
+      width: 64,
+      height: 64,
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 32,
+    }),
+    []
+  );
+
   const { height: iconHeight, width: iconWidth } = useThemeStyles(theme => theme.iconDimensions.referralInstruction);
 
   const data: HeroSlideProps[] = [
     {
-      topElement: <InviteIcon width={iconWidth} height={iconHeight} />,
+      topElement: (
+        <View style={iconWrapperStyle}>
+          <InviteIcon width={iconWidth} height={iconHeight} />
+        </View>
+      ),
       title: t("Referral.InstructionsScreen.titleOne"),
       subText: t("Referral.InstructionsScreen.subTextOne"),
     },
     {
-      topElement: <ReferraslIcon width={iconWidth} height={iconHeight} />,
+      topElement: (
+        <View style={iconWrapperStyle}>
+          <ReferralsIcon width={iconWidth} height={iconHeight} />
+        </View>
+      ),
       title: t("Referral.InstructionsScreen.titleTwo"),
       subText: t("Referral.InstructionsScreen.subTextTwo"),
     },
     {
-      topElement: <GiftIcon width={iconWidth} height={iconHeight} />,
+      topElement: (
+        <View style={iconWrapperStyle}>
+          <GiftIcon width={iconWidth} height={iconHeight} />
+        </View>
+      ),
       title: t("Referral.InstructionsScreen.titleThree"),
       subText: t("Referral.InstructionsScreen.subTextThree"),
     },
@@ -50,9 +76,9 @@ export default function InstructionsScreen() {
 
   return (
     <HeroSlider
-      onFinishPress={handleOnfinish}
+      onFinishPress={handleOnFinish}
       onBackPress={handleOnBack}
-      end={<NavHeader.TextEndButton onPress={handleOnfinish} text={t(`Referral.InstructionsScreen.skip`)} />}
+      end={<NavHeader.TextEndButton onPress={handleOnFinish} text={t(`Referral.InstructionsScreen.skip`)} />}
       buttonText={t("Referral.InstructionsScreen.continue")}
       lastButtonText={t("Referral.InstructionsScreen.done")}
       data={data}

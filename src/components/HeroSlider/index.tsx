@@ -1,15 +1,16 @@
 import times from "lodash/times";
 import { useRef, useState } from "react";
-import { Animated, NativeScrollEvent, StyleSheet, View, ViewStyle } from "react-native";
+import { Animated, NativeScrollEvent, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import PagerView, { PagerViewOnPageSelectedEvent } from "react-native-pager-view";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import { CloseEndButtonProps } from "@/components/NavHeader/CloseEndButton";
 import { TextEndButtonProps } from "@/components/NavHeader/TextEndButton";
+import Page from "@/components/Page";
 import { useThemeStyles } from "@/theme";
 
+import DarkOneGradient from "../LinearGradients/GradientBackgrounds";
+import Typography from "../Typography";
 import HeroSlide, { HeroSlideProps } from "./HeroSlide";
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
@@ -33,7 +34,6 @@ export default function HeroSlider({
 }: HeroSliderProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: theme.palette["primaryBase"],
       paddingHorizontal: theme.spacing["16p"],
       paddingBottom: theme.spacing["16p"],
       flex: 1,
@@ -71,6 +71,19 @@ export default function HeroSlider({
     }),
     []
   );
+  const buttonStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-50"],
+      alignItems: "center",
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      borderRadius: theme.radii.extraSmall,
+      paddingHorizontal: theme.spacing["16p"],
+      paddingVertical: theme.spacing["16p"],
+    }),
+    []
+  );
 
   const [step, setStep] = useState(0);
   const ref = useRef<NativeScrollEvent>(null);
@@ -93,24 +106,31 @@ export default function HeroSlider({
   };
 
   return (
-    <SafeAreaView style={container}>
-      <NavHeader onBackPress={onBackPress} color="white" end={step + 1 < totalStep && end ? end : undefined} />
-      <AnimatedPagerView style={styles.PagerView} onPageSelected={onPageSelected} ref={ref}>
-        {times(totalStep, i => (
-          <HeroSlide key={i} topElement={data[i].topElement} title={data[i].title} subText={data[i].subText} />
-        ))}
-      </AnimatedPagerView>
-      <View style={paginationContainerStyle}>
-        {times(totalStep, i => (
-          <View key={i}>
-            <View style={[paginationDotsStyle, step === i ? activeDotStyle : inactiveDotStyle]} />
+    <DarkOneGradient>
+      <Page>
+        <NavHeader onBackPress={onBackPress} color="white" end={step + 1 < totalStep && end ? end : undefined} />
+        <View style={container}>
+          <AnimatedPagerView style={styles.PagerView} onPageSelected={onPageSelected} ref={ref}>
+            {times(totalStep, i => (
+              <HeroSlide key={i} topElement={data[i].topElement} title={data[i].title} subText={data[i].subText} />
+            ))}
+          </AnimatedPagerView>
+          <View style={paginationContainerStyle}>
+            {times(totalStep, i => (
+              <View key={i}>
+                <View style={[paginationDotsStyle, step === i ? activeDotStyle : inactiveDotStyle]} />
+              </View>
+            ))}
           </View>
-        ))}
-      </View>
-      <Button variant="secondary" color="alt" onPress={onButtonPress}>
-        {step + 1 !== totalStep ? buttonText : lastButtonText}
-      </Button>
-    </SafeAreaView>
+          {/* @TODO: change to <Button> once we have this variation in design system */}
+          <Pressable style={buttonStyle} onPress={onButtonPress}>
+            <Typography.Text color="neutralBase+30" size="body" weight="regular">
+              {step + 1 !== totalStep ? buttonText : lastButtonText}
+            </Typography.Text>
+          </Pressable>
+        </View>
+      </Page>
+    </DarkOneGradient>
   );
 }
 
