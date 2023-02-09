@@ -42,6 +42,7 @@ export { default as ShowIcon } from "./show.svg";
 export { default as SplitIcon } from "./split.svg";
 export { default as TickIcon } from "./tick.svg";
 export { default as TickCircleIcon } from "./tick-circle.svg";
+export { TickCircleBorderIcon } from "./tick-circle-border";
 export { default as TransferIcon } from "./transfer.svg";
 export { UpArrowIcon } from "./up-arrow-icon";
 export { UserIcon } from "./user-icon";

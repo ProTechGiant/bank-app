@@ -3,7 +3,7 @@ import { ActivityIndicator, Pressable, PressableProps, StyleSheet, View, ViewSty
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface ButtonProps extends Omit<PressableProps, "children" | "disabled" | "style"> {
+export interface ButtonProps extends Omit<PressableProps, "children" | "disabled" | "style"> {
   block?: boolean;
   children?: string | React.ReactNode;
   color?: "base" | "alt";

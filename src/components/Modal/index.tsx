@@ -4,6 +4,7 @@ import {
   ModalProps as RNModalProps,
   Platform,
   Pressable,
+  StyleProp,
   StyleSheet,
   useWindowDimensions,
   View,
@@ -26,10 +27,18 @@ import { useThemeStyles } from "@/theme";
 interface ModalProps extends Omit<RNModalProps, "animationType" | "onRequestClose" | "transparent"> {
   onClose?: () => void;
   headerText?: string;
+  style?: StyleProp<ViewStyle>;
 }
 
 const NativeModal = Platform.OS === "web" ? View : RNModal;
-export default function Modal({ children, onClose, headerText, visible = false, ...nativeModalProps }: ModalProps) {
+export default function Modal({
+  children,
+  onClose,
+  headerText,
+  visible = false,
+  style,
+  ...nativeModalProps
+}: ModalProps) {
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
 
@@ -100,7 +109,7 @@ export default function Modal({ children, onClose, headerText, visible = false, 
           contentHeight.value = event.nativeEvent.layout.height;
           if (visible) handleStartTransitioning();
         }}
-        style={[containerStyles, containerAnimatedStyles]}>
+        style={[containerStyles, containerAnimatedStyles, style]}>
         <View style={headerStyles}>
           <View style={horizontalSpacing} />
           <View style={styles.headerTextContainer}>
