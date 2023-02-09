@@ -365,8 +365,12 @@ export const resources = {
             "Lorem ipsum dolor sit amet consectetur. Penatibus fermentum placerat auctor neque porttitor convallis in varius et.",
         },
         SavingsGoalsScreen: {
-          navTitle: "Savings Goals",
-          title: "What do you want to save for?",
+          goalCard: {
+            amount: "{{amountSaved}} of {{totalAmount}} SAR",
+          },
+          title: "Your Goals",
+          button: "Create a new goal",
+          instructionText: "You can set a total of 4 goals.",
         },
         CreateGoalScreen: {
           navTitle: "Create goal",
