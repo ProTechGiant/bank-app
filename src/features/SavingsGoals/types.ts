@@ -5,15 +5,11 @@ export interface CreateGoalInput {
   IsRoundupActive: boolean;
   IsNotificationActive: boolean;
 }
-export interface SavingsGoals {
-  SavingsPots:
-    | [
-        {
-          SavingsPotId: string;
-          GoalName: string;
-          SavedAmount: number;
-          SavingsPots: number;
-          TargetDate: string;
-        }
-      ];
+export interface SavingsPot {
+  SavingsPotId: string;
+  GoalName: string;
+  SavedAmount: number;
+  SavingsPots: number;
+  TargetDate: string;
+  CreatedDate: string;
 }

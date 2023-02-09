@@ -27,9 +27,7 @@ export default function CardButton({ onPress, text, icon }: CardButtonProps) {
           <View style={styles.iconContainer}>{icon}</View>
           <Typography.Text>{text}</Typography.Text>
         </Stack>
-        <View>
-          <ChevronRightIcon color="#CCCCCC" height={iconHeight} width={iconWidth} />
-        </View>
+        <ChevronRightIcon color="#CCCCCC" height={iconHeight} width={iconWidth} />
       </Stack>
     </Pressable>
   );

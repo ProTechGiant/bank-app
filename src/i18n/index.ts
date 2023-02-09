@@ -337,13 +337,6 @@ export const resources = {
           from: "From",
           mainAccount: "Main account",
         },
-        FundRecurringDepositScreen: {
-          title: "Recurring deposit",
-          monthly: "Monthly",
-          dayPickerHeader: "Set a date",
-          dayPickerButton: "Set",
-          dayPickerPlaceholder: "Set",
-        },
         LandingScreen: {
           title: "Achieve your Savings Goals",
           paragraphOne: "Got a dream but it requires a little saving? We’ve got you.",
@@ -412,6 +405,10 @@ export const resources = {
               helperText: "Only this savings",
             },
           },
+          roundUpsAlreadyActiveAlert: {
+            title: "Turn on Round-Ups for this saving goal?",
+            message: "Round-ups is already turned on for an other saving goal. Do you want to swith to this one?",
+          },
           aboutRoundUpsPanel: {
             title: "About Round-ups",
             content:
@@ -420,20 +417,47 @@ export const resources = {
           },
           button: "Continue",
         },
-        AddMoneyModal: {
-          banner: "Your goal has been created",
-          title: "How do you want to save?",
-          subText: "Choose how you want to start saving towards your savings goal. ",
-          recommended: {
-            title: "Recommended monthly amount",
-            amount: "XXXX SAR / month",
+        FundGoalModal: {
+          goalCreatedBanner: "Your goal has been created",
+          PickFundingMethodStep: {
+            title: "How do you want to save?",
+            subText: "Choose how you want to start saving towards your savings goal. ",
+            recommended: {
+              title: "Recommended monthly amount",
+              amount: "{{amount}} SAR / month",
+            },
+            custom: {
+              title: "Custom",
+              recurringDeposits: "Recurring deposits",
+              oneTimeDeposit: "One-time deposit",
+            },
+            notNow: "Not Now",
           },
-          custom: {
-            title: "Custom",
-            buttonOne: "Recurring deposits",
-            buttonTwo: "One-time deposit",
+          FundingStep: {
+            amountExceedsBalance: "Amount exceeds your balance",
+            monthly: "Monthly",
+            dayPickerHeader: "Set a date",
+            dayPickerButton: "Set",
+            dayPickerPlaceholder: "Set",
+            helperIfDayExceeds28:
+              "Transfer will be made in the last day of the month if selected date don’t exists in the current month.",
+            helperIfDayIsAfterTarget:
+              "To reach your goal your recurring payments need to happen before your target date.",
+            recurringDeposit: {
+              title: "Recurring deposit",
+              modalTitle: "You have created a recurring deposit",
+              modalText: "Your next recurring payment of {{amount}} SAR will be {{firstPaymentDate}}.",
+              continueButton: "Add one-time deposit",
+              skipButton: "Not now",
+            },
+            oneTimeDeposit: {
+              title: "One-time deposit",
+              modalTitle: "You have created a one-time deposit",
+              modalText: "{{amount}} SAR has been added to your savings goals.",
+              continueButton: "Add recurring deposit",
+              skipButton: "Not now",
+            },
           },
-          button: "Not Now",
         },
       },
     },

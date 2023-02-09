@@ -9,6 +9,14 @@ import NotificationModal_ from "@/components/NotificationModal";
 export default {
   title: "components/NotificationModal",
   component: NotificationModal_,
+  args: {
+    testID: "NotificationModal",
+    title: "This is title",
+    message: "This is message",
+    isVisible: true,
+    primaryButton: <Button block>Continue</Button>,
+    secondaryButton: <Button variant="tertiary">Cancel</Button>,
+  },
   argTypes: {
     icon: {
       table: {
@@ -40,19 +48,9 @@ export const NotificationModal: ComponentStory<typeof NotificationModal_> = prop
   </View>
 );
 
-NotificationModal.args = {
-  testID: "NotificationModal",
-  title: "This is title",
-  message: "This is message",
-  isVisible: true,
-  primaryButton: <Button block>Continue</Button>,
-  secondaryButton: <Button variant="tertiary">Cancel</Button>,
-};
-
 NotificationModal.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
 
   const notificationModalElement = canvas.getByTestId(args.testID as string);
-
   await expect(notificationModalElement).toBeVisible();
 };

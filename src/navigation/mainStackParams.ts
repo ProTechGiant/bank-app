@@ -1,5 +1,6 @@
 import { ApplyCardModalStackParams } from "@/features/ApplyCards/ApplyCardsStack";
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
+import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
 
 type RootStackParams = {
   "ApplyCards.ApplyForCardStack": undefined;
@@ -10,16 +11,10 @@ type RootStackParams = {
   "Modal.HomepageReorderModal": undefined;
   "Referral.HubScreen": undefined;
   "Referral.InstructionsScreen": undefined;
-  "SavingsGoals.InstructionsScreen": undefined;
-  "SavingsGoals.SavingsGoalsScreen": undefined;
-  "SavingsGoals.CreateGoalScreen": undefined;
-  "SavingsGoals.FundRecurringDepositScreen": {
-    SavingsPotId: string;
-  };
-  "SavingsGoals.AddMoneyModal": undefined;
   "Settings.SettingsScreen": undefined;
+  "SavingsGoals.SavingsGoalsStack": undefined;
 };
 
-type MainStackParams = RootStackParams & ApplyCardModalStackParams & OnboardingStackParams;
+type MainStackParams = RootStackParams & ApplyCardModalStackParams & OnboardingStackParams & SavingsGoalsStackParams;
 
 export default MainStackParams;

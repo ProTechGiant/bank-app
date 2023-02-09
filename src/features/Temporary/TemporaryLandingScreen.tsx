@@ -21,7 +21,7 @@ export default function TemporaryLandingScreen() {
       // parseInt(response.SavingsPotsNumber) > 0
       //   ? navigation.navigate("SavingsGoals.SavingsGoalsScreen")
       //   : navigation.navigate("SavingsGoals.InstructionsScreen");
-      navigation.navigate("SavingsGoals.InstructionsScreen");
+      navigation.navigate("SavingsGoals.SavingsGoalsStack");
     } catch (error) {
       Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
         {

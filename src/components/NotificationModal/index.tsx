@@ -5,10 +5,9 @@ import { SvgProps } from "react-native-svg";
 import { TickCircleBorderIcon } from "@/assets/icons";
 import { ButtonProps } from "@/components/Button";
 import Modal from "@/components/Modal";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-
-import Stack from "../Stack";
 
 interface NotificationModalProps {
   icon?: React.ReactElement<SvgProps>;
@@ -16,8 +15,8 @@ interface NotificationModalProps {
   message: string;
   isVisible: boolean;
   testID?: string;
-  primaryButton?: React.ReactElement<ButtonProps>;
-  secondaryButton?: React.ReactElement<ButtonProps>;
+  primaryButton?: React.ReactElement<ButtonProps> | false;
+  secondaryButton?: React.ReactElement<ButtonProps> | false;
   onClose?: () => void;
 }
 
@@ -34,12 +33,14 @@ export default function NotificationModal({
   const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["20p"],
   }));
+
   const modalStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["48p"],
+    marginBottom: theme.spacing["32p"],
     marginHorizontal: theme.spacing["16p"],
     borderRadius: theme.radii.small,
     paddingBottom: theme.spacing["24p"],
   }));
+
   const buttonsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["32p"],
     width: "100%",
@@ -64,8 +65,8 @@ export default function NotificationModal({
           </Typography.Text>
         </Stack>
         <View style={buttonsContainerStyle}>
-          {primaryButton}
-          {secondaryButton}
+          {!!primaryButton && cloneElement(primaryButton, { variant: "primary" })}
+          {!!secondaryButton && cloneElement(secondaryButton, { variant: "tertiary" })}
         </View>
       </View>
     </Modal>

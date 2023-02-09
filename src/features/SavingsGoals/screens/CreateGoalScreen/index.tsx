@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { differenceInDays } from "date-fns";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Alert, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
@@ -22,18 +22,17 @@ import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 import { alphaNumericSpaceRegExp } from "@/utils";
 
-import { useSavingsGoalsContext } from "../../context/SavingsGoalsContext";
 import { CreateGoalInput } from "../../types";
 import ToggleCard from "./ToggleCard";
 import ToggleCardGroup from "./ToggleCardGroup";
 import useCreateGoal from "./use-create-goal";
+import useIsRoundupActive from "./use-roundup-active";
 
 export default function CreateGoalScreen() {
   const navigation = useNavigation();
   const { i18n, t } = useTranslation();
-
-  const { setSavingsPotId } = useSavingsGoalsContext();
   const createGoalAsync = useCreateGoal();
+  const { data } = useIsRoundupActive();
 
   const validationSchema = useMemo(
     () =>
@@ -49,7 +48,7 @@ export default function CreateGoalScreen() {
     [i18n.language]
   );
 
-  const { control, handleSubmit } = useForm<CreateGoalInput>({
+  const { control, handleSubmit, watch } = useForm<CreateGoalInput>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -59,27 +58,38 @@ export default function CreateGoalScreen() {
   });
 
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
+  const isRoundupActive = watch("IsRoundupActive");
+
+  useEffect(() => {
+    if (!isRoundupActive) return;
+    if (false === data?.IsRoundUpActive) return;
+
+    Alert.alert(
+      t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.title"),
+      t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.message"),
+      [{ text: "OK" }]
+    );
+  }, [isRoundupActive]);
 
   // commented out for now while api issues are being resolved
-  // const handleOnSubmit = async (values: CreateGoalInput) => {
-  //   try {
-  //     const response = await createGoalAsync.mutateAsync(values);
-  //     setSavingsPotId(response.SavingsPotId);
-  //     navigation.navigate("SavingsGoals.AddMoneyModal");
-  //   } catch (error) {
-  //     Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
-  //       {
-  //         text: "OK",
-  //         onPress: () => navigation.goBack(),
-  //       },
-  //     ]);
+  const handleOnSubmit = async (values: CreateGoalInput) => {
+    try {
+      const response = await createGoalAsync.mutateAsync(values);
 
-  //     __DEV__ && console.error("Could not submit saving goal details: ", error);
-  //   }
-  // };
+      navigation.navigate("SavingsGoals.GoalDetailsScreen", {
+        SavingsPotId: response.SavingsPotId,
+        redirectToFundingModal: true,
+      });
+    } catch (error) {
+      Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
+        {
+          text: "OK",
+          onPress: () => navigation.goBack(),
+        },
+      ]);
 
-  const handleOnSubmit = () => {
-    navigation.navigate("SavingsGoals.AddMoneyModal");
+      __DEV__ && console.error("Could not submit saving goal details: ", error);
+    }
   };
 
   const handleOnModalClose = () => {

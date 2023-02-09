@@ -55,10 +55,6 @@ export default function DayPicker({
     marginVertical: theme.spacing["16p"],
   }));
 
-  const daysInCurrentMonth = daysInThisMonth();
-  const numberOfColumns = 7;
-  const numberOfRows = Math.ceil(daysInCurrentMonth / 7);
-
   return (
     <Modal onClose={onClose} headerText={headerText} visible={isVisible}>
       <View style={containerStyles}>
@@ -66,13 +62,13 @@ export default function DayPicker({
           {t("DayPicker.currentlyOnDay", { count: value, ordinal: true })}
         </Typography.Text>
         <View style={[daysContainerStyle, paddingStyle]}>
-          {times(numberOfRows).map(rowIndex => (
+          {times(NUMBER_OF_ROWS).map(rowIndex => (
             <View key={rowIndex} style={styles.row}>
-              {times(numberOfColumns).map(columnIndex => {
-                const dayOfMonth = columnIndex + 1 + rowIndex * numberOfColumns;
+              {times(NUMBER_OF_COLUMNS).map(columnIndex => {
+                const dayOfMonth = columnIndex + 1 + rowIndex * NUMBER_OF_COLUMNS;
                 const isSelected = dayOfMonth === value;
 
-                if (dayOfMonth < 1 || dayOfMonth > daysInCurrentMonth) {
+                if (dayOfMonth < 1 || dayOfMonth > DAYS_PER_MONTH) {
                   return <Pressable key={dayOfMonth} disabled style={styles.digit} />;
                 }
 
@@ -107,6 +103,9 @@ export default function DayPicker({
 }
 
 const DIGIT_SIZE = 40;
+const DAYS_PER_MONTH = 31;
+const NUMBER_OF_COLUMNS = 7;
+const NUMBER_OF_ROWS = Math.ceil(DAYS_PER_MONTH / 7);
 
 const styles = StyleSheet.create({
   digit: {
@@ -125,8 +124,3 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
 });
-
-function daysInThisMonth() {
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-}
