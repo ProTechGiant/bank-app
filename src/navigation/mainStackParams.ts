@@ -13,6 +13,9 @@ type RootStackParams = {
   "SavingsGoals.InstructionsScreen": undefined;
   "SavingsGoals.SavingsGoalsScreen": undefined;
   "SavingsGoals.CreateGoalScreen": undefined;
+  "SavingsGoals.FundRecurringDepositScreen": {
+    SavingsPotId: string;
+  };
   "SavingsGoals.AddMoneyModal": undefined;
   "Settings.SettingsScreen": undefined;
 };

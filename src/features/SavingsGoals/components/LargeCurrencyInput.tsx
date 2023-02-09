@@ -1,15 +1,28 @@
+import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
-import CurrencyInput, { MaskedCurrencyInputProps } from "@/components/CurrencyInput";
+import CurrencyInput from "@/components/CurrencyInput";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface LargeCurrencyInputProps extends Pick<MaskedCurrencyInputProps, "onChange" | "value"> {
-  isError?: boolean;
-  helperText?: string;
+interface LargeCurrencyInputProps<T extends FieldValues> {
+  control: Control<T>;
+  name: Path<T>;
 }
 
-export default function LargeCurrencyInput({ isError, helperText, onChange, value }: LargeCurrencyInputProps) {
+export default function LargeCurrencyInput<T extends FieldValues>({ control, name }: LargeCurrencyInputProps<T>) {
+  const { field, fieldState } = useController({ control, name });
+  const isError = fieldState.isTouched && undefined !== fieldState.error;
+  const helperText = isError ? fieldState.error?.message : undefined;
+
+  const containerStyles = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    justifyContent: "center",
+    // width of "SAR" plus the margin-left it has relative to the amount
+    paddingLeft: theme.typography.text.sizes.body * 2 + styles.currency.marginLeft,
+    marginVertical: theme.spacing["24p"],
+  }));
+
   const textStyles = useThemeStyles<ViewStyle & TextStyle>(
     theme => ({
       color: isError ? theme.palette.errorBase : theme.palette.primaryBase,
@@ -27,9 +40,15 @@ export default function LargeCurrencyInput({ isError, helperText, onChange, valu
   }));
 
   return (
-    <View>
+    <View style={containerStyles}>
       <View style={styles.container}>
-        <CurrencyInput caretHidden onChange={onChange} style={textStyles} value={value} />
+        <CurrencyInput
+          caretHidden
+          onBlur={field.onBlur}
+          onChange={field.onChange}
+          style={textStyles}
+          value={field.value}
+        />
         <Typography.Text
           color={isError ? "errorBase" : "primaryBase"}
           size="body"

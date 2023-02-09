@@ -31,7 +31,7 @@ export default function Stack({
       rowGap: direction === "vertical" && undefined !== gap ? theme.spacing[gap] : undefined,
       justifyContent: justify,
     }),
-    [align, direction, justify]
+    [align, direction, gap, justify]
   );
 
   return (

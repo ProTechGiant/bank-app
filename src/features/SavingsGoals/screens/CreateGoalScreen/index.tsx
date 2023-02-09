@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import { QuestionIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import CurrencyInput from "@/components/Form/CurrencyInput";
-import DateInput from "@/components/Form/DateInput";
+import DatePickerInput from "@/components/Form/DatePickerInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
 import Modal from "@/components/Modal";
@@ -130,7 +130,7 @@ export default function CreateGoalScreen() {
                 placeholder={t("SavingsGoals.CreateGoalScreen.form.amount.placeholder")}
                 maxLength={16} // 10 digits and 2 decimals
               />
-              <DateInput
+              <DatePickerInput
                 control={control}
                 placeholder={t("SavingsGoals.CreateGoalScreen.form.targetDate.openDatePickerButton")}
                 headerText={t("SavingsGoals.CreateGoalScreen.form.targetDate.headerText")}

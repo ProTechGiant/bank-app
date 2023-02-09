@@ -333,6 +333,23 @@ export const resources = {
         },
       },
       SavingsGoals: {
+        fromAccount: {
+          from: "From",
+          mainAccount: "Main account",
+        },
+        FundRecurringDepositScreen: {
+          title: "Recurring deposit",
+          monthly: "Monthly",
+          dayPickerHeader: "Set a date",
+          dayPickerButton: "Set",
+          dayPickerPlaceholder: "Set",
+        },
+        LandingScreen: {
+          title: "Achieve your Savings Goals",
+          paragraphOne: "Got a dream but it requires a little saving? We’ve got you.",
+          paragraphTwo: "Croatia makes it simple to set aside what you need, to get what you want.",
+          button: "What’s your goal?",
+        },
         InstructionsScreen: {
           skip: "Skip",
           continueButton: "Continue",

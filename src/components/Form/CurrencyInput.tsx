@@ -16,6 +16,7 @@ interface CurrencyInputProps<T extends FieldValues> {
   name: Path<T>;
   placeholder?: string | null | undefined;
   label?: string | null;
+  maxLength?: number;
 }
 
 export default function CurrencyInput<T extends FieldValues>({
@@ -24,6 +25,7 @@ export default function CurrencyInput<T extends FieldValues>({
   extra,
   isEditable,
   label,
+  maxLength,
   name,
   placeholder,
 }: CurrencyInputProps<T>) {
@@ -69,6 +71,7 @@ export default function CurrencyInput<T extends FieldValues>({
           onBlur={handleOnBlur}
           onChange={value => field.onChange(value)}
           onFocus={() => setIsFocused(true)}
+          maxLength={maxLength}
           placeholder={placeholder ?? undefined}
           placeholderTextColor={placeholderTextColor}
           style={textStyles}

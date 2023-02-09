@@ -1,15 +1,17 @@
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { format } from "date-fns";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Platform, ViewStyle } from "react-native";
 
 import { CalendarAltIcon } from "@/assets/icons";
 import DatePickerIOS from "@/components/DatePickerIOS";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface DateInputProps<T extends FieldValues> {
+import InputCard from "./internal/InputCard";
+
+interface DatePickerInputProps<T extends FieldValues> {
   buttonText: string;
   control: Control<T>;
   format?: string;
@@ -21,7 +23,7 @@ interface DateInputProps<T extends FieldValues> {
   placeholder: string;
 }
 
-export default function DateInput<T extends FieldValues>({
+export default function DatePickerInput<T extends FieldValues>({
   buttonText,
   control,
   label,
@@ -31,15 +33,11 @@ export default function DateInput<T extends FieldValues>({
   placeholder,
   minimumDate,
   format: format_ = "dd MMM, yyyy",
-}: DateInputProps<T>) {
+}: DatePickerInputProps<T>) {
   const { field } = useController({ control, name });
 
   const [isVisible, setIsVisible] = useState(false);
   const [selectedValue, setSelectedValue] = useState(field.value ?? new Date());
-
-  if (field.value !== selectedValue && undefined !== field.value) {
-    setSelectedValue(field.value);
-  }
 
   const handleOnConfirmIOS = () => {
     setIsVisible(false);
@@ -86,28 +84,6 @@ export default function DateInput<T extends FieldValues>({
     });
   };
 
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    textAlign: "center",
-    paddingHorizontal: theme.spacing["16p"],
-    backgroundColor: theme.palette["neutralBase-50"],
-    borderRadius: theme.radii.small,
-  }));
-
-  const inputStype = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: theme.spacing["16p"],
-  }));
-
-  const helperTextContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderTopWidth: 1,
-    borderTopColor: theme.palette["neutralBase-30"],
-    paddingTop: 12,
-    paddingBottom: theme.spacing["16p"],
-  }));
-
   const valueTextStyle = useThemeStyles<ViewStyle>(theme => ({
     marginLeft: theme.spacing["8p"],
   }));
@@ -123,24 +99,19 @@ export default function DateInput<T extends FieldValues>({
 
   return (
     <>
-      <View style={containerStyle}>
-        <Pressable onPress={handleOnOpen} style={inputStype}>
-          <Typography.Text color="neutralBase+30">{label}</Typography.Text>
-          <View style={styles.pickerButton}>
+      <InputCard
+        label={label}
+        helperText={Platform.OS !== "ios" ? resolvedHelperText : undefined}
+        onPress={handleOnOpen}
+        value={
+          <>
             <CalendarAltIcon color={iconColor} />
             <Typography.Text color="complimentBase" style={valueTextStyle}>
               {undefined !== field.value ? format(field.value, format_) : placeholder}
             </Typography.Text>
-          </View>
-        </Pressable>
-        {Platform.OS !== "ios" && undefined !== resolvedHelperText && (
-          <View style={helperTextContainerStyle}>
-            <Typography.Text color="neutralBase" size="footnote">
-              {resolvedHelperText}
-            </Typography.Text>
-          </View>
-        )}
-      </View>
+          </>
+        }
+      />
       {Platform.OS === "ios" && (
         <DatePickerIOS
           buttonText={buttonText}
@@ -157,10 +128,3 @@ export default function DateInput<T extends FieldValues>({
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  pickerButton: {
-    alignItems: "center",
-    flexDirection: "row",
-  },
-});
