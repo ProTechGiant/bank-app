@@ -399,6 +399,21 @@ export const resources = {
           },
           button: "Continue",
         },
+        AddMoneyModal: {
+          banner: "Your goal has been created",
+          title: "How do you want to save?",
+          subText: "Choose how you want to start saving towards your savings goal. ",
+          recommended: {
+            title: "Recommended monthly amount",
+            amount: "XXXX SAR / month",
+          },
+          custom: {
+            title: "Custom",
+            buttonOne: "Recurring deposits",
+            buttonTwo: "One-time deposit",
+          },
+          button: "Not Now",
+        },
       },
     },
   },

@@ -162,6 +162,10 @@ const iconDimensions = {
     info: 20,
     question: 12,
   },
+  chevronRight: {
+    height: 12,
+    width: 7.41,
+  },
 };
 
 export { iconDimensions, palette, radii, spacing, typography };

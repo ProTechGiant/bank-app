@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigation } from "@react-navigation/native";
 import { differenceInDays } from "date-fns";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -19,6 +18,7 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 import { alphaNumericSpaceRegExp } from "@/utils";
 
@@ -60,21 +60,26 @@ export default function CreateGoalScreen() {
 
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
 
-  const handleOnSubmit = async (values: CreateGoalInput) => {
-    try {
-      const response = await createGoalAsync.mutateAsync(values);
-      setSavingsPotId(response.SavingsPotId);
-      //@TODO: navigate to add money screens
-    } catch (error) {
-      Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
-        {
-          text: "OK",
-          onPress: () => navigation.goBack(),
-        },
-      ]);
+  // commented out for now while api issues are being resolved
+  // const handleOnSubmit = async (values: CreateGoalInput) => {
+  //   try {
+  //     const response = await createGoalAsync.mutateAsync(values);
+  //     setSavingsPotId(response.SavingsPotId);
+  //     navigation.navigate("SavingsGoals.AddMoneyModal");
+  //   } catch (error) {
+  //     Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
+  //       {
+  //         text: "OK",
+  //         onPress: () => navigation.goBack(),
+  //       },
+  //     ]);
 
-      __DEV__ && console.error("Could not submit saving goal details: ", error);
-    }
+  //     __DEV__ && console.error("Could not submit saving goal details: ", error);
+  //   }
+  // };
+
+  const handleOnSubmit = () => {
+    navigation.navigate("SavingsGoals.AddMoneyModal");
   };
 
   const handleOnModalClose = () => {

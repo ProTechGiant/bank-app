@@ -13,6 +13,7 @@ type RootStackParams = {
   "SavingsGoals.InstructionsScreen": undefined;
   "SavingsGoals.SavingsGoalsScreen": undefined;
   "SavingsGoals.CreateGoalScreen": undefined;
+  "SavingsGoals.AddMoneyModal": undefined;
   "Settings.SettingsScreen": undefined;
 };
 
