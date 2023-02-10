@@ -16,7 +16,6 @@ import GoalCard from "./GoalCard";
 import useSavingsPots from "./use-savings-pots";
 
 const MAX_GOALS = 4;
-const OVERRIDE_ENABLE_CREATE_GOAL = true; // TODO!
 
 export default function SavingsGoalsScreen() {
   const navigation = useNavigation();
@@ -99,7 +98,7 @@ export default function SavingsGoalsScreen() {
                   />
                 ))}
               </Stack>
-              {(OVERRIDE_ENABLE_CREATE_GOAL || (data !== undefined && savingsGoals.length <= MAX_GOALS - 1)) && (
+              {data !== undefined && savingsGoals.length <= MAX_GOALS - 1 && (
                 <Pressable onPress={handleOnCreateGoal}>
                   <View style={buttonStyle}>
                     <Stack direction="horizontal" gap="16p" align="center">
