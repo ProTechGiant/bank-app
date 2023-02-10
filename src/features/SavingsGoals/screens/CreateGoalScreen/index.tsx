@@ -42,6 +42,7 @@ export default function CreateGoalScreen() {
           .matches(alphaNumericSpaceRegExp, t("SavingsGoals.CreateGoalScreen.form.name.validation.invalid")),
         GoalAmount: Yup.number()
           .required(t("SavingsGoals.CreateGoalScreen.form.amount.validation.required"))
+          .min(0.01, t("SavingsGoals.CreateGoalScreen.form.name.validation.required"))
           .max(9999999999.99, t("SavingsGoals.CreateGoalScreen.form.amount.validation.invalid")),
         TargetDate: Yup.date().required(t("SavingsGoals.CreateGoalScreen.form.amount.validation.required")),
       }),
@@ -105,6 +106,10 @@ export default function CreateGoalScreen() {
     marginBottom: theme.spacing["20p"],
   }));
 
+  const formContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginBottom: theme.spacing["48p"],
+  }));
+
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingBottom: theme.spacing["24p"],
   }));
@@ -119,64 +124,66 @@ export default function CreateGoalScreen() {
   return (
     <SafeAreaProvider>
       <Page>
-        <NavHeader title={t("SavingsGoals.CreateGoalScreen.navTitle")} withBackButton />
-        <ContentContainer>
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <Typography.Text size="large" weight="bold" style={titleStyle}>
-              {t("SavingsGoals.CreateGoalScreen.title")}
-            </Typography.Text>
-            <Stack direction="vertical" align="stretch" gap="24p">
-              <TextInput
-                control={control}
-                label={t("SavingsGoals.CreateGoalScreen.form.name.label")}
-                name="GoalName"
-                placeholder={t("SavingsGoals.CreateGoalScreen.form.name.placeholder")}
-                maxLength={50}
-              />
-              <CurrencyInput
-                control={control}
-                label={t("SavingsGoals.CreateGoalScreen.form.amount.label")}
-                name="GoalAmount"
-                placeholder={t("SavingsGoals.CreateGoalScreen.form.amount.placeholder")}
-                maxLength={16} // 10 digits and 2 decimals
-              />
-              <DatePickerInput
-                control={control}
-                placeholder={t("SavingsGoals.CreateGoalScreen.form.targetDate.openDatePickerButton")}
-                headerText={t("SavingsGoals.CreateGoalScreen.form.targetDate.headerText")}
-                label={t("SavingsGoals.CreateGoalScreen.form.targetDate.label")}
-                name="TargetDate"
-                buttonText={t("SavingsGoals.CreateGoalScreen.form.targetDate.datePickerButton")}
-                minimumDate={new Date()}
-                helperText={currentValue => {
-                  return differenceInDays(currentValue, new Date()) < 31
-                    ? t("SavingsGoals.CreateGoalScreen.form.targetDate.helperText")
-                    : undefined;
-                }}
-              />
-              <ToggleCardGroup>
-                <ToggleCard
-                  name="IsRoundupActive"
-                  label={t("SavingsGoals.CreateGoalScreen.form.roundUps.label")}
-                  helperText={t("SavingsGoals.CreateGoalScreen.form.roundUps.helperText")}
-                  onInfoPress={() => setIsInfoModalVisible(true)}
+        <NavHeader withBackButton />
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <ContentContainer>
+            <View style={formContainerStyle}>
+              <Typography.Text size="large" weight="bold" style={titleStyle}>
+                {t("SavingsGoals.CreateGoalScreen.title")}
+              </Typography.Text>
+              <Stack direction="vertical" align="stretch" gap="24p">
+                <TextInput
                   control={control}
+                  label={t("SavingsGoals.CreateGoalScreen.form.name.label")}
+                  name="GoalName"
+                  placeholder={t("SavingsGoals.CreateGoalScreen.form.name.placeholder")}
+                  maxLength={50}
                 />
-                <ToggleCard
-                  name="IsNotificationActive"
-                  label={t("SavingsGoals.CreateGoalScreen.form.notification.label")}
-                  helperText={t("SavingsGoals.CreateGoalScreen.form.notification.helperText")}
+                <CurrencyInput
                   control={control}
+                  label={t("SavingsGoals.CreateGoalScreen.form.amount.label")}
+                  name="GoalAmount"
+                  placeholder={t("SavingsGoals.CreateGoalScreen.form.amount.placeholder")}
+                  maxLength={16} // 10 digits and 2 decimals
                 />
-              </ToggleCardGroup>
-            </Stack>
-          </ScrollView>
-          <View style={buttonContainerStyle}>
-            <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-              {t("SavingsGoals.CreateGoalScreen.button")}
-            </SubmitButton>
-          </View>
-        </ContentContainer>
+                <DatePickerInput
+                  control={control}
+                  placeholder={t("SavingsGoals.CreateGoalScreen.form.targetDate.openDatePickerButton")}
+                  headerText={t("SavingsGoals.CreateGoalScreen.form.targetDate.headerText")}
+                  label={t("SavingsGoals.CreateGoalScreen.form.targetDate.label")}
+                  name="TargetDate"
+                  buttonText={t("SavingsGoals.CreateGoalScreen.form.targetDate.datePickerButton")}
+                  minimumDate={new Date()}
+                  helperText={currentValue => {
+                    return differenceInDays(currentValue, new Date()) < 31
+                      ? t("SavingsGoals.CreateGoalScreen.form.targetDate.helperText")
+                      : undefined;
+                  }}
+                />
+                <ToggleCardGroup>
+                  <ToggleCard
+                    name="IsRoundupActive"
+                    label={t("SavingsGoals.CreateGoalScreen.form.roundUps.label")}
+                    helperText={t("SavingsGoals.CreateGoalScreen.form.roundUps.helperText")}
+                    onInfoPress={() => setIsInfoModalVisible(true)}
+                    control={control}
+                  />
+                  <ToggleCard
+                    name="IsNotificationActive"
+                    label={t("SavingsGoals.CreateGoalScreen.form.notification.label")}
+                    helperText={t("SavingsGoals.CreateGoalScreen.form.notification.helperText")}
+                    control={control}
+                  />
+                </ToggleCardGroup>
+              </Stack>
+            </View>
+            <View style={buttonContainerStyle}>
+              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+                {t("SavingsGoals.CreateGoalScreen.button")}
+              </SubmitButton>
+            </View>
+          </ContentContainer>
+        </ScrollView>
       </Page>
       <Modal visible={isInfoModalVisible} onClose={handleOnModalClose}>
         <View style={contentContainerStyle}>

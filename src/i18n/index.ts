@@ -366,11 +366,10 @@ export const resources = {
           instructionText: "You can set a total of 4 goals.",
         },
         CreateGoalScreen: {
-          navTitle: "Create goal",
           title: "Create a goal",
           form: {
             name: {
-              label: "Goal Name",
+              label: "Name",
               placeholder: "Name",
               validation: {
                 required: "Required*",
@@ -378,7 +377,7 @@ export const resources = {
               },
             },
             amount: {
-              label: "Goal amount",
+              label: "Amount",
               placeholder: "0 SAR",
               currency: "SAR",
               validation: {
@@ -412,7 +411,7 @@ export const resources = {
           aboutRoundUpsPanel: {
             title: "About Round-ups",
             content:
-              "You can Round-Up each purchase you make to the next whole saudi riyal and then deposit your spare change to a Savings Pot.",
+              "You can Round-Up each purchase you make to the next whole Saudi Riyal and then deposit your spare change to a Savings Pot.",
             smallText: "Find out more in our FAQs.",
           },
           button: "Continue",

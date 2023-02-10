@@ -68,7 +68,7 @@ export default function TextInput<T extends FieldValues>({
         multiline={multiline}
         placeholder={placeholder ?? undefined}
         placeholderTextColor={placeholderTextColor}
-        style={textStyles}
+        style={[textStyles, undefined !== fieldState.error && fieldState.isTouched && { maxWidth: "92%" }]}
         value={field.value}
         textAlign={I18nManager.isRTL ? "right" : "left"}
         {...restProps}

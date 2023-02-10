@@ -32,7 +32,7 @@ export default function DatePickerInput<T extends FieldValues>({
   helperText,
   placeholder,
   minimumDate,
-  format: format_ = "dd MMM, yyyy",
+  format: format_ = "PP",
 }: DatePickerInputProps<T>) {
   const { field } = useController({ control, name });
 
@@ -91,7 +91,9 @@ export default function DatePickerInput<T extends FieldValues>({
   const iconColor = useThemeStyles<string>(theme => theme.palette["complimentBase"]);
 
   const resolvedHelperText =
-    typeof helperText === "function" && undefined !== selectedValue
+    field.value === undefined && Platform.OS !== "ios"
+      ? undefined // not to show helper message for android on load
+      : typeof helperText === "function" && undefined !== selectedValue
       ? helperText(selectedValue)
       : typeof helperText === "string"
       ? helperText

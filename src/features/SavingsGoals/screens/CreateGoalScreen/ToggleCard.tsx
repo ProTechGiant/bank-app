@@ -56,7 +56,7 @@ export default function ToggleCard<T extends FieldValues>({
     <View style={containerStyle}>
       <View style={styles.container}>
         <View style={styles.label}>
-          <Typography.Text color="neutralBase+30" size="callout">
+          <Typography.Text color="neutralBase+30" size="callout" weight="medium">
             {label}
           </Typography.Text>
           {undefined !== onInfoPress && (
@@ -82,7 +82,7 @@ export default function ToggleCard<T extends FieldValues>({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.75,
+    flex: 0.9,
   },
   label: {
     flexDirection: "row",

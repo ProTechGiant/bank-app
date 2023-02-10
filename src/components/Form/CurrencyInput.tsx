@@ -77,7 +77,7 @@ export default function CurrencyInput<T extends FieldValues>({
           style={textStyles}
           value={field.value}
         />
-        {!!field.value && (
+        {field.value !== undefined && (
           <Typography.Text color="neutralBase+20" size="callout" style={styles.currency} weight="regular">
             SAR
           </Typography.Text>
@@ -90,7 +90,7 @@ export default function CurrencyInput<T extends FieldValues>({
 const styles = StyleSheet.create({
   currency: {
     marginLeft: Platform.OS === "web" ? undefined : 4,
-    marginTop: Platform.OS === "web" ? undefined : -StyleSheet.hairlineWidth * 2,
+    marginTop: Platform.OS === "web" ? undefined : Platform.OS === "ios" ? -0.5 : -3,
   },
   innerContainer: {
     alignItems: "center",

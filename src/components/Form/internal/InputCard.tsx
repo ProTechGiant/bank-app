@@ -36,7 +36,9 @@ export default function InputCard({ helperText, label, onPress, value }: InputCa
   return (
     <View style={containerStyle}>
       <Pressable onPress={onPress} style={inputStype}>
-        <Typography.Text color="neutralBase+30">{label}</Typography.Text>
+        <Typography.Text weight="medium" color="neutralBase+30">
+          {label}
+        </Typography.Text>
         <View style={styles.value}>{value}</View>
       </Pressable>
       {!!helperText && (

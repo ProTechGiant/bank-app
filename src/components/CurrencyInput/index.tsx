@@ -68,7 +68,7 @@ export default forwardRef(function MaskedCurrencyInput(
     <RNTextInput
       {...restProps}
       ref={ref}
-      inputMode="numeric"
+      inputMode="decimal"
       onBlur={handleOnBlur}
       onChangeText={handleOnChangeText}
       value={formattedValue}
