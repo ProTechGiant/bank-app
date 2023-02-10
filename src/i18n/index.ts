@@ -397,16 +397,16 @@ export const resources = {
             },
             roundUps: {
               label: "Turn on Round-ups",
-              helperText: "Only one saving at a time (take away if we don’t need)",
+              helperText: "For this goal only",
             },
             notification: {
               label: "Turn on Notifications",
-              helperText: "Only this savings",
+              helperText: "For this goal only",
             },
           },
           roundUpsAlreadyActiveAlert: {
             title: "Turn on Round-Ups for this saving goal?",
-            message: "Round-ups is already turned on for an other saving goal. Do you want to swith to this one?",
+            message: "Round-ups is already turned on for an other saving goal. Do you want to switch to this one?",
           },
           aboutRoundUpsPanel: {
             title: "About Round-ups",
