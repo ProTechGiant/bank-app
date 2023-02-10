@@ -34,18 +34,20 @@ export default function ProgressWheel({ current, total }: ProgressWheelProps) {
           r={RADIUS}
           {...{ strokeWidth }}
         />
-        <Circle
-          stroke={strokeProgressColor}
-          fill="none"
-          cx={CIRCLE_SIZE / 2}
-          cy={CIRCLE_SIZE / 2}
-          r={RADIUS}
-          strokeDasharray={`${CIRCUM} ${CIRCUM}`}
-          strokeDashoffset={RADIUS * Math.PI * 2 * (progress / 100)}
-          strokeLinecap="round"
-          transform={`rotate(-90, ${CIRCLE_SIZE / 2}, ${CIRCLE_SIZE / 2})`}
-          {...{ strokeWidth }}
-        />
+        {progressPercentage !== 0 && (
+          <Circle
+            stroke={strokeProgressColor}
+            fill="none"
+            cx={CIRCLE_SIZE / 2}
+            cy={CIRCLE_SIZE / 2}
+            r={RADIUS}
+            strokeDasharray={`${CIRCUM} ${CIRCUM}`}
+            strokeDashoffset={RADIUS * Math.PI * 2 * (progress / 100)}
+            strokeLinecap="round"
+            transform={`rotate(-90, ${CIRCLE_SIZE / 2}, ${CIRCLE_SIZE / 2})`}
+            {...{ strokeWidth }}
+          />
+        )}
       </Svg>
       <View style={styles.innerContainer}>
         {progressPercentage === 100 ? (
