@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 
 import api from "@/api";
+import { useTemporaryContext } from "@/contexts/TemporaryContext";
 
 import { SavingsPot } from "../../types";
 
@@ -9,9 +10,13 @@ interface SavingsPotsResponse {
 }
 
 export default function useSavingsPots() {
+  /* Temporary UserId for testing the instructions screen */
+  const { temporaryUserId } = useTemporaryContext();
+  const userId = temporaryUserId;
+
   return useQuery(["savings-goals"], () => {
     return api<SavingsPotsResponse>("api-dev", "v1", "customers/savings-pot/all", "GET", undefined, undefined, {
-      ["UserId"]: "100116",
+      ["UserId"]: userId,
       ["x-correlation-id"]: "12345",
     });
   });

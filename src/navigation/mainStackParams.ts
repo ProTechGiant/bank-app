@@ -12,7 +12,9 @@ type RootStackParams = {
   "Referral.HubScreen": undefined;
   "Referral.InstructionsScreen": undefined;
   "Settings.SettingsScreen": undefined;
-  "SavingsGoals.SavingsGoalsStack": undefined;
+  "SavingsGoals.SavingsGoalsStack": {
+    savingsPotsNumber: number;
+  };
 };
 
 type MainStackParams = RootStackParams & ApplyCardModalStackParams & OnboardingStackParams & SavingsGoalsStackParams;

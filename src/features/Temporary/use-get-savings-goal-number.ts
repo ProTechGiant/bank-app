@@ -1,10 +1,10 @@
-import { format } from "date-fns";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 
 import api from "@/api";
+import { useTemporaryContext } from "@/contexts/TemporaryContext";
 
 interface GetSavingsGoalNumResponse {
-  SavingsPotsNumber: string;
+  SavingsPotsNumber: number;
 }
 
 interface GetSavingsGoalNumError {
@@ -15,7 +15,9 @@ interface GetSavingsGoalNumError {
 }
 
 export default function useGetSavingsGoalNumber() {
-  const userId = "100116";
+  /* Temporary UserId for testing the instructions screen */
+  const { temporaryUserId } = useTemporaryContext();
+  const userId = temporaryUserId;
   const correlationId = "1234567";
 
   return useMutation(() => {

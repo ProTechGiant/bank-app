@@ -8,6 +8,7 @@ import useI18nDirection from "@/i18n/use-i18n-direction";
 import MainStack from "@/navigation/MainStack";
 
 import { GlobalContextProvider } from "./contexts/GlobalContext";
+import { TemporaryContextProvider } from "./contexts/TemporaryContext";
 import { OnboardingContextProvider } from "./features/Onboarding/context/OnboardingContext";
 
 const queryClient = new QueryClient();
@@ -17,15 +18,17 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <GlobalContextProvider>
-        <OnboardingContextProvider>
-          <SafeAreaProvider>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-              <MainStack />
-            </GestureHandlerRootView>
-          </SafeAreaProvider>
-        </OnboardingContextProvider>
-      </GlobalContextProvider>
+      <TemporaryContextProvider>
+        <GlobalContextProvider>
+          <OnboardingContextProvider>
+            <SafeAreaProvider>
+              <GestureHandlerRootView style={{ flex: 1 }}>
+                <MainStack />
+              </GestureHandlerRootView>
+            </SafeAreaProvider>
+          </OnboardingContextProvider>
+        </GlobalContextProvider>
+      </TemporaryContextProvider>
     </QueryClientProvider>
   );
 }
