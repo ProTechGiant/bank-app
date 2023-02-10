@@ -10,13 +10,13 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { useOrderCardContext } from "../../context/OrderCardContext";
+import { CardType } from "../../types";
 import SelectLuxCard from "./SelectLuxCard";
 import SelectStandardCard from "./SelectStandardCard";
 
-const STANDARD_CARD_ID = {
-  cardType: 1,
-  cardProductId: 1356,
-};
+const CARD_TYPE = 1;
+const STANDARD_CARD_PRODUCT_ID = 1356;
+const LUX_CARD_PRODUCT_ID = 1357;
 
 export default function PickCardTypeScreen() {
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
@@ -38,16 +38,13 @@ export default function PickCardTypeScreen() {
     color: theme.palette["neutralBase+30"],
   }));
 
-  const handleOnLuxCardPress = () => {
-    navigation.navigate("ApplyCards.ApplyForLuxCard");
-  };
-
-  const handleOnStandardCardPress = () => {
+  const handleOnCardPress = (cardType: "standard" | "lux") => {
     setOrderCardValues(current => ({
       ...current,
       formValues: {
         ...orderCardValues.formValues,
-        ...STANDARD_CARD_ID,
+        cardType: CARD_TYPE,
+        cardProductId: cardType === "standard" ? STANDARD_CARD_PRODUCT_ID : LUX_CARD_PRODUCT_ID,
       },
     }));
 
@@ -94,8 +91,20 @@ export default function PickCardTypeScreen() {
         )}
         onIndexChange={setIndex}
         renderScene={SceneMap({
-          standard: () => <SelectStandardCard onPress={handleOnStandardCardPress} />,
-          lux: () => <SelectLuxCard onPress={handleOnLuxCardPress} />,
+          standard: () => (
+            <SelectStandardCard
+              onPress={() => {
+                handleOnCardPress("standard");
+              }}
+            />
+          ),
+          lux: () => (
+            <SelectLuxCard
+              onPress={() => {
+                handleOnCardPress("lux");
+              }}
+            />
+          ),
         })}
       />
     </Page>

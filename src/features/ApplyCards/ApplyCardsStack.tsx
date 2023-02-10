@@ -4,7 +4,6 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { OrderCardContextProvider } from "./context/OrderCardContext";
 import AddToAppleWalletScreen from "./screens/AddToAppleWalletScreen";
 import ApplePayActivatedScreen from "./screens/ApplePayActivatedScreen";
-import ApplyForLuxCardScreen from "./screens/ApplyForLuxCardScreen";
 import CardOrderedScreen from "./screens/CardOrderedScreen";
 import PickCardTypeScreen from "./screens/PickCardTypeScreen";
 import SetPinAndAddressScreen from "./screens/SetPinAndAddressScreen";
@@ -28,7 +27,6 @@ export default function ApplyCardsStack() {
       <OrderCardContextProvider>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen component={PickCardTypeScreen} name="ApplyCards.PickCardType" />
-          <Stack.Screen component={ApplyForLuxCardScreen} name="ApplyCards.ApplyForLuxCard" />
           <Stack.Screen component={SetPinAndAddressScreen} name="ApplyCards.SetPinAndAddress" />
           <Stack.Screen
             component={SetTemporaryAddressScreen}
