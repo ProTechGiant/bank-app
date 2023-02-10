@@ -104,6 +104,7 @@ export default function FatcaDetailsScreen() {
       element,
       elementIndex: index,
       action: "edit",
+      disabled: foreignTaxCountries.map(e => e.countryName),
     });
   };
 

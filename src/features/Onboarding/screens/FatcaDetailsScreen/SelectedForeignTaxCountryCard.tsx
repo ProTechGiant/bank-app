@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 
 import { EditBordered } from "@/assets/icons";
@@ -19,6 +20,7 @@ export default function SelectedForeignTaxCountryCard({
   taxReferenceNumber,
   onPress,
 }: SelectedForeignTaxCountryCardProps) {
+  const { t } = useTranslation();
   const detailsCardStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
     borderRadius: theme.radii.small,
@@ -33,7 +35,7 @@ export default function SelectedForeignTaxCountryCard({
         <Stack direction="vertical" gap="16p">
           <View>
             <Typography.Text size="callout" weight="medium" color="primaryBase">
-              Country
+              {t("Onboarding.FatcaDetailsScreen.InfoBoxCountryTitle")}
             </Typography.Text>
             <Typography.Text size="footnote" weight="regular" color="neutralBase">
               {mockCountryList.find(v => v.value === countryName)?.label}
@@ -41,7 +43,7 @@ export default function SelectedForeignTaxCountryCard({
           </View>
           <View>
             <Typography.Text size="callout" weight="medium" color="primaryBase">
-              Unique Reference
+              {t("Onboarding.FatcaDetailsScreen.InfoBoxReferenceTitle")}
             </Typography.Text>
             <Typography.Text size="footnote" weight="regular" color="neutralBase">
               {taxReferenceNumber}

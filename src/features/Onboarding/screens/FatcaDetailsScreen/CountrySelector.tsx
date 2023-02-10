@@ -75,7 +75,7 @@ export default function CountrySelector() {
     if (undefined === route.params.elementIndex) return;
 
     navigation.navigate("Onboarding.Fatca", {
-      result: "insert",
+      result: "edit",
       element: values,
       elementIndex: route.params.elementIndex,
     });

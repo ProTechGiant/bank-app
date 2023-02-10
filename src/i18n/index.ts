@@ -153,7 +153,7 @@ export const resources = {
             },
           },
           InfoBoxCountryTitle: "Country ",
-          InfoBoxReferenceTitle: "Unique",
+          InfoBoxReferenceTitle: "Unique Reference",
           maxCountriesText: "You’ve reached the maximum amount countries",
         },
         TermsAndConditions: {
@@ -590,7 +590,7 @@ export const resources = {
             },
           },
           InfoBoxCountryTitle: "Country ",
-          InfoBoxReferenceTitle: "Unique",
+          InfoBoxReferenceTitle: "Unique Reference",
           maxCountriesText: "You’ve reached the maximum amount countries",
         },
       },
