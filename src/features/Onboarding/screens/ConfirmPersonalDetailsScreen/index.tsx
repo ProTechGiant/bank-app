@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { SafeAreaView, ScrollView, View, ViewStyle } from "react-native";
+import { ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import { CalendarAltIcon, GlobeIcon, MapMarkerIcon, UserIcon } from "@/assets/icons";
@@ -64,7 +64,7 @@ export default function ConfirmPersonalDetailsScreen() {
 
   return (
     <Page safeAreaInsets={["top"]} isPadded={false}>
-      <NavHeader title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}>
+      <NavHeader withBackButton={false} title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={1} totalStep={6} />
       </NavHeader>
       <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12 }}>

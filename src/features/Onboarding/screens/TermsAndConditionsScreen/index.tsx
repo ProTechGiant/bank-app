@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { SafeAreaView, ScrollView, View, ViewStyle } from "react-native";
+import { ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import ContentContainer from "@/components/ContentContainer";
@@ -53,7 +53,7 @@ const TermsAndConditionsScreen = () => {
   return (
     <>
       <Page safeAreaInsets={["top"]} isPadded={false}>
-        <NavHeader title={t("Onboarding.TermsAndConditions.navHeaderTitle")} withBackButton rightComponent="close">
+        <NavHeader title={t("Onboarding.TermsAndConditions.navHeaderTitle")} withBackButton={false}>
           <ProgressIndicator currentStep={5} totalStep={6} />
         </NavHeader>
         <ScrollView>

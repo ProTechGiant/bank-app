@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Alert, ScrollView, View, ViewStyle } from "react-native";
@@ -60,7 +59,7 @@ export default function OptionalEmailScreen() {
 
   return (
     <Page>
-      <NavHeader title={t("Onboarding.OptionalEmailScreen.navHeaderTitle")}>
+      <NavHeader withBackButton={false} title={t("Onboarding.OptionalEmailScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={2} totalStep={6} />
       </NavHeader>
       <ScrollView>

@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Alert, ScrollView } from "react-native";
@@ -45,7 +44,7 @@ export default function FinancialInformationScreen() {
 
   return (
     <Page>
-      <NavHeader title={t("Onboarding.FinancialInformationScreen.navHeaderTitle")}>
+      <NavHeader withBackButton={false} title={t("Onboarding.FinancialInformationScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={3} totalStep={6} />
       </NavHeader>
       <ScrollView>
@@ -62,6 +61,8 @@ export default function FinancialInformationScreen() {
               extra={t("Onboarding.FinancialInformationScreen.inputOccupationExtra")}
               placeholder={t("Onboarding.FinancialInformationScreen.inputOccupationPlaceholder")}
               options={mockOccuptions}
+              buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
+              autoselect
             />
             <DropdownInput
               control={control}
@@ -69,6 +70,8 @@ export default function FinancialInformationScreen() {
               label={t("Onboarding.FinancialInformationScreen.inputAccountPurposeLabel")}
               placeholder={t("Onboarding.FinancialInformationScreen.inputAccountPurposePlaceholder")}
               options={mockCroatiaPurpose}
+              buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
+              autoselect
             />
             <DropdownInput
               control={control}
@@ -76,6 +79,8 @@ export default function FinancialInformationScreen() {
               label={t("Onboarding.FinancialInformationScreen.inputSourceOfIncomeLabel")}
               placeholder={t("Onboarding.FinancialInformationScreen.inputSourceOfIncomePlaceholder")}
               options={mockSources}
+              buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
+              autoselect
             />
             <DropdownInput
               control={control}
@@ -83,6 +88,8 @@ export default function FinancialInformationScreen() {
               label={t("Onboarding.FinancialInformationScreen.inputMonthlyLimitLabel")}
               placeholder={t("Onboarding.FinancialInformationScreen.inputMonthlyLimitPlaceholder")}
               options={mockExpectedAmount}
+              buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
+              autoselect
             />
             <MoreInfoDropdown title={t("Onboarding.FinancialInformationScreen.moreInfoDropdownTitle")}>
               <Typography.Text color="neutralBase" size="footnote">

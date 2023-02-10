@@ -108,7 +108,7 @@ export const resources = {
           inputSourceOfIncomePlaceholder: "Select at least one option",
           inputMonthlyLimitLabel: "After bills and expenses, how much do you have left to spend each month?",
           inputMonthlyLimitPlaceholder: "Select an amount",
-          inputButtonLabel: "Confirm",
+          inputSetLabel: "Set",
           moreInfoDropdownTitle: "Why we need this information",
           moreInfoDropdownBody:
             "This information is used to complete validation checks as part of joining Croatia. If anything here changes you’ll be able to update it in the app.",
@@ -548,6 +548,7 @@ export const resources = {
           inputSourceOfIncomePlaceholder: "Select at least one option",
           inputMonthlyLimitLabel: "After bills and expenses, how much do you have left to spend each month?",
           inputMonthlyLimitPlaceholder: "Select an amount",
+          inputSetLabel: "Set",
           moreInfoDropdownTitle: "Why we need this information",
           moreInfoDropdownBody:
             "This information is used to complete validation checks as part of joining Croatia. If anything here changes you’ll be able to update it in the app.",

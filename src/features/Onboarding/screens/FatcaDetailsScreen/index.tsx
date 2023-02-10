@@ -130,7 +130,7 @@ export default function FatcaDetailsScreen() {
 
   return (
     <Page>
-      <NavHeader title={t("Onboarding.FatcaDetailsScreen.navHeaderTitle")} withBackButton={true}>
+      <NavHeader title={t("Onboarding.FatcaDetailsScreen.navHeaderTitle")} withBackButton={false}>
         <ProgressIndicator currentStep={4} totalStep={6} />
       </NavHeader>
       <ScrollView>
