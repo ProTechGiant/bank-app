@@ -1,16 +1,16 @@
 import { Picker } from "@react-native-picker/picker";
 import { useEffect, useState } from "react";
 import { FieldValues, useController } from "react-hook-form";
-import { Dimensions, I18nManager, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, StyleSheet, View, ViewStyle } from "react-native";
 
-import { CheckmarkCircle, ChevronRightIcon } from "@/assets/icons";
+import { ChevronRightIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
-import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import InputBox from "../internal/InputBox";
 import InputText from "../internal/InputText";
+import { DropdownInputList } from "./DropdownInputList";
 import DropdownInputProps from "./DropdownInputProps";
 
 export default function DropdownInput<T extends FieldValues>({
@@ -74,28 +74,6 @@ export default function DropdownInput<T extends FieldValues>({
 
   const chevronOpenIconColor = useThemeStyles(theme => theme.palette.neutralBase);
 
-  const modalContainer = useThemeStyles<ViewStyle>(() => ({
-    height: Dimensions.get("window").height - 254,
-  }));
-
-  const optionContainer = useThemeStyles<ViewStyle>(({ spacing, palette }) => ({
-    paddingVertical: spacing["16p"],
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderBottomWidth: 1,
-    borderBottomColor: palette["neutralBase-20"],
-  }));
-
-  const checkBoxStyles = useThemeStyles<ViewStyle>(({ palette }) => ({
-    borderColor: palette["neutralBase-20"],
-    height: 24,
-    width: 24,
-    borderWidth: 2,
-    borderRadius: 24,
-    alignItems: "center",
-    justifyContent: "center",
-  }));
-
   const buttonContainer = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
     paddingHorizontal: theme.spacing["20p"],
@@ -118,24 +96,7 @@ export default function DropdownInput<T extends FieldValues>({
             ))}
           </Picker>
         ) : (
-          <ScrollView style={modalContainer}>
-            {options.map(option => (
-              <Pressable
-                key={option.value}
-                onPress={() => !option.disabled && handleOnChange(option.value)}
-                style={[optionContainer, option.disabled && styles.disabledOpacity]}>
-                <View style={styles.textContainer}>
-                  <Typography.Text color="primaryBase+30" size="callout" weight="regular">
-                    {option.label}
-                  </Typography.Text>
-                </View>
-                <View style={checkBoxStyles}>
-                  {(selectedValue === option.value || option.disabled === true) && <CheckmarkCircle />}
-                </View>
-                <View />
-              </Pressable>
-            ))}
-          </ScrollView>
+          <DropdownInputList options={options} onChange={handleOnChange} value={selectedValue} />
         )}
         <View style={buttonContainer}>
           <Button onPress={handleOnConfirm} disabled={selectedValue === undefined}>
@@ -164,8 +125,5 @@ const styles = StyleSheet.create({
   },
   item: {
     color: "#000",
-  },
-  textContainer: {
-    flex: 1,
   },
 });

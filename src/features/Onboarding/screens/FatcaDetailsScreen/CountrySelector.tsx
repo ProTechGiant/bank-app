@@ -29,6 +29,7 @@ export default function CountrySelector() {
   const route = useRoute<RouteProp<OnboardingStackParams, "Onboarding.CountrySelector">>();
 
   const action = route.params.action;
+  const countryList = useMemo(() => mockCountryList.sort((a, b) => a.label.localeCompare(b.label)), [mockCountryList]);
 
   const validationSchema = useMemo(
     () =>
@@ -112,7 +113,7 @@ export default function CountrySelector() {
               name="countryName"
               headerText={t("Onboarding.FatcaDetailsScreen.CountrySelector.dropDownLabel")}
               placeholder={t("Onboarding.FatcaDetailsScreen.CountrySelector.countryPlaceholder")}
-              options={mockCountryList.map(country => ({
+              options={countryList.map(country => ({
                 value: country.value,
                 label: country.label,
                 disabled: route.params.disabled?.includes(country.value) ?? false,
