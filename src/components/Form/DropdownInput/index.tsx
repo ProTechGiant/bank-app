@@ -47,7 +47,10 @@ export default function DropdownInput<T extends FieldValues>({
   const handleOnOpen = () => {
     if (!isEditable) return;
 
-    if (autoselect && field.value === undefined && options.length > 0) setSelectedValue(options[0].value);
+    if (autoselect && field.value === undefined && options.length > 0) {
+      setSelectedValue(options[0].value);
+    }
+
     setIsVisible(true);
   };
 
@@ -69,45 +72,36 @@ export default function DropdownInput<T extends FieldValues>({
     field.onChange(selectedValue);
   };
 
-  const modalContainer = useThemeStyles<ViewStyle>(
-    () => ({
-      height: Dimensions.get("window").height - 254,
-    }),
-    []
-  );
-  const optionContainer = useThemeStyles<ViewStyle>(
-    ({ spacing, palette }) => ({
-      paddingVertical: spacing["16p"],
-      flexDirection: "row",
-      justifyContent: "space-between",
-      borderBottomWidth: 1,
-      borderBottomColor: palette["neutralBase-20"],
-    }),
-    []
-  );
+  const chevronOpenIconColor = useThemeStyles(theme => theme.palette.neutralBase);
 
-  const checkBoxStyles = useThemeStyles<ViewStyle>(
-    ({ palette }) => ({
-      borderColor: palette["neutralBase-20"],
-      height: 24,
-      width: 24,
-      borderWidth: 2,
-      borderRadius: 24,
-      alignItems: "center",
-      justifyContent: "center",
-    }),
-    []
-  );
+  const modalContainer = useThemeStyles<ViewStyle>(() => ({
+    height: Dimensions.get("window").height - 254,
+  }));
 
-  const buttonContainer = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["neutralBase-50"],
-      paddingHorizontal: theme.spacing["20p"],
-      paddingVertical: theme.spacing["16p"],
-      width: "100%",
-    }),
-    []
-  );
+  const optionContainer = useThemeStyles<ViewStyle>(({ spacing, palette }) => ({
+    paddingVertical: spacing["16p"],
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderBottomColor: palette["neutralBase-20"],
+  }));
+
+  const checkBoxStyles = useThemeStyles<ViewStyle>(({ palette }) => ({
+    borderColor: palette["neutralBase-20"],
+    height: 24,
+    width: 24,
+    borderWidth: 2,
+    borderRadius: 24,
+    alignItems: "center",
+    justifyContent: "center",
+  }));
+
+  const buttonContainer = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-50"],
+    paddingHorizontal: theme.spacing["20p"],
+    paddingVertical: theme.spacing["16p"],
+    width: "100%",
+  }));
 
   return (
     <>
@@ -115,7 +109,12 @@ export default function DropdownInput<T extends FieldValues>({
         {!fullHeight ? (
           <Picker onValueChange={handleOnChange} itemStyle={styles.item} selectedValue={selectedValue}>
             {options.map(option => (
-              <Picker.Item key={option.value} label={option.label} value={option.value} />
+              <Picker.Item
+                key={option.value}
+                label={option.label}
+                value={option.value}
+                style={option.disabled ? styles.disabledOpacity : undefined}
+              />
             ))}
           </Picker>
         ) : (
@@ -124,7 +123,7 @@ export default function DropdownInput<T extends FieldValues>({
               <Pressable
                 key={option.value}
                 onPress={() => !option.disabled && handleOnChange(option.value)}
-                style={[optionContainer, option.disabled && { opacity: 0.4 }]}>
+                style={[optionContainer, option.disabled && styles.disabledOpacity]}>
                 <View style={styles.textContainer}>
                   <Typography.Text color="primaryBase+30" size="callout" weight="regular">
                     {option.label}
@@ -148,7 +147,7 @@ export default function DropdownInput<T extends FieldValues>({
         <InputText
           buttonIcon={
             <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-              <ChevronRightIcon />
+              <ChevronRightIcon color={chevronOpenIconColor} />
             </View>
           }
           placeholder={placeholder}
@@ -160,6 +159,9 @@ export default function DropdownInput<T extends FieldValues>({
 }
 
 const styles = StyleSheet.create({
+  disabledOpacity: {
+    opacity: 0.4,
+  },
   item: {
     color: "#000",
   },

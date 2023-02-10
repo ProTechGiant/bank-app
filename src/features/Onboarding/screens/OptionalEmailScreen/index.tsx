@@ -73,6 +73,8 @@ export default function OptionalEmailScreen() {
               {t("Onboarding.OptionalEmailScreen.subHeader")}
             </Typography.Text>
             <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
               control={control}
               name="emailAddress"
               label={t("Onboarding.OptionalEmailScreen.inputEmailLabel")}

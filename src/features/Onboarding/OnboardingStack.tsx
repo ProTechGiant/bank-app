@@ -4,6 +4,7 @@ import { OnboardingContextProvider } from "./context/OnboardingContext";
 import ConfirmPersonalDetailsScreen from "./screens/ConfirmPersonalDetailsScreen";
 import FatcaDetailsScreen from "./screens/FatcaDetailsScreen";
 import CountrySelector from "./screens/FatcaDetailsScreen/CountrySelector";
+import { ForeignTaxCountry } from "./screens/FatcaDetailsScreen/types";
 import FinancialInformationScreen from "./screens/FinancialInformationScreen";
 import IqamaInputScreen from "./screens/IqamaInputScreen";
 import NafathAuthScreen from "./screens/NafathAuthScreen";
@@ -12,6 +13,19 @@ import OptionalEmailScreen from "./screens/OptionalEmailScreen";
 import PasscodeScreen from "./screens/PasscodeScreen";
 import TermsAndConditionsScreen from "./screens/TermsAndConditionsScreen";
 
+export type FatcaScreenTypes = {
+  result: "insert" | "edit" | "remove";
+  element?: ForeignTaxCountry; // applicable to "insert", "edit"
+  elementIndex?: number; // applicable to "edit", "remove"
+};
+
+type OnboardingCountrySelectorParams = {
+  action: "insert" | "edit";
+  disabled?: string[]; // applicable to "insert"
+  element?: ForeignTaxCountry; // applicable to "edit"
+  elementIndex?: number; // applicable to "edit"
+};
+
 export type OnboardingStackParams = {
   "Onboarding.SplashScreen": undefined;
   "Onboarding.Iqama": undefined;
@@ -19,8 +33,8 @@ export type OnboardingStackParams = {
   "Onboarding.ConfirmDetails": undefined;
   "Onboarding.OptionalEmail": undefined;
   "Onboarding.Financial": undefined;
-  "Onboarding.Fatca": undefined;
-  "Onboarding.CountrySelector": undefined;
+  "Onboarding.Fatca": FatcaScreenTypes | undefined;
+  "Onboarding.CountrySelector": OnboardingCountrySelectorParams;
   "Onboarding.Terms": undefined;
   "Onboarding.Passcode": undefined;
 };

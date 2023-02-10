@@ -23,7 +23,7 @@ export default function Stack({
 }: StackProps) {
   const elements = React.Children.toArray(children);
 
-  const containerStyle = useThemeStyles(
+  const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: align,
       flexDirection: direction === "horizontal" ? ("row" as const) : ("column" as const),

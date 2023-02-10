@@ -144,7 +144,11 @@ export default function MobileAndNationalIdForm({
                     </View>
                     <Text>+966</Text>
                   </View>
-                  <PhoneNumberInput<IqamaInputs> control={control} name="MobileNumber" placeholder="Enter mobile" />
+                  <PhoneNumberInput<IqamaInputs>
+                    control={control}
+                    name="MobileNumber"
+                    placeholder={t("Onboarding.IqamaInputScreen.mobilePlaceholder")}
+                  />
                 </View>
               </View>
               <TextInput

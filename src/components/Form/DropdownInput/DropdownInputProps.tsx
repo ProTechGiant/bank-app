@@ -3,6 +3,8 @@ import { Control, FieldValues, Path, PathValue } from "react-hook-form";
 import InputBox from "../internal/InputBox";
 
 export default interface DropdownInputProps<T extends FieldValues> {
+  autoselect?: boolean;
+  buttonLabel: string;
   control: Control<T>;
   fullHeight?: boolean;
   extra?: React.ComponentProps<typeof InputBox>["extraStart"];
@@ -12,6 +14,4 @@ export default interface DropdownInputProps<T extends FieldValues> {
   name: Path<T>;
   label?: string;
   options: Array<{ label: string; value: PathValue<T, Path<T>>; disabled?: boolean }>;
-  buttonLabel: string;
-  autoselect: boolean;
 }

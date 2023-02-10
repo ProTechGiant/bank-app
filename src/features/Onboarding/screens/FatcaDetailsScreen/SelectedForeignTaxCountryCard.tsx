@@ -3,17 +3,22 @@ import { Pressable, View, ViewStyle } from "react-native";
 import { EditBordered } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import useNavigation from "@/navigation/use-navigation";
+import { mockCountryList } from "@/mocks/countryListData";
 import { useThemeStyles } from "@/theme";
 
-interface SelectedFtrCountry {
+interface SelectedForeignTaxCountryCardProps {
   index: number;
-  country: string;
-  uniqueReference: string;
+  countryName: string | undefined;
+  taxReferenceNumber: string | undefined;
+  onPress: (index: number) => void;
 }
 
-const SelectedFtrCard = ({ index, country, uniqueReference }: SelectedFtrCountry) => {
-  const navigation = useNavigation();
+export default function SelectedForeignTaxCountryCard({
+  index,
+  countryName,
+  taxReferenceNumber,
+  onPress,
+}: SelectedForeignTaxCountryCardProps) {
   const detailsCardStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
     borderRadius: theme.radii.small,
@@ -21,24 +26,17 @@ const SelectedFtrCard = ({ index, country, uniqueReference }: SelectedFtrCountry
     paddingVertical: theme.spacing["16p"],
     minHeight: 100,
   }));
-  const edit = () => {
-    navigation.navigate("Onboarding.CountrySelector", {
-      index: { index },
-      country: { country },
-      uniqueReference: { uniqueReference },
-    });
-  };
 
   return (
-    <View style={detailsCardStyle} key={uniqueReference}>
-      <Stack direction="horizontal" style={{ justifyContent: "space-between" }}>
+    <View style={detailsCardStyle}>
+      <Stack direction="horizontal" justify="space-between">
         <Stack direction="vertical" gap="16p">
           <View>
             <Typography.Text size="callout" weight="medium" color="primaryBase">
               Country
             </Typography.Text>
             <Typography.Text size="footnote" weight="regular" color="neutralBase">
-              {country}
+              {mockCountryList.find(v => v.value === countryName)?.label}
             </Typography.Text>
           </View>
           <View>
@@ -46,16 +44,14 @@ const SelectedFtrCard = ({ index, country, uniqueReference }: SelectedFtrCountry
               Unique Reference
             </Typography.Text>
             <Typography.Text size="footnote" weight="regular" color="neutralBase">
-              {uniqueReference}
+              {taxReferenceNumber}
             </Typography.Text>
           </View>
         </Stack>
-        <Pressable onPress={edit}>
+        <Pressable onPress={() => onPress(index)}>
           <EditBordered />
         </Pressable>
       </Stack>
     </View>
   );
-};
-
-export default SelectedFtrCard;
+}
