@@ -10,7 +10,6 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { useOrderCardContext } from "../../context/OrderCardContext";
-import { CardType } from "../../types";
 import SelectLuxCard from "./SelectLuxCard";
 import SelectStandardCard from "./SelectStandardCard";
 

@@ -17,8 +17,19 @@ interface OrderCardError {
 
 export default function useSubmitOrderCard() {
   return useMutation((values: OrderCardFormValues) => {
-    return api<OrderCardResponse, OrderCardError>("api-dev", "v1", "cards", "POST", undefined, {
-      ...values,
-    });
+    return api<OrderCardResponse, OrderCardError>(
+      "api-dev",
+      "v1",
+      "cards",
+      "POST",
+      undefined,
+      {
+        ...values,
+      },
+      {
+        ["UserId"]: "100116",
+        ["x-correlation-id"]: String(Math.floor(Math.random() * 1000000000)), // Temporary: random correlation ID to avoid 502 error
+      }
+    );
   });
 }
