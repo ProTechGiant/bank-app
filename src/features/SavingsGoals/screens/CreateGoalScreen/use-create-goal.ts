@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { useMutation } from "react-query";
 
 import api from "@/api";
+import { useTemporaryContext } from "@/contexts/TemporaryContext";
 
 import { CreateGoalInput } from "../../types";
 
@@ -17,7 +18,10 @@ interface CreateGoalError {
 }
 
 export default function useCreateGoal() {
-  const userId = "100116";
+  /* Temporary UserId for testing the instructions screen */
+  const { temporaryUserId } = useTemporaryContext();
+  const userId = temporaryUserId;
+
   const correlationId = "1234567";
 
   return useMutation((values: CreateGoalInput) => {
