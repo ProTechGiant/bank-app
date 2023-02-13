@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 
 import api from "@/api";
+import { useTemporaryContext } from "@/contexts/TemporaryContext";
 
 export interface SavingsPotDetailsResponse {
   SavingsPotId: string;
@@ -14,6 +15,8 @@ export interface SavingsPotDetailsResponse {
 }
 
 export default function useSavingsPot(savingsPotId: string) {
+  const { temporaryUserId } = useTemporaryContext();
+
   return useQuery(["savings-pot", { savingsPotId }], () => {
     return api<SavingsPotDetailsResponse>(
       "api-dev",
@@ -24,7 +27,7 @@ export default function useSavingsPot(savingsPotId: string) {
       undefined,
       {
         "X-Correlation-ID": "12345",
-        UserId: "100116",
+        UserId: temporaryUserId,
       }
     );
   });

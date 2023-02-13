@@ -49,7 +49,7 @@ export default function CreateGoalScreen() {
     [i18n.language]
   );
 
-  const { control, handleSubmit, watch } = useForm<CreateGoalInput>({
+  const { control, handleSubmit, watch, setValue } = useForm<CreateGoalInput>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -68,7 +68,13 @@ export default function CreateGoalScreen() {
     Alert.alert(
       t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.title"),
       t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.message"),
-      [{ text: "OK" }]
+      [
+        {
+          text: t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.dontSwitch"),
+          onPress: () => setValue("IsRoundupActive", false),
+        },
+        { text: t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.switch"), style: "default" },
+      ]
     );
   }, [isRoundupActive]);
 

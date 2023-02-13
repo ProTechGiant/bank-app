@@ -416,6 +416,8 @@ export const resources = {
           roundUpsAlreadyActiveAlert: {
             title: "Turn on Round-Ups for this saving goal?",
             message: "Round-ups is already turned on for an other saving goal. Do you want to switch to this one?",
+            dontSwitch: "Don't switch",
+            switch: "Switch",
           },
           aboutRoundUpsPanel: {
             title: "About Round-ups",

@@ -1,4 +1,4 @@
-export default class ApiError<TError> extends Error {
+export default class ApiError<TError = unknown> extends Error {
   public statusCode: number;
   public errorContent: TError | undefined;
 

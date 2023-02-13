@@ -52,7 +52,7 @@ export default forwardRef(function MaskedCurrencyInput(
 
   const handleOnBlur = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
     // add a trailing "0" if needed
-    if (numberOfFractionalDigits < 2) setFormattedValue(c => c + "0");
+    if (numberOfFractionalDigits === 1) setFormattedValue(c => c + "0");
 
     onBlur?.(event);
   };

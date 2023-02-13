@@ -9,6 +9,7 @@ import { useThemeStyles } from "@/theme";
 interface LargeCurrencyInputProps<T extends FieldValues> {
   autoFocus?: boolean;
   control: Control<T>;
+  helperText?: string | ((value: number) => string | undefined);
   maxLength?: number;
   name: Path<T>;
 }
@@ -16,6 +17,7 @@ interface LargeCurrencyInputProps<T extends FieldValues> {
 export default function LargeCurrencyInput<T extends FieldValues>({
   autoFocus,
   control,
+  helperText,
   maxLength,
   name,
 }: LargeCurrencyInputProps<T>) {
@@ -23,7 +25,13 @@ export default function LargeCurrencyInput<T extends FieldValues>({
   const [fontSize, setFontSize] = useState<"s" | "m" | "l">("l");
 
   const isError = undefined !== fieldState.error;
-  const helperText = isError ? fieldState.error?.message : undefined;
+  const errorText = isError ? fieldState.error?.message : undefined;
+
+  const resolvedHelperText = isError
+    ? errorText
+    : typeof helperText === "function"
+    ? helperText(field.value)
+    : helperText;
 
   useEffect(() => {
     field.value !== undefined && String(field.value)?.length > 10
@@ -86,13 +94,13 @@ export default function LargeCurrencyInput<T extends FieldValues>({
           SAR
         </Typography.Text>
       </View>
-      {undefined !== helperText && (
+      {undefined !== resolvedHelperText && (
         <Typography.Text
           color={isError ? "errorBase" : "primaryBase"}
           size="body"
           weight="regular"
           style={helperTextStyles}>
-          {helperText}
+          {resolvedHelperText}
         </Typography.Text>
       )}
     </View>

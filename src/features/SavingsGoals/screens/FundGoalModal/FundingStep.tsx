@@ -1,11 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { isThisMonth, parse } from "date-fns";
+import { format, isThisMonth, parse } from "date-fns";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ScrollView } from "react-native";
+import { Alert, ScrollView } from "react-native";
 import * as yup from "yup";
 
+import ApiError from "@/api/ApiError";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import DayPickerInput from "@/components/Form/DayPickerInput";
@@ -23,8 +24,8 @@ import { SavingsPotDetailsResponse } from "./use-savings-pot";
 export type FundingType = "recurring-deposit" | "one-time-payment" | "recommended-payment";
 
 interface FundingInput {
-  amount: number;
-  dayOfMonth: number;
+  Amount: number;
+  DayOfMonth: number;
 }
 
 interface FundingStepProps {
@@ -46,53 +47,79 @@ export default function FundingStep({
   const { i18n, t } = useTranslation();
   const fundSavingPot = useFundSavingsPot();
 
-  const validationSchema = useMemo(
-    () =>
-      yup.object().shape({
-        amount: yup
-          .number()
-          .required()
-          .max(data?.MainAccountAmount ?? 0, t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance"))
-          .min(0),
-        dayOfMonth: yup.number().when({
-          is: fundingType !== "one-time-payment",
-          then: yup.number().required(),
-        }),
-      }),
-    [data, fundingType, i18n.language]
+  const todayDayOfMonth = new Date().getDate();
+  const targetIsThisMonth = useMemo(
+    () => (data?.TargetDate ? isThisMonth(parse(data?.TargetDate, "yyyy-MM-dd", new Date())) : false),
+    [data?.TargetDate]
   );
+
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      Amount: yup
+        .number()
+        .required()
+        .min(0.01)
+        .when("DayOfMonth", {
+          is: (value: number) => value === todayDayOfMonth,
+          then: yup
+            .number()
+            .max(data?.MainAccountAmount ?? 0, t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance")),
+        }),
+      DayOfMonth: yup.number().when({
+        is: fundingType !== "one-time-payment",
+        then: yup.number().required(),
+      }),
+    });
+  }, [data, fundingType, i18n.language]);
 
   const { control, handleSubmit, watch } = useForm<FundingInput>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      amount: undefined !== data && fundingType === "recommended-payment" ? data.RecommendedAmount : 0,
-      dayOfMonth: fundingType !== "one-time-payment" ? new Date().getDate() : undefined,
+      Amount: undefined !== data && fundingType === "recommended-payment" ? data.RecommendedAmount : 0,
+      DayOfMonth: fundingType !== "one-time-payment" ? new Date().getDate() : undefined,
     },
   });
 
   const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
-  const depositAmount = watch("amount");
-  const shouldShowConfirmationWithActionButtons = data?.GoalAmount === 0;
+  const [confirmationNextPaymentDate, setConfirmationNextPaymentDate] = useState<string | undefined>();
+  const depositAmount = watch("Amount");
+  const shouldShowConfirmationWithActionButtons = data?.GoalBalance === 0;
 
   const handleOnClose = () => {
     navigation.goBack();
   };
 
   const handleOnSubmit = async (values: FundingInput) => {
-    await fundSavingPot.mutateAsync();
-    setIsConfirmationVisible(true);
+    if (undefined === data) return;
+
+    try {
+      const response = await fundSavingPot.mutateAsync({
+        ...values,
+        SavingsPotId: data.SavingsPotId,
+        StartingDate: fundingType !== "one-time-payment" ? new Date() : undefined,
+      });
+
+      setConfirmationNextPaymentDate(response.NextPaymentDate);
+      setIsConfirmationVisible(true);
+    } catch (error) {
+      Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
+        {
+          text: "OK",
+          onPress: () => navigation.goBack(),
+        },
+      ]);
+
+      if (error instanceof ApiError) {
+        __DEV__ && console.error("Could not fund savings pot: " + (error as ApiError)?.errorContent);
+      }
+    }
   };
 
   const handleOnContinuePress = () => {
     if (fundingType === "one-time-payment") return onContinueWithRecurringDepositPress();
     return onContinueWithOneTimePaymentPress();
   };
-
-  const targetIsThisMonth = useMemo(
-    () => (data?.TargetDate ? isThisMonth(parse(data?.TargetDate, "yyyy-MM-dd", new Date())) : false),
-    [data?.TargetDate]
-  );
 
   const i18nKey = fundingType === "one-time-payment" ? "oneTimeDeposit" : "recurringDeposit";
 
@@ -110,8 +137,13 @@ export default function FundingStep({
             <LargeCurrencyInput
               autoFocus
               control={control}
+              helperText={currentValue => {
+                if (undefined !== data && currentValue > data?.MainAccountAmount) {
+                  return t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance");
+                }
+              }}
               maxLength={16} // 10 digits and 2 decimals
-              name="amount"
+              name="Amount"
             />
             {fundingType !== "one-time-payment" && (
               <DayPickerInput
@@ -119,14 +151,14 @@ export default function FundingStep({
                 control={control}
                 headerText={t("SavingsGoals.FundGoalModal.FundingStep.dayPickerHeader")}
                 helperText={currentValue => {
-                  if (targetIsThisMonth && currentValue >= new Date().getDate()) {
+                  if (targetIsThisMonth && currentValue >= todayDayOfMonth) {
                     return t("SavingsGoals.FundGoalModal.FundingStep.helperIfDayIsAfterTarget");
                   }
 
                   if (currentValue > 28) return t("SavingsGoals.FundGoalModal.FundingStep.helperIfDayExceeds28");
                 }}
                 label={t("SavingsGoals.FundGoalModal.FundingStep.monthly")}
-                name="dayOfMonth"
+                name="DayOfMonth"
                 placeholder={t("SavingsGoals.FundGoalModal.FundingStep.dayPickerPlaceholder")}
               />
             )}
@@ -144,7 +176,10 @@ export default function FundingStep({
         title={t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.modalTitle`)}
         message={t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.modalText`, {
           amount: depositAmount.toLocaleString("en-US", { style: "decimal" }),
-          firstPaymentDate: "tomorrow", // TODO
+          firstPaymentDate:
+            undefined !== confirmationNextPaymentDate
+              ? format(parse(confirmationNextPaymentDate, "yyyy-MM-dd", new Date()), "d MMM, yyyy")
+              : "-",
         })}
         isVisible={isConfirmationVisible}
         primaryButton={
