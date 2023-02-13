@@ -422,7 +422,7 @@ export const resources = {
           aboutRoundUpsPanel: {
             title: "About Round-ups",
             content:
-              "You can Round-Up each purchase you make to the next whole Saudi Riyal and then deposit your spare change to a Savings Pot.",
+              "You can Round-Up each purchase you make to the next 5 SAR and then deposit your spare change to a Savings Pot.",
             smallText: "Find out more in our FAQs.",
           },
           button: "Continue",
