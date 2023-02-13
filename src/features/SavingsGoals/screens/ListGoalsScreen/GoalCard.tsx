@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -20,6 +20,7 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
     padding: theme.spacing["12p"],
     backgroundColor: theme.palette["neutralBase-50"],
     borderRadius: theme.radii.extraSmall,
@@ -32,13 +33,13 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
   }));
 
   const goalTitleStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["8p"],
+    marginBottom: theme.spacing["16p"],
   }));
 
   return (
     <Pressable onPress={onPress}>
       <Stack direction="horizontal" justify="space-between" style={containerStyle}>
-        <View>
+        <View style={styles.goalInfoContainer}>
           <View style={goalTitleStyle}>
             <Typography.Text size="callout" weight="semiBold">
               {title}
@@ -62,3 +63,9 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  goalInfoContainer: {
+    flex: 1,
+  },
+});
