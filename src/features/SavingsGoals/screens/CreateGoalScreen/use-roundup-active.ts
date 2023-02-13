@@ -1,12 +1,15 @@
 import { useQuery } from "react-query";
 
 import api from "@/api";
+import { useTemporaryContext } from "@/contexts/TemporaryContext";
 
 interface RoundUpActiveResponse {
   IsRoundUpActive: boolean;
 }
 
 export default function useIsRoundupActive() {
+  const { temporaryUserId } = useTemporaryContext();
+
   return useQuery(["savings-pots", "roundup-active"], () => {
     return api<RoundUpActiveResponse>(
       "api-dev",
@@ -16,7 +19,7 @@ export default function useIsRoundupActive() {
       undefined,
       undefined,
       {
-        ["UserId"]: "100116",
+        ["UserId"]: temporaryUserId,
         ["x-correlation-id"]: "1234567",
       }
     );

@@ -18,17 +18,9 @@ interface CreateGoalError {
 }
 
 export default function useCreateGoal() {
-  /* Temporary UserId for testing the instructions screen */
   const { temporaryUserId } = useTemporaryContext();
-  const userId = temporaryUserId;
-
-  const correlationId = "1234567";
 
   return useMutation((values: CreateGoalInput) => {
-    if (!userId || !correlationId) {
-      throw new Error("Need valid `userId` and `correlationId` to be available");
-    }
-
     return api<CreateGoalResponse, CreateGoalError>(
       "api-dev",
       "v1",
@@ -37,8 +29,8 @@ export default function useCreateGoal() {
       undefined,
       { ...values, targetDate: format(values.TargetDate, "yyyy-MM-d") },
       {
-        ["UserId"]: userId,
-        ["x-correlation-id"]: correlationId,
+        ["UserId"]: temporaryUserId,
+        ["x-correlation-id"]: "1234567",
       }
     );
   });

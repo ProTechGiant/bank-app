@@ -18,7 +18,7 @@ export interface MaskedCurrencyInputProps extends RNTextInputProps_ {
 }
 
 export default forwardRef(function MaskedCurrencyInput(
-  { onBlur, onChange, value, ...restProps }: MaskedCurrencyInputProps,
+  { maxLength, onBlur, onChange, value, ...restProps }: MaskedCurrencyInputProps,
   ref: ForwardedRef<RNTextInput>
 ) {
   const [formattedValue, setFormattedValue] = useState(() => (typeof value === "number" ? mask(value) : undefined));
@@ -30,25 +30,21 @@ export default forwardRef(function MaskedCurrencyInput(
     setFormattedValue(typeof value === "number" ? mask(value) : undefined);
   }
 
-  const handleOnChangeText = (value: string) => {
-    const rawValue = unmask(value);
-    const lastCharacter = rawValue.substring(rawValue.length - 1);
-    const endsOnDecimalSep = lastCharacter === DEC_SEPARATOR;
-    const numberValue = endsOnDecimalSep ? Number(rawValue.substring(0, rawValue.length - 1)) : Number(rawValue);
+  const handleOnChangeText = (value_: string) => {
+    const value = unmask(value_);
+    const numberValue = Number(value.substring(value.length - 1) !== DEC_SEPARATOR ? value : value + "0");
 
-    // prevent illegal input
-    if (Number.isNaN(numberValue)) return;
+    // validate input
+    if (Number.isNaN(numberValue) || countDotsInString(value) > 1) return;
 
-    const fractionalDigits = value.includes(DEC_SEPARATOR) ? value.length - value.lastIndexOf(DEC_SEPARATOR) - 1 : 0;
-    // do not allow to enter more than 2 fractional digits
-    if (fractionalDigits > 2) return;
+    const intValue = Math.floor(numberValue);
+    const decimalPosition = value.lastIndexOf(".");
 
-    // Format value with thousands separators and possibly fractional digits
-    const includeTrailingZero = lastCharacter === "0" && rawValue.includes(DEC_SEPARATOR);
-    const includeDecimalSep = fractionalDigits !== 2 && (lastCharacter === DEC_SEPARATOR || includeTrailingZero);
-    setFormattedValue(mask(numberValue) + (includeDecimalSep ? "." : "") + (includeTrailingZero ? "0" : ""));
+    const fraction = -1 !== decimalPosition ? value.substring(decimalPosition) : "";
+    if (fraction.length > 3) return;
 
-    // Return value to parent
+    setFormattedValue(mask(intValue) + fraction);
+
     const outputValue = Math.max(numberValue, 0);
     lastOutputValue.current = outputValue;
     onChange(outputValue);
@@ -56,13 +52,15 @@ export default forwardRef(function MaskedCurrencyInput(
 
   const handleOnBlur = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
     // add a trailing "0" if needed
-    if (undefined !== formattedValue && formattedValue.includes(DEC_SEPARATOR)) {
-      const fractionalDigits = formattedValue.length - formattedValue.lastIndexOf(DEC_SEPARATOR) - 1;
-      if (fractionalDigits < 2) setFormattedValue(c => c + "0");
-    }
+    if (numberOfFractionalDigits < 2) setFormattedValue(c => c + "0");
 
     onBlur?.(event);
   };
+
+  let numberOfFractionalDigits = 0;
+  if (undefined !== formattedValue && formattedValue.includes(DEC_SEPARATOR)) {
+    numberOfFractionalDigits = formattedValue.length - formattedValue.lastIndexOf(DEC_SEPARATOR) - 1;
+  }
 
   return (
     <RNTextInput
@@ -71,6 +69,9 @@ export default forwardRef(function MaskedCurrencyInput(
       inputMode="decimal"
       onBlur={handleOnBlur}
       onChangeText={handleOnChangeText}
+      // prevent jittering by setting max length at native side when value already has 2 fractional digits
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      maxLength={numberOfFractionalDigits == 2 ? formattedValue!.length : maxLength}
       value={formattedValue}
       pointerEvents="box-only"
       textAlign={I18nManager.isRTL ? "right" : "left"}
@@ -87,4 +88,8 @@ function mask(number_: number) {
 
 function unmask(value: string) {
   return value.replaceAll(TH_SEPARATOR, "");
+}
+
+export function countDotsInString(str: string) {
+  return str.match(/\./g)?.length || 0;
 }

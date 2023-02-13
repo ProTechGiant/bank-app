@@ -44,6 +44,7 @@ export default function CurrencyInput<T extends FieldValues>({
     fontSize: theme.typography.text.sizes.callout,
     fontWeight: theme.typography.text.weights.regular,
     padding: 0,
+    margin: 0,
   }));
 
   if (Platform.OS === "web") {
@@ -72,7 +73,7 @@ export default function CurrencyInput<T extends FieldValues>({
           onChange={value => field.onChange(value)}
           onFocus={() => setIsFocused(true)}
           maxLength={maxLength}
-          placeholder={placeholder ?? undefined}
+          placeholder={field.value !== undefined ? undefined : placeholder ?? undefined}
           placeholderTextColor={placeholderTextColor}
           style={textStyles}
           value={field.value}
@@ -90,7 +91,7 @@ export default function CurrencyInput<T extends FieldValues>({
 const styles = StyleSheet.create({
   currency: {
     marginLeft: Platform.OS === "web" ? undefined : 4,
-    marginTop: Platform.OS === "web" ? undefined : Platform.OS === "ios" ? -0.5 : -3,
+    marginTop: Platform.OS === "web" ? undefined : Platform.OS === "ios" ? -0.5 : -1.5,
   },
   innerContainer: {
     alignItems: "center",

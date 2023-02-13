@@ -74,7 +74,7 @@ export default function TemporaryLandingScreen() {
           keyboardType="number-pad"
           blurOnSubmit={false}
           label="User ID for Savings Goals Screens"
-          placeholder="E.g. 100116"
+          placeholder="E.g. 2222225"
         />
       </View>
       <View style={{ margin: 20 }}>
