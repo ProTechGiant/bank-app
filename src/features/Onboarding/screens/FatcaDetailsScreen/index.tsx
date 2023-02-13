@@ -109,17 +109,19 @@ export default function FatcaDetailsScreen() {
   };
 
   const handleOnSubmit = async (values: FatcaFormInput) => {
-    try {
-      console.log(values); // !TODO remove once BE api is complete
+    navigation.navigate("Onboarding.TermsAndConditions");
+    // waiting for PC-5349 development to be completed
+    // try {
+    //   console.log(values); // !TODO remove once BE api is complete
 
-      await sendFatcaDetails.mutateAsync(values);
-      navigation.navigate("Onboarding.Terms");
-    } catch (error) {
-      Alert.alert(
-        "Sorry, could not complete your request",
-        error instanceof ApiError<ApiOnboardingError> ? error.errorContent.Message : undefined
-      );
-    }
+    //   await sendFatcaDetails.mutateAsync(values);
+    //   navigation.navigate("Onboarding.TermsAndConditions");
+    // } catch (error) {
+    //   Alert.alert(
+    //     "Sorry, could not complete your request",
+    //     error instanceof ApiError<ApiOnboardingError> ? error.errorContent.Message : undefined
+    //   );
+    // }
   };
 
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({

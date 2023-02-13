@@ -17,7 +17,7 @@ export default function useTermsConditions() {
       throw new Error("Cannot fetch customers/terms-conditions without `userId` and `correlationId`");
 
     const workflowTask = await fetchLatestWorkflowTask();
-    if (!workflowTask || workflowTask.name !== "Terms")
+    if (!workflowTask || workflowTask.name !== "T&C")
       throw new Error("Available workflowTaskId is not applicable to customers/terms-conditions");
 
     return api<string, ApiOnboardingError>(
@@ -27,10 +27,10 @@ export default function useTermsConditions() {
       "POST",
       undefined,
       {
-        termsAndConditionsFlag: true,
-        termsAndConditionsVersionNumber: "1.0",
-        declarationsFlag: true,
-        declarationsVersionNumber: "1.0",
+        TermsAndConditionsFlag: true,
+        TermsAndConditionsVersionNumber: "1.0",
+        DeclarationsFlag: true,
+        DeclarationsVersionNumber: "1.0",
       },
       {
         ["userId"]: userId,

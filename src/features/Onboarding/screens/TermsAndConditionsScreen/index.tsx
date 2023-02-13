@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ScrollView, View, ViewStyle } from "react-native";
+import { Alert, ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import ContentContainer from "@/components/ContentContainer";
@@ -17,13 +17,14 @@ import { useThemeStyles } from "@/theme";
 
 import Declaration from "./Declaration";
 import Terms from "./Terms";
+import useTermsConditions from "./use-terms-conditions";
 
 interface TermsAndConditionsForm {
   termAndConditionsAreCorrect: boolean;
   customerDeclarationAreCorrect: boolean;
 }
 
-const schema = yup.object({
+const validationSchema = yup.object({
   termAndConditionsAreCorrect: yup.boolean().isTrue(),
   customerDeclarationAreCorrect: yup.boolean().isTrue(),
 });
@@ -31,18 +32,21 @@ const schema = yup.object({
 const TermsAndConditionsScreen = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const termsConditionsAsync = useTermsConditions();
 
   const { control, handleSubmit } = useForm<TermsAndConditionsForm>({
     mode: "onBlur",
-    resolver: yupResolver(schema),
-    defaultValues: {
-      termAndConditionsAreCorrect: false,
-      customerDeclarationAreCorrect: false,
-    },
+    resolver: yupResolver(validationSchema),
   });
 
-  const handleOnSubmit = () => {
-    navigation.navigate("Onboarding.Passcode");
+  const handleOnSubmit = async () => {
+    try {
+      await termsConditionsAsync.mutateAsync();
+      navigation.navigate("Onboarding.Passcode");
+    } catch (error) {
+      Alert.alert(t("Onboarding.TermsAndConditions.errorText.alert"));
+      __DEV__ && console.error("Could not confirm T&Cs: ", error);
+    }
   };
 
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({

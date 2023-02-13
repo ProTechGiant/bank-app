@@ -162,6 +162,9 @@ export const resources = {
           checkBoxTermsLabel: "I agree to the Terms and Conditions",
           checkBoxDeclarationLabel: "I agree to the Customer Declaration",
           continue: "Continue",
+          errorText: {
+            alert: "Woops. Could not confirm T&Cs",
+          },
         },
       },
       Settings: {

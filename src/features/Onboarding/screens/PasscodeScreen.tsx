@@ -5,7 +5,7 @@ import Typography from "@/components/Typography";
 const PasscodeScreen = () => {
   return (
     <Page>
-      <NavHeader title="Your PIN" backButton={true} barStyle="dark-content" rightComponent="close" />
+      <NavHeader title="Your PIN" withBackButton={false} color="black" end="close" />
       <Typography.Text>Your Passcode</Typography.Text>
     </Page>
   );

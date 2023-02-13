@@ -35,7 +35,7 @@ export type OnboardingStackParams = {
   "Onboarding.Financial": undefined;
   "Onboarding.Fatca": FatcaScreenTypes | undefined;
   "Onboarding.CountrySelector": OnboardingCountrySelectorParams;
-  "Onboarding.Terms": undefined;
+  "Onboarding.TermsAndConditions": undefined;
   "Onboarding.Passcode": undefined;
 };
 
@@ -57,7 +57,7 @@ export default function OnboardingStack() {
           name="Onboarding.CountrySelector"
           options={{ presentation: "modal" }}
         />
-        <Stack.Screen component={TermsAndConditionsScreen} name="Onboarding.Terms" />
+        <Stack.Screen component={TermsAndConditionsScreen} name="Onboarding.TermsAndConditions" />
         <Stack.Screen component={PasscodeScreen} name="Onboarding.Passcode" />
       </Stack.Navigator>
     </OnboardingContextProvider>
