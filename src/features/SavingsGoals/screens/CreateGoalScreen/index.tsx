@@ -3,7 +3,7 @@ import { differenceInDays } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Platform, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as Yup from "yup";
 
@@ -60,6 +60,7 @@ export default function CreateGoalScreen() {
 
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
   const isRoundupActive = watch("IsRoundupActive");
+  const targetDate = watch("TargetDate");
 
   useEffect(() => {
     if (!isRoundupActive) return;
@@ -160,8 +161,8 @@ export default function CreateGoalScreen() {
                   name="TargetDate"
                   buttonText={t("SavingsGoals.CreateGoalScreen.form.targetDate.datePickerButton")}
                   minimumDate={new Date()}
-                  helperText={currentValue => {
-                    return differenceInDays(currentValue, new Date()) < 31
+                  helperText={currentDate => {
+                    return differenceInDays(Platform.OS === "ios" ? currentDate : targetDate, new Date()) < 31
                       ? t("SavingsGoals.CreateGoalScreen.form.targetDate.helperText")
                       : undefined;
                   }}
