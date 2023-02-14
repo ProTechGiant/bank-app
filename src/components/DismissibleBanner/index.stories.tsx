@@ -24,7 +24,7 @@ export default {
 };
 
 export const DismissibleBanner: ComponentStory<typeof DismissibleBanner_> = args => {
-  return <DismissibleBanner_ {...args} icon={<UserIcon />} />;
+  return <DismissibleBanner_ {...args} icon={<UserIcon color="#ffffff" />} />;
 };
 
 DismissibleBanner.play = async ({ args, canvasElement }) => {

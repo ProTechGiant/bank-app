@@ -7,6 +7,7 @@ export default {
   component: BankCard_,
   args: {
     height: 200,
+    width: "100%",
     variant: "standard",
   },
 };

@@ -29,7 +29,7 @@ export default {
 export const Currency: ComponentStory<typeof CurrencyInput_> = args => {
   const { control } = useForm({
     defaultValues: {
-      example: null,
+      example: undefined,
     },
   });
 
