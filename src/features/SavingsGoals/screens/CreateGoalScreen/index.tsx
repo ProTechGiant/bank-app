@@ -44,7 +44,7 @@ export default function CreateGoalScreen() {
           .required(t("SavingsGoals.CreateGoalScreen.form.amount.validation.required"))
           .min(0.01, t("SavingsGoals.CreateGoalScreen.form.name.validation.required"))
           .max(9999999999.99, t("SavingsGoals.CreateGoalScreen.form.amount.validation.invalid")),
-        TargetDate: Yup.date().required(t("SavingsGoals.CreateGoalScreen.form.amount.validation.required")),
+        TargetDate: Yup.date().required(t("SavingsGoals.CreateGoalScreen.form.targetDate.validation.required")),
       }),
     [i18n.language]
   );

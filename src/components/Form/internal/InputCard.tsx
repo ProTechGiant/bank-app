@@ -1,3 +1,4 @@
+import { ControllerFieldState } from "react-hook-form";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
@@ -8,9 +9,12 @@ interface InputCardProps {
   onPress?: () => void;
   label?: string | null | false;
   value: React.ReactNode;
+  fieldState?: ControllerFieldState;
 }
 
-export default function InputCard({ helperText, label, onPress, value }: InputCardProps) {
+export default function InputCard({ helperText, fieldState, label, onPress, value }: InputCardProps) {
+  const isError = fieldState?.error !== undefined && fieldState.isTouched;
+
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     textAlign: "center",
     paddingHorizontal: theme.spacing["16p"],
@@ -18,7 +22,7 @@ export default function InputCard({ helperText, label, onPress, value }: InputCa
     borderRadius: theme.radii.small,
   }));
 
-  const inputStype = useThemeStyles<ViewStyle>(theme => ({
+  const inputStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: theme.spacing["16p"],
@@ -35,16 +39,16 @@ export default function InputCard({ helperText, label, onPress, value }: InputCa
 
   return (
     <View style={containerStyle}>
-      <Pressable onPress={onPress} style={inputStype}>
+      <Pressable onPress={onPress} style={inputStyle}>
         <Typography.Text weight="medium" color="neutralBase+30">
           {label}
         </Typography.Text>
         <View style={styles.value}>{value}</View>
       </Pressable>
-      {!!helperText && (
+      {(!!helperText || isError) && (
         <View style={helperTextContainerStyle}>
-          <Typography.Text color="neutralBase" size="footnote">
-            {helperText}
+          <Typography.Text color={isError ? "errorBase" : "neutralBase"} size="footnote">
+            {isError ? fieldState.error?.message : helperText}
           </Typography.Text>
         </View>
       )}

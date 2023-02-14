@@ -34,7 +34,7 @@ export default function DatePickerInput<T extends FieldValues>({
   minimumDate,
   format: format_ = "d MMM, yyyy",
 }: DatePickerInputProps<T>) {
-  const { field } = useController({ control, name });
+  const { field, fieldState } = useController({ control, name });
 
   const [isVisible, setIsVisible] = useState(false);
   const [selectedValue, setSelectedValue] = useState(field.value ?? new Date());
@@ -76,10 +76,7 @@ export default function DatePickerInput<T extends FieldValues>({
         if (event.type === "set") {
           field.onChange(date);
         }
-
-        if (event.type === "dismissed") {
-          field.onBlur();
-        }
+        field.onBlur();
       },
     });
   };
@@ -103,6 +100,7 @@ export default function DatePickerInput<T extends FieldValues>({
     <>
       <InputCard
         label={label}
+        fieldState={fieldState}
         helperText={Platform.OS !== "ios" ? resolvedHelperText : undefined}
         onPress={handleOnOpen}
         value={
