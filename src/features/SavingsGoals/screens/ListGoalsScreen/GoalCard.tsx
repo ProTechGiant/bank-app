@@ -17,6 +17,8 @@ interface GoalCardProps {
 }
 
 export default function GoalCard({ title, amountSaved, totalAmount, date, onPress }: GoalCardProps) {
+  const numberFormatter = Intl.NumberFormat("en-US");
+
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -50,8 +52,8 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
             weight="medium"
             color={amountSaved !== 0 ? "complimentBase" : "neutralBase+30"}>
             {t("SavingsGoals.SavingsGoalsScreen.goalCard.amount", {
-              amountSaved: amountSaved,
-              totalAmount: totalAmount,
+              amountSaved: numberFormatter.format(Number(amountSaved)),
+              totalAmount: numberFormatter.format(Number(totalAmount)),
             })}
           </Typography.Text>
           <Typography.Text size="footnote" color="neutralBase">
