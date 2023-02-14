@@ -13,6 +13,7 @@ type RNTextInputProps_ = Omit<
 >;
 
 export interface MaskedCurrencyInputProps extends RNTextInputProps_ {
+  maxLength?: number; // maximum number of digits (without fractional part which is always max 2)
   onChange: (value: number) => void;
   value?: number | undefined;
 }
@@ -33,12 +34,18 @@ export default forwardRef(function MaskedCurrencyInput(
   const handleOnChangeText = (value_: string) => {
     const value = unmask(value_);
     const numberValue = Number(value.substring(value.length - 1) !== DEC_SEPARATOR ? value : value + "0");
+    const decimalSeparatorCount = countDotsInString(value);
 
     // validate input
-    if (Number.isNaN(numberValue) || countDotsInString(value) > 1) return;
+    if (Number.isNaN(numberValue) || decimalSeparatorCount > 1) return;
 
     const intValue = Math.floor(numberValue);
     const decimalPosition = value.lastIndexOf(".");
+
+    // if current integer part is at max length, only allow fractional digits to be entered
+    if (undefined !== maxLength && numberOfDigits(intValue) > maxLength && 0 === decimalSeparatorCount) {
+      if (undefined !== formattedValue && formattedValue.charAt(formattedValue.length - 1) !== DEC_SEPARATOR) return;
+    }
 
     const fraction = -1 !== decimalPosition ? value.substring(decimalPosition) : "";
     if (fraction.length > 3) return;
@@ -57,10 +64,18 @@ export default forwardRef(function MaskedCurrencyInput(
     onBlur?.(event);
   };
 
+  // prevent jittering by setting max length at native side when value already has 2 fractional digits
   let numberOfFractionalDigits = 0;
   if (undefined !== formattedValue && formattedValue.includes(DEC_SEPARATOR)) {
     numberOfFractionalDigits = formattedValue.length - formattedValue.lastIndexOf(DEC_SEPARATOR) - 1;
   }
+
+  // allow maxLength digits PLUS 2 fractional digits
+  const numberLength =
+    undefined !== maxLength ? maxLength + (maxLength > 3 ? Math.floor(maxLength / 3) : 0) + 3 : undefined;
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const resolvedMaxLength = numberOfFractionalDigits === 2 ? formattedValue!.length : numberLength;
 
   return (
     <RNTextInput
@@ -69,9 +84,7 @@ export default forwardRef(function MaskedCurrencyInput(
       inputMode="decimal"
       onBlur={handleOnBlur}
       onChangeText={handleOnChangeText}
-      // prevent jittering by setting max length at native side when value already has 2 fractional digits
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      maxLength={numberOfFractionalDigits == 2 ? formattedValue!.length : maxLength}
+      maxLength={resolvedMaxLength}
       value={formattedValue}
       pointerEvents="box-only"
       textAlign={I18nManager.isRTL ? "right" : "left"}
@@ -92,4 +105,8 @@ function unmask(value: string) {
 
 export function countDotsInString(str: string) {
   return str.match(/\./g)?.length || 0;
+}
+
+export function numberOfDigits(value: number) {
+  return (Math.log(value) * Math.LOG10E + 1) | 0;
 }

@@ -22,11 +22,10 @@ import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 import { alphaNumericSpaceRegExp } from "@/utils";
 
+import { useCreateGoal, useIsRoundupActive } from "../../query-hooks";
 import { CreateGoalInput } from "../../types";
 import ToggleCard from "./ToggleCard";
 import ToggleCardGroup from "./ToggleCardGroup";
-import useCreateGoal from "./use-create-goal";
-import useIsRoundupActive from "./use-roundup-active";
 
 export default function CreateGoalScreen() {
   const navigation = useNavigation();
@@ -151,7 +150,7 @@ export default function CreateGoalScreen() {
                   label={t("SavingsGoals.CreateGoalScreen.form.amount.label")}
                   name="GoalAmount"
                   placeholder={t("SavingsGoals.CreateGoalScreen.form.amount.placeholder")}
-                  maxLength={16} // 10 digits and 2 decimals
+                  maxLength={10}
                 />
                 <DatePickerInput
                   control={control}

@@ -3,10 +3,9 @@ import { format, isThisMonth, parse } from "date-fns";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, ScrollView } from "react-native";
+import { Alert, Keyboard, ScrollView } from "react-native";
 import * as yup from "yup";
 
-import ApiError from "@/api/ApiError";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import DayPickerInput from "@/components/Form/DayPickerInput";
@@ -16,10 +15,9 @@ import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 
-import FromAccount from "../../components/FromAccount";
-import LargeCurrencyInput from "../../components/LargeCurrencyInput";
-import useFundSavingsPot from "./use-fund-savings-pot";
-import { SavingsPotDetailsResponse } from "./use-savings-pot";
+import { SavingsPotDetailsResponse, useFundSavingsPot } from "../../query-hooks";
+import FromAccount from "./FromAccount";
+import LargeCurrencyInput from "./LargeCurrencyInput";
 
 export type FundingType = "recurring-deposit" | "one-time-payment" | "recommended-payment";
 
@@ -60,7 +58,8 @@ export default function FundingStep({
         .required()
         .min(0.01)
         .when("DayOfMonth", {
-          is: (value: number) => value === todayDayOfMonth,
+          // when recurring payment is today OR its a one-time payment, the user must have sufficient balance
+          is: (value: number) => value === todayDayOfMonth || fundingType === "one-time-payment",
           then: yup
             .number()
             .max(data?.MainAccountAmount ?? 0, t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance")),
@@ -90,30 +89,47 @@ export default function FundingStep({
     navigation.goBack();
   };
 
-  const handleOnSubmit = async (values: FundingInput) => {
-    if (undefined === data) return;
+  const handleOnSubmit = (values: FundingInput) => {
+    if (undefined === data) return Promise.resolve();
+    Keyboard.dismiss();
 
-    try {
-      const response = await fundSavingPot.mutateAsync({
-        ...values,
-        SavingsPotId: data.SavingsPotId,
-        StartingDate: fundingType !== "one-time-payment" ? new Date() : undefined,
-      });
+    // normally using async executors isnt a necessary. but in this case it is, because the Alert
+    // allows to retry the submitting and we want to "remember" the loading state of the form
+    // so it needs to pass through the submit process
 
-      setConfirmationNextPaymentDate(response.NextPaymentDate);
-      setIsConfirmationVisible(true);
-    } catch (error) {
-      Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
-        {
-          text: "OK",
-          onPress: () => navigation.goBack(),
-        },
-      ]);
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise<void>(async resolve => {
+      try {
+        const response = await fundSavingPot.mutateAsync({
+          ...values,
+          SavingsPotId: data.SavingsPotId,
+          StartingDate: fundingType !== "one-time-payment" ? new Date() : undefined,
+        });
 
-      if (error instanceof ApiError) {
-        __DEV__ && console.error("Could not fund savings pot: " + (error as ApiError)?.errorContent);
+        setConfirmationNextPaymentDate(response.NextPaymentDate);
+        setIsConfirmationVisible(true);
+
+        resolve();
+      } catch (error) {
+        Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
+          {
+            text: t("SavingsGoals.FundGoalModal.FundingStep.errorNotNow"),
+            onPress: () => {
+              navigation.goBack();
+              resolve();
+            },
+          },
+          {
+            text: t("SavingsGoals.FundGoalModal.FundingStep.errorTryAgain"),
+            onPress: () => {
+              handleOnSubmit(values)
+                .then(() => resolve())
+                .catch(() => resolve()); // just in case
+            },
+          },
+        ]);
       }
-    }
+    });
   };
 
   const handleOnContinuePress = () => {
@@ -131,7 +147,7 @@ export default function FundingStep({
         title={t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.title`)}
         end={<NavHeader.CloseEndButton onPress={handleOnClose} />}
       />
-      <ScrollView contentContainerStyle={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={{ flex: 1 }} keyboardShouldPersistTaps="handled">
         <ContentContainer style={{ flex: 1, justifyContent: "space-between" }}>
           <Stack align="stretch" direction="vertical" gap="16p">
             <LargeCurrencyInput
@@ -142,7 +158,7 @@ export default function FundingStep({
                   return t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance");
                 }
               }}
-              maxLength={16} // 10 digits and 2 decimals
+              maxLength={10}
               name="Amount"
             />
             {fundingType !== "one-time-payment" && (

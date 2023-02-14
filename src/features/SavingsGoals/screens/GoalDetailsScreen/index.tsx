@@ -28,6 +28,11 @@ export default function GoalDetailsScreen() {
     }, [route.params])
   );
 
+  const handleOnBackPress = () => {
+    if (route.params.redirectToFundingModal) navigation.navigate("SavingsGoals.ListGoalsScreen");
+    else navigation.goBack();
+  };
+
   const handleOnOpenFunding = () => {
     navigation.navigate("SavingsGoals.FundGoalModal", {
       SavingsPotId: route.params.SavingsPotId,
@@ -36,7 +41,7 @@ export default function GoalDetailsScreen() {
 
   return (
     <Page>
-      <NavHeader title="Goal details screen" />
+      <NavHeader onBackPress={handleOnBackPress} title="Goal details screen" />
       <ContentContainer>
         <Button onPress={handleOnOpenFunding}>Open funding modal</Button>
       </ContentContainer>

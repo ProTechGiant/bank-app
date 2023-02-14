@@ -12,8 +12,8 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { useSavingsPots } from "../../query-hooks";
 import GoalCard from "./GoalCard";
-import useSavingsPots from "./use-savings-pots";
 
 const MAX_GOALS = 4;
 
@@ -50,7 +50,6 @@ export default function SavingsGoalsScreen() {
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
     padding: theme.spacing["16p"],
-    marginTop: theme.spacing["8p"],
     minHeight: 100,
     justifyContent: "center",
     borderRadius: theme.radii.extraSmall,
@@ -97,21 +96,21 @@ export default function SavingsGoalsScreen() {
                     onPress={() => handleOnPress(data.SavingsPotId)}
                   />
                 ))}
+                {data !== undefined && savingsGoals.length <= MAX_GOALS - 1 && (
+                  <Pressable onPress={handleOnCreateGoal}>
+                    <View style={buttonStyle}>
+                      <Stack direction="horizontal" gap="16p" align="center">
+                        <View style={iconContainerStyle}>
+                          <AddGoalIcon />
+                        </View>
+                        <Typography.Text color="primaryBase" size="callout" weight="medium">
+                          {t("SavingsGoals.SavingsGoalsScreen.button")}
+                        </Typography.Text>
+                      </Stack>
+                    </View>
+                  </Pressable>
+                )}
               </Stack>
-              {data !== undefined && savingsGoals.length <= MAX_GOALS - 1 && (
-                <Pressable onPress={handleOnCreateGoal}>
-                  <View style={buttonStyle}>
-                    <Stack direction="horizontal" gap="16p" align="center">
-                      <View style={iconContainerStyle}>
-                        <AddGoalIcon />
-                      </View>
-                      <Typography.Text color="primaryBase" size="callout" weight="medium">
-                        {t("SavingsGoals.SavingsGoalsScreen.button")}
-                      </Typography.Text>
-                    </Stack>
-                  </View>
-                </Pressable>
-              )}
             </View>
             <Typography.Text size="footnote" color="neutralBase" style={styles.instructionText}>
               {t("SavingsGoals.SavingsGoalsScreen.instructionText")}

@@ -1,5 +1,5 @@
 import { ControllerFieldState } from "react-hook-form";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Keyboard, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -14,6 +14,11 @@ interface InputCardProps {
 
 export default function InputCard({ helperText, fieldState, label, onPress, value }: InputCardProps) {
   const isError = fieldState?.error !== undefined && fieldState.isTouched;
+
+  const handleOnPress = () => {
+    Keyboard.dismiss();
+    onPress?.();
+  };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     textAlign: "center",
@@ -39,7 +44,7 @@ export default function InputCard({ helperText, fieldState, label, onPress, valu
 
   return (
     <View style={containerStyle}>
-      <Pressable onPress={onPress} style={inputStyle}>
+      <Pressable onPress={handleOnPress} style={inputStyle}>
         <Typography.Text weight="medium" color="neutralBase+30">
           {label}
         </Typography.Text>

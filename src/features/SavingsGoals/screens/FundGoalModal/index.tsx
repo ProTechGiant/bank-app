@@ -9,9 +9,9 @@ import Page from "@/components/Page";
 import MainStackParams from "@/navigation/MainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
+import { useSavingsPot } from "../../query-hooks";
 import FundingStep, { FundingType } from "./FundingStep";
 import PickOptionStep from "./PickOptionStep";
-import useSavingsPot from "./use-savings-pot";
 
 type StepType = "pick-funding-method" | FundingType;
 

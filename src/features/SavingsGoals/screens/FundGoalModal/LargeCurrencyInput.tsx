@@ -117,17 +117,23 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     marginVertical: 8,
   },
-  largeCurrency: { marginTop: 10 },
+  largeCurrency: {
+    marginTop: 10,
+  },
   largeText: {
     fontSize: 56, // not in core theme
     lineHeight: 67,
   },
-  mediumCurrency: { marginTop: 20 },
+  mediumCurrency: {
+    marginTop: 20,
+  },
   mediumText: {
     fontSize: 38, // not in core theme
     lineHeight: 48,
   },
-  smallCurrency: { marginTop: 17 },
+  smallCurrency: {
+    marginTop: 17,
+  },
   smallText: {
     fontSize: 30, // not in core theme
     lineHeight: 34,

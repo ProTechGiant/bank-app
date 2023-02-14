@@ -344,7 +344,7 @@ export const resources = {
       SavingsGoals: {
         fromAccount: {
           from: "From",
-          mainAccount: "Main account",
+          mainAccount: "Main Account",
         },
         LandingScreen: {
           title: "Achieve your Savings Goals",
@@ -467,6 +467,8 @@ export const resources = {
               continueButton: "Add recurring deposit",
               skipButton: "Not now",
             },
+            errorTryAgain: "Try again",
+            errorNotNow: "Not now",
           },
         },
       },
