@@ -20,7 +20,7 @@ export default function SelectLuxCard({ onPress }: { onPress: () => void }) {
     <View style={container}>
       <BankCard variant="lux" width="100%" />
       <View style={styles.bottom}>
-        <Typography.Text size="caption1" color="neutralBase" style={styles.text}>
+        <Typography.Text size="caption1" color="neutralBase" align="center" style={styles.text}>
           {t("ApplyCards.ApplyForCardScreen.lux.remarks")}
         </Typography.Text>
         <Button block onPress={onPress}>
@@ -37,6 +37,5 @@ const styles = StyleSheet.create({
   },
   text: {
     marginVertical: 12,
-    textAlign: "center",
   },
 });

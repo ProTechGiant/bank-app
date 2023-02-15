@@ -127,7 +127,7 @@ export default function HomepageReorderModal() {
           </View>
           <View>
             {showTitleBar && (
-              <Typography.Text style={styles.subHeader} color="neutralBase-50">
+              <Typography.Text style={styles.subHeader} color="neutralBase-50" align="center">
                 {t("Home.HomepageReorderModal.selectFavourite")}
               </Typography.Text>
             )}
@@ -154,7 +154,6 @@ const styles = StyleSheet.create({
   },
   subHeader: {
     marginTop: 10,
-    textAlign: "center",
   },
   topRow: {
     alignItems: "center",

@@ -63,7 +63,7 @@ export default function OnboardingSplashScreen() {
               </Typography.Text>
             </View>
             <View>
-              <Typography.Text size="footnote" weight="regular" color="neutralBase-50" style={{ textAlign: "center" }}>
+              <Typography.Text size="footnote" weight="regular" color="neutralBase-50" align="center">
                 {t("Onboarding.SplashScreen.subTitle")}
               </Typography.Text>
             </View>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Linking, SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
+import { Linking, SafeAreaView, View, ViewStyle } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
 import Stack from "@/components/Stack";
@@ -78,18 +78,18 @@ export default function NafathAuthScreen() {
           <Stack align="center" direction="vertical" justify="center">
             {requestedOtpNumber !== undefined ? (
               <View style={numberContainerStyle}>
-                <Typography.Text style={styles.textCenter} color="neutralBase-50" weight="bold" size="title1">
+                <Typography.Text color="neutralBase-50" weight="bold" size="title1" align="center">
                   {requestedOtpNumber}
                 </Typography.Text>
               </View>
             ) : (
               <View style={loadingContainerStyle}>
-                <Typography.Text style={styles.textCenter} color="neutralBase" weight="bold" size="title1">
+                <Typography.Text color="neutralBase" weight="bold" size="title1" align="center">
                   {t("Onboarding.NafathAuthScreen.modalLoad")}
                 </Typography.Text>
               </View>
             )}
-            <Typography.Text style={styles.textCenter} color="neutralBase" size="footnote" weight="semiBold">
+            <Typography.Text color="neutralBase" size="footnote" weight="semiBold" align="center">
               {t("Onboarding.NafathAuthScreen.modalBody")}
             </Typography.Text>
           </Stack>
@@ -129,9 +129,3 @@ export default function NafathAuthScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  textCenter: {
-    textAlign: "center",
-  },
-});

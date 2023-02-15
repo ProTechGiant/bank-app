@@ -119,7 +119,7 @@ export default function HubScreen() {
               {t("Referral.HubScreen.title")}
             </Typography.Text>
             <View style={subTextStyle}>
-              <Typography.Text color="neutralBase-20" weight="regular" size="callout" style={{ textAlign: "center" }}>
+              <Typography.Text color="neutralBase-20" weight="regular" size="callout" align="center">
                 {t("Referral.HubScreen.subtitle")}
               </Typography.Text>
             </View>

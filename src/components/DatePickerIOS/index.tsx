@@ -1,5 +1,5 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
@@ -56,7 +56,7 @@ export default function DatePickerIOS({
       </View>
       <View style={helperTextContainerStyle}>
         {!!helperText && (
-          <Typography.Text color="neutralBase" size="footnote" weight="regular" style={styles.helperText}>
+          <Typography.Text color="neutralBase" size="footnote" weight="regular" align="center">
             {helperText}
           </Typography.Text>
         )}
@@ -65,9 +65,3 @@ export default function DatePickerIOS({
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  helperText: {
-    textAlign: "center",
-  },
-});

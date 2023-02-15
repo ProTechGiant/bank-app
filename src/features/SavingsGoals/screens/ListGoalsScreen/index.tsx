@@ -1,7 +1,7 @@
 import { compareAsc } from "date-fns";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Pressable, ScrollView, View, ViewStyle } from "react-native";
 
 import { AddGoalIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -112,7 +112,7 @@ export default function SavingsGoalsScreen() {
                 )}
               </Stack>
             </View>
-            <Typography.Text size="footnote" color="neutralBase" style={styles.instructionText}>
+            <Typography.Text size="footnote" color="neutralBase" align="center">
               {t("SavingsGoals.SavingsGoalsScreen.instructionText")}
             </Typography.Text>
           </Stack>
@@ -121,9 +121,3 @@ export default function SavingsGoalsScreen() {
     </Page>
   );
 }
-
-const styles = StyleSheet.create({
-  instructionText: {
-    textAlign: "center",
-  },
-});

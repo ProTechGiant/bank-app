@@ -60,7 +60,7 @@ export function RenderMinimumNotReachedPlaceholders({
   const placeholderBlock = (i: number) => (
     <View style={objectContainerPlaceholderStyle} key={"ReorderItemPlaceholder_" + i}>
       <View style={placeholderTextContainerStyle}>
-        <Typography.Text style={styles.placeholderText} color="neutralBase-10" size="callout" weight="medium">
+        <Typography.Text color="neutralBase-10" size="callout" weight="medium" align="center">
           Select an action from the list below to proceed.
         </Typography.Text>
       </View>
@@ -161,9 +161,6 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     marginBottom: 4,
     marginTop: 14,
-  },
-  placeholderText: {
-    textAlign: "center",
   },
   textContainer: {
     flexDirection: "column",

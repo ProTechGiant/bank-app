@@ -13,14 +13,12 @@ export default function HeroSlide({ topElement, title, subText }: HeroSlideProps
   const subTextStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginTop: theme.spacing["16p"],
-      textAlign: "center",
     }),
     []
   );
-  const TitleStyle = useThemeStyles<ViewStyle>(
+  const titleStyle = useThemeStyles<ViewStyle>(
     theme => ({
       marginTop: theme.spacing["20p"],
-      textAlign: "center",
     }),
     []
   );
@@ -29,10 +27,10 @@ export default function HeroSlide({ topElement, title, subText }: HeroSlideProps
     <View style={styles.container}>
       <View style={styles.contentWrapper}>
         <View>{topElement}</View>
-        <Typography.Text color="neutralBase-50" size="large" weight="bold" style={TitleStyle}>
+        <Typography.Text color="neutralBase-50" size="large" weight="bold" align="center" style={titleStyle}>
           {title}
         </Typography.Text>
-        <Typography.Text color="neutralBase-20" size="callout" style={subTextStyle}>
+        <Typography.Text color="neutralBase-20" size="callout" align="center" style={subTextStyle}>
           {subText}
         </Typography.Text>
       </View>

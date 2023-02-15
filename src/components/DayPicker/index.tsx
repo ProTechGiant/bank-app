@@ -92,7 +92,7 @@ export default function DayPicker({
       </View>
       <View style={helperTextContainerStyle}>
         {undefined !== helperText && (
-          <Typography.Text color="neutralBase" size="footnote" weight="regular" style={styles.helperText}>
+          <Typography.Text color="neutralBase" size="footnote" weight="regular" align="center">
             {helperText}
           </Typography.Text>
         )}
@@ -113,9 +113,6 @@ const styles = StyleSheet.create({
     height: DIGIT_SIZE,
     justifyContent: "center",
     width: DIGIT_SIZE,
-  },
-  helperText: {
-    textAlign: "center",
   },
   row: {
     alignItems: "center",

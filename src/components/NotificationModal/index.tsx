@@ -57,10 +57,10 @@ export default function NotificationModal({
           </View>
         )}
         <Stack direction="vertical" gap="16p" align="center">
-          <Typography.Text color="neutralBase+30" weight="bold" size="title2" style={styles.text}>
+          <Typography.Text color="neutralBase+30" weight="bold" size="title2" align="center">
             {title}
           </Typography.Text>
-          <Typography.Text color="neutralBase+30" weight="regular" size="callout" style={styles.text}>
+          <Typography.Text color="neutralBase+30" weight="regular" size="callout" align="center">
             {message}
           </Typography.Text>
         </Stack>
@@ -76,8 +76,5 @@ export default function NotificationModal({
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-  },
-  text: {
-    textAlign: "center",
   },
 });
