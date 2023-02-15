@@ -30,6 +30,8 @@ interface FundingStepProps {
   data: SavingsPotDetailsResponse | undefined;
   fundingType: FundingType;
   onBackPress: () => void;
+  onClosePress: () => void;
+  onCompletePress: () => void;
   onContinueWithOneTimePaymentPress: () => void;
   onContinueWithRecurringDepositPress: () => void;
 }
@@ -38,6 +40,8 @@ export default function FundingStep({
   data,
   fundingType,
   onBackPress,
+  onClosePress,
+  onCompletePress,
   onContinueWithOneTimePaymentPress,
   onContinueWithRecurringDepositPress,
 }: FundingStepProps) {
@@ -84,10 +88,6 @@ export default function FundingStep({
   const [confirmationNextPaymentDate, setConfirmationNextPaymentDate] = useState<string | undefined>();
   const depositAmount = watch("Amount");
   const shouldShowConfirmationWithActionButtons = data?.GoalBalance === 0;
-
-  const handleOnClose = () => {
-    navigation.goBack();
-  };
 
   const handleOnSubmit = (values: FundingInput) => {
     if (undefined === data) return Promise.resolve();
@@ -145,7 +145,7 @@ export default function FundingStep({
         onBackPress={onBackPress}
         withBackButton
         title={t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.title`)}
-        end={<NavHeader.CloseEndButton onPress={handleOnClose} />}
+        end={<NavHeader.CloseEndButton onPress={onClosePress} />}
       />
       <ScrollView contentContainerStyle={{ flex: 1 }} keyboardShouldPersistTaps="handled">
         <ContentContainer style={{ flex: 1, justifyContent: "space-between" }}>
@@ -188,7 +188,7 @@ export default function FundingStep({
         </ContentContainer>
       </ScrollView>
       <NotificationModal
-        onClose={handleOnClose}
+        onClose={onCompletePress}
         title={t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.modalTitle`)}
         message={t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.modalText`, {
           amount: depositAmount.toLocaleString("en-US", { style: "decimal" }),
@@ -207,7 +207,9 @@ export default function FundingStep({
         }
         secondaryButton={
           shouldShowConfirmationWithActionButtons && (
-            <Button onPress={handleOnClose}>{t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.skipButton`)}</Button>
+            <Button onPress={onCompletePress}>
+              {t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.skipButton`)}
+            </Button>
           )
         }
       />

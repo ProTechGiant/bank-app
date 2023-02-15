@@ -35,6 +35,18 @@ export default function FundGoalModal() {
     return () => clearTimeout(timeout);
   }, []);
 
+  const handleOnClose = () => {
+    navigation.goBack();
+  };
+
+  const handleOnComplete = () => {
+    navigation.goBack();
+
+    if (route.params.isFirstFunding) {
+      navigation.navigate("SavingsGoals.ListGoalsScreen");
+    }
+  };
+
   return (
     <>
       <DismissibleBanner
@@ -46,7 +58,7 @@ export default function FundGoalModal() {
         <Page keyboardAvoiding keyboardVerticalOffset={40}>
           {currentStep === "pick-funding-method" ? (
             <PickOptionStep
-              onCancelPress={() => navigation.goBack()}
+              onCancelPress={handleOnComplete}
               onOneTimePaymentPress={() => setCurrentStep("one-time-payment")}
               onRecommendedPaymentPress={() => setCurrentStep("recommended-payment")}
               onRecurringDepositPress={() => setCurrentStep("recurring-deposit")}
@@ -59,6 +71,8 @@ export default function FundGoalModal() {
               data={data}
               fundingType={currentStep}
               onBackPress={() => setCurrentStep("pick-funding-method")}
+              onClosePress={handleOnClose}
+              onCompletePress={handleOnComplete}
               onContinueWithOneTimePaymentPress={() => setCurrentStep("one-time-payment")}
               onContinueWithRecurringDepositPress={() => setCurrentStep("recurring-deposit")}
             />
