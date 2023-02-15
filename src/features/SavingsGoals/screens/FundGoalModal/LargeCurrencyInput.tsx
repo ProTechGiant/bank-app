@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, TextInput, TextStyle, View, ViewStyle } from "react-native";
 
 import CurrencyInput from "@/components/CurrencyInput";
 import Typography from "@/components/Typography";
@@ -22,7 +22,9 @@ export default function LargeCurrencyInput<T extends FieldValues>({
   name,
 }: LargeCurrencyInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
+  const textInputRef = useRef<TextInput>(null);
   const [fontSize, setFontSize] = useState<"s" | "m" | "l">("l");
+  const [isEditable, setIsEditable] = useState(autoFocus);
 
   const isError = undefined !== fieldState.error;
   const errorText = isError ? fieldState.error?.message : undefined;
@@ -40,6 +42,17 @@ export default function LargeCurrencyInput<T extends FieldValues>({
       ? setFontSize("m")
       : setFontSize("l");
   }, [field.value]);
+
+  // "hack" to ensure that cursor will always be at end of text-input
+  const handleOnPress = () => {
+    setIsEditable(true);
+    requestAnimationFrame(() => textInputRef.current?.focus());
+  };
+
+  const handleOnBlur = () => {
+    field.onBlur();
+    setIsEditable(false);
+  };
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
@@ -61,7 +74,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
       margin: 0,
       alignSelf: "center",
     }),
-    [isError, fontSize]
+    [isError]
   );
 
   const helperTextStyles = useThemeStyles<TextStyle>(theme => ({
@@ -70,12 +83,15 @@ export default function LargeCurrencyInput<T extends FieldValues>({
 
   return (
     <View style={containerStyles}>
-      <View style={[styles.container, inputStyles]}>
+      <Pressable onPress={handleOnPress} style={[styles.container, inputStyles]}>
         <CurrencyInput
+          ref={textInputRef}
           autoFocus={autoFocus}
           caretHidden
-          onBlur={field.onBlur}
+          editable={isEditable}
+          onBlur={handleOnBlur}
           onChange={field.onChange}
+          onPressIn={handleOnPress}
           maxLength={maxLength}
           style={[
             textStyles,
@@ -93,7 +109,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
           ]}>
           SAR
         </Typography.Text>
-      </View>
+      </Pressable>
       {undefined !== resolvedHelperText && (
         <Typography.Text
           color={isError ? "errorBase" : "primaryBase"}
