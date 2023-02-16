@@ -34,10 +34,10 @@ export default function CountrySelector() {
   const validationSchema = useMemo(
     () =>
       yup.object().shape({
-        countryName: yup
+        CountryName: yup
           .string()
           .required(t("Onboarding.FatcaDetailsScreen.CountrySelector.errorText.countryRequired")),
-        taxReferenceNumber: yup
+        TaxReferenceNumber: yup
           .string()
           .required(t("Onboarding.FatcaDetailsScreen.CountrySelector.errorText.taxNumberRequired"))
           .matches(alphaNumericSpaceRegExp, t("Onboarding.FatcaDetailsScreen.CountrySelector.errorText.taxRegexFail")),
@@ -49,8 +49,8 @@ export default function CountrySelector() {
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      countryName: action === "edit" ? route.params.element?.countryName : undefined,
-      taxReferenceNumber: action === "edit" ? route.params.element?.taxReferenceNumber : undefined,
+      CountryName: action === "edit" ? route.params.element?.CountryName : undefined,
+      TaxReferenceNumber: action === "edit" ? route.params.element?.TaxReferenceNumber : undefined,
     },
   });
 
@@ -61,8 +61,8 @@ export default function CountrySelector() {
     const element = route.params.element;
     const setOptions = { shouldDirty: true, shouldTouch: true, shouldValidate: true };
 
-    setValue("countryName", element.countryName, setOptions);
-    setValue("taxReferenceNumber", element.taxReferenceNumber, setOptions);
+    setValue("CountryName", element.CountryName, setOptions);
+    setValue("TaxReferenceNumber", element.TaxReferenceNumber, setOptions);
   }, [route.params]);
 
   const handleOnAdd = (values: ForeignTaxCountry) => {
@@ -110,7 +110,7 @@ export default function CountrySelector() {
               control={control}
               fullHeight={true}
               label={t("Onboarding.FatcaDetailsScreen.CountrySelector.countryLabel")}
-              name="countryName"
+              name="CountryName"
               headerText={t("Onboarding.FatcaDetailsScreen.CountrySelector.dropDownLabel")}
               placeholder={t("Onboarding.FatcaDetailsScreen.CountrySelector.countryPlaceholder")}
               options={countryList.map(country => ({
@@ -123,8 +123,9 @@ export default function CountrySelector() {
             <TextInput
               control={control}
               showCharacterCount={true}
-              name="taxReferenceNumber"
+              name="TaxReferenceNumber"
               maxLength={25}
+              keyboardType="default"
               label={t("Onboarding.FatcaDetailsScreen.CountrySelector.taxNumberLabel")}
               placeholder={t("Onboarding.FatcaDetailsScreen.CountrySelector.taxNumberPlaceholder")}
             />

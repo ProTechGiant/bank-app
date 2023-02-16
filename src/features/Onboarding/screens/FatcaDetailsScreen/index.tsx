@@ -39,7 +39,7 @@ export default function FatcaDetailsScreen() {
     const setOptions = { shouldValidate: true, shouldDirty: true, shouldTouch: true };
 
     if (params.result === "insert" && undefined !== params.element) {
-      setValue("foreignTaxCountry", [...foreignTaxCountries, params.element], setOptions);
+      setValue("ForeignTaxCountry", [...foreignTaxCountries, params.element], setOptions);
     }
 
     if (params.result === "edit" && undefined !== params.element && undefined !== params.elementIndex) {
@@ -47,7 +47,7 @@ export default function FatcaDetailsScreen() {
       const newElementIndex = params.elementIndex as number;
 
       setValue(
-        "foreignTaxCountry",
+        "ForeignTaxCountry",
         foreignTaxCountries.map((element, index) => (index === newElementIndex ? newElement : element)),
         setOptions
       );
@@ -57,7 +57,7 @@ export default function FatcaDetailsScreen() {
       const elemementIndex = params.elementIndex as number;
 
       setValue(
-        "foreignTaxCountry",
+        "ForeignTaxCountry",
         foreignTaxCountries.filter((_, index) => index !== elemementIndex),
         setOptions
       );
@@ -68,20 +68,20 @@ export default function FatcaDetailsScreen() {
     mode: "onBlur",
     resolver: yupResolver(foreignTaxResidencySchema),
     defaultValues: {
-      foreignTaxResidencyFlag: undefined,
-      foreignTaxCountry: [],
+      ForeignTaxResidencyFlag: undefined,
+      ForeignTaxCountry: [],
     },
   });
 
   const handleOnChangeHasForeignTaxResidency = (value: boolean) => {
-    setValue("foreignTaxResidencyFlag", value, {
+    setValue("ForeignTaxResidencyFlag", value, {
       shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true,
     });
 
     if (false === value) {
-      setValue("foreignTaxCountry", [], {
+      setValue("ForeignTaxCountry", [], {
         shouldValidate: true,
         shouldDirty: true,
         shouldTouch: true,
@@ -92,7 +92,7 @@ export default function FatcaDetailsScreen() {
   const handleOnAddPress = () => {
     navigation.navigate("Onboarding.CountrySelector", {
       action: "insert",
-      disabled: foreignTaxCountries.map(e => e.countryName),
+      disabled: foreignTaxCountries.map(e => e.CountryName),
     });
   };
 
@@ -104,32 +104,28 @@ export default function FatcaDetailsScreen() {
       element,
       elementIndex: index,
       action: "edit",
-      disabled: foreignTaxCountries.map(e => e.countryName),
+      disabled: foreignTaxCountries.map(e => e.CountryName),
     });
   };
 
   const handleOnSubmit = async (values: FatcaFormInput) => {
-    navigation.navigate("Onboarding.TermsAndConditions");
-    // waiting for PC-5349 development to be completed
-    // try {
-    //   console.log(values); // !TODO remove once BE api is complete
-
-    //   await sendFatcaDetails.mutateAsync(values);
-    //   navigation.navigate("Onboarding.TermsAndConditions");
-    // } catch (error) {
-    //   Alert.alert(
-    //     "Sorry, could not complete your request",
-    //     error instanceof ApiError<ApiOnboardingError> ? error.errorContent.Message : undefined
-    //   );
-    // }
+    try {
+      await sendFatcaDetails.mutateAsync(values);
+      navigation.navigate("Onboarding.TermsAndConditions");
+    } catch (error) {
+      Alert.alert(
+        "Sorry, could not complete your request",
+        error instanceof ApiError<ApiOnboardingError> ? error.errorContent.Message : undefined
+      );
+    }
   };
 
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
   }));
 
-  const hasForeignTaxResidency = watch("foreignTaxResidencyFlag");
-  const foreignTaxCountries = watch("foreignTaxCountry");
+  const hasForeignTaxResidency = watch("ForeignTaxResidencyFlag");
+  const foreignTaxCountries = watch("ForeignTaxCountry");
 
   return (
     <Page>
@@ -170,8 +166,8 @@ export default function FatcaDetailsScreen() {
               <SelectedForeignTaxCountryCard
                 key={index}
                 index={index}
-                countryName={country.countryName}
-                taxReferenceNumber={country.taxReferenceNumber}
+                CountryName={country.CountryName}
+                TaxReferenceNumber={country.TaxReferenceNumber}
                 onPress={handleOnEditPress}
               />
             ))}
@@ -191,16 +187,16 @@ export default function FatcaDetailsScreen() {
 }
 
 const foreignTaxResidencySchema = yup.object().shape({
-  foreignTaxResidencyFlag: yup.boolean().required(),
-  foreignTaxCountry: yup.array().when("foreignTaxResidencyFlag", {
+  ForeignTaxResidencyFlag: yup.boolean().required(),
+  ForeignTaxCountry: yup.array().when("ForeignTaxResidencyFlag", {
     is: true,
     then: yup
       .array()
       .min(1)
       .of(
         yup.object().shape({
-          countryName: yup.string().required(),
-          taxReferenceNumber: yup.string().required(),
+          CountryName: yup.string().required(),
+          TaxReferenceNumber: yup.string().required(),
         })
       ),
     otherwise: yup.array().max(0),

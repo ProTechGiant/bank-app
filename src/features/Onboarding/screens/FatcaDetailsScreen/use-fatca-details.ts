@@ -14,15 +14,7 @@ export default function useFatcaDetails() {
 
     const workflowTask = await fetchLatestWorkflowTask();
     if (!workflowTask || workflowTask.name !== "Fatca&Crs")
-      throw new Error("Available workflowTaskId is not applicable to customers/confirm/data");
-
-    const fatcaDetails = {
-      foreignTaxResidencyFlag: values.foreignTaxResidencyFlag,
-      foreignTaxCountry: values.foreignTaxCountry.map(country => ({
-        countryName: country.countryName,
-        taxReferenceNumber: country.taxReferenceNumber,
-      })),
-    };
+      throw new Error("Available workflowTaskId is not applicable to customers/tax/residency/details");
 
     return api<string, ApiOnboardingError>(
       "api-dev",
@@ -30,9 +22,7 @@ export default function useFatcaDetails() {
       "customers/tax/residency/details",
       "POST",
       undefined,
-      {
-        fatcaDetails,
-      },
+      values,
       {
         ["X-Workflow-Task-Id"]: workflowTask?.id,
         ["UserId"]: userId,

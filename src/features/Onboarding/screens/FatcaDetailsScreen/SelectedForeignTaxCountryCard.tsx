@@ -9,15 +9,15 @@ import { useThemeStyles } from "@/theme";
 
 interface SelectedForeignTaxCountryCardProps {
   index: number;
-  countryName: string | undefined;
-  taxReferenceNumber: string | undefined;
+  CountryName: string | undefined;
+  TaxReferenceNumber: string | undefined;
   onPress: (index: number) => void;
 }
 
 export default function SelectedForeignTaxCountryCard({
   index,
-  countryName,
-  taxReferenceNumber,
+  CountryName,
+  TaxReferenceNumber,
   onPress,
 }: SelectedForeignTaxCountryCardProps) {
   const { t } = useTranslation();
@@ -38,7 +38,7 @@ export default function SelectedForeignTaxCountryCard({
               {t("Onboarding.FatcaDetailsScreen.InfoBoxCountryTitle")}
             </Typography.Text>
             <Typography.Text size="footnote" weight="regular" color="neutralBase">
-              {mockCountryList.find(v => v.value === countryName)?.label}
+              {mockCountryList.find(v => v.value === CountryName)?.label}
             </Typography.Text>
           </View>
           <View>
@@ -46,7 +46,7 @@ export default function SelectedForeignTaxCountryCard({
               {t("Onboarding.FatcaDetailsScreen.InfoBoxReferenceTitle")}
             </Typography.Text>
             <Typography.Text size="footnote" weight="regular" color="neutralBase">
-              {taxReferenceNumber}
+              {TaxReferenceNumber}
             </Typography.Text>
           </View>
         </Stack>

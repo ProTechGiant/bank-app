@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { StyleProp, View, ViewStyle } from "react-native";
+import { ScrollView, StyleProp, ViewStyle } from "react-native";
 
 import { useThemeStyles } from "@/theme";
 
@@ -17,5 +17,6 @@ export default function ContentContainer({ style, children }: ContentContainerPr
     }),
     []
   );
-  return <View style={[containerStyle, style]}>{children}</View>;
+
+  return <ScrollView style={[containerStyle, style]}>{children}</ScrollView>;
 }

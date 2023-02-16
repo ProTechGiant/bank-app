@@ -1,9 +1,9 @@
 export interface ForeignTaxCountry {
-  countryName: string;
-  taxReferenceNumber: string;
+  CountryName: string;
+  TaxReferenceNumber: string;
 }
 
 export interface FatcaFormInput {
-  foreignTaxResidencyFlag: boolean | null;
-  foreignTaxCountry: Array<ForeignTaxCountry>;
+  ForeignTaxResidencyFlag: boolean | null;
+  ForeignTaxCountry: Array<ForeignTaxCountry>;
 }
