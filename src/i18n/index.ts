@@ -143,8 +143,8 @@ export const resources = {
             addButton: "Add",
             dropDownLabel: "Select country",
             setButton: "Set",
-            continue: "Continue",
-            remove: "Remove country",
+            updateButton: "Update",
+            removeButton: "Remove country",
             countryListTitle: "Add country",
             errorText: {
               countryRequired: "Country required",

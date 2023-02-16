@@ -140,10 +140,10 @@ export default function CountrySelector() {
             ) : (
               <Stack align="stretch" direction="vertical" gap="8p">
                 <SubmitButton control={control} onSubmit={handleSubmit(handleOnEdit)}>
-                  {t("Onboarding.FatcaDetailsScreen.CountrySelector.continue")}
+                  {t("Onboarding.FatcaDetailsScreen.CountrySelector.updateButton")}
                 </SubmitButton>
                 <Button variant="secondary" color="alt" onPress={handleOnRemove}>
-                  {t("Onboarding.FatcaDetailsScreen.CountrySelector.remove")}
+                  {t("Onboarding.FatcaDetailsScreen.CountrySelector.removeButton")}
                 </Button>
               </Stack>
             )}
