@@ -45,7 +45,7 @@ export default function CountrySelector() {
     [i18n.language]
   );
 
-  const { control, handleSubmit, setValue } = useForm<ForeignTaxCountry>({
+  const { control, handleSubmit } = useForm<ForeignTaxCountry>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -53,17 +53,6 @@ export default function CountrySelector() {
       TaxReferenceNumber: action === "edit" ? route.params.element?.TaxReferenceNumber : undefined,
     },
   });
-
-  useEffect(() => {
-    if (action === "insert" || undefined === route.params.element) return;
-
-    // mark form dirty
-    const element = route.params.element;
-    const setOptions = { shouldDirty: true, shouldTouch: true, shouldValidate: true };
-
-    setValue("CountryName", element.CountryName, setOptions);
-    setValue("TaxReferenceNumber", element.TaxReferenceNumber, setOptions);
-  }, [route.params]);
 
   const handleOnAdd = (values: ForeignTaxCountry) => {
     navigation.navigate("Onboarding.Fatca", {
@@ -139,7 +128,7 @@ export default function CountrySelector() {
               </SubmitButton>
             ) : (
               <Stack align="stretch" direction="vertical" gap="8p">
-                <SubmitButton control={control} onSubmit={handleSubmit(handleOnEdit)}>
+                <SubmitButton allowPristine control={control} onSubmit={handleSubmit(handleOnEdit)}>
                   {t("Onboarding.FatcaDetailsScreen.CountrySelector.updateButton")}
                 </SubmitButton>
                 <Button variant="secondary" color="alt" onPress={handleOnRemove}>

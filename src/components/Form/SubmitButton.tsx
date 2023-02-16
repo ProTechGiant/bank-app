@@ -4,26 +4,20 @@ import Button from "@/components/Button";
 
 interface SubmitButtonProps<T extends FieldValues>
   extends Omit<React.ComponentProps<typeof Button>, "disabled" | "onPress"> {
+  allowPristine?: boolean;
   control: Control<T>;
   onSubmit: (() => void) | (() => Promise<void>);
-  loadingType?: React.ComponentProps<typeof Button>["type"];
 }
 
 export default function SubmitButton<T extends FieldValues>({
+  allowPristine = false,
   control,
   onSubmit,
-  loadingType = "loader",
   type = undefined,
   ...buttonProps
 }: SubmitButtonProps<T>) {
   const { isDirty, isSubmitting, isValid } = useFormState({ control });
+  const disabled = isSubmitting || !isValid || (!isDirty && !allowPristine);
 
-  return (
-    <Button
-      disabled={!isDirty || isSubmitting || !isValid}
-      type={isSubmitting ? loadingType : type}
-      onPress={onSubmit}
-      {...buttonProps}
-    />
-  );
+  return <Button disabled={disabled} type={isSubmitting ? "loader" : type} onPress={onSubmit} {...buttonProps} />;
 }
