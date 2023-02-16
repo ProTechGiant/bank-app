@@ -8,6 +8,7 @@ import QuickActionsReorderCard from "@/features/Home/screens/QuickActionsReorder
 import OnboardingStack from "@/features/Onboarding/OnboardingStack";
 import HubScreen from "@/features/Referral/screens/HubScreen";
 import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
+import TermsAndConditionsScreen from "@/features/Referral/screens/TermsAndConditionsScreen";
 import SavingsGoalsStack from "@/features/SavingsGoals/SavingsGoalsStack";
 import SettingsScreen from "@/features/Settings/screens/SettingsScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
@@ -42,6 +43,11 @@ export default function MainStack() {
           }}
         />
         <Stack.Screen component={HubScreen} name="Referral.HubScreen" options={{ headerShown: false }} />
+        <Stack.Screen
+          component={TermsAndConditionsScreen}
+          name="Referral.TermsAndConditions"
+          options={{ headerShown: false, presentation: "modal" }}
+        />
         <Stack.Screen
           component={InstructionsScreen}
           name="Referral.InstructionsScreen"

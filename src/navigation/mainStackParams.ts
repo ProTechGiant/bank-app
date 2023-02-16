@@ -11,6 +11,7 @@ type RootStackParams = {
   "Modal.HomepageReorderModal": undefined;
   "Referral.HubScreen": undefined;
   "Referral.InstructionsScreen": undefined;
+  "Referral.TermsAndConditions": undefined;
   "Settings.SettingsScreen": undefined;
   "SavingsGoals.SavingsGoalsStack": {
     savingsPotsNumber: number;

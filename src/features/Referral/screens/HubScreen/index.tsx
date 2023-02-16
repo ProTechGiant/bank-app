@@ -105,6 +105,10 @@ export default function HubScreen() {
     }
   }, []);
 
+  const onTermsAndConditionsPress = () => {
+    navigation.navigate("Referral.TermsAndConditions");
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <DismissibleBanner visible={showToast} message={t("Referral.HubScreen.linkCopied")} />
@@ -147,7 +151,7 @@ export default function HubScreen() {
           <Typography.Text size="caption2" color="neutralBase" weight="medium">
             {t("Referral.read")}
           </Typography.Text>
-          <Pressable>
+          <Pressable onPress={onTermsAndConditionsPress}>
             <Typography.Text size="caption2" color="interactionBase" weight="medium">
               {t("Referral.termsAndConditions")}
             </Typography.Text>
