@@ -3,7 +3,7 @@ import { format, isThisMonth, parse } from "date-fns";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, Keyboard, ScrollView } from "react-native";
+import { Alert, Keyboard, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import Button from "@/components/Button";
@@ -14,9 +14,11 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 
 import { SavingsPotDetailsResponse, useFundSavingsPot } from "../../query-hooks";
 import FromAccount from "./FromAccount";
+import isNextMonth from "./is-next-month";
 import LargeCurrencyInput from "./LargeCurrencyInput";
 
 export type FundingType = "recurring-deposit" | "one-time-payment" | "recommended-payment";
@@ -49,10 +51,10 @@ export default function FundingStep({
   const { i18n, t } = useTranslation();
   const fundSavingPot = useFundSavingsPot();
 
-  const todayDayOfMonth = new Date().getDate();
-  const targetIsThisMonth = useMemo(
-    () => (data?.TargetDate ? isThisMonth(parse(data?.TargetDate, "yyyy-MM-dd", new Date())) : false),
-    [data?.TargetDate]
+  const today = new Date();
+  const targetDate = useMemo(
+    () => (data?.TargetDate ? parse(data?.TargetDate, "yyyy-MM-dd", today) : undefined),
+    [data]
   );
 
   const validationSchema = useMemo(() => {
@@ -63,7 +65,7 @@ export default function FundingStep({
         .min(0.01)
         .when("DayOfMonth", {
           // when recurring payment is today OR its a one-time payment, the user must have sufficient balance
-          is: (value: number) => value === todayDayOfMonth || fundingType === "one-time-payment",
+          is: (value: number) => value === today.getDate() || fundingType === "one-time-payment",
           then: yup
             .number()
             .max(data?.MainAccountAmount ?? 0, t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance")),
@@ -137,6 +139,10 @@ export default function FundingStep({
     return onContinueWithOneTimePaymentPress();
   };
 
+  const buttonSpaceStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["4p"],
+  }));
+
   const i18nKey = fundingType === "one-time-payment" ? "oneTimeDeposit" : "recurringDeposit";
 
   return (
@@ -147,28 +153,38 @@ export default function FundingStep({
         title={t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.title`)}
         end={<NavHeader.CloseEndButton onPress={onClosePress} />}
       />
-      <ScrollView contentContainerStyle={{ flex: 1 }} keyboardShouldPersistTaps="handled">
-        <ContentContainer style={{ flex: 1, justifyContent: "space-between" }}>
+      <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+        <ContentContainer style={styles.content}>
+          <LargeCurrencyInput
+            autoFocus
+            control={control}
+            helperText={currentValue => {
+              if (undefined !== data && currentValue > data?.MainAccountAmount) {
+                return t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance");
+              }
+            }}
+            maxLength={10}
+            name="Amount"
+          />
           <Stack align="stretch" direction="vertical" gap="16p">
-            <LargeCurrencyInput
-              autoFocus
-              control={control}
-              helperText={currentValue => {
-                if (undefined !== data && currentValue > data?.MainAccountAmount) {
-                  return t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance");
-                }
-              }}
-              maxLength={10}
-              name="Amount"
-            />
             {fundingType !== "one-time-payment" && (
               <DayPickerInput
                 buttonText={t("SavingsGoals.FundGoalModal.FundingStep.dayPickerButton")}
                 control={control}
                 headerText={t("SavingsGoals.FundGoalModal.FundingStep.dayPickerHeader")}
                 helperText={currentValue => {
-                  if (targetIsThisMonth && currentValue >= todayDayOfMonth) {
-                    return t("SavingsGoals.FundGoalModal.FundingStep.helperIfDayIsAfterTarget");
+                  if (undefined !== targetDate) {
+                    if (
+                      // payment will be scheduled after target date
+                      (isThisMonth(targetDate) &&
+                        (currentValue > targetDate.getDate() || currentValue < today.getDate())) ||
+                      // next month but will scheduled after target date
+                      (isNextMonth(targetDate, today) &&
+                        currentValue > targetDate.getDate() &&
+                        currentValue < today.getDate())
+                    ) {
+                      return t("SavingsGoals.FundGoalModal.FundingStep.helperIfDayIsAfterTarget");
+                    }
                   }
 
                   if (currentValue > 28) return t("SavingsGoals.FundGoalModal.FundingStep.helperIfDayExceeds28");
@@ -181,10 +197,12 @@ export default function FundingStep({
             {undefined !== data && (
               <FromAccount name={t("SavingsGoals.fromAccount.mainAccount")} balance={data.MainAccountAmount} />
             )}
+            <View style={buttonSpaceStyle}>
+              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+                Continue
+              </SubmitButton>
+            </View>
           </Stack>
-          <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-            Continue
-          </SubmitButton>
         </ContentContainer>
       </ScrollView>
       <NotificationModal
@@ -216,3 +234,13 @@ export default function FundingStep({
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  content: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  scroll: {
+    flex: 1,
+  },
+});
