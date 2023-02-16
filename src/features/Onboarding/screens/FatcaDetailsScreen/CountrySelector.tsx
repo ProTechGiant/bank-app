@@ -92,7 +92,7 @@ export default function CountrySelector() {
           withBackButton={false}
           end={<NavHeader.CloseEndButton onPress={() => navigation.navigate("Onboarding.Fatca")} />}
         />
-        <ContentContainer>
+        <ContentContainer isScrollView>
           <Stack align="stretch" direction="vertical" gap="24p">
             <DropdownInput
               autoselect={false}
