@@ -64,7 +64,7 @@ export default function FatcaDetailsScreen() {
     }
   }, [route.params]);
 
-  const { control, handleSubmit, setValue, watch } = useForm<FatcaFormInput>({
+  const { control, handleSubmit, setValue, watch, formState } = useForm<FatcaFormInput>({
     mode: "onBlur",
     resolver: yupResolver(foreignTaxResidencySchema),
     defaultValues: {
@@ -171,7 +171,9 @@ export default function FatcaDetailsScreen() {
                 onPress={handleOnEditPress}
               />
             ))}
-            {hasForeignTaxResidency && foreignTaxCountries.length < 3 && <AddCountryTile onPress={handleOnAddPress} />}
+            {hasForeignTaxResidency && foreignTaxCountries.length < 3 && !formState.isSubmitting && (
+              <AddCountryTile onPress={handleOnAddPress} />
+            )}
           </Stack>
         </ContentContainer>
       </ScrollView>
