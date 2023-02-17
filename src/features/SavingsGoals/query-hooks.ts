@@ -138,6 +138,8 @@ export interface SavingsPotDetailsResponse {
   TargetDate: string;
   CreatedDate: string;
   MainAccountAmount: number;
+  HadOneTimeFund: boolean;
+  HadRecurringFund: boolean;
 }
 
 export function useSavingsPot(savingsPotId: string) {

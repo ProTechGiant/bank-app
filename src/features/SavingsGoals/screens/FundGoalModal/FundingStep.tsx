@@ -89,7 +89,9 @@ export default function FundingStep({
   const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
   const [confirmationNextPaymentDate, setConfirmationNextPaymentDate] = useState<string | undefined>();
   const depositAmount = watch("Amount");
-  const shouldShowConfirmationWithActionButtons = data?.GoalBalance === 0;
+
+  const shouldShowConfirmationWithActionButtons =
+    fundingType === "one-time-payment" ? false === data?.HadRecurringFund : false === data?.HadOneTimeFund;
 
   const handleOnSubmit = (values: FundingInput) => {
     if (undefined === data) return Promise.resolve();
