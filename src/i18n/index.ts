@@ -502,7 +502,7 @@ export const resources = {
           title: "لننطلق",
           subTitle: "لنبدأ بتفاصيل الهوية الشخصية وبيانات التواصل:",
           mobileLabel: "الجوال",
-          mobilePlaceholder: "Enter Mobile",
+          mobilePlaceholder: "أدخل رقم الجوال",
           iqamaLabel: "رقم هوية/الإقامة",
           iqamaPlaceholder: "قم بإدخال رقم الهوية الوطنية/الإقامة",
           notificationText: {

@@ -29,6 +29,7 @@ const LinkCard = ({ onNavigate, children, style }: LinkCardProps) => {
     []
   );
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.link, []);
+  const iconColor = useThemeStyles<string>(theme => theme.palette.neutralBase, []);
 
   const handlePress = () => {
     onNavigate();
@@ -37,7 +38,7 @@ const LinkCard = ({ onNavigate, children, style }: LinkCardProps) => {
     <Pressable style={[container, style]} onPress={handlePress}>
       <View style={styles.textContainer}>{children}</View>
       <View style={styles.arrowContainer}>
-        <ChevronRightIcon height={iconDimensions} width={iconDimensions} />
+        <ChevronRightIcon height={iconDimensions} width={iconDimensions} color={iconColor} />
       </View>
     </Pressable>
   );

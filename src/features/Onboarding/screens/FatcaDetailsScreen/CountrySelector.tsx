@@ -131,7 +131,7 @@ export default function CountrySelector() {
                 <SubmitButton allowPristine control={control} onSubmit={handleSubmit(handleOnEdit)}>
                   {t("Onboarding.FatcaDetailsScreen.CountrySelector.updateButton")}
                 </SubmitButton>
-                <Button variant="secondary" color="dark" onPress={handleOnRemove}>
+                <Button variant="warning" color="dark" onPress={handleOnRemove}>
                   {t("Onboarding.FatcaDetailsScreen.CountrySelector.removeButton")}
                 </Button>
               </Stack>
