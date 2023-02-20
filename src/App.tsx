@@ -1,5 +1,6 @@
 import "./i18n";
 
+import { StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -23,6 +24,7 @@ export default function App() {
           <OnboardingContextProvider>
             <SafeAreaProvider>
               <GestureHandlerRootView style={{ flex: 1 }}>
+                <StatusBar barStyle="dark-content" />
                 <MainStack />
               </GestureHandlerRootView>
             </SafeAreaProvider>

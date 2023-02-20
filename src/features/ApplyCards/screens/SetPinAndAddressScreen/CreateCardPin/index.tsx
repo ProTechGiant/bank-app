@@ -2,10 +2,11 @@ import times from "lodash/times";
 import * as React from "react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
+import { Platform, Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import { ErrorBlackIcon, InfoIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
+import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -97,9 +98,9 @@ export default function CreateCardPin({
       backgroundColor: theme.palette["primaryBase-30"],
       borderRadius: theme.radii.extraSmall,
       flexDirection: "row",
+      marginTop: "auto",
       paddingHorizontal: theme.spacing["24p"],
       paddingVertical: theme.spacing["16p"],
-      marginBottom: theme.spacing["8p"],
     }),
     []
   );
@@ -122,10 +123,10 @@ export default function CreateCardPin({
       backgroundColor: theme.palette["errorBase-40"],
       flexDirection: "row",
       justifyContent: "space-between",
-      width: "100%",
-      paddingHorizontal: theme.spacing["24p"],
+      borderRadius: theme.radii.extraSmall,
+      marginTop: "auto",
+      paddingHorizontal: Platform.OS === "ios" ? theme.spacing["24p"] : theme.spacing["12p"],
       paddingVertical: theme.spacing["16p"],
-      marginBottom: theme.spacing["8p"],
     }),
     []
   );
@@ -172,73 +173,75 @@ export default function CreateCardPin({
   };
 
   return (
-    <ContentContainer>
-      <Stack direction="vertical" justify="space-between" align="center" style={styles.content}>
-        <View>
-          <View style={styles.headerText}>
-            <Typography.Text size="large" weight="bold">
-              {title}
-            </Typography.Text>
-            <View style={instructionTextStyle}>
-              <Typography.Text size="callout" weight="regular">
-                {instruction}
+    <Page>
+      <ContentContainer>
+        <Stack direction="vertical" justify="space-between" align="center" style={styles.content}>
+          <View>
+            <View style={styles.headerText}>
+              <Typography.Text size="large" weight="bold">
+                {title}
               </Typography.Text>
-            </View>
-          </View>
-          <Pressable style={container} onPress={onBoxPress}>
-            {times(pinInputLength).map(i => (
-              <View
-                key={i}
-                style={[inputBoxStyle, i === inputValue.length && highlightedBoxStyle, !isValid && errorBoxStyle]}>
-                {inputToDotOrDigit(inputValue, i)}
-              </View>
-            ))}
-          </Pressable>
-        </View>
-        <View>
-          {mode === "input" && (
-            <View style={infoContainerStyle}>
-              <InfoIcon />
-              <View style={infoTextStyle}>
-                <Typography.Text size="callout">
-                  {t("ApplyCards.SetPinAndAddressScreen.SetPin.avoidSimplePin")}
+              <View style={instructionTextStyle}>
+                <Typography.Text size="callout" weight="regular">
+                  {instruction}
                 </Typography.Text>
               </View>
             </View>
-          )}
-          {mode === "confirm" && remainingTries < pinMaxTries && showErrorBox && (
-            <>
-              {remainingTries > 0 ? (
-                <View style={[infoContainerStyle, infoContainerInvalidStyle]}>
-                  <ErrorBlackIcon />
-                  <View style={infoTextStyle}>
-                    <Typography.Text size="callout">
-                      {t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.pinNotMatch", { count: remainingTries })}
-                    </Typography.Text>
-                  </View>
+            <Pressable style={container} onPress={onBoxPress}>
+              {times(pinInputLength).map(i => (
+                <View
+                  key={i}
+                  style={[inputBoxStyle, i === inputValue.length && highlightedBoxStyle, !isValid && errorBoxStyle]}>
+                  {inputToDotOrDigit(inputValue, i)}
                 </View>
-              ) : (
-                <View style={errorContainerStyle}>
-                  <ErrorBlackIcon />
-                  <View>
-                    <Typography.Text size="callout">
-                      {t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.tooManyTries")}
-                    </Typography.Text>
-                  </View>
-                  <View style={buttonStyle}>
-                    <Pressable onPress={onSetNewPin}>
-                      <Typography.Text size="footnote" weight="medium">
-                        {t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.button")}
+              ))}
+            </Pressable>
+          </View>
+          <View style={styles.lowerContainer}>
+            {mode === "input" && (
+              <View style={infoContainerStyle}>
+                <InfoIcon />
+                <View style={infoTextStyle}>
+                  <Typography.Text size="callout">
+                    {t("ApplyCards.SetPinAndAddressScreen.SetPin.avoidSimplePin")}
+                  </Typography.Text>
+                </View>
+              </View>
+            )}
+            {mode === "confirm" && remainingTries < pinMaxTries && showErrorBox && (
+              <View style={styles.errorContainer}>
+                {remainingTries > 0 ? (
+                  <View style={[infoContainerStyle, infoContainerInvalidStyle]}>
+                    <ErrorBlackIcon />
+                    <View style={infoTextStyle}>
+                      <Typography.Text size="callout">
+                        {t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.pinNotMatch", { count: remainingTries })}
                       </Typography.Text>
-                    </Pressable>
+                    </View>
                   </View>
-                </View>
-              )}
-            </>
-          )}
-        </View>
-      </Stack>
-    </ContentContainer>
+                ) : (
+                  <View style={errorContainerStyle}>
+                    <ErrorBlackIcon />
+                    <View>
+                      <Typography.Text size="callout">
+                        {t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.tooManyTries")}
+                      </Typography.Text>
+                    </View>
+                    <View style={buttonStyle}>
+                      <Pressable onPress={onSetNewPin}>
+                        <Typography.Text size="footnote" weight="medium">
+                          {t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.button")}
+                        </Typography.Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                )}
+              </View>
+            )}
+          </View>
+        </Stack>
+      </ContentContainer>
+    </Page>
   );
 }
 
@@ -246,7 +249,12 @@ const styles = StyleSheet.create({
   content: {
     height: "60%",
   },
+  errorContainer: { alignContent: "flex-end", flex: 1 },
   headerText: {
     alignItems: "center",
+  },
+  lowerContainer: {
+    alignSelf: "stretch",
+    flex: 1,
   },
 });

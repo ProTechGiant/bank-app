@@ -55,7 +55,7 @@ export default function FundGoalModal() {
         icon={<TickCircleIcon />}
       />
       <SafeAreaProvider>
-        <Page keyboardAvoiding keyboardVerticalOffset={40}>
+        <Page keyboardVerticalOffset={Page.modalKeyboardVerticalOffset} isPadded={true}>
           {currentStep === "pick-funding-method" ? (
             <PickOptionStep
               onCancelPress={handleOnComplete}

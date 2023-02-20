@@ -1,5 +1,5 @@
 import * as React from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet, ViewStyle } from "react-native";
+import { Platform, ViewStyle } from "react-native";
 import { Edge, SafeAreaView } from "react-native-safe-area-context";
 
 import { Theme, useThemeStyles } from "@/theme";
@@ -7,54 +7,28 @@ import { Theme, useThemeStyles } from "@/theme";
 interface PageProps {
   backgroundColor?: keyof Theme["palette"];
   children: React.ReactNode;
-  keyboardAvoiding?: boolean;
-  keyboardVerticalOffset?: number;
-  safeAreaInsets?: Edge[];
+  insets?: Edge[];
   isPadded?: boolean;
 }
 
-export default function Page({
-  backgroundColor: color,
-  children,
-  keyboardAvoiding = false,
-  keyboardVerticalOffset = undefined,
-  safeAreaInsets = undefined,
-  isPadded = true,
-}: PageProps) {
-  const backgroundColor = useThemeStyles<ViewStyle>(
+function Page({ backgroundColor, children, insets = undefined, isPadded = true }: PageProps) {
+  const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: color ? theme.palette[color] : undefined,
+      backgroundColor: undefined !== backgroundColor ? theme.palette[backgroundColor] : undefined,
+      flex: 1,
     }),
-    [color]
+    [backgroundColor]
   );
 
-  const bottomPadding = useThemeStyles<ViewStyle>(
-    ({ spacing }) => ({
-      paddingBottom: spacing["32p"],
-    }),
-    []
-  );
+  const bottomPadding = useThemeStyles<ViewStyle>(({ spacing }) => ({
+    paddingBottom: spacing["16p"],
+  }));
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      enabled={keyboardAvoiding}
-      keyboardVerticalOffset={keyboardVerticalOffset}
-      style={[styles.keyboardAvoidingContainer, backgroundColor]}>
-      <SafeAreaView
-        edges={safeAreaInsets && safeAreaInsets}
-        style={[styles.container, backgroundColor, isPadded && Platform.OS === "android" && bottomPadding]}>
-        {children}
-      </SafeAreaView>
-    </KeyboardAvoidingView>
+    <SafeAreaView edges={insets} style={[containerStyles, isPadded && Platform.OS === "android" && bottomPadding]}>
+      {children}
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  keyboardAvoidingContainer: {
-    flex: 1,
-  },
-});
+export default Page;

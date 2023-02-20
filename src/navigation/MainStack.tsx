@@ -20,58 +20,23 @@ const Stack = createNativeStackNavigator<MainStackParams>();
 export default function MainStack() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          component={TemporaryLandingScreen}
-          name="Temporary.LandingScreen"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          component={DashboardScreen}
-          name="Home.Dashboard"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          component={SettingsScreen}
-          name="Settings.SettingsScreen"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen component={HubScreen} name="Referral.HubScreen" options={{ headerShown: false }} />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen component={TemporaryLandingScreen} name="Temporary.LandingScreen" />
+        <Stack.Screen component={DashboardScreen} name="Home.Dashboard" />
+        <Stack.Screen component={SettingsScreen} name="Settings.SettingsScreen" />
+        <Stack.Screen component={HubScreen} name="Referral.HubScreen" />
         <Stack.Screen
           component={TermsAndConditionsScreen}
           name="Referral.TermsAndConditions"
-          options={{ headerShown: false, presentation: "modal" }}
+          options={{ presentation: "modal" }}
         />
-        <Stack.Screen
-          component={InstructionsScreen}
-          name="Referral.InstructionsScreen"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          component={SavingsGoalsStack}
-          name="SavingsGoals.SavingsGoalsStack"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen component={OnboardingStack} name="Onboarding.OnboardingStack" options={{ headerShown: false }} />
+        <Stack.Screen component={InstructionsScreen} name="Referral.InstructionsScreen" />
+        <Stack.Screen component={SavingsGoalsStack} name="SavingsGoals.SavingsGoalsStack" />
+        <Stack.Screen component={OnboardingStack} name="Onboarding.OnboardingStack" />
         <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>
           <Stack.Screen component={ApplyCardsStack} name="ApplyCards.ApplyForCardStack" />
-
-          <Stack.Screen
-            options={{ headerShown: false }}
-            component={QuickActionsReorderCard}
-            name="Modal.QuickActionsReorderModal"
-          />
-          <Stack.Screen
-            options={{ headerShown: false }}
-            component={HomepageReorderModal}
-            name="Modal.HomepageReorderModal"
-          />
+          <Stack.Screen component={QuickActionsReorderCard} name="Modal.QuickActionsReorderModal" />
+          <Stack.Screen component={HomepageReorderModal} name="Modal.HomepageReorderModal" />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

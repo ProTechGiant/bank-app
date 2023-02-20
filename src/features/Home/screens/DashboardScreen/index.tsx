@@ -5,12 +5,13 @@ import {
   NativeSyntheticEvent,
   Pressable,
   ScrollView,
-  StyleSheet,
+  StatusBar,
   View,
   ViewStyle,
 } from "react-native";
 
 import * as icons from "@/assets/icons";
+import Page from "@/components/Page";
 import SectionHeader from "@/components/SectionHeader";
 import Typography from "@/components/Typography";
 import { useGlobalContext } from "@/contexts/GlobalContext";
@@ -145,7 +146,8 @@ export default function DashboardScreen() {
   }, [homeScreenLayout]);
 
   return (
-    <View style={styles.container}>
+    <Page insets={["bottom", "left", "right"]}>
+      <StatusBar barStyle="light-content" />
       <ScrollView
         onScroll={handleScroll}
         scrollEventThrottle={20}
@@ -164,12 +166,6 @@ export default function DashboardScreen() {
           </Pressable>
         </View>
       </ScrollView>
-    </View>
+    </Page>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
