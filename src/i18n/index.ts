@@ -464,7 +464,7 @@ export const resources = {
             helperIfDayExceeds28:
               "Transfer will be made in the last day of the month if selected date don’t exists in the current month.",
             helperIfDayIsAfterTarget:
-              "To reach your goal your recurring payments need to happen before your target date.",
+              "You have selected a date after your target goal date. You should select a date before your target goal date to reach your goal.",
             recurringDeposit: {
               title: "Recurring deposit",
               modalTitle: "You have created a recurring deposit",
