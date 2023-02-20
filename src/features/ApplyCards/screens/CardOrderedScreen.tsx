@@ -44,14 +44,14 @@ export default function CardOrderedScreen() {
             </Typography.Text>
           </Stack>
           <View style={styles.buttons}>
-            <Button color="alt" block onPress={handleOnAddToWallet}>
-              {t("ApplyCards.CardOrderedScreen.buttons.addToWallet")}
-            </Button>
-            <Button variant="tertiary" onPress={handleOnClose}>
-              <Typography.Text color="neutralBase-50">
+            <Stack align="stretch" direction="vertical" gap="8p">
+              <Button color="dark" block onPress={handleOnAddToWallet}>
+                {t("ApplyCards.CardOrderedScreen.buttons.addToWallet")}
+              </Button>
+              <Button color="dark" variant="tertiary" onPress={handleOnClose}>
                 {t("ApplyCards.CardOrderedScreen.buttons.finish")}
-              </Typography.Text>
-            </Button>
+              </Button>
+            </Stack>
           </View>
         </ContentContainer>
       </Page>

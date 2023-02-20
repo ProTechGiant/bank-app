@@ -36,8 +36,8 @@ export default function ApplePayActivatedScreen() {
             </Typography.Text>
           </Stack>
           <View style={styles.button}>
-            <Button variant="primary" color="alt" block onPress={handleOnFinished}>
-              <Typography.Text color="neutralBase-50">{t("ApplyCards.ApplePayActivatedScreen.button")}</Typography.Text>
+            <Button variant="primary" color="dark" block onPress={handleOnFinished}>
+              {t("ApplyCards.ApplePayActivatedScreen.button")}
             </Button>
           </View>
         </ContentContainer>

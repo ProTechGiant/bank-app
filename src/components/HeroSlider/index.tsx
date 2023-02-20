@@ -1,8 +1,9 @@
 import times from "lodash/times";
 import { useRef, useState } from "react";
-import { Animated, NativeScrollEvent, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Animated, NativeScrollEvent, StyleSheet, View, ViewStyle } from "react-native";
 import PagerView, { PagerViewOnPageSelectedEvent } from "react-native-pager-view";
 
+import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import { CloseEndButtonProps } from "@/components/NavHeader/CloseEndButton";
 import { TextEndButtonProps } from "@/components/NavHeader/TextEndButton";
@@ -10,7 +11,6 @@ import Page from "@/components/Page";
 import { useThemeStyles } from "@/theme";
 
 import DarkOneGradient from "../LinearGradients/GradientBackgrounds";
-import Typography from "../Typography";
 import HeroSlide, { HeroSlideProps } from "./HeroSlide";
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
@@ -71,19 +71,6 @@ export default function HeroSlider({
     }),
     []
   );
-  const buttonStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["neutralBase-50"],
-      alignItems: "center",
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "center",
-      borderRadius: theme.radii.extraSmall,
-      paddingHorizontal: theme.spacing["16p"],
-      paddingVertical: theme.spacing["16p"],
-    }),
-    []
-  );
 
   const [step, setStep] = useState(0);
   const ref = useRef<NativeScrollEvent>(null);
@@ -122,12 +109,9 @@ export default function HeroSlider({
               </View>
             ))}
           </View>
-          {/* @TODO: change to <Button> once we have this variation in design system */}
-          <Pressable style={buttonStyle} onPress={onButtonPress}>
-            <Typography.Text color="neutralBase+30" size="body" weight="regular">
-              {step + 1 !== totalStep ? buttonText : lastButtonText}
-            </Typography.Text>
-          </Pressable>
+          <Button variant="primary" color="dark" onPress={onButtonPress}>
+            {step + 1 !== totalStep ? buttonText : lastButtonText}
+          </Button>
         </View>
       </Page>
     </DarkOneGradient>

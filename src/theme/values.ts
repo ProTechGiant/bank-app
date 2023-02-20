@@ -61,6 +61,9 @@ const palette = {
   "warningBase-10": "#FED195",
   "warningBase-20": "#FFE0B9",
   "warningBase-30": "#FFF0DC",
+
+  // utility
+  transparent: "transparent",
 };
 
 // @see https://www.figma.com/file/QOqqlaJOVnmvKjmRqIPryO/Croatia-Core-Theme?node-id=71%3A10210&t=7FQ3Qw5D8VeVyWdw-0

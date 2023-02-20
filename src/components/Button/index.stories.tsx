@@ -43,4 +43,4 @@ TextButton.play = async ({ args, canvasElement }) => {
 };
 
 export const LoadingButton: ComponentStory<typeof Button> = args => <Button {...args}>Loading button</Button>;
-LoadingButton.args = { type: "loader" };
+LoadingButton.args = { loading: true };

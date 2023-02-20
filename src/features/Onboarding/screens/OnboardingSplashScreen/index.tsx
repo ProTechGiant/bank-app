@@ -17,7 +17,7 @@ export default function OnboardingSplashScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { startOnboardingAsync } = useOnboardingContext();
-  const [loading, setLoading] = useState<"loader" | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
 
   const contentViewStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
@@ -32,9 +32,9 @@ export default function OnboardingSplashScreen() {
 
   const handleOnSignUp = () => {
     const _retryableStart = async () => {
-      setLoading("loader");
+      setLoading(true);
       await startOnboardingAsync();
-      setLoading(undefined);
+      setLoading(false);
       navigation.navigate("Onboarding.Iqama");
     };
 
@@ -69,13 +69,11 @@ export default function OnboardingSplashScreen() {
             </View>
           </View>
           <Stack align="stretch" direction="vertical" gap="8p">
-            <Button type={loading} variant="primary" color="alt" onPress={handleOnSignUp}>
+            <Button loading={loading} variant="primary" color="dark" onPress={handleOnSignUp}>
               {t("Onboarding.SplashScreen.buttons.signUp")}
             </Button>
-            <Button color="base" onPress={handleOnSignIn} variant="secondary">
-              <Typography.Text color="neutralBase-50" size="body" weight="regular">
-                {t("Onboarding.SplashScreen.buttons.signIn")}
-              </Typography.Text>
+            <Button color="dark" onPress={handleOnSignIn} variant="secondary">
+              {t("Onboarding.SplashScreen.buttons.signIn")}
             </Button>
           </Stack>
         </View>

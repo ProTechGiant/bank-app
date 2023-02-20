@@ -13,11 +13,10 @@ export default function SubmitButton<T extends FieldValues>({
   allowPristine = false,
   control,
   onSubmit,
-  type = undefined,
   ...buttonProps
 }: SubmitButtonProps<T>) {
   const { isDirty, isSubmitting, isValid } = useFormState({ control });
   const disabled = isSubmitting || !isValid || (!isDirty && !allowPristine);
 
-  return <Button disabled={disabled} type={isSubmitting ? "loader" : type} onPress={onSubmit} {...buttonProps} />;
+  return <Button disabled={disabled} loading={isSubmitting} onPress={onSubmit} {...buttonProps} />;
 }

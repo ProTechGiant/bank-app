@@ -173,7 +173,7 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
             })}
         </Stack>
       </View>
-      <Button onPress={handleConfirm} type={submitOrderCardAsync.isLoading ? "loader" : "no icons"}>
+      <Button onPress={handleConfirm} loading={submitOrderCardAsync.isLoading}>
         <Typography.Text color="neutralBase-50" size="body" weight="medium">
           {t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.confirm")}
         </Typography.Text>

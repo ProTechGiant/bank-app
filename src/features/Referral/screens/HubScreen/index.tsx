@@ -142,10 +142,8 @@ export default function HubScreen() {
         </View>
       </ScrollView>
       <View style={buttonStyle}>
-        <Button variant="primary" color="alt" onPress={handleOnSharePress}>
-          <Typography.Text color="neutralBase-50" weight="semiBold" size="callout">
-            {t("Referral.share")}
-          </Typography.Text>
+        <Button variant="primary" color="light" onPress={handleOnSharePress}>
+          {t("Referral.share")}
         </Button>
         <View style={captionTextWrapperStyle}>
           <Typography.Text size="caption2" color="neutralBase" weight="medium">
