@@ -81,13 +81,15 @@ export default function LargeCurrencyInput<T extends FieldValues>({
     marginTop: theme.spacing["16p"],
   }));
 
+  const selectionStyles = useThemeStyles<string>(theme => theme.palette["complimentBase"], []);
+
   return (
     <View style={containerStyles}>
       <Pressable onPress={handleOnPress} style={[styles.container, inputStyles]}>
         <CurrencyInput
           ref={textInputRef}
           autoFocus={autoFocus}
-          caretHidden
+          selectionColor={selectionStyles}
           editable={isEditable}
           onBlur={handleOnBlur}
           onChange={field.onChange}
