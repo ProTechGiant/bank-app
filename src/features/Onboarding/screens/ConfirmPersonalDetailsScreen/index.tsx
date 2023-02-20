@@ -63,7 +63,7 @@ export default function ConfirmPersonalDetailsScreen() {
   }));
 
   return (
-    <Page insets={["top"]} isPadded={false}>
+    <Page insets={["top"]}>
       <NavHeader withBackButton={false} title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={1} totalStep={6} />
       </NavHeader>

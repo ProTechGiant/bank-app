@@ -56,7 +56,7 @@ const TermsAndConditionsScreen = () => {
   }));
   return (
     <>
-      <Page insets={["top"]} isPadded={false}>
+      <Page insets={["top"]}>
         <NavHeader title={t("Onboarding.TermsAndConditions.navHeaderTitle")} withBackButton={false}>
           <ProgressIndicator currentStep={5} totalStep={6} />
         </NavHeader>

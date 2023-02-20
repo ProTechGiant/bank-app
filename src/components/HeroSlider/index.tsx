@@ -35,7 +35,7 @@ export default function HeroSlider({
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       paddingHorizontal: theme.spacing["16p"],
-      paddingBottom: theme.spacing["16p"],
+      paddingVertical: theme.spacing["16p"],
       flex: 1,
     }),
     []

@@ -8,10 +8,9 @@ interface PageProps {
   backgroundColor?: keyof Theme["palette"];
   children: React.ReactNode;
   insets?: Edge[];
-  isPadded?: boolean;
 }
 
-function Page({ backgroundColor, children, insets = undefined, isPadded = true }: PageProps) {
+export default function Page({ backgroundColor, children, insets = undefined }: PageProps) {
   const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: undefined !== backgroundColor ? theme.palette[backgroundColor] : undefined,
@@ -20,15 +19,9 @@ function Page({ backgroundColor, children, insets = undefined, isPadded = true }
     [backgroundColor]
   );
 
-  const bottomPadding = useThemeStyles<ViewStyle>(({ spacing }) => ({
-    paddingBottom: spacing["16p"],
-  }));
-
   return (
-    <SafeAreaView edges={insets} style={[containerStyles, isPadded && Platform.OS === "android" && bottomPadding]}>
+    <SafeAreaView edges={insets} style={containerStyles}>
       {children}
     </SafeAreaView>
   );
 }
-
-export default Page;
