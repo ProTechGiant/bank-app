@@ -1,14 +1,6 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Pressable, StatusBar, View, ViewStyle } from "react-native";
+import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
 import * as icons from "@/assets/icons";
 import Page from "@/components/Page";
@@ -19,47 +11,39 @@ import { quickActionReorderItem, ReorderItem } from "@/mocks/quickActionOrderDat
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import AccountInfoHeader, { AccountInfoHeaderProps } from "./AccountInfoHeader";
+import AccountInfoHeader from "./AccountInfoHeader";
 import ArticleSection from "./ArticleSection";
 import QuickAction from "./QuickAction";
 import RewardSection from "./RewardSection";
 
 export default function DashboardScreen() {
-  const bottomRowStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      flexDirection: "row",
-      flexWrap: "wrap",
-      justifyContent: "center",
-      marginBottom: theme.spacing["32p"] * 2,
-      marginHorizontal: theme.spacing["8p"],
-    }),
-    []
-  );
-  const buttonContainerStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      alignItems: "center",
-      borderColor: theme.palette.primaryBase,
-      borderRadius: 20,
-      borderStyle: "solid",
-      borderWidth: 1,
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "center",
-      marginTop: theme.spacing["24p"],
-      padding: 9,
-    }),
-    []
-  );
-  const quickActionWrapperStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      flexDirection: "row",
-      flexWrap: "wrap",
-      justifyContent: "space-between",
-      marginHorizontal: theme.spacing["8p"],
-    }),
-    []
-  );
-  const [headerSize, setHeaderSize] = useState<AccountInfoHeaderProps["size"]>("full");
+  const bottomRowStyle = useThemeStyles<ViewStyle>(theme => ({
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginHorizontal: theme.spacing["8p"],
+  }));
+
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    borderColor: theme.palette.primaryBase,
+    borderRadius: 20,
+    borderStyle: "solid",
+    borderWidth: 1,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 9,
+    marginTop: theme.spacing["24p"],
+  }));
+
+  const quickActionWrapperStyle = useThemeStyles<ViewStyle>(theme => ({
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    marginHorizontal: theme.spacing["8p"],
+  }));
+
   const navigation = useNavigation();
   const { t } = useTranslation();
 
@@ -127,35 +111,25 @@ export default function DashboardScreen() {
     });
   };
 
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    if (event.nativeEvent.contentOffset.y < 44 && headerSize !== "small") {
-      setHeaderSize("full");
-    } else if (
-      event.nativeEvent.contentOffset.y < 74 &&
-      event.nativeEvent.contentOffset.y > 44 &&
-      headerSize !== "medium"
-    ) {
-      setHeaderSize("medium");
-    } else if (event.nativeEvent.contentOffset.y > 74 && headerSize !== "full") {
-      setHeaderSize("small");
-    }
-  };
+  const lastContentOffset = useSharedValue(0);
 
-  useEffect(() => {
-    setHeaderSize("full");
-  }, [homeScreenLayout]);
+  const handleScroll = useAnimatedScrollHandler({
+    onScroll: event => {
+      lastContentOffset.value = event.contentOffset.y;
+    },
+  });
 
   return (
-    <Page insets={["bottom", "left", "right"]}>
+    <Page insets={["left", "right"]}>
       <StatusBar barStyle="light-content" />
-      <ScrollView
+      <AccountInfoHeader lastContentOffset={lastContentOffset} />
+      <Animated.ScrollView
         onScroll={handleScroll}
-        scrollEventThrottle={20}
+        scrollEventThrottle={1}
         showsVerticalScrollIndicator={false}
-        stickyHeaderIndices={[0]}>
-        <AccountInfoHeader size={headerSize} />
+        alwaysBounceVertical={false}
+        bounces={false}>
         {renderHomepage(homeScreenLayout.homepageOrderData)}
-
         <View style={bottomRowStyle}>
           <Pressable onPress={handleHomepageReorder}>
             <View style={buttonContainerStyle}>
@@ -165,7 +139,7 @@ export default function DashboardScreen() {
             </View>
           </Pressable>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </Page>
   );
 }
