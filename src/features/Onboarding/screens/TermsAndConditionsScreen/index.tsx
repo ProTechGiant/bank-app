@@ -49,6 +49,8 @@ const TermsAndConditionsScreen = () => {
     }
   };
 
+  const dividerColor = useThemeStyles<string>(theme => theme.palette["neutralBase-10"]);
+
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
     paddingHorizontal: theme.spacing["20p"],
@@ -67,7 +69,7 @@ const TermsAndConditionsScreen = () => {
                 {t("Onboarding.TermsAndConditions.title")}
               </Typography.Header>
               <Terms />
-              <View style={{ height: 1, backgroundColor: "#333" }} />
+              <View style={{ height: 1, backgroundColor: dividerColor }} />
               <Declaration />
             </Stack>
           </ContentContainer>
@@ -88,7 +90,7 @@ const TermsAndConditionsScreen = () => {
               label={t("Onboarding.TermsAndConditions.checkBoxDeclarationLabel")}
             />
             <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-              Continue
+              {t("Onboarding.TermsAndConditions.continue")}
             </SubmitButton>
           </Stack>
         </View>

@@ -6,6 +6,8 @@ export const nationalIdRegEx = /^\b[1-2]\d{9}\b/;
 
 export const alphaNumericSpaceRegExp = /^[a-zA-Z0-9 ]+$/;
 
+export const alphaNumericRegExp = /^[a-zA-Z0-9]*$/;
+
 export const alphaNumericSpecialCharsRegExp = /^[a-zA-Z0-9-’/`~!#*$@_%+=.,^&(){}[\]|;:”<>?\\ ]+$/;
 
 export const numericRegExp = /^[0-9]+$/;

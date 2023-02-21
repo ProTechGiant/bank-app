@@ -149,7 +149,7 @@ export const resources = {
             errorText: {
               countryRequired: "Country required",
               taxNumberRequired: "UTR required",
-              taxRegexFail: "Please check your UTR has no special characters",
+              taxNumberInvalid: "Please check your UTR is letters and numbers only",
             },
           },
           InfoBoxCountryTitle: "Country ",
@@ -162,6 +162,38 @@ export const resources = {
           checkBoxTermsLabel: "I agree to the Terms and Conditions",
           checkBoxDeclarationLabel: "I agree to the Customer Declaration",
           continue: "Continue",
+          terms: {
+            sectionOne: {
+              title: "Summary heading 1",
+              desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat.",
+            },
+            sectionTwo: {
+              title: "Summary heading 2",
+              desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat.",
+            },
+            sectionThree: {
+              title: "Summary heading 3",
+              desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat.",
+            },
+          },
+          declarations: {
+            sectionOne: {
+              title: "Introduction",
+              bodyOne: "The Terms and Conditions shall manage your use of our lifestyle offering, Croatia.",
+              bodyTwo:
+                "These Terms will be applied fully and affect to your use of Croatia. By using Croatia, you agreed to accept all terms and conditions written in here. You must not use Croatia if you disagree with any of these Standard Terms and Conditions.",
+              bodyThree:
+                "Minors or people below 18 years old are not allowed to open any banking products with Croatia.",
+            },
+            sectionTwo: {
+              title: "Intellectual Property Rights",
+              bodyOne:
+                "Other than the content you own, Croatia and/or its licensors own all the intellectual property rights and materials contained in this Website.",
+              bodyTwo:
+                "You are granted limited license only for purposes of viewing the material contained on this Website.",
+              bodyThree: "",
+            },
+          },
           errorText: {
             alert: "Woops. Could not confirm T&Cs",
           },
@@ -605,12 +637,54 @@ export const resources = {
             errorText: {
               countryRequired: "Country required",
               taxNumberRequired: "UTR required",
-              taxRegexFail: "يرجى التأكد من الرقم الضريبي",
+              taxNumberInvalid: "يرجى التأكد من الرقم الضريبي",
             },
           },
           InfoBoxCountryTitle: "Country ",
           InfoBoxReferenceTitle: "Unique Reference",
           maxCountriesText: "You’ve reached the maximum amount countries",
+        },
+        TermsAndConditions: {
+          navHeaderTitle: "TERMS",
+          title: "Terms of signup",
+          checkBoxTermsLabel: "I agree to the Terms and Conditions",
+          checkBoxDeclarationLabel: "I agree to the Customer Declaration",
+          continue: "Continue",
+          terms: {
+            sectionOne: {
+              title: "Summary heading 1",
+              desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat.",
+            },
+            sectionTwo: {
+              title: "Summary heading 2",
+              desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat.",
+            },
+            sectionThree: {
+              title: "Summary heading 3",
+              desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat.",
+            },
+          },
+          declarations: {
+            sectionOne: {
+              title: "Introduction",
+              bodyOne: "The Terms and Conditions shall manage your use of our lifestyle offering, Croatia.",
+              bodyTwo:
+                "These Terms will be applied fully and affect to your use of Croatia. By using Croatia, you agreed to accept all terms and conditions written in here. You must not use Croatia if you disagree with any of these Standard Terms and Conditions.",
+              bodyThree:
+                "Minors or people below 18 years old are not allowed to open any banking products with Croatia.",
+            },
+            sectionTwo: {
+              title: "Intellectual Property Rights",
+              bodyOne:
+                "Other than the content you own, Croatia and/or its licensors own all the intellectual property rights and materials contained in this Website.",
+              bodyTwo:
+                "You are granted limited license only for purposes of viewing the material contained on this Website.",
+              bodyThree: "",
+            },
+          },
+          errorText: {
+            alert: "Woops. Could not confirm T&Cs",
+          },
         },
       },
       InstructionsScreen: {

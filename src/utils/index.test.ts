@@ -1,4 +1,5 @@
 import {
+  alphaNumericRegExp,
   alphaNumericSpaceRegExp,
   alphaNumericSpecialCharsRegExp,
   nationalIdRegEx,
@@ -14,6 +15,21 @@ describe("alphaNumericSpaceRegExp", () => {
   it("Invalid string", () => {
     const string = "@£($)!";
     expect(string).not.toMatch(alphaNumericSpaceRegExp);
+  });
+});
+
+describe("alphaNumericRegExp", () => {
+  it("String with alphabets or numbers", () => {
+    const string = "abc1234xyz";
+    expect(string).toMatch(alphaNumericRegExp);
+  });
+  it("Invalid string - special characters", () => {
+    const string = "@£($)!";
+    expect(string).not.toMatch(alphaNumericRegExp);
+  });
+  it("Invalid string - space included", () => {
+    const string = "abc 123";
+    expect(string).not.toMatch(alphaNumericRegExp);
   });
 });
 

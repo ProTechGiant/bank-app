@@ -19,7 +19,7 @@ import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
 import { mockCountryList } from "@/mocks/countryListData";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { alphaNumericSpaceRegExp } from "@/utils";
+import { alphaNumericRegExp } from "@/utils";
 
 import { ForeignTaxCountry } from "./types";
 
@@ -40,7 +40,7 @@ export default function CountrySelector() {
         TaxReferenceNumber: yup
           .string()
           .required(t("Onboarding.FatcaDetailsScreen.CountrySelector.errorText.taxNumberRequired"))
-          .matches(alphaNumericSpaceRegExp, t("Onboarding.FatcaDetailsScreen.CountrySelector.errorText.taxRegexFail")),
+          .matches(alphaNumericRegExp, t("Onboarding.FatcaDetailsScreen.CountrySelector.errorText.taxNumberInvalid")),
       }),
     [i18n.language]
   );
