@@ -3,7 +3,7 @@
 exports[`components/Carousel renders a Carousel 1`] = `
 <View
   style={
-    Object {
+    {
       "paddingTop": 8,
       "position": "relative",
       "width": "100%",
@@ -12,14 +12,14 @@ exports[`components/Carousel renders a Carousel 1`] = `
 >
   <RCTScrollView
     data={
-      Array [
-        Object {
+      [
+        {
           "text": "Slide 1",
         },
-        Object {
+        {
           "text": "Slide 2",
         },
-        Object {
+        {
           "text": "Slide 3",
         },
       ]
@@ -42,15 +42,16 @@ exports[`components/Carousel renders a Carousel 1`] = `
     showsHorizontalScrollIndicator={false}
     showsVerticalScrollIndicator={false}
     snapToAlignment="center"
-    stickyHeaderIndices={Array []}
-    viewabilityConfigCallbackPairs={Array []}
+    stickyHeaderIndices={[]}
+    viewabilityConfigCallbackPairs={[]}
   >
     <View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
             },
             null,
@@ -59,7 +60,7 @@ exports[`components/Carousel renders a Carousel 1`] = `
       >
         <View
           style={
-            Object {
+            {
               "width": undefined,
             }
           }
@@ -74,10 +75,11 @@ exports[`components/Carousel renders a Carousel 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
             },
             null,
@@ -86,7 +88,7 @@ exports[`components/Carousel renders a Carousel 1`] = `
       >
         <View
           style={
-            Object {
+            {
               "width": undefined,
             }
           }
@@ -101,10 +103,11 @@ exports[`components/Carousel renders a Carousel 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
             },
             null,
@@ -113,7 +116,7 @@ exports[`components/Carousel renders a Carousel 1`] = `
       >
         <View
           style={
-            Object {
+            {
               "width": undefined,
             }
           }
@@ -131,7 +134,7 @@ exports[`components/Carousel renders a Carousel 1`] = `
   </RCTScrollView>
   <View
     style={
-      Object {
+      {
         "flexDirection": "row",
         "justifyContent": "center",
       }
@@ -139,7 +142,7 @@ exports[`components/Carousel renders a Carousel 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "bottom": 8,
           "flexDirection": "row",
           "position": "absolute",
@@ -148,14 +151,14 @@ exports[`components/Carousel renders a Carousel 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignSelf": "center",
               "borderRadius": 4,
               "marginBottom": 8,
               "marginHorizontal": 2,
             },
-            Object {
+            {
               "backgroundColor": "#FF7512",
               "height": 8,
               "width": 8,
@@ -165,14 +168,14 @@ exports[`components/Carousel renders a Carousel 1`] = `
       />
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignSelf": "center",
               "borderRadius": 4,
               "marginBottom": 8,
               "marginHorizontal": 2,
             },
-            Object {
+            {
               "backgroundColor": "#CFCFDD",
               "height": 6,
               "width": 6,
@@ -182,14 +185,14 @@ exports[`components/Carousel renders a Carousel 1`] = `
       />
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignSelf": "center",
               "borderRadius": 4,
               "marginBottom": 8,
               "marginHorizontal": 2,
             },
-            Object {
+            {
               "backgroundColor": "#CFCFDD",
               "height": 6,
               "width": 6,

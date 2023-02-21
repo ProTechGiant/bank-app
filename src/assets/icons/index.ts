@@ -29,7 +29,7 @@ export { LightningBoltIcon } from "./lightning-bolt";
 export { default as LocationPinIcon } from "./location-pin.svg";
 export { MapMarkerIcon } from "./map-marker";
 export { default as MinusIcon } from "./minus.svg";
-export { default as NotificationIcon } from "./notification.svg";
+export { default as NotificationIcon } from "./notification";
 export { PlusIcon } from "./plus";
 export { default as PlusIconCircle } from "./plus-circle.svg";
 export { default as PostcardIcon } from "./postcard.svg";

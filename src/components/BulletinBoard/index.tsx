@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Dimensions } from "react-native";
+import { Dimensions, View } from "react-native";
 
 import { Carousel } from "@/components/Carousel";
-import Dropdown from "@/components/Dropdown";
 import { useThemeStyles } from "@/theme";
 
 import BulletinTitle from "./BulletinTitle";
@@ -15,19 +14,18 @@ interface BulletinBoardProps<T> {
 
 export default function BulletinBoard<T>({ data, title }: BulletinBoardProps<T>) {
   const carouselWidth = useThemeStyles<number>(theme => Dimensions.get("screen").width - theme.spacing["16p"] * 2, []);
-  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
+  const handleOnToggle = () => {
+    setIsExpanded(!isExpanded);
   };
 
   if (data.length === 0) return null;
 
   return (
-    <Dropdown
-      title={<BulletinTitle title={title} dropdownVisible={dropdownVisible} onPress={toggleDropdown} />}
-      dropdownVisible={dropdownVisible}
-      content={<Carousel data={data} Slide={SlideContent} width={carouselWidth} pagination="under" />}
-    />
+    <View>
+      <BulletinTitle title={title} dropdownVisible={isExpanded} onPress={handleOnToggle} />
+      {isExpanded && <Carousel data={data} Slide={SlideContent} width={carouselWidth} pagination="under" />}
+    </View>
   );
 }

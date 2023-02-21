@@ -1,4 +1,4 @@
-import { GestureResponderEvent, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { DownArrowIcon, NotificationIcon, UpArrowIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
@@ -7,7 +7,7 @@ import { useThemeStyles } from "@/theme";
 interface BulletinTitleProps {
   title: string;
   dropdownVisible?: boolean;
-  onPress?: (event: GestureResponderEvent) => void;
+  onPress: () => void;
 }
 
 export default function BulletinTitle({ title, dropdownVisible, onPress }: BulletinTitleProps) {
@@ -33,7 +33,7 @@ export default function BulletinTitle({ title, dropdownVisible, onPress }: Bulle
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.notifications, []);
 
   return (
-    <TouchableOpacity onPress={onPress} style={titleContainerStyle}>
+    <Pressable onPress={onPress} style={titleContainerStyle}>
       <View style={styles.titleWrapper}>
         <View style={styles.subRow}>
           <NotificationIcon width={iconDimensions} height={iconDimensions} />
@@ -49,7 +49,7 @@ export default function BulletinTitle({ title, dropdownVisible, onPress }: Bulle
           <DownArrowIcon width={iconDimensions} height={iconDimensions} />
         )}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
