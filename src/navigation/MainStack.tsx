@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ApplyCardsStack from "@/features/ApplyCards/ApplyCardsStack";
+import CardActionsStack from "@/features/CardActions/CardActionsStack";
 import DashboardScreen from "@/features/Home/screens/DashboardScreen";
 import HomepageReorderModal from "@/features/Home/screens/HomepageReorderModal";
 import QuickActionsReorderCard from "@/features/Home/screens/QuickActionsReorderModal";
@@ -31,6 +32,7 @@ export default function MainStack() {
           options={{ presentation: "modal" }}
         />
         <Stack.Screen component={InstructionsScreen} name="Referral.InstructionsScreen" />
+        <Stack.Screen component={CardActionsStack} name="CardActions.CardActionsStack" />
         <Stack.Screen component={SavingsGoalsStack} name="SavingsGoals.SavingsGoalsStack" />
         <Stack.Screen component={OnboardingStack} name="Onboarding.OnboardingStack" />
         <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>

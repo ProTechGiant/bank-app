@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, I18nManager, SafeAreaView, View } from "react-native";
+import { Alert, I18nManager, SafeAreaView, ScrollView, View } from "react-native";
 
 import Button from "@/components/Button";
 import SubmitButton from "@/components/Form/SubmitButton";
@@ -59,6 +59,10 @@ export default function TemporaryLandingScreen() {
     navigation.navigate("Onboarding.OnboardingStack");
   };
 
+  const handleOnCardActions = () => {
+    navigation.navigate("CardActions.CardActionsStack");
+  };
+
   const handleOnSwitchDirection = () => {
     I18nManager.forceRTL(!I18nManager.isRTL);
     reloadApp();
@@ -66,34 +70,39 @@ export default function TemporaryLandingScreen() {
 
   return (
     <SafeAreaView>
-      {/* Temporary UserId for testing the instructions screen  */}
-      <View style={{ marginHorizontal: 20, marginTop: 20 }}>
-        <TextInput
-          name="UserId"
-          control={control}
-          keyboardType="number-pad"
-          blurOnSubmit={false}
-          label="User ID for Savings Goals Screens"
-          placeholder="E.g. 2222225"
-        />
-      </View>
-      <View style={{ margin: 20 }}>
-        <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-          Savings Goals
-        </SubmitButton>
-      </View>
-      <View style={{ margin: 20 }}>
-        <Button onPress={handleOnOpenApplyForCard}>Card Modal</Button>
-      </View>
-      <View style={{ margin: 20 }}>
-        <Button onPress={handleOnHomepage}>Homepage</Button>
-      </View>
-      <View style={{ margin: 20 }}>
-        <Button onPress={handleOnOpenOnboarding}>Onboarding</Button>
-      </View>
-      <View style={{ margin: 20 }}>
-        <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>
-      </View>
+      <ScrollView>
+        {/* Temporary UserId for testing the instructions screen  */}
+        <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+          <TextInput
+            name="UserId"
+            control={control}
+            keyboardType="number-pad"
+            blurOnSubmit={false}
+            label="User ID for Savings Goals Screens"
+            placeholder="E.g. 2222225"
+          />
+        </View>
+        <View style={{ margin: 20 }}>
+          <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+            Savings Goals
+          </SubmitButton>
+        </View>
+        <View style={{ margin: 20 }}>
+          <Button onPress={handleOnOpenApplyForCard}>Card Modal</Button>
+        </View>
+        <View style={{ margin: 20 }}>
+          <Button onPress={handleOnHomepage}>Homepage</Button>
+        </View>
+        <View style={{ margin: 20 }}>
+          <Button onPress={handleOnOpenOnboarding}>Onboarding</Button>
+        </View>
+        <View style={{ margin: 20 }}>
+          <Button onPress={handleOnCardActions}>Card Actions</Button>
+        </View>
+        <View style={{ margin: 20 }}>
+          <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
