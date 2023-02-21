@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { TextStyle } from "react-native";
+import { I18nManager, TextStyle } from "react-native";
 import PhoneInput from "react-phone-number-input/react-native-input";
 
 import { useThemeStyles } from "@/theme";
@@ -54,6 +54,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
         placeholderTextColor={placeholderTextColor}
         style={textStyles}
         value={field.value}
+        textAlign={I18nManager.isRTL ? "right" : "left"}
       />
     </InputBox>
   );

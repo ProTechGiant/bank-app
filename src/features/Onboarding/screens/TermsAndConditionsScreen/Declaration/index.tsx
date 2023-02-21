@@ -16,7 +16,7 @@ const Declaration = () => {
   return (
     <View>
       <Typography.Text size="footnote" weight="semiBold" color="primaryBase" style={headingStyle}>
-        Introdution
+        Introduction
       </Typography.Text>
       <Typography.Text size="caption1" weight="regular" style={paragraphStyle}>
         The Terms and Conditions shall manage your use of our lifestyle offering, Croatia.
