@@ -4,14 +4,14 @@ import { LayoutAnimation, Pressable, StyleSheet, View, ViewStyle } from "react-n
 
 import Typography from "@/components/Typography";
 import { useGlobalContext } from "@/contexts/GlobalContext";
-import Reorderer from "@/features/Home/components/Reorderer";
-import { quickActionOrderData, quickActionReorderItem } from "@/mocks/quickActionOrderData";
+import { homepageOrderData, ReorderItem } from "@/mocks/quickActionOrderData";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { ItemListContext } from "../context/ItemListContext";
+import Reorderer from "../../components/Reorderer";
+import { ItemListContext } from "../../context/ItemListContext";
 
-export default function QuickActionsReorderCard() {
+export default function HomepageReorderModal() {
   const buttonContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
@@ -40,22 +40,22 @@ export default function QuickActionsReorderCard() {
     []
   );
 
-  const minActiveSections = 3;
-  const maxActiveSections = 3;
-  const [showTitleBar, setShowTitleBar] = useState<boolean>(true);
-  const [saveEnabled, setSaveEnabled] = useState(true);
-  const navigation = useNavigation(); // Provide the useState to the context via a Context Provider.
+  const minActiveSections = 0;
+  const maxActiveSections = 4;
   const { t } = useTranslation();
+  const navigation = useNavigation(); // Provide the useState to the context via a Context Provider.
+  const [showTitleBar, setShowTitleBar] = useState<boolean>(true);
   const { homeScreenLayout, setHomeScreenLayout } = useGlobalContext();
-  let itemList: quickActionReorderItem[], setItemList: React.Dispatch<React.SetStateAction<quickActionReorderItem[]>>;
+  let itemList: ReorderItem[], setItemList: React.Dispatch<React.SetStateAction<ReorderItem[]>>;
   // Seed with either current or mock data
-  if (homeScreenLayout.quickActionOrderData) {
-    [itemList, setItemList] = useState(homeScreenLayout.quickActionOrderData);
+  if (homeScreenLayout.homepageOrderData) {
+    [itemList, setItemList] = useState(homeScreenLayout.homepageOrderData);
   } else {
-    [itemList, setItemList] = useState(quickActionOrderData);
+    [itemList, setItemList] = useState(homepageOrderData);
   }
+  const [saveEnabled, setSaveEnabled] = useState(true);
   const toggleItem = (key: string) => {
-    let updatedItemList: quickActionReorderItem[];
+    let updatedItemList: ReorderItem[];
     if (setItemList && itemList) {
       updatedItemList = itemList.map(item => {
         if (item.key === key) {
@@ -83,11 +83,11 @@ export default function QuickActionsReorderCard() {
 
   const handleSaveButton = () => {
     // Now we update the global state to reflect the item list
-    // Update the quickActions part of the homeScreenLayout
+    // Update the homepageOrderData part of the homeScreenLayout
     if (setHomeScreenLayout && saveEnabled) {
       const newHomeScreenLayout = {
-        quickActionOrderData: itemList,
-        homepageOrderData: homeScreenLayout.homepageOrderData,
+        quickActionOrderData: homeScreenLayout.quickActionOrderData,
+        homepageOrderData: itemList,
       };
       // Create a new homeScreenLayout object to force a rerender
       setHomeScreenLayout(newHomeScreenLayout);
@@ -107,12 +107,12 @@ export default function QuickActionsReorderCard() {
             <Pressable onPress={handleCancelButton}>
               <View style={buttonContainerStyle}>
                 <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-                  {t("Home.QuickActionsReorderCard.cancel")}
+                  {t("Home.HomepageReorderModal.cancel")}
                 </Typography.Text>
               </View>
             </Pressable>
             <Typography.Text color="neutralBase-50" weight="regular" size="footnote">
-              {t("Home.QuickActionsReorderCard.editActions")}
+              {t("Home.HomepageReorderModal.editActions")}
             </Typography.Text>
             <Pressable onPress={handleSaveButton} disabled={!saveEnabled}>
               <View style={buttonContainerStyle}>
@@ -120,7 +120,7 @@ export default function QuickActionsReorderCard() {
                   color={saveEnabled ? "neutralBase-50" : "neutralBase-50-50%"}
                   size="caption1"
                   weight="semiBold">
-                  {t("Home.QuickActionsReorderCard.save")}
+                  {t("Home.HomepageReorderModal.save")}
                 </Typography.Text>
               </View>
             </Pressable>
@@ -128,16 +128,17 @@ export default function QuickActionsReorderCard() {
           <View>
             {showTitleBar && (
               <Typography.Text style={styles.subHeader} color="neutralBase-50" align="center">
-                {t("Home.QuickActionsReorderCard.selectThreeFavourites")}
+                {t("Home.HomepageReorderModal.selectFavourite")}
               </Typography.Text>
             )}
           </View>
         </View>
         <Reorderer
           topSectionTitle="ACTIVE"
-          bottomSectionTitle="NEW ACTIONS"
+          bottomSectionTitle="NEW SECTIONS"
           maxActiveSections={maxActiveSections}
           minActiveSections={minActiveSections}
+          requiredList={["quickactions"]}
           setShowTitleBar={setShowTitleBar}
         />
       </View>
