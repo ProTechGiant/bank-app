@@ -208,6 +208,20 @@ export default function FundingStep({
         </ContentContainer>
       </ScrollView>
       <NotificationModal
+        buttons={
+          shouldShowConfirmationWithActionButtons && {
+            primary: (
+              <Button onPress={handleOnContinuePress}>
+                {t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.continueButton`)}
+              </Button>
+            ),
+            secondary: (
+              <Button onPress={onCompletePress}>
+                {t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.skipButton`)}
+              </Button>
+            ),
+          }
+        }
         onClose={onCompletePress}
         title={t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.modalTitle`)}
         message={t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.modalText`, {
@@ -218,20 +232,7 @@ export default function FundingStep({
               : "-",
         })}
         isVisible={isConfirmationVisible}
-        primaryButton={
-          shouldShowConfirmationWithActionButtons && (
-            <Button onPress={handleOnContinuePress}>
-              {t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.continueButton`)}
-            </Button>
-          )
-        }
-        secondaryButton={
-          shouldShowConfirmationWithActionButtons && (
-            <Button onPress={onCompletePress}>
-              {t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.skipButton`)}
-            </Button>
-          )
-        }
+        variant="success"
       />
     </>
   );

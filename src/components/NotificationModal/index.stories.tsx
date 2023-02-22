@@ -11,11 +11,14 @@ export default {
   component: NotificationModal_,
   args: {
     testID: "NotificationModal",
-    title: "This is title",
-    message: "This is message",
+    title: "This is a title",
+    message: "This is a message",
     isVisible: true,
-    primaryButton: <Button block>Continue</Button>,
-    secondaryButton: <Button variant="tertiary">Cancel</Button>,
+    buttons: {
+      primary: <Button testID="primaryButton">Continue</Button>,
+      secondary: <Button testID="secondaryButton">Cancel</Button>,
+    },
+    variant: "success",
   },
   argTypes: {
     icon: {
@@ -29,12 +32,7 @@ export default {
         disable: true,
       },
     },
-    primaryButton: {
-      table: {
-        disable: true,
-      },
-    },
-    secondaryButton: {
+    buttons: {
       table: {
         disable: true,
       },
@@ -42,15 +40,19 @@ export default {
   },
 } as ComponentMeta<typeof NotificationModal_>;
 
-export const NotificationModal: ComponentStory<typeof NotificationModal_> = props => (
-  <View style={{ width: "100%" }}>
-    <NotificationModal_ {...props} />
-  </View>
-);
+export const NotificationModal: ComponentStory<typeof NotificationModal_> = props => {
+  return (
+    <View style={{ width: "100%" }}>
+      <NotificationModal_ {...props} />
+    </View>
+  );
+};
 
 NotificationModal.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
 
-  const notificationModalElement = canvas.getByTestId(args.testID as string);
-  await expect(notificationModalElement).toBeVisible();
+  await expect(canvas.getByText(args.title)).toBeVisible();
+  await expect(canvas.getByText(args.message)).toBeVisible();
+  await expect(canvas.getByTestId("primaryButton")).toBeVisible();
+  await expect(canvas.getByTestId("secondaryButton")).toBeVisible();
 };

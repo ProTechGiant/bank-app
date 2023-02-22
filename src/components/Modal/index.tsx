@@ -4,7 +4,6 @@ import {
   ModalProps as RNModalProps,
   Platform,
   Pressable,
-  StyleProp,
   StyleSheet,
   useWindowDimensions,
   View,
@@ -27,7 +26,7 @@ import { useThemeStyles } from "@/theme";
 interface ModalProps extends Omit<RNModalProps, "animationType" | "onRequestClose" | "transparent"> {
   onClose?: () => void;
   headerText?: string;
-  style?: StyleProp<ViewStyle>;
+  style?: ViewStyle;
 }
 
 const NativeModal = Platform.OS === "web" ? View : RNModal;
@@ -59,27 +58,34 @@ export default function Modal({
     }
   }, [visible]);
 
-  const containerStyles = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["neutralBase-50"],
-      borderTopLeftRadius: theme.radii.small * 1.5,
-      borderTopRightRadius: theme.radii.small * 1.5,
-      marginTop: "auto",
-      paddingBottom: insets.bottom + theme.spacing["16p"],
-    }),
-    [insets.bottom]
+  const containerStyles = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-50"],
+    borderTopLeftRadius: theme.radii.small * 1.5,
+    borderTopRightRadius: theme.radii.small * 1.5,
+    marginTop: "auto",
+  }));
+
+  const contentStyles = useThemeStyles<ViewStyle>(
+    theme => {
+      const hasOverridenBottomPadding =
+        undefined !== style?.paddingBottom ||
+        undefined !== style?.marginBottom ||
+        undefined !== style?.paddingVertical ||
+        undefined !== style?.marginVertical;
+
+      return {
+        padding: theme.spacing["16p"],
+        paddingBottom: !hasOverridenBottomPadding ? insets.bottom : undefined,
+      };
+    },
+    [insets.bottom, style]
   );
 
   const headerStyles = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     flexDirection: "row",
-    minHeight: 60,
     justifyContent: "space-between",
-    paddingVertical: theme.spacing["8p"],
-  }));
-
-  const horizontalSpacing = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing["20p"],
+    padding: theme.spacing["4p"],
   }));
 
   const containerAnimatedStyles = useAnimatedStyle(() => ({
@@ -110,22 +116,26 @@ export default function Modal({
           if (visible) handleStartTransitioning();
         }}
         style={[containerStyles, containerAnimatedStyles, style]}>
-        <View style={headerStyles}>
-          <View style={horizontalSpacing} />
-          <View style={styles.headerTextContainer}>
-            <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-              {headerText}
-            </Typography.Text>
-          </View>
-          <View style={horizontalSpacing}>
-            {undefined !== onClose && (
-              <Pressable hitSlop={HIT_SLOP_RIGHT} onPress={onClose}>
-                <CloseIcon />
-              </Pressable>
-            )}
-          </View>
+        <View style={contentStyles}>
+          {(undefined !== headerText || undefined !== onClose) && (
+            <View style={headerStyles}>
+              <View />
+              <View style={styles.headerTextContainer}>
+                <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+                  {headerText}
+                </Typography.Text>
+              </View>
+              <View>
+                {undefined !== onClose && (
+                  <Pressable hitSlop={HIT_SLOP_RIGHT} onPress={onClose}>
+                    <CloseIcon />
+                  </Pressable>
+                )}
+              </View>
+            </View>
+          )}
+          {children}
         </View>
-        <View style={horizontalSpacing}>{children}</View>
       </Animated.View>
     </NativeModal>
   );

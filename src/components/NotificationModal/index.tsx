@@ -1,8 +1,7 @@
 import { cloneElement } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
-import { SvgProps } from "react-native-svg";
 
-import { TickCircleBorderIcon } from "@/assets/icons";
+import { CancelCircleBorderIcon, IconProps, InfoCircleIcon, TickCircleBorderIcon } from "@/assets/icons";
 import { ButtonProps } from "@/components/Button";
 import Modal from "@/components/Modal";
 import Stack from "@/components/Stack";
@@ -10,51 +9,71 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface NotificationModalProps {
-  icon?: React.ReactElement<SvgProps>;
-  title?: string;
+  buttons?:
+    | {
+        primary: React.ReactElement<ButtonProps>;
+        secondary: React.ReactElement<ButtonProps>;
+      }
+    | false;
+  onClose?: () => void;
   message: string;
   isVisible: boolean;
-  testID?: string;
-  primaryButton?: React.ReactElement<ButtonProps> | false;
-  secondaryButton?: React.ReactElement<ButtonProps> | false;
-  onClose?: () => void;
+  title: string;
+  variant: "success" | "error" | "warning" | "confirmations";
 }
 
+const VARIANT_ICONS = {
+  success: <TickCircleBorderIcon />,
+  error: <CancelCircleBorderIcon />,
+  warning: <InfoCircleIcon />,
+};
+
+// @see https://www.figma.com/file/QOqqlaJOVnmvKjmRqIPryO/Croatia-Core-Theme?node-id=2669%3A12208&t=48I2T8XT844CfKFB-0
 export default function NotificationModal({
-  icon = <TickCircleBorderIcon />,
+  buttons,
+  onClose,
+  message,
   isVisible,
   title,
-  message,
-  primaryButton,
-  secondaryButton,
-  onClose,
-  testID,
+  variant,
 }: NotificationModalProps) {
-  const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+  const iconContainerStyles = useThemeStyles(theme => ({
     marginBottom: theme.spacing["20p"],
   }));
 
+  const iconStyles = useThemeStyles<IconProps>(
+    ({ palette }) => ({
+      color:
+        variant === "success" ? palette.successBase : variant === "error" ? palette.errorBase : palette.warningBase,
+      height: 50,
+      width: 50,
+    }),
+    [variant]
+  );
+
   const modalStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderRadius: theme.radii.small,
     marginBottom: theme.spacing["32p"],
     marginHorizontal: theme.spacing["16p"],
-    borderRadius: theme.radii.small,
-    paddingBottom: theme.spacing["24p"],
+  }));
+
+  const spacerStyle = useThemeStyles<ViewStyle>(theme => ({
+    height: theme.spacing["24p"],
   }));
 
   const buttonsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["32p"],
+    marginTop: theme.spacing["24p"],
     width: "100%",
   }));
 
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.notificationTick);
-
   return (
-    <Modal visible={isVisible} style={modalStyle} onClose={onClose}>
-      <View style={styles.container} testID={testID}>
-        {icon && (
-          <View style={iconContainerStyle}>
-            {cloneElement(icon, { height: iconDimensions, width: iconDimensions })}
-          </View>
+    <Modal
+      visible={isVisible}
+      style={modalStyle}
+      onClose={undefined === buttons || false === buttons ? onClose : undefined}>
+      <View style={styles.container}>
+        {variant !== "confirmations" && (
+          <View style={iconContainerStyles}>{cloneElement(VARIANT_ICONS[variant], iconStyles)}</View>
         )}
         <Stack direction="vertical" gap="16p" align="center">
           <Typography.Text color="neutralBase+30" weight="bold" size="title2" align="center">
@@ -64,10 +83,14 @@ export default function NotificationModal({
             {message}
           </Typography.Text>
         </Stack>
-        <View style={buttonsContainerStyle}>
-          {!!primaryButton && cloneElement(primaryButton, { variant: "primary" })}
-          {!!secondaryButton && cloneElement(secondaryButton, { variant: "tertiary" })}
-        </View>
+        {undefined !== buttons && false !== buttons ? (
+          <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
+            {cloneElement(buttons.primary, { variant: "primary" })}
+            {cloneElement(buttons.secondary, { variant: "tertiary" })}
+          </Stack>
+        ) : (
+          <View style={spacerStyle} />
+        )}
       </View>
     </Modal>
   );

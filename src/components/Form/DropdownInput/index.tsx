@@ -28,7 +28,7 @@ export default function DropdownInput<T extends FieldValues>({
 }: DropdownInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<typeof field["value"]>();
+  const [selectedValue, setSelectedValue] = useState<(typeof field)["value"]>();
 
   useEffect(() => {
     setSelectedValue(field.value);
@@ -75,10 +75,7 @@ export default function DropdownInput<T extends FieldValues>({
   const chevronOpenIconColor = useThemeStyles(theme => theme.palette.neutralBase);
 
   const buttonContainer = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-50"],
-    paddingHorizontal: theme.spacing["20p"],
     paddingVertical: theme.spacing["16p"],
-    width: "100%",
   }));
 
   return (
