@@ -7,10 +7,14 @@ interface ToggleProps {
   onPress: () => void;
   testID?: string;
   value: boolean;
+  disabled?: boolean;
 }
 
-export default function Toggle({ onPress, testID, value }: ToggleProps) {
+export default function Toggle({ onPress, testID, disabled, value }: ToggleProps) {
+  const disabledOffColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20-30%"]);
+
   const offColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
+
   const onColor = useThemeStyles<string>(theme => theme.palette["complimentBase"]);
 
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -28,7 +32,7 @@ export default function Toggle({ onPress, testID, value }: ToggleProps) {
   }));
 
   const backgroundAnimatedStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(value ? 1 : 0, [0, 1], [offColor, onColor]),
+    backgroundColor: interpolateColor(value ? 1 : 0, [0, 1], [disabled ? disabledOffColor : offColor, onColor]),
   }));
 
   const buttonAnimatedStyle = useAnimatedStyle(() => ({
@@ -40,7 +44,7 @@ export default function Toggle({ onPress, testID, value }: ToggleProps) {
   }));
 
   return (
-    <Pressable onPress={() => onPress()} testID={testID}>
+    <Pressable disabled={disabled} onPress={() => onPress()} testID={testID}>
       <Animated.View style={[containerStyle, backgroundAnimatedStyle]}>
         <Animated.View style={[buttonStyle, buttonAnimatedStyle]} />
       </Animated.View>

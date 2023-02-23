@@ -11,13 +11,16 @@ const palette = {
   "complimentBase-30": "#FFDECC",
 
   "neutralBase+30": "#000000",
+  "neutralBase+30-30%": "#0000004D",
   "neutralBase+20": "#121212",
   "neutralBase+10": "#12121",
   neutralBase: "#7D7D7D",
+  "neutralBase-30%": "#7D7D7D4D",
   "neutralBase-10": "#A3A3A3",
   "neutralBase-20": "#CCCCCC",
+  "neutralBase-20-30%": "#CCCCCC4D",
   "neutralBase-30": "#F4F4F4",
-  "neutralBase-40": "#F2f2f2",
+  "neutralBase-40": "#F2F2F2",
   "neutralBase-50": "#FFFFFF",
   "neutralBase-50-50%": "#FFFFFF7F",
   "neutralBase-50-12%": "#FFFFFF1F",
@@ -158,6 +161,8 @@ const iconDimensions = {
   tick: 18,
   largeTick: 66,
   notificationTick: 42,
+  globe: 20,
+  nationality: 14,
   referralInstruction: {
     width: 51,
     height: 37,
@@ -169,6 +174,11 @@ const iconDimensions = {
   chevronRight: {
     height: 12,
     width: 7.41,
+  },
+  close: 12,
+  calendar: {
+    width: 13,
+    height: 14,
   },
 };
 

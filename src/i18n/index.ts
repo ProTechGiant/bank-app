@@ -534,6 +534,48 @@ export const resources = {
           },
         },
       },
+      CardActions: {
+        QuickMenu: {
+          freezeCard: "Freeze card",
+          defrost: "Defrost",
+          viewPin: "View PIN",
+          settings: "Settings",
+        },
+        CardSettingsScreen: {
+          title: "Card settings",
+          subTitle1: "Security",
+          changePin: "Change Pin",
+          onlinePayment: {
+            label: "Online payments",
+            helperText: "Lorem ipsum dolor",
+          },
+          internationalPayment: {
+            label: "International payments",
+            helperText: "Lorem ipsum dolor",
+          },
+          subTitle2: "Physical card",
+          swipePayments: {
+            label: "Swipe payments",
+            helperText: "Lorem ipsum dolor",
+          },
+          contactlessPayments: {
+            label: "Contactless payments",
+            helperText: "Lorem ipsum dolor",
+          },
+          allowChipWithoutPin: {
+            label: "Allow chip without PIN",
+            helperText: "Lorem ipsum dolor",
+          },
+          atmWithdrawals: {
+            label: "ATM withdrawals",
+            helperText: "Lorem ipsum dolor",
+          },
+          onTheWay: {
+            title: "Your card is on the way",
+            paragraph: "These settings will be available once you have received and activated your physical card.",
+          },
+        },
+      },
     },
   },
   ar: {

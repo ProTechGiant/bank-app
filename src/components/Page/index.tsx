@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Platform, ViewStyle } from "react-native";
+import { ViewStyle } from "react-native";
 import { Edge, SafeAreaView } from "react-native-safe-area-context";
 
 import { Theme, useThemeStyles } from "@/theme";
