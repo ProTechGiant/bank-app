@@ -103,7 +103,7 @@ export default function MobileAndNationalIdForm({
             <Stack direction="vertical" align="stretch" gap="20p">
               {errorMessages.map((err, index: number) =>
                 typeof err.message === "string" ? (
-                  <Banner key={`err_${index}`} color={err.backgroundColor} icon={err.icon} message={err.message} />
+                  <Banner key={`err_${index}`} variant={err.backgroundColor} icon={err.icon} message={err.message} />
                 ) : (
                   <InfoBox key={`err_${index}`} variant="compliment" borderPosition="start">
                     {err.link ? (

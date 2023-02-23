@@ -11,6 +11,7 @@ import NafathAuthScreen from "./screens/NafathAuthScreen";
 import OnboardingSplashScreen from "./screens/OnboardingSplashScreen";
 import OptionalEmailScreen from "./screens/OptionalEmailScreen";
 import PasscodeScreen from "./screens/PasscodeScreen";
+import PendingAccountScreen from "./screens/PendingAccountScreen";
 import TermsAndConditionsScreen from "./screens/TermsAndConditionsScreen";
 
 export type FatcaScreenTypes = {
@@ -37,6 +38,7 @@ export type OnboardingStackParams = {
   "Onboarding.CountrySelector": OnboardingCountrySelectorParams;
   "Onboarding.TermsAndConditions": undefined;
   "Onboarding.Passcode": undefined;
+  "Onboarding.PendingAccount": undefined;
 };
 
 export const Stack = createNativeStackNavigator<OnboardingStackParams>();
@@ -59,6 +61,7 @@ export default function OnboardingStack() {
         />
         <Stack.Screen component={TermsAndConditionsScreen} name="Onboarding.TermsAndConditions" />
         <Stack.Screen component={PasscodeScreen} name="Onboarding.Passcode" />
+        <Stack.Screen component={PendingAccountScreen} name="Onboarding.PendingAccount" />
       </Stack.Navigator>
     </OnboardingContextProvider>
   );

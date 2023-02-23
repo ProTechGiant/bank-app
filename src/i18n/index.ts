@@ -26,6 +26,24 @@ export const resources = {
             signIn: "Sign in",
           },
         },
+        LandingScreen: {
+          success: {
+            title: "You're on your way",
+            bannerMessage: "Your account was sucessfully created!",
+          },
+          failed: {
+            title: "Unfortunately, we can’t create an account for you",
+            subtitle: "If you have any concerns, please contact XXXXXXX.",
+          },
+          pending: {
+            title: "You're on your way",
+            bannerMessage:
+              "It can take up to X days for us to finalise this process. An SMS will be sent to you when your account has been created.",
+          },
+          buttons: {
+            FinishLater: "Finish Later",
+          },
+        },
         IqamaInputScreen: {
           errorText: {
             twoAttemptsLeft: "You have tried to sign up 3 times. You have 2 attempts remaining.",

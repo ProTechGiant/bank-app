@@ -58,11 +58,11 @@ export default function OnboardingSplashScreen() {
         </Stack>
         <View style={contentViewStyle}>
           <View>
-            <View style={{ alignItems: "center", marginTop: "50%" }}>
+            <Stack direction="vertical" align="center" style={{ marginTop: "50%" }}>
               <Typography.Text size="large" weight="bold" color="neutralBase-50">
                 {t("Onboarding.SplashScreen.title")}
               </Typography.Text>
-            </View>
+            </Stack>
             <View>
               <Typography.Text size="footnote" weight="regular" color="neutralBase-50" align="center">
                 {t("Onboarding.SplashScreen.subTitle")}

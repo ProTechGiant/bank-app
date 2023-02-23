@@ -14,19 +14,19 @@ const darkColor = "neutralBase+30";
 interface Colors {
   text: keyof typeof palette;
   labelText?: keyof typeof palette;
-  label: keyof typeof palette;
+  labelBackground: keyof typeof palette;
 }
 
 const getColor = (color: keyof typeof palette): Colors => {
   const colors: { [key: string]: Colors } = {
-    "interactionBase-30": { text: darkColor, labelText: darkColor, label: "interactionBase-20" },
-    "successBase+10": { text: lightColor, label: "successBase+20" },
-    "successBase-30": { text: darkColor, label: "successBase-20" },
-    warningBase: { text: darkColor, label: "warningBase-10" },
-    "warningBase-30": { text: darkColor, label: "warningBase-20" },
-    errorBase: { text: lightColor, label: "errorBase+10" },
-    "errorBase-40": { text: darkColor, label: "errorBase-20" },
-    default: { text: lightColor, labelText: darkColor, label: "interactionBase-30" },
+    "interactionBase-30": { text: darkColor, labelText: darkColor, labelBackground: "interactionBase-20" },
+    successBase: { text: lightColor, labelBackground: "successBase+20" },
+    "successBase-30": { text: darkColor, labelBackground: "successBase-20" },
+    warningBase: { text: darkColor, labelBackground: "warningBase-10" },
+    "warningBase-30": { text: darkColor, labelBackground: "warningBase-20" },
+    errorBase: { text: lightColor, labelBackground: "errorBase+10" },
+    "errorBase-40": { text: darkColor, labelBackground: "errorBase-20" },
+    default: { text: lightColor, labelText: darkColor, labelBackground: "interactionBase-30" },
   };
 
   return colors[color] || colors["default"];
@@ -35,7 +35,7 @@ const getColor = (color: keyof typeof palette): Colors => {
 export type BannerColorType =
   | "interactionBase"
   | "interactionBase-30"
-  | "successBase+10"
+  | "successBase"
   | "successBase-30"
   | "warningBase"
   | "warningBase-30"
@@ -43,7 +43,7 @@ export type BannerColorType =
   | "errorBase-40";
 
 export interface BannerProps {
-  color: BannerColorType;
+  variant: BannerColorType;
   icon: React.ReactElement<SvgProps | IconProps>;
   message: string;
   label?: string;
@@ -51,21 +51,21 @@ export interface BannerProps {
   clearTestID?: string;
 }
 
-const Banner = ({ color = "interactionBase", icon: Icon, message, label, onClear, clearTestID }: BannerProps) => {
-  const colors = getColor(color);
+const Banner = ({ variant = "interactionBase", icon: Icon, message, label, onClear, clearTestID }: BannerProps) => {
+  const colors = getColor(variant);
 
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       flexDirection: "row",
-      alignItems: "center",
+      alignItems: "flex-start",
       justifyContent: "space-between",
       width: "100%",
-      backgroundColor: theme.palette[color],
+      backgroundColor: theme.palette[variant],
       borderRadius: theme.radii.extraSmall,
       paddingHorizontal: theme.spacing["16p"],
       paddingVertical: theme.spacing["8p"],
     }),
-    [color]
+    [variant]
   );
 
   const iconStyle = useThemeStyles<ViewStyle>(
@@ -94,7 +94,7 @@ const Banner = ({ color = "interactionBase", icon: Icon, message, label, onClear
 
   const labelStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: theme.palette[colors.label],
+      backgroundColor: theme.palette[colors.labelBackground],
       borderRadius: theme.radii.xxlarge,
       paddingHorizontal: theme.spacing["16p"],
       paddingVertical: theme.spacing["8p"],
