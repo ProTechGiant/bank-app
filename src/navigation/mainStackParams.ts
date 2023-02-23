@@ -2,6 +2,7 @@ import { ApplyCardModalStackParams } from "@/features/ApplyCards/ApplyCardsStack
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
+import { SingleUseCardsStackParams } from "@/features/SingleUseCards/SingleUseCardsStack";
 
 type RootStackParams = {
   "ApplyCards.ApplyForCardStack": undefined;
@@ -18,12 +19,14 @@ type RootStackParams = {
   "SavingsGoals.SavingsGoalsStack": {
     savingsPotsNumber: number;
   };
+  "SingleUseCards.SingleUserCardsStack": undefined;
 };
 
 type MainStackParams = RootStackParams &
   ApplyCardModalStackParams &
   OnboardingStackParams &
   SavingsGoalsStackParams &
+  SingleUseCardsStackParams &
   CardActionsStackParams;
 
 export default MainStackParams;

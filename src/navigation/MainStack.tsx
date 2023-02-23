@@ -12,6 +12,7 @@ import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
 import TermsAndConditionsScreen from "@/features/Referral/screens/TermsAndConditionsScreen";
 import SavingsGoalsStack from "@/features/SavingsGoals/SavingsGoalsStack";
 import SettingsScreen from "@/features/Settings/screens/SettingsScreen";
+import SingleUseCardsStack from "@/features/SingleUseCards/SingleUseCardsStack";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 
 import MainStackParams from "./MainStackParams";
@@ -40,6 +41,7 @@ export default function MainStack() {
           <Stack.Screen component={QuickActionsReorderCard} name="Modal.QuickActionsReorderModal" />
           <Stack.Screen component={HomepageReorderModal} name="Modal.HomepageReorderModal" />
         </Stack.Group>
+        <Stack.Screen component={SingleUseCardsStack} name="SingleUseCards.SingleUserCardsStack" />
       </Stack.Navigator>
     </NavigationContainer>
   );

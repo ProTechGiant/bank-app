@@ -68,6 +68,10 @@ export default function TemporaryLandingScreen() {
     reloadApp();
   };
 
+  const handleOpenSingleUseCards = () => {
+    navigation.navigate("SingleUseCards.SingleUserCardsStack");
+  };
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -101,6 +105,9 @@ export default function TemporaryLandingScreen() {
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>
+        </View>
+        <View style={{ margin: 20 }}>
+          <Button onPress={handleOpenSingleUseCards}>Single Use Cards</Button>
         </View>
       </ScrollView>
     </SafeAreaView>

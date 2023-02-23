@@ -534,6 +534,14 @@ export const resources = {
           },
         },
       },
+      SingleUseCard: {
+        InfoScreen: {
+          title: "How single-use cards work",
+          subTitle:
+            "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
+          generateBtn: "Generate single-use card",
+        },
+      },
       CardActions: {
         QuickMenu: {
           freezeCard: "Freeze card",
@@ -758,6 +766,14 @@ export const resources = {
         titleThree: "المكافأة للطرفين",
         subTextThree:
           "مرسل ومُستقبِل الدعوة راح يحصلون على مكافأة 15 ريال سعودي. وعملاء فئة بلس 25 ريال سعودي عن كل دعوة.",
+      },
+      SingleUseCard: {
+        InfoScreen: {
+          title: "How single-use cards work",
+          subTitle:
+            "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
+          generateBtn: "Generate single-use card",
+        },
       },
     },
   },
