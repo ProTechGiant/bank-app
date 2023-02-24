@@ -555,6 +555,10 @@ export const resources = {
           viewPin: "View PIN",
           settings: "Settings",
         },
+        ViewPin: {
+          navTitle: "Your card PIN",
+          button: "Hide PIN",
+        },
         CardSettingsScreen: {
           title: "Card settings",
           subTitle1: "Security",
