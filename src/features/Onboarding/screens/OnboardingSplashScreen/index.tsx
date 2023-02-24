@@ -44,9 +44,16 @@ export default function OnboardingSplashScreen() {
       __DEV__ && console.error("Could not start onboarding flow:", _error);
     };
 
-    _retryableStart()
-      .catch(() => _retryableStart())
-      .catch(error => _woopsFailed(error));
+    Alert.alert("Testing note", "Note that starting the onboarding flow randomizes the UserID to make it testable", [
+      {
+        text: "OK",
+        onPress: () => {
+          _retryableStart()
+            .catch(() => _retryableStart())
+            .catch(error => _woopsFailed(error));
+        },
+      },
+    ]);
   };
 
   return (

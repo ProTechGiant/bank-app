@@ -10,13 +10,12 @@ interface OtpResponseType {
 }
 
 export default function useRequestNumber() {
-  const { nationalId, correlationId, userId } = useOnboardingContext();
+  const { nationalId, correlationId } = useOnboardingContext();
 
   return useMutation(async () => {
-    if (!userId || !correlationId) throw new Error("Need valid `userId` and `correlationId` to be available");
+    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
     return api<OtpResponseType>(
-      "api-dev",
       "v1",
       "customers/link",
       "POST",
@@ -25,7 +24,6 @@ export default function useRequestNumber() {
         NationalId: nationalId,
       },
       {
-        ["userId"]: userId,
         ["x-correlation-id"]: correlationId,
       }
     );

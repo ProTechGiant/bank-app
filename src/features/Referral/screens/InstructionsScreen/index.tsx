@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
-import { ViewStyle } from "react-native/types";
+import { View, ViewStyle } from "react-native";
 
 import { GiftIcon, InviteIcon, ReferralsIcon } from "@/assets/icons";
 import HeroSlider from "@/components/HeroSlider";

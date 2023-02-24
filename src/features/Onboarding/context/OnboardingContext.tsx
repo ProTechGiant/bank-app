@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
+import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
 import useOnboardingInstance from "../hooks/use-onboarding-instance";
@@ -12,8 +13,6 @@ function noop() {
 interface OnboardingContextState {
   setNationalId: (value: string) => void;
   nationalId: string | undefined;
-  setUserId: (value: string) => void;
-  userId: string | undefined;
   setCorrelationId: (value: string) => void;
   correlationId: string | undefined;
   setProcessId: (value: string) => void;
@@ -25,8 +24,6 @@ interface OnboardingContextState {
 const OnboardingContext = createContext<OnboardingContextState>({
   setNationalId: noop,
   nationalId: undefined,
-  setUserId: noop,
-  userId: undefined,
   setCorrelationId: noop,
   correlationId: undefined,
   setProcessId: noop,
@@ -36,24 +33,18 @@ const OnboardingContext = createContext<OnboardingContextState>({
 });
 
 function OnboardingContextProvider({ children }: { children: React.ReactNode }) {
+  const auth = useAuthContext();
   const onboardingInstanceAsync = useOnboardingInstance();
   const onboardingTasksAsync = useOnboardingTasks();
 
-  const [state, setState] = useState<
-    Pick<OnboardingContextState, "nationalId" | "userId" | "correlationId" | "processId">
-  >({
+  const [state, setState] = useState<Pick<OnboardingContextState, "nationalId" | "correlationId" | "processId">>({
     nationalId: undefined,
-    userId: undefined,
     correlationId: undefined,
     processId: undefined,
   });
 
   const setNationalId = (nationalId: string) => {
     setState(v => ({ ...v, nationalId }));
-  };
-
-  const setUserId = (userId: string) => {
-    setState(v => ({ ...v, userId }));
   };
 
   const setCorrelationId = (correlationId: string) => {
@@ -65,19 +56,20 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
   };
 
   const fetchLatestWorkflowTask = async () => {
-    const { userId, correlationId } = state;
-    if (!userId || !correlationId) throw new Error("Cannot fetch tasks without `userId` and `correlationId`");
+    const { correlationId } = state;
+    if (!correlationId) throw new Error("Cannot fetch tasks without `userId` and `correlationId`");
 
-    const response = await onboardingTasksAsync.mutateAsync({ userId, correlationId });
+    const response = await onboardingTasksAsync.mutateAsync({ correlationId });
     return response.Tasks?.[0] ?? undefined;
   };
 
   const startOnboardingAsync = async () => {
     const _userId = generateRandomId();
-    const _correlationId = generateRandomId();
-    const processId = await onboardingInstanceAsync.mutateAsync({ userId: _userId, correlationId: _correlationId });
+    auth.authenticate(_userId);
 
-    setUserId(_userId);
+    const _correlationId = generateRandomId();
+    const processId = await onboardingInstanceAsync.mutateAsync({ correlationId: _correlationId });
+
     setCorrelationId(_correlationId);
     setProcessId(String(processId));
   };
@@ -88,7 +80,6 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
         () => ({
           ...state,
           setNationalId,
-          setUserId,
           setCorrelationId,
           setProcessId,
           startOnboardingAsync,

@@ -4,10 +4,9 @@ import ApiError from "@/api/ApiError";
 import { ErrorFilledCircleIcon, InfoFilledCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 
-import ApiOnboardingError from "../../types/ApiOnboardingError";
 import { ErrorMessageType } from ".";
 
-export default function useErrorMessages(err: ApiError<ApiOnboardingError>) {
+export default function useErrorMessages(err: ApiError) {
   const { t } = useTranslation();
 
   const getErrorMessages = (type: string) => {

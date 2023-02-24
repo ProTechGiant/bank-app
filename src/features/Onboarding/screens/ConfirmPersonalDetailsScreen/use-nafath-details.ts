@@ -3,22 +3,19 @@ import { useMutation } from "react-query";
 import api from "@/api";
 
 import { useOnboardingContext } from "../../context/OnboardingContext";
-import ApiOnboardingError from "../../types/ApiOnboardingError";
 import NafathDetails from "./NafathDetails";
 
 export default function useNafathDetails() {
-  const { fetchLatestWorkflowTask, userId, nationalId, correlationId } = useOnboardingContext();
+  const { fetchLatestWorkflowTask, nationalId, correlationId } = useOnboardingContext();
 
   return useMutation(async () => {
-    if (undefined === userId || undefined === correlationId)
-      throw new Error("Cannot fetch customers/data without `userId` and `correlationId`");
+    if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
 
     const workflowTask = await fetchLatestWorkflowTask();
     if (!workflowTask || workflowTask.Name !== "RetrievePersonalDetails")
       throw new Error("Available workflowTaskId is not applicable to customers/data");
 
-    return api<NafathDetails, ApiOnboardingError>(
-      "api-dev",
+    return api<NafathDetails>(
       "v1",
       "customers/data",
       "POST",
@@ -27,7 +24,6 @@ export default function useNafathDetails() {
         NationalId: nationalId,
       },
       {
-        ["userId"]: userId,
         ["X-Workflow-Task-Id"]: workflowTask.Id,
         ["x-correlation-id"]: correlationId,
       }

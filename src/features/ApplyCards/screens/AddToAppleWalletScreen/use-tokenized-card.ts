@@ -11,6 +11,6 @@ interface TokenizedCardResponseType {
 export default function useTokenizedCard() {
   return useMutation((cardId: string) => {
     const path = `payments/tokenized/${cardId}`;
-    return api<TokenizedCardResponseType>("api-dev", "v1", path, "GET", undefined, undefined, undefined);
+    return api<TokenizedCardResponseType>("v1", path, "GET", undefined, undefined, undefined);
   });
 }

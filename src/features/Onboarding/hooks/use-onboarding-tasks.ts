@@ -2,21 +2,14 @@ import { useMutation } from "react-query";
 
 import sendApiRequest from "@/api";
 
-import ApiOnboardingError from "../types/ApiOnboardingError";
+interface ApiOnboardingTasksResponse {
+  Tasks: Array<{ Id: string; Name: string }>;
+}
 
 export default function useOnboardingTasks() {
-  return useMutation(({ userId, correlationId }: { userId: string; correlationId: string }) => {
-    return sendApiRequest<{ Tasks: { Id: string; Name: string }[] }, ApiOnboardingError>(
-      "api-dev",
-      "v1",
-      "tasks",
-      "GET",
-      undefined,
-      undefined,
-      {
-        ["UserId"]: userId,
-        ["x-Correlation-Id"]: correlationId,
-      }
-    );
+  return useMutation(({ correlationId }: { correlationId: string }) => {
+    return sendApiRequest<ApiOnboardingTasksResponse>("v1", "tasks", "GET", undefined, undefined, {
+      ["x-Correlation-Id"]: correlationId,
+    });
   });
 }

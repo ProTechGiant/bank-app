@@ -7,7 +7,7 @@ import { Account, Balance } from "../types/account";
 
 export default function useFetchAccount() {
   const accounts = useQuery("accounts", () => {
-    return api<Account[]>("api-dev", "v1", "accounts", "GET", undefined, undefined);
+    return api<Account[]>("v1", "accounts", "GET", undefined, undefined);
   });
 
   const { currentAccountName, currentAccountIBAN, accountId } = useMemo(() => {
@@ -28,7 +28,7 @@ export default function useFetchAccount() {
   const balances = useQuery(
     ["balances", { accountId }],
     () => {
-      return api<Balance[]>("api-dev", "v1", `accounts/${accountId}/balances`, "GET", undefined, undefined);
+      return api<Balance[]>("v1", `accounts/${accountId}/balances`, "GET", undefined, undefined);
     },
     {
       enabled: accountId?.length > 0,

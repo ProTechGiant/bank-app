@@ -3,9 +3,8 @@ import { useTranslation } from "react-i18next";
 import { Alert, I18nManager, SafeAreaView, ScrollView, View } from "react-native";
 
 import Button from "@/components/Button";
-import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
-import { useTemporaryContext } from "@/contexts/TemporaryContext";
+import { useAuthContext } from "@/contexts/AuthContext";
 import reloadApp from "@/i18n/reload-app";
 import useNavigation from "@/navigation/use-navigation";
 
@@ -18,13 +17,15 @@ interface TemporaryUserId {
 export default function TemporaryLandingScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const auth = useAuthContext();
 
   // PC-4353 show or skip saving goals instructions
   const getSavingsGoalNumAsync = useGetSavingsGoalNumber();
-
-  const { control, handleSubmit } = useForm<TemporaryUserId>({});
-
-  const { setTemporaryUserId } = useTemporaryContext();
+  const { control, handleSubmit } = useForm<TemporaryUserId>({
+    defaultValues: {
+      UserId: auth.userId,
+    },
+  });
 
   const handleOnSavingsGoals = async () => {
     try {
@@ -43,7 +44,7 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnSubmit = (values: TemporaryUserId) => {
-    setTemporaryUserId(values.UserId);
+    auth.authenticate(values.UserId);
     handleOnSavingsGoals();
   };
 
@@ -75,21 +76,18 @@ export default function TemporaryLandingScreen() {
   return (
     <SafeAreaView>
       <ScrollView>
-        {/* Temporary UserId for testing the instructions screen  */}
-        <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+        <View style={{ margin: 20 }}>
           <TextInput
             name="UserId"
             control={control}
             keyboardType="number-pad"
             blurOnSubmit={false}
-            label="User ID for Savings Goals Screens"
+            label="Change User ID"
             placeholder="E.g. 2222225"
           />
         </View>
         <View style={{ margin: 20 }}>
-          <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-            Savings Goals
-          </SubmitButton>
+          <Button onPress={handleSubmit(handleOnSubmit)}>Savings Goals</Button>
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleOnOpenApplyForCard}>Card Modal</Button>

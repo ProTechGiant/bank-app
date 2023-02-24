@@ -2,7 +2,6 @@ import { format } from "date-fns";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
-import { useTemporaryContext } from "@/contexts/TemporaryContext";
 
 import { CreateGoalInput, SavingsPot } from "./types";
 
@@ -24,20 +23,17 @@ interface CreateGoalError {
 }
 
 export function useCreateGoal() {
-  const { temporaryUserId } = useTemporaryContext();
   const queryClient = useQueryClient();
 
   return useMutation(
     (values: CreateGoalInput) => {
       return api<CreateGoalResponse, CreateGoalError>(
-        "api-dev",
         "v1",
         "customers/savings-pot",
         "POST",
         undefined,
         { ...values, targetDate: format(values.TargetDate, "yyyy-MM-d") },
         {
-          ["UserId"]: temporaryUserId,
           ["x-correlation-id"]: "1234567",
         }
       );
@@ -55,21 +51,10 @@ interface RoundUpActiveResponse {
 }
 
 export function useIsRoundupActive() {
-  const { temporaryUserId } = useTemporaryContext();
-
   return useQuery(queryKeys.roundupActive(), () => {
-    return api<RoundUpActiveResponse>(
-      "api-dev",
-      "v1",
-      "customers/savings-pot/roundup-active",
-      "GET",
-      undefined,
-      undefined,
-      {
-        ["UserId"]: temporaryUserId,
-        ["x-correlation-id"]: "1234567",
-      }
-    );
+    return api<RoundUpActiveResponse>("v1", "customers/savings-pot/roundup-active", "GET", undefined, undefined, {
+      ["x-correlation-id"]: "1234567",
+    });
   });
 }
 
@@ -96,7 +81,6 @@ interface FundSavingsPotResponse {
 }
 
 export function useFundSavingsPot() {
-  const { temporaryUserId } = useTemporaryContext();
   const queryClient = useQueryClient();
 
   return useMutation(
@@ -105,7 +89,6 @@ export function useFundSavingsPot() {
       const { SavingsPotId, ...bodyOptions } = options;
 
       return api<FundSavingsPotResponse>(
-        "api-dev",
         "v1",
         `customers/savings-pot/${SavingsPotId}/fund/${methodPath}`,
         "POST",
@@ -116,7 +99,6 @@ export function useFundSavingsPot() {
         },
         {
           "X-Correlation-ID": "12345",
-          UserId: temporaryUserId,
         }
       );
     },
@@ -143,11 +125,8 @@ export interface SavingsPotDetailsResponse {
 }
 
 export function useSavingsPot(savingsPotId: string) {
-  const { temporaryUserId } = useTemporaryContext();
-
   return useQuery(queryKeys.details(savingsPotId), () => {
     return api<SavingsPotDetailsResponse>(
-      "api-dev",
       "v1",
       `customers/savings-pot/${savingsPotId}/details`,
       "GET",
@@ -155,7 +134,6 @@ export function useSavingsPot(savingsPotId: string) {
       undefined,
       {
         "X-Correlation-ID": "12345",
-        UserId: temporaryUserId,
       }
     );
   });
@@ -166,11 +144,8 @@ interface SavingsPotsResponse {
 }
 
 export function useSavingsPots() {
-  const { temporaryUserId } = useTemporaryContext();
-
   return useQuery(queryKeys.all, () => {
-    return api<SavingsPotsResponse>("api-dev", "v1", "customers/savings-pot/all", "GET", undefined, undefined, {
-      ["UserId"]: temporaryUserId,
+    return api<SavingsPotsResponse>("v1", "customers/savings-pot/all", "GET", undefined, undefined, {
       ["x-correlation-id"]: "12345",
     });
   });

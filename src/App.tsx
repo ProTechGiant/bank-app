@@ -8,8 +8,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import useI18nDirection from "@/i18n/use-i18n-direction";
 import MainStack from "@/navigation/MainStack";
 
+import { AuthContextProvider } from "./contexts/AuthContext";
 import { GlobalContextProvider } from "./contexts/GlobalContext";
-import { TemporaryContextProvider } from "./contexts/TemporaryContext";
 import { OnboardingContextProvider } from "./features/Onboarding/context/OnboardingContext";
 
 const queryClient = new QueryClient();
@@ -19,7 +19,7 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TemporaryContextProvider>
+      <AuthContextProvider>
         <GlobalContextProvider>
           <OnboardingContextProvider>
             <SafeAreaProvider>
@@ -30,7 +30,7 @@ export default function App() {
             </SafeAreaProvider>
           </OnboardingContextProvider>
         </GlobalContextProvider>
-      </TemporaryContextProvider>
+      </AuthContextProvider>
     </QueryClientProvider>
   );
 }

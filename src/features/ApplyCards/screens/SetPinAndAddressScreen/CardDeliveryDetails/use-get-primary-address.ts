@@ -6,6 +6,6 @@ import { Address } from "../../../context/OrderCardContext";
 
 export default function useGetPrimaryAddress() {
   return useMutation(() => {
-    return api<Address | undefined>("api-dev", "v1", "cards/customer/address", "GET", undefined, undefined);
+    return api<Address | undefined>("v1", "cards/customer/address", "GET", undefined, undefined);
   });
 }

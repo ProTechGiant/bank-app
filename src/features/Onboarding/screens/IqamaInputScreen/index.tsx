@@ -9,7 +9,6 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 
-import ApiOnboardingError from "../../types/ApiOnboardingError";
 import IqamaInputs from "./IqamaInputs";
 import MobileAndNationalIdForm from "./MobileAndNationalId/MobileAndNationalIdForm";
 import useErrorMessages from "./use-error-messages";
@@ -25,7 +24,7 @@ export default function IqamaInputScreen() {
   const { t } = useTranslation();
   const { mutateAsync, error } = useIqama();
   const navigation = useNavigation();
-  const iqamaError = error as ApiError<ApiOnboardingError>;
+  const iqamaError = error as ApiError;
   const { errorMessages } = useErrorMessages(iqamaError);
 
   const handleOnSignIn = () => {

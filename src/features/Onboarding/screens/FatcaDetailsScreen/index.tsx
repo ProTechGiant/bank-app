@@ -20,7 +20,6 @@ import { useThemeStyles } from "@/theme";
 
 import MoreInfoDropdown from "../../components/MoreInfoDropdown";
 import { OnboardingStackParams } from "../../OnboardingStack";
-import ApiOnboardingError from "../../types/ApiOnboardingError";
 import AddCountryTile from "./AddCountryTile";
 import SelectedForeignTaxCountryCard from "./SelectedForeignTaxCountryCard";
 import { FatcaFormInput, ForeignTaxCountry } from "./types";
@@ -115,7 +114,7 @@ export default function FatcaDetailsScreen() {
     } catch (error) {
       Alert.alert(
         "Sorry, could not complete your request",
-        error instanceof ApiError<ApiOnboardingError> ? error.errorContent.Message : undefined
+        error instanceof ApiError ? error.errorContent.Message : undefined
       );
     }
   };

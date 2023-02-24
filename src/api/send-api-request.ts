@@ -1,29 +1,28 @@
 /* eslint-disable no-console */
+import { API_BASE_URL } from "@env";
 import queryString from "query-string";
 
 import ApiError from "./ApiError";
+import ResponseError from "./ResponseError";
 
-export interface ResponseError {
-  Message: string;
-  Errors: Array<{ Message: string; Path: string }>;
+type Headers = Record<string, string>;
+let authenticationHeaders: Headers = {};
+
+export function setAuthenticationHeaders(value: Headers) {
+  authenticationHeaders = value;
 }
 
-// TODO: get this from environment variables
-const baseUrl = ".apps.dev-dmz.projectcroatia.cloud";
-const APIKey = "564c0148-56a1-11ed-9b6a-0242ac120002";
-
 export default async function sendApiRequest<TResponse = unknown, TError = ResponseError>(
-  service: string,
   version: string,
   path: string,
   method: string,
   query?: queryString.StringifiableRecord,
-  body?: string | Record<string | number, unknown> | undefined,
+  body?: string | object | undefined,
   headers: { [key: string]: string } = {}
 ) {
   const fetchUrl = queryString.stringifyUrl({
     query,
-    url: "https://" + service + baseUrl + "/" + version + "/" + path,
+    url: "https://" + API_BASE_URL + "/" + version + "/" + path,
   });
 
   if (__DEV__) {
@@ -39,8 +38,8 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     body: undefined !== body ? (typeof body === "object" ? JSON.stringify(body) : body) : undefined,
     method,
     headers: {
-      Host: service + baseUrl,
-      "X-API-KEY": APIKey,
+      Host: API_BASE_URL,
+      ...authenticationHeaders,
       ...headers,
     },
   });

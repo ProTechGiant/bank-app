@@ -1,9 +1,8 @@
 import { useMutation } from "react-query";
 
-import sendApiRequest from "@/api";
+import api from "@/api";
 
 import { useOnboardingContext } from "../../context/OnboardingContext";
-import ApiOnboardingError from "../../types/ApiOnboardingError";
 import IqamaInputs from "./IqamaInputs";
 
 interface IqamaResponse {
@@ -14,18 +13,17 @@ interface IqamaResponse {
 }
 
 export default function useIqama() {
-  const { fetchLatestWorkflowTask, userId, correlationId, setNationalId } = useOnboardingContext();
+  const { fetchLatestWorkflowTask, correlationId, setNationalId } = useOnboardingContext();
 
   return useMutation(
     async (values: IqamaInputs) => {
-      if (!userId || !correlationId) throw new Error("Need valid `userId` and `correlationId` to be available");
+      if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
       const workflowTask = await fetchLatestWorkflowTask();
       if (!workflowTask || workflowTask.Name !== "MobileVerification")
         throw new Error("Available workflowTaskId is not applicable to customers/check");
 
-      return sendApiRequest<IqamaResponse, ApiOnboardingError>(
-        "api-dev",
+      return api<IqamaResponse>(
         "v1",
         "customers/checks",
         "POST",
@@ -36,7 +34,6 @@ export default function useIqama() {
         },
         {
           ["X-Workflow-Task-Id"]: workflowTask.Id,
-          ["UserId"]: userId,
           ["x-correlation-id"]: correlationId,
         }
       );
