@@ -19,6 +19,7 @@ interface InputBoxProps {
   multiline?: boolean;
   fieldState: ControllerFieldState;
   onPress?: () => void;
+  icon?: React.ReactElement;
 }
 
 export default function InputBox({
@@ -33,6 +34,7 @@ export default function InputBox({
   multiline = false,
   fieldState,
   onPress,
+  icon,
 }: InputBoxProps) {
   const isError = undefined !== fieldState?.error && fieldState.isTouched;
 
@@ -69,6 +71,10 @@ export default function InputBox({
     justifyContent: "space-between",
   }));
 
+  const iconStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingRight: theme.spacing["8p"],
+  }));
+
   const errorIconColor = useThemeStyles(theme => theme.palette.errorBase);
 
   return (
@@ -76,6 +82,7 @@ export default function InputBox({
       {label && <InputLabel>{label}</InputLabel>}
       <View style={containerStyle}>
         <>
+          {icon !== undefined && <View style={iconStyle}>{icon}</View>}
           {children}
           {undefined !== fieldState.error && fieldState.isTouched && (
             <ErrorIcon fill={errorIconColor} height={20} width={20} />

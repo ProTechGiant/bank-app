@@ -43,6 +43,7 @@ export { QuestionIcon } from "./question";
 export { RecurringEventIcon } from "./recurring-event-icon";
 export { default as ReferralIcon } from "./referral.svg";
 export { default as ReferralsIcon } from "./referrals.svg";
+export { default as SearchIcon } from "./search.svg";
 export { default as SettingsIcon } from "./settings.svg";
 export { default as ShareCopyIcon } from "./share-copy.svg";
 export { default as ShippingIcon } from "./shipping.svg";

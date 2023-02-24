@@ -13,9 +13,9 @@ import { useGlobalContext } from "@/contexts/GlobalContext";
 import { useThemeStyles } from "@/theme";
 import { pluralize } from "@/utils";
 
+import useFetchAccount from "./hooks/use-fetch-account";
+import usePendingNotications from "./hooks/use-pending-notications";
 import TemporaryPillButton from "./TemporaryPillButton";
-import useFetchAccount from "./use-fetch-account";
-import usePendingNotications from "./use-pending-notications";
 
 export interface AccountInfoHeaderProps {
   lastContentOffset: SharedValue<number>;

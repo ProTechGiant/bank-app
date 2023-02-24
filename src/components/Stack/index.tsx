@@ -9,6 +9,7 @@ interface StackProps extends ViewProps {
   direction: "horizontal" | "vertical";
   justify?: ViewStyle["justifyContent"];
   gap?: keyof Theme["spacing"] | undefined;
+  flex?: number;
 }
 
 // @see https://reactnative.dev/blog/2023/01/12/version-071#simplifying-layouts-with-flexbox-gap
@@ -19,6 +20,7 @@ export default function Stack({
   justify = "flex-start",
   gap,
   style,
+  flex,
   ...restProps
 }: StackProps) {
   const elements = React.Children.toArray(children);
@@ -30,8 +32,9 @@ export default function Stack({
       columnGap: direction === "horizontal" && undefined !== gap ? theme.spacing[gap] : undefined,
       rowGap: direction === "vertical" && undefined !== gap ? theme.spacing[gap] : undefined,
       justifyContent: justify,
+      flex: flex,
     }),
-    [align, direction, gap, justify]
+    [align, direction, gap, justify, flex]
   );
 
   return (

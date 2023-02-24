@@ -163,6 +163,8 @@ const iconDimensions = {
   notificationTick: 42,
   globe: 20,
   nationality: 14,
+  faqSectionIcons: 16,
+  searchTextInput: 16,
   referralInstruction: {
     width: 51,
     height: 37,

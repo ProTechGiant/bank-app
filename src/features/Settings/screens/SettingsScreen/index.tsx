@@ -32,8 +32,13 @@ export default function SettingsScreen() {
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.settingsPage, []);
 
   const navigation = useNavigation();
+
   const handleOnReferPress = () => {
     navigation.navigate("Referral.HubScreen");
+  };
+
+  const handleOnFAQPress = () => {
+    navigation.navigate("FrequentlyAskedQuestions.LandingPage");
   };
 
   return (
@@ -44,7 +49,7 @@ export default function SettingsScreen() {
           {t("Settings.SettingsScreen.rewards")}
         </Typography.Text>
       </Pressable>
-      <Pressable style={cardContainerStyle}>
+      <Pressable style={cardContainerStyle} onPress={handleOnFAQPress}>
         <View style={iconContainer}>
           <QuestionIcon height={iconDimensions} width={iconDimensions} />
         </View>

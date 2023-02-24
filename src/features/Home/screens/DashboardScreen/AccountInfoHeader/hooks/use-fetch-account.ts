@@ -2,7 +2,8 @@ import { useMemo } from "react";
 import { useQuery } from "react-query";
 
 import api from "@/api";
-import { Account, Balance } from "@/types/account";
+
+import { Account, Balance } from "../types/account";
 
 export default function useFetchAccount() {
   const accounts = useQuery("accounts", () => {

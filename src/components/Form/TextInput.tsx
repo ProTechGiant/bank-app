@@ -18,6 +18,7 @@ interface TextInputProps<T extends FieldValues>
   placeholder?: string | null | undefined;
   label?: string | null;
   showCharacterCount?: boolean;
+  icon?: React.ReactElement;
 }
 
 export default function TextInput<T extends FieldValues>({
@@ -30,6 +31,7 @@ export default function TextInput<T extends FieldValues>({
   name,
   showCharacterCount,
   placeholder,
+  icon,
   ...restProps
 }: TextInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
@@ -55,7 +57,8 @@ export default function TextInput<T extends FieldValues>({
       isFocused={isFocused}
       multiline={multiline}
       fieldState={fieldState}
-      label={label}>
+      label={label}
+      icon={icon}>
       <RNTextInput
         editable={isEditable}
         onBlur={() => {

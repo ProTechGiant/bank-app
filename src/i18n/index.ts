@@ -403,6 +403,12 @@ export const resources = {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat. \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat. ",
         },
       },
+      FrequentlyAskedQuestions: {
+        LandingPage: {
+          title: "How can we help you?",
+          searchPlaceholder: "I need help with...",
+        },
+      },
       SavingsGoals: {
         fromAccount: {
           from: "From",

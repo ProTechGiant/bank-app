@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ApplyCardsStack from "@/features/ApplyCards/ApplyCardsStack";
 import CardActionsStack from "@/features/CardActions/CardActionsStack";
+import LandingPage from "@/features/FrequentlyAskedQuestions/screens/LandingPage";
 import DashboardScreen from "@/features/Home/screens/DashboardScreen";
 import HomepageReorderModal from "@/features/Home/screens/HomepageReorderModal";
 import QuickActionsReorderCard from "@/features/Home/screens/QuickActionsReorderModal";
@@ -42,6 +43,7 @@ export default function MainStack() {
           <Stack.Screen component={HomepageReorderModal} name="Modal.HomepageReorderModal" />
         </Stack.Group>
         <Stack.Screen component={SingleUseCardsStack} name="SingleUseCards.SingleUserCardsStack" />
+        <Stack.Screen component={LandingPage} name="FrequentlyAskedQuestions.LandingPage" />
       </Stack.Navigator>
     </NavigationContainer>
   );

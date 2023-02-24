@@ -20,6 +20,7 @@ type RootStackParams = {
     savingsPotsNumber: number;
   };
   "SingleUseCards.SingleUserCardsStack": undefined;
+  "FrequentlyAskedQuestions.LandingPage": undefined;
 };
 
 type MainStackParams = RootStackParams &
