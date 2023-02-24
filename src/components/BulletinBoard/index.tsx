@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dimensions, View } from "react-native";
+import { Dimensions, View, ViewStyle } from "react-native";
 
 import { Carousel } from "@/components/Carousel";
 import { useThemeStyles } from "@/theme";
@@ -22,8 +22,12 @@ export default function BulletinBoard<T>({ data, title }: BulletinBoardProps<T>)
 
   if (data.length === 0) return null;
 
+  const container = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-50"],
+  }));
+
   return (
-    <View>
+    <View style={container}>
       <BulletinTitle title={title} dropdownVisible={isExpanded} onPress={handleOnToggle} />
       {isExpanded && <Carousel data={data} Slide={SlideContent} width={carouselWidth} pagination="under" />}
     </View>
