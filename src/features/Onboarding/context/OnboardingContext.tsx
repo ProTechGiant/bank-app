@@ -19,7 +19,7 @@ interface OnboardingContextState {
   setProcessId: (value: string) => void;
   processId: string | undefined;
   startOnboardingAsync: () => Promise<void>;
-  fetchLatestWorkflowTask: () => Promise<{ id: string; name: string } | undefined>;
+  fetchLatestWorkflowTask: () => Promise<{ Id: string; Name: string } | undefined>;
 }
 
 const OnboardingContext = createContext<OnboardingContextState>({
@@ -69,7 +69,7 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
     if (!userId || !correlationId) throw new Error("Cannot fetch tasks without `userId` and `correlationId`");
 
     const response = await onboardingTasksAsync.mutateAsync({ userId, correlationId });
-    return response.tasks?.[0] ?? undefined;
+    return response.Tasks?.[0] ?? undefined;
   };
 
   const startOnboardingAsync = async () => {

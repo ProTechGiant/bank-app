@@ -13,7 +13,8 @@ export default function useFatcaDetails() {
     if (!userId || !correlationId) throw new Error("Need valid `userId` and `correlationId` to be available");
 
     const workflowTask = await fetchLatestWorkflowTask();
-    if (!workflowTask || workflowTask.name !== "Fatca&Crs")
+
+    if (!workflowTask || workflowTask.Name !== "Fatca&Crs")
       throw new Error("Available workflowTaskId is not applicable to customers/tax/residency/details");
 
     return api<string, ApiOnboardingError>(
@@ -24,7 +25,7 @@ export default function useFatcaDetails() {
       undefined,
       values,
       {
-        ["X-Workflow-Task-Id"]: workflowTask?.id,
+        ["X-Workflow-Task-Id"]: workflowTask?.Id,
         ["UserId"]: userId,
         ["x-correlation-id"]: correlationId,
       }

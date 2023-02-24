@@ -21,7 +21,7 @@ export default function useIqama() {
       if (!userId || !correlationId) throw new Error("Need valid `userId` and `correlationId` to be available");
 
       const workflowTask = await fetchLatestWorkflowTask();
-      if (!workflowTask || workflowTask.name !== "MobileVerification")
+      if (!workflowTask || workflowTask.Name !== "MobileVerification")
         throw new Error("Available workflowTaskId is not applicable to customers/check");
 
       return sendApiRequest<IqamaResponse, ApiOnboardingError>(
@@ -35,7 +35,7 @@ export default function useIqama() {
           MobileNumber: values.MobileNumber,
         },
         {
-          ["X-Workflow-Task-Id"]: workflowTask.id,
+          ["X-Workflow-Task-Id"]: workflowTask.Id,
           ["UserId"]: userId,
           ["x-correlation-id"]: correlationId,
         }

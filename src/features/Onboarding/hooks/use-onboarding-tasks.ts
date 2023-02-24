@@ -6,7 +6,7 @@ import ApiOnboardingError from "../types/ApiOnboardingError";
 
 export default function useOnboardingTasks() {
   return useMutation(({ userId, correlationId }: { userId: string; correlationId: string }) => {
-    return sendApiRequest<{ tasks: { id: string; name: string }[] }, ApiOnboardingError>(
+    return sendApiRequest<{ Tasks: { Id: string; Name: string }[] }, ApiOnboardingError>(
       "api-dev",
       "v1",
       "tasks",

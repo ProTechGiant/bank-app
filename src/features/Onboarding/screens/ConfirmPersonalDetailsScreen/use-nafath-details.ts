@@ -14,7 +14,7 @@ export default function useNafathDetails() {
       throw new Error("Cannot fetch customers/data without `userId` and `correlationId`");
 
     const workflowTask = await fetchLatestWorkflowTask();
-    if (!workflowTask || workflowTask.name !== "RetrievePersonalDetails")
+    if (!workflowTask || workflowTask.Name !== "RetrievePersonalDetails")
       throw new Error("Available workflowTaskId is not applicable to customers/data");
 
     return api<NafathDetails, ApiOnboardingError>(
@@ -28,7 +28,7 @@ export default function useNafathDetails() {
       },
       {
         ["userId"]: userId,
-        ["X-Workflow-Task-Id"]: workflowTask.id,
+        ["X-Workflow-Task-Id"]: workflowTask.Id,
         ["x-correlation-id"]: correlationId,
       }
     );

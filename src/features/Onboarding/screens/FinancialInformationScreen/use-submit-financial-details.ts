@@ -13,7 +13,7 @@ export default function useSubmitFinancialDetails() {
     if (!userId || !correlationId) throw new Error("Need valid `userId` and `correlationId` to be available");
 
     const workflowTask = await fetchLatestWorkflowTask();
-    if (!workflowTask || workflowTask.name !== "PersistFinancialInfo")
+    if (!workflowTask || workflowTask.Name !== "PersistFinancialInfo")
       throw new Error("Available workflowTaskId is not applicable to customers/financial/details");
 
     return api<string, ApiOnboardingError>(
@@ -24,7 +24,7 @@ export default function useSubmitFinancialDetails() {
       undefined,
       { ...values },
       {
-        ["X-Workflow-Task-Id"]: workflowTask.id,
+        ["X-Workflow-Task-Id"]: workflowTask.Id,
         ["UserId"]: userId,
         ["x-correlation-id"]: correlationId,
       }
