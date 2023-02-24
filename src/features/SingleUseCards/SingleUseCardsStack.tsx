@@ -3,10 +3,10 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import LoadingSingleCardScreen from "./screens/LoadingSingleCardScreen";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
-import SingleUserCardsScreen from "./SingleUserCardsScreen";
+import SingleUseCardsScreen from "./screens/SingleUseCardsScreen";
 
 export type SingleUseCardsStackParams = {
-  "SingleUseCards.SingleUserCardsScreen": undefined;
+  "SingleUseCards.SingleUseCardsScreen": undefined;
   "SingleUseCards.SingleUseCardInfo": undefined;
   "SingleUseCards.LoadingSingleCardScreen": undefined;
 };
@@ -17,7 +17,7 @@ export default function SingleUseCardsStack() {
   return (
     <SafeAreaProvider>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen component={SingleUserCardsScreen} name="SingleUseCards.SingleUserCardsScreen" />
+        <Stack.Screen component={SingleUseCardsScreen} name="SingleUseCards.SingleUseCardsScreen" />
         <Stack.Screen component={SingleUseCardInfo} name="SingleUseCards.SingleUseCardInfo" />
         <Stack.Screen component={LoadingSingleCardScreen} name="SingleUseCards.LoadingSingleCardScreen" />
       </Stack.Navigator>

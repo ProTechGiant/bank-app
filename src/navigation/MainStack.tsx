@@ -16,7 +16,7 @@ import SettingsScreen from "@/features/Settings/screens/SettingsScreen";
 import SingleUseCardsStack from "@/features/SingleUseCards/SingleUseCardsStack";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 
-import MainStackParams from "./MainStackParams";
+import MainStackParams from "./mainStackParams";
 
 const Stack = createNativeStackNavigator<MainStackParams>();
 
@@ -42,7 +42,7 @@ export default function MainStack() {
           <Stack.Screen component={QuickActionsReorderCard} name="Modal.QuickActionsReorderModal" />
           <Stack.Screen component={HomepageReorderModal} name="Modal.HomepageReorderModal" />
         </Stack.Group>
-        <Stack.Screen component={SingleUseCardsStack} name="SingleUseCards.SingleUserCardsStack" />
+        <Stack.Screen component={SingleUseCardsStack} name="SingleUseCards.SingleUseCardsStack" />
         <Stack.Screen component={LandingPage} name="FrequentlyAskedQuestions.LandingPage" />
       </Stack.Navigator>
     </NavigationContainer>

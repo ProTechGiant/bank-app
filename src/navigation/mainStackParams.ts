@@ -19,7 +19,7 @@ type RootStackParams = {
   "SavingsGoals.SavingsGoalsStack": {
     savingsPotsNumber: number;
   };
-  "SingleUseCards.SingleUserCardsStack": undefined;
+  "SingleUseCards.SingleUseCardsStack": undefined;
   "FrequentlyAskedQuestions.LandingPage": undefined;
 };
 

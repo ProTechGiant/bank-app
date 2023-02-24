@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
-import BankCard from "@/components/BankCard";
 import Button from "@/components/Button";
 import { useThemeStyles } from "@/theme";
+
+import CardPlaceholder from "../../components/CardPlaceholder";
 
 export default function SelectStandardCard({ onPress }: { onPress: () => void }) {
   const { t } = useTranslation();
@@ -17,7 +18,7 @@ export default function SelectStandardCard({ onPress }: { onPress: () => void })
 
   return (
     <View style={container}>
-      <BankCard variant="standard" width="100%" />
+      <CardPlaceholder variant="standard" width="100%" />
       <View style={styles.bottom}>
         <Button onPress={onPress}>{t("ApplyCards.ApplyForCardScreen.standard.button")}</Button>
       </View>

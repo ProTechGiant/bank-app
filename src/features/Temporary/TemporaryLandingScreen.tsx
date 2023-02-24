@@ -70,7 +70,7 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOpenSingleUseCards = () => {
-    navigation.navigate("SingleUseCards.SingleUserCardsStack");
+    navigation.navigate("SingleUseCards.SingleUseCardsStack");
   };
 
   return (
