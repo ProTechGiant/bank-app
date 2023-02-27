@@ -2,10 +2,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
-import { CalendarAltIcon, GlobeIcon, MapMarkerIcon, UserIcon } from "@/assets/icons";
 import CheckboxInput from "@/components/Form/CheckboxInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
@@ -62,12 +61,6 @@ export default function ConfirmPersonalDetailsScreen() {
     paddingBottom: theme.spacing["32p"],
   }));
 
-  const nationalityIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.nationality, []);
-
-  const { height: calendarIconHeight, width: calendarIconWidth } = useThemeStyles(
-    theme => theme.iconDimensions.calendar
-  );
-
   return (
     <Page insets={["top"]}>
       <NavHeader withBackButton={false} title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}>
@@ -82,22 +75,18 @@ export default function ConfirmPersonalDetailsScreen() {
             <View style={detailsCardStyle}>
               <Stack direction="vertical" gap="16p">
                 <InfoLine
-                  icon={<UserIcon />}
                   label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineName")}
                   value={concatStr(" ", [data.EnglishFamilyName, data.EnglishFirstName])}
                 />
                 <InfoLine
-                  icon={<GlobeIcon width={nationalityIconDimensions} height={nationalityIconDimensions} />}
                   label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineNationality")}
                   value={data.Nationality}
                 />
                 <InfoLine
-                  icon={<CalendarAltIcon width={calendarIconWidth} height={calendarIconHeight} />}
                   label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineExpiry")}
                   value={data.IqamaExpiryDateGregorian}
                 />
                 <InfoLine
-                  icon={<MapMarkerIcon />}
                   label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineAddress")}
                   value={concatStr(" ", [
                     data.Addresses?.[0]?.StreetName +
@@ -150,24 +139,15 @@ function concatStr(glue: string, inputs: Array<string | undefined>) {
   return retVal.length > 0 ? retVal : undefined;
 }
 
-function InfoLine({ icon, label, value }: { icon: React.ReactElement; label: string; value: string | undefined }) {
+function InfoLine({ label, value }: { label: string; value: string | undefined }) {
   return (
     <View>
       <Typography.Text size="callout" weight="medium" color="primaryBase">
         {label}
       </Typography.Text>
-      <Stack direction="horizontal" gap="8p" style={styles.infoLine}>
-        {icon}
-        <Typography.Text size="footnote" weight="regular" color={undefined === value ? "errorBase" : "primaryBase"}>
-          {value ?? "Missing from Absher"}
-        </Typography.Text>
-      </Stack>
+      <Typography.Text size="footnote" weight="regular" color={undefined === value ? "errorBase" : "primaryBase"}>
+        {value ?? "Missing from Absher"}
+      </Typography.Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  infoLine: {
-    alignItems: "center",
-  },
-});
