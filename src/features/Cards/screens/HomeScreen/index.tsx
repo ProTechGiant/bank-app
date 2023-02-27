@@ -64,7 +64,10 @@ export default function HomeScreen() {
     Alert.alert("Single card info is coming");
   };
 
-  const infoIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-50"]);
+  const handleCardOnPress = () => {
+    navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.CardDetailsScreen" });
+  };
+
   const infoIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.cardInfo);
 
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -95,6 +98,7 @@ export default function HomeScreen() {
                 </ContextMenu>
               }
               label={t("Cards.plusCard")}
+              onPress={handleCardOnPress}
             />
             <BankCard.Active
               cardNumber="0238"

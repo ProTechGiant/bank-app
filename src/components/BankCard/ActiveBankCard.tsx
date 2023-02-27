@@ -1,5 +1,5 @@
 import { times } from "lodash";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -14,9 +14,10 @@ interface ActiveBankCardProps {
   endButton?: React.ReactNode;
   label: string;
   cardType: "standard" | "plus" | "single-use";
+  onPress?: () => void;
 }
 
-export default function ActiveBankCard({ cardNumber, endButton, label, cardType }: ActiveBankCardProps) {
+export default function ActiveBankCard({ cardNumber, endButton, label, cardType, onPress }: ActiveBankCardProps) {
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     justifyContent: "space-between",
@@ -73,18 +74,44 @@ export default function ActiveBankCard({ cardNumber, endButton, label, cardType 
           </Typography.Text>
         </Stack>
       </View>
+      {onPress !== undefined && (
+        <>
+          <Pressable onPress={onPress} style={styles.pressableAreaTop} />
+          <Pressable onPress={onPress} style={styles.pressableAreaBottom} />
+        </>
+      )}
     </View>
   );
 }
 
+const CONTAINER_HEIGHT = 338;
+const CONTAINER_WIDTH = 224;
+
+const TOP_END_BUTTON_WIDTH = 60;
+const PRESSABLE_TOP_AREA = 50;
+
 const styles = StyleSheet.create({
   container: {
-    heigth: 338,
-    width: 224,
+    height: CONTAINER_HEIGHT,
+    width: CONTAINER_WIDTH,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
+  },
+  pressableAreaBottom: {
+    height: CONTAINER_HEIGHT - 100,
+    left: 0,
+    position: "absolute",
+    top: PRESSABLE_TOP_AREA,
+    width: CONTAINER_WIDTH,
+  },
+  pressableAreaTop: {
+    height: PRESSABLE_TOP_AREA,
+    left: 0,
+    position: "absolute",
+    top: 0,
+    width: CONTAINER_WIDTH - TOP_END_BUTTON_WIDTH,
   },
 });

@@ -64,10 +64,6 @@ export default function TemporaryLandingScreen() {
     navigation.navigate("Cards.HomeScreen");
   };
 
-  const handleOnCardActions = () => {
-    navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.CardDetailsScreen" });
-  };
-
   const handleOpenSingleUseCards = () => {
     navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.SingleUseCardsScreen" });
   };
@@ -104,9 +100,6 @@ export default function TemporaryLandingScreen() {
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleOnOpenCardsHome}>Cards Home</Button>
-        </View>
-        <View style={{ margin: 20 }}>
-          <Button onPress={handleOnCardActions}>Card Actions</Button>
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleOpenSingleUseCards}>Single Use Cards</Button>

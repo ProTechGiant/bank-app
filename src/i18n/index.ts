@@ -29,7 +29,7 @@ export const resources = {
         LandingScreen: {
           success: {
             title: "You're on your way",
-            bannerMessage: "Your account was sucessfully created!",
+            bannerMessage: "Your account was successfully created!",
           },
           failed: {
             title: "Unfortunately, we can’t create an account for you",
