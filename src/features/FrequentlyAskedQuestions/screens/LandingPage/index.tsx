@@ -52,11 +52,7 @@ export default function LandingPage() {
             {mockFrequentlyAskedQuestions.categories.map((data, i) => {
               return (
                 <View style={searchStyle} key={data.category_name}>
-                  <Section
-                    title={data.category_name}
-                    content={data.category_description}
-                    icon={<ReferralIcon height={faqIconDimensions} width={faqIconDimensions} />}
-                  />
+                  <Section data={data} icon={<ReferralIcon height={faqIconDimensions} width={faqIconDimensions} />} />
                 </View>
               );
             })}

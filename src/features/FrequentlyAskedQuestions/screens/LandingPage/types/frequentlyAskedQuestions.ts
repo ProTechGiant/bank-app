@@ -4,29 +4,29 @@ interface DetailedFaq {
   answer: string;
 }
 
-interface SubSections {
+interface FAQSubSection {
   sub_section_id: string;
   sub_section_name: string;
   sub_section_description: string;
   sub_section_faqs: DetailedFaq[];
 }
 
-interface Section {
+export interface FAQSection {
   section_id: string;
   section_name: string;
   section_description: string;
   section_faqs: DetailedFaq[];
-  sub_sections: SubSections[];
+  sub_sections: FAQSubSection[];
 }
 
-interface Categories {
+export interface FAQCategory {
   category_id: string;
   category_name: string;
   category_description: string;
   category_faqs: DetailedFaq[];
-  sections: Section[];
+  sections: FAQSection[];
 }
 
 export interface FAQData {
-  categories: Categories[];
+  categories: FAQCategory[];
 }

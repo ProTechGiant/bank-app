@@ -5,6 +5,7 @@ import ApplyCardsStack from "@/features/ApplyCards/ApplyCardsStack";
 import CardActionsStack from "@/features/CardActions/CardActionsStack";
 import CardsHomeScreen from "@/features/Cards/screens/HomeScreen";
 import LandingPage from "@/features/FrequentlyAskedQuestions/screens/LandingPage";
+import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
 import DashboardScreen from "@/features/Home/screens/DashboardScreen";
 import HomepageReorderModal from "@/features/Home/screens/HomepageReorderModal";
 import QuickActionsReorderCard from "@/features/Home/screens/QuickActionsReorderModal";
@@ -44,6 +45,7 @@ export default function MainStack() {
           <Stack.Screen component={HomepageReorderModal} name="Modal.HomepageReorderModal" />
         </Stack.Group>
         <Stack.Screen component={LandingPage} name="FrequentlyAskedQuestions.LandingPage" />
+        <Stack.Screen component={SectionScreen} name="FrequentlyAskedQuestions.SectionScreen" />
       </Stack.Navigator>
     </NavigationContainer>
   );

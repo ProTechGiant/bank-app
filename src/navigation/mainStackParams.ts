@@ -1,5 +1,6 @@
 import { ApplyCardModalStackParams } from "@/features/ApplyCards/ApplyCardsStack";
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
+import { FAQSection } from "@/features/FrequentlyAskedQuestions/screens/LandingPage/types/frequentlyAskedQuestions";
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
 
@@ -22,6 +23,7 @@ type RootStackParams = {
     savingsPotsNumber: number;
   };
   "FrequentlyAskedQuestions.LandingPage": undefined;
+  "FrequentlyAskedQuestions.SectionScreen": { data: FAQSection[]; title: string };
 };
 
 type MainStackParams = RootStackParams &
