@@ -540,6 +540,14 @@ export const resources = {
           },
         },
       },
+      Cards: {
+        standardCard: "Standard card",
+        plusCard: "Plus card",
+        singleUseCard: "Single-use card",
+        HomeScreen: {
+          navTitle: "Home",
+        },
+      },
       SingleUseCard: {
         InfoScreen: {
           title: "How single-use cards work",

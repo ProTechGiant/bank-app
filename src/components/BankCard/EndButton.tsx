@@ -11,15 +11,17 @@ interface EndButtonProps {
 export default function EndButton({ icon }: EndButtonProps) {
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase-50"]);
 
-  return <View style={styles.button}>{cloneElement(icon, { color: iconColor, height: 20, width: 20 })}</View>;
+  return <View style={styles.button}>{cloneElement(icon, { color: iconColor })}</View>;
 }
 
 const styles = StyleSheet.create({
   button: {
+    alignItems: "center",
     backgroundColor: "#00000014",
     borderRadius: 16,
     borderWidth: 0,
     height: 32,
+    justifyContent: "center",
     padding: 6,
     width: 32,
   },

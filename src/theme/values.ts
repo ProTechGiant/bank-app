@@ -182,6 +182,7 @@ const iconDimensions = {
     width: 13,
     height: 14,
   },
+  cardInfo: 20,
 };
 
 export { iconDimensions, palette, radii, spacing, typography };

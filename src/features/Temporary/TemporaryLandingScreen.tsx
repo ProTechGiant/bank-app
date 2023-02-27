@@ -60,17 +60,21 @@ export default function TemporaryLandingScreen() {
     navigation.navigate("Onboarding.OnboardingStack");
   };
 
+  const handleOnOpenCardsHome = () => {
+    navigation.navigate("Cards.HomeScreen");
+  };
+
   const handleOnCardActions = () => {
     navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.CardDetailsScreen" });
+  };
+
+  const handleOpenSingleUseCards = () => {
+    navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.SingleUseCardsScreen" });
   };
 
   const handleOnSwitchDirection = () => {
     I18nManager.forceRTL(!I18nManager.isRTL);
     reloadApp();
-  };
-
-  const handleOpenSingleUseCards = () => {
-    navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.SingleUseCardsScreen" });
   };
 
   return (
@@ -90,7 +94,7 @@ export default function TemporaryLandingScreen() {
           <Button onPress={handleSubmit(handleOnSubmit)}>Savings Goals</Button>
         </View>
         <View style={{ margin: 20 }}>
-          <Button onPress={handleOnOpenApplyForCard}>Card Modal</Button>
+          <Button onPress={handleOnOpenApplyForCard}>Order Card</Button>
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleOnHomepage}>Homepage</Button>
@@ -99,13 +103,16 @@ export default function TemporaryLandingScreen() {
           <Button onPress={handleOnOpenOnboarding}>Onboarding</Button>
         </View>
         <View style={{ margin: 20 }}>
+          <Button onPress={handleOnOpenCardsHome}>Cards Home</Button>
+        </View>
+        <View style={{ margin: 20 }}>
           <Button onPress={handleOnCardActions}>Card Actions</Button>
         </View>
         <View style={{ margin: 20 }}>
-          <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>
+          <Button onPress={handleOpenSingleUseCards}>Single Use Cards</Button>
         </View>
         <View style={{ margin: 20 }}>
-          <Button onPress={handleOpenSingleUseCards}>Single Use Cards</Button>
+          <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>
         </View>
       </ScrollView>
     </SafeAreaView>

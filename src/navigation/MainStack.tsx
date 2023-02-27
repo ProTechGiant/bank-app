@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ApplyCardsStack from "@/features/ApplyCards/ApplyCardsStack";
 import CardActionsStack from "@/features/CardActions/CardActionsStack";
+import CardsHomeScreen from "@/features/Cards/screens/HomeScreen";
 import LandingPage from "@/features/FrequentlyAskedQuestions/screens/LandingPage";
 import DashboardScreen from "@/features/Home/screens/DashboardScreen";
 import HomepageReorderModal from "@/features/Home/screens/HomepageReorderModal";
@@ -33,6 +34,7 @@ export default function MainStack() {
           options={{ presentation: "modal" }}
         />
         <Stack.Screen component={InstructionsScreen} name="Referral.InstructionsScreen" />
+        <Stack.Screen component={CardsHomeScreen} name="Cards.HomeScreen" />
         <Stack.Screen component={CardActionsStack} name="CardActions.CardActionsStack" />
         <Stack.Screen component={SavingsGoalsStack} name="SavingsGoals.SavingsGoalsStack" />
         <Stack.Screen component={OnboardingStack} name="Onboarding.OnboardingStack" />

@@ -5,6 +5,7 @@ import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsSta
 
 type RootStackParams = {
   "ApplyCards.ApplyForCardStack": undefined;
+  "Cards.HomeScreen": undefined;
   "CardActions.CardActionsStack": {
     screen: string;
   };

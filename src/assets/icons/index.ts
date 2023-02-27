@@ -49,6 +49,7 @@ export { default as ShareCopyIcon } from "./share-copy.svg";
 export { default as ShippingIcon } from "./shipping.svg";
 export { default as ShowIcon } from "./show.svg";
 export { default as SplitIcon } from "./split.svg";
+export { ThreeDotsIcon } from "./three-dots";
 export { default as TickIcon } from "./tick.svg";
 export { default as TickCircleIcon } from "./tick-circle.svg";
 export { default as TickCircleBorderIcon } from "./tick-circle-border";

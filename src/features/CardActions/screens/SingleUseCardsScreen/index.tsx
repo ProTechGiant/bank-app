@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { InfoCircleIcon } from "@/assets/icons";
 import BankCard from "@/components/BankCard";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 
 export default function SingleUseCardsScreen() {
   const { t } = useTranslation();
@@ -13,27 +14,30 @@ export default function SingleUseCardsScreen() {
     navigation.navigate("CardActions.SingleUseCardInfo");
   };
 
+  const infoIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.cardInfo);
+
   return (
     <View style={styles.container}>
       <BankCard.Active
         cardNumber="0238"
+        cardType="single-use"
         endButton={
           <Pressable>
-            <BankCard.EndButton icon={<InfoCircleIcon />} />
+            <BankCard.EndButton icon={<InfoCircleIcon width={infoIconDimensions} height={infoIconDimensions} />} />
           </Pressable>
         }
-        label="Standard card"
+        label={t("Cards.singleUseCard")}
       />
       <BankCard.Inactive
-        label="Standard card"
         endButton={
           <Pressable>
-            <BankCard.EndButton icon={<InfoCircleIcon />} />
+            <BankCard.EndButton icon={<InfoCircleIcon width={infoIconDimensions} height={infoIconDimensions} />} />
           </Pressable>
         }
         actionButton={
           <BankCard.ActionButton title={t("SingleUseCard.CardWidget.generateNew")} onPress={navigateToGenerateCard} />
         }
+        label={t("Cards.singleUseCard")}
       />
     </View>
   );

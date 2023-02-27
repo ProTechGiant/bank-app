@@ -5,15 +5,18 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import Stack from "../Stack";
-import CardActiveSvg from "./card-active.svg";
+import PlusCardActiveSvg from "./plus-card.svg";
+import SingleUseCardActiveSvg from "./single-use-card.svg";
+import StandardCardActiveSvg from "./standard-card.svg";
 
 interface ActiveBankCardProps {
   cardNumber: string;
   endButton?: React.ReactNode;
   label: string;
+  cardType: "standard" | "plus" | "single-use";
 }
 
-export default function ActiveBankCard({ cardNumber, endButton, label }: ActiveBankCardProps) {
+export default function ActiveBankCard({ cardNumber, endButton, label, cardType }: ActiveBankCardProps) {
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     justifyContent: "space-between",
@@ -41,7 +44,13 @@ export default function ActiveBankCard({ cardNumber, endButton, label }: ActiveB
 
   return (
     <View style={styles.container}>
-      <CardActiveSvg />
+      {cardType === "single-use" ? (
+        <SingleUseCardActiveSvg />
+      ) : cardType === "standard" ? (
+        <StandardCardActiveSvg />
+      ) : (
+        <PlusCardActiveSvg />
+      )}
       <View style={[styles.container, contentStyles]}>
         <View style={styles.header}>
           <View style={labelStyle}>
