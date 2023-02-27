@@ -10,7 +10,7 @@ export default function SingleUseCardsScreen() {
   const navigation = useNavigation();
 
   const navigateToGenerateCard = () => {
-    navigation.navigate("SingleUseCards.SingleUseCardInfo");
+    navigation.navigate("CardActions.SingleUseCardInfo");
   };
 
   return (

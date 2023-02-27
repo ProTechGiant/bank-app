@@ -30,7 +30,7 @@ export default function SingleUseCardInfo() {
   const handleOnGenerateCard = () => {
     setLoading(true);
     /* todo - should be redirected to one time otp screen */
-    navigation.navigate("SingleUseCards.LoadingSingleCardScreen");
+    navigation.navigate("CardActions.LoadingSingleCardScreen");
   };
 
   return (

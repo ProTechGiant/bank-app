@@ -61,7 +61,7 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnCardActions = () => {
-    navigation.navigate("CardActions.CardActionsStack");
+    navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.CardDetailsScreen" });
   };
 
   const handleOnSwitchDirection = () => {
@@ -70,7 +70,7 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOpenSingleUseCards = () => {
-    navigation.navigate("SingleUseCards.SingleUseCardsStack");
+    navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.SingleUseCardsScreen" });
   };
 
   return (
