@@ -597,6 +597,9 @@ export const resources = {
             paragraph: "These settings will be available once you have received and activated your physical card.",
           },
         },
+        OneTimePasswordScreen: {
+          resendCode: "Resend Code",
+        },
       },
     },
   },
