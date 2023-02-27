@@ -24,6 +24,7 @@ type RootStackParams = {
   };
   "FrequentlyAskedQuestions.LandingPage": undefined;
   "FrequentlyAskedQuestions.SectionScreen": { data: FAQSection[]; title: string };
+  "NotificationManagement.HubScreen": undefined;
 };
 
 type MainStackParams = RootStackParams &

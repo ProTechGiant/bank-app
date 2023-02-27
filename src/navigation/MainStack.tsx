@@ -9,6 +9,7 @@ import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionSc
 import DashboardScreen from "@/features/Home/screens/DashboardScreen";
 import HomepageReorderModal from "@/features/Home/screens/HomepageReorderModal";
 import QuickActionsReorderCard from "@/features/Home/screens/QuickActionsReorderModal";
+import NotificationManagementHubScreen from "@/features/NotificationManagement/screens/HubScreen";
 import OnboardingStack from "@/features/Onboarding/OnboardingStack";
 import HubScreen from "@/features/Referral/screens/HubScreen";
 import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
@@ -46,6 +47,7 @@ export default function MainStack() {
         </Stack.Group>
         <Stack.Screen component={LandingPage} name="FrequentlyAskedQuestions.LandingPage" />
         <Stack.Screen component={SectionScreen} name="FrequentlyAskedQuestions.SectionScreen" />
+        <Stack.Screen component={NotificationManagementHubScreen} name="NotificationManagement.HubScreen" />
       </Stack.Navigator>
     </NavigationContainer>
   );

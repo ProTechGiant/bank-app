@@ -221,6 +221,7 @@ export const resources = {
         SettingsScreen: {
           rewards: "Send invite",
           FAQs: "FAQ’s",
+          notifications: "Notifications",
         },
       },
       Home: {
@@ -407,6 +408,12 @@ export const resources = {
         LandingPage: {
           title: "How can we help you?",
           searchPlaceholder: "I need help with...",
+        },
+      },
+      NotificationManagement: {
+        HubScreen: {
+          title: "Notifications",
+          subtitle: "Choose which notifications you'd like to receive.",
         },
       },
       SavingsGoals: {
@@ -780,6 +787,13 @@ export const resources = {
           },
         },
       },
+      Settings: {
+        SettingsScreen: {
+          rewards: "Send invite",
+          FAQs: "FAQ’s",
+          notifications: "Notifications",
+        },
+      },
       InstructionsScreen: {
         skip: "تخطى",
         continue: "متابعة",
@@ -791,6 +805,12 @@ export const resources = {
         titleThree: "المكافأة للطرفين",
         subTextThree:
           "مرسل ومُستقبِل الدعوة راح يحصلون على مكافأة 15 ريال سعودي. وعملاء فئة بلس 25 ريال سعودي عن كل دعوة.",
+      },
+      NotificationManagement: {
+        HubScreen: {
+          title: "التنبيهات",
+          subtitle: "اختر التنبيهات التي تود الحصول على تحديث حولها.",
+        },
       },
       SingleUseCard: {
         InfoScreen: {

@@ -41,6 +41,10 @@ export default function SettingsScreen() {
     navigation.navigate("FrequentlyAskedQuestions.LandingPage");
   };
 
+  const handleOnNotificationsPress = () => {
+    navigation.navigate("NotificationManagement.HubScreen");
+  };
+
   return (
     <Page>
       <Pressable style={cardContainerStyle} onPress={handleOnReferPress}>
@@ -55,6 +59,14 @@ export default function SettingsScreen() {
         </View>
         <Typography.Text color="primaryBase+30" size="callout" weight="regular">
           {t("Settings.SettingsScreen.FAQs")}
+        </Typography.Text>
+      </Pressable>
+      <Pressable style={cardContainerStyle} onPress={handleOnNotificationsPress}>
+        <View style={iconContainer}>
+          <QuestionIcon height={iconDimensions} width={iconDimensions} />
+        </View>
+        <Typography.Text color="primaryBase+30" size="callout" weight="regular">
+          {t("Settings.SettingsScreen.notifications")}
         </Typography.Text>
       </Pressable>
     </Page>
