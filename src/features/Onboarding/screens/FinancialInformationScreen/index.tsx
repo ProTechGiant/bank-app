@@ -44,7 +44,7 @@ export default function FinancialInformationScreen() {
 
   return (
     <Page>
-      <NavHeader withBackButton={false} title={t("Onboarding.FinancialInformationScreen.navHeaderTitle")}>
+      <NavHeader withBackButton={true} title={t("Onboarding.FinancialInformationScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={3} totalStep={6} />
       </NavHeader>
       <ScrollView>
