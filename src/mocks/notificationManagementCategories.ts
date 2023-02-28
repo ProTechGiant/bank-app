@@ -4,7 +4,7 @@ export const mockNotificationManagementCategories: NotificationCategoriesData = 
   categories: [
     {
       categoryId: "691ed46b-94ee-4c3f-8d31-f66338d33c7f",
-      categoryName: "TRANSFERS",
+      categoryName: "Transfers",
       categoryDescription: "Get notifications about payments and card transactions.",
       subCategories: [
         {

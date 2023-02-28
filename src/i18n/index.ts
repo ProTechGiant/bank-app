@@ -414,6 +414,8 @@ export const resources = {
         HubScreen: {
           title: "Notifications",
           subtitle: "Choose which notifications you'd like to receive.",
+          modalTitle: "About notifications",
+          modalContent: "Changes here won't affect your text message notifications.",
         },
       },
       SavingsGoals: {
@@ -828,6 +830,8 @@ export const resources = {
         HubScreen: {
           title: "التنبيهات",
           subtitle: "اختر التنبيهات التي تود الحصول على تحديث حولها.",
+          modalTitle: "ملاحظة حول التنبيهات",
+          modalContent: "التغيرات التي تُجريها هنا لن تؤثر على التنبيهات التي تصلك عبر الرسائل النصية القصيرة.",
         },
       },
       SingleUseCard: {
