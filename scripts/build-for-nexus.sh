@@ -16,6 +16,9 @@ yarn install
 bundle install
 # npx pod-install --> disabled for now, only required for Android
 
+# Import secrets file (temporary)
+cp "../secrets/.env.$BUILD_ENVIRONMENT.secret" "fastlane/envs/.env.secret"
+
 # Build Android version
 bundle exec fastlane update_version
 bundle exec fastlane android build "env:$BUILD_ENVIRONMENT"
