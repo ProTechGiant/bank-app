@@ -106,6 +106,8 @@ export default function FundingStep({
       try {
         const response = await fundSavingPot.mutateAsync({
           ...values,
+          Currency: "SAR",
+          DebitorAccount: data.MainAccountId,
           SavingsPotId: data.SavingsPotId,
           StartingDate: fundingType !== "one-time-payment" ? new Date() : undefined,
         });

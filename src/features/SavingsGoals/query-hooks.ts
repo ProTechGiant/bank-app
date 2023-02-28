@@ -61,6 +61,8 @@ export function useIsRoundupActive() {
 interface FundSavingsPotRecurringOptions {
   SavingsPotId: string;
   Amount: number;
+  Currency: string;
+  DebitorAccount: string;
   StartingDate: Date;
   DayOfMonth: number;
 }
@@ -68,6 +70,8 @@ interface FundSavingsPotRecurringOptions {
 interface FundSavingsPotOneTimeOptions {
   SavingsPotId: string;
   Amount: number;
+  Currency: string;
+  DebitorAccount: string;
 }
 
 type FundSavingsPotOptions = FundSavingsPotOneTimeOptions | FundSavingsPotRecurringOptions;
@@ -120,6 +124,7 @@ export interface SavingsPotDetailsResponse {
   TargetDate: string;
   CreatedDate: string;
   MainAccountAmount: number;
+  MainAccountId: string;
   HadOneTimeFund: boolean;
   HadRecurringFund: boolean;
 }
