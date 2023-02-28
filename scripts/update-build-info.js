@@ -7,7 +7,11 @@ function updateBuildInfo() {
   const buildVersion = require(__dirname + "/../package.json").version;
   const buildNumber = process.env.BUILD_NUMBER ?? 0;
   const buildTime = new Date().toISOString();
-  const buildType = process.env.BUILD_ENVIRONMENT ?? "test";
+  const buildType = process.env.BUILD_ENVIRONMENT;
+
+  if (undefined === buildType) {
+    throw new Error("Could not update build info. ENV[BUILD_ENVIRONMENT] not available");
+  }
 
   const template = `
     export default {

@@ -10,7 +10,9 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "release:test": "BUILD_ENVIRONMENT=test sh scripts/build-for-nexus.sh",
+    "release:eit": "BUILD_ENVIRONMENT=eit sh scripts/build-for-nexus.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.10",
