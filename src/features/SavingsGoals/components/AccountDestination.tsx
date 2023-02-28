@@ -1,17 +1,15 @@
-import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface FromAccountProps {
+interface AccountDestinationProps {
   balance: number;
-  name: string;
+  accountName: string;
+  destination: string;
 }
 
-export default function FromAccount({ balance, name }: FromAccountProps) {
-  const { t } = useTranslation();
-
+export default function AccountDestination({ balance, accountName, destination }: AccountDestinationProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     backgroundColor: theme.palette["neutralBase-50"],
@@ -25,10 +23,10 @@ export default function FromAccount({ balance, name }: FromAccountProps) {
     <View style={containerStyle}>
       <View>
         <Typography.Text color="neutralBase+30" size="body" weight="medium">
-          {t("SavingsGoals.fromAccount.from")}
+          {destination}
         </Typography.Text>
         <Typography.Text color="neutralBase" size="body" weight="regular">
-          {name}
+          {accountName}
         </Typography.Text>
       </View>
       <Typography.Text color="neutralBase" size="body" weight="regular">

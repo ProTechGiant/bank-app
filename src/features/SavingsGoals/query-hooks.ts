@@ -150,3 +150,43 @@ export function useSavingsPots() {
     });
   });
 }
+
+// TODO - test when API endpoint is ready
+
+interface WithdrawSavingsPot {
+  PaymentAmount: string;
+  Currency: string;
+  CreditorAccount: string;
+  savingsPotId: string;
+}
+
+interface WithdrawSavingsPotResponse {
+  status: number;
+}
+
+export function useWithdrawSavingsPot(options: WithdrawSavingsPot) {
+  const queryClient = useQueryClient();
+  const { savingsPotId } = options;
+  return useMutation(
+    (options: WithdrawSavingsPot) => {
+      return api<WithdrawSavingsPotResponse>(
+        "v1",
+        `customers/savings-pot/${savingsPotId}/withdraw-funds`,
+        "POST",
+        undefined,
+        {
+          options,
+        },
+        {
+          "X-Correlation-ID": "12345",
+        }
+      );
+    },
+    {
+      onSettled: (_data, _error) => {
+        queryClient.invalidateQueries(queryKeys.all);
+        queryClient.invalidateQueries(queryKeys.details(savingsPotId));
+      },
+    }
+  );
+}

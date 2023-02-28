@@ -48,5 +48,7 @@ export default function useFetchAccount() {
     return { currencyType, currentAccountBalance, decimalBalance };
   }, [balances, accountId]);
 
-  return { data: { currentAccountName, currentAccountIBAN, currencyType, currentAccountBalance, decimalBalance } };
+  return {
+    data: { accountId, currentAccountName, currentAccountIBAN, currencyType, currentAccountBalance, decimalBalance },
+  };
 }

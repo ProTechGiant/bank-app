@@ -1,17 +1,24 @@
 import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import MainStackParams from "@/navigation/MainStackParams";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 
 export default function GoalDetailsScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.GoalDetailsScreen">>();
+  const { SavingsPotId, amountWithdrawn } = route.params;
   const fundGoalModalShown = useRef(false);
+  const [showAmountWithdrawn, setShowAmountWithdrawn] = useState(amountWithdrawn);
 
   // Immediately funding goal modal if needed
   useFocusEffect(
@@ -25,6 +32,11 @@ export default function GoalDetailsScreen() {
         // or else it'll be shown every time
         fundGoalModalShown.current = true;
       }
+
+      // this is needed so the amount is still visibile in the modal when the modal is closed
+      if (amountWithdrawn) {
+        setShowAmountWithdrawn(amountWithdrawn);
+      }
     }, [route.params])
   );
 
@@ -35,15 +47,47 @@ export default function GoalDetailsScreen() {
 
   const handleOnOpenFunding = () => {
     navigation.navigate("SavingsGoals.FundGoalModal", {
-      SavingsPotId: route.params.SavingsPotId,
+      SavingsPotId: SavingsPotId,
     });
   };
+
+  const handleOnOpenWithdraw = () => {
+    navigation.navigate("SavingsGoals.WithdrawGoalModal", {
+      SavingsPotId: SavingsPotId,
+    });
+  };
+
+  const handleOnCloseWithdrawConfirmationModal = () => {
+    navigation.navigate("SavingsGoals.GoalDetailsScreen", {
+      SavingsPotId: SavingsPotId,
+      amountWithdrawn: undefined,
+    });
+  };
+
+  const buttonsContainer = useThemeStyles<ViewStyle>(
+    theme => ({
+      marginBottom: theme.spacing["16p"],
+    }),
+    []
+  );
 
   return (
     <Page>
       <NavHeader onBackPress={handleOnBackPress} title="Goal details screen" />
       <ContentContainer>
-        <Button onPress={handleOnOpenFunding}>Open funding modal</Button>
+        <View style={buttonsContainer}>
+          <Button onPress={handleOnOpenFunding}>Open funding modal</Button>
+        </View>
+        <Button onPress={handleOnOpenWithdraw}>Open withdraw modal</Button>
+        <NotificationModal
+          variant="success"
+          onClose={handleOnCloseWithdrawConfirmationModal}
+          message={t("SavingsGoals.WithdrawModal.successfulWithdrawal.text")}
+          title={t("SavingsGoals.WithdrawModal.successfulWithdrawal.title", {
+            amount: showAmountWithdrawn,
+          })}
+          isVisible={amountWithdrawn !== undefined}
+        />
       </ContentContainer>
     </Page>
   );

@@ -16,8 +16,8 @@ import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import AccountDestination from "../../components/AccountDestination";
 import { SavingsPotDetailsResponse, useFundSavingsPot } from "../../query-hooks";
-import FromAccount from "./FromAccount";
 import isNextMonth from "./is-next-month";
 import LargeCurrencyInput from "./LargeCurrencyInput";
 
@@ -197,7 +197,11 @@ export default function FundingStep({
               />
             )}
             {undefined !== data && (
-              <FromAccount name={t("SavingsGoals.fromAccount.mainAccount")} balance={data.MainAccountAmount} />
+              <AccountDestination
+                destination={t("SavingsGoals.Account.from")}
+                accountName={t("SavingsGoals.Account.mainAccount")}
+                balance={data.MainAccountAmount}
+              />
             )}
             <View style={buttonSpaceStyle}>
               <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>

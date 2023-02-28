@@ -417,8 +417,9 @@ export const resources = {
         },
       },
       SavingsGoals: {
-        fromAccount: {
+        Account: {
           from: "From",
+          to: "To",
           mainAccount: "Main Account",
         },
         LandingScreen: {
@@ -544,6 +545,23 @@ export const resources = {
             },
             errorTryAgain: "Try again",
             errorNotNow: "Not now",
+          },
+        },
+        WithdrawModal: {
+          title: "Withdraw",
+          WithdrawButton: "Withdraw",
+          amountExceedsBalance: "Amount exceeds your balance",
+          successfulWithdrawal: {
+            title: "You've withdrawn {{amount}} SAR",
+            text: "It's been added to your main account",
+          },
+          errors: {
+            title: "We're sorry - something has gone wrong",
+            text: "Please try again later. If things still aren't working, please get in touch",
+          },
+          buttons: {
+            tryAgainButton: "Try again",
+            cancelWithdrawalButton: "Cancel withdrawal",
           },
         },
       },

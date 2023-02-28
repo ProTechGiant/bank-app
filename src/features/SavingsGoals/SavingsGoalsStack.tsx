@@ -6,6 +6,7 @@ import FundGoalModal from "@/features/SavingsGoals/screens/FundGoalModal";
 import GoalDetailsScreen from "@/features/SavingsGoals/screens/GoalDetailsScreen";
 import InstructionsScreen from "@/features/SavingsGoals/screens/InstructionsScreen";
 import ListGoalsScreen from "@/features/SavingsGoals/screens/ListGoalsScreen";
+import WithdrawGoalModal from "@/features/SavingsGoals/screens/WithdrawGoalModal";
 import MainStackParams from "@/navigation/MainStackParams";
 
 export type SavingsGoalsStackParams = {
@@ -15,10 +16,14 @@ export type SavingsGoalsStackParams = {
   "SavingsGoals.GoalDetailsScreen": {
     SavingsPotId: string;
     redirectToFundingModal?: boolean;
+    amountWithdrawn: number | undefined;
   };
   "SavingsGoals.FundGoalModal": {
     SavingsPotId: string;
     isFirstFunding?: boolean;
+  };
+  "SavingsGoals.WithdrawGoalModal": {
+    SavingsPotId: string;
   };
 };
 
@@ -37,6 +42,11 @@ export default function SavingsGoalsStack() {
       <Stack.Screen component={CreateGoalScreen} name="SavingsGoals.CreateGoalScreen" />
       <Stack.Screen component={FundGoalModal} name="SavingsGoals.FundGoalModal" options={{ presentation: "modal" }} />
       <Stack.Screen component={GoalDetailsScreen} name="SavingsGoals.GoalDetailsScreen" />
+      <Stack.Screen
+        component={WithdrawGoalModal}
+        name="SavingsGoals.WithdrawGoalModal"
+        options={{ presentation: "modal" }}
+      />
     </Stack.Navigator>
   );
 }
