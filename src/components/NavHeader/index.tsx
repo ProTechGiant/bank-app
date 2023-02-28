@@ -1,7 +1,7 @@
 import { cloneElement, isValidElement } from "react";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
-import { BackIcon } from "@/assets/icons";
+import { ArrowLeftIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -49,7 +49,6 @@ const NavHeader = ({
     marginTop: theme.spacing["16p"],
   }));
 
-  const backIconSize = useThemeStyles<number>(theme => theme.iconDimensions.chevronLeft);
   const textColor = color === "white" ? "neutralBase-50" : "primaryBase+30";
   const iconColor = useThemeStyles(theme => theme.palette[textColor], [textColor]);
 
@@ -64,7 +63,7 @@ const NavHeader = ({
                 onPress={handleOnBackPress}
                 style={{ transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }] }}
                 testID={undefined !== testID ? `${testID}-->BackButton` : undefined}>
-                <BackIcon height={backIconSize} width={backIconSize} color={iconColor} />
+                <ArrowLeftIcon color={iconColor} />
               </Pressable>
             )}
           </View>

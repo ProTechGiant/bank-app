@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pressable, View, ViewStyle } from "react-native";
 
-import { DownArrowIcon, InfoCircleIcon, UpArrowIcon } from "@/assets/icons";
+import { AngleDownIcon, AngleUpIcon, InfoCircleIcon } from "@/assets/icons";
 import { GreyGradient } from "@/components/LinearGradients/GradientButtons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -45,9 +45,6 @@ export default function MoreInfoDropdown({ children, title }: MoreInfoDropdownPr
     marginHorizontal: theme.spacing["8p"],
   }));
 
-  const primaryBaseColor = useThemeStyles<string>(theme => theme.palette.primaryBase);
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.dropdown);
-
   return (
     <Pressable onPress={() => setIsExpanded(c => !c)} style={containerStyle}>
       <GreyGradient>
@@ -56,13 +53,7 @@ export default function MoreInfoDropdown({ children, title }: MoreInfoDropdownPr
           <Typography.Text color="primaryBase" weight="semiBold" size="callout" style={titleStyles}>
             {title}
           </Typography.Text>
-          <View style={toggleIconStyle}>
-            {isExpanded ? (
-              <UpArrowIcon color={primaryBaseColor} width={iconDimensions} />
-            ) : (
-              <DownArrowIcon color={primaryBaseColor} width={iconDimensions} />
-            )}
-          </View>
+          <View style={toggleIconStyle}>{isExpanded ? <AngleUpIcon /> : <AngleDownIcon />}</View>
         </View>
       </GreyGradient>
       {isExpanded && <View style={contentStyle}>{children}</View>}
