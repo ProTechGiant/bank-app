@@ -7,6 +7,7 @@ import DarkOneGradient from "@/components/LinearGradients/GradientBackgrounds";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -39,9 +40,9 @@ export default function OnboardingSplashScreen() {
       navigation.navigate("Onboarding.Iqama");
     };
 
-    const _woopsFailed = (_error: unknown) => {
+    const _woopsFailed = (error: unknown) => {
       Alert.alert("Woops! Something went wrong :<");
-      __DEV__ && console.error("Could not start onboarding flow:", _error);
+      warn("onboarding", `Could not start onboarding flow: ${JSON.stringify(error)}`);
     };
 
     Alert.alert("Testing note", "Note that starting the onboarding flow randomizes the UserID to make it testable", [

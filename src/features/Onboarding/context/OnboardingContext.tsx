@@ -57,7 +57,7 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
 
   const fetchLatestWorkflowTask = async () => {
     const { correlationId } = state;
-    if (!correlationId) throw new Error("Cannot fetch tasks without `userId` and `correlationId`");
+    if (!correlationId) throw new Error("Cannot fetch tasks without `correlationId`");
 
     const response = await onboardingTasksAsync.mutateAsync({ correlationId });
     return response.Tasks?.[0] ?? undefined;

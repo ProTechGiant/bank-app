@@ -1,6 +1,8 @@
-/* eslint-disable no-console */
 import { API_BASE_URL } from "@env";
+import truncate from "lodash/truncate";
 import queryString from "query-string";
+
+import { info, warn } from "@/logger";
 
 import ApiError from "./ApiError";
 import ResponseError from "./ResponseError";
@@ -25,10 +27,7 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     url: "https://" + API_BASE_URL + "/" + version + "/" + path,
   });
 
-  if (__DEV__) {
-    console.log(`[API] Starting request for ${fetchUrl} with headers: `, JSON.stringify(headers));
-    if (undefined !== body) console.log(JSON.stringify(body));
-  }
+  info("API", `Starting request for ${fetchUrl} with body: ${JSON.stringify(body)}`);
 
   if (undefined !== body && typeof body === "object") {
     headers["Content-Type"] = "application/json";
@@ -48,14 +47,16 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
   try {
     const isJsonResponse = response.headers.get("content-type")?.toLowerCase().includes("application/json") ?? false;
     content = isJsonResponse ? await response.json() : await response.text();
-  } catch (_error) {
-    __DEV__ && console.warn(`[API]: ${fetchUrl}: Could not parse response content`);
+  } catch (error) {
+    warn("API", `${fetchUrl}: Could not parse response content: ${(error as Error).message}`);
   }
 
   if (response.status >= 400) {
-    if (__DEV__) console.warn(`[${response.status}][${method}]: ${fetchUrl}: `, JSON.stringify(content));
+    warn("API", `Received ${response.status} for ${fetchUrl}: `, JSON.stringify(content));
     throw new ApiError<TError>(response.statusText, response.status, content as TError);
   }
+
+  info("api", `Received content for ${fetchUrl}: `, truncate(JSON.stringify(content), { length: 100 }));
 
   return content as TResponse;
 }

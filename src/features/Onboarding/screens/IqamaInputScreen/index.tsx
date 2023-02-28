@@ -7,12 +7,14 @@ import { IconProps } from "@/assets/icons";
 import { BannerColorType } from "@/components/Banner";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
 import IqamaInputs from "./IqamaInputs";
 import MobileAndNationalIdForm from "./MobileAndNationalId/MobileAndNationalIdForm";
 import useErrorMessages from "./use-error-messages";
 import useIqama from "./use-iqama";
+
 export interface ErrorMessageType {
   message: string | JSX.Element;
   icon: React.ReactElement<SvgProps | IconProps>;
@@ -35,8 +37,8 @@ export default function IqamaInputScreen() {
     try {
       await mutateAsync(values);
       navigation.navigate("Onboarding.Nafath");
-    } catch (err) {
-      // temp as mutateAsync needs to be in a try catch
+    } catch (error) {
+      warn("onboarding", "Could not process iqama input. Error: ", JSON.stringify(error));
     }
   };
 

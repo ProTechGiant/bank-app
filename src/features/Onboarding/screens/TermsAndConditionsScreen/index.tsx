@@ -12,6 +12,7 @@ import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -45,7 +46,7 @@ const TermsAndConditionsScreen = () => {
       navigation.navigate("Onboarding.Passcode");
     } catch (error) {
       Alert.alert(t("Onboarding.TermsAndConditions.errorText.alert"));
-      __DEV__ && console.error("Could not confirm T&Cs: ", error);
+      warn("onboarding", "Could not confirm terms and conditions: ", JSON.stringify(error));
     }
   };
 
@@ -56,6 +57,7 @@ const TermsAndConditionsScreen = () => {
     paddingHorizontal: theme.spacing["20p"],
     paddingBottom: theme.spacing["32p"],
   }));
+
   return (
     <>
       <Page insets={["top"]}>

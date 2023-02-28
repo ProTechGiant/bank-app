@@ -18,6 +18,7 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 import { alphaNumericSpaceRegExp } from "@/utils";
@@ -95,7 +96,7 @@ export default function CreateGoalScreen() {
         },
       ]);
 
-      __DEV__ && console.error("Could not submit saving goal details: ", error);
+      warn("savings-goals", "Could not submit saving goal details: ", JSON.stringify(error));
     }
   };
 

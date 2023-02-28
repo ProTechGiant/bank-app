@@ -7,6 +7,7 @@ import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -49,7 +50,7 @@ export default function AddToAppleWalletScreen() {
       const response = await getTokenized.mutateAsync(cardId);
       JSON.stringify(response); //@TODO: use secret ID for apple pay
     } catch (error) {
-      console.log(JSON.stringify(error)); //@TODO: display error message
+      warn("apply-cards", "Could fetch card token!"); //@TODO: display error message
     }
   };
 

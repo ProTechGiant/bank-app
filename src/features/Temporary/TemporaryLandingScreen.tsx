@@ -6,6 +6,7 @@ import Button from "@/components/Button";
 import TextInput from "@/components/Form/TextInput";
 import { useAuthContext } from "@/contexts/AuthContext";
 import reloadApp from "@/i18n/reload-app";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
 import useGetSavingsGoalNumber from "./use-get-savings-goal-number";
@@ -39,7 +40,7 @@ export default function TemporaryLandingScreen() {
         },
       ]);
 
-      __DEV__ && console.error("Could not get number of savings goal: ", error);
+      warn("savings-goals", "Could not get number of savings goal: ", JSON.stringify(error));
     }
   };
 

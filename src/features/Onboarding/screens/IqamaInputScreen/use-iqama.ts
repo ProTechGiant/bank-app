@@ -2,6 +2,7 @@ import { useMutation } from "react-query";
 
 import api from "@/api";
 
+import assertWorkflowTask from "../../assert-workflow-task";
 import { useOnboardingContext } from "../../context/OnboardingContext";
 import IqamaInputs from "./IqamaInputs";
 
@@ -20,8 +21,7 @@ export default function useIqama() {
       if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
       const workflowTask = await fetchLatestWorkflowTask();
-      if (!workflowTask || workflowTask.Name !== "MobileVerification")
-        throw new Error("Available workflowTaskId is not applicable to customers/check");
+      assertWorkflowTask("customers/check", "MobileVerification", workflowTask);
 
       return api<IqamaResponse>(
         "v1",

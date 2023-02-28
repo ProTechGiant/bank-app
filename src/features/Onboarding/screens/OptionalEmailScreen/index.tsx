@@ -13,6 +13,7 @@ import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -53,7 +54,7 @@ export default function OptionalEmailScreen() {
       navigation.navigate("Onboarding.Financial");
     } catch (error) {
       Alert.alert(t("Onboarding.OptionalEmailScreen.errorText.alert"));
-      __DEV__ && console.error("Could not confirm personal details: ", error);
+      warn("onboarding", "Could not confirm personal details: ", JSON.stringify(error));
     }
   };
 

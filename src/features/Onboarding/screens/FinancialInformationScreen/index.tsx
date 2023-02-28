@@ -13,6 +13,7 @@ import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import MoreInfoDropdown from "@/features/Onboarding/components/MoreInfoDropdown";
+import { warn } from "@/logger";
 import { mockCroatiaPurpose } from "@/mocks/croatiaPurposeData";
 import { mockExpectedAmount } from "@/mocks/expectedAmount";
 import { mockOccuptions } from "@/mocks/occupationData";
@@ -38,7 +39,7 @@ export default function FinancialInformationScreen() {
       navigation.navigate("Onboarding.Fatca");
     } catch (error) {
       Alert.alert(t("Onboarding.FinancialInformationScreen.errorText.alert"));
-      __DEV__ && console.error("Could not submit financial details: ", error);
+      warn("onboarding", `Could not submit financial details: ${(error as Error).message}`);
     }
   };
 
