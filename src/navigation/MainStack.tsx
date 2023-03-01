@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ApplyCardsStack from "@/features/ApplyCards/ApplyCardsStack";
 import CardActionsStack from "@/features/CardActions/CardActionsStack";
-import CardsHomeScreen from "@/features/Cards/screens/HomeScreen";
+import CardsHomeScreen from "@/features/CardActions/screens/HomeScreen";
 import LandingPage from "@/features/FrequentlyAskedQuestions/screens/LandingPage";
 import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
 import DashboardScreen from "@/features/Home/screens/DashboardScreen";

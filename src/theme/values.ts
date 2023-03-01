@@ -11,7 +11,6 @@ const palette = {
   "complimentBase-30": "#FFDECC",
 
   "neutralBase+30": "#000000",
-  "neutralBase+30-30%": "#0000004D",
   "neutralBase+20": "#121212",
   "neutralBase+10": "#12121",
   neutralBase: "#7D7D7D",
@@ -183,6 +182,14 @@ const iconDimensions = {
     height: 14,
   },
   cardInfo: 20,
+  hideIcon: {
+    height: 22,
+    width: 19.15,
+  },
+  showIcon: {
+    height: 15,
+    width: 22,
+  },
 };
 
 export { iconDimensions, palette, radii, spacing, typography };

@@ -10,17 +10,14 @@ interface ContentContainerProps {
 }
 
 export default function ContentContainer({ style, children, isScrollView = false }: ContentContainerProps) {
-  const containerStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      paddingTop: theme.spacing["20p"],
-      paddingHorizontal: theme.spacing["20p"],
-      flex: 1,
-    }),
-    []
-  );
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingVertical: theme.spacing["20p"],
+    paddingHorizontal: theme.spacing["20p"],
+    flexGrow: 1,
+  }));
 
   return isScrollView ? (
-    <ScrollView style={[containerStyle, style]}>{children}</ScrollView>
+    <ScrollView contentContainerStyle={[containerStyle, style]}>{children}</ScrollView>
   ) : (
     <View style={[containerStyle, style]}>{children}</View>
   );

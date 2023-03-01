@@ -26,11 +26,11 @@ export default function SettingsToggle<T extends FieldValues>({
 }: SettingsToggleProps<T>) {
   const { field } = useController({ control, name });
 
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
+  const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     alignContent: "center",
     flexDirection: "row",
     paddingVertical: theme.spacing["16p"],
-    justifyContent: "space-between",
+    height: 73,
   }));
 
   const helperTextStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -38,15 +38,13 @@ export default function SettingsToggle<T extends FieldValues>({
   }));
 
   return (
-    <View style={containerStyle}>
-      {icon !== undefined && <View style={styles.icon}>{icon}</View>}
+    <View style={containerStyles}>
+      {icon !== undefined && <View style={styles.iconContainer}>{icon}</View>}
       <View style={styles.container}>
-        <View style={styles.label}>
-          <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-            {label}
-          </Typography.Text>
-        </View>
-        {!!helperText && (
+        <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+          {label}
+        </Typography.Text>
+        {undefined !== helperText && (
           <View style={helperTextStyle}>
             <Typography.Text color="neutralBase" size="footnote">
               {helperText}
@@ -63,13 +61,11 @@ export default function SettingsToggle<T extends FieldValues>({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.9,
+    flexGrow: 1,
   },
-  icon: {
-    alignSelf: "center",
-  },
-  label: {
-    flexDirection: "row",
+  iconContainer: {
+    justifyContent: "center",
+    marginRight: 18,
   },
   switch: {
     alignSelf: "center",

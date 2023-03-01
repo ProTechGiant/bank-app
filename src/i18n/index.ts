@@ -674,6 +674,31 @@ export const resources = {
         OneTimePasswordScreen: {
           resendCode: "Resend Code",
         },
+        CardDetailsScreen: {
+          navTitleStandard: "Standard card",
+          navTitlePlus: "Plus card",
+          navTitleSingleUse: "Single-use card",
+          iconButtonText: {
+            show: "Show details",
+            hide: "Hide details",
+            freeze: "Freeze",
+            unfreeze: "Defrost",
+            viewPin: "View PIN",
+          },
+          manageCardHeader: "Manage card",
+          cardSettingsButton: "Card settings",
+          reportButton: "Report stolen or damaged",
+          accountHeader: "Associated account",
+          accountNumber: "Account number",
+          accountName: "Account name",
+          upgradeToCroatiaPlus: {
+            breadcrumb: "Ultimate Experience",
+            header: "Croatia Plus",
+            content:
+              "Upgrade your tier to get an exclusive card and enjoy priority support and other premium benefits.",
+            button: "Explore Plus tier",
+          },
+        },
       },
     },
   },

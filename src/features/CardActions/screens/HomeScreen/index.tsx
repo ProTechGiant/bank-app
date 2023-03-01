@@ -64,8 +64,18 @@ export default function HomeScreen() {
   //   navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.SingleUseCardInfo" });
   // };
 
-  const handleCardOnPress = () => {
-    navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.CardDetailsScreen" });
+  const handleOnPlusCardPress = () => {
+    navigation.navigate("CardActions.CardActionsStack", {
+      screen: "CardActions.CardDetailsScreen",
+      params: { cardType: "plus" },
+    });
+  };
+
+  const handleOnStandardCardPress = () => {
+    navigation.navigate("CardActions.CardActionsStack", {
+      screen: "CardActions.CardDetailsScreen",
+      params: { cardType: "single-use" },
+    });
   };
   // To be  use later
   // const infoIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-50"]);
@@ -82,7 +92,7 @@ export default function HomeScreen() {
 
   return (
     <Page>
-      <NavHeader title={t("Cards.HomeScreen.navTitle")} withBackButton={false} end={false} />
+      <NavHeader title={t("Cards.HomeScreen.navTitle")} end={false} />
       <ContentContainer>
         <ScrollView horizontal style={cardContainerStyle}>
           <Stack direction="horizontal" gap="20p">
@@ -106,11 +116,11 @@ export default function HomeScreen() {
                 </ContextMenu>
               }
               label={t("Cards.plusCard")}
-              onPress={handleCardOnPress}
+              onPress={handleOnPlusCardPress}
             />
             <BankCard.Active
-              cardNumber="3333"
-              cardType="single-use"
+              cardNumber="0238"
+              cardType="standard"
               endButton={
                 <Pressable onPress={navigateToAboutPage}>
                   <BankCard.EndButton
@@ -118,7 +128,7 @@ export default function HomeScreen() {
                   />
                 </Pressable>
               }
-              label={t("Cards.singleUseCard")}
+              onPress={handleOnStandardCardPress}
             />
             {/* todo remove comment to test unmasked card details
             <BankCard.Unmasked

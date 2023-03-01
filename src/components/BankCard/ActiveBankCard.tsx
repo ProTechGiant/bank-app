@@ -12,7 +12,7 @@ import StandardCardActiveSvg from "./standard-card.svg";
 interface ActiveBankCardProps {
   cardNumber: string;
   endButton?: React.ReactNode;
-  label: string;
+  label?: string;
   cardType: "standard" | "plus" | "single-use";
   onPress?: () => void;
 }
@@ -54,12 +54,14 @@ export default function ActiveBankCard({ cardNumber, endButton, label, cardType,
       )}
       <View style={[styles.container, contentStyles]}>
         <View style={styles.header}>
-          {label && (
+          {undefined !== label ? (
             <View style={labelStyle}>
               <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
                 {label}
               </Typography.Text>
             </View>
+          ) : (
+            <View />
           )}
           {endButton}
         </View>

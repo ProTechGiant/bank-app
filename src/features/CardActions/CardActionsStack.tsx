@@ -2,19 +2,23 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import CardDetailsScreen from "./screens/CardDetailsScreen";
 import CardSettingsScreen from "./screens/CardSettingsScreen";
+import HomeScreen from "./screens/HomeScreen";
 import LoadingSingleCardScreen from "./screens/LoadingSingleCardScreen";
 import OneTimePasswordScreen from "./screens/OneTimePasswordScreen";
 import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
 import SingleUseCardsScreen from "./screens/SingleUseCardsScreen";
 export type CardActionsStackParams = {
-  "CardActions.CardDetailsScreen": undefined;
+  "CardActions.CardDetailsScreen": {
+    cardType: "standard" | "plus" | "single-use";
+  };
   "CardActions.CardSettingsScreen": undefined;
   "CardActions.LoadingSingleCardScreen": undefined;
   "CardActions.OneTimePasswordScreen": undefined;
   "CardActions.SingleUseCardsScreen": undefined;
   "CardActions.SingleUseCardInfo": undefined;
   "CardActions.SingleUseCardAbout": undefined;
+  "CardActions.HomeScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<CardActionsStackParams>();
@@ -33,6 +37,7 @@ export default function CardActionsStack() {
         name="CardActions.SingleUseCardAbout"
         options={{ presentation: "modal" }}
       />
+      <Stack.Screen component={HomeScreen} name="CardActions.HomeScreen" />
     </Stack.Navigator>
   );
 }
