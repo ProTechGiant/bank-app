@@ -32,7 +32,7 @@ export default function CardIconButtons() {
         activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.hide")}
         inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.show")}
         onPress={handleOnPressShowDetails}
-        icon={createElement(showDetails ? HideIcon : ShowIcon, { height: 20, width: 20 })}
+        icon={createElement(showDetails ? HideIcon : ShowIcon, { height: 24, width: 24 })}
       />
       <IconButton
         active={freeze}
@@ -42,7 +42,9 @@ export default function CardIconButtons() {
         inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.freeze")}
       />
       <IconButton
+        active={viewPin}
         onPress={handleOnPressViewPin}
+        activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.viewPin")}
         inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.viewPin")}
         icon={<LockIcon />}
       />
