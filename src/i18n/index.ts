@@ -579,15 +579,52 @@ export const resources = {
           validThru: "VALID\nTHRU",
           securityCode: "SECURITY\nCODE",
         },
-      },
-      SingleUseCard: {
-        InfoScreen: {
-          title: "How single-use cards work",
-          subTitle:
-            "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
-          generateBtn: "Generate single-use card",
+        SingleUseCard: {
+          InfoScreen: {
+            title: "How single-use cards work",
+            subTitle:
+              "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
+            generateBtn: "Generate single-use card",
+          },
+
+          CardAbout: {
+            title: "Single-use cards",
+            SectionOne: {
+              title: "why would you use it?",
+              SectionOneInfo: {
+                label: "Online retailers you dont know",
+                helperText: "For when youre using an online retailer you are not familiar with.",
+              },
+              SectionTwoInfo: {
+                label: "Protect yourself from fraud",
+                helperText: "If a fraudster gets ahold of your card details after you pay, they can’t use it",
+              },
+            },
+            SectionTwo: {
+              title: "Good to know",
+              SectionOneInfo: {
+                label: "Made for one-off online payments to the value of 1000.00 SAR",
+                helperText:
+                  "They work only for online payments, not for recurring payments, like subscriptions. One transaction per card. Does not require activation only to be generated before every purchase. If you don’t use it will cancel itself in 30 days.",
+              },
+              SectionTwoInfo: {
+                label: "Connected to your primary account",
+                helperText: "The single-use card debits from your main banking account.",
+              },
+              SectionThreeInfo: {
+                label: "Refunds can still reach you",
+                helperText: "You’ll still receive refunds, even after the card is used.",
+              },
+
+              SectionFourInfo: {
+                label: "Only for plus tier customers",
+                helperText: "Single-use card are only available as long as you stay plus tier customer.",
+              },
+            },
+          },
         },
       },
+
       CardActions: {
         QuickMenu: {
           freezeCard: "Freeze card",
@@ -847,13 +884,49 @@ export const resources = {
           validThru: "VALID\nTHRU",
           securityCode: "SECURITY\nCODE",
         },
-      },
-      SingleUseCard: {
-        InfoScreen: {
-          title: "How single-use cards work",
-          subTitle:
-            "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
-          generateBtn: "Generate single-use card",
+        SingleUseCard: {
+          InfoScreen: {
+            title: "How single-use cards work",
+            subTitle:
+              "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
+            generateBtn: "Generate single-use card",
+          },
+
+          CardAbout: {
+            title: "Single-use cards",
+            SectionOne: {
+              title: "why would you use it?",
+              SectionOneInfo: {
+                label: "Online retailers you dont know",
+                helperText: "For when youre using an online retailer you are not familiar with.",
+              },
+              SectionTwoInfo: {
+                label: "Protect yourself from fraud",
+                helperText: "If a fraudster gets ahold of your card details after you pay, they can’t use it",
+              },
+            },
+            SectionTwo: {
+              title: "Good to know",
+              SectionOneInfo: {
+                label: "Made for one-off online payments to the value of 1000.00 SAR",
+                helperText:
+                  "They work only for online payments, not for recurring payments, like subscriptions. One transaction per card. Does not require activation only to be generated before every purchase. If you don’t use it will cancel itself in 30 days.",
+              },
+              SectionTwoInfo: {
+                label: "Connected to your primary account",
+                helperText: "The single-use card debits from your main banking account.",
+              },
+              SectionThreeInfo: {
+                label: "Refunds can still reach you",
+                helperText: "You’ll still receive refunds, even after the card is used.",
+              },
+
+              SectionFourInfo: {
+                label: "Only for plus tier customers",
+                helperText: "Single-use card are only available as long as you stay plus tier customer.",
+              },
+            },
+          },
         },
       },
     },

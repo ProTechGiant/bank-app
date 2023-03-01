@@ -59,28 +59,26 @@ export default function HomeScreen() {
   const handleOnCardSettingsPress = () => {
     navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.CardSettingsScreen" });
   };
-
-  const handleOnInfoPress = () => {
-    Alert.alert("Single card info is coming");
-  };
-
-  const handleOnGenerateCardPress = () => {
-    navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.SingleUseCardInfo" });
-  };
+  // To be use later
+  // const handleOnGenerateCardPress = () => {
+  //   navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.SingleUseCardInfo" });
+  // };
 
   const handleCardOnPress = () => {
     navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.CardDetailsScreen" });
   };
-
-  const onCopyPress = () => {};
-
-  const infoIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-50"]);
+  // To be  use later
+  // const infoIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-50"]);
 
   const infoIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.cardInfo);
 
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["16p"],
   }));
+
+  const navigateToAboutPage = () => {
+    navigation.navigate("CardActions.SingleUseCardAbout");
+  };
 
   return (
     <Page>
@@ -102,7 +100,9 @@ export default function HomeScreen() {
                       ? handleOnViewPinPress()
                       : handleOnCardSettingsPress();
                   }}>
-                  <BankCard.EndButton icon={<ThreeDotsIcon />} />
+                  <Pressable onPress={navigateToAboutPage}>
+                    <BankCard.EndButton icon={<ThreeDotsIcon />} />
+                  </Pressable>
                 </ContextMenu>
               }
               label={t("Cards.plusCard")}
@@ -112,7 +112,7 @@ export default function HomeScreen() {
               cardNumber="3333"
               cardType="single-use"
               endButton={
-                <Pressable onPress={handleOnInfoPress}>
+                <Pressable onPress={navigateToAboutPage}>
                   <BankCard.EndButton
                     icon={<InfoCircleIcon width={infoIconDimensions} height={infoIconDimensions} />}
                   />

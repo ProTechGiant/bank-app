@@ -4,9 +4,9 @@ import CardDetailsScreen from "./screens/CardDetailsScreen";
 import CardSettingsScreen from "./screens/CardSettingsScreen";
 import LoadingSingleCardScreen from "./screens/LoadingSingleCardScreen";
 import OneTimePasswordScreen from "./screens/OneTimePasswordScreen";
+import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
 import SingleUseCardsScreen from "./screens/SingleUseCardsScreen";
-
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": undefined;
   "CardActions.CardSettingsScreen": undefined;
@@ -14,6 +14,7 @@ export type CardActionsStackParams = {
   "CardActions.OneTimePasswordScreen": undefined;
   "CardActions.SingleUseCardsScreen": undefined;
   "CardActions.SingleUseCardInfo": undefined;
+  "CardActions.SingleUseCardAbout": undefined;
 };
 
 export const Stack = createNativeStackNavigator<CardActionsStackParams>();
@@ -27,6 +28,11 @@ export default function CardActionsStack() {
       <Stack.Screen component={SingleUseCardsScreen} name="CardActions.SingleUseCardsScreen" />
       <Stack.Screen component={SingleUseCardInfo} name="CardActions.SingleUseCardInfo" />
       <Stack.Screen component={LoadingSingleCardScreen} name="CardActions.LoadingSingleCardScreen" />
+      <Stack.Screen
+        component={SingleUseCardAbout}
+        name="CardActions.SingleUseCardAbout"
+        options={{ presentation: "modal" }}
+      />
     </Stack.Navigator>
   );
 }

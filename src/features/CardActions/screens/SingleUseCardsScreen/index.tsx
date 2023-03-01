@@ -14,6 +14,10 @@ export default function SingleUseCardsScreen() {
     navigation.navigate("CardActions.SingleUseCardInfo");
   };
 
+  const navigateToAboutPage = () => {
+    navigation.navigate("CardActions.SingleUseCardAbout");
+  };
+
   const infoIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.cardInfo);
 
   return (
@@ -22,7 +26,7 @@ export default function SingleUseCardsScreen() {
         cardNumber="0238"
         cardType="single-use"
         endButton={
-          <Pressable>
+          <Pressable onPress={navigateToAboutPage}>
             <BankCard.EndButton icon={<InfoCircleIcon width={infoIconDimensions} height={infoIconDimensions} />} />
           </Pressable>
         }
@@ -30,7 +34,7 @@ export default function SingleUseCardsScreen() {
       />
       <BankCard.Inactive
         endButton={
-          <Pressable>
+          <Pressable onPress={navigateToAboutPage}>
             <BankCard.EndButton icon={<InfoCircleIcon width={infoIconDimensions} height={infoIconDimensions} />} />
           </Pressable>
         }
