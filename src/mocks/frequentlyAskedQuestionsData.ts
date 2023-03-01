@@ -224,6 +224,59 @@ export const mockFrequentlyAskedQuestions: FAQData = {
             },
           ],
         },
+        {
+          section_id: "s_5",
+          section_name: "Contact us",
+          section_description: "Section 2",
+          section_faqs: [
+            {
+              faq_id: "faq_19",
+              query: "Sed ut perspiciatis unde omnis iste natus?",
+              answer: "Go to Faq19 link",
+            },
+            {
+              faq_id: "faq_20",
+              query: "Sed ut perspiciatis unde omnis iste natus?",
+              answer: "Go to Faq20 link",
+            },
+          ],
+          sub_sections: [
+            {
+              sub_section_id: "ss_3",
+              sub_section_name: "SS3",
+              sub_section_description: "Sub Section 3",
+              sub_section_faqs: [
+                {
+                  faq_id: "faq_5",
+                  query: "Sed ut perspiciatis unde omnis iste natus?",
+                  answer: "Go to Faq5 link",
+                },
+                {
+                  faq_id: "faq_6",
+                  query: "Sed ut perspiciatis unde omnis iste natus?",
+                  answer: "Go to Faq6 link",
+                },
+              ],
+            },
+            {
+              sub_section_id: "ss_4",
+              sub_section_name: "SS4",
+              sub_section_description: "Sub Section 4",
+              sub_section_faqs: [
+                {
+                  faq_id: "faq_7",
+                  query: "Sed ut perspiciatis unde omnis iste natus?",
+                  answer: "Go to Faq7 link",
+                },
+                {
+                  faq_id: "faq_8",
+                  query: "Sed ut perspiciatis unde omnis iste natus?",
+                  answer: "Go to Faq8 link",
+                },
+              ],
+            },
+          ],
+        },
       ],
     },
     {
