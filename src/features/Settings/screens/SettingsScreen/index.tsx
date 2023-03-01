@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 
-import { FriendsIcon, QuestionIcon } from "@/assets/icons";
+import { FriendsIcon, NotificationIcon, QuestionIcon } from "@/assets/icons";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
@@ -63,7 +63,7 @@ export default function SettingsScreen() {
       </Pressable>
       <Pressable style={cardContainerStyle} onPress={handleOnNotificationsPress}>
         <View style={iconContainer}>
-          <QuestionIcon height={iconDimensions} width={iconDimensions} />
+          <NotificationIcon height={iconDimensions} width={iconDimensions} />
         </View>
         <Typography.Text color="primaryBase+30" size="callout" weight="regular">
           {t("Settings.SettingsScreen.notifications")}

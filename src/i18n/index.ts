@@ -427,6 +427,9 @@ export const resources = {
           modalTitle: "About notifications",
           modalContent: "Changes here won't affect your text message notifications.",
         },
+        SubcategoryScreen: {
+          subtitle: "Get notifications about:",
+        },
       },
       SavingsGoals: {
         Account: {
@@ -906,6 +909,9 @@ export const resources = {
           subtitle: "اختر التنبيهات التي تود الحصول على تحديث حولها.",
           modalTitle: "ملاحظة حول التنبيهات",
           modalContent: "التغيرات التي تُجريها هنا لن تؤثر على التنبيهات التي تصلك عبر الرسائل النصية القصيرة.",
+        },
+        SubcategoryScreen: {
+          subtitle: "احصل على تنبيهات حول:",
         },
       },
       Cards: {

@@ -1,4 +1,11 @@
-interface SubCategories {
+export interface Categories {
+  categoryId: string;
+  categoryName: string;
+  categoryDescription: string;
+  subCategories: SubCategories[];
+}
+
+export interface SubCategories {
   subCategoryId: string;
   subCategoryName: string;
   subCategoryDescription: string;
@@ -8,13 +15,6 @@ interface SubCategories {
 interface SelectedChannels {
   channelId: string;
   channelName: string;
-}
-
-interface Categories {
-  categoryId: string;
-  categoryName: string;
-  categoryDescription: string;
-  subCategories: SubCategories[];
 }
 
 export interface NotificationCategoriesData {

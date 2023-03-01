@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, View, ViewStyle } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 
-import { InfoCircleIcon, ReferralIcon } from "@/assets/icons";
+import { InfoCircleIcon, TransferHorizontal } from "@/assets/icons";
+import ContentContainer from "@/components/ContentContainer";
 import Modal from "@/components/Modal";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -11,7 +12,7 @@ import Typography from "@/components/Typography";
 import { mockNotificationManagementCategories } from "@/mocks/notificationManagementCategories";
 import { useThemeStyles } from "@/theme";
 
-import Section from "./Section";
+import Section from "./CategorySection";
 
 export default function HubScreen() {
   const { t } = useTranslation();
@@ -20,10 +21,6 @@ export default function HubScreen() {
   const handleOnModalClose = () => {
     setIsInfoModalVisible(false);
   };
-
-  const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["20p"],
-  }));
 
   const modalContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingBottom: theme.spacing["32p"],
@@ -35,7 +32,7 @@ export default function HubScreen() {
   }));
 
   const titleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: theme.spacing["24p"],
+    paddingTop: theme.spacing["4p"],
   }));
 
   const subtitleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -44,20 +41,20 @@ export default function HubScreen() {
   }));
 
   const categoriesContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    padding: theme.spacing["16p"],
+    paddingVertical: theme.spacing["16p"],
   }));
 
   const infoIconDimensions = useThemeStyles(theme => theme.iconDimensions.globe);
-  const notificationIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.faqSectionIcons);
+  const notificationIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.settingsPage);
 
   const infoIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-10"]);
 
   return (
     <>
       <Page>
-        <ScrollView>
-          <NavHeader />
-          <View style={contentContainerStyle}>
+        <NavHeader />
+        <ContentContainer isScrollView>
+          <View>
             <Stack direction="horizontal" align="center" style={titleContainerStyle}>
               <Typography.Text weight="semiBold" size="title1">
                 {t("NotificationManagement.HubScreen.title")}
@@ -80,14 +77,17 @@ export default function HubScreen() {
                     <Section
                       title={data.categoryName}
                       content={data.categoryDescription}
-                      icon={<ReferralIcon height={notificationIconDimensions} width={notificationIconDimensions} />}
+                      icon={
+                        <TransferHorizontal height={notificationIconDimensions} width={notificationIconDimensions} />
+                      }
+                      data={data}
                     />
                   </View>
                 );
               })}
             </Stack>
           </View>
-        </ScrollView>
+        </ContentContainer>
       </Page>
       <Modal visible={isInfoModalVisible} onClose={handleOnModalClose}>
         <View style={modalContainerStyle}>

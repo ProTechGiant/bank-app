@@ -1,6 +1,7 @@
 import { ApplyCardModalStackParams } from "@/features/ApplyCards/ApplyCardsStack";
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
 import { DetailedFaq, FAQSection } from "@/features/FrequentlyAskedQuestions/types/frequentlyAskedQuestions";
+import { SubCategories } from "@/features/NotificationManagement/screens/HubScreen/types/notificationManagement";
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
 
@@ -26,6 +27,7 @@ type RootStackParams = {
   "FrequentlyAskedQuestions.SectionScreen": { data: FAQSection[]; title: string };
   "FrequentlyAskedQuestions.DetailedScreen": { data: DetailedFaq; title: string };
   "NotificationManagement.HubScreen": undefined;
+  "NotificationManagement.SubcategoryScreen": { data: SubCategories[]; title: string };
 };
 
 type MainStackParams = RootStackParams &
