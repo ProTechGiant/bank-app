@@ -26,8 +26,8 @@ export default function HubScreen() {
   }));
 
   const modalContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingBottom: theme.spacing["24p"],
-    paddingHorizontal: theme.spacing["20p"],
+    paddingBottom: theme.spacing["32p"],
+    paddingHorizontal: theme.spacing["16p"],
   }));
 
   const infoIconContainer = useThemeStyles<ViewStyle>(theme => ({
