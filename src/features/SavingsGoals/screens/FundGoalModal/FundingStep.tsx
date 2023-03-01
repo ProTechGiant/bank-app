@@ -207,7 +207,7 @@ export default function FundingStep({
             )}
             <View style={buttonSpaceStyle}>
               <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-                Continue
+                {t("SavingsGoals.FundGoalModal.FundingStep.continueButton")}
               </SubmitButton>
             </View>
           </Stack>
