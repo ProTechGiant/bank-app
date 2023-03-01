@@ -99,7 +99,7 @@ export function useFundSavingsPot() {
         undefined,
         {
           ...bodyOptions,
-          StartingDate: isRecurringFunding(options) ? format(options.StartingDate, "yyyy-MM-d") : undefined,
+          StartingDate: isRecurringFunding(options) ? format(options.StartingDate, "yyyy-MM-dd") : undefined,
         },
         {
           "X-Correlation-ID": "12345",
