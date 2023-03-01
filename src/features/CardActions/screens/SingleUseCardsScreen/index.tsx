@@ -34,9 +34,7 @@ export default function SingleUseCardsScreen() {
             <BankCard.EndButton icon={<InfoCircleIcon width={infoIconDimensions} height={infoIconDimensions} />} />
           </Pressable>
         }
-        actionButton={
-          <BankCard.ActionButton title={t("SingleUseCard.CardWidget.generateNew")} onPress={navigateToGenerateCard} />
-        }
+        actionButton={<BankCard.ActionButton title={t("Cards.generateNew")} onPress={navigateToGenerateCard} />}
         label={t("Cards.singleUseCard")}
       />
     </View>

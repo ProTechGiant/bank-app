@@ -54,25 +54,29 @@ export default function ActiveBankCard({ cardNumber, endButton, label, cardType,
       )}
       <View style={[styles.container, contentStyles]}>
         <View style={styles.header}>
-          <View style={labelStyle}>
-            <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-              {label}
-            </Typography.Text>
-          </View>
+          {label && (
+            <View style={labelStyle}>
+              <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
+                {label}
+              </Typography.Text>
+            </View>
+          )}
           {endButton}
         </View>
-        <Stack align="center" direction="horizontal" gap="12p">
-          {times(3).map(dotSequenceIndex => (
-            <Stack direction="horizontal" key={dotSequenceIndex} gap="4p">
-              {times(4).map(currentDotIndex => (
-                <View key={currentDotIndex} style={dotStyle} />
-              ))}
-            </Stack>
-          ))}
-          <Typography.Text color="neutralBase-50" size="callout">
-            {cardNumber}
-          </Typography.Text>
-        </Stack>
+        <View>
+          <Stack align="center" direction="horizontal" gap="12p">
+            {times(3).map(dotSequenceIndex => (
+              <Stack direction="horizontal" key={dotSequenceIndex} gap="4p">
+                {times(4).map(currentDotIndex => (
+                  <View key={currentDotIndex} style={dotStyle} />
+                ))}
+              </Stack>
+            ))}
+            <Typography.Text color="neutralBase-50" size="callout">
+              {cardNumber}
+            </Typography.Text>
+          </Stack>
+        </View>
       </View>
       {onPress !== undefined && (
         <>

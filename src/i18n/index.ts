@@ -571,8 +571,13 @@ export const resources = {
         standardCard: "Standard card",
         plusCard: "Plus card",
         singleUseCard: "Single-use card",
+        generateNew: "Generate New",
         HomeScreen: {
           navTitle: "Home",
+        },
+        CardDetails: {
+          validThru: "VALID\nTHRU",
+          securityCode: "SECURITY\nCODE",
         },
       },
       SingleUseCard: {
@@ -581,10 +586,6 @@ export const resources = {
           subTitle:
             "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
           generateBtn: "Generate single-use card",
-        },
-        CardWidget: {
-          generateNew: "Generate New",
-          singleUseCard: "Single-use card",
         },
       },
       CardActions: {
@@ -834,16 +835,25 @@ export const resources = {
           modalContent: "التغيرات التي تُجريها هنا لن تؤثر على التنبيهات التي تصلك عبر الرسائل النصية القصيرة.",
         },
       },
+      Cards: {
+        standardCard: "Standard card",
+        plusCard: "Plus card",
+        singleUseCard: "Single-use card",
+        generateNew: "Generate New",
+        HomeScreen: {
+          navTitle: "Home",
+        },
+        CardDetails: {
+          validThru: "VALID\nTHRU",
+          securityCode: "SECURITY\nCODE",
+        },
+      },
       SingleUseCard: {
         InfoScreen: {
           title: "How single-use cards work",
           subTitle:
             "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
           generateBtn: "Generate single-use card",
-        },
-        CardWidget: {
-          generateNew: "Generate New",
-          singleUseCard: "Single-use card",
         },
       },
     },

@@ -126,7 +126,9 @@ const typography = {
 
 const spacing = {
   "4p": 4,
+  "5p": 5,
   "8p": 8,
+  "10p": 10,
   "12p": 12,
   "16p": 16,
   "20p": 20,

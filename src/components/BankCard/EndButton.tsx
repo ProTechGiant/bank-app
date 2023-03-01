@@ -6,12 +6,14 @@ import { useThemeStyles } from "@/theme";
 
 interface EndButtonProps {
   icon: React.ReactElement<SvgProps>;
+  height?: number;
+  width?: number;
 }
 
-export default function EndButton({ icon }: EndButtonProps) {
+export default function EndButton({ icon, height = 20, width = 20 }: EndButtonProps) {
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase-50"]);
 
-  return <View style={styles.button}>{cloneElement(icon, { color: iconColor })}</View>;
+  return <View style={styles.button}>{cloneElement(icon, { color: iconColor, height: height, width: width })}</View>;
 }
 
 const styles = StyleSheet.create({

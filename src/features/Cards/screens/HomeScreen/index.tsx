@@ -64,9 +64,17 @@ export default function HomeScreen() {
     Alert.alert("Single card info is coming");
   };
 
+  const handleOnGenerateCardPress = () => {
+    navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.SingleUseCardInfo" });
+  };
+
   const handleCardOnPress = () => {
     navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.CardDetailsScreen" });
   };
+
+  const onCopyPress = () => {};
+
+  const infoIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-50"]);
 
   const infoIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.cardInfo);
 
@@ -81,7 +89,7 @@ export default function HomeScreen() {
         <ScrollView horizontal style={cardContainerStyle}>
           <Stack direction="horizontal" gap="20p">
             <BankCard.Active
-              cardNumber="0238"
+              cardNumber="4433"
               cardType="plus"
               endButton={
                 <ContextMenu
@@ -101,7 +109,7 @@ export default function HomeScreen() {
               onPress={handleCardOnPress}
             />
             <BankCard.Active
-              cardNumber="0238"
+              cardNumber="3333"
               cardType="single-use"
               endButton={
                 <Pressable onPress={handleOnInfoPress}>
@@ -112,6 +120,24 @@ export default function HomeScreen() {
               }
               label={t("Cards.singleUseCard")}
             />
+            {/* todo remove comment to test unmasked card details
+            <BankCard.Unmasked
+              cardNumber="5555 5555 5555 3333"
+              cardType="single-use"
+              cardDetails={{ endDate: "07/25", securityCode: 122 }}
+              onCopyPress={onCopyPress}
+            />
+            <BankCard.Inactive
+              endButton={
+                <Pressable>
+                  <BankCard.EndButton icon={<InfoCircleIcon />} />
+                </Pressable>
+              }
+              label={t("Cards.singleUseCard")}
+              actionButton={
+                <BankCard.ActionButton title={t("Cards.generateNew")} onPress={handleOnGenerateCardPress} />
+              }
+            /> */}
           </Stack>
         </ScrollView>
       </ContentContainer>
