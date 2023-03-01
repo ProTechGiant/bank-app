@@ -19,6 +19,7 @@ import SettingsScreen from "@/features/Settings/screens/SettingsScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 
 import MainStackParams from "./mainStackParams";
+import DetailedSceen from "@/features/FrequentlyAskedQuestions/screens/DetailedScreen";
 
 const Stack = createNativeStackNavigator<MainStackParams>();
 
@@ -47,6 +48,7 @@ export default function MainStack() {
         </Stack.Group>
         <Stack.Screen component={LandingPage} name="FrequentlyAskedQuestions.LandingPage" />
         <Stack.Screen component={SectionScreen} name="FrequentlyAskedQuestions.SectionScreen" />
+        <Stack.Screen component={DetailedSceen} name="FrequentlyAskedQuestions.DetailedScreen" />
         <Stack.Screen component={NotificationManagementHubScreen} name="NotificationManagement.HubScreen" />
       </Stack.Navigator>
     </NavigationContainer>

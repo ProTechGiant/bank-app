@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { ScrollView, View, ViewStyle } from "react-native";
+import { Pressable, ScrollView, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import NavHeader from "@/components/NavHeader";
@@ -7,11 +7,15 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import MainStackParams from "@/navigation/mainStackParams";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+
+import { DetailedFaq } from "../../types/frequentlyAskedQuestions";
 
 export default function SectionScreen() {
   const route = useRoute<RouteProp<MainStackParams, "FrequentlyAskedQuestions.SectionScreen">>();
   const { data, title } = route.params;
+  const navigation = useNavigation();
 
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.faqSectionIcons);
 
@@ -44,12 +48,17 @@ export default function SectionScreen() {
               {d.section_faqs &&
                 d.section_faqs.map(sectionFAQS => {
                   return (
-                    <View style={sectionContentStyle} key={sectionFAQS.faq_id}>
+                    <Pressable
+                      style={sectionContentStyle}
+                      key={sectionFAQS.faq_id}
+                      onPress={() => {
+                        navigation.navigate("FrequentlyAskedQuestions.DetailedScreen", { data: sectionFAQS, title });
+                      }}>
                       <Stack direction="horizontal" gap="20p" align="center" justify="space-between">
                         <Typography.Text size="callout">{sectionFAQS.query}</Typography.Text>
                         <ChevronRightIcon height={iconDimensions} width={iconDimensions} color={iconColor} />
                       </Stack>
-                    </View>
+                    </Pressable>
                   );
                 })}
             </View>

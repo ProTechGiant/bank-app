@@ -1,4 +1,4 @@
-interface DetailedFaq {
+export interface DetailedFaq {
   faq_id: string;
   query: string;
   answer: string;

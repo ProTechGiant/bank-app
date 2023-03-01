@@ -1,6 +1,6 @@
 import { ApplyCardModalStackParams } from "@/features/ApplyCards/ApplyCardsStack";
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
-import { FAQSection } from "@/features/FrequentlyAskedQuestions/screens/LandingPage/types/frequentlyAskedQuestions";
+import { DetailedFaq, FAQSection } from "@/features/FrequentlyAskedQuestions/types/frequentlyAskedQuestions";
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
 
@@ -24,6 +24,7 @@ type RootStackParams = {
   };
   "FrequentlyAskedQuestions.LandingPage": undefined;
   "FrequentlyAskedQuestions.SectionScreen": { data: FAQSection[]; title: string };
+  "FrequentlyAskedQuestions.DetailedScreen": { data: DetailedFaq; title: string };
   "NotificationManagement.HubScreen": undefined;
 };
 

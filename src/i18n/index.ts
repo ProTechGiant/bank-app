@@ -409,6 +409,16 @@ export const resources = {
           title: "How can we help you?",
           searchPlaceholder: "I need help with...",
         },
+        DetailedSceen: {
+          feedback: "Did you find this answer helpful?",
+          postiveFeedback: "Thank you.",
+          negativeFeedback:
+            "Sorry to hear that. If you need more help, you can explore related questions or get in touch.",
+          relatedQuestions: "Related questions",
+          help: "Need more help?",
+          call: "Call Bank",
+          chat: "Live Chat",
+        },
       },
       NotificationManagement: {
         HubScreen: {

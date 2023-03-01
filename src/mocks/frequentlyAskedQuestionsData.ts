@@ -1,4 +1,4 @@
-import { FAQData } from "@/features/FrequentlyAskedQuestions/screens/LandingPage/types/frequentlyAskedQuestions";
+import { FAQData } from "@/features/FrequentlyAskedQuestions/types/frequentlyAskedQuestions";
 
 export const mockFrequentlyAskedQuestions: FAQData = {
   categories: [
@@ -22,7 +22,8 @@ export const mockFrequentlyAskedQuestions: FAQData = {
             {
               faq_id: "faq_17",
               query: "Sed ut perspiciatis unde omnis iste natus?",
-              answer: "Go to Faq17 link",
+              answer:
+                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \n\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. \n\nNeque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
             },
             {
               faq_id: "faq_18",
@@ -429,7 +430,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
             {
               faq_id: "faq_17",
               query: "Sed ut perspiciatis unde omnis iste natus?",
-              answer: "Go to Faq17 link",
+              answer: "Go to Faq17 transactions link",
             },
             {
               faq_id: "faq_18",
@@ -660,7 +661,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
             {
               faq_id: "faq_17",
               query: "What is Faq17?",
-              answer: "Go to Faq17 link",
+              answer: "Go to Faq17 card link",
             },
             {
               faq_id: "faq_18",
@@ -944,7 +945,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
             {
               faq_id: "faq_17",
               query: "What is Faq17?",
-              answer: "Go to Faq17 link",
+              answer: "Go to Faq17 Splitting link",
             },
             {
               faq_id: "faq_18",
@@ -1050,7 +1051,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
             {
               faq_id: "faq_17",
               query: "What is Faq17?",
-              answer: "Go to Faq17 link",
+              answer: "Go to Faq17 Disputing link",
             },
             {
               faq_id: "faq_18",
@@ -1175,7 +1176,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
             {
               faq_id: "faq_17",
               query: "What is Faq17?",
-              answer: "Go to Faq17 link",
+              answer: "Go to Faq17 rewards link",
             },
             {
               faq_id: "faq_18",
@@ -1319,4 +1320,28 @@ export const mockFrequentlyAskedQuestions: FAQData = {
       ],
     },
   ],
+};
+
+export const mockRelatedFrequentlyAskedQuestions = [
+  {
+    faq_id: "faq_1",
+    query: "Sed ut perspiciatis unde omnis iste natus?",
+    answer: "Go to Faq7 link",
+  },
+  {
+    faq_id: "faq_2",
+    query: "Sed ut perspiciatis unde omnis iste natus?",
+    answer: "Go to Faq8 link",
+  },
+  {
+    faq_id: "faq_3",
+    query: "Sed ut perspiciatis unde omnis iste natus?",
+    answer: "Go to Faq7 link",
+  },
+];
+
+export const mockFeedbackFrequentlyAskedQuestions = {
+  faq_id: "faq_1",
+  vote: "UP",
+  updated_on: "2023-02-01T10:36:38.121Z",
 };
