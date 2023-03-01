@@ -8,6 +8,7 @@ import OneTimePasswordScreen from "./screens/OneTimePasswordScreen";
 import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
 import SingleUseCardsScreen from "./screens/SingleUseCardsScreen";
+
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {
     cardType: "standard" | "plus" | "single-use";
@@ -32,12 +33,12 @@ export default function CardActionsStack() {
       <Stack.Screen component={SingleUseCardsScreen} name="CardActions.SingleUseCardsScreen" />
       <Stack.Screen component={SingleUseCardInfo} name="CardActions.SingleUseCardInfo" />
       <Stack.Screen component={LoadingSingleCardScreen} name="CardActions.LoadingSingleCardScreen" />
+      <Stack.Screen component={HomeScreen} name="CardActions.HomeScreen" />
       <Stack.Screen
         component={SingleUseCardAbout}
         name="CardActions.SingleUseCardAbout"
         options={{ presentation: "modal" }}
       />
-      <Stack.Screen component={HomeScreen} name="CardActions.HomeScreen" />
     </Stack.Navigator>
   );
 }

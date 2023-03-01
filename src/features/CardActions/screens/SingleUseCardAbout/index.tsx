@@ -5,6 +5,7 @@ import Divider from "@/components/Divider";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import Content from "./Content";
@@ -17,6 +18,7 @@ import StarBorder from "./SingleUseCardAboutIcons/star-border.svg";
 
 export default function SingleUseCardAbout() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
@@ -31,7 +33,7 @@ export default function SingleUseCardAbout() {
   return (
     <Page backgroundColor="neutralBase-50" insets={["bottom"]}>
       <ScrollView>
-        <NavHeader withBackButton={false} end="close" />
+        <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
         <View style={containerStyle}>
           <Typography.Text color="primaryBase+30" weight="semiBold" size="title1">
             {t("Cards.SingleUseCard.CardAbout.title")}

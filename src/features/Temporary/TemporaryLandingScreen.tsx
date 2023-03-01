@@ -62,7 +62,9 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnOpenCardsHome = () => {
-    navigation.navigate("Cards.HomeScreen");
+    navigation.navigate("CardActions.CardActionsStack", {
+      screen: "CardActions.HomeScreen",
+    });
   };
 
   const handleOpenSingleUseCards = () => {
