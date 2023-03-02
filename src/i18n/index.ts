@@ -684,8 +684,16 @@ export const resources = {
             paragraph: "These settings will be available once you have received and activated your physical card.",
           },
         },
-        OneTimePasswordScreen: {
+        OneTimePasswordModal: {
+          title: "Enter one-time password",
+          message:
+            "Enter the 2-step verification code that we texted to your phone number, {{hiddenNumber}} {{phoneNumber}}.",
           resendCode: "Resend Code",
+          errors: {
+            invalidPassword: "The code you entered was invalid. Please try again",
+            reachedMaxAttempts:
+              "You have reached the maximum number of authentication attempts. Please try again later.",
+          },
         },
         CardDetailsScreen: {
           navTitleStandard: "Standard card",

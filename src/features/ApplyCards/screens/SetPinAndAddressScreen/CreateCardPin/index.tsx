@@ -78,7 +78,7 @@ export default function CreateCardPin({
   const inputDotStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["neutralBase+30"],
-      borderRadius: 8,
+      borderRadius: theme.radii.small,
       height: 10,
       width: 10,
     }),

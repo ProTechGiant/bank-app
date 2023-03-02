@@ -42,12 +42,12 @@ export default function SingleUseCardInfo() {
             <HeroSlide
               key={0}
               topElement={<BrandBanner title="Brand Moment" />}
-              title={t("SingleUseCard.InfoScreen.title")}
-              subText={t("SingleUseCard.InfoScreen.subTitle")}
+              title={t("Cards.SingleUseCard.InfoScreen.title")}
+              subText={t("Cards.SingleUseCard.InfoScreen.subTitle")}
             />
           </View>
           <Button loading={loading} variant="primary" color="dark" onPress={handleOnGenerateCard}>
-            {t("SingleUseCard.InfoScreen.generateBtn")}
+            {t("Cards.SingleUseCard.InfoScreen.generateBtn")}
           </Button>
         </View>
       </Page>

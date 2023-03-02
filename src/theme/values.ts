@@ -190,6 +190,10 @@ const iconDimensions = {
     height: 15,
     width: 22,
   },
+  threeDots: {
+    width: 14,
+    height: 4,
+  },
 };
 
 export { iconDimensions, palette, radii, spacing, typography };
