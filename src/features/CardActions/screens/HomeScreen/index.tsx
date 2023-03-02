@@ -24,6 +24,13 @@ export default function SingleUseCardsScreen() {
   const handleOnStandardCardPress = () => {
     navigation.navigate("CardActions.CardActionsStack", {
       screen: "CardActions.CardDetailsScreen",
+      params: { cardType: "standard" },
+    });
+  };
+
+  const handleOnSingleUseCardPress = () => {
+    navigation.navigate("CardActions.CardActionsStack", {
+      screen: "CardActions.CardDetailsScreen",
       params: { cardType: "single-use" },
     });
   };
@@ -38,6 +45,10 @@ export default function SingleUseCardsScreen() {
     marginTop: theme.spacing["16p"],
   }));
 
+  const handleOnGenerateCardPress = () => {
+    navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.SingleUseCardInfo" });
+  };
+
   return (
     <Page>
       <NavHeader title={t("Cards.HomeScreen.navTitle")} end={false} />
@@ -45,7 +56,7 @@ export default function SingleUseCardsScreen() {
         <Stack direction="horizontal" gap="20p">
           <BankCard.Active
             cardNumber="4433"
-            cardType="single-use"
+            cardType="plus"
             endButton={
               <ContextMenu
                 actions={[
@@ -70,28 +81,22 @@ export default function SingleUseCardsScreen() {
           />
           <BankCard.Active
             cardNumber="0238"
-            cardType="standard"
+            cardType="single-use"
             endButton={
               <Pressable onPress={handleOnPressAbout}>
                 <BankCard.EndButton icon={<InfoCircleIcon width={infoIconDimensions} height={infoIconDimensions} />} />
               </Pressable>
             }
-            onPress={handleOnStandardCardPress}
-          />
-          <BankCard.Unmasked
-            cardNumber="5555 5555 5555 3333"
-            cardType="single-use"
-            cardDetails={{ endDate: "07/25", securityCode: 122 }}
-            onCopyPress={() => {}}
+            onPress={handleOnSingleUseCardPress}
           />
           <BankCard.Inactive
             endButton={
-              <Pressable>
+              <Pressable onPress={handleOnPressAbout}>
                 <BankCard.EndButton icon={<InfoCircleIcon />} />
               </Pressable>
             }
             label={t("Cards.singleUseCard")}
-            actionButton={<BankCard.ActionButton title={t("Cards.generateNew")} />}
+            actionButton={<BankCard.ActionButton title={t("Cards.generateNew")} onPress={handleOnGenerateCardPress} />}
           />
         </Stack>
       </ScrollView>

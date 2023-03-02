@@ -6,16 +6,16 @@ import Stack from "@/components/Stack";
 
 import IconButton from "./IconButton";
 
-export default function CardIconButtons() {
+interface CardIconButtonsProps {
+  showDetails: boolean;
+  onPressShowDetails: () => void;
+}
+
+export default function CardIconButtons({ showDetails, onPressShowDetails }: CardIconButtonsProps) {
   const { t } = useTranslation();
 
-  const [showDetails, setShowDetails] = useState(false);
   const [freeze, setFreeze] = useState(false);
   const [viewPin, setViewPin] = useState(false);
-
-  const handleOnPressShowDetails = () => {
-    setShowDetails(!showDetails);
-  };
 
   const handleOnPressFreeze = () => {
     setFreeze(!freeze);
@@ -31,7 +31,7 @@ export default function CardIconButtons() {
         active={showDetails}
         activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.hide")}
         inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.show")}
-        onPress={handleOnPressShowDetails}
+        onPress={onPressShowDetails}
         icon={createElement(showDetails ? HideIcon : ShowIcon, { height: 24, width: 24 })}
       />
       <IconButton
