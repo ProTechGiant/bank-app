@@ -585,6 +585,7 @@ export const resources = {
         standardCard: "Standard card",
         plusCard: "Plus card",
         singleUseCard: "Single-use card",
+        cardFrozen: "Card frozen",
         generateNew: "Generate New",
         HomeScreen: {
           navTitle: "Home",

@@ -9,7 +9,7 @@ import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
 import SingleUseCardsScreen from "./screens/SingleUseCardsScreen";
 
-type CardAction = "view-pin" | "freeze" | "unfreeze";
+type CardAction = "view-pin" | "unfreeze" | "activate-online-payment";
 
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {
@@ -24,7 +24,7 @@ export type CardActionsStackParams = {
     action?: CardAction;
   };
   "CardActions.OneTimePasswordModal": {
-    redirect: string;
+    redirect: keyof CardActionsStackParams;
     action: CardAction;
   };
 };

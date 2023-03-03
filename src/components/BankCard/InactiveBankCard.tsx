@@ -4,15 +4,17 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import { ActionButtonProps } from "./ActionButton";
+import CardFrozenSvg from "./card-frozen.svg";
 import CardInactiveSvg from "./card-inactive.svg";
 
 interface InactiveBankCardProps {
   actionButton: React.ReactElement<ActionButtonProps>;
   endButton?: React.ReactNode;
   label: string;
+  type: "frozen" | "inactive";
 }
 
-export default function InactiveBankCard({ actionButton, endButton, label }: InactiveBankCardProps) {
+export default function InactiveBankCard({ actionButton, endButton, label, type }: InactiveBankCardProps) {
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     justifyContent: "space-between",
@@ -32,7 +34,7 @@ export default function InactiveBankCard({ actionButton, endButton, label }: Ina
 
   return (
     <View style={styles.container}>
-      <CardInactiveSvg />
+      {type === "inactive" ? <CardInactiveSvg /> : <CardFrozenSvg />}
       <View style={[styles.container, contentStyles]}>
         <View style={styles.header}>
           <View style={labelStyle}>
@@ -50,7 +52,7 @@ export default function InactiveBankCard({ actionButton, endButton, label }: Ina
 
 const styles = StyleSheet.create({
   container: {
-    heigth: 338,
+    height: 338,
     width: 224,
   },
   header: {

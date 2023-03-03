@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ErrorIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -21,8 +21,9 @@ export default function OneTimePasswordModal() {
   const { t } = useTranslation();
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.OneTimePasswordModal">>();
 
-  const [countdownRestart, setCountdownRestart] = useState(false);
-  const [isPinFocus, setIsPinFocus] = useState(true);
+  const [countdownRestart, setCountdownRestart] = useState(true);
+  // @TODO: use setIsPinFocus to hide keyboard if error returns
+  const [isPinFocus, setIsPinFocus] = useState(false);
 
   const phoneNumber = "89"; // @TODO get from BE
   const isError = false; // @TODO BE integration
@@ -34,10 +35,6 @@ export default function OneTimePasswordModal() {
   const handleOnResendPress = () => {
     setCountdownRestart(true);
     Alert.alert("Resend OTP");
-  };
-
-  const handlePinOnPress = () => {
-    setIsPinFocus(true);
   };
 
   const handleOnSubmit = (input: string) => {
@@ -74,9 +71,9 @@ export default function OneTimePasswordModal() {
               phoneNumber: phoneNumber,
             })}
           </Typography.Text>
-          <Pressable style={passwordContainerStyle} onPress={handlePinOnPress}>
+          <View style={passwordContainerStyle}>
             <PinInput pinLength={4} isError={isError} isFocus={isPinFocus} onSubmit={handleOnSubmit} />
-          </Pressable>
+          </View>
           {isError && (
             <View style={errorContainerStyle}>
               <ErrorIcon height={20} width={20} />

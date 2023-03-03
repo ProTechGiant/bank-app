@@ -33,12 +33,15 @@ export default function SingleUseCardsScreen() {
         label={t("Cards.singleUseCard")}
       />
       <BankCard.Inactive
+        type="inactive"
         endButton={
           <Pressable onPress={navigateToAboutPage}>
             <BankCard.EndButton icon={<InfoCircleIcon width={infoIconDimensions} height={infoIconDimensions} />} />
           </Pressable>
         }
-        actionButton={<BankCard.ActionButton title={t("Cards.generateNew")} onPress={navigateToGenerateCard} />}
+        actionButton={
+          <BankCard.ActionButton title={t("Cards.generateNew")} type="light" onPress={navigateToGenerateCard} />
+        }
         label={t("Cards.singleUseCard")}
       />
     </View>

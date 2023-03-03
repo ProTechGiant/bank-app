@@ -21,8 +21,12 @@ export default function ViewPinModal({ pin, visible, onClose }: ViewPinModalProp
     marginVertical: 80,
   }));
 
+  const modalStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingBottom: theme.spacing["16p"],
+  }));
+
   return (
-    <Modal onClose={onClose} visible={visible} headerText={t("CardActions.ViewPin.navTitle")}>
+    <Modal style={modalStyle} onClose={onClose} visible={visible} headerText={t("CardActions.ViewPin.navTitle")}>
       <Typography.Header style={pinStyle} size="large" weight="semiBold" align="center">
         {pin}
       </Typography.Header>

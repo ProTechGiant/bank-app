@@ -63,10 +63,6 @@ export default function PinInput({ pinLength, onSubmit, isFocus = false, isError
     }
   };
 
-  const handleOnPress = () => {
-    textInputRef.current?.focus();
-  };
-
   const inputBoxStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     backgroundColor: theme.palette["neutralBase-40"],
@@ -96,8 +92,12 @@ export default function PinInput({ pinLength, onSubmit, isFocus = false, isError
   }));
 
   return (
-    <View>
+    <Pressable
+      onPress={() => {
+        textInputRef.current?.focus();
+      }}>
       <TextInput
+        autoFocus={isFocus}
         ref={textInputRef}
         maxLength={pinLength}
         keyboardType="number-pad"
@@ -106,7 +106,7 @@ export default function PinInput({ pinLength, onSubmit, isFocus = false, isError
         style={styles.hiddenInput}
         onChangeText={handleOnChangeText}
       />
-      <Pressable onPress={handleOnPress} style={styles.pinContainer}>
+      <View style={styles.pinContainer}>
         {times(pinLength).map(i => (
           <View
             key={i}
@@ -115,8 +115,8 @@ export default function PinInput({ pinLength, onSubmit, isFocus = false, isError
             {inputToDotOrDigit(currentInput, i)}
           </View>
         ))}
-      </Pressable>
-    </View>
+      </View>
+    </Pressable>
   );
 }
 

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Alert, View, ViewStyle } from "react-native";
@@ -8,6 +9,7 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ToastBanner from "@/components/ToastBanner";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import ListItemLink from "../../components/ListItemLink";
@@ -24,9 +26,10 @@ interface CardSettings {
 }
 
 export default function CardSettingsScreen() {
+  const navigation = useNavigation();
   const { t } = useTranslation();
 
-  const { control } = useForm<CardSettings>({
+  const { control, watch } = useForm<CardSettings>({
     mode: "onBlur",
     defaultValues: {
       IsOnlinePaymentsActive: false,
@@ -37,6 +40,18 @@ export default function CardSettingsScreen() {
       IsAtmWithdrawalsActive: false,
     },
   });
+
+  const isOnlinePaymentsActive = watch("IsOnlinePaymentsActive");
+
+  useEffect(() => {
+    if (isOnlinePaymentsActive) {
+      navigation.navigate("CardActions.OneTimePasswordModal", {
+        redirect: "CardActions.CardSettingsScreen",
+        action: "activate-online-payment",
+      });
+      // TODO: BE integration
+    }
+  }, [isOnlinePaymentsActive]);
 
   const handleChangePin = () => {
     Alert.alert("Change Pin is coming.");

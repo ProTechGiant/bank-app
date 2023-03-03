@@ -5,23 +5,27 @@ import { useThemeStyles } from "@/theme";
 
 export interface ActionButtonProps {
   title: string;
-  onPress: () => void;
+  type: "dark" | "light";
+  onPress?: () => void;
 }
 
-export default function ActionButton({ title, onPress }: ActionButtonProps) {
-  const containerStyles = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
-    backgroundColor: theme.palette["neutralBase-50"],
-    borderRadius: 20,
-    paddingHorizontal: theme.spacing["16p"],
-    paddingVertical: theme.spacing["8p"],
-    flexDirection: "row",
-    justifyContent: "center",
-  }));
+export default function ActionButton({ title, type, onPress }: ActionButtonProps) {
+  const containerStyles = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      backgroundColor: type === "light" ? theme.palette["neutralBase-50"] : "#00000014",
+      borderRadius: 20,
+      paddingHorizontal: theme.spacing["16p"],
+      paddingVertical: theme.spacing["8p"],
+      flexDirection: "row",
+      justifyContent: "center",
+    }),
+    [type]
+  );
 
   return (
     <Pressable onPress={onPress} style={containerStyles}>
-      <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+      <Typography.Text color={type === "light" ? "neutralBase+30" : "neutralBase-50"} size="callout" weight="medium">
         {title}
       </Typography.Text>
     </Pressable>
