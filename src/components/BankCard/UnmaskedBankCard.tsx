@@ -7,6 +7,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import ContentCopySvg from "./content-copy.svg";
+import ContentCopyActiveSvg from "./content-copy-active.svg";
 import EndButton from "./EndButton";
 import PlusCardUnmaskedSvg from "./plus-card-unmasked.svg";
 import SingleUseCardUnmaskedSvg from "./single-use-card-unmasked.svg";
@@ -59,7 +60,17 @@ export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, on
               </Stack>
               <View>
                 <Pressable onPress={onCopyPress}>
-                  <EndButton icon={<ContentCopySvg />} height={40} width={40} />
+                  {({ pressed }) => {
+                    return (
+                      <>
+                        <EndButton
+                          icon={pressed ? <ContentCopyActiveSvg /> : <ContentCopySvg />}
+                          height={40}
+                          width={40}
+                        />
+                      </>
+                    );
+                  }}
                 </Pressable>
               </View>
             </Stack>

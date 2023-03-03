@@ -727,6 +727,8 @@ export const resources = {
               "Upgrade your tier to get an exclusive card and enjoy priority support and other premium benefits.",
             button: "Explore Plus tier",
           },
+          copyClipboard: "Card number copied to clipboard",
+          errorCopyClipboard: "Couldn’t copy card number. Try again.",
         },
       },
     },

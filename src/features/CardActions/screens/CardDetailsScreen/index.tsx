@@ -1,12 +1,14 @@
+import Clipboard from "@react-native-clipboard/clipboard";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Platform, StyleSheet, View, ViewStyle } from "react-native";
 
-import { CardSettingsIcon, ReportIcon } from "@/assets/icons";
+import { CardSettingsIcon, CopyIcon, ErrorOutlineIcon, ReportIcon } from "@/assets/icons";
 import BankCard from "@/components/BankCard";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import MainStackParams from "@/navigation/mainStackParams";
@@ -26,6 +28,8 @@ export default function CardDetailsScreen() {
   const { t } = useTranslation();
 
   const [showDetails, setShowDetails] = useState(false);
+  const [showBanner, setShowBanner] = useState(false);
+  const [showErrorCopy, setShowErrorCopy] = useState(false);
 
   const cardType = route.params.cardType;
   const cardStatus = route.params.cardStatus;
@@ -58,7 +62,25 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnCopyPress = () => {
-    // ..
+    if (showBanner) {
+      // hide the already shown banner to avoid duplicate banners
+      setShowBanner(false);
+    }
+    Clipboard.setString(cardDetails.cardNumber);
+    fetchCopiedText();
+  };
+
+  const fetchCopiedText = async () => {
+    const text = await Clipboard.getString();
+    if (text.length > 0) {
+      setShowErrorCopy(false);
+    } else {
+      setShowErrorCopy(true);
+    }
+    setShowBanner(true);
+    setTimeout(() => {
+      setShowBanner(false);
+    }, 4000);
   };
 
   const handleOnPressActivate = () => {
@@ -96,6 +118,17 @@ export default function CardDetailsScreen() {
         }
         end={false}
       />
+      <DismissibleBanner
+        isError={showErrorCopy}
+        visible={showBanner}
+        message={
+          !showErrorCopy
+            ? t("CardActions.CardDetailsScreen.copyClipboard")
+            : t("CardActions.CardDetailsScreen.errorCopyClipboard")
+        }
+        icon={!showErrorCopy ? <CopyIcon /> : <ErrorOutlineIcon />}
+      />
+
       <ContentContainer isScrollView>
         <View style={cardContainerStyle}>
           {cardStatus === "inactive" && cardType !== "single-use" ? (
