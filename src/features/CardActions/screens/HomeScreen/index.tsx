@@ -12,7 +12,7 @@ import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { CardActionsStackParams } from "../../CardActionsStack";
+import { CardActionsStackParams, CardStatus } from "../../CardActionsStack";
 import ViewPinModal from "../../components/ViewPinModal";
 
 interface ContextMenuItem {
@@ -73,12 +73,14 @@ export default function HomeScreen() {
     navigation.navigate("CardActions.OneTimePasswordModal", { redirect: "CardActions.HomeScreen", action: "view-pin" });
   };
 
-  const handleOnCardSettingsPress = () => {
-    navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.CardSettingsScreen" });
+  const handleOnCardSettingsPress = (cardStatus: CardStatus) => {
+    navigation.navigate("CardActions.CardSettingsScreen", {
+      cardStatus: cardStatus,
+    });
   };
 
   const handleOnPlusCardPress = () => {
-    navigation.navigate("CardActions.CardDetailsScreen", { cardType: "plus" });
+    navigation.navigate("CardActions.CardDetailsScreen", { cardType: "plus", cardStatus: "active" });
   };
 
   const handleOnInactiveCardPress = () => {
@@ -124,7 +126,7 @@ export default function HomeScreen() {
                       ? handleOnFreezeUnfreezeCardPress()
                       : e.nativeEvent.index === 1
                       ? handleOnViewPinPress()
-                      : handleOnCardSettingsPress();
+                      : handleOnCardSettingsPress("inactive");
                   }}>
                   <BankCard.EndButton
                     icon={<ThreeDotsIcon />}
@@ -150,7 +152,7 @@ export default function HomeScreen() {
                       ? handleOnFreezeUnfreezeCardPress()
                       : e.nativeEvent.index === 1
                       ? handleOnViewPinPress()
-                      : handleOnCardSettingsPress();
+                      : handleOnCardSettingsPress("active");
                   }}>
                   <BankCard.EndButton
                     icon={<ThreeDotsIcon />}

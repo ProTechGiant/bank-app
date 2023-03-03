@@ -23,7 +23,7 @@ export default function OneTimePasswordModal() {
 
   const [countdownRestart, setCountdownRestart] = useState(true);
   // @TODO: use setIsPinFocus to hide keyboard if error returns
-  const [isPinFocus, setIsPinFocus] = useState(false);
+  const [isPinFocus, setIsPinFocus] = useState(true);
 
   const phoneNumber = "89"; // @TODO get from BE
   const isError = false; // @TODO BE integration

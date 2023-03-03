@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -12,6 +13,7 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { CardActionsStackParams } from "../../CardActionsStack";
 import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
 import SettingsToggle from "./SettingsToggle";
@@ -26,6 +28,7 @@ interface CardSettings {
 }
 
 export default function CardSettingsScreen() {
+  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.CardSettingsScreen">>();
   const navigation = useNavigation();
   const { t } = useTranslation();
 
@@ -40,6 +43,8 @@ export default function CardSettingsScreen() {
       IsAtmWithdrawalsActive: false,
     },
   });
+
+  const cardStatus = route.params.cardStatus;
 
   const isOnlinePaymentsActive = watch("IsOnlinePaymentsActive");
 
@@ -104,39 +109,41 @@ export default function CardSettingsScreen() {
         </ListSection>
         <View style={separatorStyle} />
         <ListSection title={t("CardActions.CardSettingsScreen.subTitle2")}>
-          <View style={toastBannerContainer}>
-            <ToastBanner
-              title={t("CardActions.CardSettingsScreen.onTheWay.title")}
-              message={t("CardActions.CardSettingsScreen.onTheWay.paragraph")}
-            />
-          </View>
+          {cardStatus === "inactive" && (
+            <View style={toastBannerContainer}>
+              <ToastBanner
+                title={t("CardActions.CardSettingsScreen.onTheWay.title")}
+                message={t("CardActions.CardSettingsScreen.onTheWay.paragraph")}
+              />
+            </View>
+          )}
           <SettingsToggle
             name="IsSwipePaymentsActive"
             label={t("CardActions.CardSettingsScreen.swipePayments.label")}
             helperText={t("CardActions.CardSettingsScreen.swipePayments.helperText")}
             control={control}
-            disabled
+            disabled={cardStatus === "inactive" ? true : false}
           />
           <SettingsToggle
             name="IsContactlessPaymentsActive"
             label={t("CardActions.CardSettingsScreen.contactlessPayments.label")}
             helperText={t("CardActions.CardSettingsScreen.contactlessPayments.helperText")}
             control={control}
-            disabled
+            disabled={cardStatus === "inactive" ? true : false}
           />
           <SettingsToggle
             name="IsAllowChipWithoutPinActive"
             label={t("CardActions.CardSettingsScreen.allowChipWithoutPin.label")}
             helperText={t("CardActions.CardSettingsScreen.allowChipWithoutPin.helperText")}
             control={control}
-            disabled
+            disabled={cardStatus === "inactive" ? true : false}
           />
           <SettingsToggle
             name="IsAtmWithdrawalsActive"
             label={t("CardActions.CardSettingsScreen.atmWithdrawals.label")}
             helperText={t("CardActions.CardSettingsScreen.atmWithdrawals.helperText")}
             control={control}
-            disabled
+            disabled={cardStatus === "inactive" ? true : false}
           />
         </ListSection>
       </ContentContainer>

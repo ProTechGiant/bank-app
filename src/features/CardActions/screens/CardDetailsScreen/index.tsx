@@ -11,10 +11,10 @@ import ContentContainer from "@/components/ContentContainer";
 import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
-import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { CardActionsStackParams, CardStatus } from "../../CardActionsStack";
 import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
 import CardIconButtons from "./CardIconButtons";
@@ -24,7 +24,7 @@ import UpgradeToCroatiaPlus from "./UpgradeToCroatiaPlus";
 
 export default function CardDetailsScreen() {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<MainStackParams, "CardActions.CardDetailsScreen">>();
+  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.CardDetailsScreen">>();
   const { t } = useTranslation();
 
   const [showDetails, setShowDetails] = useState(false);
@@ -45,8 +45,12 @@ export default function CardDetailsScreen() {
     navigation.navigate("Temporary.LandingScreen"); //to do: navigate to dummy screen
   };
 
-  const handleOnPressSettings = () => {
-    navigation.navigate("CardActions.CardSettingsScreen");
+  const handleOnActiveCardSettingsPress = () => {
+    navigation.navigate("CardActions.CardSettingsScreen", { cardStatus: "active" });
+  };
+
+  const handleOnInactiveCardSettingsPress = () => {
+    navigation.navigate("CardActions.CardSettingsScreen", { cardStatus: "inactive" });
   };
 
   const handleOnPressReport = () => {
@@ -170,7 +174,7 @@ export default function CardDetailsScreen() {
             <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
               <ListItemLink
                 icon={<CardSettingsIcon />}
-                onPress={handleOnPressSettings}
+                onPress={cardStatus === "active" ? handleOnActiveCardSettingsPress : handleOnInactiveCardSettingsPress}
                 title={t("CardActions.CardDetailsScreen.cardSettingsButton")}
               />
               <ListItemLink

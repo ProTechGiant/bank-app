@@ -10,13 +10,16 @@ import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
 import SingleUseCardsScreen from "./screens/SingleUseCardsScreen";
 
 type CardAction = "view-pin" | "unfreeze" | "activate-online-payment";
+export type CardStatus = "active" | "inactive";
 
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {
     cardType: "standard" | "plus" | "single-use";
-    cardStatus?: "active" | "inactive";
+    cardStatus?: CardStatus;
   };
-  "CardActions.CardSettingsScreen": undefined;
+  "CardActions.CardSettingsScreen": {
+    cardStatus?: CardStatus;
+  };
   "CardActions.LoadingSingleCardScreen": undefined;
   "CardActions.SingleUseCardsScreen": undefined;
   "CardActions.SingleUseCardInfo": undefined;
