@@ -6,12 +6,13 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface ListItemLinkProps {
+  disabled?: boolean;
   icon?: React.ReactElement<SvgProps>;
   title: string;
   onPress: () => void;
 }
 
-export default function ListItemLink({ icon, title, onPress }: ListItemLinkProps) {
+export default function ListItemLink({ icon, title, onPress, disabled = false }: ListItemLinkProps) {
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     alignContent: "center",
     flexDirection: "row",
@@ -23,11 +24,11 @@ export default function ListItemLink({ icon, title, onPress }: ListItemLinkProps
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"], []);
 
   return (
-    <Pressable style={containerStyles} onPress={onPress}>
+    <Pressable style={containerStyles} onPress={onPress} disabled={disabled}>
       {icon !== undefined && <View style={styles.iconContainer}>{icon}</View>}
       <View style={styles.titleContainer}>
         {title && (
-          <Typography.Text size="callout" weight="medium">
+          <Typography.Text color={disabled ? "neutralBase-20" : "neutralBase+30"} size="callout" weight="medium">
             {title}
           </Typography.Text>
         )}

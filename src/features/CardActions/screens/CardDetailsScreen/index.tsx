@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Platform, View, ViewStyle } from "react-native";
+import { Alert, Platform, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CardSettingsIcon, ReportIcon } from "@/assets/icons";
 import BankCard from "@/components/BankCard";
@@ -28,6 +28,7 @@ export default function CardDetailsScreen() {
   const [showDetails, setShowDetails] = useState(false);
 
   const cardType = route.params.cardType;
+  const cardStatus = route.params.cardStatus;
 
   const cardDetails = {
     cardNumber: "1234 1234 1234 1234",
@@ -60,6 +61,10 @@ export default function CardDetailsScreen() {
     // ..
   };
 
+  const handleOnPressActivate = () => {
+    //..
+  };
+
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     paddingBottom: theme.spacing["24p"],
@@ -77,6 +82,8 @@ export default function CardDetailsScreen() {
     marginBottom: theme.spacing["32p"],
   }));
 
+  const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
+
   return (
     <Page backgroundColor="neutralBase-50">
       <NavHeader
@@ -91,7 +98,19 @@ export default function CardDetailsScreen() {
       />
       <ContentContainer isScrollView>
         <View style={cardContainerStyle}>
-          {!showDetails ? (
+          {cardStatus === "inactive" && cardType !== "single-use" ? (
+            <BankCard.Inactive
+              type="inactive"
+              label={t("CardActions.CardDetailsScreen.inactiveCard.label")}
+              actionButton={
+                <BankCard.ActionButton
+                  type="light"
+                  title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
+                  onPress={handleOnPressActivate}
+                />
+              }
+            />
+          ) : !showDetails ? (
             <BankCard.Active cardNumber="1234" cardType={cardType} />
           ) : (
             <BankCard.Unmasked
@@ -104,9 +123,9 @@ export default function CardDetailsScreen() {
         </View>
         {cardType === "single-use" ? (
           <SingleUseIconButtons onPressShowDetails={handleOnPressShowDetails} showDetails={showDetails} />
-        ) : (
+        ) : cardStatus !== "inactive" ? (
           <CardIconButtons onPressShowDetails={handleOnPressShowDetails} showDetails={showDetails} />
-        )}
+        ) : null}
         <View style={separatorStyle} />
         {cardType !== "single-use" && (
           <>
@@ -122,7 +141,8 @@ export default function CardDetailsScreen() {
                 title={t("CardActions.CardDetailsScreen.cardSettingsButton")}
               />
               <ListItemLink
-                icon={<ReportIcon />}
+                disabled={cardStatus === "inactive" ? true : false}
+                icon={cardStatus === "inactive" ? <ReportIcon color={disabledIconColor} /> : <ReportIcon />}
                 onPress={handleOnPressReport}
                 title={t("CardActions.CardDetailsScreen.reportButton")}
               />
@@ -137,10 +157,18 @@ export default function CardDetailsScreen() {
         {cardType === "standard" && (
           <>
             <View style={separatorStyle} />
-            <UpgradeToCroatiaPlus onPress={handleOnUpgradePress} />
+            <View style={styles.upgradeContainer}>
+              <UpgradeToCroatiaPlus onPress={handleOnUpgradePress} />
+            </View>
           </>
         )}
       </ContentContainer>
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  upgradeContainer: {
+    alignItems: "center",
+  },
+});

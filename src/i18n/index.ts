@@ -700,6 +700,10 @@ export const resources = {
           navTitleStandard: "Standard card",
           navTitlePlus: "Plus card",
           navTitleSingleUse: "Single-use card",
+          inactiveCard: {
+            label: "On the way",
+            actionButtonText: "Activate now",
+          },
           iconButtonText: {
             show: "Show details",
             hide: "Hide details",

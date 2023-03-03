@@ -14,6 +14,7 @@ type CardAction = "view-pin" | "unfreeze" | "activate-online-payment";
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {
     cardType: "standard" | "plus" | "single-use";
+    cardStatus?: "active" | "inactive";
   };
   "CardActions.CardSettingsScreen": undefined;
   "CardActions.LoadingSingleCardScreen": undefined;

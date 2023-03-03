@@ -81,6 +81,10 @@ export default function HomeScreen() {
     navigation.navigate("CardActions.CardDetailsScreen", { cardType: "plus" });
   };
 
+  const handleOnInactiveCardPress = () => {
+    navigation.navigate("CardActions.CardDetailsScreen", { cardType: "standard", cardStatus: "inactive" });
+  };
+
   const handleOnSingleUseCardPress = () => {
     navigation.navigate("CardActions.CardDetailsScreen", { cardType: "single-use" });
   };
@@ -158,6 +162,17 @@ export default function HomeScreen() {
               onPress={handleOnPlusCardPress}
             />
           )}
+          <BankCard.Inactive
+            type="inactive"
+            label={t("Cards.standardCard")}
+            actionButton={
+              <BankCard.ActionButton
+                type="light"
+                title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
+                onPress={handleOnInactiveCardPress}
+              />
+            }
+          />
           <BankCard.Active
             cardNumber="0238"
             cardType="single-use"
