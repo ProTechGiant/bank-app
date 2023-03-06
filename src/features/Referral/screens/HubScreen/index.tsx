@@ -3,85 +3,73 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, Pressable, ScrollView, Share, View, ViewStyle } from "react-native";
 
-import { FriendIcon, ShareCopyIcon } from "@/assets/icons";
+import { ShareCopyIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
-import SectionHeader from "@/components/SectionHeader";
+import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import CopyCodeCard from "./CopyCodeCard";
-import RecommendationCards from "./RecommendationCards";
-
 export default function HubScreen() {
-  const buttonStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginHorizontal: theme.spacing["16p"],
-      marginTop: theme.spacing["16p"],
-    }),
-    []
-  );
-  const captionTextWrapperStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      alignItems: "flex-end",
-      flexDirection: "row",
-      justifyContent: "center",
-      marginTop: theme.spacing["8p"],
-      marginBottom: theme.spacing["32p"],
-    }),
-    []
-  );
-  const headerContainerStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["primaryBase"],
-      paddingTop: Platform.OS === "android" ? theme.spacing["8p"] : theme.spacing["24p"],
-      paddingBottom: theme.spacing["24p"] * 2,
-    }),
-    []
-  );
-  const headerTextWrapperStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginTop: theme.spacing["24p"],
-      marginHorizontal: theme.spacing["24p"],
-      alignItems: "center",
-    }),
-    []
-  );
-  const IconWrapperStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginTop: theme.spacing["20p"],
-      alignItems: "center",
-      justifyContent: "center",
-    }),
-    []
-  );
-  const subTextStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginTop: theme.spacing["8p"],
-    }),
-    []
-  );
-  const cardContainerStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginVertical: theme.spacing["8p"],
-      marginHorizontal: theme.spacing["16p"],
-    }),
-    []
-  );
+  const container = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["20p"],
+  }));
 
-  const friendIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.friendIcon, []);
+  const subtitleStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["8p"],
+  }));
 
-  const inProgress = 1;
+  const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
+    margin: theme.spacing["16p"],
+  }));
+
+  const headerTextWrapperStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["24p"],
+    marginBottom: theme.spacing["8p"],
+  }));
+
+  const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginVertical: theme.spacing["8p"],
+    shadowOffset: {
+      width: 8,
+      height: 4,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+  }));
+
+  const cardContainerInnerStyle = useThemeStyles<ViewStyle>(theme => ({
+    minHeight: 54,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    backgroundColor: theme.palette["neutralBase-50"],
+    paddingHorizontal: theme.spacing["16p"],
+  }));
+
+  const bottomBorderStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderBottomColor: theme.palette["neutralBase-40"],
+    borderBottomWidth: 1,
+  }));
+
+  const iconStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["primaryBase-12%"],
+    padding: 10,
+    borderRadius: 18,
+    width: 36,
+    height: 36,
+  }));
+
+  const borderRadius = useThemeStyles<number>(theme => theme.radii.extraSmall);
+
   const completed = 1;
   const earnt = 15;
-  const currency = "SAR";
-  const referralLink = "https://www.croatia.com/invite";
+  const referralLink = "apps.apple.com/croatia";
 
   const [showToast, setShowToast] = useState(false);
-
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { referralPageViewed } = useGlobalContext();
@@ -105,57 +93,71 @@ export default function HubScreen() {
     }
   }, []);
 
-  const onTermsAndConditionsPress = () => {
+  const handleOnTermsAndConditionsPress = () => {
     navigation.navigate("Referral.TermsAndConditions");
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <Page backgroundColor="neutralBase-50">
       <DismissibleBanner visible={showToast} message={t("Referral.HubScreen.linkCopied")} />
-      <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
-        <View style={headerContainerStyle}>
-          <NavHeader color="white" />
-          <View style={IconWrapperStyle}>
-            <FriendIcon height={friendIconDimensions} width={friendIconDimensions} />
-          </View>
-          <View style={headerTextWrapperStyle}>
-            <Typography.Text color="neutralBase-50" weight="semiBold" size="title1">
-              {t("Referral.HubScreen.title")}
-            </Typography.Text>
-            <View style={subTextStyle}>
-              <Typography.Text color="neutralBase-20" weight="regular" size="callout" align="center">
-                {t("Referral.HubScreen.subtitle")}
-              </Typography.Text>
-            </View>
-          </View>
-        </View>
-        <SectionHeader title={t("Referral.HubScreen.recommendations")} />
-        <RecommendationCards inProgress={inProgress} completed={completed} earnt={earnt} currency={currency} />
-        <SectionHeader title={t("Referral.HubScreen.copy")} />
+      <NavHeader />
+      <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} contentContainerStyle={container}>
+        <Typography.Text weight="semiBold" size="title1">
+          {t("Referral.HubScreen.title")}
+        </Typography.Text>
+        <Typography.Text color="neutralBase" weight="regular" size="callout" style={subtitleStyle}>
+          {t("Referral.HubScreen.subtitle")}
+          <Typography.Text
+            color="primaryBase"
+            weight="regular"
+            size="callout"
+            onPress={handleOnTermsAndConditionsPress}>
+            {t("Referral.HubScreen.termsAndConditions")}
+          </Typography.Text>
+          <Typography.Text color="neutralBase" weight="regular" size="callout">
+            {t("Referral.HubScreen.fullStop")}
+          </Typography.Text>
+        </Typography.Text>
+        <Typography.Text size="title3" weight="semiBold" style={headerTextWrapperStyle}>
+          {t("Referral.HubScreen.recommendations")}
+        </Typography.Text>
         <View style={cardContainerStyle}>
-          <CopyCodeCard
-            backgroundColor="neutralBase-50"
-            leftText={referralLink}
-            rightIcon={<ShareCopyIcon />}
-            onPress={handleOnCopyCodePress}
-          />
+          <View
+            style={[
+              cardContainerInnerStyle,
+              bottomBorderStyle,
+              { borderTopLeftRadius: borderRadius, borderTopRightRadius: borderRadius },
+            ]}>
+            <Typography.Text>{t("Referral.HubScreen.completed")}</Typography.Text>
+            <Typography.Text size="callout" weight="semiBold" color="primaryBase">
+              {completed}
+            </Typography.Text>
+          </View>
+          <View
+            style={[
+              cardContainerInnerStyle,
+              { borderBottomLeftRadius: borderRadius, borderBottomRightRadius: borderRadius },
+            ]}>
+            <Typography.Text>{t("Referral.HubScreen.earnt")}</Typography.Text>
+            <Typography.Text size="callout" weight="semiBold" color="primaryBase">
+              {earnt}
+            </Typography.Text>
+          </View>
         </View>
+        <Pressable
+          style={[cardContainerStyle, headerTextWrapperStyle, cardContainerInnerStyle, { borderRadius }]}
+          onPress={handleOnCopyCodePress}>
+          <Typography.Text>{referralLink}</Typography.Text>
+          <View style={iconStyle}>
+            <ShareCopyIcon />
+          </View>
+        </Pressable>
       </ScrollView>
       <View style={buttonStyle}>
         <Button variant="primary" color="light" onPress={handleOnSharePress}>
-          {t("Referral.share")}
+          {t("Referral.HubScreen.share")}
         </Button>
-        <View style={captionTextWrapperStyle}>
-          <Typography.Text size="caption2" color="neutralBase" weight="medium">
-            {t("Referral.read")}
-          </Typography.Text>
-          <Pressable onPress={onTermsAndConditionsPress}>
-            <Typography.Text size="caption2" color="interactionBase" weight="medium">
-              {t("Referral.termsAndConditions")}
-            </Typography.Text>
-          </Pressable>
-        </View>
       </View>
-    </View>
+    </Page>
   );
 }

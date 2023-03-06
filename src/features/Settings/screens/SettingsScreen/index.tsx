@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 
 import { FriendsIcon, NotificationIcon, QuestionIcon } from "@/assets/icons";
+import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
@@ -47,6 +48,7 @@ export default function SettingsScreen() {
 
   return (
     <Page>
+      <NavHeader />
       <Pressable style={cardContainerStyle} onPress={handleOnReferPress}>
         <FriendsIcon style={iconContainer} height={iconDimensions} width={iconDimensions} />
         <Typography.Text color="primaryBase+30" size="callout" weight="regular">

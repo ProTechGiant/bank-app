@@ -366,18 +366,17 @@ export const resources = {
         },
       },
       Referral: {
-        share: "Share",
-        read: "Read more in ",
-        termsAndConditions: "Terms & Conditions",
         HubScreen: {
-          title: "Send invite",
-          subtitle: "Once your friend has created an account with your unique link, you’ll both receive 15 SAR. ",
-          recommendations: "your sent invites",
-          copy: "Copy link",
-          progress: "In progress",
+          title: "Invite friends",
+          subtitle:
+            "Once your friend has created an account with your unique link, you’ll both receive 15 SAR.\n\n For more details, see our",
+          recommendations: "Your sent invites ",
           completed: "Completed",
-          earnt: "Earnt so far",
+          earnt: "SAR earnt",
           linkCopied: "Link copied",
+          termsAndConditions: " terms and conditions",
+          fullStop: ".",
+          share: "Share via...",
         },
         InstructionsScreen: {
           skip: "Skip",
@@ -930,6 +929,20 @@ export const resources = {
         },
         SubcategoryScreen: {
           subtitle: "احصل على تنبيهات حول:",
+        },
+      },
+      Referral: {
+        HubScreen: {
+          title: "أرسل دعوة",
+          subtitle:
+            "عند إنشاء حساب من الرابط الخاص بك، سيحصل الطرفين على 15 ر.س مكافأة كاش في حسابك.\n\nلمزيد من التفاصيل، يرجى الاطلاع على ",
+          recommendations: "الدعوات المُرسَلة",
+          completed: "مُرسَلة",
+          earnt: "مجموع المكافآت",
+          linkCopied: "تم نسخ الرابط",
+          termsAndConditions: "  الشروط والأحكام",
+          fullStop: ".",
+          share: "إرسال",
         },
       },
       Cards: {

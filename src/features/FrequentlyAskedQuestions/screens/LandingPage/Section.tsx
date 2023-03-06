@@ -18,10 +18,10 @@ export default function Section({ data, icon }: SectionProps) {
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.faqSectionIcons);
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
-  const naviation = useNavigation();
+  const navigation = useNavigation();
 
   const handleOnPress = () => {
-    naviation.navigate("FrequentlyAskedQuestions.SectionScreen", { data: data?.sections, title: data?.category_name });
+    navigation.navigate("FrequentlyAskedQuestions.SectionScreen", { data: data?.sections, title: data?.category_name });
   };
 
   return (

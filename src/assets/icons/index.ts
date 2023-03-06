@@ -25,7 +25,6 @@ export { ErrorOutlineIcon } from "./error-outline";
 export { FilledCircleTickIcon } from "./filled-circle-tick";
 export { default as FilledRefresh } from "./filled-refresh.svg";
 export { FreezeIcon } from "./freeze";
-export { default as FriendIcon } from "./friend.svg";
 export { default as FriendsIcon } from "./friends.svg";
 export { default as GiftIcon } from "./gift.svg";
 export { GlobeIcon } from "./globe";
