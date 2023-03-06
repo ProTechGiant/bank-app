@@ -21,10 +21,6 @@ lane :build do |options|
 end
 
 lane :update_version do
-  Dir.chdir("..") do
-    sh("node", "scripts/update-build-info.js")
-  end
-
   Fastlane::LaneManager.cruise_lane("android", "update_version")
   Fastlane::LaneManager.cruise_lane("ios", "update_version")
 end

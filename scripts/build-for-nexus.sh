@@ -22,7 +22,8 @@ bundle install
 cp "../secrets/.env.$BUILD_ENVIRONMENT.secret" "fastlane/envs/.env.secret"
 
 # Build Android version
-bundle exec fastlane update_version
+node scripts/update-build-info.js
+bundle exec fastlane android update_version
 bundle exec fastlane android build "env:$BUILD_ENVIRONMENT"
 bundle exec fastlane tag_build_git
 
