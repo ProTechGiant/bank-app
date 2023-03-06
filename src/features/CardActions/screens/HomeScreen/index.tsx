@@ -205,18 +205,6 @@ export default function HomeScreen() {
             }
             onPress={handleOnSingleUseCardPress}
           />
-          <BankCard.Inactive
-            type="inactive"
-            endButton={
-              <Pressable onPress={handleOnPressAbout}>
-                <BankCard.EndButton icon={<InfoCircleIcon />} />
-              </Pressable>
-            }
-            label={t("Cards.singleUseCard")}
-            actionButton={
-              <BankCard.ActionButton title={t("Cards.generateNew")} type="light" onPress={handleOnGenerateCardPress} />
-            }
-          />
         </Stack>
         <ViewPinModal
           pin="0382"

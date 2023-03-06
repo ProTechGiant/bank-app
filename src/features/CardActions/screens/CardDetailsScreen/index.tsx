@@ -1,6 +1,6 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Platform, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -10,6 +10,7 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -28,11 +29,16 @@ export default function CardDetailsScreen() {
   const { t } = useTranslation();
 
   const [showDetails, setShowDetails] = useState(false);
+  const [showNotificationAlert, setShowNotificationAlert] = useState(false);
   const [showBanner, setShowBanner] = useState(false);
   const [showErrorCopy, setShowErrorCopy] = useState(false);
 
   const cardType = route.params.cardType;
   const cardStatus = route.params.cardStatus;
+
+  useEffect(() => {
+    setShowNotificationAlert(route.params.isCardCreated ?? false);
+  }, [route.params.isCardCreated]);
 
   const cardDetails = {
     cardNumber: "1234 1234 1234 1234",
@@ -91,6 +97,10 @@ export default function CardDetailsScreen() {
     //..
   };
 
+  const handleOnCloseNotification = () => {
+    setShowNotificationAlert(false);
+  };
+
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     paddingBottom: theme.spacing["24p"],
@@ -108,6 +118,15 @@ export default function CardDetailsScreen() {
     marginBottom: theme.spacing["32p"],
   }));
 
+  const handleOnBackPress = () => {
+    // if  from creation -> navigate to Home else goBack
+    if (route.params.isCardCreated) {
+      navigation.navigate("Temporary.LandingScreen");
+    } else {
+      navigation.goBack();
+    }
+  };
+
   const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   return (
@@ -121,6 +140,7 @@ export default function CardDetailsScreen() {
             : t("CardActions.CardDetailsScreen.navTitleSingleUse")
         }
         end={false}
+        onBackPress={handleOnBackPress}
       />
       <DismissibleBanner
         isError={showErrorCopy}
@@ -199,6 +219,13 @@ export default function CardDetailsScreen() {
             </View>
           </>
         )}
+        <NotificationModal
+          variant="success"
+          onClose={handleOnCloseNotification}
+          message={t("Cards.SingleUseCard.CardCreation.successMessage")}
+          title={t("Cards.SingleUseCard.CardCreation.successTitle")}
+          isVisible={showNotificationAlert}
+        />
       </ContentContainer>
     </Page>
   );

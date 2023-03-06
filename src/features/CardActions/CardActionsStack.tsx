@@ -9,12 +9,13 @@ import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
 import SingleUseCardsScreen from "./screens/SingleUseCardsScreen";
 
-type CardAction = "view-pin" | "unfreeze" | "activate-online-payment";
+type CardAction = "view-pin" | "unfreeze" | "activate-online-payment" | "generate-single-use-card";
 export type CardStatus = "active" | "inactive";
 
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {
     cardType: "standard" | "plus" | "single-use";
+    isCardCreated?: boolean;
     cardStatus?: CardStatus;
   };
   "CardActions.CardSettingsScreen": {

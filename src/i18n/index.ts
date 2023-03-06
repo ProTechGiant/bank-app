@@ -600,7 +600,6 @@ export const resources = {
               "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
             generateBtn: "Generate single-use card",
           },
-
           CardAbout: {
             title: "Single-use cards",
             SectionOne: {
@@ -635,6 +634,10 @@ export const resources = {
                 helperText: "Single-use card are only available as long as you stay plus tier customer.",
               },
             },
+          },
+          CardCreation: {
+            successTitle: "New single-use card generated",
+            successMessage: "You can go ahead and copy card details for your purchase.",
           },
         },
       },

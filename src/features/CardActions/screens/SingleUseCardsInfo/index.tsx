@@ -14,7 +14,6 @@ import { useThemeStyles } from "@/theme";
 export default function SingleUseCardInfo() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(false);
 
   const mainViewStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["20p"],
@@ -28,9 +27,10 @@ export default function SingleUseCardInfo() {
   }));
 
   const handleOnGenerateCard = () => {
-    setLoading(true);
-    /* todo - should be redirected to one time otp screen */
-    navigation.navigate("CardActions.LoadingSingleCardScreen");
+    navigation.navigate("CardActions.OneTimePasswordModal", {
+      redirect: "CardActions.LoadingSingleCardScreen",
+      action: "generate-single-use-card",
+    });
   };
 
   return (
@@ -46,7 +46,7 @@ export default function SingleUseCardInfo() {
               subText={t("Cards.SingleUseCard.InfoScreen.subTitle")}
             />
           </View>
-          <Button loading={loading} variant="primary" color="dark" onPress={handleOnGenerateCard}>
+          <Button variant="primary" color="dark" onPress={handleOnGenerateCard}>
             {t("Cards.SingleUseCard.InfoScreen.generateBtn")}
           </Button>
         </View>
