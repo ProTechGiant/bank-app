@@ -162,17 +162,6 @@ export const mockNotificationManagementCategories: NotificationCategoriesData = 
         },
         {
           subCategoryId: "0ac9cabe-0dfb-478d-bc0d-188329399722",
-          subCategoryName: "Expiring rewards",
-          subCategoryDescription: "When your rewards are going to run out",
-          selectedChannels: [
-            {
-              channelId: "9744b75c-e6c6-43ab-98fe-5d9ed8f8925b",
-              channelName: "PUSH",
-            },
-          ],
-        },
-        {
-          subCategoryId: "0ac9cabe-0dfb-478d-bc0d-188329399723",
           subCategoryName: "New rewards",
           subCategoryDescription: "When new rewards are available",
           selectedChannels: [
@@ -183,7 +172,7 @@ export const mockNotificationManagementCategories: NotificationCategoriesData = 
           ],
         },
         {
-          subCategoryId: "0ac9cabe-0dfb-478d-bc0d-188329399724",
+          subCategoryId: "0ac9cabe-0dfb-478d-bc0d-188329399723",
           subCategoryName: "New content",
           subCategoryDescription: "When new content drops",
           selectedChannels: [

@@ -33,7 +33,7 @@ export default function SubcategoryScreen() {
 
   //Temporary code to set default status, to be replaced later during service integration
   useEffect(() => {
-    title.toLocaleLowerCase() === "transfers" ? setToggleStatus(true) : setToggleStatus(false);
+    title.toLocaleLowerCase() !== "transfers" ? setToggleStatus(true) : setToggleStatus(false);
   }, []);
 
   return (
