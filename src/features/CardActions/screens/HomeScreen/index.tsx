@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, ViewStyle } from "react-native";
+import { Alert, Pressable, ScrollView, ViewStyle } from "react-native";
 import ContextMenu from "react-native-context-menu-view";
 
 import { InfoCircleIcon, ThreeDotsIcon } from "@/assets/icons";
@@ -99,6 +99,10 @@ export default function HomeScreen() {
     navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.SingleUseCardInfo" });
   };
 
+  const handleOnActivateNowPress = () => {
+    Alert.alert("Activate now");
+  };
+
   const { height: threeDotsIconHeight, width: threeDotsIconWidth } = useThemeStyles(
     theme => theme.iconDimensions.threeDots
   );
@@ -171,9 +175,24 @@ export default function HomeScreen() {
               <BankCard.ActionButton
                 type="light"
                 title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
-                onPress={handleOnInactiveCardPress}
+                onPress={handleOnActivateNowPress}
               />
             }
+            endButton={
+              <ContextMenu
+                actions={contextMenuActions}
+                dropdownMenuMode={true}
+                onPress={e => {
+                  e.nativeEvent.index === 0
+                    ? handleOnFreezeUnfreezeCardPress()
+                    : e.nativeEvent.index === 1
+                    ? handleOnViewPinPress()
+                    : handleOnCardSettingsPress("inactive");
+                }}>
+                <BankCard.EndButton icon={<ThreeDotsIcon />} width={threeDotsIconWidth} height={threeDotsIconHeight} />
+              </ContextMenu>
+            }
+            onPress={handleOnInactiveCardPress}
           />
           <BankCard.Active
             cardNumber="0238"

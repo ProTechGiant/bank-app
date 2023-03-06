@@ -14,7 +14,7 @@ import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { CardActionsStackParams, CardStatus } from "../../CardActionsStack";
+import { CardActionsStackParams } from "../../CardActionsStack";
 import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
 import CardIconButtons from "./CardIconButtons";
