@@ -2,46 +2,32 @@
 module.exports = {
   extends: [
     "eslint:recommended",
-    "plugin:react/recommended",
+    "@react-native-community",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
     "plugin:storybook/recommended",
   ],
   parser: "@typescript-eslint/parser",
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 12,
-    sourceType: "module",
-  },
-  // eslint-disable-next-line prettier/prettier
-  plugins: [
-    "eslint-comments",
-    "react-native",
-    "@react-native-community",
-    "simple-import-sort",
-    "@typescript-eslint"
-  ],
+  plugins: ["simple-import-sort"],
   root: true,
   rules: {
     "arrow-parens": ["error", "as-needed"],
-    "array-bracket-spacing": 0,
+    "array-bracket-spacing": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
         ignoreRestSiblings: true,
         argsIgnorePattern: "^_",
+        varsIgnorePattern: "^_",
+        destructuredArrayIgnorePattern: "^_",
       },
     ],
-    "@typescript-eslint/ban-ts-comment": 1,
-    "@typescript-eslint/explicit-module-boundary-types": 0,
-    "@typescript-eslint/member-ordering": 0,
-    "sort-keys": 0,
-    "no-extra-boolean-cast": 1,
-    "no-console": 1,
-    "no-unused-vars": "off",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/member-ordering": "off",
+    "sort-keys": "off",
+    "no-console": "warn",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "react/jsx-curly-brace-presence": [
@@ -51,18 +37,24 @@ module.exports = {
         children: "never",
       },
     ],
-    "react/jsx-no-bind": 0,
-    "react/jsx-boolean-value": 0,
-    "react/react-in-jsx-scope": 0,
+    "react/jsx-no-bind": "off",
+    "react/jsx-handler-names": [
+      "error",
+      {
+        eventHandlerPrefix: "handleOn",
+      },
+    ],
+    "react/react-in-jsx-scope": "off",
     "react/self-closing-comp": [
       "error",
       {
         component: true,
       },
     ],
-    "react-native/no-unused-styles": 2,
-    "react-native/split-platform-components": 2,
-    "react-native/no-color-literals": 0,
+    "react-hooks/exhaustive-deps": "warn",
+    "react-native/no-unused-styles": "error",
+    "react-native/split-platform-components": "error",
+    "react-native/no-color-literals": "off",
     "react-native/no-raw-text": "off",
     "react-native/sort-styles": [
       "error",
@@ -72,10 +64,5 @@ module.exports = {
         ignoreStyleProperties: false,
       },
     ],
-  },
-  settings: {
-    react: {
-      version: "detect",
-    },
   },
 };
