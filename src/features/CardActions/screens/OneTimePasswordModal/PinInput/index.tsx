@@ -7,12 +7,13 @@ import { useThemeStyles } from "@/theme";
 
 interface PinInputProps {
   pinLength: number;
+  onPress: () => void;
   onSubmit: (pin: string) => void;
   isFocus?: boolean;
   isError?: boolean;
 }
 
-export default function PinInput({ pinLength, onSubmit, isFocus = false, isError = false }: PinInputProps) {
+export default function PinInput({ pinLength, onPress, onSubmit, isFocus = false, isError = false }: PinInputProps) {
   const [boxDisplay, setBoxDisplay] = useState("");
   const [currentInput, setCurrentInput] = useState("");
   const [showCursor, setShowCursor] = useState(true);
@@ -92,10 +93,7 @@ export default function PinInput({ pinLength, onSubmit, isFocus = false, isError
   }));
 
   return (
-    <Pressable
-      onPress={() => {
-        textInputRef.current?.focus();
-      }}>
+    <Pressable onPress={onPress}>
       <TextInput
         autoFocus={isFocus}
         ref={textInputRef}
@@ -111,7 +109,7 @@ export default function PinInput({ pinLength, onSubmit, isFocus = false, isError
           <View
             key={i}
             style={[inputBoxStyle, i === currentInput.length && highlightedBoxStyle, isError && errorBoxStyle]}>
-            {i === currentInput.length && showCursor && <Typography.Text>|</Typography.Text>}
+            {i === currentInput.length && showCursor && !isError && <Typography.Text>|</Typography.Text>}
             {inputToDotOrDigit(currentInput, i)}
           </View>
         ))}

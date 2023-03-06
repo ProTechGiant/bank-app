@@ -24,9 +24,9 @@ export default function OneTimePasswordModal() {
   const [countdownRestart, setCountdownRestart] = useState(true);
   // @TODO: use setIsPinFocus to hide keyboard if error returns
   const [isPinFocus, setIsPinFocus] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   const phoneNumber = "89"; // @TODO get from BE
-  const isError = false; // @TODO BE integration
 
   const handleOnClosePress = () => {
     navigation.goBack();
@@ -35,6 +35,12 @@ export default function OneTimePasswordModal() {
   const handleOnResendPress = () => {
     setCountdownRestart(true);
     Alert.alert("Resend OTP");
+  };
+
+  const handleOnPinBoxesPress = () => {
+    setIsPinFocus(true);
+    // reset pin boxes styles and remove error message
+    setIsError(false);
   };
 
   const handleOnSubmit = (input: string) => {
@@ -72,7 +78,13 @@ export default function OneTimePasswordModal() {
             })}
           </Typography.Text>
           <View style={passwordContainerStyle}>
-            <PinInput pinLength={4} isError={isError} isFocus={isPinFocus} onSubmit={handleOnSubmit} />
+            <PinInput
+              pinLength={4}
+              isError={isError}
+              isFocus={isPinFocus}
+              onSubmit={handleOnSubmit}
+              onPress={handleOnPinBoxesPress}
+            />
           </View>
           {isError && (
             <View style={errorContainerStyle}>
