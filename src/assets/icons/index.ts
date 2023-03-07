@@ -55,7 +55,6 @@ export { ReportIcon } from "./report";
 export { default as Rewards } from "./rewards.svg";
 export { default as SearchIcon } from "./search.svg";
 export { default as SettingsIcon } from "./settings.svg";
-export { default as ShareCopyIcon } from "./share-copy.svg";
 export { default as ShippingIcon } from "./shipping.svg";
 export { ShowIcon } from "./show";
 export { default as SplitIcon } from "./split.svg";

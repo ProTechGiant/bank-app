@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, Pressable, ScrollView, Share, View, ViewStyle } from "react-native";
 
-import { ShareCopyIcon } from "@/assets/icons";
+import { CopyIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
@@ -64,6 +64,7 @@ export default function HubScreen() {
   }));
 
   const borderRadius = useThemeStyles<number>(theme => theme.radii.extraSmall);
+  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.referralCopy);
 
   const completed = 1;
   const earnt = 15;
@@ -149,7 +150,7 @@ export default function HubScreen() {
           onPress={handleOnCopyCodePress}>
           <Typography.Text>{referralLink}</Typography.Text>
           <View style={iconStyle}>
-            <ShareCopyIcon />
+            <CopyIcon height={iconDimensions} width={iconDimensions} color="#080E53" />
           </View>
         </Pressable>
       </ScrollView>

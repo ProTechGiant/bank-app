@@ -195,6 +195,7 @@ const iconDimensions = {
     width: 14,
     height: 4,
   },
+  referralCopy: 16,
 };
 
 export { iconDimensions, palette, radii, spacing, typography };
