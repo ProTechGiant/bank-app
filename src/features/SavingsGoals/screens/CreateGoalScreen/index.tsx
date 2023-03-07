@@ -85,7 +85,7 @@ export default function CreateGoalScreen() {
       const response = await createGoalAsync.mutateAsync(values);
 
       navigation.navigate("SavingsGoals.GoalDetailsScreen", {
-        SavingsPotId: response.SavingsPotId,
+        PotId: response.PotId,
         redirectToFundingModal: true,
       });
     } catch (error) {

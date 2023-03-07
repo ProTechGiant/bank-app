@@ -18,6 +18,7 @@ import MainStackParams from "@/navigation/MainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
 import AccountDestination from "../../components/AccountDestination";
+import { mockMissingSavingsPotDetails } from "../../mocks/mockMissingSavingsPotDetails";
 import { useSavingsPot } from "../../query-hooks";
 //TODO useWithdrawSavingsPot will be needed for getting the accountId
 // import { useWithdrawSavingsPot } from "../../query-hooks";
@@ -36,7 +37,7 @@ export default function WithdrawGoalModal() {
   const { i18n, t } = useTranslation();
   const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.WithdrawGoalModal">>();
 
-  const { data } = useSavingsPot(route.params.SavingsPotId);
+  const { data } = useSavingsPot(route.params.PotId);
 
   //TODO accountId will be needed for the API call
   // const whitdrawSavingsPot = useWithdrawSavingsPot(route.params.SavingsPotId);
@@ -50,7 +51,7 @@ export default function WithdrawGoalModal() {
         .number()
         .required()
         .min(0.01)
-        .max(data?.MainAccountAmount ?? 0, t("SavingsGoals.WithdrawModal.amountExceedsBalance")),
+        .max(mockMissingSavingsPotDetails.MainAccountAmount ?? 0, t("SavingsGoals.WithdrawModal.amountExceedsBalance")),
     });
   }, [data, i18n.language]);
 
@@ -64,7 +65,7 @@ export default function WithdrawGoalModal() {
 
   const handleOnClose = () => {
     navigation.navigate("SavingsGoals.GoalDetailsScreen", {
-      SavingsPotId: route.params.SavingsPotId,
+      PotId: route.params.PotId,
       amountWithdrawn: undefined,
     });
   };
@@ -79,7 +80,7 @@ export default function WithdrawGoalModal() {
       setIsConfirmationVisible(true);
     } else {
       navigation.navigate("SavingsGoals.GoalDetailsScreen", {
-        SavingsPotId: route.params.SavingsPotId,
+        PotId: route.params.PotId,
         amountWithdrawn: value.Amount,
       });
     }
@@ -107,7 +108,7 @@ export default function WithdrawGoalModal() {
             <AccountDestination
               destination={t("SavingsGoals.Account.to")}
               accountName={t("SavingsGoals.Account.mainAccount")}
-              balance={data.MainAccountAmount}
+              balance={mockMissingSavingsPotDetails.MainAccountAmount}
             />
           )}
 

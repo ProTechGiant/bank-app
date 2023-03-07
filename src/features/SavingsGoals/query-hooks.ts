@@ -8,11 +8,11 @@ import { CreateGoalInput, SavingsPot } from "./types";
 const queryKeys = {
   all: ["savings-pots"] as const,
   roundupActive: () => [...queryKeys.all, "roundup-active"] as const,
-  details: (savingsPotId: string) => [...queryKeys.all, { savingsPotId }] as const,
+  details: (PotId: string) => [...queryKeys.all, { PotId }] as const,
 };
 
 interface CreateGoalResponse {
-  SavingsPotId: string;
+  PotId: string;
 }
 
 interface CreateGoalError {
@@ -29,7 +29,7 @@ export function useCreateGoal() {
     (values: CreateGoalInput) => {
       return api<CreateGoalResponse, CreateGoalError>(
         "v1",
-        "customers/savings-pot",
+        "customers/savings-pots",
         "POST",
         undefined,
         { ...values, targetDate: format(values.TargetDate, "yyyy-MM-d") },
@@ -52,14 +52,14 @@ interface RoundUpActiveResponse {
 
 export function useIsRoundupActive() {
   return useQuery(queryKeys.roundupActive(), () => {
-    return api<RoundUpActiveResponse>("v1", "customers/savings-pot/roundup-active", "GET", undefined, undefined, {
+    return api<RoundUpActiveResponse>("v1", "customers/savings-pots/roundup-active", "GET", undefined, undefined, {
       ["x-correlation-id"]: "1234567",
     });
   });
 }
 
 interface FundSavingsPotRecurringOptions {
-  SavingsPotId: string;
+  PotId: string;
   Amount: number;
   Currency: string;
   DebitorAccount: string;
@@ -68,7 +68,7 @@ interface FundSavingsPotRecurringOptions {
 }
 
 interface FundSavingsPotOneTimeOptions {
-  SavingsPotId: string;
+  PotId: string;
   Amount: number;
   Currency: string;
   DebitorAccount: string;
@@ -90,11 +90,11 @@ export function useFundSavingsPot() {
   return useMutation(
     (options: FundSavingsPotOptions) => {
       const methodPath = isRecurringFunding(options) ? "recurring" : "one-time";
-      const { SavingsPotId, ...bodyOptions } = options;
+      const { PotId, ...bodyOptions } = options;
 
       return api<FundSavingsPotResponse>(
         "v1",
-        `customers/savings-pot/${SavingsPotId}/fund/${methodPath}`,
+        `customers/savings-pots/${PotId}/fund/${methodPath}`,
         "POST",
         undefined,
         {
@@ -109,38 +109,42 @@ export function useFundSavingsPot() {
     {
       onSettled: (_data, _error, variables) => {
         queryClient.invalidateQueries(queryKeys.all);
-        queryClient.invalidateQueries(queryKeys.details(variables.SavingsPotId));
+        queryClient.invalidateQueries(queryKeys.details(variables.PotId));
       },
     }
   );
 }
 
 export interface SavingsPotDetailsResponse {
-  SavingsPotId: string;
-  SavingsPotName: string;
-  GoalAmount: number;
-  GoalBalance: number;
-  RecommendedAmount: number;
+  PotId: string;
+  GoalName: string;
+  TargetAmount: string;
+  TargetCurrency: string;
+  AvailableBalanceAmount: string;
+  AvailableBalanceCurrency: string;
   TargetDate: string;
   CreatedDate: string;
-  MainAccountAmount: number;
-  MainAccountId: string;
-  HadOneTimeFund: boolean;
-  HadRecurringFund: boolean;
+  RoundupFlag: boolean;
+  NotificationFlag: boolean;
+  CustomerId: string;
+  AccountId: string;
+  RecurringPayments: {
+    PaymentAmount: string;
+    Currency: string;
+    CreditorAccount: string;
+    PaymentFrequency: number;
+    StartingDate: string;
+    EndDate: Date;
+    RemittenceInformation: string;
+    E2EReference: string;
+  };
 }
 
-export function useSavingsPot(savingsPotId: string) {
-  return useQuery(queryKeys.details(savingsPotId), () => {
-    return api<SavingsPotDetailsResponse>(
-      "v1",
-      `customers/savings-pot/${savingsPotId}/details`,
-      "GET",
-      undefined,
-      undefined,
-      {
-        "X-Correlation-ID": "12345",
-      }
-    );
+export function useSavingsPot(PotId: string) {
+  return useQuery(queryKeys.details(PotId), () => {
+    return api<SavingsPotDetailsResponse>("v1", `customers/savings-pots/${PotId}`, "GET", undefined, undefined, {
+      "X-Correlation-ID": "12345",
+    });
   });
 }
 
@@ -150,7 +154,7 @@ interface SavingsPotsResponse {
 
 export function useSavingsPots() {
   return useQuery(queryKeys.all, () => {
-    return api<SavingsPotsResponse>("v1", "customers/savings-pot/all", "GET", undefined, undefined, {
+    return api<SavingsPotsResponse>("v1", "customers/savings-pots", "GET", undefined, undefined, {
       ["x-correlation-id"]: "12345",
     });
   });
@@ -162,7 +166,7 @@ interface WithdrawSavingsPot {
   PaymentAmount: string;
   Currency: string;
   CreditorAccount: string;
-  savingsPotId: string;
+  PotId: string;
 }
 
 interface WithdrawSavingsPotResponse {
@@ -171,12 +175,12 @@ interface WithdrawSavingsPotResponse {
 
 export function useWithdrawSavingsPot(options: WithdrawSavingsPot) {
   const queryClient = useQueryClient();
-  const { savingsPotId } = options;
+  const { PotId } = options;
   return useMutation(
     (options: WithdrawSavingsPot) => {
       return api<WithdrawSavingsPotResponse>(
         "v1",
-        `customers/savings-pot/${savingsPotId}/withdraw-funds`,
+        `customers/savings-pots/${PotId}/withdraw-funds`,
         "POST",
         undefined,
         {
@@ -190,7 +194,7 @@ export function useWithdrawSavingsPot(options: WithdrawSavingsPot) {
     {
       onSettled: (_data, _error) => {
         queryClient.invalidateQueries(queryKeys.all);
-        queryClient.invalidateQueries(queryKeys.details(savingsPotId));
+        queryClient.invalidateQueries(queryKeys.details(PotId));
       },
     }
   );

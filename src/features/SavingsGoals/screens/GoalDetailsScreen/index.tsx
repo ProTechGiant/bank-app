@@ -16,7 +16,7 @@ export default function GoalDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.GoalDetailsScreen">>();
-  const { SavingsPotId, amountWithdrawn } = route.params;
+  const { PotId, amountWithdrawn } = route.params;
   const fundGoalModalShown = useRef(false);
   const [showAmountWithdrawn, setShowAmountWithdrawn] = useState(amountWithdrawn);
 
@@ -25,7 +25,7 @@ export default function GoalDetailsScreen() {
     useCallback(() => {
       if (true === route.params.redirectToFundingModal && !fundGoalModalShown.current) {
         navigation.navigate("SavingsGoals.FundGoalModal", {
-          SavingsPotId: route.params.SavingsPotId,
+          PotId: route.params.PotId,
           isFirstFunding: true,
         });
 
@@ -47,19 +47,19 @@ export default function GoalDetailsScreen() {
 
   const handleOnOpenFunding = () => {
     navigation.navigate("SavingsGoals.FundGoalModal", {
-      SavingsPotId: SavingsPotId,
+      PotId: PotId,
     });
   };
 
   const handleOnOpenWithdraw = () => {
     navigation.navigate("SavingsGoals.WithdrawGoalModal", {
-      SavingsPotId: SavingsPotId,
+      PotId: PotId,
     });
   };
 
   const handleOnCloseWithdrawConfirmationModal = () => {
     navigation.navigate("SavingsGoals.GoalDetailsScreen", {
-      SavingsPotId: SavingsPotId,
+      PotId: PotId,
       amountWithdrawn: undefined,
     });
   };

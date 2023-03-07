@@ -8,7 +8,7 @@ interface GetSavingsGoalNumResponse {
 
 export default function useGetSavingsGoalNumber() {
   return useMutation(() => {
-    return api<GetSavingsGoalNumResponse>("v1", "customers/savings-pot/check-no", "GET", undefined, undefined, {
+    return api<GetSavingsGoalNumResponse>("v1", "customers/savings-pots/check-no", "GET", undefined, undefined, {
       ["x-Correlation-Id"]: "1234567",
     });
   });

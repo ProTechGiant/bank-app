@@ -41,9 +41,9 @@ export default function SavingsGoalsScreen() {
     navigation.navigate("Temporary.LandingScreen");
   };
 
-  const handleOnPress = (SavingsPotId: string) => {
+  const handleOnPress = (PotId: string) => {
     navigation.navigate("SavingsGoals.GoalDetailsScreen", {
-      SavingsPotId,
+      PotId: PotId,
     });
   };
 
@@ -88,12 +88,12 @@ export default function SavingsGoalsScreen() {
               <Stack align="stretch" direction="vertical" gap="8p">
                 {savingsGoals.map(data => (
                   <GoalCard
-                    key={data.SavingsPotId}
+                    key={data.PotId}
                     title={data.GoalName}
-                    amountSaved={data.SavedAmount}
-                    totalAmount={data.SavingsPots}
+                    amountSaved={data.AvailableBalanceAmount}
+                    totalAmount={data.TargetAmount}
                     date={data.TargetDate}
-                    onPress={() => handleOnPress(data.SavingsPotId)}
+                    onPress={() => handleOnPress(data.PotId)}
                   />
                 ))}
                 {data !== undefined && savingsGoals.length <= MAX_GOALS - 1 && (

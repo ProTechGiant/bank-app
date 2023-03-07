@@ -6,9 +6,10 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { TickCircleIcon } from "@/assets/icons";
 import DismissibleBanner from "@/components/DismissibleBanner";
 import Page from "@/components/Page";
-import MainStackParams from "@/navigation/MainStackParams";
+import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
+import { mockMissingSavingsPotDetails } from "../../mocks/mockMissingSavingsPotDetails";
 import { useSavingsPot } from "../../query-hooks";
 import FundingStep, { FundingType } from "./FundingStep";
 import PickOptionStep from "./PickOptionStep";
@@ -20,7 +21,7 @@ export default function FundGoalModal() {
   const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.FundGoalModal">>();
   const { t } = useTranslation();
 
-  const { data } = useSavingsPot(route.params.SavingsPotId);
+  const { data } = useSavingsPot(route.params.PotId);
   const [isCreatedGoalBannerVisible, setIsCreatedGoalBannerVisible] = useState(false);
   const [currentStep, setCurrentStep] = useState<StepType>("pick-funding-method");
 
@@ -46,6 +47,8 @@ export default function FundGoalModal() {
       navigation.navigate("SavingsGoals.ListGoalsScreen");
     }
   };
+  // recommendedAmount no longer exists in the new responsee
+  // TODO: once provided, please update accordingly.
 
   return (
     <>
@@ -62,7 +65,7 @@ export default function FundGoalModal() {
               onOneTimePaymentPress={() => setCurrentStep("one-time-payment")}
               onRecommendedPaymentPress={() => setCurrentStep("recommended-payment")}
               onRecurringDepositPress={() => setCurrentStep("recurring-deposit")}
-              recommendedAmount={data?.RecommendedAmount}
+              recommendedAmount={mockMissingSavingsPotDetails.RecommendedAmount}
             />
           ) : (
             <FundingStep

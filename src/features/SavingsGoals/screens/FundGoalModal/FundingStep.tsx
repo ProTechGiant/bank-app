@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { format, isThisMonth, parse } from "date-fns";
+import { format, isThisMonth, parse, parseISO } from "date-fns";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -17,6 +17,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import AccountDestination from "../../components/AccountDestination";
+import { mockMissingSavingsPotDetails } from "../../mocks/mockMissingSavingsPotDetails";
 import { SavingsPotDetailsResponse, useFundSavingsPot } from "../../query-hooks";
 import isNextMonth from "./is-next-month";
 import LargeCurrencyInput from "./LargeCurrencyInput";
@@ -57,6 +58,13 @@ export default function FundingStep({
     [data]
   );
 
+  // below details no longer exist on the new response
+  // TODO: once these are provided, please update accordingly
+  //  MainAccountAmount
+  //  RecommendedAmount
+  //  HadRecurringFund
+  //  HadOneTimeFund
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       Amount: yup
@@ -68,7 +76,10 @@ export default function FundingStep({
           is: (value: number) => value === today.getDate() || fundingType === "one-time-payment",
           then: yup
             .number()
-            .max(data?.MainAccountAmount ?? 0, t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance")),
+            .max(
+              mockMissingSavingsPotDetails.MainAccountAmount ?? 0,
+              t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance")
+            ),
         }),
       DayOfMonth: yup.number().when({
         is: fundingType !== "one-time-payment",
@@ -81,7 +92,10 @@ export default function FundingStep({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      Amount: undefined !== data && fundingType === "recommended-payment" ? data.RecommendedAmount : 0,
+      Amount:
+        undefined !== data && fundingType === "recommended-payment"
+          ? mockMissingSavingsPotDetails.RecommendedAmount
+          : 0,
       DayOfMonth: fundingType !== "one-time-payment" ? new Date().getDate() : undefined,
     },
   });
@@ -91,7 +105,9 @@ export default function FundingStep({
   const depositAmount = watch("Amount");
 
   const shouldShowConfirmationWithActionButtons =
-    fundingType === "one-time-payment" ? false === data?.HadRecurringFund : false === data?.HadOneTimeFund;
+    fundingType === "one-time-payment"
+      ? mockMissingSavingsPotDetails.HadRecurringFund === false
+      : mockMissingSavingsPotDetails.HadOneTimeFund === false;
 
   const handleOnSubmit = (values: FundingInput) => {
     if (undefined === data) return Promise.resolve();
@@ -107,9 +123,9 @@ export default function FundingStep({
         const response = await fundSavingPot.mutateAsync({
           ...values,
           Currency: "SAR",
-          DebitorAccount: data.MainAccountId,
-          SavingsPotId: data.SavingsPotId,
-          StartingDate: fundingType !== "one-time-payment" ? new Date() : undefined,
+          DebitorAccount: data.RecurringPayments.CreditorAccount,
+          PotId: data.PotId,
+          StartingDate: parseISO(data.RecurringPayments.StartingDate),
         });
 
         setConfirmationNextPaymentDate(response.NextPaymentDate);
@@ -163,7 +179,7 @@ export default function FundingStep({
             autoFocus
             control={control}
             helperText={currentValue => {
-              if (undefined !== data && currentValue > data?.MainAccountAmount) {
+              if (undefined !== data && currentValue > mockMissingSavingsPotDetails.MainAccountAmount) {
                 return t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance");
               }
             }}
@@ -202,7 +218,7 @@ export default function FundingStep({
               <AccountDestination
                 destination={t("SavingsGoals.Account.from")}
                 accountName={t("SavingsGoals.Account.mainAccount")}
-                balance={data.MainAccountAmount}
+                balance={mockMissingSavingsPotDetails.MainAccountAmount}
               />
             )}
             <View style={buttonSpaceStyle}>

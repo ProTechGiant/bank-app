@@ -6,10 +6,19 @@ export interface CreateGoalInput {
   IsNotificationActive: boolean;
 }
 export interface SavingsPot {
-  SavingsPotId: string;
+  PotId: string;
   GoalName: string;
-  SavedAmount: number;
+  TargetAmount: number;
   SavingsPots: number;
   TargetDate: string;
   CreatedDate: string;
+  AvailableBalanceAmount: number;
+  AvailableBalanceCurrency: string;
+  TargetCurrency: string;
+  RoundupFlag: boolean;
+  NotificationFlag: boolean;
+  CustomerId: string;
+  AccountId: string;
+  PotStatus: string;
+  ClosingDate: string;
 }

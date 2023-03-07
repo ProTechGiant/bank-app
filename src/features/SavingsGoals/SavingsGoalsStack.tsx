@@ -14,16 +14,16 @@ export type SavingsGoalsStackParams = {
   "SavingsGoals.ListGoalsScreen": undefined;
   "SavingsGoals.CreateGoalScreen": undefined;
   "SavingsGoals.GoalDetailsScreen": {
-    SavingsPotId: string;
+    PotId: string;
     redirectToFundingModal?: boolean;
     amountWithdrawn?: number | undefined;
   };
   "SavingsGoals.FundGoalModal": {
-    SavingsPotId: string;
+    PotId: string;
     isFirstFunding?: boolean;
   };
   "SavingsGoals.WithdrawGoalModal": {
-    SavingsPotId: string;
+    PotId: string;
   };
 };
 
