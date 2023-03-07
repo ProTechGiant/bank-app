@@ -23,6 +23,13 @@ import ListItemText from "./ListItemText";
 import SingleUseIconButtons from "./SingleUseIconButtons";
 import UpgradeToCroatiaPlus from "./UpgradeToCroatiaPlus";
 
+const cardDetails = {
+  cardNumber: "1234 1234 1234 1234",
+  accountName: "Main account",
+  endDate: "02/25",
+  securityCode: 122,
+};
+
 export default function CardDetailsScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.CardDetailsScreen">>();
@@ -32,6 +39,7 @@ export default function CardDetailsScreen() {
   const [showNotificationAlert, setShowNotificationAlert] = useState(false);
   const [showBanner, setShowBanner] = useState(false);
   const [showErrorCopy, setShowErrorCopy] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const cardType = route.params.cardType;
   const cardStatus = route.params.cardStatus;
@@ -39,13 +47,6 @@ export default function CardDetailsScreen() {
   useEffect(() => {
     setShowNotificationAlert(route.params.isCardCreated ?? false);
   }, [route.params.isCardCreated]);
-
-  const cardDetails = {
-    cardNumber: "1234 1234 1234 1234",
-    accountNumber: "Main account",
-    endDate: "02/25",
-    securityCode: 122,
-  };
 
   const handleOnAddToAppleWallet = () => {
     navigation.navigate("Temporary.LandingScreen"); //to do: navigate to dummy screen
@@ -68,6 +69,13 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnPressShowDetails = () => {
+    if (!showDetails) {
+      navigation.navigate("CardActions.OneTimePasswordModal", {
+        redirect: "CardActions.CardDetailsScreen",
+        cardType: cardType,
+        action: "show-details",
+      });
+    }
     setShowDetails(!showDetails);
   };
 
@@ -101,6 +109,19 @@ export default function CardDetailsScreen() {
     setShowNotificationAlert(false);
   };
 
+  const handleOnErrorModalClose = () => {
+    setShowErrorModal(false);
+  };
+
+  const handleOnBackPress = () => {
+    // if  from creation -> navigate to Home else goBack
+    if (route.params.isCardCreated) {
+      navigation.navigate("Temporary.LandingScreen");
+    } else {
+      navigation.goBack();
+    }
+  };
+
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     paddingBottom: theme.spacing["24p"],
@@ -117,15 +138,6 @@ export default function CardDetailsScreen() {
   const walletButtonContainer = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["32p"],
   }));
-
-  const handleOnBackPress = () => {
-    // if  from creation -> navigate to Home else goBack
-    if (route.params.isCardCreated) {
-      navigation.navigate("Temporary.LandingScreen");
-    } else {
-      navigation.goBack();
-    }
-  };
 
   const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
@@ -209,7 +221,7 @@ export default function CardDetailsScreen() {
         )}
         <ListSection title={t("CardActions.CardDetailsScreen.accountHeader")}>
           <ListItemText title={t("CardActions.CardDetailsScreen.accountNumber")} value={cardDetails.cardNumber} />
-          <ListItemText title={t("CardActions.CardDetailsScreen.accountName")} value={cardDetails.accountNumber} />
+          <ListItemText title={t("CardActions.CardDetailsScreen.accountName")} value={cardDetails.accountName} />
         </ListSection>
         {cardType === "standard" && (
           <>
@@ -225,6 +237,13 @@ export default function CardDetailsScreen() {
           message={t("Cards.SingleUseCard.CardCreation.successMessage")}
           title={t("Cards.SingleUseCard.CardCreation.successTitle")}
           isVisible={showNotificationAlert}
+        />
+        <NotificationModal
+          variant="error"
+          title={t("errors.generic.title")}
+          message={t("errors.generic.message")}
+          isVisible={showErrorModal}
+          onClose={handleOnErrorModalClose}
         />
       </ContentContainer>
     </Page>

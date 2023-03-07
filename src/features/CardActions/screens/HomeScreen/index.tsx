@@ -95,10 +95,6 @@ export default function HomeScreen() {
     navigation.navigate("CardActions.SingleUseCardAbout");
   };
 
-  const handleOnGenerateCardPress = () => {
-    navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.SingleUseCardInfo" });
-  };
-
   const handleOnActivateNowPress = () => {
     Alert.alert("Activate now");
   };

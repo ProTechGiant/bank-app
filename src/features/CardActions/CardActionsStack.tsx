@@ -9,13 +9,14 @@ import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
 import SingleUseCardsScreen from "./screens/SingleUseCardsScreen";
 
-type CardAction = "view-pin" | "unfreeze" | "activate-online-payment" | "generate-single-use-card";
+type CardAction = "view-pin" | "unfreeze" | "activate-online-payment" | "generate-single-use-card" | "show-details";
+type CardType = "standard" | "plus" | "single-use";
 export type CardStatus = "active" | "inactive";
 
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {
-    cardType: "standard" | "plus" | "single-use";
     isCardCreated?: boolean;
+    cardType: CardType;
     cardStatus?: CardStatus;
   };
   "CardActions.CardSettingsScreen": {
@@ -30,6 +31,7 @@ export type CardActionsStackParams = {
   };
   "CardActions.OneTimePasswordModal": {
     redirect: keyof CardActionsStackParams;
+    cardType?: CardType;
     action: CardAction;
   };
 };

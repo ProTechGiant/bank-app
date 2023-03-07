@@ -46,7 +46,7 @@ export default function OneTimePasswordModal() {
   const handleOnSubmit = (input: string) => {
     console.log(`OTP: ${input}`); // @TODO: BE integration, go to next screen to do next action if password is correct
     navigation.goBack();
-    navigation.navigate(route.params.redirect, { action: route.params.action });
+    navigation.navigate(route.params.redirect, { action: route.params.action, cardType: route.params.cardType });
   };
 
   const passwordContainerStyle = useThemeStyles<ViewStyle>(theme => ({
