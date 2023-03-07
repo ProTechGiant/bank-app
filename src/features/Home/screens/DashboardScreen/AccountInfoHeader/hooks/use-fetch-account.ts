@@ -10,19 +10,27 @@ export default function useFetchAccount() {
     return api<Account[]>("v1", "accounts", "GET", undefined, undefined);
   });
 
-  const { currentAccountName, currentAccountIBAN, accountId } = useMemo(() => {
+  const { currentAccountName, currentAccountIBAN, accountId, customerFullName } = useMemo(() => {
     const currentAccount = accounts?.data?.map((data: Account) => {
       return data.Data.Account.find(acc => {
         return acc.AccountType === "CURRENT";
       });
     })?.[0];
+
+    //reading customer info data
+    const customerInfo = accounts?.data?.map((data: Account) => {
+      return data?.Data?.SupplementaryData;
+    });
+
+    const customerFullName = customerInfo ? customerInfo[0].CustomerFullName : "";
+
     const currentAccountName = currentAccount?.Description ?? "";
     const currentAccountIBAN =
       currentAccount?.Account?.find(acc => {
         return acc.schemeName === "IBAN.NUMBER";
       })?.identification ?? "";
     const accountId = currentAccount?.AccountId ?? "";
-    return { currentAccountName, currentAccountIBAN, accountId };
+    return { currentAccountName, currentAccountIBAN, accountId, customerFullName };
   }, [accounts]);
 
   const balances = useQuery(
@@ -49,6 +57,14 @@ export default function useFetchAccount() {
   }, [balances, accountId]);
 
   return {
-    data: { accountId, currentAccountName, currentAccountIBAN, currencyType, currentAccountBalance, decimalBalance },
+    data: {
+      accountId,
+      currentAccountName,
+      currentAccountIBAN,
+      currencyType,
+      currentAccountBalance,
+      decimalBalance,
+      customerFullName,
+    },
   };
 }

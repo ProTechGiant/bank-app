@@ -1,11 +1,12 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
 export interface Address {
-  addressLineOne: string;
-  addressLineTwo?: string;
-  district: string;
-  city: string;
-  postalCode: string;
+  AddressLineOne: string;
+  AddressLineTwo?: string;
+  District: string;
+  City: string;
+  PostalCode: string;
+  Country: string;
 }
 
 export interface OrderCardFormValues {

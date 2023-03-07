@@ -67,6 +67,9 @@ export default function DashboardScreen() {
         if (quickAction.key === "referrals") {
           navigation.navigate("Referral.HubScreen");
         }
+        if (quickAction.key === "add") {
+          navigation.navigate("AddMoney.AddMoneyStack", { screen: "AddMoney.AddMoneyInfoScreen" });
+        }
       };
       return <QuickAction key={quickAction.key} title={quickAction.label} icon={<Icon />} onPress={handleOnPress} />;
     });

@@ -10,6 +10,9 @@ type RootStackParams = {
   "CardActions.CardActionsStack": {
     screen: string;
   };
+  "AddMoney.AddMoneyStack": {
+    screen: string;
+  };
   "Home.Dashboard": undefined;
   "Temporary.LandingScreen": undefined;
   "Onboarding.OnboardingStack": undefined;

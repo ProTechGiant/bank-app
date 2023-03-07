@@ -733,6 +733,26 @@ export const resources = {
           errorCopyClipboard: "Couldn’t copy card number. Try again.",
         },
       },
+
+      AddMoneyInfo: {
+        title: "Add money by bank transfer",
+        description:
+          "To add money to your Croatia account, use these details to set up a money transfer from another bank.",
+        note: "The name you use for your transfer must exactly match your name here.",
+        processingTime: "Processing time",
+        processingTimeInfo:
+          "Bank transfers will normally reach your Croatia account the same day or the next business day.",
+
+        BankDetails: {
+          title: "Your Croatia bank details",
+          recipientName: "Your name",
+          recipientIBAN: "Your IBAN",
+          bankName: "Bank name",
+          recipientAddress: "Your address",
+          copyInfo: "copied to clipboard",
+          errorCopy: "Couldn’t copy",
+        },
+      },
     },
   },
   ar: {
@@ -1015,6 +1035,26 @@ export const resources = {
             },
           },
         },
+      },
+    },
+
+    AddMoneyInfo: {
+      title: "Add money by bank transfer",
+      description:
+        "To add money to your Croatia account, use these details to set up a money transfer from another bank.",
+      note: "The name you use for your transfer must exactly match your name here.",
+      processingTime: "Processing time",
+      processingTimeInfo:
+        "Bank transfers will normally reach your Croatia account the same day or the next business day.",
+
+      BankDetails: {
+        title: "Your Croatia bank details",
+        recipientName: "Your name",
+        recipientIBAN: "Your IBAN",
+        bankName: "Bank name",
+        recipientAddress: "Your address",
+        copyInfo: "copied to clipboard",
+        errorCopy: "Couldn’t copy",
       },
     },
   },

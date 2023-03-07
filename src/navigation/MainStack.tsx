@@ -1,6 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import AddMoneyStack from "@/features/AddMoney/AddMoneyStack";
 import ApplyCardsStack from "@/features/ApplyCards/ApplyCardsStack";
 import CardActionsStack from "@/features/CardActions/CardActionsStack";
 import DetailedSceen from "@/features/FrequentlyAskedQuestions/screens/DetailedScreen";
@@ -38,6 +39,7 @@ export default function MainStack() {
         />
         <Stack.Screen component={InstructionsScreen} name="Referral.InstructionsScreen" />
         <Stack.Screen component={CardActionsStack} name="CardActions.CardActionsStack" />
+        <Stack.Screen component={AddMoneyStack} name="AddMoney.AddMoneyStack" />
         <Stack.Screen component={SavingsGoalsStack} name="SavingsGoals.SavingsGoalsStack" />
         <Stack.Screen component={OnboardingStack} name="Onboarding.OnboardingStack" />
         <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>

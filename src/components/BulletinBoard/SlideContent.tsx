@@ -38,8 +38,12 @@ export default function SlideContent({ data }: SlideContentProps) {
 
   const navigation = useNavigation();
 
-  const onPress = () => {
-    navigation.navigate(data.action_link);
+  const handleOnPress = () => {
+    if (data.action_type === "Top-Up") {
+      navigation.navigate("AddMoney.AddMoneyStack", { screen: "AddMoney.AddMoneyInfoScreen" });
+    } else {
+      navigation.navigate(data.action_link);
+    }
   };
 
   return (
@@ -55,7 +59,7 @@ export default function SlideContent({ data }: SlideContentProps) {
         </View>
       </View>
       <View style={buttonRowWrapperStyle}>
-        <PillButton onPress={onPress}>{data.action_button_text}</PillButton>
+        <PillButton onPress={handleOnPress}>{data.action_button_text}</PillButton>
       </View>
     </View>
   );

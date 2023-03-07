@@ -1,11 +1,11 @@
-import { useMutation } from "react-query";
+import { useQuery } from "react-query";
 
 import api from "@/api";
 
 import { Address } from "../../../context/OrderCardContext";
 
 export default function useGetPrimaryAddress() {
-  return useMutation(() => {
-    return api<Address | undefined>("v1", "cards/customer/address", "GET", undefined, undefined);
+  return useQuery("cards", () => {
+    return api<Address>("v1", "cards/customer/address", "GET", undefined, undefined);
   });
 }
