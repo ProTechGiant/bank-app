@@ -906,9 +906,9 @@ export const resources = {
       },
       Settings: {
         SettingsScreen: {
-          rewards: "Send invite",
-          FAQs: "FAQ’s",
-          notifications: "Notifications",
+          rewards: "أرسل دعوة",
+          FAQs: "الأسئلة الشائعة",
+          notifications: "التنبيهات",
         },
       },
       InstructionsScreen: {
@@ -946,6 +946,17 @@ export const resources = {
           termsAndConditions: "  الشروط والأحكام",
           fullStop: ".",
           share: "إرسال",
+        },
+        InstructionsScreen: {
+          skip: "تخطى",
+          continue: "متابعة",
+          done: "إنهاء",
+          titleOne: 'علّمهم عن "يمدي" وحنا نكافئك',
+          subTextOne: 'عرّف أصدقائك وعائلتك على "يمدي" واحصل على مكافأة كاش بحسابك.',
+          titleTwo: "الدعوة مفتوحة",
+          subTextTwo: "شارك كود الدعوة مع كل إللي تعرفهم وراح نكافئك بكاش من أول لحظة يستخدمون فيها للتطبيق.",
+          titleThree: "المكافأة للطرفين",
+          subTextThree: "مرسل الدعوة ومستقبِلها بيحصلون على 15 ر.س.",
         },
       },
       Cards: {
