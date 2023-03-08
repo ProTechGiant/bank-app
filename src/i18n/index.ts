@@ -11,6 +11,13 @@ export const resources = {
         currentlyOnDay_few: "On {{count}}rd",
         currentlyOnDay_other: "On {{count}}th",
       },
+      TableList: {
+        datePicker: {
+          placeholder: "Set",
+          headerText: "Set Date",
+          buttonText: "Set",
+        },
+      },
       errors: {
         generic: {
           title: "We’re sorry, something has gone wrong.",
@@ -757,6 +764,13 @@ export const resources = {
   },
   ar: {
     translation: {
+      TableList: {
+        datePicker: {
+          placeholder: "Set",
+          headerText: "Set Date",
+          buttonText: "Set",
+        },
+      },
       Onboarding: {
         SplashScreen: {
           title: "أنت الآن في السيطرة",

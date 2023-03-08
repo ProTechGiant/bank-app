@@ -152,6 +152,10 @@ const iconDimensions = {
   notifications: 21,
   reorderIcons: 23,
   accordian: 24,
+  copy: {
+    width: 19,
+    height: 22,
+  },
   locationPin: 40,
   clearIcon: 20,
   friendIcon: 53,
