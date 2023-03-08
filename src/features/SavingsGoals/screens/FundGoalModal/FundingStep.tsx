@@ -25,7 +25,7 @@ import LargeCurrencyInput from "./LargeCurrencyInput";
 export type FundingType = "recurring-deposit" | "one-time-payment" | "recommended-payment";
 
 interface FundingInput {
-  Amount: number;
+  PaymentAmount: number;
   DayOfMonth: number;
 }
 
@@ -67,7 +67,7 @@ export default function FundingStep({
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      Amount: yup
+      PaymentAmount: yup
         .number()
         .required()
         .min(0.01)
@@ -92,7 +92,7 @@ export default function FundingStep({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      Amount:
+      PaymentAmount:
         undefined !== data && fundingType === "recommended-payment"
           ? mockMissingSavingsPotDetails.RecommendedAmount
           : 0,
@@ -102,7 +102,7 @@ export default function FundingStep({
 
   const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
   const [confirmationNextPaymentDate, setConfirmationNextPaymentDate] = useState<string | undefined>();
-  const depositAmount = watch("Amount");
+  const depositAmount = watch("PaymentAmount");
 
   const shouldShowConfirmationWithActionButtons =
     fundingType === "one-time-payment"
@@ -184,7 +184,7 @@ export default function FundingStep({
               }
             }}
             maxLength={10}
-            name="Amount"
+            name="PaymentAmount"
           />
           <Stack align="stretch" direction="vertical" gap="16p">
             {fundingType !== "one-time-payment" && (

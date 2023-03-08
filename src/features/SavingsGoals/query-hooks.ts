@@ -60,7 +60,7 @@ export function useIsRoundupActive() {
 
 interface FundSavingsPotRecurringOptions {
   PotId: string;
-  Amount: number;
+  PaymentAmount: number;
   Currency: string;
   DebitorAccount: string;
   StartingDate: Date;
@@ -69,7 +69,7 @@ interface FundSavingsPotRecurringOptions {
 
 interface FundSavingsPotOneTimeOptions {
   PotId: string;
-  Amount: number;
+  PaymentAmount: number;
   Currency: string;
   DebitorAccount: string;
 }

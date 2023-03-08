@@ -25,7 +25,7 @@ import { useSavingsPot } from "../../query-hooks";
 import LargeCurrencyInput from "../FundGoalModal/LargeCurrencyInput";
 
 interface WithdrawInput {
-  Amount: number;
+  PaymentAmount: number;
 }
 
 export default function WithdrawGoalModal() {
@@ -47,7 +47,7 @@ export default function WithdrawGoalModal() {
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      Amount: yup
+      PaymentAmount: yup
         .number()
         .required()
         .min(0.01)
@@ -59,7 +59,7 @@ export default function WithdrawGoalModal() {
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      Amount: 0,
+      PaymentAmount: 0,
     },
   });
 
@@ -81,7 +81,7 @@ export default function WithdrawGoalModal() {
     } else {
       navigation.navigate("SavingsGoals.GoalDetailsScreen", {
         PotId: route.params.PotId,
-        amountWithdrawn: value.Amount,
+        amountWithdrawn: value.PaymentAmount,
       });
     }
 
@@ -102,7 +102,7 @@ export default function WithdrawGoalModal() {
             end={<NavHeader.CloseEndButton onPress={handleOnClose} />}
           />
 
-          <LargeCurrencyInput autoFocus control={control} maxLength={10} name="Amount" />
+          <LargeCurrencyInput autoFocus control={control} maxLength={10} name="PaymentAmount" />
 
           {undefined !== data && (
             <AccountDestination
