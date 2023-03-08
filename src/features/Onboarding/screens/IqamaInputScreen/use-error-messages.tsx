@@ -40,7 +40,7 @@ export default function useErrorMessages(err: ApiError) {
         message: (
           <>
             {t("Onboarding.IqamaInputScreen.errorText.hasAccount.warning")}{" "}
-            <Typography.Text color="primaryBase+30" size="caption1" weight="bold">
+            <Typography.Text color="neutralBase+30" size="caption1" weight="bold">
               {t("Onboarding.IqamaInputScreen.errorText.hasAccount.signin")}
             </Typography.Text>
           </>

@@ -101,7 +101,7 @@ export default function NafathAuthScreen() {
         </View>
         <Stack align="stretch" direction="vertical" gap="20p">
           <LinkCard onNavigate={handleOnToggleModal}>
-            <Typography.Text size="callout" weight="medium" color="primaryBase+10">
+            <Typography.Text size="callout" weight="medium" color="neutralBase+30">
               {t("Onboarding.NafathAuthScreen.appButtonTitle")}
               <Typography.Text weight="regular" size="footnote">
                 {t("Onboarding.NafathAuthScreen.appButtonSubtitle")}
@@ -112,7 +112,7 @@ export default function NafathAuthScreen() {
             </Typography.Text>
           </LinkCard>
           <LinkCard onNavigate={handleOnOpenNafathWebsite}>
-            <Typography.Text size="callout" weight="medium" color="primaryBase+10">
+            <Typography.Text size="callout" weight="medium" color="neutralBase+30">
               {t("Onboarding.NafathAuthScreen.siteButtonTitle")}
             </Typography.Text>
             <Typography.Text size="footnote" color="neutralBase">

@@ -12,10 +12,8 @@ interface ToggleProps {
 
 export default function Toggle({ onPress, testID, disabled, value }: ToggleProps) {
   const disabledOffColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20-30%"]);
-
   const offColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
-
-  const onColor = useThemeStyles<string>(theme => theme.palette["complimentBase"]);
+  const onColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
 
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: BUTTON_SIZE / 2,

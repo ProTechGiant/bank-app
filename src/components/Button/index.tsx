@@ -1,5 +1,8 @@
+import { cloneElement } from "react";
 import { ActivityIndicator, Pressable, PressableProps, StyleSheet, View } from "react-native";
+import { SvgProps } from "react-native-svg";
 
+import { IconProps } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -8,8 +11,8 @@ export interface ButtonProps extends Omit<PressableProps, "children" | "disabled
   children?: string | React.ReactNode;
   color?: "light" | "dark";
   disabled?: boolean;
-  iconLeft?: React.ReactNode;
-  iconRight?: React.ReactNode;
+  iconLeft?: React.ReactElement<SvgProps | IconProps>;
+  iconRight?: React.ReactElement<SvgProps | IconProps>;
   loading?: boolean;
   variant?: "primary" | "secondary" | "tertiary" | "warning";
 }
@@ -44,7 +47,7 @@ export default function Button({
 
   const pressedStyle = useThemeStyles(
     theme => {
-      const variance = VARIATIONS[color][variant]["pressed"];
+      const variance = VARIATIONS[color][variant].pressed;
 
       return {
         backgroundColor: theme.palette[variance.backgroundColor],
@@ -65,19 +68,26 @@ export default function Button({
       {({ pressed }) => {
         const state = pressed ? "pressed" : disabled ? "disabled" : "enabled";
         const textColor = VARIATIONS[color][variant][state].textColor;
-        const loadingIndicatorColor = useThemeStyles(theme => theme.palette[textColor], [textColor]);
+
+        // false positive: we're inside a child component defined inline
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const textColorRaw = useThemeStyles(theme => theme.palette[textColor], [textColor]);
 
         return (
           <>
-            {undefined !== iconLeft && <View style={styles.icon}>{iconLeft}</View>}
+            {undefined !== iconLeft && (
+              <View style={styles.icon}>{cloneElement(iconLeft, { color: textColorRaw })}</View>
+            )}
             {loading ? (
-              <ActivityIndicator color={loadingIndicatorColor} size="small" />
+              <ActivityIndicator color={textColorRaw} size="small" />
             ) : (
               <Typography.Text color={textColor} size="body" weight="medium">
                 {children}
               </Typography.Text>
             )}
-            {undefined !== iconRight && <View style={styles.icon}>{iconRight}</View>}
+            {undefined !== iconRight && (
+              <View style={styles.icon}>{cloneElement(iconRight, { color: textColorRaw })}</View>
+            )}
           </>
         );
       }}
@@ -103,31 +113,31 @@ const VARIATIONS = {
   dark: {
     primary: {
       enabled: {
-        backgroundColor: "neutralBase-50",
-        borderColor: "neutralBase-50",
-        textColor: "primaryBase+10",
+        backgroundColor: "neutralBase-60",
+        borderColor: "neutralBase-60",
+        textColor: "primaryBase",
       },
       pressed: {
-        backgroundColor: "neutralBase-30",
-        borderColor: "neutralBase-30",
-        textColor: "primaryBase+10",
+        backgroundColor: "neutralBase-50",
+        borderColor: "neutralBase-50",
+        textColor: "primaryBase",
       },
       disabled: {
-        backgroundColor: "primaryBase-30",
-        borderColor: "primaryBase-30",
-        textColor: "neutralBase-50",
+        backgroundColor: "neutralBase-40",
+        borderColor: "neutralBase-40",
+        textColor: "neutralBase-60",
       },
     },
     secondary: {
       enabled: {
         backgroundColor: "transparent",
-        borderColor: "neutralBase-50",
-        textColor: "neutralBase-50",
+        borderColor: "neutralBase-60",
+        textColor: "neutralBase-60",
       },
       pressed: {
-        backgroundColor: "primaryBase-30",
-        borderColor: "neutralBase-50",
-        textColor: "neutralBase-50",
+        backgroundColor: "primaryBase-10",
+        borderColor: "neutralBase-40",
+        textColor: "neutralBase-40",
       },
       disabled: {
         backgroundColor: "transparent",
@@ -139,17 +149,17 @@ const VARIATIONS = {
       enabled: {
         backgroundColor: "transparent",
         borderColor: "transparent",
-        textColor: "neutralBase-50",
+        textColor: "neutralBase-60",
       },
       pressed: {
-        backgroundColor: "primaryBase-30",
-        borderColor: "primaryBase-30",
-        textColor: "neutralBase-50",
+        backgroundColor: "primaryBase-10",
+        borderColor: "primaryBase-10",
+        textColor: "neutralBase-60",
       },
       disabled: {
         backgroundColor: "transparent",
         borderColor: "transparent",
-        textColor: "primaryBase-10",
+        textColor: "primaryBase-40",
       },
     },
     warning: {
@@ -159,8 +169,8 @@ const VARIATIONS = {
         textColor: "errorBase",
       },
       pressed: {
-        backgroundColor: "primaryBase-30",
-        borderColor: "primaryBase-30",
+        backgroundColor: "primaryBase-10",
+        borderColor: "primaryBase-10",
         textColor: "errorBase",
       },
       disabled: {
@@ -175,17 +185,17 @@ const VARIATIONS = {
       enabled: {
         backgroundColor: "primaryBase",
         borderColor: "primaryBase",
-        textColor: "neutralBase-50",
+        textColor: "neutralBase-60",
       },
       pressed: {
-        backgroundColor: "primaryBase+10",
-        borderColor: "primaryBase+10",
-        textColor: "neutralBase-50",
+        backgroundColor: "primaryBase-10",
+        borderColor: "primaryBase-10",
+        textColor: "neutralBase-60",
       },
       disabled: {
-        backgroundColor: "primaryBase-30",
-        borderColor: "primaryBase-30",
-        textColor: "neutralBase-50",
+        backgroundColor: "neutralBase-40",
+        borderColor: "neutralBase-40",
+        textColor: "neutralBase-20",
       },
     },
     secondary: {
@@ -196,13 +206,13 @@ const VARIATIONS = {
       },
       pressed: {
         backgroundColor: "transparent",
-        borderColor: "primaryBase+10",
-        textColor: "primaryBase+10",
+        borderColor: "primaryBase-10",
+        textColor: "primaryBase-10",
       },
       disabled: {
         backgroundColor: "transparent",
-        borderColor: "primaryBase-30",
-        textColor: "primaryBase-30",
+        borderColor: "neutralBase-40",
+        textColor: "neutralBase-20",
       },
     },
     tertiary: {
@@ -214,12 +224,12 @@ const VARIATIONS = {
       pressed: {
         backgroundColor: "neutralBase-50",
         borderColor: "neutralBase-50",
-        textColor: "primaryBase+10",
+        textColor: "primaryBase-10",
       },
       disabled: {
         backgroundColor: "transparent",
         borderColor: "transparent",
-        textColor: "primaryBase-30",
+        textColor: "neutralBase-20",
       },
     },
     warning: {
@@ -236,7 +246,7 @@ const VARIATIONS = {
       disabled: {
         backgroundColor: "transparent",
         borderColor: "transparent",
-        textColor: "primaryBase-30",
+        textColor: "neutralBase-20",
       },
     },
   },

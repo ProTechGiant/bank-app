@@ -25,46 +25,40 @@ export default function AddressSelector({
   isTemporary,
   onPress,
 }: AddressSelectorProps) {
-  const container = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["neutralBase-50"],
-      borderRadius: theme.radii.extraSmall,
-      elevation: 8,
-      flexDirection: "row",
-      padding: theme.spacing["16p"],
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      shadowOpacity: 0.08,
-      shadowRadius: 8,
-    }),
-    []
-  );
-  const isSelectedStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      borderColor: theme.palette.complimentBase,
-      borderWidth: 2,
-    }),
-    []
-  );
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-50"],
+    borderRadius: theme.radii.extraSmall,
+    elevation: 8,
+    flexDirection: "row",
+    padding: theme.spacing["16p"],
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+  }));
+
+  const isSelectedStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderColor: theme.palette.complimentBase,
+    borderWidth: 2,
+  }));
+
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.locationPin, []);
-  const temporaryTag = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["complimentBase-40%"],
-      borderRadius: theme.radii.xxlarge,
-      height: 21,
-      paddingHorizontal: theme.spacing["8p"],
-      paddingVertical: 4,
-    }),
-    []
-  );
+
+  const temporaryTag = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["primaryBase-40"],
+    borderRadius: theme.radii.xxlarge,
+    height: 21,
+    paddingHorizontal: theme.spacing["8p"],
+    paddingVertical: theme.spacing["4p"],
+  }));
 
   return (
-    <Pressable onPress={() => onPress(id)} style={[container, isSelected && isSelectedStyle]}>
+    <Pressable onPress={() => onPress(id)} style={[containerStyle, isSelected && isSelectedStyle]}>
       <LocationPinIcon width={iconDimensions} height={iconDimensions} />
       <View style={styles.addressContent}>
-        <Typography.Text color="primaryBase+30" size="callout">
+        <Typography.Text color="neutralBase+30" size="callout">
           {addressLineOne}
         </Typography.Text>
         {addressLineTwo && (

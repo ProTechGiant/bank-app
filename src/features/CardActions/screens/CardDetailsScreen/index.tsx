@@ -142,7 +142,7 @@ export default function CardDetailsScreen() {
   const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   return (
-    <Page backgroundColor="neutralBase-50">
+    <Page backgroundColor="neutralBase-60">
       <NavHeader
         title={
           cardType === "standard"

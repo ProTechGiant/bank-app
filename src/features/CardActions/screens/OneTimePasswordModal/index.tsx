@@ -65,7 +65,7 @@ export default function OneTimePasswordModal() {
   }));
 
   return (
-    <Page insets={["bottom"]} backgroundColor="neutralBase-50">
+    <Page insets={["bottom"]} backgroundColor="neutralBase-60">
       <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={handleOnClosePress} />} />
       <ContentContainer>
         <Stack direction="vertical" gap="16p">

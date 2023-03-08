@@ -80,10 +80,10 @@ export default function CardSettingsScreen() {
   }));
 
   return (
-    <Page backgroundColor="neutralBase-50">
+    <Page backgroundColor="neutralBase-60">
       <NavHeader end={false} />
       <ContentContainer isScrollView>
-        <Typography.Header color="primaryBase+30" size="large" weight="semiBold" style={titleStyle}>
+        <Typography.Header color="neutralBase+30" size="large" weight="semiBold" style={titleStyle}>
           {t("CardActions.CardSettingsScreen.title")}
         </Typography.Header>
         <ListSection title={t("CardActions.CardSettingsScreen.subTitle1")}>

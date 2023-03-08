@@ -32,6 +32,7 @@ interface ToggleProps<T extends FieldValues> {
 
 const Chevron = () => {
   const { chevronColor, chevronHeight, chevronWidth } = useInfoStyles();
+
   return (
     <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
       <ChevronRightIcon width={chevronWidth} height={chevronHeight} color={chevronColor} />
@@ -62,6 +63,7 @@ const Label = ({ label }: LabelProps) => {
 const TableListDate = <T extends FieldValues>({ control, headerText, buttonText, placeHolder, name }: DateProps<T>) => {
   const { field } = useController({ control, name });
   const { dateContainer } = useInfoStyles();
+
   return (
     <View style={dateContainer}>
       <DatePickerInput
@@ -78,6 +80,7 @@ const TableListDate = <T extends FieldValues>({ control, headerText, buttonText,
 
 const TableListToggle = <T extends FieldValues>({ control, name, disabled = false }: ToggleProps<T>) => {
   const { field } = useController({ control, name });
+
   return <Toggle disabled={disabled} onPress={() => field.onChange(!field.value)} value={field.value} />;
 };
 

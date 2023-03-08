@@ -56,7 +56,7 @@ export function DropdownInputList<T extends FieldValues>({ options, onChange, va
         disabled={item.disabled}
         style={[optionContainer, item.disabled && styles.disabledOpacity]}>
         <View style={styles.textContainer}>
-          <Typography.Text color="primaryBase+30" size="body" weight="regular">
+          <Typography.Text color="neutralBase+30" size="body" weight="regular">
             {item.label}
           </Typography.Text>
         </View>

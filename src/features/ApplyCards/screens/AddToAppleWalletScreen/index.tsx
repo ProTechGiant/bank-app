@@ -73,7 +73,7 @@ export default function AddToAppleWalletScreen() {
             {t("ApplyCards.AddToAppleWalletScreen.buttons.addToWallet")}
           </Button>
           <Button variant="tertiary" onPress={handleOnSkip}>
-            <Typography.Text color="primaryBase+20">
+            <Typography.Text color="neutralBase+30">
               {t("ApplyCards.AddToAppleWalletScreen.buttons.skip")}
             </Typography.Text>
           </Button>

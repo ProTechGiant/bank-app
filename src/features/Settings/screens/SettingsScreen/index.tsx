@@ -51,7 +51,7 @@ export default function SettingsScreen() {
       <NavHeader />
       <Pressable style={cardContainerStyle} onPress={handleOnReferPress}>
         <FriendsIcon style={iconContainer} height={iconDimensions} width={iconDimensions} />
-        <Typography.Text color="primaryBase+30" size="callout" weight="regular">
+        <Typography.Text color="neutralBase+30" size="callout" weight="regular">
           {t("Settings.SettingsScreen.rewards")}
         </Typography.Text>
       </Pressable>
@@ -59,7 +59,7 @@ export default function SettingsScreen() {
         <View style={iconContainer}>
           <QuestionIcon height={iconDimensions} width={iconDimensions} />
         </View>
-        <Typography.Text color="primaryBase+30" size="callout" weight="regular">
+        <Typography.Text color="neutralBase+30" size="callout" weight="regular">
           {t("Settings.SettingsScreen.FAQs")}
         </Typography.Text>
       </Pressable>
@@ -67,7 +67,7 @@ export default function SettingsScreen() {
         <View style={iconContainer}>
           <NotificationIcon height={iconDimensions} width={iconDimensions} />
         </View>
-        <Typography.Text color="primaryBase+30" size="callout" weight="regular">
+        <Typography.Text color="neutralBase+30" size="callout" weight="regular">
           {t("Settings.SettingsScreen.notifications")}
         </Typography.Text>
       </Pressable>

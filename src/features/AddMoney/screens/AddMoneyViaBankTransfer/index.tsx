@@ -102,7 +102,7 @@ export default function AddMoneyViaBankTransferScreen() {
   ];
 
   return (
-    <Page backgroundColor="neutralBase-50">
+    <Page backgroundColor="neutralBase-60">
       <DismissibleBanner
         isError={showErrorCopy}
         visible={showBanner}

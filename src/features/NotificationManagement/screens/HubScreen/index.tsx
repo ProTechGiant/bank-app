@@ -92,10 +92,10 @@ export default function HubScreen() {
       <Modal visible={isInfoModalVisible} onClose={handleOnModalClose}>
         <View style={modalContainerStyle}>
           <Stack direction="vertical" gap="8p">
-            <Typography.Text color="primaryBase+30" size="title2" weight="bold">
+            <Typography.Text color="neutralBase+30" size="title2" weight="bold">
               {t("NotificationManagement.HubScreen.modalTitle")}
             </Typography.Text>
-            <Typography.Text color="primaryBase+30" size="callout">
+            <Typography.Text color="neutralBase+30" size="callout">
               {t("NotificationManagement.HubScreen.modalContent")}
             </Typography.Text>
           </Stack>

@@ -49,7 +49,7 @@ const NavHeader = ({
     marginTop: theme.spacing["16p"],
   }));
 
-  const textColor = color === "white" ? "neutralBase-50" : "primaryBase+30";
+  const textColor = color === "white" ? "neutralBase-50" : "neutralBase+30";
   const iconColor = useThemeStyles(theme => theme.palette[textColor], [textColor]);
 
   return (

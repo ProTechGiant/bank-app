@@ -27,9 +27,9 @@ export default {
 const TemplateInfoBox: ComponentStory<typeof InfoBox> = props => {
   return (
     <InfoBox {...props}>
-      <Typography.Text color="primaryBase+30" size="caption1" weight="regular">
+      <Typography.Text color="neutralBase+30" size="caption1" weight="regular">
         To join Croatia, you must be over 18 and have an Absher profile. Register at
-        <Typography.Text color="primaryBase+30" size="caption1" weight="bold">
+        <Typography.Text color="neutralBase+30" size="caption1" weight="bold">
           {" "}
           absher.sa
         </Typography.Text>{" "}

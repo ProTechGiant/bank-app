@@ -31,11 +31,11 @@ export default function SingleUseCardAbout() {
   );
 
   return (
-    <Page backgroundColor="neutralBase-50" insets={["bottom"]}>
+    <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
       <ScrollView>
         <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
         <View style={containerStyle}>
-          <Typography.Text color="primaryBase+30" weight="semiBold" size="title1">
+          <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
             {t("Cards.SingleUseCard.CardAbout.title")}
           </Typography.Text>
           <Typography.Text color="neutralBase+30" weight="semiBold" size="title3">

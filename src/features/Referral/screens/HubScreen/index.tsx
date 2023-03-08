@@ -56,7 +56,7 @@ export default function HubScreen() {
   }));
 
   const iconStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["primaryBase-12%"],
+    backgroundColor: theme.palette.supportBase,
     padding: 10,
     borderRadius: 18,
     width: 36,
@@ -99,7 +99,7 @@ export default function HubScreen() {
   };
 
   return (
-    <Page backgroundColor="neutralBase-50">
+    <Page backgroundColor="neutralBase-60">
       <DismissibleBanner visible={showToast} message={t("Referral.HubScreen.linkCopied")} />
       <NavHeader />
       <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} contentContainerStyle={container}>

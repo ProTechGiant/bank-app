@@ -85,7 +85,7 @@ export default function DatePickerInput<T extends FieldValues>({
     marginLeft: theme.spacing["8p"],
   }));
 
-  const iconColor = useThemeStyles<string>(theme => theme.palette["complimentBase"]);
+  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   const resolvedHelperText =
     field.value === undefined && Platform.OS !== "ios"
@@ -106,7 +106,7 @@ export default function DatePickerInput<T extends FieldValues>({
         value={
           <>
             <CalendarAltIcon color={iconColor} />
-            <Typography.Text color="complimentBase" style={valueTextStyle}>
+            <Typography.Text color="primaryBase-40" style={valueTextStyle}>
               {undefined !== field.value ? format(field.value, format_) : placeholder}
             </Typography.Text>
           </>

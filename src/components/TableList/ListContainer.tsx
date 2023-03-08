@@ -1,8 +1,9 @@
+import { cloneElement } from "react";
 import { View, ViewProps, ViewStyle } from "react-native";
 
 import { useThemeStyles } from "@/theme";
 
-import { TableListProps } from "./TableListCard";
+import { TableListCardProps } from "./TableListCard";
 import TableListCardBody from "./TableListCardBody";
 
 export default function ListContainer({
@@ -14,7 +15,7 @@ export default function ListContainer({
   icon,
   isTransparent = false,
   position = "alone",
-}: TableListProps & ViewProps) {
+}: TableListCardProps & ViewProps) {
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       alignContent: "center",
@@ -30,14 +31,17 @@ export default function ListContainer({
     }),
     [position]
   );
-  const listContainer = useThemeStyles<ViewStyle>(theme => ({
+
+  const iconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
+
+  const listContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignSelf: "center",
     marginRight: theme.spacing["16p"],
   }));
 
   return (
     <View style={containerStyle}>
-      {icon !== undefined ? <View style={listContainer}>{icon}</View> : null}
+      {icon !== undefined ? <View style={listContainerStyle}>{cloneElement(icon, { color: iconColor })}</View> : null}
       <TableListCardBody helperText={helperText} label={label} onInfoPress={onInfoPress} onPress={onPress} />
       {children}
     </View>

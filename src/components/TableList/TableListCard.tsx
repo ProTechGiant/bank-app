@@ -7,7 +7,7 @@ import { Chevron, Copy, Label, TableListDate, TableListToggle } from "./EndCompo
 import TableListContainer from "./ListContainer";
 import { styles } from "./Styles";
 
-export interface TableListProps {
+export interface TableListCardProps {
   label?: string;
   helperText?: string;
   onInfoPress?: () => void;
@@ -35,7 +35,7 @@ export default function TableListCard({
   isTransparent,
   position = "alone",
   end,
-}: TableListProps) {
+}: TableListCardProps) {
   return (
     <TableListContainer
       position={position}

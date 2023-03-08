@@ -195,10 +195,10 @@ export default function CreateGoalScreen() {
       <Modal visible={isInfoModalVisible} onClose={handleOnModalClose}>
         <View style={contentContainerStyle}>
           <Stack direction="vertical" gap="8p">
-            <Typography.Text color="primaryBase+30" size="title2" weight="bold">
+            <Typography.Text color="neutralBase+30" size="title2" weight="bold">
               {t("SavingsGoals.CreateGoalScreen.aboutRoundUpsPanel.title")}
             </Typography.Text>
-            <Typography.Text color="primaryBase+30" size="callout">
+            <Typography.Text color="neutralBase+30" size="callout">
               {t("SavingsGoals.CreateGoalScreen.aboutRoundUpsPanel.content")}
             </Typography.Text>
             <Pressable
