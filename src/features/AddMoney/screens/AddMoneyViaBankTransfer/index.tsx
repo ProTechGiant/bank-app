@@ -109,7 +109,7 @@ export default function AddMoneyViaBankTransferScreen() {
         message={
           !showErrorCopy
             ? `${dataCopied} ${t("AddMoneyInfo.BankDetails.copyInfo")}`
-            : `${t("AddMoneyInfo.BankDetails.copyInfo")} ${dataCopied} `
+            : `${t("AddMoneyInfo.BankDetails.errorCopy")} ${dataCopied} - ${t("AddMoneyInfo.BankDetails.tryAgain")} `
         }
         icon={!showErrorCopy ? <CopyIcon /> : <ErrorOutlineIcon />}
       />
