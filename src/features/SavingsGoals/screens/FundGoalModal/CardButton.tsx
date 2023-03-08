@@ -12,8 +12,6 @@ interface CardButtonProps {
 }
 
 export default function CardButton({ onPress, text, icon }: CardButtonProps) {
-  const { height: iconHeight, width: iconWidth } = useThemeStyles(theme => theme.iconDimensions.chevronRight);
-
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
     padding: theme.spacing["16p"],
@@ -27,7 +25,7 @@ export default function CardButton({ onPress, text, icon }: CardButtonProps) {
           <View style={styles.iconContainer}>{icon}</View>
           <Typography.Text>{text}</Typography.Text>
         </Stack>
-        <ChevronRightIcon color="#CCCCCC" height={iconHeight} width={iconWidth} />
+        <ChevronRightIcon color="#CCCCCC" />
       </Stack>
     </Pressable>
   );

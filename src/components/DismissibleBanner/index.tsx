@@ -56,15 +56,13 @@ export default function DismissibleBanner({
     marginLeft: theme.spacing["16p"],
   }));
 
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.tick);
-
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: withSpring(positionY.value) }],
   }));
 
   return (
     <Animated.View style={[containerStyles, animatedStyle]} testID={testID}>
-      {cloneElement(icon, { height: iconDimensions, width: iconDimensions })}
+      {cloneElement(icon)}
       <Typography.Text color="neutralBase-50" weight="regular" size="callout" style={textStyle}>
         {message}
       </Typography.Text>

@@ -17,8 +17,6 @@ export default function SectionScreen() {
   const { data, title } = route.params;
   const navigation = useNavigation();
 
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.faqSectionIcons);
-
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
   const container = useThemeStyles<ViewStyle>(theme => ({
@@ -56,7 +54,7 @@ export default function SectionScreen() {
                       }}>
                       <Stack direction="horizontal" gap="20p" align="center" justify="space-between">
                         <Typography.Text size="callout">{sectionFAQS.query}</Typography.Text>
-                        <ChevronRightIcon height={iconDimensions} width={iconDimensions} color={iconColor} />
+                        <ChevronRightIcon color={iconColor} />
                       </Stack>
                     </Pressable>
                   );

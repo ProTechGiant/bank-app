@@ -44,9 +44,6 @@ export default function HubScreen() {
     paddingVertical: theme.spacing["16p"],
   }));
 
-  const infoIconDimensions = useThemeStyles(theme => theme.iconDimensions.globe);
-  const notificationIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.settingsPage);
-
   const infoIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-10"]);
 
   return (
@@ -64,7 +61,7 @@ export default function HubScreen() {
                 onPress={() => {
                   setIsInfoModalVisible(true);
                 }}>
-                <InfoCircleIcon height={infoIconDimensions} width={infoIconDimensions} color={infoIconColor} />
+                <InfoCircleIcon color={infoIconColor} />
               </Pressable>
             </Stack>
             <Typography.Text weight="regular" size="callout" style={subtitleContainerStyle}>
@@ -77,9 +74,7 @@ export default function HubScreen() {
                     <Section
                       title={data.categoryName}
                       content={data.categoryDescription}
-                      icon={
-                        <TransferHorizontal height={notificationIconDimensions} width={notificationIconDimensions} />
-                      }
+                      icon={<TransferHorizontal />}
                       data={data}
                     />
                   </View>

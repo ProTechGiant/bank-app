@@ -63,11 +63,7 @@ export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, on
                   {({ pressed }) => {
                     return (
                       <>
-                        <EndButton
-                          icon={pressed ? <ContentCopyActiveSvg /> : <ContentCopySvg />}
-                          height={40}
-                          width={40}
-                        />
+                        <EndButton icon={pressed ? <ContentCopyActiveSvg /> : <ContentCopySvg />} />
                       </>
                     );
                   }}

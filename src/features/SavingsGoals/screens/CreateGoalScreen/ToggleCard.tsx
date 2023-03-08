@@ -49,7 +49,6 @@ export default function ToggleCard<T extends FieldValues>({
     marginTop: theme.spacing["4p"],
   }));
 
-  const infoDimensions = useThemeStyles(theme => theme.iconDimensions.createGoal.info);
   const infoColor = useThemeStyles(theme => theme.palette["neutralBase-10"]);
 
   return (
@@ -61,7 +60,7 @@ export default function ToggleCard<T extends FieldValues>({
           </Typography.Text>
           {undefined !== onInfoPress && (
             <Pressable onPress={onInfoPress} style={infoIconStyle}>
-              <InfoCircleIcon color={infoColor} width={infoDimensions} height={infoDimensions} />
+              <InfoCircleIcon color={infoColor} />
             </Pressable>
           )}
         </View>

@@ -29,9 +29,6 @@ export default function LandingPage() {
     paddingVertical: theme.spacing["16p"],
   }));
 
-  const searchIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.searchTextInput);
-  const faqIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.faqSectionIcons);
-
   return (
     <Page>
       <ScrollView>
@@ -44,7 +41,7 @@ export default function LandingPage() {
             <View style={searchStyle}>
               <TextInput
                 name="searchString"
-                icon={<SearchIcon height={searchIconDimensions} width={searchIconDimensions} />}
+                icon={<SearchIcon />}
                 control={control}
                 placeholder={t("FrequentlyAskedQuestions.LandingPage.searchPlaceholder")}
               />
@@ -52,7 +49,7 @@ export default function LandingPage() {
             {mockFrequentlyAskedQuestions.categories.map((data, i) => {
               return (
                 <View style={searchStyle} key={data.category_name}>
-                  <Section data={data} icon={<ReferralIcon height={faqIconDimensions} width={faqIconDimensions} />} />
+                  <Section data={data} icon={<ReferralIcon />} />
                 </View>
               );
             })}

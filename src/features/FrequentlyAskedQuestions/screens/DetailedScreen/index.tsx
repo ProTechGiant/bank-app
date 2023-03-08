@@ -60,8 +60,6 @@ export default function DetailedSceen() {
     marginTop: theme.spacing["8p"],
   }));
 
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.faqSectionIcons);
-
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
   const getFeedbackText = () => {
@@ -115,7 +113,7 @@ export default function DetailedSceen() {
             <ContentContainer key={data.faq_id} style={{}}>
               <Stack direction="horizontal" align="center" justify="space-between">
                 <Typography.Text size="callout">{data.query}</Typography.Text>
-                <ChevronRightIcon height={iconDimensions} width={iconDimensions} color={iconColor} />
+                <ChevronRightIcon color={iconColor} />
               </Stack>
             </ContentContainer>
           );

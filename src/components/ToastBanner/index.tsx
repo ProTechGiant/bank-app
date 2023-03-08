@@ -27,7 +27,6 @@ export default function ToastBanner({ icon, title, message, testID, onClose }: T
   }));
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"], []);
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.close, []);
 
   return (
     <View style={containerStyles} testID={testID}>
@@ -43,7 +42,7 @@ export default function ToastBanner({ icon, title, message, testID, onClose }: T
       {onClose !== undefined && (
         <View>
           <Pressable onPress={onClose} testID={undefined !== testID ? `${testID}-->CloseButton` : undefined}>
-            <CloseIcon color={iconColor} width={iconDimensions} height={iconDimensions} />
+            <CloseIcon color={iconColor} />
           </Pressable>
         </View>
       )}

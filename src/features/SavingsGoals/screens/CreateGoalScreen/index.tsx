@@ -125,7 +125,6 @@ export default function CreateGoalScreen() {
     marginRight: theme.spacing["4p"],
   }));
 
-  const questionDimensions = useThemeStyles<number>(theme => theme.iconDimensions.createGoal.question, []);
   const questionIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase"], []);
 
   return (
@@ -207,7 +206,7 @@ export default function CreateGoalScreen() {
                 Alert.alert("FAQ Page is coming soon!");
               }}>
               <View style={iconStyle}>
-                <QuestionIcon height={questionDimensions} width={questionDimensions} color={questionIconColor} />
+                <QuestionIcon color={questionIconColor} />
               </View>
               <Typography.Text color="primaryBase" size="footnote">
                 {t("SavingsGoals.CreateGoalScreen.aboutRoundUpsPanel.smallText")}

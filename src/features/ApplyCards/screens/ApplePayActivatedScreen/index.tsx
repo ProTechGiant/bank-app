@@ -10,11 +10,8 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
 
 export default function ApplePayActivatedScreen() {
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.largeTick, []);
-
   const navigation = useNavigation();
   const { t } = useTranslation();
 
@@ -29,7 +26,7 @@ export default function ApplePayActivatedScreen() {
         <ContentContainer>
           <Stack direction="vertical" justify="space-between" align="center">
             <View style={styles.iconContainer}>
-              <TickCircleIcon width={iconDimensions} height={iconDimensions} />
+              <TickCircleIcon />
             </View>
             <Typography.Text size="large" weight="bold" color="neutralBase-50">
               {t("ApplyCards.ApplePayActivatedScreen.title")}

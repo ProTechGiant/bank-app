@@ -44,8 +44,6 @@ export default function AddressSelector({
     borderWidth: 2,
   }));
 
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.locationPin, []);
-
   const temporaryTag = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["primaryBase-40"],
     borderRadius: theme.radii.xxlarge,
@@ -54,9 +52,22 @@ export default function AddressSelector({
     paddingVertical: theme.spacing["4p"],
   }));
 
+  const locationIconContainer = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-30"],
+      width: 40,
+      height: 40,
+      alignItems: "center",
+      justifyContent: "center",
+    }),
+    []
+  );
+
   return (
     <Pressable onPress={() => onPress(id)} style={[containerStyle, isSelected && isSelectedStyle]}>
-      <LocationPinIcon width={iconDimensions} height={iconDimensions} />
+      <View style={locationIconContainer}>
+        <LocationPinIcon />
+      </View>
       <View style={styles.addressContent}>
         <Typography.Text color="neutralBase+30" size="callout">
           {addressLineOne}

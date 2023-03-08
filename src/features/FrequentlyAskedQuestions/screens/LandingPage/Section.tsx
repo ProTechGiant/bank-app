@@ -15,7 +15,6 @@ interface SectionProps {
 }
 
 export default function Section({ data, icon }: SectionProps) {
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.faqSectionIcons);
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
   const navigation = useNavigation();
@@ -37,7 +36,7 @@ export default function Section({ data, icon }: SectionProps) {
           </Typography.Text>
         </Stack>
         <View style={{ alignSelf: "center" }}>
-          <ChevronRightIcon height={iconDimensions} width={iconDimensions} color={iconColor} />
+          <ChevronRightIcon color={iconColor} />
         </View>
       </Stack>
     </Pressable>

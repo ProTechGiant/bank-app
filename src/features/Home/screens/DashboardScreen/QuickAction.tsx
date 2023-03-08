@@ -36,12 +36,11 @@ export default function QuickAction({ icon: Icon, title, onPress }: QuickActionP
     }),
     []
   );
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.accordian, []);
 
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity style={container} onPress={onPress}>
-        {cloneElement(Icon, { height: iconDimensions, width: iconDimensions, style: iconStyle })}
+        {cloneElement(Icon, { style: iconStyle })}
         <View style={textWrapperstyle}>
           <Typography.Text color="primaryBase" weight="semiBold" size="footnote">
             {title}

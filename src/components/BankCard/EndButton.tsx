@@ -10,10 +10,10 @@ interface EndButtonProps {
   width?: number;
 }
 
-export default function EndButton({ icon, height = 20, width = 20 }: EndButtonProps) {
+export default function EndButton({ icon }: EndButtonProps) {
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase-50"]);
 
-  return <View style={styles.button}>{cloneElement(icon, { color: iconColor, height: height, width: width })}</View>;
+  return <View style={styles.button}>{cloneElement(icon, { color: iconColor })}</View>;
 }
 
 const styles = StyleSheet.create({

@@ -20,7 +20,6 @@ export default function ListItemLink({ icon, title, onPress, disabled = false }:
     height: 73,
   }));
 
-  const { height: iconHeight, width: iconWidth } = useThemeStyles(theme => theme.iconDimensions.chevronRight);
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"], []);
 
   return (
@@ -34,7 +33,7 @@ export default function ListItemLink({ icon, title, onPress, disabled = false }:
         )}
       </View>
       <View style={[styles.arrowContainer, { transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }]}>
-        <ChevronRightIcon color={iconColor} height={iconHeight} width={iconWidth} />
+        <ChevronRightIcon color={iconColor} />
       </View>
     </Pressable>
   );

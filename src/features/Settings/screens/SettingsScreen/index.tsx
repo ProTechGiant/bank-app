@@ -30,7 +30,6 @@ export default function SettingsScreen() {
     }),
     []
   );
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.settingsPage, []);
 
   const navigation = useNavigation();
 
@@ -50,14 +49,14 @@ export default function SettingsScreen() {
     <Page>
       <NavHeader />
       <Pressable style={cardContainerStyle} onPress={handleOnReferPress}>
-        <FriendsIcon style={iconContainer} height={iconDimensions} width={iconDimensions} />
-        <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+        <FriendsIcon style={iconContainer} />
+        <Typography.Text color="primaryBase+30" size="callout" weight="regular">
           {t("Settings.SettingsScreen.rewards")}
         </Typography.Text>
       </Pressable>
       <Pressable style={cardContainerStyle} onPress={handleOnFAQPress}>
         <View style={iconContainer}>
-          <QuestionIcon height={iconDimensions} width={iconDimensions} />
+          <QuestionIcon />
         </View>
         <Typography.Text color="neutralBase+30" size="callout" weight="regular">
           {t("Settings.SettingsScreen.FAQs")}
@@ -65,7 +64,7 @@ export default function SettingsScreen() {
       </Pressable>
       <Pressable style={cardContainerStyle} onPress={handleOnNotificationsPress}>
         <View style={iconContainer}>
-          <NotificationIcon height={iconDimensions} width={iconDimensions} />
+          <NotificationIcon />
         </View>
         <Typography.Text color="neutralBase+30" size="callout" weight="regular">
           {t("Settings.SettingsScreen.notifications")}

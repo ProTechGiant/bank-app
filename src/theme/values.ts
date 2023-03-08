@@ -179,7 +179,6 @@ const iconDimensions = {
   tick: 18,
   largeTick: 66,
   notificationTick: 42,
-  globe: 20,
   nationality: 14,
   faqSectionIcons: 16,
   searchTextInput: 16,

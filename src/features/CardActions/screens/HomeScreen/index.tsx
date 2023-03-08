@@ -99,12 +99,6 @@ export default function HomeScreen() {
     Alert.alert("Activate now");
   };
 
-  const { height: threeDotsIconHeight, width: threeDotsIconWidth } = useThemeStyles(
-    theme => theme.iconDimensions.threeDots
-  );
-
-  const infoIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.cardInfo);
-
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["16p"],
   }));
@@ -128,11 +122,7 @@ export default function HomeScreen() {
                       ? handleOnViewPinPress()
                       : handleOnCardSettingsPress("inactive");
                   }}>
-                  <BankCard.EndButton
-                    icon={<ThreeDotsIcon />}
-                    width={threeDotsIconWidth}
-                    height={threeDotsIconHeight}
-                  />
+                  <BankCard.EndButton icon={<ThreeDotsIcon />} />
                 </ContextMenu>
               }
               label={t("Cards.plusCard")}
@@ -154,11 +144,7 @@ export default function HomeScreen() {
                       ? handleOnViewPinPress()
                       : handleOnCardSettingsPress("active");
                   }}>
-                  <BankCard.EndButton
-                    icon={<ThreeDotsIcon />}
-                    width={threeDotsIconWidth}
-                    height={threeDotsIconHeight}
-                  />
+                  <BankCard.EndButton icon={<ThreeDotsIcon />} />
                 </ContextMenu>
               }
               onPress={handleOnPlusCardPress}
@@ -185,7 +171,7 @@ export default function HomeScreen() {
                     ? handleOnViewPinPress()
                     : handleOnCardSettingsPress("inactive");
                 }}>
-                <BankCard.EndButton icon={<ThreeDotsIcon />} width={threeDotsIconWidth} height={threeDotsIconHeight} />
+                <BankCard.EndButton icon={<ThreeDotsIcon />} />
               </ContextMenu>
             }
             onPress={handleOnInactiveCardPress}
@@ -196,7 +182,7 @@ export default function HomeScreen() {
             label={t("Cards.singleUseCard")}
             endButton={
               <Pressable onPress={handleOnPressAbout}>
-                <BankCard.EndButton icon={<InfoCircleIcon width={infoIconDimensions} height={infoIconDimensions} />} />
+                <BankCard.EndButton icon={<InfoCircleIcon />} />
               </Pressable>
             }
             onPress={handleOnSingleUseCardPress}

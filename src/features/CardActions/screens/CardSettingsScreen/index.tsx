@@ -62,8 +62,6 @@ export default function CardSettingsScreen() {
     Alert.alert("Change Pin is coming.");
   };
 
-  const globeIconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.globe, []);
-
   const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
     height: 1,
     backgroundColor: theme.palette["neutralBase-30"],
@@ -101,7 +99,7 @@ export default function CardSettingsScreen() {
           />
           <SettingsToggle
             name="IsInternationalPaymentActive"
-            icon={<GlobeIcon width={globeIconDimensions} height={globeIconDimensions} />}
+            icon={<GlobeIcon />}
             label={t("CardActions.CardSettingsScreen.internationalPayment.label")}
             helperText={t("CardActions.CardSettingsScreen.internationalPayment.helperText")}
             control={control}

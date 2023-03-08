@@ -2,10 +2,10 @@ import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-const CloseIcon = ({ width = 14, height = 14, color = "black" }: IconProps) => (
-  <Svg width={width} height={height} viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+const CloseIcon = ({ width = 18, height = 22, color = "black" }: IconProps) => (
+  <Svg width={width} height={height} viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
     <Path
-      d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"
+      d="M2.66016 17.4731C3.0752 17.8882 3.77246 17.8716 4.1709 17.4814L9.11816 12.5342L14.0571 17.4814C14.4639 17.8882 15.1611 17.8882 15.5679 17.4731C15.9746 17.0581 15.9829 16.3691 15.5762 15.9624L10.6372 11.0151L15.5762 6.07617C15.9829 5.66943 15.9829 4.98047 15.5679 4.56543C15.1528 4.15869 14.4639 4.15039 14.0571 4.55713L9.11816 9.50439L4.1709 4.55713C3.77246 4.16699 3.06689 4.15039 2.66016 4.56543C2.25342 4.98047 2.26172 5.67773 2.65186 6.06787L7.59912 11.0151L2.65186 15.9707C2.26172 16.3608 2.24512 17.0664 2.66016 17.4731Z" 
       fill={color}
     />
   </Svg>

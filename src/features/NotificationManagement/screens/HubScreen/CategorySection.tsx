@@ -17,8 +17,6 @@ interface CategorySectionProps {
 }
 
 export default function CategorySection({ title, content, icon, data }: CategorySectionProps) {
-  const { height: iconHeight, width: iconWidth } = useThemeStyles(theme => theme.iconDimensions.chevronRight);
-
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
   const navigation = useNavigation();
@@ -43,7 +41,7 @@ export default function CategorySection({ title, content, icon, data }: Category
           </Typography.Text>
         </Stack>
         <View style={{ alignSelf: "center", transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }] }}>
-          <ChevronRightIcon height={iconHeight} width={iconWidth} color={iconColor} />
+          <ChevronRightIcon color={iconColor} />
         </View>
       </Stack>
     </Pressable>

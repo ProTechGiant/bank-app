@@ -101,8 +101,6 @@ export default function ReordererItem({
     []
   );
 
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.reorderIcons, []);
-
   const handleToggle = () => {
     if (toggleItem) {
       toggleItem(id);
@@ -113,17 +111,17 @@ export default function ReordererItem({
     <View style={objectContainerStyle}>
       {isActive && isRemoveAllowed && (
         <TouchableOpacity onPress={handleToggle}>
-          <MinusIcon style={iconStyle} width={iconDimensions} height={iconDimensions} />
+          <MinusIcon style={iconStyle} />
         </TouchableOpacity>
       )}
       {(!isActive && isAddAllowed && (
         <TouchableOpacity onPress={handleToggle}>
-          <PlusIconCircle style={iconStyle} width={iconDimensions} height={iconDimensions} />
+          <PlusIconCircle style={iconStyle} />
         </TouchableOpacity>
       )) ||
         (!isActive && !isAddAllowed && (
           <TouchableOpacity disabled={true}>
-            <DisabledPlusIconCircle style={iconStyle} width={iconDimensions} height={iconDimensions} />
+            <DisabledPlusIconCircle style={iconStyle} />
           </TouchableOpacity>
         ))}
       {/* If no icons are used then we place a placeholder */}
