@@ -10,11 +10,11 @@ import DismissibleBanner from "@/components/DismissibleBanner";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useGlobalContext } from "@/contexts/GlobalContext";
+import useFetchAccount from "@/hooks/use-fetch-account";
+import usePendingNotications from "@/hooks/use-pending-notications";
 import { useThemeStyles } from "@/theme";
 import { pluralize } from "@/utils";
 
-import useFetchAccount from "./hooks/use-fetch-account";
-import usePendingNotications from "./hooks/use-pending-notications";
 import TemporaryPillButton from "./TemporaryPillButton";
 
 export interface AccountInfoHeaderProps {
@@ -76,7 +76,7 @@ export default function AccountInfoHeader({ lastContentOffset }: AccountInfoHead
   });
 
   const container = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["primaryBase"],
+    backgroundColor: theme.palette.primaryBase,
     paddingTop: theme.spacing["16p"],
     alignItems: "center",
     paddingBottom: theme.spacing["24p"],
@@ -93,6 +93,11 @@ export default function AccountInfoHeader({ lastContentOffset }: AccountInfoHead
 
   const notificationsStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["16p"],
+  }));
+
+  const accountbalanceStyle = useThemeStyles<ViewStyle>(() => ({
+    alignItems: "baseline",
+    flexDirection: "row",
   }));
 
   return (
@@ -112,7 +117,7 @@ export default function AccountInfoHeader({ lastContentOffset }: AccountInfoHead
         data.currencyType &&
         data.currentAccountBalance &&
         (showAccountBalance ? (
-          <View style={{ alignItems: "baseline", flexDirection: "row" }}>
+          <View style={accountbalanceStyle}>
             <Animated.Text style={textCurrentAccountAnimatedStyle}>
               {data.currentAccountBalance}.{data.decimalBalance}
             </Animated.Text>

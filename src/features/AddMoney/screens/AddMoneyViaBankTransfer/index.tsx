@@ -9,10 +9,10 @@ import Divider from "@/components/Divider";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
+import useFetchAccount from "@/hooks/use-fetch-account";
+import useGetPrimaryAddress from "@/hooks/use-get-primary-address";
 import { useThemeStyles } from "@/theme";
 
-import useGetPrimaryAddress from "../../../ApplyCards/screens/SetPinAndAddressScreen/CardDeliveryDetails/use-get-primary-address";
-import useFetchAccount from "../../../Home/screens/DashboardScreen/AccountInfoHeader/hooks/use-fetch-account";
 import BankDetails from "../../component/BankDetails";
 import BadgeIcon from "./badge.svg";
 import HistoryIcon from "./history.svg";

@@ -1,8 +1,7 @@
 import { useQuery } from "react-query";
 
 import api from "@/api";
-
-import { Address } from "../../../context/OrderCardContext";
+import { Address } from "@/types/Address";
 
 export default function useGetPrimaryAddress() {
   return useQuery("cards", () => {

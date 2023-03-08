@@ -16,7 +16,8 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { alphaNumericSpecialCharsRegExp } from "@/utils";
 
-import { Address, useOrderCardContext } from "../../context/OrderCardContext";
+import { useOrderCardContext } from "../../context/OrderCardContext";
+import { Address } from "@/types/Address";
 
 export default function SetTemporaryAddressScreen() {
   const { t } = useTranslation();

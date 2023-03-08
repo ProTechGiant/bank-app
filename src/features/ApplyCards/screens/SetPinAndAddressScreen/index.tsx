@@ -7,11 +7,12 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
+import useGetPrimaryAddress from "@/hooks/use-get-primary-address";
 import useNavigation from "@/navigation/use-navigation";
+import { Address } from "@/types/Address";
 
-import { Address, useOrderCardContext } from "../../context/OrderCardContext";
+import { useOrderCardContext } from "../../context/OrderCardContext";
 import CardDeliveryDetails from "./CardDeliveryDetails";
-import useGetPrimaryAddress from "./CardDeliveryDetails/use-get-primary-address";
 import CreateCardPin from "./CreateCardPin";
 import isValidPincode from "./CreateCardPin/is-valid-pincode";
 import encryptPincode from "./encrypt-pincode";

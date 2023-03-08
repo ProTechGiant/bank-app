@@ -6,12 +6,13 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { Address, OrderCardFormValues, useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
+import { OrderCardFormValues, useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import AddressSelector from "./AddressSelector";
 import useSubmitOrderCard from "./use-submit-order-card";
+import { Address } from "@/types/Address";
 
 interface CardDeliveryDetailsProps {
   primaryAddress?: Address;
