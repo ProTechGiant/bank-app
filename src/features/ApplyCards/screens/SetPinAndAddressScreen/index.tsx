@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Alert, Dimensions, Keyboard, Platform, ScrollView, StyleSheet, TextInput, View } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import useNavigation from "@/navigation/use-navigation";
@@ -35,13 +36,7 @@ export default function SetPinAndAddressScreen() {
   const [selectedPincode, setSelectedPincode] = useState("");
   const [showErrorBox, setShowErrorBox] = useState(false);
   const [showApiErrorAlert, setShowApiErrorAlert] = useState(false);
-  const [primaryAddress, setPrimaryAddress] = useState<Address | undefined>();
-
-  const GENERIC_ERROR = {
-    name: "error",
-    title: t("errors.generic.title"),
-    message: t("errors.generic.message"),
-  };
+  const [primaryAddress, setPrimaryAddress] = useState<Address>();
 
   const handleOnInputPress = () => {
     textInputRef.current?.focus();
@@ -100,39 +95,23 @@ export default function SetPinAndAddressScreen() {
 
         setOrderCardValues({
           ...orderCardValues,
-          formValues: { ...orderCardValues.formValues, pin: encryptPincode(normalizedValue) },
+          formValues: { ...orderCardValues.formValues, Pin: encryptPincode(normalizedValue) },
         });
 
         setImmediate(() => handleOnResetPincode());
         setMode("address");
-        if (showApiErrorAlert) {
-          showErrorAlert(GENERIC_ERROR.title, GENERIC_ERROR.message);
-        }
       }
     }
   };
 
-  const showErrorAlert = (title: string, content: string) => {
-    Alert.alert(title, content, [
-      {
-        text: "OK",
-        onPress: () => navigation.navigate("Temporary.LandingScreen"),
-      },
-    ]);
-  };
-
   useEffect(() => {
-    const retrievePrimaryAddress = async () => {
-      try {
-        const response = await getPrimaryAddress.mutateAsync();
-        setPrimaryAddress(response);
-      } catch (error) {
-        setPrimaryAddress(undefined);
-        setShowApiErrorAlert(true);
-      }
-    };
-    retrievePrimaryAddress();
-  }, []);
+    if (getPrimaryAddress.isError) {
+      setPrimaryAddress(undefined);
+      setShowApiErrorAlert(true);
+    } else {
+      setPrimaryAddress(getPrimaryAddress.data);
+    }
+  }, [getPrimaryAddress]);
 
   useEffect(() => {
     scrollViewRef.current?.scrollTo({ x: SCREEN_WIDTH * (currentStep - 1) });
@@ -162,6 +141,10 @@ export default function SetPinAndAddressScreen() {
       return;
     }
 
+    navigation.navigate("Temporary.LandingScreen");
+  };
+
+  const handleOnErrorModalClose = () => {
     navigation.navigate("Temporary.LandingScreen");
   };
 
@@ -223,6 +206,13 @@ export default function SetPinAndAddressScreen() {
             <View style={styles.fullWidth}>
               <CardDeliveryDetails primaryAddress={primaryAddress} />
             </View>
+            <NotificationModal
+              variant="error"
+              title={t("errors.generic.title")}
+              message={t("errors.generic.message")}
+              isVisible={showApiErrorAlert}
+              onClose={handleOnErrorModalClose}
+            />
           </ScrollView>
         </View>
       </View>

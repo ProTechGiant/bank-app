@@ -10,10 +10,10 @@ export interface Address {
 }
 
 export interface OrderCardFormValues {
-  cardType: number;
-  cardProductId: number;
-  pin: string;
-  alternateAddress?: Address;
+  CardType: number;
+  CardProductId: number;
+  Pin: string;
+  AlternateAddress?: Address;
 }
 
 export type OrderCardValues = {
@@ -25,9 +25,9 @@ export type OrderCardValues = {
 
 export const orderCardInitValues: OrderCardValues = {
   formValues: {
-    cardType: 0,
-    cardProductId: 0,
-    pin: "",
+    CardType: 0,
+    CardProductId: 0,
+    Pin: "",
   },
 };
 

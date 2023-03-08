@@ -47,7 +47,7 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
     message: t("errors.generic.message"),
   };
 
-  const hasTemporaryAddress = orderCardValues.formValues.alternateAddress !== undefined;
+  const hasTemporaryAddress = orderCardValues.formValues.AlternateAddress !== undefined;
   const buttonText = hasTemporaryAddress
     ? t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.edit")
     : t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.setAddress");
@@ -68,9 +68,9 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
 
   useEffect(() => {
     const temporaryAddress: AddressDataType | undefined =
-      orderCardValues.formValues.alternateAddress !== undefined
+      orderCardValues.formValues.AlternateAddress !== undefined
         ? {
-            ...orderCardValues.formValues.alternateAddress,
+            ...orderCardValues.formValues.AlternateAddress,
             id: TEMPORARY_ID,
             isTempAddress: true,
             isSelected: true,
@@ -113,10 +113,11 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
 
   const handleConfirm = () => {
     const selectedAddressType = addressData !== undefined && addressData.filter(data => data.isSelected === true)[0].id;
+
     const payload = { ...orderCardValues.formValues };
 
     if (selectedAddressType === PRIMARY_ID) {
-      delete payload.alternateAddress;
+      delete payload.AlternateAddress;
     }
 
     handleSubmit(payload);
@@ -155,15 +156,15 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
         <Stack direction="vertical" gap="20p">
           {addressData !== undefined &&
             addressData.map((address, index) => {
-              const addressLineFour = `${address.city} ${address.postalCode}`;
+              const addressLineFour = `${address.City} ${address.PostalCode}`;
 
               return (
                 <AddressSelector
                   key={index}
                   id={address.id}
-                  addressLineOne={address.addressLineOne}
-                  addressLineTwo={address.addressLineTwo}
-                  addressLineThree={address.district}
+                  addressLineOne={address.AddressLineOne}
+                  addressLineTwo={address.AddressLineTwo}
+                  addressLineThree={address.District}
                   addressLineFour={addressLineFour}
                   isSelected={address.isSelected}
                   isTemporary={address.isTempAddress}

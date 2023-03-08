@@ -26,16 +26,16 @@ export default function SetTemporaryAddressScreen() {
   const validationSchema = useMemo(
     () =>
       Yup.object({
-        addressLineOne: Yup.string()
+        AddressLineOne: Yup.string()
           .required(t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.required"))
           .matches(
             alphaNumericSpecialCharsRegExp,
             t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.invalid")
           )
           .min(5, t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.minLength")),
-        district: Yup.string().required(t("ApplyCards.SetTemporaryAddressScreen.form.district.validation.required")),
-        city: Yup.string().required(t("ApplyCards.SetTemporaryAddressScreen.form.city.validation.required")),
-        postalCode: Yup.string()
+        District: Yup.string().required(t("ApplyCards.SetTemporaryAddressScreen.form.district.validation.required")),
+        City: Yup.string().required(t("ApplyCards.SetTemporaryAddressScreen.form.city.validation.required")),
+        PostalCode: Yup.string()
           .required(t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.validation.required"))
           .min(5, t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.validation.minLength")),
       }),
@@ -46,11 +46,11 @@ export default function SetTemporaryAddressScreen() {
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      addressLineOne: orderCardValues.formValues.alternateAddress?.addressLineOne,
-      addressLineTwo: orderCardValues.formValues.alternateAddress?.addressLineTwo,
-      district: orderCardValues.formValues.alternateAddress?.district,
-      city: orderCardValues.formValues.alternateAddress?.city,
-      postalCode: orderCardValues.formValues.alternateAddress?.postalCode,
+      AddressLineOne: orderCardValues.formValues.AlternateAddress?.AddressLineOne,
+      AddressLineTwo: orderCardValues.formValues.AlternateAddress?.AddressLineTwo,
+      District: orderCardValues.formValues.AlternateAddress?.District,
+      City: orderCardValues.formValues.AlternateAddress?.City,
+      PostalCode: orderCardValues.formValues.AlternateAddress?.PostalCode,
     },
   });
 
@@ -59,7 +59,7 @@ export default function SetTemporaryAddressScreen() {
       ...orderCardValues,
       formValues: {
         ...orderCardValues.formValues,
-        alternateAddress: values,
+        AlternateAddress: values,
       },
     });
     navigation.navigate("ApplyCards.SetPinAndAddress");
@@ -84,14 +84,14 @@ export default function SetTemporaryAddressScreen() {
           <TextInput
             control={control}
             label={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.label")}
-            name="addressLineOne"
+            name="AddressLineOne"
             placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.placeholder")}
             maxLength={100}
           />
           <TextInput
             control={control}
             label={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineTwo.label")}
-            name="addressLineTwo"
+            name="AddressLineTwo"
             placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineTwo.placeholder")}
             maxLength={100}
             extra="Optional"
@@ -99,13 +99,13 @@ export default function SetTemporaryAddressScreen() {
           <TextInput
             control={control}
             label={t("ApplyCards.SetTemporaryAddressScreen.form.district.label")}
-            name="district"
+            name="District"
             placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.district.placeholder")}
           />
           <DropdownInput
             control={control}
             label={t("ApplyCards.SetTemporaryAddressScreen.form.city.label")}
-            name="city"
+            name="City"
             headerText={t("ApplyCards.SetTemporaryAddressScreen.form.city.dropdownHeader")}
             placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.city.placeholder")}
             options={CITIES.map(city => ({ value: city, label: city }))}
@@ -114,7 +114,7 @@ export default function SetTemporaryAddressScreen() {
           <TextInput
             control={control}
             label={t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.label")}
-            name="postalCode"
+            name="PostalCode"
             placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.placeholder")}
             keyboardType="number-pad"
             showCharacterCount

@@ -42,8 +42,8 @@ export default function PickCardTypeScreen() {
       ...current,
       formValues: {
         ...orderCardValues.formValues,
-        cardType: CARD_TYPE,
-        cardProductId: cardType === "standard" ? STANDARD_CARD_PRODUCT_ID : LUX_CARD_PRODUCT_ID,
+        CardType: CARD_TYPE,
+        CardProductId: cardType === "standard" ? STANDARD_CARD_PRODUCT_ID : LUX_CARD_PRODUCT_ID,
       },
     }));
 
