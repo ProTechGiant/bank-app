@@ -22,9 +22,9 @@ export const Iconography: Story = () => {
         return (
           <div key={name} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             {typeof Element === "string" ? (
-              <img src={Element} style={{ height: 40, width: 40 }} />
+              <img src={Element} style={{ height: 40, width: 40, color: "black" }} />
             ) : (
-              cloneElement(<Element />, { width: 40, height: 40 })
+              cloneElement(<Element />, { width: 40, height: 40, color: "black" })
             )}
             <span>{name}</span>
           </div>
