@@ -14,6 +14,7 @@ import { useThemeStyles } from "@/theme";
 
 import { CardActionsStackParams, CardStatus } from "../../CardActionsStack";
 import ViewPinModal from "../../components/ViewPinModal";
+import { mockCard } from "../../mocks/mockCard";
 
 interface ContextMenuItem {
   id: number;
@@ -101,6 +102,7 @@ export default function HomeScreen() {
 
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["16p"],
+    paddingHorizontal: theme.spacing["20p"],
   }));
 
   return (
@@ -177,7 +179,7 @@ export default function HomeScreen() {
             onPress={handleOnInactiveCardPress}
           />
           <BankCard.Active
-            cardNumber="0238"
+            cardNumber={mockCard.LastFourDigits}
             cardType="single-use"
             label={t("Cards.singleUseCard")}
             endButton={
