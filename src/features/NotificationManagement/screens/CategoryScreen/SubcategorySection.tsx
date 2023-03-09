@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { ViewStyle } from "react-native/types";
 
 import Stack from "@/components/Stack";
@@ -9,19 +8,14 @@ import { useThemeStyles } from "@/theme";
 interface SubcategorySectionProps {
   title: string;
   content: string;
-  mainToggleStatus: boolean;
+  toggleStatus: boolean;
+  onToggle: (status: boolean) => void;
 }
 
-export default function SubcategorySection({ title, content, mainToggleStatus }: SubcategorySectionProps) {
+export default function SubcategorySection({ title, content, toggleStatus, onToggle }: SubcategorySectionProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
   }));
-
-  const [toggleStatus, setToggleStatus] = useState(mainToggleStatus);
-
-  useEffect(() => {
-    setToggleStatus(mainToggleStatus);
-  }, [mainToggleStatus]);
 
   return (
     <Stack direction="horizontal" gap="16p" align="center" style={containerStyle}>
@@ -33,7 +27,7 @@ export default function SubcategorySection({ title, content, mainToggleStatus }:
           {content}
         </Typography.Text>
       </Stack>
-      <Toggle onPress={() => setToggleStatus(!toggleStatus)} value={toggleStatus} />
+      <Toggle onPress={() => onToggle(!toggleStatus)} value={toggleStatus} />
     </Stack>
   );
 }

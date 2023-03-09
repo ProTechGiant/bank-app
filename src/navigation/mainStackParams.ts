@@ -30,7 +30,7 @@ type RootStackParams = {
   "FrequentlyAskedQuestions.SectionScreen": { data: FAQSection[]; title: string };
   "FrequentlyAskedQuestions.DetailedScreen": { data: DetailedFaq; title: string };
   "NotificationManagement.HubScreen": undefined;
-  "NotificationManagement.SubcategoryScreen": { data: SubCategories[]; title: string };
+  "NotificationManagement.CategoryScreen": { subCategories: SubCategories[]; title: string };
 };
 
 type MainStackParams = RootStackParams &

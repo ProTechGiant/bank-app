@@ -9,6 +9,7 @@ export interface SubCategories {
   subCategoryId: string;
   subCategoryName: string;
   subCategoryDescription: string;
+  currentStatus: boolean;
   selectedChannels: SelectedChannels[];
 }
 

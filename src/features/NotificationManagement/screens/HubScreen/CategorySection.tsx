@@ -1,4 +1,4 @@
-import { I18nManager, Pressable, View } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { ChevronRightIcon, IconProps } from "@/assets/icons";
@@ -22,8 +22,8 @@ export default function CategorySection({ title, content, icon, data }: Category
   const navigation = useNavigation();
 
   const handleOnPress = () => {
-    navigation.navigate("NotificationManagement.SubcategoryScreen", {
-      data: data?.subCategories,
+    navigation.navigate("NotificationManagement.CategoryScreen", {
+      subCategories: data?.subCategories,
       title: data?.categoryName,
     });
   };
@@ -40,10 +40,17 @@ export default function CategorySection({ title, content, icon, data }: Category
             {content}
           </Typography.Text>
         </Stack>
-        <View style={{ alignSelf: "center", transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }] }}>
+        <View style={styles.chevronStyle}>
           <ChevronRightIcon color={iconColor} />
         </View>
       </Stack>
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  chevronStyle: {
+    alignSelf: "center",
+    transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }],
+  },
+});

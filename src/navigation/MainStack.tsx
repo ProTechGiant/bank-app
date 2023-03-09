@@ -9,8 +9,8 @@ import LandingPage from "@/features/FrequentlyAskedQuestions/screens/LandingPage
 import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
 import HomeStack from "@/features/Home/HomeStack";
 import DashboardScreen from "@/features/Home/screens/DashboardScreen";
+import NotificationManagementCategoryScreen from "@/features/NotificationManagement/screens/CategoryScreen";
 import NotificationManagementHubScreen from "@/features/NotificationManagement/screens/HubScreen";
-import NotificationManagementSubcategoryScreen from "@/features/NotificationManagement/screens/SubcategoryScreen";
 import OnboardingStack from "@/features/Onboarding/OnboardingStack";
 import HubScreen from "@/features/Referral/screens/HubScreen";
 import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
@@ -49,10 +49,7 @@ export default function MainStack() {
         <Stack.Screen component={SectionScreen} name="FrequentlyAskedQuestions.SectionScreen" />
         <Stack.Screen component={DetailedSceen} name="FrequentlyAskedQuestions.DetailedScreen" />
         <Stack.Screen component={NotificationManagementHubScreen} name="NotificationManagement.HubScreen" />
-        <Stack.Screen
-          component={NotificationManagementSubcategoryScreen}
-          name="NotificationManagement.SubcategoryScreen"
-        />
+        <Stack.Screen component={NotificationManagementCategoryScreen} name="NotificationManagement.CategoryScreen" />
       </Stack.Navigator>
     </NavigationContainer>
   );

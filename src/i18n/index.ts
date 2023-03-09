@@ -430,7 +430,7 @@ export const resources = {
           modalTitle: "About notifications",
           modalContent: "Changes here won't affect your text message notifications.",
         },
-        SubcategoryScreen: {
+        CategoryScreen: {
           subtitle: "Get notifications about:",
         },
       },
@@ -962,7 +962,7 @@ export const resources = {
           modalTitle: "ملاحظة حول التنبيهات",
           modalContent: "التغيرات التي تُجريها هنا لن تؤثر على التنبيهات التي تصلك عبر الرسائل النصية القصيرة.",
         },
-        SubcategoryScreen: {
+        CategoryScreen: {
           subtitle: "احصل على تنبيهات حول:",
         },
       },
