@@ -1,5 +1,7 @@
-export { default as AccountIcon } from "./account.svg";
-export { default as AddIcon } from "./add.svg";
+import { ColorValue } from "react-native/types";
+
+export { default as AccountIcon } from "./account";
+export { default as AddIcon } from "./add";
 export { AddGoalIcon } from "./add-goal";
 export { default as AngleDownIcon } from "./angle-down";
 export { default as AngleUpIcon } from "./angle-up";
@@ -49,7 +51,7 @@ export { default as PlusIconCircle } from "./plus-circle.svg";
 export { default as PostcardIcon } from "./postcard.svg";
 export { QuestionIcon } from "./question";
 export { RecurringEventIcon } from "./recurring-event-icon";
-export { default as ReferralIcon } from "./referral.svg";
+export { default as ReferralIcon } from "./referral";
 export { default as ReferralsIcon } from "./referrals.svg";
 export { ReportIcon } from "./report";
 export { default as Rewards } from "./rewards.svg";
@@ -57,7 +59,7 @@ export { default as SearchIcon } from "./search.svg";
 export { default as SettingsIcon } from "./settings.svg";
 export { default as ShippingIcon } from "./shipping.svg";
 export { ShowIcon } from "./show";
-export { default as SplitIcon } from "./split.svg";
+export { default as SplitIcon } from "./split";
 export { ThreeDotsIcon } from "./three-dots";
 export { default as ThumbsDownIcon } from "./thumbs-down.svg";
 export { default as ThumbsUpIcon } from "./thumbs-up.svg";
@@ -66,10 +68,12 @@ export { default as TickCircleIcon } from "./tick-circle";
 export { default as TickCircleBorderIcon } from "./tick-circle-border";
 export { default as TransferIcon } from "./transfer.svg";
 export { default as TransferHorizontal } from "./transfer-horizontal.svg";
+export { default as TransferVertical } from "./transfer-vertical";
+export { default as UserClockIcon } from "./user-clock";
 export { UserIcon } from "./user-icon";
 
 export interface IconProps {
-  color?: string;
+  color?: ColorValue;
   height?: number | string;
   width?: number | string;
 }

@@ -14,32 +14,32 @@ import PlaceholderGenerator from "../../components/PlaceholderGenerator";
 import ReordererHeader from "../../components/ReordererHeader";
 import ReordererSection from "../../components/ReordererSection";
 import { useLayout } from "../../contexts/LayoutContext";
-import { QuickAction } from "../../types";
+import { Section } from "../../types";
 
-export default function QuickActionsReordererModal() {
+export default function SectionsReordererModal() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const { quickActions, setQuickActions } = useLayout();
+  const { sections, setSections } = useLayout();
 
-  const [activeItems, setActiveItems] = useState(() => quickActions.slice(0, REQUIRED_ACTIVE_ITEMS));
-  const [inactiveItems, setInactiveItems] = useState(() => quickActions.slice(REQUIRED_ACTIVE_ITEMS));
+  const [activeItems, setActiveItems] = useState(() => sections.slice(0, REQUIRED_ACTIVE_ITEMS));
+  const [inactiveItems, setInactiveItems] = useState(() => sections.slice(REQUIRED_ACTIVE_ITEMS));
 
   const handleOnCancelPress = () => {
     navigation.goBack();
   };
 
   const handleOnSavePress = () => {
-    setQuickActions([...activeItems, ...inactiveItems]);
+    setSections([...activeItems, ...inactiveItems]);
 
     navigation.goBack();
   };
 
-  const handleOnDeletePress = (item: QuickAction) => {
+  const handleOnDeletePress = (item: Section) => {
     setActiveItems(items => items.filter(i => i.type !== item.type));
     setInactiveItems(items => [item, ...items]);
   };
 
-  const handleOnAddPress = (item: QuickAction) => {
+  const handleOnAddPress = (item: Section) => {
     setActiveItems(items => [...items, item]);
     setInactiveItems(items => items.filter(i => i.type !== item.type));
   };
@@ -52,15 +52,15 @@ export default function QuickActionsReordererModal() {
     <SafeAreaProvider>
       <Page insets={["bottom"]}>
         <ReordererHeader
-          cancelText={t("Home.QuickActionsReordererModal.cancelButton")}
+          cancelText={t("Home.SectionsReordererModal.cancelButton")}
           onCancelPress={handleOnCancelPress}
           onSavePress={handleOnSavePress}
           isSaveable={activeItems.length >= REQUIRED_ACTIVE_ITEMS}
-          saveText={t("Home.QuickActionsReordererModal.saveButton")}
-          title={t("Home.QuickActionsReordererModal.title")}
+          saveText={t("Home.SectionsReordererModal.saveButton")}
+          title={t("Home.SectionsReordererModal.title")}
         />
         <View style={contentStyle}>
-          <ReordererSection count={activeItems.length} max={REQUIRED_ACTIVE_ITEMS} title="ACTIVE">
+          <ReordererSection title="ACTIVE">
             <DraggableFlatList
               data={activeItems}
               onDragEnd={({ data }) => setActiveItems(data)}
@@ -69,7 +69,7 @@ export default function QuickActionsReordererModal() {
               renderItem={({ isActive, item, drag }) => {
                 return (
                   <ActiveReordererItem
-                    onDeletePress={() => handleOnDeletePress(item)}
+                    onDeletePress={item.isSticky ? undefined : () => handleOnDeletePress(item)}
                     onPress={drag}
                     isActive={isActive}
                     item={item}
@@ -78,7 +78,7 @@ export default function QuickActionsReordererModal() {
               }}
             />
           </ReordererSection>
-          <ReordererSection title="NEW ACTIONS">
+          <ReordererSection title="NEW SECTIONS">
             {inactiveItems.map(element => (
               <InactiveReordererItem
                 key={element.type}

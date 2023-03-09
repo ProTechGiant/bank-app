@@ -54,7 +54,9 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnHomepage = () => {
-    navigation.navigate("Home.Dashboard");
+    navigation.navigate("Home.HomeStack", {
+      screen: "Home.DashboardScreen",
+    });
   };
 
   const handleOnOpenOnboarding = () => {

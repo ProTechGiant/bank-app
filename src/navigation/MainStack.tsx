@@ -7,9 +7,8 @@ import CardActionsStack from "@/features/CardActions/CardActionsStack";
 import DetailedSceen from "@/features/FrequentlyAskedQuestions/screens/DetailedScreen";
 import LandingPage from "@/features/FrequentlyAskedQuestions/screens/LandingPage";
 import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
+import HomeStack from "@/features/Home/HomeStack";
 import DashboardScreen from "@/features/Home/screens/DashboardScreen";
-import HomepageReorderModal from "@/features/Home/screens/HomepageReorderModal";
-import QuickActionsReorderCard from "@/features/Home/screens/QuickActionsReorderModal";
 import NotificationManagementHubScreen from "@/features/NotificationManagement/screens/HubScreen";
 import NotificationManagementSubcategoryScreen from "@/features/NotificationManagement/screens/SubcategoryScreen";
 import OnboardingStack from "@/features/Onboarding/OnboardingStack";
@@ -42,10 +41,9 @@ export default function MainStack() {
         <Stack.Screen component={AddMoneyStack} name="AddMoney.AddMoneyStack" />
         <Stack.Screen component={SavingsGoalsStack} name="SavingsGoals.SavingsGoalsStack" />
         <Stack.Screen component={OnboardingStack} name="Onboarding.OnboardingStack" />
+        <Stack.Screen component={HomeStack} name="Home.HomeStack" />
         <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>
           <Stack.Screen component={ApplyCardsStack} name="ApplyCards.ApplyForCardStack" />
-          <Stack.Screen component={QuickActionsReorderCard} name="Modal.QuickActionsReorderModal" />
-          <Stack.Screen component={HomepageReorderModal} name="Modal.HomepageReorderModal" />
         </Stack.Group>
         <Stack.Screen component={LandingPage} name="FrequentlyAskedQuestions.LandingPage" />
         <Stack.Screen component={SectionScreen} name="FrequentlyAskedQuestions.SectionScreen" />

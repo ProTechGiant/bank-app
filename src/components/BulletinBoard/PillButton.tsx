@@ -1,40 +1,26 @@
-import { Pressable, PressableProps, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface PillButtonProps extends Omit<PressableProps, "children" | "style"> {
+interface PillButtonProps {
   children?: string | React.ReactNode;
+  onPress: () => void;
 }
 
-export default function PillButton({ children, ...restProps }: PillButtonProps) {
-  const containerStyles = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette.complimentBase,
-      borderRadius: theme.radii.xxlarge,
-      borderColor: theme.palette.complimentBase,
-      paddingHorizontal: theme.spacing["16p"],
-      paddingVertical: theme.spacing["8p"],
-    }),
-    []
-  );
+export default function PillButton({ children, onPress }: PillButtonProps) {
+  const containerStyles = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette.complimentBase,
+    borderRadius: theme.radii.xxlarge,
+    paddingHorizontal: theme.spacing["32p"],
+    paddingVertical: theme.spacing["8p"],
+  }));
 
   return (
-    <Pressable {...restProps} style={styles.containerBlock}>
-      <View style={[styles.container, containerStyles]}>
-        <Typography.Text color="neutralBase-30" size="body" weight="regular">
-          {children}
-        </Typography.Text>
-      </View>
+    <Pressable onPress={onPress} style={containerStyles}>
+      <Typography.Text color="neutralBase-50" size="footnote" weight="medium">
+        {children}
+      </Typography.Text>
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-  },
-  containerBlock: {
-    alignSelf: "stretch",
-  },
-});

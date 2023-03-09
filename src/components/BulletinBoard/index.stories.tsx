@@ -1,7 +1,5 @@
 import { ComponentStory } from "@storybook/react";
 
-import { Notification } from "@/types/notification";
-
 import BulletinBoard_ from "./index";
 
 export default {
@@ -11,7 +9,22 @@ export default {
     title: "Example board",
   },
   argTypes: {
+    children: {
+      table: {
+        disable: true,
+      },
+    },
     data: {
+      table: {
+        disable: true,
+      },
+    },
+    isExpanded: {
+      table: {
+        disable: true,
+      },
+    },
+    onExpandPress: {
       table: {
         disable: true,
       },
@@ -19,18 +32,6 @@ export default {
   },
 };
 
-const data: Notification[] = [
-  {
-    action_id: "1",
-    action_type: "nothing",
-    action_status: "pending",
-    action_title: "Hello World!",
-    action_message: "How are you doing?",
-    action_link: "Home.Dashboard",
-    action_button_text: "Go to dashboard",
-  },
-];
-
 export const BulletinBoard: ComponentStory<typeof BulletinBoard_> = args => {
-  return <BulletinBoard_ {...args} data={data} />;
+  return <BulletinBoard_ {...args} />;
 };

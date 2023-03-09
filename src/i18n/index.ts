@@ -233,31 +233,28 @@ export const resources = {
       },
       Home: {
         DashboardScreen: {
-          editDashBoard: "EDIT DASHBOARD",
-          quickActions: "Quick actions",
-          rewards: "Rewards",
-          whatsNext: "What's next",
-          edit: "Edit",
-          seeAll: "See all",
-          AccountInfoHeader: {
-            IBANCopied: "IBAN copied",
-            balanceHidden: "Balance hidden",
-            hideBalance: "Hide balance",
-            showBalance: "Show balance",
-            myAccount: "My account",
-          },
+          ibanCopied: "IBAN copied",
+          balanceHidden: "Balance hidden",
+          hideBalanceButton: "Hide balance",
+          showBalanceButton: "Show balance",
+          myAccountButton: "My account",
+          notifications_one: "{{count}} notification",
+          notifications_other: "{{count}} notifications",
         },
         HomepageReorderModal: {
           cancel: "CANCEL",
           editActions: "Edit Actions",
           save: "SAVE",
-          selectFavourite: "Select your favorite sections to always be accessible on Home.",
         },
-        QuickActionsReorderCard: {
-          cancel: "CANCEL",
-          editActions: "Edit Actions",
-          save: "SAVE",
-          selectThreeFavourites: "Select 3 of your favorite actions to always be accessible on Home.",
+        SectionsReordererModal: {
+          cancelButton: "CANCEL",
+          title: "Edit Sections",
+          saveButton: "SAVE",
+        },
+        QuickActionsReordererModal: {
+          cancelButton: "CANCEL",
+          title: "Edit Actions",
+          saveButton: "SAVE",
         },
       },
       ApplyCards: {

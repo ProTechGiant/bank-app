@@ -1,6 +1,7 @@
 import { ApplyCardModalStackParams } from "@/features/ApplyCards/ApplyCardsStack";
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
 import { DetailedFaq, FAQSection } from "@/features/FrequentlyAskedQuestions/types/frequentlyAskedQuestions";
+import { HomeStackParams } from "@/features/Home/HomeStack";
 import { SubCategories } from "@/features/NotificationManagement/screens/HubScreen/types/notificationManagement";
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
@@ -10,10 +11,10 @@ type RootStackParams = {
   "CardActions.CardActionsStack": {
     screen: string;
   };
+  "Home.HomeStack": undefined;
   "AddMoney.AddMoneyStack": {
     screen: string;
   };
-  "Home.Dashboard": undefined;
   "Temporary.LandingScreen": undefined;
   "Onboarding.OnboardingStack": undefined;
   "Modal.QuickActionsReorderModal": undefined;
@@ -36,6 +37,7 @@ type MainStackParams = RootStackParams &
   ApplyCardModalStackParams &
   OnboardingStackParams &
   SavingsGoalsStackParams &
-  CardActionsStackParams;
+  CardActionsStackParams &
+  HomeStackParams;
 
 export default MainStackParams;

@@ -9,7 +9,7 @@ import Divider from "@/components/Divider";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
-import useFetchAccount from "@/hooks/use-fetch-account";
+import useAccount from "@/hooks/use-account";
 import useGetPrimaryAddress from "@/hooks/use-get-primary-address";
 import { useThemeStyles } from "@/theme";
 
@@ -20,7 +20,7 @@ import HistoryIcon from "./history.svg";
 export default function AddMoneyViaBankTransferScreen() {
   const { t } = useTranslation();
 
-  const { data } = useFetchAccount();
+  const { data } = useAccount();
 
   const getPrimaryAddress = useGetPrimaryAddress();
 
@@ -84,8 +84,8 @@ export default function AddMoneyViaBankTransferScreen() {
   }));
 
   const BankDetail = [
-    { id: "1", label: `${t("AddMoneyInfo.BankDetails.recipientName")}`, value: data?.customerFullName },
-    { id: "2", label: `${t("AddMoneyInfo.BankDetails.recipientIBAN")}`, value: data?.currentAccountIBAN },
+    { id: "1", label: `${t("AddMoneyInfo.BankDetails.recipientName")}`, value: data?.currentAccountCustomerFullName },
+    { id: "2", label: `${t("AddMoneyInfo.BankDetails.recipientIBAN")}`, value: data?.currentAccountIban },
 
     { id: "3", label: `${t("AddMoneyInfo.BankDetails.bankName")}`, value: "Croatia Bank Ltd" },
     {
