@@ -3,7 +3,7 @@ import { QuickAction, Section } from "./types";
 export const quickActionMocks: QuickAction[] = [
   {
     color: "complimentBase",
-    icon: "AddIcon",
+    icon: "AddBorderedIcon",
     title: "Balance add",
     description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
     type: "balance-add",

@@ -102,7 +102,7 @@ export default function DashboardScreen() {
     <>
       <DismissibleBanner visible={ibanToastVisible} message={t("Home.DashboardScreen.ibanCopied")} />
       <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
         <View style={styles.backgroundImage}>
           {/* Ideally we do this animated. Not sure (yet) how we can do that though.. */}
           {isNotificationsExpanded ? <BackgroundExpandedSvg /> : <BackgroundCollapsedSvg />}

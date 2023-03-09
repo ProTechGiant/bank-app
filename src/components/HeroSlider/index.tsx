@@ -1,6 +1,6 @@
 import times from "lodash/times";
 import { useRef, useState } from "react";
-import { Animated, NativeScrollEvent, StyleSheet, View, ViewStyle } from "react-native";
+import { Animated, NativeScrollEvent, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import PagerView, { PagerViewOnPageSelectedEvent } from "react-native-pager-view";
 
 import Button from "@/components/Button";
@@ -48,7 +48,7 @@ export default function HeroSlider({
   );
   const inactiveDotStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: theme.palette["neutralBase"],
+      backgroundColor: theme.palette.neutralBase,
     }),
     []
   );
@@ -95,6 +95,7 @@ export default function HeroSlider({
   return (
     <DarkOneGradient>
       <Page>
+        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
         <NavHeader onBackPress={onBackPress} color="white" end={step + 1 < totalStep && end ? end : undefined} />
         <View style={container}>
           <AnimatedPagerView style={styles.PagerView} onPageSelected={onPageSelected} ref={ref}>

@@ -1,9 +1,9 @@
 import { compareAsc } from "date-fns";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, ScrollView, View, ViewStyle } from "react-native";
+import { Alert, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
-import { AddGoalIcon } from "@/assets/icons";
+import { PlusIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -13,6 +13,8 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { useSavingsPots } from "../../query-hooks";
+import BackgroundBottomStartSvg from "./background-bottom-start.svg";
+import BackgroundTopEndSvg from "./background-top-end.svg";
 import GoalCard from "./GoalCard";
 
 const MAX_GOALS = 4;
@@ -23,7 +25,7 @@ export default function SavingsGoalsScreen() {
   const { data, error } = useSavingsPots();
 
   useEffect(() => {
-    if (null === error) return;
+    if (error === null) return;
 
     Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
       {
@@ -31,7 +33,7 @@ export default function SavingsGoalsScreen() {
         onPress: () => navigation.goBack(),
       },
     ]);
-  }, [error]);
+  }, [error, navigation, t]);
 
   const handleOnCreateGoal = () => {
     navigation.navigate("SavingsGoals.CreateGoalScreen");
@@ -42,33 +44,23 @@ export default function SavingsGoalsScreen() {
   };
 
   const handleOnPress = (PotId: string) => {
-    navigation.navigate("SavingsGoals.GoalDetailsScreen", {
-      PotId: PotId,
-    });
+    navigation.navigate("SavingsGoals.GoalDetailsScreen", { PotId });
   };
 
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-50"],
-    padding: theme.spacing["16p"],
-    minHeight: 100,
-    justifyContent: "center",
+    backgroundColor: theme.palette["neutralBase-60"],
     borderRadius: theme.radii.extraSmall,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
+    paddingHorizontal: theme.spacing["16p"],
+    paddingVertical: theme.spacing["20p"],
+    rowGap: 2,
+    justifyContent: "center",
+    shadowColor: theme.palette.primaryBase,
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.14,
+    elevation: 5,
   }));
 
-  const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-30"],
-    height: 44,
-    width: 44,
-    borderRadius: 22,
-    alignItems: "center",
-    justifyContent: "center",
-  }));
+  const iconColor = useThemeStyles(theme => theme.palette.primaryBase);
 
   const savingsGoals = useMemo(
     () => data?.SavingsPots.sort((a, b) => compareAsc(new Date(a.CreatedDate), new Date(b.CreatedDate))) ?? [],
@@ -76,48 +68,62 @@ export default function SavingsGoalsScreen() {
   );
 
   return (
-    <Page>
-      <NavHeader withBackButton={true} onBackPress={handleOnBack} />
-      <ScrollView>
-        <ContentContainer>
-          <Stack direction="vertical" gap="16p" align="stretch">
-            <Typography.Text size="large" weight="bold">
-              {t("SavingsGoals.SavingsGoalsScreen.title")}
-            </Typography.Text>
-            <View>
-              <Stack align="stretch" direction="vertical" gap="8p">
-                {savingsGoals.map(data => (
-                  <GoalCard
-                    key={data.PotId}
-                    title={data.GoalName}
-                    amountSaved={data.AvailableBalanceAmount}
-                    totalAmount={data.TargetAmount}
-                    date={data.TargetDate}
-                    onPress={() => handleOnPress(data.PotId)}
-                  />
-                ))}
-                {data !== undefined && savingsGoals.length <= MAX_GOALS - 1 && (
-                  <Pressable onPress={handleOnCreateGoal}>
-                    <View style={buttonStyle}>
-                      <Stack direction="horizontal" gap="16p" align="center">
-                        <View style={iconContainerStyle}>
-                          <AddGoalIcon />
-                        </View>
-                        <Typography.Text color="primaryBase" size="callout" weight="medium">
-                          {t("SavingsGoals.SavingsGoalsScreen.button")}
-                        </Typography.Text>
-                      </Stack>
-                    </View>
-                  </Pressable>
-                )}
-              </Stack>
-            </View>
-            <Typography.Text size="footnote" color="neutralBase" align="center">
-              {t("SavingsGoals.SavingsGoalsScreen.instructionText")}
-            </Typography.Text>
-          </Stack>
-        </ContentContainer>
-      </ScrollView>
+    <Page backgroundColor="neutralBase-60">
+      <StatusBar backgroundColor="transparent" translucent />
+      <View style={styles.backgroundTopEnd}>
+        <BackgroundTopEndSvg />
+      </View>
+      <View style={styles.backgroundBottomStart}>
+        <BackgroundBottomStartSvg />
+      </View>
+      <NavHeader onBackPress={handleOnBack} />
+      <ContentContainer isScrollView>
+        <Stack direction="vertical" gap="16p" align="stretch">
+          <Typography.Text color="neutralBase+30" size="large" weight="bold">
+            {t("SavingsGoals.SavingsGoalsScreen.title")}
+          </Typography.Text>
+          <View>
+            <Stack align="stretch" direction="vertical" gap="8p">
+              {savingsGoals.map(element => (
+                <GoalCard
+                  key={element.PotId}
+                  title={element.GoalName}
+                  amountSaved={element.AvailableBalanceAmount}
+                  totalAmount={element.TargetAmount}
+                  date={element.TargetDate}
+                  onPress={() => handleOnPress(element.PotId)}
+                />
+              ))}
+              {data !== undefined && savingsGoals.length <= MAX_GOALS - 1 ? (
+                <Pressable onPress={handleOnCreateGoal} style={buttonStyle}>
+                  <Stack align="center" direction="horizontal" gap="4p">
+                    <PlusIcon color={iconColor} width={24} height={24} />
+                    <Typography.Text color="primaryBase" size="callout" weight="medium">
+                      {t("SavingsGoals.SavingsGoalsScreen.button")}
+                    </Typography.Text>
+                  </Stack>
+                  <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                    {t("SavingsGoals.SavingsGoalsScreen.instructionText")}
+                  </Typography.Text>
+                </Pressable>
+              ) : null}
+            </Stack>
+          </View>
+        </Stack>
+      </ContentContainer>
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  backgroundBottomStart: {
+    bottom: 0,
+    position: "absolute",
+    start: 0,
+  },
+  backgroundTopEnd: {
+    end: 0,
+    position: "absolute",
+    top: 0,
+  },
+});

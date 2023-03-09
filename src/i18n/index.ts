@@ -464,9 +464,9 @@ export const resources = {
           goalCard: {
             amount: "{{amountSaved}} of {{totalAmount}} SAR",
           },
-          title: "Your Goals",
-          button: "Create a new goal",
-          instructionText: "You can set a total of 4 goals.",
+          title: "What do you want to save for?",
+          button: "Set goal",
+          instructionText: "You can set a total of 4 goals",
         },
         CreateGoalScreen: {
           title: "Create a goal",

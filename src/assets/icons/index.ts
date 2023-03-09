@@ -1,8 +1,7 @@
 import { ColorValue } from "react-native/types";
 
 export { default as AccountIcon } from "./account";
-export { default as AddIcon } from "./add";
-export { AddGoalIcon } from "./add-goal";
+export { default as AddBorderedIcon } from "./add-bordered";
 export { default as AngleDownIcon } from "./angle-down";
 export { default as AngleUpIcon } from "./angle-up";
 export { ArrowLeftIcon } from "./arrow-left";
