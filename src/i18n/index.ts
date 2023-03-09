@@ -610,14 +610,14 @@ export const resources = {
           CardAbout: {
             title: "Single-use cards",
             SectionOne: {
-              title: "why would you use it?",
+              title: "Why should I use it?",
               SectionOneInfo: {
-                label: "Online retailers you dont know",
-                helperText: "For when youre using an online retailer you are not familiar with.",
+                label: "Online retailers you don’t know",
+                helperText: "For when you’re using an online retailer you are not familiar with.",
               },
               SectionTwoInfo: {
                 label: "Protect yourself from fraud",
-                helperText: "If a fraudster gets ahold of your card details after you pay, they can’t use it",
+                helperText: "If a fraudster gets ahold of your card details after you pay, they can’t use it.",
               },
             },
             SectionTwo: {
@@ -1017,14 +1017,14 @@ export const resources = {
           CardAbout: {
             title: "Single-use cards",
             SectionOne: {
-              title: "why would you use it?",
+              title: "Why should I use it?",
               SectionOneInfo: {
-                label: "Online retailers you dont know",
-                helperText: "For when youre using an online retailer you are not familiar with.",
+                label: "Online retailers you don’t know",
+                helperText: "For when you’re using an online retailer you are not familiar with.",
               },
               SectionTwoInfo: {
                 label: "Protect yourself from fraud",
-                helperText: "If a fraudster gets ahold of your card details after you pay, they can’t use it",
+                helperText: "If a fraudster gets ahold of your card details after you pay, they can’t use it.",
               },
             },
             SectionTwo: {
