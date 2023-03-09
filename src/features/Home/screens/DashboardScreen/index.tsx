@@ -51,7 +51,9 @@ export default function DashboardScreen() {
   };
 
   const handleOnNotificationPress = (notification: Notification) => {
-    // ..
+    if (notification.action_type === "Top-Up") {
+      navigation.navigate("AddMoney.AddMoneyStack", { screen: "AddMoney.AddMoneyInfoScreen" });
+    }
   };
 
   const handleOnShortcutsPress = () => {
@@ -98,11 +100,7 @@ export default function DashboardScreen() {
 
   return (
     <>
-      {/* eslint-disable-next-line prettier/prettier */}
-      <DismissibleBanner
-        visible={ibanToastVisible}
-        message={t("Home.DashboardScreen.ibanCopied")}
-      />
+      <DismissibleBanner visible={ibanToastVisible} message={t("Home.DashboardScreen.ibanCopied")} />
       <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
         <StatusBar barStyle="dark-content" />
         <View style={styles.backgroundImage}>
