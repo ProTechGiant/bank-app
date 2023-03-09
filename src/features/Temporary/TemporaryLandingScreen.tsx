@@ -63,6 +63,11 @@ export default function TemporaryLandingScreen() {
     navigation.navigate("Onboarding.OnboardingStack");
   };
 
+  const handleOnCardsHomeSubmit = (values: TemporaryUserId) => {
+    auth.authenticate(values.UserId);
+    handleOnOpenCardsHome();
+  };
+
   const handleOnOpenCardsHome = () => {
     navigation.navigate("CardActions.CardActionsStack", {
       screen: "CardActions.HomeScreen",
@@ -104,7 +109,7 @@ export default function TemporaryLandingScreen() {
           <Button onPress={handleOnOpenOnboarding}>Onboarding</Button>
         </View>
         <View style={{ margin: 20 }}>
-          <Button onPress={handleOnOpenCardsHome}>Cards Home</Button>
+          <Button onPress={handleSubmit(handleOnCardsHomeSubmit)}>Cards Home</Button>
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleOpenSingleUseCards}>Single Use Cards</Button>

@@ -33,6 +33,8 @@ export type CardActionsStackParams = {
     redirect: keyof CardActionsStackParams;
     cardType?: CardType;
     action: CardAction;
+    otpId?: string;
+    otpCode?: string;
   };
 };
 

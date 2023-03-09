@@ -7,14 +7,17 @@ import ContextMenu from "react-native-context-menu-view";
 import { InfoCircleIcon, ThreeDotsIcon } from "@/assets/icons";
 import BankCard from "@/components/BankCard";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CardActionsStackParams, CardStatus } from "../../CardActionsStack";
 import ViewPinModal from "../../components/ViewPinModal";
 import { mockCard } from "../../mocks/mockCard";
+import { useFreezeCard, useUnfreezeCard } from "../../query-hooks";
 
 interface ContextMenuItem {
   id: number;
@@ -27,8 +30,14 @@ export default function HomeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
+  const CARD_ID = "61aba98d-3eef-4993-98d5-3f60a7f74ed5"; // @TODO: get from BE
+
+  const freezeCardAsync = useFreezeCard();
+  const unfreezeCardAsync = useUnfreezeCard();
+
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.HomeScreen">>();
 
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const [showPin, setShowPin] = useState(route.params?.action === "view-pin" && route.params?.action !== undefined);
 
   useEffect(() => {
@@ -59,15 +68,37 @@ export default function HomeScreen() {
     },
   ];
 
-  const handleOnFreezeUnfreezeCardPress = () => {
-    if (isCardFrozen) {
-      navigation.navigate("CardActions.OneTimePasswordModal", {
-        redirect: "CardActions.HomeScreen",
-        action: "unfreeze",
-      });
+  const handleOnFreezeCardPress = async () => {
+    try {
+      const response = await freezeCardAsync.mutateAsync({ cardId: CARD_ID });
+      response.Status === "freeze" ? setIsCardFrozen(true) : setShowErrorModal(true);
+    } catch (error) {
+      setShowErrorModal(true);
+      warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
     }
-    // @TODO: BE integration. update icon and card image for now
-    setIsCardFrozen(!isCardFrozen);
+  };
+
+  const handleOnUnfreezeCardPress = async () => {
+    try {
+      const response = await unfreezeCardAsync.mutateAsync({ cardId: CARD_ID });
+      if (response.OtpCode.length > 0 && response.OtpId.length > 0) {
+        navigation.navigate("CardActions.OneTimePasswordModal", {
+          redirect: "CardActions.HomeScreen",
+          action: "unfreeze",
+          otpId: response.OtpId,
+          otpCode: response.OtpCode,
+        });
+      } else {
+        setShowErrorModal(true);
+      }
+    } catch (error) {
+      setShowErrorModal(true);
+      warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
+    }
+  };
+
+  const handleOnErrorModalClose = () => {
+    setShowErrorModal(false);
   };
 
   const handleOnViewPinPress = () => {
@@ -106,20 +137,76 @@ export default function HomeScreen() {
   }));
 
   return (
-    <Page>
-      <NavHeader title={t("Cards.HomeScreen.navTitle")} end={false} />
-      <ScrollView horizontal style={cardContainerStyle}>
-        <Stack direction="horizontal" gap="20p">
-          {isCardFrozen ? (
+    <>
+      <Page>
+        <NavHeader title={t("Cards.HomeScreen.navTitle")} end={false} />
+        <ScrollView horizontal style={cardContainerStyle}>
+          <Stack direction="horizontal" gap="20p">
+            {isCardFrozen ? (
+              <BankCard.Inactive
+                type="frozen"
+                endButton={
+                  <ContextMenu
+                    actions={contextMenuActions}
+                    dropdownMenuMode={true}
+                    onPress={e => {
+                      e.nativeEvent.index === 0
+                        ? isCardFrozen
+                          ? handleOnUnfreezeCardPress()
+                          : handleOnFreezeCardPress()
+                        : e.nativeEvent.index === 1
+                        ? handleOnViewPinPress()
+                        : handleOnCardSettingsPress("inactive");
+                    }}>
+                    <BankCard.EndButton icon={<ThreeDotsIcon />} />
+                  </ContextMenu>
+                }
+                label={t("Cards.plusCard")}
+                actionButton={<BankCard.ActionButton title={t("Cards.cardFrozen")} type="dark" />}
+              />
+            ) : (
+              <BankCard.Active
+                cardNumber="4433"
+                cardType="plus"
+                label={t("Cards.plusCard")}
+                endButton={
+                  <ContextMenu
+                    actions={contextMenuActions}
+                    dropdownMenuMode={true}
+                    onPress={e => {
+                      e.nativeEvent.index === 0
+                        ? isCardFrozen
+                          ? handleOnUnfreezeCardPress()
+                          : handleOnFreezeCardPress()
+                        : e.nativeEvent.index === 1
+                        ? handleOnViewPinPress()
+                        : handleOnCardSettingsPress("active");
+                    }}>
+                    <BankCard.EndButton icon={<ThreeDotsIcon />} />
+                  </ContextMenu>
+                }
+                onPress={handleOnPlusCardPress}
+              />
+            )}
             <BankCard.Inactive
-              type="frozen"
+              type="inactive"
+              label={t("Cards.standardCard")}
+              actionButton={
+                <BankCard.ActionButton
+                  type="light"
+                  title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
+                  onPress={handleOnActivateNowPress}
+                />
+              }
               endButton={
                 <ContextMenu
                   actions={contextMenuActions}
                   dropdownMenuMode={true}
                   onPress={e => {
                     e.nativeEvent.index === 0
-                      ? handleOnFreezeUnfreezeCardPress()
+                      ? isCardFrozen
+                        ? handleOnUnfreezeCardPress()
+                        : handleOnFreezeCardPress()
                       : e.nativeEvent.index === 1
                       ? handleOnViewPinPress()
                       : handleOnCardSettingsPress("inactive");
@@ -127,77 +214,36 @@ export default function HomeScreen() {
                   <BankCard.EndButton icon={<ThreeDotsIcon />} />
                 </ContextMenu>
               }
-              label={t("Cards.plusCard")}
-              actionButton={<BankCard.ActionButton title={t("Cards.cardFrozen")} type="dark" />}
+              onPress={handleOnInactiveCardPress}
             />
-          ) : (
             <BankCard.Active
-              cardNumber="4433"
-              cardType="plus"
-              label={t("Cards.plusCard")}
+              cardNumber={mockCard.LastFourDigits}
+              cardType="single-use"
+              label={t("Cards.singleUseCard")}
               endButton={
-                <ContextMenu
-                  actions={contextMenuActions}
-                  dropdownMenuMode={true}
-                  onPress={e => {
-                    e.nativeEvent.index === 0
-                      ? handleOnFreezeUnfreezeCardPress()
-                      : e.nativeEvent.index === 1
-                      ? handleOnViewPinPress()
-                      : handleOnCardSettingsPress("active");
-                  }}>
-                  <BankCard.EndButton icon={<ThreeDotsIcon />} />
-                </ContextMenu>
+                <Pressable onPress={handleOnPressAbout}>
+                  <BankCard.EndButton icon={<InfoCircleIcon />} />
+                </Pressable>
               }
-              onPress={handleOnPlusCardPress}
+              onPress={handleOnSingleUseCardPress}
             />
-          )}
-          <BankCard.Inactive
-            type="inactive"
-            label={t("Cards.standardCard")}
-            actionButton={
-              <BankCard.ActionButton
-                type="light"
-                title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
-                onPress={handleOnActivateNowPress}
-              />
-            }
-            endButton={
-              <ContextMenu
-                actions={contextMenuActions}
-                dropdownMenuMode={true}
-                onPress={e => {
-                  e.nativeEvent.index === 0
-                    ? handleOnFreezeUnfreezeCardPress()
-                    : e.nativeEvent.index === 1
-                    ? handleOnViewPinPress()
-                    : handleOnCardSettingsPress("inactive");
-                }}>
-                <BankCard.EndButton icon={<ThreeDotsIcon />} />
-              </ContextMenu>
-            }
-            onPress={handleOnInactiveCardPress}
-          />
-          <BankCard.Active
-            cardNumber={mockCard.LastFourDigits}
-            cardType="single-use"
-            label={t("Cards.singleUseCard")}
-            endButton={
-              <Pressable onPress={handleOnPressAbout}>
-                <BankCard.EndButton icon={<InfoCircleIcon />} />
-              </Pressable>
-            }
-            onPress={handleOnSingleUseCardPress}
-          />
-        </Stack>
-        <ViewPinModal
-          pin="0382"
-          visible={showPin}
-          onClose={() => {
-            setShowPin(false);
-          }}
-        />
-      </ScrollView>
-    </Page>
+          </Stack>
+        </ScrollView>
+      </Page>
+      <ViewPinModal
+        pin="0382"
+        visible={showPin}
+        onClose={() => {
+          setShowPin(false);
+        }}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={showErrorModal}
+        onClose={handleOnErrorModalClose}
+      />
+    </>
   );
 }
