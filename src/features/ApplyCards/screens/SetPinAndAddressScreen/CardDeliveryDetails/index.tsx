@@ -9,10 +9,10 @@ import Typography from "@/components/Typography";
 import { OrderCardFormValues, useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { Address } from "@/types/Address";
 
 import AddressSelector from "./AddressSelector";
 import useSubmitOrderCard from "./use-submit-order-card";
-import { Address } from "@/types/Address";
 
 interface CardDeliveryDetailsProps {
   primaryAddress?: Address;
