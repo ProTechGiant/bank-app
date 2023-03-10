@@ -43,7 +43,7 @@ export default function SingleUseCardsScreen() {
 
   return (
     <View style={styles.container}>
-      {tier.data?.tier === "plus" ? (
+      {tier.data?.tier === "Plus" ? (
         <View>
           {checkIfUserHasActiveSUC() ? (
             <BankCard.Active
