@@ -19,6 +19,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import MoreInfoDropdown from "../../components/MoreInfoDropdown";
+import { useOnboardingBackButton } from "../../hooks/use-onboarding-back-button";
 import { OnboardingStackParams } from "../../OnboardingStack";
 import AddCountryTile from "./AddCountryTile";
 import SelectedForeignTaxCountryCard from "./SelectedForeignTaxCountryCard";
@@ -30,6 +31,7 @@ export default function FatcaDetailsScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<OnboardingStackParams, "Onboarding.Fatca">>();
   const sendFatcaDetails = useFatcaDetails();
+  const handleOnBackPress = useOnboardingBackButton();
 
   useEffect(() => {
     if (undefined === route.params) return;
@@ -79,7 +81,7 @@ export default function FatcaDetailsScreen() {
       shouldTouch: true,
     });
 
-    if (false === value) {
+    if (value === false) {
       setValue("ForeignTaxCountry", [], {
         shouldValidate: true,
         shouldDirty: true,
@@ -128,7 +130,10 @@ export default function FatcaDetailsScreen() {
 
   return (
     <Page>
-      <NavHeader title={t("Onboarding.FatcaDetailsScreen.navHeaderTitle")} withBackButton={true}>
+      <NavHeader
+        onBackPress={handleOnBackPress}
+        title={t("Onboarding.FatcaDetailsScreen.navHeaderTitle")}
+        withBackButton={true}>
         <ProgressIndicator currentStep={4} totalStep={6} />
       </NavHeader>
       <ScrollView>
@@ -143,14 +148,14 @@ export default function FatcaDetailsScreen() {
             <Stack direction="horizontal" gap="32p" justify="space-evenly">
               <View style={{ flex: 1 }}>
                 <Button
-                  variant={true === hasForeignTaxResidency ? "primary" : "secondary"}
+                  variant={hasForeignTaxResidency === true ? "primary" : "secondary"}
                   onPress={() => handleOnChangeHasForeignTaxResidency(true)}>
                   {t("Onboarding.FatcaDetailsScreen.yes")}
                 </Button>
               </View>
               <View style={{ flex: 1 }}>
                 <Button
-                  variant={false === hasForeignTaxResidency ? "primary" : "secondary"}
+                  variant={hasForeignTaxResidency === false ? "primary" : "secondary"}
                   onPress={() => handleOnChangeHasForeignTaxResidency(false)}>
                   {t("Onboarding.FatcaDetailsScreen.no")}
                 </Button>

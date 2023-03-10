@@ -20,6 +20,7 @@ import { mockOccuptions } from "@/mocks/occupationData";
 import { mockSources } from "@/mocks/sourceOfIncomeData";
 import useNavigation from "@/navigation/use-navigation";
 
+import { useOnboardingBackButton } from "../../hooks/use-onboarding-back-button";
 import FinancialDetails from "./FinancialDetails";
 import useSubmitFinancialDetails from "./use-submit-financial-details";
 
@@ -27,6 +28,7 @@ export default function FinancialInformationScreen() {
   const navigation = useNavigation();
   const submitFinancialDetailsAsync = useSubmitFinancialDetails();
   const { t } = useTranslation();
+  const handleOnBackPress = useOnboardingBackButton();
 
   const { control, handleSubmit } = useForm<FinancialDetails>({
     resolver: yupResolver(validationSchema),
@@ -45,7 +47,10 @@ export default function FinancialInformationScreen() {
 
   return (
     <Page>
-      <NavHeader withBackButton={true} title={t("Onboarding.FinancialInformationScreen.navHeaderTitle")}>
+      <NavHeader
+        onBackPress={handleOnBackPress}
+        withBackButton={true}
+        title={t("Onboarding.FinancialInformationScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={3} totalStep={6} />
       </NavHeader>
       <ScrollView>

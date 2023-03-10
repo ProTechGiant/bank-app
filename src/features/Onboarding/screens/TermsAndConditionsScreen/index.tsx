@@ -16,6 +16,7 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { useOnboardingBackButton } from "../../hooks/use-onboarding-back-button";
 import Declaration from "./Declaration";
 import Terms from "./Terms";
 import useTermsConditions from "./use-terms-conditions";
@@ -34,6 +35,7 @@ const TermsAndConditionsScreen = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const termsConditionsAsync = useTermsConditions();
+  const handleOnBackPress = useOnboardingBackButton();
 
   const { control, handleSubmit } = useForm<TermsAndConditionsForm>({
     mode: "onBlur",
@@ -61,7 +63,10 @@ const TermsAndConditionsScreen = () => {
   return (
     <>
       <Page insets={["top"]}>
-        <NavHeader title={t("Onboarding.TermsAndConditions.navHeaderTitle")} withBackButton={true}>
+        <NavHeader
+          onBackPress={handleOnBackPress}
+          title={t("Onboarding.TermsAndConditions.navHeaderTitle")}
+          withBackButton={true}>
           <ProgressIndicator currentStep={5} totalStep={6} />
         </NavHeader>
         <ScrollView>
