@@ -12,50 +12,38 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
-//TODO useFetchAccount will be needed for getting the accountId
-// import useFetchAccount from "@/features/Home/screens/DashboardScreen/AccountInfoHeader/use-fetch-account";
 import MainStackParams from "@/navigation/MainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
 import AccountDestination from "../../components/AccountDestination";
 import { mockMissingSavingsPotDetails } from "../../mocks/mockMissingSavingsPotDetails";
-import { useSavingsPot } from "../../query-hooks";
-//TODO useWithdrawSavingsPot will be needed for getting the accountId
-// import { useWithdrawSavingsPot } from "../../query-hooks";
+import { useSavingsPot, useWithdrawSavingsPot, WithdrawValues } from "../../query-hooks";
 import LargeCurrencyInput from "../FundGoalModal/LargeCurrencyInput";
 
-interface WithdrawInput {
-  PaymentAmount: number;
-}
-
 export default function WithdrawGoalModal() {
-  const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
+  const [withdrawError, setWithdrawError] = useState(false);
 
-  // For testing before API endpoint its done, switch error state manually to check both modal types (error and confirm), will be replace with state
-  const withdrawError = false;
   const navigation = useNavigation();
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
   const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.WithdrawGoalModal">>();
 
   const { data } = useSavingsPot(route.params.PotId);
-
-  //TODO accountId will be needed for the API call
-  // const whitdrawSavingsPot = useWithdrawSavingsPot(route.params.SavingsPotId);
-  // const {
-  //   data: { accountId },
-  // } = useFetchAccount();
+  const withdrawSavingsPot = useWithdrawSavingsPot();
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       PaymentAmount: yup
         .number()
         .required()
-        .min(0.01)
-        .max(mockMissingSavingsPotDetails.MainAccountAmount ?? 0, t("SavingsGoals.WithdrawModal.amountExceedsBalance")),
+        .min(0.01, t("SavingsGoals.WithdrawModal.zeroAmountError"))
+        .max(
+          undefined !== data?.AvailableBalanceAmount ? Number(data.AvailableBalanceAmount) : 0,
+          t("SavingsGoals.WithdrawModal.amountExceedsBalance")
+        ),
     });
-  }, [data, i18n.language]);
+  }, [t, data]);
 
-  const { control, handleSubmit } = useForm<WithdrawInput>({
+  const { control, handleSubmit } = useForm<WithdrawValues>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -66,29 +54,26 @@ export default function WithdrawGoalModal() {
   const handleOnClose = () => {
     navigation.navigate("SavingsGoals.GoalDetailsScreen", {
       PotId: route.params.PotId,
-      amountWithdrawn: undefined,
     });
   };
 
-  // TODO
-  // Mofidify this function to make the call in the BE when API its ready
-
-  const handleOnSubmit = (value: WithdrawInput) => {
+  const handleOnSubmit = async (values: WithdrawValues) => {
     if (undefined === data) return Promise.resolve();
+    try {
+      await withdrawSavingsPot.mutateAsync({
+        ...values,
+        Currency: "SAR",
+        CreditorAccount: data.RecurringPayments.CreditorAccount,
+        PotId: route.params.PotId,
+      });
 
-    if (withdrawError) {
-      setIsConfirmationVisible(true);
-    } else {
       navigation.navigate("SavingsGoals.GoalDetailsScreen", {
         PotId: route.params.PotId,
-        amountWithdrawn: value.PaymentAmount,
+        amountWithdrawn: values.PaymentAmount,
       });
+    } catch (error) {
+      setWithdrawError(true);
     }
-
-    // TODO POST request with the following details
-    //   PaymentAmount: value.Amount.toString(),
-    //   Currency: "SAR",
-    //   CreditorAccount: accountId.toString(),
   };
 
   return (
@@ -104,13 +89,11 @@ export default function WithdrawGoalModal() {
 
           <LargeCurrencyInput autoFocus control={control} maxLength={10} name="PaymentAmount" />
 
-          {undefined !== data && (
-            <AccountDestination
-              destination={t("SavingsGoals.Account.to")}
-              accountName={t("SavingsGoals.Account.mainAccount")}
-              balance={mockMissingSavingsPotDetails.MainAccountAmount}
-            />
-          )}
+          <AccountDestination
+            destination={t("SavingsGoals.Account.to")}
+            accountName={t("SavingsGoals.Account.mainAccount")}
+            balance={mockMissingSavingsPotDetails.MainAccountAmount}
+          />
 
           <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
             {t("SavingsGoals.WithdrawModal.WithdrawButton")}
@@ -118,23 +101,19 @@ export default function WithdrawGoalModal() {
         </ContentContainer>
 
         <NotificationModal
-          buttons={
-            withdrawError && {
-              primary: (
-                <Button onPress={handleSubmit(handleOnSubmit)}>
-                  {t("SavingsGoals.WithdrawModal.buttons.tryAgainButton")}
-                </Button>
-              ),
-              secondary: (
-                <Button onPress={handleOnClose}>
-                  {t("SavingsGoals.WithdrawModal.buttons.cancelWithdrawalButton")}
-                </Button>
-              ),
-            }
-          }
+          buttons={{
+            primary: (
+              <Button loading={withdrawSavingsPot.isLoading} onPress={handleSubmit(handleOnSubmit)}>
+                {t("SavingsGoals.WithdrawModal.buttons.tryAgainButton")}
+              </Button>
+            ),
+            secondary: (
+              <Button onPress={handleOnClose}>{t("SavingsGoals.WithdrawModal.buttons.cancelWithdrawalButton")}</Button>
+            ),
+          }}
           title={t("SavingsGoals.WithdrawModal.errors.title")}
           message={t("SavingsGoals.WithdrawModal.errors.text")}
-          isVisible={isConfirmationVisible}
+          isVisible={withdrawError}
           variant="error"
         />
       </Page>

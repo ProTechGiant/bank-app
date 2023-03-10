@@ -16,7 +16,7 @@ export type SavingsGoalsStackParams = {
   "SavingsGoals.GoalDetailsScreen": {
     PotId: string;
     redirectToFundingModal?: boolean;
-    amountWithdrawn?: number | undefined;
+    amountWithdrawn?: number;
   };
   "SavingsGoals.FundGoalModal": {
     PotId: string;

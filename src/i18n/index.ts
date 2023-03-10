@@ -570,6 +570,7 @@ export const resources = {
           title: "Withdraw",
           WithdrawButton: "Withdraw",
           amountExceedsBalance: "Amount exceeds your balance",
+          zeroAmountError: "Amount must be greater than 0.01",
           successfulWithdrawal: {
             title: "You've withdrawn {{amount}} SAR",
             text: "It's been added to your main account",

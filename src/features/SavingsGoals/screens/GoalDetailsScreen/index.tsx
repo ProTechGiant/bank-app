@@ -16,28 +16,26 @@ export default function GoalDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.GoalDetailsScreen">>();
-  const { PotId, amountWithdrawn } = route.params;
+  const { PotId, amountWithdrawn, redirectToFundingModal } = route.params;
   const fundGoalModalShown = useRef(false);
-  const [showAmountWithdrawn, setShowAmountWithdrawn] = useState(amountWithdrawn);
+  const [shownAmountWithdrawn, setShownAmountWithdrawn] = useState(amountWithdrawn);
 
   // Immediately funding goal modal if needed
   useFocusEffect(
     useCallback(() => {
-      if (true === route.params.redirectToFundingModal && !fundGoalModalShown.current) {
+      if (redirectToFundingModal === true && !fundGoalModalShown.current) {
         navigation.navigate("SavingsGoals.FundGoalModal", {
-          PotId: route.params.PotId,
+          PotId,
           isFirstFunding: true,
         });
 
         // or else it'll be shown every time
         fundGoalModalShown.current = true;
       }
-
-      // this is needed so the amount is still visibile in the modal when the modal is closed
       if (amountWithdrawn) {
-        setShowAmountWithdrawn(amountWithdrawn);
+        setShownAmountWithdrawn(amountWithdrawn);
       }
-    }, [route.params])
+    }, [redirectToFundingModal, amountWithdrawn, navigation, PotId])
   );
 
   const handleOnBackPress = () => {
@@ -60,7 +58,6 @@ export default function GoalDetailsScreen() {
   const handleOnCloseWithdrawConfirmationModal = () => {
     navigation.navigate("SavingsGoals.GoalDetailsScreen", {
       PotId: PotId,
-      amountWithdrawn: undefined,
     });
   };
 
@@ -84,9 +81,9 @@ export default function GoalDetailsScreen() {
           onClose={handleOnCloseWithdrawConfirmationModal}
           message={t("SavingsGoals.WithdrawModal.successfulWithdrawal.text")}
           title={t("SavingsGoals.WithdrawModal.successfulWithdrawal.title", {
-            amount: showAmountWithdrawn,
+            amount: shownAmountWithdrawn,
           })}
-          isVisible={amountWithdrawn !== undefined}
+          isVisible={amountWithdrawn ? true : false}
         />
       </ContentContainer>
     </Page>

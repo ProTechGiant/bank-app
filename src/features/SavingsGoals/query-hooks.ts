@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
+import { generateRandomId } from "@/utils";
 
 import { CreateGoalInput, SavingsPot } from "./types";
 
@@ -129,12 +130,12 @@ export interface SavingsPotDetailsResponse {
   CustomerId: string;
   AccountId: string;
   RecurringPayments: {
-    PaymentAmount: string;
+    PaymentAmount: number;
     Currency: string;
     CreditorAccount: string;
     PaymentFrequency: number;
     StartingDate: string;
-    EndDate: Date;
+    EndDate: string;
     RemittenceInformation: string;
     E2EReference: string;
   };
@@ -160,41 +161,37 @@ export function useSavingsPots() {
   });
 }
 
-// TODO - test when API endpoint is ready
-
-interface WithdrawSavingsPot {
-  PaymentAmount: string;
+export interface WithdrawValues {
+  PaymentAmount: number;
   Currency: string;
   CreditorAccount: string;
   PotId: string;
 }
 
-interface WithdrawSavingsPotResponse {
-  status: number;
-}
-
-export function useWithdrawSavingsPot(options: WithdrawSavingsPot) {
+export function useWithdrawSavingsPot() {
   const queryClient = useQueryClient();
-  const { PotId } = options;
+
   return useMutation(
-    (options: WithdrawSavingsPot) => {
-      return api<WithdrawSavingsPotResponse>(
+    (options: WithdrawValues) => {
+      const { PotId, ...bodyOptions } = options;
+
+      return api(
         "v1",
         `customers/savings-pots/${PotId}/withdraw-funds`,
         "POST",
         undefined,
         {
-          options,
+          ...bodyOptions,
         },
         {
-          "X-Correlation-ID": "12345",
+          "X-Correlation-ID": generateRandomId(),
         }
       );
     },
     {
-      onSettled: (_data, _error) => {
+      onSettled: (_data, _error, variables) => {
         queryClient.invalidateQueries(queryKeys.all);
-        queryClient.invalidateQueries(queryKeys.details(PotId));
+        queryClient.invalidateQueries(queryKeys.details(variables.PotId));
       },
     }
   );
