@@ -6,14 +6,20 @@ import { useOnboardingContext } from "../../context/OnboardingContext";
 import NafathDetails from "./NafathDetails";
 
 export default function useNafathDetails() {
-  const { fetchLatestWorkflowTask, nationalId, correlationId } = useOnboardingContext();
+  const { fetchLatestWorkflowTask, revertWorkflowTask, nationalId, correlationId } = useOnboardingContext();
 
   return useMutation(async () => {
     if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
 
-    const workflowTask = await fetchLatestWorkflowTask();
-    if (!workflowTask || workflowTask.Name !== "RetrievePersonalDetails")
+    let workflowTask = await fetchLatestWorkflowTask();
+    if (workflowTask && workflowTask?.Name === "ConfirmPersonalDetails") {
+      await revertWorkflowTask(workflowTask);
+    }
+
+    workflowTask = await fetchLatestWorkflowTask();
+    if (!workflowTask || workflowTask.Name !== "RetrievePersonalDetails") {
       throw new Error("Available workflowTaskId is not applicable to customers/data");
+    }
 
     return api<NafathDetails>(
       "v1",

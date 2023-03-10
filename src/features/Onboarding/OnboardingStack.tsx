@@ -46,7 +46,7 @@ export const Stack = createNativeStackNavigator<OnboardingStackParams>();
 export default function OnboardingStack() {
   return (
     <OnboardingContextProvider>
-      <Stack.Navigator initialRouteName="Onboarding.Passcode" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen component={OnboardingSplashScreen} name="Onboarding.SplashScreen" />
         <Stack.Screen component={IqamaInputScreen} name="Onboarding.Iqama" />
         <Stack.Screen component={NafathAuthScreen} name="Onboarding.Nafath" />

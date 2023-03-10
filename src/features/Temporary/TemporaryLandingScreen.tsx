@@ -59,8 +59,11 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnOpenOnboarding = () => {
-    navigation.navigate("Onboarding.OnboardingStack");
+  const handleOnOpenOnboarding = (values: TemporaryUserId) => {
+    auth.authenticate(values.UserId);
+    navigation.navigate("Onboarding.OnboardingStack", {
+      screen: "Onboarding.SplashScreen",
+    });
   };
 
   const handleOnCardsHomeSubmit = (values: TemporaryUserId) => {
@@ -106,7 +109,7 @@ export default function TemporaryLandingScreen() {
           <Button onPress={handleOnHomepage}>Homepage</Button>
         </View>
         <View style={{ margin: 20 }}>
-          <Button onPress={handleOnOpenOnboarding}>Onboarding</Button>
+          <Button onPress={handleSubmit(handleOnOpenOnboarding)}>Onboarding</Button>
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleSubmit(handleOnCardsHomeSubmit)}>Cards Home</Button>

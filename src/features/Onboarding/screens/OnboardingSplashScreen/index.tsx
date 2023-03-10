@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, StatusBar, View, ViewStyle } from "react-native";
 
@@ -7,9 +6,9 @@ import DarkOneGradient from "@/components/LinearGradients/GradientBackgrounds";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { generateRandomId } from "@/utils";
 
 import { useOnboardingContext } from "../../context/OnboardingContext";
 import LanguageToggle from "./LanguageToggle";
@@ -17,8 +16,7 @@ import LanguageToggle from "./LanguageToggle";
 export default function OnboardingSplashScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { startOnboardingAsync } = useOnboardingContext();
-  const [loading, setLoading] = useState(false);
+  const { setCorrelationId } = useOnboardingContext();
 
   const contentViewStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
@@ -33,28 +31,9 @@ export default function OnboardingSplashScreen() {
   };
 
   const handleOnSignUp = () => {
-    const _retryableStart = async () => {
-      setLoading(true);
-      await startOnboardingAsync();
-      setLoading(false);
-      navigation.navigate("Onboarding.Iqama");
-    };
-
-    const _woopsFailed = (error: unknown) => {
-      Alert.alert("Woops! Something went wrong :<");
-      warn("onboarding", `Could not start onboarding flow: ${JSON.stringify(error)}`);
-    };
-
-    Alert.alert("Testing note", "Note that starting the onboarding flow randomizes the UserID to make it testable", [
-      {
-        text: "OK",
-        onPress: () => {
-          _retryableStart()
-            .catch(() => _retryableStart())
-            .catch(error => _woopsFailed(error));
-        },
-      },
-    ]);
+    const _correlationId = generateRandomId();
+    setCorrelationId(_correlationId);
+    navigation.navigate("Onboarding.Iqama");
   };
 
   return (
@@ -78,7 +57,7 @@ export default function OnboardingSplashScreen() {
             </View>
           </View>
           <Stack align="stretch" direction="vertical" gap="8p">
-            <Button loading={loading} variant="primary" color="dark" onPress={handleOnSignUp}>
+            <Button variant="primary" color="dark" onPress={handleOnSignUp}>
               {t("Onboarding.SplashScreen.buttons.signUp")}
             </Button>
             <Button color="dark" onPress={handleOnSignIn} variant="secondary">

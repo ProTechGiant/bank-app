@@ -1,3 +1,4 @@
+import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert } from "react-native";
 import { SvgProps } from "react-native-svg";
@@ -10,6 +11,8 @@ import Page from "@/components/Page";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
+import { useOnboardingContext } from "../../context/OnboardingContext";
+import getActiveTask from "./get-active-task";
 import IqamaInputs from "./IqamaInputs";
 import MobileAndNationalIdForm from "./MobileAndNationalId/MobileAndNationalIdForm";
 import useErrorMessages from "./use-error-messages";
@@ -24,10 +27,35 @@ export interface ErrorMessageType {
 
 export default function IqamaInputScreen() {
   const { t } = useTranslation();
-  const { mutateAsync, error } = useIqama();
+  const { mutateAsync, error, reset } = useIqama();
   const navigation = useNavigation();
   const iqamaError = error as ApiError;
   const { errorMessages } = useErrorMessages(iqamaError);
+  const { fetchLatestWorkflowTask, setNationalId } = useOnboardingContext();
+
+  const handleContinueOboarding = useCallback(async () => {
+    try {
+      const workflowTask = await fetchLatestWorkflowTask();
+      if (workflowTask?.Name !== "MobileVerification") {
+        const activeTaskScreen = workflowTask && getActiveTask(workflowTask.Name);
+        navigation.navigate(activeTaskScreen);
+      }
+    } catch (err) {
+      warn("tasks", "Could not get Task. Error: ", JSON.stringify(err));
+    }
+  }, [fetchLatestWorkflowTask, navigation]);
+
+  useEffect(() => {
+    if (
+      iqamaError &&
+      iqamaError.errorContent &&
+      iqamaError.errorContent.Errors &&
+      iqamaError.errorContent.Errors.some(({ ErrorId }: { ErrorId: string }) => ErrorId === "0061")
+    ) {
+      handleContinueOboarding();
+      reset();
+    }
+  }, [handleContinueOboarding, iqamaError, reset]);
 
   const handleOnSignIn = () => {
     Alert.alert("signin button pressed");
@@ -35,10 +63,11 @@ export default function IqamaInputScreen() {
 
   const handleOnSubmit = async (values: IqamaInputs) => {
     try {
+      setNationalId(String(values.NationalId));
       await mutateAsync(values);
       navigation.navigate("Onboarding.Nafath");
-    } catch (error) {
-      warn("onboarding", "Could not process iqama input. Error: ", JSON.stringify(error));
+    } catch (err) {
+      warn("onboarding", "Could not process iqama input. Error: ", JSON.stringify(err));
     }
   };
 

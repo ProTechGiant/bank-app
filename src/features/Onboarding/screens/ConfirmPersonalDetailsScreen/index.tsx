@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ScrollView, View, ViewStyle } from "react-native";
+import { Alert, ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import CheckboxInput from "@/components/Form/CheckboxInput";
@@ -12,10 +12,12 @@ import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import MoreInfoDropdown from "../../components/MoreInfoDropdown";
+import useConfirmPersonalDetails from "./use-confirm-personal-details";
 import useNafathDetails from "./use-nafath-details";
 
 interface ConfirmDetailsForm {
@@ -30,6 +32,7 @@ export default function ConfirmPersonalDetailsScreen() {
   const navigation = useNavigation();
   const { data, mutateAsync } = useNafathDetails();
   const { t } = useTranslation();
+  const confirmPersonalDetailsAsync = useConfirmPersonalDetails();
 
   useEffect(() => {
     if (undefined !== data) return;
@@ -44,8 +47,14 @@ export default function ConfirmPersonalDetailsScreen() {
     },
   });
 
-  const handleOnSubmit = () => {
-    navigation.navigate("Onboarding.OptionalEmail");
+  const handleOnSubmit = async () => {
+    try {
+      await confirmPersonalDetailsAsync.mutateAsync();
+      navigation.navigate("Onboarding.OptionalEmail");
+    } catch (error) {
+      Alert.alert(t("Onboarding.ConfirmPersonalDetailsScreen.errorText.alert"));
+      warn("onboarding", "Could not confirm personal details: ", JSON.stringify(error));
+    }
   };
 
   const detailsCardStyle = useThemeStyles<ViewStyle>(theme => ({

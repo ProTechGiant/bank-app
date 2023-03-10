@@ -11,6 +11,12 @@ export default function useErrorMessages(err: ApiError) {
 
   const getErrorMessages = (type: string) => {
     const messages: { [key: string]: ErrorMessageType } = {
+      "0061": {
+        message: <></>,
+        icon: <ErrorFilledCircleIcon />,
+        backgroundColor: "errorBase-40",
+        link: "Sign In",
+      },
       "0081": {
         message: t("Onboarding.IqamaInputScreen.errorText.oneAttemptsLeft"),
         icon: <InfoFilledCircleIcon />,
@@ -55,7 +61,7 @@ export default function useErrorMessages(err: ApiError) {
         backgroundColor: "errorBase-40",
       },
     };
-    return messages[type] || messages["default"];
+    return messages[type] || messages.default;
   };
 
   const errorMessages =

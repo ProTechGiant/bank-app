@@ -108,6 +108,9 @@ export const resources = {
             "to change your details. Please restart the process when your Absher profile has been updated. This can take up to 72 hours.",
           CheckBoxLabel: "I confirm my details are correct",
           Continue: "Continue",
+          errorText: {
+            alert: "Woops. Could not confirm your personal details",
+          },
         },
         OptionalEmailScreen: {
           navHeaderTitle: "EMAIL",
@@ -118,7 +121,7 @@ export const resources = {
           continue: "Continue",
           skip: "Skip",
           errorText: {
-            alert: "Woops. Could not confirm your personal details",
+            alert: "Woops. Could not submit your email",
           },
         },
         FinancialInformationScreen: {
@@ -824,6 +827,9 @@ export const resources = {
             "to change your details. Please restart the process when your Absher profile has been updated. This can take up to 72 hours.",
           CheckBoxLabel: "I confirm my details are correct",
           Continue: "استمرار",
+          errorText: {
+            alert: "Woops. Could not submit your email",
+          },
         },
         OptionalEmailScreen: {
           navHeaderTitle: "EMAIL",

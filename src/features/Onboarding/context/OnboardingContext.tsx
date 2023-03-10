@@ -1,10 +1,10 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
-import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
 import useOnboardingInstance from "../hooks/use-onboarding-instance";
 import useOnboardingTasks from "../hooks/use-onboarding-tasks";
+import useOnboardingRevertTask from "../hooks/use-onboarding-revert-task";
 
 function noop() {
   return;
@@ -15,10 +15,11 @@ interface OnboardingContextState {
   nationalId: string | undefined;
   setCorrelationId: (value: string) => void;
   correlationId: string | undefined;
-  setProcessId: (value: string) => void;
-  processId: string | undefined;
-  startOnboardingAsync: () => Promise<void>;
+  setCurrentTask: (currentTask: { Id: string; Name: string }) => void;
+  currentTask: { Id: string; Name: string } | undefined;
+  startOnboardingAsync: (NationalId: string, MobileNumber: string) => Promise<void>;
   fetchLatestWorkflowTask: () => Promise<{ Id: string; Name: string } | undefined>;
+  revertWorkflowTask: (WorkflowTask: { Id: string; Name: string }) => Promise<void>;
 }
 
 const OnboardingContext = createContext<OnboardingContextState>({
@@ -26,21 +27,22 @@ const OnboardingContext = createContext<OnboardingContextState>({
   nationalId: undefined,
   setCorrelationId: noop,
   correlationId: undefined,
-  setProcessId: noop,
-  processId: undefined,
+  setCurrentTask: noop,
+  currentTask: undefined,
   startOnboardingAsync: () => Promise.reject(),
   fetchLatestWorkflowTask: () => Promise.reject(),
+  revertWorkflowTask: () => Promise.reject(),
 });
 
 function OnboardingContextProvider({ children }: { children: React.ReactNode }) {
-  const auth = useAuthContext();
   const onboardingInstanceAsync = useOnboardingInstance();
   const onboardingTasksAsync = useOnboardingTasks();
+  const onboardingRevertTaskAsync = useOnboardingRevertTask();
 
-  const [state, setState] = useState<Pick<OnboardingContextState, "nationalId" | "correlationId" | "processId">>({
+  const [state, setState] = useState<Pick<OnboardingContextState, "nationalId" | "correlationId" | "currentTask">>({
     nationalId: undefined,
     correlationId: undefined,
-    processId: undefined,
+    currentTask: undefined,
   });
 
   const setNationalId = (nationalId: string) => {
@@ -51,8 +53,8 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
     setState(v => ({ ...v, correlationId }));
   };
 
-  const setProcessId = (processId: string) => {
-    setState(v => ({ ...v, processId }));
+  const setCurrentTask = (currentTask: { Id: string; Name: string }) => {
+    setState(v => ({ ...v, currentTask }));
   };
 
   const fetchLatestWorkflowTask = async () => {
@@ -60,18 +62,32 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
     if (!correlationId) throw new Error("Cannot fetch tasks without `correlationId`");
 
     const response = await onboardingTasksAsync.mutateAsync({ correlationId });
-    return response.Tasks?.[0] ?? undefined;
+    const _currentTask = response.Tasks?.[0] ?? undefined;
+    setCurrentTask(_currentTask);
+    return _currentTask;
   };
 
-  const startOnboardingAsync = async () => {
-    const _userId = generateRandomId();
-    auth.authenticate(_userId);
+  const revertWorkflowTask = async (WorkflowTask: { Id: string; Name: string }) => {
+    const { correlationId } = state;
+    if (!correlationId) throw new Error("Cannot revert task without `correlationId`");
 
-    const _correlationId = generateRandomId();
-    const processId = await onboardingInstanceAsync.mutateAsync({ correlationId: _correlationId });
+    const response = await onboardingRevertTaskAsync.mutateAsync({
+      correlationId,
+      WorkflowTask,
+    });
+    return response;
+  };
 
-    setCorrelationId(_correlationId);
-    setProcessId(String(processId));
+  const startOnboardingAsync = async (NationalId: string, MobileNumber: string) => {
+    const { correlationId } = state;
+    if (!correlationId) throw new Error("Cannot start Onboarding without `correlationId`");
+
+    const response = await onboardingInstanceAsync.mutateAsync({
+      correlationId: correlationId,
+      NationalId,
+      MobileNumber,
+    });
+    return response;
   };
 
   return (
@@ -81,9 +97,10 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
           ...state,
           setNationalId,
           setCorrelationId,
-          setProcessId,
+          setCurrentTask,
           startOnboardingAsync,
           fetchLatestWorkflowTask,
+          revertWorkflowTask,
         }),
         [state]
       )}>

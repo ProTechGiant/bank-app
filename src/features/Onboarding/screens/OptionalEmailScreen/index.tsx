@@ -17,7 +17,7 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import useConfirmPersonalDetails from "./use-confirm-personal-details";
+import useEmail from "./use-email-request";
 
 interface OptionalEmailFormValues {
   emailAddress: string | undefined;
@@ -34,7 +34,7 @@ export default function OptionalEmailScreen() {
     []
   );
   const navigation = useNavigation();
-  const confirmPersonalDetailsAsync = useConfirmPersonalDetails();
+  const emailAsync = useEmail();
 
   const {
     control,
@@ -50,11 +50,11 @@ export default function OptionalEmailScreen() {
 
   const handleOnSubmit = async (values: OptionalEmailFormValues) => {
     try {
-      await confirmPersonalDetailsAsync.mutateAsync(values.emailAddress);
+      await emailAsync.mutateAsync(values.emailAddress);
       navigation.navigate("Onboarding.Financial");
     } catch (error) {
       Alert.alert(t("Onboarding.OptionalEmailScreen.errorText.alert"));
-      warn("onboarding", "Could not confirm personal details: ", JSON.stringify(error));
+      warn("onboarding", "Could not submit Email: ", JSON.stringify(error));
     }
   };
 
