@@ -39,15 +39,21 @@ export default function HomeScreen() {
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.HomeScreen">>();
 
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showPin, setShowPin] = useState(route.params?.action === "view-pin" && route.params?.action !== undefined);
-
-  useEffect(() => {
-    setShowPin(route.params?.action === "view-pin");
-  }, [route.params]);
-
+  const [isViewingPin, setIsViewingPin] = useState(
+    route.params?.action === "view-pin" && route.params?.action !== undefined
+  );
   const [isCardFrozen, setIsCardFrozen] = useState(false);
   const isFreezeCardActive = true; // @TODO BE integration
-  const isViewPinActive = true; // @TODO BE integration
+  const isViewingPinActive = true; // @TODO BE integration
+
+  useEffect(() => {
+    setIsViewingPin(route.params?.action === "view-pin");
+    if (route.params?.action === "unfreeze") {
+      setIsCardFrozen(false);
+    } else if (route.params?.action === "freeze") {
+      setIsCardFrozen(true);
+    }
+  }, [route.params]);
 
   const contextMenuActions: ContextMenuItem[] = [
     {
@@ -60,7 +66,7 @@ export default function HomeScreen() {
       id: 2,
       title: t("CardActions.QuickMenu.viewPin"),
       systemIcon: "lock",
-      disabled: !isViewPinActive,
+      disabled: !isViewingPinActive,
     },
     {
       id: 3,
@@ -82,7 +88,7 @@ export default function HomeScreen() {
   const handleOnUnfreezeCardPress = async (cardId: string) => {
     try {
       const response = await unfreezeCardAsync.mutateAsync({ cardId });
-      if (response.OtpCode.length > 0 && response.OtpId.length > 0) {
+      if (response.OtpCode !== undefined && response.OtpId !== undefined) {
         navigation.navigate("CardActions.OneTimePasswordModal", {
           redirect: "CardActions.HomeScreen",
           action: "unfreeze",
@@ -94,7 +100,7 @@ export default function HomeScreen() {
       }
     } catch (error) {
       setShowErrorModal(true);
-      warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
+      warn("card-actions", "Could not unfreeze card: ", JSON.stringify(error));
     }
   };
 
@@ -165,8 +171,8 @@ export default function HomeScreen() {
                       onPress={e => {
                         e.nativeEvent.index === 0
                           ? isCardFrozen
-                            ? handleOnUnfreezeCardPress(card.CardId)
-                            : handleOnFreezeCardPress(card.CardId)
+                            ? handleOnUnfreezeCardPress("")
+                            : handleOnFreezeCardPress("")
                           : e.nativeEvent.index === 1
                           ? handleOnViewPinPress()
                           : handleOnCardSettingsPress("active");
@@ -225,7 +231,23 @@ export default function HomeScreen() {
                   onPress={handleOnActivateNowPress}
                 />
               }
-              onPress={handleOnInactiveCardPress}
+              onPress={handleOnInactiveCardPress.bind(null, "")} // TODO: hardcode this card for now without cardId (UI only) because inactive card is not ready until BC4
+              endButton={
+                <ContextMenu
+                  actions={contextMenuActions}
+                  dropdownMenuMode={true}
+                  onPress={e => {
+                    e.nativeEvent.index === 0
+                      ? isCardFrozen
+                        ? handleOnUnfreezeCardPress(card.CardId)
+                        : handleOnFreezeCardPress(card.CardId)
+                      : e.nativeEvent.index === 1
+                      ? handleOnViewPinPress()
+                      : handleOnCardSettingsPress("active");
+                  }}>
+                  <BankCard.EndButton icon={<ThreeDotsIcon />} />
+                </ContextMenu>
+              }
             />
             <BankCard.Active
               cardNumber={mockCard.LastFourDigits}
@@ -243,9 +265,9 @@ export default function HomeScreen() {
       </Page>
       <ViewPinModal
         pin="0382"
-        visible={showPin}
+        visible={isViewingPin}
         onClose={() => {
-          setShowPin(false);
+          setIsViewingPin(false);
         }}
       />
       <NotificationModal

@@ -1,4 +1,4 @@
-import { createElement, useState } from "react";
+import { createElement } from "react";
 import { useTranslation } from "react-i18next";
 
 import { FreezeIcon, HideIcon, LockIcon, ShowIcon } from "@/assets/icons";
@@ -7,43 +7,43 @@ import Stack from "@/components/Stack";
 import IconButton from "./IconButton";
 
 interface CardIconButtonsProps {
-  showDetails: boolean;
-  onPressShowDetails: () => void;
+  isShowingDetails: boolean;
+  isCardFrozen: boolean;
+  isViewingPin: boolean;
+  onShowDetailsPress: () => void;
+  onFreezePress: () => void;
+  onViewPinPress: () => void;
 }
 
-export default function CardIconButtons({ showDetails, onPressShowDetails }: CardIconButtonsProps) {
+export default function CardIconButtons({
+  isShowingDetails,
+  isCardFrozen,
+  isViewingPin,
+  onShowDetailsPress,
+  onFreezePress,
+  onViewPinPress,
+}: CardIconButtonsProps) {
   const { t } = useTranslation();
-
-  const [freeze, setFreeze] = useState(false);
-  const [viewPin, setViewPin] = useState(false);
-
-  const handleOnPressFreeze = () => {
-    setFreeze(!freeze);
-  };
-
-  const handleOnPressViewPin = () => {
-    setViewPin(!viewPin);
-  };
 
   return (
     <Stack direction="horizontal" justify="space-around">
       <IconButton
-        active={showDetails}
+        active={isShowingDetails}
         activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.hide")}
         inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.show")}
-        onPress={onPressShowDetails}
-        icon={createElement(showDetails ? HideIcon : ShowIcon, { height: 24, width: 24 })}
+        onPress={onShowDetailsPress}
+        icon={createElement(isShowingDetails ? HideIcon : ShowIcon, { height: 24, width: 24 })}
       />
       <IconButton
-        active={freeze}
-        onPress={handleOnPressFreeze}
+        active={isCardFrozen}
+        onPress={onFreezePress}
         icon={<FreezeIcon />}
         activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.unfreeze")}
         inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.freeze")}
       />
       <IconButton
-        active={viewPin}
-        onPress={handleOnPressViewPin}
+        active={isViewingPin}
+        onPress={onViewPinPress}
         activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.viewPin")}
         inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.viewPin")}
         icon={<LockIcon />}

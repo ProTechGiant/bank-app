@@ -8,11 +8,11 @@ import useNavigation from "@/navigation/use-navigation";
 import IconButton from "./IconButton";
 
 interface SingleUseIconButtonsProps {
-  showDetails: boolean;
+  isShowingDetails: boolean;
   onPressShowDetails: () => void;
 }
 
-export default function SingleUseIconButtons({ showDetails, onPressShowDetails }: SingleUseIconButtonsProps) {
+export default function SingleUseIconButtons({ isShowingDetails, onPressShowDetails }: SingleUseIconButtonsProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
@@ -23,11 +23,11 @@ export default function SingleUseIconButtons({ showDetails, onPressShowDetails }
   return (
     <Stack direction="horizontal" justify="center" gap="24p">
       <IconButton
-        active={showDetails}
+        active={isShowingDetails}
         activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.hideCredentials")}
         inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.showCredentials")}
         onPress={onPressShowDetails}
-        icon={createElement(showDetails ? HideIcon : ShowIcon, { height: 24, width: 24 })}
+        icon={createElement(isShowingDetails ? HideIcon : ShowIcon, { height: 24, width: 24 })}
       />
       <IconButton
         onPress={handleOnPressAbout}

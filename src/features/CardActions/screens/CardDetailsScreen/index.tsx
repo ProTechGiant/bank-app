@@ -12,12 +12,14 @@ import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CardActionsStackParams } from "../../CardActionsStack";
 import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
+import { useFreezeCard, useUnfreezeCard } from "../../query-hooks";
 import CardIconButtons from "./CardIconButtons";
 import ListItemText from "./ListItemText";
 import SingleUseIconButtons from "./SingleUseIconButtons";
@@ -35,7 +37,12 @@ export default function CardDetailsScreen() {
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.CardDetailsScreen">>();
   const { t } = useTranslation();
 
-  const [showDetails, setShowDetails] = useState(false);
+  const freezeCardAsync = useFreezeCard();
+  const unfreezeCardAsync = useUnfreezeCard();
+
+  const [isCardFrozen, setIsCardFrozen] = useState(false);
+  const [isViewingPin, setIsViewingPin] = useState(false);
+  const [isShowingDetails, setIsShowingDetails] = useState(false);
   const [showNotificationAlert, setShowNotificationAlert] = useState(false);
   const [showBanner, setShowBanner] = useState(false);
   const [showErrorCopy, setShowErrorCopy] = useState(false);
@@ -43,10 +50,20 @@ export default function CardDetailsScreen() {
 
   const cardType = route.params.cardType;
   const cardStatus = route.params.cardStatus;
+  const cardId = route.params.cardId;
 
   useEffect(() => {
     setShowNotificationAlert(route.params.isCardCreated ?? false);
   }, [route.params.isCardCreated]);
+
+  //TODO: retrieve card details to show an active card / frozen card
+  useEffect(() => {
+    if (route.params.action === "unfreeze") {
+      setIsCardFrozen(false);
+    } else if (route.params.action === "freeze") {
+      setIsCardFrozen(true);
+    }
+  }, [route.params]);
 
   const handleOnAddToAppleWallet = () => {
     navigation.navigate("Temporary.LandingScreen");
@@ -60,7 +77,7 @@ export default function CardDetailsScreen() {
     navigation.navigate("CardActions.CardSettingsScreen", { cardStatus: "inactive" });
   };
 
-  const handleOnPressReport = () => {
+  const handleOnReportPress = () => {
     Alert.alert("Report stolen or damaged");
   };
 
@@ -68,15 +85,15 @@ export default function CardDetailsScreen() {
     // ..
   };
 
-  const handleOnPressShowDetails = () => {
-    if (!showDetails) {
+  const handleOnShowDetailsPress = () => {
+    if (!isShowingDetails) {
       navigation.navigate("CardActions.OneTimePasswordModal", {
         redirect: "CardActions.CardDetailsScreen",
         cardType: cardType,
         action: "show-details",
       });
     }
-    setShowDetails(!showDetails);
+    setIsShowingDetails(!isShowingDetails);
   };
 
   const handleOnCopyPress = () => {
@@ -103,6 +120,43 @@ export default function CardDetailsScreen() {
 
   const handleOnPressActivate = () => {
     //..
+  };
+
+  const handleOnFreezePress = () => {
+    isCardFrozen ? handleOnUnfreezeCardPress() : handleOnFreezeCardPress();
+  };
+
+  const handleOnFreezeCardPress = async () => {
+    try {
+      const response = await freezeCardAsync.mutateAsync({ cardId });
+      response.Status === "freeze" ? setIsCardFrozen(true) : setShowErrorModal(true);
+    } catch (error) {
+      setShowErrorModal(true);
+      warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
+    }
+  };
+
+  const handleOnUnfreezeCardPress = async () => {
+    try {
+      const response = await unfreezeCardAsync.mutateAsync({ cardId });
+      if (response.OtpCode !== undefined && response.OtpId !== undefined) {
+        navigation.navigate("CardActions.OneTimePasswordModal", {
+          redirect: "CardActions.CardDetailsScreen",
+          action: "unfreeze",
+          otpId: response.OtpId,
+          otpCode: response.OtpCode,
+        });
+      } else {
+        setShowErrorModal(true);
+      }
+    } catch (error) {
+      setShowErrorModal(true);
+      warn("card-actions", "Could not unfreeze card: ", JSON.stringify(error));
+    }
+  };
+
+  const handleOnViewPinPress = () => {
+    setIsViewingPin(!isViewingPin);
   };
 
   const handleOnCloseNotification = () => {
@@ -167,7 +221,12 @@ export default function CardDetailsScreen() {
 
       <ContentContainer isScrollView>
         <View style={cardContainerStyle}>
-          {cardStatus === "inactive" && cardType !== "single-use" ? (
+          {isCardFrozen ? (
+            <BankCard.Inactive
+              type="frozen"
+              actionButton={<BankCard.ActionButton title={t("Cards.cardFrozen")} type="dark" />}
+            />
+          ) : cardStatus === "inactive" && cardType !== "single-use" ? (
             <BankCard.Inactive
               type="inactive"
               label={t("CardActions.CardDetailsScreen.inactiveCard.label")}
@@ -179,7 +238,7 @@ export default function CardDetailsScreen() {
                 />
               }
             />
-          ) : !showDetails ? (
+          ) : !isShowingDetails ? (
             <BankCard.Active cardNumber="1234" cardType={cardType} />
           ) : (
             <BankCard.Unmasked
@@ -191,9 +250,16 @@ export default function CardDetailsScreen() {
           )}
         </View>
         {cardType === "single-use" ? (
-          <SingleUseIconButtons onPressShowDetails={handleOnPressShowDetails} showDetails={showDetails} />
+          <SingleUseIconButtons onPressShowDetails={handleOnShowDetailsPress} isShowingDetails={isShowingDetails} />
         ) : cardStatus !== "inactive" ? (
-          <CardIconButtons onPressShowDetails={handleOnPressShowDetails} showDetails={showDetails} />
+          <CardIconButtons
+            isViewingPin={isViewingPin}
+            isCardFrozen={isCardFrozen}
+            onShowDetailsPress={handleOnShowDetailsPress}
+            onViewPinPress={handleOnViewPinPress}
+            onFreezePress={handleOnFreezePress}
+            isShowingDetails={isShowingDetails}
+          />
         ) : null}
         <View style={separatorStyle} />
         {cardType !== "single-use" && (
@@ -212,7 +278,7 @@ export default function CardDetailsScreen() {
               <ListItemLink
                 disabled={cardStatus === "inactive" ? true : false}
                 icon={cardStatus === "inactive" ? <ReportIcon color={disabledIconColor} /> : <ReportIcon />}
-                onPress={handleOnPressReport}
+                onPress={handleOnReportPress}
                 title={t("CardActions.CardDetailsScreen.reportButton")}
               />
             </ListSection>

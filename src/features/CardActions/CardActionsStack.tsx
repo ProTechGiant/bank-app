@@ -9,16 +9,23 @@ import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
 import SingleUseCardsScreen from "./screens/SingleUseCardsScreen";
 
-type CardAction = "view-pin" | "unfreeze" | "activate-online-payment" | "generate-single-use-card" | "show-details";
+type CardAction =
+  | "view-pin"
+  | "freeze"
+  | "unfreeze"
+  | "activate-online-payment"
+  | "generate-single-use-card"
+  | "show-details";
 type CardType = "standard" | "plus" | "single-use";
 export type CardStatus = "active" | "inactive";
 
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {
-    isCardCreated?: boolean;
+    action?: CardAction;
+    cardId: string;
     cardType: CardType;
     cardStatus?: CardStatus;
-    cardId: string;
+    isCardCreated?: boolean;
   };
   "CardActions.CardSettingsScreen": {
     cardStatus?: CardStatus;
@@ -31,11 +38,11 @@ export type CardActionsStackParams = {
     action?: CardAction;
   };
   "CardActions.OneTimePasswordModal": {
-    redirect: keyof CardActionsStackParams;
-    cardType?: CardType;
     action: CardAction;
+    cardType?: CardType;
     otpId?: string;
     otpCode?: string;
+    redirect: keyof CardActionsStackParams;
   };
 };
 

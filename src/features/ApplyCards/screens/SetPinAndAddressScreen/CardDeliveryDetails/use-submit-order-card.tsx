@@ -1,6 +1,7 @@
 import { useMutation } from "react-query";
 
 import api from "@/api";
+import { generateRandomId } from "@/utils";
 
 import { OrderCardFormValues } from "../../../context/OrderCardContext";
 
@@ -18,7 +19,7 @@ interface OrderCardError {
 export default function useSubmitOrderCard() {
   return useMutation((values: OrderCardFormValues) => {
     return api<OrderCardResponse, OrderCardError>("v1", "cards", "POST", undefined, values, {
-      ["x-correlation-id"]: String(Math.floor(Math.random() * 1000000000)), // Temporary: random correlation ID to avoid 502 error
+      ["x-correlation-id"]: generateRandomId(),
     });
   });
 }

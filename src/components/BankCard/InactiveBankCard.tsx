@@ -10,7 +10,7 @@ import CardInactiveSvg from "./card-inactive.svg";
 interface InactiveBankCardProps {
   actionButton: React.ReactElement<ActionButtonProps>;
   endButton?: React.ReactNode;
-  label: string;
+  label?: string;
   type: "frozen" | "inactive";
   onPress?: () => void;
 }
@@ -38,11 +38,13 @@ export default function InactiveBankCard({ actionButton, endButton, label, type,
       {type === "inactive" ? <CardInactiveSvg /> : <CardFrozenSvg />}
       <View style={[styles.container, contentStyles]}>
         <View style={styles.header}>
-          <View style={labelStyle}>
-            <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-              {label}
-            </Typography.Text>
-          </View>
+          {label ? (
+            <View style={labelStyle}>
+              <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
+                {label}
+              </Typography.Text>
+            </View>
+          ) : null}
           {endButton}
         </View>
         {onPress !== undefined && (
