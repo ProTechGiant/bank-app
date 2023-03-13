@@ -41,12 +41,12 @@ export default function SettingsToggle<T extends FieldValues>({
     <View style={containerStyles}>
       {icon !== undefined && <View style={styles.iconContainer}>{icon}</View>}
       <View style={styles.container}>
-        <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+        <Typography.Text color={disabled ? "neutralBase-30" : "neutralBase+30"} size="callout" weight="medium">
           {label}
         </Typography.Text>
         {undefined !== helperText && (
           <View style={helperTextStyle}>
-            <Typography.Text color="neutralBase" size="footnote">
+            <Typography.Text color={disabled ? "neutralBase-30" : "neutralBase+30"} size="footnote">
               {helperText}
             </Typography.Text>
           </View>
