@@ -143,7 +143,7 @@ export default function HomeScreen() {
   };
 
   const handleOnActivateNowPress = () => {
-    Alert.alert("Activate now");
+    navigation.navigate("Temporary.DummyScreen");
   };
 
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({

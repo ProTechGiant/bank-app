@@ -16,6 +16,7 @@ import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
 import TermsAndConditionsScreen from "@/features/Referral/screens/TermsAndConditionsScreen";
 import SavingsGoalsStack from "@/features/SavingsGoals/SavingsGoalsStack";
 import SettingsScreen from "@/features/Settings/screens/SettingsScreen";
+import TemporaryDummyScreen from "@/features/Temporary/TemporaryDummyScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 
 import MainStackParams from "./mainStackParams";
@@ -31,6 +32,7 @@ export default function MainStack({ onReady }: MainStackProps) {
     <NavigationContainer onReady={onReady}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen component={TemporaryLandingScreen} name="Temporary.LandingScreen" />
+        <Stack.Screen component={TemporaryDummyScreen} name="Temporary.DummyScreen" />
         <Stack.Screen component={SettingsScreen} name="Settings.SettingsScreen" />
         <Stack.Screen component={HubScreen} name="Referral.HubScreen" />
         <Stack.Screen

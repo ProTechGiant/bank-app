@@ -2,7 +2,7 @@ import Clipboard from "@react-native-clipboard/clipboard";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { Platform, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CardSettingsIcon, CopyIcon, ErrorOutlineIcon, ReportIcon } from "@/assets/icons";
 import BankCard from "@/components/BankCard";
@@ -66,7 +66,7 @@ export default function CardDetailsScreen() {
   }, [route.params]);
 
   const handleOnAddToAppleWallet = () => {
-    navigation.navigate("Temporary.LandingScreen");
+    navigation.navigate("Temporary.DummyScreen");
   };
 
   const handleOnActiveCardSettingsPress = () => {
@@ -78,11 +78,11 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnReportPress = () => {
-    Alert.alert("Report stolen or damaged");
+    navigation.navigate("Temporary.DummyScreen");
   };
 
   const handleOnUpgradePress = () => {
-    // ..
+    navigation.navigate("Temporary.DummyScreen");
   };
 
   const handleOnShowDetailsPress = () => {
@@ -119,7 +119,7 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnPressActivate = () => {
-    //..
+    navigation.navigate("Temporary.DummyScreen");
   };
 
   const handleOnFreezePress = () => {

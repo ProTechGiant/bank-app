@@ -16,6 +16,7 @@ type RootStackParams = {
     screen: string;
   };
   "Temporary.LandingScreen": undefined;
+  "Temporary.DummyScreen": undefined;
   "Onboarding.OnboardingStack": undefined;
   "Modal.QuickActionsReorderModal": undefined;
   "Modal.HomepageReorderModal": undefined;
