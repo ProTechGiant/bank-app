@@ -64,7 +64,6 @@ export default function AddMoneyViaBankTransferScreen() {
   const bankDetailsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-40"],
     borderRadius: theme.spacing["8p"],
-    paddingVertical: theme.spacing["16p"],
     gap: theme.spacing["4p"],
   }));
 
