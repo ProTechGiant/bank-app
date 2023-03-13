@@ -670,12 +670,6 @@ export const resources = {
           securityCode: "SECURITY\nCODE",
         },
         SingleUseCard: {
-          InfoScreen: {
-            title: "How single-use cards work",
-            subTitle:
-              "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
-            generateBtn: "Generate single-use card",
-          },
           CardAbout: {
             title: "Single-use cards",
             SectionOne: {
@@ -717,7 +711,6 @@ export const resources = {
           },
         },
       },
-
       CardActions: {
         QuickMenu: {
           freezeCard: "Freeze card",
@@ -804,8 +797,12 @@ export const resources = {
           copyClipboard: "Card number copied to clipboard",
           errorCopyClipboard: "Couldn’t copy card number. Try again.",
         },
+        SingleUseCardsInfo: {
+          title: "How single-use cards work",
+          text: "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
+          generateButton: "Generate single-use card",
+        },
       },
-
       AddMoneyInfo: {
         title: "Add money by bank transfer",
         description:
@@ -1093,13 +1090,6 @@ export const resources = {
           securityCode: "SECURITY\nCODE",
         },
         SingleUseCard: {
-          InfoScreen: {
-            title: "How single-use cards work",
-            subTitle:
-              "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
-            generateBtn: "Generate single-use card",
-          },
-
           CardAbout: {
             title: "Single-use cards",
             SectionOne: {

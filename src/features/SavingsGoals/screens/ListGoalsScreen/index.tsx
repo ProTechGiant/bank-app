@@ -1,7 +1,7 @@
 import { compareAsc } from "date-fns";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, I18nManager, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import { PlusIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -118,12 +118,14 @@ export default function SavingsGoalsScreen() {
 const styles = StyleSheet.create({
   backgroundBottomStart: {
     bottom: 0,
+    left: 0,
     position: "absolute",
-    start: 0,
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   },
   backgroundTopEnd: {
-    end: 0,
     position: "absolute",
+    right: 0,
     top: 0,
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   },
 });

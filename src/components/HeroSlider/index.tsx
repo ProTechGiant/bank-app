@@ -1,19 +1,19 @@
-import times from "lodash/times";
 import { useRef, useState } from "react";
-import { Animated, NativeScrollEvent, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import PagerView, { PagerViewOnPageSelectedEvent } from "react-native-pager-view";
 
 import Button from "@/components/Button";
+import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import { CloseEndButtonProps } from "@/components/NavHeader/CloseEndButton";
 import { TextEndButtonProps } from "@/components/NavHeader/TextEndButton";
 import Page from "@/components/Page";
+import Stack from "@/components/Stack";
 import { useThemeStyles } from "@/theme";
 
-import DarkOneGradient from "../LinearGradients/GradientBackgrounds";
+import BackgroundBottomSvg from "./background-bottom.svg";
+import BackgroundTopStartSvg from "./background-top-start.svg";
 import HeroSlide, { HeroSlideProps } from "./HeroSlide";
-
-const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
 interface HeroSliderProps {
   data: HeroSlideProps[];
@@ -21,7 +21,7 @@ interface HeroSliderProps {
   onBackPress?: () => void;
   buttonText: string;
   lastButtonText: string;
-  end?: "close" | React.ReactElement<CloseEndButtonProps> | React.ReactElement<TextEndButtonProps> | false;
+  end?: React.ReactElement<CloseEndButtonProps> | React.ReactElement<TextEndButtonProps> | false;
 }
 
 export default function HeroSlider({
@@ -32,95 +32,91 @@ export default function HeroSlider({
   lastButtonText,
   end,
 }: HeroSliderProps) {
-  const container = useThemeStyles<ViewStyle>(
-    theme => ({
-      paddingHorizontal: theme.spacing["16p"],
-      paddingVertical: theme.spacing["16p"],
-      flex: 1,
-    }),
-    []
-  );
-  const activeDotStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["neutralBase-50"],
-    }),
-    []
-  );
-  const inactiveDotStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette.neutralBase,
-    }),
-    []
-  );
-  const paginationContainerStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      flexDirection: "row",
-      paddingBottom: theme.spacing["16p"],
-      justifyContent: "center",
-    }),
-    []
-  );
-  const paginationDotsStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      height: 6,
-      width: 6,
-      borderRadius: theme.radii.extraSmall,
-      marginHorizontal: theme.spacing["4p"],
-      marginBottom: theme.spacing["8p"],
-      alignSelf: "center",
-    }),
-    []
-  );
-
   const [step, setStep] = useState(0);
-  const ref = useRef<NativeScrollEvent>(null);
-  const totalStep = data.length;
+  const pagerViewRef = useRef<PagerView>(null);
+  const nextStep = step + 1;
 
-  const onPageSelected = (event: PagerViewOnPageSelectedEvent) => {
+  const handleOnPageSelected = (event: PagerViewOnPageSelectedEvent) => {
     const position = event.nativeEvent.position;
+
     if (position !== step) {
       setStep(position);
     }
   };
 
-  const onButtonPress = () => {
-    if (step + 1 === totalStep) {
-      onFinishPress();
-    } else {
-      setStep(step + 1);
-      ref?.current?.setPage(step + 1);
+  const handleOnButtonPress = () => {
+    if (nextStep === data.length) {
+      return onFinishPress();
     }
+
+    setStep(nextStep);
+    pagerViewRef?.current?.setPage(nextStep);
   };
 
+  const activeDotStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette.primaryBase,
+  }));
+
+  const inactiveDotStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-20"],
+  }));
+
+  const paginationContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginVertical: theme.spacing["20p"],
+  }));
+
+  const pagerStyle = useThemeStyles<ViewStyle>(theme => ({
+    flex: 1,
+    marginHorizontal: -theme.spacing["20p"],
+  }));
+
   return (
-    <DarkOneGradient>
-      <Page>
-        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-        <NavHeader onBackPress={onBackPress} color="white" end={step + 1 < totalStep && end ? end : undefined} />
-        <View style={container}>
-          <AnimatedPagerView style={styles.PagerView} onPageSelected={onPageSelected} ref={ref}>
-            {times(totalStep, i => (
-              <HeroSlide key={i} topElement={data[i].topElement} title={data[i].title} subText={data[i].subText} />
-            ))}
-          </AnimatedPagerView>
-          <View style={paginationContainerStyle}>
-            {times(totalStep, i => (
-              <View key={i}>
-                <View style={[paginationDotsStyle, step === i ? activeDotStyle : inactiveDotStyle]} />
-              </View>
-            ))}
-          </View>
-          <Button variant="primary" color="dark" onPress={onButtonPress}>
-            {step + 1 !== totalStep ? buttonText : lastButtonText}
-          </Button>
-        </View>
-      </Page>
-    </DarkOneGradient>
+    <Page backgroundColor="neutralBase-60">
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+      <BackgroundTopStartSvg style={styles.backgroundTopStart} />
+      <BackgroundBottomSvg style={styles.backgroundBottom} />
+      <NavHeader onBackPress={onBackPress} end={nextStep < data.length && end ? end : undefined} />
+      <ContentContainer style={styles.content}>
+        <PagerView style={pagerStyle} onPageSelected={handleOnPageSelected} ref={pagerViewRef}>
+          {data.map(element => (
+            <HeroSlide key={element.title} topElement={element.topElement} title={element.title} text={element.text} />
+          ))}
+        </PagerView>
+        <Stack align="center" direction="horizontal" gap="8p" justify="center" style={paginationContainerStyle}>
+          {data.length > 1
+            ? data.map((element, index) => (
+                <View key={element.title} style={[styles.dot, step === index ? activeDotStyle : inactiveDotStyle]} />
+              ))
+            : null}
+        </Stack>
+        <Button variant="primary" onPress={handleOnButtonPress}>
+          {nextStep !== data.length ? buttonText : lastButtonText}
+        </Button>
+      </ContentContainer>
+    </Page>
   );
 }
 
+const DOT_SIZE = 6;
+
 const styles = StyleSheet.create({
-  PagerView: {
-    flex: 1,
+  backgroundBottom: {
+    bottom: 0,
+    position: "absolute",
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
+  backgroundTopStart: {
+    position: "absolute",
+    start: 0,
+    top: 0,
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
+  content: {
+    justifyContent: "space-between",
+  },
+  dot: {
+    borderRadius: DOT_SIZE / 2,
+    height: DOT_SIZE,
+    width: DOT_SIZE,
   },
 });

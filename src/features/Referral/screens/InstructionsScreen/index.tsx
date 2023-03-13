@@ -51,7 +51,7 @@ export default function InstructionsScreen() {
         </View>
       ),
       title: t("Referral.InstructionsScreen.titleOne"),
-      subText: t("Referral.InstructionsScreen.subTextOne"),
+      text: t("Referral.InstructionsScreen.subTextOne"),
     },
     {
       topElement: (
@@ -60,7 +60,7 @@ export default function InstructionsScreen() {
         </View>
       ),
       title: t("Referral.InstructionsScreen.titleTwo"),
-      subText: t("Referral.InstructionsScreen.subTextTwo"),
+      text: t("Referral.InstructionsScreen.subTextTwo"),
     },
     {
       topElement: (
@@ -69,7 +69,7 @@ export default function InstructionsScreen() {
         </View>
       ),
       title: t("Referral.InstructionsScreen.titleThree"),
-      subText: t("Referral.InstructionsScreen.subTextThree"),
+      text: t("Referral.InstructionsScreen.subTextThree"),
     },
   ];
 

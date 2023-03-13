@@ -1,39 +1,31 @@
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, View } from "react-native";
 
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 export interface HeroSlideProps {
   topElement: React.ReactElement;
   title: string;
-  subText: string;
+  text: string;
 }
 
-export default function HeroSlide({ topElement, title, subText }: HeroSlideProps) {
-  const subTextStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginTop: theme.spacing["16p"],
-    }),
-    []
-  );
-  const titleStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginTop: theme.spacing["20p"],
-    }),
-    []
-  );
+export default function HeroSlide({ topElement, title, text }: HeroSlideProps) {
+  const contentStyle = useThemeStyles(theme => ({
+    paddingHorizontal: theme.spacing["12p"] + theme.spacing["20p"],
+  }));
 
   return (
     <View style={styles.container}>
-      <View style={styles.contentWrapper}>
-        <View>{topElement}</View>
-        <Typography.Text color="neutralBase-50" size="large" weight="bold" align="center" style={titleStyle}>
+      <Stack align="center" direction="vertical" justify="space-between" gap="24p" style={contentStyle}>
+        {topElement}
+        <Typography.Text align="center" color="primaryBase-10" size="large" weight="bold">
           {title}
         </Typography.Text>
-        <Typography.Text color="neutralBase-20" size="callout" align="center" style={subTextStyle}>
-          {subText}
+        <Typography.Text align="center" color="primaryBase-10" size="callout" weight="regular">
+          {text}
         </Typography.Text>
-      </View>
+      </Stack>
     </View>
   );
 }
@@ -42,9 +34,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-  },
-  contentWrapper: {
-    alignItems: "center",
-    justifyContent: "space-between",
   },
 });

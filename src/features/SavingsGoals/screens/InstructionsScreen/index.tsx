@@ -1,11 +1,14 @@
 import { useTranslation } from "react-i18next";
+import { View } from "react-native";
 
 import HeroSlider from "@/components/HeroSlider";
 import { HeroSlideProps } from "@/components/HeroSlider/HeroSlide";
 import NavHeader from "@/components/NavHeader";
 import useNavigation from "@/navigation/use-navigation";
 
-import BrandBanner from "./BrandBanner";
+function PlaceholderDot() {
+  return <View style={{ backgroundColor: "#F34C33", borderRadius: 40, height: 80, width: 80 }} />;
+}
 
 export default function InstructionsScreen() {
   const navigation = useNavigation();
@@ -21,19 +24,19 @@ export default function InstructionsScreen() {
 
   const data: HeroSlideProps[] = [
     {
-      topElement: <BrandBanner title="Brand Moment" />,
+      topElement: <PlaceholderDot />,
       title: t("SavingsGoals.InstructionsScreen.titleOne"),
-      subText: t("SavingsGoals.InstructionsScreen.subTextOne"),
+      text: t("SavingsGoals.InstructionsScreen.subTextOne"),
     },
     {
-      topElement: <BrandBanner title="Brand Moment" />,
+      topElement: <PlaceholderDot />,
       title: t("SavingsGoals.InstructionsScreen.titleTwo"),
-      subText: t("SavingsGoals.InstructionsScreen.subTextTwo"),
+      text: t("SavingsGoals.InstructionsScreen.subTextTwo"),
     },
     {
-      topElement: <BrandBanner title="Brand Moment" />,
+      topElement: <PlaceholderDot />,
       title: t("SavingsGoals.InstructionsScreen.titleThree"),
-      subText: t("SavingsGoals.InstructionsScreen.subTextThree"),
+      text: t("SavingsGoals.InstructionsScreen.subTextThree"),
     },
   ];
 
