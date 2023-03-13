@@ -13,7 +13,6 @@ export const useInfoStyles = () => {
   const infoDimensions = useThemeStyles(theme => theme.iconDimensions.createGoal.info);
   const infoColor = useThemeStyles(theme => theme.palette["neutralBase-10"]);
 
-  const { height: copyHeight, width: copyWidth } = useThemeStyles(theme => theme.iconDimensions.copy);
   const copyColor = useThemeStyles<string>(theme => theme.palette.complimentBase, []);
 
   const { height: chevronHeight, width: chevronWidth } = useThemeStyles(theme => theme.iconDimensions.chevronRight);
@@ -33,8 +32,6 @@ export const useInfoStyles = () => {
     chevronHeight,
     chevronWidth,
     copyColor,
-    copyHeight,
-    copyWidth,
   };
 };
 

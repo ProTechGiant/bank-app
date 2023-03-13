@@ -5,11 +5,11 @@ import { useThemeStyles } from "@/theme";
 
 import { TableListCardProps } from "./TableListCard";
 
-interface TableListCardGroupProps {
-  children: React.ReactElement<TableListCardProps>;
+interface TableListCardGroupProps extends ViewProps {
+  children: React.ReactElement<TableListCardProps>[];
 }
 
-export default function TableListCardGroup({ children, ...restProps }: TableListCardGroupProps & ViewProps) {
+export default function TableListCardGroup({ children, ...restProps }: TableListCardGroupProps) {
   const elements = React.Children.toArray(children) as Array<React.ReactElement<TableListCardProps>>;
 
   const shadowStyle = useThemeStyles<ViewStyle>(theme => ({

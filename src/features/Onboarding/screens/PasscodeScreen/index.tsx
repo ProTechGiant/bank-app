@@ -11,10 +11,10 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
-import useNavigation from "@/navigation/use-navigation";
+// import useNavigation from "@/navigation/use-navigation";
 
 const PasscodeScreen = () => {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const { t } = useTranslation();
 
   // const backToStart = () => {

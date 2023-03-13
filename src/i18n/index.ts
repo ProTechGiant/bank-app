@@ -258,6 +258,23 @@ export const resources = {
           title: "Edit Actions",
           saveButton: "SAVE",
         },
+        AccountDetails: {
+          navHeader: "Account Details",
+          banner: {
+            success: "{{dataCopied}} copied to clipboard",
+            error: "Couldn't copy {{dataCopied}} - try again",
+          },
+          tableLabels: {
+            name: "Account name",
+            type: "Account type",
+            holder: "Account holder",
+            number: "Account number",
+            code: "Bank code",
+            iban: "IBAN",
+            bankNameLabel: "Bank name",
+            bankName: "Croatia Bank",
+          },
+        },
       },
       ApplyCards: {
         ApplyForCardScreen: {
@@ -776,6 +793,25 @@ export const resources = {
           placeholder: "Set",
           headerText: "Set Date",
           buttonText: "Set",
+        },
+      },
+      home: {
+        AccountDetails: {
+          navHeader: "Account Details",
+          banner: {
+            success: "{{dataCopied}} copied to clipboard",
+            error: "Couldn't copy {{dataCopied}} - try again",
+          },
+          tableLabels: {
+            name: "Account name",
+            type: "Account type",
+            holder: "Account holder",
+            number: "Account number",
+            code: "Bank code",
+            iban: "IBAN",
+            bankNameLabel: "Bank name",
+            bankName: "Croatia Bank",
+          },
         },
       },
       Onboarding: {

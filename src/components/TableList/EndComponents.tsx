@@ -41,11 +41,11 @@ const Chevron = () => {
 };
 
 const Copy = ({ onCopyPress }: CopyProps) => {
-  const { copyColor, copyHeight, copyWidth } = useInfoStyles();
+  const { copyColor } = useInfoStyles();
 
   return (
     <Pressable onPress={onCopyPress}>
-      <CopyIcon width={copyWidth} height={copyHeight} color={copyColor} />
+      <CopyIcon color={copyColor} />
     </Pressable>
   );
 };

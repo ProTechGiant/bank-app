@@ -48,7 +48,7 @@ export default function DashboardScreen() {
   };
 
   const handleOnAccountPress = () => {
-    // ..
+    navigation.navigate("Home.AccountDetailsScreen");
   };
 
   const handleOnNotificationPress = (notification: Notification) => {

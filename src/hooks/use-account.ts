@@ -52,11 +52,9 @@ export default function useAccount() {
   });
 
   const [accountData, currentAccount] = useMemo(() => {
-    const accountData_ = accounts.data?.find(
-      d => undefined !== d.Data.Account.find(a => a.AccountType === "CURRENT")
-    )?.Data;
+    // eslint-disable-next-line prettier/prettier
+    const accountData_ = accounts.data?.find(d => undefined !== d.Data.Account.find(a => a.AccountType === "CURRENT"))?.Data;
     const currentAccount_ = accountData_?.Account.find(a => a.AccountType === "CURRENT");
-
     return [accountData_, currentAccount_];
   }, [accounts]);
 
@@ -69,26 +67,36 @@ export default function useAccount() {
   );
 
   return useMemo(() => {
-    const currentAccountName = currentAccount?.Description;
-    const currentAccountIban = currentAccount?.Account.find(a => a.schemeName === "IBAN.NUMBER")?.identification;
+    if (undefined === currentAccountId || undefined === currentAccount || undefined === balances.data) {
+      return { data: undefined };
+    }
+
+    const currentAccountName = currentAccount.Description;
+    const currentAccountIban = currentAccount.Account.find(a => a.schemeName === "IBAN.NUMBER")?.identification;
     const currentAccountCustomerFullName = accountData?.SupplementaryData?.CustomerFullName;
-
     // eslint-disable-next-line prettier/prettier
-    const balanceData = balances.data?.find(d => undefined !== d.Data.Balance.find(b => b.Type === "INTERIM_AVAILABLE"))?.Data;
+    const balanceData = balances.data.find(d => undefined !== d.Data.Balance.find(b => b.Type === "INTERIM_AVAILABLE"))?.Data;
     const currentBalance = balanceData?.Balance.find(b => b.Type === "INTERIM_AVAILABLE");
-
     const currentAccountCurrencyType = currentBalance?.Amount.Currency;
-    const currentAccountBalance =
-      undefined !== currentBalance?.Amount.Amount ? Number(currentBalance?.Amount.Amount) : undefined;
+    // eslint-disable-next-line prettier/prettier
+    const currentAccountBalance = undefined !== currentBalance?.Amount.Amount ? Number(currentBalance?.Amount.Amount) : undefined;
+    const currentAccountOwner = currentAccount.Account.find(a => a.schemeName === "CUSTOMER.FULL.NAME")?.identification;
+    const currentAccountType = currentAccount.AccountType;
+    const currentAccountBankCode = currentAccountIban?.substring(5, 10);
+    const currentAccoutNumber = currentAccountIban?.slice(-12);
 
     return {
       data: {
         currentAccountId,
         currentAccountName,
         currentAccountIban,
+        currentAccountBankCode,
+        currentAccoutNumber,
+        currentAccountOwner,
         currentAccountCurrencyType,
         currentAccountBalance,
         currentAccountCustomerFullName,
+        currentAccountType,
       },
     };
   }, [accountData, currentAccount, balances, currentAccountId]);
