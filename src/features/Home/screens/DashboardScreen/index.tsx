@@ -40,7 +40,8 @@ export default function DashboardScreen() {
   const [isNotificationsExpanded, setIsNotificationsExpanded] = useState(false);
 
   const handleOnIbanCopyPress = () => {
-    Clipboard.setString("Some string...");
+    if (undefined === account.data?.currentAccountIban) return;
+    Clipboard.setString(account.data.currentAccountIban);
 
     setIbanToastVisible(true);
     setTimeout(() => setIbanToastVisible(false), 4 * 1000);
@@ -110,26 +111,26 @@ export default function DashboardScreen() {
         <SafeAreaView edges={["top"]} style={styles.container}>
           <View style={headerStyle}>
             <View style={styles.headerCentered}>
-              <Typography.Text color="primaryBase+10" size="footnote" weight="medium" style={styles.headerText}>
+              <Typography.Text color="neutralBase+30" size="footnote" weight="medium" style={styles.headerText}>
                 {account.data?.currentAccountName ?? "-"}
               </Typography.Text>
               <Pressable onPress={handleOnIbanCopyPress}>
-                <Typography.Text color="primaryBase+10" size="footnote" weight="medium" style={styles.headerText}>
+                <Typography.Text color="neutralBase+30" size="footnote" weight="medium" style={styles.headerText}>
                   {account.data?.currentAccountIban ?? "-"}
                 </Typography.Text>
               </Pressable>
               <View style={headerBalanceStyle}>
                 {isBalanceVisible ? (
                   <>
-                    <Typography.Header color="primaryBase+10" size="large" weight="semiBold">
+                    <Typography.Header color="neutralBase+30" size="large" weight="semiBold">
                       {formatter.format(account.data?.currentAccountBalance ?? 0)}
                     </Typography.Header>
-                    <Typography.Text color="primaryBase+10" size="footnote" weight="regular">
+                    <Typography.Text color="neutralBase+30" size="footnote" weight="regular">
                       {" " + (account.data?.currentAccountCurrencyType ?? "SAR")}
                     </Typography.Text>
                   </>
                 ) : (
-                  <Typography.Text color="primaryBase+10" size="body" weight="regular">
+                  <Typography.Text color="neutralBase+30" size="body" weight="regular">
                     {t("Home.DashboardScreen.balanceHidden")}
                   </Typography.Text>
                 )}

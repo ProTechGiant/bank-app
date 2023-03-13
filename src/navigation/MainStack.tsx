@@ -8,7 +8,6 @@ import DetailedSceen from "@/features/FrequentlyAskedQuestions/screens/DetailedS
 import LandingPage from "@/features/FrequentlyAskedQuestions/screens/LandingPage";
 import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
 import HomeStack from "@/features/Home/HomeStack";
-import DashboardScreen from "@/features/Home/screens/DashboardScreen";
 import NotificationManagementCategoryScreen from "@/features/NotificationManagement/screens/CategoryScreen";
 import NotificationManagementHubScreen from "@/features/NotificationManagement/screens/HubScreen";
 import OnboardingStack from "@/features/Onboarding/OnboardingStack";
@@ -23,12 +22,15 @@ import MainStackParams from "./mainStackParams";
 
 const Stack = createNativeStackNavigator<MainStackParams>();
 
-export default function MainStack() {
+interface MainStackProps {
+  onReady: () => void;
+}
+
+export default function MainStack({ onReady }: MainStackProps) {
   return (
-    <NavigationContainer>
+    <NavigationContainer onReady={onReady}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen component={TemporaryLandingScreen} name="Temporary.LandingScreen" />
-        <Stack.Screen component={DashboardScreen} name="Home.Dashboard" />
         <Stack.Screen component={SettingsScreen} name="Settings.SettingsScreen" />
         <Stack.Screen component={HubScreen} name="Referral.HubScreen" />
         <Stack.Screen

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { LogBox, ScrollView, ViewStyle } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -45,7 +45,8 @@ export default function QuickActionsReordererModal() {
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: theme.spacing["12p"],
+    paddingVertical: theme.spacing["20p"],
+    rowGap: theme.spacing["8p"],
   }));
 
   return (
@@ -59,12 +60,13 @@ export default function QuickActionsReordererModal() {
           saveText={t("Home.QuickActionsReordererModal.saveButton")}
           title={t("Home.QuickActionsReordererModal.title")}
         />
-        <View style={contentStyle}>
+        <ScrollView contentContainerStyle={contentStyle}>
           <ReordererSection count={activeItems.length} max={REQUIRED_ACTIVE_ITEMS} title="ACTIVE">
             <DraggableFlatList
               data={activeItems}
               onDragEnd={({ data }) => setActiveItems(data)}
               keyExtractor={item => item.type}
+              disableVirtualization
               ListFooterComponent={<PlaceholderGenerator amount={REQUIRED_ACTIVE_ITEMS - activeItems.length} />}
               renderItem={({ isActive, item, drag }) => {
                 return (
@@ -88,10 +90,13 @@ export default function QuickActionsReordererModal() {
               />
             ))}
           </ReordererSection>
-        </View>
+        </ScrollView>
       </Page>
     </SafeAreaProvider>
   );
 }
+
+// ignored. Virtualization is DISABLED on the DraggableFlatList so this is a false-positive
+LogBox.ignoreLogs(["VirtualizedLists should never"]);
 
 const REQUIRED_ACTIVE_ITEMS = 3;

@@ -11,21 +11,13 @@ export default function LanguageToggle() {
     i18n.changeLanguage(i18n.language === "en" ? "ar" : "en");
   };
 
-  const languageSelectViewStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      alignItems: "center",
-      alignSelf: "flex-end",
-      backgroundColor: theme.palette["neutralBase-50-12%"],
-      borderRadius: theme.radii.medium,
-      height: 34,
-      justifyContent: "center",
-      marginHorizontal: theme.spacing["16p"],
-      marginTop: theme.spacing["24p"],
-      paddingHorizontal: theme.spacing["16p"],
-      minWidth: 50,
-    }),
-    []
-  );
+  const languageSelectViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase+10"],
+    borderRadius: theme.radii.medium,
+    justifyContent: "center",
+    paddingHorizontal: theme.spacing["16p"],
+    paddingVertical: theme.spacing["8p"],
+  }));
 
   return (
     <Pressable style={languageSelectViewStyle} onPress={handleOnPress}>

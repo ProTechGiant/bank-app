@@ -34,7 +34,7 @@ export default function BulletinBoard({ children, isExpanded, onExpandPress, ico
   });
 
   const shadowStyle = useThemeStyles<ViewStyle>(theme => ({
-    shadowColor: theme.palette["primaryBase+20"],
+    shadowColor: theme.palette["neutralBase+30"],
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.14,
     elevation: 5,

@@ -8,6 +8,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface DismissibleBannerProps {
+  onClearPress?: () => void;
   icon?: React.ReactElement<SvgProps>;
   message: string;
   visible: boolean;
@@ -34,10 +35,9 @@ export default function DismissibleBanner({
     theme => ({
       backgroundColor: isError ? theme.palette.errorBase : theme.palette.primaryBase,
       borderRadius: theme.radii.extraSmall,
-      alignItems: "center",
+      alignItems: "flex-start",
       flexDirection: "row",
       elevation: 4,
-      height: 56,
       left: 0,
       margin: theme.spacing["20p"],
       padding: theme.spacing["16p"],
@@ -53,6 +53,8 @@ export default function DismissibleBanner({
   );
 
   const textStyle = useThemeStyles<ViewStyle>(theme => ({
+    flex: 1,
+    flexWrap: "wrap",
     marginLeft: theme.spacing["16p"],
   }));
 

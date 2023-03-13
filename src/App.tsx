@@ -1,6 +1,7 @@
 import "./i18n";
 
-import { StatusBar } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
+import RNBootSplash from "react-native-bootsplash";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -23,9 +24,9 @@ export default function App() {
         <GlobalContextProvider>
           <OnboardingContextProvider>
             <SafeAreaProvider>
-              <GestureHandlerRootView style={{ flex: 1 }}>
+              <GestureHandlerRootView style={styles.container}>
                 <StatusBar barStyle="dark-content" />
-                <MainStack />
+                <MainStack onReady={() => RNBootSplash.hide()} />
               </GestureHandlerRootView>
             </SafeAreaProvider>
           </OnboardingContextProvider>
@@ -34,3 +35,9 @@ export default function App() {
     </QueryClientProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

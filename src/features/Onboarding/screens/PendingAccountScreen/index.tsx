@@ -1,129 +1,111 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, StatusBar, View, ViewStyle } from "react-native";
+import { Alert, StatusBar, StyleSheet, View } from "react-native";
 
 import { FilledCircleTickIcon, FilledRefresh, LargeFilledTickIcon } from "@/assets/icons";
-import Banner from "@/components/Banner";
 import Button from "@/components/Button";
-import DarkOneGradient from "@/components/LinearGradients/GradientBackgrounds";
+import ContentContainer from "@/components/ContentContainer";
+import DismissibleBanner from "@/components/DismissibleBanner";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import BackgroundBottomStartSvg from "./background-bottom-start.svg";
+import BackgroundTopEndSvg from "./background-top-end.svg";
+
 type Status = "success" | "pending" | "failed";
+
+const accountStatus: Status = "pending";
+const userName = "Sian";
 
 export default function PendingAccountScreen() {
   const { t } = useTranslation();
-  const [showBanner, setShowBanner] = useState(true);
-
-  const accountStatus: Status = "pending";
-  const userName = "Sian";
-
-  const contentViewStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing["20p"],
-    flexDirection: "column",
-    flex: 1,
-    justifyContent: "center",
-  }));
-
-  const bannerViewStyle: ViewStyle = {
-    position: "absolute",
-    top: 0,
-    width: "100%",
-  };
-
-  const buttonViewStyle: ViewStyle = {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-  };
-
-  const iconViewStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["32p"],
-  }));
+  const [isBannerVisible, setIsBannerVisible] = useState(true);
 
   const handleOnFinishLater = () => {
     Alert.alert("Finish Later process not implemented yet. Come back later!");
   };
 
-  const handleShowBanner = () => {
-    setShowBanner(false);
-  };
-
-  const checkStatus = (currentStatus: Status, checkStatus: Status): boolean => {
-    return currentStatus === checkStatus;
-  };
+  const headerSuccessStyle = useThemeStyles(theme => ({
+    alignItems: "center",
+    rowGap: theme.spacing["24p"],
+    marginBottom: theme.spacing["24p"],
+    width: "100%",
+  }));
 
   return (
-    <DarkOneGradient>
+    <>
+      {accountStatus === "success" ? (
+        <DismissibleBanner
+          onClearPress={() => setIsBannerVisible(false)}
+          icon={<FilledCircleTickIcon />}
+          message={t("Onboarding.LandingScreen.success.bannerMessage")}
+          visible={isBannerVisible}
+        />
+      ) : accountStatus === "pending" ? (
+        <DismissibleBanner
+          onClearPress={() => setIsBannerVisible(false)}
+          icon={<FilledRefresh />}
+          message={t("Onboarding.LandingScreen.pending.bannerMessage")}
+          visible={isBannerVisible}
+        />
+      ) : null}
       <Page>
-        <StatusBar barStyle="light-content" />
-        <View style={contentViewStyle}>
-          {checkStatus(accountStatus, "success") && (
+        <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
+        <View style={styles.backgroundTopEnd}>
+          <BackgroundTopEndSvg />
+        </View>
+        <View style={styles.backgroundBottomStart}>
+          <BackgroundBottomStartSvg />
+        </View>
+        <ContentContainer>
+          {accountStatus === "success" ? (
             <>
-              {showBanner && (
-                <View style={bannerViewStyle}>
-                  <Banner
-                    variant="successBase"
-                    icon={<FilledCircleTickIcon />}
-                    onClear={handleShowBanner}
-                    message={t("Onboarding.LandingScreen.success.bannerMessage")}
-                  />
-                </View>
-              )}
-              <Stack direction="vertical" align="center">
-                <View style={iconViewStyle}>
+              <Stack direction="vertical" flex={1} justify="space-between">
+                <View />
+                <View style={headerSuccessStyle}>
                   <LargeFilledTickIcon />
+                  <Typography.Text align="center" size="large" weight="bold" color="primaryBase-10">
+                    {t("Onboarding.LandingScreen.success.title", { userName })}
+                  </Typography.Text>
                 </View>
-                <Typography.Text size="large" weight="bold" color="neutralBase-50" align="center">
-                  {t("Onboarding.LandingScreen.success.title")}
-                </Typography.Text>
-                <Typography.Text size="large" weight="bold" color="neutralBase-50" align="center">
-                  {userName}
-                </Typography.Text>
-              </Stack>
-              <View style={buttonViewStyle}>
-                <Button variant="primary" color="dark" onPress={handleOnFinishLater}>
+                <Button block variant="primary" onPress={handleOnFinishLater}>
                   {t("Onboarding.LandingScreen.buttons.FinishLater")}
                 </Button>
-              </View>
-            </>
-          )}
-          {checkStatus(accountStatus, "pending") && (
-            <>
-              {showBanner && (
-                <View style={bannerViewStyle}>
-                  <Banner
-                    variant="warningBase-30"
-                    icon={<FilledRefresh />}
-                    onClear={handleShowBanner}
-                    message={t("Onboarding.LandingScreen.pending.bannerMessage")}
-                  />
-                </View>
-              )}
-              <Stack direction="vertical" align="center">
-                <Typography.Text size="large" weight="bold" color="neutralBase-50" align="center">
-                  {t("Onboarding.LandingScreen.pending.title")}
-                </Typography.Text>
-                <Typography.Text size="large" weight="bold" color="neutralBase-50" align="center">
-                  {userName}
-                </Typography.Text>
               </Stack>
             </>
-          )}
-          {checkStatus(accountStatus, "failed") && (
-            <Stack direction="vertical" gap="16p" align="center">
-              <Typography.Text size="large" weight="bold" color="neutralBase-50" align="center">
+          ) : accountStatus === "pending" ? (
+            <Stack direction="vertical" align="center" justify="center" flex={1}>
+              <Typography.Text size="large" weight="bold" color="primaryBase-10" align="center">
+                {t("Onboarding.LandingScreen.pending.title", { userName })}
+              </Typography.Text>
+            </Stack>
+          ) : (
+            <Stack direction="vertical" gap="16p" align="center" justify="center" flex={1}>
+              <Typography.Text color="primaryBase-10" size="large" weight="bold" align="center">
                 {t("Onboarding.LandingScreen.failed.title")}
               </Typography.Text>
-              <Typography.Text size="callout" weight="bold" color="neutralBase-50" align="center">
+              <Typography.Text size="callout" weight="regular" color="primaryBase-10" align="center">
                 {t("Onboarding.LandingScreen.failed.subtitle")}
               </Typography.Text>
             </Stack>
           )}
-        </View>
+        </ContentContainer>
       </Page>
-    </DarkOneGradient>
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  backgroundBottomStart: {
+    bottom: 0,
+    position: "absolute",
+    start: 0,
+  },
+  backgroundTopEnd: {
+    end: 0,
+    position: "absolute",
+    top: 0,
+  },
+});

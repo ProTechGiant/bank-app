@@ -15,7 +15,6 @@ export default function ReordererSection({ children, count, max, title }: Reorde
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: theme.spacing["12p"] / 2,
     marginBottom: theme.spacing["12p"],
     paddingHorizontal: theme.spacing["20p"],
   }));

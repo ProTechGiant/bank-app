@@ -26,16 +26,15 @@ export const resources = {
       },
       Onboarding: {
         SplashScreen: {
-          title: "You're in control now",
-          subTitle: "Sub title",
+          title: "Smarter lifestyle choices with more control",
           buttons: {
-            signUp: "Sign up",
-            signIn: "Sign in",
+            signUp: "Open a Croatia account",
+            signIn: "Already have a Croatia account?",
           },
         },
         LandingScreen: {
           success: {
-            title: "You're on your way",
+            title: 'Welcome\n "{{userName}}"',
             bannerMessage: "Your account was successfully created!",
           },
           failed: {
@@ -43,7 +42,7 @@ export const resources = {
             subtitle: "If you have any concerns, please contact XXXXXXX.",
           },
           pending: {
-            title: "You're on your way",
+            title: 'You\'re on your way\n "{{userName}}"',
             bannerMessage:
               "It can take up to X days for us to finalise this process. An SMS will be sent to you when your account has been created.",
           },
@@ -782,7 +781,6 @@ export const resources = {
       Onboarding: {
         SplashScreen: {
           title: "أنت الآن في السيطرة",
-          subTitle: "مرحبًا",
           buttons: {
             signUp: "أنشئ حساب",
             signIn: "تسجيل الدخول",

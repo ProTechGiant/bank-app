@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { ScrollView, ViewStyle } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -45,7 +45,8 @@ export default function SectionsReordererModal() {
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: theme.spacing["12p"],
+    paddingVertical: theme.spacing["20p"],
+    rowGap: theme.spacing["8p"],
   }));
 
   return (
@@ -59,7 +60,7 @@ export default function SectionsReordererModal() {
           saveText={t("Home.SectionsReordererModal.saveButton")}
           title={t("Home.SectionsReordererModal.title")}
         />
-        <View style={contentStyle}>
+        <ScrollView contentContainerStyle={contentStyle}>
           <ReordererSection title="ACTIVE">
             <DraggableFlatList
               data={activeItems}
@@ -88,7 +89,7 @@ export default function SectionsReordererModal() {
               />
             ))}
           </ReordererSection>
-        </View>
+        </ScrollView>
       </Page>
     </SafeAreaProvider>
   );
