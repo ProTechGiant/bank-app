@@ -60,7 +60,7 @@ export default function PendingAccountScreen() {
 
   return (
     <>
-      {accountStatus === "SUCCESS" ? (
+      {accountStatus === "COMPLETED" ? (
         <DismissibleBanner
           onClearPress={() => setIsBannerVisible(false)}
           icon={<FilledCircleTickIcon />}
@@ -86,7 +86,7 @@ export default function PendingAccountScreen() {
         <ContentContainer>
           {accountStatus ? (
             <>
-              {accountStatus === "SUCCESS" ? (
+              {accountStatus === "COMPLETED" ? (
                 <>
                   <Stack direction="vertical" flex={1} justify="space-between">
                     <View />

@@ -4,7 +4,7 @@ import api from "@/api";
 
 import { useOnboardingContext } from "../../context/OnboardingContext";
 
-export type Status = "SUCCESS" | "PENDING" | "DECLINED";
+export type Status = "COMPLETED" | "PENDING" | "DECLINED";
 
 interface ApiOnboardingStatusResponse {
   OnboardingStatus: Status;
