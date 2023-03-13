@@ -18,6 +18,7 @@ export type CardActionsStackParams = {
     isCardCreated?: boolean;
     cardType: CardType;
     cardStatus?: CardStatus;
+    cardId: string;
   };
   "CardActions.CardSettingsScreen": {
     cardStatus?: CardStatus;

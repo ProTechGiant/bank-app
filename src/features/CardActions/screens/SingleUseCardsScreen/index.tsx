@@ -6,9 +6,7 @@ import BankCard from "@/components/BankCard";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 
-import useCards from "../../hooks/use-cards";
-import useCustomerTier from "../../hooks/use-customer-tier";
-import { mockCard } from "../../mocks/mockCard";
+import { useCards, useCustomerTier } from "../../query-hooks";
 
 export default function SingleUseCardsScreen() {
   const { t } = useTranslation();
@@ -16,9 +14,8 @@ export default function SingleUseCardsScreen() {
 
   const tier = useCustomerTier();
 
-  const cards = useCards();
-
-  let singleUseCard = mockCard;
+  const { data } = useCards();
+  const cardsList = data?.Cards;
 
   const navigateToGenerateCard = () => {
     navigation.navigate("CardActions.SingleUseCardInfo");
@@ -28,24 +25,13 @@ export default function SingleUseCardsScreen() {
     navigation.navigate("CardActions.SingleUseCardAbout");
   };
 
-  const checkIfUserHasActiveSUC = () => {
-    let hasSUC = false;
-    if (cards.data != null && cards.data.length > 0) {
-      cards.data.map(card => {
-        if (card.CardType === "3") {
-          singleUseCard = card;
-          return (hasSUC = true);
-        }
-      });
-    }
-    return hasSUC;
-  };
+  const singleUseCard = cardsList?.find(card => card.CardType === "3");
 
   return (
     <View style={styles.container}>
       {tier.data?.tier === "Plus" ? (
         <View>
-          {checkIfUserHasActiveSUC() ? (
+          {singleUseCard !== undefined ? (
             <BankCard.Active
               cardNumber={singleUseCard.LastFourDigits}
               cardType="single-use"

@@ -17,7 +17,7 @@ import { useThemeStyles } from "@/theme";
 import { CardActionsStackParams, CardStatus } from "../../CardActionsStack";
 import ViewPinModal from "../../components/ViewPinModal";
 import { mockCard } from "../../mocks/mockCard";
-import { useFreezeCard, useUnfreezeCard } from "../../query-hooks";
+import { useCards, useFreezeCard, useUnfreezeCard } from "../../query-hooks";
 
 interface ContextMenuItem {
   id: number;
@@ -29,8 +29,9 @@ interface ContextMenuItem {
 export default function HomeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { data } = useCards();
 
-  const CARD_ID = "61aba98d-3eef-4993-98d5-3f60a7f74ed5"; // @TODO: get from BE
+  const cardsList = data?.Cards;
 
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
@@ -68,9 +69,9 @@ export default function HomeScreen() {
     },
   ];
 
-  const handleOnFreezeCardPress = async () => {
+  const handleOnFreezeCardPress = async (cardId: string) => {
     try {
-      const response = await freezeCardAsync.mutateAsync({ cardId: CARD_ID });
+      const response = await freezeCardAsync.mutateAsync({ cardId });
       response.Status === "freeze" ? setIsCardFrozen(true) : setShowErrorModal(true);
     } catch (error) {
       setShowErrorModal(true);
@@ -78,9 +79,9 @@ export default function HomeScreen() {
     }
   };
 
-  const handleOnUnfreezeCardPress = async () => {
+  const handleOnUnfreezeCardPress = async (cardId: string) => {
     try {
-      const response = await unfreezeCardAsync.mutateAsync({ cardId: CARD_ID });
+      const response = await unfreezeCardAsync.mutateAsync({ cardId });
       if (response.OtpCode.length > 0 && response.OtpId.length > 0) {
         navigation.navigate("CardActions.OneTimePasswordModal", {
           redirect: "CardActions.HomeScreen",
@@ -111,16 +112,24 @@ export default function HomeScreen() {
     });
   };
 
-  const handleOnPlusCardPress = () => {
-    navigation.navigate("CardActions.CardDetailsScreen", { cardType: "plus", cardStatus: "active" });
+  const handleOnActiveCardPress = (cardId: string) => {
+    navigation.navigate("CardActions.CardDetailsScreen", {
+      cardType: "standard",
+      cardStatus: "active",
+      cardId: cardId,
+    });
   };
 
-  const handleOnInactiveCardPress = () => {
-    navigation.navigate("CardActions.CardDetailsScreen", { cardType: "standard", cardStatus: "inactive" });
+  const handleOnInactiveCardPress = (cardId: string) => {
+    navigation.navigate("CardActions.CardDetailsScreen", {
+      cardType: "standard",
+      cardStatus: "inactive",
+      cardId: cardId,
+    });
   };
 
-  const handleOnSingleUseCardPress = () => {
-    navigation.navigate("CardActions.CardDetailsScreen", { cardType: "single-use" });
+  const handleOnSingleUseCardPress = (cardId: string) => {
+    navigation.navigate("CardActions.CardDetailsScreen", { cardType: "single-use", cardId: cardId });
   };
 
   const handleOnPressAbout = () => {
@@ -142,51 +151,69 @@ export default function HomeScreen() {
         <NavHeader title={t("Cards.HomeScreen.navTitle")} end={false} />
         <ScrollView horizontal style={cardContainerStyle}>
           <Stack direction="horizontal" gap="20p">
-            {isCardFrozen ? (
-              <BankCard.Inactive
-                type="frozen"
-                endButton={
-                  <ContextMenu
-                    actions={contextMenuActions}
-                    dropdownMenuMode={true}
-                    onPress={e => {
-                      e.nativeEvent.index === 0
-                        ? isCardFrozen
-                          ? handleOnUnfreezeCardPress()
-                          : handleOnFreezeCardPress()
-                        : e.nativeEvent.index === 1
-                        ? handleOnViewPinPress()
-                        : handleOnCardSettingsPress("inactive");
-                    }}>
-                    <BankCard.EndButton icon={<ThreeDotsIcon />} />
-                  </ContextMenu>
-                }
-                label={t("Cards.plusCard")}
-                actionButton={<BankCard.ActionButton title={t("Cards.cardFrozen")} type="dark" />}
-              />
-            ) : (
-              <BankCard.Active
-                cardNumber="4433"
-                cardType="plus"
-                label={t("Cards.plusCard")}
-                endButton={
-                  <ContextMenu
-                    actions={contextMenuActions}
-                    dropdownMenuMode={true}
-                    onPress={e => {
-                      e.nativeEvent.index === 0
-                        ? isCardFrozen
-                          ? handleOnUnfreezeCardPress()
-                          : handleOnFreezeCardPress()
-                        : e.nativeEvent.index === 1
-                        ? handleOnViewPinPress()
-                        : handleOnCardSettingsPress("active");
-                    }}>
-                    <BankCard.EndButton icon={<ThreeDotsIcon />} />
-                  </ContextMenu>
-                }
-                onPress={handleOnPlusCardPress}
-              />
+            {cardsList?.map(card =>
+              card.Status === "unfreeze" ? (
+                <BankCard.Active
+                  key={card.CardId}
+                  cardNumber={card.LastFourDigits}
+                  cardType={card.ProductId === "1356" ? "standard" : "plus"}
+                  label={card.ProductId === "1356" ? t("Cards.standardCard") : t("Cards.plusCard")}
+                  endButton={
+                    <ContextMenu
+                      actions={contextMenuActions}
+                      dropdownMenuMode={true}
+                      onPress={e => {
+                        e.nativeEvent.index === 0
+                          ? isCardFrozen
+                            ? handleOnUnfreezeCardPress(card.CardId)
+                            : handleOnFreezeCardPress(card.CardId)
+                          : e.nativeEvent.index === 1
+                          ? handleOnViewPinPress()
+                          : handleOnCardSettingsPress("active");
+                      }}>
+                      <BankCard.EndButton icon={<ThreeDotsIcon />} />
+                    </ContextMenu>
+                  }
+                  onPress={handleOnActiveCardPress.bind(null, card.CardId)}
+                />
+              ) : card.Status === "freeze" ? (
+                <BankCard.Inactive
+                  key={card.CardId}
+                  type="frozen"
+                  label={card.ProductId === "1356" ? t("Cards.standardCard") : t("Cards.plusCard")}
+                  actionButton={<BankCard.ActionButton type="dark" title={t("Cards.cardFrozen")} />}
+                  endButton={
+                    <ContextMenu
+                      actions={contextMenuActions}
+                      dropdownMenuMode={true}
+                      onPress={e => {
+                        e.nativeEvent.index === 0
+                          ? isCardFrozen
+                            ? handleOnUnfreezeCardPress(card.CardId)
+                            : handleOnFreezeCardPress(card.CardId)
+                          : e.nativeEvent.index === 1
+                          ? handleOnViewPinPress()
+                          : handleOnCardSettingsPress("inactive");
+                      }}>
+                      <BankCard.EndButton icon={<ThreeDotsIcon />} />
+                    </ContextMenu>
+                  }
+                />
+              ) : (
+                <BankCard.Inactive
+                  key={card.CardId}
+                  type="inactive"
+                  label={card.ProductId === "1356" ? t("Cards.standardCard") : t("Cards.plusCard")}
+                  actionButton={
+                    <BankCard.ActionButton
+                      type="light"
+                      title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
+                      onPress={handleOnActivateNowPress}
+                    />
+                  }
+                  onPress={handleOnInactiveCardPress.bind(null, card.CardId)}
+                />
+              )
             )}
             <BankCard.Inactive
               type="inactive"
@@ -197,22 +224,6 @@ export default function HomeScreen() {
                   title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
                   onPress={handleOnActivateNowPress}
                 />
-              }
-              endButton={
-                <ContextMenu
-                  actions={contextMenuActions}
-                  dropdownMenuMode={true}
-                  onPress={e => {
-                    e.nativeEvent.index === 0
-                      ? isCardFrozen
-                        ? handleOnUnfreezeCardPress()
-                        : handleOnFreezeCardPress()
-                      : e.nativeEvent.index === 1
-                      ? handleOnViewPinPress()
-                      : handleOnCardSettingsPress("inactive");
-                  }}>
-                  <BankCard.EndButton icon={<ThreeDotsIcon />} />
-                </ContextMenu>
               }
               onPress={handleOnInactiveCardPress}
             />
@@ -225,7 +236,7 @@ export default function HomeScreen() {
                   <BankCard.EndButton icon={<InfoCircleIcon />} />
                 </Pressable>
               }
-              onPress={handleOnSingleUseCardPress}
+              onPress={() => handleOnSingleUseCardPress(mockCard.CardId)}
             />
           </Stack>
         </ScrollView>

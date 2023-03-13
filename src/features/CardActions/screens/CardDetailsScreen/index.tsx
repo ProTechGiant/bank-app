@@ -49,7 +49,7 @@ export default function CardDetailsScreen() {
   }, [route.params.isCardCreated]);
 
   const handleOnAddToAppleWallet = () => {
-    navigation.navigate("Temporary.LandingScreen"); //to do: navigate to dummy screen
+    navigation.navigate("Temporary.LandingScreen");
   };
 
   const handleOnActiveCardSettingsPress = () => {

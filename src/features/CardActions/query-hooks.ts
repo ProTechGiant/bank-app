@@ -1,6 +1,21 @@
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
+import { generateRandomId } from "@/utils";
+
+import { Card, CustomerTier } from "./types";
+
+interface CardsResponse {
+  Cards: Card[];
+}
+
+export function useCards() {
+  return useQuery("cards", () => {
+    return api<CardsResponse>("v1", "cards", "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
 
 interface FreezeCardResponse {
   Status: string;
@@ -22,7 +37,7 @@ export function useFreezeCard() {
       undefined,
       { Status: "freeze" },
       {
-        ["x-correlation-id"]: String(Math.floor(Math.random() * 1000000000)),
+        ["x-correlation-id"]: generateRandomId(),
       }
     );
   });
@@ -37,8 +52,14 @@ export function useUnfreezeCard() {
       undefined,
       { Status: "unfreeze" },
       {
-        ["x-correlation-id"]: String(Math.floor(Math.random() * 1000000000)),
+        ["x-correlation-id"]: generateRandomId(),
       }
     );
+  });
+}
+
+export function useCustomerTier() {
+  return useQuery("customer", () => {
+    return api<CustomerTier>("v1", "customer/tier", "GET");
   });
 }

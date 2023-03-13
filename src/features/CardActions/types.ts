@@ -5,3 +5,7 @@ export interface Card {
   LastFourDigits: string;
   Status: string;
 }
+
+export interface CustomerTier {
+  tier: string;
+}
