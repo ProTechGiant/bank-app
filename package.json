@@ -14,6 +14,9 @@
     "release:test": "BUILD_ENVIRONMENT=test sh scripts/build-for-nexus.sh",
     "release:eit": "BUILD_ENVIRONMENT=eit sh scripts/build-for-nexus.sh"
   },
+  "reactNativePermissionsIOS": [
+    "Notifications"
+  ],
   "dependencies": {
     "@hookform/resolvers": "^2.9.10",
     "@react-native-clipboard/clipboard": "^1.11.1",
@@ -36,6 +39,7 @@
     "react-native-gesture-handler": "^2.9.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-pager-view": "^6.1.2",
+    "react-native-permissions": "^3.7.3",
     "react-native-reanimated": "^2.14.4",
     "react-native-safe-area-context": "^4.5.0",
     "react-native-screens": "^3.19.0",

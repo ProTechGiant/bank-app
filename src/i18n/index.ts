@@ -427,6 +427,12 @@ export const resources = {
         },
       },
       NotificationManagement: {
+        PermissionAlertModal: {
+          title: "Notifications are turned off",
+          subtitle: "To enable notifications, go to device settings and turn on notifications for the croatia app",
+          back: "Cancel",
+          settings: "Go to settings",
+        },
         HubScreen: {
           title: "Notifications",
           subtitle: "Choose which notifications you'd like to receive.",
