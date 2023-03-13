@@ -1,16 +1,29 @@
 import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
+import { LightningBoltIcon, QuestionIcon, RecurringEventIcon } from "@/assets/icons";
 import Button from "@/components/Button";
-import ContentContainer from "@/components/ContentContainer";
+import Divider from "@/components/Divider";
+import Modal from "@/components/Modal";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
-import MainStackParams from "@/navigation/MainStackParams";
+import Stack from "@/components/Stack";
+import Typography from "@/components/Typography";
+import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+
+import { useSavingsPot } from "../../query-hooks";
+import ActionButtons from "./ActionButtons";
+import CardButtonToggle from "./CardButtonToggle";
+import GoalDetailsHeader from "./GoalDetailsHeader";
+import { calculateGoalBalanceOverThreeQuarters, getDayFromDate } from "./helpers";
+import RegularPaymentCardButton from "./RegularPaymentCardButton";
+import TransactionCardList from "./TransactionCardList";
 
 export default function GoalDetailsScreen() {
   const { t } = useTranslation();
@@ -18,7 +31,12 @@ export default function GoalDetailsScreen() {
   const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.GoalDetailsScreen">>();
   const { PotId, amountWithdrawn, redirectToFundingModal } = route.params;
   const fundGoalModalShown = useRef(false);
-  const [shownAmountWithdrawn, setShownAmountWithdrawn] = useState(amountWithdrawn);
+  const [showRoundUpModal, setShowRoundUpModal] = useState(false);
+  const [showInfoRoundsUpsModal, setInfoRoundsUpModal] = useState(false);
+  const [showGoalAlmostReachedNotification, setShowGoalAlmostReachedNotification] = useState(false);
+  const [differenceNeededToReachGoal, setDifferenceNeededToReachGoal] = useState(0);
+  const [showAmountWithdrawn, setShowAmountWithdrawn] = useState(amountWithdrawn);
+  const { data } = useSavingsPot(route.params.PotId);
 
   // Immediately funding goal modal if needed
   useFocusEffect(
@@ -33,7 +51,7 @@ export default function GoalDetailsScreen() {
         fundGoalModalShown.current = true;
       }
       if (amountWithdrawn) {
-        setShownAmountWithdrawn(amountWithdrawn);
+        setShowAmountWithdrawn(amountWithdrawn);
       }
     }, [redirectToFundingModal, amountWithdrawn, navigation, PotId])
   );
@@ -46,10 +64,61 @@ export default function GoalDetailsScreen() {
   const handleOnOpenFunding = () => {
     navigation.navigate("SavingsGoals.FundGoalModal", {
       PotId: PotId,
+      step: "one-time-payment",
     });
   };
 
+  const redirectToRegularPaymentFunding = () => {
+    // TODO: implement reccurring / regular payment logic
+    console.log("recurring funding");
+  };
+
+  const toggleRoundUp = () => {
+    setShowRoundUpModal(!showRoundUpModal);
+
+    handleRoundUp();
+  };
+
+  const handleRoundUp = () => {
+    // TODO implement BE when ready
+
+    console.log("round up logic");
+  };
+
+  const handleOnEdit = () => {
+    // TODO: Implement edit functionality for Savings Goal View
+    console.log("Edit pressed");
+  };
+
+  const showInfoModal = () => {
+    setInfoRoundsUpModal(!showInfoRoundsUpsModal);
+  };
+
+  const navigateToFAQ = () => {
+    setInfoRoundsUpModal(false);
+    navigation.navigate("FrequentlyAskedQuestions.LandingPage");
+  };
+
   const handleOnOpenWithdraw = () => {
+    if (data === undefined) return;
+
+    setShowGoalAlmostReachedNotification(false);
+    const goalBalance = calculateGoalBalanceOverThreeQuarters(data);
+
+    setDifferenceNeededToReachGoal(goalBalance.difference);
+
+    if (goalBalance.overThreeQuarters) {
+      setShowGoalAlmostReachedNotification(true);
+    } else {
+      navigation.navigate("SavingsGoals.WithdrawGoalModal", {
+        PotId: PotId,
+      });
+    }
+  };
+
+  const handleWithdrawAnyway = () => {
+    setShowGoalAlmostReachedNotification(false);
+
     navigation.navigate("SavingsGoals.WithdrawGoalModal", {
       PotId: PotId,
     });
@@ -61,31 +130,218 @@ export default function GoalDetailsScreen() {
     });
   };
 
-  const buttonsContainer = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginBottom: theme.spacing["16p"],
-    }),
-    []
-  );
+  const handleOnSeeAllTransactions = () => {
+    // TODO: navigate to "All Transactions" page or open new modal showing them, TBD
+    console.log("All transactions");
+  };
+
+  const navigationWrapper = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["48p"],
+    backgroundColor: theme.palette.primaryBase,
+    justifyContent: "center",
+  }));
+
+  const contentContainer = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette.primaryBase,
+    paddingTop: theme.spacing["16p"],
+    alignItems: "center",
+    paddingBottom: theme.spacing["24p"],
+  }));
+
+  const iconAndLinkContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["8p"],
+    color: theme.palette.primaryBase,
+  }));
+
+  const {
+    height: iconHeight,
+    width: iconWidth,
+    color,
+  } = useThemeStyles(theme => ({
+    ...theme.iconDimensions.infoQuestionMark,
+    color: theme.palette.primaryBase,
+  }));
+
+  const transactionsAndPaymentsContainer = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing["8p"],
+    paddingHorizontal: theme.spacing["16p"],
+  }));
+
+  const sectionTitleStyle = useThemeStyles<ViewStyle>(theme => ({
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: theme.spacing["32p"],
+    marginBottom: theme.spacing["8p"],
+  }));
 
   return (
-    <Page>
-      <NavHeader onBackPress={handleOnBackPress} title="Goal details screen" />
-      <ContentContainer>
-        <View style={buttonsContainer}>
-          <Button onPress={handleOnOpenFunding}>Open funding modal</Button>
+    <Page insets={["left", "right"]}>
+      <ScrollView>
+        <View style={navigationWrapper}>
+          <NavHeader
+            onBackPress={handleOnBackPress}
+            title={data?.GoalName}
+            color="white"
+            end={<NavHeader.EditEndButton onPress={handleOnEdit} />}
+          />
         </View>
-        <Button onPress={handleOnOpenWithdraw}>Open withdraw modal</Button>
+        <View style={contentContainer}>
+          {data && (
+            <GoalDetailsHeader
+              AvailableBalanceAmount={data.AvailableBalanceAmount}
+              TargetAmount={data.TargetAmount}
+              TargetDate={data.TargetDate}
+            />
+          )}
+          <ActionButtons onFundingPress={handleOnOpenFunding} onWithdrawPress={handleOnOpenWithdraw} />
+        </View>
+
+        <View style={transactionsAndPaymentsContainer}>
+          <View>
+            <View style={sectionTitleStyle}>
+              <Typography.Text size="callout" weight="medium">
+                {t("SavingsGoals.GoalDetailsScreen.Payments.title")}
+              </Typography.Text>
+            </View>
+            <View>
+              {data && (
+                <CardButtonToggle
+                  onPress={toggleRoundUp}
+                  onInfoPress={showInfoModal}
+                  icon={<LightningBoltIcon />}
+                  text={t("SavingsGoals.GoalDetailsScreen.RoundUp")}
+                  toggleValue={data.RoundupFlag}
+                />
+              )}
+              <Divider color="neutralBase-30" />
+
+              {/* onPress will be updated with navigation to either edit or add regular payment on press when edit regular payment is available */}
+              {/* recurring (regular) payment data comes hardcoded from BE, the logic might change */}
+              {data && (
+                <RegularPaymentCardButton
+                  onPress={redirectToRegularPaymentFunding}
+                  icon={<RecurringEventIcon />}
+                  text={
+                    data.RecurringPayments.NextPaymentDate
+                      ? t("SavingsGoals.GoalDetailsScreen.RegularPayment.titleExistingRegular")
+                      : t("SavingsGoals.GoalDetailsScreen.RegularPayment.titleAddRegular")
+                  }
+                  subtext={t("SavingsGoals.GoalDetailsScreen.RegularPayment.text", {
+                    amount: data.RecurringPayments.PaymentAmount,
+                    currency: data.RecurringPayments.Currency,
+                    day: t("SavingsGoals.GoalDetailsScreen.RegularPayment.day", {
+                      count: getDayFromDate(data.RecurringPayments.NextPaymentDate),
+                      ordinal: true,
+                    }),
+                  })}
+                />
+              )}
+            </View>
+          </View>
+          <View>
+            <View style={sectionTitleStyle}>
+              <Typography.Text size="callout" weight="medium">
+                {t("SavingsGoals.GoalDetailsScreen.Transactions.title")}
+              </Typography.Text>
+              {/* //TO DO: transform this into a link to all transactions */}
+              <Pressable onPress={handleOnSeeAllTransactions}>
+                <Typography.Text size="callout" weight="medium" color="primaryBase">
+                  {t("SavingsGoals.GoalDetailsScreen.Transactions.seeAll")}
+                </Typography.Text>
+              </Pressable>
+            </View>
+
+            <TransactionCardList />
+          </View>
+        </View>
+      </ScrollView>
+      {/* modal informing the user that the withdrawal was successful */}
+      <NotificationModal
+        variant="success"
+        onClose={handleOnCloseWithdrawConfirmationModal}
+        message={t("SavingsGoals.WithdrawModal.successfulWithdrawal.text")}
+        title={t("SavingsGoals.WithdrawModal.successfulWithdrawal.title", {
+          amount: showAmountWithdrawn,
+        })}
+        isVisible={amountWithdrawn ? true : false}
+      />
+
+      {/* modal informing the user that he almost reached his goal when trying to withdraw */}
+      {showGoalAlmostReachedNotification && (
         <NotificationModal
-          variant="success"
-          onClose={handleOnCloseWithdrawConfirmationModal}
-          message={t("SavingsGoals.WithdrawModal.successfulWithdrawal.text")}
-          title={t("SavingsGoals.WithdrawModal.successfulWithdrawal.title", {
-            amount: shownAmountWithdrawn,
+          variant="confirmations"
+          message={t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.message", {
+            amount: differenceNeededToReachGoal,
           })}
-          isVisible={amountWithdrawn ? true : false}
+          title={t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.title")}
+          isVisible={showGoalAlmostReachedNotification}
+          buttons={{
+            primary: (
+              <Button onPress={handleWithdrawAnyway}>
+                {t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.withdrawButton")}
+              </Button>
+            ),
+            secondary: (
+              <Button
+                onPress={() => {
+                  setShowGoalAlmostReachedNotification(!showGoalAlmostReachedNotification);
+                }}>
+                {t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.cancelButton")}
+              </Button>
+            ),
+          }}
         />
-      </ContentContainer>
+      )}
+      {/* modal informing the user that round-ups is active for another goal already */}
+      <NotificationModal
+        variant="confirmations"
+        message={t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.message")}
+        title={t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.title")}
+        isVisible={showRoundUpModal}
+        buttons={{
+          primary: (
+            <Button onPress={handleRoundUp}>
+              {t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.switchRoundUpButton")}
+            </Button>
+          ),
+          secondary: (
+            <Button
+              onPress={() => {
+                setShowRoundUpModal(!showRoundUpModal);
+              }}>
+              {t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.cancelButton")}
+            </Button>
+          ),
+        }}
+      />
+      {/* modal with information about rounds up */}
+      <Modal
+        onClose={() => {
+          setInfoRoundsUpModal(!showInfoRoundsUpsModal);
+        }}
+        visible={showInfoRoundsUpsModal}>
+        <Stack direction="vertical" gap="8p" style={styles.infoModalContentContainer}>
+          <Typography.Text size="title2" weight="bold">
+            {t("SavingsGoals.GoalDetailsScreen.InfoModal.title")}
+          </Typography.Text>
+          <Typography.Text size="callout">{t("SavingsGoals.GoalDetailsScreen.InfoModal.text")}</Typography.Text>
+          <Pressable onPress={navigateToFAQ}>
+            <Stack direction="horizontal" gap="5p" justify="center" align="center" style={iconAndLinkContainerStyle}>
+              <QuestionIcon height={iconHeight} width={iconWidth} color={color} />
+              <Typography.Text size="footnote" color="primaryBase">
+                {t("SavingsGoals.GoalDetailsScreen.InfoModal.link")}
+              </Typography.Text>
+            </Stack>
+          </Pressable>
+        </Stack>
+      </Modal>
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  infoModalContentContainer: {
+    marginBottom: 32,
+    marginTop: 16,
+  },
+});

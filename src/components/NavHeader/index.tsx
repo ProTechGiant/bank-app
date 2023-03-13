@@ -7,6 +7,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import CloseEndButton, { CloseEndButtonProps } from "./CloseEndButton";
+import EditEndButton from "./EditEndButton";
 import StatusBar from "./StatusBar";
 import TextEndButton, { TextEndButtonProps } from "./TextEndButton";
 
@@ -113,5 +114,6 @@ const styles = StyleSheet.create({
 
 NavHeader.CloseEndButton = CloseEndButton;
 NavHeader.TextEndButton = TextEndButton;
+NavHeader.EditEndButton = EditEndButton;
 
 export default NavHeader;

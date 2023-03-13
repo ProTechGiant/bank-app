@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import ProgressWheel from "./ProgressWheel";
+import ProgressWheel from "../../components/ProgressWheel";
 
 interface GoalCardProps {
   title: string;
@@ -16,6 +16,7 @@ interface GoalCardProps {
 }
 
 const formatter = Intl.NumberFormat("en-US");
+
 export default function GoalCard({ title, amountSaved, totalAmount, date, onPress }: GoalCardProps) {
   const { t } = useTranslation();
 
@@ -55,7 +56,7 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
           {format(new Date(date), "d MMM, yyyy")}
         </Typography.Text>
       </View>
-      <ProgressWheel current={amountSaved} total={totalAmount} />
+      <ProgressWheel current={amountSaved} total={totalAmount} circleSize={64} textSize="footnote" />
     </Pressable>
   );
 }

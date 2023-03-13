@@ -18,6 +18,7 @@ export { default as ClearIcon } from "./clear.svg";
 export { CloseIcon } from "./close-icon";
 export { CopyIcon } from "./copy";
 export { default as DisabledPlusIconCircle } from "./disabled-plus-circle.svg";
+export { EditIcon } from "./edit";
 export { EditBordered } from "./edit-bordered";
 export { default as ErrorIcon } from "./error.svg";
 export { default as ErrorBlackIcon } from "./error-black.svg";
@@ -70,6 +71,7 @@ export { default as TransferHorizontal } from "./transfer-horizontal.svg";
 export { default as TransferVertical } from "./transfer-vertical";
 export { default as UserClockIcon } from "./user-clock";
 export { UserIcon } from "./user-icon";
+export { WithdrawIcon } from "./withdraw";
 
 export interface IconProps {
   color?: ColorValue;

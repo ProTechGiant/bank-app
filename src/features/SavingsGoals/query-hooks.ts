@@ -136,8 +136,9 @@ export interface SavingsPotDetailsResponse {
     PaymentFrequency: number;
     StartingDate: string;
     EndDate: string;
-    RemittenceInformation: string;
+    RemittanceInformation: string;
     E2EReference: string;
+    NextPaymentDate: string;
   };
 }
 

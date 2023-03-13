@@ -493,6 +493,52 @@ export const resources = {
           button: "Set goal",
           instructionText: "You can set a total of 4 goals",
         },
+        GoalDetailsScreen: {
+          GoalDetailsHeader: {
+            currency: "SAR",
+            goalAmoutDetails: "of {{GoalAmount}} SAR",
+            targetDate: "Target date: {{TargetDate}}",
+          },
+          Payments: {
+            title: "Automatic payments",
+          },
+          RegularPayment: {
+            titleAddRegular: "Add regular payment",
+            titleExistingRegular: "Regular payment",
+            text: "{{amount}} {{currency}} on {{day}} of the month",
+            day_one: "{{count}}st",
+            day_two: "{{count}}nd",
+            day_few: "{{count}}rd",
+            day_other: "{{count}}th",
+          },
+          Transactions: {
+            title: "Latest Transactions",
+            seeAll: "See all",
+          },
+          RoundUp: "Round up",
+          InfoModal: {
+            title: "About Round-ups",
+            text: "Round-up every purchase to the nearest 5 SAR. The extra will go towards your choice of goal.",
+            link: "Find out more in our FAQs",
+          },
+          GoalAlmostReachedModal: {
+            title: "Are you sure you want to withdraw money?",
+            message:
+              "You’re only {{amount}} SAR away from your goal – and withdrawing money will move you further away.",
+            withdrawButton: "Withdraw",
+            cancelButton: "Cancel",
+          },
+          RoundUpAlreadyActiveModal: {
+            title: "Switch round-ups to this goal?",
+            message: "You’re already using round-ups for another goal. Do you want to switch to this one?",
+            switchRoundUpButton: "Switch to this goal",
+            cancelButton: "Don’t switch",
+          },
+          ActionButtons: {
+            withdrawButton: "Withdraw",
+            addMoneyButton: "Add money",
+          },
+        },
         CreateGoalScreen: {
           title: "Create a goal",
           form: {

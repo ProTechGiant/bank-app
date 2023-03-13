@@ -175,6 +175,7 @@ const iconDimensions = {
   friendIcon: 53,
   settingsPage: 24,
   shareCopy: 30,
+  info: 17,
   share: 16,
   tick: 18,
   largeTick: 66,
@@ -207,6 +208,14 @@ const iconDimensions = {
   showIcon: {
     height: 15,
     width: 22,
+  },
+  infoQuestionMark: {
+    height: 13,
+    width: 13,
+  },
+  checkIcon: {
+    height: 27,
+    width: 36,
   },
   threeDots: {
     width: 14,

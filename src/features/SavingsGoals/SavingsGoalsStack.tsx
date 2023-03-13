@@ -9,6 +9,8 @@ import ListGoalsScreen from "@/features/SavingsGoals/screens/ListGoalsScreen";
 import WithdrawGoalModal from "@/features/SavingsGoals/screens/WithdrawGoalModal";
 import MainStackParams from "@/navigation/MainStackParams";
 
+import { FundingType } from "./screens/FundGoalModal/FundingStep";
+
 export type SavingsGoalsStackParams = {
   "SavingsGoals.InstructionsScreen": undefined;
   "SavingsGoals.ListGoalsScreen": undefined;
@@ -21,6 +23,7 @@ export type SavingsGoalsStackParams = {
   "SavingsGoals.FundGoalModal": {
     PotId: string;
     isFirstFunding?: boolean;
+    step?: FundingType;
   };
   "SavingsGoals.WithdrawGoalModal": {
     PotId: string;

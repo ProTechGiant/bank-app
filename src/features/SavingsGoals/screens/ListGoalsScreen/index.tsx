@@ -88,8 +88,8 @@ export default function SavingsGoalsScreen() {
                 <GoalCard
                   key={element.PotId}
                   title={element.GoalName}
-                  amountSaved={element.AvailableBalanceAmount}
-                  totalAmount={element.TargetAmount}
+                  amountSaved={Number(element.AvailableBalanceAmount)}
+                  totalAmount={Number(element.TargetAmount)}
                   date={element.TargetDate}
                   onPress={() => handleOnPress(element.PotId)}
                 />

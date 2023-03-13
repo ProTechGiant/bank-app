@@ -8,11 +8,11 @@ export interface CreateGoalInput {
 export interface SavingsPot {
   PotId: string;
   GoalName: string;
-  TargetAmount: number;
+  TargetAmount: string;
   SavingsPots: number;
   TargetDate: string;
   CreatedDate: string;
-  AvailableBalanceAmount: number;
+  AvailableBalanceAmount: string;
   AvailableBalanceCurrency: string;
   TargetCurrency: string;
   RoundupFlag: boolean;

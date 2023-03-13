@@ -23,7 +23,9 @@ export default function FundGoalModal() {
 
   const { data } = useSavingsPot(route.params.PotId);
   const [isCreatedGoalBannerVisible, setIsCreatedGoalBannerVisible] = useState(false);
-  const [currentStep, setCurrentStep] = useState<StepType>("pick-funding-method");
+  const [currentStep, setCurrentStep] = useState<StepType>(
+    route.params.step ? route.params.step : "pick-funding-method"
+  );
 
   useEffect(() => {
     if (!route.params.isFirstFunding || isCreatedGoalBannerVisible) return;
@@ -38,6 +40,15 @@ export default function FundGoalModal() {
 
   const handleOnClose = () => {
     navigation.goBack();
+  };
+
+  const handleOnBackPress = () => {
+    if (route.params.step) {
+      navigation.goBack();
+      return;
+    }
+
+    setCurrentStep("pick-funding-method");
   };
 
   const handleOnComplete = () => {
@@ -73,7 +84,7 @@ export default function FundGoalModal() {
               key={currentStep}
               data={data}
               fundingType={currentStep}
-              onBackPress={() => setCurrentStep("pick-funding-method")}
+              onBackPress={handleOnBackPress}
               onClosePress={handleOnClose}
               onCompletePress={handleOnComplete}
               onContinueWithOneTimePaymentPress={() => setCurrentStep("one-time-payment")}
