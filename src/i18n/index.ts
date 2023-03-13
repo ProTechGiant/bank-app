@@ -704,10 +704,6 @@ export const resources = {
             label: "Contactless payments",
             helperText: "Lorem ipsum dolor",
           },
-          allowChipWithoutPin: {
-            label: "Allow chip without PIN",
-            helperText: "Lorem ipsum dolor",
-          },
           atmWithdrawals: {
             label: "ATM withdrawals",
             helperText: "Lorem ipsum dolor",

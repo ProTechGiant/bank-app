@@ -23,7 +23,6 @@ interface CardSettings {
   IsInternationalPaymentActive: boolean;
   IsSwipePaymentsActive: boolean;
   IsContactlessPaymentsActive: boolean;
-  IsAllowChipWithoutPinActive: boolean;
   IsAtmWithdrawalsActive: boolean;
 }
 
@@ -39,7 +38,6 @@ export default function CardSettingsScreen() {
       IsInternationalPaymentActive: false,
       IsSwipePaymentsActive: false,
       IsContactlessPaymentsActive: false,
-      IsAllowChipWithoutPinActive: false,
       IsAtmWithdrawalsActive: false,
     },
   });
@@ -126,13 +124,6 @@ export default function CardSettingsScreen() {
             name="IsContactlessPaymentsActive"
             label={t("CardActions.CardSettingsScreen.contactlessPayments.label")}
             helperText={t("CardActions.CardSettingsScreen.contactlessPayments.helperText")}
-            control={control}
-            disabled={cardStatus === "inactive" ? true : false}
-          />
-          <SettingsToggle
-            name="IsAllowChipWithoutPinActive"
-            label={t("CardActions.CardSettingsScreen.allowChipWithoutPin.label")}
-            helperText={t("CardActions.CardSettingsScreen.allowChipWithoutPin.helperText")}
             control={control}
             disabled={cardStatus === "inactive" ? true : false}
           />
