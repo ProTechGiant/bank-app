@@ -1,5 +1,5 @@
 import { cloneElement, useEffect } from "react";
-import { Platform, ViewStyle } from "react-native";
+import { Platform, StyleSheet, ViewStyle } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { SvgProps } from "react-native-svg";
 
@@ -28,7 +28,7 @@ export default function DismissibleBanner({
   const visiblePosY = Platform.OS !== "android" ? offset_ : 0;
 
   useEffect(() => {
-    positionY.value = visible ? visiblePosY : -100;
+    positionY.value = visible ? visiblePosY : -250;
   }, [visible]);
 
   const containerStyles = useThemeStyles<ViewStyle>(
@@ -64,10 +64,17 @@ export default function DismissibleBanner({
 
   return (
     <Animated.View style={[containerStyles, animatedStyle]} testID={testID}>
-      {cloneElement(icon)}
+      {cloneElement(icon, styles.icon)}
       <Typography.Text color="neutralBase-50" weight="regular" size="callout" style={textStyle}>
         {message}
       </Typography.Text>
     </Animated.View>
   );
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    height: 20,
+    width: 20,
+  },
+});
