@@ -45,7 +45,7 @@ const TermsAndConditionsScreen = () => {
   const handleOnSubmit = async () => {
     try {
       await termsConditionsAsync.mutateAsync();
-      navigation.navigate("Onboarding.Passcode");
+      navigation.navigate("Onboarding.PendingAccount");
     } catch (error) {
       Alert.alert(t("Onboarding.TermsAndConditions.errorText.alert"));
       warn("onboarding", "Could not confirm terms and conditions: ", JSON.stringify(error));

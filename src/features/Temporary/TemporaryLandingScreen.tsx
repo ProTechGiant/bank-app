@@ -61,7 +61,6 @@ export default function TemporaryLandingScreen() {
 
   const handleOnOpenOnboarding = (values: TemporaryUserId) => {
     auth.authenticate(values.UserId);
-
     navigation.navigate("Onboarding.OnboardingStack", {
       screen: "Onboarding.SplashScreen",
     });

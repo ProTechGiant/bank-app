@@ -7,6 +7,10 @@ export default function getActiveTask(activeTask: string) {
     PersistFinancialInfo: "Onboarding.Financial",
     "Fatca&Crs": "Onboarding.Fatca",
     "T&C": "Onboarding.TermsAndConditions",
+    WaitingEDDResult: "Onboarding.PendingAccount",
+    RetryCustomerScreening: "Onboarding.PendingAccount",
+    RetrieveValidationStatus: "Onboarding.PendingAccount",
+    RetryAccountCreation: "Onboarding.PendingAccount",
     default: "Onboarding.Nafath",
   };
   return tasks[activeTask] || tasks["default"];
