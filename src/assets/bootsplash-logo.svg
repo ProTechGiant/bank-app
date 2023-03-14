@@ -1,21 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="274" height="274" fill="none" viewBox="0 0 274 274">
-  <mask id="a" width="176" height="131" x="11" y="137" maskUnits="userSpaceOnUse" style="mask-type:alpha">
-    <path fill="#3D3ACE" d="m186.843 224.666-24.5 42.435-150.688-87 24.5-42.435z"/>
-  </mask>
-  <g mask="url(#a)">
-    <circle cx="136.999" cy="136.999" r="100" fill="#FF5E1A" transform="rotate(120 136.999 136.999)"/>
-  </g>
-  <mask id="b" width="176" height="131" x="11" y="6" maskUnits="userSpaceOnUse" style="mask-type:alpha">
-    <path fill="#3D3ACE" d="m36.155 136.332-24.5-42.435 150.688-87 24.5 42.435z"/>
-  </mask>
-  <g mask="url(#b)">
-    <circle cx="136.999" cy="136.999" r="100" fill="#FF5E1A" transform="rotate(-120 136.999 136.999)"/>
-  </g>
-  <circle cx="137" cy="137" r="32" fill="#FF5E1A"/>
-  <mask id="c" width="49" height="174" x="188" y="50" maskUnits="userSpaceOnUse" style="mask-type:alpha">
-    <path fill="#3D3ACE" d="M188 50h49v174h-49z"/>
-  </mask>
-  <g mask="url(#c)">
-    <circle cx="137" cy="137" r="100" fill="#FF5E1A"/>
-  </g>
+<svg width="274" height="274" viewBox="0 0 274 274" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="137" cy="137" r="100" fill="#FF5E1A"/>
 </svg>
