@@ -29,8 +29,9 @@ export default function PickCardTypeScreen() {
   }));
 
   const tabBarStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
-    marginBottom: 30,
+    backgroundColor: theme.palette["neutralBase-60"],
+    borderBottomColor: theme.palette["neutralBase-20"],
+    borderBottomWidth: 0.5,
   }));
 
   const tabLabelStyle = useThemeStyles<TextStyle>(theme => ({
@@ -47,12 +48,17 @@ export default function PickCardTypeScreen() {
       },
     }));
 
-    navigation.navigate("ApplyCards.SetPinAndAddress");
+    // navigation.navigate("ApplyCards.SetPinAndAddress");
+    navigation.navigate("ApplyCards.CardOrdered");
   };
 
   return (
-    <Page>
-      <NavHeader title={t("ApplyCards.ApplyForCardScreen.navTitle")} withBackButton={false} end="close" />
+    <Page backgroundColor="neutralBase-60" insets={["top", "left", "right"]}>
+      <NavHeader
+        title={t("ApplyCards.ApplyForCardScreen.navTitle")}
+        withBackButton={false}
+        end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
+      />
       <TabView
         navigationState={{
           index,

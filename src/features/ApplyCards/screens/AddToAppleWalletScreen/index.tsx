@@ -12,6 +12,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import CardPlaceholder from "../../components/CardPlaceholder";
+import AddToAppleWalletButton from "./AddToAppleWalletButton";
 import useTokenizedCard from "./use-tokenized-card";
 
 export default function AddToAppleWalletScreen() {
@@ -69,9 +70,7 @@ export default function AddToAppleWalletScreen() {
         <CardPlaceholder variant="standard" width="100%" />
 
         <View style={styles.buttons}>
-          <Button block onPress={handleOnAddToWallet}>
-            {t("ApplyCards.AddToAppleWalletScreen.buttons.addToWallet")}
-          </Button>
+          <AddToAppleWalletButton onPress={handleOnAddToWallet} />
           <Button variant="tertiary" onPress={handleOnSkip}>
             <Typography.Text color="neutralBase+30">
               {t("ApplyCards.AddToAppleWalletScreen.buttons.skip")}

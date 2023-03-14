@@ -4,12 +4,14 @@ import { StyleSheet, View } from "react-native";
 import { TickCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import DarkOneGradient from "@/components/LinearGradients/GradientBackgrounds";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
+
+import BottomTriangle from "../../background-bottom.svg";
+import HeaderTriangle from "../../background-top-start.svg";
 
 export default function ApplePayActivatedScreen() {
   const navigation = useNavigation();
@@ -20,35 +22,42 @@ export default function ApplePayActivatedScreen() {
   };
 
   return (
-    <DarkOneGradient>
-      <Page>
-        <NavHeader withBackButton={false} color="white" end="close" />
-        <ContentContainer>
-          <Stack direction="vertical" justify="space-between" align="center">
-            <View style={styles.iconContainer}>
-              <TickCircleIcon />
-            </View>
-            <Typography.Text size="large" weight="bold" color="neutralBase-50">
-              {t("ApplyCards.ApplePayActivatedScreen.title")}
-            </Typography.Text>
-          </Stack>
-          <View style={styles.button}>
-            <Button variant="primary" color="dark" block onPress={handleOnFinished}>
-              {t("ApplyCards.ApplePayActivatedScreen.button")}
-            </Button>
+    <Page>
+      <HeaderTriangle style={styles.headerTriangle} />
+      <BottomTriangle style={styles.bottomTriangle} />
+      <NavHeader withBackButton={false} end="close" />
+      <ContentContainer>
+        <Stack direction="vertical" justify="space-between" align="center">
+          <View style={styles.iconContainer}>
+            <TickCircleIcon />
           </View>
-        </ContentContainer>
-      </Page>
-    </DarkOneGradient>
+          <Typography.Text size="large" weight="bold" color="primaryBase-10">
+            {t("ApplyCards.ApplePayActivatedScreen.title")}
+          </Typography.Text>
+        </Stack>
+        <View style={styles.button}>
+          <Button variant="primary" block onPress={handleOnFinished}>
+            {t("ApplyCards.ApplePayActivatedScreen.button")}
+          </Button>
+        </View>
+      </ContentContainer>
+    </Page>
   );
 }
 
 const styles = StyleSheet.create({
+  bottomTriangle: {
+    bottom: 0,
+    position: "absolute",
+  },
   button: {
     marginTop: "auto",
   },
+  headerTriangle: {
+    position: "absolute",
+  },
   iconContainer: {
     paddingBottom: 35,
-    paddingTop: 60,
+    paddingTop: 146,
   },
 });
