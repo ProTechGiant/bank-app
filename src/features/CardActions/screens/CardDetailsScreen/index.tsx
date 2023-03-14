@@ -224,7 +224,7 @@ export default function CardDetailsScreen() {
           {isCardFrozen ? (
             <BankCard.Inactive
               type="frozen"
-              actionButton={<BankCard.ActionButton title={t("Cards.cardFrozen")} type="dark" />}
+              actionButton={<BankCard.ActionButton title={t("CardActions.cardFrozen")} type="dark" />}
             />
           ) : cardStatus === "inactive" && cardType !== "single-use" ? (
             <BankCard.Inactive
@@ -300,8 +300,8 @@ export default function CardDetailsScreen() {
         <NotificationModal
           variant="success"
           onClose={handleOnCloseNotification}
-          message={t("Cards.SingleUseCard.CardCreation.successMessage")}
-          title={t("Cards.SingleUseCard.CardCreation.successTitle")}
+          message={t("CardActions.SingleUseCard.CardCreation.successMessage")}
+          title={t("CardActions.SingleUseCard.CardCreation.successTitle")}
           isVisible={showNotificationAlert}
         />
         <NotificationModal

@@ -81,10 +81,6 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOpenSingleUseCards = () => {
-    navigation.navigate("CardActions.CardActionsStack", { screen: "CardActions.SingleUseCardsScreen" });
-  };
-
   const handleOnSwitchDirection = () => {
     I18nManager.forceRTL(!I18nManager.isRTL);
     reloadApp();
@@ -120,9 +116,6 @@ export default function TemporaryLandingScreen() {
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleSubmit(handleOnCardsHomeSubmit)}>Cards Home</Button>
-        </View>
-        <View style={{ margin: 20 }}>
-          <Button onPress={handleOpenSingleUseCards}>Single Use Cards</Button>
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>

@@ -7,7 +7,6 @@ import LoadingSingleCardScreen from "./screens/LoadingSingleCardScreen";
 import OneTimePasswordModal from "./screens/OneTimePasswordModal";
 import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
-import SingleUseCardsScreen from "./screens/SingleUseCardsScreen";
 
 type CardAction =
   | "view-pin"
@@ -31,7 +30,6 @@ export type CardActionsStackParams = {
     cardStatus?: CardStatus;
   };
   "CardActions.LoadingSingleCardScreen": undefined;
-  "CardActions.SingleUseCardsScreen": undefined;
   "CardActions.SingleUseCardInfo": undefined;
   "CardActions.SingleUseCardAbout": undefined;
   "CardActions.HomeScreen": {
@@ -53,7 +51,6 @@ export default function CardActionsStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen component={CardDetailsScreen} name="CardActions.CardDetailsScreen" />
       <Stack.Screen component={CardSettingsScreen} name="CardActions.CardSettingsScreen" />
-      <Stack.Screen component={SingleUseCardsScreen} name="CardActions.SingleUseCardsScreen" />
       <Stack.Screen component={SingleUseCardInfo} name="CardActions.SingleUseCardInfo" />
       <Stack.Screen component={LoadingSingleCardScreen} name="CardActions.LoadingSingleCardScreen" />
       <Stack.Screen component={HomeScreen} name="CardActions.HomeScreen" />

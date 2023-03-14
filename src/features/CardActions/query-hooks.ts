@@ -16,7 +16,6 @@ export function useCards() {
     });
   });
 }
-
 interface FreezeCardResponse {
   Status: string;
   IsOtpRequired: boolean;

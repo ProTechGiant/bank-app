@@ -74,7 +74,7 @@ export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, on
           <View style={styles.dateContainer}>
             <Stack align="center" direction="horizontal" gap="24p">
               <Typography.Text color="neutralBase-50" weight="regular" size="caption2">
-                {t("Cards.CardDetails.validThru")}
+                {t("CardActions.CardDetails.validThru")}
               </Typography.Text>
               <Typography.Text color="neutralBase-50" weight="medium" size="caption1">
                 {cardDetails?.endDate}
@@ -84,7 +84,7 @@ export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, on
           <View style={styles.securityCodeContainer}>
             <Stack align="center" direction="horizontal" gap="8p">
               <Typography.Text color="neutralBase-50" weight="regular" size="caption2">
-                {t("Cards.CardDetails.securityCode")}
+                {t("CardActions.CardDetails.securityCode")}
               </Typography.Text>
               <Typography.Text color="neutralBase-50" weight="medium" size="caption1">
                 {cardDetails?.securityCode}

@@ -656,61 +656,6 @@ export const resources = {
           },
         },
       },
-      Cards: {
-        standardCard: "Standard card",
-        plusCard: "Plus card",
-        singleUseCard: "Single-use card",
-        cardFrozen: "Card frozen",
-        generateNew: "Generate New",
-        HomeScreen: {
-          navTitle: "Home",
-        },
-        CardDetails: {
-          validThru: "VALID\nTHRU",
-          securityCode: "SECURITY\nCODE",
-        },
-        SingleUseCard: {
-          CardAbout: {
-            title: "Single-use cards",
-            SectionOne: {
-              title: "Why should I use it?",
-              SectionOneInfo: {
-                label: "Online retailers you don’t know",
-                helperText: "For when you’re using an online retailer you are not familiar with.",
-              },
-              SectionTwoInfo: {
-                label: "Protect yourself from fraud",
-                helperText: "If a fraudster gets ahold of your card details after you pay, they can’t use it.",
-              },
-            },
-            SectionTwo: {
-              title: "Good to know",
-              SectionOneInfo: {
-                label: "Made for one-off online payments to the value of 1000.00 SAR",
-                helperText:
-                  "They work only for online payments, not for recurring payments, like subscriptions. One transaction per card. Does not require activation only to be generated before every purchase. If you don’t use it will cancel itself in 30 days.",
-              },
-              SectionTwoInfo: {
-                label: "Connected to your primary account",
-                helperText: "The single-use card debits from your main banking account.",
-              },
-              SectionThreeInfo: {
-                label: "Refunds can still reach you",
-                helperText: "You’ll still receive refunds, even after the card is used.",
-              },
-
-              SectionFourInfo: {
-                label: "Only for plus tier customers",
-                helperText: "Single-use card are only available as long as you stay plus tier customer.",
-              },
-            },
-          },
-          CardCreation: {
-            successTitle: "New single-use card generated",
-            successMessage: "You can go ahead and copy card details for your purchase.",
-          },
-        },
-      },
       CardActions: {
         QuickMenu: {
           freezeCard: "Freeze card",
@@ -797,10 +742,64 @@ export const resources = {
           copyClipboard: "Card number copied to clipboard",
           errorCopyClipboard: "Couldn’t copy card number. Try again.",
         },
-        SingleUseCardsInfo: {
-          title: "How single-use cards work",
-          text: "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
-          generateButton: "Generate single-use card",
+
+        standardCard: "Standard card",
+        plusCard: "Plus card",
+        singleUseCard: "Single-use card",
+        cardFrozen: "Card frozen",
+        generateNew: "Generate New",
+        HomeScreen: {
+          navTitle: "Home",
+        },
+        CardDetails: {
+          validThru: "VALID\nTHRU",
+          securityCode: "SECURITY\nCODE",
+        },
+        SingleUseCard: {
+          CardAbout: {
+            title: "Single-use cards",
+            SectionOne: {
+              title: "Why should I use it?",
+              SectionOneInfo: {
+                label: "Online retailers you don’t know",
+                helperText: "For when you’re using an online retailer you are not familiar with.",
+              },
+              SectionTwoInfo: {
+                label: "Protect yourself from fraud",
+                helperText: "If a fraudster gets ahold of your card details after you pay, they can’t use it.",
+              },
+            },
+            SectionTwo: {
+              title: "Good to know",
+              SectionOneInfo: {
+                label: "Made for one-off online payments to the value of 1000.00 SAR",
+                helperText:
+                  "They work only for online payments, not for recurring payments, like subscriptions. One transaction per card. Does not require activation only to be generated before every purchase. If you don’t use it will cancel itself in 30 days.",
+              },
+              SectionTwoInfo: {
+                label: "Connected to your primary account",
+                helperText: "The single-use card debits from your main banking account.",
+              },
+              SectionThreeInfo: {
+                label: "Refunds can still reach you",
+                helperText: "You’ll still receive refunds, even after the card is used.",
+              },
+
+              SectionFourInfo: {
+                label: "Only for plus tier customers",
+                helperText: "Single-use card are only available as long as you stay plus tier customer.",
+              },
+            },
+          },
+          CardCreation: {
+            successTitle: "New single-use card generated",
+            successMessage: "You can go ahead and copy card details for your purchase.",
+          },
+          SingleUseCardsInfo: {
+            title: "How single-use cards work",
+            text: "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
+            generateButton: "Generate single-use card",
+          },
         },
       },
       AddMoneyInfo: {
@@ -1077,10 +1076,97 @@ export const resources = {
           subTextThree: "مرسل الدعوة ومستقبِلها بيحصلون على 15 ر.س.",
         },
       },
-      Cards: {
+      CardActions: {
+        QuickMenu: {
+          freezeCard: "Freeze card",
+          defrost: "Defrost",
+          viewPin: "View PIN",
+          settings: "Settings",
+        },
+        ViewPin: {
+          navTitle: "Your card PIN",
+          button: "Hide PIN",
+        },
+        CardSettingsScreen: {
+          title: "Card settings",
+          subTitle1: "Security",
+          changePin: "Change Pin",
+          onlinePayment: {
+            label: "Online payments",
+            helperText: "Lorem ipsum dolor",
+          },
+          internationalPayment: {
+            label: "International payments",
+            helperText: "Lorem ipsum dolor",
+          },
+          subTitle2: "Physical card",
+          swipePayments: {
+            label: "Swipe payments",
+            helperText: "Lorem ipsum dolor",
+          },
+          contactlessPayments: {
+            label: "Contactless payments",
+            helperText: "Lorem ipsum dolor",
+          },
+          atmWithdrawals: {
+            label: "ATM withdrawals",
+            helperText: "Lorem ipsum dolor",
+          },
+          onTheWay: {
+            title: "Your card is on the way",
+            paragraph: "These settings will be available once you have received and activated your physical card.",
+          },
+        },
+        OneTimePasswordModal: {
+          title: "Enter one-time password",
+          message:
+            "Enter the 2-step verification code that we texted to your phone number, {{hiddenNumber}} {{phoneNumber}}.",
+          resendCode: "Resend Code",
+          errors: {
+            invalidPassword: "The code you entered was invalid. Please try again",
+            reachedMaxAttempts:
+              "You have reached the maximum number of authentication attempts. Please try again later.",
+          },
+        },
+        CardDetailsScreen: {
+          navTitleStandard: "Standard card",
+          navTitlePlus: "Plus card",
+          navTitleSingleUse: "Single-use card",
+          inactiveCard: {
+            label: "On the way",
+            actionButtonText: "Activate now",
+          },
+          iconButtonText: {
+            show: "Show details",
+            hide: "Hide details",
+            freeze: "Freeze",
+            unfreeze: "Defrost",
+            viewPin: "View PIN",
+            showCredentials: "Show card credentials",
+            hideCredentials: "Hide card credentials",
+            about: "About",
+          },
+          manageCardHeader: "Manage card",
+          cardSettingsButton: "Card settings",
+          reportButton: "Report stolen or damaged",
+          accountHeader: "Associated account",
+          accountNumber: "Account number",
+          accountName: "Account name",
+          upgradeToCroatiaPlus: {
+            breadcrumb: "Ultimate Experience",
+            header: "Croatia Plus",
+            content:
+              "Upgrade your tier to get an exclusive card and enjoy priority support and other premium benefits.",
+            button: "Explore Plus tier",
+          },
+          copyClipboard: "Card number copied to clipboard",
+          errorCopyClipboard: "Couldn’t copy card number. Try again.",
+        },
+
         standardCard: "Standard card",
         plusCard: "Plus card",
         singleUseCard: "Single-use card",
+        cardFrozen: "Card frozen",
         generateNew: "Generate New",
         HomeScreen: {
           navTitle: "Home",
@@ -1125,10 +1211,18 @@ export const resources = {
               },
             },
           },
+          CardCreation: {
+            successTitle: "New single-use card generated",
+            successMessage: "You can go ahead and copy card details for your purchase.",
+          },
+          SingleUseCardsInfo: {
+            title: "How single-use cards work",
+            text: "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
+            generateButton: "Generate single-use card",
+          },
         },
       },
     },
-
     AddMoneyInfo: {
       title: "Add money by bank transfer",
       description:
