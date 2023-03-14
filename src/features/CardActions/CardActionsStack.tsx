@@ -16,6 +16,11 @@ type CardAction =
   | "generate-single-use-card"
   | "show-details";
 type CardType = "standard" | "plus" | "single-use";
+type Otp = {
+  otpId: string;
+  otpCode: string;
+  phoneNumber: string;
+};
 export type CardStatus = "active" | "inactive";
 
 export type CardActionsStackParams = {
@@ -25,6 +30,7 @@ export type CardActionsStackParams = {
     cardType: CardType;
     cardStatus?: CardStatus;
     isCardCreated?: boolean;
+    pin?: string;
   };
   "CardActions.CardSettingsScreen": {
     cardStatus?: CardStatus;
@@ -34,13 +40,15 @@ export type CardActionsStackParams = {
   "CardActions.SingleUseCardAbout": undefined;
   "CardActions.HomeScreen": {
     action?: CardAction;
+    pin?: string;
   };
   "CardActions.OneTimePasswordModal": {
     action: CardAction;
     cardType?: CardType;
-    otpId?: string;
-    otpCode?: string;
+    cardId: string;
+    otp: Otp;
     redirect: keyof CardActionsStackParams;
+    correlationId: string;
   };
 };
 

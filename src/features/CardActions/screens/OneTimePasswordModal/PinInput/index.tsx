@@ -75,7 +75,7 @@ export default function PinInput({ pinLength, onPress, onSubmit, isFocus = false
   }));
 
   const highlightedBoxStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderColor: theme.palette["primaryBase"],
+    borderColor: theme.palette.primaryBase,
     borderWidth: 2,
   }));
 

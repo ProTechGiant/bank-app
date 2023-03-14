@@ -15,11 +15,13 @@ import Page from "@/components/Page";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { generateRandomId } from "@/utils";
 
 import { CardActionsStackParams } from "../../CardActionsStack";
 import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
-import { useFreezeCard, useUnfreezeCard } from "../../query-hooks";
+import ViewPinModal from "../../components/ViewPinModal";
+import { useFreezeCard, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
 import CardIconButtons from "./CardIconButtons";
 import ListItemText from "./ListItemText";
 import SingleUseIconButtons from "./SingleUseIconButtons";
@@ -39,18 +41,27 @@ export default function CardDetailsScreen() {
 
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
+  const requestViewPinOtpAsync = useRequestViewPinOtp();
 
   const [isCardFrozen, setIsCardFrozen] = useState(false);
-  const [isViewingPin, setIsViewingPin] = useState(false);
+  const [isViewingPin, setIsViewingPin] = useState(route.params?.action === "view-pin");
   const [isShowingDetails, setIsShowingDetails] = useState(false);
+  const [pin, setPin] = useState<string | undefined>();
   const [showNotificationAlert, setShowNotificationAlert] = useState(false);
   const [showBanner, setShowBanner] = useState(false);
   const [showErrorCopy, setShowErrorCopy] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
 
-  const cardType = route.params.cardType;
-  const cardStatus = route.params.cardStatus;
-  const cardId = route.params.cardId;
+  const cardType: string = route.params.cardType;
+  const cardStatus: string | undefined = route.params.cardStatus;
+  const cardId: string = route.params.cardId;
+
+  // @TODO: BE integration
+  const MOCK_OTP_RESPONSE = {
+    otpId: "5f8a1825-da04-496a-a21f-4a8814145864",
+    otpCode: "5165",
+    phoneNumber: "+966555555555",
+  };
 
   useEffect(() => {
     setShowNotificationAlert(route.params.isCardCreated ?? false);
@@ -58,10 +69,15 @@ export default function CardDetailsScreen() {
 
   //TODO: retrieve card details to show an active card / frozen card
   useEffect(() => {
+    if (undefined === route.params) return;
+
     if (route.params.action === "unfreeze") {
       setIsCardFrozen(false);
     } else if (route.params.action === "freeze") {
       setIsCardFrozen(true);
+    } else if (route.params?.action === "view-pin") {
+      setPin(route.params.pin);
+      setIsViewingPin(true);
     }
   }, [route.params]);
 
@@ -89,8 +105,10 @@ export default function CardDetailsScreen() {
     if (!isShowingDetails) {
       navigation.navigate("CardActions.OneTimePasswordModal", {
         redirect: "CardActions.CardDetailsScreen",
-        cardType: cardType,
         action: "show-details",
+        cardId: cardId,
+        cardType: cardType,
+        otp: MOCK_OTP_RESPONSE,
       });
     }
     setIsShowingDetails(!isShowingDetails);
@@ -127,8 +145,10 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnFreezeCardPress = async () => {
+    const correlationId = generateRandomId();
+
     try {
-      const response = await freezeCardAsync.mutateAsync({ cardId });
+      const response = await freezeCardAsync.mutateAsync({ cardId, correlationId });
       response.Status === "freeze" ? setIsCardFrozen(true) : setShowErrorModal(true);
     } catch (error) {
       setShowErrorModal(true);
@@ -137,14 +157,21 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnUnfreezeCardPress = async () => {
+    const correlationId = generateRandomId();
+
     try {
-      const response = await unfreezeCardAsync.mutateAsync({ cardId });
+      const response = await unfreezeCardAsync.mutateAsync({ cardId, correlationId });
       if (response.OtpCode !== undefined && response.OtpId !== undefined) {
         navigation.navigate("CardActions.OneTimePasswordModal", {
           redirect: "CardActions.CardDetailsScreen",
           action: "unfreeze",
-          otpId: response.OtpId,
-          otpCode: response.OtpCode,
+          correlationId: correlationId,
+          cardId: cardId,
+          otp: {
+            otpId: response.OtpId,
+            otpCode: response.OtpCode,
+            phoneNumber: "+966555555555", // TODO: hard coded for now because BE is adding a Phone Number
+          },
         });
       } else {
         setShowErrorModal(true);
@@ -153,10 +180,6 @@ export default function CardDetailsScreen() {
       setShowErrorModal(true);
       warn("card-actions", "Could not unfreeze card: ", JSON.stringify(error));
     }
-  };
-
-  const handleOnViewPinPress = () => {
-    setIsViewingPin(!isViewingPin);
   };
 
   const handleOnCloseNotification = () => {
@@ -173,6 +196,32 @@ export default function CardDetailsScreen() {
       navigation.navigate("Temporary.LandingScreen");
     } else {
       navigation.goBack();
+    }
+  };
+
+  const handleOnViewPinPress = async () => {
+    const correlationId = generateRandomId();
+
+    try {
+      const response = await requestViewPinOtpAsync.mutateAsync({ cardId, correlationId });
+      if (response.OtpCode !== undefined) {
+        navigation.navigate("CardActions.OneTimePasswordModal", {
+          redirect: "CardActions.CardDetailsScreen",
+          action: "view-pin",
+          cardId: cardId,
+          correlationId: correlationId,
+          otp: {
+            otpCode: response.OtpCode,
+            otpId: response.OtpId,
+            phoneNumber: response.PhoneNumber,
+          },
+        });
+      } else {
+        setShowErrorModal(true);
+      }
+    } catch (error) {
+      setShowErrorModal(true);
+      warn("card-actions", "Could not retrieve pin OTP: ", JSON.stringify(error));
     }
   };
 
@@ -196,123 +245,136 @@ export default function CardDetailsScreen() {
   const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   return (
-    <Page backgroundColor="neutralBase-60">
-      <NavHeader
-        title={
-          cardType === "standard"
-            ? t("CardActions.CardDetailsScreen.navTitleStandard")
-            : cardType === "plus"
-            ? t("CardActions.CardDetailsScreen.navTitlePlus")
-            : t("CardActions.CardDetailsScreen.navTitleSingleUse")
-        }
-        end={false}
-        onBackPress={handleOnBackPress}
-      />
-      <DismissibleBanner
-        isError={showErrorCopy}
-        visible={showBanner}
-        message={
-          !showErrorCopy
-            ? t("CardActions.CardDetailsScreen.copyClipboard")
-            : t("CardActions.CardDetailsScreen.errorCopyClipboard")
-        }
-        icon={!showErrorCopy ? <CopyIcon /> : <ErrorOutlineIcon />}
-      />
+    <>
+      <Page backgroundColor="neutralBase-60">
+        <NavHeader
+          title={
+            cardType === "standard"
+              ? t("CardActions.CardDetailsScreen.navTitleStandard")
+              : cardType === "plus"
+              ? t("CardActions.CardDetailsScreen.navTitlePlus")
+              : t("CardActions.CardDetailsScreen.navTitleSingleUse")
+          }
+          end={false}
+          onBackPress={handleOnBackPress}
+        />
+        <DismissibleBanner
+          isError={showErrorCopy}
+          visible={showBanner}
+          message={
+            !showErrorCopy
+              ? t("CardActions.CardDetailsScreen.copyClipboard")
+              : t("CardActions.CardDetailsScreen.errorCopyClipboard")
+          }
+          icon={!showErrorCopy ? <CopyIcon /> : <ErrorOutlineIcon />}
+        />
 
-      <ContentContainer isScrollView>
-        <View style={cardContainerStyle}>
-          {isCardFrozen ? (
-            <BankCard.Inactive
-              type="frozen"
-              actionButton={<BankCard.ActionButton title={t("CardActions.cardFrozen")} type="dark" />}
-            />
-          ) : cardStatus === "inactive" && cardType !== "single-use" ? (
-            <BankCard.Inactive
-              type="inactive"
-              label={t("CardActions.CardDetailsScreen.inactiveCard.label")}
-              actionButton={
-                <BankCard.ActionButton
-                  type="light"
-                  title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
-                  onPress={handleOnPressActivate}
-                />
-              }
-            />
-          ) : !isShowingDetails ? (
-            <BankCard.Active cardNumber="1234" cardType={cardType} />
-          ) : (
-            <BankCard.Unmasked
-              cardNumber={cardDetails.cardNumber}
-              cardType={cardType}
-              cardDetails={{ endDate: cardDetails.endDate, securityCode: cardDetails.securityCode }}
-              onCopyPress={handleOnCopyPress}
-            />
-          )}
-        </View>
-        {cardType === "single-use" ? (
-          <SingleUseIconButtons onPressShowDetails={handleOnShowDetailsPress} isShowingDetails={isShowingDetails} />
-        ) : cardStatus !== "inactive" ? (
-          <CardIconButtons
-            isViewingPin={isViewingPin}
-            isCardFrozen={isCardFrozen}
-            onShowDetailsPress={handleOnShowDetailsPress}
-            onViewPinPress={handleOnViewPinPress}
-            onFreezePress={handleOnFreezePress}
-            isShowingDetails={isShowingDetails}
-          />
-        ) : null}
-        <View style={separatorStyle} />
-        {cardType !== "single-use" && (
-          <>
-            {Platform.OS === "ios" && (
-              <View style={walletButtonContainer}>
-                <Button onPress={handleOnAddToAppleWallet}>Add to Apple Wallet</Button>
-              </View>
+        <ContentContainer isScrollView>
+          <View style={cardContainerStyle}>
+            {isCardFrozen ? (
+              <BankCard.Inactive
+                type="frozen"
+                actionButton={<BankCard.ActionButton title={t("CardActions.cardFrozen")} type="dark" />}
+              />
+            ) : cardStatus === "inactive" && cardType !== "single-use" ? (
+              <BankCard.Inactive
+                type="inactive"
+                label={t("CardActions.CardDetailsScreen.inactiveCard.label")}
+                actionButton={
+                  <BankCard.ActionButton
+                    type="light"
+                    title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
+                    onPress={handleOnPressActivate}
+                  />
+                }
+              />
+            ) : !isShowingDetails ? (
+              <BankCard.Active cardNumber="1234" cardType={cardType} />
+            ) : (
+              <BankCard.Unmasked
+                cardNumber={cardDetails.cardNumber}
+                cardType={cardType}
+                cardDetails={{ endDate: cardDetails.endDate, securityCode: cardDetails.securityCode }}
+                onCopyPress={handleOnCopyPress}
+              />
             )}
-            <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
-              <ListItemLink
-                icon={<CardSettingsIcon />}
-                onPress={cardStatus === "active" ? handleOnActiveCardSettingsPress : handleOnInactiveCardSettingsPress}
-                title={t("CardActions.CardDetailsScreen.cardSettingsButton")}
-              />
-              <ListItemLink
-                disabled={cardStatus === "inactive" ? true : false}
-                icon={cardStatus === "inactive" ? <ReportIcon color={disabledIconColor} /> : <ReportIcon />}
-                onPress={handleOnReportPress}
-                title={t("CardActions.CardDetailsScreen.reportButton")}
-              />
-            </ListSection>
-            <View style={separatorStyle} />
-          </>
-        )}
-        <ListSection title={t("CardActions.CardDetailsScreen.accountHeader")}>
-          <ListItemText title={t("CardActions.CardDetailsScreen.accountNumber")} value={cardDetails.cardNumber} />
-          <ListItemText title={t("CardActions.CardDetailsScreen.accountName")} value={cardDetails.accountName} />
-        </ListSection>
-        {cardType === "standard" && (
-          <>
-            <View style={separatorStyle} />
-            <View style={styles.upgradeContainer}>
-              <UpgradeToCroatiaPlus onPress={handleOnUpgradePress} />
-            </View>
-          </>
-        )}
-        <NotificationModal
-          variant="success"
-          onClose={handleOnCloseNotification}
-          message={t("CardActions.SingleUseCard.CardCreation.successMessage")}
-          title={t("CardActions.SingleUseCard.CardCreation.successTitle")}
-          isVisible={showNotificationAlert}
+          </View>
+          {cardType === "single-use" ? (
+            <SingleUseIconButtons onPressShowDetails={handleOnShowDetailsPress} isShowingDetails={isShowingDetails} />
+          ) : cardStatus !== "inactive" ? (
+            <CardIconButtons
+              isViewingPin={isViewingPin}
+              isCardFrozen={isCardFrozen}
+              onShowDetailsPress={handleOnShowDetailsPress}
+              onViewPinPress={handleOnViewPinPress}
+              onFreezePress={handleOnFreezePress}
+              isShowingDetails={isShowingDetails}
+            />
+          ) : null}
+          <View style={separatorStyle} />
+          {cardType !== "single-use" ? (
+            <>
+              {Platform.OS === "ios" ? (
+                <View style={walletButtonContainer}>
+                  <Button onPress={handleOnAddToAppleWallet}>Add to Apple Wallet</Button>
+                </View>
+              ) : null}
+              <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
+                <ListItemLink
+                  icon={<CardSettingsIcon />}
+                  onPress={
+                    cardStatus === "active" ? handleOnActiveCardSettingsPress : handleOnInactiveCardSettingsPress
+                  }
+                  title={t("CardActions.CardDetailsScreen.cardSettingsButton")}
+                />
+                <ListItemLink
+                  disabled={cardStatus === "inactive" ? true : false}
+                  icon={cardStatus === "inactive" ? <ReportIcon color={disabledIconColor} /> : <ReportIcon />}
+                  onPress={handleOnReportPress}
+                  title={t("CardActions.CardDetailsScreen.reportButton")}
+                />
+              </ListSection>
+              <View style={separatorStyle} />
+            </>
+          ) : null}
+          <ListSection title={t("CardActions.CardDetailsScreen.accountHeader")}>
+            <ListItemText title={t("CardActions.CardDetailsScreen.accountNumber")} value={cardDetails.cardNumber} />
+            <ListItemText title={t("CardActions.CardDetailsScreen.accountName")} value={cardDetails.accountName} />
+          </ListSection>
+          {cardType === "standard" ? (
+            <>
+              <View style={separatorStyle} />
+              <View style={styles.upgradeContainer}>
+                <UpgradeToCroatiaPlus onPress={handleOnUpgradePress} />
+              </View>
+            </>
+          ) : null}
+        </ContentContainer>
+      </Page>
+      <NotificationModal
+        variant="success"
+        onClose={handleOnCloseNotification}
+        message={t("CardActions.SingleUseCard.CardCreation.successMessage")}
+        title={t("CardActions.SingleUseCard.CardCreation.successTitle")}
+        isVisible={showNotificationAlert}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={showErrorModal}
+        onClose={handleOnErrorModalClose}
+      />
+      {pin !== undefined ? (
+        <ViewPinModal
+          pin={pin}
+          visible={isViewingPin}
+          onClose={() => {
+            setIsViewingPin(false);
+          }}
         />
-        <NotificationModal
-          variant="error"
-          title={t("errors.generic.title")}
-          message={t("errors.generic.message")}
-          isVisible={showErrorModal}
-          onClose={handleOnErrorModalClose}
-        />
-      </ContentContainer>
-    </Page>
+      ) : null}
+    </>
   );
 }
 

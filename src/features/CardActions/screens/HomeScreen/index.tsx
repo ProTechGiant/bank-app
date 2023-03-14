@@ -14,10 +14,11 @@ import { SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { generateRandomId } from "@/utils";
 
 import { CardActionsStackParams, CardStatus } from "../../CardActionsStack";
 import ViewPinModal from "../../components/ViewPinModal";
-import { useCards, useCustomerTier, useFreezeCard, useUnfreezeCard } from "../../query-hooks";
+import { useCards, useCustomerTier, useFreezeCard, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
 
 interface ContextMenuItem {
   id: number;
@@ -32,28 +33,53 @@ export default function HomeScreen() {
   const { data } = useCards();
   const customerTier = useCustomerTier();
 
+  // For testing while BE is not working (to be removed)
+  // const data = {
+  //   Cards: [
+  //     {
+  //       CardId: "082f099d-1edd-48e0-a53c-61eeaba228aa",
+  //       CardType: "2",
+  //       ProductId: "1356",
+  //       LastFourDigits: "3447",
+  //       Status: "unfreeze",
+  //     },
+  //     {
+  //       CardId: "082f099d-1edd-48e0-a53c-61eeaba228bb",
+  //       CardType: "1",
+  //       ProductId: "1356",
+  //       LastFourDigits: "4896",
+  //       Status: "freeze",
+  //     },
+  //   ],
+  // };
+
   const cardsList = data?.Cards;
   const singleUseCard = cardsList?.find(card => card?.CardType === SINGLE_USE_CARD_TYPE);
 
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
+  const requestViewPinOtpAsync = useRequestViewPinOtp();
 
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.HomeScreen">>();
 
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [isViewingPin, setIsViewingPin] = useState(
-    route.params?.action === "view-pin" && route.params?.action !== undefined
-  );
+  const [isViewingPin, setIsViewingPin] = useState(route.params?.action === "view-pin");
   const [isCardFrozen, setIsCardFrozen] = useState(false);
+  const [pin, setPin] = useState<string | undefined>();
+
   const isFreezeCardActive = true; // @TODO BE integration
   const isViewingPinActive = true; // @TODO BE integration
 
   useEffect(() => {
-    setIsViewingPin(route.params?.action === "view-pin");
+    if (undefined === route.params) return;
+
     if (route.params?.action === "unfreeze") {
       setIsCardFrozen(false);
     } else if (route.params?.action === "freeze") {
       setIsCardFrozen(true);
+    } else if (route.params?.action === "view-pin") {
+      setPin(route.params.pin);
+      setIsViewingPin(true);
     }
   }, [route.params]);
 
@@ -78,8 +104,10 @@ export default function HomeScreen() {
   ];
 
   const handleOnFreezeCardPress = async (cardId: string) => {
+    const correlationId = generateRandomId();
+
     try {
-      const response = await freezeCardAsync.mutateAsync({ cardId });
+      const response = await freezeCardAsync.mutateAsync({ cardId, correlationId });
       response.Status === "freeze" ? setIsCardFrozen(true) : setShowErrorModal(true);
     } catch (error) {
       setShowErrorModal(true);
@@ -88,14 +116,21 @@ export default function HomeScreen() {
   };
 
   const handleOnUnfreezeCardPress = async (cardId: string) => {
+    const correlationId = generateRandomId();
+
     try {
-      const response = await unfreezeCardAsync.mutateAsync({ cardId });
+      const response = await unfreezeCardAsync.mutateAsync({ cardId, correlationId });
       if (response.OtpCode !== undefined && response.OtpId !== undefined) {
         navigation.navigate("CardActions.OneTimePasswordModal", {
           redirect: "CardActions.HomeScreen",
           action: "unfreeze",
-          otpId: response.OtpId,
-          otpCode: response.OtpCode,
+          cardId,
+          correlationId: correlationId,
+          otp: {
+            otpId: response.OtpId,
+            otpCode: response.OtpCode,
+            phoneNumber: "+966555555555", // TODO: hard coded for now because BE is adding a Phone Number
+          },
         });
       } else {
         setShowErrorModal(true);
@@ -110,8 +145,30 @@ export default function HomeScreen() {
     setShowErrorModal(false);
   };
 
-  const handleOnViewPinPress = () => {
-    navigation.navigate("CardActions.OneTimePasswordModal", { redirect: "CardActions.HomeScreen", action: "view-pin" });
+  const handleOnViewPinPress = async (cardId: string) => {
+    const correlationId = generateRandomId();
+
+    try {
+      const response = await requestViewPinOtpAsync.mutateAsync({ cardId, correlationId });
+      if (response.OtpCode !== undefined) {
+        navigation.navigate("CardActions.OneTimePasswordModal", {
+          redirect: "CardActions.HomeScreen",
+          action: "view-pin",
+          cardId: cardId,
+          correlationId: correlationId,
+          otp: {
+            otpCode: response.OtpCode,
+            otpId: response.OtpId,
+            phoneNumber: response.PhoneNumber,
+          },
+        });
+      } else {
+        setShowErrorModal(true);
+      }
+    } catch (error) {
+      setShowErrorModal(true);
+      warn("card-actions", "Could not retrieve pin OTP: ", JSON.stringify(error));
+    }
   };
 
   const handleOnCardSettingsPress = (cardStatus: CardStatus) => {
@@ -182,10 +239,10 @@ export default function HomeScreen() {
                         onPress={e => {
                           e.nativeEvent.index === 0
                             ? isCardFrozen
-                              ? handleOnUnfreezeCardPress("")
-                              : handleOnFreezeCardPress("")
+                              ? handleOnUnfreezeCardPress(card.CardId)
+                              : handleOnFreezeCardPress(card.CardId)
                             : e.nativeEvent.index === 1
-                            ? handleOnViewPinPress()
+                            ? handleOnViewPinPress(card.CardId)
                             : handleOnCardSettingsPress("active");
                         }}>
                         <BankCard.EndButton icon={<ThreeDotsIcon />} />
@@ -213,7 +270,7 @@ export default function HomeScreen() {
                               ? handleOnUnfreezeCardPress(card.CardId)
                               : handleOnFreezeCardPress(card.CardId)
                             : e.nativeEvent.index === 1
-                            ? handleOnViewPinPress()
+                            ? handleOnViewPinPress(card.CardId)
                             : handleOnCardSettingsPress("inactive");
                         }}>
                         <BankCard.EndButton icon={<ThreeDotsIcon />} />
@@ -271,10 +328,10 @@ export default function HomeScreen() {
                   onPress={e => {
                     e.nativeEvent.index === 0
                       ? isCardFrozen
-                        ? handleOnUnfreezeCardPress(card.CardId)
-                        : handleOnFreezeCardPress(card.CardId)
+                        ? handleOnUnfreezeCardPress("")
+                        : handleOnFreezeCardPress("")
                       : e.nativeEvent.index === 1
-                      ? handleOnViewPinPress()
+                      ? handleOnViewPinPress("")
                       : handleOnCardSettingsPress("active");
                   }}>
                   <BankCard.EndButton icon={<ThreeDotsIcon />} />
@@ -302,13 +359,15 @@ export default function HomeScreen() {
           </Stack>
         </ScrollView>
       </Page>
-      <ViewPinModal
-        pin="0382"
-        visible={isViewingPin}
-        onClose={() => {
-          setIsViewingPin(false);
-        }}
-      />
+      {pin !== undefined ? (
+        <ViewPinModal
+          pin={pin}
+          visible={isViewingPin}
+          onClose={() => {
+            setIsViewingPin(false);
+          }}
+        />
+      ) : null}
       <NotificationModal
         variant="error"
         title={t("errors.generic.title")}
