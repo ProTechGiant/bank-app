@@ -3,6 +3,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { KeyboardAvoidingView, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as yup from "yup";
 
@@ -14,6 +15,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import MainStackParams from "@/navigation/MainStackParams";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 
 import AccountDestination from "../../components/AccountDestination";
 import { mockMissingSavingsPotDetails } from "../../mocks/mockMissingSavingsPotDetails";
@@ -76,28 +78,41 @@ export default function WithdrawGoalModal() {
     }
   };
 
+  const keyboardVerticalOffset = 195;
+
+  const submitButtonStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["20p"],
+  }));
+
+  const contentContainer = useThemeStyles<ViewStyle>(theme => ({
+    justifyContent: "space-between",
+    marginTop: theme.spacing["64p"],
+  }));
+
   return (
     <SafeAreaProvider>
       <Page>
-        <ContentContainer style={{ justifyContent: "space-between" }}>
-          <NavHeader
-            onBackPress={handleOnClose}
-            withBackButton={false}
-            title={t("SavingsGoals.WithdrawModal.title")}
-            end={<NavHeader.CloseEndButton onPress={handleOnClose} />}
-          />
-
+        <NavHeader
+          onBackPress={handleOnClose}
+          withBackButton={false}
+          title={t("SavingsGoals.WithdrawModal.title")}
+          end={<NavHeader.CloseEndButton onPress={handleOnClose} />}
+        />
+        <ContentContainer style={contentContainer}>
           <LargeCurrencyInput autoFocus control={control} maxLength={10} name="PaymentAmount" />
 
-          <AccountDestination
-            destination={t("SavingsGoals.Account.to")}
-            accountName={t("SavingsGoals.Account.mainAccount")}
-            balance={mockMissingSavingsPotDetails.MainAccountAmount}
-          />
-
-          <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-            {t("SavingsGoals.WithdrawModal.WithdrawButton")}
-          </SubmitButton>
+          <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={keyboardVerticalOffset}>
+            <AccountDestination
+              destination={t("SavingsGoals.Account.to")}
+              accountName={t("SavingsGoals.Account.mainAccount")}
+              balance={mockMissingSavingsPotDetails.MainAccountAmount}
+            />
+            <View style={submitButtonStyle}>
+              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+                {t("SavingsGoals.WithdrawModal.WithdrawButton")}
+              </SubmitButton>
+            </View>
+          </KeyboardAvoidingView>
         </ContentContainer>
 
         <NotificationModal

@@ -638,17 +638,17 @@ export const resources = {
           },
         },
         WithdrawModal: {
-          title: "Withdraw",
+          title: "Withdraw from goal",
           WithdrawButton: "Withdraw",
-          amountExceedsBalance: "Amount exceeds your balance",
+          amountExceedsBalance: "Amount is more than your goal balance",
           zeroAmountError: "Amount must be greater than 0.01",
           successfulWithdrawal: {
             title: "You've withdrawn {{amount}} SAR",
             text: "It's been added to your main account",
           },
           errors: {
-            title: "We're sorry - something has gone wrong",
-            text: "Please try again later. If things still aren't working, please get in touch",
+            title: "We’re sorry - something has gone wrong",
+            text: "No funds have been withdrawn, please try again later.",
           },
           buttons: {
             tryAgainButton: "Try again",
