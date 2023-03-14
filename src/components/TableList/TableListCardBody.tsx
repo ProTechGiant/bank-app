@@ -1,16 +1,27 @@
-import { Pressable, View } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
+import { useThemeStyles } from "@/theme";
 
 import { styles, useInfoStyles } from "./Styles";
-import { TableListCardProps } from "./TableListCard";
 
-export default function TableListCardBody({ helperText, label, onInfoPress, onPress }: TableListCardProps) {
+interface TableListCardBodyProps {
+  isError?: boolean;
+  helperText?: string;
+  label: string;
+  onInfoPress?: () => void;
+}
+
+export default function TableListCardBody({ isError, helperText, label, onInfoPress }: TableListCardBodyProps) {
   const { infoIconStyle, infoColor, infoDimensions } = useInfoStyles();
 
+  const helperTextStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["4p"],
+  }));
+
   return (
-    <Pressable onPress={onPress} disabled={typeof onPress === "function" ? false : true} style={styles.bodyContainer}>
+    <View style={styles.bodyContainer}>
       <View style={styles.label}>
         <Typography.Text color="neutralBase+30" size="callout" weight="medium">
           {label}
@@ -21,11 +32,13 @@ export default function TableListCardBody({ helperText, label, onInfoPress, onPr
           </Pressable>
         )}
       </View>
-      {helperText ? (
-        <Typography.Text color="neutralBase" size="footnote">
-          {helperText}
-        </Typography.Text>
+      {undefined !== helperText ? (
+        <View style={helperTextStyle}>
+          <Typography.Text color={isError ? "errorBase" : "neutralBase"} size="footnote">
+            {helperText}
+          </Typography.Text>
+        </View>
       ) : null}
-    </Pressable>
+    </View>
   );
 }

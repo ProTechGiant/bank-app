@@ -58,7 +58,8 @@ export default function FundGoalModal() {
       navigation.navigate("SavingsGoals.ListGoalsScreen");
     }
   };
-  // recommendedAmount no longer exists in the new responsee
+
+  // TODO: recommendedAmount no longer exists in the new responsee
   // TODO: once provided, please update accordingly.
 
   return (

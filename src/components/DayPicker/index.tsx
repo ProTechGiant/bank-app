@@ -37,7 +37,7 @@ export default function DayPicker({
   }));
 
   const digitSelectedStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.complimentBase,
+    backgroundColor: theme.palette["primaryBase-40"],
     borderRadius: DIGIT_SIZE / 2,
   }));
 

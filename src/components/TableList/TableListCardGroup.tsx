@@ -13,6 +13,8 @@ export default function TableListCardGroup({ children, ...restProps }: TableList
   const elements = React.Children.toArray(children) as Array<React.ReactElement<TableListCardProps>>;
 
   const shadowStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60"],
+    borderRadius: theme.radii.small,
     elevation: 5,
     shadowColor: theme.palette["neutralBase+30"],
     shadowOffset: { height: 4, width: 0 },

@@ -25,22 +25,6 @@ export default function SettingsScreen() {
     navigation.navigate("NotificationManagement.HubScreen");
   };
 
-  const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    minHeight: 54,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "row",
-    paddingHorizontal: theme.spacing["16p"],
-    borderRadius: theme.radii.small,
-    backgroundColor: theme.palette["neutralBase-50"],
-    marginHorizontal: theme.spacing["20p"],
-    marginTop: theme.spacing["20p"],
-  }));
-
-  const iconContainer = useThemeStyles<ViewStyle>(theme => ({
-    marginRight: theme.spacing["8p"],
-  }));
-
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader />

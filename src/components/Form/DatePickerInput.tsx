@@ -1,15 +1,10 @@
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
-import { format } from "date-fns";
 import { useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { Platform, ViewStyle } from "react-native";
+import { Keyboard, Platform } from "react-native";
 
-import { CalendarAltIcon } from "@/assets/icons";
 import DatePickerIOS from "@/components/DatePickerIOS";
-import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
-
-import InputCard from "./internal/InputCard";
+import { TableListCard } from "@/components/TableList";
 
 interface DatePickerInputProps<T extends FieldValues> {
   buttonText: string;
@@ -17,7 +12,7 @@ interface DatePickerInputProps<T extends FieldValues> {
   format?: string;
   headerText: string;
   helperText?: string | false | ((value: Date) => string | undefined);
-  label?: string | null | false;
+  label: string;
   minimumDate?: Date;
   name: Path<T>;
   placeholder: string;
@@ -37,7 +32,8 @@ export default function DatePickerInput<T extends FieldValues>({
   const { field, fieldState } = useController({ control, name });
 
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(field.value ?? new Date());
+  const [isTouched, setIsTouched] = useState(false);
+  const [selectedValue, setSelectedValue] = useState<Date | undefined>(field.value);
 
   const handleOnConfirmIOS = () => {
     setIsVisible(false);
@@ -48,16 +44,20 @@ export default function DatePickerInput<T extends FieldValues>({
 
   const handleOnChangeIOS = (value: Date) => {
     setSelectedValue(value);
+    setIsTouched(true);
   };
 
   const handleOnCancelIOS = () => {
     setIsVisible(false);
-    setSelectedValue(field.value ?? new Date());
+    setIsTouched(false);
+    setSelectedValue(field.value);
 
     field.onBlur();
   };
 
   const handleOnOpen = () => {
+    Keyboard.dismiss();
+
     if (Platform.OS === "ios") {
       setIsVisible(true);
     }
@@ -75,42 +75,33 @@ export default function DatePickerInput<T extends FieldValues>({
       onChange: (event, date) => {
         if (event.type === "set") {
           field.onChange(date);
+          setIsTouched(true);
+          setSelectedValue(date);
         }
+
         field.onBlur();
       },
     });
   };
 
-  const valueTextStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginLeft: theme.spacing["8p"],
-  }));
-
-  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
-
   const resolvedHelperText =
-    field.value === undefined && Platform.OS !== "ios"
-      ? undefined // not to show helper message for android on load
-      : typeof helperText === "function" && undefined !== selectedValue
+    isTouched && typeof helperText === "function" && undefined !== selectedValue
       ? helperText(selectedValue)
       : typeof helperText === "string"
       ? helperText
       : undefined;
 
+  const isError = fieldState?.error !== undefined && fieldState.isTouched;
+  const finalHelperText = isError ? fieldState.error?.message : resolvedHelperText;
+
   return (
     <>
-      <InputCard
+      <TableListCard
         label={label}
-        fieldState={fieldState}
-        helperText={Platform.OS !== "ios" ? resolvedHelperText : undefined}
         onPress={handleOnOpen}
-        value={
-          <>
-            <CalendarAltIcon color={iconColor} />
-            <Typography.Text color="primaryBase-40" style={valueTextStyle}>
-              {undefined !== field.value ? format(field.value, format_) : placeholder}
-            </Typography.Text>
-          </>
-        }
+        helperText={finalHelperText}
+        isError={isError}
+        end={<TableListCard.Date format={format_} placeholder={placeholder} value={field.value} />}
       />
       {Platform.OS === "ios" && (
         <DatePickerIOS
@@ -122,7 +113,7 @@ export default function DatePickerInput<T extends FieldValues>({
           onClose={handleOnCancelIOS}
           onConfirm={handleOnConfirmIOS}
           helperText={resolvedHelperText}
-          value={selectedValue}
+          value={selectedValue ?? new Date()}
         />
       )}
     </>

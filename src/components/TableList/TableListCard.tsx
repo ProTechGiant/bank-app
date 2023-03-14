@@ -1,19 +1,18 @@
 import { cloneElement } from "react";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { IconProps } from "@/assets/icons";
 import { useThemeStyles } from "@/theme";
 
-import { Chevron, Copy, Label, TableListDate, TableListToggle } from "./EndComponents";
-import { styles } from "./Styles";
+import { Chevron, Copy, Label, TableListDate, TableListDay, TableListToggle } from "./EndComponents";
 import TableListCardBody from "./TableListCardBody";
 
 export interface TableListCardProps {
-  label?: string;
+  label: string;
   helperText?: string;
   onInfoPress?: () => void;
-  onChevronPress?: () => void;
+  isError?: boolean;
   isTransparent?: boolean;
   end?: React.ReactNode;
   icon?: React.ReactElement<SvgProps | IconProps>;
@@ -25,6 +24,7 @@ TableListCard.Copy = Copy;
 TableListCard.Chevron = Chevron;
 TableListCard.Label = Label;
 TableListCard.Date = TableListDate;
+TableListCard.Day = TableListDay;
 TableListCard.Toggle = TableListToggle;
 
 export default function TableListCard({
@@ -33,6 +33,7 @@ export default function TableListCard({
   onInfoPress,
   onPress,
   icon,
+  isError,
   isTransparent,
   position = "alone",
   end,
@@ -46,8 +47,7 @@ export default function TableListCard({
       borderBottomStartRadius: position === "alone" || position === "last" ? theme.radii.small : undefined,
       borderBottomEndRadius: position === "alone" || position === "last" ? theme.radii.small : undefined,
       flexDirection: "row",
-      minHeight: 54,
-      paddingHorizontal: theme.spacing["16p"],
+      padding: theme.spacing["16p"],
       justifyContent: "space-between",
     }),
     [position]
@@ -61,11 +61,11 @@ export default function TableListCard({
   }));
 
   return (
-    <View style={[containerStyle, position === "alone" && s.shadow]}>
+    <Pressable onPress={onPress} style={[containerStyle, position === "alone" && s.shadow]}>
       {icon !== undefined ? <View style={listContainerStyle}>{cloneElement(icon, { color: iconColor })}</View> : null}
-      <TableListCardBody helperText={helperText} label={label} onInfoPress={onInfoPress} onPress={onPress} />
-      <View style={styles.rightComponent}>{end}</View>
-    </View>
+      <TableListCardBody helperText={helperText} isError={isError} label={label} onInfoPress={onInfoPress} />
+      {end}
+    </Pressable>
   );
 }
 

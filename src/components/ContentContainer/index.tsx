@@ -11,7 +11,7 @@ interface ContentContainerProps {
 
 export default function ContentContainer({ style, children, isScrollView = false }: ContentContainerProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["20p"],
+    paddingVertical: theme.spacing["16p"],
     paddingHorizontal: theme.spacing["20p"],
     flexGrow: 1,
   }));

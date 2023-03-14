@@ -10,11 +10,11 @@ export const useInfoStyles = () => {
     paddingHorizontal: theme.spacing["4p"],
   }));
 
+  const iconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
   const infoDimensions = useThemeStyles(theme => theme.iconDimensions.createGoal.info);
-  const infoColor = useThemeStyles(theme => theme.palette["neutralBase-10"]);
+  const infoColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   const { height: chevronHeight, width: chevronWidth } = useThemeStyles(theme => theme.iconDimensions.chevronRight);
-  const chevronColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"], []);
 
   const dateContainer = useThemeStyles<ViewStyle>(theme => ({
     marginRight: -theme.spacing["16p"],
@@ -26,7 +26,7 @@ export const useInfoStyles = () => {
     infoIconStyle,
     infoDimensions,
     infoColor,
-    chevronColor,
+    iconColor,
     chevronHeight,
     chevronWidth,
   };
@@ -43,8 +43,8 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
   },
   label: {
+    alignItems: "center",
     flexDirection: "row",
-    justifyContent: "space-between",
   },
   outerContainer: {
     elevation: 5,
@@ -52,8 +52,5 @@ export const styles = StyleSheet.create({
     shadowOffset: { height: 4, width: 0 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
-  },
-  rightComponent: {
-    alignSelf: "center",
   },
 });

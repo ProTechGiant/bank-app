@@ -55,51 +55,53 @@ export default function HubScreen() {
   }));
 
   return (
-    <Page backgroundColor="neutralBase-60">
+    <>
       <DismissibleBanner visible={showToast} message={t("Referral.HubScreen.linkCopied")} />
-      <NavHeader />
-      <ContentContainer isScrollView style={styles.container}>
-        <View>
-          <Typography.Text weight="semiBold" size="title1">
-            {t("Referral.HubScreen.title")}
-          </Typography.Text>
-          <Typography.Text color="neutralBase" weight="regular" size="callout" style={subtitleStyle}>
-            {t("Referral.HubScreen.subtitle")}
-            <Typography.Text
-              color="primaryBase"
-              weight="regular"
-              size="callout"
-              onPress={handleOnTermsAndConditionsPress}>
-              {t("Referral.HubScreen.termsAndConditions")}
+      <Page backgroundColor="neutralBase-60">
+        <NavHeader />
+        <ContentContainer isScrollView style={styles.container}>
+          <View>
+            <Typography.Text weight="semiBold" size="title1">
+              {t("Referral.HubScreen.title")}
             </Typography.Text>
-            <Typography.Text color="neutralBase" weight="regular" size="callout">
-              {t("Referral.HubScreen.fullStop")}
-            </Typography.Text>
-          </Typography.Text>
-          <Stack align="stretch" direction="vertical" gap="24p">
-            <View>
-              <Typography.Text size="title3" weight="semiBold" style={headerTextWrapperStyle}>
-                {t("Referral.HubScreen.recommendations")}
+            <Typography.Text color="neutralBase" weight="regular" size="callout" style={subtitleStyle}>
+              {t("Referral.HubScreen.subtitle")}
+              <Typography.Text
+                color="primaryBase"
+                weight="regular"
+                size="callout"
+                onPress={handleOnTermsAndConditionsPress}>
+                {t("Referral.HubScreen.termsAndConditions")}
               </Typography.Text>
-              <TableListCardGroup>
-                <TableListCard
-                  label={t("Referral.HubScreen.completed")}
-                  end={<TableListCard.Label>{completed}</TableListCard.Label>}
-                />
-                <TableListCard
-                  label={t("Referral.HubScreen.earnt")}
-                  end={<TableListCard.Label>{earnt}</TableListCard.Label>}
-                />
-              </TableListCardGroup>
-            </View>
-            <TableListCard label={referralLink} end={<TableListCard.Copy onPress={handleOnCopyCodePress} />} />
-          </Stack>
-        </View>
-        <Button variant="primary" color="light" onPress={handleOnSharePress}>
-          {t("Referral.HubScreen.share")}
-        </Button>
-      </ContentContainer>
-    </Page>
+              <Typography.Text color="neutralBase" weight="regular" size="callout">
+                {t("Referral.HubScreen.fullStop")}
+              </Typography.Text>
+            </Typography.Text>
+            <Stack align="stretch" direction="vertical" gap="24p">
+              <View>
+                <Typography.Text size="title3" weight="semiBold" style={headerTextWrapperStyle}>
+                  {t("Referral.HubScreen.recommendations")}
+                </Typography.Text>
+                <TableListCardGroup>
+                  <TableListCard
+                    label={t("Referral.HubScreen.completed")}
+                    end={<TableListCard.Label bold>{completed}</TableListCard.Label>}
+                  />
+                  <TableListCard
+                    label={t("Referral.HubScreen.earnt")}
+                    end={<TableListCard.Label bold>{earnt}</TableListCard.Label>}
+                  />
+                </TableListCardGroup>
+              </View>
+              <TableListCard label={referralLink} end={<TableListCard.Copy onPress={handleOnCopyCodePress} />} />
+            </Stack>
+          </View>
+          <Button variant="primary" color="light" onPress={handleOnSharePress}>
+            {t("Referral.HubScreen.share")}
+          </Button>
+        </ContentContainer>
+      </Page>
+    </>
   );
 }
 

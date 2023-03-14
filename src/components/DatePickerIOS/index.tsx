@@ -41,7 +41,7 @@ export default function DatePickerIOS({
     marginVertical: theme.spacing["16p"],
   }));
 
-  const accentColor = useThemeStyles(theme => theme.palette.complimentBase);
+  const accentColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
 
   return (
     <Modal onClose={onClose} headerText={headerText} visible={isVisible}>
@@ -55,11 +55,11 @@ export default function DatePickerIOS({
         />
       </View>
       <View style={helperTextContainerStyle}>
-        {!!helperText && (
+        {helperText !== undefined ? (
           <Typography.Text color="neutralBase" size="footnote" weight="regular" align="center">
             {helperText}
           </Typography.Text>
-        )}
+        ) : null}
       </View>
       <Button onPress={() => onConfirm()}>{buttonText}</Button>
     </Modal>

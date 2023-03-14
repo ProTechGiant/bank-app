@@ -5,10 +5,9 @@ import { LightningBoltIcon, RecurringEventIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
+import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-
-import CardButton from "./CardButton";
 
 interface PickOptionStepProps {
   onCancelPress: () => void;
@@ -39,16 +38,6 @@ export default function PickOptionStep({
     marginBottom: theme.spacing["8p"],
   }));
 
-  const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: 1,
-    backgroundColor: theme.palette["neutralBase-30"],
-  }));
-
-  const buttonsContainer = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-50"],
-    borderRadius: theme.radii.extraSmall,
-  }));
-
   return (
     <>
       <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={onCancelPress} />} />
@@ -65,10 +54,11 @@ export default function PickOptionStep({
               <Typography.Text size="callout" weight="medium" style={subTitleStyle}>
                 {t("SavingsGoals.FundGoalModal.PickFundingMethodStep.recommended.title")}
               </Typography.Text>
-              <CardButton
-                onPress={onRecommendedPaymentPress}
+              <TableListCard
+                end={<TableListCard.Chevron />}
                 icon={<RecurringEventIcon />}
-                text={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.recommended.amount", {
+                onPress={onRecommendedPaymentPress}
+                label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.recommended.amount", {
                   amount: recommendedAmount?.toLocaleString("en-US", { style: "decimal" }),
                 })}
               />
@@ -78,19 +68,20 @@ export default function PickOptionStep({
             <Typography.Text size="callout" weight="medium" style={subTitleStyle}>
               {t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.title")}
             </Typography.Text>
-            <View style={buttonsContainer}>
-              <CardButton
+            <TableListCardGroup>
+              <TableListCard
+                end={<TableListCard.Chevron />}
                 onPress={onRecurringDepositPress}
                 icon={<RecurringEventIcon />}
-                text={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.recurringDeposits")}
+                label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.recurringDeposits")}
               />
-              <View style={separatorStyle} />
-              <CardButton
+              <TableListCard
+                end={<TableListCard.Chevron />}
                 onPress={onOneTimePaymentPress}
                 icon={<LightningBoltIcon />}
-                text={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.oneTimeDeposit")}
+                label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.oneTimeDeposit")}
               />
-            </View>
+            </TableListCardGroup>
           </View>
         </View>
         <View>

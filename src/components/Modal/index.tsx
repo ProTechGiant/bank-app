@@ -85,6 +85,8 @@ export default function Modal({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
+    // padding around entire modal - additional padding of current element
+    marginBottom: theme.spacing["16p"] - theme.spacing["4p"],
     padding: theme.spacing["4p"],
   }));
 
