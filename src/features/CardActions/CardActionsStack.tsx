@@ -7,6 +7,7 @@ import LoadingSingleCardScreen from "./screens/LoadingSingleCardScreen";
 import OneTimePasswordModal from "./screens/OneTimePasswordModal";
 import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
+import { CardStatus } from "./types";
 
 type CardAction =
   | "view-pin"
@@ -16,12 +17,12 @@ type CardAction =
   | "generate-single-use-card"
   | "show-details";
 type CardType = "standard" | "plus" | "single-use";
+
 type Otp = {
   otpId: string;
   otpCode: string;
   phoneNumber: string;
 };
-export type CardStatus = "active" | "inactive";
 
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {

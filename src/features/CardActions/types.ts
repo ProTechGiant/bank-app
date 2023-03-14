@@ -9,3 +9,5 @@ export interface Card {
 export interface CustomerTier {
   tier: string;
 }
+
+export type CardStatus = "active" | "inactive" | "frozen";

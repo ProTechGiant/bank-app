@@ -2,9 +2,8 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, ViewStyle } from "react-native";
-import ContextMenu from "react-native-context-menu-view";
 
-import { InfoCircleIcon, ThreeDotsIcon } from "@/assets/icons";
+import { InfoCircleIcon } from "@/assets/icons";
 import BankCard from "@/components/BankCard";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -16,16 +15,11 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 
-import { CardActionsStackParams, CardStatus } from "../../CardActionsStack";
+import { CardActionsStackParams } from "../../CardActionsStack";
+import QuickActionsMenu from "../../components/QuickActionsMenu";
 import ViewPinModal from "../../components/ViewPinModal";
 import { useCards, useCustomerTier, useFreezeCard, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
-
-interface ContextMenuItem {
-  id: number;
-  title: string;
-  systemIcon?: string;
-  disabled?: boolean;
-}
+import { CardStatus } from "../../types";
 
 export default function HomeScreen() {
   const { t } = useTranslation();
@@ -67,9 +61,6 @@ export default function HomeScreen() {
   const [isCardFrozen, setIsCardFrozen] = useState(false);
   const [pin, setPin] = useState<string | undefined>();
 
-  const isFreezeCardActive = true; // @TODO BE integration
-  const isViewingPinActive = true; // @TODO BE integration
-
   useEffect(() => {
     if (undefined === route.params) return;
 
@@ -82,26 +73,6 @@ export default function HomeScreen() {
       setIsViewingPin(true);
     }
   }, [route.params]);
-
-  const contextMenuActions: ContextMenuItem[] = [
-    {
-      id: 1,
-      title: isCardFrozen ? t("CardActions.QuickMenu.defrost") : t("CardActions.QuickMenu.freezeCard"),
-      systemIcon: isCardFrozen ? "thermometer.snowflake" : "snowflake",
-      disabled: !isFreezeCardActive,
-    },
-    {
-      id: 2,
-      title: t("CardActions.QuickMenu.viewPin"),
-      systemIcon: "lock",
-      disabled: !isViewingPinActive,
-    },
-    {
-      id: 3,
-      title: t("CardActions.QuickMenu.settings"),
-      systemIcon: "gearshape",
-    },
-  ];
 
   const handleOnFreezeCardPress = async (cardId: string) => {
     const correlationId = generateRandomId();
@@ -233,22 +204,15 @@ export default function HomeScreen() {
                         : t("CardActions.plusCard")
                     }
                     endButton={
-                      <ContextMenu
-                        actions={contextMenuActions}
-                        dropdownMenuMode={true}
-                        onPress={e => {
-                          e.nativeEvent.index === 0
-                            ? isCardFrozen
-                              ? handleOnUnfreezeCardPress(card.CardId)
-                              : handleOnFreezeCardPress(card.CardId)
-                            : e.nativeEvent.index === 1
-                            ? handleOnViewPinPress(card.CardId)
-                            : handleOnCardSettingsPress("active");
-                        }}>
-                        <BankCard.EndButton icon={<ThreeDotsIcon />} />
-                      </ContextMenu>
+                      <QuickActionsMenu
+                        cardStatus="active"
+                        onFreezeCardPress={() => handleOnFreezeCardPress(card.CardId)}
+                        onUnfreezeCardPress={() => handleOnUnfreezeCardPress(card.CardId)}
+                        onViewPinPress={() => handleOnViewPinPress(card.CardId)}
+                        onCardSettingsPress={handleOnCardSettingsPress}
+                      />
                     }
-                    onPress={handleOnActiveCardPress.bind(null, card.CardId)}
+                    onPress={() => handleOnActiveCardPress(card.CardId)}
                   />
                 ) : card.Status === "freeze" ? (
                   <BankCard.Inactive
@@ -261,21 +225,15 @@ export default function HomeScreen() {
                     }
                     actionButton={<BankCard.ActionButton type="dark" title={t("CardActions.cardFrozen")} />}
                     endButton={
-                      <ContextMenu
-                        actions={contextMenuActions}
-                        dropdownMenuMode={true}
-                        onPress={e => {
-                          e.nativeEvent.index === 0
-                            ? isCardFrozen
-                              ? handleOnUnfreezeCardPress(card.CardId)
-                              : handleOnFreezeCardPress(card.CardId)
-                            : e.nativeEvent.index === 1
-                            ? handleOnViewPinPress(card.CardId)
-                            : handleOnCardSettingsPress("inactive");
-                        }}>
-                        <BankCard.EndButton icon={<ThreeDotsIcon />} />
-                      </ContextMenu>
+                      <QuickActionsMenu
+                        cardStatus="frozen"
+                        onFreezeCardPress={() => handleOnFreezeCardPress(card.CardId)}
+                        onUnfreezeCardPress={() => handleOnUnfreezeCardPress(card.CardId)}
+                        onViewPinPress={() => handleOnViewPinPress(card.CardId)}
+                        onCardSettingsPress={handleOnCardSettingsPress}
+                      />
                     }
+                    onPress={() => handleOnActiveCardPress(card.CardId)}
                   />
                 ) : (
                   <BankCard.Inactive
@@ -293,11 +251,21 @@ export default function HomeScreen() {
                         onPress={handleOnActivateNowPress}
                       />
                     }
-                    onPress={handleOnInactiveCardPress.bind(null, card.CardId)}
+                    endButton={
+                      <QuickActionsMenu
+                        cardStatus="inactive"
+                        onFreezeCardPress={() => handleOnFreezeCardPress(card.CardId)}
+                        onUnfreezeCardPress={() => handleOnUnfreezeCardPress(card.CardId)}
+                        onViewPinPress={() => handleOnViewPinPress(card.CardId)}
+                        onCardSettingsPress={handleOnCardSettingsPress}
+                      />
+                    }
+                    onPress={() => handleOnInactiveCardPress(card.CardId)}
                   />
                 )
               ) : (
                 <BankCard.Active
+                  key={card.CardId}
                   cardNumber={card.LastFourDigits}
                   cardType="single-use"
                   endButton={
@@ -305,12 +273,12 @@ export default function HomeScreen() {
                       <BankCard.EndButton icon={<InfoCircleIcon />} />
                     </Pressable>
                   }
-                  onPress={handleOnSingleUseCardPress.bind(null, card.CardId)}
+                  onPress={() => handleOnSingleUseCardPress(card.CardId)}
                   label={t("CardActions.singleUseCard")}
                 />
               )
             )}
-            <BankCard.Inactive
+            <BankCard.Inactive // TODO: hardcode this card for now without cardId (UI only) because inactive card is not ready until BC4
               type="inactive"
               label={t("CardActions.standardCard")}
               actionButton={
@@ -320,22 +288,15 @@ export default function HomeScreen() {
                   onPress={handleOnActivateNowPress}
                 />
               }
-              onPress={handleOnInactiveCardPress.bind(null, "")} // TODO: hardcode this card for now without cardId (UI only) because inactive card is not ready until BC4
+              onPress={() => handleOnInactiveCardPress("")}
               endButton={
-                <ContextMenu
-                  actions={contextMenuActions}
-                  dropdownMenuMode={true}
-                  onPress={e => {
-                    e.nativeEvent.index === 0
-                      ? isCardFrozen
-                        ? handleOnUnfreezeCardPress("")
-                        : handleOnFreezeCardPress("")
-                      : e.nativeEvent.index === 1
-                      ? handleOnViewPinPress("")
-                      : handleOnCardSettingsPress("active");
-                  }}>
-                  <BankCard.EndButton icon={<ThreeDotsIcon />} />
-                </ContextMenu>
+                <QuickActionsMenu
+                  cardStatus="inactive"
+                  onFreezeCardPress={() => handleOnFreezeCardPress("")}
+                  onUnfreezeCardPress={() => handleOnUnfreezeCardPress("")}
+                  onViewPinPress={() => handleOnViewPinPress("")}
+                  onCardSettingsPress={handleOnCardSettingsPress}
+                />
               }
             />
             {customerTier.data?.tier === "Plus" && singleUseCard === undefined ? (
