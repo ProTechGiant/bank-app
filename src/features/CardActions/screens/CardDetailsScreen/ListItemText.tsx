@@ -15,6 +15,7 @@ export default function ListItemText({ title, value }: ListItemTextProps) {
     justifyContent: "space-between",
     paddingVertical: theme.spacing["16p"],
     height: 73,
+    gap: 10,
   }));
 
   return (

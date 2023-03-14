@@ -12,6 +12,7 @@ import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import useAccount from "@/hooks/use-account";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -21,7 +22,8 @@ import { CardActionsStackParams } from "../../CardActionsStack";
 import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
 import ViewPinModal from "../../components/ViewPinModal";
-import { useFreezeCard, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
+import { useCards, useFreezeCard, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
+import { Card } from "../../types";
 import CardIconButtons from "./CardIconButtons";
 import ListItemText from "./ListItemText";
 import SingleUseIconButtons from "./SingleUseIconButtons";
@@ -41,7 +43,10 @@ export default function CardDetailsScreen() {
 
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
+  const accountInfo = useAccount(); // @todo temporrary till BE returns the data by the GET cards list
   const requestViewPinOtpAsync = useRequestViewPinOtp();
+
+  const { data } = useCards(); // @todo to use getCardbyID when BE implements
 
   const [isCardFrozen, setIsCardFrozen] = useState(false);
   const [isViewingPin, setIsViewingPin] = useState(route.params?.action === "view-pin");
@@ -51,10 +56,11 @@ export default function CardDetailsScreen() {
   const [showBanner, setShowBanner] = useState(false);
   const [showErrorCopy, setShowErrorCopy] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<Card | undefined>();
 
   const cardType: string = route.params.cardType;
   const cardStatus: string | undefined = route.params.cardStatus;
-  const cardId: string = route.params.cardId;
+  const cardId = route.params.cardId;
 
   // @TODO: BE integration
   const MOCK_OTP_RESPONSE = {
@@ -64,8 +70,10 @@ export default function CardDetailsScreen() {
   };
 
   useEffect(() => {
-    setShowNotificationAlert(route.params.isCardCreated ?? false);
-  }, [route.params.isCardCreated]);
+    if (undefined === route.params.cardId) return;
+    const cardsList = data?.Cards;
+    setSelectedCard(cardsList?.find((card: { CardId: string }) => card.CardId === route.params.cardId));
+  }, [data?.Cards, route.params.cardId]);
 
   //TODO: retrieve card details to show an active card / frozen card
   useEffect(() => {
@@ -78,6 +86,8 @@ export default function CardDetailsScreen() {
     } else if (route.params?.action === "view-pin") {
       setPin(route.params.pin);
       setIsViewingPin(true);
+    } else if (route.params?.action === "generate-single-use-card") {
+      setShowNotificationAlert(true);
     }
   }, [route.params]);
 
@@ -192,7 +202,7 @@ export default function CardDetailsScreen() {
 
   const handleOnBackPress = () => {
     // if  from creation -> navigate to Home else goBack
-    if (route.params.isCardCreated) {
+    if (route.params.action === "generate-single-use-card") {
       navigation.navigate("Temporary.LandingScreen");
     } else {
       navigation.goBack();
@@ -289,7 +299,7 @@ export default function CardDetailsScreen() {
                 }
               />
             ) : !isShowingDetails ? (
-              <BankCard.Active cardNumber="1234" cardType={cardType} />
+              <BankCard.Active cardNumber={selectedCard?.LastFourDigits} cardType={cardType} />
             ) : (
               <BankCard.Unmasked
                 cardNumber={cardDetails.cardNumber}
@@ -338,8 +348,14 @@ export default function CardDetailsScreen() {
             </>
           ) : null}
           <ListSection title={t("CardActions.CardDetailsScreen.accountHeader")}>
-            <ListItemText title={t("CardActions.CardDetailsScreen.accountNumber")} value={cardDetails.cardNumber} />
-            <ListItemText title={t("CardActions.CardDetailsScreen.accountName")} value={cardDetails.accountName} />
+            <ListItemText
+              title={t("CardActions.CardDetailsScreen.accountNumber")}
+              value={accountInfo.data?.currentAccountIban}
+            />
+            <ListItemText
+              title={t("CardActions.CardDetailsScreen.accountName")}
+              value={accountInfo.data?.currentAccountName}
+            />
           </ListSection>
           {cardType === "standard" ? (
             <>

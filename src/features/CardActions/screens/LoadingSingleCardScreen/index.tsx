@@ -25,10 +25,16 @@ export default function LoadingSingleCardScreen() {
 
   useEffect(() => {
     /* should call here the creation API */
-    setTimeout(() => {
-      // setShowNotificationAlert(true);
-      navigation.navigate("CardActions.CardDetailsScreen", { cardType: "single-use", isCardCreated: true });
-    }, 2000);
+    setTimeout(
+      () =>
+        // setShowNotificationAlert(true);
+        // setShowNotificationAlert(true);
+        navigation.navigate("CardActions.CardDetailsScreen", {
+          cardType: "single-use",
+          action: "generate-single-use-card",
+        }),
+      2000
+    );
   }, []);
 
   const handleOnCloseNotification = () => {

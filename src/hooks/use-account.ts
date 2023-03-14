@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useQuery } from "react-query";
 
 import api from "@/api";
+import { generateRandomId } from "@/utils";
 
 interface ApiAccountResponseElement {
   Data: {
@@ -53,7 +54,9 @@ export default function useAccount() {
 
   const [accountData, currentAccount] = useMemo(() => {
     // eslint-disable-next-line prettier/prettier
-    const accountData_ = accounts.data?.find(d => undefined !== d.Data.Account.find(a => a.AccountType === "CURRENT"))?.Data;
+    const accountData_ = accounts.data?.find(
+      d => undefined !== d.Data.Account.find(a => a.AccountType === "CURRENT")
+    )?.Data;
     const currentAccount_ = accountData_?.Account.find(a => a.AccountType === "CURRENT");
     return [accountData_, currentAccount_];
   }, [accounts]);
@@ -62,24 +65,37 @@ export default function useAccount() {
 
   const balances = useQuery(
     ["balances", { currentAccountId }],
-    () => api<ApiBalanceResponseElement[]>("v1", `accounts/${currentAccountId}/balances`, "GET"),
+    () =>
+      api<ApiBalanceResponseElement[]>("v1", `accounts/${currentAccountId}/balances`, "GET", undefined, undefined, {
+        ["x-correlation-id"]: generateRandomId(),
+      }),
     { enabled: undefined !== currentAccountId }
   );
 
+  // eslint-disable-next-line prettier/prettier
   return useMemo(() => {
-    if (undefined === currentAccountId || undefined === currentAccount || undefined === balances.data) {
+    if (undefined === currentAccountId || undefined === currentAccount) {
       return { data: undefined };
     }
 
     const currentAccountName = currentAccount.Description;
     const currentAccountIban = currentAccount.Account.find(a => a.schemeName === "IBAN.NUMBER")?.identification;
     const currentAccountCustomerFullName = accountData?.SupplementaryData?.CustomerFullName;
-    // eslint-disable-next-line prettier/prettier
-    const balanceData = balances.data.find(d => undefined !== d.Data.Balance.find(b => b.Type === "INTERIM_AVAILABLE"))?.Data;
-    const currentBalance = balanceData?.Balance.find(b => b.Type === "INTERIM_AVAILABLE");
-    const currentAccountCurrencyType = currentBalance?.Amount.Currency;
-    // eslint-disable-next-line prettier/prettier
-    const currentAccountBalance = undefined !== currentBalance?.Amount.Amount ? Number(currentBalance?.Amount.Amount) : undefined;
+
+    let currentAccountCurrencyType;
+    let currentAccountBalance;
+
+    // @todo remove once balance API is working again
+    if (balances.data !== undefined) {
+      const balanceData = balances.data.find(
+        d => undefined !== d.Data.Balance.find(b => b.Type === "INTERIM_AVAILABLE")
+      )?.Data;
+      const currentBalance = balanceData?.Balance.find(b => b.Type === "INTERIM_AVAILABLE");
+      currentAccountCurrencyType = currentBalance?.Amount.Currency;
+      currentAccountBalance =
+        undefined !== currentBalance?.Amount.Amount ? Number(currentBalance?.Amount.Amount) : undefined;
+    }
+
     const currentAccountOwner = currentAccount.Account.find(a => a.schemeName === "CUSTOMER.FULL.NAME")?.identification;
     const currentAccountType = currentAccount.AccountType;
     const currentAccountBankCode = currentAccountIban?.substring(5, 10);

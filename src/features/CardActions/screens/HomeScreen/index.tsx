@@ -165,7 +165,10 @@ export default function HomeScreen() {
   };
 
   const handleOnSingleUseCardPress = (cardId: string) => {
-    navigation.navigate("CardActions.CardDetailsScreen", { cardType: "single-use", cardId: cardId });
+    navigation.navigate("CardActions.CardDetailsScreen", {
+      cardType: "single-use",
+      cardId: cardId,
+    });
   };
 
   const handleOnPressGenerateNew = () => {

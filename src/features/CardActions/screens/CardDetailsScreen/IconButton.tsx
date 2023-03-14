@@ -15,14 +15,14 @@ interface IconButtonProps {
 }
 
 export default function IconButton({ active = false, activeLabel, inactiveLabel, icon, onPress }: IconButtonProps) {
-  const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(() => ({
     alignItems: "center",
     width: 80,
   }));
 
   const iconContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: active ? theme.palette["primaryBase"] : theme.palette["neutralBase-30"],
+      backgroundColor: active ? theme.palette.primaryBase : theme.palette["neutralBase-30"],
       height: 56,
       width: 56,
       borderRadius: 28,
