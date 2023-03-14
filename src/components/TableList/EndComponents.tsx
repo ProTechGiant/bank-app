@@ -1,15 +1,16 @@
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { I18nManager, Pressable, View } from "react-native";
+import { I18nManager, Pressable, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon, CopyIcon } from "@/assets/icons";
 import DatePickerInput from "@/components/Form/DatePickerInput";
 import Toggle from "@/components/Toggle";
 import Typography from "@/components/Typography";
+import { useThemeStyles } from "@/theme";
 
 import { useInfoStyles } from "./Styles";
 
 interface CopyProps {
-  onCopyPress: () => void;
+  onPress: () => void;
 }
 
 interface DateProps<T extends FieldValues> {
@@ -18,10 +19,6 @@ interface DateProps<T extends FieldValues> {
   headerText: string;
   buttonText: string;
   placeHolder: string;
-}
-
-interface LabelProps {
-  label: string;
 }
 
 interface ToggleProps<T extends FieldValues> {
@@ -40,23 +37,27 @@ const Chevron = () => {
   );
 };
 
-const Copy = ({ onCopyPress }: CopyProps) => {
-  const { copyColor } = useInfoStyles();
+const Copy = ({ onPress }: CopyProps) => {
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-40"],
+    borderRadius: 34,
+    padding: theme.spacing["10p"],
+  }));
+
+  const copyColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
 
   return (
-    <Pressable onPress={onCopyPress}>
-      <CopyIcon color={copyColor} />
+    <Pressable onPress={onPress} style={containerStyle}>
+      <CopyIcon color={copyColor} height={16} width={16} />
     </Pressable>
   );
 };
 
-const Label = ({ label }: LabelProps) => {
+const Label = ({ children }: { children: React.ReactNode }) => {
   return (
-    <View>
-      <Typography.Text color="neutralBase" size="callout">
-        {label}
-      </Typography.Text>
-    </View>
+    <Typography.Text color="primaryBase-40" size="callout" weight="semiBold">
+      {children}
+    </Typography.Text>
   );
 };
 

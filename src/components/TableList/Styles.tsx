@@ -13,10 +13,8 @@ export const useInfoStyles = () => {
   const infoDimensions = useThemeStyles(theme => theme.iconDimensions.createGoal.info);
   const infoColor = useThemeStyles(theme => theme.palette["neutralBase-10"]);
 
-  const copyColor = useThemeStyles<string>(theme => theme.palette.complimentBase, []);
-
   const { height: chevronHeight, width: chevronWidth } = useThemeStyles(theme => theme.iconDimensions.chevronRight);
-  const chevronColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"], []);
+  const chevronColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"], []);
 
   const dateContainer = useThemeStyles<ViewStyle>(theme => ({
     marginRight: -theme.spacing["16p"],
@@ -31,7 +29,6 @@ export const useInfoStyles = () => {
     chevronColor,
     chevronHeight,
     chevronWidth,
-    copyColor,
   };
 };
 

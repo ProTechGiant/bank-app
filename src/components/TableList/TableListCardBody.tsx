@@ -8,6 +8,7 @@ import { TableListCardProps } from "./TableListCard";
 
 export default function TableListCardBody({ helperText, label, onInfoPress, onPress }: TableListCardProps) {
   const { infoIconStyle, infoColor, infoDimensions } = useInfoStyles();
+
   return (
     <Pressable onPress={onPress} disabled={typeof onPress === "function" ? false : true} style={styles.bodyContainer}>
       <View style={styles.label}>

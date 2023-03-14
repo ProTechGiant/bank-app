@@ -1,12 +1,12 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, View, ViewStyle } from "react-native";
 
 import { FriendsIcon, NotificationIcon, QuestionIcon } from "@/assets/icons";
+import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
-import Typography from "@/components/Typography";
+import Stack from "@/components/Stack";
+import { TableListCard } from "@/components/TableList";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
@@ -16,7 +16,7 @@ export default function SettingsScreen() {
     navigation.navigate("Referral.HubScreen");
   };
 
-  const handleOnFAQPress = () => {
+  const handleOnQuestionsPress = () => {
     navigation.navigate("FrequentlyAskedQuestions.LandingPage");
   };
 
@@ -41,30 +41,27 @@ export default function SettingsScreen() {
   }));
 
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader />
-      <Pressable style={cardContainerStyle} onPress={handleOnReferPress}>
-        <FriendsIcon style={iconContainer} />
-        <Typography.Text color="primaryBase+30" size="callout" weight="regular">
-          {t("Settings.SettingsScreen.rewards")}
-        </Typography.Text>
-      </Pressable>
-      <Pressable style={cardContainerStyle} onPress={handleOnFAQPress}>
-        <View style={iconContainer}>
-          <QuestionIcon />
-        </View>
-        <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-          {t("Settings.SettingsScreen.FAQs")}
-        </Typography.Text>
-      </Pressable>
-      <Pressable style={cardContainerStyle} onPress={handleOnNotificationsPress}>
-        <View style={iconContainer}>
-          <NotificationIcon />
-        </View>
-        <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-          {t("Settings.SettingsScreen.notifications")}
-        </Typography.Text>
-      </Pressable>
+      <ContentContainer>
+        <Stack align="stretch" direction="vertical" gap="12p">
+          <TableListCard
+            onPress={handleOnReferPress}
+            icon={<FriendsIcon />}
+            label={t("Settings.SettingsScreen.rewards")}
+          />
+          <TableListCard
+            onPress={handleOnQuestionsPress}
+            icon={<QuestionIcon />}
+            label={t("Settings.SettingsScreen.FAQs")}
+          />
+          <TableListCard
+            onPress={handleOnNotificationsPress}
+            icon={<NotificationIcon />}
+            label={t("Settings.SettingsScreen.notifications")}
+          />
+        </Stack>
+      </ContentContainer>
     </Page>
   );
 }
