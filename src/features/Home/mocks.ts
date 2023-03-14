@@ -4,7 +4,7 @@ export const quickActionMocks: QuickAction[] = [
   {
     color: "complimentBase",
     icon: "AddBorderedIcon",
-    title: "Balance add",
+    title: "Add money",
     description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
     type: "balance-add",
   },
