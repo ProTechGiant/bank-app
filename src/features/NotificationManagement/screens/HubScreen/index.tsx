@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Alert, AppState, Linking, Pressable, View, ViewStyle } from "react-native";
 import { checkNotifications } from "react-native-permissions";
 
-import { InfoCircleIcon, TransferHorizontal } from "@/assets/icons";
+import { InfoCircleIcon, TransferHorizontalIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import Modal from "@/components/Modal";
 import NavHeader from "@/components/NavHeader";
@@ -51,6 +51,7 @@ export default function HubScreen() {
   }));
 
   const infoIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-10"]);
+  const horizontalIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   useEffect(() => {
     checkNotifications().then(({ status }) => {
@@ -95,7 +96,7 @@ export default function HubScreen() {
 
   return (
     <>
-      <Page>
+      <Page backgroundColor="primaryBase-60">
         <NavHeader />
         <ContentContainer isScrollView>
           <View>
@@ -121,7 +122,7 @@ export default function HubScreen() {
                     <Section
                       title={data.categoryName}
                       content={data.categoryDescription}
-                      icon={<TransferHorizontal />}
+                      icon={<TransferHorizontalIcon color={horizontalIconColor} />}
                       data={data}
                     />
                   </View>

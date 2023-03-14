@@ -68,7 +68,7 @@ export { default as TickIcon } from "./tick.svg";
 export { default as TickCircleIcon } from "./tick-circle";
 export { default as TickCircleBorderIcon } from "./tick-circle-border";
 export { default as TransferIcon } from "./transfer.svg";
-export { default as TransferHorizontal } from "./transfer-horizontal.svg";
+export { default as TransferHorizontalIcon } from "./transfer-horizontal";
 export { default as TransferVertical } from "./transfer-vertical";
 export { default as UserClockIcon } from "./user-clock";
 export { UserIcon } from "./user-icon";
