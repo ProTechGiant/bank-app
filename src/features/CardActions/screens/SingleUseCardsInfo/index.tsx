@@ -27,7 +27,7 @@ export default function SingleUseCardInfo() {
 
   return (
     <HeroSlider
-      buttonText={t("CardActions.SingleUseCardsInfo.generateButton")}
+      buttonText={t("CardActions.SingleUseCard.SingleUseCardsInfo.generateButton")}
       data={[
         {
           topElement: (
@@ -35,11 +35,11 @@ export default function SingleUseCardInfo() {
               <PlaceholderCardSvg />
             </View>
           ),
-          title: t("CardActions.SingleUseCardsInfo.title"),
-          text: t("CardActions.SingleUseCardsInfo.text"),
+          title: t("CardActions.SingleUseCard.SingleUseCardsInfo.title"),
+          text: t("CardActions.SingleUseCard.SingleUseCardsInfo.text"),
         },
       ]}
-      lastButtonText={t("CardActions.SingleUseCardsInfo.generateButton")}
+      lastButtonText={t("CardActions.SingleUseCard.SingleUseCardsInfo.generateButton")}
       onFinishPress={handleOnGenerateCard}
     />
   );
