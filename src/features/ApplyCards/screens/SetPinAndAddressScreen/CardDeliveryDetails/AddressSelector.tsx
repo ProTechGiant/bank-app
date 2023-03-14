@@ -40,12 +40,12 @@ export default function AddressSelector({
   }));
 
   const isSelectedStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderColor: theme.palette.complimentBase,
+    borderColor: theme.palette["primaryBase-40"],
     borderWidth: 2,
   }));
 
   const temporaryTag = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["primaryBase-40"],
+    backgroundColor: theme.palette["primaryBase-10"],
     borderRadius: theme.radii.xxlarge,
     height: 21,
     paddingHorizontal: theme.spacing["8p"],
@@ -86,7 +86,7 @@ export default function AddressSelector({
       </View>
       {isTemporary && (
         <View style={temporaryTag}>
-          <Typography.Text color="complimentBase" size="caption2">
+          <Typography.Text color="primaryBase-40" size="caption2">
             Temporary
           </Typography.Text>
         </View>

@@ -25,7 +25,7 @@ export default function PickCardTypeScreen() {
   const [index, setIndex] = useState(0);
 
   const tabBarIndicatorStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase+30"],
+    backgroundColor: theme.palette["primaryBase-40"],
   }));
 
   const tabBarStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -35,7 +35,7 @@ export default function PickCardTypeScreen() {
   }));
 
   const tabLabelStyle = useThemeStyles<TextStyle>(theme => ({
-    color: theme.palette["neutralBase+30"],
+    color: theme.palette["primaryBase-40"],
   }));
 
   const handleOnCardPress = (cardType: "standard" | "lux") => {
