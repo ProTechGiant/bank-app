@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Platform, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -23,12 +23,16 @@ export default function ReordererHeader({
   title,
 }: ReordererHeaderProps) {
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
     paddingHorizontal: theme.spacing["20p"],
-    paddingVertical: theme.spacing["24p"],
-    width: "100%",
+    ...Platform.select({
+      ios: {
+        paddingVertical: theme.spacing["24p"],
+      },
+      default: {
+        paddingTop: theme.spacing["32p"],
+        paddingBottom: theme.spacing["12p"],
+      },
+    }),
   }));
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -52,26 +56,29 @@ export default function ReordererHeader({
   );
 
   return (
-    <View>
-      <View style={styles.background}>
-        <BackgroundCollapsedSvg />
-      </View>
+    <>
+      <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
       <View style={headerStyle}>
-        <Pressable onPress={onCancelPress} style={[buttonContainerStyle, cancelButtonStyle]}>
-          <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-            {cancelText}
+        <View style={styles.background}>
+          <BackgroundCollapsedSvg />
+        </View>
+        <View style={styles.elements}>
+          <Pressable onPress={onCancelPress} style={[buttonContainerStyle, cancelButtonStyle]}>
+            <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
+              {cancelText}
+            </Typography.Text>
+          </Pressable>
+          <Typography.Text color="primaryBase" weight="regular" size="body">
+            {title}
           </Typography.Text>
-        </Pressable>
-        <Typography.Text color="primaryBase" weight="regular" size="body">
-          {title}
-        </Typography.Text>
-        <Pressable disabled={!isSaveable} onPress={onSavePress} style={[buttonContainerStyle, saveButtonStyle]}>
-          <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-            {saveText}
-          </Typography.Text>
-        </Pressable>
+          <Pressable disabled={!isSaveable} onPress={onSavePress} style={[buttonContainerStyle, saveButtonStyle]}>
+            <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
+              {saveText}
+            </Typography.Text>
+          </Pressable>
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 
@@ -83,5 +90,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     top: 0,
+  },
+  elements: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
   },
 });

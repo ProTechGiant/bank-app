@@ -51,7 +51,7 @@ export default function SectionsReordererModal() {
 
   return (
     <SafeAreaProvider>
-      <Page insets={["bottom"]}>
+      <Page insets={["bottom", "left", "right"]}>
         <ReordererHeader
           cancelText={t("Home.SectionsReordererModal.cancelButton")}
           onCancelPress={handleOnCancelPress}

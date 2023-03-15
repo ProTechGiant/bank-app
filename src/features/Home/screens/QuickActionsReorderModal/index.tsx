@@ -51,7 +51,7 @@ export default function QuickActionsReordererModal() {
 
   return (
     <SafeAreaProvider>
-      <Page insets={["bottom"]}>
+      <Page insets={["bottom", "left", "right"]}>
         <ReordererHeader
           cancelText={t("Home.QuickActionsReordererModal.cancelButton")}
           onCancelPress={handleOnCancelPress}
