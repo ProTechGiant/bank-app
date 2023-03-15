@@ -56,6 +56,8 @@ export default function CardDetailsScreen() {
   const cardStatus: string | undefined = route.params.cardStatus;
   const cardId = route.params.cardId;
 
+  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+
   useEffect(() => {
     if (undefined === route.params.cardId) return;
     const cardsList = data?.Cards;
@@ -355,7 +357,7 @@ export default function CardDetailsScreen() {
               ) : null}
               <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
                 <ListItemLink
-                  icon={<CardSettingsIcon />}
+                  icon={<CardSettingsIcon color={iconColor} />}
                   onPress={
                     cardStatus === "active" ? handleOnActiveCardSettingsPress : handleOnInactiveCardSettingsPress
                   }
@@ -363,7 +365,13 @@ export default function CardDetailsScreen() {
                 />
                 <ListItemLink
                   disabled={cardStatus === "inactive" ? true : false}
-                  icon={cardStatus === "inactive" ? <ReportIcon color={disabledIconColor} /> : <ReportIcon />}
+                  icon={
+                    cardStatus === "inactive" ? (
+                      <ReportIcon color={disabledIconColor} />
+                    ) : (
+                      <ReportIcon color={iconColor} />
+                    )
+                  }
                   onPress={handleOnReportPress}
                   title={t("CardActions.CardDetailsScreen.reportButton")}
                 />

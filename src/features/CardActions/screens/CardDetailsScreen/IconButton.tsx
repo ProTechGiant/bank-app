@@ -17,7 +17,7 @@ interface IconButtonProps {
 export default function IconButton({ active = false, activeLabel, inactiveLabel, icon, onPress }: IconButtonProps) {
   const iconContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: active ? theme.palette.primaryBase : theme.palette["neutralBase-40"],
+      backgroundColor: active ? theme.palette["primaryBase-10"] : theme.palette["neutralBase-40"],
       height: 56,
       width: 56,
       borderRadius: 28,
@@ -28,7 +28,7 @@ export default function IconButton({ active = false, activeLabel, inactiveLabel,
     [active]
   );
 
-  const iconColor = useThemeStyles(theme => theme.palette.primaryBase);
+  const iconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
   const activeIconColor = useThemeStyles(theme => theme.palette["neutralBase-50"]);
 
   return (
