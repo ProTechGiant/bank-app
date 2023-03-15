@@ -496,7 +496,7 @@ export const resources = {
         GoalDetailsScreen: {
           GoalDetailsHeader: {
             currency: "SAR",
-            goalAmoutDetails: "of {{GoalAmount}} SAR",
+            targetAmountDetails: "of {{TargetAmount}} SAR",
             targetDate: "Target date: {{TargetDate}}",
           },
           Payments: {

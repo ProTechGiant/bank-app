@@ -41,7 +41,7 @@ export default function EditGoalModal() {
         GoalName: Yup.string()
           .required(t("SavingsGoals.CreateGoalScreen.form.name.validation.required"))
           .matches(alphaNumericSpaceRegExp, t("SavingsGoals.CreateGoalScreen.form.name.validation.invalid")),
-        GoalAmount: Yup.number()
+        TargetAmount: Yup.number()
           .required(t("SavingsGoals.CreateGoalScreen.form.amount.validation.required"))
           .min(0.01, t("SavingsGoals.CreateGoalScreen.form.amount.validation.required"))
           .max(9999999999.99, t("SavingsGoals.CreateGoalScreen.form.amount.validation.invalid")),
@@ -101,7 +101,7 @@ export default function EditGoalModal() {
               control={control}
               showCharacterCount={true}
               label={t("SavingsGoals.CreateGoalScreen.form.amount.label")}
-              name="GoalAmount"
+              name="TargetAmount"
               placeholder={t("SavingsGoals.CreateGoalScreen.form.amount.placeholder")}
               maxLength={12}
             />

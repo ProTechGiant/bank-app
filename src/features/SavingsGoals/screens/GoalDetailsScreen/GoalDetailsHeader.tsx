@@ -57,9 +57,9 @@ const GoalDetailsHeader = ({ AvailableBalanceAmount, TargetAmount, TargetDate }:
           weight="medium"
           color="neutralBase-50"
           align="center"
-          style={styles.goalAmountDetails}>
-          {t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.goalAmoutDetails", {
-            GoalAmount: numberFormatter.format(Number(TargetAmount)),
+          style={styles.targetAmountDetails}>
+          {t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.targetAmountDetails", {
+            TargetAmount: numberFormatter.format(Number(TargetAmount)),
           })}
         </Typography.Text>
         <Typography.Text
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
 
-  goalAmountDetails: {
+  targetAmountDetails: {
     marginTop: 4,
   },
   targetDate: {

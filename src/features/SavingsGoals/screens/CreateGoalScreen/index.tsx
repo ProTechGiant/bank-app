@@ -23,8 +23,6 @@ import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 import { alphaNumericSpaceRegExp } from "@/utils";
 
-import ToggleCard from "../../components/ToggleCard";
-import ToggleCardGroup from "../../components/ToggleCardGroup";
 import { useCreateGoal, useRoundupFlag } from "../../query-hooks";
 import { CreateGoalInput } from "../../types";
 
@@ -40,7 +38,7 @@ export default function CreateGoalScreen() {
         GoalName: Yup.string()
           .required(t("SavingsGoals.CreateGoalScreen.form.name.validation.required"))
           .matches(alphaNumericSpaceRegExp, t("SavingsGoals.CreateGoalScreen.form.name.validation.invalid")),
-        GoalAmount: Yup.number()
+        TargetAmount: Yup.number()
           .required(t("SavingsGoals.CreateGoalScreen.form.amount.validation.required"))
           .min(0.01, t("SavingsGoals.CreateGoalScreen.form.name.validation.required"))
           .max(9999999999.99, t("SavingsGoals.CreateGoalScreen.form.amount.validation.invalid")),
@@ -60,7 +58,6 @@ export default function CreateGoalScreen() {
 
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
   const roundupFlag = watch("RoundupFlag");
-  const targetDate = watch("TargetDate");
 
   useEffect(() => {
     if (!roundupFlag) return;
@@ -146,7 +143,7 @@ export default function CreateGoalScreen() {
               <CurrencyInput
                 control={control}
                 label={t("SavingsGoals.CreateGoalScreen.form.amount.label")}
-                name="GoalAmount"
+                name="TargetAmount"
                 placeholder={t("SavingsGoals.CreateGoalScreen.form.amount.placeholder")}
                 maxLength={10}
               />
@@ -169,12 +166,12 @@ export default function CreateGoalScreen() {
                   label={t("SavingsGoals.CreateGoalScreen.form.roundUps.label")}
                   helperText={t("SavingsGoals.CreateGoalScreen.form.roundUps.helperText")}
                   onInfoPress={() => setIsInfoModalVisible(true)}
-                  end={<TableListCard.Toggle control={control} name="IsRoundupActive" />}
+                  end={<TableListCard.Toggle control={control} name="RoundupFlag" />}
                 />
                 <TableListCard
                   label={t("SavingsGoals.CreateGoalScreen.form.notification.label")}
                   helperText={t("SavingsGoals.CreateGoalScreen.form.notification.helperText")}
-                  end={<TableListCard.Toggle control={control} name="IsNotificationActive" />}
+                  end={<TableListCard.Toggle control={control} name="NotificationFlag" />}
                 />
               </TableListCardGroup>
             </Stack>
