@@ -463,7 +463,7 @@ export const resources = {
         Account: {
           from: "From",
           to: "To",
-          mainAccount: "Main Account",
+          mainAccount: "Main account",
         },
         LandingScreen: {
           title: "Achieve your Savings Goals",
@@ -652,7 +652,7 @@ export const resources = {
           zeroAmountError: "Amount must be greater than 0.01",
           successfulWithdrawal: {
             title: "You've withdrawn {{amount}} SAR",
-            text: "It's been added to your main account",
+            text: "It's been added to your main account.",
           },
           errors: {
             title: "We’re sorry - something has gone wrong",
