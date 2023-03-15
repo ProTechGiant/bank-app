@@ -32,7 +32,7 @@ export default function HomeScreen() {
   // const data = {
   //   Cards: [
   //     {
-  //       CardId: "082f099d-1edd-48e0-a53c-61eeaba228aa",
+  //       CardId: "5c19653b-70cb-4b1a-9b44-010e8bbf6771",
   //       CardType: "2",
   //       ProductId: "1356",
   //       LastFourDigits: "3447",
@@ -104,7 +104,7 @@ export default function HomeScreen() {
           otp: {
             otpId: response.OtpId,
             otpCode: response.OtpCode,
-            phoneNumber: "+966555555555", // TODO: hard coded for now because BE is adding a Phone Number
+            phoneNumber: response.PhoneNumber,
           },
         });
       } else {

@@ -16,8 +16,9 @@ import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 
 import { CardActionsStackParams } from "../../CardActionsStack";
-import { useOtpValidation, useRequestViewPinOtp } from "../../query-hooks";
+import { useOtpValidation, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
 import CountdownLink from "./CountdownLink";
+import maskPhoneNumber from "./mask-phone-number";
 import PinInput from "./PinInput";
 
 export default function OneTimePasswordModal() {
@@ -27,34 +28,72 @@ export default function OneTimePasswordModal() {
 
   const requestViewPinOtpAsync = useRequestViewPinOtp();
   const otpValidationAsync = useOtpValidation();
+  const unfreezeCardAsync = useUnfreezeCard();
 
   const [countdownRestart, setCountdownRestart] = useState(true);
   // @TODO: use setIsPinFocus to hide keyboard if error returns
   const [isPinFocus, setIsPinFocus] = useState(true);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [otpId, setOtpId] = useState("");
+  const [otpId, setOtpId] = useState(route.params.otp?.otpId);
   const [isInvalidPassword, setIsInvalidPassword] = useState(false);
   const [isReachedMaxAttempts, setIsReachedMaxAttempts] = useState(false);
+  const [correlationId, setCorrelatedId] = useState(route.params.correlationId);
+
+  const phoneNumber = route.params.otp?.phoneNumber;
 
   useEffect(() => {
     if (undefined === route.params) return;
-    setOtpId(route.params.otp.otpId);
+
+    if (route.params.otp === undefined) {
+      setShowErrorModal(true);
+    } else {
+      // TODO: For testers. To be removed
+      Alert.alert(`OTP: ${route.params.otp.otpCode}`);
+    }
   }, [route.params]);
 
   const requestViewPinOtp = async () => {
-    const correlationId = generateRandomId();
+    const newCorrelationId = generateRandomId();
 
     try {
       const response = await requestViewPinOtpAsync.mutateAsync({
         cardId: route.params.cardId,
-        correlationId: correlationId,
+        correlationId: newCorrelationId,
       });
+      setCorrelatedId(newCorrelationId);
       setOtpId(response.OtpId);
       setCountdownRestart(true);
+
+      // TODO: For testers. To be removed
+      Alert.alert(`OTP: ${response.OtpCode}`);
     } catch (error) {
       setShowErrorModal(true);
       warn("card-actions", "Could not request view pin OTP: ", JSON.stringify(error));
+    }
+  };
+
+  const requestUnfreezeOtp = async () => {
+    const newCorrelationId = generateRandomId();
+
+    try {
+      const response = await unfreezeCardAsync.mutateAsync({
+        cardId: route.params.cardId,
+        correlationId: newCorrelationId,
+      });
+      if (response.OtpCode !== undefined && response.OtpId !== undefined) {
+        // TODO: For testers. To be removed
+        Alert.alert(`OTP: ${response.OtpCode}`);
+
+        setCorrelatedId(newCorrelationId);
+        setOtpId(response.OtpId);
+        setCountdownRestart(true);
+      } else {
+        setShowErrorModal(true);
+      }
+    } catch (error) {
+      setShowErrorModal(true);
+      warn("card-actions", "Could not unfreeze card: ", JSON.stringify(error));
     }
   };
 
@@ -63,15 +102,24 @@ export default function OneTimePasswordModal() {
   };
 
   const handleOnResendPress = async () => {
+    // TODO: request new otp for other actions
     if (route.params.action === "view-pin") {
       requestViewPinOtp();
-    } // TODO: request new otp for other actions
+    } else if (route.params.action === "unfreeze") {
+      requestUnfreezeOtp();
+    }
+    setIsError(false);
+    setIsInvalidPassword(false);
+    setIsReachedMaxAttempts(false);
+    setIsPinFocus(true);
   };
 
   const handleOnPinBoxesPress = () => {
     setIsPinFocus(true);
     // reset pin boxes styles and remove error message
     setIsError(false);
+    setIsInvalidPassword(false);
+    setIsReachedMaxAttempts(false);
   };
 
   const handleOnSubmit = async (input: string) => {
@@ -80,17 +128,27 @@ export default function OneTimePasswordModal() {
         CardId: route.params.cardId,
         OtpCode: input,
         OtpId: otpId,
-        correlationId: route.params.correlationId,
+        correlationId: correlationId,
       });
       if (response.IsOtpValid) {
-        navigation.navigate(route.params.redirect, {
-          action: route.params.action,
-          pin: response.Pin,
-          cardId: route.params.cardId,
-        });
+        const params =
+          route.params.redirect === "CardActions.HomeScreen"
+            ? {
+                action: route.params.action,
+                pin: response.Pin,
+              }
+            : {
+                action: route.params.action,
+                pin: response.Pin,
+                cardId: route.params.cardId,
+                cardType: route.params.cardType,
+              };
+        navigation.navigate(route.params.redirect, params);
       } else {
+        setIsError(true);
         setIsReachedMaxAttempts(response.NumOfAttempts >= 3);
         setIsInvalidPassword(true);
+        setIsPinFocus(false);
       }
     } catch (error) {
       setShowErrorModal(true);
@@ -126,12 +184,14 @@ export default function OneTimePasswordModal() {
             <Typography.Text size="title1" weight="semiBold">
               {t("CardActions.OneTimePasswordModal.title")}
             </Typography.Text>
-            <Typography.Text size="callout">
-              {t("CardActions.OneTimePasswordModal.message", {
-                hiddenNumber: "\u2022\u2022 \u2022\u2022\u2022\u2022 \u2022\u2022",
-                phoneNumber: route.params.otp.phoneNumber.slice(-2),
-              })}
-            </Typography.Text>
+            {phoneNumber !== undefined ? (
+              <Typography.Text size="callout">
+                {t("CardActions.OneTimePasswordModal.message", {
+                  hiddenNumber: maskPhoneNumber(phoneNumber),
+                  phoneNumber: phoneNumber.slice(-2),
+                })}
+              </Typography.Text>
+            ) : null}
             <View style={passwordContainerStyle}>
               <PinInput
                 pinLength={4}

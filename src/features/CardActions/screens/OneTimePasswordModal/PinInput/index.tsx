@@ -27,6 +27,12 @@ export default function PinInput({ pinLength, onPress, onSubmit, isFocus = false
   }, [currentInput]);
 
   useEffect(() => {
+    if (isError) {
+      setCurrentInput("");
+    }
+  }, [isError]);
+
+  useEffect(() => {
     isFocus ? textInputRef.current?.focus() : textInputRef.current?.blur();
   }, [isFocus]);
 
@@ -64,6 +70,11 @@ export default function PinInput({ pinLength, onPress, onSubmit, isFocus = false
     }
   };
 
+  const handleOnPress = () => {
+    setCurrentInput("");
+    onPress();
+  };
+
   const inputBoxStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     backgroundColor: theme.palette["neutralBase-40"],
@@ -93,7 +104,7 @@ export default function PinInput({ pinLength, onPress, onSubmit, isFocus = false
   }));
 
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={handleOnPress}>
       <TextInput
         autoFocus={isFocus}
         ref={textInputRef}

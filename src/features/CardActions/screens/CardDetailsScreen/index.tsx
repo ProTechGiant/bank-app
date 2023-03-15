@@ -182,7 +182,7 @@ export default function CardDetailsScreen() {
           otp: {
             otpId: response.OtpId,
             otpCode: response.OtpCode,
-            phoneNumber: "+966555555555", // TODO: hard coded for now because BE is adding a Phone Number
+            phoneNumber: response.PhoneNumber,
           },
         });
       } else {
