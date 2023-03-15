@@ -11,6 +11,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { warn } from "@/logger";
+import { inactiveCards } from "@/mocks/inactiveCards";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
@@ -19,7 +20,7 @@ import { CardActionsStackParams } from "../../CardActionsStack";
 import QuickActionsMenu from "../../components/QuickActionsMenu";
 import ViewPinModal from "../../components/ViewPinModal";
 import { useCards, useCustomerTier, useFreezeCard, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
-import { CardStatus } from "../../types";
+import { CardStatus, CardType } from "../../types";
 
 export default function HomeScreen() {
   const { t } = useTranslation();
@@ -151,17 +152,17 @@ export default function HomeScreen() {
     });
   };
 
-  const handleOnActiveCardPress = (cardId: string) => {
+  const handleOnActiveCardPress = (cardId: string, cardType: CardType) => {
     navigation.navigate("CardActions.CardDetailsScreen", {
-      cardType: "standard",
+      cardType,
       cardStatus: "active",
       cardId: cardId,
     });
   };
 
-  const handleOnInactiveCardPress = (cardId: string) => {
+  const handleOnInactiveCardPress = (cardId: string, cardType: CardType) => {
     navigation.navigate("CardActions.CardDetailsScreen", {
-      cardType: "standard",
+      cardType,
       cardStatus: "inactive",
       cardId: cardId,
     });
@@ -218,7 +219,12 @@ export default function HomeScreen() {
                         onCardSettingsPress={handleOnCardSettingsPress}
                       />
                     }
-                    onPress={() => handleOnActiveCardPress(card.CardId)}
+                    onPress={() =>
+                      handleOnActiveCardPress(
+                        card.CardId,
+                        card.ProductId === STANDARD_CARD_PRODUCT_ID ? "standard" : "plus"
+                      )
+                    }
                   />
                 ) : card.Status === "freeze" ? (
                   <BankCard.Inactive
@@ -239,7 +245,12 @@ export default function HomeScreen() {
                         onCardSettingsPress={handleOnCardSettingsPress}
                       />
                     }
-                    onPress={() => handleOnActiveCardPress(card.CardId)}
+                    onPress={() =>
+                      handleOnActiveCardPress(
+                        card.CardId,
+                        card.ProductId === STANDARD_CARD_PRODUCT_ID ? "standard" : "plus"
+                      )
+                    }
                   />
                 ) : (
                   <BankCard.Inactive
@@ -266,7 +277,12 @@ export default function HomeScreen() {
                         onCardSettingsPress={handleOnCardSettingsPress}
                       />
                     }
-                    onPress={() => handleOnInactiveCardPress(card.CardId)}
+                    onPress={() =>
+                      handleOnInactiveCardPress(
+                        card.CardId,
+                        card.ProductId === STANDARD_CARD_PRODUCT_ID ? "standard" : "plus"
+                      )
+                    }
                   />
                 )
               ) : (
@@ -284,27 +300,36 @@ export default function HomeScreen() {
                 />
               )
             )}
-            <BankCard.Inactive // TODO: hardcode this card for now without cardId (UI only) because inactive card is not ready until BC4
-              type="inactive"
-              label={t("CardActions.standardCard")}
-              actionButton={
-                <BankCard.ActionButton
-                  type="light"
-                  title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
-                  onPress={handleOnActivateNowPress}
-                />
-              }
-              onPress={() => handleOnInactiveCardPress("")}
-              endButton={
-                <QuickActionsMenu
-                  cardStatus="inactive"
-                  onFreezeCardPress={() => handleOnFreezeCardPress("")}
-                  onUnfreezeCardPress={() => handleOnUnfreezeCardPress("")}
-                  onViewPinPress={() => handleOnViewPinPress("")}
-                  onCardSettingsPress={handleOnCardSettingsPress}
-                />
-              }
-            />
+            {inactiveCards.map(card => (
+              <BankCard.Inactive
+                key={card.CardId}
+                type="inactive"
+                label={
+                  card.ProductId === STANDARD_CARD_PRODUCT_ID
+                    ? t("CardActions.standardCard")
+                    : t("CardActions.plusCard")
+                }
+                actionButton={
+                  <BankCard.ActionButton
+                    type="light"
+                    title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
+                    onPress={handleOnActivateNowPress}
+                  />
+                }
+                onPress={() =>
+                  handleOnInactiveCardPress("", card.ProductId === STANDARD_CARD_PRODUCT_ID ? "standard" : "plus")
+                }
+                endButton={
+                  <QuickActionsMenu
+                    cardStatus="inactive"
+                    onFreezeCardPress={() => handleOnFreezeCardPress("")}
+                    onUnfreezeCardPress={() => handleOnUnfreezeCardPress("")}
+                    onViewPinPress={() => handleOnViewPinPress("")}
+                    onCardSettingsPress={handleOnCardSettingsPress}
+                  />
+                }
+              />
+            ))}
             {customerTier.data?.tier === "Plus" && singleUseCard === undefined ? (
               <BankCard.Inactive
                 type="inactive"

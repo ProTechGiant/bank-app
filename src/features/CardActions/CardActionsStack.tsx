@@ -7,7 +7,7 @@ import LoadingSingleCardScreen from "./screens/LoadingSingleCardScreen";
 import OneTimePasswordModal from "./screens/OneTimePasswordModal";
 import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
-import { Card, CardStatus } from "./types";
+import { CardStatus, CardType } from "./types";
 
 type CardAction =
   | "view-pin"
@@ -16,7 +16,6 @@ type CardAction =
   | "activate-online-payment"
   | "generate-single-use-card"
   | "show-details";
-type CardType = "standard" | "plus" | "single-use";
 
 type Otp = {
   otpId: string;

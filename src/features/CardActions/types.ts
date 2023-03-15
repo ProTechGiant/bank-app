@@ -13,3 +13,5 @@ export interface CustomerTier {
 }
 
 export type CardStatus = "active" | "inactive" | "frozen";
+
+export type CardType = "standard" | "plus" | "single-use";

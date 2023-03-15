@@ -13,6 +13,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { warn } from "@/logger";
+import { inactiveCards } from "@/mocks/inactiveCards";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
@@ -351,9 +352,12 @@ export default function CardDetailsScreen() {
           <ListSection title={t("CardActions.CardDetailsScreen.accountHeader")}>
             <ListItemText
               title={t("CardActions.CardDetailsScreen.accountNumber")}
-              value={selectedCard?.AccountNumber}
+              value={cardType === "active" ? selectedCard?.AccountNumber : inactiveCards[0].AccountNumber}
             />
-            <ListItemText title={t("CardActions.CardDetailsScreen.accountName")} value={selectedCard?.AccountName} />
+            <ListItemText
+              title={t("CardActions.CardDetailsScreen.accountName")}
+              value={cardType === "active" ? selectedCard?.AccountName : inactiveCards[0].AccountName}
+            />
           </ListSection>
           {cardType === "standard" ? (
             <>
