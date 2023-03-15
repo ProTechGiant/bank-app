@@ -48,10 +48,10 @@ export function useCreateGoal() {
 }
 
 interface RoundUpActiveResponse {
-  IsRoundUpActive: boolean;
+  RoundupFlag: boolean;
 }
 
-export function useIsRoundupActive() {
+export function useRoundupFlag() {
   return useQuery(queryKeys.roundupActive(), () => {
     return api<RoundUpActiveResponse>("v1", "customers/savings-pots/roundup-active", "GET", undefined, undefined, {
       ["x-correlation-id"]: "1234567",

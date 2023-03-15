@@ -96,8 +96,9 @@ export default function GoalDetailsScreen() {
   };
 
   const handleOnEdit = () => {
-    // TODO: Implement edit functionality for Savings Goal View
-    console.log("Edit pressed");
+    navigation.navigate("SavingsGoals.EditGoalModal", {
+      PotId: PotId,
+    });
   };
 
   const showInfoModal = () => {
@@ -130,6 +131,12 @@ export default function GoalDetailsScreen() {
     setShowGoalAlmostReachedNotification(false);
 
     navigation.navigate("SavingsGoals.WithdrawGoalModal", {
+      PotId: PotId,
+    });
+  };
+
+  const handleOnEditGoal = () => {
+    navigation.navigate("SavingsGoals.EditGoalModal", {
       PotId: PotId,
     });
   };

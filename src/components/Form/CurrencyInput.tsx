@@ -16,6 +16,7 @@ interface CurrencyInputProps<T extends FieldValues> {
   name: Path<T>;
   placeholder?: string | null | undefined;
   label?: string | null;
+  showCharacterCount?: boolean;
   maxLength?: number;
 }
 
@@ -27,6 +28,7 @@ export default function CurrencyInput<T extends FieldValues>({
   label,
   maxLength,
   name,
+  showCharacterCount,
   placeholder,
 }: CurrencyInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
@@ -64,6 +66,9 @@ export default function CurrencyInput<T extends FieldValues>({
       isEditable={isEditable}
       isFocused={isFocused}
       fieldState={fieldState}
+      extraEnd={
+        showCharacterCount && undefined !== maxLength ? `${field.value?.length ?? 0} / ${maxLength}` : undefined
+      }
       label={label}>
       <View style={styles.innerContainer}>
         <MaskedCurrencyInput

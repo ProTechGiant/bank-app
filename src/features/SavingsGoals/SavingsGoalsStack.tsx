@@ -2,12 +2,13 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import CreateGoalScreen from "@/features/SavingsGoals/screens/CreateGoalScreen";
+import EditGoalModal from "@/features/SavingsGoals/screens/EditGoalModal";
 import FundGoalModal from "@/features/SavingsGoals/screens/FundGoalModal";
 import GoalDetailsScreen from "@/features/SavingsGoals/screens/GoalDetailsScreen";
 import InstructionsScreen from "@/features/SavingsGoals/screens/InstructionsScreen";
 import ListGoalsScreen from "@/features/SavingsGoals/screens/ListGoalsScreen";
 import WithdrawGoalModal from "@/features/SavingsGoals/screens/WithdrawGoalModal";
-import MainStackParams from "@/navigation/MainStackParams";
+import MainStackParams from "@/navigation/mainStackParams";
 
 import { FundingType } from "./screens/FundGoalModal/FundingStep";
 
@@ -26,6 +27,9 @@ export type SavingsGoalsStackParams = {
     step?: FundingType;
   };
   "SavingsGoals.WithdrawGoalModal": {
+    PotId: string;
+  };
+  "SavingsGoals.EditGoalModal": {
     PotId: string;
   };
 };
@@ -50,6 +54,7 @@ export default function SavingsGoalsStack() {
         name="SavingsGoals.WithdrawGoalModal"
         options={{ presentation: "modal" }}
       />
+      <Stack.Screen component={EditGoalModal} name="SavingsGoals.EditGoalModal" options={{ presentation: "modal" }} />
     </Stack.Navigator>
   );
 }

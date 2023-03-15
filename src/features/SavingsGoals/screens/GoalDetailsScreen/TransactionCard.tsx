@@ -1,10 +1,10 @@
 import { format } from "date-fns";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
+import Divider from "@/components/Divider";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-import Divider from "@/components/Divider";
 
 interface TransactionCardProps {
   title: string;

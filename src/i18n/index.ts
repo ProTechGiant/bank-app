@@ -592,6 +592,14 @@ export const resources = {
           },
           button: "Continue",
         },
+        EditGoalScreen: {
+          save: "Save",
+          notifications: {
+            label: "Turn on notifications",
+            helperText: "Only for this goal",
+          },
+          closeGoal: "Close goal",
+        },
         FundGoalModal: {
           goalCreatedBanner: "Your goal has been created",
           PickFundingMethodStep: {
@@ -654,6 +662,9 @@ export const resources = {
             tryAgainButton: "Try again",
             cancelWithdrawalButton: "Cancel withdrawal",
           },
+        },
+        EditModal: {
+          title: "Edit goal",
         },
       },
       CardActions: {

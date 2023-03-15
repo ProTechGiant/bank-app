@@ -23,14 +23,16 @@ import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 import { alphaNumericSpaceRegExp } from "@/utils";
 
-import { useCreateGoal, useIsRoundupActive } from "../../query-hooks";
+import ToggleCard from "../../components/ToggleCard";
+import ToggleCardGroup from "../../components/ToggleCardGroup";
+import { useCreateGoal, useRoundupFlag } from "../../query-hooks";
 import { CreateGoalInput } from "../../types";
 
 export default function CreateGoalScreen() {
   const navigation = useNavigation();
   const { i18n, t } = useTranslation();
   const createGoalAsync = useCreateGoal();
-  const { data } = useIsRoundupActive();
+  const { data } = useRoundupFlag();
 
   const validationSchema = useMemo(
     () =>
@@ -51,17 +53,18 @@ export default function CreateGoalScreen() {
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      IsNotificationActive: false,
-      IsRoundupActive: false,
+      NotificationFlag: false,
+      RoundupFlag: false,
     },
   });
 
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
-  const isRoundupActive = watch("IsRoundupActive");
+  const roundupFlag = watch("RoundupFlag");
+  const targetDate = watch("TargetDate");
 
   useEffect(() => {
-    if (!isRoundupActive) return;
-    if (data?.IsRoundUpActive === false) return;
+    if (!roundupFlag) return;
+    if (false === data?.RoundupFlag) return;
 
     Alert.alert(
       t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.title"),
@@ -69,12 +72,12 @@ export default function CreateGoalScreen() {
       [
         {
           text: t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.dontSwitch"),
-          onPress: () => setValue("IsRoundupActive", false),
+          onPress: () => setValue("RoundupFlag", false),
         },
         { text: t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.switch"), style: "default" },
       ]
     );
-  }, [isRoundupActive]);
+  }, [roundupFlag]);
 
   // commented out for now while api issues are being resolved
   const handleOnSubmit = async (values: CreateGoalInput) => {
