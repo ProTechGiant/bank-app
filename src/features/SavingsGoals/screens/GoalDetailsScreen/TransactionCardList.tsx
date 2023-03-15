@@ -19,7 +19,7 @@ export default function TransactionCardList() {
       icon: <LightningBoltIcon />,
       amount: 50,
       title: "One-off payment",
-      date: "31 Oct 2023",
+      date: "2024-03-11",
       separator: true,
     },
     {
@@ -27,7 +27,7 @@ export default function TransactionCardList() {
       icon: <RecurringEventIcon />,
       amount: 50,
       title: "Regular payment",
-      date: "19 Nov 2023",
+      date: "2024-09-19",
     },
   ];
 
