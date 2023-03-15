@@ -36,7 +36,7 @@ export default function AddMoneyViaBankTransferScreen() {
 
   const fetchCopiedText = async () => {
     const text = await Clipboard.getString();
-    setShowErrorCopy(text.length < 1);
+    setShowErrorCopy(text !== undefined && text.length < 1);
     setShowBanner(true);
     setTimeout(() => {
       setShowBanner(false);
@@ -74,8 +74,9 @@ export default function AddMoneyViaBankTransferScreen() {
   }));
 
   const historyContentStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["4p"],
+    paddingTop: theme.spacing["4p"],
     paddingRight: theme.spacing["32p"],
+    paddingBottom: theme.spacing["32p"],
   }));
 
   const contentBoxStyle = useThemeStyles<ViewStyle>(theme => ({
