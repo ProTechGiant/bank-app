@@ -70,7 +70,10 @@ export default function HomeScreen() {
       setIsCardFrozen(true);
     } else if (route.params?.action === "view-pin") {
       setPin(route.params.pin);
-      setIsViewingPin(true);
+      // Add delay to show Notification Modal otherwise because it will be blocked by the OTP modal and view pin modal cannot be shown
+      setTimeout(() => {
+        setIsViewingPin(true);
+      }, 500);
     }
   }, [route.params]);
 
