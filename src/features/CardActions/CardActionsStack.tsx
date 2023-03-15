@@ -7,7 +7,7 @@ import LoadingSingleCardScreen from "./screens/LoadingSingleCardScreen";
 import OneTimePasswordModal from "./screens/OneTimePasswordModal";
 import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
-import { CardStatus, CardType } from "./types";
+import { CardStatus, CardType, DetailedCardResponse } from "./types";
 
 type CardAction =
   | "view-pin"
@@ -30,6 +30,7 @@ export type CardActionsStackParams = {
     cardStatus?: CardStatus;
     cardId: string;
     pin?: string;
+    detailedCardResponse?: DetailedCardResponse;
   };
   "CardActions.CardSettingsScreen": {
     cardStatus?: CardStatus;

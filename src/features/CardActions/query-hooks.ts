@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "react-query";
 import api from "@/api";
 import { generateRandomId } from "@/utils";
 
-import { Card, CustomerTier } from "./types";
+import { Card, CustomerTier, DetailedCardResponse } from "./types";
 
 interface CardsResponse {
   Cards: Card[];
@@ -44,6 +44,7 @@ interface OtpValidationResponse {
   IsOtpValid: boolean;
   NumOfAttempts: number;
   Pin?: string;
+  DetailedCardResponse?: DetailedCardResponse;
 }
 
 export function useFreezeCard() {
@@ -125,5 +126,13 @@ export function useOtpValidation() {
     //   NumOfAttempts: 2,
     //   Pin: "1234",
     // };
+  });
+}
+
+export function useGetCard() {
+  return useMutation(({ cardId, correlationId }: { cardId: string; correlationId: string }) => {
+    return api<OtpResponse>("v1", `cards/${cardId}`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: correlationId,
+    });
   });
 }

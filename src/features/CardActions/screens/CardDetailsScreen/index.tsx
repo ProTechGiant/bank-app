@@ -22,19 +22,12 @@ import { CardActionsStackParams } from "../../CardActionsStack";
 import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
 import ViewPinModal from "../../components/ViewPinModal";
-import { useCards, useFreezeCard, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
-import { Card } from "../../types";
+import { useCards, useFreezeCard, useGetCard, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
+import { Card, DetailedCardResponse } from "../../types";
 import CardIconButtons from "./CardIconButtons";
 import ListItemText from "./ListItemText";
 import SingleUseIconButtons from "./SingleUseIconButtons";
 import UpgradeToCroatiaPlus from "./UpgradeToCroatiaPlus";
-
-const cardDetails = {
-  cardNumber: "1234 1234 1234 1234",
-  accountName: "Main account",
-  endDate: "02/25",
-  securityCode: 122,
-};
 
 export default function CardDetailsScreen() {
   const navigation = useNavigation();
@@ -44,6 +37,7 @@ export default function CardDetailsScreen() {
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
   const requestViewPinOtpAsync = useRequestViewPinOtp();
+  const requestGetCardAsync = useGetCard();
 
   const { data } = useCards(); // @todo to use getCardbyID when BE implements
 
@@ -56,17 +50,11 @@ export default function CardDetailsScreen() {
   const [showErrorCopy, setShowErrorCopy] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [selectedCard, setSelectedCard] = useState<Card | undefined>();
+  const [cardDetails, setCardDetails] = useState<DetailedCardResponse | undefined>();
 
   const cardType: string = route.params.cardType;
   const cardStatus: string | undefined = route.params.cardStatus;
   const cardId = route.params.cardId;
-
-  // @TODO: BE integration
-  const MOCK_OTP_RESPONSE = {
-    otpId: "5f8a1825-da04-496a-a21f-4a8814145864",
-    otpCode: "5165",
-    phoneNumber: "+966555555555",
-  };
 
   useEffect(() => {
     if (undefined === route.params.cardId) return;
@@ -90,6 +78,14 @@ export default function CardDetailsScreen() {
       }, 500);
     } else if (route.params?.action === "generate-single-use-card") {
       setShowNotificationAlert(true);
+    } else if (route.params?.action === "show-details") {
+      if (route.params?.detailedCardResponse === undefined) {
+        setIsShowingDetails(false);
+        setShowErrorModal(true);
+      } else {
+        setCardDetails(route.params?.detailedCardResponse);
+        setIsShowingDetails(true);
+      }
     }
   }, [route.params]);
 
@@ -113,17 +109,36 @@ export default function CardDetailsScreen() {
     navigation.navigate("Temporary.DummyScreen");
   };
 
-  const handleOnShowDetailsPress = () => {
+  const handleOnShowDetailsPress = async () => {
     if (!isShowingDetails) {
-      navigation.navigate("CardActions.OneTimePasswordModal", {
-        redirect: "CardActions.CardDetailsScreen",
-        action: "show-details",
-        cardId: cardId,
-        cardType: cardType,
-        otp: MOCK_OTP_RESPONSE,
-      });
+      const correlationId = generateRandomId();
+      try {
+        const response = await requestGetCardAsync.mutateAsync({ cardId, correlationId });
+        if (response.OtpCode !== undefined && response.OtpId !== undefined) {
+          navigation.navigate("CardActions.OneTimePasswordModal", {
+            redirect: "CardActions.CardDetailsScreen",
+            action: "show-details",
+            correlationId: correlationId,
+            cardId: cardId,
+            cardType: cardType,
+            otp: {
+              otpId: response.OtpId,
+              otpCode: response.OtpCode,
+              phoneNumber: response.PhoneNumber,
+            },
+          });
+        } else {
+          setIsShowingDetails(false);
+          setShowErrorModal(true);
+        }
+      } catch (error) {
+        setIsShowingDetails(false);
+        setShowErrorModal(true);
+        warn("card-actions", "Could not show card details: ", JSON.stringify(error));
+      }
+    } else {
+      setIsShowingDetails(false);
     }
-    setIsShowingDetails(!isShowingDetails);
   };
 
   const handleOnCopyPress = () => {
@@ -131,17 +146,21 @@ export default function CardDetailsScreen() {
       // hide the already shown banner to avoid duplicate banners
       setShowBanner(false);
     }
-    Clipboard.setString(cardDetails.cardNumber);
+    if (cardDetails?.CardNumber !== undefined) {
+      Clipboard.setString(cardDetails?.CardNumber);
+    } else {
+      setShowErrorCopy(true);
+      setShowBanner(true);
+      setTimeout(() => {
+        setShowBanner(false);
+      }, 4000);
+    }
     fetchCopiedText();
   };
 
   const fetchCopiedText = async () => {
     const text = await Clipboard.getString();
-    if (text.length > 0) {
-      setShowErrorCopy(false);
-    } else {
-      setShowErrorCopy(true);
-    }
+    setShowErrorCopy(text.length < 0);
     setShowBanner(true);
     setTimeout(() => {
       setShowBanner(false);
@@ -304,9 +323,12 @@ export default function CardDetailsScreen() {
               <BankCard.Active cardNumber={selectedCard?.LastFourDigits} cardType={cardType} />
             ) : (
               <BankCard.Unmasked
-                cardNumber={cardDetails.cardNumber}
+                cardNumber={cardDetails ? cardDetails.CardNumber : ""}
                 cardType={cardType}
-                cardDetails={{ endDate: cardDetails.endDate, securityCode: cardDetails.securityCode }}
+                cardDetails={{
+                  endDate: cardDetails ? cardDetails.ExpDate : "",
+                  securityCode: cardDetails ? cardDetails.Cvv : "",
+                }}
                 onCopyPress={handleOnCopyPress}
               />
             )}

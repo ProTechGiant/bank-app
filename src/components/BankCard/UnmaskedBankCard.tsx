@@ -17,7 +17,7 @@ interface UnmaskedBankCardProps {
   cardNumber: string;
   cardType: "standard" | "plus" | "single-use";
   onCopyPress: () => void;
-  cardDetails: { endDate: string; securityCode: number };
+  cardDetails: { endDate: string; securityCode: string };
 }
 
 export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, onCopyPress }: UnmaskedBankCardProps) {
@@ -32,7 +32,7 @@ export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, on
     ...StyleSheet.absoluteFillObject,
   }));
 
-  const splittedNumber = cardNumber.split(" ");
+  const splittedNumber = cardNumber ? cardNumber.split("-") : [];
 
   return (
     <View style={styles.container}>
@@ -48,15 +48,17 @@ export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, on
           <View style={styles.cardNumberContainer}>
             <Stack align="center" direction="horizontal" gap="24p">
               <Stack align="center" direction="vertical" gap="10p">
-                {splittedNumber.map(number => (
-                  <Stack direction="horizontal" key={Math.random()} gap="5p">
-                    {number.split("").map((currentNumber, index) => (
-                      <Typography.Text key={index} color="neutralBase-50" weight="medium" size="body">
-                        {currentNumber}
-                      </Typography.Text>
-                    ))}
-                  </Stack>
-                ))}
+                {splittedNumber.length > 0
+                  ? splittedNumber.map(number => (
+                      <Stack direction="horizontal" key={Math.random()} gap="5p">
+                        {number.split("").map((currentNumber, index) => (
+                          <Typography.Text key={index} color="neutralBase-50" weight="medium" size="body">
+                            {currentNumber}
+                          </Typography.Text>
+                        ))}
+                      </Stack>
+                    ))
+                  : null}
               </Stack>
               <View>
                 <Pressable onPress={onCopyPress}>
