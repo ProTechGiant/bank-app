@@ -135,12 +135,6 @@ export default function GoalDetailsScreen() {
     });
   };
 
-  const handleOnEditGoal = () => {
-    navigation.navigate("SavingsGoals.EditGoalModal", {
-      PotId: PotId,
-    });
-  };
-
   const handleOnCloseWithdrawConfirmationModal = () => {
     navigation.navigate("SavingsGoals.GoalDetailsScreen", {
       PotId: PotId,
