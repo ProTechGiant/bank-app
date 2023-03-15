@@ -159,8 +159,8 @@ export const resources = {
           moreInfoDropdownBody:
             "A tax residence is any country where you are legally required to pay taxes. Once a year we’ll ask you to check this information.",
           continue: "Continue",
-          addCountry: "Add country",
-          addCountryExtra: "You can add 3 in total",
+          addCountry: "Add tax residency",
+          addCountryExtra: "You can add 3 countries in total",
           CountrySelector: {
             navHeaderTitle: "Add tax residency",
             countryLabel: "Select country:",
@@ -968,8 +968,8 @@ export const resources = {
           moreInfoDropdownBody:
             "ضريبة الإقامة وهي أي بلد يطلب منك فيه قانوناً دفع الضرائب لحصولك على إقامة فيه. نحتاج إلى معلومات (إن وجدت) عن ضريبة الإقامة خارج المملكة العربية السعودية. يرجى ملاحظة: سوف تحتاج إلى تحديث هذه البيانات سنوياً.",
           continue: "استمرار",
-          addCountry: "Add country",
-          addCountryExtra: "You can add 3 in total",
+          addCountry: "Add tax residency",
+          addCountryExtra: "You can add 3 countries in total",
           CountrySelector: {
             countryLabel: "ما هي البلد بالتحديد؟",
             countryPlaceholder: "اختر بلدك من القائمة",

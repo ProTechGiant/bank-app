@@ -40,7 +40,7 @@ export default function CheckboxInput<T extends FieldValues>({
   return (
     <InputBox
       bordered={bordered}
-      isFocused={true === field.value}
+      isFocused={field.value === true}
       fieldState={fieldState}
       onPress={() => {
         if (isEditable) field.onChange(!field.value);

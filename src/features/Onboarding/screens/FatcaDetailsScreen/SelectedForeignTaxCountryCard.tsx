@@ -21,13 +21,24 @@ export default function SelectedForeignTaxCountryCard({
   onPress,
 }: SelectedForeignTaxCountryCardProps) {
   const { t } = useTranslation();
+
   const detailsCardStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
     borderRadius: theme.radii.small,
     paddingHorizontal: theme.spacing["16p"],
     paddingVertical: theme.spacing["16p"],
     minHeight: 100,
+    shadowColor: theme.palette["primaryBase-10"],
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: theme.radii.small,
+    elevation: 3,
   }));
+
+  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   return (
     <View style={detailsCardStyle}>
@@ -51,7 +62,7 @@ export default function SelectedForeignTaxCountryCard({
           </View>
         </Stack>
         <Pressable onPress={() => onPress(index)}>
-          <EditBordered />
+          <EditBordered color={iconColor} />
         </Pressable>
       </Stack>
     </View>

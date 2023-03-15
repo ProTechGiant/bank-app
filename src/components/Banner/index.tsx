@@ -15,21 +15,32 @@ interface Colors {
   text: keyof typeof palette;
   labelText?: keyof typeof palette;
   labelBackground: keyof typeof palette;
+  bannerBorderColor?: keyof typeof palette;
 }
 
 const getColor = (color: keyof typeof palette): Colors => {
   const colors: { [key: string]: Colors } = {
-    "interactionBase-30": { text: darkColor, labelText: darkColor, labelBackground: "interactionBase-20" },
+    "interactionBase-30": {
+      text: darkColor,
+      labelText: darkColor,
+      labelBackground: "interactionBase-20",
+      bannerBorderColor: "primaryBase-40",
+    },
     successBase: { text: lightColor, labelBackground: "successBase+20" },
     "successBase-30": { text: darkColor, labelBackground: "successBase-20" },
     warningBase: { text: darkColor, labelBackground: "warningBase-10" },
     "warningBase-30": { text: darkColor, labelBackground: "warningBase-20" },
     errorBase: { text: lightColor, labelBackground: "errorBase+10" },
     "errorBase-40": { text: darkColor, labelBackground: "errorBase-20" },
-    default: { text: lightColor, labelText: darkColor, labelBackground: "interactionBase-30" },
+    default: {
+      text: lightColor,
+      labelText: darkColor,
+      labelBackground: "interactionBase-30",
+      bannerBorderColor: "primaryBase-40",
+    },
   };
 
-  return colors[color] || colors["default"];
+  return colors[color] || colors.default;
 };
 
 export type BannerColorType =
@@ -64,6 +75,8 @@ const Banner = ({ variant = "interactionBase", icon: Icon, message, label, onCle
       borderRadius: theme.radii.extraSmall,
       paddingHorizontal: theme.spacing["16p"],
       paddingVertical: theme.spacing["8p"],
+      borderColor: colors.bannerBorderColor ? theme.palette[colors.bannerBorderColor] : "transparent",
+      borderWidth: 1,
     }),
     [variant]
   );
@@ -107,6 +120,7 @@ const Banner = ({ variant = "interactionBase", icon: Icon, message, label, onCle
   );
 
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.accordian, []);
+  const iconColorVar = colors.bannerBorderColor ? colors.bannerBorderColor : colors.text;
 
   return (
     <View style={container}>
@@ -114,7 +128,7 @@ const Banner = ({ variant = "interactionBase", icon: Icon, message, label, onCle
         {cloneElement(Icon, {
           height: iconDimensions,
           width: iconDimensions,
-          color: useThemeStyles<string>(theme => theme.palette[colors.text], [colors]),
+          color: useThemeStyles<string>(theme => theme.palette[iconColorVar], [colors]),
         })}
       </View>
       <View style={styles.messageStyle}>

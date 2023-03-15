@@ -60,21 +60,22 @@ export default function TableListCard({
     marginRight: theme.spacing["16p"],
   }));
 
+  const shadow = useThemeStyles<ViewStyle>(theme => ({
+    elevation: 5,
+    shadowColor: theme.palette["primaryBase-10"],
+    shadowOffset: {
+      height: 3,
+      width: 0,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+  }));
+
   return (
-    <Pressable onPress={onPress} style={[containerStyle, position === "alone" && s.shadow]}>
+    <Pressable onPress={onPress} style={[containerStyle, position === "alone" && shadow]}>
       {icon !== undefined ? <View style={listContainerStyle}>{cloneElement(icon, { color: iconColor })}</View> : null}
       <TableListCardBody helperText={helperText} isError={isError} label={label} onInfoPress={onInfoPress} />
       {end}
     </Pressable>
   );
 }
-
-const s = StyleSheet.create({
-  shadow: {
-    elevation: 5,
-    shadowColor: "rgb(40, 47, 134)",
-    shadowOffset: { height: 3, width: 0 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-  },
-});

@@ -10,7 +10,7 @@ type ProgressIndicatorProps = {
 
 export default function ProgressIndicator({ currentStep, totalStep }: ProgressIndicatorProps) {
   const progressBarStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-20"],
+    backgroundColor: theme.palette["neutralBase-40"],
     borderRadius: 3,
     flex: 1,
     height: 3,

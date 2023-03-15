@@ -70,7 +70,7 @@ const NavHeader = ({
           </View>
           <View style={[styles.column, styles.columnCenter]}>
             {undefined !== title && (
-              <Typography.Text color={textColor} weight="medium" size="callout">
+              <Typography.Text color={textColor} weight="medium" size="footnote">
                 {title}
               </Typography.Text>
             )}

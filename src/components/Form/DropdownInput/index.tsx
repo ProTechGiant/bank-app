@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { FieldValues, useController } from "react-hook-form";
 import { I18nManager, StyleSheet, View, ViewStyle } from "react-native";
 
-import { ChevronRightIcon } from "@/assets/icons";
+import { AngleDownIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import { useThemeStyles } from "@/theme";
@@ -72,8 +72,6 @@ export default function DropdownInput<T extends FieldValues>({
     field.onChange(selectedValue);
   };
 
-  const chevronOpenIconColor = useThemeStyles(theme => theme.palette.neutralBase);
-
   const buttonContainer = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
   }));
@@ -105,7 +103,7 @@ export default function DropdownInput<T extends FieldValues>({
         <InputText
           buttonIcon={
             <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-              <ChevronRightIcon color={chevronOpenIconColor} />
+              <AngleDownIcon />
             </View>
           }
           placeholder={placeholder}

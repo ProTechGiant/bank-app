@@ -21,11 +21,19 @@ export default function InfoBox({ borderPosition = "start", title, children, var
           ? theme.palette.successBase
           : variant === "error"
           ? theme.palette.errorBase
-          : theme.palette.primaryBase,
+          : theme.palette["primaryBase-40"],
       borderRadius: theme.radii.extraSmall,
       borderStartWidth: borderPosition === "start" ? 4 : undefined,
       borderEndWidth: borderPosition === "end" ? 4 : undefined,
       padding: theme.spacing["16p"],
+      shadowColor: theme.palette["primaryBase-10"],
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: theme.radii.small,
+      elevation: 3,
     }),
     [borderPosition, variant]
   );

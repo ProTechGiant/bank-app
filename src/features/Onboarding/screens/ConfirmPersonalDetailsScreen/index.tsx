@@ -62,6 +62,11 @@ export default function ConfirmPersonalDetailsScreen() {
     borderRadius: theme.radii.small,
     paddingHorizontal: theme.spacing["16p"],
     paddingVertical: theme.spacing["32p"],
+    elevation: 3,
+    shadowColor: theme.palette["primaryBase-10"],
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
   }));
 
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -151,10 +156,10 @@ function concatStr(glue: string, inputs: Array<string | undefined>) {
 function InfoLine({ label, value }: { label: string; value: string | undefined }) {
   return (
     <View>
-      <Typography.Text size="callout" weight="medium" color="primaryBase">
+      <Typography.Text size="callout" weight="medium" color="primaryBase-40">
         {label}
       </Typography.Text>
-      <Typography.Text size="footnote" weight="regular" color={undefined === value ? "errorBase" : "primaryBase"}>
+      <Typography.Text size="footnote" weight="regular" color={undefined === value ? "errorBase" : "neutralBase+10"}>
         {value ?? "Missing from Absher"}
       </Typography.Text>
     </View>

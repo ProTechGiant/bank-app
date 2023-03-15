@@ -89,7 +89,7 @@ export default function OptionalEmailScreen() {
           <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
             {t("Onboarding.OptionalEmailScreen.continue")}
           </SubmitButton>
-          <Button loading={isSubmitting} onPress={handleSubmit(handleOnSubmit)} variant="secondary">
+          <Button loading={isSubmitting} onPress={handleSubmit(handleOnSubmit)} variant="tertiary">
             {t("Onboarding.OptionalEmailScreen.skip")}
           </Button>
         </Stack>

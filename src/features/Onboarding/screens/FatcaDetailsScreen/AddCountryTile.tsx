@@ -17,14 +17,30 @@ const AddCountryTile = ({ onPress }: AddCountryTileProps) => {
     borderRadius: theme.radii.small,
     paddingHorizontal: theme.spacing["16p"],
     paddingVertical: theme.spacing["16p"],
+    minHeight: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: theme.palette["primaryBase-10"],
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: theme.radii.small,
+    elevation: 3,
   }));
+  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   return (
     <Pressable onPress={onPress}>
       <View style={detailsCardStyle}>
-        <Typography.Text size="callout" weight="medium" color="primaryBase">
-          <PlusIcon /> {t("Onboarding.FatcaDetailsScreen.addCountry")}
-        </Typography.Text>
+        <View style={{ flexDirection: "row" }}>
+          <PlusIcon color={iconColor} />
+          <Typography.Text size="callout" weight="medium" color="primaryBase">
+            {t("Onboarding.FatcaDetailsScreen.addCountry")}
+          </Typography.Text>
+        </View>
+
         <Typography.Text size="footnote" weight="regular" color="neutralBase">
           {t("Onboarding.FatcaDetailsScreen.addCountryExtra")}
         </Typography.Text>

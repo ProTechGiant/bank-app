@@ -22,8 +22,7 @@ export default function MoreInfoDropdown({ children, title }: MoreInfoDropdownPr
   }));
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["32p"],
-    paddingVertical: theme.spacing["16p"],
+    padding: theme.spacing["16p"],
   }));
 
   const pressableContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -31,7 +30,10 @@ export default function MoreInfoDropdown({ children, title }: MoreInfoDropdownPr
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
+    backgroundColor: theme.palette["neutralBase-60"],
   }));
+
+  const infoIconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
 
   const toggleIconStyle = useThemeStyles<ViewStyle>(theme => ({
     height: theme.iconDimensions.accordian,
@@ -49,8 +51,8 @@ export default function MoreInfoDropdown({ children, title }: MoreInfoDropdownPr
     <Pressable onPress={() => setIsExpanded(c => !c)} style={containerStyle}>
       <GreyGradient>
         <View style={pressableContainerStyle}>
-          <InfoCircleIcon />
-          <Typography.Text color="primaryBase" weight="semiBold" size="callout" style={titleStyles}>
+          <InfoCircleIcon color={infoIconColor} />
+          <Typography.Text color="primaryBase" weight="semiBold" size="footnote" style={titleStyles}>
             {title}
           </Typography.Text>
           <View style={toggleIconStyle}>{isExpanded ? <AngleUpIcon /> : <AngleDownIcon />}</View>

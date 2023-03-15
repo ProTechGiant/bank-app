@@ -143,7 +143,7 @@ export default function MobileAndNationalIdForm({
                 placeholder={t("Onboarding.IqamaInputScreen.iqamaPlaceholder")}
                 keyboardType="number-pad"
               />
-              <InfoBox variant="compliment" borderPosition="start">
+              <InfoBox variant="primary" borderPosition="start">
                 {t("Onboarding.IqamaInputScreen.notificationText.one")}
                 <Typography.Text color="neutralBase+30" size="caption1" weight="bold">
                   {t("Onboarding.IqamaInputScreen.notificationText.two")}

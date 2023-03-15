@@ -19,7 +19,7 @@ const LinkCard = ({ onNavigate, children, style }: LinkCardProps) => {
       flexDirection: "row",
       justifyContent: "space-evenly",
       padding: theme.spacing["24p"],
-      shadowColor: theme.palette.primaryBase,
+      shadowColor: theme.palette["primaryBase-10"],
       shadowOffset: {
         width: 1,
         height: 3,
@@ -28,7 +28,6 @@ const LinkCard = ({ onNavigate, children, style }: LinkCardProps) => {
     }),
     []
   );
-  const iconColor = useThemeStyles<string>(theme => theme.palette.neutralBase, []);
 
   const handlePress = () => {
     onNavigate();
@@ -37,7 +36,7 @@ const LinkCard = ({ onNavigate, children, style }: LinkCardProps) => {
     <Pressable style={[container, style]} onPress={handlePress}>
       <View style={styles.textContainer}>{children}</View>
       <View style={styles.arrowContainer}>
-        <ChevronRightIcon color={iconColor} />
+        <ChevronRightIcon />
       </View>
     </Pressable>
   );

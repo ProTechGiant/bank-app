@@ -48,7 +48,7 @@ export default function InputBox({
       borderColor: isError
         ? theme.palette.errorBase
         : isFocused
-        ? theme.palette["complimentBase"]
+        ? theme.palette["primaryBase-40"]
         : isEditable
         ? theme.palette["neutralBase-20"]
         : theme.palette["neutralBase-30"],
@@ -57,8 +57,8 @@ export default function InputBox({
       flexDirection: "row",
       justifyContent: "space-between",
       flexGrow: 1,
-      height: false == multiline ? 53 : undefined,
-      minHeight: false !== multiline ? 74 : undefined,
+      height: multiline == false ? 53 : undefined,
+      minHeight: multiline !== false ? 74 : undefined,
       padding: theme.spacing["16p"] - (isFocused || isError ? 1 : 0),
     }),
     [bordered, isError, isEditable, isFocused, multiline]
