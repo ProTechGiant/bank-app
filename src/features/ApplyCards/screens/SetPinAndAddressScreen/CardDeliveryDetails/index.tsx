@@ -6,13 +6,14 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { OrderCardFormValues, useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
+import { useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
+import useSubmitOrderCard from "@/hooks/use-submit-order-card";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { Address } from "@/types/Address";
+import { Address, OrderCardFormValues } from "@/types/Address";
+import { generateRandomId } from "@/utils";
 
 import AddressSelector from "./AddressSelector";
-import useSubmitOrderCard from "./use-submit-order-card";
 
 interface CardDeliveryDetailsProps {
   primaryAddress?: Address;
@@ -100,13 +101,15 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
 
   const handleSubmit = async (values: OrderCardFormValues) => {
     try {
-      await submitOrderCardAsync.mutateAsync(values).then(res => {
-        if (res.response === API_SUCCESS_MESSAGE) {
-          navigation.navigate("ApplyCards.CardOrdered");
-        } else {
-          showErrorAlert(GENERIC_ERROR.title, GENERIC_ERROR.message);
-        }
+      const response = await submitOrderCardAsync.mutateAsync({
+        values: values,
+        correlationId: generateRandomId(),
       });
+      if (response.response === API_SUCCESS_MESSAGE) {
+        navigation.navigate("ApplyCards.CardOrdered");
+      } else {
+        showErrorAlert(GENERIC_ERROR.title, GENERIC_ERROR.message);
+      }
     } catch (error) {
       showErrorAlert(GENERIC_ERROR.title, GENERIC_ERROR.message);
     }

@@ -46,7 +46,7 @@ export default function Modal({
   const [isVisible, setIsVisible] = useState(visible);
 
   useEffect(() => {
-    if (visible === isVisible) return;
+    if (isVisible === visible) return;
 
     if (visible) {
       setIsVisible(true);

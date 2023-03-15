@@ -52,14 +52,17 @@ export default function CardDetailsScreen() {
   const [selectedCard, setSelectedCard] = useState<Card | undefined>();
   const [cardDetails, setCardDetails] = useState<DetailedCardResponse | undefined>();
 
-  const cardType: string = route.params.cardType;
+  const cardType: string | undefined = route.params.cardType;
   const cardStatus: string | undefined = route.params.cardStatus;
   const cardId = route.params.cardId;
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   useEffect(() => {
-    if (undefined === route.params.cardId) return;
+    if (undefined === route.params.cardId) {
+      setShowErrorModal(true);
+      return;
+    }
     const cardsList = data?.Cards;
     setSelectedCard(cardsList?.find((card: { CardId: string }) => card.CardId === route.params.cardId));
   }, [data?.Cards, route.params.cardId]);

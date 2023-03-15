@@ -7,7 +7,7 @@ import LoadingSingleCardScreen from "./screens/LoadingSingleCardScreen";
 import OneTimePasswordModal from "./screens/OneTimePasswordModal";
 import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
-import { CardStatus, CardType, DetailedCardResponse } from "./types";
+import { CardCreateResponse, CardStatus, CardType, DetailedCardResponse } from "./types";
 
 type CardAction =
   | "view-pin"
@@ -35,7 +35,9 @@ export type CardActionsStackParams = {
   "CardActions.CardSettingsScreen": {
     cardStatus?: CardStatus;
   };
-  "CardActions.LoadingSingleCardScreen": undefined;
+  "CardActions.LoadingSingleCardScreen": {
+    cardCreateResponse?: CardCreateResponse;
+  };
   "CardActions.SingleUseCardInfo": undefined;
   "CardActions.SingleUseCardAbout": undefined;
   "CardActions.HomeScreen": {
@@ -45,7 +47,7 @@ export type CardActionsStackParams = {
   "CardActions.OneTimePasswordModal": {
     action: CardAction;
     cardType?: CardType;
-    cardId: string;
+    cardId?: string;
     otp: Otp;
     redirect: keyof CardActionsStackParams;
     correlationId: string;

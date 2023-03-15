@@ -10,9 +10,12 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
+import useSubmitOrderCard from "@/hooks/use-submit-order-card";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { OrderCardFormValues } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 
 import { CardActionsStackParams } from "../../CardActionsStack";
@@ -28,6 +31,7 @@ export default function OneTimePasswordModal() {
 
   const requestViewPinOtpAsync = useRequestViewPinOtp();
   const otpValidationAsync = useOtpValidation();
+  const submitOrderCard = useSubmitOrderCard();
   const requestGetCardAsync = useGetCard();
   const unfreezeCardAsync = useUnfreezeCard();
 
@@ -44,17 +48,12 @@ export default function OneTimePasswordModal() {
   const phoneNumber = route.params.otp?.phoneNumber;
 
   useEffect(() => {
-    if (undefined === route.params) return;
-
-    if (route.params.otp === undefined) {
-      setShowErrorModal(true);
-    } else {
-      // TODO: For testers. To be removed
-      Alert.alert(`OTP: ${route.params.otp.otpCode}`);
-    }
+    // TODO: For testers. To be removed
+    Alert.alert(`OTP: ${route.params.otp.otpCode}`);
   }, [route.params]);
 
   const requestViewPinOtp = async () => {
+    if (undefined === route.params.cardId) return;
     const newCorrelationId = generateRandomId();
 
     try {
@@ -62,6 +61,7 @@ export default function OneTimePasswordModal() {
         cardId: route.params.cardId,
         correlationId: newCorrelationId,
       });
+
       setCorrelatedId(newCorrelationId);
       setOtpId(response.OtpId);
       setCountdownRestart(true);
@@ -75,6 +75,7 @@ export default function OneTimePasswordModal() {
   };
 
   const requestUnfreezeOtp = async () => {
+    if (undefined === route.params.cardId) return;
     const newCorrelationId = generateRandomId();
 
     try {
@@ -82,6 +83,7 @@ export default function OneTimePasswordModal() {
         cardId: route.params.cardId,
         correlationId: newCorrelationId,
       });
+
       if (response.OtpCode !== undefined && response.OtpId !== undefined) {
         // TODO: For testers. To be removed
         Alert.alert(`OTP: ${response.OtpCode}`);
@@ -106,15 +108,62 @@ export default function OneTimePasswordModal() {
     // TODO: request new otp for other actions
     if (route.params.action === "view-pin") {
       requestViewPinOtp();
+    } else if (route.params.action === "generate-single-use-card") {
+      requestCardCreation();
     } else if (route.params.action === "show-details") {
       requestGetCardDetails();
     } else if (route.params.action === "unfreeze") {
       requestUnfreezeOtp();
     }
+
     setIsError(false);
     setIsInvalidPassword(false);
     setIsReachedMaxAttempts(false);
     setIsPinFocus(true);
+  };
+
+  const requestCardCreation = async () => {
+    const orderCardRequest: OrderCardFormValues = {
+      CardType: Number(SINGLE_USE_CARD_TYPE),
+      CardProductId: Number(STANDARD_CARD_PRODUCT_ID),
+    };
+
+    try {
+      const response = await submitOrderCard.mutateAsync({
+        values: orderCardRequest,
+        correlationId: generateRandomId(),
+      });
+
+      if (!response.OtpId) {
+        setShowErrorModal(true);
+      }
+    } catch (error) {
+      setShowErrorModal(true);
+      warn("card-actions", "Could not create SUC card: ", JSON.stringify(error));
+    }
+  };
+
+  const requestGetCardDetails = async () => {
+    if (undefined === route.params.cardId) return;
+
+    try {
+      const response = await requestGetCardAsync.mutateAsync({
+        cardId: route.params.cardId,
+        correlationId: generateRandomId(),
+      });
+
+      if (response.OtpCode !== undefined && response.OtpId !== undefined) {
+        setOtpId(response.OtpId);
+        setCountdownRestart(true);
+        // TODO: For testers. To be removed
+        Alert.alert(`OTP: ${response.OtpCode}`);
+      } else {
+        setShowErrorModal(true);
+      }
+    } catch (error) {
+      setShowErrorModal(true);
+      warn("card-actions", "Could not get card details: ", JSON.stringify(error));
+    }
   };
 
   const handleOnPinBoxesPress = () => {
@@ -133,8 +182,19 @@ export default function OneTimePasswordModal() {
         OtpId: otpId,
         correlationId: correlationId,
       });
+
       if (response.IsOtpValid) {
-        const params =
+        if (route.params.action === "generate-single-use-card") {
+          // case card creation --> let loading screen handles the response
+          navigation.goBack();
+
+          return navigation.navigate("CardActions.LoadingSingleCardScreen", {
+            cardCreateResponse: response.CardCreateResponse,
+          });
+        }
+
+        navigation.navigate(
+          route.params.redirect,
           route.params.redirect === "CardActions.HomeScreen"
             ? {
                 action: route.params.action,
@@ -146,8 +206,8 @@ export default function OneTimePasswordModal() {
                 cardId: route.params.cardId,
                 cardType: route.params.cardType,
                 detailedCardResponse: response.DetailedCardResponse,
-              };
-        navigation.navigate(route.params.redirect, params);
+              }
+        );
       } else {
         setIsError(true);
         setIsReachedMaxAttempts(response.NumOfAttempts >= 3);
@@ -155,30 +215,20 @@ export default function OneTimePasswordModal() {
         setIsPinFocus(false);
       }
     } catch (error) {
-      setShowErrorModal(true);
-      warn("card-actions", "Could not validate OTP: ", JSON.stringify(error));
-    }
-  };
+      // case card creation --> let loading screen handles the response
+      if (route.params.action === "generate-single-use-card") {
+        navigation.goBack();
 
-  const requestGetCardDetails = async () => {
-    const correlationId = generateRandomId();
-
-    try {
-      const response = await requestGetCardAsync.mutateAsync({
-        cardId: route.params.cardId,
-        correlationId: correlationId,
-      });
-      if (response.OtpCode !== undefined && response.OtpId !== undefined) {
-        setOtpId(response.OtpId);
-        setCountdownRestart(true);
-        // TODO: For testers. To be removed
-        Alert.alert(`OTP: ${response.OtpCode}`);
+        setTimeout(() => {
+          navigation.navigate("CardActions.LoadingSingleCardScreen", {
+            cardCreateResponse: undefined,
+          });
+        }, 500);
       } else {
         setShowErrorModal(true);
       }
-    } catch (error) {
-      setShowErrorModal(true);
-      warn("card-actions", "Could not get card details: ", JSON.stringify(error));
+
+      warn("card-actions", "Could not validate OTP: ", JSON.stringify(error));
     }
   };
 

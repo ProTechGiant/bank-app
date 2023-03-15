@@ -12,6 +12,21 @@ export interface CustomerTier {
   tier: string;
 }
 
+export interface CardCreateResponse {
+  Header: {
+    ErrorId: string;
+    ErrorDesc: string;
+  };
+  Body: {
+    CmAccountId: string;
+    CmCustomerId: string;
+    Token: string;
+    LastFourDigit: string;
+    CardId: string;
+    CardType: string;
+    CardProductId: string;
+  };
+}
 export type CardStatus = "active" | "inactive" | "frozen";
 
 export interface DetailedCardResponse {

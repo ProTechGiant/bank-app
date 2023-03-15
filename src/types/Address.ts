@@ -6,3 +6,10 @@ export interface Address {
   PostalCode: string;
   Country: string;
 }
+
+export interface OrderCardFormValues {
+  CardType: number;
+  CardProductId: number;
+  Pin?: string;
+  AlternateAddress?: Address;
+}

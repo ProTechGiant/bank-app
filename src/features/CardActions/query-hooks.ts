@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "react-query";
 import api from "@/api";
 import { generateRandomId } from "@/utils";
 
-import { Card, CustomerTier, DetailedCardResponse } from "./types";
+import { Card, CardCreateResponse, CustomerTier, DetailedCardResponse } from "./types";
 
 interface CardsResponse {
   Cards: Card[];
@@ -44,6 +44,7 @@ interface OtpValidationResponse {
   IsOtpValid: boolean;
   NumOfAttempts: number;
   Pin?: string;
+  CardCreateResponse?: CardCreateResponse;
   DetailedCardResponse?: DetailedCardResponse;
 }
 

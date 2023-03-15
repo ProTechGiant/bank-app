@@ -21,6 +21,7 @@ interface HeroSliderProps {
   onBackPress?: () => void;
   buttonText: string;
   lastButtonText: string;
+  loading?: boolean;
   end?: React.ReactElement<CloseEndButtonProps> | React.ReactElement<TextEndButtonProps> | false;
 }
 
@@ -30,6 +31,7 @@ export default function HeroSlider({
   onBackPress,
   buttonText,
   lastButtonText,
+  loading = false,
   end,
 }: HeroSliderProps) {
   const [step, setStep] = useState(0);
@@ -89,7 +91,7 @@ export default function HeroSlider({
               ))
             : null}
         </Stack>
-        <Button variant="primary" onPress={handleOnButtonPress}>
+        <Button loading={loading} variant="primary" onPress={handleOnButtonPress}>
           {nextStep !== data.length ? buttonText : lastButtonText}
         </Button>
       </ContentContainer>

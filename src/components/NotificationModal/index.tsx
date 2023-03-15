@@ -70,7 +70,7 @@ export default function NotificationModal({
     <Modal
       visible={isVisible}
       style={modalStyle}
-      onClose={undefined === buttons || false === buttons ? onClose : undefined}>
+      onClose={undefined === buttons || buttons === false ? onClose : undefined}>
       <View style={styles.container}>
         {variant !== "confirmations" && (
           <View style={iconContainerStyles}>{cloneElement(VARIANT_ICONS[variant], iconStyles)}</View>
@@ -83,7 +83,7 @@ export default function NotificationModal({
             {message}
           </Typography.Text>
         </Stack>
-        {undefined !== buttons && false !== buttons ? (
+        {undefined !== buttons && buttons !== false ? (
           <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
             {cloneElement(buttons.primary, { variant: "primary" })}
             {cloneElement(buttons.secondary, { variant: "tertiary" })}
