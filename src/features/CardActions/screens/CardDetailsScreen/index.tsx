@@ -12,7 +12,6 @@ import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
-import useAccount from "@/hooks/use-account";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -43,7 +42,6 @@ export default function CardDetailsScreen() {
 
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
-  const accountInfo = useAccount(); // @todo temporrary till BE returns the data by the GET cards list
   const requestViewPinOtpAsync = useRequestViewPinOtp();
 
   const { data } = useCards(); // @todo to use getCardbyID when BE implements
@@ -350,12 +348,9 @@ export default function CardDetailsScreen() {
           <ListSection title={t("CardActions.CardDetailsScreen.accountHeader")}>
             <ListItemText
               title={t("CardActions.CardDetailsScreen.accountNumber")}
-              value={accountInfo.data?.currentAccountIban}
+              value={selectedCard?.AccountNumber}
             />
-            <ListItemText
-              title={t("CardActions.CardDetailsScreen.accountName")}
-              value={accountInfo.data?.currentAccountName}
-            />
+            <ListItemText title={t("CardActions.CardDetailsScreen.accountName")} value={selectedCard?.AccountName} />
           </ListSection>
           {cardType === "standard" ? (
             <>

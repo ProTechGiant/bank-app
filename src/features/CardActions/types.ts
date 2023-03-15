@@ -4,6 +4,8 @@ export interface Card {
   ProductId: string;
   LastFourDigits: string;
   Status: string;
+  AccountName: string;
+  AccountNumber: string;
 }
 
 export interface CustomerTier {
