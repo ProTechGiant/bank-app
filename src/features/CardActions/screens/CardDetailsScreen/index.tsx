@@ -263,7 +263,7 @@ export default function CardDetailsScreen() {
 
   const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
     height: 1,
-    backgroundColor: theme.palette["neutralBase-30"],
+    backgroundColor: theme.palette["neutralBase-40"],
     marginHorizontal: -theme.spacing["20p"],
     marginTop: theme.spacing["16p"],
     marginBottom: theme.spacing["20p"],

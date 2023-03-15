@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { IconProps } from "@/assets/icons";
@@ -15,14 +15,9 @@ interface IconButtonProps {
 }
 
 export default function IconButton({ active = false, activeLabel, inactiveLabel, icon, onPress }: IconButtonProps) {
-  const buttonContainerStyle = useThemeStyles<ViewStyle>(() => ({
-    alignItems: "center",
-    width: 80,
-  }));
-
   const iconContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: active ? theme.palette.primaryBase : theme.palette["neutralBase-30"],
+      backgroundColor: active ? theme.palette.primaryBase : theme.palette["neutralBase-40"],
       height: 56,
       width: 56,
       borderRadius: 28,
@@ -37,7 +32,7 @@ export default function IconButton({ active = false, activeLabel, inactiveLabel,
   const activeIconColor = useThemeStyles(theme => theme.palette["neutralBase-50"]);
 
   return (
-    <View style={buttonContainerStyle}>
+    <View style={styles.buttonContainer}>
       <Pressable onPress={onPress}>
         <View style={iconContainerStyle}>{cloneElement(icon, { color: active ? activeIconColor : iconColor })}</View>
       </Pressable>
@@ -47,3 +42,10 @@ export default function IconButton({ active = false, activeLabel, inactiveLabel,
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    alignItems: "center",
+    width: 80,
+  },
+});
