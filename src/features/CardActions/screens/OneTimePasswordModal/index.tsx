@@ -11,7 +11,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
+import { OTP_MAX_NUMBER_OF_RESEND, SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import useSubmitOrderCard from "@/hooks/use-submit-order-card";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -52,6 +52,7 @@ export default function OneTimePasswordModal() {
   const [isInvalidPassword, setIsInvalidPassword] = useState(false);
   const [isReachedMaxAttempts, setIsReachedMaxAttempts] = useState(false);
   const [correlationId, setCorrelatedId] = useState(route.params.correlationId);
+  const [numberOfResendRequest, setNumberOfResendRequest] = useState(0);
 
   const phoneNumber = route.params.otp?.phoneNumber;
 
@@ -136,7 +137,7 @@ export default function OneTimePasswordModal() {
     navigation.goBack();
   };
 
-  const handleOnResendPress = async () => {
+  const handleOnResendPress = () => {
     // TODO: request new otp for other actions
     if (route.params.action === "view-pin") {
       requestViewPinOtp();
@@ -149,7 +150,7 @@ export default function OneTimePasswordModal() {
     } else if (route.params.action === "update-settings") {
       requestUpdateSettingsOtp();
     }
-
+    setNumberOfResendRequest(current => current + 1);
     setIsError(false);
     setIsInvalidPassword(false);
     setIsReachedMaxAttempts(false);
@@ -332,8 +333,7 @@ export default function OneTimePasswordModal() {
               </View>
             ) : null}
           </Stack>
-
-          {!isReachedMaxAttempts ? (
+          {!isReachedMaxAttempts && numberOfResendRequest < OTP_MAX_NUMBER_OF_RESEND ? (
             <View style={styles.counterContainer}>
               <CountdownLink
                 restart={countdownRestart}
