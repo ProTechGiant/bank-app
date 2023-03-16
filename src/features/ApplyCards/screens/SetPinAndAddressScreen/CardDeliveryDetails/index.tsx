@@ -105,7 +105,8 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
         values: values,
         correlationId: generateRandomId(),
       });
-      if (response.response === API_SUCCESS_MESSAGE) {
+      if (response) {
+        // @todo call OTP
         navigation.navigate("ApplyCards.CardOrdered");
       } else {
         showErrorAlert(GENERIC_ERROR.title, GENERIC_ERROR.message);

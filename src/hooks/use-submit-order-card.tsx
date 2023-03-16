@@ -4,7 +4,6 @@ import api from "@/api";
 import { OrderCardFormValues } from "@/types/Address";
 
 interface OrderCardResponse {
-  response: string;
   OtpId: string;
   OtpCode: string;
   PhoneNumber: string;

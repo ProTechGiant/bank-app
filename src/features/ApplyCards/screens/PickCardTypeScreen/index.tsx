@@ -45,8 +45,7 @@ export default function PickCardTypeScreen() {
       },
     }));
 
-    // navigation.navigate("ApplyCards.SetPinAndAddress");
-    navigation.navigate("ApplyCards.CardOrdered");
+    navigation.navigate("ApplyCards.SetPinAndAddress");
   };
 
   return (
