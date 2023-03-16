@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 
-import { CheckIcon } from "@/assets/icons";
+import { CheckIcon, CheckIconBig } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { palette, typography } from "@/theme/values";
@@ -12,17 +12,33 @@ interface ProgressWheelProps {
   circleSize: number;
   textColor?: keyof typeof palette;
   textSize?: keyof typeof typography.text.sizes;
+  bigCheckIcon?: boolean;
 }
 
-export default function ProgressWheel({ current, total, circleSize, textColor, textSize }: ProgressWheelProps) {
+export default function ProgressWheel({
+  current,
+  total,
+  circleSize,
+  textColor,
+  textSize,
+  bigCheckIcon,
+}: ProgressWheelProps) {
   const strokeBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase-30"], []);
   const strokeProgressColor = useThemeStyles<string>(theme => theme.palette.complimentBase, []);
+
+  const checkIconStyle = useThemeStyles(theme => ({
+    color: bigCheckIcon ? theme.palette["neutralBase-50"] : theme.palette["neutralBase+30"],
+  }));
 
   const STROKE_WIDTH = 6;
   const RADIUS = (circleSize - STROKE_WIDTH) / 2;
   const CIRCUM = RADIUS * 2 * Math.PI;
   const progressPercentage = (current / total) * 100;
-  const progress = 100 - progressPercentage;
+
+  // this is needed to fill the progress wheel when the goal balance its more than the goal target
+
+  const progress = Math.max(100 - progressPercentage, 0);
+
   const strokeWidth = STROKE_WIDTH;
 
   return (
@@ -52,8 +68,12 @@ export default function ProgressWheel({ current, total, circleSize, textColor, t
         )}
       </Svg>
       <View style={styles.innerContainer}>
-        {progressPercentage === 100 ? (
-          <CheckIcon />
+        {progressPercentage >= 100 ? (
+          bigCheckIcon ? (
+            <CheckIconBig color={checkIconStyle.color} />
+          ) : (
+            <CheckIcon color={checkIconStyle.color} />
+          )
         ) : (
           <Typography.Text weight="medium" size={textSize} color={textColor}>
             {progressPercentage.toFixed(0)}%

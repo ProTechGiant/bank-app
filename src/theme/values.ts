@@ -213,10 +213,6 @@ const iconDimensions = {
     height: 13,
     width: 13,
   },
-  checkIcon: {
-    height: 27,
-    width: 36,
-  },
   threeDots: {
     width: 14,
     height: 4,

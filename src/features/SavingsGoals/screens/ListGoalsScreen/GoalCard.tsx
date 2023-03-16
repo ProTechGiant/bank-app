@@ -46,7 +46,7 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
         <Typography.Text
           size="footnote"
           weight="medium"
-          color={amountSaved === totalAmount ? "complimentBase" : "neutralBase+30"}>
+          color={amountSaved >= totalAmount ? "complimentBase" : "neutralBase+30"}>
           {t("SavingsGoals.SavingsGoalsScreen.goalCard.amount", {
             amountSaved: formatter.format(Number(amountSaved)),
             totalAmount: formatter.format(Number(totalAmount)),

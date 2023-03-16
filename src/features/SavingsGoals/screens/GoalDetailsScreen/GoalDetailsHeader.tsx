@@ -41,6 +41,7 @@ const GoalDetailsHeader = ({ AvailableBalanceAmount, TargetAmount, TargetDate }:
           total={target}
           textColor="neutralBase-50"
           textSize="large"
+          bigCheckIcon={true}
         />
       </View>
       <View>
