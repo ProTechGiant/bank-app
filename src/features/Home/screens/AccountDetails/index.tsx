@@ -69,50 +69,76 @@ export default function AccountDetailsScreen() {
         <ContentContainer style={contentContainer}>
           {undefined !== account.data ? (
             <TableListCardGroup>
-              <TableListCard label={t("Home.AccountDetails.tableLabels.name")} helperText={account.data.accountName} />
-              <TableListCard label={t("Home.AccountDetails.tableLabels.type")} helperText={account.data.accountType} />
+              <TableListCard
+                label={t("Home.AccountDetails.tableLabels.name")}
+                helperText={account.data.currentAccountName}
+              />
+              <TableListCard
+                label={t("Home.AccountDetails.tableLabels.type")}
+                helperText={account.data.currentAccountType}
+              />
               <TableListCard
                 label={t("Home.AccountDetails.tableLabels.holder")}
-                helperText={account.data.owner}
+                helperText={account.data.currentAccountOwner} //will not work here for testing purposes
                 end={
-                  <TableListCard.Copy
-                    onCopyPress={() =>
-                      handleOnCopyPress(account.data.owner, `${t("Home.AccountDetails.tableLabels.holder")}`)
-                    }
-                  />
+                  account.data.currentAccountOwner ? (
+                    <TableListCard.Copy
+                      onPress={() =>
+                        handleOnCopyPress(
+                          account.data.currentAccountOwner!,
+                          `${t("Home.AccountDetails.tableLabels.holder")}`
+                        )
+                      }
+                    />
+                  ) : null
                 }
               />
               <TableListCard
                 label={t("Home.AccountDetails.tableLabels.number")}
-                helperText={account.data.accountNumber}
+                helperText={account.data.currentAccoutNumber}
                 end={
-                  <TableListCard.Copy
-                    onCopyPress={() =>
-                      handleOnCopyPress(account.data.accountNumber, `${t("Home.AccountDetails.tableLabels.number")}`)
-                    }
-                  />
+                  account.data.currentAccoutNumber ? (
+                    <TableListCard.Copy
+                      onPress={() =>
+                        handleOnCopyPress(
+                          account.data.currentAccoutNumber!,
+                          `${t("Home.AccountDetails.tableLabels.number")}`
+                        )
+                      }
+                    />
+                  ) : null
                 }
               />
               <TableListCard
                 label={t("Home.AccountDetails.tableLabels.code")}
-                helperText={account.data.bankCode}
+                helperText={account.data.currentAccountBankCode}
                 end={
-                  <TableListCard.Copy
-                    onCopyPress={() =>
-                      handleOnCopyPress(account.data.bankCode, `${t("Home.AccountDetails.tableLabels.code")}`)
-                    }
-                  />
+                  account.data.currentAccountBankCode ? (
+                    <TableListCard.Copy
+                      onPress={() =>
+                        handleOnCopyPress(
+                          account.data.currentAccountBankCode!,
+                          `${t("Home.AccountDetails.tableLabels.code")}`
+                        )
+                      }
+                    />
+                  ) : null
                 }
               />
               <TableListCard
                 label={t("Home.AccountDetails.tableLabels.iban")}
-                helperText={account.data.accountIban}
+                helperText={account.data.currentAccountIban}
                 end={
-                  <TableListCard.Copy
-                    onCopyPress={() =>
-                      handleOnCopyPress(account.data.accountIban, `${t("Home.AccountDetails.tableLabels.iban")}`)
-                    }
-                  />
+                  account.data.currentAccountIban ? (
+                    <TableListCard.Copy
+                      onPress={() =>
+                        handleOnCopyPress(
+                          account.data.currentAccountIban!,
+                          `${t("Home.AccountDetails.tableLabels.iban")}`
+                        )
+                      }
+                    />
+                  ) : null
                 }
               />
 

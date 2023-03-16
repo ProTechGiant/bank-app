@@ -66,10 +66,6 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnOpenViewAccountDetails = () => {
-    navigation.navigate("Home.AccountDetailsScreen");
-  };
-
   const handleOnCardsHomeSubmit = (values: TemporaryUserId) => {
     auth.authenticate(values.UserId);
     handleOnOpenCardsHome();
@@ -111,9 +107,7 @@ export default function TemporaryLandingScreen() {
         <View style={{ margin: 20 }}>
           <Button onPress={handleSubmit(handleOnOpenOnboarding)}>Onboarding</Button>
         </View>
-        <View style={{ margin: 20 }}>
-          <Button onPress={handleOnOpenViewAccountDetails}>View Account Details</Button>
-        </View>
+
         <View style={{ margin: 20 }}>
           <Button onPress={handleSubmit(handleOnCardsHomeSubmit)}>Cards Home</Button>
         </View>

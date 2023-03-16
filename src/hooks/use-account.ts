@@ -53,7 +53,6 @@ export default function useAccount() {
   });
 
   const [accountData, currentAccount] = useMemo(() => {
-    // eslint-disable-next-line prettier/prettier
     const accountData_ = accounts.data?.find(
       d => undefined !== d.Data.Account.find(a => a.AccountType === "CURRENT")
     )?.Data;
@@ -72,7 +71,6 @@ export default function useAccount() {
     { enabled: undefined !== currentAccountId }
   );
 
-  // eslint-disable-next-line prettier/prettier
   return useMemo(() => {
     if (undefined === currentAccountId || undefined === currentAccount) {
       return { data: undefined };
