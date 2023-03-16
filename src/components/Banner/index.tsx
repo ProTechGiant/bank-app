@@ -1,12 +1,14 @@
-import { cloneElement } from "react";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { cloneElement, isValidElement } from "react";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
-import { CloseIcon, IconProps } from "@/assets/icons";
+import { IconProps } from "@/assets/icons";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
 
 import Typography from "../Typography";
+import CloseEndButton, { CloseEndButtonProps } from "./CloseEndButton";
+import ExpandEndButton, { ExpandEndButtonProps } from "./ExpandEndButton";
 
 const lightColor = "neutralBase-50";
 const darkColor = "neutralBase+30";
@@ -30,7 +32,7 @@ const getColor = (color: keyof typeof palette): Colors => {
     "successBase-30": { text: darkColor, labelBackground: "successBase-20" },
     warningBase: { text: darkColor, labelBackground: "warningBase-10" },
     "warningBase-30": { text: darkColor, labelBackground: "warningBase-20" },
-    errorBase: { text: lightColor, labelBackground: "errorBase+10" },
+    errorBase: { text: lightColor, labelBackground: "errorBase+20" },
     "errorBase-40": { text: darkColor, labelBackground: "errorBase-20" },
     default: {
       text: lightColor,
@@ -58,11 +60,11 @@ export interface BannerProps {
   icon: React.ReactElement<SvgProps | IconProps>;
   message: string;
   label?: string;
-  onClear?: () => void;
-  clearTestID?: string;
+  end?: React.ReactElement<ExpandEndButtonProps> | React.ReactElement<CloseEndButtonProps> | false;
+  endTestId?: string;
 }
 
-const Banner = ({ variant = "interactionBase", icon: Icon, message, label, onClear, clearTestID }: BannerProps) => {
+const Banner = ({ variant = "interactionBase", icon: Icon, message, label, end, endTestId }: BannerProps) => {
   const colors = getColor(variant);
 
   const container = useThemeStyles<ViewStyle>(
@@ -143,16 +145,22 @@ const Banner = ({ variant = "interactionBase", icon: Icon, message, label, onCle
           </Typography.Text>
         </View>
       )}
-      {onClear && (
+      {end && (
         <View style={clearStyle}>
-          <Pressable onPress={onClear} testID={clearTestID}>
-            <CloseIcon color={useThemeStyles<string>(theme => theme.palette[colors.text], [colors])} />
-          </Pressable>
+          {end && isValidElement(end)
+            ? cloneElement(end, {
+                color: colors.text,
+                testID: endTestId,
+              })
+            : null}
         </View>
       )}
     </View>
   );
 };
+
+Banner.CloseEndButton = CloseEndButton;
+Banner.ExpandEndButton = ExpandEndButton;
 
 export default Banner;
 

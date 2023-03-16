@@ -46,7 +46,7 @@ export default function AccountDetailsScreen() {
     <>
       <DismissibleBanner
         visible={showBanner}
-        isError={showErrorCopy}
+        variant={showErrorCopy ? "error" : "default"}
         icon={showErrorCopy ? <ErrorOutlineIcon /> : <CopyIcon color={copyColor} />}
         message={
           showErrorCopy

@@ -43,7 +43,13 @@ export const resources = {
           },
           pending: {
             title: 'You\'re on your way\n "{{userName}}"',
-            bannerMessage:
+            bannerMessage: "We’re completing your account setup ",
+            accountChecks: {
+              identity: "Confirm your identity",
+              checks: "Running additional checks",
+              creatingAccount: "Creating your account",
+            },
+            footerMessage:
               "It can take up to X days for us to finalise this process. An SMS will be sent to you when your account has been created.",
           },
           buttons: {
@@ -466,10 +472,28 @@ export const resources = {
           mainAccount: "Main account",
         },
         LandingScreen: {
-          title: "Achieve your Savings Goals",
-          paragraphOne: "Got a dream but it requires a little saving? We’ve got you.",
-          paragraphTwo: "Croatia makes it simple to set aside what you need, to get what you want.",
-          button: "What’s your goal?",
+          success: {
+            title: 'Welcome\n "{{userName}}"',
+            bannerMessage: "Your account was successfully created!",
+          },
+          failed: {
+            title: "Unfortunately, we can’t create an account for you",
+            subtitle: "If you have any concerns, please contact XXXXXXX.",
+          },
+          pending: {
+            title: 'You\'re on your way\n "{{userName}}"',
+            bannerMessage: "We’re completing your account setup ",
+            accountChecks: {
+              identity: "Confirm your identity",
+              checks: "Running additional checks",
+              creatingAccount: "Creating your account",
+            },
+            footerMessage:
+              "It can take up to X days for us to finalise this process. An SMS will be sent to you when your account has been created.",
+          },
+          buttons: {
+            FinishLater: "Finish Later",
+          },
         },
         InstructionsScreen: {
           skip: "Skip",

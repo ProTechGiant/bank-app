@@ -295,7 +295,7 @@ export default function CardDetailsScreen() {
           onBackPress={handleOnBackPress}
         />
         <DismissibleBanner
-          isError={showErrorCopy}
+          variant={showErrorCopy ? "error" : "default"}
           visible={showBanner}
           message={
             !showErrorCopy

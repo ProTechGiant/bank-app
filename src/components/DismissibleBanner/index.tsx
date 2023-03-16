@@ -12,14 +12,14 @@ interface DismissibleBannerProps {
   icon?: React.ReactElement<SvgProps>;
   message: string;
   visible: boolean;
-  isError?: boolean;
+  variant?: "default" | "success" | "error";
   testID?: string;
 }
 
 export default function DismissibleBanner({
   icon = <TickCircleIcon />,
   visible,
-  isError = false,
+  variant = "default",
   message,
   testID,
 }: DismissibleBannerProps) {
@@ -33,7 +33,12 @@ export default function DismissibleBanner({
 
   const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: isError ? theme.palette.errorBase : theme.palette.primaryBase,
+      backgroundColor:
+        variant === "error"
+          ? theme.palette.errorBase
+          : variant === "success"
+          ? theme.palette.successBase
+          : theme.palette.primaryBase,
       borderRadius: theme.radii.extraSmall,
       alignItems: "flex-start",
       flexDirection: "row",
@@ -49,7 +54,7 @@ export default function DismissibleBanner({
       },
       zIndex: 100,
     }),
-    [isError]
+    [variant]
   );
 
   const textStyle = useThemeStyles<ViewStyle>(theme => ({

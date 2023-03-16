@@ -117,7 +117,7 @@ export default function AddMoneyViaBankTransferScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       <DismissibleBanner
-        isError={showErrorCopy}
+        variant={showErrorCopy ? "error" : "default"}
         visible={showBanner}
         message={
           !showErrorCopy

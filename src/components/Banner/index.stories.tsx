@@ -44,6 +44,6 @@ Banner.play = async ({ args, canvasElement }) => {
 
   await expect(canvas.getByText(args.message)).toBeInTheDocument();
 
-  await userEvent.click(canvas.getByTestId(args.clearTestID as string));
-  await expect(args.onClear).toHaveBeenCalled();
+  await userEvent.click(canvas.getByTestId(args.endTestId as string));
+  await expect(args.end).toHaveBeenCalled();
 };

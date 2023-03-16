@@ -8,12 +8,15 @@ export type Status = "COMPLETED" | "PENDING" | "DECLINED";
 
 interface ApiOnboardingStatusResponse {
   OnboardingStatus: Status;
+  workflowTask: { Id: string; Name: string };
 }
 
 const acceptableTaskNames = [
   "WaitingEDDResult",
   "RetryCustomerScreening",
+  "RetryCustomerScreening",
   "RetrieveValidationStatus",
+  "AccountCreation",
   "RetryAccountCreation",
 ];
 
@@ -29,9 +32,14 @@ export default function useAccountStatus() {
       throw new Error("Available workflowTaskId is not applicable to customers/status");
     }
 
-    return api<ApiOnboardingStatusResponse>("v1", "customers/status", "GET", undefined, undefined, {
+    const status = await api<ApiOnboardingStatusResponse>("v1", "customers/status", "GET", undefined, undefined, {
       ["X-Workflow-Task-Id"]: workflowTask.Id,
       ["x-correlation-id"]: correlationId,
     });
+
+    return {
+      ...status,
+      workflowTask,
+    };
   });
 }
