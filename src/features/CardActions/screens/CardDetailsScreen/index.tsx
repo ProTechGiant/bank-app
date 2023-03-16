@@ -28,6 +28,7 @@ import CardIconButtons from "./CardIconButtons";
 import ListItemText from "./ListItemText";
 import SingleUseIconButtons from "./SingleUseIconButtons";
 import UpgradeToCroatiaPlus from "./UpgradeToCroatiaPlus";
+import AddToAppleWalletButton from "@/features/ApplyCards/screens/AddToAppleWalletScreen/AddToAppleWalletButton";
 
 export default function CardDetailsScreen() {
   const navigation = useNavigation();
@@ -69,6 +70,8 @@ export default function CardDetailsScreen() {
 
   //TODO: retrieve card details to show an active card / frozen card
   useEffect(() => {
+    setIsShowingDetails(false);
+
     if (undefined === route.params) return;
 
     if (route.params.action === "unfreeze") {
@@ -95,22 +98,28 @@ export default function CardDetailsScreen() {
   }, [route.params]);
 
   const handleOnAddToAppleWallet = () => {
+    setIsShowingDetails(false);
     navigation.navigate("Temporary.DummyScreen");
   };
 
   const handleOnActiveCardSettingsPress = () => {
+    setIsShowingDetails(false);
     navigation.navigate("CardActions.CardSettingsScreen", { cardStatus: "active" });
   };
 
   const handleOnInactiveCardSettingsPress = () => {
+    setIsShowingDetails(false);
     navigation.navigate("CardActions.CardSettingsScreen", { cardStatus: "inactive" });
   };
 
   const handleOnReportPress = () => {
+    setIsShowingDetails(false);
     navigation.navigate("Temporary.DummyScreen");
   };
 
   const handleOnUpgradePress = () => {
+    setIsShowingDetails(false);
+
     navigation.navigate("Temporary.DummyScreen");
   };
 
@@ -185,6 +194,8 @@ export default function CardDetailsScreen() {
 
     try {
       const response = await freezeCardAsync.mutateAsync({ cardId, correlationId });
+      setIsShowingDetails(false);
+
       response.Status === "freeze" ? setIsCardFrozen(true) : setShowErrorModal(true);
     } catch (error) {
       setShowErrorModal(true);
@@ -236,6 +247,7 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnViewPinPress = async () => {
+    setIsShowingDetails(false);
     const correlationId = generateRandomId();
 
     try {
@@ -355,7 +367,7 @@ export default function CardDetailsScreen() {
             <>
               {Platform.OS === "ios" ? (
                 <View style={walletButtonContainer}>
-                  <Button onPress={handleOnAddToAppleWallet}>Add to Apple Wallet</Button>
+                  <AddToAppleWalletButton onPress={handleOnAddToAppleWallet} />
                 </View>
               ) : null}
               <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
