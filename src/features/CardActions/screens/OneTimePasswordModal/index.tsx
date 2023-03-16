@@ -2,6 +2,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet, View, ViewStyle } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { ErrorIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -252,8 +253,8 @@ export default function OneTimePasswordModal() {
   }));
 
   return (
-    <>
-      <Page insets={["bottom"]} backgroundColor="neutralBase-60">
+    <SafeAreaProvider>
+      <Page backgroundColor="neutralBase-60">
         <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={handleOnClosePress} />} />
         <ContentContainer>
           <Stack direction="vertical" gap="16p">
@@ -309,7 +310,7 @@ export default function OneTimePasswordModal() {
         isVisible={showErrorModal}
         onClose={handleOnErrorModalClose}
       />
-    </>
+    </SafeAreaProvider>
   );
 }
 
