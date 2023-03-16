@@ -15,6 +15,8 @@ export interface CardSettingsInput {
   SwipePayments: boolean;
 }
 
+export type CardStatus = "active" | "expired" | "expired_report" | "inactive" | "unfreeze" | "freeze";
+
 export interface CardCreateResponse {
   Header: {
     ErrorId: string;
@@ -30,8 +32,6 @@ export interface CardCreateResponse {
     CardProductId: string;
   };
 }
-
-export type CardStatus = "active" | "inactive" | "frozen";
 
 export interface DetailedCardResponse {
   ExpDate: string;

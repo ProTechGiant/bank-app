@@ -5,13 +5,13 @@ import { useTranslation } from "react-i18next";
 import { Platform, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CardSettingsIcon, CopyIcon, ErrorOutlineIcon, ReportIcon } from "@/assets/icons";
+import AddToAppleWalletButton from "@/components/AddToAppleWalletButton/AddToAppleWalletButton";
 import BankCard from "@/components/BankCard";
 import ContentContainer from "@/components/ContentContainer";
 import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
-import AddToAppleWalletButton from "@/features/ApplyCards/screens/AddToAppleWalletScreen/AddToAppleWalletButton";
 import { warn } from "@/logger";
 import { inactiveCards } from "@/mocks/inactiveCards";
 import useNavigation from "@/navigation/use-navigation";

@@ -2,6 +2,7 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
+import AddToAppleWalletButton from "@/components/AddToAppleWalletButton/AddToAppleWalletButton";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
@@ -12,7 +13,6 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import CardPlaceholder from "../../components/CardPlaceholder";
-import AddToAppleWalletButton from "./AddToAppleWalletButton";
 import useTokenizedCard from "./use-tokenized-card";
 
 export default function AddToAppleWalletScreen() {

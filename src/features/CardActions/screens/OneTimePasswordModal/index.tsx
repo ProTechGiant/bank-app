@@ -162,13 +162,20 @@ export default function OneTimePasswordModal() {
       CardProductId: Number(STANDARD_CARD_PRODUCT_ID),
     };
 
+    const newCorrelationId = generateRandomId();
+
     try {
       const response = await submitOrderCard.mutateAsync({
         values: orderCardRequest,
-        correlationId: generateRandomId(),
+        correlationId: newCorrelationId,
       });
 
-      if (!response.OtpId) {
+      if (response.OtpCode !== undefined && response.OtpId !== undefined) {
+        setOtpId(response.OtpId);
+        Alert.alert(`OTP: ${response.OtpCode}`);
+        setCountdownRestart(true);
+        setCorrelatedId(newCorrelationId);
+      } else {
         setShowErrorModal(true);
       }
     } catch (error) {
@@ -179,16 +186,18 @@ export default function OneTimePasswordModal() {
 
   const requestGetCardDetails = async () => {
     if (undefined === route.params.cardId) return;
+    const newCorrelationId = generateRandomId();
 
     try {
       const response = await requestGetCardAsync.mutateAsync({
         cardId: route.params.cardId,
-        correlationId: generateRandomId(),
+        correlationId: newCorrelationId,
       });
 
       if (response.OtpCode !== undefined && response.OtpId !== undefined) {
         setOtpId(response.OtpId);
         setCountdownRestart(true);
+        setCorrelatedId(newCorrelationId);
         // TODO: For testers. To be removed
         Alert.alert(`OTP: ${response.OtpCode}`);
       } else {
