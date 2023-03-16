@@ -14,8 +14,8 @@ import useGetPrimaryAddress from "@/hooks/use-get-primary-address";
 import { useThemeStyles } from "@/theme";
 
 import BankDetails from "../../component/BankDetails";
-import BadgeIcon from "./badge.svg";
-import HistoryIcon from "./history.svg";
+import { BadgeIcon } from "./badge";
+import { HistoryIcon } from "./history";
 
 export default function AddMoneyViaBankTransferScreen() {
   const { t } = useTranslation();
@@ -54,17 +54,27 @@ export default function AddMoneyViaBankTransferScreen() {
   }));
 
   const noteContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
+    backgroundColor: theme.palette["neutralBase-60"],
     borderRadius: theme.spacing["8p"],
     flexDirection: "row",
     alignContent: "center",
     padding: theme.spacing["20p"],
+    elevation: 2,
+    shadowColor: theme.palette["primaryBase-10"],
+    shadowOffset: { height: 3, width: 0 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
   }));
 
   const bankDetailsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
+    backgroundColor: theme.palette["neutralBase-60"],
     borderRadius: theme.spacing["8p"],
-    gap: theme.spacing["4p"],
+    gap: 1,
+    elevation: 2,
+    shadowColor: theme.palette["primaryBase-10"],
+    shadowOffset: { height: 3, width: 0 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
   }));
 
   const historyContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -82,6 +92,9 @@ export default function AddMoneyViaBankTransferScreen() {
   const contentBoxStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
   }));
+
+  const badgeIconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
+  const historyIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   const BankDetail = [
     { id: "1", label: `${t("AddMoneyInfo.BankDetails.recipientName")}`, value: data?.currentAccountCustomerFullName },
@@ -124,7 +137,7 @@ export default function AddMoneyViaBankTransferScreen() {
               {t("AddMoneyInfo.description")}
             </Typography.Text>
             <View style={noteContainerStyle}>
-              <BadgeIcon />
+              <BadgeIcon color={badgeIconColor} />
 
               <Typography.Text color="neutralBase+20" weight="regular" size="footnote" style={contentBoxStyle}>
                 {t("AddMoneyInfo.note")}
@@ -144,7 +157,7 @@ export default function AddMoneyViaBankTransferScreen() {
                       label={item.label}
                       value={item.value}
                     />
-                    {item.id === `${BankDetail.length}` ? null : <Divider color="neutralBase-20" />}
+                    {item.id === `${BankDetail.length}` ? null : <Divider color="neutralBase-40" />}
                   </View>
                 );
               })}
@@ -152,7 +165,7 @@ export default function AddMoneyViaBankTransferScreen() {
           </View>
           <Divider color="neutralBase-30" />
           <View style={historyContainerStyle}>
-            <HistoryIcon />
+            <HistoryIcon color={historyIconColor} />
             <View>
               <Typography.Text color="neutralBase+30" weight="semiBold" size="body">
                 {t("AddMoneyInfo.processingTime")}

@@ -20,15 +20,17 @@ export default function BankDetails({ value, label, onCopyPress }: BankDetailsPr
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     padding: theme.spacing["16p"],
+    borderRadius: theme.radii.small,
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: theme.palette["neutralBase-60"],
   }));
 
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
     marginRight: theme.spacing["8p"],
   }));
 
-  const iconColor = useThemeStyles<string>(theme => theme.palette.primaryBase);
+  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   return (
     <View style={containerStyle}>
