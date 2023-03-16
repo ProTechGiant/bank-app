@@ -29,7 +29,7 @@ const GoalDetailsHeader = ({ AvailableBalanceAmount, TargetAmount, TargetDate }:
   const target = parseInt(TargetAmount, 10);
 
   const formattedDate = (date: string) => {
-    return format(new Date(date), "d MMM, yyyy");
+    return format(new Date(date), "MMM d, yyyy");
   };
 
   return (

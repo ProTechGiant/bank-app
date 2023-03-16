@@ -527,7 +527,7 @@ export const resources = {
             title: "Automatic payments",
           },
           RegularPayment: {
-            titleAddRegular: "Add regular payment",
+            titleAddRegular: "Add a regular payment",
             titleExistingRegular: "Regular payment",
             text: "{{amount}} {{currency}} on {{day}} of the month",
             day_one: "{{count}}st",
@@ -539,9 +539,9 @@ export const resources = {
             title: "Latest Transactions",
             seeAll: "See all",
           },
-          RoundUp: "Round up",
+          RoundUp: "Round-ups",
           InfoModal: {
-            title: "About Round-ups",
+            title: "About round-ups",
             text: "Round-up every purchase to the nearest 5 SAR. The extra will go towards your choice of goal.",
             link: "Find out more in our FAQs",
           },
