@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, ViewStyle } from "react-native";
+import { I18nManager, Pressable, ScrollView, ViewStyle } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
 import BankCard from "@/components/BankCard";
@@ -168,13 +168,16 @@ export default function HomeScreen() {
     marginTop: theme.spacing["16p"],
     paddingHorizontal: theme.spacing["20p"],
   }));
-
+  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingRight: I18nManager.isRTL ? theme.spacing["20p"] : theme.spacing["20p"] * 2,
+    paddingLeft: I18nManager.isRTL ? theme.spacing["20p"] : 0,
+  }));
   return (
     <>
       <Page>
         <NavHeader title={t("CardActions.HomeScreen.navTitle")} end={false} />
         <ScrollView horizontal style={cardContainerStyle}>
-          <Stack direction="horizontal" gap="20p">
+          <Stack direction="horizontal" gap="20p" style={contentStyle}>
             {cardsList?.map(card =>
               card.CardType !== SINGLE_USE_CARD_TYPE ? (
                 card.Status === "unfreeze" ? (
