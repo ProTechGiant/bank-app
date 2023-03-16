@@ -6,7 +6,7 @@ import Stack from "@/components/Stack";
 
 import IconButton from "./IconButton";
 
-interface CardIconButtonsProps {
+interface CardButtonsProps {
   isShowingDetails: boolean;
   isCardFrozen: boolean;
   isViewingPin: boolean;
@@ -15,14 +15,14 @@ interface CardIconButtonsProps {
   onViewPinPress: () => void;
 }
 
-export default function CardIconButtons({
+export default function CardButtons({
   isShowingDetails,
   isCardFrozen,
   isViewingPin,
   onShowDetailsPress,
   onFreezePress,
   onViewPinPress,
-}: CardIconButtonsProps) {
+}: CardButtonsProps) {
   const { t } = useTranslation();
 
   return (

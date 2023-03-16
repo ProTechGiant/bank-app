@@ -28,7 +28,6 @@ export default function LoadingSingleCardScreen() {
       navigation.goBack();
 
       navigation.navigate("CardActions.CardDetailsScreen", {
-        cardType: "single-use",
         action: "generate-single-use-card",
         cardId: response.Body.CardId,
       });

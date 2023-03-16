@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, StyleSheet, View, ViewStyle } from "react-native";
 
-import { CardSettingsIcon, CopyIcon, ErrorOutlineIcon, ReportIcon } from "@/assets/icons";
+import { CardSettingsIcon, CopyIcon, ReportIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton/AddToAppleWalletButton";
 import BankCard from "@/components/BankCard";
 import ContentContainer from "@/components/ContentContainer";
@@ -12,6 +12,7 @@ import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import { SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { warn } from "@/logger";
 import { inactiveCards } from "@/mocks/inactiveCards";
 import useNavigation from "@/navigation/use-navigation";
@@ -30,9 +31,9 @@ import {
   useUnmaskedCardDetails,
 } from "../../query-hooks";
 import { DetailedCardResponse } from "../../types";
-import CardIconButtons from "./CardIconButtons";
+import CardButtons from "./CardButtons";
 import ListItemText from "./ListItemText";
-import SingleUseIconButtons from "./SingleUseIconButtons";
+import SingleUseCardButtons from "./SingleUseCardButtons";
 import UpgradeToCroatiaPlus from "./UpgradeToCroatiaPlus";
 
 export default function CardDetailsScreen() {
@@ -40,58 +41,50 @@ export default function CardDetailsScreen() {
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.CardDetailsScreen">>();
   const { t } = useTranslation();
 
-  const { data } = useCards(); // @todo to use getCardbyID when BE implements
+  // TODO: single card details endpoint
+  const { data } = useCards();
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
   const requestViewPinOtpAsync = useRequestViewPinOtp();
   const requestUnmaskedCardDetailsAsync = useUnmaskedCardDetails();
 
-  const [isCardFrozen, setIsCardFrozen] = useState(false);
   const [isViewingPin, setIsViewingPin] = useState(route.params?.action === "view-pin");
-  const [isShowingDetails, setIsShowingDetails] = useState(false);
   const [pin, setPin] = useState<string | undefined>();
-  const [showNotificationAlert, setShowNotificationAlert] = useState(false);
-  const [showBanner, setShowBanner] = useState(false);
-  const [showErrorCopy, setShowErrorCopy] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [cardDetails, setCardDetails] = useState<DetailedCardResponse | undefined>();
 
-  const selectedCard = data?.Cards.find(card => card.CardId === route.params.cardId);
-  const cardType = route.params.cardType;
-  const cardStatus = route.params.cardStatus;
+  const [cardDetails, setCardDetails] = useState<DetailedCardResponse>();
+  const [isSingleUseCardCreatedAlertVisible, setIsSingleUseCardCreatedAlertVisible] = useState(false);
+  const [isCopiedCardNumberBannerVisible, setIsCopiedCardNumberBannerVisible] = useState(false);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+
   const cardId = route.params.cardId;
+  const selectedCard = data?.Cards.find(card => card.CardId === cardId);
+  const cardStatus = selectedCard?.Status;
 
-  //TODO: retrieve card details to show an active card / frozen card
   useEffect(() => {
-    setIsShowingDetails(false);
+    setCardDetails(undefined);
+    if (undefined === route.params?.action) return;
 
-    if (undefined === route.params) return;
-
-    if (route.params.action === "unfreeze") {
-      setIsCardFrozen(false);
-    } else if (route.params.action === "freeze") {
-      setIsCardFrozen(true);
-    } else if (route.params?.action === "view-pin") {
-      setPin(route.params.pin);
+    if (route.params.action === "view-pin") {
+      setPin(route.params.pin as string);
       // Add delay to show Notification Modal otherwise because it will be blocked by the OTP modal and view pin modal cannot be shown
-      setTimeout(() => {
-        setIsViewingPin(true);
-      }, 500);
-    } else if (route.params?.action === "generate-single-use-card") {
-      setShowNotificationAlert(true);
-    } else if (route.params?.action === "show-details") {
+      setTimeout(() => setIsViewingPin(true), 500);
+    }
+
+    if (route.params?.action === "generate-single-use-card") {
+      setIsSingleUseCardCreatedAlertVisible(true);
+    }
+
+    if (route.params?.action === "show-details") {
+      setCardDetails(route.params?.detailedCardResponse);
+
       if (route.params?.detailedCardResponse === undefined) {
-        setIsShowingDetails(false);
-        setShowErrorModal(true);
-      } else {
-        setCardDetails(route.params?.detailedCardResponse);
-        setIsShowingDetails(true);
+        setIsErrorModalVisible(true);
       }
     }
   }, [route.params]);
 
   const handleOnAddToAppleWallet = () => {
-    setIsShowingDetails(false);
+    setCardDetails(undefined);
     navigation.navigate("Temporary.DummyScreen");
   };
 
@@ -101,72 +94,50 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnReportPress = () => {
-    setIsShowingDetails(false);
+    setCardDetails(undefined);
     navigation.navigate("Temporary.DummyScreen");
   };
 
   const handleOnUpgradePress = () => {
-    setIsShowingDetails(false);
-
+    setCardDetails(undefined);
     navigation.navigate("Temporary.DummyScreen");
   };
 
   const handleOnShowDetailsPress = async () => {
-    if (!isShowingDetails) {
+    if (cardDetails !== undefined) return setCardDetails(undefined);
+
+    try {
       const correlationId = generateRandomId();
-      try {
-        const response = await requestUnmaskedCardDetailsAsync.mutateAsync({ cardId, correlationId });
-        if (response.OtpCode !== undefined && response.OtpId !== undefined) {
-          navigation.navigate("CardActions.OneTimePasswordModal", {
-            redirect: "CardActions.CardDetailsScreen",
-            action: "show-details",
-            correlationId: correlationId,
-            cardId: cardId,
-            cardType: cardType,
-            otp: {
-              otpId: response.OtpId,
-              otpCode: response.OtpCode,
-              phoneNumber: response.PhoneNumber,
-            },
-          });
-        } else {
-          setIsShowingDetails(false);
-          setShowErrorModal(true);
-        }
-      } catch (error) {
-        setIsShowingDetails(false);
-        setShowErrorModal(true);
-        warn("card-actions", "Could not show card details: ", JSON.stringify(error));
-      }
-    } else {
-      setIsShowingDetails(false);
+
+      const response = await requestUnmaskedCardDetailsAsync.mutateAsync({ cardId, correlationId });
+      if (!response.OtpCode || !response.OtpId) throw new Error("Failed to start OTP challenge");
+
+      navigation.navigate("CardActions.OneTimePasswordModal", {
+        redirect: "CardActions.CardDetailsScreen",
+        action: "show-details",
+        correlationId: correlationId,
+        cardId: cardId,
+        otp: {
+          otpId: response.OtpId,
+          otpCode: response.OtpCode,
+          phoneNumber: response.PhoneNumber,
+        },
+      });
+    } catch (error) {
+      setCardDetails(undefined);
+      setIsErrorModalVisible(true);
+
+      warn("card-actions", "Could not show card details: ", JSON.stringify(error));
     }
   };
 
-  const handleOnCopyPress = () => {
-    if (showBanner) {
-      // hide the already shown banner to avoid duplicate banners
-      setShowBanner(false);
-    }
-    if (cardDetails?.CardNumber !== undefined) {
-      Clipboard.setString(cardDetails?.CardNumber);
-    } else {
-      setShowErrorCopy(true);
-      setShowBanner(true);
-      setTimeout(() => {
-        setShowBanner(false);
-      }, 4000);
-    }
-    fetchCopiedText();
-  };
+  const handleOnCopyCardNumberPress = () => {
+    setIsCopiedCardNumberBannerVisible(false);
+    if (cardDetails?.CardNumber === undefined) return;
 
-  const fetchCopiedText = async () => {
-    const text = await Clipboard.getString();
-    setShowErrorCopy(text.length < 0);
-    setShowBanner(true);
-    setTimeout(() => {
-      setShowBanner(false);
-    }, 4000);
+    Clipboard.setString(cardDetails.CardNumber);
+    setIsCopiedCardNumberBannerVisible(true);
+    setTimeout(() => setIsCopiedCardNumberBannerVisible(false), 4000);
   };
 
   const handleOnPressActivate = () => {
@@ -174,7 +145,13 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnFreezePress = () => {
-    isCardFrozen ? handleOnUnfreezeCardPress() : handleOnFreezeCardPress();
+    if (cardStatus === undefined) return;
+
+    if (cardStatus === "unfreeze") {
+      handleOnFreezeCardPress();
+    } else {
+      handleOnUnfreezeCardPress();
+    }
   };
 
   const handleOnFreezeCardPress = async () => {
@@ -182,11 +159,13 @@ export default function CardDetailsScreen() {
 
     try {
       const response = await freezeCardAsync.mutateAsync({ cardId, correlationId });
-      setIsShowingDetails(false);
+      setCardDetails(undefined);
 
-      response.Status === "freeze" ? setIsCardFrozen(true) : setShowErrorModal(true);
+      if (response.Status !== "freeze") {
+        setIsErrorModalVisible(true);
+      }
     } catch (error) {
-      setShowErrorModal(true);
+      setIsErrorModalVisible(true);
       warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
     }
   };
@@ -196,37 +175,30 @@ export default function CardDetailsScreen() {
 
     try {
       const response = await unfreezeCardAsync.mutateAsync({ cardId, correlationId });
-      if (response.OtpCode !== undefined && response.OtpId !== undefined) {
-        navigation.navigate("CardActions.OneTimePasswordModal", {
-          redirect: "CardActions.CardDetailsScreen",
-          action: "unfreeze",
-          correlationId: correlationId,
-          cardId: cardId,
-          otp: {
-            otpId: response.OtpId,
-            otpCode: response.OtpCode,
-            phoneNumber: response.PhoneNumber,
-          },
-        });
-      } else {
-        setShowErrorModal(true);
-      }
+
+      navigation.navigate("CardActions.OneTimePasswordModal", {
+        redirect: "CardActions.CardDetailsScreen",
+        action: "unfreeze",
+        correlationId: correlationId,
+        cardId: cardId,
+        otp: {
+          otpId: response.OtpId,
+          otpCode: response.OtpCode,
+          phoneNumber: response.PhoneNumber,
+        },
+      });
     } catch (error) {
-      setShowErrorModal(true);
+      setIsErrorModalVisible(true);
       warn("card-actions", "Could not unfreeze card: ", JSON.stringify(error));
     }
   };
 
   const handleOnCloseNotification = () => {
-    setShowNotificationAlert(false);
-  };
-
-  const handleOnErrorModalClose = () => {
-    setShowErrorModal(false);
+    setIsSingleUseCardCreatedAlertVisible(false);
   };
 
   const handleOnBackPress = () => {
-    // if  from creation -> navigate to Home else goBack
+    // if from creation -> navigate to Home else goBack
     if (route.params.action === "generate-single-use-card") {
       navigation.navigate("Temporary.LandingScreen");
     } else {
@@ -235,28 +207,26 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnViewPinPress = async () => {
-    setIsShowingDetails(false);
+    setCardDetails(undefined);
     const correlationId = generateRandomId();
 
     try {
       const response = await requestViewPinOtpAsync.mutateAsync({ cardId, correlationId });
-      if (response.OtpCode !== undefined) {
-        navigation.navigate("CardActions.OneTimePasswordModal", {
-          redirect: "CardActions.CardDetailsScreen",
-          action: "view-pin",
-          cardId: cardId,
-          correlationId: correlationId,
-          otp: {
-            otpCode: response.OtpCode,
-            otpId: response.OtpId,
-            phoneNumber: response.PhoneNumber,
-          },
-        });
-      } else {
-        setShowErrorModal(true);
-      }
+      if (!response.OtpCode) throw new Error("Could not start OTP flow");
+
+      navigation.navigate("CardActions.OneTimePasswordModal", {
+        redirect: "CardActions.CardDetailsScreen",
+        action: "view-pin",
+        cardId: cardId,
+        correlationId: correlationId,
+        otp: {
+          otpCode: response.OtpCode,
+          otpId: response.OtpId,
+          phoneNumber: response.PhoneNumber,
+        },
+      });
     } catch (error) {
-      setShowErrorModal(true);
+      setIsErrorModalVisible(true);
       warn("card-actions", "Could not retrieve pin OTP: ", JSON.stringify(error));
     }
   };
@@ -278,42 +248,35 @@ export default function CardDetailsScreen() {
     marginBottom: theme.spacing["32p"],
   }));
 
-  const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
-  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
-
   return (
     <>
       <DismissibleBanner
-        visible={showBanner}
-        message={
-          !showErrorCopy
-            ? t("CardActions.CardDetailsScreen.copyClipboard")
-            : t("CardActions.CardDetailsScreen.errorCopyClipboard")
-        }
-        icon={!showErrorCopy ? <CopyIcon /> : <ErrorOutlineIcon />}
-        variant={showErrorCopy ? "error" : "default"}
+        visible={isCopiedCardNumberBannerVisible}
+        message={t("CardActions.CardDetailsScreen.copyClipboard")}
+        icon={<CopyIcon />}
+        variant="default"
       />
       <Page backgroundColor="neutralBase-60">
         <NavHeader
           title={
-            cardType === "standard"
+            selectedCard?.CardType === SINGLE_USE_CARD_TYPE
+              ? t("CardActions.CardDetailsScreen.navTitleSingleUse")
+              : selectedCard?.ProductId === STANDARD_CARD_PRODUCT_ID
               ? t("CardActions.CardDetailsScreen.navTitleStandard")
-              : cardType === "plus"
-              ? t("CardActions.CardDetailsScreen.navTitlePlus")
-              : t("CardActions.CardDetailsScreen.navTitleSingleUse")
+              : t("CardActions.CardDetailsScreen.navTitlePlus")
           }
           onBackPress={handleOnBackPress}
         />
         <ContentContainer isScrollView>
           <View style={cardContainerStyle}>
-            {isCardFrozen ? (
+            {cardStatus === "freeze" && selectedCard?.CardType !== SINGLE_USE_CARD_TYPE ? (
               <BankCard.Inactive
-                type="frozen"
+                status="freeze"
                 actionButton={<BankCard.ActionButton title={t("CardActions.cardFrozen")} type="dark" />}
               />
-            ) : cardStatus === "inactive" && cardType !== "single-use" ? (
+            ) : cardStatus === "inactive" && selectedCard?.CardType !== SINGLE_USE_CARD_TYPE ? (
               <BankCard.Inactive
-                type="inactive"
+                status="inactive"
                 label={t("CardActions.CardDetailsScreen.inactiveCard.label")}
                 actionButton={
                   <BankCard.ActionButton
@@ -323,96 +286,103 @@ export default function CardDetailsScreen() {
                   />
                 }
               />
-            ) : !isShowingDetails ? (
-              <BankCard.Active cardNumber={selectedCard?.LastFourDigits} cardType={cardType} />
+            ) : cardDetails === undefined ? (
+              <BankCard.Active
+                cardNumber={selectedCard?.LastFourDigits}
+                cardType={selectedCard?.CardType}
+                productType={selectedCard?.ProductId}
+              />
             ) : (
               <BankCard.Unmasked
-                cardNumber={cardDetails ? cardDetails.CardNumber : ""}
-                cardType={cardType}
-                cardDetails={{
-                  endDate: cardDetails ? cardDetails.ExpDate : "",
-                  securityCode: cardDetails ? cardDetails.Cvv : "",
-                }}
-                onCopyPress={handleOnCopyPress}
+                cardNumber={cardDetails.CardNumber}
+                cardType={selectedCard?.CardType}
+                cardDetails={{ endDate: cardDetails.ExpDate, securityCode: cardDetails.Cvv }}
+                onCopyPress={handleOnCopyCardNumberPress}
+                productType={selectedCard?.ProductId}
               />
             )}
           </View>
-          {cardType === "single-use" ? (
-            <SingleUseIconButtons onPressShowDetails={handleOnShowDetailsPress} isShowingDetails={isShowingDetails} />
+          {selectedCard?.CardType === SINGLE_USE_CARD_TYPE ? (
+            <SingleUseCardButtons
+              onShowDetailsPress={handleOnShowDetailsPress}
+              isShowingDetails={cardDetails !== undefined}
+            />
           ) : cardStatus !== "inactive" ? (
-            <CardIconButtons
+            <CardButtons
               isViewingPin={isViewingPin}
-              isCardFrozen={isCardFrozen}
+              isCardFrozen={cardStatus === "freeze"}
               onShowDetailsPress={handleOnShowDetailsPress}
               onViewPinPress={handleOnViewPinPress}
               onFreezePress={handleOnFreezePress}
-              isShowingDetails={isShowingDetails}
+              isShowingDetails={cardDetails !== undefined}
             />
-          ) : null}
+          ) : (
+            <View />
+          )}
           <View style={separatorStyle} />
-          {cardType !== "single-use" ? (
+          {selectedCard?.CardType !== SINGLE_USE_CARD_TYPE ? (
             <>
               {Platform.OS === "ios" ? (
                 <View style={walletButtonContainer}>
                   <AddToAppleWalletButton onPress={handleOnAddToAppleWallet} />
                 </View>
-              ) : null}
+              ) : (
+                <View />
+              )}
               <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
                 <ListItemLink
-                  icon={<CardSettingsIcon color={iconColor} />}
+                  disabled={cardStatus === "freeze"}
+                  icon={<CardSettingsIcon />}
                   onPress={handleOnCardSettingsPress}
                   title={t("CardActions.CardDetailsScreen.cardSettingsButton")}
                 />
                 <ListItemLink
-                  disabled={cardStatus === "inactive" ? true : false}
-                  icon={
-                    cardStatus === "inactive" ? (
-                      <ReportIcon color={disabledIconColor} />
-                    ) : (
-                      <ReportIcon color={iconColor} />
-                    )
-                  }
+                  disabled={cardStatus !== "unfreeze"}
+                  icon={<ReportIcon />}
                   onPress={handleOnReportPress}
                   title={t("CardActions.CardDetailsScreen.reportButton")}
                 />
               </ListSection>
               <View style={separatorStyle} />
             </>
-          ) : null}
+          ) : (
+            <View />
+          )}
           <ListSection title={t("CardActions.CardDetailsScreen.accountHeader")}>
             <ListItemText
               title={t("CardActions.CardDetailsScreen.accountName")}
-              value={cardType === "active" ? selectedCard?.AccountName : inactiveCards[0].AccountName}
+              value={cardStatus === "unfreeze" ? selectedCard?.AccountName : inactiveCards[0].AccountName}
             />
             <ListItemText
               title={t("CardActions.CardDetailsScreen.accountNumber")}
-              value={cardType === "active" ? selectedCard?.AccountNumber : inactiveCards[0].AccountNumber}
+              value={cardStatus === "unfreeze" ? selectedCard?.AccountNumber : inactiveCards[0].AccountNumber}
             />
           </ListSection>
-          {cardType === "standard" ? (
+          {selectedCard?.ProductId === STANDARD_CARD_PRODUCT_ID && selectedCard?.CardType !== SINGLE_USE_CARD_TYPE ? (
             <>
               <View style={separatorStyle} />
               <View style={styles.upgradeContainer}>
                 <UpgradeToCroatiaPlus onPress={handleOnUpgradePress} />
               </View>
             </>
-          ) : null}
+          ) : (
+            <View />
+          )}
         </ContentContainer>
       </Page>
-
       <NotificationModal
         variant="success"
         onClose={handleOnCloseNotification}
         message={t("CardActions.SingleUseCard.CardCreation.successMessage")}
         title={t("CardActions.SingleUseCard.CardCreation.successTitle")}
-        isVisible={showNotificationAlert}
+        isVisible={isSingleUseCardCreatedAlertVisible}
       />
       <NotificationModal
         variant="error"
         title={t("errors.generic.title")}
         message={t("errors.generic.message")}
-        isVisible={showErrorModal}
-        onClose={handleOnErrorModalClose}
+        isVisible={isErrorModalVisible}
+        onClose={() => setIsErrorModalVisible(false)}
       />
       {pin !== undefined ? (
         <ViewPinModal
@@ -422,7 +392,9 @@ export default function CardDetailsScreen() {
             setIsViewingPin(false);
           }}
         />
-      ) : null}
+      ) : (
+        <View />
+      )}
     </>
   );
 }

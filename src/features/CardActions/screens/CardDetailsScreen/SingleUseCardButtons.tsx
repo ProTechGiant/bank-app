@@ -9,12 +9,12 @@ import { useThemeStyles } from "@/theme";
 
 import IconButton from "./IconButton";
 
-interface SingleUseIconButtonsProps {
+interface SingleUseCardButtonsProps {
   isShowingDetails: boolean;
-  onPressShowDetails: () => void;
+  onShowDetailsPress: () => void;
 }
 
-export default function SingleUseIconButtons({ isShowingDetails, onPressShowDetails }: SingleUseIconButtonsProps) {
+export default function SingleUseCardButtons({ isShowingDetails, onShowDetailsPress }: SingleUseCardButtonsProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
@@ -33,7 +33,7 @@ export default function SingleUseIconButtons({ isShowingDetails, onPressShowDeta
           active={isShowingDetails}
           activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.hide")}
           inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.show")}
-          onPress={onPressShowDetails}
+          onPress={onShowDetailsPress}
           icon={createElement(isShowingDetails ? HideIcon : ShowIcon, { height: 24, width: 24 })}
         />
         <IconButton

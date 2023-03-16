@@ -4,6 +4,13 @@ import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import {
+  LUX_CARD_PRODUCT_ID,
+  PHYSICAL_CARD_TYPE,
+  SINGLE_USE_CARD_TYPE,
+  STANDARD_CARD_PRODUCT_ID,
+  VIRTUAL_CARD_TYPE,
+} from "@/constants";
 import { useThemeStyles } from "@/theme";
 
 import ContentCopySvg from "./content-copy.svg";
@@ -15,12 +22,19 @@ import StandardCardUnmaskedeSvg from "./standard-card-unmasked.svg";
 
 interface UnmaskedBankCardProps {
   cardNumber: string;
-  cardType: "standard" | "plus" | "single-use";
+  cardType: typeof PHYSICAL_CARD_TYPE | typeof SINGLE_USE_CARD_TYPE | typeof VIRTUAL_CARD_TYPE;
   onCopyPress: () => void;
   cardDetails: { endDate: string; securityCode: string };
+  productId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
 }
 
-export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, onCopyPress }: UnmaskedBankCardProps) {
+export default function UnmaskedBankCard({
+  cardNumber,
+  cardType,
+  cardDetails,
+  onCopyPress,
+  productId,
+}: UnmaskedBankCardProps) {
   const { t } = useTranslation();
 
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
@@ -40,9 +54,9 @@ export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, on
 
   return (
     <View style={styles.container}>
-      {cardType === "single-use" ? (
+      {cardType === SINGLE_USE_CARD_TYPE ? (
         <SingleUseCardUnmaskedSvg />
-      ) : cardType === "standard" ? (
+      ) : productId === STANDARD_CARD_PRODUCT_ID ? (
         <StandardCardUnmaskedeSvg />
       ) : (
         <PlusCardUnmaskedSvg />
@@ -66,13 +80,7 @@ export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, on
               </Stack>
               <View style={copyButtonContainer}>
                 <Pressable onPress={onCopyPress}>
-                  {({ pressed }) => {
-                    return (
-                      <>
-                        <EndButton icon={pressed ? <ContentCopyActiveSvg /> : <ContentCopySvg />} />
-                      </>
-                    );
-                  }}
+                  {({ pressed }) => <EndButton icon={pressed ? <ContentCopyActiveSvg /> : <ContentCopySvg />} />}
                 </Pressable>
               </View>
             </Stack>
@@ -83,7 +91,7 @@ export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, on
                 {t("CardActions.CardDetails.validThru")}
               </Typography.Text>
               <Typography.Text color="neutralBase-50" weight="medium" size="caption1">
-                {cardDetails?.endDate}
+                {cardDetails.endDate}
               </Typography.Text>
             </Stack>
           </View>
@@ -93,7 +101,7 @@ export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, on
                 {t("CardActions.CardDetails.securityCode")}
               </Typography.Text>
               <Typography.Text color="neutralBase-50" weight="medium" size="caption1">
-                {cardDetails?.securityCode}
+                {cardDetails.securityCode}
               </Typography.Text>
             </Stack>
           </View>

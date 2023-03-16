@@ -6,7 +6,7 @@ import { SceneMap, TabBar, TabBarIndicator, TabView } from "react-native-tab-vie
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
-import { LUX_CARD_PRODUCT_ID, PHYSICAL_CARD_ID, STANDARD_CARD_PRODUCT_ID } from "@/constants";
+import { LUX_CARD_PRODUCT_ID, PHYSICAL_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -40,7 +40,7 @@ export default function PickCardTypeScreen() {
       ...current,
       formValues: {
         ...orderCardValues.formValues,
-        CardType: PHYSICAL_CARD_ID,
+        CardType: PHYSICAL_CARD_TYPE,
         CardProductId: cardType === "standard" ? STANDARD_CARD_PRODUCT_ID : LUX_CARD_PRODUCT_ID,
       },
     }));

@@ -8,8 +8,8 @@ export interface Address {
 }
 
 export interface OrderCardFormValues {
-  CardType: number;
-  CardProductId: number;
+  CardType: string;
+  CardProductId: string;
   Pin?: string;
   AlternateAddress?: Address;
 }

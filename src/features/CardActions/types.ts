@@ -3,7 +3,7 @@ export interface Card {
   CardType: string;
   ProductId: string;
   LastFourDigits: string;
-  Status: string;
+  Status: CardStatus;
   AccountName: string;
   AccountNumber: string;
 }
@@ -15,7 +15,7 @@ export interface CardSettingsInput {
   SwipePayments: boolean;
 }
 
-export type CardStatus = "active" | "expired" | "expired_report" | "inactive" | "unfreeze" | "freeze";
+export type CardStatus = "expired" | "expired_report" | "inactive" | "unfreeze" | "freeze";
 
 export interface CardCreateResponse {
   Header: {
@@ -38,5 +38,3 @@ export interface DetailedCardResponse {
   CardNumber: string;
   Cvv: string;
 }
-
-export type CardType = "standard" | "plus" | "single-use";

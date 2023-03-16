@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
+import { PHYSICAL_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { OrderCardFormValues } from "@/types/Address";
 
 export type OrderCardValues = {
@@ -11,8 +12,8 @@ export type OrderCardValues = {
 
 export const orderCardInitValues: OrderCardValues = {
   formValues: {
-    CardType: 0,
-    CardProductId: 0,
+    CardType: PHYSICAL_CARD_TYPE,
+    CardProductId: STANDARD_CARD_PRODUCT_ID,
     Pin: "",
   },
 };

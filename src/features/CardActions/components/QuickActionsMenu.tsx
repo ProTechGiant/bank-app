@@ -14,13 +14,6 @@ interface QuickActionsMenuProps {
   onCardSettingsPress: () => void;
 }
 
-interface ContextMenuItem {
-  id: number;
-  title: string;
-  systemIcon?: string;
-  disabled?: boolean;
-}
-
 export default function QuickActionsMenu({
   cardStatus,
   onUnfreezeCardPress,
@@ -30,33 +23,29 @@ export default function QuickActionsMenu({
 }: QuickActionsMenuProps) {
   const { t } = useTranslation();
 
-  const contextMenuActions: ContextMenuItem[] = [
-    {
-      id: 1,
-      title: cardStatus === "frozen" ? t("CardActions.QuickMenu.defrost") : t("CardActions.QuickMenu.freezeCard"),
-      systemIcon: cardStatus === "frozen" ? "thermometer.snowflake" : "snowflake",
-      disabled: cardStatus === "inactive" ? true : false,
-    },
-    {
-      id: 2,
-      title: t("CardActions.QuickMenu.viewPin"),
-      systemIcon: "lock",
-      disabled: cardStatus === "inactive" ? true : false,
-    },
-    {
-      id: 3,
-      title: t("CardActions.QuickMenu.settings"),
-      systemIcon: "gearshape",
-    },
-  ];
-
   return (
     <ContextMenu
-      actions={contextMenuActions}
+      actions={[
+        {
+          title: cardStatus === "freeze" ? t("CardActions.QuickMenu.defrost") : t("CardActions.QuickMenu.freezeCard"),
+          systemIcon: cardStatus === "freeze" ? "thermometer.snowflake" : "snowflake",
+          disabled: cardStatus === "inactive",
+        },
+        {
+          title: t("CardActions.QuickMenu.viewPin"),
+          systemIcon: "lock",
+          disabled: cardStatus === "inactive",
+        },
+        {
+          title: t("CardActions.QuickMenu.settings"),
+          systemIcon: "gearshape",
+          disabled: cardStatus === "freeze",
+        },
+      ]}
       dropdownMenuMode={true}
       onPress={e => {
         e.nativeEvent.index === 0
-          ? cardStatus === "frozen"
+          ? cardStatus === "freeze"
             ? onUnfreezeCardPress()
             : onFreezeCardPress()
           : e.nativeEvent.index === 1

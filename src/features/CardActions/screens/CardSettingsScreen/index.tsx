@@ -134,18 +134,21 @@ export default function CardSettingsScreen() {
                   </View>
                 )}
                 <SettingsToggle
+                  disabled={cardStatus !== "unfreeze"}
                   label={t("CardActions.CardSettingsScreen.swipePayments.label")}
                   helperText={t("CardActions.CardSettingsScreen.swipePayments.helperText")}
                   onPress={() => handleOnChangeSettings("SwipePayments")}
                   value={cardSettings.data.SwipePayments}
                 />
                 <SettingsToggle
+                  disabled={cardStatus !== "unfreeze"}
                   label={t("CardActions.CardSettingsScreen.contactlessPayments.label")}
                   helperText={t("CardActions.CardSettingsScreen.contactlessPayments.helperText")}
                   onPress={() => handleOnChangeSettings("ContactlessPayments")}
                   value={cardSettings.data.ContactlessPayments}
                 />
                 <SettingsToggle
+                  disabled={cardStatus !== "unfreeze"}
                   label={t("CardActions.CardSettingsScreen.atmWithdrawals.label")}
                   helperText={t("CardActions.CardSettingsScreen.atmWithdrawals.helperText")}
                   onPress={() => handleOnChangeSettings("AtmWithdrawals")}

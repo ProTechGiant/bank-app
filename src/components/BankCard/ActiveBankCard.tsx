@@ -1,23 +1,38 @@
 import { times } from "lodash";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import {
+  LUX_CARD_PRODUCT_ID,
+  PHYSICAL_CARD_TYPE,
+  SINGLE_USE_CARD_TYPE,
+  STANDARD_CARD_PRODUCT_ID,
+  VIRTUAL_CARD_TYPE,
+} from "@/constants";
 import { useThemeStyles } from "@/theme";
 
-import Stack from "../Stack";
 import PlusCardActiveSvg from "./plus-card.svg";
 import SingleUseCardActiveSvg from "./single-use-card.svg";
 import StandardCardActiveSvg from "./standard-card.svg";
 
 interface ActiveBankCardProps {
   cardNumber: string;
+  cardType: typeof PHYSICAL_CARD_TYPE | typeof SINGLE_USE_CARD_TYPE | typeof VIRTUAL_CARD_TYPE;
   endButton?: React.ReactNode;
   label?: string;
-  cardType: "standard" | "plus" | "single-use";
   onPress?: () => void;
+  productId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
 }
 
-export default function ActiveBankCard({ cardNumber, endButton, label, cardType, onPress }: ActiveBankCardProps) {
+export default function ActiveBankCard({
+  cardNumber,
+  cardType,
+  endButton,
+  label,
+  productId,
+  onPress,
+}: ActiveBankCardProps) {
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     justifyContent: "space-between",
@@ -45,9 +60,9 @@ export default function ActiveBankCard({ cardNumber, endButton, label, cardType,
 
   return (
     <View style={styles.container}>
-      {cardType === "single-use" ? (
+      {cardType === SINGLE_USE_CARD_TYPE ? (
         <SingleUseCardActiveSvg />
-      ) : cardType === "standard" ? (
+      ) : productId === STANDARD_CARD_PRODUCT_ID ? (
         <StandardCardActiveSvg />
       ) : (
         <PlusCardActiveSvg />

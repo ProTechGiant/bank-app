@@ -21,7 +21,7 @@ import { checkDeactivatedCard } from "../../check-deactivated-card";
 import QuickActionsMenu from "../../components/QuickActionsMenu";
 import ViewPinModal from "../../components/ViewPinModal";
 import { useCards, useCustomerTier, useFreezeCard, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
-import { Card, CardStatus, CardType } from "../../types";
+import { Card } from "../../types";
 
 export default function HomeScreen() {
   const { t } = useTranslation();
@@ -31,7 +31,8 @@ export default function HomeScreen() {
   const { data } = useCards();
   const customerTier = useCustomerTier();
 
-  const cardsList = data?.Cards;
+  const cardsList = data?.Cards ?? [];
+  const singleUseCard = cardsList.find(card => card.CardType === SINGLE_USE_CARD_TYPE && !checkDeactivatedCard(card));
 
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
@@ -47,15 +48,9 @@ export default function HomeScreen() {
     if (route.params?.action === "view-pin") {
       setPin(route.params.pin);
       // Add delay to show Notification Modal otherwise because it will be blocked by the OTP modal and view pin modal cannot be shown
-      setTimeout(() => {
-        setIsViewingPin(true);
-      }, 500);
+      setTimeout(() => setIsViewingPin(true), 500);
     }
   }, [route.params]);
-
-  const singleUseCard = cardsList?.find(
-    (card: Card) => card.CardType === SINGLE_USE_CARD_TYPE && !checkDeactivatedCard(card)
-  );
 
   const handleOnFreezeCardPress = async (cardId: string) => {
     const correlationId = generateRandomId();
@@ -74,21 +69,21 @@ export default function HomeScreen() {
 
     try {
       const response = await unfreezeCardAsync.mutateAsync({ cardId, correlationId });
-      if (response.OtpCode !== undefined && response.OtpId !== undefined) {
-        navigation.navigate("CardActions.OneTimePasswordModal", {
-          redirect: "CardActions.HomeScreen",
-          action: "unfreeze",
-          cardId,
-          correlationId: correlationId,
-          otp: {
-            otpId: response.OtpId,
-            otpCode: response.OtpCode,
-            phoneNumber: response.PhoneNumber,
-          },
-        });
-      } else {
-        setShowErrorModal(true);
+      if (response.OtpCode === undefined || response.OtpId === undefined) {
+        throw new Error("Could not start OTP flow");
       }
+
+      navigation.navigate("CardActions.OneTimePasswordModal", {
+        redirect: "CardActions.HomeScreen",
+        action: "unfreeze",
+        cardId,
+        correlationId: correlationId,
+        otp: {
+          otpId: response.OtpId,
+          otpCode: response.OtpCode,
+          phoneNumber: response.PhoneNumber,
+        },
+      });
     } catch (error) {
       setShowErrorModal(true);
       warn("card-actions", "Could not unfreeze card: ", JSON.stringify(error));
@@ -104,22 +99,21 @@ export default function HomeScreen() {
 
     try {
       const response = await requestViewPinOtpAsync.mutateAsync({ cardId, correlationId });
-
-      if (response.OtpCode !== undefined) {
-        navigation.navigate("CardActions.OneTimePasswordModal", {
-          redirect: "CardActions.HomeScreen",
-          action: "view-pin",
-          cardId: cardId,
-          correlationId: correlationId,
-          otp: {
-            otpCode: response.OtpCode,
-            otpId: response.OtpId,
-            phoneNumber: response.PhoneNumber,
-          },
-        });
-      } else {
-        setShowErrorModal(true);
+      if (response.OtpCode === undefined || response.OtpId === undefined) {
+        throw new Error("Could not start OTP flow");
       }
+
+      navigation.navigate("CardActions.OneTimePasswordModal", {
+        redirect: "CardActions.HomeScreen",
+        action: "view-pin",
+        cardId: cardId,
+        correlationId: correlationId,
+        otp: {
+          otpCode: response.OtpCode,
+          otpId: response.OtpId,
+          phoneNumber: response.PhoneNumber,
+        },
+      });
     } catch (error) {
       setShowErrorModal(true);
       warn("card-actions", "Could not retrieve pin OTP: ", JSON.stringify(error));
@@ -133,27 +127,8 @@ export default function HomeScreen() {
     });
   };
 
-  const handleOnActiveCardPress = (cardId: string, cardType: CardType, cardStatus: CardStatus) => {
-    navigation.navigate("CardActions.CardDetailsScreen", {
-      cardType,
-      cardStatus,
-      cardId: cardId,
-    });
-  };
-
-  const handleOnInactiveCardPress = (cardId: string, cardType: CardType) => {
-    navigation.navigate("CardActions.CardDetailsScreen", {
-      cardType,
-      cardStatus: "inactive",
-      cardId: cardId,
-    });
-  };
-
-  const handleOnSingleUseCardPress = (cardId: string) => {
-    navigation.navigate("CardActions.CardDetailsScreen", {
-      cardType: "single-use",
-      cardId: cardId,
-    });
+  const handleOnCardPress = (cardId: string) => {
+    navigation.navigate("CardActions.CardDetailsScreen", { cardId });
   };
 
   const handleOnPressGenerateNew = () => {
@@ -173,38 +148,33 @@ export default function HomeScreen() {
     paddingHorizontal: theme.spacing["20p"],
   }));
 
-  const returnActiveCard = (card: Card, status: CardStatus) => {
+  const renderActiveCard = (card: Card) => {
     return (
       <BankCard.Active
         key={card.CardId}
         cardNumber={card.LastFourDigits}
-        cardType={card.ProductId === STANDARD_CARD_PRODUCT_ID ? "standard" : "plus"}
+        cardType={card.CardType}
+        productType={card.ProductId}
         label={card.ProductId === STANDARD_CARD_PRODUCT_ID ? t("CardActions.standardCard") : t("CardActions.plusCard")}
         endButton={
           <QuickActionsMenu
-            cardStatus={status}
+            cardStatus={card.Status}
             onFreezeCardPress={() => handleOnFreezeCardPress(card.CardId)}
             onUnfreezeCardPress={() => handleOnUnfreezeCardPress(card.CardId)}
             onViewPinPress={() => handleOnViewPinPress(card.CardId)}
             onCardSettingsPress={() => handleOnCardSettingsPress(card)}
           />
         }
-        onPress={() =>
-          handleOnActiveCardPress(
-            card.CardId,
-            card.ProductId === STANDARD_CARD_PRODUCT_ID ? "standard" : "plus",
-            status
-          )
-        }
+        onPress={() => handleOnCardPress(card.CardId)}
       />
     );
   };
 
-  const returnInactiveCard = (card: Card, isInActive: boolean) => {
+  const returnInactiveCard = (card: Card) => {
     return (
       <BankCard.Inactive
         key={card.CardId}
-        type={card.Status === "freeze" ? "frozen" : "inactive"}
+        status={card.Status === "freeze" ? "freeze" : "inactive"}
         label={card.ProductId === STANDARD_CARD_PRODUCT_ID ? t("CardActions.standardCard") : t("CardActions.plusCard")}
         actionButton={
           card.Status === "freeze" ? (
@@ -219,25 +189,14 @@ export default function HomeScreen() {
         }
         endButton={
           <QuickActionsMenu
-            cardStatus={card.Status === "freeze" ? "frozen" : "inactive"}
-            onFreezeCardPress={() => handleOnFreezeCardPress(isInActive ? "" : card.CardId)}
-            onUnfreezeCardPress={() => handleOnUnfreezeCardPress(isInActive ? "" : card.CardId)}
-            onViewPinPress={() => handleOnViewPinPress(isInActive ? "" : card.CardId)}
+            cardStatus={card.Status}
+            onFreezeCardPress={() => handleOnFreezeCardPress(card.CardId)}
+            onUnfreezeCardPress={() => handleOnUnfreezeCardPress(card.CardId)}
+            onViewPinPress={() => handleOnViewPinPress(card.CardId)}
             onCardSettingsPress={() => handleOnCardSettingsPress(card)}
           />
         }
-        onPress={() =>
-          card.Status === "freeze"
-            ? handleOnActiveCardPress(
-                card.CardId,
-                card.ProductId === STANDARD_CARD_PRODUCT_ID ? "standard" : "plus",
-                card.Status
-              )
-            : handleOnInactiveCardPress(
-                isInActive ? "" : card.CardId,
-                card.ProductId === STANDARD_CARD_PRODUCT_ID ? "standard" : "plus"
-              )
-        }
+        onPress={() => handleOnCardPress(card.CardId)}
       />
     );
   };
@@ -250,37 +209,36 @@ export default function HomeScreen() {
   return (
     <>
       <Page>
-        <NavHeader title={t("CardActions.HomeScreen.navTitle")} end={false} />
+        <NavHeader title={t("CardActions.HomeScreen.navTitle")} />
         <ScrollView horizontal style={cardContainerStyle}>
           <Stack direction="horizontal" gap="20p" style={contentStyle}>
-            {cardsList?.map(card =>
+            {cardsList.map(card =>
               card.CardType !== SINGLE_USE_CARD_TYPE ? (
                 card.Status === "unfreeze" ? (
-                  returnActiveCard(card, "active")
-                ) : card.Status === "freeze" ? (
-                  returnInactiveCard(card, false)
+                  renderActiveCard(card)
                 ) : (
-                  returnInactiveCard(card, false)
+                  returnInactiveCard(card)
                 )
               ) : !checkDeactivatedCard(card) ? (
                 <BankCard.Active
                   key={card.CardId}
                   cardNumber={card.LastFourDigits}
-                  cardType="single-use"
+                  cardType={card.CardType}
+                  productId={card.ProductId}
                   endButton={
                     <Pressable onPress={handleOnPressAbout}>
                       <BankCard.EndButton icon={<InfoCircleIcon />} />
                     </Pressable>
                   }
-                  onPress={() => handleOnSingleUseCardPress(card.CardId)}
+                  onPress={() => handleOnCardPress(card.CardId)}
                   label={t("CardActions.singleUseCard")}
                 />
               ) : null
             )}
-            {inactiveCards.map(card => returnInactiveCard(card, true))}
+            {inactiveCards.map(card => returnInactiveCard(card))}
             {customerTier.data?.tier === PLUS_TIER && singleUseCard === undefined ? (
               <BankCard.Inactive
-                type="inactive"
+                status="inactive"
                 endButton={
                   <Pressable onPress={handleOnPressAbout}>
                     <BankCard.EndButton icon={<InfoCircleIcon />} />
@@ -300,13 +258,7 @@ export default function HomeScreen() {
         </ScrollView>
       </Page>
       {pin !== undefined ? (
-        <ViewPinModal
-          pin={pin}
-          visible={isViewingPin}
-          onClose={() => {
-            setIsViewingPin(false);
-          }}
-        />
+        <ViewPinModal pin={pin} visible={isViewingPin} onClose={() => setIsViewingPin(false)} />
       ) : null}
       <NotificationModal
         variant="error"

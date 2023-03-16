@@ -1,3 +1,4 @@
+import { cloneElement } from "react";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
@@ -20,27 +21,31 @@ export default function ListItemLink({ icon, title, onPress, disabled = false }:
     height: 73,
   }));
 
-  const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"], []);
+  const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
+  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+  const chevronColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
   return (
     <Pressable style={containerStyles} onPress={onPress} disabled={disabled}>
-      {icon !== undefined && <View style={styles.iconContainer}>{icon}</View>}
+      {icon !== undefined && (
+        <View style={styles.iconContainer}>
+          {cloneElement(icon, { color: disabled ? disabledIconColor : iconColor })}
+        </View>
+      )}
       <View style={styles.titleContainer}>
-        {title && (
-          <Typography.Text color={disabled ? "neutralBase-20" : "neutralBase+30"} size="callout" weight="medium">
-            {title}
-          </Typography.Text>
-        )}
+        <Typography.Text color={disabled ? "neutralBase-30" : "neutralBase+30"} size="callout" weight="medium">
+          {title}
+        </Typography.Text>
       </View>
-      <View style={[styles.arrowContainer, { transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }]}>
-        <ChevronRightIcon color={iconColor} />
+      <View style={[styles.arrow, { transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }]}>
+        <ChevronRightIcon color={chevronColor} />
       </View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  arrowContainer: {
+  arrow: {
     justifyContent: "center",
   },
   iconContainer: {

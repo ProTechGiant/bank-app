@@ -138,7 +138,6 @@ export default function OneTimePasswordModal() {
   };
 
   const handleOnResendPress = () => {
-    // TODO: request new otp for other actions
     if (route.params.action === "view-pin") {
       requestViewPinOtp();
     } else if (route.params.action === "generate-single-use-card") {
@@ -150,6 +149,7 @@ export default function OneTimePasswordModal() {
     } else if (route.params.action === "update-settings") {
       requestUpdateSettingsOtp();
     }
+
     setNumberOfResendRequest(current => current + 1);
     setIsError(false);
     setIsInvalidPassword(false);
@@ -248,7 +248,6 @@ export default function OneTimePasswordModal() {
                 action: route.params.action,
                 pin: response.Pin,
                 cardId: route.params.cardId,
-                cardType: route.params.cardType,
                 detailedCardResponse: response.DetailedCardResponse,
               }
         );

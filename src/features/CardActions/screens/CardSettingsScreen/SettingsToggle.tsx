@@ -1,3 +1,4 @@
+import { cloneElement } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
@@ -27,9 +28,16 @@ export default function SettingsToggle({ icon, helperText, onPress, label, disab
     marginTop: theme.spacing["4p"],
   }));
 
+  const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
+  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+
   return (
     <View style={containerStyles}>
-      {icon !== undefined && <View style={styles.iconContainer}>{icon}</View>}
+      {icon !== undefined && (
+        <View style={styles.iconContainer}>
+          {cloneElement(icon, { color: disabled ? disabledIconColor : iconColor })}
+        </View>
+      )}
       <View style={styles.container}>
         <Typography.Text color={disabled ? "neutralBase-30" : "neutralBase+30"} size="callout" weight="medium">
           {label}

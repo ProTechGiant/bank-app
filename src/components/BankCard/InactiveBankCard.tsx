@@ -11,11 +11,11 @@ interface InactiveBankCardProps {
   actionButton: React.ReactElement<ActionButtonProps>;
   endButton?: React.ReactNode;
   label?: string;
-  type: "frozen" | "inactive";
+  status: "freeze" | "inactive";
   onPress?: () => void;
 }
 
-export default function InactiveBankCard({ actionButton, endButton, label, type, onPress }: InactiveBankCardProps) {
+export default function InactiveBankCard({ actionButton, endButton, label, status, onPress }: InactiveBankCardProps) {
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     justifyContent: "space-between",
@@ -35,7 +35,7 @@ export default function InactiveBankCard({ actionButton, endButton, label, type,
 
   return (
     <View style={styles.container}>
-      {type === "inactive" ? <CardInactiveSvg /> : <CardFrozenSvg />}
+      {status === "inactive" ? <CardInactiveSvg /> : <CardFrozenSvg />}
       <View style={[styles.container, contentStyles]}>
         <View style={styles.header}>
           {label ? (
