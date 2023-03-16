@@ -20,8 +20,8 @@ export const resources = {
       },
       errors: {
         generic: {
-          title: "We’re sorry, something has gone wrong.",
-          message: "Please try again later or contact Customer Care.",
+          title: "Sorry, something has gone wrong",
+          message: "Try again later or get in touch with our customer care team.",
         },
       },
       Onboarding: {
@@ -746,7 +746,7 @@ export const resources = {
         CardDetailsScreen: {
           navTitleStandard: "Standard card",
           navTitlePlus: "Plus card",
-          navTitleSingleUse: "Single-use card",
+          navTitleSingleUse: "One-time card",
           inactiveCard: {
             label: "On the way",
             actionButtonText: "Activate now",
@@ -764,7 +764,7 @@ export const resources = {
           manageCardHeader: "Manage card",
           cardSettingsButton: "Card settings",
           reportButton: "Report stolen or damaged",
-          accountHeader: "Associated account",
+          accountHeader: "Linked account",
           accountNumber: "Account number",
           accountName: "Account name",
           upgradeToCroatiaPlus: {
@@ -780,7 +780,7 @@ export const resources = {
 
         standardCard: "Standard card",
         plusCard: "Plus card",
-        singleUseCard: "Single-use card",
+        singleUseCard: "One-time card",
         cardFrozen: "Card frozen",
         generateNew: "Generate New",
         HomeScreen: {
@@ -792,48 +792,52 @@ export const resources = {
         },
         SingleUseCard: {
           CardAbout: {
-            title: "Single-use cards",
+            title: "One-time cards",
             SectionOne: {
-              title: "Why should I use it?",
+              title: "Why use them?",
               SectionOneInfo: {
-                label: "Online retailers you don’t know",
-                helperText: "For when you’re using an online retailer you are not familiar with.",
+                label: "Keep your card details safe",
+                helperText: "Online retailers can’t see your real card details – perfect for sellers you don’t know.",
               },
               SectionTwoInfo: {
                 label: "Protect yourself from fraud",
-                helperText: "If a fraudster gets ahold of your card details after you pay, they can’t use it.",
+                helperText: "Once you’ve paid, your card details are useless to fraudsters.",
               },
             },
             SectionTwo: {
-              title: "Good to know",
+              title: "How do they work?",
               SectionOneInfo: {
-                label: "Made for one-off online payments to the value of 1000.00 SAR",
+                label: "Online only",
                 helperText:
-                  "They work only for online payments, not for recurring payments, like subscriptions. One transaction per card. Does not require activation only to be generated before every purchase. If you don’t use it will cancel itself in 30 days.",
+                  "One-time cards are for online purchases up to your regular card limit - not regular payments or subscriptions.",
               },
               SectionTwoInfo: {
-                label: "Connected to your primary account",
-                helperText: "The single-use card debits from your main banking account.",
+                label: "30-day limit",
+                helperText: "Your old one-time cards stop working after 30 days.",
               },
               SectionThreeInfo: {
-                label: "Refunds can still reach you",
-                helperText: "You’ll still receive refunds, even after the card is used.",
+                label: "Spend from your main account",
+                helperText: "One-time cards are linked to your main Croatia account.",
               },
 
               SectionFourInfo: {
-                label: "Only for plus tier customers",
-                helperText: "Single-use card are only available as long as you stay plus tier customer.",
+                label: "Hassle-free refunds",
+                helperText: "Need a refund? You’ll still get it, even if you’ve used the card already.",
+              },
+              SectionFiveInfo: {
+                label: "Croatia Plus only",
+                helperText: "One-time cards are exclusive to Croatia Plus.",
               },
             },
           },
           CardCreation: {
-            successTitle: "New single-use card generated",
-            successMessage: "You can go ahead and copy card details for your purchase.",
+            successTitle: "New one-time card generated",
+            successMessage: "Use these card details to make your purchase.",
           },
           SingleUseCardsInfo: {
-            title: "How single-use cards work",
-            text: "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
-            generateButton: "Generate single-use card",
+            title: "How do one-time cards work?",
+            text: "They’re virtual debit cards that you can only use once, so they’re great for protecting yourself when you buy online.\n\nWhen you generate a one-time card, you get a single-use card number, expiry and CVV. They’ll only work for one purchase and mean the merchant can’t see your real card details - so they’re a safer way to spend.",
+            generateButton: "Generate one-time card",
           },
         },
       },
@@ -885,6 +889,12 @@ export const resources = {
             bankNameLabel: "Bank name",
             bankName: "Croatia Bank",
           },
+        },
+      },
+      errors: {
+        generic: {
+          title: "Sorry, something has gone wrong",
+          message: "Try again later or get in touch with our customer care team.",
         },
       },
       Onboarding: {
@@ -1166,7 +1176,7 @@ export const resources = {
         CardDetailsScreen: {
           navTitleStandard: "Standard card",
           navTitlePlus: "Plus card",
-          navTitleSingleUse: "Single-use card",
+          navTitleSingleUse: "One-time card",
           inactiveCard: {
             label: "On the way",
             actionButtonText: "Activate now",
@@ -1184,7 +1194,7 @@ export const resources = {
           manageCardHeader: "Manage card",
           cardSettingsButton: "Card settings",
           reportButton: "Report stolen or damaged",
-          accountHeader: "Associated account",
+          accountHeader: "Linked account",
           accountNumber: "Account number",
           accountName: "Account name",
           upgradeToCroatiaPlus: {
@@ -1200,7 +1210,7 @@ export const resources = {
 
         standardCard: "Standard card",
         plusCard: "Plus card",
-        singleUseCard: "Single-use card",
+        singleUseCard: "One-time card",
         cardFrozen: "Card frozen",
         generateNew: "Generate New",
         HomeScreen: {
@@ -1212,48 +1222,52 @@ export const resources = {
         },
         SingleUseCard: {
           CardAbout: {
-            title: "Single-use cards",
+            title: "One-time cards",
             SectionOne: {
-              title: "Why should I use it?",
+              title: "Why use them?",
               SectionOneInfo: {
-                label: "Online retailers you don’t know",
-                helperText: "For when you’re using an online retailer you are not familiar with.",
+                label: "Keep your card details safe",
+                helperText: "Online retailers can’t see your real card details – perfect for sellers you don’t know.",
               },
               SectionTwoInfo: {
                 label: "Protect yourself from fraud",
-                helperText: "If a fraudster gets ahold of your card details after you pay, they can’t use it.",
+                helperText: "Once you’ve paid, your card details are useless to fraudsters.",
               },
             },
             SectionTwo: {
-              title: "Good to know",
+              title: "How do they work?",
               SectionOneInfo: {
-                label: "Made for one-off online payments to the value of 1000.00 SAR",
+                label: "Online only",
                 helperText:
-                  "They work only for online payments, not for recurring payments, like subscriptions. One transaction per card. Does not require activation only to be generated before every purchase. If you don’t use it will cancel itself in 30 days.",
+                  "One-time cards are for online purchases up to your regular card limit - not regular payments or subscriptions.",
               },
               SectionTwoInfo: {
-                label: "Connected to your primary account",
-                helperText: "The single-use card debits from your main banking account.",
+                label: "30-day limit",
+                helperText: "Your old one-time cards stop working after 30 days.",
               },
               SectionThreeInfo: {
-                label: "Refunds can still reach you",
-                helperText: "You’ll still receive refunds, even after the card is used.",
+                label: "Spend from your main account",
+                helperText: "One-time cards are linked to your main Croatia account.",
               },
 
               SectionFourInfo: {
-                label: "Only for plus tier customers",
-                helperText: "Single-use card are only available as long as you stay plus tier customer.",
+                label: "Hassle-free refunds",
+                helperText: "Need a refund? You’ll still get it, even if you’ve used the card already.",
+              },
+              SectionFiveInfo: {
+                label: "Croatia Plus only",
+                helperText: "One-time cards are exclusive to Croatia Plus.",
               },
             },
           },
           CardCreation: {
-            successTitle: "New single-use card generated",
-            successMessage: "You can go ahead and copy card details for your purchase.",
+            successTitle: "New one-time card generated",
+            successMessage: "Use these card details to make your purchase.",
           },
           SingleUseCardsInfo: {
-            title: "How single-use cards work",
-            text: "We aim to protect you and your money at all times. Using a virtual card whilst spending online adds another level of security when it comes to data protection.\n\nWe will provide you with a randomly issued card number, expiration date and issue number tied to your account.",
-            generateButton: "Generate single-use card",
+            title: "How do one-time cards work?",
+            text: "They’re virtual debit cards that you can only use once, so they’re great for protecting yourself when you buy online.\n\nWhen you generate a one-time card, you get a single-use card number, expiry and CVV. They’ll only work for one purchase and mean the merchant can’t see your real card details - so they’re a safer way to spend.",
+            generateButton: "Generate one-time card",
           },
         },
       },

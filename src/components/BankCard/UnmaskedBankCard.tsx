@@ -32,6 +32,10 @@ export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, on
     ...StyleSheet.absoluteFillObject,
   }));
 
+  const copyButtonContainer = useThemeStyles<ViewStyle>(theme => ({
+    paddingLeft: theme.spacing["10p"],
+  }));
+
   const splittedNumber = cardNumber ? cardNumber.split("-") : [];
 
   return (
@@ -60,7 +64,7 @@ export default function UnmaskedBankCard({ cardNumber, cardType, cardDetails, on
                     ))
                   : null}
               </Stack>
-              <View>
+              <View style={copyButtonContainer}>
                 <Pressable onPress={onCopyPress}>
                   {({ pressed }) => {
                     return (
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
   detailsContainer: {
     justifyContent: "center",
     marginTop: 90,
-    paddingHorizontal: 10,
+    paddingHorizontal: 24,
     width: "60%",
   },
   securityCodeContainer: {

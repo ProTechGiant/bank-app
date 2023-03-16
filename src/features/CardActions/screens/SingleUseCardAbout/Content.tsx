@@ -16,7 +16,7 @@ export default function Content({ icon, helperText, label }: ContentProps) {
     alignContent: "center",
     flexDirection: "row",
     paddingVertical: theme.spacing["16p"],
-    justifyContent: "space-between",
+    gap: theme.spacing["16p"],
   }));
 
   const helperTextStyle = useThemeStyles<ViewStyle>(theme => ({

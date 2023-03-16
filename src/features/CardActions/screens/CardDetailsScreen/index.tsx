@@ -396,12 +396,12 @@ export default function CardDetailsScreen() {
           ) : null}
           <ListSection title={t("CardActions.CardDetailsScreen.accountHeader")}>
             <ListItemText
-              title={t("CardActions.CardDetailsScreen.accountNumber")}
-              value={cardType === "active" ? selectedCard?.AccountNumber : inactiveCards[0].AccountNumber}
-            />
-            <ListItemText
               title={t("CardActions.CardDetailsScreen.accountName")}
               value={cardType === "active" ? selectedCard?.AccountName : inactiveCards[0].AccountName}
+            />
+            <ListItemText
+              title={t("CardActions.CardDetailsScreen.accountNumber")}
+              value={cardType === "active" ? selectedCard?.AccountNumber : inactiveCards[0].AccountNumber}
             />
           </ListSection>
           {cardType === "standard" ? (
@@ -414,6 +414,7 @@ export default function CardDetailsScreen() {
           ) : null}
         </ContentContainer>
       </Page>
+
       <NotificationModal
         variant="success"
         onClose={handleOnCloseNotification}
