@@ -9,13 +9,13 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import Content from "./Content";
-import AccessTime from "./SingleUseCardAboutIcons/access-time.svg";
-import AccountBalance from "./SingleUseCardAboutIcons/account-balance.svg";
-import Devices from "./SingleUseCardAboutIcons/devices.svg";
-import Payment from "./SingleUseCardAboutIcons/payment.svg";
-import RefundPayments from "./SingleUseCardAboutIcons/payments.svg";
-import Security from "./SingleUseCardAboutIcons/security.svg";
-import Star from "./SingleUseCardAboutIcons/star.svg";
+import { AccessTimeIcon } from "./SingleUseCardAboutIcons/access-time";
+import { AccountBalanceIcon } from "./SingleUseCardAboutIcons/account-balance";
+import { DevicesIcon } from "./SingleUseCardAboutIcons/devices";
+import { PaymentIcon } from "./SingleUseCardAboutIcons/payment";
+import { RefundPaymentsIcon } from "./SingleUseCardAboutIcons/refund-payments";
+import { SecurityIcon } from "./SingleUseCardAboutIcons/security";
+import { StarIcon } from "./SingleUseCardAboutIcons/star";
 
 export default function SingleUseCardAbout() {
   const { t } = useTranslation();
@@ -31,6 +31,8 @@ export default function SingleUseCardAbout() {
     paddingBottom: theme.spacing["32p"],
   }));
 
+  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+
   return (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
       <ScrollView>
@@ -44,13 +46,13 @@ export default function SingleUseCardAbout() {
           </Typography.Text>
           <View>
             <Content
-              icon={<Payment />}
+              icon={<PaymentIcon color={iconColor} />}
               label={t("CardActions.SingleUseCard.CardAbout.SectionOne.SectionOneInfo.label")}
               helperText={t("CardActions.SingleUseCard.CardAbout.SectionOne.SectionOneInfo.helperText")}
             />
             <Divider color="neutralBase-30" />
             <Content
-              icon={<Security />}
+              icon={<SecurityIcon color={iconColor} />}
               label={t("CardActions.SingleUseCard.CardAbout.SectionOne.SectionTwoInfo.label")}
               helperText={t("CardActions.SingleUseCard.CardAbout.SectionOne.SectionTwoInfo.helperText")}
             />
@@ -60,31 +62,31 @@ export default function SingleUseCardAbout() {
           </Typography.Text>
           <View style={bottomContainerStyle}>
             <Content
-              icon={<Devices />}
+              icon={<DevicesIcon color={iconColor} />}
               label={t("CardActions.SingleUseCard.CardAbout.SectionTwo.SectionOneInfo.label")}
               helperText={t("CardActions.SingleUseCard.CardAbout.SectionTwo.SectionOneInfo.helperText")}
             />
             <Divider color="neutralBase-30" />
             <Content
-              icon={<AccessTime />}
+              icon={<AccessTimeIcon color={iconColor} />}
               label={t("CardActions.SingleUseCard.CardAbout.SectionTwo.SectionTwoInfo.label")}
               helperText={t("CardActions.SingleUseCard.CardAbout.SectionTwo.SectionTwoInfo.helperText")}
             />
             <Divider color="neutralBase-30" />
             <Content
-              icon={<AccountBalance />}
+              icon={<AccountBalanceIcon color={iconColor} />}
               label={t("CardActions.SingleUseCard.CardAbout.SectionTwo.SectionThreeInfo.label")}
               helperText={t("CardActions.SingleUseCard.CardAbout.SectionTwo.SectionThreeInfo.helperText")}
             />
             <Divider color="neutralBase-30" />
             <Content
-              icon={<RefundPayments />}
+              icon={<RefundPaymentsIcon color={iconColor} />}
               label={t("CardActions.SingleUseCard.CardAbout.SectionTwo.SectionFourInfo.label")}
               helperText={t("CardActions.SingleUseCard.CardAbout.SectionTwo.SectionFourInfo.helperText")}
             />
             <Divider color="neutralBase-30" />
             <Content
-              icon={<Star />}
+              icon={<StarIcon color={iconColor} />}
               label={t("CardActions.SingleUseCard.CardAbout.SectionTwo.SectionFiveInfo.label")}
               helperText={t("CardActions.SingleUseCard.CardAbout.SectionTwo.SectionFiveInfo.helperText")}
             />
