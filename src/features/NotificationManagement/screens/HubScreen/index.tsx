@@ -18,6 +18,8 @@ import Section from "./CategorySection";
 
 export default function HubScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
+
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
   const [appActive, setAppActive] = useState(true);
   const [alertShown, setAlertShown] = useState(false);
@@ -25,8 +27,6 @@ export default function HubScreen() {
   const handleOnModalClose = () => {
     setIsInfoModalVisible(false);
   };
-
-  const navigation = useNavigation();
 
   const modalContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingBottom: theme.spacing["32p"],

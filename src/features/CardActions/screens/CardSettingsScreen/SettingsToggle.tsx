@@ -1,4 +1,3 @@
-import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { StyleSheet, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
@@ -7,25 +6,16 @@ import Toggle from "@/components/Toggle";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-export interface SettingsToggleProps<T extends FieldValues> {
-  control: Control<T>;
+export interface SettingsToggleProps {
   icon?: React.ReactElement<SvgProps | IconProps>;
-  name: Path<T>;
   label: string;
   helperText: string;
+  onPress: () => void;
   disabled?: boolean;
+  value: boolean;
 }
 
-export default function SettingsToggle<T extends FieldValues>({
-  control,
-  icon,
-  helperText,
-  label,
-  name,
-  disabled,
-}: SettingsToggleProps<T>) {
-  const { field } = useController({ control, name });
-
+export default function SettingsToggle({ icon, helperText, onPress, label, disabled, value }: SettingsToggleProps) {
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     alignContent: "center",
     flexDirection: "row",
@@ -53,7 +43,7 @@ export default function SettingsToggle<T extends FieldValues>({
         )}
       </View>
       <View style={styles.switch}>
-        <Toggle disabled={disabled} onPress={() => field.onChange(!field.value)} value={field.value} />
+        <Toggle disabled={disabled} onPress={onPress} value={value} />
       </View>
     </View>
   );

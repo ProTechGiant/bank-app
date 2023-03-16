@@ -20,7 +20,13 @@ import { OrderCardFormValues } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 
 import { CardActionsStackParams } from "../../CardActionsStack";
-import { useGetCard, useOtpValidation, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
+import {
+  useOtpValidation,
+  useRequestViewPinOtp,
+  useUnfreezeCard,
+  useUnmaskedCardDetails,
+  useUpdateCardSettings,
+} from "../../query-hooks";
 import CountdownLink from "./CountdownLink";
 import maskPhoneNumber from "./mask-phone-number";
 import PinInput from "./PinInput";
@@ -33,8 +39,9 @@ export default function OneTimePasswordModal() {
   const requestViewPinOtpAsync = useRequestViewPinOtp();
   const otpValidationAsync = useOtpValidation();
   const submitOrderCard = useSubmitOrderCard();
-  const requestGetCardAsync = useGetCard();
+  const requestGetCardAsync = useUnmaskedCardDetails();
   const unfreezeCardAsync = useUnfreezeCard();
+  const updateCardSettingsAsync = useUpdateCardSettings();
 
   const [countdownRestart, setCountdownRestart] = useState(true);
   // @TODO: use setIsPinFocus to hide keyboard if error returns
@@ -72,6 +79,30 @@ export default function OneTimePasswordModal() {
     } catch (error) {
       setShowErrorModal(true);
       warn("card-actions", "Could not request view pin OTP: ", JSON.stringify(error));
+    }
+  };
+
+  const requestUpdateSettingsOtp = async () => {
+    if (route.params.cardSettings === undefined || route.params.cardId === undefined) return;
+    const newCorrelationId = generateRandomId();
+
+    try {
+      const response = await updateCardSettingsAsync.mutateAsync({
+        correlationId: newCorrelationId,
+        cardId: route.params.cardId,
+        settings: route.params.cardSettings,
+      });
+
+      if (!response.IsOtpRequired) return;
+      // TODO: For testers. To be removed
+      Alert.alert(`OTP: ${response.OtpCode}`);
+
+      setCorrelatedId(newCorrelationId);
+      setOtpId(response.OtpId);
+      setCountdownRestart(true);
+    } catch (error) {
+      setShowErrorModal(true);
+      warn("card-actions", "Could not update card settings card: ", JSON.stringify(error));
     }
   };
 
@@ -115,6 +146,8 @@ export default function OneTimePasswordModal() {
       requestGetCardDetails();
     } else if (route.params.action === "unfreeze") {
       requestUnfreezeOtp();
+    } else if (route.params.action === "update-settings") {
+      requestUpdateSettingsOtp();
     }
 
     setIsError(false);
@@ -178,7 +211,7 @@ export default function OneTimePasswordModal() {
   const handleOnSubmit = async (input: string) => {
     try {
       const response = await otpValidationAsync.mutateAsync({
-        CardId: route.params.cardId,
+        CardId: route.params.cardId ?? "",
         OtpCode: input,
         OtpId: otpId,
         correlationId: correlationId,

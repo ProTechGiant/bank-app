@@ -1,63 +1,87 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, View, ViewStyle } from "react-native";
 
-import { CardIcon, GlobeIcon, LockIcon } from "@/assets/icons";
+import { CardIcon, LockIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import ToastBanner from "@/components/ToastBanner";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { generateRandomId } from "@/utils";
 
 import { CardActionsStackParams } from "../../CardActionsStack";
 import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
+import { useCardSettings, useUpdateCardSettings } from "../../query-hooks";
+import { CardSettingsInput } from "../../types";
 import SettingsToggle from "./SettingsToggle";
-
-interface CardSettings {
-  IsOnlinePaymentsActive: boolean;
-  IsInternationalPaymentActive: boolean;
-  IsSwipePaymentsActive: boolean;
-  IsContactlessPaymentsActive: boolean;
-  IsAtmWithdrawalsActive: boolean;
-}
 
 export default function CardSettingsScreen() {
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.CardSettingsScreen">>();
   const navigation = useNavigation();
   const { t } = useTranslation();
 
-  const { control, watch } = useForm<CardSettings>({
-    mode: "onBlur",
-    defaultValues: {
-      IsOnlinePaymentsActive: false,
-      IsInternationalPaymentActive: false,
-      IsSwipePaymentsActive: false,
-      IsContactlessPaymentsActive: false,
-      IsAtmWithdrawalsActive: false,
-    },
-  });
+  const updateCardSettingsAsync = useUpdateCardSettings();
+  const cardSettings = useCardSettings(route.params.cardId);
 
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const cardStatus = route.params.cardStatus;
 
-  const isOnlinePaymentsActive = watch("IsOnlinePaymentsActive");
-
+  // trigger a refetch of card settings after the OTP modal is closed
+  // user may have cancelled OTP so we need to refetch
   useEffect(() => {
-    if (isOnlinePaymentsActive) {
-      navigation.navigate("CardActions.OneTimePasswordModal", {
-        redirect: "CardActions.CardSettingsScreen",
-        action: "activate-online-payment",
-      });
-      // TODO: BE integration
-    }
-  }, [isOnlinePaymentsActive]);
+    const listener = navigation.addListener("focus", () => {
+      cardSettings.refetch();
+    });
 
-  const handleChangePin = () => {
-    Alert.alert("Change Pin is coming.");
+    return () => listener();
+  }, [navigation]);
+
+  const handleOnUpdatePin = () => {
+    Alert.alert("Updating PIN is not implemented yet");
+  };
+
+  const handleOnChangeSettings = async (setting: keyof CardSettingsInput) => {
+    if (cardSettings.data === undefined) return;
+
+    try {
+      const correlationId = generateRandomId();
+
+      const updatedSettings = {
+        ...cardSettings.data,
+        [setting]: !cardSettings.data[setting],
+      };
+
+      const response = await updateCardSettingsAsync.mutateAsync({
+        correlationId,
+        cardId: route.params.cardId,
+        settings: updatedSettings,
+      });
+
+      if (response.IsOtpRequired) {
+        navigation.navigate("CardActions.OneTimePasswordModal", {
+          correlationId,
+          action: "update-settings",
+          redirect: "CardActions.CardSettingsScreen",
+          cardId: route.params.cardId,
+          cardSettings: updatedSettings,
+          otp: {
+            otpCode: response.OtpCode,
+            otpId: response.OtpId,
+            phoneNumber: response.PhoneNumber,
+          },
+        });
+      }
+    } catch (error) {
+      setIsErrorModalVisible(true);
+      warn("card-settings", "Could not update card settings: ", JSON.stringify(error));
+    }
   };
 
   const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -76,66 +100,69 @@ export default function CardSettingsScreen() {
   }));
 
   return (
-    <Page backgroundColor="neutralBase-60">
-      <NavHeader end={false} />
-      <ContentContainer isScrollView>
-        <Typography.Header color="neutralBase+30" size="large" weight="semiBold" style={titleStyle}>
-          {t("CardActions.CardSettingsScreen.title")}
-        </Typography.Header>
-        <ListSection title={t("CardActions.CardSettingsScreen.subTitle1")}>
-          <ListItemLink
-            icon={<LockIcon />}
-            title={t("CardActions.CardSettingsScreen.changePin")}
-            onPress={handleChangePin}
-          />
-          <SettingsToggle
-            name="IsOnlinePaymentsActive"
-            icon={<CardIcon />}
-            label={t("CardActions.CardSettingsScreen.onlinePayment.label")}
-            helperText={t("CardActions.CardSettingsScreen.onlinePayment.helperText")}
-            control={control}
-          />
-          <SettingsToggle
-            name="IsInternationalPaymentActive"
-            icon={<GlobeIcon />}
-            label={t("CardActions.CardSettingsScreen.internationalPayment.label")}
-            helperText={t("CardActions.CardSettingsScreen.internationalPayment.helperText")}
-            control={control}
-          />
-        </ListSection>
-        <View style={separatorStyle} />
-        <ListSection title={t("CardActions.CardSettingsScreen.subTitle2")}>
-          {cardStatus === "inactive" && (
-            <View style={toastBannerContainer}>
-              <ToastBanner
-                title={t("CardActions.CardSettingsScreen.onTheWay.title")}
-                message={t("CardActions.CardSettingsScreen.onTheWay.paragraph")}
-              />
+    <>
+      <Page backgroundColor="neutralBase-60">
+        <NavHeader end={false} />
+        <ContentContainer isScrollView>
+          <Typography.Header color="neutralBase+30" size="large" weight="semiBold" style={titleStyle}>
+            {t("CardActions.CardSettingsScreen.title")}
+          </Typography.Header>
+          {cardSettings.data !== undefined ? (
+            <View>
+              <ListSection title={t("CardActions.CardSettingsScreen.subTitle1")}>
+                <ListItemLink
+                  icon={<LockIcon />}
+                  title={t("CardActions.CardSettingsScreen.changePin")}
+                  onPress={handleOnUpdatePin}
+                />
+                <SettingsToggle
+                  icon={<CardIcon />}
+                  label={t("CardActions.CardSettingsScreen.onlinePayment.label")}
+                  helperText={t("CardActions.CardSettingsScreen.onlinePayment.helperText")}
+                  onPress={() => handleOnChangeSettings("OnlinePayments")}
+                  value={cardSettings.data.OnlinePayments}
+                />
+              </ListSection>
+              <View style={separatorStyle} />
+              <ListSection title={t("CardActions.CardSettingsScreen.subTitle2")}>
+                {cardStatus === "inactive" && (
+                  <View style={toastBannerContainer}>
+                    <ToastBanner
+                      title={t("CardActions.CardSettingsScreen.onTheWay.title")}
+                      message={t("CardActions.CardSettingsScreen.onTheWay.paragraph")}
+                    />
+                  </View>
+                )}
+                <SettingsToggle
+                  label={t("CardActions.CardSettingsScreen.swipePayments.label")}
+                  helperText={t("CardActions.CardSettingsScreen.swipePayments.helperText")}
+                  onPress={() => handleOnChangeSettings("SwipePayments")}
+                  value={cardSettings.data.SwipePayments}
+                />
+                <SettingsToggle
+                  label={t("CardActions.CardSettingsScreen.contactlessPayments.label")}
+                  helperText={t("CardActions.CardSettingsScreen.contactlessPayments.helperText")}
+                  onPress={() => handleOnChangeSettings("ContactlessPayments")}
+                  value={cardSettings.data.ContactlessPayments}
+                />
+                <SettingsToggle
+                  label={t("CardActions.CardSettingsScreen.atmWithdrawals.label")}
+                  helperText={t("CardActions.CardSettingsScreen.atmWithdrawals.helperText")}
+                  onPress={() => handleOnChangeSettings("AtmWithdrawals")}
+                  value={cardSettings.data.AtmWithdrawals}
+                />
+              </ListSection>
             </View>
-          )}
-          <SettingsToggle
-            name="IsSwipePaymentsActive"
-            label={t("CardActions.CardSettingsScreen.swipePayments.label")}
-            helperText={t("CardActions.CardSettingsScreen.swipePayments.helperText")}
-            control={control}
-            disabled={cardStatus === "inactive" ? true : false}
-          />
-          <SettingsToggle
-            name="IsContactlessPaymentsActive"
-            label={t("CardActions.CardSettingsScreen.contactlessPayments.label")}
-            helperText={t("CardActions.CardSettingsScreen.contactlessPayments.helperText")}
-            control={control}
-            disabled={cardStatus === "inactive" ? true : false}
-          />
-          <SettingsToggle
-            name="IsAtmWithdrawalsActive"
-            label={t("CardActions.CardSettingsScreen.atmWithdrawals.label")}
-            helperText={t("CardActions.CardSettingsScreen.atmWithdrawals.helperText")}
-            control={control}
-            disabled={cardStatus === "inactive" ? true : false}
-          />
-        </ListSection>
-      </ContentContainer>
-    </Page>
+          ) : null}
+        </ContentContainer>
+      </Page>
+      <NotificationModal
+        variant="error"
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={isErrorModalVisible}
+        onClose={() => setIsErrorModalVisible(false)}
+      />
+    </>
   );
 }

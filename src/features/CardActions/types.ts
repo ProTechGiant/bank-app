@@ -8,8 +8,11 @@ export interface Card {
   AccountNumber: string;
 }
 
-export interface CustomerTier {
-  tier: string;
+export interface CardSettingsInput {
+  ContactlessPayments: boolean;
+  OnlinePayments: boolean;
+  AtmWithdrawals: boolean;
+  SwipePayments: boolean;
 }
 
 export interface CardCreateResponse {
@@ -27,6 +30,7 @@ export interface CardCreateResponse {
     CardProductId: string;
   };
 }
+
 export type CardStatus = "active" | "inactive" | "frozen";
 
 export interface DetailedCardResponse {

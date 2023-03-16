@@ -6,12 +6,12 @@ import { Platform, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CardSettingsIcon, CopyIcon, ErrorOutlineIcon, ReportIcon } from "@/assets/icons";
 import BankCard from "@/components/BankCard";
-import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import AddToAppleWalletButton from "@/features/ApplyCards/screens/AddToAppleWalletScreen/AddToAppleWalletButton";
 import { warn } from "@/logger";
 import { inactiveCards } from "@/mocks/inactiveCards";
 import useNavigation from "@/navigation/use-navigation";
@@ -22,25 +22,29 @@ import { CardActionsStackParams } from "../../CardActionsStack";
 import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
 import ViewPinModal from "../../components/ViewPinModal";
-import { useCards, useFreezeCard, useGetCard, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
-import { Card, DetailedCardResponse } from "../../types";
+import {
+  useCards,
+  useFreezeCard,
+  useRequestViewPinOtp,
+  useUnfreezeCard,
+  useUnmaskedCardDetails,
+} from "../../query-hooks";
+import { DetailedCardResponse } from "../../types";
 import CardIconButtons from "./CardIconButtons";
 import ListItemText from "./ListItemText";
 import SingleUseIconButtons from "./SingleUseIconButtons";
 import UpgradeToCroatiaPlus from "./UpgradeToCroatiaPlus";
-import AddToAppleWalletButton from "@/features/ApplyCards/screens/AddToAppleWalletScreen/AddToAppleWalletButton";
 
 export default function CardDetailsScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.CardDetailsScreen">>();
   const { t } = useTranslation();
 
+  const { data } = useCards(); // @todo to use getCardbyID when BE implements
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
   const requestViewPinOtpAsync = useRequestViewPinOtp();
-  const requestGetCardAsync = useGetCard();
-
-  const { data } = useCards(); // @todo to use getCardbyID when BE implements
+  const requestUnmaskedCardDetailsAsync = useUnmaskedCardDetails();
 
   const [isCardFrozen, setIsCardFrozen] = useState(false);
   const [isViewingPin, setIsViewingPin] = useState(route.params?.action === "view-pin");
@@ -50,23 +54,12 @@ export default function CardDetailsScreen() {
   const [showBanner, setShowBanner] = useState(false);
   const [showErrorCopy, setShowErrorCopy] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [selectedCard, setSelectedCard] = useState<Card | undefined>();
   const [cardDetails, setCardDetails] = useState<DetailedCardResponse | undefined>();
 
-  const cardType: string | undefined = route.params.cardType;
-  const cardStatus: string | undefined = route.params.cardStatus;
+  const selectedCard = data?.Cards.find(card => card.CardId === route.params.cardId);
+  const cardType = route.params.cardType;
+  const cardStatus = route.params.cardStatus;
   const cardId = route.params.cardId;
-
-  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
-
-  useEffect(() => {
-    if (undefined === route.params.cardId) {
-      setShowErrorModal(true);
-      return;
-    }
-    const cardsList = data?.Cards;
-    setSelectedCard(cardsList?.find((card: { CardId: string }) => card.CardId === route.params.cardId));
-  }, [data?.Cards, route.params.cardId]);
 
   //TODO: retrieve card details to show an active card / frozen card
   useEffect(() => {
@@ -102,14 +95,9 @@ export default function CardDetailsScreen() {
     navigation.navigate("Temporary.DummyScreen");
   };
 
-  const handleOnActiveCardSettingsPress = () => {
-    setIsShowingDetails(false);
-    navigation.navigate("CardActions.CardSettingsScreen", { cardStatus: "active" });
-  };
-
-  const handleOnInactiveCardSettingsPress = () => {
-    setIsShowingDetails(false);
-    navigation.navigate("CardActions.CardSettingsScreen", { cardStatus: "inactive" });
+  const handleOnCardSettingsPress = () => {
+    if (undefined === cardStatus) return;
+    navigation.navigate("CardActions.CardSettingsScreen", { cardStatus, cardId });
   };
 
   const handleOnReportPress = () => {
@@ -127,7 +115,7 @@ export default function CardDetailsScreen() {
     if (!isShowingDetails) {
       const correlationId = generateRandomId();
       try {
-        const response = await requestGetCardAsync.mutateAsync({ cardId, correlationId });
+        const response = await requestUnmaskedCardDetailsAsync.mutateAsync({ cardId, correlationId });
         if (response.OtpCode !== undefined && response.OtpId !== undefined) {
           navigation.navigate("CardActions.OneTimePasswordModal", {
             redirect: "CardActions.CardDetailsScreen",
@@ -291,9 +279,20 @@ export default function CardDetailsScreen() {
   }));
 
   const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
+  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   return (
     <>
+      <DismissibleBanner
+        visible={showBanner}
+        message={
+          !showErrorCopy
+            ? t("CardActions.CardDetailsScreen.copyClipboard")
+            : t("CardActions.CardDetailsScreen.errorCopyClipboard")
+        }
+        icon={!showErrorCopy ? <CopyIcon /> : <ErrorOutlineIcon />}
+        variant={showErrorCopy ? "error" : "default"}
+      />
       <Page backgroundColor="neutralBase-60">
         <NavHeader
           title={
@@ -303,20 +302,8 @@ export default function CardDetailsScreen() {
               ? t("CardActions.CardDetailsScreen.navTitlePlus")
               : t("CardActions.CardDetailsScreen.navTitleSingleUse")
           }
-          end={false}
           onBackPress={handleOnBackPress}
         />
-        <DismissibleBanner
-          variant={showErrorCopy ? "error" : "default"}
-          visible={showBanner}
-          message={
-            !showErrorCopy
-              ? t("CardActions.CardDetailsScreen.copyClipboard")
-              : t("CardActions.CardDetailsScreen.errorCopyClipboard")
-          }
-          icon={!showErrorCopy ? <CopyIcon /> : <ErrorOutlineIcon />}
-        />
-
         <ContentContainer isScrollView>
           <View style={cardContainerStyle}>
             {isCardFrozen ? (
@@ -373,9 +360,7 @@ export default function CardDetailsScreen() {
               <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
                 <ListItemLink
                   icon={<CardSettingsIcon color={iconColor} />}
-                  onPress={
-                    cardStatus === "active" ? handleOnActiveCardSettingsPress : handleOnInactiveCardSettingsPress
-                  }
+                  onPress={handleOnCardSettingsPress}
                   title={t("CardActions.CardDetailsScreen.cardSettingsButton")}
                 />
                 <ListItemLink

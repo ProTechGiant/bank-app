@@ -20,33 +20,15 @@ import { CardActionsStackParams } from "../../CardActionsStack";
 import QuickActionsMenu from "../../components/QuickActionsMenu";
 import ViewPinModal from "../../components/ViewPinModal";
 import { useCards, useCustomerTier, useFreezeCard, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
-import { CardStatus, CardType } from "../../types";
+import { Card, CardType } from "../../types";
 
 export default function HomeScreen() {
   const { t } = useTranslation();
+  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.HomeScreen">>();
   const navigation = useNavigation();
+
   const { data } = useCards();
   const customerTier = useCustomerTier();
-
-  // For testing while BE is not working (to be removed)
-  // const data = {
-  //   Cards: [
-  //     {
-  //       CardId: "5c19653b-70cb-4b1a-9b44-010e8bbf6771",
-  //       CardType: "2",
-  //       ProductId: "1356",
-  //       LastFourDigits: "3447",
-  //       Status: "unfreeze",
-  //     },
-  //     {
-  //       CardId: "082f099d-1edd-48e0-a53c-61eeaba228bb",
-  //       CardType: "1",
-  //       ProductId: "1356",
-  //       LastFourDigits: "4896",
-  //       Status: "freeze",
-  //     },
-  //   ],
-  // };
 
   const cardsList = data?.Cards;
   const singleUseCard = cardsList?.find(card => card?.CardType === SINGLE_USE_CARD_TYPE);
@@ -55,21 +37,14 @@ export default function HomeScreen() {
   const unfreezeCardAsync = useUnfreezeCard();
   const requestViewPinOtpAsync = useRequestViewPinOtp();
 
-  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.HomeScreen">>();
-
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [isViewingPin, setIsViewingPin] = useState(route.params?.action === "view-pin");
-  const [isCardFrozen, setIsCardFrozen] = useState(false);
   const [pin, setPin] = useState<string | undefined>();
 
   useEffect(() => {
     if (undefined === route.params) return;
 
-    if (route.params?.action === "unfreeze") {
-      setIsCardFrozen(false);
-    } else if (route.params?.action === "freeze") {
-      setIsCardFrozen(true);
-    } else if (route.params?.action === "view-pin") {
+    if (route.params?.action === "view-pin") {
       setPin(route.params.pin);
       // Add delay to show Notification Modal otherwise because it will be blocked by the OTP modal and view pin modal cannot be shown
       setTimeout(() => {
@@ -83,7 +58,7 @@ export default function HomeScreen() {
 
     try {
       const response = await freezeCardAsync.mutateAsync({ cardId, correlationId });
-      response.Status === "freeze" ? setIsCardFrozen(true) : setShowErrorModal(true);
+      if (response.Status !== "freeze") throw new Error("Received unexpected response from back-end");
     } catch (error) {
       setShowErrorModal(true);
       warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
@@ -125,6 +100,7 @@ export default function HomeScreen() {
 
     try {
       const response = await requestViewPinOtpAsync.mutateAsync({ cardId, correlationId });
+
       if (response.OtpCode !== undefined) {
         navigation.navigate("CardActions.OneTimePasswordModal", {
           redirect: "CardActions.HomeScreen",
@@ -146,9 +122,10 @@ export default function HomeScreen() {
     }
   };
 
-  const handleOnCardSettingsPress = (cardStatus: CardStatus) => {
+  const handleOnCardSettingsPress = (card: Card) => {
     navigation.navigate("CardActions.CardSettingsScreen", {
-      cardStatus: cardStatus,
+      cardStatus: card.Status,
+      cardId: card.CardId,
     });
   };
 
@@ -216,7 +193,7 @@ export default function HomeScreen() {
                         onFreezeCardPress={() => handleOnFreezeCardPress(card.CardId)}
                         onUnfreezeCardPress={() => handleOnUnfreezeCardPress(card.CardId)}
                         onViewPinPress={() => handleOnViewPinPress(card.CardId)}
-                        onCardSettingsPress={handleOnCardSettingsPress}
+                        onCardSettingsPress={() => handleOnCardSettingsPress(card)}
                       />
                     }
                     onPress={() =>
@@ -242,7 +219,7 @@ export default function HomeScreen() {
                         onFreezeCardPress={() => handleOnFreezeCardPress(card.CardId)}
                         onUnfreezeCardPress={() => handleOnUnfreezeCardPress(card.CardId)}
                         onViewPinPress={() => handleOnViewPinPress(card.CardId)}
-                        onCardSettingsPress={handleOnCardSettingsPress}
+                        onCardSettingsPress={() => handleOnCardSettingsPress(card)}
                       />
                     }
                     onPress={() =>
@@ -274,7 +251,7 @@ export default function HomeScreen() {
                         onFreezeCardPress={() => handleOnFreezeCardPress(card.CardId)}
                         onUnfreezeCardPress={() => handleOnUnfreezeCardPress(card.CardId)}
                         onViewPinPress={() => handleOnViewPinPress(card.CardId)}
-                        onCardSettingsPress={handleOnCardSettingsPress}
+                        onCardSettingsPress={() => handleOnCardSettingsPress(card)}
                       />
                     }
                     onPress={() =>
@@ -325,7 +302,7 @@ export default function HomeScreen() {
                     onFreezeCardPress={() => handleOnFreezeCardPress("")}
                     onUnfreezeCardPress={() => handleOnUnfreezeCardPress("")}
                     onViewPinPress={() => handleOnViewPinPress("")}
-                    onCardSettingsPress={handleOnCardSettingsPress}
+                    onCardSettingsPress={() => handleOnCardSettingsPress(card)}
                   />
                 }
               />

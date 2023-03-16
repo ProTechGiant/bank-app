@@ -11,7 +11,7 @@ interface QuickActionsMenuProps {
   onUnfreezeCardPress: () => void;
   onFreezeCardPress: () => void;
   onViewPinPress: () => void;
-  onCardSettingsPress: (cardStatus: CardStatus) => void;
+  onCardSettingsPress: () => void;
 }
 
 interface ContextMenuItem {
@@ -61,7 +61,7 @@ export default function QuickActionsMenu({
             : onFreezeCardPress()
           : e.nativeEvent.index === 1
           ? onViewPinPress()
-          : onCardSettingsPress(cardStatus);
+          : onCardSettingsPress();
       }}>
       <BankCard.EndButton icon={<ThreeDotsIcon />} />
     </ContextMenu>

@@ -27,7 +27,7 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     url: "https://" + API_BASE_URL + "/" + version + "/" + path,
   });
 
-  info("API", `Starting request for ${fetchUrl} with body: ${JSON.stringify(body)}`);
+  info("api", `Starting request for ${method} ${fetchUrl} with body: ${JSON.stringify(body)}`);
 
   if (undefined !== body && typeof body === "object") {
     headers["Content-Type"] = "application/json";
@@ -43,20 +43,21 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     },
   });
 
-  let content = undefined;
+  let content: TResponse | undefined;
+
   try {
     const isJsonResponse = response.headers.get("content-type")?.toLowerCase().includes("application/json") ?? false;
     content = isJsonResponse ? await response.json() : await response.text();
   } catch (error) {
-    warn("API", `${fetchUrl}: Could not parse response content: ${(error as Error).message}`);
+    warn("api", `${method} ${fetchUrl}: Could not parse response content: ${(error as Error).message}`);
   }
 
   if (response.status >= 400) {
-    warn("API", `Received ${response.status} for ${fetchUrl}: `, JSON.stringify(content));
+    warn("api", `Received ${response.status} for ${fetchUrl}: `, JSON.stringify(content));
     throw new ApiError<TError>(response.statusText, response.status, content as TError);
   }
 
-  info("api", `Received content for ${fetchUrl}: `, truncate(JSON.stringify(content), { length: 100 }));
+  info("api", `Received content for ${method} ${fetchUrl}: `, truncate(JSON.stringify(content), { length: 100 }));
 
   return content as TResponse;
 }

@@ -7,25 +7,20 @@ import LoadingSingleCardScreen from "./screens/LoadingSingleCardScreen";
 import OneTimePasswordModal from "./screens/OneTimePasswordModal";
 import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
-import { CardCreateResponse, CardStatus, CardType, DetailedCardResponse } from "./types";
+import { CardCreateResponse, CardSettingsInput, CardStatus, CardType, DetailedCardResponse } from "./types";
 
-type CardAction =
+type OtpCardAction =
   | "view-pin"
   | "freeze"
   | "unfreeze"
   | "activate-online-payment"
   | "generate-single-use-card"
-  | "show-details";
-
-type Otp = {
-  otpId: string;
-  otpCode: string;
-  phoneNumber: string;
-};
+  | "show-details"
+  | "update-settings";
 
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {
-    action?: CardAction;
+    action?: OtpCardAction;
     cardType: CardType;
     cardStatus?: CardStatus;
     cardId: string;
@@ -33,6 +28,7 @@ export type CardActionsStackParams = {
     detailedCardResponse?: DetailedCardResponse;
   };
   "CardActions.CardSettingsScreen": {
+    cardId: string;
     cardStatus?: CardStatus;
   };
   "CardActions.LoadingSingleCardScreen": {
@@ -41,14 +37,19 @@ export type CardActionsStackParams = {
   "CardActions.SingleUseCardInfo": undefined;
   "CardActions.SingleUseCardAbout": undefined;
   "CardActions.HomeScreen": {
-    action?: CardAction;
+    action?: OtpCardAction;
     pin?: string;
   };
   "CardActions.OneTimePasswordModal": {
-    action: CardAction;
+    action: OtpCardAction;
     cardType?: CardType;
     cardId?: string;
-    otp: Otp;
+    cardSettings?: CardSettingsInput;
+    otp: {
+      otpId: string;
+      otpCode: string;
+      phoneNumber: string;
+    };
     redirect: keyof CardActionsStackParams;
     correlationId: string;
   };
