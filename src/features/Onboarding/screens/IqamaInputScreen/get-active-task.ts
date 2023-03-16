@@ -1,7 +1,7 @@
 export default function getActiveTask(activeTask: string) {
   const tasks: { [key: string]: string } = {
     MobileVerification: "Onboarding.Iqama",
-    RetrievePersonalDetails: "Onboarding.ConfirmDetails",
+    RetrievePersonalDetails: "Onboarding.Nafath",
     ConfirmPersonalDetails: "Onboarding.ConfirmDetails",
     PersistEmail: "Onboarding.OptionalEmail",
     PersistFinancialInfo: "Onboarding.Financial",
