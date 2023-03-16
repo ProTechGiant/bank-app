@@ -60,12 +60,6 @@ export default function LargeCurrencyInput<T extends FieldValues>({
     marginVertical: theme.spacing["24p"],
   }));
 
-  const inputStyles = useThemeStyles<ViewStyle>(theme => ({
-    // width of "SAR" plus the margin-left it has relative to the amount
-    paddingLeft: theme.typography.text.sizes.body * 2 + styles.currency.marginLeft,
-    height: 70,
-  }));
-
   const textStyles = useThemeStyles<ViewStyle & TextStyle>(
     theme => ({
       color: isError ? theme.palette.errorBase : theme.palette.primaryBase,
@@ -81,7 +75,29 @@ export default function LargeCurrencyInput<T extends FieldValues>({
     marginTop: theme.spacing["16p"],
   }));
 
-  const selectionStyles = useThemeStyles<string>(theme => theme.palette["complimentBase"], []);
+  const selectionStyles = useThemeStyles<string>(theme => theme.palette.complimentBase, []);
+
+  const currencyStyle = useThemeStyles<TextStyle>(theme => ({
+    marginLeft: theme.spacing["4p"],
+    marginVertical: theme.spacing["8p"],
+  }));
+
+  const largeCurrencyStyle = useThemeStyles<TextStyle>(theme => ({
+    marginTop: theme.spacing["10p"],
+  }));
+
+  const mediumCurrencyStyle = useThemeStyles<TextStyle>(theme => ({
+    marginTop: theme.spacing["20p"],
+  }));
+  const smallCurrencyStyle = useThemeStyles<TextStyle>(theme => ({
+    marginTop: theme.spacing["16p"],
+  }));
+
+  const inputStyles = useThemeStyles<ViewStyle>(theme => ({
+    // width of "SAR" plus the margin-left it has relative to the amount
+    paddingLeft: theme.typography.text.sizes.body * 2 + Number(currencyStyle.marginLeft),
+    height: 70,
+  }));
 
   return (
     <View style={containerStyles}>
@@ -98,6 +114,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
           style={[
             textStyles,
             fontSize === "s" ? styles.smallText : fontSize === "m" ? styles.mediumText : styles.largeText,
+            !field.value && fieldState.error === undefined && styles.disabledOpacity,
           ]}
           value={field.value}
         />
@@ -106,8 +123,9 @@ export default function LargeCurrencyInput<T extends FieldValues>({
           size="body"
           weight="medium"
           style={[
-            styles.currency,
-            fontSize === "s" ? styles.smallCurrency : fontSize === "m" ? styles.mediumCurrency : styles.largeCurrency,
+            currencyStyle,
+            fontSize === "s" ? smallCurrencyStyle : fontSize === "m" ? mediumCurrencyStyle : largeCurrencyStyle,
+            !field.value && fieldState.error === undefined && styles.disabledOpacity,
           ]}>
           SAR
         </Typography.Text>
@@ -130,27 +148,16 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     flexDirection: "row",
   },
-  currency: {
-    // not "themeable"
-    marginLeft: 4,
-    marginVertical: 8,
-  },
-  largeCurrency: {
-    marginTop: 10,
+  disabledOpacity: {
+    opacity: 0.4,
   },
   largeText: {
     fontSize: 56, // not in core theme
     lineHeight: 67,
   },
-  mediumCurrency: {
-    marginTop: 20,
-  },
   mediumText: {
     fontSize: 38, // not in core theme
     lineHeight: 48,
-  },
-  smallCurrency: {
-    marginTop: 17,
   },
   smallText: {
     fontSize: 30, // not in core theme
