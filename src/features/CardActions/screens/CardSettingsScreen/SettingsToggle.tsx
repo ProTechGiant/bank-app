@@ -35,7 +35,7 @@ export default function SettingsToggle({ icon, helperText, onPress, label, disab
     <View style={containerStyles}>
       {icon !== undefined && (
         <View style={styles.iconContainer}>
-          {cloneElement(icon, { color: disabled ? disabledIconColor : iconColor })}
+          {cloneElement(icon, { color: disabled ? disabledIconColor : iconColor, height: 24, width: 24 })}
         </View>
       )}
       <View style={styles.container}>

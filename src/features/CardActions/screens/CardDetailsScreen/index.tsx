@@ -62,14 +62,10 @@ export default function CardDetailsScreen() {
 
   useEffect(() => {
     const subscription = AppState.addEventListener("change", nextAppState => {
-      if (nextAppState !== "active") {
-        setCardDetails(undefined);
-      }
+      if (nextAppState !== "active") setCardDetails(undefined);
     });
 
-    return () => {
-      subscription.remove();
-    };
+    return () => subscription.remove();
   }, []);
 
   useEffect(() => {
@@ -78,7 +74,7 @@ export default function CardDetailsScreen() {
 
     if (route.params.action === "view-pin") {
       setPin(route.params.pin as string);
-      // Add delay to show Notification Modal otherwise because it will be blocked by the OTP modal and view pin modal cannot be shown
+      // Add delay or else modal will be blocked from becoming visible
       setTimeout(() => setIsViewingPin(true), 500);
     }
 
@@ -90,6 +86,7 @@ export default function CardDetailsScreen() {
       setCardDetails(route.params?.detailedCardResponse);
 
       if (route.params?.detailedCardResponse === undefined) {
+        // Add delay or else modal will be blocked from becoming visible
         setTimeout(() => setIsErrorModalVisible(true), 500);
       }
     }

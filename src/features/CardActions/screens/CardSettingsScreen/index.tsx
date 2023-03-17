@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, View, ViewStyle } from "react-native";
 
-import { CardIcon, LockIcon } from "@/assets/icons";
+import { CardIcon, GlobeIcon, LockIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -121,6 +121,15 @@ export default function CardSettingsScreen() {
                   helperText={t("CardActions.CardSettingsScreen.onlinePayment.helperText")}
                   onPress={() => handleOnChangeSettings("OnlinePayments")}
                   value={cardSettings.data.OnlinePayments}
+                />
+                <SettingsToggle
+                  icon={<GlobeIcon />}
+                  label={t("CardActions.CardSettingsScreen.internationalPayment.label")}
+                  helperText={t("CardActions.CardSettingsScreen.internationalPayment.helperText")}
+                  onPress={() => {
+                    return;
+                  }}
+                  value={false}
                 />
               </ListSection>
               <View style={separatorStyle} />
