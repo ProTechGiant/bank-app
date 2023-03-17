@@ -52,15 +52,15 @@ export default function CreateGoalScreen() {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       NotificationFlag: false,
-      IsRoundUpActive: false,
+      RoundupFlag: false,
     },
   });
 
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
-  const IsRoundupActive = watch("IsRoundUpActive");
+  const RoundupFlag = watch("RoundupFlag");
 
   useEffect(() => {
-    if (!IsRoundupActive) return;
+    if (!RoundupFlag) return;
     if (data?.IsRoundUpActive === false) return;
 
     Alert.alert(
@@ -69,12 +69,12 @@ export default function CreateGoalScreen() {
       [
         {
           text: t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.dontSwitch"),
-          onPress: () => setValue("IsRoundUpActive", false),
+          onPress: () => setValue("RoundupFlag", false),
         },
         { text: t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.switch"), style: "default" },
       ]
     );
-  }, [IsRoundUpActive]);
+  }, [RoundupFlag]);
 
   // commented out for now while api issues are being resolved
   const handleOnSubmit = async (values: CreateGoalInput) => {

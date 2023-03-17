@@ -2,7 +2,7 @@ export interface CreateGoalInput {
   GoalName: string;
   TargetAmount: number;
   TargetDate: Date;
-  IsRoundUpActive: boolean;
+  RoundupFlag: boolean;
   NotificationFlag: boolean;
 }
 export interface EditGoalInput {
