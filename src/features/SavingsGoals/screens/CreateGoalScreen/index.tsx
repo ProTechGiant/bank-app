@@ -166,7 +166,7 @@ export default function CreateGoalScreen() {
                   label={t("SavingsGoals.CreateGoalScreen.form.roundUps.label")}
                   helperText={t("SavingsGoals.CreateGoalScreen.form.roundUps.helperText")}
                   onInfoPress={() => setIsInfoModalVisible(true)}
-                  end={<TableListCard.Toggle control={control} name="IsRoundUpActive" />}
+                  end={<TableListCard.Toggle control={control} name="RoundupFlag" />}
                 />
                 <TableListCard
                   label={t("SavingsGoals.CreateGoalScreen.form.notification.label")}
