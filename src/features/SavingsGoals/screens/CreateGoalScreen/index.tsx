@@ -52,16 +52,16 @@ export default function CreateGoalScreen() {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       NotificationFlag: false,
-      RoundupFlag: false,
+      IsRoundUpActive: false,
     },
   });
 
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
-  const roundupFlag = watch("RoundupFlag");
+  const IsRoundupActive = watch("IsRoundUpActive");
 
   useEffect(() => {
-    if (!roundupFlag) return;
-    if (false === data?.RoundupFlag) return;
+    if (!IsRoundupActive) return;
+    if (data?.IsRoundUpActive === false) return;
 
     Alert.alert(
       t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.title"),
@@ -69,12 +69,12 @@ export default function CreateGoalScreen() {
       [
         {
           text: t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.dontSwitch"),
-          onPress: () => setValue("RoundupFlag", false),
+          onPress: () => setValue("IsRoundUpActive", false),
         },
         { text: t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.switch"), style: "default" },
       ]
     );
-  }, [roundupFlag]);
+  }, [IsRoundUpActive]);
 
   // commented out for now while api issues are being resolved
   const handleOnSubmit = async (values: CreateGoalInput) => {
@@ -166,7 +166,7 @@ export default function CreateGoalScreen() {
                   label={t("SavingsGoals.CreateGoalScreen.form.roundUps.label")}
                   helperText={t("SavingsGoals.CreateGoalScreen.form.roundUps.helperText")}
                   onInfoPress={() => setIsInfoModalVisible(true)}
-                  end={<TableListCard.Toggle control={control} name="RoundupFlag" />}
+                  end={<TableListCard.Toggle control={control} name="IsRoundUpActive" />}
                 />
                 <TableListCard
                   label={t("SavingsGoals.CreateGoalScreen.form.notification.label")}

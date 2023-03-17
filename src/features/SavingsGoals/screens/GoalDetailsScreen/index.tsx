@@ -1,7 +1,7 @@
 import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { LightningBoltIcon, QuestionIcon, RecurringEventIcon } from "@/assets/icons";
@@ -17,7 +17,7 @@ import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { useSavingsPot } from "../../query-hooks";
+import { useRoundupFlag, useSavingsPot, useUpdateSavingsGoal } from "../../query-hooks";
 import ActionButtons from "./ActionButtons";
 import CardButtonToggle from "./CardButtonToggle";
 import GoalDetailsHeader from "./GoalDetailsHeader";
@@ -31,12 +31,16 @@ export default function GoalDetailsScreen() {
   const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.GoalDetailsScreen">>();
   const { PotId, amountWithdrawn, redirectToFundingModal } = route.params;
   const fundGoalModalShown = useRef(false);
+  const { data } = useSavingsPot(route.params.PotId);
+  const { data: roundUpData } = useRoundupFlag();
+  const updateSavingsGoalRoundUps = useUpdateSavingsGoal();
+
   const [showRoundUpModal, setShowRoundUpModal] = useState(false);
   const [showInfoRoundsUpsModal, setInfoRoundsUpModal] = useState(false);
   const [showGoalAlmostReachedNotification, setShowGoalAlmostReachedNotification] = useState(false);
   const [differenceNeededToReachGoal, setDifferenceNeededToReachGoal] = useState(0);
   const [showAmountWithdrawn, setShowAmountWithdrawn] = useState(amountWithdrawn);
-  const { data } = useSavingsPot(route.params.PotId);
+  const [isRoundUpsOn, setIsRoundUpsOn] = useState(false);
 
   // TODO remove this and replace the condition with condition checking if RecurringPayments key exists in savings pot data object
   const toggleRegularPayment = true;
@@ -56,7 +60,11 @@ export default function GoalDetailsScreen() {
       if (amountWithdrawn) {
         setShowAmountWithdrawn(amountWithdrawn);
       }
-    }, [redirectToFundingModal, amountWithdrawn, navigation, PotId])
+
+      if (data) {
+        setIsRoundUpsOn(data.RoundupFlag);
+      }
+    }, [redirectToFundingModal, amountWithdrawn, data, navigation, PotId])
   );
 
   const handleOnBackPress = () => {
@@ -81,18 +89,6 @@ export default function GoalDetailsScreen() {
   const redirectToUpdateRegularPayment = () => {
     // TODO: implement redirect to edit / update regular payment when page will be available
     console.log("edit recurring payment");
-  };
-
-  const toggleRoundUp = () => {
-    setShowRoundUpModal(!showRoundUpModal);
-
-    handleRoundUp();
-  };
-
-  const handleRoundUp = () => {
-    // TODO implement BE when ready
-
-    console.log("round up logic");
   };
 
   const handleOnEdit = () => {
@@ -144,6 +140,56 @@ export default function GoalDetailsScreen() {
   const handleOnSeeAllTransactions = () => {
     // TODO: navigate to "All Transactions" page or open new modal showing them, TBD
     console.log("All transactions");
+  };
+
+  const handleRoundUpsToggle = async () => {
+    if (!data || !roundUpData) return;
+
+    const { IsRoundUpActive } = roundUpData;
+
+    if (IsRoundUpActive === false) {
+      // When all savings goals have round-ups disabled, enable without showing the modal
+      await updateRoundUpFlag(true);
+      setIsRoundUpsOn(true);
+    } else if (!isRoundUpsOn) {
+      // When round-ups aleardy enabled, show the modal
+      setShowRoundUpModal(true);
+    } else {
+      setIsRoundUpsOn(false);
+      await updateRoundUpFlag(false);
+    }
+  };
+
+  const updateRoundUpFlag = async (flagValue: boolean) => {
+    if (!data) return;
+
+    const { GoalName, TargetAmount, TargetDate, NotificationFlag } = data;
+
+    try {
+      const response = await updateSavingsGoalRoundUps.mutateAsync({
+        PotId,
+        GoalName,
+        TargetAmount,
+        TargetDate,
+        NotificationFlag,
+        RoundupFlag: flagValue,
+      });
+
+      setIsRoundUpsOn(response.RoundupFlag);
+    } catch (error) {
+      Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
+        {
+          text: "OK",
+          onPress: () => navigation.navigate("SavingsGoals.ListGoalsScreen"),
+        },
+      ]);
+    }
+  };
+
+  const handleOnSwitchRoundUpButton = async () => {
+    await updateRoundUpFlag(true);
+    setIsRoundUpsOn(true);
+    setShowRoundUpModal(false);
   };
 
   const navigationWrapper = useThemeStyles<ViewStyle>(theme => ({
@@ -217,11 +263,11 @@ export default function GoalDetailsScreen() {
             <View>
               {data && (
                 <CardButtonToggle
-                  onPress={toggleRoundUp}
+                  onPress={handleRoundUpsToggle}
                   onInfoPress={showInfoModal}
                   icon={<LightningBoltIcon />}
                   text={t("SavingsGoals.GoalDetailsScreen.RoundUp")}
-                  toggleValue={data.RoundupFlag}
+                  toggleValue={isRoundUpsOn}
                 />
               )}
               <Divider color="neutralBase-30" />
@@ -315,7 +361,7 @@ export default function GoalDetailsScreen() {
         isVisible={showRoundUpModal}
         buttons={{
           primary: (
-            <Button onPress={handleRoundUp}>
+            <Button onPress={handleOnSwitchRoundUpButton}>
               {t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.switchRoundUpButton")}
             </Button>
           ),

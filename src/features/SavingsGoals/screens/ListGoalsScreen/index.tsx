@@ -43,10 +43,6 @@ export default function SavingsGoalsScreen() {
     navigation.navigate("Temporary.LandingScreen");
   };
 
-  const handleOnPress = (PotId: string) => {
-    navigation.navigate("SavingsGoals.GoalDetailsScreen", { PotId });
-  };
-
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
     borderRadius: theme.radii.extraSmall,
@@ -66,6 +62,10 @@ export default function SavingsGoalsScreen() {
     () => data?.SavingsPots.sort((a, b) => compareAsc(new Date(a.CreatedDate), new Date(b.CreatedDate))) ?? [],
     [data]
   );
+
+  const handleOnPress = (PotId: string) => {
+    navigation.navigate("SavingsGoals.GoalDetailsScreen", { PotId });
+  };
 
   return (
     <Page backgroundColor="neutralBase-60">

@@ -48,7 +48,7 @@ export function useCreateGoal() {
 }
 
 interface RoundUpActiveResponse {
-  RoundupFlag: boolean;
+  IsRoundUpActive: boolean;
 }
 
 export function useRoundupFlag() {
@@ -57,6 +57,40 @@ export function useRoundupFlag() {
       ["x-correlation-id"]: "1234567",
     });
   });
+}
+
+export interface UpdateSavingsGoalProps {
+  GoalName: string;
+  TargetAmount: string;
+  TargetDate: string;
+  RoundupFlag: boolean;
+  NotificationFlag: boolean;
+  PotId: string;
+}
+
+export function useUpdateSavingsGoal() {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (options: UpdateSavingsGoalProps) => {
+      const { PotId, ...requestBody } = options;
+      return api<UpdateSavingsGoalProps>(
+        "v1",
+        `customers/savings-pots/${PotId}`,
+        "PATCH",
+        undefined,
+        { ...requestBody },
+        {
+          ["x-correlation-id"]: "1234567",
+        }
+      );
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(queryKeys.all);
+      },
+    }
+  );
 }
 
 interface FundSavingsPotRecurringOptions {
