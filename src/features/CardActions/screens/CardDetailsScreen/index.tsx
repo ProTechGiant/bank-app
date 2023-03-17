@@ -60,8 +60,18 @@ export default function CardDetailsScreen() {
   const cardStatus = selectedCard?.Status;
 
   useEffect(() => {
-    const subscription = AppState.addEventListener("change", nextAppState => {
-      if (nextAppState !== "active") setCardDetails(undefined);
+    if (Platform.OS === "android") {
+      const subscription = AppState.addEventListener("blur", nextAppstate => {
+        if (nextAppstate !== "active") setCardDetails(undefined);
+      });
+
+      return () => subscription.remove();
+    }
+  }, []);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", nextAppstate => {
+      if (nextAppstate !== "active") setCardDetails(undefined);
     });
 
     return () => subscription.remove();
@@ -93,6 +103,7 @@ export default function CardDetailsScreen() {
       setCardDetails(route.params?.detailedCardResponse);
 
       if (route.params?.detailedCardResponse === undefined) {
+        setCardDetails(undefined);
         // Add delay or else modal will be blocked from becoming visible
         setTimeout(() => setIsErrorModalVisible(true), 500);
       }
@@ -100,7 +111,6 @@ export default function CardDetailsScreen() {
   }, [route.params]);
 
   const handleOnAddToAppleWallet = () => {
-    setCardDetails(undefined);
     navigation.navigate("Temporary.DummyScreen");
   };
 
@@ -110,12 +120,10 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnReportPress = () => {
-    setCardDetails(undefined);
     navigation.navigate("Temporary.DummyScreen");
   };
 
   const handleOnUpgradePress = () => {
-    setCardDetails(undefined);
     navigation.navigate("Temporary.DummyScreen");
   };
 
@@ -223,7 +231,6 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnViewPinPress = async () => {
-    setCardDetails(undefined);
     const correlationId = generateRandomId();
 
     try {
