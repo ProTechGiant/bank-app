@@ -29,6 +29,15 @@ describe("calculateGoalBalanceOverThreeQuarters", () => {
     expect(result.difference).toBeLessThan(0);
   });
 
+  it("returns difference as 0 when availableSavingsPotBalance is equal to savingsPotGoal", () => {
+    const data = {
+      TargetAmount: "400",
+      AvailableBalanceAmount: "400",
+    } as SavingsPotDetailsResponse;
+    const result = calculateGoalBalanceOverThreeQuarters(data);
+    expect(result.difference).toBe(0);
+  });
+
   it("returns difference as a positive number when availableSavingsPotBalance is less than savingsPotGoal", () => {
     const data = {
       TargetAmount: "400",

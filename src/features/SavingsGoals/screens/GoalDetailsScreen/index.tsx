@@ -25,9 +25,6 @@ import HeaderBackgroundSvg from "./header-background.svg";
 import { calculateGoalBalanceOverThreeQuarters, getDayFromDate } from "./helpers";
 import TransactionCardList from "./TransactionCardList";
 
-// TODO: remove this and replace the condition with condition checking if RecurringPayments key exists in savings pot data object
-const TOGGLE_ADD_REGULAR_PAYMENT = true;
-
 export default function GoalDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -188,19 +185,6 @@ export default function GoalDetailsScreen() {
     setIsSwitchRoundupsModalVisible(false);
   };
 
-  const navigationWrapper = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: theme.spacing["48p"],
-    backgroundColor: theme.palette.primaryBase,
-    justifyContent: "center",
-  }));
-
-  const contentContainer = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.primaryBase,
-    paddingTop: theme.spacing["16p"],
-    alignItems: "center",
-    paddingBottom: theme.spacing["24p"],
-  }));
-
   const iconAndLinkContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["8p"],
     color: theme.palette.primaryBase,
@@ -270,8 +254,8 @@ export default function GoalDetailsScreen() {
             <Typography.Text size="footnote" weight="medium" color="neutralBase-10" align="center">
               {data?.TargetDate !== undefined
                 ? t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.targetDate", {
-                  TargetDate: format(new Date(data?.TargetDate), "d MMM, yyyy"),
-                })
+                    TargetDate: format(new Date(data?.TargetDate), "MMM d, yyyy"),
+                  })
                 : "-"}
             </Typography.Text>
           </Stack>
