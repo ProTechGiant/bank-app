@@ -69,6 +69,14 @@ export default function CardDetailsScreen() {
   }, []);
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener("blur", () => {
+      setCardDetails(undefined);
+    });
+
+    return () => unsubscribe();
+  }, [navigation]);
+
+  useEffect(() => {
     setCardDetails(undefined);
     if (undefined === route.params?.action) return;
 
