@@ -290,7 +290,7 @@ export default function CardDetailsScreen() {
               <BankCard.Active
                 cardNumber={selectedCard?.LastFourDigits}
                 cardType={selectedCard?.CardType}
-                productType={selectedCard?.ProductId}
+                productId={selectedCard?.ProductId}
               />
             ) : (
               <BankCard.Unmasked
@@ -298,7 +298,7 @@ export default function CardDetailsScreen() {
                 cardType={selectedCard?.CardType}
                 cardDetails={{ endDate: cardDetails.ExpDate, securityCode: cardDetails.Cvv }}
                 onCopyPress={handleOnCopyCardNumberPress}
-                productType={selectedCard?.ProductId}
+                productId={selectedCard?.ProductId}
               />
             )}
           </View>

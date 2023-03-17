@@ -18,7 +18,7 @@ import ContentCopyActiveSvg from "./content-copy-active.svg";
 import EndButton from "./EndButton";
 import PlusCardUnmaskedSvg from "./plus-card-unmasked.svg";
 import SingleUseCardUnmaskedSvg from "./single-use-card-unmasked.svg";
-import StandardCardUnmaskedeSvg from "./standard-card-unmasked.svg";
+import StandardCardUnmaskedSvg from "./standard-card-unmasked.svg";
 
 interface UnmaskedBankCardProps {
   cardNumber: string;
@@ -57,7 +57,7 @@ export default function UnmaskedBankCard({
       {cardType === SINGLE_USE_CARD_TYPE ? (
         <SingleUseCardUnmaskedSvg />
       ) : productId === STANDARD_CARD_PRODUCT_ID ? (
-        <StandardCardUnmaskedeSvg />
+        <StandardCardUnmaskedSvg />
       ) : (
         <PlusCardUnmaskedSvg />
       )}

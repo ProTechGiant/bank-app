@@ -154,7 +154,7 @@ export default function HomeScreen() {
         key={card.CardId}
         cardNumber={card.LastFourDigits}
         cardType={card.CardType}
-        productType={card.ProductId}
+        productId={card.ProductId}
         label={card.ProductId === STANDARD_CARD_PRODUCT_ID ? t("CardActions.standardCard") : t("CardActions.plusCard")}
         endButton={
           <QuickActionsMenu
