@@ -25,7 +25,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   const [state, setState] = useState<Omit<AuthContextProps, "authenticate">>({
     isAuthenticated: false,
     apiKey: API_TOKEN,
-    userId: "100116",
+    userId: "101234566",
   });
 
   // temporary: set initial headers

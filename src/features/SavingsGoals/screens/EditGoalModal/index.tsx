@@ -44,7 +44,8 @@ export default function EditGoalModal() {
         TargetAmount: Yup.number()
           .required(t("SavingsGoals.CreateGoalScreen.form.amount.validation.required"))
           .min(0.01, t("SavingsGoals.CreateGoalScreen.form.amount.validation.required"))
-          .max(9999999999.99, t("SavingsGoals.CreateGoalScreen.form.amount.validation.invalid")),
+          .max(9999999999, t("SavingsGoals.CreateGoalScreen.form.amount.validation.invalid"))
+          .positive(t("SavingsGoals.CreateGoalScreen.form.amount.validation.positive")),
         TargetDate: Yup.date().required(t("SavingsGoals.CreateGoalScreen.form.targetDate.validation.required")),
       }),
     [i18n.language]
@@ -99,11 +100,11 @@ export default function EditGoalModal() {
             />
             <CurrencyInput
               control={control}
-              showCharacterCount={true}
+              showCharacterCount={false}
               label={t("SavingsGoals.CreateGoalScreen.form.amount.label")}
               name="TargetAmount"
               placeholder={t("SavingsGoals.CreateGoalScreen.form.amount.placeholder")}
-              maxLength={12}
+              maxLength={10}
             />
             <View style={styles.datePicker}>
               <DatePickerInput

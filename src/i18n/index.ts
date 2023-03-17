@@ -581,6 +581,7 @@ export const resources = {
               validation: {
                 required: "Required*",
                 invalid: "Maximum limit for savings goals is 9,999,999,999.99 SAR",
+                positive: "Please use only positive numbers",
               },
             },
             targetDate: {

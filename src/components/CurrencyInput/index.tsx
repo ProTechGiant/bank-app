@@ -34,21 +34,22 @@ export default forwardRef(function MaskedCurrencyInput(
   const handleOnChangeText = (value_: string) => {
     const value = unmask(value_);
     const numberValue = Number(value.substring(value.length - 1) !== DEC_SEPARATOR ? value : value + "0");
-    const decimalSeparatorCount = countDotsInString(value);
 
-    // validate input
-    if (Number.isNaN(numberValue) || decimalSeparatorCount > 1) return;
+    if (Number.isNaN(numberValue)) {
+      setFormattedValue("0");
+      return;
+    }
 
     const intValue = Math.floor(numberValue);
     const decimalPosition = value.lastIndexOf(".");
 
+    const decimalSeparatorCount = countDotsInString(value);
     // if current integer part is at max length, only allow fractional digits to be entered
     if (undefined !== maxLength && numberOfDigits(intValue) > maxLength && 0 === decimalSeparatorCount) {
       if (undefined !== formattedValue && formattedValue.charAt(formattedValue.length - 1) !== DEC_SEPARATOR) return;
     }
 
     const fraction = -1 !== decimalPosition ? value.substring(decimalPosition) : "";
-    if (fraction.length > 3) return;
 
     setFormattedValue(mask(intValue) + fraction);
 
@@ -56,7 +57,7 @@ export default forwardRef(function MaskedCurrencyInput(
     lastOutputValue.current = outputValue;
     onChange(outputValue);
   };
-
+  let numberOfFractionalDigits = 0;
   const handleOnBlur = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
     // add a trailing "0" if needed
     if (numberOfFractionalDigits === 1) setFormattedValue(c => c + "0");
@@ -65,7 +66,6 @@ export default forwardRef(function MaskedCurrencyInput(
   };
 
   // prevent jittering by setting max length at native side when value already has 2 fractional digits
-  let numberOfFractionalDigits = 0;
   if (undefined !== formattedValue && formattedValue.includes(DEC_SEPARATOR)) {
     numberOfFractionalDigits = formattedValue.length - formattedValue.lastIndexOf(DEC_SEPARATOR) - 1;
   }
@@ -108,5 +108,5 @@ export function countDotsInString(str: string) {
 }
 
 export function numberOfDigits(value: number) {
-  return (Math.log(value) * Math.LOG10E + 1) | 0;
+  return Math.log(value) * Math.LOG10E || 0;
 }

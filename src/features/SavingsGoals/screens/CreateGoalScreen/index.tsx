@@ -146,6 +146,7 @@ export default function CreateGoalScreen() {
                 name="TargetAmount"
                 placeholder={t("SavingsGoals.CreateGoalScreen.form.amount.placeholder")}
                 maxLength={10}
+                showCharacterCount={false}
               />
               <DatePickerInput
                 control={control}

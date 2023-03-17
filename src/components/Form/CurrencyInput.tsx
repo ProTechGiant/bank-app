@@ -67,7 +67,9 @@ export default function CurrencyInput<T extends FieldValues>({
       isFocused={isFocused}
       fieldState={fieldState}
       extraEnd={
-        showCharacterCount && undefined !== maxLength ? `${field.value?.length ?? 0} / ${maxLength}` : undefined
+        showCharacterCount && undefined !== maxLength
+          ? `${field.value?.toString().split(".")[0].length ?? 0} / ${maxLength}`
+          : undefined
       }
       label={label}>
       <View style={styles.innerContainer}>
