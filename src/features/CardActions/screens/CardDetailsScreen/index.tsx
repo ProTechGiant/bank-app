@@ -14,7 +14,6 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { warn } from "@/logger";
-import { inactiveCards } from "@/mocks/inactiveCards";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
@@ -367,14 +366,15 @@ export default function CardDetailsScreen() {
             <View />
           )}
           <ListSection title={t("CardActions.CardDetailsScreen.accountHeader")}>
-            <ListItemText
-              title={t("CardActions.CardDetailsScreen.accountName")}
-              value={cardStatus === "unfreeze" ? selectedCard?.AccountName : inactiveCards[0].AccountName}
-            />
-            <ListItemText
-              title={t("CardActions.CardDetailsScreen.accountNumber")}
-              value={cardStatus === "unfreeze" ? selectedCard?.AccountNumber : inactiveCards[0].AccountNumber}
-            />
+            {selectedCard?.AccountName ? (
+              <ListItemText title={t("CardActions.CardDetailsScreen.accountName")} value={selectedCard?.AccountName} />
+            ) : null}
+            {selectedCard?.AccountNumber ? (
+              <ListItemText
+                title={t("CardActions.CardDetailsScreen.accountNumber")}
+                value={selectedCard?.AccountNumber}
+              />
+            ) : null}
           </ListSection>
           {selectedCard?.ProductId === STANDARD_CARD_PRODUCT_ID && selectedCard?.CardType !== SINGLE_USE_CARD_TYPE ? (
             <>

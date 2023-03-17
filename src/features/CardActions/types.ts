@@ -1,7 +1,15 @@
+import {
+  LUX_CARD_PRODUCT_ID,
+  PHYSICAL_CARD_TYPE,
+  SINGLE_USE_CARD_TYPE,
+  STANDARD_CARD_PRODUCT_ID,
+  VIRTUAL_CARD_TYPE,
+} from "@/constants";
+
 export interface Card {
   CardId: string;
-  CardType: string;
-  ProductId: string;
+  CardType: typeof PHYSICAL_CARD_TYPE | typeof SINGLE_USE_CARD_TYPE | typeof VIRTUAL_CARD_TYPE;
+  ProductId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
   LastFourDigits: string;
   Status: CardStatus;
   AccountName: string;

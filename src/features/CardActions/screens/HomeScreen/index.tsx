@@ -11,7 +11,6 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { PLUS_TIER, SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { warn } from "@/logger";
-import { inactiveCards } from "@/mocks/inactiveCards";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
@@ -235,7 +234,6 @@ export default function HomeScreen() {
                 />
               ) : null
             )}
-            {inactiveCards.map(card => returnInactiveCard(card))}
             {customerTier.data?.tier === PLUS_TIER && singleUseCard === undefined ? (
               <BankCard.Inactive
                 status="inactive"
