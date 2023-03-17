@@ -2,7 +2,7 @@ import Clipboard from "@react-native-clipboard/clipboard";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { AppState, Platform, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CardSettingsIcon, CopyIcon, ReportIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton/AddToAppleWalletButton";
@@ -59,6 +59,18 @@ export default function CardDetailsScreen() {
   const cardId = route.params.cardId;
   const selectedCard = data?.Cards.find(card => card.CardId === cardId);
   const cardStatus = selectedCard?.Status;
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", nextAppState => {
+      if (nextAppState !== "active") {
+        setCardDetails(undefined);
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   useEffect(() => {
     setCardDetails(undefined);

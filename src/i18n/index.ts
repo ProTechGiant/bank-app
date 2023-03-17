@@ -775,7 +775,7 @@ export const resources = {
             button: "Explore Plus tier",
           },
           copyClipboard: "Card number copied to clipboard.",
-          errorCopyClipboard: "Couldn’t copy card number. Try again.",
+          errorCopyClipboard: "Couldn’t copy card number - try again.",
         },
 
         standardCard: "Standard card",
@@ -1205,7 +1205,7 @@ export const resources = {
             button: "Explore Plus tier",
           },
           copyClipboard: "Card number copied to clipboard.",
-          errorCopyClipboard: "Couldn’t copy card number. Try again.",
+          errorCopyClipboard: "Couldn’t copy card number - try again.",
         },
 
         standardCard: "Standard card",
