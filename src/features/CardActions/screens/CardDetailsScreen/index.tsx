@@ -281,7 +281,7 @@ export default function CardDetailsScreen() {
         />
         <ContentContainer isScrollView>
           <View style={cardContainerStyle}>
-            {cardStatus === "freeze" && selectedCard?.CardType !== SINGLE_USE_CARD_TYPE ? (
+            {cardStatus === "freeze" && cardDetails === undefined && selectedCard?.CardType !== SINGLE_USE_CARD_TYPE ? (
               <BankCard.Inactive
                 status="freeze"
                 actionButton={<BankCard.ActionButton title={t("CardActions.cardFrozen")} type="dark" />}
@@ -311,6 +311,7 @@ export default function CardDetailsScreen() {
                 cardDetails={{ endDate: cardDetails.ExpDate, securityCode: cardDetails.Cvv }}
                 onCopyPress={handleOnCopyCardNumberPress}
                 productId={selectedCard?.ProductId}
+                cardStatus={selectedCard?.Status}
               />
             )}
           </View>

@@ -11,17 +11,20 @@ import {
   STANDARD_CARD_PRODUCT_ID,
   VIRTUAL_CARD_TYPE,
 } from "@/constants";
+import { CardStatus } from "@/features/CardActions/types";
 import { useThemeStyles } from "@/theme";
 
 import ContentCopySvg from "./content-copy.svg";
 import ContentCopyActiveSvg from "./content-copy-active.svg";
 import EndButton from "./EndButton";
+import FreezeCardUnmaskedSvg from "./freeze-card-unmasked.svg";
 import PlusCardUnmaskedSvg from "./plus-card-unmasked.svg";
 import SingleUseCardUnmaskedSvg from "./single-use-card-unmasked.svg";
 import StandardCardUnmaskedSvg from "./standard-card-unmasked.svg";
 
 interface UnmaskedBankCardProps {
   cardNumber: string;
+  cardStatus: CardStatus;
   cardType: typeof PHYSICAL_CARD_TYPE | typeof SINGLE_USE_CARD_TYPE | typeof VIRTUAL_CARD_TYPE;
   onCopyPress: () => void;
   cardDetails: { endDate: string; securityCode: string };
@@ -30,6 +33,7 @@ interface UnmaskedBankCardProps {
 
 export default function UnmaskedBankCard({
   cardNumber,
+  cardStatus,
   cardType,
   cardDetails,
   onCopyPress,
@@ -56,6 +60,8 @@ export default function UnmaskedBankCard({
     <View style={styles.container}>
       {cardType === SINGLE_USE_CARD_TYPE ? (
         <SingleUseCardUnmaskedSvg />
+      ) : cardStatus === "freeze" ? (
+        <FreezeCardUnmaskedSvg />
       ) : productId === STANDARD_CARD_PRODUCT_ID ? (
         <StandardCardUnmaskedSvg />
       ) : (
