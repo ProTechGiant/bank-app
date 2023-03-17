@@ -23,6 +23,7 @@ import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
 import ViewPinModal from "../../components/ViewPinModal";
 import {
+  useCard,
   useCards,
   useFreezeCard,
   useRequestViewPinOtp,
@@ -40,12 +41,11 @@ export default function CardDetailsScreen() {
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.CardDetailsScreen">>();
   const { t } = useTranslation();
 
-  // TODO: single card details endpoint
-  const { data } = useCards();
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
   const requestViewPinOtpAsync = useRequestViewPinOtp();
   const requestUnmaskedCardDetailsAsync = useUnmaskedCardDetails();
+  const card = useCard(route.params.cardId);
 
   const [isViewingPin, setIsViewingPin] = useState(route.params?.action === "view-pin");
   const [pin, setPin] = useState<string | undefined>();
@@ -55,8 +55,8 @@ export default function CardDetailsScreen() {
   const [isCopiedCardNumberBannerVisible, setIsCopiedCardNumberBannerVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
+  const selectedCard = card.data;
   const cardId = route.params.cardId;
-  const selectedCard = data?.Cards.find(card => card.CardId === cardId);
   const cardStatus = selectedCard?.Status;
 
   useEffect(() => {

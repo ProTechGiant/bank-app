@@ -23,6 +23,12 @@ export function useCards() {
   });
 }
 
+export function useCard(cardId: string) {
+  const cards = useCards();
+
+  return { ...cards, data: cards?.data?.Cards.find(card => card.CardId === cardId) };
+}
+
 interface FreezeCardResponse {
   Status: string;
   IsOtpRequired: boolean;

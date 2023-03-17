@@ -18,7 +18,7 @@ import { generateRandomId } from "@/utils";
 import { CardActionsStackParams } from "../../CardActionsStack";
 import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
-import { useCardSettings, useUpdateCardSettings } from "../../query-hooks";
+import { useCard, useCardSettings, useUpdateCardSettings } from "../../query-hooks";
 import { CardSettingsInput } from "../../types";
 import SettingsToggle from "./SettingsToggle";
 
@@ -29,9 +29,9 @@ export default function CardSettingsScreen() {
 
   const updateCardSettingsAsync = useUpdateCardSettings();
   const cardSettings = useCardSettings(route.params.cardId);
+  const card = useCard(route.params.cardId);
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
-  const cardStatus = route.params.cardStatus;
 
   // trigger a refetch of card settings after the OTP modal is closed
   // user may have cancelled OTP so we need to refetch
@@ -107,7 +107,7 @@ export default function CardSettingsScreen() {
           <Typography.Header color="neutralBase+30" size="large" weight="semiBold" style={titleStyle}>
             {t("CardActions.CardSettingsScreen.title")}
           </Typography.Header>
-          {cardSettings.data !== undefined ? (
+          {cardSettings.data !== undefined && card.data !== undefined ? (
             <View>
               <ListSection title={t("CardActions.CardSettingsScreen.subTitle1")}>
                 <ListItemLink
@@ -134,7 +134,7 @@ export default function CardSettingsScreen() {
               </ListSection>
               <View style={separatorStyle} />
               <ListSection title={t("CardActions.CardSettingsScreen.subTitle2")}>
-                {cardStatus === "inactive" && (
+                {card.data.Status === "inactive" && (
                   <View style={toastBannerContainer}>
                     <ToastBanner
                       title={t("CardActions.CardSettingsScreen.onTheWay.title")}
@@ -143,21 +143,21 @@ export default function CardSettingsScreen() {
                   </View>
                 )}
                 <SettingsToggle
-                  disabled={cardStatus !== "unfreeze"}
+                  disabled={card.data.Status !== "unfreeze"}
                   label={t("CardActions.CardSettingsScreen.swipePayments.label")}
                   helperText={t("CardActions.CardSettingsScreen.swipePayments.helperText")}
                   onPress={() => handleOnChangeSettings("SwipePayments")}
                   value={cardSettings.data.SwipePayments}
                 />
                 <SettingsToggle
-                  disabled={cardStatus !== "unfreeze"}
+                  disabled={card.data.Status !== "unfreeze"}
                   label={t("CardActions.CardSettingsScreen.contactlessPayments.label")}
                   helperText={t("CardActions.CardSettingsScreen.contactlessPayments.helperText")}
                   onPress={() => handleOnChangeSettings("ContactlessPayments")}
                   value={cardSettings.data.ContactlessPayments}
                 />
                 <SettingsToggle
-                  disabled={cardStatus !== "unfreeze"}
+                  disabled={card.data.Status !== "unfreeze"}
                   label={t("CardActions.CardSettingsScreen.atmWithdrawals.label")}
                   helperText={t("CardActions.CardSettingsScreen.atmWithdrawals.helperText")}
                   onPress={() => handleOnChangeSettings("AtmWithdrawals")}
