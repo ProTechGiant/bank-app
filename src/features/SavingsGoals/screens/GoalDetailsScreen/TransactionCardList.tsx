@@ -1,17 +1,10 @@
+import { format } from "date-fns";
 import React from "react";
-import { View, ViewStyle } from "react-native";
 
 import { LightningBoltIcon, RecurringEventIcon } from "@/assets/icons";
-import { useThemeStyles } from "@/theme";
-
-import TransactionCard from "./TransactionCard";
+import { TableListCard, TableListCardGroup } from "@/components/TableList";
 
 export default function TransactionCardList() {
-  const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderRadius: theme.radii.small,
-    backgroundColor: theme.palette["neutralBase-50"],
-  }));
-
   // TODO: remove this once transaction request is implemented
   const transactions = [
     {
@@ -19,7 +12,7 @@ export default function TransactionCardList() {
       icon: <LightningBoltIcon />,
       amount: 50,
       title: "One-off payment",
-      date: "2024-03-11",
+      date: "2023-10-31 15:00:00",
       separator: true,
     },
     {
@@ -27,15 +20,21 @@ export default function TransactionCardList() {
       icon: <RecurringEventIcon />,
       amount: 50,
       title: "Regular payment",
-      date: "2024-09-19",
+      date: "2023-11-19 15:00:00",
     },
   ];
 
   return (
-    <View style={cardContainerStyle}>
-      {transactions.map(({ id, icon, amount, title, date, separator }) => {
-        return <TransactionCard key={id} icon={icon} amount={amount} title={title} date={date} separator={separator} />;
-      })}
-    </View>
+    <TableListCardGroup>
+      {transactions.map(element => (
+        <TableListCard
+          key={element.id}
+          label={element.title}
+          helperText={format(new Date(element.date), "dd MMM yyyy")}
+          icon={element.icon}
+          end={<TableListCard.Label bold>{element.amount + " SAR"}</TableListCard.Label>}
+        />
+      ))}
+    </TableListCardGroup>
   );
 }

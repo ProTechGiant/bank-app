@@ -61,7 +61,7 @@ export default function CreateGoalScreen() {
 
   useEffect(() => {
     if (!RoundupFlag) return;
-    if (data?.IsRoundUpActive === false) return;
+    if (data?.RoundupFlag === false) return;
 
     Alert.alert(
       t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.title"),
@@ -166,12 +166,22 @@ export default function CreateGoalScreen() {
                   label={t("SavingsGoals.CreateGoalScreen.form.roundUps.label")}
                   helperText={t("SavingsGoals.CreateGoalScreen.form.roundUps.helperText")}
                   onInfoPress={() => setIsInfoModalVisible(true)}
-                  end={<TableListCard.Toggle control={control} name="RoundupFlag" />}
+                  end={
+                    <TableListCard.Toggle
+                      onPress={() => setValue("RoundupFlag", !RoundupFlag)}
+                      value={RoundupFlag}
+                    />
+                  }
                 />
                 <TableListCard
                   label={t("SavingsGoals.CreateGoalScreen.form.notification.label")}
                   helperText={t("SavingsGoals.CreateGoalScreen.form.notification.helperText")}
-                  end={<TableListCard.Toggle control={control} name="NotificationFlag" />}
+                  end={
+                    <TableListCard.Toggle
+                      onPress={() => setValue("NotificationFlag", !watch("NotificationFlag"))}
+                      value={watch("NotificationFlag")}
+                    />
+                  }
                 />
               </TableListCardGroup>
             </Stack>

@@ -1,5 +1,4 @@
 import { format as formatFn } from "date-fns";
-import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, View, ViewStyle } from "react-native";
 
@@ -15,10 +14,10 @@ interface CopyProps {
   onPress: () => void;
 }
 
-interface ToggleProps<T extends FieldValues> {
-  control: Control<T>;
-  name: Path<T>;
+interface ToggleProps {
   disabled?: boolean;
+  onPress: () => void;
+  value: boolean;
 }
 
 const Chevron = () => {
@@ -101,10 +100,8 @@ const TableListDay = ({ placeholder, value }: { placeholder?: string; value: num
   );
 };
 
-const TableListToggle = <T extends FieldValues>({ control, name, disabled = false }: ToggleProps<T>) => {
-  const { field } = useController({ control, name });
-
-  return <Toggle disabled={disabled} onPress={() => field.onChange(!field.value)} value={field.value} />;
+const TableListToggle = ({ disabled = false, onPress, value }: ToggleProps) => {
+  return <Toggle disabled={disabled} onPress={onPress} value={value} />;
 };
 
 export { Chevron, Copy, Label, TableListDate, TableListDay, TableListToggle };

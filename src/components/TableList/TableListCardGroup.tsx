@@ -6,11 +6,11 @@ import { useThemeStyles } from "@/theme";
 import { TableListCardProps } from "./TableListCard";
 
 interface TableListCardGroupProps extends ViewProps {
-  children: React.ReactElement<TableListCardProps>[];
+  children: React.ReactElement<TableListCardProps> | null | Array<React.ReactElement<TableListCardProps> | null>;
 }
 
 export default function TableListCardGroup({ children, ...restProps }: TableListCardGroupProps) {
-  const elements = React.Children.toArray(children) as Array<React.ReactElement<TableListCardProps>>;
+  const elements = React.Children.toArray(children) as Array<React.ReactElement<TableListCardProps> | null>;
 
   const shadowStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],

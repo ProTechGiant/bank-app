@@ -23,11 +23,11 @@ export default function ProgressWheel({
   textSize,
   bigCheckIcon,
 }: ProgressWheelProps) {
-  const strokeBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase-30"], []);
-  const strokeProgressColor = useThemeStyles<string>(theme => theme.palette.complimentBase, []);
+  const strokeBackgroundColor = useThemeStyles<string>(theme => theme.palette["primaryBase-10"]);
+  const strokeProgressColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
 
   const checkIconStyle = useThemeStyles(theme => ({
-    color: bigCheckIcon ? theme.palette["neutralBase-50"] : theme.palette["neutralBase+30"],
+    color: bigCheckIcon ? theme.palette["neutralBase-60"] : theme.palette["neutralBase+30"],
   }));
 
   const STROKE_WIDTH = 6;
@@ -50,7 +50,7 @@ export default function ProgressWheel({
           cx={circleSize / 2}
           cy={circleSize / 2}
           r={RADIUS}
-          {...{ strokeWidth }}
+          strokeWidth={strokeWidth}
         />
         {progressPercentage !== 0 && (
           <Circle
@@ -63,7 +63,7 @@ export default function ProgressWheel({
             strokeDashoffset={RADIUS * Math.PI * 2 * (progress / 100)}
             strokeLinecap="round"
             transform={`rotate(-90, ${circleSize / 2}, ${circleSize / 2})`}
-            {...{ strokeWidth }}
+            strokeWidth={strokeWidth}
           />
         )}
       </Svg>
@@ -75,7 +75,7 @@ export default function ProgressWheel({
             <CheckIcon color={checkIconStyle.color} />
           )
         ) : (
-          <Typography.Text weight="medium" size={textSize} color={textColor}>
+          <Typography.Text align="center" weight="medium" size={textSize} color={textColor}>
             {progressPercentage.toFixed(0)}%
           </Typography.Text>
         )}
