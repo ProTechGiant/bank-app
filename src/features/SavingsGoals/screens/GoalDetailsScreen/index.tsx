@@ -42,9 +42,6 @@ export default function GoalDetailsScreen() {
   const [showAmountWithdrawn, setShowAmountWithdrawn] = useState(amountWithdrawn);
   const [isRoundUpsOn, setIsRoundUpsOn] = useState(false);
 
-  // TODO remove this and replace the condition with condition checking if RecurringPayments key exists in savings pot data object
-  const toggleRegularPayment = true;
-
   // Immediately funding goal modal if needed
   useFocusEffect(
     useCallback(() => {
@@ -57,6 +54,7 @@ export default function GoalDetailsScreen() {
         // or else it'll be shown every time
         fundGoalModalShown.current = true;
       }
+
       if (amountWithdrawn) {
         setShowAmountWithdrawn(amountWithdrawn);
       }
@@ -271,31 +269,26 @@ export default function GoalDetailsScreen() {
                 />
               )}
               <Divider color="neutralBase-30" />
-
-              {/* recurring (regular) payment data comes hardcoded from BE, the logic might change */}
-              {/* toggleRegularPayment is for  testing purpose, when real data will come from BE, this will be removed or adapted*/}
-              {toggleRegularPayment ? (
+              {data?.RecurringPayments !== undefined ? (
+                <RegularPaymentCardButton
+                  onPress={redirectToUpdateRegularPayment}
+                  text={t("SavingsGoals.GoalDetailsScreen.RegularPayment.titleExistingRegular")}
+                  icon={<RecurringEventIcon />}
+                  subtext={t("SavingsGoals.GoalDetailsScreen.RegularPayment.text", {
+                    amount: data.RecurringPayments.PaymentAmount,
+                    currency: data.RecurringPayments.Currency,
+                    day: t("SavingsGoals.GoalDetailsScreen.RegularPayment.day", {
+                      count: getDayFromDate(data.RecurringPayments.NextPaymentDate),
+                      ordinal: true,
+                    }),
+                  })}
+                />
+              ) : (
                 <RegularPaymentCardButton
                   onPress={redirectToRegularPaymentFunding}
                   icon={<RecurringEventIcon />}
                   text={t("SavingsGoals.GoalDetailsScreen.RegularPayment.titleAddRegular")}
                 />
-              ) : (
-                data && (
-                  <RegularPaymentCardButton
-                    onPress={redirectToUpdateRegularPayment}
-                    text={t("SavingsGoals.GoalDetailsScreen.RegularPayment.titleExistingRegular")}
-                    icon={<RecurringEventIcon />}
-                    subtext={t("SavingsGoals.GoalDetailsScreen.RegularPayment.text", {
-                      amount: data.RecurringPayments.PaymentAmount,
-                      currency: data.RecurringPayments.Currency,
-                      day: t("SavingsGoals.GoalDetailsScreen.RegularPayment.day", {
-                        count: getDayFromDate(data.RecurringPayments.NextPaymentDate),
-                        ordinal: true,
-                      }),
-                    })}
-                  />
-                )
               )}
             </View>
           </View>
