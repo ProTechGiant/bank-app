@@ -45,9 +45,9 @@ export default function CountdownLink({ restart, timeInSecond, link, onPress }: 
     setIsActive(false);
   };
 
-  const strokeBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase-30"], []);
+  const strokeBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase-30"]);
 
-  const strokeProgressColor = useThemeStyles<string>(theme => theme.palette["neutralBase"], []);
+  const strokeProgressColor = useThemeStyles<string>(theme => theme.palette.neutralBase);
 
   return (
     <View style={styles.container}>

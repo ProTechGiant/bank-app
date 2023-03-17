@@ -44,7 +44,6 @@ export default function OneTimePasswordModal() {
   const updateCardSettingsAsync = useUpdateCardSettings();
 
   const [countdownRestart, setCountdownRestart] = useState(true);
-  // @TODO: use setIsPinFocus to hide keyboard if error returns
   const [isPinFocus, setIsPinFocus] = useState(true);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -318,6 +317,7 @@ export default function OneTimePasswordModal() {
                 isFocus={isPinFocus}
                 onSubmit={handleOnSubmit}
                 onPress={handleOnPinBoxesPress}
+                numberOfResendRequest={numberOfResendRequest}
               />
             </View>
 

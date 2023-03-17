@@ -11,9 +11,17 @@ interface PinInputProps {
   onSubmit: (pin: string) => void;
   isFocus?: boolean;
   isError?: boolean;
+  numberOfResendRequest: number;
 }
 
-export default function PinInput({ pinLength, onPress, onSubmit, isFocus = false, isError = false }: PinInputProps) {
+export default function PinInput({
+  pinLength,
+  numberOfResendRequest,
+  onPress,
+  onSubmit,
+  isFocus = false,
+  isError = false,
+}: PinInputProps) {
   const [boxDisplay, setBoxDisplay] = useState("");
   const [currentInput, setCurrentInput] = useState("");
   const [showCursor, setShowCursor] = useState(true);
@@ -25,6 +33,10 @@ export default function PinInput({ pinLength, onPress, onSubmit, isFocus = false
       setBoxDisplay("dot");
     }, 600);
   }, [currentInput]);
+
+  useEffect(() => {
+    setCurrentInput("");
+  }, [numberOfResendRequest]);
 
   useEffect(() => {
     if (isError) {
