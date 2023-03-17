@@ -90,7 +90,7 @@ export default function CardDetailsScreen() {
       setCardDetails(route.params?.detailedCardResponse);
 
       if (route.params?.detailedCardResponse === undefined) {
-        setIsErrorModalVisible(true);
+        setTimeout(() => setIsErrorModalVisible(true), 500);
       }
     }
   }, [route.params]);
