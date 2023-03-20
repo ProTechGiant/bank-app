@@ -1,3 +1,4 @@
 <resources>
     <color name="bootsplash_background">#E6E6E6</color>
+    <color name="highlight">#00A0CC</color>
 </resources>

@@ -81,7 +81,7 @@ export default function EditGoalModal() {
   };
   return (
     <SafeAreaProvider>
-      <Page>
+      <Page backgroundColor="neutralBase-60">
         <NavHeader
           onBackPress={handleOnClose}
           withBackButton={false}
