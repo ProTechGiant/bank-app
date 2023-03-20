@@ -90,7 +90,7 @@ export default function EditGoalModal() {
         PotId: data.PotId,
         GoalName,
         TargetAmount: TargetAmount.toString(),
-        TargetDate: format(new Date(TargetDate), "yyyy-MM-d"),
+        TargetDate: format(new Date(TargetDate), "yyyy-MM-dd"),
         NotificationFlag,
       });
 
