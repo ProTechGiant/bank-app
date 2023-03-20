@@ -516,6 +516,9 @@ export const resources = {
           title: "What do you want to save for?",
           button: "Set goal",
           instructionText: "You can set a total of 4 goals",
+          notifications: {
+            goalClosed: "Your goal has been closed.",
+          },
         },
         GoalDetailsScreen: {
           GoalDetailsHeader: {
@@ -624,6 +627,14 @@ export const resources = {
             helperText: "Only for this goal",
           },
           closeGoal: "Close goal",
+          modal: {
+            title: "Are you sure you want to close this goal?",
+            content: "The money in this goal will go back into your main account",
+            buttons: {
+              confirm: "Confirm",
+              cancel: "Cancel",
+            },
+          },
         },
         FundGoalModal: {
           goalCreatedBanner: "Your goal has been created",

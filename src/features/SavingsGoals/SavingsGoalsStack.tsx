@@ -14,7 +14,9 @@ import { FundingType } from "./screens/FundGoalModal/FundingStep";
 
 export type SavingsGoalsStackParams = {
   "SavingsGoals.InstructionsScreen": undefined;
-  "SavingsGoals.ListGoalsScreen": undefined;
+  "SavingsGoals.ListGoalsScreen": {
+    wasGoalRemoved?: boolean;
+  };
   "SavingsGoals.CreateGoalScreen": undefined;
   "SavingsGoals.GoalDetailsScreen": {
     PotId: string;

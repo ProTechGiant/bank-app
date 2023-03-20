@@ -90,7 +90,6 @@ export default function DatePickerInput<T extends FieldValues>({
       : typeof helperText === "string"
       ? helperText
       : undefined;
-
   const isError = fieldState?.error !== undefined && fieldState.isTouched;
   const finalHelperText = isError ? fieldState.error?.message : resolvedHelperText;
 

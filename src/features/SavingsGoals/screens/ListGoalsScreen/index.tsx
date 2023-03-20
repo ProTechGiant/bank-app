@@ -1,14 +1,17 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { compareAsc } from "date-fns";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, I18nManager, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
-import { PlusIcon } from "@/assets/icons";
+import { FilledCircleTickIcon, PlusIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
+import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -23,17 +26,28 @@ export default function SavingsGoalsScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { data, error } = useSavingsPots();
+  const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.ListGoalsScreen">>();
+  const [showCloseNotification, setShowCloseNotification] = useState(false);
 
   useEffect(() => {
-    if (error === null) return;
+    if (error) {
+      Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
+        {
+          text: "OK",
+          onPress: () => navigation.goBack(),
+        },
+      ]);
+    }
 
-    Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
-      {
-        text: "OK",
-        onPress: () => navigation.goBack(),
-      },
-    ]);
-  }, [error, navigation, t]);
+    if (route.params !== undefined) {
+      const timeout = setTimeout(() => {
+        setShowCloseNotification(true);
+        setTimeout(() => setShowCloseNotification(false), 3000);
+      }, 1000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [error, navigation, route.params, t]);
 
   const handleOnCreateGoal = () => {
     navigation.navigate("SavingsGoals.CreateGoalScreen");
@@ -69,6 +83,14 @@ export default function SavingsGoalsScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
+      {showCloseNotification && (
+        <DismissibleBanner
+          visible={showCloseNotification}
+          message={t("SavingsGoals.SavingsGoalsScreen.notifications.goalClosed")}
+          variant="success"
+          icon={<FilledCircleTickIcon />}
+        />
+      )}
       <StatusBar backgroundColor="transparent" translucent />
       <View style={styles.backgroundTopEnd}>
         <BackgroundTopEndSvg />

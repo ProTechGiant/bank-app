@@ -30,6 +30,7 @@ export default function CurrencyInput<T extends FieldValues>({
   name,
   showCharacterCount,
   placeholder,
+  ...restProps
 }: CurrencyInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
   const textInputRef = useRef<TextInput>(null);
@@ -84,6 +85,7 @@ export default function CurrencyInput<T extends FieldValues>({
           placeholderTextColor={placeholderTextColor}
           style={textStyles}
           value={field.value}
+          {...restProps}
         />
         {field.value !== undefined && (
           <Typography.Text color="neutralBase+20" size="callout" style={styles.currency} weight="regular">

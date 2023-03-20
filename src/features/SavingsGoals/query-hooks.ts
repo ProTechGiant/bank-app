@@ -63,7 +63,7 @@ export interface UpdateSavingsGoalProps {
   GoalName: string;
   TargetAmount: string;
   TargetDate: string;
-  RoundupFlag: boolean;
+  RoundupFlag?: boolean;
   NotificationFlag: boolean;
   PotId: string;
 }
