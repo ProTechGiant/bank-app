@@ -74,14 +74,14 @@ export default function GoalDetailsScreen() {
   const handleOnOpenFunding = () => {
     navigation.navigate("SavingsGoals.FundGoalModal", {
       PotId,
-      step: "one-time-payment",
+      step: "one-off-payment",
     });
   };
 
   const handleOnAddRegularPaymentPress = () => {
     navigation.navigate("SavingsGoals.FundGoalModal", {
       PotId,
-      step: "recurring-deposit",
+      step: "regular-payments",
     });
   };
 
@@ -145,7 +145,7 @@ export default function GoalDetailsScreen() {
       await updateRoundUpFlag(true);
       setIsRoundUpsOn(true);
     } else if (!isRoundUpsOn) {
-      // When round-ups aleardy enabled, show the modal
+      // When round-ups already enabled, show the modal
       setIsSwitchRoundupsModalVisible(true);
     } else {
       setIsRoundUpsOn(false);

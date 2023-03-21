@@ -11,17 +11,17 @@ import { useThemeStyles } from "@/theme";
 
 interface PickOptionStepProps {
   onCancelPress: () => void;
-  onOneTimePaymentPress: () => void;
+  onOneOffPaymentPress: () => void;
   onRecommendedPaymentPress: () => void;
-  onRecurringDepositPress: () => void;
+  onRegularPaymentsPress: () => void;
   recommendedAmount: number | undefined;
 }
 
 export default function PickOptionStep({
   onCancelPress,
-  onOneTimePaymentPress,
+  onOneOffPaymentPress,
   onRecommendedPaymentPress,
-  onRecurringDepositPress,
+  onRegularPaymentsPress,
   recommendedAmount,
 }: PickOptionStepProps) {
   const { t } = useTranslation();
@@ -71,15 +71,15 @@ export default function PickOptionStep({
             <TableListCardGroup>
               <TableListCard
                 end={<TableListCard.Chevron />}
-                onPress={onRecurringDepositPress}
+                onPress={onRegularPaymentsPress}
                 icon={<RecurringEventIcon />}
-                label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.recurringDeposits")}
+                label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.regularPayments")}
               />
               <TableListCard
                 end={<TableListCard.Chevron />}
-                onPress={onOneTimePaymentPress}
+                onPress={onOneOffPaymentPress}
                 icon={<LightningBoltIcon />}
-                label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.oneTimeDeposit")}
+                label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.oneOffPayment")}
               />
             </TableListCardGroup>
           </View>

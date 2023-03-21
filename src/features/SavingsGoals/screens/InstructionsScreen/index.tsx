@@ -1,13 +1,21 @@
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import HeroSlider from "@/components/HeroSlider";
 import { HeroSlideProps } from "@/components/HeroSlider/HeroSlide";
 import NavHeader from "@/components/NavHeader";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 
 function PlaceholderDot() {
-  return <View style={{ backgroundColor: "#F34C33", borderRadius: 40, height: 80, width: 80 }} />;
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette.complimentBase,
+    borderRadius: 40,
+    height: 80,
+    width: 80,
+  }));
+
+  return <View style={containerStyle} />;
 }
 
 export default function InstructionsScreen() {
@@ -45,8 +53,8 @@ export default function InstructionsScreen() {
       onFinishPress={handleOnFinish}
       onBackPress={handleOnBack}
       end={<NavHeader.TextEndButton onPress={handleOnFinish} text={t(`SavingsGoals.InstructionsScreen.skip`)} />}
-      buttonText={t("SavingsGoals.InstructionsScreen.continueButton")}
-      lastButtonText={t("SavingsGoals.InstructionsScreen.createGoalButton")}
+      buttonText={t("SavingsGoals.InstructionsScreen.nextButton")}
+      lastButtonText={t("SavingsGoals.InstructionsScreen.setGoalButton")}
       data={data}
     />
   );

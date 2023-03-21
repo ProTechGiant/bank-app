@@ -497,25 +497,26 @@ export const resources = {
         },
         InstructionsScreen: {
           skip: "Skip",
-          continueButton: "Continue",
-          createGoalButton: "Create a new goal",
-          titleOne: "Title 1",
+          nextButton: "Next",
+          setGoalButton: "Set a goal",
+          titleOne: "Where to next?",
           subTextOne:
-            "Lorem ipsum dolor sit amet consectetur. Penatibus fermentum placerat auctor neque porttitor convallis in varius et.",
-          titleTwo: "Title 2",
+            "What are the hopes and dreams you want to realise? Think big. Think small. Then let’s get to work together to make them happen.",
+          titleTwo: "Use Goals to succeed",
           subTextTwo:
-            "Lorem ipsum dolor sit amet consectetur. Penatibus fermentum placerat auctor neque porttitor convallis in varius et.",
-          titleThree: "Title 3",
+            "Use ‘Your Goals’ to make a record of what you want achieve and when. We’ll make it as easy as possible for you meet and surpass your targets.",
+          titleThree: "Celebrate the wins",
           subTextThree:
-            "Lorem ipsum dolor sit amet consectetur. Penatibus fermentum placerat auctor neque porttitor convallis in varius et.",
+            "That ‘Goal completed’ feeling is unbeatable! And we’ll be there to play back your achievement, and encourage you to embrace what’s next.",
         },
         SavingsGoalsScreen: {
           goalCard: {
             amount: "{{amountSaved}} of {{totalAmount}} SAR",
           },
-          title: "What do you want to save for?",
-          button: "Set goal",
-          instructionText: "You can set a total of 4 goals",
+          title: "Your Goals",
+          text: "Dream big or start small. They’re your goals and it’s your future - make it happen!",
+          button: "Set new Goal",
+          instructionText: "Set up to 4 goals",
           notifications: {
             goalClosed: "Your goal has been closed.",
           },
@@ -556,7 +557,7 @@ export const resources = {
             cancelButton: "Cancel",
           },
           RoundUpAlreadyActiveModal: {
-            title: "Switch round-ups to this goal?",
+            title: "Turn on round-ups for this goal?",
             message: "You’re already using round-ups for another goal. Do you want to switch to this one?",
             switchRoundUpButton: "Switch to this goal",
             cancelButton: "Don’t switch",
@@ -567,42 +568,43 @@ export const resources = {
           },
         },
         CreateGoalScreen: {
-          title: "Create a goal",
+          title: "Goal details",
           form: {
             name: {
-              label: "Name",
+              label: "Goal name",
               placeholder: "Name",
               validation: {
-                required: "Required*",
-                invalid: "Special symbols are not allowed",
+                required: "Your goal needs a name*",
+                invalid: "Please avoid special characters",
               },
             },
             amount: {
-              label: "Amount",
+              label: "Goal amount",
               placeholder: "0 SAR",
               currency: "SAR",
               validation: {
-                required: "Required*",
-                invalid: "Maximum limit for savings goals is 9,999,999,999.99 SAR",
+                required: "Your goal needs an amount*",
+                invalid: "The maximum amount is 9,999,999,999.99 SAR",
                 positive: "Please use only positive numbers",
               },
             },
             targetDate: {
-              label: "Target Date",
-              headerText: "Target Date",
+              label: "Complete by",
+              headerText: "Complete by",
               openDatePickerButton: "Set",
-              datePickerButton: "Set",
+              datePickerButton: "Pick date",
               validation: {
                 required: "Required*",
               },
-              helperText: "Note that your target date is within first 31 days from today",
+              helperText:
+                "Your date isn't very far away. Think about whether this is enough time to save for your goal.",
             },
             roundUps: {
-              label: "Turn on Round-ups",
+              label: "Turn on round-ups",
               helperText: "For this goal only",
             },
             notification: {
-              label: "Turn on Notifications",
+              label: "Turn on notifications",
               helperText: "For this goal only",
             },
           },
@@ -612,11 +614,16 @@ export const resources = {
             dontSwitch: "Don't switch",
             switch: "Switch",
           },
+          notificationsTurnOnAlert: {
+            title: "Notifications are disabled",
+            message: "Would you like to turn on notifications?",
+            cancel: "Cancel",
+            turnOn: "Turn on",
+          },
           aboutRoundUpsPanel: {
-            title: "About Round-ups",
-            content:
-              "You can Round-Up each purchase you make to the next 5 SAR and then deposit your spare change to a Savings Pot.",
-            smallText: "Find out more in our FAQs.",
+            title: "About round-ups",
+            content: "Round up every purchase to the nearest 5 SAR. The extra will go towards your choice of goal.",
+            smallText: "For more details visit FAQs",
           },
           button: "Continue",
         },
@@ -639,43 +646,43 @@ export const resources = {
         FundGoalModal: {
           goalCreatedBanner: "Your goal has been created",
           PickFundingMethodStep: {
-            title: "How do you want to save?",
-            subText: "Choose how you want to start saving towards your savings goal. ",
+            title: "How will you meet your goal?",
+            subText: "Regular payments help bring your goal closer to reality. ",
             recommended: {
               title: "Recommended monthly amount",
               amount: "{{amount}} SAR / month",
             },
             custom: {
               title: "Custom",
-              recurringDeposits: "Recurring deposits",
-              oneTimeDeposit: "One-time deposit",
+              regularPayments: "Regular Payments",
+              oneOffPayment: "One-off payment",
             },
             notNow: "Not Now",
           },
           FundingStep: {
-            amountExceedsBalance: "Amount exceeds your balance",
+            amountExceedsBalance: "You don't have enough money in your account",
             monthly: "Monthly",
             dayPickerHeader: "Set a date",
             dayPickerButton: "Set",
             dayPickerPlaceholder: "Set",
             helperIfDayExceeds28:
-              "Transfer will be made in the last day of the month if selected date don’t exists in the current month.",
+              "If a month is too short for your date to exist, the payment will happen on the last day of the month.",
             helperIfDayIsAfterTarget:
-              "You have selected a date after your target goal date. You should select a date before your target goal date to reach your goal.",
+              "Your date isn't very far away. Think about whether this is enough time to save for your goal.",
             continueButton: "Continue",
-            recurringDeposit: {
-              title: "Recurring deposit",
-              modalTitle: "You have created a recurring deposit",
-              modalText: "Your next recurring payment of {{amount}} SAR will be {{firstPaymentDate}}.",
-              continueButton: "Add one-time deposit",
-              skipButton: "Not now",
+            regularPayments: {
+              title: "Regular payments",
+              modalTitle: "You have created a regular payment",
+              modalText: "Your next payment will be {{amount}} SAR on {{firstPaymentDate}}.",
+              continueButton: "Add one-off payment",
+              skipButton: "Skip",
             },
-            oneTimeDeposit: {
-              title: "One-time deposit",
-              modalTitle: "You have created a one-time deposit",
-              modalText: "{{amount}} SAR has been added to your savings goals.",
-              continueButton: "Add recurring deposit",
-              skipButton: "Not now",
+            oneOffPayment: {
+              title: "One-off payment",
+              modalTitle: "You sent a one-off payment",
+              modalText: "{{amount}} SAR has been added to your goal.",
+              continueButton: "Set-up regular payment",
+              skipButton: "Skip",
             },
             errorTryAgain: "Try again",
             errorNotNow: "Not now",

@@ -104,6 +104,10 @@ export default function SavingsGoalsScreen() {
           <Typography.Text color="neutralBase+30" size="large" weight="bold">
             {t("SavingsGoals.SavingsGoalsScreen.title")}
           </Typography.Text>
+          <Typography.Text color="neutralBase+30" size="callout">
+            {t("SavingsGoals.SavingsGoalsScreen.text")}
+          </Typography.Text>
+
           <View>
             <Stack align="stretch" direction="vertical" gap="8p">
               {savingsGoals.map(element => (

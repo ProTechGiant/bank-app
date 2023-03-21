@@ -74,9 +74,9 @@ export default function FundGoalModal() {
           {currentStep === "pick-funding-method" ? (
             <PickOptionStep
               onCancelPress={handleOnComplete}
-              onOneTimePaymentPress={() => setCurrentStep("one-time-payment")}
+              onOneOffPaymentPress={() => setCurrentStep("one-off-payment")}
               onRecommendedPaymentPress={() => setCurrentStep("recommended-payment")}
-              onRecurringDepositPress={() => setCurrentStep("recurring-deposit")}
+              onRegularPaymentsPress={() => setCurrentStep("regular-payments")}
               recommendedAmount={mockMissingSavingsPotDetails.RecommendedAmount}
             />
           ) : (
@@ -88,8 +88,8 @@ export default function FundGoalModal() {
               onBackPress={handleOnBackPress}
               onClosePress={handleOnClose}
               onCompletePress={handleOnComplete}
-              onContinueWithOneTimePaymentPress={() => setCurrentStep("one-time-payment")}
-              onContinueWithRecurringDepositPress={() => setCurrentStep("recurring-deposit")}
+              onContinueWithOneTimePaymentPress={() => setCurrentStep("one-off-payment")}
+              onContinueWithRegularPaymentsPress={() => setCurrentStep("regular-payments")}
             />
           )}
         </Page>

@@ -22,7 +22,7 @@ import { SavingsPotDetailsResponse, useFundSavingsPot } from "../../query-hooks"
 import isNextMonth from "./is-next-month";
 import LargeCurrencyInput from "./LargeCurrencyInput";
 
-export type FundingType = "recurring-deposit" | "one-time-payment" | "recommended-payment";
+export type FundingType = "regular-payments" | "one-off-payment" | "recommended-payment";
 
 interface FundingInput {
   PaymentAmount: number;
@@ -36,7 +36,7 @@ interface FundingStepProps {
   onClosePress: () => void;
   onCompletePress: () => void;
   onContinueWithOneTimePaymentPress: () => void;
-  onContinueWithRecurringDepositPress: () => void;
+  onContinueWithRegularPaymentsPress: () => void;
 }
 
 export default function FundingStep({
@@ -46,7 +46,7 @@ export default function FundingStep({
   onClosePress,
   onCompletePress,
   onContinueWithOneTimePaymentPress,
-  onContinueWithRecurringDepositPress,
+  onContinueWithRegularPaymentsPress,
 }: FundingStepProps) {
   const navigation = useNavigation();
   const { i18n, t } = useTranslation();
@@ -73,7 +73,7 @@ export default function FundingStep({
         .min(0.01)
         .when("DayOfMonth", {
           // when recurring payment is today OR its a one-time payment, the user must have sufficient balance
-          is: (value: number) => value === today.getDate() || fundingType === "one-time-payment",
+          is: (value: number) => value === today.getDate() || fundingType === "one-off-payment",
           then: yup
             .number()
             .max(
@@ -82,7 +82,7 @@ export default function FundingStep({
             ),
         }),
       DayOfMonth: yup.number().when({
-        is: fundingType !== "one-time-payment",
+        is: fundingType !== "one-off-payment",
         then: yup.number().required(),
       }),
     });
@@ -96,7 +96,7 @@ export default function FundingStep({
         undefined !== data && fundingType === "recommended-payment"
           ? mockMissingSavingsPotDetails.RecommendedAmount
           : 0,
-      DayOfMonth: fundingType !== "one-time-payment" ? new Date().getDate() : undefined,
+      DayOfMonth: fundingType !== "one-off-payment" ? new Date().getDate() : undefined,
     },
   });
 
@@ -105,7 +105,7 @@ export default function FundingStep({
   const depositAmount = watch("PaymentAmount");
 
   const shouldShowConfirmationWithActionButtons =
-    fundingType === "one-time-payment"
+    fundingType === "one-off-payment"
       ? mockMissingSavingsPotDetails.HadRecurringFund === false
       : mockMissingSavingsPotDetails.HadOneTimeFund === false;
 
@@ -155,7 +155,7 @@ export default function FundingStep({
   };
 
   const handleOnContinuePress = () => {
-    if (fundingType === "one-time-payment") return onContinueWithRecurringDepositPress();
+    if (fundingType === "one-off-payment") return onContinueWithRegularPaymentsPress();
     return onContinueWithOneTimePaymentPress();
   };
 
@@ -163,7 +163,7 @@ export default function FundingStep({
     marginTop: theme.spacing["4p"],
   }));
 
-  const i18nKey = fundingType === "one-time-payment" ? "oneTimeDeposit" : "recurringDeposit";
+  const i18nKey = fundingType === "one-off-payment" ? "oneOffPayment" : "regularPayments";
 
   return (
     <>
@@ -187,7 +187,7 @@ export default function FundingStep({
             name="PaymentAmount"
           />
           <Stack align="stretch" direction="vertical" gap="16p">
-            {fundingType !== "one-time-payment" && (
+            {fundingType !== "one-off-payment" && (
               <DayPickerInput
                 buttonText={t("SavingsGoals.FundGoalModal.FundingStep.dayPickerButton")}
                 control={control}

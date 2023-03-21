@@ -14,10 +14,10 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { Address } from "@/types/Address";
 import { alphaNumericSpecialCharsRegExp } from "@/utils";
 
 import { useOrderCardContext } from "../../context/OrderCardContext";
-import { Address } from "@/types/Address";
 
 export default function SetTemporaryAddressScreen() {
   const { t } = useTranslation();
@@ -40,7 +40,7 @@ export default function SetTemporaryAddressScreen() {
           .required(t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.validation.required"))
           .min(5, t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.validation.minLength")),
       }),
-    []
+    [t]
   );
 
   const { control, handleSubmit } = useForm<Address>({

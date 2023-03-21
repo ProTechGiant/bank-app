@@ -28,7 +28,7 @@ import { CreateGoalInput } from "../../types";
 
 export default function CreateGoalScreen() {
   const navigation = useNavigation();
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
   const createGoalAsync = useCreateGoal();
   const { data } = useRoundupFlag();
 
@@ -44,7 +44,7 @@ export default function CreateGoalScreen() {
           .max(9999999999.99, t("SavingsGoals.CreateGoalScreen.form.amount.validation.invalid")),
         TargetDate: Yup.date().required(t("SavingsGoals.CreateGoalScreen.form.targetDate.validation.required")),
       }),
-    [i18n.language]
+    [t]
   );
 
   const { control, handleSubmit, watch, setValue } = useForm<CreateGoalInput>({
@@ -57,6 +57,7 @@ export default function CreateGoalScreen() {
   });
 
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
+  const NotificationFlag = watch("NotificationFlag");
   const RoundupFlag = watch("RoundupFlag");
 
   useEffect(() => {
@@ -76,7 +77,26 @@ export default function CreateGoalScreen() {
     );
   }, [RoundupFlag]);
 
-  // commented out for now while api issues are being resolved
+  const handleOnNotificationPress = () => {
+    if (NotificationFlag) {
+      setValue("NotificationFlag", false);
+    } else {
+      Alert.alert(
+        t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.title"),
+        t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.message"),
+        [
+          {
+            text: t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.cancel"),
+          },
+          {
+            text: t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.turnOn"),
+            onPress: () => setValue("NotificationFlag", true),
+          },
+        ]
+      );
+    }
+  };
+
   const handleOnSubmit = async (values: CreateGoalInput) => {
     try {
       const response = await createGoalAsync.mutateAsync(values);
@@ -103,10 +123,6 @@ export default function CreateGoalScreen() {
 
   const titleStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["16p"],
-  }));
-
-  const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: "auto",
   }));
 
   const formContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -174,17 +190,12 @@ export default function CreateGoalScreen() {
                 <TableListCard
                   label={t("SavingsGoals.CreateGoalScreen.form.notification.label")}
                   helperText={t("SavingsGoals.CreateGoalScreen.form.notification.helperText")}
-                  end={
-                    <TableListCard.Toggle
-                      onPress={() => setValue("NotificationFlag", !watch("NotificationFlag"))}
-                      value={watch("NotificationFlag")}
-                    />
-                  }
+                  end={<TableListCard.Toggle onPress={handleOnNotificationPress} value={NotificationFlag} />}
                 />
               </TableListCardGroup>
             </Stack>
           </View>
-          <View style={buttonContainerStyle}>
+          <View style={styles.buttonContainer}>
             <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
               {t("SavingsGoals.CreateGoalScreen.button")}
             </SubmitButton>
@@ -220,6 +231,9 @@ export default function CreateGoalScreen() {
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    marginTop: "auto",
+  },
   iconLink: {
     alignItems: "center",
     flexDirection: "row",
