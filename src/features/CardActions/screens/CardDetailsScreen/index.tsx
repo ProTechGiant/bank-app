@@ -24,7 +24,6 @@ import ListSection from "../../components/ListSection";
 import ViewPinModal from "../../components/ViewPinModal";
 import {
   useCard,
-  useCards,
   useFreezeCard,
   useRequestViewPinOtp,
   useUnfreezeCard,
@@ -49,6 +48,7 @@ export default function CardDetailsScreen() {
 
   const [isViewingPin, setIsViewingPin] = useState(route.params?.action === "view-pin");
   const [pin, setPin] = useState<string | undefined>();
+  const [isCardCreated, setIsCardCreated] = useState(false);
 
   const [cardDetails, setCardDetails] = useState<DetailedCardResponse>();
   const [isSingleUseCardCreatedAlertVisible, setIsSingleUseCardCreatedAlertVisible] = useState(false);
@@ -96,6 +96,7 @@ export default function CardDetailsScreen() {
     }
 
     if (route.params?.action === "generate-single-use-card") {
+      setIsCardCreated(true);
       setIsSingleUseCardCreatedAlertVisible(true);
     }
 
@@ -223,7 +224,7 @@ export default function CardDetailsScreen() {
 
   const handleOnBackPress = () => {
     // if from creation -> navigate to Home else goBack
-    if (route.params.action === "generate-single-use-card") {
+    if (isCardCreated) {
       navigation.navigate("Temporary.LandingScreen");
     } else {
       navigation.goBack();
