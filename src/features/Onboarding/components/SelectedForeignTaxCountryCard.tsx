@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { EditBordered } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { mockCountryList } from "@/mocks/countryListData";
-import { useThemeStyles } from "@/theme";
+import { generateShadow, useThemeStyles } from "@/theme";
 
 interface SelectedForeignTaxCountryCardProps {
   index: number;
@@ -28,20 +28,12 @@ export default function SelectedForeignTaxCountryCard({
     paddingHorizontal: theme.spacing["16p"],
     paddingVertical: theme.spacing["16p"],
     minHeight: 100,
-    shadowColor: theme.palette["primaryBase-10"],
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: theme.radii.small,
-    elevation: 3,
   }));
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   return (
-    <View style={detailsCardStyle}>
+    <View style={[detailsCardStyle, styles.shadow]}>
       <Stack direction="horizontal" justify="space-between">
         <Stack direction="vertical" gap="16p">
           <View>
@@ -68,3 +60,7 @@ export default function SelectedForeignTaxCountryCard({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  shadow: generateShadow(3),
+});

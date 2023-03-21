@@ -1,11 +1,12 @@
 import { cloneElement } from "react";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { IconProps } from "@/assets/icons";
 import { useThemeStyles } from "@/theme";
 
 import { Chevron, Copy, Label, TableListDate, TableListDay, TableListToggle } from "./EndComponents";
+import { shadowStyle } from "./styling";
 import TableListCardBody from "./TableListCardBody";
 
 export interface TableListCardProps {
@@ -60,20 +61,11 @@ export default function TableListCard({
     marginRight: theme.spacing["16p"],
   }));
 
-  const shadow = useThemeStyles<ViewStyle>(theme => ({
-    elevation: 5,
-    shadowColor: theme.palette["primaryBase-10"],
-    shadowOffset: {
-      height: 3,
-      width: 0,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-  }));
-
   return (
-    <Pressable onPress={onPress} style={[containerStyle, position === "alone" && shadow]}>
-      {icon !== undefined ? <View style={listContainerStyle}>{cloneElement(icon, { color: iconColor })}</View> : null}
+    <Pressable onPress={onPress} style={[containerStyle, position === "alone" && shadowStyle]}>
+      {icon !== undefined ? (
+        <View style={listContainerStyle}>{cloneElement(icon, { color: icon.props.color ?? iconColor })}</View>
+      ) : null}
       <TableListCardBody helperText={helperText} isError={isError} label={label} onInfoPress={onInfoPress} />
       {end}
     </Pressable>

@@ -7,7 +7,7 @@ import { SvgProps } from "react-native-svg";
 import { AngleDownIcon, AngleUpIcon, IconProps } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
+import { generateShadow, useThemeStyles } from "@/theme";
 
 import PaginationDot from "./PaginationDot";
 
@@ -32,13 +32,6 @@ export default function BulletinBoard({ children, isExpanded, onExpandPress, ico
       scrollX.value = event.contentOffset.x;
     },
   });
-
-  const shadowStyle = useThemeStyles<ViewStyle>(theme => ({
-    shadowColor: theme.palette["neutralBase+30"],
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.14,
-    elevation: 5,
-  }));
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
@@ -66,8 +59,8 @@ export default function BulletinBoard({ children, isExpanded, onExpandPress, ico
   return (
     <View
       onLayout={event => (boardWidth.current = event.nativeEvent.layout.width)}
-      style={[containerStyles, shadowStyle]}>
-      <Pressable onPress={handleOnToggle} style={[titleContainerStyles, shadowStyle]}>
+      style={[containerStyles, styles.shadow]}>
+      <Pressable onPress={handleOnToggle} style={[titleContainerStyles, styles.shadow]}>
         <Stack align="center" direction="horizontal" gap="8p" style={styles.titleContainer}>
           {cloneElement(iconStart, { color: iconColor })}
           <Typography.Text color="primaryBase" size="callout" weight="semiBold" style={styles.titleText}>
@@ -105,6 +98,7 @@ export default function BulletinBoard({ children, isExpanded, onExpandPress, ico
 }
 
 const styles = StyleSheet.create({
+  shadow: generateShadow(5),
   titleContainer: {
     width: "100%",
   },

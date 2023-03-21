@@ -1,10 +1,10 @@
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { styles, useInfoStyles } from "./Styles";
+import { useInfoStyles } from "./styling";
 
 interface TableListCardBodyProps {
   isError?: boolean;
@@ -21,7 +21,7 @@ export default function TableListCardBody({ isError, helperText, label, onInfoPr
   }));
 
   return (
-    <View style={styles.bodyContainer}>
+    <View style={styles.container}>
       <View style={styles.label}>
         <Typography.Text color="neutralBase+30" size="callout" weight="medium">
           {label}
@@ -42,3 +42,13 @@ export default function TableListCardBody({ isError, helperText, label, onInfoPr
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  label: {
+    alignItems: "center",
+    flexDirection: "row",
+  },
+});

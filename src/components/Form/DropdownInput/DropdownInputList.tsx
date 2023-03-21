@@ -1,15 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { FieldValues, Path, PathValue } from "react-hook-form";
-import {
-  Dimensions,
-  FlatList,
-  Platform,
-  Pressable,
-  StyleSheet,
-  useWindowDimensions,
-  View,
-  ViewStyle,
-} from "react-native";
+import { FlatList, Platform, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { CheckmarkCircle } from "@/assets/icons";
 import Typography from "@/components/Typography";

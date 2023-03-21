@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
+import { generateShadow, useThemeStyles } from "@/theme";
 
 import ProgressWheel from "../../components/ProgressWheel";
 
@@ -27,10 +27,6 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
     borderRadius: theme.radii.extraSmall,
     flexDirection: "row",
     justifyContent: "space-between",
-    shadowColor: theme.palette.primaryBase,
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.14,
-    elevation: 5,
   }));
 
   const goalTitleStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -38,8 +34,8 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
   }));
 
   return (
-    <Pressable onPress={onPress} style={containerStyle}>
-      <View style={styles.goalInfoContainer}>
+    <Pressable onPress={onPress} style={[containerStyle, styles.shadow]}>
+      <View>
         <Typography.Text color="neutralBase+30" size="callout" weight="semiBold" style={goalTitleStyle}>
           {title}
         </Typography.Text>
@@ -61,8 +57,6 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
   );
 }
 
-const styles = StyleSheet.create({
-  goalInfoContainer: {
-    flex: 1,
-  },
+export const styles = StyleSheet.create({
+  shadow: generateShadow(5),
 });

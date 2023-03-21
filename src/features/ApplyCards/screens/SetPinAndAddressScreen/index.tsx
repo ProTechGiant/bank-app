@@ -7,7 +7,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
-import useGetPrimaryAddress from "@/hooks/use-get-primary-address";
+import usePrimaryAddress from "@/hooks/use-primary-address";
 import useNavigation from "@/navigation/use-navigation";
 import { Address } from "@/types/Address";
 
@@ -24,7 +24,7 @@ const PIN_MAX_TRIES = 3;
 export default function SetPinAndAddressScreen() {
   const { t } = useTranslation();
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
-  const getPrimaryAddress = useGetPrimaryAddress();
+  const getPrimaryAddress = usePrimaryAddress();
   const navigation = useNavigation();
 
   const textInputRef = useRef<TextInput>(null);

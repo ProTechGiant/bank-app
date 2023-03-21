@@ -3,6 +3,7 @@ import { StyleSheet, View, ViewProps, ViewStyle } from "react-native";
 
 import { useThemeStyles } from "@/theme";
 
+import { shadowStyle } from "./styling";
 import { TableListCardProps } from "./TableListCard";
 
 interface TableListCardGroupProps extends ViewProps {
@@ -12,14 +13,9 @@ interface TableListCardGroupProps extends ViewProps {
 export default function TableListCardGroup({ children, ...restProps }: TableListCardGroupProps) {
   const elements = React.Children.toArray(children) as Array<React.ReactElement<TableListCardProps> | null>;
 
-  const shadowStyle = useThemeStyles<ViewStyle>(theme => ({
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
     borderRadius: theme.radii.small,
-    elevation: 5,
-    shadowColor: theme.palette["neutralBase+30"],
-    shadowOffset: { height: 4, width: 0 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
   }));
 
   const separatorContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -34,7 +30,7 @@ export default function TableListCardGroup({ children, ...restProps }: TableList
   }));
 
   return (
-    <View style={shadowStyle} {...restProps}>
+    <View style={[containerStyle, shadowStyle]} {...restProps}>
       {elements.map((element, index) => {
         const position =
           elements.length === 1 ? "alone" : index === 0 ? "first" : index + 1 === elements.length ? "last" : "middle";

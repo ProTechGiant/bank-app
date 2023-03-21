@@ -8,7 +8,7 @@ import Toggle from "@/components/Toggle";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { useInfoStyles } from "./Styles";
+import { useInfoStyles } from "./styling";
 
 interface CopyProps {
   onPress: () => void;

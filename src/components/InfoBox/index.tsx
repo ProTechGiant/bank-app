@@ -1,7 +1,7 @@
-import { TextStyle, View, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
+import { generateShadow, useThemeStyles } from "@/theme";
 
 interface InfoBoxProps {
   borderPosition?: "start" | "end";
@@ -26,14 +26,6 @@ export default function InfoBox({ borderPosition = "start", title, children, var
       borderStartWidth: borderPosition === "start" ? 4 : undefined,
       borderEndWidth: borderPosition === "end" ? 4 : undefined,
       padding: theme.spacing["16p"],
-      shadowColor: theme.palette["primaryBase-10"],
-      shadowOffset: {
-        width: 0,
-        height: 3,
-      },
-      shadowOpacity: 0.1,
-      shadowRadius: theme.radii.small,
-      elevation: 3,
     }),
     [borderPosition, variant]
   );
@@ -43,7 +35,7 @@ export default function InfoBox({ borderPosition = "start", title, children, var
   }));
 
   return (
-    <View style={container}>
+    <View style={[container, styles.shadow]}>
       {title && (
         <View style={titleContainerStyle}>
           <Typography.Text size="footnote" weight="semiBold">
@@ -55,3 +47,7 @@ export default function InfoBox({ borderPosition = "start", title, children, var
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  shadow: generateShadow(6),
+});

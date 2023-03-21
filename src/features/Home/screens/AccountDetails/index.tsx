@@ -2,8 +2,9 @@ import Clipboard from "@react-native-clipboard/clipboard";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { CopyIcon, ErrorOutlineIcon } from "@/assets/icons";
+import { CopyIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
@@ -18,55 +19,35 @@ export default function AccountDetailsScreen() {
   const account = useAccount();
   const { t } = useTranslation();
 
-  const copyColor = useThemeStyles<string>(theme => theme.palette["neutralBase-50"], []);
+  const [isCopiedBannerVisibleWithLabel, setIsCopiedBannerVisibleWithLabel] = useState<string | undefined>();
+
+  const handleOnCopyPress = (value: string, label: string) => {
+    Clipboard.setString(value);
+
+    setIsCopiedBannerVisibleWithLabel(label);
+    setTimeout(() => setIsCopiedBannerVisibleWithLabel(undefined), 4000);
+  };
+
+  const copyColor = useThemeStyles<string>(theme => theme.palette["neutralBase-50"]);
+
   const contentContainer = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["12p"],
   }));
 
-  const [showBanner, setShowBanner] = useState(false);
-  const [showErrorCopy, setShowErrorCopy] = useState(false);
-  const [dataCopied, setDataCopied] = useState("");
-
-  const handleOnCopyPress = (value: string, label: string) => {
-    setDataCopied(label);
-    Clipboard.setString(value);
-    fetchCopiedText();
-  };
-
-  const fetchCopiedText = async () => {
-    const text = await Clipboard.getString();
-    setShowErrorCopy(text.length < 1);
-    setShowBanner(true);
-    setTimeout(() => {
-      setShowBanner(false);
-    }, 4000);
-  };
-
   return (
-    <>
+    <SafeAreaProvider>
       <DismissibleBanner
-        visible={showBanner}
-        variant={showErrorCopy ? "error" : "default"}
-        icon={showErrorCopy ? <ErrorOutlineIcon /> : <CopyIcon color={copyColor} />}
-        message={
-          showErrorCopy
-            ? `${t("Home.AccountDetails.banner.error", { dataCopied: dataCopied })}`
-            : `${t("Home.AccountDetails.banner.success", { dataCopied: dataCopied })}`
-        }
+        visible={isCopiedBannerVisibleWithLabel !== undefined}
+        icon={<CopyIcon color={copyColor} />}
+        message={t("Home.AccountDetails.banner.error", { dataCopied: isCopiedBannerVisibleWithLabel })}
       />
       <Page>
         <NavHeader
           title={t("Home.AccountDetails.navHeader")}
-          end={
-            <NavHeader.CloseEndButton
-              onPress={() => {
-                navigation.goBack();
-              }}
-            />
-          }
+          end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
           withBackButton={false}
         />
-        <ContentContainer style={contentContainer}>
+        <ContentContainer isScrollView style={contentContainer}>
           {undefined !== account.data ? (
             <TableListCardGroup>
               <TableListCard
@@ -79,13 +60,13 @@ export default function AccountDetailsScreen() {
               />
               <TableListCard
                 label={t("Home.AccountDetails.tableLabels.holder")}
-                helperText={account.data.currentAccountOwner} //will not work here for testing purposes
+                helperText={account.data.currentAccountOwner}
                 end={
-                  account.data.currentAccountOwner ? (
+                  account.data.currentAccountOwner !== undefined ? (
                     <TableListCard.Copy
                       onPress={() =>
                         handleOnCopyPress(
-                          account.data.currentAccountOwner!,
+                          account.data.currentAccountOwner,
                           `${t("Home.AccountDetails.tableLabels.holder")}`
                         )
                       }
@@ -97,11 +78,11 @@ export default function AccountDetailsScreen() {
                 label={t("Home.AccountDetails.tableLabels.number")}
                 helperText={account.data.currentAccoutNumber}
                 end={
-                  account.data.currentAccoutNumber ? (
+                  account.data.currentAccoutNumber !== undefined ? (
                     <TableListCard.Copy
                       onPress={() =>
                         handleOnCopyPress(
-                          account.data.currentAccoutNumber!,
+                          account.data.currentAccoutNumber,
                           `${t("Home.AccountDetails.tableLabels.number")}`
                         )
                       }
@@ -113,11 +94,11 @@ export default function AccountDetailsScreen() {
                 label={t("Home.AccountDetails.tableLabels.code")}
                 helperText={account.data.currentAccountBankCode}
                 end={
-                  account.data.currentAccountBankCode ? (
+                  account.data.currentAccountBankCode !== undefined ? (
                     <TableListCard.Copy
                       onPress={() =>
                         handleOnCopyPress(
-                          account.data.currentAccountBankCode!,
+                          account.data.currentAccountBankCode,
                           `${t("Home.AccountDetails.tableLabels.code")}`
                         )
                       }
@@ -129,11 +110,11 @@ export default function AccountDetailsScreen() {
                 label={t("Home.AccountDetails.tableLabels.iban")}
                 helperText={account.data.currentAccountIban}
                 end={
-                  account.data.currentAccountIban ? (
+                  account.data.currentAccountIban !== undefined ? (
                     <TableListCard.Copy
                       onPress={() =>
                         handleOnCopyPress(
-                          account.data.currentAccountIban!,
+                          account.data.currentAccountIban,
                           `${t("Home.AccountDetails.tableLabels.iban")}`
                         )
                       }
@@ -141,7 +122,6 @@ export default function AccountDetailsScreen() {
                   ) : null
                 }
               />
-
               <TableListCard
                 label={t("Home.AccountDetails.tableLabels.bankNameLabel")}
                 helperText={t("Home.AccountDetails.tableLabels.bankName")}
@@ -150,6 +130,6 @@ export default function AccountDetailsScreen() {
           ) : null}
         </ContentContainer>
       </Page>
-    </>
+    </SafeAreaProvider>
   );
 }

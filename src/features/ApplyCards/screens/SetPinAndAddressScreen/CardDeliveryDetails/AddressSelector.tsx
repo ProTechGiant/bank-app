@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { LocationPinIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
+import { generateShadow, useThemeStyles } from "@/theme";
 
 interface AddressSelectorProps {
   id: string;
@@ -28,15 +28,8 @@ export default function AddressSelector({
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
     borderRadius: theme.radii.extraSmall,
-    elevation: 8,
     flexDirection: "row",
     padding: theme.spacing["16p"],
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
   }));
 
   const isSelectedStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -64,7 +57,7 @@ export default function AddressSelector({
   );
 
   return (
-    <Pressable onPress={() => onPress(id)} style={[containerStyle, isSelected && isSelectedStyle]}>
+    <Pressable onPress={() => onPress(id)} style={[containerStyle, styles.shadow, isSelected && isSelectedStyle]}>
       <View style={locationIconContainer}>
         <LocationPinIcon />
       </View>
@@ -101,4 +94,5 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 12,
   },
+  shadow: generateShadow(8),
 });

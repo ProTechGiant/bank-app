@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, View, ViewStyle } from "react-native";
 
@@ -32,6 +32,7 @@ export default function CardSettingsScreen() {
   const card = useCard(route.params.cardId);
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const isUpdatingRef = useRef(false);
 
   // trigger a refetch of card settings after the OTP modal is closed
   // user may have cancelled OTP so we need to refetch
@@ -48,7 +49,8 @@ export default function CardSettingsScreen() {
   };
 
   const handleOnChangeSettings = async (setting: keyof CardSettingsInput) => {
-    if (cardSettings.data === undefined) return;
+    if (cardSettings.data === undefined || isUpdatingRef.current) return;
+    isUpdatingRef.current = true; // to prevent tapping multiple toggles too soon
 
     try {
       const correlationId = generateRandomId();
@@ -81,6 +83,8 @@ export default function CardSettingsScreen() {
     } catch (error) {
       setIsErrorModalVisible(true);
       warn("card-settings", "Could not update card settings: ", JSON.stringify(error));
+    } finally {
+      isUpdatingRef.current = false;
     }
   };
 

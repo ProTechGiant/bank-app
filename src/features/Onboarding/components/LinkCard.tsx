@@ -1,7 +1,7 @@
 import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
-import { useThemeStyles } from "@/theme";
+import { generateShadow, useThemeStyles } from "@/theme";
 
 interface LinkCardProps {
   onNavigate: () => void;
@@ -9,40 +9,30 @@ interface LinkCardProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const LinkCard = ({ onNavigate, children, style }: LinkCardProps) => {
-  const container = useThemeStyles<ViewStyle>(
-    theme => ({
-      alignItems: "center",
-      backgroundColor: theme.palette["neutralBase-50"],
-      borderRadius: theme.radii.extraSmall,
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-      padding: theme.spacing["24p"],
-      shadowColor: theme.palette["primaryBase-10"],
-      shadowOffset: {
-        width: 1,
-        height: 3,
-      },
-      shadowOpacity: 0.15,
-    }),
-    []
-  );
+export default function LinkCard({ onNavigate, children, style }: LinkCardProps) {
+  const container = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    backgroundColor: theme.palette["neutralBase-50"],
+    borderRadius: theme.radii.extraSmall,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    padding: theme.spacing["24p"],
+  }));
 
   const handlePress = () => {
     onNavigate();
   };
+
   return (
-    <Pressable style={[container, style]} onPress={handlePress}>
+    <Pressable style={[container, styles.shadow, style]} onPress={handlePress}>
       <View style={styles.textContainer}>{children}</View>
       <View style={styles.arrowContainer}>
         <ChevronRightIcon />
       </View>
     </Pressable>
   );
-};
-
-export default LinkCard;
+}
 
 const styles = StyleSheet.create({
   arrowContainer: {
@@ -51,6 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 24,
   },
+  shadow: generateShadow(3),
   textContainer: {
     marginEnd: 10,
   },

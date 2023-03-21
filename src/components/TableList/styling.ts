@@ -1,8 +1,6 @@
-import { StyleSheet } from "react-native";
-import { ViewStyle } from "react-native/types";
+import { ViewStyle } from "react-native";
 
-import { useThemeStyles } from "@/theme";
-import { palette } from "@/theme/values";
+import { generateShadow, useThemeStyles } from "@/theme";
 
 export const useInfoStyles = () => {
   const infoIconStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -32,25 +30,4 @@ export const useInfoStyles = () => {
   };
 };
 
-export const styles = StyleSheet.create({
-  bodyContainer: {
-    flex: 1,
-  },
-  container: {
-    flex: 0.9,
-  },
-  icon: {
-    alignSelf: "center",
-  },
-  label: {
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  outerContainer: {
-    elevation: 5,
-    shadowColor: palette["neutralBase+30"],
-    shadowOffset: { height: 4, width: 0 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-  },
-});
+export const shadowStyle = generateShadow(5);

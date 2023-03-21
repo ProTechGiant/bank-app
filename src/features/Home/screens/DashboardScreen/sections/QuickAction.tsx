@@ -1,10 +1,10 @@
 import { cloneElement } from "react";
-import { Pressable, useWindowDimensions, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, useWindowDimensions, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { IconProps } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { Theme, useThemeStyles } from "@/theme";
+import { generateShadow, Theme, useThemeStyles } from "@/theme";
 
 interface QuickActionProps {
   color: keyof Theme["palette"];
@@ -28,17 +28,10 @@ export default function QuickAction({ color, icon, title, onPress }: QuickAction
     [windowDimensions]
   );
 
-  const shadowStyle = useThemeStyles<ViewStyle>(theme => ({
-    shadowColor: theme.palette.primaryBase,
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.14,
-    elevation: 5,
-  }));
-
   const rawColor = useThemeStyles(theme => theme.palette[color], [color]);
 
   return (
-    <Pressable onPress={onPress} style={[containerStyle, shadowStyle]}>
+    <Pressable onPress={onPress} style={[containerStyle, styles.shadow]}>
       {cloneElement(icon, { color: rawColor, height: 22, width: 22 })}
       <Typography.Text color={color} size="footnote" weight="bold">
         {title}
@@ -46,3 +39,7 @@ export default function QuickAction({ color, icon, title, onPress }: QuickAction
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  shadow: generateShadow(5),
+});

@@ -1,15 +1,15 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { PlusIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
+import { generateShadow, useThemeStyles } from "@/theme";
 
 interface AddCountryTileProps {
   onPress: () => void;
 }
 
-const AddCountryTile = ({ onPress }: AddCountryTileProps) => {
+export default function AddCountryTile({ onPress }: AddCountryTileProps) {
   const { t } = useTranslation();
 
   const detailsCardStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -20,20 +20,13 @@ const AddCountryTile = ({ onPress }: AddCountryTileProps) => {
     minHeight: 100,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: theme.palette["primaryBase-10"],
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: theme.radii.small,
-    elevation: 3,
   }));
+
   const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   return (
     <Pressable onPress={onPress}>
-      <View style={detailsCardStyle}>
+      <View style={[detailsCardStyle, styles.shadow]}>
         <View style={{ flexDirection: "row" }}>
           <PlusIcon color={iconColor} />
           <Typography.Text size="callout" weight="medium" color="primaryBase">
@@ -47,6 +40,8 @@ const AddCountryTile = ({ onPress }: AddCountryTileProps) => {
       </View>
     </Pressable>
   );
-};
+}
 
-export default AddCountryTile;
+const styles = StyleSheet.create({
+  shadow: generateShadow(3),
+});

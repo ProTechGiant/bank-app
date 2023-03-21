@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, ScrollView, View, ViewStyle } from "react-native";
+import { Alert, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import CheckboxInput from "@/components/Form/CheckboxInput";
@@ -14,7 +14,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
+import { generateShadow, useThemeStyles } from "@/theme";
 
 import { MoreInfoDropdown } from "../components";
 import { useConfirmPersonalDetails, useNafathDetails } from "../hooks/query-hooks";
@@ -61,11 +61,6 @@ export default function ConfirmPersonalDetailsScreen() {
     borderRadius: theme.radii.small,
     paddingHorizontal: theme.spacing["16p"],
     paddingVertical: theme.spacing["32p"],
-    elevation: 3,
-    shadowColor: theme.palette["primaryBase-10"],
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
   }));
 
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -85,7 +80,7 @@ export default function ConfirmPersonalDetailsScreen() {
             {t("Onboarding.ConfirmPersonalDetailsScreen.title")}
           </Typography.Header>
           {undefined !== data && (
-            <View style={detailsCardStyle}>
+            <View style={[detailsCardStyle, styles.shadow]}>
               <Stack direction="vertical" gap="16p">
                 <InfoLine
                   label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineName")}
@@ -164,3 +159,7 @@ function InfoLine({ label, value }: { label: string; value: string | undefined }
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  shadow: generateShadow(3),
+});

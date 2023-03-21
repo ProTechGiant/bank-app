@@ -5,7 +5,7 @@ import { SvgProps } from "react-native-svg";
 
 import { TickCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
+import { generateShadow, useThemeStyles } from "@/theme";
 
 interface DismissibleBannerProps {
   onClearPress?: () => void;
@@ -42,16 +42,11 @@ export default function DismissibleBanner({
       borderRadius: theme.radii.extraSmall,
       alignItems: "flex-start",
       flexDirection: "row",
-      elevation: 4,
       left: 0,
       margin: theme.spacing["20p"],
       padding: theme.spacing["16p"],
       position: "absolute",
       right: 0,
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
       zIndex: 100,
     }),
     [variant]
@@ -68,7 +63,7 @@ export default function DismissibleBanner({
   }));
 
   return (
-    <Animated.View style={[containerStyles, animatedStyle]} testID={testID}>
+    <Animated.View style={[containerStyles, styles.shadow, animatedStyle]} testID={testID}>
       {cloneElement(icon, styles.icon)}
       <Typography.Text color="neutralBase-50" weight="regular" size="callout" style={textStyle}>
         {message}
@@ -82,4 +77,5 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
   },
+  shadow: generateShadow(4),
 });
