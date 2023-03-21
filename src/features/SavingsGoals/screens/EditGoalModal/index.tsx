@@ -17,6 +17,7 @@ import TextInput from "@/components/Form/TextInput";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import Stack from "@/components/Stack";
 import { TableListCard } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import MainStackParams from "@/navigation/mainStackParams";
@@ -120,7 +121,7 @@ export default function EditGoalModal() {
           end={<NavHeader.CloseEndButton onPress={handleOnCloseModal} />}
         />
         <ContentContainer style={styles.container}>
-          <View>
+          <Stack direction="vertical" align="stretch" gap="20p">
             <TextInput
               control={control}
               showCharacterCount={false}
@@ -137,22 +138,20 @@ export default function EditGoalModal() {
               placeholder={t("SavingsGoals.CreateGoalScreen.form.amount.placeholder")}
               maxLength={10}
             />
-            <View style={styles.datePicker}>
-              <DatePickerInput
-                control={control}
-                placeholder={t("SavingsGoals.CreateGoalScreen.form.targetDate.openDatePickerButton")}
-                headerText={t("SavingsGoals.CreateGoalScreen.form.targetDate.headerText")}
-                label={t("SavingsGoals.CreateGoalScreen.form.targetDate.label")}
-                name="TargetDate"
-                buttonText={t("SavingsGoals.CreateGoalScreen.form.targetDate.datePickerButton")}
-                minimumDate={new Date()}
-                helperText={currentDate => {
-                  return differenceInDays(currentDate, new Date()) < 31
-                    ? t("SavingsGoals.CreateGoalScreen.form.targetDate.helperText")
-                    : undefined;
-                }}
-              />
-            </View>
+            <DatePickerInput
+              control={control}
+              placeholder={t("SavingsGoals.CreateGoalScreen.form.targetDate.openDatePickerButton")}
+              headerText={t("SavingsGoals.CreateGoalScreen.form.targetDate.headerText")}
+              label={t("SavingsGoals.CreateGoalScreen.form.targetDate.label")}
+              name="TargetDate"
+              buttonText={t("SavingsGoals.CreateGoalScreen.form.targetDate.datePickerButton")}
+              minimumDate={new Date()}
+              helperText={currentDate => {
+                return differenceInDays(currentDate, new Date()) < 31
+                  ? t("SavingsGoals.CreateGoalScreen.form.targetDate.helperText")
+                  : undefined;
+              }}
+            />
             <TableListCard
               label={t("SavingsGoals.EditGoalScreen.notifications.label")}
               helperText={t("SavingsGoals.EditGoalScreen.notifications.helperText")}
@@ -163,7 +162,7 @@ export default function EditGoalModal() {
                 />
               }
             />
-          </View>
+          </Stack>
           <View>
             <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
               {t("SavingsGoals.EditGoalScreen.save")}
