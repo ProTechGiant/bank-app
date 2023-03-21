@@ -23,18 +23,22 @@ export default function PendingAccountScreen() {
   const { t } = useTranslation();
   const [isBannerVisible, setIsBannerVisible] = useState(true);
   const [isAccountSetupVisible, setIsAccountSetupVisible] = useState(true);
-  const { data } = useAccountStatus();
+  const [fetchPosts, setFetchPosts] = useState(true);
+  const { data, refetch } = useAccountStatus(fetchPosts);
 
   const accountStatus: Status | undefined = data?.OnboardingStatus;
 
   useEffect(() => {
     if (accountStatus === "COMPLETED") {
+      setFetchPosts(false);
       const timer = setTimeout(() => {
         setIsBannerVisible(false);
       }, 3000);
       return () => clearTimeout(timer);
+    } else if (accountStatus === "DECLINED") {
+      setFetchPosts(false);
     }
-  }, [accountStatus]);
+  }, [accountStatus, refetch]);
 
   const handleOnFinishLater = () => {
     Alert.alert("Finish Later process not implemented yet. Come back later!");
@@ -128,6 +132,7 @@ export default function PendingAccountScreen() {
                         text={t("Onboarding.LandingScreen.pending.accountChecks.checks")}
                         completed={
                           data &&
+                          data.workflowTask &&
                           (data.workflowTask.Name === "WaitingEDDResult" ||
                             data.workflowTask.Name === "AccountCreation" ||
                             data.workflowTask.Name === "RetryAccountCreation")

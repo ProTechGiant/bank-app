@@ -11,35 +11,33 @@ interface ApiOnboardingStatusResponse {
   workflowTask: { Id: string; Name: string };
 }
 
-const acceptableTaskNames = [
-  "WaitingEDDResult",
-  "RetryCustomerScreening",
-  "RetryCustomerScreening",
-  "RetrieveValidationStatus",
-  "AccountCreation",
-  "RetryAccountCreation",
-];
-
-export default function useAccountStatus() {
+export default function useAccountStatus(fetchPosts: boolean) {
   const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
 
-  return useQuery("AccountStatus", async () => {
-    if (undefined === correlationId) throw new Error("Cannot fetch customers/status without `correlationId`");
+  return useQuery(
+    "AccountStatus",
+    async () => {
+      if (undefined === correlationId) throw new Error("Cannot fetch customers/status without `correlationId`");
 
-    const workflowTask = await fetchLatestWorkflowTask();
+      const workflowTask = await fetchLatestWorkflowTask();
 
-    if (!workflowTask || !acceptableTaskNames.some(word => workflowTask.Name.includes(word))) {
-      throw new Error("Available workflowTaskId is not applicable to customers/status");
-    }
+      if (workflowTask?.Name !== "RetrieveValidationStatus") {
+        return {
+          OnboardingStatus: "PENDING",
+          workflowTask,
+        };
+      }
 
-    const status = await api<ApiOnboardingStatusResponse>("v1", "customers/status", "GET", undefined, undefined, {
-      ["X-Workflow-Task-Id"]: workflowTask.Id,
-      ["x-correlation-id"]: correlationId,
-    });
+      const status = await api<ApiOnboardingStatusResponse>("v1", "customers/status", "GET", undefined, undefined, {
+        ["X-Workflow-Task-Id"]: workflowTask.Id,
+        ["x-correlation-id"]: correlationId,
+      });
 
-    return {
-      ...status,
-      workflowTask,
-    };
-  });
+      return {
+        ...status,
+        workflowTask,
+      };
+    },
+    { refetchInterval: 2000, enabled: fetchPosts }
+  );
 }
