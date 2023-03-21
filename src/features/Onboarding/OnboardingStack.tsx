@@ -1,20 +1,22 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { OnboardingContextProvider } from "./context/OnboardingContext";
-import ConfirmPersonalDetailsScreen from "./screens/ConfirmPersonalDetailsScreen";
-import FatcaDetailsScreen from "./screens/FatcaDetailsScreen";
-import CountrySelector from "./screens/FatcaDetailsScreen/CountrySelector";
-import { ForeignTaxCountry } from "./screens/FatcaDetailsScreen/types";
-import FinancialInformationScreen from "./screens/FinancialInformationScreen";
-import IqamaInputScreen from "./screens/IqamaInputScreen";
-import NafathAuthScreen from "./screens/NafathAuthScreen";
-import OnboardingSplashScreen from "./screens/OnboardingSplashScreen";
-import OptionalEmailScreen from "./screens/OptionalEmailScreen";
-import PasscodeScreen from "./screens/PasscodeScreen";
-import PendingAccountScreen from "./screens/PendingAccountScreen";
-import TermsAndConditionsScreen from "./screens/TermsAndConditionsScreen";
+import { OnboardingContextProvider } from "./contexts/OnboardingContext";
+import {
+  ConfirmPersonalDetailsScreen,
+  FatcaDetailsScreen,
+  FinancialInformationScreen,
+  IqamaInputScreen,
+  NafathAuthScreen,
+  OnboardingSplashScreen,
+  OptionalEmailScreen,
+  PasscodeScreen,
+  PendingAccountScreen,
+  TermsAndConditionsScreen,
+} from "./screens";
+import { CountrySelector } from "./components";
+import { ForeignTaxCountry } from "./types";
 
-export type FatcaScreenTypes = {
+type FatcaScreenTypes = {
   result: "insert" | "edit" | "remove";
   element?: ForeignTaxCountry; // applicable to "insert", "edit"
   elementIndex?: number; // applicable to "edit", "remove"

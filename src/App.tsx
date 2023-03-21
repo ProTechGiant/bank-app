@@ -11,7 +11,7 @@ import MainStack from "@/navigation/MainStack";
 
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { GlobalContextProvider } from "./contexts/GlobalContext";
-import { OnboardingContextProvider } from "./features/Onboarding/context/OnboardingContext";
+import { OnboardingContextProvider } from "./features/Onboarding/contexts/OnboardingContext";
 
 const queryClient = new QueryClient();
 

@@ -1,7 +1,7 @@
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
-import { useOnboardingContext } from "../context/OnboardingContext";
+import { useOnboardingContext } from "../contexts/OnboardingContext";
 
 export const useOnboardingBackButton = () => {
   const navigation = useNavigation();
