@@ -16,9 +16,9 @@ import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 
 import { CardActionsStackParams } from "../../CardActionsStack";
-import { checkDeactivatedCard } from "../../check-deactivated-card";
 import QuickActionsMenu from "../../components/QuickActionsMenu";
 import ViewPinModal from "../../components/ViewPinModal";
+import { isCardInactive } from "../../helpers";
 import { useCards, useCustomerTier, useFreezeCard, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
 import { Card } from "../../types";
 
@@ -31,7 +31,7 @@ export default function HomeScreen() {
   const customerTier = useCustomerTier();
 
   const cardsList = data?.Cards ?? [];
-  const singleUseCard = cardsList.find(card => card.CardType === SINGLE_USE_CARD_TYPE && !checkDeactivatedCard(card));
+  const singleUseCard = cardsList.find(card => card.CardType === SINGLE_USE_CARD_TYPE && !isCardInactive(card));
 
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
@@ -218,7 +218,7 @@ export default function HomeScreen() {
                 ) : (
                   returnInactiveCard(card)
                 )
-              ) : !checkDeactivatedCard(card) ? (
+              ) : !isCardInactive(card) ? (
                 <BankCard.Active
                   key={card.CardId}
                   cardNumber={card.LastFourDigits}

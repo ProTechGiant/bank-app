@@ -11,13 +11,6 @@ export const resources = {
         currentlyOnDay_few: "On {{count}}rd",
         currentlyOnDay_other: "On {{count}}th",
       },
-      TableList: {
-        datePicker: {
-          placeholder: "Set",
-          headerText: "Set Date",
-          buttonText: "Set",
-        },
-      },
       errors: {
         generic: {
           title: "Sorry, something has gone wrong",
@@ -301,21 +294,18 @@ export const resources = {
           navTitle: "Order Card",
           SetPin: {
             title: "Set PIN",
-            instruction: "Enter 4 unique numbers",
+            instruction: "Enter {{count}} unique numbers",
             avoidSimplePin: "Avoid a PIN that’s easy to guess, like 1234 or 1111.",
-            alert: {
-              title: "Easy PIN",
-              content: "Avoid a PIN with simple number sequences and repeated numbers",
-              button: "Change it",
-            },
+            errorPinTooEasy: "Avoid a PIN with simple number sequences and repeated numbers",
           },
           ConfirmPin: {
             title: "Confirm PIN",
             instruction: "Re-enter your 4 numbers",
             pinNotMatch: "Your PINs didn’t match, please try again. {{count}} try remaining.",
             pinNotMatch_plural: "Your PINs didn’t match, please try again. {{count}} tries remaining.",
-            tooManyTries: "Oops! Too many tries",
-            button: "Set New PIN",
+            errorModalTitle: "Try again",
+            errorModalMessage: "You’ve entered different PINs too many times.",
+            errorModalActionButton: "Set new pin",
           },
           CardDeliveryDetails: {
             title: "Card delivery details",
@@ -858,6 +848,19 @@ export const resources = {
             text: "They’re virtual debit cards that you can only use once, so they’re great for protecting yourself when you buy online.\n\nWhen you generate a one-time card, you get a single-use card number, expiry and CVV. They’ll only work for one purchase and mean the merchant can’t see your real card details - so they’re a safer way to spend.",
             generateButton: "Generate one-time card",
           },
+        },
+        ResetPincodeScreen: {
+          setPin: "Set new PIN",
+          enterNumbers: "Enter {{count}} numbers",
+          errorPincodeTooEasy: "Your PIN is too easy. Avoid consecutive or repeated numbers.",
+          avoidTooEasyPin: "Avoid a PIN that’s easy to guess, like 1234 or 1111",
+          confirmPin: "Confirm new PIN",
+          reEnterPincode: "Re-enter {{count}} numbers",
+          errorPinDoesntMatch_one: "That PIN doesn’t match. You have {{count}} attempt left.",
+          errorPinDoesntMatch_other: "That PIN doesn’t match. You have {{count}} attempts left.",
+          errorModalTitle: "Try again",
+          errorModalMessage: "You’ve entered different PINs too many times.",
+          errorModalActionButton: "Set new pin",
         },
       },
       AddMoneyInfo: {

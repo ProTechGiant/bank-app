@@ -24,7 +24,7 @@ export default function DismissibleBanner({
   testID,
 }: DismissibleBannerProps) {
   const positionY = useSharedValue(-100);
-  const offset_ = useThemeStyles(theme => theme.spacing["20p"]);
+  const offset_ = useThemeStyles(theme => theme.spacing["24p"]);
   const visiblePosY = Platform.OS !== "android" ? offset_ : 0;
 
   useEffect(() => {
@@ -43,6 +43,7 @@ export default function DismissibleBanner({
       alignItems: "flex-start",
       flexDirection: "row",
       left: 0,
+      columnGap: theme.spacing["16p"],
       margin: theme.spacing["20p"],
       padding: theme.spacing["16p"],
       position: "absolute",
@@ -52,20 +53,16 @@ export default function DismissibleBanner({
     [variant]
   );
 
-  const textStyle = useThemeStyles<ViewStyle>(theme => ({
-    flex: 1,
-    flexWrap: "wrap",
-    marginLeft: theme.spacing["16p"],
-  }));
-
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: withSpring(positionY.value) }],
   }));
 
+  const iconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
+
   return (
     <Animated.View style={[containerStyles, styles.shadow, animatedStyle]} testID={testID}>
-      {cloneElement(icon, styles.icon)}
-      <Typography.Text color="neutralBase-50" weight="regular" size="callout" style={textStyle}>
+      {cloneElement(icon, { ...styles.icon, color: iconColor })}
+      <Typography.Text color="neutralBase-60" weight="regular" size="callout" style={styles.text}>
         {message}
       </Typography.Text>
     </Animated.View>
@@ -78,4 +75,8 @@ const styles = StyleSheet.create({
     width: 20,
   },
   shadow: generateShadow(4),
+  text: {
+    flex: 1,
+    flexWrap: "wrap",
+  },
 });

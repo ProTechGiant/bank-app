@@ -5,6 +5,7 @@ import CardSettingsScreen from "./screens/CardSettingsScreen";
 import HomeScreen from "./screens/HomeScreen";
 import LoadingSingleCardScreen from "./screens/LoadingSingleCardScreen";
 import OneTimePasswordModal from "./screens/OneTimePasswordModal";
+import ResetPincodeScreen from "./screens/ResetPincodeScreen";
 import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
 import { CardCreateResponse, CardSettingsInput, CardStatus, DetailedCardResponse } from "./types";
@@ -28,7 +29,7 @@ export type CardActionsStackParams = {
   };
   "CardActions.CardSettingsScreen": {
     cardId: string;
-    cardStatus?: CardStatus;
+    isPincodeUpdated?: boolean;
   };
   "CardActions.LoadingSingleCardScreen": {
     cardCreateResponse?: CardCreateResponse;
@@ -51,6 +52,9 @@ export type CardActionsStackParams = {
     redirect: keyof CardActionsStackParams;
     correlationId: string;
   };
+  "CardActions.ResetPincodeScreen": {
+    cardId: string;
+  };
 };
 
 export const Stack = createNativeStackNavigator<CardActionsStackParams>();
@@ -63,6 +67,7 @@ export default function CardActionsStack() {
       <Stack.Screen component={SingleUseCardInfo} name="CardActions.SingleUseCardInfo" />
       <Stack.Screen component={LoadingSingleCardScreen} name="CardActions.LoadingSingleCardScreen" />
       <Stack.Screen component={HomeScreen} name="CardActions.HomeScreen" />
+      <Stack.Screen component={ResetPincodeScreen} name="CardActions.ResetPincodeScreen" />
       <Stack.Screen
         component={SingleUseCardAbout}
         name="CardActions.SingleUseCardAbout"

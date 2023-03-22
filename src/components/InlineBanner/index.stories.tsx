@@ -4,11 +4,11 @@ import { userEvent, within } from "@storybook/testing-library";
 
 import { UserIcon } from "@/assets/icons";
 
-import ToastBanner_ from "./index";
+import InlineBanner_ from "./index";
 
 export default {
-  title: "components/ToastBanner",
-  component: ToastBanner_,
+  title: "components/InlineBanner",
+  component: InlineBanner_,
   args: {
     title: "Default",
     message:
@@ -35,11 +35,11 @@ export default {
   },
 };
 
-export const ToastBanner: ComponentStory<typeof ToastBanner_> = args => {
-  return <ToastBanner_ {...args} icon={<UserIcon width={20} height={20} />} />;
+export const InlineBanner: ComponentStory<typeof InlineBanner_> = args => {
+  return <InlineBanner_ {...args} icon={<UserIcon width={20} height={20} />} />;
 };
 
-ToastBanner.play = async ({ args, canvasElement }) => {
+InlineBanner.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
   const closeButton = canvas.getByTestId(`${args.testID}-->CloseButton`);
 

@@ -1,14 +1,15 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, View, ViewStyle } from "react-native";
+import { ActivityIndicator, View, ViewStyle } from "react-native";
 
 import { CardIcon, GlobeIcon, LockIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
+import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
-import ToastBanner from "@/components/ToastBanner";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -28,36 +29,47 @@ export default function CardSettingsScreen() {
   const { t } = useTranslation();
 
   const updateCardSettingsAsync = useUpdateCardSettings();
-  const cardSettings = useCardSettings(route.params.cardId);
+  const settings = useCardSettings(route.params.cardId);
   const card = useCard(route.params.cardId);
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const [isPinUpdatedBannerVisible, setIsPinUpdatedBannerVisible] = useState(false);
   const isUpdatingRef = useRef(false);
 
+  useEffect(() => {
+    if (route.params?.isPincodeUpdated) {
+      setIsPinUpdatedBannerVisible(true);
+      setTimeout(() => setIsPinUpdatedBannerVisible(false), 3000);
+    }
+  }, [route.params]);
+
+  // TODO: pass a param back from the OTP modal to indicate OTP success/ fail?
   // trigger a refetch of card settings after the OTP modal is closed
   // user may have cancelled OTP so we need to refetch
   useEffect(() => {
     const listener = navigation.addListener("focus", () => {
-      cardSettings.refetch();
+      settings.refetch();
     });
 
     return () => listener();
   }, [navigation]);
 
-  const handleOnUpdatePin = () => {
-    Alert.alert("Updating PIN is not implemented yet");
+  const handleOnChangePinCodePress = () => {
+    navigation.navigate("CardActions.ResetPincodeScreen", {
+      cardId: route.params.cardId,
+    });
   };
 
   const handleOnChangeSettings = async (setting: keyof CardSettingsInput) => {
-    if (cardSettings.data === undefined || isUpdatingRef.current) return;
+    if (settings.data === undefined || isUpdatingRef.current) return;
     isUpdatingRef.current = true; // to prevent tapping multiple toggles too soon
 
     try {
       const correlationId = generateRandomId();
 
       const updatedSettings = {
-        ...cardSettings.data,
-        [setting]: !cardSettings.data[setting],
+        ...settings.data,
+        [setting]: !settings.data[setting],
       };
 
       const response = await updateCardSettingsAsync.mutateAsync({
@@ -99,32 +111,36 @@ export default function CardSettingsScreen() {
     marginBottom: theme.spacing["24p"],
   }));
 
-  const toastBannerContainer = useThemeStyles<ViewStyle>(theme => ({
+  const cardInTransitBannerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-40"],
+    borderRadius: theme.radii.small,
+    padding: theme.spacing["20p"],
     marginBottom: theme.spacing["16p"],
   }));
 
   return (
     <>
+      <DismissibleBanner message="Card PIN has been updated" variant="success" visible={isPinUpdatedBannerVisible} />
       <Page backgroundColor="neutralBase-60">
         <NavHeader end={false} />
         <ContentContainer isScrollView>
           <Typography.Header color="neutralBase+30" size="large" weight="semiBold" style={titleStyle}>
             {t("CardActions.CardSettingsScreen.title")}
           </Typography.Header>
-          {cardSettings.data !== undefined && card.data !== undefined ? (
+          {settings.data !== undefined && card.data !== undefined ? (
             <View>
               <ListSection title={t("CardActions.CardSettingsScreen.subTitle1")}>
                 <ListItemLink
                   icon={<LockIcon />}
                   title={t("CardActions.CardSettingsScreen.changePin")}
-                  onPress={handleOnUpdatePin}
+                  onPress={handleOnChangePinCodePress}
                 />
                 <SettingsToggle
                   icon={<CardIcon />}
                   label={t("CardActions.CardSettingsScreen.onlinePayment.label")}
                   helperText={t("CardActions.CardSettingsScreen.onlinePayment.helperText")}
                   onPress={() => handleOnChangeSettings("OnlinePayments")}
-                  value={cardSettings.data.OnlinePayments}
+                  value={settings.data.OnlinePayments}
                 />
                 <SettingsToggle
                   icon={<GlobeIcon />}
@@ -138,38 +154,44 @@ export default function CardSettingsScreen() {
               </ListSection>
               <View style={separatorStyle} />
               <ListSection title={t("CardActions.CardSettingsScreen.subTitle2")}>
-                {card.data.Status === "inactive" && (
-                  <View style={toastBannerContainer}>
-                    <ToastBanner
-                      title={t("CardActions.CardSettingsScreen.onTheWay.title")}
-                      message={t("CardActions.CardSettingsScreen.onTheWay.paragraph")}
-                    />
+                {card.data.Status === "inactive" ? (
+                  <View style={cardInTransitBannerStyle}>
+                    <Stack direction="vertical" gap="8p">
+                      <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+                        {t("CardActions.CardSettingsScreen.onTheWay.title")}
+                      </Typography.Text>
+                      <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                        {t("CardActions.CardSettingsScreen.onTheWay.paragraph")}
+                      </Typography.Text>
+                    </Stack>
                   </View>
-                )}
+                ) : null}
                 <SettingsToggle
                   disabled={card.data.Status !== "unfreeze"}
                   label={t("CardActions.CardSettingsScreen.swipePayments.label")}
                   helperText={t("CardActions.CardSettingsScreen.swipePayments.helperText")}
                   onPress={() => handleOnChangeSettings("SwipePayments")}
-                  value={cardSettings.data.SwipePayments}
+                  value={settings.data.SwipePayments}
                 />
                 <SettingsToggle
                   disabled={card.data.Status !== "unfreeze"}
                   label={t("CardActions.CardSettingsScreen.contactlessPayments.label")}
                   helperText={t("CardActions.CardSettingsScreen.contactlessPayments.helperText")}
                   onPress={() => handleOnChangeSettings("ContactlessPayments")}
-                  value={cardSettings.data.ContactlessPayments}
+                  value={settings.data.ContactlessPayments}
                 />
                 <SettingsToggle
                   disabled={card.data.Status !== "unfreeze"}
                   label={t("CardActions.CardSettingsScreen.atmWithdrawals.label")}
                   helperText={t("CardActions.CardSettingsScreen.atmWithdrawals.helperText")}
                   onPress={() => handleOnChangeSettings("AtmWithdrawals")}
-                  value={cardSettings.data.AtmWithdrawals}
+                  value={settings.data.AtmWithdrawals}
                 />
               </ListSection>
             </View>
-          ) : null}
+          ) : (
+            <ActivityIndicator />
+          )}
         </ContentContainer>
       </Page>
       <NotificationModal

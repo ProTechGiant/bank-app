@@ -1,239 +1,246 @@
 import * as React from "react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Dimensions, Keyboard, Platform, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  useWindowDimensions,
+  View,
+  ViewStyle,
+} from "react-native";
 
+import { ErrorFilledCircleIcon, InfoIcon } from "@/assets/icons";
+import Button from "@/components/Button";
+import ContentContainer from "@/components/ContentContainer";
+import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import PincodeInput from "@/components/PincodeInput";
 import ProgressIndicator from "@/components/ProgressIndicator";
+import Stack from "@/components/Stack";
+import Typography from "@/components/Typography";
 import usePrimaryAddress from "@/hooks/use-primary-address";
 import useNavigation from "@/navigation/use-navigation";
-import { Address } from "@/types/Address";
+import { useThemeStyles } from "@/theme";
+import isValidPincode from "@/utils/is-valid-pincode";
 
 import { useOrderCardContext } from "../../context/OrderCardContext";
 import CardDeliveryDetails from "./CardDeliveryDetails";
-import CreateCardPin from "./CreateCardPin";
-import isValidPincode from "./CreateCardPin/is-valid-pincode";
 import encryptPincode from "./encrypt-pincode";
 import westernArabicNumerals from "./western-arabic-numerals";
 
-const PIN_INPUT_LENGTH = 4;
-const PIN_MAX_TRIES = 3;
-
 export default function SetPinAndAddressScreen() {
+  const dimensions = useWindowDimensions();
   const { t } = useTranslation();
+
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
-  const getPrimaryAddress = usePrimaryAddress();
+  const primaryAddress = usePrimaryAddress();
   const navigation = useNavigation();
 
-  const textInputRef = useRef<TextInput>(null);
-  const scrollViewRef = useRef<ScrollView>(null);
+  const pagerViewRef = useRef<ScrollView>(null);
+  const enterPinCodeRef = useRef<React.ElementRef<typeof PincodeInput>>(null);
+  const confirmPinCodeRef = useRef<React.ElementRef<typeof PincodeInput>>(null);
 
-  const [currentInput, setCurrentInput] = useState("");
-  const [isValid, setIsValid] = useState(true);
   const [mode, setMode] = useState<"input" | "confirm" | "address">("input");
-  const [remainingTries, setRemainingTries] = useState(PIN_MAX_TRIES);
-  const [selectedPincode, setSelectedPincode] = useState("");
-  const [showErrorBox, setShowErrorBox] = useState(false);
-  const [showApiErrorAlert, setShowApiErrorAlert] = useState(false);
-  const [primaryAddress, setPrimaryAddress] = useState<Address>();
+  const [currentValue, setCurrentValue] = useState("");
+  const [selectedPincode, setSelectedPincode] = useState<string | undefined>();
 
-  const handleOnInputPress = () => {
-    textInputRef.current?.focus();
-  };
+  const [remainingAttempts, setRemainingAttempts] = useState(PIN_MAX_TRIES);
+  const [isErrorVisible, setIsErrorVisible] = useState(false);
 
-  React.useEffect(() => {
-    if (Platform.OS === "android") {
-      const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () => {
-        textInputRef.current?.blur();
-      });
-      return () => {
-        keyboardDidHideListener.remove();
-      };
-    }
-  }, []);
-
-  const handleOnChangeText = (input: string) => {
-    setCurrentInput(input);
-
-    if (PIN_INPUT_LENGTH !== input.length) return;
-    const normalizedValue = westernArabicNumerals(input);
+  const handleOnTransitionStep = () => {
+    setCurrentValue("");
+    setIsErrorVisible(false);
 
     if (mode === "input") {
-      if (!isValidPincode(normalizedValue)) {
-        return Alert.alert(
-          t("ApplyCards.SetPinAndAddressScreen.SetPin.alert.title"),
-          t("ApplyCards.SetPinAndAddressScreen.SetPin.alert.content"),
-          [
-            {
-              text: t("ApplyCards.SetPinAndAddressScreen.SetPin.alert.button"),
-              onPress: () => handleOnResetPincode(),
-              style: "default",
-            },
-          ]
-        );
-      }
-
-      setSelectedPincode(normalizedValue);
-      setCurrentInput("");
       setMode("confirm");
+      pagerViewRef.current?.scrollTo({ x: 1 * dimensions.width });
+      setTimeout(() => confirmPinCodeRef.current?.focus(), TEXTINPUT_FOCUS_WAIT_MS);
     }
 
     if (mode === "confirm") {
-      if (normalizedValue !== selectedPincode) {
-        setRemainingTries(c => c - 1);
-        setShowErrorBox(true);
-        setIsValid(false);
+      setMode("address");
 
-        if (remainingTries - 1 > 0) {
-          setCurrentInput("");
-        }
-      }
-
-      if (normalizedValue === selectedPincode) {
-        setIsValid(true);
-
-        setOrderCardValues({
-          ...orderCardValues,
-          formValues: { ...orderCardValues.formValues, Pin: encryptPincode(normalizedValue) },
-        });
-
-        setImmediate(() => handleOnResetPincode());
-        setMode("address");
-      }
+      pagerViewRef.current?.scrollTo({ x: 2 * dimensions.width });
+      Keyboard.dismiss();
     }
   };
 
-  useEffect(() => {
-    if (getPrimaryAddress.isError) {
-      setPrimaryAddress(undefined);
-      setShowApiErrorAlert(true);
-    } else {
-      setPrimaryAddress(getPrimaryAddress.data);
-    }
-  }, [getPrimaryAddress]);
+  const handleOnChangeText = (input: string) => {
+    setCurrentValue(input);
+    setIsErrorVisible(false);
 
-  useEffect(() => {
-    scrollViewRef.current?.scrollTo({ x: SCREEN_WIDTH * (currentStep - 1) });
+    if (PIN_INPUT_LENGTH !== input.length) return;
+    const convertedInput = westernArabicNumerals(input);
 
-    if (mode === "address") Keyboard.dismiss();
-    else handleOnInputPress();
-  }, [mode]);
-
-  const handleOnResetPincode = () => {
-    setIsValid(true);
-    setCurrentInput("");
-    setSelectedPincode("");
-    setRemainingTries(PIN_MAX_TRIES);
-    setShowErrorBox(false);
-  };
-
-  const handleOnSetNewPin = () => {
-    handleOnResetPincode();
-    setMode("input");
-  };
-
-  const handleBack = () => {
-    if (mode === "address") {
-      handleOnResetPincode();
-      setMode("input");
+    // if entering pincode, validate according to requirements
+    if (mode === "input") {
+      if (isValidPincode(convertedInput)) {
+        setSelectedPincode(convertedInput);
+        setTimeout(handleOnTransitionStep, TRANSITION_STEP_MS);
+      } else {
+        setIsErrorVisible(true);
+        setCurrentValue("");
+      }
 
       return;
     }
 
-    navigation.navigate("Temporary.LandingScreen");
+    if (mode === "confirm") {
+      if (convertedInput !== selectedPincode) {
+        setIsErrorVisible(true);
+        setCurrentValue("");
+        setRemainingAttempts(current => current - 1);
+      }
+
+      if (convertedInput === selectedPincode) {
+        setOrderCardValues({
+          ...orderCardValues,
+          formValues: {
+            ...orderCardValues.formValues,
+            Pin: encryptPincode(convertedInput),
+          },
+        });
+
+        setTimeout(handleOnTransitionStep, TRANSITION_STEP_MS);
+      }
+    }
+  };
+
+  const handleBack = () => {
+    // allow user to re-enter pincode
+    if (mode === "address" || mode === "confirm") {
+      setMode("input");
+      setIsErrorVisible(false);
+      setRemainingAttempts(PIN_MAX_TRIES);
+      setCurrentValue("");
+      setSelectedPincode(undefined);
+
+      pagerViewRef.current?.scrollTo({ x: 0 });
+      setTimeout(() => enterPinCodeRef.current?.focus(), TEXTINPUT_FOCUS_WAIT_MS);
+
+      return;
+    }
+
+    if (mode === "input") {
+      navigation.goBack();
+    }
   };
 
   const handleOnErrorModalClose = () => {
     navigation.navigate("Temporary.LandingScreen");
   };
 
-  const currentStep = mode === "input" ? 1 : mode === "confirm" ? 2 : 3;
+  const inputContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    marginVertical: theme.spacing["16p"],
+    rowGap: theme.spacing["10p"],
+    width: "100%",
+  }));
 
   return (
-    <Page>
-      <NavHeader title={t("ApplyCards.SetPinAndAddressScreen.navTitle")} onBackPress={handleBack} end="close">
-        <ProgressIndicator currentStep={currentStep} totalStep={3} />
-      </NavHeader>
-      <View style={styles.flex}>
-        <View style={styles.flex}>
-          <TextInput
-            autoFocus
-            ref={textInputRef}
-            maxLength={PIN_INPUT_LENGTH}
-            keyboardType="number-pad"
-            blurOnSubmit={false}
-            value={currentInput}
-            style={styles.hiddenInput}
-            onChangeText={handleOnChangeText}
-          />
-          <ScrollView
-            ref={scrollViewRef}
-            horizontal={true}
-            keyboardShouldPersistTaps="always"
-            showsHorizontalScrollIndicator={false}
-            scrollEventThrottle={16}
-            scrollEnabled={false}
-            bounces={false}>
-            <View style={styles.fullWidth}>
-              <CreateCardPin
-                title={t("ApplyCards.SetPinAndAddressScreen.SetPin.title")}
-                instruction={t("ApplyCards.SetPinAndAddressScreen.SetPin.instruction")}
-                inputValue={currentInput}
-                isValid={isValid}
-                mode={mode}
-                remainingTries={0}
-                pinInputLength={PIN_INPUT_LENGTH}
-                pinMaxTries={PIN_MAX_TRIES}
-                onBoxPress={handleOnInputPress}
-              />
+    <>
+      <Page backgroundColor="neutralBase-60">
+        <NavHeader title={t("ApplyCards.SetPinAndAddressScreen.navTitle")} onBackPress={handleBack} end="close">
+          <ProgressIndicator currentStep={mode === "input" ? 1 : mode === "confirm" ? 2 : 3} totalStep={3} />
+        </NavHeader>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          keyboardVerticalOffset={48}
+          style={{ flex: 1 }}>
+          <ScrollView ref={pagerViewRef} horizontal scrollEnabled={false}>
+            {/* Enter a PIN-code */}
+            <ContentContainer style={{ width: dimensions.width }}>
+              <Stack align="center" direction="vertical" justify="space-between" flex={1}>
+                <Stack align="center" direction="vertical" gap="16p">
+                  <Typography.Text color="neutralBase+30" size="large" weight="semiBold">
+                    {t("ApplyCards.SetPinAndAddressScreen.SetPin.title")}
+                  </Typography.Text>
+                  <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+                    {t("ApplyCards.SetPinAndAddressScreen.SetPin.instruction", { count: PIN_INPUT_LENGTH })}
+                  </Typography.Text>
+                  <View style={inputContainerStyle}>
+                    <PincodeInput
+                      ref={enterPinCodeRef}
+                      autoFocus
+                      onChangeText={handleOnChangeText}
+                      length={PIN_INPUT_LENGTH}
+                      value={currentValue}
+                    />
+                    {isErrorVisible ? (
+                      <InlineBanner
+                        icon={<ErrorFilledCircleIcon />}
+                        text={t("ApplyCards.SetPinAndAddressScreen.SetPin.errorPinTooEasy")}
+                        variant="error"
+                      />
+                    ) : null}
+                  </View>
+                </Stack>
+                <InlineBanner icon={<InfoIcon />} text={t("ApplyCards.SetPinAndAddressScreen.SetPin.avoidSimplePin")} />
+              </Stack>
+            </ContentContainer>
+            {/* Confirm PIN-code */}
+            <ContentContainer style={{ width: dimensions.width }}>
+              <Stack align="center" direction="vertical" justify="space-between" flex={1}>
+                <Stack align="center" direction="vertical" gap="16p">
+                  <Typography.Text color="neutralBase+30" size="large" weight="semiBold">
+                    {t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.title")}
+                  </Typography.Text>
+                  <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+                    {t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.instruction", { count: PIN_INPUT_LENGTH })}
+                  </Typography.Text>
+                  <View style={inputContainerStyle}>
+                    <PincodeInput
+                      ref={enterPinCodeRef}
+                      autoFocus
+                      onChangeText={handleOnChangeText}
+                      length={PIN_INPUT_LENGTH}
+                      value={currentValue}
+                    />
+                    {isErrorVisible && remainingAttempts > 0 ? (
+                      <InlineBanner
+                        icon={<ErrorFilledCircleIcon />}
+                        // eslint-disable-next-line prettier/prettier
+                        text={t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.pinNotMatch", { count: remainingAttempts })}
+                        variant="error"
+                      />
+                    ) : null}
+                  </View>
+                </Stack>
+              </Stack>
+            </ContentContainer>
+            <View style={{ width: dimensions.width }}>
+              <CardDeliveryDetails primaryAddress={primaryAddress.data} />
             </View>
-            <View style={styles.fullWidth}>
-              <CreateCardPin
-                title={t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.title")}
-                instruction={t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.instruction")}
-                remainingTries={remainingTries}
-                inputValue={currentInput}
-                showErrorBox={showErrorBox}
-                isValid={isValid}
-                mode={mode}
-                pinInputLength={PIN_INPUT_LENGTH}
-                pinMaxTries={PIN_MAX_TRIES}
-                onSetNewPin={handleOnSetNewPin}
-                onBoxPress={handleOnInputPress}
-              />
-            </View>
-            <View style={styles.fullWidth}>
-              <CardDeliveryDetails primaryAddress={primaryAddress} />
-            </View>
-            <NotificationModal
-              variant="error"
-              title={t("errors.generic.title")}
-              message={t("errors.generic.message")}
-              isVisible={showApiErrorAlert}
-              onClose={handleOnErrorModalClose}
-            />
           </ScrollView>
-        </View>
-      </View>
-    </Page>
+        </KeyboardAvoidingView>
+      </Page>
+      <NotificationModal
+        variant="error"
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={primaryAddress.error !== null}
+        onClose={handleOnErrorModalClose}
+      />
+      <NotificationModal
+        buttons={{
+          primary: (
+            <Button onPress={() => handleBack()}>{t("CardActions.ResetPincodeScreen.errorModalActionButton")}</Button>
+          ),
+        }}
+        title={t("CardActions.ResetPincodeScreen.errorModalTitle")}
+        message={t("CardActions.ResetPincodeScreen.errorModalMessage")}
+        isVisible={isErrorVisible && remainingAttempts === 0}
+        variant="error"
+      />
+    </>
   );
 }
 
-const SCREEN_WIDTH = Dimensions.get("screen").width;
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  fullWidth: {
-    width: SCREEN_WIDTH,
-  },
-  hiddenInput: {
-    left: -200,
-    opacity: 0,
-    position: "absolute",
-    top: -200,
-  },
-});
+const TRANSITION_STEP_MS = 250;
+const TEXTINPUT_FOCUS_WAIT_MS = 500;
+const PIN_INPUT_LENGTH = 4;
+const PIN_MAX_TRIES = 3;

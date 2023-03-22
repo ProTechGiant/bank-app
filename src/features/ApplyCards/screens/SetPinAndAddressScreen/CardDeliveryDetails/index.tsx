@@ -26,22 +26,12 @@ interface AddressDataType extends Address {
 }
 
 export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDetailsProps) {
-  const headerStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      alignSelf: "flex-start",
-      marginBottom: theme.spacing["16p"],
-    }),
-    []
-  );
-
   const navigation = useNavigation();
   const { orderCardValues } = useOrderCardContext();
-
   const { t } = useTranslation();
 
-  const API_SUCCESS_MESSAGE = "Successful request card creation";
-  const PRIMARY_ID = "primary";
-  const TEMPORARY_ID = "temporary";
+  const [addressData, setAddressData] = useState<AddressDataType[] | undefined>();
+  const [isTempAddressButtonActive, setIsTempAddressButtonActive] = useState(true);
 
   const GENERIC_ERROR = {
     name: "error",
@@ -50,6 +40,7 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
   };
 
   const hasTemporaryAddress = orderCardValues.formValues.AlternateAddress !== undefined;
+
   const buttonText = hasTemporaryAddress
     ? t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.edit")
     : t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.setAddress");
@@ -63,10 +54,6 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
           isTempAddress: false,
         }
       : undefined;
-
-  const [addressData, setAddressData] = useState<AddressDataType[] | undefined>();
-
-  const [isTempAddressButtonActive, setIsTempAddressButtonActive] = useState(true);
 
   useEffect(() => {
     const temporaryAddress: AddressDataType | undefined =
@@ -128,7 +115,7 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
     handleSubmit(payload);
   };
 
-  const handleSetTemporaryAddress = () => {
+  const handleOnSetTemporaryAddress = () => {
     navigation.navigate("ApplyCards.SetTemporaryAddress");
   };
 
@@ -142,6 +129,11 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
         : undefined
     );
   };
+
+  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignSelf: "flex-start",
+    marginBottom: theme.spacing["16p"],
+  }));
 
   return (
     <ContentContainer>
@@ -185,7 +177,7 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
         </Typography.Text>
       </Button>
       <Button
-        onPress={handleSetTemporaryAddress}
+        onPress={handleOnSetTemporaryAddress}
         variant="tertiary"
         disabled={!isTempAddressButtonActive || submitOrderCardAsync.isLoading}>
         <Typography.Text color="neutralBase+30" size="body">
@@ -205,3 +197,6 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
 });
+
+const PRIMARY_ID = "primary";
+const TEMPORARY_ID = "temporary";

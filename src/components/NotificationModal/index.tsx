@@ -12,7 +12,7 @@ interface NotificationModalProps {
   buttons?:
     | {
         primary: React.ReactElement<ButtonProps>;
-        secondary: React.ReactElement<ButtonProps>;
+        secondary?: React.ReactElement<ButtonProps> | undefined;
       }
     | false;
   onClose?: () => void;
@@ -86,7 +86,7 @@ export default function NotificationModal({
         {undefined !== buttons && buttons !== false ? (
           <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
             {cloneElement(buttons.primary, { variant: "primary" })}
-            {cloneElement(buttons.secondary, { variant: "tertiary" })}
+            {buttons.secondary !== undefined ? cloneElement(buttons.secondary, { variant: "tertiary" }) : null}
           </Stack>
         ) : (
           <View style={spacerStyle} />
