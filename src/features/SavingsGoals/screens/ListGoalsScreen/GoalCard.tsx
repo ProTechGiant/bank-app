@@ -49,7 +49,7 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
           })}
         </Typography.Text>
         <Typography.Text color="neutralBase" size="footnote">
-          {format(new Date(date), "d MMM, yyyy")}
+          {format(new Date(date), "d MMM yyyy")}
         </Typography.Text>
       </View>
       <ProgressWheel current={amountSaved} total={totalAmount} circleSize={64} textSize="footnote" />

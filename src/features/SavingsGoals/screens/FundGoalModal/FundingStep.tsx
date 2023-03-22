@@ -250,7 +250,7 @@ export default function FundingStep({
           amount: depositAmount.toLocaleString("en-US", { style: "decimal" }),
           firstPaymentDate:
             undefined !== confirmationNextPaymentDate
-              ? format(parse(confirmationNextPaymentDate, "yyyy-MM-dd", new Date()), "d MMM, yyyy")
+              ? format(parse(confirmationNextPaymentDate, "yyyy-MM-dd", new Date()), "d MMM yyyy")
               : "-",
         })}
         isVisible={isConfirmationVisible}

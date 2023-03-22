@@ -254,7 +254,7 @@ export default function GoalDetailsScreen() {
             <Typography.Text size="footnote" weight="medium" color="neutralBase-10" align="center">
               {data?.TargetDate !== undefined
                 ? t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.targetDate", {
-                    TargetDate: format(new Date(data?.TargetDate), "MMM d, yyyy"),
+                    TargetDate: format(new Date(data?.TargetDate), "d MMM yyyy"),
                   })
                 : "-"}
             </Typography.Text>

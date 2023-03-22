@@ -27,7 +27,7 @@ export default function DatePickerInput<T extends FieldValues>({
   helperText,
   placeholder,
   minimumDate,
-  format: format_ = "d MMM, yyyy",
+  format: format_ = "d MMM yyyy",
 }: DatePickerInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
 

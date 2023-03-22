@@ -581,7 +581,7 @@ export const resources = {
             targetDate: {
               label: "Complete by",
               headerText: "Complete by",
-              openDatePickerButton: "Set",
+              openDatePickerButton: "Pick date",
               datePickerButton: "Pick date",
               validation: {
                 required: "Required*",
@@ -671,7 +671,7 @@ export const resources = {
               title: "One-off payment",
               modalTitle: "You sent a one-off payment",
               modalText: "{{amount}} SAR has been added to your goal.",
-              continueButton: "Set-up regular payment",
+              continueButton: "Set up regular payment",
               skipButton: "Skip",
             },
             errorTryAgain: "Try again",
