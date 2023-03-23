@@ -42,7 +42,7 @@ export { default as InviteIcon } from "./invite.svg";
 export { default as LargeFilledTickIcon } from "./large-filled-tick.svg";
 export { default as Leaderboard } from "./leaderboard.svg";
 export { LightningBoltIcon } from "./lightning-bolt";
-export { default as LocationPinIcon } from "./location-pin.svg";
+export { LocationPinIcon } from "./location-pin";
 export { LockIcon } from "./lock";
 export { default as ManageAccounts } from "./manage-accounts.svg";
 export { MapMarkerIcon } from "./map-marker";

@@ -23,6 +23,8 @@ interface HeroSliderProps {
   lastButtonText: string;
   loading?: boolean;
   end?: React.ReactElement<CloseEndButtonProps> | React.ReactElement<TextEndButtonProps> | false;
+  hasBackButton?: boolean;
+  children?: React.ReactNode;
 }
 
 export default function HeroSlider({
@@ -33,6 +35,8 @@ export default function HeroSlider({
   lastButtonText,
   loading = false,
   end,
+  hasBackButton = true,
+  children,
 }: HeroSliderProps) {
   const [step, setStep] = useState(0);
   const pagerViewRef = useRef<PagerView>(null);
@@ -77,7 +81,11 @@ export default function HeroSlider({
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <BackgroundTopStartSvg style={styles.backgroundTopStart} />
       <BackgroundBottomSvg style={styles.backgroundBottom} />
-      <NavHeader onBackPress={onBackPress} end={nextStep < data.length && end ? end : undefined} />
+      <NavHeader
+        onBackPress={onBackPress}
+        end={!hasBackButton ? end : nextStep < data.length && end ? end : undefined}
+        withBackButton={hasBackButton}
+      />
       <ContentContainer style={styles.content}>
         <PagerView style={pagerStyle} onPageSelected={handleOnPageSelected} ref={pagerViewRef}>
           {data.map(element => (
@@ -91,9 +99,13 @@ export default function HeroSlider({
               ))
             : null}
         </Stack>
-        <Button loading={loading} variant="primary" onPress={handleOnButtonPress}>
-          {nextStep !== data.length ? buttonText : lastButtonText}
-        </Button>
+        {children ? (
+          children
+        ) : (
+          <Button loading={loading} variant="primary" onPress={handleOnButtonPress}>
+            {nextStep !== data.length ? buttonText : lastButtonText}
+          </Button>
+        )}
       </ContentContainer>
     </Page>
   );

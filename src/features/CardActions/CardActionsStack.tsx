@@ -1,10 +1,15 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { Address } from "@/types/Address";
+
 import CardDetailsScreen from "./screens/CardDetailsScreen";
 import CardSettingsScreen from "./screens/CardSettingsScreen";
 import HomeScreen from "./screens/HomeScreen";
 import LoadingSingleCardScreen from "./screens/LoadingSingleCardScreen";
 import OneTimePasswordModal from "./screens/OneTimePasswordModal";
+import ReportCardScreen from "./screens/ReportCardScreen";
+import ReportCardSuccessScreen from "./screens/ReportCardScreen/ReportCardSuccessScreen";
+import SetDifferentAddressScreen from "./screens/ReportCardScreen/SetDifferentAddressScreen";
 import ResetPincodeScreen from "./screens/ResetPincodeScreen";
 import SingleUseCardAbout from "./screens/SingleUseCardAbout";
 import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
@@ -17,7 +22,8 @@ type OtpCardAction =
   | "activate-online-payment"
   | "generate-single-use-card"
   | "show-details"
-  | "update-settings";
+  | "update-settings"
+  | "report-card";
 
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {
@@ -52,6 +58,16 @@ export type CardActionsStackParams = {
     redirect: keyof CardActionsStackParams;
     correlationId: string;
   };
+  "CardActions.ReportCardScreen": {
+    cardId: string;
+    alternativeAddress?: Address;
+  };
+  "CardActions.ReportCardSuccessScreen": {
+    cardId: string;
+  };
+  "CardActions.SetDifferentAddressScreen": {
+    alternativeAddress?: Address;
+  };
   "CardActions.ResetPincodeScreen": {
     cardId: string;
   };
@@ -78,6 +94,13 @@ export default function CardActionsStack() {
         name="CardActions.OneTimePasswordModal"
         options={{ presentation: "modal" }}
       />
+      <Stack.Screen component={ReportCardScreen} name="CardActions.ReportCardScreen" />
+      <Stack.Screen
+        component={SetDifferentAddressScreen}
+        name="CardActions.SetDifferentAddressScreen"
+        options={{ presentation: "modal" }}
+      />
+      <Stack.Screen component={ReportCardSuccessScreen} name="CardActions.ReportCardSuccessScreen" />
     </Stack.Navigator>
   );
 }

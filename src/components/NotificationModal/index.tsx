@@ -66,6 +66,11 @@ export default function NotificationModal({
     width: "100%",
   }));
 
+  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["16p"],
+    marginHorizontal: theme.spacing["16p"],
+  }));
+
   return (
     <Modal
       visible={isVisible}
@@ -75,7 +80,7 @@ export default function NotificationModal({
         {variant !== "confirmations" && (
           <View style={iconContainerStyles}>{cloneElement(VARIANT_ICONS[variant], iconStyles)}</View>
         )}
-        <Stack direction="vertical" gap="16p" align="center">
+        <Stack direction="vertical" gap="16p" align="center" style={contentStyle}>
           <Typography.Text color="neutralBase+30" weight="bold" size="title2" align="center">
             {title}
           </Typography.Text>

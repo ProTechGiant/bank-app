@@ -321,8 +321,9 @@ export const resources = {
           },
         },
         SetTemporaryAddressScreen: {
-          navTitle: "Delivery Address",
+          navTitle: "Temporary address",
           form: {
+            optional: "Optional",
             addressLineOne: {
               label: "Address line 1",
               placeholder: "Address line 1",
@@ -345,7 +346,7 @@ export const resources = {
             },
             city: {
               label: "City",
-              placeholder: "Select your city",
+              placeholder: "Select city",
               dropdownHeader: "Select city",
               validation: {
                 required: "City is required",
@@ -849,6 +850,38 @@ export const resources = {
             generateButton: "Generate one-time card",
           },
         },
+        ReportCardScreen: {
+          navTitle: "Cancel card",
+          SelectReportReason: {
+            navTitle: "What happened to your card?",
+            description:
+              "If your card has been lost, stolen or damaged, we’ll cancel it straight away and send you a new one. If you’re not sure and just want to stop spending in case, we recommend freezing it instead.",
+            cardStolen: "Card stolen",
+            cardDamaged: "Card damaged",
+            cardLost: "Card lost",
+            deliveryFee: "Delivery fee of 30 SAR",
+            buttonTitle: "Continue",
+            freezeCard: "Freeze card",
+            addressErrorTitle: "Couldn’t load address",
+          },
+          ConfirmDeliveryAddress: {
+            navTitle: "Confirm card delivery address",
+            description: "Confirm where you’d like your new card to be delivered.",
+            buttonTitle: "Confirm address and cancel card",
+            differentAddressBtn: "Deliver to temporary address",
+            alertTitle: "Are you sure you want to cancel card?",
+            alertMessage:
+              "We’ll cancel your card straight away and you won’t be able to use it. \n\nWhile you wait for your physical card, you’ll be able to use your new card online or on your phone immediately.",
+            confirmButton: "Cancel card",
+            cancelButton: "Not now",
+          },
+          ConfirmationScreen: {
+            title: "We’ve cancelled your card",
+            description:
+              "It’ll be with you in the next few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using Apple Wallet.",
+            okBtn: "OK",
+          },
+        },
         ResetPincodeScreen: {
           setPin: "Set new PIN",
           enterNumbers: "Enter {{count}} numbers",
@@ -1202,41 +1235,6 @@ export const resources = {
               "You have reached the maximum number of authentication attempts. Please try again later.",
           },
         },
-        CardDetailsScreen: {
-          navTitleStandard: "Standard card",
-          navTitlePlus: "Plus card",
-          navTitleSingleUse: "One-time card",
-          inactiveCard: {
-            label: "On the way",
-            actionButtonText: "Activate now",
-          },
-          iconButtonText: {
-            show: "Show details",
-            hide: "Hide details",
-            freeze: "Freeze",
-            unfreeze: "Defrost",
-            viewPin: "View PIN",
-            showCredentials: "Show card credentials",
-            hideCredentials: "Hide card credentials",
-            about: "About",
-          },
-          manageCardHeader: "Manage card",
-          cardSettingsButton: "Card settings",
-          reportButton: "Report stolen or damaged",
-          accountHeader: "Linked account",
-          accountNumber: "Account number",
-          accountName: "Account name",
-          upgradeToCroatiaPlus: {
-            breadcrumb: "Ultimate Experience",
-            header: "Croatia Plus",
-            content:
-              "Upgrade your tier to get an exclusive card and enjoy priority support and other premium benefits.",
-            button: "Explore Plus tier",
-          },
-          copyClipboard: "Card number copied to clipboard.",
-          errorCopyClipboard: "Couldn’t copy card number - try again.",
-        },
-
         standardCard: "Standard card",
         plusCard: "Plus card",
         singleUseCard: "One-time card",

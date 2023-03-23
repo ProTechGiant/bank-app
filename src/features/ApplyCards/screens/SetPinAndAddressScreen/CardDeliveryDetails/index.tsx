@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet, View, ViewStyle } from "react-native";
 
+import AddressSelector from "@/components/AddressSelector";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Stack from "@/components/Stack";
@@ -12,8 +13,6 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { Address, OrderCardFormValues } from "@/types/Address";
 import { generateRandomId } from "@/utils";
-
-import AddressSelector from "./AddressSelector";
 
 interface CardDeliveryDetailsProps {
   primaryAddress?: Address;

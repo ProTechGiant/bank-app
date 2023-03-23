@@ -4,6 +4,9 @@ import { LocationPinIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { generateShadow, useThemeStyles } from "@/theme";
 
+import Radio from "../Radio";
+import { useTranslation } from "react-i18next";
+
 interface AddressSelectorProps {
   id: string;
   addressLineOne: string;
@@ -25,44 +28,42 @@ export default function AddressSelector({
   isTemporary,
   onPress,
 }: AddressSelectorProps) {
+  const { t } = useTranslation();
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-50"],
+    backgroundColor: theme.palette["neutralBase-60"],
     borderRadius: theme.radii.extraSmall,
     flexDirection: "row",
     padding: theme.spacing["16p"],
   }));
 
-  const isSelectedStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderColor: theme.palette["primaryBase-40"],
-    borderWidth: 2,
-  }));
-
   const temporaryTag = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["primaryBase-10"],
-    borderRadius: theme.radii.xxlarge,
+    backgroundColor: theme.palette["complimentBase-30"],
+    borderRadius: theme.radii.xlarge / 2,
     height: 21,
     paddingHorizontal: theme.spacing["8p"],
     paddingVertical: theme.spacing["4p"],
+    gap: 10,
+    marginBottom: theme.spacing["8p"],
   }));
 
-  const locationIconContainer = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["neutralBase-30"],
-      width: 40,
-      height: 40,
-      alignItems: "center",
-      justifyContent: "center",
-    }),
-    []
-  );
+  const radioButtonStyle = useThemeStyles<ViewStyle>(() => ({
+    alignSelf: "center",
+  }));
 
   return (
-    <Pressable onPress={() => onPress(id)} style={[containerStyle, styles.shadow, isSelected && isSelectedStyle]}>
-      <View style={locationIconContainer}>
+    <Pressable onPress={() => onPress(id)} style={[containerStyle, styles.shadow]}>
+      <View>
         <LocationPinIcon />
       </View>
       <View style={styles.addressContent}>
-        <Typography.Text color="neutralBase+30" size="callout">
+        {isTemporary && (
+          <View style={temporaryTag}>
+            <Typography.Text color="complimentBase+20" size="caption2" weight="medium">
+              {t("ApplyCards.SetTemporaryAddressScreen.navTitle")}
+            </Typography.Text>
+          </View>
+        )}
+        <Typography.Text color="neutralBase+30" size="callout" weight="medium">
           {addressLineOne}
         </Typography.Text>
         {addressLineTwo && (
@@ -77,13 +78,9 @@ export default function AddressSelector({
           {addressLineFour}
         </Typography.Text>
       </View>
-      {isTemporary && (
-        <View style={temporaryTag}>
-          <Typography.Text color="primaryBase-40" size="caption2">
-            Temporary
-          </Typography.Text>
-        </View>
-      )}
+      <View style={radioButtonStyle}>
+        <Radio isSelected={isSelected} id={id} />
+      </View>
     </Pressable>
   );
 }

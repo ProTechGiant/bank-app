@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
+import { Address } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 
 import { Card, CardCreateResponse, CardSettingsInput, DetailedCardResponse } from "./types";
@@ -189,4 +190,36 @@ export function useUnmaskedCardDetails() {
       ["x-correlation-id"]: correlationId,
     });
   });
+}
+
+export function useReportCard() {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    ({
+      cardId,
+      correlationId,
+      status,
+      alternativeAddress,
+    }: {
+      cardId: string;
+      correlationId: string;
+      status: string;
+      alternativeAddress?: Address;
+    }) => {
+      return api<OtpRequiredResponse>(
+        "v1",
+        `cards/${cardId}`,
+        "POST",
+        undefined,
+        { Status: status, alternativeAddress: alternativeAddress },
+        { ["x-correlation-id"]: correlationId }
+      );
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries(queryKeys.all());
+      },
+    }
+  );
 }

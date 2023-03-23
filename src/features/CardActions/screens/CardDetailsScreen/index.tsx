@@ -122,7 +122,7 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnReportPress = () => {
-    navigation.navigate("Temporary.DummyScreen");
+    navigation.navigate("CardActions.ReportCardScreen", { cardId });
   };
 
   const handleOnUpgradePress = () => {
