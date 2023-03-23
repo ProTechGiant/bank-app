@@ -20,8 +20,8 @@ const palette = {
   "neutralBase-10": "#999999",
   "neutralBase-20": "#B3B3B3",
   "neutralBase-20-30%": "rgba(179, 179, 179, 0.3)",
-  "neutralBase-30": "#CCCCCC",
-  "neutralBase-40": "#E6E6E6",
+  "neutralBase-30": "#D9D9D9",
+  "neutralBase-40": "#F2F2F2",
   "neutralBase-50": "#F5F5F5",
   "neutralBase-50-50%": "#FFFFFF7F", // TODO: can probably be removed soon
   "neutralBase-50-12%": "#FFFFFF1F", // TODO: check if needed soon
