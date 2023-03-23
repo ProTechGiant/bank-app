@@ -1,21 +1,23 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, ScrollView, ViewStyle } from "react-native";
+import { I18nManager, Pressable, ScrollView, View, ViewStyle } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
+import { CloseIcon } from "@/assets/icons";
 import BankCard from "@/components/BankCard";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import { PLUS_TIER, SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
+import { PHYSICAL_CARD_TYPE, PLUS_TIER, SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 
 import { CardActionsStackParams } from "../../CardActionsStack";
+import CardExpiryBanner from "../../components/CardExpiryBanner";
 import QuickActionsMenu from "../../components/QuickActionsMenu";
 import ViewPinModal from "../../components/ViewPinModal";
 import { isCardInactive } from "../../helpers";
@@ -32,6 +34,7 @@ export default function HomeScreen() {
 
   const cardsList = data?.Cards ?? [];
   const singleUseCard = cardsList.find(card => card.CardType === SINGLE_USE_CARD_TYPE && !isCardInactive(card));
+  const isExpiryCardNotification = false; //for testing expiry notification
 
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
@@ -40,6 +43,7 @@ export default function HomeScreen() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [isViewingPin, setIsViewingPin] = useState(route.params?.action === "view-pin");
   const [pin, setPin] = useState<string | undefined>();
+  const [isCardExpiryBannerVisible, setIsCardExpiryBannerVisible] = useState(true);
 
   useEffect(() => {
     if (undefined === route.params) return;
@@ -142,6 +146,10 @@ export default function HomeScreen() {
     navigation.navigate("Temporary.DummyScreen");
   };
 
+  const handleOnCloseExpiryCardNotification = () => {
+    setIsCardExpiryBannerVisible(false);
+  };
+
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["16p"],
     paddingHorizontal: theme.spacing["20p"],
@@ -155,6 +163,7 @@ export default function HomeScreen() {
         cardType={card.CardType}
         productId={card.ProductId}
         label={card.ProductId === STANDARD_CARD_PRODUCT_ID ? t("CardActions.standardCard") : t("CardActions.plusCard")}
+        isExpiringSoon={isExpiryCardNotification && card.CardType === PHYSICAL_CARD_TYPE && card.Status === "unfreeze"}
         endButton={
           <QuickActionsMenu
             cardStatus={card.Status}
@@ -205,10 +214,22 @@ export default function HomeScreen() {
     paddingLeft: I18nManager.isRTL ? theme.spacing["20p"] : 0,
   }));
 
+  const expiryNotificatonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    margin: theme.spacing["20p"],
+  }));
+
   return (
     <>
       <Page>
         <NavHeader title={t("CardActions.HomeScreen.navTitle")} />
+
+        {isExpiryCardNotification &&
+        isCardExpiryBannerVisible &&
+        cardsList.find(card => card.CardType === PHYSICAL_CARD_TYPE && card.Status === "unfreeze") ? (
+          <View style={expiryNotificatonContainerStyle}>
+            <CardExpiryBanner icon={<CloseIcon />} onClose={handleOnCloseExpiryCardNotification} />
+          </View>
+        ) : null}
         <ScrollView horizontal style={cardContainerStyle}>
           <Stack direction="horizontal" gap="20p" style={contentStyle}>
             {cardsList.map(card =>

@@ -862,6 +862,13 @@ export const resources = {
           errorModalMessage: "You’ve entered different PINs too many times.",
           errorModalActionButton: "Set new pin",
         },
+        CardExpiryNotification: {
+          title: "Your card will expire soon",
+          content:
+            "You can renew it now to make sure you get a replacement before it expires, or we’ll send a new one automatically to your registered address.",
+          button: "Renew card",
+          expiresSoon: "Expires soon",
+        },
       },
       AddMoneyInfo: {
         title: "Add money by bank transfer",
@@ -1292,6 +1299,13 @@ export const resources = {
             generateButton: "Generate one-time card",
           },
         },
+      },
+      CardExpiryNotification: {
+        title: "Your card will expire soon",
+        content:
+          "You can renew it now to make sure you get a replacement before it expires, or we’ll send a new one automatically to your registered address.",
+        button: "Renew card",
+        expiresSoon: "Expires soon",
       },
     },
     AddMoneyInfo: {

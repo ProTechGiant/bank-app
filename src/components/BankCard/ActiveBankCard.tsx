@@ -1,4 +1,5 @@
 import { times } from "lodash";
+import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
@@ -23,6 +24,7 @@ interface ActiveBankCardProps {
   label?: string;
   onPress?: () => void;
   productId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
+  isExpiringSoon?: boolean;
 }
 
 export default function ActiveBankCard({
@@ -32,7 +34,10 @@ export default function ActiveBankCard({
   label,
   productId,
   onPress,
+  isExpiringSoon,
 }: ActiveBankCardProps) {
+  const { t } = useTranslation();
+
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     justifyContent: "space-between",
@@ -44,7 +49,7 @@ export default function ActiveBankCard({
 
   const labelStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: "#00000014",
-    borderRadius: 4,
+    borderRadius: theme.radii.extraSmall,
     borderWidth: 0,
     paddingHorizontal: theme.spacing["12p"],
     paddingVertical: theme.spacing["8p"],
@@ -56,6 +61,14 @@ export default function ActiveBankCard({
     borderWidth: 0,
     height: 4,
     width: 4,
+  }));
+
+  const cardExpiryContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: "#00000066",
+    paddingVertical: theme.spacing["8p"],
+    paddingHorizontal: theme.spacing["12p"],
+    borderRadius: theme.radii.extraSmall,
+    marginBottom: theme.spacing["48p"],
   }));
 
   return (
@@ -80,6 +93,13 @@ export default function ActiveBankCard({
           )}
           {endButton}
         </View>
+        {isExpiringSoon ? (
+          <View style={cardExpiryContainerStyle}>
+            <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
+              {t("CardActions.CardExpiryNotification.expiresSoon")}
+            </Typography.Text>
+          </View>
+        ) : null}
         <View>
           <Stack align="center" direction="horizontal" gap="12p">
             {times(3).map(dotSequenceIndex => (

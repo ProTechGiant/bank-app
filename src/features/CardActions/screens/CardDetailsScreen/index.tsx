@@ -12,13 +12,14 @@ import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
-import { SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
+import { PHYSICAL_CARD_TYPE, SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 
 import { CardActionsStackParams } from "../../CardActionsStack";
+import CardExpiryBanner from "../../components/CardExpiryBanner";
 import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
 import ViewPinModal from "../../components/ViewPinModal";
@@ -55,6 +56,7 @@ export default function CardDetailsScreen() {
   const [isCopiedCardNumberBannerVisible, setIsCopiedCardNumberBannerVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
+  const isExpiryCardNotification = false; //for testing expiry notification
   const selectedCard = card.data;
   const cardId = route.params.cardId;
   const cardStatus = selectedCard?.Status;
@@ -73,7 +75,6 @@ export default function CardDetailsScreen() {
     const subscription = AppState.addEventListener("change", nextAppstate => {
       if (nextAppstate !== "active") setCardDetails(undefined);
     });
-
     return () => subscription.remove();
   }, []);
 
@@ -272,6 +273,10 @@ export default function CardDetailsScreen() {
     marginBottom: theme.spacing["32p"],
   }));
 
+  const expiryContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing["20p"],
+  }));
+
   return (
     <>
       <DismissibleBanner
@@ -291,6 +296,13 @@ export default function CardDetailsScreen() {
           }
           onBackPress={handleOnBackPress}
         />
+        {isExpiryCardNotification &&
+        selectedCard?.CardType === PHYSICAL_CARD_TYPE &&
+        selectedCard?.Status === "unfreeze" ? (
+          <View style={expiryContainerStyle}>
+            <CardExpiryBanner />
+          </View>
+        ) : null}
         <ContentContainer isScrollView>
           <View style={cardContainerStyle}>
             {cardStatus === "freeze" && cardDetails === undefined && selectedCard?.CardType !== SINGLE_USE_CARD_TYPE ? (
@@ -315,6 +327,11 @@ export default function CardDetailsScreen() {
                 cardNumber={selectedCard?.LastFourDigits}
                 cardType={selectedCard?.CardType}
                 productId={selectedCard?.ProductId}
+                isExpiringSoon={
+                  isExpiryCardNotification &&
+                  selectedCard?.CardType === PHYSICAL_CARD_TYPE &&
+                  selectedCard?.Status === "unfreeze"
+                }
               />
             ) : (
               <BankCard.Unmasked
