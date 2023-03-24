@@ -1,5 +1,4 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, ScrollView, View, ViewStyle } from "react-native";
 
@@ -16,44 +15,33 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 
-import { CardActionsStackParams } from "../../CardActionsStack";
 import CardExpiryBanner from "../../components/CardExpiryBanner";
 import QuickActionsMenu from "../../components/QuickActionsMenu";
 import ViewPinModal from "../../components/ViewPinModal";
 import { isCardInactive } from "../../helpers";
+import useOtpFlow from "../../hooks/use-otp";
 import { useCards, useCustomerTier, useFreezeCard, useRequestViewPinOtp, useUnfreezeCard } from "../../query-hooks";
 import { Card } from "../../types";
 
 export default function HomeScreen() {
   const { t } = useTranslation();
-  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.HomeScreen">>();
   const navigation = useNavigation();
 
   const { data } = useCards();
   const customerTier = useCustomerTier();
+  const otpFlow = useOtpFlow();
 
-  const cardsList = data?.Cards ?? [];
-  const singleUseCard = cardsList.find(card => card.CardType === SINGLE_USE_CARD_TYPE && !isCardInactive(card));
   const isExpiryCardNotification = false; //for testing expiry notification
 
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
   const requestViewPinOtpAsync = useRequestViewPinOtp();
 
+  const cardsList = data?.Cards ?? [];
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [isViewingPin, setIsViewingPin] = useState(route.params?.action === "view-pin");
+  const [isViewingPin, setIsViewingPin] = useState(false);
   const [pin, setPin] = useState<string | undefined>();
   const [isCardExpiryBannerVisible, setIsCardExpiryBannerVisible] = useState(true);
-
-  useEffect(() => {
-    if (undefined === route.params) return;
-
-    if (route.params?.action === "view-pin") {
-      setPin(route.params.pin);
-      // Add delay to show Notification Modal otherwise because it will be blocked by the OTP modal and view pin modal cannot be shown
-      setTimeout(() => setIsViewingPin(true), 500);
-    }
-  }, [route.params]);
 
   const handleOnFreezeCardPress = async (cardId: string) => {
     const correlationId = generateRandomId();
@@ -68,23 +56,24 @@ export default function HomeScreen() {
   };
 
   const handleOnUnfreezeCardPress = async (cardId: string) => {
-    const correlationId = generateRandomId();
-
     try {
-      const response = await unfreezeCardAsync.mutateAsync({ cardId, correlationId });
-      if (response.OtpCode === undefined || response.OtpId === undefined) {
-        throw new Error("Could not start OTP flow");
-      }
+      const response = await unfreezeCardAsync.mutateAsync({ cardId });
 
-      navigation.navigate("CardActions.OneTimePasswordModal", {
-        redirect: "CardActions.HomeScreen",
-        action: "unfreeze",
-        cardId,
-        correlationId: correlationId,
-        otp: {
-          otpId: response.OtpId,
-          otpCode: response.OtpCode,
-          phoneNumber: response.PhoneNumber,
+      otpFlow.handle({
+        action: {
+          to: "CardActions.HomeScreen",
+        },
+        otpOptionalParams: {
+          CardId: cardId,
+        },
+        otpChallengeParams: {
+          OtpId: response.OtpId,
+          OtpCode: response.OtpCode,
+          PhoneNumber: response.PhoneNumber,
+          correlationId: response.correlationId,
+        },
+        onOtpRequestResend: () => {
+          return unfreezeCardAsync.mutateAsync({ cardId });
         },
       });
     } catch (error) {
@@ -98,23 +87,31 @@ export default function HomeScreen() {
   };
 
   const handleOnViewPinPress = async (cardId: string) => {
-    const correlationId = generateRandomId();
-
     try {
-      const response = await requestViewPinOtpAsync.mutateAsync({ cardId, correlationId });
-      if (response.OtpCode === undefined || response.OtpId === undefined) {
-        throw new Error("Could not start OTP flow");
-      }
+      const response = await requestViewPinOtpAsync.mutateAsync({ cardId });
 
-      navigation.navigate("CardActions.OneTimePasswordModal", {
-        redirect: "CardActions.HomeScreen",
-        action: "view-pin",
-        cardId: cardId,
-        correlationId: correlationId,
-        otp: {
-          otpCode: response.OtpCode,
-          otpId: response.OtpId,
-          phoneNumber: response.PhoneNumber,
+      otpFlow.handle<{ Pin: string }>({
+        action: {
+          to: "CardActions.HomeScreen",
+        },
+        otpOptionalParams: {
+          CardId: cardId,
+        },
+        otpChallengeParams: {
+          OtpId: response.OtpId,
+          OtpCode: response.OtpCode,
+          PhoneNumber: response.PhoneNumber,
+          correlationId: response.correlationId,
+        },
+        onOtpRequestResend: () => {
+          return requestViewPinOtpAsync.mutateAsync({ cardId });
+        },
+        onFinish: (status, payload) => {
+          if (status === "fail" || undefined === payload) return;
+
+          setPin(payload.Pin);
+          // Add delay to show Notification Modal otherwise because it will be blocked by the OTP modal and view pin modal cannot be shown
+          setTimeout(() => setIsViewingPin(true), 500);
         },
       });
     } catch (error) {
@@ -125,7 +122,6 @@ export default function HomeScreen() {
 
   const handleOnCardSettingsPress = (card: Card) => {
     navigation.navigate("CardActions.CardSettingsScreen", {
-      cardStatus: card.Status,
       cardId: card.CardId,
     });
   };
@@ -135,7 +131,7 @@ export default function HomeScreen() {
   };
 
   const handleOnPressGenerateNew = () => {
-    navigation.navigate("CardActions.SingleUseCardInfo");
+    navigation.navigate("CardActions.SingleUseCardInfoScreen");
   };
 
   const handleOnPressAbout = () => {
@@ -255,7 +251,7 @@ export default function HomeScreen() {
                 />
               ) : null
             )}
-            {customerTier.data?.tier === PLUS_TIER && singleUseCard === undefined ? (
+            {customerTier.data?.tier === PLUS_TIER ? (
               <BankCard.Inactive
                 status="inactive"
                 endButton={

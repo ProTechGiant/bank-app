@@ -8,5 +8,6 @@ export default function maskPhoneNumber(inputString: string) {
     formattedPhoneNumber.indexOf(" ") + 1,
     formattedPhoneNumber.length - 2
   );
+
   return formattedPhoneNoCountryCode.replace(/\d/g, "\u2022");
 }

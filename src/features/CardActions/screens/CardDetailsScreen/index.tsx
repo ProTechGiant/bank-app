@@ -2,7 +2,7 @@ import Clipboard from "@react-native-clipboard/clipboard";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AppState, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { AppState, NativeEventSubscription, Platform, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CardSettingsIcon, CopyIcon, ReportIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton/AddToAppleWalletButton";
@@ -23,6 +23,7 @@ import CardExpiryBanner from "../../components/CardExpiryBanner";
 import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
 import ViewPinModal from "../../components/ViewPinModal";
+import useOtpFlow from "../../hooks/use-otp";
 import {
   useCard,
   useFreezeCard,
@@ -41,18 +42,18 @@ export default function CardDetailsScreen() {
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.CardDetailsScreen">>();
   const { t } = useTranslation();
 
+  const otpFlow = useOtpFlow();
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
   const requestViewPinOtpAsync = useRequestViewPinOtp();
   const requestUnmaskedCardDetailsAsync = useUnmaskedCardDetails();
   const card = useCard(route.params.cardId);
 
-  const [isViewingPin, setIsViewingPin] = useState(route.params?.action === "view-pin");
+  const [isViewingPin, setIsViewingPin] = useState(false);
   const [pin, setPin] = useState<string | undefined>();
-  const [isCardCreated, setIsCardCreated] = useState(false);
 
   const [cardDetails, setCardDetails] = useState<DetailedCardResponse>();
-  const [isSingleUseCardCreatedAlertVisible, setIsSingleUseCardCreatedAlertVisible] = useState(false);
+  const [isSucCreatedAlertVisible, setIsSucCreatedAlertVisible] = useState(route.params?.isSingleUseCardCreated);
   const [isCopiedCardNumberBannerVisible, setIsCopiedCardNumberBannerVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
@@ -62,63 +63,38 @@ export default function CardDetailsScreen() {
   const cardStatus = selectedCard?.Status;
 
   useEffect(() => {
-    if (Platform.OS === "android") {
-      const subscription = AppState.addEventListener("blur", nextAppstate => {
-        if (nextAppstate !== "active") setCardDetails(undefined);
-      });
-
-      return () => subscription.remove();
-    }
-  }, []);
+    setTimeout(() => setIsSucCreatedAlertVisible(route.params?.isSingleUseCardCreated), 500);
+  }, [route.params]);
 
   useEffect(() => {
-    const subscription = AppState.addEventListener("change", nextAppstate => {
+    const changeStateSubscription = AppState.addEventListener("change", nextAppstate => {
       if (nextAppstate !== "active") setCardDetails(undefined);
     });
-    return () => subscription.remove();
-  }, []);
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("blur", () => {
+    let blurStateSubscription: NativeEventSubscription | undefined;
+    if (Platform.OS === "android") {
+      blurStateSubscription = AppState.addEventListener("blur", nextAppState => {
+        if (nextAppState !== "active") setCardDetails(undefined);
+      });
+    }
+
+    const transitionBlurSubscription = navigation.addListener("blur", () => {
       setCardDetails(undefined);
     });
 
-    return () => unsubscribe();
-  }, [navigation]);
-
-  useEffect(() => {
-    setCardDetails(undefined);
-    if (undefined === route.params?.action) return;
-
-    if (route.params.action === "view-pin") {
-      setPin(route.params.pin as string);
-      // Add delay or else modal will be blocked from becoming visible
-      setTimeout(() => setIsViewingPin(true), 500);
-    }
-
-    if (route.params?.action === "generate-single-use-card") {
-      setIsCardCreated(true);
-      setIsSingleUseCardCreatedAlertVisible(true);
-    }
-
-    if (route.params?.action === "show-details") {
-      setCardDetails(route.params?.detailedCardResponse);
-
-      if (route.params?.detailedCardResponse === undefined) {
-        setCardDetails(undefined);
-        // Add delay or else modal will be blocked from becoming visible
-        setTimeout(() => setIsErrorModalVisible(true), 500);
-      }
-    }
-  }, [route.params]);
+    return () => {
+      changeStateSubscription.remove();
+      blurStateSubscription?.remove();
+      transitionBlurSubscription();
+    };
+  }, []);
 
   const handleOnAddToAppleWallet = () => {
     navigation.navigate("Temporary.DummyScreen");
   };
 
   const handleOnCardSettingsPress = () => {
-    if (undefined === cardStatus) return;
-    navigation.navigate("CardActions.CardSettingsScreen", { cardStatus, cardId });
+    navigation.navigate("CardActions.CardSettingsScreen", { cardId });
   };
 
   const handleOnReportPress = () => {
@@ -133,20 +109,31 @@ export default function CardDetailsScreen() {
     if (cardDetails !== undefined) return setCardDetails(undefined);
 
     try {
-      const correlationId = generateRandomId();
+      const response = await requestUnmaskedCardDetailsAsync.mutateAsync({ cardId });
 
-      const response = await requestUnmaskedCardDetailsAsync.mutateAsync({ cardId, correlationId });
-      if (!response.OtpCode || !response.OtpId) throw new Error("Failed to start OTP challenge");
-
-      navigation.navigate("CardActions.OneTimePasswordModal", {
-        redirect: "CardActions.CardDetailsScreen",
-        action: "show-details",
-        correlationId: correlationId,
-        cardId: cardId,
-        otp: {
-          otpId: response.OtpId,
-          otpCode: response.OtpCode,
-          phoneNumber: response.PhoneNumber,
+      otpFlow.handle<{ DetailedCardResponse: DetailedCardResponse }>({
+        action: {
+          to: "CardActions.CardDetailsScreen",
+          params: {
+            cardId,
+          },
+        },
+        otpOptionalParams: {
+          CardId: cardId,
+        },
+        otpChallengeParams: {
+          OtpId: response.OtpId,
+          OtpCode: response.OtpCode,
+          PhoneNumber: response.PhoneNumber,
+          correlationId: response.correlationId,
+        },
+        onOtpRequestResend: () => {
+          return requestUnmaskedCardDetailsAsync.mutateAsync({ cardId });
+        },
+        onFinish: (status, payload) => {
+          if (status === "success") {
+            setCardDetails(payload.DetailedCardResponse);
+          }
         },
       });
     } catch (error) {
@@ -182,14 +169,11 @@ export default function CardDetailsScreen() {
 
   const handleOnFreezeCardPress = async () => {
     const correlationId = generateRandomId();
+    setCardDetails(undefined);
 
     try {
       const response = await freezeCardAsync.mutateAsync({ cardId, correlationId });
-      setCardDetails(undefined);
-
-      if (response.Status !== "freeze") {
-        setIsErrorModalVisible(true);
-      }
+      if (response.Status !== "freeze") throw new Error("Received unexpected response from backend");
     } catch (error) {
       setIsErrorModalVisible(true);
       warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
@@ -197,20 +181,27 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnUnfreezeCardPress = async () => {
-    const correlationId = generateRandomId();
-
     try {
-      const response = await unfreezeCardAsync.mutateAsync({ cardId, correlationId });
+      const response = await unfreezeCardAsync.mutateAsync({ cardId });
 
-      navigation.navigate("CardActions.OneTimePasswordModal", {
-        redirect: "CardActions.CardDetailsScreen",
-        action: "unfreeze",
-        correlationId: correlationId,
-        cardId: cardId,
-        otp: {
-          otpId: response.OtpId,
-          otpCode: response.OtpCode,
-          phoneNumber: response.PhoneNumber,
+      otpFlow.handle({
+        action: {
+          to: "CardActions.CardDetailsScreen",
+          params: {
+            cardId,
+          },
+        },
+        otpOptionalParams: {
+          CardId: cardId,
+        },
+        otpChallengeParams: {
+          OtpId: response.OtpId,
+          OtpCode: response.OtpCode,
+          PhoneNumber: response.PhoneNumber,
+          correlationId: response.correlationId,
+        },
+        onOtpRequestResend: () => {
+          return unfreezeCardAsync.mutateAsync({ cardId });
         },
       });
     } catch (error) {
@@ -220,34 +211,43 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnCloseNotification = () => {
-    setIsSingleUseCardCreatedAlertVisible(false);
+    setIsSucCreatedAlertVisible(false);
   };
 
   const handleOnBackPress = () => {
-    // if from creation -> navigate to Home else goBack
-    if (isCardCreated) {
-      navigation.navigate("Temporary.LandingScreen");
-    } else {
-      navigation.goBack();
-    }
+    if (route.params?.isSingleUseCardCreated) navigation.goBack();
+    navigation.goBack();
   };
 
   const handleOnViewPinPress = async () => {
-    const correlationId = generateRandomId();
-
     try {
-      const response = await requestViewPinOtpAsync.mutateAsync({ cardId, correlationId });
-      if (!response.OtpCode) throw new Error("Could not start OTP flow");
+      const { correlationId, ...response } = await requestViewPinOtpAsync.mutateAsync({ cardId });
 
-      navigation.navigate("CardActions.OneTimePasswordModal", {
-        redirect: "CardActions.CardDetailsScreen",
-        action: "view-pin",
-        cardId: cardId,
-        correlationId: correlationId,
-        otp: {
-          otpCode: response.OtpCode,
-          otpId: response.OtpId,
-          phoneNumber: response.PhoneNumber,
+      otpFlow.handle<{ Pin: string }>({
+        action: {
+          to: "CardActions.CardDetailsScreen",
+          params: {
+            cardId,
+          },
+        },
+        otpOptionalParams: {
+          CardId: cardId,
+        },
+        otpChallengeParams: {
+          OtpId: response.OtpId,
+          OtpCode: response.OtpCode,
+          PhoneNumber: response.PhoneNumber,
+          correlationId: correlationId,
+        },
+        onFinish: (status, payload) => {
+          if (status === "fail" || payload === undefined) return;
+
+          setPin(payload.Pin as string);
+          // Add delay or else modal will be blocked from becoming visible
+          setTimeout(() => setIsViewingPin(true), 500);
+        },
+        onOtpRequestResend: () => {
+          return requestViewPinOtpAsync.mutateAsync({ cardId });
         },
       });
     } catch (error) {
@@ -418,7 +418,7 @@ export default function CardDetailsScreen() {
         onClose={handleOnCloseNotification}
         message={t("CardActions.SingleUseCard.CardCreation.successMessage")}
         title={t("CardActions.SingleUseCard.CardCreation.successTitle")}
-        isVisible={isSingleUseCardCreatedAlertVisible}
+        isVisible={isSucCreatedAlertVisible}
       />
       <NotificationModal
         variant="error"
@@ -428,13 +428,7 @@ export default function CardDetailsScreen() {
         onClose={() => setIsErrorModalVisible(false)}
       />
       {pin !== undefined ? (
-        <ViewPinModal
-          pin={pin}
-          visible={isViewingPin}
-          onClose={() => {
-            setIsViewingPin(false);
-          }}
-        />
+        <ViewPinModal pin={pin} visible={isViewingPin} onClose={() => setIsViewingPin(false)} />
       ) : (
         <View />
       )}

@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, View, ViewStyle } from "react-native";
 
@@ -14,11 +14,11 @@ import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { generateRandomId } from "@/utils";
 
 import { CardActionsStackParams } from "../../CardActionsStack";
 import ListItemLink from "../../components/ListItemLink";
 import ListSection from "../../components/ListSection";
+import useOtpFlow from "../../hooks/use-otp";
 import { useCard, useCardSettings, useUpdateCardSettings } from "../../query-hooks";
 import { CardSettingsInput } from "../../types";
 import SettingsToggle from "./SettingsToggle";
@@ -28,6 +28,7 @@ export default function CardSettingsScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
+  const otpFlow = useOtpFlow<"CardActions.CardSettingsScreen">();
   const updateCardSettingsAsync = useUpdateCardSettings();
   const settings = useCardSettings(route.params.cardId);
   const card = useCard(route.params.cardId);
@@ -36,23 +37,12 @@ export default function CardSettingsScreen() {
   const [isPinUpdatedBannerVisible, setIsPinUpdatedBannerVisible] = useState(false);
   const isUpdatingRef = useRef(false);
 
-  useEffect(() => {
-    if (route.params?.isPincodeUpdated) {
+  otpFlow.useOtpResponseEffect<{ ResetPinMessage: string }>((status, payload) => {
+    if (status === "success" && "ResetPinMessage" in payload) {
       setIsPinUpdatedBannerVisible(true);
       setTimeout(() => setIsPinUpdatedBannerVisible(false), 3000);
     }
-  }, [route.params]);
-
-  // TODO: pass a param back from the OTP modal to indicate OTP success/ fail?
-  // trigger a refetch of card settings after the OTP modal is closed
-  // user may have cancelled OTP so we need to refetch
-  useEffect(() => {
-    const listener = navigation.addListener("focus", () => {
-      settings.refetch();
-    });
-
-    return () => listener();
-  }, [navigation]);
+  });
 
   const handleOnChangePinCodePress = () => {
     navigation.navigate("CardActions.ResetPincodeScreen", {
@@ -65,30 +55,49 @@ export default function CardSettingsScreen() {
     isUpdatingRef.current = true; // to prevent tapping multiple toggles too soon
 
     try {
-      const correlationId = generateRandomId();
-
       const updatedSettings = {
         ...settings.data,
         [setting]: !settings.data[setting],
       };
 
       const response = await updateCardSettingsAsync.mutateAsync({
-        correlationId,
         cardId: route.params.cardId,
         settings: updatedSettings,
       });
 
       if (response.IsOtpRequired) {
-        navigation.navigate("CardActions.OneTimePasswordModal", {
-          correlationId,
-          action: "update-settings",
-          redirect: "CardActions.CardSettingsScreen",
-          cardId: route.params.cardId,
-          cardSettings: updatedSettings,
-          otp: {
-            otpCode: response.OtpCode,
-            otpId: response.OtpId,
-            phoneNumber: response.PhoneNumber,
+        otpFlow.handle({
+          action: {
+            to: "CardActions.CardSettingsScreen",
+            params: {
+              cardId: route.params.cardId,
+            },
+          },
+          otpOptionalParams: {
+            CardId: route.params.cardId,
+          },
+          otpChallengeParams: {
+            correlationId: response.correlationId,
+            OtpCode: response.OtpCode,
+            OtpId: response.OtpId,
+            PhoneNumber: response.PhoneNumber,
+          },
+          onOtpRequestResend: async () => {
+            const response_ = await updateCardSettingsAsync.mutateAsync({
+              cardId: route.params.cardId,
+              settings: updatedSettings,
+            });
+
+            if (!response_.IsOtpRequired) {
+              throw new Error("OTP challenge no longer required for changing settings after re-requesting");
+            }
+
+            return response_;
+          },
+          onFinish: status => {
+            if (status === "fail") {
+              settings.refetch();
+            }
           },
         });
       }

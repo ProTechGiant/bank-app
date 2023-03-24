@@ -1,62 +1,49 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import MainStackParams from "@/navigation/mainStackParams";
 import { Address } from "@/types/Address";
 
 import CardDetailsScreen from "./screens/CardDetailsScreen";
 import CardSettingsScreen from "./screens/CardSettingsScreen";
 import HomeScreen from "./screens/HomeScreen";
-import LoadingSingleCardScreen from "./screens/LoadingSingleCardScreen";
 import OneTimePasswordModal from "./screens/OneTimePasswordModal";
 import ReportCardScreen from "./screens/ReportCardScreen";
 import ReportCardSuccessScreen from "./screens/ReportCardScreen/ReportCardSuccessScreen";
 import SetDifferentAddressScreen from "./screens/ReportCardScreen/SetDifferentAddressScreen";
 import ResetPincodeScreen from "./screens/ResetPincodeScreen";
 import SingleUseCardAbout from "./screens/SingleUseCardAbout";
-import SingleUseCardInfo from "./screens/SingleUseCardsInfo";
-import { CardCreateResponse, CardSettingsInput, CardStatus, DetailedCardResponse } from "./types";
+import SingleUseCardInfoScreen from "./screens/SingleUseCardsInfoScreen";
 
-type OtpCardAction =
-  | "view-pin"
-  | "freeze"
-  | "unfreeze"
-  | "activate-online-payment"
-  | "generate-single-use-card"
-  | "show-details"
-  | "update-settings"
-  | "report-card";
+interface OtpChallengeParams {
+  OtpId: string;
+  OtpCode: string;
+  PhoneNumber: string;
+  correlationId: string;
+}
+
+export type OtpResponseStatus = "success" | "fail";
 
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {
     cardId: string;
-    // ..
-    action?: OtpCardAction;
-    pin?: string; // action === "view-pin"
-    detailedCardResponse?: DetailedCardResponse; // action === "show-details"
+    isSingleUseCardCreated?: boolean;
   };
   "CardActions.CardSettingsScreen": {
     cardId: string;
+    otpResponseStatus?: OtpResponseStatus;
     isPincodeUpdated?: boolean;
   };
-  "CardActions.LoadingSingleCardScreen": {
-    cardCreateResponse?: CardCreateResponse;
-  };
-  "CardActions.SingleUseCardInfo": undefined;
+  "CardActions.SingleUseCardInfoScreen": undefined;
   "CardActions.SingleUseCardAbout": undefined;
-  "CardActions.HomeScreen": {
-    action?: OtpCardAction;
-    pin?: string;
-  };
+  "CardActions.HomeScreen": undefined;
   "CardActions.OneTimePasswordModal": {
-    action: OtpCardAction;
-    cardId?: string;
-    cardSettings?: CardSettingsInput;
-    otp: {
-      otpId: string;
-      otpCode: string;
-      phoneNumber: string;
+    action: {
+      to: keyof MainStackParams;
+      params: Omit<MainStackParams[keyof MainStackParams], "otpResponseStatus" | "otpResponsePayload">;
     };
-    redirect: keyof CardActionsStackParams;
-    correlationId: string;
+    otpOptionalParams?: Record<string, unknown> | undefined;
+    otpChallengeParams: OtpChallengeParams;
+    onOtpRequestResend: () => Promise<OtpChallengeParams>;
   };
   "CardActions.ReportCardScreen": {
     cardId: string;
@@ -80,8 +67,7 @@ export default function CardActionsStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen component={CardDetailsScreen} name="CardActions.CardDetailsScreen" />
       <Stack.Screen component={CardSettingsScreen} name="CardActions.CardSettingsScreen" />
-      <Stack.Screen component={SingleUseCardInfo} name="CardActions.SingleUseCardInfo" />
-      <Stack.Screen component={LoadingSingleCardScreen} name="CardActions.LoadingSingleCardScreen" />
+      <Stack.Screen component={SingleUseCardInfoScreen} name="CardActions.SingleUseCardInfoScreen" />
       <Stack.Screen component={HomeScreen} name="CardActions.HomeScreen" />
       <Stack.Screen component={ResetPincodeScreen} name="CardActions.ResetPincodeScreen" />
       <Stack.Screen

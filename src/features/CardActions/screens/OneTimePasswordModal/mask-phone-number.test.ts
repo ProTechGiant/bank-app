@@ -1,4 +1,4 @@
-import { maskPhoneNumber } from "./mask-phone-number";
+import maskPhoneNumber from "./mask-phone-number";
 
 describe("maskPhoneNumber", () => {
   it("create masked for a HKG phone number with country code", () => {

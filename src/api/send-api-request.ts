@@ -27,11 +27,11 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     url: "https://" + API_BASE_URL + "/" + version + "/" + path,
   });
 
-  info("api", `Starting request for ${method} ${fetchUrl} with body: ${JSON.stringify(body)}`);
-
   if (undefined !== body && typeof body === "object") {
     headers["Content-Type"] = "application/json";
   }
+
+  info("api", `Starting request for ${method} ${fetchUrl} with body: ${JSON.stringify(body)}`);
 
   const response = await fetch(fetchUrl, {
     body: undefined !== body ? (typeof body === "object" ? JSON.stringify(body) : body) : undefined,

@@ -4,7 +4,7 @@ import api from "@/api";
 import { Address } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 
-import { Card, CardCreateResponse, CardSettingsInput, DetailedCardResponse } from "./types";
+import { Card, CardSettingsInput } from "./types";
 
 const queryKeys = {
   all: () => ["cards"] as const,
@@ -58,8 +58,10 @@ export function useFreezeCard() {
 }
 
 export function useUnfreezeCard() {
-  return useMutation(({ cardId, correlationId }: { cardId: string; correlationId: string }) => {
-    return api<OtpRequiredResponse>(
+  return useMutation(async ({ cardId }: { cardId: string }) => {
+    const correlationId = generateRandomId();
+
+    const response = await api<OtpRequiredResponse>(
       "v1",
       `cards/${cardId}`,
       "POST",
@@ -69,6 +71,8 @@ export function useUnfreezeCard() {
         ["x-correlation-id"]: correlationId,
       }
     );
+
+    return { ...response, correlationId };
   });
 }
 
@@ -106,10 +110,20 @@ export function useUpdateCardSettings() {
   const queryClient = useQueryClient();
 
   return useMutation(
-    ({ correlationId, cardId, settings }: { correlationId: string; cardId: string; settings: CardSettingsInput }) => {
-      return api<UpdateCardSettingsResponse>("v1", `cards/${cardId}/settings`, "POST", undefined, settings, {
-        ["x-correlation-id"]: correlationId,
-      });
+    async ({ cardId, settings }: { cardId: string; settings: CardSettingsInput }) => {
+      const correlationId = generateRandomId();
+      const response = await api<UpdateCardSettingsResponse & { correlationId: string }>(
+        "v1",
+        `cards/${cardId}/settings`,
+        "POST",
+        undefined,
+        settings,
+        {
+          ["X-Correlation-Id"]: correlationId,
+        }
+      );
+
+      return { ...response, correlationId };
     },
     {
       onMutate: variables => {
@@ -124,10 +138,26 @@ export function useUpdateCardSettings() {
 }
 
 export function useRequestViewPinOtp() {
-  return useMutation(({ cardId, correlationId }: { cardId: string; correlationId: string }) => {
-    return api<OtpRequiredResponse>("v1", `cards/${cardId}/pin`, "GET", undefined, undefined, {
+  return useMutation(async ({ cardId }: { cardId: string }) => {
+    const correlationId = generateRandomId();
+
+    const response = await api<OtpRequiredResponse>("v1", `cards/${cardId}/pin`, "GET", undefined, undefined, {
       ["x-correlation-id"]: correlationId,
     });
+
+    return { ...response, correlationId };
+  });
+}
+
+export function useResetPincode() {
+  return useMutation(async ({ cardId }: { cardId: string }) => {
+    const correlationId = generateRandomId();
+
+    const response = await api<OtpRequiredResponse>("v1", `cards/${cardId}/pin`, "POST", undefined, undefined, {
+      ["X-Correlation-Id"]: correlationId,
+    });
+
+    return { ...response, correlationId };
   });
 }
 
@@ -137,33 +167,30 @@ interface OtpRequiredResponse {
   PhoneNumber: string;
 }
 
-interface ValidateOtpRequest {
+interface ValidateOtpRequest<T extends object> {
   OtpId: string;
   OtpCode: string;
-  CardId: string;
   correlationId: string;
+  optionalParams: T;
 }
 
 interface ValidateOtpResponse {
   IsOtpValid: boolean;
   NumOfAttempts: number;
-  Pin?: string;
-  CardCreateResponse?: CardCreateResponse;
-  DetailedCardResponse?: DetailedCardResponse;
 }
 
-export function useOtpValidation() {
+export function useOtpValidation<RequestT extends object, ResponseT extends object>() {
   const queryClient = useQueryClient();
 
   return useMutation(
-    ({ CardId, OtpId, OtpCode, correlationId }: ValidateOtpRequest) => {
-      return api<ValidateOtpResponse>(
+    ({ OtpId, OtpCode, correlationId, optionalParams }: ValidateOtpRequest<RequestT>) => {
+      return api<ValidateOtpResponse & ResponseT>(
         "v1",
         `cards/otp-validation`,
         "POST",
         undefined,
         {
-          CardId: CardId,
+          ...optionalParams,
           OtpId: OtpId,
           OtpCode: OtpCode,
         },
@@ -176,8 +203,8 @@ export function useOtpValidation() {
       onSettled: (_data, _error, variables, _context) => {
         queryClient.invalidateQueries(queryKeys.all());
 
-        if (variables.CardId !== undefined && variables.CardId !== "") {
-          queryClient.invalidateQueries(queryKeys.settings(variables.CardId));
+        if (variables.optionalParams?.CardId !== undefined) {
+          queryClient.invalidateQueries(queryKeys.settings(variables.optionalParams.CardId));
         }
       },
     }
@@ -185,10 +212,13 @@ export function useOtpValidation() {
 }
 
 export function useUnmaskedCardDetails() {
-  return useMutation(({ cardId, correlationId }: { cardId: string; correlationId: string }) => {
-    return api<OtpRequiredResponse>("v1", `cards/${cardId}`, "GET", undefined, undefined, {
+  return useMutation(async ({ cardId }: { cardId: string }) => {
+    const correlationId = generateRandomId();
+    const response = await api<OtpRequiredResponse>("v1", `cards/${cardId}`, "GET", undefined, undefined, {
       ["x-correlation-id"]: correlationId,
     });
+
+    return { ...response, correlationId };
   });
 }
 

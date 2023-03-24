@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface CountdownLinkProps {
-  restart: boolean;
-  timeInSecond: number;
-  link: string;
+interface CountdownProps {
+  startInSeconds: number;
+  text: string;
   onPress: () => void;
+  value: number;
 }
 
 const CIRCLE_SIZE = 18;
@@ -17,36 +16,12 @@ const STROKE_WIDTH = 2;
 const RADIUS = (CIRCLE_SIZE - STROKE_WIDTH) / 2;
 const CIRCUM = RADIUS * 2 * Math.PI;
 
-export default function CountdownLink({ restart, timeInSecond, link, onPress }: CountdownLinkProps) {
-  const [count, setCount] = useState(0);
-  const [isActive, setIsActive] = useState(false);
-
-  const progressPercentage = (count / timeInSecond) * 100;
-  const progress = 100 - progressPercentage;
+export default function Countdown({ startInSeconds, text, onPress, value }: CountdownProps) {
+  const progress = value / startInSeconds;
   const strokeWidth = STROKE_WIDTH;
 
-  useEffect(() => {
-    if (restart) {
-      const timer = setInterval(() => {
-        if (count < timeInSecond) {
-          setCount(count + 1);
-        } else {
-          setIsActive(true);
-        }
-      }, 1000);
-      return () => clearInterval(timer);
-    }
-    return;
-  }, [restart, count]);
-
-  const handleOnPress = () => {
-    onPress();
-    setCount(0);
-    setIsActive(false);
-  };
-
+  const isActive = value >= startInSeconds;
   const strokeBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase-30"]);
-
   const strokeProgressColor = useThemeStyles<string>(theme => theme.palette.neutralBase);
 
   return (
@@ -61,7 +36,7 @@ export default function CountdownLink({ restart, timeInSecond, link, onPress }: 
             r={RADIUS}
             strokeWidth={strokeWidth}
           />
-          {progressPercentage !== 0 && (
+          {progress < 0.99 && (
             <Circle
               stroke={strokeProgressColor}
               fill="none"
@@ -69,7 +44,7 @@ export default function CountdownLink({ restart, timeInSecond, link, onPress }: 
               cy={CIRCLE_SIZE / 2}
               r={RADIUS}
               strokeDasharray={`${CIRCUM} ${CIRCUM}`}
-              strokeDashoffset={RADIUS * Math.PI * 2 * (progress / 100)}
+              strokeDashoffset={RADIUS * Math.PI * 2 * (1 - progress)}
               strokeLinecap="round"
               transform={`rotate(-90, ${CIRCLE_SIZE / 2}, ${CIRCLE_SIZE / 2})`}
               strokeWidth={strokeWidth}
@@ -77,9 +52,9 @@ export default function CountdownLink({ restart, timeInSecond, link, onPress }: 
           )}
         </Svg>
       )}
-      <Pressable disabled={!isActive} onPress={handleOnPress}>
+      <Pressable disabled={!isActive} onPress={onPress}>
         <Typography.Text size="callout" color={isActive ? "primaryBase" : "neutralBase"} style={styles.link}>
-          {link}
+          {text}
         </Typography.Text>
       </Pressable>
     </View>
@@ -92,5 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
-  link: { marginHorizontal: 12 },
+  link: {
+    marginHorizontal: 12,
+  },
 });

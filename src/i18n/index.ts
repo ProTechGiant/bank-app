@@ -744,8 +744,7 @@ export const resources = {
         },
         OneTimePasswordModal: {
           title: "Enter one-time password",
-          message:
-            "Enter the 2-step verification code that we texted to your phone number, {{hiddenNumber}} {{phoneNumber}}.",
+          message: "Enter the one-time code code we texted to your phone number, {{phoneNumber}}.",
           resendCode: "Resend Code",
           errors: {
             invalidPassword: "The code you entered was invalid. Please try again",

@@ -1,12 +1,15 @@
 import times from "lodash/times";
 import { forwardRef, useImperativeHandle, useRef } from "react";
-import { Pressable, StyleSheet, TextInput, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, TextInput, TextInputProps, View, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import { useThemeStyles } from "@/theme";
 
 interface PincodeInputProps {
+  autoComplete?: TextInputProps["autoComplete"];
   autoFocus?: boolean;
+  isEditable?: boolean;
+  isError?: boolean;
   onChangeText: (value: string) => void;
   length: number;
   value: string;
@@ -17,7 +20,10 @@ type PincodeInputRef = React.ForwardedRef<{
   focus: () => void;
 }>;
 
-function PincodeInput({ autoFocus, onChangeText, length, value }: PincodeInputProps, ref: PincodeInputRef) {
+function PincodeInput(
+  { autoComplete, autoFocus, isEditable = true, isError = false, onChangeText, length, value }: PincodeInputProps,
+  ref: PincodeInputRef
+) {
   const textInputRef = useRef<TextInput>(null);
 
   useImperativeHandle(ref, () => ({
@@ -38,6 +44,11 @@ function PincodeInput({ autoFocus, onChangeText, length, value }: PincodeInputPr
     justifyContent: "center",
     height: 60,
     width: 50,
+  }));
+
+  const boxErrorStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["errorBase-40"],
+    borderColor: theme.palette.errorBase,
   }));
 
   const boxActiveStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -61,7 +72,9 @@ function PincodeInput({ autoFocus, onChangeText, length, value }: PincodeInputPr
     <>
       <TextInput
         ref={textInputRef}
+        autoComplete={autoComplete}
         autoFocus={autoFocus}
+        editable={isEditable}
         blurOnSubmit={false}
         onChangeText={onChangeText}
         keyboardType="number-pad"
@@ -74,7 +87,9 @@ function PincodeInput({ autoFocus, onChangeText, length, value }: PincodeInputPr
           const isActive = value.length === index;
           const isFilled = value.length > index;
 
-          return (
+          return isError ? (
+            <Pressable key={index} style={[boxStyle, boxErrorStyle]} />
+          ) : (
             <Pressable key={index} onPress={handleOnFocus} style={[boxStyle, isActive && boxActiveStyle]}>
               {isActive ? <View style={blinkerStyle} /> : isFilled ? <View style={dotStyle} /> : <View />}
             </Pressable>

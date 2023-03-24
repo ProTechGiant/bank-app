@@ -107,6 +107,7 @@ export default function EditGoalModal() {
       ]);
     }
   };
+
   const handleOnSubmit = (values: EditGoalInput) => {
     editSavingsGoal(values);
   };

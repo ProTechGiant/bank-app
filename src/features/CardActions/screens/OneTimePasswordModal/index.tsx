@@ -1,366 +1,195 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { ErrorIcon } from "@/assets/icons";
+import { ErrorFilledCircleIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
+import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import PincodeInput from "@/components/PincodeInput";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { OTP_MAX_NUMBER_OF_RESEND, SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
-import useSubmitOrderCard from "@/hooks/use-submit-order-card";
 import { warn } from "@/logger";
+import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { OrderCardFormValues } from "@/types/Address";
-import { generateRandomId } from "@/utils";
 
-import { CardActionsStackParams } from "../../CardActionsStack";
-import {
-  useOtpValidation,
-  useRequestViewPinOtp,
-  useUnfreezeCard,
-  useUnmaskedCardDetails,
-  useUpdateCardSettings,
-} from "../../query-hooks";
-import CountdownLink from "./CountdownLink";
+import { useOtpValidation } from "../../query-hooks";
+import Countdown from "./Countdown";
 import maskPhoneNumber from "./mask-phone-number";
-import PinInput from "./PinInput";
 
-export default function OneTimePasswordModal() {
-  const navigation = useNavigation();
+export default function OneTimePasswordModal<ParamsT extends object, OutputT extends object>() {
   const { t } = useTranslation();
-  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.OneTimePasswordModal">>();
+  const navigation = useNavigation();
+  const { params } = useRoute<RouteProp<MainStackParams, "CardActions.OneTimePasswordModal">>();
 
-  const requestViewPinOtpAsync = useRequestViewPinOtp();
-  const otpValidationAsync = useOtpValidation();
-  const submitOrderCard = useSubmitOrderCard();
-  const requestGetCardAsync = useUnmaskedCardDetails();
-  const unfreezeCardAsync = useUnfreezeCard();
-  const updateCardSettingsAsync = useUpdateCardSettings();
-
-  const [countdownRestart, setCountdownRestart] = useState(true);
-  const [isPinFocus, setIsPinFocus] = useState(true);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [otpId, setOtpId] = useState(route.params.otp?.otpId);
-  const [isInvalidPassword, setIsInvalidPassword] = useState(false);
-  const [isReachedMaxAttempts, setIsReachedMaxAttempts] = useState(false);
-  const [correlationId, setCorrelatedId] = useState(route.params.correlationId);
-  const [numberOfResendRequest, setNumberOfResendRequest] = useState(0);
-
-  const phoneNumber = route.params.otp?.phoneNumber;
+  const otpValidationAsync = useOtpValidation<ParamsT, OutputT>();
+  const [otpParams, setOtpParams] = useState<(typeof params)["otpChallengeParams"]>(params.otpChallengeParams);
+  const otpResetCountSecondsIntervalRef = useRef<NodeJS.Timer | undefined>(undefined);
+  const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const [isOtpCodeInvalidErrorVisible, setIsOtpCodeInvalidErrorVisible] = useState(false);
+  const [otpAttemptsRemaining, setOtpAttemptsRemaining] = useState(OTP_MAX_ATTEMPTS);
+  const [otpResetCountSeconds, setOtpResetCountSeconds] = useState(0);
+  const [otpResendsRequested, setOtpResendsRequested] = useState(0);
+  const [currentValue, setCurrentValue] = useState("");
 
   useEffect(() => {
-    // TODO: For testers. To be removed
-    Alert.alert(`OTP: ${route.params.otp.otpCode}`);
-  }, [route.params]);
+    const intervalId = setInterval(() => setOtpResetCountSeconds(s => Math.min(s + 1, OTP_RESET_TIMEOUT_S)), 1000);
+    otpResetCountSecondsIntervalRef.current = intervalId;
 
-  const requestViewPinOtp = async () => {
-    if (undefined === route.params.cardId) return;
-    const newCorrelationId = generateRandomId();
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    Alert.alert(`OTP-code is: ${otpParams.OtpCode}`);
+  }, [otpParams]);
+
+  const handleOnCancel = () => {
+    // @ts-expect-error unable to properly add types for this call
+    navigation.navigate(params.action.to, {
+      ...params.action.params,
+      otpResponseStatus: "fail",
+    });
+  };
+
+  const handleOnRequestResendPress = async () => {
+    if (otpResetCountSeconds < OTP_RESET_TIMEOUT_S) return;
+    if (otpResendsRequested >= OTP_MAX_RESENDS) return;
 
     try {
-      const response = await requestViewPinOtpAsync.mutateAsync({
-        cardId: route.params.cardId,
-        correlationId: newCorrelationId,
-      });
+      const response = await params.onOtpRequestResend();
 
-      setCorrelatedId(newCorrelationId);
-      setOtpId(response.OtpId);
-      setCountdownRestart(true);
-
-      // TODO: For testers. To be removed
-      Alert.alert(`OTP: ${response.OtpCode}`);
+      setOtpParams(response);
+      setIsErrorVisible(false);
+      setIsOtpCodeInvalidErrorVisible(false);
+      setOtpAttemptsRemaining(OTP_MAX_ATTEMPTS);
+      setOtpResetCountSeconds(0);
+      setCurrentValue("");
     } catch (error) {
-      setShowErrorModal(true);
-      warn("card-actions", "Could not request view pin OTP: ", JSON.stringify(error));
+      warn("card-actions", "Could not re-request OTP-code: ", JSON.stringify(error));
+      setIsErrorVisible(true);
+    } finally {
+      setOtpResendsRequested(current => current + 1);
     }
   };
 
-  const requestUpdateSettingsOtp = async () => {
-    if (route.params.cardSettings === undefined || route.params.cardId === undefined) return;
-    const newCorrelationId = generateRandomId();
+  const handleOnRequestResendErrorClose = () => {
+    setIsErrorVisible(false);
+    setTimeout(() => handleOnCancel(), 500);
+  };
 
-    try {
-      const response = await updateCardSettingsAsync.mutateAsync({
-        correlationId: newCorrelationId,
-        cardId: route.params.cardId,
-        settings: route.params.cardSettings,
-      });
+  const handleOnChangeText = (value: string) => {
+    if (otpAttemptsRemaining < 1) return;
 
-      if (!response.IsOtpRequired) return;
-      // TODO: For testers. To be removed
-      Alert.alert(`OTP: ${response.OtpCode}`);
+    setCurrentValue(value);
+    setIsOtpCodeInvalidErrorVisible(false);
 
-      setCorrelatedId(newCorrelationId);
-      setOtpId(response.OtpId);
-      setCountdownRestart(true);
-    } catch (error) {
-      setShowErrorModal(true);
-      warn("card-actions", "Could not update card settings card: ", JSON.stringify(error));
+    if (value.length === OTP_CODE_LENGTH) {
+      handleOnSubmit(value);
     }
   };
 
-  const requestUnfreezeOtp = async () => {
-    if (undefined === route.params.cardId) return;
-    const newCorrelationId = generateRandomId();
-
+  const handleOnSubmit = async (otpCode: string) => {
     try {
-      const response = await unfreezeCardAsync.mutateAsync({
-        cardId: route.params.cardId,
-        correlationId: newCorrelationId,
+      const { IsOtpValid, NumOfAttempts, ...restProps } = await otpValidationAsync.mutateAsync({
+        OtpId: otpParams.OtpId,
+        OtpCode: otpCode,
+        correlationId: otpParams.correlationId,
+        optionalParams: params.otpOptionalParams as ParamsT,
       });
 
-      if (response.OtpCode !== undefined && response.OtpId !== undefined) {
-        // TODO: For testers. To be removed
-        Alert.alert(`OTP: ${response.OtpCode}`);
+      if (!IsOtpValid) {
+        setOtpAttemptsRemaining(OTP_MAX_ATTEMPTS - NumOfAttempts);
+        setIsOtpCodeInvalidErrorVisible(true);
+        setCurrentValue("");
 
-        setCorrelatedId(newCorrelationId);
-        setOtpId(response.OtpId);
-        setCountdownRestart(true);
-      } else {
-        setShowErrorModal(true);
-      }
-    } catch (error) {
-      setShowErrorModal(true);
-      warn("card-actions", "Could not unfreeze card: ", JSON.stringify(error));
-    }
-  };
-
-  const handleOnClosePress = () => {
-    navigation.goBack();
-  };
-
-  const handleOnResendPress = () => {
-    if (route.params.action === "view-pin") {
-      requestViewPinOtp();
-    } else if (route.params.action === "generate-single-use-card") {
-      requestCardCreation();
-    } else if (route.params.action === "show-details") {
-      requestGetCardDetails();
-    } else if (route.params.action === "unfreeze") {
-      requestUnfreezeOtp();
-    } else if (route.params.action === "update-settings") {
-      requestUpdateSettingsOtp();
-    }
-
-    setNumberOfResendRequest(current => current + 1);
-    setIsError(false);
-    setIsInvalidPassword(false);
-    setIsReachedMaxAttempts(false);
-    setIsPinFocus(true);
-  };
-
-  const requestCardCreation = async () => {
-    const orderCardRequest: OrderCardFormValues = {
-      CardType: Number(SINGLE_USE_CARD_TYPE),
-      CardProductId: Number(STANDARD_CARD_PRODUCT_ID),
-    };
-
-    const newCorrelationId = generateRandomId();
-
-    try {
-      const response = await submitOrderCard.mutateAsync({
-        values: orderCardRequest,
-        correlationId: newCorrelationId,
-      });
-
-      if (response.OtpCode !== undefined && response.OtpId !== undefined) {
-        setOtpId(response.OtpId);
-        Alert.alert(`OTP: ${response.OtpCode}`);
-        setCountdownRestart(true);
-        setCorrelatedId(newCorrelationId);
-      } else {
-        setShowErrorModal(true);
-      }
-    } catch (error) {
-      setShowErrorModal(true);
-      warn("card-actions", "Could not create SUC card: ", JSON.stringify(error));
-    }
-  };
-
-  const requestGetCardDetails = async () => {
-    if (undefined === route.params.cardId) return;
-    const newCorrelationId = generateRandomId();
-
-    try {
-      const response = await requestGetCardAsync.mutateAsync({
-        cardId: route.params.cardId,
-        correlationId: newCorrelationId,
-      });
-
-      if (response.OtpCode !== undefined && response.OtpId !== undefined) {
-        setOtpId(response.OtpId);
-        setCountdownRestart(true);
-        setCorrelatedId(newCorrelationId);
-        // TODO: For testers. To be removed
-        Alert.alert(`OTP: ${response.OtpCode}`);
-      } else {
-        setShowErrorModal(true);
-      }
-    } catch (error) {
-      setShowErrorModal(true);
-      warn("card-actions", "Could not get card details: ", JSON.stringify(error));
-    }
-  };
-
-  const handleOnPinBoxesPress = () => {
-    setIsPinFocus(true);
-    // reset pin boxes styles and remove error message
-    setIsError(false);
-    setIsInvalidPassword(false);
-    setIsReachedMaxAttempts(false);
-  };
-
-  const handleOnSubmit = async (input: string) => {
-    try {
-      const response = await otpValidationAsync.mutateAsync({
-        CardId: route.params.cardId ?? "",
-        OtpCode: input,
-        OtpId: otpId,
-        correlationId: correlationId,
-      });
-
-      if (response.IsOtpValid) {
-        if (route.params.action === "generate-single-use-card") {
-          // case card creation --> let loading screen handles the response
-          navigation.goBack();
-
-          return navigation.navigate("CardActions.LoadingSingleCardScreen", {
-            cardCreateResponse: response.CardCreateResponse,
-          });
-        }
-
-        navigation.navigate(
-          route.params.redirect,
-          route.params.redirect === "CardActions.HomeScreen"
-            ? {
-                action: route.params.action,
-                pin: response.Pin,
-              }
-            : {
-                action: route.params.action,
-                pin: response.Pin,
-                cardId: route.params.cardId,
-                detailedCardResponse: response.DetailedCardResponse,
-              }
-        );
-      } else {
-        setIsError(true);
-        setIsReachedMaxAttempts(response.NumOfAttempts >= 3);
-        setIsInvalidPassword(true);
-        setIsPinFocus(false);
-      }
-    } catch (error) {
-      // case card creation --> let loading screen handles the response
-      if (route.params.action === "generate-single-use-card") {
-        navigation.goBack();
-
-        setTimeout(() => {
-          navigation.navigate("CardActions.LoadingSingleCardScreen", {
-            cardCreateResponse: undefined,
-          });
-        }, 500);
-      } else {
-        setShowErrorModal(true);
+        return;
       }
 
-      warn("card-actions", "Could not validate OTP: ", JSON.stringify(error));
+      // @ts-expect-error unable to properly add types for this call
+      navigation.navigate(params.action.to, {
+        ...params.action.params,
+        otpResponseStatus: "success",
+        otpResponsePayload: restProps,
+      });
+    } catch (error) {
+      setIsErrorVisible(true);
+      warn("card-actions", "Could not validate OTP-code with backend: ", JSON.stringify(error));
     }
   };
 
-  const handleOnErrorModalClose = () => {
-    setShowErrorModal(false);
-  };
-
-  const passwordContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+  const otpContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    rowGap: theme.spacing["16p"],
     marginTop: theme.spacing["24p"],
     marginBottom: theme.spacing["20p"],
     width: "100%",
   }));
 
-  const errorContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "row",
-    alignItems: "flex-start",
-    backgroundColor: theme.palette["errorBase-40"],
-    borderRadius: theme.radii.small,
-    padding: theme.spacing["16p"],
-    marginBottom: theme.spacing["12p"],
-  }));
+  const phoneNumber = `${maskPhoneNumber(otpParams.PhoneNumber)} ${otpParams.PhoneNumber.slice(-2)}`;
+  const isReachedMaxAttempts = otpAttemptsRemaining === 0;
 
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={handleOnClosePress} />} />
+        <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={handleOnCancel} />} />
         <ContentContainer>
           <Stack direction="vertical" gap="16p">
             <Typography.Text size="title1" weight="semiBold">
               {t("CardActions.OneTimePasswordModal.title")}
             </Typography.Text>
-            {phoneNumber !== undefined ? (
-              <Typography.Text size="callout">
-                {t("CardActions.OneTimePasswordModal.message", {
-                  hiddenNumber: maskPhoneNumber(phoneNumber),
-                  phoneNumber: phoneNumber.slice(-2),
-                })}
-              </Typography.Text>
-            ) : null}
-            <View style={passwordContainerStyle}>
-              <PinInput
-                pinLength={4}
-                isError={isError}
-                isFocus={isPinFocus}
-                onSubmit={handleOnSubmit}
-                onPress={handleOnPinBoxesPress}
-                numberOfResendRequest={numberOfResendRequest}
+            <Typography.Text size="callout">
+              {t("CardActions.OneTimePasswordModal.message", { phoneNumber })}
+            </Typography.Text>
+            <View style={otpContainerStyle}>
+              <PincodeInput
+                autoComplete="one-time-code"
+                autoFocus
+                isEditable={!isReachedMaxAttempts}
+                isError={isReachedMaxAttempts}
+                onChangeText={handleOnChangeText}
+                length={OTP_CODE_LENGTH}
+                value={currentValue}
               />
+              {isOtpCodeInvalidErrorVisible ? (
+                <InlineBanner
+                  variant="error"
+                  icon={<ErrorFilledCircleIcon />}
+                  text={
+                    isReachedMaxAttempts
+                      ? t("CardActions.OneTimePasswordModal.errors.reachedMaxAttempts")
+                      : t("CardActions.OneTimePasswordModal.errors.invalidPassword")
+                  }
+                />
+              ) : null}
+              {!isReachedMaxAttempts && otpResendsRequested < OTP_MAX_RESENDS ? (
+                <Countdown
+                  onPress={handleOnRequestResendPress}
+                  startInSeconds={OTP_RESET_TIMEOUT_S}
+                  text={t("CardActions.OneTimePasswordModal.resendCode")}
+                  value={otpResetCountSeconds}
+                />
+              ) : null}
             </View>
-
-            {isInvalidPassword || isReachedMaxAttempts ? (
-              <View style={errorContainerStyle}>
-                <ErrorIcon height={20} width={20} />
-                <Typography.Text size="footnote" color="errorBase" style={styles.errorMessage}>
-                  {isReachedMaxAttempts
-                    ? t("CardActions.OneTimePasswordModal.errors.reachedMaxAttempts")
-                    : t("CardActions.OneTimePasswordModal.errors.invalidPassword")}
-                </Typography.Text>
-              </View>
-            ) : null}
           </Stack>
-          {!isReachedMaxAttempts && numberOfResendRequest < OTP_MAX_NUMBER_OF_RESEND ? (
-            <View style={styles.counterContainer}>
-              <CountdownLink
-                restart={countdownRestart}
-                timeInSecond={120}
-                link={t("CardActions.OneTimePasswordModal.resendCode")}
-                onPress={handleOnResendPress}
-              />
-            </View>
-          ) : null}
         </ContentContainer>
       </Page>
       <NotificationModal
         variant="error"
         title={t("errors.generic.title")}
         message={t("errors.generic.message")}
-        isVisible={showErrorModal}
-        onClose={handleOnErrorModalClose}
+        isVisible={isErrorVisible}
+        onClose={handleOnRequestResendErrorClose}
       />
     </SafeAreaProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  counterContainer: {
-    marginVertical: 12,
-  },
-  errorMessage: {
-    flex: 1,
-    marginLeft: 14,
-  },
-});
+const OTP_CODE_LENGTH = 4;
+const OTP_RESET_TIMEOUT_S = 120;
+const OTP_MAX_ATTEMPTS = 3;
+const OTP_MAX_RESENDS = 3;

@@ -25,11 +25,11 @@ import Typography from "@/components/Typography";
 import usePrimaryAddress from "@/hooks/use-primary-address";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import encryptPincode from "@/utils/encrypt-pincode";
 import isValidPincode from "@/utils/is-valid-pincode";
 
 import { useOrderCardContext } from "../../context/OrderCardContext";
 import CardDeliveryDetails from "./CardDeliveryDetails";
-import encryptPincode from "./encrypt-pincode";
 import westernArabicNumerals from "./western-arabic-numerals";
 
 export default function SetPinAndAddressScreen() {

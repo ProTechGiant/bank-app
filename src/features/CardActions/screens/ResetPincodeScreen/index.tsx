@@ -13,26 +13,32 @@ import Page from "@/components/Page";
 import PincodeInput from "@/components/PincodeInput";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import encryptPincode from "@/utils/encrypt-pincode";
 import isValidPincode from "@/utils/is-valid-pincode";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
+
+import useOtpFlow from "../../hooks/use-otp";
+import { useResetPincode } from "../../query-hooks";
 
 export default function ResetPinCodeScreen() {
   const { t } = useTranslation();
   const dimensions = useWindowDimensions();
-
   const navigation = useNavigation();
   const route = useRoute<RouteProp<MainStackParams, "CardActions.ResetPincodeScreen">>();
+  const cardId = route.params.cardId;
+
+  const resetPincodeAsync = useResetPincode();
+  const otpFlow = useOtpFlow();
 
   const pagerViewRef = useRef<ScrollView>(null);
   const enterPinCodeRef = useRef<React.ElementRef<typeof PincodeInput>>(null);
   const confirmPinCodeRef = useRef<React.ElementRef<typeof PincodeInput>>(null);
-
   const [currentValue, setCurrentValue] = useState("");
   const [selectedPincode, setSelectedPincode] = useState<string | undefined>();
-
   const [remainingAttempts, setRemainingAttempts] = useState(NUMBER_OF_RETRIES);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
 
@@ -91,13 +97,34 @@ export default function ResetPinCodeScreen() {
   };
 
   const handleOnUpdatePincode = async () => {
+    if (undefined === selectedPincode) return;
+
     try {
-      navigation.navigate("CardActions.CardSettingsScreen", {
-        isPincodeUpdated: true,
-        cardId: route.params.cardId,
+      const response = await resetPincodeAsync.mutateAsync({ cardId });
+
+      otpFlow.handle({
+        action: {
+          to: "CardActions.CardSettingsScreen",
+          params: {
+            cardId,
+          },
+        },
+        otpOptionalParams: {
+          CardId: cardId,
+          Pin: encryptPincode(selectedPincode),
+        },
+        otpChallengeParams: {
+          OtpId: response.OtpId,
+          OtpCode: response.OtpCode,
+          PhoneNumber: response.PhoneNumber,
+          correlationId: response.correlationId,
+        },
+        onOtpRequestResend: () => {
+          return resetPincodeAsync.mutateAsync({ cardId });
+        },
       });
     } catch (error) {
-      // ..
+      warn("Could not reset PIN-code for card: ", JSON.stringify(error));
     }
   };
 

@@ -7,50 +7,67 @@ import { SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import useSubmitOrderCard from "@/hooks/use-submit-order-card";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
-import { generateRandomId } from "@/utils";
 
+import useOtpFlow from "../../hooks/use-otp";
+import { CardCreateResponse } from "../../types";
 import PlaceholderCardSvg from "./placeholder-card.svg";
 
-export default function SingleUseCardInfo() {
+export default function SingleUseCardInfoScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const otpFlow = useOtpFlow();
   const submitOrderCard = useSubmitOrderCard();
-  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [isSubmitErrorModalVisible, setIsSubmitErrorModalVisible] = useState(false);
 
   const handleOnGenerateCard = async () => {
-    const correlationId = generateRandomId();
-
     try {
       const response = await submitOrderCard.mutateAsync({
-        correlationId,
         values: {
           CardType: SINGLE_USE_CARD_TYPE,
           CardProductId: STANDARD_CARD_PRODUCT_ID,
         },
       });
 
-      if (typeof response.OtpId !== "string") {
-        throw new Error("No OtpId received from back-end");
-      }
+      otpFlow.handle<{ CardCreateResponse: CardCreateResponse | undefined }>({
+        action: {
+          to: "CardActions.SingleUseCardInfoScreen",
+        },
+        otpChallengeParams: {
+          OtpId: response.OtpId,
+          OtpCode: response.OtpCode,
+          PhoneNumber: response.PhoneNumber,
+          correlationId: response.correlationId,
+        },
+        onOtpRequestResend: () => {
+          return submitOrderCard.mutateAsync({
+            values: {
+              CardType: SINGLE_USE_CARD_TYPE,
+              CardProductId: STANDARD_CARD_PRODUCT_ID,
+            },
+          });
+        },
+        onFinish: (status, payload) => {
+          if (status === "fail" || payload?.CardCreateResponse?.Header.ErrorId !== "0") {
+            return setIsSubmitErrorModalVisible(true);
+          }
 
-      navigation.navigate("CardActions.OneTimePasswordModal", {
-        correlationId,
-        redirect: "CardActions.LoadingSingleCardScreen",
-        action: "generate-single-use-card",
-        otp: {
-          otpId: response.OtpId,
-          otpCode: response.OtpCode,
-          phoneNumber: response.PhoneNumber,
+          setTimeout(() => {
+            navigation.navigate("CardActions.CardDetailsScreen", {
+              cardId: payload.CardCreateResponse.Body.CardId,
+              isSingleUseCardCreated: true,
+            });
+          }, 500);
         },
       });
     } catch (error) {
-      setShowErrorModal(true);
-      warn("card-actions", "Could not create SUC card: ", JSON.stringify(error));
+      setIsSubmitErrorModalVisible(true);
+      warn("card-actions", "Could not request single-use card: ", JSON.stringify(error));
     }
   };
 
   const handleOnCloseNotification = () => {
-    setShowErrorModal(false);
+    setIsSubmitErrorModalVisible(false);
   };
 
   return (
@@ -72,7 +89,7 @@ export default function SingleUseCardInfo() {
         variant="error"
         title={t("errors.generic.title")}
         message={t("errors.generic.message")}
-        isVisible={showErrorModal}
+        isVisible={isSubmitErrorModalVisible}
         onClose={handleOnCloseNotification}
       />
     </>
