@@ -10,9 +10,8 @@ import { LUX_CARD_PRODUCT_ID, PHYSICAL_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } fro
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { useOrderCardContext } from "../../context/OrderCardContext";
-import SelectLuxCard from "./SelectLuxCard";
-import SelectStandardCard from "./SelectStandardCard";
+import { useOrderCardContext } from "../contexts/OrderCardContext";
+import { SelectLuxCard, SelectStandardCard } from "../components";
 
 export default function PickCardTypeScreen() {
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();

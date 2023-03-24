@@ -3,14 +3,14 @@ import { createContext, useContext, useMemo, useState } from "react";
 import { PHYSICAL_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { OrderCardFormValues } from "@/types/Address";
 
-export type OrderCardValues = {
+type OrderCardValues = {
   formValues: OrderCardFormValues;
   formState?: {
     error?: Error;
   };
 };
 
-export const orderCardInitValues: OrderCardValues = {
+const orderCardInitValues: OrderCardValues = {
   formValues: {
     CardType: PHYSICAL_CARD_TYPE,
     CardProductId: STANDARD_CARD_PRODUCT_ID,
@@ -18,12 +18,12 @@ export const orderCardInitValues: OrderCardValues = {
   },
 };
 
-export interface OrderCardContextValues {
+interface OrderCardContextValues {
   orderCardValues: OrderCardValues;
   setOrderCardValues: React.Dispatch<React.SetStateAction<OrderCardValues>>;
 }
 
-export const OrderCardContext = createContext<OrderCardContextValues>({
+const OrderCardContext = createContext<OrderCardContextValues>({
   orderCardValues: orderCardInitValues,
   setOrderCardValues: () => {
     return;

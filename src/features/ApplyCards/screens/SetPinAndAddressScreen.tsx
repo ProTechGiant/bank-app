@@ -28,9 +28,9 @@ import { useThemeStyles } from "@/theme";
 import encryptPincode from "@/utils/encrypt-pincode";
 import isValidPincode from "@/utils/is-valid-pincode";
 
-import { useOrderCardContext } from "../../context/OrderCardContext";
-import CardDeliveryDetails from "./CardDeliveryDetails";
-import westernArabicNumerals from "./western-arabic-numerals";
+import { useOrderCardContext } from "../contexts/OrderCardContext";
+import { CardDeliveryDetails } from "../components";
+import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 export default function SetPinAndAddressScreen() {
   const dimensions = useWindowDimensions();
@@ -204,7 +204,9 @@ export default function SetPinAndAddressScreen() {
                       <InlineBanner
                         icon={<ErrorFilledCircleIcon />}
                         // eslint-disable-next-line prettier/prettier
-                        text={t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.pinNotMatch", { count: remainingAttempts })}
+                        text={t("ApplyCards.SetPinAndAddressScreen.ConfirmPin.pinNotMatch", {
+                          count: remainingAttempts,
+                        })}
                         variant="error"
                       />
                     ) : null}

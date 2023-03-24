@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
 
-import api from "@/api";
+import sendApiRequest from "@/api";
 
 interface TokenizedCardResponseType {
   TimeStamp: string;
@@ -8,9 +8,9 @@ interface TokenizedCardResponseType {
   secretKey: string;
 }
 
-export default function useTokenizedCard() {
+export function useTokenizedCard() {
   return useMutation((cardId: string) => {
     const path = `payments/tokenized/${cardId}`;
-    return api<TokenizedCardResponseType>("v1", path, "GET", undefined, undefined, undefined);
+    return sendApiRequest<TokenizedCardResponseType>("v1", path, "GET", undefined, undefined, undefined);
   });
 }

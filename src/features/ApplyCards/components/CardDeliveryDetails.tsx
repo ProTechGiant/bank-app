@@ -7,7 +7,7 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useOrderCardContext } from "@/features/ApplyCards/context/OrderCardContext";
+import { useOrderCardContext } from "@/features/ApplyCards/contexts/OrderCardContext";
 import useSubmitOrderCard from "@/hooks/use-submit-order-card";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";

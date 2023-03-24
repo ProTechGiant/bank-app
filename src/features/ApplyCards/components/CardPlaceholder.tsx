@@ -1,7 +1,7 @@
 import { Image } from "react-native";
 
-import LuxCardPlaceholder from "./lux-card-placeholder.png";
-import StandardCardPlaceholder from "./standard-card-placeholder.png";
+import LuxCardPlaceholder from "../assets/lux-card-placeholder.png";
+import StandardCardPlaceholder from "../assets/standard-card-placeholder.png";
 
 interface CardPlaceholderProps {
   height?: number | string;

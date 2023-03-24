@@ -11,8 +11,8 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 
-import BackgroundBottomSvg from "../../background-bottom.svg";
-import BackgrounTopStartSvg from "../../background-top-start.svg";
+import BackgroundBottomSvg from "../assets/background-bottom.svg";
+import BackgrounTopStartSvg from "../assets/background-top-start.svg";
 
 export default function CardOrderedScreen() {
   const navigation = useNavigation();

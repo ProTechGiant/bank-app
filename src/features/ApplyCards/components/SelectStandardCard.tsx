@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import { useThemeStyles } from "@/theme";
 
-import CardPlaceholder from "../../components/CardPlaceholder";
+import CardPlaceholder from "./CardPlaceholder";
 
 export default function SelectStandardCard({ onPress }: { onPress: () => void }) {
   const { t } = useTranslation();

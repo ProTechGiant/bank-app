@@ -10,8 +10,8 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 
-import BottomTriangle from "../../background-bottom.svg";
-import HeaderTriangle from "../../background-top-start.svg";
+import BottomTriangle from "../assets/background-bottom.svg";
+import HeaderTriangle from "../assets/background-top-start.svg";
 
 export default function ApplePayActivatedScreen() {
   const navigation = useNavigation();

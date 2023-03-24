@@ -6,7 +6,7 @@ import TemporaryAddress from "@/components/TemporaryAddress";
 import useNavigation from "@/navigation/use-navigation";
 import { Address } from "@/types/Address";
 
-import { useOrderCardContext } from "../../context/OrderCardContext";
+import { useOrderCardContext } from "../contexts/OrderCardContext";
 
 export default function SetTemporaryAddressScreen() {
   const navigation = useNavigation();

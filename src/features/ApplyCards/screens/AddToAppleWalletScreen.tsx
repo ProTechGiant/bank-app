@@ -12,8 +12,8 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import CardPlaceholder from "../../components/CardPlaceholder";
-import useTokenizedCard from "./use-tokenized-card";
+import { CardPlaceholder } from "../components";
+import { useTokenizedCard } from "../hooks/query-hooks";
 
 export default function AddToAppleWalletScreen() {
   const contentContainerStyle = useThemeStyles<ViewStyle>(

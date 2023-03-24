@@ -6,9 +6,9 @@ import Button from "@/components/Button";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import CardPlaceholder from "../../components/CardPlaceholder";
-import LuxBottomBlueSvg from "./lux-bottom-blue.svg";
-import LuxCardBackgroundSvg from "./lux-white-background.svg";
+import CardPlaceholder from "./CardPlaceholder";
+import LuxBottomBlueSvg from "../assets/lux-bottom-blue.svg";
+import LuxCardBackgroundSvg from "../assets/lux-white-background.svg";
 
 export default function SelectLuxCard({ onPress }: { onPress: () => void }) {
   const { t } = useTranslation();

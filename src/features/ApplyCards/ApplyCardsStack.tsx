@@ -1,13 +1,15 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { OrderCardContextProvider } from "./context/OrderCardContext";
-import AddToAppleWalletScreen from "./screens/AddToAppleWalletScreen";
-import ApplePayActivatedScreen from "./screens/ApplePayActivatedScreen";
-import CardOrderedScreen from "./screens/CardOrderedScreen";
-import PickCardTypeScreen from "./screens/PickCardTypeScreen";
-import SetPinAndAddressScreen from "./screens/SetPinAndAddressScreen";
-import SetTemporaryAddressScreen from "./screens/SetTemporaryAddressScreen";
+import { OrderCardContextProvider } from "./contexts/OrderCardContext";
+import {
+  AddToAppleWalletScreen,
+  ApplePayActivatedScreen,
+  CardOrderedScreen,
+  PickCardTypeScreen,
+  SetPinAndAddressScreen,
+  SetTemporaryAddressScreen,
+} from "./screens";
 
 export type ApplyCardModalStackParams = {
   "ApplyCards.PickCardType": undefined;
