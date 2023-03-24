@@ -3,7 +3,7 @@ import { Pressable, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { IconProps } from "@/assets/icons";
-import { Shadow } from "@/components";
+import { WithShadow } from "@/components";
 import { useThemeStyles } from "@/theme";
 
 import { Chevron, Copy, Label, TableListDate, TableListDay, TableListToggle } from "./EndComponents";
@@ -61,6 +61,6 @@ export default function TableListCard({
     </Pressable>
   );
   return !isGrouped
-    ? createElement(Shadow, { backgroundColor: "neutralBase-60", borderRadius: "small", children: children })
+    ? createElement(WithShadow, { backgroundColor: "neutralBase-60", borderRadius: "small", children: children })
     : createElement(Fragment, { children: children });
 }

@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import AddMoneyViaBankTransferScreen from "./screens/AddMoneyViaBankTransfer";
+import { AddMoneyViaBankTransferScreen } from "./screens";
 
 export type AddMoneyStackParams = {
   "AddMoney.AddMoneyInfoScreen": undefined;

@@ -16,8 +16,7 @@ import useAccount from "@/hooks/use-account";
 import usePrimaryAddress from "@/hooks/use-primary-address";
 import { useThemeStyles } from "@/theme";
 
-import { BadgeIcon } from "./badge";
-import { HistoryIcon } from "./history";
+import { BadgeIcon, HistoryIcon } from "../assets/icons";
 
 export default function AddMoneyViaBankTransferScreen() {
   const { t } = useTranslation();
