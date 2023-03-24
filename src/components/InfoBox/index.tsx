@@ -1,7 +1,8 @@
-import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { TextStyle, View, ViewStyle } from "react-native";
 
+import { WithShadow } from "@/components";
 import Typography from "@/components/Typography";
-import { generateShadow, useThemeStyles } from "@/theme";
+import { useThemeStyles } from "@/theme";
 
 interface InfoBoxProps {
   borderPosition?: "start" | "end";
@@ -13,7 +14,6 @@ interface InfoBoxProps {
 export default function InfoBox({ borderPosition = "start", title, children, variant }: InfoBoxProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: theme.palette["neutralBase-50"],
       borderColor:
         variant === "compliment"
           ? theme.palette.complimentBase
@@ -22,9 +22,9 @@ export default function InfoBox({ borderPosition = "start", title, children, var
           : variant === "error"
           ? theme.palette.errorBase
           : theme.palette["primaryBase-40"],
-      borderRadius: theme.radii.extraSmall,
       borderStartWidth: borderPosition === "start" ? 4 : undefined,
       borderEndWidth: borderPosition === "end" ? 4 : undefined,
+      borderRadius: theme.radii.extraSmall,
       padding: theme.spacing["16p"],
     }),
     [borderPosition, variant]
@@ -35,19 +35,17 @@ export default function InfoBox({ borderPosition = "start", title, children, var
   }));
 
   return (
-    <View style={[container, styles.shadow]}>
-      {title && (
-        <View style={titleContainerStyle}>
-          <Typography.Text size="footnote" weight="semiBold">
-            {title}
-          </Typography.Text>
-        </View>
-      )}
-      <Typography.Text size="caption1">{children}</Typography.Text>
-    </View>
+    <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall" elevation={6}>
+      <View style={container}>
+        {title && (
+          <View style={titleContainerStyle}>
+            <Typography.Text size="footnote" weight="semiBold">
+              {title}
+            </Typography.Text>
+          </View>
+        )}
+        <Typography.Text size="caption1">{children}</Typography.Text>
+      </View>
+    </WithShadow>
   );
 }
-
-const styles = StyleSheet.create({
-  shadow: generateShadow(6),
-});

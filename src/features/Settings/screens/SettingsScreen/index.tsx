@@ -7,7 +7,6 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { TableListCard } from "@/components/TableList";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
 
 export default function SettingsScreen() {
   const { t } = useTranslation();

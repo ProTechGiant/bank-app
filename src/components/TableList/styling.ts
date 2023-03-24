@@ -1,6 +1,6 @@
 import { ViewStyle } from "react-native";
 
-import { generateShadow, useThemeStyles } from "@/theme";
+import { useThemeStyles } from "@/theme";
 
 export const useInfoStyles = () => {
   const infoIconStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -29,5 +29,3 @@ export const useInfoStyles = () => {
     chevronWidth,
   };
 };
-
-export const shadowStyle = generateShadow(5);

@@ -1,7 +1,8 @@
 import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
-import { generateShadow, useThemeStyles } from "@/theme";
+import { WithShadow } from "@/components";
+import { useThemeStyles } from "@/theme";
 
 interface LinkCardProps {
   onNavigate: () => void;
@@ -12,8 +13,6 @@ interface LinkCardProps {
 export default function LinkCard({ onNavigate, children, style }: LinkCardProps) {
   const container = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
-    backgroundColor: theme.palette["neutralBase-50"],
-    borderRadius: theme.radii.extraSmall,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-evenly",
@@ -25,12 +24,14 @@ export default function LinkCard({ onNavigate, children, style }: LinkCardProps)
   };
 
   return (
-    <Pressable style={[container, styles.shadow, style]} onPress={handlePress}>
-      <View style={styles.textContainer}>{children}</View>
-      <View style={styles.arrowContainer}>
-        <ChevronRightIcon />
-      </View>
-    </Pressable>
+    <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall" elevation={3}>
+      <Pressable style={[container, style]} onPress={handlePress}>
+        <View style={styles.textContainer}>{children}</View>
+        <View style={styles.arrowContainer}>
+          <ChevronRightIcon />
+        </View>
+      </Pressable>
+    </WithShadow>
   );
 }
 
@@ -41,7 +42,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 24,
   },
-  shadow: generateShadow(3),
   textContainer: {
     marginEnd: 10,
   },

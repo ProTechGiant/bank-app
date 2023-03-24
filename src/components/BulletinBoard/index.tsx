@@ -5,9 +5,10 @@ import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native
 import { SvgProps } from "react-native-svg";
 
 import { AngleDownIcon, AngleUpIcon, IconProps } from "@/assets/icons";
+import { WithShadow } from "@/components";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { generateShadow, useThemeStyles } from "@/theme";
+import { useTheme, useThemeStyles } from "@/theme";
 
 import PaginationDot from "./PaginationDot";
 
@@ -20,6 +21,7 @@ interface BulletinBoardProps {
 }
 
 export default function BulletinBoard({ children, isExpanded, onExpandPress, iconStart, title }: BulletinBoardProps) {
+  const { theme } = useTheme();
   const boardWidth = useRef<number | undefined>(undefined);
   const scrollX = useSharedValue(0);
 
@@ -33,21 +35,13 @@ export default function BulletinBoard({ children, isExpanded, onExpandPress, ico
     },
   });
 
-  const containerStyles = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-50"],
-    borderRadius: theme.radii.extraSmall,
-  }));
-
   const titleContainerStyles = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-50"],
-    borderRadius: theme.radii.extraSmall,
     flexDirection: "row",
     padding: theme.spacing["16p"],
   }));
 
   const paginatorStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
-    backgroundColor: theme.palette["neutralBase-50"],
     columnGap: 3,
     flexDirection: "row",
     justifyContent: "center",
@@ -57,48 +51,49 @@ export default function BulletinBoard({ children, isExpanded, onExpandPress, ico
   const iconColor = useThemeStyles(theme => theme.palette.complimentBase);
 
   return (
-    <View
-      onLayout={event => (boardWidth.current = event.nativeEvent.layout.width)}
-      style={[containerStyles, styles.shadow]}>
-      <Pressable onPress={handleOnToggle} style={[titleContainerStyles, styles.shadow]}>
-        <Stack align="center" direction="horizontal" gap="8p" style={styles.titleContainer}>
-          {cloneElement(iconStart, { color: iconColor })}
-          <Typography.Text color="primaryBase" size="callout" weight="semiBold" style={styles.titleText}>
-            {title}
-          </Typography.Text>
-          {isExpanded ? <AngleUpIcon color={iconColor} /> : <AngleDownIcon color={iconColor} />}
-        </Stack>
-      </Pressable>
-      {isExpanded ? (
-        <View>
-          <Animated.ScrollView
-            decelerationRate="fast"
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            snapToInterval={boardWidth.current}
-            scrollEventThrottle={64}
-            onScroll={scrollHandler}>
-            {children?.map((element, index) => {
-              return (
-                <View key={index} style={{ width: boardWidth.current }}>
-                  {element}
-                </View>
-              );
-            })}
-          </Animated.ScrollView>
-          <View style={paginatorStyle}>
-            {times(React.Children.count(children), index => {
-              return <PaginationDot key={index} index={index} scrollX={scrollX} width={boardWidth.current ?? 0} />;
-            })}
+    <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall">
+      <View onLayout={event => (boardWidth.current = event.nativeEvent.layout.width)}>
+        <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall">
+          <Pressable onPress={handleOnToggle} style={titleContainerStyles}>
+            <Stack align="center" direction="horizontal" gap="8p" style={styles.titleContainer}>
+              {cloneElement(iconStart, { color: iconColor })}
+              <Typography.Text color="primaryBase" size="callout" weight="semiBold" style={styles.titleText}>
+                {title}
+              </Typography.Text>
+              {isExpanded ? <AngleUpIcon color={iconColor} /> : <AngleDownIcon color={iconColor} />}
+            </Stack>
+          </Pressable>
+        </WithShadow>
+        {isExpanded ? (
+          <View>
+            <Animated.ScrollView
+              decelerationRate="fast"
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              snapToInterval={boardWidth.current}
+              scrollEventThrottle={64}
+              onScroll={scrollHandler}>
+              {children?.map((element, index) => {
+                return (
+                  <View key={index} style={{ width: boardWidth.current }}>
+                    {element}
+                  </View>
+                );
+              })}
+            </Animated.ScrollView>
+            <View style={paginatorStyle}>
+              {times(React.Children.count(children), index => {
+                return <PaginationDot key={index} index={index} scrollX={scrollX} width={boardWidth.current ?? 0} />;
+              })}
+            </View>
           </View>
-        </View>
-      ) : null}
-    </View>
+        ) : null}
+      </View>
+    </WithShadow>
   );
 }
 
 const styles = StyleSheet.create({
-  shadow: generateShadow(5),
   titleContainer: {
     width: "100%",
   },

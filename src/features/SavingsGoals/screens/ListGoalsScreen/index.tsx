@@ -18,7 +18,7 @@ import { useThemeStyles } from "@/theme";
 import { useSavingsPots } from "../../query-hooks";
 import BackgroundBottomStartSvg from "./background-bottom-start.svg";
 import BackgroundTopEndSvg from "./background-top-end.svg";
-import GoalCard, { styles as goalCardStyles } from "./GoalCard";
+import GoalCard from "./GoalCard";
 
 const MAX_GOALS = 4;
 
@@ -59,7 +59,6 @@ export default function SavingsGoalsScreen() {
 
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
-    borderRadius: theme.radii.extraSmall,
     paddingHorizontal: theme.spacing["16p"],
     paddingVertical: theme.spacing["20p"],
     rowGap: 2,
@@ -117,7 +116,7 @@ export default function SavingsGoalsScreen() {
                 />
               ))}
               {data !== undefined && savingsGoals.length <= MAX_GOALS - 1 ? (
-                <Pressable onPress={handleOnCreateGoal} style={[buttonStyle, goalCardStyles.shadow]}>
+                <Pressable onPress={handleOnCreateGoal} style={buttonStyle}>
                   <Stack align="center" direction="horizontal" gap="4p">
                     <PlusIcon color={iconColor} width={24} height={24} />
                     <Typography.Text color="primaryBase" size="callout" weight="medium">

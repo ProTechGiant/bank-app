@@ -149,7 +149,7 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
               : t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.paragraph.default")}
           </Typography.Text>
         </View>
-        <Stack direction="vertical" gap="20p">
+        <Stack direction="vertical" gap="20p" align="stretch">
           {addressData !== undefined &&
             addressData.map((address, index) => {
               const addressLineFour = `${address.City} ${address.PostalCode}`;

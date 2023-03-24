@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import CheckboxInput from "@/components/Form/CheckboxInput";
@@ -10,11 +10,12 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
+import { WithShadow } from "@/components";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
-import { generateShadow, useThemeStyles } from "@/theme";
+import { useThemeStyles } from "@/theme";
 
 import { MoreInfoDropdown } from "../components";
 import { useConfirmPersonalDetails, useNafathDetails } from "../hooks/query-hooks";
@@ -57,8 +58,6 @@ export default function ConfirmPersonalDetailsScreen() {
   };
 
   const detailsCardStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-50"],
-    borderRadius: theme.radii.small,
     paddingHorizontal: theme.spacing["16p"],
     paddingVertical: theme.spacing["32p"],
   }));
@@ -79,35 +78,37 @@ export default function ConfirmPersonalDetailsScreen() {
           <Typography.Header size="large" weight="bold">
             {t("Onboarding.ConfirmPersonalDetailsScreen.title")}
           </Typography.Header>
-          {undefined !== data && (
-            <View style={[detailsCardStyle, styles.shadow]}>
-              <Stack direction="vertical" gap="16p">
-                <InfoLine
-                  label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineName")}
-                  value={concatStr(" ", [data.EnglishFamilyName, data.EnglishFirstName])}
-                />
-                <InfoLine
-                  label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineNationality")}
-                  value={data.Nationality}
-                />
-                <InfoLine
-                  label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineExpiry")}
-                  value={data.IqamaExpiryDateGregorian}
-                />
-                <InfoLine
-                  label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineAddress")}
-                  value={concatStr(" ", [
-                    data.Addresses?.[0]?.StreetName +
-                      ", " +
-                      data.Addresses?.[0]?.City +
-                      " " +
-                      data.Addresses?.[0]?.PostCode,
-                    ", Saudi Arabia",
-                  ])}
-                />
-              </Stack>
-            </View>
-          )}
+          {undefined !== data ? (
+            <WithShadow backgroundColor="neutralBase-50" borderRadius="small" elevation={3}>
+              <View style={detailsCardStyle}>
+                <Stack direction="vertical" gap="16p">
+                  <InfoLine
+                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineName")}
+                    value={concatStr(" ", [data.EnglishFamilyName, data.EnglishFirstName])}
+                  />
+                  <InfoLine
+                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineNationality")}
+                    value={data.Nationality}
+                  />
+                  <InfoLine
+                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineExpiry")}
+                    value={data.IqamaExpiryDateGregorian}
+                  />
+                  <InfoLine
+                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineAddress")}
+                    value={concatStr(" ", [
+                      data.Addresses?.[0]?.StreetName +
+                        ", " +
+                        data.Addresses?.[0]?.City +
+                        " " +
+                        data.Addresses?.[0]?.PostCode,
+                      ", Saudi Arabia",
+                    ])}
+                  />
+                </Stack>
+              </View>
+            </WithShadow>
+          ) : null}
           <MoreInfoDropdown title={t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownTitle")}>
             <Typography.Text color="neutralBase" size="footnote" weight="regular">
               {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyOne")}
@@ -159,7 +160,3 @@ function InfoLine({ label, value }: { label: string; value: string | undefined }
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  shadow: generateShadow(3),
-});
