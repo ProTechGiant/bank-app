@@ -283,6 +283,7 @@ export const resources = {
             lux: "Lux",
           },
           standard: {
+            remarks: "*Delivery fee from 80.99 SAR",
             button: "Get Standard Card for FREE",
           },
           lux: {
@@ -365,8 +366,9 @@ export const resources = {
           },
         },
         CardOrderedScreen: {
-          title: "Card ordered",
-          paragraph: "Your card will be with you by",
+          title: "Your new card’s coming soon",
+          paragraph:
+            "It’ll be with you in a few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using Apple Wallet.",
           buttons: {
             addToWallet: "Add to Wallet",
             finish: "Finish",

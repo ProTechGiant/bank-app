@@ -1,18 +1,28 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import MainStackParams from "@/navigation/mainStackParams";
 import { Address } from "@/types/Address";
 
-import CardDetailsScreen from "./screens/CardDetailsScreen";
-import CardSettingsScreen from "./screens/CardSettingsScreen";
-import HomeScreen from "./screens/HomeScreen";
-import OneTimePasswordModal from "./screens/OneTimePasswordModal";
-import ReportCardScreen from "./screens/ReportCardScreen";
-import ReportCardSuccessScreen from "./screens/ReportCardScreen/ReportCardSuccessScreen";
-import SetDifferentAddressScreen from "./screens/ReportCardScreen/SetDifferentAddressScreen";
-import ResetPincodeScreen from "./screens/ResetPincodeScreen";
-import SingleUseCardAbout from "./screens/SingleUseCardAbout";
-import SingleUseCardInfoScreen from "./screens/SingleUseCardsInfoScreen";
+import { OrderCardContextProvider } from "./context/OrderCardContext";
+import {
+  AddToAppleWalletScreen,
+  ApplePayActivatedScreen,
+  CardDetailsScreen,
+  CardSettingsScreen,
+  HomeScreen,
+  OneTimePasswordModal,
+  PickCardTypeScreen,
+  ReportCardScreen,
+  ResetPinCodeScreen,
+  SetTemporaryAddressScreen,
+  SingleUseCardAbout,
+  SingleUseCardInfoScreen,
+} from "./screens";
+import CardOrderedScreen from "./screens/ApplyCardsFlow/CardOrderedScreen";
+import SetPinAndAddressScreen from "./screens/ApplyCardsFlow/SetPinAndAddressScreen";
+import ReportCardSuccessScreen from "./screens/ReportCardFlow/ReportCardSuccessScreen";
+import { OtpResponseStatus } from "./types";
 
 interface OtpChallengeParams {
   OtpId: string;
@@ -20,8 +30,6 @@ interface OtpChallengeParams {
   PhoneNumber: string;
   correlationId: string;
 }
-
-export type OtpResponseStatus = "success" | "fail";
 
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {
@@ -52,15 +60,44 @@ export type CardActionsStackParams = {
   "CardActions.ReportCardSuccessScreen": {
     cardId: string;
   };
-  "CardActions.SetDifferentAddressScreen": {
+  "CardActions.SetTemporaryAddressScreen": {
     alternativeAddress?: Address;
+    navigateTo: keyof CardActionsStackParams;
   };
   "CardActions.ResetPincodeScreen": {
     cardId: string;
   };
+  "CardActions.PickCardType": undefined;
+  "CardActions.CardOrdered": {
+    cardId: string;
+  };
+  "CardActions.SetPinAndAddress": {
+    alternativeAddress?: Address;
+  };
+  "CardActions.AddToAppleWallet": {
+    cardId: string;
+  };
+  "CardActions.ApplePayActivated": {
+    cardId: string;
+  };
+  "ApplyCards.ApplyForCardStack": undefined;
 };
 
 export const Stack = createNativeStackNavigator<CardActionsStackParams>();
+
+export function ApplyCardsStack() {
+  return (
+    <SafeAreaProvider>
+      <OrderCardContextProvider>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen component={PickCardTypeScreen} name="CardActions.PickCardType" />
+          <Stack.Screen component={SetPinAndAddressScreen} name="CardActions.SetPinAndAddress" />
+          <Stack.Screen component={CardOrderedScreen} name="CardActions.CardOrdered" />
+        </Stack.Navigator>
+      </OrderCardContextProvider>
+    </SafeAreaProvider>
+  );
+}
 
 export default function CardActionsStack() {
   return (
@@ -69,7 +106,7 @@ export default function CardActionsStack() {
       <Stack.Screen component={CardSettingsScreen} name="CardActions.CardSettingsScreen" />
       <Stack.Screen component={SingleUseCardInfoScreen} name="CardActions.SingleUseCardInfoScreen" />
       <Stack.Screen component={HomeScreen} name="CardActions.HomeScreen" />
-      <Stack.Screen component={ResetPincodeScreen} name="CardActions.ResetPincodeScreen" />
+      <Stack.Screen component={ResetPinCodeScreen} name="CardActions.ResetPincodeScreen" />
       <Stack.Screen
         component={SingleUseCardAbout}
         name="CardActions.SingleUseCardAbout"
@@ -82,11 +119,14 @@ export default function CardActionsStack() {
       />
       <Stack.Screen component={ReportCardScreen} name="CardActions.ReportCardScreen" />
       <Stack.Screen
-        component={SetDifferentAddressScreen}
-        name="CardActions.SetDifferentAddressScreen"
+        component={SetTemporaryAddressScreen}
+        name="CardActions.SetTemporaryAddressScreen"
         options={{ presentation: "modal" }}
       />
       <Stack.Screen component={ReportCardSuccessScreen} name="CardActions.ReportCardSuccessScreen" />
+      <Stack.Screen component={ApplyCardsStack} name="ApplyCards.ApplyForCardStack" />
+      <Stack.Screen component={AddToAppleWalletScreen} name="CardActions.AddToAppleWallet" />
+      <Stack.Screen component={ApplePayActivatedScreen} name="CardActions.ApplePayActivated" />
     </Stack.Navigator>
   );
 }

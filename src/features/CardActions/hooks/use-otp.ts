@@ -4,7 +4,8 @@ import { useEffect, useRef } from "react";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
-import { CardActionsStackParams, OtpResponseStatus } from "../CardActionsStack";
+import { CardActionsStackParams } from "../CardActionsStack";
+import { OtpResponseStatus } from "../types";
 
 type OtpScreenParams = CardActionsStackParams["CardActions.OneTimePasswordModal"];
 
@@ -39,7 +40,10 @@ export default function useOtpFlow<Source extends keyof MainStackParams>() {
   };
 
   // eslint-disable-next-line prettier/prettier
-  const handle = <Payload, Destination extends keyof MainStackParams>({ onFinish, ...input }: HandleOtpParams<Destination, Payload>) => {
+  const handle = <Payload, Destination extends keyof MainStackParams>({
+    onFinish,
+    ...input
+  }: HandleOtpParams<Destination, Payload>) => {
     if (onFinish !== undefined) responseEffectRef.current = onFinish;
     navigation.navigate("CardActions.OneTimePasswordModal", input);
   };

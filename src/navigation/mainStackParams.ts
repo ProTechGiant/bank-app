@@ -1,4 +1,3 @@
-import { ApplyCardModalStackParams } from "@/features/ApplyCards/ApplyCardsStack";
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
 import { DetailedFaq, FAQSection } from "@/features/FrequentlyAskedQuestions/types/frequentlyAskedQuestions";
 import { HomeStackParams } from "@/features/Home/HomeStack";
@@ -35,7 +34,6 @@ type RootStackParams = {
 };
 
 type MainStackParams = RootStackParams &
-  ApplyCardModalStackParams &
   OnboardingStackParams &
   SavingsGoalsStackParams &
   CardActionsStackParams &

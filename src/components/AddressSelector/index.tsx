@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { LocationPinIcon } from "@/assets/icons";
@@ -6,7 +7,6 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import Radio from "../Radio";
-import { useTranslation } from "react-i18next";
 
 interface AddressSelectorProps {
   id: string;

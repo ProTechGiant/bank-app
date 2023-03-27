@@ -2,7 +2,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AddMoneyStack from "@/features/AddMoney/AddMoneyStack";
-import ApplyCardsStack from "@/features/ApplyCards/ApplyCardsStack";
 import CardActionsStack from "@/features/CardActions/CardActionsStack";
 import DetailedSceen from "@/features/FrequentlyAskedQuestions/screens/DetailedScreen";
 import LandingPage from "@/features/FrequentlyAskedQuestions/screens/LandingPage";
@@ -46,9 +45,6 @@ export default function MainStack({ onReady }: MainStackProps) {
         <Stack.Screen component={SavingsGoalsStack} name="SavingsGoals.SavingsGoalsStack" />
         <Stack.Screen component={OnboardingStack} name="Onboarding.OnboardingStack" />
         <Stack.Screen component={HomeStack} name="Home.HomeStack" />
-        <Stack.Group screenOptions={{ headerShown: false, presentation: "modal" }}>
-          <Stack.Screen component={ApplyCardsStack} name="ApplyCards.ApplyForCardStack" />
-        </Stack.Group>
         <Stack.Screen component={LandingPage} name="FrequentlyAskedQuestions.LandingPage" />
         <Stack.Screen component={SectionScreen} name="FrequentlyAskedQuestions.SectionScreen" />
         <Stack.Screen component={DetailedSceen} name="FrequentlyAskedQuestions.DetailedScreen" />

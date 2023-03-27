@@ -50,7 +50,9 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnOpenApplyForCard = () => {
-    navigation.navigate("ApplyCards.ApplyForCardStack");
+    navigation.navigate("CardActions.CardActionsStack", {
+      screen: "ApplyCards.ApplyForCardStack",
+    });
   };
 
   const handleOnHomepage = () => {
