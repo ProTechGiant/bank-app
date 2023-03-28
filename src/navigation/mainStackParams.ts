@@ -3,6 +3,7 @@ import { DetailedFaq, FAQSection } from "@/features/FrequentlyAskedQuestions/typ
 import { HomeStackParams } from "@/features/Home/HomeStack";
 import { SubCategories } from "@/features/NotificationManagement/screens/HubScreen/types/notificationManagement";
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
+import { ReferralStackParams } from "@/features/Referral/ReferralStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
 
 type RootStackParams = {
@@ -19,9 +20,6 @@ type RootStackParams = {
   "Onboarding.OnboardingStack": undefined;
   "Modal.QuickActionsReorderModal": undefined;
   "Modal.HomepageReorderModal": undefined;
-  "Referral.HubScreen": undefined;
-  "Referral.InstructionsScreen": undefined;
-  "Referral.TermsAndConditions": undefined;
   "Settings.SettingsScreen": undefined;
   "SavingsGoals.SavingsGoalsStack": {
     savingsPotsNumber: number;
@@ -37,6 +35,7 @@ type MainStackParams = RootStackParams &
   OnboardingStackParams &
   SavingsGoalsStackParams &
   CardActionsStackParams &
+  ReferralStackParams &
   HomeStackParams;
 
 export default MainStackParams;

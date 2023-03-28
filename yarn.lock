@@ -11945,6 +11945,11 @@ react-merge-refs@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.1.0.tgz#73d88b892c6c68cbb7a66e0800faa374f4c38b06"
   integrity sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==
 
+react-native-appsflyer@^6.9.4:
+  version "6.9.4"
+  resolved "https://registry.yarnpkg.com/react-native-appsflyer/-/react-native-appsflyer-6.9.4.tgz#35d8adbee93d169a7af3770739e8fe04de2d2680"
+  integrity sha512-GR02uyTjN08oAotVErCqE6nuqKReEskztSCcZhLZ8RbAYAu4Phj6ySvElc6cPF/KxBtR0Q9SE0RLaC1QLBM4mw==
+
 react-native-bootsplash@^4.5.2:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/react-native-bootsplash/-/react-native-bootsplash-4.5.2.tgz#ae293c39dd7bb6b8b884231dc552140347e220de"
@@ -12066,6 +12071,11 @@ react-native-tab-view@^3.3.4:
   integrity sha512-rceAYWpHa6knA7tsTnnjlcOxlCErR4F+yXQPpNm125IvYFyv09YRhE5uMU2IzyPIQ1CJvADCHurF3KySzVI+4Q==
   dependencies:
     use-latest-callback "^0.1.5"
+
+react-native-tracking-transparency@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-tracking-transparency/-/react-native-tracking-transparency-0.1.2.tgz#78059ffe38079182aaced1326f590b35c7440ae6"
+  integrity sha512-oe+BFutdq+fnTgyC9pAm/NEz6nuYkEHpFQUU8swj+E5oOOPqGmrNXmseNatKob521Zh7w0ovxXkoQNTV+PKTFA==
 
 react-native-web@^0.18.12:
   version "0.18.12"

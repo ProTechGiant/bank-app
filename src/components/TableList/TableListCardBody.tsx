@@ -11,9 +11,16 @@ interface TableListCardBodyProps {
   helperText?: string;
   label: string;
   onInfoPress?: () => void;
+  isInactive?: boolean;
 }
 
-export default function TableListCardBody({ isError, helperText, label, onInfoPress }: TableListCardBodyProps) {
+export default function TableListCardBody({
+  isError,
+  helperText,
+  label,
+  onInfoPress,
+  isInactive,
+}: TableListCardBodyProps) {
   const { infoIconStyle, infoColor, infoDimensions } = useInfoStyles();
 
   const helperTextStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -23,7 +30,7 @@ export default function TableListCardBody({ isError, helperText, label, onInfoPr
   return (
     <View style={styles.container}>
       <View style={styles.label}>
-        <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+        <Typography.Text color={isInactive ? "neutralBase-10" : "neutralBase+30"} size="callout" weight="medium">
           {label}
         </Typography.Text>
         {undefined !== onInfoPress && (

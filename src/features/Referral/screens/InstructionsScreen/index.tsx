@@ -6,27 +6,29 @@ import { GiftIcon, InviteIcon, ReferralsIcon } from "@/assets/icons";
 import HeroSlider from "@/components/HeroSlider";
 import { HeroSlideProps } from "@/components/HeroSlider/HeroSlide";
 import NavHeader from "@/components/NavHeader";
-import { useGlobalContext } from "@/contexts/GlobalContext";
+import { useReferralContext } from "@/contexts/ReferralContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 export default function InstructionsScreen() {
-  const { setReferralPageViewed } = useGlobalContext();
+  const { setReferralPageViewStatus } = useReferralContext();
   const navigation = useNavigation();
   const { t } = useTranslation();
 
   useEffect(() => {
-    setReferralPageViewed(true);
+    setReferralPageViewStatus("in-progress");
   }, []);
 
   const handleOnFinish = () => {
     navigation.goBack();
+    setReferralPageViewStatus("finished");
   };
 
   const handleOnBack = () => {
     // Navigated from first instance on referral hub but going back we want the page before this
     navigation.goBack();
     navigation.goBack();
+    setReferralPageViewStatus("finished");
   };
 
   const iconWrapperStyle = useThemeStyles<ViewStyle>(

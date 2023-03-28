@@ -399,6 +399,11 @@ export const resources = {
           termsAndConditions: " terms and conditions",
           fullStop: ".",
           share: "Share via...",
+          errorTitle: "Trouble loading data",
+          errorMessage: "We weren’t able to fetch the data. Please refresh or try again later.",
+          refresh: "Refresh",
+          dismiss: "Dismiss",
+          noLink: "No link found",
         },
         InstructionsScreen: {
           skip: "Skip",

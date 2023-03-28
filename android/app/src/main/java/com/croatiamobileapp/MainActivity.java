@@ -1,6 +1,7 @@
 package com.croatiamobileapp;
 
 import android.os.Bundle;
+import android.content.Intent;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -11,6 +12,18 @@ import com.facebook.react.modules.i18nmanager.I18nUtil;
 import com.zoontek.rnbootsplash.RNBootSplash;
 
 public class MainActivity extends ReactActivity {
+
+  /**
+  * Android Deeplink Setup
+  * AppsFlyer SDK inspects activity intent object during onResume(). 
+  * Because of that, for each activity that may be configured or launched with any non-standard launch mode 
+  */
+  @Override
+  public void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    setIntent(intent);
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     RNBootSplash.init(this);

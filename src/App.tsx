@@ -6,22 +6,23 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "react-query";
 
+import { AuthContextProvider } from "@/contexts/AuthContext";
+import { ReferralContextProvider } from "@/contexts/ReferralContext";
+import { OnboardingContextProvider } from "@/features/Onboarding/contexts/OnboardingContext";
+import useAppsflyer from "@/hooks/use-appsflyer";
 import useI18nDirection from "@/i18n/use-i18n-direction";
 import MainStack from "@/navigation/MainStack";
-
-import { AuthContextProvider } from "./contexts/AuthContext";
-import { GlobalContextProvider } from "./contexts/GlobalContext";
-import { OnboardingContextProvider } from "./features/Onboarding/contexts/OnboardingContext";
 
 const queryClient = new QueryClient();
 
 export default function App() {
   useI18nDirection();
+  useAppsflyer();
 
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-        <GlobalContextProvider>
+        <ReferralContextProvider>
           <OnboardingContextProvider>
             <SafeAreaProvider>
               <GestureHandlerRootView style={styles.container}>
@@ -30,7 +31,7 @@ export default function App() {
               </GestureHandlerRootView>
             </SafeAreaProvider>
           </OnboardingContextProvider>
-        </GlobalContextProvider>
+        </ReferralContextProvider>
       </AuthContextProvider>
     </QueryClientProvider>
   );

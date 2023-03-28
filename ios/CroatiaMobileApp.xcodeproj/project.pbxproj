@@ -44,6 +44,7 @@
 		5709B34CF0A7D63546082F79 /* Pods-CroatiaMobileApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp.release.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp-CroatiaMobileAppTests.debug.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-CroatiaMobileApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CroatiaMobileApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		60930A1C29CE190A00C2498C /* CroatiaMobileApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CroatiaMobileApp.entitlements; path = CroatiaMobileApp/CroatiaMobileApp.entitlements; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp-CroatiaMobileAppTests.release.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		CC492C22C6DB8D7D7CD6B02C /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp-CroatiaMobileAppTests.test.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests.test.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -92,6 +93,7 @@
 		13B07FAE1A68108700A75B9A /* CroatiaMobileApp */ = {
 			isa = PBXGroup;
 			children = (
+				60930A1C29CE190A00C2498C /* CroatiaMobileApp.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -210,7 +212,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -444,6 +446,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -471,6 +474,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CC492C22C6DB8D7D7CD6B02C /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.test.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = CroatiaMobileAppTests/Info.plist;
@@ -497,6 +501,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = CroatiaMobileApp/CroatiaMobileApp.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -530,6 +535,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = CroatiaMobileApp/CroatiaMobileApp.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -763,6 +769,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = CroatiaMobileApp/CroatiaMobileApp.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -792,6 +799,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = CroatiaMobileAppTests/Info.plist;

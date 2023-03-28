@@ -3,6 +3,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTI18nUtil.h>
 #import "RNBootSplash.h"
+#import <RNAppsFlyer.h>
 
 @implementation AppDelegate
 
@@ -38,6 +39,18 @@
 - (BOOL)concurrentRootEnabled
 {
   return true;
+}
+
+// Deep linking open URI-scheme for iOS 9 and above
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary *) options {
+  [[AppsFlyerAttribution shared] handleOpenUrl:url options:options];
+    return YES;
+}
+
+// Open Universal Links
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler {
+    [[AppsFlyerAttribution shared] continueUserActivity:userActivity restorationHandler:restorationHandler];
+    return YES;
 }
 
 @end

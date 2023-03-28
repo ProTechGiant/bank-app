@@ -18,6 +18,7 @@ export interface TableListCardProps {
   icon?: React.ReactElement<SvgProps | IconProps>;
   isGrouped?: boolean;
   onPress?: () => void;
+  isInactive?: boolean;
 }
 
 TableListCard.Copy = Copy;
@@ -36,6 +37,7 @@ export default function TableListCard({
   isError,
   isGrouped = false,
   end,
+  isInactive,
 }: TableListCardProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
@@ -56,7 +58,13 @@ export default function TableListCard({
       {icon !== undefined ? (
         <View style={listContainerStyle}>{cloneElement(icon, { color: icon.props.color ?? iconColor })}</View>
       ) : null}
-      <TableListCardBody helperText={helperText} isError={isError} label={label} onInfoPress={onInfoPress} />
+      <TableListCardBody
+        helperText={helperText}
+        isError={isError}
+        label={label}
+        onInfoPress={onInfoPress}
+        isInactive={isInactive}
+      />
       {end}
     </Pressable>
   );
