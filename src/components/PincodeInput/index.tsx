@@ -82,17 +82,17 @@ function PincodeInput(
         style={styles.textInput}
         value={value}
       />
-      <Stack direction="horizontal" gap="12p">
+      <Stack accessibilityRole="button" as={Pressable} direction="horizontal" gap="12p" onPress={() => handleOnFocus()}>
         {times(length).map(index => {
           const isActive = value.length === index;
           const isFilled = value.length > index;
 
           return isError ? (
-            <Pressable key={index} style={[boxStyle, boxErrorStyle]} />
+            <View key={index} style={[boxStyle, boxErrorStyle]} />
           ) : (
-            <Pressable key={index} onPress={handleOnFocus} style={[boxStyle, isActive && boxActiveStyle]}>
+            <View key={index} style={[boxStyle, isActive && boxActiveStyle]}>
               {isActive ? <View style={blinkerStyle} /> : isFilled ? <View style={dotStyle} /> : <View />}
-            </Pressable>
+            </View>
           );
         })}
       </Stack>

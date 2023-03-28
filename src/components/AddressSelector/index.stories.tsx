@@ -1,10 +1,10 @@
 import { ComponentStory } from "@storybook/react";
 
-import AddressSelector from "./index";
+import AddressSelector_ from "./index";
 
 export default {
   title: "components/AddressSelector",
-  component: AddressSelector,
+  component: AddressSelector_,
   args: {
     id: "1",
     addressLineOne: "PrimaryAddres",
@@ -46,6 +46,6 @@ export default {
   },
 };
 
-export const RadioButton: ComponentStory<typeof AddressSelector> = args => {
-  return <AddressSelector {...args} />;
+export const AddressSelector: ComponentStory<typeof AddressSelector_> = args => {
+  return <AddressSelector_ {...args} />;
 };

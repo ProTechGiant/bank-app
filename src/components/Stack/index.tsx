@@ -1,9 +1,10 @@
 import * as React from "react";
-import { View, ViewProps, ViewStyle } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 
 import { Theme, useThemeStyles } from "@/theme";
 
-interface StackProps extends ViewProps {
+interface StackProps<T extends typeof View | typeof Pressable> {
+  as?: T;
   align?: ViewStyle["alignItems"];
   children: React.ReactNode;
   direction: "horizontal" | "vertical";
@@ -13,7 +14,8 @@ interface StackProps extends ViewProps {
 }
 
 // @see https://reactnative.dev/blog/2023/01/12/version-071#simplifying-layouts-with-flexbox-gap
-export default function Stack({
+export default function Stack<T extends typeof View | typeof Pressable>({
+  as = View,
   align = "flex-start",
   children,
   direction,
@@ -22,7 +24,7 @@ export default function Stack({
   style,
   flex,
   ...restProps
-}: StackProps) {
+}: StackProps<T> & Omit<React.ComponentPropsWithoutRef<T>, keyof StackProps<T>>) {
   const elements = React.Children.toArray(children);
 
   const containerStyle = useThemeStyles<ViewStyle>(
@@ -37,9 +39,5 @@ export default function Stack({
     [align, direction, gap, justify, flex]
   );
 
-  return (
-    <View {...restProps} style={[containerStyle, style]}>
-      {elements}
-    </View>
-  );
+  return React.createElement(as, { ...restProps, style: [containerStyle, style], children: elements });
 }
