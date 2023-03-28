@@ -79,7 +79,7 @@ export default function IqamaInputScreen() {
   };
 
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader withBackButton={true} title={t("Onboarding.IqamaInputScreen.navHeaderTitle")} />
       <MobileAndNationalIdForm onSubmit={handleOnSubmit} errorMessages={errorMessages} onSigninPress={handleOnSignIn} />
     </Page>

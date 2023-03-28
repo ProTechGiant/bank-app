@@ -24,20 +24,20 @@ export default function PendingAccountScreen() {
   const { t } = useTranslation();
   const [isBannerVisible, setIsBannerVisible] = useState(true);
   const [isAccountSetupVisible, setIsAccountSetupVisible] = useState(true);
-  const [fetchPosts, setFetchPosts] = useState(true);
-  const { data, refetch } = useAccountStatus(fetchPosts);
+  const [isfetchingAccountStatus, setIsfetchingAccountStatus] = useState(true);
+  const { data, refetch } = useAccountStatus(isfetchingAccountStatus);
 
   const accountStatus: Status | undefined = data?.OnboardingStatus;
 
   useEffect(() => {
     if (accountStatus === "COMPLETED") {
-      setFetchPosts(false);
+      setIsfetchingAccountStatus(false);
       const timer = setTimeout(() => {
         setIsBannerVisible(false);
       }, 3000);
       return () => clearTimeout(timer);
     } else if (accountStatus === "DECLINED") {
-      setFetchPosts(false);
+      setIsfetchingAccountStatus(false);
     }
   }, [accountStatus, refetch]);
 

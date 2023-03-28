@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Linking, SafeAreaView, View, ViewStyle } from "react-native";
+import { Linking, View, ViewStyle } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
+import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
@@ -65,7 +66,7 @@ export default function NafathAuthScreen() {
   };
 
   return (
-    <SafeAreaView>
+    <Page>
       <NavHeader withBackButton={false} title={t("Onboarding.NafathAuthScreen.navHeaderTitle")} />
       <View style={container}>
         <LinkModal
@@ -124,6 +125,6 @@ export default function NafathAuthScreen() {
           </MoreInfoDropdown>
         </Stack>
       </View>
-    </SafeAreaView>
+    </Page>
   );
 }

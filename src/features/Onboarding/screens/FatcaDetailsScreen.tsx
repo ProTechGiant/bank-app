@@ -127,7 +127,7 @@ export default function FatcaDetailsScreen() {
   const foreignTaxCountries = watch("ForeignTaxCountry");
 
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader
         onBackPress={handleOnBackPress}
         title={t("Onboarding.FatcaDetailsScreen.navHeaderTitle")}

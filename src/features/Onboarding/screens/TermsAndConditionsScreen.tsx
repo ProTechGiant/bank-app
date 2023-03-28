@@ -54,7 +54,7 @@ const TermsAndConditionsScreen = () => {
   const dividerColor = useThemeStyles<string>(theme => theme.palette["neutralBase-10"]);
 
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-50"],
+    backgroundColor: theme.palette["neutralBase-60"],
     paddingHorizontal: theme.spacing["20p"],
     paddingBottom: theme.spacing["32p"],
   }));

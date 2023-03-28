@@ -5,12 +5,12 @@ import { useTranslation } from "react-i18next";
 import { Alert, ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
+import { WithShadow } from "@/components";
 import CheckboxInput from "@/components/Form/CheckboxInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
-import { WithShadow } from "@/components";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
@@ -63,7 +63,7 @@ export default function ConfirmPersonalDetailsScreen() {
   }));
 
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-50"],
+    backgroundColor: theme.palette["neutralBase-60"],
     paddingHorizontal: theme.spacing["20p"],
     paddingBottom: theme.spacing["32p"],
   }));

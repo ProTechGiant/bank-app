@@ -59,7 +59,7 @@ export default function OptionalEmailScreen() {
   };
 
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader withBackButton={false} title={t("Onboarding.OptionalEmailScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={2} totalStep={6} />
       </NavHeader>

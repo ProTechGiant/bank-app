@@ -41,7 +41,7 @@ export default function OnboardingSplashScreen() {
   }));
 
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <View style={StyleSheet.absoluteFill}>
         <BackgroundImageSvg />

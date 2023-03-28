@@ -46,7 +46,7 @@ export default function FinancialInformationScreen() {
   };
 
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader
         onBackPress={handleOnBackPress}
         withBackButton={true}
