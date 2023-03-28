@@ -79,7 +79,7 @@ export default function AddressSelector({
           </Typography.Text>
         </View>
         <View style={radioButtonStyle}>
-          <Radio isSelected={isSelected} id={id} />
+          <Radio isSelected={isSelected} onPress={() => onPress(id)} />
         </View>
       </Pressable>
     </WithShadow>
