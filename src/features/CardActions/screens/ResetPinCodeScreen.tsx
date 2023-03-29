@@ -130,7 +130,7 @@ export default function ResetPinCodeScreen() {
 
   const inputContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
-    marginVertical: theme.spacing["16p"],
+    paddingVertical: theme.spacing["16p"],
     rowGap: theme.spacing["10p"],
     width: "100%",
   }));
@@ -140,7 +140,7 @@ export default function ResetPinCodeScreen() {
       <Page backgroundColor="neutralBase-60">
         <NavHeader onBackPress={handleOnBackPress} />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
-          <ScrollView ref={pagerViewRef} horizontal scrollEnabled={false}>
+          <ScrollView ref={pagerViewRef} horizontal scrollEnabled={false} showsHorizontalScrollIndicator={false}>
             {/* Enter a new PIN-code */}
             <ContentContainer style={{ width: dimensions.width }}>
               <Stack align="center" direction="vertical" justify="space-between" flex={1}>
