@@ -1,14 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
-import { Address } from "@/types/Address";
+import { Address, OrderCardFormValues } from "@/types/Address";
 import { generateRandomId } from "@/utils";
+import { tokenizeCardForAppleWalletAsync } from "@/utils/apple-wallet";
 
 import { Card, CardSettingsInput } from "../types";
 
-const queryKeys = {
+export const queryKeys = {
   all: () => ["cards"] as const,
-  settings: (cardId: string) => [...queryKeys.all(), "settings", { cardId }],
+  settings: (cardId: string) => [...queryKeys.all(), "settings", { cardId }] as const,
+  meawalletTokenization: (cardId: string) => [...queryKeys.all(), "meawallet-tokenization", { cardId }] as const,
   customerTier: () => ["customer-tier"] as const,
 };
 
@@ -252,4 +254,34 @@ export function useReportCard() {
       },
     }
   );
+}
+
+export function useMeawalletTokenization(cardId: string) {
+  return useQuery(
+    queryKeys.meawalletTokenization(cardId),
+    async () => {
+      return tokenizeCardForAppleWalletAsync(cardId);
+    },
+    {
+      staleTime: Infinity,
+    }
+  );
+}
+
+interface OrderCardResponse {
+  OtpId: string;
+  OtpCode: string;
+  PhoneNumber: string;
+}
+
+export default function useSubmitOrderCard() {
+  return useMutation(async ({ values }: { values: OrderCardFormValues }) => {
+    const correlationId = generateRandomId();
+
+    const response = await api<OrderCardResponse>("v1", "cards", "POST", undefined, values, {
+      ["x-correlation-id"]: correlationId,
+    });
+
+    return { ...response, correlationId };
+  });
 }

@@ -6,7 +6,6 @@ import { Address } from "@/types/Address";
 
 import { OrderCardContextProvider } from "./context/OrderCardContext";
 import {
-  AddToAppleWalletScreen,
   ApplePayActivatedScreen,
   CardDetailsScreen,
   CardSettingsScreen,
@@ -61,25 +60,22 @@ export type CardActionsStackParams = {
     cardId: string;
   };
   "CardActions.SetTemporaryAddressScreen": {
-    alternativeAddress?: Address;
+    initialValue?: Address;
     navigateTo: keyof CardActionsStackParams;
   };
   "CardActions.ResetPincodeScreen": {
     cardId: string;
   };
   "CardActions.PickCardType": undefined;
-  "CardActions.CardOrdered": {
+  "CardActions.CardOrderedScreen": {
     cardId: string;
   };
-  "CardActions.SetPinAndAddress": {
-    alternativeAddress?: Address;
-  };
-  "CardActions.AddToAppleWallet": {
-    cardId: string;
-  };
-  "CardActions.ApplePayActivated": {
-    cardId: string;
-  };
+  "CardActions.SetPinAndAddress":
+    | {
+        alternativeAddress?: Address;
+      }
+    | undefined;
+  "CardActions.ApplePayActivated": undefined;
   "ApplyCards.ApplyForCardStack": undefined;
 };
 
@@ -92,7 +88,7 @@ export function ApplyCardsStack() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen component={PickCardTypeScreen} name="CardActions.PickCardType" />
           <Stack.Screen component={SetPinAndAddressScreen} name="CardActions.SetPinAndAddress" />
-          <Stack.Screen component={CardOrderedScreen} name="CardActions.CardOrdered" />
+          <Stack.Screen component={CardOrderedScreen} name="CardActions.CardOrderedScreen" />
         </Stack.Navigator>
       </OrderCardContextProvider>
     </SafeAreaProvider>
@@ -125,7 +121,6 @@ export default function CardActionsStack() {
       />
       <Stack.Screen component={ReportCardSuccessScreen} name="CardActions.ReportCardSuccessScreen" />
       <Stack.Screen component={ApplyCardsStack} name="ApplyCards.ApplyForCardStack" />
-      <Stack.Screen component={AddToAppleWalletScreen} name="CardActions.AddToAppleWallet" />
       <Stack.Screen component={ApplePayActivatedScreen} name="CardActions.ApplePayActivated" />
     </Stack.Navigator>
   );

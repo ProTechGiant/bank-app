@@ -44,7 +44,7 @@ export default function PickCardTypeScreen() {
       },
     }));
 
-    navigation.navigate("CardActions.SetPinAndAddress", {});
+    navigation.navigate("CardActions.SetPinAndAddress");
   };
 
   return (

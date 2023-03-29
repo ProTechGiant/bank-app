@@ -1,4 +1,3 @@
-export { default as AddToAppleWalletScreen } from "./AddToAppleWalletScreen";
 export { default as ApplePayActivatedScreen } from "./ApplePayActivatedScreen";
 export { default as PickCardTypeScreen } from "./ApplyCardsFlow";
 export { default as CardDetailsScreen } from "./CardDetailsScreen";

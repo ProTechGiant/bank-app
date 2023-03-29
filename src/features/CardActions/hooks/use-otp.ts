@@ -13,7 +13,7 @@ type OtpScreenParams = CardActionsStackParams["CardActions.OneTimePasswordModal"
 interface HandleOtpParams<Route extends keyof MainStackParams, Payload> extends OtpScreenParams {
   action: {
     to: Route;
-    params: Omit<MainStackParams[Route], "otpResponseStatus">;
+    params?: Omit<MainStackParams[Route], "otpResponseStatus">;
   };
   onFinish?: (status: OtpResponseStatus, payload: Payload) => void;
 }
@@ -39,8 +39,7 @@ export default function useOtpFlow<Source extends keyof MainStackParams>() {
     responseEffectRef.current = fn;
   };
 
-  // eslint-disable-next-line prettier/prettier
-  const handle = <Payload, Destination extends keyof MainStackParams>({
+  const handle = <Payload, Destination extends keyof MainStackParams = keyof MainStackParams>({
     onFinish,
     ...input
   }: HandleOtpParams<Destination, Payload>) => {

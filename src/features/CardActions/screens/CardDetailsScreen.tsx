@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { AppState, NativeEventSubscription, Platform, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CardSettingsIcon, CopyIcon, ReportIcon } from "@/assets/icons";
-import AddToAppleWalletButton from "@/components/AddToAppleWalletButton/AddToAppleWalletButton";
+import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
 import BankCard from "@/components/BankCard";
 import ContentContainer from "@/components/ContentContainer";
 import DismissibleBanner from "@/components/DismissibleBanner";
@@ -36,6 +36,7 @@ import {
   useUnfreezeCard,
   useUnmaskedCardDetails,
 } from "../hooks/query-hooks";
+import useAppleWallet from "../hooks/use-apple-wallet";
 import useOtpFlow from "../hooks/use-otp";
 import { DetailedCardResponse } from "../types";
 
@@ -50,12 +51,15 @@ export default function CardDetailsScreen() {
   const requestViewPinOtpAsync = useRequestViewPinOtp();
   const requestUnmaskedCardDetailsAsync = useUnmaskedCardDetails();
   const card = useCard(route.params.cardId);
+  const { isAppleWalletAvailable, canAddCardToAppleWallet, addCardToAppleWallet } = useAppleWallet(route.params.cardId);
 
   const [isViewingPin, setIsViewingPin] = useState(false);
   const [pin, setPin] = useState<string | undefined>();
 
   const [cardDetails, setCardDetails] = useState<DetailedCardResponse>();
-  const [isSucCreatedAlertVisible, setIsSucCreatedAlertVisible] = useState(route.params?.isSingleUseCardCreated);
+  const [isSucCreatedAlertVisible, setIsSucCreatedAlertVisible] = useState(
+    route.params?.isSingleUseCardCreated ?? false
+  );
   const [isCopiedCardNumberBannerVisible, setIsCopiedCardNumberBannerVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
@@ -65,7 +69,7 @@ export default function CardDetailsScreen() {
   const cardStatus = selectedCard?.Status;
 
   useEffect(() => {
-    setTimeout(() => setIsSucCreatedAlertVisible(route.params?.isSingleUseCardCreated), 500);
+    setTimeout(() => setIsSucCreatedAlertVisible(route.params?.isSingleUseCardCreated ?? false), 500);
   }, [route.params]);
 
   useEffect(() => {
@@ -91,8 +95,15 @@ export default function CardDetailsScreen() {
     };
   }, []);
 
-  const handleOnAddToAppleWallet = () => {
-    navigation.navigate("Temporary.DummyScreen");
+  const handleOnAddToAppleWallet = async () => {
+    if (!isAppleWalletAvailable || !canAddCardToAppleWallet) return;
+
+    try {
+      await addCardToAppleWallet();
+      navigation.navigate("CardActions.ApplePayActivated");
+    } catch (error) {
+      warn("card-actions", "Could not add payment card to Apple Wallet: ", JSON.stringify(error));
+    }
   };
 
   const handleOnCardSettingsPress = () => {
@@ -374,13 +385,11 @@ export default function CardDetailsScreen() {
           <View style={separatorStyle} />
           {selectedCard?.CardType !== SINGLE_USE_CARD_TYPE ? (
             <>
-              {Platform.OS === "ios" ? (
+              {isAppleWalletAvailable && canAddCardToAppleWallet && !["freeze", "inactive"].includes(cardStatus) ? (
                 <View style={walletButtonContainer}>
                   <AddToAppleWalletButton onPress={handleOnAddToAppleWallet} />
                 </View>
-              ) : (
-                <View />
-              )}
+              ) : null}
               <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
                 <ListItemLink
                   disabled={cardStatus === "freeze"}

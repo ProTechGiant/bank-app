@@ -369,18 +369,7 @@ export const resources = {
           title: "Your new card’s coming soon",
           paragraph:
             "It’ll be with you in a few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using Apple Wallet.",
-          buttons: {
-            addToWallet: "Add to Wallet",
-            finish: "Finish",
-          },
-        },
-        AddToAppleWalletScreen: {
-          title: "Add to Apple Wallet",
-          paragraph: "Make payments using Croatia on your Apple devices.",
-          buttons: {
-            addToWallet: "Add to Apple Wallet",
-            skip: "Skip",
-          },
+          finishButton: "Finish",
         },
         ApplePayActivatedScreen: {
           title: "Apple Pay activated",

@@ -8,7 +8,6 @@ interface AddToAppleWalletButtonProps {
   onPress: () => void;
 }
 
-// Reimplement with https://developer.meawallet.com/mpp/react-native/implementation-guide#add-to-apple-wallet-button once integrated?
 export default function AddToAppleWalletButton({ onPress }: AddToAppleWalletButtonProps) {
   const { t } = useTranslation();
 

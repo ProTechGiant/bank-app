@@ -12,7 +12,9 @@ import { OnboardingContextProvider } from "@/features/Onboarding/contexts/Onboar
 import useAppsflyer from "@/hooks/use-appsflyer";
 import useI18nDirection from "@/i18n/use-i18n-direction";
 import MainStack from "@/navigation/MainStack";
+import { initializeAppleWalletAsync } from "@/utils/apple-wallet";
 
+initializeAppleWalletAsync();
 const queryClient = new QueryClient();
 
 export default function App() {

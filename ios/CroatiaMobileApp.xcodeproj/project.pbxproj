@@ -13,6 +13,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-CroatiaMobileApp-CroatiaMobileAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-CroatiaMobileApp-CroatiaMobileAppTests.a */; };
+		D9334BD829CC7ABB002AE774 /* mea_config in Resources */ = {isa = PBXBuildFile; fileRef = D9334BD729CC7ABB002AE774 /* mea_config */; };
 		F1E1D72D29BB319E00123ADE /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1E1D72C29BB319D00123ADE /* BootSplash.storyboard */; };
 		F1F368202976EBBB00CB75E3 /* ReloadAppModule.h in Sources */ = {isa = PBXBuildFile; fileRef = F1F3681F2976EBBB00CB75E3 /* ReloadAppModule.h */; };
 		F1F368222976EBF400CB75E3 /* ReloadAppModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F1F368212976EBF400CB75E3 /* ReloadAppModule.m */; };
@@ -40,13 +41,14 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CroatiaMobileApp/main.m; sourceTree = "<group>"; };
 		19A648A153382B07BFBFF1B4 /* Pods-CroatiaMobileApp.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp.test.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp.test.xcconfig"; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-CroatiaMobileApp-CroatiaMobileAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CroatiaMobileApp-CroatiaMobileAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A1F14C229CD99AF00515B6D /* CroatiaMobileApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CroatiaMobileApp.entitlements; path = CroatiaMobileApp/CroatiaMobileApp.entitlements; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-CroatiaMobileApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp.debug.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-CroatiaMobileApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp.release.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp-CroatiaMobileAppTests.debug.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-CroatiaMobileApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CroatiaMobileApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		60930A1C29CE190A00C2498C /* CroatiaMobileApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CroatiaMobileApp.entitlements; path = CroatiaMobileApp/CroatiaMobileApp.entitlements; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp-CroatiaMobileAppTests.release.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		CC492C22C6DB8D7D7CD6B02C /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp-CroatiaMobileAppTests.test.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests.test.xcconfig"; sourceTree = "<group>"; };
+		D9334BD729CC7ABB002AE774 /* mea_config */ = {isa = PBXFileReference; lastKnownFileType = file; path = mea_config; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F1E1D72C29BB319D00123ADE /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = CroatiaMobileApp/BootSplash.storyboard; sourceTree = "<group>"; };
 		F1F3681F2976EBBB00CB75E3 /* ReloadAppModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ReloadAppModule.h; path = CroatiaMobileApp/ReloadAppModule.h; sourceTree = "<group>"; };
@@ -93,7 +95,8 @@
 		13B07FAE1A68108700A75B9A /* CroatiaMobileApp */ = {
 			isa = PBXGroup;
 			children = (
-				60930A1C29CE190A00C2498C /* CroatiaMobileApp.entitlements */,
+				2A1F14C229CD99AF00515B6D /* CroatiaMobileApp.entitlements */,
+				D9334BD629CC7AA4002AE774 /* Resources */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -158,6 +161,14 @@
 				CC492C22C6DB8D7D7CD6B02C /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.test.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		D9334BD629CC7AA4002AE774 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D9334BD729CC7ABB002AE774 /* mea_config */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1E1D72D29BB319E00123ADE /* BootSplash.storyboard in Resources */,
+				D9334BD829CC7ABB002AE774 /* mea_config in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -470,31 +482,6 @@
 			};
 			name = Debug;
 		};
-		00E356F71AD99517003FC87E /* Test */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC492C22C6DB8D7D7CD6B02C /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.test.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = CroatiaMobileAppTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-					"$(inherited)",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CroatiaMobileApp.app/CroatiaMobileApp";
-			};
-			name = Test;
-		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-CroatiaMobileApp.debug.xcconfig */;
@@ -505,6 +492,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = E9L4734HKJ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = CroatiaMobileApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -516,9 +504,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.croatiamobileapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.croatia.consumerapp.test;
 				PRODUCT_NAME = CroatiaMobileApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Croatia - test profile";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -528,38 +517,6 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
-		};
-		13B07F951A680F5B00A75B9A /* Test */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 19A648A153382B07BFBFF1B4 /* Pods-CroatiaMobileApp.test.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = CroatiaMobileApp/CroatiaMobileApp.entitlements;
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = CroatiaMobileApp/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.croatiamobileapp;
-				PRODUCT_NAME = CroatiaMobileApp;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Test;
 		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -632,71 +589,6 @@
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
-		};
-		83CBBA211A601CBA00E9B192 /* Test */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					/usr/lib/swift,
-					"$(inherited)",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SDKROOT)/usr/lib/swift\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(inherited)\"",
-				);
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-DFOLLY_NO_CONFIG",
-					"-DFOLLY_MOBILE=1",
-					"-DFOLLY_USE_LIBCPP=1",
-				);
-				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
-				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Test;
 		};
 		F13E18CA29268765007905AA /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -772,7 +664,7 @@
 				CODE_SIGN_ENTITLEMENTS = CroatiaMobileApp/CroatiaMobileApp.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = U4R6NQBXB4;
 				INFOPLIST_FILE = CroatiaMobileApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -783,7 +675,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.croatiamobileapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.croatia.consumerapp;
 				PRODUCT_NAME = CroatiaMobileApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -827,7 +719,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
-				00E356F71AD99517003FC87E /* Test */,
 				F13E18CC29268765007905AA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -837,7 +728,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
-				13B07F951A680F5B00A75B9A /* Test */,
 				F13E18CB29268765007905AA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -847,7 +737,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
-				83CBBA211A601CBA00E9B192 /* Test */,
 				F13E18CA29268765007905AA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

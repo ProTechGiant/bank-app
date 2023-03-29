@@ -1842,6 +1842,11 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
 
+"@meawallet/react-native-mpp@^1.1.4":
+  version "1.1.4"
+  resolved "https://nexus.ext.meawallet.com/repository/react-native-mpp/@meawallet/react-native-mpp/-/react-native-mpp-1.1.4.tgz#af02828fd7e7d0e59340b9b5bc7466e8391bd063"
+  integrity sha512-zp2iFYklObLYELvXMhnNnnTtMdFbiTwwXmq24KqhFJzXbwfMMF02kaDFsVHdCXXMIY7B6saogz3VtxWkyxwGQQ==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"

@@ -22,15 +22,8 @@ import { alphaNumericSpecialCharsRegExp } from "@/utils";
 
 export default function SetTemporaryAddressScreen() {
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.SetTemporaryAddressScreen">>();
-
   const navigation = useNavigation();
   const { t } = useTranslation();
-
-  const address = route.params.alternativeAddress;
-
-  const handleOnSubmit = (values: Address) => {
-    navigation.navigate(route.params.navigateTo, { alternativeAddress: values });
-  };
 
   const validationSchema = useMemo(
     () =>
@@ -51,6 +44,7 @@ export default function SetTemporaryAddressScreen() {
     [t]
   );
 
+  const address = route.params.initialValue;
   const { control, handleSubmit } = useForm<Address>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
@@ -62,6 +56,10 @@ export default function SetTemporaryAddressScreen() {
       PostalCode: address?.PostalCode,
     },
   });
+
+  const handleOnSubmit = (values: Address) => {
+    navigation.navigate(route.params.navigateTo, { alternativeAddress: values });
+  };
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderTopColor: theme.palette["neutralBase-20"],

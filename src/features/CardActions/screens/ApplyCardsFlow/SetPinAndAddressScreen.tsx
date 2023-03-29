@@ -22,7 +22,6 @@ import PincodeInput from "@/components/PincodeInput";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import usePrimaryAddress from "@/hooks/use-primary-address";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import encryptPincode from "@/utils/encrypt-pincode";
@@ -37,7 +36,6 @@ export default function SetPinAndAddressScreen() {
   const { t } = useTranslation();
 
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
-  const primaryAddress = usePrimaryAddress();
   const navigation = useNavigation();
 
   const pagerViewRef = useRef<ScrollView>(null);
@@ -130,7 +128,7 @@ export default function SetPinAndAddressScreen() {
     }
   };
 
-  const handleOnErrorModalClose = () => {
+  const handleOnCancel = () => {
     navigation.navigate("Temporary.LandingScreen");
   };
 
@@ -144,13 +142,13 @@ export default function SetPinAndAddressScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader title={t("ApplyCards.SetPinAndAddressScreen.navTitle")} onBackPress={handleBack} end="close">
+        <NavHeader
+          title={t("ApplyCards.SetPinAndAddressScreen.navTitle")}
+          onBackPress={handleBack}
+          end={<NavHeader.CloseEndButton onPress={handleOnCancel} />}>
           <ProgressIndicator currentStep={mode === "input" ? 1 : mode === "confirm" ? 2 : 3} totalStep={3} />
         </NavHeader>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          keyboardVerticalOffset={48}
-          style={{ flex: 1 }}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
           <ScrollView ref={pagerViewRef} horizontal scrollEnabled={false}>
             {/* Enter a PIN-code */}
             <ContentContainer style={{ width: dimensions.width }}>
@@ -214,18 +212,11 @@ export default function SetPinAndAddressScreen() {
               </Stack>
             </ContentContainer>
             <View style={{ width: dimensions.width }}>
-              <CardDeliveryDetails primaryAddress={primaryAddress.data} />
+              <CardDeliveryDetails onCancel={handleOnCancel} />
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
       </Page>
-      <NotificationModal
-        variant="error"
-        title={t("errors.generic.title")}
-        message={t("errors.generic.message")}
-        isVisible={primaryAddress.error !== null}
-        onClose={handleOnErrorModalClose}
-      />
       <NotificationModal
         buttons={{
           primary: (

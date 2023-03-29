@@ -89,14 +89,12 @@ export default function ConfirmDeliveryAddress({ primaryAddress, reason, cardId 
     }
 
     selectedAddress = addressData.filter(data => data.isSelected === true)[0];
-    console.log(selectedAddress);
-
     setIsConfirmationModalVisible(true);
   };
 
   const handleSetTemporaryAddress = () => {
     navigation.navigate("CardActions.SetTemporaryAddressScreen", {
-      alternativeAddress: route.params.alternativeAddress,
+      initialValue: route.params.alternativeAddress,
       navigateTo: "CardActions.ReportCardScreen",
     });
   };

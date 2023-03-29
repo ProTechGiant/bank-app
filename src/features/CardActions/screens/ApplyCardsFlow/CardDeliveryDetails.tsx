@@ -9,7 +9,7 @@ import ContentContainer from "@/components/ContentContainer";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import useSubmitOrderCard from "@/hooks/use-submit-order-card";
+import usePrimaryAddress from "@/hooks/use-primary-address";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { Address, OrderCardFormValues } from "@/types/Address";
@@ -17,11 +17,9 @@ import { generateRandomId } from "@/utils";
 
 import { CardActionsStackParams } from "../../CardActionsStack";
 import { useOrderCardContext } from "../../context/OrderCardContext";
+import useSubmitOrderCard from "../../hooks/query-hooks";
 import useOtpFlow from "../../hooks/use-otp";
-
-interface CardDeliveryDetailsProps {
-  primaryAddress?: Address;
-}
+import { CardCreateResponse } from "../../types";
 
 interface AddressDataType extends Address {
   id: string;
@@ -29,34 +27,30 @@ interface AddressDataType extends Address {
   isTempAddress: boolean;
 }
 
-export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDetailsProps) {
+interface CardDeliveryDetailsProps {
+  onCancel: () => void;
+}
+
+export default function CardDeliveryDetails({ onCancel }: CardDeliveryDetailsProps) {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.SetPinAndAddress">>();
-
-  const { orderCardValues, setOrderCardValues } = useOrderCardContext();
   const { t } = useTranslation();
 
+  const primaryAddress = usePrimaryAddress();
+  const submitOrderCardAsync = useSubmitOrderCard();
+  const { orderCardValues, setOrderCardValues } = useOrderCardContext();
   const otpFlow = useOtpFlow();
 
-  const [addressData, setAddressData] = useState<AddressDataType[] | undefined>();
-  const [isTempAddressButtonActive, setIsTempAddressButtonActive] = useState(true);
-  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [addresses, setAddresses] = useState<AddressDataType[]>([]);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
   const hasTemporaryAddress = orderCardValues.formValues.AlternateAddress !== undefined;
+  const isTemporaryAddressSelected = addresses?.find(v => v.isSelected)?.id === TEMPORARY_ID;
 
-  const buttonText = hasTemporaryAddress
-    ? t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.edit")
-    : t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.setAddress");
-
-  const primaryAddressInit: AddressDataType | undefined =
-    primaryAddress !== undefined
-      ? {
-          ...primaryAddress,
-          id: PRIMARY_ID,
-          isSelected: !hasTemporaryAddress,
-          isTempAddress: false,
-        }
-      : undefined;
+  useEffect(() => {
+    if (!primaryAddress.isError) return;
+    setIsErrorModalVisible(primaryAddress.isError);
+  }, [primaryAddress.isError]);
 
   useEffect(() => {
     if (route.params?.alternativeAddress !== undefined) {
@@ -81,16 +75,25 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
           }
         : undefined;
 
+    const primaryAddressInit: AddressDataType | undefined =
+      primaryAddress.data !== undefined
+        ? {
+            ...primaryAddress.data,
+            id: PRIMARY_ID,
+            isSelected: !hasTemporaryAddress,
+            isTempAddress: false,
+          }
+        : undefined;
+
     const initAddressData: AddressDataType[] | undefined =
       primaryAddressInit !== undefined && temporaryAddress !== undefined
         ? [temporaryAddress, primaryAddressInit]
         : temporaryAddress === undefined && primaryAddressInit !== undefined
         ? [primaryAddressInit]
         : undefined;
-    setAddressData(initAddressData);
-  }, [orderCardValues]);
 
-  const submitOrderCardAsync = useSubmitOrderCard();
+    setAddresses(initAddressData);
+  }, [orderCardValues]);
 
   const handleSubmit = async (values: OrderCardFormValues) => {
     try {
@@ -98,7 +101,7 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
         values: values,
       });
 
-      otpFlow.handle<{ CardCreateResponse: CardCreateResponse | undefined }>({
+      otpFlow.handle<{ CardCreateResponse: CardCreateResponse }>({
         action: {
           to: "CardActions.SetPinAndAddress",
         },
@@ -120,24 +123,26 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
           if (status === "cancel") {
             return;
           }
+
           if (status === "fail" || payload?.CardCreateResponse?.Header.ErrorId !== "0") {
-            return setShowErrorModal(true);
+            setTimeout(() => setIsErrorModalVisible(true), 500);
+            return;
           }
 
           setTimeout(() => {
-            navigation.navigate("CardActions.CardOrdered", {
+            navigation.navigate("CardActions.CardOrderedScreen", {
               cardId: payload.CardCreateResponse.Body.CardId,
             });
           }, 500);
         },
       });
     } catch (error) {
-      setShowErrorModal(true);
+      setIsErrorModalVisible(true);
     }
   };
 
-  const handleConfirm = () => {
-    const selectedAddressType = addressData !== undefined && addressData.filter(data => data.isSelected === true)[0].id;
+  const handleOnConfirm = () => {
+    const selectedAddressType = addresses !== undefined && addresses.filter(data => data.isSelected === true)[0].id;
 
     const payload = { ...orderCardValues.formValues };
 
@@ -150,20 +155,23 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
 
   const handleOnSetTemporaryAddress = () => {
     navigation.navigate("CardActions.SetTemporaryAddressScreen", {
-      alternativeAddress: route.params?.alternativeAddress,
+      initialValue: route.params?.alternativeAddress,
       navigateTo: "CardActions.SetPinAndAddress",
     });
   };
 
-  const handleAddressSelect = (id: string) => {
-    setIsTempAddressButtonActive(!hasTemporaryAddress || id === TEMPORARY_ID);
-    setAddressData(
-      addressData !== undefined
-        ? addressData.map(data => {
-            return { ...data, isSelected: data.id === id };
-          })
-        : undefined
+  const handleOnAddressPress = (addressId: string) => {
+    setAddresses(current =>
+      current.map(value => ({
+        ...value,
+        isSelected: value.id === addressId,
+      }))
     );
+  };
+
+  const handleOnCloseError = () => {
+    setIsErrorModalVisible(false);
+    onCancel();
   };
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -172,57 +180,64 @@ export default function CardDeliveryDetails({ primaryAddress }: CardDeliveryDeta
   }));
 
   return (
-    <ContentContainer>
-      <View style={styles.contentContainer}>
-        <View style={headerStyle}>
-          <Typography.Text size="large" weight="bold">
-            {t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.title")}
-          </Typography.Text>
-        </View>
-        <View style={styles.paragraph}>
-          <Typography.Text>
-            {hasTemporaryAddress
-              ? t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.paragraph.checkHighlighted")
-              : t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.paragraph.default")}
-          </Typography.Text>
-        </View>
-        <Stack direction="vertical" gap="20p" align="stretch">
-          {addressData !== undefined &&
-            addressData.map((address, index) => {
-              const addressLineFour = `${address.City} ${address.PostalCode}`;
+    <>
+      <ContentContainer>
+        <View style={styles.contentContainer}>
+          <View style={headerStyle}>
+            <Typography.Text size="large" weight="bold">
+              {t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.title")}
+            </Typography.Text>
+          </View>
+          <View style={styles.paragraph}>
+            <Typography.Text>
+              {hasTemporaryAddress
+                ? t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.paragraph.checkHighlighted")
+                : t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.paragraph.default")}
+            </Typography.Text>
+          </View>
+          <Stack direction="vertical" gap="20p" align="stretch">
+            {addresses !== undefined &&
+              addresses.map((address, index) => {
+                const addressLineFour = `${address.City} ${address.PostalCode}`;
 
-              return (
-                <AddressSelector
-                  key={index}
-                  id={address.id}
-                  addressLineOne={address.AddressLineOne}
-                  addressLineTwo={address.AddressLineTwo}
-                  addressLineThree={address.District}
-                  addressLineFour={addressLineFour}
-                  isSelected={address.isSelected}
-                  isTemporary={address.isTempAddress}
-                  onPress={handleAddressSelect}
-                />
-              );
-            })}
-        </Stack>
-      </View>
-      <Button onPress={handleConfirm} loading={submitOrderCardAsync.isLoading}>
-        <Typography.Text color="neutralBase-50" size="body" weight="medium">
-          {t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.confirm")}
-        </Typography.Text>
-      </Button>
-      <Button onPress={handleOnSetTemporaryAddress} variant="tertiary" disabled={!isTempAddressButtonActive}>
-        {buttonText}
-      </Button>
+                return (
+                  <AddressSelector
+                    key={index}
+                    id={address.id}
+                    addressLineOne={address.AddressLineOne}
+                    addressLineTwo={address.AddressLineTwo}
+                    addressLineThree={address.District}
+                    addressLineFour={addressLineFour}
+                    isSelected={address.isSelected}
+                    isTemporary={address.isTempAddress}
+                    onPress={handleOnAddressPress}
+                  />
+                );
+              })}
+          </Stack>
+        </View>
+        <Button onPress={handleOnConfirm} loading={submitOrderCardAsync.isLoading}>
+          <Typography.Text color="neutralBase-50" size="body" weight="medium">
+            {t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.confirm")}
+          </Typography.Text>
+        </Button>
+        <Button
+          onPress={handleOnSetTemporaryAddress}
+          variant="tertiary"
+          disabled={hasTemporaryAddress && !isTemporaryAddressSelected}>
+          {hasTemporaryAddress
+            ? t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.edit")
+            : t("ApplyCards.SetPinAndAddressScreen.CardDeliveryDetails.buttons.setAddress")}
+        </Button>
+      </ContentContainer>
       <NotificationModal
         variant="error"
         title={t("errors.generic.title")}
         message={t("errors.generic.message")}
-        isVisible={showErrorModal}
-        onClose={() => setShowErrorModal(false)}
+        isVisible={isErrorModalVisible}
+        onClose={handleOnCloseError}
       />
-    </ContentContainer>
+    </>
   );
 }
 
