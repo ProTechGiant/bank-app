@@ -1,9 +1,10 @@
-import { NotificationCategoriesData } from "@/features/NotificationManagement/screens/HubScreen/types/notificationManagement";
+import { REWARDS_ID, TRANSFERS_ID, YOUR_ACCOUNT_ID, YOUR_MONEY_ID } from "./constants";
+import { NotificationCategoriesData } from "./screens/HubScreen/types/notificationManagement";
 
 export const mockNotificationManagementCategories: NotificationCategoriesData = {
   categories: [
     {
-      categoryId: "691ed46b-94ee-4c3f-8d31-f66338d33c7f",
+      categoryId: TRANSFERS_ID,
       categoryName: "Transfers",
       categoryDescription: "Get notifications about payments and card transactions.",
       subCategories: [
@@ -70,7 +71,7 @@ export const mockNotificationManagementCategories: NotificationCategoriesData = 
       ],
     },
     {
-      categoryId: "691ed46b-94ee-4c3f-8d31-f66338d33c7g",
+      categoryId: YOUR_MONEY_ID,
       categoryName: "Your money",
       categoryDescription: "Get notifications about how you use your money.",
       subCategories: [
@@ -113,7 +114,7 @@ export const mockNotificationManagementCategories: NotificationCategoriesData = 
       ],
     },
     {
-      categoryId: "691ed46b-94ee-4c3f-8d31-f66338d33c7h",
+      categoryId: YOUR_ACCOUNT_ID,
       categoryName: "Your account",
       categoryDescription: "Get notifications about changes and updates to your account and statements",
       subCategories: [
@@ -156,7 +157,7 @@ export const mockNotificationManagementCategories: NotificationCategoriesData = 
       ],
     },
     {
-      categoryId: "691ed46b-94ee-4c3f-8d31-f66338d33c7i",
+      categoryId: REWARDS_ID,
       categoryName: "Using Croatia",
       categoryDescription: "Get notifications about your rewards and new content",
       subCategories: [

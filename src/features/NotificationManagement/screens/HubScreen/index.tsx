@@ -3,17 +3,24 @@ import { useTranslation } from "react-i18next";
 import { Alert, AppState, Linking, Pressable, View, ViewStyle } from "react-native";
 import { checkNotifications } from "react-native-permissions";
 
-import { InfoCircleIcon, TransferHorizontalIcon } from "@/assets/icons";
+import {
+  InfoCircleIcon,
+  LeaderboardIcon,
+  ManageAccountsIcon,
+  RewardsIcon,
+  TransferHorizontalIcon,
+} from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import Modal from "@/components/Modal";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { mockNotificationManagementCategories } from "@/mocks/notificationManagementCategories";
+import { mockNotificationManagementCategories } from "@/features/NotificationManagement/notificationManagementCategoriesMock";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { REWARDS_ID, TRANSFERS_ID, YOUR_ACCOUNT_ID, YOUR_MONEY_ID } from "../../constants";
 import Section from "./CategorySection";
 
 export default function HubScreen() {
@@ -51,7 +58,21 @@ export default function HubScreen() {
   }));
 
   const infoIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-10"]);
-  const horizontalIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+  const categoryIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+
+  const getCategoryIcon = (categoryId: string) => {
+    switch (categoryId) {
+      case YOUR_MONEY_ID:
+        return <LeaderboardIcon color={categoryIconColor} />;
+      case YOUR_ACCOUNT_ID:
+        return <ManageAccountsIcon color={categoryIconColor} />;
+      case REWARDS_ID:
+        return <RewardsIcon color={categoryIconColor} />;
+      case TRANSFERS_ID:
+      default:
+        return <TransferHorizontalIcon color={categoryIconColor} />;
+    }
+  };
 
   useEffect(() => {
     checkNotifications().then(({ status }) => {
@@ -122,7 +143,7 @@ export default function HubScreen() {
                     <Section
                       title={data.categoryName}
                       content={data.categoryDescription}
-                      icon={<TransferHorizontalIcon color={horizontalIconColor} />}
+                      icon={getCategoryIcon(data.categoryId)}
                       data={data}
                     />
                   </View>
