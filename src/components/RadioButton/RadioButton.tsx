@@ -24,7 +24,7 @@ export default function RadioButton<T>({ disabled = false, label, onPress, isSel
       <Typography.Text weight="medium" size="callout" style={styles.label}>
         {label}
       </Typography.Text>
-      <Radio isSelected={isSelected} disabled={disabled} value={value} />
+      <Radio onPress={() => onPress?.(value)} isSelected={isSelected} disabled={disabled} value={value} />
     </Pressable>
   );
 }
