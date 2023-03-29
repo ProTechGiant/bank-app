@@ -1,4 +1,4 @@
-import { MppInitializeOemTokenizationResponseData, MppPassActivationState } from "@meawallet/react-native-mpp";
+import type { MppInitializeOemTokenizationResponseData, MppPassActivationState } from "@meawallet/react-native-mpp";
 
 export async function initializeAppleWalletAsync() {
   // ..
