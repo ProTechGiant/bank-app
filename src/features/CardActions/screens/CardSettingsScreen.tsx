@@ -39,6 +39,8 @@ export default function CardSettingsScreen() {
     if (status === "success" && "ResetPinMessage" in payload) {
       setIsPinUpdatedBannerVisible(true);
       setTimeout(() => setIsPinUpdatedBannerVisible(false), 3000);
+    } else if (status === "fail") {
+      setTimeout(() => setIsErrorModalVisible(true), 500);
     }
   });
 
