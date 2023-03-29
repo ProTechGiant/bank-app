@@ -20,4 +20,6 @@ declare namespace jest {
 declare module "@env" {
   export const API_BASE_URL: string;
   export const API_TOKEN: string;
+  export const APPSFLYER_DEV_KEY: string;
+  export const APPSFLYER_IOS_APP_KEY: string;
 }
