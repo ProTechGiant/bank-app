@@ -55,14 +55,13 @@ export default function SetPinAndAddressScreen() {
 
     if (mode === "input") {
       setMode("confirm");
-      pagerViewRef.current?.scrollTo({ x: 1 * dimensions.width });
+      pagerViewRef.current?.scrollTo({ x: dimensions.width * 1 });
       setTimeout(() => confirmPinCodeRef.current?.focus(), TEXTINPUT_FOCUS_WAIT_MS);
     }
 
     if (mode === "confirm") {
       setMode("address");
-
-      pagerViewRef.current?.scrollTo({ x: 2 * dimensions.width });
+      pagerViewRef.current?.scrollTo({ x: dimensions.width * 2 });
       Keyboard.dismiss();
     }
   };
@@ -119,13 +118,10 @@ export default function SetPinAndAddressScreen() {
 
       pagerViewRef.current?.scrollTo({ x: 0 });
       setTimeout(() => enterPinCodeRef.current?.focus(), TEXTINPUT_FOCUS_WAIT_MS);
-
       return;
     }
 
-    if (mode === "input") {
-      navigation.goBack();
-    }
+    navigation.goBack();
   };
 
   const handleOnCancel = () => {
@@ -192,8 +188,7 @@ export default function SetPinAndAddressScreen() {
                   </Typography.Text>
                   <View style={inputContainerStyle}>
                     <PincodeInput
-                      ref={enterPinCodeRef}
-                      autoFocus
+                      ref={confirmPinCodeRef}
                       onChangeText={handleOnChangeText}
                       length={PIN_INPUT_LENGTH}
                       value={currentValue}
