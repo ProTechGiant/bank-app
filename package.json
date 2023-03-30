@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "postinstall": "react-native setup-ios-permissions && npx pod-install",
     "android": "react-native run-android --variant developDebug --appId com.croatiamobileapp.develop",
     "ios": "react-native run-ios --scheme CroatiaMobileApp --configuration Debug",
     "start": "react-native start",
@@ -15,6 +16,7 @@
     "release:eit": "BUILD_ENVIRONMENT=eit sh scripts/build-for-nexus.sh"
   },
   "reactNativePermissionsIOS": [
+    "AppTrackingTransparency",
     "Notifications"
   ],
   "dependencies": {
@@ -50,7 +52,6 @@
     "react-native-svg": "^13.8.0",
     "react-native-svg-transformer": "^1.0.0",
     "react-native-tab-view": "^3.3.4",
-    "react-native-tracking-transparency": "^0.1.2",
     "react-phone-number-input": "^3.2.13",
     "react-query": "^3.39.2",
     "yup": "^0.32.11"

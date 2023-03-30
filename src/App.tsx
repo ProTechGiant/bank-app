@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthContextProvider } from "@/contexts/AuthContext";
 import { ReferralContextProvider } from "@/contexts/ReferralContext";
 import { OnboardingContextProvider } from "@/features/Onboarding/contexts/OnboardingContext";
-import useAppsflyer from "@/hooks/use-appsflyer";
+import useAppsFlyer from "@/hooks/use-appsflyer";
 import useI18nDirection from "@/i18n/use-i18n-direction";
 import MainStack from "@/navigation/MainStack";
 import { initializeAppleWalletAsync } from "@/utils/apple-wallet";
@@ -19,7 +19,7 @@ const queryClient = new QueryClient();
 
 export default function App() {
   useI18nDirection();
-  useAppsflyer();
+  useAppsFlyer();
 
   return (
     <QueryClientProvider client={queryClient}>
