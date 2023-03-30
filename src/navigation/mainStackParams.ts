@@ -1,6 +1,7 @@
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
 import { DetailedFaq, FAQSection } from "@/features/FrequentlyAskedQuestions/types/frequentlyAskedQuestions";
 import { HomeStackParams } from "@/features/Home/HomeStack";
+import { InternalTransfersStackParams } from "@/features/InternalTransfers/InternalTransfersStack";
 import { SubCategories } from "@/features/NotificationManagement/screens/HubScreen/types/notificationManagement";
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
 import { ReferralStackParams } from "@/features/Referral/ReferralStack";
@@ -13,6 +14,9 @@ type RootStackParams = {
   };
   "Home.HomeStack": undefined;
   "AddMoney.AddMoneyStack": {
+    screen: string;
+  };
+  "InternalTransfers.InternalTransfersStack": {
     screen: string;
   };
   "Temporary.LandingScreen": undefined;
@@ -34,6 +38,7 @@ type RootStackParams = {
 type MainStackParams = RootStackParams &
   OnboardingStackParams &
   SavingsGoalsStackParams &
+  InternalTransfersStackParams &
   CardActionsStackParams &
   ReferralStackParams &
   HomeStackParams;

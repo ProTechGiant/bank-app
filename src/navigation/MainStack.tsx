@@ -7,6 +7,7 @@ import DetailedSceen from "@/features/FrequentlyAskedQuestions/screens/DetailedS
 import LandingPage from "@/features/FrequentlyAskedQuestions/screens/LandingPage";
 import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
 import HomeStack from "@/features/Home/HomeStack";
+import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfersStack";
 import NotificationManagementCategoryScreen from "@/features/NotificationManagement/screens/CategoryScreen";
 import NotificationManagementHubScreen from "@/features/NotificationManagement/screens/HubScreen";
 import OnboardingStack from "@/features/Onboarding/OnboardingStack";
@@ -42,6 +43,7 @@ export default function MainStack({ onReady }: MainStackProps) {
         <Stack.Screen component={InstructionsScreen} name="Referral.InstructionsScreen" />
         <Stack.Screen component={CardActionsStack} name="CardActions.CardActionsStack" />
         <Stack.Screen component={AddMoneyStack} name="AddMoney.AddMoneyStack" />
+        <Stack.Screen component={InternalTransfersStack} name="InternalTransfers.InternalTransfersStack" />
         <Stack.Screen component={SavingsGoalsStack} name="SavingsGoals.SavingsGoalsStack" />
         <Stack.Screen component={OnboardingStack} name="Onboarding.OnboardingStack" />
         <Stack.Screen component={HomeStack} name="Home.HomeStack" />
