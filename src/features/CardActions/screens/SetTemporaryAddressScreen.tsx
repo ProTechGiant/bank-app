@@ -58,7 +58,10 @@ export default function SetTemporaryAddressScreen() {
   });
 
   const handleOnSubmit = (values: Address) => {
-    navigation.navigate(route.params.navigateTo, { alternativeAddress: values });
+    navigation.navigate(route.params.navigateTo, {
+      alternativeAddress: values,
+      title: t("CardActions.CardRenewal.title"),
+    });
   };
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({

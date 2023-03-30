@@ -96,6 +96,7 @@ export default function ConfirmDeliveryAddress({ primaryAddress, reason, cardId 
     navigation.navigate("CardActions.SetTemporaryAddressScreen", {
       initialValue: route.params.alternativeAddress,
       navigateTo: "CardActions.ReportCardScreen",
+      title: t("CardActions.CardRenewal.title"),
     });
   };
 

@@ -899,6 +899,10 @@ export const resources = {
           button: "Renew card",
           expiresSoon: "Expires soon",
         },
+
+        CardRenewal: {
+          title: "Renew card",
+        },
         CardDeliveryNotification: {
           inactiveTitle: "Your new card is on the way",
           inactiveContent: "When you activate your new card, we’ll deactivate the old one.",
@@ -1327,6 +1331,9 @@ export const resources = {
           "You can renew it now to make sure you get a replacement before it expires, or we’ll send a new one automatically to your registered address.",
         button: "Renew card",
         expiresSoon: "Expires soon",
+      },
+      CardRenewal: {
+        title: "Renew card",
       },
     },
     AddMoneyInfo: {

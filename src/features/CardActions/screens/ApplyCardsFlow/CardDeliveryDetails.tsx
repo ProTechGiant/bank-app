@@ -157,6 +157,7 @@ export default function CardDeliveryDetails({ onCancel }: CardDeliveryDetailsPro
     navigation.navigate("CardActions.SetTemporaryAddressScreen", {
       initialValue: route.params?.alternativeAddress,
       navigateTo: "CardActions.SetPinAndAddress",
+      title: t("CardActions.CardRenewal.title"),
     });
   };
 

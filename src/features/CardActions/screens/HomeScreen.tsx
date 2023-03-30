@@ -149,6 +149,13 @@ export default function HomeScreen() {
     navigation.navigate("CardActions.EnterCardCVVScreen", { cardId });
   };
 
+  const handleOnRenewCardPress = () => {
+    navigation.navigate("ApplyCards.ApplyForCardStack", {
+      screen: "CardActions.PickCardType",
+      //@Todo:Add params for productId and cardType
+    });
+  };
+
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["16p"],
     paddingHorizontal: theme.spacing["20p"],
@@ -243,6 +250,7 @@ export default function HomeScreen() {
           title={t("CardActions.CardExpiryNotification.title")}
           subtitle={t("CardActions.CardExpiryNotification.content")}
           actionTitle={t("CardActions.CardExpiryNotification.button")}
+          onActionPress={handleOnRenewCardPress}
         />
       );
     }
@@ -255,7 +263,7 @@ export default function HomeScreen() {
 
   return (
     <>
-      <Page>
+      <Page backgroundColor="neutralBase-60">
         <NavHeader title={t("CardActions.HomeScreen.navTitle")} />
         {isCardBannerVisible ? setNotificationBanner() : null}
         <ScrollView horizontal style={cardContainerStyle}>

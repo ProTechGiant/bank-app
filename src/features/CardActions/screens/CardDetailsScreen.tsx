@@ -279,6 +279,13 @@ export default function CardDetailsScreen() {
     }
   };
 
+  const handleOnRenewCardPress = () => {
+    navigation.navigate("ApplyCards.ApplyForCardStack", {
+      screen: "CardActions.PickCardType",
+      params: { cardId: selectedCard?.CardId, productId: selectedCard?.ProductId },
+    });
+  };
+
   const setNotificationBanner = () => {
     return selectedCard?.CardType === PHYSICAL_CARD_TYPE ? (
       cardStatus === "expired_report" ? ( // @todo add correct status for card expiry
@@ -287,6 +294,7 @@ export default function CardDetailsScreen() {
           onClose={() => {
             setIsShowNotificationBanner(false);
           }}
+          onActionPress={handleOnRenewCardPress}
           title={t("CardActions.CardExpiryNotification.title")}
           subtitle={t("CardActions.CardExpiryNotification.content")}
           actionTitle={t("CardActions.CardExpiryNotification.button")}

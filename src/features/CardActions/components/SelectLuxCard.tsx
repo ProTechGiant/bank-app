@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
@@ -9,9 +8,13 @@ import LuxBottomBlueSvg from "../assets/lux-bottom-blue.svg";
 import LuxCardBackgroundSvg from "../assets/lux-white-background.svg";
 import CardPlaceholder from "./CardPlaceholder";
 
-export default function SelectLuxCard({ onPress }: { onPress: () => void }) {
-  const { t } = useTranslation();
+interface SelectLuxCardProps {
+  onPress: () => void;
+  title: string;
+  remark: string;
+}
 
+export default function SelectLuxCard({ onPress, title, remark }: SelectLuxCardProps) {
   const container = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     flex: 1,
@@ -29,10 +32,10 @@ export default function SelectLuxCard({ onPress }: { onPress: () => void }) {
         </View>
         <View style={styles.bottom}>
           <Typography.Text size="caption1" color="primaryBase-20" align="center" style={styles.text}>
-            {t("ApplyCards.ApplyForCardScreen.lux.remarks")}
+            {remark}
           </Typography.Text>
           <Button block onPress={onPress}>
-            {t("ApplyCards.ApplyForCardScreen.lux.button")}
+            {title}
           </Button>
         </View>
       </SafeAreaView>

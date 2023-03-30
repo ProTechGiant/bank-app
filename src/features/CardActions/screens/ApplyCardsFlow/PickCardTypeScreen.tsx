@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TextStyle, ViewStyle } from "react-native";
@@ -10,15 +11,19 @@ import { LUX_CARD_PRODUCT_ID, PHYSICAL_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } fro
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { CardActionsStackParams } from "../../CardActionsStack";
 import { SelectLuxCard, SelectStandardCard } from "../../components";
 import { useOrderCardContext } from "../../context/OrderCardContext";
 
 export default function PickCardTypeScreen() {
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
   const { t } = useTranslation();
+  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.PickCardType">>();
 
   const navigation = useNavigation();
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(
+    route.params?.productId === undefined ? 0 : route.params?.productId === STANDARD_CARD_PRODUCT_ID ? 0 : 1
+  );
 
   const tabBarIndicatorStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["primaryBase-40"],
@@ -44,24 +49,27 @@ export default function PickCardTypeScreen() {
       },
     }));
 
-    navigation.navigate("CardActions.SetPinAndAddress");
+    navigation.navigate("CardActions.SetPinAndAddress", { cardId: route.params?.cardId });
   };
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["top", "left", "right"]}>
       <NavHeader
-        title={t("ApplyCards.ApplyForCardScreen.navTitle")}
+        title={route.params?.cardId ? t("CardActions.CardRenewal.title") : t("ApplyCards.ApplyForCardScreen.navTitle")}
         withBackButton={false}
         end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
       />
       <TabView
         navigationState={{
           index,
+
           routes: [
             { key: "standard", title: t("ApplyCards.ApplyForCardScreen.tabs.standard") },
+
             { key: "lux", title: t("ApplyCards.ApplyForCardScreen.tabs.lux") },
           ],
         }}
+        swipeEnabled={route.params?.cardId === undefined}
         renderTabBar={props => (
           <TabBar
             {...props}
@@ -78,6 +86,11 @@ export default function PickCardTypeScreen() {
             }}
             style={tabBarStyle}
             labelStyle={tabLabelStyle}
+            onTabPress={({ preventDefault }) => {
+              if (route.params?.cardId !== undefined) {
+                preventDefault();
+              }
+            }} // eslint-disable-next-line @typescript-eslint/no-shadow
             renderLabel={({ route, focused }) => (
               <Typography.Text
                 color="neutralBase+30"
@@ -96,6 +109,11 @@ export default function PickCardTypeScreen() {
               onPress={() => {
                 handleOnCardPress("standard");
               }}
+              title={
+                route.params?.cardId !== undefined
+                  ? t("CardActions.CardRenewal.title")
+                  : t("ApplyCards.ApplyForCardScreen.standard.button")
+              }
             />
           ),
           lux: () => (
@@ -103,6 +121,12 @@ export default function PickCardTypeScreen() {
               onPress={() => {
                 handleOnCardPress("lux");
               }}
+              title={
+                route.params?.cardId !== undefined
+                  ? t("CardActions.CardRenewal.title")
+                  : t("ApplyCards.ApplyForCardScreen.lux.button")
+              }
+              remark={t("ApplyCards.ApplyForCardScreen.lux.remarks")}
             />
           ),
         })}

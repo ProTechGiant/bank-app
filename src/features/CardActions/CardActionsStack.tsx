@@ -62,21 +62,34 @@ export type CardActionsStackParams = {
     cardId: string;
   };
   "CardActions.SetTemporaryAddressScreen": {
+    alternativeAddress?: Address;
+    title: string;
     initialValue?: Address;
     navigateTo: keyof CardActionsStackParams;
   };
   "CardActions.ResetPincodeScreen": {
     cardId: string;
   };
-  "CardActions.PickCardType": undefined;
+
+  "CardActions.PickCardType": {
+    cardId: string;
+    productId: string;
+  };
+  "CardActions.CardOrdered": {
+    cardId: string;
+  };
+  "CardActions.SetPinAndAddress": {
+    alternativeAddress?: Address;
+    cardId: string;
+  };
+  "CardActions.AddToAppleWallet": {
+    cardId: string;
+  };
+
   "CardActions.CardOrderedScreen": {
     cardId: string;
   };
-  "CardActions.SetPinAndAddress":
-    | {
-        alternativeAddress?: Address;
-      }
-    | undefined;
+
   "CardActions.ApplePayActivated": undefined;
   "ApplyCards.ApplyForCardStack": undefined;
   "CardActions.EnterCardCVVScreen": {

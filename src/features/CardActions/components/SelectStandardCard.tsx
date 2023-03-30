@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
@@ -6,9 +5,12 @@ import { useThemeStyles } from "@/theme";
 
 import CardPlaceholder from "./CardPlaceholder";
 
-export default function SelectStandardCard({ onPress }: { onPress: () => void }) {
-  const { t } = useTranslation();
+interface SelectStandardCardProps {
+  onPress: () => void;
+  title: string;
+}
 
+export default function SelectStandardCard({ onPress, title }: SelectStandardCardProps) {
   const container = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     flex: 1,
@@ -22,7 +24,7 @@ export default function SelectStandardCard({ onPress }: { onPress: () => void })
         <CardPlaceholder variant="standard" width="100%" />
       </View>
       <View style={styles.bottom}>
-        <Button onPress={onPress}>{t("ApplyCards.ApplyForCardScreen.standard.button")}</Button>
+        <Button onPress={onPress}>{title}</Button>
       </View>
     </SafeAreaView>
   );

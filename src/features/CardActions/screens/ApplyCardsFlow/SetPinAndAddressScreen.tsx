@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import * as React from "react";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -28,12 +29,14 @@ import encryptPincode from "@/utils/encrypt-pincode";
 import isValidPincode from "@/utils/is-valid-pincode";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
+import { CardActionsStackParams } from "../../CardActionsStack";
 import { useOrderCardContext } from "../../context/OrderCardContext";
 import CardDeliveryDetails from "./CardDeliveryDetails";
 
 export default function SetPinAndAddressScreen() {
   const dimensions = useWindowDimensions();
   const { t } = useTranslation();
+  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.PickCardType">>();
 
   const { orderCardValues, setOrderCardValues } = useOrderCardContext();
   const navigation = useNavigation();
@@ -139,9 +142,11 @@ export default function SetPinAndAddressScreen() {
     <>
       <Page backgroundColor="neutralBase-60">
         <NavHeader
-          title={t("ApplyCards.SetPinAndAddressScreen.navTitle")}
+          title={
+            route.params?.cardId ? t("CardActions.CardRenewal.title") : t("ApplyCards.SetPinAndAddressScreen.navTitle")
+          }
           onBackPress={handleBack}
-          end={<NavHeader.CloseEndButton onPress={handleOnCancel} />}>
+          end="close">
           <ProgressIndicator currentStep={mode === "input" ? 1 : mode === "confirm" ? 2 : 3} totalStep={3} />
         </NavHeader>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
