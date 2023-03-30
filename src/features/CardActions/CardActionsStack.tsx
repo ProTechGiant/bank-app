@@ -7,8 +7,10 @@ import { Address } from "@/types/Address";
 import { OrderCardContextProvider } from "./context/OrderCardContext";
 import {
   ApplePayActivatedScreen,
+  CardActivatedScreen,
   CardDetailsScreen,
   CardSettingsScreen,
+  EnterCardCVVScreen,
   HomeScreen,
   OneTimePasswordModal,
   PickCardTypeScreen,
@@ -77,6 +79,12 @@ export type CardActionsStackParams = {
     | undefined;
   "CardActions.ApplePayActivated": undefined;
   "ApplyCards.ApplyForCardStack": undefined;
+  "CardActions.EnterCardCVVScreen": {
+    cardId: string;
+  };
+  "CardActions.CardActivatedScreen": {
+    cardId: string;
+  };
 };
 
 export const Stack = createNativeStackNavigator<CardActionsStackParams>();
@@ -122,6 +130,8 @@ export default function CardActionsStack() {
       <Stack.Screen component={ReportCardSuccessScreen} name="CardActions.ReportCardSuccessScreen" />
       <Stack.Screen component={ApplyCardsStack} name="ApplyCards.ApplyForCardStack" />
       <Stack.Screen component={ApplePayActivatedScreen} name="CardActions.ApplePayActivated" />
+      <Stack.Screen component={EnterCardCVVScreen} name="CardActions.EnterCardCVVScreen" />
+      <Stack.Screen component={CardActivatedScreen} name="CardActions.CardActivatedScreen" />
     </Stack.Navigator>
   );
 }

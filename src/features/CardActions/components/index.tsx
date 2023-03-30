@@ -1,5 +1,5 @@
+export { default as CardBanner } from "./CardBanner";
 export { default as CardButtons } from "./CardButtons";
-export { default as CardExpiryBanner } from "./CardExpiryBanner";
 export { default as CardPlaceholder } from "./CardPlaceholder";
 export { default as Countdown } from "./Countdown";
 export { default as IconButton } from "./IconButton";

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, ScrollView, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, ScrollView, ViewStyle } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
 import { CloseIcon } from "@/assets/icons";
@@ -15,7 +15,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 
-import { CardExpiryBanner, QuickActionsMenu, ViewPinModal } from "../components";
+import { CardBanner, QuickActionsMenu, ViewPinModal } from "../components";
 import { hasActiveSingleUseCard, isCardInactive } from "../helpers";
 import { useCards, useCustomerTier, useFreezeCard, useRequestViewPinOtp, useUnfreezeCard } from "../hooks/query-hooks";
 import useOtpFlow from "../hooks/use-otp";
@@ -29,8 +29,6 @@ export default function HomeScreen() {
   const customerTier = useCustomerTier();
   const otpFlow = useOtpFlow();
 
-  const isExpiryCardNotification = false; //for testing expiry notification
-
   const freezeCardAsync = useFreezeCard();
   const unfreezeCardAsync = useUnfreezeCard();
   const requestViewPinOtpAsync = useRequestViewPinOtp();
@@ -40,7 +38,9 @@ export default function HomeScreen() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [isViewingPin, setIsViewingPin] = useState(false);
   const [pin, setPin] = useState<string | undefined>();
-  const [isCardExpiryBannerVisible, setIsCardExpiryBannerVisible] = useState(true);
+  const [isCardBannerVisible, setIsCardBannerVisible] = useState(true);
+
+  const isActivationAllowed = false; // @todo will be removed with correct BE response
 
   const handleOnFreezeCardPress = async (cardId: string) => {
     const correlationId = generateRandomId();
@@ -141,8 +141,12 @@ export default function HomeScreen() {
     navigation.navigate("Temporary.DummyScreen");
   };
 
-  const handleOnCloseExpiryCardNotification = () => {
-    setIsCardExpiryBannerVisible(false);
+  const handleOnCloseCardNotification = () => {
+    setIsCardBannerVisible(false);
+  };
+
+  const handleOnActivatePhysicalCard = (cardId: string) => {
+    navigation.navigate("CardActions.EnterCardCVVScreen", { cardId });
   };
 
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -158,7 +162,6 @@ export default function HomeScreen() {
         cardType={card.CardType}
         productId={card.ProductId}
         label={card.ProductId === STANDARD_CARD_PRODUCT_ID ? t("CardActions.standardCard") : t("CardActions.plusCard")}
-        isExpiringSoon={isExpiryCardNotification && card.CardType === PHYSICAL_CARD_TYPE && card.Status === "unfreeze"}
         endButton={
           <QuickActionsMenu
             cardStatus={card.Status}
@@ -169,6 +172,16 @@ export default function HomeScreen() {
           />
         }
         onPress={() => handleOnCardPress(card.CardId)}
+        isExpiringSoon={card.Status === "expired_report" && card.CardType === PHYSICAL_CARD_TYPE}
+        actionButton={
+          isActivationAllowed && card.CardType === PHYSICAL_CARD_TYPE ? (
+            <BankCard.ActionButton
+              title={t("CardActions.activatePhysicalCard")}
+              type="light"
+              onPress={() => handleOnActivatePhysicalCard(card.CardId)}
+            />
+          ) : undefined
+        }
       />
     );
   };
@@ -178,6 +191,7 @@ export default function HomeScreen() {
       <BankCard.Inactive
         key={card.CardId}
         status={card.Status === "freeze" ? "freeze" : "inactive"}
+        cardType={card.CardType}
         label={card.ProductId === STANDARD_CARD_PRODUCT_ID ? t("CardActions.standardCard") : t("CardActions.plusCard")}
         actionButton={
           card.Status === "freeze" ? (
@@ -204,27 +218,46 @@ export default function HomeScreen() {
     );
   };
 
+  const setNotificationBanner = () => {
+    const hasExpiredCards =
+      cardsList.find(card => card.CardType === PHYSICAL_CARD_TYPE && card.Status === "expired_report") !== undefined;
+    const hasInactiveCards =
+      cardsList.find(card => card.CardType === PHYSICAL_CARD_TYPE && card.Status === "inactive") !== undefined;
+
+    if (hasInactiveCards) {
+      return (
+        <CardBanner
+          icon={<CloseIcon />}
+          onClose={handleOnCloseCardNotification}
+          title={t("CardActions.CardDeliveryNotification.inactiveTitle")}
+          subtitle={t("CardActions.CardDeliveryNotification.inactiveTitle")}
+        />
+      );
+    }
+
+    if (hasExpiredCards) {
+      return (
+        <CardBanner
+          icon={<CloseIcon />}
+          onClose={handleOnCloseCardNotification}
+          title={t("CardActions.CardExpiryNotification.title")}
+          subtitle={t("CardActions.CardExpiryNotification.content")}
+          actionTitle={t("CardActions.CardExpiryNotification.button")}
+        />
+      );
+    }
+  };
+
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingRight: I18nManager.isRTL ? theme.spacing["20p"] : theme.spacing["20p"] * 2,
     paddingLeft: I18nManager.isRTL ? theme.spacing["20p"] : 0,
-  }));
-
-  const expiryNotificatonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    margin: theme.spacing["20p"],
   }));
 
   return (
     <>
       <Page>
         <NavHeader title={t("CardActions.HomeScreen.navTitle")} />
-
-        {isExpiryCardNotification &&
-        isCardExpiryBannerVisible &&
-        cardsList.find(card => card.CardType === PHYSICAL_CARD_TYPE && card.Status === "unfreeze") ? (
-          <View style={expiryNotificatonContainerStyle}>
-            <CardExpiryBanner icon={<CloseIcon />} onClose={handleOnCloseExpiryCardNotification} />
-          </View>
-        ) : null}
+        {isCardBannerVisible ? setNotificationBanner() : null}
         <ScrollView horizontal style={cardContainerStyle}>
           <Stack direction="horizontal" gap="20p" style={contentStyle}>
             {cardsList.map(card =>
@@ -253,6 +286,7 @@ export default function HomeScreen() {
             {customerTier.data?.tier === PLUS_TIER && !hasSingleUseCard ? (
               <BankCard.Inactive
                 status="inactive"
+                cardType={SINGLE_USE_CARD_TYPE}
                 endButton={
                   <Pressable onPress={handleOnPressAbout}>
                     <BankCard.EndButton icon={<InfoCircleIcon />} />

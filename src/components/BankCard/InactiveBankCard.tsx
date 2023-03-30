@@ -1,6 +1,8 @@
+import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
+import { PHYSICAL_CARD_TYPE, SINGLE_USE_CARD_TYPE, VIRTUAL_CARD_TYPE } from "@/constants";
 import { useThemeStyles } from "@/theme";
 
 import { ActionButtonProps } from "./ActionButton";
@@ -11,11 +13,20 @@ interface InactiveBankCardProps {
   actionButton: React.ReactElement<ActionButtonProps>;
   endButton?: React.ReactNode;
   label?: string;
-  status: "freeze" | "inactive";
+  status: "inactive" | "freeze";
+  cardType: typeof PHYSICAL_CARD_TYPE | typeof SINGLE_USE_CARD_TYPE | typeof VIRTUAL_CARD_TYPE;
   onPress?: () => void;
 }
 
-export default function InactiveBankCard({ actionButton, endButton, label, status, onPress }: InactiveBankCardProps) {
+export default function InactiveBankCard({
+  actionButton,
+  endButton,
+  label,
+  status,
+  cardType,
+  onPress,
+}: InactiveBankCardProps) {
+  const { t } = useTranslation();
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     justifyContent: "space-between",
@@ -33,6 +44,14 @@ export default function InactiveBankCard({ actionButton, endButton, label, statu
     paddingVertical: theme.spacing["8p"],
   }));
 
+  const cardExpiryContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: "#00000066",
+    paddingVertical: theme.spacing["8p"],
+    paddingHorizontal: theme.spacing["12p"],
+    borderRadius: theme.radii.extraSmall,
+    marginBottom: theme.spacing["48p"],
+  }));
+
   return (
     <View style={styles.container}>
       {status === "inactive" ? <CardInactiveSvg /> : <CardFrozenSvg />}
@@ -47,6 +66,13 @@ export default function InactiveBankCard({ actionButton, endButton, label, statu
           ) : null}
           {endButton}
         </View>
+        {status === "inactive" && cardType === PHYSICAL_CARD_TYPE ? (
+          <View style={cardExpiryContainerStyle}>
+            <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
+              {t("CardActions.comingSoon")}
+            </Typography.Text>
+          </View>
+        ) : null}
         {onPress !== undefined && (
           <>
             <Pressable onPress={onPress} style={styles.pressableAreaTop} />

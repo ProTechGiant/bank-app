@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AppState, NativeEventSubscription, Platform, StyleSheet, View, ViewStyle } from "react-native";
 
-import { CardSettingsIcon, CopyIcon, ReportIcon } from "@/assets/icons";
+import { CardSettingsIcon, CloseIcon, CopyIcon, ReportIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
 import BankCard from "@/components/BankCard";
 import ContentContainer from "@/components/ContentContainer";
@@ -20,8 +20,8 @@ import { generateRandomId } from "@/utils";
 
 import { CardActionsStackParams } from "../CardActionsStack";
 import {
+  CardBanner,
   CardButtons,
-  CardExpiryBanner,
   ListItemLink,
   ListItemText,
   ListSection,
@@ -62,11 +62,13 @@ export default function CardDetailsScreen() {
   );
   const [isCopiedCardNumberBannerVisible, setIsCopiedCardNumberBannerVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const [isShowNotificationBanner, setIsShowNotificationBanner] = useState(true);
 
-  const isExpiryCardNotification = false; //for testing expiry notification
   const selectedCard = card.data;
   const cardId = route.params.cardId;
   const cardStatus = selectedCard?.Status;
+
+  const isActivationAllowed = false; // @todo will be removed with correct BE response
 
   useEffect(() => {
     setTimeout(() => setIsSucCreatedAlertVisible(route.params?.isSingleUseCardCreated ?? false), 500);
@@ -175,7 +177,7 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnPressActivate = () => {
-    navigation.navigate("Temporary.DummyScreen");
+    navigation.navigate("CardActions.EnterCardCVVScreen", { cardId });
   };
 
   const handleOnFreezePress = () => {
@@ -277,6 +279,39 @@ export default function CardDetailsScreen() {
     }
   };
 
+  const setNotificationBanner = () => {
+    return selectedCard?.CardType === PHYSICAL_CARD_TYPE ? (
+      cardStatus === "expired_report" ? ( // @todo add correct status for card expiry
+        <CardBanner
+          icon={<CloseIcon />}
+          onClose={() => {
+            setIsShowNotificationBanner(false);
+          }}
+          title={t("CardActions.CardExpiryNotification.title")}
+          subtitle={t("CardActions.CardExpiryNotification.content")}
+          actionTitle={t("CardActions.CardExpiryNotification.button")}
+        />
+      ) : isActivationAllowed || cardStatus === "inactive" ? (
+        <CardBanner
+          icon={<CloseIcon />}
+          onClose={() => {
+            setIsShowNotificationBanner(false);
+          }}
+          title={
+            cardStatus === "inactive"
+              ? t("CardActions.CardDeliveryNotification.inactiveTitle")
+              : t("CardActions.CardDeliveryNotification.title")
+          }
+          subtitle={
+            cardStatus === "inactive"
+              ? t("CardActions.CardDeliveryNotification.inactiveContent")
+              : t("CardActions.CardDeliveryNotification.content")
+          }
+        />
+      ) : null
+    ) : null;
+  };
+
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     paddingBottom: theme.spacing["24p"],
@@ -292,10 +327,6 @@ export default function CardDetailsScreen() {
 
   const walletButtonContainer = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["32p"],
-  }));
-
-  const expiryContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing["20p"],
   }));
 
   return (
@@ -317,24 +348,19 @@ export default function CardDetailsScreen() {
           }
           onBackPress={handleOnBackPress}
         />
-        {isExpiryCardNotification &&
-        selectedCard?.CardType === PHYSICAL_CARD_TYPE &&
-        selectedCard?.Status === "unfreeze" ? (
-          <View style={expiryContainerStyle}>
-            <CardExpiryBanner />
-          </View>
-        ) : null}
+        {isShowNotificationBanner && setNotificationBanner()}
         <ContentContainer isScrollView>
           <View style={cardContainerStyle}>
             {cardStatus === "freeze" && cardDetails === undefined && selectedCard?.CardType !== SINGLE_USE_CARD_TYPE ? (
               <BankCard.Inactive
                 status="freeze"
+                cardType={selectedCard?.CardType}
                 actionButton={<BankCard.ActionButton title={t("CardActions.cardFrozen")} type="dark" />}
               />
-            ) : cardStatus === "inactive" && selectedCard?.CardType !== SINGLE_USE_CARD_TYPE ? (
+            ) : cardStatus === "inactive" && selectedCard?.CardType === PHYSICAL_CARD_TYPE ? (
               <BankCard.Inactive
                 status="inactive"
-                label={t("CardActions.CardDetailsScreen.inactiveCard.label")}
+                cardType={selectedCard?.CardType}
                 actionButton={
                   <BankCard.ActionButton
                     type="light"
@@ -348,10 +374,15 @@ export default function CardDetailsScreen() {
                 cardNumber={selectedCard?.LastFourDigits}
                 cardType={selectedCard?.CardType}
                 productId={selectedCard?.ProductId}
-                isExpiringSoon={
-                  isExpiryCardNotification &&
-                  selectedCard?.CardType === PHYSICAL_CARD_TYPE &&
-                  selectedCard?.Status === "unfreeze"
+                isExpiringSoon={cardStatus === "expired_report"}
+                actionButton={
+                  isActivationAllowed && selectedCard?.CardType === PHYSICAL_CARD_TYPE ? (
+                    <BankCard.ActionButton
+                      title={t("CardActions.activatePhysicalCard")}
+                      type="light"
+                      onPress={handleOnPressActivate}
+                    />
+                  ) : undefined
                 }
               />
             ) : (
@@ -361,7 +392,7 @@ export default function CardDetailsScreen() {
                 cardDetails={{ endDate: cardDetails.ExpDate, securityCode: cardDetails.Cvv }}
                 onCopyPress={handleOnCopyCardNumberPress}
                 productId={selectedCard?.ProductId}
-                cardStatus={selectedCard?.Status}
+                cardStatus={cardStatus}
               />
             )}
           </View>

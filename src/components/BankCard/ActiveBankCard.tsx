@@ -13,6 +13,7 @@ import {
 } from "@/constants";
 import { useThemeStyles } from "@/theme";
 
+import { ActionButtonProps } from "./ActionButton";
 import PlusCardActiveSvg from "./plus-card.svg";
 import SingleUseCardActiveSvg from "./single-use-card.svg";
 import StandardCardActiveSvg from "./standard-card.svg";
@@ -25,6 +26,7 @@ interface ActiveBankCardProps {
   onPress?: () => void;
   productId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
   isExpiringSoon?: boolean;
+  actionButton?: React.ReactElement<ActionButtonProps> | undefined;
 }
 
 export default function ActiveBankCard({
@@ -35,12 +37,12 @@ export default function ActiveBankCard({
   productId,
   onPress,
   isExpiringSoon,
+  actionButton,
 }: ActiveBankCardProps) {
   const { t } = useTranslation();
 
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
-    justifyContent: "space-between",
     paddingHorizontal: theme.spacing["12p"],
     paddingTop: theme.spacing["12p"],
     paddingBottom: 99,
@@ -68,7 +70,7 @@ export default function ActiveBankCard({
     paddingVertical: theme.spacing["8p"],
     paddingHorizontal: theme.spacing["12p"],
     borderRadius: theme.radii.extraSmall,
-    marginBottom: theme.spacing["48p"],
+    marginTop: theme.spacing["48p"],
   }));
 
   return (
@@ -93,14 +95,16 @@ export default function ActiveBankCard({
           )}
           {endButton}
         </View>
-        {isExpiringSoon ? (
+        {isExpiringSoon || actionButton !== undefined ? (
           <View style={cardExpiryContainerStyle}>
             <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-              {t("CardActions.CardExpiryNotification.expiresSoon")}
+              {isExpiringSoon === "expired_report"
+                ? t("CardActions.CardExpiryNotification.expiresSoon")
+                : t("CardActions.comingSoon")}
             </Typography.Text>
           </View>
         ) : null}
-        <View>
+        <View style={styles.numberContainer}>
           <Stack align="center" direction="horizontal" gap="12p">
             {times(3).map(dotSequenceIndex => (
               <Stack direction="horizontal" key={dotSequenceIndex} gap="4p">
@@ -114,6 +118,7 @@ export default function ActiveBankCard({
             </Typography.Text>
           </Stack>
         </View>
+        {actionButton ? <View style={styles.actionContainer}>{actionButton}</View> : null}
       </View>
       {onPress !== undefined && (
         <>
@@ -132,6 +137,10 @@ const TOP_END_BUTTON_WIDTH = 60;
 const PRESSABLE_TOP_AREA = 50;
 
 const styles = StyleSheet.create({
+  actionContainer: {
+    bottom: 70,
+    position: "absolute",
+  },
   container: {
     height: CONTAINER_HEIGHT,
     width: CONTAINER_WIDTH,
@@ -140,6 +149,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
+  },
+  numberContainer: {
+    bottom: 120,
+    position: "absolute",
   },
   pressableAreaBottom: {
     height: CONTAINER_HEIGHT - 100,

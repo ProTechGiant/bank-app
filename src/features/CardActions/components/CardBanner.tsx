@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
@@ -7,19 +6,22 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface CardExpiryBannerProps {
+interface CardBannerProps {
+  title: string;
+  subtitle: string;
+  actionTitle?: string;
   icon?: React.ReactElement<SvgProps | IconProps>;
   onClose?: () => void;
+  onActionPress?: () => void;
 }
 
-export default function CardExpiryBanner({ icon, onClose }: CardExpiryBannerProps) {
-  const { t } = useTranslation();
-
+export default function CardBanner({ title, subtitle, actionTitle, icon, onClose, onActionPress }: CardBannerProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-40"],
     borderRadius: theme.spacing["8p"],
     padding: theme.spacing["20p"],
     gap: theme.spacing["8p"],
+    margin: theme.spacing["20p"],
   }));
 
   const buttonContainerStyles = useThemeStyles<ViewStyle>(theme => ({
@@ -35,18 +37,20 @@ export default function CardExpiryBanner({ icon, onClose }: CardExpiryBannerProp
         <View style={styles.contentContainer}>
           <Stack direction="vertical" gap="10p">
             <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-              {t("CardActions.CardExpiryNotification.title")}
+              {title}
             </Typography.Text>
 
             <Typography.Text color="neutralBase" size="footnote" weight="regular">
-              {t("CardActions.CardExpiryNotification.content")}
+              {subtitle}
             </Typography.Text>
 
-            <Pressable style={buttonContainerStyles}>
-              <Typography.Text color="neutralBase+30" size="footnote" weight="medium">
-                {t("CardActions.CardExpiryNotification.button")}
-              </Typography.Text>
-            </Pressable>
+            {actionTitle !== undefined ? (
+              <Pressable onPress={onActionPress} style={buttonContainerStyles}>
+                <Typography.Text color="neutralBase+30" size="footnote" weight="medium">
+                  {actionTitle}
+                </Typography.Text>
+              </Pressable>
+            ) : null}
           </Stack>
         </View>
 

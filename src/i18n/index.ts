@@ -788,6 +788,8 @@ export const resources = {
         singleUseCard: "One-time card",
         cardFrozen: "Card frozen",
         generateNew: "Generate New",
+        activatePhysicalCard: "Activate physical card",
+        comingSoon: "On the way",
         HomeScreen: {
           navTitle: "Home",
         },
@@ -896,6 +898,32 @@ export const resources = {
             "You can renew it now to make sure you get a replacement before it expires, or we’ll send a new one automatically to your registered address.",
           button: "Renew card",
           expiresSoon: "Expires soon",
+        },
+        CardDeliveryNotification: {
+          inactiveTitle: "Your new card is on the way",
+          inactiveContent: "When you activate your new card, we’ll deactivate the old one.",
+          title: "Use your new card straight away",
+          content: "You can use your new card details straight away to buy online or add your card to Apple Wallet.",
+        },
+        EnterCardCVVScreen: {
+          navTitle: "Activate physical card",
+          title: "Enter new CVV",
+          content:
+            "Enter the CVV code on the back of your new physical card. This tells us it’s arrived with you safely and hasn’t reached the wrong hands.",
+          hint: "Where’s the CVV?",
+          cvvNote: "You’ll find the CVV on the back of your physical card.",
+          errorCVV_one: "That CVV wasn't right. You have {{count}} attempt left.",
+          errorCVV_other: "That CVV wasn't right. You have {{count}} attempts left.",
+          errorTitle: "Try again later",
+          errorMessage: "You’ve entered the wrong passcode too many times. Please try again later or get in touch.",
+          button: "OK",
+          successMessage: "Your card’s ready to go",
+          successDescription: "It’s activated and ready for action - whatever you’re buying.",
+        },
+        ActivationScreen: {
+          successMessage: "Your card’s ready to go",
+          successDescription: "It’s activated and ready for action - whatever you’re buying.",
+          okBtn: "OK",
         },
       },
       AddMoneyInfo: {
