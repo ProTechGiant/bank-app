@@ -70,7 +70,7 @@ export default function FundingStep({
       PaymentAmount: yup
         .number()
         .required()
-        .min(0.01)
+        .min(0.01, "") // do not accept 0 and hide error message
         .when("DayOfMonth", {
           // when recurring payment is today OR its a one-time payment, the user must have sufficient balance
           is: (value: number) => value === today.getDate() || fundingType === "one-off-payment",
