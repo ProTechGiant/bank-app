@@ -149,10 +149,10 @@ export default function HomeScreen() {
     navigation.navigate("CardActions.EnterCardCVVScreen", { cardId });
   };
 
-  const handleOnRenewCardPress = () => {
-    navigation.navigate("ApplyCards.ApplyForCardStack", {
-      screen: "CardActions.PickCardType",
-      //@Todo:Add params for productId and cardType
+  const handleOnRenewCardPress = (card: Card) => {
+    navigation.navigate("CardActions.ApplyCardScreen", {
+      replacingCardId: card.CardId,
+      productId: card.ProductId,
     });
   };
 
@@ -226,12 +226,14 @@ export default function HomeScreen() {
   };
 
   const setNotificationBanner = () => {
-    const hasExpiredCards =
-      cardsList.find(card => card.CardType === PHYSICAL_CARD_TYPE && card.Status === "expired_report") !== undefined;
-    const hasInactiveCards =
-      cardsList.find(card => card.CardType === PHYSICAL_CARD_TYPE && card.Status === "inactive") !== undefined;
+    const firstInactiveCard = cardsList.find(
+      card => card.CardType === PHYSICAL_CARD_TYPE && card.Status === "inactive"
+    );
+    const firstExpiredCard = cardsList.find(
+      card => card.CardType === PHYSICAL_CARD_TYPE && card.Status === "expired_report"
+    );
 
-    if (hasInactiveCards) {
+    if (firstInactiveCard !== undefined) {
       return (
         <CardBanner
           icon={<CloseIcon />}
@@ -242,7 +244,7 @@ export default function HomeScreen() {
       );
     }
 
-    if (hasExpiredCards) {
+    if (firstExpiredCard !== undefined) {
       return (
         <CardBanner
           icon={<CloseIcon />}
@@ -250,7 +252,7 @@ export default function HomeScreen() {
           title={t("CardActions.CardExpiryNotification.title")}
           subtitle={t("CardActions.CardExpiryNotification.content")}
           actionTitle={t("CardActions.CardExpiryNotification.button")}
-          onActionPress={handleOnRenewCardPress}
+          onActionPress={() => handleOnRenewCardPress(firstExpiredCard)}
         />
       );
     }

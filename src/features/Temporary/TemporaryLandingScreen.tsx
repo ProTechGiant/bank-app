@@ -51,7 +51,7 @@ export default function TemporaryLandingScreen() {
 
   const handleOnOpenApplyForCard = () => {
     navigation.navigate("CardActions.CardActionsStack", {
-      screen: "ApplyCards.ApplyForCardStack",
+      screen: "CardActions.ApplyCardScreen",
     });
   };
 

@@ -1,4 +1,5 @@
-import { SafeAreaView, StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
 import { useThemeStyles } from "@/theme";
@@ -11,7 +12,7 @@ interface SelectStandardCardProps {
 }
 
 export default function SelectStandardCard({ onPress, title }: SelectStandardCardProps) {
-  const container = useThemeStyles<ViewStyle>(theme => ({
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     flex: 1,
     justifyContent: "space-between",
@@ -19,7 +20,7 @@ export default function SelectStandardCard({ onPress, title }: SelectStandardCar
   }));
 
   return (
-    <SafeAreaView style={container}>
+    <SafeAreaView style={containerStyle}>
       <View style={styles.cardContainer}>
         <CardPlaceholder variant="standard" width="100%" />
       </View>

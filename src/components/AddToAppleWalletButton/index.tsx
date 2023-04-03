@@ -15,7 +15,7 @@ export default function AddToAppleWalletButton({ onPress }: AddToAppleWalletButt
     <Pressable onPress={onPress} style={styles.container}>
       <AppleWalletIcon height={28} width={37} />
       <Typography.Text color="neutralBase-60" size="body" weight="regular">
-        {t("ApplyCards.AddToAppleWalletScreen.buttons.addToWallet")}
+        {t("AddToAppleWalletButton.label")}
       </Typography.Text>
     </Pressable>
   );

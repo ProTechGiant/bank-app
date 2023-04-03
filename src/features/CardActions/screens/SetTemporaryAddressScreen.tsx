@@ -29,17 +29,17 @@ export default function SetTemporaryAddressScreen() {
     () =>
       Yup.object({
         AddressLineOne: Yup.string()
-          .required(t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.required"))
+          .required(t("CardActions.SetTemporaryAddressScreen.form.addressLineOne.validation.required"))
           .matches(
             alphaNumericSpecialCharsRegExp,
-            t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.invalid")
+            t("CardActions.SetTemporaryAddressScreen.form.addressLineOne.validation.invalid")
           )
-          .min(5, t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.validation.minLength")),
-        District: Yup.string().required(t("ApplyCards.SetTemporaryAddressScreen.form.district.validation.required")),
-        City: Yup.string().required(t("ApplyCards.SetTemporaryAddressScreen.form.city.validation.required")),
+          .min(5, t("CardActions.SetTemporaryAddressScreen.form.addressLineOne.validation.minLength")),
+        District: Yup.string().required(t("CardActions.SetTemporaryAddressScreen.form.district.validation.required")),
+        City: Yup.string().required(t("CardActions.SetTemporaryAddressScreen.form.city.validation.required")),
         PostalCode: Yup.string()
-          .required(t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.validation.required"))
-          .min(5, t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.validation.minLength")),
+          .required(t("CardActions.SetTemporaryAddressScreen.form.postalCode.validation.required"))
+          .min(5, t("CardActions.SetTemporaryAddressScreen.form.postalCode.validation.minLength")),
       }),
     [t]
   );
@@ -60,7 +60,6 @@ export default function SetTemporaryAddressScreen() {
   const handleOnSubmit = (values: Address) => {
     navigation.navigate(route.params.navigateTo, {
       alternativeAddress: values,
-      title: t("CardActions.CardRenewal.title"),
     });
   };
 
@@ -75,7 +74,7 @@ export default function SetTemporaryAddressScreen() {
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
         <NavHeader
-          title={t("ApplyCards.SetTemporaryAddressScreen.navTitle")}
+          title={t("CardActions.SetTemporaryAddressScreen.navTitle")}
           withBackButton={false}
           end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
         />
@@ -84,34 +83,34 @@ export default function SetTemporaryAddressScreen() {
             <Stack direction="vertical" align="stretch" gap="20p">
               <TextInput
                 control={control}
-                label={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineOne.label")}
+                label={t("CardActions.SetTemporaryAddressScreen.form.addressLineOne.label")}
                 name="AddressLineOne"
                 maxLength={100}
               />
               <TextInput
                 control={control}
-                label={t("ApplyCards.SetTemporaryAddressScreen.form.addressLineTwo.label")}
+                label={t("CardActions.SetTemporaryAddressScreen.form.addressLineTwo.label")}
                 name="AddressLineTwo"
-                placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.optional")}
+                placeholder={t("CardActions.SetTemporaryAddressScreen.form.optional")}
                 maxLength={100}
               />
               <TextInput
                 control={control}
-                label={t("ApplyCards.SetTemporaryAddressScreen.form.district.label")}
+                label={t("CardActions.SetTemporaryAddressScreen.form.district.label")}
                 name="District"
               />
               <DropdownInput
                 control={control}
-                label={t("ApplyCards.SetTemporaryAddressScreen.form.city.label")}
+                label={t("CardActions.SetTemporaryAddressScreen.form.city.label")}
                 name="City"
-                headerText={t("ApplyCards.SetTemporaryAddressScreen.form.city.dropdownHeader")}
-                placeholder={t("ApplyCards.SetTemporaryAddressScreen.form.city.placeholder")}
+                headerText={t("CardActions.SetTemporaryAddressScreen.form.city.dropdownHeader")}
+                placeholder={t("CardActions.SetTemporaryAddressScreen.form.city.placeholder")}
                 options={CITIES.map(city => ({ value: city, label: city }))}
-                buttonLabel={t("ApplyCards.SetTemporaryAddressScreen.form.city.buttonLabel")}
+                buttonLabel={t("CardActions.SetTemporaryAddressScreen.form.city.buttonLabel")}
               />
               <TextInput
                 control={control}
-                label={t("ApplyCards.SetTemporaryAddressScreen.form.postalCode.label")}
+                label={t("CardActions.SetTemporaryAddressScreen.form.postalCode.label")}
                 name="PostalCode"
                 keyboardType="number-pad"
                 showCharacterCount
@@ -121,7 +120,7 @@ export default function SetTemporaryAddressScreen() {
           </ContentContainer>
           <View style={buttonContainerStyle}>
             <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-              {t("ApplyCards.SetTemporaryAddressScreen.form.button")}
+              {t("CardActions.SetTemporaryAddressScreen.form.button")}
             </SubmitButton>
           </View>
         </KeyboardAvoidingView>

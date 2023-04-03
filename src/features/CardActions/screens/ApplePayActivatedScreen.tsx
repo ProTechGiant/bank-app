@@ -33,12 +33,12 @@ export default function ApplePayActivatedScreen() {
             <TickCircleIcon />
           </View>
           <Typography.Text size="large" weight="bold" color="primaryBase-10">
-            {t("ApplyCards.ApplePayActivatedScreen.title")}
+            {t("CardActions.ApplePayActivatedScreen.title")}
           </Typography.Text>
         </Stack>
         <View style={styles.button}>
           <Button variant="primary" block onPress={handleOnFinished}>
-            {t("ApplyCards.ApplePayActivatedScreen.button")}
+            {t("CardActions.ApplePayActivatedScreen.button")}
           </Button>
         </View>
       </ContentContainer>

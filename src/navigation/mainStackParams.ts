@@ -8,7 +8,6 @@ import { ReferralStackParams } from "@/features/Referral/ReferralStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
 
 type RootStackParams = {
-  "ApplyCards.ApplyForCardStack": undefined;
   "CardActions.CardActionsStack": {
     screen: string;
   };

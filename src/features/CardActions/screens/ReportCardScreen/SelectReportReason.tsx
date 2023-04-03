@@ -10,13 +10,18 @@ import { useThemeStyles } from "@/theme";
 
 interface SelectReportReasonProps {
   isLoading: boolean;
-  onContinuePress: (selectedReason: string | undefined) => void;
+  onContinuePress: (selectedReason: string) => void;
   onFreezePress: () => void;
 }
 
 export default function SelectReportReason({ isLoading, onContinuePress, onFreezePress }: SelectReportReasonProps) {
   const { t } = useTranslation();
   const [selectedReason, setSelectedReason] = useState<"stolen" | "lost" | "damage">();
+
+  const handleOnContinuePress = () => {
+    if (selectedReason === undefined) return;
+    onContinuePress(selectedReason);
+  };
 
   const deliveryNote = useThemeStyles<TextStyle>(theme => ({
     marginBottom: theme.spacing["24p"],
@@ -53,10 +58,7 @@ export default function SelectReportReason({ isLoading, onContinuePress, onFreez
           {t("CardActions.ReportCardScreen.SelectReportReason.deliveryFee")}
         </Typography.Text>
         <View style={styles.button}>
-          <Button
-            loading={isLoading}
-            disabled={selectedReason === undefined}
-            onPress={() => onContinuePress(selectedReason)}>
+          <Button loading={isLoading} disabled={selectedReason === undefined} onPress={handleOnContinuePress}>
             {t("CardActions.ReportCardScreen.SelectReportReason.buttonTitle")}
           </Button>
         </View>

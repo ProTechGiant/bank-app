@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
-import { Address, OrderCardFormValues } from "@/types/Address";
+import { Address } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 import { tokenizeCardForAppleWalletAsync } from "@/utils/apple-wallet";
 
@@ -268,6 +268,13 @@ export function useMeawalletTokenization(cardId: string) {
   );
 }
 
+interface OrderCardInput {
+  CardType: string;
+  CardProductId: string;
+  Pin?: string;
+  AlternateAddress?: Address;
+}
+
 interface OrderCardResponse {
   OtpId: string;
   OtpCode: string;
@@ -275,7 +282,7 @@ interface OrderCardResponse {
 }
 
 export default function useSubmitOrderCard() {
-  return useMutation(async ({ values }: { values: OrderCardFormValues }) => {
+  return useMutation(async ({ values }: { values: OrderCardInput }) => {
     const correlationId = generateRandomId();
 
     const response = await api<OrderCardResponse>("v1", "cards", "POST", undefined, values, {

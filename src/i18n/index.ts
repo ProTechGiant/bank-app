@@ -5,6 +5,12 @@ import { I18nManager } from "react-native";
 export const resources = {
   en: {
     translation: {
+      AddToAppleWalletButton: {
+        label: "Add to Apple Wallet",
+      },
+      AddressSelector: {
+        temporaryAddressLabel: "Temporary address",
+      },
       DayPicker: {
         currentlyOnDay_one: "On {{count}}st",
         currentlyOnDay_two: "On {{count}}nd",
@@ -273,107 +279,6 @@ export const resources = {
             bankNameLabel: "Bank name",
             bankName: "Croatia Bank",
           },
-        },
-      },
-      ApplyCards: {
-        ApplyForCardScreen: {
-          navTitle: "Order Card",
-          tabs: {
-            standard: "Standard",
-            lux: "Lux",
-          },
-          standard: {
-            remarks: "*Delivery fee from 80.99 SAR",
-            button: "Get Standard Card for FREE",
-          },
-          lux: {
-            remarks: "Lux is FREE when you upgrade to Croatia Plus",
-            button: "Get Lux Card with Croatia Plus",
-          },
-        },
-        SetPinAndAddressScreen: {
-          navTitle: "Order Card",
-          SetPin: {
-            title: "Set PIN",
-            instruction: "Enter {{count}} unique numbers",
-            avoidSimplePin: "Avoid a PIN that’s easy to guess, like 1234 or 1111.",
-            errorPinTooEasy: "Avoid a PIN with simple number sequences and repeated numbers",
-          },
-          ConfirmPin: {
-            title: "Confirm PIN",
-            instruction: "Re-enter your 4 numbers",
-            pinNotMatch: "Your PINs didn’t match, please try again. {{count}} try remaining.",
-            pinNotMatch_plural: "Your PINs didn’t match, please try again. {{count}} tries remaining.",
-            errorModalTitle: "Try again",
-            errorModalMessage: "You’ve entered different PINs too many times.",
-            errorModalActionButton: "Set new pin",
-          },
-          CardDeliveryDetails: {
-            title: "Card delivery details",
-            paragraph: {
-              default: "Your card will be sent here:",
-              checkHighlighted: "Check the correct delivery address is highlighted:",
-            },
-            buttons: {
-              confirm: "Confirm and continue",
-              edit: "Edit temporary address",
-              setAddress: "Set temporary address",
-            },
-          },
-        },
-        SetTemporaryAddressScreen: {
-          navTitle: "Temporary address",
-          form: {
-            optional: "Optional",
-            addressLineOne: {
-              label: "Address line 1",
-              placeholder: "Address line 1",
-              validation: {
-                required: "Address line 1 is required",
-                invalid: "Address line 1 is not valid",
-                minLength: "Minimum 5 characters",
-              },
-            },
-            addressLineTwo: {
-              label: "Address line 2",
-              placeholder: "Address line 2",
-            },
-            district: {
-              label: "District",
-              placeholder: "District",
-              validation: {
-                required: "District is required",
-              },
-            },
-            city: {
-              label: "City",
-              placeholder: "Select city",
-              dropdownHeader: "Select city",
-              validation: {
-                required: "City is required",
-              },
-              buttonLabel: "Confirm",
-            },
-            postalCode: {
-              label: "Postal Code",
-              placeholder: "Postal Code",
-              validation: {
-                required: "Postal code is required",
-                minLength: "Postal code is not valid",
-              },
-            },
-            button: "Confirm and continue",
-          },
-        },
-        CardOrderedScreen: {
-          title: "Your new card’s coming soon",
-          paragraph:
-            "It’ll be with you in a few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using Apple Wallet.",
-          finishButton: "Finish",
-        },
-        ApplePayActivatedScreen: {
-          title: "Apple Pay activated",
-          button: "Finish",
         },
       },
       Referral: {
@@ -698,6 +603,13 @@ export const resources = {
         },
       },
       CardActions: {
+        standardCard: "Standard card",
+        plusCard: "Plus card",
+        singleUseCard: "One-time card",
+        cardFrozen: "Card frozen",
+        generateNew: "Generate New",
+        activatePhysicalCard: "Activate physical card",
+        comingSoon: "On the way",
         QuickMenu: {
           freezeCard: "Freeze card",
           defrost: "Defrost",
@@ -707,6 +619,113 @@ export const resources = {
         ViewPin: {
           navTitle: "Your card PIN",
           button: "Hide PIN",
+        },
+        ApplyCardScreen: {
+          CardRenewalScreen: {
+            title: "Renew card",
+          },
+          PickCardTypeScreen: {
+            navTitle: "Order Card",
+            tabs: {
+              standard: "Standard",
+              lux: "Lux",
+            },
+            standard: {
+              remarks: "*Delivery fee from 80.99 SAR",
+              button: "Get Standard Card for FREE",
+            },
+            lux: {
+              remarks: "Lux is FREE when you upgrade to Croatia Plus",
+              button: "Get Lux Card with Croatia Plus",
+            },
+          },
+          SetPinAndAddressScreen: {
+            navTitle: "Order Card",
+            SetPin: {
+              title: "Set PIN",
+              instruction: "Enter {{count}} unique numbers",
+              avoidSimplePin: "Avoid a PIN that’s easy to guess, like 1234 or 1111.",
+              errorPinTooEasy: "Avoid a PIN with simple number sequences and repeated numbers",
+            },
+            ConfirmPin: {
+              title: "Confirm PIN",
+              instruction: "Re-enter your 4 numbers",
+              pinNotMatch: "Your PINs didn’t match, please try again. {{count}} try remaining.",
+              pinNotMatch_plural: "Your PINs didn’t match, please try again. {{count}} tries remaining.",
+              errorModalTitle: "Try again",
+              errorModalMessage: "You’ve entered different PINs too many times.",
+              errorModalActionButton: "Set new pin",
+            },
+            CardDeliveryDetails: {
+              title: "Card delivery details",
+              paragraph: {
+                default: "Your card will be sent here:",
+                checkHighlighted: "Check the correct delivery address is highlighted:",
+              },
+              buttons: {
+                confirm: "Confirm and continue",
+                edit: "Edit temporary address",
+                setAddress: "Set temporary address",
+              },
+            },
+            errorModalTitle: "Try again",
+            errorModalMessage: "You’ve entered different PINs too many times.",
+            errorModalActionButton: "Set new pin",
+          },
+          CardOrderedScreen: {
+            title: "Your new card’s coming soon",
+            paragraph:
+              "It’ll be with you in a few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using Apple Wallet.",
+            finishButton: "Finish",
+          },
+        },
+        SetTemporaryAddressScreen: {
+          navTitle: "Temporary address",
+          form: {
+            optional: "Optional",
+            addressLineOne: {
+              label: "Address line 1",
+              placeholder: "Address line 1",
+              validation: {
+                required: "Address line 1 is required",
+                invalid: "Address line 1 is not valid",
+                minLength: "Minimum 5 characters",
+              },
+            },
+            addressLineTwo: {
+              label: "Address line 2",
+              placeholder: "Address line 2",
+            },
+            district: {
+              label: "District",
+              placeholder: "District",
+              validation: {
+                required: "District is required",
+              },
+            },
+            city: {
+              label: "City",
+              placeholder: "Select city",
+              dropdownHeader: "Select city",
+              validation: {
+                required: "City is required",
+              },
+              buttonLabel: "Confirm",
+            },
+            postalCode: {
+              label: "Postal Code",
+              placeholder: "Postal Code",
+              validation: {
+                required: "Postal code is required",
+                minLength: "Postal code is not valid",
+              },
+            },
+            button: "Confirm and continue",
+          },
+        },
+        ApplePayActivatedScreen: {
+          title: "Apple Pay activated",
+          button: "Finish",
         },
         CardSettingsScreen: {
           title: "Card settings",
@@ -782,14 +801,6 @@ export const resources = {
           copyClipboard: "Card number copied to clipboard.",
           errorCopyClipboard: "Couldn’t copy card number - try again.",
         },
-
-        standardCard: "Standard card",
-        plusCard: "Plus card",
-        singleUseCard: "One-time card",
-        cardFrozen: "Card frozen",
-        generateNew: "Generate New",
-        activatePhysicalCard: "Activate physical card",
-        comingSoon: "On the way",
         HomeScreen: {
           navTitle: "Home",
         },
@@ -849,6 +860,7 @@ export const resources = {
         },
         ReportCardScreen: {
           navTitle: "Cancel card",
+          addressErrorTitle: "Couldn’t load address",
           SelectReportReason: {
             navTitle: "What happened to your card?",
             description:
@@ -859,24 +871,24 @@ export const resources = {
             deliveryFee: "Delivery fee of 30 SAR",
             buttonTitle: "Continue",
             freezeCard: "Freeze card",
-            addressErrorTitle: "Couldn’t load address",
           },
           ConfirmDeliveryAddress: {
             navTitle: "Confirm card delivery address",
             description: "Confirm where you’d like your new card to be delivered.",
             buttonTitle: "Confirm address and cancel card",
-            differentAddressBtn: "Deliver to temporary address",
+            editAddressButton: "Edit temporary address",
+            differentAddressButton: "Deliver to temporary address",
             alertTitle: "Are you sure you want to cancel card?",
             alertMessage:
               "We’ll cancel your card straight away and you won’t be able to use it. \n\nWhile you wait for your physical card, you’ll be able to use your new card online or on your phone immediately.",
             confirmButton: "Cancel card",
             cancelButton: "Not now",
           },
-          ConfirmationScreen: {
+          ReportCardSuccessScreen: {
             title: "We’ve cancelled your card",
             description:
               "It’ll be with you in the next few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using Apple Wallet.",
-            okBtn: "OK",
+            okButton: "OK",
           },
         },
         ResetPincodeScreen: {
@@ -898,10 +910,6 @@ export const resources = {
             "You can renew it now to make sure you get a replacement before it expires, or we’ll send a new one automatically to your registered address.",
           button: "Renew card",
           expiresSoon: "Expires soon",
-        },
-
-        CardRenewal: {
-          title: "Renew card",
         },
         CardDeliveryNotification: {
           inactiveTitle: "Your new card is on the way",

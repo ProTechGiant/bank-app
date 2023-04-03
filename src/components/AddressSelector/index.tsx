@@ -3,24 +3,21 @@ import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { LocationPinIcon } from "@/assets/icons";
 import { WithShadow } from "@/components";
+import Radio from "@/components/Radio";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import Radio from "../Radio";
-
 interface AddressSelectorProps {
-  id: string;
   addressLineOne: string;
   addressLineTwo?: string;
   addressLineThree?: string;
   addressLineFour?: string;
   isSelected: boolean;
   isTemporary: boolean;
-  onPress: (id: string) => void;
+  onPress: () => void;
 }
 
 export default function AddressSelector({
-  id,
   addressLineOne,
   addressLineTwo,
   addressLineThree,
@@ -30,6 +27,7 @@ export default function AddressSelector({
   onPress,
 }: AddressSelectorProps) {
   const { t } = useTranslation();
+
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     padding: theme.spacing["16p"],
@@ -51,26 +49,22 @@ export default function AddressSelector({
 
   return (
     <WithShadow backgroundColor="neutralBase-60" borderRadius="extraSmall">
-      <Pressable onPress={() => onPress(id)} style={containerStyle}>
-        <View>
-          <LocationPinIcon />
-        </View>
+      <Pressable onPress={onPress} style={containerStyle}>
+        <LocationPinIcon />
         <View style={styles.addressContent}>
-          {isTemporary && (
+          {isTemporary ? (
             <View style={temporaryTag}>
               <Typography.Text color="complimentBase+20" size="caption2" weight="medium">
-                {t("ApplyCards.SetTemporaryAddressScreen.navTitle")}
+                {t("AddressSelector.temporaryAddressLabel")}
               </Typography.Text>
             </View>
-          )}
+          ) : null}
           <Typography.Text color="neutralBase+30" size="callout" weight="medium">
             {addressLineOne}
           </Typography.Text>
-          {addressLineTwo && (
-            <Typography.Text color="neutralBase-10" size="footnote">
-              {addressLineTwo}
-            </Typography.Text>
-          )}
+          <Typography.Text color="neutralBase-10" size="footnote">
+            {addressLineTwo}
+          </Typography.Text>
           <Typography.Text color="neutralBase-10" size="footnote">
             {addressLineThree}
           </Typography.Text>
@@ -79,7 +73,7 @@ export default function AddressSelector({
           </Typography.Text>
         </View>
         <View style={radioButtonStyle}>
-          <Radio isSelected={isSelected} onPress={() => onPress(id)} />
+          <Radio isSelected={isSelected} onPress={onPress} />
         </View>
       </Pressable>
     </WithShadow>

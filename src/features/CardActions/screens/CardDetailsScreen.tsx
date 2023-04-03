@@ -280,9 +280,11 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnRenewCardPress = () => {
-    navigation.navigate("ApplyCards.ApplyForCardStack", {
-      screen: "CardActions.PickCardType",
-      params: { cardId: selectedCard?.CardId, productId: selectedCard?.ProductId },
+    if (selectedCard === undefined) return;
+
+    navigation.navigate("CardActions.ApplyCardScreen", {
+      replacingCardId: selectedCard.CardId,
+      productId: selectedCard.ProductId,
     });
   };
 

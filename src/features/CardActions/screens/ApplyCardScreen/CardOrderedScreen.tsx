@@ -1,4 +1,3 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -10,25 +9,23 @@ import NavHeader from "@/components/NavHeader";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
-import { CardActionsStackParams } from "../../CardActionsStack";
 import useAppleWallet from "../../hooks/use-apple-wallet";
 
-export default function CardOrderedScreen() {
-  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.CardOrderedScreen">>();
+interface CardOrderedScreenProps {
+  cardId: string;
+}
+
+export default function CardOrderedScreen({ cardId }: CardOrderedScreenProps) {
   const navigation = useNavigation();
   const { t } = useTranslation();
-
-  const { isAppleWalletAvailable, canAddCardToAppleWallet, addCardToAppleWallet } = useAppleWallet(route.params.cardId);
+  const { isAppleWalletAvailable, canAddCardToAppleWallet, addCardToAppleWallet } = useAppleWallet(cardId);
 
   const handleOnAddToWallet = async () => {
     try {
       const _response = await addCardToAppleWallet();
-
-      navigation.navigate("CardActions.CardDetailsScreen", {
-        cardId: route.params.cardId,
-      });
+      navigation.navigate("CardActions.CardDetailsScreen", { cardId });
     } catch (error) {
-      warn("card-actions", `Could not add card "${route.params.cardId}" to Apple Wallet: `, JSON.stringify(error));
+      warn("card-actions", `Could not add card "${cardId}" to Apple Wallet: `, JSON.stringify(error));
     }
   };
 
@@ -43,8 +40,8 @@ export default function CardOrderedScreen() {
       data={[
         {
           topElement: <ShippingIcon />,
-          title: t("ApplyCards.CardOrderedScreen.title"),
-          text: t("ApplyCards.CardOrderedScreen.paragraph"),
+          title: t("CardActions.ApplyCardScreen.CardOrderedScreen.title"),
+          text: t("CardActions.ApplyCardScreen.CardOrderedScreen.paragraph"),
         },
       ]}
       hasBackButton={false}
@@ -56,7 +53,7 @@ export default function CardOrderedScreen() {
       <Button
         variant={!isAppleWalletAvailable || !canAddCardToAppleWallet ? "primary" : "tertiary"}
         onPress={handleOnClose}>
-        {t("ApplyCards.CardOrderedScreen.finishButton")}
+        {t("CardActions.ApplyCardScreen.CardOrderedScreen.finishButton")}
       </Button>
     </HeroSlider>
   );

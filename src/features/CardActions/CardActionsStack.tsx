@@ -1,28 +1,24 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import { LUX_CARD_PRODUCT_ID, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import MainStackParams from "@/navigation/mainStackParams";
 import { Address } from "@/types/Address";
 
-import { OrderCardContextProvider } from "./context/OrderCardContext";
 import {
   ApplePayActivatedScreen,
+  ApplyCardScreen,
   CardActivatedScreen,
   CardDetailsScreen,
   CardSettingsScreen,
   EnterCardCVVScreen,
   HomeScreen,
   OneTimePasswordModal,
-  PickCardTypeScreen,
   ReportCardScreen,
   ResetPinCodeScreen,
   SetTemporaryAddressScreen,
   SingleUseCardAbout,
   SingleUseCardInfoScreen,
 } from "./screens";
-import CardOrderedScreen from "./screens/ApplyCardsFlow/CardOrderedScreen";
-import SetPinAndAddressScreen from "./screens/ApplyCardsFlow/SetPinAndAddressScreen";
-import ReportCardSuccessScreen from "./screens/ReportCardFlow/ReportCardSuccessScreen";
 import { OtpResponseStatus } from "./types";
 
 interface OtpChallengeParams {
@@ -58,14 +54,9 @@ export type CardActionsStackParams = {
     cardId: string;
     alternativeAddress?: Address;
   };
-  "CardActions.ReportCardSuccessScreen": {
-    cardId: string;
-  };
   "CardActions.SetTemporaryAddressScreen": {
-    alternativeAddress?: Address;
-    title: string;
     initialValue?: Address;
-    navigateTo: keyof CardActionsStackParams;
+    navigateTo: "CardActions.ApplyCardScreen" | "CardActions.ReportCardScreen";
   };
   "CardActions.ResetPincodeScreen": {
     cardId: string;
@@ -78,7 +69,7 @@ export type CardActionsStackParams = {
   "CardActions.CardOrdered": {
     cardId: string;
   };
-  "CardActions.SetPinAndAddress": {
+  "CardActions.SetPinAndAddressScreen": {
     alternativeAddress?: Address;
     cardId: string;
   };
@@ -91,7 +82,16 @@ export type CardActionsStackParams = {
   };
 
   "CardActions.ApplePayActivated": undefined;
-  "ApplyCards.ApplyForCardStack": undefined;
+  "CardActions.ApplyCardScreen":
+    | {
+        // for selecting alternative address
+        alternativeAddress?: Address;
+
+        // for replacing existing card
+        replacingCardId?: string;
+        productId?: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
+      }
+    | undefined;
   "CardActions.EnterCardCVVScreen": {
     cardId: string;
   };
@@ -101,20 +101,6 @@ export type CardActionsStackParams = {
 };
 
 export const Stack = createNativeStackNavigator<CardActionsStackParams>();
-
-export function ApplyCardsStack() {
-  return (
-    <SafeAreaProvider>
-      <OrderCardContextProvider>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen component={PickCardTypeScreen} name="CardActions.PickCardType" />
-          <Stack.Screen component={SetPinAndAddressScreen} name="CardActions.SetPinAndAddress" />
-          <Stack.Screen component={CardOrderedScreen} name="CardActions.CardOrderedScreen" />
-        </Stack.Navigator>
-      </OrderCardContextProvider>
-    </SafeAreaProvider>
-  );
-}
 
 export default function CardActionsStack() {
   return (
@@ -140,8 +126,7 @@ export default function CardActionsStack() {
         name="CardActions.SetTemporaryAddressScreen"
         options={{ presentation: "modal" }}
       />
-      <Stack.Screen component={ReportCardSuccessScreen} name="CardActions.ReportCardSuccessScreen" />
-      <Stack.Screen component={ApplyCardsStack} name="ApplyCards.ApplyForCardStack" />
+      <Stack.Screen component={ApplyCardScreen} name="CardActions.ApplyCardScreen" />
       <Stack.Screen component={ApplePayActivatedScreen} name="CardActions.ApplePayActivated" />
       <Stack.Screen component={EnterCardCVVScreen} name="CardActions.EnterCardCVVScreen" />
       <Stack.Screen component={CardActivatedScreen} name="CardActions.CardActivatedScreen" />
