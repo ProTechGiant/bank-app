@@ -19,3 +19,10 @@
 # react-native-reanimated
 -keep class com.swmansion.reanimated.** { *; }
 -keep class com.facebook.react.turbomodule.** { *; }
+
+# react-native-inappbrowser-reborn
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+  @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
