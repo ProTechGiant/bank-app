@@ -65,8 +65,9 @@ export default function SetPinAndAddressScreen({
 
     if (mode === "input") {
       setMode("confirm");
+
       pagerViewRef.current?.scrollTo({ x: dimensions.width });
-      setTimeout(() => confirmPinCodeRef.current?.focus(), TEXTINPUT_FOCUS_WAIT_MS);
+      confirmPinCodeRef.current?.focus();
     }
 
     if (mode === "confirm") {
@@ -87,7 +88,7 @@ export default function SetPinAndAddressScreen({
     if (mode === "input") {
       if (isValidPincode(convertedInput)) {
         setSelectedPincode(convertedInput);
-        setTimeout(handleOnTransitionStep, TRANSITION_STEP_MS);
+        handleOnTransitionStep();
       } else {
         setIsErrorVisible(true);
         setCurrentValue("");
@@ -105,7 +106,7 @@ export default function SetPinAndAddressScreen({
 
       if (convertedInput === selectedPincode) {
         applyCardsContext.setValue("EncryptedPincode", encryptPincode(convertedInput));
-        setTimeout(handleOnTransitionStep, TRANSITION_STEP_MS);
+        handleOnTransitionStep();
       }
     }
   };
@@ -120,7 +121,8 @@ export default function SetPinAndAddressScreen({
       setSelectedPincode(undefined);
 
       pagerViewRef.current?.scrollTo({ x: 0 });
-      setTimeout(() => enterPinCodeRef.current?.focus(), TEXTINPUT_FOCUS_WAIT_MS);
+      enterPinCodeRef.current?.focus();
+
       return;
     }
 
@@ -237,7 +239,5 @@ export default function SetPinAndAddressScreen({
   );
 }
 
-const TRANSITION_STEP_MS = 250;
-const TEXTINPUT_FOCUS_WAIT_MS = 500;
 const PIN_INPUT_LENGTH = 4;
 const PIN_MAX_TRIES = 3;

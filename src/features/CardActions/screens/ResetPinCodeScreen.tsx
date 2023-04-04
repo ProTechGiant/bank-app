@@ -51,7 +51,7 @@ export default function ResetPinCodeScreen() {
     setIsErrorVisible(false);
 
     pagerViewRef.current?.scrollTo({ x: 0 });
-    setTimeout(() => enterPinCodeRef.current?.focus(), TEXTINPUT_FOCUS_WAIT_MS);
+    enterPinCodeRef.current?.focus();
   };
 
   const handleOnTransitionStep = () => {
@@ -59,7 +59,7 @@ export default function ResetPinCodeScreen() {
     setIsErrorVisible(false);
 
     pagerViewRef.current?.scrollTo({ x: dimensions.width });
-    setTimeout(() => confirmPinCodeRef.current?.focus(), TEXTINPUT_FOCUS_WAIT_MS);
+    confirmPinCodeRef.current?.focus();
   };
 
   const handleOnChangeText = (value: string) => {
@@ -74,7 +74,7 @@ export default function ResetPinCodeScreen() {
     // Move to confirm screen
     if (selectedPincode === undefined) {
       if (isValidPincode(normalizedValue)) {
-        setTimeout(handleOnTransitionStep, TRANSITION_STEP_MS);
+        handleOnTransitionStep();
         setSelectedPincode(normalizedValue);
       } else {
         setCurrentValue("");
@@ -218,7 +218,5 @@ export default function ResetPinCodeScreen() {
   );
 }
 
-const TRANSITION_STEP_MS = 250;
-const TEXTINPUT_FOCUS_WAIT_MS = 500;
 const INPUT_SIZE = 4;
 const NUMBER_OF_RETRIES = 3;
