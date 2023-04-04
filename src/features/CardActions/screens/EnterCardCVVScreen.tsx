@@ -13,12 +13,16 @@ import Page from "@/components/Page";
 import PincodeInput from "@/components/PincodeInput";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import encryptValue from "@/utils/encrypt-value";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { CardActionsStackParams } from "../CardActionsStack";
 import ViewCVVModel from "../components/ViewCVVModel";
+import { useUnfreezeCard, useVerifyCVV } from "../hooks/query-hooks";
+import useOtpFlow from "../hooks/use-otp";
 
 export default function EnterCardCVVScreen() {
   const { t } = useTranslation();
@@ -31,31 +35,80 @@ export default function EnterCardCVVScreen() {
   const [remainingAttempts, setRemainingAttempts] = useState(NUMBER_OF_RETRIES);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
   const [isViewingCVVHint, setIsViewingCVVHint] = useState(false);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+
+  const verifyCVVAsync = useVerifyCVV();
+  const unfreezeCardAsync = useUnfreezeCard();
+  const otpFlow = useOtpFlow();
 
   const handleOnBackPress = () => {
     navigation.goBack();
   };
 
   const handleOnChangeText = (input: string) => {
-    if (remainingAttempts < 1) return;
     const normalizedValue = westernArabicNumerals(input);
 
     setIsErrorVisible(false);
     setCurrentValue(normalizedValue);
 
     if (normalizedValue.length !== INPUT_SIZE) return;
-
-    // OTP Code
-    handleOnValidateCVV();
+    handleOnVerifyCVV(normalizedValue);
   };
 
-  const handleOnValidateCVV = async () => {
-    if (undefined === currentValue) return;
-    // @todo add  BE integration
-    // setRemainingAttempts(current => current - 1);
-    // setIsErrorVisible(true);
+  const handleOnVerifyCVV = async (value: string) => {
+    const cvv = encryptValue(value);
+    try {
+      const response = await verifyCVVAsync.mutateAsync({ cardId, cvv });
+      if (response.Message === "Cvv verified successfully") {
+        handleOnUnfreezeCard();
+      } else {
+        setRemainingAttempts(current => current - 1);
+        setIsErrorVisible(true);
+        setCurrentValue("");
+      }
+    } catch (error) {
+      setRemainingAttempts(current => current - 1);
+      setIsErrorVisible(true);
+      setCurrentValue("");
+      warn("Could not validate CVV: ", JSON.stringify(error));
+    }
+  };
 
-    navigation.navigate("CardActions.CardActivatedScreen", { cardId });
+  const handleOnUnfreezeCard = async () => {
+    try {
+      const response = await unfreezeCardAsync.mutateAsync({ cardId });
+
+      otpFlow.handle({
+        action: {
+          to: "CardActions.EnterCardCVVScreen",
+        },
+        otpOptionalParams: {
+          CardId: cardId,
+        },
+        otpChallengeParams: {
+          OtpId: response.OtpId,
+          OtpCode: response.OtpCode,
+          PhoneNumber: response.PhoneNumber,
+          correlationId: response.correlationId,
+        },
+        onOtpRequestResend: () => {
+          return unfreezeCardAsync.mutateAsync({ cardId });
+        },
+        onFinish: status => {
+          if (status === "cancel") {
+            return;
+          }
+          if (status === "fail") {
+            setIsErrorModalVisible(true);
+            return;
+          }
+          navigation.navigate("CardActions.CardActivatedScreen", { cardId });
+        },
+      });
+    } catch (error) {
+      setIsErrorModalVisible(true);
+      warn("card-actions", "Could not unfreeze card: ", JSON.stringify(error));
+    }
   };
 
   const inputContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -117,6 +170,13 @@ export default function EnterCardCVVScreen() {
         message={t("CardActions.EnterCardCVVScreen.errorMessage")}
         isVisible={isErrorVisible && remainingAttempts === 0}
         variant="error"
+      />
+      <NotificationModal
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={isErrorModalVisible}
+        variant="error"
+        onClose={() => handleOnBackPress()}
       />
       <ViewCVVModel isVisible={isViewingCVVHint} onClose={() => setIsViewingCVVHint(false)} />
     </>

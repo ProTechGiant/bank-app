@@ -22,7 +22,7 @@ import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-import encryptPincode from "@/utils/encrypt-pincode";
+import encryptValue from "@/utils/encrypt-value";
 import isValidPincode from "@/utils/is-valid-pincode";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
@@ -105,7 +105,7 @@ export default function SetPinAndAddressScreen({
       }
 
       if (convertedInput === selectedPincode) {
-        applyCardsContext.setValue("EncryptedPincode", encryptPincode(convertedInput));
+        applyCardsContext.setValue("EncryptedPincode", encryptValue(convertedInput));
         handleOnTransitionStep();
       }
     }

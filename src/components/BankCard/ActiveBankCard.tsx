@@ -98,9 +98,7 @@ export default function ActiveBankCard({
         {isExpiringSoon || actionButton !== undefined ? (
           <View style={cardExpiryContainerStyle}>
             <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-              {isExpiringSoon === "expired_report"
-                ? t("CardActions.CardExpiryNotification.expiresSoon")
-                : t("CardActions.comingSoon")}
+              {isExpiringSoon ? t("CardActions.CardExpiryNotification.expiresSoon") : t("CardActions.comingSoon")}
             </Typography.Text>
           </View>
         ) : null}

@@ -17,7 +17,7 @@ import { warn } from "@/logger";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import encryptPincode from "@/utils/encrypt-pincode";
+import encryptValue from "@/utils/encrypt-value";
 import isValidPincode from "@/utils/is-valid-pincode";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
@@ -111,7 +111,7 @@ export default function ResetPinCodeScreen() {
         },
         otpOptionalParams: {
           CardId: cardId,
-          Pin: encryptPincode(selectedPincode),
+          Pin: encryptValue(selectedPincode),
         },
         otpChallengeParams: {
           OtpId: response.OtpId,

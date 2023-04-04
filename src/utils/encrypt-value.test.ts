@@ -1,8 +1,8 @@
-import encryptPincode from "./encrypt-pincode";
+import encryptValue from "./encrypt-value";
 
-describe("encrypt-pincode", () => {
+describe("encrypt-value", () => {
   it("encrypts pincode using rsa", () => {
-    const encrypted = encryptPincode("1234");
+    const encrypted = encryptValue("1234");
 
     expect(typeof encrypted).toBe("string");
     expect(encrypted.length).toBe(344);

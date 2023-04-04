@@ -292,3 +292,29 @@ export default function useSubmitOrderCard() {
     return { ...response, correlationId };
   });
 }
+
+interface VerifyCvvResponse {
+  Message: string;
+  NumOfAttempts: number;
+}
+
+export function useVerifyCVV() {
+  return useMutation(async ({ cardId, cvv }: { cardId: string; cvv: string }) => {
+    const correlationId = generateRandomId();
+
+    const response = await api<VerifyCvvResponse>(
+      "v1",
+      `cards/${cardId}/verify-cvv`,
+      "POST",
+      undefined,
+      {
+        Cvv: cvv,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+
+    return response;
+  });
+}
