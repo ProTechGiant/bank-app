@@ -3,12 +3,12 @@ platform :ios do
     package = load_json(json_path: File.join(Dir.pwd, "../", "package.json"))
 
     increment_build_number(
-      xcodeproj: File.join(Dir.pwd, "../ios", ENV["ios_xcode_proj"]),
+      xcodeproj: File.join(Dir.pwd, "../ios", ENV["IOS_XCODE_PROJ"]),
       build_number: ENV['BUILD_NUMBER'] || 1
     )
 
     increment_version_number(
-      xcodeproj: File.join(Dir.pwd, "../ios", ENV["ios_xcode_proj"]),
+      xcodeproj: File.join(Dir.pwd, "../ios", ENV["IOS_XCODE_PROJ"]),
       version_number: package['version']
     )
   end

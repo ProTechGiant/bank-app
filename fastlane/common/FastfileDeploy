@@ -3,12 +3,12 @@ platform :android do
     load_env(env: options[:env])
 
     upload_to_play_store(
-      package_name: ENV["app_identifier"],
+      package_name: ENV["APP_IDENTIFIER"],
       track: "internal",
       release_status: "completed",
       json_key: ENV["android_playstore_json_key"],
-      aab: "#{ENV["output_directory"]}/app-prod-release.aab",
-      mapping: "#{ENV["output_directory"]}/mapping.txt",
+      aab: "#{ENV["OUTPUT_DIRECTORY"]}/app-prod-release.aab",
+      mapping: "#{ENV["OUTPUT_DIRECTORY"]}/mapping.txt",
     )
   end
 end
@@ -18,28 +18,28 @@ platform :ios do
     load_env(env: options[:env])
 
     version = ios_get_version(
-      xcodeproj: File.join(Dir.pwd, "../ios", ENV["ios_xcode_proj"])
+      xcodeproj: File.join(Dir.pwd, "../ios", ENV["IOS_XCODE_PROJ"])
     )
 
     build_number = ios_get_build_number(
-      xcodeproj: File.join(Dir.pwd, "../ios", ENV["ios_xcode_proj"])
+      xcodeproj: File.join(Dir.pwd, "../ios", ENV["IOS_XCODE_PROJ"])
     )
 
     app_store_connect_api_key(
-      key_id: ENV["ios_appstore_connect_key_id"],
-      issuer_id: ENV["ios_appstore_connect_key_issuer_id"],
-      key_filepath: ENV["ios_appstore_connect_key"]
+      key_id: ENV["IOS_APPSTORE_CONNECT_KEY_ID"],
+      issuer_id: ENV["IOS_APPSTORE_CONNECT_KEY_ISSUER_ID"],
+      key_filepath: ENV["IOS_APPSTORE_CONNECT_KEY"]
     )
 
     upload_to_testflight(
-      app_identifier: ENV["app_identifier"],
-      ipa: "#{ENV["output_directory"]}/#{ENV["ios_ipa_name"]}",
+      app_identifier: ENV["APP_IDENTIFIER"],
+      ipa: "#{ENV["OUTPUT_DIRECTORY"]}/#{ENV["IOS_IPA_NAME"]}",
       skip_submission: true,
       skip_waiting_for_build_processing: true
     )
 
     deliver(
-      app_identifier: ENV["app_identifier"],
+      app_identifier: ENV["APP_IDENTIFIER"],
       app_version: version,
       build_number: build_number,
       skip_binary_upload: true,

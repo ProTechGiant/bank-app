@@ -4,18 +4,18 @@
 # In general, you can use the options available
 # fastlane gym --help
 
-scheme(ENV['ios_build_scheme'])
-configuration(ENV['ios_build_configuration'])
+scheme(ENV['IOS_BUILD_SCHEME'])
+configuration(ENV['IOS_BUILD_CONFIGURATION'])
 include_bitcode(false)
 include_symbols(false)
 clean(true)
-workspace(ENV["ios_workspace"])
-output_directory(ENV['output_directory'])
+workspace(ENV["IOS_WORKSPACE"])
+output_directory(ENV['OUTPUT_DIRECTORY'])
 # suppress_xcode_output(true)
 export_xcargs("-allowProvisioningUpdates")
-export_method(ENV['ios_export_method'])
+export_method(ENV['IOS_EXPORT_METHOD'])
 export_options({
   provisioningProfiles: {
-    ENV['app_identifier'] => ENV['ios_profile_name'],
+    ENV['APP_IDENTIFIER'] => ENV['IOS_PROFILE_NAME'],
   }
 })

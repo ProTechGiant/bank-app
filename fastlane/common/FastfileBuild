@@ -3,41 +3,41 @@ platform :android do
     load_env(env: options[:env])
     do_clean(options)
 
-    keystore_file_path = File.join(Dir.pwd, "../android/keystores", ENV["android_keystore_file"])
+    keystore_file_path = File.join(Dir.pwd, "../android/keystores", ENV["ANDROID_KEYSTORE_FILE"])
 
     gradle(
       project_dir: "android/",
-      task: ENV["android_build_task"],
-      build_type: ENV["android_build_type"],
+      task: ENV["ANDROID_BUILD_TASK"],
+      build_type: ENV["ANDROID_BUILD_TYPE"],
       print_command: true,
       properties: {
         "android.injected.signing.store.file" => keystore_file_path,
-        "android.injected.signing.store.password" => ENV["android_keystore_password"],
-        "android.injected.signing.key.alias" => ENV["android_keystore_alias"],
-        "android.injected.signing.key.password" => ENV["android_keystore_password"]
+        "android.injected.signing.store.password" => ENV["ANDROID_KEYSTORE_PASSWORD"],
+        "android.injected.signing.key.alias" => ENV["ANDROID_KEYSTORE_ALIAS"],
+        "android.injected.signing.key.password" => ENV["ANDROID_KEYSTORE_PASSWORD"]
       }
     )
 
     # copy .apk
-    if (ENV["android_build_task"] === "assemble")
+    if (ENV["ANDROID_BUILD_TASK"] === "assemble")
       copy_artifacts(
         artifacts: [lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]],
-        target_path: ENV["output_directory"]
+        target_path: ENV["OUTPUT_DIRECTORY"]
       )
     end
 
     # copy .aab
-    if (ENV["android_build_task"] === "bundle")
+    if (ENV["ANDROID_BUILD_TASK"] === "bundle")
       copy_artifacts(
         artifacts: [lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH]],
-        target_path: ENV["output_directory"]
+        target_path: ENV["OUTPUT_DIRECTORY"]
       )
     end
 
     # copy proguard mapping
     copy_artifacts(
       artifacts: [lane_context[SharedValues::GRADLE_MAPPING_TXT_OUTPUT_PATH]],
-      target_path: ENV["output_directory"]
+      target_path: ENV["OUTPUT_DIRECTORY"]
     )
   end
 end
