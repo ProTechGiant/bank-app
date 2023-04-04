@@ -16,18 +16,18 @@ export const quickActionMocks: QuickAction[] = [
     type: "split-bill",
   },
   {
-    color: "successBase",
-    icon: "TransferVertical",
-    title: "Send money",
-    description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
-    type: "send-money",
-  },
-  {
     color: "complimentBase",
     icon: "SettingsIcon",
     title: "Settings",
     description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
     type: "settings",
+  },
+  {
+    color: "successBase",
+    icon: "TransferVertical",
+    title: "Send money",
+    description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+    type: "send-money",
   },
   {
     color: "primaryBase-30",

@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { differenceInHours } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChatIcon, ChevronRightIcon, PhoneIcon, ThumbsDownIcon, ThumbsUpIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -17,10 +17,14 @@ import {
 import MainStackParams from "@/navigation/mainStackParams";
 import { useThemeStyles } from "@/theme";
 
-export default function DetailedSceen() {
+import HtmlWebView from "../../components/HtmlWebView";
+import openLink from "../../components/utils/open-link";
+
+export default function DetailedScreen() {
   const route = useRoute<RouteProp<MainStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
-  const { data, title } = route.params;
   const { t } = useTranslation();
+
+  const { data, title } = route.params;
   const currentDate = new Date();
 
   const [feedbackState, setFeedbackState] = useState<"notResponded" | "positive" | "negative" | "helpRequested">(
@@ -33,21 +37,20 @@ export default function DetailedSceen() {
       : "notResponded"
   );
 
+  const getFeedbackText = () => {
+    return feedbackState === "notResponded"
+      ? t("FrequentlyAskedQuestions.DetailedScreen.feedback")
+      : feedbackState === "positive" || feedbackState === "helpRequested"
+      ? t("FrequentlyAskedQuestions.DetailedScreen.postiveFeedback")
+      : t("FrequentlyAskedQuestions.DetailedScreen.negativeFeedback");
+  };
+
   const sectionStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["48p"],
   }));
 
-  const questionStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["16p"],
-  }));
-
-  const horizontalStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["20p"],
-  }));
-
-  const iconRowStyle = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "row",
-    gap: theme.spacing["12p"],
+  const verticalStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingVertical: theme.spacing["16p"],
   }));
 
   const iconBoxStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -62,32 +65,29 @@ export default function DetailedSceen() {
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
-  const getFeedbackText = () => {
-    return feedbackState === "notResponded"
-      ? t("FrequentlyAskedQuestions.DetailedSceen.feedback")
-      : feedbackState === "positive" || feedbackState === "helpRequested"
-      ? t("FrequentlyAskedQuestions.DetailedSceen.postiveFeedback")
-      : t("FrequentlyAskedQuestions.DetailedSceen.negativeFeedback");
-  };
+  const inAppBrowserBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
+
+  const inAppBrowserColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   return (
     <Page>
       <NavHeader title={title} />
-      <ScrollView alwaysBounceVertical={false}>
-        <View style={horizontalStyle}>
-          <Typography.Text weight="semiBold" size="title1">
-            {data.query}
-          </Typography.Text>
+      <ContentContainer isScrollView>
+        <Typography.Text weight="semiBold" size="title1">
+          {data.query}
+        </Typography.Text>
+        <View style={verticalStyle}>
+          <HtmlWebView
+            html={data.answer}
+            onLinkPress={url => openLink(url, inAppBrowserBackgroundColor, inAppBrowserColor)}
+          />
         </View>
-        <ContentContainer>
-          <Typography.Text size="callout">{data.answer}</Typography.Text>
-        </ContentContainer>
-        <View style={[horizontalStyle, { flexDirection: "row", justifyContent: "space-between" }]}>
+        <View style={styles.row}>
           <Typography.Text size="callout" color="neutralBase-10">
             {getFeedbackText()}
           </Typography.Text>
-          {feedbackState === "notResponded" && (
-            <View style={{ flexDirection: "row" }}>
+          {feedbackState === "notResponded" ? (
+            <View style={styles.row}>
               <Pressable
                 onPress={() => {
                   setFeedbackState("positive");
@@ -101,36 +101,36 @@ export default function DetailedSceen() {
                 <ThumbsDownIcon />
               </Pressable>
             </View>
-          )}
+          ) : null}
         </View>
-        <View style={[sectionStyle, horizontalStyle]}>
+        <View style={sectionStyle}>
           <Typography.Text size="title3" weight="semiBold">
-            {t("FrequentlyAskedQuestions.DetailedSceen.relatedQuestions")}
+            {t("FrequentlyAskedQuestions.DetailedScreen.relatedQuestions")}
           </Typography.Text>
         </View>
-        {mockRelatedFrequentlyAskedQuestions.map(data => {
+        {mockRelatedFrequentlyAskedQuestions.map(relatedFAQdata => {
           return (
-            <ContentContainer key={data.faq_id} style={{}}>
+            <View key={relatedFAQdata.faq_id} style={verticalStyle}>
               <Stack direction="horizontal" align="center" justify="space-between">
-                <Typography.Text size="callout">{data.query}</Typography.Text>
+                <Typography.Text size="callout">{relatedFAQdata.query}</Typography.Text>
                 <ChevronRightIcon color={iconColor} />
               </Stack>
-            </ContentContainer>
+            </View>
           );
         })}
-        {feedbackState === "negative" && (
-          <ContentContainer style={sectionStyle}>
+        {feedbackState === "negative" ? (
+          <View style={sectionStyle}>
             <Typography.Text size="callout" weight="semiBold">
-              {t("FrequentlyAskedQuestions.DetailedSceen.help")}
+              {t("FrequentlyAskedQuestions.DetailedScreen.help")}
             </Typography.Text>
-            <View style={iconRowStyle}>
+            <View style={styles.row}>
               <Pressable
                 style={iconBoxStyle}
                 onPress={() => {
                   setFeedbackState("helpRequested");
                 }}>
                 <PhoneIcon />
-                <Typography.Text size="footnote">{t("FrequentlyAskedQuestions.DetailedSceen.call")}</Typography.Text>
+                <Typography.Text size="footnote">{t("FrequentlyAskedQuestions.DetailedScreen.call")}</Typography.Text>
               </Pressable>
               <Pressable
                 style={iconBoxStyle}
@@ -138,12 +138,19 @@ export default function DetailedSceen() {
                   setFeedbackState("helpRequested");
                 }}>
                 <ChatIcon />
-                <Typography.Text size="footnote">{t("FrequentlyAskedQuestions.DetailedSceen.chat")}</Typography.Text>
+                <Typography.Text size="footnote">{t("FrequentlyAskedQuestions.DetailedScreen.chat")}</Typography.Text>
               </Pressable>
             </View>
-          </ContentContainer>
-        )}
-      </ScrollView>
+          </View>
+        ) : null}
+      </ContentContainer>
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+});

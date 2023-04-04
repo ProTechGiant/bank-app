@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AddMoneyStack from "@/features/AddMoney/AddMoneyStack";
 import CardActionsStack from "@/features/CardActions/CardActionsStack";
-import DetailedSceen from "@/features/FrequentlyAskedQuestions/screens/DetailedScreen";
+import DetailedScreen from "@/features/FrequentlyAskedQuestions/screens/DetailedScreen";
 import LandingPage from "@/features/FrequentlyAskedQuestions/screens/LandingPage";
 import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
 import HomeStack from "@/features/Home/HomeStack";
@@ -49,7 +49,7 @@ export default function MainStack({ onReady }: MainStackProps) {
         <Stack.Screen component={HomeStack} name="Home.HomeStack" />
         <Stack.Screen component={LandingPage} name="FrequentlyAskedQuestions.LandingPage" />
         <Stack.Screen component={SectionScreen} name="FrequentlyAskedQuestions.SectionScreen" />
-        <Stack.Screen component={DetailedSceen} name="FrequentlyAskedQuestions.DetailedScreen" />
+        <Stack.Screen component={DetailedScreen} name="FrequentlyAskedQuestions.DetailedScreen" />
         <Stack.Screen component={NotificationManagementHubScreen} name="NotificationManagement.HubScreen" />
         <Stack.Screen component={NotificationManagementCategoryScreen} name="NotificationManagement.CategoryScreen" />
       </Stack.Navigator>

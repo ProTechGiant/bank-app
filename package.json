@@ -43,6 +43,7 @@
     "react-native-context-menu-view": "^1.9.1",
     "react-native-draggable-flatlist": "^4.0.0",
     "react-native-gesture-handler": "^2.9.0",
+    "react-native-inappbrowser-reborn": "^3.7.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-pager-view": "^6.1.2",
     "react-native-permissions": "^3.7.3",
@@ -52,6 +53,7 @@
     "react-native-svg": "^13.8.0",
     "react-native-svg-transformer": "^1.0.0",
     "react-native-tab-view": "^3.3.4",
+    "react-native-webview": "^11.26.1",
     "react-phone-number-input": "^3.2.13",
     "react-query": "^3.39.2",
     "yup": "^0.32.11"

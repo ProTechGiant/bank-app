@@ -329,7 +329,7 @@ export const resources = {
           title: "How can we help you?",
           searchPlaceholder: "I need help with...",
         },
-        DetailedSceen: {
+        DetailedScreen: {
           feedback: "Did you find this answer helpful?",
           postiveFeedback: "Thank you.",
           negativeFeedback:

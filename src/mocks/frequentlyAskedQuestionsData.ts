@@ -28,7 +28,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
             {
               faq_id: "faq_18",
               query: "Sed ut perspiciatis unde omnis iste natus?",
-              answer: "Go to Faq18 link",
+              answer: 'Lets test hyperlinking <a href="https://www.google.com">click here</a> to go to google please!',
             },
           ],
           sub_sections: [
