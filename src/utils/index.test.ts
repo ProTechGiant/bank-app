@@ -2,6 +2,7 @@ import {
   alphaNumericRegExp,
   alphaNumericSpaceRegExp,
   alphaNumericSpecialCharsRegExp,
+  ibanRegExp,
   nationalIdRegEx,
   numericRegExp,
   saudiPhoneRegExp,
@@ -41,6 +42,29 @@ describe("alphaNumericSpecialCharsRegExp", () => {
   it("Invalid string", () => {
     const string = "@£($)!";
     expect(string).not.toMatch(alphaNumericSpecialCharsRegExp);
+  });
+});
+
+describe("ibanRegExp", () => {
+  it("Valid - starts with two letters followed by 22 digits", () => {
+    const string = "SA1234567890123456789012";
+    expect(string).toMatch(ibanRegExp);
+  });
+  it("Invalid - starts with two letters followed by digit and letters", () => {
+    const string = "SA1234567890123456789ABC";
+    expect(string).not.toMatch(ibanRegExp);
+  });
+  it("Invalid - with 24 digits", () => {
+    const string = "123456789012345678901234";
+    expect(string).not.toMatch(ibanRegExp);
+  });
+  it("Invalid - starts with 3 letters", () => {
+    const string = "SAC123456789012345678901";
+    expect(string).not.toMatch(ibanRegExp);
+  });
+  it("Invalid - blank string", () => {
+    const string = "";
+    expect(string).not.toMatch(ibanRegExp);
   });
 });
 

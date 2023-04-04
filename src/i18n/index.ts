@@ -958,6 +958,75 @@ export const resources = {
           tryAgain: "try again.",
         },
       },
+      InternalTransfers: {
+        EnterBeneficiaryDetailsScreen: {
+          title: "Enter beneficiary details",
+          options: {
+            mobile: "Mobile",
+            accountNumber: "Account number",
+            iban: "IBAN",
+          },
+          continueButton: "Continue",
+          mobileNumberForm: {
+            mobileNumber: {
+              placeholder: "Mobile number",
+              validation: {
+                required: "Required",
+                invalid: "Phone numbers need 9 numbers",
+              },
+            },
+            mobileInUseModal: {
+              title: "Mobile already in use",
+              message: "You've already used this mobile number for one of your beneficiaries.",
+              chooseDifferentBeneficiaryButton: "Choose different beneficiary",
+              cancelButton: "Cancel",
+            },
+          },
+          accountNumberForm: {
+            accountNumber: {
+              placeholder: "Account number",
+              validation: {
+                required: "Required",
+                invalid: "Account number need 12 numbers",
+              },
+            },
+            accountNumberInUseModal: {
+              title: "Account number already in use",
+              message: "You've already used this account number for one of your beneficiaries.",
+              chooseDifferentBeneficiaryButton: "Choose different beneficiary",
+              cancelButton: "Cancel",
+            },
+            accountNumberNotRecongisedModal: {
+              title: "Account number not recognised",
+              message: "That number isn't used for a Croatia account. Please check it.",
+            },
+          },
+          ibanForm: {
+            iban: {
+              placeholder: "IBAN number",
+              validation: {
+                required: "Required",
+                minLength: "IBAN needs 24 characters",
+                invalid: "IBAN can only have letters and numbers",
+              },
+            },
+            ibanInUseModal: {
+              title: "IBAN already in use",
+              message: "You've already used this IBAN for one of your beneficiaries.",
+              chooseDifferentBeneficiaryButton: "Choose different beneficiary",
+              cancelButton: "Cancel",
+            },
+            ibanNotRecongisedModal: {
+              title: "IBAN not recognised",
+              message: "That IBAN isn't used for a Croatia account. Please check it.",
+            },
+          },
+          genericErrorModal: {
+            title: "We're sorry – we're having problems checking that",
+            message: "Please try again later.",
+          },
+        },
+      },
     },
   },
   ar: {

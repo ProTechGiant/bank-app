@@ -65,6 +65,7 @@ exports[`features/Onboarding/components/MoreInfoDropdown renders with content 1`
       style={
         {
           "alignItems": "center",
+          "backgroundColor": "#FAFAFA",
           "flexDirection": "row",
           "padding": 16,
           "width": "100%",
@@ -111,7 +112,7 @@ exports[`features/Onboarding/components/MoreInfoDropdown renders with content 1`
             d="M9.16699 5.83332H10.8337V7.49999H9.16699V5.83332ZM9.16699 9.16666H10.8337V14.1667H9.16699V9.16666ZM10.0003 1.66666C5.40033 1.66666 1.66699 5.39999 1.66699 9.99999C1.66699 14.6 5.40033 18.3333 10.0003 18.3333C14.6003 18.3333 18.3337 14.6 18.3337 9.99999C18.3337 5.39999 14.6003 1.66666 10.0003 1.66666ZM10.0003 16.6667C6.32533 16.6667 3.33366 13.675 3.33366 9.99999C3.33366 6.32499 6.32533 3.33332 10.0003 3.33332C13.6753 3.33332 16.667 6.32499 16.667 9.99999C16.667 13.675 13.6753 16.6667 10.0003 16.6667Z"
             fill={
               {
-                "payload": 4278718035,
+                "payload": 4278231244,
                 "type": 0,
               }
             }
@@ -132,9 +133,9 @@ exports[`features/Onboarding/components/MoreInfoDropdown renders with content 1`
             },
             {
               "color": "#002233",
-              "fontSize": 16,
+              "fontSize": 13,
               "fontWeight": "600",
-              "lineHeight": 21,
+              "lineHeight": 18,
               "textAlign": "left",
             },
           ]

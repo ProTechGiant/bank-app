@@ -4,6 +4,7 @@ import { I18nManager, TextStyle } from "react-native";
 import PhoneInput from "react-phone-number-input/react-native-input";
 
 import { useThemeStyles } from "@/theme";
+import { mobilePhoneNoCountryCodeLength } from "@/utils";
 
 import InputBox from "./internal/InputBox";
 
@@ -14,6 +15,8 @@ interface PhoneNumberInputProps<T extends FieldValues> {
   name: Path<T>;
   label?: string;
   placeholder?: string;
+  showCharacterCount?: boolean;
+  maxLength: number;
 }
 
 export default function PhoneNumberInput<T extends FieldValues>({
@@ -23,6 +26,8 @@ export default function PhoneNumberInput<T extends FieldValues>({
   name,
   label,
   placeholder,
+  showCharacterCount,
+  maxLength,
 }: PhoneNumberInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
   const [isFocused, setIsFocused] = useState(false);
@@ -38,7 +43,17 @@ export default function PhoneNumberInput<T extends FieldValues>({
   const placeholderTextColor = useThemeStyles(theme => theme.palette.neutralBase);
 
   return (
-    <InputBox extraStart={extra} isEditable={isEditable} isFocused={isFocused} label={label} fieldState={fieldState}>
+    <InputBox
+      extraStart={extra}
+      isEditable={isEditable}
+      isFocused={isFocused}
+      label={label}
+      fieldState={fieldState}
+      extraEnd={
+        showCharacterCount && undefined !== maxLength
+          ? `${mobilePhoneNoCountryCodeLength(COUNTRY_CODE, field.value)} / ${maxLength}`
+          : undefined
+      }>
       <PhoneInput
         autoCapitalize="none"
         autoCorrect={false}
@@ -49,7 +64,12 @@ export default function PhoneNumberInput<T extends FieldValues>({
         onChange={value => field.onChange(value)}
         onFocus={() => setIsFocused(true)}
         international
-        country="SA"
+        country={COUNTRY_CODE}
+        maxLength={
+          maxLength <= mobilePhoneNoCountryCodeLength(COUNTRY_CODE, field.value)
+            ? maxLength
+            : maxLength + SPACE_IN_PHONE_NUMBER
+        }
         placeholder={placeholder}
         placeholderTextColor={placeholderTextColor}
         style={textStyles}
@@ -59,3 +79,6 @@ export default function PhoneNumberInput<T extends FieldValues>({
     </InputBox>
   );
 }
+
+const COUNTRY_CODE = "SA";
+const SPACE_IN_PHONE_NUMBER = 2;

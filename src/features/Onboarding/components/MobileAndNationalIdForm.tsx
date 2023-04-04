@@ -141,6 +141,7 @@ export default function MobileAndNationalIdForm({
                   <PhoneNumberInput<IqamaInputs>
                     control={control}
                     name="MobileNumber"
+                    maxLength={9}
                     placeholder={t("Onboarding.IqamaInputScreen.mobilePlaceholder")}
                   />
                 </View>
