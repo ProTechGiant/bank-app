@@ -1,10 +1,10 @@
 import { ComponentStory } from "@storybook/react";
 
-import Radio from "./index";
+import Radio_ from "./index";
 
 export default {
   title: "components/Radio",
-  component: Radio,
+  component: Radio_,
   args: {
     disabled: false,
     color: "#002233",
@@ -26,9 +26,12 @@ export default {
         disable: true,
       },
     },
+    value: {
+      type: "boolean",
+    },
   },
 };
 
-export const RadioButton: ComponentStory<typeof Radio> = args => {
-  return <Radio {...args} />;
+export const Radio: ComponentStory<typeof Radio_> = args => {
+  return <Radio_ {...args} />;
 };

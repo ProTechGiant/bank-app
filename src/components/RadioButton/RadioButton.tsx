@@ -1,5 +1,4 @@
-import React from "react";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, ViewStyle } from "react-native";
 
 import Radio from "@/components/Radio";
 import Typography from "@/components/Typography";
