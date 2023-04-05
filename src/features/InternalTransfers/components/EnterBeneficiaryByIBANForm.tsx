@@ -6,8 +6,8 @@ import { Alert, StyleSheet, View } from "react-native";
 import * as Yup from "yup";
 
 import Button from "@/components/Button";
+import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import SubmitButton from "@/components/Form/SubmitButton";
-import TextInput from "@/components/Form/TextInput";
 import NotificationModal from "@/components/NotificationModal";
 import { ibanRegExp } from "@/utils";
 
@@ -54,12 +54,13 @@ export default function EnterBeneficiaryByIBANForm() {
   return (
     <>
       <View>
-        <TextInput
+        <MaskedTextInput
           control={control}
           name="IBAN"
           placeholder={t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.placeholder")}
           maxLength={24}
           showCharacterCount
+          mask="SA## #### #### #### #### ####"
         />
       </View>
       <View style={styles.buttonContainer}>

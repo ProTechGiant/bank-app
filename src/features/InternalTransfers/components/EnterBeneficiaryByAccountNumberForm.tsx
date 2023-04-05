@@ -6,8 +6,8 @@ import { Alert, StyleSheet, View } from "react-native";
 import * as Yup from "yup";
 
 import Button from "@/components/Button";
+import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import SubmitButton from "@/components/Form/SubmitButton";
-import TextInput from "@/components/Form/TextInput";
 import NotificationModal from "@/components/NotificationModal";
 
 interface EnterBeneficiaryByAccountNumberInput {
@@ -57,13 +57,14 @@ export default function EnterBeneficiaryByAccountNumberForm() {
   return (
     <>
       <View>
-        <TextInput
+        <MaskedTextInput
           control={control}
           keyboardType="number-pad"
           name="AccountNumber"
           placeholder={t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.placeholder")}
           maxLength={12}
           showCharacterCount
+          mask="#### #### ####"
         />
       </View>
       <View style={styles.buttonContainer}>

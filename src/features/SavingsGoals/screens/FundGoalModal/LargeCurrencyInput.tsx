@@ -89,6 +89,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
   const mediumCurrencyStyle = useThemeStyles<TextStyle>(theme => ({
     marginTop: theme.spacing["20p"],
   }));
+
   const smallCurrencyStyle = useThemeStyles<TextStyle>(theme => ({
     marginTop: theme.spacing["16p"],
   }));

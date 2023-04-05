@@ -5,6 +5,7 @@ import {
   ibanRegExp,
   nationalIdRegEx,
   numericRegExp,
+  removeSpaces,
   saudiPhoneRegExp,
 } from ".";
 
@@ -76,6 +77,13 @@ describe("numericRegEx", () => {
   it("Invalid string", () => {
     const string = "123abc";
     expect(string).not.toMatch(numericRegExp);
+  });
+});
+
+describe("removeSpaces", () => {
+  it("String with spaces", () => {
+    const string = " 123 ABC BEF ";
+    expect(removeSpaces(string)).toMatch("123ABCBEF");
   });
 });
 

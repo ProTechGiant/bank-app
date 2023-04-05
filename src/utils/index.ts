@@ -18,9 +18,13 @@ export const generateRandomId = () => {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 };
 
+export const removeSpaces = (input: string) => {
+  return input.replace(/\s/g, "");
+};
+
 // Get the length of a typing mobile phone (remove + and country code)
 export const mobilePhoneNoCountryCodeLength = (countryCode: CountryCode, input: string) => {
   return input !== undefined && input.length !== 0
-    ? input.replace(/\s/g, "")?.length - getCountryCallingCode(countryCode).length - 1 ?? 0
+    ? removeSpaces(input)?.length - getCountryCallingCode(countryCode).length - 1 ?? 0
     : 0;
 };

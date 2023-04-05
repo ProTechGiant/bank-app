@@ -1,5 +1,5 @@
 import { ControllerFieldState } from "react-hook-form";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleProp, View, ViewStyle } from "react-native";
 
 import { ErrorIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
@@ -18,6 +18,7 @@ interface InputBoxProps {
   label?: string | null;
   multiline?: boolean;
   fieldState: ControllerFieldState;
+  style?: StyleProp<ViewStyle>;
   onPress?: () => void;
   icon?: React.ReactElement;
 }
@@ -33,6 +34,7 @@ export default function InputBox({
   label,
   multiline = false,
   fieldState,
+  style,
   onPress,
   icon,
 }: InputBoxProps) {
@@ -78,7 +80,7 @@ export default function InputBox({
   const errorIconColor = useThemeStyles(theme => theme.palette.errorBase);
 
   return (
-    <Pressable disabled={!isEditable} onPress={onPress} style={{ flexGrow: block ? 1 : 0 }}>
+    <Pressable disabled={!isEditable} onPress={onPress} style={[{ flexGrow: block ? 1 : 0 }, style]}>
       {label && <InputLabel>{label}</InputLabel>}
       <View style={containerStyle}>
         <>
