@@ -16,6 +16,7 @@ import {
   mockRelatedFrequentlyAskedQuestions,
 } from "@/mocks/frequentlyAskedQuestionsData";
 import MainStackParams from "@/navigation/mainStackParams";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import HtmlWebView from "../../components/HtmlWebView";
@@ -25,9 +26,9 @@ import { DetailedFaq } from "../../types/frequentlyAskedQuestions";
 export default function DetailedScreen() {
   const route = useRoute<RouteProp<MainStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const [title, setTitle] = useState<undefined | string>(undefined);
   const [data, setData] = useState<undefined | DetailedFaq>(undefined);
-
   const hasData = route.params as { data: DetailedFaq; title: string };
   const noData = route.params as { faqId: string };
 
@@ -103,7 +104,7 @@ export default function DetailedScreen() {
         <View style={verticalStyle}>
           <HtmlWebView
             html={data?.answer ? data.answer : "No data"}
-            onLinkPress={url => openLink(url, inAppBrowserBackgroundColor, inAppBrowserColor)}
+            onLinkPress={url => openLink(url, inAppBrowserBackgroundColor, inAppBrowserColor, navigation)}
           />
         </View>
         <View style={styles.row}>

@@ -1,11 +1,29 @@
+import { NavigationProp } from "@react-navigation/native";
 import { Linking } from "react-native";
 import InAppBrowser from "react-native-inappbrowser-reborn";
 
 import { warn } from "@/logger";
+import MainStackParams from "@/navigation/mainStackParams";
 
-export default async function openLink(url: string, inAppBrowserBackgroundColor: string, inAppBrowserColor: string) {
+function extractFaqIdFromUrl(url: string) {
+  const faqIdMatch = url.match(RegExp("croatia:\\/\\/app\\/faq\\/(.*)"));
+  return faqIdMatch !== null && typeof faqIdMatch[1] === "string" ? faqIdMatch[1] : undefined;
+}
+
+export default async function openLink(
+  url: string,
+  inAppBrowserBackgroundColor: string,
+  inAppBrowserColor: string,
+  navigation: NavigationProp<MainStackParams>
+) {
   try {
-    if (await InAppBrowser.isAvailable()) {
+    // Check if link directly links to a FAQ
+    const faqIdMatch = extractFaqIdFromUrl(url);
+    if (faqIdMatch !== undefined) {
+      navigation.navigate("FrequentlyAskedQuestions.DetailedScreen", {
+        faqId: faqIdMatch[1],
+      });
+    } else if (await InAppBrowser.isAvailable()) {
       await InAppBrowser.open(url, {
         // iOS Properties
         dismissButtonStyle: "done",
