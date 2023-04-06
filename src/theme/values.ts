@@ -1,5 +1,6 @@
 // @see https://www.figma.com/file/QOqqlaJOVnmvKjmRqIPryO/Croatia-Core-Theme?node-id=671%3A8706&t=7FQ3Qw5D8VeVyWdw-0
 const palette = {
+  // Core Brand Compliment
   "complimentBase+30": "#7C0303",
   "complimentBase+20": "#A91F0A",
   "complimentBase+10": "#D9270D",
@@ -8,11 +9,13 @@ const palette = {
   "complimentBase-20": "#FFAD99",
   "complimentBase-30": "#FFDDCC",
 
+  // Core Brand Support
   supportBase: "#BADADE",
   "supportBase-10": "#DCECEE",
   "supportBase-20": "#EEF6F7",
   "supportBase-30": "#F5F9FA",
 
+  // Core Brand Neutral
   "neutralBase+30": "#2E2E2E",
   "neutralBase+20": "#4C4C4C",
   "neutralBase+10": "#666666",
@@ -23,10 +26,9 @@ const palette = {
   "neutralBase-30": "#D9D9D9",
   "neutralBase-40": "#F2F2F2",
   "neutralBase-50": "#F5F5F5",
-  "neutralBase-50-50%": "#FFFFFF7F", // TODO: can probably be removed soon
-  "neutralBase-50-12%": "#FFFFFF1F", // TODO: check if needed soon
   "neutralBase-60": "#FAFAFA",
 
+  // Core Brand Primary
   primaryBase: "#002233",
   "primaryBase-10": "#00334C",
   "primaryBase-20": "#004466",
@@ -36,44 +38,51 @@ const palette = {
   "primaryBase-60": "33D3FF",
   "primaryBase-70": "#5CDCFF",
 
+  // Core Brand Secondary Blue
   secondary_blueBase: "#004F99",
   "secondary_blueBase-10": "#0067C7",
   "secondary_blueBase-20": "#0084FF",
 
-  secondary_purpleBase: "#8004F",
+  // Core Brand Secondary Purple
+  secondary_purpleBase: "#80004F",
   "secondary_purpleBase-10": "#AD006B",
   "secondary_purpleBase-20": "#E5008E",
 
+  // Core Brand Secondary Pink
   "secondary_pinkBase-10": "#FF99B9",
   "secondary_pinkBase-20": "#FFCCDC",
   "secondary_pinkBase-30": "#FFE5ED",
 
+  // Core Brand Secondary Mint
   secondary_mintBase: "#47EBD8",
   "secondary_mintBase-10": "#92F3E8",
   "secondary_mintBase-20": "#D1FAF5",
 
+  // Core Brand Secondary Yellow
   "secondary_yellowBase-10": "#FFE999",
   "secondary_yellowBase-20": "#FFF0B8",
   "secondary_yellowBase-30": "#FFFAE5",
 
+  // Interaction
   interactionBase: "#005EA6",
   "interactionBase-10": "#669ECA",
   "interactionBase-20": "#99BFDB",
   "interactionBase-30": "#CCDFED",
 
-  "successBase+20": "#004536", // TOOD: update banner and remove
+  // Success
   successBase: "#00AC86",
   "successBase-10": "#66CDB6",
   "successBase-20": "#99DECF",
   "successBase-30": "#CCEEE7",
 
-  "errorBase+20": "#562020", // TOOD: update banner and remove
+  // Error
   errorBase: "#C50707",
   "errorBase-10": "#E79696",
   "errorBase-20": "#EFB9B9",
   "errorBase-30": "#F7DCDC",
   "errorBase-40": "#FFEDED", // TODO: probably needs to be gone
 
+  // Warning
   warningBase: "#FEB24F",
   "warningBase-10": "#FED195",
   "warningBase-20": "#FFE0B9",

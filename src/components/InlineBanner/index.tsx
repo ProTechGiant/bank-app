@@ -18,7 +18,7 @@ export default function InlineBanner({ icon, text, testID, onClose, variant = "d
   const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "flex-start",
-      backgroundColor: variant === "default" ? theme.palette["neutralBase-40"] : theme.palette["errorBase-40"],
+      backgroundColor: variant === "default" ? theme.palette["neutralBase-40"] : theme.palette["errorBase-30"],
       borderRadius: theme.radii.small,
       columnGap: theme.spacing["12p"],
       flexDirection: "row",

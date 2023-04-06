@@ -28,12 +28,12 @@ const getColor = (color: keyof typeof palette): Colors => {
       labelBackground: "interactionBase-20",
       bannerBorderColor: "primaryBase-40",
     },
-    successBase: { text: lightColor, labelBackground: "successBase+20" },
+    successBase: { text: lightColor, labelBackground: "successBase" },
     "successBase-30": { text: darkColor, labelBackground: "successBase-20" },
     warningBase: { text: darkColor, labelBackground: "warningBase-10" },
     "warningBase-30": { text: darkColor, labelBackground: "warningBase-20" },
-    errorBase: { text: lightColor, labelBackground: "errorBase+20" },
-    "errorBase-40": { text: darkColor, labelBackground: "errorBase-20" },
+    errorBase: { text: lightColor, labelBackground: "errorBase" },
+    "errorBase-30": { text: darkColor, labelBackground: "errorBase-20" },
     default: {
       text: lightColor,
       labelText: darkColor,
@@ -53,7 +53,7 @@ export type BannerColorType =
   | "warningBase"
   | "warningBase-30"
   | "errorBase"
-  | "errorBase-40";
+  | "errorBase-30";
 
 export interface BannerProps {
   variant: BannerColorType;

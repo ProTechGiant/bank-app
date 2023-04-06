@@ -82,7 +82,7 @@ export default function MobileAndNationalIdForm({
 
   const errorsMobileNumberStyle = useThemeStyles<ViewStyle>(theme => ({
     borderWidth: 2,
-    backgroundColor: theme.palette["errorBase-40"],
+    backgroundColor: theme.palette["errorBase-30"],
     borderColor: theme.palette["errorBase-10"],
   }));
 

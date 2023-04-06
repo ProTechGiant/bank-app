@@ -14,7 +14,7 @@ export function useErrorMessages(err: ApiError) {
       "0061": {
         message: <></>,
         icon: <ErrorFilledCircleIcon />,
-        backgroundColor: "errorBase-40",
+        backgroundColor: "errorBase-30",
         link: "Sign In",
       },
       "0081": {
@@ -30,17 +30,17 @@ export function useErrorMessages(err: ApiError) {
       "0083": {
         message: t("Onboarding.IqamaInputScreen.errorText.noAttemptsLeft"),
         icon: <ErrorFilledCircleIcon />,
-        backgroundColor: "errorBase-40",
+        backgroundColor: "errorBase-30",
       },
       "0084": {
         message: t("Onboarding.IqamaInputScreen.errorText.noMatch"),
         icon: <ErrorFilledCircleIcon />,
-        backgroundColor: "errorBase-40",
+        backgroundColor: "errorBase-30",
       },
       "0085": {
         message: t("Onboarding.IqamaInputScreen.errorText.regulatoryCheck"),
         icon: <ErrorFilledCircleIcon />,
-        backgroundColor: "errorBase-40",
+        backgroundColor: "errorBase-30",
       },
       "0086": {
         message: (
@@ -52,13 +52,13 @@ export function useErrorMessages(err: ApiError) {
           </>
         ),
         icon: <ErrorFilledCircleIcon />,
-        backgroundColor: "errorBase-40",
+        backgroundColor: "errorBase-30",
         link: "Sign In",
       },
       default: {
         message: t("Onboarding.IqamaInputScreen.errorText.cannotOpen"),
         icon: <ErrorFilledCircleIcon />,
-        backgroundColor: "errorBase-40",
+        backgroundColor: "errorBase-30",
       },
     };
     return messages[type] || messages.default;

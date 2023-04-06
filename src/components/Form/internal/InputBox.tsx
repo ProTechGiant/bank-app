@@ -45,7 +45,7 @@ export default function InputBox({
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: isError
-        ? theme.palette["errorBase-40"]
+        ? theme.palette["errorBase-30"]
         : isEditable
         ? theme.palette["neutralBase-50"]
         : theme.palette["neutralBase-30"],
