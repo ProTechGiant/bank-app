@@ -37,7 +37,7 @@ export default function MainStack({ onReady }: MainStackProps) {
         <Stack.Screen component={HubScreen} name="Referral.HubScreen" />
         <Stack.Screen
           component={TermsAndConditionsScreen}
-          name="Referral.TermsAndConditions"
+          name="Referral.TermsAndConditionsScreen"
           options={{ presentation: "modal" }}
         />
         <Stack.Screen component={InstructionsScreen} name="Referral.InstructionsScreen" />

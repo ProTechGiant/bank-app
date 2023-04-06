@@ -439,7 +439,6 @@ export const resources = {
           InfoModal: {
             title: "About round-ups",
             text: "Round-up every purchase to the nearest 5 SAR. The extra will go towards your choice of goal.",
-            link: "Find out more in our FAQs",
           },
           GoalAlmostReachedModal: {
             title: "Are you sure you want to withdraw money?",
@@ -1058,6 +1057,15 @@ export const resources = {
             title: "We're sorry – we're having problems checking that",
             message: "Please try again later.",
           },
+        },
+      },
+      ContextualFAQModal: {
+        link: "Find out more in our FAQs.",
+        leavePageModal: {
+          title: "Leave page?",
+          message: "If you leave this page now, you’ll lose any changes you’ve made.",
+          leaveButton: "Leave page",
+          continueButton: "Continue editing",
         },
       },
     },

@@ -20,7 +20,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
           section_description: "Section 1",
           section_faqs: [
             {
-              faq_id: "faq_17",
+              faq_id: "faq_1",
               query: "Sed ut perspiciatis unde omnis iste natus?",
               answer:
                 "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \n\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. \n\nNeque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
@@ -39,7 +39,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
               sub_section_description: "Sub Section 1",
               sub_section_faqs: [
                 {
-                  faq_id: "faq_1",
+                  faq_id: "faq_12",
                   query: "Sed ut perspiciatis unde omnis iste natus?",
                   answer: "Go to Faq1 link",
                 },
@@ -446,7 +446,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
               sub_section_description: "Sub Section 1",
               sub_section_faqs: [
                 {
-                  faq_id: "faq_1",
+                  faq_id: "faq_12",
                   query: "Sed ut perspiciatis unde omnis iste natus?",
                   answer: "Go to Faq1 link",
                 },
@@ -677,7 +677,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
               sub_section_description: "Sub Section 1",
               sub_section_faqs: [
                 {
-                  faq_id: "faq_1",
+                  faq_id: "faq_12",
                   query: "What is Faq1?",
                   answer: "Go to Faq1 link",
                 },
@@ -961,7 +961,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
               sub_section_description: "Sub Section 1",
               sub_section_faqs: [
                 {
-                  faq_id: "faq_1",
+                  faq_id: "faq_12",
                   query: "What is Faq1?",
                   answer: "Go to Faq1 link",
                 },
@@ -1067,7 +1067,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
               sub_section_description: "Sub Section 1",
               sub_section_faqs: [
                 {
-                  faq_id: "faq_1",
+                  faq_id: "faq_12",
                   query: "What is Faq1?",
                   answer: "Go to Faq1 link",
                 },
@@ -1192,7 +1192,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
               sub_section_description: "Sub Section 1",
               sub_section_faqs: [
                 {
-                  faq_id: "faq_1",
+                  faq_id: "faq_12",
                   query: "What is Faq1?",
                   answer: "Go to Faq1 link",
                 },

@@ -5,10 +5,10 @@ import { useTranslation } from "react-i18next";
 import { Alert, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { LightningBoltIcon, PlusIcon, QuestionIcon, RecurringEventIcon, WithdrawIcon } from "@/assets/icons";
+import { LightningBoltIcon, PlusIcon, RecurringEventIcon, WithdrawIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import Modal from "@/components/Modal";
+import ContextualFAQModal from "@/components/ContextualFAQModal";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -100,11 +100,6 @@ export default function GoalDetailsScreen() {
     setInfoRoundsUpModal(!showInfoRoundsUpsModal);
   };
 
-  const navigateToFAQ = () => {
-    setInfoRoundsUpModal(false);
-    navigation.navigate("FrequentlyAskedQuestions.LandingPage");
-  };
-
   const handleOnOpenWithdraw = () => {
     if (data === undefined) return;
 
@@ -184,13 +179,6 @@ export default function GoalDetailsScreen() {
     setIsRoundUpsOn(true);
     setIsSwitchRoundupsModalVisible(false);
   };
-
-  const iconAndLinkContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["8p"],
-    color: theme.palette.primaryBase,
-  }));
-
-  const questionMarkIconColor = useThemeStyles(theme => theme.palette.primaryBase);
 
   const sectionTitleStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
@@ -383,22 +371,14 @@ export default function GoalDetailsScreen() {
         }}
       />
       {/* modal with information about rounds up */}
-      <Modal onClose={() => setInfoRoundsUpModal(current => !current)} visible={showInfoRoundsUpsModal}>
-        <Stack direction="vertical" gap="8p" style={styles.infoModalContentContainer}>
-          <Typography.Text size="title2" weight="bold">
-            {t("SavingsGoals.GoalDetailsScreen.InfoModal.title")}
-          </Typography.Text>
-          <Typography.Text size="callout">{t("SavingsGoals.GoalDetailsScreen.InfoModal.text")}</Typography.Text>
-          <Pressable onPress={navigateToFAQ}>
-            <Stack direction="horizontal" gap="5p" justify="center" align="center" style={iconAndLinkContainerStyle}>
-              <QuestionIcon color={questionMarkIconColor} />
-              <Typography.Text size="footnote" color="primaryBase">
-                {t("SavingsGoals.GoalDetailsScreen.InfoModal.link")}
-              </Typography.Text>
-            </Stack>
-          </Pressable>
-        </Stack>
-      </Modal>
+      {/* @TODO put in correct FAQ id */}
+      <ContextualFAQModal
+        visible={showInfoRoundsUpsModal}
+        onClose={() => setInfoRoundsUpModal(!showInfoRoundsUpsModal)}
+        title={t("SavingsGoals.GoalDetailsScreen.InfoModal.title")}
+        content={t("SavingsGoals.GoalDetailsScreen.InfoModal.text")}
+        faqId="faq_1"
+      />
     </Page>
   );
 }
@@ -421,9 +401,5 @@ const styles = StyleSheet.create({
   },
   header: {
     height: BACKGROUND_HEIGHT,
-  },
-  infoModalContentContainer: {
-    marginBottom: 32,
-    marginTop: 16,
   },
 });
