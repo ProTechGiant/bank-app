@@ -1,12 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Image, ImageStyle, Pressable, Text, View, ViewStyle } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
 import Banner from "@/components/Banner";
 import ContentContainer from "@/components/ContentContainer";
-import InputLabel from "@/components/Form/internal/InputLabel";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
@@ -39,11 +38,7 @@ export default function MobileAndNationalIdForm({
   errorMessages,
 }: MobileAndNationalIdFormProps) {
   const { t } = useTranslation();
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IqamaInputs>({
+  const { control, handleSubmit } = useForm<IqamaInputs>({
     resolver: yupResolver(iqamaValidationSchema),
     mode: "onBlur",
   });
@@ -56,34 +51,8 @@ export default function MobileAndNationalIdForm({
     marginVertical: theme.spacing["24p"],
   }));
 
-  const areaCodeViewStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
-    backgroundColor: theme.palette["neutralBase-50"],
-    borderColor: theme.palette["neutralBase-20"],
-    borderRadius: theme.radii.extraSmall,
-    borderWidth: 1,
-    flexDirection: "row",
-    height: 54,
-    justifyContent: "center",
-    paddingHorizontal: theme.spacing["8p"],
-    marginRight: theme.spacing["8p"],
-  }));
-
-  const iconStyle = useThemeStyles<ImageStyle>(theme => ({
-    borderRadius: theme.radii.medium,
-    height: theme.iconDimensions.notifications,
-    marginRight: 4,
-    width: theme.iconDimensions.notifications,
-  }));
-
   const inputFieldsStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["16p"],
-  }));
-
-  const errorsMobileNumberStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderWidth: 2,
-    backgroundColor: theme.palette["errorBase-30"],
-    borderColor: theme.palette["errorBase-10"],
   }));
 
   const accountSignInStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -129,23 +98,14 @@ export default function MobileAndNationalIdForm({
                   </InfoBox>
                 )
               )}
-              <View>
-                <InputLabel>{t("Onboarding.IqamaInputScreen.mobileLabel")}</InputLabel>
-                <View style={{ flexDirection: "row" }}>
-                  <View style={[areaCodeViewStyle, undefined !== errors?.MobileNumber && errorsMobileNumberStyle]}>
-                    <View>
-                      <Image style={iconStyle} source={require("../assets/ksa-flag.png")} />
-                    </View>
-                    <Text>+966</Text>
-                  </View>
-                  <PhoneNumberInput<IqamaInputs>
-                    control={control}
-                    name="MobileNumber"
-                    maxLength={9}
-                    placeholder={t("Onboarding.IqamaInputScreen.mobilePlaceholder")}
-                  />
-                </View>
-              </View>
+              <PhoneNumberInput
+                control={control}
+                name="MobileNumber"
+                label={t("Onboarding.IqamaInputScreen.mobileLabel")}
+                placeholder={t("Onboarding.IqamaInputScreen.mobilePlaceholder")}
+                maxLength={9}
+                showCharacterCount
+              />
               <TextInput
                 control={control}
                 name="NationalId"

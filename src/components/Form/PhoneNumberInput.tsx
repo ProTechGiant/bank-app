@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { I18nManager, TextStyle } from "react-native";
+import { I18nManager, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import PhoneInput from "react-phone-number-input/react-native-input";
 
 import { useThemeStyles } from "@/theme";
 import { mobilePhoneNoCountryCodeLength } from "@/utils";
 
+import Typography from "../Typography";
 import InputBox from "./internal/InputBox";
+import InputExtra from "./internal/InputExtra";
+import InputLabel from "./internal/InputLabel";
 
 interface PhoneNumberInputProps<T extends FieldValues> {
   control: Control<T>;
@@ -31,6 +34,20 @@ export default function PhoneNumberInput<T extends FieldValues>({
 }: PhoneNumberInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
   const [isFocused, setIsFocused] = useState(false);
+  const isError = undefined !== fieldState?.error && fieldState.isTouched;
+
+  const [maskedMaxLength, setMaskedMaxLength] = useState(maxLength + SPACE_IN_PHONE_NUMBER);
+
+  useEffect(() => {
+    // add delay to fix for android
+    setTimeout(() => {
+      setMaskedMaxLength(
+        maxLength <= mobilePhoneNoCountryCodeLength(COUNTRY_CODE, field.value)
+          ? maxLength
+          : maxLength + SPACE_IN_PHONE_NUMBER
+      );
+    }, 50);
+  }, [field.value]);
 
   const textStyles = useThemeStyles<TextStyle>(theme => ({
     color: theme.palette["neutralBase+20"],
@@ -40,46 +57,80 @@ export default function PhoneNumberInput<T extends FieldValues>({
     padding: 0,
   }));
 
+  const areaCodeViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    backgroundColor: theme.palette["neutralBase-50"],
+    borderColor: theme.palette["neutralBase-20"],
+    borderRadius: theme.radii.extraSmall,
+    borderWidth: 1,
+    flexDirection: "row",
+    height: 54,
+    justifyContent: "center",
+    paddingHorizontal: theme.spacing["16p"],
+    marginRight: theme.spacing["12p"],
+  }));
+
+  const errorsMobileNumberStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderWidth: 2,
+    borderColor: theme.palette.errorBase,
+  }));
+
   const placeholderTextColor = useThemeStyles(theme => theme.palette.neutralBase);
 
   return (
-    <InputBox
-      extraStart={extra}
-      isEditable={isEditable}
-      isFocused={isFocused}
-      label={label}
-      extraEnd={
-        showCharacterCount && undefined !== maxLength
-          ? `${mobilePhoneNoCountryCodeLength(COUNTRY_CODE, field.value)} / ${maxLength}`
-          : undefined
-      }
-      isTouched={fieldState.isTouched}
-      error={fieldState.error}>
-      <PhoneInput
-        autoCapitalize="none"
-        autoCorrect={false}
-        onBlur={() => {
-          setIsFocused(false);
-          field.onBlur();
-        }}
-        onChange={value => field.onChange(value)}
-        onFocus={() => setIsFocused(true)}
-        international
-        country={COUNTRY_CODE}
-        maxLength={
-          maxLength <= mobilePhoneNoCountryCodeLength(COUNTRY_CODE, field.value)
-            ? maxLength
-            : maxLength + SPACE_IN_PHONE_NUMBER
+    <View>
+      {label ? <InputLabel>{label}</InputLabel> : null}
+      <View style={styles.fieldsContainer}>
+        <View style={[areaCodeViewStyle, isError && errorsMobileNumberStyle]}>
+          <Typography.Text size="callout" color="neutralBase">
+            +966
+          </Typography.Text>
+        </View>
+        <InputBox
+          hideExtra
+          isEditable={isEditable}
+          isFocused={isFocused}
+          isTouched={fieldState.isTouched}
+          error={fieldState.error}>
+          <PhoneInput
+            autoCapitalizeMob="none"
+            autoCorrect={false}
+            onBlur={() => {
+              setIsFocused(false);
+              field.onBlur();
+            }}
+            onChange={value => field.onChange(value)}
+            onFocus={() => setIsFocused(true)}
+            international
+            country={COUNTRY_CODE}
+            maxLength={maskedMaxLength}
+            placeholder={placeholder}
+            placeholderTextColor={placeholderTextColor}
+            style={textStyles}
+            value={field.value}
+            textAlign={I18nManager.isRTL ? "right" : "left"}
+          />
+        </InputBox>
+      </View>
+      <InputExtra
+        extraStart={extra}
+        extraEnd={
+          showCharacterCount && undefined !== maxLength
+            ? `${mobilePhoneNoCountryCodeLength(COUNTRY_CODE, field.value)} / ${maxLength}`
+            : undefined
         }
-        placeholder={placeholder}
-        placeholderTextColor={placeholderTextColor}
-        style={textStyles}
-        value={field.value}
-        textAlign={I18nManager.isRTL ? "right" : "left"}
+        error={fieldState.error}
+        isError={isError}
       />
-    </InputBox>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  fieldsContainer: {
+    flexDirection: "row",
+  },
+});
 
 const COUNTRY_CODE = "SA";
 const SPACE_IN_PHONE_NUMBER = 2;

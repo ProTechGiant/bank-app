@@ -2,9 +2,9 @@ import { FieldError } from "react-hook-form";
 import { Pressable, StyleProp, View, ViewStyle } from "react-native";
 
 import { ErrorIcon } from "@/assets/icons";
-import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import InputExtra from "./InputExtra";
 import InputLabel from "./InputLabel";
 
 interface InputBoxProps {
@@ -22,6 +22,7 @@ interface InputBoxProps {
   isTouched: boolean;
   onPress?: () => void;
   icon?: React.ReactElement;
+  hideExtra?: boolean;
 }
 
 export default function InputBox({
@@ -39,6 +40,7 @@ export default function InputBox({
   isTouched,
   onPress,
   icon,
+  hideExtra = false,
 }: InputBoxProps) {
   const isError = undefined !== error && isTouched;
 
@@ -69,13 +71,6 @@ export default function InputBox({
     [bordered, isError, isEditable, isFocused, multiline]
   );
 
-  const optionalLabelStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing["16p"],
-    marginTop: theme.spacing["4p"],
-    flexDirection: "row",
-    justifyContent: "space-between",
-  }));
-
   const iconStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingRight: theme.spacing["8p"],
   }));
@@ -92,19 +87,8 @@ export default function InputBox({
           {undefined !== error && isTouched && <ErrorIcon color={errorIconColor} height={20} width={20} />}
         </>
       </View>
-      {(undefined !== extraStart || undefined !== extraEnd || isError) && (
-        <View style={optionalLabelStyle}>
-          <Typography.Text color={isError ? "errorBase" : "neutralBase"} size="caption1" weight="regular">
-            {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-            {isError ? error!.message : extraStart}
-          </Typography.Text>
-          {undefined !== extraEnd && (
-            <Typography.Text color={isError ? "errorBase" : "neutralBase"} size="caption1" weight="regular">
-              {extraEnd}
-            </Typography.Text>
-          )}
-        </View>
-      )}
+
+      {!hideExtra ? <InputExtra extraStart={extraStart} extraEnd={extraEnd} error={error} isError={isError} /> : null}
     </Pressable>
   );
 }
