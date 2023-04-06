@@ -21,7 +21,7 @@ export default async function openLink(
     const faqIdMatch = extractFaqIdFromUrl(url);
     if (faqIdMatch !== undefined) {
       navigation.navigate("FrequentlyAskedQuestions.DetailedScreen", {
-        faqId: faqIdMatch[1],
+        faqId: faqIdMatch,
       });
     } else if (await InAppBrowser.isAvailable()) {
       await InAppBrowser.open(url, {
