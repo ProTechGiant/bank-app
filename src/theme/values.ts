@@ -119,7 +119,7 @@ const typography = {
       title3: 20,
       body: 17,
       callout: 16,
-      footnote: 13,
+      footnote: 14,
       caption1: 12,
       caption2: 11,
     },
