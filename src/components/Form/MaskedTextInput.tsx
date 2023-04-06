@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 import {
   I18nManager,
@@ -83,6 +83,14 @@ export default function MaskedTextInput<T extends FieldValues>({
     textInputRef.current?.focus();
   };
 
+  const textFieldWidth = useMemo(
+    () => ({
+      width: masked.length === 0 && (isFocused || fieldState.isTouched) ? 1 : masked.length === 1 ? 10 : undefined,
+      maxWidth: fieldState.error !== undefined && fieldState.isTouched ? "92%" : undefined,
+    }),
+    [masked, isFocused, fieldState]
+  );
+
   const textStyle = useThemeStyles<TextStyle>(
     theme => ({
       color: theme.palette["neutralBase+20"],
@@ -121,7 +129,7 @@ export default function MaskedTextInput<T extends FieldValues>({
       isTouched={fieldState.isTouched}
       label={label}
       icon={icon}>
-      {fieldState.isTouched ? (
+      {isFocused || fieldState.isTouched ? (
         <Pressable style={maskedTextContainerStyle} onPress={handleOnFocus}>
           <Text style={[textStyle, maskedTextStyle]}>{hints}</Text>
         </Pressable>
@@ -139,13 +147,9 @@ export default function MaskedTextInput<T extends FieldValues>({
         }}
         onFocus={() => setIsFocused(true)}
         maxLength={maxLength !== undefined ? maxLength + numberOfSpace : undefined}
-        placeholder={!fieldState.isTouched ? placeholder : undefined ?? undefined} // Remove placeholder when started typing otherwise hints will be hidden by the text input in Android
+        placeholder={!isFocused && !fieldState.isTouched ? placeholder : undefined ?? undefined} // Remove placeholder when started typing otherwise hints will be hidden by the text input in Android
         placeholderTextColor={placeholderTextColor}
-        style={[
-          textStyle,
-          { width: fieldState.isTouched && masked.length === 0 ? 0 : masked.length === 1 ? 10 : "auto" }, // To fix part of the second hints character hidden by the input field in Android
-          fieldState.error !== undefined && fieldState.isTouched && { maxWidth: "92%" },
-        ]}
+        style={[textStyle, textFieldWidth]}
         value={masked}
         textAlign={I18nManager.isRTL ? "right" : "left"}
         {...restProps}
