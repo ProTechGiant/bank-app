@@ -15,8 +15,8 @@ public class MainActivity extends ReactActivity {
 
   /**
   * Android Deeplink Setup
-  * AppsFlyer SDK inspects activity intent object during onResume(). 
-  * Because of that, for each activity that may be configured or launched with any non-standard launch mode 
+  * AppsFlyer SDK inspects activity intent object during onResume().
+  * Because of that, for each activity that may be configured or launched with any non-standard launch mode
   */
   @Override
   public void onNewIntent(Intent intent) {

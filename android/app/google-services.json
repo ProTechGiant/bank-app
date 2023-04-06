@@ -1,0 +1,97 @@
+{
+  "project_info": {
+    "project_number": "926861498449",
+    "project_id": "croatia-d9d0e",
+    "storage_bucket": "croatia-d9d0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926861498449:android:6ca653db18a45def5ec070",
+        "android_client_info": {
+          "package_name": "com.croatiamobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926861498449-fmk3vies01bqe5pkrouv58c7jnqpkj44.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB22zWH1y-thGoWloemr_xuU2ODhpzNDmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926861498449-fmk3vies01bqe5pkrouv58c7jnqpkj44.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926861498449:android:c663408a908563225ec070",
+        "android_client_info": {
+          "package_name": "com.croatiamobileapp.develop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926861498449-fmk3vies01bqe5pkrouv58c7jnqpkj44.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB22zWH1y-thGoWloemr_xuU2ODhpzNDmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926861498449-fmk3vies01bqe5pkrouv58c7jnqpkj44.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926861498449:android:23e577f1ad4170715ec070",
+        "android_client_info": {
+          "package_name": "com.croatiamobileapp.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926861498449-fmk3vies01bqe5pkrouv58c7jnqpkj44.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB22zWH1y-thGoWloemr_xuU2ODhpzNDmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926861498449-fmk3vies01bqe5pkrouv58c7jnqpkj44.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
