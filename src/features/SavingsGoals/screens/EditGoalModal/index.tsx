@@ -24,7 +24,7 @@ import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { alphaNumericSpaceRegExp } from "@/utils";
 
-import { useSavingsPot, useUpdateSavingsGoal } from "../../query-hooks";
+import { useRemoveSavingsGoal, useSavingsPot, useUpdateSavingsGoal } from "../../query-hooks";
 import { EditGoalInput } from "../../types";
 
 export default function EditGoalModal() {
@@ -34,6 +34,7 @@ export default function EditGoalModal() {
 
   const { data } = useSavingsPot(route.params.PotId);
   const updateData = useUpdateSavingsGoal();
+  const removeGoal = useRemoveSavingsGoal();
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const validationSchema = useMemo(
@@ -56,11 +57,25 @@ export default function EditGoalModal() {
     setShowConfirmation(true);
   };
 
-  const handleOnContinue = () => {
+  const handleOnContinue = async () => {
+    if (!data) return;
     setShowConfirmation(false);
-    navigation.navigate("SavingsGoals.ListGoalsScreen", {
-      wasGoalRemoved: true,
-    });
+
+    try {
+      await removeGoal.mutateAsync({
+        PotId: data.PotId,
+      });
+      navigation.navigate("SavingsGoals.ListGoalsScreen", {
+        isGoalRemoved: true,
+      });
+    } catch (error) {
+      Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
+        {
+          text: "OK",
+          onPress: () => navigation.navigate("SavingsGoals.ListGoalsScreen"),
+        },
+      ]);
+    }
   };
 
   const handleOnCancel = () => {

@@ -106,7 +106,12 @@ export default function CreateGoalScreen() {
         redirectToFundingModal: true,
       });
     } catch (error) {
-      Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
+      const errorObject = JSON.parse(JSON.stringify(error));
+      const objectMessage = errorObject.errorContent.Message;
+
+      const errorMessage = objectMessage ? objectMessage : t("errors.generic.message");
+
+      Alert.alert(t("errors.generic.title"), errorMessage, [
         {
           text: "OK",
           onPress: () => navigation.goBack(),

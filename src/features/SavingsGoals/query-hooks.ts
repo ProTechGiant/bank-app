@@ -93,6 +93,28 @@ export function useUpdateSavingsGoal() {
   );
 }
 
+export interface RemoveSavingsGoalProps {
+  PotId: string;
+}
+
+export function useRemoveSavingsGoal() {
+  const queryClient = useQueryClient();
+  const correlationId = generateRandomId();
+
+  return useMutation(
+    ({ PotId }: RemoveSavingsGoalProps) => {
+      return api<UpdateSavingsGoalProps>("v1", `customers/savings-pots/${PotId}`, "DELETE", undefined, undefined, {
+        ["x-correlation-id"]: correlationId,
+      });
+    },
+    {
+      onSettled: (_data, _error) => {
+        queryClient.invalidateQueries(queryKeys.all);
+      },
+    }
+  );
+}
+
 interface FundSavingsPotRecurringOptions {
   PotId: string;
   PaymentAmount: number;
