@@ -26,8 +26,8 @@ export default function CheckboxInput<T extends FieldValues>({
 
   const checkBoxStyles = useThemeStyles<ViewStyle>(
     ({ palette }) => ({
-      backgroundColor: !isEditable ? palette["neutralBase-40"] : field.value ? palette.complimentBase : undefined,
-      borderColor: field.value ? palette.complimentBase : palette["neutralBase-20"],
+      backgroundColor: !isEditable ? palette["neutralBase-40"] : field.value ? palette["primaryBase-40"] : undefined,
+      borderColor: !isEditable ? palette["neutralBase-40"] : field.value ? "transparent" : palette["neutralBase-20"],
       borderRadius: 2,
       borderWidth: 1,
       marginRight: 8,
@@ -48,7 +48,7 @@ export default function CheckboxInput<T extends FieldValues>({
       }}>
       <View style={{ alignItems: "center", flexDirection: "row" }}>
         <View style={checkBoxStyles}>{field.value && <CheckboxCheckmark />}</View>
-        <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+        <Typography.Text size="footnote" weight="regular" color={!isEditable ? "neutralBase-20" : "neutralBase"}>
           {label}
         </Typography.Text>
       </View>
