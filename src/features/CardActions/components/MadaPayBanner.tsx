@@ -1,15 +1,21 @@
 import { Trans } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
+import { useThemeStyles } from "@/theme";
 
 import MadaPayLogoSvg from "../assets/madapay-logo.svg";
 
 export default function MadaPayBanner() {
+  const textStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginLeft: theme.spacing["16p"],
+    flex: 1,
+  }));
+
   return (
     <View style={styles.container}>
-      <MadaPayLogoSvg />
-      <View style={styles.textContainer}>
+      <MadaPayLogoSvg width={48} height={29} />
+      <View style={textStyle}>
         <Typography.Text color="neutralBase" size="footnote" weight="regular">
           <Trans
             i18nKey="CardActions.madaPayDescription"
@@ -26,12 +32,6 @@ export default function MadaPayBanner() {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "flex-start",
     padding: 10,
-    width: "100%",
-  },
-  textContainer: {
-    marginStart: 16,
-    paddingEnd: 50,
   },
 });
