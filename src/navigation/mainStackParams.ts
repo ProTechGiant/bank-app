@@ -29,7 +29,7 @@ type RootStackParams = {
   };
   "FrequentlyAskedQuestions.LandingPage": undefined;
   "FrequentlyAskedQuestions.SectionScreen": { data: FAQSection[]; title: string };
-  "FrequentlyAskedQuestions.DetailedScreen": { data: DetailedFaq; title: string };
+  "FrequentlyAskedQuestions.DetailedScreen": { data: DetailedFaq; title: string } | { faqId: string };
   "NotificationManagement.HubScreen": undefined;
   "NotificationManagement.CategoryScreen": { subCategories: SubCategories[]; title: string };
 };

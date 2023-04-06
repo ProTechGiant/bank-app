@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { differenceInHours } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -12,6 +12,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import {
   mockFeedbackFrequentlyAskedQuestions,
+  mockFrequentlyAskedQuestions,
   mockRelatedFrequentlyAskedQuestions,
 } from "@/mocks/frequentlyAskedQuestionsData";
 import MainStackParams from "@/navigation/mainStackParams";
@@ -19,12 +20,35 @@ import { useThemeStyles } from "@/theme";
 
 import HtmlWebView from "../../components/HtmlWebView";
 import openLink from "../../components/utils/open-link";
+import { DetailedFaq } from "../../types/frequentlyAskedQuestions";
 
 export default function DetailedScreen() {
   const route = useRoute<RouteProp<MainStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
   const { t } = useTranslation();
+  const [title, setTitle] = useState<undefined | string>(undefined);
+  const [data, setData] = useState<undefined | DetailedFaq>(undefined);
 
-  const { data, title } = route.params;
+  const hasData = route.params as { data: DetailedFaq; title: string };
+  const noData = route.params as { faqId: string };
+
+  useEffect(() => {
+    if (hasData.data) {
+      setData(hasData.data);
+      setTitle(hasData.title);
+    } else if (noData.faqId) {
+      mockFrequentlyAskedQuestions.categories.map(categories => {
+        categories.sections.map(sections => {
+          sections.section_faqs.map(sectionFaq => {
+            if (sectionFaq.faq_id === noData.faqId) {
+              setData(sectionFaq);
+              setTitle(categories.category_name);
+            }
+          });
+        });
+      });
+    }
+  }, [hasData, noData]);
+
   const currentDate = new Date();
 
   const [feedbackState, setFeedbackState] = useState<"notResponded" | "positive" | "negative" | "helpRequested">(
@@ -74,11 +98,11 @@ export default function DetailedScreen() {
       <NavHeader title={title} />
       <ContentContainer isScrollView>
         <Typography.Text weight="semiBold" size="title1">
-          {data.query}
+          {data?.query}
         </Typography.Text>
         <View style={verticalStyle}>
           <HtmlWebView
-            html={data.answer}
+            html={data?.answer ? data.answer : "No data"}
             onLinkPress={url => openLink(url, inAppBrowserBackgroundColor, inAppBrowserColor)}
           />
         </View>
