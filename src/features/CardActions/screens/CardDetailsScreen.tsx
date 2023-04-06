@@ -25,6 +25,7 @@ import {
   ListItemLink,
   ListItemText,
   ListSection,
+  MadaPayBanner,
   SingleUseCardButtons,
   UpgradeToCroatiaPlus,
   ViewPinModal,
@@ -426,10 +427,16 @@ export default function CardDetailsScreen() {
           <View style={separatorStyle} />
           {selectedCard?.CardType !== SINGLE_USE_CARD_TYPE ? (
             <>
-              {isAppleWalletAvailable && canAddCardToAppleWallet && !["freeze", "inactive"].includes(cardStatus) ? (
+              {isAppleWalletAvailable && canAddCardToAppleWallet && cardStatus !== "freeze" ? (
                 <View style={walletButtonContainer}>
                   <AddToAppleWalletButton onPress={handleOnAddToAppleWallet} />
                 </View>
+              ) : null}
+              {Platform.OS === "android" && cardStatus !== "freeze" ? (
+                <>
+                  <MadaPayBanner />
+                  <View style={separatorStyle} />
+                </>
               ) : null}
               <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
                 <ListItemLink

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
 import Button from "@/components/Button";
@@ -8,6 +8,7 @@ import NavHeader from "@/components/NavHeader";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
+import { MadaPayBanner } from "../../components";
 import useAppleWallet from "../../hooks/use-apple-wallet";
 
 interface ReportCardSuccessScreenProps {
@@ -49,6 +50,11 @@ export default function ReportCardSuccessScreen({ cardId }: ReportCardSuccessScr
       {isAppleWalletAvailable && canAddCardToAppleWallet ? (
         <AddToAppleWalletButton onPress={handleOnAddToWallet} />
       ) : null}
+      {Platform.OS === "android" ? (
+        <View style={styles.madaPayContainer}>
+          <MadaPayBanner />
+        </View>
+      ) : null}
       <Button
         variant={!isAppleWalletAvailable || !canAddCardToAppleWallet ? "primary" : "tertiary"}
         onPress={handleOnFinish}>
@@ -57,3 +63,7 @@ export default function ReportCardSuccessScreen({ cardId }: ReportCardSuccessScr
     </HeroSlider>
   );
 }
+
+const styles = StyleSheet.create({
+  madaPayContainer: { marginVertical: 20 },
+});

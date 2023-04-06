@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
+import { Platform, StyleSheet, View } from "react-native";
 
 import { ShippingIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
@@ -9,6 +10,7 @@ import NavHeader from "@/components/NavHeader";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
+import { MadaPayBanner } from "../../components";
 import useAppleWallet from "../../hooks/use-apple-wallet";
 
 interface CardOrderedScreenProps {
@@ -50,6 +52,11 @@ export default function CardOrderedScreen({ cardId }: CardOrderedScreenProps) {
       {isAppleWalletAvailable && canAddCardToAppleWallet ? (
         <AddToAppleWalletButton onPress={handleOnAddToWallet} />
       ) : null}
+      {Platform.OS === "android" ? (
+        <View style={styles.madaPayContainer}>
+          <MadaPayBanner />
+        </View>
+      ) : null}
       <Button
         variant={!isAppleWalletAvailable || !canAddCardToAppleWallet ? "primary" : "tertiary"}
         onPress={handleOnClose}>
@@ -58,3 +65,7 @@ export default function CardOrderedScreen({ cardId }: CardOrderedScreenProps) {
     </HeroSlider>
   );
 }
+
+const styles = StyleSheet.create({
+  madaPayContainer: { marginVertical: 20 },
+});

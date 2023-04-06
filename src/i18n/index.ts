@@ -610,6 +610,8 @@ export const resources = {
         generateNew: "Generate New",
         activatePhysicalCard: "Activate physical card",
         comingSoon: "On the way",
+        madaPayDescription:
+          "Download <1>mada Pay</1> from the Google Play Store to pay with your phone instead of a card.",
         QuickMenu: {
           freezeCard: "Freeze card",
           defrost: "Defrost",
@@ -1439,9 +1441,6 @@ export const resources = {
           "You can renew it now to make sure you get a replacement before it expires, or we’ll send a new one automatically to your registered address.",
         button: "Renew card",
         expiresSoon: "Expires soon",
-      },
-      CardRenewal: {
-        title: "Renew card",
       },
     },
     AddMoneyInfo: {

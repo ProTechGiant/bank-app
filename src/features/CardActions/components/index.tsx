@@ -6,6 +6,7 @@ export { default as IconButton } from "./IconButton";
 export { default as ListItemLink } from "./ListItemLink";
 export { default as ListItemText } from "./ListItemText";
 export { default as ListSection } from "./ListSection";
+export { default as MadaPayBanner } from "./MadaPayBanner";
 export { default as QuickActionsMenu } from "./QuickActionsMenu";
 export { default as RowContent } from "./RowContent";
 export { default as SelectLuxCard } from "./SelectLuxCard";

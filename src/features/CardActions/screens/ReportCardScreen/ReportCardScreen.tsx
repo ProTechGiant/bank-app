@@ -68,6 +68,7 @@ export default function ReportCardScreen() {
 
   const handleOnConfirm = async () => {
     setIsConfirmationModalVisible(false);
+    setMode("done");
 
     // @todo correct BE integration with OTP varification
     //  const correlationId = generateRandomId();
@@ -118,7 +119,7 @@ export default function ReportCardScreen() {
   };
 
   return mode === "done" ? (
-    <ReportCardSuccessScreen />
+    <ReportCardSuccessScreen cardId={cardId} />
   ) : (
     <>
       <Page backgroundColor="neutralBase-60">

@@ -48,7 +48,7 @@ export default function PickCardTypeScreen({ onCancel, onSelected, variant }: Pi
         title={
           variant === "apply"
             ? t("CardActions.ApplyCardScreen.PickCardTypeScreen.navTitle")
-            : t("CardActions.ApplyCardScreen.CardRenewal.title")
+            : t("CardActions.ApplyCardScreen.CardRenewalScreen.title")
         }
         withBackButton={false}
         end={<NavHeader.CloseEndButton onPress={onCancel} />}

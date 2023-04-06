@@ -137,10 +137,6 @@ export default function HomeScreen() {
     navigation.navigate("CardActions.SingleUseCardAbout");
   };
 
-  const handleOnActivateNowPress = () => {
-    navigation.navigate("Temporary.DummyScreen");
-  };
-
   const handleOnCloseCardNotification = () => {
     setIsCardBannerVisible(false);
   };
@@ -207,7 +203,7 @@ export default function HomeScreen() {
             <BankCard.ActionButton
               type="light"
               title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
-              onPress={handleOnActivateNowPress}
+              onPress={() => handleOnActivatePhysicalCard(card.CardId)}
             />
           )
         }
@@ -272,10 +268,10 @@ export default function HomeScreen() {
           <Stack direction="horizontal" gap="20p" style={contentStyle}>
             {cardsList.map(card =>
               card.CardType !== SINGLE_USE_CARD_TYPE ? (
-                card.Status === "unfreeze" ? (
-                  renderActiveCard(card)
-                ) : (
+                card.Status === "inactive" || card.Status === "freeze" ? (
                   returnInactiveCard(card)
+                ) : (
+                  renderActiveCard(card)
                 )
               ) : !isCardInactive(card) ? (
                 <BankCard.Active
