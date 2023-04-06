@@ -117,7 +117,8 @@ export default function MaskedTextInput<T extends FieldValues>({
       }
       isEditable={isEditable}
       isFocused={isFocused}
-      fieldState={fieldState}
+      error={fieldState.error}
+      isTouched={fieldState.isTouched}
       label={label}
       icon={icon}>
       {fieldState.isTouched ? (

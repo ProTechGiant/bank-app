@@ -66,7 +66,8 @@ export default function CurrencyInput<T extends FieldValues>({
       onPress={() => textInputRef.current?.focus()}
       isEditable={isEditable}
       isFocused={isFocused}
-      fieldState={fieldState}
+      error={fieldState.error}
+      isTouched={fieldState.isTouched}
       extraEnd={
         showCharacterCount && undefined !== maxLength
           ? `${field.value?.toString().split(".")[0].length ?? 0} / ${maxLength}`

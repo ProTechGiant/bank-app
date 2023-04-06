@@ -100,7 +100,12 @@ export default function DropdownInput<T extends FieldValues>({
     <>
       {!fullHeight ? (
         <View>
-          <InputBox extraStart={extra} isEditable={isEditable} label={label} fieldState={fieldState}>
+          <InputBox
+            extraStart={extra}
+            isEditable={isEditable}
+            label={label}
+            isTouched={fieldState.isTouched}
+            error={fieldState.error}>
             <InputText
               buttonIcon={<ChevronRightIcon />}
               placeholder={placeholder}

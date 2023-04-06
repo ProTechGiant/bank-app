@@ -48,12 +48,13 @@ export default function PhoneNumberInput<T extends FieldValues>({
       isEditable={isEditable}
       isFocused={isFocused}
       label={label}
-      fieldState={fieldState}
       extraEnd={
         showCharacterCount && undefined !== maxLength
           ? `${mobilePhoneNoCountryCodeLength(COUNTRY_CODE, field.value)} / ${maxLength}`
           : undefined
-      }>
+      }
+      isTouched={fieldState.isTouched}
+      error={fieldState.error}>
       <PhoneInput
         autoCapitalize="none"
         autoCorrect={false}

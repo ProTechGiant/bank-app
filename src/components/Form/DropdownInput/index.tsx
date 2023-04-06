@@ -99,7 +99,13 @@ export default function DropdownInput<T extends FieldValues>({
           </Button>
         </View>
       </Modal>
-      <InputBox extraStart={extra} isEditable={isEditable} label={label} fieldState={fieldState} onPress={handleOnOpen}>
+      <InputBox
+        extraStart={extra}
+        isEditable={isEditable}
+        label={label}
+        isTouched={fieldState.isTouched}
+        error={fieldState.error}
+        onPress={handleOnOpen}>
         <InputText
           buttonIcon={
             <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>

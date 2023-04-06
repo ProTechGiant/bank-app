@@ -28,3 +28,14 @@ export const mobilePhoneNoCountryCodeLength = (countryCode: CountryCode, input: 
     ? removeSpaces(input)?.length - getCountryCallingCode(countryCode).length - 1 ?? 0
     : 0;
 };
+
+// get first and last name of a person and return the initials
+export const getInitials = (name: string) => {
+  const names = name.split(" ");
+  let initials = names[0].substring(0, 1).toUpperCase();
+
+  if (names.length > 1) {
+    initials += names[names.length - 1].substring(0, 1).toUpperCase();
+  }
+  return initials;
+};

@@ -2,6 +2,7 @@ import {
   alphaNumericRegExp,
   alphaNumericSpaceRegExp,
   alphaNumericSpecialCharsRegExp,
+  getInitials,
   ibanRegExp,
   nationalIdRegEx,
   numericRegExp,
@@ -126,5 +127,28 @@ describe("nationalIdRegEx", () => {
   it("Must be 10 digits (pass)", () => {
     const string = "1567855456";
     expect(string).toMatch(nationalIdRegEx);
+  });
+});
+
+describe("getInitials", () => {
+  it("Should return first characters for first and last word", () => {
+    const name = getInitials("Sian Finlay");
+    const expected = "SF";
+
+    expect(name).toBe(expected);
+  });
+  it("Should return uppercase", () => {
+    const name = getInitials("sian finlay");
+    const expected = "SF";
+
+    expect(name).toBe(expected);
+  });
+  it("Should not return first characters for first and middle word", () => {
+    const name = getInitials("Sian Victoria Finlay");
+    const expected = "SVF";
+    const expected2 = "SV";
+
+    expect(name).not.toBe(expected);
+    expect(name).not.toBe(expected2);
   });
 });

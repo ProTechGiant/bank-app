@@ -959,6 +959,37 @@ export const resources = {
         },
       },
       InternalTransfers: {
+        SendToBeneficiaryScreen: {
+          title: "Send to",
+          addNewBeneficiaryLink: "Send to new beneficiary",
+          confirmedBeneficiariesListTitle: "Confirmed",
+          unconfirmedBeneficiariesListTitle: "Unconfirmed",
+          search: {
+            placeholder: "Name, account or phone",
+            emptyState: {
+              title: "No search results found",
+              message:
+                "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors",
+            },
+            button: "Cancel",
+          },
+          menu: {
+            deleteOption: "Delete beneficiary",
+            deleteModal: {
+              title: "Are you sure you want to delete this beneficiary?",
+              message: "You'll need to re-confirm their details before you send any more money.",
+              deleteButton: "Delete beneficiary",
+              cancelButton: "Cancel",
+            },
+          },
+          activateBeneficiary: {
+            title: "Confirm this beneficiary",
+            message:
+              "Before you can send any money you need to confirm this person's details. This helps us protect your account.",
+            confirmButton: "Confirm this beneficiary",
+            cancelButton: "Cancel",
+          },
+        },
         EnterBeneficiaryDetailsScreen: {
           title: "Enter beneficiary details",
           options: {
@@ -1431,6 +1462,106 @@ export const resources = {
         copyInfo: "copied to clipboard",
         errorCopy: "Couldn’t copy",
         tryAgain: "try again",
+      },
+    },
+    InternalTransfers: {
+      SendToBeneficiaryScreen: {
+        title: "Send to",
+        addNewBeneficiaryLink: "Send to new beneficiary",
+        confirmedBeneficiariesListTitle: "Confirmed",
+        unconfirmedBeneficiariesListTitle: "Unconfirmed",
+        search: {
+          placeholder: "Name, account or mobile nr",
+          emptyState: {
+            title: "No search results found",
+            message:
+              "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors",
+          },
+          button: "Cancel",
+        },
+        menu: {
+          deleteOption: "Delete beneficiary",
+          deleteModal: {
+            title: "Are you sure you want to delete this beneficiary?",
+            message: "You'll need to re-confirm their details before you send any more money.",
+            deleteButton: "Delete beneficiary",
+            cancelButton: "Cancel",
+          },
+        },
+        activateBeneficiary: {
+          title: "Confirm this beneficiary",
+          message:
+            "Before you can send any money you need to confirm this person's details. This helps us protect your account.",
+          confirmButton: "Confirm this beneficiary",
+          cancelButton: "Cancel",
+        },
+      },
+      EnterBeneficiaryDetailsScreen: {
+        title: "Enter beneficiary details",
+        options: {
+          mobile: "Mobile",
+          accountNumber: "Account number",
+          iban: "IBAN",
+        },
+        continueButton: "Continue",
+        mobileNumberForm: {
+          mobileNumber: {
+            placeholder: "Mobile number",
+            validation: {
+              required: "Required",
+              invalid: "Phone numbers need 9 numbers",
+            },
+          },
+          mobileInUseModal: {
+            title: "Mobile already in use",
+            message: "You've already used this mobile number for one of your beneficiaries.",
+            chooseDifferentBeneficiaryButton: "Choose different beneficiary",
+            cancelButton: "Cancel",
+          },
+        },
+        accountNumberForm: {
+          accountNumber: {
+            placeholder: "Account number",
+            validation: {
+              required: "Required",
+              invalid: "Account number need 12 numbers",
+            },
+          },
+          accountNumberInUseModal: {
+            title: "Account number already in use",
+            message: "You've already used this account number for one of your beneficiaries.",
+            chooseDifferentBeneficiaryButton: "Choose different beneficiary",
+            cancelButton: "Cancel",
+          },
+          accountNumberNotRecongisedModal: {
+            title: "Account number not recognised",
+            message: "That number isn't used for a Croatia account. Please check it.",
+          },
+        },
+        ibanForm: {
+          iban: {
+            placeholder: "IBAN number",
+            validation: {
+              required: "Required",
+              minLength: "IBAN needs 24 characters",
+              invalid: "IBAN can only have letters and numbers",
+            },
+          },
+          ibanInUseModal: {
+            title: "IBAN already in use",
+            message: "You've already used this IBAN for one of your beneficiaries.",
+            chooseDifferentBeneficiaryButton: "Choose different beneficiary",
+            cancelButton: "Cancel",
+          },
+          ibanNotRecongisedModal: {
+            title: "IBAN not recognised",
+            message: "That IBAN isn't used for a Croatia account. Please check it.",
+          },
+        },
+        genericErrorModal: {
+          title: "We're sorry – we're having problems checking that",
+          message: "Please try again later.",
+        },
       },
     },
   },

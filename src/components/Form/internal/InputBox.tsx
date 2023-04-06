@@ -1,4 +1,4 @@
-import { ControllerFieldState } from "react-hook-form";
+import { FieldError } from "react-hook-form";
 import { Pressable, StyleProp, View, ViewStyle } from "react-native";
 
 import { ErrorIcon } from "@/assets/icons";
@@ -17,8 +17,9 @@ interface InputBoxProps {
   isFocused?: boolean;
   label?: string | null;
   multiline?: boolean;
-  fieldState: ControllerFieldState;
   style?: StyleProp<ViewStyle>;
+  error?: FieldError;
+  isTouched: boolean;
   onPress?: () => void;
   icon?: React.ReactElement;
 }
@@ -33,12 +34,13 @@ export default function InputBox({
   isFocused = false,
   label,
   multiline = false,
-  fieldState,
   style,
+  error,
+  isTouched,
   onPress,
   icon,
 }: InputBoxProps) {
-  const isError = undefined !== fieldState?.error && fieldState.isTouched;
+  const isError = undefined !== error && isTouched;
 
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
@@ -58,8 +60,9 @@ export default function InputBox({
       borderWidth: bordered ? (isFocused || isError ? 2 : 1) : 0,
       flexDirection: "row",
       justifyContent: "space-between",
+      alignItems: "center",
       flexGrow: 1,
-      height: multiline == false ? 53 : undefined,
+      height: multiline === false ? 53 : undefined,
       minHeight: multiline !== false ? 74 : undefined,
       padding: theme.spacing["16p"] - (isFocused || isError ? 1 : 0),
     }),
@@ -86,16 +89,14 @@ export default function InputBox({
         <>
           {icon !== undefined && <View style={iconStyle}>{icon}</View>}
           {children}
-          {undefined !== fieldState.error && fieldState.isTouched && (
-            <ErrorIcon fill={errorIconColor} height={20} width={20} />
-          )}
+          {undefined !== error && isTouched && <ErrorIcon color={errorIconColor} height={20} width={20} />}
         </>
       </View>
       {(undefined !== extraStart || undefined !== extraEnd || isError) && (
         <View style={optionalLabelStyle}>
           <Typography.Text color={isError ? "errorBase" : "neutralBase"} size="caption1" weight="regular">
             {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-            {isError ? fieldState.error!.message : extraStart}
+            {isError ? error!.message : extraStart}
           </Typography.Text>
           {undefined !== extraEnd && (
             <Typography.Text color={isError ? "errorBase" : "neutralBase"} size="caption1" weight="regular">

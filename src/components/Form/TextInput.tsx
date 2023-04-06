@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { I18nManager, TextInput as RNTextInput, TextInputProps as RNTextInputProps, TextStyle } from "react-native";
+import { TextInputProps as RNTextInputProps } from "react-native";
 
-import { useThemeStyles } from "@/theme";
-
+import StyledTextInput from "../TextInput";
 import InputBox from "./internal/InputBox";
 
 interface TextInputProps<T extends FieldValues>
@@ -36,46 +34,24 @@ export default function TextInput<T extends FieldValues>({
 }: TextInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
 
-  const textStyles = useThemeStyles<TextStyle>(theme => ({
-    color: theme.palette["neutralBase+20"],
-    flexGrow: 1,
-    fontSize: theme.typography.text.sizes.callout,
-    fontWeight: theme.typography.text.weights.regular,
-    padding: 0,
-  }));
-
-  const placeholderTextColor = useThemeStyles(theme => theme.palette.neutralBase, []);
-  const [isFocused, setIsFocused] = useState(false);
-
   return (
-    <InputBox
-      extraStart={extra}
-      extraEnd={
-        showCharacterCount && undefined !== maxLength ? `${field.value?.length ?? 0} / ${maxLength}` : undefined
-      }
+    <StyledTextInput
+      extra={extra}
       isEditable={isEditable}
-      isFocused={isFocused}
-      multiline={multiline}
-      fieldState={fieldState}
       label={label}
-      icon={icon}>
-      <RNTextInput
-        editable={isEditable}
-        onBlur={() => {
-          field.onBlur();
-          setIsFocused(false);
-        }}
-        onChangeText={value => field.onChange(value)}
-        onFocus={() => setIsFocused(true)}
-        maxLength={maxLength}
-        multiline={multiline}
-        placeholder={placeholder ?? undefined}
-        placeholderTextColor={placeholderTextColor}
-        style={[textStyles, undefined !== fieldState.error && fieldState.isTouched && { maxWidth: "92%" }]}
-        value={field.value}
-        textAlign={I18nManager.isRTL ? "right" : "left"}
-        {...restProps}
-      />
-    </InputBox>
+      maxLength={maxLength}
+      multiline={multiline}
+      showCharacterCount={showCharacterCount}
+      placeholder={placeholder}
+      icon={icon}
+      onBlur={() => {
+        field.onBlur();
+      }}
+      value={field.value}
+      onChangeText={value => field.onChange(value)}
+      error={fieldState.error}
+      isTouched={fieldState.isTouched}
+      {...restProps}
+    />
   );
 }
