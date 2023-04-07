@@ -1058,6 +1058,16 @@ export const resources = {
             message: "Please try again later.",
           },
         },
+        InternalTransferScreen: {
+          title: "Send money",
+          currency: " SAR",
+          balance: "Balance: ",
+          errorMessage: "You don't have enough money.",
+          addFunds: "Add funds",
+          reason: "Why are you sending money?",
+          ok: "OK",
+          next: "Next",
+        },
       },
       ContextualFAQModal: {
         link: "Find out more in our FAQs.",
@@ -1568,6 +1578,16 @@ export const resources = {
         genericErrorModal: {
           title: "We're sorry – we're having problems checking that",
           message: "Please try again later.",
+        },
+        InternalTransferScreen: {
+          title: "Send money",
+          currency: " SAR",
+          balance: "Balance: ",
+          errorMessage: "You don't have enough money.",
+          addFunds: "Add funds",
+          reason: "Why are you sending money?",
+          ok: "OK",
+          next: "Next",
         },
       },
     },

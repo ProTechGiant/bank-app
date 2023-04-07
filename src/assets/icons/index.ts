@@ -5,6 +5,7 @@ export { default as AddBorderedIcon } from "./add-bordered";
 export { default as AngleDownIcon } from "./angle-down";
 export { default as AngleUpIcon } from "./angle-up";
 export { default as AppleWalletIcon } from "./apple-wallet.svg";
+export { ArrowForwardIcon } from "./arrow-forward";
 export { ArrowLeftIcon } from "./arrow-left";
 export { default as BellIcon } from "./bell";
 export { CalendarAltIcon } from "./calendar-alt";

@@ -9,7 +9,7 @@ import reloadApp from "@/i18n/reload-app";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
-import useGetSavingsGoalNumber from "./use-get-savings-goal-number";
+import useSavingsGoalNumber from "./use-savings-goal-number";
 
 interface TemporaryUserId {
   UserId: string;
@@ -21,7 +21,7 @@ export default function TemporaryLandingScreen() {
   const auth = useAuthContext();
 
   // PC-4353 show or skip saving goals instructions
-  const getSavingsGoalNumAsync = useGetSavingsGoalNumber();
+  const getSavingsGoalNumAsync = useSavingsGoalNumber();
   const { control, handleSubmit } = useForm<TemporaryUserId>({
     defaultValues: {
       UserId: auth.userId,
@@ -57,7 +57,7 @@ export default function TemporaryLandingScreen() {
 
   const handleOnOpenInternalTransfers = () => {
     navigation.navigate("InternalTransfers.InternalTransfersStack", {
-      screen: "InternalTransfers.SendToBeneficiaryScreen",
+      screen: "InternalTransfers.InternalTransferScreen",
     });
   };
 

@@ -62,7 +62,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
 
   const textStyles = useThemeStyles<ViewStyle & TextStyle>(
     theme => ({
-      color: isError ? theme.palette.errorBase : theme.palette.primaryBase,
+      color: isError && field.value > 0 ? theme.palette.errorBase : theme.palette.primaryBase,
       fontWeight: theme.typography.text.weights.medium,
       padding: 0,
       margin: 0,
@@ -79,7 +79,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
 
   const currencyStyle = useThemeStyles<TextStyle>(theme => ({
     marginLeft: theme.spacing["4p"],
-    marginVertical: theme.spacing["8p"],
+    marginVertical: theme.spacing["12p"],
   }));
 
   const largeCurrencyStyle = useThemeStyles<TextStyle>(theme => ({
@@ -119,17 +119,19 @@ export default function LargeCurrencyInput<T extends FieldValues>({
           ]}
           value={field.value}
         />
-        <Typography.Text
-          color={isError ? "errorBase" : "primaryBase"}
-          size="body"
-          weight="medium"
-          style={[
-            currencyStyle,
-            fontSize === "s" ? smallCurrencyStyle : fontSize === "m" ? mediumCurrencyStyle : largeCurrencyStyle,
-            !field.value && fieldState.error === undefined && styles.disabledOpacity,
-          ]}>
-          SAR
-        </Typography.Text>
+        <View style={styles.buttonContainer}>
+          <Typography.Text
+            color={isError && field.value > 0 ? "errorBase" : "primaryBase"}
+            size="body"
+            weight="medium"
+            style={[
+              currencyStyle,
+              fontSize === "s" ? smallCurrencyStyle : fontSize === "m" ? mediumCurrencyStyle : largeCurrencyStyle,
+              !field.value && fieldState.error === undefined && styles.disabledOpacity,
+            ]}>
+            SAR
+          </Typography.Text>
+        </View>
       </Pressable>
       {undefined !== resolvedHelperText && (
         <Typography.Text
@@ -145,6 +147,9 @@ export default function LargeCurrencyInput<T extends FieldValues>({
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    marginTop: "auto",
+  },
   container: {
     alignItems: "flex-start",
     flexDirection: "row",
