@@ -1054,38 +1054,6 @@ export const resources = {
             message: "Please try again later.",
           },
         },
-<<<<<<< HEAD
-        InternalTransferScreen: {
-          title: "Send money",
-          currency: " SAR",
-          balance: "Balance: ",
-          errorMessage: "You don't have enough money.",
-          addFunds: "Add funds",
-          reason: "Why are you sending money?",
-          ok: "OK",
-          next: "Next",
-        },
-      },
-      ContextualFAQModal: {
-        link: "Find out more in our FAQs.",
-        leavePageModal: {
-          title: "Leave page?",
-          message: "If you leave this page now, you’ll lose any changes you’ve made.",
-          leaveButton: "Leave page",
-          continueButton: "Continue editing",
-        },
-      },
-      LoadingError: {
-        noData: "We couldn’t load the data. Please try later.",
-        NotificationModal: {
-          errorTitle: "Trouble loading data",
-          errorMessage: "We weren’t able to fetch the data. Please refresh or try again later.",
-          refresh: "Refresh",
-          dismiss: "Dismiss",
-        },
-      },
-=======
->>>>>>> 832d279c (chore: fix merge conflicts)
         ConfirmNewBeneficiaryScreen: {
           title: "Confirm beneficiary details",
           details: {
@@ -1125,6 +1093,15 @@ export const resources = {
           next: "Next",
         },
       },
+      LoadingError: {
+        noData: "We couldn’t load the data. Please try later.",
+        NotificationModal: {
+          errorTitle: "Trouble loading data",
+          errorMessage: "We weren’t able to fetch the data. Please refresh or try again later.",
+          refresh: "Refresh",
+          dismiss: "Dismiss",
+        },
+      },
       ContextualFAQModal: {
         link: "Find out more in our FAQs.",
         leavePageModal: {
@@ -1136,6 +1113,7 @@ export const resources = {
       },
     },
   },
+
   ar: {
     translation: {
       TableList: {
