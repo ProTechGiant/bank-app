@@ -18,6 +18,7 @@ import { useReferralContext } from "@/contexts/ReferralContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { useCustomersReferrals, useRefetchReferrals } from "../../hooks/query-hooks";
 import BackgroundBottomLeftSvg from "./background-bottom-left.svg";
 import BackgroundBottomRightSvg from "./background-bottom-right.svg";
 import BackgroundTopSvg from "./background-top.svg";
@@ -26,35 +27,26 @@ export default function HubScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
+  const { data: customerReferrals } = useCustomersReferrals();
+  const { refetchAll } = useRefetchReferrals();
+
   const { referralPageViewStatus, referralLink, setReferralLink } = useReferralContext();
   const [showToast, setShowToast] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const getReferralLink = () => {
-    // @TODO get from the backend when it is ready BC5/6
-    const referralCode = "mockedRefer";
-
-    appsFlyer.generateInviteLink(
-      {
-        channel: "invite_friends",
-        userParams: {
-          referralCode,
-        },
-      },
-      link => {
-        setReferralLink(link);
-      },
-      () => {
-        //   On error referral link remains undefined
-      }
-    );
-  };
+  const moneyEarned =
+    customerReferrals?.MoneyEarned !== undefined ? parseInt(customerReferrals?.MoneyEarned, 10) : undefined;
+  const numberOfCompletedReferrals = customerReferrals?.NumberOfCompletedReferrals;
+  const referralCode = customerReferrals?.ReferralCode;
 
   useEffect(() => {
-    if (referralLink === undefined && referralPageViewStatus === "finished") {
+    if (
+      (referralLink === undefined || numberOfCompletedReferrals === undefined || moneyEarned === undefined) &&
+      referralPageViewStatus === "finished"
+    ) {
       setIsError(true);
     }
-  }, [referralPageViewStatus, referralLink]);
+  }, [referralPageViewStatus, referralLink, numberOfCompletedReferrals, moneyEarned]);
 
   useEffect(() => {
     // Navigate to the instructions screen if this is the first time viewing the referral hub
@@ -64,10 +56,23 @@ export default function HubScreen() {
   }, [navigation, referralPageViewStatus]);
 
   useEffect(() => {
-    if (referralLink === undefined) {
-      getReferralLink();
+    if (referralLink === undefined && referralCode !== undefined) {
+      appsFlyer.generateInviteLink(
+        {
+          channel: "invite_friends",
+          userParams: {
+            referralCode,
+          },
+        },
+        link => {
+          setReferralLink(link);
+        },
+        () => {
+          //   On error referral link remains undefined
+        }
+      );
     }
-  }, [referralLink]);
+  }, [referralLink, referralCode, setReferralLink]);
 
   const handleOnCopyPress = () => {
     if (referralLink) {
@@ -84,7 +89,7 @@ export default function HubScreen() {
   };
 
   const handleOnTermsAndConditionsPress = () => {
-    navigation.navigate("Referral.TermsAndConditions");
+    navigation.navigate("Referral.TermsAndConditionsScreen");
   };
 
   const handleOnDismissPress = () => {
@@ -92,7 +97,7 @@ export default function HubScreen() {
   };
 
   const handleOnRefreshPress = () => {
-    getReferralLink();
+    refetchAll();
     handleOnDismissPress();
   };
 
@@ -154,11 +159,23 @@ export default function HubScreen() {
                   <TableListCardGroup>
                     <TableListCard
                       label={t("Referral.HubScreen.completed")}
-                      end={<TableListCard.Label bold>{COMPLETED_REFERRAL}</TableListCard.Label>}
+                      end={
+                        numberOfCompletedReferrals !== undefined ? (
+                          <TableListCard.Label bold>{numberOfCompletedReferrals}</TableListCard.Label>
+                        ) : (
+                          <TableListCard.Label>{t("Referral.HubScreen.noData")}</TableListCard.Label>
+                        )
+                      }
                     />
                     <TableListCard
                       label={t("Referral.HubScreen.earnt")}
-                      end={<TableListCard.Label bold>{EARNT_REFERRAL}</TableListCard.Label>}
+                      end={
+                        moneyEarned !== undefined ? (
+                          <TableListCard.Label bold>{moneyEarned}</TableListCard.Label>
+                        ) : (
+                          <TableListCard.Label>{t("Referral.HubScreen.noData")}</TableListCard.Label>
+                        )
+                      }
                     />
                   </TableListCardGroup>
                 </View>
@@ -187,23 +204,22 @@ export default function HubScreen() {
             disabled={referralLink === undefined && referralPageViewStatus === "finished"}>
             {t("Referral.HubScreen.share")}
           </Button>
-          {referralLink === undefined && referralPageViewStatus === "finished" ? (
-            <NotificationModal
-              variant="error"
-              title={t("LoadingError.NotificationModal.errorTitle")}
-              message={t("LoadingError.NotificationModal.errorMessage")}
-              isVisible={isError}
-              onClose={handleOnDismissPress}
-              buttons={{
-                primary: <Button onPress={handleOnRefreshPress}>{t("LoadingError.NotificationModal.refresh")}</Button>,
-                secondary: (
-                  <Button onPress={handleOnDismissPress}>{t("LoadingError.NotificationModal.dismiss")}</Button>
-                ),
-              }}
-            />
-          ) : null}
         </ContentContainer>
       </Page>
+      {(referralLink === undefined || numberOfCompletedReferrals === undefined || moneyEarned === undefined) &&
+      referralPageViewStatus === "finished" ? (
+        <NotificationModal
+          variant="error"
+          title={t("LoadingError.NotificationModal.errorTitle")}
+          message={t("LoadingError.NotificationModal.errorMessage")}
+          isVisible={isError}
+          onClose={handleOnDismissPress}
+          buttons={{
+            primary: <Button onPress={handleOnRefreshPress}>{t("LoadingError.NotificationModal.refresh")}</Button>,
+            secondary: <Button onPress={handleOnDismissPress}>{t("LoadingError.NotificationModal.dismiss")}</Button>,
+          }}
+        />
+      ) : null}
     </>
   );
 }
@@ -232,6 +248,3 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 });
-
-const COMPLETED_REFERRAL = 1;
-const EARNT_REFERRAL = 15;

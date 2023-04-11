@@ -294,6 +294,7 @@ export const resources = {
           fullStop: ".",
           share: "Share via...",
           noLink: "No link found",
+          noData: "No data",
         },
         InstructionsScreen: {
           skip: "Skip",
