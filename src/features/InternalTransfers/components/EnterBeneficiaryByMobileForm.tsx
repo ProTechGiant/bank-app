@@ -9,6 +9,7 @@ import Button from "@/components/Button";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import NotificationModal from "@/components/NotificationModal";
+import useNavigation from "@/navigation/use-navigation";
 import { saudiPhoneRegExp } from "@/utils";
 
 interface EnterBeneficiaryByMobileInput {
@@ -17,6 +18,7 @@ interface EnterBeneficiaryByMobileInput {
 
 export default function EnterBeneficiaryByMobileForm() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const [isMobileInUseModalVisible, setIsMobileInUseModalVisible] = useState(false);
 
@@ -43,8 +45,8 @@ export default function EnterBeneficiaryByMobileForm() {
     },
   });
 
-  const handleOnSubmit = (value: EnterBeneficiaryByMobileInput) => {
-    console.log(value); // TODO: BE integration
+  const handleOnSubmit = () => {
+    navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen");
   };
 
   const handleOnDifferentBeneficiaryPress = () => {

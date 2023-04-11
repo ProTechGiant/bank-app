@@ -1,3 +1,4 @@
+export { default as BeneficiaryDeclarationScreen } from "./BeneficiaryDeclarationScreen";
 export { default as ConfirmNewBeneficiaryScreen } from "./ConfirmNewBeneficiaryScreen";
 export { default as EnterBeneficiaryDetailsScreen } from "./EnterBeneficiaryDetailsScreen";
 export { default as InternalTransferScreen } from "./InternalTransferScreen";

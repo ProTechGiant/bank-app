@@ -2,6 +2,7 @@ import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { View, ViewStyle } from "react-native";
 import { Path as SvgPath, Svg } from "react-native-svg";
 
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -30,9 +31,10 @@ export default function CheckboxInput<T extends FieldValues>({
       borderColor: !isEditable ? palette["neutralBase-40"] : field.value ? "transparent" : palette["neutralBase-20"],
       borderRadius: 2,
       borderWidth: 1,
-      marginRight: 8,
-      height: 24,
-      width: 24,
+      alignItems: "center",
+      justifyContent: "center",
+      height: 18,
+      width: 18,
     }),
     [field.value, isEditable]
   );
@@ -46,12 +48,12 @@ export default function CheckboxInput<T extends FieldValues>({
       onPress={() => {
         if (isEditable) field.onChange(!field.value);
       }}>
-      <View style={{ alignItems: "center", flexDirection: "row" }}>
+      <Stack direction="horizontal" gap="8p">
         <View style={checkBoxStyles}>{field.value && <CheckboxCheckmark />}</View>
         <Typography.Text size="footnote" weight="regular" color={!isEditable ? "neutralBase-20" : "neutralBase"}>
           {label}
         </Typography.Text>
-      </View>
+      </Stack>
     </InputBox>
   );
 }

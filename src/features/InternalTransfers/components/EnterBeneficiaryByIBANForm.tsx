@@ -9,6 +9,7 @@ import Button from "@/components/Button";
 import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import NotificationModal from "@/components/NotificationModal";
+import useNavigation from "@/navigation/use-navigation";
 import { ibanRegExp } from "@/utils";
 
 interface EnterBeneficiaryByIBANInput {
@@ -17,6 +18,7 @@ interface EnterBeneficiaryByIBANInput {
 
 export default function EnterBeneficiaryByIBANForm() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const [isIBANInUseModalVisible, setIsIBANInUseModalVisible] = useState(false);
 
@@ -39,8 +41,8 @@ export default function EnterBeneficiaryByIBANForm() {
     },
   });
 
-  const handleOnSubmit = (value: EnterBeneficiaryByIBANInput) => {
-    console.log(value); // TODO: BE integration
+  const handleOnSubmit = () => {
+    navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen");
   };
 
   const handleOnDifferentBeneficiaryPress = () => {

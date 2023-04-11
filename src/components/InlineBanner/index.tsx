@@ -31,8 +31,8 @@ export default function InlineBanner({ icon, text, testID, onClose, variant = "d
 
   return (
     <View style={containerStyles} testID={testID}>
-      {icon !== undefined && <View>{cloneElement(icon, { color: iconColor, height: 24, width: 24 })}</View>}
-      <Typography.Text color="neutralBase+30" size="callout" weight="regular" style={styles.text}>
+      {icon !== undefined && <View>{cloneElement(icon, { color: iconColor })}</View>}
+      <Typography.Text color="neutralBase+30" size="footnote" weight="regular" style={styles.text}>
         {text}
       </Typography.Text>
       {onClose !== undefined && (

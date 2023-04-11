@@ -1054,6 +1054,7 @@ export const resources = {
             message: "Please try again later.",
           },
         },
+<<<<<<< HEAD
         InternalTransferScreen: {
           title: "Send money",
           currency: " SAR",
@@ -1081,6 +1082,56 @@ export const resources = {
           errorMessage: "We weren’t able to fetch the data. Please refresh or try again later.",
           refresh: "Refresh",
           dismiss: "Dismiss",
+        },
+      },
+=======
+>>>>>>> 832d279c (chore: fix merge conflicts)
+        ConfirmNewBeneficiaryScreen: {
+          title: "Confirm beneficiary details",
+          details: {
+            name: "Name",
+            bank: "Bank",
+            mobile: "Mobile",
+            accountNumber: "Account number",
+            iban: "IBAN",
+          },
+          bannerMessage: "You need to confirm this beneficiary's details before you can send any money.",
+          checkBoxMessage: "By checking this box, you agree to our ",
+          termsAndConditions: "Terms and Conditions",
+          confirmButton: "Confirm",
+        },
+        BeneficiaryDeclarationScreen: {
+          title: "Terms and conditions",
+          sections: {
+            sectionOneTitle: "1. General terms",
+            sectionOneContent:
+              "If you wish to activate this feature provided by the Instant Payments System (SARIE) and the rest of the related services, such as sending funds via alias like (mobile number), we inform you that by confirming this feature you are agreeing to share some of your data with SARIE system for the instant payments owned by the Saudi Central Bank (IBAN number, Mobile number, email address, National/Iqama ID number). At any time in the future, you may disable sharing this data via all banking channels such as mobile banking or internet banking.",
+            sectionTwoTitle: "2. Section name",
+            sectionTwoContent:
+              "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
+            sectionThreeTitle: "3. Section name",
+            sectionThreeContent:
+              "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
+          },
+        },
+        InternalTransferScreen: {
+          title: "Send money",
+          currency: " SAR",
+          balance: "Balance: ",
+          errorMessage: "You don't have enough money.",
+          addFunds: "Add funds",
+          reason: "Why are you sending money?",
+          ok: "OK",
+          next: "Next",
+        },
+      },
+      ContextualFAQModal: {
+        link: "Find out more in our FAQs.",
+        leavePageModal: {
+          title: "Leave page?",
+          message: "If you leave this page now, you’ll lose any changes you’ve made.",
+          leaveButton: "Leave page",
+          continueButton: "Continue editing",
         },
       },
     },

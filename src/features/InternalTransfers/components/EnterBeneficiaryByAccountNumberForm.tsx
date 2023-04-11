@@ -9,6 +9,7 @@ import Button from "@/components/Button";
 import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import NotificationModal from "@/components/NotificationModal";
+import useNavigation from "@/navigation/use-navigation";
 
 interface EnterBeneficiaryByAccountNumberInput {
   AccountNumber: string;
@@ -16,6 +17,7 @@ interface EnterBeneficiaryByAccountNumberInput {
 
 export default function EnterBeneficiaryByAccountNumberForm() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const [isAccountNumberInUseModalVisible, setIsAccountNumberInUseModalVisible] = useState(false);
 
@@ -42,8 +44,8 @@ export default function EnterBeneficiaryByAccountNumberForm() {
     },
   });
 
-  const handleOnSubmit = (value: EnterBeneficiaryByAccountNumberInput) => {
-    console.log(value); // TODO: BE integration
+  const handleOnSubmit = () => {
+    navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen");
   };
 
   const handleOnDifferentBeneficiaryPress = () => {
