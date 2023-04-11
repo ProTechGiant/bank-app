@@ -16,19 +16,20 @@ import {
   mockRelatedFrequentlyAskedQuestions,
 } from "@/mocks/frequentlyAskedQuestionsData";
 import MainStackParams from "@/navigation/mainStackParams";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import HtmlWebView from "../../components/HtmlWebView";
+import LoadingError from "../../components/LoadingError";
 import openLink from "../../components/utils/open-link";
 import { DetailedFaq } from "../../types/frequentlyAskedQuestions";
 
 export default function DetailedScreen() {
   const route = useRoute<RouteProp<MainStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
   const { t } = useTranslation();
-  const navigation = useNavigation();
   const [title, setTitle] = useState<undefined | string>(undefined);
   const [data, setData] = useState<undefined | DetailedFaq>(undefined);
+  const [showLoadingErrorModal, setShowLoadingErrorModal] = useState(false);
+
   const hasData = route.params as { data: DetailedFaq; title: string };
   const noData = route.params as { faqId: string };
 
@@ -50,6 +51,12 @@ export default function DetailedScreen() {
     }
   }, [hasData, noData]);
 
+  useEffect(() => {
+    if (data?.answer === undefined) {
+      setShowLoadingErrorModal(true);
+    }
+  }, [data]);
+
   const currentDate = new Date();
 
   const [feedbackState, setFeedbackState] = useState<"notResponded" | "positive" | "negative" | "helpRequested">(
@@ -68,6 +75,15 @@ export default function DetailedScreen() {
       : feedbackState === "positive" || feedbackState === "helpRequested"
       ? t("FrequentlyAskedQuestions.DetailedScreen.postiveFeedback")
       : t("FrequentlyAskedQuestions.DetailedScreen.negativeFeedback");
+  };
+
+  const handleOnDismissErrorLoadingPress = () => {
+    setShowLoadingErrorModal(false);
+  };
+
+  const handleOnRefreshErrorLoadingPress = () => {
+    //@TODO refetch API
+    handleOnDismissErrorLoadingPress();
   };
 
   const sectionStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -101,73 +117,87 @@ export default function DetailedScreen() {
         <Typography.Text weight="semiBold" size="title1">
           {data?.query}
         </Typography.Text>
-        <View style={verticalStyle}>
-          <HtmlWebView
-            html={data?.answer ? data.answer : "No data"}
-            onLinkPress={url => openLink(url, inAppBrowserBackgroundColor, inAppBrowserColor, navigation)}
+        {data?.answer ? (
+          <>
+            <View style={verticalStyle}>
+              <HtmlWebView
+                html={data.answer}
+                onLinkPress={url => openLink(url, inAppBrowserBackgroundColor, inAppBrowserColor)}
+              />
+              <View style={styles.row}>
+                <Typography.Text size="callout" color="neutralBase-10">
+                  {getFeedbackText()}
+                </Typography.Text>
+                {feedbackState === "notResponded" ? (
+                  <View style={styles.row}>
+                    <Pressable
+                      onPress={() => {
+                        setFeedbackState("positive");
+                      }}>
+                      <ThumbsUpIcon />
+                    </Pressable>
+                    <Pressable
+                      onPress={() => {
+                        setFeedbackState("negative");
+                      }}>
+                      <ThumbsDownIcon />
+                    </Pressable>
+                  </View>
+                ) : null}
+              </View>
+            </View>
+            <View style={sectionStyle}>
+              <Typography.Text size="title3" weight="semiBold">
+                {t("FrequentlyAskedQuestions.DetailedScreen.relatedQuestions")}
+              </Typography.Text>
+            </View>
+            {mockRelatedFrequentlyAskedQuestions.map(relatedFAQdata => {
+              return (
+                <View key={relatedFAQdata.faq_id} style={verticalStyle}>
+                  <Stack direction="horizontal" align="center" justify="space-between">
+                    <Typography.Text size="callout">{relatedFAQdata.query}</Typography.Text>
+                    <ChevronRightIcon color={iconColor} />
+                  </Stack>
+                </View>
+              );
+            })}
+            {feedbackState === "negative" ? (
+              <View style={sectionStyle}>
+                <Typography.Text size="callout" weight="semiBold">
+                  {t("FrequentlyAskedQuestions.DetailedScreen.help")}
+                </Typography.Text>
+                <View style={styles.row}>
+                  <Pressable
+                    style={iconBoxStyle}
+                    onPress={() => {
+                      setFeedbackState("helpRequested");
+                    }}>
+                    <PhoneIcon />
+                    <Typography.Text size="footnote">
+                      {t("FrequentlyAskedQuestions.DetailedScreen.call")}
+                    </Typography.Text>
+                  </Pressable>
+                  <Pressable
+                    style={iconBoxStyle}
+                    onPress={() => {
+                      setFeedbackState("helpRequested");
+                    }}>
+                    <ChatIcon />
+                    <Typography.Text size="footnote">
+                      {t("FrequentlyAskedQuestions.DetailedScreen.chat")}
+                    </Typography.Text>
+                  </Pressable>
+                </View>
+              </View>
+            ) : null}
+          </>
+        ) : (
+          <LoadingError
+            isVisible={showLoadingErrorModal}
+            onClose={handleOnDismissErrorLoadingPress}
+            onRefresh={handleOnRefreshErrorLoadingPress}
           />
-        </View>
-        <View style={styles.row}>
-          <Typography.Text size="callout" color="neutralBase-10">
-            {getFeedbackText()}
-          </Typography.Text>
-          {feedbackState === "notResponded" ? (
-            <View style={styles.row}>
-              <Pressable
-                onPress={() => {
-                  setFeedbackState("positive");
-                }}>
-                <ThumbsUpIcon />
-              </Pressable>
-              <Pressable
-                onPress={() => {
-                  setFeedbackState("negative");
-                }}>
-                <ThumbsDownIcon />
-              </Pressable>
-            </View>
-          ) : null}
-        </View>
-        <View style={sectionStyle}>
-          <Typography.Text size="title3" weight="semiBold">
-            {t("FrequentlyAskedQuestions.DetailedScreen.relatedQuestions")}
-          </Typography.Text>
-        </View>
-        {mockRelatedFrequentlyAskedQuestions.map(relatedFAQdata => {
-          return (
-            <View key={relatedFAQdata.faq_id} style={verticalStyle}>
-              <Stack direction="horizontal" align="center" justify="space-between">
-                <Typography.Text size="callout">{relatedFAQdata.query}</Typography.Text>
-                <ChevronRightIcon color={iconColor} />
-              </Stack>
-            </View>
-          );
-        })}
-        {feedbackState === "negative" ? (
-          <View style={sectionStyle}>
-            <Typography.Text size="callout" weight="semiBold">
-              {t("FrequentlyAskedQuestions.DetailedScreen.help")}
-            </Typography.Text>
-            <View style={styles.row}>
-              <Pressable
-                style={iconBoxStyle}
-                onPress={() => {
-                  setFeedbackState("helpRequested");
-                }}>
-                <PhoneIcon />
-                <Typography.Text size="footnote">{t("FrequentlyAskedQuestions.DetailedScreen.call")}</Typography.Text>
-              </Pressable>
-              <Pressable
-                style={iconBoxStyle}
-                onPress={() => {
-                  setFeedbackState("helpRequested");
-                }}>
-                <ChatIcon />
-                <Typography.Text size="footnote">{t("FrequentlyAskedQuestions.DetailedScreen.chat")}</Typography.Text>
-              </Pressable>
-            </View>
-          </View>
-        ) : null}
+        )}
       </ContentContainer>
     </Page>
   );

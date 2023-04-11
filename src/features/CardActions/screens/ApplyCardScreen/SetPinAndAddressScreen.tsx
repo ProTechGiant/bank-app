@@ -11,7 +11,7 @@ import {
   ViewStyle,
 } from "react-native";
 
-import { ErrorFilledCircleIcon, InfoIcon } from "@/assets/icons";
+import { ErrorFilledCircleIcon, InfoFilledIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import InlineBanner from "@/components/InlineBanner";
@@ -180,7 +180,7 @@ export default function SetPinAndAddressScreen({
                 </View>
               </Stack>
               <InlineBanner
-                icon={<InfoIcon />}
+                icon={<InfoFilledIcon />}
                 text={t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.SetPin.avoidSimplePin")}
               />
             </Stack>

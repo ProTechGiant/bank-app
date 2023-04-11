@@ -293,10 +293,6 @@ export const resources = {
           termsAndConditions: " terms and conditions",
           fullStop: ".",
           share: "Share via...",
-          errorTitle: "Trouble loading data",
-          errorMessage: "We weren’t able to fetch the data. Please refresh or try again later.",
-          refresh: "Refresh",
-          dismiss: "Dismiss",
           noLink: "No link found",
         },
         InstructionsScreen: {
@@ -1076,6 +1072,15 @@ export const resources = {
           message: "If you leave this page now, you’ll lose any changes you’ve made.",
           leaveButton: "Leave page",
           continueButton: "Continue editing",
+        },
+      },
+      LoadingError: {
+        noData: "We couldn’t load the data. Please try later.",
+        NotificationModal: {
+          errorTitle: "Trouble loading data",
+          errorMessage: "We weren’t able to fetch the data. Please refresh or try again later.",
+          refresh: "Refresh",
+          dismiss: "Dismiss",
         },
       },
     },

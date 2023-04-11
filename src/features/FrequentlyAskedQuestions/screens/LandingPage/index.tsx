@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View, ViewStyle } from "react-native";
@@ -11,6 +12,7 @@ import Typography from "@/components/Typography";
 import { mockFrequentlyAskedQuestions } from "@/mocks/frequentlyAskedQuestionsData";
 import { useThemeStyles } from "@/theme";
 
+import LoadingError from "../../components/LoadingError";
 import Section from "./Section";
 
 interface Search {
@@ -20,6 +22,22 @@ interface Search {
 export default function LandingPage() {
   const { t } = useTranslation();
   const { control } = useForm<Search>({});
+  const [showLoadingErrorModal, setShowLoadingErrorModal] = useState(false);
+
+  useEffect(() => {
+    if (mockFrequentlyAskedQuestions === undefined) {
+      setShowLoadingErrorModal(true);
+    }
+  }, [mockFrequentlyAskedQuestions]);
+
+  const handleOnDismissErrorLoadingPress = () => {
+    setShowLoadingErrorModal(false);
+  };
+
+  const handleOnRefreshErrorLoadingPress = () => {
+    //@TODO refetch API
+    handleOnDismissErrorLoadingPress();
+  };
 
   const container = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
@@ -46,13 +64,21 @@ export default function LandingPage() {
                 placeholder={t("FrequentlyAskedQuestions.LandingPage.searchPlaceholder")}
               />
             </View>
-            {mockFrequentlyAskedQuestions.categories.map((data, i) => {
-              return (
-                <View style={searchStyle} key={data.category_name}>
-                  <Section data={data} icon={<ReferralIcon />} />
-                </View>
-              );
-            })}
+            {mockFrequentlyAskedQuestions?.categories ? (
+              mockFrequentlyAskedQuestions.categories.map((data, i) => {
+                return (
+                  <View style={searchStyle} key={data.category_name}>
+                    <Section data={data} icon={<ReferralIcon />} />
+                  </View>
+                );
+              })
+            ) : (
+              <LoadingError
+                isVisible={showLoadingErrorModal}
+                onClose={handleOnDismissErrorLoadingPress}
+                onRefresh={handleOnRefreshErrorLoadingPress}
+              />
+            )}
           </Stack>
         </View>
       </ScrollView>

@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, ScrollView, useWindowDimensions, View, ViewStyle } from "react-native";
 
-import { ErrorFilledCircleIcon, InfoIcon } from "@/assets/icons";
+import { ErrorFilledCircleIcon, InfoFilledIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import InlineBanner from "@/components/InlineBanner";
@@ -168,7 +168,7 @@ export default function ResetPinCodeScreen() {
                     ) : null}
                   </View>
                 </Stack>
-                <InlineBanner icon={<InfoIcon />} text={t("CardActions.ResetPincodeScreen.avoidTooEasyPin")} />
+                <InlineBanner icon={<InfoFilledIcon />} text={t("CardActions.ResetPincodeScreen.avoidTooEasyPin")} />
               </Stack>
             </ContentContainer>
 

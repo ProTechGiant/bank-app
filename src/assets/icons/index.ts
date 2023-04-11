@@ -39,6 +39,7 @@ export { default as HamburgerIcon } from "./hamburger";
 export { HideIcon } from "./hide";
 export { default as InfoIcon } from "./info";
 export { InfoCircleIcon } from "./info-circle";
+export { default as InfoFilledIcon } from "./info-filled";
 export { InfoFilledCircleIcon } from "./info-filled-circle";
 export { default as InviteIcon } from "./invite";
 export { default as LargeFilledTickIcon } from "./large-filled-tick";

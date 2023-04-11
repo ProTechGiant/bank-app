@@ -190,13 +190,15 @@ export default function HubScreen() {
           {referralLink === undefined && referralPageViewStatus === "finished" ? (
             <NotificationModal
               variant="error"
-              title={t("Referral.HubScreen.errorTitle")}
-              message={t("Referral.HubScreen.errorMessage")}
+              title={t("LoadingError.NotificationModal.errorTitle")}
+              message={t("LoadingError.NotificationModal.errorMessage")}
               isVisible={isError}
               onClose={handleOnDismissPress}
               buttons={{
-                primary: <Button onPress={handleOnRefreshPress}>{t("Referral.HubScreen.refresh")}</Button>,
-                secondary: <Button onPress={handleOnDismissPress}>{t("Referral.HubScreen.dismiss")}</Button>,
+                primary: <Button onPress={handleOnRefreshPress}>{t("LoadingError.NotificationModal.refresh")}</Button>,
+                secondary: (
+                  <Button onPress={handleOnDismissPress}>{t("LoadingError.NotificationModal.dismiss")}</Button>
+                ),
               }}
             />
           ) : null}
