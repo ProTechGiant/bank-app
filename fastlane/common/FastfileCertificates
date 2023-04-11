@@ -1,15 +1,14 @@
-  # -------------Update Certificates/Profiles-------------#
+# -------------Update Certificates/Profiles-------------#
 platform :ios do
-  desc "Run Sigh - manual certificate and profile management"
-  private_lane :run_sigh do |options|
-    cert(team_id: ENV["APPLE_TEAM_ID"], username: ENV["APPLE_USERNAME"])
+  lane :install_signing do
+    match(type: "development", readonly: true)
+  end
 
-    sigh(
-        force: options[:adhoc],
-        adhoc: options[:adhoc],
-        app_identifier: ENV["BUNDLE_ID"],
-        team_id: ENV["APPLE_TEAM_ID"],
-        username: ENV["APPLE_USERNAME"]
+  lane :update_devices do
+    register_devices(
+      devices: {
+        "Remco's iPhone" => "00008101-000120192251003A"
+      }
     )
   end
 end
