@@ -19,8 +19,8 @@ export default function RadioButton<T>({ disabled = false, label, onPress, isSel
   }));
 
   return (
-    <Pressable onPress={() => onPress?.(value)} style={[containerStyle, { opacity: disabled ? 0.2 : 1 }]}>
-      <Typography.Text weight="medium" size="callout" style={styles.label}>
+    <Pressable onPress={() => onPress?.(value)} style={containerStyle} disabled={disabled}>
+      <Typography.Text weight="medium" size="callout" style={[styles.label, { opacity: disabled ? 0.2 : 1 }]}>
         {label}
       </Typography.Text>
       <Radio onPress={() => onPress?.(value)} isSelected={isSelected} disabled={disabled} value={value} />
