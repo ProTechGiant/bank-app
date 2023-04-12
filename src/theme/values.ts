@@ -37,6 +37,7 @@ const palette = {
   "primaryBase-50": "#00C8FF",
   "primaryBase-60": "33D3FF",
   "primaryBase-70": "#5CDCFF",
+  "primaryBase-70-8%": "rgba(92, 220, 255, 0.08)",
 
   // Core Brand Secondary Blue
   secondary_blueBase: "#004F99",
@@ -227,6 +228,7 @@ const iconDimensions = {
     height: 4,
   },
   referralCopy: 16,
+  tableListIconBackground: 44,
 };
 
 export { iconDimensions, palette, radii, spacing, typography };

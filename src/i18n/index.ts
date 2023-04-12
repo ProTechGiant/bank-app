@@ -1093,6 +1093,17 @@ export const resources = {
           confirm: "Confirm",
           next: "Next",
         },
+        ConfirmationScreen: {
+          title: "Your transfer is complete",
+          message:
+            "You'll find the details in your transaction list. Now you won't need to confirm this beneficiary before you make a payment.",
+          transferredTo: "Transferred to",
+          amount: "Amount",
+          buttons: {
+            done: "Done",
+            viewTransaction: "View transaction",
+          },
+        },
       },
       LoadingError: {
         noData: "We couldn’t load the data. Please try later.",

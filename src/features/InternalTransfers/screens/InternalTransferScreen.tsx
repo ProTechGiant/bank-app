@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigation } from "@react-navigation/native";
 import React, { useMemo, useState } from "react";
-import { useForm, useFormState } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { I18nManager, KeyboardAvoidingView, Platform, Pressable, View, ViewStyle } from "react-native";
 import * as yup from "yup";
@@ -12,6 +11,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useAccount from "@/hooks/use-account";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import PersonalReasons from "../components/PersonalReasons";

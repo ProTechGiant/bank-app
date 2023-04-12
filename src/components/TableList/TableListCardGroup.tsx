@@ -1,45 +1,43 @@
 import * as React from "react";
-import { StyleSheet, View, ViewProps, ViewStyle } from "react-native";
+import { View, ViewProps, ViewStyle } from "react-native";
 
-import { WithShadow } from "@/components";
 import { useThemeStyles } from "@/theme";
 
 import { TableListCardProps } from "./TableListCard";
 
 interface TableListCardGroupProps extends ViewProps {
+  background?: "dark" | "light";
   children: React.ReactElement<TableListCardProps> | null | Array<React.ReactElement<TableListCardProps> | null>;
 }
 
-export default function TableListCardGroup({ children, ...restProps }: TableListCardGroupProps) {
+export default function TableListCardGroup({ background, children, ...restProps }: TableListCardGroupProps) {
   const elements = React.Children.toArray(children) as Array<React.ReactElement<TableListCardProps> | null>;
 
-  const separatorContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: theme.palette["neutralBase-50"],
+  const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
+    height: 1,
+    backgroundColor: background === "dark" ? theme.palette.primaryBase : theme.palette["neutralBase-30"],
   }));
 
-  const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: theme.palette["neutralBase-30"],
-    marginLeft: 16,
+  const containerBackgroundStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: background === "dark" ? theme.palette["primaryBase-70-8%"] : theme.palette["neutralBase-60"],
+  }));
+
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderColor: background === "dark" ? theme.palette.primaryBase : theme.palette["neutralBase-30"],
+    borderWidth: 1,
+    borderRadius: theme.radii.small,
   }));
 
   return (
-    <WithShadow backgroundColor="neutralBase-60" borderRadius="small">
-      <View {...restProps}>
-        {elements.map((element, index) => {
-          return (
-            <React.Fragment key={index}>
-              {React.isValidElement(element) ? React.cloneElement(element, { isGrouped: true }) : null}
-              {elements.length - 1 === index ? null : (
-                <View style={separatorContainerStyle}>
-                  <View style={separatorStyle} />
-                </View>
-              )}
-            </React.Fragment>
-          );
-        })}
-      </View>
-    </WithShadow>
+    <View style={[containerStyle, background !== undefined && containerBackgroundStyle]} {...restProps}>
+      {elements.map((element, index) => {
+        return (
+          <React.Fragment key={index}>
+            {React.isValidElement(element) ? React.cloneElement(element, { isGrouped: true }) : null}
+            {elements.length - 1 === index ? null : <View style={separatorStyle} />}
+          </React.Fragment>
+        );
+      })}
+    </View>
   );
 }

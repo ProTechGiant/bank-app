@@ -2,11 +2,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
   BeneficiaryDeclarationScreen,
+  ConfirmationScreen,
   ConfirmNewBeneficiaryScreen,
   EnterBeneficiaryDetailsScreen,
   InternalTransferScreen,
   ReviewTransferScreen,
   SendToBeneficiaryScreen,
+  TransactionDetailsScreen,
 } from "./screens";
 
 export type InternalTransfersStackParams = {
@@ -16,6 +18,8 @@ export type InternalTransfersStackParams = {
   "InternalTransfers.ConfirmNewBeneficiaryScreen": undefined;
   "InternalTransfers.InternalTransferScreen": undefined;
   "InternalTransfers.BeneficiaryDeclarationScreen": undefined;
+  "InternalTransfers.ConfirmationScreen": undefined;
+  "InternalTransfers.TransactionDetailsScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
@@ -33,6 +37,8 @@ export default function InternalTransfersStack() {
         name="InternalTransfers.BeneficiaryDeclarationScreen"
         options={{ presentation: "modal" }}
       />
+      <Stack.Screen component={ConfirmationScreen} name="InternalTransfers.ConfirmationScreen" />
+      <Stack.Screen component={TransactionDetailsScreen} name="InternalTransfers.TransactionDetailsScreen" />
     </Stack.Navigator>
   );
 }
