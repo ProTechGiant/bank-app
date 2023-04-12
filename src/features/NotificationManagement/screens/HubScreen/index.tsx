@@ -16,20 +16,85 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { mockNotificationManagementCategories } from "@/features/NotificationManagement/notificationManagementCategoriesMock";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { REWARDS_ID, TRANSFERS_ID, YOUR_ACCOUNT_ID, YOUR_MONEY_ID } from "../../constants";
-import Section from "./CategorySection";
+import { useNotificationPreferences } from "../../query-hooks";
+import { Categories } from "../../types";
+import CategorySection from "./CategorySection";
 
 export default function HubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
+  const notificationPreferences = useNotificationPreferences();
+
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
   const [appActive, setAppActive] = useState(true);
   const [alertShown, setAlertShown] = useState(false);
+
+  useEffect(() => {
+    checkNotifications().then(({ status }) => {
+      if (!alertShown && status !== "granted") {
+        Alert.alert(
+          t("NotificationManagement.PermissionAlertModal.title"),
+          t("NotificationManagement.PermissionAlertModal.subtitle"),
+          [
+            {
+              text: t("NotificationManagement.PermissionAlertModal.back"),
+              style: "cancel",
+              onPress: () => {
+                setAlertShown(true);
+                navigation.navigate("Settings.SettingsScreen");
+              },
+            },
+            {
+              text: t("NotificationManagement.PermissionAlertModal.settings"),
+              onPress: () => {
+                setAlertShown(true);
+                Linking.openSettings();
+              },
+            },
+          ]
+        );
+      }
+    });
+
+    const listener = AppState.addEventListener("change", state => {
+      if (state === "background" || state === "inactive") {
+        setAppActive(false);
+        setAlertShown(false);
+      } else if (state === "active") {
+        setAppActive(true);
+      }
+    });
+
+    return () => {
+      listener.remove();
+    };
+  }, [appActive]);
+
+  useEffect(() => {
+    if (notificationPreferences.isLoading && notificationPreferences.isError) {
+      Alert.alert(t("NotificationManagement.HubScreen.alertGetError"), "", [
+        {
+          text: "OK",
+          style: "cancel",
+          onPress: () => {
+            navigation.navigate("Settings.SettingsScreen");
+          },
+        },
+      ]);
+    }
+  }, [notificationPreferences.isError, notificationPreferences.isError]);
+
+  const handleOnCategoryPress = (category: Categories) => {
+    navigation.navigate("NotificationManagement.CategoryScreen", {
+      categoryId: category.categoryId,
+      title: category.categoryName,
+    });
+  };
 
   const handleOnModalClose = () => {
     setIsInfoModalVisible(false);
@@ -74,47 +139,6 @@ export default function HubScreen() {
     }
   };
 
-  useEffect(() => {
-    checkNotifications().then(({ status }) => {
-      if (!alertShown && status !== "granted") {
-        Alert.alert(
-          t("NotificationManagement.PermissionAlertModal.title"),
-          t("NotificationManagement.PermissionAlertModal.subtitle"),
-          [
-            {
-              text: t("NotificationManagement.PermissionAlertModal.back"),
-              style: "cancel",
-              onPress: () => {
-                setAlertShown(true);
-                navigation.goBack();
-              },
-            },
-            {
-              text: t("NotificationManagement.PermissionAlertModal.settings"),
-              onPress: () => {
-                setAlertShown(true);
-                Linking.openSettings();
-              },
-            },
-          ]
-        );
-      }
-    });
-
-    const listener = AppState.addEventListener("change", state => {
-      if (state === "background" || state === "inactive") {
-        setAppActive(false);
-        setAlertShown(false);
-      } else if (state === "active") {
-        setAppActive(true);
-      }
-    });
-
-    return () => {
-      listener.remove();
-    };
-  }, [appActive]);
-
   return (
     <>
       <Page backgroundColor="primaryBase-60">
@@ -137,18 +161,20 @@ export default function HubScreen() {
               {t("NotificationManagement.HubScreen.subtitle")}
             </Typography.Text>
             <Stack direction="vertical" align="stretch">
-              {mockNotificationManagementCategories.categories.map(data => {
-                return (
-                  <View style={categoriesContainerStyle} key={data.categoryId}>
-                    <Section
-                      title={data.categoryName}
-                      content={data.categoryDescription}
-                      icon={getCategoryIcon(data.categoryId)}
-                      data={data}
-                    />
-                  </View>
-                );
-              })}
+              {notificationPreferences.data && notificationPreferences.data.length > 0
+                ? notificationPreferences.data.map(category => {
+                    return (
+                      <View style={categoriesContainerStyle} key={category.categoryId}>
+                        <CategorySection
+                          title={category.categoryName}
+                          content={category.categoryDescription}
+                          icon={getCategoryIcon(category.categoryId)}
+                          onPress={() => handleOnCategoryPress(category)}
+                        />
+                      </View>
+                    );
+                  })
+                : null}
             </Stack>
           </View>
         </ContentContainer>

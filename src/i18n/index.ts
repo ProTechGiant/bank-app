@@ -349,9 +349,11 @@ export const resources = {
           subtitle: "Choose which notifications you'd like to receive.",
           modalTitle: "About notifications",
           modalContent: "Changes here won't affect your text message notifications.",
+          alertGetError: "Could not get notification preferences. Please try again later.",
         },
         CategoryScreen: {
           subtitle: "Get notifications about:",
+          alertUpdateError: "Could not update notification preferences. Please try again later.",
         },
       },
       SavingsGoals: {
@@ -1354,9 +1356,11 @@ export const resources = {
           subtitle: "اختر التنبيهات التي تود الحصول على تحديث حولها.",
           modalTitle: "ملاحظة حول التنبيهات",
           modalContent: "التغيرات التي تُجريها هنا لن تؤثر على التنبيهات التي تصلك عبر الرسائل النصية القصيرة.",
+          alertGetError: "Could not get notification preferences. Please try again later.",
         },
         CategoryScreen: {
           subtitle: "احصل على تنبيهات حول:",
+          alertUpdateError: "Could not update notification preferences. Please try again later.",
         },
       },
       Referral: {

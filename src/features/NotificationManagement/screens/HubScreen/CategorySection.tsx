@@ -4,32 +4,20 @@ import { SvgProps } from "react-native-svg";
 import { ChevronRightIcon, IconProps } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-
-import { Categories } from "./types/notificationManagement";
 
 interface CategorySectionProps {
   title: string;
   content: string;
   icon: React.ReactElement<SvgProps | IconProps>;
-  data: Categories;
+  onPress: () => void;
 }
 
-export default function CategorySection({ title, content, icon, data }: CategorySectionProps) {
+export default function CategorySection({ title, content, icon, onPress }: CategorySectionProps) {
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
-  const navigation = useNavigation();
-
-  const handleOnPress = () => {
-    navigation.navigate("NotificationManagement.CategoryScreen", {
-      subCategories: data?.subCategories,
-      title: data?.categoryName,
-    });
-  };
-
   return (
-    <Pressable onPress={handleOnPress}>
+    <Pressable onPress={onPress}>
       <Stack direction="horizontal" gap="16p">
         {icon}
         <Stack direction="vertical" gap="4p" flex={1}>
