@@ -7,11 +7,17 @@ export default {
   component: AddressSelector_,
   args: {
     id: "1",
-    addressLineOne: "PrimaryAddres",
+    label: "Label",
+    addressLineOne: "PrimaryAddress",
     isSelected: true,
     isTemporary: false,
   },
   argTypes: {
+    label: {
+      table: {
+        disable: false,
+      },
+    },
     addressLineOne: {
       table: {
         disable: false,
