@@ -9,10 +9,10 @@ export interface TransferReason {
 }
 
 export interface BeneficiaryType {
-  id: number;
-  name: string;
-  bank: string;
-  accountNumber: string;
-  isActive?: boolean;
-  lastUpdated: Date;
+  Name: string;
+  IBAN: string;
+  BankAccountNumber: string;
+  PhoneNumber: string;
+  Active: boolean;
+  IVRValidated: boolean;
 }

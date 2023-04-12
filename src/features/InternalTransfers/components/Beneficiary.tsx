@@ -23,7 +23,7 @@ export default function Beneficiary({ data, onBeneficiaryPress, onMenuPress }: B
   const profileContainer = useThemeStyles<ViewStyle>(
     theme => ({
       padding: theme.spacing["8p"],
-      backgroundColor: data.isActive ? theme.palette.primaryBase : theme.palette["neutralBase-20"],
+      backgroundColor: data.IVRValidated ? theme.palette.primaryBase : theme.palette["neutralBase-20"],
       borderRadius: 36,
       justifyContent: "center",
       alignItems: "center",
@@ -41,18 +41,15 @@ export default function Beneficiary({ data, onBeneficiaryPress, onMenuPress }: B
         <Stack align="center" direction="horizontal" gap="12p">
           <View style={profileContainer}>
             <Typography.Text size="footnote" color="neutralBase-50" align="center">
-              {getInitials(data.name)}
+              {getInitials(data.Name)}
             </Typography.Text>
           </View>
           <Stack direction="vertical">
             <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-              {data.name}
+              {data.Name}
             </Typography.Text>
             <Typography.Text size="footnote" color="neutralBase">
-              {data.bank}
-            </Typography.Text>
-            <Typography.Text size="footnote" color="neutralBase">
-              {data.accountNumber}
+              {data.BankAccountNumber}
             </Typography.Text>
           </Stack>
         </Stack>

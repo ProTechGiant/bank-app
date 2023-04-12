@@ -11,7 +11,13 @@ interface BeneficiaryListProps {
   onMenuPress: (beneficiary: BeneficiaryType) => void;
 }
 
-export default function BeneficiaryList({ title, beneficiaries, onDelete, onBeneficiaryPress, onMenuPress}: BeneficiaryListProps) {
+export default function BeneficiaryList({
+  title,
+  beneficiaries,
+  onDelete,
+  onBeneficiaryPress,
+  onMenuPress,
+}: BeneficiaryListProps) {
   return (
     <>
       <Typography.Text size="title3" weight="semiBold">
@@ -19,7 +25,7 @@ export default function BeneficiaryList({ title, beneficiaries, onDelete, onBene
       </Typography.Text>
       {beneficiaries.map(beneficiary => (
         <Beneficiary
-          key={beneficiary.accountNumber}
+          key={beneficiary.BankAccountNumber}
           data={beneficiary}
           onDelete={onDelete}
           onBeneficiaryPress={onBeneficiaryPress}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -11,94 +11,52 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import BeneficiaryList from "../components/BeneficiaryList";
 import BeneficiaryOptionsModal from "../components/BeneficiaryOptionsModal";
 import SearchInput from "../components/SearchInput";
+import { useBeneficiaries, useDeleteBeneficiary } from "../hooks/query-hooks";
 import { BeneficiaryType } from "../types";
 
-const mockBeneficiaries: BeneficiaryType[] = [
-  {
-    id: 1,
-    name: "Ahmed Abdul Aziz",
-    bank: "Saudi National Bank",
-    accountNumber: "1111 2222 3333 4444 5555 6666",
-    isActive: true,
-    lastUpdated: new Date("2030-11-23T00:00:00.000Z"),
-  },
-  {
-    id: 2,
-    name: "Last Name First",
-    bank: "Bank",
-    accountNumber: "1111 2222 3333 4444 5555 6661",
-    isActive: true,
-    lastUpdated: new Date("2030-11-22T00:00:00.000Z"),
-  },
-  {
-    id: 3,
-    name: "Last First",
-    bank: "Bank Name",
-    accountNumber: "1111 2222 3333 4444 5555 6662",
-    isActive: true,
-    lastUpdated: new Date("2030-11-21T00:00:00.000Z"),
-  },
-  {
-    id: 4,
-    name: "Bhmed Bbdul Bziz",
-    bank: "Saudi National Bank",
-    accountNumber: "1111 2222 3333 4444 5555 6663",
-    isActive: false,
-    lastUpdated: new Date("2031-11-20T00:00:00.000Z"),
-  },
-  {
-    id: 5,
-    name: "Last First",
-    bank: "Bank Name",
-    accountNumber: "1111 2222 3333 4444 5555 6664",
-    isActive: false,
-    lastUpdated: new Date("2030-11-21T00:00:00.000Z"),
-  },
-  {
-    id: 6,
-    name: "Last First",
-    bank: "Bank Name",
-    accountNumber: "1111 2222 3333 4444 5555 6665",
-    isActive: false,
-    lastUpdated: new Date("2030-11-22T00:00:00.000Z"),
-  },
-];
-
 function activeFilterCheck(beneficiaries: BeneficiaryType[], isActive: boolean): BeneficiaryType[] {
-  return beneficiaries
-    .sort((a, b) => b.lastUpdated.valueOf() - a.lastUpdated.valueOf())
-    .filter(beneficiary => beneficiary.isActive === isActive);
+  return beneficiaries.filter(beneficiary => beneficiary.IVRValidated === isActive);
 }
 
 export default function SendToBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  // temporary useState solution until Backend available
-  const [beneficiaries, setBeneficiaries] = useState<BeneficiaryType[]>(mockBeneficiaries);
-  const [filteredBeneficiaries, setFilteredBeneficiaries] = useState<BeneficiaryType[]>(beneficiaries);
+  const { data, refetch } = useBeneficiaries();
+  const { mutateAsync } = useDeleteBeneficiary();
+  const [filteredBeneficiaries, setFilteredBeneficiaries] = useState<BeneficiaryType[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentBeneficiary, setCurrentBeneficiary] = useState<BeneficiaryType>();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isConfirmDeleteVisible, setIsConfirmDeleteVisible] = useState(false);
   const [isConfirmActivationModalVisible, setIsConfirmActivationModalVisible] = useState(false);
 
+  const beneficiaries = useMemo(
+    () => (data !== undefined && data.Beneficiary !== undefined ? data.Beneficiary : []),
+    [data]
+  );
+
   const activeBeneficiaries = activeFilterCheck(filteredBeneficiaries, true);
   const inactiveBeneficiaries = activeFilterCheck(filteredBeneficiaries, false);
+
+  useEffect(() => {
+    setFilteredBeneficiaries(beneficiaries);
+  }, [beneficiaries]);
 
   const handleOnSearch = (query: string) => {
     setSearchQuery(query);
     const searchResults = beneficiaries.filter(beneficiary => {
       const lowerCaseQuery = query.toLowerCase();
       return (
-        beneficiary.name.toLowerCase().includes(lowerCaseQuery) ||
-        beneficiary.bank.toLowerCase().includes(lowerCaseQuery) ||
-        beneficiary.accountNumber.toLowerCase().includes(lowerCaseQuery)
+        beneficiary.Name.toLowerCase().includes(lowerCaseQuery) ||
+        beneficiary.PhoneNumber.toLowerCase().includes(lowerCaseQuery) ||
+        beneficiary.BankAccountNumber.toLowerCase().includes(lowerCaseQuery)
       );
     });
     setFilteredBeneficiaries(searchResults);
@@ -106,14 +64,23 @@ export default function SendToBeneficiaryScreen() {
 
   const handleOnSearchClear = () => {
     setSearchQuery("");
-    setFilteredBeneficiaries(mockBeneficiaries);
+    setFilteredBeneficiaries(data !== undefined && data.Beneficiary !== undefined ? data.Beneficiary : []);
   };
 
-  const handleOnDelete = () => {
-    // mocking what will happen when backend is implemented
-    const updatedBeneficiaries = beneficiaries.filter(beneficiary => beneficiary.id !== currentBeneficiary?.id);
-    setBeneficiaries(updatedBeneficiaries);
-    setFilteredBeneficiaries(updatedBeneficiaries);
+  const handleOnDelete = async () => {
+    if (currentBeneficiary) {
+      try {
+        await mutateAsync({
+          name: currentBeneficiary.Name,
+          accountNumber: currentBeneficiary.BankAccountNumber,
+        });
+        refetch();
+      } catch (err) {
+        warn("Beneficiary", "Could not process delete beneficiary: ", JSON.stringify(err));
+      }
+    } else {
+      warn("Beneficiary", "No Beneficiary selected to delete");
+    }
     setIsConfirmDeleteVisible(false);
     setIsMenuVisible(false);
   };
@@ -245,7 +212,7 @@ export default function SendToBeneficiaryScreen() {
       </Page>
       {currentBeneficiary ? (
         <BeneficiaryOptionsModal
-          name={currentBeneficiary.name}
+          name={currentBeneficiary.Name}
           isMenuVisible={isMenuVisible}
           isConfirmDeleteVisible={isConfirmDeleteVisible}
           onCloseMenu={handleOnCloseMenu}
