@@ -16,6 +16,7 @@ import {
   mockRelatedFrequentlyAskedQuestions,
 } from "@/mocks/frequentlyAskedQuestionsData";
 import MainStackParams from "@/navigation/mainStackParams";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import HtmlWebView from "../../components/HtmlWebView";
@@ -25,6 +26,7 @@ import { DetailedFaq } from "../../types/frequentlyAskedQuestions";
 
 export default function DetailedScreen() {
   const route = useRoute<RouteProp<MainStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
+  const navigation = useNavigation();
   const { t } = useTranslation();
   const [title, setTitle] = useState<undefined | string>(undefined);
   const [data, setData] = useState<undefined | DetailedFaq>(undefined);
@@ -122,7 +124,7 @@ export default function DetailedScreen() {
             <View style={verticalStyle}>
               <HtmlWebView
                 html={data.answer}
-                onLinkPress={url => openLink(url, inAppBrowserBackgroundColor, inAppBrowserColor)}
+                onLinkPress={url => openLink(url, inAppBrowserBackgroundColor, inAppBrowserColor, navigation)}
               />
               <View style={styles.row}>
                 <Typography.Text size="callout" color="neutralBase-10">
