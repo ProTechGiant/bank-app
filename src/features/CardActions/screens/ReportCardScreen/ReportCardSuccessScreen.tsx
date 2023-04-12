@@ -40,7 +40,9 @@ export default function ReportCardSuccessScreen({ cardId }: ReportCardSuccessScr
         {
           topElement: <View style={{ backgroundColor: "#F34C33", borderRadius: 40, height: 80, width: 80 }} />,
           title: t("CardActions.ReportCardScreen.ReportCardSuccessScreen.title"),
-          text: t("CardActions.ReportCardScreen.ReportCardSuccessScreen.description"),
+          text: t("CardActions.ReportCardScreen.ReportCardSuccessScreen.description", {
+            device: Platform.OS === "android" ? t("CardActions.madaPay") : t("CardActions.appleWallet"),
+          }),
         },
       ]}
       lastButtonText=""

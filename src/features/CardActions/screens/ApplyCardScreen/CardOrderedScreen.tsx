@@ -43,7 +43,9 @@ export default function CardOrderedScreen({ cardId }: CardOrderedScreenProps) {
         {
           topElement: <ShippingIcon />,
           title: t("CardActions.ApplyCardScreen.CardOrderedScreen.title"),
-          text: t("CardActions.ApplyCardScreen.CardOrderedScreen.paragraph"),
+          text: t("CardActions.ApplyCardScreen.CardOrderedScreen.paragraph", {
+            device: Platform.OS === "android" ? t("CardActions.madaPay") : t("CardActions.appleWallet"),
+          }),
         },
       ]}
       hasBackButton={false}

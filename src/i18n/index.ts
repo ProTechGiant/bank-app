@@ -610,6 +610,8 @@ export const resources = {
         comingSoon: "On the way",
         madaPayDescription:
           "Download <1>mada Pay</1> from the Google Play Store to pay with your phone instead of a card.",
+        appleWallet: "Apple Wallet",
+        madaPay: "mada Pay",
         QuickMenu: {
           freezeCard: "Freeze card",
           defrost: "Defrost",
@@ -675,7 +677,7 @@ export const resources = {
           CardOrderedScreen: {
             title: "Your new card’s coming soon",
             paragraph:
-              "It’ll be with you in a few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using Apple Wallet.",
+              "It’ll be with you in a few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using {{device}}.",
             finishButton: "Finish",
           },
         },
@@ -887,7 +889,7 @@ export const resources = {
           ReportCardSuccessScreen: {
             title: "We’ve cancelled your card",
             description:
-              "It’ll be with you in the next few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using Apple Wallet.",
+              "It’ll be with you in the next few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using {{device}}.",
             okButton: "OK",
           },
         },
