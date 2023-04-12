@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm, useFormState } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { I18nManager, KeyboardAvoidingView, Platform, Pressable, View, ViewStyle } from "react-native";
@@ -24,6 +24,7 @@ export default function InternalTransferScreen() {
   // const account = useAccount();
   const navigation = useNavigation();
   const reasons = useTransferReasons();
+  // TODO: use currentBalance from useAccount once the api is working again
   // const currentBalance = account.data?.currentAccountBalance;
   const currentBalance = 40;
 
@@ -52,7 +53,9 @@ export default function InternalTransferScreen() {
     },
   });
 
-  const isDisabled = !isDirty || !isValid;
+  const [isReasonSelected, setIsReasonSelected] = useState(false);
+
+  const isDisabled = !isDirty || !isValid || !isReasonSelected;
 
   const handleBack = () => {
     navigation.goBack();
@@ -91,13 +94,14 @@ export default function InternalTransferScreen() {
   }));
 
   const buttonDisableStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["primaryBase-30"],
+    backgroundColor: theme.palette["neutralBase-40"],
   }));
 
   const buttonTextStyle = useThemeStyles<ViewStyle>(theme => ({
     marginRight: theme.spacing["8p"],
   }));
 
+  const iconColorDisable = useThemeStyles(theme => theme.palette["neutralBase-20"], []);
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase-50"], []);
 
   return (
@@ -118,7 +122,12 @@ export default function InternalTransferScreen() {
             balance={currentBalance}
             onAddFund={handleOnAddFunds}
           />
-          <PersonalReasons reasons={reasons?.TransferReason ?? []} control={control} name="TransferReason" />
+          <PersonalReasons
+            reasons={reasons?.TransferReason ?? []}
+            control={control}
+            name="TransferReason"
+            updateReasonState={setIsReasonSelected}
+          />
           <Stack align="flex-end" direction="vertical" justify="space-between" flex={1}>
             <View />
             <View style={buttonContainer}>
@@ -126,11 +135,15 @@ export default function InternalTransferScreen() {
                 style={[buttonStyle, isDisabled && buttonDisableStyle]}
                 disabled={isDisabled}
                 onPress={handleOnNextPress}>
-                <Typography.Text color="neutralBase-50" weight="semiBold" size="body" style={buttonTextStyle}>
+                <Typography.Text
+                  color={isDisabled ? "neutralBase-20" : "neutralBase-50"}
+                  weight="semiBold"
+                  size="body"
+                  style={buttonTextStyle}>
                   {t("InternalTransfers.InternalTransferScreen.next")}
                 </Typography.Text>
                 <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-                  <ArrowForwardIcon color={iconColor} />
+                  <ArrowForwardIcon color={isDisabled ? iconColorDisable : iconColor} />
                 </View>
               </Pressable>
             </View>

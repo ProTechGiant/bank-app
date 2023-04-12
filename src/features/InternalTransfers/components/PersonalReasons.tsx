@@ -1,5 +1,5 @@
 import { Picker } from "@react-native-picker/picker";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
@@ -16,9 +16,15 @@ interface PersonalReasonsProps<T extends FieldValues> {
   reasons: TransferReason[];
   control: Control<T>;
   name: Path<T>;
+  updateReasonState: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function PersonalReasons<T extends FieldValues>({ reasons, control, name }: PersonalReasonsProps<T>) {
+export default function PersonalReasons<T extends FieldValues>({
+  reasons,
+  control,
+  name,
+  updateReasonState,
+}: PersonalReasonsProps<T>) {
   const { t } = useTranslation();
   const { field } = useController({ control, name });
   const [isVisible, setIsVisible] = useState(false);
@@ -36,6 +42,7 @@ export default function PersonalReasons<T extends FieldValues>({ reasons, contro
 
   const handleOnConfirm = () => {
     setIsVisible(false);
+    updateReasonState(true);
     setText(reasons[currentIndex].Description);
     field.onChange({ Description: reasons[currentIndex].Description, Code: selectedValue });
   };
@@ -82,7 +89,11 @@ export default function PersonalReasons<T extends FieldValues>({ reasons, contro
           <AngleDownIcon color={iconColor} />
         </Pressable>
       </View>
-      <Modal onClose={handleOnClose} headerText="Select category" visible={isVisible} style={modalStyle}>
+      <Modal
+        onClose={handleOnClose}
+        headerText={t("InternalTransfers.InternalTransferScreen.reason")}
+        visible={isVisible}
+        style={modalStyle}>
         <View style={styles.pickerContainer}>
           <Picker
             selectedValue={selectedValue}
@@ -93,7 +104,7 @@ export default function PersonalReasons<T extends FieldValues>({ reasons, contro
             })}
           </Picker>
         </View>
-        <Button onPress={handleOnConfirm}>{t("InternalTransfers.InternalTransferScreen.ok")}</Button>
+        <Button onPress={handleOnConfirm}>{t("InternalTransfers.InternalTransferScreen.confirm")}</Button>
       </Modal>
     </View>
   );
