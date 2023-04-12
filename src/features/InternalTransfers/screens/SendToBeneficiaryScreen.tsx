@@ -53,9 +53,12 @@ export default function SendToBeneficiaryScreen() {
     setSearchQuery(query);
     const searchResults = beneficiaries.filter(beneficiary => {
       const lowerCaseQuery = query.toLowerCase();
+      const phoneNumber = beneficiary.PhoneNumber !== undefined ? beneficiary.PhoneNumber : "";
+      const IBAN = beneficiary.PhoneNumber !== undefined ? beneficiary.PhoneNumber : "";
       return (
         beneficiary.Name.toLowerCase().includes(lowerCaseQuery) ||
-        beneficiary.PhoneNumber.toLowerCase().includes(lowerCaseQuery) ||
+        phoneNumber.toLowerCase().includes(lowerCaseQuery) ||
+        IBAN.toLowerCase().includes(lowerCaseQuery) ||
         beneficiary.BankAccountNumber.toLowerCase().includes(lowerCaseQuery)
       );
     });
