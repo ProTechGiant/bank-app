@@ -8,6 +8,11 @@ export const alphaNumericRegExp = /^[a-zA-Z0-9]*$/;
 
 export const alphaNumericSpecialCharsRegExp = /^[a-zA-Z0-9-’/`~!#*$@_%+=.,^&(){}[\]|;:”<>?\\ ]+$/;
 
+export const formatIban = (input: string) => {
+  const textArray = input.match(/.{1,4}/g);
+  return textArray?.join(" ") || "";
+};
+
 export const ibanRegExp = /^[A-Za-z]{2}\d+$/;
 
 export const numericRegExp = /^[0-9]+$/;

@@ -1029,7 +1029,7 @@ export const resources = {
               chooseDifferentBeneficiaryButton: "Choose different beneficiary",
               cancelButton: "Cancel",
             },
-            accountNumberNotRecongisedModal: {
+            accountNumberNotRecognisedModal: {
               title: "Account number not recognised",
               message: "That number isn't used for a Croatia account. Please check it.",
             },
@@ -1049,7 +1049,7 @@ export const resources = {
               chooseDifferentBeneficiaryButton: "Choose different beneficiary",
               cancelButton: "Cancel",
             },
-            ibanNotRecongisedModal: {
+            ibanNotRecognisedModal: {
               title: "IBAN not recognised",
               message: "That IBAN isn't used for a Croatia account. Please check it.",
             },
@@ -1602,7 +1602,7 @@ export const resources = {
             chooseDifferentBeneficiaryButton: "Choose different beneficiary",
             cancelButton: "Cancel",
           },
-          accountNumberNotRecongisedModal: {
+          accountNumberNotRecognisedModal: {
             title: "Account number not recognised",
             message: "That number isn't used for a Croatia account. Please check it.",
           },
@@ -1622,7 +1622,7 @@ export const resources = {
             chooseDifferentBeneficiaryButton: "Choose different beneficiary",
             cancelButton: "Cancel",
           },
-          ibanNotRecongisedModal: {
+          ibanNotRecognisedModal: {
             title: "IBAN not recognised",
             message: "That IBAN isn't used for a Croatia account. Please check it.",
           },

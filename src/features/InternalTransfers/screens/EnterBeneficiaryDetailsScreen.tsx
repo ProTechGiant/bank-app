@@ -21,13 +21,16 @@ export default function EnterBeneficiaryDetailsScreen() {
   const options = [
     {
       title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.mobile"),
-      form: <EnterBeneficiaryByMobileForm />,
+      form: <EnterBeneficiaryByMobileForm selectionType="mobileNo" />,
     },
     {
       title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.accountNumber"),
-      form: <EnterBeneficiaryByAccountNumberForm />,
+      form: <EnterBeneficiaryByAccountNumberForm selectionType="accountId" />,
     },
-    { title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.iban"), form: <EnterBeneficiaryByIBANForm /> },
+    {
+      title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.iban"),
+      form: <EnterBeneficiaryByIBANForm selectionType="IBAN" />,
+    },
   ];
 
   const [activePillIndex, setActivePillIndex] = useState(0);

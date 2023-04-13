@@ -97,7 +97,7 @@ export default function MaskedTextInput<T extends FieldValues>({
       fontSize: theme.typography.text.sizes.callout,
       fontWeight: theme.typography.text.weights.regular,
       padding: 0,
-      backgroundColor: isError ? theme.palette["errorBase-40"] : theme.palette["neutralBase-50"],
+      backgroundColor: isError ? theme.palette["errorBase-30"] : theme.palette["neutralBase-50"],
       flexGrow: 0,
     }),
     [isError]

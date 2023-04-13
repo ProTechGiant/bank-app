@@ -2,6 +2,7 @@ import {
   alphaNumericRegExp,
   alphaNumericSpaceRegExp,
   alphaNumericSpecialCharsRegExp,
+  formatIban,
   getInitials,
   ibanRegExp,
   nationalIdRegEx,
@@ -44,6 +45,15 @@ describe("alphaNumericSpecialCharsRegExp", () => {
   it("Invalid string", () => {
     const string = "@£($)!";
     expect(string).not.toMatch(alphaNumericSpecialCharsRegExp);
+  });
+});
+
+describe("formatIban", () => {
+  it("add space every 4 characters", () => {
+    const formattedIban = formatIban("SA1122223333444455556666");
+    const expected = "SA11 2222 3333 4444 5555 6666";
+
+    expect(formattedIban).toBe(expected);
   });
 });
 

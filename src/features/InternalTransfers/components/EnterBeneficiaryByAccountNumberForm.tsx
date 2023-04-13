@@ -2,58 +2,93 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import * as Yup from "yup";
 
+import ApiError from "@/api/ApiError";
 import Button from "@/components/Button";
 import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import NotificationModal from "@/components/NotificationModal";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
+import { useAddBeneficiary } from "../hooks/query-hooks";
+import { AddBeneficiary, AddBeneficiarySelectionType, EnterBeneficiaryFormProps } from "../types";
+
 interface EnterBeneficiaryByAccountNumberInput {
-  AccountNumber: string;
+  SelectionType: AddBeneficiarySelectionType;
+  SelectionValue: string;
 }
 
-export default function EnterBeneficiaryByAccountNumberForm() {
+export default function EnterBeneficiaryByAccountNumberForm({ selectionType }: EnterBeneficiaryFormProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const addBeneficiaryAsync = useAddBeneficiary();
 
   const [isAccountNumberInUseModalVisible, setIsAccountNumberInUseModalVisible] = useState(false);
+  const [isAccountNumberNotRecognisedModalVisible, setIsAccountNumberNotRecognisedModalVisible] = useState(false);
+  const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
 
   const validationSchema = useMemo(
     () =>
       Yup.object({
-        AccountNumber: Yup.string()
+        SelectionValue: Yup.string()
           .required(
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.required")
           )
           .min(
-            12,
+            9,
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.invalid")
           ),
       }),
     [t]
   );
 
-  const { control, handleSubmit } = useForm<EnterBeneficiaryByAccountNumberInput>({
+  const { control, setValue, handleSubmit } = useForm<EnterBeneficiaryByAccountNumberInput>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      AccountNumber: "",
+      SelectionType: selectionType,
+      SelectionValue: "",
     },
   });
 
-  const handleOnSubmit = () => {
-    navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen");
+  const handleOnSubmit = async (values: AddBeneficiary) => {
+    try {
+      const response = await addBeneficiaryAsync.mutateAsync(values);
+      navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen", {
+        name: response.Name,
+        selectionType: selectionType,
+        selectionValue: response.BankAccountNumber || "",
+      });
+    } catch (error) {
+      if (error instanceof ApiError && error.errorContent.Message === "Account does not exist") {
+        setIsAccountNumberNotRecognisedModalVisible(true);
+      } else if (error instanceof ApiError && error.errorContent.Message === "ACCOUNT_ID beneficiary already exists") {
+        setIsAccountNumberInUseModalVisible(true);
+      } else {
+        setIsGenericErrorModalVisible(true);
+      }
+      warn("Add Beneficiary", "Could not add beneficiary: ", JSON.stringify(error));
+    }
   };
 
   const handleOnDifferentBeneficiaryPress = () => {
-    Alert.alert("Choose different beneficiary is pressed"); // TODO
+    setValue("SelectionValue", "");
+    setIsAccountNumberInUseModalVisible(false);
   };
 
   const handleOnCancelDifferentBeneficiaryPress = () => {
     setIsAccountNumberInUseModalVisible(false);
+  };
+
+  const handleOnAccountNumberNotRecognisedModalClose = () => {
+    setIsAccountNumberNotRecognisedModalVisible(false);
+  };
+
+  const handleOnGenericErrorClose = () => {
+    setIsGenericErrorModalVisible(false);
   };
 
   return (
@@ -62,11 +97,11 @@ export default function EnterBeneficiaryByAccountNumberForm() {
         <MaskedTextInput
           control={control}
           keyboardType="number-pad"
-          name="AccountNumber"
+          name="SelectionValue"
           placeholder={t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.placeholder")}
-          maxLength={12}
+          maxLength={9}
           showCharacterCount
-          mask="#### #### ####"
+          mask="## ## ## ## #"
         />
       </View>
       <View style={styles.buttonContainer}>
@@ -95,6 +130,24 @@ export default function EnterBeneficiaryByAccountNumberForm() {
         message={t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumberInUseModal.message")}
         isVisible={isAccountNumberInUseModalVisible}
         variant="error"
+      />
+      <NotificationModal
+        title={t(
+          "InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumberNotRecognisedModal.title"
+        )}
+        message={t(
+          "InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumberNotRecognisedModal.message"
+        )}
+        isVisible={isAccountNumberNotRecognisedModalVisible}
+        variant="error"
+        onClose={() => handleOnAccountNumberNotRecognisedModalClose()}
+      />
+      <NotificationModal
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={isGenericErrorModalVisible}
+        variant="error"
+        onClose={() => handleOnGenericErrorClose()}
       />
     </>
   );

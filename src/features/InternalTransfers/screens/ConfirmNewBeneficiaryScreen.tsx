@@ -1,4 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { parsePhoneNumber } from "libphonenumber-js";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
@@ -17,6 +19,9 @@ import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { formatIban } from "@/utils";
+
+import { InternalTransfersStackParams } from "../InternalTransfersStack";
 
 interface ConfirmBeneficiaryDeclarationForm {
   confirmBeneficiaryDeclaration: boolean;
@@ -29,6 +34,8 @@ const schema = yup.object({
 export default function ConfirmNewBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const route = useRoute<RouteProp<InternalTransfersStackParams, "InternalTransfers.ConfirmNewBeneficiaryScreen">>();
 
   const { control, handleSubmit } = useForm<ConfirmBeneficiaryDeclarationForm>({
     mode: "onBlur",
@@ -43,7 +50,7 @@ export default function ConfirmNewBeneficiaryScreen() {
   };
 
   const handleOnSubmit = () => {
-    // TODO: trigger OTP process
+    navigation.navigate("InternalTransfers.ReviewTransferScreen");
   };
 
   const checkBoxStackStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -84,27 +91,31 @@ export default function ConfirmNewBeneficiaryScreen() {
               caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.name")}
               label="Last First"
             />
-            <TableListCard
-              isGrouped
-              icon={<BankAccountIcon color={iconColor} />}
-              iconBackground="neutralBase-40"
-              caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.accountNumber")}
-              label="1111 2222 333 4444"
-            />
-            <TableListCard // TODO: the last two list items will be rendered conditionally once BE sync is done
-              isGrouped
-              icon={<PhoneFilledIcon color={iconColor} />}
-              iconBackground="neutralBase-40"
-              caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
-              label="+966 111 222 333"
-            />
-            <TableListCard
-              isGrouped
-              icon={<NumbersIcon color={iconColor} />}
-              iconBackground="neutralBase-40"
-              caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.iban")}
-              label="SA03 8000 0000 6080 1016 8463"
-            />
+            {route.params.selectionType === "accountId" ? (
+              <TableListCard
+                isGrouped
+                icon={<BankAccountIcon color={iconColor} />}
+                iconBackground="neutralBase-40"
+                caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.accountNumber")}
+                label={route.params.selectionValue}
+              />
+            ) : route.params.selectionType === "mobileNo" ? (
+              <TableListCard
+                isGrouped
+                icon={<PhoneFilledIcon color={iconColor} />}
+                iconBackground="neutralBase-40"
+                caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
+                label={parsePhoneNumber(COUNTRY_CODE + route.params.selectionValue).format("INTERNATIONAL")}
+              />
+            ) : (
+              <TableListCard
+                isGrouped
+                icon={<NumbersIcon color={iconColor} />}
+                iconBackground="neutralBase-40"
+                caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.iban")}
+                label={formatIban(route.params.selectionValue)}
+              />
+            )}
           </TableListCardGroup>
           <InlineBanner
             icon={<ErrorBlackIcon />}
@@ -151,3 +162,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 });
+
+const COUNTRY_CODE = "+966";

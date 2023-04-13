@@ -55,7 +55,8 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnOpenInternalTransfers = () => {
+  const handleOnOpenInternalTransfers = (values: TemporaryUserId) => {
+    auth.authenticate(values.UserId);
     navigation.navigate("InternalTransfers.InternalTransfersStack", {
       screen: "InternalTransfers.InternalTransferScreen",
     });
@@ -113,7 +114,7 @@ export default function TemporaryLandingScreen() {
           <Button onPress={handleOnHomepage}>Homepage</Button>
         </View>
         <View style={{ margin: 20 }}>
-          <Button onPress={handleOnOpenInternalTransfers}>Internal Transfers</Button>
+          <Button onPress={handleSubmit(handleOnOpenInternalTransfers)}>Internal Transfers</Button>
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleSubmit(handleOnOpenOnboarding)}>Onboarding</Button>

@@ -16,3 +16,14 @@ export interface BeneficiaryType {
   Active: boolean;
   IVRValidated: boolean;
 }
+
+export type AddBeneficiarySelectionType = "mobileNo" | "accountId" | "IBAN";
+
+export interface AddBeneficiary {
+  SelectionType: AddBeneficiarySelectionType;
+  SelectionValue: string;
+}
+
+export interface EnterBeneficiaryFormProps {
+  selectionType: AddBeneficiarySelectionType;
+}

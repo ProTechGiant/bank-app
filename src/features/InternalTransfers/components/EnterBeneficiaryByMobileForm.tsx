@@ -2,30 +2,38 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import * as Yup from "yup";
 
+import ApiError from "@/api/ApiError";
 import Button from "@/components/Button";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import NotificationModal from "@/components/NotificationModal";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { saudiPhoneRegExp } from "@/utils";
 
+import { useAddBeneficiary } from "../hooks/query-hooks";
+import { AddBeneficiary, AddBeneficiarySelectionType, EnterBeneficiaryFormProps } from "../types";
+
 interface EnterBeneficiaryByMobileInput {
-  MobileNumber: string;
+  SelectionType: AddBeneficiarySelectionType;
+  SelectionValue: string;
 }
 
-export default function EnterBeneficiaryByMobileForm() {
+export default function EnterBeneficiaryByMobileForm({ selectionType }: EnterBeneficiaryFormProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const addBeneficiaryAsync = useAddBeneficiary();
 
   const [isMobileInUseModalVisible, setIsMobileInUseModalVisible] = useState(false);
+  const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
 
   const validationSchema = useMemo(
     () =>
       Yup.object({
-        MobileNumber: Yup.string()
+        SelectionValue: Yup.string()
           .required(
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.validation.required")
           )
@@ -37,24 +45,47 @@ export default function EnterBeneficiaryByMobileForm() {
     [t]
   );
 
-  const { control, handleSubmit } = useForm<EnterBeneficiaryByMobileInput>({
+  const { control, setValue, handleSubmit } = useForm<EnterBeneficiaryByMobileInput>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      MobileNumber: "",
+      SelectionType: selectionType,
+      SelectionValue: "",
     },
   });
 
-  const handleOnSubmit = () => {
-    navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen");
+  const handleOnSubmit = async (values: AddBeneficiary) => {
+    try {
+      const response = await addBeneficiaryAsync.mutateAsync({
+        SelectionType: values.SelectionType,
+        SelectionValue: values.SelectionValue.substring(4, values.SelectionValue.length), // remove +966 otherwise BE returns error
+      });
+      navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen", {
+        name: response.Name,
+        selectionType: selectionType,
+        selectionValue: response.PhoneNumber || "",
+      });
+    } catch (error) {
+      if (error instanceof ApiError && error.errorContent.Message === "MOBILE_NO beneficiary already exists") {
+        setIsMobileInUseModalVisible(true);
+      } else {
+        setIsGenericErrorModalVisible(true);
+      }
+      warn("Add Beneficiary", "Could not add beneficiary: ", JSON.stringify(error));
+    }
   };
 
   const handleOnDifferentBeneficiaryPress = () => {
-    Alert.alert("Choose different beneficiary is pressed"); // TODO
+    setValue("SelectionValue", "");
+    setIsMobileInUseModalVisible(false);
   };
 
   const handleOnCancelDifferentBeneficiaryPress = () => {
     setIsMobileInUseModalVisible(false);
+  };
+
+  const handleOnGenericErrorClose = () => {
+    setIsGenericErrorModalVisible(false);
   };
 
   return (
@@ -62,7 +93,7 @@ export default function EnterBeneficiaryByMobileForm() {
       <View style={styles.container}>
         <PhoneNumberInput
           control={control}
-          name="MobileNumber"
+          name="SelectionValue"
           placeholder={t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.placeholder")}
           maxLength={9}
           showCharacterCount
@@ -92,6 +123,13 @@ export default function EnterBeneficiaryByMobileForm() {
         message={t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileInUseModal.message")}
         isVisible={isMobileInUseModalVisible}
         variant="error"
+      />
+      <NotificationModal
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={isGenericErrorModalVisible}
+        variant="error"
+        onClose={() => handleOnGenericErrorClose()}
       />
     </>
   );

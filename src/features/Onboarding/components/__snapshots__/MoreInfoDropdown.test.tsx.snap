@@ -133,7 +133,7 @@ exports[`features/Onboarding/components/MoreInfoDropdown renders with content 1`
             },
             {
               "color": "#002233",
-              "fontSize": 13,
+              "fontSize": 14,
               "fontWeight": "600",
               "lineHeight": 18,
               "textAlign": "left",

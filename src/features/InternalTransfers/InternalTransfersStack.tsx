@@ -10,12 +10,17 @@ import {
   SendToBeneficiaryScreen,
   TransactionDetailsScreen,
 } from "./screens";
+import { AddBeneficiarySelectionType } from "./types";
 
 export type InternalTransfersStackParams = {
   "InternalTransfers.SendToBeneficiaryScreen": undefined;
   "InternalTransfers.ReviewTransferScreen": undefined;
   "InternalTransfers.EnterBeneficiaryDetailsScreen": undefined;
-  "InternalTransfers.ConfirmNewBeneficiaryScreen": undefined;
+  "InternalTransfers.ConfirmNewBeneficiaryScreen": {
+    name: string;
+    selectionType: AddBeneficiarySelectionType;
+    selectionValue: string;
+  };
   "InternalTransfers.InternalTransferScreen": undefined;
   "InternalTransfers.BeneficiaryDeclarationScreen": undefined;
   "InternalTransfers.ConfirmationScreen": undefined;
