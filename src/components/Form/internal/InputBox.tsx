@@ -22,6 +22,7 @@ interface InputBoxProps {
   isTouched: boolean;
   onPress?: () => void;
   icon?: React.ReactElement;
+  center?: boolean;
   hideExtra?: boolean;
 }
 
@@ -40,6 +41,7 @@ export default function InputBox({
   isTouched,
   onPress,
   icon,
+  center = true,
   hideExtra = false,
 }: InputBoxProps) {
   const isError = undefined !== error && isTouched;
@@ -62,7 +64,7 @@ export default function InputBox({
       borderWidth: bordered ? (isFocused || isError ? 2 : 1) : 0,
       flexDirection: "row",
       justifyContent: "space-between",
-      alignItems: "center",
+      alignItems: center ? "center" : "flex-start",
       flexGrow: 1,
       height: multiline === false ? 53 : undefined,
       minHeight: multiline !== false ? 74 : undefined,

@@ -1,0 +1,148 @@
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+
+import { ChevronRightIcon } from "@/assets/icons";
+import Typography from "@/components/Typography";
+import { useThemeStyles } from "@/theme";
+
+import { Note, TransferAccount } from "../types";
+
+interface ReviewTransferDetailProps {
+  handleAddNote: () => void;
+  sender: TransferAccount;
+  receiver: TransferAccount;
+  reason: string;
+  amount: number;
+  note: Note;
+}
+export default function ReviewTransferDetail({
+  handleAddNote,
+  sender,
+  receiver,
+  reason,
+  amount,
+  note,
+}: ReviewTransferDetailProps) {
+  const { t } = useTranslation();
+
+  const isNoteExist = note.attachment.length > 0 || note.content.length > 0;
+
+  const titleStyle = useThemeStyles<TextStyle>(theme => ({
+    paddingBottom: theme.spacing["16p"],
+  }));
+  const verticalSpaceStyle = useThemeStyles<TextStyle>(theme => ({
+    paddingVertical: theme.spacing["16p"],
+  }));
+
+  const addNoteContainer = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-40"],
+    borderRadius: 20,
+    justifyContent: "center",
+    paddingHorizontal: theme.spacing["16p"],
+    paddingVertical: theme.spacing["8p"],
+    marginTop: theme.spacing["16p"],
+    width: 155,
+    height: 37,
+  }));
+
+  const inlineText = useThemeStyles<ViewStyle>(theme => ({
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingVertical: theme.spacing["16p"],
+  }));
+
+  const notesContainer = useThemeStyles<ViewStyle>(theme => ({
+    flexDirection: "row",
+    paddingVertical: theme.spacing["16p"],
+  }));
+
+  const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
+    height: 1,
+    backgroundColor: theme.palette["neutralBase-40"],
+    marginHorizontal: -theme.spacing["20p"],
+  }));
+
+  const chevronRightIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
+
+  return (
+    <View>
+      <Typography.Text color="neutralBase+30" weight="semiBold" size="title1" style={titleStyle}>
+        {t("InternalTransfers.ReviewTransferScreen.title")}
+      </Typography.Text>
+
+      <View style={verticalSpaceStyle}>
+        <Typography.Text weight="medium" size="callout">
+          {t("InternalTransfers.ReviewTransferScreen.from")}
+        </Typography.Text>
+        <Typography.Text color="neutralBase" weight="medium" size="callout">
+          {sender.accountName}
+        </Typography.Text>
+        <Typography.Text color="neutralBase" weight="medium" size="callout">
+          {sender.accountNumber}
+        </Typography.Text>
+      </View>
+      <View style={separatorStyle} />
+      <View style={verticalSpaceStyle}>
+        <Typography.Text weight="medium" size="callout">
+          {t("InternalTransfers.ReviewTransferScreen.to")}
+        </Typography.Text>
+        <Typography.Text color="neutralBase" weight="medium" size="callout">
+          {receiver.accountName}
+        </Typography.Text>
+        <Typography.Text color="neutralBase" weight="medium" size="callout">
+          {receiver.accountNumber}
+        </Typography.Text>
+      </View>
+      <View style={separatorStyle} />
+      <View style={inlineText}>
+        <Typography.Text weight="medium" size="callout">
+          {t("InternalTransfers.ReviewTransferScreen.reason")}
+        </Typography.Text>
+        <Typography.Text color="neutralBase" weight="medium" size="callout">
+          {reason}
+        </Typography.Text>
+      </View>
+      <View style={inlineText}>
+        <Typography.Text weight="semiBold" size="body">
+          {t("InternalTransfers.ReviewTransferScreen.total")}
+        </Typography.Text>
+        <Typography.Text weight="semiBold" size="body">
+          {amount}
+        </Typography.Text>
+      </View>
+      <View style={separatorStyle} />
+      <View style={notesContainer}>
+        <Typography.Text weight="medium" size="callout">
+          {t("InternalTransfers.ReviewTransferScreen.notes") + " "}
+        </Typography.Text>
+        <Typography.Text color="neutralBase" weight="medium" size="callout">
+          {t("InternalTransfers.ReviewTransferScreen.optional")}
+        </Typography.Text>
+      </View>
+      {!isNoteExist ? (
+        <Pressable style={addNoteContainer} onPress={handleAddNote}>
+          <Typography.Text weight="medium" size="callout">
+            {t("InternalTransfers.ReviewTransferScreen.addButton")}
+          </Typography.Text>
+        </Pressable>
+      ) : (
+        <Pressable style={styles.noteContainer} onPress={handleAddNote}>
+          <Typography.Text color="neutralBase" weight="medium" size="callout">
+            {`"${note.content}"`}
+          </Typography.Text>
+          <ChevronRightIcon color={chevronRightIconColor} />
+        </Pressable>
+      )}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  noteContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+});

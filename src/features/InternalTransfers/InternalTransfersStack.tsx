@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
+  AddNoteScreen,
   BeneficiaryDeclarationScreen,
   ConfirmationScreen,
   ConfirmNewBeneficiaryScreen,
@@ -8,23 +9,25 @@ import {
   InternalTransferScreen,
   ReviewTransferScreen,
   SendToBeneficiaryScreen,
-  TransactionDetailsScreen,
+  TransferSuccessfulScreen,
 } from "./screens";
+import { AddNoteParams } from "./types";
 import { AddBeneficiarySelectionType } from "./types";
 
 export type InternalTransfersStackParams = {
   "InternalTransfers.SendToBeneficiaryScreen": undefined;
-  "InternalTransfers.ReviewTransferScreen": undefined;
   "InternalTransfers.EnterBeneficiaryDetailsScreen": undefined;
+  "InternalTransfers.TransferSuccessfulScreen": undefined;
   "InternalTransfers.ConfirmNewBeneficiaryScreen": {
     name: string;
     selectionType: AddBeneficiarySelectionType;
     selectionValue: string;
   };
   "InternalTransfers.InternalTransferScreen": undefined;
+  "InternalTransfers.ReviewTransferScreen": undefined;
+  "InternalTransfers.AddNoteScreen": AddNoteParams;
   "InternalTransfers.BeneficiaryDeclarationScreen": undefined;
   "InternalTransfers.ConfirmationScreen": undefined;
-  "InternalTransfers.TransactionDetailsScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
@@ -35,7 +38,9 @@ export default function InternalTransfersStack() {
       <Stack.Screen component={InternalTransferScreen} name="InternalTransfers.InternalTransferScreen" />
       <Stack.Screen component={SendToBeneficiaryScreen} name="InternalTransfers.SendToBeneficiaryScreen" />
       <Stack.Screen component={ReviewTransferScreen} name="InternalTransfers.ReviewTransferScreen" />
+      <Stack.Screen component={AddNoteScreen} name="InternalTransfers.AddNoteScreen" />
       <Stack.Screen component={EnterBeneficiaryDetailsScreen} name="InternalTransfers.EnterBeneficiaryDetailsScreen" />
+      <Stack.Screen component={TransferSuccessfulScreen} name="InternalTransfers.TransferSuccessfulScreen" />
       <Stack.Screen component={ConfirmNewBeneficiaryScreen} name="InternalTransfers.ConfirmNewBeneficiaryScreen" />
       <Stack.Screen
         component={BeneficiaryDeclarationScreen}
@@ -43,7 +48,6 @@ export default function InternalTransfersStack() {
         options={{ presentation: "modal" }}
       />
       <Stack.Screen component={ConfirmationScreen} name="InternalTransfers.ConfirmationScreen" />
-      <Stack.Screen component={TransactionDetailsScreen} name="InternalTransfers.TransactionDetailsScreen" />
     </Stack.Navigator>
   );
 }

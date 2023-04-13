@@ -961,6 +961,32 @@ export const resources = {
         },
       },
       InternalTransfers: {
+        ReviewTransferScreen: {
+          title: "Review transfer",
+          from: "From",
+          to: "To",
+          reason: "Reason",
+          total: "Total",
+          notes: "Notes",
+          optional: "(Optional)",
+          addButton: "Add note and gif",
+          sendMoney: "Send money now",
+          cancel: "Cancel",
+          currency: "SAR",
+          notification: {
+            title: "Cancel transfer?",
+            message: "This will cancel the transfer and delete the beneficiary's details.",
+            cancel: "Cancel transfer",
+            continue: "Continue",
+          },
+        },
+        AddNoteScreen: {
+          title: "Add Note",
+          placeholder: "Add your notes here",
+          done: "Done",
+          required: "Only letters and numbers are allowed",
+          noSpecialCharacters: 'All special characters are not allowed except for this (")',
+        },
         SendToBeneficiaryScreen: {
           title: "Send to",
           addNewBeneficiaryLink: "Send to new beneficiary",

@@ -11,6 +11,7 @@ export { default as BankAccountIcon } from "./bank-account";
 export { default as BellIcon } from "./bell";
 export { CalendarAltIcon } from "./calendar-alt";
 export { default as CancelCircleBorderIcon } from "./cancel-circle";
+export { default as CancelCircleFilledIcon } from "./cancel-circle-filled";
 export { CardIcon } from "./card";
 export { CardSettingsIcon } from "./card-settings";
 export { default as ChatIcon } from "./chat";

@@ -17,8 +17,28 @@ export interface BeneficiaryType {
   IVRValidated: boolean;
 }
 
-export type AddBeneficiarySelectionType = "mobileNo" | "accountId" | "IBAN";
+export interface TransferAccount {
+  accountName?: string;
+  accountNumber?: string;
+}
 
+export interface Note {
+  content: string;
+  attachment: string;
+}
+
+export interface ReviewScreenParams {
+  amount: number;
+  receiver: TransferAccount;
+  reason: TransferReason;
+}
+
+export interface AddNoteParams {
+  updateNote: (note: Note) => void;
+  note: Note;
+}
+
+export type AddBeneficiarySelectionType = "mobileNo" | "accountId" | "IBAN";
 export interface AddBeneficiary {
   SelectionType: AddBeneficiarySelectionType;
   SelectionValue: string;
