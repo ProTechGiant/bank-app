@@ -987,6 +987,19 @@ export const resources = {
           required: "Only letters and numbers are allowed",
           noSpecialCharacters: 'All special characters are not allowed except for this (")',
         },
+        PaymentHub: {
+          title: "Money in & out",
+          options: {
+            localTransfer: {
+              title: "Local transfer",
+              helperText: "Transfer money to others",
+            },
+            internalTransfer: {
+              title: "Internal transfer",
+              helperText: "Transfer money within Croatia",
+            },
+          },
+        },
         SendToBeneficiaryScreen: {
           title: "Send to",
           addNewBeneficiaryLink: "Send to new beneficiary",
@@ -1560,13 +1573,52 @@ export const resources = {
       },
     },
     InternalTransfers: {
+      ReviewTransferScreen: {
+        title: "Review transfer",
+        from: "From",
+        to: "To",
+        reason: "Reason",
+        total: "Total",
+        notes: "Notes",
+        optional: "(Optional)",
+        addButton: "Add note and gif",
+        sendMoney: "Send money now",
+        cancel: "Cancel",
+        currency: "SAR",
+        notification: {
+          title: "Cancel transfer?",
+          message: "This will cancel the transfer and delete the beneficiary's details.",
+          cancel: "Cancel transfer",
+          continue: "Continue",
+        },
+      },
+      AddNoteScreen: {
+        title: "Add Note",
+        placeholder: "Add your notes here",
+        done: "Done",
+        required: "Only letters and numbers are allowed",
+        noSpecialCharacters: 'All special characters are not allowed except for this (")',
+      },
+      PaymentHub: {
+        title: "Money in & out",
+        options: {
+          localTransfer: {
+            title: "Local transfer",
+            helperText: "Transfer money to others",
+          },
+          internalTransfer: {
+            title: "Internal transfer",
+            helperText: "Transfer money within Croatia",
+          },
+        },
+      },
       SendToBeneficiaryScreen: {
         title: "Send to",
         addNewBeneficiaryLink: "Send to new beneficiary",
         confirmedBeneficiariesListTitle: "Confirmed",
         unconfirmedBeneficiariesListTitle: "Unconfirmed",
         search: {
-          placeholder: "Name, account or mobile nr",
+          placeholder: "Name, account or phone",
           emptyState: {
             title: "No search results found",
             message:
@@ -1657,15 +1709,54 @@ export const resources = {
           title: "We're sorry – we're having problems checking that",
           message: "Please try again later.",
         },
-        InternalTransferScreen: {
-          title: "Send money",
-          currency: " SAR",
-          balance: "Balance: ",
-          errorMessage: "You have insufficient funds.",
-          addFunds: "Add funds",
-          reason: "Select reason",
-          confirm: "Confirm",
-          next: "Next",
+      },
+      ConfirmNewBeneficiaryScreen: {
+        title: "Confirm beneficiary details",
+        details: {
+          name: "Name",
+          bank: "Bank",
+          mobile: "Mobile",
+          accountNumber: "Account number",
+          iban: "IBAN",
+        },
+        bannerMessage: "You need to confirm this beneficiary's details before you can send any money.",
+        checkBoxMessage: "By checking this box, you agree to our ",
+        termsAndConditions: "Terms and Conditions",
+        confirmButton: "Confirm",
+      },
+      BeneficiaryDeclarationScreen: {
+        title: "Terms and conditions",
+        sections: {
+          sectionOneTitle: "1. General terms",
+          sectionOneContent:
+            "If you wish to activate this feature provided by the Instant Payments System (SARIE) and the rest of the related services, such as sending funds via alias like (mobile number), we inform you that by confirming this feature you are agreeing to share some of your data with SARIE system for the instant payments owned by the Saudi Central Bank (IBAN number, Mobile number, email address, National/Iqama ID number). At any time in the future, you may disable sharing this data via all banking channels such as mobile banking or internet banking.",
+          sectionTwoTitle: "2. Section name",
+          sectionTwoContent:
+            "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
+          sectionThreeTitle: "3. Section name",
+          sectionThreeContent:
+            "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
+        },
+      },
+      InternalTransferScreen: {
+        title: "Send money",
+        currency: " SAR",
+        balance: "Balance: ",
+        errorMessage: "You have insufficient funds.",
+        addFunds: "Add funds",
+        reason: "Select reason",
+        confirm: "Confirm",
+        next: "Next",
+      },
+      ConfirmationScreen: {
+        title: "Your transfer is complete",
+        message:
+          "You'll find the details in your transaction list. Now you won't need to confirm this beneficiary before you make a payment.",
+        transferredTo: "Transferred to",
+        amount: "Amount",
+        buttons: {
+          done: "Done",
+          viewTransaction: "View transaction",
         },
       },
     },

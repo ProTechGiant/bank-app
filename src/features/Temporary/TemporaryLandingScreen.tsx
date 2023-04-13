@@ -58,7 +58,7 @@ export default function TemporaryLandingScreen() {
   const handleOnOpenInternalTransfers = (values: TemporaryUserId) => {
     auth.authenticate(values.UserId);
     navigation.navigate("InternalTransfers.InternalTransfersStack", {
-      screen: "InternalTransfers.InternalTransferScreen",
+      screen: "InternalTransfers.PaymentsHubScreen",
     });
   };
 

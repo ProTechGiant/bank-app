@@ -24,7 +24,7 @@ export const quickActionMocks: QuickAction[] = [
   },
   {
     color: "successBase",
-    icon: "TransferVertical",
+    icon: "TransferVerticalIcon",
     title: "Send money",
     description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
     type: "send-money",
@@ -35,6 +35,13 @@ export const quickActionMocks: QuickAction[] = [
     title: "Send invite",
     description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
     type: "referrals",
+  },
+  {
+    color: "complimentBase",
+    icon: "TransferHorizontalIcon",
+    title: "Internal transfer",
+    description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+    type: "internal-transfer",
   },
 ];
 

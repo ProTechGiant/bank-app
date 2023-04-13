@@ -7,6 +7,7 @@ import {
   ConfirmNewBeneficiaryScreen,
   EnterBeneficiaryDetailsScreen,
   InternalTransferScreen,
+  PaymentsHubScreen,
   ReviewTransferScreen,
   SendToBeneficiaryScreen,
   TransferSuccessfulScreen,
@@ -23,6 +24,7 @@ export type InternalTransfersStackParams = {
     selectionType: AddBeneficiarySelectionType;
     selectionValue: string;
   };
+  "InternalTransfers.PaymentsHubScreen": undefined;
   "InternalTransfers.InternalTransferScreen": undefined;
   "InternalTransfers.ReviewTransferScreen": undefined;
   "InternalTransfers.AddNoteScreen": AddNoteParams;
@@ -35,6 +37,7 @@ export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
 export default function InternalTransfersStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen component={PaymentsHubScreen} name="InternalTransfers.PaymentsHubScreen" />
       <Stack.Screen component={InternalTransferScreen} name="InternalTransfers.InternalTransferScreen" />
       <Stack.Screen component={SendToBeneficiaryScreen} name="InternalTransfers.SendToBeneficiaryScreen" />
       <Stack.Screen component={ReviewTransferScreen} name="InternalTransfers.ReviewTransferScreen" />

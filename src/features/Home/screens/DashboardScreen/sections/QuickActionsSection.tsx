@@ -25,6 +25,10 @@ export default function QuickActionsSection({ onViewAllPress }: QuickActionsSect
             if (element.type === "referrals") navigation.navigate("Referral.HubScreen");
             if (element.type === "balance-add")
               navigation.navigate("AddMoney.AddMoneyStack", { screen: "AddMoney.AddMoneyInfoScreen" });
+            if (element.type === "internal-transfer")
+              navigation.navigate("InternalTransfers.InternalTransfersStack", {
+                screen: "InternalTransfers.InternalTransferScreen",
+              });
           };
 
           return (
