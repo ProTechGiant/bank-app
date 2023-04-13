@@ -13,11 +13,10 @@ import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-
-import ListItem from "../components/ListItem";
 
 interface ConfirmBeneficiaryDeclarationForm {
   confirmBeneficiaryDeclaration: boolean;
@@ -47,12 +46,6 @@ export default function ConfirmNewBeneficiaryScreen() {
     // TODO: trigger OTP process
   };
 
-  const listContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderRadius: theme.radii.small,
-    borderWidth: 1,
-    borderColor: theme.palette["neutralBase-30"],
-  }));
-
   const checkBoxStackStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "flex-end",
     justifyContent: "space-around",
@@ -73,6 +66,8 @@ export default function ConfirmNewBeneficiaryScreen() {
     marginHorizontal: -theme.spacing["20p"],
   }));
 
+  const iconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
+
   return (
     <Page backgroundColor="neutralBase-50">
       <NavHeader withBackButton />
@@ -81,30 +76,36 @@ export default function ConfirmNewBeneficiaryScreen() {
           <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
             {t("InternalTransfers.ConfirmNewBeneficiaryScreen.title")}
           </Typography.Text>
-          <View style={listContainerStyle}>
-            <ListItem
-              title={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.name")}
-              value="Last First"
-              icon={<PersonIcon />}
+          <TableListCardGroup>
+            <TableListCard
+              isGrouped
+              icon={<PersonIcon color={iconColor} />}
+              iconBackground="neutralBase-40"
+              caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.name")}
+              label="Last First"
             />
-            <Divider color="neutralBase-30" />
-            <ListItem
-              title={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.accountNumber")}
-              value="1111 2222 333 4444"
-              icon={<BankAccountIcon />}
+            <TableListCard
+              isGrouped
+              icon={<BankAccountIcon color={iconColor} />}
+              iconBackground="neutralBase-40"
+              caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.accountNumber")}
+              label="1111 2222 333 4444"
             />
-            <Divider color="neutralBase-30" />
-            <ListItem // TODO: the last two list items will be rendered conditionally once BE sync is done
-              title={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
-              value="+966 111 222 333"
-              icon={<PhoneFilledIcon />}
+            <TableListCard // TODO: the last two list items will be rendered conditionally once BE sync is done
+              isGrouped
+              icon={<PhoneFilledIcon color={iconColor} />}
+              iconBackground="neutralBase-40"
+              caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
+              label="+966 111 222 333"
             />
-            <ListItem
-              title={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.iban")}
-              value="SA03 8000 0000 6080 1016 8463"
-              icon={<NumbersIcon />}
+            <TableListCard
+              isGrouped
+              icon={<NumbersIcon color={iconColor} />}
+              iconBackground="neutralBase-40"
+              caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.iban")}
+              label="SA03 8000 0000 6080 1016 8463"
             />
-          </View>
+          </TableListCardGroup>
           <InlineBanner
             icon={<ErrorBlackIcon />}
             text={t("InternalTransfers.ConfirmNewBeneficiaryScreen.bannerMessage")}
