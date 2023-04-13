@@ -14,8 +14,7 @@ import useAccount from "@/hooks/use-account";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import PersonalReasons from "../components/PersonalReasons";
-import TransferAmountInput from "../components/TransferAmountInput";
+import { PersonalReasons, TransferAmountInput } from "../components";
 import { useTransferReasons } from "../hooks/query-hooks";
 import { TransferValue } from "../types";
 
@@ -79,7 +78,7 @@ export default function InternalTransferScreen() {
 
   const buttonContainer = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
-    marginBottom: theme.spacing["20p"],
+    marginBottom: theme.spacing["32p"],
   }));
 
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -108,7 +107,7 @@ export default function InternalTransferScreen() {
     <>
       <Page backgroundColor="neutralBase-60">
         <NavHeader onBackPress={handleBack} />
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
           <View style={container}>
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1" style={titleContainer}>
               {t("InternalTransfers.InternalTransferScreen.title")}

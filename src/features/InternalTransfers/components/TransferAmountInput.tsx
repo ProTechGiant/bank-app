@@ -32,6 +32,14 @@ export default function TransferAmountInput<T extends FieldValues>({
   const textInputRef = useRef<TextInput>(null);
   const [fontSize, setFontSize] = useState<"s" | "m" | "l">("l");
 
+  useEffect(() => {
+    field.value !== undefined && String(field.value)?.length > 10
+      ? setFontSize("s")
+      : field.value !== undefined && String(field.value)?.length > 7
+      ? setFontSize("m")
+      : setFontSize("l");
+  }, [field.value]);
+
   const isError = undefined !== fieldState.error;
   const errorText = isError ? fieldState.error?.message : undefined;
 
@@ -40,14 +48,6 @@ export default function TransferAmountInput<T extends FieldValues>({
     : typeof helperText === "function"
     ? helperText(field.value)
     : helperText;
-
-  useEffect(() => {
-    field.value !== undefined && String(field.value)?.length > 10
-      ? setFontSize("s")
-      : field.value !== undefined && String(field.value)?.length > 7
-      ? setFontSize("m")
-      : setFontSize("l");
-  }, [field.value]);
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["8p"],
