@@ -78,7 +78,7 @@ export default function InternalTransferScreen() {
 
   const buttonContainer = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
-    marginBottom: theme.spacing["32p"],
+    marginBottom: theme.spacing["20p"],
   }));
 
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -107,7 +107,7 @@ export default function InternalTransferScreen() {
     <>
       <Page backgroundColor="neutralBase-60">
         <NavHeader onBackPress={handleBack} />
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
           <View style={container}>
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1" style={titleContainer}>
               {t("InternalTransfers.InternalTransferScreen.title")}
