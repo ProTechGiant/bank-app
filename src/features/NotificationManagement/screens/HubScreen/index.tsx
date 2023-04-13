@@ -76,10 +76,9 @@ export default function HubScreen() {
   }, [appActive]);
 
   useEffect(() => {
-    if (notificationPreferences.isLoading && notificationPreferences.isError) {
+    if (!notificationPreferences.isLoading && notificationPreferences.isError) {
       Alert.alert(t("NotificationManagement.HubScreen.alertGetError"), "", [
         {
-          text: "OK",
           style: "cancel",
           onPress: () => {
             navigation.navigate("Settings.SettingsScreen");
@@ -87,7 +86,7 @@ export default function HubScreen() {
         },
       ]);
     }
-  }, [notificationPreferences.isError, notificationPreferences.isError]);
+  }, [notificationPreferences.isLoading, notificationPreferences.isError]);
 
   const handleOnCategoryPress = (category: Categories) => {
     navigation.navigate("NotificationManagement.CategoryScreen", {
