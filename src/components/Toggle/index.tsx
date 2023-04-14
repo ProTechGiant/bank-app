@@ -1,5 +1,5 @@
 import { I18nManager, Pressable, ViewStyle } from "react-native";
-import Animated, { interpolateColor, useAnimatedStyle } from "react-native-reanimated";
+import Animated, { interpolateColor, useAnimatedStyle, withTiming } from "react-native-reanimated";
 
 import { useThemeStyles } from "@/theme";
 
@@ -21,7 +21,7 @@ export default function Toggle({ onPress, testID, disabled, value }: ToggleProps
     width: BUTTON_SIZE,
     backgroundColor: theme.palette["neutralBase-60"],
     borderWidth: 0.5,
-    borderColor: "#0000000D",
+    borderColor: "#0000000A",
     shadowColor: "#000000",
     shadowOffset: {
       width: 0,
@@ -36,7 +36,7 @@ export default function Toggle({ onPress, testID, disabled, value }: ToggleProps
     borderRadius: BUTTON_SIZE,
     paddingHorizontal: 2,
     paddingVertical: 2,
-    width: 44,
+    width: 48,
   }));
 
   const backgroundAnimatedStyle = useAnimatedStyle(() => ({
@@ -46,13 +46,15 @@ export default function Toggle({ onPress, testID, disabled, value }: ToggleProps
   const buttonAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
       {
-        translateX: value ? (I18nManager.isRTL ? -BUTTON_SIZE : BUTTON_SIZE) : 0,
+        translateX: withTiming(value ? (I18nManager.isRTL ? -BUTTON_SIZE + 4 : BUTTON_SIZE - 4) : 0, {
+          duration: 200,
+        }),
       },
     ],
   }));
 
   return (
-    <Pressable disabled={disabled} onPress={() => onPress()} testID={testID}>
+    <Pressable disabled={disabled} onPress={onPress} testID={testID}>
       <Animated.View style={[containerStyle, backgroundAnimatedStyle]}>
         <Animated.View style={[buttonStyle, buttonAnimatedStyle]} />
       </Animated.View>
@@ -60,4 +62,4 @@ export default function Toggle({ onPress, testID, disabled, value }: ToggleProps
   );
 }
 
-const BUTTON_SIZE = 20;
+const BUTTON_SIZE = 24;
