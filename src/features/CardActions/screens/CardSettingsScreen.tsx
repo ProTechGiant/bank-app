@@ -155,10 +155,8 @@ export default function CardSettingsScreen() {
                   icon={<GlobeIcon />}
                   label={t("CardActions.CardSettingsScreen.internationalPayment.label")}
                   helperText={t("CardActions.CardSettingsScreen.internationalPayment.helperText")}
-                  onPress={() => {
-                    return;
-                  }}
-                  value={false}
+                  onPress={() => handleOnChangeSettings("InternationalPayments")}
+                  value={settings.data.InternationalPayments}
                 />
               </ListSection>
               <View style={separatorStyle} />

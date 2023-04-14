@@ -21,6 +21,7 @@ export interface CardSettingsInput {
   OnlinePayments: boolean;
   AtmWithdrawals: boolean;
   SwipePayments: boolean;
+  InternationalPayments: boolean;
 }
 
 export type CardStatus =
