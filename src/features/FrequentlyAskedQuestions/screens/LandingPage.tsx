@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View, ViewStyle } from "react-native";
 
-import { ReferralIcon, SearchIcon } from "@/assets/icons";
+import { SearchIcon } from "@/assets/icons";
 import TextInput from "@/components/Form/TextInput";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -13,6 +13,7 @@ import { mockFrequentlyAskedQuestions } from "@/mocks/frequentlyAskedQuestionsDa
 import { useThemeStyles } from "@/theme";
 
 import { LoadingError, Section } from "../components";
+import { iconMapping } from "../utils/icon-mapping";
 
 interface Search {
   searchString: string;
@@ -43,16 +44,16 @@ export default function LandingPage() {
   }));
 
   const searchStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["16p"],
+    paddingVertical: theme.spacing["8p"],
   }));
 
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <ScrollView>
         <NavHeader />
         <View style={container}>
-          <Stack direction="vertical" gap="8p" align="stretch">
-            <Typography.Text weight="semiBold" size="title1">
+          <Stack direction="vertical" gap="16p" align="stretch">
+            <Typography.Text weight="medium" size="title1">
               {t("FrequentlyAskedQuestions.LandingPage.title")}
             </Typography.Text>
             <View style={searchStyle}>
@@ -67,7 +68,7 @@ export default function LandingPage() {
               mockFrequentlyAskedQuestions.categories.map((data, i) => {
                 return (
                   <View style={searchStyle} key={data.category_name}>
-                    <Section data={data} icon={<ReferralIcon />} />
+                    <Section data={data} icon={iconMapping[data.category_id]} />
                   </View>
                 );
               })

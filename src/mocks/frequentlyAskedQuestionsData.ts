@@ -407,7 +407,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
       ],
     },
     {
-      category_id: "c_1",
+      category_id: "c_3",
       category_name: "Your money",
       category_description: "Your transactions, Your balance, Adding money, Round-ups and Life goals",
       category_faqs: [
@@ -638,7 +638,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
       ],
     },
     {
-      category_id: "c_1",
+      category_id: "c_4",
       category_name: "Cards",
       category_description: "Getting a new card, Card problems, Card payments, Cash withdrawals, Card security",
       category_faqs: [
@@ -922,7 +922,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
       ],
     },
     {
-      category_id: "c_1",
+      category_id: "c_5",
       category_name: "Payments",
       category_description: "Splitting bills, Utility bills,Disputing a payment, Recurring payments",
       category_faqs: [
@@ -1153,7 +1153,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
       ],
     },
     {
-      category_id: "c_1",
+      category_id: "c_6",
       category_name: "Using Croatia",
       category_description: "Your rewards, Whats Next Content, Invite a friend",
       category_faqs: [

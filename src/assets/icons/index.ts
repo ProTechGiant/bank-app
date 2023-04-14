@@ -53,9 +53,12 @@ export { LockIcon } from "./lock";
 export { default as ManageAccountsIcon } from "./manage-accounts";
 export { MapMarkerIcon } from "./map-marker";
 export { default as MinusIcon } from "./minus";
+export { default as MobileIcon } from "./mobile";
+export { default as MoneyIcon } from "./money";
 export { default as NotificationIcon } from "./notification";
 export { default as NumbersIcon } from "./numbers";
 export { default as PersonIcon } from "./person";
+export { default as PersonFilledIcon } from "./person-filled";
 export { default as PhoneIcon } from "./phone";
 export { default as PhoneFilledIcon } from "./phone-filled";
 export { PlusIcon } from "./plus";
@@ -84,6 +87,7 @@ export { default as TransferHorizontalIcon } from "./transfer-horizontal";
 export { default as TransferVerticalIcon } from "./transfer-vertical";
 export { default as UserClockIcon } from "./user-clock";
 export { UserIcon } from "./user-icon";
+export { WalletIcon } from "./wallet";
 export { WithdrawIcon } from "./withdraw";
 
 export interface IconProps {

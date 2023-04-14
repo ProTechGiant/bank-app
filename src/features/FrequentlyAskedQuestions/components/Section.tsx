@@ -1,3 +1,4 @@
+import { cloneElement } from "react";
 import { Pressable, View } from "react-native";
 import { SvgProps } from "react-native-svg";
 
@@ -15,18 +16,21 @@ interface SectionProps {
 }
 
 export default function Section({ data, icon }: SectionProps) {
-  const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
-
   const navigation = useNavigation();
 
   const handleOnPress = () => {
     navigation.navigate("FrequentlyAskedQuestions.SectionScreen", { data: data?.sections, title: data?.category_name });
   };
 
+  const rightIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
+  const leftIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+
   return (
     <Pressable onPress={handleOnPress}>
       <Stack direction="horizontal" gap="20p">
-        {icon}
+        {cloneElement(icon, {
+          color: leftIconColor,
+        })}
         <Stack direction="vertical" gap="4p" flex={1}>
           <Typography.Text size="callout" weight="medium">
             {data.category_name}
@@ -36,7 +40,7 @@ export default function Section({ data, icon }: SectionProps) {
           </Typography.Text>
         </Stack>
         <View style={{ alignSelf: "center" }}>
-          <ChevronRightIcon color={iconColor} />
+          <ChevronRightIcon color={rightIconColor} />
         </View>
       </Stack>
     </Pressable>
