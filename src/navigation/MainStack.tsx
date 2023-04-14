@@ -3,9 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AddMoneyStack from "@/features/AddMoney/AddMoneyStack";
 import CardActionsStack from "@/features/CardActions/CardActionsStack";
-import DetailedScreen from "@/features/FrequentlyAskedQuestions/screens/DetailedScreen";
-import LandingPage from "@/features/FrequentlyAskedQuestions/screens/LandingPage";
-import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
+import FrequentlyAskedQuestionsStack from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
 import HomeStack from "@/features/Home/HomeStack";
 import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfersStack";
 import NotificationManagementCategoryScreen from "@/features/NotificationManagement/screens/CategoryScreen";
@@ -47,9 +45,10 @@ export default function MainStack({ onReady }: MainStackProps) {
         <Stack.Screen component={SavingsGoalsStack} name="SavingsGoals.SavingsGoalsStack" />
         <Stack.Screen component={OnboardingStack} name="Onboarding.OnboardingStack" />
         <Stack.Screen component={HomeStack} name="Home.HomeStack" />
-        <Stack.Screen component={LandingPage} name="FrequentlyAskedQuestions.LandingPage" />
-        <Stack.Screen component={SectionScreen} name="FrequentlyAskedQuestions.SectionScreen" />
-        <Stack.Screen component={DetailedScreen} name="FrequentlyAskedQuestions.DetailedScreen" />
+        <Stack.Screen
+          component={FrequentlyAskedQuestionsStack}
+          name="FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack"
+        />
         <Stack.Screen component={NotificationManagementHubScreen} name="NotificationManagement.HubScreen" />
         <Stack.Screen component={NotificationManagementCategoryScreen} name="NotificationManagement.CategoryScreen" />
       </Stack.Navigator>

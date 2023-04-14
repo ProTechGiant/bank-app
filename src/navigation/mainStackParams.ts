@@ -1,5 +1,5 @@
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
-import { DetailedFaq, FAQSection } from "@/features/FrequentlyAskedQuestions/types/frequentlyAskedQuestions";
+import { FrequentlyAskedQuestionsStackParams } from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
 import { HomeStackParams } from "@/features/Home/HomeStack";
 import { InternalTransfersStackParams } from "@/features/InternalTransfers/InternalTransfersStack";
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
@@ -26,9 +26,7 @@ type RootStackParams = {
   "SavingsGoals.SavingsGoalsStack": {
     savingsPotsNumber: number;
   };
-  "FrequentlyAskedQuestions.LandingPage": undefined;
-  "FrequentlyAskedQuestions.SectionScreen": { data: FAQSection[]; title: string };
-  "FrequentlyAskedQuestions.DetailedScreen": { data: DetailedFaq; title: string } | { faqId: string };
+  "FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack": undefined;
   "NotificationManagement.HubScreen": undefined;
   "NotificationManagement.CategoryScreen": { categoryId: string; title: string };
 };
@@ -39,6 +37,7 @@ type MainStackParams = RootStackParams &
   InternalTransfersStackParams &
   CardActionsStackParams &
   ReferralStackParams &
-  HomeStackParams;
+  HomeStackParams &
+  FrequentlyAskedQuestionsStackParams;
 
 export default MainStackParams;

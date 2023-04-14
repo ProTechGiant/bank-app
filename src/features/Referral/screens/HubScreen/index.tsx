@@ -9,7 +9,6 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
-import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
@@ -22,6 +21,7 @@ import { useCustomersReferrals, useRefetchReferrals } from "../../hooks/query-ho
 import BackgroundBottomLeftSvg from "./background-bottom-left.svg";
 import BackgroundBottomRightSvg from "./background-bottom-right.svg";
 import BackgroundTopSvg from "./background-top.svg";
+import { LoadingErrorNotification } from "@/components";
 
 export default function HubScreen() {
   const navigation = useNavigation();
@@ -208,17 +208,7 @@ export default function HubScreen() {
       </Page>
       {(referralLink === undefined || numberOfCompletedReferrals === undefined || moneyEarned === undefined) &&
       referralPageViewStatus === "finished" ? (
-        <NotificationModal
-          variant="error"
-          title={t("LoadingError.NotificationModal.errorTitle")}
-          message={t("LoadingError.NotificationModal.errorMessage")}
-          isVisible={isError}
-          onClose={handleOnDismissPress}
-          buttons={{
-            primary: <Button onPress={handleOnRefreshPress}>{t("LoadingError.NotificationModal.refresh")}</Button>,
-            secondary: <Button onPress={handleOnDismissPress}>{t("LoadingError.NotificationModal.dismiss")}</Button>,
-          }}
-        />
+        <LoadingErrorNotification isVisible={isError} onClose={handleOnDismissPress} onRefresh={handleOnRefreshPress} />
       ) : null}
     </>
   );

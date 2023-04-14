@@ -10,8 +10,6 @@ import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { DetailedFaq } from "../../types/frequentlyAskedQuestions";
-
 export default function SectionScreen() {
   const route = useRoute<RouteProp<MainStackParams, "FrequentlyAskedQuestions.SectionScreen">>();
   const { data, title } = route.params;

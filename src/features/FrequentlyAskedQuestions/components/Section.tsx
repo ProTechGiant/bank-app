@@ -7,7 +7,7 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { FAQCategory } from "../../types/frequentlyAskedQuestions";
+import { FAQCategory } from "../types";
 
 interface SectionProps {
   data: FAQCategory;

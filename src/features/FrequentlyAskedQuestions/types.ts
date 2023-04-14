@@ -27,6 +27,7 @@ export interface FAQCategory {
   sections: FAQSection[];
 }
 
+//TODO: Remove when mock data is removed, this is only needed for mock data.
 export interface FAQData {
   categories: FAQCategory[];
 }

@@ -6,6 +6,7 @@ import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChatIcon, ChevronRightIcon, PhoneIcon, ThumbsDownIcon, ThumbsUpIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
+import HtmlWebView from "@/components/HtmlWebView/HtmlWebView";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -19,10 +20,9 @@ import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import HtmlWebView from "../../components/HtmlWebView";
-import LoadingError from "../../components/LoadingError";
-import openLink from "../../components/utils/open-link";
-import { DetailedFaq } from "../../types/frequentlyAskedQuestions";
+import { LoadingError } from "../components";
+import { DetailedFaq } from "../types";
+import openLink from "../utils/open-link";
 
 export default function DetailedScreen() {
   const route = useRoute<RouteProp<MainStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();

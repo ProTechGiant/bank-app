@@ -12,8 +12,7 @@ import Typography from "@/components/Typography";
 import { mockFrequentlyAskedQuestions } from "@/mocks/frequentlyAskedQuestionsData";
 import { useThemeStyles } from "@/theme";
 
-import LoadingError from "../../components/LoadingError";
-import Section from "./Section";
+import { LoadingError, Section } from "../components";
 
 interface Search {
   searchString: string;
