@@ -8,13 +8,21 @@ import { useThemeStyles } from "@/theme";
 
 interface IconButtonProps {
   active?: boolean;
+  disabled?: boolean;
   activeLabel?: string;
   inactiveLabel: string;
   icon: React.ReactElement<SvgProps | IconProps>;
   onPress: () => void;
 }
 
-export default function IconButton({ active = false, activeLabel, inactiveLabel, icon, onPress }: IconButtonProps) {
+export default function IconButton({
+  active = false,
+  disabled = false,
+  activeLabel,
+  inactiveLabel,
+  icon,
+  onPress,
+}: IconButtonProps) {
   const iconContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: active ? theme.palette["primaryBase-10"] : theme.palette["neutralBase-40"],
@@ -30,13 +38,16 @@ export default function IconButton({ active = false, activeLabel, inactiveLabel,
 
   const iconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
   const activeIconColor = useThemeStyles(theme => theme.palette["neutralBase-50"]);
+  const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   return (
     <View style={styles.buttonContainer}>
-      <Pressable onPress={onPress}>
-        <View style={iconContainerStyle}>{cloneElement(icon, { color: active ? activeIconColor : iconColor })}</View>
+      <Pressable onPress={onPress} disabled={disabled}>
+        <View style={iconContainerStyle}>
+          {cloneElement(icon, { color: disabled ? disabledIconColor : active ? activeIconColor : iconColor })}
+        </View>
       </Pressable>
-      <Typography.Text size="footnote" weight="medium">
+      <Typography.Text size="footnote" weight="medium" color={disabled ? "neutralBase-30" : "neutralBase+30"}>
         {active ? activeLabel : inactiveLabel}
       </Typography.Text>
     </View>

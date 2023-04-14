@@ -143,6 +143,7 @@ export default function CardSettingsScreen() {
                   icon={<LockIcon />}
                   title={t("CardActions.CardSettingsScreen.changePin")}
                   onPress={handleOnChangePinCodePress}
+                  disabled={card.data.Status !== "unfreeze"}
                 />
                 <SettingsToggle
                   icon={<CardIcon />}
@@ -150,6 +151,7 @@ export default function CardSettingsScreen() {
                   helperText={t("CardActions.CardSettingsScreen.onlinePayment.helperText")}
                   onPress={() => handleOnChangeSettings("OnlinePayments")}
                   value={settings.data.OnlinePayments}
+                  disabled={!["unfreeze", "pending-activation"].includes(card.data.Status)}
                 />
                 <SettingsToggle
                   icon={<GlobeIcon />}
@@ -157,11 +159,12 @@ export default function CardSettingsScreen() {
                   helperText={t("CardActions.CardSettingsScreen.internationalPayment.helperText")}
                   onPress={() => handleOnChangeSettings("InternationalPayments")}
                   value={settings.data.InternationalPayments}
+                  disabled={card.data.Status !== "unfreeze"}
                 />
               </ListSection>
               <View style={separatorStyle} />
               <ListSection title={t("CardActions.CardSettingsScreen.subTitle2")}>
-                {card.data.Status === "inactive" ? (
+                {card.data.Status === "pending-activation" ? (
                   <View style={cardInTransitBannerStyle}>
                     <Stack direction="vertical" gap="8p">
                       <Typography.Text color="neutralBase+30" size="callout" weight="medium">

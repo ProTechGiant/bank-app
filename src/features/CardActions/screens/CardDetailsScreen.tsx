@@ -114,7 +114,7 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnReportPress = () => {
-    navigation.navigate("CardActions.ReportCardScreen", { cardId });
+    navigation.navigate("CardActions.ReportCardScreen", { cardId, cardStatus });
   };
 
   const handleOnUpgradePress = () => {
@@ -420,6 +420,7 @@ export default function CardDetailsScreen() {
               onViewPinPress={handleOnViewPinPress}
               onFreezePress={handleOnFreezePress}
               isShowingDetails={cardDetails !== undefined}
+              isDisablePin={cardStatus === "pending-activation"}
             />
           ) : (
             <View />
@@ -427,12 +428,12 @@ export default function CardDetailsScreen() {
           <View style={separatorStyle} />
           {selectedCard?.CardType !== SINGLE_USE_CARD_TYPE ? (
             <>
-              {isAppleWalletAvailable && canAddCardToAppleWallet && cardStatus !== "freeze" ? (
+              {isAppleWalletAvailable && canAddCardToAppleWallet && !["freeze", "inactive"].includes(cardStatus) ? (
                 <View style={walletButtonContainer}>
                   <AddToAppleWalletButton onPress={handleOnAddToAppleWallet} />
                 </View>
               ) : null}
-              {Platform.OS === "android" && cardStatus !== "freeze" ? (
+              {Platform.OS === "android" && !["freeze", "inactive"].includes(cardStatus) ? (
                 <>
                   <MadaPayBanner />
                   <View style={separatorStyle} />
@@ -440,13 +441,12 @@ export default function CardDetailsScreen() {
               ) : null}
               <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
                 <ListItemLink
-                  disabled={cardStatus === "freeze"}
+                  disabled={["freeze", "inactive"].includes(cardStatus)}
                   icon={<CardSettingsIcon />}
                   onPress={handleOnCardSettingsPress}
                   title={t("CardActions.CardDetailsScreen.cardSettingsButton")}
                 />
                 <ListItemLink
-                  disabled={cardStatus !== "unfreeze"}
                   icon={<ReportIcon />}
                   onPress={handleOnReportPress}
                   title={t("CardActions.CardDetailsScreen.reportButton")}

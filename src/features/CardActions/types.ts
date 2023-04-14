@@ -32,7 +32,8 @@ export type CardStatus =
   | "freeze"
   | "lost"
   | "damage"
-  | "stolen";
+  | "stolen"
+  | "pending-activation";
 
 export interface CardCreateResponse {
   Header: {

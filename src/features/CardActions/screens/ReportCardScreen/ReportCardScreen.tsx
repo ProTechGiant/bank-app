@@ -27,6 +27,7 @@ export default function ReportCardScreen() {
   const navigation = useNavigation();
   const dimensions = useWindowDimensions();
   const scrollViewRef = useRef<ScrollView>(null);
+  const cardStatus = route.params.cardStatus;
 
   const cardId = route.params.cardId;
   const primaryAddress = usePrimaryAddress();
@@ -135,7 +136,7 @@ export default function ReportCardScreen() {
           bounces={false}>
           <View style={{ width: dimensions.width }}>
             <SelectReportReason
-              isLoading={primaryAddress.isLoading}
+              cardStatus={cardStatus}
               onContinuePress={handleOnSelectReasonPress}
               onFreezePress={handleOnFreezePress}
             />

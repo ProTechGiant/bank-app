@@ -19,7 +19,7 @@ import {
   SingleUseCardAbout,
   SingleUseCardInfoScreen,
 } from "./screens";
-import { OtpResponseStatus } from "./types";
+import { CardStatus, OtpResponseStatus } from "./types";
 
 interface OtpChallengeParams {
   OtpId: string;
@@ -52,6 +52,7 @@ export type CardActionsStackParams = {
   };
   "CardActions.ReportCardScreen": {
     cardId: string;
+    cardStatus: CardStatus;
     alternativeAddress?: Address;
   };
   "CardActions.SetTemporaryAddressScreen": {

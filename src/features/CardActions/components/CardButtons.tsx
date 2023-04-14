@@ -10,6 +10,7 @@ interface CardButtonsProps {
   isShowingDetails: boolean;
   isCardFrozen: boolean;
   isViewingPin: boolean;
+  isDisablePin: boolean;
   onShowDetailsPress: () => void;
   onFreezePress: () => void;
   onViewPinPress: () => void;
@@ -19,6 +20,7 @@ export default function CardButtons({
   isShowingDetails,
   isCardFrozen,
   isViewingPin,
+  isDisablePin,
   onShowDetailsPress,
   onFreezePress,
   onViewPinPress,
@@ -47,6 +49,7 @@ export default function CardButtons({
         activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.viewPin")}
         inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.viewPin")}
         icon={<LockIcon />}
+        disabled={isDisablePin}
       />
     </Stack>
   );

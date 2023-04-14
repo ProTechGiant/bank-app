@@ -8,13 +8,15 @@ import { RadioButton, RadioButtonGroup } from "@/components/RadioButton";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import { CardStatus } from "../../types";
+
 interface SelectReportReasonProps {
-  isLoading: boolean;
+  cardStatus: CardStatus;
   onContinuePress: (selectedReason: string) => void;
   onFreezePress: () => void;
 }
 
-export default function SelectReportReason({ isLoading, onContinuePress, onFreezePress }: SelectReportReasonProps) {
+export default function SelectReportReason({ cardStatus, onContinuePress, onFreezePress }: SelectReportReasonProps) {
   const { t } = useTranslation();
   const [selectedReason, setSelectedReason] = useState<"stolen" | "lost" | "damage">();
 
@@ -58,13 +60,15 @@ export default function SelectReportReason({ isLoading, onContinuePress, onFreez
           {t("CardActions.ReportCardScreen.SelectReportReason.deliveryFee")}
         </Typography.Text>
         <View style={styles.button}>
-          <Button loading={isLoading} disabled={selectedReason === undefined} onPress={handleOnContinuePress}>
+          <Button disabled={selectedReason === undefined} onPress={handleOnContinuePress}>
             {t("CardActions.ReportCardScreen.SelectReportReason.buttonTitle")}
           </Button>
         </View>
-        <Button variant="tertiary" onPress={onFreezePress}>
-          {t("CardActions.ReportCardScreen.SelectReportReason.freezeCard")}
-        </Button>
+        {cardStatus !== "freeze" ? (
+          <Button variant="tertiary" onPress={onFreezePress}>
+            {t("CardActions.ReportCardScreen.SelectReportReason.freezeCard")}
+          </Button>
+        ) : null}
       </View>
     </ContentContainer>
   );
