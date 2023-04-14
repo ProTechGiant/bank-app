@@ -13,12 +13,17 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { useInternalTransferContext } from "../context/InternalTransfersContext";
+
 export default function ConfirmationScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const { internalTransferEntryPoint, recipient, transferAmount } = useInternalTransferContext();
 
   const handleOnDonePress = () => {
-    navigation.navigate("Home.HomeStack", { screen: "Home.DashboardScreen" });
+    internalTransferEntryPoint === "payment-hub"
+      ? navigation.navigate("InternalTransfers.PaymentsHubScreen")
+      : navigation.navigate("Home.HomeStack", { screen: "Home.DashboardScreen" });
   };
 
   const handleOnViewTransactionsPress = () => {
@@ -52,20 +57,26 @@ export default function ConfirmationScreen() {
               {t("InternalTransfers.ConfirmationScreen.title")}
             </Typography.Text>
             <Typography.Text size="callout" color="neutralBase-20" align="center" style={messageStyle}>
-              {t("InternalTransfers.ConfirmationScreen.message")}
+              {recipient.type === "new"
+                ? t("InternalTransfers.ConfirmationScreen.messages.new")
+                : recipient.type === "inactive"
+                ? t("InternalTransfers.ConfirmationScreen.messages.inactive")
+                : t("InternalTransfers.ConfirmationScreen.messages.active")}
             </Typography.Text>
           </View>
           <TableListCardGroup background="dark">
-            <TableListCard
-              isGrouped
-              caption={t("InternalTransfers.ConfirmationScreen.transferredTo")}
-              label="Ahmed Abdul Aziz" // TODO: BE integration
-              background="dark"
-            />
+            {recipient.accountName !== undefined ? (
+              <TableListCard
+                isGrouped
+                caption={t("InternalTransfers.ConfirmationScreen.transferredTo")}
+                label={recipient.accountName}
+                background="dark"
+              />
+            ) : null}
             <TableListCard
               isGrouped
               caption={t("InternalTransfers.ConfirmationScreen.amount")}
-              label="5,000 SAR" // TODO: BE integration
+              label={`${transferAmount} SAR`}
               background="dark"
             />
           </TableListCardGroup>

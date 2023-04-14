@@ -10,21 +10,14 @@ import {
   PaymentsHubScreen,
   ReviewTransferScreen,
   SendToBeneficiaryScreen,
-  TransferSuccessfulScreen,
 } from "./screens";
 import { AddNoteParams } from "./types";
-import { AddBeneficiarySelectionType } from "./types";
 
 export type InternalTransfersStackParams = {
   "InternalTransfers.SendToBeneficiaryScreen": undefined;
   "InternalTransfers.EnterBeneficiaryDetailsScreen": undefined;
-  "InternalTransfers.TransferSuccessfulScreen": undefined;
-  "InternalTransfers.ConfirmNewBeneficiaryScreen": {
-    name: string;
-    selectionType: AddBeneficiarySelectionType;
-    selectionValue: string;
-  };
   "InternalTransfers.PaymentsHubScreen": undefined;
+  "InternalTransfers.ConfirmNewBeneficiaryScreen": undefined;
   "InternalTransfers.InternalTransferScreen": undefined;
   "InternalTransfers.ReviewTransferScreen": undefined;
   "InternalTransfers.AddNoteScreen": AddNoteParams;
@@ -43,7 +36,6 @@ export default function InternalTransfersStack() {
       <Stack.Screen component={ReviewTransferScreen} name="InternalTransfers.ReviewTransferScreen" />
       <Stack.Screen component={AddNoteScreen} name="InternalTransfers.AddNoteScreen" />
       <Stack.Screen component={EnterBeneficiaryDetailsScreen} name="InternalTransfers.EnterBeneficiaryDetailsScreen" />
-      <Stack.Screen component={TransferSuccessfulScreen} name="InternalTransfers.TransferSuccessfulScreen" />
       <Stack.Screen component={ConfirmNewBeneficiaryScreen} name="InternalTransfers.ConfirmNewBeneficiaryScreen" />
       <Stack.Screen
         component={BeneficiaryDeclarationScreen}

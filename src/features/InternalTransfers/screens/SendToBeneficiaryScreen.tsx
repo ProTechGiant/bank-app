@@ -15,11 +15,10 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import BeneficiaryList from "../components/BeneficiaryList";
-import BeneficiaryOptionsModal from "../components/BeneficiaryOptionsModal";
-import SearchInput from "../components/SearchInput";
+import { BeneficiaryList, BeneficiaryOptionsModal, SearchInput } from "../components";
+import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useBeneficiaries, useDeleteBeneficiary } from "../hooks/query-hooks";
-import { BeneficiaryType } from "../types";
+import { BeneficiaryType, RecipientType } from "../types";
 
 function activeFilterCheck(beneficiaries: BeneficiaryType[], isActive: boolean): BeneficiaryType[] {
   return beneficiaries.filter(beneficiary => beneficiary.IVRValidated === isActive);
@@ -28,6 +27,8 @@ function activeFilterCheck(beneficiaries: BeneficiaryType[], isActive: boolean):
 export default function SendToBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const { setRecipient } = useInternalTransferContext();
   const { data, refetch } = useBeneficiaries();
   const { mutateAsync } = useDeleteBeneficiary();
   const [filteredBeneficiaries, setFilteredBeneficiaries] = useState<BeneficiaryType[]>([]);
@@ -92,12 +93,21 @@ export default function SendToBeneficiaryScreen() {
     navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
   };
 
-  const handleOnActiveBeneficiaryPress = () => {
-    navigation.navigate("InternalTransfers.ReviewTransferScreen");
-  };
-
-  const handleOnInactiveBeneficiaryPress = () => {
-    setIsConfirmActivationModalVisible(true);
+  const handleOnBeneficiaryPress = (
+    type: RecipientType,
+    accountName: string,
+    accountNumber: string,
+    phoneNumber: string | undefined
+  ) => {
+    setRecipient({
+      accountName,
+      accountNumber,
+      phoneNumber,
+      type,
+    });
+    type === "active"
+      ? navigation.navigate("InternalTransfers.ReviewTransferScreen")
+      : setIsConfirmActivationModalVisible(true);
   };
 
   const handleOnMenuPress = (beneficiary: BeneficiaryType) => {
@@ -179,7 +189,9 @@ export default function SendToBeneficiaryScreen() {
                         title={t("InternalTransfers.SendToBeneficiaryScreen.confirmedBeneficiariesListTitle")}
                         beneficiaries={activeBeneficiaries}
                         onDelete={handleOnDelete}
-                        onBeneficiaryPress={handleOnActiveBeneficiaryPress}
+                        onBeneficiaryPress={(accountName, accountNumber, phoneNumber) => {
+                          handleOnBeneficiaryPress("active", accountName, accountNumber, phoneNumber);
+                        }}
                         onMenuPress={handleOnMenuPress}
                       />
                     </>
@@ -194,7 +206,9 @@ export default function SendToBeneficiaryScreen() {
                       title={t("InternalTransfers.SendToBeneficiaryScreen.unconfirmedBeneficiariesListTitle")}
                       beneficiaries={inactiveBeneficiaries}
                       onDelete={handleOnDelete}
-                      onBeneficiaryPress={handleOnInactiveBeneficiaryPress}
+                      onBeneficiaryPress={(accountName, accountNumber, phoneNumber) => {
+                        handleOnBeneficiaryPress("inactive", accountName, accountNumber, phoneNumber);
+                      }}
                       onMenuPress={handleOnMenuPress}
                     />
                   ) : null}

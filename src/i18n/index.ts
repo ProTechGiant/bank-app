@@ -1139,8 +1139,12 @@ export const resources = {
         },
         ConfirmationScreen: {
           title: "Your transfer is complete",
-          message:
-            "You'll find the details in your transaction list. Now you won't need to confirm this beneficiary before you make a payment.",
+          messages: {
+            active: "You'll find the details in your transaction list",
+            inactive:
+              "You'll find the details in your transaction list. \nNow you won't need to confirm this beneficiary before you make a payment.",
+            new: "You'll find the details in your transaction list. \nNow you won't need to confirm this beneficiary before you make a payment.",
+          },
           transferredTo: "Transferred to",
           amount: "Amount",
           buttons: {
@@ -1751,8 +1755,12 @@ export const resources = {
       },
       ConfirmationScreen: {
         title: "Your transfer is complete",
-        message:
-          "You'll find the details in your transaction list. Now you won't need to confirm this beneficiary before you make a payment.",
+        messages: {
+          active: "You'll find the details in your transaction list",
+          inactive:
+            "You'll find the details in your transaction list. \nNow you won't need to confirm this beneficiary before you make a payment.",
+          new: "You'll find the details in your transaction list. \nNow you won't need to confirm this beneficiary before you make a payment.",
+        },
         transferredTo: "Transferred to",
         amount: "Amount",
         buttons: {

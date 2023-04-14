@@ -3,6 +3,7 @@ import { createElement } from "react";
 import * as icons from "@/assets/icons";
 import Stack from "@/components/Stack";
 import { useLayout } from "@/features/Home/contexts/LayoutContext";
+import { useInternalTransferContext } from "@/features/InternalTransfers/context/InternalTransfersContext";
 import useNavigation from "@/navigation/use-navigation";
 
 import QuickAction from "./QuickAction";
@@ -13,8 +14,9 @@ interface QuickActionsSectionProps {
 }
 
 export default function QuickActionsSection({ onViewAllPress }: QuickActionsSectionProps) {
-  const { quickActions } = useLayout();
   const navigation = useNavigation();
+  const { quickActions } = useLayout();
+  const { setInternalTransferEntryPoint } = useInternalTransferContext();
 
   return (
     <Section title="Shortcuts" onViewAllPress={onViewAllPress}>
@@ -25,10 +27,12 @@ export default function QuickActionsSection({ onViewAllPress }: QuickActionsSect
             if (element.type === "referrals") navigation.navigate("Referral.HubScreen");
             if (element.type === "balance-add")
               navigation.navigate("AddMoney.AddMoneyStack", { screen: "AddMoney.AddMoneyInfoScreen" });
-            if (element.type === "internal-transfer")
+            if (element.type === "internal-transfer") {
+              setInternalTransferEntryPoint("homepage");
               navigation.navigate("InternalTransfers.InternalTransfersStack", {
                 screen: "InternalTransfers.InternalTransferScreen",
               });
+            }
           };
 
           return (

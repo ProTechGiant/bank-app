@@ -27,11 +27,9 @@ export interface Note {
   attachment: string;
 }
 
-export interface ReviewScreenParams {
-  amount: number;
-  receiver: TransferAccount;
-  reason: TransferReason;
-}
+export type InternalTransferEntryPoint = "homepage" | "payment-hub";
+
+export type RecipientType = "new" | "active" | "inactive" | undefined;
 
 export interface AddNoteParams {
   updateNote: (note: Note) => void;
@@ -39,6 +37,7 @@ export interface AddNoteParams {
 }
 
 export type AddBeneficiarySelectionType = "mobileNo" | "accountId" | "IBAN";
+
 export interface AddBeneficiary {
   SelectionType: AddBeneficiarySelectionType;
   SelectionValue: string;

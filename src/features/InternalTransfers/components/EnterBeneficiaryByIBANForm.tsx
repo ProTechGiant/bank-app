@@ -14,6 +14,7 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { ibanRegExp } from "@/utils";
 
+import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useAddBeneficiary } from "../hooks/query-hooks";
 import { AddBeneficiary, AddBeneficiarySelectionType, EnterBeneficiaryFormProps } from "../types";
 
@@ -26,6 +27,7 @@ export default function EnterBeneficiaryByIBANForm({ selectionType }: EnterBenef
   const { t } = useTranslation();
   const navigation = useNavigation();
   const addBeneficiaryAsync = useAddBeneficiary();
+  const { setAddBeneficiary, setRecipient } = useInternalTransferContext();
 
   const [isIBANInUseModalVisible, setIsIBANInUseModalVisible] = useState(false);
   const [isIBANNotRecognisedModalVisible, setIsIBANNotRecognisedModalVisible] = useState(false);
@@ -54,11 +56,17 @@ export default function EnterBeneficiaryByIBANForm({ selectionType }: EnterBenef
   const handleOnSubmit = async (values: AddBeneficiary) => {
     try {
       const response = await addBeneficiaryAsync.mutateAsync(values);
-      navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen", {
-        name: response.Name,
-        selectionType: selectionType,
-        selectionValue: response.IBAN || "",
+      setAddBeneficiary({
+        SelectionType: selectionType,
+        SelectionValue: response.IBAN || "",
       });
+      setRecipient({
+        accountName: response.Name,
+        accountNumber: response.BankAccountNumber,
+        phoneNumber: response.PhoneNumber,
+        type: "new",
+      });
+      navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen");
     } catch (error) {
       if (error instanceof ApiError && error.errorContent.Message === "Account does not exist") {
         setIsIBANNotRecognisedModalVisible(true);

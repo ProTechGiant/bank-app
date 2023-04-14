@@ -19,15 +19,19 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { PaymentOption } from "../components";
+import { useInternalTransferContext } from "../context/InternalTransfersContext";
 
 const formatter = Intl.NumberFormat("en-US", { style: "decimal", minimumFractionDigits: 2 });
 
 function PaymentsHub() {
+  const { setInternalTransferEntryPoint } = useInternalTransferContext();
+
   const { t } = useTranslation();
   const navigation = useNavigation();
   const account = useAccount();
 
   const handleInternalTransferPress = () => {
+    setInternalTransferEntryPoint("payment-hub");
     navigation.navigate("InternalTransfers.InternalTransferScreen");
   };
 

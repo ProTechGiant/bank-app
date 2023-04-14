@@ -11,7 +11,7 @@ import { BeneficiaryType } from "../types";
 interface BeneficiaryProps {
   data: BeneficiaryType;
   onDelete: (id: number) => void;
-  onBeneficiaryPress: () => void;
+  onBeneficiaryPress: (accountName: string, accountNumber: string, phoneNumber: string | undefined) => void;
   onMenuPress: (beneficiary: BeneficiaryType) => void;
 }
 
@@ -37,7 +37,10 @@ export default function Beneficiary({ data, onBeneficiaryPress, onMenuPress }: B
 
   return (
     <Stack justify="space-between" align="center" direction="horizontal" gap="12p">
-      <Pressable onPress={onBeneficiaryPress}>
+      <Pressable
+        onPress={() => {
+          onBeneficiaryPress(data.Name, data.BankAccountNumber, data.PhoneNumber);
+        }}>
         <Stack align="center" direction="horizontal" gap="12p">
           <View style={profileContainer}>
             <Typography.Text size="footnote" color="neutralBase-50" align="center">

@@ -15,8 +15,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { alphaNumericSpaceQuoteRegExp } from "@/utils";
 
-import ErrorMessage from "../components/ErrorMessage";
-import SubmitNoteButton from "../components/SubmitNoteButton";
+import { ErrorMessage, SubmitNoteButton } from "../components";
 import { InternalTransfersStackParams } from "../InternalTransfersStack";
 import { FORBIDDEN_WORDS } from "../mocks/mockForbiddenWords";
 import { Note } from "../types";

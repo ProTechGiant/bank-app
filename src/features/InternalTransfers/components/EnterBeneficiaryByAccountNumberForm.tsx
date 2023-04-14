@@ -13,6 +13,7 @@ import NotificationModal from "@/components/NotificationModal";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
+import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useAddBeneficiary } from "../hooks/query-hooks";
 import { AddBeneficiary, AddBeneficiarySelectionType, EnterBeneficiaryFormProps } from "../types";
 
@@ -25,6 +26,7 @@ export default function EnterBeneficiaryByAccountNumberForm({ selectionType }: E
   const { t } = useTranslation();
   const navigation = useNavigation();
   const addBeneficiaryAsync = useAddBeneficiary();
+  const { setAddBeneficiary, setRecipient } = useInternalTransferContext();
 
   const [isAccountNumberInUseModalVisible, setIsAccountNumberInUseModalVisible] = useState(false);
   const [isAccountNumberNotRecognisedModalVisible, setIsAccountNumberNotRecognisedModalVisible] = useState(false);
@@ -57,11 +59,17 @@ export default function EnterBeneficiaryByAccountNumberForm({ selectionType }: E
   const handleOnSubmit = async (values: AddBeneficiary) => {
     try {
       const response = await addBeneficiaryAsync.mutateAsync(values);
-      navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen", {
-        name: response.Name,
-        selectionType: selectionType,
-        selectionValue: response.BankAccountNumber || "",
+      setAddBeneficiary({
+        SelectionType: selectionType,
+        SelectionValue: response.BankAccountNumber || "",
       });
+      setRecipient({
+        accountName: response.Name,
+        accountNumber: response.BankAccountNumber,
+        phoneNumber: response.PhoneNumber,
+        type: "new",
+      });
+      navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen");
     } catch (error) {
       if (error instanceof ApiError && error.errorContent.Message === "Account does not exist") {
         setIsAccountNumberNotRecognisedModalVisible(true);

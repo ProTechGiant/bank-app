@@ -14,6 +14,7 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { saudiPhoneRegExp } from "@/utils";
 
+import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useAddBeneficiary } from "../hooks/query-hooks";
 import { AddBeneficiary, AddBeneficiarySelectionType, EnterBeneficiaryFormProps } from "../types";
 
@@ -26,6 +27,7 @@ export default function EnterBeneficiaryByMobileForm({ selectionType }: EnterBen
   const { t } = useTranslation();
   const navigation = useNavigation();
   const addBeneficiaryAsync = useAddBeneficiary();
+  const { setAddBeneficiary, setRecipient } = useInternalTransferContext();
 
   const [isMobileInUseModalVisible, setIsMobileInUseModalVisible] = useState(false);
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
@@ -60,11 +62,17 @@ export default function EnterBeneficiaryByMobileForm({ selectionType }: EnterBen
         SelectionType: values.SelectionType,
         SelectionValue: values.SelectionValue.substring(4, values.SelectionValue.length), // remove +966 otherwise BE returns error
       });
-      navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen", {
-        name: response.Name,
-        selectionType: selectionType,
-        selectionValue: response.PhoneNumber || "",
+      setAddBeneficiary({
+        SelectionType: selectionType,
+        SelectionValue: response.PhoneNumber || "",
       });
+      setRecipient({
+        accountName: response.Name,
+        accountNumber: response.BankAccountNumber,
+        phoneNumber: response.PhoneNumber,
+        type: "new",
+      });
+      navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen");
     } catch (error) {
       if (error instanceof ApiError && error.errorContent.Message.includes(ERROR_BENEFICIARY_EXISTS)) {
         // For the error "MOBILE_NO beneficiary already exists" & "CRM_CUSTOMER beneficiary already exists"

@@ -9,6 +9,7 @@ import reloadApp from "@/i18n/reload-app";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
+import { useInternalTransferContext } from "../InternalTransfers/context/InternalTransfersContext";
 import useSavingsGoalNumber from "./use-savings-goal-number";
 
 interface TemporaryUserId {
@@ -19,6 +20,7 @@ export default function TemporaryLandingScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const auth = useAuthContext();
+  const { setInternalTransferEntryPoint } = useInternalTransferContext();
 
   // PC-4353 show or skip saving goals instructions
   const getSavingsGoalNumAsync = useSavingsGoalNumber();
@@ -57,6 +59,7 @@ export default function TemporaryLandingScreen() {
 
   const handleOnOpenInternalTransfers = (values: TemporaryUserId) => {
     auth.authenticate(values.UserId);
+    setInternalTransferEntryPoint("homepage");
     navigation.navigate("InternalTransfers.InternalTransfersStack", {
       screen: "InternalTransfers.PaymentsHubScreen",
     });
@@ -119,7 +122,6 @@ export default function TemporaryLandingScreen() {
         <View style={{ margin: 20 }}>
           <Button onPress={handleSubmit(handleOnOpenOnboarding)}>Onboarding</Button>
         </View>
-
         <View style={{ margin: 20 }}>
           <Button onPress={handleSubmit(handleOnCardsHomeSubmit)}>Cards Home</Button>
         </View>

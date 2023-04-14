@@ -1,6 +1,6 @@
 import { expect } from "@storybook/jest";
 import { ComponentStory } from "@storybook/react";
-import { fireEvent, screen, userEvent, waitFor, within } from "@storybook/testing-library";
+import { fireEvent, userEvent, waitFor, within } from "@storybook/testing-library";
 import { useForm } from "react-hook-form";
 
 import PhoneNumberInput_ from "./PhoneNumberInput";

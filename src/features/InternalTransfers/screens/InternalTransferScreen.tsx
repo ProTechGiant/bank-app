@@ -15,6 +15,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { PersonalReasons, TransferAmountInput } from "../components";
+import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useTransferReasons } from "../hooks/query-hooks";
 import { TransferValue } from "../types";
 
@@ -23,6 +24,8 @@ export default function InternalTransferScreen() {
   // const account = useAccount();
   const navigation = useNavigation();
   const reasons = useTransferReasons();
+  const { setTransferAmount, setReason } = useInternalTransferContext();
+
   // TODO: use currentBalance from useAccount once the api is working again
   // const currentBalance = account.data?.currentAccountBalance;
   const currentBalance = 40;
@@ -43,6 +46,7 @@ export default function InternalTransferScreen() {
   const {
     formState: { isDirty, isValid },
     control,
+    handleSubmit,
   } = useForm<TransferValue>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
@@ -60,7 +64,9 @@ export default function InternalTransferScreen() {
     navigation.goBack();
   };
 
-  const handleOnNextPress = () => {
+  const handleOnNextPress = (values: TransferValue) => {
+    setTransferAmount(values.PaymentAmount);
+    setReason(values.TransferReason.Description);
     navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
   };
 
@@ -133,7 +139,7 @@ export default function InternalTransferScreen() {
               <Pressable
                 style={[buttonStyle, isDisabled && buttonDisableStyle]}
                 disabled={isDisabled}
-                onPress={handleOnNextPress}>
+                onPress={handleSubmit(handleOnNextPress)}>
                 <Typography.Text
                   color={isDisabled ? "neutralBase-20" : "neutralBase-50"}
                   weight="semiBold"

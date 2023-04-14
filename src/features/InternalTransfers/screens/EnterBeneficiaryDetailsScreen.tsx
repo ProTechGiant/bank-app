@@ -11,9 +11,11 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import EnterBeneficiaryByAccountNumberForm from "../components/EnterBeneficiaryByAccountNumberForm";
-import EnterBeneficiaryByIBANForm from "../components/EnterBeneficiaryByIBANForm";
-import EnterBeneficiaryByMobileForm from "../components/EnterBeneficiaryByMobileForm";
+import {
+  EnterBeneficiaryByAccountNumberForm,
+  EnterBeneficiaryByIBANForm,
+  EnterBeneficiaryByMobileForm,
+} from "../components";
 
 export default function EnterBeneficiaryDetailsScreen() {
   const { t } = useTranslation();

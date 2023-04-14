@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { parsePhoneNumber } from "libphonenumber-js";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -21,7 +20,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatIban } from "@/utils";
 
-import { InternalTransfersStackParams } from "../InternalTransfersStack";
+import { useInternalTransferContext } from "../context/InternalTransfersContext";
 
 interface ConfirmBeneficiaryDeclarationForm {
   confirmBeneficiaryDeclaration: boolean;
@@ -35,7 +34,7 @@ export default function ConfirmNewBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const route = useRoute<RouteProp<InternalTransfersStackParams, "InternalTransfers.ConfirmNewBeneficiaryScreen">>();
+  const { addBeneficiary, recipient } = useInternalTransferContext();
 
   const { control, handleSubmit } = useForm<ConfirmBeneficiaryDeclarationForm>({
     mode: "onBlur",
@@ -84,38 +83,49 @@ export default function ConfirmNewBeneficiaryScreen() {
             {t("InternalTransfers.ConfirmNewBeneficiaryScreen.title")}
           </Typography.Text>
           <TableListCardGroup>
-            <TableListCard
-              isGrouped
-              icon={<PersonFilledIcon color={iconColor} />}
-              iconBackground="neutralBase-40"
-              caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.name")}
-              label="Last First"
-            />
-            {route.params.selectionType === "accountId" ? (
+            {recipient.accountName !== undefined ? (
+              <TableListCard
+                isGrouped
+                icon={<PersonFilledIcon color={iconColor} />}
+                iconBackground="neutralBase-40"
+                caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.name")}
+                label={recipient.accountName}
+              />
+            ) : null}
+            {recipient.type === "new" && addBeneficiary?.SelectionType === "accountId" ? (
               <TableListCard
                 isGrouped
                 icon={<BankAccountIcon color={iconColor} />}
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.accountNumber")}
-                label={route.params.selectionValue}
+                label={addBeneficiary?.SelectionValue}
               />
-            ) : route.params.selectionType === "mobileNo" ? (
+            ) : recipient.type === "new" && addBeneficiary?.SelectionType === "mobileNo" ? (
               <TableListCard
                 isGrouped
                 icon={<PhoneFilledIcon color={iconColor} />}
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
-                label={parsePhoneNumber(COUNTRY_CODE + route.params.selectionValue).format("INTERNATIONAL")}
+                label={parsePhoneNumber(COUNTRY_CODE + addBeneficiary?.SelectionType).format("INTERNATIONAL")}
               />
-            ) : (
+            ) : recipient.type === "new" ? (
               <TableListCard
                 isGrouped
                 icon={<NumbersIcon color={iconColor} />}
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.iban")}
-                label={formatIban(route.params.selectionValue)}
+                label={formatIban(addBeneficiary?.SelectionValue || "")}
               />
-            )}
+            ) : null}
+            {recipient.type === "inactive" && recipient.phoneNumber !== undefined ? (
+              <TableListCard
+                isGrouped
+                icon={<PhoneFilledIcon color={iconColor} />}
+                iconBackground="neutralBase-40"
+                caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
+                label={recipient.phoneNumber}
+              />
+            ) : null}
           </TableListCardGroup>
           <InlineBanner
             icon={<ErrorBlackIcon />}

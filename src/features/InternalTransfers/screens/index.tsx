@@ -7,4 +7,3 @@ export { default as InternalTransferScreen } from "./InternalTransferScreen";
 export { default as PaymentsHubScreen } from "./PaymentsHubScreen";
 export { default as ReviewTransferScreen } from "./ReviewTransferScreen";
 export { default as SendToBeneficiaryScreen } from "./SendToBeneficiaryScreen";
-export { default as TransferSuccessfulScreen } from "./TransferSuccessfulScreen";

@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import { AuthContextProvider } from "@/contexts/AuthContext";
 import { ReferralContextProvider } from "@/contexts/ReferralContext";
+import { InternalTransferContextProvider } from "@/features/InternalTransfers/context/InternalTransfersContext";
 import { OnboardingContextProvider } from "@/features/Onboarding/contexts/OnboardingContext";
 import useAppsFlyer from "@/hooks/use-appsflyer";
 import useI18nDirection from "@/i18n/use-i18n-direction";
@@ -26,12 +27,14 @@ export default function App() {
       <AuthContextProvider>
         <ReferralContextProvider>
           <OnboardingContextProvider>
-            <SafeAreaProvider>
-              <GestureHandlerRootView style={styles.container}>
-                <StatusBar barStyle="dark-content" />
-                <MainStack onReady={() => RNBootSplash.hide()} />
-              </GestureHandlerRootView>
-            </SafeAreaProvider>
+            <InternalTransferContextProvider>
+              <SafeAreaProvider>
+                <GestureHandlerRootView style={styles.container}>
+                  <StatusBar barStyle="dark-content" />
+                  <MainStack onReady={() => RNBootSplash.hide()} />
+                </GestureHandlerRootView>
+              </SafeAreaProvider>
+            </InternalTransferContextProvider>
           </OnboardingContextProvider>
         </ReferralContextProvider>
       </AuthContextProvider>

@@ -12,42 +12,44 @@ import Stack from "@/components/Stack";
 import useAccount from "@/hooks/use-account";
 import { useThemeStyles } from "@/theme";
 
-import ReviewTransferDetail from "../components/ReviewTransferDetail";
-import { mockReviewScreen } from "../mocks/mockReviewScreen";
+import { ReviewTransferDetail } from "../components";
+import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { sender } from "../mocks/mockSender";
 import { Note } from "../types";
 
 export default function ReviewTransferScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-
+  const { transferAmount, reason, recipient } = useInternalTransferContext();
   // const { data } = useAccount();
 
   const [note, setNote] = useState<Note>({ content: "", attachment: "" });
   const [isVisible, setIsVisible] = useState(false);
 
   // const sender = { accountName: data?.currentAccountName, accountNumber: data?.currentAccoutNumber };
-  const receiver = mockReviewScreen.receiver;
-  const reason = mockReviewScreen.reason;
-  const amount = mockReviewScreen.amount;
 
   const updateNote = (content: Note) => {
     setNote(content);
   };
+
   const handleOnClose = () => {
     setIsVisible(true);
   };
+
   const handleSendMoney = () => {
-    //TODO: send it to internal transfer homepage
-    navigation.navigate("InternalTransfers.TransferSuccessfulScreen");
+    //TODO: navigate to OTP
+    navigation.navigate("InternalTransfers.ConfirmationScreen");
   };
+
   const handleAddNote = () => {
     navigation.navigate("InternalTransfers.AddNoteScreen", { updateNote: updateNote, note: note });
   };
+
   const handleOnCancel = () => {
     setIsVisible(false);
     navigation.navigate("InternalTransfers.InternalTransferScreen");
   };
+
   const handleOnContinue = () => {
     setIsVisible(false);
   };
@@ -66,9 +68,9 @@ export default function ReviewTransferScreen() {
             <ReviewTransferDetail
               handleAddNote={handleAddNote}
               sender={sender}
-              receiver={receiver}
-              reason={reason.Description}
-              amount={amount}
+              recipient={recipient}
+              reason={reason || ""}
+              amount={transferAmount || 0}
               note={note}
             />
             <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>

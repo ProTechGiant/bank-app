@@ -7,7 +7,7 @@ interface BeneficiaryListProps {
   title: string;
   beneficiaries: BeneficiaryType[];
   onDelete: (id: number) => void;
-  onBeneficiaryPress: () => void;
+  onBeneficiaryPress: (accountName: string, accountNumber: string, phoneNumber: string | undefined) => void;
   onMenuPress: (beneficiary: BeneficiaryType) => void;
 }
 
