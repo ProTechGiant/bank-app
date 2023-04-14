@@ -66,7 +66,8 @@ export default function EnterBeneficiaryByMobileForm({ selectionType }: EnterBen
         selectionValue: response.PhoneNumber || "",
       });
     } catch (error) {
-      if (error instanceof ApiError && error.errorContent.Message === "MOBILE_NO beneficiary already exists") {
+      if (error instanceof ApiError && error.errorContent.Message.includes(ERROR_BENEFICIARY_EXISTS)) {
+        // For the error "MOBILE_NO beneficiary already exists" & "CRM_CUSTOMER beneficiary already exists"
         setIsMobileInUseModalVisible(true);
       } else {
         setIsGenericErrorModalVisible(true);
@@ -143,3 +144,5 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 });
+
+const ERROR_BENEFICIARY_EXISTS = "beneficiary already exists";
