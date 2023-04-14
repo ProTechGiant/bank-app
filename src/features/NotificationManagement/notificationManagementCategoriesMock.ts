@@ -1,6 +1,8 @@
 import { REWARDS_ID, TRANSFERS_ID, YOUR_ACCOUNT_ID, YOUR_MONEY_ID } from "./constants";
 import { Categories } from "./types";
 
+// This comment is for testing our PR flow
+
 export const mockNotificationManagementCategories: Categories[] = [
   {
     categoryId: TRANSFERS_ID,
