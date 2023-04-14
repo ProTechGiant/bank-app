@@ -120,7 +120,9 @@ export default function ConfirmDeliveryAddress({ onConfirm, primaryAddress }: Co
                   addressLineOne={address.AddressLineOne}
                   addressLineTwo={address.AddressLineTwo}
                   addressLineThree={address.District}
-                  addressLineFour={`${address.City} ${address.PostalCode}`}
+                  addressLineFour={
+                    address.City === undefined ? `${address.PostalCode}` : `${address.City} ${address.PostalCode}`
+                  }
                   isSelected={address.isSelected}
                   isTemporary={address.id === TEMPORARY_ID}
                   onPress={() => handleOnAddressPress(address.id)}

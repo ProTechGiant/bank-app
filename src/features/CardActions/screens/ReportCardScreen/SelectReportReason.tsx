@@ -18,7 +18,7 @@ interface SelectReportReasonProps {
 
 export default function SelectReportReason({ cardStatus, onContinuePress, onFreezePress }: SelectReportReasonProps) {
   const { t } = useTranslation();
-  const [selectedReason, setSelectedReason] = useState<"stolen" | "lost" | "damage">();
+  const [selectedReason, setSelectedReason] = useState<"stolen" | "lost" | "damaged">();
 
   const handleOnContinuePress = () => {
     if (selectedReason === undefined) return;
@@ -51,7 +51,7 @@ export default function SelectReportReason({ cardStatus, onContinuePress, onFree
           <RadioButtonGroup onPress={value => setSelectedReason(value)} value={selectedReason}>
             <RadioButton label={t("CardActions.ReportCardScreen.SelectReportReason.cardStolen")} value="stolen" />
             <RadioButton label={t("CardActions.ReportCardScreen.SelectReportReason.cardLost")} value="lost" />
-            <RadioButton label={t("CardActions.ReportCardScreen.SelectReportReason.cardDamaged")} value="damage" />
+            <RadioButton label={t("CardActions.ReportCardScreen.SelectReportReason.cardDamaged")} value="damaged" />
           </RadioButtonGroup>
         </View>
       </View>

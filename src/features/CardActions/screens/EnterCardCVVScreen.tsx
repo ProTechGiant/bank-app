@@ -21,7 +21,7 @@ import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { CardActionsStackParams } from "../CardActionsStack";
 import ViewCVVModel from "../components/ViewCVVModel";
-import { useUnfreezeCard, useVerifyCVV } from "../hooks/query-hooks";
+import { useChangeCardStatus, useVerifyCVV } from "../hooks/query-hooks";
 import useOtpFlow from "../hooks/use-otp";
 
 export default function EnterCardCVVScreen() {
@@ -38,7 +38,7 @@ export default function EnterCardCVVScreen() {
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
   const verifyCVVAsync = useVerifyCVV();
-  const unfreezeCardAsync = useUnfreezeCard();
+  const unfreezeCardAsync = useChangeCardStatus();
   const otpFlow = useOtpFlow();
 
   const handleOnBackPress = () => {
@@ -76,7 +76,7 @@ export default function EnterCardCVVScreen() {
 
   const handleOnUnfreezeCard = async () => {
     try {
-      const response = await unfreezeCardAsync.mutateAsync({ cardId });
+      const response = await unfreezeCardAsync.mutateAsync({ cardId, status: "unfreeze" });
 
       otpFlow.handle({
         action: {
@@ -92,7 +92,7 @@ export default function EnterCardCVVScreen() {
           correlationId: response.correlationId,
         },
         onOtpRequestResend: () => {
-          return unfreezeCardAsync.mutateAsync({ cardId });
+          return unfreezeCardAsync.mutateAsync({ cardId, status: "unfreeze" });
         },
         onFinish: status => {
           if (status === "cancel") {

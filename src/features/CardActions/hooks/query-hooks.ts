@@ -5,7 +5,7 @@ import { Address } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 import { tokenizeCardForAppleWalletAsync } from "@/utils/apple-wallet";
 
-import { Card, CardSettingsInput } from "../types";
+import { Card, CardSettingsInput, CardStatus } from "../types";
 
 export const queryKeys = {
   all: () => ["cards"] as const,
@@ -59,8 +59,8 @@ export function useFreezeCard() {
   );
 }
 
-export function useUnfreezeCard() {
-  return useMutation(async ({ cardId }: { cardId: string }) => {
+export function useChangeCardStatus() {
+  return useMutation(async ({ cardId, status }: { cardId: string; status: CardStatus }) => {
     const correlationId = generateRandomId();
 
     const response = await api<OtpRequiredResponse>(
@@ -68,7 +68,7 @@ export function useUnfreezeCard() {
       `cards/${cardId}`,
       "POST",
       undefined,
-      { Status: "unfreeze" },
+      { Status: status },
       {
         ["x-correlation-id"]: correlationId,
       }
@@ -222,38 +222,6 @@ export function useUnmaskedCardDetails() {
 
     return { ...response, correlationId };
   });
-}
-
-export function useReportCard() {
-  const queryClient = useQueryClient();
-
-  return useMutation(
-    ({
-      cardId,
-      correlationId,
-      status,
-      alternativeAddress,
-    }: {
-      cardId: string;
-      correlationId: string;
-      status: string;
-      alternativeAddress?: Address;
-    }) => {
-      return api<OtpRequiredResponse>(
-        "v1",
-        `cards/${cardId}`,
-        "POST",
-        undefined,
-        { Status: status, alternativeAddress: alternativeAddress },
-        { ["x-correlation-id"]: correlationId }
-      );
-    },
-    {
-      onSettled: () => {
-        queryClient.invalidateQueries(queryKeys.all());
-      },
-    }
-  );
 }
 
 export function useMeawalletTokenization(cardId: string) {

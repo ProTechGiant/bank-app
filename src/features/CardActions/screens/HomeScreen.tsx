@@ -17,7 +17,13 @@ import { generateRandomId } from "@/utils";
 
 import { CardBanner, QuickActionsMenu, ViewPinModal } from "../components";
 import { hasActiveSingleUseCard, isCardInactive } from "../helpers";
-import { useCards, useCustomerTier, useFreezeCard, useRequestViewPinOtp, useUnfreezeCard } from "../hooks/query-hooks";
+import {
+  useCards,
+  useChangeCardStatus,
+  useCustomerTier,
+  useFreezeCard,
+  useRequestViewPinOtp,
+} from "../hooks/query-hooks";
 import useOtpFlow from "../hooks/use-otp";
 import { Card } from "../types";
 
@@ -30,7 +36,7 @@ export default function HomeScreen() {
   const otpFlow = useOtpFlow();
 
   const freezeCardAsync = useFreezeCard();
-  const unfreezeCardAsync = useUnfreezeCard();
+  const changeCardStatusAsync = useChangeCardStatus();
   const requestViewPinOtpAsync = useRequestViewPinOtp();
 
   const cardsList = data?.Cards ?? [];
@@ -39,8 +45,6 @@ export default function HomeScreen() {
   const [isViewingPin, setIsViewingPin] = useState(false);
   const [pin, setPin] = useState<string | undefined>();
   const [isCardBannerVisible, setIsCardBannerVisible] = useState(true);
-
-  const isActivationAllowed = false; // @todo will be removed with correct BE response
 
   const handleOnFreezeCardPress = async (cardId: string) => {
     const correlationId = generateRandomId();
@@ -56,7 +60,7 @@ export default function HomeScreen() {
 
   const handleOnUnfreezeCardPress = async (cardId: string) => {
     try {
-      const response = await unfreezeCardAsync.mutateAsync({ cardId });
+      const response = await changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "unfreeze" });
 
       otpFlow.handle({
         action: {
@@ -72,7 +76,7 @@ export default function HomeScreen() {
           correlationId: response.correlationId,
         },
         onOtpRequestResend: () => {
-          return unfreezeCardAsync.mutateAsync({ cardId });
+          return changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "unfreeze" });
         },
       });
     } catch (error) {
@@ -177,7 +181,7 @@ export default function HomeScreen() {
         onPress={() => handleOnCardPress(card.CardId)}
         isExpiringSoon={card.Status === "expired_report" && card.CardType === PHYSICAL_CARD_TYPE}
         actionButton={
-          isActivationAllowed && card.CardType === PHYSICAL_CARD_TYPE ? (
+          card.Status === "pending-activation" && card.CardType === PHYSICAL_CARD_TYPE ? (
             <BankCard.ActionButton
               title={t("CardActions.activatePhysicalCard")}
               type="light"

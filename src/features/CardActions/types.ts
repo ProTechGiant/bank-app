@@ -31,7 +31,7 @@ export type CardStatus =
   | "unfreeze"
   | "freeze"
   | "lost"
-  | "damage"
+  | "damaged"
   | "stolen"
   | "pending-activation";
 
@@ -48,6 +48,7 @@ export interface CardCreateResponse {
     CardId: string;
     CardType: string;
     CardProductId: string;
+    Status: string;
   };
 }
 

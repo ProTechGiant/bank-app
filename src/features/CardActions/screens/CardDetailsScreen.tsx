@@ -32,9 +32,9 @@ import {
 } from "../components";
 import {
   useCard,
+  useChangeCardStatus,
   useFreezeCard,
   useRequestViewPinOtp,
-  useUnfreezeCard,
   useUnmaskedCardDetails,
 } from "../hooks/query-hooks";
 import useAppleWallet from "../hooks/use-apple-wallet";
@@ -48,7 +48,7 @@ export default function CardDetailsScreen() {
 
   const otpFlow = useOtpFlow();
   const freezeCardAsync = useFreezeCard();
-  const unfreezeCardAsync = useUnfreezeCard();
+  const changeCardStatusAsync = useChangeCardStatus();
   const requestViewPinOtpAsync = useRequestViewPinOtp();
   const requestUnmaskedCardDetailsAsync = useUnmaskedCardDetails();
   const card = useCard(route.params.cardId);
@@ -68,8 +68,6 @@ export default function CardDetailsScreen() {
   const selectedCard = card.data;
   const cardId = route.params.cardId;
   const cardStatus = selectedCard?.Status;
-
-  const isActivationAllowed = false; // @todo will be removed with correct BE response
 
   useEffect(() => {
     setTimeout(() => setIsSucCreatedAlertVisible(route.params?.isSingleUseCardCreated ?? false), 500);
@@ -206,7 +204,7 @@ export default function CardDetailsScreen() {
 
   const handleOnUnfreezeCardPress = async () => {
     try {
-      const response = await unfreezeCardAsync.mutateAsync({ cardId });
+      const response = await changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "unfreeze" });
 
       otpFlow.handle({
         action: {
@@ -225,7 +223,7 @@ export default function CardDetailsScreen() {
           correlationId: response.correlationId,
         },
         onOtpRequestResend: () => {
-          return unfreezeCardAsync.mutateAsync({ cardId });
+          return changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "unfreeze" });
         },
       });
     } catch (error) {
@@ -302,7 +300,7 @@ export default function CardDetailsScreen() {
           subtitle={t("CardActions.CardExpiryNotification.content")}
           actionTitle={t("CardActions.CardExpiryNotification.button")}
         />
-      ) : isActivationAllowed || cardStatus === "inactive" ? (
+      ) : cardStatus === "pending-activation" || cardStatus === "inactive" ? (
         <CardBanner
           icon={<CloseIcon />}
           onClose={() => {
@@ -387,7 +385,7 @@ export default function CardDetailsScreen() {
                 productId={selectedCard?.ProductId}
                 isExpiringSoon={cardStatus === "expired_report"}
                 actionButton={
-                  isActivationAllowed && selectedCard?.CardType === PHYSICAL_CARD_TYPE ? (
+                  cardStatus === "pending-activation" && selectedCard?.CardType === PHYSICAL_CARD_TYPE ? (
                     <BankCard.ActionButton
                       title={t("CardActions.activatePhysicalCard")}
                       type="light"

@@ -880,7 +880,7 @@ export const resources = {
             buttonTitle: "Confirm address and cancel card",
             editAddressButton: "Edit temporary address",
             differentAddressButton: "Deliver to temporary address",
-            alertTitle: "Are you sure you want to cancel card?",
+            alertTitle: "Are you sure?",
             alertMessage:
               "We’ll cancel your card straight away and you won’t be able to use it. \n\nWhile you wait for your physical card, you’ll be able to use your new card online or on your phone immediately.",
             confirmButton: "Cancel card",
