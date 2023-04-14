@@ -986,6 +986,7 @@ export const resources = {
           done: "Done",
           required: "Only letters and numbers are allowed",
           noSpecialCharacters: 'All special characters are not allowed except for this (")',
+          and: " and ",
         },
         PaymentHub: {
           title: "Money in & out",

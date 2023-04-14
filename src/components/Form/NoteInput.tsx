@@ -41,13 +41,8 @@ export default function NoteInput<T extends FieldValues>({
     width: 0,
   }));
 
-  const handleOnPressIcon = () => {
-    field.onChange("");
-  };
-
   return (
     <View>
-      {label ? <InputLabel>{label}</InputLabel> : null}
       <View style={styles.fieldsContainer}>
         <InputBox
           extraStart={extra}
@@ -71,9 +66,6 @@ export default function NoteInput<T extends FieldValues>({
             numberOfLines={2}
             style={textStyles}
           />
-          <Pressable onPress={handleOnPressIcon}>
-            <CancelCircleFilledIcon />
-          </Pressable>
         </InputBox>
       </View>
     </View>

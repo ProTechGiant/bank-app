@@ -21,6 +21,12 @@ export default function ErrorMessage<T extends FieldValues>({ control, name, for
   const normalizedContent = field.value.toLowerCase();
   const forbidden = forbiddenWords.filter(forbiddenWord => normalizedContent.includes(forbiddenWord));
 
+  const forbiddenList = forbidden.join(", ");
+  const forbiddenError =
+    forbidden.length > 0
+      ? forbiddenList.charAt(0).toUpperCase() + forbiddenList.slice(1) + t("InternalTransfers.AddNoteScreen.and")
+      : "";
+
   const errorContainer = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["errorBase-40"],
     paddingHorizontal: theme.spacing["20p"],
@@ -39,8 +45,6 @@ export default function ErrorMessage<T extends FieldValues>({ control, name, for
 
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
-  const forbiddenError = forbidden.length > 0 ? forbidden.toString() + " and " : "";
-
   return (
     <>
       {error || forbidden.length > 0 ? (
@@ -50,9 +54,7 @@ export default function ErrorMessage<T extends FieldValues>({ control, name, for
             {forbiddenError + t("InternalTransfers.AddNoteScreen.noSpecialCharacters")}
           </Typography.Text>
         </View>
-      ) : (
-        []
-      )}
+      ) : null}
     </>
   );
 }

@@ -18,9 +18,8 @@ import { alphaNumericSpaceQuoteRegExp } from "@/utils";
 import ErrorMessage from "../components/ErrorMessage";
 import SubmitNoteButton from "../components/SubmitNoteButton";
 import { InternalTransfersStackParams } from "../InternalTransfersStack";
+import { FORBIDDEN_WORDS } from "../mocks/mockForbiddenWords";
 import { Note } from "../types";
-
-const ILLEGAL_WORDS = ["cash", "booz", "alcohol", "sex", "prostitute", "terrorism", "weapon", "money laundering"];
 
 export default function AddNoteScreen() {
   const { t } = useTranslation();
@@ -74,12 +73,12 @@ export default function AddNoteScreen() {
             />
           </Stack>
           <View style={styles.buttonContainer}>
-            <ErrorMessage control={control} name="content" forbiddenWords={ILLEGAL_WORDS} />
+            <ErrorMessage control={control} name="content" forbiddenWords={FORBIDDEN_WORDS} />
             <SubmitNoteButton
               control={control}
               name="content"
               onSubmit={handleSubmit(handleOnSubmit)}
-              forbiddenWords={ILLEGAL_WORDS}>
+              forbiddenWords={FORBIDDEN_WORDS}>
               {t("InternalTransfers.EnterBeneficiaryDetailsScreen.continueButton")}
             </SubmitNoteButton>
           </View>
