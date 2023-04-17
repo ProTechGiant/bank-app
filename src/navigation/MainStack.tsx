@@ -16,6 +16,7 @@ import SavingsGoalsStack from "@/features/SavingsGoals/SavingsGoalsStack";
 import SettingsScreen from "@/features/Settings/screens/SettingsScreen";
 import TemporaryDummyScreen from "@/features/Temporary/TemporaryDummyScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
+import WhatsNextStack from "@/features/WhatsNext/WhatsNextStack";
 
 import MainStackParams from "./mainStackParams";
 
@@ -51,6 +52,7 @@ export default function MainStack({ onReady }: MainStackProps) {
         />
         <Stack.Screen component={NotificationManagementHubScreen} name="NotificationManagement.HubScreen" />
         <Stack.Screen component={NotificationManagementCategoryScreen} name="NotificationManagement.CategoryScreen" />
+        <Stack.Screen component={WhatsNextStack} name="WhatsNext.WhatsNextStack" />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -5,6 +5,7 @@ import { InternalTransfersStackParams } from "@/features/InternalTransfers/Inter
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
 import { ReferralStackParams } from "@/features/Referral/ReferralStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
+import { WhatsNextStackParams } from "@/features/WhatsNext/WhatsNextStack";
 
 type RootStackParams = {
   "CardActions.CardActionsStack": {
@@ -29,6 +30,7 @@ type RootStackParams = {
   "FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack": undefined;
   "NotificationManagement.HubScreen": undefined;
   "NotificationManagement.CategoryScreen": { categoryId: string; title: string };
+  "WhatsNext.WhatsNextStack": undefined;
 };
 
 type MainStackParams = RootStackParams &
@@ -38,6 +40,7 @@ type MainStackParams = RootStackParams &
   CardActionsStackParams &
   ReferralStackParams &
   HomeStackParams &
-  FrequentlyAskedQuestionsStackParams;
+  FrequentlyAskedQuestionsStackParams &
+  WhatsNextStackParams;
 
 export default MainStackParams;

@@ -70,7 +70,7 @@ export default function DashboardScreen() {
   };
 
   const handleOnWhatsNextPress = () => {
-    // ..
+    navigation.navigate("WhatsNext.WhatsNextStack");
   };
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
