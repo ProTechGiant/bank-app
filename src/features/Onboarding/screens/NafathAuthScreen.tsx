@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Linking, View, ViewStyle } from "react-native";
 
+import Accordion from "@/components/Accordion";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -9,7 +10,7 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { LinkCard, LinkModal, MoreInfoDropdown } from "../components";
+import { LinkCard, LinkModal } from "../components";
 import { useRequestNumber } from "../hooks/query-hooks";
 
 export default function NafathAuthScreen() {
@@ -118,11 +119,11 @@ export default function NafathAuthScreen() {
               {t("Onboarding.NafathAuthScreen.siteButtonBody")}
             </Typography.Text>
           </LinkCard>
-          <MoreInfoDropdown title={t("Onboarding.NafathAuthScreen.dropdownTitle")}>
+          <Accordion title={t("Onboarding.NafathAuthScreen.dropdownTitle")}>
             <Typography.Text color="neutralBase" size="footnote">
               {t("Onboarding.NafathAuthScreen.dropdownBody")}
             </Typography.Text>
-          </MoreInfoDropdown>
+          </Accordion>
         </Stack>
       </View>
     </Page>

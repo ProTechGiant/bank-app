@@ -6,6 +6,7 @@ import { Alert, ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import { WithShadow } from "@/components";
+import Accordion from "@/components/Accordion";
 import CheckboxInput from "@/components/Form/CheckboxInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
@@ -17,7 +18,6 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { MoreInfoDropdown } from "../components";
 import { useConfirmPersonalDetails, useNafathDetails } from "../hooks/query-hooks";
 
 interface ConfirmDetailsForm {
@@ -109,7 +109,7 @@ export default function ConfirmPersonalDetailsScreen() {
               </View>
             </WithShadow>
           ) : null}
-          <MoreInfoDropdown title={t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownTitle")}>
+          <Accordion title={t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownTitle")}>
             <Typography.Text color="neutralBase" size="footnote" weight="regular">
               {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyOne")}
               <Typography.Text color="neutralBase" size="footnote" weight="bold">
@@ -117,7 +117,7 @@ export default function ConfirmPersonalDetailsScreen() {
               </Typography.Text>
               {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyThree")}
             </Typography.Text>
-          </MoreInfoDropdown>
+          </Accordion>
         </Stack>
       </ScrollView>
       <View style={footerStyle}>

@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Alert, ScrollView } from "react-native";
 import * as yup from "yup";
 
+import Accordion from "@/components/Accordion";
 import ContentContainer from "@/components/ContentContainer";
 import DropdownInput from "@/components/Form/DropdownInput";
 import SubmitButton from "@/components/Form/SubmitButton";
@@ -19,7 +20,6 @@ import { mockOccuptions } from "@/mocks/occupationData";
 import { mockSources } from "@/mocks/sourceOfIncomeData";
 import useNavigation from "@/navigation/use-navigation";
 
-import { MoreInfoDropdown } from "../components";
 import { useOnboardingBackButton } from "../hooks";
 import { useSubmitFinancialDetails } from "../hooks/query-hooks";
 import { FinancialDetails } from "../types";
@@ -97,11 +97,11 @@ export default function FinancialInformationScreen() {
               buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
               autoselect
             />
-            <MoreInfoDropdown title={t("Onboarding.FinancialInformationScreen.moreInfoDropdownTitle")}>
+            <Accordion title={t("Onboarding.FinancialInformationScreen.moreInfoDropdownTitle")}>
               <Typography.Text color="neutralBase" size="footnote">
                 {t("Onboarding.FinancialInformationScreen.moreInfoDropdownBody")}
               </Typography.Text>
-            </MoreInfoDropdown>
+            </Accordion>
             <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
               {t("Onboarding.FinancialInformationScreen.continue")}
             </SubmitButton>

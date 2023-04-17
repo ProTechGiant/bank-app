@@ -7,6 +7,7 @@ import { Alert, SafeAreaView, ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import ApiError from "@/api/ApiError";
+import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import SubmitButton from "@/components/Form/SubmitButton";
@@ -18,7 +19,7 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { AddCountryTile, MoreInfoDropdown, SelectedForeignTaxCountryCard } from "../components";
+import { AddCountryTile, SelectedForeignTaxCountryCard } from "../components";
 import { useOnboardingBackButton } from "../hooks";
 import { useFatcaDetails } from "../hooks/query-hooks";
 import { OnboardingStackParams } from "../OnboardingStack";
@@ -159,11 +160,11 @@ export default function FatcaDetailsScreen() {
                 </Button>
               </View>
             </Stack>
-            <MoreInfoDropdown title={t("Onboarding.FatcaDetailsScreen.moreInfoDropdownTitle")}>
+            <Accordion title={t("Onboarding.FatcaDetailsScreen.moreInfoDropdownTitle")}>
               <Typography.Text color="neutralBase" size="footnote">
                 {t("Onboarding.FatcaDetailsScreen.moreInfoDropdownBody")}
               </Typography.Text>
-            </MoreInfoDropdown>
+            </Accordion>
             {foreignTaxCountries.map((country, index) => (
               <SelectedForeignTaxCountryCard
                 key={index}

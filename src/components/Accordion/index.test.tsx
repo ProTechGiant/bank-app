@@ -1,14 +1,14 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
 import { Text } from "react-native";
 
-import MoreInfoDropdown from "./MoreInfoDropdown";
+import Accordion from ".";
 
-describe("features/Onboarding/components/MoreInfoDropdown", () => {
+describe("features/Onboarding/components/Accordion", () => {
   it("renders with content", () => {
     render(
-      <MoreInfoDropdown title="title">
+      <Accordion title="title">
         <Text>Content</Text>
-      </MoreInfoDropdown>
+      </Accordion>
     );
 
     expect(screen).toMatchSnapshot();
@@ -16,9 +16,9 @@ describe("features/Onboarding/components/MoreInfoDropdown", () => {
 
   it("toggles when pressed", () => {
     render(
-      <MoreInfoDropdown title="title">
+      <Accordion title="title">
         <Text>Content</Text>
-      </MoreInfoDropdown>
+      </Accordion>
     );
 
     const element = screen.getByText("title");
