@@ -75,6 +75,7 @@ export { default as SettingsIcon } from "./settings";
 export { default as ShippingIcon } from "./shipping";
 export { ShowIcon } from "./show";
 export { default as SplitIcon } from "./split";
+export { default as SupportAgentIcon } from "./support-agent";
 export { default as SyncIcon } from "./sync";
 export { ThreeDotsIcon } from "./three-dots";
 export { ThreeDotsVerticalIcon } from "./three-dots-vertical";

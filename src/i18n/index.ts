@@ -234,6 +234,7 @@ export const resources = {
       Settings: {
         SettingsScreen: {
           rewards: "Send invite",
+          helpAndSupport: "Help and Support",
           FAQs: "FAQ’s",
           notifications: "Notifications",
         },
@@ -1390,8 +1391,9 @@ export const resources = {
       Settings: {
         SettingsScreen: {
           rewards: "أرسل دعوة",
-          FAQs: "الأسئلة الشائعة",
+          helpAndSupport: "Help and Support",
           notifications: "التنبيهات",
+          FAQs: "الأسئلة الشائعة",
         },
       },
       InstructionsScreen: {

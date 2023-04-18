@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
+import { Alert } from "react-native";
 
-import { FriendsIcon, NotificationIcon, QuestionIcon } from "@/assets/icons";
+import { FriendsIcon, NotificationIcon, QuestionIcon, SupportAgentIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -16,15 +17,19 @@ export default function SettingsScreen() {
     navigation.navigate("Referral.HubScreen");
   };
 
+  const handleOnHelpAndSupportPress = () => {
+    Alert.alert("Help and support is pressed"); //TODO
+  };
+
+  const handleOnNotificationsPress = () => {
+    navigation.navigate("NotificationManagement.NotificationManagementStack");
+  };
+
   const handleOnQuestionsPress = () => {
     navigation.navigate(
       "FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack" //, {
       // screen: "FrequentlyAskedQuestions.LandingPage",
     );
-  };
-
-  const handleOnNotificationsPress = () => {
-    navigation.navigate("NotificationManagement.NotificationManagementStack");
   };
 
   return (
@@ -38,14 +43,19 @@ export default function SettingsScreen() {
             label={t("Settings.SettingsScreen.rewards")}
           />
           <TableListCard
-            onPress={handleOnQuestionsPress}
-            icon={<QuestionIcon />}
-            label={t("Settings.SettingsScreen.FAQs")}
+            onPress={handleOnHelpAndSupportPress}
+            icon={<SupportAgentIcon />}
+            label={t("Settings.SettingsScreen.helpAndSupport")}
           />
           <TableListCard
             onPress={handleOnNotificationsPress}
             icon={<NotificationIcon />}
             label={t("Settings.SettingsScreen.notifications")}
+          />
+          <TableListCard
+            onPress={handleOnQuestionsPress}
+            icon={<QuestionIcon />}
+            label={t("Settings.SettingsScreen.FAQs")}
           />
         </Stack>
       </ContentContainer>
