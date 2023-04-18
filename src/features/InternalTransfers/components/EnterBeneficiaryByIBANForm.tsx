@@ -1,37 +1,27 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useMemo, useState } from "react";
+import React, { ForwardedRef, forwardRef, useImperativeHandle, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import * as Yup from "yup";
 
-import ApiError from "@/api/ApiError";
-import Button from "@/components/Button";
 import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import SubmitButton from "@/components/Form/SubmitButton";
-import NotificationModal from "@/components/NotificationModal";
-import { warn } from "@/logger";
-import useNavigation from "@/navigation/use-navigation";
 import { ibanRegExp } from "@/utils";
 
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
-import { useAddBeneficiary } from "../hooks/query-hooks";
-import { AddBeneficiary, AddBeneficiarySelectionType, EnterBeneficiaryFormProps } from "../types";
+import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
 
-interface EnterBeneficiaryByIBANInput {
-  SelectionType: AddBeneficiarySelectionType;
-  SelectionValue: string;
-}
-
-export default function EnterBeneficiaryByIBANForm({ selectionType }: EnterBeneficiaryFormProps) {
+export default forwardRef(function EnterBeneficiaryByIBANForm(
+  { selectionType, onSubmit }: EnterBeneficiaryFormProps,
+  ref: ForwardedRef<AddBeneficiaryFormForwardRef>
+) {
   const { t } = useTranslation();
-  const navigation = useNavigation();
-  const addBeneficiaryAsync = useAddBeneficiary();
-  const { setAddBeneficiary, setRecipient } = useInternalTransferContext();
 
-  const [isIBANInUseModalVisible, setIsIBANInUseModalVisible] = useState(false);
-  const [isIBANNotRecognisedModalVisible, setIsIBANNotRecognisedModalVisible] = useState(false);
-  const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
+  useImperativeHandle(ref, () => ({
+    reset() {
+      reset();
+    },
+  }));
 
   const validationSchema = useMemo(
     () =>
@@ -44,7 +34,7 @@ export default function EnterBeneficiaryByIBANForm({ selectionType }: EnterBenef
     [t]
   );
 
-  const { control, setValue, handleSubmit } = useForm<EnterBeneficiaryByIBANInput>({
+  const { control, reset, handleSubmit } = useForm<AddBeneficiary>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -52,49 +42,6 @@ export default function EnterBeneficiaryByIBANForm({ selectionType }: EnterBenef
       SelectionValue: "",
     },
   });
-
-  const handleOnSubmit = async (values: AddBeneficiary) => {
-    try {
-      const response = await addBeneficiaryAsync.mutateAsync(values);
-      setAddBeneficiary({
-        SelectionType: selectionType,
-        SelectionValue: response.IBAN || "",
-      });
-      setRecipient({
-        accountName: response.Name,
-        accountNumber: response.BankAccountNumber,
-        phoneNumber: response.PhoneNumber,
-        type: "new",
-      });
-      navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen");
-    } catch (error) {
-      if (error instanceof ApiError && error.errorContent.Message === "Account does not exist") {
-        setIsIBANNotRecognisedModalVisible(true);
-      } else if (error instanceof ApiError && error.errorContent.Message === "IBAN beneficiary already exists") {
-        setIsIBANInUseModalVisible(true);
-      } else {
-        setIsGenericErrorModalVisible(true);
-      }
-      warn("Add Beneficiary", "Could not add beneficiary: ", JSON.stringify(error));
-    }
-  };
-
-  const handleOnDifferentBeneficiaryPress = () => {
-    setValue("SelectionValue", "");
-    setIsIBANInUseModalVisible(false);
-  };
-
-  const handleOnCancelDifferentBeneficiaryPress = () => {
-    setIsIBANInUseModalVisible(false);
-  };
-
-  const handleOnIBANNotRecognisedModalClose = () => {
-    setIsIBANNotRecognisedModalVisible(false);
-  };
-
-  const handleOnGenericErrorClose = () => {
-    setIsGenericErrorModalVisible(false);
-  };
 
   return (
     <>
@@ -110,47 +57,13 @@ export default function EnterBeneficiaryByIBANForm({ selectionType }: EnterBenef
         />
       </View>
       <View style={styles.buttonContainer}>
-        <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+        <SubmitButton control={control} onSubmit={handleSubmit(onSubmit)}>
           {t("InternalTransfers.EnterBeneficiaryDetailsScreen.continueButton")}
         </SubmitButton>
       </View>
-      <NotificationModal
-        buttons={{
-          primary: (
-            <Button onPress={() => handleOnDifferentBeneficiaryPress()}>
-              {t(
-                "InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.ibanInUseModal.chooseDifferentBeneficiaryButton"
-              )}
-            </Button>
-          ),
-          secondary: (
-            <Button onPress={() => handleOnCancelDifferentBeneficiaryPress()}>
-              {t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.ibanInUseModal.cancelButton")}
-            </Button>
-          ),
-        }}
-        title={t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.ibanInUseModal.title")}
-        message={t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.ibanInUseModal.message")}
-        isVisible={isIBANInUseModalVisible}
-        variant="error"
-      />
-      <NotificationModal
-        title={t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.ibanNotRecognisedModal.title")}
-        message={t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.ibanNotRecognisedModal.message")}
-        isVisible={isIBANNotRecognisedModalVisible}
-        variant="error"
-        onClose={() => handleOnIBANNotRecognisedModalClose()}
-      />
-      <NotificationModal
-        title={t("errors.generic.title")}
-        message={t("errors.generic.message")}
-        isVisible={isGenericErrorModalVisible}
-        variant="error"
-        onClose={() => handleOnGenericErrorClose()}
-      />
     </>
   );
-}
+});
 
 const styles = StyleSheet.create({
   buttonContainer: {

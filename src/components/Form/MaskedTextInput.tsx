@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 import {
   I18nManager,
@@ -54,6 +54,14 @@ export default function MaskedTextInput<T extends FieldValues>({
   const [hints, setHints] = useState(mask);
 
   const numberOfSpace = mask.split(" ").length - 1;
+
+  // reset hints and value
+  useEffect(() => {
+    if (field.value === "") {
+      setMasked("");
+      setHints(mask);
+    }
+  }, [field.value, mask]);
 
   const handleValueChange = (inputValue: string) => {
     let maskedValue = "";

@@ -45,4 +45,9 @@ export interface AddBeneficiary {
 
 export interface EnterBeneficiaryFormProps {
   selectionType: AddBeneficiarySelectionType;
+  onSubmit: (values: AddBeneficiary) => Promise<void>;
+}
+
+export interface AddBeneficiaryFormForwardRef {
+  reset: () => void;
 }

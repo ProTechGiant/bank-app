@@ -1054,6 +1054,10 @@ export const resources = {
               chooseDifferentBeneficiaryButton: "Choose different beneficiary",
               cancelButton: "Cancel",
             },
+            mobileNotRecognisedModal: {
+              title: "Mobile number not recognised",
+              message: "That number isn't used for a Croatia account. Please check it.",
+            },
           },
           accountNumberForm: {
             accountNumber: {
@@ -1669,6 +1673,10 @@ export const resources = {
             message: "You've already used this mobile number for one of your beneficiaries.",
             chooseDifferentBeneficiaryButton: "Choose different beneficiary",
             cancelButton: "Cancel",
+          },
+          mobileNotRecognisedModal: {
+            title: "Mobile number not recognised",
+            message: "That number isn't used for a Croatia account. Please check it.",
           },
         },
         accountNumberForm: {

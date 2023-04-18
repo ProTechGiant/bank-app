@@ -16,11 +16,13 @@ interface BeneficiariesResponse {
 }
 
 export function useTransferReasons() {
+  const { userId } = useAuthContext();
+
   const reasons = useQuery(["personalReason"], () => {
     return api<ReasonsResponse>("v1", "payments/reason-for-payment", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
       // TODO: Remove hardcoded UserId once login is hooked up
-      ["UserId"]: "301",
+      ["UserId"]: userId || "10007",
     });
   });
 
@@ -28,11 +30,13 @@ export function useTransferReasons() {
 }
 
 export function useBeneficiaries() {
+  const { userId } = useAuthContext();
+
   const beneficiaries = useQuery("Beneficiaries", () => {
     return api<BeneficiariesResponse>("v1", "payments/beneficiaries", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
       // TODO: Remove hardcoded UserId once login is hooked up
-      ["UserId"]: "10007",
+      ["UserId"]: userId || "10007",
     });
   });
 
@@ -40,6 +44,8 @@ export function useBeneficiaries() {
 }
 
 export function useDeleteBeneficiary() {
+  const { userId } = useAuthContext();
+
   return useMutation(async ({ name, accountNumber }: { name: string; accountNumber: string }) => {
     return sendApiRequest<string>(
       "v1",
@@ -53,7 +59,7 @@ export function useDeleteBeneficiary() {
       {
         ["x-correlation-id"]: generateRandomId(),
         // TODO: Remove hardcoded UserId once login is hooked up
-        ["UserId"]: "10007",
+        ["UserId"]: userId || "10007",
       }
     );
   });
@@ -81,7 +87,7 @@ export function useAddBeneficiary() {
       },
       {
         ["x-correlation-id"]: generateRandomId(),
-        ["UserId"]: userId || "301", // TODO: Remove hardcoded UserId once login is hooked up
+        ["UserId"]: userId || "10007", // TODO: Remove hardcoded UserId once login is hooked up
       }
     );
   });
