@@ -1391,7 +1391,7 @@ export const resources = {
       Settings: {
         SettingsScreen: {
           rewards: "أرسل دعوة",
-          helpAndSupport: "Help and Support",
+          helpAndSupport: "الدعم والمساعدة",
           notifications: "التنبيهات",
           FAQs: "الأسئلة الشائعة",
         },
