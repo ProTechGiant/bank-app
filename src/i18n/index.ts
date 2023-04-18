@@ -1071,7 +1071,7 @@ export const resources = {
               placeholder: "Account number",
               validation: {
                 required: "Required",
-                invalid: "Account number need 12 numbers",
+                invalid: "Account number need 9 numbers",
               },
             },
             accountNumberInUseModal: {
@@ -1697,7 +1697,7 @@ export const resources = {
             placeholder: "Account number",
             validation: {
               required: "Required",
-              invalid: "Account number need 12 numbers",
+              invalid: "Account number need 9 numbers",
             },
           },
           accountNumberInUseModal: {

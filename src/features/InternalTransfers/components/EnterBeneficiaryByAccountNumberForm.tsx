@@ -7,6 +7,7 @@ import * as Yup from "yup";
 
 import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import SubmitButton from "@/components/Form/SubmitButton";
+import { numericRegExp } from "@/utils";
 
 import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
 
@@ -26,6 +27,10 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
     () =>
       Yup.object({
         SelectionValue: Yup.string()
+          .matches(
+            numericRegExp,
+            t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.invalid")
+          )
           .required(
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.required")
           )
