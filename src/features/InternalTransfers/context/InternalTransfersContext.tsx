@@ -19,12 +19,14 @@ interface InternalTransferContextState {
     accountName: string | undefined;
     accountNumber: string | undefined;
     phoneNumber: string | undefined;
+    iban: string | undefined;
     type: RecipientType | undefined;
   }) => void;
   recipient: {
     accountName: string | undefined;
     accountNumber: string | undefined;
     phoneNumber: string | undefined;
+    iban: string | undefined;
     type: RecipientType | undefined;
   };
 }
@@ -43,6 +45,7 @@ const InternalTransferContext = createContext<InternalTransferContextState>({
     accountName: undefined,
     accountNumber: undefined,
     phoneNumber: undefined,
+    iban: undefined,
     type: undefined,
   },
 });
@@ -62,6 +65,7 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
       accountName: undefined,
       accountNumber: undefined,
       phoneNumber: undefined,
+      iban: undefined,
       type: undefined,
     },
   });
@@ -89,6 +93,7 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
     accountName: string | undefined;
     accountNumber: string | undefined;
     phoneNumber: string | undefined;
+    iban: string | undefined;
     type: RecipientType;
   }) => {
     setState(v => ({ ...v, recipient }));

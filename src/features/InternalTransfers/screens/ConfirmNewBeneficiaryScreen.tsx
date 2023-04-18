@@ -92,15 +92,16 @@ export default function ConfirmNewBeneficiaryScreen() {
                 label={recipient.accountName}
               />
             ) : null}
-            {recipient.type === "new" && addBeneficiary?.SelectionType === "accountId" ? (
+            {recipient.accountNumber !== undefined ? (
               <TableListCard
                 isGrouped
                 icon={<BankAccountIcon color={iconColor} />}
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.accountNumber")}
-                label={addBeneficiary?.SelectionValue}
+                label={recipient.accountNumber}
               />
-            ) : recipient.type === "new" && addBeneficiary?.SelectionType === "mobileNo" ? (
+            ) : null}
+            {recipient.type === "new" && addBeneficiary?.SelectionType === "mobileNo" ? (
               <TableListCard
                 isGrouped
                 icon={<PhoneFilledIcon color={iconColor} />}
@@ -108,7 +109,7 @@ export default function ConfirmNewBeneficiaryScreen() {
                 caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
                 label={parsePhoneNumber(COUNTRY_CODE + addBeneficiary?.SelectionType).format("INTERNATIONAL")}
               />
-            ) : recipient.type === "new" ? (
+            ) : recipient.type === "new" && addBeneficiary?.SelectionType === "IBAN" ? (
               <TableListCard
                 isGrouped
                 icon={<NumbersIcon color={iconColor} />}
@@ -124,6 +125,14 @@ export default function ConfirmNewBeneficiaryScreen() {
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
                 label={recipient.phoneNumber}
+              />
+            ) : recipient.type === "inactive" && recipient.iban !== undefined ? (
+              <TableListCard
+                isGrouped
+                icon={<NumbersIcon color={iconColor} />}
+                iconBackground="neutralBase-40"
+                caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.iban")}
+                label={formatIban(recipient.iban || "")}
               />
             ) : null}
           </TableListCardGroup>

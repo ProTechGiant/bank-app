@@ -97,12 +97,14 @@ export default function SendToBeneficiaryScreen() {
     type: RecipientType,
     accountName: string,
     accountNumber: string,
-    phoneNumber: string | undefined
+    phoneNumber: string | undefined,
+    iban: string | undefined
   ) => {
     setRecipient({
       accountName,
       accountNumber,
       phoneNumber,
+      iban,
       type,
     });
     type === "active"
@@ -189,8 +191,8 @@ export default function SendToBeneficiaryScreen() {
                         title={t("InternalTransfers.SendToBeneficiaryScreen.confirmedBeneficiariesListTitle")}
                         beneficiaries={activeBeneficiaries}
                         onDelete={handleOnDelete}
-                        onBeneficiaryPress={(accountName, accountNumber, phoneNumber) => {
-                          handleOnBeneficiaryPress("active", accountName, accountNumber, phoneNumber);
+                        onBeneficiaryPress={(accountName, accountNumber, phoneNumber, iban) => {
+                          handleOnBeneficiaryPress("active", accountName, accountNumber, phoneNumber, iban);
                         }}
                         onMenuPress={handleOnMenuPress}
                       />
@@ -206,8 +208,8 @@ export default function SendToBeneficiaryScreen() {
                       title={t("InternalTransfers.SendToBeneficiaryScreen.unconfirmedBeneficiariesListTitle")}
                       beneficiaries={inactiveBeneficiaries}
                       onDelete={handleOnDelete}
-                      onBeneficiaryPress={(accountName, accountNumber, phoneNumber) => {
-                        handleOnBeneficiaryPress("inactive", accountName, accountNumber, phoneNumber);
+                      onBeneficiaryPress={(accountName, accountNumber, phoneNumber, iban) => {
+                        handleOnBeneficiaryPress("inactive", accountName, accountNumber, phoneNumber, iban);
                       }}
                       onMenuPress={handleOnMenuPress}
                     />
