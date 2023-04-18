@@ -19,10 +19,10 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { REWARDS_ID, TRANSFERS_ID, YOUR_ACCOUNT_ID, YOUR_MONEY_ID } from "../../constants";
-import { useNotificationPreferences } from "../../query-hooks";
-import { Categories } from "../../types";
-import CategorySection from "./CategorySection";
+import { CategorySection } from "../components";
+import { REWARDS_ID, TRANSFERS_ID, YOUR_ACCOUNT_ID, YOUR_MONEY_ID } from "../constants";
+import { useNotificationPreferences } from "../query-hooks";
+import { Categories } from "../types";
 
 export default function HubScreen() {
   const { t } = useTranslation();

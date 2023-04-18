@@ -24,7 +24,7 @@ export default function SettingsScreen() {
   };
 
   const handleOnNotificationsPress = () => {
-    navigation.navigate("NotificationManagement.HubScreen");
+    navigation.navigate("NotificationManagement.NotificationManagementStack");
   };
 
   return (

@@ -2,6 +2,7 @@ import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack"
 import { FrequentlyAskedQuestionsStackParams } from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
 import { HomeStackParams } from "@/features/Home/HomeStack";
 import { InternalTransfersStackParams } from "@/features/InternalTransfers/InternalTransfersStack";
+import { NotificationManagementStackParams } from "@/features/NotificationManagement/NotificationManagementStack";
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
 import { ReferralStackParams } from "@/features/Referral/ReferralStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
@@ -23,6 +24,7 @@ type RootStackParams = {
   "Onboarding.OnboardingStack": undefined;
   "Modal.QuickActionsReorderModal": undefined;
   "Modal.HomepageReorderModal": undefined;
+  "NotificationManagement.NotificationManagementStack": undefined;
   "Settings.SettingsScreen": undefined;
   "SavingsGoals.SavingsGoalsStack": {
     savingsPotsNumber: number;
@@ -41,6 +43,7 @@ type MainStackParams = RootStackParams &
   ReferralStackParams &
   HomeStackParams &
   FrequentlyAskedQuestionsStackParams &
-  WhatsNextStackParams;
+  WhatsNextStackParams &
+  NotificationManagementStackParams;
 
 export default MainStackParams;

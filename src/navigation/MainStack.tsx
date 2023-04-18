@@ -6,8 +6,7 @@ import CardActionsStack from "@/features/CardActions/CardActionsStack";
 import FrequentlyAskedQuestionsStack from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
 import HomeStack from "@/features/Home/HomeStack";
 import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfersStack";
-import NotificationManagementCategoryScreen from "@/features/NotificationManagement/screens/CategoryScreen";
-import NotificationManagementHubScreen from "@/features/NotificationManagement/screens/HubScreen";
+import NotificationManagementStack from "@/features/NotificationManagement/NotificationManagementStack";
 import OnboardingStack from "@/features/Onboarding/OnboardingStack";
 import HubScreen from "@/features/Referral/screens/HubScreen";
 import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
@@ -50,8 +49,10 @@ export default function MainStack({ onReady }: MainStackProps) {
           component={FrequentlyAskedQuestionsStack}
           name="FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack"
         />
-        <Stack.Screen component={NotificationManagementHubScreen} name="NotificationManagement.HubScreen" />
-        <Stack.Screen component={NotificationManagementCategoryScreen} name="NotificationManagement.CategoryScreen" />
+        <Stack.Screen
+          component={NotificationManagementStack}
+          name="NotificationManagement.NotificationManagementStack"
+        />
         <Stack.Screen component={WhatsNextStack} name="WhatsNext.WhatsNextStack" />
       </Stack.Navigator>
     </NavigationContainer>

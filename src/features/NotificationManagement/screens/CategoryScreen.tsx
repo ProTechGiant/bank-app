@@ -12,10 +12,10 @@ import { warn } from "@/logger";
 import MainStackParams from "@/navigation/mainStackParams";
 import { useThemeStyles } from "@/theme";
 
-import { PUSH } from "../../constants";
-import { useNotificationPreferencesCategory, useUpdateNotificationPreferences } from "../../query-hooks";
-import { UpdatedSubCategories } from "../../types";
-import SubcategorySection from "./SubcategorySection";
+import { SubcategorySection } from "../components";
+import { PUSH } from "../constants";
+import { useNotificationPreferencesCategory, useUpdateNotificationPreferences } from "../query-hooks";
+import { UpdatedSubCategories } from "../types";
 
 export default function CategoryScreen() {
   const { t } = useTranslation();
