@@ -761,12 +761,18 @@ export const resources = {
         },
         OneTimePasswordModal: {
           title: "Enter one-time password",
-          message: "Enter the one-time code code we texted to your phone number, {{phoneNumber}}.",
-          resendCode: "Resend Code",
+          message:
+            "Enter the one-time code code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
+          resendCodeDisabled: "Resend Code in {{minutes}}:{{seconds}}",
+          resendCodeEnabled: "Resend Code",
           errors: {
-            invalidPassword: "The code you entered was invalid. Please try again",
-            reachedMaxAttempts:
-              "You have reached the maximum number of authentication attempts. Please try again later.",
+            invalidPassword: "That code wasn't right - try again.",
+            twoAttemptsLeft: "That code has expired. You can request 2 more codes.",
+            oneAttemptLeft: "That code has expired. You can request 1 more code.",
+            reachedMaxAttemptsTitle: "Try again later",
+            reachedMaxAttemptsMessage:
+              "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
+            button: "OK",
           },
         },
         CardDetailsScreen: {
@@ -1482,12 +1488,17 @@ export const resources = {
         OneTimePasswordModal: {
           title: "Enter one-time password",
           message:
-            "Enter the 2-step verification code that we texted to your phone number, {{hiddenNumber}} {{phoneNumber}}.",
-          resendCode: "Resend Code",
+            "Enter the one-time code code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
+          resendCodeDisabled: "Resend Code in {{minutes}}:{{seconds}}",
+          resendCodeEnabled: "Resend Code",
           errors: {
-            invalidPassword: "The code you entered was invalid. Please try again",
-            reachedMaxAttempts:
-              "You have reached the maximum number of authentication attempts. Please try again later.",
+            invalidPassword: "That code wasn't right - try again.",
+            twoAttemptsLeft: "That code has expired. You can request 2 more codes.",
+            oneAttemptLeft: "That code has expired. You can request 1 more code.",
+            reachedMaxAttemptsTitle: "Try again later",
+            reachedMaxAttemptsMessage:
+              "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
+            button: "OK",
           },
         },
         standardCard: "Standard card",

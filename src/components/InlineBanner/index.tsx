@@ -23,6 +23,7 @@ export default function InlineBanner({ icon, text, testID, onClose, variant = "d
       columnGap: theme.spacing["12p"],
       flexDirection: "row",
       padding: theme.spacing["20p"],
+      width: "100%",
     }),
     [variant]
   );

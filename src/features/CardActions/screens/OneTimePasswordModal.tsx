@@ -1,10 +1,11 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, View, ViewStyle } from "react-native";
+import { Alert, Keyboard, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { ErrorFilledCircleIcon } from "@/assets/icons";
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
@@ -19,7 +20,6 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import maskPhoneNumber from "@/utils/mask-phone-number";
 
-import { Countdown } from "../components";
 import { useOtpValidation } from "../hooks/query-hooks";
 
 export default function OneTimePasswordModal<ParamsT extends object, OutputT extends object>() {
@@ -29,24 +29,47 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
   const otpValidationAsync = useOtpValidation<ParamsT, OutputT>();
   const [otpParams, setOtpParams] = useState<(typeof params)["otpChallengeParams"]>(params.otpChallengeParams);
-  const otpResetCountSecondsIntervalRef = useRef<NodeJS.Timer | undefined>(undefined);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
   const [isOtpCodeInvalidErrorVisible, setIsOtpCodeInvalidErrorVisible] = useState(false);
-  const [otpAttemptsRemaining, setOtpAttemptsRemaining] = useState(OTP_MAX_ATTEMPTS);
-  const [otpResetCountSeconds, setOtpResetCountSeconds] = useState(0);
+  const [otpResetCountMinutes, setOtpResetCountMinutes] = useState(OTP_RESET_TIMEOUT_M);
+  const [otpResetCountSeconds, setOtpResetCountSeconds] = useState(OTP_RESET_TIMEOUT_S);
   const [otpResendsRequested, setOtpResendsRequested] = useState(0);
+  const [isOtpExpired, setIsOtpExpired] = useState(false);
   const [currentValue, setCurrentValue] = useState("");
 
+  const isReachedTwoAttemptsLeft = otpResendsRequested === OTP_MAX_RESENDS - 3 && isOtpExpired;
+  const isReachedOneAttemptLeft = otpResendsRequested === OTP_MAX_RESENDS - 2 && isOtpExpired;
+  const isReachedMaxAttempts = otpResendsRequested === OTP_MAX_RESENDS - 1 && isOtpExpired;
+
   useEffect(() => {
-    const intervalId = setInterval(() => setOtpResetCountSeconds(s => Math.min(s + 1, OTP_RESET_TIMEOUT_S)), 1000);
-    otpResetCountSecondsIntervalRef.current = intervalId;
+    const intervalId = setInterval(() => {
+      if (otpResetCountSeconds === 0) {
+        if (otpResetCountMinutes === 0) {
+          setIsOtpExpired(true);
+        }
+      }
+      if (otpResetCountSeconds > 0) {
+        setOtpResetCountSeconds(s => Math.min(s - 1, OTP_RESET_TIMEOUT_S));
+      } else if (otpResetCountMinutes > 0) {
+        setOtpResetCountMinutes(m => Math.min(m - 1, OTP_RESET_TIMEOUT_M));
+        setOtpResetCountSeconds(OTP_RESET_TIMEOUT_S);
+      }
+    }, 1000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [otpResetCountMinutes, otpResetCountSeconds]);
 
   useEffect(() => {
     Alert.alert(`OTP-code is: ${otpParams.OtpCode}`);
   }, [otpParams]);
+
+  useEffect(() => {
+    if (isReachedTwoAttemptsLeft || isReachedOneAttemptLeft) setIsOtpCodeInvalidErrorVisible(false);
+  }, [isReachedOneAttemptLeft, isReachedTwoAttemptsLeft]);
+
+  useEffect(() => {
+    if (isErrorVisible || isReachedMaxAttempts) Keyboard.dismiss();
+  }, [isErrorVisible, isReachedMaxAttempts]);
 
   const handleOnCancel = () => {
     // @ts-expect-error unable to properly add types for this call
@@ -57,7 +80,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   };
 
   const handleOnRequestResendPress = async () => {
-    if (otpResetCountSeconds < OTP_RESET_TIMEOUT_S) return;
     if (otpResendsRequested >= OTP_MAX_RESENDS) return;
 
     try {
@@ -66,8 +88,9 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       setOtpParams(response);
       setIsErrorVisible(false);
       setIsOtpCodeInvalidErrorVisible(false);
-      setOtpAttemptsRemaining(OTP_MAX_ATTEMPTS);
-      setOtpResetCountSeconds(0);
+      setIsOtpExpired(false);
+      setOtpResetCountMinutes(OTP_RESET_TIMEOUT_M);
+      setOtpResetCountSeconds(OTP_RESET_TIMEOUT_S);
       setCurrentValue("");
     } catch (error) {
       warn("card-actions", "Could not re-request OTP-code: ", JSON.stringify(error));
@@ -88,7 +111,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   };
 
   const handleOnChangeText = (value: string) => {
-    if (otpAttemptsRemaining < 1) return;
+    if (isReachedMaxAttempts) return;
 
     setCurrentValue(value);
     setIsOtpCodeInvalidErrorVisible(false);
@@ -108,7 +131,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       });
 
       if (!IsOtpValid) {
-        setOtpAttemptsRemaining(OTP_MAX_ATTEMPTS - NumOfAttempts);
         setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
 
@@ -138,8 +160,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     width: "100%",
   }));
 
-  const phoneNumber = `${maskPhoneNumber(otpParams.PhoneNumber)} ${otpParams.PhoneNumber.slice(-2)}`;
-  const isReachedMaxAttempts = otpAttemptsRemaining === 0;
+  const phoneNumber = `${maskPhoneNumber(otpParams.PhoneNumber)} ${otpParams.PhoneNumber.slice(-4)}`; //TODO update masked phonenumber
 
   return (
     <SafeAreaProvider>
@@ -167,20 +188,34 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                 <InlineBanner
                   variant="error"
                   icon={<ErrorFilledCircleIcon />}
-                  text={
-                    isReachedMaxAttempts
-                      ? t("CardActions.OneTimePasswordModal.errors.reachedMaxAttempts")
-                      : t("CardActions.OneTimePasswordModal.errors.invalidPassword")
-                  }
+                  text={t("CardActions.OneTimePasswordModal.errors.invalidPassword")}
+                />
+              ) : isReachedTwoAttemptsLeft ? (
+                <InlineBanner
+                  variant="error"
+                  icon={<ErrorFilledCircleIcon />}
+                  text={t("CardActions.OneTimePasswordModal.errors.twoAttemptsLeft")}
+                />
+              ) : isReachedOneAttemptLeft ? (
+                <InlineBanner
+                  variant="error"
+                  icon={<ErrorFilledCircleIcon />}
+                  text={t("CardActions.OneTimePasswordModal.errors.oneAttemptLeft")}
                 />
               ) : null}
-              {!isReachedMaxAttempts && otpResendsRequested < OTP_MAX_RESENDS ? (
-                <Countdown
+              {!isReachedMaxAttempts ? (
+                <Typography.Text
+                  size="callout"
+                  color={isOtpExpired ? "primaryBase" : "neutralBase"}
                   onPress={handleOnRequestResendPress}
-                  startInSeconds={OTP_RESET_TIMEOUT_S}
-                  text={t("CardActions.OneTimePasswordModal.resendCode")}
-                  value={otpResetCountSeconds}
-                />
+                  disabled={!isOtpExpired}>
+                  {isOtpExpired
+                    ? t("CardActions.OneTimePasswordModal.resendCodeEnabled")
+                    : t("CardActions.OneTimePasswordModal.resendCodeDisabled", {
+                        minutes: otpResetCountMinutes,
+                        seconds: otpResetCountSeconds < 10 ? `0${otpResetCountSeconds}` : otpResetCountSeconds,
+                      })}
+                </Typography.Text>
               ) : null}
             </View>
           </Stack>
@@ -193,11 +228,24 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         isVisible={isErrorVisible}
         onClose={handleOnRequestResendErrorClose}
       />
+      <NotificationModal
+        variant="error"
+        title={t("CardActions.OneTimePasswordModal.errors.reachedMaxAttemptsTitle")}
+        message={t("CardActions.OneTimePasswordModal.errors.reachedMaxAttemptsMessage")}
+        isVisible={isReachedMaxAttempts}
+        buttons={{
+          primary: (
+            <Button onPress={handleOnRequestResendErrorClose}>
+              {t("CardActions.OneTimePasswordModal.errors.button")}
+            </Button>
+          ),
+        }}
+      />
     </SafeAreaProvider>
   );
 }
 
 const OTP_CODE_LENGTH = 4;
-const OTP_RESET_TIMEOUT_S = 120;
-const OTP_MAX_ATTEMPTS = 3;
+const OTP_RESET_TIMEOUT_M = 1;
+const OTP_RESET_TIMEOUT_S = 59;
 const OTP_MAX_RESENDS = 3;
