@@ -1149,12 +1149,15 @@ export const resources = {
           next: "Next",
         },
         ConfirmationScreen: {
-          title: "Your transfer is complete",
+          title: {
+            active: "Your transfer is complete",
+            inactive: "Beneficiary activation and transfer successful",
+            new: "Beneficiary activation and transfer successful",
+          },
           messages: {
-            active: "You'll find the details in your transaction list",
-            inactive:
-              "You'll find the details in your transaction list. \nNow you won't need to confirm this beneficiary before you make a payment.",
-            new: "You'll find the details in your transaction list. \nNow you won't need to confirm this beneficiary before you make a payment.",
+            active: "You can review individual transactions in your transaction history",
+            inactive: "You can review individual transactions in your transaction history",
+            new: "You can review individual transactions in your transaction history",
           },
           transferredTo: "Transferred to",
           amount: "Amount",
@@ -1775,12 +1778,15 @@ export const resources = {
         next: "Next",
       },
       ConfirmationScreen: {
-        title: "Your transfer is complete",
+        title: {
+          active: "Your transfer is complete",
+          inactive: "Beneficiary activation and transfer successful",
+          new: "Beneficiary activation and transfer successful",
+        },
         messages: {
-          active: "You'll find the details in your transaction list",
-          inactive:
-            "You'll find the details in your transaction list. \nNow you won't need to confirm this beneficiary before you make a payment.",
-          new: "You'll find the details in your transaction list. \nNow you won't need to confirm this beneficiary before you make a payment.",
+          active: "You can review individual transactions in your transaction history",
+          inactive: "You can review individual transactions in your transaction history",
+          new: "You can review individual transactions in your transaction history",
         },
         transferredTo: "Transferred to",
         amount: "Amount",
