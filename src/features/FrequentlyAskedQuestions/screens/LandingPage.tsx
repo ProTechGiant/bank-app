@@ -11,9 +11,9 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { mockFrequentlyAskedQuestions } from "@/mocks/frequentlyAskedQuestionsData";
 import { useThemeStyles } from "@/theme";
+import { iconMapping } from "@/utils/icon-mapping";
 
 import { LoadingError, Section } from "../components";
-import { iconMapping } from "../utils/icon-mapping";
 
 interface Search {
   searchString: string;
@@ -68,7 +68,7 @@ export default function LandingPage() {
               mockFrequentlyAskedQuestions.categories.map((data, i) => {
                 return (
                   <View style={searchStyle} key={data.category_name}>
-                    <Section data={data} icon={iconMapping[data.category_id]} />
+                    <Section data={data} icon={iconMapping.frequentlyAskedQuestions[data.category_id]} />
                   </View>
                 );
               })

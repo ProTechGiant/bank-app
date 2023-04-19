@@ -4,12 +4,12 @@ import { DisabledPlusIconCircle, PlusIconCircle } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { QuickAction, Section } from "../types";
+import { HomepageItemLayoutType } from "../types";
 
 interface InactiveReordererItemProps {
   disabled: boolean;
   onPress: () => void;
-  item: QuickAction | Section;
+  item: HomepageItemLayoutType;
 }
 
 export default function InactiveReordererItem({ disabled, onPress, item }: InactiveReordererItemProps) {
@@ -35,7 +35,7 @@ export default function InactiveReordererItem({ disabled, onPress, item }: Inact
       {disabled ? <DisabledPlusIconCircle /> : <PlusIconCircle />}
       <View style={contentStyle}>
         <Typography.Text color={disabled ? "neutralBase-20" : "primaryBase"} size="callout" weight="medium">
-          {item.title}
+          {item.name}
         </Typography.Text>
         <Typography.Text color={disabled ? "neutralBase-20" : "neutralBase-10"} size="caption1" weight="regular">
           {item.description}

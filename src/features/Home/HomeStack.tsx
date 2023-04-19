@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { LayoutContextProvider } from "./contexts/LayoutContext";
+import { HomepageLayoutOrderContextProvider } from "./contexts/HomepageLayoutOrderContext";
 import AccountDetailsScreen from "./screens/AccountDetails";
 import DashboardScreen from "./screens/DashboardScreen";
 import QuickActionsReordererModal from "./screens/QuickActionsReorderModal";
@@ -17,7 +17,7 @@ export const Stack = createNativeStackNavigator<HomeStackParams>();
 
 export default function HomeStack() {
   return (
-    <LayoutContextProvider>
+    <HomepageLayoutOrderContextProvider>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen component={DashboardScreen} name="Home.DashboardScreen" />
         <Stack.Screen
@@ -36,6 +36,6 @@ export default function HomeStack() {
           options={{ presentation: "modal" }}
         />
       </Stack.Navigator>
-    </LayoutContextProvider>
+    </HomepageLayoutOrderContextProvider>
   );
 }

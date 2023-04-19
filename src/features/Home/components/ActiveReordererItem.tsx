@@ -5,13 +5,13 @@ import { HamburgerIcon, MinusIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { QuickAction, Section } from "../types";
+import { HomepageItemLayoutType } from "../types";
 
 interface ActiveReordererItemProps {
   onDeletePress?: () => void;
   onPress: () => void;
   isActive: boolean;
-  item: QuickAction | Section;
+  item: HomepageItemLayoutType;
 }
 
 export default function ActiveReordererItem({ onDeletePress, onPress, isActive, item }: ActiveReordererItemProps) {
@@ -39,7 +39,7 @@ export default function ActiveReordererItem({ onDeletePress, onPress, isActive, 
           </Pressable>
         ) : null}
         <Typography.Text color="primaryBase" size="callout" weight="medium" style={styles.text}>
-          {item.title}
+          {item.name}
         </Typography.Text>
         <HamburgerIcon />
       </Pressable>

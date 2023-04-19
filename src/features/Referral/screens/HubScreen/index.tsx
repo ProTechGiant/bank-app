@@ -5,6 +5,7 @@ import { I18nManager, Platform, ScrollView, Share, StyleSheet, View, ViewStyle }
 import appsFlyer from "react-native-appsflyer";
 
 import { CopyIcon } from "@/assets/icons";
+import { LoadingErrorNotification } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import DismissibleBanner from "@/components/DismissibleBanner";
@@ -21,7 +22,6 @@ import { useCustomersReferrals, useRefetchReferrals } from "../../hooks/query-ho
 import BackgroundBottomLeftSvg from "./background-bottom-left.svg";
 import BackgroundBottomRightSvg from "./background-bottom-right.svg";
 import BackgroundTopSvg from "./background-top.svg";
-import { LoadingErrorNotification } from "@/components";
 
 export default function HubScreen() {
   const navigation = useNavigation();

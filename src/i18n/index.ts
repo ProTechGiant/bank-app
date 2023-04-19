@@ -248,6 +248,7 @@ export const resources = {
           myAccountButton: "My account",
           notifications_one: "{{count}} notification",
           notifications_other: "{{count}} notifications",
+          editDashboard: "Edit",
         },
         HomepageReorderModal: {
           cancel: "CANCEL",
@@ -1169,6 +1170,7 @@ export const resources = {
       },
       LoadingError: {
         noData: "We couldn’t load the data. Please try later.",
+        reload: "Reload",
         NotificationModal: {
           errorTitle: "Trouble loading data",
           errorMessage: "We weren’t able to fetch the data. Please refresh or try again later.",

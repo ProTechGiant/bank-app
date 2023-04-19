@@ -10,19 +10,26 @@ import { useThemeStyles } from "@/theme";
 
 import ActiveReordererItem from "../../components/ActiveReordererItem";
 import InactiveReordererItem from "../../components/InactiveReordererItem";
+import LoadingError from "../../components/LoadingError";
 import PlaceholderGenerator from "../../components/PlaceholderGenerator";
 import ReordererHeader from "../../components/ReordererHeader";
 import ReordererSection from "../../components/ReordererSection";
-import { useLayout } from "../../contexts/LayoutContext";
-import { QuickAction } from "../../types";
+import { useHomepageLayoutOrder } from "../../contexts/HomepageLayoutOrderContext";
+import { useRefetchHomepageLayout } from "../../hooks/query-hooks";
+import { HomepageItemLayoutType } from "../../types";
 
 export default function QuickActionsReordererModal() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const { quickActions, setQuickActions } = useLayout();
+  const { quickActions, setQuickActions, homepageLayout } = useHomepageLayoutOrder();
+  const { refetchAll } = useRefetchHomepageLayout();
 
-  const [activeItems, setActiveItems] = useState(() => quickActions.slice(0, REQUIRED_ACTIVE_ITEMS));
-  const [inactiveItems, setInactiveItems] = useState(() => quickActions.slice(REQUIRED_ACTIVE_ITEMS));
+  const [activeItems, setActiveItems] = useState(
+    quickActions !== undefined ? () => quickActions?.slice(0, REQUIRED_ACTIVE_ITEMS) : []
+  );
+  const [inactiveItems, setInactiveItems] = useState(
+    quickActions ? () => quickActions?.slice(REQUIRED_ACTIVE_ITEMS) : []
+  );
 
   const handleOnCancelPress = () => {
     navigation.goBack();
@@ -34,14 +41,14 @@ export default function QuickActionsReordererModal() {
     navigation.goBack();
   };
 
-  const handleOnDeletePress = (item: QuickAction) => {
-    setActiveItems(items => items.filter(i => i.type !== item.type));
+  const handleOnDeletePress = (item: HomepageItemLayoutType) => {
+    setActiveItems(items => items?.filter(i => i.type !== item.type));
     setInactiveItems(items => [item, ...items]);
   };
 
-  const handleOnAddPress = (item: QuickAction) => {
+  const handleOnAddPress = (item: HomepageItemLayoutType) => {
     setActiveItems(items => [...items, item]);
-    setInactiveItems(items => items.filter(i => i.type !== item.type));
+    setInactiveItems(items => items?.filter(i => i.type !== item.type));
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -52,45 +59,55 @@ export default function QuickActionsReordererModal() {
   return (
     <SafeAreaProvider>
       <Page insets={["bottom", "left", "right"]}>
-        <ReordererHeader
-          cancelText={t("Home.QuickActionsReordererModal.cancelButton")}
-          onCancelPress={handleOnCancelPress}
-          onSavePress={handleOnSavePress}
-          isSaveable={activeItems.length >= REQUIRED_ACTIVE_ITEMS}
-          saveText={t("Home.QuickActionsReordererModal.saveButton")}
-          title={t("Home.QuickActionsReordererModal.title")}
-        />
-        <ScrollView contentContainerStyle={contentStyle}>
-          <ReordererSection count={activeItems.length} max={REQUIRED_ACTIVE_ITEMS} title="ACTIVE">
-            <DraggableFlatList
-              data={activeItems}
-              onDragEnd={({ data }) => setActiveItems(data)}
-              keyExtractor={item => item.type}
-              disableVirtualization
-              ListFooterComponent={<PlaceholderGenerator amount={REQUIRED_ACTIVE_ITEMS - activeItems.length} />}
-              renderItem={({ isActive, item, drag }) => {
-                return (
-                  <ActiveReordererItem
-                    onDeletePress={() => handleOnDeletePress(item)}
-                    onPress={drag}
-                    isActive={isActive}
-                    item={item}
-                  />
-                );
-              }}
+        {quickActions !== undefined ? (
+          <>
+            <ReordererHeader
+              cancelText={t("Home.QuickActionsReordererModal.cancelButton")}
+              onCancelPress={handleOnCancelPress}
+              onSavePress={handleOnSavePress}
+              isSaveable={activeItems.length >= REQUIRED_ACTIVE_ITEMS}
+              saveText={t("Home.QuickActionsReordererModal.saveButton")}
+              title={t("Home.QuickActionsReordererModal.title")}
             />
-          </ReordererSection>
-          <ReordererSection title="NEW ACTIONS">
-            {inactiveItems.map(element => (
-              <InactiveReordererItem
-                key={element.type}
-                disabled={activeItems.length >= REQUIRED_ACTIVE_ITEMS}
-                onPress={() => handleOnAddPress(element)}
-                item={element}
-              />
-            ))}
-          </ReordererSection>
-        </ScrollView>
+            <ScrollView contentContainerStyle={contentStyle}>
+              <ReordererSection count={activeItems.length} max={REQUIRED_ACTIVE_ITEMS} title="ACTIVE">
+                <DraggableFlatList
+                  data={activeItems}
+                  onDragEnd={({ data }) => setActiveItems(data)}
+                  keyExtractor={item => item.type}
+                  disableVirtualization
+                  ListFooterComponent={<PlaceholderGenerator amount={REQUIRED_ACTIVE_ITEMS - activeItems.length} />}
+                  renderItem={({ isActive, item, drag }) => {
+                    return (
+                      <ActiveReordererItem
+                        onDeletePress={() => handleOnDeletePress(item)}
+                        onPress={drag}
+                        isActive={isActive}
+                        item={item}
+                      />
+                    );
+                  }}
+                />
+              </ReordererSection>
+              <ReordererSection title="NEW ACTIONS">
+                {inactiveItems.map(element => (
+                  <InactiveReordererItem
+                    key={element.type}
+                    disabled={activeItems.length >= REQUIRED_ACTIVE_ITEMS}
+                    onPress={() => handleOnAddPress(element)}
+                    item={element}
+                  />
+                ))}
+              </ReordererSection>
+            </ScrollView>
+          </>
+        ) : homepageLayout?.error ? (
+          <LoadingError
+            onRefresh={() => {
+              refetchAll();
+            }}
+          />
+        ) : null}
       </Page>
     </SafeAreaProvider>
   );

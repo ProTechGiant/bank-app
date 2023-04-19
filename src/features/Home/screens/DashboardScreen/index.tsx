@@ -16,7 +16,9 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import BackgroundCollapsedSvg from "../../background-header-collapsed.svg";
-import { useLayout } from "../../contexts/LayoutContext";
+import LoadingError from "../../components/LoadingError";
+import { useHomepageLayoutOrder } from "../../contexts/HomepageLayoutOrderContext";
+import { useRefetchHomepageLayout } from "../../hooks/query-hooks";
 import BackgroundExpandedSvg from "./background-header-expanded.svg";
 import HeaderButton from "./HeaderButton";
 import NotificationSlide from "./NotificationSlide";
@@ -30,8 +32,9 @@ const formatter = Intl.NumberFormat("en-US", { style: "decimal", minimumFraction
 export default function DashboardScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { refetchAll } = useRefetchHomepageLayout();
 
-  const { sections } = useLayout();
+  const { sections, homepageLayout } = useHomepageLayoutOrder();
   const account = useAccount();
   const notifications = useNotifications();
 
@@ -164,28 +167,34 @@ export default function DashboardScreen() {
           </View>
           <ScrollView contentContainerStyle={contentStyle}>
             <Stack align="stretch" direction="vertical" gap="32p">
-              {sections.map(section => {
-                if (section.type === "quick-actions") {
-                  return <QuickActionsSection key={section.type} onViewAllPress={handleOnShortcutsPress} />;
-                }
-
-                if (section.type === "rewards") {
-                  return <RewardsSection key={section.type} onViewAllPress={handleOnRewardsPress} />;
-                }
-
-                if (section.type === "whats-next") {
-                  return <WhatsNextSection key={section.type} onViewAllPress={handleOnWhatsNextPress} />;
-                }
-
-                return <Fragment key={section.type} />;
-              })}
+              {sections !== undefined ? (
+                <>
+                  {sections.map(section => {
+                    if (section.type === "quick-actions") {
+                      return <QuickActionsSection key={section.type} onViewAllPress={handleOnShortcutsPress} />;
+                    }
+                    if (section.type === "rewards") {
+                      return <RewardsSection key={section.type} onViewAllPress={handleOnRewardsPress} />;
+                    }
+                    if (section.type === "articles") {
+                      return <WhatsNextSection key={section.type} onViewAllPress={handleOnWhatsNextPress} />;
+                    }
+                    return <Fragment key={section.type} />;
+                  })}
+                  <View style={footerButtonStyle}>
+                    <Button onPress={handleOnEditPress} variant="tertiary">
+                      {t("Home.DashboardScreen.editDashboard")}
+                    </Button>
+                  </View>
+                </>
+              ) : homepageLayout?.error ? (
+                <LoadingError
+                  onRefresh={() => {
+                    refetchAll();
+                  }}
+                />
+              ) : null}
             </Stack>
-
-            <View style={footerButtonStyle}>
-              <Button onPress={handleOnEditPress} variant="tertiary">
-                Edit Dashboard
-              </Button>
-            </View>
           </ScrollView>
         </SafeAreaView>
       </Page>
