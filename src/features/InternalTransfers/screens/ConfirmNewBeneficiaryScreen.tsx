@@ -45,7 +45,7 @@ export default function ConfirmNewBeneficiaryScreen() {
   });
 
   const handleOnPressTermsAndConditions = () => {
-    navigation.navigate("InternalTransfers.BeneficiaryDeclarationScreen");
+    navigation.navigate("InternalTransfers.BeneficiaryDeclarationModal");
   };
 
   const handleOnSubmit = () => {
