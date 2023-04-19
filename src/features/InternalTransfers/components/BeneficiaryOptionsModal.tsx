@@ -62,7 +62,7 @@ export default function BeneficiaryOptionsModal({
           ),
         }}
         message={t("InternalTransfers.SendToBeneficiaryScreen.menu.deleteModal.message")}
-        title={t("InternalTransfers.SendToBeneficiaryScreen.menu.deleteModal.title")}
+        title={t("InternalTransfers.SendToBeneficiaryScreen.menu.deleteModal.title", { name: name })}
         isVisible={isConfirmDeleteVisible}
       />
     </Modal>

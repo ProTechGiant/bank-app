@@ -254,7 +254,7 @@ export default function SendToBeneficiaryScreen() {
             </Button>
           ),
         }}
-        message={t("InternalTransfers.SendToBeneficiaryScreen.menu.deleteModal.message")}
+        message={t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.message")}
         title={t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.title")}
         isVisible={isConfirmActivationModalVisible}
       />

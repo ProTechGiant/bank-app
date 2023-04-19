@@ -118,7 +118,7 @@ export default function EnterBeneficiaryDetailsScreen() {
     setIsGenericErrorModalVisible(false);
   };
 
-  const handleOnDifferentBeneficiaryPress = () => {
+  const handleOnInUseErrorModalClose = () => {
     if (addBeneficiary?.SelectionType === "mobileNo") {
       mobileFormRef.current !== null && mobileFormRef.current.reset();
     } else if (addBeneficiary?.SelectionType === "accountId") {
@@ -126,10 +126,6 @@ export default function EnterBeneficiaryDetailsScreen() {
     } else if (addBeneficiary?.SelectionType === "IBAN") {
       ibanFormRef.current !== null && ibanFormRef.current.reset();
     }
-    setIsInUseErrorModalVisible(false);
-  };
-
-  const handleOnCancelDifferentBeneficiaryPress = () => {
     setIsInUseErrorModalVisible(false);
   };
 
@@ -172,25 +168,11 @@ export default function EnterBeneficiaryDetailsScreen() {
         onClose={() => handleOnErrorMessagedModalClose()}
       />
       <NotificationModal
-        buttons={{
-          primary: (
-            <Button
-              onPress={() => {
-                handleOnDifferentBeneficiaryPress();
-              }}>
-              {t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.chooseDifferentBeneficiaryButton`)}
-            </Button>
-          ),
-          secondary: (
-            <Button onPress={() => handleOnCancelDifferentBeneficiaryPress()}>
-              {t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.cancelButton`)}
-            </Button>
-          ),
-        }}
         title={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.title`)}
         message={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.message`)}
         isVisible={isInUseErrorModalVisible}
-        variant="error"
+        variant="warning"
+        onClose={() => handleOnInUseErrorModalClose()}
       />
       <NotificationModal
         title={t("errors.generic.title")}

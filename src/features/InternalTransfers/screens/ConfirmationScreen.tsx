@@ -61,11 +61,7 @@ export default function ConfirmationScreen() {
                 : t("InternalTransfers.ConfirmationScreen.title.active")}
             </Typography.Text>
             <Typography.Text size="callout" color="neutralBase-20" align="center" style={messageStyle}>
-              {recipient.type === "new"
-                ? t("InternalTransfers.ConfirmationScreen.messages.new")
-                : recipient.type === "inactive"
-                ? t("InternalTransfers.ConfirmationScreen.messages.inactive")
-                : t("InternalTransfers.ConfirmationScreen.messages.active")}
+              {t("InternalTransfers.ConfirmationScreen.message")}
             </Typography.Text>
           </View>
           <TableListCardGroup background="dark">

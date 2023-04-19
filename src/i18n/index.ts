@@ -975,24 +975,25 @@ export const resources = {
           to: "To",
           reason: "Reason",
           total: "Total",
-          notes: "Notes",
+          notes: "Attachments",
           optional: "(Optional)",
-          addButton: "Add note and gif",
-          sendMoney: "Send money now",
+          addButton: "Add Note & GIF",
+          sendMoney: "Transfer now",
           cancel: "Cancel",
           currency: "SAR",
           notification: {
-            title: "Cancel transfer?",
-            message: "This will cancel the transfer and delete the beneficiary's details.",
-            cancel: "Cancel transfer",
-            continue: "Continue",
+            title: "Cancel your transfer?",
+            message:
+              "Are you sure you want to cancel the transfer process? If yes, please click on Confirm Cancellation ",
+            cancel: "Confirm cancellation",
+            continue: "Close",
           },
         },
         AddNoteScreen: {
           title: "Add Note",
-          placeholder: "Add your notes here",
+          placeholder: "Write your note here",
           done: "Done",
-          required: "Only letters and numbers are allowed",
+          required: "Only letters & numbers are allowed",
           noSpecialCharacters: 'All special characters are not allowed except for this (")',
           and: " and ",
         },
@@ -1012,8 +1013,8 @@ export const resources = {
         SendToBeneficiaryScreen: {
           title: "Send to",
           addNewBeneficiaryLink: "Send to new beneficiary",
-          confirmedBeneficiariesListTitle: "Confirmed",
-          unconfirmedBeneficiariesListTitle: "Unconfirmed",
+          confirmedBeneficiariesListTitle: "Active",
+          unconfirmedBeneficiariesListTitle: "Inactive",
           search: {
             placeholder: "Name, account or phone",
             emptyState: {
@@ -1026,16 +1027,17 @@ export const resources = {
           menu: {
             deleteOption: "Delete beneficiary",
             deleteModal: {
-              title: "Are you sure you want to delete this beneficiary?",
-              message: "You'll need to re-confirm their details before you send any more money.",
+              title: "Delete {{name}}?",
+              message:
+                "Are you sure you want to delete this beneficiary? You won’t be able to send transfers to them without an IVR activation.",
               deleteButton: "Delete beneficiary",
               cancelButton: "Cancel",
             },
           },
           activateBeneficiary: {
-            title: "Confirm this beneficiary",
+            title: "Inactive beneficiary selected",
             message:
-              "Before you can send any money you need to confirm this person's details. This helps us protect your account.",
+              "This beneficiary is currently inactive. An IVR activation will be required in order to process your transfer",
             confirmButton: "Confirm this beneficiary",
             cancelButton: "Cancel",
           },
@@ -1053,61 +1055,55 @@ export const resources = {
               placeholder: "Mobile number",
               validation: {
                 required: "Required",
-                invalid: "Phone numbers need 9 numbers",
+                invalid: "Minimum 9 digits.",
               },
             },
             mobileInUseModal: {
               title: "Mobile already in use",
               message: "You've already used this mobile number for one of your beneficiaries.",
-              chooseDifferentBeneficiaryButton: "Choose different beneficiary",
-              cancelButton: "Cancel",
             },
             mobileNotRecognisedModal: {
-              title: "Mobile number not recognised",
-              message: "That number isn't used for a Croatia account. Please check it.",
+              title: "The entered mobile number is not associated with a Croatia account",
+              message: "Please try another mobile number",
             },
           },
           accountNumberForm: {
             accountNumber: {
               placeholder: "Account number",
               validation: {
-                required: "Required",
+                required: "Required*",
                 invalid: "Account number need 9 numbers",
               },
             },
             accountNumberInUseModal: {
-              title: "Account number already in use",
-              message: "You've already used this account number for one of your beneficiaries.",
-              chooseDifferentBeneficiaryButton: "Choose different beneficiary",
-              cancelButton: "Cancel",
+              title: "This account number is already associated with a beneficiary",
+              message: "Please try another account number",
             },
             accountNumberNotRecognisedModal: {
-              title: "Account number not recognised",
-              message: "That number isn't used for a Croatia account. Please check it.",
+              title: "The entered account number is not associated with a Croatia account",
+              message: "Please try another account number",
             },
           },
           ibanForm: {
             iban: {
               placeholder: "IBAN number",
               validation: {
-                required: "Required",
-                minLength: "IBAN needs 24 characters",
-                invalid: "IBAN can only have letters and numbers",
+                required: "Required*",
+                minLength: "Minimum 22 digits",
+                invalid: "Incorrect IBAN format",
               },
             },
             ibanInUseModal: {
-              title: "IBAN already in use",
-              message: "You've already used this IBAN for one of your beneficiaries.",
-              chooseDifferentBeneficiaryButton: "Choose different beneficiary",
-              cancelButton: "Cancel",
+              title: "This IBAN is already associated with a beneficiary",
+              message: "Please try another IBAN",
             },
             ibanNotRecognisedModal: {
-              title: "IBAN not recognised",
-              message: "That IBAN isn't used for a Croatia account. Please check it.",
+              title: "The entered IBAN is not associated with a Croatia account",
+              message: "Please try another IBAN",
             },
           },
           genericErrorModal: {
-            title: "We're sorry – we're having problems checking that",
+            title: "We’re sorry, something has gone wrong.",
             message: "Please try again later.",
           },
         },
@@ -1120,7 +1116,7 @@ export const resources = {
             accountNumber: "Account number",
             iban: "IBAN",
           },
-          bannerMessage: "You need to confirm this beneficiary's details before you can send any money.",
+          bannerMessage: "Confirm recipient details to activate new beneficiary before completing your transfer.",
           checkBoxMessage: "By checking this box, you agree to our ",
           termsAndConditions: "Terms and Conditions",
           confirmButton: "Confirm",
@@ -1151,15 +1147,11 @@ export const resources = {
         },
         ConfirmationScreen: {
           title: {
-            active: "Your transfer is complete",
+            active: "Transfer successful",
             inactive: "Beneficiary activation and transfer successful",
             new: "Beneficiary activation and transfer successful",
           },
-          messages: {
-            active: "You can review individual transactions in your transaction history",
-            inactive: "You can review individual transactions in your transaction history",
-            new: "You can review individual transactions in your transaction history",
-          },
+          message: "You can review individual transactions in your transaction history",
           transferredTo: "Transferred to",
           amount: "Amount",
           buttons: {
@@ -1606,25 +1598,27 @@ export const resources = {
         to: "To",
         reason: "Reason",
         total: "Total",
-        notes: "Notes",
+        notes: "Attachments",
         optional: "(Optional)",
-        addButton: "Add note and gif",
-        sendMoney: "Send money now",
+        addButton: "Add Note & GIF",
+        sendMoney: "Transfer now",
         cancel: "Cancel",
         currency: "SAR",
         notification: {
-          title: "Cancel transfer?",
-          message: "This will cancel the transfer and delete the beneficiary's details.",
-          cancel: "Cancel transfer",
-          continue: "Continue",
+          title: "Cancel your transfer?",
+          message:
+            "Are you sure you want to cancel the transfer process? If yes, please click on Confirm Cancellation ",
+          cancel: "Confirm cancellation",
+          continue: "Close",
         },
       },
       AddNoteScreen: {
         title: "Add Note",
-        placeholder: "Add your notes here",
+        placeholder: "Write your note here",
         done: "Done",
-        required: "Only letters and numbers are allowed",
+        required: "Only letters & numbers are allowed",
         noSpecialCharacters: 'All special characters are not allowed except for this (")',
+        and: " and ",
       },
       PaymentHub: {
         title: "Money in & out",
@@ -1642,8 +1636,8 @@ export const resources = {
       SendToBeneficiaryScreen: {
         title: "Send to",
         addNewBeneficiaryLink: "Send to new beneficiary",
-        confirmedBeneficiariesListTitle: "Confirmed",
-        unconfirmedBeneficiariesListTitle: "Unconfirmed",
+        confirmedBeneficiariesListTitle: "Active",
+        unconfirmedBeneficiariesListTitle: "Inactive",
         search: {
           placeholder: "Name, account or phone",
           emptyState: {
@@ -1656,16 +1650,17 @@ export const resources = {
         menu: {
           deleteOption: "Delete beneficiary",
           deleteModal: {
-            title: "Are you sure you want to delete this beneficiary?",
-            message: "You'll need to re-confirm their details before you send any more money.",
+            title: "Delete {{name}}?",
+            message:
+              "Are you sure you want to delete this beneficiary? You won’t be able to send transfers to them without an IVR activation.",
             deleteButton: "Delete beneficiary",
             cancelButton: "Cancel",
           },
         },
         activateBeneficiary: {
-          title: "Confirm this beneficiary",
+          title: "Inactive beneficiary selected",
           message:
-            "Before you can send any money you need to confirm this person's details. This helps us protect your account.",
+            "This beneficiary is currently inactive. An IVR activation will be required in order to process your transfer",
           confirmButton: "Confirm this beneficiary",
           cancelButton: "Cancel",
         },
@@ -1683,61 +1678,55 @@ export const resources = {
             placeholder: "Mobile number",
             validation: {
               required: "Required",
-              invalid: "Phone numbers need 9 numbers",
+              invalid: "Minimum 9 digits.",
             },
           },
           mobileInUseModal: {
             title: "Mobile already in use",
             message: "You've already used this mobile number for one of your beneficiaries.",
-            chooseDifferentBeneficiaryButton: "Choose different beneficiary",
-            cancelButton: "Cancel",
           },
           mobileNotRecognisedModal: {
-            title: "Mobile number not recognised",
-            message: "That number isn't used for a Croatia account. Please check it.",
+            title: "The entered mobile number is not associated with a Croatia account",
+            message: "Please try another mobile number",
           },
         },
         accountNumberForm: {
           accountNumber: {
             placeholder: "Account number",
             validation: {
-              required: "Required",
+              required: "Required*",
               invalid: "Account number need 9 numbers",
             },
           },
           accountNumberInUseModal: {
-            title: "Account number already in use",
-            message: "You've already used this account number for one of your beneficiaries.",
-            chooseDifferentBeneficiaryButton: "Choose different beneficiary",
-            cancelButton: "Cancel",
+            title: "This account number is already associated with a beneficiary",
+            message: "Please try another account number",
           },
           accountNumberNotRecognisedModal: {
-            title: "Account number not recognised",
-            message: "That number isn't used for a Croatia account. Please check it.",
+            title: "The entered account number is not associated with a Croatia account",
+            message: "Please try another account number",
           },
         },
         ibanForm: {
           iban: {
             placeholder: "IBAN number",
             validation: {
-              required: "Required",
-              minLength: "IBAN needs 24 characters",
-              invalid: "IBAN can only have letters and numbers",
+              required: "Required*",
+              minLength: "Minimum 22 digits",
+              invalid: "Incorrect IBAN format",
             },
           },
           ibanInUseModal: {
-            title: "IBAN already in use",
-            message: "You've already used this IBAN for one of your beneficiaries.",
-            chooseDifferentBeneficiaryButton: "Choose different beneficiary",
-            cancelButton: "Cancel",
+            title: "This IBAN is already associated with a beneficiary",
+            message: "Please try another IBAN",
           },
           ibanNotRecognisedModal: {
-            title: "IBAN not recognised",
-            message: "That IBAN isn't used for a Croatia account. Please check it.",
+            title: "The entered IBAN is not associated with a Croatia account",
+            message: "Please try another IBAN",
           },
         },
         genericErrorModal: {
-          title: "We're sorry – we're having problems checking that",
+          title: "We’re sorry, something has gone wrong.",
           message: "Please try again later.",
         },
       },
@@ -1750,7 +1739,7 @@ export const resources = {
           accountNumber: "Account number",
           iban: "IBAN",
         },
-        bannerMessage: "You need to confirm this beneficiary's details before you can send any money.",
+        bannerMessage: "Confirm recipient details to activate new beneficiary before completing your transfer.",
         checkBoxMessage: "By checking this box, you agree to our ",
         termsAndConditions: "Terms and Conditions",
         confirmButton: "Confirm",
@@ -1781,15 +1770,11 @@ export const resources = {
       },
       ConfirmationScreen: {
         title: {
-          active: "Your transfer is complete",
+          active: "Transfer successful",
           inactive: "Beneficiary activation and transfer successful",
           new: "Beneficiary activation and transfer successful",
         },
-        messages: {
-          active: "You can review individual transactions in your transaction history",
-          inactive: "You can review individual transactions in your transaction history",
-          new: "You can review individual transactions in your transaction history",
-        },
+        message: "You can review individual transactions in your transaction history",
         transferredTo: "Transferred to",
         amount: "Amount",
         buttons: {

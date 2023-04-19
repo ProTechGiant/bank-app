@@ -78,7 +78,7 @@ export default function AddNoteScreen() {
               name="content"
               onSubmit={handleSubmit(handleOnSubmit)}
               forbiddenWords={FORBIDDEN_WORDS}>
-              {t("InternalTransfers.EnterBeneficiaryDetailsScreen.continueButton")}
+              {t("InternalTransfers.AddNoteScreen.done")}
             </SubmitNoteButton>
           </View>
         </ContentContainer>
