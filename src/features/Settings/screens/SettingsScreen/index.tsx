@@ -28,7 +28,7 @@ export default function SettingsScreen() {
   const handleOnQuestionsPress = () => {
     navigation.navigate(
       "FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack" //, {
-      // screen: "FrequentlyAskedQuestions.LandingPage",
+      // screen: "FrequentlyAskedQuestions.LandingScreen",
     );
   };
 

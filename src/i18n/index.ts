@@ -324,9 +324,11 @@ export const resources = {
         },
       },
       FrequentlyAskedQuestions: {
-        LandingPage: {
+        LandingScreen: {
           title: "How can we help you?",
           searchPlaceholder: "I need help with...",
+          searchHelpTitle: "Have a specific question in mind?",
+          searchHelpSubtitle: "Enter keywords to search amongst XX answers.",
         },
         DetailedScreen: {
           feedback: "Did you find this answer helpful?",

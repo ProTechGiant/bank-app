@@ -412,7 +412,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
       category_description: "Your transactions, Your balance, Adding money, Round-ups and Life goals",
       category_faqs: [
         {
-          faq_id: "faq_25",
+          faq_id: "faq_125",
           query: "Sed ut perspiciatis unde omnis iste natus?",
           answer: "Go to Faq25 link",
         },
