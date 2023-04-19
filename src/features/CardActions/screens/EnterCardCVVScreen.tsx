@@ -67,9 +67,8 @@ export default function EnterCardCVVScreen() {
         setCurrentValue("");
       }
     } catch (error) {
-      setRemainingAttempts(current => current - 1);
-      setIsErrorVisible(true);
       setCurrentValue("");
+      setIsErrorModalVisible(true);
       warn("Could not validate CVV: ", JSON.stringify(error));
     }
   };
