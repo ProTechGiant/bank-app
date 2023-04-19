@@ -9,12 +9,7 @@ import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import { saudiPhoneRegExp } from "@/utils";
 
-import { AddBeneficiaryFormForwardRef, AddBeneficiarySelectionType, EnterBeneficiaryFormProps } from "../types";
-
-interface EnterBeneficiaryByMobileInput {
-  SelectionType: AddBeneficiarySelectionType;
-  SelectionValue: string;
-}
+import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
 
 export default forwardRef(function EnterBeneficiaryByMobileForm(
   { selectionType, onSubmit }: EnterBeneficiaryFormProps,
@@ -43,7 +38,7 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
     [t]
   );
 
-  const { control, reset, handleSubmit } = useForm<EnterBeneficiaryByMobileInput>({
+  const { control, reset, handleSubmit } = useForm<AddBeneficiary>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
