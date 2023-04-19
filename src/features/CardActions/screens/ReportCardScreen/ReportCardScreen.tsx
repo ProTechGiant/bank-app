@@ -77,7 +77,7 @@ export default function ReportCardScreen() {
     const request = {
       cardId: cardId,
       status: reportReason,
-      alteranativeAddress:
+      alternativeAddress:
         selectedAlternativeAddress === undefined
           ? undefined
           : {
@@ -100,7 +100,7 @@ export default function ReportCardScreen() {
         },
         otpOptionalParams: {
           CardId: cardId,
-          alteranativeAddress: request.alteranativeAddress,
+          alternativeAddress: request.alternativeAddress,
         },
         otpChallengeParams: {
           OtpId: response.OtpId,

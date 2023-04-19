@@ -797,7 +797,7 @@ export const resources = {
           },
           manageCardHeader: "Manage card",
           cardSettingsButton: "Card settings",
-          reportButton: "Report stolen or damaged",
+          reportButton: "Report stolen, lost or damaged",
           accountHeader: "Linked account",
           accountNumber: "Account number",
           accountName: "Account name",
