@@ -73,12 +73,12 @@ export default function InactiveBankCard({
             </Typography.Text>
           </View>
         ) : null}
-        {onPress !== undefined && (
+        {onPress !== undefined ? (
           <>
             <Pressable onPress={onPress} style={styles.pressableAreaTop} />
             <Pressable onPress={onPress} style={styles.pressableAreaBottom} />
           </>
-        )}
+        ) : null}
         <View>{actionButton}</View>
       </View>
     </View>

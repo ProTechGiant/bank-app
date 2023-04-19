@@ -118,12 +118,15 @@ export default function ActiveBankCard({
         </View>
         {actionButton ? <View style={styles.actionContainer}>{actionButton}</View> : null}
       </View>
-      {onPress !== undefined && (
+      {/* Pressable area for redirecting to card details page */}
+      {onPress !== undefined ? (
         <>
           <Pressable onPress={onPress} style={styles.pressableAreaTop} />
-          <Pressable onPress={onPress} style={styles.pressableAreaBottom} />
+          <Pressable onPress={onPress} style={styles.pressableAreaAboveCTA} />
+          <Pressable onPress={onPress} style={styles.pressableAreaBelowCTA} />
+          {actionButton === undefined ? <Pressable onPress={onPress} style={styles.pressableAreaCTA} /> : null}
         </>
-      )}
+      ) : null}
     </View>
   );
 }
@@ -133,6 +136,8 @@ const CONTAINER_WIDTH = 224;
 
 const TOP_END_BUTTON_WIDTH = 60;
 const PRESSABLE_TOP_AREA = 50;
+const PRESSABLE_CTA_TOP = 160;
+const CTA_HEIGHT = 60;
 
 const styles = StyleSheet.create({
   actionContainer: {
@@ -152,11 +157,25 @@ const styles = StyleSheet.create({
     bottom: 120,
     position: "absolute",
   },
-  pressableAreaBottom: {
-    height: CONTAINER_HEIGHT - 100,
+  pressableAreaAboveCTA: {
+    height: CONTAINER_HEIGHT - PRESSABLE_CTA_TOP,
     left: 0,
     position: "absolute",
     top: PRESSABLE_TOP_AREA,
+    width: CONTAINER_WIDTH,
+  },
+  pressableAreaBelowCTA: {
+    height: CONTAINER_HEIGHT - PRESSABLE_TOP_AREA - CTA_HEIGHT - PRESSABLE_CTA_TOP,
+    left: 0,
+    position: "absolute",
+    top: PRESSABLE_TOP_AREA + CTA_HEIGHT + PRESSABLE_CTA_TOP,
+    width: CONTAINER_WIDTH,
+  },
+  pressableAreaCTA: {
+    height: CTA_HEIGHT,
+    left: 0,
+    position: "absolute",
+    top: PRESSABLE_TOP_AREA + PRESSABLE_CTA_TOP,
     width: CONTAINER_WIDTH,
   },
   pressableAreaTop: {

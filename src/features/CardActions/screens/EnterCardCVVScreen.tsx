@@ -141,6 +141,7 @@ export default function EnterCardCVVScreen() {
                 <View style={inputContainerStyle}>
                   <PincodeInput
                     ref={enterCodeRef}
+                    isError={remainingAttempts === 0}
                     autoFocus
                     onChangeText={handleOnChangeText}
                     length={INPUT_SIZE}
