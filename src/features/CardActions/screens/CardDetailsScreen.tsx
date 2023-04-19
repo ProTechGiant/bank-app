@@ -68,6 +68,7 @@ export default function CardDetailsScreen() {
   const selectedCard = card.data;
   const cardId = route.params.cardId;
   const cardStatus = selectedCard?.Status;
+  const IsExpireSoon = selectedCard?.IsExpireSoon;
 
   useEffect(() => {
     setTimeout(() => setIsSucCreatedAlertVisible(route.params?.isSingleUseCardCreated ?? false), 500);
@@ -289,7 +290,7 @@ export default function CardDetailsScreen() {
 
   const setNotificationBanner = () => {
     return selectedCard?.CardType === PHYSICAL_CARD_TYPE ? (
-      cardStatus === "expired_report" ? ( // @todo add correct status for card expiry
+      IsExpireSoon ? (
         <CardBanner
           icon={<CloseIcon />}
           onClose={() => {
@@ -364,6 +365,7 @@ export default function CardDetailsScreen() {
               <BankCard.Inactive
                 status="freeze"
                 cardType={selectedCard?.CardType}
+                IsExpireSoon={IsExpireSoon}
                 actionButton={<BankCard.ActionButton title={t("CardActions.cardFrozen")} type="dark" />}
               />
             ) : cardStatus === "inactive" && selectedCard?.CardType === PHYSICAL_CARD_TYPE ? (
@@ -383,7 +385,7 @@ export default function CardDetailsScreen() {
                 cardNumber={selectedCard?.LastFourDigits}
                 cardType={selectedCard?.CardType}
                 productId={selectedCard?.ProductId}
-                isExpiringSoon={cardStatus === "expired_report"}
+                IsExpireSoon={IsExpireSoon}
                 actionButton={
                   cardStatus === "pending-activation" && selectedCard?.CardType === PHYSICAL_CARD_TYPE ? (
                     <BankCard.ActionButton

@@ -14,6 +14,7 @@ export interface Card {
   Status: CardStatus;
   AccountName: string;
   AccountNumber: string;
+  IsExpireSoon: boolean;
 }
 
 export interface CardSettingsInput {

@@ -25,7 +25,7 @@ interface ActiveBankCardProps {
   label?: string;
   onPress?: () => void;
   productId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
-  isExpiringSoon?: boolean;
+  IsExpireSoon?: boolean;
   actionButton?: React.ReactElement<ActionButtonProps> | undefined;
 }
 
@@ -36,7 +36,7 @@ export default function ActiveBankCard({
   label,
   productId,
   onPress,
-  isExpiringSoon,
+  IsExpireSoon,
   actionButton,
 }: ActiveBankCardProps) {
   const { t } = useTranslation();
@@ -95,10 +95,10 @@ export default function ActiveBankCard({
           )}
           {endButton}
         </View>
-        {isExpiringSoon || actionButton !== undefined ? (
+        {IsExpireSoon || actionButton !== undefined ? (
           <View style={cardExpiryContainerStyle}>
             <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-              {isExpiringSoon ? t("CardActions.CardExpiryNotification.expiresSoon") : t("CardActions.comingSoon")}
+              {IsExpireSoon ? t("CardActions.CardExpiryNotification.IsExpireSoon") : t("CardActions.comingSoon")}
             </Typography.Text>
           </View>
         ) : null}

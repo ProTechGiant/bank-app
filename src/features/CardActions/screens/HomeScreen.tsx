@@ -179,7 +179,7 @@ export default function HomeScreen() {
           />
         }
         onPress={() => handleOnCardPress(card.CardId)}
-        isExpiringSoon={card.Status === "expired_report" && card.CardType === PHYSICAL_CARD_TYPE}
+        IsExpireSoon={card.IsExpireSoon && card.CardType === PHYSICAL_CARD_TYPE}
         actionButton={
           card.Status === "pending-activation" && card.CardType === PHYSICAL_CARD_TYPE ? (
             <BankCard.ActionButton
@@ -221,6 +221,7 @@ export default function HomeScreen() {
           />
         }
         onPress={() => handleOnCardPress(card.CardId)}
+        IsExpireSoon={card.IsExpireSoon && card.CardType === PHYSICAL_CARD_TYPE}
       />
     );
   };
@@ -229,9 +230,7 @@ export default function HomeScreen() {
     const firstInactiveCard = cardsList.find(
       card => card.CardType === PHYSICAL_CARD_TYPE && card.Status === "inactive"
     );
-    const firstExpiredCard = cardsList.find(
-      card => card.CardType === PHYSICAL_CARD_TYPE && card.Status === "expired_report"
-    );
+    const firstExpiredCard = cardsList.find(card => card.CardType === PHYSICAL_CARD_TYPE && card.IsExpireSoon);
 
     if (firstInactiveCard !== undefined) {
       return (
