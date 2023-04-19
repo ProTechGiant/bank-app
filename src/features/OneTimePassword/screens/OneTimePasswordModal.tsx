@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Keyboard, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -20,12 +20,12 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import maskPhoneNumber from "@/utils/mask-phone-number";
 
-import { useOtpValidation } from "../hooks/query-hooks";
+import { useOtpValidation } from "../../CardActions/hooks/query-hooks";
 
 export default function OneTimePasswordModal<ParamsT extends object, OutputT extends object>() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { params } = useRoute<RouteProp<MainStackParams, "CardActions.OneTimePasswordModal">>();
+  const { params } = useRoute<RouteProp<MainStackParams, "OneTimePassword.OneTimePasswordModal">>();
 
   const otpValidationAsync = useOtpValidation<ParamsT, OutputT>();
   const [otpParams, setOtpParams] = useState<(typeof params)["otpChallengeParams"]>(params.otpChallengeParams);
@@ -160,7 +160,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     width: "100%",
   }));
 
-  const phoneNumber = `${maskPhoneNumber(otpParams.PhoneNumber)} ${otpParams.PhoneNumber.slice(-4)}`; //TODO update masked phonenumber
+  const phoneNumber = `${maskPhoneNumber(otpParams.PhoneNumber)} ${otpParams.PhoneNumber.slice(-4)}`; //TODO update masked phonenumber according to new designs
 
   return (
     <SafeAreaProvider>
@@ -169,11 +169,9 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         <ContentContainer>
           <Stack direction="vertical" gap="16p">
             <Typography.Text size="title1" weight="semiBold">
-              {t("CardActions.OneTimePasswordModal.title")}
+              {t("OneTimePasswordModal.title")}
             </Typography.Text>
-            <Typography.Text size="callout">
-              {t("CardActions.OneTimePasswordModal.message", { phoneNumber })}
-            </Typography.Text>
+            <Typography.Text size="callout">{t("OneTimePasswordModal.message", { phoneNumber })}</Typography.Text>
             <View style={otpContainerStyle}>
               <PincodeInput
                 autoComplete="one-time-code"
@@ -188,19 +186,19 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                 <InlineBanner
                   variant="error"
                   icon={<ErrorFilledCircleIcon />}
-                  text={t("CardActions.OneTimePasswordModal.errors.invalidPassword")}
+                  text={t("OneTimePasswordModal.errors.invalidPassword")}
                 />
               ) : isReachedTwoAttemptsLeft ? (
                 <InlineBanner
                   variant="error"
                   icon={<ErrorFilledCircleIcon />}
-                  text={t("CardActions.OneTimePasswordModal.errors.twoAttemptsLeft")}
+                  text={t("OneTimePasswordModal.errors.twoAttemptsLeft")}
                 />
               ) : isReachedOneAttemptLeft ? (
                 <InlineBanner
                   variant="error"
                   icon={<ErrorFilledCircleIcon />}
-                  text={t("CardActions.OneTimePasswordModal.errors.oneAttemptLeft")}
+                  text={t("OneTimePasswordModal.errors.oneAttemptLeft")}
                 />
               ) : null}
               {!isReachedMaxAttempts ? (
@@ -210,8 +208,8 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                   onPress={handleOnRequestResendPress}
                   disabled={!isOtpExpired}>
                   {isOtpExpired
-                    ? t("CardActions.OneTimePasswordModal.resendCodeEnabled")
-                    : t("CardActions.OneTimePasswordModal.resendCodeDisabled", {
+                    ? t("OneTimePasswordModal.resendCodeEnabled")
+                    : t("OneTimePasswordModal.resendCodeDisabled", {
                         minutes: otpResetCountMinutes,
                         seconds: otpResetCountSeconds < 10 ? `0${otpResetCountSeconds}` : otpResetCountSeconds,
                       })}
@@ -230,15 +228,11 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       />
       <NotificationModal
         variant="error"
-        title={t("CardActions.OneTimePasswordModal.errors.reachedMaxAttemptsTitle")}
-        message={t("CardActions.OneTimePasswordModal.errors.reachedMaxAttemptsMessage")}
+        title={t("OneTimePasswordModal.errors.reachedMaxAttemptsTitle")}
+        message={t("OneTimePasswordModal.errors.reachedMaxAttemptsMessage")}
         isVisible={isReachedMaxAttempts}
         buttons={{
-          primary: (
-            <Button onPress={handleOnRequestResendErrorClose}>
-              {t("CardActions.OneTimePasswordModal.errors.button")}
-            </Button>
-          ),
+          primary: <Button onPress={handleOnRequestResendErrorClose}>{t("OneTimePasswordModal.errors.button")}</Button>,
         }}
       />
     </SafeAreaProvider>

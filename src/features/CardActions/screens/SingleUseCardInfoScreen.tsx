@@ -7,9 +7,9 @@ import { SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
+import useOtpFlow from "../../OneTimePassword/hooks/use-otp";
 import PlaceholderCardSvg from "../assets/placeholder-card.svg";
 import useSubmitOrderCard from "../hooks/query-hooks";
-import useOtpFlow from "../hooks/use-otp";
 import { CardCreateResponse } from "../types";
 
 export default function SingleUseCardInfoScreen() {

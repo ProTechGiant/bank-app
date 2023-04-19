@@ -4,6 +4,7 @@ import { HomeStackParams } from "@/features/Home/HomeStack";
 import { InternalTransfersStackParams } from "@/features/InternalTransfers/InternalTransfersStack";
 import { NotificationManagementStackParams } from "@/features/NotificationManagement/NotificationManagementStack";
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
+import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { ReferralStackParams } from "@/features/Referral/ReferralStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
 import { WhatsNextStackParams } from "@/features/WhatsNext/WhatsNextStack";
@@ -33,6 +34,15 @@ type RootStackParams = {
   "NotificationManagement.HubScreen": undefined;
   "NotificationManagement.CategoryScreen": { categoryId: string; title: string };
   "WhatsNext.WhatsNextStack": undefined;
+  "OneTimePassword.OneTimePasswordModal": {
+    action: {
+      to: keyof MainStackParams;
+      params: Omit<MainStackParams[keyof MainStackParams], "otpResponseStatus" | "otpResponsePayload">;
+    };
+    otpOptionalParams?: Record<string, unknown> | undefined;
+    otpChallengeParams: OtpChallengeParams;
+    onOtpRequestResend: () => Promise<OtpChallengeParams>;
+  };
 };
 
 type MainStackParams = RootStackParams &

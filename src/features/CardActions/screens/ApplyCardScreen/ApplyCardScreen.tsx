@@ -9,9 +9,9 @@ import { PHYSICAL_CARD_TYPE } from "@/constants";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
+import useOtpFlow from "../../../OneTimePassword/hooks/use-otp";
 import ApplyCardsContext, { ApplyCardInput } from "../../context/ApplyCardsContext";
 import useSubmitOrderCard from "../../hooks/query-hooks";
-import useOtpFlow from "../../hooks/use-otp";
 import { CardCreateResponse } from "../../types";
 import CardOrderedScreen from "./CardOrderedScreen";
 import PickCardTypeScreen from "./PickCardTypeScreen";

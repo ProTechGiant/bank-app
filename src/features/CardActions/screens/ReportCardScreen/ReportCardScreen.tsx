@@ -14,9 +14,9 @@ import useNavigation from "@/navigation/use-navigation";
 import { Address } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 
+import useOtpFlow from "../../../OneTimePassword/hooks/use-otp";
 import { CardActionsStackParams } from "../../CardActionsStack";
 import { useChangeCardStatus, useFreezeCard } from "../../hooks/query-hooks";
-import useOtpFlow from "../../hooks/use-otp";
 import { CardCreateResponse } from "../../types";
 import ConfirmDeliveryAddress from "./ConfirmDeliveryAddress";
 import ReportCardSuccessScreen from "./ReportCardSuccessScreen";

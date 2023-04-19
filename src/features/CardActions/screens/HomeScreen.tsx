@@ -15,6 +15,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 
+import useOtpFlow from "../../OneTimePassword/hooks/use-otp";
 import { CardBanner, QuickActionsMenu, ViewPinModal } from "../components";
 import { hasActiveSingleUseCard, isCardInactive } from "../helpers";
 import {
@@ -24,7 +25,6 @@ import {
   useFreezeCard,
   useRequestViewPinOtp,
 } from "../hooks/query-hooks";
-import useOtpFlow from "../hooks/use-otp";
 import { Card } from "../types";
 
 export default function HomeScreen() {

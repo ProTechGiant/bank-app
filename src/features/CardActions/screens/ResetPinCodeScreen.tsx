@@ -21,8 +21,8 @@ import encryptValue from "@/utils/encrypt-value";
 import isValidPincode from "@/utils/is-valid-pincode";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
+import useOtpFlow from "../../OneTimePassword/hooks/use-otp";
 import { useResetPincode } from "../hooks/query-hooks";
-import useOtpFlow from "../hooks/use-otp";
 
 export default function ResetPinCodeScreen() {
   const { t } = useTranslation();

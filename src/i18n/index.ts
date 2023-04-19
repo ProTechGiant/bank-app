@@ -763,22 +763,6 @@ export const resources = {
             paragraph: "These settings will be available once you have received and activated your physical card.",
           },
         },
-        OneTimePasswordModal: {
-          title: "Enter one-time password",
-          message:
-            "Enter the one-time code code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
-          resendCodeDisabled: "Resend Code in {{minutes}}:{{seconds}}",
-          resendCodeEnabled: "Resend Code",
-          errors: {
-            invalidPassword: "That code wasn't right - try again.",
-            twoAttemptsLeft: "That code has expired. You can request 2 more codes.",
-            oneAttemptLeft: "That code has expired. You can request 1 more code.",
-            reachedMaxAttemptsTitle: "Try again later",
-            reachedMaxAttemptsMessage:
-              "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
-            button: "OK",
-          },
-        },
         CardDetailsScreen: {
           navTitleStandard: "Standard card",
           navTitlePlus: "Plus card",
@@ -968,6 +952,21 @@ export const resources = {
           copyInfo: "copied to clipboard.",
           errorCopy: "Couldn’t copy",
           tryAgain: "try again.",
+        },
+      },
+      OneTimePasswordModal: {
+        title: "Enter one-time password",
+        message:
+          "Enter the one-time code code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
+        resendCodeDisabled: "Resend Code in {{minutes}}:{{seconds}}",
+        resendCodeEnabled: "Resend Code",
+        errors: {
+          invalidPassword: "That code wasn't right - try again.",
+          twoAttemptsLeft: "That code has expired. You can request 2 more codes.",
+          oneAttemptLeft: "That code has expired. You can request 1 more code.",
+          reachedMaxAttemptsTitle: "Try again later",
+          reachedMaxAttemptsMessage: "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
+          button: "OK",
         },
       },
       InternalTransfers: {
@@ -1486,22 +1485,6 @@ export const resources = {
             paragraph: "These settings will be available once you have received and activated your physical card.",
           },
         },
-        OneTimePasswordModal: {
-          title: "Enter one-time password",
-          message:
-            "Enter the one-time code code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
-          resendCodeDisabled: "Resend Code in {{minutes}}:{{seconds}}",
-          resendCodeEnabled: "Resend Code",
-          errors: {
-            invalidPassword: "That code wasn't right - try again.",
-            twoAttemptsLeft: "That code has expired. You can request 2 more codes.",
-            oneAttemptLeft: "That code has expired. You can request 1 more code.",
-            reachedMaxAttemptsTitle: "Try again later",
-            reachedMaxAttemptsMessage:
-              "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
-            button: "OK",
-          },
-        },
         standardCard: "Standard card",
         plusCard: "Plus card",
         singleUseCard: "One-time card",
@@ -1591,6 +1574,20 @@ export const resources = {
         copyInfo: "copied to clipboard",
         errorCopy: "Couldn’t copy",
         tryAgain: "try again",
+      },
+    },
+    OneTimePasswordModal: {
+      title: "Enter one-time password",
+      message: "Enter the one-time code code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
+      resendCodeDisabled: "Resend Code in {{minutes}}:{{seconds}}",
+      resendCodeEnabled: "Resend Code",
+      errors: {
+        invalidPassword: "That code wasn't right - try again.",
+        twoAttemptsLeft: "That code has expired. You can request 2 more codes.",
+        oneAttemptLeft: "That code has expired. You can request 1 more code.",
+        reachedMaxAttemptsTitle: "Try again later",
+        reachedMaxAttemptsMessage: "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
+        button: "OK",
       },
     },
     InternalTransfers: {

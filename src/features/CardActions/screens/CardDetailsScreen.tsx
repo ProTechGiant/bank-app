@@ -18,6 +18,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 
+import useOtpFlow from "../../OneTimePassword/hooks/use-otp";
 import { CardActionsStackParams } from "../CardActionsStack";
 import {
   CardBanner,
@@ -38,7 +39,6 @@ import {
   useUnmaskedCardDetails,
 } from "../hooks/query-hooks";
 import useAppleWallet from "../hooks/use-apple-wallet";
-import useOtpFlow from "../hooks/use-otp";
 import { DetailedCardResponse } from "../types";
 
 export default function CardDetailsScreen() {

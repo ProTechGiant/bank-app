@@ -15,10 +15,10 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import useOtpFlow from "../../OneTimePassword/hooks/use-otp";
 import { CardActionsStackParams } from "../CardActionsStack";
 import { ListItemLink, ListSection, SettingsToggle } from "../components";
 import { useCard, useCardSettings, useUpdateCardSettings } from "../hooks/query-hooks";
-import useOtpFlow from "../hooks/use-otp";
 import { CardSettingsInput } from "../types";
 
 export default function CardSettingsScreen() {

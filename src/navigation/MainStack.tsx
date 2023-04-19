@@ -8,6 +8,7 @@ import HomeStack from "@/features/Home/HomeStack";
 import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfersStack";
 import NotificationManagementStack from "@/features/NotificationManagement/NotificationManagementStack";
 import OnboardingStack from "@/features/Onboarding/OnboardingStack";
+import OneTimePasswordModal from "@/features/OneTimePassword/screens/OneTimePasswordModal";
 import HubScreen from "@/features/Referral/screens/HubScreen";
 import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
 import TermsAndConditionsScreen from "@/features/Referral/screens/TermsAndConditionsScreen";
@@ -54,6 +55,11 @@ export default function MainStack({ onReady }: MainStackProps) {
           name="NotificationManagement.NotificationManagementStack"
         />
         <Stack.Screen component={WhatsNextStack} name="WhatsNext.WhatsNextStack" />
+        <Stack.Screen
+          component={OneTimePasswordModal}
+          name="OneTimePassword.OneTimePasswordModal"
+          options={{ presentation: "modal" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

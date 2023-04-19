@@ -4,10 +4,9 @@ import { useEffect, useRef } from "react";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
-import { CardActionsStackParams } from "../CardActionsStack";
 import { OtpResponseStatus } from "../types";
 
-type OtpScreenParams = CardActionsStackParams["CardActions.OneTimePasswordModal"];
+type OtpScreenParams = MainStackParams["OneTimePassword.OneTimePasswordModal"];
 
 // adds type safety to action params
 interface HandleOtpParams<Route extends keyof MainStackParams, Payload> extends OtpScreenParams {
@@ -44,7 +43,7 @@ export default function useOtpFlow<Source extends keyof MainStackParams>() {
     ...input
   }: HandleOtpParams<Destination, Payload>) => {
     if (onFinish !== undefined) responseEffectRef.current = onFinish;
-    navigation.navigate("CardActions.OneTimePasswordModal", input);
+    navigation.navigate("OneTimePassword.OneTimePasswordModal", input);
   };
 
   return { handle, useOtpResponseEffect };

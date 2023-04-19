@@ -1,9 +1,9 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { LUX_CARD_PRODUCT_ID, STANDARD_CARD_PRODUCT_ID } from "@/constants";
-import MainStackParams from "@/navigation/mainStackParams";
 import { Address } from "@/types/Address";
 
+import { OtpResponseStatus } from "../OneTimePassword/types";
 import {
   ApplePayActivatedScreen,
   ApplyCardScreen,
@@ -12,21 +12,13 @@ import {
   CardSettingsScreen,
   EnterCardCVVScreen,
   HomeScreen,
-  OneTimePasswordModal,
   ReportCardScreen,
   ResetPinCodeScreen,
   SetTemporaryAddressScreen,
   SingleUseCardAbout,
   SingleUseCardInfoScreen,
 } from "./screens";
-import { CardStatus, OtpResponseStatus } from "./types";
-
-interface OtpChallengeParams {
-  OtpId: string;
-  OtpCode: string;
-  PhoneNumber: string;
-  correlationId: string;
-}
+import { CardStatus } from "./types";
 
 export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {
@@ -41,15 +33,6 @@ export type CardActionsStackParams = {
   "CardActions.SingleUseCardInfoScreen": undefined;
   "CardActions.SingleUseCardAbout": undefined;
   "CardActions.HomeScreen": undefined;
-  "CardActions.OneTimePasswordModal": {
-    action: {
-      to: keyof MainStackParams;
-      params: Omit<MainStackParams[keyof MainStackParams], "otpResponseStatus" | "otpResponsePayload">;
-    };
-    otpOptionalParams?: Record<string, unknown> | undefined;
-    otpChallengeParams: OtpChallengeParams;
-    onOtpRequestResend: () => Promise<OtpChallengeParams>;
-  };
   "CardActions.ReportCardScreen": {
     cardId: string;
     cardStatus: CardStatus;
@@ -114,11 +97,6 @@ export default function CardActionsStack() {
       <Stack.Screen
         component={SingleUseCardAbout}
         name="CardActions.SingleUseCardAbout"
-        options={{ presentation: "modal" }}
-      />
-      <Stack.Screen
-        component={OneTimePasswordModal}
-        name="CardActions.OneTimePasswordModal"
         options={{ presentation: "modal" }}
       />
       <Stack.Screen component={ReportCardScreen} name="CardActions.ReportCardScreen" />

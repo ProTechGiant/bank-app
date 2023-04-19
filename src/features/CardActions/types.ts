@@ -57,5 +57,3 @@ export interface DetailedCardResponse {
   CardNumber: string;
   Cvv: string;
 }
-
-export type OtpResponseStatus = "success" | "fail" | "cancel";
