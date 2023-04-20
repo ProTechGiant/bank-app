@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
+import { LUX_CARD_PRODUCT_ID, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { Address } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 import { tokenizeCardForAppleWalletAsync } from "@/utils/apple-wallet";
@@ -284,5 +285,30 @@ export function useVerifyCVV() {
     );
 
     return response;
+  });
+}
+
+interface RenewCardInput {
+  CardType: string;
+  CardProductId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
+  Pin?: string;
+  AlternateAddress?: Address;
+}
+
+interface RenwCardResponse {
+  OtpId: string;
+  OtpCode: string;
+  PhoneNumber: string;
+}
+
+export function useSubmitRenewCard() {
+  return useMutation(async ({ values }: { values: RenewCardInput }) => {
+    const correlationId = generateRandomId();
+
+    const response = await api<RenwCardResponse>("v1", "cards/renew", "POST", undefined, values, {
+      ["x-correlation-id"]: correlationId,
+    });
+
+    return { ...response, correlationId };
   });
 }

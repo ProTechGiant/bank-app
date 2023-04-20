@@ -12,6 +12,7 @@ import useNavigation from "@/navigation/use-navigation";
 import useOtpFlow from "../../../OneTimePassword/hooks/use-otp";
 import ApplyCardsContext, { ApplyCardInput } from "../../context/ApplyCardsContext";
 import useSubmitOrderCard from "../../hooks/query-hooks";
+import { useSubmitRenewCard } from "../../hooks/query-hooks";
 import { CardCreateResponse } from "../../types";
 import CardOrderedScreen from "./CardOrderedScreen";
 import PickCardTypeScreen from "./PickCardTypeScreen";
@@ -24,6 +25,7 @@ export default function ApplyCardScreen() {
 
   const submitOrderCardAsync = useSubmitOrderCard();
   const otpFlow = useOtpFlow();
+  const submitRenewCardAsync = useSubmitRenewCard();
 
   // This needs to be in state because route.params may change during the flow. for example if user selects alternative address
   const [variant, _] = useState(route.params?.replacingCardId !== undefined ? ("renew" as const) : ("apply" as const));
@@ -54,41 +56,84 @@ export default function ApplyCardScreen() {
     const values = valuesRef.current;
     if (values.CardProductId === undefined || values.EncryptedPincode === undefined) return;
 
-    try {
-      const response = await submitOrderCardAsync.mutateAsync({ values });
+    if (variant === "renew") {
+      try {
+        const response = await submitRenewCardAsync.mutateAsync({ values });
 
-      otpFlow.handle<{ CardCreateResponse: CardCreateResponse }>({
-        action: {
-          to: "CardActions.ApplyCardScreen",
-        },
-        otpChallengeParams: {
-          OtpId: response.OtpId,
-          OtpCode: response.OtpCode,
-          PhoneNumber: response.PhoneNumber,
-          correlationId: response.correlationId,
-        },
-        otpOptionalParams: {
-          Pin: values.EncryptedPincode,
-        },
-        onOtpRequestResend: () => {
-          return submitOrderCardAsync.mutateAsync({ values });
-        },
-        onFinish: (status, payload) => {
-          if (status === "cancel") {
-            return;
-          }
+        otpFlow.handle<{ CardCreateResponse: CardCreateResponse }>({
+          action: {
+            to: "CardActions.ApplyCardScreen",
+            params: {
+              replacingCardId: route.params?.replacingCardId,
+            },
+          },
+          otpChallengeParams: {
+            OtpId: response.OtpId,
+            OtpCode: response.OtpCode,
+            PhoneNumber: response.PhoneNumber,
+            correlationId: response.correlationId,
+          },
+          otpOptionalParams: {
+            Pin: values.EncryptedPincode,
+            CardId: route.params?.replacingCardId,
+          },
+          onOtpRequestResend: () => {
+            return submitRenewCardAsync.mutateAsync({ values });
+          },
+          onFinish: (status, payload) => {
+            if (status === "cancel") {
+              return;
+            }
 
-          if (status === "fail" || payload?.CardCreateResponse?.Header.ErrorId !== "0") {
-            setTimeout(() => setIsSubmitErrorVisible(true), TRANSITION_STEP_MS);
-            return;
-          }
+            if (status === "fail" || payload?.CardCreateResponse?.Header.ErrorId !== "0") {
+              setTimeout(() => setIsSubmitErrorVisible(true), TRANSITION_STEP_MS);
+              return;
+            }
 
-          setCardCreatedCardId(payload.CardCreateResponse.Body.CardId);
-          setTimeout(() => setCurrentStep("ordered"), TRANSITION_STEP_MS);
-        },
-      });
-    } catch (error) {
-      setIsSubmitErrorVisible(true);
+            setCardCreatedCardId(payload.CardCreateResponse.Body.CardId);
+            setTimeout(() => setCurrentStep("ordered"), TRANSITION_STEP_MS);
+          },
+        });
+      } catch (error) {
+        setIsSubmitErrorVisible(true);
+      }
+    } else {
+      try {
+        const response = await submitOrderCardAsync.mutateAsync({ values });
+
+        otpFlow.handle<{ CardCreateResponse: CardCreateResponse }>({
+          action: {
+            to: "CardActions.ApplyCardScreen",
+          },
+          otpChallengeParams: {
+            OtpId: response.OtpId,
+            OtpCode: response.OtpCode,
+            PhoneNumber: response.PhoneNumber,
+            correlationId: response.correlationId,
+          },
+          otpOptionalParams: {
+            Pin: values.EncryptedPincode,
+          },
+          onOtpRequestResend: () => {
+            return submitOrderCardAsync.mutateAsync({ values });
+          },
+          onFinish: (status, payload) => {
+            if (status === "cancel") {
+              return;
+            }
+
+            if (status === "fail" || payload?.CardCreateResponse?.Header.ErrorId !== "0") {
+              setTimeout(() => setIsSubmitErrorVisible(true), TRANSITION_STEP_MS);
+              return;
+            }
+
+            setCardCreatedCardId(payload.CardCreateResponse.Body.CardId);
+            setTimeout(() => setCurrentStep("ordered"), TRANSITION_STEP_MS);
+          },
+        });
+      } catch (error) {
+        setIsSubmitErrorVisible(true);
+      }
     }
   };
 
