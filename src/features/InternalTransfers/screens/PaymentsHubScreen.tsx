@@ -85,7 +85,7 @@ function PaymentsHub() {
                   <Stack direction="vertical" style={styles.expandText}>
                     {/* TODO: replace mock account info */}
                     <Typography.Text color="neutralBase-50" size="callout">
-                      {account.data.currentAccountCurrencyType}
+                      {account.data.currentAccountName}
                     </Typography.Text>
                     <Typography.Text color="neutralBase" size="footnote">
                       {formatter.format(account.data?.currentAccountBalance ?? 0)} SAR available

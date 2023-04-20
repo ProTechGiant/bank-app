@@ -11,7 +11,7 @@ import { Note, TransferAccount } from "../types";
 interface ReviewTransferDetailProps {
   handleAddNote: () => void;
   sender: TransferAccount;
-  recipient: TransferAccount;
+  recipient: BeneficiaryType;
   reason: string;
   amount: number;
   note: Note;
@@ -80,7 +80,7 @@ export default function ReviewTransferDetail({
           {sender.accountName}
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {sender.accountNumber}
+          {sender.accountIban}
         </Typography.Text>
       </View>
       <View style={separatorStyle} />
@@ -92,7 +92,7 @@ export default function ReviewTransferDetail({
           {recipient.accountName}
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {recipient.accountNumber}
+          {recipient.iban}
         </Typography.Text>
       </View>
       <View style={separatorStyle} />

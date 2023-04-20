@@ -76,13 +76,13 @@ export default function AccountDetailsScreen() {
               />
               <TableListCard
                 label={t("Home.AccountDetails.tableLabels.number")}
-                helperText={account.data.currentAccoutNumber}
+                helperText={account.data.currentAccountNumber}
                 end={
-                  account.data.currentAccoutNumber !== undefined ? (
+                  account.data.currentAccountNumber !== undefined ? (
                     <TableListCard.Copy
                       onPress={() =>
                         handleOnCopyPress(
-                          account.data.currentAccoutNumber,
+                          account.data.currentAccountNumber,
                           `${t("Home.AccountDetails.tableLabels.number")}`
                         )
                       }

@@ -19,7 +19,7 @@ export interface BeneficiaryType {
 
 export interface TransferAccount {
   accountName?: string;
-  accountNumber?: string;
+  accountIban?: string;
 }
 
 export interface Note {

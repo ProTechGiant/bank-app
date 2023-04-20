@@ -15,8 +15,8 @@ interface ApiAccountResponseElement {
         OpeningDate: string;
         Account: [
           {
-            schemeName: string;
-            identification: string;
+            SchemeName: string;
+            Identification: string;
           }
         ];
         AccountCategory: string;
@@ -49,14 +49,14 @@ interface ApiBalanceResponseElement {
 
 export default function useAccount() {
   const accounts = useQuery(["accounts"], () => {
-    return api<ApiAccountResponseElement[]>("v1", "accounts", "GET");
+    return api<ApiAccountResponseElement>("v1", "accounts", "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
   });
 
   const [accountData, currentAccount] = useMemo(() => {
-    const accountData_ = accounts.data?.find(
-      d => undefined !== d.Data.Account.find(a => a.AccountType === "CURRENT")
-    )?.Data;
-    const currentAccount_ = accountData_?.Account.find(a => a.AccountType === "CURRENT");
+    const accountData_ = accounts.data?.Data.Account;
+    const currentAccount_ = accountData_?.find(a => a.AccountType === "CURRENT");
     return [accountData_, currentAccount_];
   }, [accounts]);
 
@@ -65,7 +65,7 @@ export default function useAccount() {
   const balances = useQuery(
     ["balances", { currentAccountId }],
     () =>
-      api<ApiBalanceResponseElement[]>("v1", `accounts/${currentAccountId}/balances`, "GET", undefined, undefined, {
+      api<ApiBalanceResponseElement>("v1", `accounts/${currentAccountId}/balances`, "GET", undefined, undefined, {
         ["x-correlation-id"]: generateRandomId(),
       }),
     { enabled: undefined !== currentAccountId }
@@ -76,28 +76,24 @@ export default function useAccount() {
       return { data: undefined };
     }
 
-    const currentAccountName = currentAccount.Description;
-    const currentAccountIban = currentAccount.Account.find(a => a.schemeName === "IBAN.NUMBER")?.identification;
-    const currentAccountCustomerFullName = accountData?.SupplementaryData?.CustomerFullName;
-
     let currentAccountCurrencyType;
     let currentAccountBalance;
 
     // @todo remove once balance API is working again
     if (balances.data !== undefined) {
-      const balanceData = balances.data.find(
-        d => undefined !== d.Data.Balance.find(b => b.Type === "INTERIM_AVAILABLE")
-      )?.Data;
-      const currentBalance = balanceData?.Balance.find(b => b.Type === "INTERIM_AVAILABLE");
+      const balanceData = balances.data?.Data.Balance;
+      const currentBalance = balanceData?.find(b => b.Type === "INTERIM_AVAILABLE");
       currentAccountCurrencyType = currentBalance?.Amount.Currency;
       currentAccountBalance =
         undefined !== currentBalance?.Amount.Amount ? Number(currentBalance?.Amount.Amount) : undefined;
     }
 
-    const currentAccountOwner = currentAccount.Account.find(a => a.schemeName === "CUSTOMER.FULL.NAME")?.identification;
+    const currentAccountName = currentAccount.Description;
+    const currentAccountIban = currentAccount.Account.find(a => a.SchemeName === "IBAN.NUMBER")?.Identification;
+    const currentAccountOwner = currentAccount.Account.find(a => a.SchemeName === "CUSTOMER.FULL.NAME")?.Identification;
     const currentAccountType = currentAccount.AccountType;
     const currentAccountBankCode = currentAccountIban?.substring(5, 10);
-    const currentAccoutNumber = currentAccountIban?.slice(-12);
+    const currentAccountNumber = currentAccountIban?.slice(-12);
 
     return {
       data: {
@@ -105,13 +101,12 @@ export default function useAccount() {
         currentAccountName,
         currentAccountIban,
         currentAccountBankCode,
-        currentAccoutNumber,
+        currentAccountNumber,
         currentAccountOwner,
         currentAccountCurrencyType,
         currentAccountBalance,
-        currentAccountCustomerFullName,
         currentAccountType,
       },
     };
-  }, [accountData, currentAccount, balances, currentAccountId]);
+  }, [currentAccount, balances, currentAccountId]);
 }

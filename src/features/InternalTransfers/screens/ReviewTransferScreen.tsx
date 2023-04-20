@@ -14,19 +14,18 @@ import { useThemeStyles } from "@/theme";
 
 import { ReviewTransferDetail } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
-import { sender } from "../mocks/mockSender";
 import { Note } from "../types";
 
 export default function ReviewTransferScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { transferAmount, reason, recipient } = useInternalTransferContext();
-  // const { data } = useAccount();
+  const { data } = useAccount();
 
   const [note, setNote] = useState<Note>({ content: "", attachment: "" });
   const [isVisible, setIsVisible] = useState(false);
 
-  // const sender = { accountName: data?.currentAccountName, accountNumber: data?.currentAccoutNumber };
+  const sender = { accountName: data?.currentAccountName, accountIban: data?.currentAccountIban };
 
   const updateNote = (content: Note) => {
     setNote(content);
