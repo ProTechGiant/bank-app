@@ -16,13 +16,9 @@ interface BeneficiariesResponse {
 }
 
 export function useTransferReasons() {
-  const { userId } = useAuthContext();
-
   const reasons = useQuery(["personalReason"], () => {
-    return api<ReasonsResponse>("v1", "payments/reason-for-payment", "GET", undefined, undefined, {
+    return api<ReasonsResponse>("v1", "transfers/reason-for-payment", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
-      // TODO: Remove hardcoded UserId once login is hooked up
-      ["UserId"]: userId || "10007",
     });
   });
 
@@ -30,13 +26,9 @@ export function useTransferReasons() {
 }
 
 export function useBeneficiaries() {
-  const { userId } = useAuthContext();
-
   const beneficiaries = useQuery("Beneficiaries", () => {
-    return api<BeneficiariesResponse>("v1", "payments/beneficiaries", "GET", undefined, undefined, {
+    return api<BeneficiariesResponse>("v1", "transfers/beneficiaries", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
-      // TODO: Remove hardcoded UserId once login is hooked up
-      ["UserId"]: userId || "10007",
     });
   });
 
@@ -44,12 +36,10 @@ export function useBeneficiaries() {
 }
 
 export function useDeleteBeneficiary() {
-  const { userId } = useAuthContext();
-
   return useMutation(async ({ name, accountNumber }: { name: string; accountNumber: string }) => {
     return sendApiRequest<string>(
       "v1",
-      "payments/beneficiaries/delete",
+      "transfers/beneficiaries/delete",
       "PATCH",
       undefined,
       {
@@ -58,8 +48,6 @@ export function useDeleteBeneficiary() {
       },
       {
         ["x-correlation-id"]: generateRandomId(),
-        // TODO: Remove hardcoded UserId once login is hooked up
-        ["UserId"]: userId || "10007",
       }
     );
   });
@@ -73,16 +61,14 @@ interface AddBeneficiaryResponse {
 }
 
 export function useAddBeneficiary() {
-  const { userId } = useAuthContext();
-
   return useMutation(async ({ SelectionType, SelectionValue }: { SelectionType: string; SelectionValue: string }) => {
     // remove country code in mobile phone number
     const inputValue =
-      SelectionType === "mobileNo" ? SelectionValue.substring(4, SelectionValue.length) : SelectionValue;
+      SelectionType === "mobileNo" ? SelectionValue.substring(SelectionValue.length, 4) : SelectionValue;
 
     return api<AddBeneficiaryResponse>(
       "v1",
-      "payments/beneficiaries",
+      "transfers/beneficiaries",
       "POST",
       undefined,
       {
@@ -91,7 +77,6 @@ export function useAddBeneficiary() {
       },
       {
         ["x-correlation-id"]: generateRandomId(),
-        ["UserId"]: userId || "10007", // TODO: Remove hardcoded UserId once login is hooked up
       }
     );
   });

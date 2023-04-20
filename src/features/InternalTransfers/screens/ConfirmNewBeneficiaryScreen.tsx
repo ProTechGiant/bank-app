@@ -107,7 +107,7 @@ export default function ConfirmNewBeneficiaryScreen() {
                 icon={<PhoneFilledIcon color={iconColor} />}
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
-                label={parsePhoneNumber(COUNTRY_CODE + addBeneficiary?.SelectionType).format("INTERNATIONAL")}
+                label={parsePhoneNumber(addBeneficiary?.SelectionValue).format("INTERNATIONAL")}
               />
             ) : recipient.type === "new" && addBeneficiary?.SelectionType === "IBAN" ? (
               <TableListCard
@@ -181,5 +181,3 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 });
-
-const COUNTRY_CODE = "+966";
