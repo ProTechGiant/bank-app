@@ -39,7 +39,7 @@ export default function LandingScreen() {
     if (searchFAQResult.isSuccess) {
       setShowLoadingErrorModal(false);
     }
-  }, [searchFAQResult]);
+  }, [searchFAQResult.isError, searchFAQResult.isSuccess]);
 
   const useMergeFaqSections = (data: FAQData) => {
     return useMemo(() => {
