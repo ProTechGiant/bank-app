@@ -78,7 +78,7 @@ export function useAddBeneficiary() {
   return useMutation(async ({ SelectionType, SelectionValue }: { SelectionType: string; SelectionValue: string }) => {
     // remove country code in mobile phone number
     const inputValue =
-      SelectionType === "mobileNo" ? SelectionValue.substring(3, SelectionValue.length) : SelectionValue;
+      SelectionType === "mobileNo" ? SelectionValue.substring(4, SelectionValue.length) : SelectionValue;
 
     return api<AddBeneficiaryResponse>(
       "v1",
