@@ -23,6 +23,7 @@ type RootStackParams = {
   "Temporary.LandingScreen": undefined;
   "Temporary.DummyScreen": undefined;
   "Onboarding.OnboardingStack": undefined;
+  "Referral.ReferralStack": undefined;
   "Modal.QuickActionsReorderModal": undefined;
   "Modal.HomepageReorderModal": undefined;
   "NotificationManagement.NotificationManagementStack": undefined;
@@ -54,6 +55,7 @@ type MainStackParams = RootStackParams &
   HomeStackParams &
   FrequentlyAskedQuestionsStackParams &
   WhatsNextStackParams &
-  NotificationManagementStackParams;
+  NotificationManagementStackParams &
+  ReferralStackParams;
 
 export default MainStackParams;

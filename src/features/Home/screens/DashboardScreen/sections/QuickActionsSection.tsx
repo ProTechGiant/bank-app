@@ -23,7 +23,7 @@ export default function QuickActionsSection({ onViewAllPress }: QuickActionsSect
           ? quickActions.slice(0, 3).map(element => {
               const handleOnPress = () => {
                 if (element.type === "settings") navigation.navigate("Settings.SettingsScreen");
-                if (element.type === "referrals") navigation.navigate("Referral.HubScreen");
+                if (element.type === "referrals") navigation.navigate("Referral.ReferralStack");
                 if (element.type === "balance-add")
                   navigation.navigate("AddMoney.AddMoneyStack", { screen: "AddMoney.AddMoneyInfoScreen" });
                 if (element.type === "internal-transfer") {

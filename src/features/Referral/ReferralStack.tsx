@@ -1,9 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import HubScreen from "./screens/HubScreen";
-import InstructionsScreen from "./screens/InstructionsScreen";
-import TermsAndConditionsScreen from "./screens/TermsAndConditionsScreen";
+import { HubScreen, InstructionsScreen, TermsAndConditionsScreen } from "./screens";
 
 export type ReferralStackParams = {
   "Referral.HubScreen": undefined;

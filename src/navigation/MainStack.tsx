@@ -9,7 +9,6 @@ import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfe
 import NotificationManagementStack from "@/features/NotificationManagement/NotificationManagementStack";
 import OnboardingStack from "@/features/Onboarding/OnboardingStack";
 import OneTimePasswordModal from "@/features/OneTimePassword/screens/OneTimePasswordModal";
-import HubScreen from "@/features/Referral/screens/HubScreen";
 import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
 import TermsAndConditionsScreen from "@/features/Referral/screens/TermsAndConditionsScreen";
 import SavingsGoalsStack from "@/features/SavingsGoals/SavingsGoalsStack";
@@ -19,6 +18,7 @@ import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen"
 import WhatsNextStack from "@/features/WhatsNext/WhatsNextStack";
 
 import MainStackParams from "./mainStackParams";
+import ReferralStack from "@/features/Referral/ReferralStack";
 
 const Stack = createNativeStackNavigator<MainStackParams>();
 
@@ -33,7 +33,7 @@ export default function MainStack({ onReady }: MainStackProps) {
         <Stack.Screen component={TemporaryLandingScreen} name="Temporary.LandingScreen" />
         <Stack.Screen component={TemporaryDummyScreen} name="Temporary.DummyScreen" />
         <Stack.Screen component={SettingsScreen} name="Settings.SettingsScreen" />
-        <Stack.Screen component={HubScreen} name="Referral.HubScreen" />
+        <Stack.Screen component={ReferralStack} name="Referral.ReferralStack" />
         <Stack.Screen
           component={TermsAndConditionsScreen}
           name="Referral.TermsAndConditionsScreen"

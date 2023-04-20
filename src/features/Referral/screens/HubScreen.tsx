@@ -5,10 +5,10 @@ import { I18nManager, Platform, ScrollView, Share, StyleSheet, View, ViewStyle }
 import appsFlyer from "react-native-appsflyer";
 
 import { CopyIcon } from "@/assets/icons";
-import { LoadingErrorNotification } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import DismissibleBanner from "@/components/DismissibleBanner";
+import { LoadingErrorNotification } from "@/components";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -18,10 +18,10 @@ import { useReferralContext } from "@/contexts/ReferralContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { useCustomersReferrals, useRefetchReferrals } from "../../hooks/query-hooks";
-import BackgroundBottomLeftSvg from "./background-bottom-left.svg";
-import BackgroundBottomRightSvg from "./background-bottom-right.svg";
-import BackgroundTopSvg from "./background-top.svg";
+import BackgroundBottomLeftSvg from "../assets/background-bottom-left.svg";
+import BackgroundBottomRightSvg from "../assets/background-bottom-right.svg";
+import BackgroundTopSvg from "../assets/background-top.svg";
+import { useCustomersReferrals, useRefetchReferrals } from "../hooks/query-hooks";
 
 export default function HubScreen() {
   const navigation = useNavigation();

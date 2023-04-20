@@ -14,7 +14,7 @@ export default function SettingsScreen() {
   const navigation = useNavigation();
 
   const handleOnReferPress = () => {
-    navigation.navigate("Referral.HubScreen");
+    navigation.navigate("Referral.ReferralStack");
   };
 
   const handleOnHelpAndSupportPress = () => {
