@@ -160,7 +160,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     width: "100%",
   }));
 
-  const phoneNumber = `${maskPhoneNumber(otpParams.PhoneNumber)} ${otpParams.PhoneNumber.slice(-4)}`; //TODO update masked phonenumber according to new designs
+  const phoneNumber = maskPhoneNumber(otpParams.PhoneNumber, 4);
 
   return (
     <SafeAreaProvider>
