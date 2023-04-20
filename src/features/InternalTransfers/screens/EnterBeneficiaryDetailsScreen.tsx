@@ -40,7 +40,7 @@ export default function EnterBeneficiaryDetailsScreen() {
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
   const [isInUseErrorModalVisible, setIsInUseErrorModalVisible] = useState(false);
   const [activePillIndex, setActivePillIndex] = useState(0);
-  const [i18nKey, setI18nKey] = useState("");
+  const [i18nKey, setI18nKey] = useState<string | undefined>(undefined);
 
   const hideErrorModal = () => {
     setIsInUseErrorModalVisible(false);
@@ -160,20 +160,24 @@ export default function EnterBeneficiaryDetailsScreen() {
           <View style={formContainer}>{options[activePillIndex].form}</View>
         </ContentContainer>
       </Page>
-      <NotificationModal
-        title={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.title`)}
-        message={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.message`)}
-        isVisible={i18nKey !== "" && isErrorMessageModalVisible}
-        variant="error"
-        onClose={() => handleOnErrorMessagedModalClose()}
-      />
-      <NotificationModal
-        title={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.title`)}
-        message={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.message`)}
-        isVisible={isInUseErrorModalVisible}
-        variant="warning"
-        onClose={() => handleOnInUseErrorModalClose()}
-      />
+      {i18nKey !== undefined ? (
+        <>
+          <NotificationModal
+            title={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.title`)}
+            message={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.message`)}
+            isVisible={isErrorMessageModalVisible}
+            variant="error"
+            onClose={() => handleOnErrorMessagedModalClose()}
+          />
+          <NotificationModal
+            title={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.title`)}
+            message={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.message`)}
+            isVisible={isInUseErrorModalVisible}
+            variant="warning"
+            onClose={() => handleOnInUseErrorModalClose()}
+          />
+        </>
+      ) : null}
       <NotificationModal
         title={t("errors.generic.title")}
         message={t("errors.generic.message")}
