@@ -18,7 +18,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 
-import useOtpFlow from "../../OneTimePassword/hooks/use-otp";
+import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
 import { CardActionsStackParams } from "../CardActionsStack";
 import {
   CardBanner,
@@ -141,6 +141,7 @@ export default function CardDetailsScreen() {
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
           correlationId: response.correlationId,
+          otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {
           return requestUnmaskedCardDetailsAsync.mutateAsync({ cardId });
@@ -222,6 +223,7 @@ export default function CardDetailsScreen() {
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
           correlationId: response.correlationId,
+          otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {
           return changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "unfreeze" });
@@ -261,6 +263,7 @@ export default function CardDetailsScreen() {
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
           correlationId: correlationId,
+          otpFormType: "card-actions",
         },
         onFinish: (status, payload) => {
           if (status === "fail" || status === "cancel" || payload === undefined) return;

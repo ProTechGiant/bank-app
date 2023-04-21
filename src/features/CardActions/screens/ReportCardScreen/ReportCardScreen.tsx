@@ -14,7 +14,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { Address } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 
-import useOtpFlow from "../../../OneTimePassword/hooks/use-otp";
+import { useOtpFlow } from "../../../OneTimePassword/hooks/query-hooks";
 import { CardActionsStackParams } from "../../CardActionsStack";
 import { useChangeCardStatus, useFreezeCard } from "../../hooks/query-hooks";
 import { CardCreateResponse } from "../../types";
@@ -107,6 +107,7 @@ export default function ReportCardScreen() {
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
           correlationId: response.correlationId,
+          otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {
           return useReportCardAsync.mutateAsync({ cardId: request.cardId, status: request.status });

@@ -51,3 +51,12 @@ export interface EnterBeneficiaryFormProps {
 export interface AddBeneficiaryFormForwardRef {
   reset: () => void;
 }
+
+export interface InternalTransfer {
+  InstructionIdentification: string;
+  InternalTransferAmount: string;
+  InternalTransferAmountCurrency: string;
+  DebtorAccountCustomerAccountId: string;
+  CreditorAccountCustomerAccountId: string;
+  RemittanceInformation: string;
+}

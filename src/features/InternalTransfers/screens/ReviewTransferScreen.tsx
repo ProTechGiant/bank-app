@@ -8,22 +8,29 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useAccount from "@/hooks/use-account";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { generateRandomId } from "@/utils";
 
 import { ReviewTransferDetail } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
-import { Note } from "../types";
+import { useInternalTransfer } from "../hooks/query-hooks";
+import { InternalTransfer, Note } from "../types";
 
 export default function ReviewTransferScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { transferAmount, reason, recipient } = useInternalTransferContext();
   const { data } = useAccount();
+  const otpFlow = useOtpFlow();
+  const internalTransferAsync = useInternalTransfer();
 
   const [note, setNote] = useState<Note>({ content: "", attachment: "" });
   const [isVisible, setIsVisible] = useState(false);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
   const sender = { accountName: data?.currentAccountName, accountNumber: data?.currentAccountNumber };
 
@@ -35,9 +42,53 @@ export default function ReviewTransferScreen() {
     setIsVisible(true);
   };
 
-  const handleSendMoney = () => {
-    //TODO: navigate to OTP
-    navigation.navigate("InternalTransfers.ConfirmationScreen");
+  const handleSendMoney = async () => {
+    const correlationId = generateRandomId();
+
+    const internalTransferDetails: InternalTransfer = {
+      InstructionIdentification: correlationId,
+      InternalTransferAmount: transferAmount?.toString() || "",
+      InternalTransferAmountCurrency: "SAR",
+      DebtorAccountCustomerAccountId: data?.currentAccountId || "",
+      CreditorAccountCustomerAccountId: recipient.accountNumber || "",
+      RemittanceInformation: reason || "",
+    };
+
+    try {
+      const response = await internalTransferAsync.mutateAsync(internalTransferDetails);
+
+      otpFlow.handle({
+        action: {
+          to: "InternalTransfers.ReviewTransferScreen",
+        },
+        otpOptionalParams: {
+          internalTransferDetails,
+        },
+        otpChallengeParams: {
+          OtpId: response.OtpId,
+          OtpCode: response.OtpCode,
+          PhoneNumber: response.PhoneNumber,
+          correlationId: correlationId,
+          otpFormType: "internal-transfer",
+        },
+        onOtpRequestResend: () => {
+          return internalTransferAsync.mutateAsync(internalTransferDetails);
+        },
+        onFinish: status => {
+          if (status === "cancel") {
+            return;
+          }
+          if (status === "fail") {
+            setIsErrorModalVisible(true);
+            return;
+          }
+          navigation.navigate("InternalTransfers.ConfirmationScreen");
+        },
+      });
+    } catch (error) {
+      setIsErrorModalVisible(true);
+      warn("internal transfer", "Could not request OTP: ", JSON.stringify(error));
+    }
   };
 
   const handleAddNote = () => {
@@ -98,6 +149,13 @@ export default function ReviewTransferScreen() {
         message={t("InternalTransfers.ReviewTransferScreen.notification.message")}
         title={t("InternalTransfers.ReviewTransferScreen.notification.title")}
         isVisible={isVisible}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={isErrorModalVisible}
+        onClose={() => setIsErrorModalVisible(false)}
       />
     </>
   );

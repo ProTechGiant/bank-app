@@ -21,7 +21,7 @@ import encryptValue from "@/utils/encrypt-value";
 import isValidPincode from "@/utils/is-valid-pincode";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
-import useOtpFlow from "../../OneTimePassword/hooks/use-otp";
+import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
 import { useResetPincode } from "../hooks/query-hooks";
 
 export default function ResetPinCodeScreen() {
@@ -118,6 +118,7 @@ export default function ResetPinCodeScreen() {
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
           correlationId: response.correlationId,
+          otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {
           return resetPincodeAsync.mutateAsync({ cardId });

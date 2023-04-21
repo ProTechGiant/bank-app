@@ -2,10 +2,9 @@ import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
 import sendApiRequest from "@/api";
-import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
-import { BeneficiaryType, TransferReason } from "../types";
+import { BeneficiaryType, InternalTransfer, TransferReason } from "../types";
 
 interface ReasonsResponse {
   TransferReason: TransferReason[];
@@ -80,4 +79,35 @@ export function useAddBeneficiary() {
       }
     );
   });
+}
+
+export function useInternalTransfer() {
+  return useMutation(
+    async ({
+      InstructionIdentification,
+      InternalTransferAmount,
+      InternalTransferAmountCurrency,
+      DebtorAccountCustomerAccountId,
+      CreditorAccountCustomerAccountId,
+      RemittanceInformation,
+    }: InternalTransfer) => {
+      return sendApiRequest<string>(
+        "v1",
+        "transfers/internal-payments",
+        "POST",
+        undefined,
+        {
+          InstructionIdentification,
+          InternalTransferAmount,
+          InternalTransferAmountCurrency,
+          DebtorAccountCustomerAccountId,
+          CreditorAccountCustomerAccountId,
+          RemittanceInformation,
+        },
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      );
+    }
+  );
 }

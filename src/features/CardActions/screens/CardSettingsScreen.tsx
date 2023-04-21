@@ -15,7 +15,7 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import useOtpFlow from "../../OneTimePassword/hooks/use-otp";
+import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
 import { CardActionsStackParams } from "../CardActionsStack";
 import { ListItemLink, ListSection, SettingsToggle } from "../components";
 import { useCard, useCardSettings, useUpdateCardSettings } from "../hooks/query-hooks";
@@ -81,6 +81,7 @@ export default function CardSettingsScreen() {
             OtpCode: response.OtpCode,
             OtpId: response.OtpId,
             PhoneNumber: response.PhoneNumber,
+            otpFormType: "card-actions",
           },
           onOtpRequestResend: async () => {
             const response_ = await updateCardSettingsAsync.mutateAsync({

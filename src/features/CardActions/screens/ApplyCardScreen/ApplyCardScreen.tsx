@@ -9,7 +9,7 @@ import { PHYSICAL_CARD_TYPE } from "@/constants";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
-import useOtpFlow from "../../../OneTimePassword/hooks/use-otp";
+import { useOtpFlow } from "../../../OneTimePassword/hooks/query-hooks";
 import ApplyCardsContext, { ApplyCardInput } from "../../context/ApplyCardsContext";
 import useSubmitOrderCard from "../../hooks/query-hooks";
 import { useSubmitRenewCard } from "../../hooks/query-hooks";
@@ -72,6 +72,7 @@ export default function ApplyCardScreen() {
             OtpCode: response.OtpCode,
             PhoneNumber: response.PhoneNumber,
             correlationId: response.correlationId,
+            otpFormType: "card-actions",
           },
           otpOptionalParams: {
             Pin: values.EncryptedPincode,
@@ -110,6 +111,7 @@ export default function ApplyCardScreen() {
             OtpCode: response.OtpCode,
             PhoneNumber: response.PhoneNumber,
             correlationId: response.correlationId,
+            otpFormType: "card-actions",
           },
           otpOptionalParams: {
             Pin: values.EncryptedPincode,

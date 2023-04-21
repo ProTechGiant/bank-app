@@ -2,16 +2,17 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
 import { LUX_CARD_PRODUCT_ID, STANDARD_CARD_PRODUCT_ID } from "@/constants";
+import { OtpRequiredResponse } from "@/features/OneTimePassword/types";
 import { Address } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 import { tokenizeCardForAppleWalletAsync } from "@/utils/apple-wallet";
 
 import { Card, CardSettingsInput, CardStatus } from "../types";
 
-export const queryKeys = {
+export const cardsQueryKeys = {
   all: () => ["cards"] as const,
-  settings: (cardId: string) => [...queryKeys.all(), "settings", { cardId }] as const,
-  meawalletTokenization: (cardId: string) => [...queryKeys.all(), "meawallet-tokenization", { cardId }] as const,
+  settings: (cardId: string) => [...cardsQueryKeys.all(), "settings", { cardId }] as const,
+  meawalletTokenization: (cardId: string) => [...cardsQueryKeys.all(), "meawallet-tokenization", { cardId }] as const,
   customerTier: () => ["customer-tier"] as const,
 };
 
@@ -20,7 +21,7 @@ interface CardsResponse {
 }
 
 export function useCards() {
-  return useQuery(queryKeys.all(), () => {
+  return useQuery(cardsQueryKeys.all(), () => {
     return api<CardsResponse>("v1", "cards", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
@@ -54,7 +55,7 @@ export function useFreezeCard() {
     },
     {
       onSettled: () => {
-        queryClient.invalidateQueries(queryKeys.all());
+        queryClient.invalidateQueries(cardsQueryKeys.all());
       },
     }
   );
@@ -84,7 +85,7 @@ interface CustomerTierResponse {
 }
 
 export function useCustomerTier() {
-  return useQuery(queryKeys.customerTier(), () => {
+  return useQuery(cardsQueryKeys.customerTier(), () => {
     return api<CustomerTierResponse>("v1", "customer/tier", "GET");
   });
 }
@@ -92,7 +93,7 @@ export function useCustomerTier() {
 // alias for explicitness
 type CardSettingsResponse = CardSettingsInput;
 export function useCardSettings(cardId: string) {
-  return useQuery(queryKeys.settings(cardId), () => {
+  return useQuery(cardsQueryKeys.settings(cardId), () => {
     return api<CardSettingsResponse>("v1", `cards/${cardId}/settings`, "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
@@ -130,11 +131,11 @@ export function useUpdateCardSettings() {
     },
     {
       onMutate: variables => {
-        queryClient.setQueryData(queryKeys.settings(variables.cardId), variables.settings);
+        queryClient.setQueryData(cardsQueryKeys.settings(variables.cardId), variables.settings);
       },
       onSettled: (data, _options, variables) => {
         if (data !== undefined && data.IsOtpRequired) return;
-        queryClient.invalidateQueries(queryKeys.settings(variables.cardId));
+        queryClient.invalidateQueries(cardsQueryKeys.settings(variables.cardId));
       },
     }
   );
@@ -164,56 +165,6 @@ export function useResetPincode() {
   });
 }
 
-interface OtpRequiredResponse {
-  OtpId: string;
-  OtpCode: string;
-  PhoneNumber: string;
-}
-
-interface ValidateOtpRequest<T extends object> {
-  OtpId: string;
-  OtpCode: string;
-  correlationId: string;
-  optionalParams: T;
-}
-
-interface ValidateOtpResponse {
-  IsOtpValid: boolean;
-  NumOfAttempts: number;
-}
-
-export function useOtpValidation<RequestT extends object, ResponseT extends object>() {
-  const queryClient = useQueryClient();
-
-  return useMutation(
-    ({ OtpId, OtpCode, correlationId, optionalParams }: ValidateOtpRequest<RequestT>) => {
-      return api<ValidateOtpResponse & ResponseT>(
-        "v1",
-        `cards/otp-validation`,
-        "POST",
-        undefined,
-        {
-          ...optionalParams,
-          OtpId: OtpId,
-          OtpCode: OtpCode,
-        },
-        {
-          ["x-correlation-id"]: correlationId,
-        }
-      );
-    },
-    {
-      onSettled: (_data, _error, variables, _context) => {
-        queryClient.invalidateQueries(queryKeys.all());
-
-        if (variables.optionalParams?.CardId !== undefined) {
-          queryClient.invalidateQueries(queryKeys.settings(variables.optionalParams.CardId));
-        }
-      },
-    }
-  );
-}
-
 export function useUnmaskedCardDetails() {
   return useMutation(async ({ cardId }: { cardId: string }) => {
     const correlationId = generateRandomId();
@@ -227,7 +178,7 @@ export function useUnmaskedCardDetails() {
 
 export function useMeawalletTokenization(cardId: string) {
   return useQuery(
-    queryKeys.meawalletTokenization(cardId),
+    cardsQueryKeys.meawalletTokenization(cardId),
     async () => {
       return tokenizeCardForAppleWalletAsync(cardId);
     },

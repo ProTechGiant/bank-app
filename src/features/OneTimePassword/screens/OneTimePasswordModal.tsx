@@ -20,7 +20,8 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import maskPhoneNumber from "@/utils/mask-phone-number";
 
-import { useOtpValidation } from "../../CardActions/hooks/query-hooks";
+import { useOtpValidation } from "../hooks/query-hooks";
+import { OtpChallengeParams, OtpFormType } from "../types";
 
 export default function OneTimePasswordModal<ParamsT extends object, OutputT extends object>() {
   const { t } = useTranslation();
@@ -79,13 +80,16 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     });
   };
 
-  const handleOnRequestResendPress = async () => {
+  const handleOnRequestResendPress = async (otpFormType: OtpFormType) => {
     if (otpResendsRequested >= OTP_MAX_RESENDS) return;
 
     try {
       const response = await params.onOtpRequestResend();
-
-      setOtpParams(response);
+      const updatedParams: OtpChallengeParams = {
+        ...response,
+        otpFormType,
+      };
+      setOtpParams(updatedParams);
       setIsErrorVisible(false);
       setIsOtpCodeInvalidErrorVisible(false);
       setIsOtpExpired(false);
@@ -124,12 +128,12 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   const handleOnSubmit = async (otpCode: string) => {
     try {
       const { IsOtpValid, NumOfAttempts, ...restProps } = await otpValidationAsync.mutateAsync({
+        otpFormType: otpParams.otpFormType,
         OtpId: otpParams.OtpId,
         OtpCode: otpCode,
         correlationId: otpParams.correlationId,
         optionalParams: params.otpOptionalParams as ParamsT,
       });
-
       if (!IsOtpValid) {
         setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
@@ -160,7 +164,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     width: "100%",
   }));
 
-  const phoneNumber = maskPhoneNumber(otpParams.PhoneNumber, 4);
+  const phoneNumber = (otpParams.PhoneNumber !== undefined && maskPhoneNumber(otpParams.PhoneNumber, 4)) || "";
 
   return (
     <SafeAreaProvider>
@@ -205,7 +209,9 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                 <Typography.Text
                   size="callout"
                   color={isOtpExpired ? "primaryBase" : "neutralBase"}
-                  onPress={handleOnRequestResendPress}
+                  onPress={() => {
+                    handleOnRequestResendPress(otpParams.otpFormType);
+                  }}
                   disabled={!isOtpExpired}>
                   {isOtpExpired
                     ? t("OneTimePasswordModal.resendCodeEnabled")

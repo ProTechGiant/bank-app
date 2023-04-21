@@ -19,7 +19,7 @@ import { useThemeStyles } from "@/theme";
 import encryptValue from "@/utils/encrypt-value";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
-import useOtpFlow from "../../OneTimePassword/hooks/use-otp";
+import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
 import { CardActionsStackParams } from "../CardActionsStack";
 import ViewCVVModel from "../components/ViewCVVModel";
 import { useChangeCardStatus, useVerifyCVV } from "../hooks/query-hooks";
@@ -90,6 +90,7 @@ export default function EnterCardCVVScreen() {
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
           correlationId: response.correlationId,
+          otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {
           return changeCardStatusAsync.mutateAsync({ cardId, status: "unfreeze" });

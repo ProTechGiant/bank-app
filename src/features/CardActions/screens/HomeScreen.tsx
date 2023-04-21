@@ -15,7 +15,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 
-import useOtpFlow from "../../OneTimePassword/hooks/use-otp";
+import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
 import { CardBanner, QuickActionsMenu, ViewPinModal } from "../components";
 import { hasActiveSingleUseCard, isCardInactive } from "../helpers";
 import {
@@ -74,6 +74,7 @@ export default function HomeScreen() {
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
           correlationId: response.correlationId,
+          otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {
           return changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "unfreeze" });
@@ -105,6 +106,7 @@ export default function HomeScreen() {
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
           correlationId: response.correlationId,
+          otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {
           return requestViewPinOtpAsync.mutateAsync({ cardId });
