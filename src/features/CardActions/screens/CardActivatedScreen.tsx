@@ -1,19 +1,16 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
 import HeroSlider from "@/components/HeroSlider";
 import CloseEndButton from "@/components/NavHeader/CloseEndButton";
-import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
 export default function CardActivatedScreen() {
-  const route = useRoute<RouteProp<MainStackParams, "CardActions.CardActivatedScreen">>();
   const navigation = useNavigation();
   const { t } = useTranslation();
 
   const handleOnFinish = () => {
-    navigation.navigate("CardActions.CardDetailsScreen", { cardId: route.params.cardId });
+    navigation.navigate("CardActions.HomeScreen");
   };
 
   return (
@@ -26,7 +23,7 @@ export default function CardActivatedScreen() {
           text: t("CardActions.ActivationScreen.successDescription"),
         },
       ]}
-      lastButtonText={t("CardActions.ActivationScreen.okBtn")}
+      lastButtonText={t("CardActions.ActivationScreen.button")}
       onFinishPress={handleOnFinish}
       end={<CloseEndButton onPress={handleOnFinish} color="errorBase" />}
       hasBackButton={false}

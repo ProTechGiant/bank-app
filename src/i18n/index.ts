@@ -933,13 +933,11 @@ export const resources = {
           errorTitle: "Try again later",
           errorMessage: "You’ve entered the wrong passcode too many times. Please try again later or get in touch.",
           button: "OK",
-          successMessage: "Your card’s ready to go",
-          successDescription: "It’s activated and ready for action - whatever you’re buying.",
         },
         ActivationScreen: {
           successMessage: "Your card’s ready to go",
           successDescription: "It’s activated and ready for action - whatever you’re buying.",
-          okBtn: "OK",
+          button: "OK",
         },
       },
       AddMoneyInfo: {
