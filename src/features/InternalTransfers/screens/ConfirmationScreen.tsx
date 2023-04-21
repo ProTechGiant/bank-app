@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { TickCircleIcon } from "@/assets/icons";
@@ -27,7 +27,8 @@ export default function ConfirmationScreen() {
   };
 
   const handleOnViewTransactionsPress = () => {
-    navigation.navigate("InternalTransfers.TransactionDetailsScreen");
+    //TODO: navigate to transaction details
+    handleOnDonePress();
   };
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
@@ -47,6 +48,7 @@ export default function ConfirmationScreen() {
 
   return (
     <SafeAreaProvider>
+      <StatusBar barStyle="light-content" />
       <Page backgroundColor="primaryBase">
         <ContentContainer isScrollView style={styles.flex}>
           <View style={styles.container}>

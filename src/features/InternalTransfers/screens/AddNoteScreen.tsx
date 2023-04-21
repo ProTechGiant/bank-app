@@ -3,7 +3,7 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as Yup from "yup";
 
@@ -13,6 +13,7 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useThemeStyles } from "@/theme";
 import { alphaNumericSpaceQuoteRegExp } from "@/utils";
 
 import { ErrorMessage, SubmitNoteButton } from "../components";
@@ -52,11 +53,15 @@ export default function AddNoteScreen() {
     },
   });
 
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["16p"],
+  }));
+
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
         <NavHeader onBackPress={handleBack} />
-        <ContentContainer isScrollView style={styles.flex}>
+        <ContentContainer isScrollView style={styles.container}>
           <Stack direction="vertical" gap="24p" align="stretch">
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
               {t("InternalTransfers.AddNoteScreen.title")}
@@ -71,15 +76,17 @@ export default function AddNoteScreen() {
               extra={t("InternalTransfers.AddNoteScreen.required")}
             />
           </Stack>
-          <View style={styles.buttonContainer}>
+          <View>
             <ErrorMessage control={control} name="content" forbiddenWords={FORBIDDEN_WORDS} />
-            <SubmitNoteButton
-              control={control}
-              name="content"
-              onSubmit={handleSubmit(handleOnSubmit)}
-              forbiddenWords={FORBIDDEN_WORDS}>
-              {t("InternalTransfers.AddNoteScreen.done")}
-            </SubmitNoteButton>
+            <View style={buttonContainerStyle}>
+              <SubmitNoteButton
+                control={control}
+                name="content"
+                onSubmit={handleSubmit(handleOnSubmit)}
+                forbiddenWords={FORBIDDEN_WORDS}>
+                {t("InternalTransfers.AddNoteScreen.done")}
+              </SubmitNoteButton>
+            </View>
           </View>
         </ContentContainer>
       </Page>
@@ -88,10 +95,7 @@ export default function AddNoteScreen() {
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    marginTop: "auto",
-  },
-  flex: {
-    flex: 1,
+  container: {
+    justifyContent: "space-between",
   },
 });

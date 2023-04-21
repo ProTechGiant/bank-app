@@ -991,7 +991,7 @@ export const resources = {
           notification: {
             title: "Cancel your transfer?",
             message:
-              "Are you sure you want to cancel the transfer process? If yes, please click on Confirm Cancellation ",
+              'Are you sure you want to cancel the transfer process? If yes, please click on "Confirm Cancellation" ',
             cancel: "Confirm cancellation",
             continue: "Close",
           },
@@ -1002,7 +1002,8 @@ export const resources = {
           done: "Done",
           required: "Only letters & numbers are allowed",
           noSpecialCharacters: 'All special characters are not allowed except for this (")',
-          and: " and ",
+          forbiddenWordNotAllowed: 'The word "{{forbiddenWord}}" is not allowed in the note.',
+          forbiddenWordsNotAllowed: 'The words "{{forbiddenWord}}" are not allowed in the note.',
         },
         PaymentHub: {
           title: "Money in & out",
@@ -1612,7 +1613,7 @@ export const resources = {
         notification: {
           title: "Cancel your transfer?",
           message:
-            "Are you sure you want to cancel the transfer process? If yes, please click on Confirm Cancellation ",
+            'Are you sure you want to cancel the transfer process? If yes, please click on "Confirm Cancellation"',
           cancel: "Confirm cancellation",
           continue: "Close",
         },
@@ -1623,7 +1624,8 @@ export const resources = {
         done: "Done",
         required: "Only letters & numbers are allowed",
         noSpecialCharacters: 'All special characters are not allowed except for this (")',
-        and: " and ",
+        forbiddenWordNotAllowed: 'The word "{{forbiddenWord}}" is not allowed in the note.',
+        forbiddenWordsNotAllowed: 'The words "{{forbiddenWord}}" are not allowed in the note.',
       },
       PaymentHub: {
         title: "Money in & out",
