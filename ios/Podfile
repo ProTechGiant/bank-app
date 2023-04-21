@@ -48,6 +48,12 @@ target 'CroatiaMobileApp' do
     # Pods for testing
   end
 
+  # T2 RiCH dependencies
+  # pod 'Realm' , '10.28.5', :modular_headers => true
+  # pod 'RealmSwift' , '10.28.5'
+  # pod 'RuntimeNew' , '2.1.5'
+  # pod 'Unrealm' , '1.9.4'
+
   post_install do |installer|
     react_native_post_install(
       installer,
@@ -58,3 +64,10 @@ target 'CroatiaMobileApp' do
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 end
+
+# target 'T2NotificationService' do
+#   pod 'Realm' , '10.28.5', :modular_headers => true
+#   pod 'RealmSwift' , '10.28.5'
+#   pod 'RuntimeNew' , '2.1.5'
+#   pod 'Unrealm' , '1.9.4'
+# end

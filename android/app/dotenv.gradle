@@ -1,0 +1,23 @@
+def loadDotEnv() {
+    File f = new File("$project.rootDir/../.env");
+    println("Reading env from: ${f.path}")
+
+    if (!f.exists()) {
+      println("**************************")
+      println("*** Missing .env file ****")
+      println("**************************")
+    }
+
+    if (f.exists()) {
+        f.eachLine { line ->
+            // https://regex101.com/r/cbm5Tp/1
+            def matcher = (line =~ /^\s*(?:export\s+|)([\w\d\.\-_]+)\s*=\s*['"]?(.*?)?['"]?\s*$/)
+
+            if (matcher.getCount() == 1 && matcher[0].size() == 3) {
+                System.setProperty(matcher[0][1], matcher[0][2].replace('"', '\\"'));
+            }
+        }
+    }
+}
+
+loadDotEnv()

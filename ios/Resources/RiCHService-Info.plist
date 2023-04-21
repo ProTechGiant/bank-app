@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BUNDLE_ID</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>APP_GROUP</key>
+	<string>group.com.croatia.consumerapp</string>
+	<key>RICH_BASE_URL</key>
+	<string>https://notificationrb.rich.sa</string>
+	<key>CLIENT_SECRET</key>
+	<string>client91e80cb4-71bf-4c2b-b47a-91f574821347</string>
+	<key>CLIENT_ID</key>
+	<string>91e80cb4-71bf-4c2b-b47a-91f574821347</string>
+</dict>
+</plist>

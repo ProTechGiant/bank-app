@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.croatiamobileapp.reloadapp.ReloadAppPackage;
 
+import com.croatiamobileapp.t2notifications.T2PushNotificationsPackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           packages.add(new ReloadAppPackage());
+          packages.add(new T2PushNotificationsPackage());
 
           return packages;
         }

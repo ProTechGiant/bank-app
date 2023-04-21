@@ -2,17 +2,23 @@
   xmlns:tools="http://schemas.android.com/tools"
   package="com.croatiamobileapp">
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Permissions required for notifications -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:roundIcon="@mipmap/ic_launcher_round"
-      android:allowBackup="false"
       android:theme="@style/BootTheme"
       android:usesCleartextTraffic="true"
-      android:supportsRtl="true">
+      android:supportsRtl="true"
+      android:allowBackup="false"
+      android:fullBackupContent="false"
+      tools:replace="android:fullBackupContent">
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
@@ -32,7 +38,7 @@
               android:host="app"
               android:scheme="croatia" />
         </intent-filter>
-             <!-- Android App links implementaion: https://testcroatia.onelink.me/vtqe -->
+        <!-- Android App links implementaion: https://testcroatia.onelink.me/vtqe -->
         <intent-filter  android:autoVerify="true">
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
@@ -44,8 +50,9 @@
         </intent-filter>
       </activity>
 
+      <!-- T2 RiCH -->
       <service
-        android:name=".FirebaseNotificationService"
+        android:name=".t2notifications.FirebaseNotificationService"
         android:exported="false">
         <intent-filter>
           <action android:name="com.google.firebase.MESSAGING_EVENT" />

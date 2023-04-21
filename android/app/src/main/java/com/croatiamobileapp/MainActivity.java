@@ -12,7 +12,6 @@ import com.facebook.react.modules.i18nmanager.I18nUtil;
 import com.zoontek.rnbootsplash.RNBootSplash;
 
 public class MainActivity extends ReactActivity {
-
   /**
   * Android Deeplink Setup
   * AppsFlyer SDK inspects activity intent object during onResume().
