@@ -65,7 +65,8 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnHomepage = () => {
+  const handleOnHomepage = (values: TemporaryUserId) => {
+    auth.authenticate(values.UserId);
     navigation.navigate("Home.HomeStack", {
       screen: "Home.DashboardScreen",
     });
@@ -114,7 +115,7 @@ export default function TemporaryLandingScreen() {
           <Button onPress={handleOnOpenApplyForCard}>Order Card</Button>
         </View>
         <View style={{ margin: 20 }}>
-          <Button onPress={handleOnHomepage}>Homepage</Button>
+          <Button onPress={handleSubmit(handleOnHomepage)}>Homepage</Button>
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleSubmit(handleOnOpenInternalTransfers)}>Internal Transfers</Button>
