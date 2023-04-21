@@ -38,7 +38,7 @@ export default function EnterCardCVVScreen() {
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
   const verifyCVVAsync = useVerifyCVV();
-  const unfreezeCardAsync = useChangeCardStatus();
+  const changeCardStatusAsync = useChangeCardStatus();
   const otpFlow = useOtpFlow();
 
   const handleOnBackPress = () => {
@@ -75,7 +75,7 @@ export default function EnterCardCVVScreen() {
 
   const handleOnUnfreezeCard = async () => {
     try {
-      const response = await unfreezeCardAsync.mutateAsync({ cardId, status: "unfreeze" });
+      const response = await changeCardStatusAsync.mutateAsync({ cardId, status: "unfreeze" });
 
       otpFlow.handle({
         action: {
@@ -83,6 +83,7 @@ export default function EnterCardCVVScreen() {
         },
         otpOptionalParams: {
           CardId: cardId,
+          IsActivation: true, // for card activation
         },
         otpChallengeParams: {
           OtpId: response.OtpId,
@@ -91,7 +92,7 @@ export default function EnterCardCVVScreen() {
           correlationId: response.correlationId,
         },
         onOtpRequestResend: () => {
-          return unfreezeCardAsync.mutateAsync({ cardId, status: "unfreeze" });
+          return changeCardStatusAsync.mutateAsync({ cardId, status: "unfreeze" });
         },
         onFinish: status => {
           if (status === "cancel") {
