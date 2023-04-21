@@ -323,6 +323,14 @@ export const resources = {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat. \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat. ",
         },
       },
+      WhatsNext: {
+        HubScreen: {
+          title: "What's Next",
+          topTen: "Top 10",
+          explore: "Explore",
+          newestFirst: "Newest first",
+        },
+      },
       FrequentlyAskedQuestions: {
         LandingScreen: {
           title: "How can we help you?",

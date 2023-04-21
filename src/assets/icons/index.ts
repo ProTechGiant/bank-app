@@ -33,6 +33,7 @@ export { ErrorFilledCircleIcon } from "./error-filled-circle";
 export { ErrorOutlineIcon } from "./error-outline";
 export { FilledCircleTickIcon } from "./filled-circle-tick";
 export { default as FilledRefresh } from "./filled-refresh";
+export { default as FilterIcon } from "./filter";
 export { FreezeIcon } from "./freeze";
 export { default as FriendsIcon } from "./friends";
 export { default as GiftIcon } from "./gift";

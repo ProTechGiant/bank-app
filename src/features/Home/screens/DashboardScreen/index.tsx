@@ -1,5 +1,5 @@
 import Clipboard from "@react-native-clipboard/clipboard";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,6 +8,7 @@ import { AccountIcon, HideIcon, ShowIcon, UserClockIcon } from "@/assets/icons";
 import BulletinBoard from "@/components/BulletinBoard";
 import Button from "@/components/Button";
 import DismissibleBanner from "@/components/DismissibleBanner";
+import { LoadingErrorNotification } from "@/components/LoadingError";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -16,7 +17,6 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import BackgroundCollapsedSvg from "../../background-header-collapsed.svg";
-import LoadingError from "../../components/LoadingError";
 import { useHomepageLayoutOrder } from "../../contexts/HomepageLayoutOrderContext";
 import { useRefetchHomepageLayout } from "../../hooks/query-hooks";
 import BackgroundExpandedSvg from "./background-header-expanded.svg";
@@ -41,6 +41,14 @@ export default function DashboardScreen() {
   const [ibanToastVisible, setIbanToastVisible] = useState(false);
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
   const [isNotificationsExpanded, setIsNotificationsExpanded] = useState(false);
+  const [layoutErrorIsVisible, setLayoutErrorIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (homepageLayout?.isError === true) {
+      console.log("err");
+      setLayoutErrorIsVisible(true);
+    }
+  }, [homepageLayout]);
 
   const handleOnIbanCopyPress = () => {
     if (undefined === account.data?.currentAccountIban) return;
@@ -74,6 +82,15 @@ export default function DashboardScreen() {
 
   const handleOnWhatsNextPress = () => {
     navigation.navigate("WhatsNext.WhatsNextStack");
+  };
+
+  const handleOnLoadingErrorClose = () => {
+    setLayoutErrorIsVisible(false);
+  };
+
+  const handleOnLoadingErrorRefresh = () => {
+    refetchAll();
+    handleOnLoadingErrorClose();
   };
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -167,7 +184,7 @@ export default function DashboardScreen() {
           </View>
           <ScrollView contentContainerStyle={contentStyle}>
             <Stack align="stretch" direction="vertical" gap="32p">
-              {sections !== undefined ? (
+              {sections?.length !== 0 ? (
                 <>
                   {sections.map(section => {
                     if (section.type === "quick-actions") {
@@ -187,11 +204,11 @@ export default function DashboardScreen() {
                     </Button>
                   </View>
                 </>
-              ) : homepageLayout?.error ? (
-                <LoadingError
-                  onRefresh={() => {
-                    refetchAll();
-                  }}
+              ) : layoutErrorIsVisible === true ? (
+                <LoadingErrorNotification
+                  isVisible={layoutErrorIsVisible}
+                  onClose={handleOnLoadingErrorClose}
+                  onRefresh={handleOnLoadingErrorRefresh}
                 />
               ) : null}
             </Stack>

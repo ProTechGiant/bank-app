@@ -1,18 +1,18 @@
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 
 import { InfoIcon } from "@/assets/icons";
-import { LoadingErrorNotification } from "@/components/LoadingError";
+import NavHeader from "@/components/NavHeader";
+import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface LoadingErrorProps {
-  isVisible: boolean;
-  onClose: () => void;
+interface LoadingErrorPageProps {
+  title?: string;
   onRefresh: () => void;
 }
 
-export default function LoadingError(props: LoadingErrorProps) {
+export default function LoadingErrorPage({ onRefresh, title }: LoadingErrorPageProps) {
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -22,11 +22,12 @@ export default function LoadingError(props: LoadingErrorProps) {
 
   const textStyle = useThemeStyles<ViewStyle>(theme => ({
     width: "55%",
-    marginTop: theme.spacing["20p"],
+    marginVertical: theme.spacing["20p"],
   }));
 
   return (
-    <>
+    <Page backgroundColor="neutralBase-60">
+      <NavHeader title={title} />
       <View style={containerStyle}>
         <InfoIcon />
         <View style={textStyle}>
@@ -34,8 +35,12 @@ export default function LoadingError(props: LoadingErrorProps) {
             {t("LoadingError.noData")}
           </Typography.Text>
         </View>
+        <Pressable onPress={onRefresh}>
+          <Typography.Text size="callout" align="center" color="primaryBase-40">
+            {t("LoadingError.reload")}
+          </Typography.Text>
+        </Pressable>
       </View>
-      <LoadingErrorNotification {...props} />
-    </>
+    </Page>
   );
 }
