@@ -25,7 +25,7 @@ export default function ReviewTransferScreen() {
   const [note, setNote] = useState<Note>({ content: "", attachment: "" });
   const [isVisible, setIsVisible] = useState(false);
 
-  const sender = { accountName: data?.currentAccountName, accountIban: data?.currentAccountIban };
+  const sender = { accountName: data?.currentAccountName, accountNumber: data?.currentAccountNumber };
 
   const updateNote = (content: Note) => {
     setNote(content);
