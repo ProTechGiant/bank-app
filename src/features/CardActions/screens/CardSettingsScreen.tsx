@@ -111,7 +111,7 @@ export default function CardSettingsScreen() {
 
   const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
     height: 1,
-    backgroundColor: theme.palette["neutralBase-30"],
+    backgroundColor: theme.palette["neutralBase-40"],
     marginHorizontal: -theme.spacing["20p"],
     marginVertical: theme.spacing["20p"],
   }));
@@ -181,21 +181,21 @@ export default function CardSettingsScreen() {
                   label={t("CardActions.CardSettingsScreen.swipePayments.label")}
                   helperText={t("CardActions.CardSettingsScreen.swipePayments.helperText")}
                   onPress={() => handleOnChangeSettings("SwipePayments")}
-                  value={settings.data.SwipePayments}
+                  value={card.data.Status === "pending-activation" ? false : settings.data.SwipePayments}
                 />
                 <SettingsToggle
                   disabled={card.data.Status !== "unfreeze"}
                   label={t("CardActions.CardSettingsScreen.contactlessPayments.label")}
                   helperText={t("CardActions.CardSettingsScreen.contactlessPayments.helperText")}
                   onPress={() => handleOnChangeSettings("ContactlessPayments")}
-                  value={settings.data.ContactlessPayments}
+                  value={card.data.Status === "pending-activation" ? false : settings.data.ContactlessPayments}
                 />
                 <SettingsToggle
                   disabled={card.data.Status !== "unfreeze"}
                   label={t("CardActions.CardSettingsScreen.atmWithdrawals.label")}
                   helperText={t("CardActions.CardSettingsScreen.atmWithdrawals.helperText")}
                   onPress={() => handleOnChangeSettings("AtmWithdrawals")}
-                  value={settings.data.AtmWithdrawals}
+                  value={card.data.Status === "pending-activation" ? false : settings.data.AtmWithdrawals}
                 />
               </ListSection>
             </View>

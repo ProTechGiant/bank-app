@@ -747,24 +747,24 @@ export const resources = {
           changePin: "Change Pin",
           onlinePayment: {
             label: "Online payments",
-            helperText: "Lorem ipsum dolor",
+            helperText: "Allow online payments with this card.",
           },
           internationalPayment: {
             label: "International payments",
-            helperText: "Lorem ipsum dolor",
+            helperText: "Allow payments outside Saudi Arabia with your card.",
           },
           subTitle2: "Physical card",
           swipePayments: {
             label: "Swipe payments",
-            helperText: "Lorem ipsum dolor",
+            helperText: "Enable payments using your card’s magnetic stripe.",
           },
           contactlessPayments: {
             label: "Contactless payments",
-            helperText: "Lorem ipsum dolor",
+            helperText: "Enable contactless payments with your card.",
           },
           atmWithdrawals: {
             label: "ATM withdrawals",
-            helperText: "Lorem ipsum dolor",
+            helperText: "Enable ATM withdrawals with your card.",
           },
           onTheWay: {
             title: "Your card is on the way",
@@ -1467,24 +1467,24 @@ export const resources = {
           changePin: "Change Pin",
           onlinePayment: {
             label: "Online payments",
-            helperText: "Lorem ipsum dolor",
+            helperText: "Allow online payments with this card.",
           },
           internationalPayment: {
             label: "International payments",
-            helperText: "Lorem ipsum dolor",
+            helperText: "Allow payments outside Saudi Arabia with your card.",
           },
           subTitle2: "Physical card",
           swipePayments: {
             label: "Swipe payments",
-            helperText: "Lorem ipsum dolor",
+            helperText: "Enable payments using your card’s magnetic stripe.",
           },
           contactlessPayments: {
             label: "Contactless payments",
-            helperText: "Lorem ipsum dolor",
+            helperText: "Enable contactless payments with your card.",
           },
           atmWithdrawals: {
             label: "ATM withdrawals",
-            helperText: "Lorem ipsum dolor",
+            helperText: "Enable ATM withdrawals with your card.",
           },
           onTheWay: {
             title: "Your card is on the way",

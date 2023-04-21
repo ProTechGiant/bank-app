@@ -39,9 +39,16 @@ export default function Toggle({ onPress, testID, disabled, value }: ToggleProps
     width: 48,
   }));
 
-  const backgroundAnimatedStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(value ? 1 : 0, [0, 1], [disabled ? disabledOffColor : offColor, onColor]),
-  }));
+  const backgroundAnimatedStyle = useAnimatedStyle(
+    () => ({
+      backgroundColor: interpolateColor(
+        value ? 1 : 0,
+        [0, 1],
+        [disabled ? disabledOffColor : offColor, disabled ? disabledOffColor : onColor]
+      ),
+    }),
+    [disabled]
+  );
 
   const buttonAnimatedStyle = useAnimatedStyle(() => ({
     transform: [

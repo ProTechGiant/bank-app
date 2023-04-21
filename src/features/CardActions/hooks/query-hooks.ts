@@ -295,7 +295,7 @@ interface RenewCardInput {
   AlternateAddress?: Address;
 }
 
-interface RenwCardResponse {
+interface RenewCardResponse {
   OtpId: string;
   OtpCode: string;
   PhoneNumber: string;
@@ -305,7 +305,7 @@ export function useSubmitRenewCard() {
   return useMutation(async ({ values }: { values: RenewCardInput }) => {
     const correlationId = generateRandomId();
 
-    const response = await api<RenwCardResponse>("v1", "cards/renew", "POST", undefined, values, {
+    const response = await api<RenewCardResponse>("v1", "cards/renew", "POST", undefined, values, {
       ["x-correlation-id"]: correlationId,
     });
 

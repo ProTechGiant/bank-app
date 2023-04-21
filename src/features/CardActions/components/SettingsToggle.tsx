@@ -21,7 +21,7 @@ export default function SettingsToggle({ icon, helperText, onPress, label, disab
     alignContent: "center",
     flexDirection: "row",
     paddingVertical: theme.spacing["16p"],
-    height: 73,
+    width: "100%",
   }));
 
   const helperTextStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -59,7 +59,7 @@ export default function SettingsToggle({ icon, helperText, onPress, label, disab
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
   },
   iconContainer: {
     justifyContent: "center",
