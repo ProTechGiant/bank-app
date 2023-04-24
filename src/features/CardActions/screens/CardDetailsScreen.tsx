@@ -419,6 +419,8 @@ export default function CardDetailsScreen() {
             <CardButtons
               isViewingPin={isViewingPin}
               isCardFrozen={cardStatus === "freeze"}
+              isFreezeButtonVisible={cardStatus !== "pending-activation"}
+              isViewPinButtonVisible={cardStatus !== "pending-activation"}
               onShowDetailsPress={handleOnShowDetailsPress}
               onViewPinPress={handleOnViewPinPress}
               onFreezePress={handleOnFreezePress}
@@ -453,6 +455,7 @@ export default function CardDetailsScreen() {
                   icon={<ReportIcon />}
                   onPress={handleOnReportPress}
                   title={t("CardActions.CardDetailsScreen.reportButton")}
+                  disabled={cardStatus === "pending-activation"}
                 />
               </ListSection>
               <View style={separatorStyle} />

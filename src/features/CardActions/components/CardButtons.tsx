@@ -7,6 +7,8 @@ import Stack from "@/components/Stack";
 import IconButton from "./IconButton";
 
 interface CardButtonsProps {
+  isFreezeButtonVisible?: boolean;
+  isViewPinButtonVisible?: boolean;
   isShowingDetails: boolean;
   isCardFrozen: boolean;
   isViewingPin: boolean;
@@ -17,6 +19,8 @@ interface CardButtonsProps {
 }
 
 export default function CardButtons({
+  isFreezeButtonVisible = true,
+  isViewPinButtonVisible = true,
   isShowingDetails,
   isCardFrozen,
   isViewingPin,
@@ -36,21 +40,25 @@ export default function CardButtons({
         onPress={onShowDetailsPress}
         icon={createElement(isShowingDetails ? HideIcon : ShowIcon, { height: 24, width: 24 })}
       />
-      <IconButton
-        active={isCardFrozen}
-        onPress={onFreezePress}
-        icon={<FreezeIcon />}
-        activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.unfreeze")}
-        inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.freeze")}
-      />
-      <IconButton
-        active={isViewingPin}
-        onPress={onViewPinPress}
-        activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.viewPin")}
-        inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.viewPin")}
-        icon={<LockIcon />}
-        disabled={isDisablePin}
-      />
+      {isFreezeButtonVisible ? (
+        <IconButton
+          active={isCardFrozen}
+          onPress={onFreezePress}
+          icon={<FreezeIcon />}
+          activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.unfreeze")}
+          inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.freeze")}
+        />
+      ) : null}
+      {isViewPinButtonVisible ? (
+        <IconButton
+          active={isViewingPin}
+          onPress={onViewPinPress}
+          activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.viewPin")}
+          inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.viewPin")}
+          icon={<LockIcon />}
+          disabled={isDisablePin}
+        />
+      ) : null}
     </Stack>
   );
 }
