@@ -1,3 +1,4 @@
+import { addMonths, format } from "date-fns";
 import { CountryCode, getCountryCallingCode } from "libphonenumber-js";
 
 export const nationalIdRegEx = /^\b[1-2]\d{9}\b/;
@@ -45,4 +46,26 @@ export const getInitials = (name: string) => {
     initials += names[names.length - 1].substring(0, 1).toUpperCase();
   }
   return initials;
+};
+
+export const setDateAndFormatRecurringPayment = (inputDay: number) => {
+  const currentDate = new Date();
+  const currentDay = currentDate.getDate();
+  let newDate;
+  let returnedDate;
+
+  if (Number.isNaN(inputDay)) {
+    returnedDate = format(currentDate, "yyyyMMdd");
+    return returnedDate;
+  }
+  if (currentDay >= inputDay) {
+    newDate = addMonths(currentDate, 1);
+    newDate = format(newDate, "yyyyMMdd");
+    returnedDate = newDate.slice(0, 6) + inputDay.toString().padStart(2, "0");
+  } else if (currentDay < inputDay) {
+    newDate = currentDate;
+    newDate = format(newDate, "yyyyMMdd");
+    returnedDate = newDate.slice(0, 6) + inputDay.toString().padStart(2, "0");
+  }
+  return returnedDate;
 };

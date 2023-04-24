@@ -11,13 +11,7 @@ export interface ExpandEndButtonProps {
   expanded: boolean;
 }
 
-export default function ExpandEndButton({
-  color = "primaryBase-10",
-  testID,
-  onPress,
-  expanded,
-}: ExpandEndButtonProps) {;
-
+export default function ExpandEndButton({ color = "primaryBase-10", testID, onPress, expanded }: ExpandEndButtonProps) {
   const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.accordian, []);
   const { iconColor } = useThemeStyles(
     theme => ({

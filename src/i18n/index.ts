@@ -590,6 +590,34 @@ export const resources = {
             errorNotNow: "Not now",
           },
         },
+        EditRegularPaymentModal: {
+          amountExceedsBalance: "Amount is more than your balance",
+          required: "Required",
+          monthly: "Monthly",
+          dayPickerHeader: "Select a date",
+          dayPickerButton: "Set",
+          dayPickerPlaceholder: "Set",
+          helperIfDayExceeds28:
+            "If a month is too short for your date to exist, the payment will happen on the last day of the month.",
+          helperIfDayIsAfterTarget:
+            "That's too late for your target date.\nYou might want to start your payments sooner.",
+          continueButton: "Continue",
+          title: "Edit regular payment",
+          modalTitle: "You have edited a regular payment",
+          modalText: "Your next payment will be {{amount}} SAR on {{firstPaymentDate}}.",
+          saveButton: "Save",
+          removeButton: "Remove regular payment",
+          errorTryAgain: "Try again",
+          errorNotNow: "Not now",
+          removeBanner: "Your regular payment has been removed.",
+          removalModal: {
+            title: "Are you sure you want to remove this payment?",
+            message:
+              "If you remove it, no more automatic payments will happen. You can set up a new regular payment at any time.",
+            confirmButton: "Remove",
+            cancelButton: "Cancel",
+          },
+        },
         WithdrawModal: {
           title: "Withdraw from goal",
           WithdrawButton: "Withdraw",

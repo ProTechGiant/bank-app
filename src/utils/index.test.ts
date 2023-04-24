@@ -1,3 +1,5 @@
+import { addMonths, format } from "date-fns";
+
 import {
   alphaNumericRegExp,
   alphaNumericSpaceRegExp,
@@ -9,6 +11,7 @@ import {
   numericRegExp,
   removeSpaces,
   saudiPhoneRegExp,
+  setDateAndFormatRecurringPayment,
 } from ".";
 
 describe("alphaNumericSpaceRegExp", () => {
@@ -160,5 +163,35 @@ describe("getInitials", () => {
 
     expect(name).not.toBe(expected);
     expect(name).not.toBe(expected2);
+  });
+});
+
+describe("setDateAndFormatRecurringPayment", () => {
+  test("should return the current date when inputDay is NaN", () => {
+    const currentDate = new Date();
+    const expectedResult = format(currentDate, "yyyyMMdd");
+
+    expect(setDateAndFormatRecurringPayment(NaN)).toBe(expectedResult);
+  });
+
+  test("should return the correct date when inputDay is greater than the current day", () => {
+    const currentDate = new Date();
+    const currentDay = currentDate.getDate();
+    const inputDay = currentDay + 3;
+
+    const expectedResult = format(currentDate, "yyyyMM") + inputDay.toString().padStart(2, "0");
+
+    expect(setDateAndFormatRecurringPayment(inputDay)).toBe(expectedResult);
+  });
+
+  test("should return the correct date when inputDay is less than or equal to the current day", () => {
+    const currentDate = new Date();
+    const currentDay = currentDate.getDate();
+    const inputDay = currentDay - 3;
+
+    const newDate = addMonths(currentDate, 1);
+    const expectedResult = format(newDate, "yyyyMM") + inputDay.toString().padStart(2, "0");
+
+    expect(setDateAndFormatRecurringPayment(inputDay)).toBe(expectedResult);
   });
 });

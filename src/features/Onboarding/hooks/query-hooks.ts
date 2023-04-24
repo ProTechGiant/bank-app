@@ -27,7 +27,6 @@ type WorkflowStep = {
   Name: string;
 };
 
-// eslint-disable-next-line prettier/prettier
 function assertWorkflowTask(
   step: string,
   expects: string,

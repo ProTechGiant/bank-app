@@ -13,7 +13,7 @@ interface PickOptionStepProps {
   onCancelPress: () => void;
   onOneOffPaymentPress: () => void;
   onRecommendedPaymentPress: () => void;
-  onRegularPaymentsPress: () => void;
+  onRecurringPaymentsPress: () => void;
   recommendedAmount: number | undefined;
 }
 
@@ -21,7 +21,7 @@ export default function PickOptionStep({
   onCancelPress,
   onOneOffPaymentPress,
   onRecommendedPaymentPress,
-  onRegularPaymentsPress,
+  onRecurringPaymentsPress,
   recommendedAmount,
 }: PickOptionStepProps) {
   const { t } = useTranslation();
@@ -71,7 +71,7 @@ export default function PickOptionStep({
             <TableListCardGroup>
               <TableListCard
                 end={<TableListCard.Chevron />}
-                onPress={onRegularPaymentsPress}
+                onPress={onRecurringPaymentsPress}
                 icon={<RecurringEventIcon />}
                 label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.regularPayments")}
               />

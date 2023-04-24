@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { Pressable, StyleSheet, TextInput, TextStyle, View, ViewStyle } from "react-native";
+import { Pressable, ReturnKeyTypeOptions, StyleSheet, TextInput, TextStyle, View, ViewStyle } from "react-native";
 
 import CurrencyInput from "@/components/CurrencyInput";
 import Typography from "@/components/Typography";
@@ -12,6 +12,7 @@ interface LargeCurrencyInputProps<T extends FieldValues> {
   helperText?: string | ((value: number) => string | undefined);
   maxLength?: number;
   name: Path<T>;
+  returnKeyType?: ReturnKeyTypeOptions;
 }
 
 export default function LargeCurrencyInput<T extends FieldValues>({
@@ -20,12 +21,12 @@ export default function LargeCurrencyInput<T extends FieldValues>({
   helperText,
   maxLength,
   name,
+  returnKeyType,
 }: LargeCurrencyInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
   const textInputRef = useRef<TextInput>(null);
   const [fontSize, setFontSize] = useState<"s" | "m" | "l">("l");
   const [isEditable, setIsEditable] = useState(autoFocus);
-
   const isError = undefined !== fieldState.error;
   const errorText = isError ? fieldState.error?.message : undefined;
 
@@ -112,6 +113,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
           onChange={field.onChange}
           onPressIn={handleOnPress}
           maxLength={maxLength}
+          returnKeyType={returnKeyType}
           style={[
             textStyles,
             fontSize === "s" ? styles.smallText : fontSize === "m" ? styles.mediumText : styles.largeText,

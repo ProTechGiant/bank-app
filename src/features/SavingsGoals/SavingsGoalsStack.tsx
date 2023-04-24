@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import CreateGoalScreen from "@/features/SavingsGoals/screens/CreateGoalScreen";
 import EditGoalModal from "@/features/SavingsGoals/screens/EditGoalModal";
+import EditRecurringPaymentModal from "@/features/SavingsGoals/screens/EditRecurringPaymentModal";
 import FundGoalModal from "@/features/SavingsGoals/screens/FundGoalModal";
 import GoalDetailsScreen from "@/features/SavingsGoals/screens/GoalDetailsScreen";
 import InstructionsScreen from "@/features/SavingsGoals/screens/InstructionsScreen";
@@ -22,6 +23,7 @@ export type SavingsGoalsStackParams = {
     PotId: string;
     redirectToFundingModal?: boolean;
     amountWithdrawn?: number;
+    isRecurringPaymentRemoved?: boolean;
   };
   "SavingsGoals.FundGoalModal": {
     PotId: string;
@@ -32,6 +34,9 @@ export type SavingsGoalsStackParams = {
     PotId: string;
   };
   "SavingsGoals.EditGoalModal": {
+    PotId: string;
+  };
+  "SavingsGoals.EditRecurringPaymentModal": {
     PotId: string;
   };
 };
@@ -57,6 +62,11 @@ export default function SavingsGoalsStack() {
         options={{ presentation: "modal" }}
       />
       <Stack.Screen component={EditGoalModal} name="SavingsGoals.EditGoalModal" options={{ presentation: "modal" }} />
+      <Stack.Screen
+        component={EditRecurringPaymentModal}
+        name="SavingsGoals.EditRecurringPaymentModal"
+        options={{ presentation: "modal" }}
+      />
     </Stack.Navigator>
   );
 }

@@ -29,7 +29,7 @@ function getActiveTask(activeTask: string) {
     RetryAccountCreation: "Onboarding.PendingAccount",
     default: "Onboarding.Nafath",
   };
-  return tasks[activeTask] || tasks["default"];
+  return tasks[activeTask] || tasks.default;
 }
 
 export default function IqamaInputScreen() {

@@ -45,11 +45,11 @@ export default forwardRef(function MaskedCurrencyInput(
 
     const decimalSeparatorCount = countDotsInString(value);
     // if current integer part is at max length, only allow fractional digits to be entered
-    if (undefined !== maxLength && numberOfDigits(intValue) > maxLength && 0 === decimalSeparatorCount) {
+    if (undefined !== maxLength && numberOfDigits(intValue) > maxLength && decimalSeparatorCount === 0) {
       if (undefined !== formattedValue && formattedValue.charAt(formattedValue.length - 1) !== DEC_SEPARATOR) return;
     }
 
-    const fraction = -1 !== decimalPosition ? value.substring(decimalPosition) : "";
+    const fraction = decimalPosition !== -1 ? value.substring(decimalPosition) : "";
 
     setFormattedValue(mask(intValue) + fraction);
 

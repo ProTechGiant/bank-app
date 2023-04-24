@@ -2,11 +2,11 @@ import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 
+import { WithShadow } from "@/components";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import ProgressWheel from "../../components/ProgressWheel";
-import { WithShadow } from "@/components";
 
 interface GoalCardProps {
   title: string;

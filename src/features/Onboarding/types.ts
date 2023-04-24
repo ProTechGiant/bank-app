@@ -1,4 +1,5 @@
 import { SvgProps } from "react-native-svg";
+
 import { IconProps } from "@/assets/icons";
 import { BannerColorType } from "@/components/Banner";
 

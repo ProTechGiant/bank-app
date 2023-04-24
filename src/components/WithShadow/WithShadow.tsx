@@ -1,5 +1,6 @@
-import { Theme, useThemeStyles } from "@/theme";
 import { StyleSheet, View } from "react-native";
+
+import { Theme, useThemeStyles } from "@/theme";
 
 interface WithShadowProps {
   children: React.ReactNode;

@@ -17,12 +17,12 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import AccountDestination from "../../components/AccountDestination";
+import isNextMonth from "../../components/is-next-month";
+import LargeCurrencyInput from "../../components/LargeCurrencyInput";
 import { mockMissingSavingsPotDetails } from "../../mocks/mockMissingSavingsPotDetails";
 import { SavingsPotDetailsResponse, useFundSavingsPot } from "../../query-hooks";
-import isNextMonth from "./is-next-month";
-import LargeCurrencyInput from "./LargeCurrencyInput";
 
-export type FundingType = "regular-payments" | "one-off-payment" | "recommended-payment";
+export type FundingType = "recurring-payments" | "one-off-payment" | "recommended-payment";
 
 interface FundingInput {
   PaymentAmount: number;
@@ -36,7 +36,7 @@ interface FundingStepProps {
   onClosePress: () => void;
   onCompletePress: () => void;
   onContinueWithOneTimePaymentPress: () => void;
-  onContinueWithRegularPaymentsPress: () => void;
+  onContinueWithRecurringPaymentsPress: () => void;
 }
 
 export default function FundingStep({
@@ -46,7 +46,7 @@ export default function FundingStep({
   onClosePress,
   onCompletePress,
   onContinueWithOneTimePaymentPress,
-  onContinueWithRegularPaymentsPress,
+  onContinueWithRecurringPaymentsPress,
 }: FundingStepProps) {
   const navigation = useNavigation();
   const { i18n, t } = useTranslation();
@@ -117,7 +117,6 @@ export default function FundingStep({
     // allows to retry the submitting and we want to "remember" the loading state of the form
     // so it needs to pass through the submit process
 
-    // eslint-disable-next-line no-async-promise-executor
     return new Promise<void>(async resolve => {
       try {
         const response = await fundSavingPot.mutateAsync({
@@ -155,7 +154,7 @@ export default function FundingStep({
   };
 
   const handleOnContinuePress = () => {
-    if (fundingType === "one-off-payment") return onContinueWithRegularPaymentsPress();
+    if (fundingType === "one-off-payment") return onContinueWithRecurringPaymentsPress();
     return onContinueWithOneTimePaymentPress();
   };
 

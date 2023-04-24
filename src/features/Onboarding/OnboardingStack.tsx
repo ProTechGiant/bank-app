@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { CountrySelector } from "./components";
 import { OnboardingContextProvider } from "./contexts/OnboardingContext";
 import {
   ConfirmPersonalDetailsScreen,
@@ -13,7 +14,6 @@ import {
   PendingAccountScreen,
   TermsAndConditionsScreen,
 } from "./screens";
-import { CountrySelector } from "./components";
 import { ForeignTaxCountry } from "./types";
 
 type FatcaScreenTypes = {

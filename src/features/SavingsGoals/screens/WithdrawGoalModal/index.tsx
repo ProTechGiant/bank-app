@@ -18,9 +18,9 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import AccountDestination from "../../components/AccountDestination";
+import LargeCurrencyInput from "../../components/LargeCurrencyInput";
 import { mockMissingSavingsPotDetails } from "../../mocks/mockMissingSavingsPotDetails";
 import { useSavingsPot, useWithdrawSavingsPot, WithdrawValues } from "../../query-hooks";
-import LargeCurrencyInput from "../FundGoalModal/LargeCurrencyInput";
 
 export default function WithdrawGoalModal() {
   const [withdrawError, setWithdrawError] = useState(false);

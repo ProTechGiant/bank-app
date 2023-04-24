@@ -9,7 +9,8 @@ import { CreateGoalInput, SavingsPot } from "./types";
 const queryKeys = {
   all: ["savings-pots"] as const,
   roundupActive: () => [...queryKeys.all, "roundup-active"] as const,
-  details: (PotId: string) => [...queryKeys.all, { PotId }] as const,
+  details: (PotId: string) => [...queryKeys.all, PotId] as const,
+  recurringPayments: (PotId: string) => [...queryKeys.all, PotId, "recurring-payments"] as const,
 };
 
 interface CreateGoalResponse {
@@ -119,26 +120,32 @@ interface FundSavingsPotRecurringOptions {
   PotId: string;
   PaymentAmount: number;
   Currency: string;
-  DebitorAccount: string;
   StartingDate: Date;
   DayOfMonth: number;
+  CreditorAccount: string;
+  DebtorAccount: string;
+  PaymentFrequency: string;
+  EndDate: Date;
+  Reference?: string;
+  PaymentDetails?: string[];
+  Description?: string[];
 }
 
 interface FundSavingsPotOneTimeOptions {
   PotId: string;
   PaymentAmount: number;
   Currency: string;
-  DebitorAccount: string;
+  DebtorAccount: string;
 }
 
-type FundSavingsPotOptions = FundSavingsPotOneTimeOptions | FundSavingsPotRecurringOptions;
+export type FundSavingsPotOptions = FundSavingsPotOneTimeOptions | FundSavingsPotRecurringOptions;
 
 function isRecurringFunding(options: FundSavingsPotOptions): options is FundSavingsPotRecurringOptions {
   return undefined !== (options as FundSavingsPotRecurringOptions).DayOfMonth;
 }
 
-interface FundSavingsPotResponse {
-  NextPaymentDate?: string; // only for recurring payment
+export interface FundSavingsPotResponse {
+  NextPaymentDate?: string; // only for Recurring payment
 }
 
 export function useFundSavingsPot() {
@@ -157,6 +164,7 @@ export function useFundSavingsPot() {
         {
           ...bodyOptions,
           StartingDate: isRecurringFunding(options) ? format(options.StartingDate, "yyyy-MM-dd") : undefined,
+          EndDate: isRecurringFunding(options) ? options.EndDate.toISOString : undefined,
         },
         {
           "X-Correlation-ID": "12345",
@@ -172,30 +180,89 @@ export function useFundSavingsPot() {
   );
 }
 
+interface EditRecurringPayments {
+  PotId: string;
+  PaymentAmount: string;
+  Currency: string;
+  DebtorAccount: string;
+  PaymentFrequency: string;
+}
+
+interface EditRecurringPaymentsResponse {
+  PaymentAmount: string;
+  Currency: string;
+  CreditorAccount: string;
+  PaymentFrequency: string;
+  StartingDate: Date;
+  EndDate: Date;
+  RemittenceInformation: string;
+  E2EReference: string;
+  NextPaymentDate: string;
+}
+//TODO: Just a draft hook, revisit once BE has been completed
+export function useEditPotRecurringPayment() {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (options: EditRecurringPayments) => {
+      const { PotId, ...requestBody } = options;
+      return api<EditRecurringPaymentsResponse>(
+        "v1",
+        `customers/savings-pots/${PotId}/recurring-payments`,
+        "PATCH",
+        undefined,
+        {
+          ...requestBody,
+        },
+        {
+          "X-Correlation-ID": generateRandomId(),
+
+          domesticStandingOrderId: requestBody.DebtorAccount,
+        }
+      );
+    },
+    {
+      onSettled: (_data, _error, variables) => {
+        queryClient.invalidateQueries(queryKeys.recurringPayments(variables.PotId));
+      },
+    }
+  );
+}
+
+interface DeletePotRecurringPayment {
+  PotId: string;
+}
+export function useDeletePotRecurringPayment() {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    ({ PotId }: DeletePotRecurringPayment) => {
+      return api<string>("v1", `customers/savings-pots/${PotId}/recurring-payments`, "DELETE", undefined, undefined, {
+        "X-Correlation-ID": generateRandomId(),
+      });
+    },
+    {
+      onSettled: (_data, _error, variables) => {
+        queryClient.invalidateQueries(queryKeys.recurringPayments(variables.PotId));
+      },
+    }
+  );
+}
+
 export interface SavingsPotDetailsResponse {
   PotId: string;
   GoalName: string;
   TargetAmount: string;
   TargetCurrency: string;
-  AvailableBalanceAmount: string;
-  AvailableBalanceCurrency: string;
   TargetDate: string;
   CreatedDate: string;
   RoundupFlag: boolean;
   NotificationFlag: boolean;
   CustomerId: string;
   AccountId: string;
-  RecurringPayments: {
-    PaymentAmount: number;
-    Currency: string;
-    CreditorAccount: string;
-    PaymentFrequency: number;
-    StartingDate: string;
-    EndDate: string;
-    RemittanceInformation: string;
-    E2EReference: string;
-    NextPaymentDate: string;
-  };
+  AvailableBalanceAmount: string;
+  AvailableBalanceCurrency: string;
+  PotStatus: string;
 }
 
 export function useSavingsPot(PotId: string) {
@@ -215,6 +282,32 @@ export function useSavingsPots() {
     return api<SavingsPotsResponse>("v1", "customers/savings-pots", "GET", undefined, undefined, {
       ["x-correlation-id"]: "12345",
     });
+  });
+}
+
+interface RecurringPaymentResponse {
+  DomesticStandingOrderId: string;
+  PaymentAmount: string;
+  Currency: string;
+  CreditorAccount: string;
+  DebtorAccount: string;
+  PaymentFrequency: string;
+  EndDate: string;
+  E2EReference: string;
+}
+
+export function useRecurringPayments(PotId: string) {
+  return useQuery(queryKeys.recurringPayments(PotId), () => {
+    return api<RecurringPaymentResponse>(
+      "v1",
+      `customers/savings-pots/${PotId}/recurring-payments`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        "X-Correlation-ID": generateRandomId(),
+      }
+    );
   });
 }
 

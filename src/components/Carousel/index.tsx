@@ -22,7 +22,7 @@ interface CarouselProps<T> {
 export function Carousel<T>({ pagination, data, Slide, width, loop }: CarouselProps<T>) {
   const activeDotStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: theme.palette["complimentBase"],
+      backgroundColor: theme.palette.complimentBase,
       height: 8,
       width: 8,
     }),
@@ -83,7 +83,7 @@ export function Carousel<T>({ pagination, data, Slide, width, loop }: CarouselPr
 
     const distance = Math.abs(roundIndex - index);
 
-    const minDistance = 0.4 < distance;
+    const minDistance = distance > 0.4;
 
     if (roundIndex !== indexRef.current && !minDistance) {
       setIndex(roundIndex);
