@@ -5,6 +5,7 @@ import { InternalTransfersStackParams } from "@/features/InternalTransfers/Inter
 import { NotificationManagementStackParams } from "@/features/NotificationManagement/NotificationManagementStack";
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
 import { OtpChallengeParams } from "@/features/OneTimePassword/types";
+import { PaymentDisputesStackParams } from "@/features/PaymentDisputes/PaymentDisputesStack";
 import { ReferralStackParams } from "@/features/Referral/ReferralStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
 import { WhatsNextStackParams } from "@/features/WhatsNext/WhatsNextStack";
@@ -44,6 +45,7 @@ type RootStackParams = {
     otpChallengeParams: OtpChallengeParams;
     onOtpRequestResend: () => Promise<OtpChallengeParams>;
   };
+  "PaymentDisputes.PaymentDisputesStack": undefined;
 };
 
 type MainStackParams = RootStackParams &
@@ -56,6 +58,7 @@ type MainStackParams = RootStackParams &
   FrequentlyAskedQuestionsStackParams &
   WhatsNextStackParams &
   NotificationManagementStackParams &
-  ReferralStackParams;
+  ReferralStackParams &
+  PaymentDisputesStackParams;
 
 export default MainStackParams;

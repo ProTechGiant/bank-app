@@ -9,6 +9,8 @@ import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfe
 import NotificationManagementStack from "@/features/NotificationManagement/NotificationManagementStack";
 import OnboardingStack from "@/features/Onboarding/OnboardingStack";
 import OneTimePasswordModal from "@/features/OneTimePassword/screens/OneTimePasswordModal";
+import PaymentDisputesStack from "@/features/PaymentDisputes/PaymentDisputesStack";
+import ReferralStack from "@/features/Referral/ReferralStack";
 import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
 import TermsAndConditionsScreen from "@/features/Referral/screens/TermsAndConditionsScreen";
 import SavingsGoalsStack from "@/features/SavingsGoals/SavingsGoalsStack";
@@ -18,7 +20,6 @@ import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen"
 import WhatsNextStack from "@/features/WhatsNext/WhatsNextStack";
 
 import MainStackParams from "./mainStackParams";
-import ReferralStack from "@/features/Referral/ReferralStack";
 
 const Stack = createNativeStackNavigator<MainStackParams>();
 
@@ -60,6 +61,7 @@ export default function MainStack({ onReady }: MainStackProps) {
           name="OneTimePassword.OneTimePasswordModal"
           options={{ presentation: "modal" }}
         />
+        <Stack.Screen component={PaymentDisputesStack} name="PaymentDisputes.PaymentDisputesStack" />
       </Stack.Navigator>
     </NavigationContainer>
   );
