@@ -276,10 +276,17 @@ export function useAccountStatus(fetchPosts: boolean) {
         };
       }
 
-      const status = await api<ApiOnboardingStatusResponse>("v1", "customers/status", "GET", undefined, undefined, {
-        ["X-Workflow-Task-Id"]: workflowTask.Id,
-        ["x-correlation-id"]: correlationId,
-      });
+      const status = await sendApiRequest<ApiOnboardingStatusResponse>(
+        "v1",
+        "customers/status",
+        "GET",
+        undefined,
+        undefined,
+        {
+          ["X-Workflow-Task-Id"]: workflowTask.Id,
+          ["x-correlation-id"]: correlationId,
+        }
+      );
 
       return {
         ...status,
