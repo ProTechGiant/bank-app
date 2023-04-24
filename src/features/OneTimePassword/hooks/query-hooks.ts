@@ -6,6 +6,7 @@ import api from "@/api";
 import { cardsQueryKeys } from "@/features/CardActions/hooks/query-hooks";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
+import { generateRandomId } from "@/utils";
 
 import { OtpResponseStatus, ValidateOtpRequest, ValidateOtpResponse } from "../types";
 
@@ -56,7 +57,7 @@ export function useOtpValidation<RequestT extends object, ResponseT extends obje
   const queryClient = useQueryClient();
 
   return useMutation(
-    ({ otpFormType, OtpId, OtpCode, correlationId, optionalParams }: ValidateOtpRequest<RequestT>) => {
+    ({ otpFormType, OtpId, OtpCode, optionalParams }: ValidateOtpRequest<RequestT>) => {
       let endpointPath = "";
 
       switch (otpFormType) {
@@ -79,7 +80,7 @@ export function useOtpValidation<RequestT extends object, ResponseT extends obje
           OtpCode: OtpCode,
         },
         {
-          ["x-correlation-id"]: correlationId,
+          ["x-correlation-id"]: generateRandomId(),
         }
       );
     },

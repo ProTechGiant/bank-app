@@ -73,7 +73,6 @@ export default function HomeScreen() {
           OtpId: response.OtpId,
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
-          correlationId: response.correlationId,
           otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {
@@ -105,7 +104,6 @@ export default function HomeScreen() {
           OtpId: response.OtpId,
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
-          correlationId: response.correlationId,
           otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {

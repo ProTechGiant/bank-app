@@ -4,7 +4,6 @@ export interface OtpChallengeParams {
   OtpId: string;
   OtpCode: string;
   PhoneNumber: string;
-  correlationId: string;
   otpFormType: OtpFormType;
 }
 
@@ -20,7 +19,6 @@ export interface ValidateOtpRequest<T extends object> {
   otpFormType: OtpFormType;
   OtpId: string;
   OtpCode: string;
-  correlationId: string;
   optionalParams: T;
 }
 

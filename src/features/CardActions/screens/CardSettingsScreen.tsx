@@ -77,7 +77,6 @@ export default function CardSettingsScreen() {
             CardId: route.params.cardId,
           },
           otpChallengeParams: {
-            correlationId: response.correlationId,
             OtpCode: response.OtpCode,
             OtpId: response.OtpId,
             PhoneNumber: response.PhoneNumber,

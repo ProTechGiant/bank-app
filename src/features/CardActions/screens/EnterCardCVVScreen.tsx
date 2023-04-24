@@ -60,7 +60,7 @@ export default function EnterCardCVVScreen() {
     try {
       const response = await verifyCVVAsync.mutateAsync({ cardId, cvv });
       if (response.Message === "Cvv verified successfully") {
-        handleOnUnfreezeCard();
+        handleOnActivateCard();
       } else {
         setRemainingAttempts(current => current - 1);
         setIsErrorVisible(true);
@@ -73,7 +73,7 @@ export default function EnterCardCVVScreen() {
     }
   };
 
-  const handleOnUnfreezeCard = async () => {
+  const handleOnActivateCard = async () => {
     try {
       const response = await changeCardStatusAsync.mutateAsync({ cardId, status: "unfreeze" });
 
@@ -83,13 +83,12 @@ export default function EnterCardCVVScreen() {
         },
         otpOptionalParams: {
           CardId: cardId,
-          IsActivation: true, // for card activation
+          IsActivation: true, // for physical card activation
         },
         otpChallengeParams: {
           OtpId: response.OtpId,
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
-          correlationId: response.correlationId,
           otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {

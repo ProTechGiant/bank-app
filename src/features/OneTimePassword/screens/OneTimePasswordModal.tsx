@@ -131,7 +131,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         otpFormType: otpParams.otpFormType,
         OtpId: otpParams.OtpId,
         OtpCode: otpCode,
-        correlationId: otpParams.correlationId,
         optionalParams: params.otpOptionalParams as ParamsT,
       });
       if (!IsOtpValid) {

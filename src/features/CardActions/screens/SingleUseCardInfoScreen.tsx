@@ -37,7 +37,6 @@ export default function SingleUseCardInfoScreen() {
           OtpId: response.OtpId,
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
-          correlationId: response.correlationId,
           otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {

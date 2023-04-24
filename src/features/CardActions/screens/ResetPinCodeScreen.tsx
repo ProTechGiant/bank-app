@@ -117,7 +117,6 @@ export default function ResetPinCodeScreen() {
           OtpId: response.OtpId,
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
-          correlationId: response.correlationId,
           otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {

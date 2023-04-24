@@ -140,7 +140,6 @@ export default function CardDetailsScreen() {
           OtpId: response.OtpId,
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
-          correlationId: response.correlationId,
           otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {
@@ -222,7 +221,6 @@ export default function CardDetailsScreen() {
           OtpId: response.OtpId,
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
-          correlationId: response.correlationId,
           otpFormType: "card-actions",
         },
         onOtpRequestResend: () => {
@@ -262,7 +260,6 @@ export default function CardDetailsScreen() {
           OtpId: response.OtpId,
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
-          correlationId: correlationId,
           otpFormType: "card-actions",
         },
         onFinish: (status, payload) => {

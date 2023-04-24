@@ -68,7 +68,6 @@ export default function ReviewTransferScreen() {
           OtpId: response.OtpId,
           OtpCode: response.OtpCode,
           PhoneNumber: response.PhoneNumber,
-          correlationId: correlationId,
           otpFormType: "internal-transfer",
         },
         onOtpRequestResend: () => {
