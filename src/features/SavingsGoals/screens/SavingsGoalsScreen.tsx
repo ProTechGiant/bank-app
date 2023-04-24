@@ -15,18 +15,16 @@ import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { useSavingsPots } from "../../query-hooks";
-import BackgroundBottomStartSvg from "./background-bottom-start.svg";
-import BackgroundTopEndSvg from "./background-top-end.svg";
-import GoalCard from "./GoalCard";
-
-const MAX_GOALS = 4;
+import BackgroundBottomStartSvg from "../assets/background-bottom-start.svg";
+import BackgroundTopEndSvg from "../assets/background-top-end.svg";
+import { GoalCard } from "../components";
+import { useSavingsPots } from "../hooks/query-hooks";
 
 export default function SavingsGoalsScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { data, error } = useSavingsPots();
-  const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.ListGoalsScreen">>();
+  const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.SavingsGoalsScreen">>();
   const [showCloseNotification, setShowCloseNotification] = useState(false);
 
   useEffect(() => {
@@ -150,3 +148,5 @@ const styles = StyleSheet.create({
     transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   },
 });
+
+const MAX_GOALS = 4;

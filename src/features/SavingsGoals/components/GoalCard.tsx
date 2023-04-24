@@ -6,7 +6,7 @@ import { WithShadow } from "@/components";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import ProgressWheel from "../../components/ProgressWheel";
+import ProgressWheel from "./ProgressWheel";
 
 interface GoalCardProps {
   title: string;

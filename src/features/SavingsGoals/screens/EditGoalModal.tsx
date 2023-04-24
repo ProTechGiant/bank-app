@@ -12,20 +12,20 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import CurrencyInput from "@/components/Form/CurrencyInput";
 import DatePickerInput from "@/components/Form/DatePickerInput";
-import SubmitButton from "@/components/Form/SubmitButton";
-import TextInput from "@/components/Form/TextInput";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import SubmitButton from "@/components/Form/SubmitButton";
 import { TableListCard } from "@/components/TableList";
+import TextInput from "@/components/Form/TextInput";
 import Typography from "@/components/Typography";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { alphaNumericSpaceRegExp } from "@/utils";
 
-import { useRemoveSavingsGoal, useSavingsPot, useUpdateSavingsGoal } from "../../query-hooks";
-import { EditGoalInput } from "../../types";
+import { useRemoveSavingsGoal, useSavingsPot, useUpdateSavingsGoal } from "../hooks/query-hooks";
+import { EditGoalInput } from "../types";
 
 export default function EditGoalModal() {
   const navigation = useNavigation();
@@ -65,14 +65,14 @@ export default function EditGoalModal() {
       await removeGoal.mutateAsync({
         PotId: data.PotId,
       });
-      navigation.navigate("SavingsGoals.ListGoalsScreen", {
+      navigation.navigate("SavingsGoals.SavingsGoalsScreen", {
         isGoalRemoved: true,
       });
     } catch (error) {
       Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
         {
           text: "OK",
-          onPress: () => navigation.navigate("SavingsGoals.ListGoalsScreen"),
+          onPress: () => navigation.navigate("SavingsGoals.SavingsGoalsScreen"),
         },
       ]);
     }
@@ -117,7 +117,7 @@ export default function EditGoalModal() {
       Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
         {
           text: "OK",
-          onPress: () => navigation.navigate("SavingsGoals.ListGoalsScreen"),
+          onPress: () => navigation.navigate("SavingsGoals.SavingsGoalsScreen"),
         },
       ]);
     }

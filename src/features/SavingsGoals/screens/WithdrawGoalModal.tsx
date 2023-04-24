@@ -13,14 +13,13 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
-import MainStackParams from "@/navigation/MainStackParams";
+import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import AccountDestination from "../../components/AccountDestination";
-import LargeCurrencyInput from "../../components/LargeCurrencyInput";
-import { mockMissingSavingsPotDetails } from "../../mocks/mockMissingSavingsPotDetails";
-import { useSavingsPot, useWithdrawSavingsPot, WithdrawValues } from "../../query-hooks";
+import { AccountDestination, LargeCurrencyInput } from "../components";
+import { useSavingsPot, useWithdrawSavingsPot, WithdrawValues } from "../hooks/query-hooks";
+import { mockMissingSavingsPotDetails } from "../mocks/mockMissingSavingsPotDetails";
 
 export default function WithdrawGoalModal() {
   const [withdrawError, setWithdrawError] = useState(false);

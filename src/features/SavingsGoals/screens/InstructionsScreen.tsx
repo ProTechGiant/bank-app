@@ -23,7 +23,7 @@ export default function InstructionsScreen() {
   const { t } = useTranslation();
 
   const handleOnFinish = () => {
-    navigation.navigate("SavingsGoals.ListGoalsScreen");
+    navigation.navigate("SavingsGoals.SavingsGoalsScreen");
   };
 
   const handleOnBack = () => {

@@ -23,8 +23,8 @@ import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 import { alphaNumericSpaceRegExp } from "@/utils";
 
-import { useCreateGoal, useRoundupFlag } from "../../query-hooks";
-import { CreateGoalInput } from "../../types";
+import { useCreateGoal, useRoundupFlag } from "../hooks/query-hooks";
+import { CreateGoalInput } from "../types";
 
 export default function CreateGoalScreen() {
   const navigation = useNavigation();

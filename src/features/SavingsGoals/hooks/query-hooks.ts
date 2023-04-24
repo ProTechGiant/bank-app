@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import api from "@/api";
 import { generateRandomId } from "@/utils";
 
-import { CreateGoalInput, SavingsPot } from "./types";
+import { CreateGoalInput, SavingsPot, SavingsPotDetailsResponse } from "../types";
 
 const queryKeys = {
   all: ["savings-pots"] as const,
@@ -247,22 +247,6 @@ export function useDeletePotRecurringPayment() {
       },
     }
   );
-}
-
-export interface SavingsPotDetailsResponse {
-  PotId: string;
-  GoalName: string;
-  TargetAmount: string;
-  TargetCurrency: string;
-  TargetDate: string;
-  CreatedDate: string;
-  RoundupFlag: boolean;
-  NotificationFlag: boolean;
-  CustomerId: string;
-  AccountId: string;
-  AvailableBalanceAmount: string;
-  AvailableBalanceCurrency: string;
-  PotStatus: string;
 }
 
 export function useSavingsPot(PotId: string) {

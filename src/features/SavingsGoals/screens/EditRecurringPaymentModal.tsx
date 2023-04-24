@@ -22,16 +22,15 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { setDateAndFormatRecurringPayment } from "@/utils";
 
-import AccountDestination from "../../components/AccountDestination";
-import isNextMonth from "../../components/is-next-month";
-import LargeCurrencyInput from "../../components/LargeCurrencyInput";
-import { mockMissingSavingsPotDetails } from "../../mocks/mockMissingSavingsPotDetails";
+import { AccountDestination, LargeCurrencyInput } from "../components";
+import { isNextMonth } from "../helpers";
 import {
   useDeletePotRecurringPayment,
   useEditPotRecurringPayment,
   useRecurringPayments,
   useSavingsPot,
-} from "../../query-hooks";
+} from "../hooks/query-hooks";
+import { mockMissingSavingsPotDetails } from "../mocks/mockMissingSavingsPotDetails";
 
 interface FundingInput {
   PaymentAmount: number;
@@ -43,8 +42,8 @@ export default function EditRecurringPaymentModal() {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
-  const editRecurringPayment = useEditPotRecurringPayment(); //will be used once BE is complete
-  const deleteRecurringPayment = useDeletePotRecurringPayment(); //will be used once BE is complete
+  const editRecurringPayment = useEditPotRecurringPayment(); //TODO: will be used once BE is complete
+  const deleteRecurringPayment = useDeletePotRecurringPayment(); //TODO: will be used once BE is complete
   const { PotId } = route.params;
   const { data: savingsPotData } = useSavingsPot(PotId);
   const { data: recurringFundData } = useRecurringPayments(PotId);

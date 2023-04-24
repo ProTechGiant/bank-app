@@ -21,17 +21,10 @@ import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import ProgressWheel from "../../components/ProgressWheel";
-import {
-  RecurringPaymentResponse,
-  useRecurringPayments,
-  useRoundupFlag,
-  useSavingsPot,
-  useUpdateSavingsGoal,
-} from "../../query-hooks";
-import HeaderBackgroundSvg from "./header-background.svg";
-import { calculateGoalBalanceOverThreeQuarters, getDayFromDate } from "./helpers";
-import TransactionCardList from "./TransactionCardList";
+import HeaderBackgroundSvg from "../assets/header-background.svg";
+import { ProgressWheel, TransactionCardList } from "../components";
+import { calculateGoalBalanceOverThreeQuarters, getDayFromDate } from "../helpers";
+import { useRecurringPayments, useRoundupFlag, useSavingsPot, useUpdateSavingsGoal } from "../hooks/query-hooks";
 
 export default function GoalDetailsScreen() {
   const { t } = useTranslation();
@@ -54,7 +47,6 @@ export default function GoalDetailsScreen() {
   const [isRoundUpsOn, setIsRoundUpsOn] = useState(false);
 
   // Immediately funding goal modal if needed
-
   useFocusEffect(
     useCallback(() => {
       if (redirectToFundingModal === true && !fundGoalModalShown.current) {
@@ -87,7 +79,7 @@ export default function GoalDetailsScreen() {
   }, [navigation, route.params]);
 
   const handleOnBackPress = () => {
-    if (route.params.redirectToFundingModal) navigation.navigate("SavingsGoals.ListGoalsScreen");
+    if (route.params.redirectToFundingModal) navigation.navigate("SavingsGoals.SavingsGoalsScreen");
     else navigation.goBack();
   };
 
@@ -189,7 +181,7 @@ export default function GoalDetailsScreen() {
       Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
         {
           text: "OK",
-          onPress: () => navigation.navigate("SavingsGoals.ListGoalsScreen"),
+          onPress: () => navigation.navigate("SavingsGoals.SavingsGoalsScreen"),
         },
       ]);
     }

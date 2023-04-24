@@ -16,13 +16,12 @@ import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import AccountDestination from "../../components/AccountDestination";
-import isNextMonth from "../../components/is-next-month";
-import LargeCurrencyInput from "../../components/LargeCurrencyInput";
-import { mockMissingSavingsPotDetails } from "../../mocks/mockMissingSavingsPotDetails";
-import { SavingsPotDetailsResponse, useFundSavingsPot } from "../../query-hooks";
-
-export type FundingType = "recurring-payments" | "one-off-payment" | "recommended-payment";
+import AccountDestination from "./AccountDestination";
+import { mockMissingSavingsPotDetails } from "../mocks/mockMissingSavingsPotDetails";
+import { useFundSavingsPot } from "../hooks/query-hooks";
+import { isNextMonth } from "../helpers";
+import LargeCurrencyInput from "./LargeCurrencyInput";
+import { FundingType, SavingsPotDetailsResponse } from "../types";
 
 interface FundingInput {
   PaymentAmount: number;
@@ -117,6 +116,7 @@ export default function FundingStep({
     // allows to retry the submitting and we want to "remember" the loading state of the form
     // so it needs to pass through the submit process
 
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise<void>(async resolve => {
       try {
         const response = await fundSavingPot.mutateAsync({

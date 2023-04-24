@@ -1,3 +1,4 @@
+export type FundingType = "recurring-payments" | "one-off-payment" | "recommended-payment";
 export interface CreateGoalInput {
   GoalName: string;
   TargetAmount: number;
@@ -27,4 +28,20 @@ export interface SavingsPot {
   AccountId: string;
   PotStatus: string;
   ClosingDate: string;
+}
+
+export interface SavingsPotDetailsResponse {
+  PotId: string;
+  GoalName: string;
+  TargetAmount: string;
+  TargetCurrency: string;
+  TargetDate: string;
+  CreatedDate: string;
+  RoundupFlag: boolean;
+  NotificationFlag: boolean;
+  CustomerId: string;
+  AccountId: string;
+  AvailableBalanceAmount: string;
+  AvailableBalanceCurrency: string;
+  PotStatus: string;
 }

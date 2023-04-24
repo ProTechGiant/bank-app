@@ -9,10 +9,10 @@ import Page from "@/components/Page";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
-import { mockMissingSavingsPotDetails } from "../../mocks/mockMissingSavingsPotDetails";
-import { useSavingsPot } from "../../query-hooks";
-import FundingStep, { FundingType } from "./FundingStep";
-import PickOptionStep from "./PickOptionStep";
+import { FundingStep, PickOptionStep } from "../components";
+import { useSavingsPot } from "../hooks/query-hooks";
+import { mockMissingSavingsPotDetails } from "../mocks/mockMissingSavingsPotDetails";
+import { FundingType } from "../types";
 
 type StepType = "pick-funding-method" | FundingType;
 
@@ -55,7 +55,7 @@ export default function FundGoalModal() {
     navigation.goBack();
 
     if (route.params.isFirstFunding) {
-      navigation.navigate("SavingsGoals.ListGoalsScreen");
+      navigation.navigate("SavingsGoals.SavingsGoalsScreen");
     }
   };
 
