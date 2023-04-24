@@ -315,7 +315,9 @@ export default function CardDetailsScreen() {
           subtitle={
             cardStatus === "inactive"
               ? t("CardActions.CardDeliveryNotification.inactiveContent")
-              : t("CardActions.CardDeliveryNotification.content")
+              : Platform.OS === "ios"
+              ? t("CardActions.CardDeliveryNotification.content.ios")
+              : t("CardActions.CardDeliveryNotification.content.android")
           }
         />
       ) : null

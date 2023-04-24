@@ -947,7 +947,10 @@ export const resources = {
           inactiveTitle: "Your new card is on the way",
           inactiveContent: "When you activate your new card, we’ll deactivate the old one.",
           title: "Use your new card straight away",
-          content: "You can use your new card details straight away to buy online or add your card to Apple Wallet.",
+          content: {
+            ios: "You can use your new card details straight away to buy online or add your card to Apple Wallet.",
+            android: "You can use your new card details straight away to buy online or add your card to mada Pay.",
+          },
         },
         EnterCardCVVScreen: {
           navTitle: "Activate physical card",
