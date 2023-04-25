@@ -42,8 +42,9 @@ type RootStackParams = {
       params: Omit<MainStackParams[keyof MainStackParams], "otpResponseStatus" | "otpResponsePayload">;
     };
     otpOptionalParams?: Record<string, unknown> | undefined;
-    otpChallengeParams: OtpChallengeParams;
-    onOtpRequestResend: () => Promise<OtpChallengeParams>;
+    otpChallengeParams?: OtpChallengeParams;
+    onOtpRequest: () => Promise<OtpChallengeParams>;
+    otpVerifyMethod: "card-actions" | "internal-transfers";
   };
   "PaymentDisputes.PaymentDisputesStack": undefined;
 };

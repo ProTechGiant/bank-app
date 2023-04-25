@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import HeroSlider from "@/components/HeroSlider";
 import NotificationModal from "@/components/NotificationModal";
 import { SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
-import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
 import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
@@ -21,51 +20,35 @@ export default function SingleUseCardInfoScreen() {
   const [isSubmitErrorModalVisible, setIsSubmitErrorModalVisible] = useState(false);
 
   const handleOnGenerateCard = async () => {
-    try {
-      const response = await submitOrderCard.mutateAsync({
-        values: {
-          CardType: SINGLE_USE_CARD_TYPE,
-          CardProductId: STANDARD_CARD_PRODUCT_ID,
-        },
-      });
+    otpFlow.handle<{ CardCreateResponse: CardCreateResponse | undefined }>({
+      action: {
+        to: "CardActions.SingleUseCardInfoScreen",
+      },
+      otpVerifyMethod: "card-actions",
+      onOtpRequest: () => {
+        return submitOrderCard.mutateAsync({
+          values: {
+            CardType: SINGLE_USE_CARD_TYPE,
+            CardProductId: STANDARD_CARD_PRODUCT_ID,
+          },
+        });
+      },
+      onFinish: (status, payload) => {
+        if (status === "cancel") return;
 
-      otpFlow.handle<{ CardCreateResponse: CardCreateResponse | undefined }>({
-        action: {
-          to: "CardActions.SingleUseCardInfoScreen",
-        },
-        otpChallengeParams: {
-          OtpId: response.OtpId,
-          OtpCode: response.OtpCode,
-          PhoneNumber: response.PhoneNumber,
-          otpFormType: "card-actions",
-        },
-        onOtpRequestResend: () => {
-          return submitOrderCard.mutateAsync({
-            values: {
-              CardType: SINGLE_USE_CARD_TYPE,
-              CardProductId: STANDARD_CARD_PRODUCT_ID,
-            },
+        if (status === "fail" || payload?.CardCreateResponse?.Header.ErrorId !== "0") {
+          setTimeout(() => setIsSubmitErrorModalVisible(true), 500);
+          return;
+        }
+
+        setTimeout(() => {
+          navigation.navigate("CardActions.CardDetailsScreen", {
+            cardId: payload.CardCreateResponse.Body.CardId,
+            isSingleUseCardCreated: true,
           });
-        },
-        onFinish: (status, payload) => {
-          if (status === "cancel") return;
-
-          if (status === "fail" || payload?.CardCreateResponse?.Header.ErrorId !== "0") {
-            return setIsSubmitErrorModalVisible(true);
-          }
-
-          setTimeout(() => {
-            navigation.navigate("CardActions.CardDetailsScreen", {
-              cardId: payload.CardCreateResponse.Body.CardId,
-              isSingleUseCardCreated: true,
-            });
-          }, 500);
-        },
-      });
-    } catch (error) {
-      setIsSubmitErrorModalVisible(true);
-      warn("card-actions", "Could not request single-use card: ", JSON.stringify(error));
-    }
+        }, 500);
+      },
+    });
   };
 
   const handleOnCloseNotification = () => {

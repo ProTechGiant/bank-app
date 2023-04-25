@@ -23,7 +23,7 @@ import { useThemeStyles } from "@/theme";
 
 import HeaderBackgroundSvg from "../assets/header-background.svg";
 import { ProgressWheel, TransactionCardList } from "../components";
-import { calculateGoalBalanceOverThreeQuarters, getDayFromDate } from "../helpers";
+import { calculateGoalBalanceOverThreeQuarters } from "../helpers";
 import { useRecurringPayments, useRoundupFlag, useSavingsPot, useUpdateSavingsGoal } from "../hooks/query-hooks";
 
 export default function GoalDetailsScreen() {
@@ -176,7 +176,7 @@ export default function GoalDetailsScreen() {
         RoundupFlag: flagValue,
       });
 
-      setIsRoundUpsOn(response.RoundupFlag);
+      setIsRoundUpsOn(response.RoundupFlag ?? false);
     } catch (error) {
       Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
         {

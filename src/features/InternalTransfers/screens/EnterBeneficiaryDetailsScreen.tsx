@@ -55,12 +55,15 @@ export default function EnterBeneficiaryDetailsScreen() {
         SelectionType: values.SelectionType,
         SelectionValue: values.SelectionValue,
       });
+
       setRecipient({
         accountName: response.Name,
         accountNumber: response.BankAccountNumber,
+        iban: response.IBAN,
         phoneNumber: response.PhoneNumber,
         type: "new",
       });
+
       navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen");
     } catch (error) {
       setAddBeneficiary({

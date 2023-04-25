@@ -9,7 +9,7 @@ import { useThemeStyles } from "@/theme";
 import { Note, TransferAccount } from "../types";
 
 interface ReviewTransferDetailProps {
-  handleAddNote: () => void;
+  onAddNotePress: () => void;
   sender: TransferAccount;
   recipient: TransferAccount;
   reason: string;
@@ -17,7 +17,7 @@ interface ReviewTransferDetailProps {
   note: Note;
 }
 export default function ReviewTransferDetail({
-  handleAddNote,
+  onAddNotePress,
   sender,
   recipient,
   reason,
@@ -25,8 +25,6 @@ export default function ReviewTransferDetail({
   note,
 }: ReviewTransferDetailProps) {
   const { t } = useTranslation();
-
-  const isNoteExist = note.attachment.length > 0 || note.content.length > 0;
 
   const titleStyle = useThemeStyles<TextStyle>(theme => ({
     paddingBottom: theme.spacing["16p"],
@@ -65,6 +63,7 @@ export default function ReviewTransferDetail({
   }));
 
   const chevronRightIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
+  const isNoteExists = note.attachment.length > 0 || note.content.length > 0;
 
   return (
     <View>
@@ -121,14 +120,14 @@ export default function ReviewTransferDetail({
           {t("InternalTransfers.ReviewTransferScreen.optional")}
         </Typography.Text>
       </View>
-      {!isNoteExist ? (
-        <Pressable style={addNoteContainer} onPress={handleAddNote}>
+      {!isNoteExists ? (
+        <Pressable style={addNoteContainer} onPress={onAddNotePress}>
           <Typography.Text weight="medium" size="callout">
             {t("InternalTransfers.ReviewTransferScreen.addButton")}
           </Typography.Text>
         </Pressable>
       ) : (
-        <Pressable style={styles.noteContainer} onPress={handleAddNote}>
+        <Pressable style={styles.noteContainer} onPress={onAddNotePress}>
           <Typography.Text color="neutralBase" weight="medium" size="callout">
             {`"${note.content}"`}
           </Typography.Text>

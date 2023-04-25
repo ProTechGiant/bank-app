@@ -75,33 +75,29 @@ export default function EnterCardCVVScreen() {
 
   const handleOnActivateCard = async () => {
     try {
-      const response = await changeCardStatusAsync.mutateAsync({ cardId, status: "unfreeze" });
-
       otpFlow.handle({
         action: {
           to: "CardActions.EnterCardCVVScreen",
+          params: { cardId },
         },
         otpOptionalParams: {
           CardId: cardId,
           IsActivation: true, // for physical card activation
         },
-        otpChallengeParams: {
-          OtpId: response.OtpId,
-          OtpCode: response.OtpCode,
-          PhoneNumber: response.PhoneNumber,
-          otpFormType: "card-actions",
-        },
-        onOtpRequestResend: () => {
+        otpVerifyMethod: "card-actions",
+        onOtpRequest: () => {
           return changeCardStatusAsync.mutateAsync({ cardId, status: "unfreeze" });
         },
         onFinish: status => {
           if (status === "cancel") {
             return;
           }
+
           if (status === "fail") {
             setIsErrorModalVisible(true);
             return;
           }
+
           navigation.navigate("CardActions.CardActivatedScreen", { cardId });
         },
       });

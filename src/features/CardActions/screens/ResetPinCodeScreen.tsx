@@ -13,7 +13,6 @@ import Page from "@/components/Page";
 import PincodeInput from "@/components/PincodeInput";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { warn } from "@/logger";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -99,33 +98,22 @@ export default function ResetPinCodeScreen() {
   const handleOnUpdatePincode = async () => {
     if (undefined === selectedPincode) return;
 
-    try {
-      const response = await resetPincodeAsync.mutateAsync({ cardId });
-
-      otpFlow.handle({
-        action: {
-          to: "CardActions.CardSettingsScreen",
-          params: {
-            cardId,
-          },
+    otpFlow.handle({
+      action: {
+        to: "CardActions.CardSettingsScreen",
+        params: {
+          cardId,
         },
-        otpOptionalParams: {
-          CardId: cardId,
-          Pin: encryptValue(selectedPincode),
-        },
-        otpChallengeParams: {
-          OtpId: response.OtpId,
-          OtpCode: response.OtpCode,
-          PhoneNumber: response.PhoneNumber,
-          otpFormType: "card-actions",
-        },
-        onOtpRequestResend: () => {
-          return resetPincodeAsync.mutateAsync({ cardId });
-        },
-      });
-    } catch (error) {
-      warn("Could not reset PIN-code for card: ", JSON.stringify(error));
-    }
+      },
+      otpOptionalParams: {
+        CardId: cardId,
+        Pin: encryptValue(selectedPincode),
+      },
+      otpVerifyMethod: "card-actions",
+      onOtpRequest: () => {
+        return resetPincodeAsync.mutateAsync({ cardId });
+      },
+    });
   };
 
   const inputContainerStyle = useThemeStyles<ViewStyle>(theme => ({

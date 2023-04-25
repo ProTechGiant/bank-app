@@ -12,7 +12,7 @@ import { CardStatus } from "../../types";
 
 interface SelectReportReasonProps {
   cardStatus: CardStatus;
-  onContinuePress: (selectedReason: string) => void;
+  onContinuePress: (selectedReason: "stolen" | "lost" | "damaged") => void;
   onFreezePress: () => void;
 }
 
@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   content: {
-    flex: 1,
-    justifyContent: "space-between",
+    flexGrow: 1,
   },
 });

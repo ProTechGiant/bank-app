@@ -4,7 +4,7 @@ import api from "@/api";
 import sendApiRequest from "@/api";
 import { generateRandomId } from "@/utils";
 
-import { BeneficiaryType, InternalTransfer, TransferReason } from "../types";
+import { AddBeneficiarySelectionType, BeneficiaryType, InternalTransfer, TransferReason } from "../types";
 
 interface ReasonsResponse {
   TransferReason: TransferReason[];
@@ -60,47 +60,26 @@ interface AddBeneficiaryResponse {
 }
 
 export function useAddBeneficiary() {
-  return useMutation(async ({ SelectionType, SelectionValue }: { SelectionType: string; SelectionValue: string }) => {
-    // remove country code in mobile phone number
-    const inputValue =
-      SelectionType === "mobileNo" ? SelectionValue.substring(SelectionValue.length, 4) : SelectionValue;
-
-    return api<AddBeneficiaryResponse>(
-      "v1",
-      "transfers/beneficiaries",
-      "POST",
-      undefined,
-      {
-        SelectionType: SelectionType,
-        SelectionValue: inputValue,
-      },
-      {
-        ["x-correlation-id"]: generateRandomId(),
-      }
-    );
-  });
-}
-
-export function useInternalTransfer() {
   return useMutation(
     async ({
-      InternalTransferAmount,
-      InternalTransferAmountCurrency,
-      DebtorAccountCustomerAccountId,
-      CreditorAccountCustomerAccountId,
-      RemittanceInformation,
-    }: InternalTransfer) => {
-      return sendApiRequest<string>(
+      SelectionType,
+      SelectionValue,
+    }: {
+      SelectionType: AddBeneficiarySelectionType;
+      SelectionValue: string;
+    }) => {
+      // remove country code in mobile phone number
+      const inputValue =
+        SelectionType === "mobileNo" ? SelectionValue.substring(SelectionValue.length, 4) : SelectionValue;
+
+      return api<AddBeneficiaryResponse>(
         "v1",
-        "transfers/internal-payments",
+        "transfers/beneficiaries",
         "POST",
         undefined,
         {
-          InternalTransferAmount,
-          InternalTransferAmountCurrency,
-          DebtorAccountCustomerAccountId,
-          CreditorAccountCustomerAccountId,
-          RemittanceInformation,
+          SelectionType: SelectionType,
+          SelectionValue: inputValue,
         },
         {
           ["x-correlation-id"]: generateRandomId(),
@@ -108,4 +87,18 @@ export function useInternalTransfer() {
       );
     }
   );
+}
+
+interface InternalTransferResponse {
+  OtpId: string;
+  OtpCode: string;
+  PhoneNumber: string;
+}
+
+export function useInternalTransfer() {
+  return useMutation(async (values: InternalTransfer) => {
+    return sendApiRequest<InternalTransferResponse>("v1", "transfers/internal-payments", "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
 }

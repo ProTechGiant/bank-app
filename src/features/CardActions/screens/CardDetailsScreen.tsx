@@ -113,6 +113,7 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnReportPress = () => {
+    if (cardStatus === undefined) return;
     navigation.navigate("CardActions.ReportCardScreen", { cardId, cardStatus });
   };
 
@@ -121,50 +122,41 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnShowDetailsPress = async () => {
-    if (cardDetails !== undefined) return setCardDetails(undefined);
-
-    try {
-      const response = await requestUnmaskedCardDetailsAsync.mutateAsync({ cardId });
-
-      otpFlow.handle<{ DetailedCardResponse: DetailedCardResponse }>({
-        action: {
-          to: "CardActions.CardDetailsScreen",
-          params: {
-            cardId,
-          },
-        },
-        otpOptionalParams: {
-          CardId: cardId,
-        },
-        otpChallengeParams: {
-          OtpId: response.OtpId,
-          OtpCode: response.OtpCode,
-          PhoneNumber: response.PhoneNumber,
-          otpFormType: "card-actions",
-        },
-        onOtpRequestResend: () => {
-          return requestUnmaskedCardDetailsAsync.mutateAsync({ cardId });
-        },
-        onFinish: (status, payload) => {
-          if (status === "cancel") {
-            return;
-          }
-          if (status === "fail" || payload.DetailedCardResponse === undefined) {
-            setCardDetails(undefined);
-            setIsErrorModalVisible(true);
-            return;
-          }
-          if (status === "success") {
-            setCardDetails(payload.DetailedCardResponse);
-          }
-        },
-      });
-    } catch (error) {
-      setCardDetails(undefined);
-      setIsErrorModalVisible(true);
-
-      warn("card-actions", "Could not show card details: ", JSON.stringify(error));
+    if (cardDetails !== undefined) {
+      return setCardDetails(undefined);
     }
+
+    otpFlow.handle<{ DetailedCardResponse: DetailedCardResponse }>({
+      action: {
+        to: "CardActions.CardDetailsScreen",
+        params: {
+          cardId,
+        },
+      },
+      otpOptionalParams: {
+        CardId: cardId,
+      },
+      otpVerifyMethod: "card-actions",
+      onOtpRequest: () => {
+        return requestUnmaskedCardDetailsAsync.mutateAsync({ cardId });
+      },
+      onFinish: (status, payload) => {
+        if (status === "cancel") {
+          return;
+        }
+
+        if (status === "fail" || payload.DetailedCardResponse === undefined) {
+          setCardDetails(undefined);
+          setIsErrorModalVisible(true);
+
+          return;
+        }
+
+        if (status === "success") {
+          setCardDetails(payload.DetailedCardResponse);
+        }
+      },
+    });
   };
 
   const handleOnCopyCardNumberPress = () => {
@@ -204,33 +196,26 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnUnfreezeCardPress = async () => {
-    try {
-      const response = await changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "unfreeze" });
-
-      otpFlow.handle({
-        action: {
-          to: "CardActions.CardDetailsScreen",
-          params: {
-            cardId,
-          },
+    otpFlow.handle({
+      action: {
+        to: "CardActions.CardDetailsScreen",
+        params: {
+          cardId,
         },
-        otpOptionalParams: {
-          CardId: cardId,
-        },
-        otpChallengeParams: {
-          OtpId: response.OtpId,
-          OtpCode: response.OtpCode,
-          PhoneNumber: response.PhoneNumber,
-          otpFormType: "card-actions",
-        },
-        onOtpRequestResend: () => {
-          return changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "unfreeze" });
-        },
-      });
-    } catch (error) {
-      setIsErrorModalVisible(true);
-      warn("card-actions", "Could not unfreeze card: ", JSON.stringify(error));
-    }
+      },
+      otpOptionalParams: {
+        CardId: cardId,
+      },
+      otpVerifyMethod: "card-actions",
+      onOtpRequest: () => {
+        return changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "unfreeze" });
+      },
+      onFinish: status => {
+        if (status === "fail") {
+          setIsErrorModalVisible(true);
+        }
+      },
+    });
   };
 
   const handleOnCloseNotification = () => {
@@ -243,40 +228,28 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnViewPinPress = async () => {
-    try {
-      const { correlationId, ...response } = await requestViewPinOtpAsync.mutateAsync({ cardId });
+    otpFlow.handle<{ Pin: string }>({
+      action: {
+        to: "CardActions.CardDetailsScreen",
+        params: {
+          cardId,
+        },
+      },
+      otpOptionalParams: {
+        CardId: cardId,
+      },
+      otpVerifyMethod: "card-actions",
+      onOtpRequest: () => {
+        return requestViewPinOtpAsync.mutateAsync({ cardId });
+      },
+      onFinish: (status, payload) => {
+        if (status === "fail" || status === "cancel" || payload === undefined) return;
 
-      otpFlow.handle<{ Pin: string }>({
-        action: {
-          to: "CardActions.CardDetailsScreen",
-          params: {
-            cardId,
-          },
-        },
-        otpOptionalParams: {
-          CardId: cardId,
-        },
-        otpChallengeParams: {
-          OtpId: response.OtpId,
-          OtpCode: response.OtpCode,
-          PhoneNumber: response.PhoneNumber,
-          otpFormType: "card-actions",
-        },
-        onFinish: (status, payload) => {
-          if (status === "fail" || status === "cancel" || payload === undefined) return;
-
-          setPin(payload.Pin as string);
-          // Add delay or else modal will be blocked from becoming visible
-          setTimeout(() => setIsViewingPin(true), 500);
-        },
-        onOtpRequestResend: () => {
-          return requestViewPinOtpAsync.mutateAsync({ cardId });
-        },
-      });
-    } catch (error) {
-      setIsErrorModalVisible(true);
-      warn("card-actions", "Could not retrieve pin OTP: ", JSON.stringify(error));
-    }
+        setPin(payload.Pin as string);
+        // Add delay or else modal will be blocked from becoming visible
+        setTimeout(() => setIsViewingPin(true), 500);
+      },
+    });
   };
 
   const handleOnRenewCardPress = () => {

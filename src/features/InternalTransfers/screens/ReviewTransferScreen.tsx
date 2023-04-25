@@ -13,7 +13,6 @@ import useAccount from "@/hooks/use-account";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { generateRandomId } from "@/utils";
 
 import { ReviewTransferDetail } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
@@ -23,6 +22,7 @@ import { InternalTransfer, Note } from "../types";
 export default function ReviewTransferScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
   const { transferAmount, reason, recipient } = useInternalTransferContext();
   const { data } = useAccount();
   const otpFlow = useOtpFlow();
@@ -31,8 +31,6 @@ export default function ReviewTransferScreen() {
   const [note, setNote] = useState<Note>({ content: "", attachment: "" });
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
-
-  const sender = { accountName: data?.currentAccountName, accountNumber: data?.currentAccountNumber };
 
   const updateNote = (content: Note) => {
     setNote(content);
@@ -43,17 +41,24 @@ export default function ReviewTransferScreen() {
   };
 
   const handleSendMoney = async () => {
+    if (
+      data === undefined ||
+      reason === undefined ||
+      transferAmount === undefined ||
+      recipient.accountNumber === undefined
+    ) {
+      return;
+    }
+
     const internalTransferDetails: InternalTransfer = {
-      InternalTransferAmount: transferAmount?.toString() || "",
+      InternalTransferAmount: transferAmount.toString(),
       InternalTransferAmountCurrency: "SAR",
-      DebtorAccountCustomerAccountId: data?.currentAccountId || "",
-      CreditorAccountCustomerAccountId: recipient.accountNumber || "",
-      RemittanceInformation: reason || "",
+      DebtorAccountCustomerAccountId: data.currentAccountId,
+      CreditorAccountCustomerAccountId: recipient.accountNumber,
+      RemittanceInformation: reason,
     };
 
     try {
-      const response = await internalTransferAsync.mutateAsync(internalTransferDetails);
-
       otpFlow.handle({
         action: {
           to: "InternalTransfers.ReviewTransferScreen",
@@ -61,23 +66,20 @@ export default function ReviewTransferScreen() {
         otpOptionalParams: {
           internalTransferDetails,
         },
-        otpChallengeParams: {
-          OtpId: response.OtpId,
-          OtpCode: response.OtpCode,
-          PhoneNumber: response.PhoneNumber,
-          otpFormType: "internal-transfer",
-        },
-        onOtpRequestResend: () => {
+        otpVerifyMethod: "internal-transfers",
+        onOtpRequest: () => {
           return internalTransferAsync.mutateAsync(internalTransferDetails);
         },
         onFinish: status => {
           if (status === "cancel") {
             return;
           }
+
           if (status === "fail") {
             setIsErrorModalVisible(true);
             return;
           }
+
           navigation.navigate("InternalTransfers.ConfirmationScreen");
         },
       });
@@ -111,14 +113,16 @@ export default function ReviewTransferScreen() {
         <NavHeader withBackButton />
         <ContentContainer isScrollView>
           <Stack direction="vertical" justify="space-between" flex={1}>
-            <ReviewTransferDetail
-              handleAddNote={handleAddNote}
-              sender={sender}
-              recipient={recipient}
-              reason={reason || ""}
-              amount={transferAmount || 0}
-              note={note}
-            />
+            {data !== undefined && reason !== undefined && transferAmount !== undefined ? (
+              <ReviewTransferDetail
+                onAddNotePress={handleAddNote}
+                sender={{ accountName: data?.currentAccountName, accountNumber: data?.currentAccountNumber }}
+                recipient={recipient}
+                reason={reason}
+                amount={transferAmount}
+                note={note}
+              />
+            ) : null}
             <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
               <Button onPress={() => handleSendMoney()} variant="primary">
                 {t("InternalTransfers.ReviewTransferScreen.sendMoney")}

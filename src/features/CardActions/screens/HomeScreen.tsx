@@ -59,30 +59,18 @@ export default function HomeScreen() {
   };
 
   const handleOnUnfreezeCardPress = async (cardId: string) => {
-    try {
-      const response = await changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "unfreeze" });
-
-      otpFlow.handle({
-        action: {
-          to: "CardActions.HomeScreen",
-        },
-        otpOptionalParams: {
-          CardId: cardId,
-        },
-        otpChallengeParams: {
-          OtpId: response.OtpId,
-          OtpCode: response.OtpCode,
-          PhoneNumber: response.PhoneNumber,
-          otpFormType: "card-actions",
-        },
-        onOtpRequestResend: () => {
-          return changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "unfreeze" });
-        },
-      });
-    } catch (error) {
-      setShowErrorModal(true);
-      warn("card-actions", "Could not unfreeze card: ", JSON.stringify(error));
-    }
+    otpFlow.handle({
+      action: {
+        to: "CardActions.HomeScreen",
+      },
+      otpOptionalParams: {
+        CardId: cardId,
+      },
+      otpVerifyMethod: "card-actions",
+      onOtpRequest: () => {
+        return changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "unfreeze" });
+      },
+    });
   };
 
   const handleOnErrorModalClose = () => {
@@ -90,37 +78,25 @@ export default function HomeScreen() {
   };
 
   const handleOnViewPinPress = async (cardId: string) => {
-    try {
-      const response = await requestViewPinOtpAsync.mutateAsync({ cardId });
+    otpFlow.handle<{ Pin: string }>({
+      action: {
+        to: "CardActions.HomeScreen",
+      },
+      otpOptionalParams: {
+        CardId: cardId,
+      },
+      otpVerifyMethod: "card-actions",
+      onOtpRequestResend: () => {
+        return requestViewPinOtpAsync.mutateAsync({ cardId });
+      },
+      onFinish: (status, payload) => {
+        if (status === "fail" || status === "cancel" || undefined === payload) return;
 
-      otpFlow.handle<{ Pin: string }>({
-        action: {
-          to: "CardActions.HomeScreen",
-        },
-        otpOptionalParams: {
-          CardId: cardId,
-        },
-        otpChallengeParams: {
-          OtpId: response.OtpId,
-          OtpCode: response.OtpCode,
-          PhoneNumber: response.PhoneNumber,
-          otpFormType: "card-actions",
-        },
-        onOtpRequestResend: () => {
-          return requestViewPinOtpAsync.mutateAsync({ cardId });
-        },
-        onFinish: (status, payload) => {
-          if (status === "fail" || status === "cancel" || undefined === payload) return;
-
-          setPin(payload.Pin);
-          // Add delay to show Notification Modal otherwise because it will be blocked by the OTP modal and view pin modal cannot be shown
-          setTimeout(() => setIsViewingPin(true), 500);
-        },
-      });
-    } catch (error) {
-      setShowErrorModal(true);
-      warn("card-actions", "Could not retrieve pin OTP: ", JSON.stringify(error));
-    }
+        setPin(payload.Pin);
+        // Add delay to show Notification Modal otherwise because it will be blocked by the OTP modal and view pin modal cannot be shown
+        setTimeout(() => setIsViewingPin(true), 500);
+      },
+    });
   };
 
   const handleOnCardSettingsPress = (card: Card) => {

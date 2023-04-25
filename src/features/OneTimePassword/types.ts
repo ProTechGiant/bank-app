@@ -1,10 +1,7 @@
-export type OtpFormType = "card-actions" | "internal-transfer";
-
 export interface OtpChallengeParams {
   OtpId: string;
   OtpCode: string;
   PhoneNumber: string;
-  otpFormType: OtpFormType;
 }
 
 export type OtpResponseStatus = "success" | "fail" | "cancel";
@@ -15,8 +12,7 @@ export interface OtpRequiredResponse {
   PhoneNumber: string;
 }
 
-export interface ValidateOtpRequest<T extends object> {
-  otpFormType: OtpFormType;
+export interface ValidateOtpRequest<T> {
   OtpId: string;
   OtpCode: string;
   optionalParams: T;

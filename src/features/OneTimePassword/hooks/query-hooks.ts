@@ -12,11 +12,10 @@ import { OtpResponseStatus, ValidateOtpRequest, ValidateOtpResponse } from "../t
 
 type OtpScreenParams = MainStackParams["OneTimePassword.OneTimePasswordModal"];
 
-// adds type safety to action params
 interface HandleOtpParams<Route extends keyof MainStackParams, Payload> extends OtpScreenParams {
   action: {
     to: Route;
-    params?: Omit<MainStackParams[Route], "otpResponseStatus">;
+    params: Omit<MainStackParams[Route], "otpResponseStatus">;
   };
   onFinish?: (status: OtpResponseStatus, payload: Payload) => void;
 }
@@ -28,7 +27,8 @@ export function useOtpFlow<Source extends keyof MainStackParams>() {
   const route = useRoute<RouteProp<MainStackParams, Source>>();
   const params = route.params as MainStackParams[Source] & OtpCallbackResponse;
 
-  const responseEffectRef = useRef<((status: OtpResponseStatus, payload: unknown) => void) | undefined>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const responseEffectRef = useRef<((status: OtpResponseStatus, payload: any) => void) | undefined>(undefined);
 
   useEffect(() => {
     if (params?.otpResponseStatus === undefined) {
@@ -53,21 +53,12 @@ export function useOtpFlow<Source extends keyof MainStackParams>() {
   return { handle, useOtpResponseEffect };
 }
 
-export function useOtpValidation<RequestT extends object, ResponseT extends object>() {
+export function useOtpValidation<RequestT, ResponseT>(method: "card-actions" | "internal-transfers") {
   const queryClient = useQueryClient();
 
   return useMutation(
-    ({ otpFormType, OtpId, OtpCode, optionalParams }: ValidateOtpRequest<RequestT>) => {
-      let endpointPath = "";
-
-      switch (otpFormType) {
-        case "card-actions":
-          endpointPath = "cards";
-          break;
-        case "internal-transfer":
-          endpointPath = "transfers";
-          break;
-      }
+    ({ OtpId, OtpCode, optionalParams }: ValidateOtpRequest<RequestT>) => {
+      const endpointPath = method === "card-actions" ? "cards" : "transfers";
 
       return api<ValidateOtpResponse & ResponseT>(
         "v1",
@@ -86,7 +77,7 @@ export function useOtpValidation<RequestT extends object, ResponseT extends obje
     },
     {
       onSettled: (_data, _error, variables, _context) => {
-        if (variables.otpFormType === "card-actions" && variables.optionalParams?.CardId !== undefined) {
+        if (method === "card-actions" && variables.optionalParams?.CardId !== undefined) {
           queryClient.invalidateQueries(cardsQueryKeys.all());
           queryClient.invalidateQueries(cardsQueryKeys.settings(variables.optionalParams.CardId));
         }

@@ -239,7 +239,7 @@ export function useVerifyCVV() {
   });
 }
 
-interface RenewCardInput {
+export interface RenewCardInput {
   CardType: string;
   CardProductId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
   Pin?: string;

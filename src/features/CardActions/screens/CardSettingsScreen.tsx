@@ -80,9 +80,9 @@ export default function CardSettingsScreen() {
             OtpCode: response.OtpCode,
             OtpId: response.OtpId,
             PhoneNumber: response.PhoneNumber,
-            otpFormType: "card-actions",
           },
-          onOtpRequestResend: async () => {
+          otpVerifyMethod: "card-actions",
+          onOtpRequest: async () => {
             const response_ = await updateCardSettingsAsync.mutateAsync({
               cardId: route.params.cardId,
               settings: updatedSettings,

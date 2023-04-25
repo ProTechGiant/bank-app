@@ -8,13 +8,13 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import usePrimaryAddress from "@/hooks/use-primary-address";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { Address } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 
-import { useOtpFlow } from "../../../OneTimePassword/hooks/query-hooks";
 import { CardActionsStackParams } from "../../CardActionsStack";
 import { useChangeCardStatus, useFreezeCard } from "../../hooks/query-hooks";
 import { CardCreateResponse } from "../../types";
@@ -39,7 +39,7 @@ export default function ReportCardScreen() {
   const [mode, setMode] = useState<"input" | "address" | "done">("input");
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
-  const [reportReason, setReportReason] = useState<string>();
+  const [reportReason, setReportReason] = useState<"stolen" | "lost" | "damaged">();
   const [selectedAlternativeAddress, setSelectedAlternativeAddress] = useState<Address | undefined>();
   const [cardId, setCardId] = useState(route.params.cardId);
 
@@ -48,7 +48,7 @@ export default function ReportCardScreen() {
     scrollViewRef.current?.scrollTo({ x: dimensions.width * (currentStep - 1) });
   }, [currentStep, mode]);
 
-  const handleOnSelectReasonPress = (selectedReason: string) => {
+  const handleOnSelectReasonPress = (selectedReason: "stolen" | "lost" | "damaged") => {
     if (primaryAddress.data === undefined || primaryAddress.isError) {
       setIsErrorModalVisible(true);
     } else {
@@ -71,26 +71,11 @@ export default function ReportCardScreen() {
     }
   };
 
-  const handleOnConfirm = async () => {
+  const handleOnConfirm = () => {
+    if (reportReason === undefined) return;
     setIsConfirmationModalVisible(false);
 
-    const request = {
-      cardId: cardId,
-      status: reportReason,
-      alternativeAddress:
-        selectedAlternativeAddress === undefined
-          ? undefined
-          : {
-              AddressLineOne: selectedAlternativeAddress.AddressLineOne,
-              AddressLineTwo: selectedAlternativeAddress.AddressLineTwo,
-              District: selectedAlternativeAddress.District,
-              City: selectedAlternativeAddress.City,
-              PostalCode: selectedAlternativeAddress.PostalCode,
-            },
-    };
-
-    try {
-      const response = await useReportCardAsync.mutateAsync({ cardId: request.cardId, status: request.status });
+    setTimeout(() => {
       otpFlow.handle<{ CardCreateResponse: CardCreateResponse }>({
         action: {
           to: "CardActions.ReportCardScreen",
@@ -100,18 +85,21 @@ export default function ReportCardScreen() {
         },
         otpOptionalParams: {
           CardId: cardId,
-          alternativeAddress: request.alternativeAddress,
+          alternativeAddress:
+            selectedAlternativeAddress === undefined
+              ? undefined
+              : {
+                  AddressLineOne: selectedAlternativeAddress.AddressLineOne,
+                  AddressLineTwo: selectedAlternativeAddress.AddressLineTwo,
+                  District: selectedAlternativeAddress.District,
+                  City: selectedAlternativeAddress.City,
+                  PostalCode: selectedAlternativeAddress.PostalCode,
+                },
         },
-        otpChallengeParams: {
-          OtpId: response.OtpId,
-          OtpCode: response.OtpCode,
-          PhoneNumber: response.PhoneNumber,
-          otpFormType: "card-actions",
+        otpVerifyMethod: "card-actions",
+        onOtpRequest: () => {
+          return useReportCardAsync.mutateAsync({ cardId, status: reportReason });
         },
-        onOtpRequestResend: () => {
-          return useReportCardAsync.mutateAsync({ cardId: request.cardId, status: request.status });
-        },
-
         onFinish: (status, payload) => {
           if (status === "cancel") return;
 
@@ -119,14 +107,12 @@ export default function ReportCardScreen() {
             setIsErrorModalVisible(true);
             return;
           }
+
           setCardId(payload.CardCreateResponse.Body.CardId);
           setMode("done");
         },
       });
-    } catch (error) {
-      setIsErrorModalVisible(true);
-      warn("card-actions", "Could not report card: ", JSON.stringify(error));
-    }
+    }, 500);
   };
 
   const handleOnBackPress = () => {

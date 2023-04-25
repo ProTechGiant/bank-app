@@ -11,7 +11,7 @@ import useNavigation from "@/navigation/use-navigation";
 
 import { useOtpFlow } from "../../../OneTimePassword/hooks/query-hooks";
 import ApplyCardsContext, { ApplyCardInput } from "../../context/ApplyCardsContext";
-import useSubmitOrderCard from "../../hooks/query-hooks";
+import useSubmitOrderCard, { RenewCardInput } from "../../hooks/query-hooks";
 import { useSubmitRenewCard } from "../../hooks/query-hooks";
 import { CardCreateResponse } from "../../types";
 import CardOrderedScreen from "./CardOrderedScreen";
@@ -56,85 +56,40 @@ export default function ApplyCardScreen() {
     const values = valuesRef.current;
     if (values.CardProductId === undefined || values.EncryptedPincode === undefined) return;
 
-    if (variant === "renew") {
-      try {
-        const response = await submitRenewCardAsync.mutateAsync({ values });
-
-        otpFlow.handle<{ CardCreateResponse: CardCreateResponse }>({
-          action: {
-            to: "CardActions.ApplyCardScreen",
-            params: {
-              replacingCardId: route.params?.replacingCardId,
+    otpFlow.handle<{ CardCreateResponse: CardCreateResponse }>({
+      action: {
+        to: "CardActions.ApplyCardScreen",
+        params: variant === "renew" ? { replacingCardId: route.params!.replacingCardId } : {},
+      },
+      otpOptionalParams:
+        variant === "renew"
+          ? {
+              Pin: values.EncryptedPincode,
+              CardId: route.params?.replacingCardId,
+            }
+          : {
+              Pin: values.EncryptedPincode,
             },
-          },
-          otpChallengeParams: {
-            OtpId: response.OtpId,
-            OtpCode: response.OtpCode,
-            PhoneNumber: response.PhoneNumber,
-            otpFormType: "card-actions",
-          },
-          otpOptionalParams: {
-            Pin: values.EncryptedPincode,
-            CardId: route.params?.replacingCardId,
-          },
-          onOtpRequestResend: () => {
-            return submitRenewCardAsync.mutateAsync({ values });
-          },
-          onFinish: (status, payload) => {
-            if (status === "cancel") {
-              return;
-            }
+      otpVerifyMethod: "card-actions",
+      onOtpRequest: () => {
+        return variant === "renew"
+          ? submitRenewCardAsync.mutateAsync({ values: values as RenewCardInput })
+          : submitOrderCardAsync.mutateAsync({ values });
+      },
+      onFinish: (status, payload) => {
+        if (status === "cancel") {
+          return;
+        }
 
-            if (status === "fail" || payload?.CardCreateResponse?.Header.ErrorId !== "0") {
-              setTimeout(() => setIsSubmitErrorVisible(true), TRANSITION_STEP_MS);
-              return;
-            }
+        if (status === "fail" || payload?.CardCreateResponse?.Header.ErrorId !== "0") {
+          setTimeout(() => setIsSubmitErrorVisible(true), TRANSITION_STEP_MS);
+          return;
+        }
 
-            setCardCreatedCardId(payload.CardCreateResponse.Body.CardId);
-            setTimeout(() => setCurrentStep("ordered"), TRANSITION_STEP_MS);
-          },
-        });
-      } catch (error) {
-        setIsSubmitErrorVisible(true);
-      }
-    } else {
-      try {
-        const response = await submitOrderCardAsync.mutateAsync({ values });
-
-        otpFlow.handle<{ CardCreateResponse: CardCreateResponse }>({
-          action: {
-            to: "CardActions.ApplyCardScreen",
-          },
-          otpChallengeParams: {
-            OtpId: response.OtpId,
-            OtpCode: response.OtpCode,
-            PhoneNumber: response.PhoneNumber,
-            otpFormType: "card-actions",
-          },
-          otpOptionalParams: {
-            Pin: values.EncryptedPincode,
-          },
-          onOtpRequestResend: () => {
-            return submitOrderCardAsync.mutateAsync({ values });
-          },
-          onFinish: (status, payload) => {
-            if (status === "cancel") {
-              return;
-            }
-
-            if (status === "fail" || payload?.CardCreateResponse?.Header.ErrorId !== "0") {
-              setTimeout(() => setIsSubmitErrorVisible(true), TRANSITION_STEP_MS);
-              return;
-            }
-
-            setCardCreatedCardId(payload.CardCreateResponse.Body.CardId);
-            setTimeout(() => setCurrentStep("ordered"), TRANSITION_STEP_MS);
-          },
-        });
-      } catch (error) {
-        setIsSubmitErrorVisible(true);
-      }
-    }
+        setCardCreatedCardId(payload.CardCreateResponse.Body.CardId);
+        setTimeout(() => setCurrentStep("ordered"), TRANSITION_STEP_MS);
+      },
+    });
   };
 
   const handleOnCloseError = () => {
