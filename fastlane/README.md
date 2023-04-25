@@ -58,6 +58,22 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### ios install_signing
+
+```sh
+[bundle exec] fastlane ios install_signing
+```
+
+
+
+### ios update_devices
+
+```sh
+[bundle exec] fastlane ios update_devices
+```
+
+
+
 ### ios build
 
 ```sh

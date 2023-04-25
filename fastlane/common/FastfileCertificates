@@ -1,13 +1,17 @@
 # -------------Update Certificates/Profiles-------------#
 platform :ios do
   lane :install_signing do
-    match(type: "development", readonly: true)
+    match(type: "development")
   end
 
   lane :update_devices do
     register_devices(
       devices: {
-        "Remco's iPhone" => "00008101-000120192251003A"
+        "Croatia AvD" => "00008101-00195C480E30001E",
+        "Croatia CC" => "00008110-00022C403A00401E",
+        "Croatia EtH" => "00008101-000475A208E1401E",
+        "Croatia FV" => "00008101-000939023688001E",
+        "Croatia RP" => "00008101-000120192251003A"
       }
     )
   end
