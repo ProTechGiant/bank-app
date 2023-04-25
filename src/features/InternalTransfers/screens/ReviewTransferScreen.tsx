@@ -43,10 +43,7 @@ export default function ReviewTransferScreen() {
   };
 
   const handleSendMoney = async () => {
-    const correlationId = generateRandomId();
-
     const internalTransferDetails: InternalTransfer = {
-      InstructionIdentification: correlationId,
       InternalTransferAmount: transferAmount?.toString() || "",
       InternalTransferAmountCurrency: "SAR",
       DebtorAccountCustomerAccountId: data?.currentAccountId || "",

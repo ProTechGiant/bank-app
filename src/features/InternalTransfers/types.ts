@@ -53,7 +53,6 @@ export interface AddBeneficiaryFormForwardRef {
 }
 
 export interface InternalTransfer {
-  InstructionIdentification: string;
   InternalTransferAmount: string;
   InternalTransferAmountCurrency: string;
   DebtorAccountCustomerAccountId: string;

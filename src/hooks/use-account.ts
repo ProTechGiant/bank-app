@@ -2,7 +2,8 @@ import { useMemo } from "react";
 import { useQuery } from "react-query";
 
 import api from "@/api";
-import { generateRandomId } from "@/utils";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { generateRandomId, removeLeadingZeros } from "@/utils";
 
 interface ApiAccountResponseElement {
   Data: {
@@ -48,9 +49,15 @@ interface ApiBalanceResponseElement {
 }
 
 export default function useAccount() {
+  const { userId } = useAuthContext();
+
+  // Need the leading 0s for internal transfer but have to remove for useAccount
+  const userIdLeadingZerosRemoved = removeLeadingZeros(userId);
+
   const accounts = useQuery(["accounts"], () => {
     return api<ApiAccountResponseElement>("v1", "accounts", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
+      ["userId"]: userIdLeadingZerosRemoved,
     });
   });
 
@@ -67,6 +74,7 @@ export default function useAccount() {
     () =>
       api<ApiBalanceResponseElement>("v1", `accounts/${currentAccountId}/balances`, "GET", undefined, undefined, {
         ["x-correlation-id"]: generateRandomId(),
+        ["userId"]: userIdLeadingZerosRemoved,
       }),
     { enabled: undefined !== currentAccountId }
   );

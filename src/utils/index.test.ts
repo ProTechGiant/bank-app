@@ -9,6 +9,7 @@ import {
   ibanRegExp,
   nationalIdRegEx,
   numericRegExp,
+  removeLeadingZeros,
   removeSpaces,
   saudiPhoneRegExp,
   setDateAndFormatRecurringPayment,
@@ -91,6 +92,17 @@ describe("numericRegEx", () => {
   it("Invalid string", () => {
     const string = "123abc";
     expect(string).not.toMatch(numericRegExp);
+  });
+});
+
+describe("removeLeadingZeros", () => {
+  it("String with leading zeros", () => {
+    const string = "000012304500";
+    expect(removeSpaces(string)).toMatch("12304500");
+  });
+  it("String with no leading zeros", () => {
+    const string = "123456";
+    expect(removeSpaces(string)).toMatch("123456");
   });
 });
 

@@ -25,6 +25,10 @@ export const generateRandomId = () => {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 };
 
+export const removeLeadingZeros = (input: string) => {
+  return input?.replace(/^0+/, "");
+};
+
 export const removeSpaces = (input: string) => {
   return input.replace(/\s/g, "");
 };

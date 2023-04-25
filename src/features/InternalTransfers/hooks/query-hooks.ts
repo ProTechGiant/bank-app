@@ -53,10 +53,10 @@ export function useDeleteBeneficiary() {
 }
 
 interface AddBeneficiaryResponse {
-  Name: "string";
-  BankAccountNumber?: "string";
-  IBAN?: "string";
-  PhoneNumber?: "string";
+  Name: string;
+  BankAccountNumber?: string;
+  IBAN?: string;
+  PhoneNumber?: string;
 }
 
 export function useAddBeneficiary() {
@@ -84,7 +84,6 @@ export function useAddBeneficiary() {
 export function useInternalTransfer() {
   return useMutation(
     async ({
-      InstructionIdentification,
       InternalTransferAmount,
       InternalTransferAmountCurrency,
       DebtorAccountCustomerAccountId,
@@ -97,7 +96,6 @@ export function useInternalTransfer() {
         "POST",
         undefined,
         {
-          InstructionIdentification,
           InternalTransferAmount,
           InternalTransferAmountCurrency,
           DebtorAccountCustomerAccountId,

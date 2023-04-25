@@ -21,14 +21,12 @@ import { TransferValue } from "../types";
 
 export default function InternalTransferScreen() {
   const { t } = useTranslation();
-  // const account = useAccount();
+  const account = useAccount();
   const navigation = useNavigation();
   const reasons = useTransferReasons();
   const { setTransferAmount, setReason } = useInternalTransferContext();
 
-  // TODO: use currentBalance from useAccount once the api is working again
-  // const currentBalance = account.data?.currentAccountBalance;
-  const currentBalance = 40;
+  const currentBalance = account.data?.currentAccountBalance;
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
