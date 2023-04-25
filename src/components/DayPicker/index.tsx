@@ -55,8 +55,12 @@ export default function DayPicker({
     marginVertical: theme.spacing["16p"],
   }));
 
+  const modalContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingBottom: theme.spacing["32p"],
+  }));
+
   return (
-    <Modal onClose={onClose} headerText={headerText} visible={isVisible}>
+    <Modal onClose={onClose} headerText={headerText} visible={isVisible} style={modalContainerStyle}>
       <View style={containerStyles}>
         <Typography.Text color="neutralBase+30" size="callout" weight="medium" style={paddingStyle}>
           {t("DayPicker.currentlyOnDay", { count: value, ordinal: true })}

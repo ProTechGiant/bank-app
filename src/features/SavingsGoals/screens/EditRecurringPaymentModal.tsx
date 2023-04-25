@@ -20,10 +20,9 @@ import Typography from "@/components/Typography";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { setDateAndFormatRecurringPayment } from "@/utils";
 
 import { AccountDestination, LargeCurrencyInput } from "../components";
-import { isNextMonth } from "../helpers";
+import { isNextMonth, setDateAndFormatRecurringPayment } from "../helpers";
 import {
   useDeletePotRecurringPayment,
   useEditPotRecurringPayment,
@@ -102,7 +101,7 @@ export default function EditRecurringPaymentModal() {
     setRemoveRecurringPaymentModal(!removeRecurringPaymentModal);
   };
 
-  const { control, handleSubmit } = useForm<FundingInput>({
+  const { control, handleSubmit, watch } = useForm<FundingInput>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -189,6 +188,10 @@ export default function EditRecurringPaymentModal() {
               maxLength={10}
               name="PaymentAmount"
               returnKeyType="done"
+              isAmountExceedsBalance={
+                undefined !== savingsPotData &&
+                Number(watch("PaymentAmount")) > mockMissingSavingsPotDetails.MainAccountAmount
+              }
             />
             <DayPickerInput
               buttonText={t("SavingsGoals.EditRegularPaymentModal.dayPickerButton")}

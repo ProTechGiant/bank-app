@@ -13,6 +13,7 @@ interface LargeCurrencyInputProps<T extends FieldValues> {
   maxLength?: number;
   name: Path<T>;
   returnKeyType?: ReturnKeyTypeOptions;
+  isAmountExceedsBalance?: boolean;
 }
 
 export default function LargeCurrencyInput<T extends FieldValues>({
@@ -22,6 +23,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
   maxLength,
   name,
   returnKeyType,
+  isAmountExceedsBalance = false,
 }: LargeCurrencyInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
   const textInputRef = useRef<TextInput>(null);
@@ -63,13 +65,17 @@ export default function LargeCurrencyInput<T extends FieldValues>({
 
   const textStyles = useThemeStyles<ViewStyle & TextStyle>(
     theme => ({
-      color: isError && field.value > 0 ? theme.palette.errorBase : theme.palette.primaryBase,
+      color: isAmountExceedsBalance
+        ? theme.palette.errorBase
+        : isError && field.value > 0
+        ? theme.palette.errorBase
+        : theme.palette.primaryBase,
       fontWeight: theme.typography.text.weights.medium,
       padding: 0,
       margin: 0,
       alignSelf: "center",
     }),
-    [isError]
+    [isError, isAmountExceedsBalance]
   );
 
   const helperTextStyles = useThemeStyles<TextStyle>(theme => ({
@@ -123,7 +129,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
         />
         <View style={styles.buttonContainer}>
           <Typography.Text
-            color={isError && field.value > 0 ? "errorBase" : "primaryBase"}
+            color={(isError && field.value > 0) || isAmountExceedsBalance ? "errorBase" : "primaryBase"}
             size="body"
             weight="medium"
             style={[
@@ -150,6 +156,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
 
 const styles = StyleSheet.create({
   buttonContainer: {
+    height: "100%",
     marginTop: "auto",
   },
   container: {
