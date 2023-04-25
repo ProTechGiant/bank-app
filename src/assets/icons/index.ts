@@ -1,5 +1,6 @@
 import { ColorValue } from "react-native/types";
 
+export { default as AccessTimeIcon } from "./accessTime";
 export { default as AccountIcon } from "./account";
 export { default as AddBorderedIcon } from "./add-bordered";
 export { default as AngleDownIcon } from "./angle-down";
@@ -9,6 +10,7 @@ export { ArrowForwardIcon } from "./arrow-forward";
 export { ArrowLeftIcon } from "./arrow-left";
 export { default as BankAccountIcon } from "./bank-account";
 export { default as BellIcon } from "./bell";
+export { default as BookmarkIcon } from "./bookmark";
 export { CalendarAltIcon } from "./calendar-alt";
 export { default as CancelCircleBorderIcon } from "./cancel-circle";
 export { default as CancelCircleFilledIcon } from "./cancel-circle-filled";
@@ -62,6 +64,7 @@ export { default as PersonIcon } from "./person";
 export { default as PersonFilledIcon } from "./person-filled";
 export { default as PhoneIcon } from "./phone";
 export { default as PhoneFilledIcon } from "./phone-filled";
+export { default as PhoneUnFilledIcon } from "./phone-unfilled";
 export { PlusIcon } from "./plus";
 export { default as PlusIconCircle } from "./plus-circle";
 export { default as PostcardIcon } from "./postcard";

@@ -62,7 +62,7 @@ const NavHeader = ({
             {withBackButton && (
               <Pressable
                 onPress={handleOnBackPress}
-                style={{ transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }] }}
+                style={styles.backButton}
                 testID={undefined !== testID ? `${testID}-->BackButton` : undefined}>
                 <ArrowLeftIcon color={iconColor} />
               </Pressable>
@@ -90,6 +90,9 @@ const NavHeader = ({
 };
 
 const styles = StyleSheet.create({
+  backButton: {
+    transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }],
+  },
   column: {
     flex: 1 / 3,
   },

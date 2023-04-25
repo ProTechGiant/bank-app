@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { ScrollView, View, ViewStyle } from "react-native";
 
+import { AccessTimeIcon } from "@/assets/icons";
 import Divider from "@/components/Divider";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -9,7 +10,6 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import {
-  AccessTimeIcon,
   AccountBalanceIcon,
   DevicesIcon,
   PaymentIcon,

@@ -1,5 +1,6 @@
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
 import { FrequentlyAskedQuestionsStackParams } from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
+import { HelpAndSuportStackParams } from "@/features/HelpAndSupport/HelpAndSupportStack";
 import { HomeStackParams } from "@/features/Home/HomeStack";
 import { InternalTransfersStackParams } from "@/features/InternalTransfers/InternalTransfersStack";
 import { NotificationManagementStackParams } from "@/features/NotificationManagement/NotificationManagementStack";
@@ -36,6 +37,7 @@ type RootStackParams = {
   "NotificationManagement.HubScreen": undefined;
   "NotificationManagement.CategoryScreen": { categoryId: string; title: string };
   "WhatsNext.WhatsNextStack": undefined;
+  "HelpAndSupport.HelpAndSupportStack": undefined;
   "OneTimePassword.OneTimePasswordModal": {
     action: {
       to: keyof MainStackParams;
@@ -59,7 +61,7 @@ type MainStackParams = RootStackParams &
   FrequentlyAskedQuestionsStackParams &
   WhatsNextStackParams &
   NotificationManagementStackParams &
-  ReferralStackParams &
+  HelpAndSuportStackParams &
   PaymentDisputesStackParams;
 
 export default MainStackParams;

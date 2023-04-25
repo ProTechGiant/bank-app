@@ -79,5 +79,9 @@
 	<array>
 		<string>applinks:testcroatia.onelink.me</string>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>tel</string>
+	</array>
 </dict>
 </plist>

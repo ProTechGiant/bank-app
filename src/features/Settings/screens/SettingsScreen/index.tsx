@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { Alert } from "react-native";
 
 import { FriendsIcon, NotificationIcon, QuestionIcon, SupportAgentIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -18,7 +17,7 @@ export default function SettingsScreen() {
   };
 
   const handleOnHelpAndSupportPress = () => {
-    Alert.alert("Help and support is pressed"); //TODO
+    navigation.navigate("HelpAndSupport.HelpAndSupportStack");
   };
 
   const handleOnNotificationsPress = () => {

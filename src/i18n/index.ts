@@ -331,6 +331,21 @@ export const resources = {
           newestFirst: "Newest first",
         },
       },
+      HelpAndSupport: {
+        HubScreen: {
+          title: "Help and Support",
+          helpQuestion: "How can we help?",
+          searchFAQ: "Search our FAQs",
+          liveChat: "Live chat",
+          callUs: "Call us",
+          twentyFourSeven: "24/7",
+          reportFraud: "Report Fraud",
+          infoBarMessage: "You might have to wait longer during busy periods.",
+          cancel: "Cancel",
+          call: "Call",
+          callError: "Something went wrong. The phonenumber has been copied for you.",
+        },
+      },
       FrequentlyAskedQuestions: {
         LandingScreen: {
           title: "How can we help you?",
@@ -1480,6 +1495,21 @@ export const resources = {
           subTextTwo: "شارك كود الدعوة مع كل إللي تعرفهم وراح نكافئك بكاش من أول لحظة يستخدمون فيها للتطبيق.",
           titleThree: "المكافأة للطرفين",
           subTextThree: "مرسل الدعوة ومستقبِلها بيحصلون على 15 ر.س.",
+        },
+      },
+      HelpAndSupport: {
+        HubScreen: {
+          title: "الدعم والمساعدة",
+          helpQuestion: "كيف مٌمكن نساعدك؟",
+          searchFAQ: "ابحث بالأسئلة الشائعة FAQs",
+          liveChat: "الدردشة الفورية",
+          callUs: "اتصل على",
+          twentyFourSeven: "24/7",
+          reportFraud: "بلّغ عن عملية احتيال",
+          infoBarMessage: "للتنويه، ربما يتأخر الرد في أيام الذروة والعطل الرسمية.",
+          cancel: "إلغاء",
+          call: "اتصال",
+          callError: "Something went wrong. The phonenumber has been copied for you.",
         },
       },
       CardActions: {

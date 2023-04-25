@@ -1,4 +1,3 @@
-export { AccessTimeIcon } from "./accessTimeIcon";
 export { AccountBalanceIcon } from "./accountBalanceIcon";
 export { DevicesIcon } from "./devices";
 export { PaymentIcon } from "./payment";

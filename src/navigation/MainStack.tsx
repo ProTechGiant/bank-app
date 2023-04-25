@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AddMoneyStack from "@/features/AddMoney/AddMoneyStack";
 import CardActionsStack from "@/features/CardActions/CardActionsStack";
 import FrequentlyAskedQuestionsStack from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
+import HelpAndSupportStack from "@/features/HelpAndSupport/HelpAndSupportStack";
 import HomeStack from "@/features/Home/HomeStack";
 import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfersStack";
 import NotificationManagementStack from "@/features/NotificationManagement/NotificationManagementStack";
@@ -56,6 +57,7 @@ export default function MainStack({ onReady }: MainStackProps) {
           name="NotificationManagement.NotificationManagementStack"
         />
         <Stack.Screen component={WhatsNextStack} name="WhatsNext.WhatsNextStack" />
+        <Stack.Screen component={HelpAndSupportStack} name="HelpAndSupport.HelpAndSupportStack" />
         <Stack.Screen
           component={OneTimePasswordModal}
           name="OneTimePassword.OneTimePasswordModal"
