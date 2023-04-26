@@ -2,7 +2,7 @@ import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export default function ErrorBlack({ width = 20, height = 20, color = "#black" }: IconProps) {
+export default function WarningFilledCircleIcon({ width = 20, height = 20, color = "#FEB24F" }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path
@@ -12,3 +12,5 @@ export default function ErrorBlack({ width = 20, height = 20, color = "#black" }
     </Svg>
   );
 }
+
+export { WarningFilledCircleIcon };

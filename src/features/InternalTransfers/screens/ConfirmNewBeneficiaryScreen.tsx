@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
-import { BankAccountIcon, ErrorBlackIcon, NumbersIcon, PersonFilledIcon, PhoneFilledIcon } from "@/assets/icons";
+import { BankAccountIcon, ErrorFilledCircleIcon, NumbersIcon, PersonFilledIcon, PhoneFilledIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
 import CheckboxInput from "@/components/Form/CheckboxInput";
@@ -137,7 +137,7 @@ export default function ConfirmNewBeneficiaryScreen() {
             ) : null}
           </TableListCardGroup>
           <InlineBanner
-            icon={<ErrorBlackIcon />}
+            icon={<ErrorFilledCircleIcon />}
             text={t("InternalTransfers.ConfirmNewBeneficiaryScreen.bannerMessage")}
           />
         </Stack>

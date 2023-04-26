@@ -1214,6 +1214,22 @@ export const resources = {
           },
         },
       },
+      PaymentDisputes: {
+        DisputeReasonsModal: {
+          title: "What was the problem?",
+          errorModal: {
+            title: "Sorry, we couldn't load that information",
+            message: "Please try again later or get in touch if you're still having problems.",
+            buttonText: "Ok",
+          },
+          CancelDisputeModal: {
+            title: "Are you sure you want to exit?",
+            message: "This will cancel your report and you'll lose any information you've added.",
+            primaryButtonText: "Exit",
+            secondaryButtonText: "Continue with dispute",
+          },
+        },
+      },
       LoadingError: {
         noData: "We couldn’t load the data. Please try later.",
         reload: "Reload",
@@ -1848,6 +1864,22 @@ export const resources = {
         buttons: {
           done: "Done",
           viewTransaction: "View transaction",
+        },
+      },
+    },
+    PaymentDisputes: {
+      DisputeReasonsModal: {
+        title: "What was the problem?",
+        errorModal: {
+          title: "Sorry, we couldn't load that information",
+          message: "Please try again later or get in touch if you're still having problems.",
+          buttonText: "Ok",
+        },
+        CancelDisputeModal: {
+          title: "Are you sure you want to exit?",
+          message: "This will cancel your report and you'll lose any information you've added.",
+          primaryButtonText: "Exit",
+          secondaryButtonText: "Continue with dispute",
         },
       },
     },

@@ -29,8 +29,6 @@ export { DeleteIcon } from "./delete-icon";
 export { default as DisabledPlusIconCircle } from "./disabled-plus-circle";
 export { EditIcon } from "./edit";
 export { EditBordered } from "./edit-bordered";
-export { default as ErrorIcon } from "./error";
-export { default as ErrorBlackIcon } from "./error-black";
 export { ErrorFilledCircleIcon } from "./error-filled-circle";
 export { ErrorOutlineIcon } from "./error-outline";
 export { FilledCircleTickIcon } from "./filled-circle-tick";
@@ -93,6 +91,7 @@ export { default as TransferVerticalIcon } from "./transfer-vertical";
 export { default as UserClockIcon } from "./user-clock";
 export { UserIcon } from "./user-icon";
 export { WalletIcon } from "./wallet";
+export { WarningFilledCircleIcon } from "./warning-filled-circle";
 export { WithdrawIcon } from "./withdraw";
 
 export interface IconProps {

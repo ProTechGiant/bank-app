@@ -1,7 +1,12 @@
 import { cloneElement } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
-import { CancelCircleBorderIcon, IconProps, InfoCircleIcon, TickCircleBorderIcon } from "@/assets/icons";
+import {
+  CancelCircleFilledIcon,
+  IconProps,
+  TickCircleBorderIcon,
+  WarningFilledCircleIcon,
+} from "@/assets/icons";
 import { ButtonProps } from "@/components/Button";
 import Modal from "@/components/Modal";
 import Stack from "@/components/Stack";
@@ -24,8 +29,8 @@ interface NotificationModalProps {
 
 const VARIANT_ICONS = {
   success: <TickCircleBorderIcon />,
-  error: <CancelCircleBorderIcon />,
-  warning: <InfoCircleIcon />,
+  error: <CancelCircleFilledIcon />,
+  warning: <WarningFilledCircleIcon />,
 };
 
 // @see https://www.figma.com/file/QOqqlaJOVnmvKjmRqIPryO/Croatia-Core-Theme?node-id=2669%3A12208&t=48I2T8XT844CfKFB-0
@@ -38,7 +43,7 @@ export default function NotificationModal({
   variant,
 }: NotificationModalProps) {
   const iconContainerStyles = useThemeStyles(theme => ({
-    marginBottom: theme.spacing["20p"],
+    paddingTop: theme.spacing["20p"],
   }));
 
   const iconStyles = useThemeStyles<IconProps>(
@@ -52,7 +57,9 @@ export default function NotificationModal({
   );
 
   const modalStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderRadius: theme.radii.small,
+    borderRadius: theme.radii.xlarge,
+    borderTopStartRadius: theme.radii.xlarge,
+    borderTopEndRadius: theme.radii.xlarge,
     marginBottom: theme.spacing["32p"],
     marginHorizontal: theme.spacing["16p"],
   }));

@@ -1,7 +1,7 @@
 import { Control, FieldValues, Path, useController, useFormState } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-import { ErrorIcon } from "@/assets/icons";
+import { ErrorFilledCircleIcon } from "@/assets/icons";
 import InlineBanner from "@/components/InlineBanner";
 
 interface ErrorMessageProps<T extends FieldValues> {
@@ -27,7 +27,7 @@ export default function ErrorMessage<T extends FieldValues>({ control, name, for
       {error || forbiddenError ? (
         <InlineBanner
           variant="error"
-          icon={<ErrorIcon />}
+          icon={<ErrorFilledCircleIcon />}
           text={
             forbiddenError && forbidden.length <= 1
               ? t("InternalTransfers.AddNoteScreen.forbiddenWordNotAllowed", { forbiddenWord: forbiddenError })

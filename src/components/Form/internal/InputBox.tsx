@@ -1,7 +1,7 @@
 import { FieldError } from "react-hook-form";
 import { Pressable, StyleProp, View, ViewStyle } from "react-native";
 
-import { ErrorIcon } from "@/assets/icons";
+import { ErrorFilledCircleIcon } from "@/assets/icons";
 import { useThemeStyles } from "@/theme";
 
 import InputExtra from "./InputExtra";
@@ -86,7 +86,7 @@ export default function InputBox({
         <>
           {icon !== undefined && <View style={iconStyle}>{icon}</View>}
           {children}
-          {undefined !== error && isTouched && <ErrorIcon color={errorIconColor} height={20} width={20} />}
+          {undefined !== error && isTouched && <ErrorFilledCircleIcon color={errorIconColor} height={20} width={20} />}
         </>
       </View>
 
