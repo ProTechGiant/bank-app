@@ -105,7 +105,8 @@ export default function DropdownInput<T extends FieldValues>({
         label={label}
         isTouched={fieldState.isTouched}
         error={fieldState.error}
-        onPress={handleOnOpen}>
+        onPress={handleOnOpen}
+        bordered={false}>
         <InputText
           buttonIcon={
             <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>

@@ -60,13 +60,13 @@ export default function InputBox({
         : isEditable
         ? theme.palette["neutralBase-20"]
         : theme.palette["neutralBase-30"],
-      borderRadius: theme.radii.extraSmall,
+      borderRadius: theme.radii.small,
       borderWidth: bordered ? (isFocused || isError ? 2 : 1) : 0,
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: center ? "center" : "flex-start",
       flexGrow: 1,
-      height: multiline === false ? 53 : undefined,
+      height: multiline === false ? 58 : undefined,
       minHeight: multiline !== false ? 74 : undefined,
       padding: theme.spacing["16p"] - (isFocused || isError ? 1 : 0),
     }),

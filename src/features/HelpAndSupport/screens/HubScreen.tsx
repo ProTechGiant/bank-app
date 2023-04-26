@@ -26,7 +26,7 @@ export default function HubScreen() {
   };
 
   const handleLiveChatPress = () => {
-    Alert.alert("Live chat pressed"); //TODO
+    navigation.navigate("HelpAndSupport.LiveChatScreen");
   };
 
   const handleCallUsPress = () => {

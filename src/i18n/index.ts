@@ -345,6 +345,19 @@ export const resources = {
           call: "Call",
           callError: "Something went wrong. The phonenumber has been copied for you.",
         },
+        LiveChatScreen: {
+          navHeaderTitle: "Live chat",
+          firstLineTitle: "Welcome to Croatia",
+          secondLineTitle: "Live Chat Support",
+          dropdownButtonLabel: "Confirm",
+          placeholder: "Select your enquiry type",
+          submitButton: "Start a live chat",
+          error: {
+            title: "Live chat is currently unavailable.",
+            message: "Error type description. Alternative to reach out.",
+            requiredErrorMessage: "Please select your enquiry type.",
+          },
+        },
       },
       FrequentlyAskedQuestions: {
         LandingScreen: {
