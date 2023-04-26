@@ -221,7 +221,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                     ) : null}
                   </>
                 ) : null}
-                {otpResendsRequested < OTP_MAX_RESENDS ? (
+                {otpResendsRequested <= OTP_MAX_RESENDS ? (
                   <Typography.Text
                     size="callout"
                     color={isOtpExpired ? "primaryBase" : "neutralBase"}
