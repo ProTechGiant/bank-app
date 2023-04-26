@@ -329,6 +329,15 @@ export const resources = {
           topTen: "Top 10",
           explore: "Explore",
           newestFirst: "Newest first",
+          filter: "Filter",
+          clearAll: "Clear all",
+          type: "Type",
+          category: "Category",
+          apply: "Apply",
+          filterBy: "Filtered by:",
+          noArticlesTitle: "No articles found",
+          noArticlesDescription:
+            "We couldn’t find articles that match your search. Consider adapting your search and try again.",
         },
       },
       HelpAndSupport: {

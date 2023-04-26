@@ -4,6 +4,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 export type TagVariantType = "purple" | "mint" | "blue" | "yellow";
+
 interface TagProps {
   title: string;
   variant: TagVariantType;

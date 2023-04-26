@@ -59,7 +59,7 @@ export default function Modal({
   }, [visible]);
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-50"],
+    backgroundColor: theme.palette["neutralBase-60"],
     borderTopLeftRadius: theme.radii.small * 1.5,
     borderTopRightRadius: theme.radii.small * 1.5,
     marginTop: "auto",

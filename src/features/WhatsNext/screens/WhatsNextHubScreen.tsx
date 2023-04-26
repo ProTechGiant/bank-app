@@ -1,23 +1,96 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Pressable } from "react-native";
 
-import { AngleDownIcon } from "@/assets/icons";
 import { FilterIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import { LoadingErrorPage } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
-import Stack from "@/components/Stack";
-import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
 
-import { ExploreCard, TopTenCard } from "../components";
+import { ExploreSection, FilterModal, FilterTopBar, NoArticlesError, TopTenSection } from "../components";
+import { ArticleSectionType, FilterItemType } from "../types";
 import { WhatsNextMocks } from "../whatsNextMocks";
 
 export default function WhatsNextHubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const [isFiltersModalVisible, setIsFiltersModalVisible] = useState(false);
+  const [whatsNextCategories, setWhatsNextCategories] = useState<FilterItemType[]>([]);
+  const [whatsNextTypes, setWhatsNextTypes] = useState<FilterItemType[]>([]);
+  const [isFiltering, setIsFiltering] = useState(false);
+
+  useEffect(() => {
+    WhatsNextMocks.filter(val => val.WhatsNextCategories && val.WhatsNextTypes)?.map(data => {
+      data.WhatsNextCategories?.map(item => {
+        setWhatsNextCategories(prevState => [...prevState, { name: item, isActive: false }]);
+      });
+      data.WhatsNextTypes?.map(item => {
+        setWhatsNextTypes(prevState => [...prevState, { name: item, isActive: false }]);
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    setIsFiltering([...whatsNextCategories, ...whatsNextTypes].filter(value => value.isActive).length !== 0);
+  }, [whatsNextCategories, whatsNextTypes]);
+
+  const handleOnClearFiltersPress = () => {
+    setWhatsNextTypes(
+      whatsNextTypes.map(item => {
+        if (item.isActive === false) {
+          return item;
+        }
+        return {
+          name: item.name,
+          isActive: false,
+        };
+      })
+    );
+    setWhatsNextCategories(
+      whatsNextCategories.map(item => {
+        if (item.isActive === false) {
+          return item;
+        }
+        return {
+          name: item.name,
+          isActive: false,
+        };
+      })
+    );
+  };
+
+  const handleOnTypeFilterItemRemovePress = (name: string) => {
+    setWhatsNextTypes(
+      whatsNextTypes.map(item => {
+        if (item.name !== name) {
+          return item;
+        }
+        return {
+          name: item.name,
+          isActive: false,
+        };
+      })
+    );
+    updateParamsQuery();
+  };
+
+  const handleOnCategoryFilterItemRemovePress = (name: string) => {
+    setWhatsNextCategories(
+      whatsNextCategories.map(item => {
+        if (item.name !== name) {
+          return item;
+        }
+        return {
+          ...item,
+          isActive: false,
+        };
+      })
+    );
+    updateParamsQuery();
+  };
 
   const handleOnLoadingErrorRefresh = () => {
     //@TODO refetch data
@@ -27,8 +100,40 @@ export default function WhatsNextHubScreen() {
     Alert.alert("Sort by asc/desc will be handled here");
   };
 
-  const handleOnFiltersPress = () => {
-    Alert.alert("Filters will be handled here");
+  const handleOnFiltersModalVisiblePress = () => {
+    setIsFiltersModalVisible(!isFiltersModalVisible);
+  };
+
+  const updateParamsQuery = () => {
+    let whatsNextTypeQuery = "";
+    whatsNextTypes.map(data => {
+      if (data.isActive === true) {
+        if (whatsNextTypeQuery === "") {
+          whatsNextTypeQuery = "WhatsNextType=";
+        } else {
+          whatsNextTypeQuery = whatsNextTypeQuery + ",";
+        }
+        whatsNextTypeQuery = whatsNextTypeQuery + data.name;
+      }
+    });
+    let whatsNextCategoryQuery = "";
+    whatsNextCategories.map(data => {
+      if (data.isActive === true) {
+        if (whatsNextCategoryQuery === "") {
+          whatsNextCategoryQuery = "WhatsNextCategory=";
+        } else {
+          whatsNextCategoryQuery = whatsNextCategoryQuery + ",";
+        }
+        whatsNextCategoryQuery = whatsNextCategoryQuery + data.name;
+      }
+    });
+  };
+
+  const handleOnFilterApplyPress = (categories: FilterItemType[], types: FilterItemType[]) => {
+    setWhatsNextCategories(categories);
+    setWhatsNextTypes(types);
+    updateParamsQuery();
+    handleOnFiltersModalVisiblePress();
   };
 
   const handleOnExploreArticlePress = () => {
@@ -39,24 +144,6 @@ export default function WhatsNextHubScreen() {
     navigation.navigate("WhatsNext.TopTenArticleScreen");
   };
 
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: -theme.spacing["20p"],
-    paddingHorizontal: theme.spacing["20p"],
-    paddingTop: theme.spacing["12p"],
-  }));
-
-  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
-    columnGap: theme.spacing["12p"],
-    paddingRight: theme.spacing["20p"] * 2, // correct for padding twice
-  }));
-
-  const exploreHeaderStyle = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingTop: theme.spacing["32p"],
-    paddingBottom: theme.spacing["12p"],
-  }));
-
   return (
     <>
       {WhatsNextMocks !== undefined ? (
@@ -64,86 +151,49 @@ export default function WhatsNextHubScreen() {
           <NavHeader
             title={t("WhatsNext.HubScreen.title")}
             end={
-              <Pressable onPress={handleOnFiltersPress}>
+              <Pressable onPress={handleOnFiltersModalVisiblePress}>
                 <FilterIcon />
               </Pressable>
             }
           />
-
           <ContentContainer isScrollView>
-            <Typography.Text size="callout" weight="medium">
-              {t("WhatsNext.HubScreen.topTen")}
-            </Typography.Text>
-            <ScrollView
-              contentContainerStyle={contentStyle}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={containerStyle}>
-              {WhatsNextMocks.map(data => {
-                if (data.ContentTag === "Top 10" && data.ContentCategoryId === "WhatsNext") {
-                  return data.ChildrenContents.map((topTenContent, index) => {
-                    return (
-                      <View key={index}>
-                        <TopTenCard
-                          category={topTenContent.ContentTag}
-                          title={topTenContent.Title}
-                          description={topTenContent.ContentDescription}
-                          onPress={handleOnTopTenArticlePress}
-                        />
-                      </View>
-                    );
-                  });
-                }
-              })}
-            </ScrollView>
-            <View style={exploreHeaderStyle}>
-              <Typography.Text size="callout" weight="medium">
-                {t("WhatsNext.HubScreen.explore")}
-              </Typography.Text>
-              <Pressable style={styles.row} onPress={handleOnSortByTimePress}>
-                <Typography.Text size="callout" weight="medium">
-                  {t("WhatsNext.HubScreen.newestFirst")}
-                </Typography.Text>
-                <AngleDownIcon width={16} height={16} />
-              </Pressable>
-            </View>
-            <Stack gap="16p" direction="vertical">
-              {WhatsNextMocks.map((data, index) => {
-                if (data.ContentTag === "explore") {
-                  return (
-                    <View key={index}>
-                      <ExploreCard
-                        title={data.Title}
-                        description={data.ContentDescription}
-                        tagTitle={data.WhatsNextType}
-                        tagVariant={
-                          data.WhatsNextTypeId === "1"
-                            ? "mint"
-                            : data.WhatsNextTypeId === "2"
-                            ? "blue"
-                            : data.WhatsNextTypeId === "3"
-                            ? "purple"
-                            : "yellow"
-                        }
-                        onPress={handleOnExploreArticlePress}
-                      />
-                    </View>
-                  );
-                }
-              })}
-            </Stack>
+            {isFiltering === false ? (
+              <TopTenSection
+                onPress={handleOnTopTenArticlePress}
+                data={WhatsNextMocks.find(data => data?.ContentTag === "Top 10") as ArticleSectionType}
+              />
+            ) : (
+              <FilterTopBar
+                whatsNextTypes={whatsNextTypes}
+                whatsNextCategories={whatsNextCategories}
+                onTypeFilterItemRemovePress={handleOnTypeFilterItemRemovePress}
+                onCategoryFilterItemRemovePress={handleOnCategoryFilterItemRemovePress}
+                onClearFiltersPress={handleOnClearFiltersPress}
+              />
+            )}
+            {WhatsNextMocks.filter(data => data.ContentTag === "explore").length !== 0 ? (
+              <ExploreSection
+                data={WhatsNextMocks.filter(data => data.ContentTag === "explore") as ArticleSectionType[]}
+                onArticlePress={handleOnExploreArticlePress}
+                onSortByTimePress={handleOnSortByTimePress}
+              />
+            ) : (
+              <NoArticlesError />
+            )}
           </ContentContainer>
         </Page>
       ) : (
         <LoadingErrorPage onRefresh={handleOnLoadingErrorRefresh} />
       )}
+      {isFiltersModalVisible ? (
+        <FilterModal
+          onFiltersApplyPress={handleOnFilterApplyPress}
+          onClose={handleOnFiltersModalVisiblePress}
+          isVisible={isFiltersModalVisible}
+          initialCategories={whatsNextCategories}
+          initialTypes={whatsNextTypes}
+        />
+      ) : null}
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  row: {
-    alignItems: "center",
-    flexDirection: "row",
-  },
-});

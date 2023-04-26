@@ -1,0 +1,79 @@
+import { useTranslation } from "react-i18next";
+import { Pressable, StyleSheet, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+
+import Chip from "@/components/Chip";
+import Stack from "@/components/Stack";
+import Typography from "@/components/Typography";
+
+import { FilterItemType } from "../types";
+
+interface FilterTopBarProps {
+  whatsNextTypes: FilterItemType[];
+  whatsNextCategories: FilterItemType[];
+  onTypeFilterItemRemovePress: (name: string) => void;
+  onCategoryFilterItemRemovePress: (name: string) => void;
+  onClearFiltersPress: () => void;
+}
+
+export default function FilterTopBar({
+  whatsNextTypes,
+  whatsNextCategories,
+  onTypeFilterItemRemovePress,
+  onCategoryFilterItemRemovePress,
+  onClearFiltersPress,
+}: FilterTopBarProps) {
+  const { t } = useTranslation();
+
+  return (
+    <ScrollView horizontal style={styles.noGrow}>
+      <Stack direction="horizontal" gap="8p" style={styles.center}>
+        <Typography.Text color="neutralBase-10" size="footnote">
+          {t("WhatsNext.HubScreen.filterBy")}
+        </Typography.Text>
+        {whatsNextTypes
+          .filter(val => val.isActive === true)
+          .map(data => {
+            return (
+              <View key={data.name}>
+                <Chip
+                  title={data.name}
+                  isEnabled={true}
+                  isClosable={true}
+                  onPress={() => {
+                    onTypeFilterItemRemovePress(data.name);
+                  }}
+                />
+              </View>
+            );
+          })}
+        {whatsNextCategories
+          .filter(val => val.isActive === true)
+          .map(data => {
+            return (
+              <View key={data.name}>
+                <Chip
+                  title={data.name}
+                  isEnabled={true}
+                  isClosable={true}
+                  onPress={() => onCategoryFilterItemRemovePress(data.name)}
+                />
+              </View>
+            );
+          })}
+        <Pressable onPress={onClearFiltersPress}>
+          <Typography.Text size="footnote">{t("WhatsNext.HubScreen.clearAll")}</Typography.Text>
+        </Pressable>
+      </Stack>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  center: {
+    alignItems: "center",
+  },
+  noGrow: {
+    flexGrow: 0,
+  },
+});

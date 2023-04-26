@@ -13,12 +13,12 @@ import {
 } from "react-native";
 
 import Stack from "@/components/Stack";
+import Tag, { TagVariantType } from "@/components/Tag";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import explorePlaceholder from "../assets/explore-placeholder.png";
 import whiteTriangle from "../assets/white-triangle.png";
-import Tag, { TagVariantType } from "./Tag";
 
 interface ExploreCardProps {
   title: string;
