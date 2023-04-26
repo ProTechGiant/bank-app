@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -95,18 +96,20 @@ export default function DisputesReasonsModal() {
 
   return (
     <>
-      <Page>
-        <NavHeader withBackButton end={<NavHeader.CloseEndButton onPress={handleOnOpenConfirmCancelDispute} />} />
-        <ContentContainer isScrollView>
-          <Stack direction="vertical" gap="48p" align="stretch" flex={1}>
-            <Typography.Text size="title1" weight="medium">
-              {t("PaymentDisputes.DisputeReasonsModal.title")}
-            </Typography.Text>
-            {mockDisputesReasons ? (
-              <DisputeReasonsList data={mockDisputesReasons} onPressDisputeDetails={handleOnPressDisputeDetails} />
-            ) : null}
-          </Stack>
-        </ContentContainer>
+      <Page insets={["bottom", "left", "right"]}>
+        <SafeAreaProvider>
+          <NavHeader withBackButton end={<NavHeader.CloseEndButton onPress={handleOnOpenConfirmCancelDispute} />} />
+          <ContentContainer isScrollView>
+            <Stack direction="vertical" gap="48p" align="stretch" flex={1}>
+              <Typography.Text size="title1" weight="medium">
+                {t("PaymentDisputes.DisputeReasonsModal.title")}
+              </Typography.Text>
+              {mockDisputesReasons ? (
+                <DisputeReasonsList data={mockDisputesReasons} onPressDisputeDetails={handleOnPressDisputeDetails} />
+              ) : null}
+            </Stack>
+          </ContentContainer>
+        </SafeAreaProvider>
       </Page>
       <NotificationModal
         variant="error"
