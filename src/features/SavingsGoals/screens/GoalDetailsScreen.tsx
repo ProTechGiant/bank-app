@@ -36,7 +36,7 @@ export default function GoalDetailsScreen() {
   const { data: savingsPotData } = useSavingsPot(route.params.PotId);
   const { data: roundUpData } = useRoundupFlag();
   const updateSavingsGoalRoundUps = useUpdateSavingsGoal();
-  const { data: recurringFundData } = useRecurringPayments(route.params.PotId);
+  const { data: getRecurringFund, isSuccess } = useRecurringPayments(route.params.PotId);
 
   const [isSwitchRoundupsModalVisible, setIsSwitchRoundupsModalVisible] = useState(false);
   const [showInfoRoundsUpsModal, setInfoRoundsUpModal] = useState(false);
@@ -45,7 +45,7 @@ export default function GoalDetailsScreen() {
   const [differenceNeededToReachGoal, setDifferenceNeededToReachGoal] = useState(0);
   const [showAmountWithdrawn, setShowAmountWithdrawn] = useState(amountWithdrawn);
   const [isRoundUpsOn, setIsRoundUpsOn] = useState(false);
-
+  const recurringFundData = isSuccess ? getRecurringFund : undefined;
   // Immediately funding goal modal if needed
   useFocusEffect(
     useCallback(() => {
