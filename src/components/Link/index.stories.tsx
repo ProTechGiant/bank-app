@@ -27,6 +27,7 @@ export default {
 
 export const Link: ComponentStory<typeof LinkList_> = args => {
   return (
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     <LinkList_ onPress={() => {}} icon={args.icon} linkTextEnd={args.linkTextEnd}>
       {args.children}
     </LinkList_>

@@ -2,9 +2,9 @@ import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-nativ
 import { SvgProps } from "react-native-svg";
 
 import { ChevronRightIcon } from "@/assets/icons";
+import Typography from "@/components/Typography";
 import { Theme, useThemeStyles } from "@/theme";
 
-import Typography from "@/components/Typography";
 import IconLink from "./IconLink";
 
 interface LinkListProps {

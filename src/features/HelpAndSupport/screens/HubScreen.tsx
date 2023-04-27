@@ -1,11 +1,11 @@
-import { useTranslation } from "react-i18next";
-import { Alert, Linking, Platform, StyleSheet, View, ViewStyle } from "react-native";
 import Clipboard from "@react-native-clipboard/clipboard";
+import { useTranslation } from "react-i18next";
+import { Alert, Linking, StyleSheet, View, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { AccessTimeIcon, BookmarkIcon, ChatIcon, InfoIcon, PhoneUnFilledIcon } from "@/assets/icons";
-import ContentContainer from "@/components/ContentContainer";
 import { LinkList } from "@/components";
+import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
@@ -94,6 +94,7 @@ export default function HubScreen() {
     backgroundColor: theme.palette["neutralBase-40"],
     flexDirection: "row",
     justifyContent: "center",
+    alignItems: "center",
     borderRadius: theme.radii.small,
     padding: theme.spacing["20p"],
     gap: theme.spacing["16p"],
@@ -101,8 +102,8 @@ export default function HubScreen() {
 
   const navHeaderContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-40"],
-    marginTop: Platform.OS === "ios" ? -statusBarHeight : 0,
-    paddingTop: Platform.OS === "ios" ? statusBarHeight : 0,
+    marginTop: -statusBarHeight,
+    paddingTop: statusBarHeight,
   }));
 
   return (

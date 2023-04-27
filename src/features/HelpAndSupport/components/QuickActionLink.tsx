@@ -51,13 +51,13 @@ export default function QuickActionLink({ onPress, style, icon, topText, text, s
       </View>
       <View style={textContainerStyle}>
         <Typography.Text size="footnote" color="neutralBase+30">
-          {text}
+          {text}&nbsp;
+          {subText ? (
+            <Typography.Text size="footnote" color="neutralBase-20">
+              {subText}
+            </Typography.Text>
+          ) : null}
         </Typography.Text>
-        {subText ? (
-          <Typography.Text size="footnote" color="neutralBase-20">
-            {subText}
-          </Typography.Text>
-        ) : null}
       </View>
     </Pressable>
   );

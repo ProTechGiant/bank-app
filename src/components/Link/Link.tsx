@@ -1,6 +1,8 @@
 import { Pressable } from "react-native";
-import Typography from "../Typography";
+
 import { Theme } from "@/theme";
+
+import Typography from "../Typography";
 
 interface LinkProps {
   children: string;
