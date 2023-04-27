@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { isThisMonth, parse } from "date-fns";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Alert, Keyboard, StyleSheet, View, ViewStyle } from "react-native";
@@ -101,19 +101,23 @@ export default function EditRecurringPaymentModal() {
     setRemoveRecurringPaymentModal(!removeRecurringPaymentModal);
   };
 
-  const { control, handleSubmit, watch } = useForm<FundingInput>({
+  const { control, handleSubmit, watch, setValue } = useForm<FundingInput>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
-    defaultValues: {
-      PaymentAmount: undefined !== recurringFundData ? Number(recurringFundData.PaymentAmount) : 0,
-      DayOfMonth:
-        //Currently CBS doesn't return "PaymentFrequency" as a date or number, it is a string that says "Monthly", "daily" etc.
-        //so day picker currently shows on NaNth as the default value
-        //this is being worked on right now and is a known bug, was told to push forward.
-
-        undefined !== recurringFundData ? parseInt(recurringFundData.PaymentFrequency, 10) : new Date().getDate(),
-    },
   });
+
+  //     //Currently CBS doesn't return "PaymentFrequency" as a date or number, it is a string that says "Monthly", "daily" etc.
+  //     //so day picker currently shows on NaNth as the default value
+  //     //this is being worked on right now and is a known bug, was told to push forward.
+  useEffect(() => {
+    if (recurringFundData) {
+      setValue("PaymentAmount", Number(recurringFundData.PaymentAmount));
+      setValue("DayOfMonth", parseInt(recurringFundData.PaymentFrequency, 10));
+    } else {
+      setValue("PaymentAmount", 0);
+      setValue("DayOfMonth", new Date().getDate());
+    }
+  }, [recurringFundData, setValue]);
 
   const handleOnSubmit = (values: FundingInput) => {
     if (undefined === recurringFundData) return Promise.resolve();
