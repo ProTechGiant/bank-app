@@ -1,4 +1,6 @@
 export interface DisputeReasonType {
-  text: string;
-  link: string;
+  ProblemCategoryCode: string;
+  ProblemCategoryName: string;
+  ProblemCategoryDescription: string;
+  TransactionSourceCode: string;
 }

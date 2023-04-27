@@ -14,46 +14,66 @@ import useNavigation from "@/navigation/use-navigation";
 import { DisputeReasonsList } from "../components";
 import { DisputeReasonType } from "../types";
 
-const mockDisputesReasons: DisputeReasonType[] = [
+const mockCardProblemCatagories: DisputeReasonType[] = [
   {
-    text: "Duplicate bill - I was charged more than once for a single transaction.",
-    link: "duplicate-bill",
+    ProblemCategoryCode: "100",
+    ProblemCategoryName: "Duplicate bill",
+    ProblemCategoryDescription: "I was charged more than once for a single transaction.",
+    TransactionSourceCode: "CARD",
   },
   {
-    text: "Didn't get goods or service - I didn’t receive the goods or service I paid for.",
-    link: "didnt-get-goods-or-service",
+    ProblemCategoryCode: "101",
+    ProblemCategoryName: "Didn't get goods or service",
+    ProblemCategoryDescription: "I didn’t receive the goods or service I paid for.",
+    TransactionSourceCode: "CARD",
   },
   {
-    text: "Paid in a different way - I’ve already paid with cash, cheque or another type of credit.",
-    link: "paid-in-a-different-way",
+    ProblemCategoryCode: "102",
+    ProblemCategoryName: "Paid in a different way",
+    ProblemCategoryDescription: "I’ve already paid with cash, cheque or another type of credit.",
+    TransactionSourceCode: "CARD",
   },
   {
-    text: "Wrong amount - The payment is different to the amount I authorised.",
-    link: "wrong-amount",
+    ProblemCategoryCode: "103",
+    ProblemCategoryName: "Wrong amount",
+    ProblemCategoryDescription: "The payment is different to the amount I authorised.",
+    TransactionSourceCode: "CARD",
   },
   {
-    text: "Cancelled subscription - I’ve already cancelled this subscription or membership.",
-    link: "cancelled-subscription",
+    ProblemCategoryCode: "104",
+    ProblemCategoryName: "Cancelled subscription",
+    ProblemCategoryDescription: "I’ve already cancelled this subscription or membership.",
+    TransactionSourceCode: "CARD",
   },
   {
-    text: "Not refunded - I’ve been refunded and have a receipt but haven’t had the refund.",
-    link: "not-refunded",
+    ProblemCategoryCode: "105",
+    ProblemCategoryName: "Not refunded",
+    ProblemCategoryDescription: "I’ve been refunded and have a receipt but haven’t had the refund.",
+    TransactionSourceCode: "CARD",
   },
   {
-    text: "Hotel cancellation - This is a hotel booking that’s been cancelled.",
-    link: "hotel-cancellation",
+    ProblemCategoryCode: "106",
+    ProblemCategoryName: "Hotel cancellation",
+    ProblemCategoryDescription: "This is a hotel booking that’s been cancelled.",
+    TransactionSourceCode: "CARD",
   },
   {
-    text: "I need a copy of the receipt - You may need to pay additional charges to do this.",
-    link: "i-need-a-copy-of-the-receipt",
+    ProblemCategoryCode: "107",
+    ProblemCategoryName: "I need a copy of the receipt",
+    ProblemCategoryDescription: "You may need to pay additional charges to do this.",
+    TransactionSourceCode: "CARD",
   },
   {
-    text: "Too many transactions - I only authorised one transaction at this merchant.",
-    link: "too-many-transactions",
+    ProblemCategoryCode: "108",
+    ProblemCategoryName: "Too many transactions",
+    ProblemCategoryDescription: "I only authorised one transaction at this merchant.",
+    TransactionSourceCode: "CARD",
   },
   {
-    text: "Something else",
-    link: "something-else",
+    ProblemCategoryCode: "109",
+    ProblemCategoryName: "Something else",
+    ProblemCategoryDescription: "",
+    TransactionSourceCode: "CARD",
   },
 ];
 
@@ -104,8 +124,11 @@ export default function DisputesReasonsModal() {
               <Typography.Text size="title1" weight="medium">
                 {t("PaymentDisputes.DisputeReasonsModal.title")}
               </Typography.Text>
-              {mockDisputesReasons ? (
-                <DisputeReasonsList data={mockDisputesReasons} onPressDisputeDetails={handleOnPressDisputeDetails} />
+              {mockCardProblemCatagories ? (
+                <DisputeReasonsList
+                  data={mockCardProblemCatagories}
+                  onPressDisputeDetails={handleOnPressDisputeDetails}
+                />
               ) : null}
             </Stack>
           </ContentContainer>

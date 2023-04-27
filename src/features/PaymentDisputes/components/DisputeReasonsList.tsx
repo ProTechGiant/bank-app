@@ -27,8 +27,13 @@ export default function DisputeReasonsList({ data, onPressDisputeDetails }: Disp
   return (
     <Stack direction="vertical" gap="20p" align="stretch" flex={1}>
       {data.map((reason, index) => (
-        <Fragment key={reason.link}>
-          <DisputeReason text={reason.text} onPress={() => handleOnPress(reason.link)} />
+        <Fragment key={reason.ProblemCategoryCode}>
+          <DisputeReason
+            text={`${reason.ProblemCategoryName} ${
+              reason.ProblemCategoryDescription ? " - " + reason.ProblemCategoryDescription : ""
+            }`}
+            onPress={() => handleOnPress(reason.ProblemCategoryCode)}
+          />
           {index !== data.length - 1 ? (
             <View style={separatorStyle}>
               <Divider color="neutralBase-30" />
