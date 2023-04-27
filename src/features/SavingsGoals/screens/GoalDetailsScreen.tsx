@@ -2,7 +2,7 @@ import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 import { format } from "date-fns";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Dimensions, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -21,7 +21,7 @@ import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import HeaderBackgroundSvg from "../assets/header-background.svg";
+import HeaderBackground from "../assets/HeaderBackground";
 import { ProgressWheel, TransactionCardList } from "../components";
 import { calculateGoalBalanceOverThreeQuarters } from "../helpers";
 import { useRecurringPayments, useRoundupFlag, useSavingsPot, useUpdateSavingsGoal } from "../hooks/query-hooks";
@@ -229,7 +229,7 @@ export default function GoalDetailsScreen() {
       <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
         <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
         <View style={styles.background}>
-          <HeaderBackgroundSvg />
+          <HeaderBackground deviceWidth={deviceWidth} scaleFactor={scaleFactor} scaledHeight={scaledHeight} />
         </View>
         <SafeAreaView style={styles.header}>
           <NavHeader
@@ -408,7 +408,12 @@ export default function GoalDetailsScreen() {
   );
 }
 
-const BACKGROUND_HEIGHT = 495;
+const deviceWidth = Dimensions.get("window").width;
+const svgWidth = 390;
+const svgHeight = 495;
+const scaleFactor = deviceWidth / svgWidth;
+const scaledHeight = svgHeight * scaleFactor;
+
 const formatter = Intl.NumberFormat("en-US");
 
 const styles = StyleSheet.create({
@@ -425,6 +430,6 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   header: {
-    height: BACKGROUND_HEIGHT,
+    height: scaledHeight,
   },
 });
