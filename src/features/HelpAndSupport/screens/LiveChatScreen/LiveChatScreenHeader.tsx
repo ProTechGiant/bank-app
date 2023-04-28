@@ -44,6 +44,7 @@ export default function LiveChatScreenHeader() {
 const styles = StyleSheet.create({
   backgroundBottom: {
     bottom: 0,
+    left: 0,
     position: "absolute",
   },
   backgroundImage: {

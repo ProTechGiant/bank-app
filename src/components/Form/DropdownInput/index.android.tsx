@@ -1,11 +1,11 @@
-import { Picker } from "@react-native-picker/picker";
 import { useEffect, useState } from "react";
 import { FieldValues, useController } from "react-hook-form";
-import { I18nManager, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, ScrollView, View, ViewStyle } from "react-native";
 
-import { ChevronRightIcon } from "@/assets/icons";
+import { AngleDownIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
+import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import InputBox from "../internal/InputBox";
@@ -55,10 +55,11 @@ export default function DropdownInput<T extends FieldValues>({
         setImmediate(() => field.onChange(defaultValue));
       }
     }
-  }, [isEditable, placeholder, options]);
+  }, [isEditable, placeholder, options, fullHeight, field, autoselect]);
 
   const handleOnChange = (value: string) => {
     field.onChange(value ?? options[0]?.value);
+    setSelectedValue(field.value);
   };
 
   const handleOnOpen = () => {
@@ -87,88 +88,74 @@ export default function DropdownInput<T extends FieldValues>({
   };
 
   const buttonContainer = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["neutralBase-50"],
-      paddingHorizontal: theme.spacing["20p"],
-      paddingVertical: theme.spacing["16p"],
+    ({ spacing }) => ({
+      paddingHorizontal: spacing["20p"],
+      paddingVertical: spacing["16p"],
       width: "100%",
     }),
     []
   );
 
+  const optionStyle = useThemeStyles<ViewStyle>(({ spacing, radii }) => ({
+    padding: spacing["20p"],
+    justifyContent: "center",
+    flexDirection: "row",
+    borderRadius: radii.small,
+  }));
+
+  const selectedOptionStyle = useThemeStyles<ViewStyle>(({ palette }) => ({
+    backgroundColor: palette["neutralBase-30"],
+  }));
+
+  const optionsContainer = useThemeStyles<ViewStyle>(({ spacing }) => ({
+    marginVertical: spacing["24p"],
+    height: 250,
+  }));
+
   return (
     <>
-      {!fullHeight ? (
-        <View>
-          <InputBox
-            extraStart={extra}
-            isEditable={isEditable}
-            label={label}
-            isTouched={fieldState.isTouched}
-            error={fieldState.error}>
-            <InputText
-              buttonIcon={<ChevronRightIcon />}
-              placeholder={placeholder}
-              value={options.find(opt => opt.value === field.value)?.label}
-            />
-          </InputBox>
-          <Picker
-            onBlur={() => {
-              field.onBlur();
-            }}
-            enabled={isEditable}
-            mode="dropdown"
-            prompt={label}
-            onValueChange={handleOnChange}
-            itemStyle={styles.item}
-            style={styles.picker}
-            selectedValue={field.value}>
+      <Modal onClose={handleOnClose} headerText={headerText ?? label} visible={isVisible}>
+        {!fullHeight ? (
+          <ScrollView style={optionsContainer}>
             {options.map(option => (
-              <Picker.Item key={option.value} label={option.label} value={option.value} />
+              <Pressable
+                key={option.value}
+                onPress={() => handleOnChange(option.value)}
+                disabled={option.disabled}
+                style={[optionStyle, selectedValue === option.value && selectedOptionStyle]}>
+                <Typography.Text color="neutralBase+30" size="body" weight="regular">
+                  {option.label}
+                </Typography.Text>
+              </Pressable>
             ))}
-          </Picker>
+          </ScrollView>
+        ) : (
+          <DropdownInputList options={options} onChange={handleOnModalChange} value={selectedValue} />
+        )}
+        <View style={buttonContainer}>
+          <Button onPress={handleOnConfirm} disabled={selectedValue === undefined}>
+            {buttonLabel}
+          </Button>
         </View>
-      ) : (
-        <>
-          <Modal onClose={handleOnClose} headerText={headerText ?? label} visible={isVisible}>
-            <DropdownInputList options={options} onChange={handleOnModalChange} value={selectedValue} />
-            <View style={buttonContainer}>
-              <Button onPress={handleOnConfirm} disabled={selectedValue === undefined}>
-                {buttonLabel}
-              </Button>
+      </Modal>
+      <InputBox
+        extraStart={extra}
+        isEditable={isEditable}
+        label={label}
+        isTouched={fieldState.isTouched}
+        error={fieldState.error}
+        onPress={handleOnOpen}
+        bordered={false}>
+        <InputText
+          buttonIcon={
+            <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
+              <AngleDownIcon />
             </View>
-          </Modal>
-          <InputBox
-            extraStart={extra}
-            isEditable={isEditable}
-            label={label}
-            fieldState={fieldState}
-            onPress={handleOnOpen}>
-            <InputText
-              buttonIcon={
-                <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-                  <ChevronRightIcon />
-                </View>
-              }
-              placeholder={placeholder}
-              value={options.find(opt => opt.value === field.value)?.label}
-            />
-          </InputBox>
-        </>
-      )}
+          }
+          placeholder={placeholder}
+          value={options.find(opt => opt.value === field.value)?.label}
+        />
+      </InputBox>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  item: {
-    color: "black",
-  },
-  picker: {
-    backgroundColor: "transparent",
-    height: "100%",
-    opacity: 0,
-    position: "absolute",
-    width: "100%",
-  },
-});
