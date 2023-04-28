@@ -97,7 +97,7 @@ export default function DropdownInput<T extends FieldValues>({
   );
 
   const optionStyle = useThemeStyles<ViewStyle>(({ spacing, radii }) => ({
-    padding: spacing["20p"],
+    padding: spacing["10p"],
     justifyContent: "center",
     flexDirection: "row",
     borderRadius: radii.small,
@@ -108,8 +108,8 @@ export default function DropdownInput<T extends FieldValues>({
   }));
 
   const optionsContainer = useThemeStyles<ViewStyle>(({ spacing }) => ({
-    marginVertical: spacing["24p"],
-    height: 250,
+    marginVertical: spacing["16p"],
+    height: 130,
   }));
 
   return (
