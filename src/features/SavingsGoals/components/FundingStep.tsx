@@ -13,15 +13,16 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import AccountDestination from "./AccountDestination";
-import { mockMissingSavingsPotDetails } from "../mocks/mockMissingSavingsPotDetails";
-import { useFundSavingsPot } from "../hooks/query-hooks";
 import { isNextMonth } from "../helpers";
-import LargeCurrencyInput from "./LargeCurrencyInput";
+import { useFundSavingsPot } from "../hooks/query-hooks";
+import { mockMissingSavingsPotDetails } from "../mocks/mockMissingSavingsPotDetails";
 import { FundingType, SavingsPotDetailsResponse } from "../types";
+import AccountDestination from "./AccountDestination";
+import LargeCurrencyInput from "./LargeCurrencyInput";
 
 interface FundingInput {
   PaymentAmount: number;
@@ -122,9 +123,10 @@ export default function FundingStep({
         const response = await fundSavingPot.mutateAsync({
           ...values,
           Currency: "SAR",
-          DebitorAccount: data.RecurringPayments.CreditorAccount,
+          DebtorAccount: data.AccountId,
           PotId: data.PotId,
-          StartingDate: parseISO(data.RecurringPayments.StartingDate),
+          // need below parameter for recurring payments but dont know where to get it from
+          // StartingDate: parseISO(data.RecurringPayments.StartingDate),
         });
 
         setConfirmationNextPaymentDate(response.NextPaymentDate);
@@ -149,6 +151,8 @@ export default function FundingStep({
             },
           },
         ]);
+
+        warn("savings-pots", "Could not fund savings pot ", error);
       }
     });
   };

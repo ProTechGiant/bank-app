@@ -199,6 +199,7 @@ interface EditRecurringPaymentsResponse {
   E2EReference: string;
   NextPaymentDate: string;
 }
+
 //TODO: Just a draft hook, revisit once BE has been completed
 export function useEditPotRecurringPayment() {
   const queryClient = useQueryClient();
@@ -281,18 +282,24 @@ interface RecurringPaymentResponse {
 }
 
 export function useRecurringPayments(PotId: string) {
-  return useQuery(queryKeys.recurringPayments(PotId), () => {
-    return api<RecurringPaymentResponse>(
-      "v1",
-      `customers/savings-pots/${PotId}/recurring-payments`,
-      "GET",
-      undefined,
-      undefined,
-      {
-        "X-Correlation-ID": generateRandomId(),
-      }
-    );
-  });
+  return useQuery(
+    queryKeys.recurringPayments(PotId),
+    () => {
+      return api<RecurringPaymentResponse>(
+        "v1",
+        `customers/savings-pots/${PotId}/recurring-payments`,
+        "GET",
+        undefined,
+        undefined,
+        {
+          "X-Correlation-ID": generateRandomId(),
+        }
+      );
+    },
+    {
+      retry: false,
+    }
+  );
 }
 
 export interface WithdrawValues {

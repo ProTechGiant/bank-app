@@ -13,6 +13,7 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import { warn } from "@/logger";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -60,11 +61,12 @@ export default function WithdrawGoalModal() {
 
   const handleOnSubmit = async (values: WithdrawValues) => {
     if (undefined === data) return Promise.resolve();
+
     try {
       await withdrawSavingsPot.mutateAsync({
         ...values,
         Currency: "SAR",
-        CreditorAccount: data.RecurringPayments.CreditorAccount,
+        CreditorAccount: data.AccountId,
         PotId: route.params.PotId,
       });
 
@@ -74,6 +76,7 @@ export default function WithdrawGoalModal() {
       });
     } catch (error) {
       setWithdrawError(true);
+      warn("savings-pots", "Could not withdraw from savings pot", JSON.stringify(error));
     }
   };
 
