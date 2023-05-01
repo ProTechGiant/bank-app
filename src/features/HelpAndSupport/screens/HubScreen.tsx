@@ -169,8 +169,9 @@ export default function HubScreen() {
 
 const styles = StyleSheet.create({
   infoBarMessage: {
-    alignSelf: "stretch",
+    alignSelf: "center",
     flex: 1,
+    textAlign: "center",
   },
   quickActionLink: {
     flex: 1,

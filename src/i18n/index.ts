@@ -348,7 +348,7 @@ export const resources = {
           liveChat: "Live chat",
           callUs: "Call us",
           twentyFourSeven: "24/7",
-          reportFraud: "Report Fraud",
+          reportFraud: "Report fraud",
           infoBarMessage: "You might have to wait longer during busy periods.",
           cancel: "Cancel",
           call: "Call",
