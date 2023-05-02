@@ -5,7 +5,7 @@ import Modal from "@/components/Modal";
 import Stack from "@/components/Stack";
 import { useThemeStyles } from "@/theme";
 
-import { TransferOption } from ".";
+import TransferOption from "./TransferOption";
 
 interface SelectTransferTypeModalProps {
   isVisible: boolean;

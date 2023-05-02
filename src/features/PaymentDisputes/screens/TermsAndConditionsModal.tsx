@@ -6,7 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
-import TitleContentSection from "@/components/TitleContentSection";
+import TermsConditionsSection from "@/components/TermsConditionsSection";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -50,17 +50,17 @@ export default function TermsAndConditionsModal() {
             </Typography.Text>
           </View>
           <View style={separatorStyle} />
-          <TitleContentSection
+          <TermsConditionsSection
             title={t("PaymentDisputes.TermsAndConditionsModal.sections.sectionOneTitle")}
             content={t("PaymentDisputes.TermsAndConditionsModal.sections.sectionOneContent")}
           />
           <View style={separatorStyle} />
-          <TitleContentSection
+          <TermsConditionsSection
             title={t("PaymentDisputes.TermsAndConditionsModal.sections.sectionTwoTitle")}
             content={t("PaymentDisputes.TermsAndConditionsModal.sections.sectionTwoContent")}
           />
           <View style={separatorStyle} />
-          <TitleContentSection
+          <TermsConditionsSection
             title={t("PaymentDisputes.TermsAndConditionsModal.sections.sectionThreeTitle")}
             content={t("PaymentDisputes.TermsAndConditionsModal.sections.sectionThreeContent")}
           />

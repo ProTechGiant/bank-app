@@ -7,11 +7,10 @@ import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import TermsConditionsSection from "@/components/TermsConditionsSection";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-
-import { BeneficiaryDeclarationSection } from "../components";
 
 export default function TermsAndConditionsModal() {
   const { t } = useTranslation();
@@ -66,17 +65,18 @@ export default function TermsAndConditionsModal() {
             </Typography.Text>
           </View>
           <View style={separatorStyle} />
-          <BeneficiaryDeclarationSection
+          <TermsConditionsSection
             title={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionOneTitle")}
             content={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionOneContent")}
           />
           <View style={separatorStyle} />
-          <BeneficiaryDeclarationSection
+          <TermsConditionsSection
             title={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionTwoTitle")}
             content={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionTwoContent")}
           />
+
           <View style={separatorStyle} />
-          <BeneficiaryDeclarationSection
+          <TermsConditionsSection
             title={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionThreeTitle")}
             content={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionThreeContent")}
           />

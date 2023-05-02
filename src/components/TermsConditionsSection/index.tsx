@@ -8,7 +8,7 @@ interface TitleContentSectionProps {
   content: string;
 }
 
-export default function TitleContentSection({ title, content }: TitleContentSectionProps) {
+export default function TermsConditionsSection({ title, content }: TitleContentSectionProps) {
   const sectionTitleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingBottom: theme.spacing["16p"],
   }));
@@ -16,12 +16,12 @@ export default function TitleContentSection({ title, content }: TitleContentSect
   return (
     <>
       <View style={sectionTitleContainerStyle}>
-        <Typography.Text size="title3" weight="semiBold">
+        <Typography.Text color="neutralBase+30" size="title3" weight="medium">
           {title}
         </Typography.Text>
       </View>
       <View>
-        <Typography.Text size="callout" color="neutralBase">
+        <Typography.Text color="neutralBase" size="callout" weight="regular">
           {content}
         </Typography.Text>
       </View>
