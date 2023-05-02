@@ -1,10 +1,10 @@
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 
 import sendApiRequest from "@/api";
 import { generateRandomId } from "@/utils";
 
 import { Content, ContentCategories } from "../types/Content";
-import { useTranslation } from "react-i18next";
 
 const queryKeys = {
   contentList: ["contentList"] as const,
@@ -12,40 +12,42 @@ const queryKeys = {
   categories: ["categories"] as const,
 };
 
-//TODO: params need to be checked and service to be used and tested once ready from BE
+//TODO: service mocked, needs to be tested once actual data available (service gets all content for specific parent category i.e help and support)
 export function useContentArticleList(contentParentCategoryId: string) {
   const { i18n } = useTranslation();
 
   return useQuery(queryKeys.contentList, () => {
-    return sendApiRequest<Content[]>("v1", "content", "GET", undefined, undefined, {
+    return sendApiRequest<Content[]>("v1", "contents", "GET", undefined, undefined, {
       ["language"]: i18n.language,
-      // ["includeChildren"]: true,
+      ["includeChildren"]: "true",
       ["ContentCategoryId"]: contentParentCategoryId,
+      ["x-Correlation-Id"]: generateRandomId(),
     });
   });
 }
 
-//TODO: params need to be checked and service to be used and tested once ready from BE
+//TODO: service mocked, needs to be tested once actual data available (service gets all content for a sepcific content type i.e. call us info in help and support )
 export function useContentArticle(contentParentCategoryId: string, contentId: string) {
   const { i18n } = useTranslation();
 
   return useQuery(queryKeys.content, () => {
-    return sendApiRequest<Content>("v1", `content/${contentId}`, "GET", undefined, undefined, {
+    return sendApiRequest<Content>("v1", `contents/${contentId}`, "GET", undefined, undefined, {
       ["language"]: i18n.language,
-      // ["includeChildren"]: true,
+      ["includeChildren"]: "true",
       ["ContentCategoryId"]: contentParentCategoryId,
+      ["x-Correlation-Id"]: generateRandomId(),
     });
   });
 }
 
-//TODO: params need to be checked and service to be used and tested once ready from BE
+//TODO: service mocked, needs to be tested once actual data available (service returns all content categories with their respective ContentCategoryId)
 export function useContentArticleCategories() {
   const { i18n } = useTranslation();
 
   return useQuery(
     queryKeys.categories,
     () => {
-      return sendApiRequest<ContentCategories[]>("v1", "content/categories", "GET", undefined, undefined, {
+      return sendApiRequest<ContentCategories[]>("v1", "contents/categories", "GET", undefined, undefined, {
         ["language"]: i18n.language,
         ["x-correlation-id"]: generateRandomId(),
       });
