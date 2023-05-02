@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { useMutation, useQueryClient } from "react-query";
 
 import api from "@/api";
-import { cardsQueryKeys } from "@/features/CardActions/hooks/query-hooks";
+import { queryKeys as cardQueryKeys } from "@/features/CardActions/hooks/query-hooks";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { generateRandomId } from "@/utils";
@@ -78,8 +78,8 @@ export function useOtpValidation<RequestT, ResponseT>(method: "card-actions" | "
     {
       onSettled: (_data, _error, variables, _context) => {
         if (method === "card-actions" && variables.optionalParams?.CardId !== undefined) {
-          queryClient.invalidateQueries(cardsQueryKeys.all());
-          queryClient.invalidateQueries(cardsQueryKeys.settings(variables.optionalParams.CardId));
+          queryClient.invalidateQueries(cardQueryKeys.all()); // temporary until we have a dedicated endpoint for a specific card
+          queryClient.invalidateQueries(cardQueryKeys.settings(variables.optionalParams.CardId));
         }
       },
     }

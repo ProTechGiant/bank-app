@@ -13,7 +13,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
-import useAccount from "@/hooks/use-account";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -32,8 +32,8 @@ export default function QuickTransferScreen() {
   const route = useRoute<RouteProp<MainStackParams, "InternalTransfers.QuickTransferScreen">>();
 
   const reasons = useTransferReasons();
-  const account = useAccount();
-  const currentBalance = account.data?.currentAccountBalance ?? 0;
+  const account = useCurrentAccount();
+  const currentBalance = account.data?.balance ?? 0;
 
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
   const [isTransferLimitsModalVisible, setIsTransferLimitsModalVisible] = useState(false);

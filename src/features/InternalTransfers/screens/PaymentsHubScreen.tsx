@@ -7,7 +7,7 @@ import { LocalTransferIcon, SearchIcon, TransferHorizontalIcon } from "@/assets/
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import useAccount from "@/hooks/use-account";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -23,7 +23,7 @@ export default function PaymentsHubScreen() {
 
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const account = useAccount();
+  const account = useCurrentAccount();
 
   const handleOnInternalTransferPress = () => {
     setInternalTransferEntryPoint("payment-hub");
@@ -98,10 +98,10 @@ export default function PaymentsHubScreen() {
                   <Stack direction="vertical" style={styles.expandText}>
                     {/* TODO: replace mock account info */}
                     <Typography.Text color="neutralBase-50" size="callout">
-                      {account.data.currentAccountName}
+                      {account.data.name}
                     </Typography.Text>
                     <Typography.Text color="neutralBase" size="footnote">
-                      {formatter.format(account.data?.currentAccountBalance ?? 0)} SAR available
+                      {formatter.format(account.data.balance)} SAR available
                     </Typography.Text>
                   </Stack>
                 </>

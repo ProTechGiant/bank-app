@@ -9,7 +9,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
-import useAccount from "@/hooks/use-account";
+import { useCurrentAccount, useInvalidateBalances } from "@/hooks/use-accounts";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -23,8 +23,10 @@ export default function ReviewTransferScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
+  const account = useCurrentAccount();
+  const invalidateBalances = useInvalidateBalances();
+
   const { transferAmount, reason, recipient } = useInternalTransferContext();
-  const { data } = useAccount();
   const otpFlow = useOtpFlow();
   const internalTransferAsync = useInternalTransfer();
 
@@ -42,7 +44,7 @@ export default function ReviewTransferScreen() {
 
   const handleSendMoney = async () => {
     if (
-      data === undefined ||
+      account.data === undefined ||
       reason === undefined ||
       transferAmount === undefined ||
       recipient.accountNumber === undefined
@@ -53,7 +55,7 @@ export default function ReviewTransferScreen() {
     const internalTransferDetails: InternalTransfer = {
       InternalTransferAmount: transferAmount.toString(),
       InternalTransferAmountCurrency: "SAR",
-      DebtorAccountCustomerAccountId: data.currentAccountId,
+      DebtorAccountCustomerAccountId: account.data.id,
       CreditorAccountCustomerAccountId: recipient.accountNumber,
       RemittanceInformation: reason,
     };
@@ -75,17 +77,18 @@ export default function ReviewTransferScreen() {
             return;
           }
 
+          invalidateBalances();
+
           if (status === "fail") {
             setIsErrorModalVisible(true);
-            return;
+          } else {
+            navigation.navigate("InternalTransfers.ConfirmationScreen");
           }
-
-          navigation.navigate("InternalTransfers.ConfirmationScreen");
         },
       });
     } catch (error) {
       setIsErrorModalVisible(true);
-      warn("internal transfer", "Could not request OTP: ", JSON.stringify(error));
+      warn("internal-transfer", "Could not request OTP: ", JSON.stringify(error));
     }
   };
 
@@ -113,10 +116,10 @@ export default function ReviewTransferScreen() {
         <NavHeader withBackButton />
         <ContentContainer isScrollView>
           <Stack direction="vertical" justify="space-between" flex={1}>
-            {data !== undefined && reason !== undefined && transferAmount !== undefined ? (
+            {account.data !== undefined && reason !== undefined && transferAmount !== undefined ? (
               <ReviewTransferDetail
                 onAddNotePress={handleAddNote}
-                sender={{ accountName: data?.currentAccountName, accountNumber: data?.currentAccountNumber }}
+                sender={{ accountName: account.data.name, accountNumber: account.data.accountNumber }}
                 recipient={recipient}
                 reason={reason}
                 amount={transferAmount}

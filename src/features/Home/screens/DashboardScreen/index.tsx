@@ -12,7 +12,7 @@ import { LoadingErrorNotification } from "@/components/LoadingError";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import useAccount from "@/hooks/use-account";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -35,7 +35,7 @@ export default function DashboardScreen() {
   const { refetchAll } = useRefetchHomepageLayout();
 
   const { sections, homepageLayout } = useHomepageLayoutOrder();
-  const account = useAccount();
+  const account = useCurrentAccount();
   const notifications = useNotifications();
 
   const [ibanToastVisible, setIbanToastVisible] = useState(false);
@@ -45,14 +45,13 @@ export default function DashboardScreen() {
 
   useEffect(() => {
     if (homepageLayout?.isError === true) {
-      console.log("err");
       setLayoutErrorIsVisible(true);
     }
   }, [homepageLayout]);
 
   const handleOnIbanCopyPress = () => {
-    if (undefined === account.data?.currentAccountIban) return;
-    Clipboard.setString(account.data.currentAccountIban);
+    if (undefined === account.data?.iban) return;
+    Clipboard.setString(account.data.iban);
 
     setIbanToastVisible(true);
     setTimeout(() => setIbanToastVisible(false), 4 * 1000);
@@ -132,21 +131,21 @@ export default function DashboardScreen() {
           <View style={headerStyle}>
             <View style={styles.headerCentered}>
               <Typography.Text color="neutralBase+30" size="footnote" weight="medium" style={styles.headerText}>
-                {account.data?.currentAccountName ?? "-"}
+                {account.data?.name ?? "-"}
               </Typography.Text>
               <Pressable onPress={handleOnIbanCopyPress}>
                 <Typography.Text color="neutralBase+30" size="footnote" weight="medium" style={styles.headerText}>
-                  {account.data?.currentAccountIban ?? "-"}
+                  {account.data?.iban ?? "-"}
                 </Typography.Text>
               </Pressable>
               <View style={headerBalanceStyle}>
                 {isBalanceVisible ? (
                   <>
                     <Typography.Header color="neutralBase+30" size="large" weight="semiBold">
-                      {formatter.format(account.data?.currentAccountBalance ?? 0)}
+                      {formatter.format(account.data?.balance ?? 0)}
                     </Typography.Header>
                     <Typography.Text color="neutralBase+30" size="footnote" weight="regular">
-                      {" " + (account.data?.currentAccountCurrencyType ?? "SAR")}
+                      {" " + (account.data?.currencyType ?? "SAR")}
                     </Typography.Text>
                   </>
                 ) : (

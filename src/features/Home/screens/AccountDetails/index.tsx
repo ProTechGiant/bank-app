@@ -10,13 +10,13 @@ import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
-import useAccount from "@/hooks/use-account";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 export default function AccountDetailsScreen() {
   const navigation = useNavigation();
-  const account = useAccount();
+  const account = useCurrentAccount();
   const { t } = useTranslation();
 
   const [isCopiedBannerVisibleWithLabel, setIsCopiedBannerVisibleWithLabel] = useState<string | undefined>();
@@ -50,25 +50,16 @@ export default function AccountDetailsScreen() {
         <ContentContainer isScrollView style={contentContainer}>
           {undefined !== account.data ? (
             <TableListCardGroup>
-              <TableListCard
-                label={t("Home.AccountDetails.tableLabels.name")}
-                helperText={account.data.currentAccountName}
-              />
-              <TableListCard
-                label={t("Home.AccountDetails.tableLabels.type")}
-                helperText={account.data.currentAccountType}
-              />
+              <TableListCard label={t("Home.AccountDetails.tableLabels.name")} helperText={account.data.name} />
+              <TableListCard label={t("Home.AccountDetails.tableLabels.type")} helperText={account.data.accountType} />
               <TableListCard
                 label={t("Home.AccountDetails.tableLabels.holder")}
-                helperText={account.data.currentAccountOwner}
+                helperText={account.data.owner}
                 end={
-                  account.data.currentAccountOwner !== undefined ? (
+                  account.data.owner !== undefined ? (
                     <TableListCard.Copy
                       onPress={() =>
-                        handleOnCopyPress(
-                          account.data.currentAccountOwner,
-                          `${t("Home.AccountDetails.tableLabels.holder")}`
-                        )
+                        handleOnCopyPress(account.data.owner, `${t("Home.AccountDetails.tableLabels.holder")}`)
                       }
                     />
                   ) : null
@@ -76,15 +67,12 @@ export default function AccountDetailsScreen() {
               />
               <TableListCard
                 label={t("Home.AccountDetails.tableLabels.number")}
-                helperText={account.data.currentAccountNumber}
+                helperText={account.data.accountNumber}
                 end={
-                  account.data.currentAccountNumber !== undefined ? (
+                  account.data.accountNumber !== undefined ? (
                     <TableListCard.Copy
                       onPress={() =>
-                        handleOnCopyPress(
-                          account.data.currentAccountNumber,
-                          `${t("Home.AccountDetails.tableLabels.number")}`
-                        )
+                        handleOnCopyPress(account.data.accountNumber, `${t("Home.AccountDetails.tableLabels.number")}`)
                       }
                     />
                   ) : null
@@ -92,15 +80,12 @@ export default function AccountDetailsScreen() {
               />
               <TableListCard
                 label={t("Home.AccountDetails.tableLabels.code")}
-                helperText={account.data.currentAccountBankCode}
+                helperText={account.data.bankCode}
                 end={
-                  account.data.currentAccountBankCode !== undefined ? (
+                  account.data.bankCode !== undefined ? (
                     <TableListCard.Copy
                       onPress={() =>
-                        handleOnCopyPress(
-                          account.data.currentAccountBankCode,
-                          `${t("Home.AccountDetails.tableLabels.code")}`
-                        )
+                        handleOnCopyPress(account.data.bankCode, `${t("Home.AccountDetails.tableLabels.code")}`)
                       }
                     />
                   ) : null
@@ -108,15 +93,12 @@ export default function AccountDetailsScreen() {
               />
               <TableListCard
                 label={t("Home.AccountDetails.tableLabels.iban")}
-                helperText={account.data.currentAccountIban}
+                helperText={account.data.iban}
                 end={
-                  account.data.currentAccountIban !== undefined ? (
+                  account.data.iban !== undefined ? (
                     <TableListCard.Copy
                       onPress={() =>
-                        handleOnCopyPress(
-                          account.data.currentAccountIban,
-                          `${t("Home.AccountDetails.tableLabels.iban")}`
-                        )
+                        handleOnCopyPress(account.data.iban, `${t("Home.AccountDetails.tableLabels.iban")}`)
                       }
                     />
                   ) : null

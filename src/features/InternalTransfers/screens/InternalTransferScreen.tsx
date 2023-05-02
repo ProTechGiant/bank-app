@@ -9,7 +9,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
-import useAccount from "@/hooks/use-account";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -26,11 +26,11 @@ export default function InternalTransferScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const account = useAccount();
+  const account = useCurrentAccount();
   const reasons = useTransferReasons();
   const { setTransferAmount, setReason } = useInternalTransferContext();
 
-  const currentBalance = account.data?.currentAccountBalance ?? 0;
+  const currentBalance = account.data?.balance ?? 0;
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
 
   const { control, handleSubmit, watch } = useForm<InternalTransferInput>({
@@ -58,6 +58,7 @@ export default function InternalTransferScreen() {
     marginTop: theme.spacing["32p"],
   }));
 
+  const isReasonAvailable = watch("ReasonCode") !== undefined;
   const currentAmount = watch("PaymentAmount");
   const amountExceedsBalance = currentAmount > currentBalance;
 
@@ -95,7 +96,9 @@ export default function InternalTransferScreen() {
                 />
               </View>
             </View>
-            <Button disabled={amountExceedsBalance || currentAmount < 0.01} onPress={handleSubmit(handleOnNextPress)}>
+            <Button
+              disabled={amountExceedsBalance || currentAmount < 0.01 || !isReasonAvailable}
+              onPress={handleSubmit(handleOnNextPress)}>
               Continue
             </Button>
           </ContentContainer>

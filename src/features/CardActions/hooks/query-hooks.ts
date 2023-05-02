@@ -9,10 +9,10 @@ import { tokenizeCardForAppleWalletAsync } from "@/utils/apple-wallet";
 
 import { Card, CardSettingsInput, CardStatus } from "../types";
 
-export const cardsQueryKeys = {
+export const queryKeys = {
   all: () => ["cards"] as const,
-  settings: (cardId: string) => [...cardsQueryKeys.all(), "settings", { cardId }] as const,
-  meawalletTokenization: (cardId: string) => [...cardsQueryKeys.all(), "meawallet-tokenization", { cardId }] as const,
+  settings: (cardId: string) => [...queryKeys.all(), "settings", { cardId }] as const,
+  meawalletTokenization: (cardId: string) => [...queryKeys.all(), "meawallet-tokenization", { cardId }] as const,
   customerTier: () => ["customer-tier"] as const,
 };
 
@@ -21,7 +21,7 @@ interface CardsResponse {
 }
 
 export function useCards() {
-  return useQuery(cardsQueryKeys.all(), () => {
+  return useQuery(queryKeys.all(), () => {
     return api<CardsResponse>("v1", "cards", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
@@ -55,7 +55,7 @@ export function useFreezeCard() {
     },
     {
       onSettled: () => {
-        queryClient.invalidateQueries(cardsQueryKeys.all());
+        queryClient.invalidateQueries(queryKeys.all());
       },
     }
   );
@@ -85,7 +85,7 @@ interface CustomerTierResponse {
 }
 
 export function useCustomerTier() {
-  return useQuery(cardsQueryKeys.customerTier(), () => {
+  return useQuery(queryKeys.customerTier(), () => {
     return api<CustomerTierResponse>("v1", "customer/tier", "GET");
   });
 }
@@ -93,7 +93,7 @@ export function useCustomerTier() {
 // alias for explicitness
 type CardSettingsResponse = CardSettingsInput;
 export function useCardSettings(cardId: string) {
-  return useQuery(cardsQueryKeys.settings(cardId), () => {
+  return useQuery(queryKeys.settings(cardId), () => {
     return api<CardSettingsResponse>("v1", `cards/${cardId}/settings`, "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
@@ -131,11 +131,11 @@ export function useUpdateCardSettings() {
     },
     {
       onMutate: variables => {
-        queryClient.setQueryData(cardsQueryKeys.settings(variables.cardId), variables.settings);
+        queryClient.setQueryData(queryKeys.settings(variables.cardId), variables.settings);
       },
       onSettled: (data, _options, variables) => {
         if (data !== undefined && data.IsOtpRequired) return;
-        queryClient.invalidateQueries(cardsQueryKeys.settings(variables.cardId));
+        queryClient.invalidateQueries(queryKeys.settings(variables.cardId));
       },
     }
   );
@@ -178,7 +178,7 @@ export function useUnmaskedCardDetails() {
 
 export function useMeawalletTokenization(cardId: string) {
   return useQuery(
-    cardsQueryKeys.meawalletTokenization(cardId),
+    queryKeys.meawalletTokenization(cardId),
     async () => {
       return tokenizeCardForAppleWalletAsync(cardId);
     },

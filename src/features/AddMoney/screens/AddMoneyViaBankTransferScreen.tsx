@@ -12,7 +12,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
-import useAccount from "@/hooks/use-account";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import usePrimaryAddress from "@/hooks/use-primary-address";
 import { useThemeStyles } from "@/theme";
 
@@ -21,7 +21,7 @@ import { BadgeIcon, HistoryIcon } from "../assets/icons";
 export default function AddMoneyViaBankTransferScreen() {
   const { t } = useTranslation();
 
-  const { data } = useAccount();
+  const { data } = useCurrentAccount();
   const getPrimaryAddress = usePrimaryAddress();
 
   const [isCopiedVisibleWithLabel, setIsCopiedVisibleWithLabel] = useState<string | undefined>();
@@ -49,8 +49,8 @@ export default function AddMoneyViaBankTransferScreen() {
   const historyIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   const details = [
-    { label: t("AddMoneyInfo.BankDetails.recipientName"), value: data?.currentAccountCustomerFullName },
-    { label: t("AddMoneyInfo.BankDetails.recipientIBAN"), value: data?.currentAccountIban },
+    { label: t("AddMoneyInfo.BankDetails.recipientName"), value: data?.owner },
+    { label: t("AddMoneyInfo.BankDetails.recipientIBAN"), value: data?.iban },
 
     { label: t("AddMoneyInfo.BankDetails.bankName"), value: "Croatia Bank Ltd" },
     {
