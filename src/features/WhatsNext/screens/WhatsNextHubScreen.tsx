@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable } from "react-native";
+import { Pressable } from "react-native";
 
 import { FilterIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -9,7 +9,14 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 
-import { ExploreSection, FilterModal, FilterTopBar, NoArticlesError, TopTenSection } from "../components";
+import {
+  ExploreSection,
+  FilterModal,
+  FilterTopBar,
+  NoArticlesError,
+  SortingContentModal,
+  TopTenSection,
+} from "../components";
 import { ArticleSectionType, FilterItemType } from "../types";
 import { WhatsNextMocks } from "../whatsNextMocks";
 
@@ -18,9 +25,11 @@ export default function WhatsNextHubScreen() {
   const navigation = useNavigation();
 
   const [isFiltersModalVisible, setIsFiltersModalVisible] = useState(false);
+  const [isSortingContentVisible, setIsSortingContentVisible] = useState(false);
   const [whatsNextCategories, setWhatsNextCategories] = useState<FilterItemType[]>([]);
   const [whatsNextTypes, setWhatsNextTypes] = useState<FilterItemType[]>([]);
   const [isFiltering, setIsFiltering] = useState(false);
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
 
   useEffect(() => {
     WhatsNextMocks.filter(val => val.WhatsNextCategories && val.WhatsNextTypes)?.map(data => {
@@ -62,6 +71,11 @@ export default function WhatsNextHubScreen() {
     );
   };
 
+  const handleOnSortOrderChange = (value: "newest" | "oldest") => {
+    setSortOrder(value);
+    setIsSortingContentVisible(false);
+  };
+
   const handleOnTypeFilterItemRemovePress = (name: string) => {
     setWhatsNextTypes(
       whatsNextTypes.map(item => {
@@ -96,8 +110,8 @@ export default function WhatsNextHubScreen() {
     //@TODO refetch data
   };
 
-  const handleOnSortByTimePress = () => {
-    Alert.alert("Sort by asc/desc will be handled here");
+  const handleOnSortingModalPress = () => {
+    setIsSortingContentVisible(!isSortingContentVisible);
   };
 
   const handleOnFiltersModalVisiblePress = () => {
@@ -175,7 +189,8 @@ export default function WhatsNextHubScreen() {
               <ExploreSection
                 data={WhatsNextMocks.filter(data => data.ContentTag === "explore") as ArticleSectionType[]}
                 onArticlePress={handleOnExploreArticlePress}
-                onSortByTimePress={handleOnSortByTimePress}
+                onSortByTimePress={handleOnSortingModalPress}
+                sortOrder={sortOrder}
               />
             ) : (
               <NoArticlesError />
@@ -185,15 +200,19 @@ export default function WhatsNextHubScreen() {
       ) : (
         <LoadingErrorPage onRefresh={handleOnLoadingErrorRefresh} />
       )}
-      {isFiltersModalVisible ? (
-        <FilterModal
-          onFiltersApplyPress={handleOnFilterApplyPress}
-          onClose={handleOnFiltersModalVisiblePress}
-          isVisible={isFiltersModalVisible}
-          initialCategories={whatsNextCategories}
-          initialTypes={whatsNextTypes}
-        />
-      ) : null}
+      <FilterModal
+        onFiltersApplyPress={handleOnFilterApplyPress}
+        onClose={handleOnFiltersModalVisiblePress}
+        isVisible={isFiltersModalVisible}
+        initialCategories={whatsNextCategories}
+        initialTypes={whatsNextTypes}
+      />
+      <SortingContentModal
+        onClose={handleOnSortingModalPress}
+        isVisible={isSortingContentVisible}
+        onChange={handleOnSortOrderChange}
+        sortOrder={sortOrder}
+      />
     </>
   );
 }

@@ -340,6 +340,12 @@ export const resources = {
           noArticlesDescription:
             "We couldn’t find articles that match your search. Consider adapting your search and try again.",
         },
+        SortingContent: {
+          title: "Sort",
+          newest: "Newest first",
+          oldest: "Oldest first",
+          apply: "Apply",
+        },
       },
       HelpAndSupport: {
         HubScreen: {

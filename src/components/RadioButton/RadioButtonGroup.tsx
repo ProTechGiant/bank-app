@@ -1,8 +1,6 @@
 import React, { cloneElement } from "react";
 import { StyleSheet, View, ViewProps } from "react-native";
 
-import Divider from "@/components/Divider";
-
 import { RadioButtonProps } from "./RadioButton";
 
 type RadioButtonInGroupProps<T> = Omit<RadioButtonProps<T>, "isSelected" | "onPress" | "value"> & { value: T };
@@ -27,9 +25,6 @@ export default function RadioButtonGroup<T>({ children, onPress, value, ...restP
               isSelected: element.props.value === value,
               onPress: () => onPress(element.props.value),
             })}
-            <View style={styles.divider}>
-              <Divider color="neutralBase-40" />
-            </View>
           </React.Fragment>
         );
       })}
@@ -40,8 +35,5 @@ export default function RadioButtonGroup<T>({ children, onPress, value, ...restP
 const styles = StyleSheet.create({
   container: {
     justifyContent: "space-between",
-  },
-  divider: {
-    marginVertical: 15,
   },
 });

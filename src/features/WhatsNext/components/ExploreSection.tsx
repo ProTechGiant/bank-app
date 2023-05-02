@@ -13,9 +13,10 @@ interface ExploreSectionProps {
   data: ArticleSectionType[];
   onArticlePress: () => void;
   onSortByTimePress: () => void;
+  sortOrder: "newest" | "oldest";
 }
 
-export default function ExploreSection({ data, onArticlePress, onSortByTimePress }: ExploreSectionProps) {
+export default function ExploreSection({ data, onArticlePress, onSortByTimePress, sortOrder }: ExploreSectionProps) {
   const { t } = useTranslation();
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -33,7 +34,7 @@ export default function ExploreSection({ data, onArticlePress, onSortByTimePress
         </Typography.Text>
         <Pressable style={styles.row} onPress={onSortByTimePress}>
           <Typography.Text size="callout" weight="medium">
-            {t("WhatsNext.HubScreen.newestFirst")}
+            {sortOrder === "newest" ? t("WhatsNext.SortingContent.newest") : t("WhatsNext.SortingContent.oldest")}
           </Typography.Text>
           <AngleDownIcon width={16} height={16} />
         </Pressable>
