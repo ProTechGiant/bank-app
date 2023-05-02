@@ -1211,15 +1211,45 @@ export const resources = {
               "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
           },
         },
-        InternalTransferScreen: {
-          title: "Send money",
-          currency: " SAR",
+        TransferAmountInput: {
           balance: "Balance: ",
-          errorMessage: "You have insufficient funds.",
-          addFunds: "Add funds",
-          reason: "Select reason",
+          currency: " SAR",
+        },
+        TransferReasonInput: {
+          reason: "Why are you sending money?",
           confirm: "Confirm",
           next: "Next",
+        },
+        InternalTransferScreen: {
+          title: "Send money",
+          amountExceedsBalance: "You have insufficient funds.",
+          addFunds: "Add funds",
+        },
+        QuickTransferScreen: {
+          title: "Quick transfer",
+          transferLimits: "Transfer limits",
+          amountExceedsDailyLimit: "Transfer amount exceeds the {{limit}} SAR daily limit by {{amount}} SAR",
+          amountExceedsBalance: "You have insufficient funds.",
+          addFunds: "Add funds",
+          amountExceedsQuickTransferLimit: "Limit: {{amount}} SAR",
+          switchToStandardTransfer: "Switch to standard transfer",
+          continueButton: "Continue",
+          couldNotLoadReasonsErrorTitle: "Couldn't load list",
+          couldNotLoadReasonsErrorMessage: "Please try again later or get in touch if you’re still having problems.",
+        },
+        QuickTransferLimitsModal: {
+          title: "What are my transfer limits?",
+          standardTransfer: "Standard transfer",
+          standardTransferExplanation:
+            "Send up to 20,000 SAR to added or saved beneficiaries. If you need to send more than this, the transfer will be processed through normal local bank transfer method without any change.",
+          quickTransfer: "Quick transfer",
+          quickTransferExplanation:
+            "Send a one time transfer up to 2,500 SAR. Transfers of this type can be done via Email, ID number, Mobile Number or IBAN without saving the beneficiary. You have the option to configure your daily limit within the maximum range.",
+          nonWorkingDays: "Non-working days",
+          nonWorkingDaysExplanation:
+            "If you make a standard transfer on a non-working day, the transfer will be processed on the following working day.",
+          wantToSwitch: "Want to transfer over 2,500 SAR?",
+          switchToStandard: "Switch to Standard Transfer",
         },
         ConfirmationScreen: {
           title: {
@@ -1870,7 +1900,7 @@ export const resources = {
         balance: "Balance: ",
         errorMessage: "You have insufficient funds.",
         addFunds: "Add funds",
-        reason: "Select reason",
+        reason: "Why are you sending money?",
         confirm: "Confirm",
         next: "Next",
       },

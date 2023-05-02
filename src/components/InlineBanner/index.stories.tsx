@@ -11,8 +11,7 @@ export default {
   component: InlineBanner_,
   args: {
     title: "Default",
-    message:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue",
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue",
     testID: "toast-banner",
   },
   argTypes: {

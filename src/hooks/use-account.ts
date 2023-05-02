@@ -81,7 +81,11 @@ export default function useAccount() {
 
   return useMemo(() => {
     if (undefined === currentAccountId || undefined === currentAccount) {
-      return { data: undefined };
+      return {
+        data: undefined,
+        isLoading: accounts.isLoading || balances.isLoading,
+        isError: accounts.isError || balances.isError,
+      };
     }
 
     let currentAccountCurrencyType;
@@ -115,6 +119,8 @@ export default function useAccount() {
         currentAccountBalance,
         currentAccountType,
       },
+      isLoading: accounts.isLoading || balances.isLoading,
+      isError: accounts.isError || balances.isError,
     };
   }, [currentAccount, balances, currentAccountId]);
 }

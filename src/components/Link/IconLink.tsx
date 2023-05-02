@@ -10,11 +10,19 @@ interface IconLinkProps {
   children: string;
   icon: React.ReactElement<SvgProps>;
   onPress: () => void;
+  textSize?: keyof Theme["typography"]["text"]["sizes"];
   iconColor?: keyof Theme["palette"];
   linkColor?: keyof Theme["palette"];
 }
 
-export default function IconLink({ children, icon, iconColor = "primaryBase-40", linkColor, onPress }: IconLinkProps) {
+export default function IconLink({
+  children,
+  icon,
+  iconColor = "primaryBase-40",
+  textSize = "callout",
+  linkColor,
+  onPress,
+}: IconLinkProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     alignItems: "center",
@@ -26,8 +34,8 @@ export default function IconLink({ children, icon, iconColor = "primaryBase-40",
 
   return (
     <Pressable onPress={onPress} style={containerStyle}>
-      {cloneElement(icon, { color: iconStyleColor })}
-      <Link onPress={onPress} linkColor={linkColor} textSize="callout">
+      {cloneElement(icon, { color: iconStyleColor, height: 18, width: 18 })}
+      <Link onPress={onPress} linkColor={linkColor} textSize={textSize}>
         {children}
       </Link>
     </Pressable>

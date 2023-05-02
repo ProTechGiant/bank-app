@@ -57,18 +57,19 @@ export default forwardRef(function MaskedCurrencyInput(
     lastOutputValue.current = outputValue;
     onChange(outputValue);
   };
+
   let numberOfFractionalDigits = 0;
+  // prevent jittering by setting max length at native side when value already has 2 fractional digits
+  if (undefined !== formattedValue && formattedValue.includes(DEC_SEPARATOR)) {
+    numberOfFractionalDigits = formattedValue.length - formattedValue.lastIndexOf(DEC_SEPARATOR) - 1;
+  }
+
   const handleOnBlur = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
     // add a trailing "0" if needed
     if (numberOfFractionalDigits === 1) setFormattedValue(c => c + "0");
 
     onBlur?.(event);
   };
-
-  // prevent jittering by setting max length at native side when value already has 2 fractional digits
-  if (undefined !== formattedValue && formattedValue.includes(DEC_SEPARATOR)) {
-    numberOfFractionalDigits = formattedValue.length - formattedValue.lastIndexOf(DEC_SEPARATOR) - 1;
-  }
 
   // allow maxLength digits PLUS 2 fractional digits
   const numberLength =

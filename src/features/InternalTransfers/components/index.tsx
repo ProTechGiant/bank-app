@@ -7,8 +7,10 @@ export { default as EnterBeneficiaryByIBANForm } from "./EnterBeneficiaryByIBANF
 export { default as EnterBeneficiaryByMobileForm } from "./EnterBeneficiaryByMobileForm";
 export { default as ErrorMessage } from "./ErrorMessage";
 export { default as PaymentOption } from "./PaymentOption";
-export { default as PersonalReasons } from "./PersonalReasons";
+export { default as QuickTransferLimitsModal } from "./QuickTransferLimitsModal";
 export { default as ReviewTransferDetail } from "./ReviewTransferDetail";
 export { default as SearchInput } from "./SearchInput";
 export { default as SubmitNoteButton } from "./SubmitNoteButton";
 export { default as TransferAmountInput } from "./TransferAmountInput";
+export { default as TransferErrorBox } from "./TransferErrorBox";
+export { default as TransferReasonInput } from "./TransferReasonInput";

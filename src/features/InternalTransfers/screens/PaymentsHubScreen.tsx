@@ -1,16 +1,8 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import {
-  BankAccountIcon,
-  InfoCircleIcon,
-  LocalTransferIcon,
-  SearchIcon,
-  SettingsIcon,
-  TransferHorizontalIcon,
-} from "@/assets/icons";
+import { LocalTransferIcon, SearchIcon, TransferHorizontalIcon } from "@/assets/icons";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -23,16 +15,20 @@ import { useInternalTransferContext } from "../context/InternalTransfersContext"
 
 const formatter = Intl.NumberFormat("en-US", { style: "decimal", minimumFractionDigits: 2 });
 
-function PaymentsHub() {
+export default function PaymentsHubScreen() {
   const { setInternalTransferEntryPoint } = useInternalTransferContext();
 
   const { t } = useTranslation();
   const navigation = useNavigation();
   const account = useAccount();
 
-  const handleInternalTransferPress = () => {
+  const handleOnInternalTransferPress = () => {
     setInternalTransferEntryPoint("payment-hub");
     navigation.navigate("InternalTransfers.InternalTransferScreen");
+  };
+
+  const handleOnQuickTransferPress = () => {
+    navigation.navigate("InternalTransfers.QuickTransferScreen");
   };
 
   const headerBackground = useThemeStyles<ViewStyle>(theme => ({
@@ -92,7 +88,9 @@ function PaymentsHub() {
                     </Typography.Text>
                   </Stack>
                 </>
-              ) : null}
+              ) : (
+                <View />
+              )}
               {/* TODO: not working on search functionality yet */}
               <Pressable style={searchContainer}>
                 <SearchIcon color={searchIconColor} />
@@ -104,14 +102,13 @@ function PaymentsHub() {
       <ScrollView contentContainerStyle={contentStyle}>
         <Stack direction="vertical" gap="32p" align="stretch">
           <PaymentOption
-            // TODO: add navigation to Local Transfer
-            onPress={() => Alert.alert("Local Transfer is pressed")}
+            onPress={handleOnQuickTransferPress}
             icon={<LocalTransferIcon />}
             title={t("InternalTransfers.PaymentHub.options.localTransfer.title")}
             helperText={t("InternalTransfers.PaymentHub.options.localTransfer.helperText")}
           />
           <PaymentOption
-            onPress={handleInternalTransferPress}
+            onPress={handleOnInternalTransferPress}
             icon={<TransferHorizontalIcon />}
             title={t("InternalTransfers.PaymentHub.options.internalTransfer.title")}
             helperText={t("InternalTransfers.PaymentHub.options.internalTransfer.helperText")}
@@ -119,53 +116,6 @@ function PaymentsHub() {
         </Stack>
       </ScrollView>
     </Page>
-  );
-}
-
-function MockHomeComponent() {
-  return (
-    <SafeAreaView>
-      <Typography.Text>Home</Typography.Text>
-    </SafeAreaView>
-  );
-}
-function MockSettingsComponent() {
-  return (
-    <SafeAreaView>
-      <Typography.Text>Settings</Typography.Text>
-    </SafeAreaView>
-  );
-}
-
-const Tab = createBottomTabNavigator();
-
-// TODO: move tab navigation once homepage is completed
-export default function PaymentsHubScreen() {
-  const getNavigationIcon = (color: string, routeName: string) => {
-    if (routeName === "Home") {
-      return <BankAccountIcon color={color} />;
-    } else if (routeName === "Payments") {
-      return <TransferHorizontalIcon color={color} />;
-    } else if (routeName === "Settings") {
-      return <SettingsIcon color={color} />;
-    }
-
-    return <InfoCircleIcon color={color} />;
-  };
-  const activeIconColor = useThemeStyles(theme => theme.palette.primaryBase);
-  const inActiveIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        headerShown: false,
-        tabBarIcon: ({ color }) => getNavigationIcon(color, route.name),
-        tabBarActiveTintColor: activeIconColor,
-        tabBarInactiveTintColor: inActiveIconColor,
-      })}>
-      <Tab.Screen name="Home" component={MockHomeComponent} />
-      <Tab.Screen name="Payments" component={PaymentsHub} />
-      <Tab.Screen name="Settings" component={MockSettingsComponent} />
-    </Tab.Navigator>
   );
 }
 

@@ -73,9 +73,11 @@ export default function Modal({
         undefined !== style?.paddingVertical ||
         undefined !== style?.marginVertical;
 
+      const defaultPaddingBottom = insets.bottom > 0 ? insets.bottom : theme.spacing["16p"];
+
       return {
         padding: theme.spacing["16p"],
-        paddingBottom: !hasOverridenBottomPadding ? insets.bottom : undefined,
+        paddingBottom: !hasOverridenBottomPadding ? defaultPaddingBottom : undefined,
       };
     },
     [insets.bottom, style]

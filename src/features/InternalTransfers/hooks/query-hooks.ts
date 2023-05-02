@@ -15,13 +15,11 @@ interface BeneficiariesResponse {
 }
 
 export function useTransferReasons() {
-  const reasons = useQuery(["personalReason"], () => {
+  return useQuery(["personalReason"], () => {
     return api<ReasonsResponse>("v1", "transfers/reason-for-payment", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });
-
-  return reasons.data;
 }
 
 export function useBeneficiaries() {

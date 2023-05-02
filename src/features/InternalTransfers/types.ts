@@ -1,8 +1,3 @@
-export interface TransferValue {
-  PaymentAmount: number;
-  TransferReason: TransferReason;
-}
-
 export interface TransferReason {
   Code: string;
   Description: string;

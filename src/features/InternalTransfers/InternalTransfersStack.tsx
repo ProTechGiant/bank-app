@@ -1,15 +1,18 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import PaymentsHubTabs from "./PaymentsHubTabs";
 import {
   AddNoteScreen,
   BeneficiaryDeclarationModal,
   ConfirmationScreen,
   ConfirmNewBeneficiaryScreen,
   EnterBeneficiaryDetailsScreen,
+  EnterQuickTransferBeneficiaryScreen,
   InternalTransferScreen,
-  PaymentsHubScreen,
+  QuickTransferScreen,
   ReviewTransferScreen,
   SendToBeneficiaryScreen,
+  StandardTransferScreen,
 } from "./screens";
 import { AddNoteParams } from "./types";
 
@@ -23,6 +26,22 @@ export type InternalTransfersStackParams = {
   "InternalTransfers.AddNoteScreen": AddNoteParams;
   "InternalTransfers.BeneficiaryDeclarationModal": undefined;
   "InternalTransfers.ConfirmationScreen": undefined;
+  "InternalTransfers.QuickTransferScreen":
+    | {
+        PaymentAmount: number;
+        ReasonCode: string;
+      }
+    | undefined;
+  "InternalTransfers.EnterQuickTransferBeneficiaryScreen": {
+    PaymentAmount: number;
+    ReasonCode: string;
+  };
+  "InternalTransfers.StandardTransferScreen":
+    | {
+        PaymentAmount?: number;
+        ReasonCode?: string;
+      }
+    | undefined;
 };
 
 export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
@@ -30,7 +49,7 @@ export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
 export default function InternalTransfersStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen component={PaymentsHubScreen} name="InternalTransfers.PaymentsHubScreen" />
+      <Stack.Screen component={PaymentsHubTabs} name="InternalTransfers.PaymentsHubScreen" />
       <Stack.Screen component={InternalTransferScreen} name="InternalTransfers.InternalTransferScreen" />
       <Stack.Screen component={SendToBeneficiaryScreen} name="InternalTransfers.SendToBeneficiaryScreen" />
       <Stack.Screen component={ReviewTransferScreen} name="InternalTransfers.ReviewTransferScreen" />
@@ -42,7 +61,13 @@ export default function InternalTransfersStack() {
         name="InternalTransfers.BeneficiaryDeclarationModal"
         options={{ presentation: "modal" }}
       />
+      <Stack.Screen component={QuickTransferScreen} name="InternalTransfers.QuickTransferScreen" />
+      <Stack.Screen component={StandardTransferScreen} name="InternalTransfers.StandardTransferScreen" />
       <Stack.Screen component={ConfirmationScreen} name="InternalTransfers.ConfirmationScreen" />
+      <Stack.Screen
+        component={EnterQuickTransferBeneficiaryScreen}
+        name="InternalTransfers.EnterQuickTransferBeneficiaryScreen"
+      />
     </Stack.Navigator>
   );
 }
