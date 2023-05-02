@@ -21,6 +21,7 @@ export const resources = {
         generic: {
           title: "Sorry, something has gone wrong",
           message: "Try again later or get in touch with our customer care team.",
+          button: "OK",
         },
       },
       Onboarding: {
@@ -1267,6 +1268,25 @@ export const resources = {
         },
       },
       PaymentDisputes: {
+        PaymentDisputesLandingModal: {
+          title: "What’s the problem?",
+          linkCards: {
+            scamLinkCardTitle: "I've been scammed",
+            scamLinkCardMessage: "Report a fraud if you think someone else is using your card.",
+            disputeLinkCardTitle: "There’s a problem with this transaction",
+            disputeLinkCardMessage: "Dispute a transaction if something went wrong with a purchase.",
+          },
+          moreHelp: {
+            title: "Need more help?",
+            message: "It’s normally fastest to report a scam or tell us about a problem with the buttons above.",
+          },
+          alreadyReportedError: {
+            title: "Transaction already reported",
+            message: "We've given it the case reference number {{caseNumber}}.",
+            primaryButton: "View case",
+            secondaryButton: "Cancel",
+          },
+        },
         DisputeReasonsModal: {
           title: "What was the problem?",
           errorModal: {
@@ -1920,6 +1940,25 @@ export const resources = {
       },
     },
     PaymentDisputes: {
+      PaymentDisputesLandingModal: {
+        title: "What’s the problem?",
+        linkCards: {
+          scamLinkCardTitle: "I've been scammed",
+          scamLinkCardMessage: "Report a fraud if you think someone else is using your card.",
+          disputeLinkCardTitle: "There’s a problem with this transaction",
+          disputeLinkCardMessage: "Dispute a transaction if something went wrong with a purchase.",
+        },
+        moreHelp: {
+          title: "Need more help?",
+          message: "It’s normally fastest to report a scam or tell us about a problem with the buttons above.",
+        },
+        alreadyReportedError: {
+          title: "Transaction already reported",
+          message: "We've given it the case reference number {{caseNumber}}.",
+          primaryButton: "View case",
+          secondaryButton: "Cancel",
+        },
+      },
       DisputeReasonsModal: {
         title: "What was the problem?",
         errorModal: {
