@@ -10,7 +10,7 @@ import {
 export type PaymentDisputesStackParams = {
   "PaymentDisputes.PaymentDisputesLandingModal": undefined;
   "PaymentDisputes.DisputeReasonsModal": undefined;
-  "PaymentDisputes.DisputeDetailsModal": undefined;
+  "PaymentDisputes.DisputeDetailsModal": { disputeReasonsCode: string };
   "PaymentDisputes.TermsAndConditionsModal": undefined;
 };
 

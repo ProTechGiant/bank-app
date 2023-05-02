@@ -17,6 +17,7 @@ interface TextInputProps<T extends FieldValues>
   label?: string | null;
   showCharacterCount?: boolean;
   icon?: React.ReactElement;
+  numberOfLines?: number;
 }
 
 export default function TextInput<T extends FieldValues>({
@@ -29,6 +30,7 @@ export default function TextInput<T extends FieldValues>({
   name,
   showCharacterCount,
   placeholder,
+  numberOfLines,
   icon,
   ...restProps
 }: TextInputProps<T>) {
@@ -41,6 +43,7 @@ export default function TextInput<T extends FieldValues>({
       label={label}
       maxLength={maxLength}
       multiline={multiline}
+      numberOfLines={numberOfLines}
       showCharacterCount={showCharacterCount}
       placeholder={placeholder}
       icon={icon}

@@ -1,5 +1,4 @@
 export { default as Beneficiary } from "./Beneficiary";
-export { default as BeneficiaryDeclarationSection } from "./BeneficiaryDeclarationSection";
 export { default as BeneficiaryList } from "./BeneficiaryList";
 export { default as BeneficiaryOptionsModal } from "./BeneficiaryOptionsModal";
 export { default as EnterBeneficiaryByAccountNumberForm } from "./EnterBeneficiaryByAccountNumberForm";

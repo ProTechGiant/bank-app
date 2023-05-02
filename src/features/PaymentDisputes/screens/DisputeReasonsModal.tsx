@@ -110,8 +110,10 @@ export default function DisputesReasonsModal() {
     }, 300);
   };
 
-  const handleOnPressDisputeDetails = () => {
-    navigation.navigate("PaymentDisputes.DisputeDetailsModal");
+  const handleOnPressReason = (disputeReasonsCode: string) => {
+    navigation.navigate("PaymentDisputes.DisputeDetailsModal", {
+      disputeReasonsCode: disputeReasonsCode,
+    });
   };
 
   return (
@@ -125,10 +127,7 @@ export default function DisputesReasonsModal() {
                 {t("PaymentDisputes.DisputeReasonsModal.title")}
               </Typography.Text>
               {mockCardProblemCatagories ? (
-                <DisputeReasonsList
-                  data={mockCardProblemCatagories}
-                  onPressDisputeDetails={handleOnPressDisputeDetails}
-                />
+                <DisputeReasonsList data={mockCardProblemCatagories} onPressReason={handleOnPressReason} />
               ) : null}
             </Stack>
           </ContentContainer>
@@ -152,17 +151,17 @@ export default function DisputesReasonsModal() {
         buttons={{
           primary: (
             <Button onPress={handleOnConfirmCancelDispute}>
-              {t("PaymentDisputes.DisputeReasonsModal.CancelDisputeModal.primaryButtonText")}
+              {t("PaymentDisputes.CancelDisputeModal.primaryButtonText")}
             </Button>
           ),
           secondary: (
             <Button onPress={handleOnCloseConfirmCancelDispute}>
-              {t("PaymentDisputes.DisputeReasonsModal.CancelDisputeModal.secondaryButtonText")}
+              {t("PaymentDisputes.CancelDisputeModal.secondaryButtonText")}
             </Button>
           ),
         }}
-        message={t("PaymentDisputes.DisputeReasonsModal.CancelDisputeModal.message")}
-        title={t("PaymentDisputes.DisputeReasonsModal.CancelDisputeModal.title")}
+        message={t("PaymentDisputes.CancelDisputeModal.message")}
+        title={t("PaymentDisputes.CancelDisputeModal.title")}
         isVisible={isCancelDisputeModalVisible}
       />
     </>

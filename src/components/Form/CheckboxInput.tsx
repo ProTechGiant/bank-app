@@ -4,7 +4,7 @@ import { Path as SvgPath, Svg } from "react-native-svg";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
+import { Theme, useThemeStyles } from "@/theme";
 
 import InputBox from "./internal/InputBox";
 
@@ -14,6 +14,7 @@ interface CheckboxInputProps<T extends FieldValues> {
   isEditable?: boolean;
   name: Path<T>;
   label?: string;
+  backgroundColor?: keyof Theme["palette"];
 }
 
 export default function CheckboxInput<T extends FieldValues>({
@@ -22,6 +23,7 @@ export default function CheckboxInput<T extends FieldValues>({
   isEditable = true,
   name,
   label,
+  backgroundColor,
 }: CheckboxInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
 
@@ -45,6 +47,7 @@ export default function CheckboxInput<T extends FieldValues>({
       isFocused={field.value === true}
       isTouched={fieldState.isTouched}
       error={fieldState.error}
+      backgroundColor={backgroundColor}
       onPress={() => {
         if (isEditable) field.onChange(!field.value);
       }}>

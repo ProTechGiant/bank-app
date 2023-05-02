@@ -35,7 +35,7 @@ export default function Button({
       return {
         backgroundColor: theme.palette[variance.backgroundColor],
         borderColor: theme.palette[variance.borderColor],
-        borderRadius: theme.radii.extraSmall,
+        borderRadius: theme.radii.xxlarge,
         borderWidth: 2,
         // subtract border width. to keep button same dimensions
         paddingHorizontal: theme.spacing["16p"] - 2,

@@ -11,13 +11,13 @@ import DisputeReason from "./DisputeReason";
 
 interface DisputeReasonsListProps {
   data: DisputeReasonType[];
-  onPressDisputeDetails: () => void;
+  onPressReason: (reasonCode: string) => void;
 }
 
-export default function DisputeReasonsList({ data, onPressDisputeDetails }: DisputeReasonsListProps) {
-  const handleOnPress = (link: string) => {
-    warn("dispute details", link);
-    onPressDisputeDetails();
+export default function DisputeReasonsList({ data, onPressReason }: DisputeReasonsListProps) {
+  const handleOnPress = (reasonCode: string) => {
+    warn("dispute details", reasonCode);
+    onPressReason(reasonCode);
   };
 
   const separatorStyle = useThemeStyles<ViewStyle>(theme => ({

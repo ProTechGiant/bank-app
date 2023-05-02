@@ -1,4 +1,4 @@
-import { Pressable, View } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
@@ -20,8 +20,16 @@ export default function DisputeReason({ text, onPress }: DisputeReasonProps) {
             {text}
           </Typography.Text>
         </View>
-        <ChevronRightIcon color={iconColor} />
+        <View style={styles.chevronStyle}>
+          <ChevronRightIcon color={iconColor} />
+        </View>
       </Stack>
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  chevronStyle: {
+    transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }],
+  },
+});

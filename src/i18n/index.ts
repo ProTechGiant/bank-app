@@ -1287,6 +1287,12 @@ export const resources = {
             secondaryButton: "Cancel",
           },
         },
+        CancelDisputeModal: {
+          title: "Are you sure you want to exit?",
+          message: "This will cancel your report and you'll lose any information you've added.",
+          primaryButtonText: "Exit",
+          secondaryButtonText: "Continue with dispute",
+        },
         DisputeReasonsModal: {
           title: "What was the problem?",
           errorModal: {
@@ -1294,11 +1300,40 @@ export const resources = {
             message: "Please try again later or get in touch if you're still having problems.",
             buttonText: "Ok",
           },
-          CancelDisputeModal: {
-            title: "Are you sure you want to exit?",
-            message: "This will cancel your report and you'll lose any information you've added.",
-            primaryButtonText: "Exit",
-            secondaryButtonText: "Continue with dispute",
+        },
+        DisputeDetailsModal: {
+          title: "Give us more details",
+          total: "Total",
+          messageBox: {
+            label: "Tell us what happened",
+            optional: "Optional",
+            required: "Required*",
+            validation: {
+              minLength: "Minimum 25 characters",
+            },
+          },
+          checkBoxMessage: "By checking this box, you agree to our ",
+          termsAndConditions: "Terms and Conditions",
+          button: "Submit dispute",
+          ErrorModal: {
+            title: "Sorry, something has gone wrong",
+            message:
+              "Your report couldn’t be submitted. Please try again or get in touch with our customer support team.",
+            primaryButtonText: "OK",
+          },
+        },
+        TermsAndConditionsModal: {
+          title: "Terms and conditions",
+          sections: {
+            sectionOneTitle: "1. General terms",
+            sectionOneContent:
+              "If you wish to activate this feature provided by the Instant Payments System (SARIE) and the rest of the related services, such as sending funds via alias like (mobile number), we inform you that by confirming this feature you are agreeing to share some of your data with SARIE system for the instant payments owned by the Saudi Central Bank (IBAN number, Mobile number, email address, National/Iqama ID number). At any time in the future, you may disable sharing this data via all banking channels such as mobile banking or internet banking.",
+            sectionTwoTitle: "2. Section name",
+            sectionTwoContent:
+              "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
+            sectionThreeTitle: "3. Section name",
+            sectionThreeContent:
+              "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
           },
         },
       },
@@ -1959,6 +1994,12 @@ export const resources = {
           secondaryButton: "Cancel",
         },
       },
+      CancelDisputeModal: {
+        title: "Are you sure you want to exit?",
+        message: "This will cancel your report and you'll lose any information you've added.",
+        primaryButtonText: "Exit",
+        secondaryButtonText: "Continue with dispute",
+      },
       DisputeReasonsModal: {
         title: "What was the problem?",
         errorModal: {
@@ -1966,11 +2007,40 @@ export const resources = {
           message: "Please try again later or get in touch if you're still having problems.",
           buttonText: "Ok",
         },
-        CancelDisputeModal: {
-          title: "Are you sure you want to exit?",
-          message: "This will cancel your report and you'll lose any information you've added.",
-          primaryButtonText: "Exit",
-          secondaryButtonText: "Continue with dispute",
+      },
+      DisputeDetailsModal: {
+        title: "Give us more details",
+        total: "Total",
+        messageBox: {
+          label: "Tell us what happened",
+          optional: "Optional",
+          required: "Required*",
+          validation: {
+            minLength: "Minimum 25 characters",
+          },
+        },
+        checkBoxMessage: "By checking this box, you agree to our ",
+        termsAndConditions: "Terms and Conditions",
+        button: "Submit dispute",
+        ErrorModal: {
+          title: "Sorry, something has gone wrong",
+          message:
+            "Your report couldn’t be submitted. Please try again or get in touch with our customer support team.",
+          primaryButtonText: "OK",
+        },
+      },
+      TermsAndConditionsModal: {
+        title: "Terms and conditions",
+        sections: {
+          sectionOneTitle: "1. General terms",
+          sectionOneContent:
+            "If you wish to activate this feature provided by the Instant Payments System (SARIE) and the rest of the related services, such as sending funds via alias like (mobile number), we inform you that by confirming this feature you are agreeing to share some of your data with SARIE system for the instant payments owned by the Saudi Central Bank (IBAN number, Mobile number, email address, National/Iqama ID number). At any time in the future, you may disable sharing this data via all banking channels such as mobile banking or internet banking.",
+          sectionTwoTitle: "2. Section name",
+          sectionTwoContent:
+            "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
+          sectionThreeTitle: "3. Section name",
+          sectionThreeContent:
+            "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
         },
       },
     },

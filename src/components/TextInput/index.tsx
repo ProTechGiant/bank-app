@@ -16,6 +16,7 @@ interface TextInputProps extends RNTextInputProps_ {
   icon?: React.ReactElement;
   error?: { type: string; message?: string };
   isTouched: boolean;
+  numberOfLines?: number;
 }
 
 export default function TextInput({
@@ -32,6 +33,7 @@ export default function TextInput({
   onChangeText,
   error,
   isTouched,
+  numberOfLines,
   ...restProps
 }: TextInputProps) {
   const textStyles = useThemeStyles<TextStyle>(theme => ({
@@ -52,6 +54,7 @@ export default function TextInput({
       isEditable={isEditable}
       isFocused={isFocused}
       multiline={multiline}
+      numberOfLines={numberOfLines}
       error={error}
       isTouched={isTouched}
       label={label}
@@ -66,6 +69,7 @@ export default function TextInput({
         onFocus={() => setIsFocused(true)}
         maxLength={maxLength}
         multiline={multiline}
+        numberOfLines={numberOfLines}
         placeholder={placeholder ?? undefined}
         placeholderTextColor={placeholderTextColor}
         style={[textStyles, undefined !== error && isTouched && { maxWidth: "92%" }]}

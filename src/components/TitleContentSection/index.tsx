@@ -3,12 +3,12 @@ import { View, ViewStyle } from "react-native";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface BeneficiaryDeclarationSectionProps {
+interface TitleContentSectionProps {
   title: string;
   content: string;
 }
 
-export default function BeneficiaryDeclarationSection({ title, content }: BeneficiaryDeclarationSectionProps) {
+export default function TitleContentSection({ title, content }: TitleContentSectionProps) {
   const sectionTitleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingBottom: theme.spacing["16p"],
   }));

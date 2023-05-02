@@ -6,11 +6,10 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import TitleContentSection from "@/components/TitleContentSection";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-
-import { BeneficiaryDeclarationSection } from "../components";
 
 export default function BeneficiaryDeclarationModal() {
   const { t } = useTranslation();
@@ -49,17 +48,17 @@ export default function BeneficiaryDeclarationModal() {
             </Typography.Text>
           </View>
           <View style={separatorStyle} />
-          <BeneficiaryDeclarationSection
+          <TitleContentSection
             title={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionOneTitle")}
             content={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionOneContent")}
           />
           <View style={separatorStyle} />
-          <BeneficiaryDeclarationSection
+          <TitleContentSection
             title={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionTwoTitle")}
             content={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionTwoContent")}
           />
           <View style={separatorStyle} />
-          <BeneficiaryDeclarationSection
+          <TitleContentSection
             title={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionThreeTitle")}
             content={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionThreeContent")}
           />
