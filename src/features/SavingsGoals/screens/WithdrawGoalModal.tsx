@@ -13,6 +13,7 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import { warn } from "@/logger";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -23,14 +24,15 @@ import { useSavingsPot, useWithdrawSavingsPot, WithdrawValues } from "../hooks/q
 import { mockMissingSavingsPotDetails } from "../mocks/mockMissingSavingsPotDetails";
 
 export default function WithdrawGoalModal() {
-  const [withdrawError, setWithdrawError] = useState(false);
-
   const navigation = useNavigation();
   const { t } = useTranslation();
   const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.WithdrawGoalModal">>();
 
   const { data } = useSavingsPot(route.params.PotId);
   const withdrawSavingsPot = useWithdrawSavingsPot();
+  const account = useCurrentAccount();
+
+  const [isWithdrawError, setIsWithdrawError] = useState(false);
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -60,13 +62,13 @@ export default function WithdrawGoalModal() {
   };
 
   const handleOnSubmit = async (values: WithdrawValues) => {
-    if (undefined === data) return Promise.resolve();
+    if (data === undefined || account.data === undefined) return Promise.resolve();
 
     try {
       await withdrawSavingsPot.mutateAsync({
         ...values,
         Currency: "SAR",
-        CreditorAccount: data.AccountId,
+        CreditorAccount: account.data.id,
         PotId: route.params.PotId,
       });
 
@@ -75,7 +77,7 @@ export default function WithdrawGoalModal() {
         amountWithdrawn: values.PaymentAmount,
       });
     } catch (error) {
-      setWithdrawError(true);
+      setIsWithdrawError(true);
       warn("savings-pots", "Could not withdraw from savings pot", JSON.stringify(error));
     }
   };
@@ -130,7 +132,7 @@ export default function WithdrawGoalModal() {
           }}
           title={t("SavingsGoals.WithdrawModal.errors.title")}
           message={t("SavingsGoals.WithdrawModal.errors.text")}
-          isVisible={withdrawError}
+          isVisible={isWithdrawError}
           variant="error"
         />
       </Page>

@@ -13,6 +13,7 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -50,13 +51,13 @@ export default function FundingStep({
 }: FundingStepProps) {
   const navigation = useNavigation();
   const { i18n, t } = useTranslation();
+
   const fundSavingPot = useFundSavingsPot();
+  const account = useCurrentAccount();
 
   const today = new Date();
-  const targetDate = useMemo(
-    () => (data?.TargetDate ? parse(data?.TargetDate, "yyyy-MM-dd", today) : undefined),
-    [data]
-  );
+  // eslint-disable-next-line prettier/prettier
+  const targetDate = useMemo(() => (data?.TargetDate ? parse(data?.TargetDate, "yyyy-MM-dd", today) : undefined), [data]);
 
   // below details no longer exist on the new response
   // TODO: once these are provided, please update accordingly
@@ -110,7 +111,7 @@ export default function FundingStep({
       : mockMissingSavingsPotDetails.HadOneTimeFund === false;
 
   const handleOnSubmit = (values: FundingInput) => {
-    if (undefined === data) return Promise.resolve();
+    if (data === undefined || account.data === undefined) return Promise.resolve();
     Keyboard.dismiss();
 
     // normally using async executors isnt a necessary. but in this case it is, because the Alert
@@ -123,7 +124,8 @@ export default function FundingStep({
         const response = await fundSavingPot.mutateAsync({
           ...values,
           Currency: "SAR",
-          DebtorAccount: data.AccountId,
+          // @ts-expect-error undefined check already performed on L114
+          DebtorAccount: account.data.id,
           PotId: data.PotId,
           // need below parameter for recurring payments but dont know where to get it from
           // StartingDate: parseISO(data.RecurringPayments.StartingDate),
