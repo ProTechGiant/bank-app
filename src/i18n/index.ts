@@ -1267,6 +1267,19 @@ export const resources = {
           },
         },
       },
+      LocalTransfers: {
+        SelectTransferTypeModal: {
+          selectTransferType: "Select transfer type",
+          quickTransfer: "Quick transfer",
+          quickTransferDescription: "Send an instant one-time transfer of up to 2,500 SAR",
+          standardTransfer: "Standard transfer",
+          standardTransferDescription: "Send a transfer to a new or existing beneficiary",
+        },
+        LocalTransfersTermsAndConditions: {
+          agree: "Agree",
+          disagree: "Disagree",
+        },
+      },
       PaymentDisputes: {
         PaymentDisputesLandingModal: {
           title: "What’s the problem?",
@@ -1972,6 +1985,19 @@ export const resources = {
           done: "Done",
           viewTransaction: "View transaction",
         },
+      },
+    },
+    LocalTransfers: {
+      SelectTransferTypeModal: {
+        selectTransferType: "Select transfer type",
+        quickTransfer: "Quick transfer",
+        quickTransferDescription: "Send an instant one-time transfer of up to 2,500 SAR",
+        standardTransfer: "Standard transfer",
+        standardTransferDescription: "Send a transfer to a new or existing beneficiary",
+      },
+      LocalTransfersTermsAndConditions: {
+        agree: "Agree",
+        disagree: "Disagree",
       },
     },
     PaymentDisputes: {

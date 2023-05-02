@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,13 +11,15 @@ import useAccount from "@/hooks/use-account";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { PaymentOption } from "../components";
+import { PaymentOption, SelectTransferTypeModal } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 
 const formatter = Intl.NumberFormat("en-US", { style: "decimal", minimumFractionDigits: 2 });
 
 export default function PaymentsHubScreen() {
   const { setInternalTransferEntryPoint } = useInternalTransferContext();
+  const [isSelectTransferTypeVisible, setIsSelectTransferTypeVisible] = useState(false);
+  const isActivatedQuickTransfer = true; // !TODO (AC3):Add BE.
 
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -28,7 +31,21 @@ export default function PaymentsHubScreen() {
   };
 
   const handleOnQuickTransferPress = () => {
-    navigation.navigate("InternalTransfers.QuickTransferScreen");
+    setIsSelectTransferTypeVisible(false);
+    // !TODO (AC3): check if the customer has not activated the IPS quick transfer feature.
+    if (isActivatedQuickTransfer) {
+      setTimeout(() => {
+        navigation.navigate("InternalTransfers.TermsAndConditionsModal");
+      }, 500);
+    } else {
+      // !TODO (AC4): if customer has activated the IPS quick transfer feature navigate quick transfer landing page
+      navigation.navigate("InternalTransfers.QuickTransferScreen");
+    }
+  };
+
+  const handleStandardTransferPress = () => {
+    setIsSelectTransferTypeVisible(false);
+    navigation.navigate("InternalTransfers.StandardTransferScreen");
   };
 
   const headerBackground = useThemeStyles<ViewStyle>(theme => ({
@@ -102,7 +119,7 @@ export default function PaymentsHubScreen() {
       <ScrollView contentContainerStyle={contentStyle}>
         <Stack direction="vertical" gap="32p" align="stretch">
           <PaymentOption
-            onPress={handleOnQuickTransferPress}
+            onPress={() => setIsSelectTransferTypeVisible(true)}
             icon={<LocalTransferIcon />}
             title={t("InternalTransfers.PaymentHub.options.localTransfer.title")}
             helperText={t("InternalTransfers.PaymentHub.options.localTransfer.helperText")}
@@ -115,6 +132,12 @@ export default function PaymentsHubScreen() {
           />
         </Stack>
       </ScrollView>
+      <SelectTransferTypeModal
+        isVisible={isSelectTransferTypeVisible}
+        onClose={() => setIsSelectTransferTypeVisible(false)}
+        onQuickTransferPress={handleOnQuickTransferPress}
+        onStandardTransferPress={handleStandardTransferPress}
+      />
     </Page>
   );
 }
