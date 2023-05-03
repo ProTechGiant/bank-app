@@ -29,7 +29,10 @@ export default function PaymentDisputesLandingModal() {
   const [isGenericErrorVisible, setIsGenericErrorVisible] = useState(false);
 
   const handleOnPressDisputeLinkCard = () => {
-    navigation.navigate("PaymentDisputes.DisputeReasonsModal");
+    navigation.navigate("PaymentDisputes.SelectDisputeReasonModal", {
+      // TODO: get transaction type
+      transactionType: "CARD",
+    });
   };
 
   const handleOnPressFraudLinkCard = () => {

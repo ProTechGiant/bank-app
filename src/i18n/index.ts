@@ -1312,7 +1312,7 @@ export const resources = {
           primaryButtonText: "Exit",
           secondaryButtonText: "Continue with dispute",
         },
-        DisputeReasonsModal: {
+        SelectDisputeReasonModal: {
           title: "What was the problem?",
           errorModal: {
             title: "Sorry, we couldn't load that information",
@@ -2032,7 +2032,7 @@ export const resources = {
         primaryButtonText: "Exit",
         secondaryButtonText: "Continue with dispute",
       },
-      DisputeReasonsModal: {
+      SelectDisputeReasonModal: {
         title: "What was the problem?",
         errorModal: {
           title: "Sorry, we couldn't load that information",

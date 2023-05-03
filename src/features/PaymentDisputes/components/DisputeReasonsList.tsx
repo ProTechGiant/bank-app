@@ -3,7 +3,6 @@ import { View, ViewStyle } from "react-native";
 
 import Divider from "@/components/Divider";
 import Stack from "@/components/Stack";
-import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 
 import { DisputeReasonType } from "../types";
@@ -11,13 +10,12 @@ import DisputeReason from "./DisputeReason";
 
 interface DisputeReasonsListProps {
   data: DisputeReasonType[];
-  onPressReason: (reasonCode: string) => void;
+  onPress: (reasonCode: string) => void;
 }
 
-export default function DisputeReasonsList({ data, onPressReason }: DisputeReasonsListProps) {
+export default function DisputeReasonsList({ data, onPress }: DisputeReasonsListProps) {
   const handleOnPress = (reasonCode: string) => {
-    warn("dispute details", reasonCode);
-    onPressReason(reasonCode);
+    onPress(reasonCode);
   };
 
   const separatorStyle = useThemeStyles<ViewStyle>(theme => ({

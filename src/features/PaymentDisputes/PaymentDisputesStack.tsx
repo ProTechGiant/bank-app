@@ -2,14 +2,17 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
   DisputeDetailsModal,
-  DisputeReasonsModal,
   PaymentDisputesLandingModal,
+  SelectDisputeReasonModal,
   TermsAndConditionsModal,
 } from "./screens";
+import { TransactionType } from "./types";
 
 export type PaymentDisputesStackParams = {
   "PaymentDisputes.PaymentDisputesLandingModal": undefined;
-  "PaymentDisputes.DisputeReasonsModal": undefined;
+  "PaymentDisputes.SelectDisputeReasonModal": {
+    transactionType: TransactionType;
+  };
   "PaymentDisputes.DisputeDetailsModal": { disputeReasonsCode: string };
   "PaymentDisputes.TermsAndConditionsModal": undefined;
 };
@@ -21,7 +24,7 @@ export default function PaymentDisputesStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen component={PaymentDisputesLandingModal} name="PaymentDisputes.PaymentDisputesLandingModal" />
-        <Stack.Screen component={DisputeReasonsModal} name="PaymentDisputes.DisputeReasonsModal" />
+        <Stack.Screen component={SelectDisputeReasonModal} name="PaymentDisputes.SelectDisputeReasonModal" />
         <Stack.Screen component={DisputeDetailsModal} name="PaymentDisputes.DisputeDetailsModal" />
         <Stack.Screen component={TermsAndConditionsModal} name="PaymentDisputes.TermsAndConditionsModal" />
       </Stack.Group>
