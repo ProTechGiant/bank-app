@@ -2,34 +2,41 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require("fs");
 const process = require("process");
+const path = require("path");
 
-function updateBuildInfo() {
-  const buildVersion = require(__dirname + "/../package.json").version;
+const packageJsonFile = path.join(__dirname, "..", "package.json");
+const versionJsonFile = path.join(__dirname, "..", "src", "version.json");
+
+function updateBuildVersion() {
   const buildNumber = process.env.BUILD_NUMBER ?? 0;
+  const packageJson = require(packageJsonFile);
+
+  // <<year>>.<<build cycle>>.<<build number>>
+  const version = packageJson.version;
+  packageJson.version = version.split(".").slice(0, 2).join(".") + "." + buildNumber;
+
+  fs.writeFileSync(packageJsonFile, JSON.stringify(packageJson, undefined, 2));
+}
+
+function updateEmbeddedConfiguration() {
+  const buildVersion = require(packageJsonFile).version;
+  const buildNumber = buildVersion.substring(buildVersion.lastIndexOf("."));
   const buildTime = new Date().toISOString();
   const buildType = process.env.BUILD_ENVIRONMENT;
 
-  if (undefined === buildType) {
+  if (buildType === undefined) {
     throw new Error("Could not update build info. ENV[BUILD_ENVIRONMENT] not available");
   }
 
-  const template = `
-    export default {
-      version: "${buildVersion}",
-      buildNumber: ${parseInt(buildNumber, 10)},
-      buildTime: "${buildTime}",
-      buildType: "${buildType}",
-    };
-  `;
+  const properties = {
+    buildTime,
+    buildType,
+    version: buildVersion,
+    buildNumber: parseInt(buildNumber, 10),
+  };
 
-  // for usage in the app
-  fs.writeFileSync(__dirname + "/../src/version.ts", template.trim());
-
-  // for fastlane
-  fs.writeFileSync(
-    __dirname + "/../src/version.json",
-    JSON.stringify({ version: buildVersion, buildNumber: parseInt(buildNumber, 10), buildTime, buildType })
-  );
+  fs.writeFileSync(versionJsonFile, JSON.stringify(properties, undefined, 2));
 }
 
-updateBuildInfo();
+updateBuildVersion();
+updateEmbeddedConfiguration();

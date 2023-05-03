@@ -4,8 +4,8 @@ lane :tag_build_git do
   add_git_tag(
     grouping: "builds/#{version["buildType"]}",
     includes_lane: false,
-    build_number: version["buildNumber"],
-    postfix: "-v#{version["version"]}",
+    prefix: "v",
+    build_number: version["version"]
   )
 
   push_git_tags

@@ -158,7 +158,7 @@ GEM
     fastlane-plugin-increment_version_code (0.4.3)
     fastlane-plugin-increment_version_name (0.0.10)
     fastlane-plugin-load_json (0.0.1)
-    fastlane-plugin-versioning_android (0.1.0)
+    fastlane-plugin-versioning_android (0.1.1)
     fastlane-plugin-versioning_ios (0.1.0)
     ffi (1.15.5)
     fourflusher (2.3.1)
