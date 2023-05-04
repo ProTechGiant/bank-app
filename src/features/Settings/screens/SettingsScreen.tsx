@@ -25,10 +25,7 @@ export default function SettingsScreen() {
   };
 
   const handleOnQuestionsPress = () => {
-    navigation.navigate(
-      "FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack" //, {
-      // screen: "FrequentlyAskedQuestions.LandingScreen",
-    );
+    navigation.navigate("FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack");
   };
 
   return (

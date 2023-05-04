@@ -37,9 +37,7 @@ type RootStackParams = {
   "NotificationManagement.HubScreen": undefined;
   "NotificationManagement.CategoryScreen": { categoryId: string; title: string };
   "WhatsNext.WhatsNextStack": undefined;
-  "HelpAndSupport.HelpAndSupportStack": {
-    screen: string;
-  };
+  "HelpAndSupport.HelpAndSupportStack": { screen: string } | undefined;
   "OneTimePassword.OneTimePasswordModal": {
     action: {
       to: keyof MainStackParams;
