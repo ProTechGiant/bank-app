@@ -2,6 +2,7 @@ import { Pressable, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+import { useTranslation } from "react-i18next";
 
 interface SectionProps {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ interface SectionProps {
 }
 
 export default function Section({ children, onViewAllPress, title }: SectionProps) {
+  const { t } = useTranslation();
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     alignItems: "center",
@@ -25,7 +27,7 @@ export default function Section({ children, onViewAllPress, title }: SectionProp
         </Typography.Text>
         <Pressable onPress={onViewAllPress}>
           <Typography.Text color="primaryBase-30" size="footnote" weight="semiBold">
-            View all
+            {t("Home.DashboardScreen.viewAll")}
           </Typography.Text>
         </Pressable>
       </View>

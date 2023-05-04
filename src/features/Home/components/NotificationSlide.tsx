@@ -5,7 +5,8 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { Notification } from "./types";
+import { Notification } from "../types";
+import { useTranslation } from "react-i18next";
 
 interface NotificationSlideProps {
   onPress: (notification: Notification) => void;
@@ -13,6 +14,8 @@ interface NotificationSlideProps {
 }
 
 export default function NotificationSlide({ onPress, notification }: NotificationSlideProps) {
+  const { t } = useTranslation();
+
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["16p"],
   }));
@@ -32,7 +35,7 @@ export default function NotificationSlide({ onPress, notification }: Notificatio
       <Stack align="center" direction="horizontal" gap="48p" justify="space-evenly" style={ctaStyles}>
         <Pressable>
           <Typography.Text color="primaryBase" size="footnote" weight="regular">
-            Dismiss
+            {t("Home.DashboardScreen.dismiss")}
           </Typography.Text>
         </Pressable>
         <PillButton onPress={() => onPress(notification)}>{notification.action_button_text}</PillButton>

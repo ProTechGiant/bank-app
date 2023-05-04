@@ -250,6 +250,9 @@ export const resources = {
           notifications_one: "{{count}} notification",
           notifications_other: "{{count}} notifications",
           editDashboard: "Edit",
+          dismiss: "Dismiss",
+          viewAll: "View all",
+          whatsNext: "What's Next",
         },
         HomepageReorderModal: {
           cancel: "CANCEL",

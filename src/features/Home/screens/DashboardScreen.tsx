@@ -16,17 +16,12 @@ import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import BackgroundCollapsedSvg from "../../background-header-collapsed.svg";
-import { useHomepageLayoutOrder } from "../../contexts/HomepageLayoutOrderContext";
-import { useRefetchHomepageLayout } from "../../hooks/query-hooks";
-import BackgroundExpandedSvg from "./background-header-expanded.svg";
-import HeaderButton from "./HeaderButton";
-import NotificationSlide from "./NotificationSlide";
-import QuickActionsSection from "./sections/QuickActionsSection";
-import RewardsSection from "./sections/RewardsSection";
-import WhatsNextSection from "./sections/WhatsNextSection";
-import { Notification } from "./types";
-import useNotifications from "./use-notifications";
+import BackgroundCollapsedSvg from "../assets/background-header-collapsed.svg";
+import BackgroundExpandedSvg from "../assets/background-header-expanded.svg";
+import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
+import { HeaderButton, NotificationSlide, QuickActionsSection, RewardsSection, WhatsNextSection } from "../components";
+import { useRefetchHomepageLayout, useNotifications } from "../hooks/query-hooks";
+import { Notification } from "../types";
 
 const formatter = Intl.NumberFormat("en-US", { style: "decimal", minimumFractionDigits: 2 });
 export default function DashboardScreen() {

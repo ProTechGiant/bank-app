@@ -1,10 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { HomepageLayoutOrderContextProvider } from "./contexts/HomepageLayoutOrderContext";
-import AccountDetailsScreen from "./screens/AccountDetails";
-import DashboardScreen from "./screens/DashboardScreen";
-import QuickActionsReordererModal from "./screens/QuickActionsReorderModal";
-import SectionsReordererModal from "./screens/SectionsReordererModal";
+import { AccountDetailsScreen, DashboardScreen, QuickActionsReordererModal, SectionsReordererModal } from "./screens";
 
 export type HomeStackParams = {
   "Home.DashboardScreen": undefined;

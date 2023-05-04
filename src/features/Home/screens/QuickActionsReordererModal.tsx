@@ -9,14 +9,16 @@ import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import ActiveReordererItem from "../../components/ActiveReordererItem";
-import InactiveReordererItem from "../../components/InactiveReordererItem";
-import PlaceholderGenerator from "../../components/PlaceholderGenerator";
-import ReordererHeader from "../../components/ReordererHeader";
-import ReordererSection from "../../components/ReordererSection";
-import { useHomepageLayoutOrder } from "../../contexts/HomepageLayoutOrderContext";
-import { useRefetchHomepageLayout } from "../../hooks/query-hooks";
-import { HomepageItemLayoutType } from "../../types";
+import {
+  ActiveReordererItem,
+  InactiveReordererItem,
+  PlaceholderGenerator,
+  ReordererHeader,
+  ReordererSection,
+} from "../components";
+import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
+import { useRefetchHomepageLayout } from "../hooks/query-hooks";
+import { HomepageItemLayoutType } from "../types";
 
 export default function QuickActionsReordererModal() {
   const navigation = useNavigation();

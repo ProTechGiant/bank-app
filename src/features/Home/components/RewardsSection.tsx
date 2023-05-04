@@ -3,7 +3,7 @@ import { Image, ScrollView, View, ViewStyle } from "react-native";
 
 import { useThemeStyles } from "@/theme";
 
-import rewardsBackgroundPng from "./rewards-placeholder.png";
+import rewardsBackgroundPng from "../assets/rewards-placeholder.png";
 import Section from "./Section";
 
 interface RewardsSectionProps {

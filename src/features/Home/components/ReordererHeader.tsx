@@ -3,7 +3,7 @@ import { Platform, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "rea
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import BackgroundCollapsedSvg from "../background-header-collapsed.svg";
+import BackgroundCollapsedSvg from "../assets/background-header-collapsed.svg";
 
 interface ReordererHeaderProps {
   cancelText: string;
