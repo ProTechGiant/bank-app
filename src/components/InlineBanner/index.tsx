@@ -11,14 +11,14 @@ interface InlineBannerProps {
   text: string;
   testID?: string;
   onClose?: () => void;
-  variant?: "default" | "error";
+  variant?: "default" | "error" | "info";
 }
 
 export default function InlineBanner({ icon, text, testID, onClose, variant = "default" }: InlineBannerProps) {
   const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "flex-start",
-      backgroundColor: variant === "default" ? theme.palette["neutralBase-40"] : theme.palette["errorBase-30"],
+      backgroundColor: variant === "error" ? theme.palette["errorBase-30"] : theme.palette["neutralBase-40"],
       borderRadius: theme.radii.small,
       columnGap: theme.spacing["12p"],
       flexDirection: "row",
@@ -33,7 +33,11 @@ export default function InlineBanner({ icon, text, testID, onClose, variant = "d
   return (
     <View style={containerStyles} testID={testID}>
       {icon !== undefined && <View>{cloneElement(icon, { color: iconColor })}</View>}
-      <Typography.Text color="neutralBase+30" size="footnote" weight="regular" style={styles.text}>
+      <Typography.Text
+        color={variant === "info" ? "neutralBase+10" : "neutralBase+30"}
+        size="footnote"
+        weight="regular"
+        style={styles.text}>
         {text}
       </Typography.Text>
       {onClose !== undefined && (

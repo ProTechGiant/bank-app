@@ -29,6 +29,7 @@ export { DeleteIcon } from "./delete-icon";
 export { default as DisabledPlusIconCircle } from "./disabled-plus-circle";
 export { EditIcon } from "./edit";
 export { EditBordered } from "./edit-bordered";
+export { default as EmailIcon } from "./email";
 export { ErrorFilledCircleIcon } from "./error-filled-circle";
 export { ErrorOutlineIcon } from "./error-outline";
 export { FilledCircleTickIcon } from "./filled-circle-tick";

@@ -1204,6 +1204,20 @@ export const resources = {
           termsAndConditions: "Terms and Conditions",
           confirmButton: "Confirm",
         },
+        ConfirmQuickTransferBeneficiaryScreen: {
+          title: "Confirm beneficiary details",
+          navTitle: "Send money",
+          details: {
+            name: "Full Name",
+            bank: "Bank",
+            mobile: "Mobile",
+            id: "ID",
+            iban: "IBAN",
+            email: "Email",
+          },
+          bannerMessage: "You need to confirm this beneficiary's details before you can send any money.",
+          confirmButton: "Confirm",
+        },
         BeneficiaryDeclarationScreen: {
           title: "Terms and conditions",
           sections: {

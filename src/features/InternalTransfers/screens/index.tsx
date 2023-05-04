@@ -2,6 +2,7 @@ export { default as AddNoteScreen } from "./AddNoteScreen";
 export { default as BeneficiaryDeclarationModal } from "./BeneficiaryDeclarationModal";
 export { default as ConfirmationScreen } from "./ConfirmationScreen";
 export { default as ConfirmNewBeneficiaryScreen } from "./ConfirmNewBeneficiaryScreen";
+export { default as ConfirmQuickTransferBeneficiaryScreen } from "./ConfirmQuickTransferBeneficiaryScreen";
 export { default as EnterBeneficiaryDetailsScreen } from "./EnterBeneficiaryDetailsScreen";
 export { default as EnterQuickTransferBeneficiaryScreen } from "./EnterQuickTransferBeneficiaryScreen";
 export { default as InternalTransferScreen } from "./InternalTransferScreen";

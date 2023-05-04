@@ -1,6 +1,7 @@
 export { default as Beneficiary } from "./Beneficiary";
 export { default as BeneficiaryList } from "./BeneficiaryList";
 export { default as BeneficiaryOptionsModal } from "./BeneficiaryOptionsModal";
+export { default as ConfirmBeneficiaryListCard } from "./ConfirmBeneficiaryListCard";
 export { default as EnterBeneficiaryByAccountNumberForm } from "./EnterBeneficiaryByAccountNumberForm";
 export { default as EnterBeneficiaryByIBANForm } from "./EnterBeneficiaryByIBANForm";
 export { default as EnterBeneficiaryByMobileForm } from "./EnterBeneficiaryByMobileForm";

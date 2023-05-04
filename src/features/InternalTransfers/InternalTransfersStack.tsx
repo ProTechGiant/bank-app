@@ -5,6 +5,7 @@ import {
   AddNoteScreen,
   BeneficiaryDeclarationModal,
   ConfirmationScreen,
+  ConfirmQuickTransferBeneficiaryScreen,
   ConfirmNewBeneficiaryScreen,
   EnterBeneficiaryDetailsScreen,
   EnterQuickTransferBeneficiaryScreen,
@@ -44,6 +45,7 @@ export type InternalTransfersStackParams = {
         ReasonCode?: string;
       }
     | undefined;
+  "InternalTransfers.ConfirmQuickTransferBeneficiaryScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
@@ -74,6 +76,10 @@ export default function InternalTransfersStack() {
       <Stack.Screen
         component={EnterQuickTransferBeneficiaryScreen}
         name="InternalTransfers.EnterQuickTransferBeneficiaryScreen"
+      />
+      <Stack.Screen
+        component={ConfirmQuickTransferBeneficiaryScreen}
+        name="InternalTransfers.ConfirmQuickTransferBeneficiaryScreen"
       />
     </Stack.Navigator>
   );
