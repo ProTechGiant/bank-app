@@ -4,4 +4,6 @@ export interface DisputeReasonType {
   ProblemCategoryDescription: string;
 }
 
+export type CaseType = "dispute" | "fraud";
+
 export type TransactionType = "CARD" | "ATM";

@@ -1323,8 +1323,9 @@ export const resources = {
         CancelDisputeModal: {
           title: "Are you sure you want to exit?",
           message: "This will cancel your report and you'll lose any information you've added.",
-          primaryButtonText: "Exit",
-          secondaryButtonText: "Continue with dispute",
+          exitButton: "Exit",
+          continueDisputeButton: "Continue with dispute",
+          continueReportButton: "Continue with report",
         },
         SelectDisputeReasonModal: {
           title: "What was the problem?",
@@ -1334,7 +1335,7 @@ export const resources = {
             buttonText: "Ok",
           },
         },
-        DisputeDetailsModal: {
+        CreateDisputeModal: {
           title: "Give us more details",
           total: "Total",
           messageBox: {
@@ -1347,7 +1348,8 @@ export const resources = {
           },
           checkBoxMessage: "By checking this box, you agree to our ",
           termsAndConditions: "Terms and Conditions",
-          button: "Submit dispute",
+          submitDisputeButton: "Submit dispute",
+          reportFraudButton: "Report Fraud",
           ErrorModal: {
             title: "Sorry, something has gone wrong",
             message:
@@ -2043,8 +2045,9 @@ export const resources = {
       CancelDisputeModal: {
         title: "Are you sure you want to exit?",
         message: "This will cancel your report and you'll lose any information you've added.",
-        primaryButtonText: "Exit",
-        secondaryButtonText: "Continue with dispute",
+        exitButton: "Exit",
+        continueDisputeButton: "Continue with dispute",
+        continueReportButton: "Continue with report",
       },
       SelectDisputeReasonModal: {
         title: "What was the problem?",
@@ -2054,7 +2057,7 @@ export const resources = {
           buttonText: "Ok",
         },
       },
-      DisputeDetailsModal: {
+      CreateDisputeModal: {
         title: "Give us more details",
         total: "Total",
         messageBox: {
@@ -2067,7 +2070,8 @@ export const resources = {
         },
         checkBoxMessage: "By checking this box, you agree to our ",
         termsAndConditions: "Terms and Conditions",
-        button: "Submit dispute",
+        submitDisputeButton: "Submit dispute",
+        reportFraudButton: "Report Fraud",
         ErrorModal: {
           title: "Sorry, something has gone wrong",
           message:

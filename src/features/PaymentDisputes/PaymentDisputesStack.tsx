@@ -1,19 +1,20 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
-  DisputeDetailsModal,
+  CreateDisputeModal,
   PaymentDisputesLandingModal,
   SelectDisputeReasonModal,
   TermsAndConditionsModal,
 } from "./screens";
-import { TransactionType } from "./types";
+import { CaseType, TransactionType } from "./types";
 
 export type PaymentDisputesStackParams = {
   "PaymentDisputes.PaymentDisputesLandingModal": undefined;
+  "PaymentDisputes.DisputeReasonsModal": undefined;
+  "PaymentDisputes.CreateDisputeModal": { caseType: CaseType; reasonCode?: string };
   "PaymentDisputes.SelectDisputeReasonModal": {
     transactionType: TransactionType;
   };
-  "PaymentDisputes.DisputeDetailsModal": { disputeReasonsCode: string };
   "PaymentDisputes.TermsAndConditionsModal": undefined;
 };
 
@@ -24,8 +25,8 @@ export default function PaymentDisputesStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen component={PaymentDisputesLandingModal} name="PaymentDisputes.PaymentDisputesLandingModal" />
+        <Stack.Screen component={CreateDisputeModal} name="PaymentDisputes.CreateDisputeModal" />
         <Stack.Screen component={SelectDisputeReasonModal} name="PaymentDisputes.SelectDisputeReasonModal" />
-        <Stack.Screen component={DisputeDetailsModal} name="PaymentDisputes.DisputeDetailsModal" />
         <Stack.Screen component={TermsAndConditionsModal} name="PaymentDisputes.TermsAndConditionsModal" />
       </Stack.Group>
     </Stack.Navigator>

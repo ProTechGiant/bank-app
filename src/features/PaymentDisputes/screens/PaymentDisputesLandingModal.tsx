@@ -36,7 +36,7 @@ export default function PaymentDisputesLandingModal() {
   };
 
   const handleOnPressFraudLinkCard = () => {
-    navigation.navigate("PaymentDisputes.DisputeDetailsModal");
+    navigation.navigate("PaymentDisputes.CreateDisputeModal", { caseType: "fraud" }); // TODO: move to freeze card modal
   };
 
   const handleOnCloseGenericError = () => {

@@ -48,9 +48,10 @@ export default function SelectDisputeReasonModal() {
     }, 300);
   };
 
-  const handleOnPressReason = (disputeReasonsCode: string) => {
-    navigation.navigate("PaymentDisputes.DisputeDetailsModal", {
-      disputeReasonsCode: disputeReasonsCode,
+  const handleOnPressReason = (reasonCode: string) => {
+    navigation.navigate("PaymentDisputes.CreateDisputeModal", {
+      reasonCode: reasonCode,
+      caseType: "dispute",
     });
   };
 
@@ -96,13 +97,11 @@ export default function SelectDisputeReasonModal() {
         variant="warning"
         buttons={{
           primary: (
-            <Button onPress={handleOnConfirmCancelDispute}>
-              {t("PaymentDisputes.CancelDisputeModal.primaryButtonText")}
-            </Button>
+            <Button onPress={handleOnConfirmCancelDispute}>{t("PaymentDisputes.CancelDisputeModal.exitButton")}</Button>
           ),
           secondary: (
             <Button onPress={handleOnCloseConfirmCancelDispute}>
-              {t("PaymentDisputes.CancelDisputeModal.secondaryButtonText")}
+              {t("PaymentDisputes.CancelDisputeModal.continueDisputeButton")}
             </Button>
           ),
         }}

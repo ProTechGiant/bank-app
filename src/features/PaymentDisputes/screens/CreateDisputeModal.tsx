@@ -22,48 +22,49 @@ import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { mockDisputeDetails } from "../mocks/mockDisputeDetails";
+import { mockTransactionDetails } from "../mocks/mockTransactionDetails";
 import { formattedDateTime } from "../utils";
 
-interface DisputeDetailsForm {
-  message: string;
-  confirmTermsAndConditions: boolean;
+interface CreateDisputeForm {
+  DeclarationFlag: boolean;
+  Description: string;
 }
 
-export default function DisputeDetailsModal() {
+export default function CreateDisputeModal() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const { params } = useRoute<RouteProp<MainStackParams, "PaymentDisputes.DisputeDetailsModal">>();
+  const { params } = useRoute<RouteProp<MainStackParams, "PaymentDisputes.CreateDisputeModal">>();
 
   const [isCancelDisputeModalVisible, setIsCancelDisputeModalVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
-  const isSomethingElse = params.disputeReasonsCode === IS_SOMETHING_ELSE_CODE;
+  const isMessageRequired =
+    (params?.caseType === "dispute" && params?.reasonCode === IS_SOMETHING_ELSE_CODE) || params?.caseType === "fraud";
 
   const validationSchema = useMemo(
     () =>
       yup.object().shape({
-        confirmTermsAndConditions: yup.boolean().isTrue(),
-        message: isSomethingElse
+        DeclarationFlag: yup.boolean().isTrue(),
+        Description: isMessageRequired
           ? yup
               .string()
-              .required(t("PaymentDisputes.DisputeDetailsModal.messageBox.validation.minLength"))
-              .min(25, t("PaymentDisputes.DisputeDetailsModal.messageBox.validation.minLength"))
+              .required(t("PaymentDisputes.CreateDisputeModal.messageBox.validation.minLength"))
+              .min(25, t("PaymentDisputes.CreateDisputeModal.messageBox.validation.minLength"))
           : yup.string(),
       }),
-    [t]
+    [t, isMessageRequired]
   );
 
-  const { control, handleSubmit } = useForm<DisputeDetailsForm>({
+  const { control, handleSubmit } = useForm<CreateDisputeForm>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      message: undefined,
-      confirmTermsAndConditions: false,
+      Description: undefined,
+      DeclarationFlag: false,
     },
   });
 
-  const handleOnSubmit = (values: DisputeDetailsForm) => {
+  const handleOnSubmit = (values: CreateDisputeForm) => {
     console.log(values); // TODO: BE integration
   };
 
@@ -139,41 +140,41 @@ export default function DisputeDetailsModal() {
           <ContentContainer isScrollView>
             <Stack direction="vertical" gap="24p" align="stretch" flex={1}>
               <Typography.Text size="title1" weight="medium">
-                {t("PaymentDisputes.DisputeDetailsModal.title")}
+                {t("PaymentDisputes.CreateDisputeModal.title")}
               </Typography.Text>
               <View style={transactionContainerStyle}>
                 <View style={transactionHeaderStyle}>
                   <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-                    {mockDisputeDetails.merchant}
+                    {mockTransactionDetails.merchant}
                   </Typography.Text>
                 </View>
                 <Typography.Text color="neutralBase+10" size="footnote">
-                  {formattedDateTime(mockDisputeDetails.dateTime)}
+                  {formattedDateTime(mockTransactionDetails.dateTime)}
                 </Typography.Text>
                 <Typography.Text color="neutralBase+10" size="footnote">
-                  {mockDisputeDetails.location}
+                  {mockTransactionDetails.location}
                 </Typography.Text>
                 <View style={[dividerStyle, transactionDividerMarginStyle]}>
                   <Divider color="neutralBase-30" />
                 </View>
                 <View style={styles.totalContainer}>
                   <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-                    {t("PaymentDisputes.DisputeDetailsModal.total")}
+                    {t("PaymentDisputes.CreateDisputeModal.total")}
                   </Typography.Text>
                   <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-                    {mockDisputeDetails.amount} SAR
+                    {mockTransactionDetails.amount} SAR
                   </Typography.Text>
                 </View>
               </View>
               <View>
                 <TextInput
                   control={control}
-                  label={t("PaymentDisputes.DisputeDetailsModal.messageBox.label")}
-                  name="message"
+                  label={t("PaymentDisputes.CreateDisputeModal.messageBox.label")}
+                  name="Description"
                   extra={
-                    isSomethingElse
-                      ? t("PaymentDisputes.DisputeDetailsModal.messageBox.required")
-                      : t("PaymentDisputes.DisputeDetailsModal.messageBox.optional")
+                    isMessageRequired
+                      ? t("PaymentDisputes.CreateDisputeModal.messageBox.required")
+                      : t("PaymentDisputes.CreateDisputeModal.messageBox.optional")
                   }
                   maxLength={300}
                   showCharacterCount
@@ -193,24 +194,26 @@ export default function DisputeDetailsModal() {
                     isEditable={true}
                     backgroundColor="neutralBase-60"
                     bordered={false}
-                    name="confirmTermsAndConditions"
+                    name="DeclarationFlag"
                   />
                 </View>
                 <View style={checkBoxTextStyle}>
                   <Typography.Text size="footnote" weight="medium" color="neutralBase">
-                    {t("PaymentDisputes.DisputeDetailsModal.checkBoxMessage")}
+                    {t("PaymentDisputes.CreateDisputeModal.checkBoxMessage")}
                     <Typography.Text
                       size="footnote"
                       weight="medium"
                       color="primaryBase-40"
                       onPress={handleOnTermsAndConditionsPress}>
-                      {t("PaymentDisputes.DisputeDetailsModal.termsAndConditions")}
+                      {t("PaymentDisputes.CreateDisputeModal.termsAndConditions")}
                     </Typography.Text>
                   </Typography.Text>
                 </View>
               </Stack>
               <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-                {t("PaymentDisputes.DisputeDetailsModal.button")}
+                {params?.caseType === "fraud"
+                  ? t("PaymentDisputes.CreateDisputeModal.reportFraudButton")
+                  : t("PaymentDisputes.CreateDisputeModal.submitDisputeButton")}
               </SubmitButton>
             </View>
           </ContentContainer>
@@ -219,13 +222,13 @@ export default function DisputeDetailsModal() {
           variant="warning"
           buttons={{
             primary: (
-              <Button onPress={handleOnConfirmExitDispute}>
-                {t("PaymentDisputes.CancelDisputeModal.primaryButtonText")}
-              </Button>
+              <Button onPress={handleOnConfirmExitDispute}>{t("PaymentDisputes.CancelDisputeModal.exitButton")}</Button>
             ),
             secondary: (
               <Button onPress={handleOnCloseConfirmCancelDispute}>
-                {t("PaymentDisputes.CancelDisputeModal.secondaryButtonText")}
+                {params?.caseType === "fraud"
+                  ? t("PaymentDisputes.CancelDisputeModal.continueReportButton")
+                  : t("PaymentDisputes.CancelDisputeModal.continueDisputeButton")}
               </Button>
             ),
           }}
@@ -238,12 +241,12 @@ export default function DisputeDetailsModal() {
           buttons={{
             primary: (
               <Button onPress={handleOnCloseErrorModal}>
-                {t("PaymentDisputes.DisputeDetailsModal.ErrorModal.primaryButtonText")}
+                {t("PaymentDisputes.CreateDisputeModal.ErrorModal.primaryButtonText")}
               </Button>
             ),
           }}
-          message={t("PaymentDisputes.DisputeDetailsModal.ErrorModal.message")}
-          title={t("PaymentDisputes.DisputeDetailsModal.ErrorModal.title")}
+          message={t("PaymentDisputes.CreateDisputeModal.ErrorModal.message")}
+          title={t("PaymentDisputes.CreateDisputeModal.ErrorModal.title")}
           isVisible={isErrorModalVisible}
         />
       </SafeAreaProvider>
@@ -258,4 +261,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const IS_SOMETHING_ELSE_CODE = "109";
+const IS_SOMETHING_ELSE_CODE = "200";
