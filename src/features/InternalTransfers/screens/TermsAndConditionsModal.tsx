@@ -18,36 +18,36 @@ export default function TermsAndConditionsModal() {
 
   const handleOnAgreePress = () => {
     navigation.goBack();
-    navigation.navigate("InternalTransfers.QuickTransferScreen");
+    setTimeout(() => {
+      navigation.navigate("InternalTransfers.QuickTransferScreen");
+    }, 1);
   };
 
   const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
     height: 1,
-    backgroundColor: theme.palette["neutralBase-30"],
+    backgroundColor: theme.palette["neutralBase-40"],
     marginHorizontal: -theme.spacing["20p"],
     marginVertical: theme.spacing["20p"],
   }));
 
   const agreeAndDisagreeContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
-    paddingHorizontal: theme.spacing["32p"],
-    paddingBottom: theme.spacing["48p"],
-    paddingTop: theme.spacing["16p"],
+    paddingHorizontal: theme.spacing["16p"],
+    paddingBottom: theme.spacing["32p"],
+    paddingTop: theme.spacing["20p"],
   }));
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["16p"],
-    paddingHorizontal: theme.spacing["20p"],
-    flexGrow: 1,
+    paddingBottom: theme.spacing["20p"],
   }));
 
   return (
     <SafeAreaProvider>
-      <Page>
+      <Page backgroundColor="neutralBase-60">
         <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
         <ContentContainer isScrollView>
           <View style={containerStyle}>
-            <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
+            <Typography.Text color="neutralBase+30" weight="medium" size="title1">
               {t("InternalTransfers.BeneficiaryDeclarationScreen.title")}
             </Typography.Text>
           </View>

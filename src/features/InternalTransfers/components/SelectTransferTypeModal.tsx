@@ -23,7 +23,7 @@ export default function SelectTransferTypeModal({
   const { t } = useTranslation();
 
   const modalStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingBottom: theme.spacing["32p"],
+    paddingBottom: theme.spacing["20p"],
     paddingHorizontal: theme.spacing["8p"],
   }));
 
