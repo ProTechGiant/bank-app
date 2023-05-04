@@ -4,10 +4,10 @@ import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import NavHeader from "@/components/NavHeader";
 import { useThemeStyles } from "@/theme";
 
-import BackgroundBottomSvg from "./assets/background-bottom.svg";
-import BackgroundLeftBottomSvg from "./assets/background-left-bottom.svg";
-import BackgroundRightSvg from "./assets/background-right.svg";
-import BackgroundTopLeftSvg from "./assets/background-top-left.svg";
+import BackgroundBottomSvg from "../assets/background-bottom.svg";
+import BackgroundLeftBottomSvg from "../assets/background-left-bottom.svg";
+import BackgroundRightSvg from "../assets/background-right.svg";
+import BackgroundTopLeftSvg from "../assets/background-top-left.svg";
 
 export default function LiveChatScreenHeader() {
   const { t } = useTranslation();

@@ -1,7 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { HubScreen } from "./screens";
-import LiveChatScreen from "./screens/LiveChatScreen";
+import { HubScreen, LiveChatScreen } from "./screens";
 
 export type HelpAndSuportStackParams = {
   "HelpAndSupport.HubScreen": undefined;

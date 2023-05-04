@@ -11,10 +11,10 @@ import DropdownInput from "@/components/Form/DropdownInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import NotificationModal from "@/components/NotificationModal";
 import Typography from "@/components/Typography";
-import { OPTIONS } from "@/features/HelpAndSupport/screens/LiveChatScreen/mockOptions";
 import { useThemeStyles } from "@/theme";
 
-import LiveChatScreenHeader from "./LiveChatScreenHeader";
+import { OPTIONS } from "../mockOptions";
+import { LiveChatScreenHeader } from "../components";
 
 interface DropdownInputProps {
   EnquiryType: string;
