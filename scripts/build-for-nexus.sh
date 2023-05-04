@@ -1,9 +1,4 @@
-PREV_BUILD_TAG_FOLDER="builds/$BUILD_ENVIRONMENT/*"
-PREV_BUILD_TAG=$(git tag -l --sort=-version:refname "$PREV_BUILD_TAG_FOLDER" | head -1)
-PREV_BUILD_TAG_END_IDX=$(echo $PREV_BUILD_TAG | grep -b -o - | cut -d: -f1)
-PREV_BUILD_TAG_LEN=${#PREV_BUILD_TAG_FOLDER}
-PREV_BUILD_NUMBER=$(echo $PREV_BUILD_TAG | cut -c "$PREV_BUILD_TAG_LEN-$PREV_BUILD_TAG_END_IDX")
-
+PREV_BUILD_NUMBER=$(node scripts/source-build-number.js)
 # Need to be exported: used in Fastlane
 export BUILD_NUMBER=$((PREV_BUILD_NUMBER + 1))
 
