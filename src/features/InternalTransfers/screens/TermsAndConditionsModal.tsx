@@ -1,26 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import TermsConditionsSection from "@/components/TermsConditionsSection";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+
+import { useConfirmQuickTransferTermsAndConditions } from "../hooks/query-hooks";
 
 export default function TermsAndConditionsModal() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const handleOnAgreePress = () => {
-    navigation.goBack();
-    setTimeout(() => {
-      navigation.navigate("InternalTransfers.QuickTransferScreen");
-    }, 1);
+  const submitTermsAndConditionAsync = useConfirmQuickTransferTermsAndConditions();
+
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+
+  const handleOnAgreePress = async () => {
+    try {
+      const response = await submitTermsAndConditionAsync.mutateAsync({
+        CustomerTermsConditionsFlag: "1",
+      });
+
+      if (response.CustomerTermsConditionsFlag === "1") {
+        navigation.goBack();
+        setTimeout(() => {
+          navigation.navigate("InternalTransfers.QuickTransferScreen");
+        }, 500);
+      } else {
+        setIsErrorModalVisible(true);
+      }
+    } catch (err) {
+      setIsErrorModalVisible(true);
+      warn("internal-transfers", "Could not process Agree Terms and conditions: ", JSON.stringify(err));
+    }
+  };
+
+  const handleOnDisagreePress = async () => {
+    try {
+      const response = await submitTermsAndConditionAsync.mutateAsync({
+        CustomerTermsConditionsFlag: "0",
+      });
+
+      if (response.CustomerTermsConditionsFlag === "0") {
+        navigation.goBack();
+      } else {
+        setIsErrorModalVisible(true);
+      }
+    } catch (err) {
+      setIsErrorModalVisible(true);
+      warn("internal-transfers", "Could not process Agree Terms and conditions: ", JSON.stringify(err));
+    }
   };
 
   const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -83,7 +121,7 @@ export default function TermsAndConditionsModal() {
         </ContentContainer>
       </Page>
       <Stack direction="horizontal" style={agreeAndDisagreeContainerStyle} justify="space-between">
-        <Pressable onPress={() => navigation.goBack()}>
+        <Pressable onPress={handleOnDisagreePress}>
           <Typography.Text color="primaryBase-40" size="body" weight="regular">
             {t("LocalTransfers.LocalTransfersTermsAndConditions.disagree")}
           </Typography.Text>
@@ -95,6 +133,13 @@ export default function TermsAndConditionsModal() {
           </Typography.Text>
         </Pressable>
       </Stack>
+      <NotificationModal
+        variant="error"
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={isErrorModalVisible}
+        onClose={() => setIsErrorModalVisible(false)}
+      />
     </SafeAreaProvider>
   );
 }

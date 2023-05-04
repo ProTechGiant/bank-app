@@ -100,3 +100,36 @@ export function useInternalTransfer() {
     });
   });
 }
+
+interface QuickTransferAccountsResponse {
+  CustomerTermsConditionsFlag: "0" | "1";
+}
+
+export function useQuickTransferAccounts() {
+  return useQuery(["QuickTransferActivation"], () => {
+    return api<QuickTransferAccountsResponse>("v1", "transfers/accounts", "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
+
+interface QuickTransferTermsAndConditionResponse {
+  CustomerTermsConditionsFlag: string;
+}
+
+export function useConfirmQuickTransferTermsAndConditions() {
+  return useMutation(async ({ CustomerTermsConditionsFlag }: { CustomerTermsConditionsFlag: string }) => {
+    return api<QuickTransferTermsAndConditionResponse>(
+      "v1",
+      "transfers/quick/tc",
+      "PATCH",
+      undefined,
+      {
+        CustomerTermsConditionsFlag: CustomerTermsConditionsFlag,
+      },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}
