@@ -28,7 +28,10 @@ export default function DisputeReasonsList({ data, onPress }: DisputeReasonsList
         <Fragment key={reason.ProblemCategoryCode}>
           <DisputeReason
             text={`${reason.ProblemCategoryName} ${
-              reason.ProblemCategoryDescription ? " - " + reason.ProblemCategoryDescription : ""
+              reason.ProblemCategoryDescription !== undefined &&
+              reason.ProblemCategoryDescription !== reason.ProblemCategoryName
+                ? " - " + reason.ProblemCategoryDescription
+                : ""
             }`}
             onPress={() => handleOnPress(reason.ProblemCategoryCode)}
           />
