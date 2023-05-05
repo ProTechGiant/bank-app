@@ -1,4 +1,5 @@
 export { default as CreateDisputeStep } from "./CreateDisputeStep";
+export { default as DisputeSubmittedScreen } from "./DisputeSubmittedScreen";
 export { default as FreezeCardStep } from "./FreezeCardStep";
 export { default as LandingStep } from "./LandingStep";
 export { default as PaymentDisputeScreen } from "./PaymentDisputeScreen";

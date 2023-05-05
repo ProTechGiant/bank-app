@@ -10,7 +10,7 @@ import { warn } from "@/logger";
 import MainStackParams from "@/navigation/mainStackParams";
 import { generateRandomId } from "@/utils";
 
-import { TransactionType } from "../types";
+import { CaseType, TransactionType } from "../types";
 import { CreateDisputeStep, FreezeCardStep, LandingStep, SelectDisputeReasonStep } from "./index";
 
 type Steps = "landing" | "freeze-card" | "reasons" | "create-dispute";
@@ -25,18 +25,20 @@ export default function PaymentDisputeScreen() {
   // TODO: get cardId
   const cardId = route.params.cardId;
   const [reasonCode, setReasonCode] = useState("");
-  const [caseType, setCaseType] = useState("");
+  const [caseType, setCaseType] = useState<CaseType>("dispute");
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const card = useCard(cardId);
   const freezeCardAsync = useFreezeCard();
 
+  // TODO: get cardtype and cardstatus from new endpoint when that's available
   const selectedCard = card.data;
   const cardStatus = selectedCard?.Status;
+  const cardType = selectedCard?.CardType;
 
-  // TEMP: in place so testers know they have used a non-existant card id
+  // TEMP: in place so testers know they have used a non-existent card id
   useEffect(() => {
     if (!card.isFetching && card.isSuccess && selectedCard === undefined) {
-      Alert.alert("Missing card details", "Card Id doesn't exisit");
+      Alert.alert("Missing card details", "Card Id doesn't exist");
     }
   }, [card.isFetching, card.isSuccess, selectedCard]);
 
@@ -113,7 +115,12 @@ export default function PaymentDisputeScreen() {
               onSelectReason={handleOnSelectReason}
             />
           ) : (
-            <CreateDisputeStep caseType={caseType} reasonCode={reasonCode} onBack={handleOnCreateDisputeBack} />
+            <CreateDisputeStep
+              caseType={caseType}
+              cardType={cardType}
+              reasonCode={reasonCode}
+              onBack={handleOnCreateDisputeBack}
+            />
           )
         ) : (
           <FlexActivityIndicator />

@@ -15,14 +15,17 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { Card } from "@/features/CardActions/types";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { mockTransactionDetails } from "../mocks/mockTransactionDetails";
+import { CaseType } from "../types";
 import { formattedDateTime } from "../utils";
 
 interface CreateDisputeStepProps {
-  caseType: string;
+  caseType: CaseType;
+  cardType: Card["CardType"];
   reasonCode: string;
   onBack: () => void;
 }
@@ -32,7 +35,7 @@ interface CreateDisputeForm {
   Description: string;
 }
 
-export default function CreateDisputeStep({ caseType, reasonCode, onBack }: CreateDisputeStepProps) {
+export default function CreateDisputeStep({ caseType, cardType, reasonCode, onBack }: CreateDisputeStepProps) {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
@@ -66,6 +69,11 @@ export default function CreateDisputeStep({ caseType, reasonCode, onBack }: Crea
 
   const handleOnSubmit = (values: CreateDisputeForm) => {
     console.log(values); // TODO: BE integration
+    navigation.navigate("PaymentDisputes.DisputeSubmittedScreen", {
+      caseType: caseType,
+      cardType: cardType,
+      caseId: "123456789", //TODO: hardcoded until BE is available
+    });
   };
 
   const handleOnTermsAndConditionsPress = () => {

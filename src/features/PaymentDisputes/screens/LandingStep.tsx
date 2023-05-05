@@ -22,7 +22,7 @@ interface LandingStepProps {
   onFraudLink: () => void;
 }
 
-const bankPhoneNumber =
+const phoneNumber =
   mockHelpAndSupport.ChildrenContents.find(item => item.ContentTag === CALL_US)?.ContentDescription ?? "";
 
 export default function LandingStep({ onProblemWithTransactionLink, onFraudLink }: LandingStepProps) {
@@ -85,7 +85,7 @@ export default function LandingStep({ onProblemWithTransactionLink, onFraudLink 
           </Typography.Text>
         </Stack>
         <Stack direction="horizontal" gap="12p">
-          <CallBankFeedbackButton phoneNumber={bankPhoneNumber} />
+          <CallBankFeedbackButton phoneNumber={phoneNumber} />
           <LiveChatFeedbackButton />
         </Stack>
       </ContentContainer>

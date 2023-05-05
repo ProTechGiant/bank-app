@@ -1516,6 +1516,16 @@ export const resources = {
             button: "OK",
           },
         },
+        DisputeSubmittedScreen: {
+          brandMoment: "Brand Moment",
+          header: "We’re looking into it",
+          caseId: "Case ID: {{caseId}}",
+          textOne: "We’ll investigate the problem and get back to you in the next XX days.",
+          textTwo: "You can check its progress under Your cases. We’ll let you know when anything changes.",
+          textThree:
+            "If you're worried that your card's details have been compromised, it's a good idea to cancel the card and order a replacement.",
+          button: "OK",
+        },
       },
       LoadingError: {
         noData: "We couldn’t load the data. Please try later.",
@@ -2253,6 +2263,16 @@ export const resources = {
           message: "Please try again later or contact Customer Care.",
           button: "OK",
         },
+      },
+      DisputeSubmittedScreen: {
+        brandMoment: "Brand Moment",
+        header: "We’re looking into it",
+        caseId: "Case ID: {{caseId}}",
+        textOne: "We’ll investigate the problem and get back to you in the next XX days.",
+        textTwo: "You can check its progress under Your cases. We’ll let you know when anything changes.",
+        textThree:
+          "If you're worried that your card's details have been compromised, it's a good idea to cancel the card and order a replacement.",
+        button: "OK",
       },
     },
   },
