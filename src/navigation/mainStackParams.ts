@@ -50,7 +50,10 @@ type RootStackParams = {
     onOtpRequest: () => Promise<OtpChallengeParams>;
     otpVerifyMethod: "card-actions" | "internal-transfers";
   };
-  "PaymentDisputes.PaymentDisputesStack": undefined;
+  "PaymentDisputes.PaymentDisputesStack": {
+    screen: string;
+    params: { cardId: string };
+  };
 };
 
 type MainStackParams = RootStackParams &

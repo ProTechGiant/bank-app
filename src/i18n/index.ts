@@ -1487,6 +1487,22 @@ export const resources = {
               "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
           },
         },
+        FreezeCardModal: {
+          title: "Do you want to freeze your card?",
+          subtitle: "Freezing your card protects you from further fraud as we will temporarily block all payments.",
+          freezeButton: "Freeze my card",
+          noFreezeButton: "Continue without freezing",
+          freezeModal: {
+            title: "Your card is frozen",
+            message: "You can always unfreeze your card in card details or quick actions.",
+            button: "Continue",
+          },
+          errorModal: {
+            title: "We’re sorry, something has gone wrong.",
+            message: "Please try again later or contact Customer Care.",
+            button: "OK",
+          },
+        },
       },
       LoadingError: {
         noData: "We couldn’t load the data. Please try later.",
@@ -2207,6 +2223,22 @@ export const resources = {
           sectionThreeTitle: "3. Section name",
           sectionThreeContent:
             "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
+        },
+      },
+      FreezeCardModal: {
+        title: "Do you want to freeze your card?",
+        subtitle: "Freezing your card protects you from further fraud as we will temporarily block all payments.",
+        freezeButton: "Freeze my card",
+        noFreezeButton: "Continue without freezing",
+        freezeModal: {
+          title: "Your card is frozen",
+          message: "You can always unfreeze your card in card details or quick actions.",
+          button: "Continue",
+        },
+        errorModal: {
+          title: "We’re sorry, something has gone wrong.",
+          message: "Please try again later or contact Customer Care.",
+          button: "OK",
         },
       },
     },

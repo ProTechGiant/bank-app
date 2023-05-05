@@ -1,12 +1,8 @@
 import { cloneElement } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
+import { SvgProps } from "react-native-svg";
 
-import {
-  CancelCircleFilledIcon,
-  IconProps,
-  TickCircleBorderIcon,
-  WarningFilledCircleIcon,
-} from "@/assets/icons";
+import { CancelCircleFilledIcon, IconProps, TickCircleBorderIcon, WarningFilledCircleIcon } from "@/assets/icons";
 import { ButtonProps } from "@/components/Button";
 import Modal from "@/components/Modal";
 import Stack from "@/components/Stack";
@@ -25,6 +21,7 @@ interface NotificationModalProps {
   isVisible: boolean;
   title: string;
   variant: "success" | "error" | "warning" | "confirmations";
+  icon?: React.ReactElement<SvgProps | IconProps>;
 }
 
 const VARIANT_ICONS = {
@@ -41,17 +38,17 @@ export default function NotificationModal({
   isVisible,
   title,
   variant,
+  icon,
 }: NotificationModalProps) {
   const iconContainerStyles = useThemeStyles(theme => ({
     paddingTop: theme.spacing["20p"],
   }));
 
-  const iconStyles = useThemeStyles<IconProps>(
+  const variantIconStyles = useThemeStyles<IconProps>(
     ({ palette }) => ({
+      ...styles.iconStyles,
       color:
         variant === "success" ? palette.successBase : variant === "error" ? palette.errorBase : palette.warningBase,
-      height: 50,
-      width: 50,
     }),
     [variant]
   );
@@ -84,9 +81,11 @@ export default function NotificationModal({
       style={modalStyle}
       onClose={undefined === buttons || buttons === false ? onClose : undefined}>
       <View style={styles.container}>
-        {variant !== "confirmations" && (
-          <View style={iconContainerStyles}>{cloneElement(VARIANT_ICONS[variant], iconStyles)}</View>
-        )}
+        {variant !== "confirmations" ? (
+          <View style={iconContainerStyles}>{cloneElement(VARIANT_ICONS[variant], variantIconStyles)}</View>
+        ) : icon !== undefined ? (
+          <View style={iconContainerStyles}>{cloneElement(icon, styles.iconStyles)}</View>
+        ) : null}
         <Stack direction="vertical" gap="16p" align="center" style={contentStyle}>
           <Typography.Text color="neutralBase+30" weight="bold" size="title2" align="center">
             {title}
@@ -111,5 +110,9 @@ export default function NotificationModal({
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+  },
+  iconStyles: {
+    height: 50,
+    width: 50,
   },
 });

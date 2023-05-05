@@ -1,4 +1,6 @@
-export { default as CreateDisputeModal } from "./CreateDisputeModal";
-export { default as PaymentDisputesLandingModal } from "./PaymentDisputesLandingModal";
-export { default as SelectDisputeReasonModal } from "./SelectDisputeReasonModal";
+export { default as CreateDisputeStep } from "./CreateDisputeStep";
+export { default as FreezeCardStep } from "./FreezeCardStep";
+export { default as LandingStep } from "./LandingStep";
+export { default as PaymentDisputeScreen } from "./PaymentDisputeScreen";
+export { default as SelectDisputeReasonStep } from "./SelectDisputeReasonStep";
 export { default as TermsAndConditionsModal } from "./TermsAndConditionsModal";

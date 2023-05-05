@@ -14,8 +14,9 @@ import useNavigation from "@/navigation/use-navigation";
 import { useInternalTransferContext } from "../InternalTransfers/context/InternalTransfersContext";
 import useSavingsGoalNumber from "./use-savings-goal-number";
 
-interface TemporaryUserId {
+interface TemporaryForm {
   UserId: string;
+  cardId: string;
 }
 
 export default function TemporaryLandingScreen() {
@@ -40,9 +41,10 @@ export default function TemporaryLandingScreen() {
 
   // PC-4353 show or skip saving goals instructions
   const getSavingsGoalNumAsync = useSavingsGoalNumber();
-  const { control, handleSubmit } = useForm<TemporaryUserId>({
+  const { control, handleSubmit } = useForm<TemporaryForm>({
     defaultValues: {
       UserId: auth.userId,
+      cardId: "",
     },
   });
 
@@ -62,7 +64,7 @@ export default function TemporaryLandingScreen() {
     }
   };
 
-  const handleOnSubmit = (values: TemporaryUserId) => {
+  const handleOnSubmit = (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     handleOnSavingsGoals();
   };
@@ -73,7 +75,7 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnOpenInternalTransfers = (values: TemporaryUserId) => {
+  const handleOnOpenInternalTransfers = (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     setInternalTransferEntryPoint("homepage");
     navigation.navigate("InternalTransfers.InternalTransfersStack", {
@@ -81,7 +83,7 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnHomepage = (values: TemporaryUserId) => {
+  const handleOnHomepage = (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     navigation.navigate("Home.HomeStack", {
       screen: "Home.DashboardScreen",
@@ -101,7 +103,7 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnCardsHomeSubmit = (values: TemporaryUserId) => {
+  const handleOnCardsHomeSubmit = (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     handleOnOpenCardsHome();
   };
@@ -112,8 +114,14 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnPressPaymentDisputes = () => {
-    navigation.navigate("PaymentDisputes.PaymentDisputesStack");
+  const handleOnPressPaymentDisputes = (values: TemporaryForm) => {
+    auth.authenticate(values.UserId);
+    navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
+      screen: "PaymentDisputes.PaymentDisputeScreen",
+      params: {
+        cardId: values.cardId,
+      },
+    });
   };
 
   const handleOnSwitchDirection = () => {
@@ -154,6 +162,14 @@ export default function TemporaryLandingScreen() {
             label="Change User ID"
             placeholder="E.g. 2222225"
           />
+          <TextInput
+            name="cardId"
+            control={control}
+            keyboardType="number-pad"
+            blurOnSubmit={false}
+            label="Change Card ID"
+            placeholder="E.g. 2222225"
+          />
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleSubmit(handleOnSubmit)}>Savings Goals</Button>
@@ -177,7 +193,7 @@ export default function TemporaryLandingScreen() {
           <Button onPress={handleSubmit(handleOnCardsHomeSubmit)}>Cards Home</Button>
         </View>
         <View style={{ margin: 20 }}>
-          <Button onPress={handleOnPressPaymentDisputes}>Payment Disputes</Button>
+          <Button onPress={handleSubmit(handleOnPressPaymentDisputes)}>Payment Disputes</Button>
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>
