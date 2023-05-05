@@ -1,5 +1,9 @@
+export { default as AboutAuthorSection } from "./AboutAuthorSection";
+export { default as EventDetailsSection } from "./EventDetailsSection";
+export { default as ExploreArticleHeader } from "./ExploreArticleHeader";
 export { default as ExploreCard } from "./ExploreCard";
 export { default as ExploreSection } from "./ExploreSection";
+export { default as FeedbackArticleSection } from "./FeedbackArticleSection";
 export { default as FilterModal } from "./FilterModal";
 export { default as FilterTopBar } from "./FilterTopBar";
 export { default as NoArticlesError } from "./NoArticlesError";

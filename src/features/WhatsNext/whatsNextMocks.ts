@@ -7,11 +7,12 @@ export const WhatsNextMocks = [
     ContentTag: "Top 10",
     ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
     Title: "string",
+    SubTitle: "string",
     ContentDescription: "string",
     Media: [
       {
         SourceFileName: "string",
-        SourceFileDatatype: "Image",
+        SourceFileDatatype: "Video",
         SourceFileURL: "string",
       },
     ],
@@ -19,12 +20,12 @@ export const WhatsNextMocks = [
     WhatsNextCategory: "Sport",
     WhatsNextTypeId: "2",
     WhatsNextType: "Review",
-    AuthorSocialMedia: [
-      {
-        Name: "string",
-        Link: "string",
-      },
-    ],
+    AuthorName: "string",
+    AuthorAbout: "string",
+    AuthorSocialMedia: {
+      Name: "string",
+      Link: "string",
+    },
     ChildrenContents: [
       {
         ContentId: "string",
@@ -34,6 +35,7 @@ export const WhatsNextMocks = [
         ContentTag: "string",
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Rihanna 2023",
+        SubTitle: "string",
         ContentDescription:
           "When Rihanna announced she'd be returning to performing at this year would be the best ever",
         Media: [
@@ -62,6 +64,7 @@ export const WhatsNextMocks = [
         ContentTag: "string",
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Try out Ferrari F1-75 2023",
+        SubTitle: "string",
         ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
         Media: [
           {
@@ -89,6 +92,7 @@ export const WhatsNextMocks = [
         ContentTag: "string",
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Rihanna 2023",
+        SubTitle: "string",
         ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
         Media: [
           {
@@ -116,6 +120,7 @@ export const WhatsNextMocks = [
         ContentTag: "string",
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Try out Ferrari F1-75 2023",
+        SubTitle: "string",
         ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
         Media: [
           {
@@ -143,6 +148,7 @@ export const WhatsNextMocks = [
         ContentTag: "string",
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Rihanna 2023",
+        SubTitle: "string",
         ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
         Media: [
           {
@@ -170,6 +176,7 @@ export const WhatsNextMocks = [
         ContentTag: "string",
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Try out Ferrari F1-75 2023",
+        SubTitle: "string",
         ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
         Media: [
           {
@@ -197,6 +204,7 @@ export const WhatsNextMocks = [
         ContentTag: "string",
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Rihanna 2023",
+        SubTitle: "string",
         ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
         Media: [
           {
@@ -224,6 +232,7 @@ export const WhatsNextMocks = [
         ContentTag: "string",
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Try out Ferrari F1-75 2023",
+        SubTitle: "string",
         ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
         Media: [
           {
@@ -251,6 +260,7 @@ export const WhatsNextMocks = [
         ContentTag: "string",
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Rihanna 2023",
+        SubTitle: "string",
         ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
         Media: [
           {
@@ -278,6 +288,7 @@ export const WhatsNextMocks = [
         ContentTag: "string",
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Try out Ferrari F1-75 2023",
+        SubTitle: "string",
         ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
         Media: [
           {
@@ -307,24 +318,34 @@ export const WhatsNextMocks = [
     ContentTag: "explore",
     ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
     Title: "Backstage at the Imagine Dragons concert",
-    ContentDescription: "So she was considering in her own mind (as well as she could, for the day making the best",
+    SubTitle: '"And what is the use of a book," thought Alice, "without pictures or conversations?"',
+    ContentDescription:
+      "<b>Alice was beginning to get very tired </b></br><br>So she was considering in her own mind whether the pleasure of making a daisy chain would be worth the trouble of getting up and picking the daisies.<br><br>So she was considering in her own mind whether the pleasure of making a daisy chain would be worth the trouble of getting up and picking the daisies. Once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice, 'without pictures or conversations?'<br><br><b>Alice was beginning to get very tired </b></br><br>So she was considering in her own mind whether the pleasure of making a daisy chain would be worth the trouble of getting up and picking the daisies.<br><br>So she was considering in her own mind whether the pleasure of making a daisy chain would be worth the trouble of getting up and picking the daisies. Once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice, 'without pictures or conversations?'",
     Media: [
       {
         SourceFileName: "string",
-        SourceFileDatatype: "Image",
-        SourceFileURL: "string",
+        SourceFileDatatype: "Video",
+        SourceFileURL: "https://www.google.com",
       },
     ],
     WhatsNextCategoryId: "1",
     WhatsNextCategory: "Sport",
     WhatsNextTypeId: "1",
     WhatsNextType: "Interview",
-    AuthorSocialMedia: [
-      {
-        Name: "string",
-        Link: "string",
-      },
-    ],
+    AuthorName: "string",
+    AuthorAbout:
+      "Manal writes on life, travel, culture, psychology, literature and socio-politics. Top Writer in Music.",
+    AuthorSocialMedia: {
+      Name: "@socialmediahandle",
+      Link: "https://www.google.com",
+    },
+    EventDetails: {
+      EventDateTime: "2023-05-03T11:31:43.032Z",
+      OpeningHours: "08:00 - 22:00",
+      Location: "Boulevard Riyadh City 13, Riyadh, KSA",
+      Website: "https://www.google.com",
+      Price: 300,
+    },
     ChildrenContents: [],
   },
   {
@@ -335,12 +356,13 @@ export const WhatsNextMocks = [
     ContentTag: "explore",
     ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
     Title: "What I’m excited about next month",
+    SubTitle: "string",
     ContentDescription:
       "A day like no other - spending one-on-one time with what some would call the pioneers of indie pop",
     Media: [
       {
         SourceFileName: "string",
-        SourceFileDatatype: "Image",
+        SourceFileDatatype: "Video",
         SourceFileURL: "string",
       },
     ],
@@ -348,12 +370,12 @@ export const WhatsNextMocks = [
     WhatsNextCategory: "Fashion",
     WhatsNextTypeId: "2",
     WhatsNextType: "What's next for me",
-    AuthorSocialMedia: [
-      {
-        Name: "string",
-        Link: "string",
-      },
-    ],
+    AuthorName: "string",
+    AuthorAbout: "string",
+    AuthorSocialMedia: {
+      Name: "string",
+      Link: "string",
+    },
     ChildrenContents: [],
   },
   {
@@ -364,11 +386,12 @@ export const WhatsNextMocks = [
     ContentTag: "explore",
     ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
     Title: "Alicia Keys - who is she today?",
+    SubTitle: "string",
     ContentDescription: "So she was considering in her own mind (as well as she could, for the day ma yes",
     Media: [
       {
         SourceFileName: "string",
-        SourceFileDatatype: "Image",
+        SourceFileDatatype: "Video",
         SourceFileURL: "string",
       },
     ],
@@ -376,12 +399,12 @@ export const WhatsNextMocks = [
     WhatsNextCategory: "Film & Cinema",
     WhatsNextTypeId: "3",
     WhatsNextType: "Review",
-    AuthorSocialMedia: [
-      {
-        Name: "string",
-        Link: "string",
-      },
-    ],
+    AuthorName: "string",
+    AuthorAbout: "string",
+    AuthorSocialMedia: {
+      Name: "string",
+      Link: "string",
+    },
     ChildrenContents: [],
   },
   {
@@ -392,11 +415,12 @@ export const WhatsNextMocks = [
     ContentTag: "explore",
     ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
     Title: "Why I loved ’The Avengers: Secret Wars’",
+    SubTitle: "string",
     ContentDescription: "So she was considering in her own mind (as well as she could, for the day ma yes",
     Media: [
       {
         SourceFileName: "string",
-        SourceFileDatatype: "Image",
+        SourceFileDatatype: "Video",
         SourceFileURL: "string",
       },
     ],
@@ -404,12 +428,12 @@ export const WhatsNextMocks = [
     WhatsNextCategory: "Film & Cinema",
     WhatsNextTypeId: "4",
     WhatsNextType: "Behind the scenes",
-    AuthorSocialMedia: [
-      {
-        Name: "string",
-        Link: "string",
-      },
-    ],
+    AuthorName: "string",
+    AuthorAbout: "string",
+    AuthorSocialMedia: {
+      Name: "string",
+      Link: "string",
+    },
     ChildrenContents: [],
   },
   {

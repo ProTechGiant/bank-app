@@ -18,7 +18,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import explorePlaceholder from "../assets/explore-placeholder.png";
-import whiteTriangle from "../assets/white-triangle.png";
+import whiteTriangleVertical from "../assets/white-triangle-vertical.png";
 
 interface ExploreCardProps {
   title: string;
@@ -47,6 +47,7 @@ export default function ExploreCard({ title, description, tagTitle, tagVariant, 
     borderBottomLeftRadius: theme.radii.small,
     flex: 1,
     width: Platform.OS === "android" ? width * 0.25 : width * 0.35,
+    height: 177,
   }));
 
   const textContentStyle = useThemeStyles<TextStyle>(theme => ({
@@ -75,7 +76,7 @@ export default function ExploreCard({ title, description, tagTitle, tagVariant, 
             setContainerHeight(height);
           }}
         />
-        <Image source={whiteTriangle} style={cutoutStyle} resizeMode="stretch" />
+        <Image source={whiteTriangleVertical} style={cutoutStyle} resizeMode="stretch" />
       </View>
       <View style={textContentStyle}>
         <Stack direction="vertical" gap="8p">

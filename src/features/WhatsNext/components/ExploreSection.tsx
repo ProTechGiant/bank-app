@@ -7,16 +7,17 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import { ArticleSectionType } from "../types";
+import { getWhatsNextTagColor } from "../utils";
 import ExploreCard from "./ExploreCard";
 
 interface ExploreSectionProps {
   data: ArticleSectionType[];
-  onArticlePress: () => void;
+  onArticlePress: (articleId: string) => void;
   onSortByTimePress: () => void;
   sortOrder: "newest" | "oldest";
 }
 
-export default function ExploreSection({ data, onArticlePress, onSortByTimePress, sortOrder }: ExploreSectionProps) {
+export default function ExploreSection({ data, onSortByTimePress, sortOrder, onArticlePress }: ExploreSectionProps) {
   const { t } = useTranslation();
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -45,18 +46,10 @@ export default function ExploreSection({ data, onArticlePress, onSortByTimePress
             <View key={index}>
               <ExploreCard
                 title={item.Title}
-                description={item.ContentDescription}
+                description={item.SubTitle}
                 tagTitle={item.WhatsNextType}
-                tagVariant={
-                  item.WhatsNextTypeId === INTERVIEW
-                    ? "mint"
-                    : item.WhatsNextTypeId === WHATS_NEXT_FOR_ME
-                    ? "blue"
-                    : item.WhatsNextTypeId === REVIEW
-                    ? "purple"
-                    : "yellow"
-                }
-                onPress={onArticlePress}
+                tagVariant={getWhatsNextTagColor(item.WhatsNextTypeId)}
+                onPress={() => onArticlePress(item.ContentCategoryId)}
               />
             </View>
           );
@@ -72,7 +65,3 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 });
-
-const INTERVIEW = "1";
-const WHATS_NEXT_FOR_ME = "2";
-const REVIEW = "3";

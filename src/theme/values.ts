@@ -229,6 +229,7 @@ const iconDimensions = {
   },
   referralCopy: 16,
   tableListIconBackground: 44,
+  chipComponent: 18,
 };
 
 export { iconDimensions, palette, radii, spacing, typography };

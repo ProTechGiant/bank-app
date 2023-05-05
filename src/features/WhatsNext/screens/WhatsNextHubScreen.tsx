@@ -150,8 +150,8 @@ export default function WhatsNextHubScreen() {
     handleOnFiltersModalVisiblePress();
   };
 
-  const handleOnExploreArticlePress = () => {
-    navigation.navigate("WhatsNext.ExploreArticleScreen");
+  const handleOnExploreArticlePress = (articleId: string) => {
+    navigation.navigate("WhatsNext.ExploreArticleScreen", { articleId });
   };
 
   const handleOnTopTenArticlePress = () => {
@@ -188,7 +188,9 @@ export default function WhatsNextHubScreen() {
             {WhatsNextMocks.filter(data => data.ContentTag === "explore").length !== 0 ? (
               <ExploreSection
                 data={WhatsNextMocks.filter(data => data.ContentTag === "explore") as ArticleSectionType[]}
-                onArticlePress={handleOnExploreArticlePress}
+                onArticlePress={articleId => {
+                  handleOnExploreArticlePress(articleId);
+                }}
                 onSortByTimePress={handleOnSortingModalPress}
                 sortOrder={sortOrder}
               />

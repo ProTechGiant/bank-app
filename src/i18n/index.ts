@@ -396,6 +396,19 @@ export const resources = {
           noArticlesDescription:
             "We couldn’t find articles that match your search. Consider adapting your search and try again.",
         },
+        ExploreArticleScreen: {
+          eventDetails: "Event details",
+          openingHours: "Opening hours",
+          address: "Address",
+          price: "Price",
+          currency: "SAR",
+          visitWebsite: "Visit website",
+          feedbackTitle: "Did you enjoy this article?",
+          feedbackDescription: "We’ll use this to tailor our offer to you.",
+          feedbackPositive: "Yes",
+          feedbackNegative: "No",
+          followWhatsNext: "Follow what’s next",
+        },
         SortingContent: {
           title: "Sort",
           newest: "Newest first",

@@ -79,6 +79,7 @@ export { default as RewardsIcon } from "./rewards";
 export { default as SearchIcon } from "./search";
 export { default as SearchFailedIcon } from "./search-failed";
 export { default as SettingsIcon } from "./settings";
+export { default as ShareIcon } from "./share";
 export { default as ShippingIcon } from "./shipping";
 export { ShowIcon } from "./show";
 export { default as SplitIcon } from "./split";

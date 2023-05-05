@@ -14,6 +14,14 @@ interface MediaType {
   SourceFileURL: string;
 }
 
+export interface EventDetails {
+  EventDateTime: string;
+  OpeningHours: string;
+  Location: string;
+  Website: string;
+  Price: number;
+}
+
 export interface ArticleSectionType {
   ContentId: string;
   ParentContentId: string;
@@ -22,13 +30,17 @@ export interface ArticleSectionType {
   ContentTag: string;
   ContentPublishDateTime: string;
   Title: string;
+  SubTitle: string;
   ContentDescription: string;
   Media: MediaType[];
   WhatsNextCategoryId: string;
   WhatsNextCategory: string;
   WhatsNextTypeId: string;
   WhatsNextType: string;
-  AuthorSocialMedia: AuthorSocialMediaType[];
+  AuthorName: string;
+  AuthorAbout: string;
+  AuthorSocialMedia: AuthorSocialMediaType;
+  EventDetails: EventDetails;
   ChildrenContents?: ArticleSectionType[];
 }
 

@@ -4,7 +4,7 @@ import { ExploreArticleScreen, TopTenArticleScreen, WhatsNextHubScreen } from ".
 
 export type WhatsNextStackParams = {
   "WhatsNext.HubScreen": undefined;
-  "WhatsNext.ExploreArticleScreen": undefined;
+  "WhatsNext.ExploreArticleScreen": { articleId: string };
   "WhatsNext.TopTenArticleScreen": undefined;
 };
 
