@@ -268,7 +268,7 @@ export default function HomeScreen() {
                 />
               ) : null
             )}
-            {customerTier.data?.tier === PLUS_TIER && !hasSingleUseCard ? (
+            {customerTier.data?.Tier === PLUS_TIER && !hasSingleUseCard ? (
               <BankCard.Inactive
                 status="inactive"
                 cardType={SINGLE_USE_CARD_TYPE}

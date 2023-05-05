@@ -81,7 +81,7 @@ export function useChangeCardStatus() {
 }
 
 interface CustomerTierResponse {
-  tier: string;
+  Tier: string;
 }
 
 export function useCustomerTier() {
