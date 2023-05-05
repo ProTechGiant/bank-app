@@ -165,7 +165,7 @@ export default function TemporaryLandingScreen() {
           <TextInput
             name="cardId"
             control={control}
-            keyboardType="number-pad"
+            keyboardType="default"
             blurOnSubmit={false}
             label="Change Card ID"
             placeholder="E.g. 2222225"
