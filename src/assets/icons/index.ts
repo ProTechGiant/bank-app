@@ -22,6 +22,7 @@ export { CheckIconBig } from "./check-big";
 export { default as CheckCircle } from "./check-circle";
 export { default as CheckmarkCircle } from "./checkmark-circle";
 export { ChevronRightIcon } from "./chevron-right";
+export { default as CircleQuestionMark } from "./circle-question-mark";
 export { default as ClearIcon } from "./clear";
 export { CloseIcon } from "./close-icon";
 export { CopyIcon } from "./copy";

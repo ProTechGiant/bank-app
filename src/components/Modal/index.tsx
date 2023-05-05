@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  I18nManager,
   Modal as RNModal,
   ModalProps as RNModalProps,
   Platform,
@@ -19,12 +20,13 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { CloseIcon } from "@/assets/icons";
+import { ArrowLeftIcon, CloseIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface ModalProps extends Omit<RNModalProps, "animationType" | "onRequestClose" | "transparent"> {
   onClose?: () => void;
+  onBack?: () => void;
   headerText?: string;
   style?: ViewStyle;
 }
@@ -33,6 +35,7 @@ const NativeModal = Platform.OS === "web" ? View : RNModal;
 export default function Modal({
   children,
   onClose,
+  onBack,
   headerText,
   visible = false,
   style,
@@ -123,7 +126,15 @@ export default function Modal({
         <View style={contentStyles}>
           {(undefined !== headerText || undefined !== onClose) && (
             <View style={headerStyles}>
-              <View />
+              {undefined !== onBack ? (
+                <Pressable onPress={onBack}>
+                  <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
+                    <ArrowLeftIcon />
+                  </View>
+                </Pressable>
+              ) : (
+                <View />
+              )}
               <View style={styles.headerTextContainer}>
                 <Typography.Text color="neutralBase+30" size="callout" weight="medium">
                   {headerText}

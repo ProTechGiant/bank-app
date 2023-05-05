@@ -18,6 +18,7 @@ import SavingsGoalsStack from "@/features/SavingsGoals/SavingsGoalsStack";
 import SettingsScreen from "@/features/Settings/screens/SettingsScreen";
 import TemporaryDummyScreen from "@/features/Temporary/TemporaryDummyScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
+import ViewTransactionsStack from "@/features/ViewTransactions/ViewTransactionsStack";
 import WhatsNextStack from "@/features/WhatsNext/WhatsNextStack";
 
 import MainStackParams from "./mainStackParams";
@@ -46,6 +47,7 @@ export default function MainStack({ onReady }: MainStackProps) {
         <Stack.Screen component={AddMoneyStack} name="AddMoney.AddMoneyStack" />
         <Stack.Screen component={InternalTransfersStack} name="InternalTransfers.InternalTransfersStack" />
         <Stack.Screen component={SavingsGoalsStack} name="SavingsGoals.SavingsGoalsStack" />
+        <Stack.Screen component={ViewTransactionsStack} name="ViewTransactions.ViewTransactionsStack" />
         <Stack.Screen component={OnboardingStack} name="Onboarding.OnboardingStack" />
         <Stack.Screen component={HomeStack} name="Home.HomeStack" />
         <Stack.Screen

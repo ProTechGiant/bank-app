@@ -88,6 +88,12 @@ export default function TemporaryLandingScreen() {
     });
   };
 
+  const handleOnViewTransactions = () => {
+    navigation.navigate("ViewTransactions.ViewTransactionsStack", {
+      screen: "ViewTransactions.TransactionsScreen",
+    });
+  };
+
   const handleOnOpenOnboarding = (values: TemporaryUserId) => {
     auth.authenticate(values.UserId);
     navigation.navigate("Onboarding.OnboardingStack", {
@@ -151,6 +157,9 @@ export default function TemporaryLandingScreen() {
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleSubmit(handleOnSubmit)}>Savings Goals</Button>
+        </View>
+        <View style={{ margin: 20 }}>
+          <Button onPress={handleOnViewTransactions}>View Transactions</Button>
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleOnOpenApplyForCard}>Order Card</Button>

@@ -9,6 +9,7 @@ import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { PaymentDisputesStackParams } from "@/features/PaymentDisputes/PaymentDisputesStack";
 import { ReferralStackParams } from "@/features/Referral/ReferralStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
+import { ViewTransactionsStackParams } from "@/features/ViewTransactions/ViewTransactionsStack";
 import { WhatsNextStackParams } from "@/features/WhatsNext/WhatsNextStack";
 
 type RootStackParams = {
@@ -29,6 +30,7 @@ type RootStackParams = {
   "Modal.QuickActionsReorderModal": undefined;
   "Modal.HomepageReorderModal": undefined;
   "NotificationManagement.NotificationManagementStack": undefined;
+  "ViewTransactions.ViewTransactionsStack": undefined;
   "Settings.SettingsScreen": undefined;
   "SavingsGoals.SavingsGoalsStack": {
     savingsPotsNumber: number;
@@ -54,6 +56,7 @@ type RootStackParams = {
 type MainStackParams = RootStackParams &
   OnboardingStackParams &
   SavingsGoalsStackParams &
+  ViewTransactionsStackParams &
   InternalTransfersStackParams &
   CardActionsStackParams &
   ReferralStackParams &

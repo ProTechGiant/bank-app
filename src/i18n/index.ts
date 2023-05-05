@@ -232,6 +232,59 @@ export const resources = {
           },
         },
       },
+      ViewTransactions: {
+        TransactionsScreen: {
+          title: "Transactions",
+          filterdBy: "Filtered By:",
+          pending: "Pending Transactions",
+          filter: "Filter",
+          balance: "Balance",
+          sar: "SAR",
+          filterOptions: "Filter Options",
+          bySpending: "Filter By Spending Categories",
+          byCard: "Filter By Card Type",
+          applyFilter: "Apply Filter",
+          clearAll: "Clear All",
+          roundUp: "Round-up",
+          today: "Today",
+          yesterday: "Yesterday",
+          clearFilter: "Clear filter",
+          emptyTransactions: "We couldn't find any transactions - try adjusting your filter.",
+        },
+        PendingTransactionsScreen: {
+          title: "Pending Transactions",
+          transactionsPending: "These are recent transactions that haven't been charged to your account yet.",
+        },
+        SingleTransactionDetailedScreen: {
+          category: "Category",
+          location: "Location",
+          status: "Status",
+          roundUpAmount: "Round-up amount",
+          completed: "Completed",
+          title: "Detailed Transactions",
+          reportTransaction: "Report transaction",
+          somethingWrong: "Is something wrong? Let us know.",
+          downloadDetails: "Download details",
+          saveTransaction: "Save transaction details in a format you can share.",
+        },
+
+        AboutRoundUpsModal: {
+          title: "About round-ups",
+          bodyText: "Round-up every purchase to the nearest 5 SAR. The extra will go towards your choice of goal.",
+          note: "Find out more in our FAQs",
+        },
+        FilterOptionsModal: {
+          SpendingCategories: {
+            Food: "Food",
+            Transportation: "Transportation",
+            Entertainment: "Entertainment",
+          },
+          CardTypes: {
+            OneTimeCard: "One-time card",
+            DebitCard: "Debit card",
+          },
+        },
+      },
       Settings: {
         SettingsScreen: {
           rewards: "Send invite",
