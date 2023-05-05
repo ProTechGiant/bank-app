@@ -1,12 +1,14 @@
-import { useCallback, useMemo } from "react";
-import { FlatList, Platform, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { useCallback } from "react";
+import { FlatList, ListRenderItem, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { SvgProps } from "react-native-svg";
 
-import { CheckmarkCircle } from "@/assets/icons";
+import { IconProps } from "@/assets/icons";
+import Radio from "@/components/Radio";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface DropdownInputListProps<T extends string | number> {
-  options: Array<{ label: string; value: T; disabled?: boolean }>;
+  options: { icon?: React.ReactElement<SvgProps | IconProps>; label: string; value: T; disabled?: boolean }[];
   onChange: (value: T) => void;
   value: T | undefined;
 }
@@ -14,66 +16,46 @@ interface DropdownInputListProps<T extends string | number> {
 export function DropdownInputList<T extends string | number>({ options, onChange, value }: DropdownInputListProps<T>) {
   const { height } = useWindowDimensions();
 
-  const flatlistStyle = useMemo(
-    () => ({
-      height: height - (Platform.OS === "ios" ? 254 : 204),
-    }),
-    [height]
-  );
-
-  const optionContainer = useThemeStyles<ViewStyle>(({ spacing, palette }) => ({
-    paddingVertical: spacing["24p"],
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderBottomWidth: 1,
-    borderBottomColor: palette["neutralBase-20"],
-  }));
-
-  const checkBoxStyles = useThemeStyles<ViewStyle>(({ palette }) => ({
-    borderColor: palette["neutralBase-20"],
-    height: 24,
-    width: 24,
-    borderWidth: 2,
-    borderRadius: 24,
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
-    justifyContent: "center",
+    flexDirection: "row",
+    columnGap: theme.spacing["10p"],
+    paddingVertical: theme.spacing["16p"],
   }));
 
-  const renderItem = useCallback(
-    ({ item }: { item: { label: string; value: T; disabled?: boolean } }) => (
-      <Pressable
-        onPress={() => onChange(item.value)}
-        disabled={item.disabled}
-        style={[optionContainer, item.disabled && styles.disabledOpacity]}>
-        <View style={styles.textContainer}>
-          <Typography.Text color="neutralBase+30" size="body" weight="regular">
+  const renderItem: ListRenderItem<(typeof options)[number]> = useCallback(
+    ({ item }) => (
+      <Pressable disabled={item.disabled} onPress={() => onChange(item.value)}>
+        <View style={[containerStyle, item.disabled && styles.itemDisabled]}>
+          {item.icon}
+          <Typography.Text color="neutralBase+30" size="callout" weight="regular" style={styles.text}>
             {item.label}
           </Typography.Text>
+          <Radio onPress={() => onChange(item.value)} isSelected={value === item.value} />
         </View>
-        <View style={checkBoxStyles}>{(value === item.value || item.disabled === true) && <CheckmarkCircle />}</View>
-        <View />
       </Pressable>
     ),
-    [value]
+    [containerStyle, onChange, value]
   );
 
   return (
     <FlatList
-      style={flatlistStyle}
+      style={{
+        height: height - 225,
+      }}
       data={options}
       keyExtractor={option => option.value.toString()}
       renderItem={renderItem}
-      removeClippedSubviews
-      getItemLayout={(_data, index) => ({ length: 73, offset: 73 * index, index })}
+      getItemLayout={(_data, index) => ({ length: 68, offset: 68 * index, index })}
     />
   );
 }
 
 const styles = StyleSheet.create({
-  disabledOpacity: {
+  itemDisabled: {
     opacity: 0.4,
   },
-  textContainer: {
-    flex: 1,
+  text: {
+    flexGrow: 1,
   },
 });

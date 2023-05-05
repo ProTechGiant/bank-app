@@ -150,12 +150,12 @@ export default function EnterBeneficiaryDetailsScreen() {
                 <Pill
                   key={index}
                   isActive={index === activePillIndex}
-                  text={element.title}
                   onPress={() => {
                     hideErrorModal();
                     setActivePillIndex(index);
-                  }}
-                />
+                  }}>
+                  {element.title}
+                </Pill>
               ))}
             </Stack>
           </Stack>

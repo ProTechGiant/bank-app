@@ -6,6 +6,13 @@ import { generateRandomId } from "@/utils";
 
 import { AddBeneficiarySelectionType, BeneficiaryType, InternalTransfer, TransferReason } from "../types";
 
+const queryKeys = {
+  all: () => ["transfers"] as const,
+  reasons: () => [...queryKeys.all(), "reasons"] as const,
+  beneficiaries: () => [...queryKeys.all(), "beneficiaries"] as const,
+  banks: () => [...queryKeys.all(), "banks"] as const,
+};
+
 interface ReasonsResponse {
   TransferReason: TransferReason[];
 }
@@ -15,7 +22,7 @@ interface BeneficiariesResponse {
 }
 
 export function useTransferReasons() {
-  return useQuery(["personalReason"], () => {
+  return useQuery(queryKeys.reasons(), () => {
     return api<ReasonsResponse>("v1", "transfers/reason-for-payment", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
@@ -23,13 +30,11 @@ export function useTransferReasons() {
 }
 
 export function useBeneficiaries() {
-  const beneficiaries = useQuery("Beneficiaries", () => {
+  return useQuery(queryKeys.beneficiaries(), () => {
     return api<BeneficiariesResponse>("v1", "transfers/beneficiaries", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });
-
-  return beneficiaries;
 }
 
 export function useDeleteBeneficiary() {
@@ -99,6 +104,30 @@ export function useInternalTransfer() {
       ["x-correlation-id"]: generateRandomId(),
     });
   });
+}
+
+interface BeneficiaryBanksResponse {
+  Banks: Array<{
+    EnglishName: string;
+    BankId: string;
+    BankCode: string;
+    BankShortName: string;
+    Active: boolean;
+  }>;
+}
+
+export function useBeneficiaryBanks() {
+  return useQuery(
+    queryKeys.banks(),
+    () => {
+      return sendApiRequest<BeneficiaryBanksResponse>("v1", "transfers/banks", "GET", undefined, undefined, {
+        ["x-correlation-id"]: generateRandomId(),
+      });
+    },
+    {
+      cacheTime: Infinity,
+    }
+  );
 }
 
 interface QuickTransferAccountsResponse {

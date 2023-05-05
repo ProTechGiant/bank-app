@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { useForm } from "react-hook-form";
 
-import DropdownInput_ from "./index.android";
+import DropdownInput_ from "./index";
 
 export default {
   title: "components/Form/Dropdown",

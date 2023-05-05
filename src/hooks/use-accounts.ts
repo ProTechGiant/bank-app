@@ -36,6 +36,7 @@ export function useAccounts() {
       return Promise.all(accounts.data.map(account => findAccountBalance(account.AccountId, sanitizedUserId)));
     },
     {
+      cacheTime: Infinity,
       enabled: accounts.data !== undefined,
     }
   );

@@ -1,9 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { ViewStyle } from "react-native";
 
 import Modal from "@/components/Modal";
 import Stack from "@/components/Stack";
-import { useThemeStyles } from "@/theme";
 
 import TransferOption from "./TransferOption";
 
@@ -22,14 +20,8 @@ export default function SelectTransferTypeModal({
 }: SelectTransferTypeModalProps) {
   const { t } = useTranslation();
 
-  const modalStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingBottom: theme.spacing["20p"],
-    paddingHorizontal: theme.spacing["8p"],
-  }));
-
   return (
     <Modal
-      style={modalStyle}
       onClose={onClose}
       visible={isVisible}
       headerText={t("LocalTransfers.SelectTransferTypeModal.selectTransferType")}>

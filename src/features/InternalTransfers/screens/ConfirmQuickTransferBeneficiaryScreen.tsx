@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { parsePhoneNumber } from "libphonenumber-js";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -16,8 +17,8 @@ import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import { TableListCard } from "@/components/TableList";
 import Typography from "@/components/Typography";
+import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatIban } from "@/utils";
@@ -36,6 +37,9 @@ const recipient = {
 export default function ConfirmQuickTransferBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  // !TODO (AC2): show beneficiary details. where to get these from?
+  const route = useRoute<RouteProp<MainStackParams, "InternalTransfers.ConfirmQuickTransferBeneficiaryScreen">>();
 
   const handleOnSubmit = () => {
     navigation.navigate("InternalTransfers.ReviewTransferScreen");
@@ -76,7 +80,7 @@ export default function ConfirmQuickTransferBeneficiaryScreen() {
               icon={<NumbersIcon color={iconColor} />}
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.iban")}
-              label={formatIban(recipient.IBAN || "")}
+              label={formatIban(recipient.IBAN)}
             />
           ) : recipient.ID !== undefined ? (
             <ConfirmBeneficiaryListCard

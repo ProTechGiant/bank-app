@@ -9,7 +9,7 @@ export default {
   component: Pill_,
   args: {
     isActive: false,
-    text: "Default",
+    children: "Default",
     testID: "pill",
   },
   argTypes: {

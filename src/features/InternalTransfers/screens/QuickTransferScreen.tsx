@@ -88,7 +88,8 @@ export default function QuickTransferScreen() {
     marginTop: theme.spacing["32p"],
   }));
 
-  // !TODO (AC8): daily limit check
+  const hasSelectedReasonCode = watch("ReasonCode") !== undefined;
+  // !TODO (AC8): daily limit check. will be moved to a new comment
   const amountExceedsDailyLimit = false;
   const currentAmount = watch("PaymentAmount");
   const amountExceedsBalance = currentAmount > currentBalance;
@@ -143,7 +144,7 @@ export default function QuickTransferScreen() {
               </View>
             </View>
             <Button
-              disabled={amountExceedsBalance || amountExceedsLimit || currentAmount < 0.01}
+              disabled={amountExceedsBalance || amountExceedsLimit || currentAmount < 0.01 || !hasSelectedReasonCode}
               onPress={handleSubmit(handleOnContinue)}>
               {t("InternalTransfers.QuickTransferScreen.continueButton")}
             </Button>

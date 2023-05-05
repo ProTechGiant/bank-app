@@ -12,7 +12,7 @@ interface TransferOptionProps {
 export default function TransferOption({ onPress, title, helperText }: TransferOptionProps) {
   return (
     <Pressable onPress={onPress}>
-      <Stack direction="vertical">
+      <Stack direction="vertical" style={{ rowGap: 2 }}>
         <Typography.Text size="callout" weight="medium" color="neutralBase+30">
           {title}
         </Typography.Text>

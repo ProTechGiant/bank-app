@@ -11,9 +11,9 @@ import DropdownInputProps from "./DropdownInputProps";
 
 export default function DropdownInput<T extends FieldValues>({
   control,
-  fullHeight = false,
   extra,
   isEditable = true,
+  isFixedHeight = false,
   headerText,
   label,
   name,
@@ -36,7 +36,7 @@ export default function DropdownInput<T extends FieldValues>({
     field.onBlur();
   };
 
-  const handleOnChange = (value: PathValue<T, Path<T>>) => {
+  const handleOnChange = (value: PathValue<T, Path<T>> | undefined) => {
     setIsVisible(false);
 
     field.onBlur();
@@ -52,7 +52,7 @@ export default function DropdownInput<T extends FieldValues>({
         onClose={handleOnClose}
         options={options}
         headerText={headerText ?? label ?? ""}
-        isFixedHeight={fullHeight}
+        isFixedHeight={isFixedHeight}
         isVisible={isVisible}
         value={field.value}
       />

@@ -76,7 +76,7 @@ export default function Modal({
       const defaultPaddingBottom = insets.bottom > 0 ? insets.bottom : theme.spacing["16p"];
 
       return {
-        padding: theme.spacing["16p"],
+        padding: theme.spacing["20p"],
         paddingBottom: !hasOverridenBottomPadding ? defaultPaddingBottom : undefined,
       };
     },
@@ -88,7 +88,7 @@ export default function Modal({
     flexDirection: "row",
     justifyContent: "space-between",
     // padding around entire modal - additional padding of current element
-    marginBottom: theme.spacing["16p"] - theme.spacing["4p"],
+    marginBottom: theme.spacing["20p"],
     padding: theme.spacing["4p"],
   }));
 

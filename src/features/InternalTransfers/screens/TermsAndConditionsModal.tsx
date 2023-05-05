@@ -21,7 +21,6 @@ export default function TermsAndConditionsModal() {
   const navigation = useNavigation();
 
   const submitTermsAndConditionAsync = useConfirmQuickTransferTermsAndConditions();
-
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
   const handleOnAgreePress = async () => {
@@ -32,9 +31,7 @@ export default function TermsAndConditionsModal() {
 
       if (response.CustomerTermsConditionsFlag === "1") {
         navigation.goBack();
-        setTimeout(() => {
-          navigation.navigate("InternalTransfers.QuickTransferScreen");
-        }, 500);
+        setTimeout(() => navigation.navigate("InternalTransfers.QuickTransferScreen"), 300);
       } else {
         setIsErrorModalVisible(true);
       }
@@ -71,8 +68,7 @@ export default function TermsAndConditionsModal() {
   const agreeAndDisagreeContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
     paddingHorizontal: theme.spacing["16p"],
-    paddingBottom: theme.spacing["32p"],
-    paddingTop: theme.spacing["20p"],
+    paddingVertical: theme.spacing["16p"],
   }));
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -93,11 +89,9 @@ export default function TermsAndConditionsModal() {
             <Typography.Text size="callout" color="primaryBase-40" weight="medium">
               {t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionOneTitle")}
             </Typography.Text>
-
             <Typography.Text size="callout" color="primaryBase-40" weight="medium">
               {t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionTwoTitle")}
             </Typography.Text>
-
             <Typography.Text size="callout" color="primaryBase-40" weight="medium">
               {t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionThreeTitle")}
             </Typography.Text>
@@ -112,27 +106,25 @@ export default function TermsAndConditionsModal() {
             title={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionTwoTitle")}
             content={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionTwoContent")}
           />
-
           <View style={separatorStyle} />
           <TermsConditionsSection
             title={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionThreeTitle")}
             content={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionThreeContent")}
           />
         </ContentContainer>
+        <Stack direction="horizontal" style={agreeAndDisagreeContainerStyle} justify="space-between">
+          <Pressable onPress={handleOnDisagreePress}>
+            <Typography.Text color="primaryBase-40" size="body" weight="regular">
+              {t("LocalTransfers.LocalTransfersTermsAndConditions.disagree")}
+            </Typography.Text>
+          </Pressable>
+          <Pressable onPress={handleOnAgreePress}>
+            <Typography.Text color="primaryBase-40" size="body" weight="semiBold">
+              {t("LocalTransfers.LocalTransfersTermsAndConditions.agree")}
+            </Typography.Text>
+          </Pressable>
+        </Stack>
       </Page>
-      <Stack direction="horizontal" style={agreeAndDisagreeContainerStyle} justify="space-between">
-        <Pressable onPress={handleOnDisagreePress}>
-          <Typography.Text color="primaryBase-40" size="body" weight="regular">
-            {t("LocalTransfers.LocalTransfersTermsAndConditions.disagree")}
-          </Typography.Text>
-        </Pressable>
-
-        <Pressable onPress={handleOnAgreePress}>
-          <Typography.Text color="primaryBase-40" size="body" weight="semiBold">
-            {t("LocalTransfers.LocalTransfersTermsAndConditions.agree")}
-          </Typography.Text>
-        </Pressable>
-      </Stack>
       <NotificationModal
         variant="error"
         title={t("errors.generic.title")}

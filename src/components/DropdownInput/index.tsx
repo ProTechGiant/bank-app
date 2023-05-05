@@ -1,5 +1,5 @@
 import { Picker } from "@react-native-picker/picker";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
@@ -8,7 +8,7 @@ import { useThemeStyles } from "@/theme";
 
 import { DropdownInputList } from "./DropdownInputList";
 
-interface DropdownInputProps<T extends string | number> {
+export interface DropdownInputProps<T extends string | number> {
   autoselect?: boolean;
   buttonLabel: string;
   onChange: (value: T | undefined) => void;
@@ -48,9 +48,12 @@ export default function DropdownInput<T extends string | number>({
     setSelectedValue(value);
   };
 
-  const handleOnChange = (nextValue: T) => {
-    setSelectedValue(nextValue ?? options[0]?.value);
-  };
+  const handleOnChange = useCallback(
+    (nextValue: T) => {
+      setSelectedValue(nextValue ?? options[0]?.value);
+    },
+    [options]
+  );
 
   const handleOnConfirm = () => {
     onClose();

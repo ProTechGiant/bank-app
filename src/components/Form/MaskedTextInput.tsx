@@ -143,6 +143,7 @@ export default function MaskedTextInput<T extends FieldValues>({
         </Pressable>
       ) : null}
       <RNTextInput
+        {...restProps}
         editable={isEditable}
         ref={textInputRef}
         onBlur={() => {
@@ -160,7 +161,6 @@ export default function MaskedTextInput<T extends FieldValues>({
         style={[textStyle, textFieldWidth]}
         value={masked}
         textAlign={I18nManager.isRTL ? "right" : "left"}
-        {...restProps}
       />
     </InputBox>
   );

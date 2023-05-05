@@ -1275,6 +1275,66 @@ export const resources = {
           wantToSwitch: "Want to transfer over 2,500 SAR?",
           switchToStandard: "Switch to Standard Transfer",
         },
+        EnterQuickTransferBeneficiaryScreen: {
+          title: "Enter beneficiary details",
+          beneficiaryBankLabel: "Beneficiary bank",
+          beneficiaryBankConfirm: "Set",
+          beneficiaryBankHeaderText: "Select beneficiary bank",
+          transferBy: "Transfer by",
+          continue: "Continue",
+          transferByOptions: {
+            mobile: "Mobile",
+            email: "Email",
+            id: "ID",
+            iban: "IBAN",
+          },
+          mobile: {
+            label: "Mobile number",
+            validation: {
+              required: "Required",
+              invalid: "Phone number requires 9 digits",
+            },
+          },
+          email: {
+            label: "Email",
+            placeholder: "john.doe@domain.com",
+            validation: {
+              required: "Required",
+              invalid: "Incorrect email format",
+            },
+          },
+          id: {
+            label: "ID number",
+            placeholder: "ID number",
+            validation: {
+              required: "Required*",
+              invalid: "Should be 10 digits",
+            },
+          },
+          iban: {
+            fullNameLabel: "Full name",
+            fullNamePlacholder: "First last",
+            ibanLabel: "IBAN number",
+            ibanPlaceholder: "SA## #### #### #### #### ####",
+            validation: {
+              required: "Required",
+              lengthInvalid: "IBAN needs 24 chracters",
+              formatInvalid: "Incorrect IBAN format",
+            },
+          },
+          beneficiaryBanksError: {
+            title: "Couldn't load list",
+            message: "Please try again later or get in touch if you’re still having problems.",
+          },
+          quickTransfersUnsupportedError: {
+            title: "Quick transfers not supported",
+            message: "{{bankName}} does not support quick transfers",
+          },
+          validationError: {
+            title: "Sorry - we couldn't check that",
+            message: "Please try again later or get in touch if you’re still having problems.",
+          },
+        },
         ConfirmationScreen: {
           title: {
             active: "Transfer successful",

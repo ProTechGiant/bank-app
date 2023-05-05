@@ -15,7 +15,7 @@ export const formatIban = (input: string) => {
   return textArray?.join(" ") || "";
 };
 
-export const ibanRegExp = /^[A-Za-z]{2}\d+$/;
+export const ibanRegExp = /^[A-Za-z]{2}\d{22}$/;
 
 export const numericRegExp = /^[0-9]+$/;
 

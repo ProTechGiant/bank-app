@@ -97,7 +97,7 @@ export default function CountrySelector() {
             <DropdownInput
               autoselect={false}
               control={control}
-              fullHeight={true}
+              isFixedHeight={true}
               label={t("Onboarding.FatcaDetailsScreen.CountrySelector.countryLabel")}
               name="CountryName"
               headerText={t("Onboarding.FatcaDetailsScreen.CountrySelector.dropDownLabel")}
