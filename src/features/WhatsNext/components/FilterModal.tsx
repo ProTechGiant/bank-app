@@ -1,5 +1,3 @@
-import { isEmpty, isEqual, xorWith } from "lodash";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -15,75 +13,27 @@ import { FilterItemType } from "../types";
 interface FilterModalProps {
   onClose: () => void;
   isVisible: boolean;
-  initialCategories: FilterItemType[];
-  initialTypes: FilterItemType[];
-  onFiltersApplyPress: (categories: FilterItemType[], types: FilterItemType[]) => void;
+  categories: FilterItemType[];
+  types: FilterItemType[];
+  onApplyFilterPress: () => void;
+  onClearFilterPress: () => void;
+  onTypeFilterItemPress: (index: number) => void;
+  onCategoryFilterItemPress: (index: number) => void;
+  isApplyButtonDisabled: boolean;
 }
 
 export default function FilterModal({
   onClose,
   isVisible,
-  onFiltersApplyPress,
-  initialCategories,
-  initialTypes,
+  categories,
+  types,
+  onApplyFilterPress,
+  onClearFilterPress,
+  onTypeFilterItemPress,
+  onCategoryFilterItemPress,
+  isApplyButtonDisabled,
 }: FilterModalProps) {
   const { t } = useTranslation();
-
-  const [whatsNextCategories, setWhatsNextCategories] = useState(initialCategories);
-  const [whatsNextTypes, setWhatsNextTypes] = useState(initialTypes);
-
-  const handleOnClearFiltersPress = () => {
-    setWhatsNextTypes(
-      whatsNextTypes.map(item => {
-        if (item.isActive === false) {
-          return item;
-        }
-        return {
-          name: item.name,
-          isActive: false,
-        };
-      })
-    );
-    setWhatsNextCategories(
-      whatsNextCategories.map(item => {
-        if (item.isActive === false) {
-          return item;
-        }
-        return {
-          name: item.name,
-          isActive: false,
-        };
-      })
-    );
-  };
-
-  const handleOnTypeFilterItemPress = (index: number) => {
-    setWhatsNextTypes(
-      whatsNextTypes.map((item, ind) => {
-        if (ind !== index) {
-          return item;
-        }
-        return {
-          ...item,
-          isActive: !item.isActive,
-        };
-      })
-    );
-  };
-
-  const handleOnCategoryFilterItemPress = (index: number) => {
-    setWhatsNextCategories(
-      whatsNextCategories.map((item, ind) => {
-        if (ind !== index) {
-          return item;
-        }
-        return {
-          ...item,
-          isActive: !item.isActive,
-        };
-      })
-    );
-  };
 
   const modalStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.small,
@@ -109,7 +59,7 @@ export default function FilterModal({
 
   return (
     <Modal visible={isVisible} style={modalStyle} onClose={onClose} headerText={t("WhatsNext.HubScreen.filter")}>
-      <Pressable style={clearAllStyle} onPress={handleOnClearFiltersPress}>
+      <Pressable style={clearAllStyle} onPress={onClearFilterPress}>
         <Typography.Text color="primaryBase-40" size="footnote">
           {t("WhatsNext.HubScreen.clearAll")}
         </Typography.Text>
@@ -119,14 +69,14 @@ export default function FilterModal({
           {t("WhatsNext.HubScreen.type")}
         </Typography.Text>
         <Stack direction="horizontal" gap="12p" style={styles.flexWrap}>
-          {whatsNextTypes.map((data, index) => {
+          {types.map((data, index) => {
             return (
               <View key={data.name} style={chipContainerStyle}>
                 <Chip
                   title={data.name}
                   isEnabled={data.isActive}
                   isClosable={false}
-                  onPress={() => handleOnTypeFilterItemPress(index)}
+                  onPress={() => onTypeFilterItemPress(index)}
                 />
               </View>
             );
@@ -136,14 +86,14 @@ export default function FilterModal({
           {t("WhatsNext.HubScreen.category")}
         </Typography.Text>
         <Stack direction="horizontal" gap="12p" style={styles.flexWrap}>
-          {whatsNextCategories.map((data, index) => {
+          {categories.map((data, index) => {
             return (
               <View key={data.name} style={chipContainerStyle}>
                 <Chip
                   title={data.name}
                   isEnabled={data.isActive}
                   isClosable={false}
-                  onPress={() => handleOnCategoryFilterItemPress(index)}
+                  onPress={() => onCategoryFilterItemPress(index)}
                 />
               </View>
             );
@@ -151,12 +101,7 @@ export default function FilterModal({
         </Stack>
       </Stack>
       <View style={buttonContainerStyle}>
-        <Button
-          onPress={() => onFiltersApplyPress(whatsNextCategories, whatsNextTypes)}
-          disabled={
-            isEmpty(xorWith(initialCategories, whatsNextCategories, isEqual)) &&
-            isEmpty(xorWith(initialTypes, whatsNextTypes, isEqual))
-          }>
+        <Button onPress={onApplyFilterPress} disabled={isApplyButtonDisabled}>
           {t("WhatsNext.HubScreen.apply")}
         </Button>
       </View>
