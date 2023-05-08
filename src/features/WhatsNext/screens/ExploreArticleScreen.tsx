@@ -1,6 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
-import { Alert, Image, ImageStyle, View, ViewStyle } from "react-native";
+import { Alert, Image, ImageStyle, Platform, Share, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import ContentContainer from "@/components/ContentContainer";
@@ -10,6 +9,8 @@ import Stack from "@/components/Stack";
 import Tag from "@/components/Tag";
 import Typography from "@/components/Typography";
 import openLink from "@/features/FrequentlyAskedQuestions/utils/open-link";
+import useAppsFlyer from "@/hooks/use-appsflyer";
+import { warn } from "@/logger";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -23,6 +24,7 @@ export default function ExploreArticleScreen() {
   // TODO: handle image dynamically when mock data allows for it
   const articleId = useRoute<RouteProp<MainStackParams, "WhatsNext.ExploreArticleScreen">>().params;
   const navigation = useNavigation();
+  const appsFlyer = useAppsFlyer();
 
   // TODO get data from BE when ready using articleId from route params
   const data = WhatsNextMocks.find(data => data.ContentTag === "explore");
@@ -31,9 +33,16 @@ export default function ExploreArticleScreen() {
     //TODO: once we have backend
   };
 
-  const handleOnArticleSharePress = () => {
-    // TODO: handle share article
-    Alert.alert("will handle sharing article here");
+  const handleOnArticleSharePress = async () => {
+    try {
+      const link = await appsFlyer.createLink("Article", {
+        screen: "singleArticle",
+        params: JSON.stringify({ articleId }),
+      });
+      await Share.share(Platform.OS === "ios" ? { url: link } : { message: link });
+    } catch (error) {
+      warn("appsflyer-sdk", "Could not generate Article link", JSON.stringify(error));
+    }
   };
 
   const handleOnPositiveFeedbackPress = () => {

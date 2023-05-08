@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, I18nManager, Platform, SafeAreaView, ScrollView, Share, View } from "react-native";
-import appsFlyer from "react-native-appsflyer";
+import { Alert, I18nManager, SafeAreaView, ScrollView, View } from "react-native";
 
 import Button from "@/components/Button";
 import TextInput from "@/components/Form/TextInput";
 import { useAuthContext } from "@/contexts/AuthContext";
+import useAppsFlyer from "@/hooks/use-appsflyer";
 import reloadApp from "@/i18n/reload-app";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -22,21 +22,27 @@ interface TemporaryForm {
 export default function TemporaryLandingScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
+
   const auth = useAuthContext();
   const { setInternalTransferEntryPoint } = useInternalTransferContext();
+  const appsFlyer = useAppsFlyer();
 
   // Appsflyer listens for onDeepLink to be triggered and then we navigate to correct screen using data passed by Appsflyer
   // TODO: Should be placed inside the first screen in the nav stack so that it is always called but can also handle navigation
   useEffect(() => {
-    appsFlyer.onDeepLink(result => {
-      if (result.deepLinkStatus !== "FOUND") return;
+    const listener = appsFlyer.onDeepLink(result => {
+      // If no deep linking or deep link is deffered then we do not handle navigation
+      if (result.deepLinkStatus !== "FOUND" || result.isDeferred === true) return;
+
       if (result.data?.stack !== undefined && result.data?.screen !== undefined) {
-        navigation.navigate(result.data.stack, {
-          screen: result.data.screen,
-          params: JSON.parse(result.data.params),
+        // TODO: handle navigation using method in developement for internal links
+        navigation.navigate("WhatsNext.WhatsNextStack", {
+          screen: "WhatsNext.HubScreen",
         });
       }
     });
+
+    return () => listener();
   }, []);
 
   // PC-4353 show or skip saving goals instructions
@@ -129,27 +135,6 @@ export default function TemporaryLandingScreen() {
     reloadApp();
   };
 
-  const handleOnArticleSharePress = () => {
-    const faqId = "faq_1";
-
-    appsFlyer.generateInviteLink(
-      {
-        channel: "Article",
-        userParams: {
-          stack: "FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack",
-          screen: "FrequentlyAskedQuestions.DetailedScreen",
-          params: JSON.stringify({ faqId }),
-        },
-      },
-      link => {
-        return Share.share(Platform.OS === "ios" ? { url: link } : { message: link });
-      },
-      error => {
-        warn("appsflyer-sdk", "Could not generate Article link", JSON.stringify(error));
-      }
-    );
-  };
-
   return (
     <SafeAreaView>
       <ScrollView>
@@ -197,9 +182,6 @@ export default function TemporaryLandingScreen() {
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>
-        </View>
-        <View style={{ margin: 20 }}>
-          <Button onPress={handleOnArticleSharePress}>Article Share button</Button>
         </View>
       </ScrollView>
     </SafeAreaView>

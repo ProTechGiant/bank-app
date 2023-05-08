@@ -23,7 +23,11 @@ const queryClient = new QueryClient();
 
 export default function App() {
   useI18nDirection();
-  useAppsFlyer();
+  const { initializeSdk } = useAppsFlyer();
+
+  useEffect(() => {
+    initializeSdk();
+  }, []);
 
   useEffect(() => {
     async function main() {

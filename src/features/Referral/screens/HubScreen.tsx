@@ -2,7 +2,6 @@ import Clipboard from "@react-native-clipboard/clipboard";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Platform, ScrollView, Share, StyleSheet, View, ViewStyle } from "react-native";
-import appsFlyer from "react-native-appsflyer";
 
 import { CopyIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -15,6 +14,8 @@ import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { useReferralContext } from "@/contexts/ReferralContext";
+import useAppsFlyer from "@/hooks/use-appsflyer";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -29,6 +30,7 @@ export default function HubScreen() {
 
   const { data: customerReferrals } = useCustomersReferrals();
   const { refetchAll } = useRefetchReferrals();
+  const appsFlyer = useAppsFlyer();
 
   const { referralPageViewStatus, referralLink, setReferralLink } = useReferralContext();
   const [showToast, setShowToast] = useState(false);
@@ -56,23 +58,20 @@ export default function HubScreen() {
   }, [navigation, referralPageViewStatus]);
 
   useEffect(() => {
-    if (referralLink === undefined && referralCode !== undefined) {
-      appsFlyer.generateInviteLink(
-        {
-          channel: "invite_friends",
-          userParams: {
-            referralCode,
-          },
-        },
-        link => {
-          setReferralLink(link);
-        },
-        () => {
-          //   On error referral link remains undefined
-        }
-      );
+    async function generateReferralLink(code: string) {
+      try {
+        const link = await appsFlyer.createLink("InviteFriends", {
+          referralCode: code,
+        });
+        await Share.share(Platform.OS === "ios" ? { url: link } : { message: link });
+      } catch (error) {
+        warn("appsflyer-sdk", "Could not generate invite fiends link", JSON.stringify(error));
+      }
     }
-  }, [referralLink, referralCode, setReferralLink]);
+    if (referralLink === undefined && referralCode !== undefined) {
+      generateReferralLink(referralCode);
+    }
+  }, [referralLink, referralCode, setReferralLink, appsFlyer]);
 
   const handleOnCopyPress = () => {
     if (referralLink) {
