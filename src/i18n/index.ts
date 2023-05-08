@@ -1287,6 +1287,29 @@ export const resources = {
           bannerMessage: "You need to confirm this beneficiary's details before you can send any money.",
           confirmButton: "Confirm",
         },
+        ReviewQuickTransferScreen: {
+          title: "Review transfer",
+          from: "From",
+          to: "To",
+          reason: "Reason",
+          total: "Total",
+          bank: "Bank",
+          processingTime: "Processing time",
+          fee: "Fee",
+          sendMoney: "Send money now",
+          cancel: "Cancel",
+          currency: "SAR",
+          notification: {
+            title: "Are you sure?",
+            message: "Do you want to cancel this transfer?",
+            cancel: "Cancel transfer",
+            continue: "Close",
+          },
+          feesError: {
+            title: "Sorry - we couldn’t check that",
+            message: "Please try again later or get in touch if you’re still having problems.",
+          },
+        },
         BeneficiaryDeclarationScreen: {
           title: "Terms and conditions",
           sections: {

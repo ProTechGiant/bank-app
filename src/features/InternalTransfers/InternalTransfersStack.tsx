@@ -16,6 +16,7 @@ import {
   StandardTransferScreen,
   TermsAndConditionsModal,
 } from "./screens";
+import ReviewQuickTransferScreen from "./screens/ReviewQuickTransferScreen";
 import { AddNoteParams } from "./types";
 
 export type InternalTransfersStackParams = {
@@ -46,6 +47,7 @@ export type InternalTransfersStackParams = {
       }
     | undefined;
   "InternalTransfers.ConfirmQuickTransferBeneficiaryScreen": undefined;
+  "InternalTransfers.ReviewQuickTransferScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
@@ -81,6 +83,7 @@ export default function InternalTransfersStack() {
         component={ConfirmQuickTransferBeneficiaryScreen}
         name="InternalTransfers.ConfirmQuickTransferBeneficiaryScreen"
       />
+      <Stack.Screen component={ReviewQuickTransferScreen} name="InternalTransfers.ReviewQuickTransferScreen" />
     </Stack.Navigator>
   );
 }

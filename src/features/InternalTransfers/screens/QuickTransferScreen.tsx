@@ -131,7 +131,9 @@ export default function QuickTransferScreen() {
                   <TransferErrorBox
                     onPress={handleOnSwitchStandardTransferPress}
                     // eslint-disable-next-line prettier/prettier
-                    textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsQuickTransferLimit", { amount: formatter.format(QUICK_TRANSFER_LIMIT) })}
+                    textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsQuickTransferLimit", {
+                      amount: formatter.format(QUICK_TRANSFER_LIMIT),
+                    })}
                     textEnd={t("InternalTransfers.QuickTransferScreen.switchToStandardTransfer")}
                   />
                 ) : null}

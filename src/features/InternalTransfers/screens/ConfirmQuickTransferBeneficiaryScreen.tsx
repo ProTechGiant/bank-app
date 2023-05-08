@@ -42,7 +42,7 @@ export default function ConfirmQuickTransferBeneficiaryScreen() {
   const route = useRoute<RouteProp<MainStackParams, "InternalTransfers.ConfirmQuickTransferBeneficiaryScreen">>();
 
   const handleOnSubmit = () => {
-    navigation.navigate("InternalTransfers.ReviewTransferScreen");
+    navigation.navigate("InternalTransfers.ReviewQuickTransferScreen");
   };
 
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
