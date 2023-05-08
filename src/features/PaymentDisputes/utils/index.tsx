@@ -1,7 +1,10 @@
 import { format } from "date-fns";
 
-export const formattedDateTime = (value: string) => {
-  const dateTime = new Date(value);
-  // Format: 30 March, 2023  15:45
-  return `${format(dateTime, "d MMMM, yyyy")} • ${format(dateTime, "HH:mm")}`;
-};
+export function formatDateTime(date: Date) {
+  return format(date, "d MMMM, yyyy • HH:mm");
+}
+
+const ACTIVE_CASE_STATUSES = ["Opened", "Assigned", "In Review", "Reopened"];
+export function isCaseActive(status: string) {
+  return ACTIVE_CASE_STATUSES.includes(status);
+}

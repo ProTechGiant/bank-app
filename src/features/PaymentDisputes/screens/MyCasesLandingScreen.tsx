@@ -1,0 +1,103 @@
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, View, ViewStyle } from "react-native";
+
+import ContentContainer from "@/components/ContentContainer";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
+import { LoadingErrorNotification } from "@/components/LoadingError";
+import NavHeader from "@/components/NavHeader";
+import Page from "@/components/Page";
+import SegmentedControl from "@/components/SegmentedControl";
+import Typography from "@/components/Typography";
+import { useThemeStyles } from "@/theme";
+
+import CaseListItem from "../components/CaseListItem";
+import { useMyCases } from "../hooks/query-hooks";
+import { isCaseActive } from "../utils";
+
+export default function MyCasesLandingScreen() {
+  const { t } = useTranslation();
+
+  const cases = useMyCases();
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const [currentTab, setCurrentTab] = useState<"active" | "resolved">("active");
+
+  useEffect(() => {
+    setIsErrorModalVisible(cases.isError);
+  }, [cases.isError]);
+
+  const handleOnPress = (caseNumber: string) => {
+    // ..
+  };
+
+  const segmentedControlStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: -theme.spacing["20p"],
+    marginTop: theme.spacing["24p"],
+  }));
+
+  const contentContainerStyle = useThemeStyles(theme => ({
+    rowGap: theme.spacing["24p"],
+  }));
+
+  const visibleItems = useMemo(
+    () =>
+      cases.data?.DisputeCases.filter(element =>
+        currentTab === "active" ? isCaseActive(element.CaseStatus) : !isCaseActive(element.CaseStatus)
+      ),
+    [cases.data, currentTab]
+  );
+
+  return (
+    <>
+      <Page backgroundColor="neutralBase-60">
+        <NavHeader />
+        <ContentContainer>
+          <Typography.Text color="neutralBase+30" size="title1" weight="medium">
+            {t("PaymentDisputes.MyCasesLandingScreen.title")}
+          </Typography.Text>
+          <View style={segmentedControlStyle}>
+            <SegmentedControl onPress={value => setCurrentTab(value)} value={currentTab}>
+              <SegmentedControl.Item value="active">
+                {t("PaymentDisputes.MyCasesLandingScreen.active")}
+              </SegmentedControl.Item>
+              <SegmentedControl.Item value="resolved">
+                {t("PaymentDisputes.MyCasesLandingScreen.resolved")}
+              </SegmentedControl.Item>
+            </SegmentedControl>
+          </View>
+        </ContentContainer>
+        <ContentContainer isScrollView style={contentContainerStyle}>
+          {visibleItems === undefined ? (
+            <FlexActivityIndicator />
+          ) : visibleItems.length < 1 ? (
+            <View style={styles.empty}>
+              <Typography.Text color="neutralBase-20" size="title3" weight="medium">
+                {t("PaymentDisputes.MyCasesLandingScreen.noActiveCases")}
+              </Typography.Text>
+            </View>
+          ) : (
+            visibleItems.map(element => (
+              <CaseListItem key={element.CaseNumber} data={element} onPress={() => handleOnPress(element.CaseNumber)} />
+            ))
+          )}
+        </ContentContainer>
+      </Page>
+      <LoadingErrorNotification
+        onClose={() => setIsErrorModalVisible(false)}
+        onRefresh={() => {
+          cases.refetch();
+          setIsErrorModalVisible(false);
+        }}
+        isVisible={isErrorModalVisible}
+      />
+    </>
+  );
+}
+
+const styles = StyleSheet.create({
+  empty: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
+});

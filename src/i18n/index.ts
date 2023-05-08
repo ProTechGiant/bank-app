@@ -1535,6 +1535,20 @@ export const resources = {
               "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
           },
         },
+        MyCasesLandingScreen: {
+          title: "My cases",
+          active: "Active",
+          resolved: "Resolved",
+          noActiveCases: "You dont have any active cases.",
+        },
+        CaseListItem: {
+          opened: "Open",
+          assigned: "Open",
+          inReview: "In review",
+          approved: "Approved",
+          rejected: "Rejected",
+          reopened: "Open",
+        },
         FreezeCardModal: {
           title: "Do you want to freeze your card?",
           subtitle: "Freezing your card protects you from further fraud as we will temporarily block all payments.",

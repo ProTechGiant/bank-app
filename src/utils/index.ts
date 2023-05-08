@@ -50,3 +50,5 @@ export const getInitials = (name: string) => {
   }
   return initials;
 };
+
+export { default as formatCurrency } from "./format-currency";

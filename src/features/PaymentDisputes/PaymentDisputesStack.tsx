@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Card } from "../CardActions/types";
-import { DisputeSubmittedScreen, PaymentDisputeScreen, TermsAndConditionsModal } from "./screens";
+import { DisputeSubmittedScreen, MyCasesLandingScreen, PaymentDisputeScreen, TermsAndConditionsModal } from "./screens";
 import { CaseType } from "./types";
 
 export type PaymentDisputesStackParams = {
@@ -9,6 +9,7 @@ export type PaymentDisputesStackParams = {
     cardId: string;
   };
   "PaymentDisputes.TermsAndConditionsModal": undefined;
+  "PaymentDisputes.MyCasesLandingScreen": undefined;
   "PaymentDisputes.DisputeSubmittedScreen": {
     caseType: CaseType;
     cardType: Card["CardType"];
@@ -24,6 +25,7 @@ export default function PaymentDisputesStack() {
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen component={PaymentDisputeScreen} name="PaymentDisputes.PaymentDisputeScreen" />
         <Stack.Screen component={TermsAndConditionsModal} name="PaymentDisputes.TermsAndConditionsModal" />
+        <Stack.Screen component={MyCasesLandingScreen} name="PaymentDisputes.MyCasesLandingScreen" />
       </Stack.Group>
       <Stack.Screen component={DisputeSubmittedScreen} name="PaymentDisputes.DisputeSubmittedScreen" />
     </Stack.Navigator>

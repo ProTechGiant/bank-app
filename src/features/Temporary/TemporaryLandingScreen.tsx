@@ -130,6 +130,12 @@ export default function TemporaryLandingScreen() {
     });
   };
 
+  const handleOnPressPaymentDisputesLanding = () => {
+    navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
+      screen: "PaymentDisputes.MyCasesLandingScreen",
+    });
+  };
+
   const handleOnSwitchDirection = () => {
     I18nManager.forceRTL(!I18nManager.isRTL);
     reloadApp();
@@ -182,6 +188,9 @@ export default function TemporaryLandingScreen() {
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>
+        </View>
+        <View style={{ margin: 20 }}>
+          <Button onPress={handleOnPressPaymentDisputesLanding}>Payment Disputes Landing</Button>
         </View>
       </ScrollView>
     </SafeAreaView>
