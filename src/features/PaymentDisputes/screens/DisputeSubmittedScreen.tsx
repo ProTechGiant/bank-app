@@ -6,6 +6,7 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
+import { SINGLE_USE_CARD_TYPE } from "@/constants";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -31,7 +32,7 @@ export default function DisputeSubmittedScreen() {
     borderRadius: theme.radii.xxlarge,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 100,
+    marginBottom: "25%",
   }));
 
   const textStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -40,7 +41,7 @@ export default function DisputeSubmittedScreen() {
 
   return (
     <Page>
-      <ContentContainer style={styles.container}>
+      <ContentContainer isScrollView style={styles.container}>
         <View style={styles.contentContainer}>
           <View style={brandContainerStyle}>
             <Typography.Text size="callout" weight="medium" color="neutralBase-60">
@@ -70,7 +71,7 @@ export default function DisputeSubmittedScreen() {
                 </Typography.Text>
               </View>
               {/* TODO: add a check for cardStatus */}
-              {caseType === "fraud" && cardType !== "2" ? (
+              {caseType === "fraud" && cardType !== SINGLE_USE_CARD_TYPE ? (
                 <View style={textStyle}>
                   <Typography.Text align="center" size="footnote" color="neutralBase+10">
                     {t("PaymentDisputes.DisputeSubmittedScreen.textThree")}
