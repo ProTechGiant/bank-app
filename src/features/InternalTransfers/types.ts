@@ -54,3 +54,6 @@ export interface InternalTransfer {
   CreditorAccountCustomerAccountId: string;
   RemittanceInformation: string;
 }
+
+// Transfer Types: QuickOrStandardType: 110 | SAIREType: 120;
+export type TransferType = "110" | "120";

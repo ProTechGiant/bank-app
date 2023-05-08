@@ -1,16 +1,18 @@
+import { generateKey } from "crypto";
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
 import sendApiRequest from "@/api";
 import { generateRandomId } from "@/utils";
 
-import { AddBeneficiarySelectionType, BeneficiaryType, InternalTransfer, TransferReason } from "../types";
+import { AddBeneficiarySelectionType, BeneficiaryType, InternalTransfer, TransferReason, TransferType } from "../types";
 
 const queryKeys = {
   all: () => ["transfers"] as const,
   reasons: () => [...queryKeys.all(), "reasons"] as const,
   beneficiaries: () => [...queryKeys.all(), "beneficiaries"] as const,
   banks: () => [...queryKeys.all(), "banks"] as const,
+  transferFees: (transferType: string) => [...queryKeys.all(), "transfer-fees", { transferType }] as const,
 };
 
 interface ReasonsResponse {
@@ -155,6 +157,27 @@ export function useConfirmQuickTransferTermsAndConditions() {
       undefined,
       {
         CustomerTermsConditionsFlag: CustomerTermsConditionsFlag,
+      },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}
+
+interface TransferFeesResponse {
+  TransferFee: string;
+}
+
+export function useTransferFees(transferType: TransferType) {
+  return useQuery(queryKeys.transferFees(transferType), () => {
+    return api<TransferFeesResponse>(
+      "v1",
+      "transfers",
+      "POST",
+      undefined,
+      {
+        TransferType: transferType,
       },
       {
         ["x-correlation-id"]: generateRandomId(),

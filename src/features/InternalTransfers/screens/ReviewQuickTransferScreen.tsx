@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { TextStyle, View, ViewStyle } from "react-native";
+import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -13,6 +13,8 @@ import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { useTransferFees } from "../hooks/query-hooks";
+
 // @todo mocked data
 const transferData = {
   transferAmount: 100,
@@ -20,7 +22,6 @@ const transferData = {
   amount: "1,000",
   bank: "Saudi National Bank",
   processingTime: "Same day",
-  fee: 0,
   recipient: {
     accountName: "Ahmad Abdul Aziz",
     accountNumber: "00e6566676",
@@ -32,9 +33,14 @@ export default function ReviewQuickTransferScreen() {
   const navigation = useNavigation();
 
   const account = useCurrentAccount();
+  const transferFeesAsync = useTransferFees("110");
 
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+
+  useEffect(() => {
+    setIsErrorModalVisible(transferFeesAsync.isError);
+  }, [transferFeesAsync.isError]);
 
   const handleOnClose = () => {
     setIsVisible(true);
@@ -45,7 +51,8 @@ export default function ReviewQuickTransferScreen() {
       account.data === undefined ||
       transferData.reason === undefined ||
       transferData.transferAmount === undefined ||
-      transferData.recipient.accountNumber === undefined
+      transferData.recipient.accountNumber === undefined ||
+      transferFeesAsync.data?.TransferFee === undefined
     ) {
       return;
     }
@@ -80,7 +87,7 @@ export default function ReviewQuickTransferScreen() {
     backgroundColor: theme.palette["neutralBase-40"],
     marginHorizontal: -theme.spacing["20p"],
     marginTop: theme.spacing["32p"],
-    marginBottom: theme.spacing["36p"],
+    marginBottom: theme.spacing["32p"] + theme.spacing["4p"],
   }));
 
   const inlineText = useThemeStyles<ViewStyle>(theme => ({
@@ -151,9 +158,13 @@ export default function ReviewQuickTransferScreen() {
                 <Typography.Text weight="medium" size="callout" color="neutralBase+30">
                   {t("InternalTransfers.ReviewQuickTransferScreen.fee")}
                 </Typography.Text>
-                <Typography.Text color="neutralBase-10" weight="regular" size="callout">
-                  {transferData.fee} {t("InternalTransfers.ReviewQuickTransferScreen.currency")}
-                </Typography.Text>
+                {transferFeesAsync.data === undefined ? (
+                  <ActivityIndicator size="small" />
+                ) : (
+                  <Typography.Text color="neutralBase-10" weight="regular" size="callout">
+                    {transferFeesAsync.data?.TransferFee} {t("InternalTransfers.ReviewQuickTransferScreen.currency")}
+                  </Typography.Text>
+                )}
               </View>
               <View style={inlineText}>
                 <Typography.Text weight="medium" size="callout" color="neutralBase+30">
