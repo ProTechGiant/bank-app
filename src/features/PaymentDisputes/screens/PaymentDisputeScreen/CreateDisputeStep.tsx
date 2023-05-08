@@ -3,11 +3,14 @@ import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
+import { DocumentPickerResponse } from "react-native-document-picker";
+import { Asset } from "react-native-image-picker";
 import * as yup from "yup";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
+import AssetInput from "@/components/Form/AssetInput";
 import CheckboxInput from "@/components/Form/CheckboxInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
@@ -19,9 +22,9 @@ import { Card } from "@/features/CardActions/types";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { mockTransactionDetails } from "../mocks/mockTransactionDetails";
-import { CaseType } from "../types";
-import { formattedDateTime } from "../utils";
+import { mockTransactionDetails } from "../../mocks/mockTransactionDetails";
+import { CaseType } from "../../types";
+import { formattedDateTime } from "../../utils";
 
 interface CreateDisputeStepProps {
   caseType: CaseType;
@@ -30,9 +33,10 @@ interface CreateDisputeStepProps {
   onBack: () => void;
 }
 
-interface CreateDisputeForm {
+interface CreateDisputeInput {
   DeclarationFlag: boolean;
   Description: string;
+  File: (Asset & DocumentPickerResponse) | undefined;
 }
 
 export default function CreateDisputeStep({ caseType, cardType, reasonCode, onBack }: CreateDisputeStepProps) {
@@ -41,7 +45,6 @@ export default function CreateDisputeStep({ caseType, cardType, reasonCode, onBa
 
   const [isCancelDisputeModalVisible, setIsCancelDisputeModalVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
-
   const isMessageRequired = (caseType === "dispute" && reasonCode === IS_SOMETHING_ELSE_CODE) || caseType === "fraud";
 
   const validationSchema = useMemo(
@@ -54,20 +57,34 @@ export default function CreateDisputeStep({ caseType, cardType, reasonCode, onBa
               .required(t("PaymentDisputes.CreateDisputeModal.messageBox.validation.minLength"))
               .min(25, t("PaymentDisputes.CreateDisputeModal.messageBox.validation.minLength"))
           : yup.string(),
+        File:
+          caseType === "dispute"
+            ? yup
+                .mixed()
+                .test(
+                  "fileSize",
+                  t("PaymentDisputes.CreateDisputeModal.file.fileTooBig", { maxFileSize: MAX_FILE_SIZE_MB }),
+                  value =>
+                    value === undefined ||
+                    (value?.fileSize && value.fileSize <= fileSizeInBytes) ||
+                    (value?.size && value.size <= fileSizeInBytes)
+                )
+            : yup.string(),
       }),
-    [t, isMessageRequired]
+    [caseType, t, isMessageRequired]
   );
 
-  const { control, handleSubmit } = useForm<CreateDisputeForm>({
+  const { control, handleSubmit } = useForm<CreateDisputeInput>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
       Description: undefined,
       DeclarationFlag: false,
+      File: undefined,
     },
   });
 
-  const handleOnSubmit = (values: CreateDisputeForm) => {
+  const handleOnSubmit = (values: CreateDisputeInput) => {
     console.log(values); // TODO: BE integration
     navigation.navigate("PaymentDisputes.DisputeSubmittedScreen", {
       caseType: caseType,
@@ -172,7 +189,7 @@ export default function CreateDisputeStep({ caseType, cardType, reasonCode, onBa
               </Typography.Text>
             </View>
           </View>
-          <View>
+          <Stack direction="vertical" gap="24p" align="stretch" flex={1}>
             <TextInput
               control={control}
               label={t("PaymentDisputes.CreateDisputeModal.messageBox.label")}
@@ -187,7 +204,8 @@ export default function CreateDisputeStep({ caseType, cardType, reasonCode, onBa
               multiline
               numberOfLines={4}
             />
-          </View>
+            {caseType === "dispute" ? <AssetInput control={control} name="File" /> : null}
+          </Stack>
         </Stack>
         <View>
           <View style={[dividerStyle, bottomDividerMarginStyle]}>
@@ -266,3 +284,5 @@ const styles = StyleSheet.create({
 });
 
 const IS_SOMETHING_ELSE_CODE = "200";
+const MAX_FILE_SIZE_MB = 5; // TODO: TBC
+const fileSizeInBytes = MAX_FILE_SIZE_MB * 1024 * 1024;

@@ -1,5 +1,6 @@
 import "./i18n";
 
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { useEffect } from "react";
 import { StatusBar, StyleSheet } from "react-native";
 import RNBootSplash from "react-native-bootsplash";
@@ -37,22 +38,24 @@ export default function App() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthContextProvider>
-        <ReferralContextProvider>
-          <OnboardingContextProvider>
-            <InternalTransferContextProvider>
-              <SafeAreaProvider>
-                <GestureHandlerRootView style={styles.container}>
-                  <StatusBar barStyle="dark-content" />
-                  <MainStack onReady={() => RNBootSplash.hide()} />
-                </GestureHandlerRootView>
-              </SafeAreaProvider>
-            </InternalTransferContextProvider>
-          </OnboardingContextProvider>
-        </ReferralContextProvider>
-      </AuthContextProvider>
-    </QueryClientProvider>
+    <ActionSheetProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthContextProvider>
+          <ReferralContextProvider>
+            <OnboardingContextProvider>
+              <InternalTransferContextProvider>
+                <SafeAreaProvider>
+                  <GestureHandlerRootView style={styles.container}>
+                    <StatusBar barStyle="dark-content" />
+                    <MainStack onReady={() => RNBootSplash.hide()} />
+                  </GestureHandlerRootView>
+                </SafeAreaProvider>
+              </InternalTransferContextProvider>
+            </OnboardingContextProvider>
+          </ReferralContextProvider>
+        </AuthContextProvider>
+      </QueryClientProvider>
+    </ActionSheetProvider>
   );
 }
 

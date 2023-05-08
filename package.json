@@ -20,6 +20,7 @@
     "Notifications"
   ],
   "dependencies": {
+    "@expo/react-native-action-sheet": "^4.0.1",
     "@hookform/resolvers": "^2.9.10",
     "@meawallet/react-native-mpp": "^1.1.4",
     "@react-native-clipboard/clipboard": "^1.11.1",
@@ -42,8 +43,10 @@
     "react-native-appsflyer": "^6.9.4",
     "react-native-bootsplash": "^4.5.2",
     "react-native-context-menu-view": "^1.9.1",
+    "react-native-document-picker": "^8.2.0",
     "react-native-draggable-flatlist": "^4.0.0",
     "react-native-gesture-handler": "^2.9.0",
+    "react-native-image-picker": "^5.3.1",
     "react-native-inappbrowser-reborn": "^3.7.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-pager-view": "^6.1.2",

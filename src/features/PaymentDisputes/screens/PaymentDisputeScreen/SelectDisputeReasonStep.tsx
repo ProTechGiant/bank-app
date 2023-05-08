@@ -10,9 +10,9 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 
-import { DisputeReasonsList } from "../components";
-import { useReasons } from "../hooks/query-hooks";
-import { TransactionType } from "../types";
+import { DisputeReasonsList } from "../../components";
+import { useReasons } from "../../hooks/query-hooks";
+import { TransactionType } from "../../types";
 
 interface SelectDisputeReasonStepProps {
   transactionType: TransactionType;

@@ -94,6 +94,7 @@ export { default as TickCircleIcon } from "./tick-circle";
 export { default as TickCircleBorderIcon } from "./tick-circle-border";
 export { default as TransferHorizontalIcon } from "./transfer-horizontal";
 export { default as TransferVerticalIcon } from "./transfer-vertical";
+export { default as UploadIcon } from "./upload";
 export { default as UserClockIcon } from "./user-clock";
 export { UserIcon } from "./user-icon";
 export { WalletIcon } from "./wallet";

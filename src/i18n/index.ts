@@ -17,6 +17,14 @@ export const resources = {
         currentlyOnDay_few: "On {{count}}rd",
         currentlyOnDay_other: "On {{count}}th",
       },
+      AssetInput: {
+        label: "Upload photo or document",
+        buttons: {
+          openPhotos: "Open Photos",
+          openDocuments: "Open Documents",
+          cancel: "Cancel",
+        },
+      },
       errors: {
         generic: {
           title: "Sorry, something has gone wrong",
@@ -1498,6 +1506,10 @@ export const resources = {
               minLength: "Minimum 25 characters",
             },
           },
+          file: {
+            fileTooBig: "File is too big, it must be smaller than {{maxFileSize}} MB",
+            uploadFailed: "Upload failed, please try again",
+          },
           checkBoxMessage: "By checking this box, you agree to our ",
           termsAndConditions: "Terms and Conditions",
           submitDisputeButton: "Submit dispute",
@@ -1574,6 +1586,14 @@ export const resources = {
 
   ar: {
     translation: {
+      AssetInput: {
+        label: "Upload photo or document",
+        buttons: {
+          openPhotos: "Open Photos",
+          openDocuments: "Open Documents",
+          cancel: "Cancel",
+        },
+      },
       TableList: {
         datePicker: {
           placeholder: "Set",
@@ -2245,6 +2265,10 @@ export const resources = {
           validation: {
             minLength: "Minimum 25 characters",
           },
+        },
+        file: {
+          fileTooBig: "File is too big, it must be smaller than {{maxFileSize}} MB",
+          uploadFailed: "Upload failed, please try again",
         },
         checkBoxMessage: "By checking this box, you agree to our ",
         termsAndConditions: "Terms and Conditions",

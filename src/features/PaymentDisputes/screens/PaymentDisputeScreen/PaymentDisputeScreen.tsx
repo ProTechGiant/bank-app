@@ -10,8 +10,11 @@ import { warn } from "@/logger";
 import MainStackParams from "@/navigation/mainStackParams";
 import { generateRandomId } from "@/utils";
 
-import { CaseType, TransactionType } from "../types";
-import { CreateDisputeStep, FreezeCardStep, LandingStep, SelectDisputeReasonStep } from "./index";
+import { CaseType, TransactionType } from "../../types";
+import CreateDisputeStep from "./CreateDisputeStep";
+import FreezeCardStep from "./FreezeCardStep";
+import LandingStep from "./LandingStep";
+import SelectDisputeReasonStep from "./SelectDisputeReasonStep";
 
 type Steps = "landing" | "freeze-card" | "reasons" | "create-dispute";
 
