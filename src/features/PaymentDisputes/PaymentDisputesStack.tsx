@@ -7,6 +7,7 @@ import { CaseType } from "./types";
 export type PaymentDisputesStackParams = {
   "PaymentDisputes.PaymentDisputeScreen": {
     cardId: string;
+    createDisputeUserId: string;
   };
   "PaymentDisputes.TermsAndConditionsModal": undefined;
   "PaymentDisputes.MyCasesLandingScreen": undefined;

@@ -3,8 +3,6 @@ import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
-import { DocumentPickerResponse } from "react-native-document-picker";
-import { Asset } from "react-native-image-picker";
 import * as yup from "yup";
 
 import Button from "@/components/Button";
@@ -19,29 +17,36 @@ import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { Card } from "@/features/CardActions/types";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { useCreateCase } from "../../hooks/query-hooks";
 import { mockTransactionDetails } from "../../mocks/mockTransactionDetails";
-import { CaseType } from "../../types";
+import { CaseType, CreateDisputeInput } from "../../types";
 import { formattedDateTime } from "../../utils";
 
 interface CreateDisputeStepProps {
   caseType: CaseType;
   cardType: Card["CardType"];
+  isCardFrozen: boolean;
   reasonCode: string;
   onBack: () => void;
+  createDisputeUserId: string; // TODO: To be removed once we can use the same ID for freeze card and create case
 }
 
-interface CreateDisputeInput {
-  DeclarationFlag: boolean;
-  Description: string;
-  File: (Asset & DocumentPickerResponse) | undefined;
-}
-
-export default function CreateDisputeStep({ caseType, cardType, reasonCode, onBack }: CreateDisputeStepProps) {
+export default function CreateDisputeStep({
+  caseType,
+  cardType,
+  isCardFrozen,
+  reasonCode,
+  onBack,
+  createDisputeUserId,
+}: CreateDisputeStepProps) {
   const navigation = useNavigation();
   const { t } = useTranslation();
+
+  const createCase = useCreateCase();
 
   const [isCancelDisputeModalVisible, setIsCancelDisputeModalVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
@@ -51,7 +56,7 @@ export default function CreateDisputeStep({ caseType, cardType, reasonCode, onBa
     () =>
       yup.object().shape({
         DeclarationFlag: yup.boolean().isTrue(),
-        Description: isMessageRequired
+        CaseDetails: isMessageRequired
           ? yup
               .string()
               .required(t("PaymentDisputes.CreateDisputeModal.messageBox.validation.minLength"))
@@ -78,19 +83,32 @@ export default function CreateDisputeStep({ caseType, cardType, reasonCode, onBa
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      Description: undefined,
+      CaseDetails: undefined,
       DeclarationFlag: false,
       File: undefined,
     },
   });
 
-  const handleOnSubmit = (values: CreateDisputeInput) => {
-    console.log(values); // TODO: BE integration
-    navigation.navigate("PaymentDisputes.DisputeSubmittedScreen", {
-      caseType: caseType,
-      cardType: cardType,
-      caseId: "123456789", //TODO: hardcoded until BE is available
-    });
+  const handleOnSubmit = async (values: CreateDisputeInput) => {
+    try {
+      const { File, ...restValues } = values;
+
+      const response = await createCase.mutateAsync({
+        createDisputeUserId,
+        isCardFrozen,
+        reasonCode,
+        values: restValues,
+      });
+
+      navigation.navigate("PaymentDisputes.DisputeSubmittedScreen", {
+        caseType: caseType,
+        cardType: cardType,
+        caseId: response.CaseNumber,
+      });
+    } catch (error) {
+      setIsErrorModalVisible(true);
+      warn("payment-disputes", "Could not create dispute / fraud case: ", JSON.stringify(error));
+    }
   };
 
   const handleOnTermsAndConditionsPress = () => {
@@ -104,7 +122,9 @@ export default function CreateDisputeStep({ caseType, cardType, reasonCode, onBa
   const handleOnConfirmExitDispute = () => {
     setIsCancelDisputeModalVisible(false);
     setTimeout(() => {
-      navigation.navigate("Temporary.LandingScreen"); // TODO: navigate to transaction listing page
+      navigation.navigate("ViewTransactions.ViewTransactionsStack", {
+        screen: "ViewTransactions.TransactionsScreen",
+      });
     }, 300);
   };
 
@@ -193,7 +213,7 @@ export default function CreateDisputeStep({ caseType, cardType, reasonCode, onBa
             <TextInput
               control={control}
               label={t("PaymentDisputes.CreateDisputeModal.messageBox.label")}
-              name="Description"
+              name="CaseDetails"
               extra={
                 isMessageRequired
                   ? t("PaymentDisputes.CreateDisputeModal.messageBox.required")

@@ -21,17 +21,21 @@ type Steps = "landing" | "freeze-card" | "reasons" | "create-dispute";
 export default function PaymentDisputeScreen() {
   const route = useRoute<RouteProp<MainStackParams, "PaymentDisputes.PaymentDisputeScreen">>();
 
+  // TODO: get cardId
+  const cardId = route.params.cardId;
+  const createDisputeUserId = route.params.createDisputeUserId;
+
+  const card = useCard(cardId);
+  const freezeCardAsync = useFreezeCard();
+
   const [currentStep, setCurrentStep] = useState<Steps>("landing");
   const [previousStep, setPreviousStep] = useState<Steps>("landing");
   // TODO: get transaction type
   const [transactionType, setTransactionType] = useState<TransactionType>("ATM");
-  // TODO: get cardId
-  const cardId = route.params.cardId;
   const [reasonCode, setReasonCode] = useState("");
   const [caseType, setCaseType] = useState<CaseType>("dispute");
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
-  const card = useCard(cardId);
-  const freezeCardAsync = useFreezeCard();
+  const [isCardFrozen, setIsCardFrozen] = useState(false);
 
   // TODO: get cardtype and cardstatus from new endpoint when that's available
   const selectedCard = card.data;
@@ -69,7 +73,11 @@ export default function PaymentDisputeScreen() {
 
     try {
       const response = await freezeCardAsync.mutateAsync({ cardId, correlationId });
-      if (response.Status !== "freeze") throw new Error("Received unexpected response from backend");
+      if (response.Status !== "freeze") {
+        throw new Error("Received unexpected response from backend");
+      } else {
+        setIsCardFrozen(true);
+      }
     } catch (error) {
       setIsErrorModalVisible(true);
       warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
@@ -122,6 +130,8 @@ export default function PaymentDisputeScreen() {
               caseType={caseType}
               cardType={cardType}
               reasonCode={reasonCode}
+              createDisputeUserId={createDisputeUserId}
+              isCardFrozen={isCardFrozen}
               onBack={handleOnCreateDisputeBack}
             />
           )

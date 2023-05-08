@@ -5,6 +5,7 @@ import { Alert, I18nManager, SafeAreaView, ScrollView, View } from "react-native
 
 import Button from "@/components/Button";
 import TextInput from "@/components/Form/TextInput";
+import Stack from "@/components/Stack";
 import { useAuthContext } from "@/contexts/AuthContext";
 import useAppsFlyer from "@/hooks/use-appsflyer";
 import reloadApp from "@/i18n/reload-app";
@@ -17,6 +18,7 @@ import useSavingsGoalNumber from "./use-savings-goal-number";
 interface TemporaryForm {
   UserId: string;
   cardId: string;
+  createDisputeUserId: string;
 }
 
 export default function TemporaryLandingScreen() {
@@ -51,6 +53,7 @@ export default function TemporaryLandingScreen() {
     defaultValues: {
       UserId: auth.userId,
       cardId: "",
+      createDisputeUserId: "",
     },
   });
 
@@ -126,6 +129,7 @@ export default function TemporaryLandingScreen() {
       screen: "PaymentDisputes.PaymentDisputeScreen",
       params: {
         cardId: values.cardId,
+        createDisputeUserId: values.createDisputeUserId,
       },
     });
   };
@@ -145,22 +149,35 @@ export default function TemporaryLandingScreen() {
     <SafeAreaView>
       <ScrollView>
         <View style={{ margin: 20 }}>
-          <TextInput
-            name="UserId"
-            control={control}
-            keyboardType="number-pad"
-            blurOnSubmit={false}
-            label="Change User ID"
-            placeholder="E.g. 2222225"
-          />
-          <TextInput
-            name="cardId"
-            control={control}
-            keyboardType="default"
-            blurOnSubmit={false}
-            label="Change Card ID"
-            placeholder="E.g. 2222225"
-          />
+          <Stack direction="vertical" gap="12p" align="stretch">
+            <TextInput
+              name="UserId"
+              control={control}
+              keyboardType="number-pad"
+              blurOnSubmit={false}
+              label="Change User ID"
+            />
+            <TextInput
+              name="cardId"
+              control={control}
+              keyboardType="default"
+              blurOnSubmit={false}
+              label="Change Card ID"
+            />
+            <TextInput
+              name="createDisputeUserId"
+              control={control}
+              keyboardType="number-pad"
+              blurOnSubmit={false}
+              label="Change User ID for create dispute case"
+            />
+          </Stack>
+        </View>
+        <View style={{ margin: 20 }}>
+          <Button onPress={handleSubmit(handleOnPressPaymentDisputes)}>Payment Disputes</Button>
+        </View>
+        <View style={{ margin: 20 }}>
+          <Button onPress={handleSubmit(handleOnOpenInternalTransfers)}>Internal Transfers</Button>
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleSubmit(handleOnSubmit)}>Savings Goals</Button>
@@ -175,16 +192,10 @@ export default function TemporaryLandingScreen() {
           <Button onPress={handleSubmit(handleOnHomepage)}>Homepage</Button>
         </View>
         <View style={{ margin: 20 }}>
-          <Button onPress={handleSubmit(handleOnOpenInternalTransfers)}>Internal Transfers</Button>
-        </View>
-        <View style={{ margin: 20 }}>
           <Button onPress={handleSubmit(handleOnOpenOnboarding)}>Onboarding</Button>
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleSubmit(handleOnCardsHomeSubmit)}>Cards Home</Button>
-        </View>
-        <View style={{ margin: 20 }}>
-          <Button onPress={handleSubmit(handleOnPressPaymentDisputes)}>Payment Disputes</Button>
         </View>
         <View style={{ margin: 20 }}>
           <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>
