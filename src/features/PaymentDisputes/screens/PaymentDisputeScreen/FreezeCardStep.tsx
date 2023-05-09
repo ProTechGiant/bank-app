@@ -10,41 +10,62 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useFreezeCard } from "@/features/CardActions/hooks/query-hooks";
+import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
+import { generateRandomId } from "@/utils";
 
 interface FreezeCardStepProps {
   onClose: () => void;
   onContinue: () => void;
-  onFreezeCardPress: () => void;
   isSuccess: boolean;
-  isError: boolean;
-  onPressCloseErrorModal: () => void;
+  onCardIsFrozen: (value: boolean) => void;
+  cardId: string;
 }
 
 export default function FreezeCardStep({
   onClose,
   onContinue,
-  onFreezeCardPress,
   isSuccess,
-  isError,
-  onPressCloseErrorModal,
+  onCardIsFrozen,
+  cardId,
 }: FreezeCardStepProps) {
   const { t } = useTranslation();
 
+  const freezeCardAsync = useFreezeCard();
+
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isFrozenCardModalVisible, setIsFrozenCardModalVisible] = useState(false);
+
+  const handleOnFreezeCardPress = async () => {
+    const correlationId = generateRandomId();
+
+    try {
+      const response = await freezeCardAsync.mutateAsync({ cardId, correlationId });
+
+      if (response.Status !== "freeze") {
+        throw new Error("Received unexpected response from backend");
+      }
+
+      onCardIsFrozen(true);
+      setIsFrozenCardModalVisible(true);
+    } catch (error) {
+      setIsErrorModalVisible(true);
+      warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
+    }
+  };
+
+  const handleOnPressCloseErrorModal = () => {
+    setIsErrorModalVisible(false);
+  };
 
   const handleOnPressExit = () => {
     onClose();
   };
 
-  const handleOnPressContinue = () => {
+  const handleOnPressFreezeContinue = () => {
     setIsFrozenCardModalVisible(false);
     onContinue();
-  };
-
-  const handleOnPressFreezeCard = () => {
-    onFreezeCardPress();
-    setIsFrozenCardModalVisible(true);
   };
 
   const iconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
@@ -64,8 +85,10 @@ export default function FreezeCardStep({
           </Stack>
 
           <Stack direction="vertical" align="stretch">
-            <Button onPress={handleOnPressFreezeCard}>{t("PaymentDisputes.FreezeCardModal.freezeButton")}</Button>
-            <Button variant="tertiary" onPress={handleOnPressContinue}>
+            <Button onPress={handleOnFreezeCardPress} loading={freezeCardAsync.isLoading}>
+              {t("PaymentDisputes.FreezeCardModal.freezeButton")}
+            </Button>
+            <Button variant="tertiary" onPress={onContinue}>
               {t("PaymentDisputes.FreezeCardModal.noFreezeButton")}
             </Button>
           </Stack>
@@ -78,7 +101,9 @@ export default function FreezeCardStep({
         icon={<FreezeIcon color={iconColor} />}
         buttons={{
           primary: (
-            <Button onPress={handleOnPressContinue}>{t("PaymentDisputes.FreezeCardModal.freezeModal.button")}</Button>
+            <Button onPress={handleOnPressFreezeContinue}>
+              {t("PaymentDisputes.FreezeCardModal.freezeModal.button")}
+            </Button>
           ),
         }}
         message={t("PaymentDisputes.FreezeCardModal.freezeModal.message")}
@@ -89,12 +114,14 @@ export default function FreezeCardStep({
         variant="error"
         buttons={{
           primary: (
-            <Button onPress={onPressCloseErrorModal}>{t("PaymentDisputes.FreezeCardModal.errorModal.button")}</Button>
+            <Button onPress={handleOnPressCloseErrorModal}>
+              {t("PaymentDisputes.FreezeCardModal.errorModal.button")}
+            </Button>
           ),
         }}
         message={t("PaymentDisputes.FreezeCardModal.errorModal.message")}
         title={t("PaymentDisputes.FreezeCardModal.errorModal.title")}
-        isVisible={isError}
+        isVisible={isErrorModalVisible}
       />
     </>
   );
