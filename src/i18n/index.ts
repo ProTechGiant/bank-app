@@ -1542,6 +1542,18 @@ export const resources = {
           resolved: "Resolved",
           noActiveCases: "You dont have any active cases.",
         },
+        CaseDetails: {
+          title: "Case details",
+          status: "Status",
+          detailSection: {
+            dayReported: "Day Reported",
+            issue: "Issue",
+            transactionLocation: "Transaction Location",
+            caseId: "Case ID",
+            additionalInformation: "Additional Information",
+            attachment: "Attachment",
+          },
+        },
         CaseListItem: {
           opened: "Open",
           assigned: "Open",
@@ -2308,6 +2320,18 @@ export const resources = {
           sectionThreeTitle: "3. Section name",
           sectionThreeContent:
             "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
+        },
+      },
+      CaseDetails: {
+        title: "Case details",
+        status: "Status",
+        detailSection: {
+          dayReported: "Day Reported",
+          issue: "Issue",
+          transactionLocation: "Transaction Location",
+          caseId: "Case ID",
+          additionalInformation: "Additional Information",
+          attachment: "Attachment",
         },
       },
       FreezeCardModal: {

@@ -3,12 +3,13 @@ import { useMutation, useQuery } from "react-query";
 import api from "@/api";
 import { generateRandomId } from "@/utils";
 
-import { CreateDisputeInput, DisputeCase, DisputeReasonType, TransactionType } from "../types";
+import { CaseDetails, CreateDisputeInput, DisputeCase, DisputeReasonType, TransactionType } from "../types";
 
 const queryKeys = {
   all: () => ["payment-disputes"] as const,
   reasons: () => [...queryKeys.all(), "reasons"] as const,
   myCases: () => [...queryKeys.all(), "my-cases"] as const,
+  caseDetails: (transactionId: string) => [...queryKeys.all(), "case-detail", { transactionId }] as const,
 };
 
 interface DisputeReasonResponse {
@@ -81,4 +82,16 @@ export function useCreateCase() {
       );
     }
   );
+}
+
+interface CaseDetailsResponse {
+  ProblemCase: CaseDetails;
+}
+
+export function useCaseDetails(transactionId: string) {
+  return useQuery(queryKeys.caseDetails(transactionId), () => {
+    return api<CaseDetailsResponse>("v1", `payments/case-detail/${transactionId}`, "GET", undefined, undefined, {
+      "X-Correlation-ID": generateRandomId(),
+    });
+  });
 }

@@ -65,7 +65,11 @@ export default function MainStack({ onReady }: MainStackProps) {
           name="OneTimePassword.OneTimePasswordModal"
           options={{ presentation: "modal" }}
         />
-        <Stack.Screen component={PaymentDisputesStack} name="PaymentDisputes.PaymentDisputesStack" />
+        <Stack.Screen
+          component={PaymentDisputesStack}
+          name="PaymentDisputes.PaymentDisputesStack"
+          options={{ presentation: "modal" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

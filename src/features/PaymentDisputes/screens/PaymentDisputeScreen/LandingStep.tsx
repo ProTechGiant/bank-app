@@ -12,10 +12,11 @@ import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import { TableListCard } from "@/components/TableList";
 import Typography from "@/components/Typography";
-import { CALL_US } from "@/features/HelpAndSupport/constants";
 import { mockHelpAndSupport } from "@/mocks/helpAndSupportData";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+
+import { CALL_US } from "../../constants";
 
 interface LandingStepProps {
   onProblemWithTransactionLink: () => void;

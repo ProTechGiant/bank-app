@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, I18nManager, SafeAreaView, ScrollView, View } from "react-native";
+import { Alert, I18nManager, SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 
 import Button from "@/components/Button";
 import TextInput from "@/components/Form/TextInput";
@@ -148,7 +148,7 @@ export default function TemporaryLandingScreen() {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View style={{ margin: 20 }}>
+        <View style={styles.margin20}>
           <Stack direction="vertical" gap="12p" align="stretch">
             <TextInput
               name="UserId"
@@ -173,37 +173,41 @@ export default function TemporaryLandingScreen() {
             />
           </Stack>
         </View>
-        <View style={{ margin: 20 }}>
+        <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnPressPaymentDisputes)}>Payment Disputes</Button>
         </View>
-        <View style={{ margin: 20 }}>
+        <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnOpenInternalTransfers)}>Internal Transfers</Button>
         </View>
-        <View style={{ margin: 20 }}>
+        <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnSubmit)}>Savings Goals</Button>
         </View>
-        <View style={{ margin: 20 }}>
+        <View style={styles.margin20}>
           <Button onPress={handleOnViewTransactions}>View Transactions</Button>
         </View>
-        <View style={{ margin: 20 }}>
+        <View style={styles.margin20}>
           <Button onPress={handleOnOpenApplyForCard}>Order Card</Button>
         </View>
-        <View style={{ margin: 20 }}>
+        <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnHomepage)}>Homepage</Button>
         </View>
-        <View style={{ margin: 20 }}>
+        <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnOpenOnboarding)}>Onboarding</Button>
         </View>
-        <View style={{ margin: 20 }}>
+        <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnCardsHomeSubmit)}>Cards Home</Button>
         </View>
-        <View style={{ margin: 20 }}>
+        <View style={styles.margin20}>
           <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>
         </View>
-        <View style={{ margin: 20 }}>
+        <View style={styles.margin20}>
           <Button onPress={handleOnPressPaymentDisputesLanding}>Payment Disputes Landing</Button>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  margin20: { margin: 20 },
+});

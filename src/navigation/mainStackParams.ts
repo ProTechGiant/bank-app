@@ -1,3 +1,4 @@
+import { AddMoneyStackParams } from "@/features/AddMoney/AddMoneyStack";
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
 import { FrequentlyAskedQuestionsStackParams } from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
 import { HelpAndSuportStackParams } from "@/features/HelpAndSupport/HelpAndSupportStack";
@@ -14,18 +15,30 @@ import { WhatsNextStackParams } from "@/features/WhatsNext/WhatsNextStack";
 
 type RootStackParams = {
   "CardActions.CardActionsStack": {
-    screen: string;
+    screen?: keyof CardActionsStackParams;
   };
-  "Home.HomeStack": undefined;
-  "AddMoney.AddMoneyStack": {
-    screen: string;
-  };
-  "InternalTransfers.InternalTransfersStack": {
-    screen: string;
-  };
+  "Home.HomeStack":
+    | {
+        screen: keyof HomeStackParams;
+      }
+    | undefined;
+  "AddMoney.AddMoneyStack":
+    | {
+        screen: keyof AddMoneyStackParams;
+      }
+    | undefined;
+  "InternalTransfers.InternalTransfersStack":
+    | {
+        screen: keyof InternalTransfersStackParams;
+      }
+    | undefined;
   "Temporary.LandingScreen": undefined;
   "Temporary.DummyScreen": undefined;
-  "Onboarding.OnboardingStack": undefined;
+  "Onboarding.OnboardingStack":
+    | {
+        screen: keyof OnboardingStackParams;
+      }
+    | undefined;
   "Referral.ReferralStack": undefined;
   "Modal.QuickActionsReorderModal": undefined;
   "Modal.HomepageReorderModal": undefined;
@@ -41,7 +54,11 @@ type RootStackParams = {
   "NotificationManagement.HubScreen": undefined;
   "NotificationManagement.CategoryScreen": { categoryId: string; title: string };
   "WhatsNext.WhatsNextStack": undefined;
-  "HelpAndSupport.HelpAndSupportStack": { screen: string } | undefined;
+  "HelpAndSupport.HelpAndSupportStack":
+    | {
+        screen: keyof HelpAndSuportStackParams;
+      }
+    | undefined;
   "OneTimePassword.OneTimePasswordModal": {
     action: {
       to: keyof MainStackParams;
@@ -52,10 +69,11 @@ type RootStackParams = {
     onOtpRequest: () => Promise<OtpChallengeParams>;
     otpVerifyMethod: "card-actions" | "internal-transfers";
   };
-  "PaymentDisputes.PaymentDisputesStack": {
-    screen: string;
-    params: { cardId: string };
-  };
+  "PaymentDisputes.PaymentDisputesStack":
+    | {
+        screen: keyof PaymentDisputesStackParams;
+      }
+    | undefined;
 };
 
 type MainStackParams = RootStackParams &

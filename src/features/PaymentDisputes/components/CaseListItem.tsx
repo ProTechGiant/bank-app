@@ -5,9 +5,10 @@ import { Pressable, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { Theme, useThemeStyles } from "@/theme";
+import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
+import { STATUS_COLOR_MAPPING, STATUS_LABEL_MAPPING } from "../constants";
 import { DisputeCase } from "../types";
 import { formatDateTime } from "../utils";
 
@@ -57,21 +58,3 @@ export default function CaseListItem({ data, onPress }: CaseListItemProps) {
     </Pressable>
   );
 }
-
-const STATUS_COLOR_MAPPING: Record<string, keyof Theme["palette"]> = {
-  Opened: "neutralBase+30",
-  Assigned: "neutralBase+30",
-  "In Review": "warningBase",
-  Approved: "successBase",
-  Rejected: "errorBase",
-  Reopened: "neutralBase+30",
-};
-
-const STATUS_LABEL_MAPPING: Record<string, string> = {
-  Opened: "PaymentDisputes.CaseListItem.opened",
-  Assigned: "PaymentDisputes.CaseListItem.assigned",
-  "In Review": "PaymentDisputes.CaseListItem.inReview",
-  Approved: "PaymentDisputes.CaseListItem.approved",
-  Rejected: "PaymentDisputes.CaseListItem.rejected",
-  Reopened: "PaymentDisputes.CaseListItem.reopened",
-};
