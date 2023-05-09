@@ -1348,6 +1348,7 @@ export const resources = {
           addFunds: "Add funds",
         },
         QuickTransferScreen: {
+          navTitle: "Send money",
           title: "Quick transfer",
           transferLimits: "Transfer limits",
           amountExceedsDailyLimit: "Transfer amount exceeds the {{limit}} SAR daily limit by {{amount}} SAR",
@@ -1374,6 +1375,7 @@ export const resources = {
           switchToStandard: "Switch to Standard Transfer",
         },
         EnterQuickTransferBeneficiaryScreen: {
+          navTitle: "Send money",
           title: "Enter beneficiary details",
           beneficiaryBankLabel: "Beneficiary bank",
           beneficiaryBankConfirm: "Set",

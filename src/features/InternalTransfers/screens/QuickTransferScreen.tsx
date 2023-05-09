@@ -98,7 +98,7 @@ export default function QuickTransferScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader />
+        <NavHeader title={t("InternalTransfers.QuickTransferScreen.navTitle")} />
         {undefined !== currentBalance ? (
           <ContentContainer isScrollView>
             <View style={styles.container}>
@@ -130,7 +130,6 @@ export default function QuickTransferScreen() {
                 ) : amountExceedsLimit ? (
                   <TransferErrorBox
                     onPress={handleOnSwitchStandardTransferPress}
-                    // eslint-disable-next-line prettier/prettier
                     textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsQuickTransferLimit", {
                       amount: formatter.format(QUICK_TRANSFER_LIMIT),
                     })}

@@ -1,4 +1,5 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import truncate from "lodash/truncate";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
@@ -107,7 +108,7 @@ export default function AssetInput<T extends FieldValues>({ control, name }: Ass
         {isFileSelected ? (
           <Pressable style={styles.label} onPress={handleOnPress}>
             <Typography.Text color="neutralBase+30" size="callout" style={styles.fileName}>
-              {fileName}
+              {typeof fileName === "string" ? truncate(fileName) : null}
             </Typography.Text>
             <Pressable onPress={handleOnDeletePress} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
               <DeleteIcon color={deleteIconColor} />

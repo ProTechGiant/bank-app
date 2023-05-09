@@ -138,7 +138,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader />
+        <NavHeader title={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.navTitle")} />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.keyboard}>
           <ContentContainer isScrollView style={styles.container}>
             <Stack align="stretch" direction="vertical" gap="20p">
