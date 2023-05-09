@@ -1231,7 +1231,6 @@ export const resources = {
           },
           accountNumberForm: {
             accountNumber: {
-              placeholder: "Account number",
               validation: {
                 required: "Required*",
                 invalid: "Account number need 9 numbers",
@@ -1248,7 +1247,6 @@ export const resources = {
           },
           ibanForm: {
             iban: {
-              placeholder: "IBAN number",
               validation: {
                 required: "Required*",
                 minLength: "Minimum 22 digits",
@@ -1406,7 +1404,6 @@ export const resources = {
           },
           id: {
             label: "ID number",
-            placeholder: "ID number",
             validation: {
               required: "Required*",
               invalid: "Should be 10 digits",
@@ -1416,7 +1413,7 @@ export const resources = {
             fullNameLabel: "Full name",
             fullNamePlacholder: "First last",
             ibanLabel: "IBAN number",
-            ibanPlaceholder: "SA## #### #### #### #### ####",
+            mask: "SA## #### #### #### #### ####",
             validation: {
               required: "Required",
               lengthInvalid: "IBAN needs 24 chracters",

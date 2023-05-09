@@ -49,7 +49,6 @@ export default forwardRef(function EnterBeneficiaryByIBANForm(
         <MaskedTextInput
           control={control}
           name="SelectionValue"
-          placeholder={t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.placeholder")}
           maxLength={24}
           showCharacterCount
           mask="SA## #### #### #### #### ####"

@@ -20,7 +20,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { saudiPhoneRegExp } from "@/utils";
+import { numericRegExp, saudiPhoneRegExp } from "@/utils";
 import { ibanRegExp } from "@/utils";
 
 import { useBeneficiaryBanks } from "../hooks/query-hooks";
@@ -68,6 +68,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
           is: "id",
           then: yup
             .string()
+            .matches(numericRegExp)
             .required(t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.id.validation.required"))
             .length(10, t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.id.validation.invalid")),
         }),
@@ -193,7 +194,6 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                   maxLength={10}
                   mask="##########"
                   name="identifier"
-                  placeholder={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.id.placeholder")}
                   showCharacterCount
                 />
               ) : (
@@ -211,8 +211,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                     name="iban"
                     maxLength={24}
                     showCharacterCount
-                    mask={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.iban.ibanPlaceholder")}
-                    placeholder={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.iban.ibanPlaceholder")}
+                    mask={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.iban.mask")}
                   />
                 </Stack>
               )}

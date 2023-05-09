@@ -44,9 +44,11 @@ export default function CaseListItem({ data, onPress }: CaseListItemProps) {
           <Typography.Text color="neutralBase-10" size="footnote" weight="regular">
             {formatDateTime(date)}
           </Typography.Text>
-          <Typography.Text color="neutralBase-10" size="footnote" weight="regular">
-            {data.Transaction.Location}
-          </Typography.Text>
+          {data.Transaction.Location !== undefined ? (
+            <Typography.Text color="neutralBase-10" size="footnote" weight="regular">
+              {data.Transaction.Location}
+            </Typography.Text>
+          ) : null}
         </Stack>
       </Stack>
       <Typography.Text color="neutralBase+30" size="callout" weight="medium">

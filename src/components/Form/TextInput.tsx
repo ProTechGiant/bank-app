@@ -4,7 +4,7 @@ import { TextInputProps as RNTextInputProps } from "react-native";
 import StyledTextInput from "../TextInput";
 import InputBox from "./internal/InputBox";
 
-interface TextInputProps<T extends FieldValues>
+export interface TextInputProps<T extends FieldValues>
   extends Omit<
     RNTextInputProps,
     "onBlur" | "onChangeText" | "onFocus" | "placeholderTextColor" | "placeholder" | "style" | "value"

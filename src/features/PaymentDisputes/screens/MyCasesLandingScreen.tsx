@@ -4,11 +4,12 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
-import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SegmentedControl from "@/components/SegmentedControl";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import CaseListItem from "../components/CaseListItem";
@@ -17,6 +18,7 @@ import { isCaseActive } from "../utils";
 
 export default function MyCasesLandingScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const cases = useMyCases();
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
@@ -30,13 +32,17 @@ export default function MyCasesLandingScreen() {
     // ..
   };
 
+  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["20p"],
+  }));
+
   const segmentedControlStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: -theme.spacing["20p"],
     marginTop: theme.spacing["24p"],
   }));
 
-  const contentContainerStyle = useThemeStyles(theme => ({
-    rowGap: theme.spacing["24p"],
+  const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    rowGap: theme.spacing["16p"],
   }));
 
   const visibleItems = useMemo(
@@ -51,7 +57,7 @@ export default function MyCasesLandingScreen() {
     <>
       <Page backgroundColor="neutralBase-60">
         <NavHeader />
-        <ContentContainer>
+        <View style={headerStyle}>
           <Typography.Text color="neutralBase+30" size="title1" weight="medium">
             {t("PaymentDisputes.MyCasesLandingScreen.title")}
           </Typography.Text>
@@ -65,7 +71,7 @@ export default function MyCasesLandingScreen() {
               </SegmentedControl.Item>
             </SegmentedControl>
           </View>
-        </ContentContainer>
+        </View>
         <ContentContainer isScrollView style={contentContainerStyle}>
           {visibleItems === undefined ? (
             <FlexActivityIndicator />
@@ -82,13 +88,15 @@ export default function MyCasesLandingScreen() {
           )}
         </ContentContainer>
       </Page>
-      <LoadingErrorNotification
-        onClose={() => setIsErrorModalVisible(false)}
-        onRefresh={() => {
-          cases.refetch();
-          setIsErrorModalVisible(false);
-        }}
+      <NotificationModal
+        variant="error"
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
         isVisible={isErrorModalVisible}
+        onClose={() => {
+          setIsErrorModalVisible(false);
+          setTimeout(() => navigation.goBack());
+        }}
       />
     </>
   );

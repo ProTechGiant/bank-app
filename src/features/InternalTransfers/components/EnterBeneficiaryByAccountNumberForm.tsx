@@ -58,7 +58,6 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
           control={control}
           keyboardType="number-pad"
           name="SelectionValue"
-          placeholder={t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.placeholder")}
           maxLength={9}
           showCharacterCount
           mask="## ## ## ## #"

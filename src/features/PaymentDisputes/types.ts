@@ -21,7 +21,7 @@ export interface DisputeCase {
   CaseNumber: string;
   Transaction: {
     Source: string;
-    Location: string;
+    Location: string | undefined;
     Amount: string;
     Currency: string;
     CreatedOn: string;
