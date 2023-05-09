@@ -1,4 +1,4 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, StackActions, useRoute } from "@react-navigation/native";
 import { Alert, Image, ImageStyle, Platform, Share, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -16,18 +16,26 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import explorePlaceholder from "../assets/explore-placeholder.png";
-import { AboutAuthorSection, EventDetailsSection, ExploreArticleHeader, FeedbackArticleSection } from "../components";
+import {
+  AboutAuthorSection,
+  EventDetailsSection,
+  ExploreArticleHeader,
+  FeedbackArticleSection,
+  RelatedSection,
+} from "../components";
+import { ArticleSectionType } from "../types";
 import { getWhatsNextTagColor } from "../utils";
-import { WhatsNextMocks } from "../whatsNextMocks";
+import { WhatsNextSingleArticleMock } from "../whatsNextSingleArticleMock";
 
 export default function ExploreArticleScreen() {
   // TODO: handle image dynamically when mock data allows for it
-  const articleId = useRoute<RouteProp<MainStackParams, "WhatsNext.ExploreArticleScreen">>().params;
+  const articleId = useRoute<RouteProp<MainStackParams, "WhatsNext.ExploreArticleScreen">>().params.articleId;
   const navigation = useNavigation();
   const appsFlyer = useAppsFlyer();
 
   // TODO get data from BE when ready using articleId from route params
-  const data = WhatsNextMocks.find(data => data.ContentTag === "explore");
+  const data = WhatsNextSingleArticleMock["Single Article"];
+  const relatedArticles = WhatsNextSingleArticleMock["Related Articles"];
 
   const handleOnLoadingErrorRefresh = () => {
     //TODO: once we have backend
@@ -53,6 +61,14 @@ export default function ExploreArticleScreen() {
   const handleOnNegativeFeedbackPress = () => {
     //TODO handle feedback once BE is up
     Alert.alert("will handle negative feedback here");
+  };
+
+  const handleOnRelatedArticlePress = (relatedArticleId: string) => {
+    navigation.dispatch(
+      StackActions.push("WhatsNext.ExploreArticleScreen", {
+        articleId: relatedArticleId,
+      })
+    );
   };
 
   const container = useThemeStyles<ViewStyle>(theme => ({
@@ -113,6 +129,14 @@ export default function ExploreArticleScreen() {
                   authorSocialMediaLink={data.AuthorSocialMedia.Link}
                 />
               </View>
+            ) : null}
+            {relatedArticles.length > 0 ? (
+              <RelatedSection
+                data={relatedArticles as ArticleSectionType[]}
+                onArticlePress={relatedArticleId => {
+                  handleOnRelatedArticlePress(relatedArticleId);
+                }}
+              />
             ) : null}
           </ContentContainer>
         </ScrollView>

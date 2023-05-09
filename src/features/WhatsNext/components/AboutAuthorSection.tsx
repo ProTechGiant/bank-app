@@ -40,7 +40,7 @@ export default function AboutAuthorSection({
       <View style={contentStyle}>
         {/* TODO: get correct image when available as URL */}
         <Image source={explorePlaceholder} style={styles.image} />
-        <View style={styles.row}>
+        <View style={styles.column}>
           <Pressable
             onPress={() => {
               openLink(authorSocialMediaLink, inAppBrowserBackgroundColor, inAppBrowserColor, navigation);
@@ -56,14 +56,13 @@ export default function AboutAuthorSection({
   );
 }
 const styles = StyleSheet.create({
+  column: {
+    flexDirection: "column",
+    flex: 1,
+  },
   image: {
     borderRadius: 40,
     height: 80,
     width: 80,
-  },
-  row: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    flex: 1,
   },
 });

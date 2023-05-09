@@ -1,6 +1,7 @@
 import { truncate } from "lodash";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
+  I18nManager,
   Image,
   ImageStyle,
   Platform,
@@ -32,7 +33,6 @@ export default function ExploreCard({ title, description, tagTitle, tagVariant, 
   const { width } = useWindowDimensions();
 
   const [containerHeight, setContainerHeight] = useState(100);
-  const [cutoutStyle, setCutoutStyle] = useState<ImageStyle>({ position: "absolute", right: 0 });
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderWidth: 1,
@@ -58,13 +58,6 @@ export default function ExploreCard({ title, description, tagTitle, tagVariant, 
     paddingBottom: theme.spacing["8p"],
   }));
 
-  useEffect(() => {
-    setCutoutStyle(prevState => ({
-      ...prevState,
-      height: containerHeight,
-    }));
-  }, [containerHeight]);
-
   return (
     <Pressable style={containerStyle} onPress={onPress}>
       <View>
@@ -76,7 +69,11 @@ export default function ExploreCard({ title, description, tagTitle, tagVariant, 
             setContainerHeight(height);
           }}
         />
-        <Image source={whiteTriangleVertical} style={cutoutStyle} resizeMode="stretch" />
+        <Image
+          source={whiteTriangleVertical}
+          style={[styles.cutoutStyle, { height: containerHeight }]}
+          resizeMode="stretch"
+        />
       </View>
       <View style={textContentStyle}>
         <Stack direction="vertical" gap="8p">
@@ -98,6 +95,11 @@ export default function ExploreCard({ title, description, tagTitle, tagVariant, 
 }
 
 const styles = StyleSheet.create({
+  cutoutStyle: {
+    position: "absolute",
+    right: 0,
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
   row: {
     alignItems: "center",
     flexDirection: "row",

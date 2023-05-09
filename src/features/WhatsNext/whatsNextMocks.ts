@@ -1,13 +1,14 @@
 export const WhatsNextMocks = [
   {
-    ContentId: "string",
+    ContentId: "193847",
     ParentContentId: "string",
     ContentDataTypeId: "string",
     ContentCategoryId: "WhatsNext",
     ContentTag: "Top 10",
     ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
-    Title: "string",
-    SubTitle: "string",
+    Title: "Lorem Ipsum",
+    SubTitle:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
     ContentDescription: "string",
     Media: [
       {
@@ -311,7 +312,7 @@ export const WhatsNextMocks = [
     ],
   },
   {
-    ContentId: "string",
+    ContentId: "123567",
     ParentContentId: "string",
     ContentDataTypeId: "string",
     ContentCategoryId: "WhatsNext",
@@ -349,7 +350,7 @@ export const WhatsNextMocks = [
     ChildrenContents: [],
   },
   {
-    ContentId: "string",
+    ContentId: "123789",
     ParentContentId: "string",
     ContentDataTypeId: "string",
     ContentCategoryId: "WhatsNext",
@@ -379,7 +380,7 @@ export const WhatsNextMocks = [
     ChildrenContents: [],
   },
   {
-    ContentId: "string",
+    ContentId: "123123",
     ParentContentId: "string",
     ContentDataTypeId: "string",
     ContentCategoryId: "WhatsNext",
@@ -408,7 +409,7 @@ export const WhatsNextMocks = [
     ChildrenContents: [],
   },
   {
-    ContentId: "string",
+    ContentId: "123890",
     ParentContentId: "string",
     ContentDataTypeId: "string",
     ContentCategoryId: "WhatsNext",
@@ -439,5 +440,34 @@ export const WhatsNextMocks = [
   {
     WhatsNextCategories: ["Film & Cinema", "Music", "Fashion", "Restaurants & Cafes", "Sport", "Gaming & Technology"],
     WhatsNextTypes: ["Review", "Interviews", "Behind the scenes", "What's next for me"],
+  },
+  {
+    ContentId: "123476",
+    ParentContentId: "string",
+    ContentDataTypeId: "string",
+    ContentCategoryId: "WhatsNext",
+    ContentTag: "explore",
+    ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
+    Title: "Alicia Keys - who is she today?",
+    SubTitle: "string",
+    ContentDescription: "So she was considering in her own mind (as well as she could, for the day ma yes",
+    Media: [
+      {
+        SourceFileName: "string",
+        SourceFileDatatype: "Video",
+        SourceFileURL: "string",
+      },
+    ],
+    WhatsNextCategoryId: "1",
+    WhatsNextCategory: "Sport",
+    WhatsNextTypeId: "3",
+    WhatsNextType: "Interview",
+    AuthorName: "string",
+    AuthorAbout: "string",
+    AuthorSocialMedia: {
+      Name: "string",
+      Link: "string",
+    },
+    ChildrenContents: [],
   },
 ];

@@ -416,6 +416,7 @@ export const resources = {
           feedbackPositive: "Yes",
           feedbackNegative: "No",
           followWhatsNext: "Follow what’s next",
+          relatedArticles: "Related articles",
         },
         SortingContent: {
           title: "Sort",

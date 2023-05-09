@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 
-import { AngleDownIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -10,35 +9,26 @@ import { ArticleSectionType } from "../types";
 import { getWhatsNextTagColor } from "../utils";
 import ExploreCard from "./ExploreCard";
 
-interface ExploreSectionProps {
+interface RelatedSectionProps {
   data: ArticleSectionType[];
   onArticlePress: (articleId: string) => void;
-  onSortByTimePress: () => void;
-  sortOrder: "newest" | "oldest";
 }
 
-export default function ExploreSection({ data, onSortByTimePress, sortOrder, onArticlePress }: ExploreSectionProps) {
+export default function RelatedSection({ data, onArticlePress }: RelatedSectionProps) {
   const { t } = useTranslation();
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingTop: theme.spacing["32p"],
-    paddingBottom: theme.spacing["12p"],
+    paddingVertical: theme.spacing["12p"],
   }));
 
   return (
     <>
       <View style={headerStyle}>
-        <Typography.Text size="callout" weight="medium">
-          {t("WhatsNext.HubScreen.explore")}
+        <Typography.Text size="title3" weight="medium">
+          {t("WhatsNext.ExploreArticleScreen.relatedArticles")}
         </Typography.Text>
-        <Pressable style={styles.row} onPress={onSortByTimePress}>
-          <Typography.Text size="callout" weight="medium">
-            {sortOrder === "newest" ? t("WhatsNext.SortingContent.newest") : t("WhatsNext.SortingContent.oldest")}
-          </Typography.Text>
-          <AngleDownIcon width={16} height={16} />
-        </Pressable>
       </View>
       <Stack gap="16p" direction="vertical">
         {data.map((item, index) => {
@@ -58,10 +48,3 @@ export default function ExploreSection({ data, onSortByTimePress, sortOrder, onA
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  row: {
-    alignItems: "center",
-    flexDirection: "row",
-  },
-});
