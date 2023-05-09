@@ -5,6 +5,7 @@ import { Pressable, View, ViewStyle } from "react-native";
 import { WithShadow } from "@/components";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+import { formatCurrency } from "@/utils";
 
 import ProgressWheel from "./ProgressWheel";
 
@@ -15,8 +16,6 @@ interface GoalCardProps {
   date: string;
   onPress: () => void;
 }
-
-const formatter = Intl.NumberFormat("en-US");
 
 export default function GoalCard({ title, amountSaved, totalAmount, date, onPress }: GoalCardProps) {
   const { t } = useTranslation();
@@ -44,8 +43,8 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
             weight="medium"
             color={amountSaved >= totalAmount ? "complimentBase" : "neutralBase+30"}>
             {t("SavingsGoals.SavingsGoalsScreen.goalCard.amount", {
-              amountSaved: formatter.format(Number(amountSaved)),
-              totalAmount: formatter.format(Number(totalAmount)),
+              amountSaved: formatCurrency(Number(amountSaved)),
+              totalAmount: formatCurrency(Number(totalAmount), "SAR"),
             })}
           </Typography.Text>
           <Typography.Text color="neutralBase" size="footnote">

@@ -20,6 +20,7 @@ import Typography from "@/components/Typography";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { formatCurrency } from "@/utils";
 
 import HeaderBackground from "../assets/HeaderBackground";
 import { ProgressWheel, TransactionCardList } from "../components";
@@ -249,7 +250,7 @@ export default function GoalDetailsScreen() {
             />
             <View style={goalAmountStyle}>
               <Typography.Header size="large" weight="medium" color="neutralBase-60">
-                {formatter.format(Number(savingsPotData?.AvailableBalanceAmount ?? 0))}
+                {formatCurrency(Number(savingsPotData?.AvailableBalanceAmount ?? 0))}
               </Typography.Header>
               <Typography.Text color="primaryBase-40" size="callout" weight="medium" style={styles.currency}>
                 {t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.currency")}
@@ -258,7 +259,7 @@ export default function GoalDetailsScreen() {
             <Stack align="center" direction="vertical" gap="24p" style={headerProgressInfoStyle}>
               <Typography.Text size="callout" weight="medium" color="neutralBase-50" align="center">
                 {t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.targetAmountDetails", {
-                  TargetAmount: formatter.format(Number(savingsPotData?.TargetAmount ?? 0)),
+                  targetAmount: formatCurrency(Number(savingsPotData?.TargetAmount ?? 0), "SAR"),
                 })}
               </Typography.Text>
               <Typography.Text size="footnote" weight="medium" color="neutralBase-10" align="center">
@@ -413,8 +414,6 @@ const svgWidth = 390;
 const svgHeight = 495;
 const scaleFactor = deviceWidth / svgWidth;
 const scaledHeight = svgHeight * scaleFactor;
-
-const formatter = Intl.NumberFormat("en-US");
 
 const styles = StyleSheet.create({
   background: {

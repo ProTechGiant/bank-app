@@ -17,6 +17,7 @@ import { useCurrentAccount } from "@/hooks/use-accounts";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { formatCurrency } from "@/utils";
 
 import { QuickTransferLimitsModal, TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
 import { useTransferReasons } from "../hooks/query-hooks";
@@ -130,9 +131,8 @@ export default function QuickTransferScreen() {
                 ) : amountExceedsLimit ? (
                   <TransferErrorBox
                     onPress={handleOnSwitchStandardTransferPress}
-                    textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsQuickTransferLimit", {
-                      amount: formatter.format(QUICK_TRANSFER_LIMIT),
-                    })}
+                    // eslint-disable-next-line prettier/prettier
+                    textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsQuickTransferLimit", { amount: formatCurrency(QUICK_TRANSFER_LIMIT, "SAR") })}
                     textEnd={t("InternalTransfers.QuickTransferScreen.switchToStandardTransfer")}
                   />
                 ) : null}
@@ -190,4 +190,3 @@ const styles = StyleSheet.create({
 });
 
 const QUICK_TRANSFER_LIMIT = 2500;
-const formatter = Intl.NumberFormat("en-US", { style: "decimal", minimumFractionDigits: 0 });

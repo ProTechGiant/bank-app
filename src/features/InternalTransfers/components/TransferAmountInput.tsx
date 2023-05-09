@@ -5,6 +5,7 @@ import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import CurrencyInput from "@/components/CurrencyInput";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+import { formatCurrency } from "@/utils";
 
 interface TransferAmountInput<T extends FieldValues> {
   autoFocus?: boolean;
@@ -60,7 +61,7 @@ export default function TransferAmountInput<T extends FieldValues>({
   return (
     <>
       <Typography.Text color={isError ? "errorBase" : "neutralBase-10"} size="callout">
-        {t("InternalTransfers.TransferAmountInput.balance") + `${formatter.format(currentBalance)} SAR`}
+        {t("InternalTransfers.TransferAmountInput.balance") + formatCurrency(currentBalance, "SAR")}
       </Typography.Text>
       <View style={containerStyles}>
         <CurrencyInput
@@ -117,5 +118,3 @@ const styles = StyleSheet.create({
     lineHeight: 34,
   },
 });
-
-const formatter = Intl.NumberFormat("en-US", { style: "decimal", minimumFractionDigits: 0 });

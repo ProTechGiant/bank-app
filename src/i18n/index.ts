@@ -536,7 +536,7 @@ export const resources = {
         },
         SavingsGoalsScreen: {
           goalCard: {
-            amount: "{{amountSaved}} of {{totalAmount}} SAR",
+            amount: "{{amountSaved}} of {{totalAmount}}",
           },
           title: "Your Goals",
           text: "Dream big or start small. They’re your goals and it’s your future - make it happen!",
@@ -549,7 +549,7 @@ export const resources = {
         GoalDetailsScreen: {
           GoalDetailsHeader: {
             currency: "SAR",
-            targetAmountDetails: "of {{TargetAmount}} SAR",
+            targetAmountDetails: "of {{targetAmount}}",
             targetDate: "Target date: {{TargetDate}}",
           },
           Payments: {
@@ -1158,8 +1158,9 @@ export const resources = {
           forbiddenWordNotAllowed: 'The word "{{forbiddenWord}}" is not allowed in the note.',
           forbiddenWordsNotAllowed: 'The words "{{forbiddenWord}}" are not allowed in the note.',
         },
-        PaymentHub: {
+        PaymentsHubScreen: {
           title: "Money in & out",
+          balanceAvailable: "{{balance}} available",
           options: {
             localTransfer: {
               title: "Local transfer",
@@ -1354,7 +1355,7 @@ export const resources = {
           amountExceedsDailyLimit: "Transfer amount exceeds the {{limit}} SAR daily limit by {{amount}} SAR",
           amountExceedsBalance: "You have insufficient funds.",
           addFunds: "Add funds",
-          amountExceedsQuickTransferLimit: "Limit: {{amount}} SAR",
+          amountExceedsQuickTransferLimit: "Limit: {{amount}}",
           switchToStandardTransfer: "Switch to standard transfer",
           continueButton: "Continue",
           couldNotLoadReasonsErrorTitle: "Couldn't load list",

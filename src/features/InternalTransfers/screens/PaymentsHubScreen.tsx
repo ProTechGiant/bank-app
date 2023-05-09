@@ -11,12 +11,11 @@ import Typography from "@/components/Typography";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { formatCurrency } from "@/utils";
 
 import { PaymentOption, SelectTransferTypeModal } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useQuickTransferAccounts } from "../hooks/query-hooks";
-
-const formatter = Intl.NumberFormat("en-US", { style: "decimal", minimumFractionDigits: 2 });
 
 export default function PaymentsHubScreen() {
   const { t } = useTranslation();
@@ -93,7 +92,7 @@ export default function PaymentsHubScreen() {
           <SafeAreaView edges={["top", "left", "right"]}>
             <Stack direction="vertical" gap="32p" style={headerContainer}>
               <Typography.Text size="large" weight="bold" color="neutralBase-50">
-                {t("InternalTransfers.PaymentHub.title")}
+                {t("InternalTransfers.PaymentsHubScreen.title")}
               </Typography.Text>
 
               <Stack direction="horizontal" gap="12p" align="center" justify="space-between">
@@ -107,7 +106,9 @@ export default function PaymentsHubScreen() {
                         {account.data.name}
                       </Typography.Text>
                       <Typography.Text color="neutralBase" size="footnote">
-                        {formatter.format(account.data.balance)} SAR available
+                        {t("InternalTransfers.PaymentsHubScreen.balanceAvailable", {
+                          balance: formatCurrency(account.data.balance, "SAR"),
+                        })}
                       </Typography.Text>
                     </Stack>
                   </>
@@ -127,14 +128,14 @@ export default function PaymentsHubScreen() {
             <PaymentOption
               onPress={() => setIsSelectTransferTypeVisible(true)}
               icon={<LocalTransferIcon />}
-              title={t("InternalTransfers.PaymentHub.options.localTransfer.title")}
-              helperText={t("InternalTransfers.PaymentHub.options.localTransfer.helperText")}
+              title={t("InternalTransfers.PaymentsHubScreen.options.localTransfer.title")}
+              helperText={t("InternalTransfers.PaymentsHubScreen.options.localTransfer.helperText")}
             />
             <PaymentOption
               onPress={handleOnInternalTransferPress}
               icon={<TransferHorizontalIcon />}
-              title={t("InternalTransfers.PaymentHub.options.internalTransfer.title")}
-              helperText={t("InternalTransfers.PaymentHub.options.internalTransfer.helperText")}
+              title={t("InternalTransfers.PaymentsHubScreen.options.internalTransfer.title")}
+              helperText={t("InternalTransfers.PaymentsHubScreen.options.internalTransfer.helperText")}
             />
           </Stack>
         </ScrollView>

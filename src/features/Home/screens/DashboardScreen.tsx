@@ -15,15 +15,15 @@ import Typography from "@/components/Typography";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { formatCurrency } from "@/utils";
 
 import BackgroundCollapsedSvg from "../assets/background-header-collapsed.svg";
 import BackgroundExpandedSvg from "../assets/background-header-expanded.svg";
-import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
 import { HeaderButton, NotificationSlide, QuickActionsSection, RewardsSection, WhatsNextSection } from "../components";
-import { useRefetchHomepageLayout, useNotifications } from "../hooks/query-hooks";
+import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
+import { useNotifications, useRefetchHomepageLayout } from "../hooks/query-hooks";
 import { Notification } from "../types";
 
-const formatter = Intl.NumberFormat("en-US", { style: "decimal", minimumFractionDigits: 2 });
 export default function DashboardScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -137,7 +137,7 @@ export default function DashboardScreen() {
                 {isBalanceVisible ? (
                   <>
                     <Typography.Header color="neutralBase+30" size="large" weight="semiBold">
-                      {formatter.format(account.data?.balance ?? 0)}
+                      {formatCurrency(account.data?.balance ?? 0)}
                     </Typography.Header>
                     <Typography.Text color="neutralBase+30" size="footnote" weight="regular">
                       {" " + (account.data?.currencyType ?? "SAR")}
