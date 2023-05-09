@@ -249,7 +249,7 @@ export default function CreateDisputeStep({
               />
             </View>
             <View style={checkBoxTextStyle}>
-              <Typography.Text size="footnote" weight="medium" color="neutralBase">
+              <Typography.Text size="footnote" weight="regular" color="neutralBase">
                 {t("PaymentDisputes.CreateDisputeModal.checkBoxMessage")}
                 <Typography.Text
                   size="footnote"

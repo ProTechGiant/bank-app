@@ -42,6 +42,7 @@ export default function TextInput({
     fontSize: theme.typography.text.sizes.callout,
     fontWeight: theme.typography.text.weights.regular,
     padding: 0,
+    textAlignVertical: "top", // to fix the alignment in android
   }));
 
   const placeholderTextColor = useThemeStyles(theme => theme.palette.neutralBase, []);
