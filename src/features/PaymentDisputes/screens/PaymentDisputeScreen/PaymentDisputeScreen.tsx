@@ -31,13 +31,13 @@ export default function PaymentDisputeScreen() {
   const [currentStep, setCurrentStep] = useState<Steps>("landing");
   const [previousStep, setPreviousStep] = useState<Steps>("landing");
   // TODO: get transaction type
-  const [transactionType, setTransactionType] = useState<TransactionType>("ATM");
-  const [reasonCode, setReasonCode] = useState("");
+  const [transactionType, setTransactionType] = useState<TransactionType>("CARD");
+  const [reasonCode, setReasonCode] = useState<string | undefined>(undefined);
   const [caseType, setCaseType] = useState<CaseType>("dispute");
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isCardFrozen, setIsCardFrozen] = useState(false);
 
-  // TODO: get cardtype and cardstatus from new endpoint when that's available
+  // TODO: get cardType and cardStatus from new endpoint when that's available
   const selectedCard = card.data;
   const cardStatus = selectedCard?.Status;
   const cardType = selectedCard?.CardType;
@@ -130,6 +130,7 @@ export default function PaymentDisputeScreen() {
               caseType={caseType}
               cardType={cardType}
               reasonCode={reasonCode}
+              transactionType={transactionType}
               createDisputeUserId={createDisputeUserId}
               isCardFrozen={isCardFrozen}
               onBack={handleOnCreateDisputeBack}

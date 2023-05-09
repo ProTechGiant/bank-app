@@ -56,7 +56,7 @@ export function useCreateCase() {
     }: {
       createDisputeUserId: string;
       isCardFrozen: boolean;
-      reasonCode: string;
+      reasonCode: string | undefined;
       values: CreateDisputeInput;
     }) => {
       return api<CreateCaseResponse>(

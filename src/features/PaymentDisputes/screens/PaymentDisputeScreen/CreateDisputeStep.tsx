@@ -23,7 +23,7 @@ import { useThemeStyles } from "@/theme";
 
 import { useCreateCase } from "../../hooks/query-hooks";
 import { mockTransactionDetails } from "../../mocks/mockTransactionDetails";
-import { CaseType, CreateDisputeInput } from "../../types";
+import { CaseType, CreateDisputeInput, TransactionType } from "../../types";
 import { formatDateTime } from "../../utils";
 
 const transactionDateTime = new Date(mockTransactionDetails.dateTime);
@@ -32,7 +32,8 @@ interface CreateDisputeStepProps {
   caseType: CaseType;
   cardType: Card["CardType"];
   isCardFrozen: boolean;
-  reasonCode: string;
+  reasonCode: string | undefined;
+  transactionType: TransactionType;
   onBack: () => void;
   createDisputeUserId: string; // TODO: To be removed once we can use the same ID for freeze card and create case
 }
@@ -42,6 +43,7 @@ export default function CreateDisputeStep({
   cardType,
   isCardFrozen,
   reasonCode,
+  transactionType,
   onBack,
   createDisputeUserId,
 }: CreateDisputeStepProps) {
@@ -52,7 +54,8 @@ export default function CreateDisputeStep({
 
   const [isCancelDisputeModalVisible, setIsCancelDisputeModalVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
-  const isMessageRequired = (caseType === "dispute" && reasonCode === IS_SOMETHING_ELSE_CODE) || caseType === "fraud";
+  const isMessageRequired =
+    (caseType === "dispute" && reasonCode === IS_SOMETHING_ELSE_CODE[transactionType]) || caseType === "fraud";
 
   const validationSchema = useMemo(
     () =>
@@ -163,20 +166,19 @@ export default function CreateDisputeStep({
   }));
 
   const checkBoxStackStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "flex-end",
-    justifyContent: "space-around",
+    alignItems: "flex-start",
     marginHorizontal: theme.spacing["12p"],
     paddingBottom: theme.spacing["20p"],
     paddingTop: theme.spacing["12p"],
-  }));
-
-  const checkBoxContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: -theme.spacing["16p"],
     marginTop: -theme.spacing["8p"],
   }));
 
+  const checkBoxContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: -theme.spacing["24p"],
+  }));
+
   const checkBoxTextStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingLeft: theme.spacing["12p"],
+    marginTop: theme.spacing["20p"],
   }));
 
   return (
@@ -211,7 +213,7 @@ export default function CreateDisputeStep({
               </Typography.Text>
             </View>
           </View>
-          <Stack direction="vertical" gap="24p" align="stretch" flex={1}>
+          <Stack direction="vertical" gap="24p" align="stretch">
             <TextInput
               control={control}
               label={t("PaymentDisputes.CreateDisputeModal.messageBox.label")}
@@ -233,7 +235,7 @@ export default function CreateDisputeStep({
           <View style={[dividerStyle, bottomDividerMarginStyle]}>
             <Divider color="neutralBase-30" />
           </View>
-          <Stack direction="horizontal" style={checkBoxStackStyle}>
+          <Stack direction="horizontal" gap="8p" style={checkBoxStackStyle}>
             <View style={checkBoxContainerStyle}>
               <CheckboxInput
                 control={control}
@@ -305,6 +307,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const IS_SOMETHING_ELSE_CODE = "200";
+const IS_SOMETHING_ELSE_CODE = {
+  ATM: "230",
+  CARD: "200",
+};
 const MAX_FILE_SIZE_MB = 5; // TODO: TBC
 const fileSizeInBytes = MAX_FILE_SIZE_MB * 1024 * 1024;
