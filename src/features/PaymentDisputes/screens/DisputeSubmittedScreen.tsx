@@ -15,14 +15,16 @@ export default function DisputeSubmittedScreen() {
   const route = useRoute<RouteProp<MainStackParams, "PaymentDisputes.DisputeSubmittedScreen">>();
   const caseType = route.params.caseType;
   const cardType = route.params.cardType;
+  const cardStatus = route.params.cardStatus;
   const caseId = route.params.caseId;
+
+  const isCardCancelled = cardStatus === "inactive" || cardStatus === "freeze";
 
   const navigation = useNavigation();
   const { t } = useTranslation();
 
   const handleOnOkPress = () => {
-    //TODO: navigate to Cases landing screen
-    navigation.navigate("Temporary.LandingScreen");
+    navigation.navigate("PaymentDisputes.MyCasesLandingScreen");
   };
 
   const brandContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -70,8 +72,7 @@ export default function DisputeSubmittedScreen() {
                   {t("PaymentDisputes.DisputeSubmittedScreen.textTwo")}
                 </Typography.Text>
               </View>
-              {/* TODO: add a check for cardStatus */}
-              {caseType === "fraud" && cardType !== SINGLE_USE_CARD_TYPE ? (
+              {caseType === "fraud" && cardType !== SINGLE_USE_CARD_TYPE && !isCardCancelled ? (
                 <View style={textStyle}>
                   <Typography.Text align="center" size="footnote" color="neutralBase+10">
                     {t("PaymentDisputes.DisputeSubmittedScreen.textThree")}
@@ -89,6 +90,7 @@ export default function DisputeSubmittedScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    flexGrow: 1,
     justifyContent: "space-between",
   },
   contentContainer: {

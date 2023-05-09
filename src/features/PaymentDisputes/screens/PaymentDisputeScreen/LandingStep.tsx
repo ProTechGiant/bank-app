@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { FlagIcon, ReportFraudIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -52,7 +52,7 @@ export default function LandingStep({ onProblemWithTransactionLink, onFraudLink 
   return (
     <>
       <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
-      <ContentContainer>
+      <ContentContainer isScrollView style={styles.contentContainer}>
         <View style={titleContainerStyle}>
           <Typography.Text size="title1" weight="medium">
             {t("PaymentDisputes.PaymentDisputesLandingModal.title")}
@@ -101,3 +101,9 @@ export default function LandingStep({ onProblemWithTransactionLink, onFraudLink 
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    flexGrow: 1,
+  },
+});

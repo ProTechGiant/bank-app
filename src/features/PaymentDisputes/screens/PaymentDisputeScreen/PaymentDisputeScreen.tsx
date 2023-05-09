@@ -104,7 +104,7 @@ export default function PaymentDisputeScreen() {
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
-        {card.data !== undefined ? (
+        {selectedCard && cardType && cardStatus !== undefined ? (
           currentStep === "landing" ? (
             <LandingStep
               onProblemWithTransactionLink={handleOnProblemWithTransactionLink}
@@ -129,6 +129,7 @@ export default function PaymentDisputeScreen() {
             <CreateDisputeStep
               caseType={caseType}
               cardType={cardType}
+              cardStatus={cardStatus}
               reasonCode={reasonCode}
               transactionType={transactionType}
               createDisputeUserId={createDisputeUserId}

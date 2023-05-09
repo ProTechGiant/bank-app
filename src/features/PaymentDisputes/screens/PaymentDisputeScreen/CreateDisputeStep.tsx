@@ -16,7 +16,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { Card } from "@/features/CardActions/types";
+import { Card, CardStatus } from "@/features/CardActions/types";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -31,6 +31,7 @@ const transactionDateTime = new Date(mockTransactionDetails.dateTime);
 interface CreateDisputeStepProps {
   caseType: CaseType;
   cardType: Card["CardType"];
+  cardStatus: CardStatus;
   isCardFrozen: boolean;
   reasonCode: string | undefined;
   transactionType: TransactionType;
@@ -41,6 +42,7 @@ interface CreateDisputeStepProps {
 export default function CreateDisputeStep({
   caseType,
   cardType,
+  cardStatus,
   isCardFrozen,
   reasonCode,
   transactionType,
@@ -108,6 +110,7 @@ export default function CreateDisputeStep({
       navigation.navigate("PaymentDisputes.DisputeSubmittedScreen", {
         caseType: caseType,
         cardType: cardType,
+        cardStatus: cardStatus,
         caseId: response.CaseNumber,
       });
     } catch (error) {
