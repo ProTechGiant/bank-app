@@ -1,4 +1,4 @@
-import { I18nManager, Pressable, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, ViewStyle } from "react-native";
 import Animated, { interpolateColor, useAnimatedStyle, withTiming } from "react-native-reanimated";
 
 import { useThemeStyles } from "@/theme";
@@ -11,54 +11,39 @@ interface ToggleProps {
 }
 
 export default function Toggle({ onPress, testID, disabled, value }: ToggleProps) {
-  const disabledOffColor = useThemeStyles<string>(theme => theme.palette["neutralBase-40"]);
-  const offColor = useThemeStyles<string>(theme => theme.palette["neutralBase-30"]);
-  const onColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
+  const disabledOffColor = useThemeStyles(theme => theme.palette["neutralBase-40"]);
+  const offColor = useThemeStyles(theme => theme.palette["neutralBase-30"]);
+  const onColor = useThemeStyles(theme => theme.palette.complimentBase);
 
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60"],
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: "rgba(0, 0, 0, 0.04)",
     borderRadius: BUTTON_SIZE / 2,
     height: BUTTON_SIZE,
     width: BUTTON_SIZE,
-    backgroundColor: theme.palette["neutralBase-60"],
-    borderWidth: 0.5,
-    borderColor: "#0000000A",
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.16,
-    shadowRadius: 4,
-    elevation: 1,
   }));
 
   const containerStyle = useThemeStyles<ViewStyle>(() => ({
     borderRadius: BUTTON_SIZE,
-    paddingHorizontal: 2,
-    paddingVertical: 2,
-    width: 48,
+    padding: 2,
+    width: BUTTON_SIZE * 2,
   }));
 
   const backgroundAnimatedStyle = useAnimatedStyle(
     () => ({
-      backgroundColor: interpolateColor(
-        value ? 1 : 0,
-        [0, 1],
-        [disabled ? disabledOffColor : offColor, disabled ? disabledOffColor : onColor]
-      ),
+      backgroundColor: disabled
+        ? disabledOffColor
+        : interpolateColor(value === true ? 1 : 0, [0, 1], [offColor, onColor]),
     }),
-    [disabled]
+    [disabled, value]
   );
 
-  const buttonAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateX: withTiming(value ? (I18nManager.isRTL ? -BUTTON_SIZE + 4 : BUTTON_SIZE - 4) : 0, {
-          duration: 200,
-        }),
-      },
-    ],
-  }));
+  const buttonAnimatedStyle = useAnimatedStyle(() => {
+    const toValue = value === false ? 0 : I18nManager.isRTL ? -BUTTON_SIZE + 4 : +BUTTON_SIZE - 4;
+
+    return { transform: [{ translateX: withTiming(toValue, { duration: 200 }) }] };
+  }, [value]);
 
   return (
     <Pressable disabled={disabled} onPress={onPress} testID={testID}>
