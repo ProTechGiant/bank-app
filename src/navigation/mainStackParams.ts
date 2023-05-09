@@ -30,7 +30,9 @@ type RootStackParams = {
   "Modal.QuickActionsReorderModal": undefined;
   "Modal.HomepageReorderModal": undefined;
   "NotificationManagement.NotificationManagementStack": undefined;
-  "ViewTransactions.ViewTransactionsStack": undefined;
+  "ViewTransactions.ViewTransactionsStack": {
+    screen: string;
+  };
   "Settings.SettingsScreen": undefined;
   "SavingsGoals.SavingsGoalsStack": {
     savingsPotsNumber: number;

@@ -24,7 +24,9 @@ import { useThemeStyles } from "@/theme";
 import { useCreateCase } from "../../hooks/query-hooks";
 import { mockTransactionDetails } from "../../mocks/mockTransactionDetails";
 import { CaseType, CreateDisputeInput } from "../../types";
-import { formattedDateTime } from "../../utils";
+import { formatDateTime } from "../../utils";
+
+const transactionDateTime = new Date(mockTransactionDetails.dateTime);
 
 interface CreateDisputeStepProps {
   caseType: CaseType;
@@ -192,7 +194,7 @@ export default function CreateDisputeStep({
               </Typography.Text>
             </View>
             <Typography.Text color="neutralBase+10" size="footnote">
-              {formattedDateTime(mockTransactionDetails.dateTime)}
+              {formatDateTime(transactionDateTime)}
             </Typography.Text>
             <Typography.Text color="neutralBase+10" size="footnote">
               {mockTransactionDetails.location}
