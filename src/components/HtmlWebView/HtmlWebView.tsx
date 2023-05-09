@@ -39,6 +39,7 @@ export default function HtmlWebView({ html, onLinkPress }: HtmlWebViewProps) {
   b { 
     font-size: ${fontSize}px; 
     font-family: ${fontFamily}; 
+    font-weight: 600;
   } 
   
   span, div { 
