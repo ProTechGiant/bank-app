@@ -18,6 +18,7 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import i18n from "@/i18n";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -25,24 +26,14 @@ import { formatIban } from "@/utils";
 
 import { ConfirmBeneficiaryListCard } from "../components";
 
-const recipient = {
-  accountName: "Ibrahim Khan",
-  bank: "Saudi National Bank",
-  mobileNo: "+966 111 222 333",
-  email: "john.doe@domain.com",
-  IBAN: "1254452156246421",
-  ID: "125r361237613",
-};
-
 export default function ConfirmQuickTransferBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  // !TODO (AC2): show beneficiary details. where to get these from?
   const route = useRoute<RouteProp<MainStackParams, "InternalTransfers.ConfirmQuickTransferBeneficiaryScreen">>();
 
   const handleOnSubmit = () => {
-    navigation.navigate("InternalTransfers.ReviewQuickTransferScreen");
+    navigation.navigate("InternalTransfers.ReviewQuickTransferScreen", route.params);
   };
 
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
@@ -60,41 +51,45 @@ export default function ConfirmQuickTransferBeneficiaryScreen() {
             icon={<PersonFilledIcon color={iconColor} />}
             iconBackground="neutralBase-40"
             caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.name")}
-            label={recipient.accountName}
+            label={route.params.Beneficiary.FullName}
           />
           <ConfirmBeneficiaryListCard
             icon={<BankAccountIcon color={iconColor} />}
             iconBackground="neutralBase-40"
             caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.bank")}
-            label={recipient.bank}
+            label={
+              i18n.language === "en"
+                ? route.params.Beneficiary.Bank.EnglishName
+                : route.params.Beneficiary.Bank.ArabicName
+            }
           />
-          {recipient.mobileNo !== undefined ? (
+          {route.params.Beneficiary.SelectionType === "mobileNo" ? (
             <ConfirmBeneficiaryListCard
               icon={<PhoneFilledIcon color={iconColor} />}
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.mobile")}
-              label={parsePhoneNumber(recipient.mobileNo).format("INTERNATIONAL")}
+              label={parsePhoneNumber(route.params.Beneficiary.SelectionValue).format("INTERNATIONAL")}
             />
-          ) : recipient.IBAN !== undefined ? (
+          ) : route.params.Beneficiary.SelectionType === "IBAN" ? (
             <ConfirmBeneficiaryListCard
               icon={<NumbersIcon color={iconColor} />}
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.iban")}
-              label={formatIban(recipient.IBAN)}
+              label={formatIban(route.params.Beneficiary.SelectionValue)}
             />
-          ) : recipient.ID !== undefined ? (
+          ) : route.params.Beneficiary.SelectionType === "nationalId" ? (
             <ConfirmBeneficiaryListCard
               icon={<NumbersIcon color={iconColor} />}
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.id")}
-              label={formatIban(recipient.IBAN || "")}
+              label={route.params.Beneficiary.SelectionValue}
             />
-          ) : recipient.email !== undefined ? (
+          ) : route.params.Beneficiary.SelectionType === "email" ? (
             <ConfirmBeneficiaryListCard
               icon={<EmailIcon color={iconColor} />}
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.email")}
-              label={recipient.email}
+              label={route.params.Beneficiary.SelectionValue}
             />
           ) : null}
           <InlineBanner

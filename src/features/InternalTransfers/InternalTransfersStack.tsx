@@ -17,7 +17,7 @@ import {
   TermsAndConditionsModal,
 } from "./screens";
 import ReviewQuickTransferScreen from "./screens/ReviewQuickTransferScreen";
-import { AddNoteParams } from "./types";
+import { AddBeneficiarySelectionType, AddNoteParams, Bank } from "./types";
 
 export type InternalTransfersStackParams = {
   "InternalTransfers.SendToBeneficiaryScreen": undefined;
@@ -46,8 +46,28 @@ export type InternalTransfersStackParams = {
         ReasonCode?: string;
       }
     | undefined;
-  "InternalTransfers.ConfirmQuickTransferBeneficiaryScreen": undefined;
-  "InternalTransfers.ReviewQuickTransferScreen": undefined;
+  "InternalTransfers.ConfirmQuickTransferBeneficiaryScreen": {
+    PaymentAmount: number;
+    ReasonCode: string;
+    Beneficiary: {
+      FullName: string;
+      Bank: Bank;
+      SelectionType: AddBeneficiarySelectionType;
+      SelectionValue: string;
+      IBAN: string;
+    };
+  };
+  "InternalTransfers.ReviewQuickTransferScreen": {
+    PaymentAmount: number;
+    ReasonCode: string;
+    Beneficiary: {
+      FullName: string;
+      Bank: Bank;
+      SelectionType: AddBeneficiarySelectionType;
+      SelectionValue: string;
+      IBAN: string;
+    };
+  };
 };
 
 export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();

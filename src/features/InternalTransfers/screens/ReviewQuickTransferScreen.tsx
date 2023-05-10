@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native";
@@ -10,30 +11,22 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useCurrentAccount } from "@/hooks/use-accounts";
+import i18n from "@/i18n";
+import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { formatCurrency } from "@/utils";
 
-import { useTransferFees } from "../hooks/query-hooks";
-
-// @todo mocked data
-const transferData = {
-  transferAmount: 100,
-  reason: "test",
-  amount: "1,000",
-  bank: "Saudi National Bank",
-  processingTime: "Same day",
-  recipient: {
-    accountName: "Ahmad Abdul Aziz",
-    accountNumber: "00e6566676",
-  },
-};
+import { useTransferFees, useTransferReasonsByCode } from "../hooks/query-hooks";
 
 export default function ReviewQuickTransferScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<MainStackParams, "InternalTransfers.ReviewQuickTransferScreen">>();
 
   const account = useCurrentAccount();
   const transferFeesAsync = useTransferFees("110");
+  const transferReason = useTransferReasonsByCode(route.params.ReasonCode);
 
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
@@ -49,9 +42,9 @@ export default function ReviewQuickTransferScreen() {
   const handleSendMoney = async () => {
     if (
       account.data === undefined ||
-      transferData.reason === undefined ||
-      transferData.transferAmount === undefined ||
-      transferData.recipient.accountNumber === undefined ||
+      route.params.ReasonCode === undefined ||
+      route.params.PaymentAmount === undefined ||
+      route.params.Beneficiary.FullName === undefined ||
       transferFeesAsync.data?.TransferFee === undefined
     ) {
       return;
@@ -123,10 +116,10 @@ export default function ReviewQuickTransferScreen() {
                   {t("InternalTransfers.ReviewQuickTransferScreen.to")}
                 </Typography.Text>
                 <Typography.Text color="neutralBase+30" weight="regular" size="callout">
-                  {transferData.recipient.accountName}
+                  {route.params.Beneficiary.FullName}
                 </Typography.Text>
                 <Typography.Text color="neutralBase+30" weight="regular" size="callout">
-                  {transferData.recipient.accountNumber}
+                  {route.params.Beneficiary.IBAN}
                 </Typography.Text>
               </View>
               <View style={separatorStyle} />
@@ -135,7 +128,9 @@ export default function ReviewQuickTransferScreen() {
                   {t("InternalTransfers.ReviewQuickTransferScreen.bank")}
                 </Typography.Text>
                 <Typography.Text color="neutralBase-10" weight="regular" size="callout">
-                  {transferData.bank}
+                  {i18n.language === "en"
+                    ? route.params.Beneficiary.Bank.EnglishName
+                    : route.params.Beneficiary.Bank.ArabicName}
                 </Typography.Text>
               </View>
               <View style={inlineText}>
@@ -143,7 +138,11 @@ export default function ReviewQuickTransferScreen() {
                   {t("InternalTransfers.ReviewQuickTransferScreen.reason")}
                 </Typography.Text>
                 <Typography.Text color="neutralBase-10" weight="regular" size="callout">
-                  {transferData.reason}
+                  {transferReason.data === undefined ? (
+                    <ActivityIndicator size="small" />
+                  ) : (
+                    transferReason.data.Description
+                  )}
                 </Typography.Text>
               </View>
               <View style={inlineText}>
@@ -151,7 +150,7 @@ export default function ReviewQuickTransferScreen() {
                   {t("InternalTransfers.ReviewQuickTransferScreen.processingTime")}
                 </Typography.Text>
                 <Typography.Text color="neutralBase-10" weight="regular" size="callout">
-                  {transferData.processingTime}
+                  {t("InternalTransfers.ReviewQuickTransferScreen.sameDay")}
                 </Typography.Text>
               </View>
               <View style={inlineText}>
@@ -162,7 +161,10 @@ export default function ReviewQuickTransferScreen() {
                   <ActivityIndicator size="small" />
                 ) : (
                   <Typography.Text color="neutralBase-10" weight="regular" size="callout">
-                    {transferFeesAsync.data?.TransferFee} {t("InternalTransfers.ReviewQuickTransferScreen.currency")}
+                    {formatCurrency(
+                      Number(transferFeesAsync.data?.TransferFee),
+                      t("InternalTransfers.ReviewQuickTransferScreen.currency")
+                    )}
                   </Typography.Text>
                 )}
               </View>
@@ -171,7 +173,10 @@ export default function ReviewQuickTransferScreen() {
                   {t("InternalTransfers.ReviewTransferScreen.total")}
                 </Typography.Text>
                 <Typography.Text weight="medium" size="callout" color="neutralBase+30">
-                  {transferData.amount} {t("InternalTransfers.ReviewQuickTransferScreen.currency")}
+                  {formatCurrency(
+                    route.params.PaymentAmount + Number(transferFeesAsync.data?.TransferFee),
+                    t("InternalTransfers.ReviewQuickTransferScreen.currency")
+                  )}
                 </Typography.Text>
               </View>
             </View>

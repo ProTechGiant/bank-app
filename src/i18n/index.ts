@@ -1307,6 +1307,7 @@ export const resources = {
           sendMoney: "Send money now",
           cancel: "Cancel",
           currency: "SAR",
+          sameDay: "Same day",
           notification: {
             title: "Are you sure?",
             message: "Do you want to cancel this transfer?",
@@ -1381,6 +1382,8 @@ export const resources = {
           beneficiaryBankHeaderText: "Select beneficiary bank",
           transferBy: "Transfer by",
           continue: "Continue",
+          cancel: "Cancel",
+          switchToStandardTransfers: "Switch to standard transfers",
           transferByOptions: {
             mobile: "Mobile",
             email: "Email",
@@ -1393,6 +1396,10 @@ export const resources = {
               required: "Required",
               invalid: "Phone number requires 9 digits",
             },
+            error: {
+              title: "Mobile not found",
+              message: "That mobile number isn't associated with a {{bankName}} account. Please check and try again.",
+            },
           },
           email: {
             label: "Email",
@@ -1401,12 +1408,20 @@ export const resources = {
               required: "Required",
               invalid: "Incorrect email format",
             },
+            error: {
+              title: "Email not found",
+              message: "That email isn't associated with a {{bankName}} account. Please check and try again.",
+            },
           },
-          id: {
+          nationalID: {
             label: "ID number",
             validation: {
               required: "Required*",
               invalid: "Should be 10 digits",
+            },
+            error: {
+              title: "ID not found",
+              message: "That ID isn't associated with a {{bankName}} account. Please check and try again.",
             },
           },
           iban: {
@@ -1418,6 +1433,10 @@ export const resources = {
               required: "Required",
               lengthInvalid: "IBAN needs 24 chracters",
               formatInvalid: "Incorrect IBAN format",
+            },
+            error: {
+              title: "IBAN not recognised",
+              message: "That IBAN doesn't look right. Please check it and try again.",
             },
           },
           beneficiaryBanksError: {

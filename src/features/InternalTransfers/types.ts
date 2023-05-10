@@ -31,7 +31,7 @@ export interface AddNoteParams {
   note: Note;
 }
 
-export type AddBeneficiarySelectionType = "mobileNo" | "accountId" | "IBAN";
+export type AddBeneficiarySelectionType = "mobileNo" | "accountId" | "IBAN" | "email" | "nationalId";
 
 export interface AddBeneficiary {
   SelectionType: AddBeneficiarySelectionType;
@@ -57,3 +57,20 @@ export interface InternalTransfer {
 
 // Transfer Types: QuickOrStandardType: 110 | SAIREType: 120;
 export type TransferType = "110" | "120";
+
+export interface AddQuickTransferBeneficiary {
+  SelectionType: AddBeneficiarySelectionType;
+  SelectionValue: string;
+  Bank: {
+    BankCode: string;
+  };
+}
+
+export interface Bank {
+  EnglishName: string;
+  ArabicName: string;
+  BankId: string;
+  BankCode: string;
+  BankShortName: string;
+  Active: boolean;
+}

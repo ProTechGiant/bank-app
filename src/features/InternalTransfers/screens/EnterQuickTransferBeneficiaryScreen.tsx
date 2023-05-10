@@ -1,11 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
+import ApiError from "@/api/ApiError";
 import { BankAccountIcon } from "@/assets/icons";
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import DropdownInput from "@/components/Form/DropdownInput";
 import MaskedTextInput from "@/components/Form/MaskedTextInput";
@@ -18,32 +21,38 @@ import Page from "@/components/Page";
 import Pill from "@/components/Pill";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
+import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { numericRegExp, saudiPhoneRegExp } from "@/utils";
 import { ibanRegExp } from "@/utils";
 
-import { useBeneficiaryBanks } from "../hooks/query-hooks";
+import { useBeneficiaryBanks, useValidateQuickTransferBeneficiary } from "../hooks/query-hooks";
 
 interface BeneficiaryInput {
-  bankId: string;
+  bankCode: string;
   email?: string;
   iban?: string;
   identifier?: string;
   name?: string;
   phoneNumber?: string;
-  transferMethod: "mobile" | "email" | "id" | "iban";
+  transferMethod: "mobileNo" | "nationalId" | "IBAN" | "email";
 }
 
 export default function EnterQuickTransferBeneficiaryScreen() {
   const navigation = useNavigation();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+
+  const route = useRoute<RouteProp<MainStackParams, "InternalTransfers.EnterQuickTransferBeneficiaryScreen">>();
 
   const banks = useBeneficiaryBanks();
+  const validateBeneficiaryAsync = useValidateQuickTransferBeneficiary();
+
   const validationSchema = useMemo(
     () =>
       yup.object().shape({
-        bankId: yup.string().required(),
+        bankCode: yup.string().required(),
         email: yup
           .string()
           .email(t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.email.validation.invalid"))
@@ -54,7 +63,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
               .required(t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.email.validation.required")),
           }),
         iban: yup.string().when("transferMethod", {
-          is: "iban",
+          is: "IBAN",
           then: yup
             .string()
             .required(t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.iban.validation.required"))
@@ -65,21 +74,24 @@ export default function EnterQuickTransferBeneficiaryScreen() {
             ),
         }),
         identifier: yup.string().when("transferMethod", {
-          is: "id",
+          is: "nationalId",
           then: yup
             .string()
-            .matches(numericRegExp, t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.id.validation.invalid"))
-            .required(t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.id.validation.required"))
-            .length(10, t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.id.validation.invalid")),
+            .matches(
+              numericRegExp,
+              t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.nationalID.validation.invalid")
+            )
+            .required(t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.nationalID.validation.required"))
+            .length(10, t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.nationalID.validation.invalid")),
         }),
         name: yup.string().when("transferMethod", {
-          is: "iban",
+          is: "IBAN",
           then: yup
             .string()
             .required(t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.iban.validation.required")),
         }),
         phoneNumber: yup.string().when("transferMethod", {
-          is: "mobile",
+          is: "mobileNo",
           then: yup
             .string()
             .required(t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.mobile.validation.required"))
@@ -89,49 +101,105 @@ export default function EnterQuickTransferBeneficiaryScreen() {
             ),
         }),
       }),
-    [i18n.language]
+    [t]
   );
 
   const { control, handleSubmit, setValue, watch } = useForm<BeneficiaryInput>({
     resolver: yupResolver(validationSchema),
     mode: "onChange",
     defaultValues: {
-      bankId: undefined,
-      transferMethod: "mobile",
+      bankCode: undefined,
+      transferMethod: "mobileNo",
     },
   });
 
   const [isBanksLoadingErrorVisible, setIsBanksLoadingErrorVisible] = useState(false);
-  // !TODO: AC11
   const [isNotSupportingQuickTransferErrorVisible, setIsNotSupportingQuickTransferErrorVisible] = useState(false);
-  // !TODO: AC19
   const [isQuickTransferErrorVisible, setIsQuickTransferErrorVisible] = useState(false);
+  const [isQuickTransferValidationErrorVisible, setIsQuickTransferValidationErrorVisible] = useState(false);
+  const [i18nKey, setI18nKey] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     setIsBanksLoadingErrorVisible(banks.isError);
   }, [banks.isError]);
 
-  const handleOnSubmit = (_values: BeneficiaryInput) => {
-    // !TODO: AC9, AC10
-    navigation.navigate("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen");
+  const handleOnSubmit = async (_values: BeneficiaryInput) => {
+    const selectionValue =
+      _values.transferMethod === "email"
+        ? _values.email
+        : _values.transferMethod === "IBAN"
+        ? _values.iban
+        : _values.transferMethod === "nationalId"
+        ? _values.identifier
+        : _values.transferMethod === "mobileNo"
+        ? _values.phoneNumber
+        : undefined;
+
+    if (selectionValue === undefined) {
+      return;
+    }
+
+    try {
+      const response = await validateBeneficiaryAsync.mutateAsync({
+        SelectionType: _values.transferMethod,
+        SelectionValue: selectionValue,
+        bank: banks.data?.Banks.find(bank => bank.BankCode === _values.bankCode),
+        name: _values.name,
+      });
+
+      navigation.navigate("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen", {
+        PaymentAmount: route.params.PaymentAmount,
+        ReasonCode: route.params.ReasonCode,
+        Beneficiary: {
+          FullName: response.FullName,
+          Bank: response.Bank,
+          SelectionType: _values.transferMethod,
+          SelectionValue: selectionValue,
+          IBAN: response.IBAN,
+        },
+      });
+    } catch (error) {
+      if (error instanceof ApiError) {
+        if (error.errorContent.Message.includes(ERROR_BENEFICIARY_DOESNOT_SUPPORT)) {
+          setIsNotSupportingQuickTransferErrorVisible(true);
+        } else if (error.errorContent.Message.includes(ERROR_EMAIL_INVALID)) {
+          setI18nKey("email");
+          setIsQuickTransferValidationErrorVisible(true);
+        } else if (error.errorContent.Message.includes(ERROR_PHONE_NUMBER_INVALID)) {
+          setI18nKey("mobile");
+          setIsQuickTransferValidationErrorVisible(true);
+        } else if (error.errorContent.Message.includes(ERROR_NATIONAL_ID_NOT_EXIST)) {
+          setI18nKey("nationalID");
+          setIsQuickTransferValidationErrorVisible(true);
+        } else if (error.errorContent.Message.includes(ERROR_IBAN_NOT_VALID)) {
+          setI18nKey("iban");
+          setIsQuickTransferValidationErrorVisible(true);
+        } else {
+          setIsQuickTransferErrorVisible(true);
+        }
+      } else {
+        setIsQuickTransferErrorVisible(true);
+      }
+      warn("Validate Beneficiary", "Could not validate beneficiary: ", JSON.stringify(error));
+    }
   };
 
   const identifiers = [
-    { label: t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.transferByOptions.mobile"), value: "mobile" },
+    { label: t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.transferByOptions.mobile"), value: "mobileNo" },
     { label: t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.transferByOptions.email"), value: "email" },
-    { label: t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.transferByOptions.id"), value: "id" },
-    { label: t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.transferByOptions.iban"), value: "iban" },
+    { label: t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.transferByOptions.id"), value: "nationalId" },
+    { label: t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.transferByOptions.iban"), value: "IBAN" },
   ] as const;
 
   const transferMethod = watch("transferMethod");
-  const bankId = watch("bankId");
+  const bankCode = watch("bankCode");
 
   const bankOptions = useMemo(() => {
     if (banks.data === undefined) return [];
 
     return banks.data.Banks.map(element => ({
       label: element.EnglishName,
-      value: element.BankId,
+      value: element.BankCode,
       icon: <AccountBalanceIcon />,
     }));
   }, [banks.data]);
@@ -151,7 +219,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                 buttonLabel={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.beneficiaryBankConfirm")}
                 control={control}
                 isFixedHeight
-                name="bankId"
+                name="bankCode"
                 headerText={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.beneficiaryBankHeaderText")}
                 options={bankOptions}
                 label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.beneficiaryBankLabel")}
@@ -169,7 +237,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                   </Pill>
                 ))}
               </Stack>
-              {transferMethod === "mobile" ? (
+              {transferMethod === "mobileNo" ? (
                 <PhoneNumberInput
                   control={control}
                   label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.mobile.label")}
@@ -186,10 +254,10 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                   name="email"
                   placeholder={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.email.placeholder")}
                 />
-              ) : transferMethod === "id" ? (
+              ) : transferMethod === "nationalId" ? (
                 <MaskedTextInput
                   control={control}
-                  label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.id.label")}
+                  label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.nationalID.label")}
                   keyboardType="number-pad"
                   maxLength={10}
                   mask="##########"
@@ -232,15 +300,34 @@ export default function EnterQuickTransferBeneficiaryScreen() {
         isVisible={isBanksLoadingErrorVisible}
         variant="error"
       />
-      {bankId !== undefined ? (
+      {bankCode !== undefined ? (
         <NotificationModal
           onClose={() => setIsNotSupportingQuickTransferErrorVisible(false)}
           message={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.quickTransfersUnsupportedError.message", {
-            bankName: bankOptions.find(element => element.value === bankId)?.label ?? "unknown",
+            bankName: bankOptions.find(element => element.value === bankCode)?.label ?? "unknown",
           })}
           title={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.quickTransfersUnsupportedError.title")}
           isVisible={isNotSupportingQuickTransferErrorVisible}
           variant="error"
+          buttons={{
+            primary: (
+              <Button
+                onPress={() => {
+                  setIsNotSupportingQuickTransferErrorVisible(false);
+                  setTimeout(() => navigation.navigate("InternalTransfers.StandardTransferScreen"), 300);
+                }}>
+                {t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.switchToStandardTransfers")}
+              </Button>
+            ),
+            secondary: (
+              <Button
+                onPress={() => {
+                  setIsNotSupportingQuickTransferErrorVisible(false);
+                }}>
+                {t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.cancel")}
+              </Button>
+            ),
+          }}
         />
       ) : null}
       <NotificationModal
@@ -253,9 +340,26 @@ export default function EnterQuickTransferBeneficiaryScreen() {
         isVisible={isQuickTransferErrorVisible}
         variant="error"
       />
+      <NotificationModal
+        onClose={() => {
+          setIsQuickTransferValidationErrorVisible(false);
+        }}
+        message={t(`InternalTransfers.EnterQuickTransferBeneficiaryScreen.${i18nKey}.error.message`, {
+          bankName: bankOptions.find(element => element.value === bankCode)?.label ?? "unknown",
+        })}
+        title={t(`InternalTransfers.EnterQuickTransferBeneficiaryScreen.${i18nKey}.error.title`)}
+        isVisible={isQuickTransferValidationErrorVisible}
+        variant="error"
+      />
     </>
   );
 }
+
+const ERROR_BENEFICIARY_DOESNOT_SUPPORT = "Beneficiary bank does not support quick transfers";
+const ERROR_PHONE_NUMBER_INVALID = "Alias not found for mobileNo";
+const ERROR_EMAIL_INVALID = "Alias not found for email";
+const ERROR_NATIONAL_ID_NOT_EXIST = "Alias not found for nationalId";
+const ERROR_IBAN_NOT_VALID = "Alias not found for IBAN";
 
 function AccountBalanceIcon() {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({

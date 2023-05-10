@@ -1,11 +1,17 @@
-import { generateKey } from "crypto";
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
 import sendApiRequest from "@/api";
 import { generateRandomId } from "@/utils";
 
-import { AddBeneficiarySelectionType, BeneficiaryType, InternalTransfer, TransferReason, TransferType } from "../types";
+import {
+  AddBeneficiarySelectionType,
+  Bank,
+  BeneficiaryType,
+  InternalTransfer,
+  TransferReason,
+  TransferType,
+} from "../types";
 
 const queryKeys = {
   all: () => ["transfers"] as const,
@@ -109,13 +115,7 @@ export function useInternalTransfer() {
 }
 
 interface BeneficiaryBanksResponse {
-  Banks: Array<{
-    EnglishName: string;
-    BankId: string;
-    BankCode: string;
-    BankShortName: string;
-    Active: boolean;
-  }>;
+  Banks: Array<Bank>;
 }
 
 export function useBeneficiaryBanks() {
@@ -184,4 +184,54 @@ export function useTransferFees(transferType: TransferType) {
       }
     );
   });
+}
+
+interface ValidateQuickTransferBeneficiaryResponse {
+  SelectionType: string;
+  SelectionValue: string;
+  Bank: Bank;
+  FullName: string;
+  IBAN: string;
+}
+
+export function useValidateQuickTransferBeneficiary() {
+  return useMutation(
+    async ({
+      SelectionType,
+      SelectionValue,
+      bank,
+      name,
+    }: {
+      SelectionType: AddBeneficiarySelectionType;
+      SelectionValue: string;
+      bank: Bank;
+      name: string | undefined;
+    }) => {
+      // remove country code in mobile phone number
+      const inputValue =
+        SelectionType === "mobileNo" ? SelectionValue.substring(SelectionValue.length, 4) : SelectionValue;
+
+      return api<ValidateQuickTransferBeneficiaryResponse>(
+        "v1",
+        "transfers/quick/beneficiaries",
+        "POST",
+        undefined,
+        {
+          SelectionType: SelectionType,
+          SelectionValue: inputValue,
+          Bank: bank,
+          FullName: name,
+        },
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      );
+    }
+  );
+}
+
+export function useTransferReasonsByCode(reasonCode: string) {
+  const reasons = useTransferReasons();
+
+  return { ...reasons, data: reasons?.data?.TransferReason.find(reason => reason.Code === reasonCode) };
 }
