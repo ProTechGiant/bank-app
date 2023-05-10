@@ -1493,7 +1493,7 @@ export const resources = {
           errorModal: {
             title: "Sorry, we couldn't load that information",
             message: "Please try again later or get in touch if you're still having problems.",
-            buttonText: "Ok",
+            buttonText: "OK",
           },
         },
         CreateDisputeModal: {
@@ -2279,7 +2279,7 @@ export const resources = {
         errorModal: {
           title: "Sorry, we couldn't load that information",
           message: "Please try again later or get in touch if you're still having problems.",
-          buttonText: "Ok",
+          buttonText: "OK",
         },
       },
       CreateDisputeModal: {
