@@ -17,16 +17,15 @@ import {
   mockRelatedFrequentlyAskedQuestions,
 } from "@/mocks/frequentlyAskedQuestionsData";
 import MainStackParams from "@/navigation/mainStackParams";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import useOpenLink from "../../../hooks/use-open-link";
 import { LoadingError } from "../components";
 import { DetailedFaq } from "../types";
-import openLink from "../utils/open-link";
 
 export default function DetailedScreen() {
   const route = useRoute<RouteProp<MainStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
-  const navigation = useNavigation();
+  const openLink = useOpenLink();
   const { t } = useTranslation();
   const [title, setTitle] = useState<undefined | string>(undefined);
   const [data, setData] = useState<undefined | DetailedFaq>(undefined);
@@ -108,10 +107,6 @@ export default function DetailedScreen() {
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
-  const inAppBrowserBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
-
-  const inAppBrowserColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
-
   return (
     <Page>
       <NavHeader title={title} />
@@ -122,10 +117,7 @@ export default function DetailedScreen() {
         {data?.answer ? (
           <>
             <View style={verticalStyle}>
-              <HtmlWebView
-                html={data.answer}
-                onLinkPress={url => openLink(url, inAppBrowserBackgroundColor, inAppBrowserColor, navigation)}
-              />
+              <HtmlWebView html={data.answer} onLinkPress={url => openLink(url)} />
               <View style={styles.row}>
                 <Typography.Text size="callout" color="neutralBase-10">
                   {getFeedbackText()}

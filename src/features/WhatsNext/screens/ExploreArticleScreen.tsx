@@ -8,8 +8,8 @@ import { LoadingErrorPage } from "@/components/LoadingError";
 import Stack from "@/components/Stack";
 import Tag from "@/components/Tag";
 import Typography from "@/components/Typography";
-import openLink from "@/features/FrequentlyAskedQuestions/utils/open-link";
 import useAppsFlyer from "@/hooks/use-appsflyer";
+import useOpenLink from "@/hooks/use-open-link";
 import { warn } from "@/logger";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -30,6 +30,7 @@ import { WhatsNextSingleArticleMock } from "../whatsNextSingleArticleMock";
 export default function ExploreArticleScreen() {
   // TODO: handle image dynamically when mock data allows for it
   const articleId = useRoute<RouteProp<MainStackParams, "WhatsNext.ExploreArticleScreen">>().params.articleId;
+  const openLink = useOpenLink();
   const navigation = useNavigation();
   const appsFlyer = useAppsFlyer();
 
@@ -86,10 +87,6 @@ export default function ExploreArticleScreen() {
     paddingVertical: theme.spacing["24p"],
   }));
 
-  const inAppBrowserBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
-
-  const inAppBrowserColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
-
   return (
     <>
       {data !== undefined && data.ContentDescription && data.WhatsNextType ? (
@@ -106,10 +103,7 @@ export default function ExploreArticleScreen() {
               </Typography.Text>
               <Image source={explorePlaceholder} style={imageStyle} />
             </Stack>
-            <HtmlWebView
-              html={data.ContentDescription}
-              onLinkPress={url => openLink(url, inAppBrowserBackgroundColor, inAppBrowserColor, navigation)}
-            />
+            <HtmlWebView html={data.ContentDescription} onLinkPress={url => openLink(url)} />
             {data.EventDetails ? (
               <View style={sectionStyle}>
                 <EventDetailsSection data={data.EventDetails} />

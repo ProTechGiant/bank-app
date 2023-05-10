@@ -4,8 +4,7 @@ import { Pressable, View, ViewStyle } from "react-native";
 import { ShareIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import openLink from "@/features/FrequentlyAskedQuestions/utils/open-link";
-import useNavigation from "@/navigation/use-navigation";
+import useOpenLink from "@/hooks/use-open-link";
 import { useThemeStyles } from "@/theme";
 
 import { EventDetails } from "../types";
@@ -16,17 +15,13 @@ interface EventDetailsSectionProps {
 
 export default function EventDetailsSection({ data }: EventDetailsSectionProps) {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const openLink = useOpenLink();
 
   const websiteWrapperStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     gap: theme.spacing["8p"],
     alignItems: "center",
   }));
-
-  const inAppBrowserBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
-
-  const inAppBrowserColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   return (
     <Stack gap="24p" direction="vertical">
@@ -57,7 +52,7 @@ export default function EventDetailsSection({ data }: EventDetailsSectionProps) 
       <Pressable
         style={websiteWrapperStyle}
         onPress={() => {
-          openLink(data.Website, inAppBrowserBackgroundColor, inAppBrowserColor, navigation);
+          openLink(data.Website);
         }}>
         <ShareIcon />
         <Typography.Text color="primaryBase-40" size="callout">

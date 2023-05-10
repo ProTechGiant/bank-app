@@ -2,8 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
-import openLink from "@/features/FrequentlyAskedQuestions/utils/open-link";
-import useNavigation from "@/navigation/use-navigation";
+import useOpenLink from "@/hooks/use-open-link";
 import { useThemeStyles } from "@/theme";
 
 import explorePlaceholder from "../assets/explore-placeholder.png";
@@ -19,7 +18,7 @@ export default function AboutAuthorSection({
   authorDescription,
   authorSocialMediaLink,
 }: AboutAuthorSectionProps) {
-  const navigation = useNavigation();
+  const openLink = useOpenLink();
   const { t } = useTranslation();
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -27,10 +26,6 @@ export default function AboutAuthorSection({
     flexDirection: "row",
     gap: theme.spacing["12p"],
   }));
-
-  const inAppBrowserBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
-
-  const inAppBrowserColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   return (
     <>
@@ -43,7 +38,7 @@ export default function AboutAuthorSection({
         <View style={styles.column}>
           <Pressable
             onPress={() => {
-              openLink(authorSocialMediaLink, inAppBrowserBackgroundColor, inAppBrowserColor, navigation);
+              openLink(authorSocialMediaLink);
             }}>
             <Typography.Text size="callout" weight="medium" color="primaryBase-40">
               {authorSocialMediaName}

@@ -10,7 +10,7 @@ export const WhatsNextSingleArticleMock = {
     SubTitle:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
     ContentDescription:
-      "Lorem ipsum dolor sit amet, <b>consectetur adipiscing elit</b>, sed do eiusmod tempor incididunt ut labore et <i>dolore magna</i> aliqua",
+      "Lorem ipsum dolor sit amet, <b>consectetur adipiscing elit</b>, sed do eiusmod tempor incididunt ut labore et <i>dolore magna</i> aliqua. TEST LINKS: 1. What's Next: <a href='croatia://whats-next/123789'>whats-next/123789</a> 2. FAQ: <a href='croatia://faqs/faq_1'>faqs/faq_1</a>",
     Media: [
       {
         SourceFileName: "string",
