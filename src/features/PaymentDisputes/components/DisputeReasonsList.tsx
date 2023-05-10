@@ -25,15 +25,15 @@ export default function DisputeReasonsList({ data, onPress }: DisputeReasonsList
   return (
     <Stack direction="vertical" gap="20p" align="stretch" flex={1}>
       {data.map((reason, index) => (
-        <Fragment key={reason.ProblemCategoryCode}>
+        <Fragment key={reason.PaymentCaseCategoryCode}>
           <DisputeReason
-            text={`${reason.ProblemCategoryName} ${
-              reason.ProblemCategoryDescription !== undefined &&
-              reason.ProblemCategoryDescription !== reason.ProblemCategoryName
-                ? " - " + reason.ProblemCategoryDescription
+            text={`${reason.PaymentCaseCategoryName} ${
+              reason.PaymentCaseCategoryDescription !== undefined &&
+              reason.PaymentCaseCategoryDescription !== reason.PaymentCaseCategoryName
+                ? " - " + reason.PaymentCaseCategoryDescription
                 : ""
             }`}
-            onPress={() => handleOnPress(reason.ProblemCategoryCode)}
+            onPress={() => handleOnPress(reason.PaymentCaseCategoryCode)}
           />
           {index !== data.length - 1 ? (
             <View style={separatorStyle}>

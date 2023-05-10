@@ -2,9 +2,9 @@ import { DocumentPickerResponse } from "react-native-document-picker";
 import { Asset } from "react-native-image-picker";
 
 export interface DisputeReasonType {
-  ProblemCategoryCode: string;
-  ProblemCategoryName: string;
-  ProblemCategoryDescription: string;
+  PaymentCaseCategoryCode: string;
+  PaymentCaseCategoryName: string;
+  PaymentCaseCategoryDescription: string;
 }
 
 export interface CreateDisputeInput {
@@ -18,6 +18,7 @@ export type CaseType = "dispute" | "fraud";
 export type TransactionType = "CARD" | "ATM";
 
 export interface CaseDetails {
+  TransactionSource: string;
   CaseID: string;
   Status: string;
   DayReported: string;

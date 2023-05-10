@@ -36,7 +36,7 @@ export default function CaseDetailsScreen() {
   const bankPhoneNumber =
     mockHelpAndSupport.ChildrenContents.find(item => item.ContentTag === CALL_US)?.ContentDescription ?? "";
 
-  const caseDetails = caseDetailsResponse?.data?.ProblemCase;
+  const caseDetails = caseDetailsResponse?.data?.PaymentsCase;
 
   const moreHelpContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["20p"],
@@ -79,7 +79,10 @@ export default function CaseDetailsScreen() {
                 description={caseDetails.Issue}
                 label={t("PaymentDisputes.CaseDetails.detailSection.issue")}
               />
-              <CaseStatusCard description={caseDetails.CaseID} label="CaseID" />
+              <CaseStatusCard
+                description={caseDetails.CaseID}
+                label={t("PaymentDisputes.CaseDetails.detailSection.caseId")}
+              />
               <CaseStatusCard
                 description={caseDetails.AdditionalInformation}
                 label={t("PaymentDisputes.CaseDetails.detailSection.additionalInformation")}

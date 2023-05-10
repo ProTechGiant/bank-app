@@ -75,7 +75,7 @@ export default function SelectDisputeReasonStep({
             <Typography.Text size="title1" weight="medium">
               {t("PaymentDisputes.SelectDisputeReasonModal.title")}
             </Typography.Text>
-            <DisputeReasonsList data={data.ProblemCategories} onPress={handleOnPressReason} />
+            <DisputeReasonsList data={data.PaymentCaseCategories} onPress={handleOnPressReason} />
           </Stack>
         </ContentContainer>
       ) : (

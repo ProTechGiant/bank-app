@@ -13,7 +13,7 @@ const queryKeys = {
 };
 
 interface DisputeReasonResponse {
-  ProblemCategories: DisputeReasonType[];
+  PaymentCaseCategories: DisputeReasonType[];
 }
 
 export function useReasons(type: TransactionType) {
@@ -70,10 +70,10 @@ export function useCreateCase() {
           CaseReasonCode: reasonCode,
           TransactionReference: "trans-ref-1", // TODO: should be transaction ID but now only some transaction ref are valid. (BE issue)
           TransactionSource: "ATM", // TODO: hardcoded for now because we don't have it from transactions
-          CardToken: "872130032", // TODO: hardcoded for now because we don't have card token from transactions
+          CardId: "872130032", // TODO: hardcoded for now because we don't have card ID from transactions
           FreezeCardFlag: isCardFrozen,
           EnableNotification: false, // TODO:  hardcoded to false for now. BE TBC whether it's useful because we don't have this in UI.
-          DmsAttachmentId: "12345", // TODO: file upload BE is out of scope in BC5
+          DmsAttachment: "12345", // TODO: file upload BE is out of scope in BC5
         },
         {
           ["x-correlation-id"]: generateRandomId(),
@@ -85,7 +85,7 @@ export function useCreateCase() {
 }
 
 interface CaseDetailsResponse {
-  ProblemCase: CaseDetails;
+  PaymentsCase: CaseDetails;
 }
 
 export function useCaseDetails(transactionId: string) {
