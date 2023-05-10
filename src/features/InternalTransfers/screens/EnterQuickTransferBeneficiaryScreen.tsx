@@ -68,7 +68,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
           is: "id",
           then: yup
             .string()
-            .matches(numericRegExp)
+            .matches(numericRegExp, t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.id.validation.invalid"))
             .required(t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.id.validation.required"))
             .length(10, t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.id.validation.invalid")),
         }),

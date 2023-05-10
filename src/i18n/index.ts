@@ -1411,7 +1411,7 @@ export const resources = {
           },
           iban: {
             fullNameLabel: "Full name",
-            fullNamePlacholder: "First last",
+            fullNamePlacholder: "First Last",
             ibanLabel: "IBAN number",
             mask: "SA## #### #### #### #### ####",
             validation: {
