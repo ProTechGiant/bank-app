@@ -1,6 +1,5 @@
 export interface TransactionDetailed {
   cardType: string;
-  transactionType?: string;
   status: string;
   location: string | boolean;
   title: string;

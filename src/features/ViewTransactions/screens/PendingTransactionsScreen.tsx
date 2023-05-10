@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
 import React, { useRef, useState } from "react";
@@ -17,6 +18,7 @@ import {
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import useTransactions from "@/hooks/use-transactions";
+import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
@@ -46,7 +48,13 @@ export default function PendingTransactionsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
+  const route = useRoute<RouteProp<MainStackParams, "ViewTransactions.TransactionsScreen">>();
+
+  const cardId = route.params.cardId;
+  const createDisputeUserId = route.params.createDisputeUserId;
+
   const { pendingTransactions, isLoading } = useTransactions();
+
   const [, setIsViewingFilter] = useState(false);
   const headerHeight = useRef(new Animated.Value(104)).current;
   const currFont = useRef(new Animated.Value(34)).current;
@@ -58,7 +66,11 @@ export default function PendingTransactionsScreen() {
   // TODO this function here after the backend done i will remove it
 
   const handleNavigation = () => {
-    navigation.navigate("ViewTransactions.SingleTransactionDetailedScreen", { data: pendingMocksData });
+    navigation.navigate("ViewTransactions.SingleTransactionDetailedScreen", {
+      data: pendingMocksData,
+      cardId,
+      createDisputeUserId,
+    });
   };
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -158,7 +170,7 @@ export default function PendingTransactionsScreen() {
                               </Typography.Text>
                               <Typography.Text color="neutralBase" size="caption2" weight="regular">
                                 {format(
-                                  new Date(year, month - 1, day, hours ? hours : 0, minutes ? minutes : 0),
+                                  new Date(year, month - 1, day, hours ?? 0, minutes ?? 0),
                                   "EEE d MMM y',' HH:mm",
                                   {
                                     locale: enUS,

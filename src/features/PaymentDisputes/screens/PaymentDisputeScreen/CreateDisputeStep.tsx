@@ -17,35 +17,37 @@ import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { Card, CardStatus } from "@/features/CardActions/types";
+import { TransactionDetailed } from "@/features/ViewTransactions/types";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { useCreateCase } from "../../hooks/query-hooks";
-import { mockTransactionDetails } from "../../mocks/mockTransactionDetails";
 import { CaseType, CreateDisputeInput, TransactionType } from "../../types";
 import { formatDateTime } from "../../utils";
 
-const transactionDateTime = new Date(mockTransactionDetails.dateTime);
-
 interface CreateDisputeStepProps {
   caseType: CaseType;
+  cardId: string;
   cardType: Card["CardType"];
   cardStatus: CardStatus;
   isCardFrozen: boolean;
   reasonCode: string | undefined;
   transactionType: TransactionType;
+  transactionDetails: TransactionDetailed;
   onBack: () => void;
   createDisputeUserId: string; // TODO: To be removed once we can use the same ID for freeze card and create case
 }
 
 export default function CreateDisputeStep({
   caseType,
+  cardId,
   cardType,
   cardStatus,
   isCardFrozen,
   reasonCode,
   transactionType,
+  transactionDetails,
   onBack,
   createDisputeUserId,
 }: CreateDisputeStepProps) {
@@ -53,6 +55,11 @@ export default function CreateDisputeStep({
   const { t } = useTranslation();
 
   const createCase = useCreateCase();
+
+  const transactionDateTime = useMemo(() => {
+    const [year, month, day, hours, minutes] = transactionDetails.transactionDate;
+    return new Date(new Date(year, month - 1, day, hours ?? 0, minutes ?? 0));
+  }, [transactionDetails]);
 
   const [isCancelDisputeModalVisible, setIsCancelDisputeModalVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
@@ -132,6 +139,10 @@ export default function CreateDisputeStep({
     setTimeout(() => {
       navigation.navigate("ViewTransactions.ViewTransactionsStack", {
         screen: "ViewTransactions.TransactionsScreen",
+        params: {
+          cardId,
+          createDisputeUserId,
+        },
       });
     }, 300);
   };
@@ -195,14 +206,14 @@ export default function CreateDisputeStep({
           <View style={transactionContainerStyle}>
             <View style={transactionHeaderStyle}>
               <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-                {mockTransactionDetails.merchant}
+                {transactionDetails.title}
               </Typography.Text>
             </View>
             <Typography.Text color="neutralBase+10" size="footnote">
               {formatDateTime(transactionDateTime)}
             </Typography.Text>
             <Typography.Text color="neutralBase+10" size="footnote">
-              {mockTransactionDetails.location}
+              {transactionDetails.location}
             </Typography.Text>
             <View style={[dividerStyle, transactionDividerMarginStyle]}>
               <Divider color="neutralBase-30" />
@@ -212,7 +223,7 @@ export default function CreateDisputeStep({
                 {t("PaymentDisputes.CreateDisputeModal.total")}
               </Typography.Text>
               <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-                {mockTransactionDetails.amount} SAR
+                {transactionDetails.amount} SAR
               </Typography.Text>
             </View>
           </View>

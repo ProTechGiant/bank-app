@@ -24,16 +24,19 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
   const { t } = useTranslation();
   const isFocused = useIsFocused();
 
-  const [isVisible, setIsVisible] = useState(false);
   const route = useRoute<RouteProp<MainStackParams, "ViewTransactions.SingleTransactionDetailedScreen">>();
   const receivedData = route.params?.data;
+  const cardId = route.params.cardId;
+  const createDisputeUserId = route.params.createDisputeUserId;
+
+  const [isVisible, setIsVisible] = useState(false);
 
   // Function to update the header title
   const updateHeaderTitle = (isoDate: number[]) => {
     const [year, month, day, hours, minutes] = isoDate;
 
     navigation.setOptions({
-      title: format(new Date(year, month - 1, day, hours ? hours : 0, minutes ? minutes : 0), "EEE d MMM',' HH:mm", {
+      title: format(new Date(year, month - 1, day, hours ?? 0, minutes ?? 0), "EEE d MMM',' HH:mm", {
         locale: enUS,
       }),
     });
@@ -61,7 +64,12 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
 
   return (
     <Page insets={["bottom", "left", "right"]}>
-      <DetailsWrapper openModel={setIsVisible} data={receivedData} />
+      <DetailsWrapper
+        openModel={setIsVisible}
+        data={receivedData}
+        cardId={cardId}
+        createDisputeUserId={createDisputeUserId}
+      />
       <Modal style={styles.modal} onClose={onClose} visible={isVisible}>
         <TouchableOpacity onPress={() => setIsVisible(false)} style={styles.closeButton}>
           <CloseIcon />

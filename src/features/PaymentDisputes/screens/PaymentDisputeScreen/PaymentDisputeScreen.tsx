@@ -22,6 +22,7 @@ export default function PaymentDisputeScreen() {
   // TODO: get cardId
   const cardId = route.params.cardId;
   const createDisputeUserId = route.params.createDisputeUserId;
+  const transactionDetails = route.params.transactionDetails;
 
   const card = useCard(cardId);
 
@@ -107,12 +108,14 @@ export default function PaymentDisputeScreen() {
           ) : (
             <CreateDisputeStep
               caseType={caseType}
+              cardId={cardId}
               cardType={cardType}
               cardStatus={cardStatus}
               reasonCode={reasonCode}
               transactionType={transactionType}
               createDisputeUserId={createDisputeUserId}
               isCardFrozen={isCardFrozen}
+              transactionDetails={transactionDetails}
               onBack={handleOnCreateDisputeBack}
             />
           )

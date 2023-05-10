@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Card, CardStatus } from "../CardActions/types";
+import { TransactionDetailed } from "../ViewTransactions/types";
 import {
   CaseDetailsScreen,
   DisputeSubmittedScreen,
@@ -14,6 +15,7 @@ export type PaymentDisputesStackParams = {
   "PaymentDisputes.PaymentDisputeScreen": {
     cardId: string;
     createDisputeUserId: string;
+    transactionDetails: TransactionDetailed;
   };
   "PaymentDisputes.TermsAndConditionsModal": undefined;
   "PaymentDisputes.MyCasesLandingScreen": undefined;

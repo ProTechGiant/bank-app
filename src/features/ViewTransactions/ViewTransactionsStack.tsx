@@ -7,9 +7,19 @@ import { PendingTransactionsScreen, SingleTransactionDetailedScreen, Transaction
 import { TransactionDetailed } from "./types";
 
 export type ViewTransactionsStackParams = {
-  "ViewTransactions.TransactionsScreen": undefined;
-  "ViewTransactions.PendingTransactionsScreen": undefined;
-  "ViewTransactions.SingleTransactionDetailedScreen": { data: TransactionDetailed };
+  "ViewTransactions.TransactionsScreen": {
+    cardId: string;
+    createDisputeUserId: string; // TODO: temporary user ID for create dispute case
+  };
+  "ViewTransactions.PendingTransactionsScreen": {
+    cardId: string;
+    createDisputeUserId: string; // TODO: temporary user ID for create dispute case
+  };
+  "ViewTransactions.SingleTransactionDetailedScreen": {
+    data: TransactionDetailed;
+    cardId: string;
+    createDisputeUserId: string; // TODO: temporary user ID for create dispute case
+  };
 };
 
 const Stack = createNativeStackNavigator<ViewTransactionsStackParams>();

@@ -37,7 +37,7 @@ export default function TemporaryLandingScreen() {
       if (result.deepLinkStatus !== "FOUND" || result.isDeferred === true) return;
 
       if (result.data?.stack !== undefined && result.data?.screen !== undefined) {
-        // TODO: handle navigation using method in developement for internal links
+        // TODO: handle navigation using method in development for internal links
         navigation.navigate("WhatsNext.WhatsNextStack", {
           screen: "WhatsNext.HubScreen",
         });
@@ -99,9 +99,14 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnViewTransactions = () => {
+  const handleOnViewTransactions = (values: TemporaryForm) => {
+    auth.authenticate(values.UserId);
     navigation.navigate("ViewTransactions.ViewTransactionsStack", {
       screen: "ViewTransactions.TransactionsScreen",
+      params: {
+        cardId: values.cardId,
+        createDisputeUserId: values.createDisputeUserId,
+      },
     });
   };
 
@@ -120,17 +125,6 @@ export default function TemporaryLandingScreen() {
   const handleOnOpenCardsHome = () => {
     navigation.navigate("CardActions.CardActionsStack", {
       screen: "CardActions.HomeScreen",
-    });
-  };
-
-  const handleOnPressPaymentDisputes = (values: TemporaryForm) => {
-    auth.authenticate(values.UserId);
-    navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
-      screen: "PaymentDisputes.PaymentDisputeScreen",
-      params: {
-        cardId: values.cardId,
-        createDisputeUserId: values.createDisputeUserId,
-      },
     });
   };
 
@@ -174,16 +168,16 @@ export default function TemporaryLandingScreen() {
           </Stack>
         </View>
         <View style={styles.margin20}>
-          <Button onPress={handleSubmit(handleOnPressPaymentDisputes)}>Payment Disputes</Button>
+          <Button onPress={handleOnPressPaymentDisputesLanding}>Payment Disputes Landing</Button>
+        </View>
+        <View style={styles.margin20}>
+          <Button onPress={handleSubmit(handleOnViewTransactions)}>View Transactions</Button>
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnOpenInternalTransfers)}>Internal Transfers</Button>
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnSubmit)}>Savings Goals</Button>
-        </View>
-        <View style={styles.margin20}>
-          <Button onPress={handleOnViewTransactions}>View Transactions</Button>
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleOnOpenApplyForCard}>Order Card</Button>
@@ -199,9 +193,6 @@ export default function TemporaryLandingScreen() {
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>
-        </View>
-        <View style={styles.margin20}>
-          <Button onPress={handleOnPressPaymentDisputesLanding}>Payment Disputes Landing</Button>
         </View>
       </ScrollView>
     </SafeAreaView>

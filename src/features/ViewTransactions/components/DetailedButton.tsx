@@ -1,5 +1,5 @@
 import React from "react";
-import { I18nManager, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, View, ViewStyle } from "react-native";
 
 import { WithShadow } from "@/components";
 import Typography from "@/components/Typography";
@@ -10,9 +10,10 @@ import { RightArrowIcon } from "../assets/icons";
 interface DetailedButtonProps {
   label: string;
   text: string;
+  onPress: () => void;
 }
 
-export default function DetailedButton({ label, text }: DetailedButtonProps) {
+export default function DetailedButton({ label, text, onPress }: DetailedButtonProps) {
   const button = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "space-between",
     flexDirection: "row",
@@ -27,7 +28,7 @@ export default function DetailedButton({ label, text }: DetailedButtonProps) {
   }));
 
   return (
-    <View style={margins}>
+    <Pressable onPress={onPress} style={margins}>
       <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall">
         <View style={button}>
           <View>
@@ -43,6 +44,6 @@ export default function DetailedButton({ label, text }: DetailedButtonProps) {
           </View>
         </View>
       </WithShadow>
-    </View>
+    </Pressable>
   );
 }

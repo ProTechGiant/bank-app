@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -20,6 +21,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useTransactions from "@/hooks/use-transactions";
+import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
@@ -29,6 +31,11 @@ import { AnimatedHeader, TransactionsList, ViewFilterModal } from "../components
 export default function TransactionsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const route = useRoute<RouteProp<MainStackParams, "ViewTransactions.TransactionsScreen">>();
+
+  const cardId = route.params.cardId;
+  const createDisputeUserId = route.params.createDisputeUserId;
 
   const headerHeight = useRef(new Animated.Value(104)).current;
   const currFont = useRef(new Animated.Value(34)).current;
@@ -93,7 +100,7 @@ export default function TransactionsScreen() {
   };
 
   const handlePendingTransactions = () => {
-    navigation.navigate("ViewTransactions.PendingTransactionsScreen");
+    navigation.navigate("ViewTransactions.PendingTransactionsScreen", { cardId, createDisputeUserId });
   };
 
   const removeFilter = (filter: string) => {
@@ -238,7 +245,11 @@ export default function TransactionsScreen() {
               <ActivityIndicator color="primaryBase" size="large" />
             </View>
           ) : transactions.data && Object.keys(transactions.data).length ? (
-            <TransactionsList transactionsAll={transactions} />
+            <TransactionsList
+              transactionsAll={transactions}
+              cardId={cardId}
+              createDisputeUserId={createDisputeUserId}
+            />
           ) : (
             <View style={styles.activityIndicator}>
               <Pressable

@@ -22,16 +22,17 @@ interface TransactionsListProps {
       GroupedTransactions: TransactionGroup[];
     };
   };
+  cardId: string;
+  createDisputeUserId: string;
 }
 
-export default function TransactionsList({ transactionsAll }: TransactionsListProps) {
+export default function TransactionsList({ transactionsAll, cardId, createDisputeUserId }: TransactionsListProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
   const handleNavigation = (transaction: Transaction) => {
     const obj: TransactionDetailed = {
       cardType: transaction.CardType,
-      transactionType: transaction.Status,
       status: transaction.Status,
       location: transaction.AddressLine ? transaction.AddressLine : false,
       title: transaction.MerchantDetails.MerchantName,
@@ -44,7 +45,7 @@ export default function TransactionsList({ transactionsAll }: TransactionsListPr
       categoryId: transaction.SupplementaryData.CategoryId,
     };
 
-    navigation.navigate("ViewTransactions.SingleTransactionDetailedScreen", { data: obj });
+    navigation.navigate("ViewTransactions.SingleTransactionDetailedScreen", { data: obj, cardId, createDisputeUserId });
   };
 
   const formatDate = (date: Date): string => {
