@@ -1540,7 +1540,8 @@ export const resources = {
           title: "My cases",
           active: "Active",
           resolved: "Resolved",
-          noActiveCases: "You dont have any active cases.",
+          noActiveCases: "You don't have any active cases.",
+          noResolvedCases: "You don't have any resolved cases",
         },
         CaseDetails: {
           title: "Case details",

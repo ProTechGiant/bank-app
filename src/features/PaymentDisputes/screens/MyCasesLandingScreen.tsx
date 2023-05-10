@@ -80,7 +80,9 @@ export default function MyCasesLandingScreen() {
           ) : visibleItems.length < 1 ? (
             <View style={styles.empty}>
               <Typography.Text color="neutralBase-20" size="title3" weight="medium">
-                {t("PaymentDisputes.MyCasesLandingScreen.noActiveCases")}
+                {currentTab === "active"
+                  ? t("PaymentDisputes.MyCasesLandingScreen.noActiveCases")
+                  : t("PaymentDisputes.MyCasesLandingScreen.noResolvedCases")}
               </Typography.Text>
             </View>
           ) : (
