@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { FreezeIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -70,6 +70,13 @@ export default function FreezeCardStep({
 
   const iconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
 
+  const brandMoment = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette.complimentBase,
+    paddingHorizontal: theme.spacing["20p"],
+    paddingVertical: theme.spacing["12p"],
+    borderRadius: 99,
+  }));
+
   return (
     <>
       <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={handleOnPressExit} />} />
@@ -83,7 +90,14 @@ export default function FreezeCardStep({
               {t("PaymentDisputes.FreezeCardModal.subtitle")}
             </Typography.Text>
           </Stack>
-
+          {/* TEMP: replace with brand moment imagery */}
+          <View style={styles.brandMomentContainer}>
+            <View style={brandMoment}>
+              <Typography.Text size="callout" weight="medium" color="neutralBase-60">
+                Brand Moment
+              </Typography.Text>
+            </View>
+          </View>
           <Stack direction="vertical" align="stretch">
             <Button onPress={handleOnFreezeCardPress} loading={freezeCardAsync.isLoading}>
               {t("PaymentDisputes.FreezeCardModal.freezeButton")}
@@ -128,6 +142,10 @@ export default function FreezeCardStep({
 }
 
 const styles = StyleSheet.create({
+  brandMomentContainer: {
+    alignItems: "center",
+    flex: 1,
+  },
   contentStyle: {
     flex: 1,
   },
