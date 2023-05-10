@@ -1,5 +1,4 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import truncate from "lodash/truncate";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
@@ -23,7 +22,7 @@ export default function AssetInput<T extends FieldValues>({ control, name }: Ass
   const { field, fieldState } = useController({ control, name });
 
   const isError = undefined !== fieldState?.error && fieldState.isTouched;
-  const isFileSelected = field.value !== undefined;
+  const isFileSelected = field.value !== undefined && field.value !== null;
 
   const handleOnPress = () => {
     showActionSheetWithOptions(
@@ -80,7 +79,7 @@ export default function AssetInput<T extends FieldValues>({ control, name }: Ass
   };
 
   const handleOnDeletePress = () => {
-    field.onChange(undefined);
+    field.onChange(null);
     field.onBlur();
   };
 
@@ -89,9 +88,13 @@ export default function AssetInput<T extends FieldValues>({ control, name }: Ass
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
     borderRadius: theme.radii.small,
-    flexDirection: "row",
-    alignItems: "center",
     padding: theme.spacing["20p"],
+  }));
+
+  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    columnGap: theme.spacing["20p"],
+    flexDirection: "row",
   }));
 
   const helperTextStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -106,16 +109,18 @@ export default function AssetInput<T extends FieldValues>({ control, name }: Ass
     <>
       <View style={containerStyle}>
         {isFileSelected ? (
-          <Pressable style={styles.label} onPress={handleOnPress}>
-            <Typography.Text color="neutralBase+30" size="callout" style={styles.fileName}>
-              {typeof fileName === "string" ? truncate(fileName) : null}
-            </Typography.Text>
+          <View style={contentStyle}>
+            <Pressable onPress={handleOnPress} style={styles.label}>
+              <Typography.Text color="neutralBase+30" numberOfLines={2} size="callout">
+                {fileName}
+              </Typography.Text>
+            </Pressable>
             <Pressable onPress={handleOnDeletePress} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
               <DeleteIcon color={deleteIconColor} />
             </Pressable>
-          </Pressable>
+          </View>
         ) : (
-          <Pressable style={styles.label} onPress={handleOnPress}>
+          <Pressable onPress={handleOnPress} style={contentStyle}>
             <UploadIcon />
             <Typography.Text color="neutralBase+30" size="callout">
               {t("AssetInput.label")}
@@ -133,12 +138,7 @@ export default function AssetInput<T extends FieldValues>({ control, name }: Ass
 }
 
 const styles = StyleSheet.create({
-  fileName: {
-    flexGrow: 1,
-  },
   label: {
-    alignItems: "center",
-    columnGap: 20,
-    flexDirection: "row",
+    flex: 1,
   },
 });
