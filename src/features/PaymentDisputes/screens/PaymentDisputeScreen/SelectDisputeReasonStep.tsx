@@ -8,6 +8,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { TransactionDetailed } from "@/features/ViewTransactions/types";
 import useNavigation from "@/navigation/use-navigation";
 
 import { DisputeReasonsList } from "../../components";
@@ -15,12 +16,18 @@ import { useReasons } from "../../hooks/query-hooks";
 import { TransactionType } from "../../types";
 
 interface SelectDisputeReasonStepProps {
+  cardId: string;
+  createDisputeUserId: string;
+  transactionDetails: TransactionDetailed;
   transactionType: TransactionType;
   onBack: () => void;
   onSelectReason: (code: string) => void;
 }
 
 export default function SelectDisputeReasonStep({
+  cardId,
+  createDisputeUserId,
+  transactionDetails,
   transactionType,
   onBack,
   onSelectReason,
@@ -39,7 +46,11 @@ export default function SelectDisputeReasonStep({
   const handleOnConfirmCancelDispute = () => {
     setIsCancelDisputeModalVisible(false);
     setTimeout(() => {
-      navigation.navigate("Temporary.LandingScreen");
+      navigation.navigate("ViewTransactions.SingleTransactionDetailedScreen", {
+        data: transactionDetails,
+        cardId,
+        createDisputeUserId,
+      });
     }, 300);
   };
 

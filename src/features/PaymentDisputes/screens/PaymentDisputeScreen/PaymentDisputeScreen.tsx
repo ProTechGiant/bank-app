@@ -101,6 +101,9 @@ export default function PaymentDisputeScreen() {
             />
           ) : currentStep === "reasons" ? (
             <SelectDisputeReasonStep
+              cardId={cardId}
+              createDisputeUserId={createDisputeUserId}
+              transactionDetails={transactionDetails}
               transactionType={transactionType}
               onBack={() => handleOnNextStep("landing")}
               onSelectReason={handleOnSelectReason}
