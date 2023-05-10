@@ -2,7 +2,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useMemo, useRef, useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Platform, Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import { AngleDownIcon } from "@/assets/icons";
 import DropdownInput from "@/components/DropdownInput";
@@ -29,8 +29,6 @@ export default function TransferReasonInput<T extends FieldValues>({
 
   const { field } = useController({ control, name });
   const pickerRef = useRef<Picker<never>>(null);
-  // below variable is required as a guard against this bug: https://github.com/react-native-picker/picker/issues/116
-  const isOpenedAtLeastOnce_Android = useRef(false);
   const [isVisible, setIsVisible] = useState(false);
 
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -43,6 +41,14 @@ export default function TransferReasonInput<T extends FieldValues>({
     alignItems: "center",
     paddingHorizontal: theme.spacing["16p"],
     paddingVertical: theme.spacing["8p"],
+  }));
+
+  const pickerAndroidPromptStyle = useThemeStyles<TextStyle>(theme => ({
+    fontSize: theme.typography.text.sizes.body,
+  }));
+
+  const pickerAndroidItemStyle = useThemeStyles<TextStyle>(theme => ({
+    fontSize: theme.typography.text.sizes.callout,
   }));
 
   const iconColor = useThemeStyles(theme => theme.palette.neutralBase);
@@ -92,18 +98,22 @@ export default function TransferReasonInput<T extends FieldValues>({
       <Picker
         ref={pickerRef}
         onValueChange={value => {
-          if (isOpenedAtLeastOnce_Android.current === false) {
-            return;
-          }
+          if (!isVisible) return;
 
           field.onChange(value);
           field.onBlur();
+
+          setIsVisible(false);
         }}
         selectedValue={field.value}
-        prompt={t("InternalTransfers.TransferReasonInput.reason")}
         style={styles.picker}>
+        <Picker.Item
+          enabled={false}
+          label={t("InternalTransfers.TransferReasonInput.reason")}
+          style={pickerAndroidPromptStyle}
+        />
         {options.map(option => (
-          <Picker.Item key={option.value} label={option.label} value={option.value} />
+          <Picker.Item key={option.value} label={option.label} value={option.value} style={pickerAndroidItemStyle} />
         ))}
       </Picker>
       <Stack
@@ -112,7 +122,7 @@ export default function TransferReasonInput<T extends FieldValues>({
         gap="12p"
         style={buttonStyle}
         onPress={() => {
-          isOpenedAtLeastOnce_Android.current = true;
+          setIsVisible(true);
           pickerRef.current?.focus();
         }}>
         {isLoading ? (
