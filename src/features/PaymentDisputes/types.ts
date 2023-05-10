@@ -30,8 +30,9 @@ export interface CaseDetails {
   TransactionLocation: string;
 }
 
-export interface DisputeCase {
+export interface DisputeCaseListItem {
   CaseNumber: string;
+  OpenedDate: string;
   Transaction: {
     Source: string;
     Location: string | undefined;

@@ -9,17 +9,17 @@ import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import { STATUS_COLOR_MAPPING, STATUS_LABEL_MAPPING } from "../constants";
-import { DisputeCase } from "../types";
+import { DisputeCaseListItem } from "../types";
 import { formatDateTime } from "../utils";
 
 interface CaseListItemProps {
-  data: DisputeCase;
+  data: DisputeCaseListItem;
   onPress: () => void;
 }
 
 export default function CaseListItem({ data, onPress }: CaseListItemProps) {
   const { t } = useTranslation();
-  const date = useMemo(() => parseISO(data.Transaction.CreatedOn), [data.Transaction]);
+  const date = useMemo(() => parseISO(data.OpenedDate), [data]);
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderColor: theme.palette["neutralBase-30"],

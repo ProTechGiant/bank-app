@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "react-query";
 import api from "@/api";
 import { generateRandomId } from "@/utils";
 
-import { CaseDetails, CreateDisputeInput, DisputeCase, DisputeReasonType, TransactionType } from "../types";
+import { CaseDetails, CreateDisputeInput, DisputeCaseListItem, DisputeReasonType, TransactionType } from "../types";
 
 const queryKeys = {
   all: () => ["payment-disputes"] as const,
@@ -32,7 +32,7 @@ export function useReasons(type: TransactionType) {
 }
 
 interface MyCasesResponse {
-  DisputeCases: DisputeCase[];
+  DisputeCases: DisputeCaseListItem[];
 }
 
 export function useMyCases() {
