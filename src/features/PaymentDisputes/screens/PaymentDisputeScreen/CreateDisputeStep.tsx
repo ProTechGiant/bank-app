@@ -85,6 +85,7 @@ export default function CreateDisputeStep({
                   t("PaymentDisputes.CreateDisputeModal.file.fileTooBig", { maxFileSize: MAX_FILE_SIZE_MB }),
                   value =>
                     value === undefined ||
+                    value === null ||
                     (value?.fileSize && value.fileSize <= fileSizeInBytes) ||
                     (value?.size && value.size <= fileSizeInBytes)
                 )
