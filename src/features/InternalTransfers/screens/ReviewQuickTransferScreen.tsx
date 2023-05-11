@@ -192,7 +192,7 @@ export default function ReviewQuickTransferScreen() {
         </ContentContainer>
       </Page>
       <NotificationModal
-        variant="confirmations"
+        variant="error"
         buttons={{
           primary: (
             <Button onPress={handleOnCancel}>
