@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 PREV_BUILD_NUMBER=$(node scripts/source-build-number.js)
 # Need to be exported: used in Fastlane
 export BUILD_NUMBER=$((PREV_BUILD_NUMBER + 1))

@@ -4,7 +4,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import topTenPlacePlaceholder from "../assets/topTenPlaceholder.png";
+import topTenPlacePlaceholder from "../assets/top-ten-article-placeholder.png";
 import { ArticleSectionType } from "../types";
 
 interface TopTenSingleArticleProps {
