@@ -73,6 +73,7 @@ export default function CreateDisputeStep({
         CaseDetails: isMessageRequired
           ? yup
               .string()
+              .trim()
               .required(t("PaymentDisputes.CreateDisputeModal.messageBox.validation.minLength"))
               .min(25, t("PaymentDisputes.CreateDisputeModal.messageBox.validation.minLength"))
           : yup.string(),

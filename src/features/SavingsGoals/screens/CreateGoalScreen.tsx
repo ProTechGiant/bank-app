@@ -36,6 +36,7 @@ export default function CreateGoalScreen() {
     () =>
       Yup.object({
         GoalName: Yup.string()
+          .trim()
           .required(t("SavingsGoals.CreateGoalScreen.form.name.validation.required"))
           .matches(alphaNumericSpaceRegExp, t("SavingsGoals.CreateGoalScreen.form.name.validation.invalid")),
         TargetAmount: Yup.number()

@@ -12,13 +12,13 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import CurrencyInput from "@/components/Form/CurrencyInput";
 import DatePickerInput from "@/components/Form/DatePickerInput";
+import SubmitButton from "@/components/Form/SubmitButton";
+import TextInput from "@/components/Form/TextInput";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import SubmitButton from "@/components/Form/SubmitButton";
 import { TableListCard } from "@/components/TableList";
-import TextInput from "@/components/Form/TextInput";
 import Typography from "@/components/Typography";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -41,6 +41,7 @@ export default function EditGoalModal() {
     () =>
       Yup.object({
         GoalName: Yup.string()
+          .trim()
           .required(t("SavingsGoals.CreateGoalScreen.form.name.validation.required"))
           .matches(alphaNumericSpaceRegExp, t("SavingsGoals.CreateGoalScreen.form.name.validation.invalid")),
         TargetAmount: Yup.number()

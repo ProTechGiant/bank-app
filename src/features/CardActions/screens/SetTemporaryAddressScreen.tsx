@@ -29,6 +29,7 @@ export default function SetTemporaryAddressScreen() {
     () =>
       Yup.object({
         AddressLineOne: Yup.string()
+          .trim()
           .required(t("CardActions.SetTemporaryAddressScreen.form.addressLineOne.validation.required"))
           .matches(
             alphaNumericSpecialCharsRegExp,

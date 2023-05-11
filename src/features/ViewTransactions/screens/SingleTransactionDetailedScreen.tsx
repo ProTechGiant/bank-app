@@ -30,7 +30,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
   const route = useRoute<RouteProp<MainStackParams, "ViewTransactions.SingleTransactionDetailedScreen">>();
 
   // TODO: remove hardcored caseNumber when case searching via transaction is available
-  const caseNumber = "35660";
+  const caseNumber = "35665";
   const [isCaseExistModalVisible, setIsCaseExistModalVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const caseDetailsResponse = useCaseDetails(caseNumber);
@@ -79,7 +79,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
       navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
         screen: "PaymentDisputes.CaseDetailsScreen",
         params: {
-          caseNumber: "35661", // TODO: BE provided a hardcoded ID
+          caseNumber: "35665", // TODO: BE provided a hardcoded ID
           source: receivedData.title,
         },
       });

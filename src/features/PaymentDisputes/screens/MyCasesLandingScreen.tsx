@@ -30,7 +30,7 @@ export default function MyCasesLandingScreen() {
 
   const handleOnPress = (caseNumber: string, source: string) =>
     navigation.navigate("PaymentDisputes.CaseDetailsScreen", {
-      caseNumber: "35661", // TODO: BE provided a hardcoded ID
+      caseNumber: "35665", // TODO: BE provided a hardcoded ID
       source: source,
     });
 
