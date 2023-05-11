@@ -3,7 +3,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import ApiError from "@/api/ApiError";
@@ -117,13 +117,15 @@ export default function EnterQuickTransferBeneficiaryScreen() {
   const [isNotSupportingQuickTransferErrorVisible, setIsNotSupportingQuickTransferErrorVisible] = useState(false);
   const [isQuickTransferErrorVisible, setIsQuickTransferErrorVisible] = useState(false);
   const [isQuickTransferValidationErrorVisible, setIsQuickTransferValidationErrorVisible] = useState(false);
-  const [i18nKey, setI18nKey] = useState<string | undefined>(undefined);
+  const [i18nKey, setI18nKey] = useState<"email" | "mobile" | "nationalID" | "iban">();
 
   useEffect(() => {
     setIsBanksLoadingErrorVisible(banks.isError);
   }, [banks.isError]);
 
   const handleOnSubmit = async (_values: BeneficiaryInput) => {
+    Keyboard.dismiss();
+
     const selectionValue =
       _values.transferMethod === "email"
         ? _values.email
@@ -135,15 +137,14 @@ export default function EnterQuickTransferBeneficiaryScreen() {
         ? _values.phoneNumber
         : undefined;
 
-    if (selectionValue === undefined) {
-      return;
-    }
+    const selectedBank = banks.data?.Banks.find(bank => bank.BankCode === _values.bankCode);
+    if (selectionValue === undefined || selectedBank === undefined) return;
 
     try {
       const response = await validateBeneficiaryAsync.mutateAsync({
         SelectionType: _values.transferMethod,
         SelectionValue: selectionValue,
-        bank: banks.data?.Banks.find(bank => bank.BankCode === _values.bankCode),
+        bank: selectedBank,
         name: _values.name,
       });
 
@@ -204,13 +205,17 @@ export default function EnterQuickTransferBeneficiaryScreen() {
     }));
   }, [banks.data]);
 
+  const formContainerStyle = useThemeStyles(theme => ({
+    marginBottom: theme.spacing["20p"],
+  }));
+
   return (
     <>
       <Page backgroundColor="neutralBase-60">
         <NavHeader title={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.navTitle")} />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.keyboard}>
-          <ContentContainer isScrollView style={styles.container}>
-            <Stack align="stretch" direction="vertical" gap="20p">
+          <ContentContainer isScrollView keyboardShouldPersistTaps="always" style={styles.container}>
+            <Stack align="stretch" direction="vertical" gap="20p" style={formContainerStyle}>
               <Typography.Text color="neutralBase+30" size="title1" weight="medium">
                 {t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.title")}
               </Typography.Text>
@@ -340,17 +345,19 @@ export default function EnterQuickTransferBeneficiaryScreen() {
         isVisible={isQuickTransferErrorVisible}
         variant="error"
       />
-      <NotificationModal
-        onClose={() => {
-          setIsQuickTransferValidationErrorVisible(false);
-        }}
-        message={t(`InternalTransfers.EnterQuickTransferBeneficiaryScreen.${i18nKey}.error.message`, {
-          bankName: bankOptions.find(element => element.value === bankCode)?.label ?? "unknown",
-        })}
-        title={t(`InternalTransfers.EnterQuickTransferBeneficiaryScreen.${i18nKey}.error.title`)}
-        isVisible={isQuickTransferValidationErrorVisible}
-        variant="error"
-      />
+      {undefined !== i18nKey ? (
+        <NotificationModal
+          onClose={() => {
+            setIsQuickTransferValidationErrorVisible(false);
+          }}
+          message={t(`InternalTransfers.EnterQuickTransferBeneficiaryScreen.${i18nKey}.error.message`, {
+            bankName: bankOptions.find(element => element.value === bankCode)?.label ?? "unknown",
+          })}
+          title={t(`InternalTransfers.EnterQuickTransferBeneficiaryScreen.${i18nKey}.error.title`)}
+          isVisible={isQuickTransferValidationErrorVisible}
+          variant="error"
+        />
+      ) : null}
     </>
   );
 }

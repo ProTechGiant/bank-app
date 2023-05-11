@@ -103,7 +103,7 @@ export default function MyCasesLandingScreen() {
         isVisible={isErrorModalVisible}
         onClose={() => {
           setIsErrorModalVisible(false);
-          setTimeout(() => navigation.goBack());
+          setTimeout(() => navigation.goBack(), 300);
         }}
       />
     </>
