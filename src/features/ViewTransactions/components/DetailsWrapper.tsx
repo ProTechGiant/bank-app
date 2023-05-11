@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet, View } from "react-native";
 
 import { PHYSICAL_CARD_TYPE } from "@/constants";
-import useNavigation from "@/navigation/use-navigation";
 
 import { TransactionDetailed } from "../types";
 import DetailedBody from "./DetailedBody";
@@ -13,23 +12,17 @@ import DetailedRow from "./DetailedRow";
 
 interface HOCprops {
   data: TransactionDetailed;
-  cardId: string;
-  createDisputeUserId: string;
   openModel: (arg: boolean) => void;
+  onReportTransaction: () => void;
 }
 
-function DetailsWrapper({ data, cardId, createDisputeUserId, openModel }: HOCprops) {
+function DetailsWrapper({ data, openModel, onReportTransaction }: HOCprops) {
   return (
     <>
       {data.cardType === PHYSICAL_CARD_TYPE && data.status === "pending" ? (
-        <PendingTransaction data={data} cardId={cardId} createDisputeUserId={createDisputeUserId} />
+        <PendingTransaction data={data} onReportTransaction={onReportTransaction} />
       ) : data.cardType === PHYSICAL_CARD_TYPE || data.cardType === "0" ? (
-        <DebitCardAndOneTimeCard
-          openModel={openModel}
-          data={data}
-          cardId={cardId}
-          createDisputeUserId={createDisputeUserId}
-        />
+        <DebitCardAndOneTimeCard data={data} openModel={openModel} onReportTransaction={onReportTransaction} />
       ) : null}
     </>
   );
@@ -37,26 +30,12 @@ function DetailsWrapper({ data, cardId, createDisputeUserId, openModel }: HOCpro
 
 function PendingTransaction({
   data,
-  cardId,
-  createDisputeUserId,
+  onReportTransaction,
 }: {
   data: TransactionDetailed;
-  cardId: string;
-  createDisputeUserId: string;
+  onReportTransaction: () => void;
 }) {
   const { t } = useTranslation();
-  const navigation = useNavigation();
-
-  const handleOnReportTransactionPress = () => {
-    navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
-      screen: "PaymentDisputes.PaymentDisputeScreen",
-      params: {
-        cardId,
-        createDisputeUserId,
-        transactionDetails: data,
-      },
-    });
-  };
 
   return (
     <>
@@ -69,7 +48,7 @@ function PendingTransaction({
           <DetailedButton
             label={t("ViewTransactions.SingleTransactionDetailedScreen.reportTransaction")}
             text={t("ViewTransactions.SingleTransactionDetailedScreen.somethingWrong")}
-            onPress={handleOnReportTransactionPress}
+            onPress={onReportTransaction}
           />
         </View>
       </DetailedBody>
@@ -79,28 +58,15 @@ function PendingTransaction({
 
 function DebitCardAndOneTimeCard({
   data,
-  cardId,
-  createDisputeUserId,
   openModel,
+  onReportTransaction,
 }: {
   data: TransactionDetailed;
-  cardId: string;
-  createDisputeUserId: string;
   openModel: (arg: boolean) => void;
+  onReportTransaction: () => void;
 }) {
   const { t } = useTranslation();
-  const navigation = useNavigation();
 
-  const handleOnReportTransactionPress = () => {
-    navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
-      screen: "PaymentDisputes.PaymentDisputeScreen",
-      params: {
-        cardId,
-        createDisputeUserId,
-        transactionDetails: data,
-      },
-    });
-  };
   return (
     <>
       <DetailedHeader data={data} />
@@ -151,7 +117,7 @@ function DebitCardAndOneTimeCard({
           <DetailedButton
             label={t("ViewTransactions.SingleTransactionDetailedScreen.reportTransaction")}
             text={t("ViewTransactions.SingleTransactionDetailedScreen.somethingWrong")}
-            onPress={handleOnReportTransactionPress}
+            onPress={onReportTransaction}
           />
           {data.cardType === "0" ? (
             <DetailedButton

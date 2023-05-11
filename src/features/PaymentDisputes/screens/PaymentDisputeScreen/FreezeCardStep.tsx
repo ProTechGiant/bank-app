@@ -5,7 +5,6 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 import { FreezeIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
@@ -18,18 +17,11 @@ import { generateRandomId } from "@/utils";
 interface FreezeCardStepProps {
   onClose: () => void;
   onContinue: () => void;
-  isSuccess: boolean;
   onCardIsFrozen: (value: boolean) => void;
   cardId: string;
 }
 
-export default function FreezeCardStep({
-  onClose,
-  onContinue,
-  isSuccess,
-  onCardIsFrozen,
-  cardId,
-}: FreezeCardStepProps) {
+export default function FreezeCardStep({ onClose, onContinue, onCardIsFrozen, cardId }: FreezeCardStepProps) {
   const { t } = useTranslation();
 
   const freezeCardAsync = useFreezeCard();
@@ -80,36 +72,32 @@ export default function FreezeCardStep({
   return (
     <>
       <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={handleOnPressExit} />} />
-      {isSuccess ? (
-        <ContentContainer>
-          <Stack direction="vertical" gap="8p" style={styles.contentStyle}>
-            <Typography.Text size="title1" weight="medium">
-              {t("PaymentDisputes.FreezeCardModal.title")}
+      <ContentContainer>
+        <Stack direction="vertical" gap="8p" style={styles.contentStyle}>
+          <Typography.Text size="title1" weight="medium">
+            {t("PaymentDisputes.FreezeCardModal.title")}
+          </Typography.Text>
+          <Typography.Text size="callout" color="neutralBase+10">
+            {t("PaymentDisputes.FreezeCardModal.subtitle")}
+          </Typography.Text>
+        </Stack>
+        {/* TODO: replace with brand moment imagery */}
+        <View style={styles.brandMomentContainer}>
+          <View style={brandMoment}>
+            <Typography.Text size="callout" weight="medium" color="neutralBase-60">
+              Brand Moment
             </Typography.Text>
-            <Typography.Text size="callout" color="neutralBase+10">
-              {t("PaymentDisputes.FreezeCardModal.subtitle")}
-            </Typography.Text>
-          </Stack>
-          {/* TEMP: replace with brand moment imagery */}
-          <View style={styles.brandMomentContainer}>
-            <View style={brandMoment}>
-              <Typography.Text size="callout" weight="medium" color="neutralBase-60">
-                Brand Moment
-              </Typography.Text>
-            </View>
           </View>
-          <Stack direction="vertical" align="stretch">
-            <Button onPress={handleOnFreezeCardPress} loading={freezeCardAsync.isLoading}>
-              {t("PaymentDisputes.FreezeCardModal.freezeButton")}
-            </Button>
-            <Button variant="tertiary" onPress={onContinue}>
-              {t("PaymentDisputes.FreezeCardModal.noFreezeButton")}
-            </Button>
-          </Stack>
-        </ContentContainer>
-      ) : (
-        <FlexActivityIndicator />
-      )}
+        </View>
+        <Stack direction="vertical" align="stretch">
+          <Button onPress={handleOnFreezeCardPress} loading={freezeCardAsync.isLoading}>
+            {t("PaymentDisputes.FreezeCardModal.freezeButton")}
+          </Button>
+          <Button variant="tertiary" onPress={onContinue}>
+            {t("PaymentDisputes.FreezeCardModal.noFreezeButton")}
+          </Button>
+        </Stack>
+      </ContentContainer>
       <NotificationModal
         variant="confirmations"
         icon={<FreezeIcon color={iconColor} />}

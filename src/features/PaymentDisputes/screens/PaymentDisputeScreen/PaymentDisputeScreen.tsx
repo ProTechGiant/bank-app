@@ -1,12 +1,15 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
-import { Alert } from "react-native";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import Button from "@/components/Button";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { useCard } from "@/features/CardActions/hooks/query-hooks";
 import MainStackParams from "@/navigation/mainStackParams";
+import useNavigation from "@/navigation/use-navigation";
 
 import { CaseType, TransactionType } from "../../types";
 import CreateDisputeStep from "./CreateDisputeStep";
@@ -17,6 +20,8 @@ import SelectDisputeReasonStep from "./SelectDisputeReasonStep";
 type Steps = "landing" | "freeze-card" | "reasons" | "create-dispute";
 
 export default function PaymentDisputeScreen() {
+  const { t } = useTranslation();
+  const navigation = useNavigation();
   const route = useRoute<RouteProp<MainStackParams, "PaymentDisputes.PaymentDisputeScreen">>();
 
   // TODO: get cardId
@@ -38,13 +43,7 @@ export default function PaymentDisputeScreen() {
   const cardStatus = selectedCard?.Status;
   const cardType = selectedCard?.CardType;
   const [isCardFrozen, setIsCardFrozen] = useState(cardStatus === "freeze" ? true : false);
-
-  // TEMP: in place so testers know they have used a non-existent card id
-  useEffect(() => {
-    if (!card.isFetching && card.isSuccess && selectedCard === undefined) {
-      Alert.alert("Missing card details", "Card Id doesn't exisit");
-    }
-  }, [card.isFetching, card.isSuccess, selectedCard]);
+  const [isGenericErrorVisible, setIsGenericErrorVisible] = useState(false);
 
   const handleOnNextStep = (newStep: Steps) => {
     setPreviousStep(currentStep);
@@ -58,10 +57,14 @@ export default function PaymentDisputeScreen() {
 
   const handleOnFraudLink = () => {
     setCaseType("fraud");
-    if (!isCardFrozen) {
-      handleOnNextStep("freeze-card");
+    if (!card.isFetching && card.isSuccess && selectedCard === undefined) {
+      setIsGenericErrorVisible(true);
     } else {
-      handleOnNextStep("create-dispute");
+      if (!isCardFrozen) {
+        handleOnNextStep("freeze-card");
+      } else {
+        handleOnNextStep("create-dispute");
+      }
     }
   };
 
@@ -82,6 +85,11 @@ export default function PaymentDisputeScreen() {
     setIsCardFrozen(value);
   };
 
+  const handleOnCloseGenericError = () => {
+    setIsGenericErrorVisible(false);
+    navigation.goBack();
+  };
+
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
@@ -90,12 +98,12 @@ export default function PaymentDisputeScreen() {
             <LandingStep
               onProblemWithTransactionLink={handleOnProblemWithTransactionLink}
               onFraudLink={handleOnFraudLink}
+              onClose={() => navigation.goBack()}
             />
           ) : currentStep === "freeze-card" ? (
             <FreezeCardStep
               onClose={() => handleOnNextStep("landing")}
               onContinue={() => handleOnNextStep("create-dispute")}
-              isSuccess={card.isSuccess}
               onCardIsFrozen={handleOnCardIsFrozen}
               cardId={cardId}
             />
@@ -126,6 +134,15 @@ export default function PaymentDisputeScreen() {
           <FlexActivityIndicator />
         )}
       </Page>
+      <NotificationModal
+        variant="error"
+        isVisible={isGenericErrorVisible}
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        buttons={{
+          primary: <Button onPress={handleOnCloseGenericError}>{t("errors.generic.button")}</Button>,
+        }}
+      />
     </SafeAreaProvider>
   );
 }

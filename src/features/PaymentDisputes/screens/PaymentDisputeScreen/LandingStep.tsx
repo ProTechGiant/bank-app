@@ -1,19 +1,15 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { FlagIcon, ReportFraudIcon } from "@/assets/icons";
-import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import CallBankFeedbackButton from "@/components/FeedbackButton/CallBankFeedbackButton";
 import LiveChatFeedbackButton from "@/components/FeedbackButton/LiveChatFeedbackButton";
 import NavHeader from "@/components/NavHeader";
-import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import { TableListCard } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { mockHelpAndSupport } from "@/mocks/helpAndSupportData";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CALL_US } from "../../constants";
@@ -21,21 +17,14 @@ import { CALL_US } from "../../constants";
 interface LandingStepProps {
   onProblemWithTransactionLink: () => void;
   onFraudLink: () => void;
+  onClose: () => void;
 }
 
 const phoneNumber =
   mockHelpAndSupport.ChildrenContents.find(item => item.ContentTag === CALL_US)?.ContentDescription ?? "";
 
-export default function LandingStep({ onProblemWithTransactionLink, onFraudLink }: LandingStepProps) {
-  const navigation = useNavigation();
+export default function LandingStep({ onProblemWithTransactionLink, onFraudLink, onClose }: LandingStepProps) {
   const { t } = useTranslation();
-
-  const [isGenericErrorVisible, setIsGenericErrorVisible] = useState(false);
-
-  const handleOnCloseGenericError = () => {
-    setIsGenericErrorVisible(false);
-    navigation.goBack();
-  };
 
   const linkCardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["16p"],
@@ -52,7 +41,7 @@ export default function LandingStep({ onProblemWithTransactionLink, onFraudLink 
 
   return (
     <>
-      <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
+      <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={onClose} />} />
       <ContentContainer isScrollView style={styles.contentContainer}>
         <View style={titleContainerStyle}>
           <Typography.Text size="title1" weight="medium">
@@ -90,15 +79,6 @@ export default function LandingStep({ onProblemWithTransactionLink, onFraudLink 
           <LiveChatFeedbackButton />
         </Stack>
       </ContentContainer>
-      <NotificationModal
-        variant="error"
-        isVisible={isGenericErrorVisible}
-        title={t("errors.generic.title")}
-        message={t("errors.generic.message")}
-        buttons={{
-          primary: <Button onPress={handleOnCloseGenericError}>{t("errors.generic.button")}</Button>,
-        }}
-      />
     </>
   );
 }
