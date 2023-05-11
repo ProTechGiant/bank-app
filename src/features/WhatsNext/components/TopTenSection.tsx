@@ -9,7 +9,7 @@ import { ArticleSectionType } from "../types";
 import TopTenCard from "./TopTenCard";
 
 interface TopTenSectionProps {
-  onPress: () => void;
+  onPress: (articleId: string) => void;
   data: ArticleSectionType | undefined;
 }
 
@@ -45,7 +45,7 @@ export default function TopTenSection({ data, onPress }: TopTenSectionProps) {
                 category={item.ContentTag}
                 title={item.Title}
                 description={item.ContentDescription}
-                onPress={onPress}
+                onPress={() => onPress(item.ContentId)}
               />
             </View>
           );

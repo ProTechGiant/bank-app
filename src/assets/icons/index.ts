@@ -26,6 +26,7 @@ export { default as CircleQuestionMark } from "./circle-question-mark";
 export { default as ClearIcon } from "./clear";
 export { CloseIcon } from "./close-icon";
 export { CopyIcon } from "./copy";
+export { default as CurrencyIcon } from "./currency";
 export { DeleteIcon } from "./delete-icon";
 export { default as DisabledPlusIconCircle } from "./disabled-plus-circle";
 export { EditIcon } from "./edit";

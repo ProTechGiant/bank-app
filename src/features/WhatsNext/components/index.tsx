@@ -11,3 +11,4 @@ export { default as RelatedSection } from "./RelatedSection";
 export { default as SortingContentModal } from "./SortingContentModal";
 export { default as TopTenCard } from "./TopTenCard";
 export { default as TopTenSection } from "./TopTenSection";
+export { default as TopTenSingleArticle } from "./TopTenSingleArticle";

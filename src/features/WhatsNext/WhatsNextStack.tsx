@@ -5,7 +5,7 @@ import { ExploreArticleScreen, TopTenArticleScreen, WhatsNextHubScreen } from ".
 export type WhatsNextStackParams = {
   "WhatsNext.HubScreen": undefined;
   "WhatsNext.ExploreArticleScreen": { articleId: string };
-  "WhatsNext.TopTenArticleScreen": undefined;
+  "WhatsNext.TopTenArticleScreen": { articleId: string };
 };
 
 export const Stack = createNativeStackNavigator<WhatsNextStackParams>();

@@ -424,6 +424,12 @@ export const resources = {
           oldest: "Oldest first",
           apply: "Apply",
         },
+        TopTenArticle: {
+          location: "Location",
+          price: "Price",
+          openingHours: "Opening hours:",
+          currency: "SAR",
+        },
       },
       HelpAndSupport: {
         HubScreen: {

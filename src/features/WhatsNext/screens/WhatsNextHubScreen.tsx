@@ -230,8 +230,8 @@ export default function WhatsNextHubScreen() {
     navigation.navigate("WhatsNext.ExploreArticleScreen", { articleId });
   };
 
-  const handleOnTopTenArticlePress = () => {
-    navigation.navigate("WhatsNext.TopTenArticleScreen");
+  const handleOnTopTenArticlePress = (articleId: string) => {
+    navigation.navigate("WhatsNext.TopTenArticleScreen", { articleId });
   };
 
   return (

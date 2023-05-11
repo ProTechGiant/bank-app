@@ -29,7 +29,7 @@ export const WhatsNextMocks = [
     },
     ChildrenContents: [
       {
-        ContentId: "string",
+        ContentId: "1",
         ParentContentId: "string",
         ContentDataTypeId: "string",
         ContentCategoryId: "WhatsNext",
@@ -38,7 +38,7 @@ export const WhatsNextMocks = [
         Title: "Rihanna 2023",
         SubTitle: "string",
         ContentDescription:
-          "When Rihanna announced she'd be returning to performing at this year would be the best ever",
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         Media: [
           {
             SourceFileName: "string",
@@ -56,9 +56,14 @@ export const WhatsNextMocks = [
             Link: "string",
           },
         ],
+        EventDetails: {
+          OpeningHours: "20:00 - 22:00",
+          Location: "Boulevard Riyadh City 13, Riyadh, KSA",
+          Price: "395",
+        },
       },
       {
-        ContentId: "string",
+        ContentId: "2",
         ParentContentId: "string",
         ContentDataTypeId: "string",
         ContentCategoryId: "WhatsNext",
@@ -66,7 +71,8 @@ export const WhatsNextMocks = [
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Try out Ferrari F1-75 2023",
         SubTitle: "string",
-        ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
+        ContentDescription:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         Media: [
           {
             SourceFileName: "string",
@@ -84,9 +90,14 @@ export const WhatsNextMocks = [
             Link: "string",
           },
         ],
+        EventDetails: {
+          OpeningHours: "20:00 - 22:00",
+          Location: "Boulevard Riyadh City 13, Riyadh, KSA",
+          Price: "395",
+        },
       },
       {
-        ContentId: "string",
+        ContentId: "3",
         ParentContentId: "string",
         ContentDataTypeId: "string",
         ContentCategoryId: "WhatsNext",
@@ -94,7 +105,8 @@ export const WhatsNextMocks = [
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Rihanna 2023",
         SubTitle: "string",
-        ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
+        ContentDescription:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         Media: [
           {
             SourceFileName: "string",
@@ -112,9 +124,14 @@ export const WhatsNextMocks = [
             Link: "string",
           },
         ],
+        EventDetails: {
+          OpeningHours: "20:00 - 22:00",
+          Location: "Boulevard Riyadh City 13, Riyadh, KSA",
+          Price: "395",
+        },
       },
       {
-        ContentId: "string",
+        ContentId: "4",
         ParentContentId: "string",
         ContentDataTypeId: "string",
         ContentCategoryId: "WhatsNext",
@@ -122,7 +139,8 @@ export const WhatsNextMocks = [
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Try out Ferrari F1-75 2023",
         SubTitle: "string",
-        ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
+        ContentDescription:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         Media: [
           {
             SourceFileName: "string",
@@ -140,9 +158,14 @@ export const WhatsNextMocks = [
             Link: "string",
           },
         ],
+        EventDetails: {
+          OpeningHours: "20:00 - 22:00",
+          Location: "Boulevard Riyadh City 13, Riyadh, KSA",
+          Price: "395",
+        },
       },
       {
-        ContentId: "string",
+        ContentId: "5",
         ParentContentId: "string",
         ContentDataTypeId: "string",
         ContentCategoryId: "WhatsNext",
@@ -150,7 +173,8 @@ export const WhatsNextMocks = [
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Rihanna 2023",
         SubTitle: "string",
-        ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
+        ContentDescription:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         Media: [
           {
             SourceFileName: "string",
@@ -168,9 +192,14 @@ export const WhatsNextMocks = [
             Link: "string",
           },
         ],
+        EventDetails: {
+          OpeningHours: "20:00 - 22:00",
+          Location: "Boulevard Riyadh City 13, Riyadh, KSA",
+          Price: "395",
+        },
       },
       {
-        ContentId: "string",
+        ContentId: "6",
         ParentContentId: "string",
         ContentDataTypeId: "string",
         ContentCategoryId: "WhatsNext",
@@ -178,7 +207,8 @@ export const WhatsNextMocks = [
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Try out Ferrari F1-75 2023",
         SubTitle: "string",
-        ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
+        ContentDescription:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         Media: [
           {
             SourceFileName: "string",
@@ -196,9 +226,14 @@ export const WhatsNextMocks = [
             Link: "string",
           },
         ],
+        EventDetails: {
+          OpeningHours: "20:00 - 22:00",
+          Location: "Boulevard Riyadh City 13, Riyadh, KSA",
+          Price: "395",
+        },
       },
       {
-        ContentId: "string",
+        ContentId: "7",
         ParentContentId: "string",
         ContentDataTypeId: "string",
         ContentCategoryId: "WhatsNext",
@@ -206,7 +241,8 @@ export const WhatsNextMocks = [
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Rihanna 2023",
         SubTitle: "string",
-        ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
+        ContentDescription:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         Media: [
           {
             SourceFileName: "string",
@@ -224,9 +260,14 @@ export const WhatsNextMocks = [
             Link: "string",
           },
         ],
+        EventDetails: {
+          OpeningHours: "20:00 - 22:00",
+          Location: "Boulevard Riyadh City 13, Riyadh, KSA",
+          Price: "395",
+        },
       },
       {
-        ContentId: "string",
+        ContentId: "8",
         ParentContentId: "string",
         ContentDataTypeId: "string",
         ContentCategoryId: "WhatsNext",
@@ -234,7 +275,8 @@ export const WhatsNextMocks = [
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Try out Ferrari F1-75 2023",
         SubTitle: "string",
-        ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
+        ContentDescription:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         Media: [
           {
             SourceFileName: "string",
@@ -252,9 +294,14 @@ export const WhatsNextMocks = [
             Link: "string",
           },
         ],
+        EventDetails: {
+          OpeningHours: "20:00 - 22:00",
+          Location: "Boulevard Riyadh City 13, Riyadh, KSA",
+          Price: "395",
+        },
       },
       {
-        ContentId: "string",
+        ContentId: "9",
         ParentContentId: "string",
         ContentDataTypeId: "string",
         ContentCategoryId: "WhatsNext",
@@ -262,7 +309,8 @@ export const WhatsNextMocks = [
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Rihanna 2023",
         SubTitle: "string",
-        ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
+        ContentDescription:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         Media: [
           {
             SourceFileName: "string",
@@ -280,9 +328,14 @@ export const WhatsNextMocks = [
             Link: "string",
           },
         ],
+        EventDetails: {
+          OpeningHours: "20:00 - 22:00",
+          Location: "Boulevard Riyadh City 13, Riyadh, KSA",
+          Price: "395",
+        },
       },
       {
-        ContentId: "string",
+        ContentId: "10",
         ParentContentId: "string",
         ContentDataTypeId: "string",
         ContentCategoryId: "WhatsNext",
@@ -290,7 +343,8 @@ export const WhatsNextMocks = [
         ContentPublishDateTime: "2023-04-19T10:30:39.581Z",
         Title: "Try out Ferrari F1-75 2023",
         SubTitle: "string",
-        ContentDescription: "When Rihanna announced she'd be returning to performing at this year yes",
+        ContentDescription:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         Media: [
           {
             SourceFileName: "string",
@@ -308,6 +362,11 @@ export const WhatsNextMocks = [
             Link: "string",
           },
         ],
+        EventDetails: {
+          OpeningHours: "20:00 - 22:00",
+          Location: "Boulevard Riyadh City 13, Riyadh, KSA",
+          Price: "395",
+        },
       },
     ],
   },
