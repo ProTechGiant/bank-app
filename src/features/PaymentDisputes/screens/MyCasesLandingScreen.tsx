@@ -28,11 +28,11 @@ export default function MyCasesLandingScreen() {
     setIsErrorModalVisible(cases.isError);
   }, [cases.isError]);
 
-  const handleOnPress = (caseNumber: string, source: string) =>
+  const handleOnPress = (caseNumber: string) => {
     navigation.navigate("PaymentDisputes.CaseDetailsScreen", {
-      caseNumber: "35665", // TODO: BE provided a hardcoded ID
-      source: source,
+      caseNumber: "35661", // TODO: BE provided a hardcoded ID
     });
+  };
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
@@ -87,11 +87,7 @@ export default function MyCasesLandingScreen() {
             </View>
           ) : (
             visibleItems.map(element => (
-              <CaseListItem
-                key={element.CaseNumber}
-                data={element}
-                onPress={() => handleOnPress(element.CaseNumber, element.Transaction.Source)}
-              />
+              <CaseListItem key={element.CaseNumber} data={element} onPress={() => handleOnPress(element.CaseNumber)} />
             ))
           )}
         </ContentContainer>

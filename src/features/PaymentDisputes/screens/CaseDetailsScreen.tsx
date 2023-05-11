@@ -55,57 +55,59 @@ export default function CaseDetailsScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader withBackButton={true} title={route.params.source} />
         {caseDetails !== undefined ? (
-          <ContentContainer isScrollView>
-            <Stack direction="vertical">
-              <Typography.Text size="title1" weight="medium">
-                {`${caseDetails.TransactionAmount} ${caseDetails.TransactionCurrency}`}
-              </Typography.Text>
-              <Typography.Text size="callout" weight="regular" color="neutralBase+10" style={dateTextStyle}>
-                {formatDateTime(new Date(caseDetails.TransactionCreationDate))}
-              </Typography.Text>
-            </Stack>
-            <CaseStatusRow status={caseDetails.Status} />
-            <Typography.Text size="title3" weight="medium">
-              {t("PaymentDisputes.CaseDetails.title")}
-            </Typography.Text>
-            <Stack direction="vertical" gap="8p" style={moreHelpContainerStyle}>
-              <CaseStatusCard
-                description={formatDateTime(new Date(caseDetails.DayReported))}
-                label={t("PaymentDisputes.CaseDetails.detailSection.dayReported")}
-              />
-              <CaseStatusCard
-                description={caseDetails.Issue}
-                label={t("PaymentDisputes.CaseDetails.detailSection.issue")}
-              />
-              <CaseStatusCard
-                description={caseDetails.CaseID}
-                label={t("PaymentDisputes.CaseDetails.detailSection.caseId")}
-              />
-              <CaseStatusCard
-                description={caseDetails.AdditionalInformation}
-                label={t("PaymentDisputes.CaseDetails.detailSection.additionalInformation")}
-              />
-              <CaseStatusCard
-                description={caseDetails.Attachment}
-                label={t("PaymentDisputes.CaseDetails.detailSection.attachment")}
-                isLast
-              />
-            </Stack>
-            <View style={[dividerStyle]}>
-              <Divider color="neutralBase-30" height={4} />
-            </View>
-            <Stack direction="vertical" gap="8p" style={moreHelpContainerStyle}>
+          <>
+            <NavHeader withBackButton={true} title={caseDetails.TransactionSource} />
+            <ContentContainer isScrollView>
+              <Stack direction="vertical">
+                <Typography.Text size="title1" weight="medium">
+                  {`${caseDetails.TransactionAmount} ${caseDetails.TransactionCurrency}`}
+                </Typography.Text>
+                <Typography.Text size="callout" weight="regular" color="neutralBase+10" style={dateTextStyle}>
+                  {formatDateTime(new Date(caseDetails.TransactionCreationDate))}
+                </Typography.Text>
+              </Stack>
+              <CaseStatusRow status={caseDetails.Status} />
               <Typography.Text size="title3" weight="medium">
-                {t("PaymentDisputes.PaymentDisputesLandingModal.moreHelp.title")}
+                {t("PaymentDisputes.CaseDetails.title")}
               </Typography.Text>
-            </Stack>
-            <Stack direction="horizontal" gap="12p">
-              <CallBankFeedbackButton phoneNumber={bankPhoneNumber} />
-              <LiveChatFeedbackButton />
-            </Stack>
-          </ContentContainer>
+              <Stack direction="vertical" gap="8p" style={moreHelpContainerStyle}>
+                <CaseStatusCard
+                  description={formatDateTime(new Date(caseDetails.DayReported))}
+                  label={t("PaymentDisputes.CaseDetails.detailSection.dayReported")}
+                />
+                <CaseStatusCard
+                  description={caseDetails.Issue}
+                  label={t("PaymentDisputes.CaseDetails.detailSection.issue")}
+                />
+                <CaseStatusCard
+                  description={caseDetails.CaseID}
+                  label={t("PaymentDisputes.CaseDetails.detailSection.caseId")}
+                />
+                <CaseStatusCard
+                  description={caseDetails.AdditionalInformation}
+                  label={t("PaymentDisputes.CaseDetails.detailSection.additionalInformation")}
+                />
+                <CaseStatusCard
+                  description={caseDetails.Attachment}
+                  label={t("PaymentDisputes.CaseDetails.detailSection.attachment")}
+                  isLast
+                />
+              </Stack>
+              <View style={[dividerStyle]}>
+                <Divider color="neutralBase-30" height={4} />
+              </View>
+              <Stack direction="vertical" gap="8p" style={moreHelpContainerStyle}>
+                <Typography.Text size="title3" weight="medium">
+                  {t("PaymentDisputes.PaymentDisputesLandingModal.moreHelp.title")}
+                </Typography.Text>
+              </Stack>
+              <Stack direction="horizontal" gap="12p">
+                <CallBankFeedbackButton phoneNumber={bankPhoneNumber} />
+                <LiveChatFeedbackButton />
+              </Stack>
+            </ContentContainer>
+          </>
         ) : (
           <FlexActivityIndicator />
         )}

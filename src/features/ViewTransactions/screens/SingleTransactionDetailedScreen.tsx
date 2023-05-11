@@ -79,8 +79,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
       navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
         screen: "PaymentDisputes.CaseDetailsScreen",
         params: {
-          caseNumber: "35665", // TODO: BE provided a hardcoded ID
-          source: receivedData.title,
+          caseNumber: "35661", // TODO: BE provided a hardcoded ID
         },
       });
     }, 300);
