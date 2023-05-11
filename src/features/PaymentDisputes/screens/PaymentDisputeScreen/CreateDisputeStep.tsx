@@ -95,7 +95,7 @@ export default function CreateDisputeStep({
   );
 
   const { control, handleSubmit } = useForm<CreateDisputeInput>({
-    mode: "onBlur",
+    mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
       CaseDetails: undefined,
@@ -224,7 +224,7 @@ export default function CreateDisputeStep({
                 {t("PaymentDisputes.CreateDisputeModal.total")}
               </Typography.Text>
               <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-                {transactionDetails.amount} SAR
+                {parseFloat(transactionDetails.amount).toFixed(2)} SAR
               </Typography.Text>
             </View>
           </View>
