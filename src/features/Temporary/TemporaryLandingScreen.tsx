@@ -8,6 +8,7 @@ import TextInput from "@/components/Form/TextInput";
 import Stack from "@/components/Stack";
 import { useAuthContext } from "@/contexts/AuthContext";
 import useAppsFlyer from "@/hooks/use-appsflyer";
+import useOpenLink from "@/hooks/use-open-link";
 import reloadApp from "@/i18n/reload-app";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -24,6 +25,7 @@ interface TemporaryForm {
 export default function TemporaryLandingScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const openLink = useOpenLink();
 
   const auth = useAuthContext();
   const { setInternalTransferEntryPoint } = useInternalTransferContext();
@@ -33,19 +35,16 @@ export default function TemporaryLandingScreen() {
   // TODO: Should be placed inside the first screen in the nav stack so that it is always called but can also handle navigation
   useEffect(() => {
     const listener = appsFlyer.onDeepLink(result => {
-      // If no deep linking or deep link is deffered then we do not handle navigation
+      // If no deep linking or deep link is deferred then we do not handle navigation
       if (result.deepLinkStatus !== "FOUND" || result.isDeferred === true) return;
 
-      if (result.data?.stack !== undefined && result.data?.screen !== undefined) {
-        // TODO: handle navigation using method in development for internal links
-        navigation.navigate("WhatsNext.WhatsNextStack", {
-          screen: "WhatsNext.HubScreen",
-        });
+      if (result.data?.internalUrl !== undefined) {
+        openLink(result.data.internalUrl);
       }
     });
 
     return () => listener();
-  }, []);
+  }, [appsFlyer, openLink]);
 
   // PC-4353 show or skip saving goals instructions
   const getSavingsGoalNumAsync = useSavingsGoalNumber();

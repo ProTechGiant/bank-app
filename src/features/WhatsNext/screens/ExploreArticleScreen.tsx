@@ -44,11 +44,10 @@ export default function ExploreArticleScreen() {
 
   const handleOnArticleSharePress = async () => {
     try {
-      const link = await appsFlyer.createLink("Article", {
-        screen: "singleArticle",
-        params: JSON.stringify({ articleId }),
+      const url = await appsFlyer.createLink("Article", {
+        internalUrl: `croatia://whats-next/${articleId}`,
       });
-      await Share.share(Platform.OS === "ios" ? { url: link } : { message: link });
+      await Share.share(Platform.OS === "ios" ? { url } : { message: url });
     } catch (error) {
       warn("appsflyer-sdk", "Could not generate Article link", JSON.stringify(error));
     }
