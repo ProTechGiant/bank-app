@@ -74,11 +74,7 @@ export default function PaymentDisputeScreen() {
   };
 
   const handleOnCreateDisputeBack = () => {
-    if (!isCardFrozen) {
-      handleOnNextStep(previousStep === "freeze-card" ? "freeze-card" : "reasons");
-    } else {
-      handleOnNextStep(previousStep === "reasons" ? "reasons" : "landing");
-    }
+    handleOnNextStep(previousStep === "reasons" ? "reasons" : "landing");
   };
 
   const handleOnCardIsFrozen = (value: boolean) => {
