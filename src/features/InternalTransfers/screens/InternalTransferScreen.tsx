@@ -27,7 +27,7 @@ export default function InternalTransferScreen() {
   const navigation = useNavigation();
 
   const account = useCurrentAccount();
-  const reasons = useTransferReasons();
+  const reasons = useTransferReasons(100);
   const { setTransferAmount, setReason } = useInternalTransferContext();
 
   const currentBalance = account.data?.balance ?? 0;

@@ -34,7 +34,7 @@ export default function QuickTransferScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<MainStackParams, "InternalTransfers.QuickTransferScreen">>();
 
-  const reasons = useTransferReasons();
+  const reasons = useTransferReasons(110);
   const account = useCurrentAccount();
   const currentBalance = account.data?.balance ?? 0;
   const dailyLimitAsync = useDailyLimitValidation();

@@ -15,7 +15,7 @@ import {
 
 const queryKeys = {
   all: () => ["transfers"] as const,
-  reasons: () => [...queryKeys.all(), "reasons"] as const,
+  reasons: (transferType: number) => [...queryKeys.all(), "reasons", { transferType }] as const,
   beneficiaries: () => [...queryKeys.all(), "beneficiaries"] as const,
   banks: () => [...queryKeys.all(), "banks"] as const,
   transferFees: (transferType: string) => [...queryKeys.all(), "transfer-fees", { transferType }] as const,
@@ -29,11 +29,19 @@ interface BeneficiariesResponse {
   Beneficiary: BeneficiaryType[];
 }
 
-export function useTransferReasons() {
-  return useQuery(queryKeys.reasons(), () => {
-    return api<ReasonsResponse>("v1", "transfers/reason-for-payment", "GET", undefined, undefined, {
-      ["x-correlation-id"]: generateRandomId(),
-    });
+// Transfer Types: QuickOrStandardType: 110 | InternalTransfer: 100;
+export function useTransferReasons(transferType: number) {
+  return useQuery(queryKeys.reasons(transferType), () => {
+    return api<ReasonsResponse>(
+      "v1",
+      `transfers/reason-for-payment`,
+      "GET",
+      { transferType: transferType },
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
   });
 }
 
@@ -252,8 +260,8 @@ export function useValidateQuickTransferBeneficiary() {
   );
 }
 
-export function useTransferReasonsByCode(reasonCode: string) {
-  const reasons = useTransferReasons();
+export function useTransferReasonsByCode(reasonCode: string, transferType: number) {
+  const reasons = useTransferReasons(transferType);
 
   return { ...reasons, data: reasons?.data?.TransferReason.find(reason => reason.Code === reasonCode) };
 }

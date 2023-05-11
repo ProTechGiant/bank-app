@@ -16,7 +16,7 @@ import { useThemeStyles } from "@/theme";
 
 import { ReviewTransferDetail } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
-import { useInternalTransfer } from "../hooks/query-hooks";
+import { useInternalTransfer, useTransferReasonsByCode } from "../hooks/query-hooks";
 import { InternalTransfer, Note } from "../types";
 
 export default function ReviewTransferScreen() {
@@ -29,6 +29,7 @@ export default function ReviewTransferScreen() {
   const { transferAmount, reason, recipient } = useInternalTransferContext();
   const otpFlow = useOtpFlow();
   const internalTransferAsync = useInternalTransfer();
+  const transferReason = useTransferReasonsByCode(reason, 100);
 
   const [note, setNote] = useState<Note>({ content: "", attachment: "" });
   const [isVisible, setIsVisible] = useState(false);
@@ -121,7 +122,7 @@ export default function ReviewTransferScreen() {
                 onAddNotePress={handleAddNote}
                 sender={{ accountName: account.data.name, accountNumber: account.data.accountNumber }}
                 recipient={recipient}
-                reason={reason}
+                reason={transferReason.data?.Description !== undefined ? transferReason.data?.Description : reason}
                 amount={transferAmount}
                 note={note}
               />

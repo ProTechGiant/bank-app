@@ -26,7 +26,7 @@ export default function ReviewQuickTransferScreen() {
 
   const account = useCurrentAccount();
   const transferFeesAsync = useTransferFees("110");
-  const transferReason = useTransferReasonsByCode(route.params.ReasonCode);
+  const transferReason = useTransferReasonsByCode(route.params.ReasonCode, 110);
 
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
