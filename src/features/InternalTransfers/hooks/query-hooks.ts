@@ -37,6 +37,28 @@ export function useTransferReasons() {
   });
 }
 
+interface DailyLimitResponse {
+  IsLimitExceeded: boolean;
+  DailyLimit: number;
+  ExceededAmount: number;
+}
+export function useDailyLimitValidation() {
+  return useMutation(async ({ TransferAmount }: { TransferAmount: number }) => {
+    return sendApiRequest<DailyLimitResponse>(
+      "v1",
+      "transfers/daily-limit/validation",
+      "POST",
+      undefined,
+      {
+        TransferAmount: TransferAmount,
+      },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}
+
 export function useBeneficiaries() {
   return useQuery(queryKeys.beneficiaries(), () => {
     return api<BeneficiariesResponse>("v1", "transfers/beneficiaries", "GET", undefined, undefined, {

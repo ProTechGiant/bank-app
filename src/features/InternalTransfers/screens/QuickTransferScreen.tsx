@@ -1,5 +1,6 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { debounce } from "lodash";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -14,13 +15,14 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useCurrentAccount } from "@/hooks/use-accounts";
+import { warn } from "@/logger";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import { QuickTransferLimitsModal, TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
-import { useTransferReasons } from "../hooks/query-hooks";
+import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
 
 interface QuickTransferInput {
   PaymentAmount: number;
@@ -35,10 +37,23 @@ export default function QuickTransferScreen() {
   const reasons = useTransferReasons();
   const account = useCurrentAccount();
   const currentBalance = account.data?.balance ?? 0;
+  const dailyLimitAsync = useDailyLimitValidation();
 
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
   const [isTransferLimitsModalVisible, setIsTransferLimitsModalVisible] = useState(false);
   const [isTransferReasonsErrorVisible, setIsTransferReasonsErrorVisible] = useState(false);
+
+  const handleOnValidateDailyLimit = async (transferAmount: number) => {
+    try {
+      await dailyLimitAsync.mutateAsync({
+        TransferAmount: transferAmount,
+      });
+    } catch (err) {
+      setIsGenericErrorModalVisible(true);
+
+      warn("daily-limit", "Could not process Daily Limit: ", JSON.stringify(err));
+    }
+  };
 
   useEffect(() => {
     setIsGenericErrorModalVisible(account.isError);
@@ -47,6 +62,10 @@ export default function QuickTransferScreen() {
   useEffect(() => {
     setIsTransferReasonsErrorVisible(reasons.isError);
   }, [reasons.isError]);
+
+  useEffect(() => {
+    setIsGenericErrorModalVisible(dailyLimitAsync.isError);
+  }, [dailyLimitAsync.isError]);
 
   const { control, handleSubmit, watch, getValues } = useForm<QuickTransferInput>({
     defaultValues: {
@@ -90,11 +109,14 @@ export default function QuickTransferScreen() {
   }));
 
   const hasSelectedReasonCode = watch("ReasonCode") !== undefined;
-  // !TODO (AC8): daily limit check. will be moved to a new comment
-  const amountExceedsDailyLimit = false;
   const currentAmount = watch("PaymentAmount");
   const amountExceedsBalance = currentAmount > currentBalance;
   const amountExceedsLimit = currentAmount > QUICK_TRANSFER_LIMIT;
+
+  const debouncedFunc = useCallback(debounce(handleOnValidateDailyLimit, 300), []);
+  useEffect(() => {
+    debouncedFunc(currentAmount);
+  }, [currentAmount]);
 
   return (
     <>
@@ -120,8 +142,13 @@ export default function QuickTransferScreen() {
                   maxLength={10}
                   name="PaymentAmount"
                 />
-                {amountExceedsDailyLimit ? (
-                  <TransferErrorBox textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsDailyLimit")} />
+                {dailyLimitAsync.data?.IsLimitExceeded ? (
+                  <TransferErrorBox
+                    textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsDailyLimit", {
+                      limit: dailyLimitAsync.data?.DailyLimit,
+                      amount: dailyLimitAsync.data?.ExceededAmount,
+                    })}
+                  />
                 ) : amountExceedsBalance ? (
                   <TransferErrorBox
                     onPress={handleOnAddFundsPress}
@@ -131,8 +158,9 @@ export default function QuickTransferScreen() {
                 ) : amountExceedsLimit ? (
                   <TransferErrorBox
                     onPress={handleOnSwitchStandardTransferPress}
-                    // eslint-disable-next-line prettier/prettier
-                    textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsQuickTransferLimit", { amount: formatCurrency(QUICK_TRANSFER_LIMIT, "SAR") })}
+                    textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsQuickTransferLimit", {
+                      amount: formatCurrency(QUICK_TRANSFER_LIMIT, "SAR"),
+                    })}
                     textEnd={t("InternalTransfers.QuickTransferScreen.switchToStandardTransfer")}
                   />
                 ) : null}
