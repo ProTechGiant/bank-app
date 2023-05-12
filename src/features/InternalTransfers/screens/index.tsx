@@ -8,6 +8,7 @@ export { default as EnterQuickTransferBeneficiaryScreen } from "./EnterQuickTran
 export { default as InternalTransferScreen } from "./InternalTransferScreen";
 export { default as PaymentsHubScreen } from "./PaymentsHubScreen";
 export { default as QuickTransferScreen } from "./QuickTransferScreen";
+export { default as QuickTransferSuccessScreen } from "./QuickTransferSuccessScreen";
 export { default as ReviewQuickTransferScreen } from "./ReviewQuickTransferScreen";
 export { default as ReviewTransferScreen } from "./ReviewTransferScreen";
 export { default as SendToBeneficiaryScreen } from "./SendToBeneficiaryScreen";

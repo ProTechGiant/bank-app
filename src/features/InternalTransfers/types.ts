@@ -74,3 +74,17 @@ export interface Bank {
   BankShortName: string;
   Active: boolean;
 }
+
+export interface QuickTransfer {
+  transferAmount: number;
+  transferAmountCurrency: string;
+  remitterIBAN: string;
+  remitterName: string;
+  beneficiaryIBAN: string;
+  beneficiaryName: string;
+  clientTimestamp: string;
+  expressTransferFlag: string; // Required if TransferType = 04, Else it should not be submitted. Express Transfer Flag (Y: Yes N: No)
+  transferPurpose: string;
+  transferType: string; // "01" – Own Account Transfer / "02" – Al Rajhi Transfer/ "04" – Local Transfer
+  customerRemarks: string;
+}

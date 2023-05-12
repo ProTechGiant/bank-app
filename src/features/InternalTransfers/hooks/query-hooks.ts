@@ -9,6 +9,7 @@ import {
   Bank,
   BeneficiaryType,
   InternalTransfer,
+  QuickTransfer,
   TransferReason,
   TransferType,
 } from "../types";
@@ -264,4 +265,18 @@ export function useTransferReasonsByCode(reasonCode: string, transferType: numbe
   const reasons = useTransferReasons(transferType);
 
   return { ...reasons, data: reasons?.data?.TransferReason.find(reason => reason.Code === reasonCode) };
+}
+
+interface QuickTransferResponse {
+  OtpId: string;
+  OtpCode: string;
+  PhoneNumber: string;
+}
+
+export function useQuickTransfer() {
+  return useMutation(async (values: QuickTransfer) => {
+    return sendApiRequest<QuickTransferResponse>("v1", "transfers/outbound/local", "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
 }

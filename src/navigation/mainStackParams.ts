@@ -67,7 +67,7 @@ type RootStackParams = {
     otpOptionalParams?: Record<string, unknown> | undefined;
     otpChallengeParams?: OtpChallengeParams;
     onOtpRequest: () => Promise<OtpChallengeParams>;
-    otpVerifyMethod: "card-actions" | "internal-transfers";
+    otpVerifyMethod: "card-actions" | "internal-transfers" | "quick-transfers";
   };
   "PaymentDisputes.PaymentDisputesStack":
     | {

@@ -1,4 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
+import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native";
@@ -10,6 +11,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import i18n from "@/i18n";
 import MainStackParams from "@/navigation/mainStackParams";
@@ -17,7 +19,8 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
-import { useTransferFees, useTransferReasonsByCode } from "../hooks/query-hooks";
+import { useQuickTransfer, useTransferFees, useTransferReasonsByCode } from "../hooks/query-hooks";
+import { QuickTransfer } from "../types";
 
 export default function ReviewQuickTransferScreen() {
   const { t } = useTranslation();
@@ -27,13 +30,16 @@ export default function ReviewQuickTransferScreen() {
   const account = useCurrentAccount();
   const transferFeesAsync = useTransferFees("110");
   const transferReason = useTransferReasonsByCode(route.params.ReasonCode, 110);
+  const quickTransferAsync = useQuickTransfer();
+  const otpFlow = useOtpFlow();
 
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
 
   useEffect(() => {
     setIsErrorModalVisible(transferFeesAsync.isError);
-  }, [transferFeesAsync.isError]);
+  }, [transferFeesAsync]);
 
   const handleOnClose = () => {
     setIsVisible(true);
@@ -50,7 +56,43 @@ export default function ReviewQuickTransferScreen() {
       return;
     }
 
-    //@todo otp flow
+    const quickTransferRequest: QuickTransfer = {
+      transferAmount: route.params.PaymentAmount,
+      transferAmountCurrency: "SAR",
+      remitterIBAN: account.data.iban ?? "",
+      remitterName: account.data.owner ?? "",
+      beneficiaryIBAN: route.params.Beneficiary.IBAN,
+      beneficiaryName: route.params.Beneficiary.FullName,
+      clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+      expressTransferFlag: "Y",
+      transferPurpose: route.params.ReasonCode,
+      transferType: "04",
+      customerRemarks: "Customer Remarks", // @todo update with correct value, as default for now is this
+    };
+
+    otpFlow.handle({
+      action: {
+        to: "InternalTransfers.ReviewQuickTransferScreen",
+        params: route.params,
+      },
+      otpVerifyMethod: "quick-transfers",
+      onOtpRequest: () => {
+        return quickTransferAsync.mutateAsync(quickTransferRequest);
+      },
+      onFinish: status => {
+        if (status === "cancel") {
+          return;
+        }
+        if (status === "fail") {
+          setTimeout(() => setIsGenericErrorModalVisible(true), 500);
+        } else {
+          navigation.navigate("InternalTransfers.QuickTransferSuccessScreen", {
+            PaymentAmount: route.params.PaymentAmount,
+            BeneficiaryFullName: route.params.Beneficiary.FullName,
+          });
+        }
+      },
+    });
   };
 
   const handleOnCancel = () => {
@@ -105,10 +147,10 @@ export default function ReviewQuickTransferScreen() {
                   {t("InternalTransfers.ReviewQuickTransferScreen.from")}
                 </Typography.Text>
                 <Typography.Text color="neutralBase+30" weight="regular" size="callout">
-                  {account.data?.name}
+                  {account.data?.owner}
                 </Typography.Text>
                 <Typography.Text color="neutralBase+30" weight="regular" size="callout">
-                  {account.data?.accountNumber}
+                  {account.data?.iban}
                 </Typography.Text>
               </View>
               <View style={verticalSpaceStyle}>
@@ -174,7 +216,7 @@ export default function ReviewQuickTransferScreen() {
                 </Typography.Text>
                 <Typography.Text weight="medium" size="callout" color="neutralBase+30">
                   {formatCurrency(
-                    route.params.PaymentAmount + Number(transferFeesAsync.data?.TransferFee),
+                    route.params.PaymentAmount,
                     t("InternalTransfers.ReviewQuickTransferScreen.currency")
                   )}
                 </Typography.Text>
@@ -215,6 +257,13 @@ export default function ReviewQuickTransferScreen() {
         message={t("InternalTransfers.ReviewQuickTransferScreen.feesError.message")}
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={isGenericErrorModalVisible}
+        onClose={() => setIsGenericErrorModalVisible(false)}
       />
     </>
   );

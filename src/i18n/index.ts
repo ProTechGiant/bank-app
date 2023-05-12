@@ -1487,6 +1487,16 @@ export const resources = {
             viewTransaction: "View transaction",
           },
         },
+        QuickTransferSuccessScreen: {
+          title: "Your transfer is complete",
+          message: "You'll find the details in your transaction list",
+          transferredTo: "Transferred to",
+          amount: "Amount",
+          buttons: {
+            done: "Done",
+            viewTransaction: "View transaction",
+          },
+        },
       },
       LocalTransfers: {
         SelectTransferTypeModal: {

@@ -53,7 +53,9 @@ export function useOtpFlow<Source extends keyof MainStackParams>() {
   return { handle, useOtpResponseEffect };
 }
 
-export function useOtpValidation<RequestT, ResponseT>(method: "card-actions" | "internal-transfers") {
+export function useOtpValidation<RequestT, ResponseT>(
+  method: "card-actions" | "internal-transfers" | "quick-transfers"
+) {
   const queryClient = useQueryClient();
 
   return useMutation(

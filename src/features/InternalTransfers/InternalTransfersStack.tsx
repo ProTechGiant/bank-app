@@ -11,12 +11,13 @@ import {
   EnterQuickTransferBeneficiaryScreen,
   InternalTransferScreen,
   QuickTransferScreen,
+  QuickTransferSuccessScreen,
+  ReviewQuickTransferScreen,
   ReviewTransferScreen,
   SendToBeneficiaryScreen,
   StandardTransferScreen,
   TermsAndConditionsModal,
 } from "./screens";
-import ReviewQuickTransferScreen from "./screens/ReviewQuickTransferScreen";
 import { AddBeneficiarySelectionType, AddNoteParams, Bank } from "./types";
 
 export type InternalTransfersStackParams = {
@@ -68,6 +69,10 @@ export type InternalTransfersStackParams = {
       IBAN: string;
     };
   };
+  "InternalTransfers.QuickTransferSuccessScreen": {
+    PaymentAmount: number;
+    BeneficiaryFullName: string;
+  };
 };
 
 export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
@@ -104,6 +109,7 @@ export default function InternalTransfersStack() {
         name="InternalTransfers.ConfirmQuickTransferBeneficiaryScreen"
       />
       <Stack.Screen component={ReviewQuickTransferScreen} name="InternalTransfers.ReviewQuickTransferScreen" />
+      <Stack.Screen component={QuickTransferSuccessScreen} name="InternalTransfers.QuickTransferSuccessScreen" />
     </Stack.Navigator>
   );
 }
