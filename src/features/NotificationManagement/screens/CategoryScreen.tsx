@@ -28,13 +28,13 @@ export default function CategoryScreen() {
 
   const mainToggleStatus = subCategories.some(
     subCategory =>
-      subCategory.selectedChannels.find((channel: { channelName: string }) => channel.channelName === PUSH)?.isSelected
+      subCategory.SelectedChannels.find((channel: { ChannelName: string }) => channel.ChannelName === PUSH)?.IsSelected
   );
 
   const handleOnMainTogglePress = () => {
     subCategories.map(subCategory => {
-      subCategory.selectedChannels.map(channel => {
-        if (channel.channelName === PUSH) channel.isSelected = !mainToggleStatus;
+      subCategory.SelectedChannels.map(channel => {
+        if (channel.ChannelName === PUSH) channel.IsSelected = !mainToggleStatus;
       });
       return subCategory;
     });
@@ -42,8 +42,8 @@ export default function CategoryScreen() {
     callUpdateNotficationPreferences(
       subCategories.map(subCategory => {
         return {
-          subCategoryId: subCategory.subCategoryId,
-          selectedChannels: subCategory.selectedChannels,
+          SubCategoryId: subCategory.SubCategoryId,
+          SelectedChannels: subCategory.SelectedChannels,
         };
       })
     );
@@ -51,9 +51,9 @@ export default function CategoryScreen() {
 
   const handleOnSubTogglePress = (subCategoryId: string, value: boolean) => {
     subCategories.map(subCategory => {
-      if (subCategory.subCategoryId === subCategoryId) {
-        subCategory.selectedChannels.map(channel => {
-          if (channel.channelName === PUSH) channel.isSelected = value;
+      if (subCategory.SubCategoryId === subCategoryId) {
+        subCategory.SelectedChannels.map(channel => {
+          if (channel.ChannelName === PUSH) channel.IsSelected = value;
         });
       }
       return subCategory;
@@ -63,11 +63,11 @@ export default function CategoryScreen() {
       subCategories
         .map(subCategory => {
           return {
-            subCategoryId: subCategory.subCategoryId,
-            selectedChannels: subCategory.selectedChannels,
+            SubCategoryId: subCategory.SubCategoryId,
+            SelectedChannels: subCategory.SelectedChannels,
           };
         })
-        .filter(subCategory => subCategory.subCategoryId === subCategoryId)
+        .filter(subCategory => subCategory.SubCategoryId === subCategoryId)
     );
   };
 
@@ -105,14 +105,14 @@ export default function CategoryScreen() {
           <Stack direction="vertical" align="stretch">
             {subCategories.map(subCategory => {
               return (
-                <View key={subCategory.subCategoryId}>
+                <View key={subCategory.SubCategoryId}>
                   <SubcategorySection
-                    title={subCategory.subCategoryName}
-                    content={subCategory.subCategoryDescription}
+                    title={subCategory.SubCategoryName}
+                    content={subCategory.SubCategoryDescription}
                     toggleStatus={
-                      subCategory.selectedChannels.find(channel => channel.channelName === PUSH)?.isSelected || false
+                      subCategory.SelectedChannels.find(channel => channel.ChannelName === PUSH)?.IsSelected || false
                     }
-                    onToggle={handleOnSubTogglePress.bind(null, subCategory.subCategoryId)}
+                    onToggle={handleOnSubTogglePress.bind(null, subCategory.SubCategoryId)}
                   />
                 </View>
               );

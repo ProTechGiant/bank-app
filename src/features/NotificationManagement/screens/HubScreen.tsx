@@ -90,8 +90,8 @@ export default function HubScreen() {
 
   const handleOnCategoryPress = (category: Categories) => {
     navigation.navigate("NotificationManagement.CategoryScreen", {
-      categoryId: category.categoryId,
-      title: category.categoryName,
+      categoryId: category.CategoryId,
+      title: category.CategoryName,
     });
   };
 
@@ -163,11 +163,11 @@ export default function HubScreen() {
               {notificationPreferences.data && notificationPreferences.data.length > 0
                 ? notificationPreferences.data.map(category => {
                     return (
-                      <View style={categoriesContainerStyle} key={category.categoryId}>
+                      <View style={categoriesContainerStyle} key={category.CategoryId}>
                         <CategorySection
-                          title={category.categoryName}
-                          content={category.categoryDescription}
-                          icon={getCategoryIcon(category.categoryId)}
+                          title={category.CategoryName}
+                          content={category.CategoryDescription}
+                          icon={getCategoryIcon(category.CategoryId)}
                           onPress={() => handleOnCategoryPress(category)}
                         />
                       </View>

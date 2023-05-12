@@ -1,26 +1,26 @@
 import { PUSH, SMS } from "./constants";
 
 export interface Categories {
-  categoryId: string;
-  categoryName: string;
-  categoryDescription: string;
-  subCategories: SubCategories[];
+  CategoryId: string;
+  CategoryName: string;
+  CategoryDescription: string;
+  SubCategories: SubCategories[];
 }
 
 export interface SubCategories {
-  subCategoryId: string;
-  subCategoryName: string;
-  subCategoryDescription: string;
-  selectedChannels: SelectedChannels[];
+  SubCategoryId: string;
+  SubCategoryName: string;
+  SubCategoryDescription: string;
+  SelectedChannels: SelectedChannels[];
 }
 
 export interface UpdatedSubCategories {
-  subCategoryId: string;
-  selectedChannels: SelectedChannels[];
+  SubCategoryId: string;
+  SelectedChannels: SelectedChannels[];
 }
 
 export interface SelectedChannels {
-  channelId: string;
-  channelName: typeof PUSH | typeof SMS;
-  isSelected: boolean;
+  ChannelId: string;
+  ChannelName: typeof PUSH | typeof SMS;
+  IsSelected: boolean;
 }

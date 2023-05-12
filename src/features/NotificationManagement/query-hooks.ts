@@ -21,7 +21,7 @@ export function useNotificationPreferences() {
 export function useNotificationPreferencesCategory(categoryId: string) {
   const preferences = useNotificationPreferences();
   return {
-    data: preferences.data?.find(category => category.categoryId === categoryId)?.subCategories ?? [],
+    data: preferences.data?.find(category => category.CategoryId === categoryId)?.SubCategories ?? [],
   };
 }
 
