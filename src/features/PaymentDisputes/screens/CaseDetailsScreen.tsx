@@ -85,14 +85,12 @@ export default function CaseDetailsScreen() {
                 <CaseStatusCard
                   description={caseDetails.AdditionalInformation}
                   label={t("PaymentDisputes.CaseDetails.detailSection.additionalInformation")}
-                  isLast
                 />
-                {/** Not available yet */}
-                {/* <CaseStatusCard
-                  description={caseDetails.Attachment}
+                <CaseStatusCard
+                  description={caseDetails.DmsAttachment}
                   label={t("PaymentDisputes.CaseDetails.detailSection.attachment")}
                   isLast
-                /> */}
+                />
               </Stack>
               <View style={dividerStyle}>
                 <Divider color="neutralBase-40" height={4} />

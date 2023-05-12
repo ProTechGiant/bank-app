@@ -6,7 +6,7 @@ import { useThemeStyles } from "@/theme";
 
 interface CaseStatusCardProps {
   label: string;
-  description: string;
+  description: string | undefined;
   isLast?: boolean;
 }
 
@@ -31,8 +31,11 @@ export default function CaseStatusCard({ label, description, isLast }: CaseStatu
         <Typography.Text size="footnote" weight="regular" color="neutralBase" style={labelStyle}>
           {label}
         </Typography.Text>
-        <Typography.Text size="callout" weight="regular" color="neutralBase+30">
-          {description}
+        <Typography.Text
+          size="callout"
+          weight="regular"
+          color={description !== undefined ? "neutralBase+30" : "neutralBase-10"}>
+          {description ?? "--"}
         </Typography.Text>
       </View>
     </Stack>

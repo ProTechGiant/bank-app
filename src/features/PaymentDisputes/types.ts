@@ -34,4 +34,5 @@ export interface DisputeCaseListItem {
 export interface DisputeCase extends DisputeCaseListItem {
   Issue: string;
   AdditionalInformation: string;
+  DmsAttachment: string;
 }
