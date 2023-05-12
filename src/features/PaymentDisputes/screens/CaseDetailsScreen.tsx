@@ -15,6 +15,7 @@ import Typography from "@/components/Typography";
 import { mockHelpAndSupport } from "@/mocks/helpAndSupportData";
 import MainStackParams from "@/navigation/mainStackParams";
 import { useThemeStyles } from "@/theme";
+import { formatCurrency } from "@/utils";
 
 import { CaseStatusCard, CaseStatusRow, MoreHelp } from "../components";
 import { CALL_US } from "../constants";
@@ -24,7 +25,7 @@ import { formatDateTime } from "../utils";
 export default function CaseDetailsScreen() {
   const { t } = useTranslation();
   const route = useRoute<RouteProp<MainStackParams, "PaymentDisputes.CaseDetailsScreen">>();
-  const caseDetailsResponse = useCaseDetails(route.params.caseNumber);
+  const caseDetailsResponse = useCaseDetails(route.params.transactionRef);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function CaseDetailsScreen() {
   const bankPhoneNumber =
     mockHelpAndSupport.ChildrenContents.find(item => item.ContentTag === CALL_US)?.ContentDescription ?? "";
 
-  const caseDetails = caseDetailsResponse?.data?.PaymentsCase;
+  const caseDetails = caseDetailsResponse?.data;
 
   const moreHelpContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["20p"],
@@ -42,8 +43,7 @@ export default function CaseDetailsScreen() {
   }));
 
   const dividerStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: 1,
-    marginHorizontal: -theme.spacing["16p"],
+    marginHorizontal: -theme.spacing["20p"],
   }));
 
   const dateTextStyle = useThemeStyles<TextStyle>(theme => ({
@@ -55,23 +55,23 @@ export default function CaseDetailsScreen() {
       <Page backgroundColor="neutralBase-60">
         {caseDetails !== undefined ? (
           <>
-            <NavHeader withBackButton={true} title={caseDetails.TransactionSource} />
+            <NavHeader withBackButton={true} title={caseDetails.Transaction.Source} />
             <ContentContainer isScrollView>
               <Stack direction="vertical">
                 <Typography.Text size="title1" weight="medium">
-                  {`${caseDetails.TransactionAmount} ${caseDetails.TransactionCurrency}`}
+                  {formatCurrency(Number(caseDetails.Transaction.Amount), caseDetails.Transaction.Currency)}
                 </Typography.Text>
                 <Typography.Text size="callout" weight="regular" color="neutralBase+10" style={dateTextStyle}>
-                  {formatDateTime(new Date(caseDetails.TransactionCreationDate))}
+                  {formatDateTime(new Date(caseDetails.Transaction.CreatedOn))}
                 </Typography.Text>
               </Stack>
-              <CaseStatusRow status={caseDetails.Status} />
+              <CaseStatusRow status={caseDetails.CaseStatus} />
               <Typography.Text size="title3" weight="medium">
                 {t("PaymentDisputes.CaseDetails.title")}
               </Typography.Text>
               <Stack direction="vertical" gap="8p" style={moreHelpContainerStyle}>
                 <CaseStatusCard
-                  description={formatDateTime(new Date(caseDetails.DayReported))}
+                  description={formatDateTime(new Date(caseDetails.OpenedDate))}
                   label={t("PaymentDisputes.CaseDetails.detailSection.dayReported")}
                 />
                 <CaseStatusCard
@@ -79,27 +79,29 @@ export default function CaseDetailsScreen() {
                   label={t("PaymentDisputes.CaseDetails.detailSection.issue")}
                 />
                 <CaseStatusCard
-                  description={caseDetails.CaseID}
+                  description={caseDetails.CaseNumber}
                   label={t("PaymentDisputes.CaseDetails.detailSection.caseId")}
                 />
                 <CaseStatusCard
                   description={caseDetails.AdditionalInformation}
                   label={t("PaymentDisputes.CaseDetails.detailSection.additionalInformation")}
+                  isLast
                 />
-                <CaseStatusCard
+                {/** Not available yet */}
+                {/* <CaseStatusCard
                   description={caseDetails.Attachment}
                   label={t("PaymentDisputes.CaseDetails.detailSection.attachment")}
                   isLast
-                />
+                /> */}
               </Stack>
-              <View style={[dividerStyle]}>
-                <Divider color="neutralBase-30" height={4} />
+              <View style={dividerStyle}>
+                <Divider color="neutralBase-40" height={4} />
               </View>
-              <Stack direction="vertical" gap="8p" style={moreHelpContainerStyle}>
+              <View style={moreHelpContainerStyle}>
                 <Typography.Text size="title3" weight="medium">
                   {t("PaymentDisputes.PaymentDisputesLandingModal.moreHelp.title")}
                 </Typography.Text>
-              </Stack>
+              </View>
               <MoreHelp phoneNumber={bankPhoneNumber} />
             </ContentContainer>
           </>

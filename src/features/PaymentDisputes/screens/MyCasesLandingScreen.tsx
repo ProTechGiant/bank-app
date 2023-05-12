@@ -28,9 +28,9 @@ export default function MyCasesLandingScreen() {
     setIsErrorModalVisible(cases.isError);
   }, [cases.isError]);
 
-  const handleOnPress = (caseNumber: string) => {
+  const handleOnPress = (transactionRef: string) => {
     navigation.navigate("PaymentDisputes.CaseDetailsScreen", {
-      caseNumber: "35661", // TODO: BE provided a hardcoded ID
+      transactionRef,
     });
   };
 
@@ -87,7 +87,11 @@ export default function MyCasesLandingScreen() {
             </View>
           ) : (
             visibleItems.map(element => (
-              <CaseListItem key={element.CaseNumber} data={element} onPress={() => handleOnPress(element.CaseNumber)} />
+              <CaseListItem
+                key={element.CaseNumber}
+                data={element}
+                onPress={() => handleOnPress(element.Transaction.TransactionRef)}
+              />
             ))
           )}
         </ContentContainer>

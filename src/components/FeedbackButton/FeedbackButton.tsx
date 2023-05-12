@@ -16,10 +16,11 @@ export default function FeedbackButton({ onPress, icon, text }: FeedbackButtonPr
     alignItems: "center",
     justifyContent: "center",
     gap: theme.spacing["4p"],
-    paddingVertical: theme.spacing["16p"],
     borderColor: theme.palette["neutralBase-30"],
     borderRadius: theme.radii.small,
     borderWidth: 1,
+    paddingVertical: theme.spacing["16p"],
+    paddingHorizontal: 59,
   }));
 
   const iconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);

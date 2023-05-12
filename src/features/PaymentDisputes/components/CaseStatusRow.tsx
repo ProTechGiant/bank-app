@@ -5,7 +5,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { STATUS_COLOR_MAPPING } from "../constants";
+import { STATUS_COLOR_MAPPING, STATUS_LABEL_MAPPING } from "../constants";
 
 interface CaseStatusRowProps {
   status: string;
@@ -31,7 +31,7 @@ export default function CaseStatusRow({ status }: CaseStatusRowProps) {
         {t("PaymentDisputes.CaseDetails.status")}
       </Typography.Text>
       <Typography.Text size="callout" weight="medium" color={STATUS_COLOR_MAPPING[status]}>
-        {status}
+        {t(STATUS_LABEL_MAPPING[status])}
       </Typography.Text>
     </Stack>
   );

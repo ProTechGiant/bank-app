@@ -26,7 +26,7 @@ export default function CaseStatusCard({ label, description, isLast }: CaseStatu
   }));
 
   return (
-    <Stack direction="horizontal" align="center" gap="16p" style={containerStyle}>
+    <Stack direction="horizontal" align="center" gap="12p" style={containerStyle}>
       <View style={{ flex: 1 }}>
         <Typography.Text size="footnote" weight="regular" color="neutralBase" style={labelStyle}>
           {label}

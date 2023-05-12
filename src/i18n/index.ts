@@ -1597,7 +1597,7 @@ export const resources = {
         },
         CaseListItem: {
           opened: "Open",
-          assigned: "Open",
+          assigned: "Assigned",
           inReview: "In review",
           approved: "Approved",
           rejected: "Rejected",

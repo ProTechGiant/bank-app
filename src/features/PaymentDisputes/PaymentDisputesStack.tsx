@@ -19,7 +19,9 @@ export type PaymentDisputesStackParams = {
   };
   "PaymentDisputes.TermsAndConditionsModal": undefined;
   "PaymentDisputes.MyCasesLandingScreen": undefined;
-  "PaymentDisputes.CaseDetailsScreen": { caseNumber: string };
+  "PaymentDisputes.CaseDetailsScreen": {
+    transactionRef: string;
+  };
   "PaymentDisputes.DisputeSubmittedScreen": {
     caseType: CaseType;
     cardType: Card["CardType"];

@@ -4,7 +4,7 @@ export const CALL_US = "CallUS";
 export const ACTIVE_CASE_STATUSES = ["Opened", "Assigned", "In Review", "Reopened"];
 export const STATUS_COLOR_MAPPING: Record<string, keyof Theme["palette"]> = {
   Opened: "neutralBase+30",
-  Assigned: "neutralBase+30",
+  Assigned: "warningBase",
   "In Review": "warningBase",
   Approved: "successBase",
   Rejected: "errorBase",

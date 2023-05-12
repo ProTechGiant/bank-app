@@ -17,20 +17,6 @@ export type CaseType = "dispute" | "fraud";
 
 export type TransactionType = "CARD" | "ATM";
 
-export interface CaseDetails {
-  TransactionSource: string;
-  CaseID: string;
-  Status: string;
-  DayReported: string;
-  Issue: string;
-  Attachment: string;
-  AdditionalInformation: string;
-  TransactionAmount: string;
-  TransactionCurrency: string;
-  TransactionCreationDate: string;
-  TransactionLocation: string;
-}
-
 export interface DisputeCaseListItem {
   CaseNumber: string;
   OpenedDate: string;
@@ -40,6 +26,12 @@ export interface DisputeCaseListItem {
     Amount: string;
     Currency: string;
     CreatedOn: string;
+    TransactionRef: string;
   };
   CaseStatus: string;
+}
+
+export interface DisputeCase extends DisputeCaseListItem {
+  Issue: string;
+  AdditionalInformation: string;
 }
