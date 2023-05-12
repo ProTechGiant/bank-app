@@ -13,7 +13,6 @@ export function useNotificationPreferences() {
   return useQuery(queryKeys.all, () => {
     return api<Categories[]>("v1", "customer/notifications", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
-      ["userId"]: "34e16d1c-ebee-4faf-89ad-75c8140f68f0", //TODO: temp uuid, will change later once auth is set
     });
   });
 }
@@ -32,7 +31,6 @@ export function useUpdateNotificationPreferences() {
     (values: UpdatedSubCategories[]) => {
       return api<void>("v1", "customer/notifications", "PATCH", undefined, values, {
         ["x-correlation-id"]: generateRandomId(),
-        ["userId"]: "34e16d1c-ebee-4faf-89ad-75c8140f68f0", //TODO: temp uuid, will change later once auth is set
       });
     },
     {
