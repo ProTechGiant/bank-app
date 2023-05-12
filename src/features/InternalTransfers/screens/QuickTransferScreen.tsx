@@ -40,6 +40,7 @@ export default function QuickTransferScreen() {
   const dailyLimitAsync = useDailyLimitValidation();
 
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
+  const [isTransferLimitsErrorVisible, setIsTransferLimitsErrorVisible] = useState(false);
   const [isTransferLimitsModalVisible, setIsTransferLimitsModalVisible] = useState(false);
   const [isTransferReasonsErrorVisible, setIsTransferReasonsErrorVisible] = useState(false);
 
@@ -49,8 +50,7 @@ export default function QuickTransferScreen() {
         TransferAmount: transferAmount,
       });
     } catch (err) {
-      setIsGenericErrorModalVisible(true);
-
+      setIsTransferLimitsErrorVisible(true);
       warn("daily-limit", "Could not process Daily Limit: ", JSON.stringify(err));
     }
   };
@@ -62,10 +62,6 @@ export default function QuickTransferScreen() {
   useEffect(() => {
     setIsTransferReasonsErrorVisible(reasons.isError);
   }, [reasons.isError]);
-
-  useEffect(() => {
-    setIsGenericErrorModalVisible(dailyLimitAsync.isError);
-  }, [dailyLimitAsync.isError]);
 
   const { control, handleSubmit, watch, getValues } = useForm<QuickTransferInput>({
     defaultValues: {
@@ -114,6 +110,7 @@ export default function QuickTransferScreen() {
   const amountExceedsLimit = currentAmount > QUICK_TRANSFER_LIMIT;
 
   const debouncedFunc = useCallback(debounce(handleOnValidateDailyLimit, 300), []);
+
   useEffect(() => {
     debouncedFunc(currentAmount);
   }, [currentAmount]);
@@ -205,6 +202,16 @@ export default function QuickTransferScreen() {
         title={t("errors.generic.title")}
         message={t("errors.generic.message")}
         isVisible={isGenericErrorModalVisible}
+        variant="error"
+      />
+      <NotificationModal
+        onClose={() => {
+          setIsTransferLimitsErrorVisible(false);
+          setTimeout(() => navigation.goBack(), 300);
+        }}
+        title={t("InternalTransfers.QuickTransferScreen.limitError.title")}
+        message={t("InternalTransfers.QuickTransferScreen.limitError.message")}
+        isVisible={isTransferLimitsErrorVisible}
         variant="error"
       />
     </>

@@ -1376,6 +1376,10 @@ export const resources = {
           continueButton: "Continue",
           couldNotLoadReasonsErrorTitle: "Couldn't load list",
           couldNotLoadReasonsErrorMessage: "Please try again later or get in touch if you’re still having problems.",
+          limitError: {
+            title: "Sorry - we couldn’t check that",
+            message: "Please try again later or get in touch if you’re still having problems.",
+          },
         },
         QuickTransferLimitsModal: {
           title: "What are my transfer limits?",
