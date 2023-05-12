@@ -133,10 +133,14 @@ export default function PaymentDisputeScreen() {
       <NotificationModal
         variant="error"
         isVisible={isGenericErrorVisible}
-        title={t("errors.generic.title")}
-        message={t("errors.generic.message")}
+        title={t("PaymentDisputes.PaymentDisputesLandingModal.scammedError.title")}
+        message={t("PaymentDisputes.PaymentDisputesLandingModal.scammedError.message")}
         buttons={{
-          primary: <Button onPress={handleOnCloseGenericError}>{t("errors.generic.button")}</Button>,
+          primary: (
+            <Button onPress={handleOnCloseGenericError}>
+              {t("PaymentDisputes.PaymentDisputesLandingModal.scammedError.cancelButton")}
+            </Button>
+          ),
         }}
       />
     </SafeAreaProvider>

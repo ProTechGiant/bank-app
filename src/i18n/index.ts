@@ -281,7 +281,7 @@ export const resources = {
             cancelButton: "Cancel",
           },
           ErrorModal: {
-            title: "Sorry, something has gone wrong",
+            title: "We’re sorry, something has gone wrong.",
             message: "Please try again later or contact Customer Care.",
             cancelButton: "OK",
           },
@@ -1524,6 +1524,11 @@ export const resources = {
             title: "Need more help?",
             message: "It’s normally fastest to report a scam or tell us about a problem with the buttons above.",
           },
+          scammedError: {
+            title: "We’re sorry, something has gone wrong.",
+            message: "Please try again later or contact Customer Care.",
+            cancelButton: "OK",
+          },
           alreadyReportedError: {
             title: "Transaction already reported",
             message: "We've given it the case reference number {{caseNumber}}.",
@@ -2375,6 +2380,11 @@ export const resources = {
           title: "Need more help?",
           message: "It’s normally fastest to report a scam or tell us about a problem with the buttons above.",
         },
+        scammedError: {
+          title: "We’re sorry, something has gone wrong.",
+          message: "Please try again later or contact Customer Care.",
+          cancelButton: "OK",
+        },
         alreadyReportedError: {
           title: "Transaction already reported",
           message: "We've given it the case reference number {{caseNumber}}.",
@@ -2437,6 +2447,13 @@ export const resources = {
             "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
         },
       },
+      MyCasesLandingScreen: {
+        title: "My cases",
+        active: "Active",
+        resolved: "Resolved",
+        noActiveCases: "You don't have any active cases.",
+        noResolvedCases: "You don't have any resolved cases.",
+      },
       CaseDetails: {
         title: "Case details",
         status: "Status",
@@ -2448,6 +2465,14 @@ export const resources = {
           additionalInformation: "Additional Information",
           attachment: "Attachment",
         },
+      },
+      CaseListItem: {
+        opened: "Open",
+        assigned: "Assigned",
+        inReview: "In review",
+        approved: "Approved",
+        rejected: "Rejected",
+        reopened: "Open",
       },
       FreezeCardModal: {
         title: "Do you want to freeze your card?",

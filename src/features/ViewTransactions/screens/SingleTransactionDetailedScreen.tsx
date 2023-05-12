@@ -4,8 +4,9 @@ import format from "date-fns/format";
 import { enUS } from "date-fns/locale";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TextStyle, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, StyleSheet, TextStyle, TouchableOpacity, View } from "react-native";
 
+import ApiError from "@/api/ApiError";
 import { CircleQuestionMark, CloseIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
@@ -29,12 +30,16 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
 
   const route = useRoute<RouteProp<MainStackParams, "ViewTransactions.SingleTransactionDetailedScreen">>();
 
-  // TODO: remove hardcored caseNumber when case searching via transaction is available
-  const caseNumber = "35665";
+  // TODO: remove hardcored transactionRef when case searching via transaction is available
+  // error  = trans-ref-7
+  // case found = trans-ref-[1-6]
+  // no case = trans-ref-[8...]
+  const transactionRef = "trans-ref-8";
+
   const [isCaseExistModalVisible, setIsCaseExistModalVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
-  const caseDetailsResponse = useCaseDetails(caseNumber);
-  const caseDetails = caseDetailsResponse?.data?.PaymentsCase;
+  const caseDetailsResponse = useCaseDetails(transactionRef);
+  const caseNumber = caseDetailsResponse?.data?.CaseNumber;
   const receivedData = route.params?.data;
   const cardId = route.params.cardId;
   const createDisputeUserId = route.params.createDisputeUserId;
@@ -56,10 +61,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
   );
 
   const handleOnReportTransaction = () => {
-    if (caseDetailsResponse.isError) {
-      setIsErrorModalVisible(true);
-    }
-    if (caseDetails === undefined) {
+    if (caseDetailsResponse.error instanceof ApiError && caseDetailsResponse.error.statusCode === 404) {
       navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
         screen: "PaymentDisputes.PaymentDisputeScreen",
         params: {
@@ -68,8 +70,10 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
           transactionDetails: receivedData,
         },
       });
-    } else {
+    } else if (caseDetailsResponse.isSuccess) {
       setIsCaseExistModalVisible(true);
+    } else {
+      setIsErrorModalVisible(true);
     }
   };
 
@@ -79,7 +83,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
       navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
         screen: "PaymentDisputes.CaseDetailsScreen",
         params: {
-          caseNumber: "35661", // TODO: BE provided a hardcoded ID
+          transactionRef,
         },
       });
     }, 300);
@@ -115,26 +119,34 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
 
   return (
     <>
-      <Page insets={["bottom", "left", "right"]}>
-        <DetailsWrapper openModel={setIsVisible} data={receivedData} onReportTransaction={handleOnReportTransaction} />
-        <Modal style={styles.modal} onClose={onClose} visible={isVisible}>
-          <TouchableOpacity onPress={() => setIsVisible(false)} style={styles.closeButton}>
-            <CloseIcon />
-          </TouchableOpacity>
-          <Typography.Text style={modalHeader} color="neutralBase+30" size="title2" weight="bold">
-            {t("ViewTransactions.AboutRoundUpsModal.title")}
-          </Typography.Text>
-          <Typography.Text style={modalBody} color="neutralBase+30" size="callout" weight="regular">
-            {t("ViewTransactions.AboutRoundUpsModal.bodyText")}
-          </Typography.Text>
-          <View style={styles.modalFooter}>
-            <CircleQuestionMark />
-            <Typography.Text style={FAQs} color="primaryBase" size="footnote" weight="medium">
-              {t("ViewTransactions.AboutRoundUpsModal.note")}
+      {caseDetailsResponse.isLoading === false ? (
+        <Page insets={["bottom", "left", "right"]}>
+          <DetailsWrapper
+            openModel={setIsVisible}
+            data={receivedData}
+            onReportTransaction={handleOnReportTransaction}
+          />
+          <Modal style={styles.modal} onClose={onClose} visible={isVisible}>
+            <TouchableOpacity onPress={() => setIsVisible(false)} style={styles.closeButton}>
+              <CloseIcon />
+            </TouchableOpacity>
+            <Typography.Text style={modalHeader} color="neutralBase+30" size="title2" weight="bold">
+              {t("ViewTransactions.AboutRoundUpsModal.title")}
             </Typography.Text>
-          </View>
-        </Modal>
-      </Page>
+            <Typography.Text style={modalBody} color="neutralBase+30" size="callout" weight="regular">
+              {t("ViewTransactions.AboutRoundUpsModal.bodyText")}
+            </Typography.Text>
+            <View style={styles.modalFooter}>
+              <CircleQuestionMark />
+              <Typography.Text style={FAQs} color="primaryBase" size="footnote" weight="medium">
+                {t("ViewTransactions.AboutRoundUpsModal.note")}
+              </Typography.Text>
+            </View>
+          </Modal>
+        </Page>
+      ) : (
+        <ActivityIndicator />
+      )}
       <NotificationModal
         variant="warning"
         buttons={{
