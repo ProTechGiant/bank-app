@@ -1,4 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
+import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TextStyle, View } from "react-native";
@@ -71,7 +72,7 @@ export default function CaseDetailsScreen() {
               </Typography.Text>
               <Stack direction="vertical" gap="8p" style={moreHelpContainerStyle}>
                 <CaseStatusCard
-                  description={formatDateTime(new Date(caseDetails.OpenedDate))}
+                  description={format(new Date(caseDetails.OpenedDate), "d MMMM, yyyy")}
                   label={t("PaymentDisputes.CaseDetails.detailSection.dayReported")}
                 />
                 <CaseStatusCard

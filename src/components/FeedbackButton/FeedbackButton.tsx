@@ -20,7 +20,6 @@ export default function FeedbackButton({ onPress, icon, text }: FeedbackButtonPr
     borderRadius: theme.radii.small,
     borderWidth: 1,
     paddingVertical: theme.spacing["16p"],
-    paddingHorizontal: 59,
   }));
 
   const iconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
