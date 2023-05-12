@@ -13,12 +13,10 @@ interface FeedbackButtonProps {
 
 export default function FeedbackButton({ onPress, icon, text }: FeedbackButtonProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     gap: theme.spacing["4p"],
     paddingVertical: theme.spacing["16p"],
-    paddingHorizontal: 59,
     borderColor: theme.palette["neutralBase-30"],
     borderRadius: theme.radii.small,
     borderWidth: 1,

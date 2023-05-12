@@ -6,8 +6,6 @@ import { ViewStyle } from "react-native/types";
 
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
-import CallBankFeedbackButton from "@/components/FeedbackButton/CallBankFeedbackButton";
-import LiveChatFeedbackButton from "@/components/FeedbackButton/LiveChatFeedbackButton";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
@@ -18,7 +16,7 @@ import { mockHelpAndSupport } from "@/mocks/helpAndSupportData";
 import MainStackParams from "@/navigation/mainStackParams";
 import { useThemeStyles } from "@/theme";
 
-import { CaseStatusCard, CaseStatusRow } from "../components";
+import { CaseStatusCard, CaseStatusRow, MoreHelp } from "../components";
 import { CALL_US } from "../constants";
 import { useCaseDetails } from "../hooks/query-hooks";
 import { formatDateTime } from "../utils";
@@ -102,10 +100,7 @@ export default function CaseDetailsScreen() {
                   {t("PaymentDisputes.PaymentDisputesLandingModal.moreHelp.title")}
                 </Typography.Text>
               </Stack>
-              <Stack direction="horizontal" gap="12p">
-                <CallBankFeedbackButton phoneNumber={bankPhoneNumber} />
-                <LiveChatFeedbackButton />
-              </Stack>
+              <MoreHelp phoneNumber={bankPhoneNumber} />
             </ContentContainer>
           </>
         ) : (

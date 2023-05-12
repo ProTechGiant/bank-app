@@ -3,8 +3,6 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { FlagIcon, ReportFraudIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
-import CallBankFeedbackButton from "@/components/FeedbackButton/CallBankFeedbackButton";
-import LiveChatFeedbackButton from "@/components/FeedbackButton/LiveChatFeedbackButton";
 import NavHeader from "@/components/NavHeader";
 import Stack from "@/components/Stack";
 import { TableListCard } from "@/components/TableList";
@@ -12,6 +10,7 @@ import Typography from "@/components/Typography";
 import { mockHelpAndSupport } from "@/mocks/helpAndSupportData";
 import { useThemeStyles } from "@/theme";
 
+import { MoreHelp } from "../../components";
 import { CALL_US } from "../../constants";
 
 interface LandingStepProps {
@@ -74,10 +73,7 @@ export default function LandingStep({ onProblemWithTransactionLink, onFraudLink,
             {t("PaymentDisputes.PaymentDisputesLandingModal.moreHelp.message")}
           </Typography.Text>
         </Stack>
-        <Stack direction="horizontal" gap="12p">
-          <CallBankFeedbackButton phoneNumber={phoneNumber} />
-          <LiveChatFeedbackButton />
-        </Stack>
+        <MoreHelp phoneNumber={phoneNumber} />
       </ContentContainer>
     </>
   );
