@@ -29,6 +29,21 @@ export default function HubScreen() {
     navigation.navigate("HelpAndSupport.LiveChatScreen");
   };
 
+  const makeTheCall = async (phoneNumber: string) => {
+    try {
+      const canMakeTheCall = await Linking.canOpenURL(`tel:${phoneNumber}`);
+      if (canMakeTheCall) {
+        await Linking.openURL(`tel:${phoneNumber}`);
+      } else {
+        Clipboard.setString(phoneNumber);
+        Alert.alert(t("HelpAndSupport.HubScreen.callError"));
+      }
+    } catch (error) {
+      Clipboard.setString(phoneNumber);
+      Alert.alert(t("HelpAndSupport.HubScreen.callError"));
+    }
+  };
+
   const handleCallUsPress = () => {
     const phoneNumber =
       mockHelpAndSupport.ChildrenContents.find(item => item.ContentTag === CALL_US)?.ContentDescription ?? "";
@@ -41,31 +56,6 @@ export default function HubScreen() {
       mockHelpAndSupport.ChildrenContents.find(item => item.ContentTag === REPORT_FRAUD)?.ContentDescription ?? "";
 
     makeTheCall(phoneNumber);
-  };
-
-  const makeTheCall = (phoneNumber: string) => {
-    Alert.alert(phoneNumber, undefined, [
-      {
-        text: t("HelpAndSupport.HubScreen.cancel"),
-      },
-      {
-        text: t("HelpAndSupport.HubScreen.call"),
-        onPress: async () => {
-          try {
-            const canMakeTheCall = await Linking.canOpenURL(`tel:${phoneNumber}`);
-            if (canMakeTheCall) {
-              Linking.openURL(`tel:${phoneNumber}`);
-            } else {
-              Clipboard.setString(phoneNumber);
-              Alert.alert(t("HelpAndSupport.HubScreen.callError"));
-            }
-          } catch (error) {
-            Clipboard.setString(phoneNumber);
-            Alert.alert(t("HelpAndSupport.HubScreen.callError"));
-          }
-        },
-      },
-    ]);
   };
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
