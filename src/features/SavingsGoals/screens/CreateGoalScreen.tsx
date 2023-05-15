@@ -76,7 +76,7 @@ export default function CreateGoalScreen() {
         { text: t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.switch"), style: "default" },
       ]
     );
-  }, [RoundupFlag]);
+  }, [RoundupFlag, t, data, setValue]);
 
   const handleOnNotificationPress = () => {
     if (NotificationFlag) {
@@ -220,7 +220,7 @@ export default function CreateGoalScreen() {
             <Pressable
               style={styles.iconLink}
               onPress={() => {
-                Alert.alert("FAQ Page is coming soon!");
+                Alert.alert("FAQ Page is coming soon!"); // TODO: navigate to FAQ page
               }}>
               <View style={iconStyle}>
                 <QuestionIcon color={questionIconColor} />

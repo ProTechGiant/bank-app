@@ -50,7 +50,7 @@ export default function FundingStep({
   onContinueWithRecurringPaymentsPress,
 }: FundingStepProps) {
   const navigation = useNavigation();
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
 
   const fundSavingPot = useFundSavingsPot();
   const account = useCurrentAccount();
@@ -87,7 +87,7 @@ export default function FundingStep({
         then: yup.number().required(),
       }),
     });
-  }, [data, fundingType, i18n.language]);
+  }, [fundingType, t, today]);
 
   const { control, handleSubmit, watch } = useForm<FundingInput>({
     mode: "onChange",
@@ -154,7 +154,7 @@ export default function FundingStep({
           },
         ]);
 
-        warn("savings-pots", "Could not fund savings pot ", error);
+        warn("savings-pots", "Could not fund savings pot ", JSON.stringify(error));
       }
     });
   };
@@ -223,7 +223,7 @@ export default function FundingStep({
               <AccountDestination
                 destination={t("SavingsGoals.Account.from")}
                 accountName={t("SavingsGoals.Account.mainAccount")}
-                balance={mockMissingSavingsPotDetails.MainAccountAmount}
+                balance={mockMissingSavingsPotDetails.MainAccountAmount} // TODO: get account balance
               />
             )}
             <View style={buttonSpaceStyle}>

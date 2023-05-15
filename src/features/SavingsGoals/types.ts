@@ -1,4 +1,5 @@
 export type FundingType = "recurring-payments" | "one-off-payment" | "recommended-payment";
+
 export interface CreateGoalInput {
   GoalName: string;
   TargetAmount: number;
@@ -6,12 +7,14 @@ export interface CreateGoalInput {
   RoundupFlag: boolean;
   NotificationFlag: boolean;
 }
+
 export interface EditGoalInput {
   GoalName: string;
   TargetAmount: number;
   TargetDate: Date;
   NotificationFlag: boolean;
 }
+
 export interface SavingsPot {
   PotId: string;
   GoalName: string;

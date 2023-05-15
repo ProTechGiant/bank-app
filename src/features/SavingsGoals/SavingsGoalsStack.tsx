@@ -1,6 +1,8 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import MainStackParams from "@/navigation/mainStackParams";
+
 import {
   CreateGoalScreen,
   EditGoalModal,
@@ -11,8 +13,6 @@ import {
   SavingsGoalsScreen,
   WithdrawGoalModal,
 } from "./screens";
-import MainStackParams from "@/navigation/mainStackParams";
-
 import { FundingType } from "./types";
 
 export type SavingsGoalsStackParams = {

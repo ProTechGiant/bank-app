@@ -36,7 +36,7 @@ export function useCreateGoal() {
         undefined,
         { ...values, targetDate: format(values.TargetDate, "yyyy-MM-d") },
         {
-          ["x-correlation-id"]: "1234567",
+          ["x-correlation-id"]: generateRandomId(),
         }
       );
     },
@@ -55,7 +55,7 @@ interface RoundUpActiveResponse {
 export function useRoundupFlag() {
   return useQuery(queryKeys.roundupActive(), () => {
     return api<RoundUpActiveResponse>("v1", "customers/savings-pots/roundup-active", "GET", undefined, undefined, {
-      ["x-correlation-id"]: "1234567",
+      ["x-correlation-id"]: generateRandomId(),
     });
   });
 }
@@ -82,7 +82,7 @@ export function useUpdateSavingsGoal() {
         undefined,
         { ...requestBody },
         {
-          ["x-correlation-id"]: "1234567",
+          ["x-correlation-id"]: generateRandomId(),
         }
       );
     },
@@ -167,7 +167,7 @@ export function useFundSavingsPot() {
           EndDate: isRecurringFunding(options) ? options.EndDate.toISOString : undefined,
         },
         {
-          "X-Correlation-ID": "12345",
+          "X-Correlation-ID": generateRandomId(),
         }
       );
     },
@@ -217,7 +217,6 @@ export function useEditPotRecurringPayment() {
         },
         {
           "X-Correlation-ID": generateRandomId(),
-
           domesticStandingOrderId: requestBody.DebtorAccount,
         }
       );
@@ -253,7 +252,7 @@ export function useDeletePotRecurringPayment() {
 export function useSavingsPot(PotId: string) {
   return useQuery(queryKeys.details(PotId), () => {
     return api<SavingsPotDetailsResponse>("v1", `customers/savings-pots/${PotId}`, "GET", undefined, undefined, {
-      "X-Correlation-ID": "12345",
+      "X-Correlation-ID": generateRandomId(),
     });
   });
 }
@@ -265,7 +264,7 @@ interface SavingsPotsResponse {
 export function useSavingsPots() {
   return useQuery(queryKeys.all, () => {
     return api<SavingsPotsResponse>("v1", "customers/savings-pots", "GET", undefined, undefined, {
-      ["x-correlation-id"]: "12345",
+      ["x-correlation-id"]: generateRandomId(),
     });
   });
 }

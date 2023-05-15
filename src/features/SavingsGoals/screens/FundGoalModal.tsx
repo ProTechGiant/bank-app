@@ -59,7 +59,7 @@ export default function FundGoalModal() {
     }
   };
 
-  // TODO: recommendedAmount no longer exists in the new responsee
+  // TODO: recommendedAmount no longer exists in the new response
   // TODO: once provided, please update accordingly.
 
   return (

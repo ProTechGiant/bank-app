@@ -217,7 +217,4 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "space-between",
   },
-  datePicker: {
-    paddingVertical: 20,
-  },
 });
