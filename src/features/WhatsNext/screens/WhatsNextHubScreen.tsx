@@ -1,14 +1,18 @@
 import { isEmpty, isEqual, xorWith } from "lodash";
+import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable } from "react-native";
 
 import { FilterIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import { LoadingErrorPage } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import { useContentArticleList } from "@/hooks/use-content";
 import useNavigation from "@/navigation/use-navigation";
+import { Content } from "@/types/Content";
 
 import {
   ExploreSection,
@@ -18,8 +22,8 @@ import {
   SortingContentModal,
   TopTenSection,
 } from "../components";
+import { EXPLORE_CONTENT_TAG, TOP10_CONTENT_TAG, WHATS_NEXT_CATEGORY_ID } from "../constants";
 import { ArticleSectionType, FilterItemType } from "../types";
-import { WhatsNextMocks } from "../whatsNextMocks";
 
 export default function WhatsNextHubScreen() {
   const { t } = useTranslation();
@@ -33,25 +37,39 @@ export default function WhatsNextHubScreen() {
   const [selectedTypes, setSelectedTypes] = useState<FilterItemType[]>([]);
   const [hasFilters, setHasFilters] = useState(false);
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+  const [filterQueryParams, setFilterQueryParams] = useState("");
+
+  const whatsNextData = useContentArticleList(WHATS_NEXT_CATEGORY_ID, true, filterQueryParams);
 
   useEffect(() => {
-    WhatsNextMocks.filter(val => val.WhatsNextCategories && val.WhatsNextTypes)?.map(data => {
-      data.WhatsNextCategories?.map(item => {
-        setWhatsNextCategories(prevState => [...prevState, { name: item, isActive: false }]);
-        setSelectedCategories(prevState => [...prevState, { name: item, isActive: false }]);
-      });
-      data.WhatsNextTypes?.map(item => {
-        setWhatsNextTypes(prevState => [...prevState, { name: item, isActive: false }]);
-        setSelectedTypes(prevState => [...prevState, { name: item, isActive: false }]);
-      });
-    });
-  }, []);
+    if (whatsNextData.data && whatsNextData.data.length > 0) {
+      whatsNextData.data
+        .filter(val => {
+          return val.WhatsNextCategories && val.WhatsNextTypes;
+        })
+        ?.map(data => {
+          data.WhatsNextCategories?.map(item => {
+            setWhatsNextCategories(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
+            setSelectedCategories(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
+          });
+          data.WhatsNextTypes?.map(item => {
+            setWhatsNextTypes(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
+            setSelectedTypes(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
+          });
+        });
+    }
+  }, [whatsNextData.data]);
 
   useEffect(() => {
     setHasFilters([...whatsNextCategories, ...whatsNextTypes].some(value => value.isActive));
-    updateParamsQuery();
+    updateQueryParams();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [whatsNextCategories, whatsNextTypes]);
+
+  useEffect(() => {
+    whatsNextData.refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterQueryParams]);
 
   const handleOnClearFiltersPress = (setWhatsNextStates: boolean) => {
     if (setWhatsNextStates) {
@@ -61,6 +79,7 @@ export default function WhatsNextHubScreen() {
             return item;
           }
           return {
+            id: item.id,
             name: item.name,
             isActive: false,
           };
@@ -72,6 +91,7 @@ export default function WhatsNextHubScreen() {
             return item;
           }
           return {
+            id: item.id,
             name: item.name,
             isActive: false,
           };
@@ -85,6 +105,7 @@ export default function WhatsNextHubScreen() {
           return item;
         }
         return {
+          id: item.id,
           name: item.name,
           isActive: false,
         };
@@ -96,6 +117,7 @@ export default function WhatsNextHubScreen() {
           return item;
         }
         return {
+          id: item.id,
           name: item.name,
           isActive: false,
         };
@@ -143,6 +165,7 @@ export default function WhatsNextHubScreen() {
           return item;
         }
         return {
+          id: item.id,
           name: item.name,
           isActive: false,
         };
@@ -187,7 +210,7 @@ export default function WhatsNextHubScreen() {
   };
 
   const handleOnLoadingErrorRefresh = () => {
-    //@TODO refetch data
+    whatsNextData.refetch();
   };
 
   const handleOnSortingModalPress = () => {
@@ -200,24 +223,25 @@ export default function WhatsNextHubScreen() {
     setIsFiltersModalVisible(!isFiltersModalVisible);
   };
 
-  const updateParamsQuery = () => {
-    let whatsNextTypeQuery =
-      whatsNextTypes &&
-      whatsNextTypes?.length &&
-      whatsNextTypes
-        .filter(data => data.isActive === true)
-        .map(data => data.name)
-        .join(",");
-    whatsNextTypeQuery ? (whatsNextTypeQuery = "WhatsNextType=" + whatsNextTypeQuery) : null;
+  const updateQueryParams = () => {
+    const whatsNextTypeQuery =
+      whatsNextTypes && whatsNextTypes.length > 0
+        ? whatsNextTypes.filter(data => data.isActive === true).map(data => data.id)
+        : "";
 
-    let whatsNextCategoryQuery =
-      whatsNextCategories &&
-      whatsNextCategories.length &&
-      whatsNextCategories
-        .filter(data => data.isActive === true)
-        .map(data => data.name)
-        .join(",");
-    whatsNextCategoryQuery ? (whatsNextCategoryQuery = "WhatsNextCategory=" + whatsNextCategoryQuery) : null;
+    const whatsNextCategoryQuery =
+      whatsNextCategories && whatsNextCategories.length > 0
+        ? whatsNextCategories.filter(data => data.isActive === true).map(data => data.id)
+        : "";
+
+    const whatsNextFilterQueryParams = [
+      queryString.stringify({ WhatsNextTypeId: whatsNextTypeQuery }, { arrayFormat: "comma" }),
+      queryString.stringify({ WhatsNextCategoryId: whatsNextCategoryQuery }, { arrayFormat: "comma" }),
+    ]
+      .filter(Boolean)
+      .join("&");
+
+    setFilterQueryParams(whatsNextFilterQueryParams);
   };
 
   const handleOnApplyFilterPress = () => {
@@ -230,13 +254,13 @@ export default function WhatsNextHubScreen() {
     navigation.navigate("WhatsNext.ExploreArticleScreen", { articleId });
   };
 
-  const handleOnTopTenArticlePress = (articleId: string) => {
-    navigation.navigate("WhatsNext.TopTenArticleScreen", { articleId });
+  const handleOnTopTenArticlePress = (topTenArticlesData: Content | undefined) => {
+    topTenArticlesData ? navigation.navigate("WhatsNext.TopTenArticleScreen", { topTenArticlesData }) : null;
   };
 
   return (
     <>
-      {WhatsNextMocks !== undefined ? (
+      {whatsNextData.data !== undefined ? (
         <Page backgroundColor="neutralBase-60">
           <NavHeader
             title={t("WhatsNext.HubScreen.title")}
@@ -257,13 +281,17 @@ export default function WhatsNextHubScreen() {
               />
             ) : (
               <TopTenSection
-                onPress={handleOnTopTenArticlePress}
-                data={WhatsNextMocks.find(data => data.ContentTag === "Top 10") as ArticleSectionType}
+                onPress={() =>
+                  handleOnTopTenArticlePress(whatsNextData?.data?.find(data => data?.ContentTag === TOP10_CONTENT_TAG))
+                }
+                data={whatsNextData.data.find(data => data.ContentTag === TOP10_CONTENT_TAG) as ArticleSectionType}
               />
             )}
-            {WhatsNextMocks.filter(data => data.ContentTag === "explore").length !== 0 ? (
+            {whatsNextData.data.filter(data => data.ContentTag === EXPLORE_CONTENT_TAG).length !== 0 ? (
               <ExploreSection
-                data={WhatsNextMocks.filter(data => data.ContentTag === "explore") as ArticleSectionType[]}
+                data={
+                  whatsNextData.data.filter(data => data.ContentTag === EXPLORE_CONTENT_TAG) as ArticleSectionType[]
+                }
                 onArticlePress={articleId => {
                   handleOnExploreArticlePress(articleId);
                 }}
@@ -275,6 +303,8 @@ export default function WhatsNextHubScreen() {
             )}
           </ContentContainer>
         </Page>
+      ) : whatsNextData.isLoading ? (
+        <FlexActivityIndicator color="primaryBase" size="large" />
       ) : (
         <LoadingErrorPage onRefresh={handleOnLoadingErrorRefresh} />
       )}

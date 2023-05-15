@@ -6,13 +6,21 @@ import Chip from "@/components/Chip";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+import { Feedback } from "@/types/Content";
+
+import { DOWN_VOTE, UP_VOTE } from "../constants";
 
 interface FeedbackArticleSectionProps {
+  feedback: Feedback;
   onPositivePress: () => void;
   onNegativePress: () => void;
 }
 
-export default function FeedbackArticleSection({ onPositivePress, onNegativePress }: FeedbackArticleSectionProps) {
+export default function FeedbackArticleSection({
+  feedback,
+  onPositivePress,
+  onNegativePress,
+}: FeedbackArticleSectionProps) {
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -43,14 +51,14 @@ export default function FeedbackArticleSection({ onPositivePress, onNegativePres
           title={t("WhatsNext.ExploreArticleScreen.feedbackPositive")}
           onPress={onPositivePress}
           isClosable={false}
-          isEnabled={false}
+          isSelected={feedback?.VoteId === UP_VOTE}
           leftIcon={<ThumbsUpIcon />}
         />
         <Chip
           title={t("WhatsNext.ExploreArticleScreen.feedbackNegative")}
           onPress={onNegativePress}
           isClosable={false}
-          isEnabled={false}
+          isSelected={feedback?.VoteId === DOWN_VOTE}
           leftIcon={<ThumbsDownIcon />}
         />
       </Stack>

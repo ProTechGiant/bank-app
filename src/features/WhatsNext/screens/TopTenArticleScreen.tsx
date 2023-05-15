@@ -1,19 +1,22 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import { FlatListProps, View, ViewStyle } from "react-native";
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
+import MainStackParams from "@/navigation/mainStackParams";
 import { useThemeStyles } from "@/theme";
 
 import { TopTenSingleArticle } from "../components";
 import { ArticleSectionType } from "../types";
-import { WhatsNextMocks } from "../whatsNextMocks";
 
 export default function TopTenArticleScreen() {
   const [currentItem, setCurrentItem] = useState(1);
   const [showDetails, setShowDetails] = useState(false);
-  const topTenArticlesData = WhatsNextMocks.find(data => data?.ContentTag === "Top 10") as ArticleSectionType;
+
+  const topTenArticlesData = useRoute<RouteProp<MainStackParams, "WhatsNext.TopTenArticleScreen">>().params
+    .topTenArticlesData as ArticleSectionType;
 
   const scrollX = useSharedValue(0);
 
@@ -22,9 +25,10 @@ export default function TopTenArticleScreen() {
       scrollX.value = event.contentOffset.x;
     },
   });
+
   const handleOnViewableItemsChanged = useRef<FlatListProps<ArticleSectionType>["onViewableItemsChanged"]>(
     ({ viewableItems }) => {
-      setCurrentItem(viewableItems[0].item.ContentId);
+      setCurrentItem((viewableItems[0].index ?? 0) + 1);
     }
   ).current;
 
@@ -55,7 +59,12 @@ export default function TopTenArticleScreen() {
         onViewableItemsChanged={handleOnViewableItemsChanged}
       />
       <View style={progressIndicatorContainerStyle}>
-        <ProgressIndicator currentStep={currentItem} totalStep={10} withBackButton={true} withEndStep={true} />
+        <ProgressIndicator
+          currentStep={currentItem}
+          totalStep={topTenArticlesData.ChildrenContents?.length ?? 0}
+          withBackButton={true}
+          withEndStep={true}
+        />
       </View>
     </Page>
   );

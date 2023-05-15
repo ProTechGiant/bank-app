@@ -71,7 +71,7 @@ export default function FilterModal({
         <Stack direction="horizontal" gap="12p" style={styles.flexWrap}>
           {types.map((data, index) => {
             return (
-              <View key={data.name} style={chipContainerStyle}>
+              <View key={data.id} style={chipContainerStyle}>
                 <Chip
                   title={data.name}
                   isEnabled={data.isActive}
@@ -88,7 +88,7 @@ export default function FilterModal({
         <Stack direction="horizontal" gap="12p" style={styles.flexWrap}>
           {categories.map((data, index) => {
             return (
-              <View key={data.name} style={chipContainerStyle}>
+              <View key={data.id} style={chipContainerStyle}>
                 <Chip
                   title={data.name}
                   isEnabled={data.isActive}

@@ -1,14 +1,18 @@
 import { RouteProp, StackActions, useRoute } from "@react-navigation/native";
+import { isEmpty } from "lodash";
+import { useTranslation } from "react-i18next";
 import { Alert, Image, ImageStyle, Platform, Share, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import ContentContainer from "@/components/ContentContainer";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import HtmlWebView from "@/components/HtmlWebView/HtmlWebView";
 import { LoadingErrorPage } from "@/components/LoadingError";
 import Stack from "@/components/Stack";
 import Tag from "@/components/Tag";
 import Typography from "@/components/Typography";
 import useAppsFlyer from "@/hooks/use-appsflyer";
+import { useContentArticle, useContentFeedback } from "@/hooks/use-content";
 import useOpenLink from "@/hooks/use-open-link";
 import { warn } from "@/logger";
 import MainStackParams from "@/navigation/mainStackParams";
@@ -23,23 +27,31 @@ import {
   FeedbackArticleSection,
   RelatedSection,
 } from "../components";
+import { DOWN_VOTE, UP_VOTE } from "../constants";
 import { ArticleSectionType } from "../types";
 import { getWhatsNextTagColor } from "../utils";
-import { WhatsNextSingleArticleMock } from "../whatsNextSingleArticleMock";
 
 export default function ExploreArticleScreen() {
   // TODO: handle image dynamically when mock data allows for it
   const articleId = useRoute<RouteProp<MainStackParams, "WhatsNext.ExploreArticleScreen">>().params.articleId;
   const openLink = useOpenLink();
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const appsFlyer = useAppsFlyer();
 
-  // TODO get data from BE when ready using articleId from route params
-  const data = WhatsNextSingleArticleMock["Single Article"];
-  const relatedArticles = WhatsNextSingleArticleMock["Related Articles"];
+  const whatsNextSingleArticle = useContentArticle(articleId);
+
+  const singleArticleData = whatsNextSingleArticle?.data?.SingleArticle;
+  const relatedArticles = whatsNextSingleArticle?.data?.RelatedArticles;
+  const feedback = whatsNextSingleArticle?.data?.Feedback;
+
+  const updateArticleFeedback = useContentFeedback(
+    isEmpty(feedback) ? "POST" : "PUT",
+    singleArticleData?.ContentId ?? ""
+  );
 
   const handleOnLoadingErrorRefresh = () => {
-    //TODO: once we have backend
+    whatsNextSingleArticle.refetch();
   };
 
   const handleOnArticleSharePress = async () => {
@@ -49,18 +61,20 @@ export default function ExploreArticleScreen() {
       });
       await Share.share(Platform.OS === "ios" ? { url } : { message: url });
     } catch (error) {
-      warn("appsflyer-sdk", "Could not generate Article link", JSON.stringify(error));
+      warn("explore-article-screen", "Could not generate Article link", JSON.stringify(error));
     }
   };
 
-  const handleOnPositiveFeedbackPress = () => {
-    //TODO handle feedback once BE is up
-    Alert.alert("will handle positive feedback here");
-  };
-
-  const handleOnNegativeFeedbackPress = () => {
-    //TODO handle feedback once BE is up
-    Alert.alert("will handle negative feedback here");
+  const handleOnFeedbackPress = async (vote: string) => {
+    try {
+      await updateArticleFeedback.mutateAsync({
+        ContentId: singleArticleData?.ContentId ?? "",
+        VoteId: feedback?.VoteId === vote ? null : vote,
+      });
+    } catch (error) {
+      Alert.alert(t("WhatsNext.ExploreArticleScreen.feedbackError"));
+      warn("ERROR", "Could not update feedback", JSON.stringify(error));
+    }
   };
 
   const handleOnRelatedArticlePress = (relatedArticleId: string) => {
@@ -88,38 +102,42 @@ export default function ExploreArticleScreen() {
 
   return (
     <>
-      {data !== undefined && data.ContentDescription && data.WhatsNextType ? (
+      {singleArticleData !== undefined && relatedArticles !== undefined && feedback !== undefined ? (
         <ScrollView contentContainerStyle={container}>
           <ExploreArticleHeader handleOnArticleSharePress={handleOnArticleSharePress} />
           <ContentContainer>
             <Stack direction="vertical" gap="32p">
-              <Tag variant={getWhatsNextTagColor(data.WhatsNextTypeId)} title={data.WhatsNextType} />
+              <Tag
+                variant={getWhatsNextTagColor(singleArticleData.WhatsNextTypeId)}
+                title={singleArticleData.WhatsNextType}
+              />
               <Typography.Text weight="medium" size="title1">
-                {data.Title}
+                {singleArticleData.Title}
               </Typography.Text>
               <Typography.Text weight="medium" size="title3">
-                {data.SubTitle}
+                {singleArticleData.SubTitle}
               </Typography.Text>
               <Image source={explorePlaceholder} style={imageStyle} />
             </Stack>
-            <HtmlWebView html={data.ContentDescription} onLinkPress={url => openLink(url)} />
-            {data.EventDetails ? (
+            <HtmlWebView html={singleArticleData.ContentDescription} onLinkPress={url => openLink(url)} />
+            {singleArticleData.EventDetails ? (
               <View style={sectionStyle}>
-                <EventDetailsSection data={data.EventDetails} />
+                <EventDetailsSection data={singleArticleData.EventDetails} />
               </View>
             ) : null}
             <View style={sectionStyle}>
               <FeedbackArticleSection
-                onPositivePress={handleOnPositiveFeedbackPress}
-                onNegativePress={handleOnNegativeFeedbackPress}
+                feedback={feedback}
+                onPositivePress={() => handleOnFeedbackPress(UP_VOTE)}
+                onNegativePress={() => handleOnFeedbackPress(DOWN_VOTE)}
               />
             </View>
-            {data.AuthorSocialMedia ? (
+            {singleArticleData.AuthorSocialMedia ? (
               <View style={sectionStyle}>
                 <AboutAuthorSection
-                  authorSocialMediaName={data.AuthorSocialMedia.Name}
-                  authorDescription={data.AuthorAbout}
-                  authorSocialMediaLink={data.AuthorSocialMedia.Link}
+                  authorSocialMediaName={singleArticleData.AuthorSocialMedia.Name}
+                  authorDescription={singleArticleData.AuthorAbout}
+                  authorSocialMediaLink={singleArticleData.AuthorSocialMedia.Link}
                 />
               </View>
             ) : null}
@@ -133,6 +151,8 @@ export default function ExploreArticleScreen() {
             ) : null}
           </ContentContainer>
         </ScrollView>
+      ) : whatsNextSingleArticle.isLoading ? (
+        <FlexActivityIndicator color="primaryBase" size="large" />
       ) : (
         <LoadingErrorPage onRefresh={handleOnLoadingErrorRefresh} />
       )}

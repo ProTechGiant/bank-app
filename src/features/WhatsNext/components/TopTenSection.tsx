@@ -18,12 +18,11 @@ export default function TopTenSection({ data, onPress }: TopTenSectionProps) {
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     columnGap: theme.spacing["12p"],
-    paddingRight: theme.spacing["20p"] * 2, // correct for padding twice
+    paddingHorizontal: theme.spacing["20p"],
   }));
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: -theme.spacing["20p"],
-    paddingHorizontal: theme.spacing["20p"],
     paddingTop: theme.spacing["12p"],
     flexGrow: 0,
   }));

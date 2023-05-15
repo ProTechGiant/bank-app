@@ -1,43 +1,75 @@
 import { useTranslation } from "react-i18next";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import sendApiRequest from "@/api";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
-import { Content, ContentCategories } from "../types/Content";
+import { Article, Content, ContentCategories, FeedbackRequest } from "../types/Content";
 
-const queryKeys = {
-  contentList: ["contentList"] as const,
-  content: ["content"] as const,
-  categories: ["categories"] as const,
+export const queryKeys = {
+  all: () => ["content"] as const,
+  contentList: () => [...queryKeys.all(), "contentList"] as const,
+  categories: () => [...queryKeys.all(), "categories"] as const,
+  articles: (articleId: string) => [...queryKeys.all(), { articleId }] as const,
 };
 
-//TODO: service mocked, needs to be tested once actual data available (service gets all content for specific parent category i.e help and support)
-export function useContentArticleList(contentParentCategoryId: string) {
+export function useContentArticleList(contentParentCategoryId: string, includeChildren: boolean, params?: string) {
   const { i18n } = useTranslation();
+  const { userId } = useAuthContext();
 
-  return useQuery(queryKeys.contentList, () => {
-    return sendApiRequest<Content[]>("v1", "contents", "GET", undefined, undefined, {
-      ["language"]: i18n.language,
-      ["includeChildren"]: "true",
-      ["ContentCategoryId"]: contentParentCategoryId,
-      ["x-Correlation-Id"]: generateRandomId(),
-    });
+  return useQuery(queryKeys.contentList(), () => {
+    return sendApiRequest<Content[]>(
+      "v1",
+      `contents?Language=${
+        i18n.language
+      }&IncludeChildren=${includeChildren}&ContentCategoryId=${contentParentCategoryId}${params ? `&${params}` : ""}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["CustomerId"]: userId ?? "",
+      }
+    );
   });
 }
 
-//TODO: service mocked, needs to be tested once actual data available (service gets all content for a sepcific content type i.e. call us info in help and support )
-export function useContentArticle(contentParentCategoryId: string, contentId: string) {
+export function useContentArticle(articleId: string) {
   const { i18n } = useTranslation();
+  const { userId } = useAuthContext();
 
-  return useQuery(queryKeys.content, () => {
-    return sendApiRequest<Content>("v1", `contents/${contentId}`, "GET", undefined, undefined, {
-      ["language"]: i18n.language,
-      ["includeChildren"]: "true",
-      ["ContentCategoryId"]: contentParentCategoryId,
-      ["x-Correlation-Id"]: generateRandomId(),
-    });
+  return useQuery(queryKeys.articles(articleId), () => {
+    return sendApiRequest<Article>(
+      "v1",
+      `contents/${articleId}?language=${i18n.language}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["CustomerId"]: userId ?? "",
+      }
+    );
   });
+}
+
+export function useContentFeedback(method: string, articleId: string) {
+  const queryClient = useQueryClient();
+  const { userId } = useAuthContext();
+
+  return useMutation(
+    (values: FeedbackRequest) => {
+      return sendApiRequest<void>("v1", `customers/${userId}/contents/feedback`, method, undefined, values, {
+        ["x-correlation-id"]: generateRandomId(),
+      });
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries(queryKeys.articles(articleId));
+      },
+    }
+  );
 }
 
 //TODO: service mocked, needs to be tested once actual data available (service returns all content categories with their respective ContentCategoryId)
@@ -45,7 +77,7 @@ export function useContentArticleCategories() {
   const { i18n } = useTranslation();
 
   return useQuery(
-    queryKeys.categories,
+    queryKeys.categories(),
     () => {
       return sendApiRequest<ContentCategories[]>("v1", "contents/categories", "GET", undefined, undefined, {
         ["language"]: i18n.language,

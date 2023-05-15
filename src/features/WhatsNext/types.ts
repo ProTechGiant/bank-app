@@ -1,4 +1,5 @@
 export interface FilterItemType {
+  id: string;
   name: string;
   isActive: boolean;
 }
@@ -42,10 +43,4 @@ export interface ArticleSectionType {
   AuthorSocialMedia: AuthorSocialMediaType;
   EventDetails: EventDetails;
   ChildrenContents?: ArticleSectionType[];
-}
-
-interface WhatsNextDataType {
-  articleSection: ArticleSectionType[];
-  WhatsNextCategories: string[];
-  WhatsNextTypes: string[];
 }

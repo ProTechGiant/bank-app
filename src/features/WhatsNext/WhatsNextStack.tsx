@@ -1,11 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { ExploreArticleScreen, TopTenArticleScreen, WhatsNextHubScreen } from "./screens";
+import { ArticleSectionType } from "./types";
 
 export type WhatsNextStackParams = {
   "WhatsNext.HubScreen": undefined;
   "WhatsNext.ExploreArticleScreen": { articleId: string };
-  "WhatsNext.TopTenArticleScreen": { articleId: string };
+  "WhatsNext.TopTenArticleScreen": { topTenArticlesData: ArticleSectionType };
 };
 
 export const Stack = createNativeStackNavigator<WhatsNextStackParams>();

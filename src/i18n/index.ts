@@ -428,6 +428,7 @@ export const resources = {
           feedbackNegative: "No",
           followWhatsNext: "Follow what’s next",
           relatedArticles: "Related articles",
+          feedbackError: "Something went wrong when trying to update feedback. Please try again.",
         },
         SortingContent: {
           title: "Sort",

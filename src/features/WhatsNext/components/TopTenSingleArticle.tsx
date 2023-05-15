@@ -19,7 +19,7 @@ export default function TopTenSingleArticle({ item, handleShowDetails, showDetai
   const { width, height } = useWindowDimensions();
   const { t } = useTranslation();
 
-  const articleContainer = useThemeStyles<ViewStyle>(theme => ({
+  const articleContainer = useThemeStyles<ViewStyle>(() => ({
     width,
     height,
   }));
@@ -56,7 +56,6 @@ export default function TopTenSingleArticle({ item, handleShowDetails, showDetai
           <Typography.Text color="neutralBase-60" size="caption1">
             {t("WhatsNext.TopTenArticle.openingHours")} {EventDetails.OpeningHours}
           </Typography.Text>
-
           <Pressable onPress={handleShowDetails}>
             <Typography.Text
               color="neutralBase-60"

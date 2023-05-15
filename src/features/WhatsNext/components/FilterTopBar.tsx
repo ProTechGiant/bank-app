@@ -35,7 +35,7 @@ export default function FilterTopBar({
           .filter(val => val.isActive === true)
           .map(data => {
             return (
-              <View key={data.name}>
+              <View key={data.id}>
                 <Chip
                   title={data.name}
                   isEnabled={true}
@@ -51,7 +51,7 @@ export default function FilterTopBar({
           .filter(val => val.isActive === true)
           .map(data => {
             return (
-              <View key={data.name}>
+              <View key={data.id}>
                 <Chip
                   title={data.name}
                   isEnabled={true}
