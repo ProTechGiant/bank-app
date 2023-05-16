@@ -147,7 +147,9 @@ export default function CardDetailsScreen() {
 
         if (status === "fail" || payload.DetailedCardResponse === undefined) {
           setCardDetails(undefined);
-          setIsErrorModalVisible(true);
+          setTimeout(() => {
+            setIsErrorModalVisible(true);
+          }, 500);
 
           return;
         }

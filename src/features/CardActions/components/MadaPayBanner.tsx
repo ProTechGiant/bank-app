@@ -1,5 +1,5 @@
 import { Trans } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -12,8 +12,13 @@ export default function MadaPayBanner() {
     flex: 1,
   }));
 
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
+    flexDirection: "row",
+    padding: theme.spacing["10p"],
+  }));
+
   return (
-    <View style={styles.container}>
+    <View style={containerStyle}>
       <MadaPayLogoSvg width={48} height={29} />
       <View style={textStyle}>
         <Typography.Text color="neutralBase" size="footnote" weight="regular">
@@ -28,10 +33,3 @@ export default function MadaPayBanner() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    padding: 10,
-  },
-});

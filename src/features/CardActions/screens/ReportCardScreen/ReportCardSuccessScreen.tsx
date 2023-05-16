@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Platform, StyleSheet, View } from "react-native";
+import { Platform, View, ViewStyle } from "react-native";
 
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
 import Button from "@/components/Button";
@@ -7,6 +7,7 @@ import HeroSlider from "@/components/HeroSlider";
 import NavHeader from "@/components/NavHeader";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 
 import { MadaPayBanner } from "../../components";
 import useAppleWallet from "../../hooks/use-apple-wallet";
@@ -33,12 +34,23 @@ export default function ReportCardSuccessScreen({ cardId }: ReportCardSuccessScr
     navigation.navigate("CardActions.CardDetailsScreen", { cardId });
   };
 
+  const madaPayContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginVertical: theme.spacing["20p"],
+  }));
+
+  const topElementStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette.complimentBase,
+    borderRadius: 40,
+    height: 80,
+    width: 80,
+  }));
+
   return (
     <HeroSlider
       buttonText=""
       data={[
         {
-          topElement: <View style={{ backgroundColor: "#F34C33", borderRadius: 40, height: 80, width: 80 }} />,
+          topElement: <View style={topElementStyle} />,
           title: t("CardActions.ReportCardScreen.ReportCardSuccessScreen.title"),
           text: t("CardActions.ReportCardScreen.ReportCardSuccessScreen.description", {
             device: Platform.OS === "android" ? t("CardActions.madaPay") : t("CardActions.appleWallet"),
@@ -53,7 +65,7 @@ export default function ReportCardSuccessScreen({ cardId }: ReportCardSuccessScr
         <AddToAppleWalletButton onPress={handleOnAddToWallet} />
       ) : null}
       {Platform.OS === "android" ? (
-        <View style={styles.madaPayContainer}>
+        <View style={madaPayContainerStyle}>
           <MadaPayBanner />
         </View>
       ) : null}
@@ -65,7 +77,3 @@ export default function ReportCardSuccessScreen({ cardId }: ReportCardSuccessScr
     </HeroSlider>
   );
 }
-
-const styles = StyleSheet.create({
-  madaPayContainer: { marginVertical: 20 },
-});

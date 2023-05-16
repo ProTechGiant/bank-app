@@ -22,6 +22,10 @@ export default function SelectLuxCard({ onPress, title, remark }: SelectLuxCardP
     margin: theme.spacing["16p"],
   }));
 
+  const textStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginVertical: theme.spacing["12p"],
+  }));
+
   return (
     <View style={styles.container}>
       <LuxCardBackgroundSvg style={styles.luxBackground} />
@@ -31,7 +35,7 @@ export default function SelectLuxCard({ onPress, title, remark }: SelectLuxCardP
           <CardPlaceholder variant="lux" width="100%" />
         </View>
         <View style={styles.bottom}>
-          <Typography.Text size="caption1" color="primaryBase-20" align="center" style={styles.text}>
+          <Typography.Text size="caption1" color="primaryBase-20" align="center" style={textStyle}>
             {remark}
           </Typography.Text>
           <Button block onPress={onPress}>
@@ -60,8 +64,5 @@ const styles = StyleSheet.create({
   luxBackground: {
     position: "absolute",
     right: 0,
-  },
-  text: {
-    marginVertical: 12,
   },
 });

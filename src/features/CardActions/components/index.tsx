@@ -1,7 +1,6 @@
 export { default as CardBanner } from "./CardBanner";
 export { default as CardButtons } from "./CardButtons";
 export { default as CardPlaceholder } from "./CardPlaceholder";
-export { default as Countdown } from "./Countdown";
 export { default as IconButton } from "./IconButton";
 export { default as ListItemLink } from "./ListItemLink";
 export { default as ListItemText } from "./ListItemText";
