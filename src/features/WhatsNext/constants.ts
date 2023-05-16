@@ -4,3 +4,6 @@ export const TOP10_CONTENT_TAG = "Top 10";
 
 export const UP_VOTE = "1";
 export const DOWN_VOTE = "2";
+
+export const SORT_NEWEST = "asc";
+export const SORT_OLDEST = "dsc";

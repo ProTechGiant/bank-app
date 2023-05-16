@@ -8,17 +8,19 @@ import { RadioButton, RadioButtonGroup } from "@/components/RadioButton";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import { SORT_NEWEST, SORT_OLDEST } from "../constants";
+
 interface SortingContentModalProps {
   onClose: () => void;
   isVisible: boolean;
-  onChange: (value: "newest" | "oldest") => void;
-  sortOrder: "newest" | "oldest";
+  onChange: (value: typeof SORT_NEWEST | typeof SORT_OLDEST) => void;
+  sortOrder: typeof SORT_NEWEST | typeof SORT_OLDEST;
 }
 
 export default function SortingContentModal({ onClose, isVisible, onChange, sortOrder }: SortingContentModalProps) {
   const { t } = useTranslation();
 
-  const [selected, setSelected] = useState<"newest" | "oldest">(sortOrder);
+  const [selected, setSelected] = useState<typeof SORT_NEWEST | typeof SORT_OLDEST>(sortOrder);
 
   const modalStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.small,
@@ -32,8 +34,8 @@ export default function SortingContentModal({ onClose, isVisible, onChange, sort
     <Modal visible={isVisible} style={modalStyle} onClose={onClose} headerText={t("WhatsNext.SortingContent.title")}>
       <View>
         <RadioButtonGroup onPress={value => setSelected(value)} value={selected}>
-          <RadioButton label={t("WhatsNext.SortingContent.newest")} value="newest" />
-          <RadioButton label={t("WhatsNext.SortingContent.oldest")} value="oldest" />
+          <RadioButton label={t("WhatsNext.SortingContent.newest")} value={SORT_NEWEST} />
+          <RadioButton label={t("WhatsNext.SortingContent.oldest")} value={SORT_OLDEST} />
         </RadioButtonGroup>
       </View>
       <View style={buttonContainerStyle}>

@@ -22,7 +22,7 @@ import {
   SortingContentModal,
   TopTenSection,
 } from "../components";
-import { EXPLORE_CONTENT_TAG, TOP10_CONTENT_TAG, WHATS_NEXT_CATEGORY_ID } from "../constants";
+import { EXPLORE_CONTENT_TAG, SORT_NEWEST, SORT_OLDEST, TOP10_CONTENT_TAG, WHATS_NEXT_CATEGORY_ID } from "../constants";
 import { ArticleSectionType, FilterItemType } from "../types";
 
 export default function WhatsNextHubScreen() {
@@ -36,10 +36,10 @@ export default function WhatsNextHubScreen() {
   const [selectedCategories, setSelectedCategories] = useState<FilterItemType[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<FilterItemType[]>([]);
   const [hasFilters, setHasFilters] = useState(false);
-  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
-  const [filterQueryParams, setFilterQueryParams] = useState("");
+  const [sortOrder, setSortOrder] = useState<typeof SORT_NEWEST | typeof SORT_OLDEST>(SORT_NEWEST);
+  const [queryParams, setQueryParams] = useState("");
 
-  const whatsNextData = useContentArticleList(WHATS_NEXT_CATEGORY_ID, true, filterQueryParams);
+  const whatsNextData = useContentArticleList(WHATS_NEXT_CATEGORY_ID, true, queryParams);
 
   useEffect(() => {
     if (whatsNextData.data && whatsNextData.data.length > 0) {
@@ -64,12 +64,12 @@ export default function WhatsNextHubScreen() {
     setHasFilters([...whatsNextCategories, ...whatsNextTypes].some(value => value.isActive));
     updateQueryParams();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [whatsNextCategories, whatsNextTypes]);
+  }, [whatsNextCategories, whatsNextTypes, sortOrder]);
 
   useEffect(() => {
     whatsNextData.refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterQueryParams]);
+  }, [queryParams]);
 
   const handleOnClearFiltersPress = (setWhatsNextStates: boolean) => {
     if (setWhatsNextStates) {
@@ -153,7 +153,7 @@ export default function WhatsNextHubScreen() {
     );
   };
 
-  const handleOnSortOrderChange = (value: "newest" | "oldest") => {
+  const handleOnSortOrderChange = (value: typeof SORT_NEWEST | typeof SORT_OLDEST) => {
     setSortOrder(value);
     setIsSortingContentVisible(false);
   };
@@ -243,7 +243,7 @@ export default function WhatsNextHubScreen() {
         .join("&");
     }
 
-    setFilterQueryParams(whatsNextFilterQueryParams);
+    setQueryParams(`${whatsNextFilterQueryParams}${sortOrder ? `&sort=${sortOrder}` : ""}`);
   };
 
   const handleOnApplyFilterPress = () => {
