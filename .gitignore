@@ -66,3 +66,4 @@ yarn-error.log
 # Environment config
 .env.secret
 .env
+ios/env-generated.xcconfig

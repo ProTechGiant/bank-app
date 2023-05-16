@@ -1,10 +1,12 @@
 import { useTranslation } from "react-i18next";
-import ContextMenu from "react-native-context-menu-view";
+import { useActionSheet } from "@expo/react-native-action-sheet";
+import { Pressable } from "react-native";
 
 import { ThreeDotsIcon } from "@/assets/icons";
 import BankCard from "@/components/BankCard";
 
 import { CardStatus } from "../types";
+
 
 interface QuickActionsMenuProps {
   cardStatus: CardStatus;
@@ -22,37 +24,44 @@ export default function QuickActionsMenu({
   onCardSettingsPress,
 }: QuickActionsMenuProps) {
   const { t } = useTranslation();
+  const { showActionSheetWithOptions } = useActionSheet();
+
+  const handleOnPress = () => {
+    const options: string[] = [];
+
+    if (cardStatus !== "inactive") {
+      options.push(cardStatus === "freeze" ? t("CardActions.QuickMenu.defrost") : t("CardActions.QuickMenu.freezeCard"));
+      options.push(t("CardActions.QuickMenu.viewPin"));
+    }
+
+    if (cardStatus !== "freeze") options.push(t("CardActions.QuickMenu.settings"));
+    options.push(t("CardActions.QuickMenu.cancel"));
+
+    showActionSheetWithOptions({ options, cancelButtonIndex: options.length - 1 }, selectedIndex => {
+      if (selectedIndex === undefined) return;
+      const label = options[selectedIndex];
+
+      if (label === t("CardActions.QuickMenu.defrost")) {
+        onUnfreezeCardPress();
+      }
+
+      if (label === t("CardActions.QuickMenu.freezeCard")) {
+        onFreezeCardPress();
+      }
+
+      if (label === t("CardActions.QuickMenu.viewPin")) {
+        onViewPinPress();
+      }
+
+      if (label === t("CardActions.QuickMenu.settings")) {
+        onCardSettingsPress();
+      }
+    });
+  };
 
   return (
-    <ContextMenu
-      actions={[
-        {
-          title: cardStatus === "freeze" ? t("CardActions.QuickMenu.defrost") : t("CardActions.QuickMenu.freezeCard"),
-          systemIcon: cardStatus === "freeze" ? "thermometer.snowflake" : "snowflake",
-          disabled: cardStatus === "inactive",
-        },
-        {
-          title: t("CardActions.QuickMenu.viewPin"),
-          systemIcon: "lock",
-          disabled: cardStatus === "inactive",
-        },
-        {
-          title: t("CardActions.QuickMenu.settings"),
-          systemIcon: "gearshape",
-          disabled: cardStatus === "freeze",
-        },
-      ]}
-      dropdownMenuMode={true}
-      onPress={e => {
-        e.nativeEvent.index === 0
-          ? cardStatus === "freeze"
-            ? onUnfreezeCardPress()
-            : onFreezeCardPress()
-          : e.nativeEvent.index === 1
-          ? onViewPinPress()
-          : onCardSettingsPress();
-      }}>
+    <Pressable onPress={handleOnPress}>
       <BankCard.EndButton icon={<ThreeDotsIcon />} />
-    </ContextMenu>
+    </Pressable>
   );
 }

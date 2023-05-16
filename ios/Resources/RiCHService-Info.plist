@@ -9,8 +9,8 @@
 	<key>RICH_BASE_URL</key>
 	<string>https://notificationrb.rich.sa</string>
 	<key>CLIENT_SECRET</key>
-	<string>client91e80cb4-71bf-4c2b-b47a-91f574821347</string>
+	<string>$(T2_CLIENT_SECRET)</string>
 	<key>CLIENT_ID</key>
-	<string>91e80cb4-71bf-4c2b-b47a-91f574821347</string>
+	<string>$(T2_CLIENT_ID)</string>
 </dict>
 </plist>

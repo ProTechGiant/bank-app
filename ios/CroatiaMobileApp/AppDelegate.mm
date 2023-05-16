@@ -40,10 +40,10 @@ static void ClearKeychainIfNecessary() {
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
-  
+
   [super application:application didFinishLaunchingWithOptions:launchOptions];
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:self.window.rootViewController.view];
-  
+
   return YES;
 }
 
@@ -129,7 +129,7 @@ static void ClearKeychainIfNecessary() {
 
 - (NSString *)APNSTokenFromNSData:(NSData *)tokenData {
   const char *data = (const char*)[tokenData bytes];
-  
+
   NSMutableString *token = [NSMutableString string];
   for (NSInteger i = 0; i < tokenData.length; i++) {
     [token appendFormat:@"%02.2hhX", data[i]];

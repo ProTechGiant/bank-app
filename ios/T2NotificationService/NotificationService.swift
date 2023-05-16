@@ -1,6 +1,4 @@
-#if !targetEnvironment(simulator)
-// import RiCHNotificationService
-#endif
+import RiCHNotificationService
 import UserNotifications
 
 class NotificationService: UNNotificationServiceExtension {
@@ -11,18 +9,12 @@ class NotificationService: UNNotificationServiceExtension {
     self.contentHandler = contentHandler
     bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
 
-    // #if targetEnvironment(simulator)
-    if let bestAttemptContent = self.bestAttemptContent {
-      contentHandler(bestAttemptContent)
-    }
-    // #else
-    // RiCHNotificationExtensionHandler().handleNotification(request, contentHandler: { content in
-    //   self.bestAttemptContent = content
-    //   if let bestAttemptContent = self.bestAttemptContent {
-    //     contentHandler(bestAttemptContent)
-    //   }
-    // })
-    // #endif
+     RiCHNotificationExtensionHandler().handleNotification(request, contentHandler: { content in
+       self.bestAttemptContent = content
+       if let bestAttemptContent = self.bestAttemptContent {
+         contentHandler(bestAttemptContent)
+       }
+     })
   }
 
   override func serviceExtensionTimeWillExpire() {

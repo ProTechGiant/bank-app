@@ -7,49 +7,54 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* CroatiaMobileAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CroatiaMobileAppTests.m */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
-		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		36F23F5196551654AEB52BDB /* libPods-CroatiaMobileApp-CroatiaMobileAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3324BA84295DBAF3B426BB0E /* libPods-CroatiaMobileApp-CroatiaMobileAppTests.a */; };
-		C526693B7ED924A31E558CDA /* libPods-CroatiaMobileApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A70480420E757D24E804837 /* libPods-CroatiaMobileApp.a */; };
-		D9334BD829CC7ABB002AE774 /* mea_config in Resources */ = {isa = PBXBuildFile; fileRef = D9334BD729CC7ABB002AE774 /* mea_config */; };
-		F139A13A29E57C72007A435F /* RiCHService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F139A13929E57C72007A435F /* RiCHService-Info.plist */; };
-		F139A14429E5B124007A435F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F139A14329E5B124007A435F /* NotificationService.swift */; };
-		F139A14829E5B124007A435F /* T2NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F139A14129E5B124007A435F /* T2NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		F139A15229E5B267007A435F /* RiCHService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F139A15129E5B267007A435F /* RiCHService-Info.plist */; };
-		F17963A329E020BF0071C35B /* T2PushNotificationsModuleBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = F17963A229E020BF0071C35B /* T2PushNotificationsModuleBridge.m */; };
-		F1B3467229DF13A20076F1BE /* T2PushNotificationsModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B3467129DF13A20076F1BE /* T2PushNotificationsModule.swift */; };
-		F1E1D72D29BB319E00123ADE /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1E1D72C29BB319D00123ADE /* BootSplash.storyboard */; };
-		F1F368202976EBBB00CB75E3 /* ReloadAppModule.h in Sources */ = {isa = PBXBuildFile; fileRef = F1F3681F2976EBBB00CB75E3 /* ReloadAppModule.h */; };
-		F1F368222976EBF400CB75E3 /* ReloadAppModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F1F368212976EBF400CB75E3 /* ReloadAppModule.m */; };
+		188253622A03264200F96F05 /* RiCHService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 188253602A03264200F96F05 /* RiCHService-Info.plist */; };
+		1882536A2A0327CE00F96F05 /* RiCHNotificationService.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188253682A0327C300F96F05 /* RiCHNotificationService.xcframework */; };
+		1882536B2A0327CE00F96F05 /* RiCHNotificationService.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 188253682A0327C300F96F05 /* RiCHNotificationService.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		96801F825C5B58CE01C7266E /* Pods_T2NotificationService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5D57E8EEB643791A7BAA8C /* Pods_T2NotificationService.framework */; };
+		EF2B45F4F0D8B171D66FEF47 /* Pods_CroatiaMobileApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13785337348F8CCDAAF41371 /* Pods_CroatiaMobileApp.framework */; };
+		F115B2962A13747400A9B300 /* mea_config in Resources */ = {isa = PBXBuildFile; fileRef = F115B2952A13747400A9B300 /* mea_config */; };
+		F115B2982A13753700A9B300 /* ReloadAppModule.h in Sources */ = {isa = PBXBuildFile; fileRef = F18FC8C92A12C68E0080EF5C /* ReloadAppModule.h */; };
+		F115B2A02A13758A00A9B300 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F115B29F2A13758A00A9B300 /* NotificationService.swift */; };
+		F115B2A52A13758A00A9B300 /* T2NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F115B29D2A13758A00A9B300 /* T2NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F16F82962A139C6700C08F4F /* RiCHService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 188253602A03264200F96F05 /* RiCHService-Info.plist */; };
+		F18FC8BB2A12C6560080EF5C /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = F18FC8BA2A12C6560080EF5C /* AppDelegate.mm */; };
+		F18FC8C22A12C6750080EF5C /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F18FC8BD2A12C6750080EF5C /* BootSplash.storyboard */; };
+		F18FC8C32A12C6750080EF5C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F18FC8BE2A12C6750080EF5C /* Images.xcassets */; };
+		F18FC8CC2A12C68E0080EF5C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F18FC8C62A12C68E0080EF5C /* main.m */; };
+		F18FC8CE2A12C68E0080EF5C /* T2PushNotificationsModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18FC8C82A12C68E0080EF5C /* T2PushNotificationsModule.swift */; };
+		F18FC8CF2A12C68E0080EF5C /* ReloadAppModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F18FC8CA2A12C68E0080EF5C /* ReloadAppModule.m */; };
+		F1D207332A137ECC00E1D09E /* T2PushNotificationsModuleBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = F1D207322A137ECC00E1D09E /* T2PushNotificationsModuleBridge.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		00E356F41AD99517003FC87E /* PBXContainerItemProxy */ = {
+		F115B2A22A13758A00A9B300 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = CroatiaMobileApp;
-		};
-		F139A14629E5B124007A435F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F139A14029E5B124007A435F;
+			remoteGlobalIDString = F115B29C2A13758A00A9B300;
 			remoteInfo = T2NotificationService;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F139A14929E5B124007A435F /* Embed Foundation Extensions */ = {
+		1882536C2A0327CE00F96F05 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1882536B2A0327CE00F96F05 /* RiCHNotificationService.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F115B2A42A13758A00A9B300 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				F139A14829E5B124007A435F /* T2NotificationService.appex in Embed Foundation Extensions */,
+				F115B2A52A13758A00A9B300 /* T2NotificationService.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -57,101 +62,72 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* CroatiaMobileAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CroatiaMobileAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* CroatiaMobileAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CroatiaMobileAppTests.m; sourceTree = "<group>"; };
-		059ED83109C3B85DA754AC1F /* Pods-CroatiaMobileApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp.debug.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp.debug.xcconfig"; sourceTree = "<group>"; };
+		13785337348F8CCDAAF41371 /* Pods_CroatiaMobileApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CroatiaMobileApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* CroatiaMobileApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CroatiaMobileApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = CroatiaMobileApp/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = CroatiaMobileApp/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = CroatiaMobileApp/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CroatiaMobileApp/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CroatiaMobileApp/main.m; sourceTree = "<group>"; };
-		2A1F14C229CD99AF00515B6D /* CroatiaMobileApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CroatiaMobileApp.entitlements; path = CroatiaMobileApp/CroatiaMobileApp.entitlements; sourceTree = "<group>"; };
-		3324BA84295DBAF3B426BB0E /* libPods-CroatiaMobileApp-CroatiaMobileAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CroatiaMobileApp-CroatiaMobileAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		83EED1A3F81711DCB67688AC /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp-CroatiaMobileAppTests.debug.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests.debug.xcconfig"; sourceTree = "<group>"; };
-		8A70480420E757D24E804837 /* libPods-CroatiaMobileApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CroatiaMobileApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D7C5BFC455F50CD314D7C0F /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp-CroatiaMobileAppTests.release.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests.release.xcconfig"; sourceTree = "<group>"; };
-		BE10F19190E364C7BE1E2022 /* Pods-CroatiaMobileApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp.release.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp.release.xcconfig"; sourceTree = "<group>"; };
-		D9334BD729CC7ABB002AE774 /* mea_config */ = {isa = PBXFileReference; lastKnownFileType = file; path = mea_config; sourceTree = "<group>"; };
+		188253602A03264200F96F05 /* RiCHService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RiCHService-Info.plist"; sourceTree = "<group>"; };
+		188253682A0327C300F96F05 /* RiCHNotificationService.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RiCHNotificationService.xcframework; sourceTree = "<group>"; };
+		26F4A6D231C7D76340409727 /* Pods-T2NotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-T2NotificationService.debug.xcconfig"; path = "Target Support Files/Pods-T2NotificationService/Pods-T2NotificationService.debug.xcconfig"; sourceTree = "<group>"; };
+		2D2357F7BD004FF87B45F232 /* Pods-T2NotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-T2NotificationService.release.xcconfig"; path = "Target Support Files/Pods-T2NotificationService/Pods-T2NotificationService.release.xcconfig"; sourceTree = "<group>"; };
+		4DE5B745A7BD0D0F6A9BCE6B /* Pods-CroatiaMobileApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp.release.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp.release.xcconfig"; sourceTree = "<group>"; };
+		757635BD868850D11CD75A7F /* Pods-CroatiaMobileApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp.debug.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp.debug.xcconfig"; sourceTree = "<group>"; };
+		AE5D57E8EEB643791A7BAA8C /* Pods_T2NotificationService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_T2NotificationService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F1288D0A29F1848B00739F7E /* RiCHNotificationService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RiCHNotificationService.framework; sourceTree = "<group>"; };
-		F139A13929E57C72007A435F /* RiCHService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RiCHService-Info.plist"; sourceTree = "<group>"; };
-		F139A14129E5B124007A435F /* T2NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = T2NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		F139A14329E5B124007A435F /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
-		F139A14529E5B124007A435F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F139A14D29E5B18D007A435F /* T2NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = T2NotificationService.entitlements; sourceTree = "<group>"; };
-		F139A15129E5B267007A435F /* RiCHService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "RiCHService-Info.plist"; path = "Resources/RiCHService-Info.plist"; sourceTree = SOURCE_ROOT; };
-		F17963A229E020BF0071C35B /* T2PushNotificationsModuleBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = T2PushNotificationsModuleBridge.m; sourceTree = "<group>"; };
-		F1B3467029DF13A10076F1BE /* CroatiaMobileApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CroatiaMobileApp-Bridging-Header.h"; sourceTree = "<group>"; };
-		F1B3467129DF13A20076F1BE /* T2PushNotificationsModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = T2PushNotificationsModule.swift; path = CroatiaMobileApp/T2PushNotificationsModule.swift; sourceTree = "<group>"; };
-		F1E1D72C29BB319D00123ADE /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = CroatiaMobileApp/BootSplash.storyboard; sourceTree = "<group>"; };
-		F1E1EFB629E96EFA008E0850 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Config.xcconfig; path = CroatiaMobileApp/Config.xcconfig; sourceTree = "<group>"; };
-		F1F3681F2976EBBB00CB75E3 /* ReloadAppModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ReloadAppModule.h; path = CroatiaMobileApp/ReloadAppModule.h; sourceTree = "<group>"; };
-		F1F368212976EBF400CB75E3 /* ReloadAppModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ReloadAppModule.m; path = CroatiaMobileApp/ReloadAppModule.m; sourceTree = "<group>"; };
+		F115B2952A13747400A9B300 /* mea_config */ = {isa = PBXFileReference; lastKnownFileType = file; path = mea_config; sourceTree = "<group>"; };
+		F115B29D2A13758A00A9B300 /* T2NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = T2NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F115B29F2A13758A00A9B300 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		F115B2A12A13758A00A9B300 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F115B2A92A1375B500A9B300 /* T2NotificationService.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = T2NotificationService.entitlements; sourceTree = "<group>"; };
+		F16F82972A13A0B700C08F4F /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		F18FC8B92A12C6560080EF5C /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = CroatiaMobileApp/AppDelegate.h; sourceTree = "<group>"; };
+		F18FC8BA2A12C6560080EF5C /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = CroatiaMobileApp/AppDelegate.mm; sourceTree = "<group>"; };
+		F18FC8BC2A12C6750080EF5C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CroatiaMobileApp/Info.plist; sourceTree = "<group>"; };
+		F18FC8BD2A12C6750080EF5C /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = CroatiaMobileApp/BootSplash.storyboard; sourceTree = "<group>"; };
+		F18FC8BE2A12C6750080EF5C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = CroatiaMobileApp/Images.xcassets; sourceTree = "<group>"; };
+		F18FC8BF2A12C6750080EF5C /* CroatiaMobileApp.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = CroatiaMobileApp.entitlements; path = CroatiaMobileApp/CroatiaMobileApp.entitlements; sourceTree = "<group>"; };
+		F18FC8C62A12C68E0080EF5C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CroatiaMobileApp/main.m; sourceTree = "<group>"; };
+		F18FC8C82A12C68E0080EF5C /* T2PushNotificationsModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = T2PushNotificationsModule.swift; path = CroatiaMobileApp/T2PushNotificationsModule.swift; sourceTree = "<group>"; };
+		F18FC8C92A12C68E0080EF5C /* ReloadAppModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReloadAppModule.h; path = CroatiaMobileApp/ReloadAppModule.h; sourceTree = "<group>"; };
+		F18FC8CA2A12C68E0080EF5C /* ReloadAppModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReloadAppModule.m; path = CroatiaMobileApp/ReloadAppModule.m; sourceTree = "<group>"; };
+		F1D207322A137ECC00E1D09E /* T2PushNotificationsModuleBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = T2PushNotificationsModuleBridge.m; path = CroatiaMobileApp/T2PushNotificationsModuleBridge.m; sourceTree = "<group>"; };
+		F1D7FFAC2A129086003DD7F1 /* CroatiaMobileApp-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CroatiaMobileApp-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		00E356EB1AD99517003FC87E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				36F23F5196551654AEB52BDB /* libPods-CroatiaMobileApp-CroatiaMobileAppTests.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C526693B7ED924A31E558CDA /* libPods-CroatiaMobileApp.a in Frameworks */,
+				1882536A2A0327CE00F96F05 /* RiCHNotificationService.xcframework in Frameworks */,
+				EF2B45F4F0D8B171D66FEF47 /* Pods_CroatiaMobileApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F139A13E29E5B124007A435F /* Frameworks */ = {
+		F115B29A2A13758A00A9B300 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96801F825C5B58CE01C7266E /* Pods_T2NotificationService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* CroatiaMobileAppTests */ = {
-			isa = PBXGroup;
-			children = (
-				00E356F21AD99517003FC87E /* CroatiaMobileAppTests.m */,
-				00E356F01AD99517003FC87E /* Supporting Files */,
-			);
-			path = CroatiaMobileAppTests;
-			sourceTree = "<group>";
-		};
-		00E356F01AD99517003FC87E /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				00E356F11AD99517003FC87E /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		13B07FAE1A68108700A75B9A /* CroatiaMobileApp */ = {
 			isa = PBXGroup;
 			children = (
-				F1E1EFB629E96EFA008E0850 /* Config.xcconfig */,
-				2A1F14C229CD99AF00515B6D /* CroatiaMobileApp.entitlements */,
-				D9334BD629CC7AA4002AE774 /* Resources */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
-				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				13B07FB61A68108700A75B9A /* Info.plist */,
-				F1E1D72C29BB319D00123ADE /* BootSplash.storyboard */,
-				13B07FB71A68108700A75B9A /* main.m */,
-				F1F3681F2976EBBB00CB75E3 /* ReloadAppModule.h */,
-				F1F368212976EBF400CB75E3 /* ReloadAppModule.m */,
-				F1B3467129DF13A20076F1BE /* T2PushNotificationsModule.swift */,
-				F1B3467029DF13A10076F1BE /* CroatiaMobileApp-Bridging-Header.h */,
-				F17963A229E020BF0071C35B /* T2PushNotificationsModuleBridge.m */,
+				F18FC8B92A12C6560080EF5C /* AppDelegate.h */,
+				F18FC8BA2A12C6560080EF5C /* AppDelegate.mm */,
+				F18FC8BD2A12C6750080EF5C /* BootSplash.storyboard */,
+				F18FC8BF2A12C6750080EF5C /* CroatiaMobileApp.entitlements */,
+				F18FC8BE2A12C6750080EF5C /* Images.xcassets */,
+				F18FC8BC2A12C6750080EF5C /* Info.plist */,
+				F1D7FFAC2A129086003DD7F1 /* CroatiaMobileApp-Bridging-Header.h */,
+				F18FC8C62A12C68E0080EF5C /* main.m */,
+				F18FC8C92A12C68E0080EF5C /* ReloadAppModule.h */,
+				F18FC8CA2A12C68E0080EF5C /* ReloadAppModule.m */,
+				F18FC8C82A12C68E0080EF5C /* T2PushNotificationsModule.swift */,
+				F1D207322A137ECC00E1D09E /* T2PushNotificationsModuleBridge.m */,
 			);
 			name = CroatiaMobileApp;
 			sourceTree = "<group>";
@@ -159,10 +135,10 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F1288D0A29F1848B00739F7E /* RiCHNotificationService.framework */,
+				188253682A0327C300F96F05 /* RiCHNotificationService.xcframework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				8A70480420E757D24E804837 /* libPods-CroatiaMobileApp.a */,
-				3324BA84295DBAF3B426BB0E /* libPods-CroatiaMobileApp-CroatiaMobileAppTests.a */,
+				13785337348F8CCDAAF41371 /* Pods_CroatiaMobileApp.framework */,
+				AE5D57E8EEB643791A7BAA8C /* Pods_T2NotificationService.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -179,9 +155,9 @@
 			children = (
 				13B07FAE1A68108700A75B9A /* CroatiaMobileApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* CroatiaMobileAppTests */,
-				F139A14229E5B124007A435F /* T2NotificationService */,
+				F115B29E2A13758A00A9B300 /* T2NotificationService */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				F115B2942A13745000A9B300 /* Resources */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
 			);
@@ -194,8 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* CroatiaMobileApp.app */,
-				00E356EE1AD99517003FC87E /* CroatiaMobileAppTests.xctest */,
-				F139A14129E5B124007A435F /* T2NotificationService.appex */,
+				F115B29D2A13758A00A9B300 /* T2NotificationService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -203,98 +178,70 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				059ED83109C3B85DA754AC1F /* Pods-CroatiaMobileApp.debug.xcconfig */,
-				BE10F19190E364C7BE1E2022 /* Pods-CroatiaMobileApp.release.xcconfig */,
-				83EED1A3F81711DCB67688AC /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.debug.xcconfig */,
-				9D7C5BFC455F50CD314D7C0F /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.release.xcconfig */,
+				757635BD868850D11CD75A7F /* Pods-CroatiaMobileApp.debug.xcconfig */,
+				4DE5B745A7BD0D0F6A9BCE6B /* Pods-CroatiaMobileApp.release.xcconfig */,
+				26F4A6D231C7D76340409727 /* Pods-T2NotificationService.debug.xcconfig */,
+				2D2357F7BD004FF87B45F232 /* Pods-T2NotificationService.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		D9334BD629CC7AA4002AE774 /* Resources */ = {
+		F115B2942A13745000A9B300 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F139A13929E57C72007A435F /* RiCHService-Info.plist */,
-				D9334BD729CC7ABB002AE774 /* mea_config */,
+				188253602A03264200F96F05 /* RiCHService-Info.plist */,
+				F115B2952A13747400A9B300 /* mea_config */,
+				F16F82972A13A0B700C08F4F /* Config.xcconfig */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		F139A14229E5B124007A435F /* T2NotificationService */ = {
+		F115B29E2A13758A00A9B300 /* T2NotificationService */ = {
 			isa = PBXGroup;
 			children = (
-				F139A14E29E5B1EB007A435F /* Resources */,
-				F139A14D29E5B18D007A435F /* T2NotificationService.entitlements */,
-				F139A14329E5B124007A435F /* NotificationService.swift */,
-				F139A14529E5B124007A435F /* Info.plist */,
+				F115B2A92A1375B500A9B300 /* T2NotificationService.entitlements */,
+				F115B29F2A13758A00A9B300 /* NotificationService.swift */,
+				F115B2A12A13758A00A9B300 /* Info.plist */,
 			);
 			path = T2NotificationService;
-			sourceTree = "<group>";
-		};
-		F139A14E29E5B1EB007A435F /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				F139A15129E5B267007A435F /* RiCHService-Info.plist */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* CroatiaMobileAppTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "CroatiaMobileAppTests" */;
-			buildPhases = (
-				73E1872DA6A4CD363BE4B003 /* [CP] Check Pods Manifest.lock */,
-				00E356EA1AD99517003FC87E /* Sources */,
-				00E356EB1AD99517003FC87E /* Frameworks */,
-				00E356EC1AD99517003FC87E /* Resources */,
-				B0B6302223C8D869297D9FEA /* [CP] Embed Pods Frameworks */,
-				7C6605E4504659EE0162DE5B /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				00E356F51AD99517003FC87E /* PBXTargetDependency */,
-			);
-			name = CroatiaMobileAppTests;
-			productName = CroatiaMobileAppTests;
-			productReference = 00E356EE1AD99517003FC87E /* CroatiaMobileAppTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		13B07F861A680F5B00A75B9A /* CroatiaMobileApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "CroatiaMobileApp" */;
 			buildPhases = (
-				0DCC63665CBE190337B04AC4 /* [CP] Check Pods Manifest.lock */,
-				F1E1EFB729E97566008E0850 /* Source .env into xcconfig */,
+				3AAD2A542AF282BFAF32B4CA /* [CP] Check Pods Manifest.lock */,
+				F115B2972A13750D00A9B300 /* Source .env into xcconfig */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				F139A14929E5B124007A435F /* Embed Foundation Extensions */,
-				B5C9169F1CF0D07F44F2FC96 /* [CP] Embed Pods Frameworks */,
-				A1DBD04BA493404B56009C35 /* [CP] Copy Pods Resources */,
+				1882536C2A0327CE00F96F05 /* Embed Frameworks */,
+				38CD74D7D20436C1CB213022 /* [CP] Embed Pods Frameworks */,
+				F115B2A42A13758A00A9B300 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				F139A14729E5B124007A435F /* PBXTargetDependency */,
+				F115B2A32A13758A00A9B300 /* PBXTargetDependency */,
 			);
 			name = CroatiaMobileApp;
-			productName = CroatiaMobileApp;
+			productName = RICHSDKReactNative;
 			productReference = 13B07F961A680F5B00A75B9A /* CroatiaMobileApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F139A14029E5B124007A435F /* T2NotificationService */ = {
+		F115B29C2A13758A00A9B300 /* T2NotificationService */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F139A14C29E5B124007A435F /* Build configuration list for PBXNativeTarget "T2NotificationService" */;
+			buildConfigurationList = F115B2A62A13758A00A9B300 /* Build configuration list for PBXNativeTarget "T2NotificationService" */;
 			buildPhases = (
-				F139A13D29E5B124007A435F /* Sources */,
-				F139A13E29E5B124007A435F /* Frameworks */,
-				F139A13F29E5B124007A435F /* Resources */,
+				BD3FBEBFCE7F869723E601F6 /* [CP] Check Pods Manifest.lock */,
+				F115B2992A13758A00A9B300 /* Sources */,
+				F115B29A2A13758A00A9B300 /* Frameworks */,
+				F115B29B2A13758A00A9B300 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -302,7 +249,7 @@
 			);
 			name = T2NotificationService;
 			productName = T2NotificationService;
-			productReference = F139A14129E5B124007A435F /* T2NotificationService.appex */;
+			productReference = F115B29D2A13758A00A9B300 /* T2NotificationService.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -312,16 +259,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1210;
 				TargetAttributes = {
-					00E356ED1AD99517003FC87E = {
-						CreatedOnToolsVersion = 6.2;
-						TestTargetID = 13B07F861A680F5B00A75B9A;
-					};
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1430;
 					};
-					F139A14029E5B124007A435F = {
+					F115B29C2A13758A00A9B300 = {
 						CreatedOnToolsVersion = 14.3;
 					};
 				};
@@ -340,36 +283,28 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* CroatiaMobileApp */,
-				00E356ED1AD99517003FC87E /* CroatiaMobileAppTests */,
-				F139A14029E5B124007A435F /* T2NotificationService */,
+				F115B29C2A13758A00A9B300 /* T2NotificationService */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		00E356EC1AD99517003FC87E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F8E1A680F5B00A75B9A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F139A13A29E57C72007A435F /* RiCHService-Info.plist in Resources */,
-				F1E1D72D29BB319E00123ADE /* BootSplash.storyboard in Resources */,
-				D9334BD829CC7ABB002AE774 /* mea_config in Resources */,
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				F18FC8C22A12C6750080EF5C /* BootSplash.storyboard in Resources */,
+				F115B2962A13747400A9B300 /* mea_config in Resources */,
+				188253622A03264200F96F05 /* RiCHService-Info.plist in Resources */,
+				F18FC8C32A12C6750080EF5C /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F139A13F29E5B124007A435F /* Resources */ = {
+		F115B29B2A13758A00A9B300 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F139A15229E5B267007A435F /* RiCHService-Info.plist in Resources */,
+				F16F82962A139C6700C08F4F /* RiCHService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,7 +327,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		0DCC63665CBE190337B04AC4 /* [CP] Check Pods Manifest.lock */ = {
+		38CD74D7D20436C1CB213022 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3AAD2A542AF282BFAF32B4CA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -414,7 +366,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		73E1872DA6A4CD363BE4B003 /* [CP] Check Pods Manifest.lock */ = {
+		BD3FBEBFCE7F869723E601F6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -429,82 +381,14 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CroatiaMobileApp-CroatiaMobileAppTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-T2NotificationService-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7C6605E4504659EE0162DE5B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A1DBD04BA493404B56009C35 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B0B6302223C8D869297D9FEA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp-CroatiaMobileAppTests/Pods-CroatiaMobileApp-CroatiaMobileAppTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B5C9169F1CF0D07F44F2FC96 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F1E1EFB729E97566008E0850 /* Source .env into xcconfig */ = {
+		F115B2972A13750D00A9B300 /* Source .env into xcconfig */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -520,7 +404,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# TODO!\n";
+			shellScript = "# Copies all .env variables into a file readable by Xcode\n\"${SRCROOT}/build-xcconfig.rb\" \"${SRCROOT}/..\" \"${SRCROOT}/env-generated.xcconfig\"\n";
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -544,82 +428,41 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		00E356EA1AD99517003FC87E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				00E356F31AD99517003FC87E /* CroatiaMobileAppTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F871A680F5B00A75B9A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
-				F1F368202976EBBB00CB75E3 /* ReloadAppModule.h in Sources */,
-				F1B3467229DF13A20076F1BE /* T2PushNotificationsModule.swift in Sources */,
-				F1F368222976EBF400CB75E3 /* ReloadAppModule.m in Sources */,
-				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				F17963A329E020BF0071C35B /* T2PushNotificationsModuleBridge.m in Sources */,
+				F115B2982A13753700A9B300 /* ReloadAppModule.h in Sources */,
+				F1D207332A137ECC00E1D09E /* T2PushNotificationsModuleBridge.m in Sources */,
+				F18FC8CF2A12C68E0080EF5C /* ReloadAppModule.m in Sources */,
+				F18FC8CE2A12C68E0080EF5C /* T2PushNotificationsModule.swift in Sources */,
+				F18FC8CC2A12C68E0080EF5C /* main.m in Sources */,
+				F18FC8BB2A12C6560080EF5C /* AppDelegate.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F139A13D29E5B124007A435F /* Sources */ = {
+		F115B2992A13758A00A9B300 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F139A14429E5B124007A435F /* NotificationService.swift in Sources */,
+				F115B2A02A13758A00A9B300 /* NotificationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
+		F115B2A32A13758A00A9B300 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* CroatiaMobileApp */;
-			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
-		};
-		F139A14729E5B124007A435F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F139A14029E5B124007A435F /* T2NotificationService */;
-			targetProxy = F139A14629E5B124007A435F /* PBXContainerItemProxy */;
+			target = F115B29C2A13758A00A9B300 /* T2NotificationService */;
+			targetProxy = F115B2A22A13758A00A9B300 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		00E356F61AD99517003FC87E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 83EED1A3F81711DCB67688AC /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = CroatiaMobileAppTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-					"$(inherited)",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CroatiaMobileApp.app/CroatiaMobileApp";
-			};
-			name = Debug;
-		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 059ED83109C3B85DA754AC1F /* Pods-CroatiaMobileApp.debug.xcconfig */;
+			baseConfigurationReference = 757635BD868850D11CD75A7F /* Pods-CroatiaMobileApp.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -634,11 +477,66 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstallations\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseMessaging\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Fmt\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-RSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleDataTransport\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/PromisesObjC\"",
+					"\"${PODS_ROOT}/Headers/Public/RCT-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Codegen\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTAnimation\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTAppDelegate\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTBlob\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
+					"\"${PODS_ROOT}/Headers/Public/React-callinvoker\"",
+					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
+					"\"${PODS_ROOT}/Headers/Public/React-hermes\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
+					"\"${PODS_ROOT}/Headers/Public/React-logger\"",
+					"\"${PODS_ROOT}/Headers/Public/React-perflogger\"",
+					"\"${PODS_ROOT}/Headers/Public/React-runtimeexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
+					"\"${PODS_ROOT}/Headers/Public/Realm\"",
+					"\"${PODS_ROOT}/Headers/Public/Runtime\"",
+					"\"${PODS_ROOT}/Headers/Public/SocketRocket\"",
+					"\"${PODS_ROOT}/Headers/Public/Unrealm\"",
+					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
+					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
+					"\"${PODS_ROOT}/Headers/Public/fmt\"",
+					"\"${PODS_ROOT}/Headers/Public/glog\"",
+					"\"${PODS_ROOT}/Headers/Public/hermes-engine\"",
+					"\"${PODS_ROOT}/Headers/Public/libevent\"",
+					"\"${PODS_ROOT}/Headers/Public/nanopb\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Realm/Headers\"",
+					"\"$(PODS_ROOT)/DoubleConversion\"",
+					"\"$(PODS_ROOT)/boost\"",
+					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+					"\"$(PODS_TARGET_SRCROOT)/include/\"",
+				);
 				INFOPLIST_FILE = CroatiaMobileApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -647,21 +545,106 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.croatia.consumerapp.test;
 				PRODUCT_NAME = CroatiaMobileApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Croatia - test profile";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.croatia.consumerapp.test";
 				SWIFT_OBJC_BRIDGING_HEADER = "CroatiaMobileApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
+		13B07F951A680F5B00A75B9A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4DE5B745A7BD0D0F6A9BCE6B /* Pods-CroatiaMobileApp.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = CroatiaMobileApp/CroatiaMobileApp.entitlements;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstallations\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseMessaging\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Fmt\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-RSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleDataTransport\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/PromisesObjC\"",
+					"\"${PODS_ROOT}/Headers/Public/RCT-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Codegen\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTAnimation\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTAppDelegate\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTBlob\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
+					"\"${PODS_ROOT}/Headers/Public/React-callinvoker\"",
+					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
+					"\"${PODS_ROOT}/Headers/Public/React-hermes\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
+					"\"${PODS_ROOT}/Headers/Public/React-logger\"",
+					"\"${PODS_ROOT}/Headers/Public/React-perflogger\"",
+					"\"${PODS_ROOT}/Headers/Public/React-runtimeexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
+					"\"${PODS_ROOT}/Headers/Public/Realm\"",
+					"\"${PODS_ROOT}/Headers/Public/Runtime\"",
+					"\"${PODS_ROOT}/Headers/Public/SocketRocket\"",
+					"\"${PODS_ROOT}/Headers/Public/Unrealm\"",
+					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
+					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
+					"\"${PODS_ROOT}/Headers/Public/fmt\"",
+					"\"${PODS_ROOT}/Headers/Public/glog\"",
+					"\"${PODS_ROOT}/Headers/Public/hermes-engine\"",
+					"\"${PODS_ROOT}/Headers/Public/libevent\"",
+					"\"${PODS_ROOT}/Headers/Public/nanopb\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Realm/Headers\"",
+					"\"$(PODS_ROOT)/DoubleConversion\"",
+					"\"$(PODS_ROOT)/boost\"",
+					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+					"\"$(PODS_TARGET_SRCROOT)/include/\"",
+				);
+				INFOPLIST_FILE = CroatiaMobileApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.croatia.consumerapp;
+				PRODUCT_NAME = CroatiaMobileApp;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CroatiaMobileApp-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F1E1EFB629E96EFA008E0850 /* Config.xcconfig */;
+			baseConfigurationReference = F16F82972A13A0B700C08F4F /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -693,7 +676,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -732,103 +715,9 @@
 			};
 			name = Debug;
 		};
-		F139A14A29E5B124007A435F /* Debug */ = {
+		83CBBA211A601CBA00E9B192 /* Release */ = {
 			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = T2NotificationService/T2NotificationService.entitlements;
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = E9L4734HKJ;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = T2NotificationService/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = T2NotificationService;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.croatia.consumerapp.test.T2NotificationService;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Croatia - test T2 profile";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Debug;
-		};
-		F139A14B29E5B124007A435F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = T2NotificationService/T2NotificationService.entitlements;
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = T2NotificationService/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = T2NotificationService;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.croatia.consumerapp.T2NotificationService;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Release;
-		};
-		F13E18CA29268765007905AA /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F1E1EFB629E96EFA008E0850 /* Config.xcconfig */;
+			baseConfigurationReference = F16F82972A13A0B700C08F4F /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -860,7 +749,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -892,86 +781,96 @@
 			};
 			name = Release;
 		};
-		F13E18CB29268765007905AA /* Release */ = {
+		F115B2A72A13758A00A9B300 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BE10F19190E364C7BE1E2022 /* Pods-CroatiaMobileApp.release.xcconfig */;
+			baseConfigurationReference = 26F4A6D231C7D76340409727 /* Pods-T2NotificationService.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = CroatiaMobileApp/CroatiaMobileApp.entitlements;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U4R6NQBXB4;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				INFOPLIST_FILE = CroatiaMobileApp/Info.plist;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = E9L4734HKJ;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = T2NotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = T2NotificationService;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.croatia.consumerapp;
-				PRODUCT_NAME = CroatiaMobileApp;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "CroatiaMobileApp-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Release;
-		};
-		F13E18CC29268765007905AA /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9D7C5BFC455F50CD314D7C0F /* Pods-CroatiaMobileApp-CroatiaMobileAppTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = CroatiaMobileAppTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-					"$(inherited)",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.croatia.consumerapp.test.T2NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CroatiaMobileApp.app/CroatiaMobileApp";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.croatia.consumerapp.test.T2NotificationService";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F115B2A82A13758A00A9B300 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2D2357F7BD004FF87B45F232 /* Pods-T2NotificationService.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = T2NotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = T2NotificationService;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.croatia.consumerapp.T2NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "CroatiaMobileAppTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				00E356F61AD99517003FC87E /* Debug */,
-				F13E18CC29268765007905AA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "CroatiaMobileApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
-				F13E18CB29268765007905AA /* Release */,
+				13B07F951A680F5B00A75B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -980,16 +879,16 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
-				F13E18CA29268765007905AA /* Release */,
+				83CBBA211A601CBA00E9B192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F139A14C29E5B124007A435F /* Build configuration list for PBXNativeTarget "T2NotificationService" */ = {
+		F115B2A62A13758A00A9B300 /* Build configuration list for PBXNativeTarget "T2NotificationService" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F139A14A29E5B124007A435F /* Debug */,
-				F139A14B29E5B124007A435F /* Release */,
+				F115B2A72A13758A00A9B300 /* Debug */,
+				F115B2A82A13758A00A9B300 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

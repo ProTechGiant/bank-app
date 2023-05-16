@@ -1,0 +1,12 @@
+diff --git a/node_modules/react-native-reanimated/RNReanimated.podspec b/node_modules/react-native-reanimated/RNReanimated.podspec
+index f82f864..6ff1916 100644
+--- a/node_modules/react-native-reanimated/RNReanimated.podspec
++++ b/node_modules/react-native-reanimated/RNReanimated.podspec
+@@ -85,6 +85,7 @@ Pod::Spec.new do |s|
+   s.dependency 'React-Core/RCTWebSocket'
+   s.dependency 'React-cxxreact'
+   s.dependency 'React-jsi'
++  s.dependency 'React-jsc'
+   s.dependency 'React-jsiexecutor'
+   s.dependency 'React-jsinspector'
+   s.dependency 'Yoga'

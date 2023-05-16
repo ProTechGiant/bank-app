@@ -798,6 +798,7 @@ export const resources = {
           defrost: "Defrost",
           viewPin: "View PIN",
           settings: "Settings",
+          cancel: "Cancel",
         },
         ViewPin: {
           navTitle: "Your card PIN",
@@ -2056,6 +2057,7 @@ export const resources = {
           defrost: "Defrost",
           viewPin: "View PIN",
           settings: "Settings",
+          cancel: "Cancel",
         },
         ViewPin: {
           navTitle: "Your card PIN",

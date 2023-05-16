@@ -1,0 +1,56 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.8 (swiftlang-5.8.0.124.2 clang-1403.0.22.11.100)
+// swift-module-flags: -target arm64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name RiCHNotificationService
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import Foundation
+@_exported import RiCHNotificationService
+import Swift
+import UIKit
+import Unrealm
+import UserNotifications
+import _Concurrency
+import _StringProcessing
+public struct RiCHNotificationExtensionHandler {
+  public init()
+  public func handleNotification(_ request: UserNotifications.UNNotificationRequest, contentHandler: @escaping (UserNotifications.UNMutableNotificationContent) -> Swift.Void)
+}
+public protocol Payloadable : Swift.Decodable, Swift.Encodable {
+  func payload() -> Foundation.Data?
+}
+extension RiCHNotificationService.Payloadable {
+  public func payload() -> Foundation.Data?
+}
+public struct Response {
+  public var id: Swift.String?
+  public static func primaryKey() -> Swift.String?
+  public init()
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct RiCHService {
+  public typealias RiCHNotification = RiCHNotificationService.Response
+  public init()
+}
+extension RiCHNotificationService.RiCHService {
+  public func registerDevice(token: Swift.String, deviceID: Swift.String, imeI1: Swift.String, imeI2: Swift.String, mobileNumber: Swift.String, provider: RiCHNotificationService.PushProvider, _ completion: @escaping (Swift.Result<Swift.Void, any Swift.Error>) -> Swift.Void)
+  public func fetchAllNotifications() -> [RiCHNotificationService.RiCHService.RiCHNotification]?
+  public func fetchNotification(by id: Swift.String) -> RiCHNotificationService.RiCHService.RiCHNotification?
+  public func deleteAllNotifications() throws
+  public func deleteNotification(with id: Swift.String) throws
+}
+public enum PushProvider : Swift.Int, Swift.Codable {
+  case FCM
+  case APNS
+  case pushWoosh
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension RiCHNotificationService.Response : Unrealm.Realmable {}
+extension RiCHNotificationService.Response : Swift.Encodable {}
+extension RiCHNotificationService.Response : Swift.Decodable {}
+extension RiCHNotificationService.PushProvider : Swift.Equatable {}
+extension RiCHNotificationService.PushProvider : Swift.Hashable {}
+extension RiCHNotificationService.PushProvider : Swift.RawRepresentable {}
