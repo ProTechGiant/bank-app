@@ -7,13 +7,13 @@ import { useThemeStyles } from "@/theme";
 
 import topTenPlacePlaceholder from "../assets/top-ten-article-placeholder.png";
 
-interface TopTenProps {
+interface TopTenCardProps {
   category: string;
   title: string;
   description: string;
   onPress: () => void;
 }
-export default function TopTenCard({ category, title, description, onPress }: TopTenProps) {
+export default function TopTenCard({ category, title, description, onPress }: TopTenCardProps) {
   const { width } = useWindowDimensions();
 
   const imageStyle = useThemeStyles<ImageStyle>(theme => ({

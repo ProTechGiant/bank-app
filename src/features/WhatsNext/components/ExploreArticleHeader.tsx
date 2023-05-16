@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Image, ImageStyle, Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
+import { useState } from "react";
+import { Image, Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import NavHeader from "@/components/NavHeader";
@@ -17,17 +17,6 @@ export default function ExploreArticleHeader({ handleOnArticleSharePress }: Expl
   const { height } = useWindowDimensions();
 
   const [containerWidth, setContainerWidth] = useState(100);
-  const [cutoutStyle, setCutoutStyle] = useState<ImageStyle>({
-    position: "absolute",
-    bottom: 0,
-  });
-
-  useEffect(() => {
-    setCutoutStyle(prevState => ({
-      ...prevState,
-      width: containerWidth,
-    }));
-  }, [containerWidth]);
 
   const containerStyle = {
     height: height * 0.6,
@@ -55,12 +44,20 @@ export default function ExploreArticleHeader({ handleOnArticleSharePress }: Expl
           }
         />
       </SafeAreaView>
-      <Image source={whiteTriangleHorizontal} style={cutoutStyle} resizeMode="stretch" />
+      <Image
+        source={whiteTriangleHorizontal}
+        style={[styles.cutoutStyle, { width: containerWidth }]}
+        resizeMode="stretch"
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  cutoutStyle: {
+    bottom: 0,
+    position: "absolute",
+  },
   image: {
     height: "100%",
     width: "100%",

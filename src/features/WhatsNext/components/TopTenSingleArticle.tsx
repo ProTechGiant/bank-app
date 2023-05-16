@@ -1,4 +1,4 @@
-import { ImageBackground, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Image, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -39,54 +39,58 @@ export default function TopTenSingleArticle({ item, handleShowDetails, showDetai
   }));
 
   return (
-    <ImageBackground resizeMode="cover" source={topTenPlacePlaceholder} blurRadius={showDetails ? 5 : 0}>
-      <View style={{ height, width }}>
-        <View style={articleBottom}>
-          <Typography.Text color="neutralBase-60" size="caption2" weight="medium">
-            {WhatsNextCategory}
+    <View style={{ height, width }}>
+      <Image
+        resizeMode="cover"
+        source={topTenPlacePlaceholder}
+        blurRadius={showDetails ? 5 : 0}
+        style={[StyleSheet.absoluteFillObject, { height, width }]}
+      />
+      <View style={articleBottom}>
+        <Typography.Text color="neutralBase-60" size="caption2" weight="medium">
+          {WhatsNextCategory}
+        </Typography.Text>
+        <Typography.Text color="neutralBase-60" size="title2" weight="medium" style={articleBottomTitle}>
+          {Title}
+        </Typography.Text>
+        <Typography.Text color="neutralBase-60" size="caption1">
+          {t("WhatsNext.TopTenArticle.openingHours")} {EventDetails.OpeningHours}
+        </Typography.Text>
+        <Pressable onPress={handleShowDetails}>
+          <Typography.Text
+            color="neutralBase-60"
+            size="callout"
+            style={articleBottomDescription}
+            numberOfLines={showDetails ? undefined : 3}>
+            {ContentDescription}
           </Typography.Text>
-          <Typography.Text color="neutralBase-60" size="title2" weight="medium" style={articleBottomTitle}>
-            {Title}
-          </Typography.Text>
-          <Typography.Text color="neutralBase-60" size="caption1">
-            {t("WhatsNext.TopTenArticle.openingHours")} {EventDetails.OpeningHours}
-          </Typography.Text>
-          <Pressable onPress={handleShowDetails}>
-            <Typography.Text
-              color="neutralBase-60"
-              size="callout"
-              style={articleBottomDescription}
-              numberOfLines={showDetails ? undefined : 3}>
-              {ContentDescription}
-            </Typography.Text>
-            {showDetails !== false ? (
-              <Stack direction="horizontal" gap="24p">
-                <Stack direction="vertical" style={styles.columnStyle}>
-                  <View style={detailsTitleStyle}>
-                    <Typography.Text color="neutralBase-60" size="callout" weight="medium">
-                      {t("WhatsNext.TopTenArticle.location")}
-                    </Typography.Text>
-                  </View>
-                  <Typography.Text color="neutralBase-60" size="caption1" weight="regular">
-                    {EventDetails.Location}
+          {showDetails !== false ? (
+            <Stack direction="horizontal" gap="24p">
+              <Stack direction="vertical" style={styles.columnStyle}>
+                <View style={detailsTitleStyle}>
+                  <Typography.Text color="neutralBase-60" size="callout" weight="medium">
+                    {t("WhatsNext.TopTenArticle.location")}
                   </Typography.Text>
-                </Stack>
-                <Stack direction="vertical" style={styles.columnStyle}>
-                  <View style={detailsTitleStyle}>
-                    <Typography.Text color="neutralBase-60" size="callout" weight="medium">
-                      {t("WhatsNext.TopTenArticle.price")}
-                    </Typography.Text>
-                  </View>
-                  <Typography.Text color="neutralBase-60" size="caption1" weight="regular">
-                    {EventDetails.Price} {t("WhatsNext.TopTenArticle.currency")}
-                  </Typography.Text>
-                </Stack>
+                </View>
+                <Typography.Text color="neutralBase-60" size="caption1" weight="regular">
+                  {EventDetails.Location}
+                </Typography.Text>
               </Stack>
-            ) : null}
-          </Pressable>
-        </View>
+              <Stack direction="vertical" style={styles.columnStyle}>
+                <View style={detailsTitleStyle}>
+                  <Typography.Text color="neutralBase-60" size="callout" weight="medium">
+                    {t("WhatsNext.TopTenArticle.price")}
+                  </Typography.Text>
+                </View>
+                <Typography.Text color="neutralBase-60" size="caption1" weight="regular">
+                  {EventDetails.Price} {t("WhatsNext.TopTenArticle.currency")}
+                </Typography.Text>
+              </Stack>
+            </Stack>
+          ) : null}
+        </Pressable>
       </View>
-    </ImageBackground>
+    </View>
   );
 }
 
