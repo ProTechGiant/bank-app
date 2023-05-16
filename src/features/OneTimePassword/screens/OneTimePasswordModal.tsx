@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Alert, Keyboard, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Alert, Keyboard, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { ErrorFilledCircleIcon } from "@/assets/icons";
@@ -51,6 +51,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     return () => clearTimeout(timeoutId);
   }, [otpResetCountSeconds]);
 
+  // TODO: Remove on screen alert once the OTP service is ready (can be sent to the registered mobile phone)
   useEffect(() => {
     if (otpParams === undefined) return;
     Alert.alert(`OTP-code is: ${otpParams.OtpCode}`);
@@ -239,7 +240,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
             </Stack>
           </ContentContainer>
         ) : (
-          <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <View style={styles.alignCenter}>
             <ActivityIndicator />
           </View>
         )}
@@ -263,6 +264,13 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  alignCenter: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 const OTP_CODE_LENGTH = 4;
 const OTP_MAX_RESENDS = 2;
