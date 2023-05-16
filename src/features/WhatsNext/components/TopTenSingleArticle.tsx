@@ -19,11 +19,6 @@ export default function TopTenSingleArticle({ item, handleShowDetails, showDetai
   const { width, height } = useWindowDimensions();
   const { t } = useTranslation();
 
-  const articleContainer = useThemeStyles<ViewStyle>(() => ({
-    width,
-    height,
-  }));
-
   const articleBottom = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["24p"],
     position: "absolute",
@@ -45,7 +40,7 @@ export default function TopTenSingleArticle({ item, handleShowDetails, showDetai
 
   return (
     <ImageBackground resizeMode="cover" source={topTenPlacePlaceholder} blurRadius={showDetails ? 5 : 0}>
-      <View style={articleContainer}>
+      <View style={{ height, width }}>
         <View style={articleBottom}>
           <Typography.Text color="neutralBase-60" size="caption2" weight="medium">
             {WhatsNextCategory}

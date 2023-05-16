@@ -228,18 +228,20 @@ export default function WhatsNextHubScreen() {
       whatsNextTypes && whatsNextTypes.length > 0
         ? whatsNextTypes.filter(data => data.isActive === true).map(data => data.id)
         : "";
-
     const whatsNextCategoryQuery =
       whatsNextCategories && whatsNextCategories.length > 0
         ? whatsNextCategories.filter(data => data.isActive === true).map(data => data.id)
         : "";
 
-    const whatsNextFilterQueryParams = [
-      queryString.stringify({ WhatsNextTypeId: whatsNextTypeQuery }, { arrayFormat: "comma" }),
-      queryString.stringify({ WhatsNextCategoryId: whatsNextCategoryQuery }, { arrayFormat: "comma" }),
-    ]
-      .filter(Boolean)
-      .join("&");
+    let whatsNextFilterQueryParams = "";
+    if (whatsNextTypeQuery || whatsNextCategoryQuery) {
+      whatsNextFilterQueryParams = [
+        queryString.stringify({ WhatsNextTypeId: whatsNextTypeQuery }, { arrayFormat: "comma" }),
+        queryString.stringify({ WhatsNextCategoryId: whatsNextCategoryQuery }, { arrayFormat: "comma" }),
+      ]
+        .filter(Boolean)
+        .join("&");
+    }
 
     setFilterQueryParams(whatsNextFilterQueryParams);
   };
