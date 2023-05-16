@@ -477,10 +477,11 @@ export const resources = {
           searchPlaceholder: "I need help with...",
           searchHelpTitle: "Have a specific question in mind?",
           searchHelpSubtitle: "Enter keywords to search amongst XX answers.",
+          cancelButton: "Cancel",
         },
         DetailedScreen: {
           feedback: "Did you find this answer helpful?",
-          postiveFeedback: "Thank you.",
+          positiveFeedback: "Thank you.",
           negativeFeedback:
             "Sorry to hear that. If you need more help, you can explore related questions or get in touch.",
           relatedQuestions: "Related questions",
@@ -1962,6 +1963,25 @@ export const resources = {
         titleThree: "المكافأة للطرفين",
         subTextThree:
           "مرسل ومُستقبِل الدعوة راح يحصلون على مكافأة 15 ريال سعودي. وعملاء فئة بلس 25 ريال سعودي عن كل دعوة.",
+      },
+      FrequentlyAskedQuestions: {
+        LandingScreen: {
+          title: "How can we help you?",
+          searchPlaceholder: "I need help with...",
+          searchHelpTitle: "Have a specific question in mind?",
+          searchHelpSubtitle: "Enter keywords to search amongst XX answers.",
+          cancelButton: "Cancel",
+        },
+        DetailedScreen: {
+          feedback: "Did you find this answer helpful?",
+          positiveFeedback: "Thank you.",
+          negativeFeedback:
+            "Sorry to hear that. If you need more help, you can explore related questions or get in touch.",
+          relatedQuestions: "Related questions",
+          help: "Need more help?",
+          call: "Call Bank",
+          chat: "Live Chat",
+        },
       },
       NotificationManagement: {
         HubScreen: {

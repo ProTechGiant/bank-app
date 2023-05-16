@@ -90,6 +90,7 @@ export default function LandingScreen() {
     paddingVertical: theme.spacing["8p"],
     alignItems: "center",
     flexDirection: "row",
+    flex: 1,
   }));
 
   const searchHelpTextStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -102,6 +103,7 @@ export default function LandingScreen() {
   }));
 
   const searchIconColor = useThemeStyles(theme => theme.palette.neutralBase);
+  // TODO: BE integration
   const mergedSectionData = useMergeFaqSections(mockFrequentlyAskedQuestions);
 
   return (
@@ -117,7 +119,6 @@ export default function LandingScreen() {
             ) : null}
 
             <View style={activeSearchStyle}>
-              {/* TODO: Handle overflow properly */}
               <StyledTextInput
                 value={searchQuery}
                 icon={<SearchIcon />}
@@ -129,7 +130,7 @@ export default function LandingScreen() {
               {isSearching ? (
                 <Pressable style={cancelPressableStyle} onPress={handleOnCancelPress}>
                   <Typography.Text size="callout" weight="regular">
-                    Cancel
+                    {t("FrequentlyAskedQuestions.LandingScreen.cancelButton")}
                   </Typography.Text>
                 </Pressable>
               ) : null}

@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { Pressable, View } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { ChevronRightIcon, IconProps } from "@/assets/icons";
@@ -39,10 +39,17 @@ export default function Section({ data, icon }: SectionProps) {
             {data.category_description}
           </Typography.Text>
         </Stack>
-        <View style={{ alignSelf: "center" }}>
+        <View style={styles.chevronContainer}>
           <ChevronRightIcon color={rightIconColor} />
         </View>
       </Stack>
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  chevronContainer: {
+    alignSelf: "center",
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
+});

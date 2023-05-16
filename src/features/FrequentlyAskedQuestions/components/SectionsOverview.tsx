@@ -1,5 +1,5 @@
 import { title } from "process";
-import { Pressable, ScrollView, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
@@ -63,7 +63,9 @@ export default function SectionsOverview({ data, faqSearchResponses }: SectionsO
                     }}>
                     <Stack direction="horizontal" gap="20p" align="center" justify="space-between">
                       <Typography.Text size="callout">{section_faq.query}</Typography.Text>
-                      <ChevronRightIcon color={iconColor} />
+                      <View style={styles.chevronContainer}>
+                        <ChevronRightIcon color={iconColor} />
+                      </View>
                     </Stack>
                   </Pressable>
                 );
@@ -74,3 +76,9 @@ export default function SectionsOverview({ data, faqSearchResponses }: SectionsO
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  chevronContainer: {
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
+});

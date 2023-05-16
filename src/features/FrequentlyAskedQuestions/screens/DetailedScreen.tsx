@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { differenceInHours } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChatIcon, ChevronRightIcon, PhoneIcon, ThumbsDownIcon, ThumbsUpIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -74,7 +74,7 @@ export default function DetailedScreen() {
     return feedbackState === "notResponded"
       ? t("FrequentlyAskedQuestions.DetailedScreen.feedback")
       : feedbackState === "positive" || feedbackState === "helpRequested"
-      ? t("FrequentlyAskedQuestions.DetailedScreen.postiveFeedback")
+      ? t("FrequentlyAskedQuestions.DetailedScreen.positiveFeedback")
       : t("FrequentlyAskedQuestions.DetailedScreen.negativeFeedback");
   };
 
@@ -150,7 +150,9 @@ export default function DetailedScreen() {
                 <View key={relatedFAQdata.faq_id} style={verticalStyle}>
                   <Stack direction="horizontal" align="center" justify="space-between">
                     <Typography.Text size="callout">{relatedFAQdata.query}</Typography.Text>
-                    <ChevronRightIcon color={iconColor} />
+                    <View style={styles.chevronContainer}>
+                      <ChevronRightIcon color={iconColor} />
+                    </View>
                   </Stack>
                 </View>
               );
@@ -198,6 +200,9 @@ export default function DetailedScreen() {
 }
 
 const styles = StyleSheet.create({
+  chevronContainer: {
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",

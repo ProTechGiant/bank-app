@@ -1,5 +1,5 @@
 import { FieldError } from "react-hook-form";
-import { Pressable, StyleProp, View, ViewStyle } from "react-native";
+import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ErrorFilledCircleIcon } from "@/assets/icons";
 import { Theme, useThemeStyles } from "@/theme";
@@ -92,7 +92,7 @@ export default function InputBox({
       <View style={[containerStyle, backgroundColor !== undefined && { backgroundColor: backgroundColor }]}>
         <>
           {icon !== undefined && <View style={iconStyle}>{icon}</View>}
-          {children}
+          <View style={styles.flex}>{children}</View>
           {undefined !== error && isTouched && <ErrorFilledCircleIcon color={errorIconColor} height={20} width={20} />}
         </>
       </View>
@@ -101,6 +101,10 @@ export default function InputBox({
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  flex: { flex: 1 },
+});
 
 const SINGLE_LINE_INPUT_HEIGHT = 58;
 const TEXT_LINE_HEIGHT = 21;

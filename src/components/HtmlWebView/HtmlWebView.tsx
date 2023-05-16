@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Platform } from "react-native";
+import { I18nManager, Platform } from "react-native";
 import WebView from "react-native-webview";
 import { ShouldStartLoadRequest, WebViewMessageEvent } from "react-native-webview/lib/WebViewTypes";
 
@@ -88,16 +88,16 @@ export default function HtmlWebView({ html, onLinkPress }: HtmlWebViewProps) {
         <meta http-equiv="content-type" content="text/html; charset=utf-8"> 
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" /> 
       </head> 
-        <body> 
-          ${html} 
+        <body dir=${I18nManager.isRTL ? "rtl" : "ltr"}> 
+          ${html}
         </body> 
     </html> `,
     baseUrl: "",
   };
 
-  // Injected Js will calulcate size of webview and sends this using postMessage method
+  // Injected Js will calculate size of webview and sends this using postMessage method
   const injectedJs = `
-  /* Need to remove target=_blank on links or onShoudStartLoadingWithRequest doesnt get called on Android */
+  /* Need to remove target=_blank on links or onShouldStartLoadingWithRequest doesnt get called on Android */
   Array.from(document.querySelectorAll('a[target="_blank"]')) .forEach(link => link.removeAttribute('target')); 
   
   var deltaMin = 0; 
@@ -148,7 +148,7 @@ export default function HtmlWebView({ html, onLinkPress }: HtmlWebViewProps) {
   postSize();
   `;
 
-  const handleShoudStartLoadingWithRequest = (request: ShouldStartLoadRequest) => {
+  const handleShouldStartLoadingWithRequest = (request: ShouldStartLoadRequest) => {
     setImmediate(() => {
       if (!request.url || request.url === "about:blank" || request.url.startsWith("file://")) return;
       onLinkPress(request.url);
@@ -156,7 +156,7 @@ export default function HtmlWebView({ html, onLinkPress }: HtmlWebViewProps) {
     return request.url === "about:blank" || request.url.startsWith("file://");
   };
 
-  // InjectedJS will send postMessage with dimensions, when recieved webviewHeight can be dynamically set
+  // InjectedJS will send postMessage with dimensions, when received webviewHeight can be dynamically set
   const handleOnMessage = (event: WebViewMessageEvent) => {
     const content = JSON.parse(event.nativeEvent.data) as WebViewDimensionsMessage;
     if (content.type === "dimensions") setWebViewHeight(content.dimensions.content.height);
@@ -167,7 +167,7 @@ export default function HtmlWebView({ html, onLinkPress }: HtmlWebViewProps) {
       originWhitelist={["*"]}
       injectedJavaScript={injectedJs}
       onMessage={handleOnMessage}
-      onShouldStartLoadWithRequest={handleShoudStartLoadingWithRequest}
+      onShouldStartLoadWithRequest={handleShouldStartLoadingWithRequest}
       scrollEnabled={false}
       scalesPageToFit={false}
       source={source}

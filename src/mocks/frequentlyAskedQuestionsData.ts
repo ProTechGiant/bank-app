@@ -1,4 +1,4 @@
-import { FAQData } from "@/features/FrequentlyAskedQuestions/types/frequentlyAskedQuestions";
+import { FAQData } from "@/features/FrequentlyAskedQuestions/types";
 
 export const mockFrequentlyAskedQuestions: FAQData = {
   categories: [
@@ -70,7 +70,7 @@ export const mockFrequentlyAskedQuestions: FAQData = {
             {
               faq_id: "faq_21",
               query: "Sed ut perspiciatis unde omnis iste natus?",
-              answer: "Go to Faq20 link",
+              answer: "Go to Faq21 link",
             },
           ],
           sub_sections: [
