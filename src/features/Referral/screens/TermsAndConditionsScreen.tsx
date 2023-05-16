@@ -11,27 +11,18 @@ export default function TermsAndConditionsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const container = useThemeStyles<ViewStyle>(
-    theme => ({
-      paddingHorizontal: theme.spacing["20p"],
-      paddingTop: theme.spacing["8p"],
-    }),
-    []
-  );
+  const container = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["20p"],
+    paddingTop: theme.spacing["8p"],
+  }));
 
-  const TitleStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      paddingTop: theme.spacing["16p"],
-    }),
-    []
-  );
+  const TitleStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["16p"],
+  }));
 
-  const paragraphStyle = useThemeStyles<TextStyle>(
-    theme => ({
-      paddingVertical: theme.spacing["16p"],
-    }),
-    []
-  );
+  const paragraphStyle = useThemeStyles<TextStyle>(theme => ({
+    paddingVertical: theme.spacing["16p"],
+  }));
 
   return (
     <Page>

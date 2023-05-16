@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 
 import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -20,18 +20,8 @@ export function useCustomersReferrals() {
   const correlationId = generateRandomId();
 
   return useQuery(queryKeys.customersReferrals(), () => {
-    return api<CustomersReferralsType>("v1", `/customers/${userId}/referrals`, "GET", undefined, undefined, {
+    return api<CustomersReferralsType>("v1", `customers/${userId}/referrals`, "GET", undefined, undefined, {
       ["x-Correlation-Id"]: correlationId,
     });
   });
-}
-
-export function useRefetchReferrals() {
-  const queryClient = useQueryClient();
-
-  const handleOnRefetch = () => {
-    queryClient.invalidateQueries(queryKeys.all());
-  };
-
-  return { refetchAll: handleOnRefetch };
 }

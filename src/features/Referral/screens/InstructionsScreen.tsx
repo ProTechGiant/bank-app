@@ -31,17 +31,14 @@ export default function InstructionsScreen() {
     setReferralPageViewStatus("finished");
   };
 
-  const iconWrapperStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["neutralBase-50"],
-      width: 64,
-      height: 64,
-      alignItems: "center",
-      justifyContent: "center",
-      borderRadius: 32,
-    }),
-    []
-  );
+  const iconWrapperStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-50"],
+    width: 64,
+    height: 64,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 32,
+  }));
 
   const { height: iconHeight, width: iconWidth } = useThemeStyles(theme => theme.iconDimensions.referralInstruction);
 

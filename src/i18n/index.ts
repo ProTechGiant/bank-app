@@ -2008,6 +2008,8 @@ export const resources = {
           termsAndConditions: "  الشروط والأحكام",
           fullStop: ".",
           share: "إرسال",
+          noLink: "No link found",
+          noData: "No data",
         },
         InstructionsScreen: {
           skip: "تخطى",
@@ -2019,6 +2021,18 @@ export const resources = {
           subTextTwo: "شارك كود الدعوة مع كل إللي تعرفهم وراح نكافئك بكاش من أول لحظة يستخدمون فيها للتطبيق.",
           titleThree: "المكافأة للطرفين",
           subTextThree: "مرسل الدعوة ومستقبِلها بيحصلون على 15 ر.س.",
+        },
+        TermsAndConditionsScreen: {
+          navTitle: "الشروط والأحكام",
+          pageTitle: "دعوات الانضمام",
+          infoBoxContent:
+            "What this terms and conditions mean (plceholder text), consectetur adipiscing elit. Quisque ante dui, convallis nec consequat.",
+          introductionTitle: "Lorem ipsum",
+          introductionContent:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat. ",
+          intellectualPropertyRightsTitle: "Lorem ipsum",
+          intellectualPropertyRightsContent:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat. \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat. ",
         },
       },
       HelpAndSupport: {

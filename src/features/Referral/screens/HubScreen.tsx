@@ -22,14 +22,13 @@ import { useThemeStyles } from "@/theme";
 import BackgroundBottomLeftSvg from "../assets/background-bottom-left.svg";
 import BackgroundBottomRightSvg from "../assets/background-bottom-right.svg";
 import BackgroundTopSvg from "../assets/background-top.svg";
-import { useCustomersReferrals, useRefetchReferrals } from "../hooks/query-hooks";
+import { useCustomersReferrals } from "../hooks/query-hooks";
 
 export default function HubScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
-  const { data: customerReferrals } = useCustomersReferrals();
-  const { refetchAll } = useRefetchReferrals();
+  const customerReferrals = useCustomersReferrals();
   const appsFlyer = useAppsFlyer();
 
   const { referralPageViewStatus, referralLink, setReferralLink } = useReferralContext();
@@ -37,9 +36,9 @@ export default function HubScreen() {
   const [isError, setIsError] = useState(false);
 
   const moneyEarned =
-    customerReferrals?.MoneyEarned !== undefined ? parseInt(customerReferrals?.MoneyEarned, 10) : undefined;
-  const numberOfCompletedReferrals = customerReferrals?.NumberOfCompletedReferrals;
-  const referralCode = customerReferrals?.ReferralCode;
+    customerReferrals.data?.MoneyEarned !== undefined ? parseInt(customerReferrals.data?.MoneyEarned, 10) : undefined;
+  const numberOfCompletedReferrals = customerReferrals.data?.NumberOfCompletedReferrals;
+  const referralCode = customerReferrals.data?.ReferralCode;
 
   useEffect(() => {
     if (
@@ -63,7 +62,7 @@ export default function HubScreen() {
         const link = await appsFlyer.createLink("InviteFriends", {
           referralCode: code,
         });
-        await Share.share(Platform.OS === "ios" ? { url: link } : { message: link });
+        setReferralLink(link);
       } catch (error) {
         warn("appsflyer-sdk", "Could not generate invite fiends link", JSON.stringify(error));
       }
@@ -96,7 +95,7 @@ export default function HubScreen() {
   };
 
   const handleOnRefreshPress = () => {
-    refetchAll();
+    customerReferrals.refetch();
     handleOnDismissPress();
   };
 
