@@ -51,6 +51,7 @@ yarn-error.log
 **/fastlane/Preview.html
 **/fastlane/screenshots
 **/fastlane/test_output
+**/fastlane/builds
 
 # Bundle artifact
 *.jsbundle
@@ -66,4 +67,4 @@ yarn-error.log
 # Environment config
 .env.secret
 .env
-ios/env-generated.xcconfig
+ios/Resources/RiCHService-Info.plist

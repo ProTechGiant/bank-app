@@ -11,11 +11,12 @@ include_symbols(false)
 clean(true)
 workspace(ENV["IOS_WORKSPACE"])
 output_directory(ENV['OUTPUT_DIRECTORY'])
-# suppress_xcode_output(true)
+suppress_xcode_output(true)
 export_xcargs("-allowProvisioningUpdates")
 export_method(ENV['IOS_EXPORT_METHOD'])
 export_options({
-  provisioningProfiles: {
-    ENV['APP_IDENTIFIER'] => ENV['IOS_PROFILE_NAME'],
-  }
+ provisioningProfiles: {
+   ENV['APP_IDENTIFIER'] => ENV['IOS_PROFILE_NAME'],
+   "#{ENV['APP_IDENTIFIER']}.T2NotificationService" => "#{ENV['IOS_PROFILE_NAME']}.T2NotificationService"
+ }
 })
