@@ -133,15 +133,16 @@ export default function EditRecurringPaymentModal() {
 
     const stringPaymentAmount = values.PaymentAmount.toString();
 
-    return new Promise<void>(async resolve => {
+    return new Promise<void>(resolve => {
       try {
-        await editRecurringPayment.mutateAsync({
-          Currency: "SAR",
-          DebtorAccount: recurringFundData.DomesticStandingOrderId,
-          PotId: savingsPotData.PotId,
-          PaymentAmount: stringPaymentAmount,
-          PaymentFrequency: `${formattedDate} e0Y e1M e0W e0D`,
-        });
+        (async () =>
+          await editRecurringPayment.mutateAsync({
+            Currency: "SAR",
+            DebtorAccount: recurringFundData.DomesticStandingOrderId,
+            PotId: savingsPotData.PotId,
+            PaymentAmount: stringPaymentAmount,
+            PaymentFrequency: `${formattedDate} e0Y e1M e0W e0D`,
+          }))();
         resolve();
         navigation.goBack();
       } catch (error) {

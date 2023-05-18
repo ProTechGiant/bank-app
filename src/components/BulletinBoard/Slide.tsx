@@ -5,6 +5,7 @@ export interface SlideProps {
 }
 
 // TODO: once we have an additional usage of the BulletinBoard so it is a bit clearer
-export default function Slide({ button, content, title }) {
+// eslint-disable-next-line no-empty-pattern
+export default function Slide({}) {
   return null;
 }

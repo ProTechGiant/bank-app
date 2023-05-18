@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { CloseIcon } from "@/assets/icons";
@@ -20,14 +20,17 @@ export default function InlineBanner({ icon, text, testID, onClose, variant = "d
       alignItems: "flex-start",
       backgroundColor: variant === "error" ? theme.palette["errorBase-30"] : theme.palette["neutralBase-40"],
       borderRadius: theme.radii.small,
-      columnGap: theme.spacing["12p"],
+      flex: 1,
+      justifyContent: "center",
       flexDirection: "row",
       padding: theme.spacing["20p"],
       width: "100%",
     }),
     [variant]
   );
-
+  const textStyle = useThemeStyles<ViewStyle>(theme => ({
+    width: theme.spacing["85%"],
+  }));
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
@@ -37,7 +40,7 @@ export default function InlineBanner({ icon, text, testID, onClose, variant = "d
         color={variant === "info" ? "neutralBase+10" : "neutralBase+30"}
         size="footnote"
         weight="regular"
-        style={styles.text}>
+        style={textStyle}>
         {text}
       </Typography.Text>
       {onClose !== undefined && (
@@ -50,9 +53,3 @@ export default function InlineBanner({ icon, text, testID, onClose, variant = "d
     </View>
   );
 }
-const styles = StyleSheet.create({
-  text: {
-    flexShrink: 1,
-    flexWrap: "wrap",
-  },
-});

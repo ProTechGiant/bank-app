@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import {
   I18nManager,
@@ -59,7 +60,7 @@ export default function Modal({
       handleStartTransitioning();
       setTimeout(() => setIsVisible(false), MOVE_OUT_DURATION_MS + 25);
     }
-  }, [visible]);
+  }, [isVisible, visible]);
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],

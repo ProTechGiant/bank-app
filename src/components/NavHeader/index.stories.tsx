@@ -1,6 +1,7 @@
 import { expect } from "@storybook/jest";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { userEvent, within } from "@storybook/testing-library";
+import { Alert } from "react-native";
 
 import ProgressIndicator from "../ProgressIndicator";
 import NavHeader_ from "./index";
@@ -50,7 +51,9 @@ Default.play = async ({ args, canvasElement }) => {
 };
 
 export const TextEndButton: ComponentStory<typeof NavHeader_> = args => {
-  return <NavHeader_ {...args} end={<NavHeader_.TextEndButton text="Goodbye" onPress={() => {}} />} />;
+  return (
+    <NavHeader_ {...args} end={<NavHeader_.TextEndButton text="Goodbye" onPress={() => Alert.alert("CLikced")} />} />
+  );
 };
 
 export const WithChildren: ComponentStory<typeof NavHeader_> = args => {

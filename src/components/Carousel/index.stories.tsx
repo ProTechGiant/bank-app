@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  * NOTE: This story only works on the device toolbar found in Chrome as it simulated mobile events
  * The plugin to make react native element work in the web has some issues and causes:

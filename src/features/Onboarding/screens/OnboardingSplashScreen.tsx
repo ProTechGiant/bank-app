@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { Alert, StatusBar, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { StatusBar, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import EncryptedStorage from "react-native-encrypted-storage";
 
 import Button from "@/components/Button";
 import Page from "@/components/Page";
@@ -18,8 +19,10 @@ export default function OnboardingSplashScreen() {
   const navigation = useNavigation();
   const { setCorrelationId } = useOnboardingContext();
 
-  const handleOnSignIn = () => {
-    Alert.alert("Sign-in process not implemented yet. Come back later!");
+  const handleOnSignIn = async () => {
+    const screenName = (await EncryptedStorage.getItem("user")) ? "SignIn.Passcode" : "SignIn.Iqama";
+    navigation.navigate("SignIn.SignInStack", { screen: screenName });
+    // Alert.alert("Sign-in process not implemented yet. Come back later!");
   };
 
   const handleOnSignUp = () => {

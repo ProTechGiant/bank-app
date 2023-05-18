@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import { ForwardedRef, forwardRef, useRef, useState } from "react";
 import {
   I18nManager,

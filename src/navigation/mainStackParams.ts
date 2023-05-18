@@ -13,6 +13,8 @@ import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsSta
 import { ViewTransactionsStackParams } from "@/features/ViewTransactions/ViewTransactionsStack";
 import { WhatsNextStackParams } from "@/features/WhatsNext/WhatsNextStack";
 
+import { SignInStackParams } from "../features/SignIn/SignInStack";
+
 type RootStackParams = {
   "CardActions.CardActionsStack": {
     screen?: keyof CardActionsStackParams;
@@ -40,6 +42,7 @@ type RootStackParams = {
       }
     | undefined;
   "Referral.ReferralStack": undefined;
+  "SignIn.SignInStack": undefined;
   "Modal.QuickActionsReorderModal": undefined;
   "Modal.HomepageReorderModal": undefined;
   "NotificationManagement.NotificationManagementStack": undefined;
@@ -47,6 +50,7 @@ type RootStackParams = {
     screen: string;
   };
   "Settings.SettingsScreen": undefined;
+  "Settings.AccountSettings": undefined;
   "SavingsGoals.SavingsGoalsStack": {
     savingsPotsNumber: number;
   };
@@ -87,7 +91,9 @@ type MainStackParams = RootStackParams &
   FrequentlyAskedQuestionsStackParams &
   WhatsNextStackParams &
   NotificationManagementStackParams &
-  HelpAndSuportStackParams &
-  PaymentDisputesStackParams;
+  ReferralStackParams &
+  PaymentDisputesStackParams &
+  SignInStackParams &
+  HelpAndSuportStackParams;
 
 export default MainStackParams;

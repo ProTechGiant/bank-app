@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { FriendsIcon, NotificationIcon, QuestionIcon, SupportAgentIcon } from "@/assets/icons";
+import { FriendsIcon, ManageAccountsIcon, NotificationIcon, QuestionIcon, SupportAgentIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -28,6 +28,10 @@ export default function SettingsScreen() {
     navigation.navigate("FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack");
   };
 
+  const handleOnAccountSettingPress = () => {
+    navigation.navigate("Settings.AccountSettings");
+  };
+
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader />
@@ -52,6 +56,11 @@ export default function SettingsScreen() {
             onPress={handleOnQuestionsPress}
             icon={<QuestionIcon />}
             label={t("Settings.SettingsScreen.FAQs")}
+          />
+          <TableListCard
+            onPress={handleOnAccountSettingPress}
+            icon={<ManageAccountsIcon />}
+            label={t("Settings.AccountSettings.title")}
           />
         </Stack>
       </ContentContainer>

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { useTranslation } from "react-i18next";
 import { Platform, View, ViewStyle } from "react-native";
 

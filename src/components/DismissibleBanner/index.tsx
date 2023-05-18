@@ -30,7 +30,7 @@ export default function DismissibleBanner({
 
   useEffect(() => {
     positionY.value = visible ? visiblePosY : -250;
-  }, [visible]);
+  }, [positionY, visible, visiblePosY]);
 
   const contentContainerStyles = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.extraSmall,

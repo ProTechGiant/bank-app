@@ -8,7 +8,7 @@ import { AngleDownIcon, AngleUpIcon, IconProps } from "@/assets/icons";
 import { WithShadow } from "@/components";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useTheme, useThemeStyles } from "@/theme";
+import { useThemeStyles } from "@/theme";
 
 import PaginationDot from "./PaginationDot";
 
@@ -21,7 +21,6 @@ interface BulletinBoardProps {
 }
 
 export default function BulletinBoard({ children, isExpanded, onExpandPress, iconStart, title }: BulletinBoardProps) {
-  const { theme } = useTheme();
   const boardWidth = useRef<number | undefined>(undefined);
   const scrollX = useSharedValue(0);
 
@@ -45,7 +44,7 @@ export default function BulletinBoard({ children, isExpanded, onExpandPress, ico
     columnGap: 3,
     flexDirection: "row",
     justifyContent: "center",
-    height: 32,
+    height: theme.spacing["32p"],
   }));
 
   const iconColor = useThemeStyles(theme => theme.palette.complimentBase);

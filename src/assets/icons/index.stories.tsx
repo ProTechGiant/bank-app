@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { Meta, Story } from "@storybook/react";
 import { cloneElement } from "react";
 

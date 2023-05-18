@@ -1,4 +1,4 @@
-import { ControllerFieldState, FieldError } from "react-hook-form";
+import { FieldError } from "react-hook-form";
 import { View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";

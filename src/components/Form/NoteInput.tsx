@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { Pressable, StyleSheet, TextInput as RNTextInput, TextStyle, View } from "react-native";
+import { StyleSheet, TextInput as RNTextInput, TextStyle, View } from "react-native";
 
-import { CancelCircleFilledIcon } from "@/assets/icons";
 import { useThemeStyles } from "@/theme";
 
 import InputBox from "./internal/InputBox";
-import InputLabel from "./internal/InputLabel";
 
 interface NoteInputProps<T extends FieldValues> {
   control: Control<T>;
@@ -24,7 +22,6 @@ export default function NoteInput<T extends FieldValues>({
   extra,
   isEditable,
   name,
-  label,
   placeholder,
   showCharacterCount,
   maxLength,

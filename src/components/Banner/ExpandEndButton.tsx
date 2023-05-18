@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { I18nManager, Pressable } from "react-native";
 
 import { AngleDownIcon, AngleUpIcon } from "@/assets/icons";

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-handler-names */
 import { useEffect, useRef, useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { Pressable, ReturnKeyTypeOptions, StyleSheet, TextInput, TextStyle, View, ViewStyle } from "react-native";

@@ -74,7 +74,7 @@ export const resources = {
             regulatoryCheck: "Due to a regulatory check we can’t open an account for you right now ",
             hasAccount: {
               warning: "You’ve already joined Croatia,",
-              signin: "sign in now",
+              signIn: "sign in now",
             },
           },
           navHeaderTitle: "SIGN UP",
@@ -304,12 +304,133 @@ export const resources = {
           },
         },
       },
+      SignIn: {
+        UserBlockedScreen: {
+          title: "Brand Moment",
+          heading: "You have been blocked from entering the app",
+          message: "We've logged you out because you entered the wrong passcode too many times. Try again in [time].",
+          suggestion: " For help, call us on +966 123 456 789.",
+        },
+        IqamaInputScreen: {
+          errorText: {
+            twoAttemptsLeft: "You have tried to sign up 3 times. You have 2 attempts remaining.",
+            oneAttemptsLeft: "You have tried to sign up 4 times. You have 1 attempts remaining.",
+            noAttemptsLeft: "You have tried 5 times to sign up.\n\n Please wait until tomorrow before retrying.",
+            noMatch: "The mobile number and ID given aren’t linked to an Absher profile",
+            cannotOpen: "You cannot open an account this time",
+            regulatoryCheck: "Due to a regulatory check we can’t open an account for you right now ",
+            hasAccount: {
+              warning: "You’ve already joined Croatia,",
+              signIn: "sign in now",
+            },
+          },
+          navHeaderTitle: "SIGN IN",
+          title: "Sign in on this device",
+          subTitle: "You need to enable this device before you can use it with Croatia.",
+          mobileLabel: "Mobile",
+          mobilePlaceholder: "Enter mobile",
+          iqamaLabel: "National ID/Iqama",
+          iqamaPlaceholder: "Enter your national ID/Iqama number",
+          notificationText: {
+            one: "To join Croatia, you must be over 18 and have an Absher profile. Register at ",
+            two: "absher.sa",
+            three: " before joining us.",
+          },
+          continue: "Sign in",
+          subtext: "Don’t have an account? ",
+          signUp: "Sign up",
+          validationErrors: {
+            mobileNumber: {
+              required: "Mobile Required",
+              matches: "Phone numbers need 9 numbers.",
+            },
+            iqamaId: {
+              required: "National ID/Iqama Number required",
+              matches: "National IDs need 10 numbers.",
+              exactLength: "Must be exactly {{length}} digits",
+            },
+          },
+        },
+        PasscodeScreen: {
+          title: "Enter Passcode",
+          userTitle: "Welcome Back, {{username}}",
+          subTitle: "Enter your passcode to login",
+          notifocation: "That passcode wasn't right. You have {{attempts}} attempts left.",
+          errorMessage: "You’ve entered the wrong PIN too many times. Please wait {{time}} min and try again.",
+          errorTitle: "try again later",
+          forgotPassword: "Forgot your Passcode?"
+        },
+        passcodeInput: {
+          subTitle: "Enter your {{length}}-digit passcode {{extra}}",
+        },
+        ChangePasscodeScreen: {
+          title: "Enter current passcode",
+          subTitle: "Enter the 6-number passcode you use to log in.",
+          notification: "That passcode wasn't right - try again.",
+          errorTitle: "Enter your {{length}}-digit passcode {{extra}}",
+        },
+        CreatePasscodeScreen: {
+          title: "Create Passcode",
+          subTitle: "Enter the 6-number passcode you’ll use to log in to Croatia.",
+          notifocation: "Choose something harder to guess, without consecutive or repeated numbers.",
+        },
+        ForgotPasscodeScreen: {
+          errorTitle: "Try again later",
+          title: "Enter Your card PIN",
+          subTitle: "Enter you card PIN to authenticate. ",
+          notification: "That passcode wasn't right. You have {{attempts}} attempts left.",
+          errorMessage: "You’ve entered the wrong PIN too many times. Please wait 30 min and try again.",
+        },
+        ConfirmPasscodeScreen: {
+          title: "Confirm Passcode",
+          subTitle: "Re-enter your 6 number passcode.",
+          notification: "Those passcodes were both different - try again.",
+          notificationModelMessage: "You'll use this passcode to log in to Croatia.",
+          notificationModelTitle: "Passcode created",
+        },
+        OtpScreen: {
+          title: "Enter one-time code",
+          subTitle:
+            "Enter the one-time code we texted to your mobile, +966 •• ••• 1234. You have 2 minutes to do this.",
+        },
+        BiometricScreen: {
+          navHeaderTitle: "Enable biometrics",
+          faceIdtitle: "Give us a smile",
+          fingerPrintTitle: "Give us a thumbs up",
+          faceIdSubTitle: "Face ID helps you log in even more quickly - and without having to enter your passcode.",
+          fingerPrintSubTitle:
+            "Touch ID helps you log in even more quickly - and without having to enter your passcode.",
+          faceIdHelpLabel: "You can turn Face ID on or off at any time in settings.",
+          fingerPrintHelpLabel: "You can turn Touch ID on or off at any time in settings.",
+          turnOnFaceId: "Turn on Face ID now",
+          turnOnTouchId: "Turn on Touch ID now",
+          later: "Maybe later",
+          cancelText: "Cancel",
+          otpScreen: "otpScreen",
+          confirmBiometrics: "Confirm biometrics",
+          addBiometrics: "Add biometrics",
+          biometricSuccess: "successful biometrics provided",
+          brandText: " Brand Moment",
+        },
+      },
       Settings: {
         SettingsScreen: {
           rewards: "Send invite",
           helpAndSupport: "Help and Support",
           FAQs: "FAQ’s",
           notifications: "Notifications",
+        },
+        AccountSettings: {
+          title: "Account settings",
+          subTitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend commodo.",
+          changePasscode: "Change passcode",
+          turnBiometricsOn: "Turn biometrics on",
+          signOut: "Sign out",
+          youSure: "Are you sure?",
+          cancelButton: "Cancel",
+          button: "Sign out on this device",
+          message:
+            "If you sign out on this device, this will delete your biometric details and you’ll need to sign back in to use Croatia. You can only sign in on one device at a time.",
         },
       },
       Home: {
@@ -1139,6 +1260,9 @@ export const resources = {
           "Enter the one-time code code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
         resendCodeDisabled: "Resend Code in {{minutes}}:{{seconds}}",
         resendCodeEnabled: "Resend Code",
+        notification: "That OTP wasn't right. You have {{attempts}} attempts left.",
+        optSubmitErrorMessage: "Could not validate OTP-code with backend: {{error}}",
+        resendOtpErrorMessage: "Could not re-request OTP-code: {{error}}",
         errors: {
           invalidPassword: "That code wasn't right - try again.",
           twoAttemptsLeft: "That code has expired. You can request 2 more codes.",
@@ -1147,6 +1271,7 @@ export const resources = {
           reachedMaxAttemptsMessage: "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
           button: "OK",
         },
+        otpCodeAlertText: "OTP-code is: {{otpCode}}",
       },
       InternalTransfers: {
         ReviewTransferScreen: {

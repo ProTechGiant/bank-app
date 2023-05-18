@@ -47,7 +47,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
           : maxLength + SPACE_IN_PHONE_NUMBER
       );
     }, 50);
-  }, [field.value]);
+  }, [field.value, maxLength]);
 
   const textStyles = useThemeStyles<TextStyle>(theme => ({
     color: theme.palette["neutralBase+20"],

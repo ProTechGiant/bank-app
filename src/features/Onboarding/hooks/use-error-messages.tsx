@@ -47,7 +47,7 @@ export function useErrorMessages(err: ApiError) {
           <>
             {t("Onboarding.IqamaInputScreen.errorText.hasAccount.warning")}{" "}
             <Typography.Text color="neutralBase+30" size="caption1" weight="bold">
-              {t("Onboarding.IqamaInputScreen.errorText.hasAccount.signin")}
+              {t("Onboarding.IqamaInputScreen.errorText.hasAccount.signIn")}
             </Typography.Text>
           </>
         ),

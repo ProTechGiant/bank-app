@@ -7,7 +7,6 @@ import {
   ibanRegExp,
   nationalIdRegEx,
   numericRegExp,
-  removeLeadingZeros,
   removeSpaces,
   saudiPhoneRegExp,
 } from ".";

@@ -34,6 +34,7 @@ export interface SavingsPot {
 }
 
 export interface SavingsPotDetailsResponse {
+  RecurringPayments: any;
   PotId: string;
   GoalName: string;
   TargetAmount: string;

@@ -65,7 +65,7 @@ export default function IqamaInputScreen() {
   }, [handleContinueOboarding, iqamaError, reset]);
 
   const handleOnSignIn = () => {
-    Alert.alert("signin button pressed");
+    Alert.alert("signIn button pressed");
   };
 
   const handleOnSubmit = async (values: IqamaInputs) => {
@@ -81,7 +81,7 @@ export default function IqamaInputScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader withBackButton={true} title={t("Onboarding.IqamaInputScreen.navHeaderTitle")} />
-      <MobileAndNationalIdForm onSubmit={handleOnSubmit} errorMessages={errorMessages} onSigninPress={handleOnSignIn} />
+      <MobileAndNationalIdForm onSubmit={handleOnSubmit} errorMessages={errorMessages} onSignInPress={handleOnSignIn} />
     </Page>
   );
 }

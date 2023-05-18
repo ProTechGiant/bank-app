@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { UseQueryResult } from "react-query";
 
@@ -115,7 +116,7 @@ export function HomepageLayoutOrderContextProvider({ children }: React.PropsWith
           setSections: handleOnSetSections,
           homepageLayout,
         }),
-        [state, homepageLayout]
+        [state, handleOnSetQuickActions, handleOnSetSections, homepageLayout]
       )}>
       {children}
     </HomepageLayoutOrderContext.Provider>

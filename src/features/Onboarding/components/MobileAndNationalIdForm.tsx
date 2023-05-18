@@ -28,13 +28,13 @@ const iqamaValidationSchema = Yup.object().shape({
 
 interface MobileAndNationalIdFormProps {
   onSubmit: (values: IqamaInputs) => Promise<void>;
-  onSigninPress: () => void;
+  onSignInPress: () => void;
   errorMessages: ErrorMessageType[];
 }
 
 export default function MobileAndNationalIdForm({
   onSubmit,
-  onSigninPress,
+  onSignInPress,
   errorMessages,
 }: MobileAndNationalIdFormProps) {
   const { t } = useTranslation();
@@ -85,7 +85,7 @@ export default function MobileAndNationalIdForm({
                 ) : (
                   <InfoBox key={`err_${index}`} variant="compliment" borderPosition="start">
                     {err.link ? (
-                      <Pressable onPress={onSigninPress}>
+                      <Pressable onPress={onSignInPress}>
                         <Typography.Text size="footnote" weight="regular">
                           {err.message}
                         </Typography.Text>
@@ -132,7 +132,7 @@ export default function MobileAndNationalIdForm({
           <Typography.Text size="callout" weight="regular">
             {t("Onboarding.IqamaInputScreen.subtext")}
           </Typography.Text>
-          <Pressable onPress={onSigninPress}>
+          <Pressable onPress={onSignInPress}>
             <Typography.Text size="callout" weight="regular" color="primaryBase">
               {t("Onboarding.IqamaInputScreen.signIn")}
             </Typography.Text>

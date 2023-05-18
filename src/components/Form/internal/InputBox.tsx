@@ -87,6 +87,7 @@ export default function InputBox({
   const errorIconColor = useThemeStyles(theme => theme.palette.errorBase);
 
   return (
+    // eslint-disable-next-line react-native/no-inline-styles
     <Pressable disabled={!isEditable} onPress={onPress} style={[{ flexGrow: block ? 1 : 0 }, style]}>
       {label && <InputLabel>{label}</InputLabel>}
       <View style={[containerStyle, backgroundColor !== undefined && { backgroundColor: backgroundColor }]}>
