@@ -1,4 +1,5 @@
-## fastlane documentation
+fastlane documentation
+----
 
 # Installation
 
@@ -18,11 +19,15 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane tag_build_git
 ```
 
+
+
 ### build
 
 ```sh
 [bundle exec] fastlane build
 ```
+
+
 
 ### update_version
 
@@ -30,13 +35,18 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane update_version
 ```
 
+
+
 ### deploy
 
 ```sh
 [bundle exec] fastlane deploy
 ```
 
----
+
+
+----
+
 
 ## iOS
 
@@ -46,17 +56,23 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane ios update_version
 ```
 
+
+
 ### ios install_signing
 
 ```sh
 [bundle exec] fastlane ios install_signing
 ```
 
+
+
 ### ios update_devices
 
 ```sh
 [bundle exec] fastlane ios update_devices
 ```
+
+
 
 ### ios build
 
@@ -72,7 +88,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane ios deploy_test
 ```
 
----
+
+
+----
+
 
 ## Android
 
@@ -81,6 +100,8 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 ```sh
 [bundle exec] fastlane android update_version
 ```
+
+
 
 ### android build
 
@@ -96,7 +117,9 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane android deploy_test
 ```
 
----
+
+
+----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
 
