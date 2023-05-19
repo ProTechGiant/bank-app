@@ -130,13 +130,13 @@ const typography = {
       title3: 20,
       body: 17,
       callout: 16,
-      callout2: 15,
       footnote: 14,
       caption1: 12,
       caption2: 11,
     },
     // correspond directly with `sizes`
     _lineHeights: {
+      xlarge: 46,
       large: 41,
       title1: 34,
       title2: 28,

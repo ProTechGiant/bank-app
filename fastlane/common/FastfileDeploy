@@ -1,5 +1,5 @@
 platform :android do
-  lane :deploy_test do |options|
+  lane :deploy_appcenter do |options|
     load_env(env: options[:env])
 
     appcenter_upload(
@@ -27,7 +27,7 @@ platform :android do
 end
 
 platform :ios do
-  lane :deploy_test do |options|
+  lane :deploy_appcenter do |options|
     load_env(env: options[:env])
 
     appcenter_upload(

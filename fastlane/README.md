@@ -82,10 +82,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
-### ios deploy_test
+### ios deploy_appcenter
 
 ```sh
-[bundle exec] fastlane ios deploy_test
+[bundle exec] fastlane ios deploy_appcenter
 ```
 
 
@@ -111,10 +111,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
-### android deploy_test
+### android deploy_appcenter
 
 ```sh
-[bundle exec] fastlane android deploy_test
+[bundle exec] fastlane android deploy_appcenter
 ```
 
 
