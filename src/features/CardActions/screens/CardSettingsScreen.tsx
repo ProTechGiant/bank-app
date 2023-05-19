@@ -131,7 +131,7 @@ export default function CardSettingsScreen() {
     <>
       <DismissibleBanner message="Card PIN has been updated" variant="success" visible={isPinUpdatedBannerVisible} />
       <Page backgroundColor="neutralBase-60">
-        <NavHeader end={false} />
+        <NavHeader />
         <ContentContainer isScrollView>
           <Typography.Header color="neutralBase+30" size="large" weight="semiBold" style={titleStyle}>
             {t("CardActions.CardSettingsScreen.title")}

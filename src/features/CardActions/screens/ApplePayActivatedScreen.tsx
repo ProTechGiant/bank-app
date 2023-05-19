@@ -26,7 +26,16 @@ export default function ApplePayActivatedScreen() {
     <Page>
       <HeaderTriangle style={styles.headerTriangle} />
       <BottomTriangle style={styles.bottomTriangle} />
-      <NavHeader withBackButton={false} end="close" />
+      <NavHeader
+        withBackButton={false}
+        end={
+          <NavHeader.CloseEndButton
+            onPress={() => {
+              navigation.navigate("Temporary.LandingScreen");
+            }}
+          />
+        }
+      />
       <ContentContainer>
         <Stack direction="vertical" justify="space-between" align="center">
           <View style={styles.iconContainer}>

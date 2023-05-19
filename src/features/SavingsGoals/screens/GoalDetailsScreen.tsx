@@ -6,7 +6,14 @@ import { Alert, Dimensions, Pressable, StatusBar, StyleSheet, View, ViewStyle } 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { LightningBoltIcon, PlusIcon, RecurringEventIcon, TickCircleIcon, WithdrawIcon } from "@/assets/icons";
+import {
+  EditIcon,
+  LightningBoltIcon,
+  PlusIcon,
+  RecurringEventIcon,
+  TickCircleIcon,
+  WithdrawIcon,
+} from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import ContextualFAQModal from "@/components/ContextualFAQModal";
@@ -236,8 +243,8 @@ export default function GoalDetailsScreen() {
           <NavHeader
             onBackPress={handleOnBackPress}
             title={savingsPotData?.GoalName}
-            color="white"
-            end={<NavHeader.EditEndButton onPress={handleOnEdit} />}
+            variant="white"
+            end={<NavHeader.IconEndButton icon={<EditIcon />} onPress={handleOnEdit} />}
           />
           <View style={headerContentStyle}>
             <ProgressWheel

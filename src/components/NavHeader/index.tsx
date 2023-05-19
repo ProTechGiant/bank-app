@@ -7,15 +7,15 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import CloseEndButton, { CloseEndButtonProps } from "./CloseEndButton";
-import EditEndButton from "./EditEndButton";
+import IconEndButton, { IconEndButtonProps } from "./IconEndButton";
 import StatusBar from "./StatusBar";
 import TextEndButton, { TextEndButtonProps } from "./TextEndButton";
 
 interface NavHeaderProps {
   onBackPress?: () => void;
   children?: React.ReactElement;
-  color?: "black" | "white";
-  end?: "close" | React.ReactElement<CloseEndButtonProps> | React.ReactElement<TextEndButtonProps> | false;
+  variant?: "black" | "white" | "background";
+  end?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
   testID?: string;
   title?: string;
   withBackButton?: boolean;
@@ -26,15 +26,11 @@ const NavHeader = ({
   title,
   withBackButton = true,
   onBackPress,
-  color = "black",
+  variant = "black",
   end,
   children,
 }: NavHeaderProps) => {
   const navigation = useNavigation();
-
-  const handleOnClose = () => {
-    navigation.navigate("Temporary.LandingScreen");
-  };
 
   const handleOnBackPress = () => {
     if (undefined === onBackPress) navigation.goBack();
@@ -50,21 +46,29 @@ const NavHeader = ({
     marginTop: theme.spacing["16p"],
   }));
 
-  const textColor = color === "white" ? "neutralBase-50" : "neutralBase+30";
+  const iconBackgroundStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60"],
+    borderRadius: 16,
+    opacity: 0.6,
+    height: 32,
+    width: 32,
+  }));
+
+  const textColor = variant === "white" ? "neutralBase-50" : "neutralBase+30";
   const iconColor = useThemeStyles(theme => theme.palette[textColor], [textColor]);
 
   return (
     <>
-      <StatusBar barStyle={color === "black" ? "dark-content" : "light-content"} />
+      <StatusBar barStyle={variant === "black" ? "dark-content" : "light-content"} />
       <View style={containerStyle} testID={testID}>
         <View style={styles.title}>
           <View style={[styles.column, styles.columnStart]}>
             {withBackButton && (
               <Pressable
                 onPress={handleOnBackPress}
-                style={styles.backButton}
+                style={[styles.backButton, variant === "background" ? iconBackgroundStyle : undefined]}
                 testID={undefined !== testID ? `${testID}-->BackButton` : undefined}>
-                <ArrowLeftIcon color={iconColor} />
+                <ArrowLeftIcon color={iconColor} width={20} height={20} />
               </Pressable>
             )}
           </View>
@@ -76,11 +80,9 @@ const NavHeader = ({
             )}
           </View>
           <View style={[styles.column, styles.columnEnd]}>
-            {end === "close" ? (
-              <CloseEndButton color={textColor} onPress={handleOnClose} />
-            ) : isValidElement(end) ? (
-              cloneElement(end, { color: textColor })
-            ) : undefined}
+            {end !== undefined && isValidElement(end)
+              ? cloneElement(end, { color: textColor, hasBackground: variant === "background" })
+              : undefined}
           </View>
         </View>
         {undefined !== children && <View style={childrenStyles}>{children}</View>}
@@ -91,6 +93,8 @@ const NavHeader = ({
 
 const styles = StyleSheet.create({
   backButton: {
+    alignItems: "center",
+    justifyContent: "center",
     transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }],
   },
   column: {
@@ -117,6 +121,6 @@ const styles = StyleSheet.create({
 
 NavHeader.CloseEndButton = CloseEndButton;
 NavHeader.TextEndButton = TextEndButton;
-NavHeader.EditEndButton = EditEndButton;
+NavHeader.IconEndButton = IconEndButton;
 
 export default NavHeader;

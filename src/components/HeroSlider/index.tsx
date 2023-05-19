@@ -6,6 +6,7 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import { CloseEndButtonProps } from "@/components/NavHeader/CloseEndButton";
+import { IconEndButtonProps } from "@/components/NavHeader/IconEndButton";
 import { TextEndButtonProps } from "@/components/NavHeader/TextEndButton";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -22,7 +23,7 @@ interface HeroSliderProps {
   buttonText: string;
   lastButtonText: string;
   loading?: boolean;
-  end?: React.ReactElement<CloseEndButtonProps> | React.ReactElement<TextEndButtonProps> | false;
+  end?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
   hasBackButton?: boolean;
   children?: React.ReactNode;
 }

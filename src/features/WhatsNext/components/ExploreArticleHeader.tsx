@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Image, Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
+import { Image, StyleSheet, useWindowDimensions, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import NavHeader from "@/components/NavHeader";
-import { useThemeStyles } from "@/theme";
 
 import explorePlaceholder from "../assets/explore-placeholder.png";
 import { default as ShareArticleIcon } from "../assets/share-article";
@@ -22,8 +21,6 @@ export default function ExploreArticleHeader({ handleOnArticleSharePress }: Expl
     height: height * 0.6,
   };
 
-  const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
-
   return (
     <View style={containerStyle}>
       <Image
@@ -36,12 +33,8 @@ export default function ExploreArticleHeader({ handleOnArticleSharePress }: Expl
       />
       <SafeAreaView style={styles.navHeaderWrapper}>
         <NavHeader
-          color="white"
-          end={
-            <Pressable onPress={handleOnArticleSharePress}>
-              <ShareArticleIcon color={iconColor} />
-            </Pressable>
-          }
+          variant="withBackground"
+          end={<NavHeader.IconEndButton icon={<ShareArticleIcon />} onPress={handleOnArticleSharePress} />}
         />
       </SafeAreaView>
       <Image

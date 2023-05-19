@@ -1,15 +1,18 @@
+import { cloneElement } from "react";
 import { I18nManager, Pressable, StyleSheet, ViewStyle } from "react-native";
+import { SvgProps } from "react-native-svg/lib/typescript/ReactNativeSVG";
 
-import { CloseIcon } from "@/assets/icons";
+import { IconProps } from "@/assets/icons";
 import { Theme, useThemeStyles } from "@/theme";
 
-export interface CloseEndButtonProps {
+export interface IconEndButtonProps {
   color?: keyof Theme["palette"];
   onPress: () => void;
+  icon: React.ReactElement<SvgProps | IconProps>;
   hasBackground?: boolean;
 }
 
-export default function CloseEndButton({ color = "primaryBase-10", onPress, hasBackground }: CloseEndButtonProps) {
+export default function IconEndButton({ color = "primaryBase-10", onPress, icon, hasBackground }: IconEndButtonProps) {
   const { iconColor } = useThemeStyles(
     theme => ({
       iconColor: theme.palette[color],
@@ -33,7 +36,11 @@ export default function CloseEndButton({ color = "primaryBase-10", onPress, hasB
         styles.container,
         hasBackground === true ? iconBackgroundStyle : undefined,
       ]}>
-      <CloseIcon color={iconColor} />
+      {cloneElement(icon, {
+        height: 18,
+        width: 18,
+        color: iconColor,
+      })}
     </Pressable>
   );
 }

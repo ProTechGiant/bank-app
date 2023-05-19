@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
 import HeroSlider from "@/components/HeroSlider";
-import CloseEndButton from "@/components/NavHeader/CloseEndButton";
+import NavHeader from "@/components/NavHeader";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -33,7 +33,7 @@ export default function CardActivatedScreen() {
       ]}
       lastButtonText={t("CardActions.ActivationScreen.button")}
       onFinishPress={handleOnFinish}
-      end={<CloseEndButton onPress={handleOnFinish} color="errorBase" />}
+      end={<NavHeader.CloseEndButton onPress={handleOnFinish} color="errorBase" />}
       hasBackButton={false}
     />
   );

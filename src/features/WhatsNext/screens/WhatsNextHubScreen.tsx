@@ -2,7 +2,6 @@ import { isEmpty, isEqual, xorWith } from "lodash";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable } from "react-native";
 
 import { FilterIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -266,11 +265,7 @@ export default function WhatsNextHubScreen() {
         <Page backgroundColor="neutralBase-60">
           <NavHeader
             title={t("WhatsNext.HubScreen.title")}
-            end={
-              <Pressable onPress={handleOnFiltersModalVisiblePress}>
-                <FilterIcon />
-              </Pressable>
-            }
+            end={<NavHeader.IconEndButton icon={<FilterIcon />} onPress={handleOnFiltersModalVisiblePress} />}
           />
           <ContentContainer isScrollView>
             {hasFilters ? (

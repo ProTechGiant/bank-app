@@ -3,6 +3,8 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { userEvent, within } from "@storybook/testing-library";
 import { Alert } from "react-native";
 
+import { ShareIcon } from "@/assets/icons";
+
 import ProgressIndicator from "../ProgressIndicator";
 import NavHeader_ from "./index";
 
@@ -12,12 +14,12 @@ export default {
   args: {
     testID: "NavHeader",
     title: "Header text",
-    end: "close",
+    end: undefined,
   },
   argTypes: {
-    color: {
+    variant: {
       table: {
-        disable: true,
+        disable: false,
       },
     },
     onBackPress: {
@@ -54,6 +56,14 @@ export const TextEndButton: ComponentStory<typeof NavHeader_> = args => {
   return (
     <NavHeader_ {...args} end={<NavHeader_.TextEndButton text="Goodbye" onPress={() => Alert.alert("CLikced")} />} />
   );
+};
+
+export const IconEndButton: ComponentStory<typeof NavHeader_> = args => {
+  return <NavHeader_ {...args} end={<NavHeader_.IconEndButton icon={<ShareIcon />} onPress={() => {}} />} />;
+};
+
+export const CloseEndButton: ComponentStory<typeof NavHeader_> = args => {
+  return <NavHeader_ {...args} end={<NavHeader_.CloseEndButton onPress={() => {}} />} />;
 };
 
 export const WithChildren: ComponentStory<typeof NavHeader_> = args => {

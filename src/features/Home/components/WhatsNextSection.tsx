@@ -1,7 +1,7 @@
+import { useTranslation } from "react-i18next";
 import { Image } from "react-native";
 
 import Section from "./Section";
-import { useTranslation } from "react-i18next";
 
 interface WhatsNextSectionProps {
   onViewAllPress: () => void;
