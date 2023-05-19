@@ -7,10 +7,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AccountIcon, HideIcon, ShowIcon, UserClockIcon } from "@/assets/icons";
 import BulletinBoard from "@/components/BulletinBoard";
 import Button from "@/components/Button";
-import DismissibleBanner from "@/components/DismissibleBanner";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
@@ -115,7 +115,7 @@ export default function DashboardScreen() {
 
   return (
     <>
-      <DismissibleBanner visible={ibanToastVisible} message={t("Home.DashboardScreen.ibanCopied")} />
+      <Toast variant="confirm" isVisible={ibanToastVisible} message={t("Home.DashboardScreen.ibanCopied")} />
       <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
         <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
         <View style={styles.backgroundImage}>

@@ -5,12 +5,12 @@ import { View, ViewStyle } from "react-native";
 
 import { CopyIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
-import DismissibleBanner from "@/components/DismissibleBanner";
 import Divider from "@/components/Divider";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
+import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import usePrimaryAddress from "@/hooks/use-primary-address";
@@ -67,10 +67,10 @@ export default function AddMoneyViaBankTransferScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <DismissibleBanner
-        visible={isCopiedVisibleWithLabel !== undefined}
+      <Toast
+        variant="confirm"
+        isVisible={isCopiedVisibleWithLabel !== undefined}
         message={`${isCopiedVisibleWithLabel} ${t("AddMoneyInfo.BankDetails.copyInfo")}`}
-        icon={<CopyIcon />}
       />
       <NavHeader />
       <ContentContainer isScrollView>

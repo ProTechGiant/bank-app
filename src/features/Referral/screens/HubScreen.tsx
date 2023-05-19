@@ -6,12 +6,12 @@ import { I18nManager, Platform, ScrollView, Share, StyleSheet, View, ViewStyle }
 import { CopyIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import DismissibleBanner from "@/components/DismissibleBanner";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
+import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import { useReferralContext } from "@/contexts/ReferralContext";
 import useAppsFlyer from "@/hooks/use-appsflyer";
@@ -118,7 +118,7 @@ export default function HubScreen() {
 
   return (
     <>
-      <DismissibleBanner visible={showToast} message={t("Referral.HubScreen.linkCopied")} />
+      <Toast variant="confirm" visible={showToast} message={t("Referral.HubScreen.linkCopied")} />
       <Page backgroundColor="neutralBase-60">
         <View style={styles.backgroundBottomRight}>
           <BackgroundBottomRightSvg />

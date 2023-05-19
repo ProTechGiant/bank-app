@@ -6,23 +6,16 @@ import { Alert, Dimensions, Pressable, StatusBar, StyleSheet, View, ViewStyle } 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import {
-  EditIcon,
-  LightningBoltIcon,
-  PlusIcon,
-  RecurringEventIcon,
-  TickCircleIcon,
-  WithdrawIcon,
-} from "@/assets/icons";
+import { EditIcon, LightningBoltIcon, PlusIcon, RecurringEventIcon, WithdrawIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import ContextualFAQModal from "@/components/ContextualFAQModal";
-import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
+import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -224,15 +217,12 @@ export default function GoalDetailsScreen() {
     marginBottom: theme.spacing["48p"],
   }));
 
-  const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
-
   return (
     <SafeAreaProvider>
-      <DismissibleBanner
-        variant="success"
-        visible={isRemovedRecurringPaymentBannerVisible}
+      <Toast
+        variant="confirm"
+        isVisible={isRemovedRecurringPaymentBannerVisible}
         message={t("SavingsGoals.EditRegularPaymentModal.removeBanner")}
-        icon={<TickCircleIcon color={iconColor} />}
       />
       <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
         <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />

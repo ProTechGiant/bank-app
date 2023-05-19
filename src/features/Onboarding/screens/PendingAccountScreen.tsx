@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
-import { FilledCircleTickIcon, FilledRefresh, LargeFilledTickIcon } from "@/assets/icons";
+import { FilledRefresh, LargeFilledTickIcon } from "@/assets/icons";
 import Banner from "@/components/Banner";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import DismissibleBanner from "@/components/DismissibleBanner";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -72,12 +72,10 @@ export default function PendingAccountScreen() {
   return (
     <>
       {accountStatus === "COMPLETED" ? (
-        <DismissibleBanner
-          onClearPress={() => setIsBannerVisible(false)}
-          icon={<FilledCircleTickIcon />}
+        <Toast
           message={t("Onboarding.LandingScreen.success.bannerMessage")}
-          visible={isBannerVisible}
-          variant="success"
+          isVisible={isBannerVisible}
+          variant="confirm"
         />
       ) : null}
       <Page>

@@ -4,12 +4,11 @@ import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { CopyIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
-import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
+import Toast from "@/components/Toast";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -36,9 +35,9 @@ export default function AccountDetailsScreen() {
 
   return (
     <SafeAreaProvider>
-      <DismissibleBanner
-        visible={isCopiedBannerVisibleWithLabel !== undefined}
-        icon={<CopyIcon color={copyColor} />}
+      <Toast
+        variant="confirm"
+        isVisible={isCopiedBannerVisibleWithLabel !== undefined}
         message={t("Home.AccountDetails.banner.error", { dataCopied: isCopiedBannerVisibleWithLabel })}
       />
       <Page>

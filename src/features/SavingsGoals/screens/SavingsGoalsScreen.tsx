@@ -4,12 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, I18nManager, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
-import { FilledCircleTickIcon, PlusIcon } from "@/assets/icons";
+import { PlusIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
-import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -77,11 +77,10 @@ export default function SavingsGoalsScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       {showCloseNotification && (
-        <DismissibleBanner
-          visible={showCloseNotification}
+        <Toast
+          isVisible={showCloseNotification}
           message={t("SavingsGoals.SavingsGoalsScreen.notifications.goalClosed")}
-          variant="success"
-          icon={<FilledCircleTickIcon />}
+          variant="confirm"
         />
       )}
       <StatusBar backgroundColor="transparent" translucent />

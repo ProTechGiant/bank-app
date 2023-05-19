@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AppState, NativeEventSubscription, Platform, StyleSheet, View, ViewStyle } from "react-native";
 
-import { CardSettingsIcon, CloseIcon, CopyIcon, ReportIcon } from "@/assets/icons";
+import { CardSettingsIcon, CloseIcon, ReportIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
 import BankCard from "@/components/BankCard";
 import ContentContainer from "@/components/ContentContainer";
-import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import Toast from "@/components/Toast";
 import { PHYSICAL_CARD_TYPE, SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -318,11 +318,10 @@ export default function CardDetailsScreen() {
 
   return (
     <>
-      <DismissibleBanner
-        visible={isCopiedCardNumberBannerVisible}
+      <Toast
+        isVisible={isCopiedCardNumberBannerVisible}
         message={t("CardActions.CardDetailsScreen.copyClipboard")}
-        icon={<CopyIcon />}
-        variant="default"
+        variant="confirm"
       />
       <Page backgroundColor="neutralBase-60">
         <NavHeader

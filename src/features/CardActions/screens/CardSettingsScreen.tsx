@@ -5,11 +5,11 @@ import { ActivityIndicator, View, ViewStyle } from "react-native";
 
 import { CardIcon, GlobeIcon, LockIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
-import DismissibleBanner from "@/components/DismissibleBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -129,7 +129,7 @@ export default function CardSettingsScreen() {
 
   return (
     <>
-      <DismissibleBanner message="Card PIN has been updated" variant="success" visible={isPinUpdatedBannerVisible} />
+      <Toast message="Card PIN has been updated" variant="confirm" isVisible={isPinUpdatedBannerVisible} />
       <Page backgroundColor="neutralBase-60">
         <NavHeader />
         <ContentContainer isScrollView>

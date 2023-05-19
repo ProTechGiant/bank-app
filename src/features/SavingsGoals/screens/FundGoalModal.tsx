@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { TickCircleIcon } from "@/assets/icons";
-import DismissibleBanner from "@/components/DismissibleBanner";
 import Page from "@/components/Page";
+import Toast from "@/components/Toast";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
@@ -64,8 +64,9 @@ export default function FundGoalModal() {
 
   return (
     <>
-      <DismissibleBanner
-        visible={isCreatedGoalBannerVisible}
+      <Toast
+        variant="confirm"
+        isVisible={isCreatedGoalBannerVisible}
         message={t("SavingsGoals.FundGoalModal.goalCreatedBanner")}
         icon={<TickCircleIcon />}
       />
