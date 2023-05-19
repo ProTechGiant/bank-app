@@ -358,7 +358,7 @@ export const resources = {
           notifocation: "That passcode wasn't right. You have {{attempts}} attempts left.",
           errorMessage: "You’ve entered the wrong PIN too many times. Please wait {{time}} min and try again.",
           errorTitle: "try again later",
-          forgotPassword: "Forgot your Passcode?"
+          forgotPassword: "Forgot your Passcode?",
         },
         passcodeInput: {
           subTitle: "Enter your {{length}}-digit passcode {{extra}}",
@@ -2339,7 +2339,7 @@ export const resources = {
         notification: {
           title: "Cancel your transfer?",
           message:
-            'Are you sure you want to cancel the transfer process? If yes, please click on "Confirm Cancellation"',
+            'Are you sure you want to cancel the transfer process? If yes, please click on "Confirm Cancellation" ',
           cancel: "Confirm cancellation",
           continue: "Close",
         },
@@ -2353,8 +2353,9 @@ export const resources = {
         forbiddenWordNotAllowed: 'The word "{{forbiddenWord}}" is not allowed in the note.',
         forbiddenWordsNotAllowed: 'The words "{{forbiddenWord}}" are not allowed in the note.',
       },
-      PaymentHub: {
+      PaymentsHubScreen: {
         title: "Money in & out",
+        balanceAvailable: "{{balance}} available",
         options: {
           localTransfer: {
             title: "Local transfer",
@@ -2425,7 +2426,6 @@ export const resources = {
         },
         accountNumberForm: {
           accountNumber: {
-            placeholder: "Account number",
             validation: {
               required: "Required*",
               invalid: "Account number need 9 numbers",
@@ -2442,7 +2442,6 @@ export const resources = {
         },
         ibanForm: {
           iban: {
-            placeholder: "IBAN number",
             validation: {
               required: "Required*",
               minLength: "Minimum 22 digits",
@@ -2477,6 +2476,44 @@ export const resources = {
         termsAndConditions: "Terms and Conditions",
         confirmButton: "Confirm",
       },
+      ConfirmQuickTransferBeneficiaryScreen: {
+        title: "Confirm beneficiary details",
+        navTitle: "Send money",
+        details: {
+          name: "Full Name",
+          bank: "Bank",
+          mobile: "Mobile",
+          id: "ID",
+          iban: "IBAN",
+          email: "Email",
+        },
+        bannerMessage: "You need to confirm this beneficiary's details before you can send any money.",
+        confirmButton: "Confirm",
+      },
+      ReviewQuickTransferScreen: {
+        title: "Review transfer",
+        from: "From",
+        to: "To",
+        reason: "Reason",
+        total: "Total",
+        bank: "Bank",
+        processingTime: "Processing time",
+        fee: "Fee",
+        sendMoney: "Send money now",
+        cancel: "Cancel",
+        currency: "SAR",
+        sameDay: "Same day",
+        notification: {
+          title: "Are you sure?",
+          message: "Do you want to cancel this transfer?",
+          cancel: "Cancel transfer",
+          continue: "Close",
+        },
+        feesError: {
+          title: "Sorry - we couldn’t check that",
+          message: "Please try again later or get in touch if you’re still having problems.",
+        },
+      },
       BeneficiaryDeclarationScreen: {
         title: "Terms and conditions",
         sections: {
@@ -2491,15 +2528,128 @@ export const resources = {
             "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
         },
       },
-      InternalTransferScreen: {
-        title: "Send money",
-        currency: " SAR",
+      TransferAmountInput: {
         balance: "Balance: ",
-        errorMessage: "You have insufficient funds.",
-        addFunds: "Add funds",
+        currency: " SAR",
+      },
+      TransferReasonInput: {
         reason: "Why are you sending money?",
         confirm: "Confirm",
         next: "Next",
+      },
+      InternalTransferScreen: {
+        title: "Send money",
+        amountExceedsBalance: "You have insufficient funds.",
+        addFunds: "Add funds",
+      },
+      QuickTransferScreen: {
+        navTitle: "Send money",
+        title: "Quick transfer",
+        transferLimits: "Transfer limits",
+        amountExceedsDailyLimit: "Transfer amount exceeds the {{limit}} SAR daily limit by {{amount}} SAR",
+        amountExceedsBalance: "You have insufficient funds.",
+        addFunds: "Add funds",
+        amountExceedsQuickTransferLimit: "Limit: {{amount}}",
+        switchToStandardTransfer: "Switch to standard transfer",
+        continueButton: "Continue",
+        couldNotLoadReasonsErrorTitle: "Couldn't load list",
+        couldNotLoadReasonsErrorMessage: "Please try again later or get in touch if you’re still having problems.",
+        limitError: {
+          title: "Sorry - we couldn’t check that",
+          message: "Please try again later or get in touch if you’re still having problems.",
+        },
+      },
+      QuickTransferLimitsModal: {
+        title: "What are my transfer limits?",
+        standardTransfer: "Standard transfer",
+        standardTransferExplanation:
+          "Send up to 20,000 SAR to added or saved beneficiaries. If you need to send more than this, the transfer will be processed through normal local bank transfer method without any change.",
+        quickTransfer: "Quick transfer",
+        quickTransferExplanation:
+          "Send a one time transfer up to 2,500 SAR. Transfers of this type can be done via Email, ID number, Mobile Number or IBAN without saving the beneficiary. You have the option to configure your daily limit within the maximum range.",
+        nonWorkingDays: "Non-working days",
+        nonWorkingDaysExplanation:
+          "If you make a standard transfer on a non-working day, the transfer will be processed on the following working day.",
+        wantToSwitch: "Want to transfer over 2,500 SAR?",
+        switchToStandard: "Switch to Standard Transfer",
+      },
+      EnterQuickTransferBeneficiaryScreen: {
+        navTitle: "Send money",
+        title: "Enter beneficiary details",
+        beneficiaryBankLabel: "Beneficiary bank",
+        beneficiaryBankConfirm: "Set",
+        beneficiaryBankHeaderText: "Select beneficiary bank",
+        transferBy: "Transfer by",
+        continue: "Continue",
+        cancel: "Cancel",
+        switchToStandardTransfers: "Switch to standard transfers",
+        transferByOptions: {
+          mobile: "Mobile",
+          email: "Email",
+          id: "ID",
+          iban: "IBAN",
+        },
+        mobile: {
+          label: "Mobile number",
+          validation: {
+            required: "Required",
+            invalid: "Phone number requires 9 digits",
+          },
+          error: {
+            title: "Mobile not found",
+            message: "That mobile number isn't associated with a {{bankName}} account. Please check and try again.",
+          },
+        },
+        email: {
+          label: "Email",
+          placeholder: "john.doe@domain.com",
+          validation: {
+            required: "Required",
+            invalid: "Incorrect email format",
+          },
+          error: {
+            title: "Email not found",
+            message: "That email isn't associated with a {{bankName}} account. Please check and try again.",
+          },
+        },
+        nationalID: {
+          label: "ID number",
+          validation: {
+            required: "Required*",
+            invalid: "Should be 10 digits",
+          },
+          error: {
+            title: "ID not found",
+            message: "That ID isn't associated with a {{bankName}} account. Please check and try again.",
+          },
+        },
+        iban: {
+          fullNameLabel: "Full name",
+          fullNamePlacholder: "First Last",
+          ibanLabel: "IBAN number",
+          mask: "SA## #### #### #### #### ####",
+          validation: {
+            required: "Required",
+            lengthInvalid: "IBAN needs 24 chracters",
+            formatInvalid: "Incorrect IBAN format",
+          },
+          error: {
+            title: "IBAN not recognised",
+            message: "That IBAN doesn't look right. Please check it and try again.",
+          },
+        },
+        beneficiaryBanksError: {
+          title: "Couldn't load list",
+          message: "Please try again later or get in touch if you’re still having problems.",
+        },
+        quickTransfersUnsupportedError: {
+          title: "Quick transfers not supported",
+          message: "{{bankName}} does not support quick transfers",
+        },
+        validationError: {
+          title: "Sorry - we couldn't check that",
+          message: "Please try again later or get in touch if you’re still having problems.",
+        },
       },
       ConfirmationScreen: {
         title: {
@@ -2508,6 +2658,16 @@ export const resources = {
           new: "Beneficiary activation and transfer successful",
         },
         message: "You can review individual transactions in your transaction history",
+        transferredTo: "Transferred to",
+        amount: "Amount",
+        buttons: {
+          done: "Done",
+          viewTransaction: "View transaction",
+        },
+      },
+      QuickTransferSuccessScreen: {
+        title: "Your transfer is complete",
+        message: "You'll find the details in your transaction list",
         transferredTo: "Transferred to",
         amount: "Amount",
         buttons: {

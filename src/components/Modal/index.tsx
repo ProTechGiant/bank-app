@@ -29,6 +29,7 @@ interface ModalProps extends Omit<RNModalProps, "animationType" | "onRequestClos
   onClose?: () => void;
   onBack?: () => void;
   headerText?: string;
+  hasHeaderDivider?: boolean;
   style?: ViewStyle;
 }
 
@@ -38,6 +39,7 @@ export default function Modal({
   onClose,
   onBack,
   headerText,
+  hasHeaderDivider = false,
   visible = false,
   style,
   ...nativeModalProps
@@ -87,14 +89,18 @@ export default function Modal({
     [insets.bottom, style]
   );
 
-  const headerStyles = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    // padding around entire modal - additional padding of current element
-    marginBottom: theme.spacing["20p"],
-    padding: theme.spacing["4p"],
-  }));
+  const headerStyles = useThemeStyles<ViewStyle>(
+    theme => ({
+      alignItems: "center",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      // padding around entire modal - additional padding of current element
+      marginBottom: theme.spacing["20p"],
+      paddingHorizontal: hasHeaderDivider ? theme.spacing["20p"] : theme.spacing["4p"],
+      paddingVertical: hasHeaderDivider ? 0 : theme.spacing["4p"],
+    }),
+    [hasHeaderDivider]
+  );
 
   const containerAnimatedStyles = useAnimatedStyle(() => ({
     transform: [
@@ -107,6 +113,14 @@ export default function Modal({
   const backdropAnimatedStyles = useAnimatedStyle(() => ({
     backgroundColor: interpolateColor(transitionPhase.value, [0, 1], ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.6)"]),
   }));
+
+  const headerDividerStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderBottomColor: theme.palette["neutralBase-30"],
+    borderBottomWidth: 1,
+    marginHorizontal: -theme.spacing["20p"],
+  }));
+
+  const iconColor = useThemeStyles(theme => theme.palette.neutralBase);
 
   const handleStartTransitioning = () => {
     transitionPhase.value = withTiming(visible ? 1 : 0, {
@@ -126,27 +140,29 @@ export default function Modal({
         style={[containerStyles, containerAnimatedStyles, style]}>
         <View style={contentStyles}>
           {(undefined !== headerText || undefined !== onClose) && (
-            <View style={headerStyles}>
-              {undefined !== onBack ? (
-                <Pressable onPress={onBack}>
-                  <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-                    <ArrowLeftIcon />
-                  </View>
-                </Pressable>
-              ) : (
-                <View />
-              )}
-              <View style={styles.headerTextContainer}>
-                <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-                  {headerText}
-                </Typography.Text>
-              </View>
-              <View>
-                {undefined !== onClose && (
-                  <Pressable hitSlop={HIT_SLOP_RIGHT} onPress={onClose}>
-                    <CloseIcon />
+            <View style={[hasHeaderDivider && headerDividerStyle]}>
+              <View style={headerStyles}>
+                {undefined !== onBack ? (
+                  <Pressable onPress={onBack}>
+                    <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
+                      <ArrowLeftIcon />
+                    </View>
                   </Pressable>
+                ) : (
+                  <View />
                 )}
+                <View style={styles.headerTextContainer}>
+                  <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+                    {headerText}
+                  </Typography.Text>
+                </View>
+                <View>
+                  {undefined !== onClose && (
+                    <Pressable hitSlop={HIT_SLOP_RIGHT} onPress={onClose}>
+                      <CloseIcon color={iconColor} />
+                    </Pressable>
+                  )}
+                </View>
               </View>
             </View>
           )}

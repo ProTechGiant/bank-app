@@ -7,7 +7,7 @@ interface DropdownInputProps<T extends FieldValues>
   extra?: string;
   control: Control<T>;
   isEditable?: boolean;
-  label: string;
+  label?: string;
   placeholder?: string;
   name: Path<T>;
 }

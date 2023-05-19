@@ -65,7 +65,7 @@ export default function DropdownInput<T extends string | number>({
   }));
 
   return (
-    <Modal onClose={handleOnClose} headerText={headerText} visible={isVisible}>
+    <Modal onClose={handleOnClose} headerText={headerText} visible={isVisible} hasHeaderDivider>
       {isFixedHeight ? (
         <DropdownInputList options={options} onChange={handleOnChange} value={selectedValue} />
       ) : (

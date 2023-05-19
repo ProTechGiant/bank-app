@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { Pressable, StyleSheet } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { ChevronRightIcon } from "@/assets/icons";
@@ -31,13 +31,18 @@ export default function PaymentOption({ onPress, icon, title, helperText }: Paym
             {helperText}
           </Typography.Text>
         </Stack>
-        <ChevronRightIcon color={arrowColor} />
+        <View style={styles.chevronContainer}>
+          <ChevronRightIcon color={arrowColor} />
+        </View>
       </Stack>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
+  chevronContainer: {
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
   expandText: {
     flex: 1,
   },
