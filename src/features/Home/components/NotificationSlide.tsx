@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, ViewStyle } from "react-native";
 
 import PillButton from "@/components/BulletinBoard/PillButton";
@@ -6,7 +7,6 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import { Notification } from "../types";
-import { useTranslation } from "react-i18next";
 
 interface NotificationSlideProps {
   onPress: (notification: Notification) => void;
