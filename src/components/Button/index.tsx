@@ -62,6 +62,8 @@ export default function Button({
   return (
     <Pressable
       {...restProps}
+      accessibilityRole="button"
+      accessibilityState={{ disabled, busy: loading }}
       android_ripple={androidRippleColor}
       disabled={disabled}
       style={({ pressed }) => [styles.base, block && styles.block, containerStyles, pressed && pressedStyle]}>
