@@ -16,7 +16,7 @@ import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import { mockCroatiaPurpose } from "@/mocks/croatiaPurposeData";
 import { mockExpectedAmount } from "@/mocks/expectedAmount";
-import { mockOccuptions } from "@/mocks/occupationData";
+import { mockOccupations } from "@/mocks/occupationData";
 import { mockSources } from "@/mocks/sourceOfIncomeData";
 import useNavigation from "@/navigation/use-navigation";
 
@@ -66,7 +66,7 @@ export default function FinancialInformationScreen() {
               label={t("Onboarding.FinancialInformationScreen.inputOccupationLabel")}
               extra={t("Onboarding.FinancialInformationScreen.inputOccupationExtra")}
               placeholder={t("Onboarding.FinancialInformationScreen.inputOccupationPlaceholder")}
-              options={mockOccuptions}
+              options={mockOccupations}
               buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
               autoselect
             />
@@ -98,7 +98,7 @@ export default function FinancialInformationScreen() {
               autoselect
             />
             <Accordion title={t("Onboarding.FinancialInformationScreen.moreInfoDropdownTitle")}>
-              <Typography.Text color="neutralBase" size="footnote">
+              <Typography.Text color="neutralBase+10" size="footnote">
                 {t("Onboarding.FinancialInformationScreen.moreInfoDropdownBody")}
               </Typography.Text>
             </Accordion>

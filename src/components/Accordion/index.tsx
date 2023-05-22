@@ -24,7 +24,12 @@ export default function Accordion({ children, title }: AccordionProps) {
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["16p"],
     backgroundColor: theme.palette["neutralBase-60"],
-    height: theme.spacing.full,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: theme.palette["supportBase-20"],
+    borderBottomLeftRadius: theme.radii.small,
+    borderBottomRightRadius: theme.radii.small,
   }));
 
   const pressableContainerStyle = useThemeStyles<ViewStyle>(theme => ({

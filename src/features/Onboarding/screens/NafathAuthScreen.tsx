@@ -120,7 +120,7 @@ export default function NafathAuthScreen() {
             </Typography.Text>
           </LinkCard>
           <Accordion title={t("Onboarding.NafathAuthScreen.dropdownTitle")}>
-            <Typography.Text color="neutralBase" size="footnote">
+            <Typography.Text color="neutralBase+10" size="footnote">
               {t("Onboarding.NafathAuthScreen.dropdownBody")}
             </Typography.Text>
           </Accordion>

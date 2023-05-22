@@ -1,4 +1,4 @@
-export const mockOccuptions = [
+export const mockOccupations = [
   {
     label: "Agriculture, forestry, and fishing",
     value: "Agriculture, forestry, and fishing",

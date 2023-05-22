@@ -110,9 +110,9 @@ export default function ConfirmPersonalDetailsScreen() {
             </WithShadow>
           ) : null}
           <Accordion title={t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownTitle")}>
-            <Typography.Text color="neutralBase" size="footnote" weight="regular">
+            <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
               {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyOne")}
-              <Typography.Text color="neutralBase" size="footnote" weight="bold">
+              <Typography.Text color="neutralBase+10" size="footnote" weight="bold">
                 {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyTwo")}
               </Typography.Text>
               {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyThree")}

@@ -9,7 +9,7 @@ export default {
   args: {
     title: "Example accordion",
     children: (
-      <Typography.Text color="neutralBase" size="footnote">
+      <Typography.Text color="neutralBase+10" size="footnote">
         Accordion Dropdown
       </Typography.Text>
     ),

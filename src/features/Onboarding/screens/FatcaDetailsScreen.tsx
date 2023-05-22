@@ -161,7 +161,7 @@ export default function FatcaDetailsScreen() {
               </View>
             </Stack>
             <Accordion title={t("Onboarding.FatcaDetailsScreen.moreInfoDropdownTitle")}>
-              <Typography.Text color="neutralBase" size="footnote">
+              <Typography.Text color="neutralBase+10" size="footnote">
                 {t("Onboarding.FatcaDetailsScreen.moreInfoDropdownBody")}
               </Typography.Text>
             </Accordion>
@@ -174,9 +174,9 @@ export default function FatcaDetailsScreen() {
                 onPress={handleOnEditPress}
               />
             ))}
-            {hasForeignTaxResidency && foreignTaxCountries.length < 3 && !formState.isSubmitting && (
+            {hasForeignTaxResidency && foreignTaxCountries.length < 3 && !formState.isSubmitting ? (
               <AddCountryTile onPress={handleOnAddPress} />
-            )}
+            ) : null}
           </Stack>
         </ContentContainer>
       </ScrollView>
