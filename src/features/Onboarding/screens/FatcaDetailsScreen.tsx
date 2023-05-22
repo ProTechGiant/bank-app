@@ -54,11 +54,11 @@ export default function FatcaDetailsScreen() {
     }
 
     if (params.result === "remove" && undefined !== params.elementIndex) {
-      const elemementIndex = params.elementIndex as number;
+      const elementIndex = params.elementIndex as number;
 
       setValue(
         "ForeignTaxCountry",
-        foreignTaxCountries.filter((_, index) => index !== elemementIndex),
+        foreignTaxCountries.filter((_, index) => index !== elementIndex),
         setOptions
       );
     }

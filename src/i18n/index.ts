@@ -243,7 +243,7 @@ export const resources = {
       ViewTransactions: {
         TransactionsScreen: {
           title: "Transactions",
-          filterdBy: "Filtered By:",
+          filteredBy: "Filtered By:",
           pending: "Pending Transactions",
           filter: "Filter",
           balance: "Balance",
@@ -2009,7 +2009,7 @@ export const resources = {
       ViewTransactions: {
         TransactionsScreen: {
           title: "Transactions",
-          filterdBy: "Filtered By:",
+          filteredBy: "Filtered By:",
           pending: "Pending Transactions",
           filter: "Filter",
           balance: "Balance",

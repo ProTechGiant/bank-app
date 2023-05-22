@@ -54,7 +54,7 @@ Default.play = async ({ args, canvasElement }) => {
 
 export const TextEndButton: ComponentStory<typeof NavHeader_> = args => {
   return (
-    <NavHeader_ {...args} end={<NavHeader_.TextEndButton text="Goodbye" onPress={() => Alert.alert("CLikced")} />} />
+    <NavHeader_ {...args} end={<NavHeader_.TextEndButton text="Goodbye" onPress={() => Alert.alert("Pressed")} />} />
   );
 };
 

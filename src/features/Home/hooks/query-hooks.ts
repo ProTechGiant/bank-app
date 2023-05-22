@@ -12,7 +12,7 @@ const queryKeys = {
   getLayout: () => [...queryKeys.all(), "getLayout"],
 };
 
-interface HomepageSectionlayoutType {
+interface HomepageSectionLayoutType {
   name: string;
   widgets: HomepageItemLayoutType[];
 }
@@ -21,7 +21,7 @@ export interface HomepageLayoutType {
   tabs: [
     {
       name: string;
-      sections: HomepageSectionlayoutType[];
+      sections: HomepageSectionLayoutType[];
     }
   ];
 }

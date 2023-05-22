@@ -16,11 +16,10 @@ export default function CloseEndButton({ color = "primaryBase-10", testID, onPre
     }),
     [color]
   );
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.accordian, []);
 
   return (
     <Pressable onPress={onPress} style={{ transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }] }} testID={testID}>
-      <CloseIcon color={iconColor} width={iconDimensions} height={iconDimensions} />
+      <CloseIcon color={iconColor} width={24} height={24} />
     </Pressable>
   );
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { AngleDownIcon, AngleUpIcon, InfoFilledCircleIcon } from "@/assets/icons";
 import { GreyGradient } from "@/components/LinearGradients/GradientButtons";
@@ -43,13 +43,6 @@ export default function Accordion({ children, title }: AccordionProps) {
   const infoIconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
   const anglesIconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
-  const toggleIconStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: theme.iconDimensions.accordian,
-    width: theme.iconDimensions.accordian,
-    justifyContent: "center",
-    alignItems: "flex-end",
-  }));
-
   const titleStyles = useThemeStyles<ViewStyle>(theme => ({
     flexGrow: 1,
     marginHorizontal: theme.spacing["8p"],
@@ -66,7 +59,7 @@ export default function Accordion({ children, title }: AccordionProps) {
           <Typography.Text color="neutralBase+30" weight="medium" size="footnote" style={titleStyles}>
             {title}
           </Typography.Text>
-          <View style={toggleIconStyle}>
+          <View style={styles.toggleIcon}>
             {isExpanded ? <AngleUpIcon color={anglesIconColor} /> : <AngleDownIcon color={anglesIconColor} />}
           </View>
         </View>
@@ -75,3 +68,12 @@ export default function Accordion({ children, title }: AccordionProps) {
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  toggleIcon: {
+    alignItems: "flex-end",
+    height: 24,
+    justifyContent: "center",
+    width: 24,
+  },
+});

@@ -206,7 +206,7 @@ export default function TransactionsScreen() {
         <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall">
           <Stack direction="horizontal" align="center" style={filterCont}>
             <Typography.Text color="neutralBase" size="callout" weight="semiBold">
-              {t("ViewTransactions.TransactionsScreen.filterdBy")}
+              {t("ViewTransactions.TransactionsScreen.filteredBy")}
             </Typography.Text>
             <View style={selectedFilter}>
               {selectedFilters.map(type => (
@@ -223,7 +223,7 @@ export default function TransactionsScreen() {
       ) : null}
       <Animated.ScrollView scrollEventThrottle={16} onScroll={handleScroll}>
         <View style={contentStyle}>
-          {/* this will be shown if there is pendind transactons */}
+          {/* this will be shown if there is pending transactions */}
           {pendingTransactions.data && Object.keys(pendingTransactions.data).length > 0 ? (
             <View style={margins}>
               <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall">

@@ -191,7 +191,7 @@ const iconDimensions = {
   link: 16,
   notifications: 21,
   reorderIcons: 23,
-  accordian: 24,
+  accordion: 24,
   copy: {
     width: 19,
     height: 22,

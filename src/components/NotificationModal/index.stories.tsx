@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { expect } from "@storybook/jest";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { within } from "@storybook/testing-library";

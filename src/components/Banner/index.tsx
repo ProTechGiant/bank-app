@@ -121,15 +121,14 @@ const Banner = ({ variant = "interactionBase", icon: Icon, message, label, end, 
     [colors]
   );
 
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.accordian, []);
   const iconColorVar = colors.bannerBorderColor ? colors.bannerBorderColor : colors.text;
 
   return (
     <View style={container}>
       <View style={iconStyle}>
         {cloneElement(Icon, {
-          height: iconDimensions,
-          width: iconDimensions,
+          height: 24,
+          width: 24,
           color: useThemeStyles<string>(theme => theme.palette[iconColorVar], [colors]),
         })}
       </View>

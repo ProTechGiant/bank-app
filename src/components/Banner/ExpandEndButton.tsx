@@ -11,7 +11,6 @@ export interface ExpandEndButtonProps {
 }
 
 export default function ExpandEndButton({ color = "primaryBase-10", testID, onPress, expanded }: ExpandEndButtonProps) {
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.accordian, []);
   const { iconColor } = useThemeStyles(
     theme => ({
       iconColor: theme.palette[color],
@@ -22,9 +21,9 @@ export default function ExpandEndButton({ color = "primaryBase-10", testID, onPr
   return (
     <Pressable onPress={onPress} style={{ transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }] }} testID={testID}>
       {expanded ? (
-        <AngleUpIcon color={iconColor} width={iconDimensions} height={iconDimensions} />
+        <AngleUpIcon color={iconColor} width={24} height={24} />
       ) : (
-        <AngleDownIcon color={iconColor} width={iconDimensions} height={iconDimensions} />
+        <AngleDownIcon color={iconColor} width={24} height={24} />
       )}
     </Pressable>
   );

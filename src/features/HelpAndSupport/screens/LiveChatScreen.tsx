@@ -13,8 +13,8 @@ import NotificationModal from "@/components/NotificationModal";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { OPTIONS } from "../mockOptions";
 import { LiveChatScreenHeader } from "../components";
+import { OPTIONS } from "../mockOptions";
 
 interface DropdownInputProps {
   EnquiryType: string;
