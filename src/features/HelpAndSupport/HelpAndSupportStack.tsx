@@ -2,12 +2,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { HubScreen, LiveChatScreen } from "./screens";
 
-export type HelpAndSuportStackParams = {
+export type HelpAndSupportStackParams = {
   "HelpAndSupport.HubScreen": undefined;
   "HelpAndSupport.LiveChatScreen": undefined;
 };
 
-export const Stack = createNativeStackNavigator<HelpAndSuportStackParams>();
+export const Stack = createNativeStackNavigator<HelpAndSupportStackParams>();
 
 export default function WhatsNextStack() {
   return (

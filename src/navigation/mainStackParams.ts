@@ -1,7 +1,7 @@
 import { AddMoneyStackParams } from "@/features/AddMoney/AddMoneyStack";
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
 import { FrequentlyAskedQuestionsStackParams } from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
-import { HelpAndSuportStackParams } from "@/features/HelpAndSupport/HelpAndSupportStack";
+import { HelpAndSupportStackParams } from "@/features/HelpAndSupport/HelpAndSupportStack";
 import { HomeStackParams } from "@/features/Home/HomeStack";
 import { InternalTransfersStackParams } from "@/features/InternalTransfers/InternalTransfersStack";
 import { NotificationManagementStackParams } from "@/features/NotificationManagement/NotificationManagementStack";
@@ -60,7 +60,7 @@ type RootStackParams = {
   "WhatsNext.WhatsNextStack": undefined;
   "HelpAndSupport.HelpAndSupportStack":
     | {
-        screen: keyof HelpAndSuportStackParams;
+        screen: keyof HelpAndSupportStackParams;
       }
     | undefined;
   "OneTimePassword.OneTimePasswordModal": {
@@ -94,6 +94,6 @@ type MainStackParams = RootStackParams &
   ReferralStackParams &
   PaymentDisputesStackParams &
   SignInStackParams &
-  HelpAndSuportStackParams;
+  HelpAndSupportStackParams;
 
 export default MainStackParams;

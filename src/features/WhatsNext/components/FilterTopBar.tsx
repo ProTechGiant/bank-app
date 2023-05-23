@@ -38,7 +38,7 @@ export default function FilterTopBar({
               <View key={data.id}>
                 <Chip
                   title={data.name}
-                  isEnabled={true}
+                  isSelected={true}
                   isClosable={true}
                   onPress={() => {
                     onTypeFilterItemRemovePress(data.name);
@@ -54,7 +54,7 @@ export default function FilterTopBar({
               <View key={data.id}>
                 <Chip
                   title={data.name}
-                  isEnabled={true}
+                  isSelected={true}
                   isClosable={true}
                   onPress={() => onCategoryFilterItemRemovePress(data.name)}
                 />

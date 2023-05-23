@@ -12,9 +12,10 @@ interface ChipProps {
   isSelected: boolean;
   onPress: () => void;
   leftIcon?: React.ReactElement<SvgProps | IconProps>;
+  testID?: string;
 }
 
-export default function Chip({ title, isClosable, isSelected, onPress, leftIcon }: ChipProps) {
+export default function Chip({ title, isClosable, isSelected, onPress, leftIcon, testID }: ChipProps) {
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: isSelected ? theme.palette["neutralBase-40"] : undefined,
@@ -33,7 +34,7 @@ export default function Chip({ title, isClosable, isSelected, onPress, leftIcon 
   const iconDimension = useThemeStyles<number>(theme => theme.iconDimensions.chipComponent);
 
   return (
-    <Pressable style={containerStyle} onPress={onPress}>
+    <Pressable style={containerStyle} onPress={onPress} testID={testID}>
       {leftIcon ? (
         <>
           {cloneElement(leftIcon, {
