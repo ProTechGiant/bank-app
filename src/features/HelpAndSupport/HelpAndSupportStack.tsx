@@ -9,7 +9,7 @@ export type HelpAndSupportStackParams = {
 
 export const Stack = createNativeStackNavigator<HelpAndSupportStackParams>();
 
-export default function WhatsNextStack() {
+export default function HelpAndSupportStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen component={HubScreen} name="HelpAndSupport.HubScreen" />

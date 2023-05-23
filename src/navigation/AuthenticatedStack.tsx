@@ -2,8 +2,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AddMoneyStack from "@/features/AddMoney/AddMoneyStack";
 import CardActionsStack from "@/features/CardActions/CardActionsStack";
+import FrequentlyAskedQuestionsStack from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
 import DetailedScreen from "@/features/FrequentlyAskedQuestions/screens/DetailedScreen";
 import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
+import HelpAndSupportStack from "@/features/HelpAndSupport/HelpAndSupportStack";
 import HomeStack from "@/features/Home/HomeStack";
 import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfersStack";
 import NotificationManagementStack from "@/features/NotificationManagement/NotificationManagementStack";
@@ -60,6 +62,11 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen
         component={NotificationManagementStack}
         name="NotificationManagement.NotificationManagementStack"
+      />
+      <AuthStack.Screen component={HelpAndSupportStack} name="HelpAndSupport.HelpAndSupportStack" />
+      <AuthStack.Screen
+        component={FrequentlyAskedQuestionsStack}
+        name="FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack"
       />
     </AuthStack.Navigator>
   );
