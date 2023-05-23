@@ -1,4 +1,4 @@
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import { WithShadow } from "@/components";
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 24,
     justifyContent: "center",
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
     width: 24,
   },
   textContainer: {

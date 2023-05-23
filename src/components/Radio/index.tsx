@@ -11,9 +11,9 @@ interface RadioProps<T> {
 }
 
 export default function Radio<T>({ disabled = false, onPress, isSelected = false, value }: RadioProps<T>) {
-  const { selectedColor, disabaledColor, defaultColor } = useThemeStyles(theme => ({
+  const { selectedColor, disabledColor, defaultColor } = useThemeStyles(theme => ({
     selectedColor: theme.palette["primaryBase-40"],
-    disabaledColor: theme.palette["neutralBase-40"],
+    disabledColor: theme.palette["neutralBase-40"],
     defaultColor: theme.palette["neutralBase-30"],
   }));
 
@@ -23,7 +23,7 @@ export default function Radio<T>({ disabled = false, onPress, isSelected = false
         <Svg width={20} height={21} viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
           <Path
             d="M10 .5C4.48.5 0 4.98 0 10.5s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-            fill={isSelected ? selectedColor : disabled ? disabaledColor : defaultColor}
+            fill={isSelected ? selectedColor : disabled ? disabledColor : defaultColor}
           />
           {isSelected ? <Path d="M10 15.5a5 5 0 100-10 5 5 0 000 10z" fill={selectedColor} /> : null}
         </Svg>

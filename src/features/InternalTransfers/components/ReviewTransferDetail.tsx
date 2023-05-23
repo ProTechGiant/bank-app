@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
@@ -131,7 +131,9 @@ export default function ReviewTransferDetail({
           <Typography.Text color="neutralBase" weight="medium" size="callout">
             {`"${note.content}"`}
           </Typography.Text>
-          <ChevronRightIcon color={chevronRightIconColor} />
+          <View style={styles.chevronContainer}>
+            <ChevronRightIcon color={chevronRightIconColor} />
+          </View>
         </Pressable>
       )}
     </View>
@@ -139,6 +141,9 @@ export default function ReviewTransferDetail({
 }
 
 const styles = StyleSheet.create({
+  chevronContainer: {
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
   noteContainer: {
     flexDirection: "row",
     justifyContent: "space-between",

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon, InfoIcon } from "@/assets/icons";
 import Modal from "@/components/Modal";
@@ -87,5 +87,6 @@ export default function QuickTransferLimitsModal({
 const styles = StyleSheet.create({
   chevron: {
     justifyContent: "center",
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   },
 });

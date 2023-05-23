@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
-import { CopyIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
 import NavHeader from "@/components/NavHeader";
