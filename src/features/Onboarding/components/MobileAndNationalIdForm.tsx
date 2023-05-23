@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
-import Banner from "@/components/Banner";
+import Alert from "@/components/Alert";
 import ContentContainer from "@/components/ContentContainer";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
@@ -81,7 +81,7 @@ export default function MobileAndNationalIdForm({
             <Stack direction="vertical" align="stretch" gap="20p">
               {errorMessages.map((err, index: number) =>
                 typeof err.message === "string" ? (
-                  <Banner key={`err_${index}`} variant={err.backgroundColor} icon={err.icon} message={err.message} />
+                  <Alert key={`err_${index}`} color={err.color} icon={err.icon} message={err.message} />
                 ) : (
                   <InfoBox key={`err_${index}`} variant="compliment" borderPosition="start">
                     {err.link ? (

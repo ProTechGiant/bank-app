@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert as RNAlert, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import { FilledRefresh, LargeFilledTickIcon } from "@/assets/icons";
-import Banner from "@/components/Banner";
+import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
@@ -42,7 +42,7 @@ export default function PendingAccountScreen() {
   }, [accountStatus, refetch]);
 
   const handleOnFinishLater = () => {
-    Alert.alert("Finish Later process not implemented yet. Come back later!");
+    RNAlert.alert("Finish Later process not implemented yet. Come back later!");
   };
 
   const handleAccountSetupToggle = () => {
@@ -115,11 +115,11 @@ export default function PendingAccountScreen() {
             ) : (
               <Stack direction="vertical" align="center" justify="center" flex={1}>
                 <View style={bannerViewStyle}>
-                  <Banner
-                    variant="warningBase-30"
+                  <Alert
+                    color="warningBase-30"
                     icon={<FilledRefresh />}
                     message={t("Onboarding.LandingScreen.pending.bannerMessage")}
-                    end={<Banner.ExpandEndButton onPress={handleAccountSetupToggle} expanded={isAccountSetupVisible} />}
+                    end={<Alert.ExpandEndButton onPress={handleAccountSetupToggle} expanded={isAccountSetupVisible} />}
                   />
                   {isAccountSetupVisible ? (
                     <Stack direction="vertical" gap="12p" style={pendingCheckListContainer}>

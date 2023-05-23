@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
 
 import ApiError from "@/api/ApiError";
+import ResponseError from "@/api/ResponseError";
 import { ErrorFilledCircleIcon, InfoFilledCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 
 import { ErrorMessageType } from "../types";
 
-export function useErrorMessages(err: ApiError) {
+export function useErrorMessages(err: ApiError<ResponseError>) {
   const { t } = useTranslation();
 
   const getErrorMessages = (type: string) => {
@@ -14,33 +15,33 @@ export function useErrorMessages(err: ApiError) {
       "0061": {
         message: <></>,
         icon: <ErrorFilledCircleIcon />,
-        backgroundColor: "errorBase-30",
+        color: "errorBase-30",
         link: "Sign In",
       },
       "0081": {
         message: t("Onboarding.IqamaInputScreen.errorText.oneAttemptsLeft"),
         icon: <InfoFilledCircleIcon />,
-        backgroundColor: "interactionBase-30",
+        color: "warningBase-30",
       },
       "0082": {
         message: t("Onboarding.IqamaInputScreen.errorText.twoAttemptsLeft"),
         icon: <InfoFilledCircleIcon />,
-        backgroundColor: "interactionBase-30",
+        color: "warningBase-30",
       },
       "0083": {
         message: t("Onboarding.IqamaInputScreen.errorText.noAttemptsLeft"),
         icon: <ErrorFilledCircleIcon />,
-        backgroundColor: "errorBase-30",
+        color: "errorBase-30",
       },
       "0084": {
         message: t("Onboarding.IqamaInputScreen.errorText.noMatch"),
         icon: <ErrorFilledCircleIcon />,
-        backgroundColor: "errorBase-30",
+        color: "errorBase-30",
       },
       "0085": {
         message: t("Onboarding.IqamaInputScreen.errorText.regulatoryCheck"),
         icon: <ErrorFilledCircleIcon />,
-        backgroundColor: "errorBase-30",
+        color: "errorBase-30",
       },
       "0086": {
         message: (
@@ -52,13 +53,13 @@ export function useErrorMessages(err: ApiError) {
           </>
         ),
         icon: <ErrorFilledCircleIcon />,
-        backgroundColor: "errorBase-30",
+        color: "errorBase-30",
         link: "Sign In",
       },
       default: {
         message: t("Onboarding.IqamaInputScreen.errorText.cannotOpen"),
         icon: <ErrorFilledCircleIcon />,
-        backgroundColor: "errorBase-30",
+        color: "errorBase-30",
       },
     };
     return messages[type] || messages.default;
