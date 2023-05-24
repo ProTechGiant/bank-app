@@ -1,16 +1,15 @@
-import { cloneElement, useEffect } from "react";
-import { Platform, StyleSheet, View, ViewStyle } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import { cloneElement } from "react";
+import { StyleSheet, View, ViewStyle } from "react-native";
+import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
 import { SvgProps } from "react-native-svg";
 
 import { ErrorFilledCircleIcon, TickCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface ToastProps {
+export interface ToastProps {
   icon?: React.ReactElement<SvgProps>;
   message: string;
-  isVisible: boolean;
   variant: "confirm" | "warning" | "negative";
   testID?: string;
 }
@@ -22,15 +21,7 @@ const VARIANT_ICONS = {
 };
 
 // @see https://www.figma.com/file/tl0ZMqLtY3o72AtiWUSgmc/Brand-Design-System?type=design&node-id=1503-8659&t=ixyhoCSGO91Uokxq-0
-export default function Toast({ icon, isVisible, variant = "confirm", message, testID }: ToastProps) {
-  const positionY = useSharedValue(-250);
-  const offset_ = useThemeStyles(theme => theme.spacing["24p"]);
-  const visiblePosY = Platform.OS !== "android" ? offset_ : 0;
-
-  useEffect(() => {
-    positionY.value = isVisible ? visiblePosY : -250;
-  }, [positionY, isVisible, visiblePosY]);
-
+export default function Toast({ icon, variant = "confirm", message, testID }: ToastProps) {
   const contentContainerStyles = useThemeStyles<ViewStyle>(theme => ({
     shadowColor: "#000000",
     shadowOffset: { width: 0, height: 4 },
@@ -56,10 +47,6 @@ export default function Toast({ icon, isVisible, variant = "confirm", message, t
     margin: theme.spacing["20p"],
   }));
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: withSpring(positionY.value) }],
-  }));
-
   const iconColor = useThemeStyles(
     ({ palette }) =>
       variant === "confirm"
@@ -71,7 +58,7 @@ export default function Toast({ icon, isVisible, variant = "confirm", message, t
   );
 
   return (
-    <Animated.View style={[animationContainerStyles, animatedStyle]} testID={testID}>
+    <Animated.View style={[animationContainerStyles]} testID={testID} entering={FadeInUp} exiting={FadeOutUp}>
       <View style={contentContainerStyles}>
         {icon !== undefined
           ? cloneElement(icon, { ...styles.icon })

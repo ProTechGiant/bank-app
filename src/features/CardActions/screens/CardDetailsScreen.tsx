@@ -11,8 +11,8 @@ import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
-import Toast from "@/components/Toast";
 import { PHYSICAL_CARD_TYPE, SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
+import { useToasts } from "@/contexts/ToastsContext";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -53,6 +53,7 @@ export default function CardDetailsScreen() {
   const requestUnmaskedCardDetailsAsync = useUnmaskedCardDetails();
   const card = useCard(route.params.cardId);
   const { isAppleWalletAvailable, canAddCardToAppleWallet, addCardToAppleWallet } = useAppleWallet(route.params.cardId);
+  const toast = useToasts();
 
   const [isViewingPin, setIsViewingPin] = useState(false);
   const [pin, setPin] = useState<string | undefined>();
@@ -61,7 +62,6 @@ export default function CardDetailsScreen() {
   const [isSucCreatedAlertVisible, setIsSucCreatedAlertVisible] = useState(
     route.params?.isSingleUseCardCreated ?? false
   );
-  const [isCopiedCardNumberBannerVisible, setIsCopiedCardNumberBannerVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isShowNotificationBanner, setIsShowNotificationBanner] = useState(true);
 
@@ -95,7 +95,7 @@ export default function CardDetailsScreen() {
       blurStateSubscription?.remove();
       transitionBlurSubscription();
     };
-  }, []);
+  }, [navigation]);
 
   const handleOnAddToAppleWallet = async () => {
     if (!isAppleWalletAvailable || !canAddCardToAppleWallet) return;
@@ -162,12 +162,14 @@ export default function CardDetailsScreen() {
   };
 
   const handleOnCopyCardNumberPress = () => {
-    setIsCopiedCardNumberBannerVisible(false);
     if (cardDetails?.CardNumber === undefined) return;
 
     Clipboard.setString(cardDetails.CardNumber);
-    setIsCopiedCardNumberBannerVisible(true);
-    setTimeout(() => setIsCopiedCardNumberBannerVisible(false), 4000);
+
+    toast.add({
+      variant: "confirm",
+      message: t("CardActions.CardDetailsScreen.copyClipboard"),
+    });
   };
 
   const handleOnPressActivate = () => {
@@ -318,11 +320,6 @@ export default function CardDetailsScreen() {
 
   return (
     <>
-      <Toast
-        isVisible={isCopiedCardNumberBannerVisible}
-        message={t("CardActions.CardDetailsScreen.copyClipboard")}
-        variant="confirm"
-      />
       <Page backgroundColor="neutralBase-60">
         <NavHeader
           title={

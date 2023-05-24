@@ -11,9 +11,9 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
-import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
 import { useReferralContext } from "@/contexts/ReferralContext";
+import { useToasts } from "@/contexts/ToastsContext";
 import useAppsFlyer from "@/hooks/use-appsflyer";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -30,9 +30,9 @@ export default function HubScreen() {
 
   const customerReferrals = useCustomersReferrals();
   const appsFlyer = useAppsFlyer();
+  const toast = useToasts();
 
   const { referralPageViewStatus, referralLink, setReferralLink } = useReferralContext();
-  const [showToast, setShowToast] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const moneyEarned =
@@ -75,8 +75,7 @@ export default function HubScreen() {
   const handleOnCopyPress = () => {
     if (referralLink) {
       Clipboard.setString(referralLink);
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 4000);
+      toast.add({ variant: "confirm", message: t("Referral.HubScreen.linkCopied") });
     }
   };
 
@@ -118,7 +117,6 @@ export default function HubScreen() {
 
   return (
     <>
-      <Toast variant="confirm" visible={showToast} message={t("Referral.HubScreen.linkCopied")} />
       <Page backgroundColor="neutralBase-60">
         <View style={styles.backgroundBottomRight}>
           <BackgroundBottomRightSvg />

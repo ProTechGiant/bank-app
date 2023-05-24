@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import { AuthContextProvider } from "@/contexts/AuthContext";
 import { ReferralContextProvider } from "@/contexts/ReferralContext";
+import { ToastsContextProvider } from "@/contexts/ToastsContext";
 import { InternalTransferContextProvider } from "@/features/InternalTransfers/context/InternalTransfersContext";
 import { OnboardingContextProvider } from "@/features/Onboarding/contexts/OnboardingContext";
 import useAppsFlyer from "@/hooks/use-appsflyer";
@@ -49,10 +50,12 @@ export default function App() {
             <OnboardingContextProvider>
               <InternalTransferContextProvider>
                 <SafeAreaProvider>
-                  <GestureHandlerRootView style={styles.container}>
-                    <StatusBar barStyle="dark-content" />
-                    <MainStack onReady={() => RNBootSplash.hide()} />
-                  </GestureHandlerRootView>
+                  <ToastsContextProvider>
+                    <GestureHandlerRootView style={styles.container}>
+                      <StatusBar barStyle="dark-content" />
+                      <MainStack onReady={() => RNBootSplash.hide()} />
+                    </GestureHandlerRootView>
+                  </ToastsContextProvider>
                 </SafeAreaProvider>
               </InternalTransferContextProvider>
             </OnboardingContextProvider>

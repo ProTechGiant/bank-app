@@ -8,7 +8,7 @@ import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
-import Toast from "@/components/Toast";
+import { useToasts } from "@/contexts/ToastsContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -18,16 +18,20 @@ export default function AccountDetailsScreen() {
   const account = useCurrentAccount();
   const { t } = useTranslation();
 
+  const toast = useToasts();
+
   const [isCopiedBannerVisibleWithLabel, setIsCopiedBannerVisibleWithLabel] = useState<string | undefined>();
 
   const handleOnCopyPress = (value: string, label: string) => {
     Clipboard.setString(value);
 
     setIsCopiedBannerVisibleWithLabel(label);
+    toast.add({
+      variant: "negative",
+      message: t("Home.AccountDetails.banner.error", { dataCopied: isCopiedBannerVisibleWithLabel }),
+    });
     setTimeout(() => setIsCopiedBannerVisibleWithLabel(undefined), 4000);
   };
-
-  const copyColor = useThemeStyles<string>(theme => theme.palette["neutralBase-50"]);
 
   const contentContainer = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["12p"],
@@ -35,11 +39,6 @@ export default function AccountDetailsScreen() {
 
   return (
     <SafeAreaProvider>
-      <Toast
-        variant="confirm"
-        isVisible={isCopiedBannerVisibleWithLabel !== undefined}
-        message={t("Home.AccountDetails.banner.error", { dataCopied: isCopiedBannerVisibleWithLabel })}
-      />
       <Page>
         <NavHeader
           title={t("Home.AccountDetails.navHeader")}

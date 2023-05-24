@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { compareAsc } from "date-fns";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, I18nManager, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -9,8 +9,8 @@ import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
+import { useToasts } from "@/contexts/ToastsContext";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -23,9 +23,9 @@ import { useSavingsPots } from "../hooks/query-hooks";
 export default function SavingsGoalsScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const { data, error } = useSavingsPots();
   const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.SavingsGoalsScreen">>();
-  const [showCloseNotification, setShowCloseNotification] = useState(false);
+  const toast = useToasts();
+  const { data, error } = useSavingsPots();
 
   useEffect(() => {
     if (error) {
@@ -38,14 +38,9 @@ export default function SavingsGoalsScreen() {
     }
 
     if (route.params !== undefined) {
-      const timeout = setTimeout(() => {
-        setShowCloseNotification(true);
-        setTimeout(() => setShowCloseNotification(false), 3000);
-      }, 1000);
-
-      return () => clearTimeout(timeout);
+      toast.add({ variant: "confirm", message: t("SavingsGoals.SavingsGoalsScreen.notifications.goalClosed") });
     }
-  }, [error, navigation, route.params, t]);
+  }, [error, navigation, route.params, t, toast]);
 
   const handleOnCreateGoal = () => {
     navigation.navigate("SavingsGoals.CreateGoalScreen");
@@ -76,13 +71,6 @@ export default function SavingsGoalsScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      {showCloseNotification && (
-        <Toast
-          isVisible={showCloseNotification}
-          message={t("SavingsGoals.SavingsGoalsScreen.notifications.goalClosed")}
-          variant="confirm"
-        />
-      )}
       <StatusBar backgroundColor="transparent" translucent />
       <View style={styles.backgroundTopEnd}>
         <BackgroundTopEndSvg />

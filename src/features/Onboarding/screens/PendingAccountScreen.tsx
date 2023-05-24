@@ -8,8 +8,8 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
+import { useToasts } from "@/contexts/ToastsContext";
 import { useThemeStyles } from "@/theme";
 
 import BackgroundBottomStartSvg from "../assets/background-bottom-start.svg";
@@ -21,8 +21,8 @@ import { Status } from "../types";
 
 export default function PendingAccountScreen() {
   const { t } = useTranslation();
-  const [isBannerVisible, setIsBannerVisible] = useState(true);
   const { userName } = useOnboardingContext();
+  const toast = useToasts();
   const [isAccountSetupVisible, setIsAccountSetupVisible] = useState(true);
   const [isfetchingAccountStatus, setIsfetchingAccountStatus] = useState(true);
   const { data, refetch } = useAccountStatus(isfetchingAccountStatus);
@@ -32,14 +32,11 @@ export default function PendingAccountScreen() {
   useEffect(() => {
     if (accountStatus === "COMPLETED") {
       setIsfetchingAccountStatus(false);
-      const timer = setTimeout(() => {
-        setIsBannerVisible(false);
-      }, 3000);
-      return () => clearTimeout(timer);
+      toast.add({ variant: "confirm", message: t("Onboarding.LandingScreen.success.bannerMessage") });
     } else if (accountStatus === "DECLINED") {
       setIsfetchingAccountStatus(false);
     }
-  }, [accountStatus, refetch]);
+  }, [accountStatus, refetch, t, toast]);
 
   const handleOnFinishLater = () => {
     RNAlert.alert("Finish Later process not implemented yet. Come back later!");
@@ -71,13 +68,6 @@ export default function PendingAccountScreen() {
 
   return (
     <>
-      {accountStatus === "COMPLETED" ? (
-        <Toast
-          message={t("Onboarding.LandingScreen.success.bannerMessage")}
-          isVisible={isBannerVisible}
-          variant="confirm"
-        />
-      ) : null}
       <Page>
         <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
         <View style={styles.backgroundTopEnd}>

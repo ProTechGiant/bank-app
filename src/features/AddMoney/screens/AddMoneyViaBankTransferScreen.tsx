@@ -9,8 +9,8 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
-import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
+import { useToasts } from "@/contexts/ToastsContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import usePrimaryAddress from "@/hooks/use-primary-address";
 import { useThemeStyles } from "@/theme";
@@ -22,6 +22,7 @@ export default function AddMoneyViaBankTransferScreen() {
 
   const { data } = useCurrentAccount();
   const getPrimaryAddress = usePrimaryAddress();
+  const toast = useToasts();
 
   const [isCopiedVisibleWithLabel, setIsCopiedVisibleWithLabel] = useState<string | undefined>();
 
@@ -29,6 +30,10 @@ export default function AddMoneyViaBankTransferScreen() {
     Clipboard.setString(value);
 
     setIsCopiedVisibleWithLabel(label);
+    toast.add({
+      variant: "confirm",
+      message: `${isCopiedVisibleWithLabel} ${t("AddMoneyInfo.BankDetails.copyInfo")}`,
+    });
     setTimeout(() => setIsCopiedVisibleWithLabel(undefined), 4000);
   };
 
@@ -66,11 +71,6 @@ export default function AddMoneyViaBankTransferScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <Toast
-        variant="confirm"
-        isVisible={isCopiedVisibleWithLabel !== undefined}
-        message={`${isCopiedVisibleWithLabel} ${t("AddMoneyInfo.BankDetails.copyInfo")}`}
-      />
       <NavHeader />
       <ContentContainer isScrollView>
         <Stack align="stretch" direction="vertical" gap="20p">

@@ -1028,6 +1028,7 @@ export const resources = {
           button: "Finish",
         },
         CardSettingsScreen: {
+          toast: "Card PIN has been updated",
           title: "Card settings",
           subTitle1: "Security",
           changePin: "Change Pin",
@@ -2188,6 +2189,7 @@ export const resources = {
           button: "Hide PIN",
         },
         CardSettingsScreen: {
+          toast: "Card PIN has been updated",
           title: "Card settings",
           subTitle1: "Security",
           changePin: "Change Pin",

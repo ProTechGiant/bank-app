@@ -9,8 +9,8 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
+import { useToasts } from "@/contexts/ToastsContext";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -30,15 +30,14 @@ export default function CardSettingsScreen() {
   const updateCardSettingsAsync = useUpdateCardSettings();
   const settings = useCardSettings(route.params.cardId);
   const card = useCard(route.params.cardId);
+  const toast = useToasts();
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
-  const [isPinUpdatedBannerVisible, setIsPinUpdatedBannerVisible] = useState(false);
   const isUpdatingRef = useRef(false);
 
   otpFlow.useOtpResponseEffect<{ ResetPinMessage: string }>((status, payload) => {
     if (status === "success" && "ResetPinMessage" in payload) {
-      setIsPinUpdatedBannerVisible(true);
-      setTimeout(() => setIsPinUpdatedBannerVisible(false), 3000);
+      toast.add({ variant: "confirm", message: t("CardActions.CardSettingsScreen.toast") });
     } else if (status === "fail") {
       setTimeout(() => setIsErrorModalVisible(true), 500);
     }
@@ -129,7 +128,6 @@ export default function CardSettingsScreen() {
 
   return (
     <>
-      <Toast message="Card PIN has been updated" variant="confirm" isVisible={isPinUpdatedBannerVisible} />
       <Page backgroundColor="neutralBase-60">
         <NavHeader />
         <ContentContainer isScrollView>

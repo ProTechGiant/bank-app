@@ -9,7 +9,6 @@ export default {
   component: Toast_,
   args: {
     message: "Your goal has been created",
-    visible: true,
     testID: "toast",
     variant: "confirm",
   },

@@ -15,8 +15,8 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
-import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
+import { useToasts } from "@/contexts/ToastsContext";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -38,10 +38,10 @@ export default function GoalDetailsScreen() {
   const { data: roundUpData } = useRoundupFlag();
   const updateSavingsGoalRoundUps = useUpdateSavingsGoal();
   const { data: getRecurringFund, isSuccess } = useRecurringPayments(route.params.PotId);
+  const toast = useToasts();
 
   const [isSwitchRoundupsModalVisible, setIsSwitchRoundupsModalVisible] = useState(false);
   const [showInfoRoundsUpsModal, setInfoRoundsUpModal] = useState(false);
-  const [isRemovedRecurringPaymentBannerVisible, setIsRemovedRecurringPaymentBannerVisible] = useState(false);
   const [showGoalAlmostReachedNotification, setShowGoalAlmostReachedNotification] = useState(false);
   const [differenceNeededToReachGoal, setDifferenceNeededToReachGoal] = useState(0);
   const [showAmountWithdrawn, setShowAmountWithdrawn] = useState(amountWithdrawn);
@@ -74,10 +74,12 @@ export default function GoalDetailsScreen() {
     if (undefined === route.params) return;
 
     if (route.params.isRecurringPaymentRemoved === true) {
-      setIsRemovedRecurringPaymentBannerVisible(true);
-      setTimeout(() => setIsRemovedRecurringPaymentBannerVisible(false), 4000);
+      toast.add({
+        variant: "confirm",
+        message: t("SavingsGoals.EditRegularPaymentModal.removeBanner"),
+      });
     }
-  }, [navigation, route.params]);
+  }, [navigation, route.params, t, toast]);
 
   const handleOnBackPress = () => {
     if (route.params.redirectToFundingModal) navigation.navigate("SavingsGoals.SavingsGoalsScreen");
@@ -219,11 +221,6 @@ export default function GoalDetailsScreen() {
 
   return (
     <SafeAreaProvider>
-      <Toast
-        variant="confirm"
-        isVisible={isRemovedRecurringPaymentBannerVisible}
-        message={t("SavingsGoals.EditRegularPaymentModal.removeBanner")}
-      />
       <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
         <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
         <View style={styles.background}>

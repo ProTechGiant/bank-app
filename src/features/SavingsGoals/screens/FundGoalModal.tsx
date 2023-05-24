@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { TickCircleIcon } from "@/assets/icons";
 import Page from "@/components/Page";
-import Toast from "@/components/Toast";
+import { useToasts } from "@/contexts/ToastsContext";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
@@ -22,21 +21,16 @@ export default function FundGoalModal() {
   const { t } = useTranslation();
 
   const { data } = useSavingsPot(route.params.PotId);
-  const [isCreatedGoalBannerVisible, setIsCreatedGoalBannerVisible] = useState(false);
+  const toast = useToasts();
+
   const [currentStep, setCurrentStep] = useState<StepType>(
     route.params.step ? route.params.step : "pick-funding-method"
   );
 
   useEffect(() => {
-    if (!route.params.isFirstFunding || isCreatedGoalBannerVisible) return;
-
-    const timeout = setTimeout(() => {
-      setIsCreatedGoalBannerVisible(true);
-      setTimeout(() => setIsCreatedGoalBannerVisible(false), 3000);
-    }, 1000);
-
-    return () => clearTimeout(timeout);
-  }, []);
+    if (!route.params.isFirstFunding) return;
+    toast.add({ variant: "confirm", message: t("SavingsGoals.FundGoalModal.goalCreatedBanner") });
+  }, [route.params.isFirstFunding, t, toast]);
 
   const handleOnClose = () => {
     navigation.goBack();
@@ -64,12 +58,6 @@ export default function FundGoalModal() {
 
   return (
     <>
-      <Toast
-        variant="confirm"
-        isVisible={isCreatedGoalBannerVisible}
-        message={t("SavingsGoals.FundGoalModal.goalCreatedBanner")}
-        icon={<TickCircleIcon />}
-      />
       <SafeAreaProvider>
         <Page>
           {currentStep === "pick-funding-method" ? (

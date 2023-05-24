@@ -10,8 +10,8 @@ import Button from "@/components/Button";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import Toast from "@/components/Toast";
 import Typography from "@/components/Typography";
+import { useToasts } from "@/contexts/ToastsContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -32,8 +32,8 @@ export default function DashboardScreen() {
   const { sections, homepageLayout } = useHomepageLayoutOrder();
   const account = useCurrentAccount();
   const notifications = useNotifications();
+  const toast = useToasts();
 
-  const [ibanToastVisible, setIbanToastVisible] = useState(false);
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
   const [isNotificationsExpanded, setIsNotificationsExpanded] = useState(false);
   const [layoutErrorIsVisible, setLayoutErrorIsVisible] = useState(false);
@@ -48,8 +48,7 @@ export default function DashboardScreen() {
     if (undefined === account.data?.iban) return;
     Clipboard.setString(account.data.iban);
 
-    setIbanToastVisible(true);
-    setTimeout(() => setIbanToastVisible(false), 4 * 1000);
+    toast.add({ variant: "confirm", message: t("Home.DashboardScreen.ibanCopied") });
   };
 
   const handleOnAccountPress = () => {
@@ -115,7 +114,6 @@ export default function DashboardScreen() {
 
   return (
     <>
-      <Toast variant="confirm" isVisible={ibanToastVisible} message={t("Home.DashboardScreen.ibanCopied")} />
       <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
         <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
         <View style={styles.backgroundImage}>
