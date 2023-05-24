@@ -1,1 +1,1 @@
-androidBuild()
+mobile()
