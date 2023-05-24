@@ -65,14 +65,18 @@ export default function IqamaInputScreen() {
   }, [handleContinueOboarding, iqamaError, reset]);
 
   const handleOnSignIn = () => {
-    Alert.alert("signIn button pressed");
+    //TODO: TO UPDATE IT WHEN THE SIGN IN FEATURE IS COMPLETED
+    Alert.alert("signin button pressed");
   };
 
   const handleOnSubmit = async (values: IqamaInputs) => {
     try {
       setNationalId(String(values.NationalId));
-      await mutateAsync(values);
+      const response = await mutateAsync(values);
+      //TODO: TO IMPLEMENT THIS CHECK, COMMENTED FOR TESTING PURPOSE
+      // if (response.IsOwner) {
       navigation.navigate("Onboarding.Nafath");
+      // }
     } catch (err) {
       warn("onboarding", "Could not process iqama input. Error: ", JSON.stringify(err));
     }

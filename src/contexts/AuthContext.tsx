@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import EncryptedStorage from "react-native-encrypted-storage";
 
 import { setAuthenticationHeaders } from "@/api/send-api-request";
+import { generateRandomId } from "@/utils";
 
 interface AuthContextProps {
   authenticate: (userId: string) => void;
@@ -27,7 +28,8 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   const [state, setState] = useState<Omit<AuthContextProps, "authenticate" | "logout">>({
     isAuthenticated: false,
     apiKey: API_TOKEN,
-    userId: "301",
+    //TODO: will update it when the signin flow is updated
+    userId: "500",
   });
 
   // temporary: set initial headers

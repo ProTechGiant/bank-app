@@ -15,14 +15,14 @@ import { useThemeStyles } from "@/theme";
 import BackgroundBottomStartSvg from "../assets/background-bottom-start.svg";
 import BackgroundTopEndSvg from "../assets/background-top-end.svg";
 import { CheckAccountSetupPoint } from "../components";
+import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useAccountStatus } from "../hooks/query-hooks";
 import { Status } from "../types";
-
-const userName = "Sian";
 
 export default function PendingAccountScreen() {
   const { t } = useTranslation();
   const [isBannerVisible, setIsBannerVisible] = useState(true);
+  const { userName } = useOnboardingContext();
   const [isAccountSetupVisible, setIsAccountSetupVisible] = useState(true);
   const [isfetchingAccountStatus, setIsfetchingAccountStatus] = useState(true);
   const { data, refetch } = useAccountStatus(isfetchingAccountStatus);

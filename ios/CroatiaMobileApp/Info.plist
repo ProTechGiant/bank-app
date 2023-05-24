@@ -20,6 +20,11 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+  <key>LSApplicationQueriesSchemes</key>
+  <array>
+    <string>itms-apps</string>
+    <string>nafath://home</string>
+  </array>
 	 <!-- Implements URI Scheme croatia://app -->
 	<key>CFBundleURLTypes</key>
 	<array>

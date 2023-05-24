@@ -1,5 +1,7 @@
 import { CountryCode, getCountryCallingCode } from "libphonenumber-js";
 
+import { countryCodes } from "@/mocks/countryListDataWithCodes";
+
 export const nationalIdRegEx = /^\b[1-2]\d{9}\b/;
 
 export const alphaNumericSpaceRegExp = /^[a-zA-Z0-9 ]+$/;
@@ -27,6 +29,11 @@ export const generateRandomId = () => {
 
 export const removeLeadingZeros = (input: string) => {
   return input?.replace(/^0+/, "");
+};
+
+export const getCountryName = (code: string | undefined) => {
+  if (!code) return "";
+  return countryCodes[parseInt(code, 10)];
 };
 
 export const removeSpaces = (input: string) => {

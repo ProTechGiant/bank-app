@@ -11,6 +11,9 @@ export const resources = {
       AddressSelector: {
         temporaryAddressLabel: "Temporary address",
       },
+      LoaderText: {
+        loadingText: "Loading",
+      },
       DayPicker: {
         currentlyOnDay_one: "On {{count}}st",
         currentlyOnDay_two: "On {{count}}nd",
@@ -94,11 +97,11 @@ export const resources = {
           signIn: "Sign in",
         },
         NafathAuthScreen: {
-          navHeaderTitle: "AUTHENTICATION",
+          navHeaderTitle: "Authentication",
           modalLink: "Open Nafath App",
           modalLoad: "Loading...",
           modalBody: "Make a note of this number as you will be asked for it shortly",
-          title: "Authentication by Nafath",
+          title: "Authentication by Nafath App",
           appButtonTitle: "Nafath app ",
           appButtonSubtitle: "Your fastest experience",
           appButtonBody: "Select this option for a quick ID authentication",
@@ -106,6 +109,10 @@ export const resources = {
           siteButtonBody: "You will be taken from this app to the Nafath site",
           dropdownTitle: "Why do I have to use Nafath?",
           dropdownBody: "Nafath enables Croatia to verify your identity",
+          alertModelTitle: "App is not installed",
+          alertModelMessage: "You are trying to open an that's currently not installed",
+          alertModelCancelButton: "Cancel",
+          alertModelAppStoreButton: "App Store",
         },
         ConfirmPersonalDetailsScreen: {
           navHeaderTitle: "CONFIRM",
@@ -1851,11 +1858,11 @@ export const resources = {
           signIn: "تسجيل الدخول",
         },
         NafathAuthScreen: {
-          navHeaderTitle: "AUTHENTICATION",
+          navHeaderTitle: "Authentication",
           modalLink: "افتح تطبيق 'نفاذ'",
           modalLoad: "Loading...",
           modalBody: "تذكرهذا الرقم لأنك ستحتاجه بعملية التوثيق بعد قليل.",
-          title: "Authentication by Nafath",
+          title: "Authentication by Nafath App",
           appButtonTitle: "Nafath app ",
           appButtonSubtitle: "Your fastest experience",
           appButtonBody: "Select this option for a quick ID authentication",
@@ -1863,6 +1870,10 @@ export const resources = {
           siteButtonBody: "You will be taken from this app to the Nafath site",
           dropdownTitle: "Why do I have to use Nafath?",
           dropdownBody: "Nafath enables Croatia to verify your identity",
+          alertModelTitle: "App is not installed",
+          alertModelMessage: "You are trying to open an that's currently not installed",
+          alertModelCancelButton: "Cancel",
+          alertModelAppStoreButton: "App Store",
         },
         ConfirmPersonalDetailsScreen: {
           navHeaderTitle: "CONFIRM",

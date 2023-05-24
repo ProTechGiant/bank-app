@@ -8,7 +8,11 @@ function noop() {
 
 interface OnboardingContextState {
   setNationalId: (value: string) => void;
+  setCustomerName: (value: string | undefined) => void;
   nationalId: string | undefined;
+  userName: string | undefined;
+  setTransactionId: (value: string) => void;
+  transactionId: string | undefined;
   setCorrelationId: (value: string) => void;
   correlationId: string | undefined;
   setCurrentTask: (currentTask: { Id: string; Name: string }) => void;
@@ -20,7 +24,11 @@ interface OnboardingContextState {
 
 const OnboardingContext = createContext<OnboardingContextState>({
   setNationalId: noop,
+  setTransactionId: noop,
+  setCustomerName: noop,
+  userName: undefined,
   nationalId: undefined,
+  transactionId: undefined,
   setCorrelationId: noop,
   correlationId: undefined,
   setCurrentTask: noop,
@@ -35,14 +43,26 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
   const onboardingTasksAsync = useOnboardingTasks();
   const onboardingRevertTaskAsync = useOnboardingRevertTask();
 
-  const [state, setState] = useState<Pick<OnboardingContextState, "nationalId" | "correlationId" | "currentTask">>({
+  const [state, setState] = useState<
+    Pick<OnboardingContextState, "nationalId" | "correlationId" | "currentTask" | "transactionId" | "userName">
+  >({
     nationalId: undefined,
     correlationId: undefined,
     currentTask: undefined,
+    transactionId: undefined,
+    userName: undefined,
   });
 
   const setNationalId = (nationalId: string) => {
     setState(v => ({ ...v, nationalId }));
+  };
+
+  const setTransactionId = (transactionId: string) => {
+    setState(v => ({ ...v, transactionId }));
+  };
+
+  const setCustomerName = (userName: string) => {
+    setState(v => ({ ...v, userName }));
   };
 
   const setCorrelationId = (correlationId: string) => {
@@ -92,6 +112,8 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
         () => ({
           ...state,
           setNationalId,
+          setCustomerName,
+          setTransactionId,
           setCorrelationId,
           setCurrentTask,
           startOnboardingAsync,

@@ -44,6 +44,7 @@
     "react-native-appsflyer": "^6.9.4",
     "react-native-biometrics": "^3.0.1",
     "react-native-bootsplash": "^4.5.2",
+    "react-native-device-info": "^10.6.0",
     "react-native-document-picker": "^8.2.0",
     "react-native-draggable-flatlist": "^4.0.0",
     "react-native-encrypted-storage": "^4.0.3",

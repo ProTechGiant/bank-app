@@ -1,8 +1,8 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, ScrollView, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Alert, ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import { WithShadow } from "@/components";
@@ -17,8 +17,10 @@ import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { getCountryName } from "@/utils";
 
 import { useConfirmPersonalDetails, useNafathDetails } from "../hooks/query-hooks";
+import { NafathDetails } from "../types";
 
 interface ConfirmDetailsForm {
   confirmDetailsAreCorrect: boolean;
@@ -30,14 +32,30 @@ const schema = yup.object({
 
 export default function ConfirmPersonalDetailsScreen() {
   const navigation = useNavigation();
-  const { data, mutateAsync } = useNafathDetails();
+  const { data, mutateAsync, isLoading } = useNafathDetails();
   const { t } = useTranslation();
   const confirmPersonalDetailsAsync = useConfirmPersonalDetails();
+  const [buttonClicked, setButtonClicked] = useState<boolean>(false);
+  const [dataAvailable, setDataAvailable] = useState<boolean>(false);
 
   useEffect(() => {
     if (undefined !== data) return;
     mutateAsync();
   }, []);
+
+  useEffect(() => {
+    validateData(data);
+  }, [data]);
+
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      if (!buttonClicked) {
+        navigation.navigate("Onboarding.Iqama");
+      }
+    }, 900000); // 15minute in milliseconds
+
+    return () => clearTimeout(timer);
+  }, [buttonClicked, navigation]);
 
   const { control, handleSubmit } = useForm<ConfirmDetailsForm>({
     mode: "onBlur",
@@ -47,8 +65,21 @@ export default function ConfirmPersonalDetailsScreen() {
     },
   });
 
+  const validateData = (details: NafathDetails | undefined) => {
+    if (
+      details?.EnglishFirstName &&
+      details?.EnglishFamilyName &&
+      details?.NationalityCode &&
+      details?.Addresses?.[0]?.StreetName &&
+      details?.Addresses?.[0]?.City
+    )
+      setDataAvailable(true);
+    else setDataAvailable(false);
+  };
+
   const handleOnSubmit = async () => {
     try {
+      setButtonClicked(true);
       await confirmPersonalDetailsAsync.mutateAsync();
       navigation.navigate("Onboarding.OptionalEmail");
     } catch (error) {
@@ -68,56 +99,61 @@ export default function ConfirmPersonalDetailsScreen() {
     paddingBottom: theme.spacing["32p"],
   }));
 
+  const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["16p"],
+    paddingTop: theme.spacing["12p"],
+  }));
+
   return (
     <Page insets={["top"]}>
       <NavHeader withBackButton={false} title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={1} totalStep={6} />
       </NavHeader>
-      <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12 }}>
+      <ScrollView contentContainerStyle={mainContainerStyle}>
         <Stack align="stretch" direction="vertical" gap="16p">
           <Typography.Header size="large" weight="bold">
             {t("Onboarding.ConfirmPersonalDetailsScreen.title")}
           </Typography.Header>
-          {undefined !== data ? (
-            <WithShadow backgroundColor="neutralBase-50" borderRadius="small" elevation={3}>
-              <View style={detailsCardStyle}>
-                <Stack direction="vertical" gap="16p">
-                  <InfoLine
-                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineName")}
-                    value={concatStr(" ", [data.EnglishFamilyName, data.EnglishFirstName])}
-                  />
-                  <InfoLine
-                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineNationality")}
-                    value={data.Nationality}
-                  />
-                  <InfoLine
-                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineExpiry")}
-                    value={data.IqamaExpiryDateGregorian}
-                  />
-                  <InfoLine
-                    label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineAddress")}
-                    value={concatStr(" ", [
-                      data.Addresses?.[0]?.StreetName +
-                        ", " +
-                        data.Addresses?.[0]?.City +
-                        " " +
-                        data.Addresses?.[0]?.PostCode,
-                      ", Saudi Arabia",
-                    ])}
-                  />
-                </Stack>
-              </View>
-            </WithShadow>
-          ) : null}
-          <Accordion title={t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownTitle")}>
-            <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
-              {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyOne")}
-              <Typography.Text color="neutralBase+10" size="footnote" weight="bold">
-                {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyTwo")}
-              </Typography.Text>
-              {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyThree")}
-            </Typography.Text>
-          </Accordion>
+          {isLoading ? (
+            <ActivityIndicator color="secondary_blueBase-50" size="large" />
+          ) : (
+            <>
+              {undefined !== data ? (
+                <WithShadow backgroundColor="neutralBase-50" borderRadius="small" elevation={3}>
+                  <View style={detailsCardStyle}>
+                    <Stack direction="vertical" gap="16p">
+                      <InfoLine
+                        label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineName")}
+                        value={concatStr(" ", [data.EnglishFamilyName, data.EnglishFirstName])}
+                      />
+                      <InfoLine
+                        label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineNationality")}
+                        //TODO: TO UPDATE IT WHEN WE WILL GET UPDATED DATA
+                        value={getCountryName(data.NationalityCode) || undefined}
+                      />
+                      <InfoLine
+                        label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineExpiry")}
+                        value={data.IqamaExpiryDateGregorian || data.IdExpiryDateGregorian}
+                      />
+                      <InfoLine
+                        label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineAddress")}
+                        value={formatAddress(data)}
+                      />
+                    </Stack>
+                  </View>
+                </WithShadow>
+              ) : null}
+              <Accordion title={t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownTitle")}>
+                <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                  {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyOne")}
+                  <Typography.Text color="neutralBase" size="footnote" weight="bold">
+                    {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyTwo")}
+                  </Typography.Text>
+                  {t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownBodyThree")}
+                </Typography.Text>
+              </Accordion>
+            </>
+          )}
         </Stack>
       </ScrollView>
       <View style={footerStyle}>
@@ -130,7 +166,7 @@ export default function ConfirmPersonalDetailsScreen() {
             name="confirmDetailsAreCorrect"
             label={t("Onboarding.ConfirmPersonalDetailsScreen.CheckBoxLabel")}
           />
-          <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+          <SubmitButton isDisabled={!dataAvailable} control={control} onSubmit={handleSubmit(handleOnSubmit)}>
             {t("Onboarding.ConfirmPersonalDetailsScreen.Continue")}
           </SubmitButton>
         </Stack>
@@ -146,6 +182,21 @@ function concatStr(glue: string, inputs: Array<string | undefined>) {
     .trim();
 
   return retVal.length > 0 ? retVal : undefined;
+}
+
+function formatAddress(data: NafathDetails) {
+  if (!data.Addresses?.length) {
+    return;
+  }
+  const street: string = addSuffix(data.Addresses?.[0]?.StreetName, ", ");
+  const city: string = addSuffix(data.Addresses?.[0]?.City, " ");
+  const postCode: string = addSuffix(data.Addresses?.[0]?.PostCode, " ");
+  const country = addSuffix(getCountryName(data.NationalityCode), "");
+  return concatStr("", [street + city + postCode + country]);
+}
+
+function addSuffix(value: string | undefined | null, suffix: string): string {
+  return value ? value + suffix : "";
 }
 
 function InfoLine({ label, value }: { label: string; value: string | undefined }) {

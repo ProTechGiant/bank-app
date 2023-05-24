@@ -1,6 +1,9 @@
 import { useMutation } from "react-query";
 
 import sendApiRequest from "@/api";
+import { nationalIdRegEx } from "@/utils";
+
+import { IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
 
 interface ApiOnboardingTasksResponse {
   Tasks: Array<{ Id: string; Name: string }>;
@@ -25,6 +28,7 @@ export function useOnboardingInstance() {
         {
           NationalId: NationalId,
           MobileNumber: MobileNumber,
+          NationalIdType: NationalId.match(nationalIdRegEx) ? NATIONAL_ID_TYPE : IQAMA_TYPE,
         },
         {
           ["x-Correlation-Id"]: correlationId,

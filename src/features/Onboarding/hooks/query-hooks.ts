@@ -1,7 +1,12 @@
+import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery } from "react-query";
 
 import sendApiRequest from "@/api";
+import { useAuthContext } from "@/contexts/AuthContext";
+import i18n from "@/i18n";
+import { nationalIdRegEx } from "@/utils";
 
+import { IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { FatcaFormInput, FinancialDetails, IqamaInputs, NafathDetails, Status } from "../types";
 
@@ -11,15 +16,19 @@ interface ApiOnboardingStatusResponse {
 }
 
 interface OtpResponseType {
-  LinkId: string;
-  Otp: number;
+  Header: { StatusCode: string; RequestID: string; StatusDescription: string };
+  Body: { transId: string; random: string };
 }
 
 interface IqamaResponse {
   CustomerId: string;
   CustomerType: string;
+  Id: string;
   NationalId: string;
   MobileNumber: string;
+  Mobile: string;
+  ReferenceNumber: string;
+  IsOwner: boolean;
 }
 
 type WorkflowStep = {
@@ -48,7 +57,7 @@ export function useConfirmPersonalDetails() {
     if (!workflowTask || workflowTask.Name !== "ConfirmPersonalDetails")
       throw new Error("Available workflowTaskId is not applicable to customers/confirm/data");
 
-    return sendApiRequest<string>(
+    return sendApiRequest<NafathDetails>(
       "v1",
       "customers/confirm/data",
       "POST",
@@ -65,35 +74,47 @@ export function useConfirmPersonalDetails() {
 }
 
 export function useNafathDetails() {
-  const { fetchLatestWorkflowTask, revertWorkflowTask, nationalId, correlationId } = useOnboardingContext();
+  const { fetchLatestWorkflowTask, setCustomerName, revertWorkflowTask, nationalId, transactionId, correlationId } =
+    useOnboardingContext();
+  const { userId } = useAuthContext();
+  return useMutation(
+    async () => {
+      if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
 
-  return useMutation(async () => {
-    if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
-
-    let workflowTask = await fetchLatestWorkflowTask();
-    if (workflowTask && workflowTask?.Name === "ConfirmPersonalDetails") {
-      await revertWorkflowTask(workflowTask);
-    }
-
-    workflowTask = await fetchLatestWorkflowTask();
-    if (!workflowTask || workflowTask.Name !== "RetrievePersonalDetails") {
-      throw new Error("Available workflowTaskId is not applicable to customers/data");
-    }
-
-    return sendApiRequest<NafathDetails>(
-      "v1",
-      "customers/data",
-      "POST",
-      undefined,
-      {
-        NationalId: nationalId,
-      },
-      {
-        ["X-Workflow-Task-Id"]: workflowTask.Id,
-        ["x-correlation-id"]: correlationId,
+      let workflowTask = await fetchLatestWorkflowTask();
+      if (workflowTask && workflowTask?.Name === "ConfirmPersonalDetails") {
+        await revertWorkflowTask(workflowTask);
       }
-    );
-  });
+
+      workflowTask = await fetchLatestWorkflowTask();
+      if (!workflowTask || workflowTask.Name !== "RetrievePersonalDetails") {
+        throw new Error("Available workflowTaskId is not applicable to customers/data");
+      }
+
+      return sendApiRequest<NafathDetails>(
+        "v1",
+        "customers/data",
+        "POST",
+        { TransactionId: transactionId },
+        {
+          NationalId: nationalId,
+        },
+        {
+          ["X-Workflow-Task-Id"]: workflowTask.Id,
+          ["x-correlation-id"]: correlationId,
+          ["Accept-Language"]: i18n.language.toUpperCase(),
+          ["UserId"]: userId || "",
+          ["deviceId"]: DeviceInfo.getDeviceId(),
+        }
+      );
+    },
+    {
+      onSuccess(data) {
+        const customerName = i18n.language === "en" ? data.EnglishFirstName : data.ArabicFirstName;
+        setCustomerName(customerName);
+      },
+    }
+  );
 }
 
 export function useFatcaDetails() {
@@ -161,10 +182,12 @@ export function useIqama() {
       {
         NationalId: values.NationalId,
         MobileNumber: values.MobileNumber,
+        NationalIdType: values.NationalId.match(nationalIdRegEx) ? NATIONAL_ID_TYPE : IQAMA_TYPE,
       },
       {
         ["X-Workflow-Task-Id"]: workflowTask.Id,
         ["x-correlation-id"]: correlationId,
+        ["Accept-Language"]: i18n.language.toUpperCase(),
       }
     );
   };
@@ -186,10 +209,12 @@ export function useIqama() {
         {
           NationalId: values.NationalId,
           MobileNumber: values.MobileNumber,
+          NationalIdType: values.NationalId.match(nationalIdRegEx) ? NATIONAL_ID_TYPE : IQAMA_TYPE,
         },
         {
           ["X-Workflow-Task-Id"]: workflowTask.Id,
           ["x-correlation-id"]: correlationId,
+          ["Accept-Language"]: i18n.language.toUpperCase(),
         }
       );
     }
@@ -197,7 +222,7 @@ export function useIqama() {
 
   return useMutation(handleSignUp, {
     onSuccess(data, _variables, _context) {
-      setNationalId(String(data.NationalId));
+      setNationalId(String(data.Id));
     },
     onError(error, variables, _context) {
       if (
@@ -213,24 +238,41 @@ export function useIqama() {
 }
 
 export function useRequestNumber() {
-  const { nationalId, correlationId } = useOnboardingContext();
+  const { setTransactionId, correlationId, nationalId } = useOnboardingContext();
 
-  return useMutation(async () => {
-    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+  return useMutation(
+    async () => {
+      if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-    return sendApiRequest<OtpResponseType>(
-      "v1",
-      "customers/link",
-      "POST",
-      undefined,
-      {
-        NationalId: nationalId,
+      return sendApiRequest<OtpResponseType>(
+        "v1",
+
+        "customers/get-transaction-id",
+
+        "POST",
+
+        undefined,
+
+        {},
+
+        {
+          ["x-correlation-id"]: correlationId,
+
+          ["Accept-Language"]: i18n.language.toUpperCase(),
+
+          ["deviceId"]: DeviceInfo.getDeviceId(),
+
+          ["IDNumber"]: nationalId || "",
+        }
+      );
+    },
+    {
+      onSuccess(data) {
+        const transValue = data.Body.transId;
+        setTransactionId(transValue);
       },
-      {
-        ["x-correlation-id"]: correlationId,
-      }
-    );
-  });
+    }
+  );
 }
 
 export function useEmail() {
