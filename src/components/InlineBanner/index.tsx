@@ -28,14 +28,20 @@ export default function InlineBanner({ icon, text, testID, onClose, variant = "d
     }),
     [variant]
   );
+
+  const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingRight: theme.spacing["16p"],
+  }));
+
   const textStyle = useThemeStyles<ViewStyle>(theme => ({
     width: theme.spacing["85%"],
   }));
+
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <View style={containerStyles} testID={testID}>
-      {icon !== undefined && <View>{cloneElement(icon, { color: iconColor })}</View>}
+      {icon !== undefined && <View style={iconContainerStyle}>{cloneElement(icon, { color: iconColor })}</View>}
       <Typography.Text
         color={variant === "info" ? "neutralBase+10" : "neutralBase+30"}
         size="footnote"

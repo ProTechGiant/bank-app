@@ -10,8 +10,8 @@ export default {
   title: "components/InlineBanner",
   component: InlineBanner_,
   args: {
-    title: "Default",
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue",
+    variant: "default",
     testID: "toast-banner",
   },
   argTypes: {
