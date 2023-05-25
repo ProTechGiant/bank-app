@@ -28,6 +28,10 @@ export const resources = {
           cancel: "Cancel",
         },
       },
+      AccessibilityHelpers: {
+        open: "open",
+        close: "close",
+      },
       errors: {
         generic: {
           title: "Sorry, something has gone wrong",
@@ -1800,6 +1804,10 @@ export const resources = {
           openDocuments: "Open Documents",
           cancel: "Cancel",
         },
+      },
+      AccessibilityHelpers: {
+        open: "open",
+        close: "close",
       },
       TableList: {
         datePicker: {

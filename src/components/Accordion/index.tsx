@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { AngleDownIcon, AngleUpIcon, InfoFilledCircleIcon } from "@/assets/icons";
@@ -13,6 +14,10 @@ interface AccordionProps {
 
 export default function Accordion({ children, title }: AccordionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { t } = useTranslation();
+
+  const a11yLabelPrefix = isExpanded ? "AccessibilityHelpers.close" : "AccessibilityHelpers.open";
+  const accessibilityLabel = `${t(a11yLabelPrefix)} ${title}`;
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
@@ -54,23 +59,29 @@ export default function Accordion({ children, title }: AccordionProps) {
   }));
 
   return (
-    <Pressable onPress={() => setIsExpanded(c => !c)} style={containerStyle}>
-      <GreyGradient>
-        <View style={pressableContainerStyle}>
-          <View style={iconContainer}>
-            <InfoFilledCircleIcon width={16} height={16} color={infoIconColor} />
-          </View>
+    <View style={containerStyle}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={accessibilityLabel}
+        accessibilityState={{ expanded: isExpanded }}
+        onPress={() => setIsExpanded(c => !c)}>
+        <GreyGradient>
+          <View style={pressableContainerStyle}>
+            <View style={iconContainer}>
+              <InfoFilledCircleIcon width={16} height={16} color={infoIconColor} />
+            </View>
 
-          <Typography.Text color="neutralBase+30" weight="medium" size="footnote" style={titleStyles}>
-            {title}
-          </Typography.Text>
-          <View style={styles.toggleIcon}>
-            {isExpanded ? <AngleUpIcon color={anglesIconColor} /> : <AngleDownIcon color={anglesIconColor} />}
+            <Typography.Text color="neutralBase+30" weight="medium" size="footnote" style={titleStyles}>
+              {title}
+            </Typography.Text>
+            <View style={styles.toggleIcon}>
+              {isExpanded ? <AngleUpIcon color={anglesIconColor} /> : <AngleDownIcon color={anglesIconColor} />}
+            </View>
           </View>
-        </View>
-      </GreyGradient>
+        </GreyGradient>
+      </Pressable>
       {isExpanded && <View style={contentStyle}>{children}</View>}
-    </Pressable>
+    </View>
   );
 }
 
