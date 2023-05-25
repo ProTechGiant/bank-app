@@ -674,10 +674,12 @@ export const resources = {
             "That ‘Goal completed’ feeling is unbeatable! And we’ll be there to play back your achievement, and encourage you to embrace what’s next.",
         },
         SavingsGoalsScreen: {
+          navTitle: "Savings Goals",
           goalCard: {
             amount: "{{amountSaved}} of {{totalAmount}}",
           },
           title: "Your Goals",
+          maxGoalsTitle: "Your Saving Goals",
           text: "Dream big or start small. They’re your goals and it’s your future - make it happen!",
           button: "Set new Goal",
           instructionText: "Set up to 4 goals",
@@ -2097,6 +2099,9 @@ export const resources = {
         titleThree: "المكافأة للطرفين",
         subTextThree:
           "مرسل ومُستقبِل الدعوة راح يحصلون على مكافأة 15 ريال سعودي. وعملاء فئة بلس 25 ريال سعودي عن كل دعوة.",
+      },
+      SavingsGoalsScreen: {
+        navTitle: "أهداف الادخار",
       },
       FrequentlyAskedQuestions: {
         LandingScreen: {

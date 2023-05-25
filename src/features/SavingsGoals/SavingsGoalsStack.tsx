@@ -49,7 +49,7 @@ export default function SavingsGoalsStack() {
   const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.SavingsGoalsStack">>();
 
   const initialRouteName =
-    route.params.savingsPotsNumber === 0 ? "SavingsGoals.InstructionsScreen" : "SavingsGoals.SavingsGoalsScreen";
+    route?.params?.savingsPotsNumber === 0 ? "SavingsGoals.InstructionsScreen" : "SavingsGoals.SavingsGoalsScreen";
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={initialRouteName}>

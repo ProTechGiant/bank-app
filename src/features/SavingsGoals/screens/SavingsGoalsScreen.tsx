@@ -78,12 +78,15 @@ export default function SavingsGoalsScreen() {
       <View style={styles.backgroundBottomStart}>
         <BackgroundBottomStartSvg />
       </View>
-      <NavHeader onBackPress={handleOnBack} />
+      <NavHeader title={t("SavingsGoals.SavingsGoalsScreen.navTitle")} onBackPress={handleOnBack} />
       <ContentContainer isScrollView>
         <Stack direction="vertical" gap="16p" align="stretch">
           <Typography.Text color="neutralBase+30" size="large" weight="bold">
-            {t("SavingsGoals.SavingsGoalsScreen.title")}
+            {savingsGoals?.length < MAX_GOALS
+              ? t("SavingsGoals.SavingsGoalsScreen.title")
+              : t("SavingsGoals.SavingsGoalsScreen.maxGoalsTitle")}
           </Typography.Text>
+
           <Typography.Text color="neutralBase+30" size="callout">
             {t("SavingsGoals.SavingsGoalsScreen.text")}
           </Typography.Text>
