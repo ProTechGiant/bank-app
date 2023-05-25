@@ -15,7 +15,6 @@ platform :android do
         "android.injected.signing.store.password" => ENV["ANDROID_KEYSTORE_PASSWORD"],
         "android.injected.signing.key.alias" => ENV["ANDROID_KEYSTORE_ALIAS"],
         "android.injected.signing.key.password" => ENV["ANDROID_KEYSTORE_PASSWORD"],
-        "reactNativeArchitectures" => "armeabi-v7a,arm64-v8a",
       }
     )
 
