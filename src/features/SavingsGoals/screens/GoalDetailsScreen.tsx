@@ -38,7 +38,7 @@ export default function GoalDetailsScreen() {
   const { data: roundUpData } = useRoundupFlag();
   const updateSavingsGoalRoundUps = useUpdateSavingsGoal();
   const { data: getRecurringFund, isSuccess } = useRecurringPayments(route.params.PotId);
-  const toast = useToasts();
+  const addToast = useToasts();
 
   const [isSwitchRoundupsModalVisible, setIsSwitchRoundupsModalVisible] = useState(false);
   const [showInfoRoundsUpsModal, setInfoRoundsUpModal] = useState(false);
@@ -74,12 +74,12 @@ export default function GoalDetailsScreen() {
     if (undefined === route.params) return;
 
     if (route.params.isRecurringPaymentRemoved === true) {
-      toast.add({
+      addToast({
         variant: "confirm",
         message: t("SavingsGoals.EditRegularPaymentModal.removeBanner"),
       });
     }
-  }, [navigation, route.params, t, toast]);
+  }, [navigation, route.params, t, addToast]);
 
   const handleOnBackPress = () => {
     if (route.params.redirectToFundingModal) navigation.navigate("SavingsGoals.SavingsGoalsScreen");

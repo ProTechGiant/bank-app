@@ -32,7 +32,7 @@ export default function DashboardScreen() {
   const { sections, homepageLayout } = useHomepageLayoutOrder();
   const account = useCurrentAccount();
   const notifications = useNotifications();
-  const toast = useToasts();
+  const addToast = useToasts();
 
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
   const [isNotificationsExpanded, setIsNotificationsExpanded] = useState(false);
@@ -48,7 +48,7 @@ export default function DashboardScreen() {
     if (undefined === account.data?.iban) return;
     Clipboard.setString(account.data.iban);
 
-    toast.add({ variant: "confirm", message: t("Home.DashboardScreen.ibanCopied") });
+    addToast({ variant: "confirm", message: t("Home.DashboardScreen.ibanCopied") });
   };
 
   const handleOnAccountPress = () => {

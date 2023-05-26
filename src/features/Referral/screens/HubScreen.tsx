@@ -30,7 +30,7 @@ export default function HubScreen() {
 
   const customerReferrals = useCustomersReferrals();
   const appsFlyer = useAppsFlyer();
-  const toast = useToasts();
+  const addToast = useToasts();
 
   const { referralPageViewStatus, referralLink, setReferralLink } = useReferralContext();
   const [isError, setIsError] = useState(false);
@@ -75,7 +75,7 @@ export default function HubScreen() {
   const handleOnCopyPress = () => {
     if (referralLink) {
       Clipboard.setString(referralLink);
-      toast.add({ variant: "confirm", message: t("Referral.HubScreen.linkCopied") });
+      addToast({ variant: "confirm", message: t("Referral.HubScreen.linkCopied") });
     }
   };
 

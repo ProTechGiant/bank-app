@@ -21,7 +21,7 @@ export default function FundGoalModal() {
   const { t } = useTranslation();
 
   const { data } = useSavingsPot(route.params.PotId);
-  const toast = useToasts();
+  const addToast = useToasts();
 
   const [currentStep, setCurrentStep] = useState<StepType>(
     route.params.step ? route.params.step : "pick-funding-method"
@@ -29,8 +29,8 @@ export default function FundGoalModal() {
 
   useEffect(() => {
     if (!route.params.isFirstFunding) return;
-    toast.add({ variant: "confirm", message: t("SavingsGoals.FundGoalModal.goalCreatedBanner") });
-  }, [route.params.isFirstFunding, t, toast]);
+    addToast({ variant: "confirm", message: t("SavingsGoals.FundGoalModal.goalCreatedBanner") });
+  }, [route.params.isFirstFunding, t, addToast]);
 
   const handleOnClose = () => {
     navigation.goBack();

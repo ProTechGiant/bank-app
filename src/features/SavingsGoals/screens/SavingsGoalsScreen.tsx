@@ -24,7 +24,7 @@ export default function SavingsGoalsScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.SavingsGoalsScreen">>();
-  const toast = useToasts();
+  const addToast = useToasts();
   const { data, error } = useSavingsPots();
 
   useEffect(() => {
@@ -38,9 +38,9 @@ export default function SavingsGoalsScreen() {
     }
 
     if (route.params !== undefined) {
-      toast.add({ variant: "confirm", message: t("SavingsGoals.SavingsGoalsScreen.notifications.goalClosed") });
+      addToast({ variant: "confirm", message: t("SavingsGoals.SavingsGoalsScreen.notifications.goalClosed") });
     }
-  }, [error, navigation, route.params, t, toast]);
+  }, [error, navigation, route.params, t, addToast]);
 
   const handleOnCreateGoal = () => {
     navigation.navigate("SavingsGoals.CreateGoalScreen");

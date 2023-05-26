@@ -30,14 +30,14 @@ export default function CardSettingsScreen() {
   const updateCardSettingsAsync = useUpdateCardSettings();
   const settings = useCardSettings(route.params.cardId);
   const card = useCard(route.params.cardId);
-  const toast = useToasts();
+  const addToast = useToasts();
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const isUpdatingRef = useRef(false);
 
   otpFlow.useOtpResponseEffect<{ ResetPinMessage: string }>((status, payload) => {
     if (status === "success" && "ResetPinMessage" in payload) {
-      toast.add({ variant: "confirm", message: t("CardActions.CardSettingsScreen.toast") });
+      addToast({ variant: "confirm", message: t("CardActions.CardSettingsScreen.toast") });
     } else if (status === "fail") {
       setTimeout(() => setIsErrorModalVisible(true), 500);
     }

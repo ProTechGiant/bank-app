@@ -18,7 +18,7 @@ export default function AccountDetailsScreen() {
   const account = useCurrentAccount();
   const { t } = useTranslation();
 
-  const toast = useToasts();
+  const addToast = useToasts();
 
   const [isCopiedBannerVisibleWithLabel, setIsCopiedBannerVisibleWithLabel] = useState<string | undefined>();
 
@@ -26,7 +26,7 @@ export default function AccountDetailsScreen() {
     Clipboard.setString(value);
 
     setIsCopiedBannerVisibleWithLabel(label);
-    toast.add({
+    addToast({
       variant: "negative",
       message: t("Home.AccountDetails.banner.error", { dataCopied: isCopiedBannerVisibleWithLabel }),
     });

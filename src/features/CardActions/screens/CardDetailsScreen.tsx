@@ -53,7 +53,7 @@ export default function CardDetailsScreen() {
   const requestUnmaskedCardDetailsAsync = useUnmaskedCardDetails();
   const card = useCard(route.params.cardId);
   const { isAppleWalletAvailable, canAddCardToAppleWallet, addCardToAppleWallet } = useAppleWallet(route.params.cardId);
-  const toast = useToasts();
+  const addToast = useToasts();
 
   const [isViewingPin, setIsViewingPin] = useState(false);
   const [pin, setPin] = useState<string | undefined>();
@@ -166,7 +166,7 @@ export default function CardDetailsScreen() {
 
     Clipboard.setString(cardDetails.CardNumber);
 
-    toast.add({
+    addToast({
       variant: "confirm",
       message: t("CardActions.CardDetailsScreen.copyClipboard"),
     });

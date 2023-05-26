@@ -22,7 +22,7 @@ import { Status } from "../types";
 export default function PendingAccountScreen() {
   const { t } = useTranslation();
   const { userName } = useOnboardingContext();
-  const toast = useToasts();
+  const addToast = useToasts();
   const [isAccountSetupVisible, setIsAccountSetupVisible] = useState(true);
   const [isfetchingAccountStatus, setIsfetchingAccountStatus] = useState(true);
   const { data, refetch } = useAccountStatus(isfetchingAccountStatus);
@@ -32,11 +32,11 @@ export default function PendingAccountScreen() {
   useEffect(() => {
     if (accountStatus === "COMPLETED") {
       setIsfetchingAccountStatus(false);
-      toast.add({ variant: "confirm", message: t("Onboarding.LandingScreen.success.bannerMessage") });
+      addToast({ variant: "confirm", message: t("Onboarding.LandingScreen.success.bannerMessage") });
     } else if (accountStatus === "DECLINED") {
       setIsfetchingAccountStatus(false);
     }
-  }, [accountStatus, refetch, t, toast]);
+  }, [accountStatus, refetch, t, addToast]);
 
   const handleOnFinishLater = () => {
     RNAlert.alert("Finish Later process not implemented yet. Come back later!");

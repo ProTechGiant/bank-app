@@ -22,7 +22,7 @@ export default function AddMoneyViaBankTransferScreen() {
 
   const { data } = useCurrentAccount();
   const getPrimaryAddress = usePrimaryAddress();
-  const toast = useToasts();
+  const addToast = useToasts();
 
   const [isCopiedVisibleWithLabel, setIsCopiedVisibleWithLabel] = useState<string | undefined>();
 
@@ -30,7 +30,7 @@ export default function AddMoneyViaBankTransferScreen() {
     Clipboard.setString(value);
 
     setIsCopiedVisibleWithLabel(label);
-    toast.add({
+    addToast({
       variant: "confirm",
       message: `${isCopiedVisibleWithLabel} ${t("AddMoneyInfo.BankDetails.copyInfo")}`,
     });
