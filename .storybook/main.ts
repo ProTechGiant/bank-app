@@ -17,6 +17,7 @@ export default {
   core: {
     builder: "webpack5",
   },
+  typescript: { reactDocgen: false },
   webpackFinal: async (config: any) => {
     config.resolve.alias["react-native-linear-gradient"] = path.resolve(
       appRootPath,
