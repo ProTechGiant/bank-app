@@ -49,3 +49,25 @@ export interface SavingsPotDetailsResponse {
   AvailableBalanceCurrency: string;
   PotStatus: string;
 }
+
+export interface SavingGoalTransaction {
+  TransactionName: string;
+  TransactionDate: number[];
+  TransactionAmount: string;
+  TransactionStatus: string;
+  Category?: string;
+}
+
+export interface GoalTransaction {
+  AccountId?: string;
+  TransactionId?: string;
+  StatementReference: string;
+  CreditDebitIndicator?: string;
+  Status: string;
+  Category?: string;
+  CardType?: string;
+  BookingDateTime: number[];
+  ValueDateTime?: number[];
+  TransactionInformation?: string;
+  Amount: { Amount: string };
+}

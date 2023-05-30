@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     paddingStart: 2,
   },
   spliterStyle: {
-    alignItems: "center",
+    alignItems: "baseline",
     flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
   },
 });

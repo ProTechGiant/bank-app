@@ -2,13 +2,13 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet, View } from "react-native";
 
+import CardButton from "@/components/CardButton";
+import ContentContainer from "@/components/ContentContainer";
+import DetailedRow from "@/components/DetailedRow";
 import { PHYSICAL_CARD_TYPE } from "@/constants";
 
 import { TransactionDetailed } from "../types";
-import DetailedBody from "./DetailedBody";
-import DetailedButton from "./DetailedButton";
 import DetailedHeader from "./DetailedHeader";
-import DetailedRow from "./DetailedRow";
 
 interface HOCprops {
   data: TransactionDetailed;
@@ -40,18 +40,18 @@ function PendingTransaction({
   return (
     <>
       <DetailedHeader data={data} />
-      <DetailedBody>
+      <ContentContainer>
         <DetailedRow name="Status" value={data.status} />
         {data.location ? <DetailedRow name="Location" value={data.location} /> : <></>}
 
         <View style={styles.detailedButton}>
-          <DetailedButton
+          <CardButton
             label={t("ViewTransactions.SingleTransactionDetailedScreen.reportTransaction")}
             text={t("ViewTransactions.SingleTransactionDetailedScreen.somethingWrong")}
             onPress={onReportTransaction}
           />
         </View>
-      </DetailedBody>
+      </ContentContainer>
     </>
   );
 }
@@ -70,7 +70,7 @@ function DebitCardAndOneTimeCard({
   return (
     <>
       <DetailedHeader data={data} />
-      <DetailedBody>
+      <ContentContainer>
         <DetailedRow
           openModel={openModel}
           name={t("ViewTransactions.SingleTransactionDetailedScreen.status")}
@@ -114,13 +114,13 @@ function DebitCardAndOneTimeCard({
           />
         ) : null}
         <View style={styles.detailedButton}>
-          <DetailedButton
+          <CardButton
             label={t("ViewTransactions.SingleTransactionDetailedScreen.reportTransaction")}
             text={t("ViewTransactions.SingleTransactionDetailedScreen.somethingWrong")}
             onPress={onReportTransaction}
           />
           {data.cardType === "0" ? (
-            <DetailedButton
+            <CardButton
               label={t("ViewTransactions.SingleTransactionDetailedScreen.downloadDetails")}
               text={t("ViewTransactions.SingleTransactionDetailedScreen.saveTransaction")}
               onPress={() => {
@@ -129,7 +129,7 @@ function DebitCardAndOneTimeCard({
             />
           ) : null}
         </View>
-      </DetailedBody>
+      </ContentContainer>
     </>
   );
 }

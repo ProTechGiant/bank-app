@@ -276,6 +276,8 @@ export const resources = {
           transactionsPending: "These are recent transactions that haven't been charged to your account yet.",
         },
         SingleTransactionDetailedScreen: {
+          paidTo: "Paid To",
+          mainAccount: "Main Croatia account",
           category: "Category",
           location: "Location",
           status: "Status",
@@ -708,7 +710,14 @@ export const resources = {
           },
           Transactions: {
             title: "Latest Transactions",
-            seeAll: "See all",
+            seeAll: "See more",
+            showPayments: "We'll show payments into and out of your goal here, as soon as you have any.",
+          },
+          AllTransactions: {
+            today: "Today",
+            yesterday: "Yesterday",
+            balance: "Balance",
+            roundUp: "Round up",
           },
           RoundUp: "Round-ups",
           InfoModal: {
@@ -2042,6 +2051,8 @@ export const resources = {
           transactionsPending: "These are recent transactions that haven't been charged to your account yet.",
         },
         SingleTransactionDetailedScreen: {
+          paidTo: "Paid To",
+          mainAccount: "Main Croatia account",
           category: "Category",
           location: "Location",
           status: "Status",
@@ -2059,7 +2070,7 @@ export const resources = {
             cancelButton: "Cancel",
           },
           ErrorModal: {
-            title: "Sorry, something has gone wrong",
+            title: "We’re sorry, something has gone wrong.",
             message: "Please try again later or contact Customer Care.",
             cancelButton: "OK",
           },

@@ -26,6 +26,7 @@ import HeaderBackground from "../assets/HeaderBackground";
 import { ProgressWheel, TransactionCardList } from "../components";
 import { calculateGoalBalanceOverThreeQuarters } from "../helpers";
 import { useRecurringPayments, useRoundupFlag, useSavingsPot, useUpdateSavingsGoal } from "../hooks/query-hooks";
+import { recentTransactions } from "../mocks/mockMostTransactions";
 
 export default function GoalDetailsScreen() {
   const { t } = useTranslation();
@@ -142,8 +143,11 @@ export default function GoalDetailsScreen() {
   };
 
   const handleOnSeeAllTransactions = () => {
-    // TODO: navigate to "All Transactions" page or open new modal showing them, TBD
-    console.log("All transactions");
+    navigation.navigate("SavingsGoals.AllTransactionsScreen", {
+      goalName: savingsPotData?.GoalName,
+      availableBalanceAmount: savingsPotData?.AvailableBalanceAmount,
+      PotId: PotId,
+    });
   };
 
   const handleOnToggleRoundUps = async () => {
@@ -199,7 +203,11 @@ export default function GoalDetailsScreen() {
   const sectionTitleStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: theme.spacing["8p"],
+    marginBottom: theme.spacing["16p"],
+  }));
+
+  const sectionTitleMargin = useThemeStyles<ViewStyle>(theme => ({
+    marginBottom: theme.spacing["32p"],
   }));
 
   const goalAmountStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -323,18 +331,20 @@ export default function GoalDetailsScreen() {
                 )}
               </TableListCardGroup>
             </View>
-            <View>
+            <View style={sectionTitleMargin}>
               <View style={sectionTitleStyle}>
                 <Typography.Text size="callout" weight="medium">
                   {t("SavingsGoals.GoalDetailsScreen.Transactions.title")}
                 </Typography.Text>
-                <Pressable onPress={handleOnSeeAllTransactions}>
-                  <Typography.Text size="callout" weight="medium" color="primaryBase">
-                    {t("SavingsGoals.GoalDetailsScreen.Transactions.seeAll")}
-                  </Typography.Text>
-                </Pressable>
+                {recentTransactions.length > 0 ? (
+                  <Pressable onPress={handleOnSeeAllTransactions}>
+                    <Typography.Text size="callout" weight="medium" color="primaryBase">
+                      {t("SavingsGoals.GoalDetailsScreen.Transactions.seeAll")}
+                    </Typography.Text>
+                  </Pressable>
+                ) : null}
               </View>
-              <TransactionCardList />
+              <TransactionCardList transactions={recentTransactions} />
             </View>
           </Stack>
         </ContentContainer>

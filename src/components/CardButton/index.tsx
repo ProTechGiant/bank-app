@@ -1,19 +1,18 @@
 import React from "react";
 import { I18nManager, Pressable, View, ViewStyle } from "react-native";
 
+import { ChevronRightIcon } from "@/assets/icons";
 import { WithShadow } from "@/components";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { RightArrowIcon } from "../assets/icons";
-
-interface DetailedButtonProps {
+interface CardButtonProps {
   label: string;
   text: string;
   onPress: () => void;
 }
 
-export default function DetailedButton({ label, text, onPress }: DetailedButtonProps) {
+export default function CardButton({ label, text, onPress }: CardButtonProps) {
   const button = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "space-between",
     flexDirection: "row",
@@ -26,6 +25,8 @@ export default function DetailedButton({ label, text, onPress }: DetailedButtonP
   const margins = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["20p"],
   }));
+
+  const chevronColor = useThemeStyles(theme => theme.palette.primaryBase);
 
   return (
     <Pressable onPress={onPress} style={margins}>
@@ -40,7 +41,7 @@ export default function DetailedButton({ label, text, onPress }: DetailedButtonP
             </Typography.Text>
           </View>
           <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-            <RightArrowIcon />
+            <ChevronRightIcon color={chevronColor} />
           </View>
         </View>
       </WithShadow>

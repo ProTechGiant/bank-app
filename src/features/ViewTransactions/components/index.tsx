@@ -1,8 +1,5 @@
 export { default as AnimatedHeader } from "./AnimatedHeader";
-export { default as DetailedBody } from "./DetailedBody";
-export { default as DetailedButton } from "./DetailedButton";
 export { default as DetailedHeader } from "./DetailedHeader";
-export { default as DetailedRow } from "./DetailedRow";
 export { default as DetailsWrapper } from "./DetailsWrapper";
 export { default as FormatTransactionAmount } from "./FormatTransactionAmount";
 export { default as NumberWithDifferentFontSizes } from "./NumberWithDifferentFontSizes";

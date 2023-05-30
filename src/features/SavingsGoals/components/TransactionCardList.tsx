@@ -1,40 +1,65 @@
 import { format } from "date-fns";
 import React from "react";
+import { useTranslation } from "react-i18next";
+import { SvgProps } from "react-native-svg";
 
-import { LightningBoltIcon, RecurringEventIcon } from "@/assets/icons";
+import { IconProps } from "@/assets/icons";
+import FormatTransactionAmount from "@/components/FormatTransactionAmount";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
+import Typography from "@/components/Typography";
 
-export default function TransactionCardList() {
-  // TODO: remove this once transaction request is implemented
-  const transactions = [
-    {
-      id: 1,
-      icon: <LightningBoltIcon />,
-      amount: 50,
-      title: "One-off payment",
-      date: "2023-10-31 15:00:00",
-      separator: true,
-    },
-    {
-      id: 2,
-      icon: <RecurringEventIcon />,
-      amount: 50,
-      title: "Regular payment",
-      date: "2023-11-19 15:00:00",
-    },
-  ];
+interface Transaction {
+  id: number;
+  icon: React.ReactElement<SvgProps | IconProps>;
+  amount: number;
+  title: string;
+  date: string;
+  separator?: boolean;
+  CreditDebitIndicator: string;
+}
+
+interface TransactionCardListProps {
+  transactions: Transaction[];
+}
+
+export default function TransactionCardList({ transactions }: TransactionCardListProps) {
+  const { t } = useTranslation();
 
   return (
-    <TableListCardGroup>
-      {transactions.map(element => (
-        <TableListCard
-          key={element.id}
-          label={element.title}
-          helperText={format(new Date(element.date), "dd MMM yyyy")}
-          icon={element.icon}
-          end={<TableListCard.Label bold>{element.amount + " SAR"}</TableListCard.Label>}
-        />
-      ))}
-    </TableListCardGroup>
+    <>
+      {transactions.length > 0 ? (
+        <TableListCardGroup>
+          {transactions.map(element => (
+            <TableListCard
+              key={element.id}
+              label={element.title}
+              helperText={format(new Date(element.date), "dd MMM yyyy")}
+              icon={element.icon}
+              end={
+                <TableListCard.Label bold>
+                  <Typography.Text
+                    color={element.CreditDebitIndicator !== "Debit" ? "successBase" : "neutralBase+30"}
+                    size="callout"
+                    weight="semiBold">
+                    <FormatTransactionAmount
+                      amount={element.amount}
+                      isPlusSignIncluded={element.CreditDebitIndicator !== "Debit"}
+                      color={element.CreditDebitIndicator !== "Debit" ? "successBase" : "neutralBase+30"}
+                      integerSize="callout"
+                      decimalSize="footnote"
+                      isCurrencyIncluded={false}
+                    />
+                  </Typography.Text>
+                </TableListCard.Label>
+              }
+            />
+          ))}
+        </TableListCardGroup>
+      ) : (
+        <Typography.Text color="neutralBase" size="footnote" weight="regular">
+          {t("SavingsGoals.GoalDetailsScreen.Transactions.showPayments")}
+        </Typography.Text>
+      )}
+    </>
   );
 }

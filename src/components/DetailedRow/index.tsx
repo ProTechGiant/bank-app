@@ -1,13 +1,12 @@
 import { StyleSheet, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
 
+import { InfoCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { InfoIcon } from "../assets/icons/";
-
 interface DetailedRowProps {
   name: string;
-  value: string | boolean;
+  value?: string;
   roundup?: boolean;
   openModel?: (arg: boolean) => void;
 }
@@ -27,6 +26,8 @@ export default function DetailedRow({ name, openModel, value, roundup }: Detaile
     lineHeight: theme.typography.text._lineHeights.callout,
   }));
 
+  const infoColor = useThemeStyles(theme => theme.palette["neutralBase-10"]);
+
   return (
     <View style={row}>
       <Typography.Text style={rowTitle} size="callout" weight="medium" color="neutralBase+30">
@@ -39,7 +40,7 @@ export default function DetailedRow({ name, openModel, value, roundup }: Detaile
         </Typography.Text>
         {roundup ? (
           <TouchableOpacity style={styles.infoStyle} onPress={() => (openModel ? openModel(true) : null)}>
-            <InfoIcon />
+            <InfoCircleIcon color={infoColor} />
           </TouchableOpacity>
         ) : null}
       </View>

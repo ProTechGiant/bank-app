@@ -2,8 +2,10 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import MainStackParams from "@/navigation/mainStackParams";
+import { palette } from "@/theme/values";
 
 import {
+  AllTransactionsScreen,
   CreateGoalScreen,
   EditGoalModal,
   EditRecurringPaymentModal,
@@ -11,12 +13,22 @@ import {
   GoalDetailsScreen,
   InstructionsScreen,
   SavingsGoalsScreen,
+  TransactionDetailScreen,
   WithdrawGoalModal,
 } from "./screens";
-import { FundingType } from "./types";
+import { FundingType, SavingGoalTransaction } from "./types";
 
 export type SavingsGoalsStackParams = {
   "SavingsGoals.InstructionsScreen": undefined;
+  "SavingsGoals.TransactionDetailScreen": {
+    data: SavingGoalTransaction;
+    cardId: string;
+    PotId: string;
+    createDisputeUserId: string;
+  };
+  "SavingsGoals.AllTransactionsScreen": {
+    PotId: string;
+  };
   "SavingsGoals.SavingsGoalsScreen": {
     isGoalRemoved?: boolean;
   };
@@ -55,9 +67,11 @@ export default function SavingsGoalsStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={initialRouteName}>
       <Stack.Screen component={InstructionsScreen} name="SavingsGoals.InstructionsScreen" />
       <Stack.Screen component={SavingsGoalsScreen} name="SavingsGoals.SavingsGoalsScreen" />
+      <Stack.Screen component={AllTransactionsScreen} name="SavingsGoals.AllTransactionsScreen" />
       <Stack.Screen component={CreateGoalScreen} name="SavingsGoals.CreateGoalScreen" />
       <Stack.Screen component={FundGoalModal} name="SavingsGoals.FundGoalModal" options={{ presentation: "modal" }} />
       <Stack.Screen component={GoalDetailsScreen} name="SavingsGoals.GoalDetailsScreen" />
+
       <Stack.Screen
         component={WithdrawGoalModal}
         name="SavingsGoals.WithdrawGoalModal"
@@ -68,6 +82,16 @@ export default function SavingsGoalsStack() {
         component={EditRecurringPaymentModal}
         name="SavingsGoals.EditRecurringPaymentModal"
         options={{ presentation: "modal" }}
+      />
+      <Stack.Screen
+        component={TransactionDetailScreen}
+        name="SavingsGoals.TransactionDetailScreen"
+        options={{
+          headerStyle: { backgroundColor: palette.primaryBase },
+          headerTintColor: palette["neutralBase-50"],
+          headerTitleAlign: "center",
+          headerShown: true,
+        }}
       />
     </Stack.Navigator>
   );

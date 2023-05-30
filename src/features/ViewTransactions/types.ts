@@ -1,7 +1,7 @@
 export interface TransactionDetailed {
   cardType: string;
   status: string;
-  location: string | boolean;
+  location: string;
   title: string;
   subTitle: string;
   amount: string;
