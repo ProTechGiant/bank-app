@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { Pressable, ViewStyle } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg/lib/typescript/ReactNativeSVG";
 
 import { CloseIcon, IconProps } from "@/assets/icons";
@@ -8,14 +8,16 @@ import { useThemeStyles } from "@/theme";
 
 interface ChipProps {
   title: string;
-  isClosable: boolean;
+  isRemovable: boolean;
   isSelected: boolean;
   onPress: () => void;
   leftIcon?: React.ReactElement<SvgProps | IconProps>;
   testID?: string;
 }
 
-export default function Chip({ title, isClosable, isSelected, onPress, leftIcon, testID }: ChipProps) {
+export default function Chip({ title, isRemovable, isSelected, onPress, leftIcon, testID }: ChipProps) {
+  const { t } = useTranslation();
+
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: isSelected ? theme.palette["neutralBase-40"] : undefined,
@@ -34,18 +36,23 @@ export default function Chip({ title, isClosable, isSelected, onPress, leftIcon,
   const iconDimension = useThemeStyles<number>(theme => theme.iconDimensions.chipComponent);
 
   return (
-    <Pressable style={containerStyle} onPress={onPress} testID={testID}>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${isRemovable ? t("AccessibilityHelpers.remove") : ""} ${title}`}
+      style={containerStyle}
+      onPress={onPress}
+      testID={testID}>
       {leftIcon ? (
-        <>
+        <View accessible={false}>
           {cloneElement(leftIcon, {
             height: iconDimension,
             width: iconDimension,
             color: iconColor,
           })}
-        </>
+        </View>
       ) : null}
       <Typography.Text size="footnote">{title}</Typography.Text>
-      {isClosable ? <CloseIcon width={iconDimension} height={iconDimension} /> : null}
+      {isRemovable ? <CloseIcon width={iconDimension} height={iconDimension} /> : null}
     </Pressable>
   );
 }

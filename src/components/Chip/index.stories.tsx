@@ -11,7 +11,7 @@ export default {
   component: Chip_,
   args: {
     title: "Content",
-    isClosable: true,
+    isRemovable: true,
     isSelected: false,
     leftIcon: <PostcardIcon />,
     testID: "chip",

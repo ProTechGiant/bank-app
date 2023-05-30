@@ -75,7 +75,7 @@ export default function FilterModal({
                 <Chip
                   title={data.name}
                   isSelected={data.isActive}
-                  isClosable={false}
+                  isRemovable={false}
                   onPress={() => onTypeFilterItemPress(index)}
                 />
               </View>
@@ -92,7 +92,7 @@ export default function FilterModal({
                 <Chip
                   title={data.name}
                   isSelected={data.isActive}
-                  isClosable={false}
+                  isRemovable={false}
                   onPress={() => onCategoryFilterItemPress(index)}
                 />
               </View>

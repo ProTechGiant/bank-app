@@ -39,7 +39,7 @@ export default function FilterTopBar({
                 <Chip
                   title={data.name}
                   isSelected={true}
-                  isClosable={true}
+                  isRemovable={true}
                   onPress={() => {
                     onTypeFilterItemRemovePress(data.name);
                   }}
@@ -55,7 +55,7 @@ export default function FilterTopBar({
                 <Chip
                   title={data.name}
                   isSelected={true}
-                  isClosable={true}
+                  isRemovable={true}
                   onPress={() => onCategoryFilterItemRemovePress(data.name)}
                 />
               </View>

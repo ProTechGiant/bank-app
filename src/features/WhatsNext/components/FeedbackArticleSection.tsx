@@ -50,14 +50,14 @@ export default function FeedbackArticleSection({
         <Chip
           title={t("WhatsNext.ExploreArticleScreen.feedbackPositive")}
           onPress={onPositivePress}
-          isClosable={false}
+          isRemovable={false}
           isSelected={feedback?.VoteId === UP_VOTE}
           leftIcon={<ThumbsUpIcon />}
         />
         <Chip
           title={t("WhatsNext.ExploreArticleScreen.feedbackNegative")}
           onPress={onNegativePress}
-          isClosable={false}
+          isRemovable={false}
           isSelected={feedback?.VoteId === DOWN_VOTE}
           leftIcon={<ThumbsDownIcon />}
         />

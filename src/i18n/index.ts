@@ -31,6 +31,7 @@ export const resources = {
       AccessibilityHelpers: {
         open: "open",
         close: "close",
+        remove: "remove",
       },
       errors: {
         generic: {
@@ -1810,6 +1811,7 @@ export const resources = {
       AccessibilityHelpers: {
         open: "open",
         close: "close",
+        remove: "remove",
       },
       TableList: {
         datePicker: {
