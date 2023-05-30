@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { format, isThisMonth, parse, parseISO } from "date-fns";
+import { format, isThisMonth, parse } from "date-fns";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -58,10 +58,10 @@ export default function FundingStep({
   const today = new Date();
   // eslint-disable-next-line prettier/prettier
   const targetDate = useMemo(() => (data?.TargetDate ? parse(data?.TargetDate, "yyyy-MM-dd", today) : undefined), [data]);
+  const accountBalance = account.data?.balance || 0;
 
   // below details no longer exist on the new response
   // TODO: once these are provided, please update accordingly
-  //  MainAccountAmount
   //  RecommendedAmount
   //  HadRecurringFund
   //  HadOneTimeFund
@@ -75,19 +75,14 @@ export default function FundingStep({
         .when("DayOfMonth", {
           // when recurring payment is today OR its a one-time payment, the user must have sufficient balance
           is: (value: number) => value === today.getDate() || fundingType === "one-off-payment",
-          then: yup
-            .number()
-            .max(
-              mockMissingSavingsPotDetails.MainAccountAmount ?? 0,
-              t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance")
-            ),
+          then: yup.number().max(accountBalance, t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance")),
         }),
       DayOfMonth: yup.number().when({
         is: fundingType !== "one-off-payment",
         then: yup.number().required(),
       }),
     });
-  }, [fundingType, t, today]);
+  }, [accountBalance, fundingType, t, today]);
 
   const { control, handleSubmit, watch } = useForm<FundingInput>({
     mode: "onChange",
@@ -184,7 +179,7 @@ export default function FundingStep({
             autoFocus
             control={control}
             helperText={currentValue => {
-              if (undefined !== data && currentValue > mockMissingSavingsPotDetails.MainAccountAmount) {
+              if (undefined !== data && currentValue > accountBalance) {
                 return t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance");
               }
             }}
@@ -223,7 +218,7 @@ export default function FundingStep({
               <AccountDestination
                 destination={t("SavingsGoals.Account.from")}
                 accountName={t("SavingsGoals.Account.mainAccount")}
-                balance={mockMissingSavingsPotDetails.MainAccountAmount} // TODO: get account balance
+                balance={accountBalance}
               />
             )}
             <View style={buttonSpaceStyle}>

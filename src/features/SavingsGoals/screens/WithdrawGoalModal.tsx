@@ -21,7 +21,6 @@ import { useThemeStyles } from "@/theme";
 
 import { AccountDestination, LargeCurrencyInput } from "../components";
 import { useSavingsPot, useWithdrawSavingsPot, WithdrawValues } from "../hooks/query-hooks";
-import { mockMissingSavingsPotDetails } from "../mocks/mockMissingSavingsPotDetails";
 
 export default function WithdrawGoalModal() {
   const navigation = useNavigation();
@@ -109,7 +108,7 @@ export default function WithdrawGoalModal() {
             <AccountDestination
               destination={t("SavingsGoals.Account.to")}
               accountName={t("SavingsGoals.Account.mainAccount")}
-              balance={mockMissingSavingsPotDetails.MainAccountAmount}
+              balance={account.data?.balance || 0}
             />
             <View style={submitButtonStyle}>
               <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>

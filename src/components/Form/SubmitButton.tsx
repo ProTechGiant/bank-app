@@ -7,7 +7,7 @@ interface SubmitButtonProps<T extends FieldValues>
   allowPristine?: boolean;
   control: Control<T>;
   onSubmit: (() => void) | (() => Promise<void>);
-  isDisabled: boolean;
+  isDisabled?: boolean;
 }
 
 export default function SubmitButton<T extends FieldValues>({

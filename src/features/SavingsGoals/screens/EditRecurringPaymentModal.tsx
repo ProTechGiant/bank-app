@@ -17,6 +17,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -29,7 +30,6 @@ import {
   useRecurringPayments,
   useSavingsPot,
 } from "../hooks/query-hooks";
-import { mockMissingSavingsPotDetails } from "../mocks/mockMissingSavingsPotDetails";
 
 interface FundingInput {
   PaymentAmount: number;
@@ -46,6 +46,7 @@ export default function EditRecurringPaymentModal() {
   const { PotId } = route.params;
   const { data: savingsPotData } = useSavingsPot(PotId);
   const { data: recurringFundData } = useRecurringPayments(PotId);
+  const { data: { balance: accountBalance = 0 } = {} } = useCurrentAccount();
 
   const [removeRecurringPaymentModal, setRemoveRecurringPaymentModal] = useState<boolean>(false);
 
@@ -63,9 +64,6 @@ export default function EditRecurringPaymentModal() {
     [savingsPotData]
   );
 
-  // TODO: once these are provided, please update accordingly
-  //  MainAccountAmount
-
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       PaymentAmount: yup
@@ -75,15 +73,10 @@ export default function EditRecurringPaymentModal() {
         .when("DayOfMonth", {
           // when Regular payment is today, the user must have sufficient balance
           is: (value: number) => value === today.getDate(),
-          then: yup
-            .number()
-            .max(
-              mockMissingSavingsPotDetails.MainAccountAmount ?? 0,
-              t("SavingsGoals.EditRegularPaymentModal.amountExceedsBalance")
-            ),
+          then: yup.number().max(accountBalance, t("SavingsGoals.EditRegularPaymentModal.amountExceedsBalance")),
         }),
     });
-  }, [savingsPotData, t]);
+  }, [accountBalance, savingsPotData, t]);
 
   const handleOnPressRemoval = async () => {
     setRemoveRecurringPaymentModal(current => !current);
@@ -181,7 +174,7 @@ export default function EditRecurringPaymentModal() {
               autoFocus
               control={control}
               helperText={currentValue => {
-                if (undefined !== savingsPotData && currentValue > mockMissingSavingsPotDetails.MainAccountAmount) {
+                if (undefined !== savingsPotData && currentValue > accountBalance) {
                   const amountExceedsBalance: any = (
                     <Typography.Text color="errorBase">
                       {t("SavingsGoals.EditRegularPaymentModal.amountExceedsBalance")}
@@ -193,10 +186,7 @@ export default function EditRecurringPaymentModal() {
               maxLength={10}
               name="PaymentAmount"
               returnKeyType="done"
-              isAmountExceedsBalance={
-                undefined !== savingsPotData &&
-                Number(watch("PaymentAmount")) > mockMissingSavingsPotDetails.MainAccountAmount
-              }
+              isAmountExceedsBalance={undefined !== savingsPotData && Number(watch("PaymentAmount")) > accountBalance}
             />
             <DayPickerInput
               buttonText={t("SavingsGoals.EditRegularPaymentModal.dayPickerButton")}
@@ -228,7 +218,7 @@ export default function EditRecurringPaymentModal() {
               <AccountDestination
                 destination={t("SavingsGoals.Account.from")}
                 accountName={t("SavingsGoals.Account.mainAccount")}
-                balance={mockMissingSavingsPotDetails.MainAccountAmount}
+                balance={accountBalance}
               />
             ) : null}
           </Stack>
