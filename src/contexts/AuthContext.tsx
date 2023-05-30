@@ -31,16 +31,15 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     isAuthenticated: false,
     apiKey: API_TOKEN,
     //TODO: will update it when the signin flow is updated
-    userId: "500",
+    userId: "301",
   });
 
-  // temporary: set initial headers
   useEffect(() => {
     setAuthenticationHeaders({
       ["UserId"]: state.userId as string,
       ["X-Api-Key"]: state.apiKey as string,
     });
-  }, []);
+  }, [state.userId, state.apiKey]);
 
   const handleOnLogout = () => {
     setState({ userId: undefined, isAuthenticated: false, apiKey: undefined });
@@ -61,12 +60,20 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   };
 
   const handleOnAuthenticate = (userId: string) => {
-    setState({ userId, isAuthenticated: true, apiKey: state.apiKey });
+    //TODO: Use API_TOKEN as default for temporary landing screen
+    setState({
+      userId,
+      isAuthenticated: true,
+      apiKey: API_TOKEN,
+    });
+
+    //TODO: Use API_TOKEN as default for temporary landing screen
     setAuthenticationHeaders({
       ["UserId"]: userId,
-      ["X-Api-Key"]: state.apiKey as string,
+      ["X-Api-Key"]: API_TOKEN,
     });
   };
+
   const contextValue = useMemo(
     () => ({ ...state, authenticate: handleOnAuthenticate, logout: handleOnLogout, authenticateAnonymously }),
     [state]
