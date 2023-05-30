@@ -11,21 +11,24 @@ interface AuthContextProps {
   apiKey: string | undefined;
   userId: string | undefined;
   logout: () => void;
+  authenticateAnonymously: (userId: string) => void;
 }
 
 function noop() {
   return;
 }
+
 const AuthContext = createContext<AuthContextProps>({
   authenticate: noop,
   isAuthenticated: false,
   apiKey: undefined,
   userId: undefined,
-  logout: () => noop,
+  logout: noop,
+  authenticateAnonymously: noop,
 });
 
 export function AuthContextProvider({ children }: React.PropsWithChildren) {
-  const [state, setState] = useState<Omit<AuthContextProps, "authenticate" | "logout">>({
+  const [state, setState] = useState<Omit<AuthContextProps, "authenticate" | "logout" | "authenticateAnonymously">>({
     isAuthenticated: false,
     apiKey: API_TOKEN,
     //TODO: will update it when the signin flow is updated
@@ -49,6 +52,15 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     EncryptedStorage.setItem("user", "");
   };
 
+  // TODO: This code will be removed when the onboarding and sign-in features are implemented.
+  const authenticateAnonymously = (userId: string) => {
+    setState({ ...state, userId });
+    setAuthenticationHeaders({
+      ["UserId"]: userId,
+      ["X-Api-Key"]: state.apiKey as string,
+    });
+  };
+
   const handleOnAuthenticate = (userId: string) => {
     setState({ userId, isAuthenticated: true, apiKey: state.apiKey });
     setAuthenticationHeaders({
@@ -57,7 +69,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     });
   };
   const contextValue = useMemo(
-    () => ({ ...state, authenticate: handleOnAuthenticate, logout: handleOnLogout }),
+    () => ({ ...state, authenticate: handleOnAuthenticate, logout: handleOnLogout, authenticateAnonymously }),
     [state]
   );
 

@@ -109,8 +109,8 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnOpenOnboarding = (values: TemporaryUserId) => {
-    // auth.authenticate(values.UserId);
+  const handleOnOpenOnboarding = (values: TemporaryForm) => {
+    auth.authenticateAnonymously(values.UserId);
     navigation.navigate("Onboarding.OnboardingStack", {
       screen: "Onboarding.SplashScreen",
     });
