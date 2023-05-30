@@ -48,6 +48,10 @@ type RootStackParams = {
   "NotificationManagement.NotificationManagementStack": undefined;
   "ViewTransactions.ViewTransactionsStack": {
     screen: string;
+    params: {
+      cardId: string;
+      createDisputeUserId: string;
+    };
   };
   "Settings.SettingsScreen": undefined;
   "Settings.AccountSettings": undefined;

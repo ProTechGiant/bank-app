@@ -72,40 +72,47 @@ export default function TemporaryLandingScreen() {
     }
   };
 
-  const handleOnSubmit = (values: TemporaryForm) => {
+  const handleOnSubmit = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     handleOnSavingsGoals();
   };
 
-  const handleOnOpenApplyForCard = () => {
-    navigation.navigate("CardActions.CardActionsStack", {
-      screen: "CardActions.ApplyCardScreen",
+  const handleOnOpenApplyForCard = async (values: TemporaryForm) => {
+    auth.authenticate(values.UserId);
+    setImmediate(() => {
+      navigation.navigate("CardActions.CardActionsStack", {
+        screen: "CardActions.ApplyCardScreen",
+      });
     });
   };
 
-  const handleOnOpenInternalTransfers = (values: TemporaryForm) => {
+  const handleOnOpenInternalTransfers = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     setInternalTransferEntryPoint("homepage");
-    navigation.navigate("InternalTransfers.InternalTransfersStack", {
-      screen: "InternalTransfers.PaymentsHubScreen",
+    setImmediate(() => {
+      navigation.navigate("InternalTransfers.InternalTransfersStack", {
+        screen: "InternalTransfers.PaymentsHubScreen",
+      });
     });
   };
 
-  const handleOnHomepage = (values: TemporaryForm) => {
+  const handleOnHomepage = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     navigation.navigate("Home.HomeStack", {
       screen: "Home.DashboardScreen",
     });
   };
 
-  const handleOnViewTransactions = (values: TemporaryForm) => {
+  const handleOnViewTransactions = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
-    navigation.navigate("ViewTransactions.ViewTransactionsStack", {
-      screen: "ViewTransactions.TransactionsScreen",
-      params: {
-        cardId: values.cardId,
-        createDisputeUserId: values.createDisputeUserId,
-      },
+    setImmediate(() => {
+      navigation.navigate("ViewTransactions.ViewTransactionsStack", {
+        screen: "ViewTransactions.TransactionsScreen",
+        params: {
+          cardId: values.cardId,
+          createDisputeUserId: values.createDisputeUserId,
+        },
+      });
     });
   };
 
@@ -116,20 +123,21 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnCardsHomeSubmit = (values: TemporaryForm) => {
+  const handleOnCardsHomeSubmit = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
-    handleOnOpenCardsHome();
-  };
-
-  const handleOnOpenCardsHome = () => {
-    navigation.navigate("CardActions.CardActionsStack", {
-      screen: "CardActions.HomeScreen",
+    setImmediate(() => {
+      navigation.navigate("CardActions.CardActionsStack", {
+        screen: "CardActions.HomeScreen",
+      });
     });
   };
 
-  const handleOnPressPaymentDisputesLanding = () => {
-    navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
-      screen: "PaymentDisputes.MyCasesLandingScreen",
+  const handleOnPressPaymentDisputesLanding = async (values: TemporaryForm) => {
+    auth.authenticate(values.UserId);
+    setImmediate(() => {
+      navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
+        screen: "PaymentDisputes.MyCasesLandingScreen",
+      });
     });
   };
 
@@ -167,7 +175,7 @@ export default function TemporaryLandingScreen() {
           </Stack>
         </View>
         <View style={styles.margin20}>
-          <Button onPress={handleOnPressPaymentDisputesLanding}>Payment Disputes Landing</Button>
+          <Button onPress={handleSubmit(handleOnPressPaymentDisputesLanding)}>Payment Disputes Landing</Button>
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnViewTransactions)}>View Transactions</Button>
@@ -179,7 +187,7 @@ export default function TemporaryLandingScreen() {
           <Button onPress={handleSubmit(handleOnSubmit)}>Savings Goals</Button>
         </View>
         <View style={styles.margin20}>
-          <Button onPress={handleOnOpenApplyForCard}>Order Card</Button>
+          <Button onPress={handleSubmit(handleOnOpenApplyForCard)}>Order Card</Button>
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnHomepage)}>Homepage</Button>

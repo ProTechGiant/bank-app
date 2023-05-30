@@ -3,7 +3,6 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import EncryptedStorage from "react-native-encrypted-storage";
 
 import { setAuthenticationHeaders } from "@/api/send-api-request";
-import { generateRandomId } from "@/utils";
 
 interface AuthContextProps {
   authenticate: (userId: string) => void;
