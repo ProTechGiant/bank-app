@@ -21,6 +21,7 @@ import SettingsScreen from "@/features/Settings/screens/SettingsScreen";
 import SignInStack from "@/features/SignIn/SignInStack";
 import TemporaryDummyScreen from "@/features/Temporary/TemporaryDummyScreen";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
+import ViewTransactionsStack from "@/features/ViewTransactions/ViewTransactionsStack";
 import WhatsNextStack from "@/features/WhatsNext/WhatsNextStack";
 import useLogoutAfterInactivity from "@/hooks/use-logout-after-inactivity";
 
@@ -46,6 +47,7 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen component={TemporaryLandingScreen} name="Temporary.LandingScreen" />
       <AuthStack.Screen component={TemporaryDummyScreen} name="Temporary.DummyScreen" />
       <AuthStack.Screen component={ReferralStack} name="Referral.ReferralStack" />
+      <AuthStack.Screen component={ViewTransactionsStack} name="ViewTransactions.ViewTransactionsStack" />
       <AuthStack.Screen
         component={TermsAndConditionsScreen}
         name="Referral.TermsAndConditionsScreen"
