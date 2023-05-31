@@ -1,4 +1,5 @@
 import { cloneElement } from "react";
+import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg/lib/typescript/ReactNativeSVG";
 
