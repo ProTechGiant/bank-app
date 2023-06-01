@@ -86,7 +86,7 @@ export default function HomeScreen() {
         CardId: cardId,
       },
       otpVerifyMethod: "card-actions",
-      onOtpRequestResend: () => {
+      onOtpRequest: () => {
         return requestViewPinOtpAsync.mutateAsync({ cardId });
       },
       onFinish: (status, payload) => {
