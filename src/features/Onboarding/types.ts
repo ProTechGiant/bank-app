@@ -1,7 +1,4 @@
-import { SvgProps } from "react-native-svg";
-
-import { IconProps } from "@/assets/icons";
-import { AlertColorType } from "@/components/Alert";
+import { AlertVariantType } from "@/components/Alert";
 
 export interface NafathDetails {
   CustomerId?: string;
@@ -75,8 +72,7 @@ export interface FinancialDetails {
 
 export interface ErrorMessageType {
   message: string | JSX.Element;
-  icon: React.ReactElement<SvgProps | IconProps>;
-  color: AlertColorType;
+  variant: AlertVariantType;
   link?: string;
 }
 

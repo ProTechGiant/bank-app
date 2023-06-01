@@ -106,8 +106,7 @@ export default function PendingAccountScreen() {
               <Stack direction="vertical" align="center" justify="center" flex={1}>
                 <View style={bannerViewStyle}>
                   <Alert
-                    color="warningBase-30"
-                    icon={<FilledRefresh />}
+                    variant="refresh"
                     message={t("Onboarding.LandingScreen.pending.bannerMessage")}
                     end={<Alert.ExpandEndButton onPress={handleAccountSetupToggle} expanded={isAccountSetupVisible} />}
                   />
