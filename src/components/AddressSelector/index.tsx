@@ -19,6 +19,7 @@ interface AddressSelectorProps {
   isSelected: boolean;
   isTemporary: boolean;
   endComponent?: "radio" | "chevron";
+  testID?: string;
   onPress: () => void;
 }
 
@@ -31,6 +32,7 @@ export default function AddressSelector({
   isSelected,
   isTemporary,
   endComponent = "radio",
+  testID,
   onPress,
 }: AddressSelectorProps) {
   const { t } = useTranslation();
@@ -42,7 +44,7 @@ export default function AddressSelector({
 
   return (
     <WithShadow backgroundColor="neutralBase-60" borderRadius="extraSmall">
-      <Pressable onPress={onPress} style={containerStyle}>
+      <Pressable onPress={onPress} style={containerStyle} testID={testID}>
         <LocationPinIcon color={isSelected ? palette["primaryBase-40"] : palette["neutralBase-30"]} />
         <View style={styles.addressContent}>
           {isTemporary ? (
