@@ -45,8 +45,13 @@ const TermsAndConditionsScreen = () => {
     try {
       await termsConditionsAsync.mutateAsync();
       navigation.navigate("Onboarding.PendingAccount");
-    } catch (error) {
-      Alert.alert(t("Onboarding.TermsAndConditions.errorText.alert"));
+    } catch (error: unknown) {
+      const hasMessage = error?.errorContent?.Message;
+      if (hasMessage) {
+        Alert.alert(t(hasMessage));
+      } else {
+        Alert.alert(t("Onboarding.TermsAndConditions.errorText.alert"));
+      }
       warn("onboarding", "Could not confirm terms and conditions: ", JSON.stringify(error));
     }
   };

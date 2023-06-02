@@ -10,25 +10,25 @@ interface LinkModalProps {
   onNavigate: () => void;
   children: JSX.Element | JSX.Element[];
   linkText: string;
+  hasCloseIcon?: boolean;
 }
 
-const LinkModal = ({ modalVisible, toggleModal, onNavigate, children, linkText }: LinkModalProps) => {
-  const buttonContainerStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      marginTop: theme.spacing["8p"],
-    }),
-    []
-  );
-  const modalViewStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["neutralBase-50"],
-      borderRadius: theme.radii.extraSmall,
-      maxWidth: 348,
-      padding: theme.spacing["24p"],
-      width: "100%",
-    }),
-    []
-  );
+const LinkModal = ({ modalVisible, toggleModal, onNavigate, children, linkText, hasCloseIcon }: LinkModalProps) => {
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["32p"],
+  }));
+
+  const modalViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-50"],
+    maxWidth: 348,
+    padding: theme.spacing["24p"],
+    width: "100%",
+    borderRadius: theme.radii.xlarge,
+    borderTopStartRadius: theme.radii.xlarge,
+    borderTopEndRadius: theme.radii.xlarge,
+    marginBottom: theme.spacing["32p"],
+    marginHorizontal: theme.spacing["16p"],
+  }));
 
   const handlePress = () => {
     toggleModal && toggleModal();
@@ -39,9 +39,11 @@ const LinkModal = ({ modalVisible, toggleModal, onNavigate, children, linkText }
     <Modal transparent={true} visible={modalVisible} onRequestClose={toggleModal}>
       <View style={styles.centeredView}>
         <View style={modalViewStyle}>
-          <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
-            <CloseIcon />
-          </TouchableOpacity>
+          {hasCloseIcon ? (
+            <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
+              <CloseIcon />
+            </TouchableOpacity>
+          ) : null}
           {children}
           <View style={buttonContainerStyle}>
             <Button onPress={handlePress}>{linkText}</Button>
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.51)",
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
   closeButton: {
     alignItems: "flex-end",

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking, Platform, View, ViewStyle } from "react-native";
 
+import Accordion from "@/components/Accordion";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -17,32 +18,27 @@ import { useRequestNumber } from "../hooks/query-hooks";
 
 export default function NafathAuthScreen() {
   const { t } = useTranslation();
-  const requestOtpNumberAsync = useRequestNumber();
+  const { mutateAsync } = useRequestNumber();
   const navigation = useNavigation();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [requestedOtpNumber, setRequestedOtpNumber] = useState<number | undefined>();
-  const [isIndicator, setIsIndicator] = useState<boolean>(false);
+  const [isIndicator, setIsIndicator] = useState<boolean>();
 
   const handleOnToggleModal = async () => {
-    const nextValue = !isModalVisible;
-    setIsModalVisible(nextValue);
-
-    if (nextValue) {
-      setIsIndicator(true);
-      const response = await requestOtpNumberAsync.mutateAsync();
-      const randomValue = response.Body?.random || "";
-      setIsIndicator(false);
-      setRequestedOtpNumber(parseInt(randomValue, 10));
-    }
+    setIsIndicator(true);
+    const response = await mutateAsync();
+    setIsIndicator(false);
+    setIsModalVisible(!isModalVisible);
+    const randomValue = response.Body?.random || "";
+    setRequestedOtpNumber(parseInt(randomValue, 10));
   };
 
-  const handleOpenNafathApp = async (Url: string) => {
+  const handleOpenNafathApp = (Url: string) => {
     Linking.canOpenURL(Url)
       .then(supported => {
         if (supported) {
-          Linking.openURL(Url);
-          handleNavigate();
+          Linking.openURL(Url).then(() => handleNavigate());
         } else {
           Alert.alert(
             t("Onboarding.NafathAuthScreen.alertModelTitle"),
@@ -54,14 +50,13 @@ export default function NafathAuthScreen() {
                 style: "cancel",
               },
               {
-                text: t("Onboarding.NafathAuthScreen.alertModelAppStoreButton"),
+                text:
+                  Platform.OS === "android"
+                    ? t("Onboarding.NafathAuthScreen.alertModelPlayStoreButton")
+                    : t("Onboarding.NafathAuthScreen.alertModelAppStoreButton"),
                 onPress: () => {
-                  if (Platform.OS === "android") {
-                    handleOpenNafathApp(NAFATH_ANDROID_URL);
-                  } else if (Platform.OS === "ios") {
-                    handleOpenNafathApp(NAFATH_APPLE_URL);
-                  }
-                  handleNavigate();
+                  const storeURL = Platform.OS === "android" ? NAFATH_ANDROID_URL : NAFATH_APPLE_URL;
+                  Linking.openURL(storeURL).then(() => handleNavigate());
                 },
               },
             ]
@@ -72,11 +67,8 @@ export default function NafathAuthScreen() {
   };
 
   const handleOnOpenNafathApp = () => {
-    if (Platform.OS === "android") {
-      handleOpenNafathApp(NAFATH_DEEPLINK_ANDROID);
-    } else if (Platform.OS === "ios") {
-      handleOpenNafathApp(NAFATH_DEEPLINK_IOS);
-    }
+    const url = Platform.OS === "android" ? NAFATH_DEEPLINK_ANDROID : NAFATH_DEEPLINK_IOS;
+    handleOpenNafathApp(url);
   };
   const handleNavigate = () => {
     //TODO: this block is added for testing purpose will update it after testing
@@ -84,7 +76,7 @@ export default function NafathAuthScreen() {
     setTimeout(() => {
       setIsIndicator(false);
       navigation.navigate("Onboarding.ConfirmDetails");
-    }, 6000);
+    }, 10000);
   };
 
   const container = useThemeStyles<ViewStyle>(theme => ({
@@ -104,11 +96,12 @@ export default function NafathAuthScreen() {
 
   const numberContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignContent: "center",
-    backgroundColor: theme.palette.complimentBase,
+    backgroundColor: theme.palette["primaryBase-30"],
     borderRadius: 30,
     height: 60,
     justifyContent: "center",
-    marginVertical: theme.spacing["32p"],
+    marginTop: theme.spacing["32p"],
+    marginBottom: theme.spacing["16p"],
     width: 60,
   }));
   return (
@@ -138,14 +131,17 @@ export default function NafathAuthScreen() {
                     </Typography.Text>
                   </View>
                 )}
-                <Typography.Text color="neutralBase" size="footnote" weight="semiBold" align="center">
+                <Typography.Text color="neutralBase" size="callout" align="center">
                   {t("Onboarding.NafathAuthScreen.modalBody")}
                 </Typography.Text>
               </Stack>
             </LinkModal>
             <View style={headerContainerStyle}>
-              <Typography.Text size="large" weight="bold">
+              <Typography.Text size="title1" weight="bold">
                 {t("Onboarding.NafathAuthScreen.title")}
+              </Typography.Text>
+              <Typography.Text size="callout" weight="regular">
+                {t("Onboarding.NafathAuthScreen.subTitle")}
               </Typography.Text>
             </View>
             <Stack align="stretch" direction="vertical" gap="20p">
@@ -160,6 +156,11 @@ export default function NafathAuthScreen() {
                   {t("Onboarding.NafathAuthScreen.appButtonBody")}
                 </Typography.Text>
               </LinkCard>
+              <Accordion title={t("Onboarding.NafathAuthScreen.dropdownTitle")}>
+                <Typography.Text color="neutralBase+10" size="footnote">
+                  {t("Onboarding.NafathAuthScreen.dropdownBody")}
+                </Typography.Text>
+              </Accordion>
               {/* <LinkCard onNavigate={handleOnOpenNafathWebsite}>
             <Typography.Text size="callout" weight="medium" color="neutralBase+30">
               {t("Onboarding.NafathAuthScreen.siteButtonTitle")}
@@ -168,11 +169,6 @@ export default function NafathAuthScreen() {
               {t("Onboarding.NafathAuthScreen.siteButtonBody")}
             </Typography.Text>
           </LinkCard>
-          <Accordion title={t("Onboarding.NafathAuthScreen.dropdownTitle")}>
-            <Typography.Text color="neutralBase+10" size="footnote">
-              {t("Onboarding.NafathAuthScreen.dropdownBody")}
-            </Typography.Text>
-          </Accordion>
           </LinkCard> */}
             </Stack>
           </>
