@@ -9,17 +9,25 @@ export interface RadioButtonProps<T> {
   label: string;
   onPress?: (value: T | undefined) => void;
   isSelected?: boolean;
+  testID?: string;
   value?: T | undefined;
 }
 
-export default function RadioButton<T>({ disabled = false, label, onPress, isSelected, value }: RadioButtonProps<T>) {
+export default function RadioButton<T>({
+  disabled = false,
+  label,
+  onPress,
+  isSelected,
+  testID,
+  value,
+}: RadioButtonProps<T>) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     paddingVertical: theme.spacing["16p"],
   }));
 
   return (
-    <Pressable onPress={() => onPress?.(value)} style={containerStyle} disabled={disabled}>
+    <Pressable onPress={() => onPress?.(value)} style={containerStyle} disabled={disabled} testID={testID}>
       <Typography.Text weight="medium" size="callout" style={[styles.label, { opacity: disabled ? 0.2 : 1 }]}>
         {label}
       </Typography.Text>

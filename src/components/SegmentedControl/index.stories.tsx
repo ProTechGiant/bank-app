@@ -12,7 +12,7 @@ export default {
     onPress: {
       action: "onPress",
       table: {
-        disabled: true,
+        disable: true,
       },
     },
   },

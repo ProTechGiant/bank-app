@@ -67,11 +67,7 @@ export default function AddressSelector({
         </View>
         <View style={styles.endComponent}>
           {endComponent === "radio" ? (
-            <Radio
-              isSelected={isSelected}
-              color={isSelected ? palette["primaryBase-40"] : palette["neutralBase-30"]}
-              onPress={onPress}
-            />
+            <Radio isSelected={isSelected} onPress={onPress} />
           ) : (
             <ChevronRightIcon color={palette["neutralBase-30"]} />
           )}
