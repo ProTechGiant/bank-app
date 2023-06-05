@@ -20,7 +20,6 @@ export default function InlineBanner({ icon, text, testID, onClose, variant = "d
       alignItems: "flex-start",
       backgroundColor: variant === "error" ? theme.palette["errorBase-30"] : theme.palette["neutralBase-40"],
       borderRadius: theme.radii.small,
-      flex: 1,
       justifyContent: "center",
       flexDirection: "row",
       padding: theme.spacing["20p"],
