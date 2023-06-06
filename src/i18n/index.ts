@@ -1288,11 +1288,13 @@ export const resources = {
         optSubmitErrorMessage: "Could not validate OTP-code with backend: {{error}}",
         resendOtpErrorMessage: "Could not re-request OTP-code: {{error}}",
         errors: {
-          invalidPassword: "That code wasn't right - try again.",
+          invalidPassword: "The code you entered was invalid. Please try again",
+          maxAttemptsInvalidPasswordReached:
+            "You have reached the maximum number of authentication attempts. Please try again later.",
           twoAttemptsLeft: "That code has expired. You can request 2 more codes.",
           oneAttemptLeft: "That code has expired. You can request 1 more code.",
-          reachedMaxAttemptsTitle: "Try again later",
-          reachedMaxAttemptsMessage: "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
+          noAttemptsLeftTitle: "Try again later",
+          noAttemptsLeftMessage: "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
           button: "OK",
         },
         otpCodeAlertText: "OTP-code is: {{otpCode}}",
@@ -2370,11 +2372,13 @@ export const resources = {
       resendCodeDisabled: "Resend Code in {{minutes}}:{{seconds}}",
       resendCodeEnabled: "Resend Code",
       errors: {
-        invalidPassword: "That code wasn't right - try again.",
+        invalidPassword: "The code you entered was invalid. Please try again",
+        maxAttemptsInvalidPasswordReached:
+          "You have reached the maximum number of authentication attempts. Please try again later.",
         twoAttemptsLeft: "That code has expired. You can request 2 more codes.",
         oneAttemptLeft: "That code has expired. You can request 1 more code.",
-        reachedMaxAttemptsTitle: "Try again later",
-        reachedMaxAttemptsMessage: "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
+        noAttemptsLeftTitle: "Try again later",
+        noAttemptsLeftMessage: "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
         button: "OK",
       },
     },

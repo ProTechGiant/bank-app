@@ -34,10 +34,15 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   const [isOtpCodeInvalidErrorVisible, setIsOtpCodeInvalidErrorVisible] = useState(false);
   const [otpResetCountSeconds, setOtpResetCountSeconds] = useState(OTP_RESET_COUNT_SECONDS);
   const [otpResendsRequested, setOtpResendsRequested] = useState(0);
+
   const [currentValue, setCurrentValue] = useState("");
 
   const isOtpExpired = otpResetCountSeconds <= 0;
   const isReachedMaxAttempts = otpResendsRequested === OTP_MAX_RESENDS && isOtpExpired;
+
+  // these were added to fix PC-11791 error issues.
+  const [numberOfAttemptsForOTP, setNumberOfAttemptsForOTP] = useState(0);
+  const isOTPVerifyMaxAttemptsReached = numberOfAttemptsForOTP > OTP_MAX_ATTEMPTS;
 
   useEffect(() => {
     if (otpResetCountSeconds <= 0) return;
@@ -94,6 +99,8 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
     try {
       const response = await params.onOtpRequest();
+      // to handle cases of PC-11791
+      setNumberOfAttemptsForOTP(0);
 
       setOtpParams(response);
       setIsGenericErrorVisible(false);
@@ -121,7 +128,8 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   };
 
   const handleOnChangeText = (value: string) => {
-    if (isReachedMaxAttempts) return;
+    // isOTPVerifyMaxAttemptsReached added to disable keyboard when max attempts reached till user tap resend code. PC-11791
+    if (isReachedMaxAttempts || isOTPVerifyMaxAttemptsReached) return;
 
     setCurrentValue(value);
     setIsOtpCodeInvalidErrorVisible(false);
@@ -146,6 +154,8 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       if (!IsOtpValid) {
         setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
+        // to handle cases of PC-11791
+        setNumberOfAttemptsForOTP(NumOfAttempts);
 
         return;
       }
@@ -199,11 +209,22 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                   value={currentValue}
                 />
                 {isOtpCodeInvalidErrorVisible ? (
-                  <InlineBanner
-                    variant="error"
-                    icon={<ErrorFilledCircleIcon />}
-                    text={t("OneTimePasswordModal.errors.invalidPassword")}
-                  />
+                  <>
+                    {/* to handle cases of PC-11791 regarding error */}
+                    {isOTPVerifyMaxAttemptsReached ? (
+                      <InlineBanner
+                        variant="error"
+                        icon={<ErrorFilledCircleIcon />}
+                        text={t("OneTimePasswordModal.errors.maxAttemptsInvalidPasswordReached")}
+                      />
+                    ) : (
+                      <InlineBanner
+                        variant="error"
+                        icon={<ErrorFilledCircleIcon />}
+                        text={t("OneTimePasswordModal.errors.invalidPassword")}
+                      />
+                    )}
+                  </>
                 ) : null}
                 {isOtpExpired ? (
                   <>
@@ -254,8 +275,8 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       />
       <NotificationModal
         variant="error"
-        title={t("OneTimePasswordModal.errors.reachedMaxAttemptsTitle")}
-        message={t("OneTimePasswordModal.errors.reachedMaxAttemptsMessage")}
+        title={t("OneTimePasswordModal.errors.noAttemptsLeftTitle")}
+        message={t("OneTimePasswordModal.errors.noAttemptsLeftMessage")}
         isVisible={isReachedMaxAttempts}
         buttons={{
           primary: <Button onPress={handleOnRequestResendErrorClose}>{t("OneTimePasswordModal.errors.button")}</Button>,
@@ -274,4 +295,5 @@ const styles = StyleSheet.create({
 
 const OTP_CODE_LENGTH = 4;
 const OTP_MAX_RESENDS = 2;
+const OTP_MAX_ATTEMPTS = 2;
 const OTP_RESET_COUNT_SECONDS = 120;
