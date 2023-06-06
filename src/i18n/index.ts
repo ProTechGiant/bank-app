@@ -273,6 +273,7 @@ export const resources = {
           yesterday: "Yesterday",
           clearFilter: "Clear filter",
           emptyTransactions: "We couldn't find any transactions - try adjusting your filter.",
+          noTransactionsYet: "There are no transactions yet.",
         },
         PendingTransactionsScreen: {
           title: "Pending Transactions",
@@ -2071,6 +2072,7 @@ export const resources = {
           yesterday: "Yesterday",
           clearFilter: "Clear filter",
           emptyTransactions: "We couldn't find any transactions - try adjusting your filter.",
+          noTransactionsYet: "There are no transactions yet.",
         },
         PendingTransactionsScreen: {
           title: "Pending Transactions",

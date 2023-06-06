@@ -250,7 +250,7 @@ export default function TransactionsScreen() {
               cardId={cardId}
               createDisputeUserId={createDisputeUserId}
             />
-          ) : (
+          ) : selectedFilters.length > 0 && transactions.data !== undefined ? (
             <View style={styles.activityIndicator}>
               <Pressable
                 onPress={() => {
@@ -263,6 +263,12 @@ export default function TransactionsScreen() {
               </Pressable>
               <Typography.Text color="neutralBase" size="footnote" weight="regular">
                 {t("ViewTransactions.TransactionsScreen.emptyTransactions")}
+              </Typography.Text>
+            </View>
+          ) : (
+            <View style={styles.activityIndicator}>
+              <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                {t("ViewTransactions.TransactionsScreen.noTransactionsYet")}
               </Typography.Text>
             </View>
           )}

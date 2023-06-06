@@ -65,11 +65,11 @@ export default function useTransactions(transactionCode?: string, categories?: s
   const account_id = account.data?.id;
 
   const transactions = useQuery(
-    ["transactions", transactionCode, selectedFilters, "completed"],
+    ["transactions", { transactionCode, selectedFilters, status: "completed" }],
     () =>
       api<ApiTransactionsResponseElement>(
         "v1",
-        `accounts/${123456789}/transactions`, // TODO: Hardcoded account id, needs to be replace with ${account_id}
+        `accounts/${account_id}/transactions`,
         "GET",
         {
           PageSize: 1000,
@@ -91,7 +91,7 @@ export default function useTransactions(transactionCode?: string, categories?: s
   );
 
   const pendingTransactions = useQuery(
-    ["transactions", transactionCode, selectedFilters, "pending"],
+    ["transactions", { status: "pending" }],
     () =>
       api<ApiPendingTransactionsResponseElement>(
         "v1",
@@ -110,6 +110,7 @@ export default function useTransactions(transactionCode?: string, categories?: s
     {
       // set staleTime to 10 seconds for caching
       staleTime: 10000,
+      enabled: !!account_id,
     }
   );
 
