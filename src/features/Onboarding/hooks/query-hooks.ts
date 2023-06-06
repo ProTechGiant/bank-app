@@ -160,7 +160,7 @@ export function useSubmitFinancialDetails() {
 }
 
 export function useIqama() {
-  const { startOnboardingAsync, fetchLatestWorkflowTask, correlationId, setNationalId, currentTask } =
+  const { startOnboardingAsync, fetchLatestWorkflowTask, correlationId, setNationalId, setMobileNumber, currentTask } =
     useOnboardingContext();
 
   const handleSignUp = async (values: IqamaInputs) => {
@@ -223,6 +223,7 @@ export function useIqama() {
   return useMutation(handleSignUp, {
     onSuccess(data, _variables, _context) {
       setNationalId(String(data.Id));
+      setMobileNumber(String(data.MobileNumber));
     },
     onError(error, variables, _context) {
       if (

@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Alert, ScrollView, View, ViewStyle } from "react-native";
@@ -16,7 +17,9 @@ import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import notifications from "@/utils/push-notifications";
 
+import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useEmail } from "../hooks/query-hooks";
 
 interface OptionalEmailFormValues {
@@ -25,6 +28,22 @@ interface OptionalEmailFormValues {
 
 export default function OptionalEmailScreen() {
   const { t } = useTranslation();
+  const { mobileNumber } = useOnboardingContext();
+
+  useEffect(() => {
+    async function main() {
+      try {
+        const status = await notifications.requestPermissions();
+        if (status) {
+          await notifications.registerForNotifications();
+          if (mobileNumber !== undefined) await notifications.registerWithT2(mobileNumber);
+        }
+      } catch (error) {
+        Alert.alert(t("Onboarding.OptionalEmailScreen.errorText.notificationRegistrationFailure"));
+      }
+    }
+    main();
+  }, []);
 
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({

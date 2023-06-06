@@ -46,6 +46,7 @@ export type SavingsGoalsStackParams = {
   };
   "SavingsGoals.WithdrawGoalModal": {
     PotId: string;
+    withdrawAmount?: number;
   };
   "SavingsGoals.EditGoalModal": {
     PotId: string;

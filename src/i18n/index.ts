@@ -149,6 +149,7 @@ export const resources = {
           skip: "Skip",
           errorText: {
             alert: "Woops. Could not submit your email",
+            notificationRegistrationFailure: "Unable to register for push notifications",
           },
         },
         FinancialInformationScreen: {
@@ -818,6 +819,14 @@ export const resources = {
               confirm: "Confirm",
               cancel: "Cancel",
             },
+          },
+          turnOnNotificationsAlert: {
+            globalNotificationsTitle: "Notifications are disabled",
+            globalNotificationsMessage: "Would you like to turn on notifications?",
+            globalSavingsGoalNotificationsTitle: "Your global notifications are disabled",
+            globalSavingsGoalNotificationsMessage: "Would you like to turn on global notifications?",
+            alertButtonCancel: "Cancel",
+            alertButtonTurnOn: "Turn on",
           },
         },
         FundGoalModal: {
@@ -1941,6 +1950,7 @@ export const resources = {
           skip: "Skip",
           errorText: {
             alert: "Woops. Could not confirm your personal details",
+            notificationRegistrationFailure: "Unable to register for push notifications",
           },
         },
         FinancialInformationScreen: {
@@ -2864,6 +2874,30 @@ export const resources = {
         textThree:
           "If you're worried that your card's details have been compromised, it's a good idea to cancel the card and order a replacement.",
         button: "OK",
+      },
+      EditGoalScreen: {
+        save: "Save",
+        notifications: {
+          label: "Turn on notifications",
+          helperText: "Only for this goal",
+        },
+        closeGoal: "Close goal",
+        modal: {
+          title: "Are you sure you want to close this goal?",
+          content: "The money in this goal will go back into your main account",
+          buttons: {
+            confirm: "Confirm",
+            cancel: "Cancel",
+          },
+        },
+        turnOnNotificationsAlert: {
+          globalNotificationsTitle: "Notifications are disabled",
+          globalNotificationsMessage: "Would you like to turn on notifications?",
+          globalSavingsGoalNotificationsTitle: "Your global notifications are disabled",
+          globalSavingsGoalNotificationsMessage: "Would you like to turn on global notifications?",
+          alertButtonCancel: "Cancel",
+          alertButtonTurnOn: "Turn on",
+        },
       },
     },
   },

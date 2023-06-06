@@ -8,11 +8,13 @@ function noop() {
 
 interface OnboardingContextState {
   setNationalId: (value: string) => void;
-  setCustomerName: (value: string | undefined) => void;
+  setCustomerName: (value: string) => void;
   nationalId: string | undefined;
   userName: string | undefined;
   setTransactionId: (value: string) => void;
   transactionId: string | undefined;
+  setMobileNumber: (value: string) => void;
+  mobileNumber: string | undefined;
   setCorrelationId: (value: string) => void;
   correlationId: string | undefined;
   setCurrentTask: (currentTask: { Id: string; Name: string }) => void;
@@ -29,6 +31,8 @@ const OnboardingContext = createContext<OnboardingContextState>({
   userName: undefined,
   nationalId: undefined,
   transactionId: undefined,
+  setMobileNumber: noop,
+  mobileNumber: undefined,
   setCorrelationId: noop,
   correlationId: undefined,
   setCurrentTask: noop,
@@ -44,13 +48,17 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
   const onboardingRevertTaskAsync = useOnboardingRevertTask();
 
   const [state, setState] = useState<
-    Pick<OnboardingContextState, "nationalId" | "correlationId" | "currentTask" | "transactionId" | "userName">
+    Pick<
+      OnboardingContextState,
+      "nationalId" | "correlationId" | "currentTask" | "transactionId" | "userName" | "mobileNumber"
+    >
   >({
     nationalId: undefined,
     correlationId: undefined,
     currentTask: undefined,
     transactionId: undefined,
     userName: undefined,
+    mobileNumber: undefined,
   });
 
   const setNationalId = (nationalId: string) => {
@@ -63,6 +71,9 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
 
   const setCustomerName = (userName: string) => {
     setState(v => ({ ...v, userName }));
+  };
+  const setMobileNumber = (mobileNumber: string) => {
+    setState(v => ({ ...v, mobileNumber }));
   };
 
   const setCorrelationId = (correlationId: string) => {
@@ -119,6 +130,7 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
           startOnboardingAsync,
           fetchLatestWorkflowTask,
           revertWorkflowTask,
+          setMobileNumber,
         }),
         [state]
       )}>

@@ -17,7 +17,6 @@ import useAppsFlyer from "@/hooks/use-appsflyer";
 import useI18nDirection from "@/i18n/use-i18n-direction";
 import MainStack from "@/navigation/MainStack";
 import { initializeAppleWalletAsync } from "@/utils/apple-wallet";
-import notifications from "@/utils/push-notifications";
 
 initializeAppleWalletAsync();
 const queryClient = new QueryClient();
@@ -28,18 +27,6 @@ export default function App() {
 
   useEffect(() => {
     initializeSdk();
-  }, []);
-
-  useEffect(() => {
-    async function main() {
-      const status = await notifications.requestPermissions();
-
-      if (status) {
-        await notifications.registerForNotifications();
-      }
-    }
-
-    main();
   }, []);
 
   return (

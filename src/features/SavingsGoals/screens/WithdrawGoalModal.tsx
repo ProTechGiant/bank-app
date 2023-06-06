@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, View, ViewStyle } from "react-native";
@@ -33,6 +33,12 @@ export default function WithdrawGoalModal() {
 
   const [isWithdrawError, setIsWithdrawError] = useState(false);
 
+  useEffect(() => {
+    if (route.params.withdrawAmount && data?.AvailableBalanceAmount !== undefined) {
+      setValue("PaymentAmount", route.params.withdrawAmount, { shouldValidate: true, shouldDirty: true });
+    }
+  }, [data, route.params]);
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       PaymentAmount: yup
@@ -46,7 +52,7 @@ export default function WithdrawGoalModal() {
     });
   }, [t, data]);
 
-  const { control, handleSubmit } = useForm<WithdrawValues>({
+  const { control, handleSubmit, setValue } = useForm<WithdrawValues>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -55,9 +61,10 @@ export default function WithdrawGoalModal() {
   });
 
   const handleOnClose = () => {
-    navigation.navigate("SavingsGoals.GoalDetailsScreen", {
-      PotId: route.params.PotId,
-    });
+    // navigation.navigate("SavingsGoals.GoalDetailsScreen", {
+    //   PotId: route.params.PotId,
+    // });    //TODO: handle when stacks are finalized
+    navigation.goBack();
   };
 
   const handleOnSubmit = async (values: WithdrawValues) => {

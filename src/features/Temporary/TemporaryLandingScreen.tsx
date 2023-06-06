@@ -13,6 +13,7 @@ import reloadApp from "@/i18n/reload-app";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
+import useNotificationHandler from "../../hooks/use-notification-handler";
 import { useInternalTransferContext } from "../InternalTransfers/context/InternalTransfersContext";
 import useSavingsGoalNumber from "./use-savings-goal-number";
 
@@ -30,6 +31,7 @@ export default function TemporaryLandingScreen() {
   const auth = useAuthContext();
   const { setInternalTransferEntryPoint } = useInternalTransferContext();
   const appsFlyer = useAppsFlyer();
+  useNotificationHandler();
 
   // Appsflyer listens for onDeepLink to be triggered and then we navigate to correct screen using data passed by Appsflyer
   // TODO: Should be placed inside the first screen in the nav stack so that it is always called but can also handle navigation
