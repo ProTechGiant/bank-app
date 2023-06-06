@@ -7,5 +7,5 @@ export function isCardInactive(card: Card) {
 }
 
 export function hasActiveSingleUseCard(cardsList: Card[]) {
-  return cardsList.find(card => card.CardType === SINGLE_USE_CARD_TYPE && card.Status === "freeze") !== undefined;
+  return cardsList.find(card => card.CardType === SINGLE_USE_CARD_TYPE && card.Status === "unfreeze") !== undefined;
 }
