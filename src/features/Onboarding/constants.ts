@@ -4,3 +4,4 @@ export const NATIONAL_ID_TYPE = "01";
 export const IQAMA_TYPE = "02";
 export const NAFATH_DEEPLINK_IOS = "nafath://home";
 export const NAFATH_DEEPLINK_ANDROID = "nic://nafath";
+export const PASSCODE_LENGTH = 6;

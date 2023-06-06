@@ -3,7 +3,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { CountrySelector } from "./components";
 import { OnboardingContextProvider } from "./contexts/OnboardingContext";
 import {
+  ConfirmPasscodeScreen,
   ConfirmPersonalDetailsScreen,
+  CreatePasscodeScreen,
   FatcaDetailsScreen,
   FinancialInformationScreen,
   IqamaInputScreen,
@@ -41,6 +43,8 @@ export type OnboardingStackParams = {
   "Onboarding.TermsAndConditions": undefined;
   "Onboarding.Passcode": undefined;
   "Onboarding.PendingAccount": undefined;
+  "Onboarding.CreatePasscode": undefined;
+  "Onboarding.ConfirmPasscode": { passcode: string };
 };
 
 export const Stack = createNativeStackNavigator<OnboardingStackParams>();
@@ -49,6 +53,8 @@ export default function OnboardingStack() {
   return (
     <OnboardingContextProvider>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen component={CreatePasscodeScreen} name="Onboarding.CreatePasscode" />
+        <Stack.Screen component={ConfirmPasscodeScreen} name="Onboarding.ConfirmPasscode" />
         <Stack.Screen component={OnboardingSplashScreen} name="Onboarding.SplashScreen" />
         <Stack.Screen component={IqamaInputScreen} name="Onboarding.Iqama" />
         <Stack.Screen component={NafathAuthScreen} name="Onboarding.Nafath" />

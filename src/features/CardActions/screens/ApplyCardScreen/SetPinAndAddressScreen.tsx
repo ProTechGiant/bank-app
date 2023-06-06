@@ -24,7 +24,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import encryptValue from "@/utils/encrypt-value";
-import isValidPincode from "@/utils/is-valid-pincode";
+import { isValidPincode } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { useApplyCardsContext } from "../../context/ApplyCardsContext";

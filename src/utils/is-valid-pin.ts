@@ -20,6 +20,30 @@ export function isIdentical(pincode: string): boolean {
   });
 }
 
-export default function isValidPincode(pincode: string) {
+export function maxRepeatThresholdMet(passcode: string): boolean {
+  let repeatingCount = 1;
+
+  for (let i = 1; i < passcode.length; i++) {
+    if (passcode[i] === passcode[i - 1]) {
+      repeatingCount++;
+
+      if (repeatingCount > 3) {
+        return true;
+      }
+    } else {
+      repeatingCount = 1;
+    }
+  }
+
+  return false;
+}
+
+export function isPasscodeIdentical(passcode: string): boolean {
+  const digits = passcode.split("");
+
+  return digits.some((digit, index) => digit === digits[index - 1]);
+}
+
+export function isValidPincode(pincode: string) {
   return !isSequential(pincode) && !isIdentical(pincode) && isContainingValidChars(pincode);
 }

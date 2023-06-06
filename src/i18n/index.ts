@@ -254,6 +254,19 @@ export const resources = {
             alert: "Woops. Could not confirm T&Cs",
           },
         },
+        CreatePasscode: {
+          needHelpInfo: "Avoid a passcode that’s easy to guess, like 123456 or 111111.",
+          title: "Confirm app passcode",
+          subTitle: "This is 6-digit passcode you’ll use to get into your Croatia app.",
+          navHeaderTitle: "Passcode",
+        },
+        ConfirmPasscode: {
+          title: "Confirm app passcode",
+          subTitle: "This is 6-digit passcode you’ll use to get into your Croatia app.",
+          notification: "Those passcodes were both different - try again.",
+          notificationModelMessage: "Your passcode has been set",
+          navHeaderTitle: "Passcode",
+        },
       },
       ViewTransactions: {
         TransactionsScreen: {
@@ -2054,6 +2067,19 @@ export const resources = {
           errorText: {
             alert: "Woops. Could not confirm T&Cs",
           },
+        },
+        CreatePasscode: {
+          needHelpInfo: "Avoid a passcode that’s easy to guess, like 123456 or 111111.",
+          title: "Confirm app passcode",
+          subTitle: "This is 6-digit passcode you’ll use to get into your Croatia app.",
+          navHeaderTitle: "Passcode",
+        },
+        ConfirmPasscode: {
+          title: "Confirm app passcode",
+          subTitle: "This is 6-digit passcode you’ll use to get into your Croatia app.",
+          notification: "Those passcodes were both different - try again.",
+          notificationModelMessage: "Your passcode has been set",
+          navHeaderTitle: "Passcode",
         },
       },
       ViewTransactions: {

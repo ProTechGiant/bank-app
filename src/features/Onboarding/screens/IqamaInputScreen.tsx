@@ -65,8 +65,7 @@ export default function IqamaInputScreen() {
   }, [handleContinueOboarding, iqamaError, reset]);
 
   const handleOnSignIn = () => {
-    //TODO: TO UPDATE IT WHEN THE SIGN IN FEATURE IS COMPLETED
-    Alert.alert("signin button pressed");
+    navigation.navigate("SignIn.SignInStack");
   };
 
   const handleOnSubmit = async (values: IqamaInputs) => {

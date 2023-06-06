@@ -17,7 +17,7 @@ import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import encryptValue from "@/utils/encrypt-value";
-import isValidPincode from "@/utils/is-valid-pincode";
+import { isValidPincode } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";

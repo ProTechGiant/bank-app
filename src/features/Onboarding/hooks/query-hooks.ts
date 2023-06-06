@@ -369,3 +369,25 @@ export function useTermsConditions() {
     );
   });
 }
+
+export function useCreatePasscode() {
+  const { correlationId } = useOnboardingContext();
+
+  return useMutation((passcode: string) => {
+    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+    return sendApiRequest<string>(
+      "v1",
+      "customers/update/passcode",
+      "PATCH",
+      undefined,
+      {
+        Passcode: passcode,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+        ["x-device-id"]: DeviceInfo.getDeviceId(),
+      }
+    );
+  });
+}

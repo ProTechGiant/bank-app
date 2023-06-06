@@ -1,4 +1,6 @@
+export { default as ConfirmPasscodeScreen } from "./ConfirmPasscodeScreen";
 export { default as ConfirmPersonalDetailsScreen } from "./ConfirmPersonalDetailsScreen";
+export { default as CreatePasscodeScreen } from "./CreatePasscodeScreen";
 export { default as FatcaDetailsScreen } from "./FatcaDetailsScreen";
 export { default as FinancialInformationScreen } from "./FinancialInformationScreen";
 export { default as IqamaInputScreen } from "./IqamaInputScreen";
