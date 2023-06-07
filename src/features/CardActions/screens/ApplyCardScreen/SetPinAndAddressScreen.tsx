@@ -68,6 +68,7 @@ export default function SetPinAndAddressScreen({
       setMode("confirm");
 
       pagerViewRef.current?.scrollTo({ x: dimensions.width });
+      enterPinCodeRef.current?.blur();
       confirmPinCodeRef.current?.focus();
     }
 
