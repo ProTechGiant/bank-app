@@ -7,12 +7,12 @@ import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { SINGLE_USE_CARD_TYPE } from "@/constants";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 export default function DisputeSubmittedScreen() {
-  const route = useRoute<RouteProp<MainStackParams, "PaymentDisputes.DisputeSubmittedScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "PaymentDisputes.DisputeSubmittedScreen">>();
   const caseType = route.params.caseType;
   const cardType = route.params.cardType;
   const cardStatus = route.params.cardStatus;

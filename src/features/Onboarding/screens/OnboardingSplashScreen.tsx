@@ -1,14 +1,15 @@
 import { useTranslation } from "react-i18next";
 import { StatusBar, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
-import EncryptedStorage from "react-native-encrypted-storage";
 
 import Button from "@/components/Button";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
+import { hasItemInStorage } from "@/utils/encrypted-storage";
 
 import BackgroundImageSvg from "../assets/background-image.svg";
 import { LanguageToggle } from "../components";
@@ -16,13 +17,12 @@ import { useOnboardingContext } from "../contexts/OnboardingContext";
 
 export default function OnboardingSplashScreen() {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { setCorrelationId } = useOnboardingContext();
 
   const handleOnSignIn = async () => {
-    const screenName = (await EncryptedStorage.getItem("user")) ? "SignIn.Passcode" : "SignIn.Iqama";
+    const screenName = (await hasItemInStorage("user")) ? "SignIn.Passcode" : "SignIn.Iqama";
     navigation.navigate("SignIn.SignInStack", { screen: screenName });
-    // Alert.alert("Sign-in process not implemented yet. Come back later!");
   };
 
   const handleOnSignUp = () => {

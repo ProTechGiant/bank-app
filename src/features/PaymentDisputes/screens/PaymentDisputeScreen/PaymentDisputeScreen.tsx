@@ -8,7 +8,7 @@ import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { useCard } from "@/features/CardActions/hooks/query-hooks";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
 import { CaseType, TransactionType } from "../../types";
@@ -22,7 +22,7 @@ type Steps = "landing" | "freeze-card" | "reasons" | "create-dispute";
 export default function PaymentDisputeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<MainStackParams, "PaymentDisputes.PaymentDisputeScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "PaymentDisputes.PaymentDisputeScreen">>();
 
   // TODO: get cardId
   const cardId = route.params.cardId;

@@ -17,7 +17,7 @@ import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { useToasts } from "@/contexts/ToastsContext";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
@@ -31,7 +31,7 @@ import { recentTransactions } from "../mocks/mockMostTransactions";
 export default function GoalDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.GoalDetailsScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "SavingsGoals.GoalDetailsScreen">>();
   const { PotId, amountWithdrawn, redirectToFundingModal } = route.params;
 
   const fundGoalModalShown = useRef(false);

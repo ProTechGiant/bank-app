@@ -1,6 +1,5 @@
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import NavHeader from "@/components/NavHeader";
@@ -71,7 +70,7 @@ export default function IqamaInputScreen() {
   const handleOnSubmit = async (values: IqamaInputs) => {
     try {
       setNationalId(String(values.NationalId));
-      const response = await mutateAsync(values);
+      await mutateAsync(values);
       //TODO: TO IMPLEMENT THIS CHECK, COMMENTED FOR TESTING PURPOSE
       // if (response.IsOwner) {
       navigation.navigate("Onboarding.Nafath");

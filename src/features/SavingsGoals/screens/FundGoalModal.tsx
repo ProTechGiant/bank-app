@@ -5,7 +5,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Page from "@/components/Page";
 import { useToasts } from "@/contexts/ToastsContext";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
 import { FundingStep, PickOptionStep } from "../components";
@@ -17,7 +17,7 @@ type StepType = "pick-funding-method" | FundingType;
 
 export default function FundGoalModal() {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.FundGoalModal">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "SavingsGoals.FundGoalModal">>();
   const { t } = useTranslation();
 
   const { data } = useSavingsPot(route.params.PotId);

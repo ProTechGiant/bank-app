@@ -11,7 +11,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useToasts } from "@/contexts/ToastsContext";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -23,7 +23,7 @@ import { useSavingsPots } from "../hooks/query-hooks";
 export default function SavingsGoalsScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.SavingsGoalsScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "SavingsGoals.SavingsGoalsScreen">>();
   const addToast = useToasts();
   const { data, error } = useSavingsPots();
 

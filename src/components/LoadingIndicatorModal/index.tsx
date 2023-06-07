@@ -5,13 +5,16 @@ import { ActivityIndicator, Modal, View, ViewStyle } from "react-native";
 import Typography from "@/components/Typography";
 import { Theme, useThemeStyles } from "@/theme";
 
-interface LoaderModalProps {
-  loading: boolean;
+interface LoadingIndicatorModalProps {
   color?: keyof Theme["palette"];
+  loadingText?: string;
 }
 
-export default function LoaderModal({ loading }: LoaderModalProps) {
+export default function LoadingIndicatorModal(props: LoadingIndicatorModalProps) {
   const { t } = useTranslation();
+
+  const defaultLoadingText = t("Loader.loadingText");
+  const { loadingText = defaultLoadingText } = props;
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
@@ -22,7 +25,7 @@ export default function LoaderModal({ loading }: LoaderModalProps) {
 
   const innerContainerStyles = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["supportBase-30"],
-    padding: theme.spacing["64p"],
+    padding: theme.spacing["67p"],
     borderRadius: theme.radii.xlarge,
     justifyContent: "center",
   }));
@@ -32,13 +35,13 @@ export default function LoaderModal({ loading }: LoaderModalProps) {
   }));
 
   return (
-    <Modal transparent visible={loading}>
+    <Modal transparent>
       <View style={containerStyles}>
-        <Typography.Text color="supportBase-30" size="large" weight="bold" style={loadingTextStyle}>
-          {t("LoaderText.loadingText")}
+        <Typography.Text color="supportBase-30" size="large" weight="bold" align="center" style={loadingTextStyle}>
+          {loadingText}
         </Typography.Text>
         <View style={innerContainerStyles}>
-          <ActivityIndicator size="large" color="#27574E" />
+          <ActivityIndicator size="large" color="primaryBase-40" />
         </View>
       </View>
     </Modal>

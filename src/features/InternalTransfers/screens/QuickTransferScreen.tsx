@@ -16,7 +16,7 @@ import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { warn } from "@/logger";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
@@ -32,7 +32,7 @@ interface QuickTransferInput {
 export default function QuickTransferScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<MainStackParams, "InternalTransfers.QuickTransferScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.QuickTransferScreen">>();
 
   const reasons = useTransferReasons(110);
   const account = useCurrentAccount();

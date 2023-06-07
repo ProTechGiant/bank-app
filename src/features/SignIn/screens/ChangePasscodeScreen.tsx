@@ -1,93 +1,121 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
-import EncryptedStorage from "react-native-encrypted-storage";
 
+import ApiError from "@/api/ApiError";
 import NavHeader from "@/components/NavHeader";
 import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
-import Passcode from "@/components/PasscodeInput";
+import PasscodeInput from "@/components/PasscodeInput";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
-import { MAX_FAILED_ATTEMPTS, PASSCODE } from "../constants";
+import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
+import { useErrorMessages } from "../hooks";
+import { useLoginUser, useSendLoginOTP } from "../hooks/query-hooks";
 
 const ChangePasscodeScreen = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { mutateAsync, error: loginError, isError } = useLoginUser();
+  const loginUserError = loginError as ApiError;
+  const { errorMessages } = useErrorMessages(loginUserError);
+  const [showModel, setShowModel] = useState<boolean>(false);
   const [passCode, setPasscode] = useState<string>("");
-  const [failedAttempts, setFailedAttempts] = useState<number>(0);
-  const [isError, setIsError] = useState<boolean>(false);
+  const otpFlow = useOtpFlow();
+  const useSendLoginOtpAsync = useSendLoginOTP();
 
   useEffect(() => {
-    if (passCode.length !== 6) return;
-
-    if (passCode === PASSCODE) {
-      setIsError(false);
-      navigation.navigate("SignIn.CreatePasscode");
-    } else {
-      setFailedAttempts((prevVal: number) => {
-        return prevVal + 1;
-      });
-      setIsError(true);
-    }
-    setPasscode("");
+    handleOnChange();
   }, [passCode]);
 
-  useEffect(() => {
-    navigation.addListener("focus", () => {
-      checkBlockedUser();
-    });
-  }, [navigation]);
-
-  const resetError = () => {
-    setFailedAttempts(0);
-    blockUser(1);
-    navigation.navigate("SignIn.UserBlocked");
-  };
-
-  const checkBlockedUser = async () => {
-    const blocked = await isBlocked();
-    if (blocked) {
-      navigation.navigate("SignIn.UserBlocked");
+  const handleUserLogin = async () => {
+    try {
+      await mutateAsync(passCode);
+      handleNavigate();
+    } catch (error: any) {
+      setPasscode("");
+      const errorId = error.errorContent.Errors[0].ErrorId;
+      if (errorId === "0009") handleBlocked(BLOCKED_TIME);
+      if (errorId === "0010") handleBlocked();
     }
   };
 
-  const isBlocked = async () => {
-    const blockEndTime: string | null = await EncryptedStorage.getItem("blockEndTime");
-    if (blockEndTime && new Date().getTime() < +JSON.parse(blockEndTime)) {
-      return true;
+  const handleBlocked = async (blockTime?: number) => {
+    setShowModel(true);
+    if (!blockTime) {
+      await setItemInEncryptedStorage("UserBlocked", JSON.stringify(true));
     } else {
-      return false;
+      const userBlockTime = new Date().getTime() + blockTime * 60 * 1000;
+      await setItemInEncryptedStorage("UserBlocked", JSON.stringify(userBlockTime));
     }
   };
 
-  const blockUser = async (blockTime: number) => {
-    const blockEndTime = new Date().getTime() + blockTime * 60 * 1000;
-    await EncryptedStorage.setItem("blockEndTime", JSON.stringify(blockEndTime));
+  const handleOnChange = () => {
+    if (passCode.length === PASSCODE_LENGTH) {
+      handleUserLogin();
+      setPasscode("");
+    }
   };
 
-  const container = useThemeStyles<ViewStyle>(theme => ({
+  const handleNavigate = async () => {
+    try {
+      otpFlow.handle({
+        action: {
+          to: "SignIn.ChangePasscode",
+          params: {},
+        },
+        otpVerifyMethod: "change-passcode",
+        onOtpRequest: () => {
+          return useSendLoginOtpAsync.mutateAsync("change-passcode");
+        },
+        onFinish: (status: string) => {
+          if (status === "success") {
+            setTimeout(() => handleOtpVerification(), 500);
+          }
+        },
+        onUserBlocked: () => {
+          navigation.navigate("SignIn.UserBlocked", {
+            type: "otp",
+          });
+        },
+      });
+    } catch (responseError) {
+      warn("login-action", "Could not send login OTP: ", JSON.stringify(responseError));
+    }
+  };
+
+  const handleNavigateToBlockScreen = () => {
+    setShowModel(false);
+    navigation.navigate("SignIn.UserBlocked", {
+      type: "passcode",
+    });
+  };
+
+  const handleOtpVerification = async () => {
+    navigation.navigate("SignIn.CreatePasscode");
+  };
+
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     height: theme.spacing.full,
   }));
 
   return (
     <Page>
       <NavHeader withBackButton={true} />
-      <View style={container}>
-        <Passcode
-          failedAttemptsLimit={MAX_FAILED_ATTEMPTS}
-          user={null}
-          errorTitle={t("SignIn.ChangePasscodeScreen.errorTitle")}
+      <View style={containerStyle}>
+        <PasscodeInput
           title={t("SignIn.ChangePasscodeScreen.title")}
           subTitle={t("SignIn.ChangePasscodeScreen.subTitle")}
-          isError={isError}
-          errorMessage=""
-          notification={t("SignIn.ChangePasscodeScreen.notification")}
-          length={6}
+          errorMessage={errorMessages}
+          showModel={showModel}
+          resetError={handleNavigateToBlockScreen}
           passcode={passCode}
-          failedAttempts={failedAttempts}
-          resetError={resetError}
+          isError={isError}
+          length={PASSCODE_LENGTH}
         />
         <NumberPad passcode={passCode} setPasscode={setPasscode} />
       </View>

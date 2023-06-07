@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 
-import { ArrowLeftIcon } from "@/assets/icons";
+import { ChevronRightIcon } from "@/assets/icons";
 import { WithShadow } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -12,6 +12,7 @@ import Page from "@/components/Page";
 import Toggle from "@/components/Toggle";
 import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
+import useLogout from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import biometricsService from "@/services/BiometricService";
@@ -21,6 +22,7 @@ export default function AccountSettingsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const auth = useAuthContext();
+  const signoutUser = useLogout();
   const [toggleStatus, setToggleStatus] = useState<boolean>(false);
 
   const [isBiometricSupported, setIsBiometricSupported] = useState<boolean>(false);
@@ -39,12 +41,18 @@ export default function AccountSettingsScreen() {
     biometricsService.checkBiometricSupport(setIsBiometricSupported, setAvailableBiometricType, setError);
   }, []);
 
-  const handleSignOut = () => {
-    auth.logout();
+  const handleSignOut = async () => {
+    try {
+      await signoutUser.mutateAsync();
+      auth.logout();
+    } catch (error) {
+      const typedError = error as Error;
+      warn("logout-api error: ", typedError.message);
+    }
   };
 
   const handleChangePasscode = () => {
-    navigation.navigate("SignIn.ChangePasscodeScreen");
+    navigation.navigate("Passcode.ChangePasscodeStack");
   };
 
   const authenticateWithBiometrics = async (isEnabled: boolean) => {
@@ -105,7 +113,7 @@ export default function AccountSettingsScreen() {
             <Typography.Text color="primaryBase" size="callout" weight="semiBold">
               {t("Settings.AccountSettings.changePasscode")}
             </Typography.Text>
-            <ArrowLeftIcon />
+            <ChevronRightIcon height={12} color="#CCCCCC" width={8} />
           </Pressable>
           <Pressable style={titleContainerStyles}>
             <Typography.Text color="primaryBase" size="callout" weight="semiBold">

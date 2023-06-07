@@ -4,10 +4,13 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
+import { ErrorFilledCircleIcon } from "@/assets/icons";
+import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
 import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useThemeStyles } from "@/theme";
 
 import { SignInStackParams } from "../SignInStack";
@@ -19,11 +22,17 @@ const CreatePasscodeScreen = () => {
   const navigation = useNavigation<CreatePassCodeScreenNavigationProp>();
   const [passCode, setPasscode] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
+  const { isAuthenticated } = useAuthContext();
+
+  const errorMessages = [
+    {
+      message: t("SignIn.CreatePasscodeScreen.notification"),
+      icon: <ErrorFilledCircleIcon />,
+    },
+  ];
 
   useEffect(() => {
-    if (passCode.length !== 6) {
-      return;
-    }
+    if (passCode.length !== 6) return;
 
     if (!passcodeValidate(passCode)) {
       setIsError(false);
@@ -34,23 +43,33 @@ const CreatePasscodeScreen = () => {
     setPasscode("");
   }, [navigation, passCode]);
 
-  const container = useThemeStyles<ViewStyle>(theme => ({
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     height: theme.spacing.full,
+  }));
+
+  const bannerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["20p"],
   }));
 
   return (
     <Page>
-      <NavHeader withBackButton={true} />
-      <View style={container}>
+      <NavHeader withBackButton={isAuthenticated} />
+      <View style={containerStyle}>
         <PasscodeInput
-          failedAttemptsLimit={3}
+          errorMessage={errorMessages}
           title={t("SignIn.CreatePasscodeScreen.title")}
           subTitle={t("SignIn.CreatePasscodeScreen.subTitle")}
-          notification={t("SignIn.CreatePasscodeScreen.notifocation")}
           isError={isError}
           length={6}
           passcode={passCode}
         />
+        <View style={bannerStyle}>
+          <InlineBanner
+            variant="info"
+            icon={<ErrorFilledCircleIcon height={20} width={20} />}
+            text={t("SignIn.CreatePasscodeScreen.needHelpInfo")}
+          />
+        </View>
         <NumberPad passcode={passCode} setPasscode={setPasscode} />
       </View>
     </Page>

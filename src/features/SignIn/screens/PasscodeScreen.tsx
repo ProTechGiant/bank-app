@@ -1,127 +1,187 @@
+import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
-import EncryptedStorage from "react-native-encrypted-storage";
 
+import ApiError from "@/api/ApiError";
+import Button from "@/components/Button";
+import LoadingIndicatorModal from "@/components/LoadingIndicatorModal";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
 import Typography from "@/components/Typography";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import BiometricsService from "@/services/BiometricService";
 import { useThemeStyles } from "@/theme";
+import { generateRandomId } from "@/utils";
+import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
-import { BLOCKED_TIME, CORRELATION_ID, OTP_CODE, OTP_ID, PASSCODE, PHONE_NUMBER } from "../constants";
+import { BLOCKED_TIME, OTP_BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
+import { useSignInContext } from "../contexts/SignInContext";
+import { useErrorMessages } from "../hooks";
+import { useLoginUser, useRegistration, useSendLoginOTP, useSignIn, useValidateDevice } from "../hooks/query-hooks";
 
-const PasscodeScreen = () => {
+export default function PasscodeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  const { mutateAsync, error: loginError, isError, isLoading: isLoadingLoginApi } = useLoginUser();
+  const loginUserError = loginError as ApiError;
+  const { errorMessages } = useErrorMessages(loginUserError);
+  const signinUser = useSignIn();
+  const registerUser = useRegistration();
+  const { mutateAsync: validateDeviceMutateAsync, isLoading: isLoadingValidateApi } = useValidateDevice();
   const [passCode, setPasscode] = useState<string>("");
-  const [failedAttempts, setFailedAttempts] = useState<number>(0);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [user, setUser] = useState<{ name: string } | null>(null);
+  const [user, setUser] = useState<{ name: string; mobileNumber: string } | null>(null);
+  const [showModel, setShowModel] = useState<boolean>(false);
   const [biometricsKeyExist, setBiometricsKeyExist] = useState<boolean>(false);
   const [isSensorAvailable, setIsSensorAvailable] = useState<boolean>(false);
+  const otpFlow = useOtpFlow();
+  const useSendLoginOtpAsync = useSendLoginOTP();
+  const [showSignInModal, setShowSignInModal] = useState<boolean>(false);
+  const { mobileNumber, setSignInCorrelationId } = useSignInContext();
 
   useEffect(() => {
     (async () => {
       setBiometricsKeyExist((await BiometricsService.biometricKeysExist()).keysExist);
       setIsSensorAvailable((await BiometricsService.isSensorAvailable()).available);
     })();
-
-    if (passCode.length !== 6) {
-      return;
-    }
-    if (passCode === PASSCODE) {
-      setIsError(false);
-      setFailedAttempts(0);
-      navigation.navigate("OneTimePassword.OneTimePasswordModal", {
-        action: {
-          to: "SignIn.Biometric",
-          params: {
-            // your params here
-          },
-        },
-        otpChallengeParams: {
-          OtpId: OTP_ID,
-          OtpCode: OTP_CODE,
-          PhoneNumber: PHONE_NUMBER,
-          correlationId: CORRELATION_ID,
-        },
-        onOtpRequestResend: async () => {
-          return {
-            OtpId: OTP_ID,
-            OtpCode: OTP_CODE,
-            PhoneNumber: PHONE_NUMBER,
-            correlationId: CORRELATION_ID,
-            otpFormType: "card-actions",
-          };
-        },
-        onOtpRequest: async () => {
-          return {
-            OtpId: OTP_ID,
-            OtpCode: OTP_CODE,
-            PhoneNumber: PHONE_NUMBER,
-            correlationId: CORRELATION_ID,
-            otpFormType: "card-actions",
-          };
-        },
-        otpVerifyMethod: "card-actions",
-      });
-    } else {
-      setPasscode("");
-      setFailedAttempts((prevVal: number) => {
-        return prevVal + 1;
-      });
-      setIsError(true);
-    }
+    handleOnChange();
   }, [passCode]);
 
   useEffect(() => {
     (async () => {
-      const userData = await EncryptedStorage.getItem("user");
-      if (userData) setUser(JSON.parse(userData));
-      else setUser(null);
+      const userData = await getItemFromEncryptedStorage("user");
+      if (userData) {
+        setUser(JSON.parse(userData));
+        const _correlationId = generateRandomId();
+        setSignInCorrelationId(_correlationId);
+      } else setUser(null);
     })();
-    navigation.addListener("focus", () => {
-      checkBlockedUser();
-    });
-  }, [navigation]);
+  }, []);
 
-  const resetError = () => {
-    setIsError(false);
-    setFailedAttempts(0);
-    blockUser(BLOCKED_TIME);
-    navigation.navigate("SignIn.UserBlocked");
-  };
+  useEffect(() => {
+    if (isFocused) {
+      setPasscode("");
+    }
+  }, [isFocused]);
 
-  const checkBlockedUser = async () => {
-    const blocked = await isBlocked(); // Check if the user is blocked
-    if (blocked) {
-      navigation.navigate("SignIn.UserBlocked");
+  const handleUserLogin = async () => {
+    try {
+      await mutateAsync(passCode);
+      const response = await validateDeviceMutateAsync(passCode);
+      if (response.SameDevice) {
+        handleNavigate();
+      } else {
+        setShowSignInModal(true);
+      }
+    } catch (error: any) {
+      const errorId = error?.errorContent?.Errors[0].ErrorId;
+      if (errorId === "0009") handleBlocked(BLOCKED_TIME);
+      if (errorId === "0010") handleBlocked();
+      setPasscode("");
     }
   };
 
-  const isBlocked = async () => {
-    const blockEndTime: string | null = await EncryptedStorage.getItem("blockEndTime");
-    if (blockEndTime && new Date().getTime() < +JSON.parse(blockEndTime)) {
-      return true;
+  //TODO: Will retrieve from api
+  const storeUserToLocalStorage = () => {
+    const dummyUser = { name: "Hamza Malik", mobileNumber: mobileNumber || "" };
+    setItemInEncryptedStorage("user", JSON.stringify(dummyUser));
+  };
+
+  const handleSignin = async () => {
+    try {
+      await signinUser.mutateAsync(passCode);
+      setShowSignInModal(false);
+      handleNavigate();
+    } catch (error: any) {
+      const errorId = error?.errorContent?.Errors[0].ErrorId;
+      if (errorId === "0009") handleBlocked(BLOCKED_TIME);
+      if (errorId === "0010") handleBlocked();
+    }
+  };
+
+  const handleCancelButton = () => {
+    setShowSignInModal(false);
+    setPasscode("");
+    if (!user) {
+      navigation.navigate("SignIn.Iqama");
+    }
+  };
+
+  const handleOnChange = () => {
+    if (passCode.length === PASSCODE_LENGTH) handleUserLogin();
+  };
+
+  const handleOtpVerification = async () => {
+    try {
+      await registerUser.mutateAsync(passCode);
+      storeUserToLocalStorage();
+      navigation.navigate("SignIn.Biometric");
+    } catch (err) {
+      warn("Register-User-api", JSON.stringify(err));
+    } finally {
+      setPasscode("");
+    }
+  };
+
+  const handleNavigate = () => {
+    try {
+      otpFlow.handle({
+        action: {
+          to: "SignIn.Passcode",
+          params: {},
+        },
+        otpVerifyMethod: "login",
+        onOtpRequest: () => {
+          return useSendLoginOtpAsync.mutateAsync("login");
+        },
+        onFinish: (status: string) => {
+          if (status === "cancel") {
+            return;
+          } else if (status === "success") {
+            setTimeout(() => handleOtpVerification(), 500);
+          }
+        },
+        onUserBlocked: () => {
+          handleBlocked(OTP_BLOCKED_TIME);
+          navigation.navigate("SignIn.UserBlocked", {
+            type: "otp",
+          });
+        },
+      });
+    } catch (responseError) {
+      warn("login-action", "Could not send login OTP: ", JSON.stringify(responseError));
+    }
+  };
+
+  const handleBlocked = async (blockTime?: number) => {
+    setShowModel(true);
+    if (!blockTime) {
+      await setItemInEncryptedStorage("UserBlocked", JSON.stringify(true));
+      handleNavigateToBlockScreen();
     } else {
-      return false;
+      const userBlockTime = new Date().getTime() + blockTime * 60 * 1000; //TODO: replace with the value from API
+      await setItemInEncryptedStorage("UserBlocked", JSON.stringify(userBlockTime));
     }
   };
 
-  const blockUser = async (blockTime: number) => {
-    const blockEndTime = new Date().getTime() + blockTime * 60 * 1000;
-    await EncryptedStorage.setItem("blockEndTime", JSON.stringify(blockEndTime));
+  const handleNavigateToBlockScreen = () => {
+    setShowModel(false);
+    navigation.navigate("SignIn.UserBlocked", {
+      type: "passcode",
+    });
   };
 
   const handleBioMatric = async () => {
     navigation.navigate("SignIn.Biometric");
   };
 
-  const container = useThemeStyles<ViewStyle>(theme => ({
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     height: theme.spacing.full,
   }));
 
@@ -135,24 +195,21 @@ const PasscodeScreen = () => {
   return (
     <Page>
       <NavHeader withBackButton={true} />
-      <View style={container}>
+      <View style={containerStyle}>
         <PasscodeInput
-          failedAttemptsLimit={3}
           user={user}
           title={
             !user
               ? t("SignIn.PasscodeScreen.title")
               : t("SignIn.PasscodeScreen.userTitle", { username: user.name.split(" ")[0] })
           }
-          errorTitle={t("SignIn.PasscodeScreen.errorTitle")}
+          errorMessage={errorMessages}
           isError={isError}
+          showModel={showModel}
           subTitle={user ? t("SignIn.PasscodeScreen.subTitle") : ""}
-          notification={t("SignIn.PasscodeScreen.notifocation", { attempts: 3 - failedAttempts })}
-          errorMessage={t("SignIn.PasscodeScreen.errorMessage", { time: BLOCKED_TIME })}
           length={6}
           passcode={passCode}
-          failedAttempts={failedAttempts}
-          resetError={resetError}
+          resetError={handleNavigateToBlockScreen}
         />
         <NumberPad
           handleBioMatric={handleBioMatric}
@@ -166,7 +223,19 @@ const PasscodeScreen = () => {
           </Typography.Text>
         </Pressable>
       </View>
+      <NotificationModal
+        variant="confirmations"
+        title={t("SignIn.PasscodeScreen.signInModal.title")}
+        message={t("SignIn.PasscodeScreen.signInModal.message")}
+        isVisible={showSignInModal}
+        buttons={{
+          primary: <Button onPress={handleSignin}>{t("SignIn.PasscodeScreen.signInModal.signInButton")}</Button>,
+          secondary: (
+            <Button onPress={handleCancelButton}>{t("SignIn.PasscodeScreen.signInModal.cancelButton")}</Button>
+          ),
+        }}
+      />
+      {(isLoadingLoginApi || isLoadingValidateApi) && <LoadingIndicatorModal />}
     </Page>
   );
-};
-export default PasscodeScreen;
+}

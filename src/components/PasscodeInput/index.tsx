@@ -3,40 +3,32 @@ import React, { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
-import { ErrorFilledCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
+import InlineBanner from "@/components/InlineBanner";
+import NotificationModal from "@/components/NotificationModal";
+import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-
-import InlineBanner from "../InlineBanner";
-import NotificationModal from "../NotificationModal";
-import Typography from "../Typography";
 interface PasscodeInputProps {
   isError?: boolean;
-  failedAttempts?: number;
+  showModel?: boolean;
   resetError?: () => void;
   length: number;
   passcode: string;
   title?: string;
   user?: { name: string } | null;
   subTitle?: string;
-  notification: string;
-  errorMessage?: string;
-  errorTitle?: string;
-  failedAttemptsLimit: number;
+  errorMessage?: any[];
 }
 const PasscodeInput = ({
   isError,
+  showModel,
   length,
   passcode,
-  failedAttempts,
-  failedAttemptsLimit,
   resetError,
   user,
   title,
   subTitle,
   errorMessage,
-  notification,
-  errorTitle,
 }: PasscodeInputProps) => {
   const { t } = useTranslation();
   const titleStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -87,56 +79,58 @@ const PasscodeInput = ({
   }));
 
   return (
-    <>
-      <View style={styles.container}>
-        {user && (
-          <View style={profilePicWraper}>
-            <Typography.Text color="neutralBase-50" size="body" weight="semiBold">
-              {user.name
-                .split(" ")
-                .map(value => value.charAt(0).toUpperCase())
-                .join("")}
-            </Typography.Text>
-          </View>
-        )}
+    <View style={styles.container}>
+      {user ? (
+        <View style={profilePicWraper}>
+          <Typography.Text color="neutralBase-50" size="body" weight="semiBold">
+            {user.name
+              .split(" ")
+              .map(value => value.charAt(0).toUpperCase())
+              .join("")}
+          </Typography.Text>
+        </View>
+      ) : null}
 
-        <Typography.Text style={titleStyle} color="neutralBase+30" weight="semiBold" size="title1">
-          {title}
-        </Typography.Text>
-        <Typography.Text style={subTitleStyle} size="body" align="center">
-          {subTitle ? subTitle : t("SignIn.passcodeInput.subTitle", { length, extra: user ? "" : "to login" })}
-        </Typography.Text>
-        <View style={inputWrap}>
-          {times(length).map((item: number, index: number) => {
-            const isFilled = passcode.length > index;
-            return (
-              <Fragment key={item}>
-                <Typography.Text style={[passcodeInput, isFilled && passcodeInputFill]} />
-              </Fragment>
-            );
-          })}
-        </View>
-        <View style={alertWrapper}>
-          {isError && (
-            <InlineBanner
-              icon={<ErrorFilledCircleIcon height={20} width={20} />}
-              text={notification}
-              testID="toast-banner"
-              variant="error"
-            />
-          )}
-        </View>
+      <Typography.Text style={titleStyle} color="neutralBase+30" weight="semiBold" size="title1">
+        {title}
+      </Typography.Text>
+      <Typography.Text style={subTitleStyle} size="body" align="center">
+        {subTitle
+          ? subTitle
+          : t("SignIn.passcodeInput.subTitle", { length, extra: user ? "" : t("SignIn.passcodeInput.toLogin") })}
+      </Typography.Text>
+      <View style={inputWrap}>
+        {times(length).map((item: number, index: number) => {
+          const isFilled = passcode.length > index;
+          return (
+            <Fragment key={item}>
+              <Typography.Text style={[passcodeInput, isFilled && passcodeInputFill]} />
+            </Fragment>
+          );
+        })}
+      </View>
+      <View style={alertWrapper}>
+        {isError && !showModel && errorMessage?.[0]?.message ? (
+          <InlineBanner
+            icon={errorMessage[0].icon}
+            text={errorMessage[0].message}
+            testID="toast-banner"
+            variant="error"
+          />
+        ) : null}
+      </View>
+      {errorMessage?.[0]?.modalMessage && errorMessage?.[0]?.title && isError && showModel ? (
         <NotificationModal
-          message={errorMessage ?? ""}
-          title={errorTitle ?? ""}
-          isVisible={failedAttempts === failedAttemptsLimit}
+          message={errorMessage[0].modalMessage}
+          title={errorMessage[0].title}
+          isVisible={true}
           buttons={{
             primary: <Button onPress={resetError}>{t("OneTimePasswordModal.errors.button")}</Button>,
           }}
           variant="error"
         />
-      </View>
-    </>
+      ) : null}
+    </View>
   );
 };
 

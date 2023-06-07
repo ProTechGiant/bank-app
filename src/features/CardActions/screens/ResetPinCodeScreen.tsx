@@ -13,7 +13,7 @@ import Page from "@/components/Page";
 import PincodeInput from "@/components/PincodeInput";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import encryptValue from "@/utils/encrypt-value";
@@ -27,7 +27,7 @@ export default function ResetPinCodeScreen() {
   const { t } = useTranslation();
   const dimensions = useWindowDimensions();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<MainStackParams, "CardActions.ResetPincodeScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "CardActions.ResetPincodeScreen">>();
   const cardId = route.params.cardId;
 
   const resetPincodeAsync = useResetPincode();

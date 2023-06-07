@@ -6,7 +6,7 @@ import { Edge } from "react-native-safe-area-context";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { PHYSICAL_CARD_TYPE } from "@/constants";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
 import { useOtpFlow } from "../../../OneTimePassword/hooks/query-hooks";
@@ -20,7 +20,7 @@ import SetPinAndAddressScreen from "./SetPinAndAddressScreen";
 
 export default function ApplyCardScreen() {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<MainStackParams, "CardActions.ApplyCardScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "CardActions.ApplyCardScreen">>();
   const { t } = useTranslation();
 
   const submitOrderCardAsync = useSubmitOrderCard();

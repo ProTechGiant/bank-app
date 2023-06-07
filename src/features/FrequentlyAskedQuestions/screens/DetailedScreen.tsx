@@ -16,7 +16,7 @@ import {
   mockFrequentlyAskedQuestions,
   mockRelatedFrequentlyAskedQuestions,
 } from "@/mocks/frequentlyAskedQuestionsData";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
 
 import useOpenLink from "../../../hooks/use-open-link";
@@ -24,7 +24,7 @@ import { LoadingError } from "../components";
 import { DetailedFaq } from "../types";
 
 export default function DetailedScreen() {
-  const route = useRoute<RouteProp<MainStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
   const openLink = useOpenLink();
   const { t } = useTranslation();
   const [title, setTitle] = useState<undefined | string>(undefined);

@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
+import { SIGNIN_CORRELATION_ID } from "../constants";
 import { useSignInInstance, useSignInRevertTask, useSignInTasks } from "../hooks/context-hooks";
 
 function noop() {
@@ -9,6 +10,7 @@ function noop() {
 interface SignInContextState {
   setNationalId: (value: string) => void;
   nationalId: string | undefined;
+  mobileNumber: string | undefined;
   setSignInCorrelationId: (value: string) => void;
   correlationId: string | undefined;
   setCurrentTask: (currentTask: { Id: string; Name: string }) => void;
@@ -16,18 +18,23 @@ interface SignInContextState {
   startSignInAsync: (NationalId: string, MobileNumber: string) => Promise<void>;
   fetchLatestWorkflowTask: () => Promise<{ Id: string; Name: string } | undefined>;
   revertWorkflowTask: (WorkflowTask: { Id: string; Name: string }) => Promise<void>;
+  isPasscodeCreated: boolean;
+  setIsPasscodeCreated: (isPasscodeCreated: boolean) => void;
 }
 
 const SignInContext = createContext<SignInContextState>({
   setNationalId: noop,
   nationalId: undefined,
+  mobileNumber: undefined,
   setSignInCorrelationId: noop,
-  correlationId: undefined,
+  correlationId: SIGNIN_CORRELATION_ID,
   setCurrentTask: noop,
   currentTask: undefined,
   startSignInAsync: () => Promise.reject(),
   fetchLatestWorkflowTask: () => Promise.reject(),
   revertWorkflowTask: () => Promise.reject(),
+  isPasscodeCreated: true,
+  setIsPasscodeCreated: noop,
 });
 
 function SignInContextProvider({ children }: { children: React.ReactNode }) {
@@ -35,18 +42,25 @@ function SignInContextProvider({ children }: { children: React.ReactNode }) {
   const SignInTasksAsync = useSignInTasks();
   const SignInRevertTaskAsync = useSignInRevertTask();
 
-  const [state, setState] = useState<Pick<SignInContextState, "nationalId" | "correlationId" | "currentTask">>({
+  const [state, setState] = useState<
+    Pick<SignInContextState, "nationalId" | "correlationId" | "currentTask" | "isPasscodeCreated">
+  >({
     nationalId: undefined,
     correlationId: undefined,
     currentTask: undefined,
+    isPasscodeCreated: true,
   });
 
   const setNationalId = (nationalId: string) => {
     setState(v => ({ ...v, nationalId }));
   };
 
-  const setSignInCorrelationId = (signInCorrelationId: string) => {
-    setState(v => ({ ...v, signInCorrelationId }));
+  const setIsPasscodeCreated = (isCreated: boolean) => {
+    setState(v => ({ ...v, isPasscodeCreated: isCreated }));
+  };
+
+  const setSignInCorrelationId = (correlationId: string) => {
+    setState(v => ({ ...v, correlationId }));
   };
 
   const setCurrentTask = (currentTask: { Id: string; Name: string }) => {
@@ -97,6 +111,7 @@ function SignInContextProvider({ children }: { children: React.ReactNode }) {
           startSignInAsync,
           fetchLatestWorkflowTask,
           revertWorkflowTask,
+          setIsPasscodeCreated,
         }),
         [state]
       )}>

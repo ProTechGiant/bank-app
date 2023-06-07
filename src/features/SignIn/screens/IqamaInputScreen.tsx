@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { KeyboardAvoidingView, ScrollView, StyleSheet } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import NavHeader from "@/components/NavHeader";
@@ -10,14 +11,15 @@ import { generateRandomId } from "@/utils";
 import { MobileAndNationalIdForm } from "../components";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
-import { useIqama } from "../hooks/query-hooks";
+import { useCheckUser } from "../hooks/query-hooks";
+import { IqamaInputs } from "../types";
 
 export default function IqamaInputScreen() {
   const navigation = useNavigation();
-  const { error, reset } = useIqama();
+  const { mutateAsync, error, reset } = useCheckUser();
   const iqamaError = error as ApiError;
   const { errorMessages } = useErrorMessages(iqamaError);
-  const { setSignInCorrelationId } = useSignInContext();
+  const { setSignInCorrelationId, setIsPasscodeCreated } = useSignInContext();
 
   useEffect(() => {
     const _correlationId = generateRandomId();
@@ -39,13 +41,14 @@ export default function IqamaInputScreen() {
     navigation.navigate("Onboarding.OnboardingStack");
   };
 
-  const handleOnSubmit = async () => {
+  const handleOnSubmit = async (values: IqamaInputs) => {
     try {
-      // setNationalId(String(values.NationalId));
-      // await mutateAsync(values);
-      navigation.navigate("SignIn.Passcode");
-      // if (await biometricsService.isSensorAvailable()) navigation.navigate("SignIn.Biometric");
-      // else navigation.navigate("Home.HomeStack");
+      const response = await mutateAsync(values);
+      if (response.HasPasscode) navigation.navigate("SignIn.Passcode");
+      else {
+        setIsPasscodeCreated(false);
+        navigation.navigate("SignIn.CreatePasscode");
+      }
     } catch (err) {
       warn("signIn", "Could not process iqama input. Error: ", JSON.stringify(err));
     }
@@ -53,8 +56,24 @@ export default function IqamaInputScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader withBackButton={true} />
-      <MobileAndNationalIdForm onSubmit={handleOnSubmit} errorMessages={errorMessages} onSignInPress={handleOnSignUp} />
+      <KeyboardAvoidingView behavior="height" style={styles.component}>
+        <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.contentContainer}>
+          <NavHeader withBackButton={true} />
+          <MobileAndNationalIdForm
+            onSubmit={handleOnSubmit}
+            errorMessages={errorMessages}
+            onSignInPress={handleOnSignUp}
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Page>
   );
 }
+const styles = StyleSheet.create({
+  component: {
+    flex: 1,
+  },
+  contentContainer: {
+    flexGrow: 1,
+  },
+});

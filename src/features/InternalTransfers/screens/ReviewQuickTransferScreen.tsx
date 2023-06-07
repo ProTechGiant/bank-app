@@ -14,7 +14,7 @@ import Typography from "@/components/Typography";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import i18n from "@/i18n";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
@@ -25,7 +25,7 @@ import { QuickTransfer } from "../types";
 export default function ReviewQuickTransferScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<MainStackParams, "InternalTransfers.ReviewQuickTransferScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ReviewQuickTransferScreen">>();
 
   const account = useCurrentAccount();
   const transferFeesAsync = useTransferFees("110");

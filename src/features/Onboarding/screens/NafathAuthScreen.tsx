@@ -3,11 +3,11 @@ import { useTranslation } from "react-i18next";
 import { Alert, Linking, Platform, View, ViewStyle } from "react-native";
 
 import Accordion from "@/components/Accordion";
+import LoadingIndicatorModal from "@/components/LoadingIndicatorModal";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import LoaderModal from "@/features/Onboarding/components/LoaderModal";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -109,7 +109,7 @@ export default function NafathAuthScreen() {
       <NavHeader withBackButton={true} title={t("Onboarding.NafathAuthScreen.navHeaderTitle")} />
       <View style={container}>
         {isIndicator ? (
-          <LoaderModal loading={isIndicator} />
+          <LoadingIndicatorModal loadingText={t("Loader.loadingText")} />
         ) : (
           <>
             <LinkModal

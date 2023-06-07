@@ -17,7 +17,7 @@ export function DropdownInputList<T extends FieldValues>({ options, onChange, va
 
   const modalContainer = useMemo(
     () => ({
-      height: height - (Platform.OS === "ios" ? 254 : 204),
+      height: height - (Platform.OS === "ios" ? MODAL_CONTAINER_HEIGHT_IOS : MODAL_CONTAINER_HEIGHT_ANDROID),
     }),
     [height]
   );
@@ -30,10 +30,10 @@ export function DropdownInputList<T extends FieldValues>({ options, onChange, va
     borderBottomColor: palette["neutralBase-20"],
   }));
 
-  const checkBoxStyles = useThemeStyles<ViewStyle>(({ palette }) => ({
+  const checkBoxStyles = useThemeStyles<ViewStyle>(({ spacing, palette }) => ({
     borderColor: palette["neutralBase-20"],
-    height: 24,
-    width: 24,
+    height: spacing["24p"],
+    width: spacing["24p"],
     borderWidth: 2,
     borderRadius: 24,
     alignItems: "center",
@@ -51,7 +51,7 @@ export function DropdownInputList<T extends FieldValues>({ options, onChange, va
             {item.label}
           </Typography.Text>
         </View>
-        <View style={checkBoxStyles}>{(value === item.value || item.disabled === true) && <CheckmarkCircle />}</View>
+        <View style={checkBoxStyles}>{value === item.value || item.disabled ? <CheckmarkCircle /> : null}</View>
         <View />
       </Pressable>
     ),
@@ -78,3 +78,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+const MODAL_CONTAINER_HEIGHT_ANDROID = 204;
+const MODAL_CONTAINER_HEIGHT_IOS = 254;

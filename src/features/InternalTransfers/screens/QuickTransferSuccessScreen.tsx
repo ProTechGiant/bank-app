@@ -11,7 +11,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
@@ -20,7 +20,7 @@ export default function QuickTransferSuccessScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
-  const route = useRoute<RouteProp<MainStackParams, "InternalTransfers.QuickTransferSuccessScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.QuickTransferSuccessScreen">>();
 
   const handleOnDonePress = () => {
     navigation.navigate("Home.HomeStack", { screen: "Home.DashboardScreen" });

@@ -14,7 +14,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { mockHelpAndSupport } from "@/mocks/helpAndSupportData";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
@@ -25,7 +25,7 @@ import { formatDateTime } from "../utils";
 
 export default function CaseDetailsScreen() {
   const { t } = useTranslation();
-  const route = useRoute<RouteProp<MainStackParams, "PaymentDisputes.CaseDetailsScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "PaymentDisputes.CaseDetailsScreen">>();
   const caseDetailsResponse = useCaseDetails(route.params.transactionRef);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 

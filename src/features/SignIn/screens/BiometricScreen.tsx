@@ -10,7 +10,6 @@ import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { warn } from "@/logger";
-import useNavigation from "@/navigation/use-navigation";
 import biometricsService from "@/services/BiometricService";
 import { useThemeStyles } from "@/theme";
 
@@ -20,7 +19,6 @@ import FingerPrint from "../assets/finger-print.svg";
 export default function BiometricScreen() {
   const { t } = useTranslation();
   const auth = useAuthContext();
-  const navigation = useNavigation();
   const [, setIsBiometricSupported] = useState<boolean>(false);
   const [availableBiometricType, setAvailableBiometricType] = useState<string>("");
   const [_error, setError] = useState<string>("");
@@ -31,7 +29,6 @@ export default function BiometricScreen() {
 
   const navigateToHome = () => {
     auth.authenticate(auth.userId ?? "");
-    navigation.navigate("Home.HomeStack", { screen: "Home.DashboardScreen" });
   };
 
   const authenticateWithBiometrics = async () => {
@@ -40,8 +37,7 @@ export default function BiometricScreen() {
       .then(resultObject => {
         const { success } = resultObject;
         if (success) {
-          auth.authenticate(auth.userId ?? "");
-          navigation.navigate("Home.HomeStack", { screen: "Home.DashboardScreen" });
+          navigateToHome();
         } else {
           warn("biometrics", `user cancelled biometric prompt}`);
         }
@@ -78,7 +74,7 @@ export default function BiometricScreen() {
     paddingHorizontal: theme.spacing["16p"],
   }));
 
-  const badgeContainer = useThemeStyles<ViewStyle>(theme => ({
+  const badgeContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.xxlarge,
     backgroundColor: theme.palette["neutralBase-30"],
     marginBottom: theme.spacing["64p"],
@@ -91,7 +87,7 @@ export default function BiometricScreen() {
       <NavHeader withBackButton={true} />
       <ContentContainer isScrollView style={styles.containerStyle}>
         <View style={headerViewStyle}>
-          <View style={badgeContainer}>
+          <View style={badgeContainerStyle}>
             <Typography.Text color="primaryBase">{t("SignIn.BiometricScreen.brandText")}</Typography.Text>
           </View>
           {isFaceId ? <FaceId /> : <FingerPrint />}

@@ -4,7 +4,7 @@ import { Linking } from "react-native";
 import InAppBrowser from "react-native-inappbrowser-reborn";
 
 import { warn } from "@/logger";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
 
 import useNavigation from "../navigation/use-navigation";
@@ -26,7 +26,7 @@ function parseInternalUri(url: string): parsedUri {
   return { page, restPath, query: result.query };
 }
 
-function handleInternalUri(parsedUri: parsedUri, navigation: NavigationProp<MainStackParams>) {
+function handleInternalUri(parsedUri: parsedUri, navigation: NavigationProp<AuthenticatedStackParams>) {
   switch (parsedUri.page) {
     case "faqs":
       if (parsedUri.restPath === undefined) break;

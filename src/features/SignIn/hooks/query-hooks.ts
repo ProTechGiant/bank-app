@@ -1,318 +1,216 @@
-import { useMutation, useQuery } from "react-query";
+import { useTranslation } from "react-i18next";
+import { useMutation } from "react-query";
 
 import sendApiRequest from "@/api";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 import { useSignInContext } from "../contexts/SignInContext";
-import { FatcaFormInput, FinancialDetails, IqamaInputs, NafathDetails, Status } from "../types";
+import {
+  CheckUserStatusResponse,
+  LogInOtpChallengeParams,
+  LoginUserType,
+  RegistrationResponse,
+  ValidateDeviceType,
+} from "../types";
 
-interface ApiOnboardingStatusResponse {
-  OnboardingStatus: Status;
-  workflowTask: { Id: string; Name: string };
+export function useCheckUser() {
+  const { correlationId } = useSignInContext();
+  return useMutation(({ NationalId, MobileNumber }: { NationalId: string; MobileNumber: string }) => {
+    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+    return sendApiRequest<{ HasPasscode: boolean }>(
+      "v1",
+      "customers/check/user",
+      "POST",
+      undefined,
+      {
+        NationalId: NationalId,
+        MobileNumber: MobileNumber,
+      },
+      {
+        ["x-Correlation-Id"]: correlationId,
+      }
+    );
+  });
 }
 
-interface OtpResponseType {
-  LinkId: string;
-  Otp: number;
+export function useLoginUser() {
+  const { updatePhoneNumber } = useAuthContext();
+  const { correlationId, setNationalId } = useSignInContext();
+
+  return useMutation(
+    async (passCode: string) => {
+      if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+      return sendApiRequest<LoginUserType>(
+        "v1",
+        "customers/login",
+        "POST",
+        undefined,
+        {
+          Passcode: passCode,
+        },
+        {
+          ["x-correlation-id"]: correlationId,
+        }
+      );
+    },
+    {
+      onSuccess(data) {
+        setNationalId(data.NationalOrIqamaId);
+        updatePhoneNumber(data.MobileNumber);
+      },
+    }
+  );
 }
 
-interface IqamaResponse {
-  CustomerId: string;
-  CustomerType: string;
-  NationalId: string;
-  MobileNumber: string;
-}
+export function useValidateDevice() {
+  const { correlationId } = useSignInContext();
 
-type WorkflowStep = {
-  Id: string;
-  Name: string;
-};
-
-function assertWorkflowTask(
-  step: string,
-  expects: string,
-  value: WorkflowStep | undefined
-): asserts value is WorkflowStep {
-  if (undefined !== value && value.Name === expects) return;
-
-  const message = `Available workflowTaskId not applicable to ${step}. Expected "${expects}", received "${value?.Name}"`;
-  throw new Error(message);
-}
-
-export function useConfirmPersonalDetails() {
-  const { fetchLatestWorkflowTask, correlationId } = useSignInContext();
-
-  return useMutation(async () => {
+  return useMutation(async (passcode: string) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-    const workflowTask = await fetchLatestWorkflowTask();
-    if (!workflowTask || workflowTask.Name !== "ConfirmPersonalDetails")
-      throw new Error("Available workflowTaskId is not applicable to customers/confirm/data");
+    return sendApiRequest<ValidateDeviceType>(
+      "v1",
+      "customers/validate-device",
+      "POST",
+      undefined,
+      {
+        Passcode: passcode,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+        ["x-device-id"]: "9898989", //TODO: for testing we are using this device id, will revert when done from BE side
+      }
+    );
+  });
+}
+
+export function useCreatePasscode() {
+  const { correlationId } = useSignInContext();
+
+  return useMutation(async (passCode: string) => {
+    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
     return sendApiRequest<string>(
       "v1",
-      "customers/confirm/data",
-      "POST",
+      "customers/update/passcode",
+      "PATCH",
       undefined,
       {
-        CustomerConfirmationFlag: true,
+        Passcode: passCode,
       },
       {
-        ["X-Workflow-Task-Id"]: workflowTask?.Id,
         ["x-correlation-id"]: correlationId,
       }
     );
   });
 }
 
-export function useNafathDetails() {
-  const { fetchLatestWorkflowTask, revertWorkflowTask, nationalId, correlationId } = useSignInContext();
+export function useValidatePincode() {
+  const { correlationId } = useSignInContext();
 
-  return useMutation(async () => {
-    if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
-
-    let workflowTask = await fetchLatestWorkflowTask();
-    if (workflowTask && workflowTask?.Name === "ConfirmPersonalDetails") {
-      await revertWorkflowTask(workflowTask);
-    }
-
-    workflowTask = await fetchLatestWorkflowTask();
-    if (!workflowTask || workflowTask.Name !== "RetrievePersonalDetails") {
-      throw new Error("Available workflowTaskId is not applicable to customers/data");
-    }
-
-    return sendApiRequest<NafathDetails>(
-      "v1",
-      "customers/data",
-      "POST",
-      undefined,
-      {
-        NationalId: nationalId,
-      },
-      {
-        ["X-Workflow-Task-Id"]: workflowTask.Id,
-        ["x-correlation-id"]: correlationId,
-      }
-    );
-  });
-}
-
-export function useFatcaDetails() {
-  const { fetchLatestWorkflowTask, correlationId } = useSignInContext();
-
-  return useMutation(async (values: FatcaFormInput) => {
+  return useMutation(async (pinCode: string) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-    const workflowTask = await fetchLatestWorkflowTask();
+    return sendApiRequest<{ Status: boolean }>(
+      "v1",
+      "customers/validate-pin",
+      "POST",
+      undefined,
+      {
+        CardPin: pinCode,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+  });
+}
 
-    if (!workflowTask || workflowTask.Name !== "Fatca&Crs")
-      throw new Error("Available workflowTaskId is not applicable to customers/tax/residency/details");
+export function useRegistration() {
+  const { correlationId, nationalId } = useSignInContext();
+  const { phoneNumber } = useAuthContext();
 
-    return sendApiRequest<string>("v1", "customers/tax/residency/details", "POST", undefined, values, {
-      ["X-Workflow-Task-Id"]: workflowTask?.Id,
+  const { i18n } = useTranslation();
+
+  return useMutation((passCode: string) => {
+    if (undefined === correlationId) throw new Error("Cannot fetch customers/registration without `correlationId`");
+
+    return sendApiRequest<RegistrationResponse>(
+      "v1",
+      "customers/registration",
+      "POST",
+      undefined,
+      {
+        PassCode: passCode,
+        NationalOrIqamaId: nationalId,
+        MobileNumber: phoneNumber,
+        Language: i18n.language.toUpperCase(),
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+  });
+}
+
+export function useCheckUserStatus() {
+  const { correlationId } = useSignInContext();
+
+  return useMutation(() => {
+    if (undefined === correlationId) throw new Error("Cannot fetch customers/registration without `correlationId`");
+
+    return sendApiRequest<CheckUserStatusResponse>("v1", "customers/check/user/status", "GET", undefined, undefined, {
       ["x-correlation-id"]: correlationId,
     });
   });
 }
 
-export function useSubmitFinancialDetails() {
-  const { fetchLatestWorkflowTask, correlationId } = useSignInContext();
+export function useSignIn() {
+  const { correlationId, setNationalId } = useSignInContext();
+  const { updatePhoneNumber } = useAuthContext();
 
-  return useMutation(async (values: FinancialDetails) => {
-    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+  return useMutation(
+    (passcode: string) => {
+      if (undefined === correlationId) throw new Error("Cannot fetch customers/sign-in without `correlationId`");
 
-    const workflowTask = await fetchLatestWorkflowTask();
-    if (!workflowTask || workflowTask.Name !== "PersistFinancialInfo")
-      throw new Error("Available workflowTaskId is not applicable to customers/financial/details");
-
-    return sendApiRequest<string>(
-      "v1",
-      "customers/financial/details",
-      "POST",
-      undefined,
-      { ...values },
-      {
-        ["X-Workflow-Task-Id"]: workflowTask.Id,
-        ["x-correlation-id"]: correlationId,
-      }
-    );
-  });
-}
-
-export function useIqama() {
-  const { startSignInAsync, fetchLatestWorkflowTask, correlationId, setNationalId, currentTask } = useSignInContext();
-
-  const handleSignUp = async (values: IqamaInputs) => {
-    if (!correlationId) {
-      throw new Error("Need valid `correlationId` to be available");
-    }
-    if (currentTask?.Name !== "MobileVerification") {
-      await startSignInAsync(values.NationalId, values.MobileNumber);
-    }
-
-    const workflowTask = await fetchLatestWorkflowTask();
-    assertWorkflowTask("customers/validate/mobile", "MobileVerification", workflowTask);
-
-    return sendApiRequest<IqamaResponse>(
-      "v1",
-      "customers/validate/mobile",
-      "POST",
-      undefined,
-      {
-        NationalId: values.NationalId,
-        MobileNumber: values.MobileNumber,
-      },
-      {
-        ["X-Workflow-Task-Id"]: workflowTask.Id,
-        ["x-correlation-id"]: correlationId,
-      }
-    );
-  };
-
-  const handleRetrySignUp = async (values: IqamaInputs) => {
-    if (!correlationId) {
-      throw new Error("Need valid `correlationId` to be available");
-    }
-    const workflowTask = await fetchLatestWorkflowTask();
-
-    if (workflowTask && workflowTask?.Name === "MobileVerification") {
-      assertWorkflowTask("customers/validate/mobile", "MobileVerification", workflowTask);
-
-      return sendApiRequest<IqamaResponse>(
+      return sendApiRequest<LoginUserType>(
         "v1",
-        "customers/validate/mobile",
+        "customers/sign-in",
         "POST",
         undefined,
         {
-          NationalId: values.NationalId,
-          MobileNumber: values.MobileNumber,
+          Passcode: passcode,
         },
         {
-          ["X-Workflow-Task-Id"]: workflowTask.Id,
           ["x-correlation-id"]: correlationId,
         }
       );
+    },
+    {
+      onSuccess(data) {
+        setNationalId(data.NationalOrIqamaId);
+        updatePhoneNumber(data.MobileNumber);
+      },
     }
-  };
-
-  return useMutation(handleSignUp, {
-    onSuccess(data, _variables, _context) {
-      setNationalId(String(data.NationalId));
-    },
-    onError(error, variables, _context) {
-      if (
-        error &&
-        error.errorContent &&
-        error.errorContent.Errors &&
-        error.errorContent.Errors.some(({ ErrorId }: { ErrorId: string }) => ErrorId === "0061")
-      ) {
-        handleRetrySignUp(variables);
-      }
-    },
-  });
-}
-
-export function useRequestNumber() {
-  const { nationalId, correlationId } = useSignInContext();
-
-  return useMutation(async () => {
-    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
-
-    return sendApiRequest<OtpResponseType>(
-      "v1",
-      "customers/link",
-      "POST",
-      undefined,
-      {
-        NationalId: nationalId,
-      },
-      {
-        ["x-correlation-id"]: correlationId,
-      }
-    );
-  });
-}
-
-export function useEmail() {
-  const { fetchLatestWorkflowTask, correlationId } = useSignInContext();
-
-  return useMutation(async (email: string | undefined) => {
-    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
-
-    const workflowTask = await fetchLatestWorkflowTask();
-    if (!workflowTask || workflowTask.Name !== "PersistEmail")
-      throw new Error("Available workflowTaskId is not applicable to customers/email");
-
-    return sendApiRequest<string>(
-      "v1",
-      "customers/email",
-      "PUT",
-      undefined,
-      {
-        Email: !!email && email.length > 0 ? email : null,
-      },
-      {
-        ["X-Workflow-Task-Id"]: workflowTask?.Id,
-        ["x-correlation-id"]: correlationId,
-      }
-    );
-  });
-}
-
-export function useAccountStatus(fetchPosts: boolean) {
-  const { fetchLatestWorkflowTask, correlationId } = useSignInContext();
-
-  return useQuery(
-    "AccountStatus",
-    async () => {
-      if (undefined === correlationId) throw new Error("Cannot fetch customers/status without `correlationId`");
-
-      const workflowTask = await fetchLatestWorkflowTask();
-
-      if (workflowTask?.Name !== "RetrieveValidationStatus") {
-        return {
-          OnboardingStatus: "PENDING",
-          workflowTask,
-        };
-      }
-
-      const status = await api<ApiOnboardingStatusResponse>("v1", "customers/status", "GET", undefined, undefined, {
-        ["X-Workflow-Task-Id"]: workflowTask.Id,
-        ["x-correlation-id"]: correlationId,
-      });
-
-      return {
-        ...status,
-        workflowTask,
-      };
-    },
-    { refetchInterval: 2000, enabled: fetchPosts }
   );
 }
 
-//TODO: Update this function when BE is finished
-export function useTermsConditions() {
-  const { fetchLatestWorkflowTask, correlationId } = useSignInContext();
+export function useSendLoginOTP() {
+  const { correlationId } = useSignInContext();
 
-  return useMutation(async () => {
-    if (undefined === correlationId) throw new Error("Cannot fetch customers/terms-conditions without `correlationId`");
+  return useMutation(async (reasonCode: "login" | "reset-passcode" | "change-passcode" | "create-passcode") => {
+    if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
 
-    const workflowTask = await fetchLatestWorkflowTask();
-    if (!workflowTask || workflowTask.Name !== "T&C")
-      throw new Error("Available workflowTaskId is not applicable to customers/terms-conditions");
-
-    return sendApiRequest<string>(
+    return sendApiRequest<LogInOtpChallengeParams>(
       "v1",
-      "customers/terms-conditions",
+      "customers/otps/send",
       "POST",
       undefined,
       {
-        TermsAndConditionsFlag: true,
-        TermsAndConditionsVersionNumber: "1.0",
-        DeclarationsFlag: true,
-        DeclarationsVersionNumber: "1.0",
+        Reason: reasonCode,
       },
       {
-        ["X-Workflow-Task-Id"]: workflowTask.Id,
         ["x-correlation-id"]: correlationId,
       }
     );

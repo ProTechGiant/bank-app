@@ -18,7 +18,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useCurrentAccount } from "@/hooks/use-accounts";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -37,7 +37,7 @@ interface FundingInput {
 }
 
 export default function EditRecurringPaymentModal() {
-  const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.EditRecurringPaymentModal">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "SavingsGoals.EditRecurringPaymentModal">>();
   const navigation = useNavigation();
   const { t } = useTranslation();
 

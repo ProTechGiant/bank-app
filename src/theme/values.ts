@@ -35,7 +35,7 @@ const palette = {
   "primaryBase-30": "#006E99",
   "primaryBase-40": "#00A0CC",
   "primaryBase-50": "#00C8FF",
-  "primaryBase-60": "33D3FF",
+  "primaryBase-60": "#33D3FF",
   "primaryBase-70": "#5CDCFF",
   "primaryBase-70-8%": "rgba(92, 220, 255, 0.08)",
 
@@ -167,6 +167,7 @@ const spacing = {
   "64p": 64,
   "56p": 56,
   "68p": 68,
+  "67p": 67,
   "73p": 73,
   "80p": 80,
   "100p": 100,
@@ -176,7 +177,6 @@ const spacing = {
   half: "50%",
   "40%": "40%",
   "30%": "30%",
-  "67p": 67,
 };
 
 const radii = {

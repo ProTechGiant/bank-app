@@ -1,66 +1,90 @@
 import { useTranslation } from "react-i18next";
 
 import ApiError from "@/api/ApiError";
-import ResponseError from "@/api/ResponseError";
 import { ErrorFilledCircleIcon, InfoFilledCircleIcon } from "@/assets/icons";
-import Typography from "@/components/Typography";
 
 import { ErrorMessageType } from "../types";
 
-export function useErrorMessages(err: ApiError<ResponseError>) {
+export function useErrorMessages(err: ApiError) {
   const { t } = useTranslation();
 
   const getErrorMessages = (type: string) => {
     const messages: { [key: string]: ErrorMessageType } = {
-      "0061": {
-        message: <></>,
+      "0004": {
+        message: t("SignIn.IqamaInputScreen.errorText.somethingWentWrong"),
+        icon: <ErrorFilledCircleIcon />,
         variant: "error",
         link: "Sign In",
       },
-      "0081": {
-        message: t("Onboarding.IqamaInputScreen.errorText.oneAttemptsLeft"),
-        variant: "warning",
+      "0011": {
+        message: t("SignIn.IqamaInputScreen.errorText.oneAttemptsLeft"),
+        icon: <InfoFilledCircleIcon />,
+        variant: "default",
       },
-      "0082": {
-        message: t("Onboarding.IqamaInputScreen.errorText.twoAttemptsLeft"),
-        variant: "warning",
+      "0012": {
+        message: t("SignIn.IqamaInputScreen.errorText.twoAttemptsLeft"),
+        icon: <InfoFilledCircleIcon />,
+        variant: "default",
       },
-      "0083": {
-        message: t("Onboarding.IqamaInputScreen.errorText.noAttemptsLeft"),
-        variant: "error",
+      "0009": {
+        title: t("SignIn.IqamaInputScreen.errorText.modalTitle"),
+        modalMessage: t("SignIn.IqamaInputScreen.errorText.modalMessage"),
+      },
+      "0010": {
+        title: t("SignIn.IqamaInputScreen.errorText.modalTitle"),
+        modalMessage: t("SignIn.IqamaInputScreen.errorText.modalMessage"),
       },
       "0084": {
-        message: t("Onboarding.IqamaInputScreen.errorText.noMatch"),
+        message: t("SignIn.IqamaInputScreen.errorText.noMatch"),
+        icon: <ErrorFilledCircleIcon />,
         variant: "error",
       },
       "0085": {
-        message: t("Onboarding.IqamaInputScreen.errorText.regulatoryCheck"),
+        message: t("SignIn.IqamaInputScreen.errorText.regulatoryCheck"),
+        icon: <ErrorFilledCircleIcon />,
         variant: "error",
       },
-      "0086": {
-        message: (
-          <>
-            {t("Onboarding.IqamaInputScreen.errorText.hasAccount.warning")}{" "}
-            <Typography.Text color="neutralBase+30" size="caption1" weight="bold">
-              {t("Onboarding.IqamaInputScreen.errorText.hasAccount.signIn")}
-            </Typography.Text>
-          </>
-        ),
-        variant: "error",
-        link: "Sign In",
+      // Below error codes is for validate pin api in forget password screen
+      "0030": {
+        message: t("SignIn.ForgotPasscodeScreen.twoAttemptsLeft"),
+        icon: <InfoFilledCircleIcon />,
+        variant: "default",
+      },
+      "0031": {
+        message: t("SignIn.ForgotPasscodeScreen.oneAttemptLeft"),
+        icon: <InfoFilledCircleIcon />,
+        variant: "default",
+      },
+      "0032": {
+        modalMessage: t("SignIn.ForgotPasscodeScreen.errorMessage"),
+        title: t("SignIn.ForgotPasscodeScreen.errorTitle"),
       },
       default: {
-        message: t("Onboarding.IqamaInputScreen.errorText.cannotOpen"),
+        message: t("SignIn.IqamaInputScreen.errorText.noAccount"),
+        icon: <ErrorFilledCircleIcon />,
         variant: "error",
       },
     };
     return messages[type] || messages.default;
   };
-
-  const errorMessages =
-    err && err.errorContent && err.errorContent?.Errors
-      ? err.errorContent.Errors?.map(({ ErrorId }: { ErrorId: string }) => getErrorMessages(ErrorId))
-      : [];
-
+  const errorMessages = err
+    ? err.errorContent && err.errorContent?.Errors
+      ? err.errorContent.Errors?.map(item => {
+          if (item.ErrorId) {
+            return getErrorMessages(item.ErrorId);
+          } else {
+            return getErrorMessages("9090");
+          }
+        })
+      : [
+          {
+            message: t("SignIn.IqamaInputScreen.errorText.somethingWentWrong"),
+            title: t("SignIn.IqamaInputScreen.errorText.somethingWentWrongModalTitle"),
+            modalMessage: t("SignIn.IqamaInputScreen.errorText.somethingWentWrongModalMessage"),
+            icon: <ErrorFilledCircleIcon />,
+            variant: "error",
+          },
+        ]
+    : [];
   return { errorMessages };
 }

@@ -8,10 +8,13 @@ export const resources = {
       AddToAppleWalletButton: {
         label: "Add to Apple Wallet",
       },
+      Alerts: {
+        LogoutDueToInactivity: "You have been locked due to inactivity.",
+      },
       AddressSelector: {
         temporaryAddressLabel: "Temporary address",
       },
-      LoaderText: {
+      Loader: {
         loadingText: "Loading",
       },
       DayPicker: {
@@ -336,13 +339,37 @@ export const resources = {
         },
       },
       SignIn: {
-        UserBlockedScreen: {
+        UserExistBlockedScreen: {
           title: "Brand Moment",
           heading: "You have been blocked from entering the app",
-          message: "We've logged you out because you entered the wrong passcode too many times. Try again in [time].",
+          message: "We've logged you out because you entered the wrong {{type}} too many times. Try again in {{time}}.",
           suggestion: " For help, call us on +966 123 456 789.",
         },
+        UserNotExistBlockedScreen: {
+          title: "Brand Moment",
+          heading: "Come back in a while",
+          message: "We've logged you out because you entered the wrong {{type}} too many times. Try again in {{time}}.",
+          suggestion: " For help, call us on +966 123 456 789.",
+        },
+        UserPermanentBlockScreen: {
+          title: "Brand Moment",
+          heading: "Your app has been locked",
+          message:
+            "We've locked your app to help keep your account secure. To unlock it, please call us on +966 123 456 789.",
+        },
         IqamaInputScreen: {
+          errorText: {
+            twoAttemptsLeft: "That passcode wasn't right. You have 2 attempts left.",
+            oneAttemptsLeft: "That passcode wasn't right. You have 1 attempts left.",
+            modalTitle: "Try again later",
+            modalMessage: "You’ve entered the wrong passcode too many times. Please wait 30 mins and try again.",
+            noMatch: "The mobile number and ID given aren’t linked to an Absher profile",
+            noAccount: "Those details don't match our records. Check carefully and try again.",
+            regulatoryCheck: "Due to a regulatory check we can’t open an account for you right now ",
+            somethingWentWrong: "Something went wrong, please try again.",
+            somethingWentWrongModalTitle: "Oops! Error",
+            somethingWentWrongModalMessage: "Apologies for the inconvenience. try again later.",
+          },
           navHeaderTitle: "SIGN IN",
           title: "Sign in on this device",
           subTitle: "You need to enable this device before you can use it with Croatia.",
@@ -374,24 +401,34 @@ export const resources = {
           title: "Enter Passcode",
           userTitle: "Welcome Back, {{username}}",
           subTitle: "Enter your passcode to login",
-          notifocation: "That passcode wasn't right. You have {{attempts}} attempts left.",
+          notification: "That passcode wasn't right. You have {{attempts}} attempts left.",
           errorMessage: "You’ve entered the wrong PIN too many times. Please wait {{time}} min and try again.",
           errorTitle: "try again later",
           forgotPassword: "Forgot your Passcode?",
+          signInModal: {
+            title: "Sign in on this device",
+            message:
+              "You are already signed in on another device. By signing in to this device you will be signed out on the other one.",
+            signInButton: "Sign In",
+            cancelButton: "Cancel",
+          },
         },
         passcodeInput: {
           subTitle: "Enter your {{length}}-digit passcode {{extra}}",
+          toLogin: "to login",
         },
         ChangePasscodeScreen: {
           title: "Enter current passcode",
           subTitle: "Enter the 6-number passcode you use to log in.",
           notification: "That passcode wasn't right - try again.",
-          errorTitle: "Enter your {{length}}-digit passcode {{extra}}",
+          errorTitle: "Try again later",
+          errorSubTitle: "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
         },
         CreatePasscodeScreen: {
+          needHelpInfo: "Avoid a passcode that’s easy to guess, like 123456 or 111111.",
           title: "Create Passcode",
           subTitle: "Enter the 6-number passcode you’ll use to log in to Croatia.",
-          notifocation: "Choose something harder to guess, without consecutive or repeated numbers.",
+          notification: "Choose something harder to guess, without consecutive or repeated numbers.",
         },
         ForgotPasscodeScreen: {
           errorTitle: "Try again later",
@@ -399,13 +436,18 @@ export const resources = {
           subTitle: "Enter you card PIN to authenticate. ",
           notification: "That passcode wasn't right. You have {{attempts}} attempts left.",
           errorMessage: "You’ve entered the wrong PIN too many times. Please wait 30 min and try again.",
+          needHelpInfo: "If you need help, you can call us on\n+966 123 456 789.",
+          twoAttemptsLeft: "That PIN wasn't right. You have 2 attempts left.",
+          oneAttemptLeft: "That PIN wasn't right. You have 1 attempt left.",
         },
         ConfirmPasscodeScreen: {
           title: "Confirm Passcode",
           subTitle: "Re-enter your 6 number passcode.",
           notification: "Those passcodes were both different - try again.",
-          notificationModelMessage: "You'll use this passcode to log in to Croatia.",
-          notificationModelTitle: "Passcode created",
+          updatePasscodeModalMessage: "Your new passcode is now set.",
+          updatePasscodeModalTitle: "Passcode updated",
+          createPasscodeModalMessage: "You'll use this passcode to log in to Croatia.",
+          createPasscodeModalTitle: "Passcode created",
         },
         OtpScreen: {
           title: "Enter one-time code",
@@ -568,7 +610,6 @@ export const resources = {
           feedbackNegative: "No",
           followWhatsNext: "Follow what’s next",
           relatedArticles: "Related articles",
-          feedbackError: "Something went wrong when trying to update feedback. Please try again.",
         },
         SortingContent: {
           title: "Sort",
@@ -696,7 +737,7 @@ export const resources = {
         SavingsGoalsScreen: {
           navTitle: "Savings Goals",
           goalCard: {
-            amount: "{{amountSaved}} of {{totalAmount}}",
+            amount: "{{amountSaved}} of {{totalAmount}} SAR",
           },
           title: "Your Goals",
           maxGoalsTitle: "Your Saving Goals",
@@ -710,7 +751,7 @@ export const resources = {
         GoalDetailsScreen: {
           GoalDetailsHeader: {
             currency: "SAR",
-            targetAmountDetails: "of {{targetAmount}}",
+            targetAmountDetails: "of {{TargetAmount}} SAR",
             targetDate: "Target date: {{TargetDate}}",
           },
           Payments: {
@@ -1292,14 +1333,11 @@ export const resources = {
         },
       },
       OneTimePasswordModal: {
-        title: "Enter one-time password",
-        message:
-          "Enter the one-time code code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
+        title: "Enter one-time code",
+        message: "Enter the one-time code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
         resendCodeDisabled: "Resend Code in {{minutes}}:{{seconds}}",
         resendCodeEnabled: "Resend Code",
         notification: "That OTP wasn't right. You have {{attempts}} attempts left.",
-        optSubmitErrorMessage: "Could not validate OTP-code with backend: {{error}}",
-        resendOtpErrorMessage: "Could not re-request OTP-code: {{error}}",
         errors: {
           invalidPassword: "The code you entered was invalid. Please try again",
           maxAttemptsInvalidPasswordReached:
@@ -1310,7 +1348,6 @@ export const resources = {
           noAttemptsLeftMessage: "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
           button: "OK",
         },
-        otpCodeAlertText: "OTP-code is: {{otpCode}}",
       },
       InternalTransfers: {
         ReviewTransferScreen: {
@@ -1532,7 +1569,6 @@ export const resources = {
           addFunds: "Add funds",
         },
         QuickTransferScreen: {
-          navTitle: "Send money",
           title: "Quick transfer",
           transferLimits: "Transfer limits",
           amountExceedsDailyLimit: "Transfer amount exceeds the {{limit}} SAR daily limit by {{amount}} SAR",
@@ -1836,6 +1872,9 @@ export const resources = {
 
   ar: {
     translation: {
+      Alerts: {
+        LogoutDueToInactivity: "You have been locked due to inactivity.",
+      },
       AssetInput: {
         label: "Upload photo or document",
         buttons: {
@@ -2149,6 +2188,128 @@ export const resources = {
           },
         },
       },
+      SignIn: {
+        IqamaInputScreen: {
+          errorText: {
+            twoAttemptsLeft: "You have tried to sign up 3 times. You have 2 attempts remaining.",
+            oneAttemptsLeft: "You have tried to sign up 4 times. You have 1 attempts remaining.",
+            noAttemptsLeft: "You have tried 5 times to sign up.\n\n Please wait until tomorrow before retrying.",
+            noMatch: "The mobile number and ID given aren’t linked to an Absher profile",
+            noAccount: "Those details don't match our records. Check carefully and try again.",
+            regulatoryCheck: "Due to a regulatory check we can’t open an account for you right now ",
+            somethingWentWrong: "Something went wrong, please try again.",
+          },
+          navHeaderTitle: "SIGN IN",
+          title: "Sign in on this device",
+          subTitle: "You need to enable this device before you can use it with Croatia.",
+          mobileLabel: "Mobile",
+          mobilePlaceholder: "Enter mobile",
+          iqamaLabel: "National ID/Iqama",
+          iqamaPlaceholder: "Enter your national ID/Iqama number",
+          notificationText: {
+            one: "To join Croatia, you must be over 18 and have an Absher profile. Register at ",
+            two: "absher.sa",
+            three: " before joining us.",
+          },
+          continue: "Sign in",
+          subtext: "Don’t have an account? ",
+          signUp: "Sign up",
+          validationErrors: {
+            mobileNumber: {
+              required: "Mobile Required",
+              matches: "Phone numbers need 9 numbers.",
+            },
+            iqamaId: {
+              required: "National ID/Iqama Number required",
+              matches: "National IDs need 10 numbers.",
+              exactLength: "Must be exactly {{length}} digits",
+            },
+          },
+        },
+        TemporaryBlockedScreen: {
+          title: "Brand Moment",
+          heading: "Come back in a while",
+          message:
+            "We've logged you out because you entered the wrong {{type}} too many times. Try \n again in {{time}}.",
+          suggestion: " For help, call us on +966 123 456 789.",
+        },
+        PasscodeScreen: {
+          title: "Enter Passcode",
+          userTitle: "Welcome Back, {{username}}",
+          subTitle: "Enter your passcode to login",
+          notification: "That passcode wasn't right. You have {{attempts}} attempts left.",
+          errorMessage: "You’ve entered the wrong PIN too many times. Please wait {{time}} min and try again.",
+          errorTitle: "try again later",
+          forgotPassword: "Forgot your Passcode?",
+          signInModal: {
+            title: "Sign in on this device",
+            message:
+              "You are already signed in on another device. By signing in to this device you will be signed out on the other one.",
+            signInButton: "Sign In",
+            cancelButton: "Cancel",
+          },
+        },
+        passcodeInput: {
+          subTitle: "Enter your {{length}}-digit passcode {{extra}}",
+          toLogin: "to login",
+        },
+        ChangePasscodeScreen: {
+          title: "Enter current passcode",
+          subTitle: "Enter the 6-number passcode you use to log in.",
+          notification: "That passcode wasn't right - try again.",
+          errorTitle: "Try again later",
+          errorSubTitle: "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
+        },
+        CreatePasscodeScreen: {
+          needHelpInfo: "Avoid a passcode that’s easy to guess, like 123456 or 111111.",
+          title: "Create Passcode",
+          subTitle: "Enter the 6-number passcode you’ll use to log in to Croatia.",
+          notification: "Choose something harder to guess, without consecutive or repeated numbers.",
+        },
+        ForgotPasscodeScreen: {
+          errorTitle: "Try again later",
+          title: "Enter Your card PIN",
+          subTitle: "Enter you card PIN to authenticate. ",
+          notification: "That passcode wasn't right. You have {{attempts}} attempts left.",
+          errorMessage: "You’ve entered the wrong PIN too many times. Please wait 30 min and try again.",
+          needHelpInfo: "If you need help, you can call us on\n+966 123 456 789.",
+          twoAttemptsLeft: "That PIN wasn't right. You have 2 attempts left.",
+          oneAttemptLeft: "That PIN wasn't right. You have 1 attempt left.",
+        },
+        ConfirmPasscodeScreen: {
+          title: "Confirm Passcode",
+          subTitle: "Re-enter your 6 number passcode.",
+          notification: "Those passcodes were both different - try again.",
+          updatePasscodeModalMessage: "Your new passcode is now set.",
+          updatePasscodeModalTitle: "Passcode updated",
+          createPasscodeModalMessage: "You'll use this passcode to log in to Croatia.",
+          createPasscodeModalTitle: "Passcode created",
+        },
+        OtpScreen: {
+          title: "Enter one-time code",
+          subTitle:
+            "Enter the one-time code we texted to your mobile, +966 •• ••• 1234. You have 2 minutes to do this.",
+        },
+        BiometricScreen: {
+          navHeaderTitle: "Enable biometrics",
+          faceIdtitle: "Give us a smile",
+          fingerPrintTitle: "Give us a thumbs up",
+          faceIdSubTitle: "Face ID helps you log in even more quickly - and without having to enter your passcode.",
+          fingerPrintSubTitle:
+            "Touch ID helps you log in even more quickly - and without having to enter your passcode.",
+          faceIdHelpLabel: "You can turn Face ID on or off at any time in settings.",
+          fingerPrintHelpLabel: "You can turn Touch ID on or off at any time in settings.",
+          turnOnFaceId: "Turn on Face ID now",
+          turnOnTouchId: "Turn on Touch ID now",
+          later: "Maybe later",
+          cancelText: "Cancel",
+          otpScreen: "otpScreen",
+          confirmBiometrics: "Confirm biometrics",
+          addBiometrics: "Add biometrics",
+          biometricSuccess: "successful biometrics provided",
+          brandText: " Brand Moment",
+        },
+      },
       Settings: {
         SettingsScreen: {
           rewards: "أرسل دعوة",
@@ -2393,10 +2554,11 @@ export const resources = {
       },
     },
     OneTimePasswordModal: {
-      title: "Enter one-time password",
-      message: "Enter the one-time code code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
+      title: "Enter one-time code",
+      message: "Enter the one-time code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
       resendCodeDisabled: "Resend Code in {{minutes}}:{{seconds}}",
       resendCodeEnabled: "Resend Code",
+      notification: "That OTP wasn't right. You have {{attempts}} attempts left.",
       errors: {
         invalidPassword: "The code you entered was invalid. Please try again",
         maxAttemptsInvalidPasswordReached:

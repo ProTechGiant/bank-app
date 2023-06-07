@@ -9,7 +9,7 @@ import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
 import EditSavingsGoalForm from "../components/EditSavingsGoalForm";
@@ -19,7 +19,7 @@ import { EditGoalInput } from "../types";
 export default function EditGoalModal() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.EditGoalModal">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "SavingsGoals.EditGoalModal">>();
 
   const { data } = useSavingsPot(route.params.PotId);
   const updateData = useUpdateSavingsGoal();

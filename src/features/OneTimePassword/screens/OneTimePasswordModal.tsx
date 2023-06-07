@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Alert, Keyboard, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Keyboard, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { ErrorFilledCircleIcon } from "@/assets/icons";
@@ -14,8 +14,9 @@ import Page from "@/components/Page";
 import PincodeInput from "@/components/PincodeInput";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { warn } from "@/logger";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import maskPhoneNumber from "@/utils/mask-phone-number";
@@ -26,8 +27,9 @@ import { OtpChallengeParams } from "../types";
 export default function OneTimePasswordModal<ParamsT extends object, OutputT extends object>() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { params } = useRoute<RouteProp<MainStackParams, "OneTimePassword.OneTimePasswordModal">>();
+  const { params } = useRoute<RouteProp<AuthenticatedStackParams, "OneTimePassword.OneTimePasswordModal">>();
   const otpValidationAsync = useOtpValidation<ParamsT, OutputT>(params.otpVerifyMethod);
+  const { phoneNumber } = useAuthContext();
 
   const [otpParams, setOtpParams] = useState<OtpChallengeParams | undefined>(params.otpChallengeParams);
   const [isGenericErrorVisible, setIsGenericErrorVisible] = useState(false);
@@ -39,6 +41,14 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
   const isOtpExpired = otpResetCountSeconds <= 0;
   const isReachedMaxAttempts = otpResendsRequested === OTP_MAX_RESENDS && isOtpExpired;
+  const [showBlockUserAlert, setShowBlockUserAlert] = useState(isReachedMaxAttempts);
+  const resolvedPhoneNumber = phoneNumber ?? otpParams?.phoneNumber;
+
+  const isLoginFlow =
+    params?.otpVerifyMethod === "login" ||
+    params?.otpVerifyMethod === "reset-passcode" ||
+    params?.otpVerifyMethod === "change-passcode" ||
+    params?.otpVerifyMethod === "create-passcode";
 
   // these were added to fix PC-11791 error issues.
   const [numberOfAttemptsForOTP, setNumberOfAttemptsForOTP] = useState(0);
@@ -58,16 +68,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
   // TODO: Remove on screen alert once the OTP service is ready (can be sent to the registered mobile phone)
   useEffect(() => {
-    if (otpParams === undefined) return;
-    Alert.alert(`OTP-code is: ${otpParams.OtpCode}`);
-  }, [otpParams]);
-
-  useEffect(() => {
     async function main() {
-      if (undefined !== otpParams) {
-        return;
-      }
-
       try {
         const response = await params.onOtpRequest();
         setOtpParams(response);
@@ -78,7 +79,18 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     }
 
     main();
-  }, [params, otpParams]);
+  }, [params]);
+
+  // this is to check for if the flow is from login then check for blocked user and navigate it to blocked screen.
+  useEffect(() => {
+    if (undefined === params) {
+      return;
+    }
+
+    if (isReachedMaxAttempts && isLoginFlow) {
+      setShowBlockUserAlert(true);
+    }
+  }, [navigation, isReachedMaxAttempts, params]);
 
   useEffect(() => {
     if (isGenericErrorVisible || isReachedMaxAttempts) Keyboard.dismiss();
@@ -102,7 +114,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       // to handle cases of PC-11791
       setNumberOfAttemptsForOTP(0);
 
-      setOtpParams(response);
+      setOtpParams({ ...response, ...otpParams });
       setIsGenericErrorVisible(false);
       setIsOtpCodeInvalidErrorVisible(false);
       setOtpResetCountSeconds(OTP_RESET_COUNT_SECONDS);
@@ -112,6 +124,13 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       setIsGenericErrorVisible(true);
     } finally {
       setOtpResendsRequested(current => current + 1);
+    }
+  };
+
+  const handleOnRequestBlockUserErrorClose = () => {
+    if (isReachedMaxAttempts && isLoginFlow) {
+      setShowBlockUserAlert(false);
+      params.onUserBlocked?.();
     }
   };
 
@@ -145,13 +164,20 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     }
 
     try {
-      const { IsOtpValid, NumOfAttempts, ...restProps } = await otpValidationAsync.mutateAsync({
+      const { Status, IsOtpValid, NumOfAttempts, ...restProps } = await otpValidationAsync.mutateAsync({
         OtpId: otpParams.OtpId,
         OtpCode: otpCode,
         optionalParams: params.otpOptionalParams as ParamsT,
       });
 
-      if (!IsOtpValid) {
+      if (Status === "OTP_MATCH_SUCCESS" || IsOtpValid) {
+        // @ts-expect-error unable to properly add types for this call
+        navigation.navigate(params.action.to, {
+          ...params.action.params,
+          otpResponseStatus: "success",
+          otpResponsePayload: restProps,
+        });
+      } else {
         setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
         // to handle cases of PC-11791
@@ -159,19 +185,9 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
         return;
       }
-
-      // @ts-expect-error unable to properly add types for this call
-      navigation.navigate(params.action.to, {
-        ...params.action.params,
-        otpResponseStatus: "success",
-        otpResponsePayload: restProps,
-      });
     } catch (error) {
-      // @ts-expect-error cannot property type navigate
-      navigation.navigate(params.action.to, {
-        ...params.action.params,
-        otpResponseStatus: "fail",
-      });
+      setIsOtpCodeInvalidErrorVisible(true);
+      setCurrentValue("");
 
       warn("one-time-password", "Could not validate OTP-code with backend: ", JSON.stringify(error));
     }
@@ -196,7 +212,9 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                 {t("OneTimePasswordModal.title")}
               </Typography.Text>
               <Typography.Text size="callout">
-                {t("OneTimePasswordModal.message", { phoneNumber: maskPhoneNumber(otpParams.PhoneNumber, 4) })}
+                {t("OneTimePasswordModal.message", {
+                  phoneNumber: resolvedPhoneNumber ? maskPhoneNumber(resolvedPhoneNumber, 4) : null,
+                })}
               </Typography.Text>
               <View style={otpContainerStyle}>
                 <PincodeInput
@@ -261,7 +279,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
             </Stack>
           </ContentContainer>
         ) : (
-          <View style={styles.alignCenter}>
+          <View style={styles.indicatorContainerStyle}>
             <ActivityIndicator />
           </View>
         )}
@@ -279,7 +297,9 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         message={t("OneTimePasswordModal.errors.noAttemptsLeftMessage")}
         isVisible={isReachedMaxAttempts}
         buttons={{
-          primary: <Button onPress={handleOnRequestResendErrorClose}>{t("OneTimePasswordModal.errors.button")}</Button>,
+          primary: (
+            <Button onPress={handleOnRequestBlockUserErrorClose}>{t("OneTimePasswordModal.errors.button")}</Button>
+          ),
         }}
       />
     </SafeAreaProvider>
@@ -287,7 +307,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 }
 
 const styles = StyleSheet.create({
-  alignCenter: {
+  indicatorContainerStyle: {
     alignItems: "center",
     justifyContent: "center",
   },

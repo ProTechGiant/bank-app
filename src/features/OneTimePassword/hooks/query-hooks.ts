@@ -1,31 +1,35 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
+import DeviceInfo from "react-native-device-info";
 import { useMutation, useQueryClient } from "react-query";
 
 import api from "@/api";
 import { queryKeys as cardQueryKeys } from "@/features/CardActions/hooks/query-hooks";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
+import OneTimePasswordModalParams from "@/navigation/one-time-password-modal-params";
+import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { generateRandomId } from "@/utils";
 
 import { OtpResponseStatus, ValidateOtpRequest, ValidateOtpResponse } from "../types";
 
-type OtpScreenParams = MainStackParams["OneTimePassword.OneTimePasswordModal"];
+type AnyStack = AuthenticatedStackParams | UnAuthenticatedStackParams;
+type OtpScreenParams<Stack extends AnyStack> = OneTimePasswordModalParams<Stack>;
 
-interface HandleOtpParams<Route extends keyof MainStackParams, Payload> extends OtpScreenParams {
+interface HandleOtpParams<Stack extends AnyStack, Route extends keyof Stack, Payload> extends OtpScreenParams<Stack> {
   action: {
     to: Route;
-    params: Omit<MainStackParams[Route], "otpResponseStatus">;
+    params: Omit<Stack[Route], "otpResponseStatus" | "otpResponsePayload">;
   };
   onFinish?: (status: OtpResponseStatus, payload: Payload) => void;
 }
 
-export function useOtpFlow<Source extends keyof MainStackParams>() {
+export function useOtpFlow<Stack extends AnyStack>() {
   type OtpCallbackResponse = { otpResponseStatus?: OtpResponseStatus; otpResponsePayload: unknown };
 
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<MainStackParams, Source>>();
-  const params = route.params as MainStackParams[Source] & OtpCallbackResponse;
+  const route = useRoute<RouteProp<Stack, any>>();
+  const params = route.params as unknown as OtpCallbackResponse;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const responseEffectRef = useRef<((status: OtpResponseStatus, payload: any) => void) | undefined>(undefined);
@@ -42,10 +46,10 @@ export function useOtpFlow<Source extends keyof MainStackParams>() {
     responseEffectRef.current = fn;
   };
 
-  const handle = <Payload, Destination extends keyof MainStackParams = keyof MainStackParams>({
+  const handle = <Payload, Destination extends keyof Stack = keyof Stack>({
     onFinish,
     ...input
-  }: HandleOtpParams<Destination, Payload>) => {
+  }: HandleOtpParams<Stack, Destination, Payload>) => {
     if (onFinish !== undefined) responseEffectRef.current = onFinish;
     navigation.navigate("OneTimePassword.OneTimePasswordModal", input);
   };
@@ -54,27 +58,44 @@ export function useOtpFlow<Source extends keyof MainStackParams>() {
 }
 
 export function useOtpValidation<RequestT, ResponseT>(
-  method: "card-actions" | "internal-transfers" | "quick-transfers"
+  method:
+    | "card-actions"
+    | "internal-transfers"
+    | "login"
+    | "quick-transfers"
+    | "reset-passcode"
+    | "change-passcode"
+    | "create-passcode"
 ) {
   const queryClient = useQueryClient();
 
   return useMutation(
     ({ OtpId, OtpCode, optionalParams }: ValidateOtpRequest<RequestT>) => {
+      // We have two endpoints here one is for Login Flow and other is related to cards and transaction flow.
       const endpointPath = method === "card-actions" ? "cards" : "transfers";
+      const otherEndpoint = `${endpointPath}/otp-validation`;
+      const loginEndpoint = "customers/otps/validate";
+
+      const isLoginFlow =
+        method === "login" ||
+        method === "reset-passcode" ||
+        method === "change-passcode" ||
+        method === "create-passcode";
+
+      const endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
 
       return api<ValidateOtpResponse & ResponseT>(
         "v1",
-        `${endpointPath}/otp-validation`,
+        endpoint,
         "POST",
         undefined,
         {
           ...optionalParams,
           OtpId: OtpId,
           OtpCode: OtpCode,
+          Reason: method,
         },
-        {
-          ["x-correlation-id"]: generateRandomId(),
-        }
+        { ["x-correlation-id"]: generateRandomId(), ["x-device-id"]: DeviceInfo.getDeviceId() }
       );
     },
     {

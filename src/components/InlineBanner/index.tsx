@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { CloseIcon } from "@/assets/icons";
@@ -18,8 +18,9 @@ export default function InlineBanner({ icon, text, testID, onClose, variant = "d
   const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "flex-start",
-      backgroundColor: variant === "error" ? theme.palette["errorBase-30"] : theme.palette["neutralBase-40"],
+      backgroundColor: variant === "error" ? theme.palette["errorBase-40"] : theme.palette["neutralBase-40"],
       borderRadius: theme.radii.small,
+      columnGap: theme.spacing["12p"],
       justifyContent: "center",
       flexDirection: "row",
       padding: theme.spacing["20p"],
@@ -27,34 +28,32 @@ export default function InlineBanner({ icon, text, testID, onClose, variant = "d
     }),
     [variant]
   );
-
-  const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingRight: theme.spacing["16p"],
-  }));
-
-  const textStyle = useThemeStyles<ViewStyle>(theme => ({
-    width: theme.spacing["85%"],
-  }));
-
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <View style={containerStyles} testID={testID}>
-      {icon !== undefined && <View style={iconContainerStyle}>{cloneElement(icon, { color: iconColor })}</View>}
+      {icon !== undefined ? <View>{cloneElement(icon, { color: iconColor })}</View> : null}
       <Typography.Text
         color={variant === "info" ? "neutralBase+10" : "neutralBase+30"}
         size="footnote"
         weight="regular"
-        style={textStyle}>
+        style={styles.text}>
         {text}
       </Typography.Text>
-      {onClose !== undefined && (
+      {onClose !== undefined ? (
         <View>
           <Pressable onPress={onClose} testID={undefined !== testID ? `${testID}-->CloseButton` : undefined}>
             <CloseIcon color={iconColor} />
           </Pressable>
         </View>
-      )}
+      ) : null}
     </View>
   );
 }
+const styles = StyleSheet.create({
+  text: {
+    flexShrink: 1,
+    flexWrap: "wrap",
+    marginRight: 3,
+  },
+});

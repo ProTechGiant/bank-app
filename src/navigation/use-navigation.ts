@@ -1,7 +1,7 @@
 import { NavigationProp, useNavigation as rnUseNavigation } from "@react-navigation/native";
 
-import type MainStackParams from "./mainStackParams";
+import type AuthenticatedStackParams from "./AuthenticatedStackParams";
 
-export default function useNavigation() {
-  return rnUseNavigation<NavigationProp<MainStackParams>>();
+export default function useNavigation<T extends object = AuthenticatedStackParams>() {
+  return rnUseNavigation<NavigationProp<T>>();
 }

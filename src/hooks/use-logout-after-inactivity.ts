@@ -1,23 +1,35 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert, AppState, AppStateStatus } from "react-native";
-import EncryptedStorage from "react-native-encrypted-storage";
 
 import { useAuthContext } from "@/contexts/AuthContext";
+import {
+  getItemFromEncryptedStorage,
+  removeItemFromEncryptedStorage,
+  setItemInEncryptedStorage,
+} from "@/utils/encrypted-storage";
+
+import useLogout from "./use-logout";
 
 const TIMEOUT_MS = 300000;
 
 export default function useLogoutAfterInactivity() {
-  const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState);
+  const { t } = useTranslation();
   const auth = useAuthContext();
+  const logoutUser = useLogout();
+  const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState);
 
   useEffect(() => {
     const handleTimeLogic = async () => {
-      const sessionTime = await EncryptedStorage.getItem("backgroundTime");
+      const sessionTime = await getItemFromEncryptedStorage("backgroundTime");
       if (Math.abs(new Date().valueOf() - Number(sessionTime)) >= TIMEOUT_MS) {
-        auth.logout();
-        Alert.alert("You have been logged out due to inactivity.");
+        try {
+          await logoutUser.mutateAsync();
+        } catch (error) {}
+        auth.logout(true);
+        Alert.alert(t("Alerts.LogoutDueToInactivity"));
       }
-      EncryptedStorage.removeItem("backgroundTime");
+      removeItemFromEncryptedStorage("backgroundTime");
     };
 
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
@@ -25,7 +37,7 @@ export default function useLogoutAfterInactivity() {
       if ((appState === "inactive" || appState === "background") && nextAppState === "active") {
         handleTimeLogic();
       } else if ((appState === "inactive" || appState === "active") && nextAppState === "background") {
-        EncryptedStorage.setItem("backgroundTime", new Date().valueOf().toString());
+        setItemInEncryptedStorage("backgroundTime", new Date().valueOf().toString());
       }
       setAppState(nextAppState);
     };

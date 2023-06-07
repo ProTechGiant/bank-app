@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { palette } from "@/theme/values";
 
 import {
@@ -59,7 +59,7 @@ export type SavingsGoalsStackParams = {
 export const Stack = createNativeStackNavigator<SavingsGoalsStackParams>();
 
 export default function SavingsGoalsStack() {
-  const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.SavingsGoalsStack">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "SavingsGoals.SavingsGoalsStack">>();
 
   const initialRouteName =
     route?.params?.savingsPotsNumber === 0 ? "SavingsGoals.InstructionsScreen" : "SavingsGoals.SavingsGoalsScreen";

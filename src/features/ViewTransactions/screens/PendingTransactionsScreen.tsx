@@ -18,7 +18,7 @@ import {
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import useTransactions from "@/hooks/use-transactions";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
@@ -48,7 +48,7 @@ export default function PendingTransactionsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const route = useRoute<RouteProp<MainStackParams, "ViewTransactions.TransactionsScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "ViewTransactions.TransactionsScreen">>();
 
   const cardId = route.params.cardId;
   const createDisputeUserId = route.params.createDisputeUserId;

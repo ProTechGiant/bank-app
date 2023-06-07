@@ -1,6 +1,7 @@
 import { API_BASE_URL } from "@env";
 import truncate from "lodash/truncate";
 import queryString from "query-string";
+import DeviceInfo from "react-native-device-info";
 
 import { info, warn } from "@/logger";
 
@@ -38,6 +39,7 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     method,
     headers: {
       Host: API_BASE_URL,
+      ["x-device-id"]: DeviceInfo.getDeviceId(),
       ...authenticationHeaders,
       ...headers,
     },

@@ -19,7 +19,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import i18n from "@/i18n";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatIban } from "@/utils";
@@ -30,7 +30,7 @@ export default function ConfirmQuickTransferBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const route = useRoute<RouteProp<MainStackParams, "InternalTransfers.ConfirmQuickTransferBeneficiaryScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ConfirmQuickTransferBeneficiaryScreen">>();
 
   const handleOnSubmit = () => {
     navigation.navigate("InternalTransfers.ReviewQuickTransferScreen", route.params);

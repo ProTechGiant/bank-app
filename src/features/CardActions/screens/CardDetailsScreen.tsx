@@ -14,12 +14,12 @@ import Page from "@/components/Page";
 import { PHYSICAL_CARD_TYPE, SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { useToasts } from "@/contexts/ToastsContext";
 import { warn } from "@/logger";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 
 import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
-import { CardActionsStackParams } from "../CardActionsStack";
 import {
   CardBanner,
   CardButtons,
@@ -43,10 +43,10 @@ import { DetailedCardResponse } from "../types";
 
 export default function CardDetailsScreen() {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.CardDetailsScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "CardActions.CardDetailsScreen">>();
   const { t } = useTranslation();
 
-  const otpFlow = useOtpFlow();
+  const otpFlow = useOtpFlow<AuthenticatedStackParams>();
   const freezeCardAsync = useFreezeCard();
   const changeCardStatusAsync = useChangeCardStatus();
   const requestViewPinOtpAsync = useRequestViewPinOtp();
@@ -126,7 +126,7 @@ export default function CardDetailsScreen() {
       return setCardDetails(undefined);
     }
 
-    otpFlow.handle<{ DetailedCardResponse: DetailedCardResponse }>({
+    otpFlow.handle({
       action: {
         to: "CardActions.CardDetailsScreen",
         params: {
@@ -140,7 +140,7 @@ export default function CardDetailsScreen() {
       onOtpRequest: () => {
         return requestUnmaskedCardDetailsAsync.mutateAsync({ cardId });
       },
-      onFinish: (status, payload) => {
+      onFinish: (status, payload: { DetailedCardResponse: DetailedCardResponse }) => {
         if (status === "cancel") {
           return;
         }

@@ -14,7 +14,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useCaseDetails } from "@/features/PaymentDisputes/hooks/query-hooks";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
 
 import { DetailsWrapper } from "../components";
@@ -28,7 +28,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
   const { t } = useTranslation();
   const isFocused = useIsFocused();
 
-  const route = useRoute<RouteProp<MainStackParams, "ViewTransactions.SingleTransactionDetailedScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "ViewTransactions.SingleTransactionDetailedScreen">>();
 
   // TODO: remove hardcored transactionRef when case searching via transaction is available
   // error  = trans-ref-7

@@ -15,7 +15,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { warn } from "@/logger";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -25,7 +25,7 @@ import { useSavingsPot, useWithdrawSavingsPot, WithdrawValues } from "../hooks/q
 export default function WithdrawGoalModal() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.WithdrawGoalModal">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "SavingsGoals.WithdrawGoalModal">>();
 
   const { data } = useSavingsPot(route.params.PotId);
   const withdrawSavingsPot = useWithdrawSavingsPot();

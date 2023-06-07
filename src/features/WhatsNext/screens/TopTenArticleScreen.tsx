@@ -5,7 +5,7 @@ import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native
 
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
 
 import { TopTenSingleArticle } from "../components";
@@ -15,7 +15,7 @@ export default function TopTenArticleScreen() {
   const [currentItem, setCurrentItem] = useState(1);
   const [showDetails, setShowDetails] = useState(false);
 
-  const topTenArticlesData = useRoute<RouteProp<MainStackParams, "WhatsNext.TopTenArticleScreen">>().params
+  const topTenArticlesData = useRoute<RouteProp<AuthenticatedStackParams, "WhatsNext.TopTenArticleScreen">>().params
     .topTenArticlesData as ArticleSectionType;
 
   const scrollX = useSharedValue(0);

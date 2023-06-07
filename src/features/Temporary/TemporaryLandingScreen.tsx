@@ -12,6 +12,7 @@ import useOpenLink from "@/hooks/use-open-link";
 import reloadApp from "@/i18n/reload-app";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
+import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import useNotificationHandler from "../../hooks/use-notification-handler";
 import { useInternalTransferContext } from "../InternalTransfers/context/InternalTransfersContext";
@@ -22,7 +23,6 @@ interface TemporaryForm {
   cardId: string;
   createDisputeUserId: string;
 }
-
 export default function TemporaryLandingScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
@@ -32,6 +32,12 @@ export default function TemporaryLandingScreen() {
   const { setInternalTransferEntryPoint } = useInternalTransferContext();
   const appsFlyer = useAppsFlyer();
   useNotificationHandler();
+
+  useEffect(() => {
+    const focusListener = navigation.addListener("focus", () => checkUserIsBlocked());
+
+    return focusListener;
+  }, [navigation]);
 
   // Appsflyer listens for onDeepLink to be triggered and then we navigate to correct screen using data passed by Appsflyer
   // TODO: Should be placed inside the first screen in the nav stack so that it is always called but can also handle navigation
@@ -57,6 +63,12 @@ export default function TemporaryLandingScreen() {
       createDisputeUserId: "",
     },
   });
+
+  const checkUserIsBlocked = async () => {
+    const userBlocked = await getItemFromEncryptedStorage("UserBlocked"); // TODO: check if user is blocked or not API needs to be developed
+    if (userBlocked)
+      navigation.navigate("SignIn.SignInStack", { screen: "SignIn.UserBlocked", params: { type: "passcode" } });
+  };
 
   const handleOnSavingsGoals = async () => {
     try {
@@ -100,9 +112,6 @@ export default function TemporaryLandingScreen() {
 
   const handleOnHomepage = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
-    navigation.navigate("Home.HomeStack", {
-      screen: "Home.DashboardScreen",
-    });
   };
 
   const handleOnViewTransactions = async (values: TemporaryForm) => {

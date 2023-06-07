@@ -106,7 +106,7 @@ class BiometricsService {
       if (!success) {
         return;
       }
-    } catch (error: any) {}
+    } catch (error: any) { }
   }
 }
 

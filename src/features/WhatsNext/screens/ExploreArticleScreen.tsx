@@ -15,7 +15,7 @@ import useAppsFlyer from "@/hooks/use-appsflyer";
 import { useContentArticle, useContentFeedback } from "@/hooks/use-content";
 import useOpenLink from "@/hooks/use-open-link";
 import { warn } from "@/logger";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -33,7 +33,7 @@ import { getWhatsNextTagColor } from "../utils";
 
 export default function ExploreArticleScreen() {
   // TODO: handle image dynamically when mock data allows for it
-  const articleId = useRoute<RouteProp<MainStackParams, "WhatsNext.ExploreArticleScreen">>().params.articleId;
+  const articleId = useRoute<RouteProp<AuthenticatedStackParams, "WhatsNext.ExploreArticleScreen">>().params.articleId;
   const openLink = useOpenLink();
   const { t } = useTranslation();
   const navigation = useNavigation();
