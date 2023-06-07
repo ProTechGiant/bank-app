@@ -1,13 +1,13 @@
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 
-import { CheckboxInput as BaseInput, CheckboxInputProps as BaseProps } from "@/components/Input";
+import { DropdownInput as BaseInput, DropdownInputProps as BaseProps } from "@/components/Input";
 
-interface CheckboxInputProps<T extends FieldValues> extends BaseProps {
+interface DropdownInputProps<T extends FieldValues> extends Omit<BaseProps<any>, "onBlur" | "onChange" | "value"> {
   control: Control<T>;
   name: Path<T>;
 }
 
-export default function CheckboxInput<T extends FieldValues>({ control, name, ...restProps }: CheckboxInputProps<T>) {
+export default function DropdownInput<T extends FieldValues>({ control, name, ...restProps }: DropdownInputProps<T>) {
   const { field } = useController({ control, name });
 
   return (

@@ -15,6 +15,7 @@ import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
+import { Masks } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -246,9 +247,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                 <PhoneNumberInput
                   control={control}
                   label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.mobile.label")}
-                  maxLength={9}
                   name="phoneNumber"
-                  showCharacterCount
                 />
               ) : transferMethod === "email" ? (
                 <TextInput
@@ -264,10 +263,8 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                   control={control}
                   label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.nationalID.label")}
                   keyboardType="number-pad"
-                  maxLength={10}
-                  mask="##########"
+                  mask={Masks.NATIONAL_ID}
                   name="identifier"
-                  showCharacterCount
                 />
               ) : (
                 <Stack align="stretch" direction="vertical" gap="20p">
@@ -282,9 +279,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                     control={control}
                     label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.iban.ibanLabel")}
                     name="iban"
-                    maxLength={24}
-                    showCharacterCount
-                    mask={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.iban.mask")}
+                    mask={Masks.IBAN}
                   />
                 </Stack>
               )}

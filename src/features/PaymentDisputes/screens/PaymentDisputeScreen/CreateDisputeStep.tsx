@@ -253,13 +253,7 @@ export default function CreateDisputeStep({
           </View>
           <Stack direction="horizontal" gap="8p" style={checkBoxStackStyle}>
             <View style={checkBoxContainerStyle}>
-              <CheckboxInput
-                control={control}
-                isEditable={true}
-                backgroundColor="neutralBase-60"
-                bordered={false}
-                name="DeclarationFlag"
-              />
+              <CheckboxInput control={control} name="DeclarationFlag" />
             </View>
             <View style={checkBoxTextStyle}>
               <Typography.Text size="footnote" weight="regular" color="neutralBase">

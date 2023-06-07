@@ -1,10 +1,10 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 
-import DropdownInput_ from "./index";
+import { DropdownInput as DropdownInput_ } from "./DropdownInput";
 
 export default {
-  title: "components/Form/Dropdown",
+  title: "components/Input/Dropdown",
   component: DropdownInput_,
   argTypes: {
     isEditable: {
@@ -23,13 +23,16 @@ export default {
 } as ComponentMeta<typeof DropdownInput_>;
 
 export const Dropdown: ComponentStory<typeof DropdownInput_> = args => {
-  const { control } = useForm();
+  const [value, setValue] = useState(args.value);
+
+  useEffect(() => {
+    setValue(args.value);
+  }, [args.value]);
 
   return (
     <DropdownInput_
       {...args}
-      control={control}
-      name="dropdown"
+      onChange={setValue}
       options={[
         {
           label: "One",
@@ -44,6 +47,7 @@ export const Dropdown: ComponentStory<typeof DropdownInput_> = args => {
           value: 3,
         },
       ]}
+      value={value}
     />
   );
 };

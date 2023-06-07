@@ -6,7 +6,6 @@ import * as Yup from "yup";
 
 import Alert from "@/components/Alert";
 import ContentContainer from "@/components/ContentContainer";
-import InputLabel from "@/components/Form/internal/InputLabel";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
@@ -16,7 +15,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { nationalIdRegEx, saudiPhoneRegExp } from "@/utils";
 
-import { TOTAL_NATIONAL_ID_LENGTH, TOTAL_PHONE_LENGTH } from "../constants";
+import { TOTAL_NATIONAL_ID_LENGTH } from "../constants";
 import { ErrorMessageType, IqamaInputs } from "../types";
 
 interface MobileAndNationalIdFormProps {
@@ -83,18 +82,12 @@ export default function MobileAndNationalIdForm({
         <View>
           <View style={inputFieldsStyle}>
             <Stack direction="vertical" align="stretch" gap="20p">
-              <View>
-                <InputLabel>{t("SignIn.IqamaInputScreen.mobileLabel")}</InputLabel>
-                <View>
-                  <PhoneNumberInput<IqamaInputs>
-                    control={control}
-                    name="MobileNumber"
-                    showCharacterCount
-                    maxLength={TOTAL_PHONE_LENGTH}
-                    placeholder={t("SignIn.IqamaInputScreen.mobilePlaceholder")}
-                  />
-                </View>
-              </View>
+              <PhoneNumberInput<IqamaInputs>
+                control={control}
+                name="MobileNumber"
+                label={t("SignIn.IqamaInputScreen.mobileLabel")}
+                placeholder={t("SignIn.IqamaInputScreen.mobilePlaceholder")}
+              />
               <TextInput
                 control={control}
                 name="NationalId"

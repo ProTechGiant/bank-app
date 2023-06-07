@@ -1,4 +1,4 @@
-import { countDotsInString } from "./";
+import { countDotsInString } from "./UnstyledCurrencyInput";
 
 describe("countDotsInString", () => {
   it("Returns 0 for an empty string", () => {

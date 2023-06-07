@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Platform, Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import { AngleDownIcon } from "@/assets/icons";
-import DropdownInput from "@/components/DropdownInput";
+import DropdownIOS from "@/components/DropdownIOS";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -77,7 +77,7 @@ export default function TransferReasonInput<T extends FieldValues>({
           </>
         )}
       </Stack>
-      <DropdownInput
+      <DropdownIOS
         autoselect
         buttonLabel={t("InternalTransfers.TransferReasonInput.confirm")}
         onClose={() => {

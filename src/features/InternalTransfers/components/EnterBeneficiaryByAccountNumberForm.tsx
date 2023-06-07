@@ -7,6 +7,7 @@ import * as Yup from "yup";
 
 import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import SubmitButton from "@/components/Form/SubmitButton";
+import { Masks } from "@/components/Input";
 import { numericRegExp } from "@/utils";
 
 import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
@@ -58,9 +59,8 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
           control={control}
           keyboardType="number-pad"
           name="SelectionValue"
-          maxLength={9}
-          showCharacterCount
-          mask="## ## ## ## #"
+          mask={Masks.ACCOUNT_NUMBER}
+          label={t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.accountNumber")}
         />
       </View>
       <View style={styles.buttonContainer}>

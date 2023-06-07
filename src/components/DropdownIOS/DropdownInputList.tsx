@@ -1,5 +1,14 @@
 import { useCallback } from "react";
-import { FlatList, ListRenderItem, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import {
+  FlatList,
+  ListRenderItem,
+  Platform,
+  Pressable,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+  ViewStyle,
+} from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { IconProps } from "@/assets/icons";
@@ -41,7 +50,7 @@ export function DropdownInputList<T extends string | number>({ options, onChange
   return (
     <FlatList
       style={{
-        height: height - 225,
+        height: height - (Platform.OS === "ios" ? MODAL_CONTAINER_HEIGHT_IOS : MODAL_CONTAINER_HEIGHT_ANDROID),
       }}
       data={options}
       keyExtractor={option => option.value.toString()}
@@ -59,3 +68,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 });
+
+const MODAL_CONTAINER_HEIGHT_ANDROID = 204;
+const MODAL_CONTAINER_HEIGHT_IOS = 254;

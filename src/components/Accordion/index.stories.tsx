@@ -1,11 +1,11 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import Typography from "../Typography";
-import Accordion from ".";
+import Accordion_ from ".";
 
 export default {
   title: "components/Accordion",
-  component: Accordion,
+  component: Accordion_,
   args: {
     title: "Example accordion",
     children: (
@@ -22,8 +22,8 @@ export default {
       type: "function",
     },
   },
-} as ComponentMeta<typeof Accordion>;
+} as ComponentMeta<typeof Accordion_>;
 
-export const Default: ComponentStory<typeof Accordion> = args => {
-  return <Accordion {...args} />;
+export const Accordion: ComponentStory<typeof Accordion_> = args => {
+  return <Accordion_ {...args} />;
 };

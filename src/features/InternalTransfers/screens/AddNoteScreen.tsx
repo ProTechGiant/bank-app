@@ -8,7 +8,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as Yup from "yup";
 
 import ContentContainer from "@/components/ContentContainer";
-import NoteInput from "@/components/Form/NoteInput";
+import TextInput from "@/components/Form/TextInput";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -66,14 +66,15 @@ export default function AddNoteScreen() {
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
               {t("InternalTransfers.AddNoteScreen.title")}
             </Typography.Text>
-            <NoteInput
+            <TextInput
               control={control}
-              placeholder={t("InternalTransfers.AddNoteScreen.placeholder")}
+              extraStart={t("InternalTransfers.AddNoteScreen.required")}
+              label={t("InternalTransfers.AddNoteScreen.placeholder")}
               name="content"
               maxLength={50}
-              isEditable
+              multiline
+              numberOfLines={2}
               showCharacterCount
-              extra={t("InternalTransfers.AddNoteScreen.required")}
             />
           </Stack>
           <View>

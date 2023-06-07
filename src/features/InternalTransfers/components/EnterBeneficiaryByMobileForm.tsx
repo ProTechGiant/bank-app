@@ -53,9 +53,7 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
         <PhoneNumberInput
           control={control}
           name="SelectionValue"
-          placeholder={t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.placeholder")}
-          maxLength={9}
-          showCharacterCount
+          label={t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.placeholder")}
         />
         <View style={styles.buttonContainer}>
           <SubmitButton control={control} onSubmit={handleSubmit(onSubmit)}>

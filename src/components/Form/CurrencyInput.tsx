@@ -1,111 +1,22 @@
-import { useRef, useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { Platform, StyleSheet, TextInput, TextStyle, View } from "react-native";
 
-import MaskedCurrencyInput from "@/components/CurrencyInput";
-import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
+import { CurrencyInput as BaseInput, CurrencyInputProps as BaseProps } from "@/components/Input";
 
-import InputBox from "./internal/InputBox";
-
-interface CurrencyInputProps<T extends FieldValues> {
-  block?: boolean;
+interface CurrencyInputProps<T extends FieldValues> extends BaseProps {
   control: Control<T>;
-  extra?: React.ComponentProps<typeof InputBox>["extraStart"];
-  isEditable?: boolean;
   name: Path<T>;
-  placeholder?: string | null | undefined;
-  label?: string | null;
-  showCharacterCount?: boolean;
-  maxLength?: number;
 }
 
-export default function CurrencyInput<T extends FieldValues>({
-  block,
-  control,
-  extra,
-  isEditable,
-  label,
-  maxLength,
-  name,
-  showCharacterCount,
-  placeholder,
-  ...restProps
-}: CurrencyInputProps<T>) {
+export default function CurrencyInput<T extends FieldValues>({ control, name, ...restProps }: CurrencyInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
-  const textInputRef = useRef<TextInput>(null);
-  const [isFocused, setIsFocused] = useState(false);
-
-  const handleOnBlur = () => {
-    field.onBlur();
-    setIsFocused(false);
-  };
-
-  let textStyles = useThemeStyles<TextStyle>(theme => ({
-    color: theme.palette["neutralBase+20"],
-    flexGrow: 1,
-    fontSize: theme.typography.text.sizes.callout,
-    fontWeight: theme.typography.text.weights.regular,
-    padding: 0,
-    margin: 0,
-  }));
-
-  if (Platform.OS === "web") {
-    const elementWidth = field.value ? String(field.value).length + 1 : 10;
-    const webTextStyles = { width: elementWidth + "ch" };
-    textStyles = { ...textStyles, ...webTextStyles };
-  }
-
-  const placeholderTextColor = useThemeStyles(theme => theme.palette.neutralBase);
 
   return (
-    <InputBox
-      block={block}
-      extraStart={extra}
-      // need to have an `onPress` handler because the innerContainer prevents TextInput from capturing full width
-      onPress={() => textInputRef.current?.focus()}
-      isEditable={isEditable}
-      isFocused={isFocused}
-      error={fieldState.error}
-      isTouched={fieldState.isTouched}
-      extraEnd={
-        showCharacterCount && undefined !== maxLength
-          ? `${field.value?.toString().split(".")[0].length ?? 0} / ${maxLength}`
-          : undefined
-      }
-      label={label}>
-      <View style={styles.innerContainer}>
-        <MaskedCurrencyInput
-          ref={textInputRef}
-          editable={isEditable}
-          onBlur={handleOnBlur}
-          onChange={value => field.onChange(value)}
-          onFocus={() => setIsFocused(true)}
-          maxLength={maxLength}
-          placeholder={field.value !== undefined ? undefined : placeholder ?? undefined}
-          placeholderTextColor={placeholderTextColor}
-          style={textStyles}
-          value={field.value}
-          {...restProps}
-        />
-        {field.value !== undefined && (
-          <Typography.Text color="neutralBase+20" size="callout" style={styles.currency} weight="regular">
-            SAR
-          </Typography.Text>
-        )}
-      </View>
-    </InputBox>
+    <BaseInput
+      {...restProps}
+      errorText={fieldState.isTouched ? fieldState.error?.message : undefined}
+      onBlur={() => field.onBlur()}
+      onChange={value => field.onChange(value)}
+      value={field.value}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  currency: {
-    marginLeft: Platform.OS === "web" ? undefined : 4,
-    marginTop: Platform.OS === "web" ? undefined : Platform.OS === "ios" ? -0.5 : -1.5,
-  },
-  innerContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    flexGrow: 0,
-  },
-});

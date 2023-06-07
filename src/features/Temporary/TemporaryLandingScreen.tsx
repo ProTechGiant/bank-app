@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, I18nManager, SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, I18nManager, StyleSheet, View } from "react-native";
 
 import Button from "@/components/Button";
+import ContentContainer from "@/components/ContentContainer";
 import TextInput from "@/components/Form/TextInput";
+import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { useAuthContext } from "@/contexts/AuthContext";
 import useAppsFlyer from "@/hooks/use-appsflyer";
@@ -158,33 +160,34 @@ export default function TemporaryLandingScreen() {
   };
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View style={styles.margin20}>
-          <Stack direction="vertical" gap="12p" align="stretch">
-            <TextInput
-              name="UserId"
-              control={control}
-              keyboardType="number-pad"
-              blurOnSubmit={false}
-              label="Change User ID"
-            />
-            <TextInput
-              name="cardId"
-              control={control}
-              keyboardType="default"
-              blurOnSubmit={false}
-              label="Change Card ID"
-            />
-            <TextInput
-              name="createDisputeUserId"
-              control={control}
-              keyboardType="number-pad"
-              blurOnSubmit={false}
-              label="Change User ID for create dispute case"
-            />
-          </Stack>
-        </View>
+    <Page backgroundColor="neutralBase-60">
+      <ContentContainer isScrollView>
+        <Stack direction="vertical" gap="12p" align="stretch">
+          <TextInput
+            name="UserId"
+            control={control}
+            keyboardType="number-pad"
+            blurOnSubmit={false}
+            label="Change User ID"
+            variant="small"
+          />
+          <TextInput
+            name="cardId"
+            control={control}
+            keyboardType="default"
+            blurOnSubmit={false}
+            label="Change Card ID"
+            variant="simple"
+          />
+          <TextInput
+            name="createDisputeUserId"
+            control={control}
+            keyboardType="number-pad"
+            blurOnSubmit={false}
+            label="Change User ID for create dispute case"
+            variant="simple"
+          />
+        </Stack>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnPressPaymentDisputesLanding)}>Payment Disputes Landing</Button>
         </View>
@@ -212,11 +215,11 @@ export default function TemporaryLandingScreen() {
         <View style={styles.margin20}>
           <Button onPress={handleOnSwitchDirection}>Switch LTR/ RTL</Button>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </ContentContainer>
+    </Page>
   );
 }
 
 const styles = StyleSheet.create({
-  margin20: { margin: 20 },
+  margin20: { marginVertical: 20 },
 });

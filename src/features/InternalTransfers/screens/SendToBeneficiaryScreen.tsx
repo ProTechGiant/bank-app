@@ -1,11 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, View, ViewStyle } from "react-native";
 
 import { PlusIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
+import { SearchInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -15,7 +16,7 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { BeneficiaryList, BeneficiaryOptionsModal, SearchInput } from "../components";
+import { BeneficiaryList, BeneficiaryOptionsModal } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useBeneficiaries, useDeleteBeneficiary } from "../hooks/query-hooks";
 import { BeneficiaryType, RecipientType } from "../types";
@@ -31,6 +32,8 @@ export default function SendToBeneficiaryScreen() {
   const { setRecipient } = useInternalTransferContext();
   const { data, refetch } = useBeneficiaries();
   const { mutateAsync } = useDeleteBeneficiary();
+
+  const searchInputRef = useRef<TextInput>(null);
   const [filteredBeneficiaries, setFilteredBeneficiaries] = useState<BeneficiaryType[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentBeneficiary, setCurrentBeneficiary] = useState<BeneficiaryType>();
@@ -69,6 +72,7 @@ export default function SendToBeneficiaryScreen() {
   const handleOnSearchClear = () => {
     setSearchQuery("");
     setFilteredBeneficiaries(data !== undefined && data.Beneficiary !== undefined ? data.Beneficiary : []);
+    searchInputRef.current?.blur();
   };
 
   const handleOnDelete = async () => {
@@ -155,7 +159,7 @@ export default function SendToBeneficiaryScreen() {
 
   return (
     <>
-      <Page backgroundColor="neutralBase-50">
+      <Page backgroundColor="neutralBase-60">
         <NavHeader />
         <KeyboardAvoidingView
           style={styles.keyboardView}
@@ -167,11 +171,12 @@ export default function SendToBeneficiaryScreen() {
                 {t("InternalTransfers.SendToBeneficiaryScreen.title")}
               </Typography.Text>
               <SearchInput
+                ref={searchInputRef}
                 value={searchQuery}
+                clearText={t("InternalTransfers.SendToBeneficiaryScreen.search.button")}
                 placeholder={t("InternalTransfers.SendToBeneficiaryScreen.search.placeholder")}
-                onSearch={handleOnSearch}
                 onClear={handleOnSearchClear}
-                buttonText={t("InternalTransfers.SendToBeneficiaryScreen.search.button")}
+                onSearch={handleOnSearch}
               />
               <Pressable onPress={handleNavigateToAddBeneficiaries}>
                 <Stack align="center" direction="horizontal" gap="12p">

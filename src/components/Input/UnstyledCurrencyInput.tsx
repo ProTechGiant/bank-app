@@ -13,14 +13,14 @@ type RNTextInputProps_ = Omit<
   "onChangeText" | "value" | "onChange" | "keyboardType" | "pointerEvents"
 >;
 
-export interface MaskedCurrencyInputProps extends RNTextInputProps_ {
+export interface UnstyledCurrencyInputProps extends RNTextInputProps_ {
   maxLength?: number; // maximum number of digits (without fractional part which is always max 2)
   onChange: (value: number) => void;
   value?: number | undefined;
 }
 
-export default forwardRef(function MaskedCurrencyInput(
-  { maxLength, onBlur, onChange, value, ...restProps }: MaskedCurrencyInputProps,
+const UnstyledCurrencyInput = forwardRef(function (
+  { maxLength, onBlur, onChange, value, ...restProps }: UnstyledCurrencyInputProps,
   ref: ForwardedRef<RNTextInput>
 ) {
   const [formattedValue, setFormattedValue] = useState(() => (typeof value === "number" ? mask(value) : undefined));
@@ -112,3 +112,5 @@ export function countDotsInString(str: string) {
 export function numberOfDigits(value: number) {
   return Math.log(value) * Math.LOG10E || 0;
 }
+
+export { UnstyledCurrencyInput };

@@ -1,6 +1,6 @@
 import times from "lodash/times";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   row: {
     alignItems: "center",
-    flexDirection: "row",
+    flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
     justifyContent: "space-between",
     marginBottom: 4,
   },

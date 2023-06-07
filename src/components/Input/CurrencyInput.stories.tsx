@@ -1,44 +1,29 @@
 import { expect } from "@storybook/jest";
 import { ComponentStory } from "@storybook/react";
 import { fireEvent, userEvent, waitFor, within } from "@storybook/testing-library";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 
-import CurrencyInput_ from "./CurrencyInput";
+import { CurrencyInput as CurrencyInput_ } from "./CurrencyInput";
 
 export default {
-  title: "components/Form/Currency",
+  title: "components/Input/Currency",
   component: CurrencyInput_,
   args: {
     label: "Example input",
     placeholder: "0 SAR",
   },
-  argTypes: {
-    control: {
-      table: {
-        disable: true,
-      },
-    },
-    name: {
-      table: {
-        disable: true,
-      },
-    },
-  },
 };
 
 export const Currency: ComponentStory<typeof CurrencyInput_> = args => {
-  const { control } = useForm({
-    defaultValues: {
-      example: undefined,
-    },
-  });
+  const [value, setValue] = useState(args.value);
+  useEffect(() => setValue(args.value), [args.value]);
 
-  return <CurrencyInput_ {...args} control={control} name="example" />;
+  return <CurrencyInput_ {...args} onChange={v => setValue(v)} testID="input-element" value={value} />;
 };
 
 Currency.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
-  const inputElem = canvas.getByPlaceholderText(args.placeholder as string) as HTMLInputElement;
+  const inputElem = canvas.getByTestId("input-element") as HTMLInputElement;
   await expect(inputElem).toBeVisible();
 
   // Add some input into the field

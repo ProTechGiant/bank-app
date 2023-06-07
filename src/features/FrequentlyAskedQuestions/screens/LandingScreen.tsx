@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, View, ViewStyle } from "react-native";
+import { ScrollView, View, ViewStyle } from "react-native";
 
 import { SearchIcon } from "@/assets/icons";
+import { SearchInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import StyledTextInput from "@/components/TextInput";
 import Typography from "@/components/Typography";
 import { mockFrequentlyAskedQuestions } from "@/mocks/frequentlyAskedQuestionsData";
 import { useThemeStyles } from "@/theme";
@@ -96,11 +96,6 @@ export default function LandingScreen() {
   const searchHelpTextStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["12p"],
   }));
-  const cancelPressableStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingLeft: theme.spacing["12p"],
-    alignItems: "center",
-    flexDirection: "row",
-  }));
 
   const searchIconColor = useThemeStyles(theme => theme.palette.neutralBase);
   // TODO: BE integration
@@ -119,21 +114,12 @@ export default function LandingScreen() {
             ) : null}
 
             <View style={activeSearchStyle}>
-              <StyledTextInput
-                value={searchQuery}
-                icon={<SearchIcon />}
+              <SearchInput
+                onClear={handleOnCancelPress}
+                onSearch={handleOnChangeText}
                 placeholder={t("FrequentlyAskedQuestions.LandingScreen.searchPlaceholder")}
-                onPressIn={() => setIsSearching(true)}
-                onChangeText={handleOnChangeText}
-                isTouched={isSearching}
+                value={searchQuery}
               />
-              {isSearching ? (
-                <Pressable style={cancelPressableStyle} onPress={handleOnCancelPress}>
-                  <Typography.Text size="callout" weight="regular">
-                    {t("FrequentlyAskedQuestions.LandingScreen.cancelButton")}
-                  </Typography.Text>
-                </Pressable>
-              ) : null}
             </View>
 
             {isSearching && searchQuery === "" ? (

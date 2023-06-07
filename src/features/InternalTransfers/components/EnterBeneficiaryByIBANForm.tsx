@@ -7,6 +7,7 @@ import * as Yup from "yup";
 
 import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import SubmitButton from "@/components/Form/SubmitButton";
+import { Masks } from "@/components/Input";
 import { ibanRegExp } from "@/utils";
 
 import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
@@ -47,12 +48,11 @@ export default forwardRef(function EnterBeneficiaryByIBANForm(
     <>
       <View>
         <MaskedTextInput
+          autoCapitalize="characters"
           control={control}
           name="SelectionValue"
-          maxLength={24}
-          showCharacterCount
-          mask="SA## #### #### #### #### ####"
-          autoCapitalize="characters"
+          label={t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.iban")}
+          mask={Masks.IBAN}
         />
       </View>
       <View style={styles.buttonContainer}>

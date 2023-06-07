@@ -1,11 +1,26 @@
-import { FieldValues } from "react-hook-form";
+import { Control, FieldValues, Path, useController } from "react-hook-form";
 
-import TextInput, { TextInputProps } from "./TextInput";
+import { MaskedTextInput as BaseInput, MaskedTextInputProps as BaseProps } from "@/components/Input";
 
-interface MaskedTextInputProps<T extends FieldValues> extends TextInputProps<T> {
-  mask: string;
+export interface MaskedTextInputProps<T extends FieldValues> extends BaseProps {
+  control: Control<T>;
+  name: Path<T>;
 }
 
-export default function MaskedTextInput<T extends FieldValues>({ mask, ...restProps }: MaskedTextInputProps<T>) {
-  return <TextInput {...restProps} />;
+export default function MaskedTextInput<T extends FieldValues>({
+  control,
+  name,
+  ...restProps
+}: MaskedTextInputProps<T>) {
+  const { field, fieldState } = useController({ control, name });
+
+  return (
+    <BaseInput
+      {...restProps}
+      errorText={fieldState.error?.message}
+      onBlur={() => field.onBlur()}
+      value={field.value}
+      onChangeText={value => field.onChange(value)}
+    />
+  );
 }

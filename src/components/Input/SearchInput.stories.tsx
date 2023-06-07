@@ -1,31 +1,26 @@
 import { expect } from "@storybook/jest";
 import { ComponentStory } from "@storybook/react";
 import { fireEvent, userEvent, waitFor, within } from "@storybook/testing-library";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 
-import TextInput_ from "./TextInput";
+import { SearchInput as SearchInput_ } from "./index";
 
 export default {
-  title: "components/Form/Text",
-  component: TextInput_,
+  title: "components/Input/Search",
+  component: SearchInput_,
   args: {
-    label: "Example input",
+    clearText: "Clear",
     placeholder: "Some placeholder text...",
-    maxLength: 125,
-    showCharacterCount: true,
   },
   argTypes: {
-    control: {
+    onClear: {
+      action: "onClear",
       table: {
         disable: true,
       },
     },
-    name: {
-      table: {
-        disable: true,
-      },
-    },
-    showCharacterCount: {
+    onChangeText: {
+      action: "onChangeText",
       table: {
         disable: true,
       },
@@ -33,17 +28,23 @@ export default {
   },
 };
 
-export const Text: ComponentStory<typeof TextInput_> = args => {
-  const { control } = useForm({
-    defaultValues: {
-      example: null,
-    },
-  });
+export const Search: ComponentStory<typeof SearchInput_> = args => {
+  const [value, setValue] = useState("");
 
-  return <TextInput_ {...args} control={control} name="example" />;
+  return (
+    <SearchInput_
+      {...args}
+      onClear={() => {
+        setValue("");
+        args.onClear?.();
+      }}
+      onSearch={setValue}
+      value={value}
+    />
+  );
 };
 
-Text.play = async ({ args, canvasElement }) => {
+Search.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
   const inputElem = canvas.getByPlaceholderText(args.placeholder as string);
 
@@ -53,5 +54,7 @@ Text.play = async ({ args, canvasElement }) => {
   const inputText = "Typing some input...";
   await userEvent.type(inputElem, inputText, { delay: 150 });
   await expect(inputElem.value).toBe(inputText);
-  await expect(canvas.getByText(`${inputText.length} / ${args.maxLength}`)).toBeVisible();
+
+  await userEvent.click(canvas.getByText(args.clearText));
+  await expect(args.onClear).toHaveBeenCalled();
 };

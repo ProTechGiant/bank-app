@@ -8,10 +8,10 @@ import { useThemeStyles } from "@/theme";
 
 import { DropdownInputList } from "./DropdownInputList";
 
-export interface DropdownInputProps<T extends string | number> {
+export interface DropdownIOSProps<T extends string | number> {
   autoselect?: boolean;
   buttonLabel: string;
-  onChange: (value: T | undefined) => void;
+  onChange?: (value: T) => void;
   onClose: () => void;
   options: Array<{ label: string; value: T; disabled?: boolean }>;
   headerText: string;
@@ -20,7 +20,7 @@ export interface DropdownInputProps<T extends string | number> {
   value: T | undefined;
 }
 
-export default function DropdownInput<T extends string | number>({
+export default function DropdownIOS<T extends string | number>({
   autoselect = true,
   buttonLabel,
   isFixedHeight = false,
@@ -30,7 +30,7 @@ export default function DropdownInput<T extends string | number>({
   onClose,
   isVisible,
   value,
-}: DropdownInputProps<T>) {
+}: DropdownIOSProps<T>) {
   const [selectedValue, setSelectedValue] = useState<T | undefined>();
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function DropdownInput<T extends string | number>({
 
   const handleOnConfirm = () => {
     onClose();
-    onChange(selectedValue);
+    onChange?.(selectedValue as T);
   };
 
   const buttonContainer = useThemeStyles<ViewStyle>(theme => ({

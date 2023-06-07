@@ -5,7 +5,7 @@
   "scripts": {
     "postinstall": "npx patch-package && (test -n \"$IS_CI_ANDROID\" || (react-native setup-ios-permissions && npx pod-install))",
     "android": "react-native run-android --variant developDebug --appId com.croatiamobileapp.develop",
-    "ios": "react-native run-ios --scheme CroatiaMobileApp --configuration Debug",
+    "ios": "react-native run-ios --scheme CroatiaMobileApp --mode Debug",
     "xcode": "open ios/CroatiaMobileApp.xcworkspace",
     "start": "react-native start",
     "test": "jest",
@@ -52,6 +52,7 @@
     "react-native-image-picker": "^5.3.1",
     "react-native-inappbrowser-reborn": "^3.7.0",
     "react-native-linear-gradient": "^2.6.2",
+    "react-native-mask-input": "^1.2.3",
     "react-native-pager-view": "^6.1.2",
     "react-native-permissions": "^3.7.3",
     "react-native-reanimated": "^3.1.0",
@@ -61,7 +62,6 @@
     "react-native-svg-transformer": "^1.0.0",
     "react-native-tab-view": "^3.3.4",
     "react-native-webview": "^11.26.1",
-    "react-phone-number-input": "^3.2.13",
     "react-query": "^3.39.2",
     "yup": "^0.32.11"
   },

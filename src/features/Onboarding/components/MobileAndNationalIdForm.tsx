@@ -102,16 +102,14 @@ export default function MobileAndNationalIdForm({
                 control={control}
                 name="MobileNumber"
                 label={t("Onboarding.IqamaInputScreen.mobileLabel")}
-                placeholder={t("Onboarding.IqamaInputScreen.mobilePlaceholder")}
-                maxLength={9}
-                showCharacterCount
               />
               <TextInput
                 control={control}
                 name="NationalId"
                 label={t("Onboarding.IqamaInputScreen.iqamaLabel")}
-                placeholder={t("Onboarding.IqamaInputScreen.iqamaPlaceholder")}
                 keyboardType="number-pad"
+                showCharacterCount
+                maxLength={10}
               />
               <InfoBox variant="primary" borderPosition="start">
                 {t("Onboarding.IqamaInputScreen.notificationText.one")}

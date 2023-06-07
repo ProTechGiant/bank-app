@@ -1,5 +1,4 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import DocumentPicker, { DocumentPickerResponse, types } from "react-native-document-picker";
@@ -10,19 +9,19 @@ import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 
-interface AssetInputProps<T extends FieldValues> {
-  control: Control<T>;
-  name: Path<T>;
+export interface AssetInputProps {
+  errorText?: string;
+  onBlur?: () => void;
+  onChange?: (value: Asset | DocumentPickerResponse | null) => void;
+  value?: Asset | DocumentPickerResponse;
 }
 
-export default function AssetInput<T extends FieldValues>({ control, name }: AssetInputProps<T>) {
+export function AssetInput({ errorText, onBlur, onChange, value }: AssetInputProps) {
   const { t } = useTranslation();
   const { showActionSheetWithOptions } = useActionSheet();
 
-  const { field, fieldState } = useController({ control, name });
-
-  const isError = undefined !== fieldState?.error && fieldState.isTouched;
-  const isFileSelected = field.value !== undefined && field.value !== null;
+  const isError = undefined !== errorText;
+  const isFileSelected = value !== undefined && value !== null;
 
   const handleOnPress = () => {
     showActionSheetWithOptions(
@@ -53,8 +52,8 @@ export default function AssetInput<T extends FieldValues>({ control, name }: Ass
       });
 
       if (Array.isArray(result.assets) && result.assets?.length > 0) {
-        field.onChange(result.assets[0]);
-        field.onBlur();
+        onChange?.(result.assets[0]);
+        onBlur?.();
       }
     } catch (error) {
       warn("upload-fie", "Could not pick photo: ", JSON.stringify(error));
@@ -69,8 +68,8 @@ export default function AssetInput<T extends FieldValues>({ control, name }: Ass
         type: [types.pdf],
       });
 
-      field.onChange(documentPickerResult);
-      field.onBlur();
+      onChange?.(documentPickerResult);
+      onBlur?.();
     } catch (error) {
       if (!DocumentPicker.isCancel(error)) {
         warn("upload file", "Could not pick document: ", JSON.stringify(error));
@@ -79,8 +78,8 @@ export default function AssetInput<T extends FieldValues>({ control, name }: Ass
   };
 
   const handleOnDeletePress = () => {
-    field.onChange(null);
-    field.onBlur();
+    onChange?.(null);
+    onBlur?.();
   };
 
   const deleteIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
@@ -102,7 +101,7 @@ export default function AssetInput<T extends FieldValues>({ control, name }: Ass
     marginTop: -theme.spacing["20p"],
   }));
 
-  const file = field.value as Asset | DocumentPickerResponse | undefined;
+  const file = value as Asset | DocumentPickerResponse | undefined;
   const fileName = (file as Asset)?.fileName ?? (file as DocumentPickerResponse)?.name;
 
   return (
@@ -130,7 +129,7 @@ export default function AssetInput<T extends FieldValues>({ control, name }: Ass
       </View>
       <View style={helperTextStyle}>
         <Typography.Text color={isError ? "errorBase" : "neutralBase+30"} size="caption1">
-          {fieldState.error?.message}
+          {errorText}
         </Typography.Text>
       </View>
     </>

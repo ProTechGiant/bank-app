@@ -2,7 +2,7 @@ import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
-import CurrencyInput from "@/components/CurrencyInput";
+import { UnstyledCurrencyInput } from "@/components/Input";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
@@ -64,11 +64,11 @@ export default function TransferAmountInput<T extends FieldValues>({
         {t("InternalTransfers.TransferAmountInput.balance") + formatCurrency(currentBalance, "SAR")}
       </Typography.Text>
       <View style={containerStyles}>
-        <CurrencyInput
+        <UnstyledCurrencyInput
           autoFocus={autoFocus}
           selectionColor={selectionStyles}
           editable={autoFocus}
-          onChange={field.onChange}
+          onChange={value => field.onChange(value)}
           maxLength={maxLength}
           style={[
             textStyles,

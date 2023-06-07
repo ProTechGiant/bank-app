@@ -59,7 +59,6 @@ export default function FinancialInformationScreen() {
             <Typography.Text size="large" weight="bold">
               {t("Onboarding.FinancialInformationScreen.title")}
             </Typography.Text>
-
             <DropdownInput
               control={control}
               name="OccupationCode"
@@ -68,6 +67,7 @@ export default function FinancialInformationScreen() {
               placeholder={t("Onboarding.FinancialInformationScreen.inputOccupationPlaceholder")}
               options={mockOccupations}
               buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
+              variant="small"
               autoselect
             />
             <DropdownInput
@@ -77,6 +77,7 @@ export default function FinancialInformationScreen() {
               placeholder={t("Onboarding.FinancialInformationScreen.inputAccountPurposePlaceholder")}
               options={mockCroatiaPurpose}
               buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
+              variant="small"
               autoselect
             />
             <DropdownInput
@@ -86,6 +87,7 @@ export default function FinancialInformationScreen() {
               placeholder={t("Onboarding.FinancialInformationScreen.inputSourceOfIncomePlaceholder")}
               options={mockSources}
               buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
+              variant="small"
               autoselect
             />
             <DropdownInput
@@ -95,6 +97,7 @@ export default function FinancialInformationScreen() {
               placeholder={t("Onboarding.FinancialInformationScreen.inputMonthlyLimitPlaceholder")}
               options={mockExpectedAmount}
               buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
+              variant="small"
               autoselect
             />
             <Accordion title={t("Onboarding.FinancialInformationScreen.moreInfoDropdownTitle")}>

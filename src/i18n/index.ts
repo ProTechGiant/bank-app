@@ -92,9 +92,7 @@ export const resources = {
           title: "Let's go",
           subTitle: "Let’s start with your contact and ID details:",
           mobileLabel: "Mobile",
-          mobilePlaceholder: "Enter mobile",
           iqamaLabel: "National ID/Iqama",
-          iqamaPlaceholder: "Enter your national ID/Iqama",
           notificationText: {
             one: "To join Croatia, you must be over 18 and have an Absher profile. Register at ",
             two: "absher.sa",
@@ -658,7 +656,6 @@ export const resources = {
           searchPlaceholder: "I need help with...",
           searchHelpTitle: "Have a specific question in mind?",
           searchHelpSubtitle: "Enter keywords to search amongst XX answers.",
-          cancelButton: "Cancel",
         },
         DetailedScreen: {
           feedback: "Did you find this answer helpful?",
@@ -1652,7 +1649,6 @@ export const resources = {
             fullNameLabel: "Full name",
             fullNamePlacholder: "First Last",
             ibanLabel: "IBAN number",
-            mask: "SA## #### #### #### #### ####",
             validation: {
               required: "Required",
               lengthInvalid: "IBAN needs 24 chracters",
@@ -1933,9 +1929,7 @@ export const resources = {
           title: "لننطلق",
           subTitle: "لنبدأ بتفاصيل الهوية الشخصية وبيانات التواصل:",
           mobileLabel: "الجوال",
-          mobilePlaceholder: "أدخل رقم الجوال",
           iqamaLabel: "رقم هوية/الإقامة",
-          iqamaPlaceholder: "قم بإدخال رقم الهوية الوطنية/الإقامة",
           notificationText: {
             one: " للانضمام إلى 'يمدي' يجب أن يتجاوز عمرك 18 عام ولديك حساب 'أبشر'. قبل الانضمام إلينا، يُمكنك التسجيل على ",
             two: "absher.sa",
@@ -2339,7 +2333,6 @@ export const resources = {
           searchPlaceholder: "I need help with...",
           searchHelpTitle: "Have a specific question in mind?",
           searchHelpSubtitle: "Enter keywords to search amongst XX answers.",
-          cancelButton: "Cancel",
         },
         DetailedScreen: {
           feedback: "Did you find this answer helpful?",
@@ -2874,7 +2867,6 @@ export const resources = {
           fullNameLabel: "Full name",
           fullNamePlacholder: "First Last",
           ibanLabel: "IBAN number",
-          mask: "SA## #### #### #### #### ####",
           validation: {
             required: "Required",
             lengthInvalid: "IBAN needs 24 chracters",

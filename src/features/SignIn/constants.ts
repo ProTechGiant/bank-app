@@ -1,4 +1,3 @@
-export const TOTAL_PHONE_LENGTH = 9;
 export const TOTAL_NATIONAL_ID_LENGTH = 10;
 export const OTP_CODE = "1234";
 export const OTP_ID = "123";

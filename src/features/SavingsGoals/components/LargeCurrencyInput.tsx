@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { Pressable, ReturnKeyTypeOptions, StyleSheet, TextInput, TextStyle, View, ViewStyle } from "react-native";
 
-import CurrencyInput from "@/components/CurrencyInput";
+import { UnstyledCurrencyInput } from "@/components/Input";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -111,7 +111,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
   return (
     <View style={containerStyles}>
       <Pressable onPress={handleOnPress} style={[styles.container, inputStyles]}>
-        <CurrencyInput
+        <UnstyledCurrencyInput
           ref={textInputRef}
           autoFocus={autoFocus}
           selectionColor={selectionStyles}

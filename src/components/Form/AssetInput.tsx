@@ -1,13 +1,13 @@
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 
-import { CheckboxInput as BaseInput, CheckboxInputProps as BaseProps } from "@/components/Input";
+import { DatePickerInput as BaseInput, AssetInputProps as BaseProps } from "@/components/Input";
 
-interface CheckboxInputProps<T extends FieldValues> extends BaseProps {
+interface AssetInputProps<T extends FieldValues> extends BaseProps {
   control: Control<T>;
   name: Path<T>;
 }
 
-export default function CheckboxInput<T extends FieldValues>({ control, name, ...restProps }: CheckboxInputProps<T>) {
+export default function AssetInput<T extends FieldValues>({ control, name, ...restProps }: AssetInputProps<T>) {
   const { field } = useController({ control, name });
 
   return (

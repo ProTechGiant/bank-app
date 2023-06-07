@@ -11,14 +11,17 @@ interface InputTextProps {
 }
 
 export default function InputText({ buttonIcon, placeholder, value }: InputTextProps) {
-  const buttonIconColor = useThemeStyles(t => t.palette.neutralBase, []);
+  const buttonIconColor = useThemeStyles(t => t.palette.neutralBase);
 
   return (
     <View style={styles.container}>
-      <Typography.Text color={undefined !== value ? "neutralBase+20" : "neutralBase"} size="callout" weight="regular">
+      <Typography.Text
+        color={undefined !== value ? "neutralBase+30" : "neutralBase-10"}
+        size="callout"
+        weight="regular">
         {value ?? placeholder}
       </Typography.Text>
-      {undefined !== buttonIcon && cloneElement(buttonIcon, { color: buttonIconColor })}
+      {undefined !== buttonIcon ? cloneElement(buttonIcon, { color: buttonIconColor }) : null}
     </View>
   );
 }
