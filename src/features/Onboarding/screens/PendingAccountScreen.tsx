@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert as RNAlert, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
-import { FilledRefresh, LargeFilledTickIcon } from "@/assets/icons";
+import { LargeFilledTickIcon } from "@/assets/icons";
 import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -46,14 +46,6 @@ export default function PendingAccountScreen() {
     setIsAccountSetupVisible(!isAccountSetupVisible);
   };
 
-  const bannerViewStyle = useThemeStyles<ViewStyle>(theme => ({
-    position: "absolute",
-    top: 0,
-    width: "100%",
-    backgroundColor: theme.palette["warningBase-30"],
-    borderRadius: theme.radii.extraSmall,
-  }));
-
   const headerSuccessStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     rowGap: theme.spacing["24p"],
@@ -62,8 +54,11 @@ export default function PendingAccountScreen() {
   }));
 
   const pendingCheckListContainer = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["64p"],
-    paddingBottom: theme.spacing["16p"],
+    paddingTop: theme.spacing["24p"],
+  }));
+
+  const footerMessageContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["12p"],
   }));
 
   return (
@@ -104,13 +99,12 @@ export default function PendingAccountScreen() {
               </Stack>
             ) : (
               <Stack direction="vertical" align="center" justify="center" flex={1}>
-                <View style={bannerViewStyle}>
+                <View style={styles.bannerViewStyle}>
                   <Alert
                     variant="refresh"
                     message={t("Onboarding.LandingScreen.pending.bannerMessage")}
                     end={<Alert.ExpandEndButton onPress={handleAccountSetupToggle} expanded={isAccountSetupVisible} />}
-                  />
-                  {isAccountSetupVisible ? (
+                    isExpanded={isAccountSetupVisible}>
                     <Stack direction="vertical" gap="12p" style={pendingCheckListContainer}>
                       <CheckAccountSetupPoint
                         text={t("Onboarding.LandingScreen.pending.accountChecks.identity")}
@@ -132,12 +126,11 @@ export default function PendingAccountScreen() {
                         text={t("Onboarding.LandingScreen.pending.accountChecks.creatingAccount")}
                         completed={false}
                       />
-
-                      <Typography.Text size="footnote">
+                      <Typography.Text size="caption2" style={footerMessageContainerStyle} color="neutralBase+10">
                         {t("Onboarding.LandingScreen.pending.footerMessage")}
                       </Typography.Text>
                     </Stack>
-                  ) : null}
+                  </Alert>
                 </View>
                 <Typography.Text size="large" weight="bold" color="primaryBase-10" align="center">
                   {t("Onboarding.LandingScreen.pending.title", { userName })}
@@ -161,5 +154,10 @@ const styles = StyleSheet.create({
     end: 0,
     position: "absolute",
     top: 0,
+  },
+  bannerViewStyle: {
+    position: "absolute",
+    top: 0,
+    width: "100%",
   },
 });

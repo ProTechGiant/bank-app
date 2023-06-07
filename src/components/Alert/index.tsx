@@ -15,9 +15,11 @@ export interface AlertProps {
   message: string;
   end?: React.ReactElement<ExpandEndButtonProps> | React.ReactElement<CloseEndButtonProps>;
   endTestId?: string;
+  isExpanded?: boolean;
+  children?: React.ReactNode;
 }
 
-export default function Alert({ variant, message, end, endTestId }: AlertProps) {
+export default function Alert({ variant, message, end, endTestId, isExpanded, children }: AlertProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       flexDirection: "row",
@@ -30,9 +32,10 @@ export default function Alert({ variant, message, end, endTestId }: AlertProps) 
           ? theme.palette["neutralBase-40"]
           : theme.palette["warningBase-30"],
       borderRadius: theme.radii.small,
-      paddingHorizontal: theme.spacing["12p"],
+      paddingHorizontal: theme.spacing["16p"],
       paddingVertical: theme.spacing["16p"],
       gap: theme.spacing["12p"],
+      justifyContent: "center",
     }),
     [variant]
   );
@@ -63,6 +66,7 @@ export default function Alert({ variant, message, end, endTestId }: AlertProps) 
         <Typography.Text color={variant === "default" ? "neutralBase+10" : "neutralBase+30"} size="footnote">
           {message}
         </Typography.Text>
+        {isExpanded ? children : null}
       </View>
       {end && isValidElement(end) ? cloneElement(end, { testID: endTestId }) : null}
     </View>
