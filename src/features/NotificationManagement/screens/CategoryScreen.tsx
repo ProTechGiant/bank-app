@@ -89,7 +89,7 @@ export default function CategoryScreen() {
   }));
 
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader />
       <ContentContainer isScrollView>
         <View>

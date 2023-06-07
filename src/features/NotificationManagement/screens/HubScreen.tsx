@@ -140,7 +140,7 @@ export default function HubScreen() {
 
   return (
     <>
-      <Page backgroundColor="primaryBase-60">
+      <Page backgroundColor="neutralBase-60">
         <NavHeader />
         <ContentContainer isScrollView>
           <View>
