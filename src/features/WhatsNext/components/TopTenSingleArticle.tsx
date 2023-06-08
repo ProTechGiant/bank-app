@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
@@ -9,12 +10,19 @@ import { ArticleSectionType } from "../types";
 
 interface TopTenSingleArticleProps {
   item: ArticleSectionType;
-  handleShowDetails: () => void;
+  onShowDetails: () => void;
   showDetails: boolean;
+  onBackPress: () => void;
+  onNextPress: () => void;
 }
-import { useTranslation } from "react-i18next";
 
-export default function TopTenSingleArticle({ item, handleShowDetails, showDetails }: TopTenSingleArticleProps) {
+export default function TopTenSingleArticle({
+  item,
+  onShowDetails,
+  showDetails,
+  onBackPress,
+  onNextPress,
+}: TopTenSingleArticleProps) {
   const { WhatsNextCategory, Title, ContentDescription, EventDetails } = item;
   const { width, height } = useWindowDimensions();
   const { t } = useTranslation();
@@ -46,6 +54,10 @@ export default function TopTenSingleArticle({ item, handleShowDetails, showDetai
         blurRadius={showDetails ? 5 : 0}
         style={[StyleSheet.absoluteFillObject, { height, width }]}
       />
+      <View style={styles.pressableContainer}>
+        <Pressable onPress={onBackPress} style={styles.slideNavigationButton} />
+        <Pressable onPress={onNextPress} style={styles.slideNavigationButton} />
+      </View>
       <View style={articleBottom}>
         <Typography.Text color="neutralBase-60" size="caption2" weight="medium">
           {WhatsNextCategory}
@@ -56,7 +68,7 @@ export default function TopTenSingleArticle({ item, handleShowDetails, showDetai
         <Typography.Text color="neutralBase-60" size="caption1">
           {t("WhatsNext.TopTenArticle.openingHours")} {EventDetails.OpeningHours}
         </Typography.Text>
-        <Pressable onPress={handleShowDetails}>
+        <Pressable onPress={onShowDetails}>
           <Typography.Text
             color="neutralBase-60"
             size="callout"
@@ -96,6 +108,15 @@ export default function TopTenSingleArticle({ item, handleShowDetails, showDetai
 
 const styles = StyleSheet.create({
   columnStyle: {
+    width: "50%",
+  },
+  pressableContainer: {
+    flexDirection: "row",
+    height: "100%",
+    position: "relative",
+  },
+  slideNavigationButton: {
+    height: "100%",
     width: "50%",
   },
 });
