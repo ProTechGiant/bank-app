@@ -7,7 +7,6 @@ export { default as IqamaInputScreen } from "./IqamaInputScreen";
 export { default as NafathAuthScreen } from "./NafathAuthScreen";
 export { default as OnboardingSplashScreen } from "./OnboardingSplashScreen";
 export { default as OptionalEmailScreen } from "./OptionalEmailScreen";
-export { default as PasscodeScreen } from "./PasscodeScreen";
 export { default as PendingAccountScreen } from "./PendingAccountScreen";
 export { default as TermsAndConditionsScreen } from "./TermsAndConditionsScreen";
 export { default as WorkGuideModal } from "./WorkGuideModal";

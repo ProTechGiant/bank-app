@@ -26,12 +26,16 @@ export default function NafathAuthScreen() {
   const [isIndicator, setIsIndicator] = useState<boolean>();
 
   const handleOnToggleModal = async () => {
-    setIsIndicator(true);
-    const response = await mutateAsync();
-    setIsIndicator(false);
-    setIsModalVisible(!isModalVisible);
-    const randomValue = response.Body?.random || "";
-    setRequestedOtpNumber(parseInt(randomValue, 10));
+    const isVisible = !isModalVisible;
+
+    setIsModalVisible(isVisible);
+    if (isVisible) {
+      setIsIndicator(true);
+      const response = await mutateAsync();
+      setIsIndicator(false);
+      const randomValue = response.Body?.random || "";
+      setRequestedOtpNumber(parseInt(randomValue, 10));
+    }
   };
 
   const handleOpenNafathApp = (Url: string) => {

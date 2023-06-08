@@ -71,8 +71,7 @@ export default function ConfirmPersonalDetailsScreen() {
       details?.EnglishFamilyName &&
       details?.NationalityCode &&
       getCountryName(details?.NationalityCode) &&
-      details?.Addresses?.[0]?.StreetName &&
-      details?.Addresses?.[0]?.City
+      details?.Addresses?.[0]?.StreetName
     )
       setDataAvailable(true);
     else setDataAvailable(false);

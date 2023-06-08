@@ -46,7 +46,7 @@ export function ConfirmPasscodeScreen() {
       await mutateAsync(value);
       setShowSuccessModal(true);
     } catch (err) {
-      warn("Error updating user passcode ", JSON.stringify(err)); // log the error for debugging purposes
+      warn("Error creating user passcode ", JSON.stringify(err)); // log the error for debugging purposes
     }
   };
 

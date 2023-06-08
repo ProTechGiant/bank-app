@@ -136,7 +136,7 @@ export const resources = {
           alertModelMessage: "You are trying to open an app that's currently not installed",
           alertModelCancelButton: "Cancel",
           alertModelAppStoreButton: "App Store",
-          alertModelPlayStoreButton: "Play Store",
+          alertModelPlayStoreButton: "Google Play",
         },
         ConfirmPersonalDetailsScreen: {
           navHeaderTitle: "CONFIRM",
@@ -2025,7 +2025,7 @@ export const resources = {
           alertModelMessage: "You are trying to open an app that's currently not installed",
           alertModelCancelButton: "Cancel",
           alertModelAppStoreButton: "App Store",
-          alertModelPlayStoreButton: "Play Store",
+          alertModelPlayStoreButton: "Google Play",
         },
         ConfirmPersonalDetailsScreen: {
           navHeaderTitle: "CONFIRM",

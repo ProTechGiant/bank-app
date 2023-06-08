@@ -12,7 +12,6 @@ import {
   NafathAuthScreen,
   OnboardingSplashScreen,
   OptionalEmailScreen,
-  PasscodeScreen,
   PendingAccountScreen,
   TermsAndConditionsScreen,
   WorkGuideModal,
@@ -42,7 +41,6 @@ export type OnboardingStackParams = {
   "Onboarding.Fatca": FatcaScreenTypes | undefined;
   "Onboarding.CountrySelector": OnboardingCountrySelectorParams;
   "Onboarding.TermsAndConditions": undefined;
-  "Onboarding.Passcode": undefined;
   "Onboarding.PendingAccount": undefined;
   "Onboarding.CreatePasscode": undefined;
   "Onboarding.ConfirmPasscode": { passcode: string };
@@ -55,8 +53,6 @@ export default function OnboardingStack() {
   return (
     <OnboardingContextProvider>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen component={CreatePasscodeScreen} name="Onboarding.CreatePasscode" />
-        <Stack.Screen component={ConfirmPasscodeScreen} name="Onboarding.ConfirmPasscode" />
         <Stack.Screen component={OnboardingSplashScreen} name="Onboarding.SplashScreen" />
         <Stack.Screen component={IqamaInputScreen} name="Onboarding.Iqama" />
         <Stack.Screen component={NafathAuthScreen} name="Onboarding.Nafath" />
@@ -70,7 +66,8 @@ export default function OnboardingStack() {
           options={{ presentation: "modal" }}
         />
         <Stack.Screen component={TermsAndConditionsScreen} name="Onboarding.TermsAndConditions" />
-        <Stack.Screen component={PasscodeScreen} name="Onboarding.Passcode" />
+        <Stack.Screen component={CreatePasscodeScreen} name="Onboarding.CreatePasscode" />
+        <Stack.Screen component={ConfirmPasscodeScreen} name="Onboarding.ConfirmPasscode" />
         <Stack.Screen component={PendingAccountScreen} name="Onboarding.PendingAccount" />
         <Stack.Screen component={WorkGuideModal} name="Onboarding.WorkGuideModal" options={{ presentation: "modal" }} />
       </Stack.Navigator>
