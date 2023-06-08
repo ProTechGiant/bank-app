@@ -68,11 +68,27 @@ export const resources = {
               checks: "Running additional checks",
               creatingAccount: "Creating your account",
             },
+            workGuide: "How Croatia works for you",
+            finishLater: "You can finish this later",
+            buttonTitle: "Get Started",
             footerMessage:
               "It can take up to X days for us to finalise this process. An SMS will be sent to you when your account has been created.",
           },
           buttons: {
             FinishLater: "Finish Later",
+          },
+          notificationBannerTitle: "You got {{tasks}} due",
+          alertOnFinishLater: "Finish Later process not implemented yet. Come back later!",
+          lifeStylePreferenceModal: {
+            title: "Tailor your experience",
+            subTitle: "Unlock rewards and offers that matter the most to you",
+            topTitle: "How Croatia works for you",
+            selectLifeStyle: "Select your lifestyle preferences",
+            letUsKnow: "Let us know what matters to you so we can tailor our rewards to your needs.",
+            bottomTitle: "You can find lifestyle preferences in your account management.",
+            finishLaterButton: "I’ll finish this later",
+            closeButton: "Close",
+            nextBuildCycle: "{{feature}} will come later in the next build cycle",
           },
         },
         IqamaInputScreen: {
@@ -1922,6 +1938,46 @@ export const resources = {
           buttons: {
             signUp: "أنشئ حساب",
             signIn: "تسجيل الدخول",
+          },
+        },
+        LandingScreen: {
+          success: {
+            title: 'Welcome\n "{{userName}}"',
+            bannerMessage: "Your account was successfully created!",
+          },
+          failed: {
+            title: "Unfortunately, we can’t create an account for you",
+            subtitle: "If you have any concerns, please contact XXXXXXX.",
+          },
+          pending: {
+            title: 'You\'re on your way\n "{{userName}}"',
+            bannerMessage: "We’re completing your account setup ",
+            accountChecks: {
+              identity: "Confirm your identity",
+              checks: "Running additional checks",
+              creatingAccount: "Creating your account",
+            },
+            workGuide: "How Croatia works for you",
+            finishLater: "You can finish this later",
+            buttonTitle: "Get Started",
+            footerMessage:
+              "It can take up to X days for us to finalise this process. An SMS will be sent to you when your account has been created.",
+          },
+          buttons: {
+            FinishLater: "Finish Later",
+          },
+          notificationBannerTitle: "You got {{tasks}} due",
+          alertOnFinishLater: "Finish Later process not implemented yet. Come back later!",
+          lifeStylePreferenceModal: {
+            title: "Tailor your experience",
+            subTitle: "Unlock rewards and offers that matter the most to you",
+            topTitle: "How Croatia works for you",
+            selectLifeStyle: "Select your lifestyle preferences",
+            letUsKnow: "Let us know what matters to you so we can tailor our rewards to your needs.",
+            bottomTitle: "You can find lifestyle preferences in your account management.",
+            finishLaterButton: "I’ll finish this later",
+            closeButton: "Close",
+            nextBuildCycle: "{{feature}} will come later in the next build cycle",
           },
         },
         IqamaInputScreen: {

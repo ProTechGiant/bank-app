@@ -15,6 +15,7 @@ import {
   PasscodeScreen,
   PendingAccountScreen,
   TermsAndConditionsScreen,
+  WorkGuideModal,
 } from "./screens";
 import { ForeignTaxCountry } from "./types";
 
@@ -45,6 +46,7 @@ export type OnboardingStackParams = {
   "Onboarding.PendingAccount": undefined;
   "Onboarding.CreatePasscode": undefined;
   "Onboarding.ConfirmPasscode": { passcode: string };
+  "Onboarding.WorkGuideModal": undefined;
 };
 
 export const Stack = createNativeStackNavigator<OnboardingStackParams>();
@@ -70,6 +72,7 @@ export default function OnboardingStack() {
         <Stack.Screen component={TermsAndConditionsScreen} name="Onboarding.TermsAndConditions" />
         <Stack.Screen component={PasscodeScreen} name="Onboarding.Passcode" />
         <Stack.Screen component={PendingAccountScreen} name="Onboarding.PendingAccount" />
+        <Stack.Screen component={WorkGuideModal} name="Onboarding.WorkGuideModal" options={{ presentation: "modal" }} />
       </Stack.Navigator>
     </OnboardingContextProvider>
   );

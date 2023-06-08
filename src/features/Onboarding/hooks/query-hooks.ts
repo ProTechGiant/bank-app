@@ -2,13 +2,22 @@ import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery } from "react-query";
 
 import sendApiRequest from "@/api";
+import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import i18n from "@/i18n";
 import { nationalIdRegEx } from "@/utils";
 
 import { IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
-import { FatcaFormInput, FinancialDetails, IqamaInputs, NafathDetails, Status } from "../types";
+import {
+  CustomerPendingAction,
+  FatcaFormInput,
+  FinancialDetails,
+  IqamaInputs,
+  NafathDetails,
+  Status,
+  StatusId,
+} from "../types";
 
 interface ApiOnboardingStatusResponse {
   OnboardingStatus: Status;
@@ -387,6 +396,40 @@ export function useCreatePasscode() {
       {
         ["x-correlation-id"]: correlationId,
         ["x-device-id"]: DeviceInfo.getDeviceId(),
+      }
+    );
+  });
+}
+
+export function useGetCustomerPendingAction(statusId: StatusId) {
+  const { correlationId } = useOnboardingContext();
+
+  return useQuery(["CustomerPendingActions", statusId], () => {
+    if (!correlationId) throw new Error("Need valid Correlation id");
+
+    return api<Array<CustomerPendingAction>>("v1", `actions/${statusId}`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: correlationId,
+    });
+  });
+}
+
+export function useUpdateActionStatus() {
+  const { correlationId } = useOnboardingContext();
+
+  return useMutation(async (data: { ActionTypeId: string; StatusId: string }) => {
+    if (!correlationId) throw new Error("Need valid Correlation id");
+
+    return sendApiRequest<string>(
+      "v1",
+      "actions",
+      "PUT",
+      undefined,
+      {
+        ActionTypeId: data.ActionTypeId,
+        StatusId: data.StatusId,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
       }
     );
   });

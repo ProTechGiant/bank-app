@@ -81,4 +81,19 @@ export interface IqamaInputs {
   NationalId: string;
 }
 
+export interface CustomerPendingAction {
+  ActionId: string;
+  ActionTypeId: string;
+  DueDate: string;
+  Description: string;
+  Persistent: boolean;
+  ServiceId: string;
+  MessageId: string;
+  MessageText: string;
+  RedirectDestinationLink: string;
+  UpdatedBy: string;
+}
+
+export type StatusId = 1 | 2 | 3;
+
 export type Status = "COMPLETED" | "PENDING" | "DECLINED";

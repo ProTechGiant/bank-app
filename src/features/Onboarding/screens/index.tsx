@@ -10,3 +10,4 @@ export { default as OptionalEmailScreen } from "./OptionalEmailScreen";
 export { default as PasscodeScreen } from "./PasscodeScreen";
 export { default as PendingAccountScreen } from "./PendingAccountScreen";
 export { default as TermsAndConditionsScreen } from "./TermsAndConditionsScreen";
+export { default as WorkGuideModal } from "./WorkGuideModal";
