@@ -25,7 +25,7 @@ export default function TableListCardBody({
   onInfoPress,
   isInactive,
 }: TableListCardBodyProps) {
-  const { infoIconStyle, infoColor, infoDimensions } = useInfoStyles();
+  const { infoIconStyle, infoColor } = useInfoStyles();
 
   const helperTextStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["4p"],
@@ -49,7 +49,7 @@ export default function TableListCardBody({
         </View>
         {undefined !== onInfoPress && (
           <Pressable onPress={onInfoPress} style={infoIconStyle}>
-            <InfoCircleIcon color={infoColor} width={infoDimensions} height={infoDimensions} />
+            <InfoCircleIcon color={infoColor} width={20} height={20} />
           </Pressable>
         )}
       </View>

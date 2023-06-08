@@ -34,7 +34,6 @@ export default function Chip({ title, isRemovable, isSelected, onPress, leftIcon
   );
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
-  const iconDimension = useThemeStyles<number>(theme => theme.iconDimensions.chipComponent);
 
   return (
     <Pressable
@@ -46,14 +45,14 @@ export default function Chip({ title, isRemovable, isSelected, onPress, leftIcon
       {leftIcon ? (
         <View accessible={false}>
           {cloneElement(leftIcon, {
-            height: iconDimension,
-            width: iconDimension,
+            height: 18,
+            width: 18,
             color: iconColor,
           })}
         </View>
       ) : null}
       <Typography.Text size="footnote">{title}</Typography.Text>
-      {isRemovable ? <CloseIcon width={iconDimension} height={iconDimension} /> : null}
+      {isRemovable ? <CloseIcon width={18} height={18} /> : null}
     </Pressable>
   );
 }

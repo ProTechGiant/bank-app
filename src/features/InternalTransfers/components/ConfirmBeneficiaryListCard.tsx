@@ -20,14 +20,12 @@ export default function ConfirmBeneficiaryListCard({
   icon,
   iconBackground,
 }: ConfirmBeneficiaryListCardProps) {
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.tableListIconBackground);
-
   const iconBackgroundStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: iconBackground !== undefined ? theme.palette[iconBackground] : undefined,
-      width: iconDimensions,
-      height: iconDimensions,
-      borderRadius: iconDimensions,
+      width: 44,
+      height: 44,
+      borderRadius: 44 / 2,
       alignItems: "center",
       justifyContent: "center",
     }),

@@ -9,10 +9,7 @@ export const useInfoStyles = () => {
   }));
 
   const iconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
-  const infoDimensions = useThemeStyles(theme => theme.iconDimensions.createGoal.info);
   const infoColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
-
-  const { height: chevronHeight, width: chevronWidth } = useThemeStyles(theme => theme.iconDimensions.chevronRight);
 
   const dateContainer = useThemeStyles<ViewStyle>(theme => ({
     marginRight: -theme.spacing["16p"],
@@ -22,10 +19,7 @@ export const useInfoStyles = () => {
   return {
     dateContainer,
     infoIconStyle,
-    infoDimensions,
     infoColor,
     iconColor,
-    chevronHeight,
-    chevronWidth,
   };
 };

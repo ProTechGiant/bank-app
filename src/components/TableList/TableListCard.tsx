@@ -45,8 +45,6 @@ export default function TableListCard({
   end,
   isInactive,
 }: TableListCardProps) {
-  const iconDimensions = useThemeStyles<number>(theme => theme.iconDimensions.tableListIconBackground);
-
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     flexDirection: "row",
@@ -68,9 +66,9 @@ export default function TableListCard({
   const iconBackgroundStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: iconBackground !== undefined ? theme.palette[iconBackground] : undefined,
-      width: iconDimensions,
-      height: iconDimensions,
-      borderRadius: iconDimensions,
+      width: 44,
+      height: 44,
+      borderRadius: 44 / 2,
       alignItems: "center",
       justifyContent: "center",
     }),

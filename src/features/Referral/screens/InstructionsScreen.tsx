@@ -40,13 +40,11 @@ export default function InstructionsScreen() {
     borderRadius: 32,
   }));
 
-  const { height: iconHeight, width: iconWidth } = useThemeStyles(theme => theme.iconDimensions.referralInstruction);
-
   const data: HeroSlideProps[] = [
     {
       topElement: (
         <View style={iconWrapperStyle}>
-          <InviteIcon width={iconWidth} height={iconHeight} />
+          <InviteIcon width={ICON_WIDTH} height={ICON_HEIGHT} />
         </View>
       ),
       title: t("Referral.InstructionsScreen.titleOne"),
@@ -55,7 +53,7 @@ export default function InstructionsScreen() {
     {
       topElement: (
         <View style={iconWrapperStyle}>
-          <ReferralsIcon width={iconWidth} height={iconHeight} />
+          <ReferralsIcon width={ICON_WIDTH} height={ICON_HEIGHT} />
         </View>
       ),
       title: t("Referral.InstructionsScreen.titleTwo"),
@@ -64,7 +62,7 @@ export default function InstructionsScreen() {
     {
       topElement: (
         <View style={iconWrapperStyle}>
-          <GiftIcon width={iconWidth} height={iconHeight} />
+          <GiftIcon width={ICON_WIDTH} height={ICON_HEIGHT} />
         </View>
       ),
       title: t("Referral.InstructionsScreen.titleThree"),
@@ -83,3 +81,6 @@ export default function InstructionsScreen() {
     />
   );
 }
+
+const ICON_WIDTH = 51;
+const ICON_HEIGHT = 37;
