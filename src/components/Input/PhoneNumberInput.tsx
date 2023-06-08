@@ -43,14 +43,15 @@ export function PhoneNumberInput({
 }: PhoneNumberInputProps) {
   const textInputRef = useRef<RNTextInput>(null);
   const [isFocused, setIsFocused] = useState(false);
-  const containsValue = propsValue !== undefined && propsValue.length > 0;
 
+  const filteredValue = propsValue?.startsWith(countryCode) ? propsValue.substring(countryCode.length) : propsValue;
+  const containsValue = filteredValue !== undefined && filteredValue.length > 0;
   const displayMaxLength = COUNTRY_CONFIGURATION[countryCode].filter(v => v !== " ").length;
   const actualMaxLength = COUNTRY_CONFIGURATION[countryCode].length;
 
   const { onChangeText, placeholder, value } = useMaskedInputProps({
-    value: propsValue,
-    onChangeText: (_masked, unmasked) => propsOnChangeText?.(unmasked),
+    value: filteredValue,
+    onChangeText: (_masked, unmasked) => propsOnChangeText?.(countryCode + unmasked),
     mask: COUNTRY_CONFIGURATION[countryCode],
     maskAutoComplete: true,
   });
@@ -129,7 +130,7 @@ export function PhoneNumberInput({
           </Animated.View>
         </InputBox>
       </Pressable>
-      <InputExtra errorText={errorText} extraEnd={`${propsValue?.length ?? 0} / ${displayMaxLength}`} />
+      <InputExtra errorText={errorText} extraEnd={`${filteredValue?.length ?? 0} / ${displayMaxLength}`} />
     </View>
   );
 }
