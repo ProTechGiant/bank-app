@@ -24,6 +24,7 @@ import {
   PasscodeScreen,
   UserBlockedScreen,
 } from "@/features/SignIn/screens";
+import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
 import ViewTransactionsStack from "@/features/ViewTransactions/ViewTransactionsStack";
 import WhatsNextStack from "@/features/WhatsNext/WhatsNextStack";
 import useLogoutAfterInactivity from "@/hooks/use-logout-after-inactivity";
@@ -60,6 +61,7 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen component={InternalTransfersStack} name="InternalTransfers.InternalTransfersStack" />
       <AuthStack.Screen component={SavingsGoalsStack} name="SavingsGoals.SavingsGoalsStack" />
       <AuthStack.Screen component={SectionScreen} name="FrequentlyAskedQuestions.SectionScreen" />
+      <AuthStack.Screen component={TemporaryLandingScreen} name="Temporary.LandingScreen" />
       <AuthStack.Screen component={DetailedScreen} name="FrequentlyAskedQuestions.DetailedScreen" />
       <AuthStack.Screen component={ReferralStack} name="Referral.ReferralStack" />
       <AuthStack.Screen component={ViewTransactionsStack} name="ViewTransactions.ViewTransactionsStack" />

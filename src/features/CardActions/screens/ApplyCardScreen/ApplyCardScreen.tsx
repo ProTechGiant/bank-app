@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Edge } from "react-native-safe-area-context";
 
@@ -42,6 +42,14 @@ export default function ApplyCardScreen() {
     EncryptedPincode: undefined,
     AlternateAddress: undefined,
   });
+
+  // reset currentStep after ordering the card
+  useEffect(() => {
+    if (currentStep === "ordered")
+      navigation.addListener("blur", () => {
+        setCurrentStep("pick-type");
+      });
+  }, [currentStep, navigation]);
 
   const handleUpdateContextValue = <T extends keyof ApplyCardInput>(name: T, value: ApplyCardInput[T]) => {
     valuesRef.current = {
@@ -106,7 +114,7 @@ export default function ApplyCardScreen() {
 
   return (
     <ApplyCardsContext.Provider value={{ values: valuesRef.current, setValue: handleUpdateContextValue }}>
-      {cardCreatedCardId !== undefined ? (
+      {cardCreatedCardId !== undefined && currentStep === "ordered" ? (
         <CardOrderedScreen cardId={cardCreatedCardId} />
       ) : (
         <>
