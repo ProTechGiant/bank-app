@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert as RNAlert, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import Alert from "@/components/Alert";
 import Button from "@/components/Button";
@@ -8,6 +8,7 @@ import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useToasts } from "@/contexts/ToastsContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -20,7 +21,7 @@ import { Status } from "../types";
 export default function PendingAccountScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-
+  const auth = useAuthContext();
   const { userName } = useOnboardingContext();
   const addToast = useToasts();
   const [isAccountSetupVisible, setIsAccountSetupVisible] = useState(true);
@@ -38,8 +39,8 @@ export default function PendingAccountScreen() {
     }
   }, [accountStatus, refetch, t, addToast]);
 
-  const handleOnFinishLater = () => {
-    RNAlert.alert("Finish Later process not implemented yet. Come back later!");
+  const handleOnGetStartedPress = () => {
+    if (auth.userId) auth.authenticate(auth.userId);
   };
 
   const handleAccountSetupToggle = () => {
@@ -61,13 +62,6 @@ export default function PendingAccountScreen() {
     paddingTop: theme.spacing["12p"],
   }));
 
-  const bottomContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    width: theme.spacing.full,
-    justifyContent: "flex-end",
-    gap: theme.spacing["28p"],
-    paddingBottom: theme.spacing["20p"],
-  }));
-
   const successBrandMomentStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.spacing["100p"],
     backgroundColor: theme.palette.complimentBase,
@@ -87,6 +81,11 @@ export default function PendingAccountScreen() {
     backgroundColor: theme.palette.warningBase,
     width: 150,
     height: 270,
+  }));
+
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["28p"],
+    paddingBottom: theme.spacing["20p"],
   }));
 
   const handleWorkGuidePress = () => {
@@ -112,9 +111,6 @@ export default function PendingAccountScreen() {
                     <Typography.Text align="center" size="large" weight="bold" color="primaryBase-10">
                       {t("Onboarding.LandingScreen.success.title", { userName })}
                     </Typography.Text>
-                  </View>
-                  <View style={bottomContainerStyle}>
-                    <Button onPress={handleOnFinishLater}>{t("Onboarding.LandingScreen.pending.buttonTitle")}</Button>
                   </View>
                 </Stack>
               </>
@@ -170,13 +166,16 @@ export default function PendingAccountScreen() {
                     {t("Onboarding.LandingScreen.pending.title", { userName })}
                   </Typography.Text>
                 </View>
-                <View style={bottomContainerStyle}>
-                  <WorkGuideCard onPress={handleWorkGuidePress} />
-                  {/* TODO: Will remove disabled={true} */}
-                  <Button disabled={true}>{t("Onboarding.LandingScreen.pending.buttonTitle")}</Button>
-                </View>
+                <WorkGuideCard onPress={handleWorkGuidePress} />
               </Stack>
             )}
+            {accountStatus !== "DECLINED" ? (
+              <View style={buttonContainerStyle}>
+                <Button onPress={handleOnGetStartedPress} disabled={accountStatus !== "COMPLETED"}>
+                  {t("Onboarding.LandingScreen.pending.buttonTitle")}
+                </Button>
+              </View>
+            ) : null}
           </>
         </ContentContainer>
       </Page>

@@ -66,9 +66,11 @@ export default function WorkGuideModal() {
     navigation.goBack();
   };
 
-  const handleCardPress = (feature: string) => {
-    Alert.alert(t("Onboarding.LandingScreen.lifeStylePreferenceModal.nextBuildCycle", { feature })); //TODO: Navigate to lifestyle later instead of alert
+  const handleCardPress = () => {
+    Alert.alert(t("Onboarding.LandingScreen.lifeStylePreferenceModal.nextBuildCycle")); //TODO: Navigate to lifestyle later instead of alert
   };
+
+  const lifeStyleItem = customerPendingActionData?.find(pendingAction => Number(pendingAction?.ActionTypeId) === 1);
 
   return (
     <SafeAreaProvider>
@@ -88,22 +90,21 @@ export default function WorkGuideModal() {
                   {t("Onboarding.LandingScreen.lifeStylePreferenceModal.subTitle")}
                 </Typography.Text>
               </View>
-              {/* TODO: Later will remove slice from below data and get object instead of array */}
-              {customerPendingActionData?.slice(1, 2).map((item, index) => (
-                <Pressable key={index} onPress={handleCardPress.bind(null, item.MessageText)}>
+              {lifeStyleItem ? (
+                <Pressable onPress={handleCardPress}>
                   <View style={selectLifeStyleContainerStyle}>
                     <View style={selectLifeStyleInnerLeftContainerStyle}>
                       <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                        {item.MessageText}
+                        {lifeStyleItem.MessageText}
                       </Typography.Text>
                       <Typography.Text size="footnote" weight="regular" color="neutralBase-10">
-                        {item.Description}
+                        {lifeStyleItem.Description}
                       </Typography.Text>
                     </View>
                     {isLifeStylePreferenceSelected ? <MarkedSvg /> : <UnMarkedSvg />}
                   </View>
                 </Pressable>
-              ))}
+              ) : null}
             </Stack>
             <Stack gap="16p" direction="vertical" align="center" style={stackStyle}>
               <Button onPress={handleButtonPress}>

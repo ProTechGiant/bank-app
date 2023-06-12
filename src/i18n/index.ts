@@ -88,7 +88,7 @@ export const resources = {
             bottomTitle: "You can find lifestyle preferences in your account management.",
             finishLaterButton: "I’ll finish this later",
             closeButton: "Close",
-            nextBuildCycle: "{{feature}} will come later in the next build cycle",
+            nextBuildCycle: "LifeStyle Preferences will come later in the next build cycle",
           },
         },
         IqamaInputScreen: {
@@ -1977,7 +1977,7 @@ export const resources = {
             bottomTitle: "You can find lifestyle preferences in your account management.",
             finishLaterButton: "I’ll finish this later",
             closeButton: "Close",
-            nextBuildCycle: "{{feature}} will come later in the next build cycle",
+            nextBuildCycle: "LifeStyle Preferences will come later in the next build cycle",
           },
         },
         IqamaInputScreen: {

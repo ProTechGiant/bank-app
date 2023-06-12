@@ -18,6 +18,7 @@ export default function WorkGuideCard({ onPress }: WorkGuideCardProps) {
     flexDirection: "row",
     gap: theme.spacing["20p"],
     alignItems: "flex-start",
+    width: theme.spacing.full,
   }));
 
   const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
