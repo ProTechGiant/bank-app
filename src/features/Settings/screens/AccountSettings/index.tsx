@@ -96,6 +96,8 @@ export default function AccountSettingsScreen() {
     marginBottom: theme.spacing["16p"],
   }));
 
+  const chevronRightIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
+
   return (
     <Page>
       <NavHeader withBackButton={true} />
@@ -113,7 +115,7 @@ export default function AccountSettingsScreen() {
             <Typography.Text color="primaryBase" size="callout" weight="semiBold">
               {t("Settings.AccountSettings.changePasscode")}
             </Typography.Text>
-            <ChevronRightIcon height={12} color="#CCCCCC" width={8} />
+            <ChevronRightIcon color={chevronRightIconColor} />
           </Pressable>
           <Pressable style={titleContainerStyles}>
             <Typography.Text color="primaryBase" size="callout" weight="semiBold">
