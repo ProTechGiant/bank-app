@@ -115,70 +115,70 @@ const VARIATIONS = {
   dark: {
     primary: {
       enabled: {
-        backgroundColor: "neutralBase-60",
-        borderColor: "neutralBase-60",
-        textColor: "primaryBase",
+        backgroundColor: "primaryBase-70",
+        borderColor: "primaryBase-70",
+        textColor: "primaryBase-10",
       },
       pressed: {
-        backgroundColor: "neutralBase-50",
-        borderColor: "neutralBase-50",
-        textColor: "primaryBase",
+        backgroundColor: "primaryBase-40",
+        borderColor: "primaryBase-40",
+        textColor: "primaryBase-10",
       },
       disabled: {
-        backgroundColor: "neutralBase-40",
-        borderColor: "neutralBase-40",
-        textColor: "neutralBase-60",
+        backgroundColor: "neutralBase+10",
+        borderColor: "neutralBase+10",
+        textColor: "neutralBase",
       },
     },
     secondary: {
       enabled: {
         backgroundColor: "transparent",
-        borderColor: "neutralBase-60",
-        textColor: "neutralBase-60",
+        borderColor: "primaryBase-70",
+        textColor: "primaryBase-70",
       },
       pressed: {
         backgroundColor: "primaryBase-10",
-        borderColor: "neutralBase-40",
-        textColor: "neutralBase-40",
+        borderColor: "primaryBase-70",
+        textColor: "primaryBase-70",
       },
       disabled: {
         backgroundColor: "transparent",
-        borderColor: "primaryBase-10",
-        textColor: "primaryBase-10",
+        borderColor: "neutralBase",
+        textColor: "neutralBase",
       },
     },
     tertiary: {
       enabled: {
         backgroundColor: "transparent",
         borderColor: "transparent",
-        textColor: "neutralBase-60",
+        textColor: "primaryBase-70",
       },
       pressed: {
         backgroundColor: "primaryBase-10",
         borderColor: "primaryBase-10",
-        textColor: "neutralBase-60",
+        textColor: "primaryBase-70",
       },
       disabled: {
         backgroundColor: "transparent",
         borderColor: "transparent",
-        textColor: "primaryBase-40",
+        textColor: "neutralBase",
       },
     },
     warning: {
       enabled: {
         backgroundColor: "transparent",
         borderColor: "transparent",
-        textColor: "errorBase",
+        textColor: "errorBase-10",
       },
       pressed: {
         backgroundColor: "primaryBase-10",
         borderColor: "primaryBase-10",
-        textColor: "errorBase",
+        textColor: "errorBase-10",
       },
       disabled: {
         backgroundColor: "transparent",
         borderColor: "transparent",
-        textColor: "primaryBase-10",
+        textColor: "neutralBase",
       },
     },
   },
