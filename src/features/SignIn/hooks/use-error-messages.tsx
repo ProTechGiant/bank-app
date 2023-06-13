@@ -31,8 +31,8 @@ export function useErrorMessages(err: ApiError) {
         modalMessage: t("SignIn.IqamaInputScreen.errorText.modalMessage"),
       },
       "0010": {
-        title: t("SignIn.IqamaInputScreen.errorText.modalTitle"),
-        modalMessage: t("SignIn.IqamaInputScreen.errorText.modalMessage"),
+        title: t("SignIn.IqamaInputScreen.errorText.resetLimitExceededTitle"),
+        modalMessage: t("SignIn.IqamaInputScreen.errorText.resetLimitExceeded"),
       },
       "0084": {
         message: t("SignIn.IqamaInputScreen.errorText.noMatch"),
