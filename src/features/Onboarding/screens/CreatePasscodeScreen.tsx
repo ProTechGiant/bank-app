@@ -51,16 +51,12 @@ export default function CreatePasscodeScreen() {
     width: "100%",
   }));
 
-  const marginHorizontal = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing["18p"],
-  }));
-
   return (
     <Page insets={["top"]} backgroundColor="neutralBase-60">
       <NavHeader withBackButton={true}>
         <ProgressIndicator currentStep={5} totalStep={6} />
       </NavHeader>
-      <ContentContainer style={marginHorizontal}>
+      <ContentContainer>
         <Typography.Text size="title1" weight="medium">
           {t("Onboarding.CreatePasscode.title")}
         </Typography.Text>

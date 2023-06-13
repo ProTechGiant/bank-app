@@ -71,16 +71,12 @@ export function ConfirmPasscodeScreen() {
     width: "100%",
   }));
 
-  const marginHorizontal = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing["18p"],
-  }));
-
   return (
     <Page insets={["top"]} backgroundColor="neutralBase-60">
       <NavHeader withBackButton={true} title={t("Onboarding.ConfirmPasscode.navHeaderTitle")}>
         <ProgressIndicator currentStep={5} totalStep={6} />
       </NavHeader>
-      <ContentContainer style={marginHorizontal}>
+      <ContentContainer>
         <Typography.Text size="title1" weight="medium">
           {t("Onboarding.ConfirmPasscode.title")}
         </Typography.Text>
@@ -89,11 +85,17 @@ export function ConfirmPasscodeScreen() {
         </Typography.Text>
         <View style={inputContainerStyle}>
           <PincodeInput autoFocus onChangeText={handleOnChangeText} length={PASSCODE_LENGTH} value={currentValue} />
-          {isErrorVisible || !!errorMessages.length ? (
+          {isErrorVisible ? (
             <InlineBanner
               icon={<ErrorFilledCircleIcon />}
               variant="error"
               text={t("Onboarding.ConfirmPasscode.notification")}
+            />
+          ) : errorMessages.length ? (
+            <InlineBanner
+              icon={<ErrorFilledCircleIcon />}
+              variant="error"
+              text={t("Onboarding.ConfirmPasscode.errorText")}
             />
           ) : null}
         </View>

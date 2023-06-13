@@ -14,6 +14,7 @@ import { ToastsContextProvider } from "@/contexts/ToastsContext";
 import { InternalTransferContextProvider } from "@/features/InternalTransfers/context/InternalTransfersContext";
 import { OnboardingContextProvider } from "@/features/Onboarding/contexts/OnboardingContext";
 import useAppsFlyer from "@/hooks/use-appsflyer";
+import useDeviceLanguage from "@/i18n/use-device-language";
 import useI18nDirection from "@/i18n/use-i18n-direction";
 import MainStack from "@/navigation/MainStack";
 import { initializeAppleWalletAsync } from "@/utils/apple-wallet";
@@ -23,6 +24,8 @@ const queryClient = new QueryClient();
 
 export default function App() {
   useI18nDirection();
+  useDeviceLanguage();
+
   const { initializeSdk } = useAppsFlyer();
 
   useEffect(() => {

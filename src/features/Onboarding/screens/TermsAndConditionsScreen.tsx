@@ -44,7 +44,7 @@ const TermsAndConditionsScreen = () => {
   const handleOnSubmit = async () => {
     try {
       await termsConditionsAsync.mutateAsync();
-      navigation.navigate("Onboarding.PendingAccount");
+      navigation.navigate("Onboarding.CreatePasscode");
     } catch (error: unknown) {
       const hasMessage = error?.errorContent?.Message;
       if (hasMessage) {
