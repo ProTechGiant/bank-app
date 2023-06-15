@@ -40,7 +40,7 @@ export function DropdownInputList<T extends string | number>({ options, onChange
           <Typography.Text color="neutralBase+30" size="callout" weight="regular" style={styles.text}>
             {item.label}
           </Typography.Text>
-          <Radio onPress={() => onChange(item.value)} isSelected={value === item.value} />
+          <Radio onPress={() => onChange(item.value)} disabled={item.disabled} isSelected={value === item.value} />
         </View>
       </Pressable>
     ),
