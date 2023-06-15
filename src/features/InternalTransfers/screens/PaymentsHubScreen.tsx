@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { LocalTransferIcon, SearchIcon, TransferHorizontalIcon } from "@/assets/icons";
+import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -16,21 +17,24 @@ import { formatCurrency } from "@/utils";
 import { PaymentOption, SelectTransferTypeModal } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useQuickTransferAccounts } from "../hooks/query-hooks";
+import { TransferType } from "../types";
 
 export default function PaymentsHubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { setInternalTransferEntryPoint } = useInternalTransferContext();
+  const { setInternalTransferEntryPoint, clearContext, setTransferType } = useInternalTransferContext();
 
   const account = useCurrentAccount();
   const isActivatedQuickTransfer = useQuickTransferAccounts();
 
   const [isSelectTransferTypeVisible, setIsSelectTransferTypeVisible] = useState(false);
+  const [isSelectInternalTransferTypeVisible, setIsSelectInternalTransferTypeVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
   const handleOnInternalTransferPress = () => {
+    setIsSelectInternalTransferTypeVisible(true);
     setInternalTransferEntryPoint("payment-hub");
-    navigation.navigate("InternalTransfers.InternalTransferScreen");
+    clearContext();
   };
 
   const handleOnQuickTransferPress = () => {
@@ -45,6 +49,19 @@ export default function PaymentsHubScreen() {
     } else if (isActivatedQuickTransfer?.data?.CustomerTermsConditionsFlag === "1") {
       navigation.navigate("InternalTransfers.QuickTransferScreen");
     }
+  };
+
+  const handleOnCroatiaTransferPress = () => {
+    setIsSelectInternalTransferTypeVisible(false);
+    setTransferType(TransferType.InternalTransferCroatia);
+    navigation.navigate("InternalTransfers.InternalTransferScreen");
+  };
+
+  const handleOnAlrajhiTransferPress = () => {
+    setIsSelectInternalTransferTypeVisible(false);
+    setTransferType(TransferType.InternalTransferAlrajhi);
+    // TODO: screens are still under development
+    Alert.alert("Under development");
   };
 
   const handleStandardTransferPress = () => {
@@ -145,6 +162,13 @@ export default function PaymentsHubScreen() {
           onQuickTransferPress={handleOnQuickTransferPress}
           onStandardTransferPress={handleStandardTransferPress}
         />
+        {isSelectInternalTransferTypeVisible ? (
+          <InternalTransferTypeModal
+            onClose={() => setIsSelectInternalTransferTypeVisible(false)}
+            onCroatiaPress={handleOnCroatiaTransferPress}
+            onAlrajhiPress={handleOnAlrajhiTransferPress}
+          />
+        ) : null}
         <NotificationModal
           variant="error"
           title={t("errors.generic.title")}

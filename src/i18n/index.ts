@@ -1715,6 +1715,13 @@ export const resources = {
             viewTransaction: "View transaction",
           },
         },
+        SelectTransferTypeModal: {
+          selectTransferType: "Select transfer type",
+          croatiaTransfer: "Send to another Croatia account",
+          croatiaTransferDescription: "Transfer money to a new or existing beneficiary",
+          alrajhiTransfer: "Send to an Alrajhi Bank account",
+          alrajhiTransferDescription: "Transfer money to a new or existing beneficiary",
+        },
       },
       LocalTransfers: {
         SelectTransferTypeModal: {
@@ -2975,6 +2982,13 @@ export const resources = {
           done: "Done",
           viewTransaction: "View transaction",
         },
+      },
+      SelectTransferTypeModal: {
+        selectTransferType: "Select transfer type",
+        croatiaTransfer: "Send to another Croatia account",
+        croatiaTransferDescription: "Transfer money to a new or existing beneficiary",
+        alrajhiTransfer: "Send to an Alrajhi Bank account",
+        alrajhiTransferDescription: "Transfer money to a new or existing beneficiary",
       },
     },
     LocalTransfers: {

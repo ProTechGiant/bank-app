@@ -55,8 +55,12 @@ export interface InternalTransfer {
   RemittanceInformation: string;
 }
 
-// Transfer Types: QuickOrStandardType: 110 | SAIREType: 120;
-export type TransferType = "110" | "120";
+export enum TransferType {
+  InternalTransferCroatia = "100",
+  LocalTransferIPS = "110",
+  LocalTransferSarie = "120",
+  InternalTransferAlrajhi = "130",
+}
 
 export interface AddQuickTransferBeneficiary {
   SelectionType: AddBeneficiarySelectionType;
