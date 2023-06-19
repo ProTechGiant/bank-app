@@ -1583,6 +1583,8 @@ export const resources = {
           title: "Send money",
           amountExceedsBalance: "You have insufficient funds.",
           addFunds: "Add funds",
+          screenTitle: "Internal transfer",
+          transferLimit: "Transfer limits",
         },
         QuickTransferScreen: {
           title: "Quick transfer",
@@ -2850,6 +2852,8 @@ export const resources = {
         title: "Send money",
         amountExceedsBalance: "You have insufficient funds.",
         addFunds: "Add funds",
+        screenTitle: "Internal transfer",
+        transferLimit: "Transfer limits",
       },
       QuickTransferScreen: {
         navTitle: "Send money",

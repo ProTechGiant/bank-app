@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { LocalTransferIcon, SearchIcon, TransferHorizontalIcon } from "@/assets/icons";
@@ -60,8 +60,7 @@ export default function PaymentsHubScreen() {
   const handleOnAlrajhiTransferPress = () => {
     setIsSelectInternalTransferTypeVisible(false);
     setTransferType(TransferType.InternalTransferAlrajhi);
-    // TODO: screens are still under development
-    Alert.alert("Under development");
+    navigation.navigate("InternalTransfers.InternalTransferScreen");
   };
 
   const handleStandardTransferPress = () => {

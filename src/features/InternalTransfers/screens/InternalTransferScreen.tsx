@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 
+import { InfoCircleIcon } from "@/assets/icons";
+import { IconLink } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
@@ -16,6 +18,7 @@ import { useThemeStyles } from "@/theme";
 import { TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useTransferReasons } from "../hooks/query-hooks";
+import { TransferType } from "../types";
 
 interface InternalTransferInput {
   PaymentAmount: number;
@@ -27,8 +30,14 @@ export default function InternalTransferScreen() {
   const navigation = useNavigation();
 
   const account = useCurrentAccount();
-  const reasons = useTransferReasons(100);
-  const { setTransferAmount, setReason } = useInternalTransferContext();
+
+  const { setTransferAmount, setReason, transferType } = useInternalTransferContext();
+  // these conditions were added to handle croatia to croatia and croatia to ARB flow.
+  const transferReasonCodeForAPI =
+    transferType === TransferType.InternalTransferAlrajhi
+      ? Number(TransferType.InternalTransferAlrajhi)
+      : Number(TransferType.InternalTransferCroatia);
+  const reasons = useTransferReasons(transferReasonCodeForAPI);
 
   const currentBalance = account.data?.balance ?? 0;
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
@@ -54,8 +63,16 @@ export default function InternalTransferScreen() {
     });
   };
 
+  const handleOnTransferLimitsPress = () => {
+    //TODO: this will be implemented later on.
+  };
+
   const amountContainerStyle = useThemeStyles(theme => ({
     marginTop: theme.spacing["32p"],
+  }));
+
+  const transferLimitContainerStyle = useThemeStyles(theme => ({
+    marginTop: theme.spacing["18p"],
   }));
 
   const isReasonAvailable = watch("ReasonCode") !== undefined;
@@ -65,13 +82,20 @@ export default function InternalTransferScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader />
+        <NavHeader title={t("InternalTransfers.InternalTransferScreen.title")} />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.container}>
           <ContentContainer isScrollView>
             <View style={styles.container}>
               <Typography.Text color="neutralBase+30" weight="medium" size="title1">
-                {t("InternalTransfers.InternalTransferScreen.title")}
+                {t("InternalTransfers.InternalTransferScreen.screenTitle")}
               </Typography.Text>
+              {transferType === TransferType.InternalTransferAlrajhi ? (
+                <View style={transferLimitContainerStyle}>
+                  <IconLink onPress={handleOnTransferLimitsPress} icon={<InfoCircleIcon />} textSize="footnote">
+                    {t("InternalTransfers.InternalTransferScreen.transferLimit")}
+                  </IconLink>
+                </View>
+              ) : null}
               <View style={amountContainerStyle}>
                 <TransferAmountInput
                   autoFocus
@@ -97,7 +121,7 @@ export default function InternalTransferScreen() {
               </View>
             </View>
             <Button
-              disabled={amountExceedsBalance || currentAmount < 0.01 || !isReasonAvailable}
+              disabled={amountExceedsBalance || currentAmount < MINIMAL_AMOUNT || !isReasonAvailable}
               onPress={handleSubmit(handleOnNextPress)}>
               Continue
             </Button>
@@ -123,3 +147,5 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 });
+
+const MINIMAL_AMOUNT = 0.01;
