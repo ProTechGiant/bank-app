@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { AppState, AppStateStatus, NativeModules, Platform } from "react-native";
 
+import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
+
 function getDeviceLanguage() {
   const deviceLanguage =
     Platform.OS === "ios"
@@ -18,11 +20,13 @@ export default function useDeviceLanguage() {
   useEffect(() => {
     prevState.current = AppState.currentState;
 
-    const listener = AppState.addEventListener("change", state => {
+    const listener = AppState.addEventListener("change", async state => {
+      const savedAppLanguage = await getItemFromEncryptedStorage("userSwitchedAppLanguage");
+
       if (state === "active" && prevState.current !== state) {
         const newLanguage = getDeviceLanguage();
 
-        if (i18n.language !== newLanguage) {
+        if (!savedAppLanguage && i18n.language !== newLanguage) {
           i18n.changeLanguage(newLanguage);
         }
       }
