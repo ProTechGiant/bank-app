@@ -108,7 +108,8 @@ export default function WorkGuideModal() {
             </Stack>
             <Stack gap="16p" direction="vertical" align="center" style={stackStyle}>
               <Button onPress={handleButtonPress}>
-                {isLifeStylePreferenceSelected
+                {/* TODO: will check from status */}
+                {lifeStyleItem?.Persistent
                   ? t("Onboarding.LandingScreen.lifeStylePreferenceModal.finishLaterButton")
                   : t("Onboarding.LandingScreen.lifeStylePreferenceModal.closeButton")}
               </Button>

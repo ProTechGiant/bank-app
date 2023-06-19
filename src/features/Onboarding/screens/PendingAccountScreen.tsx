@@ -24,7 +24,8 @@ export default function PendingAccountScreen() {
   const auth = useAuthContext();
   const { userName } = useOnboardingContext();
   const addToast = useToasts();
-  const [isAccountSetupVisible, setIsAccountSetupVisible] = useState(true);
+  const [isAccountSetupVisible, setIsAccountSetupVisible] = useState(false);
+  const [isSuccessMessageVisible, setIsSuccessMessageVisible] = useState(false);
   const [isfetchingAccountStatus, setIsfetchingAccountStatus] = useState(true);
   const { data, refetch } = useAccountStatus(isfetchingAccountStatus);
 
@@ -33,7 +34,7 @@ export default function PendingAccountScreen() {
   useEffect(() => {
     if (accountStatus === "COMPLETED") {
       setIsfetchingAccountStatus(false);
-      addToast({ variant: "confirm", message: t("Onboarding.LandingScreen.success.bannerMessage") });
+      setIsSuccessMessageVisible(true);
     } else if (accountStatus === "DECLINED") {
       setIsfetchingAccountStatus(false);
     }
@@ -88,6 +89,14 @@ export default function PendingAccountScreen() {
     paddingBottom: theme.spacing["20p"],
   }));
 
+  const successAlertContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    position: "absolute",
+    right: 0,
+    zIndex: 100,
+    left: 0,
+    margin: theme.spacing["20p"],
+  }));
+
   const handleWorkGuidePress = () => {
     navigation.navigate("Onboarding.WorkGuideModal");
   };
@@ -100,6 +109,15 @@ export default function PendingAccountScreen() {
           <>
             {accountStatus === "COMPLETED" ? (
               <>
+                {isSuccessMessageVisible ? (
+                  <View style={successAlertContainerStyle}>
+                    <Alert
+                      variant="success"
+                      message={t("Onboarding.LandingScreen.success.bannerMessage")}
+                      end={<Alert.CloseEndButton onPress={() => setIsSuccessMessageVisible(false)} />}
+                    />
+                  </View>
+                ) : null}
                 <Stack direction="vertical" flex={1} justify="space-between">
                   <View />
                   <View style={headerSuccessStyle}>
