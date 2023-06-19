@@ -12,7 +12,6 @@ import { AuthContextProvider } from "@/contexts/AuthContext";
 import { ReferralContextProvider } from "@/contexts/ReferralContext";
 import { ToastsContextProvider } from "@/contexts/ToastsContext";
 import { InternalTransferContextProvider } from "@/features/InternalTransfers/context/InternalTransfersContext";
-import { OnboardingContextProvider } from "@/features/Onboarding/contexts/OnboardingContext";
 import useAppsFlyer from "@/hooks/use-appsflyer";
 import useDeviceLanguage from "@/i18n/use-device-language";
 import useI18nDirection from "@/i18n/use-i18n-direction";
@@ -37,18 +36,16 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <AuthContextProvider>
           <ReferralContextProvider>
-            <OnboardingContextProvider>
-              <InternalTransferContextProvider>
-                <SafeAreaProvider>
-                  <ToastsContextProvider>
-                    <GestureHandlerRootView style={styles.container}>
-                      <StatusBar barStyle="dark-content" />
-                      <MainStack onReady={() => RNBootSplash.hide()} />
-                    </GestureHandlerRootView>
-                  </ToastsContextProvider>
-                </SafeAreaProvider>
-              </InternalTransferContextProvider>
-            </OnboardingContextProvider>
+            <InternalTransferContextProvider>
+              <SafeAreaProvider>
+                <ToastsContextProvider>
+                  <GestureHandlerRootView style={styles.container}>
+                    <StatusBar barStyle="dark-content" />
+                    <MainStack onReady={() => RNBootSplash.hide()} />
+                  </GestureHandlerRootView>
+                </ToastsContextProvider>
+              </SafeAreaProvider>
+            </InternalTransferContextProvider>
           </ReferralContextProvider>
         </AuthContextProvider>
       </QueryClientProvider>
