@@ -3,7 +3,7 @@ import { format, isThisMonth, parse } from "date-fns";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, Keyboard, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { Keyboard, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import Button from "@/components/Button";
@@ -54,10 +54,14 @@ export default function FundingStep({
 
   const fundSavingPot = useFundSavingsPot();
   const account = useCurrentAccount();
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
 
-  const today = new Date();
-  // eslint-disable-next-line prettier/prettier
-  const targetDate = useMemo(() => (data?.TargetDate ? parse(data?.TargetDate, "yyyy-MM-dd", today) : undefined), [data]);
+  const today = useMemo(() => new Date(), []);
+
+  const targetDate = useMemo(
+    () => (data?.TargetDate ? parse(data?.TargetDate, "yyyy-MM-dd", today) : undefined),
+    [data?.TargetDate, today]
+  );
   const accountBalance = account.data?.balance || 0;
 
   // below details no longer exist on the new response
@@ -105,7 +109,7 @@ export default function FundingStep({
       ? mockMissingSavingsPotDetails.HadRecurringFund === false
       : mockMissingSavingsPotDetails.HadOneTimeFund === false;
 
-  const handleOnSubmit = (values: FundingInput) => {
+  const handleOnSubmit = async (values: FundingInput) => {
     if (data === undefined || account.data === undefined) return Promise.resolve();
     Keyboard.dismiss();
 
@@ -113,45 +117,23 @@ export default function FundingStep({
     // allows to retry the submitting and we want to "remember" the loading state of the form
     // so it needs to pass through the submit process
 
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise<void>(async resolve => {
-      try {
-        const response = await fundSavingPot.mutateAsync({
-          ...values,
-          Currency: "SAR",
-          // @ts-expect-error undefined check already performed on L114
-          DebtorAccount: account.data.id,
-          PotId: data.PotId,
-          // need below parameter for recurring payments but dont know where to get it from
-          // StartingDate: parseISO(data.RecurringPayments.StartingDate),
-        });
+    try {
+      const response = await fundSavingPot.mutateAsync({
+        ...values,
+        Currency: "SAR",
+        DebtorAccount: account.data.id,
+        PotId: data.PotId,
+        // need below parameter for recurring payments but dont know where to get it from
+        // StartingDate: parseISO(data.RecurringPayments.StartingDate),
+      });
 
-        setConfirmationNextPaymentDate(response.NextPaymentDate);
-        setIsConfirmationVisible(true);
+      setConfirmationNextPaymentDate(response.NextPaymentDate);
+      setIsConfirmationVisible(true);
+    } catch (error) {
+      setIsErrorModalVisible(true);
 
-        resolve();
-      } catch (error) {
-        Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
-          {
-            text: t("SavingsGoals.FundGoalModal.FundingStep.errorNotNow"),
-            onPress: () => {
-              navigation.goBack();
-              resolve();
-            },
-          },
-          {
-            text: t("SavingsGoals.FundGoalModal.FundingStep.errorTryAgain"),
-            onPress: () => {
-              handleOnSubmit(values)
-                .then(() => resolve())
-                .catch(() => resolve()); // just in case
-            },
-          },
-        ]);
-
-        warn("savings-pots", "Could not fund savings pot ", JSON.stringify(error));
-      }
-    });
+      warn("savings-pots", "Could not fund savings pot ", JSON.stringify(error));
+    }
   };
 
   const handleOnContinuePress = () => {
@@ -255,6 +237,24 @@ export default function FundingStep({
         })}
         isVisible={isConfirmationVisible}
         variant="success"
+      />
+      <NotificationModal
+        buttons={{
+          primary: (
+            <Button loading={fundSavingPot.isLoading} onPress={handleSubmit(handleOnSubmit)}>
+              {t("SavingsGoals.FundGoalModal.FundingStep.errorTryAgain")}
+            </Button>
+          ),
+          secondary: (
+            <Button onPress={() => navigation.goBack()}>
+              {t("SavingsGoals.FundGoalModal.FundingStep.errorNotNow")}
+            </Button>
+          ),
+        }}
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={isErrorModalVisible}
+        variant="error"
       />
     </>
   );

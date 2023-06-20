@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { CountrySelector } from "./components";
 import { OnboardingContextProvider } from "./contexts/OnboardingContext";
 import {
+  AppIntroAnimationScreen,
   ConfirmPasscodeScreen,
   ConfirmPersonalDetailsScreen,
   CreatePasscodeScreen,
@@ -10,10 +11,11 @@ import {
   FinancialInformationScreen,
   IqamaInputScreen,
   NafathAuthScreen,
-  OnboardingSplashScreen,
   OptionalEmailScreen,
   PendingAccountScreen,
+  SplashScreen,
   TermsAndConditionsScreen,
+  WelcomeCarouselScreen,
   WorkGuideModal,
 } from "./screens";
 import { ForeignTaxCountry } from "./types";
@@ -32,6 +34,8 @@ type OnboardingCountrySelectorParams = {
 };
 
 export type OnboardingStackParams = {
+  "Onboarding.WelcomeCarousel": undefined;
+  "Onboarding.AppIntroAnimation": undefined;
   "Onboarding.SplashScreen": undefined;
   "Onboarding.Iqama": undefined;
   "Onboarding.Nafath": undefined;
@@ -53,7 +57,9 @@ export default function OnboardingStack() {
   return (
     <OnboardingContextProvider>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen component={OnboardingSplashScreen} name="Onboarding.SplashScreen" />
+        <Stack.Screen component={AppIntroAnimationScreen} name="Onboarding.AppIntroAnimation" />
+        <Stack.Screen component={SplashScreen} name="Onboarding.SplashScreen" />
+        <Stack.Screen component={WelcomeCarouselScreen} name="Onboarding.WelcomeCarousel" />
         <Stack.Screen component={IqamaInputScreen} name="Onboarding.Iqama" />
         <Stack.Screen component={NafathAuthScreen} name="Onboarding.Nafath" />
         <Stack.Screen component={ConfirmPersonalDetailsScreen} name="Onboarding.ConfirmDetails" />

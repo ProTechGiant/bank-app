@@ -9,8 +9,17 @@ export default {
   component: Button,
   args: {
     children: "Hello World",
+    size: "regular",
   },
   argTypes: {
+    variant: {
+      options: ["primary", "secondary", "tertiary", "warning"],
+      control: { type: "radio" },
+    },
+    size: {
+      options: ["regular", "small", "mini"],
+      control: { type: "radio" },
+    },
     disabled: {
       control: "boolean",
     },

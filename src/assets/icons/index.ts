@@ -61,6 +61,8 @@ export { MapMarkerIcon } from "./map-marker";
 export { default as MinusIcon } from "./minus";
 export { default as MobileIcon } from "./mobile";
 export { default as MoneyIcon } from "./money";
+export { default as NeraLogo } from "./NeraLogo";
+export { default as NeraNamedLogo } from "./NeraNamedLogo";
 export { default as NotificationIcon } from "./notification";
 export { default as NumbersIcon } from "./numbers";
 export { default as PersonIcon } from "./person";

@@ -44,16 +44,29 @@ export const resources = {
         },
       },
       Onboarding: {
+        WelcomeCarousel: {
+          titleOne: "Welcome\nto Croatia",
+          subTextOne: "This is your gateway\nto What's Next",
+          titleTwo: "Exclusive Experiences",
+          subTextTwo: "Boast-worthy experiences that put you at the heart of What’s Next in KSA ",
+          titleThree: "Tailored content",
+          subTextThree: "Your essential view on the best upcoming culture in KSA",
+          titleFour: "Radically simple banking",
+          subTextFour: "Get your money to get\nyou what you want.",
+          nextButton: "Next",
+        },
         SplashScreen: {
-          title: "Smarter lifestyle choices with more control",
+          title: "Your gateway\nto what’s next",
           buttons: {
-            signUp: "Open a Croatia account",
-            signIn: "Already have a Croatia account?",
+            signUp: "Sign up",
+            withUs: "Already with us?",
+            signIn: " Sign in",
           },
         },
         LandingScreen: {
           success: {
-            title: 'Welcome\n "{{userName}}"',
+            title: "Welcome to\n Croatia",
+            subtitle: "You’re in control now",
             bannerMessage: "Your account was successfully created!",
           },
           failed: {
@@ -808,7 +821,7 @@ export const resources = {
           RoundUpAlreadyActiveModal: {
             title: "Turn on round-ups for this goal?",
             message: "You’re already using round-ups for another goal. Do you want to switch to this one?",
-            switchRoundUpButton: "Switch to this goal",
+            switchRoundUpButton: "Switch",
             cancelButton: "Don’t switch",
           },
           ActionButtons: {
@@ -1945,16 +1958,29 @@ export const resources = {
         },
       },
       Onboarding: {
+        WelcomeCarousel: {
+          titleOne: "Welcome to Croatia",
+          subTextOne: "This is your gateway\nto What's Next",
+          titleTwo: "Exclusive Experiences",
+          subTextTwo: "Boast-worthy experiences that put you at the heart of What’s Next in KSA ",
+          titleThree: "Tailored content",
+          subTextThree: "Your essential view on the best upcoming culture in KSA",
+          titleFour: "Radically simple banking",
+          subTextFour: "Get your money to get\nyou what you want.",
+          nextButton: "Next",
+        },
         SplashScreen: {
-          title: "أنت الآن في السيطرة",
+          title: "Your gateway\nto what’s next",
           buttons: {
-            signUp: "أنشئ حساب",
-            signIn: "تسجيل الدخول",
+            signUp: "Sign up",
+            withUs: "Already with us? ",
+            signIn: "Sign in",
           },
         },
         LandingScreen: {
           success: {
-            title: 'Welcome\n "{{userName}}"',
+            title: "Welcome to\n Croatia",
+            subtitle: "You’re in control now",
             bannerMessage: "Your account was successfully created!",
           },
           failed: {

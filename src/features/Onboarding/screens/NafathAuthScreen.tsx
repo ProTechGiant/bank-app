@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Alert, Linking, Platform, View, ViewStyle } from "react-native";
 
 import Accordion from "@/components/Accordion";
-import LoadingIndicatorModal from "@/components/LoadingIndicatorModal";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -85,6 +85,7 @@ export default function NafathAuthScreen() {
 
   const container = useThemeStyles<ViewStyle>(theme => ({
     margin: theme.spacing["24p"],
+    height: "100%",
   }));
 
   const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -113,7 +114,7 @@ export default function NafathAuthScreen() {
       <NavHeader withBackButton={true} title={t("Onboarding.NafathAuthScreen.navHeaderTitle")} />
       <View style={container}>
         {isIndicator ? (
-          <LoadingIndicatorModal loadingText={t("Loader.loadingText")} />
+          <FullScreenLoader />
         ) : (
           <>
             <LinkModal

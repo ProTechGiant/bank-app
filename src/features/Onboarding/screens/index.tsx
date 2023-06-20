@@ -1,3 +1,4 @@
+export { default as AppIntroAnimationScreen } from "./AppIntroAnimationScreen";
 export { default as ConfirmPasscodeScreen } from "./ConfirmPasscodeScreen";
 export { default as ConfirmPersonalDetailsScreen } from "./ConfirmPersonalDetailsScreen";
 export { default as CreatePasscodeScreen } from "./CreatePasscodeScreen";
@@ -5,8 +6,9 @@ export { default as FatcaDetailsScreen } from "./FatcaDetailsScreen";
 export { default as FinancialInformationScreen } from "./FinancialInformationScreen";
 export { default as IqamaInputScreen } from "./IqamaInputScreen";
 export { default as NafathAuthScreen } from "./NafathAuthScreen";
-export { default as OnboardingSplashScreen } from "./OnboardingSplashScreen";
 export { default as OptionalEmailScreen } from "./OptionalEmailScreen";
 export { default as PendingAccountScreen } from "./PendingAccountScreen";
+export { default as SplashScreen } from "./SplashScreen";
 export { default as TermsAndConditionsScreen } from "./TermsAndConditionsScreen";
+export { default as WelcomeCarouselScreen } from "./WelcomeCarouselScreen";
 export { default as WorkGuideModal } from "./WorkGuideModal";

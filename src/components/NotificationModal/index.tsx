@@ -40,8 +40,6 @@ export default function NotificationModal({
   variant,
   icon,
 }: NotificationModalProps) {
-  const hasCloseButton = undefined === buttons || buttons === false;
-
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     marginTop: theme.spacing["16p"],
@@ -83,12 +81,12 @@ export default function NotificationModal({
   }));
 
   return (
-    <Modal visible={isVisible} style={modalStyle} onClose={hasCloseButton ? onClose : undefined}>
-      <View style={[containerStyle, hasCloseButton && onClose !== undefined && containerWithButtonStyle]}>
+    <Modal visible={isVisible} style={modalStyle} onClose={onClose}>
+      <View style={[containerStyle, onClose !== undefined && containerWithButtonStyle]}>
         {variant !== "confirmations" ? (
           <View>{cloneElement(VARIANT_ICONS[variant], variantIconStyles)}</View>
         ) : icon !== undefined ? (
-          <View>{cloneElement(icon, styles.iconStyles)}</View>
+          <View>{cloneElement(icon)}</View>
         ) : null}
         <Stack direction="vertical" gap="16p" align="center" style={contentStyle}>
           <Typography.Text color="neutralBase+30" weight="medium" size="title2" align="center">
@@ -113,7 +111,7 @@ export default function NotificationModal({
 
 const styles = StyleSheet.create({
   iconStyles: {
-    height: 50,
-    width: 50,
+    height: 78,
+    width: 81,
   },
 });

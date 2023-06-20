@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Alert, I18nManager, StyleSheet, View } from "react-native";
@@ -39,7 +39,7 @@ export default function TemporaryLandingScreen() {
     const focusListener = navigation.addListener("focus", () => checkUserIsBlocked());
 
     return focusListener;
-  }, [navigation]);
+  }, [checkUserIsBlocked, navigation]);
 
   // Appsflyer listens for onDeepLink to be triggered and then we navigate to correct screen using data passed by Appsflyer
   // TODO: Should be placed inside the first screen in the nav stack so that it is always called but can also handle navigation
@@ -66,11 +66,11 @@ export default function TemporaryLandingScreen() {
     },
   });
 
-  const checkUserIsBlocked = async () => {
+  const checkUserIsBlocked = useCallback(async () => {
     const userBlocked = await getItemFromEncryptedStorage("UserBlocked"); // TODO: check if user is blocked or not API needs to be developed
     if (userBlocked)
       navigation.navigate("SignIn.SignInStack", { screen: "SignIn.UserBlocked", params: { type: "passcode" } });
-  };
+  }, [navigation]);
 
   const handleOnSavingsGoals = async () => {
     try {
@@ -132,7 +132,7 @@ export default function TemporaryLandingScreen() {
   const handleOnOpenOnboarding = (values: TemporaryForm) => {
     auth.authenticateAnonymously(values.UserId);
     navigation.navigate("Onboarding.OnboardingStack", {
-      screen: "Onboarding.SplashScreen",
+      screen: "Onboarding.AppIntroAnimation",
     });
   };
 

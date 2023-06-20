@@ -49,7 +49,7 @@ export default function WorkGuideModal() {
     borderRadius: theme.spacing["8p"],
     borderColor: theme.palette["neutralBase-30"],
     alignItems: "center",
-    width: theme.spacing.full,
+    width: "100%",
     marginTop: theme.spacing["20p"],
     paddingLeft: theme.spacing["16p"],
     paddingRight: theme.spacing["18p"],

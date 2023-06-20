@@ -23,6 +23,7 @@ import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import HeaderBackground from "../assets/HeaderBackground";
+import RoundUpsIcon from "../assets/round-ups";
 import { ProgressWheel, TransactionCardList } from "../components";
 import { calculateGoalBalanceOverThreeQuarters } from "../helpers";
 import { useRecurringPayments, useRoundupFlag, useSavingsPot, useUpdateSavingsGoal } from "../hooks/query-hooks";
@@ -382,6 +383,7 @@ export default function GoalDetailsScreen() {
         {/* modal informing the user that round-ups is active for another goal already */}
         <NotificationModal
           variant="confirmations"
+          icon={<RoundUpsIcon />}
           message={t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.message")}
           title={t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.title")}
           isVisible={isSwitchRoundupsModalVisible}

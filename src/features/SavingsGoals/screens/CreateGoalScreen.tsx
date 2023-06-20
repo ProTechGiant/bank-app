@@ -7,6 +7,7 @@ import { Alert, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
 import { QuestionIcon } from "@/assets/icons";
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import CurrencyInput from "@/components/Form/CurrencyInput";
 import DatePickerInput from "@/components/Form/DatePickerInput";
@@ -14,6 +15,7 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
 import Modal from "@/components/Modal";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
@@ -23,6 +25,8 @@ import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 import { alphaNumericSpaceRegExp } from "@/utils";
 
+import TurnOnNotificationsIcon from "../assets/notifications";
+import RoundUpsIcon from "../assets/round-ups";
 import { useCreateGoal, useRoundupFlag } from "../hooks/query-hooks";
 import { CreateGoalInput } from "../types";
 
@@ -31,6 +35,9 @@ export default function CreateGoalScreen() {
   const { t } = useTranslation();
   const createGoalAsync = useCreateGoal();
   const { data } = useRoundupFlag();
+
+  const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
+  const [isRoundUpsModalVisible, setIsRoundUpsModalVisible] = useState(false);
 
   const validationSchema = useMemo(
     () =>
@@ -65,36 +72,14 @@ export default function CreateGoalScreen() {
     if (!RoundupFlag) return;
     if (data?.IsRoundUpActive === false) return;
 
-    Alert.alert(
-      t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.title"),
-      t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.message"),
-      [
-        {
-          text: t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.dontSwitch"),
-          onPress: () => setValue("RoundupFlag", false),
-        },
-        { text: t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.switch"), style: "default" },
-      ]
-    );
+    setIsRoundUpsModalVisible(true);
   }, [RoundupFlag, t, data, setValue]);
 
   const handleOnNotificationPress = () => {
     if (NotificationFlag) {
       setValue("NotificationFlag", false);
     } else {
-      Alert.alert(
-        t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.title"),
-        t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.message"),
-        [
-          {
-            text: t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.cancel"),
-          },
-          {
-            text: t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.turnOn"),
-            onPress: () => setValue("NotificationFlag", true),
-          },
-        ]
-      );
+      setIsNotificationModalVisible(true);
     }
   };
 
@@ -125,6 +110,16 @@ export default function CreateGoalScreen() {
 
   const handleOnModalClose = () => {
     setIsInfoModalVisible(false);
+  };
+
+  const handleTurnOnNotificationFlag = () => {
+    setValue("NotificationFlag", true);
+    setIsNotificationModalVisible(current => !current);
+  };
+
+  const handleTurnOffRoundupFlag = () => {
+    setValue("RoundupFlag", false);
+    setIsRoundUpsModalVisible(current => !current);
   };
 
   const titleStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -232,6 +227,44 @@ export default function CreateGoalScreen() {
           </Stack>
         </View>
       </Modal>
+      <NotificationModal
+        variant="confirmations"
+        icon={<TurnOnNotificationsIcon />}
+        message={t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.message")}
+        title={t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.title")}
+        isVisible={isNotificationModalVisible}
+        buttons={{
+          primary: (
+            <Button onPress={handleTurnOnNotificationFlag}>
+              {t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.turnOn")}
+            </Button>
+          ),
+          secondary: (
+            <Button onPress={() => setIsNotificationModalVisible(current => !current)}>
+              {t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.cancel")}
+            </Button>
+          ),
+        }}
+      />
+      <NotificationModal
+        variant="confirmations"
+        icon={<RoundUpsIcon />}
+        message={t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.message")}
+        title={t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.title")}
+        isVisible={isRoundUpsModalVisible}
+        buttons={{
+          primary: (
+            <Button onPress={() => setIsRoundUpsModalVisible(current => !current)}>
+              {t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.switch")}
+            </Button>
+          ),
+          secondary: (
+            <Button onPress={handleTurnOffRoundupFlag}>
+              {t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.dontSwitch")}
+            </Button>
+          ),
+        }}
+      />
     </>
   );
 }

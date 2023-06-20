@@ -15,6 +15,7 @@ export interface ButtonProps extends Omit<PressableProps, "children" | "disabled
   iconRight?: React.ReactElement<SvgProps | IconProps>;
   loading?: boolean;
   variant?: "primary" | "secondary" | "tertiary" | "warning";
+  size?: "regular" | "small" | "mini";
 }
 
 export default function Button({
@@ -26,6 +27,7 @@ export default function Button({
   iconRight,
   loading = false,
   variant = "primary",
+  size = "regular",
   ...restProps
 }: ButtonProps) {
   const containerStyles = useThemeStyles(
@@ -36,13 +38,15 @@ export default function Button({
         backgroundColor: theme.palette[variance.backgroundColor],
         borderColor: theme.palette[variance.borderColor],
         borderRadius: theme.radii.xxlarge,
-        borderWidth: 2,
-        // subtract border width. to keep button same dimensions
+        borderWidth: BORDER_WIDTH,
         paddingHorizontal: theme.spacing["16p"] - 2,
-        paddingVertical: theme.spacing["16p"] - 2 + (loading ? 1 : 0),
+        paddingVertical:
+          (size === "regular" ? theme.spacing["16p"] : size === "small" ? theme.spacing["12p"] : theme.spacing["4p"]) -
+          BORDER_WIDTH + // subtract border width to keep button same dimensions,
+          (loading ? 1 : 0), // subtract for loading icon
       };
     },
-    [color, disabled, loading, variant]
+    [color, disabled, loading, variant, size]
   );
 
   const pressedStyle = useThemeStyles(
@@ -96,6 +100,8 @@ export default function Button({
     </Pressable>
   );
 }
+
+const BORDER_WIDTH = 2;
 
 const styles = StyleSheet.create({
   base: {

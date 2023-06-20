@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { StatusBar, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import Alert from "@/components/Alert";
 import Button from "@/components/Button";
@@ -13,7 +13,10 @@ import { useToasts } from "@/contexts/ToastsContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { BrandMoment, CheckAccountSetupPoint, WorkGuideCard } from "../components";
+import AccountCreated from "../assets/account-created.svg";
+import AccountDeclined from "../assets/account-declined.svg";
+import AccountPending from "../assets/account-pending.svg";
+import { CheckAccountSetupPoint, WorkGuideCard } from "../components";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useAccountStatus } from "../hooks/query-hooks";
 import { Status } from "../types";
@@ -21,6 +24,8 @@ import { Status } from "../types";
 export default function PendingAccountScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { height } = useWindowDimensions();
+
   const auth = useAuthContext();
   const { userName } = useOnboardingContext();
   const addToast = useToasts();
@@ -50,7 +55,13 @@ export default function PendingAccountScreen() {
 
   const headerSuccessStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
+    marginBottom: theme.spacing["16p"],
+  }));
+
+  const headerPendingDeclineStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
     rowGap: theme.spacing["24p"],
+    marginTop: height / 5,
     marginBottom: theme.spacing["24p"],
     width: "100%",
   }));
@@ -63,33 +74,7 @@ export default function PendingAccountScreen() {
     paddingTop: theme.spacing["12p"],
   }));
 
-  const successBrandMomentStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderRadius: theme.spacing["100p"],
-    backgroundColor: theme.palette.complimentBase,
-    width: 150,
-    height: 270,
-  }));
-
-  const declinedBrandMomentStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderRadius: theme.spacing["100p"],
-    backgroundColor: theme.palette.complimentBase,
-    width: 150,
-    height: 45,
-  }));
-
-  const pendingBrandMomentStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderRadius: theme.spacing["100p"],
-    backgroundColor: theme.palette.warningBase,
-    width: 150,
-    height: 270,
-  }));
-
-  const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["28p"],
-    paddingBottom: theme.spacing["20p"],
-  }));
-
-  const successAlertContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+  const successAlertContainer = useThemeStyles<ViewStyle>(theme => ({
     position: "absolute",
     right: 0,
     zIndex: 100,
@@ -97,20 +82,28 @@ export default function PendingAccountScreen() {
     margin: theme.spacing["20p"],
   }));
 
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["28p"],
+    paddingBottom: theme.spacing["20p"],
+  }));
+
+  const svgHeight = height * 0.55; // Adjust the height as needed
+  const svgWidth = svgHeight * 0.75; // Adjust the aspect ratio as needed
+
   const handleWorkGuidePress = () => {
     navigation.navigate("Onboarding.WorkGuideModal");
   };
 
   return (
     <>
-      <Page backgroundColor="neutralBase-60">
+      <Page backgroundColor={accountStatus === "COMPLETED" ? "primaryBase" : "neutralBase-60"}>
         <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
         <ContentContainer>
           <>
             {accountStatus === "COMPLETED" ? (
               <>
                 {isSuccessMessageVisible ? (
-                  <View style={successAlertContainerStyle}>
+                  <View style={successAlertContainer}>
                     <Alert
                       variant="success"
                       message={t("Onboarding.LandingScreen.success.bannerMessage")}
@@ -118,29 +111,35 @@ export default function PendingAccountScreen() {
                     />
                   </View>
                 ) : null}
-                <Stack direction="vertical" flex={1} justify="space-between">
-                  <View />
+                <Stack direction="vertical" flex={1} justify="space-between" gap="24p" align="stretch">
                   <View style={headerSuccessStyle}>
-                    <BrandMoment
-                      style={successBrandMomentStyle}
-                      title="Brand Moment Success"
-                      adjustFontSizeToFit={true}
-                    />
-                    <Typography.Text align="center" size="large" weight="bold" color="primaryBase-10">
-                      {t("Onboarding.LandingScreen.success.title", { userName })}
-                    </Typography.Text>
+                    <AccountCreated height={svgHeight} width={svgWidth} />
+                    <Stack direction="vertical" align="center" gap="8p">
+                      <Typography.Text align="center" size="xlarge" weight="bold" color="neutralBase-60">
+                        {t("Onboarding.LandingScreen.success.title")}
+                      </Typography.Text>
+                      <Typography.Text align="center" size="callout" weight="regular" color="neutralBase-60">
+                        {t("Onboarding.LandingScreen.success.subtitle")}
+                      </Typography.Text>
+                    </Stack>
                   </View>
                 </Stack>
               </>
             ) : accountStatus === "DECLINED" ? (
               <Stack direction="vertical" gap="16p" align="center" justify="center" flex={1}>
-                <BrandMoment style={declinedBrandMomentStyle} title="Brand Moment" adjustFontSizeToFit={true} />
-                <Typography.Text color="primaryBase-10" size="large" weight="bold" align="center">
-                  {t("Onboarding.LandingScreen.failed.title")}
-                </Typography.Text>
-                <Typography.Text size="callout" weight="regular" color="primaryBase-10" align="center">
-                  {t("Onboarding.LandingScreen.failed.subtitle")}
-                </Typography.Text>
+                <Stack direction="vertical" flex={1} justify="flex-start" gap="24p" align="stretch">
+                  <View style={headerPendingDeclineStyle}>
+                    <AccountDeclined />
+                    <Stack direction="vertical" align="center" gap="8p">
+                      <Typography.Text size="title1" weight="bold" color="neutralBase+30" align="center">
+                        {t("Onboarding.LandingScreen.failed.title")}
+                      </Typography.Text>
+                      <Typography.Text size="callout" weight="regular" color="primaryBase-10" align="center">
+                        {t("Onboarding.LandingScreen.failed.subtitle")}
+                      </Typography.Text>
+                    </Stack>
+                  </View>
+                </Stack>
               </Stack>
             ) : (
               <Stack direction="vertical" align="center" justify="space-between" flex={1}>
@@ -177,19 +176,25 @@ export default function PendingAccountScreen() {
                     </Stack>
                   </Alert>
                 </View>
-                <View style={styles.aboveUsernameContainer} />
-                <View style={styles.usernameContainer}>
-                  <BrandMoment style={pendingBrandMomentStyle} title="Brand Moment Pending" />
-                  <Typography.Text size="title1" weight="medium" color="neutralBase+30" align="center">
-                    {t("Onboarding.LandingScreen.pending.title", { userName })}
-                  </Typography.Text>
-                </View>
+                <Stack direction="vertical" flex={1} justify="flex-start" gap="24p" align="stretch">
+                  <View style={headerPendingDeclineStyle}>
+                    <AccountPending />
+                    <View style={styles.usernameContainer}>
+                      <Typography.Text size="title1" weight="bold" color="neutralBase+30" align="center">
+                        {t("Onboarding.LandingScreen.pending.title", { userName })}
+                      </Typography.Text>
+                    </View>
+                  </View>
+                </Stack>
                 <WorkGuideCard onPress={handleWorkGuidePress} />
               </Stack>
             )}
             {accountStatus !== "DECLINED" ? (
               <View style={buttonContainerStyle}>
-                <Button onPress={handleOnGetStartedPress} disabled={accountStatus !== "COMPLETED"}>
+                <Button
+                  color={accountStatus !== "COMPLETED" ? "light" : "dark"}
+                  onPress={handleOnGetStartedPress}
+                  disabled={accountStatus !== "COMPLETED"}>
                   {t("Onboarding.LandingScreen.pending.buttonTitle")}
                 </Button>
               </View>
@@ -202,12 +207,15 @@ export default function PendingAccountScreen() {
 }
 
 const styles = StyleSheet.create({
-  aboveUsernameContainer: { flex: 1 },
   bannerViewStyle: {
     position: "absolute",
     top: 0,
     width: "100%",
     zIndex: 1,
   },
-  usernameContainer: { alignItems: "center", flex: 4, gap: 24, justifyContent: "center" },
+  usernameContainer: {
+    alignItems: "center",
+    gap: 24,
+    justifyContent: "center",
+  },
 });

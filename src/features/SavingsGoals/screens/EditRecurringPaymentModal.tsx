@@ -49,6 +49,7 @@ export default function EditRecurringPaymentModal() {
   const { data: { balance: accountBalance = 0 } = {} } = useCurrentAccount();
 
   const [removeRecurringPaymentModal, setRemoveRecurringPaymentModal] = useState<boolean>(false);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
 
   const buttonSpaceStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["4p"],
@@ -58,10 +59,10 @@ export default function EditRecurringPaymentModal() {
     navigation.goBack();
   };
 
-  const today = new Date();
+  const today = useMemo(() => new Date(), []);
   const targetDate = useMemo(
     () => (savingsPotData?.TargetDate ? parse(savingsPotData?.TargetDate, "yyyy-MM-dd", today) : undefined),
-    [savingsPotData]
+    [savingsPotData?.TargetDate, today]
   );
 
   const validationSchema = useMemo(() => {
@@ -76,7 +77,7 @@ export default function EditRecurringPaymentModal() {
           then: yup.number().max(accountBalance, t("SavingsGoals.EditRegularPaymentModal.amountExceedsBalance")),
         }),
     });
-  }, [accountBalance, savingsPotData, t]);
+  }, [accountBalance, t, today]);
 
   const handleOnPressRemoval = async () => {
     setRemoveRecurringPaymentModal(current => !current);
@@ -112,7 +113,7 @@ export default function EditRecurringPaymentModal() {
     }
   }, [recurringFundData, setValue]);
 
-  const handleOnSubmit = (values: FundingInput) => {
+  const handleOnSubmit = async (values: FundingInput) => {
     if (undefined === recurringFundData) return Promise.resolve();
     if (undefined === savingsPotData) return Promise.resolve();
 
@@ -126,38 +127,18 @@ export default function EditRecurringPaymentModal() {
 
     const stringPaymentAmount = values.PaymentAmount.toString();
 
-    return new Promise<void>(resolve => {
-      try {
-        (async () =>
-          await editRecurringPayment.mutateAsync({
-            Currency: "SAR",
-            DebtorAccount: recurringFundData.DomesticStandingOrderId,
-            PotId: savingsPotData.PotId,
-            PaymentAmount: stringPaymentAmount,
-            PaymentFrequency: `${formattedDate} e0Y e1M e0W e0D`,
-          }))();
-        resolve();
-        navigation.goBack();
-      } catch (error) {
-        Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
-          {
-            text: t("SavingsGoals.EditRegularPaymentModal.errorNotNow"),
-            onPress: () => {
-              navigation.goBack();
-              resolve();
-            },
-          },
-          {
-            text: t("SavingsGoals.EditRegularPaymentModal.errorTryAgain"),
-            onPress: () => {
-              handleOnSubmit(values)
-                .then(() => resolve())
-                .catch(() => resolve()); // just in case
-            },
-          },
-        ]);
-      }
-    });
+    try {
+      await editRecurringPayment.mutateAsync({
+        Currency: "SAR",
+        DebtorAccount: recurringFundData.DomesticStandingOrderId,
+        PotId: savingsPotData.PotId,
+        PaymentAmount: stringPaymentAmount,
+        PaymentFrequency: `${formattedDate} e0Y e1M e0W e0D`,
+      });
+      navigation.goBack();
+    } catch (error) {
+      setIsErrorModalVisible(true);
+    }
   };
 
   return (
@@ -175,7 +156,7 @@ export default function EditRecurringPaymentModal() {
               control={control}
               helperText={currentValue => {
                 if (undefined !== savingsPotData && currentValue > accountBalance) {
-                  const amountExceedsBalance: any = (
+                  const amountExceedsBalance = (
                     <Typography.Text color="errorBase">
                       {t("SavingsGoals.EditRegularPaymentModal.amountExceedsBalance")}
                     </Typography.Text>
@@ -231,25 +212,41 @@ export default function EditRecurringPaymentModal() {
             </Button>
           </View>
         </ContentContainer>
-        <NotificationModal
-          variant="confirmations"
-          message={t("SavingsGoals.EditRegularPaymentModal.removalModal.message")}
-          title={t("SavingsGoals.EditRegularPaymentModal.removalModal.title")}
-          isVisible={removeRecurringPaymentModal}
-          buttons={{
-            primary: (
-              <Button onPress={handleOnPressRemoval}>
-                {t("SavingsGoals.EditRegularPaymentModal.removalModal.confirmButton")}
-              </Button>
-            ),
-            secondary: (
-              <Button onPress={() => setRemoveRecurringPaymentModal(current => !current)}>
-                {t("SavingsGoals.EditRegularPaymentModal.removalModal.cancelButton")}
-              </Button>
-            ),
-          }}
-        />
       </Page>
+      <NotificationModal
+        variant="confirmations"
+        message={t("SavingsGoals.EditRegularPaymentModal.removalModal.message")}
+        title={t("SavingsGoals.EditRegularPaymentModal.removalModal.title")}
+        isVisible={removeRecurringPaymentModal}
+        buttons={{
+          primary: (
+            <Button onPress={handleOnPressRemoval}>
+              {t("SavingsGoals.EditRegularPaymentModal.removalModal.confirmButton")}
+            </Button>
+          ),
+          secondary: (
+            <Button onPress={() => setRemoveRecurringPaymentModal(current => !current)}>
+              {t("SavingsGoals.EditRegularPaymentModal.removalModal.cancelButton")}
+            </Button>
+          ),
+        }}
+      />
+      <NotificationModal
+        buttons={{
+          primary: (
+            <Button loading={editRecurringPayment.isLoading} onPress={handleSubmit(handleOnSubmit)}>
+              {t("SavingsGoals.EditRegularPaymentModal.errorTryAgain")}
+            </Button>
+          ),
+          secondary: (
+            <Button onPress={() => navigation.goBack()}>{t("SavingsGoals.EditRegularPaymentModal.errorNotNow")}</Button>
+          ),
+        }}
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={isErrorModalVisible}
+        variant="error"
+      />
     </SafeAreaProvider>
   );
 }

@@ -10,7 +10,7 @@ import { useThemeStyles } from "@/theme";
 interface LargeCurrencyInputProps<T extends FieldValues> {
   autoFocus?: boolean;
   control: Control<T>;
-  helperText?: string | ((value: number) => string | undefined);
+  helperText?: string | ((value: number) => string | undefined) | Element;
   maxLength?: number;
   name: Path<T>;
   returnKeyType?: ReturnKeyTypeOptions;

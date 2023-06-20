@@ -23,6 +23,7 @@ interface HeroSliderProps {
   buttonText: string;
   lastButtonText: string;
   loading?: boolean;
+  variant?: "default" | "brand";
   end?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
   hasBackButton?: boolean;
   children?: React.ReactNode;
@@ -34,6 +35,7 @@ export default function HeroSlider({
   onBackPress,
   buttonText,
   lastButtonText,
+  variant = "default",
   loading = false,
   end,
   hasBackButton = true,
@@ -61,11 +63,12 @@ export default function HeroSlider({
   };
 
   const activeDotStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.primaryBase,
+    width: DOT_SIZE * 2,
+    backgroundColor: theme.palette.complimentBase,
   }));
 
   const inactiveDotStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-20"],
+    backgroundColor: theme.palette["neutralBase-30"],
   }));
 
   const paginationContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -80,8 +83,8 @@ export default function HeroSlider({
   return (
     <Page backgroundColor="neutralBase-60">
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <BackgroundTopStartSvg style={styles.backgroundTopStart} />
-      <BackgroundBottomSvg style={styles.backgroundBottom} />
+      {variant === "default" ? <BackgroundTopStartSvg style={styles.backgroundTopStart} /> : null}
+      {variant === "default" ? <BackgroundBottomSvg style={styles.backgroundBottom} /> : null}
       <NavHeader
         onBackPress={onBackPress}
         end={!hasBackButton ? end : nextStep < data.length && end ? end : undefined}
@@ -90,7 +93,14 @@ export default function HeroSlider({
       <ContentContainer style={styles.content}>
         <PagerView style={pagerStyle} onPageSelected={handleOnPageSelected} ref={pagerViewRef}>
           {data.map(element => (
-            <HeroSlide key={element.title} topElement={element.topElement} title={element.title} text={element.text} />
+            <HeroSlide
+              key={element.title}
+              topElement={element.topElement}
+              title={element.title}
+              text={element.text}
+              bottomElementStyle={element.bottomElementStyle}
+              containerStyle={element.containerStyle}
+            />
           ))}
         </PagerView>
         <Stack align="center" direction="horizontal" gap="8p" justify="center" style={paginationContainerStyle}>
@@ -130,7 +140,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   dot: {
-    borderRadius: DOT_SIZE / 2,
     height: DOT_SIZE,
     width: DOT_SIZE,
   },
