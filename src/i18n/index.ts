@@ -273,7 +273,7 @@ export const resources = {
         },
         CreatePasscode: {
           needHelpInfo: "Avoid a passcode that’s easy to guess, like 123456 or 111111.",
-          title: "Confirm app passcode",
+          title: "Create app passcode",
           subTitle: "This is 6-digit passcode you’ll use to get into your Croatia app.",
           navHeaderTitle: "Passcode",
         },
@@ -2171,7 +2171,7 @@ export const resources = {
         },
         CreatePasscode: {
           needHelpInfo: "Avoid a passcode that’s easy to guess, like 123456 or 111111.",
-          title: "Confirm app passcode",
+          title: "Create app passcode",
           subTitle: "This is 6-digit passcode you’ll use to get into your Croatia app.",
           navHeaderTitle: "Passcode",
         },
