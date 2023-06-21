@@ -10,14 +10,15 @@ import {
   BeneficiaryType,
   InternalTransfer,
   QuickTransfer,
+  TRANSFER_BENEFICIARY_MAP,
   TransferReason,
   TransferType,
 } from "../types";
 
 const queryKeys = {
   all: () => ["transfers"] as const,
-  reasons: (transferType: number) => [...queryKeys.all(), "reasons", { transferType }] as const,
-  beneficiaries: () => [...queryKeys.all(), "beneficiaries"] as const,
+  reasons: (transferType: TransferType) => [...queryKeys.all(), "reasons", { transferType }] as const,
+  beneficiaries: (transferType: TransferType) => [...queryKeys.all(), "beneficiaries", { transferType }] as const,
   banks: () => [...queryKeys.all(), "banks"] as const,
   transferFees: (transferType: string) => [...queryKeys.all(), "transfer-fees", { transferType }] as const,
 };
@@ -30,8 +31,7 @@ interface BeneficiariesResponse {
   Beneficiary: BeneficiaryType[];
 }
 
-// Transfer Types: QuickOrStandardType: 110 | InternalTransfer: 100;
-export function useTransferReasons(transferType: number) {
+export function useTransferReasons(transferType: TransferType) {
   return useQuery(queryKeys.reasons(transferType), () => {
     return api<ReasonsResponse>(
       "v1",
@@ -68,11 +68,18 @@ export function useDailyLimitValidation() {
   });
 }
 
-export function useBeneficiaries() {
-  return useQuery(queryKeys.beneficiaries(), () => {
-    return api<BeneficiariesResponse>("v1", "transfers/beneficiaries", "GET", undefined, undefined, {
-      ["x-correlation-id"]: generateRandomId(),
-    });
+export function useBeneficiaries(transferType: TransferType) {
+  return useQuery(queryKeys.beneficiaries(transferType), () => {
+    return api<BeneficiariesResponse>(
+      "v1",
+      "transfers/beneficiaries",
+      "GET",
+      transferType ? { beneficiaryType: TRANSFER_BENEFICIARY_MAP[transferType] } : undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
   });
 }
 
@@ -106,9 +113,11 @@ export function useAddBeneficiary() {
     async ({
       SelectionType,
       SelectionValue,
+      BeneficiaryTransferType,
     }: {
       SelectionType: AddBeneficiarySelectionType;
       SelectionValue: string;
+      BeneficiaryTransferType: TransferType;
     }) => {
       // remove country code in mobile phone number
       const inputValue =
@@ -122,6 +131,7 @@ export function useAddBeneficiary() {
         {
           SelectionType: SelectionType,
           SelectionValue: inputValue,
+          BeneficiaryType: TRANSFER_BENEFICIARY_MAP[BeneficiaryTransferType],
         },
         {
           ["x-correlation-id"]: generateRandomId(),
@@ -200,7 +210,7 @@ interface TransferFeesResponse {
   TransferFee: string;
 }
 
-export function useTransferFees(transferType: TransferType) {
+export function useTransferFees(transferType: string) {
   return useQuery(queryKeys.transferFees(transferType), () => {
     return api<TransferFeesResponse>(
       "v1",
@@ -261,7 +271,7 @@ export function useValidateQuickTransferBeneficiary() {
   );
 }
 
-export function useTransferReasonsByCode(reasonCode: string, transferType: number) {
+export function useTransferReasonsByCode(reasonCode: string, transferType: TransferType) {
   const reasons = useTransferReasons(transferType);
 
   return { ...reasons, data: reasons?.data?.TransferReason.find(reason => reason.Code === reasonCode) };

@@ -55,12 +55,27 @@ export interface InternalTransfer {
   RemittanceInformation: string;
 }
 
-export enum TransferType {
+export enum TransferTypeCode {
   InternalTransferCroatia = "100",
   LocalTransferIPS = "110",
   LocalTransferSarie = "120",
   InternalTransferAlrajhi = "130",
 }
+
+export type TransferType =
+  | "INTERNAL_TRANSFER_ACTION"
+  | "IPS_TRANSFER_ACTION"
+  | "SARIE_TRANSFER_ACTION"
+  | "CROATIA_TO_ARB_TRANSFER_ACTION";
+
+export type TransferBeneficiaryType = "INTERNAL_TRANSFER" | "IPS_SARIE_TRANSFER" | "CROATIA_TO_ARB_TRANSFER";
+
+export const TRANSFER_BENEFICIARY_MAP: Record<TransferType, TransferBeneficiaryType> = {
+  INTERNAL_TRANSFER_ACTION: "INTERNAL_TRANSFER",
+  CROATIA_TO_ARB_TRANSFER_ACTION: "CROATIA_TO_ARB_TRANSFER",
+  IPS_TRANSFER_ACTION: "IPS_SARIE_TRANSFER",
+  SARIE_TRANSFER_ACTION: "IPS_SARIE_TRANSFER",
+};
 
 export interface AddQuickTransferBeneficiary {
   SelectionType: AddBeneficiarySelectionType;

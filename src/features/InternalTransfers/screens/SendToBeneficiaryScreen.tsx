@@ -29,8 +29,13 @@ export default function SendToBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { setRecipient } = useInternalTransferContext();
-  const { data, refetch } = useBeneficiaries();
+  const { setRecipient, transferType } = useInternalTransferContext();
+
+  // BeneficiaryType is required in order to fetch the list of beneficiaries
+  if (transferType === undefined) {
+    throw new Error('Cannot access beneficiary list without "transferType"');
+  }
+  const { data, refetch } = useBeneficiaries(transferType);
   const { mutateAsync } = useDeleteBeneficiary();
 
   const searchInputRef = useRef<TextInput>(null);
@@ -160,7 +165,7 @@ export default function SendToBeneficiaryScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader />
+        <NavHeader title={t("InternalTransfers.SendToBeneficiaryScreen.navTitle")} />
         <KeyboardAvoidingView
           style={styles.keyboardView}
           behavior={Platform.OS === "ios" ? "padding" : undefined}

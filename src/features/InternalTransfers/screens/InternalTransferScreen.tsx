@@ -18,7 +18,6 @@ import { useThemeStyles } from "@/theme";
 import { TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useTransferReasons } from "../hooks/query-hooks";
-import { TransferType } from "../types";
 
 interface InternalTransferInput {
   PaymentAmount: number;
@@ -32,12 +31,12 @@ export default function InternalTransferScreen() {
   const account = useCurrentAccount();
 
   const { setTransferAmount, setReason, transferType } = useInternalTransferContext();
-  // these conditions were added to handle croatia to croatia and croatia to ARB flow.
-  const transferReasonCodeForAPI =
-    transferType === TransferType.InternalTransferAlrajhi
-      ? Number(TransferType.InternalTransferAlrajhi)
-      : Number(TransferType.InternalTransferCroatia);
-  const reasons = useTransferReasons(transferReasonCodeForAPI);
+
+  // BeneficiaryType is required in order to fetch the list of transfer reasons
+  if (transferType === undefined) {
+    throw new Error('Cannot access InternalTransferScreen without "transferType"');
+  }
+  const reasons = useTransferReasons(transferType);
 
   const currentBalance = account.data?.balance ?? 0;
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
@@ -89,7 +88,7 @@ export default function InternalTransferScreen() {
               <Typography.Text color="neutralBase+30" weight="medium" size="title1">
                 {t("InternalTransfers.InternalTransferScreen.screenTitle")}
               </Typography.Text>
-              {transferType === TransferType.InternalTransferAlrajhi ? (
+              {transferType === "CROATIA_TO_ARB_TRANSFER_ACTION" ? (
                 <View style={transferLimitContainerStyle}>
                   <IconLink onPress={handleOnTransferLimitsPress} icon={<InfoCircleIcon />} textSize="footnote">
                     {t("InternalTransfers.InternalTransferScreen.transferLimit")}

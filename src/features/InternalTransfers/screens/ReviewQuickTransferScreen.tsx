@@ -20,7 +20,7 @@ import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import { useQuickTransfer, useTransferFees, useTransferReasonsByCode } from "../hooks/query-hooks";
-import { QuickTransfer, TransferType } from "../types";
+import { QuickTransfer, TransferTypeCode } from "../types";
 
 export default function ReviewQuickTransferScreen() {
   const { t } = useTranslation();
@@ -28,8 +28,8 @@ export default function ReviewQuickTransferScreen() {
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ReviewQuickTransferScreen">>();
 
   const account = useCurrentAccount();
-  const transferFeesAsync = useTransferFees(TransferType.LocalTransferIPS);
-  const transferReason = useTransferReasonsByCode(route.params.ReasonCode, 110);
+  const transferFeesAsync = useTransferFees(TransferTypeCode.LocalTransferIPS);
+  const transferReason = useTransferReasonsByCode(route.params.ReasonCode, "IPS_TRANSFER_ACTION");
   const quickTransferAsync = useQuickTransfer();
   const otpFlow = useOtpFlow();
 

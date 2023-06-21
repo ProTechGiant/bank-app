@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { Alert } from "react-native";
 
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
 import Stack from "@/components/Stack";
 import { useHomepageLayoutOrder } from "@/features/Home/contexts/HomepageLayoutOrderContext";
 import { useInternalTransferContext } from "@/features/InternalTransfers/context/InternalTransfersContext";
-import { TransferType } from "@/features/InternalTransfers/types";
 import useNavigation from "@/navigation/use-navigation";
 import { iconMapping } from "@/utils/icon-mapping";
 
@@ -25,7 +23,7 @@ export default function QuickActionsSection({ onViewAllPress }: QuickActionsSect
 
   const handleOnCroatiaTransferPress = () => {
     setIsInternalTransferTypeModalVisible(false);
-    setTransferType(TransferType.InternalTransferCroatia);
+    setTransferType("INTERNAL_TRANSFER_ACTION");
     navigation.navigate("InternalTransfers.InternalTransfersStack", {
       screen: "InternalTransfers.InternalTransferScreen",
     });
@@ -33,9 +31,10 @@ export default function QuickActionsSection({ onViewAllPress }: QuickActionsSect
 
   const handleOnAlrajhiTransferPress = () => {
     setIsInternalTransferTypeModalVisible(false);
-    setTransferType(TransferType.InternalTransferAlrajhi);
-    // TODO: screens are still under development
-    Alert.alert("Under development");
+    setTransferType("CROATIA_TO_ARB_TRANSFER_ACTION");
+    navigation.navigate("InternalTransfers.InternalTransfersStack", {
+      screen: "InternalTransfers.InternalTransferScreen",
+    });
   };
 
   return (

@@ -1436,6 +1436,7 @@ export const resources = {
         },
         SendToBeneficiaryScreen: {
           title: "Send to",
+          navTitle: "Send money",
           addNewBeneficiaryLink: "Send to new beneficiary",
           confirmedBeneficiariesListTitle: "Active",
           unconfirmedBeneficiariesListTitle: "Inactive",
@@ -1488,6 +1489,7 @@ export const resources = {
             },
             mobileNotRecognisedModal: {
               title: "The entered mobile number is not associated with a Croatia account",
+              titleArb: "The entered mobile number is not associated with an ARB account",
               message: "Please try another mobile number",
             },
           },
@@ -1504,6 +1506,7 @@ export const resources = {
             },
             accountNumberNotRecognisedModal: {
               title: "The entered account number is not associated with a Croatia account",
+              titleArb: "The entered account number is not associated with an ARB account",
               message: "Please try another account number",
             },
           },
@@ -1521,6 +1524,7 @@ export const resources = {
             },
             ibanNotRecognisedModal: {
               title: "The entered IBAN is not associated with a Croatia account",
+              titleArb: "The entered IBAN is not associated with an ARB account",
               message: "Please try another IBAN",
             },
           },
@@ -2730,6 +2734,7 @@ export const resources = {
       },
       SendToBeneficiaryScreen: {
         title: "Send to",
+        navTitle: "Send money",
         addNewBeneficiaryLink: "Send to new beneficiary",
         confirmedBeneficiariesListTitle: "Active",
         unconfirmedBeneficiariesListTitle: "Inactive",
@@ -2782,6 +2787,7 @@ export const resources = {
           },
           mobileNotRecognisedModal: {
             title: "The entered mobile number is not associated with a Croatia account",
+            titleArb: "The entered mobile number is not associated with an ARB account",
             message: "Please try another mobile number",
           },
         },
@@ -2798,6 +2804,7 @@ export const resources = {
           },
           accountNumberNotRecognisedModal: {
             title: "The entered account number is not associated with a Croatia account",
+            titleArb: "The entered account number is not associated with an ARB account",
             message: "Please try another account number",
           },
         },
@@ -2815,6 +2822,7 @@ export const resources = {
           },
           ibanNotRecognisedModal: {
             title: "The entered IBAN is not associated with a Croatia account",
+            titleArb: "The entered IBAN is not associated with an ARB account",
             message: "Please try another IBAN",
           },
         },

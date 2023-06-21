@@ -26,10 +26,10 @@ export default function ReviewTransferScreen() {
   const account = useCurrentAccount();
   const invalidateBalances = useInvalidateBalances();
 
-  const { transferAmount, reason, recipient } = useInternalTransferContext();
+  const { transferAmount, reason, recipient, transferType } = useInternalTransferContext();
   const otpFlow = useOtpFlow();
   const internalTransferAsync = useInternalTransfer();
-  const transferReason = useTransferReasonsByCode(reason, 100);
+  const transferReason = useTransferReasonsByCode(reason, transferType);
 
   const [note, setNote] = useState<Note>({ content: "", attachment: "" });
   const [isVisible, setIsVisible] = useState(false);

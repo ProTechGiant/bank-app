@@ -17,7 +17,6 @@ import { formatCurrency } from "@/utils";
 import { PaymentOption, SelectTransferTypeModal } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useQuickTransferAccounts } from "../hooks/query-hooks";
-import { TransferType } from "../types";
 
 export default function PaymentsHubScreen() {
   const { t } = useTranslation();
@@ -53,13 +52,13 @@ export default function PaymentsHubScreen() {
 
   const handleOnCroatiaTransferPress = () => {
     setIsSelectInternalTransferTypeVisible(false);
-    setTransferType(TransferType.InternalTransferCroatia);
+    setTransferType("INTERNAL_TRANSFER_ACTION");
     navigation.navigate("InternalTransfers.InternalTransferScreen");
   };
 
   const handleOnAlrajhiTransferPress = () => {
     setIsSelectInternalTransferTypeVisible(false);
-    setTransferType(TransferType.InternalTransferAlrajhi);
+    setTransferType("CROATIA_TO_ARB_TRANSFER_ACTION");
     navigation.navigate("InternalTransfers.InternalTransferScreen");
   };
 

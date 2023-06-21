@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
@@ -13,6 +12,7 @@ import Pill from "@/components/Pill";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import {
@@ -28,7 +28,7 @@ export default function EnterBeneficiaryDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { setAddBeneficiary, setRecipient, addBeneficiary } = useInternalTransferContext();
+  const { setAddBeneficiary, setRecipient, addBeneficiary, transferType } = useInternalTransferContext();
   const addBeneficiaryAsync = useAddBeneficiary();
 
   const accountNumberFormRef = useRef(null);
@@ -49,8 +49,16 @@ export default function EnterBeneficiaryDetailsScreen() {
   const handleOnSubmit = async (values: AddBeneficiary) => {
     hideErrorModal();
 
+    // BeneficiaryType is required in order to differentiate between CRO and ARB transfers
+    if (transferType === undefined) {
+      throw new Error('Cannot create beneficiary without "transferType"');
+    }
+
     try {
-      const response = await addBeneficiaryAsync.mutateAsync(values);
+      const response = await addBeneficiaryAsync.mutateAsync({
+        ...values,
+        BeneficiaryTransferType: transferType,
+      });
       setAddBeneficiary({
         SelectionType: values.SelectionType,
         SelectionValue: values.SelectionValue,
@@ -92,10 +100,16 @@ export default function EnterBeneficiaryDetailsScreen() {
   };
 
   const options = [
-    {
-      title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.mobile"),
-      form: <EnterBeneficiaryByMobileForm selectionType="mobileNo" ref={mobileFormRef} onSubmit={handleOnSubmit} />,
-    },
+    ...(transferType !== "CROATIA_TO_ARB_TRANSFER_ACTION"
+      ? [
+          {
+            title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.mobile"),
+            form: (
+              <EnterBeneficiaryByMobileForm selectionType="mobileNo" ref={mobileFormRef} onSubmit={handleOnSubmit} />
+            ),
+          },
+        ]
+      : []),
     {
       title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.accountNumber"),
       form: (
@@ -165,7 +179,11 @@ export default function EnterBeneficiaryDetailsScreen() {
       {i18nKey !== undefined ? (
         <>
           <NotificationModal
-            title={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.title`)}
+            title={t(
+              `InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.${
+                transferType === "INTERNAL_TRANSFER_ACTION" ? "title" : "titleArb"
+              }`
+            )}
             message={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.message`)}
             isVisible={isErrorMessageModalVisible}
             variant="error"

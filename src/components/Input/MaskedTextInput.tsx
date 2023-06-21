@@ -45,9 +45,8 @@ export function MaskedTextInput({
   const { onChangeText, placeholder, value } = useMaskedInputProps({
     mask,
     value: propsValue,
-    onChangeText: (masked, unmasked) => {
-      // `unmasked` will not included fixed characters but we want them
-      propsOnChangeText?.(masked.length > 0 && unmasked.length === 0 ? masked : unmasked);
+    onChangeText: masked => {
+      propsOnChangeText?.(masked.replaceAll(" ", ""));
     },
     maskAutoComplete: true,
   });
