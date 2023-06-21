@@ -53,11 +53,13 @@ export default function TransactionsScreen() {
     : "";
 
   const categories = selectedFilters.filter(filter => !["SINGLE_USE_CARD_TR", "DEBIT_TR"].includes(filter)).join(",");
+  const groupBy = "YES";
 
   const { transactions, pendingTransactions, isLoading } = useTransactions(
     transactionCode,
     categories,
-    selectedFilters
+    selectedFilters,
+    groupBy
   );
 
   const [flexDir, setFlexDir] = useState("column");

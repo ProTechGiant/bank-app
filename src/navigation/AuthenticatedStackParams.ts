@@ -8,6 +8,7 @@ import { NotificationManagementStackParams } from "@/features/NotificationManage
 import { PaymentDisputesStackParams } from "@/features/PaymentDisputes/PaymentDisputesStack";
 import { ReferralStackParams } from "@/features/Referral/ReferralStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
+import { TopSpendingStackParams } from "@/features/TopSpending/TopSpendingStack";
 import { ViewTransactionsStackParams } from "@/features/ViewTransactions/ViewTransactionsStack";
 import { WhatsNextStackParams } from "@/features/WhatsNext/WhatsNextStack";
 
@@ -15,24 +16,25 @@ import { SignInStackParams } from "../features/SignIn/SignInStack";
 import OneTimePasswordModalParams from "./one-time-password-modal-params";
 
 type RootStackParams = {
+  "TopSpending.TopSpendingStack": undefined;
   "CardActions.CardActionsStack": {
     screen?: keyof CardActionsStackParams;
   };
   "Home.HomeStack":
-  | {
-    screen: keyof HomeStackParams;
-  }
-  | undefined;
+    | {
+        screen: keyof HomeStackParams;
+      }
+    | undefined;
   "AddMoney.AddMoneyStack":
-  | {
-    screen: keyof AddMoneyStackParams;
-  }
-  | undefined;
+    | {
+        screen: keyof AddMoneyStackParams;
+      }
+    | undefined;
   "InternalTransfers.InternalTransfersStack":
-  | {
-    screen: keyof InternalTransfersStackParams;
-  }
-  | undefined;
+    | {
+        screen: keyof InternalTransfersStackParams;
+      }
+    | undefined;
   "Temporary.LandingScreen": undefined;
   "Temporary.DummyScreen": undefined;
   "Referral.ReferralStack": undefined;
@@ -58,20 +60,21 @@ type RootStackParams = {
   "NotificationManagement.CategoryScreen": { categoryId: string; title: string };
   "WhatsNext.WhatsNextStack": undefined;
   "HelpAndSupport.HelpAndSupportStack":
-  | {
-    screen: keyof HelpAndSupportStackParams;
-  }
-  | undefined;
+    | {
+        screen: keyof HelpAndSupportStackParams;
+      }
+    | undefined;
   "OneTimePassword.OneTimePasswordModal": OneTimePasswordModalParams<AuthenticatedStackParams>;
 
   "PaymentDisputes.PaymentDisputesStack":
-  | {
-    screen: keyof PaymentDisputesStackParams;
-  }
-  | undefined;
+    | {
+        screen: keyof PaymentDisputesStackParams;
+      }
+    | undefined;
 };
 
 type AuthenticatedStackParams = RootStackParams &
+  TopSpendingStackParams &
   SavingsGoalsStackParams &
   ViewTransactionsStackParams &
   InternalTransfersStackParams &

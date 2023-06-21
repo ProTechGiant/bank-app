@@ -25,6 +25,7 @@ import {
   UserBlockedScreen,
 } from "@/features/SignIn/screens";
 import TemporaryLandingScreen from "@/features/Temporary/TemporaryLandingScreen";
+import TopSpendingStack from "@/features/TopSpending/TopSpendingStack";
 import ViewTransactionsStack from "@/features/ViewTransactions/ViewTransactionsStack";
 import WhatsNextStack from "@/features/WhatsNext/WhatsNextStack";
 import useLogoutAfterInactivity from "@/hooks/use-logout-after-inactivity";
@@ -50,6 +51,7 @@ export const AuthenticatedScreens = () => {
   useLogoutAfterInactivity();
   return (
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+      <AuthStack.Screen component={TopSpendingStack} name="TopSpending.TopSpendingStack" />
       <AuthStack.Screen component={HomeStack} name="Home.HomeStack" />
       <AuthStack.Screen component={SettingsScreen} name="Settings.SettingsScreen" />
       <AuthStack.Screen component={AccountSettings} name="Settings.AccountSettings" />

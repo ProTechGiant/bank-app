@@ -299,6 +299,18 @@ export const resources = {
           navHeaderTitle: "Passcode",
         },
       },
+      TopSpending: {
+        SpendSummaryScreen: {
+          totalSpending: "Total Spending",
+          transactions: "Transactions",
+          emptyTransactions: "There are no transactions for the selected period",
+          day: "Day",
+          week: "Week",
+          month: "Month",
+          year: "Year",
+          sar: "SAR",
+        },
+      },
       ViewTransactions: {
         TransactionsScreen: {
           title: "Transactions",
@@ -2208,6 +2220,18 @@ export const resources = {
           errorText: "Something went wrong, please try again.",
           notificationModelMessage: "Your passcode has been set",
           navHeaderTitle: "Passcode",
+        },
+      },
+      TopSpending: {
+        SpendSummaryScreen: {
+          totalSpending: "Total Spending",
+          transactions: "Transactions",
+          emptyTransactions: "There are no transactions for the selected period",
+          day: "اليوم",
+          week: "الاسبوع",
+          month: "الشهر",
+          year: "السنة",
+          sar: "SAR",
         },
       },
       ViewTransactions: {
