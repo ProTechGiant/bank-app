@@ -1535,6 +1535,7 @@ export const resources = {
         },
         ConfirmNewBeneficiaryScreen: {
           title: "Confirm beneficiary details",
+          navTitle: "Send money",
           details: {
             name: "Name",
             bank: "Bank",
@@ -1542,8 +1543,11 @@ export const resources = {
             accountNumber: "Account number",
             iban: "IBAN",
           },
+          bankName: "Al Rajhi Bank",
           bannerMessage: "Confirm recipient details to activate new beneficiary before completing your transfer.",
-          checkBoxMessage: "By checking this box, you agree to our ",
+          bannerMessageActiveBeneficiary:
+            "You need to confirm this beneficiary's details before you can send any money.",
+          checkBoxMessage: "I agree to the ",
           termsAndConditions: "Terms and Conditions",
           confirmButton: "Confirm",
         },
@@ -2833,6 +2837,7 @@ export const resources = {
       },
       ConfirmNewBeneficiaryScreen: {
         title: "Confirm beneficiary details",
+        navTitle: "Send money",
         details: {
           name: "Name",
           bank: "Bank",
@@ -2840,8 +2845,10 @@ export const resources = {
           accountNumber: "Account number",
           iban: "IBAN",
         },
+        bankName: "Al Rajhi Bank",
         bannerMessage: "Confirm recipient details to activate new beneficiary before completing your transfer.",
-        checkBoxMessage: "By checking this box, you agree to our ",
+        bannerMessageActiveBeneficiary: "You need to confirm this beneficiary's details before you can send any money.",
+        checkBoxMessage: "I agree to the ",
         termsAndConditions: "Terms and Conditions",
         confirmButton: "Confirm",
       },

@@ -21,7 +21,7 @@ export function CheckboxInput({ onBlur, onChange, isEditable = true, label, valu
 
   const checkBoxStyles = useThemeStyles<ViewStyle>(
     ({ palette }) => ({
-      backgroundColor: !isEditable ? palette["neutralBase-40"] : value ? palette["primaryBase-40"] : undefined,
+      backgroundColor: !isEditable ? palette["neutralBase-40"] : value ? palette.complimentBase : undefined, //new color 'complimentBase' as per figma design
       borderColor: !isEditable ? palette["neutralBase-40"] : value ? "transparent" : palette["neutralBase-20"],
       borderRadius: 2,
       borderWidth: 1,
