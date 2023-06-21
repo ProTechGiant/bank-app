@@ -30,7 +30,6 @@ export default function PendingAccountScreen() {
   const { userName } = useOnboardingContext();
   const addToast = useToasts();
   const [isAccountSetupVisible, setIsAccountSetupVisible] = useState(false);
-  const [isSuccessMessageVisible, setIsSuccessMessageVisible] = useState(false);
   const [isfetchingAccountStatus, setIsfetchingAccountStatus] = useState(true);
   const { data, refetch } = useAccountStatus(isfetchingAccountStatus);
 
@@ -39,7 +38,12 @@ export default function PendingAccountScreen() {
   useEffect(() => {
     if (accountStatus === "COMPLETED") {
       setIsfetchingAccountStatus(false);
-      setIsSuccessMessageVisible(true);
+      //TODO: Toast creates branding design system inconsistency that would need to be fixed in the future
+      addToast({
+        variant: "success",
+        message: t("Onboarding.LandingScreen.success.bannerMessage"),
+        closable: true,
+      });
     } else if (accountStatus === "DECLINED") {
       setIsfetchingAccountStatus(false);
     }
@@ -74,14 +78,6 @@ export default function PendingAccountScreen() {
     paddingTop: theme.spacing["12p"],
   }));
 
-  const successAlertContainer = useThemeStyles<ViewStyle>(theme => ({
-    position: "absolute",
-    right: 0,
-    zIndex: 100,
-    left: 0,
-    margin: theme.spacing["20p"],
-  }));
-
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["28p"],
     paddingBottom: theme.spacing["20p"],
@@ -102,15 +98,6 @@ export default function PendingAccountScreen() {
           <>
             {accountStatus === "COMPLETED" ? (
               <>
-                {isSuccessMessageVisible ? (
-                  <View style={successAlertContainer}>
-                    <Alert
-                      variant="success"
-                      message={t("Onboarding.LandingScreen.success.bannerMessage")}
-                      end={<Alert.CloseEndButton onPress={() => setIsSuccessMessageVisible(false)} />}
-                    />
-                  </View>
-                ) : null}
                 <Stack direction="vertical" flex={1} justify="space-between" gap="24p" align="stretch">
                   <View style={headerSuccessStyle}>
                     <AccountCreated height={svgHeight} width={svgWidth} />

@@ -6,14 +6,18 @@ function noop() {
   return;
 }
 
-type ToastsContextType = (toast: ToastProps) => void;
+interface ToastParams extends Omit<ToastProps, "onClose"> {
+  closable?: boolean;
+}
+
+type ToastsContextType = (toast: ToastParams) => void;
 const ToastsContext = createContext<ToastsContextType>(noop);
 
 function ToastsContextProvider({ children }: { children: React.ReactNode }) {
-  const toasts = useRef<ToastProps[]>([]); // in ref to avoid stale closure issue
+  const toasts = useRef<ToastParams[]>([]); // in ref to avoid stale closure issue
   const drainQueueId = useRef<NodeJS.Timer>();
   const [tickCount, forceUpdate] = useState(0); // serves to kick-off the dequeueing
-  const activeToast = toasts.current[0] as ToastProps | undefined;
+  const activeToast = toasts.current[0] as ToastParams | undefined;
 
   useEffect(() => {
     if (toasts.current.length < 1 || drainQueueId.current !== undefined) {
@@ -45,10 +49,22 @@ function ToastsContextProvider({ children }: { children: React.ReactNode }) {
     forceUpdate(c => c + 1);
   };
 
+  // This is the handler that will be passed to Toast component when press on close icon from Toast
+  const handleOnCloseToast = () => {
+    toasts.current = toasts.current.slice(0, -1);
+    forceUpdate(c => c + 1);
+  };
+
   return (
     <ToastsContext.Provider value={useMemo(() => handleOnCreateToast, [])}>
       {children}
-      {activeToast !== undefined ? <Toast key={activeToast.message} {...activeToast} /> : null}
+      {activeToast !== undefined ? (
+        <Toast
+          {...activeToast}
+          key={activeToast.message}
+          onClose={activeToast.closable ? handleOnCloseToast : undefined}
+        />
+      ) : null}
     </ToastsContext.Provider>
   );
 }
