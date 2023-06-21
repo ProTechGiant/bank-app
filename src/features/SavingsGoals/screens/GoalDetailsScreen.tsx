@@ -2,11 +2,11 @@ import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 import { format } from "date-fns";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Dimensions, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { EditIcon, LightningBoltIcon, PlusIcon, RecurringEventIcon, WithdrawIcon } from "@/assets/icons";
+import { ArrowCircleUpIcon, EditIcon, PlusIcon, RecurringEventIcon, WithdrawIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import ContextualFAQModal from "@/components/ContextualFAQModal";
@@ -22,7 +22,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
-import HeaderBackground from "../assets/HeaderBackground";
+import BackgroundBottom from "../assets/BackgroundBottom";
 import RoundUpsIcon from "../assets/round-ups";
 import { ProgressWheel, TransactionCardList } from "../components";
 import { calculateGoalBalanceOverThreeQuarters } from "../helpers";
@@ -49,6 +49,9 @@ export default function GoalDetailsScreen() {
   const [showAmountWithdrawn, setShowAmountWithdrawn] = useState(amountWithdrawn);
   const [isRoundUpsOn, setIsRoundUpsOn] = useState(false);
   const recurringFundData = isSuccess ? getRecurringFund : undefined;
+  const isGoalNotCompleted =
+    Number(savingsPotData?.AvailableBalanceAmount ?? 0) <= Number(savingsPotData?.TargetAmount ?? 0);
+
   // Immediately funding goal modal if needed
   useFocusEffect(
     useCallback(() => {
@@ -213,59 +216,80 @@ export default function GoalDetailsScreen() {
 
   const goalAmountStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["16p"],
-    marginBottom: theme.spacing["20p"],
+    marginBottom: theme.spacing["4p"],
     flexDirection: "row",
+    alignItems: "flex-end",
     // width of "SAR" plus the margin-left it has relative to the amount
     paddingLeft: theme.typography.text.sizes.body * 2 + styles.currency.marginLeft,
   }));
 
+  const headerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: isGoalNotCompleted ? theme.palette["primaryBase-70"] : theme.palette["secondary_mintBase-10"],
+      zIndex: 1,
+    }),
+    [isGoalNotCompleted]
+  );
+
   const headerContentStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     paddingHorizontal: theme.spacing["20p"],
+    paddingBottom: theme.spacing["32p"],
   }));
 
   const headerProgressInfoStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["48p"],
+    marginBottom: theme.spacing["32p"],
+  }));
+
+  const BackgroundBottomStyle = useThemeStyles<ViewStyle>(theme => ({
+    position: "absolute",
+    bottom: -theme.spacing["24p"] + 1, // Small gap forms on iphone SE, 1 pixel added to remove this.
+  }));
+
+  const BackgroundBottomColor = useThemeStyles<string>(
+    theme => (isGoalNotCompleted ? theme.palette["primaryBase-70"] : theme.palette["secondary_mintBase-10"]),
+    [isGoalNotCompleted]
+  );
+
+  const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["32p"] + theme.spacing["24p"], // calculation to account for angled background on header content
   }));
 
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-        <View style={styles.background}>
-          <HeaderBackground deviceWidth={deviceWidth} scaleFactor={scaleFactor} scaledHeight={scaledHeight} />
-        </View>
-        <SafeAreaView style={styles.header}>
+        <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
+        <SafeAreaView edges={["top", "left", "right"]} style={headerStyle}>
           <NavHeader
             onBackPress={handleOnBackPress}
             title={savingsPotData?.GoalName}
-            variant="white"
+            variant="background"
             end={<NavHeader.IconEndButton icon={<EditIcon />} onPress={handleOnEdit} />}
           />
           <View style={headerContentStyle}>
             <ProgressWheel
-              circleSize={128}
+              circleSize={120}
               current={Number(savingsPotData?.AvailableBalanceAmount ?? 0)}
               total={Number(savingsPotData?.TargetAmount ?? 0)}
-              textColor="neutralBase-60"
+              textColor="neutralBase+30"
               textSize="title2"
               bigCheckIcon={true}
             />
             <View style={goalAmountStyle}>
-              <Typography.Header size="large" weight="medium" color="neutralBase-60">
+              <Typography.Header size="xxlarge" weight="medium">
                 {formatCurrency(Number(savingsPotData?.AvailableBalanceAmount ?? 0))}
               </Typography.Header>
-              <Typography.Text color="primaryBase-40" size="callout" weight="medium" style={styles.currency}>
+              <Typography.Text size="title3" weight="medium" style={styles.currency}>
                 {t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.currency")}
               </Typography.Text>
             </View>
             <Stack align="center" direction="vertical" gap="24p" style={headerProgressInfoStyle}>
-              <Typography.Text size="callout" weight="medium" color="neutralBase-50" align="center">
+              <Typography.Text size="callout" align="center">
                 {t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.targetAmountDetails", {
-                  targetAmount: formatCurrency(Number(savingsPotData?.TargetAmount ?? 0), "SAR"),
+                  TargetAmount: formatCurrency(Number(savingsPotData?.TargetAmount ?? 0)),
                 })}
               </Typography.Text>
-              <Typography.Text size="footnote" weight="medium" color="neutralBase-10" align="center">
+              <Typography.Text size="footnote" color="neutralBase+20" align="center">
                 {savingsPotData?.TargetDate !== undefined
                   ? t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.targetDate", {
                       TargetDate: format(new Date(savingsPotData?.TargetDate), "d MMM yyyy"),
@@ -275,23 +299,22 @@ export default function GoalDetailsScreen() {
             </Stack>
             <Stack direction="horizontal" gap="12p" justify="space-between">
               <View style={styles.button}>
-                <Button color="dark" onPress={handleOnOpenWithdraw} variant="secondary" iconLeft={<WithdrawIcon />}>
+                <Button onPress={handleOnOpenWithdraw} variant="secondary" iconLeft={<WithdrawIcon />}>
                   {t("SavingsGoals.GoalDetailsScreen.ActionButtons.withdrawButton")}
                 </Button>
               </View>
               <View style={styles.button}>
-                <Button
-                  variant="primary"
-                  color="dark"
-                  onPress={handleOnOpenFunding}
-                  iconLeft={<PlusIcon width={19} height={20} />}>
+                <Button variant="primary" onPress={handleOnOpenFunding} iconLeft={<PlusIcon />}>
                   {t("SavingsGoals.GoalDetailsScreen.ActionButtons.addMoneyButton")}
                 </Button>
               </View>
             </Stack>
           </View>
+          <View style={BackgroundBottomStyle}>
+            <BackgroundBottom color={BackgroundBottomColor} />
+          </View>
         </SafeAreaView>
-        <ContentContainer isScrollView>
+        <ContentContainer isScrollView style={contentContainerStyle}>
           <Stack align="stretch" direction="vertical" gap="32p">
             <View>
               <View style={sectionTitleStyle}>
@@ -301,7 +324,7 @@ export default function GoalDetailsScreen() {
               </View>
               <TableListCardGroup>
                 <TableListCard
-                  icon={<LightningBoltIcon />}
+                  icon={<ArrowCircleUpIcon />}
                   onInfoPress={handleOnShowRoundupsInfoModal}
                   label={t("SavingsGoals.GoalDetailsScreen.RoundUp")}
                   end={<TableListCard.Toggle onPress={handleOnToggleRoundUps} value={isRoundUpsOn} />}
@@ -415,26 +438,13 @@ export default function GoalDetailsScreen() {
   );
 }
 
-const deviceWidth = Dimensions.get("window").width;
-const svgWidth = 390;
-const svgHeight = 495;
-const scaleFactor = deviceWidth / svgWidth;
-const scaledHeight = svgHeight * scaleFactor;
-
 const styles = StyleSheet.create({
-  background: {
-    left: 0,
-    position: "absolute",
-    right: 0,
-    top: 0,
-  },
   button: {
     flex: 1,
   },
   currency: {
+    marginBottom: 8,
     marginLeft: 4,
-  },
-  header: {
-    height: scaledHeight,
+    position: "relative",
   },
 });

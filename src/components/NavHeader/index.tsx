@@ -47,9 +47,8 @@ const NavHeader = ({
   }));
 
   const iconBackgroundStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-60"],
+    backgroundColor: theme.palette["neutralBase-60-60%"],
     borderRadius: 16,
-    opacity: 0.6,
     height: 32,
     width: 32,
   }));

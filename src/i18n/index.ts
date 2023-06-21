@@ -58,9 +58,9 @@ export const resources = {
         SplashScreen: {
           title: "Your gateway\nto what’s next",
           buttons: {
+            signIn: "Sign in",
+            notWithUs: "Don't have an account?",
             signUp: "Sign up",
-            withUs: "Already with us?",
-            signIn: " Sign in",
           },
         },
         LandingScreen: {
@@ -780,11 +780,11 @@ export const resources = {
           goalCard: {
             amount: "{{amountSaved}} of {{totalAmount}} SAR",
           },
-          title: "Your Goals",
+          title: "Your goals",
           maxGoalsTitle: "Your Saving Goals",
           text: "Dream big or start small. They’re your goals and it’s your future - make it happen!",
           button: "Set new Goal",
-          instructionText: "Set up to 4 goals",
+          instructionText: "You can set a total of 4 goals.",
           notifications: {
             goalClosed: "Your goal has been closed.",
           },
@@ -1992,9 +1992,9 @@ export const resources = {
         SplashScreen: {
           title: "Your gateway\nto what’s next",
           buttons: {
-            signUp: "Sign up",
-            withUs: "Already with us? ",
             signIn: "Sign in",
+            notWithUs: "Don't have an account?",
+            signUp: "Sign up",
           },
         },
         LandingScreen: {

@@ -23,11 +23,11 @@ export default function ProgressWheel({
   textSize,
   bigCheckIcon,
 }: ProgressWheelProps) {
-  const strokeBackgroundColor = useThemeStyles<string>(theme => theme.palette["primaryBase-10"]);
-  const strokeProgressColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
+  const strokeBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+  const strokeProgressColor = useThemeStyles<string>(theme => theme.palette.primaryBase);
 
   const checkIconStyle = useThemeStyles(theme => ({
-    color: bigCheckIcon ? theme.palette["neutralBase-60"] : theme.palette["neutralBase+30"],
+    color: theme.palette["neutralBase+30"],
   }));
 
   const STROKE_WIDTH = 6;
@@ -45,6 +45,7 @@ export default function ProgressWheel({
     <View style={styles.container}>
       <Svg width={circleSize} height={circleSize}>
         <Circle
+          opacity={0.08}
           stroke={strokeBackgroundColor}
           fill="none"
           cx={circleSize / 2}
@@ -61,7 +62,7 @@ export default function ProgressWheel({
             r={RADIUS}
             strokeDasharray={`${CIRCUM} ${CIRCUM}`}
             strokeDashoffset={RADIUS * Math.PI * 2 * (progress / 100)}
-            strokeLinecap="round"
+            strokeLinecap="square"
             transform={`rotate(-90, ${circleSize / 2}, ${circleSize / 2})`}
             strokeWidth={strokeWidth}
           />

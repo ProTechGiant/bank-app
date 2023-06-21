@@ -48,7 +48,7 @@ export default function TableListCard({
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     flexDirection: "row",
-    padding: theme.spacing["16p"],
+    paddingVertical: theme.spacing["16p"],
     justifyContent: "space-between",
   }));
 
@@ -56,7 +56,7 @@ export default function TableListCard({
     backgroundColor: background === "dark" ? theme.palette["primaryBase-70-8%"] : theme.palette["neutralBase-60"],
   }));
 
-  const iconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
+  const iconColor = useThemeStyles(theme => theme.palette.complimentBase);
 
   const listContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignSelf: "center",

@@ -2,16 +2,17 @@
 const palette = {
   // Core Brand Compliment
   "complimentBase+30": "#7C0303",
-  "complimentBase+20": "#A91F0A",
-  "complimentBase+10": "#D9270D",
-  complimentBase: "#F34C33",
+  "complimentBase+20": "#BF0000",
+  "complimentBase+10": "#E50000",
+  complimentBase: "#FF371E",
   "complimentBase-10": "#F7896E",
   "complimentBase-20": "#FFAD99",
   "complimentBase-30": "#FFDDCC",
 
   // Core Brand Support
   supportBase: "#BADADE",
-  "supportBase-10": "#DCECEE",
+  "supportBase-10": "#D6EBEC",
+  "supportBase-15": "#E4F0F2",
   "supportBase-20": "#EEF6F7",
   "supportBase-30": "#F5F9FA",
 
@@ -27,6 +28,7 @@ const palette = {
   "neutralBase-40": "#F2F2F2",
   "neutralBase-50": "#F5F5F5",
   "neutralBase-60": "#FAFAFA",
+  "neutralBase-60-60%": "rgba(250, 250, 250, 0.6)",
 
   // Core Brand Primary
   primaryBase: "#002233",
@@ -36,33 +38,33 @@ const palette = {
   "primaryBase-40": "#00A0CC",
   "primaryBase-50": "#00C8FF",
   "primaryBase-60": "#33D3FF",
-  "primaryBase-70": "#5CDCFF",
-  "primaryBase-70-8%": "rgba(92, 220, 255, 0.08)",
+  "primaryBase-70": "#5DDBFE",
+  "primaryBase-70-8%": "rgba(93, 219, 254, 0.08)",
 
   // Core Brand Secondary Blue
-  secondary_blueBase: "#004F99",
-  "secondary_blueBase-10": "#0067C7",
-  "secondary_blueBase-20": "#0084FF",
+  secondary_blueBase: "#004487",
+  "secondary_blueBase-10": "#0861CE",
+  "secondary_blueBase-20": "#2C89E5",
 
   // Core Brand Secondary Purple
-  secondary_purpleBase: "#80004F",
-  "secondary_purpleBase-10": "#AD006B",
-  "secondary_purpleBase-20": "#E5008E",
+  secondary_purpleBase: "#890356",
+  "secondary_purpleBase-10": "#A90066",
+  "secondary_purpleBase-20": "#EA1B9B",
 
   // Core Brand Secondary Pink
-  "secondary_pinkBase-10": "#FF99B9",
+  "secondary_pinkBase-10": "#FF88B6",
   "secondary_pinkBase-20": "#FFCCDC",
-  "secondary_pinkBase-30": "#FFE5ED",
+  "secondary_pinkBase-30": "#FFDEEB",
 
   // Core Brand Secondary Mint
-  secondary_mintBase: "#47EBD8",
+  secondary_mintBase: "#00BCA5",
   "secondary_mintBase-10": "#92F3E8",
-  "secondary_mintBase-20": "#D1FAF5",
+  "secondary_mintBase-20": "#CAFFF9",
 
   // Core Brand Secondary Yellow
-  "secondary_yellowBase-10": "#FFE999",
-  "secondary_yellowBase-20": "#FFF0B8",
-  "secondary_yellowBase-30": "#FFFAE5",
+  "secondary_yellowBase-10": "#E8D06B",
+  "secondary_yellowBase-20": "#FBF1B9",
+  "secondary_yellowBase-30": "#FFF8DC",
 
   // Interaction
   interactionBase: "#005EA6",
@@ -77,7 +79,7 @@ const palette = {
   "successBase-30": "#CCEEE7",
 
   // Error
-  errorBase: "#C50707",
+  errorBase: "#821717",
   "errorBase-10": "#E79696",
   "errorBase-20": "#EFB9B9",
   "errorBase-30": "#F7DCDC",
@@ -104,12 +106,14 @@ const typography = {
       extraBold: "800",
     },
     sizes: {
+      xxlarge: 64,
       large: 40,
       medium: 32,
       small: 24,
     },
     // correspond directly with `sizes`
     _lineHeights: {
+      xxlarge: 70,
       large: 41,
       medium: 34,
       small: 28,

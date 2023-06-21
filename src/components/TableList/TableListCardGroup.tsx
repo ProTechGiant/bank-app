@@ -13,19 +13,12 @@ interface TableListCardGroupProps extends ViewProps {
 export default function TableListCardGroup({ background, children, ...restProps }: TableListCardGroupProps) {
   const elements = React.Children.toArray(children) as Array<React.ReactElement<TableListCardProps> | null>;
 
-  const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: 1,
-    backgroundColor: background === "dark" ? theme.palette.primaryBase : theme.palette["neutralBase-30"],
-  }));
-
   const containerBackgroundStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: background === "dark" ? theme.palette["primaryBase-70-8%"] : theme.palette["neutralBase-60"],
   }));
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderColor: background === "dark" ? theme.palette.primaryBase : theme.palette["neutralBase-30"],
-    borderWidth: 1,
-    borderRadius: theme.radii.small,
   }));
 
   return (
@@ -34,7 +27,6 @@ export default function TableListCardGroup({ background, children, ...restProps 
         return (
           <React.Fragment key={index}>
             {React.isValidElement(element) ? React.cloneElement(element, { isGrouped: true }) : null}
-            {elements.length - 1 === index ? null : <View style={separatorStyle} />}
           </React.Fragment>
         );
       })}

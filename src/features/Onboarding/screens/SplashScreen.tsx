@@ -68,13 +68,13 @@ export default function SplashScreen() {
           </View>
         </View>
         <Stack align="stretch" direction="vertical" gap="8p">
-          <Button variant="primary" onPress={handleOnSignUp}>
-            {t("Onboarding.SplashScreen.buttons.signUp")}
+          <Button variant="primary" onPress={handleOnSignIn}>
+            {t("Onboarding.SplashScreen.buttons.signIn")}
           </Button>
-          <Button onPress={handleOnSignIn} variant="tertiary">
-            {t("Onboarding.SplashScreen.buttons.withUs")}
+          <Button onPress={handleOnSignUp} variant="tertiary">
+            {t("Onboarding.SplashScreen.buttons.notWithUs")}{" "}
             <Typography.Text style={styles.signIn} weight="medium" color="primaryBase-30">
-              {t("Onboarding.SplashScreen.buttons.signIn")}
+              {t("Onboarding.SplashScreen.buttons.signUp")}
             </Typography.Text>
           </Button>
         </Stack>

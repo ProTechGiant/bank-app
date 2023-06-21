@@ -21,8 +21,7 @@ export default function IconEndButton({ color = "primaryBase-10", onPress, icon,
   );
 
   const iconBackgroundStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-60"],
-    opacity: 0.6,
+    backgroundColor: theme.palette["neutralBase-60-60%"],
     width: 32,
     height: 32,
     borderRadius: 16,
