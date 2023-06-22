@@ -6,6 +6,7 @@ import { ChevronRightIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { Note, TransferAccount } from "../types";
 
 interface ReviewTransferDetailProps {
@@ -16,6 +17,7 @@ interface ReviewTransferDetailProps {
   amount: number;
   note: Note;
 }
+
 export default function ReviewTransferDetail({
   onAddNotePress,
   sender,
@@ -25,6 +27,7 @@ export default function ReviewTransferDetail({
   note,
 }: ReviewTransferDetailProps) {
   const { t } = useTranslation();
+  const { transferType } = useInternalTransferContext();
 
   const titleStyle = useThemeStyles<TextStyle>(theme => ({
     paddingBottom: theme.spacing["16p"],
@@ -73,18 +76,6 @@ export default function ReviewTransferDetail({
 
       <View style={verticalSpaceStyle}>
         <Typography.Text weight="medium" size="callout">
-          {t("InternalTransfers.ReviewTransferScreen.from")}
-        </Typography.Text>
-        <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {sender.accountName}
-        </Typography.Text>
-        <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {sender.accountNumber}
-        </Typography.Text>
-      </View>
-      <View style={separatorStyle} />
-      <View style={verticalSpaceStyle}>
-        <Typography.Text weight="medium" size="callout">
           {t("InternalTransfers.ReviewTransferScreen.to")}
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
@@ -92,6 +83,18 @@ export default function ReviewTransferDetail({
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
           {recipient.accountNumber}
+        </Typography.Text>
+      </View>
+      <View style={separatorStyle} />
+      <View style={verticalSpaceStyle}>
+        <Typography.Text weight="medium" size="callout">
+          {t("InternalTransfers.ReviewTransferScreen.from")}
+        </Typography.Text>
+        <Typography.Text color="neutralBase" weight="medium" size="callout">
+          {sender.accountName}
+        </Typography.Text>
+        <Typography.Text color="neutralBase" weight="medium" size="callout">
+          {sender.accountNumber}
         </Typography.Text>
       </View>
       <View style={separatorStyle} />
@@ -104,6 +107,14 @@ export default function ReviewTransferDetail({
         </Typography.Text>
       </View>
       <View style={inlineText}>
+        <Typography.Text weight="medium" size="callout">
+          {t("InternalTransfers.ReviewTransferScreen.processingTime")}
+        </Typography.Text>
+        <Typography.Text color="neutralBase" weight="medium" size="callout">
+          {t("InternalTransfers.ReviewTransferScreen.processingDay")}
+        </Typography.Text>
+      </View>
+      <View style={inlineText}>
         <Typography.Text weight="semiBold" size="body">
           {t("InternalTransfers.ReviewTransferScreen.total")}
         </Typography.Text>
@@ -112,30 +123,34 @@ export default function ReviewTransferDetail({
         </Typography.Text>
       </View>
       <View style={separatorStyle} />
-      <View style={notesContainer}>
-        <Typography.Text weight="medium" size="callout">
-          {t("InternalTransfers.ReviewTransferScreen.notes") + " "}
-        </Typography.Text>
-        <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {t("InternalTransfers.ReviewTransferScreen.optional")}
-        </Typography.Text>
-      </View>
-      {!isNoteExists ? (
-        <Pressable style={addNoteContainer} onPress={onAddNotePress}>
-          <Typography.Text weight="medium" size="callout">
-            {t("InternalTransfers.ReviewTransferScreen.addButton")}
-          </Typography.Text>
-        </Pressable>
-      ) : (
-        <Pressable style={styles.noteContainer} onPress={onAddNotePress}>
-          <Typography.Text color="neutralBase" weight="medium" size="callout">
-            {`"${note.content}"`}
-          </Typography.Text>
-          <View style={styles.chevronContainer}>
-            <ChevronRightIcon color={chevronRightIconColor} />
+      {transferType !== "CROATIA_TO_ARB_TRANSFER_ACTION" ? (
+        <>
+          <View style={notesContainer}>
+            <Typography.Text weight="medium" size="callout">
+              {t("InternalTransfers.ReviewTransferScreen.notes") + " "}
+            </Typography.Text>
+            <Typography.Text color="neutralBase" weight="medium" size="callout">
+              {t("InternalTransfers.ReviewTransferScreen.optional")}
+            </Typography.Text>
           </View>
-        </Pressable>
-      )}
+          {!isNoteExists ? (
+            <Pressable style={addNoteContainer} onPress={onAddNotePress}>
+              <Typography.Text weight="medium" size="callout">
+                {t("InternalTransfers.ReviewTransferScreen.addButton")}
+              </Typography.Text>
+            </Pressable>
+          ) : (
+            <Pressable style={styles.noteContainer} onPress={onAddNotePress}>
+              <Typography.Text color="neutralBase" weight="medium" size="callout">
+                {`"${note.content}"`}
+              </Typography.Text>
+              <View style={styles.chevronContainer}>
+                <ChevronRightIcon color={chevronRightIconColor} />
+              </View>
+            </Pressable>
+          )}
+        </>
+      ) : null}
     </View>
   );
 }
