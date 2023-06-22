@@ -310,6 +310,12 @@ export const resources = {
           year: "Year",
           sar: "SAR",
         },
+        SpendingDateFilter: {
+          pickPeriod: "Pick Period",
+          selectDate: "Select Date",
+          noTransactionWarning:
+            "Your dates might not have any transactions. Think about whether this is the correct period or not.",
+        },
       },
       ViewTransactions: {
         TransactionsScreen: {
@@ -2240,6 +2246,12 @@ export const resources = {
           month: "الشهر",
           year: "السنة",
           sar: "SAR",
+        },
+        SpendingDateFilter: {
+          pickPeriod: "Pick Period",
+          selectDate: "Select Date",
+          noTransactionWarning:
+            "Your dates might not have any transactions. Think about whether this is the correct period or not.",
         },
       },
       ViewTransactions: {

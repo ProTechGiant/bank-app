@@ -1,9 +1,7 @@
-import { endOfMonth, endOfWeek, endOfYear, format, startOfMonth, startOfWeek, startOfYear } from "date-fns";
-import { toString } from "lodash";
+import { endOfMonth, endOfWeek, endOfYear, format, parseISO, startOfMonth, startOfWeek, startOfYear } from "date-fns";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { CalendarAltIcon, ChevronRightIcon } from "@/assets/icons";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
@@ -16,6 +14,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import ShoppingCartIcon from "../assets/icons/ShoppingCartIcon";
+import { SpendingsFilterModal } from "../components";
 
 export default function SpendSummaryScreen() {
   const { t } = useTranslation();
@@ -30,8 +29,11 @@ export default function SpendSummaryScreen() {
 
   type SelectedTime = (typeof SelectedTimeTypes)[keyof typeof SelectedTimeTypes];
 
-  const [fromDate, setFromDate] = useState(toString(startOfMonth(new Date())));
-  const [toDate, setToDate] = useState(toString(endOfMonth(new Date())));
+  const startMonth = format(startOfMonth(new Date()), "yyyy-MM-dd");
+  const endMonth = format(endOfMonth(new Date()), "yyyy-MM-dd");
+
+  const [fromDate, setFromDate] = useState(startMonth);
+  const [toDate, setToDate] = useState(endMonth);
 
   const {
     transactions,
@@ -90,7 +92,7 @@ export default function SpendSummaryScreen() {
 
     setFromDate(start);
     setToDate(end);
-
+    setModalSelectionMade(false);
     setCurrentValue(val);
   };
 
@@ -143,16 +145,30 @@ export default function SpendSummaryScreen() {
     giftColor: theme.palette["primaryBase-40"],
   }));
 
+  const [isViewingFilter, setIsViewingFilter] = useState(false);
+  const [modalSelectionMade, setModalSelectionMade] = useState(false);
+
   return (
     <Page insets={["top", "left", "right", "bottom"]}>
-      <SafeAreaView style={header}>
+      <SpendingsFilterModal
+        visible={isViewingFilter}
+        onClose={() => setIsViewingFilter(false)}
+        onDateChange={(newFromDate, newToDate) => {
+          setFromDate(newFromDate);
+          setToDate(newToDate);
+          setCurrentValue(`${format(parseISO(newFromDate), "dd")} - ${format(parseISO(newToDate), "dd MMMM yyyy")}`);
+          setModalSelectionMade(true);
+        }}
+      />
+
+      <View style={header}>
         <NavHeader
           variant="background"
           onBackPress={handleOnBackPress}
           end={
-            <View>
+            <Pressable onPress={() => setIsViewingFilter(true)}>
               <CalendarAltIcon />
-            </View>
+            </Pressable>
           }
         />
         <View style={headerStyle}>
@@ -176,7 +192,7 @@ export default function SpendSummaryScreen() {
             <Typography.Text color="primaryBase-40">{t("TopSpending.SpendSummaryScreen.sar")}</Typography.Text>
           </Stack>
         </View>
-      </SafeAreaView>
+      </View>
       <View style={contentStyle}>
         <View>
           <View style={timeFilter}>
@@ -188,8 +204,8 @@ export default function SpendSummaryScreen() {
             ].map(time => (
               <Pressable key={time} onPress={() => handleSelection(time)}>
                 <Typography.Text
-                  style={selectedTime === time ? selectedText : null}
-                  color={selectedTime === time ? "neutralBase+30" : "neutralBase-20"}>
+                  style={!modalSelectionMade && selectedTime === time ? selectedText : null}
+                  color={!modalSelectionMade && selectedTime === time ? "neutralBase+30" : "neutralBase-20"}>
                   {time}
                 </Typography.Text>
               </Pressable>
