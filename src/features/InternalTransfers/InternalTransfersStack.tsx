@@ -25,7 +25,11 @@ export type InternalTransfersStackParams = {
   "InternalTransfers.EnterBeneficiaryDetailsScreen": undefined;
   "InternalTransfers.PaymentsHubScreen": undefined;
   "InternalTransfers.ConfirmNewBeneficiaryScreen": undefined;
-  "InternalTransfers.InternalTransferScreen": undefined;
+  "InternalTransfers.InternalTransferScreen":
+    | {
+        ResetForm: boolean;
+      }
+    | undefined;
   "InternalTransfers.ReviewTransferScreen": undefined;
   "InternalTransfers.AddNoteScreen": AddNoteParams;
   "InternalTransfers.BeneficiaryDeclarationModal": undefined;

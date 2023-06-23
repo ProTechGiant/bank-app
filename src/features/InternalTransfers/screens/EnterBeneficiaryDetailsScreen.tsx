@@ -14,11 +14,13 @@ import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { ibanRegExpForARB } from "@/utils";
 
 import {
   EnterBeneficiaryByAccountNumberForm,
   EnterBeneficiaryByIBANForm,
   EnterBeneficiaryByMobileForm,
+  SwitchToARBModal,
 } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useAddBeneficiary } from "../hooks/query-hooks";
@@ -28,7 +30,8 @@ export default function EnterBeneficiaryDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { setAddBeneficiary, setRecipient, addBeneficiary, transferType } = useInternalTransferContext();
+  const { setAddBeneficiary, setRecipient, addBeneficiary, setTransferType, transferType } =
+    useInternalTransferContext();
   const addBeneficiaryAsync = useAddBeneficiary();
 
   const accountNumberFormRef = useRef(null);
@@ -38,6 +41,7 @@ export default function EnterBeneficiaryDetailsScreen() {
   const [isErrorMessageModalVisible, setIsErrorMessageModalVisible] = useState(false);
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
   const [isInUseErrorModalVisible, setIsInUseErrorModalVisible] = useState(false);
+  const [isSwitchToARBModalVisible, setIsSwitchToARBModalVisible] = useState(false);
   const [activePillIndex, setActivePillIndex] = useState(0);
   const [i18nKey, setI18nKey] = useState<string | undefined>(undefined);
 
@@ -52,6 +56,16 @@ export default function EnterBeneficiaryDetailsScreen() {
     // BeneficiaryType is required in order to differentiate between CRO and ARB transfers
     if (transferType === undefined) {
       throw new Error('Cannot create beneficiary without "transferType"');
+    }
+
+    //Adding this to check if IBAN is of ARB, because we are specifically told to add this on frontend.
+    if (
+      transferType === "INTERNAL_TRANSFER_ACTION" &&
+      values.SelectionType === "IBAN" &&
+      values.SelectionValue.match(ibanRegExpForARB)
+    ) {
+      setIsSwitchToARBModalVisible(true);
+      return;
     }
 
     try {
@@ -134,6 +148,18 @@ export default function EnterBeneficiaryDetailsScreen() {
     setIsGenericErrorModalVisible(false);
   };
 
+  const handleOnSwitchToARB = () => {
+    setIsSwitchToARBModalVisible(false);
+    setTransferType("CROATIA_TO_ARB_TRANSFER_ACTION");
+    navigation.navigate("InternalTransfers.InternalTransferScreen", {
+      ResetForm: true,
+    });
+  };
+
+  const handleOnCancel = () => {
+    setIsSwitchToARBModalVisible(false);
+  };
+
   const handleOnInUseErrorModalClose = () => {
     if (addBeneficiary?.SelectionType === "mobileNo") {
       mobileFormRef.current !== null && mobileFormRef.current.reset();
@@ -204,6 +230,11 @@ export default function EnterBeneficiaryDetailsScreen() {
         isVisible={isGenericErrorModalVisible}
         variant="error"
         onClose={() => handleOnGenericErrorClose()}
+      />
+      <SwitchToARBModal
+        isVisible={isSwitchToARBModalVisible}
+        onSwitchToARBPress={handleOnSwitchToARB}
+        onCancelPress={handleOnCancel}
       />
     </SafeAreaProvider>
   );

@@ -22,13 +22,16 @@ import Page from "@/components/Page";
 import Pill from "@/components/Pill";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { ALRAJHI_BANK_CODE } from "@/constants";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { numericRegExp, saudiPhoneRegExp } from "@/utils";
+import { ibanRegExpForARB, numericRegExp, saudiPhoneRegExp } from "@/utils";
 import { ibanRegExp } from "@/utils";
 
+import { SwitchToARBModal } from "../components";
+import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useBeneficiaryBanks, useValidateQuickTransferBeneficiary } from "../hooks/query-hooks";
 
 interface BeneficiaryInput {
@@ -45,10 +48,14 @@ export default function EnterQuickTransferBeneficiaryScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.EnterQuickTransferBeneficiaryScreen">>();
+  const { setTransferType } = useInternalTransferContext();
+  const route =
+    useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.EnterQuickTransferBeneficiaryScreen">>();
 
   const banks = useBeneficiaryBanks();
   const validateBeneficiaryAsync = useValidateQuickTransferBeneficiary();
+
+  const [isSwitchToARBModalVisible, setIsSwitchToARBModalVisible] = useState(false);
 
   const validationSchema = useMemo(
     () =>
@@ -138,6 +145,12 @@ export default function EnterQuickTransferBeneficiaryScreen() {
         ? _values.phoneNumber
         : undefined;
 
+    //Adding this to check if IBAN is of ARB, because we are specifically told to add this on frontend.
+    if (_values.transferMethod === "IBAN" && selectionValue && selectionValue.match(ibanRegExpForARB)) {
+      setIsSwitchToARBModalVisible(true);
+      return;
+    }
+
     const selectedBank = banks.data?.Banks.find(bank => bank.BankCode === _values.bankCode);
     if (selectionValue === undefined || selectedBank === undefined) return;
 
@@ -186,6 +199,17 @@ export default function EnterQuickTransferBeneficiaryScreen() {
     }
   };
 
+  const handleOnSwitchToARB = () => {
+    setIsSwitchToARBModalVisible(false);
+    setTransferType("CROATIA_TO_ARB_TRANSFER_ACTION");
+    navigation.navigate("InternalTransfers.InternalTransferScreen");
+  };
+
+  const handleOnCancel = () => {
+    setIsSwitchToARBModalVisible(false);
+    setValue("bankCode", "", { shouldValidate: true });
+  };
+
   const identifiers = [
     { label: t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.transferByOptions.mobile"), value: "mobileNo" },
     { label: t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.transferByOptions.email"), value: "email" },
@@ -195,6 +219,14 @@ export default function EnterQuickTransferBeneficiaryScreen() {
 
   const transferMethod = watch("transferMethod");
   const bankCode = watch("bankCode");
+
+  useEffect(() => {
+    if (bankCode === ALRAJHI_BANK_CODE) {
+      setTimeout(() => {
+        setIsSwitchToARBModalVisible(true);
+      }, 300); //Adding timeout because of animations
+    }
+  }, [bankCode]);
 
   const bankOptions = useMemo(() => {
     if (banks.data === undefined) return [];
@@ -353,6 +385,11 @@ export default function EnterQuickTransferBeneficiaryScreen() {
           variant="error"
         />
       ) : null}
+      <SwitchToARBModal
+        isVisible={isSwitchToARBModalVisible}
+        onSwitchToARBPress={handleOnSwitchToARB}
+        onCancelPress={handleOnCancel}
+      />
     </>
   );
 }

@@ -1755,6 +1755,13 @@ export const resources = {
             title: "Sorry - we couldn't check that",
             message: "Please try again later or get in touch if you’re still having problems.",
           },
+          SwitchToARB: {
+            title: "Send money to Al Rajih bank account via internal transfer",
+            buttons: {
+              cancelButton: "Cancel",
+              switchToInternalTransfer: "Switch to Internal Transfer",
+            },
+          },
         },
         ConfirmationScreen: {
           title: {
@@ -3067,6 +3074,13 @@ export const resources = {
         validationError: {
           title: "Sorry - we couldn't check that",
           message: "Please try again later or get in touch if you’re still having problems.",
+        },
+        SwitchToARB: {
+          title: "Send money to Al Rajih bank account via internal transfer",
+          buttons: {
+            cancelButton: "Cancel",
+            switchToInternalTransfer: "Switch to Internal Transfer",
+          },
         },
       },
       ConfirmationScreen: {

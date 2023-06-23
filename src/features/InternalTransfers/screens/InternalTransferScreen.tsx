@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
@@ -12,6 +13,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useCurrentAccount } from "@/hooks/use-accounts";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -25,12 +27,15 @@ interface InternalTransferInput {
 }
 
 export default function InternalTransferScreen() {
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.InternalTransferScreen">>();
   const { t } = useTranslation();
   const navigation = useNavigation();
 
   const account = useCurrentAccount();
 
   const { setTransferAmount, setReason, transferType } = useInternalTransferContext();
+
+  const triggerResetForm = route.params?.ResetForm ?? false;
 
   // BeneficiaryType is required in order to fetch the list of transfer reasons
   if (transferType === undefined) {
@@ -41,13 +46,19 @@ export default function InternalTransferScreen() {
   const currentBalance = account.data?.balance ?? 0;
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
 
-  const { control, handleSubmit, watch } = useForm<InternalTransferInput>({
+  const { control, handleSubmit, watch, reset } = useForm<InternalTransferInput>({
     mode: "onChange",
     defaultValues: {
       PaymentAmount: 0,
       ReasonCode: undefined,
     },
   });
+
+  useEffect(() => {
+    if (triggerResetForm) {
+      reset();
+    }
+  }, [triggerResetForm, reset]);
 
   const handleOnNextPress = (values: InternalTransferInput) => {
     setTransferAmount(values.PaymentAmount);
