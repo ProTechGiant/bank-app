@@ -55,6 +55,11 @@ export interface InternalTransfer {
   RemittanceInformation: string;
 }
 
+export enum TransferStatus {
+  Pending = "401",
+  Success = "200",
+}
+
 export enum TransferTypeCode {
   InternalTransferCroatia = "100",
   LocalTransferIPS = "110",

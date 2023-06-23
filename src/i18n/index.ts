@@ -1627,6 +1627,28 @@ export const resources = {
           screenTitle: "Internal transfer",
           transferLimit: "Transfer limits",
         },
+        StandardTransferScreen: {
+          navTitle: "Send money",
+          title: "Standard transfer",
+          transferLimits: "Transfer limits",
+          continueButton: "Continue",
+          scheduleButton: "Schedule",
+          switchToQuick: "Switch to Quick Transfer",
+          wantToSwitch: "Want to send an instant one time \ntransfer up to 2,500 SAR?",
+          nonOperativeHoursWarning:
+            "If you transfer over 20,000 SAR on a weekend or holiday, we'll complete it on the next working day.",
+          amountExceedsDailyLimit: "Transfer amount exceeds the {{limit}} SAR daily limit by {{amount}} SAR",
+          amountExceedsBalance: "You have insufficient funds.",
+          addFunds: "Add funds",
+          amountExceedsQuickTransferLimit: "Limit: {{amount}}",
+          switchToStandardTransfer: "Switch to standard transfer",
+          couldNotLoadReasonsErrorTitle: "Couldn't load list",
+          couldNotLoadReasonsErrorMessage: "Please try again later or get in touch if you’re still having problems.",
+          limitError: {
+            title: "Sorry - we couldn’t check that",
+            message: "Please try again later or get in touch if you’re still having problems.",
+          },
+        },
         QuickTransferScreen: {
           title: "Quick transfer",
           transferLimits: "Transfer limits",
@@ -1643,7 +1665,7 @@ export const resources = {
             message: "Please try again later or get in touch if you’re still having problems.",
           },
         },
-        QuickTransferLimitsModal: {
+        TransferLimitsModal: {
           title: "What are my transfer limits?",
           standardTransfer: "Standard transfer",
           standardTransferExplanation:
@@ -1737,10 +1759,13 @@ export const resources = {
         ConfirmationScreen: {
           title: {
             active: "Transfer successful",
+            pending: "Transfer pending",
             inactive: "Beneficiary activation and transfer successful",
             new: "Beneficiary activation and transfer successful",
           },
           message: "You can review individual transactions in your transaction history",
+          sarieTransferMessage:
+            "We are processing this transaction and will be available to view soon. We will notify you of the payment outcome via SMS",
           transferredTo: "Transferred to",
           amount: "Amount",
           buttons: {
@@ -2953,7 +2978,7 @@ export const resources = {
           message: "Please try again later or get in touch if you’re still having problems.",
         },
       },
-      QuickTransferLimitsModal: {
+      TransferLimitsModal: {
         title: "What are my transfer limits?",
         standardTransfer: "Standard transfer",
         standardTransferExplanation:

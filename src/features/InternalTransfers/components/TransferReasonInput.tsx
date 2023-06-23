@@ -70,7 +70,7 @@ export default function TransferReasonInput<T extends FieldValues>({
           <>
             <Typography.Text color="neutralBase+30" weight="regular" size="callout">
               {field.value === undefined
-                ? t("InternalTransfers.TransferReasonInput.reason")
+                ? reasons.at(0)?.Description
                 : reasons.find(element => element.Code === field.value)?.Description}
             </Typography.Text>
             <AngleDownIcon color={iconColor} />
@@ -131,7 +131,7 @@ export default function TransferReasonInput<T extends FieldValues>({
           <>
             <Typography.Text color="neutralBase+30" weight="regular" size="callout">
               {field.value === undefined
-                ? t("InternalTransfers.TransferReasonInput.reason")
+                ? reasons.at(0)?.Description
                 : reasons.find(element => element.Code === field.value)?.Description}
             </Typography.Text>
             <AngleDownIcon color={iconColor} />

@@ -7,17 +7,21 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface QuickTransferLimitsModalProps {
+import { TransferTypeCode } from "../types";
+
+interface TransferLimitsModalProps {
   onClose: () => void;
   onSwitchStandardTransferPress: () => void;
   isVisible: boolean;
+  transferType: TransferTypeCode;
 }
 
-export default function QuickTransferLimitsModal({
+export default function TransferLimitsModal({
   onClose,
   onSwitchStandardTransferPress,
   isVisible,
-}: QuickTransferLimitsModalProps) {
+  transferType,
+}: TransferLimitsModalProps) {
   const { t } = useTranslation();
 
   const standardTransferBoxStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -39,40 +43,44 @@ export default function QuickTransferLimitsModal({
     <Modal onClose={onClose} visible={isVisible}>
       <Stack direction="vertical" gap="20p">
         <Typography.Text color="neutralBase+30" size="title2" weight="medium">
-          {t("InternalTransfers.QuickTransferLimitsModal.title")}
+          {t("InternalTransfers.TransferLimitsModal.title")}
         </Typography.Text>
         <Stack direction="vertical" gap="8p">
           <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-            {t("InternalTransfers.QuickTransferLimitsModal.standardTransfer")}
+            {t("InternalTransfers.TransferLimitsModal.standardTransfer")}
           </Typography.Text>
           <Typography.Text color="neutralBase" size="callout" weight="regular">
-            {t("InternalTransfers.QuickTransferLimitsModal.standardTransferExplanation")}
+            {t("InternalTransfers.TransferLimitsModal.standardTransferExplanation")}
           </Typography.Text>
         </Stack>
         <Stack direction="vertical" gap="8p">
           <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-            {t("InternalTransfers.QuickTransferLimitsModal.quickTransfer")}
+            {t("InternalTransfers.TransferLimitsModal.quickTransfer")}
           </Typography.Text>
           <Typography.Text color="neutralBase" size="callout" weight="regular">
-            {t("InternalTransfers.QuickTransferLimitsModal.quickTransferExplanation")}
+            {t("InternalTransfers.TransferLimitsModal.quickTransferExplanation")}
           </Typography.Text>
         </Stack>
         <Stack direction="vertical" gap="8p">
           <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-            {t("InternalTransfers.QuickTransferLimitsModal.nonWorkingDays")}
+            {t("InternalTransfers.TransferLimitsModal.nonWorkingDays")}
           </Typography.Text>
           <Typography.Text color="neutralBase" size="callout" weight="regular">
-            {t("InternalTransfers.QuickTransferLimitsModal.nonWorkingDaysExplanation")}
+            {t("InternalTransfers.TransferLimitsModal.nonWorkingDaysExplanation")}
           </Typography.Text>
         </Stack>
         <Pressable onPress={onSwitchStandardTransferPress} style={standardTransferBoxStyle}>
           <InfoIcon color={infoIconColor} height={18} width={18} />
           <View>
             <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-              {t("InternalTransfers.QuickTransferLimitsModal.wantToSwitch")}
+              {transferType === TransferTypeCode.LocalTransferIPS
+                ? t("InternalTransfers.TransferLimitsModal.wantToSwitch")
+                : t("InternalTransfers.StandardTransferScreen.wantToSwitch")}
             </Typography.Text>
             <Typography.Text color="neutralBase-10" size="footnote" weight="regular">
-              {t("InternalTransfers.QuickTransferLimitsModal.switchToStandard")}
+              {transferType === TransferTypeCode.LocalTransferIPS
+                ? t("InternalTransfers.TransferLimitsModal.switchToStandard")
+                : t("InternalTransfers.StandardTransferScreen.switchToQuick")}
             </Typography.Text>
           </View>
           <View style={styles.chevron}>

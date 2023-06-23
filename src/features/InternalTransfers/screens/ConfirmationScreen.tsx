@@ -14,16 +14,15 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
+import { TransferStatus, TransferType } from "../types";
 
 export default function ConfirmationScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const { internalTransferEntryPoint, recipient, transferAmount } = useInternalTransferContext();
+  const { recipient, transferAmount, transferType, transferStatus } = useInternalTransferContext();
 
   const handleOnDonePress = () => {
-    internalTransferEntryPoint === "payment-hub"
-      ? navigation.navigate("InternalTransfers.PaymentsHubScreen")
-      : navigation.navigate("Home.HomeStack", { screen: "Home.DashboardScreen" });
+    navigation.navigate("InternalTransfers.PaymentsHubScreen");
   };
 
   const handleOnViewTransactionsPress = () => {
@@ -56,14 +55,18 @@ export default function ConfirmationScreen() {
               <TickCircleIcon height={66} width={66} color={iconColor} />
             </View>
             <Typography.Text size="title1" weight="bold" color="neutralBase-60" align="center" style={titleStyle}>
-              {recipient.type === "new"
+              {transferType === TransferType.LocalTransferSarie && transferStatus === TransferStatus.Pending
+                ? t("InternalTransfers.ConfirmationScreen.title.pending")
+                : recipient.type === "new"
                 ? t("InternalTransfers.ConfirmationScreen.title.new")
                 : recipient.type === "inactive"
                 ? t("InternalTransfers.ConfirmationScreen.title.inactive")
                 : t("InternalTransfers.ConfirmationScreen.title.active")}
             </Typography.Text>
             <Typography.Text size="callout" color="neutralBase-20" align="center" style={messageStyle}>
-              {t("InternalTransfers.ConfirmationScreen.message")}
+              {transferType === TransferType.LocalTransferSarie && transferStatus === TransferStatus.Pending
+                ? t("InternalTransfers.ConfirmationScreen.sarieTransferMessage")
+                : t("InternalTransfers.ConfirmationScreen.message")}
             </Typography.Text>
           </View>
           <TableListCardGroup background="dark">

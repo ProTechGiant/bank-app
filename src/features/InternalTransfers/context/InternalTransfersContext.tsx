@@ -1,6 +1,12 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
-import { AddBeneficiarySelectionType, InternalTransferEntryPoint, RecipientType, TransferType } from "../types";
+import {
+  AddBeneficiarySelectionType,
+  InternalTransferEntryPoint,
+  RecipientType,
+  TransferStatus,
+  TransferTypeCode,
+} from "../types";
 
 function noop() {
   return;
@@ -29,8 +35,10 @@ interface InternalTransferContextState {
     iban: string | undefined;
     type: RecipientType | undefined;
   };
-  transferType: TransferType | undefined;
-  setTransferType: (value: TransferType) => void;
+  transferType: TransferTypeCode | undefined;
+  setTransferType: (value: TransferTypeCode) => void;
+  transferStatus: TransferStatus | undefined;
+  setTransferStatus: (value: TransferStatus) => void;
   clearContext: () => void;
 }
 
@@ -53,6 +61,8 @@ const InternalTransferContext = createContext<InternalTransferContextState>({
   },
   transferType: undefined,
   setTransferType: noop,
+  transferStatus: undefined,
+  setTransferStatus: noop,
   clearContext: noop,
 });
 
@@ -70,12 +80,19 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
       type: undefined,
     },
     transferType: undefined,
+    transferStatus: undefined,
   };
   const [state, setState] =
     useState<
       Pick<
         InternalTransferContextState,
-        "internalTransferEntryPoint" | "addBeneficiary" | "transferAmount" | "reason" | "recipient" | "transferType"
+        | "internalTransferEntryPoint"
+        | "addBeneficiary"
+        | "transferAmount"
+        | "reason"
+        | "recipient"
+        | "transferType"
+        | "transferStatus"
       >
     >(initialState);
 
@@ -108,10 +125,13 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
     setState(v => ({ ...v, recipient }));
   };
 
-  const setTransferType = (transferType: TransferType) => {
+  const setTransferType = (transferType: TransferTypeCode) => {
     setState(v => ({ ...v, transferType }));
   };
 
+  const setTransferStatus = (transferStatus: TransferStatus) => {
+    setState(v => ({ ...v, transferStatus }));
+  };
   const clearContext = () => {
     setState(initialState);
   };
@@ -127,6 +147,7 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
           setReason,
           setRecipient,
           setTransferType,
+          setTransferStatus,
           clearContext,
         }),
         [state]

@@ -7,11 +7,11 @@ export { default as EnterBeneficiaryByIBANForm } from "./EnterBeneficiaryByIBANF
 export { default as EnterBeneficiaryByMobileForm } from "./EnterBeneficiaryByMobileForm";
 export { default as ErrorMessage } from "./ErrorMessage";
 export { default as PaymentOption } from "./PaymentOption";
-export { default as QuickTransferLimitsModal } from "./QuickTransferLimitsModal";
 export { default as ReviewTransferDetail } from "./ReviewTransferDetail";
 export { default as SelectTransferTypeModal } from "./SelectTransferTypeModal";
 export { default as SubmitNoteButton } from "./SubmitNoteButton";
 export { default as TransferAmountInput } from "./TransferAmountInput";
 export { default as TransferErrorBox } from "./TransferErrorBox";
+export { default as TransferLimitsModal } from "./TransferLimitsModal";
 export { default as TransferOption } from "./TransferOption";
 export { default as TransferReasonInput } from "./TransferReasonInput";

@@ -6,10 +6,10 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
-import { IconLink } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
+import RightIconLink from "@/components/Link/RightIconLink";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -21,8 +21,9 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
-import { QuickTransferLimitsModal, TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
+import { TransferAmountInput, TransferErrorBox, TransferLimitsModal, TransferReasonInput } from "../components";
 import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
+import { TransferTypeCode } from "../types";
 
 interface QuickTransferInput {
   PaymentAmount: number;
@@ -34,7 +35,8 @@ export default function QuickTransferScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.QuickTransferScreen">>();
 
-  const reasons = useTransferReasons(110);
+  const reasons = useTransferReasons("IPS_TRANSFER_ACTION");
+  const defaultReason: string = reasons?.data?.TransferReason.at(0)?.Code ?? "";
   const account = useCurrentAccount();
   const currentBalance = account.data?.balance ?? 0;
   const dailyLimitAsync = useDailyLimitValidation();
@@ -71,6 +73,7 @@ export default function QuickTransferScreen() {
   });
 
   const handleOnContinue = (values: QuickTransferInput) => {
+    values.ReasonCode = values.ReasonCode === undefined ? defaultReason : values.ReasonCode;
     navigation.navigate("InternalTransfers.EnterQuickTransferBeneficiaryScreen", {
       ...values,
     });
@@ -104,7 +107,6 @@ export default function QuickTransferScreen() {
     marginTop: theme.spacing["32p"],
   }));
 
-  const hasSelectedReasonCode = watch("ReasonCode") !== undefined;
   const currentAmount = watch("PaymentAmount");
   const amountExceedsBalance = currentAmount > currentBalance;
   const amountExceedsLimit = currentAmount > QUICK_TRANSFER_LIMIT;
@@ -118,7 +120,7 @@ export default function QuickTransferScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader title={t("InternalTransfers.QuickTransferScreen.navTitle")} />
+        <NavHeader title={t("InternalTransfers.StandardTransferScreen.navTitle")} />
         {undefined !== currentBalance ? (
           <ContentContainer isScrollView>
             <View style={styles.container}>
@@ -126,9 +128,9 @@ export default function QuickTransferScreen() {
                 {t("InternalTransfers.QuickTransferScreen.title")}
               </Typography.Text>
               <View style={limitsContainerStyle}>
-                <IconLink onPress={handleOnTransferLimitsPress} icon={<InfoCircleIcon />} textSize="footnote">
+                <RightIconLink onPress={handleOnTransferLimitsPress} icon={<InfoCircleIcon />} textSize="footnote">
                   {t("InternalTransfers.QuickTransferScreen.transferLimits")}
-                </IconLink>
+                </RightIconLink>
               </View>
               <View style={amountContainerStyle}>
                 <TransferAmountInput
@@ -170,7 +172,7 @@ export default function QuickTransferScreen() {
               </View>
             </View>
             <Button
-              disabled={amountExceedsBalance || amountExceedsLimit || currentAmount < 0.01 || !hasSelectedReasonCode}
+              disabled={amountExceedsBalance || amountExceedsLimit || currentAmount < 0.01}
               onPress={handleSubmit(handleOnContinue)}>
               {t("InternalTransfers.QuickTransferScreen.continueButton")}
             </Button>
@@ -179,10 +181,11 @@ export default function QuickTransferScreen() {
           <FlexActivityIndicator />
         )}
       </Page>
-      <QuickTransferLimitsModal
+      <TransferLimitsModal
         onClose={() => setIsTransferLimitsModalVisible(false)}
         onSwitchStandardTransferPress={handleOnSwitchStandardTransferPress}
         isVisible={isTransferLimitsModalVisible}
+        transferType={TransferTypeCode.LocalTransferIPS}
       />
       <NotificationModal
         onClose={() => {
