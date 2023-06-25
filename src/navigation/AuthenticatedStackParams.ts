@@ -9,6 +9,7 @@ import { PaymentDisputesStackParams } from "@/features/PaymentDisputes/PaymentDi
 import { ReferralStackParams } from "@/features/Referral/ReferralStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
 import { TopSpendingStackParams } from "@/features/TopSpending/TopSpendingStack";
+import { TransactionDetailed } from "@/features/ViewTransactions/types";
 import { ViewTransactionsStackParams } from "@/features/ViewTransactions/ViewTransactionsStack";
 import { WhatsNextStackParams } from "@/features/WhatsNext/WhatsNextStack";
 
@@ -45,6 +46,7 @@ type RootStackParams = {
   "ViewTransactions.ViewTransactionsStack": {
     screen: string;
     params: {
+      data: TransactionDetailed;
       cardId: string;
       createDisputeUserId: string;
     };

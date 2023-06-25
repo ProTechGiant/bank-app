@@ -51,7 +51,6 @@ export const AuthenticatedScreens = () => {
   useLogoutAfterInactivity();
   return (
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-      <AuthStack.Screen component={TopSpendingStack} name="TopSpending.TopSpendingStack" />
       <AuthStack.Screen component={HomeStack} name="Home.HomeStack" />
       <AuthStack.Screen component={SettingsScreen} name="Settings.SettingsScreen" />
       <AuthStack.Screen component={AccountSettings} name="Settings.AccountSettings" />
@@ -67,6 +66,7 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen component={DetailedScreen} name="FrequentlyAskedQuestions.DetailedScreen" />
       <AuthStack.Screen component={ReferralStack} name="Referral.ReferralStack" />
       <AuthStack.Screen component={ViewTransactionsStack} name="ViewTransactions.ViewTransactionsStack" />
+      <AuthStack.Screen component={TopSpendingStack} name="TopSpending.TopSpendingStack" />
       <AuthStack.Screen
         component={TermsAndConditionsScreen}
         name="Referral.TermsAndConditionsScreen"

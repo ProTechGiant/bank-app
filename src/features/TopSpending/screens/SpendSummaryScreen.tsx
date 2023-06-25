@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { endOfMonth, endOfWeek, endOfYear, format, parseISO, startOfMonth, startOfWeek, startOfYear } from "date-fns";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -10,15 +11,18 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useTransactions from "@/hooks/use-transactions";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import ShoppingCartIcon from "../assets/icons/ShoppingCartIcon";
 import { SpendingsFilterModal } from "../components";
+import { Transaction, TransactionDetailed } from "../types";
 
 export default function SpendSummaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "TopSpending.TopSpendingStack">>();
 
   const SelectedTimeTypes = {
     WEEK: t("TopSpending.SpendSummaryScreen.week"),
@@ -39,6 +43,9 @@ export default function SpendSummaryScreen() {
     transactions,
     //  isLoading
   } = useTransactions(undefined, "2", undefined, undefined, fromDate, toDate);
+
+  const cardId = route.params?.cardId;
+  const createDisputeUserId = route.params?.createDisputeUserId;
 
   const defaultMonth = format(startOfMonth(new Date()), "MMMM yyyy");
 
@@ -148,6 +155,31 @@ export default function SpendSummaryScreen() {
   const [isViewingFilter, setIsViewingFilter] = useState(false);
   const [modalSelectionMade, setModalSelectionMade] = useState(false);
 
+  const handleOnPress = (transaction: Transaction) => {
+    const obj: TransactionDetailed = {
+      cardType: transaction.CardType,
+      status: transaction.Status,
+      location: transaction.AddressLine ? transaction.AddressLine : undefined,
+      title: transaction.MerchantDetails.MerchantName,
+      subTitle: transaction.TransactionInformation,
+      amount: transaction.Amount.Amount,
+      currency: transaction.Amount.Currency,
+      transactionDate: transaction.BookingDateTime,
+      roundUpsAmount: transaction.SupplementaryData.RoundupAmount,
+      categoryName: transaction.SupplementaryData.CategoryName,
+      categoryId: transaction.SupplementaryData.CategoryId,
+    };
+
+    navigation.navigate("ViewTransactions.ViewTransactionsStack", {
+      screen: "ViewTransactions.SingleTransactionDetailedScreen",
+      params: {
+        data: obj,
+        cardId,
+        createDisputeUserId,
+      },
+    });
+  };
+
   return (
     <Page insets={["top", "left", "right", "bottom"]}>
       <SpendingsFilterModal
@@ -244,40 +276,42 @@ export default function SpendSummaryScreen() {
         </View>
         {transactions?.data?.Transaction !== undefined ? (
           <FlatList
-            data={transactions?.data?.Transaction}
+            data={transactions.data.Transaction}
             renderItem={({ item }) => (
-              <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
-                <ShoppingCartIcon color={giftColor} />
-                <Stack direction="vertical" style={styles.expandText}>
-                  <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                    {item.StatementReference}
-                  </Typography.Text>
-                  <Typography.Text size="footnote" color="neutralBase">
-                    {format(
-                      new Date(item.BookingDateTime[0], item.BookingDateTime[1] - 1, item.BookingDateTime[2]),
-                      "dd MMMM yyyy"
-                    )}
-                  </Typography.Text>
+              <Pressable key={item.TransactionId} onPress={() => handleOnPress(item)}>
+                <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
+                  <ShoppingCartIcon color={giftColor} />
+                  <Stack direction="vertical" style={styles.expandText}>
+                    <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+                      {item.StatementReference}
+                    </Typography.Text>
+                    <Typography.Text size="footnote" color="neutralBase">
+                      {format(
+                        new Date(item.BookingDateTime[0], item.BookingDateTime[1] - 1, item.BookingDateTime[2]),
+                        "dd MMMM yyyy"
+                      )}
+                    </Typography.Text>
+                  </Stack>
+                  <Stack direction="horizontal" align="center" gap="4p">
+                    <Typography.Text size="title3" color="neutralBase+30">
+                      <FormatTransactionAmount
+                        amount={parseFloat(item.Amount.Amount)}
+                        isPlusSignIncluded={false}
+                        integerSize="callout"
+                        decimalSize="callout"
+                        color="neutralBase+30"
+                        isCurrencyIncluded={false}
+                      />
+                    </Typography.Text>
+                    <Typography.Text size="callout" color="neutralBase+30">
+                      {t("TopSpending.SpendSummaryScreen.sar")}
+                    </Typography.Text>
+                  </Stack>
+                  <View style={styles.chevronContainer}>
+                    <ChevronRightIcon color={chevronColor} />
+                  </View>
                 </Stack>
-                <Stack direction="horizontal" align="center" gap="4p">
-                  <Typography.Text size="title3" color="neutralBase+30">
-                    <FormatTransactionAmount
-                      amount={parseFloat(item.Amount.Amount)}
-                      isPlusSignIncluded={false}
-                      integerSize="callout"
-                      decimalSize="callout"
-                      color="neutralBase+30"
-                      isCurrencyIncluded={false}
-                    />
-                  </Typography.Text>
-                  <Typography.Text size="callout" color="neutralBase+30">
-                    {t("TopSpending.SpendSummaryScreen.sar")}
-                  </Typography.Text>
-                </Stack>
-                <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-                  <ChevronRightIcon color={chevronColor} />
-                </View>
-              </Stack>
+              </Pressable>
             )}
           />
         ) : (
@@ -293,6 +327,9 @@ export default function SpendSummaryScreen() {
 }
 
 const styles = StyleSheet.create({
+  chevronContainer: {
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
   expandText: {
     flex: 1,
   },

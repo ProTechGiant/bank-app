@@ -1,11 +1,16 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { SpendSummaryScreen } from "./screens";
+import { TransactionDetailed } from "./types";
 
 export const Stack = createNativeStackNavigator();
 
 export type TopSpendingStackParams = {
-  "TopSpending.TopSpendingScreen": undefined;
+  "TopSpending.SpendSummaryScreen": {
+    data: TransactionDetailed;
+    cardId?: string;
+    createDisputeUserId?: string; // TODO: temporary user ID for create dispute case
+  };
 };
 
 export default function TopSpendingStack() {
