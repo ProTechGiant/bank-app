@@ -25,7 +25,7 @@ import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 import { alphaNumericSpaceRegExp } from "@/utils";
 
-import TurnOnNotificationsIcon from "../assets/notifications";
+import TurnOnNotificationsIcon from "../assets/NotificationsIcon";
 import RoundUpsIcon from "../assets/round-ups";
 import { useCreateGoal, useRoundupFlag } from "../hooks/query-hooks";
 import { CreateGoalInput } from "../types";
