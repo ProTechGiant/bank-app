@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
-import { ErrorFilledCircleIcon } from "@/assets/icons";
-import InlineBanner from "@/components/InlineBanner";
+import Alert from "@/components/Alert";
 import NavHeader from "@/components/NavHeader";
 import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
@@ -13,10 +12,10 @@ import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { BLOCKED_TIME, OTP_BLOCKED_TIME, PINCODE_LENGTH } from "../constants";
-import { useSignInContext } from "../contexts/SignInContext";
+// import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
 import { useSendLoginOTP, useValidatePincode } from "../hooks/query-hooks";
 
@@ -29,7 +28,8 @@ const ForgotPasswordScreen = () => {
   const [showModel, setShowModel] = useState<boolean>(false);
   const [pinCode, setPinCode] = useState<string>("");
   const useSendLoginOtpAsync = useSendLoginOTP();
-  const { mobileNumber } = useSignInContext();
+  // not in use yet
+  // const { mobileNumber } = useSignInContext();
   const otpFlow = useOtpFlow();
 
   useEffect(() => {
@@ -132,11 +132,7 @@ const ForgotPasswordScreen = () => {
           passcode={pinCode}
         />
         <View style={bannerStyle}>
-          <InlineBanner
-            variant="info"
-            icon={<ErrorFilledCircleIcon height={20} width={20} />}
-            text={t("SignIn.ForgotPasscodeScreen.needHelpInfo")}
-          />
+          <Alert variant="default" message={t("SignIn.ForgotPasscodeScreen.needHelpInfo")} />
         </View>
         <NumberPad passcode={pinCode} setPasscode={setPinCode} />
       </View>

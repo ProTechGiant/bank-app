@@ -5,9 +5,8 @@ import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
-import { ErrorFilledCircleIcon } from "@/assets/icons";
+import Alert from "@/components/Alert";
 import ContentContainer from "@/components/ContentContainer";
-import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -86,17 +85,9 @@ export function ConfirmPasscodeScreen() {
         <View style={inputContainerStyle}>
           <PincodeInput autoFocus onChangeText={handleOnChangeText} length={PASSCODE_LENGTH} value={currentValue} />
           {isErrorVisible ? (
-            <InlineBanner
-              icon={<ErrorFilledCircleIcon />}
-              variant="error"
-              text={t("Onboarding.ConfirmPasscode.notification")}
-            />
+            <Alert variant="error" message={t("Onboarding.ConfirmPasscode.notification")} />
           ) : errorMessages.length ? (
-            <InlineBanner
-              icon={<ErrorFilledCircleIcon />}
-              variant="error"
-              text={t("Onboarding.ConfirmPasscode.errorText")}
-            />
+            <Alert variant="error" message={t("Onboarding.ConfirmPasscode.errorText")} />
           ) : null}
         </View>
       </ContentContainer>

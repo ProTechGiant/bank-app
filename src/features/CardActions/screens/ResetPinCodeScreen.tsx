@@ -3,10 +3,9 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, ScrollView, useWindowDimensions, View, ViewStyle } from "react-native";
 
-import { ErrorFilledCircleIcon, InfoFilledIcon } from "@/assets/icons";
+import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -148,15 +147,11 @@ export default function ResetPinCodeScreen() {
                       value={currentValue}
                     />
                     {isErrorVisible ? (
-                      <InlineBanner
-                        icon={<ErrorFilledCircleIcon />}
-                        text={t("CardActions.ResetPincodeScreen.errorPincodeTooEasy")}
-                        variant="error"
-                      />
+                      <Alert message={t("CardActions.ResetPincodeScreen.errorPincodeTooEasy")} variant="error" />
                     ) : null}
                   </View>
                 </Stack>
-                <InlineBanner icon={<InfoFilledIcon />} text={t("CardActions.ResetPincodeScreen.avoidTooEasyPin")} />
+                <Alert variant="default" message={t("CardActions.ResetPincodeScreen.avoidTooEasyPin")} />
               </Stack>
             </ContentContainer>
 
@@ -177,9 +172,8 @@ export default function ResetPinCodeScreen() {
                     value={currentValue}
                   />
                   {isErrorVisible && remainingAttempts > 0 ? (
-                    <InlineBanner
-                      icon={<ErrorFilledCircleIcon />}
-                      text={t("CardActions.ResetPincodeScreen.errorPinDoesntMatch", { count: remainingAttempts })}
+                    <Alert
+                      message={t("CardActions.ResetPincodeScreen.errorPinDoesntMatch", { count: remainingAttempts })}
                       variant="error"
                     />
                   ) : null}

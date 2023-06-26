@@ -4,10 +4,9 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Keyboard, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { ErrorFilledCircleIcon } from "@/assets/icons";
+import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -41,7 +40,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
   const isOtpExpired = otpResetCountSeconds <= 0;
   const isReachedMaxAttempts = otpResendsRequested === OTP_MAX_RESENDS && isOtpExpired;
-  const [showBlockUserAlert, setShowBlockUserAlert] = useState(isReachedMaxAttempts);
+  const [_, setShowBlockUserAlert] = useState(isReachedMaxAttempts);
   const resolvedPhoneNumber = phoneNumber ?? otpParams?.phoneNumber;
 
   const isLoginFlow =
@@ -90,7 +89,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     if (isReachedMaxAttempts && isLoginFlow) {
       setShowBlockUserAlert(true);
     }
-  }, [navigation, isReachedMaxAttempts, params]);
+  }, [navigation, isReachedMaxAttempts, params, isLoginFlow]);
 
   useEffect(() => {
     if (isGenericErrorVisible || isReachedMaxAttempts) Keyboard.dismiss();
@@ -230,34 +229,21 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                   <>
                     {/* to handle cases of PC-11791 regarding error */}
                     {isOTPVerifyMaxAttemptsReached ? (
-                      <InlineBanner
+                      <Alert
                         variant="error"
-                        icon={<ErrorFilledCircleIcon />}
-                        text={t("OneTimePasswordModal.errors.maxAttemptsInvalidPasswordReached")}
+                        message={t("OneTimePasswordModal.errors.maxAttemptsInvalidPasswordReached")}
                       />
                     ) : (
-                      <InlineBanner
-                        variant="error"
-                        icon={<ErrorFilledCircleIcon />}
-                        text={t("OneTimePasswordModal.errors.invalidPassword")}
-                      />
+                      <Alert variant="error" message={t("OneTimePasswordModal.errors.invalidPassword")} />
                     )}
                   </>
                 ) : null}
                 {isOtpExpired ? (
                   <>
                     {otpResendsRequested === 0 ? (
-                      <InlineBanner
-                        variant="error"
-                        icon={<ErrorFilledCircleIcon />}
-                        text={t("OneTimePasswordModal.errors.twoAttemptsLeft")}
-                      />
+                      <Alert variant="error" message={t("OneTimePasswordModal.errors.twoAttemptsLeft")} />
                     ) : otpResendsRequested === 1 ? (
-                      <InlineBanner
-                        variant="error"
-                        icon={<ErrorFilledCircleIcon />}
-                        text={t("OneTimePasswordModal.errors.oneAttemptLeft")}
-                      />
+                      <Alert variant="error" message={t("OneTimePasswordModal.errors.oneAttemptLeft")} />
                     ) : null}
                   </>
                 ) : null}

@@ -6,12 +6,12 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
-import { BankAccountIcon, ErrorOutlineIcon, NumbersIcon, PersonFilledIcon, PhoneFilledIcon } from "@/assets/icons";
+import { BankAccountIcon, NumbersIcon, PersonFilledIcon, PhoneFilledIcon } from "@/assets/icons";
+import Alert from "@/components/Alert";
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
 import CheckboxInput from "@/components/Form/CheckboxInput";
 import SubmitButton from "@/components/Form/SubmitButton";
-import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -146,9 +146,9 @@ export default function ConfirmNewBeneficiaryScreen() {
               label={formatIban(recipient.iban || "")}
             />
           ) : null}
-          <InlineBanner
-            icon={<ErrorOutlineIcon />}
-            text={
+          <Alert
+            variant="error"
+            message={
               recipient.type === "active" && transferType === "CROATIA_TO_ARB_TRANSFER_ACTION"
                 ? t("InternalTransfers.ConfirmNewBeneficiaryScreen.bannerMessageActiveBeneficiary")
                 : t("InternalTransfers.ConfirmNewBeneficiaryScreen.bannerMessage")

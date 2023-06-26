@@ -1,8 +1,11 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BackHandler, View, ViewStyle } from "react-native";
+import { BackHandler, useWindowDimensions, View, ViewStyle } from "react-native";
 
+import ContentContainer from "@/components/ContentContainer";
+import Page from "@/components/Page";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -10,6 +13,8 @@ import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
+import AppLockedPermanentImage from "../assets/AppLockedPermanentImage";
+import AppLockedTemporaryImage from "../assets/AppLockedTemporaryImage";
 import { BLOCKED_TIME } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useCheckUserStatus } from "../hooks/query-hooks";
@@ -18,7 +23,9 @@ import { SignInStackParams } from "../SignInStack";
 export default function UserBlockedScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { height } = useWindowDimensions();
   const { params } = useRoute<RouteProp<SignInStackParams, "SignIn.UserBlocked">>();
+
   const { mutateAsync } = useCheckUserStatus();
   const { setSignInCorrelationId } = useSignInContext();
   const [isItPermanentBlock, setIsItPermanentBlock] = useState(false);
@@ -107,64 +114,53 @@ export default function UserBlockedScreen() {
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.primaryBase,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    flex: 1,
-    paddingHorizontal: theme.spacing["32p"],
-  }));
-  const badgeContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["20p"],
+    paddingHorizontal: theme.spacing["24p"],
   }));
 
-  const badgeStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["64p"],
-    paddingVertical: theme.spacing["16p"],
-    paddingHorizontal: theme.spacing["20p"],
-    borderRadius: theme.radii.xxlarge,
-  }));
-
-  const headingStyle = useThemeStyles<ViewStyle>(theme => ({
+  const headerPendingDeclineStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    rowGap: theme.spacing["24p"],
+    marginTop: height / 5 - theme.spacing["20p"], // remove ContentContainer Padding
     marginBottom: theme.spacing["24p"],
-  }));
-
-  const messageStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["20p"],
-    lineHeight: theme.typography.text._lineHeights.footnote,
+    width: "100%",
   }));
 
   return (
-    <View style={containerStyle}>
-      <View style={badgeContainerStyle}>
-        <Typography.Text color="neutralBase-40" style={badgeStyle}>
-          {t("SignIn.UserExistBlockedScreen.title")}
-        </Typography.Text>
-      </View>
-      <View>
-        <Typography.Text size="xlarge" weight="bold" color="neutralBase-30" align="center" style={headingStyle}>
-          {isItPermanentBlock
-            ? t("SignIn.UserPermanentBlockScreen.heading")
-            : userExist
-            ? t("SignIn.UserExistBlockedScreen.heading")
-            : t("SignIn.UserNotExistBlockedScreen.heading")}
-        </Typography.Text>
-        <Typography.Text size="body" align="center" weight="semiBold" color="neutralBase-50" style={messageStyle}>
-          {!isItPermanentBlock
-            ? t("SignIn.UserExistBlockedScreen.message", {
-                type: params.type ?? "passcode",
-                time: `${Math.floor(remainingSecs / 60)}:${Math.floor(remainingSecs % 60)
-                  .toString()
-                  .padStart(2, "0")}`,
-              })
-            : t("SignIn.UserPermanentBlockScreen.message")}
-        </Typography.Text>
-        {!isItPermanentBlock ? (
-          <Typography.Text size="callout" align="center" weight="semiBold" color="neutralBase-50" style={messageStyle}>
-            t("SignIn.UserExistBlockedScreen.suggestion")
-          </Typography.Text>
-        ) : null}
-      </View>
-    </View>
+    <Page backgroundColor="neutralBase-60">
+      <ContentContainer>
+        <View style={containerStyle}>
+          <View style={headerPendingDeclineStyle}>
+            {isItPermanentBlock ? <AppLockedPermanentImage /> : <AppLockedTemporaryImage />}
+            <Stack direction="vertical" gap="24p" align="center">
+              <Typography.Text size="title1" weight="bold" color="neutralBase+30" align="center">
+                {isItPermanentBlock
+                  ? t("SignIn.UserPermanentBlockScreen.heading")
+                  : userExist
+                  ? t("SignIn.UserExistBlockedScreen.heading")
+                  : t("SignIn.UserNotExistBlockedScreen.heading")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase+10" size="callout" align="center">
+                {!isItPermanentBlock
+                  ? t("SignIn.UserExistBlockedScreen.message", {
+                      type: params.type ?? "passcode",
+                      time: `${Math.floor(remainingSecs / 60)}:${Math.floor(remainingSecs % 60)
+                        .toString()
+                        .padStart(2, "0")}`,
+                    })
+                  : t("SignIn.UserPermanentBlockScreen.message")}
+              </Typography.Text>
+              {!isItPermanentBlock ? (
+                <Typography.Text size="callout" align="center" color="neutralBase+10">
+                  {t("SignIn.UserExistBlockedScreen.suggestion")}
+                </Typography.Text>
+              ) : null}
+            </Stack>
+          </View>
+        </View>
+      </ContentContainer>
+    </Page>
   );
 }

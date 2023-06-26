@@ -12,10 +12,9 @@ import {
   ViewStyle,
 } from "react-native";
 
-import { ErrorFilledCircleIcon, InfoFilledIcon } from "@/assets/icons";
+import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import PincodeInput from "@/components/PincodeInput";
@@ -173,17 +172,16 @@ export default function SetPinAndAddressScreen({
                     value={currentValue}
                   />
                   {isErrorVisible ? (
-                    <InlineBanner
-                      icon={<ErrorFilledCircleIcon />}
-                      text={t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.SetPin.errorPinTooEasy")}
+                    <Alert
+                      message={t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.SetPin.errorPinTooEasy")}
                       variant="error"
                     />
                   ) : null}
                 </View>
               </Stack>
-              <InlineBanner
-                icon={<InfoFilledIcon />}
-                text={t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.SetPin.avoidSimplePin")}
+              <Alert
+                variant="default"
+                message={t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.SetPin.avoidSimplePin")}
               />
             </Stack>
           </ContentContainer>
@@ -207,9 +205,8 @@ export default function SetPinAndAddressScreen({
                     value={currentValue}
                   />
                   {isErrorVisible && remainingAttempts > 0 ? (
-                    <InlineBanner
-                      icon={<ErrorFilledCircleIcon />}
-                      text={t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.ConfirmPin.pinNotMatch", {
+                    <Alert
+                      message={t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.ConfirmPin.pinNotMatch", {
                         count: remainingAttempts,
                       })}
                       variant="error"

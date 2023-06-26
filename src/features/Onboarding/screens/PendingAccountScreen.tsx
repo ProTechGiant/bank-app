@@ -65,7 +65,9 @@ export default function PendingAccountScreen() {
   const headerPendingDeclineStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     rowGap: theme.spacing["24p"],
-    marginTop: height / 5,
+    marginTop:
+      height / 5 - // calculation to get 20% of screen height
+      theme.spacing["20p"], // remove ContentContainer Padding
     marginBottom: theme.spacing["24p"],
     width: "100%",
   }));

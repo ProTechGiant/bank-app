@@ -1,7 +1,7 @@
 import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import Button from "@/components/Button";
@@ -62,7 +62,7 @@ export default function PasscodeScreen() {
         setSignInCorrelationId(_correlationId);
       } else setUser(null);
     })();
-  }, []);
+  });
 
   useEffect(() => {
     if (isFocused) {
@@ -218,7 +218,12 @@ export default function PasscodeScreen() {
           setPasscode={setPasscode}
         />
         <Pressable style={forgotPasscodeTextStyle} onPress={() => navigation.navigate("SignIn.ForgotPassword")}>
-          <Typography.Text color="primaryBase" align="center" weight="semiBold" size="callout">
+          <Typography.Text
+            color="primaryBase-30"
+            align="center"
+            weight="medium"
+            size="footnote"
+            style={styles.underline}>
             {t("SignIn.PasscodeScreen.forgotPassword")}
           </Typography.Text>
         </Pressable>
@@ -239,3 +244,9 @@ export default function PasscodeScreen() {
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  underline: {
+    textDecorationLine: "underline",
+  },
+});

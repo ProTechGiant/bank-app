@@ -3,8 +3,8 @@ import React, { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
+import Alert from "@/components/Alert";
 import Button from "@/components/Button";
-import InlineBanner from "@/components/InlineBanner";
 import NotificationModal from "@/components/NotificationModal";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -37,14 +37,14 @@ const PasscodeInput = ({
   }));
 
   const profilePicWraper = useThemeStyles<TextStyle>(theme => ({
-    height: theme.spacing["73p"],
-    width: theme.spacing["73p"],
+    height: 56,
+    width: 56,
     borderRadius: theme.radii.xxlarge,
     marginRight: theme.spacing["10p"],
     marginBottom: theme.spacing["10p"],
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: theme.palette.primaryBase,
+    backgroundColor: theme.palette["supportBase-10"],
   }));
   const subTitleStyle = useThemeStyles<TextStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
@@ -82,7 +82,7 @@ const PasscodeInput = ({
     <View style={styles.container}>
       {user ? (
         <View style={profilePicWraper}>
-          <Typography.Text color="neutralBase-50" size="body" weight="semiBold">
+          <Typography.Text size="callout" weight="medium">
             {user.name
               .split(" ")
               .map(value => value.charAt(0).toUpperCase())
@@ -111,12 +111,7 @@ const PasscodeInput = ({
       </View>
       <View style={alertWrapper}>
         {isError && !showModel && errorMessage?.[0]?.message ? (
-          <InlineBanner
-            icon={errorMessage[0].icon}
-            text={errorMessage[0].message}
-            testID="toast-banner"
-            variant="error"
-          />
+          <Alert message={errorMessage[0].message} variant={errorMessage[0].variant} />
         ) : null}
       </View>
       {errorMessage?.[0]?.modalMessage && errorMessage?.[0]?.title && isError && showModel ? (

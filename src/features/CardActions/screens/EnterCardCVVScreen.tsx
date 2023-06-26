@@ -3,10 +3,9 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, View, ViewStyle } from "react-native";
 
-import { ErrorFilledCircleIcon } from "@/assets/icons";
+import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -144,9 +143,8 @@ export default function EnterCardCVVScreen() {
                     value={currentValue}
                   />
                   {isErrorVisible && remainingAttempts > 0 ? (
-                    <InlineBanner
-                      icon={<ErrorFilledCircleIcon />}
-                      text={t("CardActions.EnterCardCVVScreen.errorCVV", { count: remainingAttempts })}
+                    <Alert
+                      message={t("CardActions.EnterCardCVVScreen.errorCVV", { count: remainingAttempts })}
                       variant="error"
                     />
                   ) : null}

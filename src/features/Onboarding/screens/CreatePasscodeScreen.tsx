@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
-import { ErrorFilledCircleIcon } from "@/assets/icons";
+import Alert from "@/components/Alert";
 import ContentContainer from "@/components/ContentContainer";
-import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import PincodeInput from "@/components/PincodeInput";
@@ -67,13 +66,7 @@ export default function CreatePasscodeScreen() {
         </Typography.Text>
         <View style={inputContainerStyle}>
           <PincodeInput autoFocus onChangeText={handleOnChangeText} length={PASSCODE_LENGTH} value={currentValue} />
-          {isErrorVisible ? (
-            <InlineBanner
-              icon={<ErrorFilledCircleIcon height={20} width={20} />}
-              variant="error"
-              text={t("Onboarding.CreatePasscode.needHelpInfo")}
-            />
-          ) : null}
+          {isErrorVisible ? <Alert variant="error" message={t("Onboarding.CreatePasscode.needHelpInfo")} /> : null}
         </View>
       </ContentContainer>
     </Page>

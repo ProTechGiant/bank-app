@@ -3,17 +3,10 @@ import { parsePhoneNumber } from "libphonenumber-js";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
-import {
-  BankAccountIcon,
-  EmailIcon,
-  InfoCircleIcon,
-  NumbersIcon,
-  PersonFilledIcon,
-  PhoneFilledIcon,
-} from "@/assets/icons";
+import { BankAccountIcon, EmailIcon, NumbersIcon, PersonFilledIcon, PhoneFilledIcon } from "@/assets/icons";
+import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import InlineBanner from "@/components/InlineBanner";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -30,14 +23,14 @@ export default function ConfirmQuickTransferBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ConfirmQuickTransferBeneficiaryScreen">>();
+  const route =
+    useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ConfirmQuickTransferBeneficiaryScreen">>();
 
   const handleOnSubmit = () => {
     navigation.navigate("InternalTransfers.ReviewQuickTransferScreen", route.params);
   };
 
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
-  const infoIconColor = useThemeStyles(theme => theme.palette["neutralBase+10"]);
 
   return (
     <Page backgroundColor="neutralBase-50">
@@ -92,10 +85,9 @@ export default function ConfirmQuickTransferBeneficiaryScreen() {
               label={route.params.Beneficiary.SelectionValue}
             />
           ) : null}
-          <InlineBanner
-            icon={<InfoCircleIcon color={infoIconColor} />}
-            text={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.bannerMessage")}
-            variant="info"
+          <Alert
+            message={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.bannerMessage")}
+            variant="default"
           />
         </Stack>
         <View>

@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
 import { ErrorFilledCircleIcon } from "@/assets/icons";
-import InlineBanner from "@/components/InlineBanner";
+import Alert from "@/components/Alert";
 import NavHeader from "@/components/NavHeader";
 import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
@@ -64,11 +64,7 @@ const CreatePasscodeScreen = () => {
           passcode={passCode}
         />
         <View style={bannerStyle}>
-          <InlineBanner
-            variant="info"
-            icon={<ErrorFilledCircleIcon height={20} width={20} />}
-            text={t("SignIn.CreatePasscodeScreen.needHelpInfo")}
-          />
+          <Alert variant="default" message={t("SignIn.CreatePasscodeScreen.needHelpInfo")} />
         </View>
         <NumberPad passcode={passCode} setPasscode={setPasscode} />
       </View>

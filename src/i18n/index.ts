@@ -452,7 +452,7 @@ export const resources = {
           notification: "That passcode wasn't right. You have {{attempts}} attempts left.",
           errorMessage: "You’ve entered the wrong PIN too many times. Please wait {{time}} min and try again.",
           errorTitle: "try again later",
-          forgotPassword: "Forgot your Passcode?",
+          forgotPassword: "Forgot your passcode?",
           signInModal: {
             title: "Sign in on this device",
             message:
@@ -2409,7 +2409,7 @@ export const resources = {
           notification: "That passcode wasn't right. You have {{attempts}} attempts left.",
           errorMessage: "You’ve entered the wrong PIN too many times. Please wait {{time}} min and try again.",
           errorTitle: "try again later",
-          forgotPassword: "Forgot your Passcode?",
+          forgotPassword: "Forgot your passcode?",
           signInModal: {
             title: "Sign in on this device",
             message:
