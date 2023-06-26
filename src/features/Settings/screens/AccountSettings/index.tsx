@@ -131,7 +131,7 @@ export default function AccountSettingsScreen() {
         </Typography.Text>
       </Pressable>
       <NotificationModal
-        variant="confirmations"
+        variant="warning"
         title={t("Settings.AccountSettings.youSure")}
         message={t("Settings.AccountSettings.message")}
         isVisible={isModalVisible}
