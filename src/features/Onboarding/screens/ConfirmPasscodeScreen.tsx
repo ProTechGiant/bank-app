@@ -45,6 +45,7 @@ export function ConfirmPasscodeScreen() {
       await mutateAsync(value);
       setShowSuccessModal(true);
     } catch (err) {
+      setIsErrorVisible(true);
       warn("Error creating user passcode ", JSON.stringify(err)); // log the error for debugging purposes
     }
   };
@@ -86,7 +87,7 @@ export function ConfirmPasscodeScreen() {
           <PincodeInput autoFocus onChangeText={handleOnChangeText} length={PASSCODE_LENGTH} value={currentValue} />
           {isErrorVisible ? (
             <Alert variant="error" message={t("Onboarding.ConfirmPasscode.notification")} />
-          ) : errorMessages.length ? (
+          ) : isErrorVisible && errorMessages.length ? (
             <Alert variant="error" message={t("Onboarding.ConfirmPasscode.errorText")} />
           ) : null}
         </View>
