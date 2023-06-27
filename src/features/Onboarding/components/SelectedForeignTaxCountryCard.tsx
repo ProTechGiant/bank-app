@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 
-import { EditBordered } from "@/assets/icons";
+import { EditBorderedIcon } from "@/assets/icons";
 import { WithShadow } from "@/components";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -54,7 +54,7 @@ export default function SelectedForeignTaxCountryCard({
             </View>
           </Stack>
           <Pressable onPress={() => onPress(index)}>
-            <EditBordered color={iconColor} />
+            <EditBorderedIcon color={iconColor} />
           </Pressable>
         </Stack>
       </View>

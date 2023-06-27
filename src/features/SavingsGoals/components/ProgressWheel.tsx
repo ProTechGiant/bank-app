@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 
-import { CheckIcon, CheckIconBig } from "@/assets/icons";
+import { BigCheckIcon, CheckIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { palette, typography } from "@/theme/values";
@@ -71,7 +71,7 @@ export default function ProgressWheel({
       <View style={styles.innerContainer}>
         {progressPercentage >= 100 ? (
           bigCheckIcon ? (
-            <CheckIconBig color={checkIconStyle.color} />
+            <BigCheckIcon color={checkIconStyle.color} />
           ) : (
             <CheckIcon color={checkIconStyle.color} />
           )

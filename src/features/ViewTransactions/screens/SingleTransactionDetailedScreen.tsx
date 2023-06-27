@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, StyleSheet, TextStyle, TouchableOpacity, View } from "react-native";
 
 import ApiError from "@/api/ApiError";
-import { CircleQuestionMark, CloseIcon } from "@/assets/icons";
+import { CircleQuestionMarkIcon, CloseIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import NotificationModal from "@/components/NotificationModal";
@@ -137,7 +137,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
               {t("ViewTransactions.AboutRoundUpsModal.bodyText")}
             </Typography.Text>
             <View style={styles.modalFooter}>
-              <CircleQuestionMark />
+              <CircleQuestionMarkIcon />
               <Typography.Text style={FAQs} color="primaryBase" size="footnote" weight="medium">
                 {t("ViewTransactions.AboutRoundUpsModal.note")}
               </Typography.Text>

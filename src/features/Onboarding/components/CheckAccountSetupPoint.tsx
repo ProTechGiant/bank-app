@@ -1,6 +1,6 @@
 import { View, ViewStyle } from "react-native";
 
-import { CheckCircle, SyncIcon } from "@/assets/icons";
+import { CheckCircleIcon, SyncIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -20,7 +20,7 @@ const CheckAccountSetupPoint = ({ text, completed }: CheckAccountSetupPointProps
 
   return (
     <View style={checkStatusContainer}>
-      <View style={checkStatusIcon}>{completed ? <CheckCircle /> : <SyncIcon />}</View>
+      <View style={checkStatusIcon}>{completed ? <CheckCircleIcon /> : <SyncIcon />}</View>
       <Typography.Text size="caption1">{text}</Typography.Text>
     </View>
   );

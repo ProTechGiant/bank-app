@@ -1,6 +1,6 @@
 import { Pressable, View, ViewStyle } from "react-native";
 
-import { DisabledPlusIconCircle, PlusIconCircle } from "@/assets/icons";
+import { DisabledPlusCircleIcon, PlusCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -32,7 +32,7 @@ export default function InactiveReordererItem({ disabled, onPress, item }: Inact
 
   return (
     <Pressable disabled={disabled} onPress={onPress} style={containerStyle}>
-      {disabled ? <DisabledPlusIconCircle /> : <PlusIconCircle />}
+      {disabled ? <DisabledPlusCircleIcon /> : <PlusCircleIcon />}
       <View style={contentStyle}>
         <Typography.Text color={disabled ? "neutralBase-20" : "primaryBase"} size="callout" weight="medium">
           {item.name}
