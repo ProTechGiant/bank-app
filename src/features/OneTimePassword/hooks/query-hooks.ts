@@ -16,11 +16,11 @@ import { OtpResponseStatus, ValidateOtpRequest, ValidateOtpResponse } from "../t
 type AnyStack = AuthenticatedStackParams | UnAuthenticatedStackParams;
 type OtpScreenParams<Stack extends AnyStack> = OneTimePasswordModalParams<Stack>;
 
+// @ts-expect-error expected error because action.params is overwritten
 interface HandleOtpParams<Stack extends AnyStack, Route extends keyof Stack, Payload> extends OtpScreenParams<Stack> {
-  action: {
-    to: Route;
-    params: Omit<Stack[Route], "otpResponseStatus" | "otpResponsePayload">;
-  };
+  action: undefined extends Stack[Route]
+    ? { to: Route }
+    : { to: Route; params: Omit<Stack[Route], "otpResponseStatus" | "otpResponsePayload"> };
   onFinish?: (status: OtpResponseStatus, payload: Payload) => void;
 }
 
@@ -28,6 +28,7 @@ export function useOtpFlow<Stack extends AnyStack>() {
   type OtpCallbackResponse = { otpResponseStatus?: OtpResponseStatus; otpResponsePayload: unknown };
 
   const navigation = useNavigation();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const route = useRoute<RouteProp<Stack, any>>();
   const params = route.params as unknown as OtpCallbackResponse;
 

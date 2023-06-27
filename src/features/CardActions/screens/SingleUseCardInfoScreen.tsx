@@ -34,10 +34,16 @@ export default function SingleUseCardInfoScreen() {
         });
       },
       onFinish: (status, payload) => {
-        if (status === "cancel") return;
+        if (status === "cancel") {
+          return;
+        }
 
         if (status === "fail" || payload?.CardCreateResponse?.Header.ErrorId !== "0") {
           setTimeout(() => setIsSubmitErrorModalVisible(true), 500);
+          return;
+        }
+
+        if (payload.CardCreateResponse === undefined) {
           return;
         }
 

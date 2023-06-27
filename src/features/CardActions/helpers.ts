@@ -1,11 +1,23 @@
-import { SINGLE_USE_CARD_TYPE } from "@/constants";
+import { PHYSICAL_CARD_TYPE, SINGLE_USE_CARD_TYPE } from "@/constants";
 
 import { Card } from "./types";
 
-export function isCardInactive(card: Card) {
+export function isPhysicalCard(card: Card) {
+  return card.CardType === PHYSICAL_CARD_TYPE;
+}
+
+export function isSingleUseCard(card: Card) {
+  return card.CardType === SINGLE_USE_CARD_TYPE;
+}
+
+export function isSingleUseCardInactive(card: Card) {
   return card.Status === "expired_report" || card.Status === "expired" || card.Status === "inactive";
 }
 
 export function hasActiveSingleUseCard(cardsList: Card[]) {
-  return cardsList.find(card => card.CardType === SINGLE_USE_CARD_TYPE && card.Status === "unfreeze") !== undefined;
+  return cardsList.some(card => isSingleUseCard(card) && card.Status === "unfreeze");
+}
+
+export function isCardExpiringSoon(card: Card) {
+  return card.IsExpireSoon && isPhysicalCard(card);
 }

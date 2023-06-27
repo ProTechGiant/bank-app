@@ -1,12 +1,11 @@
-import { useTranslation } from "react-i18next";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import { useTranslation } from "react-i18next";
 import { Pressable } from "react-native";
 
 import { ThreeDotsIcon } from "@/assets/icons";
 import BankCard from "@/components/BankCard";
 
 import { CardStatus } from "../types";
-
 
 interface QuickActionsMenuProps {
   cardStatus: CardStatus;
@@ -30,7 +29,9 @@ export default function QuickActionsMenu({
     const options: string[] = [];
 
     if (cardStatus !== "inactive") {
-      options.push(cardStatus === "freeze" ? t("CardActions.QuickMenu.defrost") : t("CardActions.QuickMenu.freezeCard"));
+      options.push(
+        cardStatus === "freeze" ? t("CardActions.QuickMenu.defrost") : t("CardActions.QuickMenu.freezeCard")
+      );
       options.push(t("CardActions.QuickMenu.viewPin"));
     }
 

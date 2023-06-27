@@ -13,7 +13,6 @@ import usePrimaryAddress from "@/hooks/use-primary-address";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { Address } from "@/types/Address";
-import { generateRandomId } from "@/utils";
 
 import { CardActionsStackParams } from "../../CardActionsStack";
 import { useChangeCardStatus, useFreezeCard } from "../../hooks/query-hooks";
@@ -58,10 +57,8 @@ export default function ReportCardScreen() {
   };
 
   const handleOnFreezePress = async () => {
-    const correlationId = generateRandomId();
-
     try {
-      const response = await freezeCardAsync.mutateAsync({ cardId, correlationId });
+      const response = await freezeCardAsync.mutateAsync({ cardId });
       if (response.Status !== "freeze") throw new Error("Received unexpected response from back-end");
 
       navigation.goBack();

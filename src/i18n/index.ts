@@ -1329,7 +1329,7 @@ export const resources = {
           content:
             "You can renew it now to make sure you get a replacement before it expires, or we’ll send a new one automatically to your registered address.",
           button: "Renew card",
-          IsExpireSoon: "Expires soon",
+          isExpiringSoon: "Expires soon",
         },
         CardDeliveryNotification: {
           inactiveTitle: "Your new card is on the way",
@@ -2698,7 +2698,7 @@ export const resources = {
         content:
           "You can renew it now to make sure you get a replacement before it expires, or we’ll send a new one automatically to your registered address.",
         button: "Renew card",
-        IsExpireSoon: "Expires soon",
+        isExpiringSoon: "Expires soon",
       },
     },
     AddMoneyInfo: {

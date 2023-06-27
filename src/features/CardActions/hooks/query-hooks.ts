@@ -43,14 +43,14 @@ export function useFreezeCard() {
   const queryClient = useQueryClient();
 
   return useMutation(
-    ({ cardId, correlationId }: { cardId: string; correlationId: string }) => {
+    ({ cardId }: { cardId: string }) => {
       return api<FreezeCardResponse>(
         "v1",
         `cards/${cardId}`,
         "POST",
         undefined,
         { Status: "freeze" },
-        { ["x-correlation-id"]: correlationId }
+        { ["x-correlation-id"]: generateRandomId() }
       );
     },
     {

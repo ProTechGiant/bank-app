@@ -12,7 +12,6 @@ import Typography from "@/components/Typography";
 import { useFreezeCard } from "@/features/CardActions/hooks/query-hooks";
 import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
-import { generateRandomId } from "@/utils";
 
 interface FreezeCardStepProps {
   onClose: () => void;
@@ -30,10 +29,8 @@ export default function FreezeCardStep({ onClose, onContinue, onCardIsFrozen, ca
   const [isFrozenCardModalVisible, setIsFrozenCardModalVisible] = useState(false);
 
   const handleOnFreezeCardPress = async () => {
-    const correlationId = generateRandomId();
-
     try {
-      const response = await freezeCardAsync.mutateAsync({ cardId, correlationId });
+      const response = await freezeCardAsync.mutateAsync({ cardId });
 
       if (response.Status !== "freeze") {
         throw new Error("Received unexpected response from backend");

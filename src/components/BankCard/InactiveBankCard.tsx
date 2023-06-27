@@ -16,7 +16,7 @@ interface InactiveBankCardProps {
   status: "inactive" | "freeze";
   cardType: typeof PHYSICAL_CARD_TYPE | typeof SINGLE_USE_CARD_TYPE | typeof VIRTUAL_CARD_TYPE;
   onPress?: () => void;
-  IsExpireSoon?: boolean;
+  isExpiringSoon?: boolean;
 }
 
 export default function InactiveBankCard({
@@ -26,7 +26,7 @@ export default function InactiveBankCard({
   status,
   cardType,
   onPress,
-  IsExpireSoon,
+  isExpiringSoon,
 }: InactiveBankCardProps) {
   const { t } = useTranslation();
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
@@ -71,13 +71,13 @@ export default function InactiveBankCard({
         {status === "inactive" && cardType === PHYSICAL_CARD_TYPE ? (
           <View style={cardExpiryContainerStyle}>
             <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-              {IsExpireSoon ? t("CardActions.CardExpiryNotification.IsExpireSoon") : t("CardActions.comingSoon")}
+              {isExpiringSoon ? t("CardActions.CardExpiryNotification.isExpiringSoon") : t("CardActions.comingSoon")}
             </Typography.Text>
           </View>
-        ) : IsExpireSoon && cardType === PHYSICAL_CARD_TYPE ? (
+        ) : isExpiringSoon && cardType === PHYSICAL_CARD_TYPE ? (
           <View style={cardExpiryContainerStyle}>
             <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-              {t("CardActions.CardExpiryNotification.IsExpireSoon")}
+              {t("CardActions.CardExpiryNotification.isExpiringSoon")}
             </Typography.Text>
           </View>
         ) : null}
