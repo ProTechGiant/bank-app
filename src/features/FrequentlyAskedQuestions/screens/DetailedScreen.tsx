@@ -1,8 +1,9 @@
+import Clipboard from "@react-native-clipboard/clipboard";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { differenceInHours } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, I18nManager, Linking, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChatIcon, ChevronRightIcon, PhoneIcon, ThumbsDownIcon, ThumbsUpIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -11,12 +12,15 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { CALL_US } from "@/features/HelpAndSupport/constants";
 import {
   mockFeedbackFrequentlyAskedQuestions,
   mockFrequentlyAskedQuestions,
   mockRelatedFrequentlyAskedQuestions,
 } from "@/mocks/frequentlyAskedQuestionsData";
+import { mockHelpAndSupport } from "@/mocks/helpAndSupportData";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import useOpenLink from "../../../hooks/use-open-link";
@@ -24,6 +28,7 @@ import { LoadingError } from "../components";
 import { DetailedFaq } from "../types";
 
 export default function DetailedScreen() {
+  const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
   const openLink = useOpenLink();
   const { t } = useTranslation();
@@ -85,6 +90,30 @@ export default function DetailedScreen() {
   const handleOnRefreshErrorLoadingPress = () => {
     //@TODO refetch API
     handleOnDismissErrorLoadingPress();
+  };
+
+  const makeTheCall = async (phoneNumber: string) => {
+    try {
+      const canMakeTheCall = await Linking.canOpenURL(`tel:${phoneNumber}`);
+      if (canMakeTheCall) {
+        await Linking.openURL(`tel:${phoneNumber}`);
+      } else {
+        Clipboard.setString(phoneNumber);
+        Alert.alert(t("HelpAndSupport.HubScreen.callError"));
+      }
+    } catch (error) {
+      Clipboard.setString(phoneNumber);
+      Alert.alert(t("HelpAndSupport.HubScreen.callError"));
+    }
+  };
+
+  const handleCallUsPress = () => {
+    const phoneNumber = mockHelpAndSupport?.ChildrenContents?.find(
+      item => item.ContentTag === CALL_US
+    )?.ContentDescription;
+    if (phoneNumber !== undefined) {
+      makeTheCall(phoneNumber);
+    }
   };
 
   const sectionStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -166,7 +195,7 @@ export default function DetailedScreen() {
                   <Pressable
                     style={iconBoxStyle}
                     onPress={() => {
-                      setFeedbackState("helpRequested");
+                      handleCallUsPress();
                     }}>
                     <PhoneIcon />
                     <Typography.Text size="footnote">
@@ -176,7 +205,9 @@ export default function DetailedScreen() {
                   <Pressable
                     style={iconBoxStyle}
                     onPress={() => {
-                      setFeedbackState("helpRequested");
+                      navigation.navigate("HelpAndSupport.HelpAndSupportStack", {
+                        screen: "HelpAndSupport.LiveChatScreen",
+                      });
                     }}>
                     <ChatIcon />
                     <Typography.Text size="footnote">
