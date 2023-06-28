@@ -46,7 +46,7 @@ export default function HubScreen() {
               style: "cancel",
               onPress: () => {
                 setAlertShown(true);
-                navigation.navigate("Settings.SettingsScreen");
+                navigation.navigate("Settings.SettingsStack");
               },
             },
             {
@@ -81,7 +81,7 @@ export default function HubScreen() {
         {
           style: "cancel",
           onPress: () => {
-            navigation.navigate("Settings.SettingsScreen");
+            navigation.navigate("Settings.SettingsStack");
           },
         },
       ]);

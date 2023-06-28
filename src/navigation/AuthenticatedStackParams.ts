@@ -8,6 +8,7 @@ import { NotificationManagementStackParams } from "@/features/NotificationManage
 import { PaymentDisputesStackParams } from "@/features/PaymentDisputes/PaymentDisputesStack";
 import { ReferralStackParams } from "@/features/Referral/ReferralStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
+import { SettingsStackParams } from "@/features/Settings/SettingsStack";
 import { TopSpendingStackParams } from "@/features/TopSpending/TopSpendingStack";
 import { TransactionDetailed } from "@/features/ViewTransactions/types";
 import { ViewTransactionsStackParams } from "@/features/ViewTransactions/ViewTransactionsStack";
@@ -51,7 +52,7 @@ type RootStackParams = {
       createDisputeUserId: string;
     };
   };
-  "Settings.SettingsScreen": undefined;
+  "Settings.SettingsStack": undefined;
   "Settings.AccountSettings": undefined;
   "SavingsGoals.SavingsGoalsStack": {
     savingsPotsNumber: number;
@@ -89,6 +90,7 @@ type AuthenticatedStackParams = RootStackParams &
   ReferralStackParams &
   PaymentDisputesStackParams &
   SignInStackParams &
-  HelpAndSupportStackParams;
+  HelpAndSupportStackParams &
+  SettingsStackParams;
 
 export default AuthenticatedStackParams;

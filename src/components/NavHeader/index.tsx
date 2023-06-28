@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   columnCenter: {
     alignItems: "center",
-    flexGrow: 1,
+    flexGrow: 2,
     justifyContent: "center",
   },
   columnEnd: {
