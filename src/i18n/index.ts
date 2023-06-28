@@ -43,6 +43,10 @@ export const resources = {
           button: "OK",
         },
       },
+      CallSupportHelper: {
+        copied: "Something went wrong. The phonenumber has been copied for you.",
+        failed: "Something went wrong.",
+      },
       Onboarding: {
         WelcomeCarousel: {
           titleOne: "Welcome\nto Croatia",
@@ -684,7 +688,6 @@ export const resources = {
           infoBarMessage: "You might have to wait longer during busy periods.",
           cancel: "Cancel",
           call: "Call",
-          callError: "Something went wrong. The phonenumber has been copied for you.",
         },
         LiveChatScreen: {
           navHeaderTitle: "Live chat",
@@ -2584,7 +2587,6 @@ export const resources = {
           infoBarMessage: "للتنويه، ربما يتأخر الرد في أيام الذروة والعطل الرسمية.",
           cancel: "إلغاء",
           call: "اتصال",
-          callError: "Something went wrong. The phonenumber has been copied for you.",
         },
       },
       CardActions: {

@@ -7,20 +7,16 @@ import NavHeader from "@/components/NavHeader";
 import Stack from "@/components/Stack";
 import { TableListCard } from "@/components/TableList";
 import Typography from "@/components/Typography";
-import { mockHelpAndSupport } from "@/mocks/helpAndSupportData";
+import { PhoneBook } from "@/hooks/use-call-support";
 import { useThemeStyles } from "@/theme";
 
 import { MoreHelp } from "../../components";
-import { CALL_US } from "../../constants";
 
 interface LandingStepProps {
   onProblemWithTransactionLink: () => void;
   onFraudLink: () => void;
   onClose: () => void;
 }
-
-const phoneNumber =
-  mockHelpAndSupport.ChildrenContents.find(item => item.ContentTag === CALL_US)?.ContentDescription ?? "";
 
 export default function LandingStep({ onProblemWithTransactionLink, onFraudLink, onClose }: LandingStepProps) {
   const { t } = useTranslation();
@@ -73,7 +69,7 @@ export default function LandingStep({ onProblemWithTransactionLink, onFraudLink,
             {t("PaymentDisputes.PaymentDisputesLandingModal.moreHelp.message")}
           </Typography.Text>
         </Stack>
-        <MoreHelp phoneNumber={phoneNumber} />
+        <MoreHelp phoneNumber={PhoneBook.CALL_US} />
       </ContentContainer>
     </>
   );

@@ -3,9 +3,10 @@ import { StyleSheet, View } from "react-native";
 import CallBankFeedbackButton from "@/components/FeedbackButton/CallBankFeedbackButton";
 import LiveChatFeedbackButton from "@/components/FeedbackButton/LiveChatFeedbackButton";
 import Stack from "@/components/Stack";
+import { PhoneBook } from "@/hooks/use-call-support";
 
 interface MoreHelpProps {
-  phoneNumber: string;
+  phoneNumber: PhoneBook;
 }
 
 export default function MoreHelp({ phoneNumber }: MoreHelpProps) {

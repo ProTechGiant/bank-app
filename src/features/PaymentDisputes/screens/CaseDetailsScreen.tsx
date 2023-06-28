@@ -13,13 +13,12 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { mockHelpAndSupport } from "@/mocks/helpAndSupportData";
+import { PhoneBook } from "@/hooks/use-call-support";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import { CaseStatusCard, CaseStatusRow, MoreHelp } from "../components";
-import { CALL_US } from "../constants";
 import { useCaseDetails } from "../hooks/query-hooks";
 import { formatDateTime } from "../utils";
 
@@ -32,9 +31,6 @@ export default function CaseDetailsScreen() {
   useEffect(() => {
     setIsErrorModalVisible(caseDetailsResponse.isError);
   }, [caseDetailsResponse.isError]);
-
-  const bankPhoneNumber =
-    mockHelpAndSupport.ChildrenContents.find(item => item.ContentTag === CALL_US)?.ContentDescription ?? "";
 
   const caseDetails = caseDetailsResponse?.data;
 
@@ -101,7 +97,7 @@ export default function CaseDetailsScreen() {
                   {t("PaymentDisputes.PaymentDisputesLandingModal.moreHelp.title")}
                 </Typography.Text>
               </View>
-              <MoreHelp phoneNumber={bankPhoneNumber} />
+              <MoreHelp phoneNumber={PhoneBook.CALL_US} />
             </ContentContainer>
           </>
         ) : (

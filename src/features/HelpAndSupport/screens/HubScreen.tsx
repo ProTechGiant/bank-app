@@ -1,6 +1,5 @@
-import Clipboard from "@react-native-clipboard/clipboard";
 import { useTranslation } from "react-i18next";
-import { Alert, Linking, StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { AccessTimeIcon, BookmarkIcon, ChatIcon, InfoIcon, PhoneUnFilledIcon } from "@/assets/icons";
@@ -9,17 +8,17 @@ import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
-import { mockHelpAndSupport } from "@/mocks/helpAndSupportData";
+import useCallSupport, { PhoneBook } from "@/hooks/use-call-support";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { QuickActionLink } from "../components";
-import { CALL_US, REPORT_FRAUD } from "../constants";
 
 export default function HubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const statusBarHeight = useSafeAreaInsets().top;
+  const { top: statusBarHeight } = useSafeAreaInsets();
+  const { lookup, tryCall } = useCallSupport();
 
   const handleSearchFAQPress = () => {
     navigation.navigate("FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack");
@@ -29,33 +28,12 @@ export default function HubScreen() {
     navigation.navigate("HelpAndSupport.LiveChatScreen");
   };
 
-  const makeTheCall = async (phoneNumber: string) => {
-    try {
-      const canMakeTheCall = await Linking.canOpenURL(`tel:${phoneNumber}`);
-      if (canMakeTheCall) {
-        await Linking.openURL(`tel:${phoneNumber}`);
-      } else {
-        Clipboard.setString(phoneNumber);
-        Alert.alert(t("HelpAndSupport.HubScreen.callError"));
-      }
-    } catch (error) {
-      Clipboard.setString(phoneNumber);
-      Alert.alert(t("HelpAndSupport.HubScreen.callError"));
-    }
-  };
-
   const handleCallUsPress = () => {
-    const phoneNumber =
-      mockHelpAndSupport.ChildrenContents.find(item => item.ContentTag === CALL_US)?.ContentDescription ?? "";
-
-    makeTheCall(phoneNumber);
+    tryCall(PhoneBook.CALL_US);
   };
 
   const handleOnReportFraudPress = () => {
-    const phoneNumber =
-      mockHelpAndSupport.ChildrenContents.find(item => item.ContentTag === REPORT_FRAUD)?.ContentDescription ?? "";
-
-    makeTheCall(phoneNumber);
+    tryCall(PhoneBook.REPORT_FRAUD);
   };
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -132,7 +110,7 @@ export default function HubScreen() {
             icon={<PhoneUnFilledIcon />}
             topText={t("HelpAndSupport.HubScreen.twentyFourSeven")}
             text={t("HelpAndSupport.HubScreen.callUs")}
-            subText={mockHelpAndSupport.ChildrenContents.find(item => item.ContentTag === CALL_US)?.ContentDescription}
+            subText={lookup(PhoneBook.CALL_US)}
             style={styles.quickActionLink}
           />
           <View style={emptyViewStyle} />
@@ -141,9 +119,7 @@ export default function HubScreen() {
           onPress={handleOnReportFraudPress}
           icon={<InfoIcon />}
           iconColor="errorBase"
-          linkTextEnd={
-            mockHelpAndSupport.ChildrenContents.find(item => item.ContentTag === REPORT_FRAUD)?.ContentDescription
-          }>
+          linkTextEnd={lookup(PhoneBook.REPORT_FRAUD)}>
           {t("HelpAndSupport.HubScreen.reportFraud")}
         </LinkList>
         <View style={infoBannerStyle}>

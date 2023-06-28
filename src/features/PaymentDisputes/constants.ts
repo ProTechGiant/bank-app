@@ -1,6 +1,5 @@
 import { Theme } from "@/theme";
 
-export const CALL_US = "CallUS";
 export const ACTIVE_CASE_STATUSES = ["Opened", "Assigned", "In Review", "Reopened"];
 export const STATUS_COLOR_MAPPING: Record<string, keyof Theme["palette"]> = {
   Opened: "neutralBase+30",
