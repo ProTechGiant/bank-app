@@ -350,7 +350,7 @@ export function useAccountStatus(fetchPosts: boolean) {
 }
 
 //TODO: Update this function when BE is finished
-export function useTermsConditions() {
+export function useConfirmTermsConditions() {
   const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
 
   return useMutation(async () => {

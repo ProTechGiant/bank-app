@@ -5,20 +5,23 @@ import { Alert, ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import ContentContainer from "@/components/ContentContainer";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import CheckboxInput from "@/components/Form/CheckboxInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
+import TermsAndConditionDetails from "@/components/TermsAndConditionDetails";
 import Typography from "@/components/Typography";
+import { useContentTermsAndCondition } from "@/hooks/use-content";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { Declaration, Term } from "../components";
+import { Term } from "../components";
 import { useOnboardingBackButton } from "../hooks";
-import { useTermsConditions } from "../hooks/query-hooks";
+import { useConfirmTermsConditions } from "../hooks/query-hooks";
 
 interface TermsAndConditionsForm {
   termAndConditionsAreCorrect: boolean;
@@ -33,8 +36,11 @@ const validationSchema = yup.object({
 const TermsAndConditionsScreen = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const termsConditionsAsync = useTermsConditions();
+  const termsConditionsAsync = useConfirmTermsConditions();
   const handleOnBackPress = useOnboardingBackButton();
+
+  const termsAndConditionData = useContentTermsAndCondition();
+  const termsSections = termsAndConditionData?.data?.TermsSections;
 
   const { control, handleSubmit } = useForm<TermsAndConditionsForm>({
     mode: "onBlur",
@@ -74,7 +80,7 @@ const TermsAndConditionsScreen = () => {
           <ProgressIndicator currentStep={5} totalStep={6} />
         </NavHeader>
         <ScrollView>
-          <ContentContainer style={{ marginBottom: 64 }}>
+          <ContentContainer>
             <Stack direction="vertical" gap="32p" align="stretch">
               <Typography.Header size="large" weight="bold">
                 {t("Onboarding.TermsAndConditions.title")}
@@ -94,7 +100,20 @@ const TermsAndConditionsScreen = () => {
                 />
               </Stack>
               <View style={{ height: 1, backgroundColor: dividerColor }} />
-              <Declaration />
+              {termsSections === undefined ? (
+                <FlexActivityIndicator />
+              ) : (
+                termsSections.map((term, index) => {
+                  return (
+                    <TermsAndConditionDetails
+                      key={index}
+                      title={term.Title}
+                      data={term.Bodies}
+                      typeOfTerms="onBoardingTerms"
+                    />
+                  );
+                })
+              )}
             </Stack>
           </ContentContainer>
         </ScrollView>

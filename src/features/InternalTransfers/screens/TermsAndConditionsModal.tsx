@@ -4,12 +4,14 @@ import { Pressable, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import ContentContainer from "@/components/ContentContainer";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import TermsConditionsSection from "@/components/TermsConditionsSection";
+import TermsAndConditionDetails from "@/components/TermsAndConditionDetails";
 import Typography from "@/components/Typography";
+import { useContentTermsAndCondition } from "@/hooks/use-content";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -20,6 +22,8 @@ export default function TermsAndConditionsModal() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
+  const termsAndConditionData = useContentTermsAndCondition();
+  const termsSections = termsAndConditionData?.data?.TermsSections;
   const submitTermsAndConditionAsync = useConfirmQuickTransferTermsAndConditions();
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
@@ -79,51 +83,40 @@ export default function TermsAndConditionsModal() {
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
         <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
-        <ContentContainer isScrollView>
-          <View style={containerStyle}>
-            <Typography.Text color="neutralBase+30" weight="medium" size="title1">
-              {t("InternalTransfers.BeneficiaryDeclarationScreen.title")}
-            </Typography.Text>
-          </View>
-          <View>
-            <Typography.Text size="callout" color="primaryBase-40" weight="medium">
-              {t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionOneTitle")}
-            </Typography.Text>
-            <Typography.Text size="callout" color="primaryBase-40" weight="medium">
-              {t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionTwoTitle")}
-            </Typography.Text>
-            <Typography.Text size="callout" color="primaryBase-40" weight="medium">
-              {t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionThreeTitle")}
-            </Typography.Text>
-          </View>
-          <View style={separatorStyle} />
-          <TermsConditionsSection
-            title={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionOneTitle")}
-            content={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionOneContent")}
-          />
-          <View style={separatorStyle} />
-          <TermsConditionsSection
-            title={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionTwoTitle")}
-            content={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionTwoContent")}
-          />
-          <View style={separatorStyle} />
-          <TermsConditionsSection
-            title={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionThreeTitle")}
-            content={t("InternalTransfers.BeneficiaryDeclarationScreen.sections.sectionThreeContent")}
-          />
-        </ContentContainer>
-        <Stack direction="horizontal" style={agreeAndDisagreeContainerStyle} justify="space-between">
-          <Pressable onPress={handleOnDisagreePress}>
-            <Typography.Text color="primaryBase-40" size="body" weight="regular">
-              {t("LocalTransfers.LocalTransfersTermsAndConditions.disagree")}
-            </Typography.Text>
-          </Pressable>
-          <Pressable onPress={handleOnAgreePress}>
-            <Typography.Text color="primaryBase-40" size="body" weight="semiBold">
-              {t("LocalTransfers.LocalTransfersTermsAndConditions.agree")}
-            </Typography.Text>
-          </Pressable>
-        </Stack>
+        {termsSections === undefined ? (
+          <FlexActivityIndicator />
+        ) : (
+          <>
+            <ContentContainer isScrollView>
+              <View style={containerStyle}>
+                <Typography.Text color="neutralBase+30" weight="medium" size="title1">
+                  {t("InternalTransfers.BeneficiaryDeclarationScreen.title")}
+                </Typography.Text>
+              </View>
+              {termsSections.map((term, index) => (
+                <Typography.Text key={index} size="callout" color="primaryBase-40" weight="medium">
+                  {`${index + 1}. ${term.Title}`}
+                </Typography.Text>
+              ))}
+              <View style={separatorStyle} />
+              {termsSections.map((term, index) => {
+                return <TermsAndConditionDetails key={index} title={term.Title} data={term.Bodies} index={index + 1} />;
+              })}
+            </ContentContainer>
+            <Stack direction="horizontal" style={agreeAndDisagreeContainerStyle} justify="space-between">
+              <Pressable onPress={handleOnDisagreePress}>
+                <Typography.Text color="primaryBase-40" size="body" weight="regular">
+                  {t("LocalTransfers.LocalTransfersTermsAndConditions.disagree")}
+                </Typography.Text>
+              </Pressable>
+              <Pressable onPress={handleOnAgreePress}>
+                <Typography.Text color="primaryBase-40" size="body" weight="semiBold">
+                  {t("LocalTransfers.LocalTransfersTermsAndConditions.agree")}
+                </Typography.Text>
+              </Pressable>
+            </Stack>
+          </>
+        )}
       </Page>
       <NotificationModal
         variant="error"

@@ -5,11 +5,12 @@ import sendApiRequest from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
-import { Article, Content, ContentCategories, FeedbackRequest } from "../types/Content";
+import { Article, Content, ContentCategories, FeedbackRequest, TermsAndConditionContainer } from "../types/Content";
 
 export const queryKeys = {
   all: () => ["content"] as const,
   contentList: () => [...queryKeys.all(), "contentList"] as const,
+  termsAndConditions: () => [...queryKeys.all(), "termsAndConditions"] as const,
   categories: () => [...queryKeys.all(), "categories"] as const,
   articles: (articleId: string) => [...queryKeys.all(), { articleId }] as const,
 };
@@ -83,6 +84,30 @@ export function useContentArticleCategories() {
         ["language"]: i18n.language,
         ["x-correlation-id"]: generateRandomId(),
       });
+    },
+    {
+      staleTime: 1 * 60 * 60 * 24 * 1000, //one day
+      cacheTime: 1 * 60 * 60 * 24 * 2 * 1000, //two days
+    }
+  );
+}
+
+export function useContentTermsAndCondition() {
+  const { i18n } = useTranslation();
+
+  return useQuery(
+    queryKeys.termsAndConditions(),
+    () => {
+      return sendApiRequest<TermsAndConditionContainer>(
+        "v1",
+        "/contents/terms",
+        "GET",
+        { Language: i18n.language, IncludeChildren: "true", ContentCategoryId: "terms" },
+        undefined,
+        {
+          ["x-Correlation-Id"]: generateRandomId(),
+        }
+      );
     },
     {
       staleTime: 1 * 60 * 60 * 24 * 1000, //one day

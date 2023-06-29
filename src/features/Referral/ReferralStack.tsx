@@ -17,7 +17,11 @@ export default function ReferralStack() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen component={HubScreen} name="Referral.HubScreen" />
         <Stack.Screen component={InstructionsScreen} name="Referral.InstructionsScreen" />
-        <Stack.Screen component={TermsAndConditionsScreen} name="Referral.TermsAndConditionsScreen" />
+        <Stack.Screen
+          component={TermsAndConditionsScreen}
+          name="Referral.TermsAndConditionsScreen"
+          options={{ presentation: "modal" }}
+        />
       </Stack.Navigator>
     </SafeAreaProvider>
   );

@@ -266,24 +266,6 @@ export const resources = {
               desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat.",
             },
           },
-          declarations: {
-            sectionOne: {
-              title: "Introduction",
-              bodyOne: "The Terms and Conditions shall manage your use of our lifestyle offering, Croatia.",
-              bodyTwo:
-                "These Terms will be applied fully and affect to your use of Croatia. By using Croatia, you agreed to accept all terms and conditions written in here. You must not use Croatia if you disagree with any of these Standard Terms and Conditions.",
-              bodyThree:
-                "Minors or people below 18 years old are not allowed to open any banking products with Croatia.",
-            },
-            sectionTwo: {
-              title: "Intellectual Property Rights",
-              bodyOne:
-                "Other than the content you own, Croatia and/or its licensors own all the intellectual property rights and materials contained in this Website.",
-              bodyTwo:
-                "You are granted limited license only for purposes of viewing the material contained on this Website.",
-              bodyThree: "",
-            },
-          },
           errorText: {
             alert: "Woops. Could not confirm T&Cs",
           },
@@ -651,12 +633,6 @@ export const resources = {
           pageTitle: "Referrals",
           infoBoxContent:
             "What this terms and conditions mean (plceholder text), consectetur adipiscing elit. Quisque ante dui, convallis nec consequat.",
-          introductionTitle: "Lorem ipsum",
-          introductionContent:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat. ",
-          intellectualPropertyRightsTitle: "Lorem ipsum",
-          intellectualPropertyRightsContent:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat. \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat. ",
         },
       },
       WhatsNext: {
@@ -2262,24 +2238,6 @@ export const resources = {
               desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat.",
             },
           },
-          declarations: {
-            sectionOne: {
-              title: "Introduction",
-              bodyOne: "The Terms and Conditions shall manage your use of our lifestyle offering, Croatia.",
-              bodyTwo:
-                "These Terms will be applied fully and affect to your use of Croatia. By using Croatia, you agreed to accept all terms and conditions written in here. You must not use Croatia if you disagree with any of these Standard Terms and Conditions.",
-              bodyThree:
-                "Minors or people below 18 years old are not allowed to open any banking products with Croatia.",
-            },
-            sectionTwo: {
-              title: "Intellectual Property Rights",
-              bodyOne:
-                "Other than the content you own, Croatia and/or its licensors own all the intellectual property rights and materials contained in this Website.",
-              bodyTwo:
-                "You are granted limited license only for purposes of viewing the material contained on this Website.",
-              bodyThree: "",
-            },
-          },
           errorText: {
             alert: "Woops. Could not confirm T&Cs",
           },
@@ -2619,12 +2577,6 @@ export const resources = {
           pageTitle: "دعوات الانضمام",
           infoBoxContent:
             "What this terms and conditions mean (plceholder text), consectetur adipiscing elit. Quisque ante dui, convallis nec consequat.",
-          introductionTitle: "Lorem ipsum",
-          introductionContent:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat. ",
-          intellectualPropertyRightsTitle: "Lorem ipsum",
-          intellectualPropertyRightsContent:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat. \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat. ",
         },
       },
       HelpAndSupport: {

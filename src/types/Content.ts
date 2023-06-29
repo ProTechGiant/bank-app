@@ -49,6 +49,7 @@ export interface Content {
   ChildrenContents?: Content[];
   WhatsNextCategories?: SubType[];
   WhatsNextTypes?: SubType[];
+  TermsAndConditionContainer: Content[];
 }
 
 export interface Feedback {
@@ -76,4 +77,26 @@ export interface ContentCategories {
   CategoryDescription: string;
   CategoryLevel: number;
   ParentCategoryLevel: string;
+}
+
+export interface TermsAndConditionBody {
+  TermsBodyId: string;
+  TermsSectionId: string;
+  Order: number;
+  Body: string;
+  ContentCategoryId: string;
+}
+
+export interface TermsAndConditionSection {
+  TermsSectionId: string;
+  Title: string;
+  Bodies: TermsAndConditionBody[];
+  ContentCategoryId: string;
+  Order: number;
+}
+
+export interface TermsAndConditionContainer {
+  TermsID: string;
+  TermsSections: TermsAndConditionSection[];
+  ContentCategoryId: string;
 }

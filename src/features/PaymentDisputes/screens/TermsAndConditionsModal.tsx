@@ -1,19 +1,24 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import ContentContainer from "@/components/ContentContainer";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
-import TermsConditionsSection from "@/components/TermsConditionsSection";
+import TermsAndConditionDetails from "@/components/TermsAndConditionDetails";
 import Typography from "@/components/Typography";
+import { useContentTermsAndCondition } from "@/hooks/use-content";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 export default function TermsAndConditionsModal() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const termsAndConditionData = useContentTermsAndCondition();
+  const termsSections = termsAndConditionData?.data?.TermsSections;
 
   const titleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingBottom: theme.spacing["24p"],
@@ -36,34 +41,21 @@ export default function TermsAndConditionsModal() {
               {t("PaymentDisputes.TermsAndConditionsModal.title")}
             </Typography.Text>
           </View>
-          <View>
-            <Pressable>
-              <Typography.Text size="callout" color="primaryBase" weight="medium">
-                {t("PaymentDisputes.TermsAndConditionsModal.sections.sectionOneTitle")}
-              </Typography.Text>
-            </Pressable>
-            <Typography.Text size="callout" color="primaryBase" weight="medium">
-              {t("PaymentDisputes.TermsAndConditionsModal.sections.sectionTwoTitle")}
-            </Typography.Text>
-            <Typography.Text size="callout" color="primaryBase" weight="medium">
-              {t("PaymentDisputes.TermsAndConditionsModal.sections.sectionThreeTitle")}
-            </Typography.Text>
-          </View>
-          <View style={separatorStyle} />
-          <TermsConditionsSection
-            title={t("PaymentDisputes.TermsAndConditionsModal.sections.sectionOneTitle")}
-            content={t("PaymentDisputes.TermsAndConditionsModal.sections.sectionOneContent")}
-          />
-          <View style={separatorStyle} />
-          <TermsConditionsSection
-            title={t("PaymentDisputes.TermsAndConditionsModal.sections.sectionTwoTitle")}
-            content={t("PaymentDisputes.TermsAndConditionsModal.sections.sectionTwoContent")}
-          />
-          <View style={separatorStyle} />
-          <TermsConditionsSection
-            title={t("PaymentDisputes.TermsAndConditionsModal.sections.sectionThreeTitle")}
-            content={t("PaymentDisputes.TermsAndConditionsModal.sections.sectionThreeContent")}
-          />
+          {termsSections === undefined ? (
+            <FlexActivityIndicator />
+          ) : (
+            <>
+              {termsSections.map((term, index) => (
+                <Typography.Text key={index} size="callout" color="primaryBase" weight="medium">
+                  {`${index + 1}. ${term.Title}`}
+                </Typography.Text>
+              ))}
+              <View style={separatorStyle} />
+              {termsSections.map((term, index) => {
+                return <TermsAndConditionDetails key={index} title={term.Title} data={term.Bodies} index={index + 1} />;
+              })}
+            </>
+          )}
         </ContentContainer>
       </Page>
     </SafeAreaProvider>
