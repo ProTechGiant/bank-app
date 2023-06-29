@@ -63,7 +63,7 @@ export default function PasscodeScreen() {
         setSignInCorrelationId(_correlationId);
       } else setUser(null);
     })();
-  });
+  }, []);
 
   useEffect(() => {
     if (isFocused) {

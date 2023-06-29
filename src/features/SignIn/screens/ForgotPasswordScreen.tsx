@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { Alert as RNAlert, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import Alert from "@/components/Alert";
@@ -50,7 +50,7 @@ const ForgotPasswordScreen = () => {
       if (response.Status) {
         handleNavigate();
       } else {
-        Alert.alert("Wrong card pin");
+        RNAlert.alert("Wrong card pin");
       }
     } catch (error: any) {
       setPinCode("");
