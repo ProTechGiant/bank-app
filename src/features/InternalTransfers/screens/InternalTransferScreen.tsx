@@ -16,6 +16,7 @@ import { useCurrentAccount } from "@/hooks/use-accounts";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 
 import { TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
@@ -141,7 +142,7 @@ export default function InternalTransferScreen() {
       <NotificationModal
         onClose={() => {
           setIsGenericErrorModalVisible(false);
-          setTimeout(() => navigation.goBack(), 300);
+          delayTransition(() => navigation.goBack());
         }}
         title={t("errors.generic.title")}
         message={t("errors.generic.message")}

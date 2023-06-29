@@ -12,6 +12,7 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import delayTransition from "@/utils/delay-transition";
 
 import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useErrorMessages } from "../hooks";
@@ -74,7 +75,7 @@ const ChangePasscodeScreen = () => {
         },
         onFinish: (status: string) => {
           if (status === "success") {
-            setTimeout(() => handleOtpVerification(), 500);
+            delayTransition(() => handleOtpVerification());
           }
         },
         onUserBlocked: () => {

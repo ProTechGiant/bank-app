@@ -5,6 +5,7 @@ import HeroSlider from "@/components/HeroSlider";
 import NotificationModal from "@/components/NotificationModal";
 import { SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import useNavigation from "@/navigation/use-navigation";
+import delayTransition from "@/utils/delay-transition";
 
 import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
 import PlaceholderCardSvg from "../assets/placeholder-card.svg";
@@ -39,7 +40,7 @@ export default function SingleUseCardInfoScreen() {
         }
 
         if (status === "fail" || payload?.CardCreateResponse?.Header.ErrorId !== "0") {
-          setTimeout(() => setIsSubmitErrorModalVisible(true), 500);
+          delayTransition(() => setIsSubmitErrorModalVisible(true));
           return;
         }
 
@@ -47,12 +48,12 @@ export default function SingleUseCardInfoScreen() {
           return;
         }
 
-        setTimeout(() => {
+        delayTransition(() => {
           navigation.navigate("CardActions.CardDetailsScreen", {
             cardId: payload.CardCreateResponse.Body.CardId,
             isSingleUseCardCreated: true,
           });
-        }, 500);
+        });
       },
     });
   };

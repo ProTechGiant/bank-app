@@ -20,6 +20,7 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
+import delayTransition from "@/utils/delay-transition";
 
 import { TransferAmountInput, TransferErrorBox, TransferLimitsModal, TransferReasonInput } from "../components";
 import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
@@ -86,11 +87,11 @@ export default function QuickTransferScreen() {
   const handleOnSwitchStandardTransferPress = () => {
     setIsTransferLimitsModalVisible(false);
 
-    setTimeout(() => {
+    delayTransition(() => {
       navigation.navigate("InternalTransfers.StandardTransferScreen", {
         ...getValues(),
       });
-    }, 300);
+    });
   };
 
   const handleOnAddFundsPress = () => {
@@ -190,7 +191,7 @@ export default function QuickTransferScreen() {
       <NotificationModal
         onClose={() => {
           setIsTransferReasonsErrorVisible(false);
-          setTimeout(() => navigation.goBack(), 300);
+          delayTransition(() => navigation.goBack());
         }}
         message={t("InternalTransfers.QuickTransferScreen.couldNotLoadReasonsErrorMessage")}
         title={t("InternalTransfers.QuickTransferScreen.couldNotLoadReasonsErrorTitle")}
@@ -200,7 +201,7 @@ export default function QuickTransferScreen() {
       <NotificationModal
         onClose={() => {
           setIsGenericErrorModalVisible(false);
-          setTimeout(() => navigation.goBack(), 300);
+          delayTransition(() => navigation.goBack());
         }}
         title={t("errors.generic.title")}
         message={t("errors.generic.message")}
@@ -210,7 +211,7 @@ export default function QuickTransferScreen() {
       <NotificationModal
         onClose={() => {
           setIsTransferLimitsErrorVisible(false);
-          setTimeout(() => navigation.goBack(), 300);
+          delayTransition(() => navigation.goBack());
         }}
         title={t("InternalTransfers.QuickTransferScreen.limitError.title")}
         message={t("InternalTransfers.QuickTransferScreen.limitError.message")}

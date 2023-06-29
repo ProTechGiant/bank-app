@@ -10,6 +10,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { TransactionDetailed } from "@/features/ViewTransactions/types";
 import useNavigation from "@/navigation/use-navigation";
+import delayTransition from "@/utils/delay-transition";
 
 import { DisputeReasonsList } from "../../components";
 import { useReasons } from "../../hooks/query-hooks";
@@ -45,13 +46,14 @@ export default function SelectDisputeReasonStep({
 
   const handleOnConfirmCancelDispute = () => {
     setIsCancelDisputeModalVisible(false);
-    setTimeout(() => {
+
+    delayTransition(() => {
       navigation.navigate("ViewTransactions.SingleTransactionDetailedScreen", {
         data: transactionDetails,
         cardId,
         createDisputeUserId,
       });
-    }, 300);
+    });
   };
 
   const handleOnCloseConfirmCancelDispute = () => {

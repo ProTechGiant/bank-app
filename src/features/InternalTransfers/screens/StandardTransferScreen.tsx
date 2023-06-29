@@ -20,6 +20,7 @@ import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 
 import { TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
 import TransferLimitsModal from "../components/TransferLimitsModal";
@@ -97,11 +98,11 @@ export default function StandardTransferScreen() {
   const handleOnSwitchStandardTransferPress = () => {
     setIsTransferLimitsModalVisible(false);
 
-    setTimeout(() => {
+    delayTransition(() => {
       navigation.navigate("InternalTransfers.QuickTransferScreen", {
         ...getValues(),
       });
-    }, 300);
+    });
   };
 
   const handleOnAddFundsPress = () => {
@@ -211,7 +212,7 @@ export default function StandardTransferScreen() {
       <NotificationModal
         onClose={() => {
           setIsTransferReasonsErrorVisible(false);
-          setTimeout(() => navigation.goBack(), 300);
+          delayTransition(() => navigation.goBack());
         }}
         message={t("InternalTransfers.StandardTransferScreen.couldNotLoadReasonsErrorMessage")}
         title={t("InternalTransfers.StandardTransferScreen.couldNotLoadReasonsErrorTitle")}
@@ -221,7 +222,7 @@ export default function StandardTransferScreen() {
       <NotificationModal
         onClose={() => {
           setIsGenericErrorModalVisible(false);
-          setTimeout(() => navigation.goBack(), 300);
+          delayTransition(() => navigation.goBack());
         }}
         title={t("errors.generic.title")}
         message={t("errors.generic.message")}
@@ -231,7 +232,7 @@ export default function StandardTransferScreen() {
       <NotificationModal
         onClose={() => {
           setIsTransferLimitsErrorVisible(false);
-          setTimeout(() => navigation.goBack(), 300);
+          delayTransition(() => navigation.goBack());
         }}
         title={t("InternalTransfers.StandardTransferScreen.limitError.title")}
         message={t("InternalTransfers.StandardTransferScreen.limitError.message")}

@@ -21,6 +21,7 @@ import { TransactionDetailed } from "@/features/ViewTransactions/types";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 
 import { useCreateCase } from "../../hooks/query-hooks";
 import { CaseType, CreateDisputeInput, TransactionType } from "../../types";
@@ -138,7 +139,8 @@ export default function CreateDisputeStep({
 
   const handleOnConfirmExitDispute = () => {
     setIsCancelDisputeModalVisible(false);
-    setTimeout(() => {
+
+    delayTransition(() => {
       navigation.navigate("ViewTransactions.ViewTransactionsStack", {
         screen: "ViewTransactions.TransactionsScreen",
         params: {
@@ -146,7 +148,7 @@ export default function CreateDisputeStep({
           createDisputeUserId,
         },
       });
-    }, 300);
+    });
   };
 
   const handleOnCloseConfirmCancelDispute = () => {

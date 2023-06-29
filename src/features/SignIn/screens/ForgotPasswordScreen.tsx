@@ -13,6 +13,7 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import delayTransition from "@/utils/delay-transition";
 
 import { BLOCKED_TIME, OTP_BLOCKED_TIME, PINCODE_LENGTH } from "../constants";
 // import { useSignInContext } from "../contexts/SignInContext";
@@ -89,7 +90,7 @@ const ForgotPasswordScreen = () => {
           if (status === "cancel") {
             return;
           } else if (status === "success") {
-            setTimeout(() => handleOtpVerification(), 500);
+            delayTransition(() => handleOtpVerification());
           }
         },
       });

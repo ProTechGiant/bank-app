@@ -9,6 +9,7 @@ import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 
 import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
 import { CardList, InlineBanner, ViewPinModal } from "../components";
@@ -77,8 +78,7 @@ export default function HomeScreen() {
         if (status === "fail" || status === "cancel" || undefined === payload) return;
 
         setPin(payload.Pin);
-        // Add delay to show Notification Modal otherwise because it will be blocked by the OTP modal and view pin modal cannot be shown
-        setTimeout(() => setIsViewingPin(true), 500);
+        delayTransition(() => setIsViewingPin(true));
       },
     });
   };

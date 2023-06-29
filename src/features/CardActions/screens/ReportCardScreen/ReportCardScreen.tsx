@@ -13,6 +13,7 @@ import usePrimaryAddress from "@/hooks/use-primary-address";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { Address } from "@/types/Address";
+import delayTransition from "@/utils/delay-transition";
 
 import { CardActionsStackParams } from "../../CardActionsStack";
 import { useChangeCardStatus, useFreezeCard } from "../../hooks/query-hooks";
@@ -72,7 +73,7 @@ export default function ReportCardScreen() {
     if (reportReason === undefined) return;
     setIsConfirmationModalVisible(false);
 
-    setTimeout(() => {
+    delayTransition(() => {
       otpFlow.handle<{ CardCreateResponse: CardCreateResponse }>({
         action: {
           to: "CardActions.ReportCardScreen",
@@ -109,7 +110,7 @@ export default function ReportCardScreen() {
           setMode("done");
         },
       });
-    }, 500);
+    });
   };
 
   const handleOnBackPress = () => {

@@ -12,6 +12,7 @@ import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 
 import {
   CardButtons,
@@ -59,7 +60,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   const [isSucCreatedAlertVisible, setIsSucCreatedAlertVisible] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setIsSucCreatedAlertVisible(isSingleUseCardCreated ?? false), 500);
+    delayTransition(() => setIsSucCreatedAlertVisible(isSingleUseCardCreated ?? false));
   }, [isSingleUseCardCreated]);
 
   useEffect(() => {
@@ -137,7 +138,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
 
         if (status === "fail" || payload.DetailedCardResponse === undefined) {
           setCardDetails(undefined);
-          setTimeout(() => onError(), 500);
+          delayTransition(() => onError());
 
           return;
         }
@@ -213,8 +214,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         if (status === "fail" || status === "cancel" || payload === undefined) return;
 
         setPin(payload.Pin as string);
-        // Add delay or else modal will be blocked from becoming visible
-        setTimeout(() => setIsViewingPin(true), 500);
+        delayTransition(() => setIsViewingPin(true));
       },
     });
   };

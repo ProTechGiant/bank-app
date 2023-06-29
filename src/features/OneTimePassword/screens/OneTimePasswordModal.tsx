@@ -19,6 +19,7 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import maskPhoneNumber from "@/utils/mask-phone-number";
+import delayTransition from "@/utils/delay-transition";
 
 import { useOtpValidation } from "../hooks/query-hooks";
 import { OtpChallengeParams } from "../types";
@@ -136,13 +137,13 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   const handleOnRequestResendErrorClose = () => {
     setIsGenericErrorVisible(false);
 
-    setTimeout(() => {
+    delayTransition(() => {
       // @ts-expect-error cannot type navigate call
       navigation.navigate(params.action.to, {
         ...params.action.params,
         otpResponseStatus: "fail",
       });
-    }, 500);
+    });
   };
 
   const handleOnChangeText = (value: string) => {

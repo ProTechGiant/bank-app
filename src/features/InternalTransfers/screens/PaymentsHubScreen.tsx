@@ -13,6 +13,7 @@ import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
+import delayTransition from "@/utils/delay-transition";
 
 import { PaymentOption, SelectTransferTypeModal } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
@@ -43,9 +44,9 @@ export default function PaymentsHubScreen() {
     if (isActivatedQuickTransfer?.status === "error") {
       setIsErrorModalVisible(true);
     } else if (isActivatedQuickTransfer?.data?.CustomerTermsConditionsFlag === "0") {
-      setTimeout(() => {
+      delayTransition(() => {
         navigation.navigate("InternalTransfers.TermsAndConditionsModal");
-      }, 500);
+      });
     } else if (isActivatedQuickTransfer?.data?.CustomerTermsConditionsFlag === "1") {
       navigation.navigate("InternalTransfers.QuickTransferScreen");
     }

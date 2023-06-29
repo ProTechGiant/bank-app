@@ -18,6 +18,7 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
+import delayTransition from "@/utils/delay-transition";
 
 import { useQuickTransfer, useTransferFees, useTransferReasonsByCode } from "../hooks/query-hooks";
 import { QuickTransfer, TransferTypeCode } from "../types";
@@ -84,7 +85,7 @@ export default function ReviewQuickTransferScreen() {
           return;
         }
         if (status === "fail") {
-          setTimeout(() => setIsGenericErrorModalVisible(true), 500);
+          delayTransition(() => setIsGenericErrorModalVisible(true));
         } else {
           navigation.navigate("InternalTransfers.QuickTransferSuccessScreen", {
             PaymentAmount: route.params.PaymentAmount,

@@ -29,6 +29,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { ibanRegExpForARB, numericRegExp, saudiPhoneRegExp } from "@/utils";
 import { ibanRegExp } from "@/utils";
+import delayTransition from "@/utils/delay-transition";
 
 import { SwitchToARBModal } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
@@ -222,9 +223,9 @@ export default function EnterQuickTransferBeneficiaryScreen() {
 
   useEffect(() => {
     if (bankCode === ALRAJHI_BANK_CODE) {
-      setTimeout(() => {
+      delayTransition(() => {
         setIsSwitchToARBModalVisible(true);
-      }, 300); //Adding timeout because of animations
+      });
     }
   }, [bankCode]);
 
@@ -325,7 +326,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
       <NotificationModal
         onClose={() => {
           setIsBanksLoadingErrorVisible(false);
-          setTimeout(() => navigation.goBack(), 300);
+          delayTransition(() => navigation.goBack());
         }}
         message={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.beneficiaryBanksError.message")}
         title={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.beneficiaryBanksError.title")}
@@ -346,7 +347,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
               <Button
                 onPress={() => {
                   setIsNotSupportingQuickTransferErrorVisible(false);
-                  setTimeout(() => navigation.navigate("InternalTransfers.StandardTransferScreen"), 300);
+                  delayTransition(() => navigation.navigate("InternalTransfers.StandardTransferScreen"));
                 }}>
                 {t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.switchToStandardTransfers")}
               </Button>
@@ -365,7 +366,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
       <NotificationModal
         onClose={() => {
           setIsQuickTransferErrorVisible(false);
-          setTimeout(() => navigation.goBack(), 300);
+          delayTransition(() => navigation.goBack());
         }}
         message={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.validationError.message")}
         title={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.validationError.title")}

@@ -8,6 +8,7 @@ import Page from "@/components/Page";
 import { PHYSICAL_CARD_TYPE } from "@/constants";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
+import delayTransition from "@/utils/delay-transition";
 
 import { useOtpFlow } from "../../../OneTimePassword/hooks/query-hooks";
 import ApplyCardsContext, { ApplyCardInput } from "../../context/ApplyCardsContext";
@@ -90,12 +91,12 @@ export default function ApplyCardScreen() {
         }
 
         if (status === "fail" || payload?.CardCreateResponse?.Header.ErrorId !== "0") {
-          setTimeout(() => setIsSubmitErrorVisible(true), TRANSITION_STEP_MS);
+          delayTransition(() => setIsSubmitErrorVisible(true));
           return;
         }
 
         setCardCreatedCardId(payload.CardCreateResponse.Body.CardId);
-        setTimeout(() => setCurrentStep("ordered"), TRANSITION_STEP_MS);
+        delayTransition(() => setCurrentStep("ordered"));
       },
     });
   };
@@ -147,5 +148,3 @@ export default function ApplyCardScreen() {
     </ApplyCardsContext.Provider>
   );
 }
-
-const TRANSITION_STEP_MS = 500;

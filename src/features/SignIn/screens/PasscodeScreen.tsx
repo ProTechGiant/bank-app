@@ -19,6 +19,7 @@ import BiometricsService from "@/services/BiometricService";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import delayTransition from "@/utils/delay-transition";
 
 import { BLOCKED_TIME, OTP_BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
@@ -144,7 +145,7 @@ export default function PasscodeScreen() {
           if (status === "cancel") {
             return;
           } else if (status === "success") {
-            setTimeout(() => handleOtpVerification(), 500);
+            delayTransition(() => handleOtpVerification());
           }
         },
         onUserBlocked: () => {

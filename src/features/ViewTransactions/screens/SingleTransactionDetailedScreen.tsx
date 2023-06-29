@@ -16,6 +16,7 @@ import Typography from "@/components/Typography";
 import { useCaseDetails } from "@/features/PaymentDisputes/hooks/query-hooks";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 
 import { DetailsWrapper } from "../components";
 
@@ -79,14 +80,15 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
 
   const handleOnCaseLink = () => {
     setIsCaseExistModalVisible(false);
-    setTimeout(() => {
+
+    delayTransition(() => {
       navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
         screen: "PaymentDisputes.CaseDetailsScreen",
         params: {
           transactionRef,
         },
       });
-    }, 300);
+    });
   };
 
   const handleOnCloseCaseExistModal = () => {

@@ -12,21 +12,22 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useToasts } from "@/contexts/ToastsContext";
 import { warn } from "@/logger";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 
 import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
-import { CardActionsStackParams } from "../CardActionsStack";
 import { ListItemLink, ListSection, SettingsToggle } from "../components";
 import { useCard, useCardSettings, useUpdateCardSettings } from "../hooks/query-hooks";
 import { CardSettingsInput } from "../types";
 
 export default function CardSettingsScreen() {
-  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.CardSettingsScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "CardActions.CardSettingsScreen">>();
   const navigation = useNavigation();
   const { t } = useTranslation();
 
-  const otpFlow = useOtpFlow<"CardActions.CardSettingsScreen">();
+  const otpFlow = useOtpFlow<AuthenticatedStackParams>();
   const updateCardSettingsAsync = useUpdateCardSettings();
   const settings = useCardSettings(route.params.cardId);
   const card = useCard(route.params.cardId);
@@ -39,7 +40,7 @@ export default function CardSettingsScreen() {
     if (status === "success" && "ResetPinMessage" in payload) {
       addToast({ variant: "confirm", message: t("CardActions.CardSettingsScreen.toast") });
     } else if (status === "fail") {
-      setTimeout(() => setIsErrorModalVisible(true), 500);
+      delayTransition(() => setIsErrorModalVisible(true));
     }
   });
 

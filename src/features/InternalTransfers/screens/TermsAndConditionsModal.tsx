@@ -15,6 +15,7 @@ import { useContentTermsAndCondition } from "@/hooks/use-content";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 
 import { useConfirmQuickTransferTermsAndConditions } from "../hooks/query-hooks";
 
@@ -35,7 +36,7 @@ export default function TermsAndConditionsModal() {
 
       if (response.CustomerTermsConditionsFlag === "1") {
         navigation.goBack();
-        setTimeout(() => navigation.navigate("InternalTransfers.QuickTransferScreen"), 300);
+        delayTransition(() => navigation.navigate("InternalTransfers.QuickTransferScreen"));
       } else {
         setIsErrorModalVisible(true);
       }

@@ -11,6 +11,7 @@ import SegmentedControl from "@/components/SegmentedControl";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 
 import CaseListItem from "../components/CaseListItem";
 import { useMyCases } from "../hooks/query-hooks";
@@ -103,7 +104,7 @@ export default function MyCasesLandingScreen() {
         isVisible={isErrorModalVisible}
         onClose={() => {
           setIsErrorModalVisible(false);
-          setTimeout(() => navigation.goBack(), 300);
+          delayTransition(() => navigation.goBack());
         }}
       />
     </>
