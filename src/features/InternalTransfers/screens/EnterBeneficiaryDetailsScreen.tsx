@@ -24,7 +24,7 @@ import {
 } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useAddBeneficiary } from "../hooks/query-hooks";
-import { AddBeneficiary } from "../types";
+import { AddBeneficiary, TransferType } from "../types";
 
 export default function EnterBeneficiaryDetailsScreen() {
   const { t } = useTranslation();
@@ -60,7 +60,7 @@ export default function EnterBeneficiaryDetailsScreen() {
 
     //Adding this to check if IBAN is of ARB, because we are specifically told to add this on frontend.
     if (
-      transferType === "INTERNAL_TRANSFER_ACTION" &&
+      transferType === TransferType.InternalTransferAction &&
       values.SelectionType === "IBAN" &&
       values.SelectionValue.match(ibanRegExpForARB)
     ) {
@@ -114,7 +114,7 @@ export default function EnterBeneficiaryDetailsScreen() {
   };
 
   const options = [
-    ...(transferType !== "CROATIA_TO_ARB_TRANSFER_ACTION"
+    ...(transferType !== TransferType.CroatiaToArbTransferAction
       ? [
           {
             title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.mobile"),
@@ -150,7 +150,7 @@ export default function EnterBeneficiaryDetailsScreen() {
 
   const handleOnSwitchToARB = () => {
     setIsSwitchToARBModalVisible(false);
-    setTransferType("CROATIA_TO_ARB_TRANSFER_ACTION");
+    setTransferType(TransferType.CroatiaToArbTransferAction);
     navigation.navigate("InternalTransfers.InternalTransferScreen", {
       ResetForm: true,
     });
@@ -207,7 +207,7 @@ export default function EnterBeneficiaryDetailsScreen() {
           <NotificationModal
             title={t(
               `InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.${
-                transferType === "INTERNAL_TRANSFER_ACTION" ? "title" : "titleArb"
+                transferType === TransferType.InternalTransferAction ? "title" : "titleArb"
               }`
             )}
             message={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.message`)}

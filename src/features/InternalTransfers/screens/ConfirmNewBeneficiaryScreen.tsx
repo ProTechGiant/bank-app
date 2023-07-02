@@ -22,6 +22,7 @@ import { formatIban } from "@/utils";
 
 import { ConfirmBeneficiaryListCard } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
+import { TransferType } from "../types";
 
 interface ConfirmBeneficiaryDeclarationForm {
   confirmBeneficiaryDeclaration: boolean;
@@ -47,7 +48,7 @@ export default function ConfirmNewBeneficiaryScreen() {
 
   useEffect(() => {
     //Adding this check because in case of CRO-ARB we dont have terms and condition check
-    if (transferType === "CROATIA_TO_ARB_TRANSFER_ACTION" || recipient.type === "active")
+    if (transferType === TransferType.CroatiaToArbTransferAction || recipient.type === "active")
       setValue("confirmBeneficiaryDeclaration", true, { shouldValidate: true, shouldDirty: true });
   }, [setValue, transferType, recipient]);
 
@@ -92,7 +93,7 @@ export default function ConfirmNewBeneficiaryScreen() {
               label={recipient.accountName}
             />
           ) : null}
-          {transferType === "CROATIA_TO_ARB_TRANSFER_ACTION" ? (
+          {transferType === TransferType.CroatiaToArbTransferAction ? (
             <ConfirmBeneficiaryListCard
               icon={<BankAccountIcon color={iconColor} />}
               iconBackground="neutralBase-40"
@@ -149,14 +150,14 @@ export default function ConfirmNewBeneficiaryScreen() {
           <Alert
             variant="error"
             message={
-              recipient.type === "active" && transferType === "CROATIA_TO_ARB_TRANSFER_ACTION"
+              recipient.type === "active" && transferType === TransferType.CroatiaToArbTransferAction
                 ? t("InternalTransfers.ConfirmNewBeneficiaryScreen.bannerMessageActiveBeneficiary")
                 : t("InternalTransfers.ConfirmNewBeneficiaryScreen.bannerMessage")
             }
           />
         </Stack>
         <View>
-          {!(transferType === "CROATIA_TO_ARB_TRANSFER_ACTION" || recipient.type === "active") ? (
+          {!(transferType === TransferType.CroatiaToArbTransferAction || recipient.type === "active") ? (
             <View>
               <View style={dividerStyle}>
                 <Divider color="neutralBase-30" />

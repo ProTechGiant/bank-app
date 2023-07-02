@@ -55,7 +55,7 @@ export default function ConfirmationScreen() {
               <TickCircleIcon height={66} width={66} color={iconColor} />
             </View>
             <Typography.Text size="title1" weight="bold" color="neutralBase-60" align="center" style={titleStyle}>
-              {transferType === TransferType.LocalTransferSarie && transferStatus === TransferStatus.Pending
+              {transferType === TransferType.SarieTransferAction && transferStatus === TransferStatus.Pending
                 ? t("InternalTransfers.ConfirmationScreen.title.pending")
                 : recipient.type === "new"
                 ? t("InternalTransfers.ConfirmationScreen.title.new")
@@ -64,7 +64,7 @@ export default function ConfirmationScreen() {
                 : t("InternalTransfers.ConfirmationScreen.title.active")}
             </Typography.Text>
             <Typography.Text size="callout" color="neutralBase-20" align="center" style={messageStyle}>
-              {transferType === TransferType.LocalTransferSarie && transferStatus === TransferStatus.Pending
+              {transferType === TransferType.SarieTransferAction && transferStatus === TransferStatus.Pending
                 ? t("InternalTransfers.ConfirmationScreen.sarieTransferMessage")
                 : t("InternalTransfers.ConfirmationScreen.message")}
             </Typography.Text>

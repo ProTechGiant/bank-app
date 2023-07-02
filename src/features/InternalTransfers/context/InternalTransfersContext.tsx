@@ -5,7 +5,7 @@ import {
   InternalTransferEntryPoint,
   RecipientType,
   TransferStatus,
-  TransferTypeCode,
+  TransferType,
 } from "../types";
 
 function noop() {
@@ -35,8 +35,8 @@ interface InternalTransferContextState {
     iban: string | undefined;
     type: RecipientType | undefined;
   };
-  transferType: TransferTypeCode | undefined;
-  setTransferType: (value: TransferTypeCode) => void;
+  transferType: TransferType | undefined;
+  setTransferType: (value: TransferType) => void;
   transferStatus: TransferStatus | undefined;
   setTransferStatus: (value: TransferStatus) => void;
   clearContext: () => void;
@@ -125,7 +125,7 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
     setState(v => ({ ...v, recipient }));
   };
 
-  const setTransferType = (transferType: TransferTypeCode) => {
+  const setTransferType = (transferType: TransferType) => {
     setState(v => ({ ...v, transferType }));
   };
 

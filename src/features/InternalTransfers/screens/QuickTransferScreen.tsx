@@ -24,7 +24,7 @@ import delayTransition from "@/utils/delay-transition";
 
 import { TransferAmountInput, TransferErrorBox, TransferLimitsModal, TransferReasonInput } from "../components";
 import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
-import { TransferTypeCode } from "../types";
+import { TransferType, TransferTypeCode } from "../types";
 
 interface QuickTransferInput {
   PaymentAmount: number;
@@ -36,7 +36,7 @@ export default function QuickTransferScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.QuickTransferScreen">>();
 
-  const reasons = useTransferReasons("IPS_TRANSFER_ACTION");
+  const reasons = useTransferReasons(TransferType.IpsTransferAction);
   const defaultReason: string = reasons?.data?.TransferReason.at(0)?.Code ?? "";
   const account = useCurrentAccount();
   const currentBalance = account.data?.balance ?? 0;

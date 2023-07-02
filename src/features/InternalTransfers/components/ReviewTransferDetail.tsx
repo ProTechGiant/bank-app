@@ -7,7 +7,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
-import { Note, TransferAccount } from "../types";
+import { Note, TransferAccount, TransferType } from "../types";
 
 interface ReviewTransferDetailProps {
   onAddNotePress: () => void;
@@ -123,7 +123,7 @@ export default function ReviewTransferDetail({
         </Typography.Text>
       </View>
       <View style={separatorStyle} />
-      {transferType !== "CROATIA_TO_ARB_TRANSFER_ACTION" ? (
+      {transferType !== TransferType.CroatiaToArbTransferAction ? (
         <>
           <View style={notesContainer}>
             <Typography.Text weight="medium" size="callout">

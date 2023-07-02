@@ -4,6 +4,7 @@ import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
 import Stack from "@/components/Stack";
 import { useHomepageLayoutOrder } from "@/features/Home/contexts/HomepageLayoutOrderContext";
 import { useInternalTransferContext } from "@/features/InternalTransfers/context/InternalTransfersContext";
+import { TransferType } from "@/features/InternalTransfers/types";
 import useNavigation from "@/navigation/use-navigation";
 import { iconMapping } from "@/utils/icon-mapping";
 
@@ -23,7 +24,7 @@ export default function QuickActionsSection({ onViewAllPress }: QuickActionsSect
 
   const handleOnCroatiaTransferPress = () => {
     setIsInternalTransferTypeModalVisible(false);
-    setTransferType("INTERNAL_TRANSFER_ACTION");
+    setTransferType(TransferType.InternalTransferAction);
     navigation.navigate("InternalTransfers.InternalTransfersStack", {
       screen: "InternalTransfers.InternalTransferScreen",
     });
@@ -31,7 +32,7 @@ export default function QuickActionsSection({ onViewAllPress }: QuickActionsSect
 
   const handleOnAlrajhiTransferPress = () => {
     setIsInternalTransferTypeModalVisible(false);
-    setTransferType("CROATIA_TO_ARB_TRANSFER_ACTION");
+    setTransferType(TransferType.CroatiaToArbTransferAction);
     navigation.navigate("InternalTransfers.InternalTransfersStack", {
       screen: "InternalTransfers.InternalTransferScreen",
     });

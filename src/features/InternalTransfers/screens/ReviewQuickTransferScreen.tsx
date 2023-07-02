@@ -21,7 +21,7 @@ import { formatCurrency } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { useQuickTransfer, useTransferFees, useTransferReasonsByCode } from "../hooks/query-hooks";
-import { QuickTransfer, TransferTypeCode } from "../types";
+import { QuickTransfer, TransferType, TransferTypeCode } from "../types";
 
 export default function ReviewQuickTransferScreen() {
   const { t } = useTranslation();
@@ -30,7 +30,7 @@ export default function ReviewQuickTransferScreen() {
 
   const account = useCurrentAccount();
   const transferFeesAsync = useTransferFees(TransferTypeCode.LocalTransferIPS);
-  const transferReason = useTransferReasonsByCode(route.params.ReasonCode, "IPS_TRANSFER_ACTION");
+  const transferReason = useTransferReasonsByCode(route.params.ReasonCode, TransferType.IpsTransferAction);
   const quickTransferAsync = useQuickTransfer();
   const otpFlow = useOtpFlow();
 

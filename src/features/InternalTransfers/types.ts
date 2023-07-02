@@ -67,11 +67,12 @@ export enum TransferTypeCode {
   InternalTransferAlrajhi = "130",
 }
 
-export type TransferType =
-  | "INTERNAL_TRANSFER_ACTION"
-  | "IPS_TRANSFER_ACTION"
-  | "SARIE_TRANSFER_ACTION"
-  | "CROATIA_TO_ARB_TRANSFER_ACTION";
+export enum TransferType {
+  InternalTransferAction = "INTERNAL_TRANSFER_ACTION",
+  IpsTransferAction = "IPS_TRANSFER_ACTION",
+  SarieTransferAction = "SARIE_TRANSFER_ACTION",
+  CroatiaToArbTransferAction = "CROATIA_TO_ARB_TRANSFER_ACTION",
+}
 
 export type TransferBeneficiaryType = "INTERNAL_TRANSFER" | "IPS_SARIE_TRANSFER" | "CROATIA_TO_ARB_TRANSFER";
 

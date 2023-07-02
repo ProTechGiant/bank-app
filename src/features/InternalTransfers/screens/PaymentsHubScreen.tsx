@@ -18,7 +18,7 @@ import delayTransition from "@/utils/delay-transition";
 import { PaymentOption, SelectTransferTypeModal } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useQuickTransferAccounts } from "../hooks/query-hooks";
-import { TransferTypeCode } from "../types";
+import { TransferType } from "../types";
 
 export default function PaymentsHubScreen() {
   const { t } = useTranslation();
@@ -54,13 +54,13 @@ export default function PaymentsHubScreen() {
 
   const handleOnCroatiaTransferPress = () => {
     setIsSelectInternalTransferTypeVisible(false);
-    setTransferType(TransferTypeCode.InternalTransferCroatia);
+    setTransferType(TransferType.InternalTransferAction);
     navigation.navigate("InternalTransfers.InternalTransferScreen");
   };
 
   const handleOnAlrajhiTransferPress = () => {
     setIsSelectInternalTransferTypeVisible(false);
-    setTransferType(TransferTypeCode.InternalTransferAlrajhi);
+    setTransferType(TransferType.CroatiaToArbTransferAction);
     navigation.navigate("InternalTransfers.InternalTransferScreen");
   };
 

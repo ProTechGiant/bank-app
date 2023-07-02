@@ -27,7 +27,7 @@ import TransferLimitsModal from "../components/TransferLimitsModal";
 import WarningBanner from "../components/WarningBanner";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
-import { TransferTypeCode } from "../types";
+import { TransferType, TransferTypeCode } from "../types";
 
 interface StandardTransferInput {
   PaymentAmount: number;
@@ -44,7 +44,7 @@ export default function StandardTransferScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.QuickTransferScreen">>();
 
-  const reasons = useTransferReasons("IPS_TRANSFER_ACTION");
+  const reasons = useTransferReasons(TransferType.IpsTransferAction);
   const account = useCurrentAccount();
   const defaultReason: string = reasons?.data?.TransferReason.at(0)?.Code ?? "";
   const currentBalance = account.data?.balance ?? 0;
@@ -86,7 +86,7 @@ export default function StandardTransferScreen() {
   const handleOnContinue = (values: StandardTransferInput) => {
     setTransferAmount(values.PaymentAmount);
     setReason(values.ReasonCode === undefined ? defaultReason : values.ReasonCode);
-    setTransferType(TransferTypeCode.LocalTransferSarie);
+    setTransferType(TransferType.SarieTransferAction);
 
     navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
   };

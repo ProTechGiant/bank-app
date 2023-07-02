@@ -34,6 +34,7 @@ import delayTransition from "@/utils/delay-transition";
 import { SwitchToARBModal } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useBeneficiaryBanks, useValidateQuickTransferBeneficiary } from "../hooks/query-hooks";
+import { TransferType } from "../types";
 
 interface BeneficiaryInput {
   bankCode: string;
@@ -202,7 +203,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
 
   const handleOnSwitchToARB = () => {
     setIsSwitchToARBModalVisible(false);
-    setTransferType("CROATIA_TO_ARB_TRANSFER_ACTION");
+    setTransferType(TransferType.CroatiaToArbTransferAction);
     navigation.navigate("InternalTransfers.InternalTransferScreen");
   };
 

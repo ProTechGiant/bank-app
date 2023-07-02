@@ -21,6 +21,7 @@ import delayTransition from "@/utils/delay-transition";
 import { TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useTransferReasons } from "../hooks/query-hooks";
+import { TransferType } from "../types";
 
 interface InternalTransferInput {
   PaymentAmount: number;
@@ -100,7 +101,7 @@ export default function InternalTransferScreen() {
               <Typography.Text color="neutralBase+30" weight="medium" size="title1">
                 {t("InternalTransfers.InternalTransferScreen.screenTitle")}
               </Typography.Text>
-              {transferType === "CROATIA_TO_ARB_TRANSFER_ACTION" ? (
+              {transferType === TransferType.CroatiaToArbTransferAction ? (
                 <View style={transferLimitContainerStyle}>
                   <IconLink onPress={handleOnTransferLimitsPress} icon={<InfoCircleIcon />} textSize="footnote">
                     {t("InternalTransfers.InternalTransferScreen.transferLimit")}
