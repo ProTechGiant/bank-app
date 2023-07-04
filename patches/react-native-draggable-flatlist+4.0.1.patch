@@ -1,0 +1,21 @@
+diff --git a/node_modules/react-native-draggable-flatlist/src/components/DraggableFlatList.tsx b/node_modules/react-native-draggable-flatlist/src/components/DraggableFlatList.tsx
+index d7d98c2..a8a1b29 100644
+--- a/node_modules/react-native-draggable-flatlist/src/components/DraggableFlatList.tsx
++++ b/node_modules/react-native-draggable-flatlist/src/components/DraggableFlatList.tsx
+@@ -402,14 +402,14 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
+ }
+ 
+ function DraggableFlatList<T>(
+-  props: DraggableFlatListProps<T>,
++  {ListFooterComponent, ListHeaderComponent, ...props}: DraggableFlatListProps<T>,
+   ref?: React.ForwardedRef<FlatList<T>> | null
+ ) {
+   return (
+     <PropsProvider {...props}>
+       <AnimatedValueProvider>
+         <RefProvider flatListRef={ref}>
+-          <MemoizedInner {...props} />
++          <MemoizedInner {...props} ListFooterComponent={ListFooterComponent} ListHeaderComponent={ListHeaderComponent} />
+         </RefProvider>
+       </AnimatedValueProvider>
+     </PropsProvider>
