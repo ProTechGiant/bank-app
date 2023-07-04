@@ -1,0 +1,14 @@
+export { default as ArrowBackIcon } from "./ArrowBackIcon";
+export { default as CoffeeIcon } from "./CoffeeIcon";
+export { default as DefaultIcon } from "./DefaultIcon";
+export { default as EatingOutIcon } from "./EatingOutIcon";
+export { default as EducationIcon } from "./EducationIcon";
+export { default as EventsIcon } from "./EventsIcon";
+export { default as FashionIcon } from "./FashionIcon";
+export { default as GamingIcon } from "./GamingIcon";
+export { default as MoviesIcon } from "./MoviesIcon";
+export { default as MusicIcon } from "./MusicIcon";
+export { default as PhotographyIcon } from "./PhotographyIcon";
+export { default as ShoppingIcon } from "./ShoppingIcon";
+export { default as SportIcon } from "./SportIcon";
+export { default as TravelIcon } from "./TravelIcon";

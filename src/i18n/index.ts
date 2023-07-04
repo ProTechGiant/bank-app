@@ -527,6 +527,12 @@ export const resources = {
           message:
             "If you sign out on this device, this will delete your biometric details and you’ll need to sign back in to use Croatia. You can only sign in on one device at a time.",
         },
+        LifeStyleScreen: {
+          title: "Lifestyle interests",
+          subTitle: "This will allow us to deliver rewards and offers that matter to you",
+          pickSomething: "You have yet to pick something",
+          saveButton: "Save",
+        },
         CustomerAccountManagementScreen: {
           title: "Customer Account Management",
           personal: "Personal",
