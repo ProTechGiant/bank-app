@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 import { BackHandler } from "react-native";
 
 import { warn } from "@/logger";
@@ -10,16 +11,17 @@ export const useOnboardingBackButton = () => {
   const navigation = useNavigation();
   const { revertWorkflowTask, fetchLatestWorkflowTask } = useOnboardingContext();
 
-  useEffect(() => {
-    const handleOnBackButtonClick = () => {
-      handleOnBackPress();
-      return true;
-    };
-    BackHandler.addEventListener("hardwareBackPress", handleOnBackButtonClick);
-    return () => {
-      BackHandler.removeEventListener("hardwareBackPress", handleOnBackButtonClick);
-    };
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const handleOnBackButtonClick = () => {
+        handleOnBackPress();
+        return true;
+      };
+      BackHandler.addEventListener("hardwareBackPress", handleOnBackButtonClick);
+
+      return () => BackHandler.removeEventListener("hardwareBackPress", handleOnBackButtonClick);
+    }, [])
+  );
 
   const handleOnBackPress = async () => {
     try {
