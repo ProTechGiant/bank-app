@@ -533,6 +533,18 @@ export const resources = {
           pickSomething: "You have yet to pick something",
           saveButton: "Save",
         },
+        FinancialInformation: {
+          title: "Financial Information",
+          subTitle: "Financial Details",
+          occupation: "What’s your occupation?",
+          useCroatia: "How will you use Croatia?",
+          sourceOfIncome: "What’s your main source of income?",
+          spendEachMonth: "After bills and expenses, how much do you have left to spend each month?",
+          saveButton: "Save Change",
+          selectButton: "Select",
+          cancelButton: "Cancel",
+          selectAnAmount: "Select the amount",
+        },
         CustomerAccountManagementScreen: {
           title: "Customer Account Management",
           personal: "Personal",
