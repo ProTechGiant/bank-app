@@ -26,22 +26,20 @@ export default function CreatePasscodeScreen() {
   const [currentValue, setCurrentValue] = useState("");
 
   const handleOnChangeText = (input: string) => {
-    const convertedInput = westernArabicNumerals(input);
-    if (!isPasscodeIdentical(convertedInput) && !maxRepeatThresholdMet(convertedInput)) {
-      setIsErrorVisible(false);
-      setCurrentValue(input);
-
-      if (input.length === PASSCODE_LENGTH) {
-        if (isSequential(convertedInput)) {
-          setIsErrorVisible(true);
-        } else {
-          setIsErrorVisible(false);
-          navigation.navigate("Onboarding.ConfirmPasscode", { passcode: input });
-        }
-      }
-    } else {
-      setIsErrorVisible(true);
+    setCurrentValue(input);
+    if (!input) {
       return;
+    }
+    const convertedInput = westernArabicNumerals(input);
+
+    if (maxRepeatThresholdMet(convertedInput) || (input.length === PASSCODE_LENGTH && isSequential(convertedInput))) {
+      setIsErrorVisible(true);
+      setCurrentValue("");
+    } else {
+      setIsErrorVisible(false);
+      if (input.length === PASSCODE_LENGTH) {
+        navigation.navigate("Onboarding.ConfirmPasscode", { passcode: input });
+      }
     }
   };
 

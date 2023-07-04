@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
@@ -12,7 +12,10 @@ import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useThemeStyles } from "@/theme";
+import { isPasscodeIdentical, isSequential, maxRepeatThresholdMet } from "@/utils/is-valid-pin";
+import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
+import { PASSCODE_LENGTH } from "../constants";
 import { SignInStackParams } from "../SignInStack";
 
 type CreatePassCodeScreenNavigationProp = NativeStackNavigationProp<SignInStackParams>;
@@ -31,17 +34,29 @@ const CreatePasscodeScreen = () => {
     },
   ];
 
-  useEffect(() => {
-    if (passCode.length !== 6) return;
-
-    if (!passcodeValidate(passCode)) {
-      setIsError(false);
-      navigation.navigate("SignIn.ConfirmPasscode", { passCode });
-    } else {
-      setIsError(true);
+  const handleOnChangeText = (passcode: string) => {
+    if (!passcode) {
+      return;
     }
-    setPasscode("");
-  }, [navigation, passCode]);
+    const convertedInput = westernArabicNumerals(passcode);
+    if (isPasscodeIdentical(convertedInput) && maxRepeatThresholdMet(convertedInput)) {
+      setIsError(true);
+      setPasscode("");
+      return;
+    }
+
+    setIsError(false);
+
+    if (passCode.length !== PASSCODE_LENGTH) return;
+    if (isSequential(convertedInput)) {
+      setIsError(true);
+      setPasscode("");
+      return;
+    }
+
+    setIsError(false);
+    navigation.navigate("SignIn.ConfirmPasscode", { passCode });
+  };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     height: theme.spacing.full,
@@ -66,17 +81,9 @@ const CreatePasscodeScreen = () => {
         <View style={bannerStyle}>
           <Alert variant="default" message={t("SignIn.CreatePasscodeScreen.needHelpInfo")} />
         </View>
-        <NumberPad passcode={passCode} setPasscode={setPasscode} />
+        <NumberPad passcode={passCode} setPasscode={handleOnChangeText} />
       </View>
     </Page>
   );
 };
 export default CreatePasscodeScreen;
-
-function passcodeValidate(str: string) {
-  const charArray = str.split("");
-  const repeatedChars = charArray.filter(function (char, index) {
-    return charArray.indexOf(char) !== index;
-  });
-  return repeatedChars.length > 0;
-}

@@ -8,7 +8,7 @@ import { useThemeStyles } from "@/theme";
 
 interface NumberPadProps {
   passcode: string;
-  setPasscode: Dispatch<SetStateAction<string>>;
+  setPasscode: Dispatch<SetStateAction<string>> | ((passcode: string) => void);
   isBiomatric?: boolean;
   handleBioMatric?: () => void;
 }

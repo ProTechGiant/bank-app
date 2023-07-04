@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
-import ApiError from "@/api/ApiError";
 import Alert from "@/components/Alert";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
@@ -18,7 +17,6 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { PASSCODE_LENGTH } from "../constants";
-import { useErrorMessages } from "../hooks";
 import { useCreatePasscode } from "../hooks/query-hooks";
 import { OnboardingStackParams } from "../OnboardingStack";
 
@@ -28,11 +26,11 @@ export function ConfirmPasscodeScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { params } = useRoute<ConfirmPasscodeScreenRouteProp>();
-  const { mutateAsync, error } = useCreatePasscode();
-  const createPasscodeError = error as ApiError;
-  const { errorMessages } = useErrorMessages(createPasscodeError);
+  const { mutateAsync } = useCreatePasscode();
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
-  const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const [hasValidationError, setValidationError] = useState<boolean>(false);
+  const [hasAPIError, setAPIError] = useState<boolean>(false);
+
   const [currentValue, setCurrentValue] = useState("");
 
   const handleOnSuccessModalClose = () => {
@@ -45,21 +43,26 @@ export function ConfirmPasscodeScreen() {
       await mutateAsync(value);
       setShowSuccessModal(true);
     } catch (err) {
-      setIsErrorVisible(true);
+      setAPIError(true);
+      setCurrentValue("");
+
       warn("Error creating user passcode ", JSON.stringify(err)); // log the error for debugging purposes
     }
   };
 
   const handleOnChangeText = (input: string) => {
-    setIsErrorVisible(false);
+    setValidationError(false);
+    setAPIError(false);
+
     setCurrentValue(input);
 
     if (input.length !== PASSCODE_LENGTH) return;
     if (input !== params.passcode) {
-      setIsErrorVisible(true);
+      setValidationError(true);
+      setCurrentValue("");
       return;
     } else {
-      setIsErrorVisible(false);
+      setValidationError(false);
     }
     handleSubmit(input);
   };
@@ -85,9 +88,9 @@ export function ConfirmPasscodeScreen() {
         </Typography.Text>
         <View style={inputContainerStyle}>
           <PincodeInput autoFocus onChangeText={handleOnChangeText} length={PASSCODE_LENGTH} value={currentValue} />
-          {isErrorVisible ? (
+          {hasValidationError ? (
             <Alert variant="error" message={t("Onboarding.ConfirmPasscode.notification")} />
-          ) : isErrorVisible && errorMessages.length ? (
+          ) : hasAPIError ? (
             <Alert variant="error" message={t("Onboarding.ConfirmPasscode.errorText")} />
           ) : null}
         </View>

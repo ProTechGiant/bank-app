@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BackHandler, Keyboard } from "react-native";
+import { BackHandler } from "react-native";
 
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
