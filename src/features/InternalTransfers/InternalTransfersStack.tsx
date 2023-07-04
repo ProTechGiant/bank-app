@@ -15,6 +15,7 @@ import {
   ReviewQuickTransferScreen,
   ReviewTransferScreen,
   SendToBeneficiaryScreen,
+  StandardTransferNewBeneficiaryScreen,
   StandardTransferScreen,
   TermsAndConditionsModal,
 } from "./screens";
@@ -35,6 +36,7 @@ export type InternalTransfersStackParams = {
   "InternalTransfers.BeneficiaryDeclarationModal": undefined;
   "InternalTransfers.ConfirmationScreen": undefined;
   "InternalTransfers.TermsAndConditionsModal": undefined;
+  "InternalTransfers.StandardTransferNewBeneficiaryScreen": undefined;
   "InternalTransfers.QuickTransferScreen":
     | {
         PaymentAmount: number;
@@ -114,6 +116,10 @@ export default function InternalTransfersStack() {
       />
       <Stack.Screen component={ReviewQuickTransferScreen} name="InternalTransfers.ReviewQuickTransferScreen" />
       <Stack.Screen component={QuickTransferSuccessScreen} name="InternalTransfers.QuickTransferSuccessScreen" />
+      <Stack.Screen
+        component={StandardTransferNewBeneficiaryScreen}
+        name="InternalTransfers.StandardTransferNewBeneficiaryScreen"
+      />
     </Stack.Navigator>
   );
 }

@@ -19,7 +19,7 @@ import { useThemeStyles } from "@/theme";
 import { BeneficiaryList, BeneficiaryOptionsModal } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useBeneficiaries, useDeleteBeneficiary } from "../hooks/query-hooks";
-import { BeneficiaryType, RecipientType } from "../types";
+import { BeneficiaryType, RecipientType, TransferTypeCode } from "../types";
 
 function activeFilterCheck(beneficiaries: BeneficiaryType[], isActive: boolean): BeneficiaryType[] {
   return beneficiaries.filter(beneficiary => beneficiary.IVRValidated === isActive);
@@ -99,7 +99,11 @@ export default function SendToBeneficiaryScreen() {
   };
 
   const handleNavigateToAddBeneficiaries = () => {
-    navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
+    if (transferType === TransferTypeCode.LocalTransferSarie) {
+      navigation.navigate("InternalTransfers.StandardTransferNewBeneficiaryScreen");
+    } else {
+      navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
+    }
   };
 
   const handleOnBeneficiaryPress = (
@@ -202,7 +206,7 @@ export default function SendToBeneficiaryScreen() {
                         beneficiaries={activeBeneficiaries}
                         onDelete={handleOnDelete}
                         onBeneficiaryPress={(accountName, accountNumber, phoneNumber, iban) => {
-                          handleOnBeneficiaryPress("active", accountName, accountNumber, phoneNumber, iban);
+                          handleOnBeneficiaryPress("active", accountName, accountNumber, phoneNumber, iban, undefined);
                         }}
                         onMenuPress={handleOnMenuPress}
                       />
@@ -219,7 +223,7 @@ export default function SendToBeneficiaryScreen() {
                       beneficiaries={inactiveBeneficiaries}
                       onDelete={handleOnDelete}
                       onBeneficiaryPress={(accountName, accountNumber, phoneNumber, iban) => {
-                        handleOnBeneficiaryPress("inactive", accountName, accountNumber, phoneNumber, iban);
+                        handleOnBeneficiaryPress("inactive", accountName, accountNumber, phoneNumber, iban, undefined);
                       }}
                       onMenuPress={handleOnMenuPress}
                     />

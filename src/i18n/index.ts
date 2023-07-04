@@ -1802,6 +1802,35 @@ export const resources = {
           alrajhiTransfer: "Send to an Alrajhi Bank account",
           alrajhiTransferDescription: "Transfer money to a new or existing beneficiary",
         },
+        NewBeneficiaryScreen: {
+          navTitle: "Send money",
+          title: "Enter beneficiary details",
+          firstName: "First name",
+          lastName: "Last name",
+          IBANnumber: "IBAN number",
+          continue: "Continue",
+          ExistingBeneficiaryModal: {
+            buttonText: "Send to existing beneficiary",
+            message: "You can send money to the beneficiary you’ve already set up with these details.",
+            title: "You’ve already added this beneficiary",
+            cancel: "Cancel",
+          },
+          iban: {
+            validation: {
+              required: "Required",
+              lengthInvalid: "IBAN needs 24 chracters",
+              formatInvalid: "Incorrect IBAN format",
+            },
+            error: {
+              title: "IBAN not recognised",
+              message: "That IBAN doesn't look right. Please check it and try again.",
+            },
+          },
+          ModalError: {
+            title: "Sorry - we couldn’t check that",
+            message: "Please try again later or get in touch if you’re still having problems.",
+          },
+        },
       },
       LocalTransfers: {
         SelectTransferTypeModal: {
@@ -3119,6 +3148,35 @@ export const resources = {
         croatiaTransferDescription: "Transfer money to a new or existing beneficiary",
         alrajhiTransfer: "Send to an Alrajhi Bank account",
         alrajhiTransferDescription: "Transfer money to a new or existing beneficiary",
+      },
+      NewBeneficiaryScreen: {
+        navTitle: "Send money",
+        title: "Enter beneficiary details",
+        firstName: "First name",
+        lastName: "Last name",
+        IBANnumber: "IBAN number",
+        continue: "Continue",
+        ExistingBeneficiaryModal: {
+          buttonText: "Send to existing beneficiary",
+          message: "You can send money to the beneficiary you’ve already set up with these details.",
+          title: "You’ve already added this beneficiary",
+          cancel: "Cancel",
+        },
+        iban: {
+          validation: {
+            required: "Required",
+            lengthInvalid: "IBAN needs 24 chracters",
+            formatInvalid: "Incorrect IBAN format",
+          },
+          error: {
+            title: "IBAN not recognised",
+            message: "That IBAN doesn't look right. Please check it and try again.",
+          },
+        },
+        ModalError: {
+          title: "Sorry - we couldn’t check that",
+          message: "Please try again later or get in touch if you’re still having problems.",
+        },
       },
     },
     LocalTransfers: {

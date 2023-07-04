@@ -290,3 +290,53 @@ export function useQuickTransfer() {
     });
   });
 }
+
+interface AddBeneficiaryLocalTranferResponse {
+  Name: string;
+  BankAccountNumber?: string;
+  IBAN?: string;
+  PhoneNumber?: string;
+}
+
+export function useAddBeneficiaryLocalTranfer() {
+  return useMutation(
+    async ({
+      SelectionType,
+      SelectionValue,
+      BeneficiaryName,
+      BeneficiaryTransferType,
+    }: {
+      SelectionType: string;
+      SelectionValue: string;
+      BeneficiaryName: string;
+      BeneficiaryTransferType: string;
+    }) => {
+      return api<AddBeneficiaryLocalTranferResponse>(
+        "v1",
+        "transfers/beneficiaries",
+        "POST",
+        undefined,
+        {
+          SelectionType: SelectionType,
+          SelectionValue: SelectionValue,
+          BeneficiaryType: BeneficiaryTransferType,
+          BeneficiaryName: BeneficiaryName,
+        },
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      );
+    }
+  );
+}
+
+interface GetBankNameFromIBANResponse {
+  BankName: string;
+}
+export function useBankDetailWithIBAN() {
+  return useMutation(async ({ iban }: { iban: string }) => {
+    return api<GetBankNameFromIBANResponse>("v1", "transfers/beneficiaries/bank/" + iban, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
