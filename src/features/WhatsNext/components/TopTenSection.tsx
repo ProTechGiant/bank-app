@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import Typography from "@/components/Typography";
@@ -10,7 +10,7 @@ import TopTenCard from "./TopTenCard";
 
 interface TopTenSectionProps {
   onPress: (articleId: string) => void;
-  data: ArticleSectionType | undefined;
+  data: ArticleSectionType[];
 }
 
 export default function TopTenSection({ data, onPress }: TopTenSectionProps) {
@@ -37,16 +37,16 @@ export default function TopTenSection({ data, onPress }: TopTenSectionProps) {
         horizontal
         showsHorizontalScrollIndicator={false}
         style={containerStyle}>
-        {data?.ChildrenContents?.map((item, index) => {
+        {data.map(item => {
           return (
-            <View key={index}>
-              <TopTenCard
-                category={item.ContentTag}
-                title={item.Title}
-                description={item.ContentDescription}
-                onPress={() => onPress(item.ContentId)}
-              />
-            </View>
+            <TopTenCard
+              key={item.ContentId}
+              imageURL={item.Media[0].SourceFileURL}
+              category={item.ContentTag}
+              title={item.Title}
+              description={item.ContentDescription}
+              onPress={() => onPress(item.ContentId)}
+            />
           );
         })}
       </ScrollView>

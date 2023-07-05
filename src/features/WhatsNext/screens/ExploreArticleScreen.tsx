@@ -1,13 +1,15 @@
 import { RouteProp, StackActions, useRoute } from "@react-navigation/native";
 import { isEmpty } from "lodash";
 import { useTranslation } from "react-i18next";
-import { Alert, Image, ImageStyle, Platform, Share, View, ViewStyle } from "react-native";
+import { Alert, ImageStyle, Platform, Share, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import HtmlWebView from "@/components/HtmlWebView/HtmlWebView";
 import { LoadingErrorPage } from "@/components/LoadingError";
+import NetworkImage from "@/components/NetworkImage";
+import PlaceholderImage from "@/components/PlaceholderImage";
 import Stack from "@/components/Stack";
 import Tag from "@/components/Tag";
 import Typography from "@/components/Typography";
@@ -19,7 +21,6 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import explorePlaceholder from "../assets/explore-placeholder.png";
 import {
   AboutAuthorSection,
   EventDetailsSection,
@@ -32,7 +33,6 @@ import { ArticleSectionType } from "../types";
 import { getWhatsNextTagColor } from "../utils";
 
 export default function ExploreArticleScreen() {
-  // TODO: handle image dynamically when mock data allows for it
   const articleId = useRoute<RouteProp<AuthenticatedStackParams, "WhatsNext.ExploreArticleScreen">>().params.articleId;
   const openLink = useOpenLink();
   const { t } = useTranslation();
@@ -42,7 +42,7 @@ export default function ExploreArticleScreen() {
   const whatsNextSingleArticle = useContentArticle(articleId);
 
   const singleArticleData = whatsNextSingleArticle?.data?.SingleArticle;
-  const relatedArticles = whatsNextSingleArticle?.data?.RelatedArticles;
+  const relatedArticles = whatsNextSingleArticle?.data?.RelatedArticles || [];
   const feedback = whatsNextSingleArticle?.data?.Feedback;
 
   const updateArticleFeedback = useContentFeedback(
@@ -104,7 +104,10 @@ export default function ExploreArticleScreen() {
     <>
       {singleArticleData !== undefined && relatedArticles !== undefined && feedback !== undefined ? (
         <ScrollView contentContainerStyle={container}>
-          <ExploreArticleHeader handleOnArticleSharePress={handleOnArticleSharePress} />
+          <ExploreArticleHeader
+            handleOnArticleSharePress={handleOnArticleSharePress}
+            imageURL={singleArticleData.Media[0].SourceFileURL}
+          />
           <ContentContainer>
             <Stack direction="vertical" gap="32p">
               <Tag
@@ -117,7 +120,11 @@ export default function ExploreArticleScreen() {
               <Typography.Text weight="medium" size="title3">
                 {singleArticleData.SubTitle}
               </Typography.Text>
-              <Image source={explorePlaceholder} style={imageStyle} />
+              {singleArticleData.Media[0].SourceFileURL ? (
+                <NetworkImage style={imageStyle} source={{ uri: singleArticleData.Media[0].SourceFileURL }} />
+              ) : (
+                <PlaceholderImage style={imageStyle} />
+              )}
             </Stack>
             <HtmlWebView html={singleArticleData.ContentDescription} onLinkPress={url => openLink(url)} />
             {singleArticleData.EventDetails ? (
@@ -135,6 +142,7 @@ export default function ExploreArticleScreen() {
             {singleArticleData.AuthorSocialMedia ? (
               <View style={sectionStyle}>
                 <AboutAuthorSection
+                  authorImageURL={singleArticleData.AuthorImage}
                   authorSocialMediaName={singleArticleData.AuthorSocialMedia.Name}
                   authorDescription={singleArticleData.AuthorAbout}
                   authorSocialMediaLink={singleArticleData.AuthorSocialMedia.Link}

@@ -1,19 +1,20 @@
 import { truncate } from "lodash";
-import { Image, ImageStyle, Pressable, useWindowDimensions, View, ViewStyle } from "react-native";
+import { ImageStyle, Pressable, useWindowDimensions, View, ViewStyle } from "react-native";
 
+import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-
-import topTenPlacePlaceholder from "../assets/top-ten-article-placeholder.png";
 
 interface TopTenCardProps {
   category: string;
   title: string;
   description: string;
+  imageURL: string;
   onPress: () => void;
 }
-export default function TopTenCard({ category, title, description, onPress }: TopTenCardProps) {
+
+export default function TopTenCard({ category, title, description, imageURL, onPress }: TopTenCardProps) {
   const { width } = useWindowDimensions();
 
   const imageStyle = useThemeStyles<ImageStyle>(theme => ({
@@ -30,7 +31,7 @@ export default function TopTenCard({ category, title, description, onPress }: To
 
   return (
     <Pressable onPress={onPress}>
-      <Image source={topTenPlacePlaceholder} style={imageStyle} />
+      <NetworkImage style={imageStyle} source={{ uri: imageURL }} />
       <View style={textStyle}>
         <Stack direction="vertical" gap="4p">
           <Typography.Text color="neutralBase-60" size="caption2">

@@ -680,6 +680,7 @@ export const resources = {
           feedbackDescription: "We’ll use this to tailor our offer to you.",
           feedbackPositive: "Yes",
           feedbackNegative: "No",
+          feedbackError: "Feedback Error",
           followWhatsNext: "Follow what’s next",
           relatedArticles: "Related articles",
         },

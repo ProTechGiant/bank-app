@@ -13,6 +13,7 @@ export const queryKeys = {
   termsAndConditions: () => [...queryKeys.all(), "termsAndConditions"] as const,
   categories: () => [...queryKeys.all(), "categories"] as const,
   articles: (articleId: string) => [...queryKeys.all(), { articleId }] as const,
+  images: (imageURL: string) => [...queryKeys.all(), { imageURL }] as const,
 };
 
 export function useContentArticleList(contentParentCategoryId: string, includeChildren: boolean, params?: string) {
@@ -43,7 +44,7 @@ export function useContentArticle(articleId: string) {
   return useQuery(queryKeys.articles(articleId), () => {
     return sendApiRequest<Article>(
       "v1",
-      `contents/${articleId}?language=${i18n.language}`,
+      `contents/${articleId}?Language=${i18n.language}`,
       "GET",
       undefined,
       undefined,
@@ -63,6 +64,7 @@ export function useContentFeedback(method: string, articleId: string) {
     (values: FeedbackRequest) => {
       return sendApiRequest<void>("v1", `customers/${userId}/contents/feedback`, method, undefined, values, {
         ["x-correlation-id"]: generateRandomId(),
+        ["CustomerId"]: userId ?? "",
       });
     },
     {
@@ -76,6 +78,7 @@ export function useContentFeedback(method: string, articleId: string) {
 //TODO: service mocked, needs to be tested once actual data available (service returns all content categories with their respective ContentCategoryId)
 export function useContentArticleCategories() {
   const { i18n } = useTranslation();
+  const { userId } = useAuthContext();
 
   return useQuery(
     queryKeys.categories(),
@@ -83,6 +86,7 @@ export function useContentArticleCategories() {
       return sendApiRequest<ContentCategories[]>("v1", "contents/categories", "GET", undefined, undefined, {
         ["language"]: i18n.language,
         ["x-correlation-id"]: generateRandomId(),
+        ["CustomerId"]: userId ?? "",
       });
     },
     {

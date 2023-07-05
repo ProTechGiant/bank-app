@@ -1,4 +1,4 @@
-import { truncate } from "lodash";
+import truncate from "lodash/truncate";
 import { useState } from "react";
 import {
   I18nManager,
@@ -13,12 +13,12 @@ import {
   ViewStyle,
 } from "react-native";
 
+import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
 import Tag, { TagVariantType } from "@/components/Tag";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import explorePlaceholder from "../assets/explore-placeholder.png";
 import whiteTriangleVertical from "../assets/white-triangle-vertical.png";
 
 interface ExploreCardProps {
@@ -26,12 +26,12 @@ interface ExploreCardProps {
   description: string;
   tagTitle: string;
   tagVariant: TagVariantType;
+  imageURL: string;
   onPress: () => void;
 }
 
-export default function ExploreCard({ title, description, tagTitle, tagVariant, onPress }: ExploreCardProps) {
+export default function ExploreCard({ title, description, imageURL, tagTitle, tagVariant, onPress }: ExploreCardProps) {
   const { width } = useWindowDimensions();
-
   const [containerHeight, setContainerHeight] = useState(100);
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -61,9 +61,9 @@ export default function ExploreCard({ title, description, tagTitle, tagVariant, 
   return (
     <Pressable style={containerStyle} onPress={onPress}>
       <View>
-        <Image
-          source={explorePlaceholder}
+        <NetworkImage
           style={imageContentStyle}
+          source={{ uri: imageURL }}
           onLayout={event => {
             const { height } = event.nativeEvent.layout;
             setContainerHeight(height);

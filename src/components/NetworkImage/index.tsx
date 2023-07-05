@@ -3,24 +3,24 @@ import { Image, ImageProps, ImageURISource } from "react-native";
 
 import { warn } from "@/logger";
 
-import loadingPlaceholder from "./loading-placeholder.png";
+import PlaceholderImage from "../PlaceholderImage";
 
 interface NetworkImageProps extends Omit<ImageProps, "source"> {
   source: ImageURISource & { uri: string };
 }
 
 export default function NetworkImage({ source, ...restProps }: NetworkImageProps) {
-  const [image, setImage] = useState<ImageProps["source"]>(loadingPlaceholder);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     Image.prefetch(source.uri)
       .then(() => {
-        setImage(source);
+        setIsSuccess(true);
       })
       .catch(error => {
         warn("network-image", "Could not render image", JSON.stringify(error));
       });
   }, [source]);
 
-  return <Image source={image} {...restProps} />;
+  return isSuccess ? <Image source={source} {...restProps} /> : <PlaceholderImage {...restProps} />;
 }

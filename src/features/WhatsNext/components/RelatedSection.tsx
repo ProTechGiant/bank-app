@@ -37,6 +37,7 @@ export default function RelatedSection({ data, onArticlePress }: RelatedSectionP
               <ExploreCard
                 title={item.Title}
                 description={item.SubTitle}
+                imageURL={item.Media[0].SourceFileURL}
                 tagTitle={item.WhatsNextType}
                 tagVariant={getWhatsNextTagColor(item.WhatsNextTypeId)}
                 onPress={() => onArticlePress(item.ContentId)}

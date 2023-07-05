@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 import { FilterIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
-import { LoadingErrorPage } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { useContentArticleList } from "@/hooks/use-content";
@@ -46,12 +45,13 @@ export default function WhatsNextHubScreen() {
         .filter(val => {
           return val.WhatsNextCategories && val.WhatsNextTypes;
         })
-        ?.map(data => {
-          data.WhatsNextCategories?.map(item => {
+        .forEach(data => {
+          data.WhatsNextCategories?.forEach(item => {
             setWhatsNextCategories(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
             setSelectedCategories(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
           });
-          data.WhatsNextTypes?.map(item => {
+
+          data.WhatsNextTypes?.forEach(item => {
             setWhatsNextTypes(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
             setSelectedTypes(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
           });
@@ -208,10 +208,6 @@ export default function WhatsNextHubScreen() {
     );
   };
 
-  const handleOnLoadingErrorRefresh = () => {
-    whatsNextData.refetch();
-  };
-
   const handleOnSortingModalPress = () => {
     setIsSortingContentVisible(!isSortingContentVisible);
   };
@@ -255,18 +251,20 @@ export default function WhatsNextHubScreen() {
     navigation.navigate("WhatsNext.ExploreArticleScreen", { articleId });
   };
 
-  const handleOnTopTenArticlePress = (topTenArticlesData: Content | undefined) => {
-    topTenArticlesData ? navigation.navigate("WhatsNext.TopTenArticleScreen", { topTenArticlesData }) : null;
+  const handleOnTopTenArticlePress = (topTenArticlesData: Content) => {
+    navigation.navigate("WhatsNext.TopTenArticleScreen", { topTenArticlesData });
   };
 
   return (
     <>
-      {whatsNextData.data !== undefined ? (
-        <Page backgroundColor="neutralBase-60">
-          <NavHeader
-            title={t("WhatsNext.HubScreen.title")}
-            end={<NavHeader.IconEndButton icon={<FilterIcon />} onPress={handleOnFiltersModalVisiblePress} />}
-          />
+      <Page backgroundColor="neutralBase-60">
+        <NavHeader
+          title={t("WhatsNext.HubScreen.title")}
+          end={<NavHeader.IconEndButton icon={<FilterIcon />} onPress={handleOnFiltersModalVisiblePress} />}
+        />
+        {whatsNextData.data === undefined ? (
+          <FlexActivityIndicator />
+        ) : (
           <ContentContainer isScrollView>
             {hasFilters ? (
               <FilterTopBar
@@ -278,10 +276,14 @@ export default function WhatsNextHubScreen() {
               />
             ) : (
               <TopTenSection
-                onPress={() =>
-                  handleOnTopTenArticlePress(whatsNextData?.data?.find(data => data?.ContentTag === TOP10_CONTENT_TAG))
-                }
-                data={whatsNextData.data.find(data => data.ContentTag === TOP10_CONTENT_TAG) as ArticleSectionType}
+                onPress={articleId => {
+                  const article = whatsNextData.data.find(d => d.ContentId === articleId);
+
+                  if (article !== undefined) {
+                    handleOnTopTenArticlePress(article);
+                  }
+                }}
+                data={whatsNextData.data.filter(data => data.ContentTag === TOP10_CONTENT_TAG) as ArticleSectionType[]}
               />
             )}
             {whatsNextData.data.filter(data => data.ContentTag === EXPLORE_CONTENT_TAG).length !== 0 ? (
@@ -299,12 +301,8 @@ export default function WhatsNextHubScreen() {
               <NoArticlesError />
             )}
           </ContentContainer>
-        </Page>
-      ) : whatsNextData.isLoading ? (
-        <FlexActivityIndicator color="primaryBase" size="large" />
-      ) : (
-        <LoadingErrorPage onRefresh={handleOnLoadingErrorRefresh} />
-      )}
+        )}
+      </Page>
       <FilterModal
         onClose={handleOnFiltersModalVisiblePress}
         isVisible={isFiltersModalVisible}

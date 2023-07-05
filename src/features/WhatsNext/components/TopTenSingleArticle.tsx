@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { Image, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
+import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import topTenPlacePlaceholder from "../assets/top-ten-article-placeholder.png";
 import { ArticleSectionType } from "../types";
 
 interface TopTenSingleArticleProps {
@@ -23,7 +23,7 @@ export default function TopTenSingleArticle({
   onBackPress,
   onNextPress,
 }: TopTenSingleArticleProps) {
-  const { WhatsNextCategory, Title, ContentDescription, EventDetails } = item;
+  const { WhatsNextCategory, Title, ContentDescription, EventDetails, Media } = item;
   const { width, height } = useWindowDimensions();
   const { t } = useTranslation();
 
@@ -48,11 +48,10 @@ export default function TopTenSingleArticle({
 
   return (
     <View style={{ height, width }}>
-      <Image
-        resizeMode="cover"
-        source={topTenPlacePlaceholder}
-        blurRadius={showDetails ? 5 : 0}
+      <NetworkImage
+        source={{ uri: Media ? Media[0]?.SourceFileURL : "" }}
         style={[StyleSheet.absoluteFillObject, { height, width }]}
+        blurRadius={showDetails ? 5 : 0}
       />
       <View style={styles.pressableContainer}>
         <Pressable onPress={onBackPress} style={styles.slideNavigationButton} />

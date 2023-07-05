@@ -48,6 +48,7 @@ export default function ExploreSection({ data, onSortByTimePress, sortOrder, onA
               <ExploreCard
                 title={item.Title}
                 description={item.SubTitle}
+                imageURL={item.Media[0].SourceFileURL}
                 tagTitle={item.WhatsNextType}
                 tagVariant={getWhatsNextTagColor(item.WhatsNextTypeId)}
                 onPress={() => onArticlePress(item.ContentId)}

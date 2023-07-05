@@ -1,22 +1,24 @@
 import { useTranslation } from "react-i18next";
-import { Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
+import NetworkImage from "@/components/NetworkImage";
+import PlaceholderImage from "@/components/PlaceholderImage";
 import Typography from "@/components/Typography";
 import useOpenLink from "@/hooks/use-open-link";
 import { useThemeStyles } from "@/theme";
-
-import explorePlaceholder from "../assets/explore-placeholder.png";
 
 interface AboutAuthorSectionProps {
   authorSocialMediaName: string;
   authorDescription: string;
   authorSocialMediaLink: string;
+  authorImageURL: string;
 }
 
 export default function AboutAuthorSection({
   authorSocialMediaName,
   authorDescription,
   authorSocialMediaLink,
+  authorImageURL,
 }: AboutAuthorSectionProps) {
   const openLink = useOpenLink();
   const { t } = useTranslation();
@@ -33,8 +35,11 @@ export default function AboutAuthorSection({
         {t("WhatsNext.ExploreArticleScreen.followWhatsNext")}
       </Typography.Text>
       <View style={contentStyle}>
-        {/* TODO: get correct image when available as URL */}
-        <Image source={explorePlaceholder} style={styles.image} />
+        {authorImageURL ? (
+          <NetworkImage style={styles.image} source={{ uri: authorImageURL }} />
+        ) : (
+          <PlaceholderImage style={styles.image} />
+        )}
         <View style={styles.column}>
           <Pressable
             onPress={() => {

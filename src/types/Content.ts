@@ -44,6 +44,7 @@ export interface Content {
   WhatsNextType: string;
   AuthorName: string;
   AuthorAbout: string;
+  AuthorImage: string;
   AuthorSocialMedia: AuthorSocialMediaType;
   EventDetails: EventDetails;
   ChildrenContents?: Content[];

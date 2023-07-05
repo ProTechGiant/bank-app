@@ -3,16 +3,17 @@ import { Image, StyleSheet, useWindowDimensions, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import NavHeader from "@/components/NavHeader";
+import NetworkImage from "@/components/NetworkImage";
 
-import explorePlaceholder from "../assets/explore-placeholder.png";
-import { default as ShareArticleIcon } from "../assets/share-article";
+import ShareArticleIcon from "../assets/share-article";
 import whiteTriangleHorizontal from "../assets/white-triangle-horizontal.png";
 
 interface ExploreArticleHeaderProps {
   handleOnArticleSharePress: () => void;
+  imageURL: string;
 }
 
-export default function ExploreArticleHeader({ handleOnArticleSharePress }: ExploreArticleHeaderProps) {
+export default function ExploreArticleHeader({ handleOnArticleSharePress, imageURL }: ExploreArticleHeaderProps) {
   const { height } = useWindowDimensions();
 
   const [containerWidth, setContainerWidth] = useState(100);
@@ -23,17 +24,17 @@ export default function ExploreArticleHeader({ handleOnArticleSharePress }: Expl
 
   return (
     <View style={containerStyle}>
-      <Image
-        source={explorePlaceholder}
-        style={styles.image}
+      <NetworkImage
+        source={{ uri: imageURL }}
         onLayout={event => {
           const { width } = event.nativeEvent.layout;
           setContainerWidth(width);
         }}
+        style={styles.image}
       />
       <SafeAreaView style={styles.navHeaderWrapper}>
         <NavHeader
-          variant="withBackground"
+          variant="background"
           end={<NavHeader.IconEndButton icon={<ShareArticleIcon />} onPress={handleOnArticleSharePress} />}
         />
       </SafeAreaView>
