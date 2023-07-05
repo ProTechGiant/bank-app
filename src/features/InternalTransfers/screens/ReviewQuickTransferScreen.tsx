@@ -20,6 +20,7 @@ import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
+import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useQuickTransfer, useTransferFees, useTransferReasonsByCode } from "../hooks/query-hooks";
 import { QuickTransfer, TransferType, TransferTypeCode } from "../types";
 
@@ -33,6 +34,7 @@ export default function ReviewQuickTransferScreen() {
   const transferReason = useTransferReasonsByCode(route.params.ReasonCode, TransferType.IpsTransferAction);
   const quickTransferAsync = useQuickTransfer();
   const otpFlow = useOtpFlow();
+  const { transferType } = useInternalTransferContext();
 
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
@@ -133,6 +135,56 @@ export default function ReviewQuickTransferScreen() {
     paddingVertical: theme.spacing["16p"],
   }));
 
+  const renderFromSection = () => {
+    return (
+      <View style={verticalSpaceStyle}>
+        <Typography.Text
+          weight="regular"
+          size="footnote"
+          color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase+30" : "neutralBase"}>
+          {t("InternalTransfers.ReviewQuickTransferScreen.from")}
+        </Typography.Text>
+        <Typography.Text
+          color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase" : "neutralBase+30"}
+          weight="regular"
+          size="callout">
+          {account.data?.owner}
+        </Typography.Text>
+        <Typography.Text
+          color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase" : "neutralBase+30"}
+          weight="regular"
+          size="callout">
+          {account.data?.iban}
+        </Typography.Text>
+      </View>
+    );
+  };
+
+  const renderToSection = () => {
+    return (
+      <View style={verticalSpaceStyle}>
+        <Typography.Text
+          weight="regular"
+          size="footnote"
+          color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase+30" : "neutralBase"}>
+          {t("InternalTransfers.ReviewQuickTransferScreen.to")}
+        </Typography.Text>
+        <Typography.Text
+          color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase" : "neutralBase+30"}
+          weight="regular"
+          size="callout">
+          {route.params.Beneficiary.FullName}
+        </Typography.Text>
+        <Typography.Text
+          color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase" : "neutralBase+30"}
+          weight="regular"
+          size="callout">
+          {route.params.Beneficiary.IBAN}
+        </Typography.Text>
+      </View>
+    );
+  };
+
   return (
     <>
       <Page backgroundColor="neutralBase-60">
@@ -143,28 +195,17 @@ export default function ReviewQuickTransferScreen() {
               <Typography.Text color="neutralBase+30" weight="semiBold" size="title1" style={titleStyle}>
                 {t("InternalTransfers.ReviewQuickTransferScreen.title")}
               </Typography.Text>
-              <View style={verticalSpaceStyle}>
-                <Typography.Text weight="regular" size="footnote" color="neutralBase">
-                  {t("InternalTransfers.ReviewQuickTransferScreen.from")}
-                </Typography.Text>
-                <Typography.Text color="neutralBase+30" weight="regular" size="callout">
-                  {account.data?.owner}
-                </Typography.Text>
-                <Typography.Text color="neutralBase+30" weight="regular" size="callout">
-                  {account.data?.iban}
-                </Typography.Text>
-              </View>
-              <View style={verticalSpaceStyle}>
-                <Typography.Text weight="regular" size="footnote" color="neutralBase">
-                  {t("InternalTransfers.ReviewQuickTransferScreen.to")}
-                </Typography.Text>
-                <Typography.Text color="neutralBase+30" weight="regular" size="callout">
-                  {route.params.Beneficiary.FullName}
-                </Typography.Text>
-                <Typography.Text color="neutralBase+30" weight="regular" size="callout">
-                  {route.params.Beneficiary.IBAN}
-                </Typography.Text>
-              </View>
+              {transferType === "SARIE_TRANSFER_ACTION" ? (
+                <>
+                  {renderToSection()}
+                  {renderFromSection()}
+                </>
+              ) : (
+                <>
+                  {renderFromSection()}
+                  {renderToSection()}
+                </>
+              )}
               <View style={separatorStyle} />
               <View style={inlineText}>
                 <Typography.Text weight="medium" size="callout" color="neutralBase+30">
@@ -198,7 +239,9 @@ export default function ReviewQuickTransferScreen() {
               </View>
               <View style={inlineText}>
                 <Typography.Text weight="medium" size="callout" color="neutralBase+30">
-                  {t("InternalTransfers.ReviewQuickTransferScreen.fee")}
+                  {transferType === "SARIE_TRANSFER_ACTION"
+                    ? t("InternalTransfers.ReviewQuickTransferScreen.feeInclVAT")
+                    : t("InternalTransfers.ReviewQuickTransferScreen.fee")}
                 </Typography.Text>
                 {transferFeesAsync.data === undefined ? (
                   <ActivityIndicator size="small" />
