@@ -57,6 +57,22 @@ export interface InternalTransfer {
   RemittanceInformation: string;
 }
 
+export interface InternalTransferToARBRequest {
+  Reason: string;
+  data: {
+    transferAmount: string;
+    transferAmountCurrency: string;
+    remitterIBAN?: string;
+    remitterName?: string;
+    beneficiaryIBAN?: string;
+    beneficiaryName?: string;
+    clientTimestamp: string;
+    transferPurpose: string;
+    transferType: string;
+    expressTransferFlag: string;
+  };
+}
+
 export enum TransferStatus {
   Pending = "401",
   Success = "200",

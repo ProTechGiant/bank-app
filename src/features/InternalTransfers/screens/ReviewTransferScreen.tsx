@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
@@ -16,8 +17,8 @@ import { useThemeStyles } from "@/theme";
 
 import { ReviewTransferDetail } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
-import { useInternalTransfer, useTransferReasonsByCode } from "../hooks/query-hooks";
-import { InternalTransfer, Note } from "../types";
+import { useInternalTransfer, useInternalTransferCroatiaToARB, useTransferReasonsByCode } from "../hooks/query-hooks";
+import { InternalTransfer, InternalTransferToARBRequest, Note, TransferType } from "../types";
 
 export default function ReviewTransferScreen() {
   const { t } = useTranslation();
@@ -29,6 +30,7 @@ export default function ReviewTransferScreen() {
   const { transferAmount, reason, recipient, transferType } = useInternalTransferContext();
   const otpFlow = useOtpFlow();
   const internalTransferAsync = useInternalTransfer();
+  const internalTransferCroatiaToARBAsync = useInternalTransferCroatiaToARB();
   const transferReason = useTransferReasonsByCode(reason, transferType);
 
   const [note, setNote] = useState<Note>({ content: "", attachment: "" });
@@ -61,6 +63,22 @@ export default function ReviewTransferScreen() {
       RemittanceInformation: reason,
     };
 
+    const internalTransferCroatiaToARB: InternalTransferToARBRequest = {
+      Reason: "croatia-to-arb",
+      data: {
+        transferAmount: transferAmount.toString(),
+        transferAmountCurrency: account.data.currencyType,
+        remitterIBAN: account.data.iban,
+        remitterName: account.data.name,
+        beneficiaryIBAN: recipient.iban,
+        beneficiaryName: recipient.accountName,
+        clientTimestamp: new Date().toJSON(),
+        transferPurpose: reason,
+        transferType: "02",
+        expressTransferFlag: "N",
+      },
+    };
+
     try {
       otpFlow.handle({
         action: {
@@ -69,9 +87,14 @@ export default function ReviewTransferScreen() {
         otpOptionalParams: {
           internalTransferDetails,
         },
-        otpVerifyMethod: "internal-transfers",
+        otpVerifyMethod:
+          transferType === TransferType.CroatiaToArbTransferAction ? "croatia-to-arb" : "internal-transfers",
         onOtpRequest: () => {
-          return internalTransferAsync.mutateAsync(internalTransferDetails);
+          if (transferType === TransferType.CroatiaToArbTransferAction) {
+            return internalTransferCroatiaToARBAsync.mutateAsync(internalTransferCroatiaToARB);
+          } else {
+            return internalTransferAsync.mutateAsync(internalTransferDetails);
+          }
         },
         onFinish: status => {
           if (status === "cancel") {

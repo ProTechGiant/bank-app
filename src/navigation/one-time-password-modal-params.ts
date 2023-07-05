@@ -11,6 +11,7 @@ export default interface OneTimePasswordModalParams<T extends AuthenticatedStack
   otpVerifyMethod:
     | "card-actions"
     | "internal-transfers"
+    | "croatia-to-arb"
     | "quick-transfers"
     | "login"
     | "reset-passcode"

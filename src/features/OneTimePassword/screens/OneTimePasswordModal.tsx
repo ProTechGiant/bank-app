@@ -18,8 +18,8 @@ import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import maskPhoneNumber from "@/utils/mask-phone-number";
 import delayTransition from "@/utils/delay-transition";
+import maskPhoneNumber from "@/utils/mask-phone-number";
 
 import { useOtpValidation } from "../hooks/query-hooks";
 import { OtpChallengeParams } from "../types";

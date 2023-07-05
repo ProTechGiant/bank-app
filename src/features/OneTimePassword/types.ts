@@ -1,7 +1,13 @@
-interface MockedOtpChallengeParams {
+interface GenericOtpChallengeParams {
   OtpId: string;
   OtpCode: string;
   PhoneNumber: string;
+  Status: boolean;
+  oneTimePassword: {
+    Length: number;
+    TimeToLive: number;
+    AllowedAttempts: number;
+  };
 }
 
 interface UpdatedOtpChallengeParams {
@@ -12,7 +18,7 @@ interface UpdatedOtpChallengeParams {
   };
 }
 
-export type OtpChallengeParams = MockedOtpChallengeParams | UpdatedOtpChallengeParams;
+export type OtpChallengeParams = GenericOtpChallengeParams | UpdatedOtpChallengeParams;
 
 export type OtpResponseStatus = "success" | "fail" | "cancel";
 

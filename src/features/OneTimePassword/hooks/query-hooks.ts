@@ -67,6 +67,7 @@ export function useOtpValidation<RequestT, ResponseT>(
     | "reset-passcode"
     | "change-passcode"
     | "create-passcode"
+    | "croatia-to-arb"
 ) {
   const queryClient = useQueryClient();
 
@@ -84,6 +85,17 @@ export function useOtpValidation<RequestT, ResponseT>(
         method === "create-passcode";
 
       const endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
+      const requestParam = isLoginFlow
+        ? { OtpId: OtpId, OtpCode: OtpCode, Reason: method }
+        : {
+            data: {
+              // TODO:- This will updated once IVR integrated.
+              IvrUserPressed: 0,
+              OtpId: OtpId,
+            },
+            OtpCode: OtpCode,
+            Reason: method,
+          };
 
       return api<ValidateOtpResponse & ResponseT>(
         "v1",
@@ -92,9 +104,7 @@ export function useOtpValidation<RequestT, ResponseT>(
         undefined,
         {
           ...optionalParams,
-          OtpId: OtpId,
-          OtpCode: OtpCode,
-          Reason: method,
+          ...requestParam,
         },
         { ["x-correlation-id"]: generateRandomId(), ["x-device-id"]: DeviceInfo.getDeviceId() }
       );

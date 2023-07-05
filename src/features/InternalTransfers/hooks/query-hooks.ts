@@ -9,6 +9,7 @@ import {
   Bank,
   BeneficiaryType,
   InternalTransfer,
+  InternalTransferToARBRequest,
   QuickTransfer,
   TRANSFER_BENEFICIARY_MAP,
   TransferReason,
@@ -146,9 +147,28 @@ interface InternalTransferResponse {
   PhoneNumber: string;
 }
 
+interface OTPDetails {
+  OtpId: string;
+  Status: boolean;
+  oneTimePassword: OTPResponse;
+}
+interface OTPResponse {
+  Length: number;
+  TimeToLive: number;
+  AllowedAttempts: number;
+}
+
 export function useInternalTransfer() {
   return useMutation(async (values: InternalTransfer) => {
     return sendApiRequest<InternalTransferResponse>("v1", "transfers/internal-payments", "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
+
+export function useInternalTransferCroatiaToARB() {
+  return useMutation(async (values: InternalTransferToARBRequest) => {
+    return sendApiRequest<OTPDetails>("v1", "transfers/outbound", "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });
