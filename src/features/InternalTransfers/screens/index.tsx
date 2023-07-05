@@ -6,6 +6,7 @@ export { default as ConfirmQuickTransferBeneficiaryScreen } from "./ConfirmQuick
 export { default as EnterBeneficiaryDetailsScreen } from "./EnterBeneficiaryDetailsScreen";
 export { default as EnterQuickTransferBeneficiaryScreen } from "./EnterQuickTransferBeneficiaryScreen";
 export { default as InternalTransferScreen } from "./InternalTransferScreen";
+export { default as IVRCheckScreen } from "./IVRCheckScreen";
 export { default as PaymentsHubScreen } from "./PaymentsHubScreen";
 export { default as QuickTransferScreen } from "./QuickTransferScreen";
 export { default as QuickTransferSuccessScreen } from "./QuickTransferSuccessScreen";
@@ -15,3 +16,4 @@ export { default as SendToBeneficiaryScreen } from "./SendToBeneficiaryScreen";
 export { default as StandardTransferNewBeneficiaryScreen } from "./StandardTransferNewBeneficiaryScreen";
 export { default as StandardTransferScreen } from "./StandardTransferScreen";
 export { default as TermsAndConditionsModal } from "./TermsAndConditionsModal";
+export { default as WaitingVerificationScreen } from "./WaitingVerificationScreen";

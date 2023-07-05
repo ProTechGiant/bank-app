@@ -10,6 +10,7 @@ import {
   EnterBeneficiaryDetailsScreen,
   EnterQuickTransferBeneficiaryScreen,
   InternalTransferScreen,
+  IVRCheckScreen,
   QuickTransferScreen,
   QuickTransferSuccessScreen,
   ReviewQuickTransferScreen,
@@ -18,6 +19,7 @@ import {
   StandardTransferNewBeneficiaryScreen,
   StandardTransferScreen,
   TermsAndConditionsModal,
+  WaitingVerificationScreen,
 } from "./screens";
 import { AddBeneficiarySelectionType, AddNoteParams, Bank } from "./types";
 
@@ -79,6 +81,8 @@ export type InternalTransfersStackParams = {
     PaymentAmount: number;
     BeneficiaryFullName: string;
   };
+  "InternalTransfers.IVRCheckScreen": undefined;
+  "InternalTransfers.WaitingVerificationScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
@@ -120,6 +124,8 @@ export default function InternalTransfersStack() {
         component={StandardTransferNewBeneficiaryScreen}
         name="InternalTransfers.StandardTransferNewBeneficiaryScreen"
       />
+      <Stack.Screen component={IVRCheckScreen} name="InternalTransfers.IVRCheckScreen" />
+      <Stack.Screen component={WaitingVerificationScreen} name="InternalTransfers.WaitingVerificationScreen" />
     </Stack.Navigator>
   );
 }

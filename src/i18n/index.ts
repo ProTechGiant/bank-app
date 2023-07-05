@@ -1887,6 +1887,43 @@ export const resources = {
           agree: "Agree",
           disagree: "Disagree",
         },
+        IVRCheckScreen: {
+          wellCallYouTitle: "We'll call you",
+          callReceiveMessage: "You will receive a call from Croatia Bank to confirm your request.",
+          callingYouTitle: "Calling you now",
+          callingInMessage: "Calling you in",
+          seconds: "seconds",
+          dialInMessage: "Dial in number",
+          toConfirmMessage: "to confirm the beneficiary activation",
+          instructionMessage: "It might take a minute to update your beneficiary list once your call has been made.",
+          cancel: "Cancel",
+          confirmCancellation: "Confirm cancellation",
+          close: "Close",
+          cancelIvrWarningMessage:
+            "Are you sure you want to cancel IVR check, if you proceed your transfer will be canceled too.",
+          cancelBeneficiaryTitle: "Cancel beneficiary activation?",
+          ivrFailureMessage:
+            "IVR activation failed and therefore we couldn’t process your transfer. We have saved beneficiary details in your beneficiary list and you can activate beneficiary later.",
+          ivrFailureTitle: "Your transfer failed because of a failed beneficiary activation",
+        },
+        WaitingVerificationScreen: {
+          waitingVerification: "Waiting verification",
+          waitingMessage:
+            "Please do not close the app or navigate away from this screen while we activate your beneficiary",
+        },
+      },
+      LocalTransfers: {
+        SelectTransferTypeModal: {
+          selectTransferType: "Select transfer type",
+          quickTransfer: "Quick transfer",
+          quickTransferDescription: "Send an instant one-time transfer of up to 2,500 SAR",
+          standardTransfer: "Standard transfer",
+          standardTransferDescription: "Send a transfer to a new or existing beneficiary",
+        },
+        LocalTransfersTermsAndConditions: {
+          agree: "Agree",
+          disagree: "Disagree",
+        },
       },
       PaymentDisputes: {
         PaymentDisputesLandingModal: {
@@ -3244,6 +3281,43 @@ export const resources = {
           title: "Sorry - we couldn’t check that",
           message: "Please try again later or get in touch if you’re still having problems.",
         },
+      },
+    },
+    LocalTransfers: {
+      SelectTransferTypeModal: {
+        selectTransferType: "Select transfer type",
+        quickTransfer: "Quick transfer",
+        quickTransferDescription: "Send an instant one-time transfer of up to 2,500 SAR",
+        standardTransfer: "Standard transfer",
+        standardTransferDescription: "Send a transfer to a new or existing beneficiary",
+      },
+      LocalTransfersTermsAndConditions: {
+        agree: "Agree",
+        disagree: "Disagree",
+      },
+      IVRCheckScreen: {
+        wellCallYouTitle: "We'll call you",
+        callReceiveMessage: "You will receive a call from Croatia Bank to confirm your request.",
+        callingYouTitle: "Calling you now",
+        callingInMessage: "Calling you in",
+        seconds: "seconds",
+        dialInMessage: "Dial in number",
+        toConfirmMessage: "to confirm the beneficiary activation",
+        instructionMessage: "It might take a minute to update your beneficiary list once your call has been made.",
+        cancel: "Cancel",
+        confirmCancellation: "Confirm cancellation",
+        close: "Close",
+        cancelIvrWarningMessage:
+          "Are you sure you want to cancel IVR check, if you proceed your transfer will be canceled too.",
+        cancelBeneficiaryTitle: "Cancel beneficiary activation?",
+        ivrFailureMessage:
+          "IVR activation failed and therefore we couldn’t process your transfer. We have saved beneficiary details in your beneficiary list and you can activate beneficiary later.",
+        ivrFailureTitle: "Your transfer failed because of a failed beneficiary activation",
+      },
+      WaitingVerificationScreen: {
+        waitingVerification: "Waiting verification",
+        waitingMessage:
+          "Please do not close the app or navigate away from this screen while we activate your beneficiary",
       },
     },
     LocalTransfers: {
