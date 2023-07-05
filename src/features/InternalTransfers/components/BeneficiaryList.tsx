@@ -1,17 +1,19 @@
 import Typography from "@/components/Typography";
 
-import { BeneficiaryType } from "../types";
+import { BeneficiaryType, TransferType } from "../types";
 import Beneficiary from "./Beneficiary";
 
 interface BeneficiaryListProps {
   title: string;
   beneficiaries: BeneficiaryType[];
   onDelete: (id: number) => void;
+  transferType?: TransferType;
   onBeneficiaryPress: (
     accountName: string,
     accountNumber: string,
     phoneNumber: string | undefined,
-    iban: string | undefined
+    iban: string | undefined,
+    bankName: string | undefined
   ) => void;
   onMenuPress: (beneficiary: BeneficiaryType) => void;
 }
@@ -22,6 +24,7 @@ export default function BeneficiaryList({
   onDelete,
   onBeneficiaryPress,
   onMenuPress,
+  transferType,
 }: BeneficiaryListProps) {
   return (
     <>
@@ -30,9 +33,10 @@ export default function BeneficiaryList({
       </Typography.Text>
       {beneficiaries.map(beneficiary => (
         <Beneficiary
-          key={beneficiary.BankAccountNumber}
+          key={beneficiary.BeneficiaryId}
           data={beneficiary}
           onDelete={onDelete}
+          transferType={transferType}
           onBeneficiaryPress={onBeneficiaryPress}
           onMenuPress={onMenuPress}
         />

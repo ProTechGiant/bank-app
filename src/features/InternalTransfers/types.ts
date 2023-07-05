@@ -4,6 +4,8 @@ export interface TransferReason {
 }
 
 export interface BeneficiaryType {
+  BeneficiaryId: string;
+  BankName: string;
   Name: string;
   IBAN?: string;
   BankAccountNumber: string;

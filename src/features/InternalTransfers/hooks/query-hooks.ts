@@ -84,15 +84,14 @@ export function useBeneficiaries(transferType: TransferType) {
 }
 
 export function useDeleteBeneficiary() {
-  return useMutation(async ({ name, accountNumber }: { name: string; accountNumber: string }) => {
+  return useMutation(async ({ BeneficiaryId }: { BeneficiaryId: string }) => {
     return sendApiRequest<string>(
       "v1",
       "transfers/beneficiaries/delete",
       "PATCH",
       undefined,
       {
-        BeneficiaryName: name,
-        BeneficiaryAccountNumber: accountNumber,
+        BeneficiaryId: BeneficiaryId,
       },
       {
         ["x-correlation-id"]: generateRandomId(),

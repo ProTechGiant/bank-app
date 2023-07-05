@@ -27,6 +27,7 @@ interface InternalTransferContextState {
     phoneNumber: string | undefined;
     iban: string | undefined;
     type: RecipientType | undefined;
+    bankName: string | undefined;
   }) => void;
   recipient: {
     accountName: string | undefined;

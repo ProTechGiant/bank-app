@@ -19,7 +19,7 @@ import { useThemeStyles } from "@/theme";
 import { BeneficiaryList, BeneficiaryOptionsModal } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useBeneficiaries, useDeleteBeneficiary } from "../hooks/query-hooks";
-import { BeneficiaryType, RecipientType, TransferTypeCode } from "../types";
+import { BeneficiaryType, RecipientType, TransferType } from "../types";
 
 function activeFilterCheck(beneficiaries: BeneficiaryType[], isActive: boolean): BeneficiaryType[] {
   return beneficiaries.filter(beneficiary => beneficiary.IVRValidated === isActive);
@@ -30,12 +30,11 @@ export default function SendToBeneficiaryScreen() {
   const navigation = useNavigation();
 
   const { setRecipient, transferType } = useInternalTransferContext();
-
   // BeneficiaryType is required in order to fetch the list of beneficiaries
   if (transferType === undefined) {
     throw new Error('Cannot access beneficiary list without "transferType"');
   }
-  const { data, refetch } = useBeneficiaries(transferType);
+  const { data, refetch } = useBeneficiaries(transferType as TransferType);
   const { mutateAsync } = useDeleteBeneficiary();
 
   const searchInputRef = useRef<TextInput>(null);
@@ -62,8 +61,8 @@ export default function SendToBeneficiaryScreen() {
     setSearchQuery(query);
     const searchResults = beneficiaries.filter(beneficiary => {
       const lowerCaseQuery = query.toLowerCase();
-      const phoneNumber = beneficiary.PhoneNumber !== undefined ? beneficiary.PhoneNumber : "";
-      const IBAN = beneficiary.PhoneNumber !== undefined ? beneficiary.PhoneNumber : "";
+      const phoneNumber = beneficiary.PhoneNumber ?? "";
+      const IBAN = beneficiary.IBAN ?? "";
       return (
         beneficiary.Name.toLowerCase().includes(lowerCaseQuery) ||
         phoneNumber.toLowerCase().includes(lowerCaseQuery) ||
@@ -84,8 +83,7 @@ export default function SendToBeneficiaryScreen() {
     if (currentBeneficiary) {
       try {
         await mutateAsync({
-          name: currentBeneficiary.Name,
-          accountNumber: currentBeneficiary.BankAccountNumber,
+          BeneficiaryId: currentBeneficiary.BeneficiaryId,
         });
         refetch();
       } catch (err) {
@@ -111,7 +109,8 @@ export default function SendToBeneficiaryScreen() {
     accountName: string,
     accountNumber: string,
     phoneNumber: string | undefined,
-    iban: string | undefined
+    iban: string | undefined,
+    bankName: string | undefined
   ) => {
     setRecipient({
       accountName,
@@ -119,6 +118,7 @@ export default function SendToBeneficiaryScreen() {
       phoneNumber,
       iban,
       type,
+      bankName,
     });
     type === "active"
       ? navigation.navigate("InternalTransfers.ReviewTransferScreen")
@@ -169,7 +169,7 @@ export default function SendToBeneficiaryScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader title={t("InternalTransfers.SendToBeneficiaryScreen.navTitle")} />
+        <NavHeader />
         <KeyboardAvoidingView
           style={styles.keyboardView}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -205,8 +205,9 @@ export default function SendToBeneficiaryScreen() {
                         title={t("InternalTransfers.SendToBeneficiaryScreen.confirmedBeneficiariesListTitle")}
                         beneficiaries={activeBeneficiaries}
                         onDelete={handleOnDelete}
-                        onBeneficiaryPress={(accountName, accountNumber, phoneNumber, iban) => {
-                          handleOnBeneficiaryPress("active", accountName, accountNumber, phoneNumber, iban, undefined);
+                        transferType={transferType}
+                        onBeneficiaryPress={(accountName, accountNumber, phoneNumber, iban, bankName) => {
+                          handleOnBeneficiaryPress("active", accountName, accountNumber, phoneNumber, iban, bankName);
                         }}
                         onMenuPress={handleOnMenuPress}
                       />
@@ -222,8 +223,9 @@ export default function SendToBeneficiaryScreen() {
                       title={t("InternalTransfers.SendToBeneficiaryScreen.unconfirmedBeneficiariesListTitle")}
                       beneficiaries={inactiveBeneficiaries}
                       onDelete={handleOnDelete}
-                      onBeneficiaryPress={(accountName, accountNumber, phoneNumber, iban) => {
-                        handleOnBeneficiaryPress("inactive", accountName, accountNumber, phoneNumber, iban, undefined);
+                      transferType={transferType}
+                      onBeneficiaryPress={(accountName, accountNumber, phoneNumber, iban, bankName) => {
+                        handleOnBeneficiaryPress("inactive", accountName, accountNumber, phoneNumber, iban, bankName);
                       }}
                       onMenuPress={handleOnMenuPress}
                     />
