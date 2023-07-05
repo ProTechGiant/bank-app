@@ -5,16 +5,13 @@ import { BankAccountIcon, SettingsIcon, TransferHorizontalIcon } from "@/assets/
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import HelpAndSupportStack from "../HelpAndSupport/HelpAndSupportStack";
 import { PaymentsHubScreen } from "./screens";
 
 const Tab = createBottomTabNavigator();
 
 function MockHomeComponent() {
   return <Typography.Text>Home</Typography.Text>;
-}
-
-function MockSettingsComponent() {
-  return <Typography.Text>Settings</Typography.Text>;
 }
 
 const icons = {
@@ -39,7 +36,7 @@ export default function PaymentsHubTabs() {
       })}>
       <Tab.Screen name="Home" component={MockHomeComponent} />
       <Tab.Screen name="Payments" component={PaymentsHubScreen} />
-      <Tab.Screen name="Settings" component={MockSettingsComponent} />
+      <Tab.Screen name="Settings" component={HelpAndSupportStack} />
     </Tab.Navigator>
   );
 }
