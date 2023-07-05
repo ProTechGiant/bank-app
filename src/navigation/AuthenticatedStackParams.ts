@@ -53,7 +53,6 @@ type RootStackParams = {
     };
   };
   "Settings.SettingsStack": undefined;
-  "Settings.AccountSettings": undefined;
   "SavingsGoals.SavingsGoalsStack": {
     savingsPotsNumber: number;
   };

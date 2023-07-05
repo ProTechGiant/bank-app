@@ -15,7 +15,6 @@ import ReferralStack from "@/features/Referral/ReferralStack";
 import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
 import TermsAndConditionsScreen from "@/features/Referral/screens/TermsAndConditionsScreen";
 import SavingsGoalsStack from "@/features/SavingsGoals/SavingsGoalsStack";
-import AccountSettings from "@/features/Settings/screens/AccountSettings";
 import SettingsStack from "@/features/Settings/SettingsStack";
 import {
   ChangePasscodeScreen,
@@ -53,7 +52,6 @@ export const AuthenticatedScreens = () => {
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
       <AuthStack.Screen component={HomeStack} name="Home.HomeStack" />
       <AuthStack.Screen component={SettingsStack} name="Settings.SettingsStack" />
-      <AuthStack.Screen component={AccountSettings} name="Settings.AccountSettings" />
       <AuthStack.Screen component={InstructionsScreen} name="Referral.InstructionsScreen" />
       <AuthStack.Screen component={CardActionsStack} name="CardActions.CardActionsStack" />
       <AuthStack.Screen component={AddMoneyStack} name="AddMoney.AddMoneyStack" />

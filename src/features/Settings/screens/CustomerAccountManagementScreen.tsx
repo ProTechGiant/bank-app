@@ -18,10 +18,27 @@ export default function CustomerAccountManagement() {
   const handleOnBackPress = () => {
     navigation.goBack();
   };
-
   // this function will be changed when integrate screens with this stack
   const handleOnPress = () => {
     // navigation.goBack();
+  };
+
+  const handleOnPassCodePress = () => {
+    navigation.navigate("Passcode.ChangePasscodeStack");
+  };
+
+  const handleMyCasesPress = () => {
+    navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
+      screen: "PaymentDisputes.MyCasesLandingScreen",
+    });
+  };
+
+  const handleBiometricPress = () => {
+    navigation.navigate("Settings.BiometricScreen");
+  };
+
+  const handleSignOutPress = () => {
+    navigation.navigate("Settings.AccountSettings");
   };
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({ paddingTop: theme.spacing["8p"] }));
@@ -77,19 +94,19 @@ export default function CustomerAccountManagement() {
             title={t("Settings.CustomerAccountManagementScreen.passcodeTitle")}
             description={t("Settings.CustomerAccountManagementScreen.passcodeDescription")}
             icon={<SettingsIcons.PasscodeIcon />}
-            onPress={handleOnPress}
+            onPress={handleOnPassCodePress}
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.biometricAuthenticationTitle")}
             description={t("Settings.CustomerAccountManagementScreen.biometricAuthenticationDescription")}
             icon={<SettingsIcons.BiometricAuthenticationIcon />}
-            onPress={handleOnPress}
+            onPress={handleBiometricPress}
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.myCasesTitle")}
             description={t("Settings.CustomerAccountManagementScreen.myCasesDescription")}
             icon={<SettingsIcons.MyCasesIcon />}
-            onPress={handleOnPress}
+            onPress={handleMyCasesPress}
           />
         </SettingsCategoryContainer>
         <Divider color="neutralBase-10" height={1} />
@@ -98,6 +115,7 @@ export default function CustomerAccountManagement() {
             title={t("Settings.CustomerAccountManagementScreen.signOutTitle")}
             description={t("Settings.CustomerAccountManagementScreen.signOutDescription")}
             icon={<SettingsIcons.SignOutIcon />}
+            onPress={handleSignOutPress}
           />
         </SettingsCategoryContainer>
       </ContentContainer>
