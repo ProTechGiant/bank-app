@@ -3,7 +3,12 @@ import { useTranslation } from "react-i18next";
 
 import { palette } from "@/theme/values";
 
-import { PendingTransactionsScreen, SingleTransactionDetailedScreen, TransactionsScreen } from "./screens/";
+import {
+  CategoriesListScreen,
+  PendingTransactionsScreen,
+  SingleTransactionDetailedScreen,
+  TransactionsScreen,
+} from "./screens/";
 import { TransactionDetailed } from "./types";
 
 export type ViewTransactionsStackParams = {
@@ -19,6 +24,14 @@ export type ViewTransactionsStackParams = {
     data: TransactionDetailed;
     cardId: string;
     createDisputeUserId: string; // TODO: temporary user ID for create dispute case
+    mutationStatus?: string;
+    similarTransactions?: any;
+  };
+  "ViewTransactions.CategoriesListScreen": {
+    categoryId: string;
+    data: TransactionDetailed;
+    cardId: string;
+    createDisputeUserId: string; // TODO: temporary user ID for create dispute case
   };
 };
 
@@ -26,6 +39,7 @@ const Stack = createNativeStackNavigator<ViewTransactionsStackParams>();
 
 export default function ViewTransactionsStack() {
   const { t } = useTranslation();
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -45,9 +59,14 @@ export default function ViewTransactionsStack() {
         name="ViewTransactions.PendingTransactionsScreen"
       />
       <Stack.Screen
-        options={{ title: t("ViewTransactions.SingleTransactionDetailedScreen.title") }}
+        options={{ headerShown: false }}
         component={SingleTransactionDetailedScreen}
         name="ViewTransactions.SingleTransactionDetailedScreen"
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        component={CategoriesListScreen}
+        name="ViewTransactions.CategoriesListScreen"
       />
     </Stack.Navigator>
   );

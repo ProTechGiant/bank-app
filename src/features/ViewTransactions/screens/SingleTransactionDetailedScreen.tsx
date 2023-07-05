@@ -18,7 +18,7 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 
-import { DetailsWrapper } from "../components";
+import { DetailsWrapper, SimilarTransactionsModal } from "../components";
 
 interface SingleTransactionDetailedScreenProps {
   onClose: () => void;
@@ -30,6 +30,8 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
   const isFocused = useIsFocused();
 
   const route = useRoute<RouteProp<AuthenticatedStackParams, "ViewTransactions.SingleTransactionDetailedScreen">>();
+
+  const { mutationStatus, similarTransactions, data } = route.params;
 
   // TODO: remove hardcored transactionRef when case searching via transaction is available
   // error  = trans-ref-7
@@ -46,6 +48,28 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
   const createDisputeUserId = route.params.createDisputeUserId;
 
   const [isVisible, setIsVisible] = useState(false);
+
+  const [isUpdateErrorModalVisible, setIsUpdateErrorModalVisible] = useState(false);
+  const [isSuccessNotificationModalVisible, setIsSuccessNotificationModalVisible] = useState(false);
+  const [isViewingErrorModal, setIsViewingErrorModal] = useState(false);
+  const [isSimilarTransactionsModalVisible, setIsSimilarTransactionsModalVisible] = useState(false);
+
+  useEffect(() => {
+    switch (mutationStatus) {
+      case "success":
+        if (similarTransactions && similarTransactions.length > 0) {
+          setIsSuccessNotificationModalVisible(true);
+        } else {
+          setIsUpdateErrorModalVisible(true);
+        }
+        break;
+      case "error":
+        setIsViewingErrorModal(true);
+        break;
+      default:
+        break;
+    }
+  }, [mutationStatus, similarTransactions, route.params]);
 
   // Function to update the header title
   const updateHeaderTitle = useCallback(
@@ -126,6 +150,8 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
           <DetailsWrapper
             openModel={setIsVisible}
             data={receivedData}
+            cardId={cardId}
+            createDisputeUserId={createDisputeUserId}
             onReportTransaction={handleOnReportTransaction}
           />
           <Modal style={styles.modal} onClose={onClose} visible={isVisible}>
@@ -147,8 +173,71 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
           </Modal>
         </Page>
       ) : (
-        <ActivityIndicator />
+        <View style={styles.activityIndicator}>
+          <ActivityIndicator color="primaryBase" size="small" />
+        </View>
       )}
+
+      {mutationStatus === "error" ? (
+        <NotificationModal
+          variant="error"
+          onClose={() => setIsViewingErrorModal(false)}
+          isVisible={isViewingErrorModal}
+          message={t("ViewTransactions.SingleTransactionDetailedScreen.ErrorModal.pleaseTryAgain")}
+          title={t("ViewTransactions.SingleTransactionDetailedScreen.ErrorModal.somethingWrong")}
+        />
+      ) : null}
+
+      {mutationStatus === "success" && similarTransactions && !isSimilarTransactionsModalVisible ? (
+        <NotificationModal
+          variant="success"
+          message={t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.similarTransactionsFound", {
+            count: similarTransactions.length,
+          })}
+          title={t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.categoryChangedSuccessfully")}
+          isVisible={isSuccessNotificationModalVisible}
+          buttons={{
+            primary: (
+              <Button
+                onPress={() => {
+                  setIsSimilarTransactionsModalVisible(true);
+                }}>
+                {t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.changeCategories")}
+              </Button>
+            ),
+            secondary: (
+              <Button onPress={() => setIsSuccessNotificationModalVisible(false)}>
+                {t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.skip")}
+              </Button>
+            ),
+          }}
+        />
+      ) : (
+        <SimilarTransactionsModal
+          cardId={cardId}
+          createDisputeUserId={createDisputeUserId}
+          data={data}
+          similarTransactions={similarTransactions}
+          visible={isSimilarTransactionsModalVisible}
+          onClose={() => {
+            setIsSimilarTransactionsModalVisible(false);
+            setIsSuccessNotificationModalVisible(false);
+          }}
+        />
+      )}
+
+      {mutationStatus === "success"
+        ? (!similarTransactions?.Transaction || similarTransactions.Transaction.length === 0) && (
+            <NotificationModal
+              variant="success"
+              onClose={() => setIsUpdateErrorModalVisible(false)}
+              isVisible={isUpdateErrorModalVisible}
+              message={t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.categoryChangedSuccessfully")}
+              title={t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.categoryChanged")}
+            />
+          )
+        : null}
+
       <NotificationModal
         variant="warning"
         buttons={{
@@ -185,6 +274,11 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
 }
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
   closeButton: {
     alignItems: "flex-end",
   },

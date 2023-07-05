@@ -1,11 +1,19 @@
+import { format } from "date-fns";
+import { toString } from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import CardButton from "@/components/CardButton";
 import ContentContainer from "@/components/ContentContainer";
 import DetailedRow from "@/components/DetailedRow";
+import FormatTransactionAmount from "@/components/FormatTransactionAmount";
+import NavHeader from "@/components/NavHeader";
+import Typography from "@/components/Typography";
 import { PHYSICAL_CARD_TYPE } from "@/constants";
+import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 
 import { TransactionDetailed } from "../types";
 import DetailedHeader from "./DetailedHeader";
@@ -14,6 +22,8 @@ interface HOCprops {
   data: TransactionDetailed;
   openModel: (arg: boolean) => void;
   onReportTransaction: () => void;
+  cardId: string;
+  createDisputeUserId: string;
 }
 
 function DetailsWrapper({ data, openModel, onReportTransaction }: HOCprops) {
@@ -60,17 +70,87 @@ function DebitCardAndOneTimeCard({
   data,
   openModel,
   onReportTransaction,
+  createDisputeUserId,
+  cardId,
 }: {
   data: TransactionDetailed;
   openModel: (arg: boolean) => void;
   onReportTransaction: () => void;
+  createDisputeUserId: string;
+  cardId: string;
 }) {
   const { t } = useTranslation();
+  const navigation = useNavigation();
+
+  const handleOnPressCategoriesList = () => {
+    navigation.navigate("ViewTransactions.CategoriesListScreen", {
+      categoryId: toString(data.categoryId),
+      data: data,
+      cardId: cardId,
+      createDisputeUserId: createDisputeUserId,
+    });
+  };
+
+  const handleOnBackPress = () => {
+    navigation.goBack();
+  };
+
+  // Extracting date and time elements from the transactionDate array
+  const dateFromData = new Date(
+    data.transactionDate[0], // Year
+    data.transactionDate[1] - 1, // Month (adjusted for JavaScript's 0-indexed months)
+    ...data.transactionDate.slice(2, 6) // Day, Hour, Minute, and Second
+  );
+
+  // Formatting our date object into a readable string "Mon 4 Jul, 14:30"
+  // "EEE" -> Day of the week in short form
+  // "d" -> Day of the month
+  // "MMM" -> Month in short form
+  // "HH:mm" -> Hours and minutes
+  const formattedDate = format(dateFromData, "EEE d MMM, HH:mm");
+
+  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-40"],
+    paddingHorizontal: theme.spacing["10p"],
+    paddingVertical: theme.spacing["8p"],
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  }));
+
+  const header = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-40"],
+  }));
 
   return (
     <>
-      <DetailedHeader data={data} />
-      <ContentContainer>
+      <SafeAreaView edges={["top"]} style={header}>
+        <NavHeader onBackPress={handleOnBackPress} title={formattedDate} />
+        <View style={headerStyle}>
+          <View>
+            <Typography.Text color="neutralBase+30" size="title3" weight="bold">
+              {data.title}
+            </Typography.Text>
+            <Typography.Text color="primaryBase-40" weight="regular" size="caption2">
+              {data.subTitle}
+            </Typography.Text>
+          </View>
+
+          <View style={styles.sarStyle}>
+            <FormatTransactionAmount
+              amount={parseFloat(data.amount)}
+              isPlusSignIncluded={false}
+              integerSize="title2"
+              decimalSize="body"
+              color="neutralBase+30"
+              isCurrencyIncluded={true}
+              currencyColor="primaryBase-40"
+            />
+          </View>
+        </View>
+      </SafeAreaView>
+
+      <ContentContainer style={styles.contentStyle}>
         <DetailedRow
           openModel={openModel}
           name={t("ViewTransactions.SingleTransactionDetailedScreen.status")}
@@ -98,14 +178,15 @@ function DebitCardAndOneTimeCard({
           />
         ) : null}
         {data.categoryName ? (
-          <DetailedRow
-            name={t("ViewTransactions.SingleTransactionDetailedScreen.category")}
-            value={data.categoryName}
-          />
-        ) : (
-          <></>
-        )}
-        {data.location ? (
+          <Pressable onPress={handleOnPressCategoriesList}>
+            <DetailedRow
+              name={t("ViewTransactions.SingleTransactionDetailedScreen.category")}
+              value={data.categoryName}
+              showIcon
+            />
+          </Pressable>
+        ) : null}
+        {data?.location ? (
           <DetailedRow
             openModel={openModel}
             name={t("ViewTransactions.SingleTransactionDetailedScreen.location")}
@@ -135,8 +216,15 @@ function DebitCardAndOneTimeCard({
 }
 
 const styles = StyleSheet.create({
+  contentStyle: {
+    backgroundColor: "white",
+  },
   detailedButton: {
     marginTop: 40,
+  },
+  sarStyle: {
+    alignItems: "baseline",
+    flexDirection: "row",
   },
 });
 

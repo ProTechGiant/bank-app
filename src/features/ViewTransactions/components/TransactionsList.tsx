@@ -32,6 +32,7 @@ export default function TransactionsList({ transactionsAll, cardId, createDisput
 
   const handleNavigation = (transaction: Transaction) => {
     const obj: TransactionDetailed = {
+      transactionID: transaction.TransactionId,
       cardType: transaction.CardType,
       status: transaction.Status,
       location: transaction.AddressLine ? transaction.AddressLine : false,

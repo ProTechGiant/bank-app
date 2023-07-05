@@ -1,5 +1,6 @@
-import { StyleSheet, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
+import { I18nManager, StyleSheet, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
 
+import { ChevronRightIcon } from "@/assets/icons";
 import { InfoCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -9,9 +10,10 @@ interface DetailedRowProps {
   value?: string;
   roundup?: boolean;
   openModel?: (arg: boolean) => void;
+  showIcon?: boolean;
 }
 
-export default function DetailedRow({ name, openModel, value, roundup }: DetailedRowProps) {
+export default function DetailedRow({ name, openModel, value, roundup, showIcon }: DetailedRowProps) {
   const row = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "space-between",
     flexDirection: "row",
@@ -26,6 +28,8 @@ export default function DetailedRow({ name, openModel, value, roundup }: Detaile
     lineHeight: theme.typography.text._lineHeights.callout,
   }));
 
+  const chevColor = useThemeStyles<string>(theme => theme.palette["primaryBase-20"]);
+
   const infoColor = useThemeStyles(theme => theme.palette["neutralBase-10"]);
 
   return (
@@ -38,6 +42,11 @@ export default function DetailedRow({ name, openModel, value, roundup }: Detaile
         <Typography.Text style={rowValue} size="callout" weight="regular" color="neutralBase">
           {value}
         </Typography.Text>
+        {showIcon ? (
+          <View style={styles.iconStyle}>
+            <ChevronRightIcon color={chevColor} />
+          </View>
+        ) : null}
         {roundup ? (
           <TouchableOpacity style={styles.infoStyle} onPress={() => (openModel ? openModel(true) : null)}>
             <InfoCircleIcon color={infoColor} />
@@ -49,6 +58,9 @@ export default function DetailedRow({ name, openModel, value, roundup }: Detaile
 }
 
 const styles = StyleSheet.create({
+  iconStyle: {
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
   infoStyle: {
     marginStart: 6,
   },

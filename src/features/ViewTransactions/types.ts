@@ -1,4 +1,5 @@
 export interface TransactionDetailed {
+  transactionID: string;
   cardType: string;
   status: string;
   location: string;
