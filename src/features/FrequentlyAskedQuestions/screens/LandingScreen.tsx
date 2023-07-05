@@ -1,80 +1,60 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import { SearchIcon } from "@/assets/icons";
+import ContentContainer from "@/components/ContentContainer";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import { SearchInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { mockFrequentlyAskedQuestions } from "@/mocks/frequentlyAskedQuestionsData";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { iconMapping } from "@/utils/icon-mapping";
 
-import { LoadingError, Section, SectionsOverview } from "../components";
+import { FAQListPreview, LoadingError, Section } from "../components";
 import { useSearchFAQ } from "../hooks/query-hooks";
-import { FAQCategory, FAQData, FAQSection } from "../types";
+import { FAQData } from "../types";
 
 export default function LandingScreen() {
-  const { t } = useTranslation();
+  const navigation = useNavigation();
+  const { t, i18n } = useTranslation();
 
   const [showLoadingErrorModal, setShowLoadingErrorModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchText, setSearchText] = useState<string>("");
 
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  // TODO: Implement proper language control on integration
-  const searchFAQResult = useSearchFAQ(searchQuery, "en");
-
-  useEffect(() => {
-    if (mockFrequentlyAskedQuestions === undefined) {
-      setShowLoadingErrorModal(true);
-    }
-  }, []);
+  const { data, refetch, isError, isFetching } = useSearchFAQ(searchQuery, i18n.language);
 
   useEffect(() => {
-    if (searchFAQResult.isError) {
-      setShowLoadingErrorModal(true);
-    }
-    if (searchFAQResult.isSuccess) {
-      setShowLoadingErrorModal(false);
-    }
-  }, [searchFAQResult.isError, searchFAQResult.isSuccess]);
+    setShowLoadingErrorModal(isError);
+  }, [isError]);
 
-  const useMergeFaqSections = (data: FAQData) => {
-    return useMemo(() => {
-      let mergedSections = [] as FAQSection[];
-
-      data.categories.map(d => {
-        mergedSections = [...mergedSections, ...d.sections];
-      });
-
-      return mergedSections;
-    }, [data]);
-  };
-  const handleOnDismissErrorLoadingPress = () => {
-    setShowLoadingErrorModal(false);
-  };
-
-  const handleOnRefreshErrorLoadingPress = () => {
-    //@TODO refetch API
-    handleOnDismissErrorLoadingPress();
-  };
+  useEffect(() => {
+    const debounceId = setTimeout(() => {
+      setSearchQuery(searchText);
+    }, 1500);
+    return () => clearTimeout(debounceId);
+  }, [searchText]);
 
   const handleOnChangeText = (text: string) => {
-    setSearchQuery(text);
-    setIsSearching(true);
+    if (text === " " && searchText === "") return;
+    else setSearchText(text);
   };
 
   const handleOnCancelPress = () => {
-    setSearchQuery("");
-    setIsSearching(false);
+    setSearchText("");
   };
 
-  const container = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["20p"],
-  }));
+  const handleFAQOnPress = (faqId: string) => {
+    navigation.navigate("FrequentlyAskedQuestions.DetailedScreen", { faqId });
+  };
 
+  const handleSectionOnPress = (sectionSdata: FAQData, title: string) => {
+    navigation.navigate("FrequentlyAskedQuestions.SectionScreen", { data: sectionSdata, title });
+  };
   const searchStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["8p"],
   }));
@@ -98,31 +78,28 @@ export default function LandingScreen() {
   }));
 
   const searchIconColor = useThemeStyles(theme => theme.palette.neutralBase);
-  // TODO: BE integration
-  const mergedSectionData = useMergeFaqSections(mockFrequentlyAskedQuestions);
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <ScrollView>
-        {!isSearching ? <NavHeader /> : null}
-        <View style={container}>
+      {searchText === "" ? <NavHeader /> : null}
+      {!isFetching ? (
+        <ContentContainer isScrollView>
           <Stack direction="vertical" gap="16p" align="stretch">
-            {!isSearching ? (
+            {searchText === "" ? (
               <Typography.Text weight="medium" size="title1">
                 {t("FrequentlyAskedQuestions.LandingScreen.title")}
               </Typography.Text>
             ) : null}
-
             <View style={activeSearchStyle}>
               <SearchInput
                 onClear={handleOnCancelPress}
                 onSearch={handleOnChangeText}
                 placeholder={t("FrequentlyAskedQuestions.LandingScreen.searchPlaceholder")}
-                value={searchQuery}
+                value={searchText}
+                clearText="Cancel"
               />
             </View>
-
-            {isSearching && searchQuery === "" ? (
+            {isFetching && searchQuery === "" ? (
               <View style={searchHelpStyle}>
                 <SearchIcon color={searchIconColor} />
                 <Typography.Text style={searchHelpTextStyle} size="callout" weight="semiBold">
@@ -132,28 +109,33 @@ export default function LandingScreen() {
                   {t("FrequentlyAskedQuestions.LandingScreen.searchHelpSubtitle")}
                 </Typography.Text>
               </View>
-            ) : isSearching && searchFAQResult.data !== undefined ? (
-              <View style={searchStyle}>
-                <SectionsOverview data={mergedSectionData} faqSearchResponses={searchFAQResult.data} />
-              </View>
-            ) : !isSearching && !showLoadingErrorModal && mockFrequentlyAskedQuestions?.categories ? (
-              mockFrequentlyAskedQuestions.categories.map((data: FAQCategory) => {
+            ) : showLoadingErrorModal ? (
+              <LoadingError
+                isVisible={showLoadingErrorModal}
+                onClose={() => setShowLoadingErrorModal(false)}
+                onRefresh={refetch}
+              />
+            ) : data !== undefined && searchQuery !== "" ? (
+              <FAQListPreview data={data} onPress={handleFAQOnPress} />
+            ) : (
+              data &&
+              data.map((item, index) => {
                 return (
-                  <View style={searchStyle} key={data.category_name}>
-                    <Section data={data} icon={iconMapping.frequentlyAskedQuestions[data.category_id]} />
+                  <View key={index} style={searchStyle}>
+                    <Section
+                      data={item}
+                      icon={iconMapping.frequentlyAskedQuestions[item.CategoryId]}
+                      onPress={handleSectionOnPress}
+                    />
                   </View>
                 );
               })
-            ) : (
-              <LoadingError
-                isVisible={showLoadingErrorModal}
-                onClose={handleOnDismissErrorLoadingPress}
-                onRefresh={handleOnRefreshErrorLoadingPress}
-              />
             )}
           </Stack>
-        </View>
-      </ScrollView>
+        </ContentContainer>
+      ) : (
+        <FlexActivityIndicator />
+      )}
     </Page>
   );
 }

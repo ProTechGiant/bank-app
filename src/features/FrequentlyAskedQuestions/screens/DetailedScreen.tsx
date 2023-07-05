@@ -1,85 +1,62 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
-import { differenceInHours } from "date-fns";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChatIcon, ChevronRightIcon, PhoneIcon, ThumbsDownIcon, ThumbsUpIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import HtmlWebView from "@/components/HtmlWebView/HtmlWebView";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useCallSupport, { PhoneBook } from "@/hooks/use-call-support";
-import {
-  mockFeedbackFrequentlyAskedQuestions,
-  mockFrequentlyAskedQuestions,
-  mockRelatedFrequentlyAskedQuestions,
-} from "@/mocks/frequentlyAskedQuestionsData";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import useOpenLink from "../../../hooks/use-open-link";
 import { LoadingError } from "../components";
-import { DetailedFaq } from "../types";
+import { DOWN_VOTE, UP_VOTE } from "../constants";
+import { useDetailsFAQ, useFeedback } from "../hooks/query-hooks";
+import { FAQListItem } from "../types";
 
 export default function DetailedScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
-  const { t } = useTranslation();
-
   const openLink = useOpenLink();
-  const callSupport = useCallSupport();
+  const { t, i18n } = useTranslation();
+  const { faqId } = route.params as { faqId: string };
 
-  const [title, setTitle] = useState<undefined | string>(undefined);
-  const [data, setData] = useState<undefined | DetailedFaq>(undefined);
   const [showLoadingErrorModal, setShowLoadingErrorModal] = useState(false);
+  const [feedbackState, setFeedbackState] = useState<typeof DOWN_VOTE | typeof UP_VOTE | null>(null);
 
-  const hasData = route.params as { data: DetailedFaq; title: string };
-  const noData = route.params as { faqId: string };
-
-  useEffect(() => {
-    if (hasData.data) {
-      setData(hasData.data);
-      setTitle(hasData.title);
-    } else if (noData.faqId) {
-      mockFrequentlyAskedQuestions.categories.map(categories => {
-        categories.sections.map(sections => {
-          sections.section_faqs.map(sectionFaq => {
-            if (sectionFaq.faq_id === noData.faqId) {
-              setData(sectionFaq);
-              setTitle(categories.category_name);
-            }
-          });
-        });
-      });
-    }
-  }, [hasData, noData]);
+  const { data, refetch, isError } = useDetailsFAQ(faqId, i18n.language);
+  const updateFeedback = useFeedback(faqId, i18n.language);
+  const { tryCall } = useCallSupport();
 
   useEffect(() => {
-    if (data?.answer === undefined) {
-      setShowLoadingErrorModal(true);
-    }
+    setShowLoadingErrorModal(isError);
+  }, [isError]);
+
+  useEffect(() => {
+    data && setFeedbackState(typeof data.Feedback === "object" ? null : data.Feedback);
   }, [data]);
 
-  const currentDate = new Date();
-
-  const [feedbackState, setFeedbackState] = useState<"notResponded" | "positive" | "negative" | "helpRequested">(
-    mockFeedbackFrequentlyAskedQuestions.vote === "UP" &&
-      differenceInHours(currentDate, new Date(mockFeedbackFrequentlyAskedQuestions.updated_on)) < 24
-      ? "positive"
-      : mockFeedbackFrequentlyAskedQuestions.vote === "DOWN" &&
-        differenceInHours(currentDate, new Date(mockFeedbackFrequentlyAskedQuestions.updated_on)) < 24
-      ? "negative"
-      : "notResponded"
-  );
+  const handleOnFeedbackPress = async (vote: typeof DOWN_VOTE | typeof UP_VOTE) => {
+    try {
+      await updateFeedback.mutateAsync({
+        ContentId: faqId,
+        VoteId: vote,
+      });
+      setFeedbackState(vote);
+    } catch (_) {}
+  };
 
   const getFeedbackText = () => {
-    return feedbackState === "notResponded"
+    return feedbackState === null
       ? t("FrequentlyAskedQuestions.DetailedScreen.feedback")
-      : feedbackState === "positive" || feedbackState === "helpRequested"
+      : feedbackState === UP_VOTE
       ? t("FrequentlyAskedQuestions.DetailedScreen.positiveFeedback")
       : t("FrequentlyAskedQuestions.DetailedScreen.negativeFeedback");
   };
@@ -89,12 +66,16 @@ export default function DetailedScreen() {
   };
 
   const handleOnRefreshErrorLoadingPress = () => {
-    //@TODO refetch API
+    refetch();
     handleOnDismissErrorLoadingPress();
   };
 
-  const handleCallUsPress = () => {
-    callSupport.tryCall(PhoneBook.CALL_US);
+  const handleOnCallPress = () => {
+    tryCall(PhoneBook.CALL_US);
+  };
+
+  const handleOnChatPress = () => {
+    navigation.navigate("HelpAndSupport.HelpAndSupportStack", { screen: "HelpAndSupport.LiveChatScreen" });
   };
 
   const sectionStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -119,94 +100,95 @@ export default function DetailedScreen() {
 
   return (
     <Page>
-      <NavHeader title={title} />
-      <ContentContainer isScrollView>
-        <Typography.Text weight="semiBold" size="title1">
-          {data?.query}
-        </Typography.Text>
-        {data?.answer ? (
-          <>
-            <View style={verticalStyle}>
-              <HtmlWebView html={data.answer} onLinkPress={url => openLink(url)} />
-              <View style={styles.row}>
-                <Typography.Text size="callout" color="neutralBase-10">
-                  {getFeedbackText()}
-                </Typography.Text>
-                {feedbackState === "notResponded" ? (
-                  <View style={styles.row}>
+      <NavHeader />
+      {undefined !== data ? (
+        <ContentContainer isScrollView>
+          <Typography.Text weight="semiBold" size="title1">
+            {data.Query}
+          </Typography.Text>
+          <View style={verticalStyle}>
+            <HtmlWebView html={data.Answer ?? ""} onLinkPress={url => openLink(url)} />
+          </View>
+          {data.Answer ? (
+            <>
+              <View style={verticalStyle}>
+                <HtmlWebView html={data.Answer} onLinkPress={url => openLink(url)} />
+                <View style={styles.row}>
+                  <Typography.Text size="callout" color="neutralBase-10">
+                    {getFeedbackText()}
+                  </Typography.Text>
+                  {feedbackState === null || feedbackState === UP_VOTE ? (
+                    <View style={styles.row}>
+                      <Pressable onPress={() => handleOnFeedbackPress(UP_VOTE)}>
+                        <ThumbsUpIcon />
+                      </Pressable>
+                      <Pressable onPress={() => handleOnFeedbackPress(DOWN_VOTE)}>
+                        <ThumbsDownIcon />
+                      </Pressable>
+                    </View>
+                  ) : null}
+                </View>
+              </View>
+              {data.RelatedFaqs?.length && (
+                <View style={sectionStyle}>
+                  <Typography.Text size="title3" weight="semiBold">
+                    {t("FrequentlyAskedQuestions.DetailedScreen.relatedQuestions")}
+                  </Typography.Text>
+                </View>
+              )}
+              {data.RelatedFaqs?.length &&
+                data.RelatedFaqs.map((faq: FAQListItem, index: number) => {
+                  return (
                     <Pressable
+                      key={index}
                       onPress={() => {
-                        setFeedbackState("positive");
+                        navigation.push("FrequentlyAskedQuestions.DetailedScreen", { faqId: faq.FaqId });
                       }}>
-                      <ThumbsUpIcon />
+                      <View key={faq.FaqId} style={verticalStyle}>
+                        <Stack direction="horizontal" align="center" justify="space-between">
+                          <Typography.Text size="callout">{faq.Query}</Typography.Text>
+                          <View style={styles.chevronContainer}>
+                            <ChevronRightIcon color={iconColor} />
+                          </View>
+                        </Stack>
+                      </View>
                     </Pressable>
-                    <Pressable
-                      onPress={() => {
-                        setFeedbackState("negative");
-                      }}>
-                      <ThumbsDownIcon />
+                  );
+                })}
+              {feedbackState === DOWN_VOTE ? (
+                <View style={sectionStyle}>
+                  <Typography.Text size="callout" weight="semiBold">
+                    {t("FrequentlyAskedQuestions.DetailedScreen.help")}
+                  </Typography.Text>
+                  <View style={styles.row}>
+                    <Pressable style={iconBoxStyle} onPress={handleOnCallPress}>
+                      <PhoneIcon />
+                      <Typography.Text size="footnote">
+                        {t("FrequentlyAskedQuestions.DetailedScreen.call")}
+                      </Typography.Text>
+                    </Pressable>
+                    <Pressable style={iconBoxStyle} onPress={handleOnChatPress}>
+                      <ChatIcon />
+                      <Typography.Text size="footnote">
+                        {t("FrequentlyAskedQuestions.DetailedScreen.chat")}
+                      </Typography.Text>
                     </Pressable>
                   </View>
-                ) : null}
-              </View>
-            </View>
-            <View style={sectionStyle}>
-              <Typography.Text size="title3" weight="semiBold">
-                {t("FrequentlyAskedQuestions.DetailedScreen.relatedQuestions")}
-              </Typography.Text>
-            </View>
-            {mockRelatedFrequentlyAskedQuestions.map(relatedFAQdata => {
-              return (
-                <View key={relatedFAQdata.faq_id} style={verticalStyle}>
-                  <Stack direction="horizontal" align="center" justify="space-between">
-                    <Typography.Text size="callout">{relatedFAQdata.query}</Typography.Text>
-                    <View style={styles.chevronContainer}>
-                      <ChevronRightIcon color={iconColor} />
-                    </View>
-                  </Stack>
                 </View>
-              );
-            })}
-            {feedbackState === "negative" ? (
-              <View style={sectionStyle}>
-                <Typography.Text size="callout" weight="semiBold">
-                  {t("FrequentlyAskedQuestions.DetailedScreen.help")}
-                </Typography.Text>
-                <View style={styles.row}>
-                  <Pressable
-                    style={iconBoxStyle}
-                    onPress={() => {
-                      handleCallUsPress();
-                    }}>
-                    <PhoneIcon />
-                    <Typography.Text size="footnote">
-                      {t("FrequentlyAskedQuestions.DetailedScreen.call")}
-                    </Typography.Text>
-                  </Pressable>
-                  <Pressable
-                    style={iconBoxStyle}
-                    onPress={() => {
-                      navigation.navigate("HelpAndSupport.HelpAndSupportStack", {
-                        screen: "HelpAndSupport.LiveChatScreen",
-                      });
-                    }}>
-                    <ChatIcon />
-                    <Typography.Text size="footnote">
-                      {t("FrequentlyAskedQuestions.DetailedScreen.chat")}
-                    </Typography.Text>
-                  </Pressable>
-                </View>
-              </View>
-            ) : null}
-          </>
-        ) : (
-          <LoadingError
-            isVisible={showLoadingErrorModal}
-            onClose={handleOnDismissErrorLoadingPress}
-            onRefresh={handleOnRefreshErrorLoadingPress}
-          />
-        )}
-      </ContentContainer>
+              ) : null}
+            </>
+          ) : null}
+          {showLoadingErrorModal && (
+            <LoadingError
+              isVisible={showLoadingErrorModal}
+              onClose={handleOnDismissErrorLoadingPress}
+              onRefresh={handleOnRefreshErrorLoadingPress}
+            />
+          )}
+        </ContentContainer>
+      ) : (
+        <FlexActivityIndicator />
+      )}
     </Page>
   );
 }

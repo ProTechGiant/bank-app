@@ -5,38 +5,32 @@ import { SvgProps } from "react-native-svg";
 import { ChevronRightIcon, IconProps } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { FAQCategory } from "../types";
+import { FAQData } from "../types";
 
 interface SectionProps {
-  data: FAQCategory;
+  data: FAQData;
   icon: React.ReactElement<SvgProps | IconProps>;
+  onPress: (data: FAQData, title: string) => void;
 }
 
-export default function Section({ data, icon }: SectionProps) {
-  const navigation = useNavigation();
-
-  const handleOnPress = () => {
-    navigation.navigate("FrequentlyAskedQuestions.SectionScreen", { data: data?.sections, title: data?.category_name });
-  };
-
+export default function Section({ data, icon, onPress }: SectionProps) {
   const rightIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
   const leftIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
 
   return (
-    <Pressable onPress={handleOnPress}>
+    <Pressable onPress={() => onPress(data, data.CategoryName)}>
       <Stack direction="horizontal" gap="20p">
         {cloneElement(icon, {
           color: leftIconColor,
         })}
         <Stack direction="vertical" gap="4p" flex={1}>
           <Typography.Text size="callout" weight="medium">
-            {data.category_name}
+            {data.CategoryName}
           </Typography.Text>
           <Typography.Text color="neutralBase" size="footnote" weight="regular">
-            {data.category_description}
+            {data.CategoryDescription}
           </Typography.Text>
         </Stack>
         <View style={styles.chevronContainer}>

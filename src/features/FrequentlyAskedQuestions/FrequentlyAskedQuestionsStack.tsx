@@ -1,12 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { DetailedScreen, LandingScreen, SectionScreen } from "./screens";
-import { DetailedFaq, FAQSection } from "./types";
+import { FAQData } from "./types";
 
 export type FrequentlyAskedQuestionsStackParams = {
   "FrequentlyAskedQuestions.LandingScreen": undefined;
-  "FrequentlyAskedQuestions.SectionScreen": { data: FAQSection[]; title: string };
-  "FrequentlyAskedQuestions.DetailedScreen": { data: DetailedFaq; title: string } | { faqId: string };
+  "FrequentlyAskedQuestions.SectionScreen": { data: FAQData; title: string };
+  "FrequentlyAskedQuestions.DetailedScreen": { faqId: string };
 };
 
 const Stack = createNativeStackNavigator<FrequentlyAskedQuestionsStackParams>();

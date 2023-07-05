@@ -1,39 +1,59 @@
-export interface DetailedFaq {
-  faq_id: string;
-  query: string;
-  answer: string;
-}
+import { DOWN_VOTE } from "../WhatsNext/constants";
+import { UP_VOTE } from "./constants";
 
-interface FAQSubSection {
-  sub_section_id: string;
-  sub_section_name: string;
-  sub_section_description: string;
-  sub_section_faqs: DetailedFaq[];
+export interface DetailedFaq {
+  FaqId: string;
+  Query: string;
+  Answer: string;
+  SectionId: string;
+  CategoryId: string;
 }
 
 export interface FAQSection {
-  section_id: string;
-  section_name: string;
-  section_description: string;
-  section_faqs: DetailedFaq[];
-  sub_sections: FAQSubSection[];
+  FaqId: string;
+  Query: string;
+  Answer: string;
+  SectionId: string;
+  CategoryId: string;
 }
 
-export interface FAQCategory {
-  category_id: string;
-  category_name: string;
-  category_description: string;
-  category_faqs: DetailedFaq[];
-  sections: FAQSection[];
-}
-
-export interface faqSearchResponse {
-  id: string;
-  query: string;
-  answer: string;
-}
-
-//TODO: Remove when mock data is removed, this is only needed for mock data.
 export interface FAQData {
-  categories: FAQCategory[];
+  CategoryId: string;
+  CategoryName: string;
+  CategoryDescription: string;
+  Sections?: SectionData[];
+  Faqs?: FAQSection[];
+}
+
+export interface FaqSearchResponse {
+  CategoryId: string;
+  CategoryName: string;
+  CategoryDescription: string;
+  Sections: SectionData[];
+  Faqs?: FAQSection[];
+}
+export interface SectionData {
+  SectionId: string;
+  SectionName: string;
+  SectionDescription: string;
+  CategoryId: string;
+  SectionFaqs: FAQSection[];
+}
+
+export interface FAQListItem {
+  FaqId: string;
+  Query: string;
+  Answer: string;
+  SectionId: string;
+  CategoryId: string;
+}
+
+export interface DetailsFAQResponse {
+  FaqId: string;
+  Query: string;
+  Answer: string;
+  SectionId: string;
+  CategoryId: string;
+  RelatedFaqs: FAQListItem[];
+  Feedback: typeof UP_VOTE | typeof DOWN_VOTE | never;
 }

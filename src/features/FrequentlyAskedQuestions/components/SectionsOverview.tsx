@@ -1,21 +1,18 @@
-import { title } from "process";
 import { I18nManager, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { faqSearchResponse, FAQSection } from "../types";
+import { FAQData, FAQSection } from "../types";
 
 interface SectionsOverviewProps {
-  data: FAQSection[];
-  faqSearchResponses?: faqSearchResponse[];
+  data: FAQData;
+  onPress: (faqId: string) => void;
 }
 
-export default function SectionsOverview({ data, faqSearchResponses }: SectionsOverviewProps) {
-  const navigation = useNavigation();
+export default function SectionsOverview({ data, onPress }: SectionsOverviewProps) {
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
   const container = useThemeStyles<ViewStyle>(theme => ({
@@ -32,37 +29,23 @@ export default function SectionsOverview({ data, faqSearchResponses }: SectionsO
     width: "100%",
   }));
 
-  if (faqSearchResponses !== undefined) {
-    // Only keep FAQ's with their respective section if their ID is found in the search response
-    data = data.filter(category => {
-      return (
-        category.section_faqs.filter(sections_faq => {
-          return faqSearchResponses.some(faqSearch => {
-            return faqSearch.id === sections_faq.faq_id;
-          });
-        }).length > 0
-      );
-    });
-  }
   return (
     <ScrollView contentContainerStyle={container} alwaysBounceVertical={false}>
-      {data.map(category => {
+      {data.Sections?.map(Section => {
         return (
-          <View key={category.section_name}>
+          <View key={Section.SectionId}>
             <Typography.Text weight="semiBold" size="callout" style={sectionHeaderStyle}>
-              {category.section_name}
+              {Section.SectionName}
             </Typography.Text>
-            {category.section_faqs &&
-              category.section_faqs.map(section_faq => {
+            {Section.SectionFaqs &&
+              Section.SectionFaqs.map((section_faq: FAQSection) => {
                 return (
                   <Pressable
                     style={sectionContentStyle}
-                    key={section_faq.faq_id}
-                    onPress={() => {
-                      navigation.navigate("FrequentlyAskedQuestions.DetailedScreen", { data: section_faq, title });
-                    }}>
+                    key={section_faq.FaqId}
+                    onPress={() => onPress(section_faq.FaqId)}>
                     <Stack direction="horizontal" gap="20p" align="center" justify="space-between">
-                      <Typography.Text size="callout">{section_faq.query}</Typography.Text>
+                      <Typography.Text size="callout">{section_faq.Query}</Typography.Text>
                       <View style={styles.chevronContainer}>
                         <ChevronRightIcon color={iconColor} />
                       </View>
