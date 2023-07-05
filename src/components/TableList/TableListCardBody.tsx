@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
+import { Theme, useThemeStyles } from "@/theme";
 
 import { useInfoStyles } from "./styling";
 
@@ -14,6 +14,8 @@ interface TableListCardBodyProps {
   label: string;
   onInfoPress?: () => void;
   isInactive?: boolean;
+  labelSize?: keyof Theme["typography"]["text"]["sizes"];
+  labelWeight?: keyof Theme["typography"]["text"]["weights"];
 }
 
 export default function TableListCardBody({
@@ -24,6 +26,8 @@ export default function TableListCardBody({
   label,
   onInfoPress,
   isInactive,
+  labelSize = "callout",
+  labelWeight = "medium",
 }: TableListCardBodyProps) {
   const { infoIconStyle, infoColor } = useInfoStyles();
 
@@ -42,8 +46,8 @@ export default function TableListCardBody({
           ) : null}
           <Typography.Text
             color={isInactive ? "neutralBase-10" : background === "dark" ? "neutralBase-60" : "neutralBase+30"}
-            size="callout"
-            weight="medium">
+            size={labelSize}
+            weight={labelWeight}>
             {label}
           </Typography.Text>
         </View>

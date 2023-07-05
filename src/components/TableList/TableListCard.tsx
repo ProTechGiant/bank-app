@@ -3,7 +3,7 @@ import { Pressable, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { IconProps } from "@/assets/icons";
-import { useThemeStyles } from "@/theme";
+import { Theme, useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
 
 import { Chevron, Copy, Label, TableListDate, TableListDay, TableListToggle } from "./EndComponents";
@@ -22,6 +22,8 @@ export interface TableListCardProps {
   isGrouped?: boolean;
   onPress?: () => void;
   isInactive?: boolean;
+  labelSize?: keyof Theme["typography"]["text"]["sizes"]; //To accomodate the new design changes
+  labelWeight?: keyof Theme["typography"]["text"]["weights"];
 }
 
 TableListCard.Copy = Copy;
@@ -44,6 +46,8 @@ export default function TableListCard({
   isGrouped = false,
   end,
   isInactive,
+  labelSize = "callout",
+  labelWeight = "medium",
 }: TableListCardProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
@@ -97,6 +101,8 @@ export default function TableListCard({
         label={label}
         onInfoPress={onInfoPress}
         isInactive={isInactive}
+        labelSize={labelSize}
+        labelWeight={labelWeight}
       />
       {end}
     </Pressable>
