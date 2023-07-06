@@ -17,7 +17,9 @@ import { useThemeStyles } from "@/theme";
 
 import ShoppingCartIcon from "../assets/icons/ShoppingCartIcon";
 import { SpendingsFilterModal } from "../components";
-import { Transaction, TransactionDetailed } from "../types";
+import SpendCompareModal from "../components/SpendCompareModal";
+import { ChartTypes, CompareDurationTypes } from "../enum";
+import { CompareDatesTypes, PeriodDateTypes, Transaction, TransactionDetailed } from "../types";
 
 export default function SpendSummaryScreen() {
   const { t } = useTranslation();
@@ -35,22 +37,24 @@ export default function SpendSummaryScreen() {
 
   const startMonth = format(startOfMonth(new Date()), "yyyy-MM-dd");
   const endMonth = format(endOfMonth(new Date()), "yyyy-MM-dd");
-
+  const [chartType, setChartType] = useState<ChartTypes | null>(null);
+  const [compareDates, setCompareDates] = useState<CompareDatesTypes>({
+    firstDate: { endDate: new Date().toString(), startDate: new Date().toString() },
+    lastDate: { endDate: new Date().toString(), startDate: new Date().toString() },
+  });
   const [fromDate, setFromDate] = useState(startMonth);
   const [toDate, setToDate] = useState(endMonth);
 
-  const {
-    transactions,
-    //  isLoading
-  } = useTransactions(undefined, "2", undefined, undefined, fromDate, toDate);
+  const [selectedTime, setSelectedTime] = useState<SelectedTime>(t("TopSpending.SpendSummaryScreen.month"));
+  const defaultMonth = format(startOfMonth(new Date()), "MMMM yyyy");
+  const [currentValue, setCurrentValue] = useState(defaultMonth);
+
+  const [isComparing, setIsComparing] = useState(false);
+
+  const { transactions } = useTransactions(undefined, "2", undefined, undefined, fromDate, toDate);
 
   const cardId = route.params?.cardId;
   const createDisputeUserId = route.params?.createDisputeUserId;
-
-  const defaultMonth = format(startOfMonth(new Date()), "MMMM yyyy");
-
-  const [selectedTime, setSelectedTime] = useState<SelectedTime>(t("TopSpending.SpendSummaryScreen.month"));
-  const [currentValue, setCurrentValue] = useState(defaultMonth);
 
   const totalSum = useMemo(() => {
     if (Array.isArray(transactions?.data?.Transaction)) {
@@ -100,6 +104,7 @@ export default function SpendSummaryScreen() {
     setFromDate(start);
     setToDate(end);
     setModalSelectionMade(false);
+    setIsComparing(false);
     setCurrentValue(val);
   };
 
@@ -122,11 +127,15 @@ export default function SpendSummaryScreen() {
   }));
 
   const contentStyle = useThemeStyles(theme => ({
-    backgroundColor: "white",
+    backgroundColor: theme.palette["neutralBase-60"],
     paddingHorizontal: theme.spacing["20p"],
-    paddingBottom: theme.spacing["37p"],
-    marginTop: theme.spacing["16p"],
     flex: 1,
+  }));
+
+  const filterStyle = useThemeStyles(theme => ({
+    backgroundColor: theme.palette["neutralBase-60"],
+    paddingHorizontal: theme.spacing["20p"],
+    marginTop: theme.spacing["16p"],
   }));
 
   const textMargin = useThemeStyles(theme => ({
@@ -135,7 +144,7 @@ export default function SpendSummaryScreen() {
 
   const selectedText = useThemeStyles(theme => ({
     borderBottomColor: theme.palette["neutralBase+30"],
-    borderBottomWidth: 2,
+    borderBottomWidth: 2, // TODO: We'll update it once added in theme sizes
     paddingBottom: theme.spacing["5p"],
   }));
 
@@ -180,16 +189,38 @@ export default function SpendSummaryScreen() {
     });
   };
 
+  const handleCompare = async (date: { firstDate: PeriodDateTypes; lastDate: PeriodDateTypes }, type: string) => {
+    setIsComparing(true);
+    setCompareDates(date);
+    switch (type) {
+      case CompareDurationTypes.DAY:
+        setChartType(ChartTypes.DAILY);
+        break;
+      case CompareDurationTypes.WEEK:
+        setChartType(ChartTypes.WEEKLY);
+        break;
+      case CompareDurationTypes.MONTH:
+        setChartType(ChartTypes.MONTHLY);
+        break;
+      case CompareDurationTypes.YEAR:
+        setChartType(ChartTypes.YEARLY);
+        break;
+      default:
+    }
+  };
+
   return (
     <Page insets={["top", "left", "right", "bottom"]}>
       <SpendingsFilterModal
-        visible={isViewingFilter}
+        onCompare={handleCompare}
+        isVisible={isViewingFilter}
         onClose={() => setIsViewingFilter(false)}
-        onDateChange={(newFromDate, newToDate) => {
+        handleOnDayPressEvent={(newFromDate, newToDate) => {
           setFromDate(newFromDate);
           setToDate(newToDate);
           setCurrentValue(`${format(parseISO(newFromDate), "dd")} - ${format(parseISO(newToDate), "dd MMMM yyyy")}`);
           setModalSelectionMade(true);
+          setIsComparing(false);
         }}
       />
 
@@ -210,118 +241,132 @@ export default function SpendSummaryScreen() {
               Travel
             </Typography.Text>
           </View>
-          <Stack direction="horizontal" align="center" gap="4p">
-            <Typography.Text size="title3" color="neutralBase+30">
-              <FormatTransactionAmount
-                amount={totalSum}
-                isPlusSignIncluded={false}
-                integerSize="title2"
-                decimalSize="title2"
-                color="neutralBase+30"
-                isCurrencyIncluded={false}
-              />
+          {isComparing ? (
+            <Typography.Text size="title2" weight="semiBold">
+              {chartType}
             </Typography.Text>
-            <Typography.Text color="primaryBase-40">{t("TopSpending.SpendSummaryScreen.sar")}</Typography.Text>
-          </Stack>
+          ) : (
+            <Stack direction="horizontal" align="center" gap="4p">
+              <Typography.Text size="title3" color="neutralBase+30">
+                <FormatTransactionAmount
+                  amount={totalSum}
+                  isPlusSignIncluded={false}
+                  integerSize="title2"
+                  decimalSize="title2"
+                  color="neutralBase+30"
+                  isCurrencyIncluded={false}
+                />
+              </Typography.Text>
+              <Typography.Text color="primaryBase-40">{t("TopSpending.SpendSummaryScreen.sar")}</Typography.Text>
+            </Stack>
+          )}
         </View>
       </View>
-      <View style={contentStyle}>
-        <View>
-          <View style={timeFilter}>
-            {[
-              t("TopSpending.SpendSummaryScreen.day"),
-              t("TopSpending.SpendSummaryScreen.week"),
-              t("TopSpending.SpendSummaryScreen.month"),
-              t("TopSpending.SpendSummaryScreen.year"),
-            ].map(time => (
-              <Pressable key={time} onPress={() => handleSelection(time)}>
-                <Typography.Text
-                  style={!modalSelectionMade && selectedTime === time ? selectedText : null}
-                  color={!modalSelectionMade && selectedTime === time ? "neutralBase+30" : "neutralBase-20"}>
-                  {time}
-                </Typography.Text>
-              </Pressable>
-            ))}
-          </View>
+      <View style={filterStyle}>
+        <View style={timeFilter}>
+          {[
+            t("TopSpending.SpendSummaryScreen.day"),
+            t("TopSpending.SpendSummaryScreen.week"),
+            t("TopSpending.SpendSummaryScreen.month"),
+            t("TopSpending.SpendSummaryScreen.year"),
+          ].map(time => (
+            <Pressable key={time} onPress={() => handleSelection(time)}>
+              <Typography.Text
+                style={!isComparing && !modalSelectionMade && selectedTime === time ? selectedText : null}
+                color={
+                  !isComparing && !modalSelectionMade && selectedTime === time ? "neutralBase+30" : "neutralBase-20"
+                }>
+                {time}
+              </Typography.Text>
+            </Pressable>
+          ))}
+        </View>
+        {!isComparing ? (
           <View style={textMargin}>
             <Typography.Text size="title3" color="neutralBase+30">
               {currentValue}
             </Typography.Text>
           </View>
-        </View>
-        <View style={textMargin}>
-          <Typography.Text size="caption1" color="neutralBase">
-            {t("TopSpending.SpendSummaryScreen.totalSpending")}
-          </Typography.Text>
-          <Stack direction="horizontal" align="center" gap="4p">
+        ) : null}
+      </View>
+      {!isComparing ? (
+        <View style={contentStyle}>
+          <View style={textMargin}>
+            <Typography.Text size="caption1" color="neutralBase">
+              {t("TopSpending.SpendSummaryScreen.totalSpending")}
+            </Typography.Text>
+            <Stack direction="horizontal" align="center" gap="4p">
+              <Typography.Text size="title3" color="neutralBase+30">
+                <FormatTransactionAmount
+                  amount={totalSum}
+                  isPlusSignIncluded={false}
+                  integerSize="title2"
+                  decimalSize="title2"
+                  color="neutralBase+30"
+                  isCurrencyIncluded={false}
+                />
+              </Typography.Text>
+              <Typography.Text size="title3" weight="bold" color="neutralBase+30">
+                {t("TopSpending.SpendSummaryScreen.sar")}
+              </Typography.Text>
+            </Stack>
+          </View>
+          <View style={textMargin}>
             <Typography.Text size="title3" color="neutralBase+30">
-              <FormatTransactionAmount
-                amount={totalSum}
-                isPlusSignIncluded={false}
-                integerSize="title2"
-                decimalSize="title2"
-                color="neutralBase+30"
-                isCurrencyIncluded={false}
-              />
-            </Typography.Text>
-            <Typography.Text size="title3" weight="bold" color="neutralBase+30">
-              {t("TopSpending.SpendSummaryScreen.sar")}
-            </Typography.Text>
-          </Stack>
-        </View>
-        <View style={textMargin}>
-          <Typography.Text size="title3" color="neutralBase+30">
-            {t("TopSpending.SpendSummaryScreen.transactions")}
-          </Typography.Text>
-        </View>
-        {transactions?.data?.Transaction !== undefined ? (
-          <FlatList
-            data={transactions.data.Transaction}
-            renderItem={({ item }) => (
-              <Pressable key={item.TransactionId} onPress={() => handleOnPress(item)}>
-                <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
-                  <ShoppingCartIcon color={giftColor} />
-                  <Stack direction="vertical" style={styles.expandText}>
-                    <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                      {item.StatementReference}
-                    </Typography.Text>
-                    <Typography.Text size="footnote" color="neutralBase">
-                      {format(
-                        new Date(item.BookingDateTime[0], item.BookingDateTime[1] - 1, item.BookingDateTime[2]),
-                        "dd MMMM yyyy"
-                      )}
-                    </Typography.Text>
-                  </Stack>
-                  <Stack direction="horizontal" align="center" gap="4p">
-                    <Typography.Text size="title3" color="neutralBase+30">
-                      <FormatTransactionAmount
-                        amount={parseFloat(item.Amount.Amount)}
-                        isPlusSignIncluded={false}
-                        integerSize="callout"
-                        decimalSize="callout"
-                        color="neutralBase+30"
-                        isCurrencyIncluded={false}
-                      />
-                    </Typography.Text>
-                    <Typography.Text size="callout" color="neutralBase+30">
-                      {t("TopSpending.SpendSummaryScreen.sar")}
-                    </Typography.Text>
-                  </Stack>
-                  <View style={styles.chevronContainer}>
-                    <ChevronRightIcon color={chevronColor} />
-                  </View>
-                </Stack>
-              </Pressable>
-            )}
-          />
-        ) : (
-          <View style={styles.textCenter}>
-            <Typography.Text size="footnote" color="neutralBase">
-              {t("TopSpending.SpendSummaryScreen.emptyTransactions")}
+              {t("TopSpending.SpendSummaryScreen.transactions")}
             </Typography.Text>
           </View>
-        )}
-      </View>
+          {transactions?.data?.Transaction !== undefined ? (
+            <FlatList
+              data={transactions.data.Transaction}
+              renderItem={({ item }) => (
+                <Pressable key={item.TransactionId} onPress={() => handleOnPress(item)}>
+                  <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
+                    <ShoppingCartIcon color={giftColor} />
+                    <Stack direction="vertical" style={styles.expandText}>
+                      <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+                        {item.StatementReference}
+                      </Typography.Text>
+                      <Typography.Text size="footnote" color="neutralBase">
+                        {format(
+                          new Date(item.BookingDateTime[0], item.BookingDateTime[1] - 1, item.BookingDateTime[2]),
+                          "dd MMMM yyyy"
+                        )}
+                      </Typography.Text>
+                    </Stack>
+                    <Stack direction="horizontal" align="center" gap="4p">
+                      <Typography.Text size="title3" color="neutralBase+30">
+                        <FormatTransactionAmount
+                          amount={parseFloat(item.Amount.Amount)}
+                          isPlusSignIncluded={false}
+                          integerSize="callout"
+                          decimalSize="callout"
+                          color="neutralBase+30"
+                          isCurrencyIncluded={false}
+                        />
+                      </Typography.Text>
+                      <Typography.Text size="callout" color="neutralBase+30">
+                        {t("TopSpending.SpendSummaryScreen.sar")}
+                      </Typography.Text>
+                    </Stack>
+                    <View style={styles.chevronContainer}>
+                      <ChevronRightIcon color={chevronColor} />
+                    </View>
+                  </Stack>
+                </Pressable>
+              )}
+            />
+          ) : (
+            <View style={styles.textCenter}>
+              <Typography.Text size="footnote" color="neutralBase">
+                {t("TopSpending.SpendSummaryScreen.emptyTransactions")}
+              </Typography.Text>
+            </View>
+          )}
+        </View>
+      ) : (
+        <>{chartType ? <SpendCompareModal chartType={chartType} compareDates={compareDates} /> : null}</>
+      )}
     </Page>
   );
 }

@@ -1,3 +1,19 @@
+export interface ChartDataType {
+  category: string;
+  series1: number;
+  series2: number;
+}
+
+export interface CompareDatesTypes {
+  firstDate: PeriodDateTypes;
+  lastDate: PeriodDateTypes;
+}
+
+export interface PeriodDateTypes {
+  startDate: string;
+  endDate: string;
+}
+
 export interface TransactionDetailed {
   cardType: string;
   status: string;
@@ -37,4 +53,15 @@ export interface Transaction {
     CategoryId: string;
     CategoryName: string;
   };
+}
+
+export interface DateInterface {
+  color: string;
+  customContainerStyle: {
+    borderRadius: number;
+  };
+  disableTouchEvent: boolean;
+  endingDay?: boolean;
+  startingDay?: boolean;
+  textColor: string;
 }

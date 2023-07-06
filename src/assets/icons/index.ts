@@ -94,6 +94,7 @@ export * from "./TickCircleIcon";
 export * from "./TickIcon";
 export * from "./TransferHorizontalIcon";
 export * from "./TransferVerticalIcon";
+export * from "./TrendingUpIcon";
 export * from "./UploadIcon";
 export * from "./UserClockIcon";
 export * from "./UserIcon";
