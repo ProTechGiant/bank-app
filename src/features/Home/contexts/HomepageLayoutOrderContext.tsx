@@ -37,23 +37,24 @@ export function HomepageLayoutOrderContextProvider({ children }: React.PropsWith
   });
 
   useEffect(() => {
-    homepageLayout?.data?.tabs.map(data => {
-      data.sections.map(section => {
-        if (section?.name === "Homepage Layout") {
+    homepageLayout.data?.tabs.forEach(data => {
+      data.sections.forEach(section => {
+        if (section.name === "Homepage Layout") {
           setState(prevState => ({
             ...prevState,
-            sections: section?.widgets,
+            sections: section.widgets,
           }));
         }
-        if (section?.name === "Quick Actions") {
+
+        if (section.name === "Quick Actions") {
           setState(prevState => ({
             ...prevState,
-            quickActions: section?.widgets,
+            quickActions: section.widgets,
           }));
         }
       });
     });
-  }, [homepageLayout?.data]);
+  }, [homepageLayout.data]);
 
   const handleOnSetQuickActions = async (value: HomepageItemLayoutType[]) => {
     setState(current => ({ ...current, quickActions: value }));
@@ -77,12 +78,13 @@ export function HomepageLayoutOrderContextProvider({ children }: React.PropsWith
         });
       }
     } catch (err) {
-      warn("Homepage layout", "Could not get homepage layout", JSON.stringify(err));
+      warn("homepage", "Could not get homepage layout", JSON.stringify(err));
     }
   };
 
   const handleOnSetSections = async (value: HomepageItemLayoutType[]) => {
     setState(current => ({ ...current, sections: value }));
+
     try {
       if (state.sections && state.quickActions) {
         await postHomepageLayout.mutateAsync({

@@ -1,4 +1,4 @@
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
@@ -12,10 +12,11 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useCallSupport, { PhoneBook } from "@/hooks/use-call-support";
+import useOpenLink from "@/hooks/use-open-link";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import useOpenLink from "../../../hooks/use-open-link";
 import { LoadingError } from "../components";
 import { DOWN_VOTE, UP_VOTE } from "../constants";
 import { useDetailsFAQ, useFeedback } from "../hooks/query-hooks";
@@ -23,24 +24,25 @@ import { FAQListItem } from "../types";
 
 export default function DetailedScreen() {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
-  const openLink = useOpenLink();
+  // eslint-disable-next-line prettier/prettier
+  const { params: { faqId } } = useRoute<RouteProp<AuthenticatedStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
   const { t, i18n } = useTranslation();
-  const { faqId } = route.params as { faqId: string };
 
-  const [showLoadingErrorModal, setShowLoadingErrorModal] = useState(false);
-  const [feedbackState, setFeedbackState] = useState<typeof DOWN_VOTE | typeof UP_VOTE | null>(null);
-
+  const openLink = useOpenLink();
   const { data, refetch, isError } = useDetailsFAQ(faqId, i18n.language);
   const updateFeedback = useFeedback(faqId, i18n.language);
   const { tryCall } = useCallSupport();
+
+  const [showLoadingErrorModal, setShowLoadingErrorModal] = useState(false);
+  const [feedbackState, setFeedbackState] = useState<typeof DOWN_VOTE | typeof UP_VOTE | null>(null);
 
   useEffect(() => {
     setShowLoadingErrorModal(isError);
   }, [isError]);
 
   useEffect(() => {
-    data && setFeedbackState(typeof data.Feedback === "object" ? null : data.Feedback);
+    if (data === undefined) return;
+    setFeedbackState(data.Feedback);
   }, [data]);
 
   const handleOnFeedbackPress = async (vote: typeof DOWN_VOTE | typeof UP_VOTE) => {
@@ -75,7 +77,9 @@ export default function DetailedScreen() {
   };
 
   const handleOnChatPress = () => {
-    navigation.navigate("HelpAndSupport.HelpAndSupportStack", { screen: "HelpAndSupport.LiveChatScreen" });
+    navigation.navigate("HelpAndSupport.HelpAndSupportStack", {
+      screen: "HelpAndSupport.LiveChatScreen",
+    });
   };
 
   const sectionStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -129,32 +133,33 @@ export default function DetailedScreen() {
                   ) : null}
                 </View>
               </View>
-              {data.RelatedFaqs?.length && (
-                <View style={sectionStyle}>
-                  <Typography.Text size="title3" weight="semiBold">
-                    {t("FrequentlyAskedQuestions.DetailedScreen.relatedQuestions")}
-                  </Typography.Text>
-                </View>
-              )}
-              {data.RelatedFaqs?.length &&
-                data.RelatedFaqs.map((faq: FAQListItem, index: number) => {
-                  return (
-                    <Pressable
-                      key={index}
-                      onPress={() => {
-                        navigation.push("FrequentlyAskedQuestions.DetailedScreen", { faqId: faq.FaqId });
-                      }}>
-                      <View key={faq.FaqId} style={verticalStyle}>
-                        <Stack direction="horizontal" align="center" justify="space-between">
-                          <Typography.Text size="callout">{faq.Query}</Typography.Text>
-                          <View style={styles.chevronContainer}>
-                            <ChevronRightIcon color={iconColor} />
-                          </View>
-                        </Stack>
-                      </View>
-                    </Pressable>
-                  );
-                })}
+              {data.RelatedFaqs.length > 0 ? (
+                <>
+                  <View style={sectionStyle}>
+                    <Typography.Text size="title3" weight="semiBold">
+                      {t("FrequentlyAskedQuestions.DetailedScreen.relatedQuestions")}
+                    </Typography.Text>
+                  </View>
+                  {data.RelatedFaqs.map((faq: FAQListItem, index: number) => {
+                    return (
+                      <Pressable
+                        key={index}
+                        onPress={() =>
+                          navigation.navigate("FrequentlyAskedQuestions.DetailedScreen", { faqId: faq.FaqId })
+                        }>
+                        <View key={faq.FaqId} style={verticalStyle}>
+                          <Stack direction="horizontal" align="center" justify="space-between">
+                            <Typography.Text size="callout">{faq.Query}</Typography.Text>
+                            <View style={styles.chevronContainer}>
+                              <ChevronRightIcon color={iconColor} />
+                            </View>
+                          </Stack>
+                        </View>
+                      </Pressable>
+                    );
+                  })}
+                </>
+              ) : null}
               {feedbackState === DOWN_VOTE ? (
                 <View style={sectionStyle}>
                   <Typography.Text size="callout" weight="semiBold">

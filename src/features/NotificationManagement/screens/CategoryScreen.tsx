@@ -27,47 +27,49 @@ export default function CategoryScreen() {
   const { data: subCategories } = useNotificationPreferencesCategory(categoryId);
 
   const mainToggleStatus = subCategories.some(
-    subCategory =>
-      subCategory.SelectedChannels.find((channel: { ChannelName: string }) => channel.ChannelName === PUSH)?.IsSelected
+    subCategory => subCategory.SelectedChannels.find(channel => channel.ChannelName === PUSH)?.IsSelected
   );
 
   const handleOnMainTogglePress = () => {
-    subCategories.map(subCategory => {
-      subCategory.SelectedChannels.map(channel => {
-        if (channel.ChannelName === PUSH) channel.IsSelected = !mainToggleStatus;
-      });
-      return subCategory;
+    const updatedValue = subCategories.map(subCategory => {
+      return {
+        ...subCategory,
+        SelectedChannels: subCategory.SelectedChannels.map(channel => ({
+          ...channel,
+          isSelected: channel.ChannelName === PUSH ? !mainToggleStatus : channel.IsSelected,
+        })),
+      };
     });
 
     callUpdateNotficationPreferences(
-      subCategories.map(subCategory => {
-        return {
-          SubCategoryId: subCategory.SubCategoryId,
-          SelectedChannels: subCategory.SelectedChannels,
-        };
-      })
+      updatedValue.map(subCategory => ({
+        SubCategoryId: subCategory.SubCategoryId,
+        SelectedChannels: subCategory.SelectedChannels,
+      }))
     );
   };
 
   const handleOnSubTogglePress = (subCategoryId: string, value: boolean) => {
-    subCategories.map(subCategory => {
-      if (subCategory.SubCategoryId === subCategoryId) {
-        subCategory.SelectedChannels.map(channel => {
-          if (channel.ChannelName === PUSH) channel.IsSelected = value;
-        });
+    const updatedValue = subCategories.map(subCategory => {
+      if (subCategory.SubCategoryId !== subCategoryId) {
+        return subCategory;
       }
-      return subCategory;
+
+      return {
+        ...subCategory,
+        SelectedChannels: subCategory.SelectedChannels.map(channel => {
+          return { ...channel, IsSelected: channel.ChannelName === PUSH ? value : channel.IsSelected };
+        }),
+      };
     });
 
     callUpdateNotficationPreferences(
-      subCategories
-        .map(subCategory => {
-          return {
-            SubCategoryId: subCategory.SubCategoryId,
-            SelectedChannels: subCategory.SelectedChannels,
-          };
-        })
+      updatedValue
         .filter(subCategory => subCategory.SubCategoryId === subCategoryId)
+        .map(subCategory => ({
+          SubCategoryId: subCategory.SubCategoryId,
+          SelectedChannels: subCategory.SelectedChannels,
+        }))
     );
   };
 
@@ -76,13 +78,14 @@ export default function CategoryScreen() {
       await updateNotificationPreferences.mutateAsync(requestBody);
     } catch (error) {
       Alert.alert(t("NotificationManagement.CategoryScreen.alertUpdateError"));
-      warn("PATCH", "Could not update notification preferences", JSON.stringify(error));
+      warn("notification-management", "Could not update notification preferences", JSON.stringify(error));
     }
   };
 
   const titleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["4p"],
   }));
+
   const subtitleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["8p"],
     paddingBottom: theme.spacing["24p"],
