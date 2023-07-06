@@ -30,8 +30,33 @@ export default function ConfirmationScreen() {
   };
 
   const handleOnViewTransactionsPress = () => {
-    //TODO: navigate to transaction details
-    handleOnDonePress();
+    if (transferAmount === undefined) {
+      return;
+    }
+
+    //TODO: remove this hardcoded transaction data when transaction details are fetched from transactionDetail API in SingleTransactionDetailedScreen
+    const obj = {
+      amount: transferAmount ?? "",
+      cardType: "1",
+      categoryId: "2",
+      categoryName: "Food and Drinks",
+      currency: "SAR",
+      location: "1",
+      roundUpsAmount: "0.0",
+      status: "Booked ",
+      subTitle: "Online Transaction",
+      title: "Nuba",
+      transactionDate: [2023, 6, 25, 2, 31, 31, 202971000],
+    };
+
+    navigation.navigate("ViewTransactions.ViewTransactionsStack", {
+      screen: "ViewTransactions.SingleTransactionDetailedScreen",
+      params: {
+        data: obj,
+        cardId: "12",
+        createDisputeUserId: "12",
+      },
+    });
   };
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
