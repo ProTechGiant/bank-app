@@ -11,6 +11,7 @@ import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfe
 import NotificationManagementStack from "@/features/NotificationManagement/NotificationManagementStack";
 import OneTimePasswordModal from "@/features/OneTimePassword/screens/OneTimePasswordModal";
 import PaymentDisputesStack from "@/features/PaymentDisputes/PaymentDisputesStack";
+import ProfileDetailsStack from "@/features/ProfileDetails/ProfileDetailsStack";
 import ReferralStack from "@/features/Referral/ReferralStack";
 import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
 import TermsAndConditionsScreen from "@/features/Referral/screens/TermsAndConditionsScreen";
@@ -65,6 +66,7 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen component={ReferralStack} name="Referral.ReferralStack" />
       <AuthStack.Screen component={ViewTransactionsStack} name="ViewTransactions.ViewTransactionsStack" />
       <AuthStack.Screen component={TopSpendingStack} name="TopSpending.TopSpendingStack" />
+      <AuthStack.Screen component={ProfileDetailsStack} name="ProfileDetails.ProfileDetailsStack" />
       <AuthStack.Screen
         component={TermsAndConditionsScreen}
         name="Referral.TermsAndConditionsScreen"

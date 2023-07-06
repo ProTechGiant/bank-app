@@ -2078,6 +2078,30 @@ export const resources = {
           continueButton: "Continue editing",
         },
       },
+      ProfileDetails: {
+        ProfileDetailsScreen: {
+          email: {
+            label: "Email",
+            validation: {
+              required: "Email is Required",
+              invalid: "Incorrect email format",
+            },
+          },
+          phoneNumber: {
+            label: "Phone Number",
+            validation: {
+              required: "Phone Number Required",
+              invalid: "Minimum 9 digits.",
+            },
+          },
+          profileDetails: "Profile Details",
+          absherDetails: "Absher Details",
+          communicationDetails: "Communication Details",
+          saveChanges: "Save Changes",
+          cancel: "Cancel",
+          updateNow: "Update Now",
+        },
+      },
     },
   },
 

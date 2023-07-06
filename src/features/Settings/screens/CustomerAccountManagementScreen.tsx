@@ -41,6 +41,10 @@ export default function CustomerAccountManagement() {
     navigation.navigate("Settings.AccountSettings");
   };
 
+  const handleOnProfileDetailsPress = () => {
+    navigation.navigate("ProfileDetails.ProfileDetailsStack");
+  };
+
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({ paddingTop: theme.spacing["8p"] }));
 
   return (
@@ -52,7 +56,7 @@ export default function CustomerAccountManagement() {
             title={t("Settings.CustomerAccountManagementScreen.profileDetailsTitle")}
             description={t("Settings.CustomerAccountManagementScreen.profileDetailsDescription")}
             icon={<SettingsIcons.ProfileDetailsIcon />}
-            onPress={handleOnPress}
+            onPress={handleOnProfileDetailsPress}
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.financialInformationTitle")}
