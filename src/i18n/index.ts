@@ -1912,19 +1912,6 @@ export const resources = {
             "Please do not close the app or navigate away from this screen while we activate your beneficiary",
         },
       },
-      LocalTransfers: {
-        SelectTransferTypeModal: {
-          selectTransferType: "Select transfer type",
-          quickTransfer: "Quick transfer",
-          quickTransferDescription: "Send an instant one-time transfer of up to 2,500 SAR",
-          standardTransfer: "Standard transfer",
-          standardTransferDescription: "Send a transfer to a new or existing beneficiary",
-        },
-        LocalTransfersTermsAndConditions: {
-          agree: "Agree",
-          disagree: "Disagree",
-        },
-      },
       PaymentDisputes: {
         PaymentDisputesLandingModal: {
           title: "What’s the problem?",
@@ -3342,19 +3329,6 @@ export const resources = {
         waitingVerification: "Waiting verification",
         waitingMessage:
           "Please do not close the app or navigate away from this screen while we activate your beneficiary",
-      },
-    },
-    LocalTransfers: {
-      SelectTransferTypeModal: {
-        selectTransferType: "Select transfer type",
-        quickTransfer: "Quick transfer",
-        quickTransferDescription: "Send an instant one-time transfer of up to 2,500 SAR",
-        standardTransfer: "Standard transfer",
-        standardTransferDescription: "Send a transfer to a new or existing beneficiary",
-      },
-      LocalTransfersTermsAndConditions: {
-        agree: "Agree",
-        disagree: "Disagree",
       },
     },
     PaymentDisputes: {
