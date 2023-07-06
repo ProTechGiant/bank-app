@@ -97,7 +97,7 @@ export default function SendToBeneficiaryScreen() {
   };
 
   const handleNavigateToAddBeneficiaries = () => {
-    if (transferType === TransferTypeCode.LocalTransferSarie) {
+    if (transferType === TransferType.SarieTransferAction) {
       navigation.navigate("InternalTransfers.StandardTransferNewBeneficiaryScreen");
     } else {
       navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
