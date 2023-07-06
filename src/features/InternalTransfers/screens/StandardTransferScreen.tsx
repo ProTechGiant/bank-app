@@ -46,7 +46,6 @@ export default function StandardTransferScreen() {
 
   const reasons = useTransferReasons(TransferType.IpsTransferAction);
   const account = useCurrentAccount();
-  const defaultReason: string = reasons?.data?.TransferReason.at(0)?.Code ?? "";
   const currentBalance = account.data?.balance ?? 0;
   const dailyLimitAsync = useDailyLimitValidation();
 
@@ -84,8 +83,15 @@ export default function StandardTransferScreen() {
   });
 
   const handleOnContinue = (values: StandardTransferInput) => {
+    const defaultReason = reasons?.data?.TransferReason[0]?.Code;
+    const selectedReason = values.ReasonCode ?? defaultReason;
+
+    if (selectedReason === undefined) {
+      return;
+    }
+
     setTransferAmount(values.PaymentAmount);
-    setReason(values.ReasonCode === undefined ? defaultReason : values.ReasonCode);
+    setReason(selectedReason);
     setTransferType(TransferType.SarieTransferAction);
 
     navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");

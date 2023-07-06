@@ -37,7 +37,6 @@ export default function QuickTransferScreen() {
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.QuickTransferScreen">>();
 
   const reasons = useTransferReasons(TransferType.IpsTransferAction);
-  const defaultReason: string = reasons?.data?.TransferReason.at(0)?.Code ?? "";
   const account = useCurrentAccount();
   const currentBalance = account.data?.balance ?? 0;
   const dailyLimitAsync = useDailyLimitValidation();
@@ -74,9 +73,16 @@ export default function QuickTransferScreen() {
   });
 
   const handleOnContinue = (values: QuickTransferInput) => {
-    values.ReasonCode = values.ReasonCode === undefined ? defaultReason : values.ReasonCode;
+    const defaultReason = reasons.data?.TransferReason[0]?.Code;
+    const selectedReason = values.ReasonCode ?? defaultReason;
+
+    if (selectedReason === undefined) {
+      return;
+    }
+
     navigation.navigate("InternalTransfers.EnterQuickTransferBeneficiaryScreen", {
       ...values,
+      ReasonCode: selectedReason,
     });
   };
 
