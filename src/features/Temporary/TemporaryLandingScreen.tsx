@@ -133,6 +133,14 @@ export default function TemporaryLandingScreen() {
     auth.authenticate(values.UserId);
     setImmediate(() => {
       navigation.navigate("TopSpending.TopSpendingStack", {
+        screen: "TopSpending.SpendSummaryScreen",
+      });
+    });
+  };
+  const handleOnTopSpendingInsights = async (values: TemporaryForm) => {
+    auth.authenticate(values.UserId);
+    setImmediate(() => {
+      navigation.navigate("TopSpending.TopSpendingStack", {
         screen: "TopSpending.TopSpendingScreen",
       });
     });
@@ -197,6 +205,9 @@ export default function TemporaryLandingScreen() {
             variant="simple"
           />
         </Stack>
+        <View style={styles.margin20}>
+          <Button onPress={handleSubmit(handleOnTopSpendingInsights)}>Top Spending</Button>
+        </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnPressPaymentDisputesLanding)}>Payment Disputes Landing</Button>
         </View>

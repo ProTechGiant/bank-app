@@ -286,6 +286,19 @@ export const resources = {
         },
       },
       TopSpending: {
+        TopSpendingScreen: {
+          currentSpendingIn: "Current Spending in",
+          transaction: "transaction",
+          hidden: "Hidden",
+          spendingInsights: "Spending Insights",
+          topSpendingInMonth: "Top Spending in ",
+          topSpendingByTags: "Tagged Groups",
+          excludedfromSpending: "Excluded from Spending",
+          seeAll: "See All",
+          seeLess: "See Less",
+          excludeFromSpending: "Exclude from spending",
+          sar: "SAR",
+        },
         SpendSummaryScreen: {
           totalSpending: "Total Spending",
           transactions: "Transactions",
