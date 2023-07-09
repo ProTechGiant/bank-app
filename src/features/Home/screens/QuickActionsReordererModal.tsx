@@ -43,14 +43,19 @@ export default function QuickActionsReordererModal() {
     navigation.goBack();
   };
 
+  const sortItemsByName = (items: HomepageItemLayoutType[]) => {
+    items.sort((a, b) => (a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1));
+    return items;
+  };
+
   const handleOnDeletePress = (item: HomepageItemLayoutType) => {
-    setActiveItems(items => items?.filter(i => i.type !== item.type));
-    setInactiveItems(items => [item, ...items]);
+    setActiveItems(items => items.filter(i => i.type !== item.type));
+    setInactiveItems(items => sortItemsByName([item, ...items]));
   };
 
   const handleOnAddPress = (item: HomepageItemLayoutType) => {
     setActiveItems(items => [...items, item]);
-    setInactiveItems(items => items?.filter(i => i.type !== item.type));
+    setInactiveItems(items => sortItemsByName(items.filter(i => i.type !== item.type)));
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
