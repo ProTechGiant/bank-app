@@ -63,8 +63,19 @@ export default function InternalTransferScreen() {
   }, [triggerResetForm, reset]);
 
   const handleOnNextPress = (values: InternalTransferInput) => {
+    // this was added to fix missing callback warning when we are somehow unable to fetch TransferReason.
+    if (reasons.data?.TransferReason === undefined) return;
+
+    // this added to make default selection to reasons.
+    const defaultReason = reasons.data.TransferReason[0]?.Code;
+    const selectedReason = values.ReasonCode ?? defaultReason;
+
+    if (selectedReason === undefined) {
+      return;
+    }
+
     setTransferAmount(values.PaymentAmount);
-    setReason(values.ReasonCode);
+    setReason(selectedReason);
 
     navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
   };
@@ -87,7 +98,6 @@ export default function InternalTransferScreen() {
     marginTop: theme.spacing["18p"],
   }));
 
-  const isReasonAvailable = watch("ReasonCode") !== undefined;
   const currentAmount = watch("PaymentAmount");
   const amountExceedsBalance = currentAmount > currentBalance;
 
@@ -133,7 +143,8 @@ export default function InternalTransferScreen() {
               </View>
             </View>
             <Button
-              disabled={amountExceedsBalance || currentAmount < MINIMAL_AMOUNT || !isReasonAvailable}
+              //isReasonAvailable remove to make default selection to reasons.
+              disabled={amountExceedsBalance || currentAmount < MINIMAL_AMOUNT}
               onPress={handleSubmit(handleOnNextPress)}>
               Continue
             </Button>

@@ -49,8 +49,13 @@ export const mobilePhoneNoCountryCodeLength = (countryCode: CountryCode, input: 
     : 0;
 };
 
+// there were some cases where beneficiaries were created without name from the backend (may be due to testing or development) that cause it to crash.
 // get first and last name of a person and return the initials
-export const getInitials = (name: string) => {
+// if this function receives null, undefined or an empty string for the variable name, it will return an empty string.
+
+export const getInitials = (name: string | undefined | null) => {
+  // this is added to handle crash when name is empty, null or undefined.
+  if (name === undefined || name === "" || name === null) return "";
   const names = name.split(" ");
   let initials = names[0].substring(0, 1).toUpperCase();
 

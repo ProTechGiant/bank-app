@@ -1721,7 +1721,7 @@ export const resources = {
           currency: " SAR",
         },
         TransferReasonInput: {
-          reason: "Why are you sending money?",
+          reason: "Select reason",
           confirm: "Confirm",
           next: "Next",
         },
@@ -3211,7 +3211,7 @@ export const resources = {
         currency: " SAR",
       },
       TransferReasonInput: {
-        reason: "Why are you sending money?",
+        reason: "Select reason",
         confirm: "Confirm",
         next: "Next",
       },
