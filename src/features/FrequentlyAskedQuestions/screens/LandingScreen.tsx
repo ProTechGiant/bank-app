@@ -26,7 +26,7 @@ export default function LandingScreen() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchText, setSearchText] = useState<string>("");
 
-  const { data, refetch, isError, isFetching } = useSearchFAQ(searchQuery, i18n.language);
+  const { data, refetch, isError, isFetching } = useSearchFAQ(searchQuery.trim(), i18n.language);
 
   useEffect(() => {
     setShowLoadingErrorModal(isError);

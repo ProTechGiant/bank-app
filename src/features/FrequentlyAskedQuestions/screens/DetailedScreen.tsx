@@ -34,7 +34,7 @@ export default function DetailedScreen() {
   const { tryCall } = useCallSupport();
 
   const [showLoadingErrorModal, setShowLoadingErrorModal] = useState(false);
-  const [feedbackState, setFeedbackState] = useState<typeof DOWN_VOTE | typeof UP_VOTE | null>(null);
+  const [feedbackState, setFeedbackState] = useState<typeof DOWN_VOTE | typeof UP_VOTE | undefined>(undefined);
 
   useEffect(() => {
     setShowLoadingErrorModal(isError);
@@ -42,7 +42,7 @@ export default function DetailedScreen() {
 
   useEffect(() => {
     if (data === undefined) return;
-    setFeedbackState(data.Feedback);
+    setFeedbackState(data.Feedback.VoteId);
   }, [data]);
 
   const handleOnFeedbackPress = async (vote: typeof DOWN_VOTE | typeof UP_VOTE) => {
@@ -56,7 +56,7 @@ export default function DetailedScreen() {
   };
 
   const getFeedbackText = () => {
-    return feedbackState === null
+    return feedbackState === undefined
       ? t("FrequentlyAskedQuestions.DetailedScreen.feedback")
       : feedbackState === UP_VOTE
       ? t("FrequentlyAskedQuestions.DetailedScreen.positiveFeedback")
@@ -121,7 +121,7 @@ export default function DetailedScreen() {
                   <Typography.Text size="callout" color="neutralBase-10">
                     {getFeedbackText()}
                   </Typography.Text>
-                  {feedbackState === null || feedbackState === UP_VOTE ? (
+                  {feedbackState === undefined ? (
                     <View style={styles.row}>
                       <Pressable onPress={() => handleOnFeedbackPress(UP_VOTE)}>
                         <ThumbsUpIcon />
@@ -133,7 +133,7 @@ export default function DetailedScreen() {
                   ) : null}
                 </View>
               </View>
-              {data.RelatedFaqs.length > 0 ? (
+              {data.RelatedFaqs?.length > 0 ? (
                 <>
                   <View style={sectionStyle}>
                     <Typography.Text size="title3" weight="semiBold">

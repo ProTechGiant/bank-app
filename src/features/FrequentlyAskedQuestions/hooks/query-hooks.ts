@@ -41,6 +41,15 @@ export function useSearchFAQ(searchKeyword: string, language: string) {
 
 export function useDetailsFAQ(faqId: string, language: string) {
   const { userId } = useAuthContext();
+
+  const headers: { [key: string]: string } = {
+    ["x-correlation-id"]: generateRandomId(),
+  };
+
+  if (userId) {
+    headers.CustomerId = userId;
+  }
+
   return useQuery(
     queryKeys.detailsFAQ(faqId, language),
     () => {
@@ -52,10 +61,7 @@ export function useDetailsFAQ(faqId: string, language: string) {
           Language: language,
         },
         undefined,
-        {
-          ["x-correlation-id"]: generateRandomId(),
-          ["CustomerId"]: userId ?? "",
-        }
+        headers
       );
     },
     {
@@ -68,19 +74,16 @@ export function useFeedback(faqId: string, language: string) {
   const { userId } = useAuthContext();
   const queryClient = useQueryClient();
 
+  const headers: { [key: string]: string } = {
+    ["x-correlation-id"]: generateRandomId(),
+  };
+
+  if (userId) {
+    headers.CustomerId = userId;
+  }
   return useMutation(
     (values: FeedbackRequest) => {
-      return api<unknown>(
-        "v1",
-        `customers/${userId}/contents/feedback/${values.ContentId}`,
-        "POST",
-        undefined,
-        values,
-        {
-          ["x-correlation-id"]: generateRandomId(),
-          ["CustomerId"]: userId ?? "",
-        }
-      );
+      return api<unknown>("v1", `customers/${userId}/contents/feedback`, "POST", undefined, values, headers);
     },
     {
       onSettled: () => {

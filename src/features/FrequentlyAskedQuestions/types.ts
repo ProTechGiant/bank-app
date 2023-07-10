@@ -54,6 +54,12 @@ export interface DetailsFAQResponse {
   Answer: string;
   SectionId: string;
   CategoryId: string;
-  RelatedFaqs: FAQListItem[];
-  Feedback: typeof UP_VOTE | typeof DOWN_VOTE | never;
+  RelatedFaqs?: FAQListItem[];
+  Feedback: {
+    ContentId?: string;
+    CustomerId?: string;
+    UpdatedOn?: string;
+    VoteDescription?: string;
+    VoteId?: typeof UP_VOTE | typeof DOWN_VOTE;
+  };
 }
