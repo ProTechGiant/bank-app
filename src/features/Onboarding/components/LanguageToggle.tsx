@@ -2,16 +2,15 @@ import { useTranslation } from "react-i18next";
 import { Pressable, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
+import { useChangeLanguage } from "@/i18n";
 import useThemeStyles from "@/theme/use-theme-styles";
-import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 export default function LanguageToggle() {
   const { i18n } = useTranslation();
+  const changeLanguage = useChangeLanguage();
 
   const handleOnPress = () => {
-    const language = i18n.language === "en" ? "ar" : "en";
-    setItemInEncryptedStorage("userSwitchedAppLanguage", language);
-    i18n.changeLanguage(language);
+    changeLanguage(i18n.language === "en" ? "ar" : "en");
   };
 
   const languageSelectViewStyle = useThemeStyles<ViewStyle>(theme => ({

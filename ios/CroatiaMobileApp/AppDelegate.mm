@@ -26,6 +26,11 @@ static void ClearKeychainIfNecessary() {
             NSDictionary *spec = @{(__bridge id)kSecClass: secItemClass};
             SecItemDelete((__bridge CFDictionaryRef)spec);
         }
+
+        // On 1st boot, also set default value to `allowRTL`
+        // this value may later be overwritten if the user changes their language
+        // from within the app
+        [[RCTI18nUtil sharedInstance] allowRTL: YES];
     }
 }
 
@@ -34,7 +39,6 @@ static void ClearKeychainIfNecessary() {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   ClearKeychainIfNecessary();
-  [[RCTI18nUtil sharedInstance] allowRTL: YES];
 
   self.moduleName = @"CroatiaMobileApp";
   // You can add your custom initial props in the dictionary below.

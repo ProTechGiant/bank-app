@@ -1,7 +1,4 @@
-import "./i18n";
-
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import { useEffect } from "react";
 import { StatusBar, StyleSheet } from "react-native";
 import RNBootSplash from "react-native-bootsplash";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -12,24 +9,12 @@ import { AuthContextProvider } from "@/contexts/AuthContext";
 import { ReferralContextProvider } from "@/contexts/ReferralContext";
 import { ToastsContextProvider } from "@/contexts/ToastsContext";
 import { InternalTransferContextProvider } from "@/features/InternalTransfers/context/InternalTransfersContext";
-import useAppsFlyer from "@/hooks/use-appsflyer";
-import useDeviceLanguage from "@/i18n/use-device-language";
-import useI18nDirection from "@/i18n/use-i18n-direction";
+import { useDeviceLanguage } from "@/i18n";
 import MainStack from "@/navigation/MainStack";
-import { initializeAppleWalletAsync } from "@/utils/apple-wallet";
 
-initializeAppleWalletAsync();
 const queryClient = new QueryClient();
-
-export default function App() {
-  useI18nDirection();
+export default function CroatiaApp() {
   useDeviceLanguage();
-
-  const { initializeSdk } = useAppsFlyer();
-
-  useEffect(() => {
-    initializeSdk();
-  }, []);
 
   return (
     <ActionSheetProvider>

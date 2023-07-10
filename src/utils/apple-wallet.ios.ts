@@ -9,7 +9,7 @@ import version from "@/version";
 
 import { generateRandomId } from "./index";
 
-export async function initializeAppleWalletAsync() {
+export function initializeAppleWalletAsync() {
   MeaPushProvisioning.ApplePay.setDebugLoggingEnabled(version.buildType === "dev" || version.buildType === "eit");
 
   MeaPushProvisioning.initialize()

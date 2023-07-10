@@ -1,6 +1,5 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import { I18nManager } from "react-native";
 
 export const resources = {
   en: {
@@ -3599,16 +3598,22 @@ export const resources = {
   },
 };
 
-i18n.use(initReactI18next).init({
-  debug: __DEV__,
-  fallbackLng: "en",
-  lng: I18nManager.isRTL ? "ar" : "en",
-  interpolation: {
-    escapeValue: false,
-  },
-  compatibilityJSON: "v4",
-  returnNull: false,
-  resources,
-});
+export function initializeI18n(language: string) {
+  i18n.use(initReactI18next).init({
+    debug: __DEV__,
+    fallbackLng: "en",
+    lng: language,
+    interpolation: {
+      escapeValue: false,
+    },
+    compatibilityJSON: "v4",
+    returnNull: false,
+    resources,
+  });
 
-export default i18n;
+  return i18n;
+}
+
+export { default as getSelectedLanguage } from "./language-selector";
+export { default as useChangeLanguage } from "./use-change-language";
+export { default as useDeviceLanguage } from "./use-device-language";
