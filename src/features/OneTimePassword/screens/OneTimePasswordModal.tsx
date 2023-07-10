@@ -164,13 +164,13 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     }
 
     try {
-      const { Status, IsOtpValid, NumOfAttempts, ...restProps } = await otpValidationAsync.mutateAsync({
+      const { Status, IsOtpValid, data, NumOfAttempts, ...restProps } = await otpValidationAsync.mutateAsync({
         OtpId: otpParams.OtpId,
         OtpCode: otpCode,
         optionalParams: params.otpOptionalParams as ParamsT,
       });
 
-      if (Status === "OTP_MATCH_SUCCESS" || IsOtpValid) {
+      if (Status === "OTP_MATCH_SUCCESS" || IsOtpValid || data?.IsOtpValid) {
         // @ts-expect-error unable to properly add types for this call
         navigation.navigate(params.action.to, {
           ...params.action.params,

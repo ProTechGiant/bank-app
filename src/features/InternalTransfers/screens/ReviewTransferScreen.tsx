@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
@@ -71,7 +72,7 @@ export default function ReviewTransferScreen() {
         remitterName: account.data.name,
         beneficiaryIBAN: recipient.iban,
         beneficiaryName: recipient.accountName,
-        clientTimestamp: new Date().toJSON(),
+        clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
         transferPurpose: reason,
         transferType: "02",
         expressTransferFlag: "N",
