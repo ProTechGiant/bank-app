@@ -27,6 +27,8 @@ export default function TopTenSingleArticle({
   const { width, height } = useWindowDimensions();
   const { t } = useTranslation();
 
+  const textColor = Media && Media[0]?.SourceFileURL ? "neutralBase-60" : "neutralBase+30";
+
   const articleBottom = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["24p"],
     position: "absolute",
@@ -58,18 +60,18 @@ export default function TopTenSingleArticle({
         <Pressable onPress={onNextPress} style={styles.slideNavigationButton} />
       </View>
       <View style={articleBottom}>
-        <Typography.Text color="neutralBase-60" size="caption2" weight="medium">
+        <Typography.Text color={textColor} size="caption2" weight="medium">
           {WhatsNextCategory}
         </Typography.Text>
-        <Typography.Text color="neutralBase-60" size="title2" weight="medium" style={articleBottomTitle}>
+        <Typography.Text color={textColor} size="title2" weight="medium" style={articleBottomTitle}>
           {Title}
         </Typography.Text>
-        <Typography.Text color="neutralBase-60" size="caption1">
+        <Typography.Text color={textColor} size="caption1">
           {t("WhatsNext.TopTenArticle.openingHours")} {EventDetails.OpeningHours}
         </Typography.Text>
         <Pressable onPress={onShowDetails}>
           <Typography.Text
-            color="neutralBase-60"
+            color={textColor}
             size="callout"
             style={articleBottomDescription}
             numberOfLines={showDetails ? undefined : 3}>
@@ -79,21 +81,21 @@ export default function TopTenSingleArticle({
             <Stack direction="horizontal" gap="24p">
               <Stack direction="vertical" style={styles.columnStyle}>
                 <View style={detailsTitleStyle}>
-                  <Typography.Text color="neutralBase-60" size="callout" weight="medium">
+                  <Typography.Text color={textColor} size="callout" weight="medium">
                     {t("WhatsNext.TopTenArticle.location")}
                   </Typography.Text>
                 </View>
-                <Typography.Text color="neutralBase-60" size="caption1" weight="regular">
+                <Typography.Text color={textColor} size="caption1" weight="regular">
                   {EventDetails.Location}
                 </Typography.Text>
               </Stack>
               <Stack direction="vertical" style={styles.columnStyle}>
                 <View style={detailsTitleStyle}>
-                  <Typography.Text color="neutralBase-60" size="callout" weight="medium">
+                  <Typography.Text color={textColor} size="callout" weight="medium">
                     {t("WhatsNext.TopTenArticle.price")}
                   </Typography.Text>
                 </View>
-                <Typography.Text color="neutralBase-60" size="caption1" weight="regular">
+                <Typography.Text color={textColor} size="caption1" weight="regular">
                   {EventDetails.Price} {t("WhatsNext.TopTenArticle.currency")}
                 </Typography.Text>
               </Stack>

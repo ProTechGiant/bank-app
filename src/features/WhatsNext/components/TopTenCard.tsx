@@ -10,7 +10,7 @@ interface TopTenCardProps {
   category: string;
   title: string;
   description: string;
-  imageURL: string;
+  imageURL: string | undefined;
   onPress: () => void;
 }
 
@@ -31,16 +31,16 @@ export default function TopTenCard({ category, title, description, imageURL, onP
 
   return (
     <Pressable onPress={onPress}>
-      <NetworkImage style={imageStyle} source={{ uri: imageURL }} />
+      <NetworkImage style={imageStyle} source={{ uri: imageURL || "" }} />
       <View style={textStyle}>
         <Stack direction="vertical" gap="4p">
-          <Typography.Text color="neutralBase-60" size="caption2">
+          <Typography.Text color={imageURL ? "neutralBase-60" : "neutralBase+30"} size="caption2">
             {category}
           </Typography.Text>
-          <Typography.Text color="neutralBase-60" size="title3" weight="medium">
+          <Typography.Text color={imageURL ? "neutralBase-60" : "neutralBase+30"} size="title3" weight="medium">
             {truncate(title, { length: 18 })}
           </Typography.Text>
-          <Typography.Text color="neutralBase-60" size="footnote">
+          <Typography.Text color={imageURL ? "neutralBase-60" : "neutralBase+10"} size="footnote">
             {truncate(description, { length: 71 })}
           </Typography.Text>
         </Stack>
