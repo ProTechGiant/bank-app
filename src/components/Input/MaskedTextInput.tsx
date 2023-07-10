@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import {
   I18nManager,
+  Platform,
   Pressable,
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
@@ -70,10 +71,12 @@ export function MaskedTextInput({
       fontSize: theme.typography.text.sizes.callout,
       fontWeight: theme.typography.text.weights.regular,
       flexGrow: 1,
+      margin: 0,
+      padding: 0,
       position: "absolute",
       left: theme.spacing["16p"],
       right: theme.spacing["16p"],
-      top: 25,
+      top: 25 - (Platform.OS === "android" ? 3.5 : 0),
     }),
     [isEditable]
   );
