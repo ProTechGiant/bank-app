@@ -30,11 +30,11 @@ export default function CompareModel({ onCompare, onClose, isVisible, onBack }: 
   const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
   const [compareListModal, setCompareListModal] = useState(false);
-  const [activeFilter, setActiveFilter] = useState<CompareDurationTypes>(CompareDurationTypes.DAY);
+  const [activeFilter, setActiveFilter] = useState<CompareDurationTypes>(CompareDurationTypes.MONTH);
   const [selectedYears, setSelectedYears] = useState<number[]>([currentYear, currentYear]);
   const [selectedMonths, setSelectedMonths] = useState<{ month: number; year: number }[]>([
-    { month: -1, year: currentYear },
-    { month: -1, year: currentYear },
+    { month: 1, year: currentYear },
+    { month: 1, year: currentYear },
   ]);
   const [basePeriod, setBasePeriod] = useState<MarkedDates>({});
   const [comparisonPeriod, setComparisonPeriod] = useState<MarkedDates>({});
@@ -152,7 +152,7 @@ export default function CompareModel({ onCompare, onClose, isVisible, onBack }: 
   };
 
   const pickButtonStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["64p"],
+    marginTop: theme.spacing["20p"],
   }));
 
   const compareButtonContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -166,9 +166,10 @@ export default function CompareModel({ onCompare, onClose, isVisible, onBack }: 
     paddingVertical: theme.spacing["20p"],
   }));
 
-  const selectYearTextStyle = useThemeStyles<TextStyle>(theme => ({
+  const selectDateTextStyle = useThemeStyles<TextStyle>(theme => ({
     alignSelf: "center",
-    marginTop: theme.spacing["20p"],
+    paddingTop: theme.spacing["20p"],
+    paddingBottom: theme.spacing["4p"],
   }));
 
   const modalContainerStyle = useThemeStyles<ViewStyle>(() => ({
@@ -184,7 +185,7 @@ export default function CompareModel({ onCompare, onClose, isVisible, onBack }: 
   return (
     <Modal
       style={modalContainerStyle}
-      headerText={t("TopSpending.SpendingDateFilter.selectDate")}
+      headerText={t("TopSpending.SpendingDateFilter.comparePeriod")}
       visible={isVisible}
       onClose={onClose}
       onBack={onBack}>
@@ -204,6 +205,13 @@ export default function CompareModel({ onCompare, onClose, isVisible, onBack }: 
               </View>
             </TouchableOpacity>
           </WithShadow>
+          <View style={selectDateTextStyle}>
+            <Typography.Text size="callout" weight="medium">
+              {activeFilter === CompareDurationTypes.YEAR
+                ? t("TopSpending.SpendingDateFilter.year")
+                : t("TopSpending.SpendingDateFilter.date")}
+            </Typography.Text>
+          </View>
           {activeFilter === "Day" && (
             <CustomCalendar
               markedDates={basePeriod && { ...basePeriod, ...comparisonPeriod }}
@@ -229,17 +237,10 @@ export default function CompareModel({ onCompare, onClose, isVisible, onBack }: 
             />
           )}
           {activeFilter === "Year" && (
-            <View style={styles.yearViewContainer}>
-              <Typography.Text size="callout" weight="medium" style={selectYearTextStyle}>
-                {Object.keys(selectedValues.start).length === 0
-                  ? t("TopSpending.SpendingDateFilter.firstYear")
-                  : t("TopSpending.SpendingDateFilter.secondYear")}
-              </Typography.Text>
-              <YearPicker
-                selectedYear={selectedYears[Object.keys(selectedValues.start).length]}
-                onChangeYear={handleOnYearSelection}
-              />
-            </View>
+            <YearPicker
+              selectedYear={selectedYears[Object.keys(selectedValues.start).length]}
+              onChangeYear={handleOnYearSelection}
+            />
           )}
           <View style={pickButtonStyle}>
             {!Object.keys(selectedValues.start).length ? (
@@ -270,5 +271,4 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  yearViewContainer: { justifyContent: "center" },
 });

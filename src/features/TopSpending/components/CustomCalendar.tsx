@@ -72,17 +72,15 @@ const RenderHeader = ({ date }: RenderHeaderProps) => {
   const startDate = new Date(startDay);
   const endDate = new Date(endDay);
 
-  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-    return null;
-  }
-
   return (
     <View style={calendarHeaderStyle}>
       <View>
         <Typography.Text>
           {startDay !== endDay
             ? format(startDate, "dd") + " - " + format(endDate, "dd MMM yyyy")
-            : format(startDate, "dd MMM yyyy")}
+            : startDay !== undefined
+            ? format(startDate, "dd MMM yyyy")
+            : format(new Date(), "MMM yyyy")}
         </Typography.Text>
       </View>
     </View>

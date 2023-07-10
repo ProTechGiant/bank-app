@@ -36,6 +36,7 @@ export default function MonthPicker({
     borderRadius: theme.radii.small,
     flex: 1,
     justifyContent: "space-between",
+    margin: theme.spacing["4p"],
   }));
 
   const textStyle = useThemeStyles<TextStyle>(theme => ({ alignSelf: "center", padding: theme.spacing["8p"] }));
@@ -45,7 +46,7 @@ export default function MonthPicker({
     borderRadius: theme.radii.small,
     flex: 1,
     justifyContent: "space-between",
-    margin: theme.spacing["5p"],
+    margin: theme.spacing["4p"],
   }));
 
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({

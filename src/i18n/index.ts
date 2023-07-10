@@ -313,8 +313,8 @@ export const resources = {
         },
         SpendCompareModal: {
           week: "Week {{no}}",
-          year: "year {{no}}",
-          day: "day {{no}}",
+          year: "Year {{no}}",
+          day: "Day {{no}}",
         },
         SpendingDateFilter: {
           pickPeriod: "Pick Period",
@@ -325,7 +325,8 @@ export const resources = {
           comparePeriod: "Compare Period",
           continue: "Continue",
           compareBy: "Compare By:",
-          firstYear: "Select first year ",
+          year: "Select year",
+          date: "Select date",
           secondYear: "Select second year",
         },
         CategorizeTransactions: {
@@ -2464,7 +2465,8 @@ export const resources = {
           comparePeriod: "Compare Period",
           continue: "Continue",
           compareBy: "Compare By:",
-          firstYear: "Select first year ",
+          year: "Select Year",
+          date: "Select date",
           secondYear: "Select second year",
         },
         CategorizeTransactions: {

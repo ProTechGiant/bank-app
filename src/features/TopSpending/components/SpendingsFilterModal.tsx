@@ -40,8 +40,8 @@ export default function SpendingsFilterModal({
 
   const [markedDates, setMarkedDates] = useState<MarkedDates>({});
 
-  const [startDay, setStartDay] = useState<string | number | null>(null);
-  const [endDay, setEndDay] = useState<string | number | null>(null);
+  const [startDay, setStartDay] = useState<string | null>(null);
+  const [endDay, setEndDay] = useState<string | null>(null);
 
   const handleCompareOption = (screen: ModalScreens, textHeader: string) => {
     setCurrentScreen(screen);
@@ -62,7 +62,7 @@ export default function SpendingsFilterModal({
     }
   }, [isVisible, t]);
 
-  const onDayPressEvent = (day: { dateString: string | number }) => {
+  const onDayPressEvent = (day: { dateString: string }) => {
     if (startDay && !endDay) {
       const date: { [key: string]: any } = {};
       for (
