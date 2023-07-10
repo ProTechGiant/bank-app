@@ -50,7 +50,7 @@ export default function Beneficiary({ data, onBeneficiaryPress, onMenuPress, tra
         <Stack align="center" direction="horizontal" gap="12p">
           <View style={profileContainer}>
             <Typography.Text size="footnote" color="neutralBase-50" align="center">
-              {getInitials(data.Name)}
+              {data.Name ? getInitials(data.Name) : null}
             </Typography.Text>
           </View>
           <Stack direction="vertical">

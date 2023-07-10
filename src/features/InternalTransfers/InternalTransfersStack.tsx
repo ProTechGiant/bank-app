@@ -72,9 +72,10 @@ export type InternalTransfersStackParams = {
     Beneficiary: {
       FullName: string;
       Bank: Bank;
-      SelectionType: AddBeneficiarySelectionType;
-      SelectionValue: string;
+      SelectionType?: AddBeneficiarySelectionType;
+      SelectionValue?: string;
       IBAN: string;
+      type?: string;
     };
   };
   "InternalTransfers.QuickTransferSuccessScreen": {

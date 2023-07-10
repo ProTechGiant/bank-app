@@ -18,7 +18,7 @@ import { useThemeStyles } from "@/theme";
 
 import { BeneficiaryList, BeneficiaryOptionsModal } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
-import { useBeneficiaries, useDeleteBeneficiary } from "../hooks/query-hooks";
+import { useBeneficiaries, useBeneficiaryBanks, useDeleteBeneficiary } from "../hooks/query-hooks";
 import { BeneficiaryType, RecipientType, TransferType } from "../types";
 
 function activeFilterCheck(beneficiaries: BeneficiaryType[], isActive: boolean): BeneficiaryType[] {
@@ -29,13 +29,14 @@ export default function SendToBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { setRecipient, transferType } = useInternalTransferContext();
+  const { transferAmount, reason, setRecipient, transferType } = useInternalTransferContext();
   // BeneficiaryType is required in order to fetch the list of beneficiaries
   if (transferType === undefined) {
     throw new Error('Cannot access beneficiary list without "transferType"');
   }
   const { data, refetch } = useBeneficiaries(transferType as TransferType);
   const { mutateAsync } = useDeleteBeneficiary();
+  const bankList = useBeneficiaryBanks();
 
   const searchInputRef = useRef<TextInput>(null);
   const [filteredBeneficiaries, setFilteredBeneficiaries] = useState<BeneficiaryType[]>([]);
@@ -112,6 +113,15 @@ export default function SendToBeneficiaryScreen() {
     iban: string | undefined,
     bankName: string | undefined
   ) => {
+    const selectedBank = bankList.data?.Banks.find(bankItem => bankItem.EnglishName === bankName);
+    if (
+      iban === undefined ||
+      transferAmount === undefined ||
+      reason === undefined ||
+      bankName === undefined ||
+      selectedBank === undefined
+    )
+      return;
     setRecipient({
       accountName,
       accountNumber,
@@ -121,7 +131,19 @@ export default function SendToBeneficiaryScreen() {
       bankName,
     });
     type === "active"
-      ? navigation.navigate("InternalTransfers.ReviewTransferScreen")
+      ? transferType === TransferType.SarieTransferAction
+        ? navigation.navigate("InternalTransfers.ReviewQuickTransferScreen", {
+            PaymentAmount: transferAmount,
+            ReasonCode: reason,
+            Beneficiary: {
+              FullName: accountName,
+              SelectionValue: iban,
+              IBAN: iban,
+              Bank: selectedBank,
+              type: type,
+            },
+          })
+        : navigation.navigate("InternalTransfers.ReviewTransferScreen")
       : setIsConfirmActivationModalVisible(true);
   };
 
@@ -261,7 +283,9 @@ export default function SendToBeneficiaryScreen() {
         buttons={{
           primary: (
             <Button onPress={handleOnConfirmActivation}>
-              {t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.confirmButton")}
+              {transferType === TransferType.SarieTransferAction
+                ? t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.selectBeneficiary")
+                : t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.confirmButton")}
             </Button>
           ),
           secondary: (

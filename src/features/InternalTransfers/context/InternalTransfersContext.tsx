@@ -27,9 +27,10 @@ interface InternalTransferContextState {
     phoneNumber: string | undefined;
     iban: string | undefined;
     type: RecipientType | undefined;
-    bankName: string | undefined;
+    bankName?: string | undefined;
   }) => void;
   recipient: {
+    bankName: string | undefined;
     accountName: string | undefined;
     accountNumber: string | undefined;
     phoneNumber: string | undefined;
@@ -59,6 +60,7 @@ const InternalTransferContext = createContext<InternalTransferContextState>({
     phoneNumber: undefined,
     iban: undefined,
     type: undefined,
+    bankName: undefined,
   },
   transferType: undefined,
   setTransferType: noop,

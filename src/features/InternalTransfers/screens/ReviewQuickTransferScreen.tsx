@@ -58,6 +58,10 @@ export default function ReviewQuickTransferScreen() {
     ) {
       return;
     }
+    if (transferType === TransferType.SarieTransferAction && route.params.Beneficiary.type === "inactive") {
+      navigation.navigate("InternalTransfers.IVRCheckScreen");
+      return;
+    }
 
     const quickTransferRequest: QuickTransfer = {
       transferAmount: route.params.PaymentAmount,
@@ -268,7 +272,9 @@ export default function ReviewQuickTransferScreen() {
             </View>
             <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
               <Button onPress={() => handleSendMoney()} variant="primary">
-                {t("InternalTransfers.ReviewQuickTransferScreen.sendMoney")}
+                {transferType === TransferType.SarieTransferAction
+                  ? t("InternalTransfers.ReviewQuickTransferScreen.transferNow")
+                  : t("InternalTransfers.ReviewQuickTransferScreen.sendMoney")}
               </Button>
               <Button onPress={() => handleOnClose()} variant="tertiary">
                 {t("InternalTransfers.ReviewQuickTransferScreen.cancel")}

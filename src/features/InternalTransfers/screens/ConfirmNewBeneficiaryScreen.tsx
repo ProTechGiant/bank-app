@@ -22,6 +22,7 @@ import { formatIban } from "@/utils";
 
 import { ConfirmBeneficiaryListCard } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
+import { useBeneficiaryBanks } from "../hooks/query-hooks";
 import { TransferType } from "../types";
 
 interface ConfirmBeneficiaryDeclarationForm {
@@ -36,7 +37,8 @@ export default function ConfirmNewBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { addBeneficiary, recipient, transferType } = useInternalTransferContext();
+  const { transferAmount, reason, addBeneficiary, recipient, transferType } = useInternalTransferContext();
+  const bankList = useBeneficiaryBanks();
 
   const { control, handleSubmit, setValue } = useForm<ConfirmBeneficiaryDeclarationForm>({
     mode: "onBlur",
@@ -57,7 +59,26 @@ export default function ConfirmNewBeneficiaryScreen() {
   };
 
   const handleOnSubmit = () => {
-    navigation.navigate("InternalTransfers.ReviewTransferScreen");
+    const selectedBank = bankList.data?.Banks.find(bankItem => bankItem.EnglishName === recipient.bankName);
+    if (
+      transferAmount === undefined ||
+      reason === undefined ||
+      selectedBank === undefined ||
+      recipient.accountName === undefined ||
+      recipient.iban === undefined ||
+      transferType === undefined
+    )
+      return;
+    navigation.navigate("InternalTransfers.ReviewQuickTransferScreen", {
+      PaymentAmount: transferAmount,
+      ReasonCode: reason,
+      Beneficiary: {
+        FullName: recipient.accountName,
+        IBAN: recipient.iban,
+        Bank: selectedBank,
+        type: recipient.type,
+      },
+    });
   };
 
   const checkBoxStackStyle = useThemeStyles<ViewStyle>(theme => ({

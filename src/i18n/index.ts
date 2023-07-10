@@ -1575,6 +1575,7 @@ export const resources = {
               "This beneficiary is currently inactive. An IVR activation will be required in order to process your transfer",
             confirmButton: "Confirm this beneficiary",
             cancelButton: "Cancel",
+            selectBeneficiary: "Select beneficiary",
           },
         },
         EnterBeneficiaryDetailsScreen: {
@@ -1699,6 +1700,7 @@ export const resources = {
             message: "Please try again later or get in touch if you’re still having problems.",
           },
           feeInclVAT: "Fees incl. VAT",
+          transferNow: "Transfer now",
         },
         BeneficiaryDeclarationScreen: {
           title: "Terms and conditions",
@@ -1932,19 +1934,6 @@ export const resources = {
             message: "Please try again later or get in touch if you’re still having problems.",
           },
         },
-      },
-      LocalTransfers: {
-        SelectTransferTypeModal: {
-          selectTransferType: "Select transfer type",
-          quickTransfer: "Quick transfer",
-          quickTransferDescription: "Send an instant one-time transfer of up to 2,500 SAR",
-          standardTransfer: "Standard transfer",
-          standardTransferDescription: "Send a transfer to a new or existing beneficiary",
-        },
-        LocalTransfersTermsAndConditions: {
-          agree: "Agree",
-          disagree: "Disagree",
-        },
         IVRCheckScreen: {
           wellCallYouTitle: "We'll call you",
           callReceiveMessage: "You will receive a call from Croatia Bank to confirm your request.",
@@ -1968,6 +1957,19 @@ export const resources = {
           waitingVerification: "Waiting verification",
           waitingMessage:
             "Please do not close the app or navigate away from this screen while we activate your beneficiary",
+        },
+      },
+      LocalTransfers: {
+        SelectTransferTypeModal: {
+          selectTransferType: "Select transfer type",
+          quickTransfer: "Quick transfer",
+          quickTransferDescription: "Send an instant one-time transfer of up to 2,500 SAR",
+          standardTransfer: "Standard transfer",
+          standardTransferDescription: "Send a transfer to a new or existing beneficiary",
+        },
+        LocalTransfersTermsAndConditions: {
+          agree: "Agree",
+          disagree: "Disagree",
         },
       },
       PaymentDisputes: {
@@ -3064,6 +3066,7 @@ export const resources = {
             "This beneficiary is currently inactive. An IVR activation will be required in order to process your transfer",
           confirmButton: "Confirm this beneficiary",
           cancelButton: "Cancel",
+          selectBeneficiary: "Select beneficiary",
         },
       },
       EnterBeneficiaryDetailsScreen: {
@@ -3187,6 +3190,7 @@ export const resources = {
           message: "Please try again later or get in touch if you’re still having problems.",
         },
         feeInclVAT: "Fees incl. VAT",
+        transferNow: "Transfer now",
       },
       BeneficiaryDeclarationScreen: {
         title: "Terms and conditions",
@@ -3396,19 +3400,6 @@ export const resources = {
           message: "Please try again later or get in touch if you’re still having problems.",
         },
       },
-    },
-    LocalTransfers: {
-      SelectTransferTypeModal: {
-        selectTransferType: "Select transfer type",
-        quickTransfer: "Quick transfer",
-        quickTransferDescription: "Send an instant one-time transfer of up to 2,500 SAR",
-        standardTransfer: "Standard transfer",
-        standardTransferDescription: "Send a transfer to a new or existing beneficiary",
-      },
-      LocalTransfersTermsAndConditions: {
-        agree: "Agree",
-        disagree: "Disagree",
-      },
       IVRCheckScreen: {
         wellCallYouTitle: "We'll call you",
         callReceiveMessage: "You will receive a call from Croatia Bank to confirm your request.",
@@ -3432,6 +3423,19 @@ export const resources = {
         waitingVerification: "Waiting verification",
         waitingMessage:
           "Please do not close the app or navigate away from this screen while we activate your beneficiary",
+      },
+    },
+    LocalTransfers: {
+      SelectTransferTypeModal: {
+        selectTransferType: "Select transfer type",
+        quickTransfer: "Quick transfer",
+        quickTransferDescription: "Send an instant one-time transfer of up to 2,500 SAR",
+        standardTransfer: "Standard transfer",
+        standardTransferDescription: "Send a transfer to a new or existing beneficiary",
+      },
+      LocalTransfersTermsAndConditions: {
+        agree: "Agree",
+        disagree: "Disagree",
       },
     },
     PaymentDisputes: {
