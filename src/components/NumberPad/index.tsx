@@ -65,7 +65,8 @@ const NumberPad = ({ passcode, setPasscode, isBiomatric, handleBioMatric }: Numb
 
   const handleNumberPress = (number: string) => {
     if (passcode.length < 6) {
-      setPasscode(passCode => passCode + number);
+      const password = passcode + number;
+      setPasscode(password);
     }
   };
 

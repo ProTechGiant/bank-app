@@ -35,27 +35,26 @@ const CreatePasscodeScreen = () => {
   ];
 
   const handleOnChangeText = (passcode: string) => {
-    if (!passcode) {
-      return;
-    }
+    setPasscode(passcode);
+
     const convertedInput = westernArabicNumerals(passcode);
-    if (isPasscodeIdentical(convertedInput) && maxRepeatThresholdMet(convertedInput)) {
-      setIsError(true);
-      setPasscode("");
+
+    if (!convertedInput) {
       return;
     }
 
-    setIsError(false);
-
-    if (passCode.length !== PASSCODE_LENGTH) return;
-    if (isSequential(convertedInput)) {
+    if (
+      maxRepeatThresholdMet(convertedInput) ||
+      (convertedInput.length === PASSCODE_LENGTH && isSequential(convertedInput))
+    ) {
       setIsError(true);
       setPasscode("");
-      return;
+    } else {
+      setIsError(false);
+      if (convertedInput.length === PASSCODE_LENGTH) {
+        navigation.navigate("SignIn.ConfirmPasscode", { passCode: passcode });
+      }
     }
-
-    setIsError(false);
-    navigation.navigate("SignIn.ConfirmPasscode", { passCode });
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({

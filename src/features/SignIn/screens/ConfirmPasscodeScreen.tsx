@@ -45,9 +45,11 @@ const ConfirmPasscodeScreen = () => {
     },
   ];
 
-  useEffect(() => {
-    if (passCode.length === PASSCODE_LENGTH) {
-      if (passCode === params.passCode) {
+  const handleOnChangeText = (passcode: string) => {
+    setPasscode(passcode);
+
+    if (passcode.length === PASSCODE_LENGTH) {
+      if (passcode === params.passCode) {
         handleSubmit();
         setIsError(false);
       } else {
@@ -55,7 +57,7 @@ const ConfirmPasscodeScreen = () => {
       }
       setPasscode("");
     }
-  }, [passCode, params.passCode]);
+  };
 
   const handleSuccessModal = () => {
     setIsPasscodeCreated(true);
@@ -72,9 +74,9 @@ const ConfirmPasscodeScreen = () => {
     try {
       await mutateAsync(passCode);
       setShowSuccessModal(true);
-    } catch (error) {
+    } catch (exception) {
       setIsError(true);
-      warn("Error updating user passcode ", JSON.stringify(error)); // log the error for debugging purposes
+      warn("Error updating user passcode ", JSON.stringify(exception)); // log the error for debugging purposes
     }
   };
 
@@ -100,7 +102,7 @@ const ConfirmPasscodeScreen = () => {
           passcode={passCode}
           showModel={errorMessages.length}
         />
-        <NumberPad passcode={passCode} setPasscode={setPasscode} />
+        <NumberPad passcode={passCode} setPasscode={handleOnChangeText} />
       </View>
       <NotificationModal
         message={
