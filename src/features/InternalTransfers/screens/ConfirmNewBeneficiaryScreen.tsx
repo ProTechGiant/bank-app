@@ -59,26 +59,30 @@ export default function ConfirmNewBeneficiaryScreen() {
   };
 
   const handleOnSubmit = () => {
-    const selectedBank = bankList.data?.Banks.find(bankItem => bankItem.EnglishName === recipient.bankName);
-    if (
-      transferAmount === undefined ||
-      reason === undefined ||
-      selectedBank === undefined ||
-      recipient.accountName === undefined ||
-      recipient.iban === undefined ||
-      transferType === undefined
-    )
-      return;
-    navigation.navigate("InternalTransfers.ReviewQuickTransferScreen", {
-      PaymentAmount: transferAmount,
-      ReasonCode: reason,
-      Beneficiary: {
-        FullName: recipient.accountName,
-        IBAN: recipient.iban,
-        Bank: selectedBank,
-        type: recipient.type,
-      },
-    });
+    if (transferType === TransferType.SarieTransferAction) {
+      const selectedBank = bankList.data?.Banks.find(bankItem => bankItem.EnglishName === recipient.bankName);
+      if (
+        transferAmount === undefined ||
+        reason === undefined ||
+        selectedBank === undefined ||
+        recipient.accountName === undefined ||
+        recipient.iban === undefined ||
+        transferType === undefined
+      )
+        return;
+      navigation.navigate("InternalTransfers.ReviewQuickTransferScreen", {
+        PaymentAmount: transferAmount,
+        ReasonCode: reason,
+        Beneficiary: {
+          FullName: recipient.accountName,
+          IBAN: recipient.iban,
+          Bank: selectedBank,
+          type: recipient.type,
+        },
+      });
+    } else {
+      navigation.navigate("InternalTransfers.ReviewTransferScreen");
+    }
   };
 
   const checkBoxStackStyle = useThemeStyles<ViewStyle>(theme => ({
