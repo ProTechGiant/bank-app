@@ -1917,7 +1917,6 @@ export const resources = {
             buttonText: "Send to existing beneficiary",
             message: "You can send money to the beneficiary you’ve already set up with these details.",
             title: "You’ve already added this beneficiary",
-            cancel: "Cancel",
           },
           iban: {
             validation: {
@@ -3384,7 +3383,6 @@ export const resources = {
           buttonText: "Send to existing beneficiary",
           message: "You can send money to the beneficiary you’ve already set up with these details.",
           title: "You’ve already added this beneficiary",
-          cancel: "Cancel",
         },
         iban: {
           validation: {

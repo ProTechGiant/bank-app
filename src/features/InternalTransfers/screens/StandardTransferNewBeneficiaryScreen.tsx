@@ -51,7 +51,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
       }),
     [t]
   );
-  const { control, handleSubmit, getValues } = useForm<BeneficiaryInput>({
+  const { control, handleSubmit } = useForm<BeneficiaryInput>({
     resolver: yupResolver(validationSchema),
     mode: "onChange",
     defaultValues: {
@@ -154,25 +154,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
 
   const handleOnExistingBeneficiarySubmit = async () => {
     setExsistingBeneficiaryModalVisible(false);
-    const iban = getValues("iban");
-    const name = getValues("firstName") + " " + getValues("lastName");
-    const bankNameResponse = await bank.mutateAsync({ iban: iban });
-    const bankName = bankNameResponse?.BankName;
-    const selectedBank = bankList.data?.Banks.find(bankItem => bankItem.EnglishName === bankName);
-
-    if (iban === undefined || transferAmount === undefined || reason === undefined || selectedBank === undefined)
-      return;
-    navigation.navigate("InternalTransfers.ReviewQuickTransferScreen", {
-      PaymentAmount: transferAmount,
-      ReasonCode: reason,
-      Beneficiary: {
-        FullName: name,
-        Bank: selectedBank,
-        SelectionType: IBAN,
-        SelectionValue: iban,
-        IBAN: iban,
-      },
-    });
+    navigation.goBack();
   };
 
   const formContainerStyle = useThemeStyles(theme => ({
@@ -243,11 +225,6 @@ export default function StandardTransferNewBeneficiaryScreen() {
           primary: (
             <Button onPress={() => handleOnExistingBeneficiarySubmit()}>
               {t("InternalTransfers.NewBeneficiaryScreen.ExistingBeneficiaryModal.buttonText")}
-            </Button>
-          ),
-          secondary: (
-            <Button onPress={() => setExsistingBeneficiaryModalVisible(false)}>
-              {t("InternalTransfers.NewBeneficiaryScreen.ExistingBeneficiaryModal.cancel")}
             </Button>
           ),
         }}
