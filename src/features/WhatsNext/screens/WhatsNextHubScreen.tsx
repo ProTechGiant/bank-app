@@ -1,4 +1,4 @@
-import { isEmpty, isEqual, xorWith } from "lodash";
+import { find, isEmpty, isEqual, xorWith } from "lodash";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -47,13 +47,17 @@ export default function WhatsNextHubScreen() {
         })
         .forEach(data => {
           data.WhatsNextCategories?.forEach(item => {
-            setWhatsNextCategories(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
-            setSelectedCategories(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
+            if (!find(whatsNextCategories, { id: item.Id })) {
+              setWhatsNextCategories(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
+              setSelectedCategories(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
+            }
           });
 
           data.WhatsNextTypes?.forEach(item => {
-            setWhatsNextTypes(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
-            setSelectedTypes(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
+            if (!find(whatsNextTypes, { id: item.Id })) {
+              setWhatsNextTypes(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
+              setSelectedTypes(prevState => [...prevState, { id: item.Id, name: item.Name, isActive: false }]);
+            }
           });
         });
     }
