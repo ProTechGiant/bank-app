@@ -19,9 +19,12 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { ibanRegExpForARB } from "@/utils";
 
+import { SwitchToARBModal } from "../components";
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useAddBeneficiaryLocalTranfer, useBankDetailWithIBAN, useBeneficiaryBanks } from "../hooks/query-hooks";
+import { TransferType } from "../types";
 
 interface BeneficiaryInput {
   iban: string;
@@ -61,10 +64,18 @@ export default function StandardTransferNewBeneficiaryScreen() {
   const [isIbanRecognized, setIsIbanRecognized] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [exsistingBeneficiaryModalVisible, setExsistingBeneficiaryModalVisible] = useState(false);
-  const { setRecipient, transferAmount, reason, transferType } = useInternalTransferContext();
+  const [isSwitchToARBModalVisible, setIsSwitchToARBModalVisible] = useState(false);
+  const { setRecipient, transferAmount, reason, transferType, setTransferType } = useInternalTransferContext();
 
   const handleOnSubmit = async (_values: BeneficiaryInput) => {
     Keyboard.dismiss();
+
+    //Adding this to check if IBAN is of ARB, because we are specifically told to add this on frontend.
+    if (_values.iban.match(ibanRegExpForARB)) {
+      setIsSwitchToARBModalVisible(true);
+      return;
+    }
+
     const name = _values.firstName + " " + _values.lastName;
     try {
       const bankNameResponse = await bank.mutateAsync({ iban: _values.iban });
@@ -130,6 +141,17 @@ export default function StandardTransferNewBeneficiaryScreen() {
       }
     }
   };
+
+  const handleOnSwitchToARB = () => {
+    setIsSwitchToARBModalVisible(false);
+    setTransferType(TransferType.CroatiaToArbTransferAction);
+    navigation.navigate("InternalTransfers.InternalTransferScreen");
+  };
+
+  const handleOnCancel = () => {
+    setIsSwitchToARBModalVisible(false);
+  };
+
   const handleOnExistingBeneficiarySubmit = async () => {
     setExsistingBeneficiaryModalVisible(false);
     const iban = getValues("iban");
@@ -229,6 +251,11 @@ export default function StandardTransferNewBeneficiaryScreen() {
             </Button>
           ),
         }}
+      />
+      <SwitchToARBModal
+        isVisible={isSwitchToARBModalVisible}
+        onSwitchToARBPress={handleOnSwitchToARB}
+        onCancelPress={handleOnCancel}
       />
     </>
   );
