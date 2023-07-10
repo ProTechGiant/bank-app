@@ -76,18 +76,6 @@ export default function ReviewTransferDetail({
 
       <View style={verticalSpaceStyle}>
         <Typography.Text weight="medium" size="callout">
-          {t("InternalTransfers.ReviewTransferScreen.to")}
-        </Typography.Text>
-        <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {recipient.accountName}
-        </Typography.Text>
-        <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {recipient.accountNumber}
-        </Typography.Text>
-      </View>
-      <View style={separatorStyle} />
-      <View style={verticalSpaceStyle}>
-        <Typography.Text weight="medium" size="callout">
           {t("InternalTransfers.ReviewTransferScreen.from")}
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
@@ -95,6 +83,18 @@ export default function ReviewTransferDetail({
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
           {sender.accountNumber}
+        </Typography.Text>
+      </View>
+      <View style={separatorStyle} />
+      <View style={verticalSpaceStyle}>
+        <Typography.Text weight="medium" size="callout">
+          {t("InternalTransfers.ReviewTransferScreen.to")}
+        </Typography.Text>
+        <Typography.Text color="neutralBase" weight="medium" size="callout">
+          {recipient.accountName}
+        </Typography.Text>
+        <Typography.Text color="neutralBase" weight="medium" size="callout">
+          {recipient.accountNumber}
         </Typography.Text>
       </View>
       <View style={separatorStyle} />
