@@ -8,12 +8,16 @@ import ViewFinancialInformationScreen from "./ViewFinancialInformationScreen";
 export default function FinancialInformationScreen() {
   const [isEditable, setIsEditable] = useState(true);
 
+  const handleOnBackPress = () => {
+    setIsEditable(true);
+  };
+
   return (
     <Page>
       {isEditable ? (
         <ViewFinancialInformationScreen setIsEditable={setIsEditable} isEditable />
       ) : (
-        <EditFinancialInformationScreen />
+        <EditFinancialInformationScreen onBackPress={handleOnBackPress} />
       )}
     </Page>
   );

@@ -45,6 +45,14 @@ export default function CustomerAccountManagement() {
     navigation.navigate("ProfileDetails.ProfileDetailsStack");
   };
 
+  const handleOnLifeStylePress = () => {
+    navigation.navigate("Settings.LifeStyleScreen");
+  };
+
+  const handleOnFinancialInformationPress = () => {
+    navigation.navigate("Settings.FinancialInformationScreen");
+  };
+
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({ paddingTop: theme.spacing["8p"] }));
 
   return (
@@ -62,7 +70,7 @@ export default function CustomerAccountManagement() {
             title={t("Settings.CustomerAccountManagementScreen.financialInformationTitle")}
             description={t("Settings.CustomerAccountManagementScreen.financialInformationDescription")}
             icon={<SettingsIcons.FinancialInformationIcon />}
-            onPress={handleOnPress}
+            onPress={handleOnFinancialInformationPress}
           />
         </SettingsCategoryContainer>
         <Divider color="neutralBase-10" height={1} />
@@ -71,7 +79,7 @@ export default function CustomerAccountManagement() {
             title={t("Settings.CustomerAccountManagementScreen.lifestyleTitle")}
             description={t("Settings.CustomerAccountManagementScreen.lifestyleDescription")}
             icon={<SettingsIcons.LifestyleIcon />}
-            onPress={handleOnPress}
+            onPress={handleOnLifeStylePress}
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.notificationsTitle")}

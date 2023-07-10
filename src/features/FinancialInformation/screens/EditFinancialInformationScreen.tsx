@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, TextInput, TextStyle, View, ViewStyle } from "react-native";
@@ -16,9 +15,11 @@ import { DropdownBottomSheet } from "../components";
 import { expectedAmount } from "../mocks/mockExpectedAmount";
 import { ListItemType } from "../types";
 
-export default function EditFinancialInformationScreen() {
-  const navigation = useNavigation();
+interface EditFinancialInformationScreenProps {
+  onBackPress: () => void;
+}
 
+export default function EditFinancialInformationScreen({ onBackPress }: EditFinancialInformationScreenProps) {
   const { t } = useTranslation();
 
   // ToDo when Api is ready
@@ -63,10 +64,6 @@ export default function EditFinancialInformationScreen() {
 
   const handleOnExpectedAmount = (value: string) => {
     setSelectedExpectedAmount(value);
-  };
-
-  const handleOnBackPress = () => {
-    navigation.goBack();
   };
 
   const handleOnCancel = () => {
@@ -149,7 +146,7 @@ export default function EditFinancialInformationScreen() {
   return (
     <Page insets={["left", "right", "bottom"]}>
       <View style={headerStyle}>
-        <NavHeader title={t("Settings.FinancialInformation.title")} onBackPress={handleOnBackPress} />
+        <NavHeader title={t("Settings.FinancialInformation.title")} onBackPress={onBackPress} />
       </View>
       <View style={containerStyles}>
         <View style={headerContainerStyle}>
