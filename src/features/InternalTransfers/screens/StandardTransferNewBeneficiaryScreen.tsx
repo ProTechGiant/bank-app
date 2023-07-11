@@ -106,7 +106,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
           type: "new",
         });
 
-        navigation.navigate("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen", {
+        navigation.navigate("InternalTransfers.ConfirmLocalTransferBeneficiaryScreen", {
           PaymentAmount: transferAmount,
           ReasonCode: reason,
           Beneficiary: {

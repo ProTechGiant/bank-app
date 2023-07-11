@@ -15,13 +15,12 @@ import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
-import { TransferStatus, TransferType } from "../types";
+import { TransferType } from "../types";
 
 export default function ConfirmationScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const { internalTransferEntryPoint, recipient, transferAmount, transferType, transferStatus } =
-    useInternalTransferContext();
+  const { internalTransferEntryPoint, recipient, transferAmount, transferType } = useInternalTransferContext();
 
   const handleOnDonePress = () => {
     internalTransferEntryPoint === "payment-hub"
@@ -84,7 +83,7 @@ export default function ConfirmationScreen() {
               <CheckCircleIcon height={66} width={66} color={iconColor} />
             </View>
             <Typography.Text size="title1" weight="bold" color="neutralBase-60" align="center" style={titleStyle}>
-              {transferType === TransferType.SarieTransferAction && transferStatus === TransferStatus.Pending
+              {transferType === TransferType.SarieTransferAction
                 ? t("InternalTransfers.ConfirmationScreen.title.pending")
                 : recipient.type === "new"
                 ? transferType === TransferType.CroatiaToArbTransferAction
@@ -99,7 +98,7 @@ export default function ConfirmationScreen() {
                 : t("InternalTransfers.ConfirmationScreen.title.active")}
             </Typography.Text>
             <Typography.Text size="callout" color="neutralBase-20" align="center" style={messageStyle}>
-              {transferType === TransferType.SarieTransferAction && transferStatus === TransferStatus.Pending
+              {transferType === TransferType.SarieTransferAction
                 ? t("InternalTransfers.ConfirmationScreen.sarieTransferMessage")
                 : t("InternalTransfers.ConfirmationScreen.message")}
             </Typography.Text>

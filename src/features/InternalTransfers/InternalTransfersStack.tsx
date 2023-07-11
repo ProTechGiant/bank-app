@@ -5,15 +5,15 @@ import {
   AddNoteScreen,
   BeneficiaryDeclarationModal,
   ConfirmationScreen,
+  ConfirmLocalTransferBeneficiaryScreen,
   ConfirmNewBeneficiaryScreen,
-  ConfirmQuickTransferBeneficiaryScreen,
   EnterBeneficiaryDetailsScreen,
   EnterQuickTransferBeneficiaryScreen,
   InternalTransferScreen,
   IVRCheckScreen,
   QuickTransferScreen,
   QuickTransferSuccessScreen,
-  ReviewQuickTransferScreen,
+  ReviewLocalTransferScreen,
   ReviewTransferScreen,
   SendToBeneficiaryScreen,
   StandardTransferNewBeneficiaryScreen,
@@ -55,7 +55,7 @@ export type InternalTransfersStackParams = {
         ReasonCode?: string;
       }
     | undefined;
-  "InternalTransfers.ConfirmQuickTransferBeneficiaryScreen": {
+  "InternalTransfers.ConfirmLocalTransferBeneficiaryScreen": {
     PaymentAmount: number;
     ReasonCode: string;
     Beneficiary: {
@@ -66,7 +66,7 @@ export type InternalTransfersStackParams = {
       IBAN: string;
     };
   };
-  "InternalTransfers.ReviewQuickTransferScreen": {
+  "InternalTransfers.ReviewLocalTransferScreen": {
     PaymentAmount: number;
     ReasonCode: string;
     Beneficiary: {
@@ -116,10 +116,10 @@ export default function InternalTransfersStack() {
         name="InternalTransfers.EnterQuickTransferBeneficiaryScreen"
       />
       <Stack.Screen
-        component={ConfirmQuickTransferBeneficiaryScreen}
-        name="InternalTransfers.ConfirmQuickTransferBeneficiaryScreen"
+        component={ConfirmLocalTransferBeneficiaryScreen}
+        name="InternalTransfers.ConfirmLocalTransferBeneficiaryScreen"
       />
-      <Stack.Screen component={ReviewQuickTransferScreen} name="InternalTransfers.ReviewQuickTransferScreen" />
+      <Stack.Screen component={ReviewLocalTransferScreen} name="InternalTransfers.ReviewLocalTransferScreen" />
       <Stack.Screen component={QuickTransferSuccessScreen} name="InternalTransfers.QuickTransferSuccessScreen" />
       <Stack.Screen
         component={StandardTransferNewBeneficiaryScreen}

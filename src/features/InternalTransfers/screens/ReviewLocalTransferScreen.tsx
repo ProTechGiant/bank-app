@@ -13,7 +13,6 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCurrentAccount } from "@/hooks/use-accounts";
-import i18n from "@/i18n";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -21,20 +20,26 @@ import { formatCurrency } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { useInternalTransferContext } from "../context/InternalTransfersContext";
-import { useQuickTransfer, useTransferFees, useTransferReasonsByCode } from "../hooks/query-hooks";
-import { QuickTransfer, TransferType, TransferTypeCode } from "../types";
+import { useLocalTransfer, useTransferFees, useTransferReasonsByCode } from "../hooks/query-hooks";
+import { LocalTransfer, TransferType, TransferTypeCode } from "../types";
 
-export default function ReviewQuickTransferScreen() {
+export default function ReviewLocalTransferScreen() {
   const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ReviewQuickTransferScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ReviewLocalTransferScreen">>();
 
-  const account = useCurrentAccount();
-  const transferFeesAsync = useTransferFees(TransferTypeCode.LocalTransferIPS);
-  const transferReason = useTransferReasonsByCode(route.params.ReasonCode, TransferType.IpsTransferAction);
-  const quickTransferAsync = useQuickTransfer();
-  const otpFlow = useOtpFlow();
   const { transferType } = useInternalTransferContext();
+  const account = useCurrentAccount();
+  const transferFeesAsync = useTransferFees(
+    transferType === "SARIE_TRANSFER_ACTION" ? TransferTypeCode.LocalTransferSarie : TransferTypeCode.LocalTransferIPS
+  );
+  const transferReason = useTransferReasonsByCode(
+    route.params.ReasonCode,
+    transferType === "SARIE_TRANSFER_ACTION" ? TransferType.SarieTransferAction : TransferType.IpsTransferAction
+  );
+  const localTransferAsync = useLocalTransfer();
+  const otpFlow = useOtpFlow();
 
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
@@ -63,28 +68,31 @@ export default function ReviewQuickTransferScreen() {
       return;
     }
 
-    const quickTransferRequest: QuickTransfer = {
-      transferAmount: route.params.PaymentAmount,
-      transferAmountCurrency: "SAR",
-      remitterIBAN: account.data.iban ?? "",
-      remitterName: account.data.owner ?? "",
-      beneficiaryIBAN: route.params.Beneficiary.IBAN,
-      beneficiaryName: route.params.Beneficiary.FullName,
-      clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-      expressTransferFlag: "Y",
-      transferPurpose: route.params.ReasonCode,
-      transferType: "04",
-      customerRemarks: "Customer Remarks", // @todo update with correct value, as default for now is this
+    const localTransferRequest: LocalTransfer = {
+      Reason: transferType === "SARIE_TRANSFER_ACTION" ? "sarie" : "ips-payment",
+      data: {
+        transferAmount: route.params.PaymentAmount,
+        transferAmountCurrency: "SAR",
+        remitterIBAN: account.data.iban ?? "",
+        remitterName: account.data.owner ?? "",
+        beneficiaryIBAN: route.params.Beneficiary.IBAN,
+        beneficiaryName: route.params.Beneficiary.FullName,
+        clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+        expressTransferFlag: transferType === "SARIE_TRANSFER_ACTION" ? "N" : "Y",
+        transferPurpose: route.params.ReasonCode,
+        transferType: "04",
+        customerRemarks: "Customer Remarks", // @todo update with correct value, as default for now is this
+      },
     };
 
     otpFlow.handle({
       action: {
-        to: "InternalTransfers.ReviewQuickTransferScreen",
+        to: "InternalTransfers.ReviewLocalTransferScreen",
         params: route.params,
       },
-      otpVerifyMethod: "quick-transfers",
+      otpVerifyMethod: transferType === "SARIE_TRANSFER_ACTION" ? "sarie" : "ips-payment",
       onOtpRequest: () => {
-        return quickTransferAsync.mutateAsync(quickTransferRequest);
+        return localTransferAsync.mutateAsync(localTransferRequest);
       },
       onFinish: status => {
         if (status === "cancel") {
@@ -93,10 +101,7 @@ export default function ReviewQuickTransferScreen() {
         if (status === "fail") {
           delayTransition(() => setIsGenericErrorModalVisible(true));
         } else {
-          navigation.navigate("InternalTransfers.QuickTransferSuccessScreen", {
-            PaymentAmount: route.params.PaymentAmount,
-            BeneficiaryFullName: route.params.Beneficiary.FullName,
-          });
+          navigation.navigate("InternalTransfers.ConfirmationScreen");
         }
       },
     });
@@ -104,7 +109,10 @@ export default function ReviewQuickTransferScreen() {
 
   const handleOnCancel = () => {
     setIsVisible(false);
-    navigation.navigate("InternalTransfers.QuickTransferScreen");
+
+    transferType === "SARIE_TRANSFER_ACTION"
+      ? navigation.navigate("InternalTransfers.StandardTransferScreen")
+      : navigation.navigate("InternalTransfers.QuickTransferScreen");
   };
 
   const handleOnContinue = () => {

@@ -10,7 +10,7 @@ import {
   BeneficiaryType,
   InternalTransfer,
   InternalTransferToARBRequest,
-  QuickTransfer,
+  LocalTransfer,
   TRANSFER_BENEFICIARY_MAP,
   TransferReason,
   TransferType,
@@ -296,15 +296,15 @@ export function useTransferReasonsByCode(reasonCode: string, transferType: Trans
   return { ...reasons, data: reasons?.data?.TransferReason.find(reason => reason.Code === reasonCode) };
 }
 
-interface QuickTransferResponse {
+interface LocalTransferResponse {
   OtpId: string;
   OtpCode: string;
   PhoneNumber: string;
 }
 
-export function useQuickTransfer() {
-  return useMutation(async (values: QuickTransfer) => {
-    return sendApiRequest<QuickTransferResponse>("v1", "transfers/outbound/local", "POST", undefined, values, {
+export function useLocalTransfer() {
+  return useMutation(async (values: LocalTransfer) => {
+    return sendApiRequest<LocalTransferResponse>("v1", "transfers/outbound", "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });

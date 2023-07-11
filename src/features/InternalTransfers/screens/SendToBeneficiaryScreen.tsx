@@ -132,7 +132,7 @@ export default function SendToBeneficiaryScreen() {
     });
     type === "active"
       ? transferType === TransferType.SarieTransferAction
-        ? navigation.navigate("InternalTransfers.ReviewQuickTransferScreen", {
+        ? navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
             PaymentAmount: transferAmount,
             ReasonCode: reason,
             Beneficiary: {

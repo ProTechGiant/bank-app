@@ -23,6 +23,7 @@ import { formatCurrency } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { TransferAmountInput, TransferErrorBox, TransferLimitsModal, TransferReasonInput } from "../components";
+import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
 import { TransferType, TransferTypeCode } from "../types";
 
@@ -45,6 +46,8 @@ export default function QuickTransferScreen() {
   const [isTransferLimitsErrorVisible, setIsTransferLimitsErrorVisible] = useState(false);
   const [isTransferLimitsModalVisible, setIsTransferLimitsModalVisible] = useState(false);
   const [isTransferReasonsErrorVisible, setIsTransferReasonsErrorVisible] = useState(false);
+
+  const { setTransferType } = useInternalTransferContext();
 
   const handleOnValidateDailyLimit = async (transferAmount: number) => {
     try {
@@ -75,6 +78,8 @@ export default function QuickTransferScreen() {
   const handleOnContinue = (values: QuickTransferInput) => {
     const defaultReason = reasons.data?.TransferReason[0]?.Code;
     const selectedReason = values.ReasonCode ?? defaultReason;
+
+    setTransferType(TransferType.IpsTransferAction);
 
     if (selectedReason === undefined) {
       return;

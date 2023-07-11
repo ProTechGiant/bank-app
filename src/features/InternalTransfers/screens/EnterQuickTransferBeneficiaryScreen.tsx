@@ -164,7 +164,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
         name: _values.name,
       });
 
-      navigation.navigate("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen", {
+      navigation.navigate("InternalTransfers.ConfirmLocalTransferBeneficiaryScreen", {
         PaymentAmount: route.params.PaymentAmount,
         ReasonCode: route.params.ReasonCode,
         Beneficiary: {
