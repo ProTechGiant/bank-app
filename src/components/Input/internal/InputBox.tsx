@@ -33,6 +33,7 @@ export default function InputBox({ addonStart, children, isError, isFocused, num
       paddingEnd: !isError ? t.spacing["16p"] : undefined,
       paddingStart: addonStart === undefined ? t.spacing["16p"] : undefined,
       paddingVertical: t.spacing["12p"],
+      flexShrink: 1,
     }),
     [addonStart]
   );
