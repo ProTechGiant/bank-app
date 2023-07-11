@@ -41,7 +41,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
   const isOtpExpired = otpResetCountSeconds <= 0;
   const isReachedMaxAttempts = otpResendsRequested === OTP_MAX_RESENDS && isOtpExpired;
-  const [_, setShowBlockUserAlert] = useState(isReachedMaxAttempts);
   const resolvedPhoneNumber = phoneNumber ?? otpParams?.phoneNumber;
 
   const isLoginFlow =
@@ -81,17 +80,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     main();
   }, [params]);
 
-  // this is to check for if the flow is from login then check for blocked user and navigate it to blocked screen.
-  useEffect(() => {
-    if (undefined === params) {
-      return;
-    }
-
-    if (isReachedMaxAttempts && isLoginFlow) {
-      setShowBlockUserAlert(true);
-    }
-  }, [navigation, isReachedMaxAttempts, params, isLoginFlow]);
-
   useEffect(() => {
     if (isGenericErrorVisible || isReachedMaxAttempts) Keyboard.dismiss();
   }, [isGenericErrorVisible, isReachedMaxAttempts]);
@@ -128,9 +116,15 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   };
 
   const handleOnRequestBlockUserErrorClose = () => {
+    // on login flow we blocked the user otherwise we navigate the user with fail status and then navigate back to first stack.
     if (isReachedMaxAttempts && isLoginFlow) {
-      setShowBlockUserAlert(false);
       params.onUserBlocked?.();
+    } else {
+      // @ts-expect-error unable to properly add types for this call
+      navigation.navigate(params.action.to, {
+        ...params.action.params,
+        otpResponseStatus: "fail",
+      });
     }
   };
 

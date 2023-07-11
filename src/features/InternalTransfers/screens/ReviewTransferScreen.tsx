@@ -104,7 +104,10 @@ export default function ReviewTransferScreen() {
           invalidateBalances();
 
           if (status === "fail") {
-            setIsErrorModalVisible(true);
+            // if the otp is failed then we navigate the user to starting point.
+            navigation.navigate("InternalTransfers.InternalTransfersStack", {
+              screen: "InternalTransfers.PaymentsHubScreen",
+            });
           } else {
             navigation.navigate("InternalTransfers.ConfirmationScreen");
           }
