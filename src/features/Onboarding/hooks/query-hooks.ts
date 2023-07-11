@@ -1,10 +1,10 @@
+import { useTranslation } from "react-i18next";
 import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery } from "react-query";
 
 import sendApiRequest from "@/api";
 import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
-import i18n from "@/i18n";
 import { nationalIdRegEx } from "@/utils";
 
 import { IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
@@ -83,6 +83,8 @@ export function useConfirmPersonalDetails() {
 }
 
 export function useNafathDetails() {
+  const { i18n } = useTranslation();
+
   const { fetchLatestWorkflowTask, setCustomerName, revertWorkflowTask, nationalId, transactionId, correlationId } =
     useOnboardingContext();
   const { userId } = useAuthContext();
@@ -169,6 +171,8 @@ export function useSubmitFinancialDetails() {
 }
 
 export function useIqama() {
+  const { i18n } = useTranslation();
+
   const { startOnboardingAsync, fetchLatestWorkflowTask, correlationId, setNationalId, setMobileNumber, currentTask } =
     useOnboardingContext();
 

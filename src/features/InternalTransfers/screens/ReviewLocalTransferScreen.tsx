@@ -23,9 +23,8 @@ import { useInternalTransferContext } from "../context/InternalTransfersContext"
 import { useLocalTransfer, useTransferFees, useTransferReasonsByCode } from "../hooks/query-hooks";
 import { LocalTransfer, TransferType, TransferTypeCode } from "../types";
 
-export default function ReviewLocalTransferScreen() {
-  const { t } = useTranslation();
-  const { i18n } = useTranslation();
+export default function ReviewQuickTransferScreen() {
+  const { i18n, t } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ReviewLocalTransferScreen">>();
 
