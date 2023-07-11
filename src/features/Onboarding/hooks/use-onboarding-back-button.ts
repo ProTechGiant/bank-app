@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { BackHandler } from "react-native";
 
 import { warn } from "@/logger";
@@ -9,29 +9,44 @@ import { useOnboardingContext } from "../contexts/OnboardingContext";
 
 export const useOnboardingBackButton = () => {
   const navigation = useNavigation();
+
   const { revertWorkflowTask, fetchLatestWorkflowTask } = useOnboardingContext();
+  const isBackbuttonEnabled = useRef(true);
 
   useFocusEffect(
     useCallback(() => {
       const handleOnBackButtonClick = () => {
         handleOnBackPress();
+
         return true;
       };
+
       BackHandler.addEventListener("hardwareBackPress", handleOnBackButtonClick);
 
       return () => BackHandler.removeEventListener("hardwareBackPress", handleOnBackButtonClick);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
   );
 
   const handleOnBackPress = async () => {
+    if (!isBackbuttonEnabled.current) {
+      return;
+    }
+
+    isBackbuttonEnabled.current = false;
+
     try {
       const workflowTask = await fetchLatestWorkflowTask();
+
       if (workflowTask && workflowTask?.Name !== undefined) {
         await revertWorkflowTask(workflowTask);
       }
+
       navigation.goBack();
     } catch (err) {
-      warn("tasks", "Could not get Task. Error: ", JSON.stringify(err));
+      warn("onboarding", "Could not revert to previous task. Error: ", JSON.stringify(err));
+    } finally {
+      isBackbuttonEnabled.current = true;
     }
   };
 
