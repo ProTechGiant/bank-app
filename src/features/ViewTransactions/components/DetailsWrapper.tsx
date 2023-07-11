@@ -184,11 +184,11 @@ function DebitCardAndOneTimeCard({
           />
         ) : null}
         {data.categoryName ? (
-          <Pressable onPress={handleOnPressCategoriesList}>
+          <Pressable onPress={data.categoryId !== "10" ? handleOnPressCategoriesList : undefined}>
             <DetailedRow
               name={t("ViewTransactions.SingleTransactionDetailedScreen.category")}
               value={data.categoryName}
-              showIcon
+              showIcon={data.categoryId !== "10" ? true : false}
             />
           </Pressable>
         ) : null}

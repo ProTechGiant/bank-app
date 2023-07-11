@@ -59,7 +59,10 @@ export default function TransactionsScreen() {
     transactionCode,
     categories,
     selectedFilters,
-    groupBy
+    groupBy,
+    undefined,
+    undefined,
+    true
   );
 
   const [flexDir, setFlexDir] = useState("column");
