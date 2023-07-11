@@ -65,3 +65,48 @@ export interface DateInterface {
   startingDay?: boolean;
   textColor: string;
 }
+
+export interface TagIconType {
+  id: number;
+  path: string;
+  name: string;
+  viewBox?: string;
+}
+
+export interface PredefinedTagType {
+  id: number;
+  name: string;
+  path: string;
+  viewBox?: string;
+}
+
+export interface CreateNewTagType {
+  tagName: string;
+  tagIcon: string;
+  transactionId: string;
+}
+
+export interface CreateNewTagApiResponseType {
+  Status: string;
+  Message: string;
+  tagTransactionDetailResModel: {
+    TagId: number;
+    TagName: string;
+    TagIcon: string;
+    AccountId: string;
+    transactionId: string;
+  };
+}
+
+export interface GetCustomerTagsApiResponseType {
+  PageCount: number;
+  RowCount: number;
+  Tags: Array<GetCustomerSingleTagType>;
+}
+
+export interface GetCustomerSingleTagType {
+  TagId: number;
+  TagName: string;
+  TagIcon: string;
+  AccountId: string;
+}

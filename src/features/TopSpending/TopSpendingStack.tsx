@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { SpendSummaryScreen, TopSpendingScreen } from "./screens";
+import { SelectTagScreen, SpendSummaryScreen, TopSpendingScreen } from "./screens";
 
 export const Stack = createNativeStackNavigator();
 
@@ -22,7 +22,7 @@ export default function TopSpendingStack() {
         headerShown: false,
       }}>
       <Stack.Screen component={TopSpendingScreen} name="TopSpending.TopSpendingScreen" />
-
+      <Stack.Screen component={SelectTagScreen} name="TopSpending.SelectTagScreen" />
       <Stack.Screen component={SpendSummaryScreen} name="TopSpending.SpendSummaryScreen" />
     </Stack.Navigator>
   );

@@ -1,8 +1,10 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
-// import api from "@/api";
+import api from "@/api";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
+
+import { CreateNewTagApiResponseType, CreateNewTagType, GetCustomerTagsApiResponseType } from "../types";
 
 interface IncludedCategory {
   categoryId: string;
@@ -75,4 +77,34 @@ export function useCategories() {
   const excludedCategories = categories.data?.categories.excludedCategories;
 
   return { categories, includedCategories, total, excludedCategories, isLoading };
+}
+
+export function useCreateNewTag() {
+  return useMutation(async (requestBody: CreateNewTagType) => {
+    //TODO: Later will replace this accountId
+    const accountId = "100009269";
+    return api<CreateNewTagApiResponseType>("v1", `accounts/${accountId}/tags`, "POST", undefined, requestBody, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
+
+export function useGetCustomerTags(fromDate: string, toDate: string) {
+  return useQuery(["CustomerTags", { fromDate, toDate }], () => {
+    //TODO: Later will replace this accountId
+    const accountId = "100009269";
+    return api<GetCustomerTagsApiResponseType>(
+      "v1",
+      `accounts/${accountId}/tags/customer-tags`,
+      "GET",
+      {
+        fromDate,
+        toDate,
+      },
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
 }

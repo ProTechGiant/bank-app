@@ -91,6 +91,12 @@ function DebitCardAndOneTimeCard({
     });
   };
 
+  const handleOnPressTags = () => {
+    navigation.navigate("TopSpending.TopSpendingStack", {
+      screen: "TopSpending.SelectTagScreen",
+    });
+  };
+
   const handleOnBackPress = () => {
     navigation.goBack();
   };
@@ -182,6 +188,17 @@ function DebitCardAndOneTimeCard({
             <DetailedRow
               name={t("ViewTransactions.SingleTransactionDetailedScreen.category")}
               value={data.categoryName}
+              showIcon
+            />
+          </Pressable>
+        ) : null}
+        {/* TODO: later will check from tag property as of now it's not there */}
+        {data.categoryName ? (
+          <Pressable onPress={handleOnPressTags}>
+            <DetailedRow
+              name={t("ViewTransactions.SingleTransactionDetailedScreen.tags")}
+              //TODO: Later will be replaced with tags data in the next build cycle
+              value="Shopping, Food, +1 more"
               showIcon
             />
           </Pressable>
