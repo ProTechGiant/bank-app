@@ -1,11 +1,13 @@
+import { format } from "date-fns";
 import { I18nManager, Pressable, StyleSheet, ViewStyle } from "react-native";
 
-import { ChevronRightIcon, GiftIcon } from "@/assets/icons";
+import { ChevronRightIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
+import ShoppingCartIcon from "../assets/icons/ShoppingCartIcon";
 import { Transaction } from "../types";
 
 interface TransactionCellPros {
@@ -23,13 +25,20 @@ export default function TransactionCell({ transaction }: TransactionCellPros) {
   }));
   return (
     <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
-      <GiftIcon color={giftColor} />
+      <ShoppingCartIcon color={giftColor} />
       <Stack direction="vertical" style={styles.expandText}>
         <Typography.Text size="callout" weight="medium" color="neutralBase+30">
           {transaction.MerchantDetails.MerchantName}
         </Typography.Text>
         <Typography.Text size="footnote" weight="regular" color="neutralBase">
-          {transaction.BookingDateTime}
+          {format(
+            new Date(
+              transaction.BookingDateTime[0],
+              transaction.BookingDateTime[1] - 1,
+              transaction.BookingDateTime[2]
+            ),
+            "dd MMMM yyyy"
+          )}
         </Typography.Text>
       </Stack>
       <Typography.Text size="callout" color="neutralBase+30">

@@ -44,6 +44,7 @@ export default function TransactionsList({ transactionsAll, cardId, createDisput
       roundUpsAmount: transaction.SupplementaryData.RoundupAmount,
       categoryName: transaction.SupplementaryData.CategoryName,
       categoryId: transaction.SupplementaryData.CategoryId,
+      transactionId: transaction.TransactionId,
     };
 
     navigation.navigate("ViewTransactions.SingleTransactionDetailedScreen", { data: obj, cardId, createDisputeUserId });

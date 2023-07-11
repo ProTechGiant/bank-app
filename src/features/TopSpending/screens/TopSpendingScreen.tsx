@@ -18,6 +18,7 @@ type CategoryProps = {
   categoryId: string;
   categoryName: string;
   iconPath: string;
+  totalAmount: number;
 };
 
 export default function TopSpendingScreen() {
@@ -31,16 +32,24 @@ export default function TopSpendingScreen() {
 
   const monthName = currentDate.toLocaleString("en", { month: "long" });
 
-  const handleBack = () => {
+  const handleOnBackPress = () => {
     navigation.goBack();
   };
 
-  const handleOnCategoryTransactions = (category: CategoryProps) => {
-    navigation.navigate("TopSpending.SpendSummaryScreen", {
-      categoryId: category.categoryId,
-      categoryName: category.categoryName,
-      iconPath: category.iconPath,
-    });
+  const handleOnCategoryTransactions = (category: CategoryProps, screen: string) => {
+    if (screen === t("TopSpending.TopSpendingScreen.excludedfromSpending")) {
+      navigation.navigate("TopSpending.ExcludedDetailedScreen", {
+        categoryId: category.categoryId,
+        categoryName: category.categoryName,
+        totalAmount: category.totalAmount,
+      });
+    } else {
+      navigation.navigate("TopSpending.SpendSummaryScreen", {
+        categoryId: category.categoryId,
+        categoryName: category.categoryName,
+        iconPath: category.iconPath,
+      });
+    }
   };
 
   const sectionList = useThemeStyles<ViewStyle>(theme => ({
@@ -55,7 +64,7 @@ export default function TopSpendingScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader title={t("TopSpending.TopSpendingScreen.spendingInsights")} onBackPress={handleBack} />
+      <NavHeader title={t("TopSpending.TopSpendingScreen.spendingInsights")} onBackPress={handleOnBackPress} />
       {!isLoading && total ? (
         <>
           <CustomerBalance month={monthName} total={total} />
@@ -81,7 +90,9 @@ export default function TopSpendingScreen() {
               expandView: false,
             },
           ]}
-          renderItem={({ item }) => <CategoryCell category={item} onPress={() => handleOnCategoryTransactions(item)} />}
+          renderItem={({ item, section }) => (
+            <CategoryCell category={item} onPress={() => handleOnCategoryTransactions(item, section.title)} />
+          )}
           keyExtractor={(item, index) => String(index)}
           renderSectionHeader={({ section: { title, expandView } }) => (
             <Stack direction="horizontal" align="center" justify="space-between">

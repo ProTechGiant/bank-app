@@ -1,6 +1,7 @@
 export { default as AnimatedHeader } from "./AnimatedHeader";
 export { default as DetailedHeader } from "./DetailedHeader";
 export { default as DetailsWrapper } from "./DetailsWrapper";
+export { default as ExcludeFromSummary } from "./ExcludeFromSummary";
 export { default as FormatTransactionAmount } from "./FormatTransactionAmount";
 export { default as IconContainer } from "./IconContainer";
 export { default as NumberWithDifferentFontSizes } from "./NumberWithDifferentFontSizes";

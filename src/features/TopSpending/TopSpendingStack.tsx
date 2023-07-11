@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { SelectTagScreen, SpendSummaryScreen, TopSpendingScreen } from "./screens";
+import { ExcludedDetailedScreen, SelectTagScreen, SpendSummaryScreen, TopSpendingScreen } from "./screens";
 
 export const Stack = createNativeStackNavigator();
 
@@ -13,6 +13,12 @@ export type TopSpendingStackParams = {
     categoryName: string;
     iconPath: string;
   };
+  "TopSpending.ExcludedDetailedScreen": {
+    categoryId: string;
+    categoryName: string;
+    totalAmount: number;
+  };
+  "TopSpending.SelectTagScreen": undefined;
 };
 
 export default function TopSpendingStack() {
@@ -22,6 +28,8 @@ export default function TopSpendingStack() {
         headerShown: false,
       }}>
       <Stack.Screen component={TopSpendingScreen} name="TopSpending.TopSpendingScreen" />
+      <Stack.Screen component={ExcludedDetailedScreen} name="TopSpending.ExcludedDetailedScreen" />
+
       <Stack.Screen component={SelectTagScreen} name="TopSpending.SelectTagScreen" />
       <Stack.Screen component={SpendSummaryScreen} name="TopSpending.SpendSummaryScreen" />
     </Stack.Navigator>

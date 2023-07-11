@@ -11,6 +11,7 @@ export interface TransactionDetailed {
   roundUpsAmount: string;
   categoryName?: string;
   categoryId?: string;
+  transactionId: string;
 }
 
 export interface Transaction {

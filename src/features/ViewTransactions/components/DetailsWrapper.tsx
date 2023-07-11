@@ -17,8 +17,9 @@ import { useThemeStyles } from "@/theme";
 
 import { TransactionDetailed } from "../types";
 import DetailedHeader from "./DetailedHeader";
+import ExcludeFromSummary from "./ExcludeFromSummary";
 
-interface HOCprops {
+interface DetailsWrapperProps {
   data: TransactionDetailed;
   openModel: (arg: boolean) => void;
   onReportTransaction: () => void;
@@ -26,7 +27,7 @@ interface HOCprops {
   createDisputeUserId: string;
 }
 
-function DetailsWrapper({ data, openModel, onReportTransaction }: HOCprops) {
+function DetailsWrapper({ data, openModel, onReportTransaction }: DetailsWrapperProps) {
   return (
     <>
       {data.cardType === PHYSICAL_CARD_TYPE && data.status === "pending" ? (
@@ -211,6 +212,7 @@ function DebitCardAndOneTimeCard({
             roundup={false}
           />
         ) : null}
+        <ExcludeFromSummary transactionId={data.transactionId} />
         <View style={styles.detailedButton}>
           <CardButton
             label={t("ViewTransactions.SingleTransactionDetailedScreen.reportTransaction")}
