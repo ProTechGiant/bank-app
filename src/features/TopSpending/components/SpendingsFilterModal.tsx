@@ -10,6 +10,8 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { palette, radii } from "@/theme/values";
 
+import DiamondIcon from "../assets/icons/DiamondIcon";
+import { userType } from "../mocks";
 import { CompareDatesTypes } from "../types";
 import CompareModel from "./CompareModal";
 import CustomCalendar from "./CustomCalendar";
@@ -137,6 +139,8 @@ export default function SpendingsFilterModal({
             {t("TopSpending.SpendingDateFilter.pickPeriod")}
           </Button>
           <Button
+            iconRight={userType !== "plusTier" ? <DiamondIcon /> : undefined}
+            disabled={userType !== "plusTier"}
             variant="tertiary"
             onPress={() =>
               handleCompareOption(ModalScreens.ComparePeriods, t("TopSpending.SpendingDateFilter.comparePeriod"))

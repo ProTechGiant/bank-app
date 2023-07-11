@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SectionList, ViewStyle } from "react-native";
+import { Image, SectionList, View, ViewStyle } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import NavHeader from "@/components/NavHeader";
@@ -12,6 +12,13 @@ import { useThemeStyles } from "@/theme";
 
 import { CategoryCell, CustomerBalance } from "../components";
 import { useCategories } from "../hooks/query-hooks";
+import { userType } from "../mocks";
+
+type CategoryProps = {
+  categoryId: string;
+  categoryName: string;
+  iconPath: string;
+};
 
 export default function TopSpendingScreen() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -28,14 +35,37 @@ export default function TopSpendingScreen() {
     navigation.goBack();
   };
 
+  const handleOnCategoryTransactions = (category: CategoryProps) => {
+    navigation.navigate("TopSpending.SpendSummaryScreen", {
+      categoryId: category.categoryId,
+      categoryName: category.categoryName,
+      iconPath: category.iconPath,
+    });
+  };
+
   const sectionList = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
+  }));
+
+  const imagesStyle = useThemeStyles(theme => ({
+    backgroundColor: theme.palette["neutralBase-60"],
+    paddingHorizontal: theme.spacing["20p"],
+    paddingVertical: theme.spacing["10p"],
   }));
 
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader title={t("TopSpending.TopSpendingScreen.spendingInsights")} onBackPress={handleBack} />
-      {!isLoading && total ? <CustomerBalance month={monthName} total={total} /> : null}
+      {!isLoading && total ? (
+        <>
+          <CustomerBalance month={monthName} total={total} />
+          <View style={imagesStyle}>
+            {userType !== "plusTier" ? <Image source={require("../assets/images/hidden-text.png")} /> : null}
+            <Image source={require("../assets/images/hidden-graph.png")} />
+          </View>
+        </>
+      ) : null}
+
       {!isLoading && includedCategories && excludedCategories ? (
         <SectionList
           style={sectionList}
@@ -51,7 +81,7 @@ export default function TopSpendingScreen() {
               expandView: false,
             },
           ]}
-          renderItem={({ item }) => <CategoryCell category={item} />}
+          renderItem={({ item }) => <CategoryCell category={item} onPress={() => handleOnCategoryTransactions(item)} />}
           keyExtractor={(item, index) => String(index)}
           renderSectionHeader={({ section: { title, expandView } }) => (
             <Stack direction="horizontal" align="center" justify="space-between">

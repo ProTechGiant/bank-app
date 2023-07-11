@@ -21,10 +21,12 @@ type CellProps = {
 
 interface CategoryCellProps {
   category: CellProps;
+  onPress: () => void;
 }
 
-export default function CategoryCell({ category }: CategoryCellProps) {
+export default function CategoryCell({ category, onPress }: CategoryCellProps) {
   const { categoryName, percentage, totalAmount, transactionCount, currency, iconPath } = category;
+
   const { t } = useTranslation();
 
   const itemStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -37,25 +39,27 @@ export default function CategoryCell({ category }: CategoryCellProps) {
   }));
 
   return (
-    <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
-      <IconGenerator path={iconPath.replace('d="', "").replace('"', "")} color={giftColor} />
-      <Stack direction="vertical" style={styles.expandText}>
-        <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-          {categoryName ? categoryName : t("TopSpending.TopSpendingScreen.hidden")}
+    <Pressable onPress={onPress}>
+      <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
+        <IconGenerator path={iconPath?.replace('d="', "").replace('"', "")} color={giftColor} />
+        <Stack direction="vertical" style={styles.expandText}>
+          <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+            {categoryName ? categoryName : t("TopSpending.TopSpendingScreen.hidden")}
+          </Typography.Text>
+          <Typography.Text size="footnote" color="neutralBase">
+            {percentage
+              ? `${parseFloat(percentage).toFixed(1)}%`
+              : transactionCount + " " + t("TopSpending.TopSpendingScreen.transaction")}
+          </Typography.Text>
+        </Stack>
+        <Typography.Text size="callout" color="neutralBase+30">
+          {formatCurrency(totalAmount, currency)}
         </Typography.Text>
-        <Typography.Text size="footnote" color="neutralBase">
-          {percentage
-            ? `${parseFloat(percentage).toFixed(1)}%`
-            : transactionCount + " " + t("TopSpending.TopSpendingScreen.transaction")}
-        </Typography.Text>
+        <Pressable style={styles.pressable}>
+          <ChevronRightIcon color={chevronColor} />
+        </Pressable>
       </Stack>
-      <Typography.Text size="callout" color="neutralBase+30">
-        {formatCurrency(totalAmount, currency)}
-      </Typography.Text>
-      <Pressable style={styles.pressable}>
-        <ChevronRightIcon color={chevronColor} />
-      </Pressable>
-    </Stack>
+    </Pressable>
   );
 }
 

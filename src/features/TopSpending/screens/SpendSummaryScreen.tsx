@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { endOfMonth, endOfWeek, endOfYear, format, parseISO, startOfMonth, startOfWeek, startOfYear } from "date-fns";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { FlatList, I18nManager, Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CalendarAltIcon, ChevronRightIcon } from "@/assets/icons";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
@@ -15,10 +15,10 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import ShoppingCartIcon from "../assets/icons/ShoppingCartIcon";
-import { SpendingsFilterModal } from "../components";
+import { IconGenerator, SpendingsFilterModal } from "../components";
 import SpendCompareModal from "../components/SpendCompareModal";
 import { ChartTypes, CompareDurationTypes } from "../enum";
+import { userType } from "../mocks";
 import { CompareDatesTypes, PeriodDateTypes, Transaction, TransactionDetailed } from "../types";
 
 export default function SpendSummaryScreen() {
@@ -51,10 +51,14 @@ export default function SpendSummaryScreen() {
 
   const [isComparing, setIsComparing] = useState(false);
 
-  const { transactions } = useTransactions(undefined, "2", undefined, undefined, fromDate, toDate);
-
   const cardId = route.params?.cardId;
   const createDisputeUserId = route.params?.createDisputeUserId;
+  const categoryName = route.params?.categoryName;
+  const categoryId = route.params?.categoryId;
+  const iconPath = route.params?.iconPath;
+  const hiddenFlag = false;
+
+  const { transactions } = useTransactions(undefined, categoryId, undefined, undefined, fromDate, toDate, hiddenFlag);
 
   const totalSum = useMemo(() => {
     if (Array.isArray(transactions?.data?.Transaction)) {
@@ -237,8 +241,7 @@ export default function SpendSummaryScreen() {
         <View style={headerStyle}>
           <View>
             <Typography.Text color="neutralBase+30" size="title3" weight="medium">
-              {/* *TODO make it dynamic data when connect with other screen */}
-              Travel
+              {categoryName}
             </Typography.Text>
           </View>
           {isComparing ? (
@@ -310,6 +313,8 @@ export default function SpendSummaryScreen() {
                 {t("TopSpending.SpendSummaryScreen.sar")}
               </Typography.Text>
             </Stack>
+            {userType !== "plusTier" ? <Image source={require("../assets/images/hidden-text.png")} /> : null}
+            <Image source={require("../assets/images/hidden-graph.png")} />
           </View>
           <View style={textMargin}>
             <Typography.Text size="title3" color="neutralBase+30">
@@ -322,7 +327,7 @@ export default function SpendSummaryScreen() {
               renderItem={({ item }) => (
                 <Pressable key={item.TransactionId} onPress={() => handleOnPress(item)}>
                   <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
-                    <ShoppingCartIcon color={giftColor} />
+                    <IconGenerator path={iconPath?.replace('d="', "").replace('"', "")} color={giftColor} />
                     <Stack direction="vertical" style={styles.expandText}>
                       <Typography.Text size="callout" weight="medium" color="neutralBase+30">
                         {item.StatementReference}
@@ -364,9 +369,16 @@ export default function SpendSummaryScreen() {
             </View>
           )}
         </View>
-      ) : (
-        <>{chartType ? <SpendCompareModal chartType={chartType} compareDates={compareDates} /> : null}</>
-      )}
+      ) : chartType ? (
+        <SpendCompareModal
+          chartType={chartType}
+          compareDates={compareDates}
+          cardId={cardId}
+          createDisputeUserId={createDisputeUserId}
+          categoryId={categoryId}
+          hiddenFlag={hiddenFlag}
+        />
+      ) : null}
     </Page>
   );
 }

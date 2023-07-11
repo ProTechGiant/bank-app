@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 
-import api from "@/api";
+// import api from "@/api";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
 
@@ -41,33 +41,30 @@ const getMonthDates = (): { fromDate: string; toDate: string } => {
   return { fromDate, toDate };
 };
 
+// *TODO here i do not use the custom api until the apis is completed
 export function useCategories() {
   const account = useCurrentAccount();
   const { fromDate, toDate } = getMonthDates();
 
   const account_id = account.data?.id;
 
-  const categories = useQuery(
+  const categories = useQuery<ApiResponse, Error>(
     ["categories", { fromDate, toDate }],
     () =>
-      api<ApiResponse>(
-        "v1",
-        `accounts/${account_id}/categories`,
-        "GET",
+      fetch(
+        `http://alpha-transaction-service.apps.development.projectcroatia.cloud/v1/accounts/${account_id}/categories?pageSize=1000&pageNumber=0&fromDate=2000-01-01&toDate=2024-01-01`,
         {
-          PageSize: 1000,
-          PageNumber: 0,
-          fromDate: fromDate,
-          toDate: toDate,
-        },
-        undefined,
-        {
-          ["x-correlation-id"]: generateRandomId(),
+          headers: {
+            Accept: "application/json",
+            "x-correlation-id": generateRandomId(),
+            UserId: "301", // replace with appropriate user id
+          },
         }
-      ),
+      ).then(res => res.json()),
     {
       // set staleTime to 10 seconds for caching
       staleTime: 10000,
+      // enabled only if account_id exists
       enabled: !!account_id,
     }
   );

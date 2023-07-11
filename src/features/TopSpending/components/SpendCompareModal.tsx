@@ -1,4 +1,3 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { format } from "date-fns";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,7 +7,6 @@ import Divider from "@/components/Divider";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
 import Typography from "@/components/Typography";
 import useTransactions, { ApiNonGroupedTransactionsResponseElement } from "@/hooks/use-transactions";
-import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -22,33 +20,41 @@ import TransactionItem from "./TransactionItem";
 interface SpendCompareModalProps {
   chartType: ChartTypes;
   compareDates: CompareDatesTypes;
+  cardId: string;
+  createDisputeUserId: string;
+  categoryId: string;
+  hiddenFlag: boolean;
 }
 
-export default function SpendCompareModal({ chartType, compareDates }: SpendCompareModalProps) {
+export default function SpendCompareModal({
+  chartType,
+  compareDates,
+  cardId,
+  createDisputeUserId,
+  categoryId,
+  hiddenFlag,
+}: SpendCompareModalProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "TopSpending.TopSpendingStack">>();
-
-  const cardId = route.params?.cardId;
-  const createDisputeUserId = route.params?.createDisputeUserId;
-
   const { transactions: firstTransaction } = useTransactions(
     undefined,
-    "2",
+    categoryId,
     undefined,
     undefined,
     compareDates.firstDate.startDate,
-    compareDates.firstDate.endDate
+    compareDates.firstDate.endDate,
+    hiddenFlag
   );
 
   const { transactions: secondTransaction } = useTransactions(
     undefined,
-    "2",
+    categoryId,
     undefined,
     undefined,
     compareDates.lastDate.startDate,
-    compareDates.lastDate.endDate
+    compareDates.lastDate.endDate,
+    hiddenFlag
   );
 
   const handleTransactionPress = (transactionItem: ApiNonGroupedTransactionsResponseElement) => {

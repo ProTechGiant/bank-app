@@ -99,14 +99,15 @@ export default function useTransactions(
   selectedFilters?: string[],
   groupBy?: string,
   fromDate?: string,
-  toDate?: string
+  toDate?: string,
+  hiddenFlag?: boolean
 ) {
   const account = useCurrentAccount();
 
   const account_id = account.data?.id;
 
   const transactions = useQuery(
-    ["transactions", { transactionCode, selectedFilters, status: "completed", fromDate, toDate }],
+    ["transactions", { transactionCode, selectedFilters, status: "completed", fromDate, toDate, categories }],
     () =>
       api<ApiTransactionsResponseElement>(
         "v1",
@@ -121,6 +122,7 @@ export default function useTransactions(
           GroupBy: groupBy,
           fromDate: fromDate,
           toDate: toDate,
+          hiddenFlag: hiddenFlag ? "Y" : "N",
         },
         undefined,
         {
