@@ -2172,7 +2172,8 @@ export const resources = {
         delete: "Delete",
         cancel: "Cancel",
         set: "Set",
-        modalMessage: "If you delete this tag, all transactions related to this tag will no longer have a tagged group",
+        modalMessage:
+          "If you delete this tag, all transactions related to this tag will not longer be in a tagged group",
         modalTitle: "Are you sure you want to delete the selected tag?",
         selectTheHolidayCountry: "Select The Holiday Country",
         alreadyHaveATagName: 'You already have a tag named "{{tagName}}"',
@@ -3646,7 +3647,8 @@ export const resources = {
         delete: "Delete",
         cancel: "Cancel",
         set: "Set",
-        modalMessage: "If you delete this tag, all transactions related to this tag will no longer have a tagged group",
+        modalMessage:
+          "If you delete this tag, all transactions related to this tag will not longer be in a tagged group",
         modalTitle: "Are you sure you want to delete the selected tag?",
         selectTheHolidayCountry: "Select The Holiday Country",
         alreadyHaveATagName: 'You already have a tag named "{{tagName}}"',

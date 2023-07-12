@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, ScrollView, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -6,6 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -13,20 +14,23 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CreateTagModal, TagItem } from "../components";
-import { useCreateNewTag, useGetCustomerTags } from "../hooks/query-hooks";
+import { useCreateNewTag, useDeleteATag, useGetCustomerTags } from "../hooks/query-hooks";
 import { createNewTag, predefinedTags, tagIcons, tripToItem } from "../mocks/MockData";
 import { GetCustomerSingleTagType } from "../types";
 
 export default function SelectTagScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const [isCreateNewTagModalVisible, setIsCreateNewTagModalVisible] = useState<boolean>(false);
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState<boolean>(false);
+  const [isDeleteNotificationModalVisible, setIsDeleteNotificationModalVisible] = useState<boolean>(false);
+  const selectedDeleteTagItem = useRef<GetCustomerSingleTagType>();
 
   const { mutateAsync: createNewTagApi } = useCreateNewTag();
   const { data: customerTransactionTags, refetch } = useGetCustomerTags("2021-12-12", "2023-12-12");
+  const { mutateAsync: deleteTagApi } = useDeleteATag();
 
-  const navigation = useNavigation();
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     margin: theme.spacing["24p"],
   }));
@@ -57,6 +61,15 @@ export default function SelectTagScreen() {
 
   const handleOnPressDone = () => {
     navigation.goBack();
+  };
+
+  const handleOnPressDelete = async () => {
+    if (!selectedDeleteTagItem.current) return;
+    try {
+      await deleteTagApi(selectedDeleteTagItem.current.TagId);
+      setIsDeleteNotificationModalVisible(false);
+      refetch();
+    } catch (err) {}
   };
 
   const handleOnCreateTag = async (selectedTagId: number, tagName: string) => {
@@ -101,7 +114,7 @@ export default function SelectTagScreen() {
             <FlatList
               contentContainerStyle={flatListStyle}
               data={customerTransactionTags?.Tags}
-              keyExtractor={(_, index) => index.toString()}
+              keyExtractor={item => item.TagId.toString()}
               renderItem={({ item, index }: { item: GetCustomerSingleTagType; index: number }) => (
                 <TagItem
                   item={{
@@ -110,6 +123,10 @@ export default function SelectTagScreen() {
                     path: item.TagIcon,
                   }}
                   isTag={true}
+                  onDeletePress={() => {
+                    selectedDeleteTagItem.current = item;
+                    setIsDeleteNotificationModalVisible(true);
+                  }}
                 />
               )}
             />
@@ -129,6 +146,22 @@ export default function SelectTagScreen() {
             onNotificationModalClose={setIsNotificationModalVisible}
           />
         </Modal>
+        <NotificationModal
+          title={t("SelectTagScreen.modalTitle")}
+          message={t("SelectTagScreen.modalMessage")}
+          variant="error"
+          isVisible={isDeleteNotificationModalVisible}
+          onClose={() => setIsDeleteNotificationModalVisible(false)}
+          buttons={{
+            primary: <Button children={t("SelectTagScreen.delete")} onPress={handleOnPressDelete} />,
+            secondary: (
+              <Button
+                children={t("SelectTagScreen.cancel")}
+                onPress={() => setIsDeleteNotificationModalVisible(false)}
+              />
+            ),
+          }}
+        />
       </Page>
     </SafeAreaProvider>
   );

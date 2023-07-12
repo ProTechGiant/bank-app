@@ -6,7 +6,7 @@ import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
 
 import MarkedSVG from "../assets/marked.svg";
-import { GenericSvgIcon } from "../components";
+import { GenericSvgIcon, SwipeToDelete } from "../components";
 import { PredefinedTagType } from "../types";
 // import UnMarkedSVG from "../assets/unmarked.svg";
 
@@ -14,9 +14,10 @@ interface TagItemProps {
   item: PredefinedTagType;
   isTag: boolean;
   onPress?: () => void;
+  onDeletePress?: () => void;
 }
 
-export default function TagItem({ item, isTag, onPress }: TagItemProps) {
+export default function TagItem({ item, isTag, onPress, onDeletePress }: TagItemProps) {
   const tagRowFirtItemStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     alignItems: "center",
@@ -31,7 +32,7 @@ export default function TagItem({ item, isTag, onPress }: TagItemProps) {
     backgroundColor: theme.palette["neutralBase-40"],
   }));
 
-  return (
+  const tagItem = () => (
     <Pressable style={styles.tagRowStyle} key={item.id} onPress={onPress}>
       <View style={tagRowFirtItemStyle}>
         <View style={tagIconContainerStyle}>
@@ -43,6 +44,12 @@ export default function TagItem({ item, isTag, onPress }: TagItemProps) {
       </View>
       <View>{isTag ? <MarkedSVG /> : <ChevronRightIcon color={palette["neutralBase-30"]} />}</View>
     </Pressable>
+  );
+
+  return onDeletePress === undefined ? (
+    tagItem()
+  ) : (
+    <SwipeToDelete handleOnDeletePress={onDeletePress}>{tagItem()}</SwipeToDelete>
   );
 }
 

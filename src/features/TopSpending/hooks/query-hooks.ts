@@ -108,3 +108,13 @@ export function useGetCustomerTags(fromDate: string, toDate: string) {
     );
   });
 }
+
+export function useDeleteATag() {
+  return useMutation((tagId: number) => {
+    //TODO: Later will replace this accountId
+    const accountId = "100009269";
+    return api("v1", `accounts/${accountId}/tags/${tagId}`, "DELETE", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
