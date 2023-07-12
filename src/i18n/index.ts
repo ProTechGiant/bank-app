@@ -1877,9 +1877,11 @@ export const resources = {
         ConfirmationScreen: {
           title: {
             active: "Transfer successful",
-            pending: "Transfer pending",
             inactive: "Beneficiary activation and transfer successful",
             new: "Beneficiary activation and transfer successful",
+            activesarie: "Transfer pending",
+            inactivesarie: "Beneficiary activated and transfer pending",
+            newsarie: "Beneficiary added and transfer pending",
             newARB: "Beneficiary added and transfer pending",
             inactiveARB: "Beneficiary activation and transfer pending",
             activeARB: "Transfer pending",
@@ -3372,6 +3374,9 @@ export const resources = {
           active: "Transfer successful",
           inactive: "Beneficiary activation and transfer successful",
           new: "Beneficiary activation and transfer successful",
+          activesarie: "Transfer pending",
+          inactivesarie: "Beneficiary activated and transfer pending",
+          newsarie: "Beneficiary added and transfer pending",
           newARB: "Beneficiary added and transfer pending",
           inactiveARB: "Beneficiary activation and transfer pending",
           activeARB: "Transfer pending",

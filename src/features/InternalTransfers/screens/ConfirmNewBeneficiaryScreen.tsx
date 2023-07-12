@@ -70,7 +70,7 @@ export default function ConfirmNewBeneficiaryScreen() {
         transferType === undefined
       )
         return;
-      navigation.navigate("InternalTransfers.ReviewQuickTransferScreen", {
+      navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
         PaymentAmount: transferAmount,
         ReasonCode: reason,
         Beneficiary: {

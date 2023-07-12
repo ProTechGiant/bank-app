@@ -83,18 +83,22 @@ export default function ConfirmationScreen() {
               <CheckCircleIcon height={66} width={66} color={iconColor} />
             </View>
             <Typography.Text size="title1" weight="bold" color="neutralBase-60" align="center" style={titleStyle}>
-              {transferType === TransferType.SarieTransferAction
-                ? t("InternalTransfers.ConfirmationScreen.title.pending")
-                : recipient.type === "new"
+              {recipient.type === "new"
                 ? transferType === TransferType.CroatiaToArbTransferAction
                   ? t("InternalTransfers.ConfirmationScreen.title.newARB")
+                  : transferType === TransferType.SarieTransferAction
+                  ? t("InternalTransfers.ConfirmationScreen.title.newsarie")
                   : t("InternalTransfers.ConfirmationScreen.title.new")
                 : recipient.type === "inactive"
                 ? transferType === TransferType.CroatiaToArbTransferAction
                   ? t("InternalTransfers.ConfirmationScreen.title.inactiveARB")
+                  : transferType === TransferType.SarieTransferAction
+                  ? t("InternalTransfers.ConfirmationScreen.title.inactivesarie")
                   : t("InternalTransfers.ConfirmationScreen.title.inactive")
                 : transferType === TransferType.CroatiaToArbTransferAction
                 ? t("InternalTransfers.ConfirmationScreen.title.activeARB")
+                : transferType === TransferType.SarieTransferAction
+                ? t("InternalTransfers.ConfirmationScreen.title.activesarie")
                 : t("InternalTransfers.ConfirmationScreen.title.active")}
             </Typography.Text>
             <Typography.Text size="callout" color="neutralBase-20" align="center" style={messageStyle}>
