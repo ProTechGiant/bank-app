@@ -85,9 +85,13 @@ export function useCreateCase() {
 }
 
 export function useCaseDetails(transactionRef: string) {
-  return useQuery(queryKeys.caseDetails(transactionRef), () => {
-    return api<DisputeCase>("v1", `payments/case-detail/${transactionRef}`, "GET", undefined, undefined, {
-      "X-Correlation-ID": generateRandomId(),
-    });
-  });
+  return useQuery(
+    queryKeys.caseDetails(transactionRef),
+    () => {
+      return api<DisputeCase>("v1", `payments/case-detail/${transactionRef}`, "GET", undefined, undefined, {
+        "X-Correlation-ID": generateRandomId(),
+      });
+    },
+    { retry: false }
+  );
 }
