@@ -1,5 +1,6 @@
-import { cloneElement, isValidElement } from "react";
-import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { cloneElement, isValidElement, useCallback } from "react";
+import { BackHandler, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ArrowLeftIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
@@ -36,6 +37,20 @@ const NavHeader = ({
     if (undefined === onBackPress) navigation.goBack();
     else onBackPress();
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      const handleOnBackButtonClick = () => {
+        if (withBackButton) {
+          handleOnBackPress();
+        }
+        return true;
+      };
+      BackHandler.addEventListener("hardwareBackPress", handleOnBackButtonClick);
+
+      return () => BackHandler.removeEventListener("hardwareBackPress", handleOnBackButtonClick);
+    }, [])
+  );
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
