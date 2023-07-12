@@ -205,7 +205,11 @@ export default function SendToBeneficiaryScreen() {
                 ref={searchInputRef}
                 value={searchQuery}
                 clearText={t("InternalTransfers.SendToBeneficiaryScreen.search.button")}
-                placeholder={t("InternalTransfers.SendToBeneficiaryScreen.search.placeholder")}
+                placeholder={
+                  transferType === TransferType.CroatiaToArbTransferAction
+                    ? t("InternalTransfers.SendToBeneficiaryScreen.search.placeholderARB")
+                    : t("InternalTransfers.SendToBeneficiaryScreen.search.placeholder")
+                }
                 onClear={handleOnSearchClear}
                 onSearch={handleOnSearch}
               />

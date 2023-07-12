@@ -1558,6 +1558,7 @@ export const resources = {
           unconfirmedBeneficiariesListTitle: "Inactive",
           search: {
             placeholder: "Name, account or phone",
+            placeholderARB: "Name, account or IBAN",
             emptyState: {
               title: "No search results found",
               message:
@@ -3075,6 +3076,7 @@ export const resources = {
         unconfirmedBeneficiariesListTitle: "Inactive",
         search: {
           placeholder: "Name, account or phone",
+          placeholderARB: "Name, account or IBAN",
           emptyState: {
             title: "No search results found",
             message:
