@@ -81,7 +81,7 @@ export default function PendingAccountScreen() {
   }));
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["28p"],
+    marginTop: theme.spacing["24p"],
     paddingBottom: theme.spacing["20p"],
   }));
 

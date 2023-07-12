@@ -2,7 +2,7 @@ import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export function BigCheckIcon({ width = 36, height = 28, color = "white" }: IconProps) {
+export function BigCheckIcon({ width = 36, height = 28, color = "#ffffff" }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 36 28" fill={color} xmlns="http://www.w3.org/2000/svg">
       <Path

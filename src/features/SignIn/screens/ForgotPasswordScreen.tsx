@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert as RNAlert, View, ViewStyle } from "react-native";
+import { Alert as RNAlert, StyleSheet, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import Alert from "@/components/Alert";
@@ -12,15 +12,15 @@ import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 import delayTransition from "@/utils/delay-transition";
+import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { BLOCKED_TIME, OTP_BLOCKED_TIME, PINCODE_LENGTH } from "../constants";
 // import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
 import { useSendLoginOTP, useValidatePincode } from "../hooks/query-hooks";
 
-const ForgotPasswordScreen = () => {
+export default function ForgotPasswordScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { mutateAsync: validatePincode, error: validateError, isError } = useValidatePincode();
@@ -110,10 +110,6 @@ const ForgotPasswordScreen = () => {
     navigation.navigate("SignIn.CreatePasscode");
   };
 
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: theme.spacing.full,
-  }));
-
   const bannerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
   }));
@@ -121,7 +117,7 @@ const ForgotPasswordScreen = () => {
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader withBackButton={true} />
-      <View style={containerStyle}>
+      <View style={styles.containerStyle}>
         <PasscodeInput
           title={t("SignIn.ForgotPasscodeScreen.title")}
           errorMessage={errorMessages}
@@ -139,5 +135,10 @@ const ForgotPasswordScreen = () => {
       </View>
     </Page>
   );
-};
-export default ForgotPasswordScreen;
+}
+
+const styles = StyleSheet.create({
+  containerStyle: {
+    height: "100%",
+  },
+});

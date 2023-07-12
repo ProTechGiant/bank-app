@@ -38,7 +38,6 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
     flex: 1,
     borderTopLeftRadius: theme.radii.small,
     borderBottomLeftRadius: theme.radii.small,
-    paddingRight: theme.spacing["37p"],
   }));
 
   const goalTitleStyle = useThemeStyles<ViewStyle>(theme => ({

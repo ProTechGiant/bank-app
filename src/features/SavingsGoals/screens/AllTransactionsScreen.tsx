@@ -9,20 +9,20 @@ import FormatTransactionAmount from "@/components/FormatTransactionAmount";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
-import MainStackParams from "@/navigation/mainStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
 
 import { useSavingsPot } from "../hooks/query-hooks";
 import { savingsMocksData } from "../mocks/mockTransactionsSavingGoal";
+import { SavingsGoalsStackParams } from "../SavingsGoalsStack";
 import { GoalTransaction, SavingGoalTransaction } from "../types";
 
 export default function AllTransactionsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.AllTransactionsScreen">>();
+  const route = useRoute<RouteProp<SavingsGoalsStackParams, "SavingsGoals.AllTransactionsScreen">>();
   const { PotId } = route.params ?? {};
 
   const { data: savingsPotData } = useSavingsPot(PotId);
@@ -68,7 +68,7 @@ export default function AllTransactionsScreen() {
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette.primaryBase,
-    paddingHorizontal: theme.spacing["10p"],
+    paddingHorizontal: theme.spacing["12p"],
     paddingVertical: theme.spacing["8p"],
     flexDirection: "row",
     justifyContent: "space-between",
@@ -77,7 +77,7 @@ export default function AllTransactionsScreen() {
 
   const balanceStyle = useThemeStyles<TextStyle>(theme => ({
     textAlign: "left",
-    marginVertical: theme.spacing["5p"],
+    marginVertical: theme.spacing["4p"],
   }));
 
   const firstRowStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -103,7 +103,7 @@ export default function AllTransactionsScreen() {
     <Page insets={["left", "right"]}>
       <StatusBar barStyle="light-content" backgroundColor={palette.primaryBase} translucent />
       <SafeAreaView edges={["top"]} style={styles.header}>
-        <NavHeader onBackPress={handleOnBackPress} title={savingsPotData?.GoalName} color="white" />
+        <NavHeader onBackPress={handleOnBackPress} title={savingsPotData?.GoalName} />
         <View style={headerStyle}>
           <View>
             <Typography.Text style={balanceStyle} size="footnote" weight="regular" color="primaryBase-40">

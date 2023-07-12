@@ -1,4 +1,3 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { Animated, Pressable, TextStyle, View, ViewStyle } from "react-native";
 
@@ -41,7 +40,7 @@ export default function AnimatedHeader({
       width: "100%",
       backgroundColor: theme.palette.primaryBase,
       paddingBottom: theme.spacing["12p"],
-      paddingHorizontal: theme.spacing["10p"],
+      paddingHorizontal: theme.spacing["12p"],
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
@@ -53,7 +52,7 @@ export default function AnimatedHeader({
     theme => ({
       backgroundColor: theme.palette["neutralBase-40"],
       borderRadius: theme.radii.xxlarge,
-      marginBottom: theme.spacing["5p"],
+      marginBottom: theme.spacing["4p"],
       justifyContent: "center",
       alignItems: "center",
       position: "relative",
@@ -71,7 +70,7 @@ export default function AnimatedHeader({
   const currencyStyle = useThemeStyles<TextStyle>(
     theme => ({
       color: theme.palette["neutralBase-50"],
-      marginRight: theme.spacing["5p"],
+      marginRight: theme.spacing["4p"],
       textAlign: "left",
       fontWeight: "bold",
     }),
@@ -104,7 +103,7 @@ export default function AnimatedHeader({
       fontSize: theme.typography.text.sizes.footnote,
       fontWeight: theme.typography.text.weights.regular,
       textAlign: "left",
-      marginVertical: theme.spacing["5p"],
+      marginVertical: theme.spacing["4p"],
     }),
     [flexDir]
   );
@@ -114,7 +113,7 @@ export default function AnimatedHeader({
       flexDirection: flexDir === "row-reverse" ? "row-reverse" : "column",
       justifyContent: "center",
       alignItems: "center",
-      marginTop: theme.spacing["10p"],
+      marginTop: theme.spacing["12p"],
     }),
     [flexDir]
   );
@@ -129,7 +128,7 @@ export default function AnimatedHeader({
   const amountContainer = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     alignItems: "flex-end",
-    marginBottom: theme.spacing["5p"],
+    marginBottom: theme.spacing["4p"],
   }));
 
   const circle = useThemeStyles<ViewStyle>(

@@ -19,7 +19,7 @@ export function WarningFilledCircleIcon({ width = 78, height = 81 }: IconProps) 
       </G>
       <Defs>
         <ClipPath id="clip0_6791_54461">
-          <Rect width="78" height="80.0145" fill="white" />
+          <Rect width="78" height="80.0145" fill="#ffffff" />
         </ClipPath>
       </Defs>
     </Svg>

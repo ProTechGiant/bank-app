@@ -32,7 +32,8 @@ enum ModalScreens {
 export default function ViewFilterModal({ visible, onClose, onApplyFilter, selectedFilters }: ViewFilterModalProps) {
   const { t } = useTranslation();
 
-  const centerCont = useThemeStyles<ViewStyle>(() => ({
+  const centerCont = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60"],
     justifyContent: "center",
     alignItems: "center",
   }));
@@ -128,9 +129,9 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
   const optionContainer = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-40"],
     borderRadius: theme.radii.xxlarge,
-    paddingHorizontal: theme.spacing["10p"],
+    paddingHorizontal: theme.spacing["12p"],
     paddingVertical: theme.spacing["4p"],
-    marginHorizontal: theme.spacing["5p"],
+    marginHorizontal: theme.spacing["4p"],
   }));
 
   const chevronColor = useThemeStyles<string>(theme => theme.palette.primaryBase);
@@ -151,7 +152,7 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
       height: 56,
       borderRadius: theme.radii.extraSmall,
       backgroundColor: !(selectedSpendingCategories.length > 0 || selectedCardTypes.length > 0)
-        ? "#E6E6E6"
+        ? theme.palette["neutralBase-40"]
         : theme.palette.primaryBase,
     }),
     [selectedSpendingCategories, selectedCardTypes]

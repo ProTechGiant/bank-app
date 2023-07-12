@@ -43,7 +43,7 @@ export default function CategoryCard({ title, onSelect, isSelected, iconName }: 
     flexDirection: "column",
     paddingHorizontal: theme.spacing["8p"],
     marginVertical: theme.spacing["8p"],
-    width: theme.spacing["30%"],
+    width: "30%",
   }));
 
   const selectedCardStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -52,7 +52,7 @@ export default function CategoryCard({ title, onSelect, isSelected, iconName }: 
 
   const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingRight: theme.spacing["12p"],
-    marginTop: theme.spacing["5p"],
+    marginTop: theme.spacing["4p"],
   }));
 
   const textStyle = useThemeStyles<ViewStyle>(theme => ({

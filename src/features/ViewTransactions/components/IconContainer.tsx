@@ -14,7 +14,7 @@ type IconContainerProps = {
   containerStyle?: ViewStyle;
 };
 
-const IconContainer = ({ path, name, selected, onPress, containerStyle }: IconContainerProps) => {
+export default function IconContainer({ path, name, selected, onPress, containerStyle }: IconContainerProps) {
   const viewBoxMap = {
     General: "0 0 19 22",
     Transfer: "0 0 19 22",
@@ -35,14 +35,14 @@ const IconContainer = ({ path, name, selected, onPress, containerStyle }: IconCo
   const categoryIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   const categoryTextStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["10p"],
+    marginTop: theme.spacing["12p"],
   }));
 
   const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
-    padding: theme.spacing["10p"],
+    padding: theme.spacing["12p"],
   }));
 
   const iconWrapperStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -89,6 +89,4 @@ const IconContainer = ({ path, name, selected, onPress, containerStyle }: IconCo
       </Typography.Text>
     </Pressable>
   );
-};
-
-export default IconContainer;
+}

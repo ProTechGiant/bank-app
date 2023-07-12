@@ -75,7 +75,7 @@ export default function SpendingsFilterModal({
         const formattedDate = format(d, "yyyy-MM-dd");
         date[formattedDate] = {
           color: palette.primaryBase,
-          textColor: "white",
+          textColor: palette["neutralBase-60"],
           customContainerStyle: {
             borderRadius: radii.extraSmall,
           },
@@ -95,7 +95,7 @@ export default function SpendingsFilterModal({
           startingDay: true,
           endingDay: true,
           color: palette.primaryBase,
-          textColor: "white",
+          textColor: palette["neutralBase-60"],
           customContainerStyle: {
             borderRadius: radii.extraSmall,
           },

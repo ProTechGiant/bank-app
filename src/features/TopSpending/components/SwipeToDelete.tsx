@@ -14,7 +14,7 @@ interface SwipeToDeleteProps {
 export default function SwipeToDelete({ children, handleOnDeletePress }: SwipeToDeleteProps) {
   const deleteButtonStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: theme.palette["neutralBase-60"],
     height: "100%",
     justifyContent: "center",
     borderColor: theme.palette.errorBase,

@@ -118,7 +118,7 @@ export default function ResetPinCodeScreen() {
   const inputContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     paddingVertical: theme.spacing["16p"],
-    rowGap: theme.spacing["10p"],
+    rowGap: theme.spacing["12p"],
     width: "100%",
   }));
 

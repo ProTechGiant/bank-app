@@ -14,7 +14,7 @@ export function FilledRefreshIcon({ width = 24, height = 24, color = "#FFF0DC" }
       </G>
       <Defs>
         <ClipPath id="clip0_3931_21262">
-          <Rect width="13.5" height="13.5" fill="white" transform="translate(5.25 5.25)" />
+          <Rect width="13.5" height="13.5" fill="#ffffff" transform="translate(5.25 5.25)" />
         </ClipPath>
       </Defs>
     </Svg>

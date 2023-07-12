@@ -91,7 +91,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
   }));
 
   const largeCurrencyStyle = useThemeStyles<TextStyle>(theme => ({
-    marginTop: theme.spacing["10p"],
+    marginTop: theme.spacing["12p"],
   }));
 
   const mediumCurrencyStyle = useThemeStyles<TextStyle>(theme => ({
@@ -168,15 +168,15 @@ const styles = StyleSheet.create({
     opacity: 0.4,
   },
   largeText: {
-    fontSize: 56, // not in core theme
+    fontSize: 56,
     lineHeight: 67,
   },
   mediumText: {
-    fontSize: 38, // not in core theme
+    fontSize: 38,
     lineHeight: 48,
   },
   smallText: {
-    fontSize: 30, // not in core theme
+    fontSize: 30,
     lineHeight: 34,
   },
 });

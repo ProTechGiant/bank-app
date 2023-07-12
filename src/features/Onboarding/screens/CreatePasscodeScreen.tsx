@@ -11,7 +11,7 @@ import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { isPasscodeIdentical, isSequential, maxRepeatThresholdMet } from "@/utils/is-valid-pin";
+import { isSequential, maxRepeatThresholdMet } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { PASSCODE_LENGTH } from "../constants";
@@ -46,7 +46,7 @@ export default function CreatePasscodeScreen() {
   const inputContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     marginVertical: theme.spacing["32p"],
-    rowGap: theme.spacing["10p"],
+    rowGap: theme.spacing["8p"],
     width: "100%",
   }));
 

@@ -15,7 +15,7 @@ export default function SegmentedControlItem<T>({ children, isActive, onPress }:
     theme => ({
       borderBottomColor: isActive ? theme.palette["neutralBase+30"] : "transparent",
       borderBottomWidth: 2,
-      paddingBottom: theme.spacing["10p"],
+      paddingBottom: theme.spacing["12p"],
     }),
     [isActive]
   );

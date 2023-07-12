@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { ErrorFilledCircleIcon } from "@/assets/icons";
 import Alert from "@/components/Alert";
@@ -12,7 +12,7 @@ import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useThemeStyles } from "@/theme";
-import { isPasscodeIdentical, isSequential, maxRepeatThresholdMet } from "@/utils/is-valid-pin";
+import { isSequential, maxRepeatThresholdMet } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { PASSCODE_LENGTH } from "../constants";
@@ -20,7 +20,7 @@ import { SignInStackParams } from "../SignInStack";
 
 type CreatePassCodeScreenNavigationProp = NativeStackNavigationProp<SignInStackParams>;
 
-const CreatePasscodeScreen = () => {
+export default function CreatePasscodeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation<CreatePassCodeScreenNavigationProp>();
   const [passCode, setPasscode] = useState<string>("");
@@ -57,10 +57,6 @@ const CreatePasscodeScreen = () => {
     }
   };
 
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: theme.spacing.full,
-  }));
-
   const bannerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
   }));
@@ -68,7 +64,7 @@ const CreatePasscodeScreen = () => {
   return (
     <Page>
       <NavHeader withBackButton={isAuthenticated} />
-      <View style={containerStyle}>
+      <View style={styles.containerStyle}>
         <PasscodeInput
           errorMessage={errorMessages}
           title={t("SignIn.CreatePasscodeScreen.title")}
@@ -84,5 +80,10 @@ const CreatePasscodeScreen = () => {
       </View>
     </Page>
   );
-};
-export default CreatePasscodeScreen;
+}
+
+const styles = StyleSheet.create({
+  containerStyle: {
+    height: "100%",
+  },
+});

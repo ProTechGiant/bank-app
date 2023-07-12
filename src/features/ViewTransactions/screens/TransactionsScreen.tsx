@@ -132,7 +132,7 @@ export default function TransactionsScreen() {
   const selectedFilter = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     color: theme.palette.primaryBase,
-    marginRight: theme.spacing["5p"],
+    marginRight: theme.spacing["4p"],
     alignItems: "center",
     flexWrap: "wrap",
   }));
@@ -141,12 +141,12 @@ export default function TransactionsScreen() {
     flexDirection: "row",
     backgroundColor: theme.palette["neutralBase-40"],
     borderRadius: theme.radii.xxlarge,
-    paddingHorizontal: theme.spacing["10p"],
+    paddingHorizontal: theme.spacing["12p"],
     paddingVertical: theme.spacing["4p"],
-    marginHorizontal: theme.spacing["5p"],
+    marginHorizontal: theme.spacing["4p"],
     borderWidth: 1,
     borderColor: theme.palette["neutralBase-20"],
-    marginBottom: theme.spacing["5p"],
+    marginBottom: theme.spacing["4p"],
   }));
 
   const pendingContainer = useThemeStyles<ViewStyle>(theme => ({

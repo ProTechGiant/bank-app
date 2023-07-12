@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, TextInput, TextStyle, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, TextInput, TextStyle, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { AngleDownIcon } from "@/assets/icons";
@@ -81,29 +81,24 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
   };
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    top: theme.spacing["5p"],
+    top: theme.spacing["4p"],
   }));
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
-    width: theme.spacing.full,
+    width: "100%",
     alignSelf: "center",
     backgroundColor: theme.palette["neutralBase-60"],
     flex: 1,
   }));
 
-  const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    width: theme.spacing.full,
-    alignSelf: "center",
-  }));
-
   const subtitleStyle = useThemeStyles<ViewStyle>(theme => ({
-    width: theme.spacing.full,
+    width: "100%",
     alignSelf: "center",
     alignContent: "center",
     borderRadius: theme.radii.medium,
     marginTop: theme.spacing["20p"],
     marginBottom: theme.spacing["8p"],
-    paddingHorizontal: theme.spacing["14p"],
+    paddingHorizontal: theme.spacing["12p"],
   }));
 
   const dropDownContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -127,20 +122,20 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
   }));
 
   const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingRight: theme.spacing["10p"],
-    paddingVertical: theme.spacing["10p"],
+    paddingRight: theme.spacing["12p"],
+    paddingVertical: theme.spacing["12p"],
   }));
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    width: theme.spacing.full,
+    width: "100%",
     position: "absolute",
     bottom: theme.spacing["4p"],
     marginTop: theme.spacing["16p"],
   }));
 
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
-    padding: theme.spacing["10p"],
-    paddingVertical: theme.spacing["5p"],
+    padding: theme.spacing["12p"],
+    paddingVertical: theme.spacing["4p"],
   }));
 
   return (
@@ -149,7 +144,7 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
         <NavHeader title={t("Settings.FinancialInformation.title")} onBackPress={onBackPress} />
       </View>
       <View style={containerStyles}>
-        <View style={headerContainerStyle}>
+        <View style={styles.headerContainerStyle}>
           <View style={subtitleStyle}>
             <Typography.Text color="neutralBase+30" size="title3" weight="medium">
               {t("Settings.FinancialInformation.subTitle")}
@@ -277,3 +272,10 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  headerContainerStyle: {
+    alignSelf: "center",
+    width: "100%",
+  },
+});

@@ -70,7 +70,7 @@ export function ConfirmPasscodeScreen() {
   const inputContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     marginVertical: theme.spacing["16p"],
-    rowGap: theme.spacing["10p"],
+    rowGap: theme.spacing["8p"],
     width: "100%",
   }));
 

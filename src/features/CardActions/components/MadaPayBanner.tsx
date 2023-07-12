@@ -14,7 +14,7 @@ export default function MadaPayBanner() {
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
-    padding: theme.spacing["10p"],
+    padding: theme.spacing["12p"],
   }));
 
   return (

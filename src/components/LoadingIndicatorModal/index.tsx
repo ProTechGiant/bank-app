@@ -25,7 +25,7 @@ export default function LoadingIndicatorModal(props: LoadingIndicatorModalProps)
 
   const innerContainerStyles = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["supportBase-30"],
-    padding: theme.spacing["67p"],
+    padding: theme.spacing["64p"],
     borderRadius: theme.radii.xlarge,
     justifyContent: "center",
   }));

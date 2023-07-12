@@ -40,13 +40,13 @@ export default function SelectTagScreen() {
   }));
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["28p"],
+    marginTop: theme.spacing["24p"],
     paddingBottom: theme.spacing["20p"],
     marginHorizontal: theme.spacing["24p"],
   }));
 
   const sectionBreakerStyle = useThemeStyles<ViewStyle>(theme => ({
-    width: theme.spacing.full,
+    width: "100%",
     backgroundColor: theme.palette["neutralBase-40"],
     height: theme.spacing["4p"],
   }));

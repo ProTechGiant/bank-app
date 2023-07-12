@@ -59,7 +59,7 @@ export default function TopSpendingScreen() {
   const imagesStyle = useThemeStyles(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
     paddingHorizontal: theme.spacing["20p"],
-    paddingVertical: theme.spacing["10p"],
+    paddingVertical: theme.spacing["12p"],
   }));
 
   return (

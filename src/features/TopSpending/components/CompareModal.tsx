@@ -10,6 +10,7 @@ import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+import { palette } from "@/theme/values";
 
 import { CompareDurationTypes } from "../enum";
 import { CompareDatesTypes, DateInterface } from "../types";
@@ -61,7 +62,7 @@ export default function CompareModel({ onCompare, onClose, isVisible, onBack }: 
             borderRadius: containerRadius,
           },
           text: {
-            color: "white",
+            color: palette["neutralBase-60"],
           },
         },
       },
@@ -84,7 +85,7 @@ export default function CompareModel({ onCompare, onClose, isVisible, onBack }: 
 
       date[dateStr] = {
         color: periodOne ? primaryBaseColor : complimentBaseColor,
-        textColor: "white",
+        textColor: palette["neutralBase-60"],
         disableTouchEvent: true,
         customContainerStyle: {
           borderRadius: 4,

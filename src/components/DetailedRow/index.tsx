@@ -17,7 +17,7 @@ export default function DetailedRow({ name, openModel, value, roundup, showIcon 
   const row = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "space-between",
     flexDirection: "row",
-    paddingVertical: theme.spacing["10p"],
+    paddingVertical: theme.spacing["12p"],
   }));
 
   const rowTitle = useThemeStyles<TextStyle>(theme => ({

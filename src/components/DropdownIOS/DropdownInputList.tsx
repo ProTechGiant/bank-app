@@ -28,7 +28,7 @@ export function DropdownInputList<T extends string | number>({ options, onChange
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     flexDirection: "row",
-    columnGap: theme.spacing["10p"],
+    columnGap: theme.spacing["12p"],
     paddingVertical: theme.spacing["16p"],
   }));
 

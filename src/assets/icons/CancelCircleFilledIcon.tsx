@@ -19,7 +19,7 @@ export function CancelCircleFilledIcon({ height = 78, width = 81 }: IconProps) {
       </G>
       <Defs>
         <ClipPath id="clip0_6791_54462">
-          <Rect width="78" height="80.1626" fill="white" />
+          <Rect width="78" height="80.1626" fill="#ffffff" />
         </ClipPath>
       </Defs>
     </Svg>

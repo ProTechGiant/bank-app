@@ -154,10 +154,9 @@ export default function SpendCompareModal({
   }, [secondTransaction]);
 
   const contentStyle = useThemeStyles(theme => ({
-    backgroundColor: "white",
+    backgroundColor: theme.palette["neutralBase-60"],
     paddingHorizontal: theme.spacing["20p"],
-    paddingTop: theme.spacing["28p"],
-    paddingBottom: theme.spacing["37p"],
+    paddingVertical: theme.spacing["32p"],
     // marginTop: theme.spacing["16p"],
     flex: 1,
   }));

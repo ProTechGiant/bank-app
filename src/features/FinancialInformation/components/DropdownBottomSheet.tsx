@@ -62,8 +62,8 @@ export default function DropdownBottomSheet({
 
   const bottomSheetStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
-    borderTopLeftRadius: theme.spacing["18p"],
-    borderTopRightRadius: theme.spacing["18p"],
+    borderTopLeftRadius: theme.radii.medium,
+    borderTopRightRadius: theme.radii.medium,
     padding: theme.spacing["20p"],
     flex: 1,
     marginTop: theme.spacing["16p"],

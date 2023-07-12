@@ -80,7 +80,7 @@ export default function TopTenArticleScreen() {
     position: "absolute",
     paddingTop: theme.spacing["48p"],
     paddingRight: theme.spacing["64p"],
-    paddingLeft: theme.spacing["10p"],
+    paddingLeft: theme.spacing["12p"],
   }));
 
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase-30"]);

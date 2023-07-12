@@ -18,8 +18,8 @@ import useNavigation from "@/navigation/use-navigation";
 import BiometricsService from "@/services/BiometricService";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
-import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 import delayTransition from "@/utils/delay-transition";
+import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { BLOCKED_TIME, OTP_BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
@@ -182,21 +182,17 @@ export default function PasscodeScreen() {
     navigation.navigate("SignIn.Biometric");
   };
 
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: theme.spacing.full,
-  }));
-
   const forgotPasscodeTextStyle = useThemeStyles<ViewStyle>(theme => ({
     position: "absolute",
     bottom: theme.spacing["64p"],
-    width: theme.spacing.full,
+    width: "100%",
     textAlign: "center",
   }));
 
   return (
     <Page>
       <NavHeader withBackButton={true} />
-      <View style={containerStyle}>
+      <View style={styles.containerStyle}>
         <PasscodeInput
           user={user}
           title={
@@ -247,6 +243,9 @@ export default function PasscodeScreen() {
 }
 
 const styles = StyleSheet.create({
+  containerStyle: {
+    height: "100%",
+  },
   underline: {
     textDecorationLine: "underline",
   },

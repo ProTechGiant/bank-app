@@ -41,7 +41,7 @@ export default function CustomCard({ inputs, onPress, title }: CustomCardProps) 
 
   const iconContainer = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["12p"],
-    paddingHorizontal: theme.spacing["18p"],
+    paddingHorizontal: theme.spacing["16p"],
   }));
 
   return (

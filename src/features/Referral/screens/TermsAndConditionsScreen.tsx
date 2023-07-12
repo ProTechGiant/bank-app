@@ -9,7 +9,6 @@ import TermsAndConditionDetails from "@/components/TermsAndConditionDetails";
 import Typography from "@/components/Typography";
 import { useContentTermsAndCondition } from "@/hooks/use-content";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
 
 export default function TermsAndConditionsScreen() {
   const { t } = useTranslation();
@@ -18,10 +17,6 @@ export default function TermsAndConditionsScreen() {
   const termsAndConditionData = useContentTermsAndCondition();
   const termsSections = termsAndConditionData?.data?.TermsSections;
 
-  const containerStyle = useThemeStyles(theme => ({
-    marginBottom: theme.spacing["100p"],
-  }));
-
   return (
     <Page>
       <NavHeader
@@ -29,7 +24,7 @@ export default function TermsAndConditionsScreen() {
         title={t("Referral.TermsAndConditionsScreen.navTitle")}
         end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
       />
-      <ContentContainer isScrollView style={containerStyle}>
+      <ContentContainer isScrollView>
         <Typography.Header weight="bold" size="medium">
           {t("Referral.TermsAndConditionsScreen.pageTitle")}
         </Typography.Header>

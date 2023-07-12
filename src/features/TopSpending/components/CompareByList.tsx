@@ -1,4 +1,4 @@
-import { FlatList, TouchableOpacity, View, ViewStyle } from "react-native";
+import { FlatList, Pressable, View, ViewStyle } from "react-native";
 
 import { CheckIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
@@ -34,13 +34,13 @@ const RenderListItem = ({ onChange, item, activeFilter }: RenderListItemProps) =
   const listContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: theme.spacing["10p"],
+    marginVertical: theme.spacing["12p"],
   }));
 
   const chevronColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
 
   return (
-    <TouchableOpacity onPress={() => onChange(item)} style={listContainerStyle}>
+    <Pressable onPress={() => onChange(item)} style={listContainerStyle}>
       <Typography.Text
         weight="regular"
         size="callout"
@@ -48,6 +48,6 @@ const RenderListItem = ({ onChange, item, activeFilter }: RenderListItemProps) =
         {item}
       </Typography.Text>
       {activeFilter === item && <CheckIcon color={chevronColor} />}
-    </TouchableOpacity>
+    </Pressable>
   );
 };

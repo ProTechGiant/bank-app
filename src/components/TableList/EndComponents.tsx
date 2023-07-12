@@ -36,7 +36,7 @@ const Copy = ({ onPress }: CopyProps) => {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-40"],
     borderRadius: 34,
-    padding: theme.spacing["10p"],
+    padding: theme.spacing["12p"],
   }));
 
   return (

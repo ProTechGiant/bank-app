@@ -42,7 +42,7 @@ export default function IVRCheckScreen() {
   };
 
   const textLineMargin = useThemeStyles<TextStyle>(theme => ({
-    marginLeft: theme.spacing["5p"],
+    marginLeft: theme.spacing["4p"],
   }));
 
   const phoneFilledIconColor = useThemeStyles(theme => theme.palette.neutralBase);
@@ -51,7 +51,7 @@ export default function IVRCheckScreen() {
     <>
       <Page backgroundColor="neutralBase-60">
         <ContentContainer style={styles.containerStyle}>
-          <Stack align="center" direction="vertical" gap="10p">
+          <Stack align="center" direction="vertical" gap="12p">
             <Typography.Text color="primaryBase" weight="semiBold" size="title1">
               {t("InternalTransfers.IVRCheckScreen.wellCallYouTitle")}
             </Typography.Text>

@@ -65,7 +65,7 @@ const RenderHeader = ({ date }: RenderHeaderProps) => {
     flexDirection: "row",
     justifyContent: "space-between",
     overflow: "hidden",
-    paddingVertical: theme.spacing["10p"],
+    paddingVertical: theme.spacing["12p"],
   }));
 
   // Check if the dates are valid

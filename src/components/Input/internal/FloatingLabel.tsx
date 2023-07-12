@@ -20,7 +20,7 @@ export default function FloatingLabel({ containsValue, isEditable, isFocused, la
       fontSize: theme.typography.text.sizes.callout,
       fontWeight: theme.typography.text.weights.regular,
       position: "absolute",
-      top: theme.spacing["18p"],
+      top: theme.spacing["16p"],
       left: theme.spacing["16p"],
     }),
     [isEditable]

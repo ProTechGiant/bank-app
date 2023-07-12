@@ -148,8 +148,8 @@ export default function SpendSummaryScreen() {
 
   const selectedText = useThemeStyles(theme => ({
     borderBottomColor: theme.palette["neutralBase+30"],
-    borderBottomWidth: 2, // TODO: We'll update it once added in theme sizes
-    paddingBottom: theme.spacing["5p"],
+    borderBottomWidth: 2,
+    paddingBottom: theme.spacing["4p"],
   }));
 
   const header = useThemeStyles(theme => ({

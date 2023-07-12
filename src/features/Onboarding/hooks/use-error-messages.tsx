@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 
 import ApiError from "@/api/ApiError";
 import ResponseError from "@/api/ResponseError";
-import { ErrorFilledCircleIcon, InfoFilledCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 
 import { ErrorMessageType } from "../types";

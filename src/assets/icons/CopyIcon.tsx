@@ -2,7 +2,7 @@ import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export function CopyIcon({ width = 20, height = 22, color = "white" }: IconProps) {
+export function CopyIcon({ width = 20, height = 22, color = "#ffffff" }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path

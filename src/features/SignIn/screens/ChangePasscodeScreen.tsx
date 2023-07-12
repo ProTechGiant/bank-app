@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import NavHeader from "@/components/NavHeader";
@@ -10,15 +10,14 @@ import PasscodeInput from "@/components/PasscodeInput";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
-import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 import delayTransition from "@/utils/delay-transition";
+import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useErrorMessages } from "../hooks";
 import { useLoginUser, useSendLoginOTP } from "../hooks/query-hooks";
 
-const ChangePasscodeScreen = () => {
+export default function ChangePasscodeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { mutateAsync, error: loginError, isError } = useLoginUser();
@@ -100,14 +99,10 @@ const ChangePasscodeScreen = () => {
     navigation.navigate("SignIn.CreatePasscode");
   };
 
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: theme.spacing.full,
-  }));
-
   return (
     <Page>
       <NavHeader withBackButton={true} />
-      <View style={containerStyle}>
+      <View style={styles.containerStyle}>
         <PasscodeInput
           title={t("SignIn.ChangePasscodeScreen.title")}
           subTitle={t("SignIn.ChangePasscodeScreen.subTitle")}
@@ -122,5 +117,10 @@ const ChangePasscodeScreen = () => {
       </View>
     </Page>
   );
-};
-export default ChangePasscodeScreen;
+}
+
+const styles = StyleSheet.create({
+  containerStyle: {
+    height: "100%",
+  },
+});

@@ -33,15 +33,15 @@ const PasscodeInput = ({
   const { t } = useTranslation();
   const titleStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["16p"],
-    marginTop: theme.spacing["5p"],
+    marginTop: theme.spacing["4p"],
   }));
 
   const profilePicWraper = useThemeStyles<TextStyle>(theme => ({
     height: 56,
     width: 56,
     borderRadius: theme.radii.xxlarge,
-    marginRight: theme.spacing["10p"],
-    marginBottom: theme.spacing["10p"],
+    marginRight: theme.spacing["12p"],
+    marginBottom: theme.spacing["12p"],
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: theme.palette["supportBase-10"],
@@ -52,8 +52,8 @@ const PasscodeInput = ({
 
   const passcodeInput = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-20"],
-    height: theme.spacing["14p"],
-    width: theme.spacing["14p"],
+    height: theme.spacing["12p"],
+    width: theme.spacing["12p"],
     marginHorizontal: theme.spacing["20p"],
     overflow: "hidden",
     borderRadius: theme.radii.small,
@@ -69,13 +69,13 @@ const PasscodeInput = ({
     justifyContent: "space-between",
     marginTop: theme.spacing["32p"],
   }));
+
   const alertWrapper = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
     paddingVertical: theme.spacing["16p"],
     width: "100%",
-    height: theme.spacing["120p"],
     paddingTop: theme.spacing["24p"],
-    marginBottom: theme.spacing["10p"],
+    marginBottom: theme.spacing["12p"],
   }));
 
   return (

@@ -14,7 +14,7 @@ export default function BrandMoment({ style, title, adjustFontSizeToFit }: Brand
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: theme.spacing["5p"],
+    paddingHorizontal: theme.spacing["4p"],
   }));
 
   return (

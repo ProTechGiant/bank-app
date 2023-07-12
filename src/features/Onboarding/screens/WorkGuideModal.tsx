@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, View, ViewStyle } from "react-native";
+import { Alert, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
@@ -25,16 +25,11 @@ export default function WorkGuideModal() {
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: 0,
-    paddingBottom: theme.spacing["14p"],
-  }));
-
-  const stackStyle = useThemeStyles<ViewStyle>(theme => ({
-    width: theme.spacing.full,
-    alignItems: "stretch",
+    paddingBottom: theme.spacing["12p"],
   }));
 
   const lockIconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["30p"],
+    marginBottom: theme.spacing["32p"],
     alignSelf: "center",
   }));
 
@@ -52,9 +47,9 @@ export default function WorkGuideModal() {
     width: "100%",
     marginTop: theme.spacing["20p"],
     paddingLeft: theme.spacing["16p"],
-    paddingRight: theme.spacing["18p"],
+    paddingRight: theme.spacing["16p"],
     paddingVertical: theme.spacing["20p"],
-    gap: theme.spacing["5p"], // Applied in order to give some spacing between labels and the checkbox
+    gap: theme.spacing["4p"], // Applied in order to give some spacing between labels and the checkbox
   }));
 
   const selectLifeStyleInnerLeftContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -78,7 +73,7 @@ export default function WorkGuideModal() {
         <NavHeader title={t("Onboarding.LandingScreen.lifeStylePreferenceModal.topTitle")} withBackButton={false} />
         <ContentContainer style={contentContainerStyle}>
           <Stack direction="vertical" justify="space-between" flex={1}>
-            <Stack direction="vertical" style={stackStyle} justify="center" align="center">
+            <Stack direction="vertical" style={styles.stackStyle} justify="center" align="center">
               <View style={lockIconContainerStyle}>
                 <UnlockSVG />
               </View>
@@ -106,7 +101,7 @@ export default function WorkGuideModal() {
                 </Pressable>
               ) : null}
             </Stack>
-            <Stack gap="16p" direction="vertical" align="center" style={stackStyle}>
+            <Stack gap="16p" direction="vertical" align="center" style={styles.stackStyle}>
               <Button onPress={handleButtonPress}>
                 {/* TODO: will check from status */}
                 {lifeStyleItem?.Persistent
@@ -123,3 +118,10 @@ export default function WorkGuideModal() {
     </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  stackStyle: {
+    alignItems: "stretch",
+    width: "100%",
+  },
+});

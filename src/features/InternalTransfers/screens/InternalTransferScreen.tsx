@@ -95,7 +95,7 @@ export default function InternalTransferScreen() {
   }));
 
   const transferLimitContainerStyle = useThemeStyles(theme => ({
-    marginTop: theme.spacing["18p"],
+    marginTop: theme.spacing["20p"],
   }));
 
   const currentAmount = watch("PaymentAmount");

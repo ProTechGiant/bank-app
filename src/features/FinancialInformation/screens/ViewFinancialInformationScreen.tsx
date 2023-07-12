@@ -29,11 +29,11 @@ export default function ViewFinancialInformationScreen({ setIsEditable, isEditab
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-40"],
-    top: theme.spacing["5p"],
+    top: theme.spacing["4p"],
   }));
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    width: theme.spacing.full,
+    width: "100%",
     alignSelf: "center",
     backgroundColor: theme.palette["neutralBase-60"],
     flex: 1,
@@ -43,9 +43,9 @@ export default function ViewFinancialInformationScreen({ setIsEditable, isEditab
     backgroundColor: theme.palette["neutralBase-60"],
     alignSelf: "center",
     alignContent: "center",
-    width: theme.spacing.full,
-    paddingLeft: theme.spacing["14p"],
-    paddingRight: theme.spacing["14p"],
+    width: "100%",
+    paddingLeft: theme.spacing["12p"],
+    paddingRight: theme.spacing["12p"],
     marginTop: theme.spacing["24p"],
   }));
 

@@ -140,7 +140,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
   }));
 
   const FAQs = useThemeStyles<TextStyle>(theme => ({
-    marginStart: theme.spacing["5p"],
+    marginStart: theme.spacing["4p"],
   }));
 
   return (

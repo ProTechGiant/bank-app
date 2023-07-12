@@ -2,7 +2,7 @@ import Svg, { Path, Rect } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export function LargeFilledTickIcon({ width = 64, height = 64, color = "white" }: IconProps) {
+export function LargeFilledTickIcon({ width = 64, height = 64, color = "#ffffff" }: IconProps) {
   const length: number = +width;
 
   return (

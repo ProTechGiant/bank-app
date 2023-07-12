@@ -51,7 +51,13 @@ export default function UnmaskedBankCard({
   }));
 
   const copyButtonContainer = useThemeStyles<ViewStyle>(theme => ({
-    paddingLeft: theme.spacing["10p"],
+    paddingLeft: theme.spacing["12p"],
+  }));
+
+  const securityCodeContainer = useThemeStyles<ViewStyle>(theme => ({
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    marginTop: theme.spacing["16p"],
   }));
 
   const splittedNumber = cardNumber ? cardNumber.split("-") : [];
@@ -71,10 +77,10 @@ export default function UnmaskedBankCard({
         <View style={styles.detailsContainer}>
           <View style={styles.cardNumberContainer}>
             <Stack align="center" direction="horizontal" gap="24p">
-              <Stack align="center" direction="vertical" gap="10p">
+              <Stack align="center" direction="vertical" gap="12p">
                 {splittedNumber.length > 0
                   ? splittedNumber.map(number => (
-                      <Stack direction="horizontal" key={Math.random()} gap="5p">
+                      <Stack direction="horizontal" key={Math.random()} gap="4p">
                         {number.split("").map((currentNumber, index) => (
                           <Typography.Text key={index} color="neutralBase-50" weight="medium" size="body">
                             {currentNumber}
@@ -101,7 +107,7 @@ export default function UnmaskedBankCard({
               </Typography.Text>
             </Stack>
           </View>
-          <View style={styles.securityCodeContainer}>
+          <View style={securityCodeContainer}>
             <Stack align="center" direction="horizontal" gap="8p">
               <Typography.Text color="neutralBase-50" weight="regular" size="caption2">
                 {t("CardActions.CardDetails.securityCode")}
@@ -139,10 +145,5 @@ const styles = StyleSheet.create({
     marginTop: 90,
     paddingHorizontal: 24,
     width: "60%",
-  },
-  securityCodeContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    marginTop: 16,
   },
 });

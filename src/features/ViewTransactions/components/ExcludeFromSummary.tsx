@@ -29,7 +29,7 @@ export default function ExcludeFromSummary({ transactionId }: ExcludeFromSummary
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["10p"],
+    paddingVertical: theme.spacing["12p"],
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",

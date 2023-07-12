@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 
 import { WithShadow } from "@/components";
 import Button from "@/components/Button";
@@ -40,7 +40,7 @@ export default function CreateTagModal({
   const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
 
   const modalButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["5p"],
+    marginTop: theme.spacing["4p"],
     paddingBottom: theme.spacing["20p"],
   }));
 
@@ -66,6 +66,16 @@ export default function CreateTagModal({
     marginVertical: theme.spacing["20p"],
   }));
 
+  const circleStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    borderColor: theme.palette["neutralBase-60"],
+    borderRadius: 50,
+    borderWidth: 4,
+    height: 104,
+    justifyContent: "center",
+    width: 104,
+  }));
+
   const handleOnCreateTagPress = async () => {
     if (!selectedTagId || !tagName) return;
     const isTagCreated = await onCreatePress(selectedTagId, tagName);
@@ -79,7 +89,7 @@ export default function CreateTagModal({
     <>
       <View style={createNewTagIconContainerStyle}>
         <WithShadow backgroundColor="transparent" borderRadius="xxlarge">
-          <View style={styles.circle}>
+          <View style={circleStyle}>
             <GiftSvg />
           </View>
         </WithShadow>
@@ -131,15 +141,3 @@ export default function CreateTagModal({
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  circle: {
-    alignItems: "center",
-    borderColor: "white",
-    borderRadius: 50,
-    borderWidth: 4,
-    height: 104,
-    justifyContent: "center",
-    width: 104,
-  },
-});

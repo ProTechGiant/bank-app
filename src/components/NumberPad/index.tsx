@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { Dispatch, SetStateAction } from "react";
-import { TouchableOpacity, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { FaceIdIcon, RemoveIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
@@ -17,9 +17,30 @@ interface ButtonInterface {
   index: number;
 }
 const NumberPad = ({ passcode, setPasscode, isBiomatric, handleBioMatric }: NumberPadProps) => {
+  const handleNumberPress = (number: string) => {
+    if (passcode.length < 6) {
+      const password = passcode + number;
+      setPasscode(password);
+    }
+  };
+
+  const handleRemove = () => {
+    setPasscode(passcode.slice(0, passcode.length - 1));
+  };
+
+  const button = useThemeStyles<ViewStyle>(theme => ({
+    width: 80,
+    height: 80,
+    marginHorizontal: theme.spacing["16p"],
+    marginVertical: theme.spacing["4p"],
+    borderRadius: theme.radii.xxlarge,
+    justifyContent: "center",
+    alignItems: "center",
+  }));
+
   const Button = ({ children, index }: ButtonInterface) => {
     return (
-      <TouchableOpacity
+      <Pressable
         style={button}
         disabled={index === 9 && !isBiomatric}
         onPress={() => {
@@ -32,13 +53,13 @@ const NumberPad = ({ passcode, setPasscode, isBiomatric, handleBioMatric }: Numb
         <Typography.Text size="title1" color="primaryBase">
           {children}
         </Typography.Text>
-      </TouchableOpacity>
+      </Pressable>
     );
   };
 
   const NumPad = () => {
     return (
-      <View style={rowStyle}>
+      <View style={styles.rowStyle}>
         {[
           "1",
           "2",
@@ -63,36 +84,17 @@ const NumberPad = ({ passcode, setPasscode, isBiomatric, handleBioMatric }: Numb
     );
   };
 
-  const handleNumberPress = (number: string) => {
-    if (passcode.length < 6) {
-      const password = passcode + number;
-      setPasscode(password);
-    }
-  };
-
-  const handleRemove = () => {
-    setPasscode(passcode.slice(0, passcode.length - 1));
-  };
-
-  const rowStyle = useThemeStyles<ViewStyle>(theme => ({
-    bottom: theme.spacing["80p"],
-    position: "absolute",
-    flexDirection: "row",
-    justifyContent: "center",
-    flexWrap: "wrap",
-  }));
-
-  const button = useThemeStyles<ViewStyle>(theme => ({
-    width: theme.spacing["80p"],
-    height: theme.spacing["80p"],
-    marginHorizontal: theme.spacing["16p"],
-    marginVertical: theme.spacing["4p"],
-    borderRadius: theme.radii.xxlarge,
-    justifyContent: "center",
-    alignItems: "center",
-  }));
-
   return <NumPad />;
 };
 
 export default NumberPad;
+
+const styles = StyleSheet.create({
+  rowStyle: {
+    bottom: 80,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    position: "absolute",
+  },
+});

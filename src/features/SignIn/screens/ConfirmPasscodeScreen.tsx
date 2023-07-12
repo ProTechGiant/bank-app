@@ -1,8 +1,8 @@
 import type { RouteProp } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import { ErrorFilledCircleIcon } from "@/assets/icons";
@@ -15,7 +15,6 @@ import PasscodeInput from "@/components/PasscodeInput";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
 
 import { PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
@@ -25,7 +24,7 @@ import { SignInStackParams } from "../SignInStack";
 
 type ConfirmPasscodeScreenRouteProp = RouteProp<SignInStackParams, "SignIn.ConfirmPasscode">;
 
-const ConfirmPasscodeScreen = () => {
+export default function ConfirmPasscodeScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { params } = useRoute<ConfirmPasscodeScreenRouteProp>();
@@ -80,10 +79,6 @@ const ConfirmPasscodeScreen = () => {
     }
   };
 
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: theme.spacing.full,
-  }));
-
   return (
     <Page>
       {isLoading ? <LoadingIndicatorModal /> : null}
@@ -91,7 +86,7 @@ const ConfirmPasscodeScreen = () => {
         withBackButton={true}
         onBackPress={isAuthenticated ? () => navigation.navigate("Settings.AccountSettings") : undefined}
       />
-      <View style={containerStyle}>
+      <View style={styles.containerStyle}>
         <PasscodeInput
           errorMessage={errorMessages.length ? errorMessages : errorMessage}
           title={t("SignIn.ConfirmPasscodeScreen.title")}
@@ -121,5 +116,10 @@ const ConfirmPasscodeScreen = () => {
       />
     </Page>
   );
-};
-export default ConfirmPasscodeScreen;
+}
+
+const styles = StyleSheet.create({
+  containerStyle: {
+    height: "100%",
+  },
+});

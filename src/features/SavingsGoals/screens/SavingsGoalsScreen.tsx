@@ -72,13 +72,15 @@ export default function SavingsGoalsScreen() {
   }));
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: theme.spacing["56p"],
+    paddingTop: theme.spacing["48p"],
   }));
 
-  const BackgroundBottomStyle = useThemeStyles<ViewStyle>(theme => ({
+  const backgroundBottomStyle = useThemeStyles<ViewStyle>(theme => ({
     position: "absolute",
     bottom: -theme.spacing["24p"] + 1, // Small gap forms on iphone SE, 1 pixel added to remove this.
   }));
+
+  const backgroundAngledColor = useThemeStyles(theme => theme.palette["supportBase-15"]);
 
   return (
     <SafeAreaProvider>
@@ -93,8 +95,8 @@ export default function SavingsGoalsScreen() {
                 : t("SavingsGoals.SavingsGoalsScreen.maxGoalsTitle")}
             </Typography.Text>
           </View>
-          <View style={BackgroundBottomStyle}>
-            <BackgroundBottom color="#E4F0F2" />
+          <View style={backgroundBottomStyle}>
+            <BackgroundBottom color={backgroundAngledColor} />
           </View>
         </SafeAreaView>
 

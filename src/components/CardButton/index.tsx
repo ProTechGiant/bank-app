@@ -17,7 +17,7 @@ export default function CardButton({ label, text, onPress }: CardButtonProps) {
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: theme.spacing["10p"],
+    paddingVertical: theme.spacing["12p"],
     paddingHorizontal: theme.spacing["16p"],
     height: 64,
     borderRadius: theme.radii.extraSmall,

@@ -118,7 +118,7 @@ function DebitCardAndOneTimeCard({
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-40"],
-    paddingHorizontal: theme.spacing["10p"],
+    paddingHorizontal: theme.spacing["12p"],
     paddingVertical: theme.spacing["8p"],
     flexDirection: "row",
     justifyContent: "space-between",
@@ -127,6 +127,10 @@ function DebitCardAndOneTimeCard({
 
   const header = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-40"],
+  }));
+
+  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60"],
   }));
 
   return (
@@ -157,7 +161,7 @@ function DebitCardAndOneTimeCard({
         </View>
       </SafeAreaView>
 
-      <ContentContainer style={styles.contentStyle}>
+      <ContentContainer style={contentStyle}>
         <DetailedRow
           openModel={openModel}
           name={t("ViewTransactions.SingleTransactionDetailedScreen.status")}
@@ -235,9 +239,6 @@ function DebitCardAndOneTimeCard({
 }
 
 const styles = StyleSheet.create({
-  contentStyle: {
-    backgroundColor: "white",
-  },
   detailedButton: {
     marginTop: 40,
   },
