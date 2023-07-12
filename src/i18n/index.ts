@@ -813,7 +813,7 @@ export const resources = {
           title: "How can we help you?",
           searchPlaceholder: "I need help with...",
           searchHelpTitle: "Have a specific question in mind?",
-          searchHelpSubtitle: "Enter keywords to search amongst XX answers.",
+          searchHelpSubtitle: "Enter keywords to search amongst answers.",
         },
         DetailedScreen: {
           feedback: "Did you find this answer helpful?",
@@ -2792,20 +2792,20 @@ export const resources = {
       },
       FrequentlyAskedQuestions: {
         LandingScreen: {
-          title: "How can we help you?",
-          searchPlaceholder: "I need help with...",
-          searchHelpTitle: "Have a specific question in mind?",
-          searchHelpSubtitle: "Enter keywords to search amongst XX answers.",
+          title: "كيف يمكننا مساعدتك؟",
+          searchPlaceholder: "أحتاج مساعدة في ...",
+          searchHelpTitle: "لديك سؤال محدد في الاعتبار؟",
+          searchHelpSubtitle: "أدخل الكلمات الأساسية للبحث بين الإجابات",
         },
         DetailedScreen: {
-          feedback: "Did you find this answer helpful?",
-          positiveFeedback: "Thank you.",
+          feedback: "هل وجدت هذه الإجابة مفيدة؟",
+          positiveFeedback: "شكرًا لك.",
           negativeFeedback:
-            "Sorry to hear that. If you need more help, you can explore related questions or get in touch.",
-          relatedQuestions: "Related questions",
-          help: "Need more help?",
-          call: "Call Bank",
-          chat: "Live Chat",
+            "آسف لسماع ذلك. إذا كنت بحاجة إلى مزيد من المساعدة ، يمكنك استكشاف الأسئلة ذات الصلة أو التواصل معنا.",
+          relatedQuestions: "أسئلة ذات صلة",
+          help: "هل تريد المزيد من المساعدة",
+          call: "اتصل بالبنك",
+          chat: "دردشة مباشرة",
         },
       },
       NotificationManagement: {
