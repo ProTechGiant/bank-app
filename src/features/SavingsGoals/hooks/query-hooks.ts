@@ -125,7 +125,6 @@ interface FundSavingsPotRecurringOptions {
   CreditorAccount: string;
   DebtorAccount: string;
   PaymentFrequency: string;
-  EndDate: Date;
   Reference?: string;
   PaymentDetails?: string[];
   Description?: string[];
@@ -163,8 +162,7 @@ export function useFundSavingsPot() {
         undefined,
         {
           ...bodyOptions,
-          StartingDate: isRecurringFunding(options) ? format(options.StartingDate, "yyyy-MM-dd") : undefined,
-          EndDate: isRecurringFunding(options) ? options.EndDate.toISOString : undefined,
+          StartingDate: isRecurringFunding(options) ? options.StartingDate : undefined,
         },
         {
           "X-Correlation-ID": generateRandomId(),

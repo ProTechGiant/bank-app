@@ -23,6 +23,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { AccountDestination, LargeCurrencyInput } from "../components";
+import { PAYMENT_FREQUENCY } from "../constants";
 import { isNextMonth, setDateAndFormatRecurringPayment } from "../helpers";
 import {
   useDeletePotRecurringPayment,
@@ -133,7 +134,7 @@ export default function EditRecurringPaymentModal() {
         DebtorAccount: recurringFundData.DomesticStandingOrderId,
         PotId: savingsPotData.PotId,
         PaymentAmount: stringPaymentAmount,
-        PaymentFrequency: `${formattedDate} e0Y e1M e0W e0D`,
+        PaymentFrequency: `${formattedDate} ${PAYMENT_FREQUENCY}`,
       });
       navigation.goBack();
     } catch (error) {

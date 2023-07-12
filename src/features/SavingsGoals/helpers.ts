@@ -40,24 +40,16 @@ export const isNextMonth = (date: Date, reference: Date = new Date()) => {
   );
 };
 
-export const setDateAndFormatRecurringPayment = (inputDay: number) => {
-  const currentDate = new Date();
-  const currentDay = currentDate.getDate();
-  let newDate;
-  let returnedDate;
-
+export const setDateAndFormatRecurringPayment = (inputDay: number, dateFormat = "yyyyMM") => {
   if (Number.isNaN(inputDay)) {
-    returnedDate = format(currentDate, "yyyyMMdd");
-    return returnedDate;
+    return "";
   }
-  if (currentDay >= inputDay) {
-    newDate = addMonths(currentDate, 1);
-    newDate = format(newDate, "yyyyMMdd");
-    returnedDate = newDate.slice(0, 6) + inputDay.toString().padStart(2, "0");
-  } else if (currentDay < inputDay) {
-    newDate = currentDate;
-    newDate = format(newDate, "yyyyMMdd");
-    returnedDate = newDate.slice(0, 6) + inputDay.toString().padStart(2, "0");
-  }
-  return returnedDate;
+
+  const currentDate = new Date();
+  let newDate;
+
+  newDate = currentDate.getDate() >= inputDay ? addMonths(currentDate, 1) : currentDate;
+  newDate = format(newDate, dateFormat) + inputDay.toString().padStart(2, "0");
+
+  return newDate;
 };

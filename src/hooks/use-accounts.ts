@@ -72,6 +72,17 @@ export function useCurrentAccount() {
   }, [accounts]);
 }
 
+export function useSavingsAccount() {
+  const accounts = useAccounts();
+
+  return useMemo(() => {
+    return {
+      ...accounts,
+      data: accounts.data?.find(account => account.accountType === "SAVINGS"),
+    };
+  }, [accounts]);
+}
+
 // eslint-disable-next-line prettier/prettier
 function interleaveAccountsWithBalances(accounts: ApiAccountResponseElement["Data"]["Account"], balances: ApiBalanceResponseElement[]) {
   return accounts.map((account, index) => {
@@ -118,7 +129,7 @@ interface ApiAccountResponseElement {
       {
         AccountId: string;
         Currency: string;
-        AccountType: string;
+        AccountType: "CURRENT" | "SAVINGS";
         Description: string;
         OpeningDate: string;
         Account: [

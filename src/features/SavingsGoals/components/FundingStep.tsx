@@ -13,12 +13,13 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
-import { useCurrentAccount } from "@/hooks/use-accounts";
+import { useCurrentAccount, useSavingsAccount } from "@/hooks/use-accounts";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { isNextMonth } from "../helpers";
+import { PAYMENT_FREQUENCY } from "../constants";
+import { isNextMonth, setDateAndFormatRecurringPayment } from "../helpers";
 import { useFundSavingsPot } from "../hooks/query-hooks";
 import { mockMissingSavingsPotDetails } from "../mocks/mockMissingSavingsPotDetails";
 import { FundingType, SavingsPotDetailsResponse } from "../types";
@@ -54,6 +55,7 @@ export default function FundingStep({
 
   const fundSavingPot = useFundSavingsPot();
   const account = useCurrentAccount();
+  const savingsAccount = useSavingsAccount();
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
 
   const today = useMemo(() => new Date(), []);
@@ -110,10 +112,10 @@ export default function FundingStep({
       : mockMissingSavingsPotDetails.HadOneTimeFund === false;
 
   const handleOnSubmit = async (values: FundingInput) => {
-    if (data === undefined || account.data === undefined) return Promise.resolve();
+    if (data === undefined || account.data === undefined || savingsAccount.data === undefined) return Promise.resolve();
     Keyboard.dismiss();
 
-    // normally using async executors isnt a necessary. but in this case it is, because the Alert
+    // normally using async executors isn't a necessary. but in this case it is, because the Alert
     // allows to retry the submitting and we want to "remember" the loading state of the form
     // so it needs to pass through the submit process
 
@@ -123,8 +125,13 @@ export default function FundingStep({
         Currency: "SAR",
         DebtorAccount: account.data.id,
         PotId: data.PotId,
-        // need below parameter for recurring payments but dont know where to get it from
-        // StartingDate: parseISO(data.RecurringPayments.StartingDate),
+        ...(fundingType === "recurring-payments"
+          ? {
+              StartingDate: setDateAndFormatRecurringPayment(values.DayOfMonth, "yyyy-MM-"),
+              CreditorAccount: savingsAccount.data.id,
+              PaymentFrequency: `${setDateAndFormatRecurringPayment(values.DayOfMonth)} ${PAYMENT_FREQUENCY}`,
+            }
+          : {}),
       });
 
       setConfirmationNextPaymentDate(response.NextPaymentDate);

@@ -78,10 +78,7 @@ describe("isNextMonth", () => {
 
 describe("setDateAndFormatRecurringPayment", () => {
   test("should return the current date when inputDay is NaN", () => {
-    const currentDate = new Date();
-    const expectedResult = format(currentDate, "yyyyMMdd");
-
-    expect(setDateAndFormatRecurringPayment(NaN)).toBe(expectedResult);
+    expect(setDateAndFormatRecurringPayment(NaN)).toBe("");
   });
 
   test("should return the correct date when inputDay is greater than the current day", () => {
@@ -103,5 +100,16 @@ describe("setDateAndFormatRecurringPayment", () => {
     const expectedResult = format(newDate, "yyyyMM") + inputDay.toString().padStart(2, "0");
 
     expect(setDateAndFormatRecurringPayment(inputDay)).toBe(expectedResult);
+  });
+
+  test("should return the correct date when inputDay is less than or equal to the current day and the format is yyyy-MM-dd", () => {
+    const currentDate = new Date();
+    const currentDay = currentDate.getDate();
+    const inputDay = currentDay - 3;
+
+    const newDate = addMonths(currentDate, 1);
+    const expectedResult = format(newDate, "yyyy-MM-") + inputDay.toString().padStart(2, "0");
+
+    expect(setDateAndFormatRecurringPayment(inputDay, "yyyy-MM-")).toBe(expectedResult);
   });
 });
