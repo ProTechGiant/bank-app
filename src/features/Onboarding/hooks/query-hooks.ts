@@ -4,7 +4,6 @@ import { useMutation, useQuery } from "react-query";
 
 import sendApiRequest from "@/api";
 import api from "@/api";
-import { useAuthContext } from "@/contexts/AuthContext";
 import { nationalIdRegEx } from "@/utils";
 
 import { IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
@@ -56,6 +55,31 @@ function assertWorkflowTask(
   throw new Error(message);
 }
 
+export function usePreferredLanguage() {
+  const { correlationId, nationalId } = useOnboardingContext();
+  const { i18n } = useTranslation();
+
+  return useMutation(async () => {
+    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+    if (!nationalId) throw new Error("Need valid `nationalId` to be available");
+
+    return sendApiRequest<string>(
+      "v1",
+      "customers/preferred-language",
+      "POST",
+      undefined,
+      {
+        NationalId: nationalId,
+        NationalIdType: nationalId.match(nationalIdRegEx) ? NATIONAL_ID_TYPE : IQAMA_TYPE,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+        ["Accept-Language"]: i18n.language.toUpperCase(),
+      }
+    );
+  });
+}
+
 export function useConfirmPersonalDetails() {
   const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
 
@@ -87,7 +111,6 @@ export function useNafathDetails() {
 
   const { fetchLatestWorkflowTask, setCustomerName, revertWorkflowTask, nationalId, transactionId, correlationId } =
     useOnboardingContext();
-  const { userId } = useAuthContext();
   return useMutation(
     async () => {
       if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
@@ -114,7 +137,6 @@ export function useNafathDetails() {
           ["X-Workflow-Task-Id"]: workflowTask.Id,
           ["x-correlation-id"]: correlationId,
           ["Accept-Language"]: i18n.language.toUpperCase(),
-          ["UserId"]: userId || "",
           ["deviceId"]: DeviceInfo.getDeviceId(),
         }
       );
@@ -253,6 +275,7 @@ export function useIqama() {
 
 export function useRequestNumber() {
   const { setTransactionId, correlationId, nationalId } = useOnboardingContext();
+  const { i18n } = useTranslation();
 
   return useMutation(
     async () => {

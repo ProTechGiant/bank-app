@@ -10,7 +10,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { MobileAndNationalIdForm } from "../components";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useErrorMessages } from "../hooks";
-import { useIqama } from "../hooks/query-hooks";
+import { useIqama, usePreferredLanguage } from "../hooks/query-hooks";
 import { IqamaInputs } from "../types";
 
 function getActiveTask(activeTask: string) {
@@ -36,6 +36,7 @@ export default function IqamaInputScreen() {
   const { mutateAsync, error, reset } = useIqama();
   const navigation = useNavigation();
   const iqamaError = error as ApiError;
+  const userPreferredLanguage = usePreferredLanguage();
   const { errorMessages } = useErrorMessages(iqamaError);
   const { fetchLatestWorkflowTask, setNationalId } = useOnboardingContext();
 
@@ -45,6 +46,7 @@ export default function IqamaInputScreen() {
       if (workflowTask?.Name !== "MobileVerification") {
         const activeTaskScreen = workflowTask && getActiveTask(workflowTask.Name);
         navigation.navigate(activeTaskScreen);
+        handlePreferredLanguage();
       }
     } catch (err) {
       warn("tasks", "Could not get Task. Error: ", JSON.stringify(err));
@@ -65,6 +67,15 @@ export default function IqamaInputScreen() {
 
   const handleOnSignIn = () => {
     navigation.navigate("SignIn.SignInStack");
+  };
+
+  const handlePreferredLanguage = async () => {
+    try {
+      //only calling userPreferredLanguage  in case customer has already started the onboarding process
+      await userPreferredLanguage.mutateAsync();
+    } catch (err) {
+      warn("language", "Could not update PreferredLanguage. Error: ", JSON.stringify(err));
+    }
   };
 
   const handleOnSubmit = async (values: IqamaInputs) => {
