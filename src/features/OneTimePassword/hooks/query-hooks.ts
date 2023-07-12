@@ -90,7 +90,7 @@ export function useOtpValidation<RequestT, ResponseT>(
         : {
             data: {
               // TODO:- This will updated once IVR integrated.
-              IvrUserPressed: 0,
+              IvrUserPressed: 1,
               OtpId: OtpId,
             },
             OtpCode: OtpCode,

@@ -41,7 +41,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
   const isOtpExpired = otpResetCountSeconds <= 0;
   const isReachedMaxAttempts = otpResendsRequested === OTP_MAX_RESENDS && isOtpExpired;
-  const resolvedPhoneNumber = phoneNumber ?? otpParams?.phoneNumber;
+  const resolvedPhoneNumber = phoneNumber ?? otpParams?.PhoneNumber;
 
   const isLoginFlow =
     params?.otpVerifyMethod === "login" ||
@@ -70,7 +70,8 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     async function main() {
       try {
         const response = await params.onOtpRequest();
-        setOtpParams(response);
+        // adding this to have initial object and new response.
+        setOtpParams({ ...response, ...otpParams });
       } catch (error) {
         warn("one-time-password", "Could not request OTP parameters: ", JSON.stringify(error));
         setIsGenericErrorVisible(true);

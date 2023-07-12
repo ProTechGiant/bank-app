@@ -84,6 +84,10 @@ export default function ReviewTransferScreen() {
         action: {
           to: "InternalTransfers.ReviewTransferScreen",
         },
+        // TODO: adding a number for QA to pass component testing, will be remove later as this value will be passed from context.
+        otpChallengeParams: {
+          PhoneNumber: "+961549845741",
+        },
         otpOptionalParams: {
           internalTransferDetails,
         },
