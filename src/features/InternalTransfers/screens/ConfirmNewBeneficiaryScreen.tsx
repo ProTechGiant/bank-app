@@ -173,9 +173,11 @@ export default function ConfirmNewBeneficiaryScreen() {
             />
           ) : null}
           <Alert
-            variant="error"
+            variant="default"
             message={
-              recipient.type === "active" && transferType === TransferType.CroatiaToArbTransferAction
+              recipient.type === "active" &&
+              (transferType === TransferType.CroatiaToArbTransferAction ||
+                transferType === TransferType.InternalTransferAction)
                 ? t("InternalTransfers.ConfirmNewBeneficiaryScreen.bannerMessageActiveBeneficiary")
                 : t("InternalTransfers.ConfirmNewBeneficiaryScreen.bannerMessage")
             }

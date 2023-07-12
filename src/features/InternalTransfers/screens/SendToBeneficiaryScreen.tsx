@@ -143,7 +143,7 @@ export default function SendToBeneficiaryScreen() {
               type: type,
             },
           })
-        : navigation.navigate("InternalTransfers.ReviewTransferScreen")
+        : navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen")
       : setIsConfirmActivationModalVisible(true);
   };
 
