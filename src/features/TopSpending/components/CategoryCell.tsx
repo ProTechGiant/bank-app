@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, StyleSheet, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
@@ -55,9 +55,9 @@ export default function CategoryCell({ category, onPress }: CategoryCellProps) {
         <Typography.Text size="callout" color="neutralBase+30">
           {formatCurrency(totalAmount, currency)}
         </Typography.Text>
-        <Pressable style={styles.pressable}>
+        <View style={styles.pressable}>
           <ChevronRightIcon color={chevronColor} />
-        </Pressable>
+        </View>
       </Stack>
     </Pressable>
   );
