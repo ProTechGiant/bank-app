@@ -111,77 +111,66 @@ export default function DetailedScreen() {
             {data.Query}
           </Typography.Text>
           <View style={verticalStyle}>
-            <HtmlWebView html={data.Answer ?? ""} onLinkPress={url => openLink(url)} />
-          </View>
-          {data.Answer ? (
-            <>
-              <View style={verticalStyle}>
-                <HtmlWebView html={data.Answer} onLinkPress={url => openLink(url)} />
+            <HtmlWebView html={data.Answer} onLinkPress={url => openLink(url)} />
+            <View style={styles.row}>
+              <Typography.Text size="callout" color="neutralBase-10">
+                {getFeedbackText()}
+              </Typography.Text>
+              {feedbackState === undefined ? (
                 <View style={styles.row}>
-                  <Typography.Text size="callout" color="neutralBase-10">
-                    {getFeedbackText()}
-                  </Typography.Text>
-                  {feedbackState === undefined ? (
-                    <View style={styles.row}>
-                      <Pressable onPress={() => handleOnFeedbackPress(UP_VOTE)}>
-                        <ThumbsUpIcon />
-                      </Pressable>
-                      <Pressable onPress={() => handleOnFeedbackPress(DOWN_VOTE)}>
-                        <ThumbsDownIcon />
-                      </Pressable>
-                    </View>
-                  ) : null}
+                  <Pressable onPress={() => handleOnFeedbackPress(UP_VOTE)}>
+                    <ThumbsUpIcon />
+                  </Pressable>
+                  <Pressable onPress={() => handleOnFeedbackPress(DOWN_VOTE)}>
+                    <ThumbsDownIcon />
+                  </Pressable>
                 </View>
+              ) : null}
+            </View>
+          </View>
+          {data.RelatedFaqs?.length > 0 ? (
+            <>
+              <View style={sectionStyle}>
+                <Typography.Text size="title3" weight="semiBold">
+                  {t("FrequentlyAskedQuestions.DetailedScreen.relatedQuestions")}
+                </Typography.Text>
               </View>
-              {data.RelatedFaqs?.length > 0 ? (
-                <>
-                  <View style={sectionStyle}>
-                    <Typography.Text size="title3" weight="semiBold">
-                      {t("FrequentlyAskedQuestions.DetailedScreen.relatedQuestions")}
-                    </Typography.Text>
-                  </View>
-                  {data.RelatedFaqs.map((faq: FAQListItem, index: number) => {
-                    return (
-                      <Pressable
-                        key={index}
-                        onPress={() =>
-                          navigation.navigate("FrequentlyAskedQuestions.DetailedScreen", { faqId: faq.FaqId })
-                        }>
-                        <View key={faq.FaqId} style={verticalStyle}>
-                          <Stack direction="horizontal" align="center" justify="space-between">
-                            <Typography.Text size="callout">{faq.Query}</Typography.Text>
-                            <View style={styles.chevronContainer}>
-                              <ChevronRightIcon color={iconColor} />
-                            </View>
-                          </Stack>
+              {data.RelatedFaqs.map((faq: FAQListItem, index: number) => {
+                return (
+                  <Pressable
+                    key={index}
+                    onPress={() =>
+                      navigation.navigate("FrequentlyAskedQuestions.DetailedScreen", { faqId: faq.FaqId })
+                    }>
+                    <View key={faq.FaqId} style={verticalStyle}>
+                      <Stack direction="horizontal" align="center" justify="space-between">
+                        <Typography.Text size="callout">{faq.Query}</Typography.Text>
+                        <View style={styles.chevronContainer}>
+                          <ChevronRightIcon color={iconColor} />
                         </View>
-                      </Pressable>
-                    );
-                  })}
-                </>
-              ) : null}
-              {feedbackState === DOWN_VOTE ? (
-                <View style={sectionStyle}>
-                  <Typography.Text size="callout" weight="semiBold">
-                    {t("FrequentlyAskedQuestions.DetailedScreen.help")}
-                  </Typography.Text>
-                  <View style={styles.row}>
-                    <Pressable style={iconBoxStyle} onPress={handleOnCallPress}>
-                      <PhoneIcon />
-                      <Typography.Text size="footnote">
-                        {t("FrequentlyAskedQuestions.DetailedScreen.call")}
-                      </Typography.Text>
-                    </Pressable>
-                    <Pressable style={iconBoxStyle} onPress={handleOnChatPress}>
-                      <ChatIcon />
-                      <Typography.Text size="footnote">
-                        {t("FrequentlyAskedQuestions.DetailedScreen.chat")}
-                      </Typography.Text>
-                    </Pressable>
-                  </View>
-                </View>
-              ) : null}
+                      </Stack>
+                    </View>
+                  </Pressable>
+                );
+              })}
             </>
+          ) : null}
+          {feedbackState === DOWN_VOTE ? (
+            <View style={sectionStyle}>
+              <Typography.Text size="callout" weight="semiBold">
+                {t("FrequentlyAskedQuestions.DetailedScreen.help")}
+              </Typography.Text>
+              <View style={styles.row}>
+                <Pressable style={iconBoxStyle} onPress={handleOnCallPress}>
+                  <PhoneIcon />
+                  <Typography.Text size="footnote">{t("FrequentlyAskedQuestions.DetailedScreen.call")}</Typography.Text>
+                </Pressable>
+                <Pressable style={iconBoxStyle} onPress={handleOnChatPress}>
+                  <ChatIcon />
+                  <Typography.Text size="footnote">{t("FrequentlyAskedQuestions.DetailedScreen.chat")}</Typography.Text>
+                </Pressable>
+              </View>
+            </View>
           ) : null}
           {showLoadingErrorModal && (
             <LoadingError
