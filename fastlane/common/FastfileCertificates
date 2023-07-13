@@ -7,10 +7,9 @@ platform :ios do
   lane :update_devices do
     register_devices(
       devices: {
-        "Croatia AvD" => "00008101-00195C480E30001E",
-        "Croatia CC" => "00008110-00022C403A00401E",
-        "Croatia EtH" => "00008101-000475A208E1401E",
-        "Croatia FV" => "00008101-000939023688001E",
+        "Croatia AL" => "00008101-000D68C12E00001E",
+        "Croatia AM" => "f094c881a44985cf56fda52bca1cc6d9e18d18ae",
+        "Croatia DFA" => "00008110-0000056A2E11801E",
         "Croatia RP" => "00008101-000120192251003A"
       }
     )
