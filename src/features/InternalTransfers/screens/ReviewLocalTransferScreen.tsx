@@ -62,10 +62,6 @@ export default function ReviewQuickTransferScreen() {
     ) {
       return;
     }
-    if (transferType === TransferType.SarieTransferAction && route.params.Beneficiary.type === "inactive") {
-      navigation.navigate("InternalTransfers.IVRCheckScreen");
-      return;
-    }
 
     const localTransferRequest: LocalTransfer = {
       Reason: transferType === "SARIE_TRANSFER_ACTION" ? "sarie" : "ips-payment",
@@ -100,6 +96,10 @@ export default function ReviewQuickTransferScreen() {
         if (status === "fail") {
           delayTransition(() => setIsGenericErrorModalVisible(true));
         } else {
+          if (route.params.Beneficiary.type === "inactive" || route.params.Beneficiary.type === "new") {
+            navigation.navigate("InternalTransfers.IVRCheckScreen");
+            return;
+          }
           navigation.navigate("InternalTransfers.ConfirmationScreen");
         }
       },

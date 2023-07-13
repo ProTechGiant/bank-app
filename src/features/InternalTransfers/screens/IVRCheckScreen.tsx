@@ -21,7 +21,7 @@ export default function IVRCheckScreen() {
 
   const [count, setCount] = useState(4);
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
-  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const isErrorModalVisible = false;
   const randomDialInNumber = useRef(Math.floor(Math.random() * 10)).current;
 
   useEffect(() => {
@@ -34,9 +34,12 @@ export default function IVRCheckScreen() {
 
   const handleOnCloseModal = () => {
     setIsCancelModalVisible(false);
-    setIsErrorModalVisible(!isErrorModalVisible);
   };
 
+  const handleOnConfirmCancellation = () => {
+    setIsCancelModalVisible(false);
+    navigation.goBack();
+  };
   const handleOnCancelPress = () => {
     setIsCancelModalVisible(true);
   };
@@ -101,7 +104,9 @@ export default function IVRCheckScreen() {
       <NotificationModal
         buttons={{
           primary: (
-            <Button onPress={handleOnCloseModal}>{t("InternalTransfers.IVRCheckScreen.confirmCancellation")}</Button>
+            <Button onPress={handleOnConfirmCancellation}>
+              {t("InternalTransfers.IVRCheckScreen.confirmCancellation")}
+            </Button>
           ),
           secondary: <Button onPress={handleOnCloseModal}>{t("InternalTransfers.IVRCheckScreen.close")}</Button>,
         }}
