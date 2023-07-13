@@ -6,13 +6,13 @@ import { setOverrideLanguage } from "./language-selector";
 import reloadApp from "./reload-app";
 
 export default function useChangeLanguage() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   useEffect(() => {
     const informUserAboutReload = () => {
-      Alert.alert("We must restart the app to continue", undefined, [
+      Alert.alert(t("Settings.reloadAppMessage"), undefined, [
         {
-          text: "OK",
+          text: t("Settings.okButtonMessage"),
           onPress: () => reloadApp(),
           style: "destructive",
         },

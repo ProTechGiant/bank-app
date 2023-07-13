@@ -45,6 +45,10 @@ export default function CustomerAccountManagement() {
     navigation.navigate("ProfileDetails.ProfileDetailsStack");
   };
 
+  const handleOnLanguageSettingsPress = () => {
+    navigation.navigate("Settings.LanguageSettingsScreen");
+  };
+
   const handleOnLifeStylePress = () => {
     navigation.navigate("Settings.LifeStyleScreen");
   };
@@ -91,7 +95,7 @@ export default function CustomerAccountManagement() {
             title={t("Settings.CustomerAccountManagementScreen.languageTitle")}
             description={t("Settings.CustomerAccountManagementScreen.languageDescription")}
             icon={<SettingsIcons.LanguageIcon />}
-            onPress={handleOnPress}
+            onPress={handleOnLanguageSettingsPress}
           />
         </SettingsCategoryContainer>
         <Divider color="neutralBase-10" height={1} />

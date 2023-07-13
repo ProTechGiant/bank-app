@@ -655,6 +655,16 @@ export const resources = {
           signOutTitle: "Sign out",
           signOutDescription: "",
         },
+        ChangeLanguageScreen: {
+          title: "Language selection",
+          subtitle: "Please choose your preferred language from the options below.",
+          english: "English",
+          arabic: "Arabic",
+          saveChanges: "Save changes",
+          successMessage: "Your language settings have been updated successfully",
+        },
+        reloadAppMessage: "We must restart the app to continue",
+        okButtonMessage: "OK",
       },
       Home: {
         DashboardScreen: {
@@ -2778,6 +2788,16 @@ export const resources = {
           signOutTitle: "Sign out",
           signOutDescription: "",
         },
+        ChangeLanguageScreen: {
+          title: "اختيار اللغة",
+          subtitle: "الرجاء اختيار لغتك المفضلة من الخيارات أدناه.",
+          english: "إنجليزي",
+          arabic: "عربي",
+          saveChanges: "احفظ التغييرات",
+          successMessage: "تم تحديث إعدادات اللغة الخاصة بك.",
+        },
+        reloadAppMessage: "يجب اعاده تشغيل التطبيق للاستمرار",
+        okButtonMessage: "موافق",
       },
       InstructionsScreen: {
         skip: "تخطى",
