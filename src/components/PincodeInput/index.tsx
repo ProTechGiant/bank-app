@@ -26,16 +26,16 @@ function PincodeInput(
 ) {
   const textInputRef = useRef<TextInput>(null);
 
+  useImperativeHandle(ref, () => ({
+    blur: () => textInputRef.current?.blur(),
+    focus: () => textInputRef.current?.focus(),
+  }));
+
   const handleNumberChange = (text: string) => {
     if (/^\d*$/.test(text)) {
       onChangeText(text);
     }
   };
-
-  useImperativeHandle(ref, () => ({
-    blur: () => textInputRef.current?.blur(),
-    focus: () => textInputRef.current?.focus(),
-  }));
 
   const handleOnFocus = () => {
     textInputRef.current?.focus();
@@ -76,25 +76,27 @@ function PincodeInput(
 
   return (
     <>
+      <TextInput
+        ref={textInputRef}
+        autoComplete={autoComplete}
+        autoFocus={autoFocus}
+        editable={isEditable}
+        blurOnSubmit={false}
+        onChangeText={handleNumberChange}
+        keyboardType="number-pad"
+        maxLength={length}
+        style={styles.textInput}
+        value={value}
+      />
       <Stack accessibilityRole="button" as={Pressable} direction="horizontal" gap="12p" onPress={() => handleOnFocus()}>
         {times(length).map(index => {
           const isActive = value.length === index;
           const isFilled = value.length > index;
 
-          return (
-            <View key={index} style={[boxStyle, isError && boxErrorStyle, isActive && boxActiveStyle]}>
-              <TextInput
-                ref={textInputRef}
-                autoComplete={autoComplete}
-                autoFocus={autoFocus}
-                editable={isEditable}
-                blurOnSubmit={false}
-                onChangeText={handleNumberChange}
-                keyboardType="number-pad"
-                maxLength={length}
-                style={styles.textInput}
-                value={value}
-              />
+          return isError ? (
+            <View key={index} style={[boxStyle, boxErrorStyle]} />
+          ) : (
+            <View key={index} style={[boxStyle, isActive && boxActiveStyle]}>
               {isActive ? <View style={blinkerStyle} /> : isFilled ? <View style={dotStyle} /> : <View />}
             </View>
           );
@@ -106,8 +108,10 @@ function PincodeInput(
 
 const styles = StyleSheet.create({
   textInput: {
-    opacity: 0,
+    left: 0,
     position: "absolute",
+    right: 0,
+    top: -1000,
   },
 });
 

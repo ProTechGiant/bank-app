@@ -15,13 +15,11 @@ import { isSequential, maxRepeatThresholdMet } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { PASSCODE_LENGTH } from "../constants";
-import { useOnboardingBackButton } from "../hooks";
 
 export default function CreatePasscodeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [isErrorVisible, setIsErrorVisible] = useState(false);
-  const handleOnBackPress = useOnboardingBackButton();
 
   const [currentValue, setCurrentValue] = useState("");
 
@@ -52,7 +50,7 @@ export default function CreatePasscodeScreen() {
 
   return (
     <Page insets={["top"]} backgroundColor="neutralBase-60">
-      <NavHeader withBackButton={true} onBackPress={handleOnBackPress}>
+      <NavHeader withBackButton={false}>
         <ProgressIndicator currentStep={5} totalStep={6} />
       </NavHeader>
       <ContentContainer>
