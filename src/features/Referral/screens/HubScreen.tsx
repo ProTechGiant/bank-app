@@ -1,7 +1,7 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Platform, ScrollView, Share, StyleSheet, View, ViewStyle } from "react-native";
+import { Platform, SafeAreaView, ScrollView, Share, StatusBar, View, ViewStyle } from "react-native";
 
 import { CopyIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -14,14 +14,13 @@ import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { useReferralContext } from "@/contexts/ReferralContext";
 import { useToasts } from "@/contexts/ToastsContext";
+import BackgroundBottom from "@/features/SavingsGoals/assets/BackgroundBottom";
 import useAppsFlyer from "@/hooks/use-appsflyer";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import BackgroundBottomLeftSvg from "../assets/background-bottom-left.svg";
-import BackgroundBottomRightSvg from "../assets/background-bottom-right.svg";
-import BackgroundTopSvg from "../assets/background-top.svg";
+import ReferralsDashboard from "../assets/ReferralsDashboard";
 import { useCustomersReferrals } from "../hooks/query-hooks";
 
 export default function HubScreen() {
@@ -107,62 +106,99 @@ export default function HubScreen() {
     marginBottom: theme.spacing["8p"],
   }));
 
+  const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    flex: 1,
+    justifyContent: "space-between",
+    marginTop: theme.spacing["24p"],
+  }));
+
   const linkCardStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["20p"],
+    marginTop: theme.spacing["24p"],
     backgroundColor: theme.palette["neutralBase-60"],
     borderRadius: theme.radii.extraSmall,
   }));
 
   const inactiveIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-30"]);
 
+  const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "flex-start",
+    marginBottom: theme.spacing["16p"],
+  }));
+
+  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["supportBase-15"],
+    zIndex: 1,
+    paddingTop: theme.spacing["20p"],
+  }));
+
+  const titleStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["20p"],
+    paddingBottom: theme.spacing["8p"],
+  }));
+
+  const backgroundBottomStyle = useThemeStyles<ViewStyle>(theme => ({
+    position: "absolute",
+    bottom: -theme.spacing["24p"] + 1, // Small gap forms on iphone SE, 1 pixel added to remove this.
+  }));
+
+  const backgroundAngledColor = useThemeStyles(theme => theme.palette["supportBase-15"]);
+
   return (
     <>
-      <Page backgroundColor="neutralBase-60">
-        <View style={styles.backgroundBottomRight}>
-          <BackgroundBottomRightSvg />
-        </View>
-        <View style={styles.backgroundBottomLeft}>
-          <BackgroundBottomLeftSvg />
-        </View>
-        <View style={styles.backgroundTopStart}>
-          <BackgroundTopSvg />
-        </View>
-        <NavHeader />
-        <ContentContainer isScrollView style={styles.container}>
+      <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
+        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+        <SafeAreaView style={headerStyle}>
+          <NavHeader variant="background" />
+          <View style={titleStyle}>
+            <View style={iconContainerStyle}>
+              <ReferralsDashboard />
+            </View>
+            <Typography.Text weight="semiBold" size="title1" color="neutralBase+30">
+              {t("Referral.HubScreen.title")}
+            </Typography.Text>
+            <Typography.Text color="neutralBase+30" weight="regular" size="callout" style={subtitleStyle}>
+              {t("Referral.HubScreen.subtitle")}
+              <Typography.Text
+                color="neutralBase+30"
+                weight="regular"
+                size="callout"
+                onPress={handleOnTermsAndConditionsPress}>
+                {t("Referral.HubScreen.termsAndConditions")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase+30" weight="regular" size="callout">
+                {t("Referral.HubScreen.fullStop")}
+              </Typography.Text>
+            </Typography.Text>
+            <View style={linkCardStyle}>
+              {referralLink !== undefined ? (
+                <TableListCard
+                  label={referralLink}
+                  onPress={handleOnCopyPress}
+                  end={<TableListCard.Copy onPress={handleOnCopyPress} />}
+                />
+              ) : (
+                <TableListCard
+                  label={t("Referral.HubScreen.noLink")}
+                  isInactive={true}
+                  end={<CopyIcon color={inactiveIconColor} height={16} width={16} />}
+                />
+              )}
+            </View>
+          </View>
+          <View style={backgroundBottomStyle}>
+            <BackgroundBottom color={backgroundAngledColor} />
+          </View>
+        </SafeAreaView>
+        <ContentContainer isScrollView style={contentContainerStyle}>
           <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false}>
             <View>
-              <Typography.Text weight="semiBold" size="title1">
-                {t("Referral.HubScreen.title")}
-              </Typography.Text>
-              <Typography.Text color="neutralBase" weight="regular" size="callout" style={subtitleStyle}>
-                {t("Referral.HubScreen.subtitle")}
-                <Typography.Text
-                  color="complimentBase"
-                  weight="regular"
-                  size="callout"
-                  onPress={handleOnTermsAndConditionsPress}>
-                  {t("Referral.HubScreen.termsAndConditions")}
-                </Typography.Text>
-                <Typography.Text color="neutralBase" weight="regular" size="callout">
-                  {t("Referral.HubScreen.fullStop")}
-                </Typography.Text>
-              </Typography.Text>
               <Stack align="stretch" direction="vertical" gap="24p">
                 <View>
                   <Typography.Text size="title3" weight="semiBold" style={headerTextWrapperStyle}>
                     {t("Referral.HubScreen.recommendations")}
                   </Typography.Text>
                   <TableListCardGroup>
-                    <TableListCard
-                      label={t("Referral.HubScreen.completed")}
-                      end={
-                        numberOfCompletedReferrals !== undefined ? (
-                          <TableListCard.Label bold>{numberOfCompletedReferrals}</TableListCard.Label>
-                        ) : (
-                          <TableListCard.Label>{t("Referral.HubScreen.noData")}</TableListCard.Label>
-                        )
-                      }
-                    />
                     <TableListCard
                       label={t("Referral.HubScreen.earnt")}
                       end={
@@ -173,22 +209,17 @@ export default function HubScreen() {
                         )
                       }
                     />
+                    <TableListCard
+                      label={t("Referral.HubScreen.completed")}
+                      end={
+                        numberOfCompletedReferrals !== undefined ? (
+                          <TableListCard.Label bold>{numberOfCompletedReferrals}</TableListCard.Label>
+                        ) : (
+                          <TableListCard.Label>{t("Referral.HubScreen.noData")}</TableListCard.Label>
+                        )
+                      }
+                    />
                   </TableListCardGroup>
-                </View>
-                <View style={linkCardStyle}>
-                  {referralLink !== undefined ? (
-                    <TableListCard
-                      label={referralLink}
-                      onPress={handleOnCopyPress}
-                      end={<TableListCard.Copy onPress={handleOnCopyPress} />}
-                    />
-                  ) : (
-                    <TableListCard
-                      label={t("Referral.HubScreen.noLink")}
-                      isInactive={true}
-                      end={<CopyIcon color={inactiveIconColor} height={16} width={16} />}
-                    />
-                  )}
                 </View>
               </Stack>
             </View>
@@ -209,28 +240,3 @@ export default function HubScreen() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  backgroundBottomLeft: {
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
-  },
-  backgroundBottomRight: {
-    bottom: 0,
-    position: "absolute",
-    right: 0,
-    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
-  },
-  backgroundTopStart: {
-    position: "absolute",
-    start: 0,
-    top: 0,
-    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
-  },
-  container: {
-    flex: 1,
-    justifyContent: "space-between",
-  },
-});

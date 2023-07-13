@@ -23,7 +23,7 @@ interface HeroSliderProps {
   buttonText: string;
   lastButtonText: string;
   loading?: boolean;
-  variant?: "default" | "brand";
+  variant?: "default" | "prebrand";
   end?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
   hasBackButton?: boolean;
   children?: React.ReactNode;
@@ -35,7 +35,7 @@ export default function HeroSlider({
   onBackPress,
   buttonText,
   lastButtonText,
-  variant = "default",
+  variant = "prebrand",
   loading = false,
   end,
   hasBackButton = true,
@@ -83,8 +83,8 @@ export default function HeroSlider({
   return (
     <Page backgroundColor="neutralBase-60">
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      {variant === "default" ? <BackgroundTopStartSvg style={styles.backgroundTopStart} /> : null}
-      {variant === "default" ? <BackgroundBottomSvg style={styles.backgroundBottom} /> : null}
+      {variant === "prebrand" ? <BackgroundTopStartSvg style={styles.backgroundTopStart} /> : null}
+      {variant === "prebrand" ? <BackgroundBottomSvg style={styles.backgroundBottom} /> : null}
       <NavHeader
         onBackPress={onBackPress}
         end={!hasBackButton ? end : nextStep < data.length && end ? end : undefined}

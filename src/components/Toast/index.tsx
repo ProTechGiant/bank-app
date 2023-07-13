@@ -30,11 +30,12 @@ export default function Toast({ onClose, icon, variant = "confirm", message, tes
     shadowOpacity: 0.16,
     shadowRadius: 32,
     elevation: 5,
-    backgroundColor: variant === "success" ? theme.palette["successBase-30"] : theme.palette["neutralBase-60"],
+    backgroundColor: variant === "success" ? theme.palette.successBase : theme.palette["neutralBase-60"],
     borderRadius: theme.radii.medium,
     borderColor: theme.palette["neutralBase-30"],
     borderWidth: 0.5,
     alignItems: "center",
+    justifyContent: "center",
     flexDirection: "row",
     columnGap: theme.spacing["16p"],
     paddingVertical: theme.spacing["16p"],
@@ -43,10 +44,11 @@ export default function Toast({ onClose, icon, variant = "confirm", message, tes
 
   const animationContainerStyles = useThemeStyles<ViewStyle>(theme => ({
     position: "absolute",
-    right: 0,
     zIndex: 100,
-    left: 0,
+    alignSelf: "center",
     margin: theme.spacing["20p"],
+    top: theme.spacing["20p"],
+    alignContent: "center",
   }));
 
   const variantIconColor = useThemeStyles(
@@ -81,7 +83,7 @@ export default function Toast({ onClose, icon, variant = "confirm", message, tes
           ? cloneElement(icon, { ...styles.icon })
           : cloneElement(VARIANT_ICONS[variant], { ...styles.icon, color: variantIconColor })}
 
-        <Typography.Text color="neutralBase+30" weight="regular" size="footnote" style={styles.text}>
+        <Typography.Text color="neutralBase+30" weight="regular" size="footnote">
           {message}
         </Typography.Text>
         {onClose !== undefined && (
@@ -98,9 +100,5 @@ const styles = StyleSheet.create({
   icon: {
     height: 20,
     width: 20,
-  },
-  text: {
-    flex: 1,
-    flexWrap: "wrap",
   },
 });

@@ -42,6 +42,7 @@ export default function CardOrderedScreen({ cardId }: CardOrderedScreenProps) {
 
   return (
     <HeroSlider
+      variant="prebrand"
       buttonText=""
       lastButtonText=""
       data={[

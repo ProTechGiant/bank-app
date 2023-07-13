@@ -69,7 +69,7 @@ export default function WelcomeCarouselScreen() {
       buttonText={t("Onboarding.WelcomeCarousel.nextButton")}
       lastButtonText={t("Onboarding.WelcomeCarousel.nextButton")}
       data={data}
-      variant="brand"
+      variant="default"
     />
   );
 }

@@ -56,6 +56,7 @@ export default function InstructionsScreen() {
       buttonText={t("SavingsGoals.InstructionsScreen.nextButton")}
       lastButtonText={t("SavingsGoals.InstructionsScreen.setGoalButton")}
       data={data}
+      variant="prebrand"
     />
   );
 }

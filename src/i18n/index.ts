@@ -724,7 +724,7 @@ export const resources = {
           linkCopied: "Link copied",
           termsAndConditions: " terms and conditions",
           fullStop: ".",
-          share: "Share via...",
+          share: "Share",
           noLink: "No link found",
           noData: "No data",
         },
@@ -735,10 +735,9 @@ export const resources = {
           titleOne: "Invite friends",
           subTextOne: "Tell a friend or family member about Croatia and earn yourself cash rewards.",
           titleTwo: "Unlimited referrals",
-          subTextTwo:
-            "Share your referral code to as many people as you like. You’ll earn cash rewards when they start using the app.",
+          subTextTwo: "Share your referral code to as many people as you like.",
           titleThree: "Both of you get rewards",
-          subTextThree: "You'll both earn 15 SAR.",
+          subTextThree: "You'll both earn 15 SAR. You’ll earn cash rewards when they start using the app.",
         },
         TermsAndConditionsScreen: {
           navTitle: "Terms & conditions",

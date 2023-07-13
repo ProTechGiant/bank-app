@@ -29,9 +29,11 @@ export type SavingsGoalsStackParams = {
   "SavingsGoals.AllTransactionsScreen": {
     PotId: string;
   };
-  "SavingsGoals.SavingsGoalsScreen": {
-    isGoalRemoved?: boolean;
-  };
+  "SavingsGoals.SavingsGoalsScreen":
+    | undefined
+    | {
+        isGoalRemoved?: boolean;
+      };
   "SavingsGoals.CreateGoalScreen": undefined;
   "SavingsGoals.GoalDetailsScreen": {
     PotId: string;

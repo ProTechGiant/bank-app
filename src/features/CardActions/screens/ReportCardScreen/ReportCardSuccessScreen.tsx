@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import { useTranslation } from "react-i18next";
 import { Platform, View, ViewStyle } from "react-native";
 
@@ -48,6 +47,7 @@ export default function ReportCardSuccessScreen({ cardId }: ReportCardSuccessScr
 
   return (
     <HeroSlider
+      variant="prebrand"
       buttonText=""
       data={[
         {

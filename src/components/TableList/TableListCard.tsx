@@ -84,6 +84,7 @@ export default function TableListCard({
     backgroundColor: background === "dark" ? "primaryBase-70-8%" : "neutralBase-60",
     borderWidth: 1,
     borderRadius: theme.radii.small,
+    paddingHorizontal: theme.spacing["16p"],
   }));
 
   const children = (

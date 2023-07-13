@@ -23,6 +23,7 @@ export default function CardActivatedScreen() {
 
   return (
     <HeroSlider
+      variant="prebrand"
       buttonText=""
       data={[
         {
