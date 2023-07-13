@@ -181,6 +181,7 @@ export default function SpendSummaryScreen() {
       roundUpsAmount: transaction.SupplementaryData.RoundupAmount,
       categoryName: transaction.SupplementaryData.CategoryName,
       categoryId: transaction.SupplementaryData.CategoryId,
+      transactionId: transaction.TransactionId,
     };
 
     navigation.navigate("ViewTransactions.ViewTransactionsStack", {
