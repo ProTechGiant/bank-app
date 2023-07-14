@@ -14,7 +14,9 @@ interface OnboardingContextState {
   setTransactionId: (value: string) => void;
   transactionId: string | undefined;
   setMobileNumber: (value: string) => void;
+  setIsLoading: (value: boolean) => void;
   mobileNumber: string | undefined;
+  isLoading: boolean;
   setCorrelationId: (value: string) => void;
   correlationId: string | undefined;
   setCurrentTask: (currentTask: { Id: string; Name: string }) => void;
@@ -33,7 +35,9 @@ const OnboardingContext = createContext<OnboardingContextState>({
   transactionId: undefined,
   setMobileNumber: noop,
   mobileNumber: undefined,
+  isLoading: false,
   setCorrelationId: noop,
+  setIsLoading: noop,
   correlationId: undefined,
   setCurrentTask: noop,
   currentTask: undefined,
@@ -74,6 +78,10 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
   };
   const setMobileNumber = (mobileNumber: string) => {
     setState(v => ({ ...v, mobileNumber }));
+  };
+
+  const setIsLoading = (isLoading: boolean) => {
+    setState(v => ({ ...v, isLoading }));
   };
 
   const setCorrelationId = (correlationId: string) => {
@@ -131,6 +139,7 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
           fetchLatestWorkflowTask,
           revertWorkflowTask,
           setMobileNumber,
+          setIsLoading,
         }),
         [state]
       )}>

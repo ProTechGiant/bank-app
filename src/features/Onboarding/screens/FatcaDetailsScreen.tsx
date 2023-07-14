@@ -11,6 +11,7 @@ import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import SubmitButton from "@/components/Form/SubmitButton";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
@@ -20,6 +21,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { AddCountryTile, SelectedForeignTaxCountryCard } from "../components";
+import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useOnboardingBackButton } from "../hooks";
 import { useFatcaDetails } from "../hooks/query-hooks";
 import { OnboardingStackParams } from "../OnboardingStack";
@@ -31,6 +33,7 @@ export default function FatcaDetailsScreen() {
   const route = useRoute<RouteProp<OnboardingStackParams, "Onboarding.Fatca">>();
   const sendFatcaDetails = useFatcaDetails();
   const handleOnBackPress = useOnboardingBackButton();
+  const { isLoading } = useOnboardingContext();
 
   useEffect(() => {
     if (undefined === route.params) return;
@@ -135,58 +138,64 @@ export default function FatcaDetailsScreen() {
         withBackButton={true}>
         <ProgressIndicator currentStep={4} totalStep={6} />
       </NavHeader>
-      <ScrollView>
-        <ContentContainer>
-          <Stack direction="vertical" gap="16p" align="stretch">
-            <Typography.Header size="medium" weight="bold">
-              {t("Onboarding.FatcaDetailsScreen.title")}
-            </Typography.Header>
-            <Typography.Text size="callout" weight="medium" color="primaryBase">
-              {t("Onboarding.FatcaDetailsScreen.subHeader")}
-            </Typography.Text>
-            <Stack direction="horizontal" gap="32p" justify="space-evenly">
-              <View style={{ flex: 1 }}>
-                <Button
-                  variant={hasForeignTaxResidency === true ? "primary" : "secondary"}
-                  onPress={() => handleOnChangeHasForeignTaxResidency(true)}>
-                  {t("Onboarding.FatcaDetailsScreen.yes")}
-                </Button>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Button
-                  variant={hasForeignTaxResidency === false ? "primary" : "secondary"}
-                  onPress={() => handleOnChangeHasForeignTaxResidency(false)}>
-                  {t("Onboarding.FatcaDetailsScreen.no")}
-                </Button>
-              </View>
-            </Stack>
-            <Accordion title={t("Onboarding.FatcaDetailsScreen.moreInfoDropdownTitle")}>
-              <Typography.Text color="neutralBase+10" size="footnote">
-                {t("Onboarding.FatcaDetailsScreen.moreInfoDropdownBody")}
-              </Typography.Text>
-            </Accordion>
-            {foreignTaxCountries.map((country, index) => (
-              <SelectedForeignTaxCountryCard
-                key={index}
-                index={index}
-                CountryName={country.CountryName}
-                TaxReferenceNumber={country.TaxReferenceNumber}
-                onPress={handleOnEditPress}
-              />
-            ))}
-            {hasForeignTaxResidency && foreignTaxCountries.length < 3 && !formState.isSubmitting ? (
-              <AddCountryTile onPress={handleOnAddPress} />
-            ) : null}
-          </Stack>
-        </ContentContainer>
-      </ScrollView>
-      <View style={footerStyle}>
-        <SafeAreaView>
-          <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-            {t("Onboarding.FatcaDetailsScreen.continue")}
-          </SubmitButton>
-        </SafeAreaView>
-      </View>
+      {isLoading ? (
+        <FullScreenLoader />
+      ) : (
+        <>
+          <ScrollView>
+            <ContentContainer>
+              <Stack direction="vertical" gap="16p" align="stretch">
+                <Typography.Header size="medium" weight="bold">
+                  {t("Onboarding.FatcaDetailsScreen.title")}
+                </Typography.Header>
+                <Typography.Text size="callout" weight="medium" color="primaryBase">
+                  {t("Onboarding.FatcaDetailsScreen.subHeader")}
+                </Typography.Text>
+                <Stack direction="horizontal" gap="32p" justify="space-evenly">
+                  <View style={{ flex: 1 }}>
+                    <Button
+                      variant={hasForeignTaxResidency === true ? "primary" : "secondary"}
+                      onPress={() => handleOnChangeHasForeignTaxResidency(true)}>
+                      {t("Onboarding.FatcaDetailsScreen.yes")}
+                    </Button>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Button
+                      variant={hasForeignTaxResidency === false ? "primary" : "secondary"}
+                      onPress={() => handleOnChangeHasForeignTaxResidency(false)}>
+                      {t("Onboarding.FatcaDetailsScreen.no")}
+                    </Button>
+                  </View>
+                </Stack>
+                <Accordion title={t("Onboarding.FatcaDetailsScreen.moreInfoDropdownTitle")}>
+                  <Typography.Text color="neutralBase+10" size="footnote">
+                    {t("Onboarding.FatcaDetailsScreen.moreInfoDropdownBody")}
+                  </Typography.Text>
+                </Accordion>
+                {foreignTaxCountries.map((country, index) => (
+                  <SelectedForeignTaxCountryCard
+                    key={index}
+                    index={index}
+                    CountryName={country.CountryName}
+                    TaxReferenceNumber={country.TaxReferenceNumber}
+                    onPress={handleOnEditPress}
+                  />
+                ))}
+                {hasForeignTaxResidency && foreignTaxCountries.length < 3 && !formState.isSubmitting ? (
+                  <AddCountryTile onPress={handleOnAddPress} />
+                ) : null}
+              </Stack>
+            </ContentContainer>
+          </ScrollView>
+          <View style={footerStyle}>
+            <SafeAreaView>
+              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+                {t("Onboarding.FatcaDetailsScreen.continue")}
+              </SubmitButton>
+            </SafeAreaView>
+          </View>
+        </>
+      )}
     </Page>
   );
 }

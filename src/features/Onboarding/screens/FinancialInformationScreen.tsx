@@ -8,6 +8,7 @@ import Accordion from "@/components/Accordion";
 import ContentContainer from "@/components/ContentContainer";
 import DropdownInput from "@/components/Form/DropdownInput";
 import SubmitButton from "@/components/Form/SubmitButton";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
@@ -20,6 +21,7 @@ import { mockOccupations } from "@/mocks/occupationData";
 import { mockSources } from "@/mocks/sourceOfIncomeData";
 import useNavigation from "@/navigation/use-navigation";
 
+import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useOnboardingBackButton } from "../hooks";
 import { useSubmitFinancialDetails } from "../hooks/query-hooks";
 import { FinancialDetails } from "../types";
@@ -29,6 +31,7 @@ export default function FinancialInformationScreen() {
   const submitFinancialDetailsAsync = useSubmitFinancialDetails();
   const { t } = useTranslation();
   const handleOnBackPress = useOnboardingBackButton();
+  const { isLoading } = useOnboardingContext();
 
   const { control, handleSubmit } = useForm<FinancialDetails>({
     resolver: yupResolver(validationSchema),
@@ -53,64 +56,68 @@ export default function FinancialInformationScreen() {
         title={t("Onboarding.FinancialInformationScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={3} totalStep={6} />
       </NavHeader>
-      <ScrollView>
-        <ContentContainer>
-          <Stack align="stretch" direction="vertical" gap="24p">
-            <Typography.Text size="large" weight="bold">
-              {t("Onboarding.FinancialInformationScreen.title")}
-            </Typography.Text>
-            <DropdownInput
-              control={control}
-              name="OccupationCode"
-              label={t("Onboarding.FinancialInformationScreen.inputOccupationLabel")}
-              extra={t("Onboarding.FinancialInformationScreen.inputOccupationExtra")}
-              placeholder={t("Onboarding.FinancialInformationScreen.inputOccupationPlaceholder")}
-              options={mockOccupations}
-              buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
-              variant="small"
-              autoselect
-            />
-            <DropdownInput
-              control={control}
-              name="AccountPurpose"
-              label={t("Onboarding.FinancialInformationScreen.inputAccountPurposeLabel")}
-              placeholder={t("Onboarding.FinancialInformationScreen.inputAccountPurposePlaceholder")}
-              options={mockCroatiaPurpose}
-              buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
-              variant="small"
-              autoselect
-            />
-            <DropdownInput
-              control={control}
-              name="SourceOfIncome"
-              label={t("Onboarding.FinancialInformationScreen.inputSourceOfIncomeLabel")}
-              placeholder={t("Onboarding.FinancialInformationScreen.inputSourceOfIncomePlaceholder")}
-              options={mockSources}
-              buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
-              variant="small"
-              autoselect
-            />
-            <DropdownInput
-              control={control}
-              name="MonthlyLimit"
-              label={t("Onboarding.FinancialInformationScreen.inputMonthlyLimitLabel")}
-              placeholder={t("Onboarding.FinancialInformationScreen.inputMonthlyLimitPlaceholder")}
-              options={mockExpectedAmount}
-              buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
-              variant="small"
-              autoselect
-            />
-            <Accordion title={t("Onboarding.FinancialInformationScreen.moreInfoDropdownTitle")}>
-              <Typography.Text color="neutralBase+10" size="footnote">
-                {t("Onboarding.FinancialInformationScreen.moreInfoDropdownBody")}
+      {isLoading ? (
+        <FullScreenLoader />
+      ) : (
+        <ScrollView>
+          <ContentContainer>
+            <Stack align="stretch" direction="vertical" gap="24p">
+              <Typography.Text size="large" weight="bold">
+                {t("Onboarding.FinancialInformationScreen.title")}
               </Typography.Text>
-            </Accordion>
-            <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-              {t("Onboarding.FinancialInformationScreen.continue")}
-            </SubmitButton>
-          </Stack>
-        </ContentContainer>
-      </ScrollView>
+              <DropdownInput
+                control={control}
+                name="OccupationCode"
+                label={t("Onboarding.FinancialInformationScreen.inputOccupationLabel")}
+                extra={t("Onboarding.FinancialInformationScreen.inputOccupationExtra")}
+                placeholder={t("Onboarding.FinancialInformationScreen.inputOccupationPlaceholder")}
+                options={mockOccupations}
+                buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
+                variant="small"
+                autoselect
+              />
+              <DropdownInput
+                control={control}
+                name="AccountPurpose"
+                label={t("Onboarding.FinancialInformationScreen.inputAccountPurposeLabel")}
+                placeholder={t("Onboarding.FinancialInformationScreen.inputAccountPurposePlaceholder")}
+                options={mockCroatiaPurpose}
+                buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
+                variant="small"
+                autoselect
+              />
+              <DropdownInput
+                control={control}
+                name="SourceOfIncome"
+                label={t("Onboarding.FinancialInformationScreen.inputSourceOfIncomeLabel")}
+                placeholder={t("Onboarding.FinancialInformationScreen.inputSourceOfIncomePlaceholder")}
+                options={mockSources}
+                buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
+                variant="small"
+                autoselect
+              />
+              <DropdownInput
+                control={control}
+                name="MonthlyLimit"
+                label={t("Onboarding.FinancialInformationScreen.inputMonthlyLimitLabel")}
+                placeholder={t("Onboarding.FinancialInformationScreen.inputMonthlyLimitPlaceholder")}
+                options={mockExpectedAmount}
+                buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
+                variant="small"
+                autoselect
+              />
+              <Accordion title={t("Onboarding.FinancialInformationScreen.moreInfoDropdownTitle")}>
+                <Typography.Text color="neutralBase+10" size="footnote">
+                  {t("Onboarding.FinancialInformationScreen.moreInfoDropdownBody")}
+                </Typography.Text>
+              </Accordion>
+              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+                {t("Onboarding.FinancialInformationScreen.continue")}
+              </SubmitButton>
+            </Stack>
+          </ContentContainer>
+        </ScrollView>
+      )}
     </Page>
   );
 }

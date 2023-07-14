@@ -10,7 +10,7 @@ import { useOnboardingContext } from "../contexts/OnboardingContext";
 export const useOnboardingBackButton = () => {
   const navigation = useNavigation();
 
-  const { revertWorkflowTask, fetchLatestWorkflowTask } = useOnboardingContext();
+  const { revertWorkflowTask, fetchLatestWorkflowTask, setIsLoading } = useOnboardingContext();
   const isBackbuttonEnabled = useRef(true);
 
   useFocusEffect(
@@ -36,6 +36,7 @@ export const useOnboardingBackButton = () => {
     isBackbuttonEnabled.current = false;
 
     try {
+      setIsLoading(true);
       const workflowTask = await fetchLatestWorkflowTask();
 
       if (workflowTask && workflowTask?.Name !== undefined) {
@@ -47,6 +48,7 @@ export const useOnboardingBackButton = () => {
       warn("onboarding", "Could not revert to previous task. Error: ", JSON.stringify(err));
     } finally {
       isBackbuttonEnabled.current = true;
+      setIsLoading(false);
     }
   };
 

@@ -9,6 +9,7 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
@@ -28,7 +29,7 @@ interface OptionalEmailFormValues {
 
 export default function OptionalEmailScreen() {
   const { t } = useTranslation();
-  const { mobileNumber } = useOnboardingContext();
+  const { mobileNumber, isLoading } = useOnboardingContext();
 
   useEffect(() => {
     async function main() {
@@ -82,37 +83,43 @@ export default function OptionalEmailScreen() {
       <NavHeader withBackButton={false} title={t("Onboarding.OptionalEmailScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={2} totalStep={6} />
       </NavHeader>
-      <ScrollView>
-        <ContentContainer>
-          <Stack align="stretch" direction="vertical" gap="24p">
-            <Typography.Header size="large" weight="bold">
-              {t("Onboarding.OptionalEmailScreen.title")}
-            </Typography.Header>
-            <Typography.Text size="footnote" weight="regular">
-              {t("Onboarding.OptionalEmailScreen.subHeader")}
-            </Typography.Text>
-            <TextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              control={control}
-              name="emailAddress"
-              label={t("Onboarding.OptionalEmailScreen.inputEmailLabel")}
-              placeholder={t("Onboarding.OptionalEmailScreen.inputEmailPlaceholder")}
-              keyboardType="email-address"
-            />
-          </Stack>
-        </ContentContainer>
-      </ScrollView>
-      <View style={containerStyle}>
-        <Stack align="stretch" direction="vertical" gap="8p">
-          <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-            {t("Onboarding.OptionalEmailScreen.continue")}
-          </SubmitButton>
-          <Button loading={isSubmitting} onPress={handleSubmit(handleOnSubmit)} variant="tertiary">
-            {t("Onboarding.OptionalEmailScreen.skip")}
-          </Button>
-        </Stack>
-      </View>
+      {isLoading ? (
+        <FullScreenLoader />
+      ) : (
+        <>
+          <ScrollView>
+            <ContentContainer>
+              <Stack align="stretch" direction="vertical" gap="24p">
+                <Typography.Header size="large" weight="bold">
+                  {t("Onboarding.OptionalEmailScreen.title")}
+                </Typography.Header>
+                <Typography.Text size="footnote" weight="regular">
+                  {t("Onboarding.OptionalEmailScreen.subHeader")}
+                </Typography.Text>
+                <TextInput
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  control={control}
+                  name="emailAddress"
+                  label={t("Onboarding.OptionalEmailScreen.inputEmailLabel")}
+                  placeholder={t("Onboarding.OptionalEmailScreen.inputEmailPlaceholder")}
+                  keyboardType="email-address"
+                />
+              </Stack>
+            </ContentContainer>
+          </ScrollView>
+          <View style={containerStyle}>
+            <Stack align="stretch" direction="vertical" gap="8p">
+              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+                {t("Onboarding.OptionalEmailScreen.continue")}
+              </SubmitButton>
+              <Button loading={isSubmitting} onPress={handleSubmit(handleOnSubmit)} variant="tertiary">
+                {t("Onboarding.OptionalEmailScreen.skip")}
+              </Button>
+            </Stack>
+          </View>
+        </>
+      )}
     </Page>
   );
 }
