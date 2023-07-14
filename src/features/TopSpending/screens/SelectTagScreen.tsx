@@ -14,6 +14,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CreateTagModal, TagItem } from "../components";
+import SelectCountryModal from "../components/SelectCountryModal";
 import { useCreateNewTag, useDeleteATag, useGetCustomerTags } from "../hooks/query-hooks";
 import { createNewTag, predefinedTags, tagIcons, tripToItem } from "../mocks/MockData";
 import { GetCustomerSingleTagType } from "../types";
@@ -24,6 +25,7 @@ export default function SelectTagScreen() {
 
   const [isCreateNewTagModalVisible, setIsCreateNewTagModalVisible] = useState<boolean>(false);
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState<boolean>(false);
+  const [isTripToTagModalVisible, setIsTripToTagModalVisible] = useState<boolean>(false);
   const [isDeleteNotificationModalVisible, setIsDeleteNotificationModalVisible] = useState<boolean>(false);
   const selectedDeleteTagItem = useRef<GetCustomerSingleTagType>();
 
@@ -59,8 +61,21 @@ export default function SelectTagScreen() {
     setIsCreateNewTagModalVisible(true);
   };
 
+  const handleOnPressTripToTag = () => {
+    setIsTripToTagModalVisible(true);
+  };
+
   const handleOnPressDone = () => {
     navigation.goBack();
+  };
+  const handleSelectCountry = async (country: string) => {
+    setIsTripToTagModalVisible(false);
+    await createNewTagApi({
+      tagName: tripToItem.name + " " + country,
+      tagIcon: tripToItem.path,
+      transactionId: "8",
+    });
+    await refetch();
   };
 
   const handleOnPressDelete = async () => {
@@ -106,7 +121,7 @@ export default function SelectTagScreen() {
             {predefinedTags.map(tag => (
               <TagItem item={tag} isTag={true} />
             ))}
-            <TagItem item={tripToItem} isTag={false} />
+            <TagItem item={tripToItem} isTag={false} onPress={handleOnPressTripToTag} />
           </Stack>
           <View style={sectionBreakerStyle} />
           <Stack direction="vertical" gap="20p" align="stretch" style={containerStyle}>
@@ -162,6 +177,9 @@ export default function SelectTagScreen() {
             ),
           }}
         />
+        <Modal visible={isTripToTagModalVisible} onClose={() => setIsTripToTagModalVisible(false)}>
+          <SelectCountryModal handleSelectCountry={handleSelectCountry} />
+        </Modal>
       </Page>
     </SafeAreaProvider>
   );

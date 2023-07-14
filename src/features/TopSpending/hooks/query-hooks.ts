@@ -5,7 +5,6 @@ import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
 
 import { CreateNewTagApiResponseType, CreateNewTagType, GetCustomerTagsApiResponseType } from "../types";
-
 interface IncludedCategory {
   categoryId: string;
   categoryName: string;

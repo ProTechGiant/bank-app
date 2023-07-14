@@ -389,8 +389,6 @@ export const resources = {
           transactionsPending: "These are recent transactions that haven't been charged to your account yet.",
         },
         SingleTransactionDetailedScreen: {
-          switchTitle: "Exclude from Summary",
-          switchDescription: "Hide this payment from Spending Insights, it will be added to " + "Hidden" + " Category",
           tags: "Tags",
           paidTo: "Paid To",
           mainAccount: "Main Croatia account",
@@ -412,6 +410,11 @@ export const resources = {
           changeCategory: "Changing Category from {{firstCategory}} to {{secondCategory}}",
           changeCategories: "Change Categories",
           clearAll: "Clear all",
+          tripToModal: {
+            title: "Select Country",
+            searchPlaceholder: "Search By Country Name",
+            buttonText: "Done",
+          },
           caseExistsModal: {
             title: "Transaction already reported",
             message: "We've given it the case reference number",
@@ -2588,6 +2591,11 @@ export const resources = {
           changeCategory: "Changing Category from {{firstCategory}} to {{secondCategory}}",
           changeCategories: "Change Categories",
           clearAll: "Clear all",
+          tripToModal: {
+            title: "حدد الدولة",
+            searchPlaceholder: "البحث عن طريق اسم الدولة",
+            buttonText: "منتهي",
+          },
           caseExistsModal: {
             title: "Transaction already reported",
             message: "We've given it the case reference number",
