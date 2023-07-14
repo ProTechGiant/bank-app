@@ -24,7 +24,12 @@ export default function useChangeLanguage() {
       const nextIsRTL = i18n.dir() === "rtl";
 
       if (prevIsRTL !== nextIsRTL) {
+        // we need to update `allowRTL` because otherwise the app may still use the incorrect layout direction
+        // if the device is using RTL but we want LTR instead
+        // see https://github.com/facebook/react-native/blob/main/packages/react-native/React/Modules/RCTI18nUtil.m#L37C13-L37C25
         I18nManager.allowRTL(nextIsRTL);
+        I18nManager.forceRTL(nextIsRTL);
+
         informUserAboutReload();
       }
     };
