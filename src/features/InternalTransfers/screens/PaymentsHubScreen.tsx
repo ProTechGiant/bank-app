@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { LocalTransferIcon, SearchIcon, TransferHorizontalIcon } from "@/assets/icons";
+import { LocalTransferIcon, SadadBillPaymentIcon, SearchIcon, TransferHorizontalIcon } from "@/assets/icons";
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -36,6 +36,12 @@ export default function PaymentsHubScreen() {
     setIsSelectInternalTransferTypeVisible(true);
     setInternalTransferEntryPoint("payment-hub");
     clearContext();
+  };
+
+  const handleOnSadadBillPress = () => {
+    navigation.navigate("SadadBillPayments.SadadBillPaymentStack", {
+      screen: "SadadBillPayments.BillPaymentHomeScreen",
+    });
   };
 
   const handleOnQuickTransferPress = () => {
@@ -154,6 +160,12 @@ export default function PaymentsHubScreen() {
               icon={<TransferHorizontalIcon />}
               title={t("InternalTransfers.PaymentsHubScreen.options.internalTransfer.title")}
               helperText={t("InternalTransfers.PaymentsHubScreen.options.internalTransfer.helperText")}
+            />
+            <PaymentOption
+              onPress={handleOnSadadBillPress}
+              icon={<SadadBillPaymentIcon />}
+              title={t("InternalTransfers.PaymentsHubScreen.options.sadadbillpayment.title")}
+              helperText={t("InternalTransfers.PaymentsHubScreen.options.sadadbillpayment.helperText")}
             />
           </Stack>
         </ScrollView>

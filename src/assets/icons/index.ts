@@ -76,6 +76,7 @@ export * from "./RemoveIcon";
 export * from "./ReportFraudIcon";
 export * from "./ReportIcon";
 export * from "./RewardsIcon";
+export * from "./SadadBillPaymentIcon";
 export * from "./SearchFailedIcon";
 export * from "./SearchIcon";
 export * from "./SettingsIcon";

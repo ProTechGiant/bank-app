@@ -8,6 +8,7 @@ import { NotificationManagementStackParams } from "@/features/NotificationManage
 import { PaymentDisputesStackParams } from "@/features/PaymentDisputes/PaymentDisputesStack";
 import { ProfileDetailsStackParams } from "@/features/ProfileDetails/ProfileDetailsStack";
 import { ReferralStackParams } from "@/features/Referral/ReferralStack";
+import { SadadBillPaymentStackParams } from "@/features/SadadBillPayment/SadadBillPaymentStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
 import { SettingsStackParams } from "@/features/Settings/SettingsStack";
 import { TopSpendingStackParams } from "@/features/TopSpending/TopSpendingStack";
@@ -31,6 +32,11 @@ type RootStackParams = {
   "AddMoney.AddMoneyStack":
     | {
         screen: keyof AddMoneyStackParams;
+      }
+    | undefined;
+  "SadadBillPayments.SadadBillPaymentStack":
+    | {
+        screen: keyof SadadBillPaymentStackParams;
       }
     | undefined;
   "InternalTransfers.InternalTransfersStack":
@@ -81,6 +87,7 @@ type AuthenticatedStackParams = RootStackParams &
   TopSpendingStackParams &
   SavingsGoalsStackParams &
   ViewTransactionsStackParams &
+  SadadBillPaymentStackParams &
   InternalTransfersStackParams &
   CardActionsStackParams &
   ReferralStackParams &

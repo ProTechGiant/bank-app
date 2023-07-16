@@ -15,6 +15,7 @@ import ProfileDetailsStack from "@/features/ProfileDetails/ProfileDetailsStack";
 import ReferralStack from "@/features/Referral/ReferralStack";
 import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
 import TermsAndConditionsScreen from "@/features/Referral/screens/TermsAndConditionsScreen";
+import SadadBillPaymentStack from "@/features/SadadBillPayment/SadadBillPaymentStack";
 import SavingsGoalsStack from "@/features/SavingsGoals/SavingsGoalsStack";
 import SettingsStack from "@/features/Settings/SettingsStack";
 import {
@@ -67,6 +68,7 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen component={ViewTransactionsStack} name="ViewTransactions.ViewTransactionsStack" />
       <AuthStack.Screen component={TopSpendingStack} name="TopSpending.TopSpendingStack" />
       <AuthStack.Screen component={ProfileDetailsStack} name="ProfileDetails.ProfileDetailsStack" />
+      <AuthStack.Screen component={SadadBillPaymentStack} name="SadadBillPayments.SadadBillPaymentStack" />
       <AuthStack.Screen
         component={TermsAndConditionsScreen}
         name="Referral.TermsAndConditionsScreen"

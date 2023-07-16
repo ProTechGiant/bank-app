@@ -1560,6 +1560,10 @@ export const resources = {
               title: "Internal transfer",
               helperText: "Transfer money within Croatia",
             },
+            sadadbillpayment: {
+              title: "Pay SADAD Bill",
+              helperText: "Manage your upcoming bills",
+            },
           },
         },
         SendToBeneficiaryScreen: {
@@ -1990,6 +1994,11 @@ export const resources = {
         LocalTransfersTermsAndConditions: {
           agree: "Agree",
           disagree: "Disagree",
+        },
+      },
+      SadadBillPayments: {
+        BillPaymentHomeScreen: {
+          navHeaderTitle: "Pay SADAD Bill",
         },
       },
       PaymentDisputes: {
@@ -3488,6 +3497,9 @@ export const resources = {
         waitingMessage:
           "Please do not close the app or navigate away from this screen while we activate your beneficiary",
       },
+      SadadBillPaymentScreen: {
+        navHeaderTitle: "Pay SADAD Bill",
+      },
     },
     LocalTransfers: {
       SelectTransferTypeModal: {
@@ -3500,6 +3512,11 @@ export const resources = {
       LocalTransfersTermsAndConditions: {
         agree: "Agree",
         disagree: "Disagree",
+      },
+    },
+    SadadBillPayments: {
+      BillPaymentHomeScreen: {
+        navHeaderTitle: "Pay SADAD Bill",
       },
     },
     PaymentDisputes: {
