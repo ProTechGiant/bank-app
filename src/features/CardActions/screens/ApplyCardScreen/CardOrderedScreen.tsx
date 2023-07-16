@@ -7,6 +7,7 @@ import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
 import Button from "@/components/Button";
 import HeroSlider from "@/components/HeroSlider";
 import NavHeader from "@/components/NavHeader";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -22,6 +23,7 @@ export default function CardOrderedScreen({ cardId }: CardOrderedScreenProps) {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { isAppleWalletAvailable, canAddCardToAppleWallet, addCardToAppleWallet } = useAppleWallet(cardId);
+  const auth = useAuthContext();
 
   const handleOnAddToWallet = async () => {
     try {
@@ -33,7 +35,11 @@ export default function CardOrderedScreen({ cardId }: CardOrderedScreenProps) {
   };
 
   const handleOnClose = () => {
-    navigation.navigate("Temporary.LandingScreen");
+    //TODO: Once the temporary screen is removed, the navigation will be adjusted to directly navigate to the home screen.
+    // navigation.navigate("Home.HomeStack", {
+    //   screen: "Home.DashboardScreen",
+    // });
+    auth.logout();
   };
 
   const madaPayContainerStyle = useThemeStyles<ViewStyle>(theme => ({

@@ -9,17 +9,21 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import useNavigation from "@/navigation/use-navigation";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 import BottomTriangle from "../assets/background-bottom.svg";
 import HeaderTriangle from "../assets/background-top-start.svg";
 
 export default function ApplePayActivatedScreen() {
-  const navigation = useNavigation();
   const { t } = useTranslation();
+  const auth = useAuthContext();
 
   const handleOnFinished = () => {
-    navigation.navigate("Temporary.LandingScreen");
+    //TODO: Once the temporary screen is removed, the navigation will be adjusted to directly navigate to the home screen.
+    // navigation.navigate("Home.HomeStack", {
+    //   screen: "Home.DashboardScreen",
+    // });
+    auth.logout();
   };
 
   return (
@@ -31,7 +35,7 @@ export default function ApplePayActivatedScreen() {
         end={
           <NavHeader.CloseEndButton
             onPress={() => {
-              navigation.navigate("Temporary.LandingScreen");
+              auth.logout();
             }}
           />
         }
