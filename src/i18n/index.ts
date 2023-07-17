@@ -390,6 +390,8 @@ export const resources = {
           transactionsPending: "These are recent transactions that haven't been charged to your account yet.",
         },
         SingleTransactionDetailedScreen: {
+          switchTitle: "Exclude from Summary",
+          switchDescription: "Hide this payment from Spending Insights, it will be added to Hidden Category",
           tags: "Tags",
           paidTo: "Paid To",
           mainAccount: "Main Croatia account",
@@ -2585,6 +2587,8 @@ export const resources = {
           transactionsPending: "These are recent transactions that haven't been charged to your account yet.",
         },
         SingleTransactionDetailedScreen: {
+          switchTitle: "Exclude from Summary",
+          switchDescription: "Hide this payment from Spending Insights, it will be added to " + "Hidden" + " Category",
           tags: "Tags",
           paidTo: "Paid To",
           mainAccount: "Main Croatia account",
