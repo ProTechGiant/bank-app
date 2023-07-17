@@ -49,7 +49,7 @@ export default function CategoriesListScreen() {
   const updateCategoryMutation = useUpdateCategory();
 
   const handleUpdateCategory = async () => {
-    const transactionIds = data.transactionID;
+    const transactionIds = data.transactionId;
     const newCategoryId = updatedCategoryId;
     const merchantName = encodeURIComponent(data.title);
     const oldCategoryId = data.categoryId;
