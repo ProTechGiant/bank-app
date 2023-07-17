@@ -9,14 +9,14 @@ import CardButton from "@/components/CardButton";
 import ContentContainer from "@/components/ContentContainer";
 import DetailedRow from "@/components/DetailedRow";
 import Page from "@/components/Page";
-import MainStackParams from "@/navigation/mainStackParams";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
 import { GoalHeader } from "../components";
 import { useSavingsPot } from "../hooks/query-hooks";
 
 export default function TransactionDetailScreen() {
-  const route = useRoute<RouteProp<MainStackParams, "SavingsGoals.TransactionDetailScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "SavingsGoals.TransactionDetailScreen">>();
   const { data, PotId } = route.params ?? {};
 
   const { data: savingsPotData } = useSavingsPot(PotId);

@@ -60,7 +60,7 @@ export default function UnmaskedBankCard({
     marginTop: theme.spacing["16p"],
   }));
 
-  const splittedNumber = cardNumber ? cardNumber.split("-") : [];
+  const cardNumberPieces = typeof cardNumber === "string" && cardNumber.length > 0 ? cardNumber.split("-") : [];
 
   return (
     <View style={styles.container}>
@@ -78,17 +78,15 @@ export default function UnmaskedBankCard({
           <View style={styles.cardNumberContainer}>
             <Stack align="center" direction="horizontal" gap="24p">
               <Stack align="center" direction="vertical" gap="12p">
-                {splittedNumber.length > 0
-                  ? splittedNumber.map(number => (
-                      <Stack direction="horizontal" key={Math.random()} gap="4p">
-                        {number.split("").map((currentNumber, index) => (
-                          <Typography.Text key={index} color="neutralBase-50" weight="medium" size="body">
-                            {currentNumber}
-                          </Typography.Text>
-                        ))}
-                      </Stack>
-                    ))
-                  : null}
+                {cardNumberPieces.map((number, index) => (
+                  <Stack direction="horizontal" key={index} gap="4p">
+                    {number.split("").map((currentNumber, index_) => (
+                      <Typography.Text key={index_} color="neutralBase-50" weight="medium" size="body">
+                        {currentNumber}
+                      </Typography.Text>
+                    ))}
+                  </Stack>
+                ))}
               </Stack>
               <View style={copyButtonContainer}>
                 <Pressable onPress={onCopyPress}>
@@ -122,6 +120,7 @@ export default function UnmaskedBankCard({
     </View>
   );
 }
+
 const CONTAINER_HEIGHT = 338;
 const CONTAINER_WIDTH = 224;
 

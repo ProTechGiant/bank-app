@@ -63,7 +63,8 @@ export default function DashboardScreen() {
     const offsetY = Math.abs(event.contentOffset.y);
     const headerHeightUpdatedValue = offsetY > 0 ? 180 : 305;
     const accountBalanceFontValue = offsetY > 0 ? 18 : 42;
-    const currencyFontValue = offsetY > 0 ? 16 : 16;
+    const currencyFontValue = 16;
+
     if (offsetY !== 0 && !headerShrinkStatusSharedValue.value) headerShrinkStatusSharedValue.value = true;
     else if (offsetY === 0 && headerShrinkStatusSharedValue.value) headerShrinkStatusSharedValue.value = false;
     headerHeight.value = withSpring(headerHeightUpdatedValue);

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { I18nManager, StyleSheet, View } from "react-native";
 
 import Typography from "@/components/Typography";
+import { formatCurrency } from "@/utils";
 
 interface NumberWithDifferentFontSizesProps {
   number: string;
@@ -13,9 +14,7 @@ const NumberWithDifferentFontSizes: React.FC<NumberWithDifferentFontSizesProps> 
 
   // Split the number into integer and decimal parts
   const [integerPart, decimalPart] = parseFloat(number).toFixed(2).split(".");
-
-  // Add comma as a separator for the integer part
-  const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const formattedIntegerPart = formatCurrency(Number.parseInt(integerPart, 10));
 
   return (
     <View style={styles.spliterStyle}>

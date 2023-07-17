@@ -9,30 +9,27 @@ import FormatTransactionAmount from "@/components/FormatTransactionAmount";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
+import { formatCurrency } from "@/utils";
 
 import { useSavingsPot } from "../hooks/query-hooks";
 import { savingsMocksData } from "../mocks/mockTransactionsSavingGoal";
-import { SavingsGoalsStackParams } from "../SavingsGoalsStack";
 import { GoalTransaction, SavingGoalTransaction } from "../types";
 
 export default function AllTransactionsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const route = useRoute<RouteProp<SavingsGoalsStackParams, "SavingsGoals.AllTransactionsScreen">>();
-  const { PotId } = route.params ?? {};
-
-  const { data: savingsPotData } = useSavingsPot(PotId);
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "SavingsGoals.AllTransactionsScreen">>();
+  const { data: savingsPotData } = useSavingsPot(route.params.PotId);
 
   const availableBalance = savingsPotData?.AvailableBalanceAmount ?? 0;
   const formattedBalance = parseFloat(String(availableBalance)).toFixed(2);
   const [integerPart, decimalPart] = formattedBalance.split(".");
-
-  // Add comma as a separator for the integer part
-  const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const formattedIntegerPart = formatCurrency(Number.parseInt(integerPart, 10));
 
   const formatDate = (date: Date): string => {
     if (isToday(date)) {
@@ -52,7 +49,11 @@ export default function AllTransactionsScreen() {
       TransactionStatus: transaction.Status,
       Category: transaction.Category,
     };
-    navigation.navigate("SavingsGoals.TransactionDetailScreen", { data: obj, PotId });
+
+    navigation.navigate("SavingsGoals.TransactionDetailScreen", {
+      PotId: route.params.PotId,
+      data: obj,
+    });
   };
 
   const handleOnBackPress = () => {
@@ -129,10 +130,10 @@ export default function AllTransactionsScreen() {
           data={savingsMocksData.data?.GroupedTransactions}
           renderItem={({ item }) => {
             const sum = item.Transactions.reduce(
-              (total, item) =>
-                item.CreditDebitIndicator === "Debit"
-                  ? total - parseFloat(item.Amount.Amount)
-                  : total + parseFloat(item.Amount.Amount),
+              (total, current) =>
+                current.CreditDebitIndicator === "Debit"
+                  ? total - parseFloat(current.Amount.Amount)
+                  : total + parseFloat(current.Amount.Amount),
               0
             );
             return (
