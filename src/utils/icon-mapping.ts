@@ -26,5 +26,6 @@ export const iconMapping: IconMappingType = {
     "send-money": createElement(icons.TransferVerticalIcon),
     referrals: createElement(icons.ReferralIcon),
     "internal-transfer": createElement(icons.TransferHorizontalIcon),
+    edit: createElement(icons.ThreeDotsIcon),
   },
 };

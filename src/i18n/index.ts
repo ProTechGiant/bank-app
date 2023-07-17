@@ -701,6 +701,9 @@ export const resources = {
           title: "Edit Actions",
           saveButton: "SAVE",
         },
+        QuickActionSection: {
+          editButton: "Edit",
+        },
         AccountDetails: {
           navHeader: "Account Details",
           banner: {

@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { Pressable, useWindowDimensions, ViewStyle } from "react-native";
+import { Pressable, useWindowDimensions, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { IconProps } from "@/assets/icons";
@@ -19,24 +19,28 @@ export default function QuickAction({ color, icon, title, onPress }: QuickAction
 
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      rowGap: theme.spacing["12p"],
+      gap: theme.spacing["12p"],
       paddingHorizontal: theme.spacing["12p"],
-      paddingVertical: theme.spacing["20p"],
-      width: windowDimensions.width / 3 - theme.spacing["20p"],
+      alignItems: "center",
+      width: (windowDimensions.width - theme.spacing["12p"] * 2) / 4,
     }),
     [windowDimensions]
   );
 
+  const iconStyle = useThemeStyles<ViewStyle>(theme => ({
+    padding: theme.spacing["16p"],
+  }));
+
   const rawColor = useThemeStyles(theme => theme.palette[color], [color]);
 
   return (
-    <WithShadow backgroundColor="neutralBase-60" borderRadius="extraSmall">
-      <Pressable onPress={onPress} style={containerStyle}>
-        {cloneElement(icon, { color: rawColor, height: 22, width: 22 })}
-        <Typography.Text color={color} size="footnote" weight="bold">
-          {title}
-        </Typography.Text>
-      </Pressable>
-    </WithShadow>
+    <Pressable onPress={onPress} style={containerStyle}>
+      <WithShadow backgroundColor="neutralBase-60" borderRadius="xxlarge">
+        <View style={iconStyle}>{cloneElement(icon, { color: rawColor, height: 24, width: 24 })}</View>
+      </WithShadow>
+      <Typography.Text color="neutralBase+10" size="caption2" weight="medium">
+        {title}
+      </Typography.Text>
+    </Pressable>
   );
 }

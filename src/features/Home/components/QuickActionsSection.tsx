@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
 import Stack from "@/components/Stack";
@@ -9,13 +10,13 @@ import useNavigation from "@/navigation/use-navigation";
 import { iconMapping } from "@/utils/icon-mapping";
 
 import QuickAction from "./QuickAction";
-import Section from "./Section";
 
 interface QuickActionsSectionProps {
   onViewAllPress: () => void;
 }
 
 export default function QuickActionsSection({ onViewAllPress }: QuickActionsSectionProps) {
+  const { t } = useTranslation("translation", { keyPrefix: "Home.QuickActionSection" });
   const { quickActions } = useHomepageLayoutOrder();
   const navigation = useNavigation();
   const { setInternalTransferEntryPoint, clearContext, setTransferType } = useInternalTransferContext();
@@ -40,34 +41,39 @@ export default function QuickActionsSection({ onViewAllPress }: QuickActionsSect
 
   return (
     <>
-      <Section title="Shortcuts" onViewAllPress={onViewAllPress}>
-        <Stack align="stretch" direction="horizontal" justify="space-between">
-          {quickActions !== undefined
-            ? quickActions.slice(0, 3).map(element => {
-                const handleOnPress = () => {
-                  if (element.type === "settings") navigation.navigate("Settings.SettingsStack");
-                  if (element.type === "referrals") navigation.navigate("Referral.ReferralStack");
-                  if (element.type === "balance-add")
-                    navigation.navigate("AddMoney.AddMoneyStack", { screen: "AddMoney.AddMoneyInfoScreen" });
-                  if (element.type === "internal-transfer") {
-                    setInternalTransferEntryPoint("homepage");
-                    clearContext();
-                    setIsInternalTransferTypeModalVisible(true);
-                  }
-                };
-                return (
-                  <QuickAction
-                    key={element.type}
-                    color="primaryBase-30"
-                    icon={iconMapping.homepageQuickActions[element?.type]}
-                    onPress={handleOnPress}
-                    title={element.name}
-                  />
-                );
-              })
-            : null}
-        </Stack>
-      </Section>
+      <Stack align="stretch" direction="horizontal" justify="space-between">
+        {quickActions !== undefined
+          ? quickActions.slice(0, 3).map(element => {
+              const handleOnPress = () => {
+                if (element.type === "settings") navigation.navigate("Settings.SettingsStack");
+                if (element.type === "referrals") navigation.navigate("Referral.ReferralStack");
+                if (element.type === "balance-add")
+                  navigation.navigate("AddMoney.AddMoneyStack", { screen: "AddMoney.AddMoneyInfoScreen" });
+                if (element.type === "internal-transfer") {
+                  setInternalTransferEntryPoint("homepage");
+                  clearContext();
+                  setIsInternalTransferTypeModalVisible(true);
+                }
+              };
+              return (
+                <QuickAction
+                  key={element.type}
+                  color="complimentBase"
+                  icon={iconMapping.homepageQuickActions[element?.type]}
+                  onPress={handleOnPress}
+                  title={element.name}
+                />
+              );
+            })
+          : null}
+        <QuickAction
+          key="edit"
+          color="complimentBase"
+          icon={iconMapping.homepageQuickActions.edit}
+          onPress={onViewAllPress}
+          title={t("editButton")}
+        />
+      </Stack>
       {isInternalTransferTypeModalVisible ? (
         <InternalTransferTypeModal
           onClose={() => setIsInternalTransferTypeModalVisible(false)}
