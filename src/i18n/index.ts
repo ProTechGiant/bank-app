@@ -300,6 +300,7 @@ export const resources = {
         },
         ExcludedDetailedScreen: {
           sar: "SAR",
+          hiddenTransactions: "Hidden Transactions",
         },
         SpendSummaryScreen: {
           totalSpending: "Total Spending",
@@ -2506,6 +2507,7 @@ export const resources = {
         },
         ExcludedDetailedScreen: {
           sar: "SAR",
+          hiddenTransactions: "Hidden Transactions",
         },
         SpendCompareModal: {
           week: "أسبوع {{no}}",

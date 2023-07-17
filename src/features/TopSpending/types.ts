@@ -53,6 +53,7 @@ export interface Transaction {
     CategoryId: string;
     CategoryName: string;
   };
+  HiddenIndicator: string;
 }
 
 export interface DateInterface {

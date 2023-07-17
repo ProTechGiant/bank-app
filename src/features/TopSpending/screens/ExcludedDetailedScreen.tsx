@@ -52,7 +52,7 @@ export default function ExcludedDetailedScreen() {
       {/* This information is temporary until the API is ready  */}
       <Stack direction="horizontal" align="center" justify="space-between" style={headerStyle}>
         <Typography.Text size="title2" color="neutralBase+30">
-          {categoryName ? categoryName : "Hidden"}
+          {categoryName ? categoryName : t("TopSpending.ExcludedDetailedScreen.hiddenTransactions")}
         </Typography.Text>
         <Typography.Text size="title2" color="neutralBase+30">
           {formatCurrency(totalAmount)}
@@ -61,17 +61,17 @@ export default function ExcludedDetailedScreen() {
           </Typography.Text>
         </Typography.Text>
       </Stack>
-      <Stack direction="vertical" gap="32p" align="stretch" style={listContainerStyle}>
-        {!isLoading ? (
-          <FlatList
-            data={transactions.data?.Transaction ?? []}
-            renderItem={({ item }) => <TransactionCell transaction={item} />}
-            keyExtractor={(item, index) => `key ${index}`}
-          />
-        ) : (
-          <FlexActivityIndicator />
-        )}
-      </Stack>
+      {!isLoading ? (
+        <FlatList
+          data={transactions.data?.Transaction ?? []}
+          renderItem={({ item }) => <TransactionCell transaction={item} />}
+          keyExtractor={(item, index) => `key ${index}`}
+          showsVerticalScrollIndicator={false}
+          style={listContainerStyle}
+        />
+      ) : (
+        <FlexActivityIndicator />
+      )}
     </Page>
   );
 }

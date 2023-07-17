@@ -216,7 +216,7 @@ function DebitCardAndOneTimeCard({
             roundup={false}
           />
         ) : null}
-        <ExcludeFromSummary transactionId={data.transactionId} />
+        <ExcludeFromSummary transactionId={data.transactionId} isHidden={data.hiddenIndicator} />
         <View style={styles.detailedButton}>
           <CardButton
             label={t("ViewTransactions.SingleTransactionDetailedScreen.reportTransaction")}

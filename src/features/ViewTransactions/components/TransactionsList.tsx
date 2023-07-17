@@ -45,6 +45,7 @@ export default function TransactionsList({ transactionsAll, cardId, createDisput
       categoryName: transaction.SupplementaryData.CategoryName,
       categoryId: transaction.SupplementaryData.CategoryId,
       transactionId: transaction.TransactionId,
+      hiddenIndicator: transaction.HiddenIndicator,
     };
 
     navigation.navigate("ViewTransactions.SingleTransactionDetailedScreen", { data: obj, cardId, createDisputeUserId });

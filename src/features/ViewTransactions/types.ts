@@ -12,6 +12,7 @@ export interface TransactionDetailed {
   categoryName?: string;
   categoryId?: string;
   transactionId: string;
+  hiddenIndicator: string;
 }
 
 export interface Transaction {
@@ -39,4 +40,5 @@ export interface Transaction {
     CategoryId: string;
     CategoryName: string;
   };
+  HiddenIndicator: string;
 }

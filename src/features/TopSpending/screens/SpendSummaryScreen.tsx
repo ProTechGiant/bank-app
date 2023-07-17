@@ -182,6 +182,7 @@ export default function SpendSummaryScreen() {
       categoryName: transaction.SupplementaryData.CategoryName,
       categoryId: transaction.SupplementaryData.CategoryId,
       transactionId: transaction.TransactionId,
+      hiddenIndicator: transaction.HiddenIndicator,
     };
 
     navigation.navigate("ViewTransactions.ViewTransactionsStack", {

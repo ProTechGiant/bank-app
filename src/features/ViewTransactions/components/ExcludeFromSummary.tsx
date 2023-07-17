@@ -10,12 +10,14 @@ import { useExcludeFromSummary } from "../hooks/query-hooks";
 
 interface ExcludeFromSummaryProps {
   transactionId: string;
+  isHidden: string;
 }
 
-export default function ExcludeFromSummary({ transactionId }: ExcludeFromSummaryProps) {
-  const [isExcluded, setIsExcluded] = useState(false);
+export default function ExcludeFromSummary({ transactionId, isHidden }: ExcludeFromSummaryProps) {
   const { t } = useTranslation();
   const excludeFromSummaryMutation = useExcludeFromSummary();
+
+  const [isExcluded, setIsExcluded] = useState(isHidden === "Y");
 
   const handleSwitchChange = async (newValue: boolean) => {
     setIsExcluded(newValue);
