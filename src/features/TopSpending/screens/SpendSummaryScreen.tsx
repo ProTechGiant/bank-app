@@ -20,6 +20,7 @@ import SpendCompareModal from "../components/SpendCompareModal";
 import { ChartTypes, CompareDurationTypes } from "../enum";
 import { userType } from "../mocks";
 import { CompareDatesTypes, PeriodDateTypes, Transaction, TransactionDetailed } from "../types";
+import { categoryIconViewBox } from "../mocks/MockData";
 
 export default function SpendSummaryScreen() {
   const { t } = useTranslation();
@@ -214,7 +215,7 @@ export default function SpendSummaryScreen() {
       default:
     }
   };
-
+  const getViewBox = (iconName: string) => categoryIconViewBox[iconName as keyof typeof categoryIconViewBox];
   return (
     <Page insets={["top", "left", "right", "bottom"]}>
       <SpendingsFilterModal
@@ -329,7 +330,13 @@ export default function SpendSummaryScreen() {
               renderItem={({ item }) => (
                 <Pressable key={item.TransactionId} onPress={() => handleOnPress(item)}>
                   <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
-                    <IconGenerator path={iconPath?.replace('d="', "").replace('"', "")} color={giftColor} />
+                    <IconGenerator
+                      width={22}
+                      height={22}
+                      path={iconPath?.replace('d="', "").replace('"', "")}
+                      color={giftColor}
+                      viewBox={getViewBox(categoryName)}
+                    />
                     <Stack direction="vertical" style={styles.expandText}>
                       <Typography.Text size="callout" weight="medium" color="neutralBase+30">
                         {item.StatementReference}

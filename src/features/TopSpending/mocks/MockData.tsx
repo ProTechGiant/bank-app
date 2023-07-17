@@ -83,3 +83,17 @@ export const createNewTag: PredefinedTagType = {
   viewBox: "0 0 12 12",
   path: "M11.8332 6.83366H6.83317V11.8337H5.1665V6.83366H0.166504V5.16699H5.1665V0.166992H6.83317V5.16699H11.8332V6.83366Z",
 };
+
+export const categoryIconViewBox = {
+  General: "0 0 19 22",
+  Transfer: "0 0 19 22",
+  Round_Up: "0 0 19 22",
+  Groceries: "0 0 19 22",
+  Shopping: "0 0 19 22",
+  Gift: "0 0 19 22",
+  "Utility Bills": "0 0 19 22",
+  "Food and Drinks": "18 18 20 20",
+  Travel: "18 18 20 20",
+  Entertainment: "18 18 20 20",
+  "Health Care": "18 18 20 20",
+};

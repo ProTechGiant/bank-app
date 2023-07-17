@@ -8,6 +8,7 @@ import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import { IconGenerator } from "../components";
+import { categoryIconViewBox } from "../mocks/MockData";
 
 type CellProps = {
   categoryId?: string;
@@ -37,11 +38,18 @@ export default function CategoryCell({ category, onPress }: CategoryCellProps) {
     chevronColor: theme.palette["neutralBase-20"],
     giftColor: theme.palette["primaryBase-40"],
   }));
+  const getViewBox = (iconName: string) => categoryIconViewBox[iconName as keyof typeof categoryIconViewBox];
 
   return (
     <Pressable onPress={onPress}>
       <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
-        <IconGenerator path={iconPath?.replace('d="', "").replace('"', "")} color={giftColor} />
+        <IconGenerator
+          width={22}
+          height={22}
+          path={iconPath?.replace('d="', "").replace('"', "")}
+          color={giftColor}
+          viewBox={getViewBox(categoryName)}
+        />
         <Stack direction="vertical" style={styles.expandText}>
           <Typography.Text size="callout" weight="medium" color="neutralBase+30">
             {categoryName ? categoryName : t("TopSpending.TopSpendingScreen.hidden")}

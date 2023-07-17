@@ -5,12 +5,19 @@ interface IconGeneratorProps {
   color?: ColorValue;
   height?: number | string;
   width?: number | string;
+  viewBox?: string;
   path: string;
 }
 
-export default function IconGenerator({ width = 42, height = 42, color = "#282F86", path }: IconGeneratorProps) {
+export default function IconGenerator({
+  width = 42,
+  height = 42,
+  viewBox = "0 0 42 42",
+  color = "#282F86",
+  path,
+}: IconGeneratorProps) {
   return (
-    <Svg width={width} height={height} viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Svg width={width} height={height} viewBox={viewBox} fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path d={path} fill={color} />
     </Svg>
   );
