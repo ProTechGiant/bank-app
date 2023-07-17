@@ -18,7 +18,7 @@ import { formatIban } from "@/utils";
 
 import { ConfirmBeneficiaryListCard } from "../components";
 
-export default function ConfirmQuickTransferBeneficiaryScreen() {
+export default function ConfirmLocalTransferBeneficiaryScreen() {
   const { i18n, t } = useTranslation();
   const navigation = useNavigation();
 

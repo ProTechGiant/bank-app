@@ -1593,6 +1593,9 @@ export const resources = {
             },
           },
           activateBeneficiary: {
+            titleSarieTransfer: "Confirm this beneficiary",
+            messageSarieTransfer:
+              "Before you can send any money you need to confirm this person’s details. This helps us protect your account.",
             title: "Inactive beneficiary selected",
             message:
               "This beneficiary is currently inactive. An IVR activation will be required in order to process your transfer",
@@ -1672,6 +1675,7 @@ export const resources = {
           navTitle: "Send money",
           details: {
             name: "Name",
+            fullName: "Full name",
             bank: "Bank",
             mobile: "Mobile",
             accountNumber: "Account number",
@@ -1716,7 +1720,7 @@ export const resources = {
             title: "Are you sure?",
             message: "Do you want to cancel this transfer?",
             cancel: "Cancel transfer",
-            continue: "Close",
+            continue: "Continue",
           },
           feesError: {
             title: "Sorry - we couldn’t check that",
@@ -3132,6 +3136,9 @@ export const resources = {
           },
         },
         activateBeneficiary: {
+          titleSarieTransfer: "Confirm this beneficiary",
+          messageSarieTransfer:
+            "Before you can send any money you need to confirm this person’s details. This helps us protect your account.",
           title: "Inactive beneficiary selected",
           message:
             "This beneficiary is currently inactive. An IVR activation will be required in order to process your transfer",
@@ -3211,6 +3218,7 @@ export const resources = {
         navTitle: "Send money",
         details: {
           name: "Name",
+          fullName: "Full name",
           bank: "Bank",
           mobile: "Mobile",
           accountNumber: "Account number",

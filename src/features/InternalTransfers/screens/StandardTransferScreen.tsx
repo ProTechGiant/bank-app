@@ -154,7 +154,7 @@ export default function StandardTransferScreen() {
                   autoFocus
                   control={control}
                   currentBalance={currentBalance}
-                  isError={amountExceedsBalance}
+                  isError={(amountExceedsBalance || dailyLimitAsync.data?.IsLimitExceeded) ?? false}
                   maxLength={10}
                   name="PaymentAmount"
                 />
@@ -188,7 +188,11 @@ export default function StandardTransferScreen() {
               <View style={styles.button}>
                 <Button
                   color="light"
-                  disabled={amountExceedsBalance || currentAmount <= SARIE_MIN_TRANSFER_AMOUNT}
+                  disabled={
+                    amountExceedsBalance ||
+                    currentAmount <= SARIE_MIN_TRANSFER_AMOUNT ||
+                    dailyLimitAsync.data?.IsLimitExceeded
+                  }
                   variant="secondary"
                   iconLeft={<CalendarAltIcon />}>
                   {t("InternalTransfers.StandardTransferScreen.scheduleButton")}
@@ -198,7 +202,11 @@ export default function StandardTransferScreen() {
                 <Button
                   variant="primary"
                   color="light"
-                  disabled={amountExceedsBalance || currentAmount <= SARIE_MIN_TRANSFER_AMOUNT}
+                  disabled={
+                    amountExceedsBalance ||
+                    currentAmount <= SARIE_MIN_TRANSFER_AMOUNT ||
+                    dailyLimitAsync.data?.IsLimitExceeded
+                  }
                   onPress={handleSubmit(handleOnContinue)}>
                   {t("InternalTransfers.StandardTransferScreen.continueButton")}
                 </Button>

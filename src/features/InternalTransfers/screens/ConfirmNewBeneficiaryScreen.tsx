@@ -114,11 +114,16 @@ export default function ConfirmNewBeneficiaryScreen() {
             <ConfirmBeneficiaryListCard
               icon={<PersonFilledIcon color={iconColor} />}
               iconBackground="neutralBase-40"
-              caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.name")}
+              caption={
+                transferType === TransferType.SarieTransferAction
+                  ? t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.fullName")
+                  : t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.name")
+              }
               label={recipient.accountName}
             />
           ) : null}
-          {transferType === TransferType.CroatiaToArbTransferAction ? (
+          {transferType === TransferType.CroatiaToArbTransferAction ||
+          transferType === TransferType.SarieTransferAction ? (
             <ConfirmBeneficiaryListCard
               icon={<BankAccountIcon color={iconColor} />}
               iconBackground="neutralBase-40"
@@ -126,7 +131,7 @@ export default function ConfirmNewBeneficiaryScreen() {
               label={t("InternalTransfers.ConfirmNewBeneficiaryScreen.bankName")}
             />
           ) : null}
-          {recipient.accountNumber !== undefined ? (
+          {recipient.accountNumber !== undefined && transferType !== TransferType.SarieTransferAction ? (
             <ConfirmBeneficiaryListCard
               icon={<NumbersIcon color={iconColor} />}
               iconBackground="neutralBase-40"
@@ -134,14 +139,17 @@ export default function ConfirmNewBeneficiaryScreen() {
               label={recipient.accountNumber}
             />
           ) : null}
-          {recipient.type === "new" && addBeneficiary?.SelectionType === "mobileNo" ? (
+          {recipient.type === "new" &&
+          addBeneficiary?.SelectionType === "mobileNo" &&
+          transferType !== TransferType.SarieTransferAction ? (
             <ConfirmBeneficiaryListCard
               icon={<PhoneFilledIcon color={iconColor} />}
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
               label={parsePhoneNumber(addBeneficiary?.SelectionValue).format("INTERNATIONAL")}
             />
-          ) : recipient.type === "new" && addBeneficiary?.SelectionType === "IBAN" ? (
+          ) : (recipient.type === "new" && addBeneficiary?.SelectionType === "IBAN") ||
+            transferType !== TransferType.SarieTransferAction ? (
             <ConfirmBeneficiaryListCard
               icon={<NumbersIcon color={iconColor} />}
               iconBackground="neutralBase-40"
@@ -149,7 +157,9 @@ export default function ConfirmNewBeneficiaryScreen() {
               label={formatIban(addBeneficiary?.SelectionValue || "")}
             />
           ) : null}
-          {recipient.type === "inactive" && recipient.phoneNumber !== undefined ? (
+          {recipient.type === "inactive" &&
+          recipient.phoneNumber !== undefined &&
+          transferType !== TransferType.SarieTransferAction ? (
             <ConfirmBeneficiaryListCard
               icon={<PhoneFilledIcon color={iconColor} />}
               iconBackground="neutralBase-40"

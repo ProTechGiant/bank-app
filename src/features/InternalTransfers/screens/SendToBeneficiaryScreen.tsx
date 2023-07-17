@@ -287,9 +287,7 @@ export default function SendToBeneficiaryScreen() {
         buttons={{
           primary: (
             <Button onPress={handleOnConfirmActivation}>
-              {transferType === TransferType.SarieTransferAction
-                ? t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.selectBeneficiary")
-                : t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.confirmButton")}
+              {t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.confirmButton")}
             </Button>
           ),
           secondary: (
@@ -298,8 +296,16 @@ export default function SendToBeneficiaryScreen() {
             </Button>
           ),
         }}
-        message={t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.message")}
-        title={t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.title")}
+        message={
+          transferType === TransferType.SarieTransferAction
+            ? t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.messageSarieTransfer")
+            : t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.message")
+        }
+        title={
+          transferType === TransferType.SarieTransferAction
+            ? t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.titleSarieTransfer")
+            : t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.title")
+        }
         isVisible={isConfirmActivationModalVisible}
       />
     </>

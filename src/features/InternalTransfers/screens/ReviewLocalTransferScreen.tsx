@@ -157,7 +157,7 @@ export default function ReviewQuickTransferScreen() {
     return (
       <View style={verticalSpaceStyle}>
         <Typography.Text
-          weight="regular"
+          weight="semiBold"
           size="footnote"
           color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase+30" : "neutralBase"}>
           {t("InternalTransfers.ReviewQuickTransferScreen.from")}
@@ -182,7 +182,7 @@ export default function ReviewQuickTransferScreen() {
     return (
       <View style={verticalSpaceStyle}>
         <Typography.Text
-          weight="regular"
+          weight="semiBold"
           size="footnote"
           color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase+30" : "neutralBase"}>
           {t("InternalTransfers.ReviewQuickTransferScreen.to")}

@@ -115,6 +115,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
             SelectionType: IBAN,
             SelectionValue: response.IBAN,
             IBAN: response.IBAN,
+            type: "new",
           },
         });
       } catch (error) {

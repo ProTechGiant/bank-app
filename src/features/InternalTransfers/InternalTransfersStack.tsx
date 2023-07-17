@@ -64,6 +64,7 @@ export type InternalTransfersStackParams = {
       SelectionType: AddBeneficiarySelectionType;
       SelectionValue: string;
       IBAN: string;
+      type?: string;
     };
   };
   "InternalTransfers.ReviewLocalTransferScreen": {
