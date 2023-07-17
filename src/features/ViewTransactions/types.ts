@@ -23,7 +23,7 @@ export interface Transaction {
   CreditDebitIndicator: string;
   Status: string;
   TransactionInformation: string;
-  BookingDateTime: [];
+  BookingDateTime: number[];
   ValueDateTime: number[];
   AddressLine: string;
   ChargeAmount: {

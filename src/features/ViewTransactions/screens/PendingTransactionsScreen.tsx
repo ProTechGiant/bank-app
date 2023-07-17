@@ -160,7 +160,7 @@ export default function PendingTransactionsScreen() {
                 {transactions.length ? (
                   <View>
                     {transactions.map(transaction => {
-                      const [year, month, day, hours, minutes] = transaction.SupplementaryData.FromDate;
+                      const [year, month, day, hours, minutes] = transaction.SupplementaryData.FromDate || [];
                       return (
                         <Pressable key={transaction.TransactionReference} onPress={() => handleNavigation()}>
                           <View key={transaction.TransactionReference} style={transactionRow}>
@@ -168,15 +168,17 @@ export default function PendingTransactionsScreen() {
                               <Typography.Text color="neutralBase+30" size="callout" weight="semiBold">
                                 {transaction.TransactionInformation}
                               </Typography.Text>
-                              <Typography.Text color="neutralBase" size="caption2" weight="regular">
-                                {format(
-                                  new Date(year, month - 1, day, hours ?? 0, minutes ?? 0),
-                                  "EEE d MMM y',' HH:mm",
-                                  {
-                                    locale: enUS,
-                                  }
-                                )}
-                              </Typography.Text>
+                              {year !== undefined && (
+                                <Typography.Text color="neutralBase" size="caption2" weight="regular">
+                                  {format(
+                                    new Date(year, month - 1, day, hours ?? 0, minutes ?? 0),
+                                    "EEE d MMM y',' HH:mm",
+                                    {
+                                      locale: enUS,
+                                    }
+                                  )}
+                                </Typography.Text>
+                              )}
                             </View>
                             <Typography.Text color="neutralBase+30" size="callout" weight="semiBold">
                               {FormatTransactionAmount(parseFloat(transaction.Amount.Amount), false, "neutralBase+30")}
