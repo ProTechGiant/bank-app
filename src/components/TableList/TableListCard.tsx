@@ -53,6 +53,7 @@ export default function TableListCard({
     alignItems: "center",
     flexDirection: "row",
     paddingVertical: theme.spacing["16p"],
+    paddingHorizontal: theme.spacing["16p"],
     justifyContent: "space-between",
   }));
 

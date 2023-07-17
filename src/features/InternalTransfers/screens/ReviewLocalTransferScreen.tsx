@@ -85,6 +85,13 @@ export default function ReviewQuickTransferScreen() {
         to: "InternalTransfers.ReviewLocalTransferScreen",
         params: route.params,
       },
+      //Adding mock values(PhoneNumber)for passing the QA testing criteria.
+      //once logging in is handled properly, we will get this value from backend and we will replace this mock value with the value stored in local storage.
+      //TODO Replace with params once we get the value from backend response.
+
+      otpChallengeParams: {
+        PhoneNumber: "+961549845741",
+      },
       otpVerifyMethod: transferType === "SARIE_TRANSFER_ACTION" ? "sarie" : "ips-payment",
       onOtpRequest: () => {
         return localTransferAsync.mutateAsync(localTransferRequest);
