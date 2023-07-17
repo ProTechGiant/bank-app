@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
+import { KeyboardAvoidingView, Pressable, SectionList, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import { SearchInput } from "@/components/Input";
@@ -17,6 +17,8 @@ interface SelectCountryModalProps {
 
 export default function SelectCountryModal({ handleSelectCountry }: SelectCountryModalProps) {
   const { t } = useTranslation();
+  const { height: screenHeight } = useWindowDimensions();
+  const modalHeight = screenHeight * 0.8;
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [searchCountry, setSearchCountry] = useState<string>("");
   const [countryListData, setCountryListData] = useState(() => convertToCountryList(mockCountryList));
@@ -63,7 +65,7 @@ export default function SelectCountryModal({ handleSelectCountry }: SelectCountr
   );
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={{ height: modalHeight }}>
       <Typography.Text size="title3" style={modalTitleStyle}>
         {t("ViewTransactions.SingleTransactionDetailedScreen.tripToModal.title")}
       </Typography.Text>
@@ -82,12 +84,6 @@ export default function SelectCountryModal({ handleSelectCountry }: SelectCountr
       <Button onPress={() => handleSelectCountry(selectedCountry)}>
         {t("ViewTransactions.SingleTransactionDetailedScreen.tripToModal.buttonText")}
       </Button>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    height: 700,
-  },
-});
