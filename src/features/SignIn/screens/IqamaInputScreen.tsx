@@ -43,7 +43,8 @@ export default function IqamaInputScreen() {
 
   const handleOnSubmit = async (values: IqamaInputs) => {
     try {
-      const response = await mutateAsync(values);
+      const { NationalId } = values;
+      const response = await mutateAsync({ NationalId });
       if (response.HasPasscode) navigation.navigate("SignIn.Passcode");
       else {
         setIsPasscodeCreated(false);

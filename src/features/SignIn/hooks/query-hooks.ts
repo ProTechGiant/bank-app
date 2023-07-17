@@ -15,7 +15,7 @@ import {
 
 export function useCheckUser() {
   const { correlationId } = useSignInContext();
-  return useMutation(({ NationalId, MobileNumber }: { NationalId: string; MobileNumber: string }) => {
+  return useMutation(({ NationalId }: { NationalId: string }) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
     return sendApiRequest<{ HasPasscode: boolean }>(
       "v1",
@@ -23,8 +23,7 @@ export function useCheckUser() {
       "POST",
       undefined,
       {
-        NationalId: NationalId,
-        MobileNumber: MobileNumber,
+        NationalOrIqamaId: NationalId,
       },
       {
         ["x-Correlation-Id"]: correlationId,
