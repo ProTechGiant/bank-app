@@ -1,0 +1,1463 @@
+{
+  "Alerts": {
+    "LogoutDueToInactivity": "You have been locked due to inactivity."
+  },
+  "AssetInput": {
+    "label": "Upload photo or document",
+    "buttons": {
+      "openPhotos": "Open Photos",
+      "openDocuments": "Open Documents",
+      "cancel": "Cancel"
+    }
+  },
+  "AccessibilityHelpers": {
+    "open": "open",
+    "close": "close",
+    "remove": "remove"
+  },
+  "TableList": {
+    "datePicker": {
+      "placeholder": "Set",
+      "headerText": "Set Date",
+      "buttonText": "Set"
+    }
+  },
+  "home": {
+    "AccountDetails": {
+      "navHeader": "Account Details",
+      "banner": {
+        "success": "{{dataCopied}} copied to clipboard",
+        "error": "Couldn't copy {{dataCopied}} - try again"
+      },
+      "tableLabels": {
+        "name": "Account name",
+        "type": "Account type",
+        "holder": "Account holder",
+        "number": "Account number",
+        "code": "Bank code",
+        "iban": "IBAN",
+        "bankNameLabel": "Bank name",
+        "bankName": "Croatia Bank"
+      }
+    }
+  },
+  "errors": {
+    "generic": {
+      "title": "Sorry, something has gone wrong",
+      "message": "Try again later or get in touch with our customer care team."
+    }
+  },
+  "Onboarding": {
+    "WelcomeCarousel": {
+      "titleOne": "Welcome to Croatia",
+      "subTextOne": "This is your gateway\nto What's Next",
+      "titleTwo": "Exclusive Experiences",
+      "subTextTwo": "Boast-worthy experiences that put you at the heart of What’s Next in KSA ",
+      "titleThree": "Tailored content",
+      "subTextThree": "Your essential view on the best upcoming culture in KSA",
+      "titleFour": "Radically simple banking",
+      "subTextFour": "Get your money to get\nyou what you want.",
+      "nextButton": "Next"
+    },
+    "SplashScreen": {
+      "title": "Your gateway\nto what’s next",
+      "buttons": {
+        "signIn": "Sign in",
+        "notWithUs": "Don't have an account?",
+        "signUp": "Sign up"
+      }
+    },
+    "LandingScreen": {
+      "success": {
+        "title": "Welcome to\n Croatia",
+        "subtitle": "You’re in control now",
+        "bannerMessage": "Your account was successfully created!"
+      },
+      "failed": {
+        "title": "Unfortunately, we can’t create an account for you",
+        "subtitle": "If you have any concerns, please contact XXXXXXX."
+      },
+      "pending": {
+        "title": "You're on your way\n \"{{userName}}\"",
+        "bannerMessage": "We’re completing your account setup ",
+        "accountChecks": {
+          "identity": "Confirm your identity",
+          "checks": "Running additional checks",
+          "creatingAccount": "Creating your account"
+        },
+        "workGuide": "How Croatia works for you",
+        "finishLater": "You can finish this later",
+        "buttonTitle": "Get Started",
+        "footerMessage": "It can take up to X days for us to finalise this process. An SMS will be sent to you when your account has been created."
+      },
+      "buttons": {
+        "FinishLater": "Finish Later"
+      },
+      "notificationBannerTitle": "You got {{tasks}} due",
+      "alertOnFinishLater": "Finish Later process not implemented yet. Come back later!",
+      "lifeStylePreferenceModal": {
+        "title": "Tailor your experience",
+        "subTitle": "Unlock rewards and offers that matter the most to you",
+        "topTitle": "How Croatia works for you",
+        "selectLifeStyle": "Select your lifestyle preferences",
+        "letUsKnow": "Let us know what matters to you so we can tailor our rewards to your needs.",
+        "bottomTitle": "You can find lifestyle preferences in your account management.",
+        "finishLaterButton": "I’ll finish this later",
+        "closeButton": "Close",
+        "nextBuildCycle": "LifeStyle Preferences will come later in the next build cycle"
+      }
+    },
+    "IqamaInputScreen": {
+      "navHeaderTitle": "إنشاء حساب",
+      "title": "لننطلق",
+      "subTitle": "لنبدأ بتفاصيل الهوية الشخصية وبيانات التواصل:",
+      "mobileLabel": "الجوال",
+      "iqamaLabel": "رقم هوية/الإقامة",
+      "notificationText": {
+        "one": " للانضمام إلى 'يمدي' يجب أن يتجاوز عمرك 18 عام ولديك حساب 'أبشر'. قبل الانضمام إلينا، يُمكنك التسجيل على ",
+        "two": "absher.sa",
+        "three": ""
+      },
+      "continue": "استمرار",
+      "subtext": "Already with us? ",
+      "signIn": "تسجيل الدخول",
+      "errorText": {
+        "twoAttemptsLeft": "You have tried to sign up 3 times. You have 2 attempts remaining.",
+        "oneAttemptsLeft": "You have tried to sign up 4 times. You have 1 attempts remaining.",
+        "noAttemptsLeft": "You have tried 5 times to sign up.\n\n Please wait until tomorrow before retrying.",
+        "noMatch": "The mobile number and ID given aren’t linked to an Absher profile",
+        "cannotOpen": "You cannot open an account this time",
+        "regulatoryCheck": "Due to a regulatory check we can’t open an account for you right now ",
+        "hasAccount": {
+          "warning": "You’ve already joined Croatia,",
+          "signIn": "sign in now"
+        }
+      }
+    },
+    "NafathAuthScreen": {
+      "navHeaderTitle": "Authentication",
+      "modalLink": "افتح تطبيق 'نفاذ'",
+      "modalLoad": "Loading...",
+      "modalBody": "تذكرهذا الرقم لأنك ستحتاجه بعملية التوثيق بعد قليل.",
+      "title": "Authentication by Nafath",
+      "subTitle": "Nafath enables Croatia to verify your identity.",
+      "appButtonTitle": "Nafath app ",
+      "appButtonSubtitle": "Your fastest experience",
+      "appButtonBody": "Select this option for a quick ID authentication",
+      "siteButtonTitle": "Nafath site",
+      "siteButtonBody": "You will be taken from this app to the Nafath site",
+      "dropdownTitle": "Why do I have to use Nafath?",
+      "dropdownBody": "Nafath enables Croatia to verify your identity",
+      "alertModelTitle": "App is not installed",
+      "alertModelMessage": "You are trying to open an app that's currently not installed",
+      "alertModelCancelButton": "Cancel",
+      "alertModelAppStoreButton": "App Store",
+      "alertModelPlayStoreButton": "Google Play"
+    },
+    "ConfirmPersonalDetailsScreen": {
+      "navHeaderTitle": "CONFIRM",
+      "title": "Confirm your personal details",
+      "infoLineName": "Full name",
+      "infoLineNationality": "Nationality",
+      "infoLineExpiry": "ID/Iqama expiry",
+      "infoLineAddress": "KSA Address",
+      "moreInfoDropdownTitle": "I need to change my details",
+      "moreInfoDropdownBodyOne": "Visit ",
+      "moreInfoDropdownBodyTwo": "absher.sa ",
+      "moreInfoDropdownBodyThree": "to change your details. Please restart the process when your Absher profile has been updated. This can take up to 72 hours.",
+      "CheckBoxLabel": "I confirm my details are correct",
+      "Continue": "استمرار",
+      "errorText": {
+        "alert": "Woops. Could not submit your email"
+      }
+    },
+    "OptionalEmailScreen": {
+      "navHeaderTitle": "EMAIL",
+      "title": "Stay updated",
+      "subHeader": "Share your email and we’ll keep you up to date with what’s new.",
+      "inputEmailLabel": "Email",
+      "inputEmailPlaceholder": "Your address",
+      "continue": "استمرار",
+      "skip": "Skip",
+      "errorText": {
+        "alert": "Woops. Could not confirm your personal details",
+        "notificationRegistrationFailure": "Unable to register for push notifications"
+      }
+    },
+    "FinancialInformationScreen": {
+      "navHeaderTitle": "بيانات المُستخدم",
+      "title": "Your income and spending",
+      "inputOccupationLabel": "What's your occupation",
+      "inputOccupationPlaceholder": "Select your occupation",
+      "inputOccupationExtra": "If you registered an occupation on Absher it may show here, however you can change it",
+      "inputAccountPurposeLabel": "How will you use Croatia?",
+      "inputAccountPurposePlaceholder": "Select at least one option",
+      "inputSourceOfIncomeLabel": "What's your main source of income",
+      "inputSourceOfIncomePlaceholder": "Select at least one option",
+      "inputMonthlyLimitLabel": "After bills and expenses, how much do you have left to spend each month?",
+      "inputMonthlyLimitPlaceholder": "Select an amount",
+      "inputSetLabel": "Set",
+      "moreInfoDropdownTitle": "Why we need this information",
+      "moreInfoDropdownBody": "This information is used to complete validation checks as part of joining Croatia. If anything here changes you’ll be able to update it in the app.",
+      "continue": "Save and continue",
+      "inputValidation": {
+        "accountPurpose": "Intended use of Croatia Required",
+        "sourceOfIncome": "Source of income required",
+        "monthlyLimit": "Expected amount required"
+      },
+      "errorText": {
+        "alert": "Woops. Could not submit financial details"
+      }
+    },
+    "FatcaDetailsScreen": {
+      "navHeaderTitle": "بيانات المُستخدم",
+      "title": "تفاصيل ضريبة الإقامة خارج المملكة",
+      "subHeader": "هل يترتب عليك ضريبة إقامة بأي بلد خارج المملكة العربية السعودية؟",
+      "yes": "نعم",
+      "no": "لا",
+      "moreInfoDropdownTitle": "ما هي ضريبة الإقامة خارج المملكة؟",
+      "moreInfoDropdownBody": "ضريبة الإقامة وهي أي بلد يطلب منك فيه قانوناً دفع الضرائب لحصولك على إقامة فيه. نحتاج إلى معلومات (إن وجدت) عن ضريبة الإقامة خارج المملكة العربية السعودية. يرجى ملاحظة: سوف تحتاج إلى تحديث هذه البيانات سنوياً.",
+      "continue": "استمرار",
+      "addCountry": "Add tax residency",
+      "addCountryExtra": "You can add 3 countries in total",
+      "CountrySelector": {
+        "countryLabel": "ما هي البلد بالتحديد؟",
+        "countryPlaceholder": "اختر بلدك من القائمة",
+        "taxNumberLabel": "الرقم الضريبي",
+        "taxNumberPlaceholder": "0000 0000 0000 0000",
+        "addButton": "Add",
+        "continue": "استمرار",
+        "remove": "Remove country",
+        "countryListTitle": "Add country",
+        "errorText": {
+          "countryRequired": "Country required",
+          "taxNumberRequired": "UTR required",
+          "taxNumberInvalid": "يرجى التأكد من الرقم الضريبي"
+        }
+      },
+      "InfoBoxCountryTitle": "Country ",
+      "InfoBoxReferenceTitle": "Unique Reference",
+      "maxCountriesText": "You’ve reached the maximum amount countries"
+    },
+    "TermsAndConditions": {
+      "navHeaderTitle": "TERMS",
+      "title": "Terms of signup",
+      "checkBoxTermsLabel": "I agree to the Terms and Conditions",
+      "checkBoxDeclarationLabel": "I agree to the Customer Declaration",
+      "continue": "Continue",
+      "terms": {
+        "sectionOne": {
+          "title": "Summary heading 1",
+          "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat."
+        },
+        "sectionTwo": {
+          "title": "Summary heading 2",
+          "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat."
+        },
+        "sectionThree": {
+          "title": "Summary heading 3",
+          "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat."
+        }
+      },
+      "errorText": {
+        "alert": "Woops. Could not confirm T&Cs"
+      }
+    },
+    "CreatePasscode": {
+      "needHelpInfo": "Avoid a passcode that’s easy to guess, like 123456 or 111111.",
+      "title": "Create app passcode",
+      "subTitle": "This is 6-digit passcode you’ll use to get into your Croatia app.",
+      "navHeaderTitle": "Passcode"
+    },
+    "ConfirmPasscode": {
+      "title": "Confirm app passcode",
+      "subTitle": "This is 6-digit passcode you’ll use to get into your Croatia app.",
+      "notification": "Those passcodes were both different - try again.",
+      "errorText": "Something went wrong, please try again.",
+      "notificationModelMessage": "Your passcode has been set",
+      "navHeaderTitle": "Passcode"
+    }
+  },
+  "TopSpending": {
+    "SpendSummaryScreen": {
+      "totalSpending": "إجمالي الإنفاق",
+      "transactions": "المعاملات",
+      "emptyTransactions": "لا توجد معاملات للفترة المحددة",
+      "day": "اليوم",
+      "week": "الاسبوع",
+      "month": "الشهر",
+      "year": "السنة",
+      "sar": "SAR",
+      "sr": "SR",
+      "seeAll": "اظهار الكل"
+    },
+    "ExcludedDetailedScreen": {
+      "sar": "SAR",
+      "hiddenTransactions": "Hidden Transactions"
+    },
+    "SpendCompareModal": {
+      "week": "أسبوع {{no}}",
+      "year": "سنة {{no}}",
+      "day": "يوم {{no}}"
+    },
+    "SpendingDateFilter": {
+      "pickPeriod": "Pick Period",
+      "selectDate": "Select Date",
+      "noTransactionWarning": "Your dates might not have any transactions. Think about whether this is the correct period or not.",
+      "compare": "Compare",
+      "comparePeriod": "Compare Period",
+      "continue": "Continue",
+      "compareBy": "Compare By:",
+      "year": "Select Year",
+      "date": "Select date",
+      "secondYear": "Select second year"
+    },
+    "CategorizeTransactions": {
+      "week": "{{ week }} الأس",
+      "months": {
+        "january": "ينا",
+        "february": "فبر",
+        "march": "مار",
+        "april": "أبر",
+        "may": "ماي",
+        "june": "يون",
+        "july": "يول",
+        "august": "أغس",
+        "september": "سبت",
+        "october": "أكت",
+        "november": "نوف",
+        "december": "ديس"
+      },
+      "days": {
+        "sunday": "الأح",
+        "monday": "الاث",
+        "tuesday": "الثل",
+        "wednesday": "الأرب",
+        "thursday": "الخم",
+        "friday": "الجم",
+        "saturday": "السبت"
+      },
+      "hours": {
+        "12AM": "12 ص",
+        "6AM": "06 ص",
+        "12PM": "12 ظ",
+        "6PM": "06 م"
+      }
+    }
+  },
+  "ViewTransactions": {
+    "TransactionsScreen": {
+      "title": "Transactions",
+      "filteredBy": "Filtered By:",
+      "pending": "Pending Transactions",
+      "filter": "Filter",
+      "balance": "Balance",
+      "sar": "SAR",
+      "filterOptions": "Filter Options",
+      "bySpending": "Filter By Spending Categories",
+      "byCard": "Filter By Card Type",
+      "applyFilter": "Apply Filter",
+      "clearAll": "Clear All",
+      "roundUp": "Round-up",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "clearFilter": "Clear filter",
+      "emptyTransactions": "We couldn't find any transactions - try adjusting your filter.",
+      "noTransactionsYet": "There are no transactions yet."
+    },
+    "PendingTransactionsScreen": {
+      "title": "Pending Transactions",
+      "transactionsPending": "These are recent transactions that haven't been charged to your account yet."
+    },
+    "SingleTransactionDetailedScreen": {
+      "switchTitle": "Exclude from Summary",
+      "switchDescription": "Hide this payment from Spending Insights, it will be added to Hidden Category",
+      "tags": "Tags",
+      "paidTo": "Paid To",
+      "mainAccount": "Main Croatia account",
+      "category": "Category",
+      "location": "Location",
+      "status": "Status",
+      "roundUpAmount": "Round-up amount",
+      "completed": "Completed",
+      "title": "Detailed Transactions",
+      "reportTransaction": "Report transaction",
+      "somethingWrong": "Is something wrong? Let us know.",
+      "downloadDetails": "Download details",
+      "saveTransaction": "Save transaction details in a format you can share.",
+      "selectCategory": "Select category",
+      "similarTransactions": "Similar Transactions",
+      "emptyCategory": "These are no categories with this name, Please try another name.",
+      "roundUp": "Round-up",
+      "selectAll": "Select all",
+      "changeCategory": "Changing Category from {{firstCategory}} to {{secondCategory}}",
+      "changeCategories": "Change Categories",
+      "clearAll": "Clear all",
+      "tripToModal": {
+        "title": "حدد الدولة",
+        "searchPlaceholder": "البحث عن طريق اسم الدولة",
+        "buttonText": "منتهي"
+      },
+      "caseExistsModal": {
+        "title": "Transaction already reported",
+        "message": "We've given it the case reference number",
+        "viewCaseButton": "View case",
+        "cancelButton": "Cancel"
+      },
+      "ErrorModal": {
+        "title": "We’re sorry, something has gone wrong.",
+        "message": "Please try again later or contact Customer Care.",
+        "cancelButton": "OK",
+        "pleaseTryAgain": "Please try again later",
+        "somethingWrong": "We’re sorry, something has gone wrong."
+      },
+      "SuccessModal": {
+        "categoryChangedSuccessfully": "Category Changed Successfully!",
+        "categoryChanged": "Category Changed",
+        "changeCategories": "Change Categories",
+        "skip": "Skip",
+        "similarTransactionsFound": "{{count}} Similar transactions from the same merchant were found."
+      }
+    },
+    "CategoriesListScreen": {
+      "title": "Select Category",
+      "searchByCategory": "Search by category name"
+    },
+    "AboutRoundUpsModal": {
+      "title": "About round-ups",
+      "bodyText": "Round-up every purchase to the nearest 5 SAR. The extra will go towards your choice of goal.",
+      "note": "Find out more in our FAQs"
+    },
+    "FilterOptionsModal": {
+      "SpendingCategories": {
+        "Food": "Food",
+        "Transportation": "Transportation",
+        "Entertainment": "Entertainment"
+      },
+      "CardTypes": {
+        "OneTimeCard": "One-time card",
+        "DebitCard": "Debit card"
+      }
+    }
+  },
+  "SignIn": {
+    "IqamaInputScreen": {
+      "errorText": {
+        "twoAttemptsLeft": "You have tried to sign up 3 times. You have 2 attempts remaining.",
+        "oneAttemptsLeft": "You have tried to sign up 4 times. You have 1 attempts remaining.",
+        "noAttemptsLeft": "You have tried 5 times to sign up.\n\n Please wait until tomorrow before retrying.",
+        "noMatch": "The mobile number and ID given aren’t linked to an Absher profile",
+        "noAccount": "Those details don't match our records. Check carefully and try again.",
+        "resetLimitExceeded": "Please be informed that passcode resets are limited to three times per day.",
+        "resetLimitExceededTitle": "Reset Limit Exceeded",
+        "regulatoryCheck": "Due to a regulatory check we can’t open an account for you right now ",
+        "somethingWentWrong": "Something went wrong, please try again."
+      },
+      "navHeaderTitle": "SIGN IN",
+      "title": "Sign in on this device",
+      "subTitle": "You need to enable this device before you can use it with Croatia.",
+      "mobileLabel": "Mobile",
+      "mobilePlaceholder": "Enter mobile",
+      "iqamaLabel": "National ID/Iqama",
+      "iqamaPlaceholder": "Enter your national ID/Iqama number",
+      "notificationText": {
+        "one": "To join Croatia, you must be over 18 and have an Absher profile. Register at ",
+        "two": "absher.sa",
+        "three": " before joining us."
+      },
+      "continue": "Sign in",
+      "subtext": "Don’t have an account? ",
+      "signUp": "Sign up",
+      "validationErrors": {
+        "mobileNumber": {
+          "required": "Mobile Required",
+          "matches": "Phone numbers need 9 numbers."
+        },
+        "iqamaId": {
+          "required": "National ID/Iqama Number required",
+          "matches": "National IDs need 10 numbers.",
+          "exactLength": "Must be exactly {{length}} digits"
+        }
+      }
+    },
+    "TemporaryBlockedScreen": {
+      "title": "Brand Moment",
+      "heading": "Come back in a while",
+      "message": "We've logged you out because you entered the wrong {{type}} too many times. Try \n again in {{time}}.",
+      "suggestion": " For help, call us on +966 123 456 789."
+    },
+    "PasscodeScreen": {
+      "title": "Enter Passcode",
+      "userTitle": "Welcome Back, {{username}}",
+      "subTitle": "Enter your passcode to login",
+      "notification": "That passcode wasn't right. You have {{attempts}} attempts left.",
+      "errorMessage": "You’ve entered the wrong PIN too many times. Please wait {{time}} min and try again.",
+      "errorTitle": "try again later",
+      "forgotPassword": "Forgot your passcode?",
+      "signInModal": {
+        "title": "Sign in on this device",
+        "message": "You are already signed in on another device. By signing in to this device you will be signed out on the other one.",
+        "signInButton": "Sign In",
+        "cancelButton": "Cancel"
+      }
+    },
+    "passcodeInput": {
+      "subTitle": "Enter your {{length}}-digit passcode {{extra}}",
+      "toLogin": "to login"
+    },
+    "ChangePasscodeScreen": {
+      "title": "Enter current passcode",
+      "subTitle": "Enter the 6-number passcode you use to log in.",
+      "notification": "That passcode wasn't right - try again.",
+      "errorTitle": "Try again later",
+      "errorSubTitle": "You’ve entered the wrong code too many times. Please wait 30 min and try again."
+    },
+    "CreatePasscodeScreen": {
+      "needHelpInfo": "Avoid a passcode that’s easy to guess, like 123456 or 111111.",
+      "title": "Create Passcode",
+      "subTitle": "Enter the 6-number passcode you’ll use to log in to Croatia.",
+      "notification": "Choose something harder to guess, without consecutive or repeated numbers."
+    },
+    "ForgotPasscodeScreen": {
+      "errorTitle": "Try again later",
+      "title": "Enter Your card PIN",
+      "subTitle": "Enter you card PIN to authenticate. ",
+      "notification": "That passcode wasn't right. You have {{attempts}} attempts left.",
+      "errorMessage": "You’ve entered the wrong PIN too many times. Please wait 30 min and try again.",
+      "needHelpInfo": "If you need help, you can call us on\n+966 123 456 789.",
+      "twoAttemptsLeft": "That PIN wasn't right. You have 2 attempts left.",
+      "oneAttemptLeft": "That PIN wasn't right. You have 1 attempt left."
+    },
+    "ConfirmPasscodeScreen": {
+      "title": "Confirm Passcode",
+      "subTitle": "Re-enter your 6 number passcode.",
+      "notification": "Those passcodes were both different - try again.",
+      "updatePasscodeModalMessage": "Your new passcode is now set.",
+      "updatePasscodeModalTitle": "Passcode updated",
+      "createPasscodeModalMessage": "You'll use this passcode to log in to Croatia.",
+      "createPasscodeModalTitle": "Passcode created"
+    },
+    "OtpScreen": {
+      "title": "Enter one-time code",
+      "subTitle": "Enter the one-time code we texted to your mobile, +966 •• ••• 1234. You have 2 minutes to do this."
+    },
+    "BiometricScreen": {
+      "navHeaderTitle": "Enable biometrics",
+      "faceIdtitle": "Give us a smile",
+      "fingerPrintTitle": "Give us a thumbs up",
+      "faceIdSubTitle": "Face ID helps you log in even more quickly - and without having to enter your passcode.",
+      "fingerPrintSubTitle": "Touch ID helps you log in even more quickly - and without having to enter your passcode.",
+      "faceIdHelpLabel": "You can turn Face ID on or off at any time in settings.",
+      "fingerPrintHelpLabel": "You can turn Touch ID on or off at any time in settings.",
+      "turnOnFaceId": "Turn on Face ID now",
+      "turnOnTouchId": "Turn on Touch ID now",
+      "later": "Maybe later",
+      "cancelText": "Cancel",
+      "otpScreen": "otpScreen",
+      "confirmBiometrics": "Confirm biometrics",
+      "addBiometrics": "Add biometrics",
+      "biometricSuccess": "successful biometrics provided",
+      "brandText": " Brand Moment"
+    }
+  },
+  "Settings": {
+    "SettingsScreen": {
+      "rewards": "أرسل دعوة",
+      "helpAndSupport": "الدعم والمساعدة",
+      "notifications": "التنبيهات",
+      "FAQs": "الأسئلة الشائعة"
+    },
+    "CustomerAccountManagementScreen": {
+      "title": "Customer Account Management",
+      "personal": "Personal",
+      "profileDetailsTitle": "Profile Details",
+      "profileDetailsDescription": "Absher information and Email",
+      "financialInformationTitle": "Financial Information",
+      "financialInformationDescription": "Keep your income & Spending details to get personalized offers",
+      "preferences": "Preferences",
+      "lifestyleTitle": "Lifestyle",
+      "lifestyleDescription": "Get personalized rewards recommendation",
+      "notificationsTitle": "Notifications",
+      "notificationsDescription": "Customize your notifications preferences",
+      "languageTitle": "Language",
+      "languageDescription": "Change your app language",
+      "account": "Account",
+      "yourSubscriptionTitle": "Your Subscription",
+      "yourSubscriptionDescription": "Manage your subscription",
+      "passcodeTitle": "Passcode",
+      "passcodeDescription": "Change your Passcode",
+      "biometricAuthenticationTitle": "Biometric Authentication",
+      "biometricAuthenticationDescription": "Login with biometric ID",
+      "myCasesTitle": "My Cases",
+      "myCasesDescription": "View your cases",
+      "signOutTitle": "Sign out",
+      "signOutDescription": ""
+    },
+    "ChangeLanguageScreen": {
+      "title": "اختيار اللغة",
+      "subtitle": "الرجاء اختيار لغتك المفضلة من الخيارات أدناه.",
+      "english": "إنجليزي",
+      "arabic": "عربي",
+      "saveChanges": "احفظ التغييرات",
+      "successMessage": "تم تحديث إعدادات اللغة الخاصة بك."
+    },
+    "reloadAppMessage": "يجب اعاده تشغيل التطبيق للاستمرار",
+    "okButtonMessage": "موافق"
+  },
+  "InstructionsScreen": {
+    "skip": "تخطى",
+    "continue": "متابعة",
+    "done": "إنهاء",
+    "titleOne": "علّمهم عن 'يمدي' وحنا نكافئك",
+    "subTextOne": "عرّف أصدقائك وعائلتك على 'يمدي' واحصل على مكافأة كاش بحسابك.",
+    "titleTwo": "الدعوة مفتوحة",
+    "subTextTwo": "شارك كود الدعوة مع كل إللي تعرفهم وراح نكافئك بكاش من أول لحظة يستخدمون فيها للتطبيق.",
+    "titleThree": "المكافأة للطرفين",
+    "subTextThree": "مرسل ومُستقبِل الدعوة راح يحصلون على مكافأة 15 ريال سعودي. وعملاء فئة بلس 25 ريال سعودي عن كل دعوة."
+  },
+  "SavingsGoalsScreen": {
+    "navTitle": "أهداف الادخار"
+  },
+  "FrequentlyAskedQuestions": {
+    "LandingScreen": {
+      "title": "كيف يمكننا مساعدتك؟",
+      "searchPlaceholder": "أحتاج مساعدة في ...",
+      "searchHelpTitle": "لديك سؤال محدد في الاعتبار؟",
+      "searchHelpSubtitle": "أدخل الكلمات الأساسية للبحث بين الإجابات"
+    },
+    "DetailedScreen": {
+      "feedback": "هل وجدت هذه الإجابة مفيدة؟",
+      "positiveFeedback": "شكرًا لك.",
+      "negativeFeedback": "آسف لسماع ذلك. إذا كنت بحاجة إلى مزيد من المساعدة ، يمكنك استكشاف الأسئلة ذات الصلة أو التواصل معنا.",
+      "relatedQuestions": "أسئلة ذات صلة",
+      "help": "هل تريد المزيد من المساعدة",
+      "call": "اتصل بالبنك",
+      "chat": "دردشة مباشرة"
+    }
+  },
+  "NotificationManagement": {
+    "HubScreen": {
+      "title": "التنبيهات",
+      "subtitle": "اختر التنبيهات التي تود الحصول على تحديث حولها.",
+      "modalTitle": "ملاحظة حول التنبيهات",
+      "modalContent": "التغيرات التي تُجريها هنا لن تؤثر على التنبيهات التي تصلك عبر الرسائل النصية القصيرة.",
+      "alertGetError": "Could not get notification preferences. Please try again later."
+    },
+    "CategoryScreen": {
+      "subtitle": "احصل على تنبيهات حول:",
+      "alertUpdateError": "Could not update notification preferences. Please try again later."
+    }
+  },
+  "Referral": {
+    "HubScreen": {
+      "title": "أرسل دعوة",
+      "subtitle": "عند إنشاء حساب من الرابط الخاص بك، سيحصل الطرفين على 15 ر.س مكافأة كاش في حسابك.\n\nلمزيد من التفاصيل، يرجى الاطلاع على ",
+      "recommendations": "الدعوات المُرسَلة",
+      "completed": "مُرسَلة",
+      "earnt": "مجموع المكافآت",
+      "linkCopied": "تم نسخ الرابط",
+      "termsAndConditions": "  الشروط والأحكام",
+      "fullStop": ".",
+      "share": "إرسال",
+      "noLink": "No link found",
+      "noData": "No data"
+    },
+    "InstructionsScreen": {
+      "skip": "تخطى",
+      "continue": "متابعة",
+      "done": "إنهاء",
+      "titleOne": "علّمهم عن \"يمدي\" وحنا نكافئك",
+      "subTextOne": "عرّف أصدقائك وعائلتك على \"يمدي\" واحصل على مكافأة كاش بحسابك.",
+      "titleTwo": "الدعوة مفتوحة",
+      "subTextTwo": "شارك كود الدعوة مع كل إللي تعرفهم وراح نكافئك بكاش من أول لحظة يستخدمون فيها للتطبيق.",
+      "titleThree": "المكافأة للطرفين",
+      "subTextThree": "مرسل الدعوة ومستقبِلها بيحصلون على 15 ر.س."
+    },
+    "TermsAndConditionsScreen": {
+      "navTitle": "الشروط والأحكام",
+      "pageTitle": "دعوات الانضمام",
+      "infoBoxContent": "What this terms and conditions mean (plceholder text), consectetur adipiscing elit. Quisque ante dui, convallis nec consequat."
+    }
+  },
+  "HelpAndSupport": {
+    "HubScreen": {
+      "title": "الدعم والمساعدة",
+      "helpQuestion": "كيف مٌمكن نساعدك؟",
+      "searchFAQ": "ابحث بالأسئلة الشائعة FAQs",
+      "liveChat": "الدردشة الفورية",
+      "callUs": "اتصل على",
+      "twentyFourSeven": "24/7",
+      "reportFraud": "بلّغ عن عملية احتيال",
+      "infoBarMessage": "للتنويه، ربما يتأخر الرد في أيام الذروة والعطل الرسمية.",
+      "cancel": "إلغاء",
+      "call": "اتصال"
+    }
+  },
+  "CardActions": {
+    "QuickMenu": {
+      "freezeCard": "Freeze card",
+      "defrost": "Defrost",
+      "viewPin": "View PIN",
+      "settings": "Settings",
+      "cancel": "Cancel"
+    },
+    "ViewPin": {
+      "navTitle": "Your card PIN",
+      "button": "Hide PIN"
+    },
+    "CardSettingsScreen": {
+      "toast": "Card PIN has been updated",
+      "title": "Card settings",
+      "subTitle1": "Security",
+      "changePin": "Change Pin",
+      "onlinePayment": {
+        "label": "Online payments",
+        "helperText": "Allow online payments with this card."
+      },
+      "internationalPayment": {
+        "label": "International payments",
+        "helperText": "Allow payments outside Saudi Arabia with your card."
+      },
+      "subTitle2": "Physical card",
+      "swipePayments": {
+        "label": "Swipe payments",
+        "helperText": "Enable payments using your card’s magnetic stripe."
+      },
+      "contactlessPayments": {
+        "label": "Contactless payments",
+        "helperText": "Enable contactless payments with your card."
+      },
+      "atmWithdrawals": {
+        "label": "ATM withdrawals",
+        "helperText": "Enable ATM withdrawals with your card."
+      },
+      "onTheWay": {
+        "title": "Your card is on the way",
+        "paragraph": "These settings will be available once you have received and activated your physical card."
+      }
+    },
+    "standardCard": "Standard card",
+    "plusCard": "Plus card",
+    "singleUseCard": "One-time card",
+    "cardFrozen": "Card frozen",
+    "generateNew": "Generate New",
+    "HomeScreen": {
+      "navTitle": "Home"
+    },
+    "CardDetails": {
+      "validThru": "VALID\nTHRU",
+      "securityCode": "SECURITY\nCODE"
+    },
+    "SingleUseCard": {
+      "CardAbout": {
+        "title": "One-time cards",
+        "SectionOne": {
+          "title": "Why use them?",
+          "SectionOneInfo": {
+            "label": "Keep your card details safe",
+            "helperText": "Online retailers can’t see your real card details – perfect for sellers you don’t know."
+          },
+          "SectionTwoInfo": {
+            "label": "Protect yourself from fraud",
+            "helperText": "Once you’ve paid, your card details are useless to fraudsters."
+          }
+        },
+        "SectionTwo": {
+          "title": "How do they work?",
+          "SectionOneInfo": {
+            "label": "Online only",
+            "helperText": "One-time cards are for online purchases up to your regular card limit - not regular payments or subscriptions."
+          },
+          "SectionTwoInfo": {
+            "label": "30-day limit",
+            "helperText": "Your old one-time cards stop working after 30 days."
+          },
+          "SectionThreeInfo": {
+            "label": "Spend from your main account",
+            "helperText": "One-time cards are linked to your main Croatia account."
+          },
+
+          "SectionFourInfo": {
+            "label": "Hassle-free refunds",
+            "helperText": "Need a refund? You’ll still get it, even if you’ve used the card already."
+          },
+          "SectionFiveInfo": {
+            "label": "Croatia Plus only",
+            "helperText": "One-time cards are exclusive to Croatia Plus."
+          }
+        }
+      },
+      "CardCreation": {
+        "successTitle": "New one-time card generated",
+        "successMessage": "Use these card details to make your purchase."
+      },
+      "SingleUseCardsInfo": {
+        "title": "How do one-time cards work?",
+        "text": "They’re virtual debit cards that you can only use once, so they’re great for protecting yourself when you buy online.\n\nWhen you generate a one-time card, you get a single-use card number, expiry and CVV. They’ll only work for one purchase and mean the merchant can’t see your real card details - so they’re a safer way to spend.",
+        "generateButton": "Generate one-time card"
+      }
+    }
+  },
+  "CardExpiryNotification": {
+    "title": "Your card will expire soon",
+    "content": "You can renew it now to make sure you get a replacement before it expires, or we’ll send a new one automatically to your registered address.",
+    "button": "Renew card",
+    "isExpiringSoon": "Expires soon"
+  },
+  "AddMoneyInfo": {
+    "title": "Add money by bank transfer",
+    "description": "To add money to your Croatia account, use these details to set up a money transfer from another bank.",
+    "note": "The name you use for your transfer must exactly match your name here.",
+    "processingTime": "Processing time",
+    "processingTimeInfo": "Bank transfers will normally reach your Croatia account the same day or the next business day.",
+
+    "BankDetails": {
+      "title": "Your Croatia bank details",
+      "recipientName": "Your name",
+      "recipientIBAN": "Your IBAN",
+      "bankName": "Bank name",
+      "recipientAddress": "Your address",
+      "copyInfo": "copied to clipboard",
+      "errorCopy": "Couldn’t copy",
+      "tryAgain": "try again"
+    }
+  },
+  "OneTimePasswordModal": {
+    "title": "Enter one-time code",
+    "message": "Enter the one-time code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
+    "resendCodeDisabled": "Resend Code in {{minutes}}:{{seconds}}",
+    "resendCodeEnabled": "Resend Code",
+    "notification": "That OTP wasn't right. You have {{attempts}} attempts left.",
+    "errors": {
+      "invalidPassword": "The code you entered was invalid. Please try again",
+      "maxAttemptsInvalidPasswordReached": "You have reached the maximum number of authentication attempts. Please try again later.",
+      "twoAttemptsLeft": "That code has expired. You can request 2 more codes.",
+      "oneAttemptLeft": "That code has expired. You can request 1 more code.",
+      "noAttemptsLeftTitle": "Try again later",
+      "noAttemptsLeftMessage": "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
+      "button": "OK"
+    }
+  },
+  "InternalTransfers": {
+    "ReviewTransferScreen": {
+      "title": "Review transfer",
+      "from": "From",
+      "to": "To",
+      "reason": "Reason",
+      "processingTime": "Processing time",
+      "processingDay": "Same day",
+      "total": "Total",
+      "notes": "Attachments",
+      "optional": "(Optional)",
+      "addButton": "Add Note & GIF",
+      "sendMoney": "Transfer now",
+      "cancel": "Cancel",
+      "currency": "SAR",
+      "notification": {
+        "title": "Cancel your transfer?",
+        "message": "Are you sure you want to cancel the transfer process? If yes, please click on \"Confirm Cancellation\" ",
+        "cancel": "Confirm cancellation",
+        "continue": "Close"
+      }
+    },
+    "AddNoteScreen": {
+      "title": "Add Note",
+      "placeholder": "Write your note here",
+      "done": "Done",
+      "required": "Only letters & numbers are allowed",
+      "noSpecialCharacters": "All special characters are not allowed except for this (\")",
+      "forbiddenWordNotAllowed": "The word \"{{forbiddenWord}}\" is not allowed in the note.",
+      "forbiddenWordsNotAllowed": "The words \"{{forbiddenWord}}\" are not allowed in the note."
+    },
+    "PaymentsHubScreen": {
+      "title": "Money in & out",
+      "balanceAvailable": "{{balance}} available",
+      "options": {
+        "localTransfer": {
+          "title": "Local transfer",
+          "helperText": "Transfer money to others"
+        },
+        "internalTransfer": {
+          "title": "Internal transfer",
+          "helperText": "Transfer money within Croatia"
+        }
+      }
+    },
+    "SendToBeneficiaryScreen": {
+      "title": "Send to",
+      "navTitle": "Send money",
+      "addNewBeneficiaryLink": "Send to new beneficiary",
+      "confirmedBeneficiariesListTitle": "Active",
+      "unconfirmedBeneficiariesListTitle": "Inactive",
+      "search": {
+        "placeholder": "Name, account or phone",
+        "placeholderARB": "Name, account or IBAN",
+        "emptyState": {
+          "title": "No search results found",
+          "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
+        },
+        "button": "Cancel"
+      },
+      "menu": {
+        "deleteOption": "Delete beneficiary",
+        "deleteModal": {
+          "title": "Delete {{name}}?",
+          "message": "Are you sure you want to delete this beneficiary? You won’t be able to send transfers to them without an IVR activation.",
+          "deleteButton": "Delete beneficiary",
+          "cancelButton": "Cancel"
+        }
+      },
+      "activateBeneficiary": {
+        "titleSarieTransfer": "Confirm this beneficiary",
+        "messageSarieTransfer": "Before you can send any money you need to confirm this person’s details. This helps us protect your account.",
+        "title": "Inactive beneficiary selected",
+        "message": "This beneficiary is currently inactive. An IVR activation will be required in order to process your transfer",
+        "confirmButton": "Confirm this beneficiary",
+        "cancelButton": "Cancel",
+        "selectBeneficiary": "Select beneficiary"
+      }
+    },
+    "EnterBeneficiaryDetailsScreen": {
+      "title": "Enter beneficiary details",
+      "options": {
+        "mobile": "Mobile",
+        "accountNumber": "Account number",
+        "iban": "IBAN"
+      },
+      "continueButton": "Continue",
+      "mobileNumberForm": {
+        "mobileNumber": {
+          "placeholder": "Mobile number",
+          "validation": {
+            "required": "Required",
+            "invalid": "Minimum 9 digits."
+          }
+        },
+        "mobileInUseModal": {
+          "title": "Mobile already in use",
+          "message": "You've already used this mobile number for one of your beneficiaries."
+        },
+        "mobileNotRecognisedModal": {
+          "title": "The entered mobile number is not associated with a Croatia account",
+          "titleArb": "The entered mobile number is not associated with an ARB account",
+          "message": "Please try another mobile number"
+        }
+      },
+      "accountNumberForm": {
+        "accountNumber": {
+          "validation": {
+            "required": "Required*",
+            "invalid": "Account number need 9 numbers"
+          }
+        },
+        "accountNumberInUseModal": {
+          "title": "This account number is already associated with a beneficiary",
+          "message": "Please try another account number"
+        },
+        "accountNumberNotRecognisedModal": {
+          "title": "The entered account number is not associated with a Croatia account",
+          "titleArb": "The entered account number is not associated with an ARB account",
+          "message": "Please try another account number"
+        }
+      },
+      "ibanForm": {
+        "iban": {
+          "validation": {
+            "required": "Required*",
+            "minLength": "Minimum 22 digits",
+            "invalid": "Incorrect IBAN format"
+          }
+        },
+        "ibanInUseModal": {
+          "title": "This IBAN is already associated with a beneficiary",
+          "message": "Please try another IBAN"
+        },
+        "ibanNotRecognisedModal": {
+          "title": "The entered IBAN is not associated with a Croatia account",
+          "titleArb": "The entered IBAN is not associated with an ARB account",
+          "message": "Please try another IBAN"
+        }
+      },
+      "genericErrorModal": {
+        "title": "We’re sorry, something has gone wrong.",
+        "message": "Please try again later."
+      }
+    },
+    "ConfirmNewBeneficiaryScreen": {
+      "title": "Confirm beneficiary details",
+      "navTitle": "Send money",
+      "details": {
+        "name": "Name",
+        "fullName": "Full name",
+        "bank": "Bank",
+        "mobile": "Mobile",
+        "accountNumber": "Account number",
+        "iban": "IBAN"
+      },
+      "bankName": "Al Rajhi Bank",
+      "bannerMessage": "Confirm recipient details to activate new beneficiary before completing your transfer.",
+      "bannerMessageActiveBeneficiary": "You need to confirm this beneficiary's details before you can send any money.",
+      "checkBoxMessage": "I agree to the ",
+      "termsAndConditions": "Terms and Conditions",
+      "confirmButton": "Confirm"
+    },
+    "ConfirmQuickTransferBeneficiaryScreen": {
+      "title": "Confirm beneficiary details",
+      "navTitle": "Send money",
+      "details": {
+        "name": "Full Name",
+        "bank": "Bank",
+        "mobile": "Mobile",
+        "id": "ID",
+        "iban": "IBAN",
+        "email": "Email"
+      },
+      "bannerMessage": "You need to confirm this beneficiary's details before you can send any money.",
+      "confirmButton": "Confirm"
+    },
+    "ReviewQuickTransferScreen": {
+      "title": "Review transfer",
+      "from": "From",
+      "to": "To",
+      "reason": "Reason",
+      "total": "Total",
+      "bank": "Bank",
+      "processingTime": "Processing time",
+      "fee": "Fee",
+      "sendMoney": "Send money now",
+      "cancel": "Cancel",
+      "currency": "SAR",
+      "sameDay": "Same day",
+      "notification": {
+        "title": "Are you sure?",
+        "message": "Do you want to cancel this transfer?",
+        "cancel": "Cancel transfer",
+        "continue": "Close"
+      },
+      "feesError": {
+        "title": "Sorry - we couldn’t check that",
+        "message": "Please try again later or get in touch if you’re still having problems."
+      },
+      "feeInclVAT": "Fees incl. VAT",
+      "transferNow": "Transfer now"
+    },
+    "BeneficiaryDeclarationScreen": {
+      "title": "Terms and conditions",
+      "sections": {
+        "sectionOneTitle": "1. General terms",
+        "sectionOneContent": "If you wish to activate this feature provided by the Instant Payments System (SARIE) and the rest of the related services, such as sending funds via alias like (mobile number), we inform you that by confirming this feature you are agreeing to share some of your data with SARIE system for the instant payments owned by the Saudi Central Bank (IBAN number, Mobile number, email address, National/Iqama ID number). At any time in the future, you may disable sharing this data via all banking channels such as mobile banking or internet banking.",
+        "sectionTwoTitle": "2. Section name",
+        "sectionTwoContent": "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
+        "sectionThreeTitle": "3. Section name",
+        "sectionThreeContent": "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa."
+      }
+    },
+    "TransferAmountInput": {
+      "balance": "Balance: ",
+      "currency": " SAR"
+    },
+    "TransferReasonInput": {
+      "reason": "Select reason",
+      "confirm": "Confirm",
+      "next": "Next"
+    },
+    "InternalTransferScreen": {
+      "title": "Send money",
+      "amountExceedsBalance": "You have insufficient funds.",
+      "addFunds": "Add funds",
+      "screenTitle": "Internal transfer",
+      "transferLimit": "Transfer limits"
+    },
+    "QuickTransferScreen": {
+      "navTitle": "Send money",
+      "title": "Quick transfer",
+      "transferLimits": "Transfer limits",
+      "amountExceedsDailyLimit": "Transfer amount exceeds the {{limit}} SAR daily limit by {{amount}} SAR",
+      "amountExceedsBalance": "You have insufficient funds.",
+      "addFunds": "Add funds",
+      "amountExceedsQuickTransferLimit": "Limit: {{amount}}",
+      "switchToStandardTransfer": "Switch to standard transfer",
+      "continueButton": "Continue",
+      "couldNotLoadReasonsErrorTitle": "Couldn't load list",
+      "couldNotLoadReasonsErrorMessage": "Please try again later or get in touch if you’re still having problems.",
+      "limitError": {
+        "title": "Sorry - we couldn’t check that",
+        "message": "Please try again later or get in touch if you’re still having problems."
+      }
+    },
+    "TransferLimitsModal": {
+      "title": "What are my transfer limits?",
+      "standardTransfer": "Standard transfer",
+      "standardTransferExplanation": "Send up to 20,000 SAR to added or saved beneficiaries. If you need to send more than this, the transfer will be processed through normal local bank transfer method without any change.",
+      "quickTransfer": "Quick transfer",
+      "quickTransferExplanation": "Send a one time transfer up to 2,500 SAR. Transfers of this type can be done via Email, ID number, Mobile Number or IBAN without saving the beneficiary. You have the option to configure your daily limit within the maximum range.",
+      "nonWorkingDays": "Non-working days",
+      "nonWorkingDaysExplanation": "If you make a standard transfer on a non-working day, the transfer will be processed on the following working day.",
+      "wantToSwitch": "Want to transfer over 2,500 SAR?",
+      "switchToStandard": "Switch to Standard Transfer"
+    },
+    "EnterQuickTransferBeneficiaryScreen": {
+      "navTitle": "Send money",
+      "title": "Enter beneficiary details",
+      "beneficiaryBankLabel": "Beneficiary bank",
+      "beneficiaryBankConfirm": "Set",
+      "beneficiaryBankHeaderText": "Select beneficiary bank",
+      "transferBy": "Transfer by",
+      "continue": "Continue",
+      "cancel": "Cancel",
+      "switchToStandardTransfers": "Switch to standard transfers",
+      "transferByOptions": {
+        "mobile": "Mobile",
+        "email": "Email",
+        "id": "ID",
+        "iban": "IBAN"
+      },
+      "mobile": {
+        "label": "Mobile number",
+        "validation": {
+          "required": "Required",
+          "invalid": "Phone number requires 9 digits"
+        },
+        "error": {
+          "title": "Mobile not found",
+          "message": "That mobile number isn't associated with a {{bankName}} account. Please check and try again."
+        }
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "john.doe@domain.com",
+        "validation": {
+          "required": "Required",
+          "invalid": "Incorrect email format"
+        },
+        "error": {
+          "title": "Email not found",
+          "message": "That email isn't associated with a {{bankName}} account. Please check and try again."
+        }
+      },
+      "nationalID": {
+        "label": "ID number",
+        "validation": {
+          "required": "Required*",
+          "invalid": "Should be 10 digits"
+        },
+        "error": {
+          "title": "ID not found",
+          "message": "That ID isn't associated with a {{bankName}} account. Please check and try again."
+        }
+      },
+      "iban": {
+        "fullNameLabel": "Full name",
+        "fullNamePlacholder": "First Last",
+        "ibanLabel": "IBAN number",
+        "validation": {
+          "required": "Required",
+          "lengthInvalid": "IBAN needs 24 chracters",
+          "formatInvalid": "Incorrect IBAN format"
+        },
+        "error": {
+          "title": "IBAN not recognised",
+          "message": "That IBAN doesn't look right. Please check it and try again."
+        }
+      },
+      "beneficiaryBanksError": {
+        "title": "Couldn't load list",
+        "message": "Please try again later or get in touch if you’re still having problems."
+      },
+      "quickTransfersUnsupportedError": {
+        "title": "Quick transfers not supported",
+        "message": "{{bankName}} does not support quick transfers"
+      },
+      "validationError": {
+        "title": "Sorry - we couldn't check that",
+        "message": "Please try again later or get in touch if you’re still having problems."
+      },
+      "SwitchToARB": {
+        "title": "Send money to Al Rajih bank account via internal transfer",
+        "buttons": {
+          "cancelButton": "Cancel",
+          "switchToInternalTransfer": "Switch to Internal Transfer"
+        }
+      }
+    },
+    "ConfirmationScreen": {
+      "title": {
+        "active": "Transfer successful",
+        "inactive": "Beneficiary activation and transfer successful",
+        "new": "Beneficiary activation and transfer successful",
+        "activesarie": "Transfer pending",
+        "inactivesarie": "Beneficiary activated and Transfer pending",
+        "newsarie": "Beneficiary added and Transfer pending",
+        "newARB": "Beneficiary added and transfer pending",
+        "inactiveARB": "Beneficiary activation and transfer pending",
+        "activeARB": "Transfer pending"
+      },
+      "message": "You can review individual transactions in your transaction history",
+      "transferredTo": "Transferred to",
+      "amount": "Amount",
+      "buttons": {
+        "done": "Done",
+        "viewTransaction": "View transaction"
+      }
+    },
+    "QuickTransferSuccessScreen": {
+      "title": "Your transfer is complete",
+      "message": "You'll find the details in your transaction list",
+      "transferredTo": "Transferred to",
+      "amount": "Amount",
+      "buttons": {
+        "done": "Done",
+        "viewTransaction": "View transaction"
+      }
+    },
+    "SelectTransferTypeModal": {
+      "selectTransferType": "Select transfer type",
+      "croatiaTransfer": "Send to another Croatia account",
+      "croatiaTransferDescription": "Transfer money to a new or existing beneficiary",
+      "alrajhiTransfer": "Send to an Alrajhi Bank account",
+      "alrajhiTransferDescription": "Transfer money to a new or existing beneficiary"
+    },
+    "NewBeneficiaryScreen": {
+      "navTitle": "Send money",
+      "title": "Enter beneficiary details",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "IBANnumber": "IBAN number",
+      "continue": "Continue",
+      "ExistingBeneficiaryModal": {
+        "buttonText": "Send to existing beneficiary",
+        "message": "You can send money to the beneficiary you’ve already set up with these details.",
+        "title": "You’ve already added this beneficiary"
+      },
+      "iban": {
+        "validation": {
+          "required": "Required",
+          "lengthInvalid": "IBAN needs 24 chracters",
+          "formatInvalid": "Incorrect IBAN format"
+        },
+        "error": {
+          "title": "IBAN not recognised",
+          "message": "That IBAN doesn't look right. Please check it and try again."
+        }
+      },
+      "ModalError": {
+        "title": "Sorry - we couldn’t check that",
+        "message": "Please try again later or get in touch if you’re still having problems."
+      }
+    },
+    "IVRCheckScreen": {
+      "wellCallYouTitle": "We'll call you",
+      "callReceiveMessage": "You will receive a call from Croatia Bank to confirm your request.",
+      "callingYouTitle": "Calling you now",
+      "callingInMessage": "Calling you in",
+      "seconds": "seconds",
+      "dialInMessage": "Dial in number",
+      "toConfirmMessage": "to confirm the beneficiary activation",
+      "instructionMessage": "It might take a minute to update your beneficiary list once your call has been made.",
+      "cancel": "Cancel",
+      "confirmCancellation": "Confirm cancellation",
+      "close": "Close",
+      "cancelIvrWarningMessage": "Are you sure you want to cancel IVR check, if you proceed your transfer will be canceled too.",
+      "cancelBeneficiaryTitle": "Cancel beneficiary activation?",
+      "ivrFailureMessage": "IVR activation failed and therefore we couldn’t process your transfer. We have saved beneficiary details in your beneficiary list and you can activate beneficiary later.",
+      "ivrFailureTitle": "Your transfer failed because of a failed beneficiary activation"
+    },
+    "WaitingVerificationScreen": {
+      "waitingVerification": "Waiting verification",
+      "waitingMessage": "Please do not close the app or navigate away from this screen while we activate your beneficiary"
+    },
+    "SadadBillPaymentScreen": {
+      "navHeaderTitle": "Pay SADAD Bill"
+    }
+  },
+  "LocalTransfers": {
+    "SelectTransferTypeModal": {
+      "selectTransferType": "Select transfer type",
+      "quickTransfer": "Quick transfer",
+      "quickTransferDescription": "Send an instant one-time transfer of up to 2,500 SAR",
+      "standardTransfer": "Standard transfer",
+      "standardTransferDescription": "Send a transfer to a new or existing beneficiary"
+    },
+    "LocalTransfersTermsAndConditions": {
+      "agree": "Agree",
+      "disagree": "Disagree"
+    }
+  },
+  "SadadBillPayments": {
+    "BillPaymentHomeScreen": {
+      "navHeaderTitle": "Pay SADAD Bill"
+    }
+  },
+  "PaymentDisputes": {
+    "PaymentDisputesLandingModal": {
+      "title": "What’s the problem?",
+      "linkCards": {
+        "scamLinkCardTitle": "I've been scammed",
+        "scamLinkCardMessage": "Report a fraud if you think someone else is using your card.",
+        "disputeLinkCardTitle": "There’s a problem with this transaction",
+        "disputeLinkCardMessage": "Dispute a transaction if something went wrong with a purchase."
+      },
+      "moreHelp": {
+        "title": "Need more help?",
+        "message": "It’s normally fastest to report a scam or tell us about a problem with the buttons above."
+      },
+      "scammedError": {
+        "title": "We’re sorry, something has gone wrong.",
+        "message": "Please try again later or contact Customer Care.",
+        "cancelButton": "OK"
+      },
+      "alreadyReportedError": {
+        "title": "Transaction already reported",
+        "message": "We've given it the case reference number {{caseNumber}}.",
+        "primaryButton": "View case",
+        "secondaryButton": "Cancel"
+      }
+    },
+    "CancelDisputeModal": {
+      "title": "Are you sure you want to exit?",
+      "message": "This will cancel your report and you'll lose any information you've added.",
+      "exitButton": "Exit",
+      "continueDisputeButton": "Continue with dispute",
+      "continueReportButton": "Continue with report"
+    },
+    "SelectDisputeReasonModal": {
+      "title": "What was the problem?",
+      "errorModal": {
+        "title": "Sorry, we couldn't load that information",
+        "message": "Please try again later or get in touch if you're still having problems.",
+        "buttonText": "OK"
+      }
+    },
+    "CreateDisputeModal": {
+      "title": "Give us more details",
+      "total": "Total",
+      "messageBox": {
+        "label": "Tell us what happened",
+        "optional": "Optional",
+        "required": "Required*",
+        "validation": {
+          "minLength": "Minimum 25 characters"
+        }
+      },
+      "file": {
+        "fileTooBig": "File is too big, it must be smaller than {{maxFileSize}} MB",
+        "uploadFailed": "Upload failed, please try again"
+      },
+      "checkBoxMessage": "By checking this box, you agree to our ",
+      "termsAndConditions": "Terms and Conditions",
+      "submitDisputeButton": "Submit dispute",
+      "reportFraudButton": "Report Fraud",
+      "ErrorModal": {
+        "title": "Sorry, something has gone wrong",
+        "message": "Your report couldn’t be submitted. Please try again or get in touch with our customer support team.",
+        "primaryButtonText": "OK"
+      }
+    },
+    "TermsAndConditionsModal": {
+      "title": "Terms and conditions",
+      "sections": {
+        "sectionOneTitle": "1. General terms",
+        "sectionOneContent": "If you wish to activate this feature provided by the Instant Payments System (SARIE) and the rest of the related services, such as sending funds via alias like (mobile number), we inform you that by confirming this feature you are agreeing to share some of your data with SARIE system for the instant payments owned by the Saudi Central Bank (IBAN number, Mobile number, email address, National/Iqama ID number). At any time in the future, you may disable sharing this data via all banking channels such as mobile banking or internet banking.",
+        "sectionTwoTitle": "2. Section name",
+        "sectionTwoContent": "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
+        "sectionThreeTitle": "3. Section name",
+        "sectionThreeContent": "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa."
+      }
+    },
+    "MyCasesLandingScreen": {
+      "title": "My cases",
+      "active": "Active",
+      "resolved": "Resolved",
+      "noActiveCases": "You don't have any active cases.",
+      "noResolvedCases": "You don't have any resolved cases."
+    },
+    "CaseDetails": {
+      "title": "Case details",
+      "status": "Status",
+      "detailSection": {
+        "dayReported": "Day Reported",
+        "issue": "Issue",
+        "transactionLocation": "Transaction Location",
+        "caseId": "Case ID",
+        "additionalInformation": "Additional Information",
+        "attachment": "Attachment"
+      }
+    },
+    "CaseListItem": {
+      "opened": "Open",
+      "assigned": "Assigned",
+      "inReview": "In review",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "reopened": "Open"
+    },
+    "FreezeCardModal": {
+      "title": "Do you want to freeze your card?",
+      "subtitle": "Freezing your card protects you from further fraud as we will temporarily block all payments.",
+      "freezeButton": "Freeze my card",
+      "noFreezeButton": "Continue without freezing",
+      "freezeModal": {
+        "title": "Your card is frozen",
+        "message": "You can always unfreeze your card in card details or quick actions.",
+        "button": "Continue"
+      },
+      "errorModal": {
+        "title": "We’re sorry, something has gone wrong.",
+        "message": "Please try again later or contact Customer Care.",
+        "button": "OK"
+      }
+    },
+    "DisputeSubmittedScreen": {
+      "brandMoment": "Brand Moment",
+      "header": "We’re looking into it",
+      "caseId": "Case ID: {{caseId}}",
+      "textOne": "We’ll investigate the problem and get back to you in the next XX days.",
+      "textTwo": "You can check its progress under Your cases. We’ll let you know when anything changes.",
+      "textThree": "If you're worried that your card's details have been compromised, it's a good idea to cancel the card and order a replacement.",
+      "button": "OK"
+    },
+    "EditGoalScreen": {
+      "save": "Save",
+      "notifications": {
+        "label": "Turn on notifications",
+        "helperText": "Only for this goal"
+      },
+      "closeGoal": "Close goal",
+      "modal": {
+        "title": "Are you sure you want to close this goal?",
+        "content": "The money in this goal will go back into your main account",
+        "buttons": {
+          "confirm": "Confirm",
+          "cancel": "Cancel"
+        }
+      },
+      "turnOnNotificationsAlert": {
+        "globalNotificationsTitle": "Notifications are disabled",
+        "globalNotificationsMessage": "Would you like to turn on notifications?",
+        "globalSavingsGoalNotificationsTitle": "Your global notifications are disabled",
+        "globalSavingsGoalNotificationsMessage": "Would you like to turn on global notifications?",
+        "alertButtonCancel": "Cancel",
+        "alertButtonTurnOn": "Turn on"
+      }
+    },
+    "SelectTagScreen": {
+      "tagName": "Tag Name",
+      "createTag": "Create Tag",
+      "selectTag": "Select Tag",
+      "useExistingTag": "Use Existing Tag",
+      "selectTags": "Select Tags",
+      "tagSubHeading": "Group your transactions using tags. That transaction group will be displayed at Spending Insights for easy access.",
+      "customTags": "Custom Tags",
+      "createNewTag": "Create new Tag",
+      "createANewTag": "Create a new tag",
+      "done": "Done",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "set": "Set",
+      "modalMessage": "If you delete this tag, all transactions related to this tag will not longer be in a tagged group",
+      "modalTitle": "Are you sure you want to delete the selected tag?",
+      "selectTheHolidayCountry": "Select The Holiday Country",
+      "alreadyHaveATagName": "You already have a tag named \"{{tagName}}\""
+    }
+  }
+}
