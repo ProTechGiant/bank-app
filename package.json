@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "npx patch-package && (test -n \"$IS_CI_ANDROID\" || (react-native setup-ios-permissions && npx pod-install))",
-    "android": "react-native run-android --variant developDebug --appId com.croatiamobileapp.develop",
+    "android": "react-native run-android --mode developDebug --appId com.croatiamobileapp.develop",
     "ios": "react-native run-ios --scheme CroatiaMobileApp --mode Debug",
     "xcode": "open ios/CroatiaMobileApp.xcworkspace",
     "start": "react-native start",
