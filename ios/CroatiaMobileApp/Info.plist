@@ -24,6 +24,7 @@
   <array>
     <string>itms-apps</string>
     <string>nafath://home</string>
+    <string>tel</string>
   </array>
 	 <!-- Implements URI Scheme croatia://app -->
 	<key>CFBundleURLTypes</key>
@@ -85,10 +86,6 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:testcroatia.onelink.me</string>
-	</array>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>tel</string>
 	</array>
 </dict>
 </plist>

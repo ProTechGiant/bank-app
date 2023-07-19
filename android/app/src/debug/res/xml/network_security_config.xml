@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-  <base-config>
+  <base-config cleartextTrafficPermitted="true">
     <trust-anchors>
       <certificates src="system"/>
       <certificates src="@raw/apps_sit_dmz_ingress_npnbank_local_chain"/>
