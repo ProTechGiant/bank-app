@@ -9,7 +9,6 @@ import ContentContainer from "@/components/ContentContainer";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
-import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { useReferralContext } from "@/contexts/ReferralContext";
@@ -116,7 +115,7 @@ export default function HubScreen() {
     marginBottom: theme.spacing["20p"],
     marginTop: theme.spacing["24p"],
     backgroundColor: theme.palette["neutralBase-60"],
-    borderRadius: theme.radii.extraSmall,
+    borderRadius: theme.radii.small,
   }));
 
   const inactiveIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-30"]);
@@ -143,6 +142,10 @@ export default function HubScreen() {
   }));
 
   const backgroundAngledColor = useThemeStyles(theme => theme.palette["supportBase-15"]);
+
+  const tableCardStyles = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: -theme.spacing["16p"],
+  }));
 
   return (
     <>
@@ -192,36 +195,32 @@ export default function HubScreen() {
         </SafeAreaView>
         <ContentContainer isScrollView style={contentContainerStyle}>
           <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false}>
-            <View>
-              <Stack align="stretch" direction="vertical" gap="24p">
-                <View>
-                  <Typography.Text size="title3" weight="semiBold" style={headerTextWrapperStyle}>
-                    {t("Referral.HubScreen.recommendations")}
-                  </Typography.Text>
-                  <TableListCardGroup>
-                    <TableListCard
-                      label={t("Referral.HubScreen.earnt")}
-                      end={
-                        moneyEarned !== undefined ? (
-                          <TableListCard.Label bold>{moneyEarned}</TableListCard.Label>
-                        ) : (
-                          <TableListCard.Label>{t("Referral.HubScreen.noData")}</TableListCard.Label>
-                        )
-                      }
-                    />
-                    <TableListCard
-                      label={t("Referral.HubScreen.completed")}
-                      end={
-                        numberOfCompletedReferrals !== undefined ? (
-                          <TableListCard.Label bold>{numberOfCompletedReferrals}</TableListCard.Label>
-                        ) : (
-                          <TableListCard.Label>{t("Referral.HubScreen.noData")}</TableListCard.Label>
-                        )
-                      }
-                    />
-                  </TableListCardGroup>
-                </View>
-              </Stack>
+            <Typography.Text size="title3" weight="semiBold" style={headerTextWrapperStyle}>
+              {t("Referral.HubScreen.recommendations")}
+            </Typography.Text>
+            <View style={tableCardStyles}>
+              <TableListCardGroup>
+                <TableListCard
+                  label={t("Referral.HubScreen.earnt")}
+                  end={
+                    moneyEarned !== undefined ? (
+                      <TableListCard.Label bold>{moneyEarned}</TableListCard.Label>
+                    ) : (
+                      <TableListCard.Label>{t("Referral.HubScreen.noData")}</TableListCard.Label>
+                    )
+                  }
+                />
+                <TableListCard
+                  label={t("Referral.HubScreen.completed")}
+                  end={
+                    numberOfCompletedReferrals !== undefined ? (
+                      <TableListCard.Label bold>{numberOfCompletedReferrals}</TableListCard.Label>
+                    ) : (
+                      <TableListCard.Label>{t("Referral.HubScreen.noData")}</TableListCard.Label>
+                    )
+                  }
+                />
+              </TableListCardGroup>
             </View>
           </ScrollView>
           <Button
