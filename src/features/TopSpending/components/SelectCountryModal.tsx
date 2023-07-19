@@ -1,6 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Pressable, SectionList, useWindowDimensions, View, ViewStyle } from "react-native";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  SectionList,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+  ViewStyle,
+} from "react-native";
 
 import Button from "@/components/Button";
 import { SearchInput } from "@/components/Input";
@@ -18,10 +28,25 @@ interface SelectCountryModalProps {
 export default function SelectCountryModal({ handleSelectCountry }: SelectCountryModalProps) {
   const { t } = useTranslation();
   const { height: screenHeight } = useWindowDimensions();
-  const modalHeight = screenHeight * 0.8;
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [searchCountry, setSearchCountry] = useState<string>("");
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [countryListData, setCountryListData] = useState(() => convertToCountryList(mockCountryList));
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () => {
+      setIsKeyboardOpen(true);
+    });
+
+    const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () => {
+      setIsKeyboardOpen(false);
+    });
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   const handleOnSearch = (searchQuery: string) => {
     setSearchCountry(searchQuery);
@@ -30,6 +55,10 @@ export default function SelectCountryModal({ handleSelectCountry }: SelectCountr
         mockCountryList.filter(country => country.label.toLowerCase().includes(searchQuery.toLowerCase()))
       )
     );
+  };
+
+  const modalStyle = {
+    height: isKeyboardOpen && Platform.OS === "android" ? screenHeight * 0.45 : screenHeight * 0.8,
   };
 
   const countryItemContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -51,7 +80,9 @@ export default function SelectCountryModal({ handleSelectCountry }: SelectCountr
 
   const renderItem = ({ item }: { item: string }) => (
     <Pressable style={countryItemContainer} onPress={() => setSelectedCountry(item)}>
-      <Typography.Text size="callout">{item}</Typography.Text>
+      <Typography.Text size="callout" style={styles.countryNameStyle}>
+        {item}
+      </Typography.Text>
       <Radio isSelected={item === selectedCountry} onPress={() => setSelectedCountry(item)} />
     </Pressable>
   );
@@ -65,7 +96,7 @@ export default function SelectCountryModal({ handleSelectCountry }: SelectCountr
   );
 
   return (
-    <KeyboardAvoidingView style={{ height: modalHeight }}>
+    <KeyboardAvoidingView style={modalStyle}>
       <Typography.Text size="title3" style={modalTitleStyle}>
         {t("ViewTransactions.SingleTransactionDetailedScreen.tripToModal.title")}
       </Typography.Text>
@@ -87,3 +118,9 @@ export default function SelectCountryModal({ handleSelectCountry }: SelectCountr
     </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  countryNameStyle: {
+    maxWidth: "80%",
+  },
+});
