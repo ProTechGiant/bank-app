@@ -36,7 +36,7 @@ export default function ExploreCard({ title, description, imageURL, tagTitle, ta
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderWidth: 1,
-    borderColor: theme.palette["neutralBase-40"],
+    borderColor: theme.palette["neutralBase-30"],
     flexDirection: "row",
     borderRadius: theme.radii.small,
     width: "100%",

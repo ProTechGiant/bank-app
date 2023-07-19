@@ -1,16 +1,18 @@
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
-import { SearchFailedIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+
+import NoArticlesIcon from "../assets/NoArticlesIcon";
 
 export default function NoArticlesError() {
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
-    padding: theme.spacing["48p"],
+    paddingTop: theme.spacing["64p"],
+    paddingHorizontal: theme.spacing["28p"],
   }));
 
   const headingStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -20,13 +22,13 @@ export default function NoArticlesError() {
 
   return (
     <View style={containerStyle}>
-      <SearchFailedIcon />
+      <NoArticlesIcon />
       <View style={headingStyle}>
-        <Typography.Text size="callout" weight="medium">
+        <Typography.Text size="title3" weight="bold">
           {t("WhatsNext.HubScreen.noArticlesTitle")}
         </Typography.Text>
       </View>
-      <Typography.Text color="neutralBase-10" size="footnote" align="center">
+      <Typography.Text color="neutralBase-10" size="callout" align="center">
         {t("WhatsNext.HubScreen.noArticlesDescription")}
       </Typography.Text>
     </View>

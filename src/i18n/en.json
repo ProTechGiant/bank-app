@@ -1348,7 +1348,6 @@
             "label": "Spend from your main account",
             "helperText": "One-time cards are linked to your main Croatia account."
           },
-
           "SectionFourInfo": {
             "label": "Hassle-free refunds",
             "helperText": "Need a refund? You’ll still get it, even if you’ve used the card already."
@@ -1451,7 +1450,6 @@
     "note": "The name you use for your transfer must exactly match your name here.",
     "processingTime": "Processing time",
     "processingTimeInfo": "Bank transfers will normally reach your Croatia account the same day or the next business day.",
-
     "BankDetails": {
       "title": "Your Croatia bank details",
       "recipientName": "Your name",
@@ -2081,7 +2079,8 @@
     }
   },
   "LoadingError": {
-    "noData": "We couldn’t load the data. Please try later.",
+    "title": "We couldn’t load the data",
+    "body": "Please reload the page or try again later.",
     "reload": "Reload",
     "NotificationModal": {
       "errorTitle": "Trouble loading data",

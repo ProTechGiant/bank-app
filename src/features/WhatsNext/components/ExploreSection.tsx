@@ -25,7 +25,7 @@ export default function ExploreSection({ data, onSortByTimePress, sortOrder, onA
     flexDirection: "row",
     justifyContent: "space-between",
     paddingTop: theme.spacing["32p"],
-    paddingBottom: theme.spacing["12p"],
+    paddingBottom: theme.spacing["16p"],
   }));
 
   return (
@@ -35,13 +35,15 @@ export default function ExploreSection({ data, onSortByTimePress, sortOrder, onA
           {t("WhatsNext.HubScreen.explore")}
         </Typography.Text>
         <Pressable style={styles.row} onPress={onSortByTimePress}>
-          <Typography.Text size="callout" weight="medium">
-            {sortOrder === SORT_NEWEST ? t("WhatsNext.SortingContent.newest") : t("WhatsNext.SortingContent.oldest")}
-          </Typography.Text>
-          <AngleDownIcon width={16} height={16} />
+          <Stack direction="horizontal" gap="8p">
+            <Typography.Text size="callout" weight="medium">
+              {sortOrder === SORT_NEWEST ? t("WhatsNext.SortingContent.newest") : t("WhatsNext.SortingContent.oldest")}
+            </Typography.Text>
+            <AngleDownIcon width={20} height={20} color="#002233" />
+          </Stack>
         </Pressable>
       </View>
-      <Stack gap="16p" direction="vertical">
+      <Stack gap="20p" direction="vertical">
         {data.map((item, index) => {
           return (
             <View key={index}>

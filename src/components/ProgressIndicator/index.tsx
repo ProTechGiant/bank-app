@@ -1,9 +1,9 @@
 import times from "lodash/times";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
+import Stack from "@/components/Stack";
+import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-
-import Typography from "../Typography";
 
 type ProgressIndicatorProps = {
   currentStep: number;
@@ -13,13 +13,13 @@ type ProgressIndicatorProps = {
 
 export default function ProgressIndicator({ currentStep, totalStep, withEndStep }: ProgressIndicatorProps) {
   const progressBarStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
+    backgroundColor: theme.palette["neutralBase-20"],
     flex: 1,
     height: 3,
   }));
 
   const progressBarActiveStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["primaryBase-40"],
+    backgroundColor: theme.palette.complimentBase,
   }));
 
   const columnEndStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -27,7 +27,7 @@ export default function ProgressIndicator({ currentStep, totalStep, withEndStep 
   }));
 
   return (
-    <View style={styles.container}>
+    <Stack direction="horizontal" gap="4p" align="center">
       {times(totalStep, (index: number) => (
         <View
           key={index}
@@ -45,15 +45,11 @@ export default function ProgressIndicator({ currentStep, totalStep, withEndStep 
           </Typography.Text>
         </View>
       ) : null}
-    </View>
+    </Stack>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    flexDirection: "row",
-  },
   progressBarLast: {
     marginRight: 0,
   },

@@ -1,29 +1,18 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRef, useState } from "react";
-import {
-  FlatList,
-  FlatListProps,
-  I18nManager,
-  Pressable,
-  StyleSheet,
-  useWindowDimensions,
-  View,
-  ViewStyle,
-} from "react-native";
+import { FlatList, FlatListProps, useWindowDimensions, View, ViewStyle } from "react-native";
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
-import { ArrowLeftIcon } from "@/assets/icons";
+import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { TopTenSingleArticle } from "../components";
 import { ArticleSectionType } from "../types";
 
 export default function TopTenArticleScreen() {
-  const navigation = useNavigation();
   const { width } = useWindowDimensions();
   const { params } = useRoute<RouteProp<AuthenticatedStackParams, "WhatsNext.TopTenArticleScreen">>();
 
@@ -74,27 +63,31 @@ export default function TopTenArticleScreen() {
   };
 
   const progressIndicatorContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
-    flexDirection: "row",
     zIndex: 1,
     position: "absolute",
     paddingTop: theme.spacing["48p"],
-    paddingRight: theme.spacing["64p"],
-    paddingLeft: theme.spacing["12p"],
+    width: "100%",
   }));
 
-  const iconColor = useThemeStyles(theme => theme.palette["neutralBase-30"]);
+  const progressBarStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["48p"],
+    width: "100%",
+  }));
 
   return (
-    <Page insets={["left", "right", "top"]}>
+    <Page insets={["left", "right"]}>
       <View style={progressIndicatorContainerStyle}>
-        <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
-          <ArrowLeftIcon color={iconColor} />
-        </Pressable>
-        <ProgressIndicator
-          currentStep={currentItem}
-          totalStep={topTenArticlesData?.ChildrenContents?.length ?? 0}
-          withEndStep={true}
+        <NavHeader
+          variant="background"
+          withBackButton
+          title={
+            <View style={progressBarStyle}>
+              <ProgressIndicator
+                currentStep={currentItem}
+                totalStep={topTenArticlesData?.ChildrenContents?.length ?? 0}
+              />
+            </View>
+          }
         />
       </View>
       <Animated.FlatList
@@ -119,9 +112,3 @@ export default function TopTenArticleScreen() {
     </Page>
   );
 }
-
-const styles = StyleSheet.create({
-  backButton: {
-    transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }],
-  },
-});

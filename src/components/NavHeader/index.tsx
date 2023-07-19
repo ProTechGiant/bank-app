@@ -18,7 +18,7 @@ interface NavHeaderProps {
   variant?: "black" | "white" | "background";
   end?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
   testID?: string;
-  title?: string;
+  title?: string | React.ReactElement;
   withBackButton?: boolean;
 }
 
@@ -87,10 +87,12 @@ const NavHeader = ({
             )}
           </View>
           <View style={[styles.column, styles.columnCenter]}>
-            {undefined !== title && (
+            {title !== undefined && typeof title === "string" ? (
               <Typography.Text color={textColor} weight="medium" size="callout">
                 {title}
               </Typography.Text>
+            ) : (
+              title
             )}
           </View>
           <View style={[styles.column, styles.columnEnd]}>

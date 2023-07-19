@@ -26,54 +26,56 @@ export default function FilterTopBar({
   const { t } = useTranslation();
 
   return (
-    <ScrollView horizontal style={styles.noGrow}>
+    <View>
       <Stack direction="horizontal" gap="8p" style={styles.center}>
         <Typography.Text color="neutralBase-10" size="footnote">
           {t("WhatsNext.HubScreen.filterBy")}
         </Typography.Text>
-        {whatsNextTypes
-          .filter(val => val.isActive === true)
-          .map(data => {
-            return (
-              <View key={data.id}>
-                <Chip
-                  title={data.name}
-                  isSelected={true}
-                  isRemovable={true}
-                  onPress={() => {
-                    onTypeFilterItemRemovePress(data.name);
-                  }}
-                />
-              </View>
-            );
-          })}
-        {whatsNextCategories
-          .filter(val => val.isActive === true)
-          .map(data => {
-            return (
-              <View key={data.id}>
-                <Chip
-                  title={data.name}
-                  isSelected={true}
-                  isRemovable={true}
-                  onPress={() => onCategoryFilterItemRemovePress(data.name)}
-                />
-              </View>
-            );
-          })}
+        <ScrollView horizontal>
+          <Stack direction="horizontal" gap="8p">
+            {whatsNextTypes
+              .filter(val => val.isActive === true)
+              .map(data => {
+                return (
+                  <View key={data.id}>
+                    <Chip
+                      title={data.name}
+                      isSelected={true}
+                      isRemovable={true}
+                      onPress={() => {
+                        onTypeFilterItemRemovePress(data.name);
+                      }}
+                    />
+                  </View>
+                );
+              })}
+            {whatsNextCategories
+              .filter(val => val.isActive === true)
+              .map(data => {
+                return (
+                  <View key={data.id}>
+                    <Chip
+                      title={data.name}
+                      isSelected={true}
+                      isRemovable={true}
+                      onPress={() => onCategoryFilterItemRemovePress(data.name)}
+                    />
+                  </View>
+                );
+              })}
+          </Stack>
+        </ScrollView>
+
         <Pressable onPress={onClearFiltersPress}>
           <Typography.Text size="footnote">{t("WhatsNext.HubScreen.clearAll")}</Typography.Text>
         </Pressable>
       </Stack>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   center: {
     alignItems: "center",
-  },
-  noGrow: {
-    flexGrow: 0,
   },
 });
