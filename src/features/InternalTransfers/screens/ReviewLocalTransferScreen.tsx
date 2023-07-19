@@ -101,7 +101,11 @@ export default function ReviewQuickTransferScreen() {
           return;
         }
         if (status === "fail") {
-          delayTransition(() => setIsGenericErrorModalVisible(true));
+          if (transferType === TransferType.SarieTransferAction) {
+            setIsGenericErrorModalVisible(true);
+          } else {
+            delayTransition(() => setIsGenericErrorModalVisible(true));
+          }
         } else {
           if (route.params.Beneficiary.type === "inactive" || route.params.Beneficiary.type === "new") {
             navigation.navigate("InternalTransfers.IVRCheckScreen");

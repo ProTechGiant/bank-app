@@ -63,7 +63,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
 
   const [isIbanRecognized, setIsIbanRecognized] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
-  const [exsistingBeneficiaryModalVisible, setExsistingBeneficiaryModalVisible] = useState(false);
+  const [exsistingBeneficiaryModalVisible, setExistingBeneficiaryModalVisible] = useState(false);
   const [isSwitchToARBModalVisible, setIsSwitchToARBModalVisible] = useState(false);
   const { setRecipient, transferAmount, reason, transferType, setTransferType } = useInternalTransferContext();
 
@@ -129,7 +129,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
             phoneNumber: undefined,
             type: "new",
           });
-          setExsistingBeneficiaryModalVisible(true);
+          setExistingBeneficiaryModalVisible(true);
         } else {
           setIsErrorModalVisible(true);
         }
@@ -154,7 +154,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
   };
 
   const handleOnExistingBeneficiarySubmit = async () => {
-    setExsistingBeneficiaryModalVisible(false);
+    setExistingBeneficiaryModalVisible(false);
     navigation.goBack();
   };
 
@@ -218,6 +218,9 @@ export default function StandardTransferNewBeneficiaryScreen() {
         onClose={() => setIsErrorModalVisible(false)}
       />
       <NotificationModal
+        onClose={() => {
+          setExistingBeneficiaryModalVisible(false);
+        }}
         variant="error"
         title={t("InternalTransfers.NewBeneficiaryScreen.ExistingBeneficiaryModal.title")}
         message={t("InternalTransfers.NewBeneficiaryScreen.ExistingBeneficiaryModal.message")}

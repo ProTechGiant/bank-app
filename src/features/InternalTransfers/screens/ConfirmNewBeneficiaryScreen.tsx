@@ -50,7 +50,11 @@ export default function ConfirmNewBeneficiaryScreen() {
 
   useEffect(() => {
     //Adding this check because in case of CRO-ARB we dont have terms and condition check
-    if (transferType === TransferType.CroatiaToArbTransferAction || recipient.type === "active")
+    if (
+      transferType === TransferType.CroatiaToArbTransferAction ||
+      recipient.type === "active" ||
+      transferType === TransferType.SarieTransferAction
+    )
       setValue("confirmBeneficiaryDeclaration", true, { shouldValidate: true, shouldDirty: true });
   }, [setValue, transferType, recipient]);
 
@@ -194,7 +198,11 @@ export default function ConfirmNewBeneficiaryScreen() {
           />
         </Stack>
         <View>
-          {!(transferType === TransferType.CroatiaToArbTransferAction || recipient.type === "active") ? (
+          {!(
+            transferType === TransferType.CroatiaToArbTransferAction ||
+            recipient.type === "active" ||
+            transferType === TransferType.SarieTransferAction
+          ) ? (
             <View>
               <View style={dividerStyle}>
                 <Divider color="neutralBase-30" />

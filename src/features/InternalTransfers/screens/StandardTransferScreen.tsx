@@ -155,6 +155,7 @@ export default function StandardTransferScreen() {
                   control={control}
                   currentBalance={currentBalance}
                   isError={(amountExceedsBalance || dailyLimitAsync.data?.IsLimitExceeded) ?? false}
+                  hideBalanceError={!amountExceedsBalance}
                   maxLength={10}
                   name="PaymentAmount"
                 />

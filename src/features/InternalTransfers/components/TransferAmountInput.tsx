@@ -14,6 +14,7 @@ interface TransferAmountInput<T extends FieldValues> {
   isError: boolean;
   maxLength?: number;
   name: Path<T>;
+  hideBalanceError?: boolean;
 }
 
 export default function TransferAmountInput<T extends FieldValues>({
@@ -23,6 +24,7 @@ export default function TransferAmountInput<T extends FieldValues>({
   isError,
   maxLength,
   name,
+  hideBalanceError,
 }: TransferAmountInput<T>) {
   const { t } = useTranslation();
   const { field } = useController({ control, name });
@@ -60,7 +62,7 @@ export default function TransferAmountInput<T extends FieldValues>({
 
   return (
     <>
-      <Typography.Text color={isError ? "errorBase" : "neutralBase-10"} size="callout">
+      <Typography.Text color={isError && !hideBalanceError ? "errorBase" : "neutralBase-10"} size="callout">
         {t("InternalTransfers.TransferAmountInput.balance") + formatCurrency(currentBalance, "SAR")}
       </Typography.Text>
       <View style={containerStyles}>
