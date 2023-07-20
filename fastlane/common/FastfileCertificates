@@ -10,6 +10,7 @@ platform :ios do
         "Croatia AL" => "00008101-000D68C12E00001E",
         "Croatia AM" => "f094c881a44985cf56fda52bca1cc6d9e18d18ae",
         "Croatia DFA" => "00008110-0000056A2E11801E",
+        "Croatia MAAZ" => "00008110-0002118011FB801E",
         "Croatia RP" => "00008101-000120192251003A"
       }
     )
