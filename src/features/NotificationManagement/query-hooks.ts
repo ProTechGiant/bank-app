@@ -11,12 +11,9 @@ const queryKeys = {
 };
 
 export function useNotificationPreferences() {
-  const { userId } = useAuthContext();
-
   return useQuery(queryKeys.all, () => {
     return api<Categories[]>("v1", "customer/notifications", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
-      ["userId"]: "0000001321", //TODO: replace with userId from useAuthContext(), once function returns authenticated user
     });
   });
 }
@@ -30,13 +27,11 @@ export function useNotificationPreferencesCategory(categoryId: string) {
 
 export function useUpdateNotificationPreferences() {
   const queryClient = useQueryClient();
-  const { userId } = useAuthContext();
 
   return useMutation(
     (values: UpdatedSubCategories[]) => {
       return api<void>("v1", "customer/notifications", "PATCH", undefined, values, {
         ["x-correlation-id"]: generateRandomId(),
-        ["userId"]: "0000001321", //TODO: replace with userId from useAuthContext(), once function returns authenticated user
       });
     },
     {
