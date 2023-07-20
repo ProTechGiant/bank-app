@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
 
@@ -9,11 +10,13 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import * as SettingsIcons from "../assets/icons";
-import { SettingsCategoryContainer, SettingSection } from "../components";
+import { SettingsCategoryContainer, SettingSection, SignOutModal } from "../components";
 
 export default function CustomerAccountManagement() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const [isSignOutModalVisible, setSignOutModalVisible] = useState(false);
 
   const handleOnBackPress = () => {
     navigation.goBack();
@@ -38,7 +41,7 @@ export default function CustomerAccountManagement() {
   };
 
   const handleSignOutPress = () => {
-    navigation.navigate("Settings.AccountSettings");
+    setSignOutModalVisible(true);
   };
 
   const handleOnProfileDetailsPress = () => {
@@ -56,7 +59,9 @@ export default function CustomerAccountManagement() {
   const handleOnFinancialInformationPress = () => {
     navigation.navigate("Settings.FinancialInformationScreen");
   };
-
+  const handleOnClose = () => {
+    setSignOutModalVisible(false);
+  };
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({ paddingTop: theme.spacing["8p"] }));
 
   return (
@@ -135,6 +140,7 @@ export default function CustomerAccountManagement() {
           />
         </SettingsCategoryContainer>
       </ContentContainer>
+      <SignOutModal isVisible={isSignOutModalVisible} onClose={handleOnClose} />
     </Page>
   );
 }

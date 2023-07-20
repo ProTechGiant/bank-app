@@ -653,6 +653,12 @@
       "saveChanges": "Save changes",
       "successMessage": "Your language settings have been updated successfully"
     },
+    "SignOutModal": {
+      "areYouSureSignOut": "Are you sure you want to\nSign out?",
+      "hintMessageSignOut": "By signing out some of your info\nwill be deleted.",
+      "signOutButton": "Sign Out",
+      "cancelButton": "Cancel"
+    },
     "reloadAppMessage": "We must restart the app to continue",
     "okButtonMessage": "OK"
   },
