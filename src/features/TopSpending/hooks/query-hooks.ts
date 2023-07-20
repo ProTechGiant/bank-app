@@ -42,7 +42,8 @@ const getMonthDates = (): { fromDate: string; toDate: string } => {
   return { fromDate, toDate };
 };
 
-// *TODO here i do not use the custom api until the apis is completed
+// TODO here i do not use the custom api until the apis is completed
+// TODO once actual API can be used, also remove the entry from android/app/src/accept/res/xml/network_security_config.xml
 export function useCategories() {
   const account = useCurrentAccount();
   const { fromDate, toDate } = getMonthDates();
