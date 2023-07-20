@@ -61,7 +61,7 @@ export function useOtpFlow<Stack extends AnyStack>() {
 export function useOtpValidation<RequestT, ResponseT>(
   method:
     | "card-actions"
-    | "internal-transfers"
+    | "internal-to-bank"
     | "login"
     | "quick-transfers"
     | "reset-passcode"

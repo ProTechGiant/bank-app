@@ -50,11 +50,14 @@ export interface AddBeneficiaryFormForwardRef {
 }
 
 export interface InternalTransfer {
-  InternalTransferAmount: string;
-  InternalTransferAmountCurrency: string;
-  DebtorAccountCustomerAccountId: string;
-  CreditorAccountCustomerAccountId: string;
-  RemittanceInformation: string;
+  Reason: string;
+  data: {
+    InternalTransferAmount: string;
+    InternalTransferAmountCurrency: string;
+    DebtorAccountCustomerAccountId: string;
+    CreditorAccountCustomerAccountId: string;
+    RemittanceInformation: string;
+  };
 }
 
 export interface InternalTransferToARBRequest {

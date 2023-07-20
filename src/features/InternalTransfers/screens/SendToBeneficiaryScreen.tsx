@@ -114,14 +114,7 @@ export default function SendToBeneficiaryScreen() {
     bankName: string | undefined
   ) => {
     const selectedBank = bankList.data?.Banks.find(bankItem => bankItem.EnglishName === bankName);
-    if (
-      iban === undefined ||
-      transferAmount === undefined ||
-      reason === undefined ||
-      bankName === undefined ||
-      selectedBank === undefined
-    )
-      return;
+    if (iban === undefined || transferAmount === undefined || reason === undefined) return;
     setRecipient({
       accountName,
       accountNumber,

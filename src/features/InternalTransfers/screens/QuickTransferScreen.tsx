@@ -47,7 +47,7 @@ export default function QuickTransferScreen() {
   const [isTransferLimitsModalVisible, setIsTransferLimitsModalVisible] = useState(false);
   const [isTransferReasonsErrorVisible, setIsTransferReasonsErrorVisible] = useState(false);
 
-  const { setTransferType } = useInternalTransferContext();
+  const { setTransferType, setTransferAmount, setReason } = useInternalTransferContext();
 
   const handleOnValidateDailyLimit = async (transferAmount: number) => {
     try {
@@ -79,16 +79,15 @@ export default function QuickTransferScreen() {
     const defaultReason = reasons.data?.TransferReason[0]?.Code;
     const selectedReason = values.ReasonCode ?? defaultReason;
 
+    setReason(selectedReason);
+    setTransferAmount(values.PaymentAmount);
     setTransferType(TransferType.IpsTransferAction);
 
     if (selectedReason === undefined) {
       return;
     }
 
-    navigation.navigate("InternalTransfers.EnterQuickTransferBeneficiaryScreen", {
-      ...values,
-      ReasonCode: selectedReason,
-    });
+    navigation.navigate("InternalTransfers.EnterQuickTransferBeneficiaryScreen");
   };
 
   const handleOnTransferLimitsPress = () => {

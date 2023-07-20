@@ -45,10 +45,7 @@ export type InternalTransfersStackParams = {
         ReasonCode: string;
       }
     | undefined;
-  "InternalTransfers.EnterQuickTransferBeneficiaryScreen": {
-    PaymentAmount: number;
-    ReasonCode: string;
-  };
+  "InternalTransfers.EnterQuickTransferBeneficiaryScreen": undefined;
   "InternalTransfers.StandardTransferScreen":
     | {
         PaymentAmount?: number;

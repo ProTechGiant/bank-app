@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -24,7 +23,6 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { ALRAJHI_BANK_CODE } from "@/constants";
 import { warn } from "@/logger";
-import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { ibanRegExpForARB, numericRegExp, saudiPhoneRegExp } from "@/utils";
@@ -50,9 +48,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
-  const { setTransferType } = useInternalTransferContext();
-  const route =
-    useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.EnterQuickTransferBeneficiaryScreen">>();
+  const { setTransferType, transferAmount, reason } = useInternalTransferContext();
 
   const banks = useBeneficiaryBanks();
   const validateBeneficiaryAsync = useValidateQuickTransferBeneficiary();
@@ -165,8 +161,8 @@ export default function EnterQuickTransferBeneficiaryScreen() {
       });
 
       navigation.navigate("InternalTransfers.ConfirmLocalTransferBeneficiaryScreen", {
-        PaymentAmount: route.params.PaymentAmount,
-        ReasonCode: route.params.ReasonCode,
+        PaymentAmount: transferAmount ?? 0,
+        ReasonCode: reason ?? "",
         Beneficiary: {
           FullName: response.FullName,
           Bank: response.Bank,

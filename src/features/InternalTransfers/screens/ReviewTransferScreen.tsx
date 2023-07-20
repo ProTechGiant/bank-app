@@ -56,11 +56,14 @@ export default function ReviewTransferScreen() {
     }
 
     const internalTransferDetails: InternalTransfer = {
-      InternalTransferAmount: transferAmount.toString(),
-      InternalTransferAmountCurrency: "SAR",
-      DebtorAccountCustomerAccountId: account.data.id,
-      CreditorAccountCustomerAccountId: recipient.accountNumber,
-      RemittanceInformation: reason,
+      Reason: "internal-to-bank",
+      data: {
+        InternalTransferAmount: transferAmount.toString(),
+        InternalTransferAmountCurrency: "SAR",
+        DebtorAccountCustomerAccountId: account.data.id,
+        CreditorAccountCustomerAccountId: recipient.accountNumber,
+        RemittanceInformation: reason,
+      },
     };
 
     const internalTransferCroatiaToARB: InternalTransferToARBRequest = {
@@ -92,7 +95,7 @@ export default function ReviewTransferScreen() {
           internalTransferDetails,
         },
         otpVerifyMethod:
-          transferType === TransferType.CroatiaToArbTransferAction ? "croatia-to-arb" : "internal-transfers",
+          transferType === TransferType.CroatiaToArbTransferAction ? "croatia-to-arb" : "internal-to-bank",
         onOtpRequest: () => {
           if (transferType === TransferType.CroatiaToArbTransferAction) {
             return internalTransferCroatiaToARBAsync.mutateAsync(internalTransferCroatiaToARB);

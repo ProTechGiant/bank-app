@@ -10,8 +10,8 @@ export default interface OneTimePasswordModalParams<T extends AuthenticatedStack
   };
   otpVerifyMethod:
     | "card-actions"
-    | "internal-transfers"
     | "croatia-to-arb"
+    | "internal-to-bank"
     | "ips-payment"
     | "login"
     | "sarie"
