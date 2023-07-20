@@ -216,7 +216,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                   autoComplete="one-time-code"
                   autoFocus
                   isEditable={!isReachedMaxAttempts}
-                  isError={isReachedMaxAttempts}
+                  isError={isReachedMaxAttempts || isOtpCodeInvalidErrorVisible}
                   onChangeText={handleOnChangeText}
                   length={OTP_CODE_LENGTH}
                   value={currentValue}

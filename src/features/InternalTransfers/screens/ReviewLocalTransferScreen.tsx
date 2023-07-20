@@ -102,7 +102,7 @@ export default function ReviewQuickTransferScreen() {
         }
         if (status === "fail") {
           if (transferType === TransferType.SarieTransferAction) {
-            setIsGenericErrorModalVisible(true);
+            setIsGenericErrorModalVisible(false);
           } else {
             delayTransition(() => setIsGenericErrorModalVisible(true));
           }
