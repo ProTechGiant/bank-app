@@ -95,8 +95,9 @@ export default function SimilarTransactionsModal({
 
       // Extract the transaction ids to be updated
       const transactionIdsToUpdate = Object.entries(formData)
-        .filter(([, shouldUpdate]) => {
-          return formData.selectAll || shouldUpdate;
+        .filter(([key, shouldUpdate]) => {
+          // filter out 'selectAll'
+          return key !== "selectAll" && (formData.selectAll || shouldUpdate);
         })
         .map(([transactionId, _]) => transactionId);
 

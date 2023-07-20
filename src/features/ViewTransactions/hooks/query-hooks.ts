@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import sendApiRequest from "@/api";
-// import api from "@/api";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
 
@@ -17,28 +16,36 @@ interface ApiCategoriesResponse {
   categories: Category[];
 }
 
-// *TODO here i do not use the custom api until the apis is completed
+interface UpdateCategoryProps {
+  transactionIds: string[] | string;
+  newCategoryId?: string;
+  merchantName: string;
+  oldCategoryId?: string;
+}
+
 export default function usePredefinedCategories() {
   const account = useCurrentAccount();
   const account_id = account.data?.id;
 
-  const categoriesQuery = useQuery<ApiCategoriesResponse, Error>(
+  const categoriesQuery = useQuery(
     ["categories", account_id],
     () =>
-      fetch(
-        `http://alpha-transaction-service.apps.development.projectcroatia.cloud/v1/accounts/${account_id}/categories/predefined-categories?pageSize=1000&pageNumber=0`,
+      sendApiRequest<ApiCategoriesResponse>(
+        "v1",
+        `accounts/${account_id}/categories/predefined-categories`,
+        "GET",
         {
-          headers: {
-            Accept: "application/json",
-            "x-correlation-id": generateRandomId(),
-            UserId: "301", // replace with appropriate user id
-          },
+          PageSize: 1000,
+          PageNumber: 0,
+        },
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
         }
-      ).then(res => res.json()),
+      ),
     {
       // set staleTime to 10 seconds for caching
       staleTime: 10000,
-      // enabled only if account_id exists
       enabled: !!account_id,
     }
   );
@@ -46,34 +53,33 @@ export default function usePredefinedCategories() {
   return { categories: categoriesQuery.data };
 }
 
-// *TODO here i do not use the custom api until the apis is completed
 export function useUpdateCategory() {
   const account = useCurrentAccount();
   const accountId = account.data?.id;
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
-    ({ transactionIds, newCategoryId, merchantName, oldCategoryId }: any) =>
-      fetch(
-        `http://alpha-transaction-service.apps.development.projectcroatia.cloud/v1/accounts/${accountId}/transactions/${transactionIds}?newCategoryId=${newCategoryId}&merchantName=${merchantName}&oldCategoryId=${oldCategoryId}&pageSize=1000&pageNumber=0`,
+    ({ transactionIds, newCategoryId, merchantName, oldCategoryId }: UpdateCategoryProps) => {
+      const transactionIdsString = Array.isArray(transactionIds) ? transactionIds.join(",") : transactionIds;
+      return sendApiRequest<void>(
+        "v1",
+        `accounts/${accountId}/transactions/${transactionIdsString}?newCategoryId=${newCategoryId}&merchantName=${merchantName}&oldCategoryId=${oldCategoryId}`,
+        "PUT",
         {
-          method: "PUT", // HTTP method, adjust as needed
-          headers: {
-            Accept: "application/json",
-            "x-correlation-id": generateRandomId(),
-            UserId: "301", // replace with appropriate user id
-          },
+          PageSize: 1000,
+          PageNumber: 0,
+        },
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
         }
-      ).then(res => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      }),
+      );
+    },
     {
       onSuccess: () => {
         // Refetch queries to update the local data
         queryClient.invalidateQueries("transactions");
+        queryClient.invalidateQueries("categories");
       },
     }
   );

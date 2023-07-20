@@ -122,7 +122,7 @@ export default function useTransactions(
           GroupBy: groupBy,
           fromDate: fromDate,
           toDate: toDate,
-          hiddenFlag: hiddenFlag ? "Y" : "N",
+          hiddenFlag: hiddenFlag !== undefined ? (hiddenFlag ? "Y" : "N") : undefined,
         },
         undefined,
         {
