@@ -64,7 +64,7 @@ function generateCategorizedData(
 
 function getCategoryLabel(index: number, categoriesCount: number): string {
     if (categoriesCount === 4) {
-        return t("TopSpending.CategorizeTransactions.week", { week: index });
+        return t("TopSpending.CategorizeTransactions.week", { week: index + 1 });
     } else if (categoriesCount === 7) {
         const daysOfWeek = [
             t("TopSpending.CategorizeTransactions.days.sunday"),

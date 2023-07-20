@@ -19,8 +19,8 @@ import { IconGenerator, SpendingsFilterModal } from "../components";
 import SpendCompareModal from "../components/SpendCompareModal";
 import { ChartTypes, CompareDurationTypes } from "../enum";
 import { userType } from "../mocks";
-import { CompareDatesTypes, PeriodDateTypes, Transaction, TransactionDetailed } from "../types";
 import { categoryIconViewBox } from "../mocks/MockData";
+import { CompareDatesTypes, PeriodDateTypes, Transaction, TransactionDetailed } from "../types";
 
 export default function SpendSummaryScreen() {
   const { t } = useTranslation();
@@ -269,30 +269,32 @@ export default function SpendSummaryScreen() {
         </View>
       </View>
       <View style={filterStyle}>
-        <View style={timeFilter}>
-          {[
-            t("TopSpending.SpendSummaryScreen.day"),
-            t("TopSpending.SpendSummaryScreen.week"),
-            t("TopSpending.SpendSummaryScreen.month"),
-            t("TopSpending.SpendSummaryScreen.year"),
-          ].map(time => (
-            <Pressable key={time} onPress={() => handleSelection(time)}>
-              <Typography.Text
-                style={!isComparing && !modalSelectionMade && selectedTime === time ? selectedText : null}
-                color={
-                  !isComparing && !modalSelectionMade && selectedTime === time ? "neutralBase+30" : "neutralBase-20"
-                }>
-                {time}
-              </Typography.Text>
-            </Pressable>
-          ))}
-        </View>
         {!isComparing ? (
-          <View style={textMargin}>
-            <Typography.Text size="title3" color="neutralBase+30">
-              {currentValue}
-            </Typography.Text>
-          </View>
+          <>
+            <View style={timeFilter}>
+              {[
+                t("TopSpending.SpendSummaryScreen.day"),
+                t("TopSpending.SpendSummaryScreen.week"),
+                t("TopSpending.SpendSummaryScreen.month"),
+                t("TopSpending.SpendSummaryScreen.year"),
+              ].map(time => (
+                <Pressable key={time} onPress={() => handleSelection(time)}>
+                  <Typography.Text
+                    style={!isComparing && !modalSelectionMade && selectedTime === time ? selectedText : null}
+                    color={
+                      !isComparing && !modalSelectionMade && selectedTime === time ? "neutralBase+30" : "neutralBase-20"
+                    }>
+                    {time}
+                  </Typography.Text>
+                </Pressable>
+              ))}
+            </View>
+            <View style={textMargin}>
+              <Typography.Text size="title3" color="neutralBase+30">
+                {currentValue}
+              </Typography.Text>
+            </View>
+          </>
         ) : null}
       </View>
       {!isComparing ? (
