@@ -42,31 +42,33 @@ const getMonthDates = (): { fromDate: string; toDate: string } => {
   return { fromDate, toDate };
 };
 
-// TODO here i do not use the custom api until the apis is completed
-// TODO once actual API can be used, also remove the entry from android/app/src/accept/res/xml/network_security_config.xml
 export function useCategories() {
   const account = useCurrentAccount();
   const { fromDate, toDate } = getMonthDates();
 
   const account_id = account.data?.id;
 
-  const categories = useQuery<ApiResponse, Error>(
+  const categories = useQuery(
     ["categories", { fromDate, toDate }],
     () =>
-      fetch(
-        `http://alpha-transaction-service.apps.development.projectcroatia.cloud/v1/accounts/${account_id}/categories?pageSize=1000&pageNumber=0&fromDate=2000-01-01&toDate=2024-01-01`,
+      api<ApiResponse>(
+        "v1",
+        `accounts/${account_id}/categories`,
+        "GET",
         {
-          headers: {
-            Accept: "application/json",
-            "x-correlation-id": generateRandomId(),
-            UserId: "301", // replace with appropriate user id
-          },
+          PageSize: 1000,
+          PageNumber: 0,
+          fromDate: fromDate,
+          toDate: toDate,
+        },
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
         }
-      ).then(res => res.json()),
+      ),
     {
       // set staleTime to 10 seconds for caching
       staleTime: 10000,
-      // enabled only if account_id exists
       enabled: !!account_id,
     }
   );
