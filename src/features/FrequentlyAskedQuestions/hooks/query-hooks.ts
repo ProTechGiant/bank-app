@@ -23,7 +23,7 @@ export function useSearchFAQ(searchKeyword: string, language: string) {
         "contents/faqs",
         "GET",
         {
-          SearchKeywords: searchKeyword ? searchKeyword : null,
+          SearchKeywords: searchKeyword.length > 0 ? searchKeyword : undefined,
           Language: language,
           IncludeChildren: true,
         },

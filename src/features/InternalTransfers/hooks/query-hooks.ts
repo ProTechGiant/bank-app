@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
-import sendApiRequest from "@/api";
 import { generateRandomId } from "@/utils";
 
 import {
@@ -54,7 +53,7 @@ interface DailyLimitResponse {
 }
 export function useDailyLimitValidation() {
   return useMutation(async ({ TransferAmount }: { TransferAmount: number }) => {
-    return sendApiRequest<DailyLimitResponse>(
+    return api<DailyLimitResponse>(
       "v1",
       "transfers/daily-limit/validation",
       "POST",
@@ -86,7 +85,7 @@ export function useBeneficiaries(transferType: TransferType) {
 
 export function useDeleteBeneficiary() {
   return useMutation(async ({ BeneficiaryId }: { BeneficiaryId: string }) => {
-    return sendApiRequest<string>(
+    return api<string>(
       "v1",
       "transfers/beneficiaries/delete",
       "PATCH",
@@ -160,7 +159,7 @@ interface OTPResponse {
 
 export function useInternalTransfer() {
   return useMutation(async (values: InternalTransfer) => {
-    return sendApiRequest<InternalTransferResponse>("v1", "transfers/internal-payments", "POST", undefined, values, {
+    return api<InternalTransferResponse>("v1", "transfers/internal-payments", "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });
@@ -168,7 +167,7 @@ export function useInternalTransfer() {
 
 export function useInternalTransferCroatiaToARB() {
   return useMutation(async (values: InternalTransferToARBRequest) => {
-    return sendApiRequest<OTPDetails>("v1", "transfers/outbound", "POST", undefined, values, {
+    return api<OTPDetails>("v1", "transfers/outbound", "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });
@@ -182,7 +181,7 @@ export function useBeneficiaryBanks() {
   return useQuery(
     queryKeys.banks(),
     () => {
-      return sendApiRequest<BeneficiaryBanksResponse>("v1", "transfers/banks", "GET", undefined, undefined, {
+      return api<BeneficiaryBanksResponse>("v1", "transfers/banks", "GET", undefined, undefined, {
         ["x-correlation-id"]: generateRandomId(),
       });
     },
@@ -304,7 +303,7 @@ interface LocalTransferResponse {
 
 export function useLocalTransfer() {
   return useMutation(async (values: LocalTransfer) => {
-    return sendApiRequest<LocalTransferResponse>("v1", "transfers/outbound", "POST", undefined, values, {
+    return api<LocalTransferResponse>("v1", "transfers/outbound", "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });

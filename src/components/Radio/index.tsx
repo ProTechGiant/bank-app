@@ -8,7 +8,7 @@ interface RadioProps<T> {
   onPress?: (value: T | undefined) => void;
   isSelected?: boolean;
   testID?: string;
-  value?: T | undefined;
+  value?: T;
 }
 
 export default function Radio<T>({ disabled = false, onPress, isSelected = false, testID, value }: RadioProps<T>) {

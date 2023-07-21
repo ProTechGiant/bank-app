@@ -2,8 +2,7 @@ import { format as formatFn } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, View, ViewStyle } from "react-native";
 
-import { ChevronRightIcon, CopyIcon } from "@/assets/icons";
-import { CalendarAltIcon } from "@/assets/icons";
+import { CalendarAltIcon, ChevronRightIcon, CopyIcon } from "@/assets/icons";
 import Toggle from "@/components/Toggle";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";

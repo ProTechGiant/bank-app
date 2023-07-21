@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import ReactNativeBiometrics from "react-native-biometrics";
 
 import { warn } from "@/logger";
@@ -86,10 +85,8 @@ class BiometricsService {
   }
 
   async initiate({ promptMessage, cancelButtonText, requestFrom }: InitateParams): Promise<void> {
-    let publicKey: string;
     try {
-      const keyRes = await this.createKeys();
-      publicKey = keyRes.publicKey;
+      await this.createKeys();
     } catch (error) {
       return;
     }

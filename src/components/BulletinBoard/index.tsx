@@ -13,7 +13,7 @@ import { useThemeStyles } from "@/theme";
 import PaginationDot from "./PaginationDot";
 
 interface BulletinBoardProps {
-  children?: Array<React.ReactElement> | undefined;
+  children?: Array<React.ReactElement>;
   isExpanded?: boolean;
   onExpandPress?: (value: boolean) => void;
   iconStart: React.ReactElement<IconProps | SvgProps>;

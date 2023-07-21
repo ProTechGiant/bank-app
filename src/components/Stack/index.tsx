@@ -9,7 +9,7 @@ interface StackProps<T extends typeof View | typeof Pressable> {
   children: React.ReactNode;
   direction: "horizontal" | "vertical";
   justify?: ViewStyle["justifyContent"];
-  gap?: keyof Theme["spacing"] | undefined;
+  gap?: keyof Theme["spacing"];
   flex?: number;
 }
 

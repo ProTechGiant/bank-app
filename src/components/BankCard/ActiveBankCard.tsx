@@ -26,7 +26,7 @@ interface ActiveBankCardProps {
   onPress?: () => void;
   productId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
   isExpiringSoon?: boolean;
-  actionButton?: React.ReactElement<ActionButtonProps> | undefined;
+  actionButton?: React.ReactElement<ActionButtonProps>;
 }
 
 export default function ActiveBankCard({

@@ -42,7 +42,7 @@ export function usePostHomepageLayout() {
   const correlationId = generateRandomId();
 
   return useMutation(async ({ values }: { values: HomepageLayoutType }) => {
-    return await api<HomepageLayoutType>("v1", `customers/${userId}/homepage`, "POST", undefined, values, {
+    return api<HomepageLayoutType>("v1", `customers/${userId}/homepage`, "POST", undefined, values, {
       ["x-correlation-id"]: correlationId,
     });
   });
@@ -62,7 +62,7 @@ export function useNotifications() {
   const { userId } = useAuthContext();
 
   const { data } = useQuery<Notification[]>(["notifications", { userId }], () => {
-    return api<Notification[]>("v1", `customer/${userId}/actions`, "GET", undefined, undefined);
+    return api<Notification[]>("v1", `customer/${userId}/actions`, "GET");
   });
 
   return useMemo(() => data?.filter(d => d.action_status === "pending") ?? [], [data]);

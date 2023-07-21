@@ -34,7 +34,7 @@ export default function PaymentDisputeScreen() {
   const [currentStep, setCurrentStep] = useState<Steps>("landing");
   const [previousStep, setPreviousStep] = useState<Steps>("landing");
   // TODO: get transaction type
-  const [transactionType, setTransactionType] = useState<TransactionType>("CARD");
+  const [transactionType, _setTransactionType] = useState<TransactionType>("CARD");
   const [reasonCode, setReasonCode] = useState<string | undefined>(undefined);
   const [caseType, setCaseType] = useState<CaseType>("dispute");
 

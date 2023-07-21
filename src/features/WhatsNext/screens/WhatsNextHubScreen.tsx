@@ -1,5 +1,4 @@
 import { find, isEmpty, isEqual, xorWith } from "lodash";
-import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -35,8 +34,7 @@ export default function WhatsNextHubScreen() {
   const [selectedTypes, setSelectedTypes] = useState<FilterItemType[]>([]);
   const [hasFilters, setHasFilters] = useState(false);
   const [sortOrder, setSortOrder] = useState<typeof SORT_NEWEST | typeof SORT_OLDEST>(SORT_NEWEST);
-  const [queryParams, setQueryParams] = useState("");
-
+  const [queryParams, setQueryParams] = useState<Record<string, string>>({ sort: sortOrder });
   const whatsNextData = useContentArticleList(WHATS_NEXT_CATEGORY_ID, true, queryParams);
 
   useEffect(() => {
@@ -223,26 +221,20 @@ export default function WhatsNextHubScreen() {
   };
 
   const updateQueryParams = () => {
-    const whatsNextTypeQuery =
-      whatsNextTypes && whatsNextTypes.length > 0
-        ? whatsNextTypes.filter(data => data.isActive === true).map(data => data.id)
-        : "";
-    const whatsNextCategoryQuery =
-      whatsNextCategories && whatsNextCategories.length > 0
-        ? whatsNextCategories.filter(data => data.isActive === true).map(data => data.id)
-        : "";
+    const whatsNextTypeQuery = whatsNextTypes.filter(data => data.isActive === true).map(data => data.id);
+    const whatsNextCategoryQuery = whatsNextCategories.filter(data => data.isActive === true).map(data => data.id);
+    const nextQueryParams: Record<string, string> = {};
 
-    let whatsNextFilterQueryParams = "";
-    if (whatsNextTypeQuery || whatsNextCategoryQuery) {
-      whatsNextFilterQueryParams = [
-        queryString.stringify({ WhatsNextTypeId: whatsNextTypeQuery }, { arrayFormat: "comma" }),
-        queryString.stringify({ WhatsNextCategoryId: whatsNextCategoryQuery }, { arrayFormat: "comma" }),
-      ]
-        .filter(Boolean)
-        .join("&");
+    if (whatsNextTypeQuery.length > 0) {
+      nextQueryParams.WhatsNextTypeId = whatsNextTypeQuery.join(",");
     }
 
-    setQueryParams(`${whatsNextFilterQueryParams}${sortOrder ? `&sort=${sortOrder}` : ""}`);
+    if (whatsNextCategoryQuery.length > 0) {
+      nextQueryParams.WhatsNextCategoryId = whatsNextCategoryQuery.join(",");
+    }
+
+    nextQueryParams.sort = sortOrder;
+    setQueryParams(nextQueryParams);
   };
 
   const handleOnApplyFilterPress = () => {

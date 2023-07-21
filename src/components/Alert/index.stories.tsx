@@ -1,7 +1,6 @@
 import { expect } from "@storybook/jest";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { userEvent, within } from "@storybook/testing-library";
-import { useState } from "react";
 
 import Alert_ from "./index";
 

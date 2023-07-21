@@ -23,7 +23,7 @@ export const Currency: ComponentStory<typeof CurrencyInput_> = args => {
 
 Currency.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
-  const inputElem = canvas.getByTestId("input-element") as HTMLInputElement;
+  const inputElem = canvas.getByTestId<HTMLInputElement>("input-element");
   await expect(inputElem).toBeVisible();
 
   // Add some input into the field

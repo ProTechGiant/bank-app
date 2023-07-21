@@ -37,7 +37,7 @@ export const Checkbox: ComponentStory<typeof CheckboxInput_> = args => {
 
 Checkbox.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
-  const element = canvas.getByText(args.label as string) as HTMLElement;
+  const element = canvas.getByText(args.label as string);
   await expect(element).toBeVisible();
 
   await userEvent.click(element);

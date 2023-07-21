@@ -10,7 +10,7 @@ export interface DisputeReasonType {
 export interface CreateDisputeInput {
   DeclarationFlag: boolean;
   CaseDetails: string;
-  File?: (Asset | DocumentPickerResponse) | undefined;
+  File?: Asset | DocumentPickerResponse;
 }
 
 export type CaseType = "dispute" | "fraud";

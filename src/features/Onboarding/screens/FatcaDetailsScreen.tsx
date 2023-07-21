@@ -17,6 +17,7 @@ import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -25,11 +26,11 @@ import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useOnboardingBackButton } from "../hooks";
 import { useFatcaDetails } from "../hooks/query-hooks";
 import { OnboardingStackParams } from "../OnboardingStack";
-import { FatcaFormInput, ForeignTaxCountry } from "../types";
+import { FatcaFormInput } from "../types";
 
 export default function FatcaDetailsScreen() {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
   const route = useRoute<RouteProp<OnboardingStackParams, "Onboarding.Fatca">>();
   const sendFatcaDetails = useFatcaDetails();
   const handleOnBackPress = useOnboardingBackButton();
@@ -46,8 +47,8 @@ export default function FatcaDetailsScreen() {
     }
 
     if (params.result === "edit" && undefined !== params.element && undefined !== params.elementIndex) {
-      const newElement = params.element as ForeignTaxCountry;
-      const newElementIndex = params.elementIndex as number;
+      const newElement = params.element;
+      const newElementIndex = params.elementIndex;
 
       setValue(
         "ForeignTaxCountry",
@@ -57,7 +58,7 @@ export default function FatcaDetailsScreen() {
     }
 
     if (params.result === "remove" && undefined !== params.elementIndex) {
-      const elementIndex = params.elementIndex as number;
+      const elementIndex = params.elementIndex;
 
       setValue(
         "ForeignTaxCountry",

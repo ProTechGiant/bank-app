@@ -25,8 +25,7 @@ import { ALRAJHI_BANK_CODE } from "@/constants";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { ibanRegExpForARB, numericRegExp, saudiPhoneRegExp } from "@/utils";
-import { ibanRegExp } from "@/utils";
+import { ibanRegExp, ibanRegExpForARB, numericRegExp, saudiPhoneRegExp } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { SwitchToARBModal } from "../components";

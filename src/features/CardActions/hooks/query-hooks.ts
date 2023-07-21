@@ -201,7 +201,7 @@ interface OrderCardResponse {
   PhoneNumber: string;
 }
 
-export default function useSubmitOrderCard() {
+export function useSubmitOrderCard() {
   return useMutation(async ({ values }: { values: OrderCardInput }) => {
     const correlationId = generateRandomId();
 

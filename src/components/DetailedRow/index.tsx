@@ -1,7 +1,6 @@
 import { I18nManager, StyleSheet, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
 
-import { ChevronRightIcon } from "@/assets/icons";
-import { InfoCircleIcon } from "@/assets/icons";
+import { ChevronRightIcon, InfoCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 

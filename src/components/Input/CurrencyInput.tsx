@@ -16,7 +16,7 @@ export interface CurrencyInputProps extends Omit<UnstyledCurrencyInputProps, "on
   isEditable?: boolean;
   onBlur?: () => void;
   onChange?: (value: number) => void;
-  placeholder?: string | null | undefined;
+  placeholder?: string | null;
   label: string;
   showCharacterCount?: boolean;
   maxLength?: number;

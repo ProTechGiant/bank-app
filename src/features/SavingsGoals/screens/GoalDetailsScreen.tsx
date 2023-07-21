@@ -3,8 +3,7 @@ import { format } from "date-fns";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import { ArrowCircleUpIcon, EditIcon, PlusIcon, RecurringEventIcon, WithdrawIcon } from "@/assets/icons";
 import Button from "@/components/Button";

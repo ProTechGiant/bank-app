@@ -13,7 +13,7 @@ export type SignInStackParams = {
   "SignIn.Passcode": undefined;
   "SignIn.UserBlocked": {
     type: "otp" | "passcode";
-    timeInMs?: undefined | number;
+    timeInMs?: number;
   };
   "SignIn.OtpScreen": undefined;
   "SignIn.ForgotPassword": undefined;

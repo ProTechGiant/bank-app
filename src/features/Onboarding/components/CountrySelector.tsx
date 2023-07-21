@@ -16,6 +16,7 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { mockCountryList } from "@/mocks/countryListData";
+import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { alphaNumericRegExp } from "@/utils";
@@ -25,11 +26,11 @@ import { ForeignTaxCountry } from "../types";
 
 export default function CountrySelector() {
   const { i18n, t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
   const route = useRoute<RouteProp<OnboardingStackParams, "Onboarding.CountrySelector">>();
 
   const action = route.params.action;
-  const countryList = useMemo(() => mockCountryList.sort((a, b) => a.label.localeCompare(b.label)), [mockCountryList]);
+  const countryList = useMemo(() => [...mockCountryList].sort((a, b) => a.label.localeCompare(b.label)), []);
 
   const validationSchema = useMemo(
     () =>
@@ -42,7 +43,7 @@ export default function CountrySelector() {
           .required(t("Onboarding.FatcaDetailsScreen.CountrySelector.errorText.taxNumberRequired"))
           .matches(alphaNumericRegExp, t("Onboarding.FatcaDetailsScreen.CountrySelector.errorText.taxNumberInvalid")),
       }),
-    [i18n.language]
+    [i18n.language, t]
   );
 
   const { control, handleSubmit } = useForm<ForeignTaxCountry>({

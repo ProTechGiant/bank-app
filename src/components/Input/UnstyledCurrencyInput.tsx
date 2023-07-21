@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 import { ForwardedRef, forwardRef, useRef, useState } from "react";
 import {
   I18nManager,
@@ -16,7 +15,7 @@ type RNTextInputProps_ = Omit<
 export interface UnstyledCurrencyInputProps extends RNTextInputProps_ {
   maxLength?: number; // maximum number of digits (without fractional part which is always max 2)
   onChange: (value: number) => void;
-  value?: number | undefined;
+  value?: number;
 }
 
 const UnstyledCurrencyInput = forwardRef(function (
@@ -33,8 +32,10 @@ const UnstyledCurrencyInput = forwardRef(function (
   }
 
   const handleOnChangeText = (value_: string) => {
-    const value = unmask(value_);
-    const numberValue = Number(value.substring(value.length - 1) !== DEC_SEPARATOR ? value : value + "0");
+    const changedValue = unmask(value_);
+    const numberValue = Number(
+      changedValue.substring(changedValue.length - 1) !== DEC_SEPARATOR ? changedValue : changedValue + "0"
+    );
 
     if (Number.isNaN(numberValue)) {
       setFormattedValue("0");
@@ -42,15 +43,15 @@ const UnstyledCurrencyInput = forwardRef(function (
     }
 
     const intValue = Math.floor(numberValue);
-    const decimalPosition = value.lastIndexOf(".");
+    const decimalPosition = changedValue.lastIndexOf(".");
 
-    const decimalSeparatorCount = countDotsInString(value);
+    const decimalSeparatorCount = countDotsInString(changedValue);
     // if current integer part is at max length, only allow fractional digits to be entered
     if (undefined !== maxLength && numberOfDigits(intValue) > maxLength && decimalSeparatorCount === 0) {
       if (undefined !== formattedValue && formattedValue.charAt(formattedValue.length - 1) !== DEC_SEPARATOR) return;
     }
 
-    const fraction = decimalPosition !== -1 ? value.substring(decimalPosition) : "";
+    const fraction = decimalPosition !== -1 ? changedValue.substring(decimalPosition) : "";
 
     setFormattedValue(mask(intValue) + fraction);
 

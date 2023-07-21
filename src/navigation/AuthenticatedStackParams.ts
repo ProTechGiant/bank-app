@@ -90,7 +90,6 @@ type AuthenticatedStackParams = RootStackParams &
   SadadBillPaymentStackParams &
   InternalTransfersStackParams &
   CardActionsStackParams &
-  ReferralStackParams &
   HomeStackParams &
   FrequentlyAskedQuestionsStackParams &
   WhatsNextStackParams &

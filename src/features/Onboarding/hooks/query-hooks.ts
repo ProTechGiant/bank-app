@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery } from "react-query";
 
-import sendApiRequest from "@/api";
 import api from "@/api";
 import { nationalIdRegEx } from "@/utils";
 
@@ -63,7 +62,7 @@ export function usePreferredLanguage() {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
     if (!nationalId) throw new Error("Need valid `nationalId` to be available");
 
-    return sendApiRequest<string>(
+    return api<string>(
       "v1",
       "customers/preferred-language",
       "POST",
@@ -90,7 +89,7 @@ export function useConfirmPersonalDetails() {
     if (!workflowTask || workflowTask.Name !== "ConfirmPersonalDetails")
       throw new Error("Available workflowTaskId is not applicable to customers/confirm/data");
 
-    return sendApiRequest<NafathDetails>(
+    return api<NafathDetails>(
       "v1",
       "customers/confirm/data",
       "POST",
@@ -125,7 +124,7 @@ export function useNafathDetails() {
         throw new Error("Available workflowTaskId is not applicable to customers/data");
       }
 
-      return sendApiRequest<NafathDetails>(
+      return api<NafathDetails>(
         "v1",
         "customers/data",
         "POST",
@@ -161,7 +160,7 @@ export function useFatcaDetails() {
     if (!workflowTask || workflowTask.Name !== "Fatca&Crs")
       throw new Error("Available workflowTaskId is not applicable to customers/tax/residency/details");
 
-    return sendApiRequest<string>("v1", "customers/tax/residency/details", "POST", undefined, values, {
+    return api<string>("v1", "customers/tax/residency/details", "POST", undefined, values, {
       ["X-Workflow-Task-Id"]: workflowTask?.Id,
       ["x-correlation-id"]: correlationId,
     });
@@ -178,7 +177,7 @@ export function useSubmitFinancialDetails() {
     if (!workflowTask || workflowTask.Name !== "PersistFinancialInfo")
       throw new Error("Available workflowTaskId is not applicable to customers/financial/details");
 
-    return sendApiRequest<string>(
+    return api<string>(
       "v1",
       "customers/financial/details",
       "POST",
@@ -209,7 +208,7 @@ export function useIqama() {
     const workflowTask = await fetchLatestWorkflowTask();
     assertWorkflowTask("customers/validate/mobile", "MobileVerification", workflowTask);
 
-    return sendApiRequest<IqamaResponse>(
+    return api<IqamaResponse>(
       "v1",
       "customers/validate/mobile",
       "POST",
@@ -236,7 +235,7 @@ export function useIqama() {
     if (workflowTask && workflowTask?.Name === "MobileVerification") {
       assertWorkflowTask("customers/validate/mobile", "MobileVerification", workflowTask);
 
-      return sendApiRequest<IqamaResponse>(
+      return api<IqamaResponse>(
         "v1",
         "customers/validate/mobile",
         "POST",
@@ -281,7 +280,7 @@ export function useRequestNumber() {
     async () => {
       if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-      return sendApiRequest<OtpResponseType>(
+      return api<OtpResponseType>(
         "v1",
 
         "customers/get-transaction-id",
@@ -322,7 +321,7 @@ export function useEmail() {
     if (!workflowTask || workflowTask.Name !== "PersistEmail")
       throw new Error("Available workflowTaskId is not applicable to customers/email");
 
-    return sendApiRequest<string>(
+    return api<string>(
       "v1",
       "customers/email",
       "PUT",
@@ -355,17 +354,10 @@ export function useAccountStatus(fetchPosts: boolean) {
         };
       }
 
-      const status = await sendApiRequest<ApiOnboardingStatusResponse>(
-        "v1",
-        "customers/status",
-        "GET",
-        undefined,
-        undefined,
-        {
-          ["X-Workflow-Task-Id"]: workflowTask.Id,
-          ["x-correlation-id"]: correlationId,
-        }
-      );
+      const status = await api<ApiOnboardingStatusResponse>("v1", "customers/status", "GET", undefined, undefined, {
+        ["X-Workflow-Task-Id"]: workflowTask.Id,
+        ["x-correlation-id"]: correlationId,
+      });
 
       return {
         ...status,
@@ -387,7 +379,7 @@ export function useConfirmTermsConditions() {
     if (!workflowTask || workflowTask.Name !== "T&C")
       throw new Error("Available workflowTaskId is not applicable to customers/terms-conditions");
 
-    return sendApiRequest<string>(
+    return api<string>(
       "v1",
       "customers/terms-conditions",
       "POST",
@@ -412,7 +404,7 @@ export function useCreatePasscode() {
   return useMutation((passcode: string) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-    return sendApiRequest<string>(
+    return api<string>(
       "v1",
       "customers/update/passcode",
       "PATCH",
@@ -446,7 +438,7 @@ export function useUpdateActionStatus() {
   return useMutation(async (data: { ActionTypeId: string; StatusId: string }) => {
     if (!correlationId) throw new Error("Need valid Correlation id");
 
-    return sendApiRequest<string>(
+    return api<string>(
       "v1",
       "actions",
       "PUT",

@@ -1,6 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { parsePhoneNumber } from "libphonenumber-js";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
@@ -40,53 +39,48 @@ export default function ConfirmNewBeneficiaryScreen() {
   const { transferAmount, reason, addBeneficiary, recipient, transferType } = useInternalTransferContext();
   const bankList = useBeneficiaryBanks();
 
-  const { control, handleSubmit, setValue } = useForm<ConfirmBeneficiaryDeclarationForm>({
+  const { control, handleSubmit } = useForm<ConfirmBeneficiaryDeclarationForm>({
     mode: "onBlur",
     resolver: yupResolver(schema),
     defaultValues: {
-      confirmBeneficiaryDeclaration: false,
+      confirmBeneficiaryDeclaration:
+        transferType === TransferType.CroatiaToArbTransferAction ||
+        recipient.type === "active" ||
+        transferType === TransferType.SarieTransferAction,
     },
   });
-
-  useEffect(() => {
-    //Adding this check because in case of CRO-ARB we dont have terms and condition check
-    if (
-      transferType === TransferType.CroatiaToArbTransferAction ||
-      recipient.type === "active" ||
-      transferType === TransferType.SarieTransferAction
-    )
-      setValue("confirmBeneficiaryDeclaration", true, { shouldValidate: true, shouldDirty: true });
-  }, [setValue, transferType, recipient]);
 
   const handleOnPressTermsAndConditions = () => {
     navigation.navigate("InternalTransfers.BeneficiaryDeclarationModal");
   };
 
   const handleOnSubmit = () => {
-    if (transferType === TransferType.SarieTransferAction) {
-      const selectedBank = bankList.data?.Banks.find(bankItem => bankItem.EnglishName === recipient.bankName);
-      if (
-        transferAmount === undefined ||
-        reason === undefined ||
-        selectedBank === undefined ||
-        recipient.accountName === undefined ||
-        recipient.iban === undefined ||
-        transferType === undefined
-      )
-        return;
-      navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
-        PaymentAmount: transferAmount,
-        ReasonCode: reason,
-        Beneficiary: {
-          FullName: recipient.accountName,
-          IBAN: recipient.iban,
-          Bank: selectedBank,
-          type: recipient.type,
-        },
-      });
-    } else {
-      navigation.navigate("InternalTransfers.ReviewTransferScreen");
+    if (transferType !== TransferType.SarieTransferAction) {
+      return navigation.navigate("InternalTransfers.ReviewTransferScreen");
     }
+
+    const selectedBank = bankList.data?.Banks.find(item => item.EnglishName === recipient.bankName);
+    if (
+      transferAmount === undefined ||
+      reason === undefined ||
+      selectedBank === undefined ||
+      recipient.accountName === undefined ||
+      recipient.iban === undefined ||
+      transferType === undefined
+    ) {
+      return;
+    }
+
+    navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
+      PaymentAmount: transferAmount,
+      ReasonCode: reason,
+      Beneficiary: {
+        FullName: recipient.accountName,
+        IBAN: recipient.iban,
+        Bank: selectedBank,
+        type: recipient.type,
+      },
+    });
   };
 
   const checkBoxStackStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -150,7 +144,7 @@ export default function ConfirmNewBeneficiaryScreen() {
               icon={<PhoneFilledIcon color={iconColor} />}
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
-              label={parsePhoneNumber(addBeneficiary?.SelectionValue).format("INTERNATIONAL")}
+              label={parsePhoneNumber(addBeneficiary.SelectionValue).format("INTERNATIONAL")}
             />
           ) : (recipient.type === "new" && addBeneficiary?.SelectionType === "IBAN") ||
             transferType !== TransferType.SarieTransferAction ? (
@@ -158,7 +152,7 @@ export default function ConfirmNewBeneficiaryScreen() {
               icon={<NumbersIcon color={iconColor} />}
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.iban")}
-              label={formatIban(addBeneficiary?.SelectionValue || "")}
+              label={formatIban(addBeneficiary.SelectionValue)}
             />
           ) : null}
           {recipient.type === "inactive" &&
@@ -175,7 +169,7 @@ export default function ConfirmNewBeneficiaryScreen() {
               icon={<NumbersIcon color={iconColor} />}
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.iban")}
-              label={formatIban(recipient.iban || "")}
+              label={formatIban(recipient.iban)}
             />
           ) : null}
           {recipient.type === "active" && recipient.iban !== undefined ? (
@@ -183,7 +177,7 @@ export default function ConfirmNewBeneficiaryScreen() {
               icon={<NumbersIcon color={iconColor} />}
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.iban")}
-              label={formatIban(recipient.iban || "")}
+              label={formatIban(recipient.iban)}
             />
           ) : null}
           <Alert

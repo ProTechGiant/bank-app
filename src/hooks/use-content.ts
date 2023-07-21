@@ -16,18 +16,21 @@ export const queryKeys = {
   images: (imageURL: string) => [...queryKeys.all(), { imageURL }] as const,
 };
 
-export function useContentArticleList(contentParentCategoryId: string, includeChildren: boolean, params?: string) {
+export function useContentArticleList(categoryId: string, includeChildren: boolean, params?: Record<string, string>) {
   const { i18n } = useTranslation();
   const { userId } = useAuthContext();
 
   return useQuery(queryKeys.contentList(), () => {
     return sendApiRequest<Content[]>(
       "v1",
-      `contents?Language=${
-        i18n.language
-      }&IncludeChildren=${includeChildren}&ContentCategoryId=${contentParentCategoryId}${params ? `&${params}` : ""}`,
+      "contents",
       "GET",
-      undefined,
+      {
+        Language: i18n.language,
+        IncludeChildren: includeChildren,
+        ContentCategoryId: categoryId,
+        ...params,
+      },
       undefined,
       {
         ["x-Correlation-Id"]: generateRandomId(),

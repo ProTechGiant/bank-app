@@ -9,7 +9,7 @@ import delayTransition from "@/utils/delay-transition";
 
 import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
 import PlaceholderCardSvg from "../assets/placeholder-card.svg";
-import useSubmitOrderCard from "../hooks/query-hooks";
+import { useSubmitOrderCard } from "../hooks/query-hooks";
 import { CardCreateResponse } from "../types";
 
 export default function SingleUseCardInfoScreen() {

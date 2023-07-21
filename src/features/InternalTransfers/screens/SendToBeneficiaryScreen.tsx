@@ -34,7 +34,7 @@ export default function SendToBeneficiaryScreen() {
   if (transferType === undefined) {
     throw new Error('Cannot access beneficiary list without "transferType"');
   }
-  const { data, refetch } = useBeneficiaries(transferType as TransferType);
+  const { data, refetch } = useBeneficiaries(transferType);
   const { mutateAsync } = useDeleteBeneficiary();
   const bankList = useBeneficiaryBanks();
 

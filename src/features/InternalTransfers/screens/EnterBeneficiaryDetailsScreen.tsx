@@ -92,28 +92,35 @@ export default function EnterBeneficiaryDetailsScreen() {
         SelectionType: values.SelectionType,
         SelectionValue: "",
       });
-      if (error instanceof ApiError && error.errorContent.Message.includes(ERROR_ACCOUNT_DOES_NOT_EXIST)) {
-        values.SelectionType === "accountId"
-          ? setI18nKey("accountNumberForm.accountNumberNotRecognisedModal")
-          : values.SelectionType === "IBAN"
-          ? setI18nKey("ibanForm.ibanNotRecognisedModal")
-          : setI18nKey("ibanForm.mobileNotRecognisedModal");
-        setIsErrorMessageModalVisible(true);
-      } else if (error instanceof ApiError && error.errorContent.Message.includes(ERROR_BENEFICIARY_EXISTS)) {
-        values.SelectionType === "accountId"
-          ? setI18nKey("accountNumberForm.accountNumberInUseModal")
-          : values.SelectionType === "IBAN"
-          ? setI18nKey("ibanForm.ibanInUseModal")
-          : setI18nKey("mobileNumberForm.mobileInUseModal");
-        setIsInUseErrorModalVisible(true);
-      } else if (error instanceof ApiError && error.errorContent.Message.includes(ERROR_BENEFICIARY_NOT_OF_ARB)) {
-        values.SelectionType === "accountId"
-          ? setI18nKey("accountNumberForm.accountNumberNotRecognisedModal")
-          : setI18nKey("ibanForm.ibanNotRecognisedModal");
+
+      if (error instanceof ApiError) {
+        if (error.errorContent.Message.includes(ERROR_ACCOUNT_DOES_NOT_EXIST)) {
+          values.SelectionType === "accountId"
+            ? setI18nKey("accountNumberForm.accountNumberNotRecognisedModal")
+            : values.SelectionType === "IBAN"
+            ? setI18nKey("ibanForm.ibanNotRecognisedModal")
+            : setI18nKey("ibanForm.mobileNotRecognisedModal");
+        }
+
+        if (error.errorContent.Message.includes(ERROR_BENEFICIARY_EXISTS)) {
+          values.SelectionType === "accountId"
+            ? setI18nKey("accountNumberForm.accountNumberInUseModal")
+            : values.SelectionType === "IBAN"
+            ? setI18nKey("ibanForm.ibanInUseModal")
+            : setI18nKey("mobileNumberForm.mobileInUseModal");
+        }
+
+        if (error.errorContent.Message.includes(ERROR_BENEFICIARY_NOT_OF_ARB)) {
+          values.SelectionType === "accountId"
+            ? setI18nKey("accountNumberForm.accountNumberNotRecognisedModal")
+            : setI18nKey("ibanForm.ibanNotRecognisedModal");
+        }
+
         setIsErrorMessageModalVisible(true);
       } else {
         setIsGenericErrorModalVisible(true);
       }
+
       warn("Add Beneficiary", "Could not add beneficiary: ", JSON.stringify(error));
     }
   };
@@ -167,12 +174,13 @@ export default function EnterBeneficiaryDetailsScreen() {
 
   const handleOnInUseErrorModalClose = () => {
     if (addBeneficiary?.SelectionType === "mobileNo") {
-      mobileFormRef.current !== null && mobileFormRef.current.reset();
+      mobileFormRef.current?.reset();
     } else if (addBeneficiary?.SelectionType === "accountId") {
-      accountNumberFormRef.current !== null && accountNumberFormRef.current.reset();
+      accountNumberFormRef.current?.reset();
     } else if (addBeneficiary?.SelectionType === "IBAN") {
-      ibanFormRef.current !== null && ibanFormRef.current.reset();
+      ibanFormRef.current?.reset();
     }
+
     setIsInUseErrorModalVisible(false);
   };
 

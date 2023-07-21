@@ -213,7 +213,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
       onFinish: (status, payload: { Pin: string }) => {
         if (status === "fail" || status === "cancel" || payload === undefined) return;
 
-        setPin(payload.Pin as string);
+        setPin(payload.Pin);
         delayTransition(() => setIsViewingPin(true));
       },
     });

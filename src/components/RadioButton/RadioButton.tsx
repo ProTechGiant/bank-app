@@ -10,7 +10,7 @@ export interface RadioButtonProps<T> {
   onPress?: (value: T | undefined) => void;
   isSelected?: boolean;
   testID?: string;
-  value?: T | undefined;
+  value?: T;
 }
 
 export default function RadioButton<T>({

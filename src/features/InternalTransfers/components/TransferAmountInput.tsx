@@ -7,7 +7,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
-interface TransferAmountInput<T extends FieldValues> {
+interface TransferAmountInputProps<T extends FieldValues> {
   autoFocus?: boolean;
   control: Control<T>;
   currentBalance: number;
@@ -25,7 +25,7 @@ export default function TransferAmountInput<T extends FieldValues>({
   maxLength,
   name,
   hideBalanceError,
-}: TransferAmountInput<T>) {
+}: TransferAmountInputProps<T>) {
   const { t } = useTranslation();
   const { field } = useController({ control, name });
 

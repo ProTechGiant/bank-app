@@ -101,8 +101,7 @@ export function AssetInput({ errorText, onBlur, onChange, value }: AssetInputPro
     marginTop: -theme.spacing["20p"],
   }));
 
-  const file = value as Asset | DocumentPickerResponse | undefined;
-  const fileName = (file as Asset)?.fileName ?? (file as DocumentPickerResponse)?.name;
+  const fileName = (value as Asset)?.fileName ?? (value as DocumentPickerResponse)?.name;
 
   return (
     <>

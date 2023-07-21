@@ -13,7 +13,7 @@ interface NotificationModalProps {
   buttons?:
     | {
         primary: React.ReactElement<ButtonProps>;
-        secondary?: React.ReactElement<ButtonProps> | undefined;
+        secondary?: React.ReactElement<ButtonProps>;
       }
     | false;
   onClose?: () => void;

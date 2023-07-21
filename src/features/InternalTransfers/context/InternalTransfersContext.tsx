@@ -27,7 +27,7 @@ interface InternalTransferContextState {
     phoneNumber: string | undefined;
     iban: string | undefined;
     type: RecipientType | undefined;
-    bankName?: string | undefined;
+    bankName?: string;
   }) => void;
   recipient: {
     bankName: string | undefined;
@@ -69,22 +69,24 @@ const InternalTransferContext = createContext<InternalTransferContextState>({
   clearContext: noop,
 });
 
+const INITIAL_STATE = {
+  internalTransferEntryPoint: undefined,
+  addBeneficiary: undefined,
+  transferAmount: undefined,
+  reason: "",
+  recipient: {
+    accountName: undefined,
+    accountNumber: undefined,
+    phoneNumber: undefined,
+    iban: undefined,
+    type: undefined,
+    bankName: undefined,
+  },
+  transferType: undefined,
+  transferStatus: undefined,
+};
+
 function InternalTransferContextProvider({ children }: { children: React.ReactNode }) {
-  const initialState = {
-    internalTransferEntryPoint: undefined,
-    addBeneficiary: undefined,
-    transferAmount: undefined,
-    reason: "",
-    recipient: {
-      accountName: undefined,
-      accountNumber: undefined,
-      phoneNumber: undefined,
-      iban: undefined,
-      type: undefined,
-    },
-    transferType: undefined,
-    transferStatus: undefined,
-  };
   const [state, setState] =
     useState<
       Pick<
@@ -97,7 +99,7 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
         | "transferType"
         | "transferStatus"
       >
-    >(initialState);
+    >(INITIAL_STATE);
 
   const setInternalTransferEntryPoint = (internalTransferEntryPoint: InternalTransferEntryPoint) => {
     setState(v => ({ ...v, internalTransferEntryPoint }));
@@ -136,7 +138,7 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
     setState(v => ({ ...v, transferStatus }));
   };
   const clearContext = () => {
-    setState(initialState);
+    setState(INITIAL_STATE);
   };
 
   return (

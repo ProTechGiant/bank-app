@@ -12,8 +12,7 @@ import delayTransition from "@/utils/delay-transition";
 
 import { useOtpFlow } from "../../../OneTimePassword/hooks/query-hooks";
 import ApplyCardsContext, { ApplyCardInput } from "../../context/ApplyCardsContext";
-import useSubmitOrderCard, { RenewCardInput } from "../../hooks/query-hooks";
-import { useSubmitRenewCard } from "../../hooks/query-hooks";
+import { RenewCardInput, useSubmitOrderCard, useSubmitRenewCard } from "../../hooks/query-hooks";
 import { CardCreateResponse } from "../../types";
 import CardOrderedScreen from "./CardOrderedScreen";
 import PickCardTypeScreen from "./PickCardTypeScreen";

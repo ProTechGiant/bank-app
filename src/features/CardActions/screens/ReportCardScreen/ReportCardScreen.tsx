@@ -11,11 +11,11 @@ import ProgressIndicator from "@/components/ProgressIndicator";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import usePrimaryAddress from "@/hooks/use-primary-address";
 import { warn } from "@/logger";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { Address } from "@/types/Address";
 import delayTransition from "@/utils/delay-transition";
 
-import { CardActionsStackParams } from "../../CardActionsStack";
 import { useChangeCardStatus, useFreezeCard } from "../../hooks/query-hooks";
 import { CardCreateResponse } from "../../types";
 import ConfirmDeliveryAddress from "./ConfirmDeliveryAddress";
@@ -23,7 +23,7 @@ import ReportCardSuccessScreen from "./ReportCardSuccessScreen";
 import SelectReportReason from "./SelectReportReason";
 
 export default function ReportCardScreen() {
-  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.ReportCardScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "CardActions.ReportCardScreen">>();
   const { t } = useTranslation();
 
   const navigation = useNavigation();
@@ -34,7 +34,7 @@ export default function ReportCardScreen() {
   const primaryAddress = usePrimaryAddress();
   const freezeCardAsync = useFreezeCard();
   const useReportCardAsync = useChangeCardStatus();
-  const otpFlow = useOtpFlow();
+  const otpFlow = useOtpFlow<AuthenticatedStackParams>();
 
   const [mode, setMode] = useState<"input" | "address" | "done">("input");
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
@@ -46,7 +46,7 @@ export default function ReportCardScreen() {
   const currentStep = mode === "input" ? 1 : 2;
   useEffect(() => {
     scrollViewRef.current?.scrollTo({ x: dimensions.width * (currentStep - 1) });
-  }, [currentStep, mode]);
+  }, [currentStep, dimensions.width, mode]);
 
   const handleOnSelectReasonPress = (selectedReason: "stolen" | "lost" | "damaged") => {
     if (primaryAddress.data === undefined || primaryAddress.isError) {
@@ -74,11 +74,12 @@ export default function ReportCardScreen() {
     setIsConfirmationModalVisible(false);
 
     delayTransition(() => {
-      otpFlow.handle<{ CardCreateResponse: CardCreateResponse }>({
+      otpFlow.handle<{ CardCreateResponse: CardCreateResponse }, "CardActions.ReportCardScreen">({
         action: {
           to: "CardActions.ReportCardScreen",
           params: {
             cardId,
+            cardStatus,
           },
         },
         otpOptionalParams: {
