@@ -68,6 +68,15 @@ export interface DateInterface {
   textColor: string;
 }
 
+export interface Tag {
+  TagId: string;
+  TagName: string;
+  Amount: number;
+  TagIcon: string;
+  TransactionCount: number;
+  Percentage?: string;
+  Currency: string;
+}
 export interface TagIconType {
   id: number;
   path: string;

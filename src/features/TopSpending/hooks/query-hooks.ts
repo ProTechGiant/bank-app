@@ -4,7 +4,8 @@ import api from "@/api";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
 
-import { CreateNewTagApiResponseType, CreateNewTagType, GetCustomerTagsApiResponseType } from "../types";
+import { CreateNewTagApiResponseType, CreateNewTagType, GetCustomerTagsApiResponseType, Tag } from "../types";
+
 interface IncludedCategory {
   categoryId: string;
   categoryName: string;
@@ -30,6 +31,22 @@ interface ApiResponse {
     includedCategories: IncludedCategory[];
     excludedCategories: ExcludedCategories[];
   };
+}
+
+interface TransactionTagsResponse {
+  Tags: Tag[];
+}
+
+interface Category {
+  categoryId: number;
+  categoryName: string;
+  iconPath: string;
+}
+
+interface PreDefinedResponseCategories {
+  totalPages: number;
+  totalSize: number;
+  categories: Category[];
 }
 
 const getMonthDates = (): { fromDate: string; toDate: string } => {
@@ -58,8 +75,43 @@ export function useCategories() {
         {
           PageSize: 1000,
           PageNumber: 0,
-          fromDate: fromDate,
-          toDate: toDate,
+          fromDate: "2000-01-01",
+          toDate: "2024-01-01", // these dates for testing now
+        },
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      ),
+    {
+      // set staleTime to 10 seconds for caching
+      staleTime: 10000,
+      enabled: !!account_id,
+    }
+  );
+  const isLoading = categories.isLoading;
+  const total = categories.data?.categories.total;
+  const includedCategories = categories.data?.categories.includedCategories;
+  const excludedCategories = categories.data?.categories.excludedCategories;
+
+  return { categories, includedCategories, total, excludedCategories, isLoading };
+}
+
+export function usePreDefinedCategories() {
+  const account = useCurrentAccount();
+
+  const account_id = account.data?.id;
+
+  const PreDefinedCategories = useQuery(
+    ["PreDefinedCategories"],
+    () =>
+      api<PreDefinedResponseCategories>(
+        "v1",
+        `accounts/${account_id}/categories/predefined-categories`,
+        "GET",
+        {
+          PageSize: 1000,
+          PageNumber: 0,
         },
         undefined,
         {
@@ -73,12 +125,47 @@ export function useCategories() {
     }
   );
 
-  const isLoading = categories.isLoading;
-  const total = categories.data?.categories.total;
-  const includedCategories = categories.data?.categories.includedCategories;
-  const excludedCategories = categories.data?.categories.excludedCategories;
+  const isLoading = PreDefinedCategories.isLoading;
+  const categories = PreDefinedCategories.data?.categories;
 
-  return { categories, includedCategories, total, excludedCategories, isLoading };
+  return { categories, isLoading };
+}
+
+export function useTransactionTags() {
+  const account = useCurrentAccount();
+  const { fromDate, toDate } = getMonthDates();
+
+  const account_id = account.data?.id;
+
+  const transactionTags = useQuery(
+    ["transactionTags", { fromDate, toDate }],
+    () =>
+      api<TransactionTagsResponse>(
+        "v1",
+        `accounts/${account_id}/tags/transaction-tags`,
+        "GET",
+        {
+          PageSize: 1000,
+          PageNumber: 0,
+          fromDate: "2000-01-01",
+          toDate: "2024-01-01",
+        },
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      ),
+    {
+      // set staleTime to 10 seconds for caching
+      staleTime: 10000,
+      enabled: !!account_id,
+    }
+  );
+
+  const tagsLoading = transactionTags.isLoading;
+  const tags = transactionTags.data?.Tags;
+
+  return { tags, tagsLoading };
 }
 
 export function useCreateNewTag() {

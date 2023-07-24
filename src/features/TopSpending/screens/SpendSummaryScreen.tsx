@@ -163,7 +163,7 @@ export default function SpendSummaryScreen() {
 
   const { chevronColor, giftColor } = useThemeStyles(theme => ({
     chevronColor: theme.palette["neutralBase-20"],
-    giftColor: theme.palette["primaryBase-40"],
+    giftColor: theme.palette.complimentBase,
   }));
 
   const [isViewingFilter, setIsViewingFilter] = useState(false);

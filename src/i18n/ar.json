@@ -279,6 +279,19 @@
     }
   },
   "TopSpending": {
+    "SingleTagScreen": {
+      "TransactionList": {
+        "transactions":"المعاملات"
+      },
+      "Modal": {
+        "category":"Category",
+        "set":"Set",
+        "reset":"Reset"
+      },
+      "spendingSummary":"Spending Summary",
+      "sar":"SAR",
+      "totalSpending":"إجمالي الإنفاق"
+    },
     "SpendSummaryScreen": {
       "totalSpending": "إجمالي الإنفاق",
       "transactions": "المعاملات",

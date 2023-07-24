@@ -22,7 +22,7 @@ export default function TransactionCell({ transaction, onPress }: TransactionCel
 
   const { chevronColor, giftColor } = useThemeStyles(theme => ({
     chevronColor: theme.palette["neutralBase-20"],
-    giftColor: theme.palette["primaryBase-40"],
+    giftColor: theme.palette.complimentBase,
   }));
 
   return (

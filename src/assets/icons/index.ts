@@ -17,6 +17,8 @@ export * from "./CancelCircleFilledIcon";
 export * from "./CardIcon";
 export * from "./CardSettingsIcon";
 export * from "./ChatIcon";
+export * from "./CheckBoxCheckedIcon";
+export * from "./CheckBoxIcon";
 export * from "./CheckCircleIcon";
 export * from "./CheckIcon";
 export * from "./ChevronRightIcon";

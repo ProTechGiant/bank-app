@@ -9,6 +9,7 @@ import { formatCurrency } from "@/utils";
 
 import { IconGenerator } from "../components";
 import { categoryIconViewBox } from "../mocks/MockData";
+import { Tag } from "../types";
 
 type CellProps = {
   categoryId?: string;
@@ -21,22 +22,32 @@ type CellProps = {
 };
 
 interface CategoryCellProps {
-  category: CellProps;
+  category: CellProps & Tag;
   onPress: () => void;
+  isTag: boolean;
 }
 
-export default function CategoryCell({ category, onPress }: CategoryCellProps) {
-  const { categoryName, percentage, totalAmount, transactionCount, currency, iconPath } = category;
-
+export default function CategoryCell({ category, onPress, isTag }: CategoryCellProps) {
   const { t } = useTranslation();
+
+  // this code will be removed when the backend send the the tags with pascal case
+  const cellDate = {
+    name: isTag ? category.TagName : category.categoryName,
+    percentage: isTag ? category.Percentage : category.percentage,
+    totalAmount: isTag ? category.Amount : category.totalAmount,
+    transactionCount: isTag ? category.TransactionCount : category.transactionCount,
+    currency: isTag ? category.Currency : category.currency,
+    iconPath: isTag ? category.TagIcon : category.iconPath,
+  };
+  const { name, percentage, totalAmount, transactionCount, currency, iconPath } = cellDate;
 
   const itemStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
   }));
 
-  const { chevronColor, giftColor } = useThemeStyles(theme => ({
+  const { chevronColor, iconColor } = useThemeStyles(theme => ({
     chevronColor: theme.palette["neutralBase-20"],
-    giftColor: theme.palette["primaryBase-40"],
+    iconColor: theme.palette.complimentBase,
   }));
   const getViewBox = (iconName: string) => categoryIconViewBox[iconName as keyof typeof categoryIconViewBox];
 
@@ -47,12 +58,12 @@ export default function CategoryCell({ category, onPress }: CategoryCellProps) {
           width={22}
           height={22}
           path={iconPath?.replace('d="', "").replace('"', "")}
-          color={giftColor}
-          viewBox={getViewBox(categoryName)}
+          color={iconColor}
+          viewBox={getViewBox(name)}
         />
         <Stack direction="vertical" style={styles.expandText}>
           <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-            {categoryName ? categoryName : t("TopSpending.TopSpendingScreen.hidden")}
+            {name ? name : t("TopSpending.TopSpendingScreen.hidden")}
           </Typography.Text>
           <Typography.Text size="footnote" color="neutralBase">
             {percentage

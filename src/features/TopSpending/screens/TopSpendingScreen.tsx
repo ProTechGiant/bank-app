@@ -11,37 +11,45 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CategoryCell, CustomerBalance } from "../components";
-import { useCategories } from "../hooks/query-hooks";
+import { useCategories, useTransactionTags } from "../hooks/query-hooks";
 import { userType } from "../mocks";
+import { Tag } from "../types";
 
 type CategoryProps = {
   categoryId: string;
   categoryName: string;
   iconPath: string;
   totalAmount: number;
+  TagId: number;
 };
 
 export default function TopSpendingScreen() {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const { t } = useTranslation();
+
+  const [isExpandedCategory, setIsExpandedCategory] = useState(false);
+  const [isExpandedTag, setIsExpandedTag] = useState(false);
 
   const { includedCategories, total, excludedCategories, isLoading } = useCategories();
+  const { tags, tagsLoading } = useTransactionTags();
 
-  const { t } = useTranslation();
   const navigation = useNavigation();
   const currentDate = new Date();
-
   const monthName = currentDate.toLocaleString("en", { month: "long" });
 
   const handleOnBackPress = () => {
     navigation.goBack();
   };
 
-  const handleOnCategoryTransactions = (category: CategoryProps, screen: string) => {
+  const handleOnCategoryTransactions = (category: CategoryProps & Tag, screen: string) => {
     if (screen === t("TopSpending.TopSpendingScreen.excludedfromSpending")) {
       navigation.navigate("TopSpending.ExcludedDetailedScreen", {
         categoryId: category.categoryId,
         categoryName: category.categoryName,
         totalAmount: category.totalAmount,
+      });
+    } else if (screen === t("TopSpending.TopSpendingScreen.topSpendingByTags")) {
+      navigation.navigate("TopSpending.SingleTagScreen", {
+        data: category,
       });
     } else {
       navigation.navigate("TopSpending.SpendSummaryScreen", {
@@ -54,6 +62,10 @@ export default function TopSpendingScreen() {
 
   const sectionList = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
+  }));
+
+  const sectionHeader = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60"],
   }));
 
   const imagesStyle = useThemeStyles(theme => ({
@@ -75,32 +87,44 @@ export default function TopSpendingScreen() {
         </>
       ) : null}
 
-      {!isLoading && includedCategories && excludedCategories ? (
+      {!isLoading && includedCategories && excludedCategories && !tagsLoading && tags ? (
         <SectionList
           style={sectionList}
           sections={[
             {
-              data: isExpanded ? includedCategories : includedCategories.slice(0, 3),
+              data: isExpandedCategory ? includedCategories : includedCategories.slice(0, 3),
               title: t("TopSpending.TopSpendingScreen.topSpendingInMonth") + monthName,
               expandView: includedCategories.length > 3 ? true : false,
+              isExpanded: isExpandedCategory,
+              onExpand: () => setIsExpandedCategory(!isExpandedCategory),
+              isTag: false,
+            },
+            {
+              data: isExpandedTag ? tags : tags.slice(0, 3),
+              title: t("TopSpending.TopSpendingScreen.topSpendingByTags"),
+              expandView: tags.length > 3 ? true : false,
+              isExpanded: isExpandedTag,
+              onExpand: () => setIsExpandedTag(!isExpandedTag),
+              isTag: true,
             },
             {
               data: excludedCategories,
               title: t("TopSpending.TopSpendingScreen.excludedfromSpending"),
               expandView: false,
+              isTag: false,
             },
           ]}
-          renderItem={({ item, section }) => (
-            <CategoryCell category={item} onPress={() => handleOnCategoryTransactions(item, section.title)} />
+          renderItem={({ item, section: { isTag, title } }) => (
+            <CategoryCell category={item} isTag={isTag} onPress={() => handleOnCategoryTransactions(item, title)} />
           )}
-          keyExtractor={(item, index) => String(index)}
-          renderSectionHeader={({ section: { title, expandView } }) => (
-            <Stack direction="horizontal" align="center" justify="space-between">
+          keyExtractor={(_item, index) => String(index)}
+          renderSectionHeader={({ section: { title, expandView, onExpand, isExpanded } }) => (
+            <Stack style={sectionHeader} direction="horizontal" align="center" justify="space-between">
               <Typography.Text size="body" weight="semiBold" color="neutralBase+30">
                 {title}
               </Typography.Text>
               {expandView ? (
-                <TouchableOpacity onPress={() => setIsExpanded(!isExpanded)}>
+                <TouchableOpacity onPress={onExpand}>
                   <Typography.Text size="footnote" weight="regular" color="interactionBase">
                     {isExpanded
                       ? t("TopSpending.TopSpendingScreen.seeLess")

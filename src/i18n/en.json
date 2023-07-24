@@ -276,6 +276,19 @@
     }
   },
   "TopSpending": {
+    "SingleTagScreen": {
+      "TransactionList": {
+        "transactions": "Transactions"
+      },
+      "Modal": {
+        "category":"Category",
+        "set":"Set",
+        "reset":"Reset"
+      },
+      "spendingSummary":"Spending Summary",
+      "sar":"SAR",
+      "totalSpending":"Total Spending"
+    },
     "TopSpendingScreen": {
       "currentSpendingIn": "Current Spending in",
       "transaction": "transaction",
