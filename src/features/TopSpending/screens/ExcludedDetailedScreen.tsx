@@ -14,6 +14,7 @@ import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import { TransactionCell } from "../components";
+import { Transaction, TransactionDetailed } from "../types";
 
 export default function ExcludedDetailedScreen() {
   const navigation = useNavigation();
@@ -37,6 +38,33 @@ export default function ExcludedDetailedScreen() {
     navigation.goBack();
   };
 
+  const handleOnNavigationPress = (transaction: Transaction) => {
+    const obj: TransactionDetailed = {
+      cardType: transaction.CardType,
+      status: transaction.Status,
+      location: transaction.AddressLine ? transaction.AddressLine : undefined,
+      title: transaction.MerchantDetails.MerchantName,
+      subTitle: transaction.TransactionInformation,
+      amount: transaction.Amount.Amount,
+      currency: transaction.Amount.Currency,
+      transactionDate: transaction.BookingDateTime,
+      roundUpsAmount: transaction.SupplementaryData.RoundupAmount,
+      categoryName: transaction.SupplementaryData.CategoryName,
+      categoryId: transaction.SupplementaryData.CategoryId,
+      transactionId: transaction.TransactionId,
+      hiddenIndicator: transaction.HiddenIndicator,
+    };
+
+    navigation.navigate("ViewTransactions.ViewTransactionsStack", {
+      screen: "ViewTransactions.SingleTransactionDetailedScreen",
+      params: {
+        data: obj,
+        cardId: "8", // this is temporary
+        createDisputeUserId: "8", // this is temporary
+      },
+    });
+  };
+
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["20p"],
     backgroundColor: theme.palette["neutralBase-40"],
@@ -46,6 +74,7 @@ export default function ExcludedDetailedScreen() {
     paddingVertical: theme.spacing["16p"],
     paddingHorizontal: theme.spacing["16p"],
   }));
+
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader onBackPress={handleOnBackPress} />
@@ -64,7 +93,9 @@ export default function ExcludedDetailedScreen() {
       {!isLoading ? (
         <FlatList
           data={transactions.data?.Transaction ?? []}
-          renderItem={({ item }) => <TransactionCell transaction={item} />}
+          renderItem={({ item }) => (
+            <TransactionCell transaction={item} onPress={() => handleOnNavigationPress(item)} />
+          )}
           keyExtractor={(item, index) => `key ${index}`}
           showsVerticalScrollIndicator={false}
           style={listContainerStyle}

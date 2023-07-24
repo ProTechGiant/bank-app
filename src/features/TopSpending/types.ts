@@ -26,6 +26,7 @@ export interface TransactionDetailed {
   roundUpsAmount: string;
   categoryName?: string;
   categoryId?: string;
+  hiddenIndicator: string;
 }
 
 export interface Transaction {

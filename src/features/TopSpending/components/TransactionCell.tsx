@@ -12,9 +12,10 @@ import { Transaction } from "../types";
 
 interface TransactionCellPros {
   transaction: Transaction;
+  onPress: () => void;
 }
 
-export default function TransactionCell({ transaction }: TransactionCellPros) {
+export default function TransactionCell({ transaction, onPress }: TransactionCellPros) {
   const itemStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
   }));
@@ -23,31 +24,34 @@ export default function TransactionCell({ transaction }: TransactionCellPros) {
     chevronColor: theme.palette["neutralBase-20"],
     giftColor: theme.palette["primaryBase-40"],
   }));
+
   return (
-    <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
-      <ShoppingCartIcon color={giftColor} />
-      <Stack direction="vertical" style={styles.expandText}>
-        <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-          {transaction.MerchantDetails.MerchantName}
+    <Pressable onPress={onPress}>
+      <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
+        <ShoppingCartIcon color={giftColor} />
+        <Stack direction="vertical" style={styles.expandText}>
+          <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+            {transaction.MerchantDetails.MerchantName}
+          </Typography.Text>
+          <Typography.Text size="footnote" weight="regular" color="neutralBase">
+            {format(
+              new Date(
+                transaction.BookingDateTime[0],
+                transaction.BookingDateTime[1] - 1,
+                transaction.BookingDateTime[2]
+              ),
+              "dd MMMM yyyy"
+            )}
+          </Typography.Text>
+        </Stack>
+        <Typography.Text size="callout" color="neutralBase+30">
+          {formatCurrency(transaction.Amount.Amount, transaction.Amount.Currency)}
         </Typography.Text>
-        <Typography.Text size="footnote" weight="regular" color="neutralBase">
-          {format(
-            new Date(
-              transaction.BookingDateTime[0],
-              transaction.BookingDateTime[1] - 1,
-              transaction.BookingDateTime[2]
-            ),
-            "dd MMMM yyyy"
-          )}
-        </Typography.Text>
+        <Pressable style={styles.pressable}>
+          <ChevronRightIcon color={chevronColor} />
+        </Pressable>
       </Stack>
-      <Typography.Text size="callout" color="neutralBase+30">
-        {formatCurrency(transaction.Amount.Amount, transaction.Amount.Currency)}
-      </Typography.Text>
-      <Pressable style={styles.pressable}>
-        <ChevronRightIcon color={chevronColor} />
-      </Pressable>
-    </Stack>
+    </Pressable>
   );
 }
 

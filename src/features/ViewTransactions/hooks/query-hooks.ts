@@ -90,22 +90,33 @@ export function useUpdateCategory() {
 export function useExcludeFromSummary() {
   const account = useCurrentAccount();
 
+  const queryClient = useQueryClient();
+
   const account_id = account.data?.id;
 
-  return useMutation(async (data: { transactionId: string; hiddenFlag: boolean }) => {
-    return sendApiRequest<void>(
-      "v1",
-      `accounts/${account_id}/transactions/${data.transactionId}`,
-      "PUT",
-      {
-        PageSize: 1000,
-        PageNumber: 0,
-        hiddenFlag: data.hiddenFlag ? "Y" : "N",
+  return useMutation(
+    (data: { transactionId: string; hiddenFlag: boolean }) => {
+      return sendApiRequest<void>(
+        "v1",
+        `accounts/${account_id}/transactions/${data.transactionId}`,
+        "PUT",
+        {
+          PageSize: 1000,
+          PageNumber: 0,
+          hiddenFlag: data.hiddenFlag ? "Y" : "N",
+        },
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      );
+    },
+    {
+      onSuccess: () => {
+        // Refetch queries to update the local data
+        queryClient.invalidateQueries("transactions");
+        queryClient.invalidateQueries("categories");
       },
-      undefined,
-      {
-        ["x-correlation-id"]: generateRandomId(),
-      }
-    );
-  });
+    }
+  );
 }
