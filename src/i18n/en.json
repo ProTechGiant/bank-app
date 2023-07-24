@@ -1990,6 +1990,21 @@
       "saveButton": "Save",
       "placeholder": "Bill description",
       "required":"Maximum 22 characters"
+    },
+    "deleteBill": {
+      "title": "Delete Bill",
+      "message": "Are you sure you want to delete your bill",
+      "deleteButton": "Delete the bill",
+      "cancelButton": "Cancel",
+      "okButtonText": "Ok",
+      "deleteSuccess": {
+        "title": "Bill deleted successfully",
+        "message": "You have now deleted your Bill"
+      },
+      "deleteError": {
+        "title": "Sorry, we couldn't delete the bill",
+        "message": "Please try again later or get in touch if you're still having problems."
+      }
     }
   },
   "PaymentDisputes": {
