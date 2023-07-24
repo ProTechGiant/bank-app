@@ -1952,7 +1952,27 @@
   },
   "SadadBillPayments": {
     "BillPaymentHomeScreen": {
-      "navHeaderTitle": "Pay SADAD Bill"
+      "navHeaderTitle": "Pay SADAD Bill",
+        "addBillText": "Add a bill",
+        "addBillMessage": "Add a bill to pay now or later",
+        "SAR": ".00 SAR",
+        "due": "Due: ",
+        "viewAll": "View All",
+        "addBill": "Add a bill",
+        "noDueTitle": "No payments due",
+        "noDueDescription":
+          "We couldn’t find due payments that match your search. Consider adding your bill and use features.",
+        "noBillTitle": "No saved bills",
+        "noBillDescription": "We couldn’t find saved bills. Consider adding your bill and use features.",
+        "quickActionItems": {
+          "oneTimePayment": "One-time\npayment",
+          "splitBills": "Split bills\n",
+          "paymentHistory": "Payment\nhistroy"
+        },
+        "tabItems": {
+          "paymentDue": "Payment due",
+          "savedBills": "Saved bills"
+        }
     }
   },
   "PaymentDisputes": {

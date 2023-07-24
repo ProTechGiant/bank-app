@@ -1,10 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
+import NoArticlesIcon from "@/assets/icons/NoArticlesIcon";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-
-import NoArticlesIcon from "../assets/NoArticlesIcon";
 
 export default function NoArticlesError() {
   const { t } = useTranslation();
