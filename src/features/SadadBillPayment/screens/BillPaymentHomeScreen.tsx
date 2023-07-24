@@ -4,6 +4,7 @@ import { Pressable, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { PaymentHistoryIcon, PlusIcon, SadadBillPaymentIcon, TransferHorizontalIcon } from "@/assets/icons";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import {
@@ -21,6 +22,7 @@ import { MockBillDetails } from "../mocks/MockBillDetails";
 
 export default function BillPaymentHomeScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const numberOfBills = MockBillDetails.length;
   //TODO MockBillDetails should be replaced with an API call.
 
@@ -48,6 +50,7 @@ export default function BillPaymentHomeScreen() {
 
   const handleOnBiilItemPress = () => {
     //TODO - To be implemented as part of the upcoming story
+    navigation.navigate("SadadBillPayments.BillDetailsScreen");
   };
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({

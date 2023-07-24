@@ -1316,6 +1316,12 @@
       "currentDueDate": "Current due date",
       "accountNumber":"Account number",
       "billerNumber": "Biller number"
+    },
+    "EditBillDescriptionScreen":{
+      "title": "Edit bill description",
+      "saveButton": "Save",
+      "placeholder": "Bill description",
+      "required":"Maximum 22 characters"
     }
   },
   "PaymentDisputes": {

@@ -6,6 +6,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { EditIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 interface BillDetailsViewProp {
@@ -28,8 +29,13 @@ export default function BillDetailsView({
   billAmountCurrency,
 }: BillDetailsViewProp) {
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const editIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+
+  const handleOnEditDescriptionPress = () => {
+    navigation.navigate("SadadBillPayments.EditBillDescriptionScreen");
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -43,7 +49,7 @@ export default function BillDetailsView({
               {billDescription}
             </Typography.Text>
           </View>
-          <Pressable style={styles.editIconContainer}>
+          <Pressable style={styles.editIconContainer} onPress={handleOnEditDescriptionPress}>
             <EditIcon color={editIconColor} />
           </Pressable>
         </Stack>
