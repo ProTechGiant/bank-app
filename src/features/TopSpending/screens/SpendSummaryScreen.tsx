@@ -219,10 +219,11 @@ export default function SpendSummaryScreen() {
   return (
     <Page insets={["top", "left", "right", "bottom"]}>
       <SpendingsFilterModal
+        isCompareModalIncluded={true}
         onCompare={handleCompare}
         isVisible={isViewingFilter}
         onClose={() => setIsViewingFilter(false)}
-        handleOnDayPressEvent={(newFromDate, newToDate) => {
+        onDayPressEvent={(newFromDate, newToDate) => {
           setFromDate(newFromDate);
           setToDate(newToDate);
           setCurrentValue(`${format(parseISO(newFromDate), "dd")} - ${format(parseISO(newToDate), "dd MMMM yyyy")}`);

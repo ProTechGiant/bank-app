@@ -17,11 +17,12 @@ import CompareModel from "./CompareModal";
 import CustomCalendar from "./CustomCalendar";
 
 interface SpendingsFilterModalProps {
+  isCompareModalIncluded: boolean;
   isVisible: boolean;
   onClose: () => void;
   onBack?: () => void;
-  handleOnDayPressEvent: (fromDate: string, toDate: string) => void;
-  onCompare: (date: CompareDatesTypes, type: string) => void;
+  onDayPressEvent: (fromDate: string, toDate: string) => void;
+  onCompare?: (date: CompareDatesTypes, type: string) => void;
 }
 
 enum ModalScreens {
@@ -32,8 +33,9 @@ enum ModalScreens {
 export default function SpendingsFilterModal({
   isVisible,
   onClose,
-  handleOnDayPressEvent,
+  onDayPressEvent,
   onCompare,
+  isCompareModalIncluded,
 }: SpendingsFilterModalProps) {
   const { t } = useTranslation();
 
@@ -64,7 +66,7 @@ export default function SpendingsFilterModal({
     }
   }, [isVisible, t]);
 
-  const onDayPressEvent = (day: { dateString: string }) => {
+  const handleOnDayPressEvent = (day: { dateString: string }) => {
     if (startDay && !endDay) {
       const date: { [key: string]: any } = {};
       for (
@@ -125,7 +127,12 @@ export default function SpendingsFilterModal({
       onClose={currentScreen !== ModalScreens.Main ? () => goBackTo(ModalScreens.Main) : onClose}>
       {currentScreen === ModalScreens.Main ? (
         <>
-          <CustomCalendar hideArrows markingType="period" onDayPress={onDayPressEvent} markedDates={markedDates} />
+          <CustomCalendar
+            hideArrows
+            markingType="period"
+            onDayPress={handleOnDayPressEvent}
+            markedDates={markedDates}
+          />
           <Typography.Text color="neutralBase" size="caption1" weight="regular" style={warningTextStyle}>
             {t("TopSpending.SpendingDateFilter.noTransactionWarning")}
           </Typography.Text>
@@ -133,20 +140,26 @@ export default function SpendingsFilterModal({
             onPress={() => {
               onClose();
               if (startDay && endDay) {
-                handleOnDayPressEvent(startDay.toString(), endDay.toString());
+                onDayPressEvent(startDay.toString(), endDay.toString());
               }
             }}>
             {t("TopSpending.SpendingDateFilter.pickPeriod")}
           </Button>
-          <Button
-            iconRight={userType !== "plusTier" ? <DiamondIcon /> : undefined}
-            disabled={userType !== "plusTier"}
-            variant="tertiary"
-            onPress={() =>
-              handleCompareOption(ModalScreens.ComparePeriods, t("TopSpending.SpendingDateFilter.comparePeriod"))
-            }>
-            {t("TopSpending.SpendingDateFilter.compare")}
-          </Button>
+          {isCompareModalIncluded ? (
+            <Button
+              iconRight={userType !== "plusTier" ? <DiamondIcon /> : undefined}
+              disabled={userType !== "plusTier"}
+              variant="tertiary"
+              onPress={() =>
+                handleCompareOption(ModalScreens.ComparePeriods, t("TopSpending.SpendingDateFilter.comparePeriod"))
+              }>
+              {t("TopSpending.SpendingDateFilter.compare")}
+            </Button>
+          ) : (
+            <Button variant="tertiary" onPress={() => onClose()}>
+              {t("TopSpending.SpendingDateFilter.cancel")}
+            </Button>
+          )}
         </>
       ) : (
         <CompareModel

@@ -93,7 +93,7 @@ export default function useTransactions(
   const account_id = account.data?.id;
 
   const notPendingTransactions = useQuery(
-    ["transactions", { transactionCode, selectedFilters, categories, StatusId: "1", fromDate, toDate }],
+    ["transactions", { transactionCode, selectedFilters, categories, tags, StatusId: "1", fromDate, toDate }],
     () =>
       api<ApiTransactionsResponseElement>(
         "v1",
@@ -109,8 +109,8 @@ export default function useTransactions(
           ...(transactionCode ? { transactionCode: transactionCode } : {}),
           ...(categories ? { Categories: categories } : {}),
           GroupBy: groupBy,
-          fromDate: fromDate,
-          toDate: toDate,
+          FromDate: fromDate,
+          ToDate: toDate,
         },
         undefined,
         {

@@ -1,9 +1,11 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
+import { format, parseISO } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 
+import { CalendarAltIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import Modal from "@/components/Modal";
@@ -22,6 +24,7 @@ import {
   TransactionCell,
   TransactionTitleAndCounter,
 } from "../components";
+import { SpendingsFilterModal } from "../components";
 import { usePreDefinedCategories } from "../hooks/query-hooks";
 import { TopSpendingStackParams } from "../TopSpendingStack";
 
@@ -43,10 +46,20 @@ export default function SingleTagScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [choosenCategories, setChoosenCategories] = useState<CategoryType[]>([]);
 
+  const [isViewingFilter, setIsViewingFilter] = useState(false);
+  const [currentValue, setCurrentValue] = useState("");
+
+  const [fromDate, setFromDate] = useState<string | undefined>(undefined);
+  const [toDate, setToDate] = useState<string | undefined>(undefined);
+
   const { notPendingTransactions } = useTransactions(
     undefined,
     choosenCategories ? choosenCategories.map(obj => obj.categoryId).join(",") : undefined,
-    data.TagId
+    data.TagId,
+    undefined,
+    undefined,
+    fromDate,
+    toDate
   );
 
   const handleOnCloseModal = () => {
@@ -100,10 +113,38 @@ export default function SingleTagScreen() {
     alignItems: "center",
   }));
 
+  const textMargin = useThemeStyles(theme => ({
+    marginTop: theme.spacing["16p"],
+    paddingLeft: theme.spacing["20p"],
+  }));
+
   return (
     <Page backgroundColor="neutralBase-40">
-      <NavHeader variant="background" onBackPress={handleOnBackPress} />
+      <SpendingsFilterModal
+        isCompareModalIncluded={false}
+        isVisible={isViewingFilter}
+        onClose={() => setIsViewingFilter(false)}
+        onDayPressEvent={(newFromDate, newToDate) => {
+          setFromDate(newFromDate);
+          setToDate(newToDate);
+          setCurrentValue(`${format(parseISO(newFromDate), "dd")} - ${format(parseISO(newToDate), "dd MMMM yyyy")}`);
+        }}
+      />
+      <NavHeader
+        variant="background"
+        onBackPress={handleOnBackPress}
+        end={
+          <Pressable onPress={() => setIsViewingFilter(true)}>
+            <CalendarAltIcon />
+          </Pressable>
+        }
+      />
       <TagHeader TotalAmount={notPendingTransactions.data?.TotalAmount ?? 0} />
+      <View style={textMargin}>
+        <Typography.Text size="title3" color="neutralBase+30">
+          {currentValue}
+        </Typography.Text>
+      </View>
       <TagChart data={data} TotalAmount={notPendingTransactions.data?.TotalAmount ?? 0} />
       <ContentContainer isScrollView>
         <TransactionTitleAndCounter handleOnOpenModal={handleOnOpenModal} counter={Number(choosenCategories.length)} />
@@ -142,12 +183,12 @@ export default function SingleTagScreen() {
             )}
 
             <View style={controlStyle}>
-              <TouchableOpacity onPress={handleOnToggleModal} style={setButtonStyle}>
+              <Pressable onPress={handleOnToggleModal} style={setButtonStyle}>
                 <Typography.Text color="neutralBase-60" weight="medium" size="body">
                   {t("TopSpending.SingleTagScreen.Modal.set")}
                 </Typography.Text>
-              </TouchableOpacity>
-              <TouchableOpacity
+              </Pressable>
+              <Pressable
                 style={resetStyle}
                 onPress={() => {
                   setIsModalVisible(false);
@@ -156,7 +197,7 @@ export default function SingleTagScreen() {
                 <Typography.Text color="primaryBase" weight="medium" size="body">
                   {t("TopSpending.SingleTagScreen.Modal.reset")}
                 </Typography.Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
         </Modal>

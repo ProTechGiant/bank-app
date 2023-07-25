@@ -281,13 +281,13 @@
         "transactions": "Transactions"
       },
       "Modal": {
-        "category":"Category",
-        "set":"Set",
-        "reset":"Reset"
+        "category": "Category",
+        "set": "Set",
+        "reset": "Reset"
       },
-      "spendingSummary":"Spending Summary",
-      "sar":"SAR",
-      "totalSpending":"Total Spending"
+      "spendingSummary": "Spending Summary",
+      "sar": "SAR",
+      "totalSpending": "Total Spending"
     },
     "TopSpendingScreen": {
       "currentSpendingIn": "Current Spending in",
@@ -333,7 +333,8 @@
       "compareBy": "Compare By:",
       "year": "Select year",
       "date": "Select date",
-      "secondYear": "Select second year"
+      "secondYear": "Select second year",
+      "cancel": "Cancel"
     },
     "CategorizeTransactions": {
       "week": "Week {{ week }}",
