@@ -631,7 +631,13 @@
       "saveButton": "Save Change",
       "selectButton": "Select",
       "cancelButton": "Cancel",
-      "selectAnAmount": "Select the amount"
+      "selectAnAmount": "Select the amount",
+      "inputSourceOfIncomePlaceholder": "Select at least one option",
+      "validation": {
+        "requiredMonthlyLimits": "Expected amount required",
+        "requiredSourceOfIncome": "Source of income required",
+        "requiredAccountPurpose": "Source of income required"
+      }
     },
     "CustomerAccountManagementScreen": {
       "title": "Customer Account Management",
@@ -1974,8 +1980,7 @@
       "viewAll": "View All",
       "addBill": "Add a bill",
       "noDueTitle": "No payments due",
-      "noDueDescription":
-        "We couldn’t find due payments that match your search. Consider adding your bill and use features.",
+      "noDueDescription": "We couldn’t find due payments that match your search. Consider adding your bill and use features.",
       "noBillTitle": "No saved bills",
       "noBillDescription": "We couldn’t find saved bills. Consider adding your bill and use features.",
       "quickActionItems": {
@@ -1995,29 +2000,14 @@
       "billProvider": "Bill provider",
       "billAmount": "Bill amount",
       "currentDueDate": "Current due date",
-      "accountNumber":"Account number",
+      "accountNumber": "Account number",
       "billerNumber": "Biller number"
     },
-    "EditBillDescriptionScreen":{
+    "EditBillDescriptionScreen": {
       "title": "Edit bill description",
       "saveButton": "Save",
       "placeholder": "Bill description",
-      "required":"Maximum 22 characters"
-    },
-    "deleteBill": {
-      "title": "Delete Bill",
-      "message": "Are you sure you want to delete your bill",
-      "deleteButton": "Delete the bill",
-      "cancelButton": "Cancel",
-      "okButtonText": "Ok",
-      "deleteSuccess": {
-        "title": "Bill deleted successfully",
-        "message": "You have now deleted your Bill"
-      },
-      "deleteError": {
-        "title": "Sorry, we couldn't delete the bill",
-        "message": "Please try again later or get in touch if you're still having problems."
-      }
+      "required": "Maximum 22 characters"
     }
   },
   "PaymentDisputes": {
