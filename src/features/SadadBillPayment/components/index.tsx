@@ -3,7 +3,7 @@ export { default as EmptyDataWarningCard } from "../components/EmptyDataWarningC
 export { default as QuickActionItem } from "../components/QuickActionItem";
 export { default as BillDetailsView } from "./BillDetailsView";
 export { default as ContentContainer } from "@/components/ContentContainer";
-export { default as NavBar } from "@/components/NavBar";
+export { default as NavHeader } from "@/components/NavHeader";
 export { default as Page } from "@/components/Page";
 export { default as SegmentedControl } from "@/components/SegmentedControl";
 export { default as Stack } from "@/components/Stack";

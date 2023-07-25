@@ -2,6 +2,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { cloneElement, isValidElement, useCallback } from "react";
 import { BackHandler, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
+import BackgroundBottom from "@/assets/BackgroundBottom";
 import { ArrowLeftIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
@@ -12,14 +13,16 @@ import IconEndButton, { IconEndButtonProps } from "./IconEndButton";
 import StatusBar from "./StatusBar";
 import TextEndButton, { TextEndButtonProps } from "./TextEndButton";
 
-interface NavHeaderProps {
+export interface NavHeaderProps {
   onBackPress?: () => void;
   children?: React.ReactElement;
-  variant?: "black" | "white" | "background";
+  variant?: "black" | "white" | "background" | "angled";
   end?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
   testID?: string;
   title?: string | React.ReactElement;
   withBackButton?: boolean;
+  backgroundAngledColor?: string;
+  backgroundBottomStyle?: ViewStyle;
 }
 
 const NavHeader = ({
@@ -30,6 +33,8 @@ const NavHeader = ({
   variant = "black",
   end,
   children,
+  backgroundAngledColor,
+  backgroundBottomStyle,
 }: NavHeaderProps) => {
   const navigation = useNavigation();
 
@@ -71,6 +76,14 @@ const NavHeader = ({
   const textColor = variant === "white" ? "neutralBase-50" : "neutralBase+30";
   const iconColor = useThemeStyles(theme => theme.palette[textColor], [textColor]);
 
+  const backgroundAngledColorDefault = useThemeStyles(theme => theme.palette["supportBase-15"]);
+  const backgroundAngledColorFinal = backgroundAngledColor ? backgroundAngledColor : backgroundAngledColorDefault;
+
+  const backgroundBottomStyleDefault = useThemeStyles<ViewStyle>(theme => ({
+    position: "absolute",
+    bottom: -theme.spacing["24p"] + 1, // Small gap forms on iphone SE, 1 pixel added to remove this.
+  }));
+
   return (
     <>
       <StatusBar barStyle={variant === "black" ? "dark-content" : "light-content"} />
@@ -80,7 +93,10 @@ const NavHeader = ({
             {withBackButton && (
               <Pressable
                 onPress={handleOnBackPress}
-                style={[styles.backButton, variant === "background" ? iconBackgroundStyle : undefined]}
+                style={[
+                  styles.backButton,
+                  variant === "background" || variant === "angled" ? iconBackgroundStyle : undefined,
+                ]}
                 testID={undefined !== testID ? `${testID}-->BackButton` : undefined}>
                 <ArrowLeftIcon color={iconColor} width={20} height={20} />
               </Pressable>
@@ -97,12 +113,17 @@ const NavHeader = ({
           </View>
           <View style={[styles.column, styles.columnEnd]}>
             {end !== undefined && isValidElement(end)
-              ? cloneElement(end, { color: textColor, hasBackground: variant === "background" })
+              ? cloneElement(end, { color: textColor, hasBackground: variant === "background" || variant === "angled" })
               : undefined}
           </View>
         </View>
         {undefined !== children && <View style={childrenStyles}>{children}</View>}
       </View>
+      {variant === "angled" ? (
+        <View style={[backgroundBottomStyleDefault, backgroundBottomStyle]}>
+          <BackgroundBottom color={backgroundAngledColorFinal} />
+        </View>
+      ) : null}
     </>
   );
 };

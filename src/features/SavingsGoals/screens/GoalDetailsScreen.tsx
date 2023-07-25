@@ -2,7 +2,7 @@ import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 import { format } from "date-fns";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import { ArrowCircleUpIcon, EditIcon, PlusIcon, RecurringEventIcon, WithdrawIcon } from "@/assets/icons";
@@ -21,7 +21,6 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
-import BackgroundBottom from "../assets/BackgroundBottom";
 import RoundUpsIcon from "../assets/round-ups";
 import { ProgressWheel, TransactionCardList } from "../components";
 import { calculateGoalBalanceOverThreeQuarters } from "../helpers";
@@ -240,12 +239,7 @@ export default function GoalDetailsScreen() {
     marginBottom: theme.spacing["32p"],
   }));
 
-  const BackgroundBottomStyle = useThemeStyles<ViewStyle>(theme => ({
-    position: "absolute",
-    bottom: -theme.spacing["24p"] + 1, // Small gap forms on iphone SE, 1 pixel added to remove this.
-  }));
-
-  const BackgroundBottomColor = useThemeStyles<string>(
+  const backgroundBottomColor = useThemeStyles<string>(
     theme => (isGoalNotCompleted ? theme.palette["primaryBase-70"] : theme.palette["secondary_mintBase-10"]),
     [isGoalNotCompleted]
   );
@@ -257,13 +251,13 @@ export default function GoalDetailsScreen() {
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-        <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
         <SafeAreaView edges={["top", "left", "right"]} style={headerStyle}>
           <NavHeader
             onBackPress={handleOnBackPress}
             title={savingsPotData?.GoalName}
-            variant="background"
+            variant="angled"
             end={<NavHeader.IconEndButton icon={<EditIcon />} onPress={handleOnEdit} />}
+            backgroundAngledColor={backgroundBottomColor}
           />
           <View style={headerContentStyle}>
             <ProgressWheel
@@ -308,9 +302,6 @@ export default function GoalDetailsScreen() {
                 </Button>
               </View>
             </Stack>
-          </View>
-          <View style={BackgroundBottomStyle}>
-            <BackgroundBottom color={BackgroundBottomColor} />
           </View>
         </SafeAreaView>
         <ContentContainer isScrollView style={contentContainerStyle}>

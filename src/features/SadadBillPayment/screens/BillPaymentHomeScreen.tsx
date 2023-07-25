@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, SafeAreaView, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { PaymentHistoryIcon, PlusIcon, SadadBillPaymentIcon, TransferHorizontalIcon } from "@/assets/icons";
@@ -11,7 +11,7 @@ import {
   BillItemCard,
   ContentContainer,
   EmptyDataWarningCard,
-  NavBar,
+  NavHeader,
   Page,
   QuickActionItem,
   SegmentedControl,
@@ -81,12 +81,20 @@ export default function BillPaymentHomeScreen() {
     alignSelf: "flex-end",
   }));
 
+  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["supportBase-15"],
+    zIndex: 1,
+    paddingTop: theme.spacing["20p"],
+  }));
+
   const iconColor = useThemeStyles(theme => theme.palette.primaryBase);
 
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-        <NavBar title={t("SadadBillPayments.BillPaymentHomeScreen.navHeaderTitle")} />
+        <SafeAreaView style={headerStyle}>
+          <NavHeader variant="angled" title={t("SadadBillPayments.BillPaymentHomeScreen.navHeaderTitle")} />
+        </SafeAreaView>
 
         <ContentContainer isScrollView style={contentContainerStyle}>
           <Stack direction="vertical" gap="16p" align="stretch">

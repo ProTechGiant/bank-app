@@ -1,7 +1,7 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, SafeAreaView, ScrollView, Share, StatusBar, View, ViewStyle } from "react-native";
+import { Platform, SafeAreaView, ScrollView, Share, View, ViewStyle } from "react-native";
 
 import { CopyIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -13,7 +13,6 @@ import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { useReferralContext } from "@/contexts/ReferralContext";
 import { useToasts } from "@/contexts/ToastsContext";
-import BackgroundBottom from "@/features/SavingsGoals/assets/BackgroundBottom";
 import useAppsFlyer from "@/hooks/use-appsflyer";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -136,13 +135,6 @@ export default function HubScreen() {
     paddingBottom: theme.spacing["8p"],
   }));
 
-  const backgroundBottomStyle = useThemeStyles<ViewStyle>(theme => ({
-    position: "absolute",
-    bottom: -theme.spacing["24p"] + 1, // Small gap forms on iphone SE, 1 pixel added to remove this.
-  }));
-
-  const backgroundAngledColor = useThemeStyles(theme => theme.palette["supportBase-15"]);
-
   const tableCardStyles = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: -theme.spacing["16p"],
   }));
@@ -150,9 +142,8 @@ export default function HubScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
         <SafeAreaView style={headerStyle}>
-          <NavHeader variant="background" />
+          <NavHeader variant="angled" />
           <View style={titleStyle}>
             <View style={iconContainerStyle}>
               <ReferralsDashboard />
@@ -188,9 +179,6 @@ export default function HubScreen() {
                 />
               )}
             </View>
-          </View>
-          <View style={backgroundBottomStyle}>
-            <BackgroundBottom color={backgroundAngledColor} />
           </View>
         </SafeAreaView>
         <ContentContainer isScrollView style={contentContainerStyle}>

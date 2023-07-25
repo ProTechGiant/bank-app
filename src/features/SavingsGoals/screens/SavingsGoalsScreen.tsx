@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { compareAsc } from "date-fns";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, SafeAreaView, StatusBar, View, ViewStyle } from "react-native";
+import { Alert, SafeAreaView, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { PlusIcon } from "@/assets/icons";
@@ -18,7 +18,6 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import BackgroundBottom from "../assets/BackgroundBottom";
 import { GoalCard } from "../components";
 import { useSavingsPots } from "../hooks/query-hooks";
 
@@ -81,28 +80,17 @@ export default function SavingsGoalsScreen() {
     paddingTop: theme.spacing["48p"],
   }));
 
-  const backgroundBottomStyle = useThemeStyles<ViewStyle>(theme => ({
-    position: "absolute",
-    bottom: -theme.spacing["24p"] + 1, // Small gap forms on iphone SE, 1 pixel added to remove this.
-  }));
-
-  const backgroundAngledColor = useThemeStyles(theme => theme.palette["supportBase-15"]);
-
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-        <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
         <SafeAreaView style={headerStyle}>
-          <NavHeader onBackPress={handleOnBack} variant="background" />
+          <NavHeader onBackPress={handleOnBack} variant="angled" />
           <View style={titleStyle}>
             <Typography.Text color="neutralBase+30" size="title1" weight="medium">
               {savingsGoals?.length < MAX_GOALS
                 ? t("SavingsGoals.SavingsGoalsScreen.title")
                 : t("SavingsGoals.SavingsGoalsScreen.maxGoalsTitle")}
             </Typography.Text>
-          </View>
-          <View style={backgroundBottomStyle}>
-            <BackgroundBottom color={backgroundAngledColor} />
           </View>
         </SafeAreaView>
 
