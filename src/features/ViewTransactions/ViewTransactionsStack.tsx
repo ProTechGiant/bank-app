@@ -1,5 +1,4 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useTranslation } from "react-i18next";
 
 import { palette } from "@/theme/values";
 
@@ -40,8 +39,6 @@ export type ViewTransactionsStackParams = {
 const Stack = createNativeStackNavigator<ViewTransactionsStackParams>();
 
 export default function ViewTransactionsStack() {
-  const { t } = useTranslation();
-
   return (
     <Stack.Navigator
       screenOptions={{
@@ -51,12 +48,12 @@ export default function ViewTransactionsStack() {
         headerShown: true,
       }}>
       <Stack.Screen
-        options={{ title: t("ViewTransactions.TransactionsScreen.title") }}
+        options={{ headerShown: false }}
         component={TransactionsScreen}
         name="ViewTransactions.TransactionsScreen"
       />
       <Stack.Screen
-        options={{ title: t("ViewTransactions.PendingTransactionsScreen.title") }}
+        options={{ headerShown: false }}
         component={PendingTransactionsScreen}
         name="ViewTransactions.PendingTransactionsScreen"
       />

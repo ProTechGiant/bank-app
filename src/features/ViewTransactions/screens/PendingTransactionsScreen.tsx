@@ -9,19 +9,18 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Pressable,
-  StatusBar,
   StyleSheet,
   View,
   ViewStyle,
 } from "react-native";
 
+import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import useTransactions from "@/hooks/use-transactions";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { palette } from "@/theme/values";
 
 import { AnimatedHeader, FormatTransactionAmount } from "../components";
 import { pendingMocksData } from "../mocks";
@@ -55,7 +54,6 @@ export default function PendingTransactionsScreen() {
 
   const { pendingTransactions, isLoading } = useTransactions();
 
-  const [, setIsViewingFilter] = useState(false);
   const headerHeight = useRef(new Animated.Value(104)).current;
   const currFont = useRef(new Animated.Value(34)).current;
   const sarFont = useRef(new Animated.Value(22)).current;
@@ -135,10 +133,9 @@ export default function PendingTransactionsScreen() {
   }));
 
   return (
-    <Page insets={["bottom"]}>
-      <StatusBar barStyle="light-content" backgroundColor={palette.primaryBase} translucent />
+    <Page>
+      <NavHeader title={t("ViewTransactions.PendingTransactionsScreen.title")} />
       <AnimatedHeader
-        setIsViewingFilter={setIsViewingFilter}
         headerProps={{
           height: headerHeight,
           currFont: currFont,

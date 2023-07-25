@@ -8,15 +8,15 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Pressable,
-  StatusBar,
   StyleSheet,
   Text,
   View,
   ViewStyle,
 } from "react-native";
 
-import { ChevronRightIcon, CloseIcon } from "@/assets/icons";
+import { ChevronRightIcon, CloseIcon, FilterIcon, PendingIcon } from "@/assets/icons";
 import { WithShadow } from "@/components";
+import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -24,7 +24,6 @@ import useTransactions from "@/hooks/use-transactions";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { palette } from "@/theme/values";
 
 import { AnimatedHeader, TransactionsList, ViewFilterModal } from "../components";
 
@@ -105,6 +104,12 @@ export default function TransactionsScreen() {
     navigation.navigate("ViewTransactions.PendingTransactionsScreen", { cardId, createDisputeUserId });
   };
 
+  const handleOnTopSpendingInsights = () => {
+    navigation.navigate("TopSpending.TopSpendingStack", {
+      screen: "TopSpending.TopSpendingScreen",
+    });
+  };
+
   const removeFilter = (filter: string) => {
     setSelectedFilters(prevFilters => prevFilters.filter(type => type !== filter));
   };
@@ -113,12 +118,10 @@ export default function TransactionsScreen() {
     setIsFiltered(selectedFilters.length > 0);
   }, [selectedFilters]);
 
-  const contentStyle = useThemeStyles(
-    theme => ({
-      paddingHorizontal: theme.spacing["20p"],
-    }),
-    [headerHeight]
-  );
+  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60"],
+    paddingHorizontal: theme.spacing["20p"],
+  }));
 
   const filterCont = useThemeStyles(theme => ({
     paddingHorizontal: theme.spacing["20p"],
@@ -146,19 +149,21 @@ export default function TransactionsScreen() {
     marginBottom: theme.spacing["4p"],
   }));
 
-  const pendingContainer = useThemeStyles<ViewStyle>(theme => ({
-    padding: theme.spacing["16p"],
-    flexDirection: "column",
-    justifyContent: "center",
-    height: 53,
-    width: "100%",
-    borderRadius: theme.radii.extraSmall,
-    backgroundColor: theme.palette["neutralBase-50"],
-    alignSelf: "center",
+  const margins = useThemeStyles<ViewStyle>(theme => ({
+    paddingVertical: theme.spacing["16p"],
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: theme.palette["neutralBase-40"],
   }));
 
-  const margins = useThemeStyles<ViewStyle>(theme => ({
-    marginVertical: theme.spacing["16p"],
+  const pendingButtonStyle = useThemeStyles<ViewStyle>(theme => ({
+    flexDirection: "row",
+    paddingVertical: theme.spacing["16p"],
+  }));
+  const pendingButtonTextStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["16p"],
   }));
 
   const clearFilterCont = useThemeStyles<ViewStyle>(theme => ({
@@ -169,6 +174,19 @@ export default function TransactionsScreen() {
     paddingHorizontal: theme.spacing["16p"],
     paddingVertical: theme.spacing["8p"],
     justifyContent: "center",
+  }));
+  const { chevronColor } = useThemeStyles(theme => ({
+    chevronColor: theme.palette["neutralBase-20"],
+  }));
+
+  const pastTransactionStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingVertical: theme.spacing["24p"],
+    flexDirection: "row",
+    justifyContent: "space-between",
+  }));
+
+  const navHeaderStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-40"],
   }));
 
   type FilterType = "1" | "2" | "3" | "SINGLE_USE_CARD_TR" | "DEBIT_TR" | string;
@@ -185,8 +203,10 @@ export default function TransactionsScreen() {
   };
 
   return (
-    <Page insets={["bottom"]}>
-      <StatusBar barStyle="light-content" backgroundColor={palette.primaryBase} translucent />
+    <Page backgroundColor="neutralBase-60" insets={["top", "left", "right"]}>
+      <View style={navHeaderStyle}>
+        <NavHeader title={t("ViewTransactions.TransactionsScreen.title")} />
+      </View>
       <ViewFilterModal
         selectedFilters={selectedFilters}
         onApplyFilter={handleApplyFilter}
@@ -194,7 +214,6 @@ export default function TransactionsScreen() {
         onClose={() => setIsViewingFilter(false)}
       />
       <AnimatedHeader
-        setIsViewingFilter={setIsViewingFilter}
         headerProps={{
           height: headerHeight,
           currFont: currFont,
@@ -203,6 +222,7 @@ export default function TransactionsScreen() {
           flexDir: flexDir,
         }}
         isFiltered={isFiltered}
+        onPress={() => handleOnTopSpendingInsights()}
       />
       {selectedFilters.length > 0 ? (
         <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall">
@@ -227,21 +247,24 @@ export default function TransactionsScreen() {
         <View style={contentStyle}>
           {/* this will be shown if there is pending transactions */}
           {pendingTransactions.data && Object.keys(pendingTransactions.data).length > 0 ? (
-            <View style={margins}>
-              <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall">
-                <Pressable style={pendingContainer} onPress={handlePendingTransactions}>
-                  <View style={styles.textView}>
-                    <Typography.Text color="primaryBase" size="callout" weight="medium">
-                      {t("ViewTransactions.TransactionsScreen.pending")}
-                    </Typography.Text>
-                    <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-                      <ChevronRightIcon color={palette.primaryBase} />
-                    </View>
-                  </View>
-                </Pressable>
-              </WithShadow>
-            </View>
+            <>
+              <Pressable style={[margins, styles.pendingButton]} onPress={handlePendingTransactions}>
+                <View style={pendingButtonStyle}>
+                  <PendingIcon />
+                  <Typography.Text color="neutralBase+30" weight="medium" size="callout" style={pendingButtonTextStyle}>
+                    {t("ViewTransactions.TransactionsScreen.pending")}
+                  </Typography.Text>
+                </View>
+                <ChevronRightIcon color={chevronColor} />
+              </Pressable>
+            </>
           ) : null}
+          <View style={pastTransactionStyle}>
+            <Typography.Text>Past Transactions</Typography.Text>
+            <Pressable onPress={() => setIsViewingFilter(true)}>
+              <FilterIcon />
+            </Pressable>
+          </View>
           {isLoading ? (
             <View style={styles.activityIndicator}>
               <ActivityIndicator color="primaryBase" size="large" />
@@ -287,9 +310,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 200,
   },
-  textView: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
+  pendingButton: {
+    transform: [
+      {
+        scaleX: I18nManager.isRTL ? -1 : 1,
+      },
+    ],
   },
 });

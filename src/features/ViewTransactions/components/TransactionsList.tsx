@@ -67,11 +67,6 @@ export default function TransactionsList({ transactionsAll, cardId, createDisput
     marginVertical: theme.spacing["8p"],
   }));
 
-  const line = useThemeStyles<ViewStyle>(theme => ({
-    height: 0.5,
-    backgroundColor: theme.palette.neutralBase,
-  }));
-
   const transactionRow = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     justifyContent: "space-between",
@@ -93,21 +88,20 @@ export default function TransactionsList({ transactionsAll, cardId, createDisput
         return (
           <View key={`${transactionGroup.Value}-${index}`}>
             <View style={firstRow}>
-              <Typography.Text color="neutralBase" size="callout" weight="semiBold">
+              <Typography.Text color="neutralBase-10" size="callout" weight="medium">
                 {formatDate(new Date(transactionGroup.Value))}
               </Typography.Text>
-              <Typography.Text color="neutralBase" size="callout" weight="semiBold">
+              <Typography.Text color="neutralBase+10" size="callout" weight="medium">
                 {FormatTransactionAmount(sum, true, "neutralBase")}
               </Typography.Text>
             </View>
-            <View style={line} />
             <View style={styles.roundUpContainer}>
               {transactionGroup.Transactions.map((transaction: Transaction) => (
                 <Pressable key={transaction.TransactionId} onPress={() => handleNavigation(transaction)}>
                   <View style={transactionRow}>
                     {transaction.CreditDebitIndicator === "Debit" ? (
                       <>
-                        <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+                        <Typography.Text color="neutralBase+30" size="callout" weight="regular">
                           {transaction.StatementReference}
                         </Typography.Text>
                         <View style={styles.roundAlign}>
