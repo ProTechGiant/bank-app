@@ -15,7 +15,7 @@ import { PHYSICAL_CARD_TYPE } from "@/constants";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { TransactionDetailed } from "../types";
+import { SingleTagType, TransactionDetailed } from "../types";
 import DetailedHeader from "./DetailedHeader";
 import ExcludeFromSummary from "./ExcludeFromSummary";
 
@@ -25,15 +25,21 @@ interface DetailsWrapperProps {
   onReportTransaction: () => void;
   cardId: string;
   createDisputeUserId: string;
+  transactionTags: Array<SingleTagType>;
 }
 
-function DetailsWrapper({ data, openModel, onReportTransaction }: DetailsWrapperProps) {
+function DetailsWrapper({ data, openModel, onReportTransaction, transactionTags }: DetailsWrapperProps) {
   return (
     <>
       {data.cardType === PHYSICAL_CARD_TYPE && data.status === "pending" ? (
         <PendingTransaction data={data} onReportTransaction={onReportTransaction} />
       ) : data.cardType === PHYSICAL_CARD_TYPE || data.cardType === "0" ? (
-        <DebitCardAndOneTimeCard data={data} openModel={openModel} onReportTransaction={onReportTransaction} />
+        <DebitCardAndOneTimeCard
+          data={data}
+          openModel={openModel}
+          onReportTransaction={onReportTransaction}
+          transactionTags={transactionTags}
+        />
       ) : null}
     </>
   );
@@ -73,12 +79,14 @@ function DebitCardAndOneTimeCard({
   onReportTransaction,
   createDisputeUserId,
   cardId,
+  transactionTags,
 }: {
   data: TransactionDetailed;
   openModel: (arg: boolean) => void;
   onReportTransaction: () => void;
   createDisputeUserId: string;
   cardId: string;
+  transactionTags: Array<SingleTagType>;
 }) {
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -93,8 +101,9 @@ function DebitCardAndOneTimeCard({
   };
 
   const handleOnPressTags = () => {
-    navigation.navigate("TopSpending.TopSpendingStack", {
-      screen: "TopSpending.SelectTagScreen",
+    navigation.navigate("ViewTransactions.SelectTagScreen", {
+      transactionTags: transactionTags,
+      transactionId: data.transactionId,
     });
   };
 
@@ -129,6 +138,12 @@ function DebitCardAndOneTimeCard({
     backgroundColor: theme.palette["neutralBase-40"],
   }));
 
+  const tagsValue =
+    transactionTags?.length > 0
+      ? transactionTags?.length > 1
+        ? `${transactionTags[0].TagName} +${transactionTags.length - 1} more`
+        : `${transactionTags[0].TagName}`
+      : "";
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
   }));
@@ -197,17 +212,9 @@ function DebitCardAndOneTimeCard({
             />
           </Pressable>
         ) : null}
-        {/* TODO: later will check from tag property as of now it's not there */}
-        {data.categoryName ? (
-          <Pressable onPress={handleOnPressTags}>
-            <DetailedRow
-              name={t("ViewTransactions.SingleTransactionDetailedScreen.tags")}
-              //TODO: Later will be replaced with tags data in the next build cycle
-              value="Shopping, Food, +1 more"
-              showIcon
-            />
-          </Pressable>
-        ) : null}
+        <Pressable onPress={handleOnPressTags}>
+          <DetailedRow name={t("ViewTransactions.SingleTransactionDetailedScreen.tags")} value={tagsValue} showIcon />
+        </Pressable>
         {data?.location ? (
           <DetailedRow
             openModel={openModel}

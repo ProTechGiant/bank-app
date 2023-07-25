@@ -12,7 +12,7 @@ import { SadadBillPaymentStackParams } from "@/features/SadadBillPayment/SadadBi
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
 import { SettingsStackParams } from "@/features/Settings/SettingsStack";
 import { TopSpendingStackParams } from "@/features/TopSpending/TopSpendingStack";
-import { TransactionDetailed } from "@/features/ViewTransactions/types";
+import { SingleTagType, TransactionDetailed } from "@/features/ViewTransactions/types";
 import { ViewTransactionsStackParams } from "@/features/ViewTransactions/ViewTransactionsStack";
 import { WhatsNextStackParams } from "@/features/WhatsNext/WhatsNextStack";
 
@@ -20,7 +20,15 @@ import { SignInStackParams } from "../features/SignIn/SignInStack";
 import OneTimePasswordModalParams from "./one-time-password-modal-params";
 
 type RootStackParams = {
-  "TopSpending.TopSpendingStack": undefined;
+  "TopSpending.TopSpendingStack":
+    | {
+        screen: keyof TopSpendingStackParams;
+        params?: {
+          transactionTags: Array<SingleTagType>;
+          transactionId: string;
+        };
+      }
+    | undefined;
   "CardActions.CardActionsStack": {
     screen?: keyof CardActionsStackParams;
   };

@@ -1,10 +1,10 @@
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 
 import api from "@/api";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
 
-import { CreateNewTagApiResponseType, CreateNewTagType, GetCustomerTagsApiResponseType, Tag } from "../types";
+import { Tag } from "../types";
 
 interface IncludedCategory {
   categoryId: string;
@@ -59,6 +59,7 @@ const getMonthDates = (): { fromDate: string; toDate: string } => {
   return { fromDate, toDate };
 };
 
+// *TODO here i do not use the custom api until the apis is completed
 export function useCategories() {
   const account = useCurrentAccount();
   const { fromDate, toDate } = getMonthDates();
@@ -166,44 +167,4 @@ export function useTransactionTags() {
   const tags = transactionTags.data?.Tags;
 
   return { tags, tagsLoading };
-}
-
-export function useCreateNewTag() {
-  return useMutation(async (requestBody: CreateNewTagType) => {
-    //TODO: Later will replace this accountId
-    const accountId = "100009269";
-    return api<CreateNewTagApiResponseType>("v1", `accounts/${accountId}/tags`, "POST", undefined, requestBody, {
-      ["x-correlation-id"]: generateRandomId(),
-    });
-  });
-}
-
-export function useGetCustomerTags(fromDate: string, toDate: string) {
-  return useQuery(["CustomerTags", { fromDate, toDate }], () => {
-    //TODO: Later will replace this accountId
-    const accountId = "100009269";
-    return api<GetCustomerTagsApiResponseType>(
-      "v1",
-      `accounts/${accountId}/tags/customer-tags`,
-      "GET",
-      {
-        fromDate,
-        toDate,
-      },
-      undefined,
-      {
-        ["x-correlation-id"]: generateRandomId(),
-      }
-    );
-  });
-}
-
-export function useDeleteATag() {
-  return useMutation((tagId: number) => {
-    //TODO: Later will replace this accountId
-    const accountId = "100009269";
-    return api("v1", `accounts/${accountId}/tags/${tagId}`, "DELETE", undefined, undefined, {
-      ["x-correlation-id"]: generateRandomId(),
-    });
-  });
 }

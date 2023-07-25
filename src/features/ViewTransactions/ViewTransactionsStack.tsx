@@ -6,10 +6,11 @@ import { palette } from "@/theme/values";
 import {
   CategoriesListScreen,
   PendingTransactionsScreen,
+  SelectTagScreen,
   SingleTransactionDetailedScreen,
   TransactionsScreen,
 } from "./screens/";
-import { TransactionDetailed } from "./types";
+import { SingleTagType, TransactionDetailed } from "./types";
 
 export type ViewTransactionsStackParams = {
   "ViewTransactions.TransactionsScreen": {
@@ -33,6 +34,7 @@ export type ViewTransactionsStackParams = {
     cardId: string;
     createDisputeUserId: string; // TODO: temporary user ID for create dispute case
   };
+  "ViewTransactions.SelectTagScreen": { transactionTags: Array<SingleTagType>; transactionId: string };
 };
 
 const Stack = createNativeStackNavigator<ViewTransactionsStackParams>();
@@ -67,6 +69,11 @@ export default function ViewTransactionsStack() {
         options={{ headerShown: false }}
         component={CategoriesListScreen}
         name="ViewTransactions.CategoriesListScreen"
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        component={SelectTagScreen}
+        name="ViewTransactions.SelectTagScreen"
       />
     </Stack.Navigator>
   );

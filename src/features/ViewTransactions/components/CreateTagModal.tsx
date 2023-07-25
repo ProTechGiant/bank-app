@@ -9,9 +9,9 @@ import NotificationModal from "@/components/NotificationModal";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
 
-import GiftSvg from "../assets/gift.svg";
+import GiftSvg from "../assets/images/gift.svg";
 import { GenericSvgIcon } from "../components";
-import { tagIcons } from "../mocks/MockData";
+import { tagIcons } from "../mocks";
 import { TagIconType } from "../types";
 
 // Calculate the number of tag icons per row

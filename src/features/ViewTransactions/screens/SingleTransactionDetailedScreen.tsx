@@ -18,6 +18,7 @@ import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 
 import { DetailsWrapper, SimilarTransactionsModal } from "../components";
+import { useGetTransactionTags } from "../hooks/query-hooks";
 
 interface SingleTransactionDetailedScreenProps {
   onClose: () => void;
@@ -52,6 +53,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
   const [isSuccessNotificationModalVisible, setIsSuccessNotificationModalVisible] = useState(false);
   const [isViewingErrorModal, setIsViewingErrorModal] = useState(false);
   const [isSimilarTransactionsModalVisible, setIsSimilarTransactionsModalVisible] = useState(false);
+  const { data: transactionTags, refetch, isLoading } = useGetTransactionTags(receivedData.transactionId.toString());
 
   useEffect(() => {
     switch (mutationStatus) {
@@ -128,6 +130,12 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
     }
   }, [isFocused, receivedData?.transactionDate, updateHeaderTitle]);
 
+  useEffect(() => {
+    if (isFocused) {
+      refetch();
+    }
+  }, [isFocused]);
+
   const modalHeader = useThemeStyles<TextStyle>(theme => ({
     lineHeight: theme.typography.text._lineHeights.title2,
     marginBottom: theme.spacing["8p"],
@@ -144,7 +152,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
 
   return (
     <>
-      {caseDetailsResponse.isLoading === false ? (
+      {caseDetailsResponse.isLoading === false && !isLoading ? (
         <Page insets={["bottom", "left", "right"]}>
           <DetailsWrapper
             openModel={setIsVisible}
@@ -152,6 +160,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
             cardId={cardId}
             createDisputeUserId={createDisputeUserId}
             onReportTransaction={handleOnReportTransaction}
+            transactionTags={transactionTags.Tags}
           />
           <Modal style={styles.modal} onClose={onClose} visible={isVisible}>
             <TouchableOpacity onPress={() => setIsVisible(false)} style={styles.closeButton}>

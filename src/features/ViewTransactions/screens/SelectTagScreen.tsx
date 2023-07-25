@@ -1,6 +1,7 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, ScrollView, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Alert, FlatList, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
@@ -10,27 +11,43 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CreateTagModal, TagItem } from "../components";
 import SelectCountryModal from "../components/SelectCountryModal";
-import { useCreateNewTag, useDeleteATag, useGetCustomerTags } from "../hooks/query-hooks";
-import { createNewTag, predefinedTags, tagIcons, tripToItem } from "../mocks/MockData";
+import {
+  useCreateNewTag,
+  useDeleteATag,
+  useGetCustomerTags,
+  usePredefinedTags,
+  useUpdateTags,
+} from "../hooks/query-hooks";
+import { createNewTag, tagIcons } from "../mocks";
 import { GetCustomerSingleTagType } from "../types";
 
 export default function SelectTagScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "TopSpending.TopSpendingStack">>();
+  const transactionTags = route.params.transactionTags;
+  const transactionId = route.params.transactionId;
 
   const [isCreateNewTagModalVisible, setIsCreateNewTagModalVisible] = useState<boolean>(false);
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState<boolean>(false);
   const [isTripToTagModalVisible, setIsTripToTagModalVisible] = useState<boolean>(false);
   const [isDeleteNotificationModalVisible, setIsDeleteNotificationModalVisible] = useState<boolean>(false);
   const selectedDeleteTagItem = useRef<GetCustomerSingleTagType>();
+  const [selectedTags, setSelectedTags] = useState<string[]>(() =>
+    Array.isArray(transactionTags) ? transactionTags.map(item => item.TagId.toString()) : []
+  );
+  const [tripToItem, setTripToItem] = useState({ name: "", path: "" });
 
   const { mutateAsync: createNewTagApi } = useCreateNewTag();
-  const { data: customerTransactionTags, refetch } = useGetCustomerTags("2021-12-12", "2023-12-12");
+  const { data: customerTransactionTags, refetch } = useGetCustomerTags();
+  const { data: predefinedTags, isLoading } = usePredefinedTags();
+  const updateTagsMutation = useUpdateTags();
   const { mutateAsync: deleteTagApi } = useDeleteATag();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -61,13 +78,40 @@ export default function SelectTagScreen() {
     setIsCreateNewTagModalVisible(true);
   };
 
-  const handleOnPressTripToTag = () => {
+  const handleOnPressDone = async () => {
+    try {
+      await updateTagsMutation.mutateAsync({
+        transactionId: transactionId,
+        tagsId: selectedTags.toString(),
+      });
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
+        {
+          text: "OK",
+          onPress: () => navigation.goBack(),
+        },
+      ]);
+    }
+  };
+
+  const handleOnPressTag = (id: string) => {
+    if (isSelectedTag(id)) {
+      setSelectedTags(selectedTags.filter(i => i !== id));
+    } else {
+      setSelectedTags([...selectedTags, id]);
+    }
+  };
+
+  const isSelectedTag = (id: string) => {
+    return selectedTags.findIndex(i => i === id) !== -1;
+  };
+
+  const handleOnPressTripToTag = (name: string, path: string) => {
+    setTripToItem({ name, path });
     setIsTripToTagModalVisible(true);
   };
 
-  const handleOnPressDone = () => {
-    navigation.goBack();
-  };
   const handleSelectCountry = async (country: string) => {
     setIsTripToTagModalVisible(false);
     await createNewTagApi({
@@ -113,40 +157,76 @@ export default function SelectTagScreen() {
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
         <NavHeader title={t("SelectTagScreen.selectTags")} withBackButton={true} />
-        <ScrollView style={scrollViewStyle}>
-          <Stack direction="vertical" gap="20p" align="stretch" style={containerStyle}>
-            <Typography.Text size="footnote" weight="regular" color="neutralBase">
-              {t("SelectTagScreen.tagSubHeading")}
-            </Typography.Text>
-            {predefinedTags.map(tag => (
-              <TagItem item={tag} isTag={true} />
-            ))}
-            <TagItem item={tripToItem} isTag={false} onPress={handleOnPressTripToTag} />
-          </Stack>
-          <View style={sectionBreakerStyle} />
-          <Stack direction="vertical" gap="20p" align="stretch" style={containerStyle}>
-            <TagItem item={createNewTag} isTag={false} onPress={handleOnPressCreateNewTag} />
-            <FlatList
-              contentContainerStyle={flatListStyle}
-              data={customerTransactionTags?.Tags}
-              keyExtractor={item => item.TagId.toString()}
-              renderItem={({ item, index }: { item: GetCustomerSingleTagType; index: number }) => (
-                <TagItem
-                  item={{
-                    id: index,
-                    name: item.TagName,
-                    path: item.TagIcon,
-                  }}
-                  isTag={true}
-                  onDeletePress={() => {
-                    selectedDeleteTagItem.current = item;
-                    setIsDeleteNotificationModalVisible(true);
-                  }}
-                />
+        {isLoading ? (
+          <View style={styles.activityIndicator}>
+            <ActivityIndicator size="small" />
+          </View>
+        ) : (
+          <ScrollView style={scrollViewStyle}>
+            <Stack direction="vertical" gap="20p" align="stretch" style={containerStyle}>
+              <Typography.Text size="footnote" weight="regular" color="neutralBase">
+                {t("SelectTagScreen.tagSubHeading")}
+              </Typography.Text>
+              {predefinedTags?.Tags.map(tag =>
+                tag.TagId === 5 ? (
+                  <TagItem
+                    item={{
+                      id: tag.TagId,
+                      name: tag.TagName,
+                      path: tag.TagIcon,
+                      viewBox: "12 12 20 20",
+                    }}
+                    isSelected={false}
+                    isSelectable={false}
+                    onPress={() => handleOnPressTripToTag(tag.TagName, tag.TagIcon)}
+                  />
+                ) : (
+                  <TagItem
+                    item={{
+                      id: tag.TagId,
+                      name: tag.TagName,
+                      path: tag.TagIcon,
+                      viewBox: "12 12 20 20",
+                    }}
+                    isSelected={isSelectedTag(tag.TagId.toString())}
+                    onPress={() => handleOnPressTag(tag.TagId.toString())}
+                    isSelectable={true}
+                  />
+                )
               )}
-            />
-          </Stack>
-        </ScrollView>
+            </Stack>
+            <View style={sectionBreakerStyle} />
+            <Stack direction="vertical" gap="20p" align="stretch" style={containerStyle}>
+              <TagItem
+                item={createNewTag}
+                isSelected={false}
+                isSelectable={false}
+                onPress={handleOnPressCreateNewTag}
+              />
+              <FlatList
+                contentContainerStyle={flatListStyle}
+                data={customerTransactionTags?.Tags}
+                keyExtractor={item => item.TagId.toString()}
+                renderItem={({ item }: { item: GetCustomerSingleTagType }) => (
+                  <TagItem
+                    item={{
+                      id: item.TagId,
+                      name: item.TagName,
+                      path: item.TagIcon,
+                    }}
+                    isSelected={isSelectedTag(item.TagId.toString())}
+                    onPress={() => handleOnPressTag(item.TagId.toString())}
+                    isSelectable={true}
+                    onDeletePress={() => {
+                      selectedDeleteTagItem.current = item;
+                      setIsDeleteNotificationModalVisible(true);
+                    }}
+                  />
+                )}
+              />
+            </Stack>
+          </ScrollView>
+        )}
         <View style={buttonContainerStyle}>
           <Button onPress={handleOnPressDone}>{t("SelectTagScreen.done")}</Button>
         </View>
@@ -184,3 +264,11 @@ export default function SelectTagScreen() {
     </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  activityIndicator: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
+});
