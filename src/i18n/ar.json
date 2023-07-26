@@ -288,16 +288,16 @@
   "TopSpending": {
     "SingleTagScreen": {
       "TransactionList": {
-        "transactions":"المعاملات"
+        "transactions": "المعاملات"
       },
       "Modal": {
-        "category":"Category",
-        "set":"Set",
-        "reset":"Reset"
+        "category": "Category",
+        "set": "Set",
+        "reset": "Reset"
       },
-      "spendingSummary":"Spending Summary",
-      "sar":"SAR",
-      "totalSpending":"إجمالي الإنفاق"
+      "spendingSummary": "Spending Summary",
+      "sar": "SAR",
+      "totalSpending": "إجمالي الإنفاق"
     },
     "SpendSummaryScreen": {
       "totalSpending": "إجمالي الإنفاق",
@@ -858,6 +858,10 @@
       "button": "OK"
     }
   },
+  "EmptySearchResult": {
+    "title": "No search results found",
+    "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
+  },
   "InternalTransfers": {
     "ReviewTransferScreen": {
       "title": "Review transfer",
@@ -912,10 +916,6 @@
       "search": {
         "placeholder": "Name, IBAN or Bank Name",
         "placeholderARB": "Name, account or IBAN",
-        "emptyState": {
-          "title": "No search results found",
-          "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
-        },
         "button": "Cancel"
       },
       "menu": {
@@ -1313,8 +1313,7 @@
       "viewAll": "View All",
       "addBill": "Add a bill",
       "noDueTitle": "No payments due",
-      "noDueDescription":
-        "We couldn’t find due payments that match your search. Consider adding your bill and use features.",
+      "noDueDescription": "We couldn’t find due payments that match your search. Consider adding your bill and use features.",
       "noBillTitle": "No saved bills",
       "noBillDescription": "We couldn’t find saved bills. Consider adding your bill and use features.",
       "quickActionItems": {
@@ -1334,14 +1333,18 @@
       "billProvider": "Bill provider",
       "billAmount": "Bill amount",
       "currentDueDate": "Current due date",
-      "accountNumber":"Account number",
+      "accountNumber": "Account number",
       "billerNumber": "Biller number"
     },
-    "EditBillDescriptionScreen":{
+    "SavedBillScreen": {
+      "savedBill": "Saved Bills",
+      "searchPlaceholder": "Biller number, provider or description"
+    },
+    "EditBillDescriptionScreen": {
       "title": "Edit bill description",
       "saveButton": "Save",
       "placeholder": "Bill description",
-      "required":"Maximum 22 characters"
+      "required": "Maximum 22 characters"
     },
     "deleteBill": {
       "title": "Delete Bill",
@@ -1404,6 +1407,7 @@
       "billerNumberText":"Biller number" 
     }
   },
+
   "PaymentDisputes": {
     "PaymentDisputesLandingModal": {
       "title": "What’s the problem?",

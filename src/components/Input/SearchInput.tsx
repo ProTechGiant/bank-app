@@ -2,13 +2,13 @@ import { forwardRef, useState } from "react";
 import { Pressable, TextInput, TextStyle, View, ViewStyle } from "react-native";
 
 import { SearchIcon } from "@/assets/icons";
-import Typography from "@/components/Typography";
+import { CloseCircleFilledIcon } from "@/assets/icons/CloseCircleFilledIcon";
+import Stack from "@/components/Stack";
 import { useThemeStyles } from "@/theme";
 
 import InputBox from "./internal/InputBox";
 
 interface SearchInputProps {
-  clearText?: string;
   isEditable?: boolean;
   onClear?: () => void;
   onSearch: (searchQuery: string) => void;
@@ -17,7 +17,7 @@ interface SearchInputProps {
 }
 
 function SearchInput_(
-  { clearText, isEditable = true, value, placeholder, onClear, onSearch }: SearchInputProps,
+  { isEditable = true, value, placeholder, onClear, onSearch }: SearchInputProps,
   ref: React.ForwardedRef<TextInput>
 ) {
   const [isFocused, setIsFocused] = useState(false);
@@ -35,7 +35,8 @@ function SearchInput_(
       fontWeight: theme.typography.text.weights.regular,
       flexGrow: 1,
       margin: 0,
-      padding: 0,
+      paddingRight: theme.spacing["4p"],
+      maxWidth: "93%",
     }),
     [isEditable]
   );
@@ -43,23 +44,24 @@ function SearchInput_(
   return (
     <View style={containerStyle}>
       <InputBox addonStart={<SearchIcon height={24} width={24} />} isFocused={isFocused}>
-        <TextInput
-          ref={ref}
-          onBlur={() => setIsFocused(false)}
-          onFocus={() => setIsFocused(true)}
-          onChangeText={onSearch}
-          placeholder={placeholder}
-          style={textInputStyle}
-          value={value}
-        />
+        <Stack direction="horizontal" align="center" flex={1}>
+          <TextInput
+            ref={ref}
+            onBlur={() => setIsFocused(false)}
+            onFocus={() => setIsFocused(true)}
+            onChangeText={onSearch}
+            placeholder={placeholder}
+            style={textInputStyle}
+            value={value}
+          />
+          {/* removed clear text and added cross icon as according to new design. */}
+          {value.length > 0 ? (
+            <Pressable onPress={onClear}>
+              <CloseCircleFilledIcon />
+            </Pressable>
+          ) : null}
+        </Stack>
       </InputBox>
-      {value.length > 0 ? (
-        <Pressable onPress={onClear}>
-          <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-            {clearText}
-          </Typography.Text>
-        </Pressable>
-      ) : null}
     </View>
   );
 }

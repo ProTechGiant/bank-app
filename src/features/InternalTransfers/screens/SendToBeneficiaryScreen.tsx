@@ -6,6 +6,7 @@ import { PlusIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
+import EmptySearchResult from "@/components/EmptySearchResult";
 import { SearchInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -197,7 +198,6 @@ export default function SendToBeneficiaryScreen() {
               <SearchInput
                 ref={searchInputRef}
                 value={searchQuery}
-                clearText={t("InternalTransfers.SendToBeneficiaryScreen.search.button")}
                 placeholder={
                   transferType === TransferType.CroatiaToArbTransferAction
                     ? t("InternalTransfers.SendToBeneficiaryScreen.search.placeholderARB")
@@ -251,14 +251,7 @@ export default function SendToBeneficiaryScreen() {
                   ) : null}
                 </Stack>
               ) : (
-                <View style={styles.noResults}>
-                  <Typography.Text size="title3" weight="medium" align="center">
-                    {t("InternalTransfers.SendToBeneficiaryScreen.search.emptyState.title")}
-                  </Typography.Text>
-                  <Typography.Text size="callout" align="center">
-                    {t("InternalTransfers.SendToBeneficiaryScreen.search.emptyState.message")}
-                  </Typography.Text>
-                </View>
+                <EmptySearchResult />
               )}
             </Stack>
           </ContentContainer>
@@ -309,10 +302,6 @@ const styles = StyleSheet.create({
   keyboardView: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "center",
-  },
-  noResults: {
-    flexGrow: 1,
     justifyContent: "center",
   },
 });

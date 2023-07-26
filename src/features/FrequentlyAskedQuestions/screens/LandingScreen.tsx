@@ -96,7 +96,6 @@ export default function LandingScreen() {
                 onSearch={handleOnChangeText}
                 placeholder={t("FrequentlyAskedQuestions.LandingScreen.searchPlaceholder")}
                 value={searchText}
-                clearText="Cancel"
               />
             </View>
             {isFetching && searchQuery === "" ? (

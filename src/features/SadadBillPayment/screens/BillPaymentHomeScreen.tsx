@@ -46,6 +46,7 @@ export default function BillPaymentHomeScreen() {
 
   const handleOnViewAllPress = () => {
     //TODO - To be implemented as part of the upcoming story
+    navigation.navigate("SadadBillPayments.SaveBillsScreen");
   };
 
   const handleOnBiilItemPress = () => {

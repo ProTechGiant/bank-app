@@ -1506,6 +1506,10 @@
       "button": "OK"
     }
   },
+  "EmptySearchResult": {
+    "title": "No search results found",
+    "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
+  },
   "InternalTransfers": {
     "ReviewTransferScreen": {
       "title": "Review transfer",
@@ -1555,6 +1559,7 @@
         }
       }
     },
+
     "SendToBeneficiaryScreen": {
       "title": "Send to",
       "navTitle": "Send money",
@@ -1564,10 +1569,6 @@
       "search": {
         "placeholder": "Name, IBAN or Bank Name",
         "placeholderARB": "Name, account or IBAN",
-        "emptyState": {
-          "title": "No search results found",
-          "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
-        },
         "button": "Cancel"
       },
       "menu": {
@@ -2010,7 +2011,7 @@
       "title": "Edit bill description",
       "saveButton": "Save",
       "placeholder": "Bill description",
-      "required":"Maximum 22 characters"
+      "required": "Maximum 22 characters"
     },
     "deleteBill": {
       "title": "Delete Bill",
@@ -2026,6 +2027,10 @@
         "title": "Sorry, we couldn't delete the bill",
         "message": "Please try again later or get in touch if you're still having problems."
       }
+    },
+    "SavedBillScreen": {
+      "savedBill": "Saved Bills",
+      "searchPlaceholder": "Biller number, provider or description"
     },
     "SelectBillerCategoryScreen": {
       "addNewBillTitle": "Add a new bill",
@@ -2067,11 +2072,11 @@
       "viewBillText": "You can view all your saved bills in the saved bills list or pay the bill below",
       "buttonTitle": "Pay now",
       "closeText": "Close",
-      "billDescriptionText":"Bill description", 
+      "billDescriptionText":"Bill description",
       "billAmountText":"Bill Amount" ,
       "currentDueText":"Current due date",
       "accountNumberText":"Account number" ,
-      "billerNumberText":"Biller number" 
+      "billerNumberText":"Biller number"
     }
   },
   "PaymentDisputes": {
