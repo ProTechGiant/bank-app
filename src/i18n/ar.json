@@ -646,6 +646,23 @@
     "reloadAppMessage": "يجب اعاده تشغيل التطبيق للاستمرار",
     "okButtonMessage": "موافق"
   },
+    "Home": {
+    "DashboardScreen": {
+      "AccountNumberCopied": "Account Number is copied in the clipboard.",
+      "balanceHidden": "Hidden balance",
+      "hideBalanceButton": "Hide balance",
+      "showBalanceButton": "Show balance",
+      "myAccountButton": "My account",
+      "notifications_one": "{{count}} notification",
+      "notifications_other": "{{count}} notifications",
+      "editDashboard": "Edit",
+      "dismiss": "Dismiss",
+      "viewAll": "View all",
+      "whatsNext": "What's Next",
+      "totalbalance":"Total balance",
+      "account":"Account    ",     
+      "mainCroatiaAccount":"Main Croatia account"
+    }},
   "InstructionsScreen": {
     "skip": "تخطى",
     "continue": "متابعة",

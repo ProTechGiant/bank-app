@@ -24,7 +24,7 @@ const VARIANT_ICONS = {
 };
 
 // @see https://www.figma.com/file/tl0ZMqLtY3o72AtiWUSgmc/Brand-Design-System?type=design&node-id=1503-8659&t=ixyhoCSGO91Uokxq-0
-export default function Toast({ onClose, icon, variant = "confirm", message, position = "top", testID }: ToastProps) {
+export default function Toast({ onClose, icon, variant = "confirm", message, testID, position = "top" }: ToastProps) {
   const contentContainerStyles = useThemeStyles<ViewStyle>(theme => ({
     shadowColor: "#000000",
     shadowOffset: { width: 0, height: 4 },

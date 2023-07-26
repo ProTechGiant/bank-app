@@ -10,6 +10,7 @@ import { HomepageItemLayoutType, Notification } from "../types";
 const queryKeys = {
   all: () => ["layout"],
   getLayout: () => [...queryKeys.all(), "getLayout"],
+  getContent: (language: string) => [...queryKeys.all(), "getContent", { language }] as const,
 };
 
 interface HomepageSectionLayoutType {
@@ -24,6 +25,19 @@ export interface HomepageLayoutType {
       sections: HomepageSectionLayoutType[];
     }
   ];
+}
+
+export function useHomeContent(language: string) {
+  const { userId } = useAuthContext();
+  const correlationId = generateRandomId();
+
+  return useQuery(queryKeys.getContent(language), () => {
+    return api("v1", `mobile/homepage/content`, "GET", undefined, undefined, {
+      ["x-Correlation-Id"]: correlationId,
+      ["customerId"]: userId,
+      ["Accept-Language"]: language,
+    });
+  });
 }
 
 export function useHomepageLayout() {

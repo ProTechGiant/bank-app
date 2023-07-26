@@ -1,4 +1,5 @@
 export { default as ActiveReordererItem } from "./ActiveReordererItem";
+export { default as BalanceCard } from "./BalanceCard";
 export { default as HeaderButton } from "./HeaderButton";
 export { default as InactiveReordererItem } from "./InactiveReordererItem";
 export { default as NotificationSlide } from "./NotificationSlide";

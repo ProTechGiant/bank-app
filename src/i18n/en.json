@@ -694,8 +694,8 @@
   },
   "Home": {
     "DashboardScreen": {
-      "ibanCopied": "IBAN copied",
-      "balanceHidden": "Balance hidden",
+      "AccountNumberCopied": "Account Number is copied in the clipboard.",
+      "balanceHidden": "Hidden balance",
       "hideBalanceButton": "Hide balance",
       "showBalanceButton": "Show balance",
       "myAccountButton": "My account",
@@ -704,7 +704,10 @@
       "editDashboard": "Edit",
       "dismiss": "Dismiss",
       "viewAll": "View all",
-      "whatsNext": "What's Next"
+      "whatsNext": "What's Next",
+      "totalbalance": "Total balance",
+      "account": "Account    ",
+      "mainCroatiaAccount": "Main Croatia account"
     },
     "HomepageReorderModal": {
       "cancel": "CANCEL",
