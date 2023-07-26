@@ -104,7 +104,7 @@ export default function DashboardScreen() {
     }
   };
 
-  const handleOnShortcutsPress = () => {
+  const handleOnEditShortcutsPress = () => {
     navigation.navigate("Home.QuickActionsReorderModal");
   };
 
@@ -284,7 +284,7 @@ export default function DashboardScreen() {
               <>
                 {sections.map(section => {
                   if (section.type === "quick-actions") {
-                    return <QuickActionsSection key={section.type} onViewAllPress={handleOnShortcutsPress} />;
+                    return <QuickActionsSection key={section.type} onViewAllPress={handleOnEditShortcutsPress} />;
                   }
                   if (section.type === "rewards") {
                     return <RewardsSection key={section.type} onViewAllPress={handleOnRewardsPress} />;

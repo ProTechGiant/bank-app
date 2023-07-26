@@ -709,8 +709,10 @@
     },
     "QuickActionsReordererModal": {
       "cancelButton": "CANCEL",
-      "title": "Edit Actions",
-      "saveButton": "SAVE"
+      "title": "Your Shortcuts",
+      "saveButton": "SAVE",
+      "subtitle": "Select three shortcuts and deselect previous options before further modifications.",
+      "maxQuickActionsWarning": "Reached max limit of 3 shortcuts to choose!"
     },
     "QuickActionSection": {
       "editButton": "Edit"

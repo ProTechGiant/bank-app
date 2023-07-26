@@ -13,6 +13,7 @@ export interface ToastProps {
   message: string;
   variant: "confirm" | "warning" | "negative" | "success";
   testID?: string;
+  position?: "top" | "bottom";
 }
 
 const VARIANT_ICONS = {
@@ -23,7 +24,7 @@ const VARIANT_ICONS = {
 };
 
 // @see https://www.figma.com/file/tl0ZMqLtY3o72AtiWUSgmc/Brand-Design-System?type=design&node-id=1503-8659&t=ixyhoCSGO91Uokxq-0
-export default function Toast({ onClose, icon, variant = "confirm", message, testID }: ToastProps) {
+export default function Toast({ onClose, icon, variant = "confirm", message, position = "top", testID }: ToastProps) {
   const contentContainerStyles = useThemeStyles<ViewStyle>(theme => ({
     shadowColor: "#000000",
     shadowOffset: { width: 0, height: 4 },
@@ -47,7 +48,7 @@ export default function Toast({ onClose, icon, variant = "confirm", message, tes
     zIndex: 100,
     alignSelf: "center",
     margin: theme.spacing["20p"],
-    top: theme.spacing["20p"],
+    [position]: theme.spacing["20p"],
     alignContent: "center",
   }));
 

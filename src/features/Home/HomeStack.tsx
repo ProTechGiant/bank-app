@@ -25,7 +25,7 @@ export default function HomeStack() {
         <Stack.Screen
           component={QuickActionsReordererModal}
           name="Home.QuickActionsReorderModal"
-          options={{ presentation: "modal" }}
+          options={{ presentation: "transparentModal", statusBarTranslucent: true, animation: "slide_from_bottom" }}
         />
         <Stack.Screen
           component={SectionsReordererModal}

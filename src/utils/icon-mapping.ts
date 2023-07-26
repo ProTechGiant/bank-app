@@ -27,5 +27,6 @@ export const iconMapping: IconMappingType = {
     referrals: createElement(icons.ReferralIcon),
     "internal-transfer": createElement(icons.TransferHorizontalIcon),
     edit: createElement(icons.ThreeDotsIcon),
+    plus: createElement(icons.PlusIcon),
   },
 };

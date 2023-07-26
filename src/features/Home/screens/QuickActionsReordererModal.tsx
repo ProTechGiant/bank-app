@@ -1,120 +1,171 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LogBox, ScrollView, ViewStyle } from "react-native";
-import DraggableFlatList from "react-native-draggable-flatlist";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { LogBox, Pressable, ScrollView, ViewStyle } from "react-native";
 
-import { LoadingErrorPage } from "@/components/LoadingError";
+import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import Stack from "@/components/Stack";
+import Typography from "@/components/Typography";
+import { useToasts } from "@/contexts/ToastsContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { iconMapping } from "@/utils/icon-mapping";
 
-import {
-  ActiveReordererItem,
-  InactiveReordererItem,
-  PlaceholderGenerator,
-  ReordererHeader,
-  ReordererSection,
-} from "../components";
+import { QuickAction, QuickActionToggle } from "../components";
 import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
-import { useRefetchHomepageLayout } from "../hooks/query-hooks";
 import { HomepageItemLayoutType } from "../types";
 
+interface quickActionsType extends HomepageItemLayoutType {
+  isActive: boolean;
+}
 export default function QuickActionsReordererModal() {
   const navigation = useNavigation();
-  const { t } = useTranslation();
-  const { quickActions, setQuickActions, homepageLayout } = useHomepageLayoutOrder();
-  const { refetchAll } = useRefetchHomepageLayout();
+  const { t } = useTranslation("translation", { keyPrefix: "Home.QuickActionsReordererModal" });
+  const addToast = useToasts();
 
+  const { quickActions, setQuickActions } = useHomepageLayoutOrder();
   const [activeItems, setActiveItems] = useState(
     quickActions !== undefined ? () => quickActions?.slice(0, REQUIRED_ACTIVE_ITEMS) : []
   );
-  const [inactiveItems, setInactiveItems] = useState(
-    quickActions ? () => quickActions?.slice(REQUIRED_ACTIVE_ITEMS) : []
-  );
+  const [allItems, setAllItems] = useState<quickActionsType[]>([]);
 
-  const handleOnCancelPress = () => {
-    navigation.goBack();
-  };
+  useEffect(() => {
+    setActiveItems(quickActions.slice(0, REQUIRED_ACTIVE_ITEMS));
+    setAllItems(
+      sortItemsByName(
+        quickActions.map((action, index) => {
+          return { ...action, isActive: index <= 2 };
+        })
+      )
+    );
+  }, [quickActions]);
 
-  const handleOnSavePress = () => {
-    setQuickActions([...activeItems, ...inactiveItems]);
+  const isSaveButtonActive = activeItems.length === 3;
 
-    navigation.goBack();
-  };
-
-  const sortItemsByName = (items: HomepageItemLayoutType[]) => {
+  const sortItemsByName = <Type extends { name: string }>(items: Type[]): Type[] => {
     items.sort((a, b) => (a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1));
     return items;
   };
 
+  const handleOnCloseModal = () => {
+    navigation.goBack();
+  };
+
+  const handleOnSavePress = () => {
+    setQuickActions([...activeItems, ...allItems.filter(item => !item.isActive)]);
+    handleOnCloseModal();
+  };
+
   const handleOnDeletePress = (item: HomepageItemLayoutType) => {
     setActiveItems(items => items.filter(i => i.type !== item.type));
-    setInactiveItems(items => sortItemsByName([item, ...items]));
+    setAllItems(items =>
+      items.map(i => {
+        if (i.type !== item.type) return i;
+        return { ...i, isActive: false };
+      })
+    );
   };
 
   const handleOnAddPress = (item: HomepageItemLayoutType) => {
-    setActiveItems(items => [...items, item]);
-    setInactiveItems(items => sortItemsByName(items.filter(i => i.type !== item.type)));
+    if (activeItems.length < 3) {
+      setActiveItems(items => [...items, item]);
+      setAllItems(items =>
+        items.map(i => {
+          if (i.type !== item.type) return i;
+          return { ...i, isActive: true };
+        })
+      );
+    } else addToast({ variant: "warning", message: t("maxQuickActionsWarning"), position: "bottom" });
   };
 
-  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["20p"],
-    rowGap: theme.spacing["8p"],
+  const handleOnChangeItemPress = (itemType: string) => {
+    const item = allItems.find(i => i.type === itemType);
+    if (item?.isActive) handleOnDeletePress(item);
+    else if (item) handleOnAddPress(item);
+  };
+
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
+    height: "85%",
+    position: "absolute",
+    bottom: 0,
+    backgroundColor: theme.palette["neutralBase-60"],
+    borderRadius: theme.spacing["16p"],
+  }));
+
+  const descriptionTextStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingBottom: theme.spacing["16p"],
+    width: "80%",
+    alignSelf: "center",
+  }));
+
+  const activeItemsStyle = useThemeStyles<ViewStyle>(() => ({
+    width: "65%",
+    alignSelf: "center",
   }));
 
   return (
-    <SafeAreaProvider>
-      {quickActions !== undefined ? (
+    <>
+      <Stack direction="vertical" style={containerStyle}>
         <Page insets={["bottom", "left", "right"]}>
-          <ReordererHeader
-            cancelText={t("Home.QuickActionsReordererModal.cancelButton")}
-            onCancelPress={handleOnCancelPress}
-            onSavePress={handleOnSavePress}
-            isSaveable={activeItems.length >= REQUIRED_ACTIVE_ITEMS}
-            saveText={t("Home.QuickActionsReordererModal.saveButton")}
-            title={t("Home.QuickActionsReordererModal.title")}
+          <NavHeader
+            end={
+              <Pressable accessibilityState={{ disabled: !isSaveButtonActive }} onPress={handleOnSavePress}>
+                <Typography.Text color={isSaveButtonActive ? "primaryBase-40" : "neutralBase-20"}>
+                  {t("saveButton")}
+                </Typography.Text>
+              </Pressable>
+            }
+            title={t("title")}
+            onBackPress={handleOnCloseModal}
           />
-          <ScrollView contentContainerStyle={contentStyle}>
-            <ReordererSection count={activeItems.length} max={REQUIRED_ACTIVE_ITEMS} title="ACTIVE">
-              <DraggableFlatList
-                data={activeItems}
-                onDragEnd={({ data }) => setActiveItems(data)}
-                keyExtractor={item => item.type}
-                disableVirtualization
-                ListFooterComponent={<PlaceholderGenerator amount={REQUIRED_ACTIVE_ITEMS - activeItems.length} />}
-                renderItem={({ isActive, item, drag }) => {
-                  return (
-                    <ActiveReordererItem
-                      onDeletePress={() => handleOnDeletePress(item)}
-                      onPress={drag}
-                      isActive={isActive}
-                      item={item}
-                    />
-                  );
-                }}
-              />
-            </ReordererSection>
-            <ReordererSection title="NEW ACTIONS">
-              {inactiveItems.map(element => (
-                <InactiveReordererItem
-                  key={element.type}
-                  disabled={activeItems.length >= REQUIRED_ACTIVE_ITEMS}
-                  onPress={() => handleOnAddPress(element)}
-                  item={element}
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Typography.Text
+              size="footnote"
+              weight="regular"
+              color="neutralBase"
+              align="center"
+              style={descriptionTextStyle}>
+              {t("subtitle")}
+            </Typography.Text>
+            <Stack direction="horizontal" style={activeItemsStyle}>
+              {activeItems.map(item => (
+                <QuickAction
+                  key={item.type}
+                  color="complimentBase"
+                  title={item.name}
+                  icon={iconMapping.homepageQuickActions[item.type]}
+                  withTitle={false}
                 />
               ))}
-            </ReordererSection>
+              {[...Array(REQUIRED_ACTIVE_ITEMS - activeItems.length)].map((_, index) => {
+                return (
+                  <QuickAction
+                    key={index}
+                    color="neutralBase-30"
+                    title=""
+                    icon={iconMapping.homepageQuickActions.plus}
+                    withTitle={false}
+                  />
+                );
+              })}
+            </Stack>
+            <Stack direction="vertical">
+              {allItems.map(item => (
+                <QuickActionToggle
+                  key={item.type}
+                  icon={iconMapping.homepageQuickActions[item.type]}
+                  title={item.name}
+                  type={item.type}
+                  description={item.description}
+                  onPress={handleOnChangeItemPress}
+                  isActive={item.isActive}
+                />
+              ))}
+            </Stack>
           </ScrollView>
         </Page>
-      ) : homepageLayout?.error ? (
-        <LoadingErrorPage
-          onRefresh={() => {
-            refetchAll();
-          }}
-        />
-      ) : null}
-    </SafeAreaProvider>
+      </Stack>
+    </>
   );
 }
 
