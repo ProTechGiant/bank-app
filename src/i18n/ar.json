@@ -299,6 +299,28 @@
       "sar": "SAR",
       "totalSpending": "إجمالي الإنفاق"
     },
+    "TopSpendingScreen": {
+      "currentSpendingIn": "Current Spending in",
+      "transaction": "transaction",
+      "hidden": "Hidden",
+      "spendingInsights": "Spending Insights",
+      "topSpendingInMonth": "Top Spending in ",
+      "topSpendingByTags": "Tagged Groups",
+      "excludedfromSpending": "Excluded from Spending",
+      "seeAll": "See All",
+      "seeLess": "See Less",
+      "excludeFromSpending": "Exclude from spending",
+      "sar": "SAR",
+      "budgetCard": {
+        "amount": "{{amountSpent}} of {{budgetAmount}} SAR"
+      },
+      "gettingStarted": "Getting Started!",
+      "onRightTrack": "You’re on the right track!",
+      "halfwayThrough": "You’re halfway through",
+      "moreThanHalfwayThrough": "More than halfway through",
+      "aboutToHitBuget": "About to hit the budget",
+      "reachedBudget": "Reached monthly budget"
+    },
     "SpendSummaryScreen": {
       "totalSpending": "إجمالي الإنفاق",
       "transactions": "المعاملات",
@@ -1398,7 +1420,7 @@
     },
     "EnterBillDescriptionScreen": {
       "enterBillDescTitle": "Enter bill description",
-      "enterBillDescSubTitle":"Save the bill by giving a name - you can find this bill in your Saved bills.",
+      "enterBillDescSubTitle": "Save the bill by giving a name - you can find this bill in your Saved bills.",
       "buttonText": "Continue",
       "textInput": {
         "validationText": "Maximum 22 characters",
@@ -1417,11 +1439,11 @@
       "viewBillText": "You can view all your saved bills in the saved bills list or pay the bill below",
       "buttonTitle": "Pay now",
       "closeText": "Close",
-      "billDescriptionText":"Bill description", 
-      "billAmountText":"Bill Amount" ,
-      "currentDueText":"Current due date",
-      "accountNumberText":"Account number",
-      "billerNumberText":"Biller number"
+      "billDescriptionText": "Bill description",
+      "billAmountText": "Bill Amount",
+      "currentDueText": "Current due date",
+      "accountNumberText": "Account number",
+      "billerNumberText": "Biller number"
     },
     "PaymentHistoryDetailScreen": {
       "shareButton": "Share"

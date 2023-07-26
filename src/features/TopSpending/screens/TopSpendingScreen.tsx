@@ -1,8 +1,10 @@
+import { format } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, SectionList, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Image, SectionList, StyleSheet, View, ViewStyle } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
+import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -11,7 +13,8 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CategoryCell, CustomerBalance } from "../components";
-import { useCategories, useTransactionTags } from "../hooks/query-hooks";
+import BudgetCard from "../components/BudgetCard";
+import { useBudgetSummary, useCategories, useTransactionTags } from "../hooks/query-hooks";
 import { userType } from "../mocks";
 import { Tag } from "../types";
 
@@ -31,6 +34,7 @@ export default function TopSpendingScreen() {
 
   const { includedCategories, total, excludedCategories, isLoading } = useCategories();
   const { tags, tagsLoading } = useTransactionTags();
+  const { budgetSummary, isBudgetLoading } = useBudgetSummary();
 
   const navigation = useNavigation();
   const currentDate = new Date();
@@ -38,6 +42,10 @@ export default function TopSpendingScreen() {
 
   const handleOnBackPress = () => {
     navigation.goBack();
+  };
+
+  const handleOnUpdateBudget = () => {
+    console.log("*TODO when update budget ticket is ready");
   };
 
   const handleOnCategoryTransactions = (category: CategoryProps & Tag, screen: string) => {
@@ -74,9 +82,39 @@ export default function TopSpendingScreen() {
     paddingVertical: theme.spacing["12p"],
   }));
 
+  const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["48p"],
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader title={t("TopSpending.TopSpendingScreen.spendingInsights")} onBackPress={handleOnBackPress} />
+
+      <ContentContainer style={contentContainerStyle}>
+        <Stack align="stretch" direction="vertical" gap="16p">
+          {isBudgetLoading || !budgetSummary ? (
+            <View style={styles.indicatorContainerStyle}>
+              <ActivityIndicator />
+            </View>
+          ) : (
+            <BudgetCard
+              percentage={budgetSummary.ConsumedPercentage}
+              amountSpent={budgetSummary.ConsumedAmount}
+              budgetAmount={budgetSummary.Amount}
+              fromDate={format(
+                new Date(budgetSummary.StartDate[0], budgetSummary.StartDate[1] - 1, budgetSummary.StartDate[2]),
+                "yyyy-MM-dd"
+              )}
+              toDate={format(
+                new Date(budgetSummary.EndDate[0], budgetSummary.EndDate[1] - 1, budgetSummary.EndDate[2]),
+                "yyyy-MM-dd"
+              )}
+              onPress={handleOnUpdateBudget}
+            />
+          )}
+        </Stack>
+      </ContentContainer>
+
       {!isLoading && total ? (
         <>
           <CustomerBalance month={monthName} total={total} />
@@ -139,3 +177,10 @@ export default function TopSpendingScreen() {
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  indicatorContainerStyle: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

@@ -2,12 +2,12 @@ import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
+import ProgressWheel from "@//components/ProgressWheel";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import GoalAngledBorder from "../assets/GoalAngledBorder";
-import ProgressWheel from "./ProgressWheel";
 
 interface GoalCardProps {
   title: string;

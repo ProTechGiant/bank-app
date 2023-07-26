@@ -300,7 +300,16 @@
       "seeAll": "See All",
       "seeLess": "See Less",
       "excludeFromSpending": "Exclude from spending",
-      "sar": "SAR"
+      "sar": "SAR",
+      "budgetCard": {
+        "amount": "{{amountSpent}} of {{budgetAmount}} SAR"
+      },
+      "gettingStarted": "Getting Started!",
+      "onRightTrack": "You’re on the right track!",
+      "halfwayThrough": "You’re halfway through",
+      "moreThanHalfwayThrough": "More than halfway through",
+      "aboutToHitBuget": "About to hit the budget",
+      "reachedBudget": "Reached monthly budget"
     },
     "ExcludedDetailedScreen": {
       "sar": "SAR",

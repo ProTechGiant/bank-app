@@ -3,16 +3,16 @@ import Svg, { Circle } from "react-native-svg";
 
 import { BigCheckIcon, CheckIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
-import { palette, typography } from "@/theme/values";
+import { Theme, useThemeStyles } from "@/theme";
 
 interface ProgressWheelProps {
   current: number;
   total: number;
   circleSize: number;
-  textColor?: keyof typeof palette;
-  textSize?: keyof typeof typography.text.sizes;
+  textColor?: keyof Theme["palette"];
+  textSize?: keyof Theme["typography"]["text"]["sizes"];
   bigCheckIcon?: boolean;
+  isbudgetProgress?: boolean;
 }
 
 export default function ProgressWheel({
@@ -22,6 +22,7 @@ export default function ProgressWheel({
   textColor,
   textSize,
   bigCheckIcon,
+  isbudgetProgress,
 }: ProgressWheelProps) {
   const strokeBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   const strokeProgressColor = useThemeStyles<string>(theme => theme.palette.primaryBase);
@@ -69,7 +70,11 @@ export default function ProgressWheel({
         )}
       </Svg>
       <View style={styles.innerContainer}>
-        {progressPercentage >= 100 ? (
+        {isbudgetProgress && progressPercentage >= 100 ? (
+          <Typography.Text align="center" weight="medium" size={textSize} color={textColor}>
+            !
+          </Typography.Text>
+        ) : progressPercentage >= 100 ? (
           bigCheckIcon ? (
             <BigCheckIcon color={checkIconStyle.color} />
           ) : (
