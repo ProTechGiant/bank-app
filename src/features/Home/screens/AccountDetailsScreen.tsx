@@ -1,5 +1,4 @@
 import Clipboard from "@react-native-clipboard/clipboard";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -20,17 +19,13 @@ export default function AccountDetailsScreen() {
 
   const addToast = useToasts();
 
-  const [isCopiedBannerVisibleWithLabel, setIsCopiedBannerVisibleWithLabel] = useState<string | undefined>();
-
   const handleOnCopyPress = (value: string, label: string) => {
     Clipboard.setString(value);
 
-    setIsCopiedBannerVisibleWithLabel(label);
     addToast({
-      variant: "negative",
-      message: t("Home.AccountDetails.banner.error", { dataCopied: isCopiedBannerVisibleWithLabel }),
+      variant: "confirm",
+      message: t("Home.AccountDetails.banner.success", { dataCopied: label }),
     });
-    setTimeout(() => setIsCopiedBannerVisibleWithLabel(undefined), 4000);
   };
 
   const contentContainer = useThemeStyles<ViewStyle>(theme => ({
