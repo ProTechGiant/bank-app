@@ -29,7 +29,7 @@ export default function BillPaymentHomeScreen() {
   const [currentTab, setCurrentTab] = useState<"due" | "bills">("due");
 
   const handleOnAddBillPress = () => {
-    //TODO - To be implemented as part of the upcoming story
+    navigation.navigate("SadadBillPayments.SelectBillerCategoryScreen");
   };
 
   const handleOnOneTimePaymentPress = () => {

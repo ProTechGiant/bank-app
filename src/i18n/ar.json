@@ -1357,6 +1357,51 @@
         "title": "Sorry, we couldn't delete the bill",
         "message": "Please try again later or get in touch if you're still having problems."
       }
+    },
+    "SelectBillerCategoryScreen": {
+      "addNewBillTitle": "Add a new bill",
+      "searchPlaceholder": "Search biller category by name",
+      "selectBillerCategoryText": "Select biller category"
+    },
+    "SelectBillerScreen": {
+      "selectBillerText": "Select biller",
+      "searchPlaceholder": "Search by biller number or bill provider"
+    },
+    "EnterAccountNoScreen": {
+      "enterAccountNoText": "Enter account number",
+      "enterAccountNoDescText": "Enter 2 line account number description here",
+      "continueText": "Continue",
+      "textInput": {
+        "validationText": "you can pay maximum double of actual bill amount",
+        "label": "Account number"
+      }
+    },
+    "EnterBillDescriptionScreen": {
+      "enterBillDescTitle": "Enter bill description",
+      "enterBillDescSubTitle":"Save the bill by giving a name - you can find this bill in your Saved bills.",
+      "buttonText": "Continue",
+      "textInput": {
+        "validationText": "Maximum 22 characters",
+        "label": "Bill Description"
+      }
+    },
+    "BillDescriptionScreen": {
+      "billDescriptionText": "Bill description",
+      "buttonText": "Add a bill"
+    },
+    "EditBillDescriptionModalScreen": {
+      "buttonText": "Save"
+    },
+    "BillSavedSuccessScreen": {
+      "billAddedText": "Bill added successfully",
+      "viewBillText": "You can view all your saved bills in the saved bills list or pay the bill below",
+      "buttonTitle": "Pay now",
+      "closeText": "Close",
+      "billDescriptionText":"Bill description", 
+      "billAmountText":"Bill Amount" ,
+      "currentDueText":"Current due date",
+      "accountNumberText":"Account number" ,
+      "billerNumberText":"Biller number" 
     }
   },
   "PaymentDisputes": {

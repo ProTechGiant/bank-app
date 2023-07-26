@@ -20,6 +20,7 @@ export interface NavHeaderProps {
   end?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
   testID?: string;
   title?: string | React.ReactElement;
+  subTitle?: string;
   withBackButton?: boolean;
   backgroundAngledColor?: string;
   backgroundBottomStyle?: ViewStyle;
@@ -28,6 +29,7 @@ export interface NavHeaderProps {
 const NavHeader = ({
   testID,
   title,
+  subTitle,
   withBackButton = true,
   onBackPress,
   variant = "black",
@@ -110,7 +112,13 @@ const NavHeader = ({
             ) : (
               title
             )}
+            {subTitle !== undefined ? (
+              <Typography.Text color="neutralBase" size="caption1" weight="regular">
+                {subTitle}
+              </Typography.Text>
+            ) : null}
           </View>
+
           <View style={[styles.column, styles.columnEnd]}>
             {end !== undefined && isValidElement(end)
               ? cloneElement(end, { color: textColor, hasBackground: variant === "background" || variant === "angled" })
