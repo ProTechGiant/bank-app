@@ -46,7 +46,7 @@ export const Search: ComponentStory<typeof SearchInput_> = args => {
 
 Search.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
-  const inputElem = canvas.getByPlaceholderText(args.placeholder as string);
+  const inputElem = canvas.getByPlaceholderText(args.placeholder);
 
   await expect(inputElem).toBeVisible();
   await waitFor(() => fireEvent.focus(inputElem));

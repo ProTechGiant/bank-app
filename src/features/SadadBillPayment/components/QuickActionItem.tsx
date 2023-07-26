@@ -1,4 +1,3 @@
-import React from "react";
 import { cloneElement } from "react";
 import { Pressable, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";

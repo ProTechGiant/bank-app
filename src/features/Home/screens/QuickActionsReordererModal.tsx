@@ -15,9 +15,10 @@ import { QuickAction, QuickActionToggle } from "../components";
 import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
 import { HomepageItemLayoutType } from "../types";
 
-interface quickActionsType extends HomepageItemLayoutType {
+interface QuickActionsType extends HomepageItemLayoutType {
   isActive: boolean;
 }
+
 export default function QuickActionsReordererModal() {
   const navigation = useNavigation();
   const { t } = useTranslation("translation", { keyPrefix: "Home.QuickActionsReordererModal" });
@@ -27,7 +28,7 @@ export default function QuickActionsReordererModal() {
   const [activeItems, setActiveItems] = useState(
     quickActions !== undefined ? () => quickActions?.slice(0, REQUIRED_ACTIVE_ITEMS) : []
   );
-  const [allItems, setAllItems] = useState<quickActionsType[]>([]);
+  const [allItems, setAllItems] = useState<QuickActionsType[]>([]);
 
   useEffect(() => {
     setActiveItems(quickActions.slice(0, REQUIRED_ACTIVE_ITEMS));

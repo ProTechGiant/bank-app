@@ -19,12 +19,12 @@ import { useThemeStyles } from "@/theme";
 import {
   CheckBoxCell,
   ChoosenCategories,
+  SpendingsFilterModal,
   TagChart,
   TagHeader,
   TransactionCell,
   TransactionTitleAndCounter,
 } from "../components";
-import { SpendingsFilterModal } from "../components";
 import { usePreDefinedCategories } from "../hooks/query-hooks";
 import { TopSpendingStackParams } from "../TopSpendingStack";
 

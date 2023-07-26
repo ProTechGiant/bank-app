@@ -38,7 +38,7 @@ export const Text: ComponentStory<typeof TextInput_> = args => {
 
 Text.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
-  const inputElem = canvas.getByTestId("input-element") as HTMLInputElement;
+  const inputElem = canvas.getByTestId<HTMLInputElement>("input-element");
 
   await expect(inputElem).toBeVisible();
   await waitFor(() => fireEvent.focus(inputElem));
