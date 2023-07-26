@@ -17,6 +17,9 @@ interface BillDetailsViewProp {
   billingAccount: string;
   billerID: string;
   billAmountCurrency: string;
+  referenceNumber?: string;
+  paidAmount?: number;
+  isHistory?: boolean;
 }
 
 export default function BillDetailsView({
@@ -27,6 +30,9 @@ export default function BillDetailsView({
   billingAccount,
   billerID,
   billAmountCurrency,
+  referenceNumber,
+  paidAmount,
+  isHistory = false,
 }: BillDetailsViewProp) {
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -49,9 +55,11 @@ export default function BillDetailsView({
               {billDescription}
             </Typography.Text>
           </View>
-          <Pressable style={styles.editIconContainer} onPress={handleOnEditDescriptionPress}>
-            <EditIcon color={editIconColor} />
-          </Pressable>
+          {!isHistory ? (
+            <Pressable style={styles.editIconContainer} onPress={handleOnEditDescriptionPress}>
+              <EditIcon color={editIconColor} />
+            </Pressable>
+          ) : null}
         </Stack>
         <Stack direction="horizontal" align="center" justify="space-between">
           <View>
@@ -66,6 +74,17 @@ export default function BillDetailsView({
             <Image source={require("../assets/images/stc-logo.png")} />
           </View>
         </Stack>
+        {paidAmount !== undefined ? (
+          <View>
+            <Typography.Text color="neutralBase" weight="medium" size="callout">
+              {t("SadadBillPayments.BillDetailsScreen.amountPaid")}
+            </Typography.Text>
+            <Typography.Text weight="regular" size="title2">
+              {paidAmount}
+              <Typography.Text size="footnote"> {billAmountCurrency}</Typography.Text>
+            </Typography.Text>
+          </View>
+        ) : null}
         <View>
           <Typography.Text color="neutralBase" weight="medium" size="callout">
             {t("SadadBillPayments.BillDetailsScreen.billAmount")}
@@ -99,6 +118,16 @@ export default function BillDetailsView({
             {billerID}
           </Typography.Text>
         </View>
+        {referenceNumber !== undefined ? (
+          <View>
+            <Typography.Text color="neutralBase" weight="medium" size="callout">
+              {t("SadadBillPayments.BillDetailsScreen.referenceNumber")}
+            </Typography.Text>
+            <Typography.Text weight="regular" size="body">
+              {referenceNumber}
+            </Typography.Text>
+          </View>
+        ) : null}
       </Stack>
     </ScrollView>
   );

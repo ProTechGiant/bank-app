@@ -13,6 +13,7 @@ import {
   SelectBillerCategoryScreen,
   SelectBillerScreen,
 } from "./screens";
+import PaymentHistoryDetailScreen from "./screens/PaymentHistoryDetailScreen";
 
 export type SadadBillPaymentStackParams = {
   "SadadBillPayments.BillPaymentHomeScreen": undefined;
@@ -42,6 +43,7 @@ export type SadadBillPaymentStackParams = {
     BillDescription: string;
     updateBillDescription: (value: string) => void;
   };
+  "SadadBillPayments.PaymentHistoryDetailScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<SadadBillPaymentStackParams>();
@@ -74,6 +76,11 @@ export default function SadadBillPaymentStack() {
       <Stack.Screen
         component={EditBillDescriptionModalScreen}
         name="SadadBillPayments.EditBillDescriptionModalScreen"
+        options={{ presentation: "modal" }}
+      />
+      <Stack.Screen
+        component={PaymentHistoryDetailScreen}
+        name="SadadBillPayments.PaymentHistoryDetailScreen"
         options={{ presentation: "modal" }}
       />
     </Stack.Navigator>

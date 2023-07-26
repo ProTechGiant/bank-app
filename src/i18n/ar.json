@@ -1334,7 +1334,24 @@
       "billAmount": "Bill amount",
       "currentDueDate": "Current due date",
       "accountNumber": "Account number",
-      "billerNumber": "Biller number"
+      "billerNumber": "Biller number",
+      "referenceNumber": "Reference number",
+      "amountPaid": "Amount paid",
+      "deleteBill": {
+        "title": "Delete Bill",
+        "message": "Are you sure you want to delete your bill",
+        "deleteButton": "Delete the bill",
+        "cancelButton": "Cancel",
+        "okButtonText": "Ok",
+        "deleteSuccess": {
+          "title": "Bill deleted successfully",
+          "message": "You have now deleted your Bill"
+        },
+        "deleteError": {
+          "title": "Sorry, we couldn't delete the bill",
+          "message": "Please try again later or get in touch if you're still having problems."
+        }
+      }
     },
     "SavedBillScreen": {
       "savedBill": "Saved Bills",
@@ -1403,11 +1420,13 @@
       "billDescriptionText":"Bill description", 
       "billAmountText":"Bill Amount" ,
       "currentDueText":"Current due date",
-      "accountNumberText":"Account number" ,
-      "billerNumberText":"Biller number" 
+      "accountNumberText":"Account number",
+      "billerNumberText":"Biller number"
+    },
+    "PaymentHistoryDetailScreen": {
+      "shareButton": "Share"
     }
   },
-
   "PaymentDisputes": {
     "PaymentDisputesLandingModal": {
       "title": "What’s the problem?",
