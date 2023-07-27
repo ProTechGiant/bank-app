@@ -14,6 +14,7 @@ export type SignInStackParams = {
   "SignIn.UserBlocked": {
     type: "otp" | "passcode";
     timeInMs?: number;
+    navigateTo?: string;
   };
   "SignIn.OtpScreen": undefined;
   "SignIn.ForgotPassword": undefined;

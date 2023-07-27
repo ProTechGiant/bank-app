@@ -110,7 +110,11 @@ export default function UserBlockedScreen() {
 
   const handleNavigate = async () => {
     await removeItemFromEncryptedStorage("UserBlocked");
-    navigation.navigate("SignIn.Iqama");
+    if (params?.navigateTo !== undefined) {
+      navigation.navigate(params.navigateTo);
+    } else {
+      navigation.navigate("SignIn.Iqama");
+    }
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({

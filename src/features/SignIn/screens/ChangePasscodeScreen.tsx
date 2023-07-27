@@ -78,8 +78,10 @@ export default function ChangePasscodeScreen() {
           }
         },
         onUserBlocked: () => {
+          handleBlocked(BLOCKED_TIME);
           navigation.navigate("SignIn.UserBlocked", {
             type: "otp",
+            navigateTo: "SignIn.ChangePasscode",
           });
         },
       });
@@ -92,6 +94,7 @@ export default function ChangePasscodeScreen() {
     setShowModel(false);
     navigation.navigate("SignIn.UserBlocked", {
       type: "passcode",
+      navigateTo: "Settings.CustomerAccountManagementScreen",
     });
   };
 

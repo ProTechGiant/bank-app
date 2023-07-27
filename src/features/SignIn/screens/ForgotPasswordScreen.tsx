@@ -84,6 +84,7 @@ export default function ForgotPasswordScreen() {
           handleBlocked(OTP_BLOCKED_TIME);
           navigation.navigate("SignIn.UserBlocked", {
             type: "otp",
+            navigateTo: "SignIn.ForgotPassword",
           });
         },
         onFinish: (status: string) => {
