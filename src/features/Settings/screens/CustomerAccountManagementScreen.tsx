@@ -10,7 +10,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import * as SettingsIcons from "../assets/icons";
-import { SettingsCategoryContainer, SettingSection, SignOutModal } from "../components";
+import { SettingLanguagesSection, SettingsCategoryContainer, SettingSection, SignOutModal } from "../components";
 
 export default function CustomerAccountManagement() {
   const { t } = useTranslation();
@@ -46,10 +46,6 @@ export default function CustomerAccountManagement() {
 
   const handleOnProfileDetailsPress = () => {
     navigation.navigate("ProfileDetails.ProfileDetailsStack");
-  };
-
-  const handleOnLanguageSettingsPress = () => {
-    navigation.navigate("Settings.LanguageSettingsScreen");
   };
 
   const handleOnLifeStylePress = () => {
@@ -96,11 +92,10 @@ export default function CustomerAccountManagement() {
             icon={<SettingsIcons.NotificationsIcon />}
             onPress={handleOnPress}
           />
-          <SettingSection
+          <SettingLanguagesSection
             title={t("Settings.CustomerAccountManagementScreen.languageTitle")}
             description={t("Settings.CustomerAccountManagementScreen.languageDescription")}
             icon={<SettingsIcons.LanguageIcon />}
-            onPress={handleOnLanguageSettingsPress}
           />
         </SettingsCategoryContainer>
         <Divider color="neutralBase-10" height={1} />

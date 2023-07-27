@@ -1,22 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, I18nManager } from "react-native";
+import { I18nManager } from "react-native";
 
 import { setOverrideLanguage } from "./language-selector";
-import reloadApp from "./reload-app";
 
 export default function useChangeLanguage() {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
+
+  const [isRestartModalVisible, setIsRestartModalVisible] = useState(false);
 
   useEffect(() => {
     const informUserAboutReload = () => {
-      Alert.alert(t("Settings.reloadAppMessage"), undefined, [
-        {
-          text: t("Settings.okButtonMessage"),
-          onPress: () => reloadApp(),
-          style: "destructive",
-        },
-      ]);
+      handleShowRestartModal();
     };
 
     const handleOnLanguageChange = () => {
@@ -40,8 +35,23 @@ export default function useChangeLanguage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return async function handleOnChange(language: string) {
-    i18n.changeLanguage(language);
+  const handleShowRestartModal = () => {
+    setIsRestartModalVisible(true);
+  };
+
+  const handleHideRestartModal = () => {
+    setIsRestartModalVisible(false);
+  };
+
+  const handleOnChange = async (language: string) => {
     await setOverrideLanguage(language);
+    i18n.changeLanguage(language);
+  };
+
+  return {
+    isRestartModalVisible,
+    handleShowRestartModal,
+    handleHideRestartModal,
+    handleOnChange,
   };
 }

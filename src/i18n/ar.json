@@ -635,13 +635,15 @@
       "signOutTitle": "Sign out",
       "signOutDescription": ""
     },
-    "ChangeLanguageScreen": {
+    "ChangeLanguageModal": {
       "title": "اختيار اللغة",
       "subtitle": "الرجاء اختيار لغتك المفضلة من الخيارات أدناه.",
       "english": "إنجليزي",
       "arabic": "عربي",
-      "saveChanges": "احفظ التغييرات",
-      "successMessage": "تم تحديث إعدادات اللغة الخاصة بك."
+      "saveChanges": "حفظ التغييرات",
+      "successMessage": "تم تحديث إعدادات اللغة الخاصة بك.",
+      "applicationOptionTitle": "Application",
+      "notificationsOptionTitle": "Notifications"
     },
     "reloadAppMessage": "يجب اعاده تشغيل التطبيق للاستمرار",
     "okButtonMessage": "موافق"

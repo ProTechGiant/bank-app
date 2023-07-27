@@ -8,7 +8,7 @@ import useChangeLanguage from "./use-change-language";
 export default function useDeviceLanguage() {
   const { i18n } = useTranslation();
   const prevState = useRef<AppStateStatus>(AppState.currentState);
-  const changeLanguage = useChangeLanguage();
+  const { handleOnChange } = useChangeLanguage();
 
   useEffect(() => {
     const listener = AppState.addEventListener("change", async state => {
@@ -23,7 +23,7 @@ export default function useDeviceLanguage() {
         return; // language did not change OR we user has custom language selected
       }
 
-      changeLanguage(deviceLanguage);
+      handleOnChange(deviceLanguage);
 
       prevState.current = state;
     });

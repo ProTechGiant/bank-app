@@ -675,13 +675,21 @@
       "signOutTitle": "Sign out",
       "signOutDescription": ""
     },
-    "ChangeLanguageScreen": {
+    "ChangeLanguageModal": {
       "title": "Language selection",
       "subtitle": "Please choose your preferred language from the options below.",
       "english": "English",
       "arabic": "Arabic",
       "saveChanges": "Save changes",
-      "successMessage": "Your language settings have been updated successfully"
+      "successMessage": "Your language settings have been updated successfully",
+      "modalAppTitle": "Application Language",
+      "modalNotificationsTitle": "Notifications Language",
+      "restartRequired": "Restart required",
+      "restartMessage": "To change the language, the app must be restarted. Do you want to restart now?",
+      "restartNow": "Restart now",
+      "cancelButton": "Cancel",
+      "applicationOptionTitle": "Application",
+      "notificationsOptionTitle": "Notifications"
     },
     "SignOutModal": {
       "areYouSureSignOut": "Are you sure you want to\nSign out?",

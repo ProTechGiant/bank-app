@@ -1,17 +1,11 @@
-import { G, Path, Svg } from "react-native-svg";
+import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export function AngleDownIcon({ color = "#002233", height = 20, width = 20 }: IconProps) {
+export function AngleDownIcon({ color = "#B3B3B3", height = 24, width = 24 }: IconProps) {
   return (
-    <Svg width={width} height={height} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <G id="expand_more">
-        <Path
-          id="Vector"
-          d="M13.825 6.9126L10 10.7293L6.175 6.9126L5 8.0876L10 13.0876L15 8.0876L13.825 6.9126Z"
-          fill={color}
-        />
-      </G>
+    <Svg width={width} height={height} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <Path d="M16.59 8.795L12 13.375l-4.59-4.58L6 10.205l6 6 6-6-1.41-1.41z" fill={color} />
     </Svg>
   );
 }
