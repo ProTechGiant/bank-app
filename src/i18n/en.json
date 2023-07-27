@@ -2067,6 +2067,7 @@
     },
     "SavedBillScreen": {
       "savedBill": "Saved Bills",
+      "payBill": "Pay Bill",
       "searchPlaceholder": "Biller number, provider or description"
     },
     "SelectBillerCategoryScreen": {
@@ -2099,7 +2100,9 @@
     },
     "BillDescriptionScreen": {
       "billDescriptionText": "Bill description",
-      "buttonText": "Add a bill"
+      "buttonText": "Add a bill",
+      "payBillText": "Pay the bill",
+      "cancelText": "Cancel"
     },
     "EditBillDescriptionModalScreen": {
       "buttonText": "Save"

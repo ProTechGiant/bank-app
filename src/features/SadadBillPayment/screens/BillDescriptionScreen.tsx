@@ -14,12 +14,15 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { billDetailsMock } from "../mocks/billDetailsMock";
 import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 
 export default function BillDescriptionScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const { navigationType } = useSadadBillPaymentContext();
 
   const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.BillDescriptionScreen">>();
   const [billDescription, setBillDescription] = useState(route.params.BillDescription);
@@ -39,8 +42,12 @@ export default function BillDescriptionScreen() {
     navigation.navigate("SadadBillPayments.BillSavedSuccessScreen");
   };
 
+  const handleOnCancel = () => {
+    navigation.navigate("SadadBillPayments.BillPaymentHomeScreen");
+  };
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["24p"],
+    marginBottom: theme.spacing["8p"],
     flex: 1,
   }));
 
@@ -120,7 +127,16 @@ export default function BillDescriptionScreen() {
             </View>
           </Stack>
         </View>
-        <Button onPress={handleOnAddBill}>{t("SadadBillPayments.BillDescriptionScreen.buttonText")}</Button>
+        <Button onPress={handleOnAddBill}>
+          {navigationType === "payBill"
+            ? t("SadadBillPayments.BillDescriptionScreen.payBillText")
+            : t("SadadBillPayments.BillDescriptionScreen.buttonText")}
+        </Button>
+        {navigationType === "payBill" ? (
+          <Button variant="tertiary" onPress={handleOnCancel}>
+            {t("SadadBillPayments.BillDescriptionScreen.cancelText")}
+          </Button>
+        ) : null}
       </ContentContainer>
     </Page>
   );

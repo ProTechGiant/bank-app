@@ -9,6 +9,7 @@ import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { InfoContainer } from "../components";
@@ -16,9 +17,10 @@ import { billDetailsMock } from "../mocks/billDetailsMock";
 
 export default function BillSavedSuccessScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const handleOnClosePress = () => {
-    //TODO: close and navigate to home page
+    navigation.navigate("SadadBillPayments.BillPaymentHomeScreen");
   };
 
   const handleOnPayNowPress = () => {

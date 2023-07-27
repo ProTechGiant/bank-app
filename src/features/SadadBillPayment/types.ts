@@ -7,3 +7,5 @@ export interface BillItem {
   DueDate: string;
   icon: ImageURISource;
 }
+
+export type NavigationType = "saveBill" | "payBill" | "oneTimePayment" | undefined;

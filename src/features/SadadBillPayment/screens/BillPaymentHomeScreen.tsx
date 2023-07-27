@@ -18,6 +18,7 @@ import {
   Stack,
   Typography,
 } from "../components";
+import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { MockBillDetails } from "../mocks/MockBillDetails";
 
 export default function BillPaymentHomeScreen() {
@@ -26,9 +27,12 @@ export default function BillPaymentHomeScreen() {
   const numberOfBills = MockBillDetails.length;
   //TODO MockBillDetails should be replaced with an API call.
 
-  const [currentTab, setCurrentTab] = useState<"due" | "bills">("due");
+  const { setNavigationType } = useSadadBillPaymentContext();
+
+  const [currentTab, setCurrentTab] = useState<"paymentDue" | "savedBills">("paymentDue");
 
   const handleOnAddBillPress = () => {
+    setNavigationType("saveBill");
     navigation.navigate("SadadBillPayments.SelectBillerCategoryScreen");
   };
 
@@ -46,7 +50,9 @@ export default function BillPaymentHomeScreen() {
 
   const handleOnViewAllPress = () => {
     //TODO - To be implemented as part of the upcoming story
-    navigation.navigate("SadadBillPayments.SaveBillsScreen");
+    navigation.navigate("SadadBillPayments.SaveBillsScreen", {
+      navigationFlow: currentTab,
+    });
   };
 
   const handleOnBiilItemPress = () => {
@@ -138,10 +144,10 @@ export default function BillPaymentHomeScreen() {
             <Stack direction="horizontal">
               <View style={segmentedControlStyle}>
                 <SegmentedControl onPress={value => setCurrentTab(value)} value={currentTab}>
-                  <SegmentedControl.Item value="due">
+                  <SegmentedControl.Item value="paymentDue">
                     {t("SadadBillPayments.BillPaymentHomeScreen.tabItems.paymentDue")}
                   </SegmentedControl.Item>
-                  <SegmentedControl.Item value="bills">
+                  <SegmentedControl.Item value="savedBills">
                     {t("SadadBillPayments.BillPaymentHomeScreen.tabItems.savedBills")}
                   </SegmentedControl.Item>
                 </SegmentedControl>
@@ -163,12 +169,12 @@ export default function BillPaymentHomeScreen() {
                 ) : (
                   <EmptyDataWarningCard
                     title={
-                      currentTab === "due"
+                      currentTab === "paymentDue"
                         ? t("SadadBillPayments.BillPaymentHomeScreen.noDueTitle")
                         : t("SadadBillPayments.BillPaymentHomeScreen.noBillTitle")
                     }
                     description={
-                      currentTab === "due"
+                      currentTab === "paymentDue"
                         ? t("SadadBillPayments.BillPaymentHomeScreen.noDueDescription")
                         : t("SadadBillPayments.BillPaymentHomeScreen.noBillDescription")
                     }
