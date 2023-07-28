@@ -1,5 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { parsePhoneNumber } from "libphonenumber-js";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
@@ -39,16 +40,23 @@ export default function ConfirmNewBeneficiaryScreen() {
   const { transferAmount, reason, addBeneficiary, recipient, transferType } = useInternalTransferContext();
   const bankList = useBeneficiaryBanks();
 
-  const { control, handleSubmit } = useForm<ConfirmBeneficiaryDeclarationForm>({
+  const { control, handleSubmit, setValue } = useForm<ConfirmBeneficiaryDeclarationForm>({
     mode: "onBlur",
     resolver: yupResolver(schema),
     defaultValues: {
-      confirmBeneficiaryDeclaration:
-        transferType === TransferType.CroatiaToArbTransferAction ||
-        recipient.type === "active" ||
-        transferType === TransferType.SarieTransferAction,
+      confirmBeneficiaryDeclaration: false,
     },
   });
+
+  useEffect(() => {
+    //Adding this check because in case of CRO-ARB we dont have terms and condition check
+    if (
+      transferType === TransferType.CroatiaToArbTransferAction ||
+      recipient.type === "active" ||
+      transferType === TransferType.SarieTransferAction
+    )
+      setValue("confirmBeneficiaryDeclaration", true, { shouldValidate: true, shouldDirty: true });
+  }, [setValue, transferType, recipient]);
 
   const handleOnPressTermsAndConditions = () => {
     navigation.navigate("InternalTransfers.BeneficiaryDeclarationModal");
@@ -147,23 +155,25 @@ export default function ConfirmNewBeneficiaryScreen() {
               label={parsePhoneNumber(addBeneficiary.SelectionValue).format("INTERNATIONAL")}
             />
           ) : (recipient.type === "new" && addBeneficiary?.SelectionType === "IBAN") ||
-            transferType !== TransferType.SarieTransferAction ? (
+            (transferType !== TransferType.SarieTransferAction && addBeneficiary?.SelectionValue) ? (
             <ConfirmBeneficiaryListCard
               icon={<NumbersIcon color={iconColor} />}
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.iban")}
-              label={formatIban(addBeneficiary.SelectionValue)}
+              label={formatIban(addBeneficiary?.SelectionValue ?? "")}
             />
           ) : null}
           {recipient.type === "inactive" &&
           recipient.phoneNumber !== undefined &&
           transferType !== TransferType.SarieTransferAction ? (
-            <ConfirmBeneficiaryListCard
-              icon={<PhoneFilledIcon color={iconColor} />}
-              iconBackground="neutralBase-40"
-              caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
-              label={recipient.phoneNumber}
-            />
+            transferType !== TransferType.CroatiaToArbTransferAction ? (
+              <ConfirmBeneficiaryListCard
+                icon={<PhoneFilledIcon color={iconColor} />}
+                iconBackground="neutralBase-40"
+                caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
+                label={recipient.phoneNumber}
+              />
+            ) : null
           ) : recipient.type === "inactive" && recipient.iban !== undefined ? (
             <ConfirmBeneficiaryListCard
               icon={<NumbersIcon color={iconColor} />}
