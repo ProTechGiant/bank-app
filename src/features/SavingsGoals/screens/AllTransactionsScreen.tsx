@@ -118,7 +118,8 @@ export default function AllTransactionsScreen() {
                 .{decimalPart ? decimalPart : "00"}
               </Typography.Text>
               <Typography.Text style={styles.currency} color="primaryBase-40" size="title2">
-                {t("ViewTransactions.TransactionsScreen.sar")}
+                {" "}
+                {t("Currency.sar")}
               </Typography.Text>
             </View>
           </View>

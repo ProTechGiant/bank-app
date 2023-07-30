@@ -107,7 +107,7 @@ export default function AnimatedHeader({ headerProps, isFilterDisabled, onPress 
             <Animated.Text style={[centStyle, { fontSize: sarFont }]}>{`.${cents}` ?? 0.0}</Animated.Text>
           </Animated.Text>
           <Animated.Text style={[sarStyle, { fontSize: sarFont }]}>
-            {" " + (account.data?.currencyType ?? t("ViewTransactions.TransactionsScreen.sar"))}
+            {" " + (account.data?.currencyType ?? t("Currency.sar"))}
           </Animated.Text>
         </View>
         <Typography.Text color="neutralBase+10" size="footnote" weight="semiBold">

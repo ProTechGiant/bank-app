@@ -41,6 +41,9 @@
     "copied": "Something went wrong. The phonenumber has been copied for you.",
     "failed": "Something went wrong."
   },
+  "Currency": {
+    "sar": "SAR"
+  },
   "Onboarding": {
     "WelcomeCarousel": {
       "titleOne": "Welcome\nto Croatia",
@@ -286,7 +289,6 @@
         "reset": "Reset"
       },
       "spendingSummary": "Spending Summary",
-      "sar": "SAR",
       "totalSpending": "Total Spending"
     },
     "TopSpendingScreen": {
@@ -300,7 +302,6 @@
       "seeAll": "See All",
       "seeLess": "See Less",
       "excludeFromSpending": "Exclude from spending",
-      "sar": "SAR",
       "budgetCard": {
         "amount": "{{amountSpent}} of {{budgetAmount}} SAR"
       },
@@ -312,7 +313,6 @@
       "reachedBudget": "Reached monthly budget"
     },
     "ExcludedDetailedScreen": {
-      "sar": "SAR",
       "hiddenTransactions": "Hidden Transactions"
     },
     "SpendSummaryScreen": {
@@ -323,7 +323,6 @@
       "week": "Week",
       "month": "Month",
       "year": "Year",
-      "sar": "SAR",
       "sr": "SR",
       "seeAll": "See All"
     },
@@ -385,7 +384,6 @@
       "pending": "Pending Transactions",
       "filter": "Filter",
       "balance": "Balance",
-      "sar": "SAR",
       "filterOptions": "Filter Options",
       "bySpending": "Filter By Spending Categories",
       "byCard": "Filter By Card Type",
@@ -426,6 +424,9 @@
       "changeCategory": "Changing Category from {{firstCategory}} to {{secondCategory}}",
       "changeCategories": "Change Categories",
       "clearAll": "Clear all",
+      "showLess": "Show Less",
+      "showAll": "Show All",
+      "pastTransactions": "Past transactions from this \n merchant",
       "tripToModal": {
         "title": "Select Country",
         "searchPlaceholder": "Search By Country Name",
@@ -2091,7 +2092,7 @@
     },
     "EnterBillDescriptionScreen": {
       "enterBillDescTitle": "Enter bill description",
-      "enterBillDescSubTitle":"Save the bill by giving a name - you can find this bill in your Saved bills.",
+      "enterBillDescSubTitle": "Save the bill by giving a name - you can find this bill in your Saved bills.",
       "buttonText": "Continue",
       "textInput": {
         "validationText": "Maximum 22 characters",
@@ -2112,11 +2113,11 @@
       "viewBillText": "You can view all your saved bills in the saved bills list or pay the bill below",
       "buttonTitle": "Pay now",
       "closeText": "Close",
-      "billDescriptionText":"Bill description",
-      "billAmountText":"Bill Amount" ,
-      "currentDueText":"Current due date",
-      "accountNumberText":"Account number",
-      "billerNumberText":"Biller number"
+      "billDescriptionText": "Bill description",
+      "billAmountText": "Bill Amount",
+      "currentDueText": "Current due date",
+      "accountNumberText": "Account number",
+      "billerNumberText": "Biller number"
     },
     "PaymentHistoryDetailScreen": {
       "shareButton": "Share"

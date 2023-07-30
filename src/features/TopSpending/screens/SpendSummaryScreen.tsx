@@ -6,6 +6,7 @@ import { FlatList, I18nManager, Image, Pressable, StyleSheet, View, ViewStyle } 
 
 import { CalendarAltIcon, ChevronRightIcon } from "@/assets/icons";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
+import IconGenerator from "@/components/IconGenerator";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -15,7 +16,7 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { IconGenerator, SpendingsFilterModal } from "../components";
+import { SpendingsFilterModal } from "../components";
 import SpendCompareModal from "../components/SpendCompareModal";
 import { ChartTypes, CompareDurationTypes } from "../enum";
 import { userType } from "../mocks";
@@ -264,7 +265,7 @@ export default function SpendSummaryScreen() {
                   isCurrencyIncluded={false}
                 />
               </Typography.Text>
-              <Typography.Text color="primaryBase-40">{t("TopSpending.SpendSummaryScreen.sar")}</Typography.Text>
+              <Typography.Text color="primaryBase-40">{t("Currency.sar")}</Typography.Text>
             </Stack>
           )}
         </View>
@@ -316,7 +317,8 @@ export default function SpendSummaryScreen() {
                 />
               </Typography.Text>
               <Typography.Text size="title3" weight="bold" color="neutralBase+30">
-                {t("TopSpending.SpendSummaryScreen.sar")}
+                {" "}
+                {t("Currency.sar")}
               </Typography.Text>
             </Stack>
             {userType !== "plusTier" ? <Image source={require("../assets/images/hidden-text.png")} /> : null}
@@ -363,7 +365,8 @@ export default function SpendSummaryScreen() {
                         />
                       </Typography.Text>
                       <Typography.Text size="callout" color="neutralBase+30">
-                        {t("TopSpending.SpendSummaryScreen.sar")}
+                        {" "}
+                        {t("Currency.sar")}
                       </Typography.Text>
                     </Stack>
                     <View style={styles.chevronContainer}>

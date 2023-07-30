@@ -47,7 +47,7 @@ export default function TransectionDetails({
         </Typography.Text>
       </View>
       <Typography.Text size="callout">
-        {amount} {t("TopSpending.SpendSummaryScreen.sar")}
+        {amount} {t("Currency.sar")}
       </Typography.Text>
       <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
         <ChevronRightIcon color={chevronColor} />

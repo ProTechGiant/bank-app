@@ -1,11 +1,11 @@
 import { FlatList, Pressable, View, ViewStyle } from "react-native";
 
 import { CloseIcon } from "@/assets/icons";
+import IconGenerator from "@/components/IconGenerator";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import { categoryIconViewBox } from "../mocks/MockData";
-import IconGenerator from "./IconGenerator";
 
 interface ChoosenCategoriesProps {
   categories: CategoryType[];

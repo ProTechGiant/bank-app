@@ -25,7 +25,8 @@ const NumberWithDifferentFontSizes: React.FC<NumberWithDifferentFontSizesProps> 
         .{decimalPart ? decimalPart : "00"}
       </Typography.Text>
       <Typography.Text style={styles.currency} color="primaryBase-40" size="body" weight="regular">
-        {t("ViewTransactions.TransactionsScreen.sar")}
+        {" "}
+        {t("Currency.sar")}
       </Typography.Text>
     </View>
   );

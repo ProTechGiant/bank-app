@@ -12,6 +12,7 @@ import ContextualFAQModal from "@/components/ContextualFAQModal";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import ProgressWheel from "@/components/ProgressWheel";
 import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
@@ -22,7 +23,7 @@ import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import RoundUpsIcon from "../assets/round-ups";
-import { ProgressWheel, TransactionCardList } from "../components";
+import { TransactionCardList } from "../components";
 import { calculateGoalBalanceOverThreeQuarters } from "../helpers";
 import { useRecurringPayments, useRoundupFlag, useSavingsPot, useUpdateSavingsGoal } from "../hooks/query-hooks";
 import { recentTransactions } from "../mocks/mockMostTransactions";

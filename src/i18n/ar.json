@@ -435,6 +435,10 @@
       "changeCategory": "Changing Category from {{firstCategory}} to {{secondCategory}}",
       "changeCategories": "Change Categories",
       "clearAll": "Clear all",
+      "sar": " SAR",
+      "showLess": "Show Less",
+      "showAll": "Show All",
+      "pastTransactions": "Past transactions from this \n merchant",
       "tripToModal": {
         "title": "حدد الدولة",
         "searchPlaceholder": "البحث عن طريق اسم الدولة",
@@ -648,7 +652,7 @@
     "reloadAppMessage": "يجب اعاده تشغيل التطبيق للاستمرار",
     "okButtonMessage": "موافق"
   },
-    "Home": {
+  "Home": {
     "DashboardScreen": {
       "AccountNumberCopied": "Account Number is copied in the clipboard.",
       "balanceHidden": "Hidden balance",
@@ -661,10 +665,11 @@
       "dismiss": "Dismiss",
       "viewAll": "View all",
       "whatsNext": "What's Next",
-      "totalbalance":"Total balance",
-      "account":"Account    ",     
-      "mainCroatiaAccount":"Main Croatia account"
-    }},
+      "totalbalance": "Total balance",
+      "account": "Account    ",
+      "mainCroatiaAccount": "Main Croatia account"
+    }
+  },
   "InstructionsScreen": {
     "skip": "تخطى",
     "continue": "متابعة",

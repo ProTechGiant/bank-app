@@ -2,10 +2,10 @@ import { Pressable, Text, View, ViewStyle } from "react-native";
 
 import CheckBoxCheckedIcon from "@/assets/icons/CheckBoxCheckedIcon";
 import CheckBoxIcon from "@/assets/icons/CheckBoxIcon";
+import IconGenerator from "@/components/IconGenerator";
 import { useThemeStyles } from "@/theme";
 
 import { categoryIconViewBox } from "../mocks/MockData";
-import IconGenerator from "./IconGenerator";
 
 interface CategoryType {
   categoryId: number;

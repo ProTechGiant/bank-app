@@ -2,12 +2,12 @@ import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
+import IconGenerator from "@/components/IconGenerator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
-import { IconGenerator } from "../components";
 import { categoryIconViewBox } from "../mocks/MockData";
 import { Tag } from "../types";
 

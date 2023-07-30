@@ -37,7 +37,7 @@ export default function ReportCard({ color = "primaryBase-40", label, amount }: 
         <Typography.Text size="callout">{label}</Typography.Text>
       </View>
       <Typography.Text color={color} size="callout">
-        {amount} {t("TopSpending.SpendSummaryScreen.sar")}
+        {amount} {t("Currency.sar")}
       </Typography.Text>
     </View>
   );

@@ -87,13 +87,17 @@ export default function useTransactions(
   selectedFilters?: string[],
   groupBy?: string,
   fromDate?: string,
-  toDate?: string
+  toDate?: string,
+  merchantName?: string
 ) {
   const account = useCurrentAccount();
   const account_id = account.data?.id;
 
   const notPendingTransactions = useQuery(
-    ["transactions", { transactionCode, selectedFilters, categories, tags, StatusId: "1", fromDate, toDate }],
+    [
+      "transactions",
+      { transactionCode, selectedFilters, categories, tags, StatusId: "1", fromDate, toDate, merchantName },
+    ],
     () =>
       api<ApiTransactionsResponseElement>(
         "v1",
@@ -111,6 +115,7 @@ export default function useTransactions(
           GroupBy: groupBy,
           FromDate: fromDate,
           ToDate: toDate,
+          MerchantName: merchantName,
         },
         undefined,
         {

@@ -39,7 +39,7 @@ export default function TagChart({ data, TotalAmount }: TagChartProp) {
         </Typography.Text>
 
         <Typography.Text color="neutralBase+30" size="title3" weight="bold">
-          {TotalAmount} {t("TopSpending.SingleTagScreen.sar")}
+          {TotalAmount} {t("Currency.sar")}
         </Typography.Text>
       </View>
 

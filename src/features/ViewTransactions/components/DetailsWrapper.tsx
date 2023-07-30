@@ -1,17 +1,21 @@
 import { format } from "date-fns";
 import { toString } from "lodash";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import BackgroundBottom from "@/assets/BackgroundBottom";
 import CardButton from "@/components/CardButton";
 import ContentContainer from "@/components/ContentContainer";
 import DetailedRow from "@/components/DetailedRow";
+import Divider from "@/components/Divider";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
+import IconGenerator from "@/components/IconGenerator";
 import NavHeader from "@/components/NavHeader";
 import Typography from "@/components/Typography";
 import { PHYSICAL_CARD_TYPE } from "@/constants";
+import useTransactions from "@/hooks/use-not-pending-transactions";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -27,6 +31,8 @@ interface DetailsWrapperProps {
   createDisputeUserId: string;
   transactionTags: Array<SingleTagType>;
 }
+
+// TODO separating the components next BC
 
 function DetailsWrapper({ data, openModel, onReportTransaction, transactionTags }: DetailsWrapperProps) {
   return (
@@ -61,13 +67,11 @@ function PendingTransaction({
         <DetailedRow name="Status" value={data.status} />
         {data.location ? <DetailedRow name="Location" value={data.location} /> : <></>}
 
-        <View style={styles.detailedButton}>
-          <CardButton
-            label={t("ViewTransactions.SingleTransactionDetailedScreen.reportTransaction")}
-            text={t("ViewTransactions.SingleTransactionDetailedScreen.somethingWrong")}
-            onPress={onReportTransaction}
-          />
-        </View>
+        <CardButton
+          label={t("ViewTransactions.SingleTransactionDetailedScreen.reportTransaction")}
+          text={t("ViewTransactions.SingleTransactionDetailedScreen.somethingWrong")}
+          onPress={onReportTransaction}
+        />
       </ContentContainer>
     </>
   );
@@ -90,6 +94,49 @@ function DebitCardAndOneTimeCard({
 }) {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const toDate = new Date(data.transactionDate[0], data.transactionDate[1] - 1, data.transactionDate[2]);
+
+  // subtract 6 months from the 'toDate' to create the 'fromDate'
+  const fromDate = new Date(toDate.getFullYear(), toDate.getMonth() - 6, toDate.getDate());
+
+  const { notPendingTransactions } = useTransactions(
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    format(fromDate, "yyyy-MM-dd"),
+    format(toDate, "yyyy-MM-dd"),
+    data.title
+  );
+
+  const [showAllTransactions, setShowAllTransactions] = useState(false);
+
+  // TODO backend currently doesn't filter by hour, min, sec,
+  const comparisonDate = new Date(
+    data.transactionDate[0],
+    data.transactionDate[1] - 1,
+    data.transactionDate[2],
+    data.transactionDate[3],
+    data.transactionDate[4],
+    data.transactionDate[5]
+  );
+
+  const filteredTransactions =
+    notPendingTransactions.data?.Transaction?.filter(transaction => {
+      const transactionDate = new Date(
+        transaction.BookingDateTime[0],
+        transaction.BookingDateTime[1] - 1,
+        transaction.BookingDateTime[2],
+        transaction.BookingDateTime[3],
+        transaction.BookingDateTime[4],
+        transaction.BookingDateTime[5]
+      );
+      return transactionDate < comparisonDate;
+    }) ?? [];
+
+  const limitedData = showAllTransactions ? filteredTransactions : filteredTransactions.slice(0, 2);
 
   const handleOnPressCategoriesList = () => {
     navigation.navigate("ViewTransactions.CategoriesListScreen", {
@@ -126,7 +173,7 @@ function DebitCardAndOneTimeCard({
   const formattedDate = format(dateFromData, "EEE d MMM, HH:mm");
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
+    backgroundColor: theme.palette["supportBase-15"],
     paddingHorizontal: theme.spacing["12p"],
     paddingVertical: theme.spacing["8p"],
     flexDirection: "row",
@@ -134,8 +181,9 @@ function DebitCardAndOneTimeCard({
     alignItems: "center",
   }));
 
-  const header = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
+  const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["supportBase-15"],
+    zIndex: 1,
   }));
 
   const tagsValue =
@@ -146,18 +194,39 @@ function DebitCardAndOneTimeCard({
       : "";
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
+    paddingTop: theme.spacing["32p"],
+    flex: 1,
   }));
+
+  const contentSpacingStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["20p"],
+  }));
+
+  const backgroundBottomStyle = useThemeStyles<ViewStyle>(theme => ({
+    position: "absolute",
+    bottom: -theme.spacing["24p"] + 1, // Small gap forms on iphone SE, 1 pixel added to remove this.
+  }));
+
+  const backgroundAngledColor = useThemeStyles(theme => theme.palette["supportBase-15"]);
+
+  const transactionsListStyle = useThemeStyles<ViewStyle>(theme => ({
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: theme.spacing["20p"],
+  }));
+
+  const iconColor = useThemeStyles(theme => theme.palette.complimentBase);
 
   return (
     <>
-      <SafeAreaView edges={["top"]} style={header}>
-        <NavHeader onBackPress={handleOnBackPress} title={formattedDate} />
+      <SafeAreaView edges={["top"]} style={headerContainerStyle}>
+        <NavHeader variant="background" onBackPress={handleOnBackPress} title={formattedDate} />
         <View style={headerStyle}>
           <View>
             <Typography.Text color="neutralBase+30" size="title3" weight="bold">
               {data.title}
             </Typography.Text>
-            <Typography.Text color="primaryBase-40" weight="regular" size="caption2">
+            <Typography.Text color="neutralBase+10" weight="regular" size="caption2">
               {data.subTitle}
             </Typography.Text>
           </View>
@@ -166,66 +235,92 @@ function DebitCardAndOneTimeCard({
             <FormatTransactionAmount
               amount={parseFloat(data.amount)}
               isPlusSignIncluded={false}
-              integerSize="title2"
-              decimalSize="body"
+              integerSize="title3"
+              decimalSize="title3"
               color="neutralBase+30"
-              isCurrencyIncluded={true}
+              isCurrencyIncluded={false}
               currencyColor="primaryBase-40"
             />
+            <Typography.Text size="title3" weight="regular">
+              {" "}
+              {t("Currency.sar")}
+            </Typography.Text>
           </View>
+        </View>
+        <View style={backgroundBottomStyle}>
+          <BackgroundBottom color={backgroundAngledColor} />
         </View>
       </SafeAreaView>
 
-      <ContentContainer style={contentStyle}>
-        <DetailedRow
-          openModel={openModel}
-          name={t("ViewTransactions.SingleTransactionDetailedScreen.status")}
-          value={
-            data.status.trim() === "Booked"
-              ? t("ViewTransactions.SingleTransactionDetailedScreen.completed")
-              : data.status
-          }
-          roundup={false}
-        />
-        {data.subTitle !== "Incoming Payment" ? (
-          <DetailedRow
-            name={t("ViewTransactions.SingleTransactionDetailedScreen.roundUpAmount")}
-            openModel={openModel}
-            value={parseFloat(data.roundUpsAmount).toFixed(0) + " " + data.currency}
-            roundup={true}
-          />
-        ) : null}
-        {data.cardType === "0" ? (
-          <DetailedRow
-            name={t("ViewTransactions.SingleTransactionDetailedScreen.roundUpAmount")}
-            openModel={openModel}
-            value={parseFloat(data.roundUpsAmount).toFixed(0) + " " + data.currency}
-            roundup={true}
-          />
-        ) : null}
-        {data.categoryName ? (
-          <Pressable onPress={data.categoryId !== "10" ? handleOnPressCategoriesList : undefined}>
-            <DetailedRow
-              name={t("ViewTransactions.SingleTransactionDetailedScreen.category")}
-              value={data.categoryName}
-              showIcon={data.categoryId !== "10" ? true : false}
-            />
-          </Pressable>
-        ) : null}
-        <Pressable onPress={handleOnPressTags}>
-          <DetailedRow name={t("ViewTransactions.SingleTransactionDetailedScreen.tags")} value={tagsValue} showIcon />
-        </Pressable>
-        {data?.location ? (
+      <View style={contentStyle}>
+        <View style={contentSpacingStyle}>
           <DetailedRow
             openModel={openModel}
-            name={t("ViewTransactions.SingleTransactionDetailedScreen.location")}
-            value={data.location}
+            name={t("ViewTransactions.SingleTransactionDetailedScreen.status")}
+            value={
+              data.status.trim() === "Booked"
+                ? t("ViewTransactions.SingleTransactionDetailedScreen.completed")
+                : data.status
+            }
             roundup={false}
           />
-        ) : null}
-        <ExcludeFromSummary transactionId={data.transactionId} isHidden={data.hiddenIndicator} />
-        <View style={styles.detailedButton}>
+          {data.subTitle !== "Incoming Payment" ? (
+            <DetailedRow
+              name={t("ViewTransactions.SingleTransactionDetailedScreen.roundUpAmount")}
+              openModel={openModel}
+              value={parseFloat(data.roundUpsAmount).toFixed(0) + " " + data.currency}
+              roundup={true}
+            />
+          ) : null}
+          {data.cardType === "0" ? (
+            <DetailedRow
+              name={t("ViewTransactions.SingleTransactionDetailedScreen.roundUpAmount")}
+              openModel={openModel}
+              value={parseFloat(data.roundUpsAmount).toFixed(0) + " " + data.currency}
+              roundup={true}
+            />
+          ) : null}
+          {data.categoryName ? (
+            <Pressable onPress={data.categoryId !== "10" ? handleOnPressCategoriesList : undefined}>
+              <DetailedRow
+                name={t("ViewTransactions.SingleTransactionDetailedScreen.category")}
+                value={data.categoryName}
+                showIcon={data.categoryId !== "10" ? true : false}
+              />
+            </Pressable>
+          ) : null}
+          <Pressable onPress={handleOnPressTags}>
+            <DetailedRow name={t("ViewTransactions.SingleTransactionDetailedScreen.tags")} value={tagsValue} showIcon />
+          </Pressable>
+          {data?.location ? (
+            <DetailedRow
+              openModel={openModel}
+              name={t("ViewTransactions.SingleTransactionDetailedScreen.location")}
+              value={data.location}
+              roundup={false}
+            />
+          ) : null}
+        </View>
+        <Divider color="neutralBase-40" height={4} />
+
+        <View style={contentSpacingStyle}>
+          <ExcludeFromSummary transactionId={data.transactionId} isHidden={data.hiddenIndicator} />
+        </View>
+
+        <Divider color="neutralBase-40" height={4} />
+
+        <View>
           <CardButton
+            //* TODO remove static icon path once its ready from back end
+            icon={
+              <IconGenerator
+                path="M7.86 2.5L8.26 4.5H13.5V10.5H10.14L9.74 8.5H2.5V2.5H7.86ZM9.5 0.5H0.5V17.5H2.5V10.5H8.1L8.5 12.5H15.5V2.5H9.9L9.5 0.5Z"
+                width={24}
+                height={24}
+                viewBox="0 0 24 24"
+                color={iconColor}
+              />
+            }
             label={t("ViewTransactions.SingleTransactionDetailedScreen.reportTransaction")}
             text={t("ViewTransactions.SingleTransactionDetailedScreen.somethingWrong")}
             onPress={onReportTransaction}
@@ -240,18 +335,65 @@ function DebitCardAndOneTimeCard({
             />
           ) : null}
         </View>
-      </ContentContainer>
+        <Divider color="neutralBase-40" height={4} />
+
+        {limitedData.length > 0 && data.categoryId !== "10" ? (
+          <View style={[contentSpacingStyle, styles.transactionsContainer]}>
+            <View style={transactionsListStyle}>
+              <Typography.Text size="title3" weight="medium">
+                {t("ViewTransactions.SingleTransactionDetailedScreen.pastTransactions")}
+              </Typography.Text>
+
+              <Pressable onPress={() => setShowAllTransactions(!showAllTransactions)}>
+                <Typography.Text color="interactionBase" size="footnote" weight="medium">
+                  {showAllTransactions
+                    ? t("ViewTransactions.SingleTransactionDetailedScreen.showLess")
+                    : t("ViewTransactions.SingleTransactionDetailedScreen.showAll")}
+                </Typography.Text>
+              </Pressable>
+            </View>
+            <SectionList
+              sections={[{ data: limitedData }]}
+              keyExtractor={(item, index) => item.TransactionId + index}
+              renderItem={({ item }) => (
+                <CardButton
+                  //* TODO remove static icon path once its ready from back end
+                  icon={
+                    <IconGenerator
+                      path="M7.86 2.5L8.26 4.5H13.5V10.5H10.14L9.74 8.5H2.5V2.5H7.86ZM9.5 0.5H0.5V17.5H2.5V10.5H8.1L8.5 12.5H15.5V2.5H9.9L9.5 0.5Z"
+                      width={24}
+                      height={24}
+                      viewBox="0 0 24 24"
+                      color={iconColor}
+                    />
+                  }
+                  label={item.MerchantDetails.MerchantName}
+                  text={format(
+                    new Date(item.BookingDateTime[0], item.BookingDateTime[1] - 1, item.BookingDateTime[2]),
+                    "dd MMM yyyy"
+                  )}
+                  amount={item.Amount.Amount}
+                  onPress={() => {
+                    // TODO after api is ready
+                    console.log("Trigered!!");
+                  }}
+                />
+              )}
+            />
+          </View>
+        ) : null}
+      </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  detailedButton: {
-    marginTop: 40,
-  },
   sarStyle: {
     alignItems: "baseline",
     flexDirection: "row",
+  },
+  transactionsContainer: {
+    flex: 1,
   },
 });
 

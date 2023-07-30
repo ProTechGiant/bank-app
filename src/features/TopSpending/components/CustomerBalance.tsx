@@ -27,7 +27,7 @@ export default function CustomerBalance({ total, month }: CustomerBalanceProps) 
         {t("TopSpending.TopSpendingScreen.currentSpendingIn")} {month}
       </Typography.Text>
       <Typography.Text color="neutralBase+30" size="title3" weight="bold">
-        {formattedValue} {t("TopSpending.TopSpendingScreen.sar")}
+        {formattedValue} {t("Currency.sar")}
       </Typography.Text>
     </View>
   );

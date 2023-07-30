@@ -86,7 +86,8 @@ export default function ExcludedDetailedScreen() {
         <Typography.Text size="title2" color="neutralBase+30">
           {formatCurrency(totalAmount)}
           <Typography.Text size="body" color="primaryBase-40">
-            {t("TopSpending.ExcludedDetailedScreen.sar")}
+            {" "}
+            {t("Currency.sar")}
           </Typography.Text>
         </Typography.Text>
       </Stack>

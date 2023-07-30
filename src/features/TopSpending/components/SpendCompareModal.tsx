@@ -204,7 +204,7 @@ export default function SpendCompareModal({
           </Typography.Text>
           <Typography.Text size="title3" weight="bold" color="neutralBase+30">
             {" "}
-            {t("TopSpending.SpendSummaryScreen.sar")}
+            {t("Currency.sar")}
           </Typography.Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
