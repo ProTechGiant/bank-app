@@ -13,7 +13,7 @@ interface RadioProps<T> {
 
 export default function Radio<T>({ disabled = false, onPress, isSelected = false, testID, value }: RadioProps<T>) {
   const { selectedColor, disabledColor, defaultColor } = useThemeStyles(theme => ({
-    selectedColor: theme.palette["primaryBase-40"],
+    selectedColor: theme.palette.complimentBase,
     disabledColor: theme.palette["neutralBase-40"],
     defaultColor: theme.palette["neutralBase-30"],
   }));

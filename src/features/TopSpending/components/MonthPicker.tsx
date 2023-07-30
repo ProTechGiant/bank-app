@@ -2,7 +2,7 @@ import { FlatList, I18nManager, Pressable, StyleSheet, TextStyle, View, ViewStyl
 
 import { ChevronRightIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
+import { Theme, useThemeStyles } from "@/theme";
 
 import { Months } from "../mocks/monthListData";
 
@@ -12,6 +12,8 @@ interface MonthPickerProps {
   onChangeMonth: (value: number) => void;
   onChangeYear: (value: number) => void;
   selectSecondMonth: boolean;
+  selectedMonthBoxColor?: keyof Theme["palette"];
+  disabledFrom?: Date;
 }
 interface HeaderProps {
   selectedMonth: number;
@@ -20,19 +22,28 @@ interface HeaderProps {
   selectedYear: number;
 }
 interface SubHeaderProps {
+  previousButtonDisabledFromDate?: Date;
   year: number;
   setYear(value: number): void;
 }
+
+//TODO: will separating this file to components in next BC
 export default function MonthPicker({
   selectedMonth,
   selectedYear,
   onChangeMonth,
   onChangeYear,
   selectSecondMonth,
+  selectedMonthBoxColor,
+  disabledFrom,
 }: MonthPickerProps) {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+
   const activeListItemContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
-    backgroundColor: theme.palette["primaryBase-40"],
+    backgroundColor: selectedMonthBoxColor ? theme.palette[selectedMonthBoxColor] : theme.palette["primaryBase-40"],
     borderRadius: theme.radii.small,
     flex: 1,
     justifyContent: "space-between",
@@ -54,7 +65,8 @@ export default function MonthPicker({
     borderColor: theme.palette["neutralBase-30"],
     borderRadius: theme.radii.small,
     borderWidth: 1,
-    height: "55%",
+    height: 300,
+    marginBottom: theme.spacing["24p"],
     marginTop: theme.spacing["16p"],
     width: "92%",
   }));
@@ -64,15 +76,24 @@ export default function MonthPicker({
   }));
 
   const renderItem = ({ index, item }: { index: number; item: string }) => {
+    const isDisabled =
+      (index >= currentMonth && selectedYear === currentYear) ||
+      (disabledFrom
+        ? (disabledFrom?.getMonth() > index && selectedYear === disabledFrom.getFullYear()) ||
+          selectedYear < disabledFrom.getFullYear()
+        : null);
     return (
       <Pressable
+        disabled={isDisabled}
         onPress={() => onChangeMonth(index)}
         style={
           selectedMonth - 1 === index
-            ? [selectSecondMonth ? [activeListItemContainerStyle, selectedMonthColor] : activeListItemContainerStyle]
+            ? [activeListItemContainerStyle, selectSecondMonth ? selectedMonthColor : null]
             : listItemContainerStyle
         }>
-        <Typography.Text color={selectedMonth - 1 === index ? "neutralBase-60" : "neutralBase+30"} style={textStyle}>
+        <Typography.Text
+          color={isDisabled ? "neutralBase-20" : selectedMonth - 1 === index ? "neutralBase-60" : "neutralBase+30"}
+          style={textStyle}>
           {item.toUpperCase()}
         </Typography.Text>
       </Pressable>
@@ -87,7 +108,7 @@ export default function MonthPicker({
         onChangeYear={onChangeYear}
         selectedMonth={selectedMonth}
       />
-      <SubHeader year={selectedYear} setYear={onChangeYear} />
+      <SubHeader previousButtonDisabledFromDate={disabledFrom} year={selectedYear} setYear={onChangeYear} />
       <View style={styles.flatListContainer}>
         <FlatList contentContainerStyle={styles.listContainer} data={Months} numColumns={3} renderItem={renderItem} />
       </View>
@@ -95,9 +116,13 @@ export default function MonthPicker({
   );
 }
 
-const Header = ({ selectedMonth, onChangeMonth, selectedYear }: HeaderProps) => {
+const Header = ({ selectedMonth, onChangeMonth, selectedYear, onChangeYear }: HeaderProps) => {
+  const isNextButtonDisabled = selectedMonth >= new Date().getMonth() + 1 && selectedYear === new Date().getFullYear();
   const onRightArrowClick = () => {
-    onChangeMonth(selectedMonth === 12 ? 0 : selectedMonth);
+    if (selectedMonth === 12) {
+      onChangeYear(selectedYear + 1);
+      onChangeMonth(0);
+    } else onChangeMonth(selectedMonth);
   };
 
   const calendarHeaderViewStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -117,7 +142,7 @@ const Header = ({ selectedMonth, onChangeMonth, selectedYear }: HeaderProps) => 
       <Typography.Text size="title3" weight="regular" color="neutralBase+30">
         {Months[selectedMonth - 1]} {selectedYear}
       </Typography.Text>
-      <Pressable onPress={onRightArrowClick}>
+      <Pressable onPress={onRightArrowClick} disabled={isNextButtonDisabled}>
         <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
           <ChevronRightIcon height={20} color={chevronColor} />
         </View>
@@ -126,7 +151,12 @@ const Header = ({ selectedMonth, onChangeMonth, selectedYear }: HeaderProps) => 
   );
 };
 
-const SubHeader = ({ year, setYear }: SubHeaderProps) => {
+const SubHeader = ({ previousButtonDisabledFromDate, year, setYear }: SubHeaderProps) => {
+  const isNextButtonDisabled = year >= new Date().getFullYear();
+  const isPreviousButtonDisabled = previousButtonDisabledFromDate
+    ? year <= previousButtonDisabledFromDate.getFullYear()
+    : year <= new Date().getFullYear();
+
   const calendarSubHeaderViewStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     flexDirection: "row",
@@ -139,7 +169,7 @@ const SubHeader = ({ year, setYear }: SubHeaderProps) => {
 
   return (
     <View style={calendarSubHeaderViewStyle}>
-      <Pressable onPress={() => setYear(year - 1)}>
+      <Pressable onPress={() => setYear(year - 1)} disabled={isPreviousButtonDisabled}>
         <View style={{ transform: [{ scaleX: I18nManager.isRTL ? 1 : -1 }] }}>
           <ChevronRightIcon height={16} color={chevronColor} />
         </View>
@@ -147,7 +177,7 @@ const SubHeader = ({ year, setYear }: SubHeaderProps) => {
       <Typography.Text size="caption2" weight="medium" color="neutralBase+30">
         {year}
       </Typography.Text>
-      <Pressable onPress={() => setYear(year + 1)}>
+      <Pressable onPress={() => setYear(year + 1)} disabled={isNextButtonDisabled}>
         <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
           <ChevronRightIcon height={16} color={chevronColor} />
         </View>

@@ -4,13 +4,12 @@ import { View, ViewStyle } from "react-native";
 
 import { TrendingUpIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-
-import { Theme, useThemeStyles } from "../../../theme";
+import { Theme, useThemeStyles } from "@/theme";
 
 interface ReportCardProps {
   color?: keyof Theme["palette"];
   label: string;
-  amount: number;
+  amount: number | string;
 }
 
 export default function ReportCard({ color = "primaryBase-40", label, amount }: ReportCardProps) {

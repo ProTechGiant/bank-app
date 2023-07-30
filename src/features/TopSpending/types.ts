@@ -121,3 +121,46 @@ export interface GetCustomerSingleTagType {
   TagIcon: string;
   AccountId: string;
 }
+
+export interface SetMonthRowCardType {
+  label: string;
+  onPressSetDate: () => void;
+  selectedMonth?: string | null;
+}
+
+export interface PlusTierDateTypes {
+  month: number;
+  year: number;
+}
+
+export interface GetMonthSpendingsComparisonSummary {
+  Total: number;
+  Months: Month[];
+}
+
+export interface Month {
+  Month: string;
+  Year: string;
+  Total: number;
+  GraphData: GraphData[];
+  Categories: Category[];
+}
+
+export interface GraphData {
+  Week: string;
+  Amount: number;
+}
+
+export interface Category {
+  categoryId: string;
+  categoryName: string;
+  totalAmount: number;
+  percentage: string;
+  currency: string;
+  transactionCount: number;
+  iconPath: string;
+}
+export interface SingleSelectedMonthType {
+  fromDate: string;
+  toDate: string;
+}

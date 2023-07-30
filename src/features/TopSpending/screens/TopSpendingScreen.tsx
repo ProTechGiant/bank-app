@@ -1,9 +1,10 @@
-import { format } from "date-fns";
+import { format, parseISO, startOfMonth } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Image, SectionList, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Image, Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
+import { CalendarAltIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -12,11 +13,10 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { CategoryCell, CustomerBalance } from "../components";
-import BudgetCard from "../components/BudgetCard";
+import { BudgetCard, CategoryCell, CustomerBalance, SelectMonthModal } from "../components";
 import { useBudgetSummary, useCategories, useTransactionTags } from "../hooks/query-hooks";
 import { userType } from "../mocks";
-import { Tag } from "../types";
+import { SingleSelectedMonthType, Tag } from "../types";
 
 type CategoryProps = {
   categoryId: string;
@@ -32,20 +32,41 @@ export default function TopSpendingScreen() {
   const [isExpandedCategory, setIsExpandedCategory] = useState(false);
   const [isExpandedTag, setIsExpandedTag] = useState(false);
 
-  const { includedCategories, total, excludedCategories, isLoading } = useCategories();
-  const { tags, tagsLoading } = useTransactionTags();
-  const { budgetSummary, isBudgetLoading } = useBudgetSummary();
+  const [isSelectMonthModalVisible, setIsSelectMonthModalVisible] = useState<boolean>(false);
+  const [singleSelectedMonth, setSingleSelectedMonth] = useState<SingleSelectedMonthType>();
+
+  const { includedCategories, total, excludedCategories, isLoading } = useCategories(singleSelectedMonth);
+  const { tags, tagsLoading } = useTransactionTags(singleSelectedMonth);
+  const { budgetSummary, isBudgetLoading } = useBudgetSummary(singleSelectedMonth);
 
   const navigation = useNavigation();
   const currentDate = new Date();
-  const monthName = currentDate.toLocaleString("en", { month: "long" });
+  const monthName = singleSelectedMonth?.fromDate
+    ? format(parseISO(singleSelectedMonth?.fromDate), "MMMM")
+    : currentDate.toLocaleString("en", { month: "long" });
 
   const handleOnBackPress = () => {
     navigation.goBack();
   };
 
+  const handleOnContinue = (firstDate: string, secondDate?: string) => {
+    if (firstDate && !secondDate) {
+      // It's mean that user selected just single month
+      const monthLastDay = firstDate; // Formatted Date like this: 2021-08-31
+
+      // FirstDate has format like this: 2021-08-31 And we need to convert it to this: 2021-08-01
+      const monthStartDay = format(startOfMonth(parseISO(monthLastDay)), "yyyy-MM-dd");
+      setSingleSelectedMonth({ fromDate: monthStartDay, toDate: monthLastDay });
+    } else if (firstDate && secondDate) {
+      // It's mean that user selected just two months for comparison
+      navigation.navigate("TopSpending.SpendingComparisonScreen", {
+        comparisonDate: [firstDate, secondDate].join(","),
+      });
+    }
+  };
+
   const handleOnUpdateBudget = () => {
-    console.log("*TODO when update budget ticket is ready");
+    //console.log("*TODO when update budget ticket is ready");
   };
 
   const handleOnCategoryTransactions = (category: CategoryProps & Tag, screen: string) => {
@@ -88,15 +109,24 @@ export default function TopSpendingScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader title={t("TopSpending.TopSpendingScreen.spendingInsights")} onBackPress={handleOnBackPress} />
-
-      <ContentContainer style={contentContainerStyle}>
-        <Stack align="stretch" direction="vertical" gap="16p">
-          {isBudgetLoading || !budgetSummary ? (
-            <View style={styles.indicatorContainerStyle}>
-              <ActivityIndicator />
-            </View>
-          ) : (
+      <NavHeader
+        title={t("TopSpending.TopSpendingScreen.spendingInsights")}
+        onBackPress={handleOnBackPress}
+        end={
+          <Pressable onPress={() => setIsSelectMonthModalVisible(true)}>
+            <CalendarAltIcon />
+          </Pressable>
+        }
+      />
+      {isBudgetLoading ? (
+        <ContentContainer style={contentContainerStyle}>
+          <View style={styles.indicatorContainerStyle}>
+            <ActivityIndicator />
+          </View>
+        </ContentContainer>
+      ) : budgetSummary ? (
+        <ContentContainer style={contentContainerStyle}>
+          <Stack align="stretch" direction="vertical" gap="16p">
             <BudgetCard
               percentage={budgetSummary.ConsumedPercentage}
               amountSpent={budgetSummary.ConsumedAmount}
@@ -111,9 +141,9 @@ export default function TopSpendingScreen() {
               )}
               onPress={handleOnUpdateBudget}
             />
-          )}
-        </Stack>
-      </ContentContainer>
+          </Stack>
+        </ContentContainer>
+      ) : null}
 
       {!isLoading && total ? (
         <>
@@ -174,6 +204,12 @@ export default function TopSpendingScreen() {
           )}
         />
       ) : null}
+
+      <SelectMonthModal
+        isVisible={isSelectMonthModalVisible}
+        onClose={() => setIsSelectMonthModalVisible(false)}
+        onContinue={handleOnContinue}
+      />
     </Page>
   );
 }

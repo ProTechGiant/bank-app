@@ -304,6 +304,7 @@
       "transaction": "transaction",
       "hidden": "Hidden",
       "spendingInsights": "Spending Insights",
+      "insightsComparison": "مقارنة الرؤى",
       "topSpendingInMonth": "Top Spending in ",
       "topSpendingByTags": "Tagged Groups",
       "excludedfromSpending": "Excluded from Spending",
@@ -311,6 +312,19 @@
       "seeLess": "See Less",
       "excludeFromSpending": "Exclude from spending",
       "sar": "SAR",
+      "SelectMonthModal": {
+        "title": "Select month",
+        "compareMonth": "Compare Months",
+        "set": "Set",
+        "viewEarlierMonths": "View earlier months",
+        "apply": "Apply",
+        "cancel": "Cancel",
+        "plusTier": "View earlier months (Plus Tier)",
+        "compare": "Compare",
+        "continue": "Continue",
+        "select": "Select",
+        "reachedCreation": "لقد وصلت إلى إنشاء الحساب ، وتم تعطيل التواريخ القديمة"
+      },
       "budgetCard": {
         "amount": "{{amountSpent}} of {{budgetAmount}} SAR"
       },
@@ -320,6 +334,9 @@
       "moreThanHalfwayThrough": "More than halfway through",
       "aboutToHitBuget": "About to hit the budget",
       "reachedBudget": "Reached monthly budget"
+    },
+    "SpendingComparisonScreen": {
+      "topSpendingIn": "أعلى الإنفاق في"
     },
     "SpendSummaryScreen": {
       "totalSpending": "إجمالي الإنفاق",

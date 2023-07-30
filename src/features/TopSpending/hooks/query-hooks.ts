@@ -1,10 +1,11 @@
 import { useQuery } from "react-query";
 
 import api from "@/api";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
 
-import { Tag } from "../types";
+import { GetMonthSpendingsComparisonSummary, SingleSelectedMonthType, Tag } from "../types";
 
 interface IncludedCategory {
   categoryId: string;
@@ -73,14 +74,17 @@ const getMonthDates = (): { fromDate: string; toDate: string } => {
 };
 
 // *TODO here i do not use the custom api until the apis is completed
-export function useCategories() {
+export function useCategories(singleSelectedMonth: SingleSelectedMonthType | undefined) {
   const account = useCurrentAccount();
   const { fromDate, toDate } = getMonthDates();
 
   const account_id = account.data?.id;
 
   const categories = useQuery(
-    ["categories", { fromDate, toDate }],
+    [
+      "categories",
+      { fromDate: singleSelectedMonth?.fromDate || fromDate, toDate: singleSelectedMonth?.toDate || toDate },
+    ],
     () =>
       api<ApiResponse>(
         "v1",
@@ -89,8 +93,9 @@ export function useCategories() {
         {
           PageSize: 1000,
           PageNumber: 0,
-          fromDate: "2000-01-01",
-          toDate: "2024-01-01", // these dates for testing now
+          //TODO: Below hard coded dates should be removed later
+          fromDate: singleSelectedMonth?.fromDate || "2021-01-01",
+          toDate: singleSelectedMonth?.toDate || "2024-01-01",
         },
         undefined,
         {
@@ -145,14 +150,17 @@ export function usePreDefinedCategories() {
   return { categories, isLoading };
 }
 
-export function useTransactionTags() {
+export function useTransactionTags(singleSelectedMonth: SingleSelectedMonthType | undefined) {
   const account = useCurrentAccount();
   const { fromDate, toDate } = getMonthDates();
 
   const account_id = account.data?.id;
 
   const transactionTags = useQuery(
-    ["transactionTags", { fromDate, toDate }],
+    [
+      "transactionTags",
+      { fromDate: singleSelectedMonth?.fromDate || fromDate, toDate: singleSelectedMonth?.toDate || toDate },
+    ],
     () =>
       api<TransactionTagsResponse>(
         "v1",
@@ -161,8 +169,9 @@ export function useTransactionTags() {
         {
           PageSize: 1000,
           PageNumber: 0,
-          fromDate: "2000-01-01",
-          toDate: "2024-01-01",
+          //TODO: Below hard coded dates should be removed later
+          fromDate: singleSelectedMonth?.fromDate || "2000-01-01",
+          toDate: singleSelectedMonth?.toDate || "2024-01-01",
         },
         undefined,
         {
@@ -182,13 +191,17 @@ export function useTransactionTags() {
   return { tags, tagsLoading };
 }
 
-export function useBudgetSummary() {
+export function useBudgetSummary(singleSelectedMonth: SingleSelectedMonthType | undefined) {
   const account = useCurrentAccount();
+  const { fromDate, toDate } = getMonthDates();
 
   const account_id = account.data?.id;
 
   const BudgetSummary = useQuery(
-    ["BudgetSummary"],
+    [
+      "BudgetSummary",
+      { fromDate: singleSelectedMonth?.fromDate || fromDate, toDate: singleSelectedMonth?.toDate || toDate },
+    ],
     () =>
       api<BudgetSummary>(
         "v1",
@@ -197,8 +210,9 @@ export function useBudgetSummary() {
         {
           PageSize: 1000,
           PageNumber: 0,
-          startDate: "2000-01-01",
-          endDate: "2024-01-01",
+          //TODO: Below hard coded dates should be removed later
+          startDate: singleSelectedMonth?.fromDate || "2000-01-01",
+          endDate: singleSelectedMonth?.toDate || "2024-01-01",
         },
         undefined,
         {
@@ -217,3 +231,38 @@ export function useBudgetSummary() {
 
   return { budgetSummary, isBudgetLoading };
 }
+
+export const useGetMonthsSpendingsComparision = (comparisonDates: string) => {
+  const { userId } = useAuthContext();
+  if (!userId) throw new Error("Need valid `User Id` to be available");
+  const account = useCurrentAccount();
+  const account_id = account.data?.id;
+
+  const monthSpendingsComparisonSummary = useQuery(
+    ["MonthSpendingsComparisonSummary", { comparisonDates }],
+    () =>
+      api<GetMonthSpendingsComparisonSummary>(
+        "v1",
+        `accounts/${account_id}/categories/comparison`,
+        "GET",
+        {
+          comparisonDates: comparisonDates,
+        },
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+          ["UserId"]: userId,
+        }
+      ),
+    {
+      // set staleTime to 10 seconds for caching
+      staleTime: 10000,
+      enabled: !!account_id,
+    }
+  );
+
+  const isMonthSpendingsComparisonSummaryLoading = monthSpendingsComparisonSummary.isLoading;
+  const monthSpendingsComparison = monthSpendingsComparisonSummary.data;
+
+  return { monthSpendingsComparison, isMonthSpendingsComparisonSummaryLoading };
+};

@@ -296,12 +296,27 @@
       "transaction": "transaction",
       "hidden": "Hidden",
       "spendingInsights": "Spending Insights",
+      "insightsComparison": "Insights Comparison",
       "topSpendingInMonth": "Top Spending in ",
       "topSpendingByTags": "Tagged Groups",
       "excludedfromSpending": "Excluded from Spending",
       "seeAll": "See All",
       "seeLess": "See Less",
       "excludeFromSpending": "Exclude from spending",
+      "sar": "SAR",
+      "SelectMonthModal": {
+        "title": "Select month",
+        "compareMonth": "Compare Months",
+        "set": "Set",
+        "viewEarlierMonths": "View earlier months",
+        "apply": "Apply",
+        "compare": "Compare",
+        "cancel": "Cancel",
+        "plusTier": "View earlier months (Plus Tier)",
+        "continue": "Continue",
+        "select": "Select",
+        "reachedCreation": "You've reached account creation, older dates are disabled"
+      },
       "budgetCard": {
         "amount": "{{amountSpent}} of {{budgetAmount}} SAR"
       },
@@ -311,6 +326,9 @@
       "moreThanHalfwayThrough": "More than halfway through",
       "aboutToHitBuget": "About to hit the budget",
       "reachedBudget": "Reached monthly budget"
+    },
+    "SpendingComparisonScreen": {
+      "topSpendingIn": "Top Spending In "
     },
     "ExcludedDetailedScreen": {
       "hiddenTransactions": "Hidden Transactions"

@@ -1,5 +1,15 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { endOfMonth, endOfWeek, endOfYear, format, parseISO, startOfMonth, startOfWeek, startOfYear } from "date-fns";
+import {
+  endOfMonth,
+  endOfWeek,
+  endOfYear,
+  format,
+  parse,
+  parseISO,
+  startOfMonth,
+  startOfWeek,
+  startOfYear,
+} from "date-fns";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, I18nManager, Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
@@ -37,8 +47,8 @@ export default function SpendSummaryScreen() {
 
   type SelectedTime = (typeof SelectedTimeTypes)[keyof typeof SelectedTimeTypes];
 
-  const startMonth = format(startOfMonth(new Date()), "yyyy-MM-dd");
-  const endMonth = format(endOfMonth(new Date()), "yyyy-MM-dd");
+  const startMonth = route.params?.startDate ?? format(startOfMonth(new Date()), "yyyy-MM-dd");
+  const endMonth = route.params?.endDate ?? format(endOfMonth(new Date()), "yyyy-MM-dd");
   const [chartType, setChartType] = useState<ChartTypes | null>(null);
   const [compareDates, setCompareDates] = useState<CompareDatesTypes>({
     firstDate: { endDate: new Date().toString(), startDate: new Date().toString() },
@@ -48,7 +58,8 @@ export default function SpendSummaryScreen() {
   const [toDate, setToDate] = useState(endMonth);
 
   const [selectedTime, setSelectedTime] = useState<SelectedTime>(t("TopSpending.SpendSummaryScreen.month"));
-  const defaultMonth = format(startOfMonth(new Date()), "MMMM yyyy");
+  const parsedDate = parse(startMonth, "yyyy-MM-dd", new Date());
+  const defaultMonth = format(parsedDate, "MMMM yyyy");
   const [currentValue, setCurrentValue] = useState(defaultMonth);
 
   const [isComparing, setIsComparing] = useState(false);

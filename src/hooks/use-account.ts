@@ -68,6 +68,7 @@ export default function useAccount() {
   }, [accounts]);
 
   const currentAccountId = currentAccount?.AccountId;
+  const currentAccountOpeningDate = currentAccount?.OpeningDate;
 
   const balances = useQuery(
     ["balances", { currentAccountId }],
@@ -114,6 +115,7 @@ export default function useAccount() {
         currentAccountCurrencyType,
         currentAccountBalance,
         currentAccountType,
+        currentAccountOpeningDate,
       },
     };
   }, [currentAccount, balances, currentAccountId]);
