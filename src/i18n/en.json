@@ -425,8 +425,8 @@
     "UpgradeTierModal": {
       "title": "Upgrade Your Tier",
       "subTitle": "Get Croatia Plus for 64.99 SAR / m",
-      "upgrade" : "Upgrade",
-      "cancel" : "Cancel"
+      "upgrade": "Upgrade",
+      "cancel": "Cancel"
     }
   },
   "ViewTransactions": {
@@ -2172,19 +2172,23 @@
       "accountNumberText": "Account number",
       "billerNumberText": "Biller number"
     },
+    "BillPaymentHistoryScreen": {
+      "paymentHistory": "Payment histroy",
+      "searchPlaceholder": "Biller number, provider or description"
+    },
     "PaymentHistoryDetailScreen": {
       "shareButton": "Share"
     },
     "EnterBillAmountScreen": {
-      "navTitle":"One-time payment",
+      "navTitle": "One-time payment",
       "specifyBillAmount": "Specify bill amount",
       "currentBillAmount": "Current bill amount",
       "otherAmount": "Other amount",
       "inputExtraText": "you can pay maximum double of actual bill amount",
-      "enterCustomAmount":"Enter Custom amount",
+      "enterCustomAmount": "Enter Custom amount",
       "amountInputPlaceholder": "e.g 100.00 SAR",
-      "linkText":"You may pay less or more than the bill amount" ,
-      "continue":"Continue"
+      "linkText": "You may pay less or more than the bill amount",
+      "continue": "Continue"
     }
   },
   "PaymentDisputes": {
@@ -2378,5 +2382,9 @@
     "modalTitle": "Are you sure you want to delete the selected tag?",
     "selectTheHolidayCountry": "Select The Holiday Country",
     "alreadyHaveATagName": "You already have a tag named \"{{tagName}}\""
+  },
+  "DateUtility": {
+    "today": "Today",
+    "yesterday": "Yesterday"
   }
 }

@@ -42,7 +42,7 @@ export default function BillPaymentHomeScreen() {
   };
 
   const handleOnOnePaymentHistoryPress = () => {
-    //TODO - To be implemented as part of the upcoming story
+    navigation.navigate("SadadBillPayments.BillPaymentHistoryScreen");
   };
 
   const handleOnViewAllPress = () => {

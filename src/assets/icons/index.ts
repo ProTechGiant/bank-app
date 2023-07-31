@@ -13,6 +13,7 @@ export * from "./BankAccountIcon";
 export * from "./BigCheckIcon";
 export * from "./BookmarkIcon";
 export * from "./CalendarAltIcon";
+export * from "./CalendarIcon";
 export * from "./CancelCircleFilledIcon";
 export * from "./CardIcon";
 export * from "./CardSettingsIcon";

@@ -4,6 +4,7 @@ import { SadadBillPaymentContextProvider } from "./context/SadadBillPaymentConte
 import {
   BillDescriptionScreen,
   BillDetailsScreen,
+  BillPaymentHistoryScreen,
   BillPaymentHomeScreen,
   BillSavedSuccessScreen,
   EditBillDescriptionModalScreen,
@@ -46,6 +47,7 @@ export type SadadBillPaymentStackParams = {
     BillDescription: string;
     updateBillDescription: (value: string) => void;
   };
+  "SadadBillPayments.BillPaymentHistoryScreen": undefined;
   "SadadBillPayments.PaymentHistoryDetailScreen": undefined;
 };
 
@@ -92,6 +94,7 @@ export default function SadadBillPaymentStack() {
           name="SadadBillPayments.PaymentHistoryDetailScreen"
           options={{ presentation: "modal" }}
         />
+        <Stack.Screen component={BillPaymentHistoryScreen} name="SadadBillPayments.BillPaymentHistoryScreen" />
       </Stack.Navigator>
     </SadadBillPaymentContextProvider>
   );

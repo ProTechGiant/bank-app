@@ -50,3 +50,53 @@ export const MockBillDetails = [
     icon: require("../assets/icons/BillIcon.png"),
   },
 ];
+export const savedBillHistoryMockData = [
+  {
+    key: 1,
+    BillName: "Internet Bill",
+    AccountNumber: "623234232",
+    Amount: 100.0,
+    DueDate: "2023-07-31",
+    icon: require("../assets/icons/PhoneIcon.png"),
+  },
+  {
+    key: 2,
+    BillName: "Gas",
+    AccountNumber: "333234232",
+    Amount: 300.0,
+    DueDate: "2017-10-04",
+    icon: require("../assets/icons/GasIcon.png"),
+  },
+  {
+    key: 3,
+    BillName: "Phone Bill",
+    AccountNumber: "62323423442",
+    Amount: 100.0,
+    DueDate: "2017-10-14",
+    icon: require("../assets/icons/PhoneIcon.png"),
+  },
+  {
+    key: 4,
+    BillName: "Internet Bill",
+    AccountNumber: "6232342",
+    Amount: 100.0,
+    DueDate: "2017-10-04",
+    icon: require("../assets/icons/BillIcon.png"),
+  },
+  {
+    key: 5,
+    BillName: "Office Net",
+    AccountNumber: "42343342767798",
+    Amount: 310.0,
+    DueDate: "2017-10-14",
+    icon: require("../assets/icons/BillIcon.png"),
+  },
+  {
+    key: 6,
+    BillName: "Office Net",
+    AccountNumber: "42343342767798",
+    Amount: 310.0,
+    DueDate: "2023-10-14",
+    icon: require("../assets/icons/BillIcon.png"),
+  },
+];

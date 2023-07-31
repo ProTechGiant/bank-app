@@ -8,4 +8,8 @@ export interface BillItem {
   icon: ImageURISource;
 }
 
+export interface BillHistorySectionList {
+  title: string;
+  data: BillItem[];
+}
 export type NavigationType = "saveBill" | "payBill" | "oneTimePayment" | undefined;

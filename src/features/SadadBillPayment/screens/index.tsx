@@ -1,5 +1,6 @@
 export { default as BillDescriptionScreen } from "./BillDescriptionScreen";
 export { default as BillDetailsScreen } from "./BillDetailsScreen";
+export { default as BillPaymentHistoryScreen } from "./BillPaymentHistoryScreen";
 export { default as BillPaymentHomeScreen } from "./BillPaymentHomeScreen";
 export { default as BillSavedSuccessScreen } from "./BillSavedSuccessScreen";
 export { default as EditBillDescriptionModalScreen } from "./EditBillDescriptionModalScreen";
