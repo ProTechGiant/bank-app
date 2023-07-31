@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { CalendarAltIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -118,8 +119,13 @@ export default function SingleTagScreen() {
     paddingLeft: theme.spacing["20p"],
   }));
 
+  const headerStyle = useThemeStyles(theme => ({
+    backgroundColor: theme.palette["supportBase-15"],
+    zIndex: 1,
+  }));
+
   return (
-    <Page backgroundColor="neutralBase-40">
+    <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
       <SpendingsFilterModal
         isCompareModalIncluded={false}
         isVisible={isViewingFilter}
@@ -130,16 +136,19 @@ export default function SingleTagScreen() {
           setCurrentValue(`${format(parseISO(newFromDate), "dd")} - ${format(parseISO(newToDate), "dd MMMM yyyy")}`);
         }}
       />
-      <NavHeader
-        variant="background"
-        onBackPress={handleOnBackPress}
-        end={
-          <Pressable onPress={() => setIsViewingFilter(true)}>
-            <CalendarAltIcon />
-          </Pressable>
-        }
-      />
-      <TagHeader TotalAmount={notPendingTransactions.data?.TotalAmount ?? 0} />
+      <SafeAreaView edges={["top"]} style={headerStyle}>
+        <NavHeader
+          variant="angled"
+          onBackPress={handleOnBackPress}
+          end={
+            <Pressable onPress={() => setIsViewingFilter(true)}>
+              <CalendarAltIcon />
+            </Pressable>
+          }
+        />
+        <TagHeader TotalAmount={notPendingTransactions.data?.TotalAmount ?? 0} />
+      </SafeAreaView>
+
       <View style={textMargin}>
         <Typography.Text size="title3" color="neutralBase+30">
           {currentValue}

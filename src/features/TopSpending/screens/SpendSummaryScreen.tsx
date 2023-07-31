@@ -13,6 +13,7 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, FlatList, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { CalendarAltIcon, ChevronRightIcon } from "@/assets/icons";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
@@ -219,7 +220,7 @@ export default function SpendSummaryScreen() {
   };
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
+    backgroundColor: theme.palette["supportBase-15"],
     paddingHorizontal: theme.spacing["24p"],
     paddingVertical: theme.spacing["8p"],
     flexDirection: "row",
@@ -262,7 +263,8 @@ export default function SpendSummaryScreen() {
   }));
 
   const header = useThemeStyles(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
+    backgroundColor: theme.palette["supportBase-15"],
+    zIndex: 1,
   }));
 
   const itemStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -284,7 +286,7 @@ export default function SpendSummaryScreen() {
   const getViewBox = (iconName: string) => categoryIconViewBox[iconName as keyof typeof categoryIconViewBox];
 
   return (
-    <Page insets={["top", "left", "right", "bottom"]}>
+    <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
       <SpendingsFilterModal
         isCompareModalIncluded={true}
         onCompare={handleCompare}
@@ -300,9 +302,9 @@ export default function SpendSummaryScreen() {
         }}
       />
 
-      <View style={header}>
+      <SafeAreaView edges={["top"]} style={header}>
         <NavHeader
-          variant="background"
+          variant="angled"
           onBackPress={handleOnBackPress}
           end={
             <Pressable onPress={() => setIsViewingFilter(true)}>
@@ -336,7 +338,7 @@ export default function SpendSummaryScreen() {
             </Stack>
           )}
         </View>
-      </View>
+      </SafeAreaView>
       <View style={filterStyle}>
         {isCurrentMonth ? (
           <>

@@ -419,7 +419,8 @@
       "yesterday": "Yesterday",
       "clearFilter": "Clear filter",
       "emptyTransactions": "We couldn't find any transactions - try adjusting your filter.",
-      "noTransactionsYet": "There are no transactions yet."
+      "noTransactionsYet": "There are no transactions yet.",
+      "pastTransactions": "Past Transactions"
     },
     "PendingTransactionsScreen": {
       "title": "Pending Transactions",

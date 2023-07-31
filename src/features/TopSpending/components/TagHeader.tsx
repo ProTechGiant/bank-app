@@ -13,7 +13,7 @@ export default function TagHeader({ TotalAmount }: TagHeaderProp) {
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["20p"],
-    backgroundColor: theme.palette["neutralBase-40"],
+    backgroundColor: theme.palette["supportBase-15"],
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { Animated, Pressable, TextStyle, View, ViewStyle } from "react-native";
 
-import { SpendingInsightIcon } from "@/assets/icons";
+import { FilterIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { useThemeStyles } from "@/theme";
 
 interface AnimatedHeaderProps {
+  onChangeIsViewingFilter: (isViewing: boolean) => void;
   headerProps: {
     height: Animated.Value;
     currFont: Animated.Value;
@@ -21,10 +22,15 @@ interface AnimatedHeaderProps {
 
 const formatter = Intl.NumberFormat("en-US", { style: "decimal", minimumFractionDigits: 2 });
 
-export default function AnimatedHeader({ headerProps, isFilterDisabled, onPress }: AnimatedHeaderProps) {
+export default function AnimatedHeader({
+  onChangeIsViewingFilter,
+  headerProps,
+  isFiltered,
+  isFilterDisabled,
+}: AnimatedHeaderProps) {
   const { t } = useTranslation();
   const account = useCurrentAccount();
-  const { height, currFont, sarFont, flexDir } = headerProps;
+  const { height, currFont, sarFont, iconSize, flexDir } = headerProps;
 
   const balance = account.data?.balance ?? 0;
   const formattedBalance = formatter.format(balance);
@@ -32,7 +38,7 @@ export default function AnimatedHeader({ headerProps, isFilterDisabled, onPress 
 
   const headerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: theme.palette["neutralBase-40"],
+      backgroundColor: theme.palette["supportBase-15"],
       paddingHorizontal: theme.spacing["20p"],
       flexDirection: "row",
       justifyContent: "space-between",
@@ -82,7 +88,7 @@ export default function AnimatedHeader({ headerProps, isFilterDisabled, onPress 
     [flexDir]
   );
 
-  const disabledFilter = useThemeStyles<ViewStyle>(
+  const disabledFilterStyle = useThemeStyles<ViewStyle>(
     () => ({
       alignSelf: "flex-end",
     }),
@@ -94,6 +100,56 @@ export default function AnimatedHeader({ headerProps, isFilterDisabled, onPress 
     alignItems: "flex-end",
     marginBottom: theme.spacing["4p"],
   }));
+
+  const filterIconStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: theme.palette["neutralBase-60"],
+      borderRadius: theme.radii.xxlarge,
+      marginBottom: theme.spacing["4p"],
+      justifyContent: "center",
+      alignItems: "center",
+      position: "relative",
+    }),
+    [iconSize]
+  );
+
+  const reSizeStyle = useThemeStyles<ViewStyle>(
+    () => ({
+      transform: [{ scale: flexDir === "column" ? 1 : 0.6 }],
+    }),
+    [iconSize, flexDir]
+  );
+
+  const filterButtonStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      flexDirection: flexDir === "row-reverse" ? "row-reverse" : "column",
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: theme.spacing["12p"],
+    }),
+    [flexDir]
+  );
+
+  const circleStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      position: "absolute",
+      top: flexDir === "column" ? 4 : 0,
+      right: flexDir === "column" ? 4 : 0,
+      width: flexDir === "column" ? 8 : 7,
+      height: flexDir === "column" ? 8 : 7,
+      borderRadius: theme.radii.extraSmall,
+      borderColor: theme.palette.primaryBase,
+      borderWidth: 1,
+      backgroundColor: theme.palette.complimentBase,
+    }),
+    [flexDir]
+  );
+
+  const emptyViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing["4p"],
+  }));
+
+  const filterColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Animated.View style={[headerStyle, { height: height }]}>
@@ -114,8 +170,16 @@ export default function AnimatedHeader({ headerProps, isFilterDisabled, onPress 
           {account.data?.name ?? "-"}
         </Typography.Text>
       </View>
-      <Pressable style={disabledFilter} onPress={onPress}>
-        <SpendingInsightIcon />
+      <Pressable style={disabledFilterStyle} onPress={() => onChangeIsViewingFilter(true)} disabled={isFilterDisabled}>
+        <View style={filterButtonStyle}>
+          <Animated.View style={[filterIconStyle, { width: iconSize, height: iconSize }]}>
+            <Animated.View style={reSizeStyle}>
+              <FilterIcon color={filterColor} height={25} width={25} />
+            </Animated.View>
+            {isFiltered ? <View style={circleStyle} /> : null}
+          </Animated.View>
+          <View style={emptyViewStyle} />
+        </View>
       </Pressable>
     </Animated.View>
   );
