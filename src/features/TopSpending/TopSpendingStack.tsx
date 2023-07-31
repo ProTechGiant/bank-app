@@ -23,11 +23,13 @@ export type TopSpendingStackParams = {
     startDate?: string;
     endDate?: string;
   };
-  "TopSpending.SingleTagScreen": { data: Tag };
+  "TopSpending.SingleTagScreen": { data: Tag; startDate?: string; endDate?: string };
   "TopSpending.ExcludedDetailedScreen": {
     categoryId: string;
     categoryName: string;
     totalAmount: number;
+    startDate?: string;
+    endDate?: string;
   };
 };
 

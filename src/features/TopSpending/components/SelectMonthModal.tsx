@@ -1,7 +1,7 @@
 import { format, lastDayOfMonth, parse, subMonths } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { TextStyle, View, ViewStyle } from "react-native";
+import { Alert, Pressable, TextStyle, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
@@ -11,7 +11,7 @@ import useAccount from "@/hooks/use-account";
 import { useThemeStyles } from "@/theme";
 
 import DiamondIcon from "../assets/icons/DiamondIcon";
-import { userType } from "../mocks";
+import { UserTypes } from "../enum";
 import { PlusTierDateTypes } from "../types";
 import DateSelectorForPlusTier from "./DateSelectorForPlusTier";
 import DateSelectorForStandardTier from "./DateSelectorForStandardTier";
@@ -44,6 +44,7 @@ export default function SelectMonthModal({ isVisible, onClose, onContinue }: Sel
   const [isMonthPickerVisible, setIsMonthPickerVisible] = useState<boolean>(false);
   const [isSecondMonthSelected, setIsSecondMonthSelected] = useState<boolean>(false);
   const [plusTierDates, setPlusTierDates] = useState<PlusTierDateTypes[]>(initialPlusTierDates);
+  const [userType, setUserType] = useState(UserTypes.STANDARD);
 
   const resetToDefaults = () => {
     setIsCompare(false);
@@ -114,6 +115,22 @@ export default function SelectMonthModal({ isVisible, onClose, onContinue }: Sel
 
   const handleOnBackPress = () => setIsMonthPickerVisible(false);
 
+  //TODO : will handle the upgrade in the next BC
+  const handleOnPressUpgrade = () => {
+    Alert.alert(t("TopSpending.UpgradeTierModal.title"), t("TopSpending.UpgradeTierModal.subTitle"), [
+      {
+        text: t("TopSpending.UpgradeTierModal.cancel"),
+        style: "cancel",
+      },
+      {
+        text: t("TopSpending.UpgradeTierModal.upgrade"),
+        onPress: () => {
+          setUserType(UserTypes.PLUS);
+        },
+      },
+    ]);
+  };
+
   const renderComponent = () => {
     if (!isMonthPickerVisible)
       return (
@@ -125,18 +142,20 @@ export default function SelectMonthModal({ isVisible, onClose, onContinue }: Sel
             setTransactionDateState={month => setTransactionDateState(month)}
             transactionDateState={transactionDateState}
           />
-          {userType === "plusTier" ? (
+          {userType === UserTypes.PLUS ? (
             <SetMonthRowCard
               label={t("TopSpending.TopSpendingScreen.SelectMonthModal.viewEarlierMonths")}
               onPressSetDate={() => setIsMonthPickerVisible(true)}
             />
           ) : (
-            <Stack direction="horizontal" gap="12p" align="center">
-              <DiamondIcon color={diamondIconStyle.color} />
-              <Typography.Text size="callout" weight="medium" color="neutralBase-10">
-                {t("TopSpending.TopSpendingScreen.SelectMonthModal.plusTier")}
-              </Typography.Text>
-            </Stack>
+            <Pressable onPress={handleOnPressUpgrade}>
+              <Stack direction="horizontal" gap="12p" align="center">
+                <DiamondIcon color={diamondIconStyle.color} />
+                <Typography.Text size="callout" weight="medium" color="neutralBase-10">
+                  {t("TopSpending.TopSpendingScreen.SelectMonthModal.plusTier")}
+                </Typography.Text>
+              </Stack>
+            </Pressable>
           )}
           <View style={buttonsContainerStyle}>
             <Button onPress={handleOnApplyPress}>{t("TopSpending.TopSpendingScreen.SelectMonthModal.apply")}</Button>

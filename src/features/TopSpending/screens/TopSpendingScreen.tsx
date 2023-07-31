@@ -1,7 +1,7 @@
 import { format, parseISO, startOfMonth } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Image, Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { CalendarAltIcon } from "@/assets/icons";
@@ -13,10 +13,11 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { BudgetCard, CategoryCell, CustomerBalance, SelectMonthModal } from "../components";
-import { useBudgetSummary, useCategories, useTransactionTags } from "../hooks/query-hooks";
-import { userType } from "../mocks";
-import { SingleSelectedMonthType, Tag } from "../types";
+import { BudgetCard, CategoryCell, CustomerBalance, SelectMonthModal, SingleChart } from "../components";
+import { ChartTypes, IntervalTypes } from "../enum";
+import { useBudgetSummary, useCategories, useLastSixMonthGraph, useTransactionTags } from "../hooks/query-hooks";
+import { LastSixMonthsType, SingleSelectedMonthType, Tag } from "../types";
+import { convertDataToChartDataset } from "../utils/convert-graph-data-to-chart-dataset";
 
 type CategoryProps = {
   categoryId: string;
@@ -28,22 +29,30 @@ type CategoryProps = {
 
 export default function TopSpendingScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const [isExpandedCategory, setIsExpandedCategory] = useState(false);
   const [isExpandedTag, setIsExpandedTag] = useState(false);
+  const [chartData, setChartData] = useState<LastSixMonthsType | null>(null);
 
+  const { data: lastSixMonthGraph, isLoading: isGraphLoading } = useLastSixMonthGraph();
   const [isSelectMonthModalVisible, setIsSelectMonthModalVisible] = useState<boolean>(false);
   const [singleSelectedMonth, setSingleSelectedMonth] = useState<SingleSelectedMonthType>();
-
   const { includedCategories, total, excludedCategories, isLoading } = useCategories(singleSelectedMonth);
   const { tags, tagsLoading } = useTransactionTags(singleSelectedMonth);
   const { budgetSummary, isBudgetLoading } = useBudgetSummary(singleSelectedMonth);
 
-  const navigation = useNavigation();
   const currentDate = new Date();
   const monthName = singleSelectedMonth?.fromDate
     ? format(parseISO(singleSelectedMonth?.fromDate), "MMMM")
     : currentDate.toLocaleString("en", { month: "long" });
+
+  useEffect(() => {
+    if (lastSixMonthGraph !== undefined && !isGraphLoading) {
+      const data = convertDataToChartDataset(lastSixMonthGraph, IntervalTypes.LAST_SIX_MONTH);
+      setChartData(data);
+    }
+  }, [lastSixMonthGraph, isGraphLoading]);
 
   const handleOnBackPress = () => {
     navigation.goBack();
@@ -75,16 +84,22 @@ export default function TopSpendingScreen() {
         categoryId: category.categoryId,
         categoryName: category.categoryName,
         totalAmount: category.totalAmount,
+        startDate: singleSelectedMonth?.fromDate,
+        endDate: singleSelectedMonth?.toDate,
       });
     } else if (screen === t("TopSpending.TopSpendingScreen.topSpendingByTags")) {
       navigation.navigate("TopSpending.SingleTagScreen", {
         data: category,
+        startDate: singleSelectedMonth?.fromDate,
+        endDate: singleSelectedMonth?.toDate,
       });
     } else {
       navigation.navigate("TopSpending.SpendSummaryScreen", {
         categoryId: category.categoryId,
         categoryName: category.categoryName,
         iconPath: category.iconPath,
+        startDate: singleSelectedMonth?.fromDate,
+        endDate: singleSelectedMonth?.toDate,
       });
     }
   };
@@ -106,6 +121,36 @@ export default function TopSpendingScreen() {
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["48p"],
   }));
+
+  const secttions = [];
+  if (!isLoading && includedCategories) {
+    secttions.push({
+      data: isExpandedCategory ? includedCategories : includedCategories.slice(0, 3),
+      title: t("TopSpending.TopSpendingScreen.topSpendingInMonth") + monthName,
+      expandView: includedCategories.length > 3 ? true : false,
+      isExpanded: isExpandedCategory,
+      onExpand: () => setIsExpandedCategory(!isExpandedCategory),
+      isTag: false,
+    });
+  }
+  if (!tagsLoading && tags) {
+    secttions.push({
+      data: isExpandedTag ? tags : tags.slice(0, 3),
+      title: t("TopSpending.TopSpendingScreen.topSpendingByTags"),
+      expandView: tags.length > 3 ? true : false,
+      isExpanded: isExpandedTag,
+      onExpand: () => setIsExpandedTag(!isExpandedTag),
+      isTag: true,
+    });
+  }
+  if (!isLoading && excludedCategories) {
+    secttions.push({
+      data: excludedCategories,
+      title: t("TopSpending.TopSpendingScreen.excludedfromSpending"),
+      expandView: false,
+      isTag: false,
+    });
+  }
 
   return (
     <Page backgroundColor="neutralBase-60">
@@ -149,39 +194,22 @@ export default function TopSpendingScreen() {
         <>
           <CustomerBalance month={monthName} total={total} />
           <View style={imagesStyle}>
-            {userType !== "plusTier" ? <Image source={require("../assets/images/hidden-text.png")} /> : null}
-            <Image source={require("../assets/images/hidden-graph.png")} />
+            <Typography.Text size="title3" weight="semiBold" color="neutralBase+30">
+              {t("TopSpending.TopSpendingScreen.lastSixMonth")}
+            </Typography.Text>
+            {!isGraphLoading && !!chartData ? (
+              <SingleChart type={ChartTypes.LAST_SIX_MONTH} graph={chartData} isClickable={true} />
+            ) : (
+              <ActivityIndicator size="small" />
+            )}
           </View>
         </>
       ) : null}
 
-      {!isLoading && includedCategories && excludedCategories && !tagsLoading && tags ? (
+      {!isLoading && !tagsLoading ? (
         <SectionList
           style={sectionList}
-          sections={[
-            {
-              data: isExpandedCategory ? includedCategories : includedCategories.slice(0, 3),
-              title: t("TopSpending.TopSpendingScreen.topSpendingInMonth") + monthName,
-              expandView: includedCategories.length > 3 ? true : false,
-              isExpanded: isExpandedCategory,
-              onExpand: () => setIsExpandedCategory(!isExpandedCategory),
-              isTag: false,
-            },
-            {
-              data: isExpandedTag ? tags : tags.slice(0, 3),
-              title: t("TopSpending.TopSpendingScreen.topSpendingByTags"),
-              expandView: tags.length > 3 ? true : false,
-              isExpanded: isExpandedTag,
-              onExpand: () => setIsExpandedTag(!isExpandedTag),
-              isTag: true,
-            },
-            {
-              data: excludedCategories,
-              title: t("TopSpending.TopSpendingScreen.excludedfromSpending"),
-              expandView: false,
-              isTag: false,
-            },
-          ]}
+          sections={secttions}
           renderItem={({ item, section: { isTag, title } }) => (
             <CategoryCell category={item} isTag={isTag} onPress={() => handleOnCategoryTransactions(item, title)} />
           )}

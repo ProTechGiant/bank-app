@@ -10,9 +10,9 @@ import {
   startOfWeek,
   startOfYear,
 } from "date-fns";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, I18nManager, Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, FlatList, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CalendarAltIcon, ChevronRightIcon } from "@/assets/icons";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
@@ -26,12 +26,13 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { SpendingsFilterModal } from "../components";
+import { SingleChart, SpendingsFilterModal } from "../components";
 import SpendCompareModal from "../components/SpendCompareModal";
-import { ChartTypes, CompareDurationTypes } from "../enum";
-import { userType } from "../mocks";
+import { ChartTypes, CompareDurationTypes, IntervalTypes } from "../enum";
+import { useCategoryGraph } from "../hooks/query-hooks";
 import { categoryIconViewBox } from "../mocks/MockData";
-import { CompareDatesTypes, PeriodDateTypes, Transaction, TransactionDetailed } from "../types";
+import { CompareDatesTypes, DWMData, PeriodDateTypes, Transaction, TransactionDetailed, YearData } from "../types";
+import { convertDataToChartDataset } from "../utils/convert-graph-data-to-chart-dataset";
 
 export default function SpendSummaryScreen() {
   const { t } = useTranslation();
@@ -63,6 +64,14 @@ export default function SpendSummaryScreen() {
   const [currentValue, setCurrentValue] = useState(defaultMonth);
 
   const [isComparing, setIsComparing] = useState(false);
+  const [isCurrentMonth, setIsCurrentMonth] = useState(!route.params.startDate);
+  const [isViewingFilter, setIsViewingFilter] = useState(false);
+  const [modalSelectionMade, setModalSelectionMade] = useState(false);
+  const [chartData, setChartData] = useState<DWMData | YearData | null>(null);
+  const [dayWeekMonthchartData, setDayWeekMonthchartData] = useState<DWMData | null>(null);
+  const [yearChartData, setYearChartData] = useState<YearData | null>(null);
+  const [graphInterval, setGraphInterval] = useState<IntervalTypes>(IntervalTypes.DAY_WEEK_MONTH);
+  const [selectedInterval, setSelectedInterval] = useState<ChartTypes>(ChartTypes.MONTHLY);
 
   const cardId = route.params?.cardId;
   const createDisputeUserId = route.params?.createDisputeUserId;
@@ -72,6 +81,24 @@ export default function SpendSummaryScreen() {
   const hiddenFlag = false;
 
   const { transactions } = useTransactions(undefined, categoryId, undefined, undefined, fromDate, toDate, hiddenFlag);
+  const { data: categoryGraph, isLoading: isGraphLoading } = useCategoryGraph(
+    categoryId,
+    graphInterval,
+    isCurrentMonth ? null : fromDate
+  );
+
+  useEffect(() => {
+    if (categoryGraph !== undefined && !isGraphLoading) {
+      const data = convertDataToChartDataset(categoryGraph, graphInterval);
+      if (graphInterval === IntervalTypes.DAY_WEEK_MONTH) {
+        setDayWeekMonthchartData(data);
+        setChartData(data);
+      } else {
+        setYearChartData(data);
+        setChartData(data);
+      }
+    }
+  }, [categoryGraph, isGraphLoading]);
 
   const totalSum = useMemo(() => {
     if (Array.isArray(transactions?.data?.Transaction)) {
@@ -90,31 +117,48 @@ export default function SpendSummaryScreen() {
     navigation.goBack();
   };
 
+  const handleOnYearPress = () => {
+    if (yearChartData) {
+      setChartData(yearChartData);
+    } else {
+      setChartData(null);
+      setGraphInterval(IntervalTypes.YEAR);
+    }
+  };
+
   const handleSelection = (time: SelectedTime) => {
     setSelectedTime(time);
 
-    let val, start, end;
+    let val, start, end, interval;
     const now = new Date();
     switch (time) {
       case t("TopSpending.SpendSummaryScreen.week"):
         start = format(startOfWeek(now), "yyyy-MM-dd");
         end = format(endOfWeek(now), "yyyy-MM-dd");
         val = `${format(startOfWeek(now), "dd")} - ${format(endOfWeek(now), "dd MMMM yyyy")}`;
+        interval = ChartTypes.WEEKLY;
+        setChartData(dayWeekMonthchartData);
         break;
       case t("TopSpending.SpendSummaryScreen.month"):
         start = format(startOfMonth(now), "yyyy-MM-dd");
         end = format(endOfMonth(now), "yyyy-MM-dd");
         val = `${format(startOfMonth(now), "MMMM yyyy")}`;
+        interval = ChartTypes.MONTHLY;
+        setChartData(dayWeekMonthchartData);
         break;
       case t("TopSpending.SpendSummaryScreen.year"):
         start = format(startOfYear(now), "yyyy-MM-dd");
         end = format(endOfYear(now), "yyyy-MM-dd");
         val = `${format(startOfYear(now), "yyyy")}`;
+        interval = ChartTypes.YEARLY;
+        handleOnYearPress();
         break;
       case t("TopSpending.SpendSummaryScreen.day"):
       default: // "Day"
         start = end = format(now, "yyyy-MM-dd");
         val = format(now, " dd MMMM yyyy");
+        interval = ChartTypes.DAILY;
+        setChartData(dayWeekMonthchartData);
         break;
     }
 
@@ -123,6 +167,55 @@ export default function SpendSummaryScreen() {
     setModalSelectionMade(false);
     setIsComparing(false);
     setCurrentValue(val);
+    setSelectedInterval(interval);
+  };
+
+  const handleOnPress = (transaction: Transaction) => {
+    const obj: TransactionDetailed = {
+      cardType: transaction.CardType,
+      status: transaction.Status,
+      location: transaction.AddressLine ? transaction.AddressLine : undefined,
+      title: transaction.MerchantDetails.MerchantName,
+      subTitle: transaction.TransactionInformation,
+      amount: transaction.Amount.Amount,
+      currency: transaction.Amount.Currency,
+      transactionDate: transaction.BookingDateTime,
+      roundUpsAmount: transaction.SupplementaryData.RoundupAmount,
+      categoryName: transaction.SupplementaryData.CategoryName,
+      categoryId: transaction.SupplementaryData.CategoryId,
+      transactionId: transaction.TransactionId,
+      hiddenIndicator: transaction.HiddenIndicator,
+    };
+
+    navigation.navigate("ViewTransactions.ViewTransactionsStack", {
+      screen: "ViewTransactions.SingleTransactionDetailedScreen",
+      params: {
+        data: obj,
+        cardId,
+        createDisputeUserId,
+      },
+    });
+  };
+
+  const handleCompare = async (date: { firstDate: PeriodDateTypes; lastDate: PeriodDateTypes }, type: string) => {
+    setIsComparing(true);
+    setIsCurrentMonth(false);
+    setCompareDates(date);
+    switch (type) {
+      case CompareDurationTypes.DAY:
+        setChartType(ChartTypes.DAILY);
+        break;
+      case CompareDurationTypes.WEEK:
+        setChartType(ChartTypes.WEEKLY);
+        break;
+      case CompareDurationTypes.MONTH:
+        setChartType(ChartTypes.MONTHLY);
+        break;
+      case CompareDurationTypes.YEAR:
+        setChartType(ChartTypes.YEARLY);
+        break;
+      default:
+    }
   };
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -159,10 +252,13 @@ export default function SpendSummaryScreen() {
     marginTop: theme.spacing["16p"],
   }));
 
-  const selectedText = useThemeStyles(theme => ({
+  const selectedIntervalStyle = useThemeStyles(theme => ({
     borderBottomColor: theme.palette["neutralBase+30"],
     borderBottomWidth: 2,
-    paddingBottom: theme.spacing["4p"],
+  }));
+
+  const intervalStyle = useThemeStyles(theme => ({
+    paddingBottom: theme.spacing["8p"],
   }));
 
   const header = useThemeStyles(theme => ({
@@ -178,56 +274,15 @@ export default function SpendSummaryScreen() {
     giftColor: theme.palette.complimentBase,
   }));
 
-  const [isViewingFilter, setIsViewingFilter] = useState(false);
-  const [modalSelectionMade, setModalSelectionMade] = useState(false);
+  const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-40"],
+    marginVertical: theme.spacing["12p"],
+    marginHorizontal: -theme.spacing["20p"],
+    height: theme.spacing["4p"],
+  }));
 
-  const handleOnPress = (transaction: Transaction) => {
-    const obj: TransactionDetailed = {
-      cardType: transaction.CardType,
-      status: transaction.Status,
-      location: transaction.AddressLine ? transaction.AddressLine : undefined,
-      title: transaction.MerchantDetails.MerchantName,
-      subTitle: transaction.TransactionInformation,
-      amount: transaction.Amount.Amount,
-      currency: transaction.Amount.Currency,
-      transactionDate: transaction.BookingDateTime,
-      roundUpsAmount: transaction.SupplementaryData.RoundupAmount,
-      categoryName: transaction.SupplementaryData.CategoryName,
-      categoryId: transaction.SupplementaryData.CategoryId,
-      transactionId: transaction.TransactionId,
-      hiddenIndicator: transaction.HiddenIndicator,
-    };
-
-    navigation.navigate("ViewTransactions.ViewTransactionsStack", {
-      screen: "ViewTransactions.SingleTransactionDetailedScreen",
-      params: {
-        data: obj,
-        cardId,
-        createDisputeUserId,
-      },
-    });
-  };
-
-  const handleCompare = async (date: { firstDate: PeriodDateTypes; lastDate: PeriodDateTypes }, type: string) => {
-    setIsComparing(true);
-    setCompareDates(date);
-    switch (type) {
-      case CompareDurationTypes.DAY:
-        setChartType(ChartTypes.DAILY);
-        break;
-      case CompareDurationTypes.WEEK:
-        setChartType(ChartTypes.WEEKLY);
-        break;
-      case CompareDurationTypes.MONTH:
-        setChartType(ChartTypes.MONTHLY);
-        break;
-      case CompareDurationTypes.YEAR:
-        setChartType(ChartTypes.YEARLY);
-        break;
-      default:
-    }
-  };
   const getViewBox = (iconName: string) => categoryIconViewBox[iconName as keyof typeof categoryIconViewBox];
+
   return (
     <Page insets={["top", "left", "right", "bottom"]}>
       <SpendingsFilterModal
@@ -241,6 +296,7 @@ export default function SpendSummaryScreen() {
           setCurrentValue(`${format(parseISO(newFromDate), "dd")} - ${format(parseISO(newToDate), "dd MMMM yyyy")}`);
           setModalSelectionMade(true);
           setIsComparing(false);
+          setIsCurrentMonth(false);
         }}
       />
 
@@ -276,13 +332,13 @@ export default function SpendSummaryScreen() {
                   isCurrencyIncluded={false}
                 />
               </Typography.Text>
-              <Typography.Text color="primaryBase-40">{t("Currency.sar")}</Typography.Text>
+              <Typography.Text color="primaryBase-40">{t("TopSpending.SpendSummaryScreen.sr")}</Typography.Text>
             </Stack>
           )}
         </View>
       </View>
       <View style={filterStyle}>
-        {!isComparing ? (
+        {isCurrentMonth ? (
           <>
             <View style={timeFilter}>
               {[
@@ -291,9 +347,14 @@ export default function SpendSummaryScreen() {
                 t("TopSpending.SpendSummaryScreen.month"),
                 t("TopSpending.SpendSummaryScreen.year"),
               ].map(time => (
-                <Pressable key={time} onPress={() => handleSelection(time)}>
+                <Pressable
+                  style={!isComparing && !modalSelectionMade && selectedTime === time ? selectedIntervalStyle : null}
+                  key={time}
+                  onPress={() => handleSelection(time)}>
                   <Typography.Text
-                    style={!isComparing && !modalSelectionMade && selectedTime === time ? selectedText : null}
+                    style={intervalStyle}
+                    size="callout"
+                    weight="medium"
                     color={
                       !isComparing && !modalSelectionMade && selectedTime === time ? "neutralBase+30" : "neutralBase-20"
                     }>
@@ -313,28 +374,13 @@ export default function SpendSummaryScreen() {
       {!isComparing ? (
         <View style={contentStyle}>
           <View style={textMargin}>
-            <Typography.Text size="caption1" color="neutralBase">
-              {t("TopSpending.SpendSummaryScreen.totalSpending")}
-            </Typography.Text>
-            <Stack direction="horizontal" align="center" gap="4p">
-              <Typography.Text size="title3" color="neutralBase+30">
-                <FormatTransactionAmount
-                  amount={totalSum}
-                  isPlusSignIncluded={false}
-                  integerSize="title2"
-                  decimalSize="title2"
-                  color="neutralBase+30"
-                  isCurrencyIncluded={false}
-                />
-              </Typography.Text>
-              <Typography.Text size="title3" weight="bold" color="neutralBase+30">
-                {" "}
-                {t("Currency.sar")}
-              </Typography.Text>
-            </Stack>
-            {userType !== "plusTier" ? <Image source={require("../assets/images/hidden-text.png")} /> : null}
-            <Image source={require("../assets/images/hidden-graph.png")} />
+            {!isGraphLoading && !!chartData ? (
+              <SingleChart type={selectedInterval} graph={chartData} />
+            ) : (
+              <ActivityIndicator size="small" />
+            )}
           </View>
+          <View style={separatorStyle} />
           <View style={textMargin}>
             <Typography.Text size="title3" color="neutralBase+30">
               {t("TopSpending.SpendSummaryScreen.transactions")}
@@ -376,8 +422,7 @@ export default function SpendSummaryScreen() {
                         />
                       </Typography.Text>
                       <Typography.Text size="callout" color="neutralBase+30">
-                        {" "}
-                        {t("Currency.sar")}
+                        {t("TopSpending.SpendSummaryScreen.sr")}
                       </Typography.Text>
                     </Stack>
                     <View style={styles.chevronContainer}>

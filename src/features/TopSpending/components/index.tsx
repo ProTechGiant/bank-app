@@ -6,6 +6,7 @@ export { default as ChoosenCategories } from "./ChoosenCategories";
 export { default as CustomerBalance } from "./CustomerBalance";
 export { default as ReportCard } from "./ReportCard";
 export { default as SelectMonthModal } from "./SelectMonthModal";
+export { default as SingleChart } from "./SingleChart";
 export { default as SpendingInsightsCategoryCard } from "./SpendingInsightCategoryCard";
 export { default as SpendingsFilterModal } from "./SpendingsFilterModal";
 export { default as TagChart } from "./TagChart";

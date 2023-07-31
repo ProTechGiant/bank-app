@@ -49,8 +49,8 @@ export default function SingleTagScreen() {
   const [isViewingFilter, setIsViewingFilter] = useState(false);
   const [currentValue, setCurrentValue] = useState("");
 
-  const [fromDate, setFromDate] = useState<string | undefined>(undefined);
-  const [toDate, setToDate] = useState<string | undefined>(undefined);
+  const [fromDate, setFromDate] = useState<string | undefined>(route.params.startDate);
+  const [toDate, setToDate] = useState<string | undefined>(route.params.endDate);
 
   const { notPendingTransactions } = useTransactions(
     undefined,

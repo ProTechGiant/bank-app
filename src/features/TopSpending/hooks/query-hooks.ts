@@ -5,7 +5,8 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
 
-import { GetMonthSpendingsComparisonSummary, SingleSelectedMonthType, Tag } from "../types";
+import { IntervalTypes } from "../enum";
+import { GetMonthSpendingsComparisonSummary, GraghApiResponse, SingleSelectedMonthType, Tag } from "../types";
 
 interface IncludedCategory {
   categoryId: string;
@@ -189,6 +190,59 @@ export function useTransactionTags(singleSelectedMonth: SingleSelectedMonthType 
   const tags = transactionTags.data?.Tags;
 
   return { tags, tagsLoading };
+}
+
+export function useCategoryGraph(categoryId: string, intervalState: string, startDate: string | null) {
+  const account = useCurrentAccount();
+  const account_id = account.data?.id;
+  return useQuery(
+    ["categoryGrap", { categoryId, intervalState }],
+    () =>
+      api<GraghApiResponse>(
+        "v1",
+        `accounts/${account_id}/categories/${categoryId}/graph`,
+        "GET",
+        {
+          intervalState,
+          startDate,
+        },
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      ),
+    {
+      // set staleTime to 10 seconds for caching
+      staleTime: 10000,
+      enabled: !!account_id,
+    }
+  );
+}
+
+export function useLastSixMonthGraph() {
+  const account = useCurrentAccount();
+  const account_id = account.data?.id;
+  return useQuery(
+    ["LastSixMonthGraph"],
+    () =>
+      api<GraghApiResponse>(
+        "v1",
+        `accounts/${account_id}/transactions/graph`,
+        "GET",
+        {
+          timeFrame: IntervalTypes.LAST_SIX_MONTH,
+        },
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      ),
+    {
+      // set staleTime to 10 seconds for caching
+      staleTime: 10000,
+      enabled: !!account_id,
+    }
+  );
 }
 
 export function useBudgetSummary(singleSelectedMonth: SingleSelectedMonthType | undefined) {

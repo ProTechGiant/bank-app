@@ -4,6 +4,24 @@ export interface ChartDataType {
   series2: number;
 }
 
+export interface SingleBarChart {
+  interval: string;
+  value: number;
+}
+export interface SingleChartDataType {
+  total: number;
+  chartData: SingleBarChart[];
+}
+
+export interface DWMData {
+  Daily?: SingleChartDataType;
+  Weekly?: SingleChartDataType;
+  Monthly: SingleChartDataType;
+}
+export interface YearData {
+  Yearly: SingleChartDataType;
+}
+
 export interface CompareDatesTypes {
   firstDate: PeriodDateTypes;
   lastDate: PeriodDateTypes;
@@ -122,6 +140,72 @@ export interface GetCustomerSingleTagType {
   AccountId: string;
 }
 
+export interface DailyGraghType {
+  Total: number;
+  H0004: number;
+  H0408: number;
+  H0812: number;
+  H1216: number;
+  H1620: number;
+  H2024: number;
+}
+
+export interface WeeklyGraghType {
+  Total: number;
+  Saturday: number;
+  Sunday: number;
+  Monday: number;
+  Tuesday: number;
+  Wednesday: number;
+  Thursday: number;
+  Friday: number;
+}
+
+export interface MonthlyGraghType {
+  Total: number;
+  Week1: number;
+  Week2: number;
+  Week3: number;
+  Week4: number;
+}
+
+export interface YearlyGraghType {
+  Total: number;
+  Jan: number;
+  Feb: number;
+  Mar: number;
+  Apr: number;
+  May: number;
+  Jun: number;
+  Jul: number;
+  Aug: number;
+  Sep: number;
+  Oct: number;
+  Nov: number;
+  Dec: number;
+}
+
+export interface LastSixMonthsType {
+  Month: string;
+  Amount: number;
+}
+export interface DWMGraghData {
+  Daily?: DailyGraghType;
+  Weekly?: WeeklyGraghType;
+  Monthly: MonthlyGraghType;
+}
+
+export interface YGraghData {
+  Yearly: YearlyGraghType;
+}
+
+export interface LastSixMonthsApiResponse {
+  Total: number;
+  Months: LastSixMonthsType[];
+}
+export interface GraghApiResponse {
+  Data: DWMGraghData & YGraghData;
+}
 export interface SetMonthRowCardType {
   label: string;
   onPressSetDate: () => void;

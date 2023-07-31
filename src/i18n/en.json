@@ -304,6 +304,7 @@
       "seeLess": "See Less",
       "excludeFromSpending": "Exclude from spending",
       "sar": "SAR",
+      "lastSixMonth": "Spending last 6 months",
       "SelectMonthModal": {
         "title": "Select month",
         "compareMonth": "Compare Months",
@@ -393,6 +394,12 @@
         "12PM": "12PM",
         "6PM": "06PM"
       }
+    },
+    "UpgradeTierModal": {
+      "title": "Upgrade Your Tier",
+      "subTitle": "Get Croatia Plus for 64.99 SAR / m",
+      "upgrade" : "Upgrade",
+      "cancel" : "Cancel"
     }
   },
   "ViewTransactions": {

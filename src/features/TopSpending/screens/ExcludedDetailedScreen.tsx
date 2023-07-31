@@ -29,8 +29,8 @@ export default function ExcludedDetailedScreen() {
     categoryId,
     undefined,
     undefined,
-    undefined,
-    undefined,
+    route.params.startDate,
+    route.params.endDate,
     !categoryId ? true : false
   );
 

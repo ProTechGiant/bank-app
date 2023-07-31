@@ -10,4 +10,16 @@ export enum ChartTypes {
   MONTHLY = "Monthly",
   WEEKLY = "Weekly",
   DAILY = "Daily",
+  LAST_SIX_MONTH = "last-six-month",
+}
+
+export enum IntervalTypes {
+  DAY_WEEK_MONTH = "DWM",
+  YEAR = "Y",
+  LAST_SIX_MONTH = "last-six-month",
+}
+
+export enum UserTypes {
+  STANDARD = "standard",
+  PLUS = "plusTier",
 }
