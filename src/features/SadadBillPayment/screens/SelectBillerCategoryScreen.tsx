@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TextInput, ViewStyle } from "react-native";
@@ -13,12 +14,15 @@ import { useThemeStyles } from "@/theme";
 
 import { CategoryList } from "../components";
 import { MockBillerCategory } from "../mocks/MockBillerCategory";
+import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 
 export default function SelectBillerCategoryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const [billers, setBillers] = useState(MockBillerCategory);
+  const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.SelectBillerCategoryScreen">>();
   const searchInputRef = useRef<TextInput>(null);
+
+  const [billers, setBillers] = useState(MockBillerCategory);
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleOnSearch = (query: string) => {
@@ -31,7 +35,7 @@ export default function SelectBillerCategoryScreen() {
   };
 
   const handleOnCategorySelect = (value: string) => {
-    navigation.navigate("SadadBillPayments.SelectBillerScreen", { category: value });
+    navigation.navigate("SadadBillPayments.SelectBillerScreen", { ...route.params, category: value });
   };
 
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -48,7 +52,7 @@ export default function SelectBillerCategoryScreen() {
 
   return (
     <Page>
-      <NavHeader end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} title="" />
+      <NavHeader end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
       <ContentContainer style={mainContainerStyle}>
         <Typography.Text color="neutralBase+30" size="title1" weight="medium">
           {t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")}

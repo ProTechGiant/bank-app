@@ -21,9 +21,7 @@ import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 export default function BillDescriptionScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-
   const { navigationType } = useSadadBillPaymentContext();
-
   const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.BillDescriptionScreen">>();
   const [billDescription, setBillDescription] = useState(route.params.BillDescription);
 
@@ -39,7 +37,11 @@ export default function BillDescriptionScreen() {
   };
 
   const handleOnAddBill = () => {
-    navigation.navigate("SadadBillPayments.BillSavedSuccessScreen");
+    if (navigationType === "oneTimePayment") {
+      navigation.navigate("SadadBillPayments.EnterBillAmountScreen");
+    } else {
+      navigation.navigate("SadadBillPayments.BillSavedSuccessScreen");
+    }
   };
 
   const handleOnCancel = () => {

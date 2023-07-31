@@ -9,6 +9,7 @@ import {
   EditBillDescriptionModalScreen,
   EditBillDescriptionScreen,
   EnterAccountNoScreen,
+  EnterBillAmountScreen,
   EnterBillDescriptionScreen,
   SaveBillsScreen,
   SelectBillerCategoryScreen,
@@ -40,6 +41,7 @@ export type SadadBillPaymentStackParams = {
   };
   "SadadBillPayments.BillSavedSuccessScreen": undefined;
   "SadadBillPayments.EditBillDescModal": undefined;
+  "SadadBillPayments.EnterBillAmountScreen": undefined;
   "SadadBillPayments.EditBillDescriptionModalScreen": {
     BillDescription: string;
     updateBillDescription: (value: string) => void;
@@ -75,6 +77,11 @@ export default function SadadBillPaymentStack() {
           options={{ presentation: "modal" }}
         />
         <Stack.Screen component={SaveBillsScreen} name="SadadBillPayments.SaveBillsScreen" />
+        <Stack.Screen
+          component={EnterBillAmountScreen}
+          name="SadadBillPayments.EnterBillAmountScreen"
+          options={{ presentation: "modal" }}
+        />
         <Stack.Screen
           component={EditBillDescriptionModalScreen}
           name="SadadBillPayments.EditBillDescriptionModalScreen"

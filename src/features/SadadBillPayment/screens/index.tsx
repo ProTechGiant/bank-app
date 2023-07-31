@@ -5,6 +5,7 @@ export { default as BillSavedSuccessScreen } from "./BillSavedSuccessScreen";
 export { default as EditBillDescriptionModalScreen } from "./EditBillDescriptionModalScreen";
 export { default as EditBillDescriptionScreen } from "./EditBillDescriptionScreen";
 export { default as EnterAccountNoScreen } from "./EnterAccountNoScreen";
+export { default as EnterBillAmountScreen } from "./EnterBillAmountScreen";
 export { default as EnterBillDescriptionScreen } from "./EnterBillDescriptionScreen";
 export { default as SaveBillsScreen } from "./SaveBillsScreen";
 export { default as SelectBillerCategoryScreen } from "./SelectBillerCategoryScreen";

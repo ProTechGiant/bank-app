@@ -4,20 +4,16 @@ import { Pressable, SafeAreaView, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { PaymentHistoryIcon, PlusIcon, SadadBillPaymentIcon, TransferHorizontalIcon } from "@/assets/icons";
+import ContentContainer from "@/components/ContentContainer";
+import NavHeader from "@/components/NavHeader";
+import Page from "@/components/Page";
+import SegmentedControl from "@/components/SegmentedControl";
+import Stack from "@/components/Stack";
+import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import {
-  BillItemCard,
-  ContentContainer,
-  EmptyDataWarningCard,
-  NavHeader,
-  Page,
-  QuickActionItem,
-  SegmentedControl,
-  Stack,
-  Typography,
-} from "../components";
+import { BillItemCard, EmptyDataWarningCard, QuickActionItem } from "../components";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { MockBillDetails } from "../mocks/MockBillDetails";
 
@@ -37,7 +33,8 @@ export default function BillPaymentHomeScreen() {
   };
 
   const handleOnOneTimePaymentPress = () => {
-    //TODO - To be implemented as part of the upcoming story
+    setNavigationType("oneTimePayment");
+    navigation.navigate("SadadBillPayments.SelectBillerCategoryScreen");
   };
 
   const handleOnSplitPaymentPress = () => {

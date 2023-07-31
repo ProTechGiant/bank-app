@@ -38,6 +38,7 @@ export default function SelectBillerScreen() {
   const handleOnSubCategorySelect = (value: string) => {
     navigation.goBack();
     navigation.navigate("SadadBillPayments.EnterAccountNoScreen", {
+      ...route.params,
       category: route.params.category,
       biller: value,
     });

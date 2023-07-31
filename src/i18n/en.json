@@ -2147,6 +2147,17 @@
     },
     "PaymentHistoryDetailScreen": {
       "shareButton": "Share"
+    },
+    "EnterBillAmountScreen": {
+      "navTitle":"One-time payment",
+      "specifyBillAmount": "Specify bill amount",
+      "currentBillAmount": "Current bill amount",
+      "otherAmount": "Other amount",
+      "inputExtraText": "you can pay maximum double of actual bill amount",
+      "enterCustomAmount":"Enter Custom amount",
+      "amountInputPlaceholder": "e.g 100.00 SAR",
+      "linkText":"You may pay less or more than the bill amount" ,
+      "continue":"Continue"
     }
   },
   "PaymentDisputes": {
