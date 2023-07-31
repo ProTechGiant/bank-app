@@ -55,9 +55,16 @@ export default function CustomerAccountManagement() {
   const handleOnFinancialInformationPress = () => {
     navigation.navigate("Settings.FinancialInformationScreen");
   };
+
+  const handleOnSubscriptionManagementPress = () => {
+    // TODO: TemporarySubscriptionManagementScreen will be removed from this Settings Stack when implemented by Smart Choices Domain team
+    navigation.navigate("Settings.TemporarySubscriptionManagementScreen");
+  };
+
   const handleOnClose = () => {
     setSignOutModalVisible(false);
   };
+
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({ paddingTop: theme.spacing["8p"] }));
 
   return (
@@ -104,7 +111,7 @@ export default function CustomerAccountManagement() {
             title={t("Settings.CustomerAccountManagementScreen.yourSubscriptionTitle")}
             description={t("Settings.CustomerAccountManagementScreen.yourSubscriptionDescription")}
             icon={<SettingsIcons.YourSubscriptionIcon />}
-            onPress={handleOnPress}
+            onPress={handleOnSubscriptionManagementPress}
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.passcodeTitle")}
