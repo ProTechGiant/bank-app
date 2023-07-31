@@ -292,6 +292,28 @@
       "totalSpending": "Total Spending"
     },
     "TopSpendingScreen": {
+      "modal":{
+        "updateMessage":"Are you sure you want to edit your monthly budget?",
+        "updateSave":"Yes",
+        "updateCancel":"Cancel",
+        "updateSuccess":"Budget edited successfully!",
+        "updateSuccessMessage": "You have now updated your budget amount",
+        "deleteTitle": "Are you sure you want to delete your monthly budget?",
+        "deleteMessage": "Cancelling your budget will remove all progress you had in the monthly budget",
+        "deleteBudget": "Delete budget",
+        "deleteSuccess": "Budget deleted successfully!",
+        "deleteSuccessMessage": "You have now deleted toyr budget",
+        "select":"Select",
+        "headerText":"select month",
+        "startDate":"Start date",
+        "save":"Save"
+      },
+      "Yearly": "Yearly",
+      "EditMonthlyBudget":"Edit monthly budget",
+      "CreateMonthlyBudget": "Create a Monthly Budget",
+      "CreateNewMonthlyBudget": "Create a new Monthly Budget",
+      "subMessage": "Set up a monthly budget to track your spending and ensure a healthier financial future (Transfers to saving goals are not tracked in the budget)",
+      "SelectRepeatCycle": "Select repeat cycle",
       "currentSpendingIn": "Current Spending in",
       "transaction": "transaction",
       "hidden": "Hidden",
@@ -320,6 +342,11 @@
       },
       "budgetCard": {
         "amount": "{{amountSpent}} of {{budgetAmount}} SAR"
+      },
+      "createNewBudgetMessage": {
+        "withDate":"Now you can follow your spend progress and compare spending, the budget will be automatically updated on {{nextBudgetDate}}",
+        "withoutDate": "Now you can follow your spend progress and compare spending",
+        "title": "Your monthly budget has been successfully created"
       },
       "gettingStarted": "Getting Started!",
       "onRightTrack": "You’re on the right track!",

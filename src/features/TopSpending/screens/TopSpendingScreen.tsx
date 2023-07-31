@@ -7,6 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { CalendarAltIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
+import Modal from "@/components/Modal";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -14,7 +15,16 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { BudgetCard, CategoryCell, CustomerBalance, SelectMonthModal, SingleChart } from "../components";
+import {
+  BudgetCard,
+  CategoryCell,
+  CustomerBalance,
+  MonthlyBudget,
+  MonthlyBudgetEditForm,
+  MonthlyBudgetForm,
+  SelectMonthModal,
+  SingleChart,
+} from "../components";
 import { ChartTypes, IntervalTypes } from "../enum";
 import { useBudgetSummary, useCategories, useLastSixMonthGraph, useTransactionTags } from "../hooks/query-hooks";
 import { LastSixMonthsType, SingleSelectedMonthType, Tag } from "../types";
@@ -34,6 +44,8 @@ export default function TopSpendingScreen() {
 
   const [isExpandedCategory, setIsExpandedCategory] = useState(false);
   const [isExpandedTag, setIsExpandedTag] = useState(false);
+  const [isCreateMonthlyModalOpen, setCreateIsMonthlyModalOpen] = useState(false);
+  const [isEditMonthlyModalOpen, setEditIsMonthlyModalOpen] = useState(false);
   const [chartData, setChartData] = useState<LastSixMonthsType | null>(null);
 
   const { data: lastSixMonthGraph, isLoading: isGraphLoading } = useLastSixMonthGraph();
@@ -73,10 +85,6 @@ export default function TopSpendingScreen() {
         comparisonDate: [firstDate, secondDate].join(","),
       });
     }
-  };
-
-  const handleOnUpdateBudget = () => {
-    //console.log("*TODO when update budget ticket is ready");
   };
 
   const handleOnCategoryTransactions = (category: CategoryProps & Tag, screen: string) => {
@@ -120,7 +128,7 @@ export default function TopSpendingScreen() {
   }));
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: theme.spacing["48p"],
+    paddingTop: theme.spacing["16p"],
   }));
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -172,15 +180,32 @@ export default function TopSpendingScreen() {
           }
         />
       </SafeAreaView>
-      {isBudgetLoading ? (
-        <ContentContainer style={contentContainerStyle}>
-          <View style={styles.indicatorContainerStyle}>
-            <ActivityIndicator />
-          </View>
-        </ContentContainer>
-      ) : budgetSummary ? (
-        <ContentContainer style={contentContainerStyle}>
-          <Stack align="stretch" direction="vertical" gap="16p">
+      <Modal
+        visible={isCreateMonthlyModalOpen}
+        onBack={() => setCreateIsMonthlyModalOpen(false)}
+        onClose={() => setCreateIsMonthlyModalOpen(false)}
+        headerText="Spending Insights"
+        style={styles.modal}>
+        <MonthlyBudgetForm onClose={() => setCreateIsMonthlyModalOpen(false)} />
+      </Modal>
+
+      {budgetSummary?.StartDate ? (
+        <Modal
+          visible={isEditMonthlyModalOpen}
+          onBack={() => setEditIsMonthlyModalOpen(false)}
+          onClose={() => setEditIsMonthlyModalOpen(false)}
+          headerText="Spending Insights"
+          style={styles.modal}>
+          <MonthlyBudgetEditForm budgetSummary={budgetSummary} onClose={() => setEditIsMonthlyModalOpen(false)} />
+        </Modal>
+      ) : null}
+      <ContentContainer style={contentContainerStyle}>
+        <Stack align="stretch" direction="vertical" gap="16p">
+          {isBudgetLoading && !budgetSummary ? (
+            <View style={styles.indicatorContainerStyle}>
+              <ActivityIndicator />
+            </View>
+          ) : !isBudgetLoading && budgetSummary?.Amount ? (
             <BudgetCard
               percentage={budgetSummary.ConsumedPercentage}
               amountSpent={budgetSummary.ConsumedAmount}
@@ -193,11 +218,17 @@ export default function TopSpendingScreen() {
                 new Date(budgetSummary.EndDate[0], budgetSummary.EndDate[1] - 1, budgetSummary.EndDate[2]),
                 "yyyy-MM-dd"
               )}
-              onPress={handleOnUpdateBudget}
+              onPress={() => setEditIsMonthlyModalOpen(true)}
             />
-          </Stack>
-        </ContentContainer>
-      ) : null}
+          ) : (
+            <>
+              {!budgetSummary && budgetSummary !== undefined ? (
+                <MonthlyBudget onPress={() => setCreateIsMonthlyModalOpen(true)} />
+              ) : null}
+            </>
+          )}
+        </Stack>
+      </ContentContainer>
 
       {!isLoading && total ? (
         <>
@@ -255,5 +286,8 @@ const styles = StyleSheet.create({
   indicatorContainerStyle: {
     alignItems: "center",
     justifyContent: "center",
+  },
+  modal: {
+    height: "93%",
   },
 });

@@ -11,3 +11,8 @@ export const categoryIconViewBox = {
   Entertainment: "18 18 20 20",
   "Health Care": "18 18 20 20",
 };
+
+export const repeatCycleOptions = [
+  { label: "Yearly", value: 2 },
+  { label: "Monthly", value: 1 },
+];

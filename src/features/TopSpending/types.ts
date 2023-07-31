@@ -140,6 +140,26 @@ export interface GetCustomerSingleTagType {
   AccountId: string;
 }
 
+export interface CreateNewBudgetApiResponseType {
+  NextBudgetDate: number[];
+}
+
+export interface MonthlyBudgetInputs {
+  Amount: number;
+  StartDate: string;
+  RepeatCycleId: number;
+  RepeatNumber: number;
+}
+
+export interface EditMonthlyBudgetInputs {
+  UpdatedAmount: string;
+}
+
+export interface DeleteMonthlyBudgetResponse {
+  Status: string;
+  Message: string;
+}
+
 export interface DailyGraghType {
   Total: number;
   H0004: number;

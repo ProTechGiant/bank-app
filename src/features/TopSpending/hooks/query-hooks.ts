@@ -1,12 +1,21 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
+import sendApiRequest from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
 
 import { IntervalTypes } from "../enum";
-import { GetMonthSpendingsComparisonSummary, GraghApiResponse, SingleSelectedMonthType, Tag } from "../types";
+import {
+  CreateNewBudgetApiResponseType,
+  DeleteMonthlyBudgetResponse,
+  GetMonthSpendingsComparisonSummary,
+  GraghApiResponse,
+  MonthlyBudgetInputs,
+  SingleSelectedMonthType,
+  Tag,
+} from "../types";
 
 interface IncludedCategory {
   categoryId: string;
@@ -51,7 +60,7 @@ interface PreDefinedResponseCategories {
   categories: Category[];
 }
 
-interface BudgetSummary {
+interface BudgetSummaryResponse {
   BudgetId: number;
   Amount: number;
   StartDate: number[];
@@ -257,7 +266,7 @@ export function useBudgetSummary(singleSelectedMonth: SingleSelectedMonthType | 
       { fromDate: singleSelectedMonth?.fromDate || fromDate, toDate: singleSelectedMonth?.toDate || toDate },
     ],
     () =>
-      api<BudgetSummary>(
+      api<BudgetSummaryResponse>(
         "v1",
         `accounts/${account_id}/transactions/budget`,
         "GET",
@@ -284,6 +293,88 @@ export function useBudgetSummary(singleSelectedMonth: SingleSelectedMonthType | 
   const budgetSummary = BudgetSummary.data;
 
   return { budgetSummary, isBudgetLoading };
+}
+
+export function useCreateBudgetSummary() {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (requestBody: MonthlyBudgetInputs) => {
+      //TODO: Later will replace this accountId
+      const accountId = "100009269";
+      return sendApiRequest<CreateNewBudgetApiResponseType>(
+        "v1",
+        `accounts/${accountId}/transactions/budget`,
+        "POST",
+        undefined,
+        requestBody,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      );
+    },
+    {
+      onSuccess: () => {
+        // Refetch queries to update the local data
+        queryClient.invalidateQueries("BudgetSummary");
+      },
+    }
+  );
+}
+
+export function useEditBudgetSummary() {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (data: { UpdatedAmount: string; BudgetId: number }) => {
+      //TODO: Later will replace this accountId
+      const accountId = "100009269";
+      return sendApiRequest<BudgetSummaryResponse>(
+        "v1",
+        `accounts/${accountId}/transactions/budget/${data.BudgetId}`,
+        "PUT",
+        undefined,
+        {
+          UpdatedAmount: Number(data.UpdatedAmount),
+        },
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      );
+    },
+    {
+      onSuccess: () => {
+        // Refetch queries to update the local data
+        queryClient.invalidateQueries("BudgetSummary");
+      },
+    }
+  );
+}
+
+export function useDeleteBudgetSummary() {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (BudgetId: number) => {
+      //TODO: Later will replace this accountId
+      const accountId = "100009269";
+      return sendApiRequest<DeleteMonthlyBudgetResponse>(
+        "v1",
+        `accounts/${accountId}/transactions/budget/${BudgetId}`,
+        "DELETE",
+        undefined,
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      );
+    },
+    {
+      onSuccess: () => {
+        // Refetch queries to update the local data
+        queryClient.invalidateQueries("BudgetSummary");
+      },
+    }
+  );
 }
 
 export const useGetMonthsSpendingsComparision = (comparisonDates: string) => {
