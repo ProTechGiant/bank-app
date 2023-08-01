@@ -7,8 +7,9 @@ import { useThemeStyles } from "@/theme";
 interface CustomerBalanceProps {
   total: number;
   month: string;
+  isCurrentMonth: boolean;
 }
-export default function CustomerBalance({ total, month }: CustomerBalanceProps) {
+export default function CustomerBalance({ total, month, isCurrentMonth }: CustomerBalanceProps) {
   const { t } = useTranslation();
 
   const formattedValue = total.toLocaleString("en", {
@@ -24,7 +25,11 @@ export default function CustomerBalance({ total, month }: CustomerBalanceProps) 
   return (
     <View style={wrapper}>
       <Typography.Text color="neutralBase+30" size="caption1">
-        {t("TopSpending.TopSpendingScreen.currentSpendingIn")} {month}
+        {`${
+          isCurrentMonth
+            ? t("TopSpending.TopSpendingScreen.currentSpendingIn")
+            : t("TopSpending.TopSpendingScreen.totalSpending")
+        } ${month}`}
       </Typography.Text>
       <Typography.Text color="neutralBase+30" size="title3" weight="bold">
         {formattedValue} {t("Currency.sar")}

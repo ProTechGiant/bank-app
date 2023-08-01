@@ -56,9 +56,9 @@ export default function TopSpendingScreen() {
   const { budgetSummary, isBudgetLoading } = useBudgetSummary(singleSelectedMonth);
 
   const currentDate = new Date();
-  const monthName = singleSelectedMonth?.fromDate
-    ? format(parseISO(singleSelectedMonth?.fromDate), "MMMM")
-    : currentDate.toLocaleString("en", { month: "long" });
+  const selectedMonth = singleSelectedMonth?.fromDate ? parseISO(singleSelectedMonth.fromDate) : currentDate;
+  const isCurrentMonth = currentDate.getMonth() === selectedMonth.getMonth();
+  const monthName = format(selectedMonth, "MMMM");
 
   useEffect(() => {
     if (lastSixMonthGraph !== undefined && !isGraphLoading) {
@@ -232,7 +232,7 @@ export default function TopSpendingScreen() {
 
       {!isLoading && total ? (
         <>
-          <CustomerBalance month={monthName} total={total} />
+          <CustomerBalance month={monthName} total={total} isCurrentMonth={isCurrentMonth} />
           <View style={imagesStyle}>
             <Typography.Text size="title3" weight="semiBold" color="neutralBase+30">
               {t("TopSpending.TopSpendingScreen.lastSixMonth")}

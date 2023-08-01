@@ -315,6 +315,7 @@
       "subMessage": "Set up a monthly budget to track your spending and ensure a healthier financial future (Transfers to saving goals are not tracked in the budget)",
       "SelectRepeatCycle": "Select repeat cycle",
       "currentSpendingIn": "Current Spending in",
+      "totalSpending": "Total Spending in",
       "transaction": "transaction",
       "hidden": "Hidden",
       "spendingInsights": "Spending Insights",
