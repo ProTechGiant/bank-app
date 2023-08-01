@@ -22,8 +22,8 @@ export default function CustomerAccountManagement() {
     navigation.goBack();
   };
   // this function will be changed when integrate screens with this stack
-  const handleOnPress = () => {
-    // navigation.goBack();
+  const handleNotificationPress = () => {
+    navigation.navigate("NotificationManagement.NotificationManagementStack");
   };
 
   const handleOnPassCodePress = () => {
@@ -97,7 +97,7 @@ export default function CustomerAccountManagement() {
             title={t("Settings.CustomerAccountManagementScreen.notificationsTitle")}
             description={t("Settings.CustomerAccountManagementScreen.notificationsDescription")}
             icon={<SettingsIcons.NotificationsIcon />}
-            onPress={handleOnPress}
+            onPress={handleNotificationPress}
           />
           <SettingLanguagesSection
             title={t("Settings.CustomerAccountManagementScreen.languageTitle")}
