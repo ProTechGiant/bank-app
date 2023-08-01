@@ -8,7 +8,7 @@ const packageJsonFile = path.join(__dirname, "..", "package.json");
 const versionJsonFile = path.join(__dirname, "..", "src", "version.json");
 
 function updateBuildVersion() {
-  const buildNumber = process.env.BUILD_NUMBER ?? 0;
+  const buildNumber = process.env.BUILD_ID ?? 0;
   const packageJson = require(packageJsonFile);
 
   // <<year>>.<<build cycle>>.<<build number>>
