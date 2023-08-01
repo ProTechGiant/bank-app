@@ -24,29 +24,14 @@ export type SadadBillPaymentStackParams = {
   "SadadBillPayments.SelectBillerCategoryScreen": undefined;
   "SadadBillPayments.EditBillDescriptionScreen": undefined;
   "SadadBillPayments.SaveBillsScreen": { navigationFlow: string };
-  "SadadBillPayments.SelectBillerScreen": { category: string };
-  "SadadBillPayments.EnterAccountNoScreen": {
-    category: string;
-    biller: string;
-  };
-  "SadadBillPayments.EnterBillDescScreen": {
-    category: string;
-    biller: string;
-    AccountNumber: string;
-  };
-  "SadadBillPayments.BillDescriptionScreen": {
-    category: string;
-    biller: string;
-    AccountNumber: string;
-    BillDescription: string;
-  };
+  "SadadBillPayments.SelectBillerScreen": undefined;
+  "SadadBillPayments.EnterAccountNoScreen": undefined;
+  "SadadBillPayments.EnterBillDescScreen": undefined;
+  "SadadBillPayments.BillDescriptionScreen": undefined;
   "SadadBillPayments.BillSavedSuccessScreen": undefined;
   "SadadBillPayments.EditBillDescModal": undefined;
   "SadadBillPayments.EnterBillAmountScreen": undefined;
-  "SadadBillPayments.EditBillDescriptionModalScreen": {
-    BillDescription: string;
-    updateBillDescription: (value: string) => void;
-  };
+  "SadadBillPayments.EditBillDescriptionModalScreen": undefined;
   "SadadBillPayments.BillPaymentHistoryScreen": undefined;
   "SadadBillPayments.PaymentHistoryDetailScreen": undefined;
 };

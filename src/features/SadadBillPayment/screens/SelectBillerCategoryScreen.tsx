@@ -1,4 +1,3 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TextInput, ViewStyle } from "react-native";
@@ -13,15 +12,16 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CategoryList } from "../components";
+import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { MockBillerCategory } from "../mocks/MockBillerCategory";
-import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 
 export default function SelectBillerCategoryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.SelectBillerCategoryScreen">>();
-  const searchInputRef = useRef<TextInput>(null);
 
+  const { setBillDetails } = useSadadBillPaymentContext();
+
+  const searchInputRef = useRef<TextInput>(null);
   const [billers, setBillers] = useState(MockBillerCategory);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -35,7 +35,8 @@ export default function SelectBillerCategoryScreen() {
   };
 
   const handleOnCategorySelect = (value: string) => {
-    navigation.navigate("SadadBillPayments.SelectBillerScreen", { ...route.params, category: value });
+    setBillDetails({ category: value });
+    navigation.navigate("SadadBillPayments.SelectBillerScreen");
   };
 
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({

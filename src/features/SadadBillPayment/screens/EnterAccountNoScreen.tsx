@@ -1,4 +1,3 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
@@ -12,20 +11,19 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
+import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 
 export default function EnterAccountNoScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const { billDetails, setBillDetails } = useSadadBillPaymentContext();
+
   const [accountNumber, setAccountNumber] = useState<string>("");
 
-  const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.EnterAccountNoScreen">>();
-
   const handleOnSubmit = () => {
-    navigation.navigate("SadadBillPayments.EnterBillDescScreen", {
-      ...route.params,
-      AccountNumber: accountNumber,
-    });
+    setBillDetails({ ...billDetails, accountNumber });
+    navigation.navigate("SadadBillPayments.EnterBillDescScreen");
   };
 
   const handleOnChangeText = (text: string) => {
@@ -44,11 +42,11 @@ export default function EnterAccountNoScreen() {
   }));
 
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader
         end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
         title={t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")}
-        subTitle={route.params.biller}
+        subTitle={billDetails.billIssuer}
       />
       <ContentContainer style={mainContainerStyle}>
         <Typography.Text color="neutralBase+30" size="title1" weight="medium">
@@ -68,7 +66,10 @@ export default function EnterAccountNoScreen() {
             onChangeText={handleOnChangeText}
           />
           <Button disabled={accountNumber.length < 11} onPress={handleOnSubmit}>
-            <Typography.Text color="neutralBase-60" size="body" weight="medium">
+            <Typography.Text
+              color={accountNumber.length < 11 ? "neutralBase-20" : "neutralBase-60"}
+              size="body"
+              weight="medium">
               {t("SadadBillPayments.EnterAccountNoScreen.continueText")}
             </Typography.Text>
           </Button>

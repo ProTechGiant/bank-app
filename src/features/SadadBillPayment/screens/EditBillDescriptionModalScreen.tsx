@@ -1,4 +1,3 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
@@ -13,21 +12,22 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
+import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 
 export default function EditBillDescriptionModalScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.EditBillDescriptionModalScreen">>();
-  const [billDescription, setBillDescription] = useState(route.params.BillDescription);
+  const { billDetails, setBillDetails } = useSadadBillPaymentContext();
+
+  const [billDescription, setBillDescription] = useState(billDetails.description);
 
   const handleOnChangeText = (text: string) => {
     setBillDescription(text);
   };
 
   const handleOnSave = () => {
-    route.params.updateBillDescription(billDescription);
+    setBillDetails({ ...billDetails, description: billDescription });
     navigation.goBack();
   };
 
@@ -62,7 +62,7 @@ export default function EditBillDescriptionModalScreen() {
               value={billDescription}
               onChangeText={handleOnChangeText}
             />
-            <Button disabled={billDescription.length < 1} onPress={handleOnSave}>
+            <Button disabled={billDescription === undefined || billDescription?.length < 1} onPress={handleOnSave}>
               <Typography.Text color="neutralBase-60" size="body" weight="medium">
                 {t("SadadBillPayments.EditBillDescriptionModalScreen.buttonText")}
               </Typography.Text>

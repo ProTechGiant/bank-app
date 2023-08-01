@@ -1,6 +1,4 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { format } from "date-fns";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -16,24 +14,15 @@ import { useThemeStyles } from "@/theme";
 
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { billDetailsMock } from "../mocks/billDetailsMock";
-import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 
 export default function BillDescriptionScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { navigationType } = useSadadBillPaymentContext();
-  const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.BillDescriptionScreen">>();
-  const [billDescription, setBillDescription] = useState(route.params.BillDescription);
+
+  const { navigationType, billDetails } = useSadadBillPaymentContext();
 
   const onEditPress = () => {
-    navigation.navigate("SadadBillPayments.EditBillDescriptionModalScreen", {
-      BillDescription: billDescription,
-      updateBillDescription: onHandleEditDesc,
-    });
-  };
-
-  const onHandleEditDesc = (value: string) => {
-    setBillDescription(value);
+    navigation.navigate("SadadBillPayments.EditBillDescriptionModalScreen");
   };
 
   const handleOnAddBill = () => {
@@ -61,7 +50,7 @@ export default function BillDescriptionScreen() {
         end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
         withBackButton={false}
         title={t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")}
-        subTitle={route.params.biller}
+        subTitle={billDetails.billIssuer}
       />
       <ContentContainer style={mainContainerStyle}>
         <Stack direction="vertical">
@@ -70,7 +59,7 @@ export default function BillDescriptionScreen() {
           </Typography.Text>
           <Stack direction="horizontal" justify="space-between" align="center">
             <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-              {billDescription}
+              {billDetails.description}
             </Typography.Text>
             <View style={styles.editIconView}>
               <Pressable onPress={onEditPress}>

@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
-import { NavigationType } from "../types";
+import { BillDetail, NavigationType } from "../types";
 
 function noop() {
   return;
@@ -9,6 +9,13 @@ function noop() {
 interface SadadBillPaymentContextState {
   setNavigationType: (value: NavigationType) => void;
   navigationType: NavigationType;
+  setBillDetails: (billDetails: {
+    category?: string;
+    billIssuer?: string;
+    accountNumber?: string;
+    description?: string;
+  }) => void;
+  billDetails: BillDetail;
   clearContext: () => void;
 }
 
@@ -16,10 +23,23 @@ const SadadBillPaymentContext = createContext<SadadBillPaymentContextState>({
   setNavigationType: noop,
   navigationType: undefined,
   clearContext: noop,
+  setBillDetails: noop,
+  billDetails: {
+    category: undefined,
+    billIssuer: undefined,
+    accountNumber: undefined,
+    description: undefined,
+  },
 });
 
 const INITIAL_STATE = {
   navigationType: undefined,
+  billDetails: {
+    category: undefined,
+    billIssuer: undefined,
+    accountNumber: undefined,
+    description: undefined,
+  },
 };
 
 function SadadBillPaymentContextProvider({ children }: { children: React.ReactNode }) {
@@ -27,6 +47,10 @@ function SadadBillPaymentContextProvider({ children }: { children: React.ReactNo
 
   const setNavigationType = (navigationType: NavigationType) => {
     setState(v => ({ ...v, navigationType }));
+  };
+
+  const setBillDetails = (billDetails: BillDetail) => {
+    setState(v => ({ ...v, billDetails }));
   };
 
   const clearContext = () => {
@@ -40,6 +64,7 @@ function SadadBillPaymentContextProvider({ children }: { children: React.ReactNo
           ...state,
           setNavigationType,
           clearContext,
+          setBillDetails,
         }),
         [state]
       )}>

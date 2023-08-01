@@ -12,4 +12,12 @@ export interface BillHistorySectionList {
   title: string;
   data: BillItem[];
 }
+
+export interface BillDetail {
+  category: string | undefined;
+  billIssuer: string | undefined;
+  accountNumber: string | undefined;
+  description: string | undefined;
+}
+
 export type NavigationType = "saveBill" | "payBill" | "oneTimePayment" | undefined;

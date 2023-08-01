@@ -1,4 +1,3 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
@@ -12,20 +11,19 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
+import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 
 export default function EnterBillDescriptionScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
+  const { billDetails, setBillDetails } = useSadadBillPaymentContext();
+
   const [billDescription, setBillDescription] = useState<string>("");
-  const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.EnterBillDescScreen">>();
 
   const handleOnSubmit = () => {
-    navigation.navigate("SadadBillPayments.BillDescriptionScreen", {
-      ...route.params,
-      BillDescription: billDescription,
-    });
+    setBillDetails({ ...billDetails, description: billDescription });
+    navigation.navigate("SadadBillPayments.BillDescriptionScreen");
   };
 
   const handleOnChangeText = (text: string) => {
@@ -44,11 +42,11 @@ export default function EnterBillDescriptionScreen() {
   }));
 
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader
         end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
         title={t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")}
-        subTitle={route.params.biller}
+        subTitle={billDetails.billIssuer}
       />
       <ContentContainer style={mainContainerStyle}>
         <Typography.Text color="neutralBase+30" size="title1" weight="medium">
@@ -67,7 +65,10 @@ export default function EnterBillDescriptionScreen() {
             onChangeText={handleOnChangeText}
           />
           <Button disabled={billDescription.length < 1} onPress={handleOnSubmit}>
-            <Typography.Text color="neutralBase-60" size="body" weight="medium">
+            <Typography.Text
+              color={billDescription.length < 1 ? "neutralBase-20" : "neutralBase-60"}
+              size="body"
+              weight="medium">
               {t("SadadBillPayments.EnterBillDescriptionScreen.buttonText")}
             </Typography.Text>
           </Button>

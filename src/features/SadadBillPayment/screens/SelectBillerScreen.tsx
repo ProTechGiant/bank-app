@@ -1,4 +1,3 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TextInput, ViewStyle } from "react-native";
@@ -14,17 +13,18 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import CategoryList from "../components/CategoryList";
+import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { MockBillers } from "../mocks/MockBillerList";
-import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 
 export default function SelectBillerScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const { billDetails, setBillDetails } = useSadadBillPaymentContext();
+
   const searchInputRef = useRef<TextInput>(null);
   const [billers, setBillers] = useState(MockBillers);
   const [searchQuery, setSearchQuery] = useState("");
-
-  const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.SelectBillerScreen">>();
 
   const handleOnSearch = (query: string) => {
     setSearchQuery(query);
@@ -36,12 +36,9 @@ export default function SelectBillerScreen() {
   };
 
   const handleOnSubCategorySelect = (value: string) => {
+    setBillDetails({ ...billDetails, billIssuer: value });
     navigation.goBack();
-    navigation.navigate("SadadBillPayments.EnterAccountNoScreen", {
-      ...route.params,
-      category: route.params.category,
-      biller: value,
-    });
+    navigation.navigate("SadadBillPayments.EnterAccountNoScreen");
   };
 
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -62,7 +59,7 @@ export default function SelectBillerScreen() {
         <NavHeader />
         <ContentContainer style={mainContainerStyle}>
           <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-            {route.params.category}
+            {billDetails.category}
           </Typography.Text>
           <Typography.Text size="callout" color="neutralBase+10" weight="regular">
             {t("SadadBillPayments.SelectBillerScreen.selectBillerText")}
