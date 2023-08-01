@@ -66,3 +66,5 @@ export const createNewTag: PredefinedTagType = {
   viewBox: "0 0 12 12",
   path: "M11.8332 6.83366H6.83317V11.8337H5.1665V6.83366H0.166504V5.16699H5.1665V0.166992H6.83317V5.16699H11.8332V6.83366Z",
 };
+
+export const defaultViewBox = "0 0 20 20";

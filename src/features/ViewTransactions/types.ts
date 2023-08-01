@@ -46,6 +46,7 @@ export interface SingleTagType {
   TagId: number;
   TagName: string;
   TagIcon: string;
+  IconViewBox: string;
 }
 
 export interface TagIconType {
@@ -66,6 +67,7 @@ export interface CreateNewTagType {
   tagName: string;
   tagIcon: string;
   transactionId: string;
+  iconViewBox: string;
 }
 
 export interface CreateNewTagApiResponseType {

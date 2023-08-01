@@ -24,7 +24,7 @@ import {
   usePredefinedTags,
   useUpdateTags,
 } from "../hooks/query-hooks";
-import { createNewTag, tagIcons } from "../mocks";
+import { createNewTag, defaultViewBox, tagIcons } from "../mocks";
 import { GetCustomerSingleTagType } from "../types";
 
 export default function SelectTagScreen() {
@@ -117,7 +117,8 @@ export default function SelectTagScreen() {
     await createNewTagApi({
       tagName: tripToItem.name + " " + country,
       tagIcon: tripToItem.path,
-      transactionId: "8",
+      transactionId,
+      iconViewBox: defaultViewBox,
     });
     await refetch();
   };
@@ -136,8 +137,8 @@ export default function SelectTagScreen() {
       const response = await createNewTagApi({
         tagName,
         tagIcon: tagIcons.find(tag => tag.id === selectedTagId)?.path || "",
-        //TODO: Later will give the real transaction id in the next build cycle
-        transactionId: "8",
+        transactionId,
+        iconViewBox: defaultViewBox,
       });
 
       // Handling UK.TRANSACTION.TAG_ALREADY_EXISTS_FAILURE
@@ -182,7 +183,7 @@ export default function SelectTagScreen() {
                       id: tag.TagId,
                       name: tag.TagName,
                       path: tag.TagIcon,
-                      viewBox: "12 12 20 20",
+                      viewBox: tag.IconViewBox,
                     }}
                     isSelected={false}
                     isSelectable={false}
@@ -194,7 +195,7 @@ export default function SelectTagScreen() {
                       id: tag.TagId,
                       name: tag.TagName,
                       path: tag.TagIcon,
-                      viewBox: "12 12 20 20",
+                      viewBox: tag.IconViewBox,
                     }}
                     isSelected={isSelectedTag(tag.TagId.toString())}
                     onPress={() => handleOnPressTag(tag.TagId.toString())}
