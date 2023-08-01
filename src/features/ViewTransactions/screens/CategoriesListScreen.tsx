@@ -3,6 +3,7 @@ import { toString } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, Pressable, StyleSheet, TextInput, TextStyle, View, ViewStyle } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { CloseIcon, SearchIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -129,9 +130,21 @@ export default function CategoriesListScreen() {
     flex: 1,
   }));
 
+  const navHeaderStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["supportBase-15"],
+    zIndex: 1,
+  }));
+
   return (
-    <Page insets={["left", "right", "bottom", "top"]}>
-      <NavHeader onBackPress={handleOnBackPress} title={t("ViewTransactions.CategoriesListScreen.title")} />
+    <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
+      <SafeAreaView edges={["top"]} style={navHeaderStyle}>
+        <NavHeader
+          variant="angled"
+          onBackPress={handleOnBackPress}
+          title={t("ViewTransactions.CategoriesListScreen.title")}
+        />
+      </SafeAreaView>
+
       <View style={contentStyle}>
         <View style={searchContainerStyle}>
           <View style={styles.searchTextContainer}>

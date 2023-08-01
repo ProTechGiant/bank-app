@@ -1,6 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { FlatList, ViewStyle } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import NavHeader from "@/components/NavHeader";
@@ -67,7 +68,7 @@ export default function ExcludedDetailedScreen() {
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["20p"],
-    backgroundColor: theme.palette["neutralBase-40"],
+    backgroundColor: theme.palette["supportBase-15"],
   }));
 
   const listContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -75,22 +76,30 @@ export default function ExcludedDetailedScreen() {
     paddingHorizontal: theme.spacing["16p"],
   }));
 
+  const navHeaderStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["supportBase-15"],
+    zIndex: 1,
+  }));
+
   return (
-    <Page backgroundColor="neutralBase-60">
-      <NavHeader onBackPress={handleOnBackPress} />
-      {/* This information is temporary until the API is ready  */}
-      <Stack direction="horizontal" align="center" justify="space-between" style={headerStyle}>
-        <Typography.Text size="title2" color="neutralBase+30">
-          {categoryName ? categoryName : t("TopSpending.ExcludedDetailedScreen.hiddenTransactions")}
-        </Typography.Text>
-        <Typography.Text size="title2" color="neutralBase+30">
-          {formatCurrency(totalAmount)}
-          <Typography.Text size="body" color="primaryBase-40">
-            {" "}
-            {t("Currency.sar")}
+    <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
+      <SafeAreaView edges={["top"]} style={navHeaderStyle}>
+        <NavHeader variant="angled" onBackPress={handleOnBackPress} />
+        {/* This information is temporary until the API is ready  */}
+        <Stack direction="horizontal" align="center" justify="space-between" style={headerStyle}>
+          <Typography.Text size="title2" color="neutralBase+30">
+            {categoryName ? categoryName : t("TopSpending.ExcludedDetailedScreen.hiddenTransactions")}
           </Typography.Text>
-        </Typography.Text>
-      </Stack>
+          <Typography.Text size="title2" color="neutralBase+30">
+            {formatCurrency(totalAmount)}
+            <Typography.Text size="body" color="primaryBase-40">
+              {" "}
+              {t("Currency.sar")}
+            </Typography.Text>
+          </Typography.Text>
+        </Stack>
+      </SafeAreaView>
+
       {!isLoading ? (
         <FlatList
           data={transactions.data?.Transaction ?? []}

@@ -3,6 +3,7 @@ import { format, parse } from "date-fns";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View, ViewStyle } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import Divider from "@/components/Divider";
 import FullScreenLoader from "@/components/FullScreenLoader";
@@ -81,6 +82,7 @@ export default function SpendingComparisonScreen() {
 
   const navHeaderStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["supportBase-15"],
+    zIndex: 1,
   }));
 
   if (isMonthSpendingsComparisonSummaryLoading) {
@@ -88,10 +90,14 @@ export default function SpendingComparisonScreen() {
   }
 
   return (
-    <Page backgroundColor="neutralBase-60">
-      <View style={navHeaderStyle}>
-        <NavHeader title={t("TopSpending.TopSpendingScreen.insightsComparison")} onBackPress={handleOnBackPress} />
-      </View>
+    <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
+      <SafeAreaView edges={["top"]} style={navHeaderStyle}>
+        <NavHeader
+          variant="angled"
+          title={t("TopSpending.TopSpendingScreen.insightsComparison")}
+          onBackPress={handleOnBackPress}
+        />
+      </SafeAreaView>
       <View style={contentStyle}>
         <Typography.Text size="title3" weight="medium" style={dateHeadingStyle} color="neutralBase+30">
           {monthHeadings.mainHeading}
