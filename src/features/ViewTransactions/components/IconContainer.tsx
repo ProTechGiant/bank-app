@@ -12,26 +12,10 @@ type IconContainerProps = {
   selected: boolean;
   onPress: () => void;
   containerStyle?: ViewStyle;
+  viewBox: string;
 };
 
-export default function IconContainer({ path, name, selected, onPress, containerStyle }: IconContainerProps) {
-  const viewBoxMap = {
-    General: "0 0 19 22",
-    Transfer: "0 0 19 22",
-    Round_Up: "0 0 19 22",
-    Groceries: "0 0 19 22",
-    Shopping: "0 0 19 22",
-    Gift: "0 0 19 22",
-    "Utility Bills": "0 0 19 22",
-    "Food and Drinks": "18 18 20 20",
-    Travel: "18 18 20 20",
-    Entertainment: "18 18 20 20",
-    "Health Care": "18 18 20 20",
-    // We will add more categories as needed
-  };
-
-  const getViewBox = (iconName: string) => viewBoxMap[iconName as keyof typeof viewBoxMap];
-
+export default function IconContainer({ path, name, selected, onPress, containerStyle, viewBox }: IconContainerProps) {
   const categoryIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   const categoryTextStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -66,7 +50,7 @@ export default function IconContainer({ path, name, selected, onPress, container
       <Svg
         width={25}
         height={25}
-        viewBox={getViewBox(name)}
+        viewBox={viewBox}
         preserveAspectRatio="xMidYMid meet"
         fill="none"
         xmlns="http://www.w3.org/2000/svg">

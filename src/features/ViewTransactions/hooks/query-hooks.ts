@@ -10,6 +10,7 @@ interface Category {
   categoryId: number;
   categoryName: string;
   iconPath: string;
+  iconViewBox: string;
 }
 
 interface ApiCategoriesResponse {

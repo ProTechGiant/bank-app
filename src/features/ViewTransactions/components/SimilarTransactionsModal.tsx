@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 import Button from "@/components/Button";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
@@ -167,6 +168,10 @@ export default function SimilarTransactionsModal({
     flexDirection: "row",
   }));
 
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingBottom: theme.spacing["32p"],
+  }));
+
   const renderTransaction = ({ item: transaction }: { item: Transaction }) => {
     return (
       <Stack key={transaction.TransactionId} direction="horizontal" style={checkBoxStackStyle}>
@@ -217,8 +222,8 @@ export default function SimilarTransactionsModal({
 
   const renderMainScreen = () => {
     return (
-      <>
-        <View>
+      <ScrollView>
+        <View style={containerStyle}>
           <Typography.Text color="neutralBase+30" size="title2" weight="medium">
             {t("ViewTransactions.SingleTransactionDetailedScreen.similarTransactions")}
           </Typography.Text>
@@ -263,7 +268,7 @@ export default function SimilarTransactionsModal({
             </Button>
           </View>
         </View>
-      </>
+      </ScrollView>
     );
   };
 
