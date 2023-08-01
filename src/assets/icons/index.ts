@@ -24,6 +24,7 @@ export * from "./CheckCircleIcon";
 export * from "./CheckIcon";
 export * from "./ChevronRightIcon";
 export * from "./CircleQuestionMarkIcon";
+export * from "./ClockIcon";
 export * from "./CloseIcon";
 export * from "./CopyIcon";
 export * from "./DeleteIcon";
@@ -109,7 +110,6 @@ export * from "./UserIcon";
 export * from "./WalletIcon";
 export * from "./WarningFilledCircleIcon";
 export * from "./WithdrawIcon";
-
 export interface IconProps {
   color?: ColorValue;
   height?: number | string;

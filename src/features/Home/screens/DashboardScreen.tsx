@@ -1,10 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { UserClockIcon } from "@/assets/icons";
-import BulletinBoard from "@/components/BulletinBoard";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -13,20 +10,15 @@ import { useThemeStyles } from "@/theme";
 
 import { ProfileIcon } from "../assets";
 import HeaderSvg from "../assets/Header-homepage.svg";
-import { BalanceCard, NotificationSlide, QuickActionsSection, RewardsSection, WhatsNextSection } from "../components";
+import { BalanceCard, QuickActionsSection, RewardsSection, WhatsNextSection } from "../components";
+import TasksPreviewer from "../components/TasksPreviewer";
 import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
-import { useNotifications, useRefetchHomepageLayout } from "../hooks/query-hooks";
-import { AccountMockedData } from "../mocks/MockData";
-import { Notification } from "../types";
+import { AccountMockedData, TasksMockData } from "../mocks/MockData";
 
 export default function DashboardScreen() {
-  const { t } = useTranslation();
   const navigation = useNavigation();
-  const { refetchAll } = useRefetchHomepageLayout();
   const { sections, homepageLayout } = useHomepageLayoutOrder();
-  const notifications = useNotifications();
 
-  const [isNotificationsExpanded, setIsNotificationsExpanded] = useState(false);
   const [layoutErrorIsVisible, setLayoutErrorIsVisible] = useState(false);
 
   useEffect(() => {
@@ -37,12 +29,6 @@ export default function DashboardScreen() {
 
   const handleOnEditLayoutPress = () => {
     navigation.navigate("Home.SectionsReordererModal");
-  };
-
-  const handleOnNotificationPress = (notification: Notification) => {
-    if (notification.action_type === "Top-Up") {
-      navigation.navigate("AddMoney.AddMoneyStack", { screen: "AddMoney.AddMoneyInfoScreen" });
-    }
   };
 
   const handleOnEditShortcutsPress = () => {
@@ -62,12 +48,8 @@ export default function DashboardScreen() {
   };
 
   const handleOnLoadingErrorRefresh = () => {
-    refetchAll();
+    // refetchAll();
     handleOnLoadingErrorClose();
-  };
-
-  const onExpandCollapsPress = (value: boolean) => {
-    setIsNotificationsExpanded(value);
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -100,21 +82,9 @@ export default function DashboardScreen() {
         />
         <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16}>
           <Stack align="stretch" direction="vertical" gap="32p">
+            {TasksMockData.length > 0 ? <TasksPreviewer tasks={TasksMockData} /> : null}
             {sections?.length !== 0 ? (
               <>
-                <BulletinBoard
-                  isExpanded={isNotificationsExpanded}
-                  onExpandPress={onExpandCollapsPress}
-                  iconStart={<UserClockIcon />}
-                  title={t("Home.DashboardScreen.notifications", { count: notifications.length })}>
-                  {notifications.map(notification => (
-                    <NotificationSlide
-                      key={notification.action_id}
-                      onPress={handleOnNotificationPress}
-                      notification={notification}
-                    />
-                  ))}
-                </BulletinBoard>
                 {sections.map(section => {
                   if (section.type === "quick-actions") {
                     return <QuickActionsSection key={section.type} onViewAllPress={handleOnEditShortcutsPress} />;

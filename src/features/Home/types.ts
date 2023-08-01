@@ -15,3 +15,18 @@ export interface HomepageItemLayoutType {
   type: string;
   description: string;
 }
+
+export interface TaskType {
+  ActionId: string;
+  ActionTypeId: string;
+  DueDate: string;
+  Description: string;
+  Persistent: boolean;
+  ServiceId: string;
+  MessageId: string;
+  MessageText: string;
+  RedirectDestinationLink: string;
+  UpdatedBy: string;
+  ButtonName: string;
+  SecondaryButtonName: string;
+}

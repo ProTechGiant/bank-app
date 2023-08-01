@@ -770,7 +770,10 @@
       "whatsNext": "What's Next",
       "totalbalance": "Total balance",
       "account": "Account    ",
-      "mainCroatiaAccount": "Main Croatia account"
+      "mainCroatiaAccount": "Main Croatia account",
+      "tasks": "{{count}} tasks ",
+      "task": "{{count}} task ",
+      "leftToComplete": "left to complete"
     },
     "HomepageReorderModal": {
       "cancel": "CANCEL",

@@ -40,6 +40,25 @@ export function useHomeContent(language: string) {
   });
 }
 
+export function useActions(faqId: string, language: string) {
+  const { userId } = useAuthContext();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    () => {
+      return api<unknown>("v1", ``, "POST", undefined, undefined, {
+        ["x-correlation-id"]: generateRandomId(),
+        ["CustomerId"]: userId,
+      });
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries(queryKeys.getContent(language));
+      },
+    }
+  );
+}
+
 export function useHomepageLayout() {
   const { userId } = useAuthContext();
   const correlationId = generateRandomId();
