@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { isEqual } from "lodash";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, FlatList, I18nManager, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -23,6 +24,8 @@ export default function LifeStyleScreen() {
 
   const { isLoading, data: categories } = usePredefinedCategory();
 
+  const prevSelectedCategoriesRef = useRef<string[]>([]);
+
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const [isButtonDisabled, setButtonDisabled] = useState(true);
@@ -36,19 +39,25 @@ export default function LifeStyleScreen() {
         .filter(category => category.Selected)
         .map(category => category.CategoryId);
       setSelectedCategories(preSelectedCategories);
+      prevSelectedCategoriesRef.current = [...preSelectedCategories].sort();
     }
   }, [categories]);
 
+  useEffect(() => {
+    const isSameAsPrevious = isEqual(prevSelectedCategoriesRef.current, selectedCategories.sort());
+    setButtonDisabled(isSameAsPrevious);
+  }, [selectedCategories]);
+
   const handleCategorySelect = (category: string) => {
-    const isSelected = selectedCategories.includes(category);
+    setSelectedCategories(prevSelected => {
+      const isSelected = prevSelected.includes(category);
 
-    if (isSelected) {
-      setSelectedCategories(prevSelected => prevSelected.filter(item => item !== category));
-    } else {
-      setSelectedCategories(prevSelected => [...prevSelected, category]);
-    }
-
-    setButtonDisabled(false);
+      if (isSelected) {
+        return prevSelected.filter(item => item !== category);
+      } else {
+        return [...prevSelected, category];
+      }
+    });
   };
 
   const handleOnSave = async () => {
@@ -78,11 +87,12 @@ export default function LifeStyleScreen() {
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
     paddingBottom: theme.spacing["24p"],
+    marginTop: theme.spacing["20p"],
   }));
 
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
     zIndex: 1,
-    marginBottom: theme.spacing["4p"],
+    marginBottom: theme.spacing["24p"],
     paddingHorizontal: theme.spacing["20p"],
   }));
 
