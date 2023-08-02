@@ -94,7 +94,7 @@ export default function MonthlyBudgetForm({ onClose }: MonthlyBudgetFormProps) {
             control={control}
             label={t("TopSpending.TopSpendingScreen.modal.startDate")}
             placeholder="set"
-            minimumDate={new Date()}
+            minimumDate={new Date(new Date().getFullYear(), new Date().getMonth(), 1)}
           />
           <DropdownInput
             isFixedHeight={false}
