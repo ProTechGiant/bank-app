@@ -66,7 +66,7 @@ export default function ContextualFAQModal({
     color: theme.palette.primaryBase,
   }));
 
-  const questionMarkIconColor = useThemeStyles(theme => theme.palette.primaryBase);
+  const questionMarkIconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
 
   return (
     <>
@@ -99,9 +99,9 @@ export default function ContextualFAQModal({
               <Typography.Text size="callout">{content}</Typography.Text>
             </ScrollView>
             <Pressable onPress={handleOnFaqPress}>
-              <Stack direction="horizontal" gap="5p" justify="center" align="center" style={iconAndLinkContainerStyle}>
+              <Stack direction="horizontal" gap="8p" justify="center" align="center" style={iconAndLinkContainerStyle}>
                 <QuestionIcon color={questionMarkIconColor} />
-                <Typography.Text size="footnote" color="primaryBase">
+                <Typography.Text size="footnote" color="primaryBase-40">
                   {t("ContextualFAQModal.link")}
                 </Typography.Text>
               </Stack>

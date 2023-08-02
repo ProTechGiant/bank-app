@@ -292,24 +292,24 @@
       "totalSpending": "Total Spending"
     },
     "TopSpendingScreen": {
-      "modal":{
-        "updateMessage":"Are you sure you want to edit your monthly budget?",
-        "updateSave":"Yes",
-        "updateCancel":"Cancel",
-        "updateSuccess":"Budget edited successfully!",
+      "modal": {
+        "updateMessage": "Are you sure you want to edit your monthly budget?",
+        "updateSave": "Yes",
+        "updateCancel": "Cancel",
+        "updateSuccess": "Budget edited successfully!",
         "updateSuccessMessage": "You have now updated your budget amount",
         "deleteTitle": "Are you sure you want to delete your monthly budget?",
         "deleteMessage": "Cancelling your budget will remove all progress you had in the monthly budget",
         "deleteBudget": "Delete budget",
         "deleteSuccess": "Budget deleted successfully!",
         "deleteSuccessMessage": "You have now deleted toyr budget",
-        "select":"Select",
-        "headerText":"select month",
-        "startDate":"Start date",
-        "save":"Save"
+        "select": "Select",
+        "headerText": "select month",
+        "startDate": "Start date",
+        "save": "Save"
       },
       "Yearly": "Yearly",
-      "EditMonthlyBudget":"Edit monthly budget",
+      "EditMonthlyBudget": "Edit monthly budget",
       "CreateMonthlyBudget": "Create a Monthly Budget",
       "CreateNewMonthlyBudget": "Create a new Monthly Budget",
       "subMessage": "Set up a monthly budget to track your spending and ensure a healthier financial future (Transfers to saving goals are not tracked in the budget)",
@@ -345,7 +345,7 @@
         "amount": "{{amountSpent}} of {{budgetAmount}} SAR"
       },
       "createNewBudgetMessage": {
-        "withDate":"Now you can follow your spend progress and compare spending, the budget will be automatically updated on {{nextBudgetDate}}",
+        "withDate": "Now you can follow your spend progress and compare spending, the budget will be automatically updated on {{nextBudgetDate}}",
         "withoutDate": "Now you can follow your spend progress and compare spending",
         "title": "Your monthly budget has been successfully created"
       },
@@ -2368,7 +2368,22 @@
       "communicationDetails": "Communication Details",
       "saveChanges": "Save Changes",
       "cancel": "Cancel",
-      "updateNow": "Update Now"
+      "updateNow": "Update Now",
+      "expiredDescription": "Your ID is due to expire. To prevent your account being frozen, please update your ID in Absher. Once you have done this, please revisit this page and press 'Update Now'.",
+      "extraStart": "Minimum 10 characters",
+      "sectionsTitle": {
+        "name": "Name",
+        "nationality": "Nationality",
+        "ksaAddress": "KSA address",
+        "nationalID": "National ID / Iqama",
+        "idExpiry": "ID Expiry",
+        "email": "Email",
+        "mobileNumber": "Mobile Number"
+      },
+      "contextualFAQModal": {
+        "title": "I need to change my details",
+        "content": "Visit absher.sa to change your details. Please restart the process when your Absher profile has been updated. This can take up to 72 hours."
+      }
     }
   },
   "SelectTagScreen": {
