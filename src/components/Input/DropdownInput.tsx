@@ -127,6 +127,11 @@ export function DropdownInput<T extends string | number>({
                 setIsVisible(true);
                 pickerRef.current?.focus();
               }}>
+              {variant === "small" ? (
+                <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+                  {label}
+                </Typography.Text>
+              ) : null}
               <InputBox isError={errorText !== undefined} isFocused={isVisible}>
                 <InputText
                   buttonIcon={
