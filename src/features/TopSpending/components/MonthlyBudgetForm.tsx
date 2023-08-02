@@ -39,9 +39,15 @@ export default function MonthlyBudgetForm({ onClose }: MonthlyBudgetFormProps) {
       .positive("RepeatNumber must be greater than 0")
       .required("RepeatNumber is required"),
     Amount: yup.number().required("Amount is required"),
+    RepeatCycleId: yup.number().required("Repeat cycle is required"),
+    StartDate: yup.date().required("Date is required"),
   });
 
-  const { control, handleSubmit } = useForm<MonthlyBudgetInputs>({
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<MonthlyBudgetInputs>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
   });
@@ -70,6 +76,7 @@ export default function MonthlyBudgetForm({ onClose }: MonthlyBudgetFormProps) {
 
   const handleOnCloseNotificationModal = () => {
     setIsSuccessMessage(false);
+    onClose();
   };
 
   return (
@@ -103,7 +110,9 @@ export default function MonthlyBudgetForm({ onClose }: MonthlyBudgetFormProps) {
           <TextInput control={control} name="RepeatNumber" label="Repeat Number" keyboardType="numeric" />
         </Stack>
         <Stack direction="vertical" align="stretch" gap="8p">
-          <Button onPress={handleSubmit(handleOnSubmit)}>{t("TopSpending.TopSpendingScreen.modal.save")}</Button>
+          <Button disabled={!isValid} onPress={handleSubmit(handleOnSubmit)}>
+            {t("TopSpending.TopSpendingScreen.modal.save")}
+          </Button>
           <Button variant="tertiary" onPress={onClose}>
             {t("TopSpending.TopSpendingScreen.modal.updateCancel")}
           </Button>

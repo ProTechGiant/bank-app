@@ -15,7 +15,7 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { useDeleteBudgetSummary, useEditBudgetSummary } from "../hooks/query-hooks";
+import { useEditBudgetSummary } from "../hooks/query-hooks";
 import { EditMonthlyBudgetInputs } from "../types";
 import EditInput from "./EditInput";
 
@@ -28,9 +28,10 @@ interface MonthlyBudgetEditFormProps {
     BudgetId: number;
   };
   onClose: () => void;
+  handleOnDelete: () => void;
 }
 
-export default function MonthlyBudgetEditForm({ budgetSummary, onClose }: MonthlyBudgetEditFormProps) {
+export default function MonthlyBudgetEditForm({ budgetSummary, onClose, handleOnDelete }: MonthlyBudgetEditFormProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
@@ -38,12 +39,10 @@ export default function MonthlyBudgetEditForm({ budgetSummary, onClose }: Monthl
 
   const [isHideTextInput, setIsHideTextInput] = useState(false);
   const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isSuccessEditMessage, setIsSuccessEditMessage] = useState(false);
-  const [isSuccessDeleteMessage, setIsSuccessDeleteMessage] = useState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
   const EditBudgetSummary = useEditBudgetSummary();
-  const DeleteBudgetSummary = useDeleteBudgetSummary();
 
   const validationSchema = yup.object().shape({
     UpdatedAmount: yup.number().required("Amount is required"),
@@ -72,21 +71,9 @@ export default function MonthlyBudgetEditForm({ budgetSummary, onClose }: Monthl
     }
   };
 
-  const handleOnDelete = async () => {
-    setIsDeleteModalVisible(false);
-    try {
-      const response = await DeleteBudgetSummary.mutateAsync(budgetSummary.BudgetId);
-      if (response.Status === "200 OK") {
-        setIsSuccessDeleteMessage(true);
-      }
-    } catch (error) {
-      Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
-        {
-          text: "OK",
-          onPress: () => navigation.goBack(),
-        },
-      ]);
-    }
+  const handleOnCloseEditNotificationModal = () => {
+    setIsSuccessEditMessage(false);
+    onClose();
   };
 
   const handleOnEditAmount = () => {
@@ -160,6 +147,15 @@ export default function MonthlyBudgetEditForm({ budgetSummary, onClose }: Monthl
           ),
         }}
       />
+
+      <NotificationModal
+        title={t("TopSpending.TopSpendingScreen.modal.updateSuccess")}
+        isVisible={isSuccessEditMessage}
+        message={t("TopSpending.TopSpendingScreen.modal.updateSuccessMessage")}
+        onClose={handleOnCloseEditNotificationModal}
+        variant="success"
+      />
+
       <NotificationModal
         onClose={() => setIsDeleteModalVisible(false)}
         title={t("TopSpending.TopSpendingScreen.modal.deleteTitle")}
@@ -167,27 +163,21 @@ export default function MonthlyBudgetEditForm({ budgetSummary, onClose }: Monthl
         isVisible={isDeleteModalVisible}
         variant="warning"
         buttons={{
-          primary: <Button onPress={handleOnDelete}>{t("TopSpending.TopSpendingScreen.modal.deleteBudget")}</Button>,
+          primary: (
+            <Button
+              onPress={() => {
+                setIsDeleteModalVisible(false);
+                handleOnDelete();
+              }}>
+              {t("TopSpending.TopSpendingScreen.modal.deleteBudget")}
+            </Button>
+          ),
           secondary: (
             <Button onPress={() => setIsDeleteModalVisible(false)}>
               {t("TopSpending.TopSpendingScreen.modal.updateCancel")}
             </Button>
           ),
         }}
-      />
-      <NotificationModal
-        title={t("TopSpending.TopSpendingScreen.modal.updateSuccess")}
-        isVisible={isSuccessEditMessage}
-        message={t("TopSpending.TopSpendingScreen.modal.updateSuccessMessage")}
-        onClose={() => setIsSuccessEditMessage(false)}
-        variant="success"
-      />
-      <NotificationModal
-        title={t("TopSpending.TopSpendingScreen.modal.deleteSuccess")}
-        isVisible={isSuccessDeleteMessage}
-        message={t("TopSpending.TopSpendingScreen.modal.deleteSuccessMessage")}
-        onClose={() => setIsSuccessDeleteMessage(false)}
-        variant="success"
       />
     </>
   );

@@ -1,7 +1,7 @@
 import { format, parseISO, startOfMonth } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Alert, Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -9,6 +9,7 @@ import { CalendarAltIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import Modal from "@/components/Modal";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -26,7 +27,13 @@ import {
   SingleChart,
 } from "../components";
 import { ChartTypes, IntervalTypes } from "../enum";
-import { useBudgetSummary, useCategories, useLastSixMonthGraph, useTransactionTags } from "../hooks/query-hooks";
+import {
+  useBudgetSummary,
+  useCategories,
+  useDeleteBudgetSummary,
+  useLastSixMonthGraph,
+  useTransactionTags,
+} from "../hooks/query-hooks";
 import { LastSixMonthsType, SingleSelectedMonthType, Tag } from "../types";
 import { convertDataToChartDataset } from "../utils/convert-graph-data-to-chart-dataset";
 
@@ -46,6 +53,8 @@ export default function TopSpendingScreen() {
   const [isExpandedTag, setIsExpandedTag] = useState(false);
   const [isCreateMonthlyModalOpen, setCreateIsMonthlyModalOpen] = useState(false);
   const [isEditMonthlyModalOpen, setEditIsMonthlyModalOpen] = useState(false);
+  const [isSuccessDeleteMessage, setIsSuccessDeleteMessage] = useState(false);
+
   const [chartData, setChartData] = useState<LastSixMonthsType | null>(null);
 
   const { data: lastSixMonthGraph, isLoading: isGraphLoading } = useLastSixMonthGraph();
@@ -54,6 +63,7 @@ export default function TopSpendingScreen() {
   const { includedCategories, total, excludedCategories, isLoading } = useCategories(singleSelectedMonth);
   const { tags, tagsLoading } = useTransactionTags(singleSelectedMonth);
   const { budgetSummary, isBudgetLoading } = useBudgetSummary(singleSelectedMonth);
+  const DeleteBudgetSummary = useDeleteBudgetSummary();
 
   const currentDate = new Date();
   const selectedMonth = singleSelectedMonth?.fromDate ? parseISO(singleSelectedMonth.fromDate) : currentDate;
@@ -110,6 +120,32 @@ export default function TopSpendingScreen() {
         startDate: singleSelectedMonth?.fromDate,
         endDate: singleSelectedMonth?.toDate,
       });
+    }
+  };
+
+  const handleOnDeleteSuccessMessage = () => {
+    // this setTimeout is here cuz dialog didnt show in ios ;
+    setEditIsMonthlyModalOpen(false);
+    setTimeout(() => {
+      setIsSuccessDeleteMessage(true);
+    }, 200);
+  };
+
+  const handleOnEditSuccessMessage = () => {
+    setEditIsMonthlyModalOpen(false);
+  };
+
+  const handleOnDelete = async () => {
+    try {
+      await DeleteBudgetSummary.mutateAsync(budgetSummary.BudgetId);
+      handleOnDeleteSuccessMessage();
+    } catch (error) {
+      Alert.alert(t("errors.generic.title"), t("errors.generic.message"), [
+        {
+          text: "OK",
+          onPress: () => navigation.goBack(),
+        },
+      ]);
     }
   };
 
@@ -189,16 +225,21 @@ export default function TopSpendingScreen() {
         <MonthlyBudgetForm onClose={() => setCreateIsMonthlyModalOpen(false)} />
       </Modal>
 
-      {budgetSummary?.StartDate ? (
-        <Modal
-          visible={isEditMonthlyModalOpen}
-          onBack={() => setEditIsMonthlyModalOpen(false)}
-          onClose={() => setEditIsMonthlyModalOpen(false)}
-          headerText="Spending Insights"
-          style={styles.modal}>
-          <MonthlyBudgetEditForm budgetSummary={budgetSummary} onClose={() => setEditIsMonthlyModalOpen(false)} />
-        </Modal>
-      ) : null}
+      <Modal
+        visible={isEditMonthlyModalOpen}
+        onBack={() => setEditIsMonthlyModalOpen(false)}
+        onClose={() => setEditIsMonthlyModalOpen(false)}
+        headerText="Spending Insights"
+        style={styles.modal}>
+        {budgetSummary?.StartDate ? (
+          <MonthlyBudgetEditForm
+            budgetSummary={budgetSummary}
+            handleOnDelete={handleOnDelete}
+            onClose={handleOnEditSuccessMessage}
+          />
+        ) : null}
+      </Modal>
+
       <ContentContainer style={contentContainerStyle}>
         <Stack align="stretch" direction="vertical" gap="16p">
           {isBudgetLoading && !budgetSummary ? (
@@ -277,6 +318,13 @@ export default function TopSpendingScreen() {
         isVisible={isSelectMonthModalVisible}
         onClose={() => setIsSelectMonthModalVisible(false)}
         onContinue={handleOnContinue}
+      />
+      <NotificationModal
+        title={t("TopSpending.TopSpendingScreen.modal.deleteSuccess")}
+        isVisible={isSuccessDeleteMessage}
+        message={t("TopSpending.TopSpendingScreen.modal.deleteSuccessMessage")}
+        onClose={() => setIsSuccessDeleteMessage(false)}
+        variant="success"
       />
     </Page>
   );
