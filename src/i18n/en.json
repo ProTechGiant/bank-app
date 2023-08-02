@@ -504,7 +504,8 @@
         "categoryChanged": "Category Changed",
         "changeCategories": "Change Categories",
         "skip": "Skip",
-        "similarTransactionsFound": "{{count}} Similar transactions from the same merchant were found."
+        "similarTransactionsFound": "{{count}} Similar transactions from the same merchant were found.",
+        "similarTransactionsChanged": "You changed {{count}} similar transactions categories"
       }
     },
     "CategoriesListScreen": {

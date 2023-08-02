@@ -18,7 +18,7 @@ import { TransactionDetailed } from "../types";
 
 interface SimilarModalProps {
   visible: boolean;
-  onClose: () => void;
+  onClose: (isSuccess: boolean, similarTransactionsCount: number) => void;
   similarTransactions: Transaction[];
   data: TransactionDetailed;
   createDisputeUserId: string;
@@ -114,7 +114,7 @@ export default function SimilarTransactionsModal({
           oldCategoryId,
         });
 
-        onClose();
+        onClose(true, transactionIdsToUpdate.length);
       } catch (error) {
         navigation.navigate("ViewTransactions.SingleTransactionDetailedScreen", {
           data: data,

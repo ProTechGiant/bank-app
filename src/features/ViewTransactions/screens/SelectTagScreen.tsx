@@ -253,7 +253,7 @@ export default function SelectTagScreen() {
         <NotificationModal
           title={t("SelectTagScreen.modalTitle")}
           message={t("SelectTagScreen.modalMessage")}
-          variant="error"
+          variant="warning"
           isVisible={isDeleteNotificationModalVisible}
           onClose={() => setIsDeleteNotificationModalVisible(false)}
           buttons={{

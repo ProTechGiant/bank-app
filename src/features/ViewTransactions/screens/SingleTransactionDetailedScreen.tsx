@@ -49,6 +49,9 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
 
   const [isVisible, setIsVisible] = useState(false);
 
+  const [isSimilarSuccessModalVisible, setIsSimilarSuccessModalVisible] = useState(false);
+  const [similarTransactionsCount, setSimilarTransactionsCount] = useState(0);
+
   const [isUpdateErrorModalVisible, setIsUpdateErrorModalVisible] = useState(false);
   const [isSuccessNotificationModalVisible, setIsSuccessNotificationModalVisible] = useState(false);
   const [isViewingErrorModal, setIsViewingErrorModal] = useState(false);
@@ -122,6 +125,16 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
 
   const handleOnPressCloseErrorModal = () => {
     setIsErrorModalVisible(false);
+  };
+
+  const handleOnSimilarTransactionsModalClose = (
+    isSuccess: boolean | ((prevState: boolean) => boolean),
+    similarTransactionCount: number
+  ) => {
+    setIsSimilarTransactionsModalVisible(false);
+    setIsSuccessNotificationModalVisible(false);
+    setIsSimilarSuccessModalVisible(isSuccess);
+    setSimilarTransactionsCount(similarTransactionCount);
   };
 
   useEffect(() => {
@@ -209,6 +222,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
               <Button
                 onPress={() => {
                   setIsSimilarTransactionsModalVisible(true);
+                  setIsSuccessNotificationModalVisible(false);
                 }}>
                 {t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.changeCategories")}
               </Button>
@@ -227,10 +241,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
           data={data}
           similarTransactions={similarTransactions}
           visible={isSimilarTransactionsModalVisible}
-          onClose={() => {
-            setIsSimilarTransactionsModalVisible(false);
-            setIsSuccessNotificationModalVisible(false);
-          }}
+          onClose={handleOnSimilarTransactionsModalClose}
         />
       )}
 
@@ -245,6 +256,16 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
             />
           )
         : null}
+
+      <NotificationModal
+        variant="success"
+        onClose={() => setIsSimilarSuccessModalVisible(false)}
+        isVisible={isSimilarSuccessModalVisible}
+        message={t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.similarTransactionsChanged", {
+          count: similarTransactionsCount,
+        })}
+        title={t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.categoryChanged")}
+      />
 
       <NotificationModal
         variant="warning"

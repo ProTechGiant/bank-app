@@ -106,6 +106,10 @@ export default function TransactionsScreen() {
     navigation.navigate("ViewTransactions.PendingTransactionsScreen", { cardId, createDisputeUserId });
   };
 
+  const handleOnClearAllCategories = () => {
+    setSelectedFilters([]);
+  };
+
   const handleOnTopSpendingInsights = () => {
     navigation.navigate("TopSpending.TopSpendingStack", {
       screen: "TopSpending.TopSpendingScreen",
@@ -205,6 +209,8 @@ export default function TransactionsScreen() {
     chevronColor: theme.palette["neutralBase-20"],
   }));
 
+  const pendingIconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
+
   const pastTransactionStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["24p"],
     flexDirection: "row",
@@ -268,7 +274,7 @@ export default function TransactionsScreen() {
             <Typography.Text color="neutralBase" size="callout" weight="semiBold">
               {t("ViewTransactions.TransactionsScreen.filteredBy")}
             </Typography.Text>
-            <View style={selectedFilter}>
+            <View style={styles.selectedFilterContainer}>
               {selectedFilters.map(type => (
                 <View style={optionContainerStyle} key={type}>
                   <Text style={selectedFilter}>{getFilterName(type)}</Text>
@@ -278,6 +284,9 @@ export default function TransactionsScreen() {
                 </View>
               ))}
             </View>
+            <Pressable onPress={handleOnClearAllCategories}>
+              <Typography.Text> {t("ViewTransactions.TransactionsScreen.clearAll")}</Typography.Text>
+            </Pressable>
           </Stack>
         </WithShadow>
       ) : null}
@@ -288,7 +297,7 @@ export default function TransactionsScreen() {
             <>
               <Pressable style={[margins, styles.pendingButton]} onPress={handlePendingTransactions}>
                 <View style={pendingButtonStyle}>
-                  <PendingIcon />
+                  <PendingIcon color={pendingIconColor} />
                   <Typography.Text color="neutralBase+30" weight="medium" size="callout" style={pendingButtonTextStyle}>
                     {t("ViewTransactions.TransactionsScreen.pending")}
                   </Typography.Text>
@@ -351,5 +360,10 @@ const styles = StyleSheet.create({
         scaleX: I18nManager.isRTL ? -1 : 1,
       },
     ],
+  },
+  selectedFilterContainer: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
 });
