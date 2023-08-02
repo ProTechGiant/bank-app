@@ -19,11 +19,19 @@ export default function FAQListPreview({ data, onPress }: FAQListPreviewProps) {
     paddingBottom: theme.spacing["4p"],
   }));
 
+  const queryContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    flexShrink: 1,
+    marginVertical: theme.spacing["16p"],
+  }));
+
   return (
     <>
       {data.map((item, index) => {
         return (
           <View key={index}>
+            <Typography.Text weight="semiBold" size="callout" style={sectionHeaderStyle}>
+              {item.CategoryName}
+            </Typography.Text>
             {item.Faqs &&
               item.Faqs.map((faq_item: FAQSection) => {
                 return (
@@ -31,11 +39,10 @@ export default function FAQListPreview({ data, onPress }: FAQListPreviewProps) {
                     style={styles.sectionContentStyle}
                     key={faq_item.FaqId}
                     onPress={() => onPress(faq_item.FaqId)}>
-                    <Typography.Text weight="semiBold" size="callout" style={sectionHeaderStyle}>
-                      {item.CategoryName}
-                    </Typography.Text>
                     <Stack direction="horizontal" gap="20p" align="center" justify="space-between">
-                      <Typography.Text size="callout">{faq_item.Query}</Typography.Text>
+                      <View style={queryContainerStyle}>
+                        <Typography.Text size="callout">{faq_item.Query}</Typography.Text>
+                      </View>
                       <View style={styles.chevronContainer}>
                         <ChevronRightIcon color={iconColor} />
                       </View>

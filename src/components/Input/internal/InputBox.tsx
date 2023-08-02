@@ -40,8 +40,8 @@ export default function InputBox({ addonStart, children, isError, isFocused, num
 
   const iconStyle = useThemeStyles<ViewStyle>(t => ({
     alignItems: "center",
-    paddingTop: t.spacing["16p"],
-    width: 40,
+    justifyContent: "center",
+    paddingStart: t.spacing["12p"],
   }));
 
   const animatedContainerStyle = useAnimatedStyle(() => {

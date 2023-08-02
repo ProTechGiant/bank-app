@@ -6,4 +6,4 @@ export const UP_VOTE = "1";
 export const DOWN_VOTE = "2";
 
 export const SORT_NEWEST = "asc";
-export const SORT_OLDEST = "dsc";
+export const SORT_OLDEST = "desc";

@@ -7,6 +7,7 @@ import { ChatIcon, ChevronRightIcon, PhoneIcon, ThumbsDownIcon, ThumbsUpIcon } f
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import HtmlWebView from "@/components/HtmlWebView/HtmlWebView";
+import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -17,7 +18,6 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { LoadingError } from "../components";
 import { DOWN_VOTE, UP_VOTE } from "../constants";
 import { useDetailsFAQ, useFeedback } from "../hooks/query-hooks";
 import { FAQListItem } from "../types";
@@ -39,6 +39,12 @@ export default function DetailedScreen() {
   useEffect(() => {
     setShowLoadingErrorModal(isError);
   }, [isError]);
+
+  useEffect(() => {
+    if (updateFeedback.isError) {
+      // waiting BO team to respond on us
+    }
+  }, [updateFeedback.isError]);
 
   useEffect(() => {
     if (data === undefined) return;
@@ -173,7 +179,7 @@ export default function DetailedScreen() {
             </View>
           ) : null}
           {showLoadingErrorModal && (
-            <LoadingError
+            <LoadingErrorNotification
               isVisible={showLoadingErrorModal}
               onClose={handleOnDismissErrorLoadingPress}
               onRefresh={handleOnRefreshErrorLoadingPress}

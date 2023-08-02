@@ -18,6 +18,7 @@ export interface FAQSection {
 }
 
 export interface FAQData {
+  Icon: string;
   CategoryId: string;
   CategoryName: string;
   CategoryDescription: string;
@@ -31,6 +32,7 @@ export interface FaqSearchResponse {
   CategoryDescription: string;
   Sections: SectionData[];
   Faqs?: FAQSection[];
+  Icon: string;
 }
 export interface SectionData {
   SectionId: string;

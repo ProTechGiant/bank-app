@@ -743,7 +743,9 @@
       "title": "كيف يمكننا مساعدتك؟",
       "searchPlaceholder": "أحتاج مساعدة في ...",
       "searchHelpTitle": "لديك سؤال محدد في الاعتبار؟",
-      "searchHelpSubtitle": "أدخل الكلمات الأساسية للبحث بين الإجابات"
+      "searchHelpSubtitle": "أدخل الكلمات الأساسية للبحث بين الإجابات",
+      "couldNottLoadData":"لم نتمكن من تحميل البيانات",
+      "plesetryLater":"يرجى المحاولة لاحقًا"
     },
     "DetailedScreen": {
       "feedback": "هل وجدت هذه الإجابة مفيدة؟",

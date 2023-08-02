@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { FilterIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
+import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { useContentArticleList } from "@/hooks/use-content";
@@ -35,6 +36,8 @@ export default function WhatsNextHubScreen() {
   const [hasFilters, setHasFilters] = useState(false);
   const [sortOrder, setSortOrder] = useState<typeof SORT_NEWEST | typeof SORT_OLDEST>(SORT_NEWEST);
   const [queryParams, setQueryParams] = useState<Record<string, string>>({ sort: sortOrder });
+  const [isLoadingErrorModalVisible, setIsLoadingErrorModalVisible] = useState<boolean>(false);
+
   const whatsNextData = useContentArticleList(WHATS_NEXT_CATEGORY_ID, true, queryParams);
 
   useEffect(() => {
@@ -60,6 +63,10 @@ export default function WhatsNextHubScreen() {
         });
     }
   }, [whatsNextData.data]);
+
+  useEffect(() => {
+    setIsLoadingErrorModalVisible(whatsNextData.isError);
+  }, [whatsNextData.isError]);
 
   useEffect(() => {
     setHasFilters([...whatsNextCategories, ...whatsNextTypes].some(value => value.isActive));
@@ -233,7 +240,7 @@ export default function WhatsNextHubScreen() {
       nextQueryParams.WhatsNextCategoryId = whatsNextCategoryQuery.join(",");
     }
 
-    nextQueryParams.sort = sortOrder;
+    nextQueryParams.Sort = sortOrder;
     setQueryParams(nextQueryParams);
   };
 
@@ -241,6 +248,11 @@ export default function WhatsNextHubScreen() {
     setWhatsNextCategories(selectedCategories);
     setWhatsNextTypes(selectedTypes);
     handleOnFiltersModalVisiblePress();
+  };
+
+  const handleonRefreshButtonPress = () => {
+    setIsLoadingErrorModalVisible(false);
+    whatsNextData.refetch();
   };
 
   const handleOnExploreArticlePress = (articleId: string) => {
@@ -258,9 +270,15 @@ export default function WhatsNextHubScreen() {
           title={t("WhatsNext.HubScreen.title")}
           end={<NavHeader.IconEndButton icon={<FilterIcon />} onPress={handleOnFiltersModalVisiblePress} />}
         />
-        {whatsNextData.data === undefined ? (
+        {isLoadingErrorModalVisible && whatsNextData.isError ? (
+          <LoadingErrorNotification
+            isVisible={isLoadingErrorModalVisible}
+            onClose={() => setIsLoadingErrorModalVisible(false)}
+            onRefresh={handleonRefreshButtonPress}
+          />
+        ) : whatsNextData.isError && whatsNextData.isFetching === false ? null : whatsNextData.isFetching ? (
           <FlexActivityIndicator />
-        ) : (
+        ) : whatsNextData.data !== undefined ? (
           <ContentContainer isScrollView>
             {hasFilters ? (
               <FilterTopBar
@@ -297,7 +315,7 @@ export default function WhatsNextHubScreen() {
               <NoArticlesError />
             )}
           </ContentContainer>
-        )}
+        ) : null}
       </Page>
       <FilterModal
         onClose={handleOnFiltersModalVisiblePress}

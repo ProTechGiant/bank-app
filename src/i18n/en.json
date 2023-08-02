@@ -919,7 +919,9 @@
       "title": "How can we help you?",
       "searchPlaceholder": "I need help with...",
       "searchHelpTitle": "Have a specific question in mind?",
-      "searchHelpSubtitle": "Enter keywords to search amongst answers."
+      "searchHelpSubtitle": "Enter keywords to search amongst answers.",
+      "couldNottLoadData":"We couldn't load the data",
+      "plesetryLater":"Plese try later"
     },
     "DetailedScreen": {
       "feedback": "Did you find this answer helpful?",

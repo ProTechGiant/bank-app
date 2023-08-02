@@ -14,10 +14,12 @@ interface SearchInputProps {
   onSearch: (searchQuery: string) => void;
   placeholder: string;
   value: string;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 function SearchInput_(
-  { isEditable = true, value, placeholder, onClear, onSearch }: SearchInputProps,
+  { isEditable = true, value, placeholder, onClear, onSearch, onFocus, onBlur }: SearchInputProps,
   ref: React.ForwardedRef<TextInput>
 ) {
   const [isFocused, setIsFocused] = useState(false);
@@ -41,14 +43,24 @@ function SearchInput_(
     [isEditable]
   );
 
+  const handleOnFocus = () => {
+    setIsFocused(true);
+    if (onFocus) onFocus();
+  };
+
+  const handleOnBlur = () => {
+    setIsFocused(false);
+    if (onBlur) onBlur();
+  };
+
   return (
     <View style={containerStyle}>
       <InputBox addonStart={<SearchIcon height={24} width={24} />} isFocused={isFocused}>
         <Stack direction="horizontal" align="center" flex={1}>
           <TextInput
             ref={ref}
-            onBlur={() => setIsFocused(false)}
-            onFocus={() => setIsFocused(true)}
+            onBlur={handleOnBlur}
+            onFocus={handleOnFocus}
             onChangeText={onSearch}
             placeholder={placeholder}
             style={textInputStyle}
