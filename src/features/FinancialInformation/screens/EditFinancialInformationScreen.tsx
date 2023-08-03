@@ -12,6 +12,7 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
+import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 
@@ -27,14 +28,12 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
   const { t } = useTranslation();
 
   const submitFinancialDetailsAsync = useSubmitFinancialDetails();
+  const { data: userInformation } = useCustomerProfile();
 
-  // ToDo when Api is ready
-  const [selectedMonthlyLimit, setSelectedMonthlyLimit] = useState(expectedAmount.find(item => item.isSelected)?.label);
-  const [selectedSourceOfIncome, setSelectedSourceOfIncome] = useState(
-    sourceOfIncome.find(item => item.isSelected)?.label
-  );
-  const [selectedOccupation, setSelectedOccupation] = useState(occupations.find(item => item.isSelected)?.label);
-  const [selectedAccountPurpose, setSelectedAccountPurpose] = useState(useCroatia.find(item => item.isSelected)?.label);
+  const [selectedMonthlyLimit] = useState(userInformation?.FinancialInformation.MonthlyLimit);
+  const [selectedSourceOfIncome] = useState(userInformation?.FinancialInformation.SourceOfIncome);
+  const [selectedOccupation] = useState(userInformation?.FinancialInformation.OccupationCode);
+  const [selectedAccountPurpose] = useState(userInformation?.FinancialInformation.AccountPurpose);
 
   const validationSchema = yup.object().shape({
     OccupationCode: yup.string(),
@@ -49,14 +48,6 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
   });
 
   useEffect(() => {
-    setSelectedOccupation(occupations.find(item => item.isSelected)?.label);
-    setSelectedMonthlyLimit(expectedAmount.find(item => item.isSelected)?.label);
-    setSelectedAccountPurpose(useCroatia.find(item => item.isSelected)?.label);
-
-    setSelectedSourceOfIncome(sourceOfIncome.find(item => item.isSelected)?.label);
-  }, [occupations, useCroatia, expectedAmount, sourceOfIncome]);
-
-  useEffect(() => {
     setValue(MONTHLY_LIMITS, selectedMonthlyLimit);
     setValue(SOURCE_OF_INCOME, selectedSourceOfIncome);
     setValue(OCCUPATION_CODE, selectedOccupation);
@@ -64,9 +55,9 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
   }, [selectedMonthlyLimit, selectedSourceOfIncome, selectedOccupation, selectedAccountPurpose]);
 
   const handleOnSubmit = async (data: FinancialDetails) => {
-    // TODo when API is stable, Api not working fine now
     try {
       await submitFinancialDetailsAsync.mutateAsync(data);
+      onBackPress();
     } catch (error) {
       warn("Financial", `Could not submit financial details: ${(error as Error).message}`);
     }

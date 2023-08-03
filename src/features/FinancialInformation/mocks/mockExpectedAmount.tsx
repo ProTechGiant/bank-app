@@ -14,4 +14,9 @@ export const expectedAmount = [
     value: "SAR 10000 – 20000",
     isSelected: false,
   },
+  {
+    label: "5000.0000000000",
+    value: "5000.0000000000",
+    isSelected: false,
+  },
 ];

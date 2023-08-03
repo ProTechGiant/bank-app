@@ -18,7 +18,7 @@ export function useCustomerProfile() {
       ["x-correlation-id"]: generateRandomId(),
       ["x-device-id"]: DeviceInfo.getDeviceId(),
       ["Authorization"]: generateRandomId(), // TODO: This should come from Auth Context
-      ["Accept-Language"]: i18n.language.toUpperCase(),
+      ["Accept-Language"]: i18n.language.toLocaleLowerCase(),
     });
   });
 }
