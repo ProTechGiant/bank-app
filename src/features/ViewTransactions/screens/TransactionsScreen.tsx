@@ -18,6 +18,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import BackgroundBottom from "@/assets/BackgroundBottom";
 import { ChevronRightIcon, CloseIcon, PendingIcon, SpendingInsightIcon } from "@/assets/icons";
 import { WithShadow } from "@/components";
+import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -143,6 +144,17 @@ export default function TransactionsScreen() {
     paddingHorizontal: theme.spacing["20p"],
   }));
 
+  const containerErrorNoTransactionStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60"],
+    paddingHorizontal: theme.spacing["20p"],
+    paddingBottom: theme.spacing["20p"],
+    flex: 1,
+  }));
+
+  const errorMessageStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["4p"],
+  }));
+
   const navHeaderStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["supportBase-15"],
   }));
@@ -196,15 +208,6 @@ export default function TransactionsScreen() {
     paddingHorizontal: theme.spacing["16p"],
   }));
 
-  const clearFilterCont = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.primaryBase,
-    borderRadius: theme.radii.medium,
-    height: 38,
-    width: 95,
-    paddingHorizontal: theme.spacing["16p"],
-    paddingVertical: theme.spacing["8p"],
-    justifyContent: "center",
-  }));
   const { chevronColor } = useThemeStyles(theme => ({
     chevronColor: theme.palette["neutralBase-20"],
   }));
@@ -228,6 +231,27 @@ export default function TransactionsScreen() {
       DEBIT_TR: "Debit card",
     };
     return filterNames[type];
+  };
+
+  const hasNoTransactionForFilters =
+    !(transactions.data && Object.keys(transactions.data).length) &&
+    selectedFilters.length > 0 &&
+    transactions.data !== undefined;
+
+  const renderPendingTransactionsHeader = () => {
+    return pendingTransactions.data && Object.keys(pendingTransactions.data).length > 0 ? (
+      <>
+        <Pressable style={[margins, styles.pendingButton]} onPress={handlePendingTransactions}>
+          <View style={pendingButtonStyle}>
+            <PendingIcon color={pendingIconColor} />
+            <Typography.Text color="neutralBase+30" weight="medium" size="callout" style={pendingButtonTextStyle}>
+              {t("ViewTransactions.TransactionsScreen.pending")}
+            </Typography.Text>
+          </View>
+          <ChevronRightIcon color={chevronColor} />
+        </Pressable>
+      </>
+    ) : null;
   };
 
   return (
@@ -290,59 +314,57 @@ export default function TransactionsScreen() {
           </Stack>
         </WithShadow>
       ) : null}
-      <Animated.ScrollView scrollEventThrottle={16} onScroll={handleScroll}>
-        <View style={contentStyle}>
-          {/* this will be shown if there is pending transactions */}
-          {pendingTransactions.data && Object.keys(pendingTransactions.data).length > 0 ? (
-            <>
-              <Pressable style={[margins, styles.pendingButton]} onPress={handlePendingTransactions}>
-                <View style={pendingButtonStyle}>
-                  <PendingIcon color={pendingIconColor} />
-                  <Typography.Text color="neutralBase+30" weight="medium" size="callout" style={pendingButtonTextStyle}>
-                    {t("ViewTransactions.TransactionsScreen.pending")}
-                  </Typography.Text>
-                </View>
-                <ChevronRightIcon color={chevronColor} />
-              </Pressable>
-            </>
-          ) : null}
-          <View style={pastTransactionStyle}>
-            <Typography.Text>{t("ViewTransactions.TransactionsScreen.pastTransactions")}</Typography.Text>
+
+      {hasNoTransactionForFilters ? (
+        <View style={containerErrorNoTransactionStyle}>
+          {renderPendingTransactionsHeader()}
+          <View style={styles.errorMessageContainer}>
+            <Typography.Text color="neutralBase+30" size="callout" weight="medium" align="center">
+              {t("ViewTransactions.TransactionsScreen.nothingHere")}
+            </Typography.Text>
+            <Typography.Text
+              color="neutralBase"
+              size="footnote"
+              weight="regular"
+              align="center"
+              style={errorMessageStyle}>
+              {t("ViewTransactions.TransactionsScreen.emptyTransactions")}
+            </Typography.Text>
           </View>
-          {isLoading ? (
-            <View style={styles.activityIndicator}>
-              <ActivityIndicator color="primaryBase" size="large" />
-            </View>
-          ) : transactions.data && Object.keys(transactions.data).length ? (
-            <TransactionsList
-              transactionsAll={transactions}
-              cardId={cardId}
-              createDisputeUserId={createDisputeUserId}
-            />
-          ) : selectedFilters.length > 0 && transactions.data !== undefined ? (
-            <View style={styles.activityIndicator}>
-              <Pressable
-                onPress={() => {
-                  setSelectedFilters([]);
-                }}
-                style={clearFilterCont}>
-                <Typography.Text color="neutralBase-60" size="caption1" weight="semiBold">
-                  {t("ViewTransactions.TransactionsScreen.clearFilter")}
-                </Typography.Text>
-              </Pressable>
-              <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                {t("ViewTransactions.TransactionsScreen.emptyTransactions")}
-              </Typography.Text>
-            </View>
-          ) : (
-            <View style={styles.activityIndicator}>
-              <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                {t("ViewTransactions.TransactionsScreen.noTransactionsYet")}
-              </Typography.Text>
-            </View>
-          )}
+          <View style={styles.clearFilterButton}>
+            <Button onPress={() => setSelectedFilters([])}>
+              {t("ViewTransactions.TransactionsScreen.clearFilter")}
+            </Button>
+          </View>
         </View>
-      </Animated.ScrollView>
+      ) : (
+        <Animated.ScrollView scrollEventThrottle={16} onScroll={handleScroll}>
+          <View style={contentStyle}>
+            {/* this will be shown if there is pending transactions */}
+            {renderPendingTransactionsHeader()}
+            <View style={pastTransactionStyle}>
+              <Typography.Text>{t("ViewTransactions.TransactionsScreen.pastTransactions")}</Typography.Text>
+            </View>
+            {isLoading ? (
+              <View style={styles.activityIndicator}>
+                <ActivityIndicator color="primaryBase" size="large" />
+              </View>
+            ) : transactions.data && Object.keys(transactions.data).length ? (
+              <TransactionsList
+                transactionsAll={transactions}
+                cardId={cardId}
+                createDisputeUserId={createDisputeUserId}
+              />
+            ) : (
+              <View style={styles.activityIndicator}>
+                <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                  {t("ViewTransactions.TransactionsScreen.noTransactionsYet")}
+                </Typography.Text>
+              </View>
+            )}
+          </View>
+        </Animated.ScrollView>
+      )}
     </Page>
   );
 }
@@ -353,6 +375,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     marginTop: 200,
+  },
+  clearFilterButton: {
+    alignSelf: "stretch",
+  },
+  errorMessageContainer: {
+    flex: 1,
+    justifyContent: "center",
   },
   pendingButton: {
     transform: [
