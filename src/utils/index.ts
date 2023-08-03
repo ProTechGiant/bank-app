@@ -25,6 +25,8 @@ export const numericRegExp = /^[0-9]+$/;
 
 export const saudiPhoneRegExp = /^(009665|9665|\+9665|05|5)([5023649187])([0-9]{7})$/;
 
+export const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
 export const generateRandomId = () => {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 };

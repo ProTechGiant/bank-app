@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, ViewStyle } from "react-native";
 import * as yup from "yup";
 
+import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import ContextualFAQModal from "@/components/ContextualFAQModal";
@@ -17,10 +18,12 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
+import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
-import { saudiPhoneRegExp } from "@/utils";
+import { emailRegex, saudiPhoneRegExp } from "@/utils";
 
 import { DetailSection, DetailSectionsContainer, HeaderWithHelpIcon } from "../components";
+import { useUpdateCustomerProfileDetails } from "../hooks/query-hooks";
 import { parseCustomerAddress } from "../utils";
 
 interface DetailInputs {
@@ -30,10 +33,12 @@ interface DetailInputs {
 
 export default function ProfileDetailsScreen() {
   const { t } = useTranslation();
-  const { data: customerProfile } = useCustomerProfile();
+  const { data: customerProfile, isFetching } = useCustomerProfile();
+  const { mutateAsync: UpdateCustomerProfileDetails, isLoading } = useUpdateCustomerProfileDetails();
 
   const [showEditForm, setShowEditForm] = useState(false);
   const [showFAQModal, setShowFAQModal] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
   const validationSchema = useMemo(
     () =>
@@ -44,8 +49,9 @@ export default function ProfileDetailsScreen() {
           .matches(saudiPhoneRegExp, t("ProfileDetails.ProfileDetailsScreen.phoneNumber.validation.invalid")),
         Email: yup
           .string()
-          .required(t("ProfileDetails.ProfileDetailsScreen.email.validation.required"))
-          .email(t("ProfileDetails.ProfileDetailsScreen.email.validation.invalid")),
+          .email(t("ProfileDetails.ProfileDetailsScreen.email.validation.invalid"))
+          .matches(emailRegex, t("ProfileDetails.ProfileDetailsScreen.email.validation.invalid"))
+          .required(t("ProfileDetails.ProfileDetailsScreen.email.validation.required")),
       }),
     [t]
   );
@@ -63,6 +69,7 @@ export default function ProfileDetailsScreen() {
 
   const handleOnPress = () => {
     setShowEditForm(!showEditForm);
+    reset();
   };
 
   const handleOnClose = () => {
@@ -73,24 +80,55 @@ export default function ProfileDetailsScreen() {
     setShowFAQModal(true);
   };
 
-  const handleOnSubmit = () => {
-    // will be added with API integration
+  const handleOnSubmit = async (values: DetailInputs) => {
+    if (customerProfile === undefined) {
+      return;
+    }
+
+    if (values.MobileNumber !== customerProfile.MobilePhone?.slice(-9)) {
+      // handle otp flow and send values object with otp for validation
+    } else {
+      try {
+        await UpdateCustomerProfileDetails({ EmailAddress: values.Email });
+        setShowSuccessAlert(true);
+        setShowEditForm(false);
+      } catch (error) {
+        warn("UpdateCustomerProfileDetails=>", ` ${(error as Error).message}`);
+      }
+    }
+  };
+
+  const handleOnCloseAlert = () => {
+    setShowSuccessAlert(false);
   };
 
   const contentContainerStyles = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
-    paddingTop: theme.spacing["16p"],
+    paddingTop: showSuccessAlert ? theme.spacing["16p"] : theme.spacing["24p"],
     flexGrow: 1,
+  }));
+
+  const alertContainerStyles = useThemeStyles<ViewStyle>(theme => ({
+    paddingBottom: theme.spacing["16p"],
   }));
 
   return (
     <Page insets={["top", "bottom"]}>
       <NavHeader title={t("ProfileDetails.ProfileDetailsScreen.profileDetails")} />
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
-        {customerProfile === undefined ? (
+        {customerProfile === undefined || isFetching ? (
           <FlexActivityIndicator />
         ) : (
           <ContentContainer isScrollView style={contentContainerStyles}>
+            {showSuccessAlert ? (
+              <Stack direction="vertical" style={alertContainerStyles}>
+                <Alert
+                  variant="success"
+                  message={t("ProfileDetails.ProfileDetailsScreen.alertMessage")}
+                  end={<Alert.CloseEndButton onPress={handleOnCloseAlert} />}
+                />
+              </Stack>
+            ) : null}
             <Stack direction="vertical" gap="24p" align="stretch">
               <Stack direction="vertical" gap="16p" align="stretch">
                 <HeaderWithHelpIcon
@@ -156,10 +194,10 @@ export default function ProfileDetailsScreen() {
                       name="MobileNumber"
                     />
                     <Stack direction="vertical" gap="8p" align="stretch">
-                      <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+                      <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)} loading={isLoading}>
                         {t("ProfileDetails.ProfileDetailsScreen.saveChanges")}
                       </SubmitButton>
-                      <Button onPress={handleOnPress} variant="tertiary">
+                      <Button onPress={handleOnPress} variant="tertiary" disabled={isLoading}>
                         {t("ProfileDetails.ProfileDetailsScreen.cancel")}
                       </Button>
                     </Stack>

@@ -923,8 +923,8 @@
       "searchPlaceholder": "I need help with...",
       "searchHelpTitle": "Have a specific question in mind?",
       "searchHelpSubtitle": "Enter keywords to search amongst answers.",
-      "couldNottLoadData":"We couldn't load the data",
-      "plesetryLater":"Plese try later"
+      "couldNottLoadData": "We couldn't load the data",
+      "plesetryLater": "Plese try later"
     },
     "DetailedScreen": {
       "feedback": "Did you find this answer helpful?",
@@ -2373,6 +2373,7 @@
       "updateNow": "Update Now",
       "expiredDescription": "Your ID is due to expire. To prevent your account being frozen, please update your ID in Absher. Once you have done this, please revisit this page and press 'Update Now'.",
       "extraStart": "Minimum 10 characters",
+      "alertMessage": "Your information is updated, it can take up to 24 hours for this change to take effect.",
       "sectionsTitle": {
         "name": "Name",
         "nationality": "Nationality",
