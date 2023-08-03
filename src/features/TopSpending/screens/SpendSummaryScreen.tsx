@@ -62,10 +62,11 @@ export default function SpendSummaryScreen() {
   const [selectedTime, setSelectedTime] = useState<SelectedTime>(t("TopSpending.SpendSummaryScreen.month"));
   const parsedDate = parse(startMonth, "yyyy-MM-dd", new Date());
   const defaultMonth = format(parsedDate, "MMMM yyyy");
+  const currentMonth = format(new Date(), "MMMM yyyy");
   const [currentValue, setCurrentValue] = useState(defaultMonth);
 
   const [isComparing, setIsComparing] = useState(false);
-  const [isCurrentMonth, setIsCurrentMonth] = useState(!route.params.startDate);
+  const [isCurrentMonth, setIsCurrentMonth] = useState(!route.params.startDate || defaultMonth === currentMonth);
   const [isViewingFilter, setIsViewingFilter] = useState(false);
   const [modalSelectionMade, setModalSelectionMade] = useState(false);
   const [chartData, setChartData] = useState<DWMData | YearData | null>(null);
@@ -341,37 +342,35 @@ export default function SpendSummaryScreen() {
       </SafeAreaView>
       <View style={filterStyle}>
         {isCurrentMonth ? (
-          <>
-            <View style={timeFilter}>
-              {[
-                t("TopSpending.SpendSummaryScreen.day"),
-                t("TopSpending.SpendSummaryScreen.week"),
-                t("TopSpending.SpendSummaryScreen.month"),
-                t("TopSpending.SpendSummaryScreen.year"),
-              ].map(time => (
-                <Pressable
-                  style={!isComparing && !modalSelectionMade && selectedTime === time ? selectedIntervalStyle : null}
-                  key={time}
-                  onPress={() => handleSelection(time)}>
-                  <Typography.Text
-                    style={intervalStyle}
-                    size="callout"
-                    weight="medium"
-                    color={
-                      !isComparing && !modalSelectionMade && selectedTime === time ? "neutralBase+30" : "neutralBase-20"
-                    }>
-                    {time}
-                  </Typography.Text>
-                </Pressable>
-              ))}
-            </View>
-            <View style={textMargin}>
-              <Typography.Text size="title3" color="neutralBase+30">
-                {currentValue}
-              </Typography.Text>
-            </View>
-          </>
+          <View style={timeFilter}>
+            {[
+              t("TopSpending.SpendSummaryScreen.day"),
+              t("TopSpending.SpendSummaryScreen.week"),
+              t("TopSpending.SpendSummaryScreen.month"),
+              t("TopSpending.SpendSummaryScreen.year"),
+            ].map(time => (
+              <Pressable
+                style={!isComparing && !modalSelectionMade && selectedTime === time ? selectedIntervalStyle : null}
+                key={time}
+                onPress={() => handleSelection(time)}>
+                <Typography.Text
+                  style={intervalStyle}
+                  size="callout"
+                  weight="medium"
+                  color={
+                    !isComparing && !modalSelectionMade && selectedTime === time ? "neutralBase+30" : "neutralBase-20"
+                  }>
+                  {time}
+                </Typography.Text>
+              </Pressable>
+            ))}
+          </View>
         ) : null}
+        <View style={textMargin}>
+          <Typography.Text size="title3" color="neutralBase+30">
+            {currentValue}
+          </Typography.Text>
+        </View>
       </View>
       {!isComparing ? (
         <View style={contentStyle}>

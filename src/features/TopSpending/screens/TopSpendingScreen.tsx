@@ -69,6 +69,7 @@ export default function TopSpendingScreen() {
   const selectedMonth = singleSelectedMonth?.fromDate ? parseISO(singleSelectedMonth.fromDate) : currentDate;
   const isCurrentMonth = currentDate.getMonth() === selectedMonth.getMonth();
   const monthName = format(selectedMonth, "MMMM");
+  const monthYearName = format(selectedMonth, "MMMM yyyy");
 
   useEffect(() => {
     if (lastSixMonthGraph !== undefined && !isGraphLoading) {
@@ -208,6 +209,7 @@ export default function TopSpendingScreen() {
         <NavHeader
           variant="angled"
           title={t("TopSpending.TopSpendingScreen.spendingInsights")}
+          subTitle={monthYearName}
           onBackPress={handleOnBackPress}
           end={
             <Pressable onPress={() => setIsSelectMonthModalVisible(true)}>
@@ -263,7 +265,7 @@ export default function TopSpendingScreen() {
             />
           ) : (
             <>
-              {!budgetSummary && budgetSummary !== undefined ? (
+              {!budgetSummary && budgetSummary !== undefined && isCurrentMonth ? (
                 <MonthlyBudget onPress={() => setCreateIsMonthlyModalOpen(true)} />
               ) : null}
             </>
