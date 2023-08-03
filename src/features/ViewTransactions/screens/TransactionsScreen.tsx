@@ -239,7 +239,9 @@ export default function TransactionsScreen() {
     transactions.data !== undefined;
 
   const renderPendingTransactionsHeader = () => {
-    return pendingTransactions.data && Object.keys(pendingTransactions.data).length > 0 ? (
+    return pendingTransactions.data &&
+      Object.keys(pendingTransactions.data).length > 0 &&
+      selectedFilters.length === 0 ? (
       <>
         <Pressable style={[margins, styles.pendingButton]} onPress={handlePendingTransactions}>
           <View style={pendingButtonStyle}>
