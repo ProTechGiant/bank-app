@@ -371,7 +371,8 @@
       "month": "Month",
       "year": "Year",
       "sr": "SR",
-      "seeAll": "See All"
+      "seeAll": "See All",
+      "seeLess": "See Less"
     },
     "SpendCompareModal": {
       "week": "Week {{no}}",

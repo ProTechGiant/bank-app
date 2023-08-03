@@ -23,7 +23,7 @@ export default function SpendingInsightsCategoryCard({
 }: SpendingInsightsCategoryCardProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const [seeAll, setSeeAll] = useState<boolean>(false);
+  const [isSeeingAll, setIsSeeingAll] = useState<boolean>(false);
 
   const dateFormatter = (dateString: string) => {
     const date = parse(dateString, "MMMM yyyy", new Date());
@@ -60,16 +60,16 @@ export default function SpendingInsightsCategoryCard({
           {t("TopSpending.SpendingComparisonScreen.topSpendingIn")}
           {label}
         </Typography.Text>
-        {!seeAll && categories?.length > 3 ? (
-          <Pressable onPress={() => setSeeAll(true)}>
+        {categories?.length > 3 ? (
+          <Pressable onPress={() => setIsSeeingAll(!isSeeingAll)}>
             <Typography.Text size="footnote" color="interactionBase">
-              {t("TopSpending.SpendSummaryScreen.seeAll")}
+              {isSeeingAll ? t("TopSpending.SpendSummaryScreen.seeLess") : t("TopSpending.SpendSummaryScreen.seeAll")}
             </Typography.Text>
           </Pressable>
         ) : null}
       </View>
       <FlatList
-        data={seeAll ? categories : categories.slice(0, 3)}
+        data={isSeeingAll ? categories : categories.slice(0, 3)}
         renderItem={({ item }) => (
           <CategoryCell
             color={iconColor}

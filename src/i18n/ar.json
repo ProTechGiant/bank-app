@@ -376,7 +376,8 @@
       "year": "السنة",
       "sar": "SAR",
       "sr": "SR",
-      "seeAll": "اظهار الكل"
+      "seeAll": "اظهار الكل",
+      "seeLess": "انظر أقل"
     },
     "ExcludedDetailedScreen": {
       "sar": "SAR",
