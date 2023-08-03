@@ -8,7 +8,7 @@ index b7b2db1..943e38e 100644
 
 +- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler
 +{
-+    #if defined(POD_CONFIGURATION_ACCEPTANCE) || defined(POD_CONFIGURATION_DEBUG)
++    #if defined(POD_CONFIGURATION_SIT) || defined(POD_CONFIGURATION_TEST) || defined(POD_CONFIGURATION_DEBUG)
 +    if ([challenge.protectionSpace.host isEqualToString:@"api.apps.sit-dmz-ingress.npnbank.local"]) {
 +        completionHandler(NSURLSessionAuthChallengeUseCredential, [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]);
 +    } else {
