@@ -109,7 +109,7 @@ function getCategoryLabel(index: number, categoriesCount: number): string {
 function getCategoryIndex(transaction: ApiNonGroupedTransactionsResponseElement, type: string): number {
     const bookingDate = new Date(transaction.BookingDateTime[0], transaction.BookingDateTime[1] - 1, ...transaction.BookingDateTime.slice(2, -1));
     if (type === ChartTypes.MONTHLY) {
-        return Math.ceil(bookingDate.getDate() / 7) - 1;
+        return Math.min(Math.ceil(bookingDate.getDate() / 7) - 1, 3);
     } else if (type === ChartTypes.WEEKLY) {
         return bookingDate.getDay();
     } else if (type === ChartTypes.DAILY) {

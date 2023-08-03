@@ -60,6 +60,7 @@ export default function SpendCompareModal({
   const handleTransactionPress = (transactionItem: ApiNonGroupedTransactionsResponseElement) => {
     const obj: TransactionDetailed = {
       cardType: transactionItem.CardType,
+      transactionId: transactionItem.TransactionId,
       status: transactionItem.Status,
       location: transactionItem.AddressLine ? transactionItem.AddressLine : undefined,
       title: transactionItem.MerchantDetails.MerchantName,
@@ -138,7 +139,7 @@ export default function SpendCompareModal({
       default:
         return "";
     }
-  }, [chartType]);
+  }, [chartType, compareDates]);
 
   const secondTransaction2Amount = useMemo(() => {
     const t2TotalAmount = Array.isArray(secondTransaction.data?.Transaction)
