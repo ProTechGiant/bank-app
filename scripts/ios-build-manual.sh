@@ -11,9 +11,8 @@ git reset --hard
 bundle install
 yarn install
 
-# Import secrets file
-cp "../secrets/.env.$BUILD_ENVIRONMENT" ".env"
-cp "../secrets/fastlane/envs/.env.$BUILD_ENVIRONMENT.secret" "fastlane/envs/.env.secret"
+# Set environment secrets
+source ../secrets/set-env-vars.sh
 
 # Build iOS version
 node scripts/update-build-info.js

@@ -1,62 +1,33 @@
 {
   "project_info": {
-    "project_number": "926861498449",
-    "project_id": "croatia-d9d0e",
-    "storage_bucket": "croatia-d9d0e.appspot.com"
+    "project_number": "674317362236",
+    "project_id": "croatia-93478",
+    "storage_bucket": "croatia-93478.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:926861498449:android:6ca653db18a45def5ec070",
-        "android_client_info": {
-          "package_name": "com.croatiamobileapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "926861498449-fmk3vies01bqe5pkrouv58c7jnqpkj44.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyB22zWH1y-thGoWloemr_xuU2ODhpzNDmk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "926861498449-fmk3vies01bqe5pkrouv58c7jnqpkj44.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:926861498449:android:c663408a908563225ec070",
+        "mobilesdk_app_id": "1:674317362236:android:2ff29310cec84d60a70f39",
         "android_client_info": {
           "package_name": "com.croatiamobileapp.develop"
         }
       },
       "oauth_client": [
         {
-          "client_id": "926861498449-fmk3vies01bqe5pkrouv58c7jnqpkj44.apps.googleusercontent.com",
+          "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB22zWH1y-thGoWloemr_xuU2ODhpzNDmk"
+          "current_key": "AIzaSyAaqLjTsDDRZ55NlGIkT1mbJX0FNSA5vTw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "926861498449-fmk3vies01bqe5pkrouv58c7jnqpkj44.apps.googleusercontent.com",
+              "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -65,27 +36,56 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:926861498449:android:23e577f1ad4170715ec070",
+        "mobilesdk_app_id": "1:674317362236:android:fdd1ecbfdd391cb4a70f39",
         "android_client_info": {
-          "package_name": "com.croatiamobileapp.test"
+          "package_name": "com.croatiamobileapp.sit"
         }
       },
       "oauth_client": [
         {
-          "client_id": "926861498449-fmk3vies01bqe5pkrouv58c7jnqpkj44.apps.googleusercontent.com",
+          "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB22zWH1y-thGoWloemr_xuU2ODhpzNDmk"
+          "current_key": "AIzaSyAaqLjTsDDRZ55NlGIkT1mbJX0FNSA5vTw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "926861498449-fmk3vies01bqe5pkrouv58c7jnqpkj44.apps.googleusercontent.com",
+              "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674317362236:android:8658e2a3910e1d28a70f39",
+        "android_client_info": {
+          "package_name": "com.croatiamobileapp.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaqLjTsDDRZ55NlGIkT1mbJX0FNSA5vTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

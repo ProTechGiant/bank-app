@@ -8,7 +8,6 @@ import "common/FastfileDeploy"
 
 # -------------Environment Variables-------------#
 before_all do
-  Dotenv.overload 'envs/.env.secret'
   Dotenv.overload 'envs/.env'
 end
 

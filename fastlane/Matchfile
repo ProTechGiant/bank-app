@@ -3,7 +3,14 @@ git_url("ssh://git@bitbucket.projectcroatia.cloud/mob/croatia-mobile-app-match.g
 storage_mode("git")
 
 type("development") # The default type, can be: appstore, adhoc, enterprise or development
-app_identifier(["com.croatia.consumerapp.test", "com.croatia.consumerapp.test.T2NotificationService"])
+app_identifier([
+  # development release
+  "com.croatia.consumerapp.test",
+  "com.croatia.consumerapp.test.T2NotificationService",
+  # sit release
+  "com.croatia.consumerapp.sit",
+  "com.croatia.consumerapp.sit.T2NotificationService"
+])
 readonly(true)
 # username("user@fastlane.tools") # Your Apple Developer Portal username
 

@@ -6,8 +6,8 @@ platform :android do
       api_token: ENV["ANDROID_APPCENTER_API_TOKEN"],
       owner_name: "Alrajhi-Bank",
       owner_type: "organization", # Default is user - set to organization for appcenter organizations
-      app_name: "Croatia-Android",
-      file: "#{ENV["OUTPUT_DIRECTORY"]}/app-accept-release.aab",
+      app_name: ENV["ANDROID_APPCENTER_APP"],
+      file: "#{ENV["OUTPUT_DIRECTORY"]}/#{ENV["ANDROID_OUTPUT_NAME"]}",
       notify_testers: true
     )
   end
@@ -34,7 +34,7 @@ platform :ios do
       api_token: ENV["IOS_APPCENTER_API_TOKEN"],
       owner_name: "Alrajhi-Bank",
       owner_type: "organization", # Default is user - set to organization for appcenter organizations
-      app_name: "Croatia-iOS",
+      app_name: ENV["IOS_APPCENTER_APP"],
       file: "#{ENV["OUTPUT_DIRECTORY"]}/CroatiaMobileApp.ipa",
       notify_testers: true
     )

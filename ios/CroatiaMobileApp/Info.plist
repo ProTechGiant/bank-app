@@ -20,13 +20,6 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-  <key>LSApplicationQueriesSchemes</key>
-  <array>
-    <string>itms-apps</string>
-    <string>nafath://home</string>
-    <string>tel</string>
-  </array>
-	 <!-- Implements URI Scheme croatia://app -->
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -38,11 +31,14 @@
 			</array>
 		</dict>
 	</array>
-	<!-- To allow app tracking permissions -->
-	<key>NSUserTrackingUsageDescription</key>
-	<string> requires your permission to track in order to show you more relevant ads.</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>itms-apps</string>
+		<string>nafath://home</string>
+		<string>tel</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -60,8 +56,10 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
-  <key>NSPhotoLibraryUsageDescription</key>
-  <string> Please provide access to your photo library</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string> Please provide access to your photo library</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string> requires your permission to track in order to show you more relevant ads.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash.storyboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -82,7 +80,6 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<!-- To allow register approved domains allowing for universal links -->
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:testcroatia.onelink.me</string>
