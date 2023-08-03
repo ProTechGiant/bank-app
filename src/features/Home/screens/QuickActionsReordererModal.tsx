@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LogBox, Pressable, ScrollView, ViewStyle } from "react-native";
+import { Pressable, ScrollView, View, ViewStyle } from "react-native";
 
+import { CloseIcon } from "@/assets/icons";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -13,11 +14,7 @@ import { iconMapping } from "@/utils/icon-mapping";
 
 import { QuickAction, QuickActionToggle } from "../components";
 import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
-import { HomepageItemLayoutType } from "../types";
-
-interface QuickActionsType extends HomepageItemLayoutType {
-  isActive: boolean;
-}
+import { ShortcutType } from "../types";
 
 export default function QuickActionsReordererModal() {
   const navigation = useNavigation();
@@ -25,26 +22,27 @@ export default function QuickActionsReordererModal() {
   const addToast = useToasts();
 
   const { quickActions, setQuickActions } = useHomepageLayoutOrder();
-  const [activeItems, setActiveItems] = useState(
-    quickActions !== undefined ? () => quickActions?.slice(0, REQUIRED_ACTIVE_ITEMS) : []
-  );
-  const [allItems, setAllItems] = useState<QuickActionsType[]>([]);
+  const [allItems, setAllItems] = useState<ShortcutType[]>([]);
+
+  const numberOfActiveItems = allItems.reduce((accumulator, item) => {
+    if (item.CustomerConfiguration.IsVisible) return accumulator + 1;
+    return accumulator;
+  }, 0);
 
   useEffect(() => {
-    setActiveItems(quickActions.slice(0, REQUIRED_ACTIVE_ITEMS));
     setAllItems(
       sortItemsByName(
-        quickActions.map((action, index) => {
-          return { ...action, isActive: index <= 2 };
-        })
+        quickActions.map(action =>
+          action.CustomerConfiguration.IsVisible === false
+            ? { ...action, CustomerConfiguration: { ...action.CustomerConfiguration, SectionIndex: -1 } }
+            : action
+        )
       )
     );
   }, [quickActions]);
 
-  const isSaveButtonActive = activeItems.length === 3;
-
-  const sortItemsByName = <Type extends { name: string }>(items: Type[]): Type[] => {
-    items.sort((a, b) => (a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1));
+  const sortItemsByName = <Type extends { Name: string }>(items: Type[]): Type[] => {
+    items.sort((a, b) => (a.Name.toUpperCase() > b.Name.toUpperCase() ? 1 : -1));
     return items;
   };
 
@@ -53,37 +51,55 @@ export default function QuickActionsReordererModal() {
   };
 
   const handleOnSavePress = () => {
-    setQuickActions([...activeItems, ...allItems.filter(item => !item.isActive)]);
+    setQuickActions(allItems);
     handleOnCloseModal();
   };
 
-  const handleOnDeletePress = (item: HomepageItemLayoutType) => {
-    setActiveItems(items => items.filter(i => i.type !== item.type));
+  const handleOnDeletePress = (item: ShortcutType) => {
+    const {
+      CustomerConfiguration: { SectionIndex: itemSectionIndex },
+    } = item;
     setAllItems(items =>
       items.map(i => {
-        if (i.type !== item.type) return i;
-        return { ...i, isActive: false };
+        const {
+          CustomerConfiguration: { SectionIndex, IsVisible },
+        } = i;
+        if (i.Id !== item.Id) {
+          if (
+            IsVisible &&
+            SectionIndex !== undefined &&
+            itemSectionIndex !== undefined &&
+            SectionIndex > itemSectionIndex
+          ) {
+            return { ...i, CustomerConfiguration: { SectionIndex: SectionIndex - 1, IsVisible: true } };
+          } else return i;
+        }
+        return { ...i, CustomerConfiguration: { IsVisible: false, SectionIndex: -1 } };
       })
     );
   };
 
-  const handleOnAddPress = (item: HomepageItemLayoutType) => {
-    if (activeItems.length < 3) {
-      setActiveItems(items => [...items, item]);
+  const handleOnAddPress = (item: ShortcutType) => {
+    if (numberOfActiveItems !== REQUIRED_ACTIVE_ITEMS)
       setAllItems(items =>
         items.map(i => {
-          if (i.type !== item.type) return i;
-          return { ...i, isActive: true };
+          if (i.Id !== item.Id) return i;
+          return { ...i, CustomerConfiguration: { IsVisible: true, SectionIndex: numberOfActiveItems } };
         })
       );
-    } else addToast({ variant: "warning", message: t("maxQuickActionsWarning"), position: "bottom" });
+    else addToast({ variant: "warning", message: t("maxQuickActionsWarning"), position: "bottom" });
   };
 
-  const handleOnChangeItemPress = (itemType: string) => {
-    const item = allItems.find(i => i.type === itemType);
-    if (item?.isActive) handleOnDeletePress(item);
+  const handleOnChangeItemPress = (itemId: string) => {
+    const item = allItems.find(i => i.Id === itemId);
+    if (item?.CustomerConfiguration.IsVisible) handleOnDeletePress(item);
     else if (item) handleOnAddPress(item);
   };
+
+  const pageStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-20-30%"],
+    height: "100%",
+  }));
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     height: "85%",
@@ -91,6 +107,10 @@ export default function QuickActionsReordererModal() {
     bottom: 0,
     backgroundColor: theme.palette["neutralBase-60"],
     borderRadius: theme.spacing["16p"],
+  }));
+
+  const headerStyle = useThemeStyles<ViewStyle>(() => ({
+    flexDirection: "column-reverse",
   }));
 
   const descriptionTextStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -104,21 +124,29 @@ export default function QuickActionsReordererModal() {
     alignSelf: "center",
   }));
 
+  const iconColor = useThemeStyles(theme => theme.palette.neutralBase);
+
   return (
-    <>
+    <View style={pageStyle}>
       <Stack direction="vertical" style={containerStyle}>
         <Page insets={["bottom", "left", "right"]}>
-          <NavHeader
-            end={
-              <Pressable accessibilityState={{ disabled: !isSaveButtonActive }} onPress={handleOnSavePress}>
-                <Typography.Text color={isSaveButtonActive ? "primaryBase-40" : "neutralBase-20"}>
-                  {t("saveButton")}
-                </Typography.Text>
-              </Pressable>
-            }
-            title={t("title")}
-            onBackPress={handleOnCloseModal}
-          />
+          <View style={headerStyle}>
+            <NavHeader
+              backButton={<CloseIcon width={20} height={20} color={iconColor} />}
+              end={
+                <Pressable
+                  accessibilityState={{ disabled: numberOfActiveItems !== REQUIRED_ACTIVE_ITEMS }}
+                  onPress={handleOnSavePress}>
+                  <Typography.Text
+                    color={numberOfActiveItems === REQUIRED_ACTIVE_ITEMS ? "primaryBase-40" : "neutralBase-20"}>
+                    {t("saveButton")}
+                  </Typography.Text>
+                </Pressable>
+              }
+              title={t("title")}
+              onBackPress={handleOnCloseModal}
+            />
+          </View>
           <ScrollView showsVerticalScrollIndicator={false}>
             <Typography.Text
               size="footnote"
@@ -129,23 +157,20 @@ export default function QuickActionsReordererModal() {
               {t("subtitle")}
             </Typography.Text>
             <Stack direction="horizontal" style={activeItemsStyle}>
-              {activeItems.map(item => (
-                <QuickAction
-                  key={item.type}
-                  color="complimentBase"
-                  title={item.name}
-                  icon={iconMapping.homepageQuickActions[item.type]}
-                  withTitle={false}
-                />
-              ))}
-              {[...Array(REQUIRED_ACTIVE_ITEMS - activeItems.length)].map((_, index) => {
+              {[...Array(numberOfActiveItems)].map((_, index) => {
+                return allItems.map(item => {
+                  return item.CustomerConfiguration.IsVisible && index === item.CustomerConfiguration.SectionIndex ? (
+                    <QuickAction key={item.Id} color="complimentBase" image={item["Shortcut Icon"]} />
+                  ) : null;
+                });
+              })}
+              {[...Array(REQUIRED_ACTIVE_ITEMS - numberOfActiveItems)].map((_, index) => {
                 return (
                   <QuickAction
-                    key={index}
+                    backgroundColor="neutralBase-40"
+                    key={`id-${index}`}
                     color="neutralBase-30"
-                    title=""
                     icon={iconMapping.homepageQuickActions.plus}
-                    withTitle={false}
                   />
                 );
               })}
@@ -153,24 +178,20 @@ export default function QuickActionsReordererModal() {
             <Stack direction="vertical">
               {allItems.map(item => (
                 <QuickActionToggle
-                  key={item.type}
-                  icon={iconMapping.homepageQuickActions[item.type]}
-                  title={item.name}
-                  type={item.type}
-                  description={item.description}
-                  onPress={handleOnChangeItemPress}
-                  isActive={item.isActive}
+                  key={item.Id}
+                  image={item["Shortcut Icon"]}
+                  title={item.Name}
+                  description={item.Description}
+                  onPress={() => handleOnChangeItemPress(item.Id)}
+                  isActive={item.CustomerConfiguration.IsVisible}
                 />
               ))}
             </Stack>
           </ScrollView>
         </Page>
       </Stack>
-    </>
+    </View>
   );
 }
-
-// ignored. Virtualization is DISABLED on the DraggableFlatList so this is a false-positive
-LogBox.ignoreLogs(["VirtualizedLists should never"]);
 
 const REQUIRED_ACTIVE_ITEMS = 3;

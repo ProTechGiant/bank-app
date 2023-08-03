@@ -1,16 +1,18 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
-import { HomepageItemLayoutType, Notification } from "../types";
+import { HomepageItemLayoutType, Notification, ShortcutType } from "../types";
 
 const queryKeys = {
   all: () => ["layout"],
   getLayout: () => [...queryKeys.all(), "getLayout"],
   getContent: (language: string) => [...queryKeys.all(), "getContent", { language }] as const,
+  getQuickActions: () => [...queryKeys.all(), "getShortcuts"],
 };
 
 interface HomepageSectionLayoutType {
@@ -18,6 +20,13 @@ interface HomepageSectionLayoutType {
   widgets: HomepageItemLayoutType[];
 }
 
+export interface QuickActionsType {
+  Homepage: {
+    Sections: {
+      Shortcuts: ShortcutType[];
+    };
+  };
+}
 export interface HomepageLayoutType {
   tabs: [
     {
@@ -77,6 +86,32 @@ export function usePostHomepageLayout() {
   return useMutation(async ({ values }: { values: HomepageLayoutType }) => {
     return api<HomepageLayoutType>("v1", `customers/${userId}/homepage`, "POST", undefined, values, {
       ["x-correlation-id"]: correlationId,
+    });
+  });
+}
+
+export function useQuickActions() {
+  const { userId } = useAuthContext();
+  const correlationId = generateRandomId();
+  const { i18n } = useTranslation();
+  return useQuery(queryKeys.getQuickActions(), () => {
+    return api<QuickActionsType>("v1", `mobile/homepage/configuration`, "GET", undefined, undefined, {
+      ["x-Correlation-Id"]: correlationId,
+      ["customerID"]: userId,
+      ["Accept-Language"]: i18n.language,
+    });
+  });
+}
+
+export function usePostQuickActions() {
+  const { userId } = useAuthContext();
+  const correlationId = generateRandomId();
+  const { i18n } = useTranslation();
+  return useMutation(({ values }: { values: QuickActionsType }) => {
+    return api<QuickActionsType>("v1", `mobile/homepage/configuration`, "POST", undefined, values, {
+      ["x-Correlation-Id"]: correlationId,
+      ["customerID"]: userId,
+      ["Accept-Language"]: i18n.language,
     });
   });
 }

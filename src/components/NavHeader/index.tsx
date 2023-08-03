@@ -22,6 +22,7 @@ export interface NavHeaderProps {
   title?: string | React.ReactElement;
   subTitle?: string;
   withBackButton?: boolean;
+  backButton?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
   backgroundAngledColor?: string;
   backgroundBottomStyle?: ViewStyle;
 }
@@ -32,6 +33,7 @@ const NavHeader = ({
   subTitle,
   withBackButton = true,
   onBackPress,
+  backButton,
   variant = "black",
   end,
   children,
@@ -100,7 +102,11 @@ const NavHeader = ({
                   variant === "background" || variant === "angled" ? iconBackgroundStyle : undefined,
                 ]}
                 testID={undefined !== testID ? `${testID}-->BackButton` : undefined}>
-                <ArrowLeftIcon color={iconColor} width={20} height={20} />
+                {backButton === undefined || !isValidElement(backButton) ? (
+                  <ArrowLeftIcon color={iconColor} width={20} height={20} />
+                ) : (
+                  cloneElement(backButton, { hasBackground: variant === "background" || variant === "angled" })
+                )}
               </Pressable>
             )}
           </View>

@@ -30,3 +30,19 @@ export interface TaskType {
   ButtonName: string;
   SecondaryButtonName: string;
 }
+
+type CustomerConfigurationType =
+  | { IsVisible: true; SectionIndex: number }
+  | { IsVisible: false; SectionIndex?: number };
+
+export interface ShortcutType {
+  Id: string;
+  Name: string;
+  "Shortcut Icon": string;
+  Description: string;
+  Link: {
+    screen: string;
+    stack: keyof AuthenticatedStackParams;
+  };
+  CustomerConfiguration: CustomerConfigurationType;
+}

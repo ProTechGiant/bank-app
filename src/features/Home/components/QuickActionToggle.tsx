@@ -10,19 +10,19 @@ import { useThemeStyles } from "@/theme";
 import QuickAction from "./QuickAction";
 
 interface QuickActionToggleProps {
-  icon: React.ReactElement<SvgProps | IconProps>;
+  icon?: React.ReactElement<SvgProps | IconProps>;
+  image?: string;
   title: string;
-  type: string;
   description: string;
   isActive: boolean;
-  onPress: (itemId: string) => void;
+  onPress: () => void;
 }
 
 export default function QuickActionToggle({
   isActive,
   icon,
+  image,
   title,
-  type,
   description,
   onPress,
 }: QuickActionToggleProps) {
@@ -40,13 +40,21 @@ export default function QuickActionToggle({
 
   const textContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexShrink: 1,
+    flex: 1,
     paddingLeft: theme.spacing["12p"],
+    alignItems: "flex-start",
   }));
   return (
-    <Pressable onPress={() => onPress(type)} key={type}>
+    <Pressable onPress={onPress}>
       <Stack direction="horizontal" style={containerStyle}>
         <View style={quickActionViewStyle}>
-          <QuickAction color="neutralBase+30" icon={icon} title="" onPress={() => onPress(type)} withTitle={false} />
+          <QuickAction
+            backgroundColor="neutralBase-40"
+            color="neutralBase+30"
+            icon={icon}
+            image={image}
+            onPress={onPress}
+          />
         </View>
         <Stack style={textContainerStyle} direction="vertical">
           <Typography.Text size="callout">{title}</Typography.Text>
@@ -55,7 +63,7 @@ export default function QuickActionToggle({
           </Typography.Text>
         </Stack>
         <Stack direction="horizontal">
-          <Toggle value={isActive} onPress={() => onPress(type)} />
+          <Toggle value={isActive} onPress={onPress} />
         </Stack>
       </Stack>
     </Pressable>
