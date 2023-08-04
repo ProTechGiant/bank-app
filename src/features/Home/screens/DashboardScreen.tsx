@@ -5,21 +5,24 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { ProfileIcon } from "../assets";
 import HeaderSvg from "../assets/Header-homepage.svg";
-import { BalanceCard, QuickActionsSection, RewardsSection, WhatsNextSection } from "../components";
-import TasksPreviewer from "../components/TasksPreviewer";
+import { BalanceCard, QuickActionsSection, RewardsSection, TasksPreviewer, WhatsNextSection } from "../components";
 import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
-import { AccountMockedData, TasksMockData } from "../mocks/MockData";
+import { useRefetchHomepageLayout, useTasks } from "../hooks/query-hooks";
 
 export default function DashboardScreen() {
   const navigation = useNavigation();
   const { sections, homepageLayout } = useHomepageLayoutOrder();
 
   const [layoutErrorIsVisible, setLayoutErrorIsVisible] = useState(false);
+  const { data: tasks } = useTasks();
+  const { refetchAll } = useRefetchHomepageLayout();
+  const account = useCurrentAccount();
 
   useEffect(() => {
     if (homepageLayout?.isError === true) {
@@ -48,7 +51,7 @@ export default function DashboardScreen() {
   };
 
   const handleOnLoadingErrorRefresh = () => {
-    // refetchAll();
+    refetchAll();
     handleOnLoadingErrorClose();
   };
 
@@ -76,13 +79,13 @@ export default function DashboardScreen() {
           </Pressable>
         </View>
         <BalanceCard
-          balance={AccountMockedData.balance}
-          accountNumber={AccountMockedData.accountNumber}
-          currency={AccountMockedData.currency}
+          balance={account.data?.balance}
+          accountNumber={account.data?.iban}
+          currency={account.data?.currencyType}
         />
         <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16}>
           <Stack align="stretch" direction="vertical" gap="32p">
-            {TasksMockData.length > 0 ? <TasksPreviewer tasks={TasksMockData} /> : null}
+            {tasks?.length > 0 ? <TasksPreviewer tasks={tasks} /> : null}
             {sections?.length !== 0 ? (
               <>
                 {sections.map(section => {

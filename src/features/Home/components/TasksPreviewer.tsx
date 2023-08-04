@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
@@ -6,8 +6,10 @@ import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
 import { AngleDownIcon, AngleUpIcon, ClockIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { useActionDismiss } from "../hooks/query-hooks";
 import { TaskType } from "../types";
 import PillButton from "./PillButton";
 
@@ -17,22 +19,41 @@ interface TasksPreviewerProps {
 
 export default function TasksPreviewer({ tasks }: TasksPreviewerProps) {
   const { t } = useTranslation();
+  const navigation = useNavigation();
+
+  const dismissAction = useActionDismiss();
 
   const [taskExpandedNumber, setTaskExpanedNumber] = useState<number>(0);
   const [isTaskExpanded, setIsTaskExpanded] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (dismissAction.isError) {
+      // waiting BO team to respond on us
+    }
+  }, [dismissAction.isError]);
 
   const handleOnToggle = () => {
     setIsTaskExpanded(!isTaskExpanded);
     setTaskExpanedNumber(0);
   };
 
-  const handleonTaskButtonPress = () => {
-    // navigation depend on  real screen name , it will change it later when BE team  insert real data
-    // navigation.navigate(screen);
+  const handleOnTaskButtonPress = (targetScreen: string) => {
+    // fuctionality will changed after BE finsish inserting data
+    let targetScreenMappedValue;
+    if (targetScreen === "redirectdestinationlink/lifestylepreference") {
+      targetScreenMappedValue = "Settings.SettingsStack/Settings.LifeStyleScreen";
+    } else if (targetScreen === "redirectdestinationlink/accounttopup") {
+      targetScreenMappedValue = "AddMoney.AddMoneyStack/AddMoney.AddMoneyInfoScreen";
+    } else {
+      // TODO
+    }
+
+    const [stack, screen] = targetScreenMappedValue.split("/");
+    navigation.navigate(stack, { screen });
   };
 
-  const handleOnDismissPress = () => {
-    // will integrate with api  later
+  const handleOnDismissPress = async (actionId: string) => {
+    await dismissAction.mutateAsync(actionId);
   };
 
   const titleContainerStyles = useThemeStyles<ViewStyle>(theme => ({
@@ -73,9 +94,7 @@ export default function TasksPreviewer({ tasks }: TasksPreviewerProps) {
         <Stack align="center" direction="horizontal" gap="8p" style={styles.titleContainer}>
           <ClockIcon color={iconColor} />
           <Typography.Text color="primaryBase" size="callout" weight="semiBold" style={styles.titleText}>
-            {tasks.length > 1
-              ? t("Home.DashboardScreen.tasks", { count: tasks.length })
-              : t("Home.DashboardScreen.task", { count: tasks.length })}
+            {t("Home.DashboardScreen.taskCount", { count: tasks.length })}
             {t("Home.DashboardScreen.leftToComplete")}
           </Typography.Text>
           {isTaskExpanded ? <AngleUpIcon color={iconColor} /> : <AngleDownIcon color={iconColor} />}
@@ -83,7 +102,7 @@ export default function TasksPreviewer({ tasks }: TasksPreviewerProps) {
       </Pressable>
       {isTaskExpanded ? (
         <Animated.View entering={FadeInUp} exiting={FadeOutUp}>
-          {tasks?.map((task, index) => {
+          {tasks.map((task, index) => {
             return (
               <Pressable key={index} onPress={() => setTaskExpanedNumber(index + 1)}>
                 <View style={itemContainerStyle}>
@@ -105,18 +124,22 @@ export default function TasksPreviewer({ tasks }: TasksPreviewerProps) {
                         align="center"
                         style={actionsContainerStyle}>
                         <View style={dismissContainerStyle}>
-                          <Pressable onPress={handleOnDismissPress}>
-                            <Typography.Text
-                              color="neutralBase+30"
-                              size="footnote"
-                              weight="medium"
-                              style={styles.titleText}>
-                              {t("Home.DashboardScreen.dismiss")}
-                            </Typography.Text>
-                          </Pressable>
+                          {task.SecondaryButtonName ? (
+                            <Pressable onPress={() => handleOnDismissPress(task.ActionTypeId)}>
+                              <Typography.Text
+                                color="neutralBase+30"
+                                size="footnote"
+                                weight="medium"
+                                style={styles.titleText}>
+                                {task.SecondaryButtonName}
+                              </Typography.Text>
+                            </Pressable>
+                          ) : null}
                         </View>
                         <View style={styles.rightActionContainer}>
-                          <PillButton onPress={handleonTaskButtonPress} backgroundColor="primaryBase">
+                          <PillButton
+                            onPress={() => handleOnTaskButtonPress(task.RedirectDestinationLink)}
+                            backgroundColor="primaryBase">
                             {task.ButtonName}
                           </PillButton>
                         </View>

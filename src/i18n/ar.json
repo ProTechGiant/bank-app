@@ -727,9 +727,11 @@
       "totalbalance": "Total balance",
       "account": "Account    ",
       "mainCroatiaAccount": "Main Croatia account",
-      "tasks": "{{count}} مهمات ",
-      "task": "{{count}} مهمة ",
-      "leftToComplete": "لم تكتمل بعد"
+      "taskCount_one":  "{{count}} مهمة ",
+      "taskCount_two": "مهمتان",
+      "taskCount_other": "{{count}} مهمات ",
+      "leftToComplete": "لم تكتمل بعد",
+      "updating":"جار التحديث ..."
     }
   },
   "InstructionsScreen": {

@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -6,12 +5,11 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
-import { HomepageItemLayoutType, Notification, ShortcutType } from "../types";
+import { HomepageItemLayoutType, QuickActionsType, TaskType } from "../types";
 
 const queryKeys = {
   all: () => ["layout"],
   getLayout: () => [...queryKeys.all(), "getLayout"],
-  getContent: (language: string) => [...queryKeys.all(), "getContent", { language }] as const,
   getQuickActions: () => [...queryKeys.all(), "getShortcuts"],
 };
 
@@ -20,13 +18,6 @@ interface HomepageSectionLayoutType {
   widgets: HomepageItemLayoutType[];
 }
 
-export interface QuickActionsType {
-  Homepage: {
-    Sections: {
-      Shortcuts: ShortcutType[];
-    };
-  };
-}
 export interface HomepageLayoutType {
   tabs: [
     {
@@ -34,38 +25,6 @@ export interface HomepageLayoutType {
       sections: HomepageSectionLayoutType[];
     }
   ];
-}
-
-export function useHomeContent(language: string) {
-  const { userId } = useAuthContext();
-  const correlationId = generateRandomId();
-
-  return useQuery(queryKeys.getContent(language), () => {
-    return api("v1", `mobile/homepage/content`, "GET", undefined, undefined, {
-      ["x-Correlation-Id"]: correlationId,
-      ["customerId"]: userId,
-      ["Accept-Language"]: language,
-    });
-  });
-}
-
-export function useActions(faqId: string, language: string) {
-  const { userId } = useAuthContext();
-  const queryClient = useQueryClient();
-
-  return useMutation(
-    () => {
-      return api<unknown>("v1", ``, "POST", undefined, undefined, {
-        ["x-correlation-id"]: generateRandomId(),
-        ["CustomerId"]: userId,
-      });
-    },
-    {
-      onSettled: () => {
-        queryClient.invalidateQueries(queryKeys.getContent(language));
-      },
-    }
-  );
 }
 
 export function useHomepageLayout() {
@@ -126,12 +85,45 @@ export function useRefetchHomepageLayout() {
   return { refetchAll: handleOnRefetch };
 }
 
-export function useNotifications() {
+export function useTasks() {
   const { userId } = useAuthContext();
+  const correlationId = generateRandomId();
 
-  const { data } = useQuery<Notification[]>(["notifications", { userId }], () => {
-    return api<Notification[]>("v1", `customer/${userId}/actions`, "GET");
+  return useQuery<TaskType[]>(["tasks", { userId }], () => {
+    return api<TaskType[]>("v1", `actions/1`, "GET", undefined, undefined, {
+      ["x-Correlation-Id"]: correlationId,
+      ["customerID"]: userId,
+    });
   });
+}
 
-  return useMemo(() => data?.filter(d => d.action_status === "pending") ?? [], [data]);
+export function useActionDismiss() {
+  const { userId } = useAuthContext();
+  const correlationId = generateRandomId();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (ActionTypeId: string) => {
+      return api<QuickActionsType>(
+        "v1",
+        "actions",
+        "PUT",
+        undefined,
+        {
+          ActionTypeId,
+          // StatusId 2 indicates "Dismissed" as we utilize this API for dismissal and update.
+          StatusId: "2",
+        },
+        {
+          ["x-Correlation-Id"]: correlationId,
+          ["customerID"]: userId,
+        }
+      );
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries(["tasks", { userId }]);
+      },
+    }
+  );
 }

@@ -23,6 +23,11 @@ export default function BalanceCard({ balance, accountNumber, currency }: CardPr
 
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
 
+  const handleOnAccountPress = () => {
+    //TODO
+    // wiating BA team to respond about the right functionality
+  };
+
   const handleOnAccountNumberPress = () => {
     if (undefined === accountNumber) return;
     Clipboard.setString(accountNumber);
@@ -91,12 +96,20 @@ export default function BalanceCard({ balance, accountNumber, currency }: CardPr
               <View style={styles.headerBalanceStyle}>
                 {isBalanceVisible ? (
                   <>
-                    <Typography.Text color="primaryBase-20" size="title1" weight="medium">
-                      {formatCurrency(balance ?? 0)}
-                    </Typography.Text>
-                    <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
-                      {" " + currency ?? "SAR"}
-                    </Typography.Text>
+                    {balance ? (
+                      <>
+                        <Typography.Text color="primaryBase-20" size="title1" weight="medium">
+                          {formatCurrency(balance ?? 0)}
+                        </Typography.Text>
+                        <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
+                          {" " + currency ?? "SAR"}
+                        </Typography.Text>
+                      </>
+                    ) : (
+                      <Typography.Text color="neutralBase-30" size="title3" weight="regular">
+                        {t("Home.DashboardScreen.updating")}
+                      </Typography.Text>
+                    )}
                   </>
                 ) : (
                   <View style={balanceHiddenTextContainerStyle}>
@@ -127,12 +140,14 @@ export default function BalanceCard({ balance, accountNumber, currency }: CardPr
                 </Typography.Text>
               </Pressable>
             </View>
-            <View style={styles.accountCountainer}>
-              <Typography.Text color="primaryBase-10" size="caption2" weight="medium">
-                {t("Home.DashboardScreen.account")}
-              </Typography.Text>
-              <AccountIcon />
-            </View>
+            <Pressable onPress={handleOnAccountPress}>
+              <View style={styles.accountCountainer}>
+                <Typography.Text color="primaryBase-10" size="caption2" weight="medium">
+                  {t("Home.DashboardScreen.account")}
+                </Typography.Text>
+                <AccountIcon />
+              </View>
+            </Pressable>
           </View>
         </View>
       </WithShadow>

@@ -28,7 +28,7 @@ export interface TaskType {
   RedirectDestinationLink: string;
   UpdatedBy: string;
   ButtonName: string;
-  SecondaryButtonName: string;
+  SecondaryButtonName?: string;
 }
 
 type CustomerConfigurationType =
@@ -45,4 +45,12 @@ export interface ShortcutType {
     stack: keyof AuthenticatedStackParams;
   };
   CustomerConfiguration: CustomerConfigurationType;
+}
+
+export interface QuickActionsType {
+  Homepage: {
+    Sections: {
+      Shortcuts: ShortcutType[];
+    };
+  };
 }

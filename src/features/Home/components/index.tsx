@@ -10,4 +10,5 @@ export { default as ReordererHeader } from "./ReordererHeader";
 export { default as ReordererSection } from "./ReordererSection";
 export { default as RewardsSection } from "./RewardsSection";
 export { default as Section } from "./Section";
+export { default as TasksPreviewer } from "./TasksPreviewer";
 export { default as WhatsNextSection } from "./WhatsNextSection";
