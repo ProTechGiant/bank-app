@@ -20,8 +20,8 @@ export default function LanguageToggle() {
     handleHideRestartModal();
   };
 
-  const handleOnRestartPress = () => {
-    handleOnChange(i18n.language === "en" ? "ar" : "en");
+  const handleOnRestartPress = async () => {
+    await handleOnChange(i18n.language === "en" ? "ar" : "en");
     reloadApp();
   };
 

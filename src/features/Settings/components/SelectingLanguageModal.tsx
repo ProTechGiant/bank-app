@@ -7,15 +7,14 @@ import Modal from "@/components/Modal";
 import { RadioButton, RadioButtonGroup } from "@/components/RadioButton";
 import { useThemeStyles } from "@/theme";
 
-enum LANGUAGES {
-  AR = "ar",
-  EN = "en",
-}
+import { LANGUAGES } from "../types";
+
 interface SelectingLanguageModalProps {
   onClose: () => void;
   onSaveChanges: (value: string) => void;
   isVisible: boolean;
   title: string;
+  currentLang?: string;
 }
 
 export default function SelectingLanguageModal({
@@ -23,11 +22,12 @@ export default function SelectingLanguageModal({
   onSaveChanges,
   isVisible,
   title,
+  currentLang,
 }: SelectingLanguageModalProps) {
-  const { i18n, t } = useTranslation("translation", { keyPrefix: "Settings.ChangeLanguageModal" });
+  const { t } = useTranslation("translation", { keyPrefix: "Settings" });
 
-  const [value, setValue] = useState(i18n.language);
-  const isSaveChangesButtonDisabled = value === i18n.language;
+  const [value, setValue] = useState(currentLang?.toLowerCase());
+  const isSaveChangesButtonDisabled = value === currentLang;
 
   const handleSaveChangesPress = () => {
     onSaveChanges(value);
@@ -46,13 +46,13 @@ export default function SelectingLanguageModal({
     <Modal visible={isVisible} style={modalStyle} onClose={onClose} headerText={title}>
       <View>
         <RadioButtonGroup onPress={selectedValue => setValue(selectedValue)} value={value}>
-          <RadioButton value={LANGUAGES.EN} label="English" />
-          <RadioButton value={LANGUAGES.AR} label="العربية" />
+          <RadioButton value={LANGUAGES.EN} label={t("language.EN")} />
+          <RadioButton value={LANGUAGES.AR} label={t("language.AR")} />
         </RadioButtonGroup>
       </View>
       <View style={buttonContainerStyle}>
         <Button onPress={handleSaveChangesPress} disabled={isSaveChangesButtonDisabled}>
-          {t("saveChanges")}
+          {t("ChangeLanguageModal.saveChanges")}
         </Button>
       </View>
     </Modal>

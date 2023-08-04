@@ -704,6 +704,10 @@
       "applicationOptionTitle": "Application",
       "notificationsOptionTitle": "Notifications"
     },
+    "language": {
+      "EN": "English",
+      "AR": "العربيه"
+    },
     "reloadAppMessage": "يجب اعاده تشغيل التطبيق للاستمرار",
     "okButtonMessage": "موافق"
   },

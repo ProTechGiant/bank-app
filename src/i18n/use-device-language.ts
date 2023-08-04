@@ -23,7 +23,7 @@ export default function useDeviceLanguage() {
         return; // language did not change OR we user has custom language selected
       }
 
-      handleOnChange(deviceLanguage);
+      await handleOnChange(deviceLanguage);
 
       prevState.current = state;
     });

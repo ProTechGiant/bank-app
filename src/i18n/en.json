@@ -755,6 +755,10 @@
       "signOutButton": "Sign Out",
       "cancelButton": "Cancel"
     },
+    "language": {
+      "EN": "English",
+      "AR": "العربيه"
+    },
     "reloadAppMessage": "We must restart the app to continue",
     "okButtonMessage": "OK"
   },

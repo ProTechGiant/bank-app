@@ -41,6 +41,7 @@ export interface FetchCustomerProfileInterface {
   CustomerId: string;
   ExpireSoon: boolean;
   IsExpired: boolean;
+  NotificationLanguageCode: string;
 }
 
 interface ForeignTaxResidency {

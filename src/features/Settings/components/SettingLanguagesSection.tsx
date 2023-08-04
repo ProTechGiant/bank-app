@@ -8,11 +8,15 @@ import Button from "@/components/Button";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import { useChangeLanguage } from "@/i18n";
 import reloadApp from "@/i18n/reload-app";
+import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 
 import * as SettingsIcons from "../assets/icons";
+import { useLanguagePreferred } from "../hooks/query-hooks";
+import { LanguageOptionType, LANGUAGES } from "../types";
 import LanguageOption from "./LanguageOption";
 import SelectingLanguageModal from "./SelectingLanguageModal";
 
@@ -25,15 +29,25 @@ interface SettingLanguagesSectionProps {
 export default function SettingLanguagesSection({ title, description, icon }: SettingLanguagesSectionProps) {
   const { t } = useTranslation();
 
-  const { handleHideRestartModal, handleOnChange, isRestartModalVisible } = useChangeLanguage();
+  const { handleHideRestartModal, handleOnChange } = useChangeLanguage();
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const [selectedLanguageOption, setSelectedLanguageOption] = useState("");
+  const { data: userInformation } = useCustomerProfile();
+
+  const [preferredLanguage, setPreferredLanguage] = useState(userInformation?.Language || LANGUAGES.EN);
+
+  const [notificationLanguage, setNotificationLanguage] = useState(
+    userInformation?.NotificationLanguageCode || LANGUAGES.EN
+  );
+
+  const [selectedLanguageOption, setSelectedLanguageOption] = useState();
   const [isSelectingLanguageModalVisible, setIsSelectingLanguageModalVisible] = useState(false);
+  const [isRestartModalVisible, setIsRestartModalVisible] = useState(false);
+
+  const submitLanguagePreferred = useLanguagePreferred();
 
   const handleOnExpandPress = () => setIsExpanded(c => !c);
-
-  const handleOnLanguageOptionPress = (option: string) => () => {
+  const handleOnLanguageOptionPress = (option: string) => {
     setSelectedLanguageOption(option);
     setIsSelectingLanguageModalVisible(true);
   };
@@ -42,17 +56,42 @@ export default function SettingLanguagesSection({ title, description, icon }: Se
     setIsSelectingLanguageModalVisible(false);
   };
 
-  const handleOnSaveChanges = (value: string) => {
-    setIsSelectingLanguageModalVisible(false);
-    handleOnChange(value);
+  const handleOnSaveChanges = async (value: string) => {
+    if (selectedLanguageOption === LanguageOptionType.Notifications) {
+      try {
+        setNotificationLanguage(value);
+
+        await submitLanguagePreferred.mutateAsync({
+          PreferredLanguageCode: preferredLanguage,
+          NotificationLanguageCode: value,
+        });
+      } catch (error) {
+        console.error("Error updating Notifications language:", (error as Error).message);
+      } finally {
+        setIsSelectingLanguageModalVisible(false);
+      }
+    } else {
+      setIsSelectingLanguageModalVisible(false);
+      handleOnChange(value);
+      setPreferredLanguage(value);
+      setIsRestartModalVisible(true);
+    }
   };
 
   const handleOnCancelPress = () => {
     handleHideRestartModal();
   };
 
-  const handleOnRestartPress = () => {
-    // TODO: add await api call here to update selected language then restart the app on success
+  const handleOnRestartPress = async () => {
+    try {
+      await submitLanguagePreferred.mutateAsync({
+        PreferredLanguageCode: preferredLanguage,
+        NotificationLanguageCode: notificationLanguage,
+      });
+    } catch (error) {
+      warn("Error updating Application language:", ` ${(error as Error).message}`);
+    }
+
     reloadApp();
   };
 
@@ -86,16 +125,22 @@ export default function SettingLanguagesSection({ title, description, icon }: Se
         {isExpanded ? (
           <Stack direction="horizontal" gap="12p" style={languageOptionsContainerStyle}>
             <LanguageOption
+              id={LanguageOptionType.Application}
               title={t("Settings.ChangeLanguageModal.applicationOptionTitle")}
-              currentLanguage="English" // TODO: should be added from api
+              currentLanguage={t(`Settings.language.${userInformation?.Language}`)}
               icon={<SettingsIcons.AppLanguageIcon />}
-              onPress={handleOnLanguageOptionPress(t("Settings.ChangeLanguageModal.modalAppTitle"))}
+              onPress={() => {
+                handleOnLanguageOptionPress(LanguageOptionType.Application);
+              }}
             />
             <LanguageOption
+              id={LanguageOptionType.Notifications}
               title={t("Settings.ChangeLanguageModal.notificationsOptionTitle")}
-              currentLanguage="العربية" // TODO: should be added from api
+              currentLanguage={t(`Settings.language.${userInformation?.NotificationLanguageCode.toUpperCase()}`)}
               icon={<SettingsIcons.NotificationsLanguageIcon />}
-              onPress={handleOnLanguageOptionPress(t("Settings.ChangeLanguageModal.modalNotificationsTitle"))}
+              onPress={() => {
+                handleOnLanguageOptionPress(LanguageOptionType.Notifications);
+              }}
             />
           </Stack>
         ) : null}
@@ -107,6 +152,11 @@ export default function SettingLanguagesSection({ title, description, icon }: Se
             onSaveChanges={handleOnSaveChanges}
             isVisible={isSelectingLanguageModalVisible}
             title={selectedLanguageOption}
+            currentLang={
+              selectedLanguageOption === LanguageOptionType.Notifications
+                ? userInformation?.NotificationLanguageCode
+                : userInformation?.Language
+            }
           />
         ) : null}
         <NotificationModal
