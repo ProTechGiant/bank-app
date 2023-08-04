@@ -5,7 +5,8 @@ import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, ViewStyle } from "react-native";
 import * as yup from "yup";
 
-import Alert from "@/components/Alert";
+import ApiError from "@/api/ApiError";
+import Alert, { AlertVariantType } from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import ContextualFAQModal from "@/components/ContextualFAQModal";
@@ -23,7 +24,7 @@ import { useThemeStyles } from "@/theme";
 import { emailRegex, saudiPhoneRegExp } from "@/utils";
 
 import { DetailSection, DetailSectionsContainer, HeaderWithHelpIcon } from "../components";
-import { useUpdateCustomerProfileDetails } from "../hooks/query-hooks";
+import { useUpdateCustomerProfileDetails, useUpdateCustomerProfileIdExpiryDate } from "../hooks/query-hooks";
 import { parseCustomerAddress } from "../utils";
 
 interface DetailInputs {
@@ -31,14 +32,26 @@ interface DetailInputs {
   MobileNumber: string;
 }
 
+interface AlertState {
+  isVisible: boolean;
+  variant: AlertVariantType;
+  message: string;
+}
+
 export default function ProfileDetailsScreen() {
   const { t } = useTranslation();
   const { data: customerProfile, isFetching } = useCustomerProfile();
   const { mutateAsync: UpdateCustomerProfileDetails, isLoading } = useUpdateCustomerProfileDetails();
+  const UpdateIdExpiryDate = useUpdateCustomerProfileIdExpiryDate();
 
   const [showEditForm, setShowEditForm] = useState(false);
   const [showFAQModal, setShowFAQModal] = useState(false);
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showUpdateNowButton, setShowUpdateNowButton] = useState<boolean>(true);
+  const [alertStatus, setAlertStatus] = useState<AlertState>({
+    isVisible: false,
+    variant: "success",
+    message: "",
+  });
 
   const validationSchema = useMemo(
     () =>
@@ -86,11 +99,15 @@ export default function ProfileDetailsScreen() {
     }
 
     if (values.MobileNumber !== customerProfile.MobilePhone?.slice(-9)) {
-      // handle otp flow and send values object with otp for validation
+      // TODO: handle otp flow and send values object with otp for validation
     } else {
       try {
         await UpdateCustomerProfileDetails({ EmailAddress: values.Email });
-        setShowSuccessAlert(true);
+        setAlertStatus({
+          isVisible: true,
+          variant: "success",
+          message: t("ProfileDetails.ProfileDetailsScreen.updateDetailsSuccessMessage"),
+        });
         setShowEditForm(false);
       } catch (error) {
         warn("UpdateCustomerProfileDetails=>", ` ${(error as Error).message}`);
@@ -99,12 +116,46 @@ export default function ProfileDetailsScreen() {
   };
 
   const handleOnCloseAlert = () => {
-    setShowSuccessAlert(false);
+    setAlertStatus({
+      isVisible: false,
+      variant: "success",
+      message: "",
+    });
+  };
+
+  const handleOnUpdateNowPress = async () => {
+    try {
+      const UpdatedCustomerProfileData = await UpdateIdExpiryDate.mutateAsync();
+      if (UpdatedCustomerProfileData.IsExpired || UpdatedCustomerProfileData.ExpireSoon) {
+        setShowUpdateNowButton(false);
+      } else {
+        setAlertStatus({
+          isVisible: true,
+          variant: "success",
+          message: t("ProfileDetails.ProfileDetailsScreen.updateIdExpirySuccessMessage"),
+        });
+      }
+    } catch (error) {
+      setShowUpdateNowButton(false);
+      if ((error as ApiError).statusCode === 408) {
+        setAlertStatus({
+          isVisible: true,
+          variant: "error",
+          message: t("ProfileDetails.ProfileDetailsScreen.updateIdExpiryTimeoutMessage"),
+        });
+      } else {
+        setAlertStatus({
+          isVisible: true,
+          variant: "error",
+          message: t("ProfileDetails.ProfileDetailsScreen.updateIdExpiryWarningMessage"),
+        });
+      }
+    }
   };
 
   const contentContainerStyles = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
-    paddingTop: showSuccessAlert ? theme.spacing["16p"] : theme.spacing["24p"],
+    paddingTop: alertStatus.isVisible ? theme.spacing["16p"] : theme.spacing["24p"],
     flexGrow: 1,
   }));
 
@@ -116,16 +167,18 @@ export default function ProfileDetailsScreen() {
     <Page insets={["top", "bottom"]}>
       <NavHeader title={t("ProfileDetails.ProfileDetailsScreen.profileDetails")} />
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
-        {customerProfile === undefined || isFetching ? (
+        {customerProfile === undefined || isFetching || UpdateIdExpiryDate.isLoading ? (
           <FlexActivityIndicator />
         ) : (
           <ContentContainer isScrollView style={contentContainerStyles}>
-            {showSuccessAlert ? (
+            {alertStatus.isVisible ? (
               <Stack direction="vertical" style={alertContainerStyles}>
                 <Alert
-                  variant="success"
-                  message={t("ProfileDetails.ProfileDetailsScreen.alertMessage")}
-                  end={<Alert.CloseEndButton onPress={handleOnCloseAlert} />}
+                  variant={alertStatus.variant}
+                  message={alertStatus.message}
+                  end={
+                    alertStatus.variant === "error" ? undefined : <Alert.CloseEndButton onPress={handleOnCloseAlert} />
+                  }
                 />
               </Stack>
             ) : null}
@@ -155,9 +208,14 @@ export default function ProfileDetailsScreen() {
                   <DetailSection
                     title={t("ProfileDetails.ProfileDetailsScreen.sectionsTitle.idExpiry")}
                     value={customerProfile.ExpiryDateHijri}
-                    isExpired={customerProfile.ExpireSoon}
-                    expiredDescription={t("ProfileDetails.ProfileDetailsScreen.expiredDescription")}
-                    onPress={handleOnPressHelp} // TODO: add handleOnUpdateNowPress function when api retrieved from BE team
+                    isExpireSoon={customerProfile.ExpireSoon}
+                    isUpdateNowButtonVisible={showUpdateNowButton}
+                    expiredDescription={
+                      showUpdateNowButton
+                        ? t("ProfileDetails.ProfileDetailsScreen.expiredDescription")
+                        : t("ProfileDetails.ProfileDetailsScreen.idExpiryNotUpdatedYet")
+                    }
+                    onPress={handleOnUpdateNowPress}
                   />
                 </DetailSectionsContainer>
               </Stack>

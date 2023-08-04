@@ -40,6 +40,7 @@ export interface FetchCustomerProfileInterface {
   Mnemonic: string;
   CustomerId: string;
   ExpireSoon: boolean;
+  IsExpired: boolean;
 }
 
 interface ForeignTaxResidency {

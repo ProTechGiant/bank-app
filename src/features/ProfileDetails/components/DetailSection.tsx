@@ -7,12 +7,20 @@ import Typography from "@/components/Typography";
 interface DetailSectionProps {
   title: string;
   value: string;
-  isExpired?: boolean;
+  isExpireSoon?: boolean;
+  isUpdateNowButtonVisible?: boolean;
   expiredDescription?: string;
   onPress?: () => void;
 }
 
-export default function DetailSection({ isExpired, expiredDescription, onPress, title, value }: DetailSectionProps) {
+export default function DetailSection({
+  isExpireSoon,
+  expiredDescription,
+  onPress,
+  title,
+  value,
+  isUpdateNowButtonVisible,
+}: DetailSectionProps) {
   const { t } = useTranslation();
 
   return (
@@ -21,16 +29,16 @@ export default function DetailSection({ isExpired, expiredDescription, onPress, 
         <Typography.Text size="footnote" color="neutralBase-10">
           {title}
         </Typography.Text>
-        <Typography.Text size="callout" weight="medium" color={isExpired ? "complimentBase+20" : undefined}>
+        <Typography.Text size="callout" weight="medium" color={isExpireSoon ? "complimentBase+20" : undefined}>
           {value}
         </Typography.Text>
-        {isExpired ? (
+        {isExpireSoon ? (
           <Typography.Text size="caption2" color="complimentBase+20">
             {expiredDescription}
           </Typography.Text>
         ) : null}
       </Stack>
-      {isExpired ? (
+      {isExpireSoon && isUpdateNowButtonVisible ? (
         <Button onPress={onPress} size="small" variant="secondary">
           {t("ProfileDetails.ProfileDetailsScreen.updateNow")}
         </Button>
