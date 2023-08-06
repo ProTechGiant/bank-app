@@ -1,3 +1,4 @@
+// TODO: Confirm with BE team which the Optional and required Fields, Response Type/Interface
 export interface FetchCustomerProfileInterface {
   FullName: string;
   FirstName: string;
@@ -10,7 +11,7 @@ export interface FetchCustomerProfileInterface {
   CustomerStatus: number;
   CustomerStatusDescription: string;
   CustomerSource: number;
-  MobilePhone: string;
+  MobilePhone: string; // TODO: Confirm with BE team that MobilePhone must return CountryCode
   Email: string;
   PlaceOfBirthCode: string;
   PlaceOfBirth: string;
@@ -29,7 +30,7 @@ export interface FetchCustomerProfileInterface {
   CivilianIDType: number;
   CivilianID: string;
   IssueDate: string;
-  CivilianIDExpiryDate: string;
+  CivilianIDExpiryDate: string; // TODO: Confirm with BE team on Date Format 'dd/MM/yyyy' or 'MM/dd/yyyy'
   IssueDateHijri: string;
   ExpiryDateHijri: string;
   FailedKyc: boolean;

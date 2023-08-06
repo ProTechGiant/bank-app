@@ -32,7 +32,7 @@ import {
   useUpdateCustomerProfileIdExpiryDate,
   useUpdateCustomerProfileOTP,
 } from "../hooks/query-hooks";
-import { parseCustomerAddress } from "../utils";
+import { parseCustomerAddress, parseCustomerCivilianIDExpiryDate } from "../utils";
 
 interface DetailInputs {
   Email: string;
@@ -261,7 +261,7 @@ export default function ProfileDetailsScreen() {
                   />
                   <DetailSection
                     title={t("ProfileDetails.ProfileDetailsScreen.sectionsTitle.idExpiry")}
-                    value={customerProfile.ExpiryDateHijri}
+                    value={parseCustomerCivilianIDExpiryDate(customerProfile.CivilianIDExpiryDate)}
                     isExpireSoon={customerProfile.ExpireSoon}
                     isUpdateNowButtonVisible={showUpdateNowButton}
                     expiredDescription={
