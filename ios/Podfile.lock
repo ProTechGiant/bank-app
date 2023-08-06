@@ -398,6 +398,8 @@ PODS:
   - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
+  - RNShare (9.2.3):
+    - React-Core
   - RNSVG (13.9.0):
     - React-Core
   - Runtime (2.2.2)
@@ -462,6 +464,7 @@ DEPENDENCIES:
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Unrealm
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -583,6 +586,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   Yoga:
@@ -647,6 +652,7 @@ SPEC CHECKSUMS:
   RNPermissions: 7370bdd89370cef81c4f7e9b6c282aefe114ef30
   RNReanimated: 93d69b6137a89e30168b771a0d215a21ae81a258
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
+  RNShare: da6d90b6dc332f51f86498041d6e34211f96b630
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
   Runtime: 67741bd196fb4ad821c4d259ccc527bf734d8806
   Unrealm: 78b89e8d57eee8a36ee91dbde14534ff274e8cfa
