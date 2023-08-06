@@ -3,18 +3,13 @@ import DeviceInfo from "react-native-device-info";
 import { useMutation, useQueryClient } from "react-query";
 
 import api from "@/api";
+import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { queryKeys as customerProfileQueryKeys } from "@/hooks/use-customer-profile";
 import { FetchCustomerProfileInterface } from "@/types/CustomerProfile";
 import { generateRandomId } from "@/utils";
 
 interface UpdateEmailInput {
   EmailAddress: string;
-}
-
-interface UpdateMobileNumberInput {
-  MobileNumber: string;
-  SpecifiedOtp: string;
-  OtpReasonCode: string;
 }
 
 interface UpdateCommunicationDetailsResponse {
@@ -27,7 +22,7 @@ export function useUpdateCustomerProfileDetails() {
   const queryClient = useQueryClient();
 
   return useMutation(
-    async (values: UpdateEmailInput | (UpdateEmailInput & UpdateMobileNumberInput)) => {
+    async (values: UpdateEmailInput) => {
       return api<UpdateCommunicationDetailsResponse>(
         "v1",
         "customers/communication-details",
@@ -69,3 +64,28 @@ export function useUpdateCustomerProfileIdExpiryDate() {
     }
   );
 }
+
+export function useUpdateCustomerProfileOTP(reasonCode: string, mobileNumber: string | undefined) {
+  const { i18n } = useTranslation();
+
+  return useMutation(async () => {
+    return api<OtpChallengeParams>(
+      "v1",
+      `customers/opts/${reasonCode}`,
+      "PATCH",
+      undefined,
+      {
+        MobileNumber: mobileNumber,
+      },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["x-device-id"]: DeviceInfo.getDeviceId(),
+        ["Authorization"]: generateRandomId(), // TODO: This should come from Auth Context
+        ["Accept-Language"]: i18n.language,
+      }
+    );
+  });
+}
+
+// this constant related to update mobile phone check https://collab.dtme.dev/display/PC/LLD%3A+OTP#LLD:OTP-OTPReasonCodes for more info
+export const UPDATE_CUSTOMER_PROFILE_OTP_REASON_CODE = "125";

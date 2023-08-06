@@ -22,6 +22,18 @@ export type OtpChallengeParams = GenericOtpChallengeParams | UpdatedOtpChallenge
 
 export type OtpResponseStatus = "success" | "fail" | "cancel";
 
+export type OtpVerifyMethodType =
+  | "card-actions"
+  | "croatia-to-arb"
+  | "internal-to-bank"
+  | "ips-payment"
+  | "login"
+  | "sarie"
+  | "reset-passcode"
+  | "change-passcode"
+  | "create-passcode"
+  | "customers/communication-details";
+
 export interface OtpRequiredResponse {
   OtpId: string;
   OtpCode: string;

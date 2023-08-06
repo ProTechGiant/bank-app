@@ -18,13 +18,20 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import { warn } from "@/logger";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { emailRegex, saudiPhoneRegExp } from "@/utils";
 
 import { DetailSection, DetailSectionsContainer, HeaderWithHelpIcon } from "../components";
-import { useUpdateCustomerProfileDetails, useUpdateCustomerProfileIdExpiryDate } from "../hooks/query-hooks";
+import {
+  UPDATE_CUSTOMER_PROFILE_OTP_REASON_CODE,
+  useUpdateCustomerProfileDetails,
+  useUpdateCustomerProfileIdExpiryDate,
+  useUpdateCustomerProfileOTP,
+} from "../hooks/query-hooks";
 import { parseCustomerAddress } from "../utils";
 
 interface DetailInputs {
@@ -40,8 +47,15 @@ interface AlertState {
 
 export default function ProfileDetailsScreen() {
   const { t } = useTranslation();
-  const { data: customerProfile, isFetching } = useCustomerProfile();
+  const navigation = useNavigation();
+  const otpFlow = useOtpFlow();
+
+  const { data: customerProfile, isFetching, refetch } = useCustomerProfile();
   const { mutateAsync: UpdateCustomerProfileDetails, isLoading } = useUpdateCustomerProfileDetails();
+  const { mutateAsync: UpdateCustomerProfileOTP } = useUpdateCustomerProfileOTP(
+    UPDATE_CUSTOMER_PROFILE_OTP_REASON_CODE,
+    customerProfile?.MobilePhone
+  );
   const UpdateIdExpiryDate = useUpdateCustomerProfileIdExpiryDate();
 
   const [showEditForm, setShowEditForm] = useState(false);
@@ -76,7 +90,7 @@ export default function ProfileDetailsScreen() {
 
   useEffect(() => {
     if (customerProfile) {
-      reset({ Email: customerProfile.Email, MobileNumber: customerProfile.MobilePhone?.slice(-9) });
+      reset({ Email: customerProfile.Email, MobileNumber: customerProfile.MobilePhone });
     }
   }, [customerProfile, reset]);
 
@@ -97,9 +111,49 @@ export default function ProfileDetailsScreen() {
     if (customerProfile === undefined) {
       return;
     }
-
-    if (values.MobileNumber !== customerProfile.MobilePhone?.slice(-9)) {
-      // TODO: handle otp flow and send values object with otp for validation
+    if (values.MobileNumber !== customerProfile.MobilePhone) {
+      try {
+        otpFlow.handle({
+          action: {
+            to: "ProfileDetails.ProfileDetailsScreen",
+          },
+          otpVerifyMethod: "customers/communication-details",
+          otpOptionalParams: {
+            EmailAddress: values.Email,
+            MobileNumber: values.MobileNumber,
+            OtpReasonCode: UPDATE_CUSTOMER_PROFILE_OTP_REASON_CODE,
+          },
+          onOtpRequest: () => {
+            return UpdateCustomerProfileOTP();
+          },
+          onFinish: status => {
+            refetch();
+            setShowEditForm(false);
+            if (status === "success") {
+              setAlertStatus({
+                isVisible: true,
+                variant: "success",
+                message: t("ProfileDetails.ProfileDetailsScreen.updateDetailsSuccessMessage"),
+              });
+              return;
+            }
+            if (status === "fail") {
+              setAlertStatus({
+                isVisible: true,
+                variant: "error",
+                message: t("ProfileDetails.ProfileDetailsScreen.updateDetailsWarningMessage"),
+              });
+            }
+          },
+          onUserBlocked: () => {
+            navigation.navigate("SignIn.UserBlocked", {
+              type: "otp",
+            });
+          },
+        });
+      } catch (error) {
+        warn("UpdateCustomerProfileOTP=>", ` ${(error as Error).message}`);
+      }
     } else {
       try {
         await UpdateCustomerProfileDetails({ EmailAddress: values.Email });
@@ -232,7 +286,7 @@ export default function ProfileDetailsScreen() {
                     />
                     <DetailSection
                       title={t("ProfileDetails.ProfileDetailsScreen.sectionsTitle.mobileNumber")}
-                      value={customerProfile.MobilePhone}
+                      value={customerProfile.MobilePhone.replace("+966", "0")} // TODO: add logic to support dynamic country code
                     />
                   </DetailSectionsContainer>
                 ) : (

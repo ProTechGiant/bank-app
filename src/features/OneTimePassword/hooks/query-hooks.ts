@@ -11,7 +11,7 @@ import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams"
 import useNavigation from "@/navigation/use-navigation";
 import { generateRandomId } from "@/utils";
 
-import { OtpResponseStatus, ValidateOtpRequest, ValidateOtpResponse } from "../types";
+import { OtpResponseStatus, OtpVerifyMethodType, ValidateOtpRequest, ValidateOtpResponse } from "../types";
 
 type AnyStack = AuthenticatedStackParams | UnAuthenticatedStackParams;
 type OtpScreenParams<Stack extends AnyStack> = OneTimePasswordModalParams<Stack>;
@@ -58,17 +58,7 @@ export function useOtpFlow<Stack extends AnyStack>() {
   return { handle, useOtpResponseEffect };
 }
 
-export function useOtpValidation<RequestT, ResponseT>(
-  method:
-    | "card-actions"
-    | "internal-to-bank"
-    | "login"
-    | "quick-transfers"
-    | "reset-passcode"
-    | "change-passcode"
-    | "create-passcode"
-    | "croatia-to-arb"
-) {
+export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodType) {
   const queryClient = useQueryClient();
 
   return useMutation(
@@ -96,6 +86,26 @@ export function useOtpValidation<RequestT, ResponseT>(
             OtpCode: OtpCode,
             Reason: method,
           };
+      // TODO: "customers/communication-details" api should be updated from BE team to match above endpoints (response and request types)
+      // TODO: also should be the same http method (POST)
+      // TODO: also the NumOfAttempts is not returned with the response which used to disable keyboard when max attempts reached till user tap resend code. => (OneTimePasswordModal.tsx)
+      if (method === "customers/communication-details") {
+        return api<ValidateOtpResponse & ResponseT>(
+          "v1",
+          method,
+          "PATCH",
+          undefined,
+          {
+            SpecifiedOtp: OtpCode,
+            ...optionalParams,
+          },
+          {
+            ["x-correlation-id"]: generateRandomId(),
+            ["x-device-id"]: DeviceInfo.getDeviceId(),
+            ["Authorization"]: generateRandomId(), // TODO: This should come from Auth Context
+          }
+        );
+      }
 
       return api<ValidateOtpResponse & ResponseT>(
         "v1",

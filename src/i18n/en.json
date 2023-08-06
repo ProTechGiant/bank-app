@@ -2379,6 +2379,7 @@
       "expiredDescription": "Your ID is due to expire. To prevent your account being frozen, please update your ID in Absher. Once you have done this, please revisit this page and press 'Update Now'.",
       "extraStart": "Minimum 10 characters",
       "updateDetailsSuccessMessage": "Your information is updated, it can take up to 24 hours for this change to take effect.",
+      "updateDetailsWarningMessage": "Mobile number entered doesn't match this national ID/Iqama number. Please try again.",
       "updateIdExpirySuccessMessage": "Your details have been updated",
       "updateIdExpiryTimeoutMessage": "Due to technical issue, your ID has not been updated in Absher. Please try again.",
       "updateIdExpiryWarningMessage": "Your ID has not been updated in Absher. Please try again later.",

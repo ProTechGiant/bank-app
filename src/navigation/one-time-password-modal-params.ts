@@ -1,4 +1,4 @@
-import { OtpChallengeParams } from "@/features/OneTimePassword/types";
+import { OtpChallengeParams, OtpVerifyMethodType } from "@/features/OneTimePassword/types";
 
 import AuthenticatedStackParams from "./AuthenticatedStackParams";
 import UnAuthenticatedStackParams from "./UnAuthenticatedStackParams";
@@ -8,16 +8,7 @@ export default interface OneTimePasswordModalParams<T extends AuthenticatedStack
     to: keyof T;
     params: Omit<T[keyof T], "otpResponseStatus" | "otpResponsePayload">;
   };
-  otpVerifyMethod:
-    | "card-actions"
-    | "croatia-to-arb"
-    | "internal-to-bank"
-    | "ips-payment"
-    | "login"
-    | "sarie"
-    | "reset-passcode"
-    | "change-passcode"
-    | "create-passcode";
+  otpVerifyMethod: OtpVerifyMethodType;
   otpOptionalParams?: Record<string, unknown>;
   otpChallengeParams?: OtpChallengeParams;
   onOtpRequest: () => Promise<OtpChallengeParams>;
