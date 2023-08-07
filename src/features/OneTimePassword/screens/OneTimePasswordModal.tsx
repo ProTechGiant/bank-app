@@ -49,6 +49,8 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     params?.otpVerifyMethod === "change-passcode" ||
     params?.otpVerifyMethod === "create-passcode";
 
+  const isUpdateCustomerProfileFlow = params?.otpVerifyMethod === "customers/communication-details";
+
   // these were added to fix PC-11791 error issues.
   const [numberOfAttemptsForOTP, setNumberOfAttemptsForOTP] = useState(0);
   const isOTPVerifyMaxAttemptsReached = numberOfAttemptsForOTP > OTP_MAX_ATTEMPTS;
@@ -117,8 +119,8 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   };
 
   const handleOnRequestBlockUserErrorClose = () => {
-    // on login flow we blocked the user otherwise we navigate the user with fail status and then navigate back to first stack.
-    if (isReachedMaxAttempts && isLoginFlow) {
+    // on login flow and on updating customer Profile mobile number we blocked the user otherwise we navigate the user with fail status and then navigate back to first stack.
+    if (isReachedMaxAttempts && (isLoginFlow || isUpdateCustomerProfileFlow)) {
       params.onUserBlocked?.();
     } else {
       // @ts-expect-error unable to properly add types for this call
