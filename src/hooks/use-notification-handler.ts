@@ -2,12 +2,14 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 import { Alert } from "react-native";
 
+import { useAuthContext } from "@/contexts/AuthContext";
 import notifications from "@/utils/push-notifications";
 
 import useSavingsGoalNumber from "../features/Temporary/use-savings-goal-number";
 
 const useNotificationHandler = () => {
   const navigation = useNavigation();
+  const auth = useAuthContext();
 
   const getSavingsGoalNumAsync = useSavingsGoalNumber();
 
@@ -35,7 +37,7 @@ const useNotificationHandler = () => {
               text: "Cancel",
             },
           ]);
-        } else if (notification?.data?.type === "edit-goal") {
+        } else if (notification?.data?.type === "edit-goal" && !auth.isUserLocked) {
           Alert.alert("Edit Goal", "", [
             {
               text: "OK",
