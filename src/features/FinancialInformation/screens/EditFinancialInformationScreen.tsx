@@ -127,7 +127,7 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
                 control={control}
                 name={OCCUPATION_CODE}
                 label={t("Settings.FinancialInformation.occupation")}
-                placeholder={t("Settings.FinancialInformation.selectAnAmount")}
+                placeholder={t("Settings.FinancialInformation.inputOccupationPlaceholder")}
                 options={occupations}
                 buttonLabel={t("Settings.FinancialInformation.selectButton")}
                 variant="small"
@@ -144,7 +144,7 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
                 control={control}
                 name={ACCOUNT_PURPOSE}
                 label={t("Settings.FinancialInformation.useCroatia")}
-                placeholder={t("Settings.FinancialInformation.selectAnAmount")}
+                placeholder={t("Settings.FinancialInformation.inputAccountPurposePlaceholder")}
                 options={useCroatia}
                 buttonLabel={t("Settings.FinancialInformation.selectButton")}
                 variant="small"

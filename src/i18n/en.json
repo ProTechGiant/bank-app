@@ -700,8 +700,10 @@
       "selectButton": "Select",
       "cancelButton": "Cancel",
       "selectAnAmount": "Select the amount",
-      "inputSourceOfIncomePlaceholder": "Select at least one option",
       "optional": "Optional",
+      "inputOccupationPlaceholder": "select your occupation",
+      "inputSourceOfIncomePlaceholder": "Select your source of income",
+      "inputAccountPurposePlaceholder": "Select your option",
       "validation": {
         "requiredMonthlyLimits": "Expected amount required",
         "requiredSourceOfIncome": "Source of income required",
@@ -782,7 +784,7 @@
       "taskCount_one": "{{count}} task ",
       "taskCount_other": "{{count}} tasks ",
       "leftToComplete": "left to complete",
-      "updating":"Updating ..."
+      "updating": "Updating ..."
     },
     "HomepageReorderModal": {
       "cancel": "CANCEL",
