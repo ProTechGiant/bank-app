@@ -14,11 +14,12 @@ export interface BillHistorySectionList {
 }
 
 export interface BillDetail {
-  category: string | undefined;
-  billIssuer: string | undefined;
-  accountNumber: string | undefined;
-  description: string | undefined;
-  otherBillAmount: string | undefined;
+  category: string;
+  billIssuer: string;
+  accountNumber: string;
+  description: string;
+  otherBillAmount: string;
+  billID: string;
 }
 
 export type NavigationType = "saveBill" | "payBill" | "oneTimePayment" | undefined;
