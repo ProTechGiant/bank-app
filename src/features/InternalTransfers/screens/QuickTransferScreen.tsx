@@ -14,6 +14,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
@@ -23,7 +24,6 @@ import { formatCurrency } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { TransferAmountInput, TransferErrorBox, TransferLimitsModal, TransferReasonInput } from "../components";
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
 import { TransferType, TransferTypeCode } from "../types";
 

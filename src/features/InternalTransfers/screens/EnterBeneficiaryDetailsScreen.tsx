@@ -11,6 +11,7 @@ import Page from "@/components/Page";
 import Pill from "@/components/Pill";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -22,7 +23,6 @@ import {
   EnterBeneficiaryByMobileForm,
   SwitchToARBModal,
 } from "../components";
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useAddBeneficiary } from "../hooks/query-hooks";
 import { AddBeneficiary, TransferType } from "../types";
 

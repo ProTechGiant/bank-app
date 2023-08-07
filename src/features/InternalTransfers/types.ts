@@ -1,3 +1,8 @@
+import { AddBeneficiarySelectionType, TransferType } from "@/types/InternalTransfer";
+
+export type { AddBeneficiarySelectionType, InternalTransferEntryPoint, RecipientType } from "@/types/InternalTransfer";
+export { TransferType } from "@/types/InternalTransfer";
+
 export interface TransferReason {
   Code: string;
   Description: string;
@@ -24,17 +29,10 @@ export interface Note {
   attachment: string;
 }
 
-export type InternalTransferEntryPoint = "homepage" | "payment-hub";
-
-export type RecipientType = "new" | "active" | "inactive" | undefined;
-
 export interface AddNoteParams {
   updateNote: (note: Note) => void;
   note: Note;
 }
-
-export type AddBeneficiarySelectionType = "mobileNo" | "accountId" | "IBAN" | "email" | "nationalId";
-
 export interface AddBeneficiary {
   SelectionType: AddBeneficiarySelectionType;
   SelectionValue: string;
@@ -81,13 +79,6 @@ export enum TransferTypeCode {
   LocalTransferIPS = "110",
   LocalTransferSarie = "120",
   InternalTransferAlrajhi = "130",
-}
-
-export enum TransferType {
-  InternalTransferAction = "INTERNAL_TRANSFER_ACTION",
-  IpsTransferAction = "IPS_TRANSFER_ACTION",
-  SarieTransferAction = "SARIE_TRANSFER_ACTION",
-  CroatiaToArbTransferAction = "CROATIA_TO_ARB_TRANSFER_ACTION",
 }
 
 export type TransferBeneficiaryType = "INTERNAL_TRANSFER" | "IPS_SARIE_TRANSFER" | "CROATIA_TO_ARB_TRANSFER";

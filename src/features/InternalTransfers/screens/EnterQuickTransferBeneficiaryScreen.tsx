@@ -22,6 +22,7 @@ import Pill from "@/components/Pill";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { ALRAJHI_BANK_CODE } from "@/constants";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -29,7 +30,6 @@ import { ibanRegExp, ibanRegExpForARB, numericRegExp, saudiPhoneRegExp } from "@
 import delayTransition from "@/utils/delay-transition";
 
 import { SwitchToARBModal } from "../components";
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useBeneficiaryBanks, useValidateQuickTransferBeneficiary } from "../hooks/query-hooks";
 import { TransferType } from "../types";
 

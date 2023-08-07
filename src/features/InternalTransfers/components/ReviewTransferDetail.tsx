@@ -4,9 +4,9 @@ import { I18nManager, Pressable, StyleSheet, TextStyle, View, ViewStyle } from "
 
 import { ChevronRightIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useThemeStyles } from "@/theme";
 
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { Note, TransferAccount, TransferType } from "../types";
 
 interface ReviewTransferDetailProps {

@@ -11,6 +11,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
@@ -19,7 +20,6 @@ import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useLocalTransfer, useTransferFees, useTransferReasonsByCode } from "../hooks/query-hooks";
 import { LocalTransfer, TransferType, TransferTypeCode } from "../types";
 

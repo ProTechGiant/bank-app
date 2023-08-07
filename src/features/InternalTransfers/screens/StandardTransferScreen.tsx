@@ -15,6 +15,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
@@ -25,7 +26,6 @@ import delayTransition from "@/utils/delay-transition";
 import { TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
 import TransferLimitsModal from "../components/TransferLimitsModal";
 import WarningBanner from "../components/WarningBanner";
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
 import { TransferType, TransferTypeCode } from "../types";
 

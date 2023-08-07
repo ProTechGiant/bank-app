@@ -17,12 +17,12 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { ibanRegExpForARB } from "@/utils";
 
 import { SwitchToARBModal } from "../components";
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useAddBeneficiaryLocalTranfer, useBankDetailWithIBAN, useBeneficiaryBanks } from "../hooks/query-hooks";
 import { TransferType } from "../types";
 

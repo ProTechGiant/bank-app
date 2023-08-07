@@ -4,9 +4,8 @@ import {
   AddBeneficiarySelectionType,
   InternalTransferEntryPoint,
   RecipientType,
-  TransferStatus,
   TransferType,
-} from "../types";
+} from "@/types/InternalTransfer";
 
 function noop() {
   return;

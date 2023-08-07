@@ -12,6 +12,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -19,7 +20,6 @@ import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 
 import { TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useTransferReasons } from "../hooks/query-hooks";
 import { TransferType } from "../types";
 

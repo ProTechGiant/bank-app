@@ -7,17 +7,16 @@ import { LocalTransferIcon, SadadBillPaymentIcon, SearchIcon, TransferHorizontal
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import SelectTransferTypeModal from "@/components/SelectTransferTypeModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
-import delayTransition from "@/utils/delay-transition";
 
-import { PaymentOption, SelectTransferTypeModal } from "../components";
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
-import { useQuickTransferAccounts } from "../hooks/query-hooks";
+import { PaymentOption } from "../components";
 import { TransferType } from "../types";
 
 export default function PaymentsHubScreen() {
@@ -26,7 +25,6 @@ export default function PaymentsHubScreen() {
   const { setInternalTransferEntryPoint, clearContext, setTransferType } = useInternalTransferContext();
 
   const account = useCurrentAccount();
-  const isActivatedQuickTransfer = useQuickTransferAccounts();
 
   const [isSelectTransferTypeVisible, setIsSelectTransferTypeVisible] = useState(false);
   const [isSelectInternalTransferTypeVisible, setIsSelectInternalTransferTypeVisible] = useState(false);
@@ -44,20 +42,6 @@ export default function PaymentsHubScreen() {
     });
   };
 
-  const handleOnQuickTransferPress = () => {
-    setIsSelectTransferTypeVisible(false);
-
-    if (isActivatedQuickTransfer?.status === "error") {
-      setIsErrorModalVisible(true);
-    } else if (isActivatedQuickTransfer?.data?.CustomerTermsConditionsFlag === "0") {
-      delayTransition(() => {
-        navigation.navigate("InternalTransfers.TermsAndConditionsModal");
-      });
-    } else if (isActivatedQuickTransfer?.data?.CustomerTermsConditionsFlag === "1") {
-      navigation.navigate("InternalTransfers.QuickTransferScreen");
-    }
-  };
-
   const handleOnCroatiaTransferPress = () => {
     setIsSelectInternalTransferTypeVisible(false);
     setTransferType(TransferType.InternalTransferAction);
@@ -68,12 +52,6 @@ export default function PaymentsHubScreen() {
     setIsSelectInternalTransferTypeVisible(false);
     setTransferType(TransferType.CroatiaToArbTransferAction);
     navigation.navigate("InternalTransfers.InternalTransferScreen");
-  };
-
-  const handleStandardTransferPress = () => {
-    setIsSelectTransferTypeVisible(false);
-    setInternalTransferEntryPoint("payment-hub");
-    navigation.navigate("InternalTransfers.StandardTransferScreen");
   };
 
   const headerBackground = useThemeStyles<ViewStyle>(theme => ({
@@ -172,8 +150,8 @@ export default function PaymentsHubScreen() {
         <SelectTransferTypeModal
           isVisible={isSelectTransferTypeVisible}
           onClose={() => setIsSelectTransferTypeVisible(false)}
-          onQuickTransferPress={handleOnQuickTransferPress}
-          onStandardTransferPress={handleStandardTransferPress}
+          setIsErrorModalVisible={setIsErrorModalVisible}
+          entryPoint="payment-hub"
         />
         {isSelectInternalTransferTypeVisible ? (
           <InternalTransferTypeModal

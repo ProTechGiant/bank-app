@@ -9,6 +9,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCurrentAccount, useInvalidateBalances } from "@/hooks/use-accounts";
 import { warn } from "@/logger";
@@ -16,7 +17,6 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { ReviewTransferDetail } from "../components";
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useInternalTransfer, useInternalTransferCroatiaToARB, useTransferReasonsByCode } from "../hooks/query-hooks";
 import { InternalTransfer, InternalTransferToARBRequest, Note, TransferType } from "../types";
 

@@ -13,12 +13,12 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { BeneficiaryList, BeneficiaryOptionsModal } from "../components";
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useBeneficiaries, useBeneficiaryBanks, useDeleteBeneficiary } from "../hooks/query-hooks";
 import { BeneficiaryType, RecipientType, TransferType } from "../types";
 

@@ -9,6 +9,7 @@ import TextInput from "@/components/Form/TextInput";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import useAppsFlyer from "@/hooks/use-appsflyer";
 import useOpenLink from "@/hooks/use-open-link";
 import reloadApp from "@/i18n/reload-app";
@@ -17,7 +18,6 @@ import useNavigation from "@/navigation/use-navigation";
 import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import useNotificationHandler from "../../hooks/use-notification-handler";
-import { useInternalTransferContext } from "../InternalTransfers/context/InternalTransfersContext";
 import useSavingsGoalNumber from "./use-savings-goal-number";
 
 interface TemporaryForm {

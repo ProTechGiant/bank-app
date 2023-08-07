@@ -9,11 +9,11 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { TransferType } from "../types";
 
 export default function ConfirmationScreen() {

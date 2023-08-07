@@ -136,7 +136,8 @@ export default function QuickActionsReordererModal() {
               end={
                 <Pressable
                   accessibilityState={{ disabled: numberOfActiveItems !== REQUIRED_ACTIVE_ITEMS }}
-                  onPress={handleOnSavePress}>
+                  onPress={handleOnSavePress}
+                  disabled={numberOfActiveItems !== REQUIRED_ACTIVE_ITEMS}>
                   <Typography.Text
                     color={numberOfActiveItems === REQUIRED_ACTIVE_ITEMS ? "primaryBase-40" : "neutralBase-20"}>
                     {t("saveButton")}

@@ -16,12 +16,12 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatIban } from "@/utils";
 
 import { ConfirmBeneficiaryListCard } from "../components";
-import { useInternalTransferContext } from "../context/InternalTransfersContext";
 import { useBeneficiaryBanks } from "../hooks/query-hooks";
 import { TransferType } from "../types";
 
