@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ViewStyle } from "react-native/types";
+import { ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
@@ -48,13 +48,21 @@ export default function BillDetailsScreen() {
     navigation.navigate("SadadBillPayments.EnterBillAmountScreen");
   };
 
+  const handleOnEditDescriptionPress = () => {
+    const { billDescription, billId } = billDetailsMock;
+    navigation.navigate("SadadBillPayments.EditBillDescriptionScreen", {
+      billDescription: billDescription,
+      billId: billId,
+    });
+  };
+
   return (
     <SafeAreaProvider>
       <Page>
         <NavHeader title={billDetailsMock.billDescription} />
         <ContentContainer>
           <Stack direction="vertical" justify="space-between" flex={1}>
-            <BillDetailsView {...billDetailsMock} />
+            <BillDetailsView onEditBillDescription={handleOnEditDescriptionPress} {...billDetailsMock} />
             <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
               <Button
                 onPress={() => handleOnPayBillPress()}

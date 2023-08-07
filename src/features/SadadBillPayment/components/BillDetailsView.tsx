@@ -6,7 +6,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import { EditIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 interface BillDetailsViewProp {
@@ -19,7 +18,7 @@ interface BillDetailsViewProp {
   billAmountCurrency: string;
   referenceNumber?: string;
   paidAmount?: number;
-  isHistory?: boolean;
+  onEditBillDescription?: () => void; //setting this optional because this component is being used at other screens too
 }
 
 export default function BillDetailsView({
@@ -32,16 +31,11 @@ export default function BillDetailsView({
   billAmountCurrency,
   referenceNumber,
   paidAmount,
-  isHistory = false,
+  onEditBillDescription,
 }: BillDetailsViewProp) {
   const { t } = useTranslation();
-  const navigation = useNavigation();
 
   const editIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
-
-  const handleOnEditDescriptionPress = () => {
-    navigation.navigate("SadadBillPayments.EditBillDescriptionScreen");
-  };
 
   return (
     <ScrollView style={styles.container}>
@@ -55,8 +49,8 @@ export default function BillDetailsView({
               {billDescription}
             </Typography.Text>
           </View>
-          {!isHistory ? (
-            <Pressable style={styles.editIconContainer} onPress={handleOnEditDescriptionPress}>
+          {onEditBillDescription !== undefined ? (
+            <Pressable style={styles.editIconContainer} onPress={onEditBillDescription}>
               <EditIcon color={editIconColor} />
             </Pressable>
           ) : null}

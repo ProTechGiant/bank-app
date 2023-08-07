@@ -1,8 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as Yup from "yup";
 
@@ -13,7 +14,11 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
+
+import { useEditBillDescription } from "../hooks/query-hooks";
+import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 
 interface BillDescriptionInput {
   BillDescription: string;
@@ -22,25 +27,35 @@ interface BillDescriptionInput {
 export default function EditBillDescriptionScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.EditBillDescriptionScreen">>();
+  const { mutateAsync } = useEditBillDescription();
 
   const validationSchema = useMemo(
     () =>
       Yup.object({
-        BillDescription: Yup.string().required(t("InternalTransfers.AddNoteScreen.required")),
+        BillDescription: Yup.string().required(t("SadadBillPayments.EditBillDescriptionScreen.required")),
       }),
     [t]
   );
 
   const handleOnSubmit = async (_values: BillDescriptionInput) => {
-    //TODO: add API call here to update the bill description
-    Alert.alert("API not integerated yet.");
+    const { billId } = route.params;
+    try {
+      await mutateAsync({
+        billId: billId,
+        billDescription: _values.BillDescription,
+      });
+      navigation.goBack();
+    } catch (err) {
+      warn("SadadBill", "Could not update bill description: ", JSON.stringify(err));
+    }
   };
 
   const { control, handleSubmit } = useForm<BillDescriptionInput>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      BillDescription: "",
+      BillDescription: route.params.billDescription,
     },
   });
 

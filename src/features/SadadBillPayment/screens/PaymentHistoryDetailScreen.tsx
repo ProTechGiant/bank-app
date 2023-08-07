@@ -55,7 +55,6 @@ export default function PaymentHistoryDetailScreen() {
               dueDate={paymentHistoryDetailMock.billDate}
               billingAccount={paymentHistoryDetailMock.accountNumber}
               billerID={paymentHistoryDetailMock.billNumber}
-              isHistory={true}
             />
             <Stack align="stretch" direction="vertical" style={buttonsContainerStyle}>
               <Button variant="primary" iconLeft={<ShareIcon />} onPress={handleOnSharePress}>

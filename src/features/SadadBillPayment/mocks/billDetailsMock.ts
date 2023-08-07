@@ -1,4 +1,5 @@
 export const billDetailsMock = {
+  billId: "8e2cc876", //TODO: to check if this will be the billId or billerId will be used
   serviceType: "Saudi telecom",
   billerID: "003",
   exactPaymentRequired: false,
