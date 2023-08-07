@@ -701,6 +701,7 @@
       "cancelButton": "Cancel",
       "selectAnAmount": "Select the amount",
       "inputSourceOfIncomePlaceholder": "Select at least one option",
+      "optional": "Optional",
       "validation": {
         "requiredMonthlyLimits": "Expected amount required",
         "requiredSourceOfIncome": "Source of income required",

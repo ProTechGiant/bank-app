@@ -708,6 +708,25 @@
       "EN": "English",
       "AR": "العربيه"
     },
+    "FinancialInformation": {
+      "title": "Financial Information",
+      "subTitle": "Financial Details",
+      "occupation": "What’s your occupation?",
+      "useCroatia": "How will you use Croatia?",
+      "sourceOfIncome": "What’s your main source of income?",
+      "spendEachMonth": "After bills and expenses, how much do you have left to spend each month?",
+      "saveButton": "Save Change",
+      "selectButton": "Select",
+      "cancelButton": "Cancel",
+      "selectAnAmount": "Select the amount",
+      "inputSourceOfIncomePlaceholder": "Select at least one option",
+      "optional": "Optional",
+      "validation": {
+        "requiredMonthlyLimits": "Expected amount required",
+        "requiredSourceOfIncome": "Source of income required",
+        "requiredAccountPurpose": "Source of income required"
+      }
+    },
     "reloadAppMessage": "يجب اعاده تشغيل التطبيق للاستمرار",
     "okButtonMessage": "موافق"
   },
@@ -727,11 +746,11 @@
       "totalbalance": "Total balance",
       "account": "Account    ",
       "mainCroatiaAccount": "Main Croatia account",
-      "taskCount_one":  "{{count}} مهمة ",
+      "taskCount_one": "{{count}} مهمة ",
       "taskCount_two": "مهمتان",
       "taskCount_other": "{{count}} مهمات ",
       "leftToComplete": "لم تكتمل بعد",
-      "updating":"جار التحديث ..."
+      "updating": "جار التحديث ..."
     }
   },
   "InstructionsScreen": {

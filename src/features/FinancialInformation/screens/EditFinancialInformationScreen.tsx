@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import * as yup from "yup";
 
@@ -101,6 +101,11 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
     paddingVertical: theme.spacing["4p"],
   }));
 
+  const optionalTextStyle = useThemeStyles<TextStyle>(theme => ({
+    paddingHorizontal: theme.spacing["12p"],
+    paddingTop: theme.spacing["4p"],
+  }));
+
   return (
     <Page insets={["left", "right", "bottom"]}>
       <View style={headerStyle}>
@@ -128,6 +133,10 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
                 variant="small"
                 autoselect
               />
+
+              <Typography.Text color="neutralBase" size="caption1" weight="regular" style={optionalTextStyle}>
+                {t("Settings.FinancialInformation.optional")}
+              </Typography.Text>
             </View>
             <View style={dropDownContainerStyle}>
               <DropdownInput
