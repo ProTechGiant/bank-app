@@ -31,7 +31,7 @@ export default function Toast({ onClose, icon, variant = "confirm", message, tes
     shadowOpacity: 0.16,
     shadowRadius: 32,
     elevation: 5,
-    backgroundColor: variant === "success" ? theme.palette.successBase : theme.palette["neutralBase-60"],
+    backgroundColor: theme.palette["neutralBase-60"],
     borderRadius: theme.radii.medium,
     borderColor: theme.palette["neutralBase-30"],
     borderWidth: 0.5,
