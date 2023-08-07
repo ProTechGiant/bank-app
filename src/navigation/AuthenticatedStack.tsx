@@ -12,6 +12,7 @@ import NotificationManagementStack from "@/features/NotificationManagement/Notif
 import OneTimePasswordModal from "@/features/OneTimePassword/screens/OneTimePasswordModal";
 import PaymentDisputesStack from "@/features/PaymentDisputes/PaymentDisputesStack";
 import ProfileDetailsStack from "@/features/ProfileDetails/ProfileDetailsStack";
+import ProxyAliasStack from "@/features/ProxyAlias/ProxyAliasStack";
 import ReferralStack from "@/features/Referral/ReferralStack";
 import InstructionsScreen from "@/features/Referral/screens/InstructionsScreen";
 import TermsAndConditionsScreen from "@/features/Referral/screens/TermsAndConditionsScreen";
@@ -87,6 +88,7 @@ export const AuthenticatedScreens = () => {
         component={FrequentlyAskedQuestionsStack}
         name="FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack"
       />
+      <AuthStack.Screen component={ProxyAliasStack} name="ProxyAlias.ProxyAliasStack" />
     </AuthStack.Navigator>
   );
 };

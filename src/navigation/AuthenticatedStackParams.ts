@@ -20,6 +20,7 @@ import { SignInStackParams } from "../features/SignIn/SignInStack";
 import OneTimePasswordModalParams from "./one-time-password-modal-params";
 
 type RootStackParams = {
+  "ProxyAlias.ProxyAliasStack": undefined;
   "TopSpending.TopSpendingStack":
     | {
         screen: keyof TopSpendingStackParams;

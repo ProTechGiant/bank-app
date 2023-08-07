@@ -154,6 +154,14 @@ export default function TemporaryLandingScreen() {
     });
   };
 
+  const handleOnProxyAlias = async (values: TemporaryForm) => {
+    auth.authenticate(values.UserId);
+    setImmediate(() => {
+      navigation.navigate("ProxyAlias.ProxyAliasStack", {
+        screen: "ProxyAlias.AliasManagementScreen",
+      });
+    });
+  };
   const handleOnPressPaymentDisputesLanding = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     setImmediate(() => {
@@ -197,6 +205,9 @@ export default function TemporaryLandingScreen() {
             variant="simple"
           />
         </Stack>
+        <View style={styles.margin20}>
+          <Button onPress={handleSubmit(handleOnProxyAlias)}>Proxy Alias Landing</Button>
+        </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnTopSpendingInsights)}>Top Spending</Button>
         </View>
