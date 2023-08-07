@@ -80,7 +80,7 @@ export default function DashboardScreen() {
         </View>
         <BalanceCard
           balance={account.data?.balance}
-          accountNumber={account.data?.iban}
+          accountNumber={account.data?.id}
           currency={account.data?.currencyType}
         />
         <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16}>

@@ -44,8 +44,8 @@ export default function TasksPreviewer({ tasks }: TasksPreviewerProps) {
       targetScreenMappedValue = "Settings.SettingsStack/Settings.LifeStyleScreen";
     } else if (targetScreen === "redirectdestinationlink/accounttopup") {
       targetScreenMappedValue = "AddMoney.AddMoneyStack/AddMoney.AddMoneyInfoScreen";
-    } else {
-      // TODO
+    } else if (targetScreen === "redirectdestinationlink/cardelevatelife") {
+      targetScreenMappedValue = "CardActions.CardActionsStack/CardActions.HomeScreen";
     }
 
     const [stack, screen] = targetScreenMappedValue.split("/");

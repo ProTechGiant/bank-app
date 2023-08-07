@@ -746,7 +746,7 @@
       "totalbalance": "Total balance",
       "account": "Account    ",
       "mainCroatiaAccount": "Main Croatia account",
-      "taskCount_one": "{{count}} مهمة ",
+      "taskCount_one": "مهمه واحده ",
       "taskCount_two": "مهمتان",
       "taskCount_other": "{{count}} مهمات ",
       "leftToComplete": "لم تكتمل بعد",
