@@ -14,6 +14,7 @@ interface SadadBillPaymentContextState {
     billIssuer?: string;
     accountNumber?: string;
     description?: string;
+    otherBillAmount?: string;
   }) => void;
   billDetails: BillDetail;
   clearContext: () => void;
@@ -29,6 +30,7 @@ const SadadBillPaymentContext = createContext<SadadBillPaymentContextState>({
     billIssuer: undefined,
     accountNumber: undefined,
     description: undefined,
+    otherBillAmount: undefined,
   },
 });
 
@@ -39,6 +41,7 @@ const INITIAL_STATE = {
     billIssuer: undefined,
     accountNumber: undefined,
     description: undefined,
+    otherBillAmount: undefined,
   },
 };
 

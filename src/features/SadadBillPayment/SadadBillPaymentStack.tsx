@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { SadadBillPaymentContextProvider } from "./context/SadadBillPaymentContext";
 import {
+  BillAmountDescriptionScreen,
   BillDescriptionScreen,
   BillDetailsScreen,
   BillPaymentHistoryScreen,
@@ -12,11 +13,11 @@ import {
   EnterAccountNoScreen,
   EnterBillAmountScreen,
   EnterBillDescriptionScreen,
+  PaymentHistoryDetailScreen,
   SaveBillsScreen,
   SelectBillerCategoryScreen,
   SelectBillerScreen,
 } from "./screens";
-import PaymentHistoryDetailScreen from "./screens/PaymentHistoryDetailScreen";
 
 export type SadadBillPaymentStackParams = {
   "SadadBillPayments.BillPaymentHomeScreen": undefined;
@@ -34,6 +35,7 @@ export type SadadBillPaymentStackParams = {
   "SadadBillPayments.EditBillDescriptionModalScreen": undefined;
   "SadadBillPayments.BillPaymentHistoryScreen": undefined;
   "SadadBillPayments.PaymentHistoryDetailScreen": undefined;
+  "SadadBillPayments.BillAmountDescriptionScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<SadadBillPaymentStackParams>();
@@ -80,6 +82,7 @@ export default function SadadBillPaymentStack() {
           options={{ presentation: "modal" }}
         />
         <Stack.Screen component={BillPaymentHistoryScreen} name="SadadBillPayments.BillPaymentHistoryScreen" />
+        <Stack.Screen component={BillAmountDescriptionScreen} name="SadadBillPayments.BillAmountDescriptionScreen" />
       </Stack.Navigator>
     </SadadBillPaymentContextProvider>
   );

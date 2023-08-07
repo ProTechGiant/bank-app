@@ -9,13 +9,17 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { BillDetailsView } from "../components";
+import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { billDetailsMock } from "../mocks/billDetailsMock";
 
 export default function BillDetailsScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
+  const { setNavigationType } = useSadadBillPaymentContext();
 
   const [isConfirmDeleteModalVisible, setIsConfirmDeleteModalVisible] = useState(false);
   const [isDeleteSuccessModalVisible, setIsDeleteSuccessModalVisible] = useState(false);
@@ -38,6 +42,12 @@ export default function BillDetailsScreen() {
     }
   };
 
+  const handleOnPayBillPress = () => {
+    navigation.goBack();
+    setNavigationType("payBill");
+    navigation.navigate("SadadBillPayments.EnterBillAmountScreen");
+  };
+
   return (
     <SafeAreaProvider>
       <Page>
@@ -46,7 +56,10 @@ export default function BillDetailsScreen() {
           <Stack direction="vertical" justify="space-between" flex={1}>
             <BillDetailsView {...billDetailsMock} />
             <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
-              <Button variant="primary" disabled={billDetailsMock.paidAmount >= billDetailsMock.billAmount}>
+              <Button
+                onPress={() => handleOnPayBillPress()}
+                variant="primary"
+                disabled={billDetailsMock.paidAmount >= billDetailsMock.billAmount}>
                 {t("SadadBillPayments.BillDetailsScreen.payBillButton")}
               </Button>
               <Button variant="tertiary" onPress={() => setIsConfirmDeleteModalVisible(true)}>

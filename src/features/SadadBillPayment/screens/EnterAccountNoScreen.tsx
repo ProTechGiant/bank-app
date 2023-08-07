@@ -17,7 +17,7 @@ export default function EnterAccountNoScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { billDetails, setBillDetails } = useSadadBillPaymentContext();
+  const { billDetails, setBillDetails, navigationType } = useSadadBillPaymentContext();
 
   const [accountNumber, setAccountNumber] = useState<string>("");
 
@@ -45,7 +45,11 @@ export default function EnterAccountNoScreen() {
     <Page backgroundColor="neutralBase-60">
       <NavHeader
         end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
-        title={t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")}
+        title={
+          navigationType === "oneTimePayment"
+            ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
+            : t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")
+        }
         subTitle={billDetails.billIssuer}
       />
       <ContentContainer style={mainContainerStyle}>

@@ -1,3 +1,4 @@
+export { default as BillAmountDescriptionScreen } from "./BillAmountDescriptionScreen";
 export { default as BillDescriptionScreen } from "./BillDescriptionScreen";
 export { default as BillDetailsScreen } from "./BillDetailsScreen";
 export { default as BillPaymentHistoryScreen } from "./BillPaymentHistoryScreen";
@@ -8,6 +9,7 @@ export { default as EditBillDescriptionScreen } from "./EditBillDescriptionScree
 export { default as EnterAccountNoScreen } from "./EnterAccountNoScreen";
 export { default as EnterBillAmountScreen } from "./EnterBillAmountScreen";
 export { default as EnterBillDescriptionScreen } from "./EnterBillDescriptionScreen";
+export { default as PaymentHistoryDetailScreen } from "./PaymentHistoryDetailScreen";
 export { default as SaveBillsScreen } from "./SaveBillsScreen";
 export { default as SelectBillerCategoryScreen } from "./SelectBillerCategoryScreen";
 export { default as SelectBillerScreen } from "./SelectBillerScreen";

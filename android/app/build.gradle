@@ -146,14 +146,8 @@ android {
       resValue "string", "app_name", "Croatia"
       applicationId "com.croatiamobileapp"
     }
-    // sit, accept & develop flavors use buildConfigFields from defaultConfig
-    sit {
-      resValue "string", "app_name", "Croatia SIT"
-      applicationId "com.croatiamobileapp.sit"
-      versionNameSuffix "-SIT"
-    }
-    // appended with a "_" or else error: ProductFlavor names cannot start with 'test'
-    _test {
+    // accept & develop flavors use buildConfigFields from defaultConfig
+    accept {
       resValue "string", "app_name", "Croatia TEST"
       applicationId "com.croatiamobileapp.test"
       versionNameSuffix "-TEST"

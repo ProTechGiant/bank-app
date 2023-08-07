@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { ViewStyle } from "react-native/types";
@@ -17,15 +17,30 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { PayBillRadioButton } from "../components";
+import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 
 export default function EnterBillAmountScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const [selectedCurrentBill, setSelectedCurrentBill] = useState(false);
+  const { navigationType, setBillDetails, billDetails } = useSadadBillPaymentContext();
+
+  const [selectedCurrentBill, setSelectedCurrentBill] = useState(true);
   const [OtherBillAmountToPay, setOtherBillAmountToPay] = useState<string>("");
+
+  useEffect(() => {
+    if (billDetails.otherBillAmount) {
+      setSelectedCurrentBill(false);
+      setOtherBillAmountToPay(billDetails.otherBillAmount);
+    }
+  }, [billDetails.otherBillAmount]);
 
   const handleLinkPress = () => {
     //TODO link press will be implemnted in upcoming story
+  };
+  const handleContinuePress = () => {
+    setBillDetails({ ...billDetails, otherBillAmount: selectedCurrentBill ? undefined : OtherBillAmountToPay });
+    navigation.goBack();
+    navigation.navigate("SadadBillPayments.BillAmountDescriptionScreen");
   };
 
   const limitsContainerStyle = useThemeStyles(theme => ({
@@ -47,8 +62,16 @@ export default function EnterBillAmountScreen() {
 
   return (
     <SafeAreaProvider>
-      <Page>
-        <NavHeader title={t("SadadBillPayments.EnterBillAmountScreen.navTitle")} />
+      <Page backgroundColor="neutralBase-60">
+        <NavHeader
+          withBackButton={false}
+          end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
+          title={
+            navigationType === "oneTimePayment"
+              ? t("SadadBillPayments.EnterBillAmountScreen.oneTimePaymentTitle")
+              : t("SadadBillPayments.EnterBillAmountScreen.payBillTitle")
+          }
+        />
         <ContentContainer style={mainContainerStyle}>
           <Typography.Text color="neutralBase+30" weight="medium" size="title1">
             {t("SadadBillPayments.EnterBillAmountScreen.specifyBillAmount")}
@@ -99,7 +122,7 @@ export default function EnterBillAmountScreen() {
               </RightIconLink>
             </View>
             <Button
-              onPress={() => navigation.navigate("SadadBillPayments.BillSavedSuccessScreen")}
+              onPress={() => handleContinuePress()}
               variant="primary"
               disabled={
                 !selectedCurrentBill &&

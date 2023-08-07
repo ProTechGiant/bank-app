@@ -19,7 +19,7 @@ export default function SelectBillerCategoryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { setBillDetails } = useSadadBillPaymentContext();
+  const { setBillDetails, navigationType } = useSadadBillPaymentContext();
 
   const searchInputRef = useRef<TextInput>(null);
   const [billers, setBillers] = useState(MockBillerCategory);
@@ -56,7 +56,9 @@ export default function SelectBillerCategoryScreen() {
       <NavHeader end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
       <ContentContainer style={mainContainerStyle}>
         <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-          {t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")}
+          {navigationType === "oneTimePayment"
+            ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
+            : t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")}
         </Typography.Text>
         <Typography.Text size="callout" color="neutralBase+10" weight="regular">
           {t("SadadBillPayments.SelectBillerCategoryScreen.selectBillerCategoryText")}

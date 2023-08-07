@@ -15,29 +15,24 @@ import { useThemeStyles } from "@/theme";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { billDetailsMock } from "../mocks/billDetailsMock";
 
-export default function BillDescriptionScreen() {
+export default function BillAmountDescriptionScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
   const { navigationType, billDetails } = useSadadBillPaymentContext();
 
-  const handleOnDescriptionEditPress = () => {
-    navigation.navigate("SadadBillPayments.EditBillDescriptionModalScreen");
+  const handleOnAmountEditPress = () => {
+    navigation.navigate("SadadBillPayments.EnterBillAmountScreen");
   };
 
-  const handleOnAddBill = () => {
-    if (navigationType === "oneTimePayment") {
-      navigation.navigate("SadadBillPayments.EnterBillAmountScreen");
-    } else {
-      navigation.navigate("SadadBillPayments.BillSavedSuccessScreen");
-    }
+  const handleOnAddBillPress = () => {
+    navigation.navigate("SadadBillPayments.BillSavedSuccessScreen");
   };
 
-  const handleOnCancel = () => {
+  const handleOnCancelPress = () => {
     navigation.navigate("SadadBillPayments.BillPaymentHomeScreen");
   };
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginVertical: theme.spacing["24p"],
     marginBottom: theme.spacing["8p"],
     flex: 1,
   }));
@@ -57,21 +52,6 @@ export default function BillDescriptionScreen() {
         subTitle={billDetails.billIssuer}
       />
       <ContentContainer style={mainContainerStyle}>
-        <Stack direction="vertical">
-          <Typography.Text color="neutralBase+10" size="callout" weight="regular">
-            {t("SadadBillPayments.BillDescriptionScreen.billDescriptionText")}
-          </Typography.Text>
-          <Stack direction="horizontal" justify="space-between" align="center">
-            <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-              {billDetails.description}
-            </Typography.Text>
-            <View style={styles.editIconView}>
-              <Pressable onPress={handleOnDescriptionEditPress}>
-                <EditIcon color={editIconColor} />
-              </Pressable>
-            </View>
-          </Stack>
-        </Stack>
         <View style={mainContainerStyle}>
           <Stack direction="vertical" gap="20p" align="stretch">
             <Stack direction="horizontal" align="center" justify="space-between">
@@ -87,6 +67,18 @@ export default function BillDescriptionScreen() {
                 <Image source={require("../assets/images/stc-logo.png")} />
               </View>
             </Stack>
+
+            {navigationType !== "payBill" ? (
+              <Stack direction="vertical">
+                <Typography.Text color="neutralBase+10" size="callout" weight="regular">
+                  {t("SadadBillPayments.BillDescriptionScreen.billDescriptionText")}
+                </Typography.Text>
+                <Typography.Text weight="regular" size="body">
+                  {billDetails.description}
+                </Typography.Text>
+              </Stack>
+            ) : null}
+
             <View>
               <Typography.Text color="neutralBase" weight="medium" size="callout">
                 {t("SadadBillPayments.BillDetailsScreen.billAmount")}
@@ -96,6 +88,24 @@ export default function BillDescriptionScreen() {
                 <Typography.Text size="footnote"> {billDetailsMock.billAmountCurrency}</Typography.Text>
               </Typography.Text>
             </View>
+
+            {billDetails.otherBillAmount !== undefined ? (
+              <Stack direction="vertical">
+                <Typography.Text color="neutralBase+10" size="callout" weight="regular">
+                  {t("SadadBillPayments.BillDescriptionScreen.YouArePayingText")}
+                </Typography.Text>
+                <Stack direction="horizontal" justify="space-between" align="center">
+                  <Typography.Text color="neutralBase+30" size="title1" weight="medium">
+                    {billDetails.otherBillAmount}
+                  </Typography.Text>
+                  <View style={styles.editIconView}>
+                    <Pressable onPress={handleOnAmountEditPress}>
+                      <EditIcon color={editIconColor} />
+                    </Pressable>
+                  </View>
+                </Stack>
+              </Stack>
+            ) : null}
             <View>
               <Typography.Text color="neutralBase" weight="medium" size="callout">
                 {t("SadadBillPayments.BillDetailsScreen.currentDueDate")}
@@ -122,13 +132,9 @@ export default function BillDescriptionScreen() {
             </View>
           </Stack>
         </View>
-        <Button onPress={handleOnAddBill}>
-          {navigationType === "payBill"
-            ? t("SadadBillPayments.BillDescriptionScreen.payBillText")
-            : t("SadadBillPayments.BillDescriptionScreen.buttonText")}
-        </Button>
+        <Button onPress={handleOnAddBillPress}>{t("SadadBillPayments.BillDescriptionScreen.payBillText")}</Button>
         {navigationType === "payBill" ? (
-          <Button variant="tertiary" onPress={handleOnCancel}>
+          <Button variant="tertiary" onPress={handleOnCancelPress}>
             {t("SadadBillPayments.BillDescriptionScreen.cancelText")}
           </Button>
         ) : null}

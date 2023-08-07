@@ -18,6 +18,7 @@ export interface BillDetail {
   billIssuer: string | undefined;
   accountNumber: string | undefined;
   description: string | undefined;
+  otherBillAmount: string | undefined;
 }
 
 export type NavigationType = "saveBill" | "payBill" | "oneTimePayment" | undefined;

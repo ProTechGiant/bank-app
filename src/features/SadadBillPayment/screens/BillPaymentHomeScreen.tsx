@@ -23,16 +23,18 @@ export default function BillPaymentHomeScreen() {
   const numberOfBills = MockBillDetails.length;
   //TODO MockBillDetails should be replaced with an API call.
 
-  const { setNavigationType } = useSadadBillPaymentContext();
+  const { setNavigationType, clearContext } = useSadadBillPaymentContext();
 
   const [currentTab, setCurrentTab] = useState<"paymentDue" | "savedBills">("paymentDue");
 
   const handleOnAddBillPress = () => {
+    clearContext();
     setNavigationType("saveBill");
     navigation.navigate("SadadBillPayments.SelectBillerCategoryScreen");
   };
 
   const handleOnOneTimePaymentPress = () => {
+    clearContext();
     setNavigationType("oneTimePayment");
     navigation.navigate("SadadBillPayments.SelectBillerCategoryScreen");
   };
@@ -46,14 +48,15 @@ export default function BillPaymentHomeScreen() {
   };
 
   const handleOnViewAllPress = () => {
-    //TODO - To be implemented as part of the upcoming story
+    clearContext();
     navigation.navigate("SadadBillPayments.SaveBillsScreen", {
       navigationFlow: currentTab,
     });
   };
 
   const handleOnBiilItemPress = () => {
-    //TODO - To be implemented as part of the upcoming story
+    clearContext();
+    setNavigationType("payBill");
     navigation.navigate("SadadBillPayments.BillDetailsScreen");
   };
 

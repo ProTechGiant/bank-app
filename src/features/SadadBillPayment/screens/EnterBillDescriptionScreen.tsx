@@ -17,12 +17,12 @@ export default function EnterBillDescriptionScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { billDetails, setBillDetails } = useSadadBillPaymentContext();
+  const { billDetails, setBillDetails, navigationType } = useSadadBillPaymentContext();
 
   const [billDescription, setBillDescription] = useState<string>("");
 
   const handleOnSubmit = () => {
-    setBillDetails({ ...billDetails, description: billDescription });
+    setBillDetails({ ...billDetails, description: billDescription, otherBillAmount: undefined });
     navigation.navigate("SadadBillPayments.BillDescriptionScreen");
   };
 
@@ -45,7 +45,11 @@ export default function EnterBillDescriptionScreen() {
     <Page backgroundColor="neutralBase-60">
       <NavHeader
         end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
-        title={t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")}
+        title={
+          navigationType === "oneTimePayment"
+            ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
+            : t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")
+        }
         subTitle={billDetails.billIssuer}
       />
       <ContentContainer style={mainContainerStyle}>
