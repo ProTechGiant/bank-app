@@ -73,6 +73,7 @@ export default function ProfileDetailsScreen() {
         MobileNumber: yup
           .string()
           .required(t("ProfileDetails.ProfileDetailsScreen.phoneNumber.validation.required"))
+          .length(13, t("ProfileDetails.ProfileDetailsScreen.phoneNumber.validation.Length"))
           .matches(saudiPhoneRegExp, t("ProfileDetails.ProfileDetailsScreen.phoneNumber.validation.invalid")),
         Email: yup
           .string()

@@ -2373,8 +2373,9 @@
       "phoneNumber": {
         "label": "Phone Number",
         "validation": {
-          "required": "Phone Number Required",
-          "invalid": "Minimum 9 digits."
+          "required": "Mobile Number Required",
+          "invalid": "Mobile Number is not valid",
+          "Length": "Minimum 9 digits."
         }
       },
       "profileDetails": "Profile Details",
@@ -2385,7 +2386,7 @@
       "updateNow": "Update Now",
       "expiredDescription": "Your ID is due to expire. To prevent your account being frozen, please update your ID in Absher. Once you have done this, please revisit this page and press 'Update Now'.",
       "extraStart": "Minimum 10 characters",
-      "updateDetailsSuccessMessage": "Your information is updated, it can take up to 24 hours for this change to take effect.",
+      "updateDetailsSuccessMessage": "Email address has been updated and you can see new email address on the profile details page.",
       "updateDetailsWarningMessage": "Mobile number entered doesn't match this national ID/Iqama number. Please try again.",
       "updateIdExpirySuccessMessage": "Your details have been updated",
       "updateIdExpiryTimeoutMessage": "Due to technical issue, your ID has not been updated in Absher. Please try again.",
