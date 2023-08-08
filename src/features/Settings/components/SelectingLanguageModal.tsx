@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
@@ -14,23 +14,30 @@ interface SelectingLanguageModalProps {
   onSaveChanges: (value: string) => void;
   isVisible: boolean;
   title: string;
-  currentLang?: string;
+  selectedLanguage?: string;
+  isSaveButtonLoading: boolean;
 }
 
-export default function SelectingLanguageModal({
+const SelectingLanguageModal = ({
   onClose,
   onSaveChanges,
   isVisible,
   title,
-  currentLang,
-}: SelectingLanguageModalProps) {
+  selectedLanguage,
+  isSaveButtonLoading,
+}: SelectingLanguageModalProps) => {
   const { t } = useTranslation("translation", { keyPrefix: "Settings" });
+  const [value, setValue] = useState(selectedLanguage);
+  const isSaveChangesButtonDisabled = value === selectedLanguage;
 
-  const [value, setValue] = useState(currentLang?.toLowerCase());
-  const isSaveChangesButtonDisabled = value === currentLang;
+  useEffect(() => {
+    setValue(selectedLanguage);
+  }, [selectedLanguage, isVisible]);
 
   const handleSaveChangesPress = () => {
-    onSaveChanges(value);
+    if (value && !isSaveButtonLoading) {
+      onSaveChanges(value);
+    }
   };
 
   const modalStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -51,10 +58,12 @@ export default function SelectingLanguageModal({
         </RadioButtonGroup>
       </View>
       <View style={buttonContainerStyle}>
-        <Button onPress={handleSaveChangesPress} disabled={isSaveChangesButtonDisabled}>
+        <Button onPress={handleSaveChangesPress} loading={isSaveButtonLoading} disabled={isSaveChangesButtonDisabled}>
           {t("ChangeLanguageModal.saveChanges")}
         </Button>
       </View>
     </Modal>
   );
-}
+};
+
+export default memo(SelectingLanguageModal);

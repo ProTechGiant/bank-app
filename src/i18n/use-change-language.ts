@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager } from "react-native";
 
@@ -35,18 +35,21 @@ export default function useChangeLanguage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleShowRestartModal = () => {
+  const handleShowRestartModal = useCallback(() => {
     setIsRestartModalVisible(true);
-  };
+  }, []);
 
-  const handleHideRestartModal = () => {
+  const handleHideRestartModal = useCallback(() => {
     setIsRestartModalVisible(false);
-  };
+  }, []);
 
-  const handleOnChange = async (language: string) => {
-    await setOverrideLanguage(language);
-    i18n.changeLanguage(language);
-  };
+  const handleOnChange = useCallback(
+    async (language: string) => {
+      await setOverrideLanguage(language);
+      i18n.changeLanguage(language);
+    },
+    [i18n]
+  );
 
   return {
     isRestartModalVisible,

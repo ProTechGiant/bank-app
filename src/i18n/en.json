@@ -775,6 +775,7 @@
       "successMessage": "Your language settings have been updated successfully",
       "modalAppTitle": "Application Language",
       "modalNotificationsTitle": "Notifications Language",
+      "updateNotificationsLanguageSuccess": "Your App Notifications Language has been updated",
       "restartRequired": "Restart required",
       "restartMessage": "To change the language, the app must be restarted. Do you want to restart now?",
       "restartNow": "Restart now",
@@ -790,7 +791,7 @@
     },
     "language": {
       "EN": "English",
-      "AR": "العربيه"
+      "AR": "العربية"
     },
     "reloadAppMessage": "We must restart the app to continue",
     "okButtonMessage": "OK"

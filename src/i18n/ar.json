@@ -731,12 +731,19 @@
       "arabic": "عربي",
       "saveChanges": "حفظ التغييرات",
       "successMessage": "تم تحديث إعدادات اللغة الخاصة بك.",
+      "modalAppTitle": "Application Language",
+      "modalNotificationsTitle": "Notifications Language",
+      "updateNotificationsLanguageSuccess": "Your App Notifications Language has been updated",
+      "restartRequired": "Restart required",
+      "restartMessage": "To change the language, the app must be restarted. Do you want to restart now?",
+      "restartNow": "Restart now",
+      "cancelButton": "Cancel",
       "applicationOptionTitle": "Application",
       "notificationsOptionTitle": "Notifications"
     },
     "language": {
       "EN": "English",
-      "AR": "العربيه"
+      "AR": "العربية"
     },
     "FinancialInformation": {
       "title": "Financial Information",

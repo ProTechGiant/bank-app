@@ -7,6 +7,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface LanguageOptionProps {
+  id: string;
   title: string;
   currentLanguage: string;
   icon: React.ReactElement<SvgProps | IconProps>;

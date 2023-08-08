@@ -10,19 +10,25 @@ interface LanguagePreferred {
   NotificationLanguageCode: string;
 }
 
-export function useLanguagePreferred() {
+export function useUpdateCustomerProfileLanguage() {
   const queryClient = useQueryClient();
 
   return useMutation(
     async (values: LanguagePreferred) => {
-      const uppercaseValues: LanguagePreferred = {
-        PreferredLanguageCode: values.PreferredLanguageCode.toUpperCase(),
-        NotificationLanguageCode: values.NotificationLanguageCode,
-      };
-      return api("v1", "customers/languages", "PATCH", undefined, uppercaseValues, {
-        ["x-correlation-id"]: generateRandomId(),
-        ["x-device-id"]: DeviceInfo.getDeviceId(),
-      });
+      return api(
+        "v1",
+        "customers/languages",
+        "PATCH",
+        undefined,
+        {
+          PreferredLanguageCode: values.PreferredLanguageCode,
+          NotificationLanguageCode: values.NotificationLanguageCode,
+        },
+        {
+          ["x-correlation-id"]: generateRandomId(),
+          ["x-device-id"]: DeviceInfo.getDeviceId(),
+        }
+      );
     },
     {
       onSuccess: () => {
