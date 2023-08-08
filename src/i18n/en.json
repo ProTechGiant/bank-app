@@ -431,6 +431,36 @@
       "cancel": "Cancel"
     }
   },
+  "Statements": {
+    "AccessStatements": {
+      "title": "Statements",
+      "monthly": "Monthly",
+      "customDate": "Custom Date",
+      "englishPill": "English",
+      "arabicPill": "العربية",
+      "FilterBy": "Filter by Language:",
+      "MonthlyStatementSubtitle": "Monthly statements are auto generated for the last two years.",
+      "CustomDateStatementSubtitle": "You can request a custom date statement in the previous five years.",
+      "RequestStatmentButtonText": "Request a new statement",
+      "NothingHereText": "Nothing Here!",
+      "NoStatementsText": "No statements have been generated yet!",
+      "brandMomemt": "Brand Momemt",
+      "monthNames": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+      }
+    }
+  },
   "ViewTransactions": {
     "TransactionsScreen": {
       "title": "Transactions",

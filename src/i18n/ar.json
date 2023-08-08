@@ -439,6 +439,36 @@
       }
     }
   },
+  "Statements": {
+    "AccessStatements": {
+      "title": "صياغات",
+      "monthly": "شهريا",
+      "customDate": "تاريخ مخصص",
+      "englishPill": "English",
+      "arabicPill": "العربية",
+      "FilterBy": "تصفية حسب اللغة:",
+      "MonthlyStatementSubtitle": ".يتم إنشاء كشوف الحساب الشهرية تلقائيًا لآخر عامين",
+      "CustomDateStatementSubtitle": "يمكنك طلب بيان تاريخ مخصص في السنوات الخمس الماضية.",
+      "RequestStatmentButtonText": "اطلب كشف حساب جديد",
+      "NothingHereText": "لا شيء هنا!",
+      "brandMomemt": "لحظة العلامة التجارية",
+      "NoStatementsText": "لم يتم إنشاء أي بيانات حتى الآن!",
+      "monthNames": {
+        "january": "يناير",
+        "february": "فبراير",
+        "march": "مارس",
+        "april": "أبريل",
+        "may": "مايو",
+        "june": "يونيو",
+        "july": "يوليو",
+        "august": "أغسطس",
+        "september": "سبتمبر",
+        "october": "أكتوبر",
+        "november": "نوفمبر",
+        "december": "ديسمبر"
+      }
+    }
+  },
   "ViewTransactions": {
     "TransactionsScreen": {
       "title": "Transactions",

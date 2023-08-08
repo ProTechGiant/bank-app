@@ -11,6 +11,7 @@ import { ReferralStackParams } from "@/features/Referral/ReferralStack";
 import { SadadBillPaymentStackParams } from "@/features/SadadBillPayment/SadadBillPaymentStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
 import { SettingsStackParams } from "@/features/Settings/SettingsStack";
+import { StatmentsStackParams } from "@/features/Statements/StatementsStack";
 import { TopSpendingStackParams } from "@/features/TopSpending/TopSpendingStack";
 import { SingleTagType, TransactionDetailed } from "@/features/ViewTransactions/types";
 import { ViewTransactionsStackParams } from "@/features/ViewTransactions/ViewTransactionsStack";
@@ -90,12 +91,14 @@ type RootStackParams = {
       }
     | undefined;
   "ProfileDetails.ProfileDetailsStack": undefined;
+  "Statements.StatementsStack": undefined;
 };
 
 type AuthenticatedStackParams = RootStackParams &
   TopSpendingStackParams &
   SavingsGoalsStackParams &
   ViewTransactionsStackParams &
+  StatmentsStackParams &
   SadadBillPaymentStackParams &
   InternalTransfersStackParams &
   CardActionsStackParams &

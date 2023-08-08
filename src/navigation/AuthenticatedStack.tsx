@@ -26,6 +26,7 @@ import {
   PasscodeScreen,
   UserBlockedScreen,
 } from "@/features/SignIn/screens";
+import StatementsStack from "@/features/Statements/StatementsStack";
 import TopSpendingStack from "@/features/TopSpending/TopSpendingStack";
 import ViewTransactionsStack from "@/features/ViewTransactions/ViewTransactionsStack";
 import WhatsNextStack from "@/features/WhatsNext/WhatsNextStack";
@@ -68,6 +69,7 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen component={TopSpendingStack} name="TopSpending.TopSpendingStack" />
       <AuthStack.Screen component={ProfileDetailsStack} name="ProfileDetails.ProfileDetailsStack" />
       <AuthStack.Screen component={SadadBillPaymentStack} name="SadadBillPayments.SadadBillPaymentStack" />
+      <AuthStack.Screen component={StatementsStack} name="Statements.StatementsStack" />
       <AuthStack.Screen
         component={TermsAndConditionsScreen}
         name="Referral.TermsAndConditionsScreen"
