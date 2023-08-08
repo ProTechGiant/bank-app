@@ -23,6 +23,9 @@ export default function BalanceCard({ balance, accountNumber, currency }: CardPr
 
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
 
+  const formattedBalance = formatCurrency(balance || 0, undefined, 2); // third parameter (optional) is the number of decimal digits with default value 0
+  const [balanceWholeNumber, balanceDecimalPart] = formattedBalance.split(".");
+
   const handleOnAccountPress = () => {
     //TODO
     // wiating BA team to respond about the right functionality
@@ -99,7 +102,10 @@ export default function BalanceCard({ balance, accountNumber, currency }: CardPr
                     {balance ? (
                       <>
                         <Typography.Text color="primaryBase-20" size="title1" weight="medium">
-                          {formatCurrency(balance ?? 0)}
+                          {balanceWholeNumber}
+                        </Typography.Text>
+                        <Typography.Text color="primaryBase-20" size="title3" weight="medium">
+                          .{balanceDecimalPart}
                         </Typography.Text>
                         <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
                           {" " + currency ?? "SAR"}
