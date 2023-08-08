@@ -1,34 +1,42 @@
-const path = require("path");
-import { path as appRootPath } from "app-root-path";
+import type { Configuration } from "webpack";
 
 export default {
   stories: ["../src/**/*.stories.@(ts|tsx)"],
   addons: [
+    "@storybook/addon-essentials",
+    "@storybook/addon-controls",
+    "@storybook/addon-interactions",
     {
       name: "@storybook/addon-react-native-web",
       options: {
-        modulesToTranspile: ["react-native-reanimated"],
-        babelPlugins: ["react-native-reanimated/plugin", "@babel/plugin-proposal-export-namespace-from"],
-      },
-    },
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
+        modulesToTranspile: ["react-native-reanimated", "victory-native"],
+        babelPlugins: ["react-native-reanimated/plugin"]
+      }
+    }
   ],
-  core: {
-    builder: "webpack5",
+  framework: {
+    name: "@storybook/react-webpack5",
+    options: {}
   },
-  typescript: { reactDocgen: false },
-  webpackFinal: async (config: any) => {
-    config.resolve.alias["react-native-linear-gradient"] = path.resolve(
-      appRootPath,
-      "__mocks__/react-native-linear-gradient.tsx"
-    );
-
-    return config;
+  docs: {
+    autodoc: "tag",
+    autodocs: true
   },
-  framework: "@storybook/react",
   features: {
     interactionsDebugger: true,
-    postcss: false,
+    postcss: false
+  },
+  webpackFinal: (config: Configuration) => {
+    if (config.resolve === undefined) {
+      config.resolve = {};
+    }
+
+    config.resolve.extensions = [
+      ...config.resolve.extensions ?? [],
+      '.android.js',
+      '.ios.js',
+    ];
+
+    return config;
   },
 };

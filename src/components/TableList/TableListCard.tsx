@@ -33,7 +33,7 @@ TableListCard.Date = TableListDate;
 TableListCard.Day = TableListDay;
 TableListCard.Toggle = TableListToggle;
 
-export default function TableListCard({
+function TableListCard({
   background,
   caption,
   helperText,
@@ -119,3 +119,5 @@ export default function TableListCard({
     createElement(Fragment, { children: children })
   );
 }
+
+export default TableListCard;

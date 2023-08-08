@@ -19,7 +19,7 @@ export interface AlertProps {
   children?: React.ReactNode;
 }
 
-export default function Alert({ variant, message, end, endTestId, isExpanded, children }: AlertProps) {
+function Alert({ variant, message, end, endTestId, isExpanded, children }: AlertProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       flexDirection: "row",
@@ -81,3 +81,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default Alert;

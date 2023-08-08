@@ -20,15 +20,7 @@ interface InlineBannerProps {
 }
 
 InlineBanner.Button = InlineBannerButton;
-export default function InlineBanner({
-  action,
-  icon,
-  text,
-  title,
-  testID,
-  onClose,
-  variant = "default",
-}: InlineBannerProps) {
+function InlineBanner({ action, icon, text, title, testID, onClose, variant = "default" }: InlineBannerProps) {
   const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "flex-start",
@@ -74,3 +66,5 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
 });
+
+export default InlineBanner;

@@ -1,0 +1,41 @@
+diff --git a/node_modules/react-native-share/lib/codegenSpec/NativeRNShare.ts b/node_modules/react-native-share/lib/codegenSpec/NativeRNShare.ts
+new file mode 100644
+index 0000000..70f27a0
+--- /dev/null
++++ b/node_modules/react-native-share/lib/codegenSpec/NativeRNShare.ts
+@@ -0,0 +1,35 @@
++import type { TurboModule } from 'react-native';
++import { TurboModuleRegistry } from 'react-native';
++
++export interface Spec extends TurboModule {
++  readonly getConstants: () => {
++    FACEBOOK?: string;
++    FACEBOOKSTORIES?: string;
++    TWITTER?: string;
++    GOOGLEPLUS?: string;
++    WHATSAPP?: string;
++    INSTAGRAM?: string;
++    INSTAGRAMSTORIES?: string;
++    TELEGRAM?: string;
++    EMAIL?: string;
++    MESSENGER?: string;
++    VIBER?: string;
++    PAGESMANAGER?: string;
++    WHATSAPPBUSINESS?: string;
++    PINTEREST?: string;
++    LINKEDIN?: string;
++    SNAPCHAT?: string;
++    SHARE_BACKGROUND_IMAGE?: string;
++    SHARE_BACKGROUND_VIDEO?: string;
++    SHARE_STICKER_IMAGE?: string;
++    SHARE_BACKGROUND_AND_STICKER_IMAGE?: string;
++    SMS?: string;
++    GENERIC?: string;
++  };
++  open: (options: Object) => Promise<{ success: boolean; message: string }>;
++  shareSingle: (options: Object) => Promise<{ success: boolean; message: string }>;
++  isPackageInstalled: (packagename: string) => Promise<boolean>;
++  isBase64File: (url: string) => Promise<boolean>;
++}
++
++export default TurboModuleRegistry.getEnforcing<Spec>('RNShare');

@@ -20,16 +20,5 @@ module.exports = (async () => {
       assetExts: assetExts.filter(ext => ext !== "svg"),
       sourceExts: [...sourceExts, "svg"],
     },
-    // see https://github.com/facebook/react-native/issues/36794#issuecomment-1500880284
-    server: {
-      rewriteRequestUrl: url => {
-        if (!url.endsWith(".bundle")) {
-          return url;
-        }
-
-        // JavaScriptCore strips query strings, so try to re-add them with a best guess.
-        return url + "?platform=ios&dev=true&minify=false&modulesOnly=false&runModule=true";
-      },
-    },
   };
 })();
