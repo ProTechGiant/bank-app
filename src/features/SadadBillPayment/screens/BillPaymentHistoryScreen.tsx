@@ -40,18 +40,16 @@ export default function BillPaymentHistoryScreen() {
 
   // grouping the data making it section list.
   const getGroupedBillsArrayByDate = (actualArray: BillItem[]) => {
-    const array: BillHistorySectionList[] = [];
     // TODO: currently implemented with mock data.
-    const groupedByDateBillsArray = groupBy(actualArray, bill => format(new Date(bill.DueDate), "d MMMM yyyy"));
-
-    Object.entries(groupedByDateBillsArray).map(([key, value]) => {
-      const groupBill: BillHistorySectionList = { title: "", data: [] };
-      groupBill.title = key;
-      groupBill.data = value;
-      array.push(groupBill);
+    const items: BillHistorySectionList[] = Object.entries(
+      groupBy(actualArray, bill => format(new Date(bill.DueDate), "d MMMM yyyy"))
+    ).map(([title, entries]) => {
+      return { title, data: entries };
     });
-    return array;
+
+    return items;
   };
+
   const handleOnCancelPress = () => {
     setSearchText("");
   };
@@ -79,49 +77,47 @@ export default function BillPaymentHistoryScreen() {
   }, [searchText]);
 
   return (
-    <>
-      <Page backgroundColor="neutralBase-60">
-        <NavHeader
-          withBackButton={true}
-          title={t("SadadBillPayments.BillPaymentHistoryScreen.paymentHistory")}
-          end={
-            <Pressable onPress={() => handleOnCalenderIconPressed()}>
-              <CalendarIcon />
-            </Pressable>
-          }
-        />
-        <View style={containerStyle}>
-          <Stack justify="space-around" direction="vertical" gap="24p" align="stretch" flex={1}>
-            <SearchInput
-              onClear={handleOnCancelPress}
-              onSearch={handleOnChangeText}
-              placeholder={t("SadadBillPayments.BillPaymentHistoryScreen.searchPlaceholder")}
-              value={searchText}
+    <Page backgroundColor="neutralBase-60">
+      <NavHeader
+        withBackButton={true}
+        title={t("SadadBillPayments.BillPaymentHistoryScreen.paymentHistory")}
+        end={
+          <Pressable onPress={() => handleOnCalenderIconPressed()}>
+            <CalendarIcon />
+          </Pressable>
+        }
+      />
+      <View style={containerStyle}>
+        <Stack justify="space-around" direction="vertical" gap="24p" align="stretch" flex={1}>
+          <SearchInput
+            onClear={handleOnCancelPress}
+            onSearch={handleOnChangeText}
+            placeholder={t("SadadBillPayments.BillPaymentHistoryScreen.searchPlaceholder")}
+            value={searchText}
+          />
+          {searchSavedGroupedBills.length > 0 ? (
+            <SectionList
+              sections={searchSavedGroupedBills}
+              renderItem={({ item }) => (
+                <BillItemCard
+                  key={item.AccountNumber}
+                  data={item}
+                  onPress={() => {
+                    //TODO: will be implemented later on.
+                  }}
+                />
+              )}
+              renderSectionHeader={({ section }) => (
+                <Typography.Text size="callout" weight="regular" color="neutralBase" style={sectionTitleStyle}>
+                  {section.title}
+                </Typography.Text>
+              )}
             />
-            {searchSavedGroupedBills.length > 0 ? (
-              <SectionList
-                sections={searchSavedGroupedBills}
-                renderItem={({ item }) => (
-                  <BillItemCard
-                    key={item.AccountNumber}
-                    data={item}
-                    onPress={() => {
-                      //TODO: will be implemented later on.
-                    }}
-                  />
-                )}
-                renderSectionHeader={({ section }) => (
-                  <Typography.Text size="callout" weight="regular" color="neutralBase" style={sectionTitleStyle}>
-                    {section.title}
-                  </Typography.Text>
-                )}
-              />
-            ) : (
-              <EmptySearchResult />
-            )}
-          </Stack>
-        </View>
-      </Page>
-    </>
+          ) : (
+            <EmptySearchResult />
+          )}
+        </Stack>
+      </View>
+    </Page>
   );
 }
