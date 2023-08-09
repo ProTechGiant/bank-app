@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TextInput, ViewStyle } from "react-native";
 
@@ -13,7 +13,8 @@ import { useThemeStyles } from "@/theme";
 
 import { CategoryList } from "../components";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
-import { MockBillerCategory } from "../mocks/MockBillerCategory";
+import { useBillerCategories } from "../hooks/query-hooks";
+import { BillerCategory } from "../types";
 
 export default function SelectBillerCategoryScreen() {
   const { t } = useTranslation();
@@ -21,20 +22,37 @@ export default function SelectBillerCategoryScreen() {
 
   const { setBillDetails, navigationType } = useSadadBillPaymentContext();
 
+  const { data } = useBillerCategories();
+
   const searchInputRef = useRef<TextInput>(null);
-  const [billers, setBillers] = useState(MockBillerCategory);
   const [searchQuery, setSearchQuery] = useState("");
+  const [categories, setCategories] = useState<BillerCategory[]>([]);
+
+  const categoriesList = useMemo(() => data?.CategoriesList ?? [], [data]);
+
+  useEffect(() => {
+    setCategories(categoriesList);
+  }, [categoriesList]);
 
   const handleOnSearch = (query: string) => {
     setSearchQuery(query);
-    const searchResults = MockBillerCategory.filter(biller => {
-      const lowerCaseQuery = query.toLowerCase();
-      return biller.toLowerCase().includes(lowerCaseQuery);
+    const lowerCaseQuery = query.toLowerCase();
+    const searchResults = categoriesList.filter(billerCategory => {
+      return (
+        billerCategory.NameEn?.toLowerCase().includes(lowerCaseQuery) ||
+        billerCategory.NameAr?.toLowerCase().includes(lowerCaseQuery)
+      );
     });
-    setBillers(searchResults);
+    setCategories(searchResults);
   };
 
-  const handleOnCategorySelect = (value: string) => {
+  const handleOnSearchClear = () => {
+    setSearchQuery("");
+    setCategories(categoriesList);
+    searchInputRef.current?.blur();
+  };
+
+  const handleOnCategorySelect = (value: BillerCategory) => {
     setBillDetails({ category: value });
     navigation.navigate("SadadBillPayments.SelectBillerScreen");
   };
@@ -54,7 +72,7 @@ export default function SelectBillerCategoryScreen() {
   return (
     <Page>
       <NavHeader end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
-      <ContentContainer style={mainContainerStyle}>
+      <ContentContainer isScrollView style={mainContainerStyle}>
         <Typography.Text color="neutralBase+30" size="title1" weight="medium">
           {navigationType === "oneTimePayment"
             ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
@@ -69,10 +87,11 @@ export default function SelectBillerCategoryScreen() {
             value={searchQuery}
             placeholder={t("SadadBillPayments.SelectBillerCategoryScreen.searchPlaceholder")}
             onSearch={handleOnSearch}
+            onClear={handleOnSearchClear}
           />
         </Stack>
         <Stack style={listContainerStyle} direction="horizontal">
-          <CategoryList data={billers} onSelect={handleOnCategorySelect} />
+          <CategoryList data={categories} onSelect={handleOnCategorySelect} />
         </Stack>
       </ContentContainer>
     </Page>

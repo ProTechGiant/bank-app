@@ -16,7 +16,7 @@ import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { billDetailsMock } from "../mocks/billDetailsMock";
 
 export default function BillDescriptionScreen() {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const navigation = useNavigation();
 
   const { navigationType, billDetails } = useSadadBillPaymentContext();
@@ -54,7 +54,7 @@ export default function BillDescriptionScreen() {
             ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
             : t("SadadBillPayments.SelectBillerCategoryScreen.payBilltTitle")
         }
-        subTitle={billDetails.billIssuer}
+        subTitle={i18n.language === "en" ? billDetails.billIssuer?.NameEn : billDetails.billIssuer?.NameAr}
       />
       <ContentContainer style={mainContainerStyle}>
         <Stack direction="vertical">

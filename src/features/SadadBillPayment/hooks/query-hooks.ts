@@ -4,6 +4,33 @@ import { useMutation, useQuery } from "react-query";
 import api from "@/api";
 import { generateRandomId } from "@/utils";
 
+import { BillerCategory } from "../types";
+
+const queryKeys = {
+  all: () => ["data"] as const,
+  categoriesWithBillers: () => [...queryKeys.all()],
+};
+
+interface BillerCategoryResponse {
+  CategoriesList: Array<BillerCategory>;
+}
+
+export function useBillerCategories() {
+  return useQuery(queryKeys.categoriesWithBillers(), () => {
+    return api<BillerCategoryResponse>(
+      "v1",
+      "payments/sadad/billers",
+      "GET",
+      // TODO: Pagination will be handled in separate PR
+      { pageSize: 1000, pageNumber: 0 },
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}
+
 export interface UpdateBillDescriptionProps {
   BillId: string;
   BillDescriptionEn: string;

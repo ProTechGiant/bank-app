@@ -13,14 +13,28 @@ export interface BillHistorySectionList {
   title: string;
   data: BillItem[];
 }
-
+export interface BillerCategory {
+  Code: string;
+  Id: string;
+  NameEn: string;
+  NameAr: string;
+  LogoUrl: string;
+  BillersList?: Array<Biller>;
+}
+export interface Biller {
+  Id: string;
+  Code: string;
+  NameEn: string;
+  NameAr: string;
+  LogoUrl: string;
+}
 export interface BillDetail {
-  category: string;
-  billIssuer: string;
-  accountNumber: string;
-  description: string;
-  otherBillAmount: string;
+  otherBillAmount: string | undefined;
   billID: string;
+  category: BillerCategory | undefined;
+  billIssuer: Biller | undefined;
+  accountNumber: string | undefined;
+  description: string;
 }
 
 export type NavigationType = "saveBill" | "payBill" | "oneTimePayment" | "paymentHistory" | undefined;

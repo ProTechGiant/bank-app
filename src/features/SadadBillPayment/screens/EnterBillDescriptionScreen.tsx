@@ -14,7 +14,7 @@ import { useThemeStyles } from "@/theme";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 
 export default function EnterBillDescriptionScreen() {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const navigation = useNavigation();
 
   const { billDetails, setBillDetails, navigationType } = useSadadBillPaymentContext();
@@ -50,7 +50,7 @@ export default function EnterBillDescriptionScreen() {
             ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
             : t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")
         }
-        subTitle={billDetails.billIssuer}
+        subTitle={i18n.language === "en" ? billDetails.billIssuer?.NameEn : billDetails.billIssuer?.NameAr}
       />
       <ContentContainer style={mainContainerStyle}>
         <Typography.Text color="neutralBase+30" size="title1" weight="medium">

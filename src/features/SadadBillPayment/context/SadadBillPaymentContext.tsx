@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
-import { BillDetail, NavigationType } from "../types";
+import { BillDetail, Biller, BillerCategory, NavigationType } from "../types";
 
 function noop() {
   return;
@@ -10,8 +10,8 @@ interface SadadBillPaymentContextState {
   setNavigationType: (value: NavigationType) => void;
   navigationType: NavigationType;
   setBillDetails: (billDetails: {
-    category?: string;
-    billIssuer?: string;
+    category?: BillerCategory;
+    billIssuer?: Biller;
     accountNumber?: string;
     description?: string;
     otherBillAmount?: string;
@@ -31,6 +31,7 @@ const SadadBillPaymentContext = createContext<SadadBillPaymentContextState>({
     accountNumber: undefined,
     description: undefined,
     otherBillAmount: undefined,
+    billID: undefined,
   },
 });
 
