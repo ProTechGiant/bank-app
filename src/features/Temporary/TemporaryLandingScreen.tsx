@@ -68,8 +68,10 @@ export default function TemporaryLandingScreen() {
 
   const checkUserIsBlocked = useCallback(async () => {
     const userBlocked = await getItemFromEncryptedStorage("UserBlocked"); // TODO: check if user is blocked or not API needs to be developed
+    const userBlockedFromProfileDetailsScreen = await getItemFromEncryptedStorage("UserBlockedFromProfileDetails");
+    const blockedFrom = userBlockedFromProfileDetailsScreen ? "otp" : "passcode";
     if (userBlocked)
-      navigation.navigate("SignIn.SignInStack", { screen: "SignIn.UserBlocked", params: { type: "passcode" } });
+      navigation.navigate("SignIn.SignInStack", { screen: "SignIn.UserBlocked", params: { type: blockedFrom } });
   }, [navigation]);
 
   const handleOnSavingsGoals = async () => {

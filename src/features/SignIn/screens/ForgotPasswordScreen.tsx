@@ -8,6 +8,7 @@ import NavHeader from "@/components/NavHeader";
 import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
+import { OTP_BLOCKED_TIME } from "@/constants";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -15,7 +16,7 @@ import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
-import { BLOCKED_TIME, OTP_BLOCKED_TIME, PINCODE_LENGTH } from "../constants";
+import { BLOCKED_TIME, PINCODE_LENGTH } from "../constants";
 // import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
 import { useSendLoginOTP, useValidatePincode } from "../hooks/query-hooks";

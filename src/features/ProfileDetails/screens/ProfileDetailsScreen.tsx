@@ -32,7 +32,7 @@ import {
   useUpdateCustomerProfileIdExpiryDate,
   useUpdateCustomerProfileOTP,
 } from "../hooks/query-hooks";
-import { parseCustomerAddress, parseCustomerCivilianIDExpiryDate } from "../utils";
+import { markUserAsBlocked, parseCustomerAddress, parseCustomerCivilianIDExpiryDate } from "../utils";
 
 interface DetailInputs {
   Email: string;
@@ -146,9 +146,14 @@ export default function ProfileDetailsScreen() {
               });
             }
           },
-          onUserBlocked: () => {
-            navigation.navigate("SignIn.UserBlocked", {
-              type: "otp",
+          onUserBlocked: async () => {
+            await markUserAsBlocked();
+            navigation.navigate("Passcode.ChangePasscodeStack", {
+              screen: "SignIn.UserBlocked",
+              params: {
+                type: "otp",
+                navigateTo: "ProfileDetails.ProfileDetailsScreen",
+              },
             });
           },
         });

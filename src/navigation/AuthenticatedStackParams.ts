@@ -73,7 +73,15 @@ type RootStackParams = {
   "SavingsGoals.SavingsGoalsStack": {
     savingsPotsNumber: number;
   };
-  "Passcode.ChangePasscodeStack": undefined;
+  "Passcode.ChangePasscodeStack":
+    | undefined
+    | {
+        screen: string;
+        params: {
+          type: string;
+          navigateTo: string;
+        };
+      };
   "FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack": undefined;
   "NotificationManagement.HubScreen": undefined;
   "NotificationManagement.CategoryScreen": { categoryId: string; title: string };

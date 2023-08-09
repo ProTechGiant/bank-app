@@ -12,6 +12,7 @@ import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
 import Typography from "@/components/Typography";
+import { OTP_BLOCKED_TIME } from "@/constants";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -21,7 +22,7 @@ import { generateRandomId } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
-import { BLOCKED_TIME, OTP_BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
+import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
 import { useLoginUser, useRegistration, useSendLoginOTP, useSignIn, useValidateDevice } from "../hooks/query-hooks";
