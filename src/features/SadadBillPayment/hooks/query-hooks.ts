@@ -40,3 +40,16 @@ export function useEditBillDescription() {
     );
   });
 }
+
+interface DeleteSavedBillParams {
+  billId: string;
+  accountNumber: string;
+}
+
+export function useDeleteSavedBill() {
+  return useMutation(async ({ billId, accountNumber }: DeleteSavedBillParams) => {
+    return api("v1", `payments/sadad/bills/${billId}/details`, "DELETE", undefined, accountNumber, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}

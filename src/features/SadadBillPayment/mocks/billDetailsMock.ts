@@ -11,7 +11,7 @@ export const billDetailsMock = {
   paymentRangesLower: 100,
   paymentRangesUpper: 200,
   billNumber: "00100100013",
-  billingAccount: "283483665883",
+  billingAccount: "009668552256",
   billAmount: 100,
   billAmountCurrency: "SAR",
   paidAmount: 0,

@@ -14,11 +14,13 @@ import { useThemeStyles } from "@/theme";
 
 import { BillDetailsView } from "../components";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
+import { useDeleteSavedBill } from "../hooks/query-hooks";
 import { billDetailsMock } from "../mocks/billDetailsMock";
 
 export default function BillDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { mutateAsync: deleteSavedBillAsync } = useDeleteSavedBill();
   const { setNavigationType } = useSadadBillPaymentContext();
 
   const [isConfirmDeleteModalVisible, setIsConfirmDeleteModalVisible] = useState(false);
@@ -30,13 +32,11 @@ export default function BillDetailsScreen() {
     width: "100%",
   }));
 
-  const handleOnBillDelete = () => {
+  const handleOnBillDelete = async () => {
     setIsConfirmDeleteModalVisible(false);
     try {
-      // TODO: this timeout is here just to mimic api call behavior. It will be replaced with API call in future.
-      setTimeout(() => {
-        setIsDeleteSuccessModalVisible(true);
-      }, 1000);
+      await deleteSavedBillAsync({ billId: billDetailsMock.billId, accountNumber: billDetailsMock.billingAccount });
+      setIsDeleteSuccessModalVisible(true);
     } catch (error) {
       setIsDeleteErrorModalVisible(true);
     }
@@ -101,7 +101,11 @@ export default function BillDetailsScreen() {
         variant="success"
         buttons={{
           primary: (
-            <Button onPress={() => setIsDeleteSuccessModalVisible(false)}>
+            <Button
+              onPress={() => {
+                setIsDeleteSuccessModalVisible(false);
+                navigation.goBack();
+              }}>
               {t("SadadBillPayments.BillDetailsScreen.deleteBill.okButtonText")}
             </Button>
           ),
