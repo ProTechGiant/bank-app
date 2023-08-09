@@ -287,13 +287,20 @@
   },
   "ProxyAlias": {
     "AliasManagementScreen": {
-      "AccountModal": {
-        "fullName": "Full Name",
-        "accountNumber": "Account Number",
-        "success": "{{dataCopied}} copied to clipboard"
-      },
+      "Confirmation": "Confirmation",
+      "ConfirmationBody": "Welcome to our Alias Management! Before you proceed with setting up an alias for your bank account, we kindly request that you review and accept the following",
+      "TermsAndConditions": "Terms and Conditions;",
+      "Continue": "Continue",
       "accountInformation": "Account Information",
       "aliasManagement": "Alias management enables you to link your IBAN with your Mobile Number, National ID or Email."
+    },
+    "AccountModal": {
+      "TermsAndConditionsFirstParagraph": "If you wish to activate all features provided by the Instant Payments System (sarie), and the rest of the related services, such as sending funds via aliases (such as: the mobile number), we hope that you agree to share some of your data with SARIE system for the instant payments owned by the Saudi Central Bank (IBAN number - No. Mobile phone - e-mail - national ID number).",
+      "TermsAndConditionsSecondParagraph": "At any time in the future, you may disable sharing of this data via all banking channels such as mobile banking or internet banking.",
+      "Close": "Close",
+      "fullName": "Full Name",
+      "accountNumber": "Account Number",
+      "success": "{{dataCopied}} copied to clipboard"
     }
   },
   "TopSpending": {

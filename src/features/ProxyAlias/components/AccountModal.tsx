@@ -70,7 +70,7 @@ export default function AccountModal({ onClose, visible }: AccountModalProps) {
 
         <Stack direction="vertical">
           <Typography.Text size="footnote" weight="regular" color="neutralBase">
-            {t("ProxyAlias.AliasManagementScreen.AccountModal.fullName")}
+            {t("ProxyAlias.AccountModal.fullName")}
           </Typography.Text>
           <Typography.Text size="callout" weight="regular" color="neutralBase+30">
             {/* TODO when backend api finished */}
@@ -82,17 +82,14 @@ export default function AccountModal({ onClose, visible }: AccountModalProps) {
       <Stack direction="horizontal" gap="16p" align="center" justify="space-between">
         <Stack direction="vertical">
           <Typography.Text size="footnote" weight="regular" color="neutralBase">
-            {t("ProxyAlias.AliasManagementScreen.AccountModal.accountNumber")}
+            {t("ProxyAlias.AccountModal.accountNumber")}
           </Typography.Text>
           <Typography.Text size="callout" weight="regular" color="neutralBase+30">
             {value}
           </Typography.Text>
         </Stack>
 
-        <Pressable
-          onPress={() =>
-            handleOnCopyPress(value, `${t("ProxyAlias.AliasManagementScreen.AccountModal.accountNumber")}`)
-          }>
+        <Pressable onPress={() => handleOnCopyPress(value, `${t("ProxyAlias.AccountModal.accountNumber")}`)}>
           <CopyIcon color={copyIconColor} />
         </Pressable>
       </Stack>

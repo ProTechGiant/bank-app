@@ -16,6 +16,7 @@ export default function AliasManagementScreen() {
       <NavHeader title="Alias Management" onBackPress={handleOnBackPress} />
 
       <ContentContainer>
+        {/*TODO: when i connect to api i will render this component conditionally */}
         <Confirmation />
         <AliasManagementWrapper />
       </ContentContainer>
