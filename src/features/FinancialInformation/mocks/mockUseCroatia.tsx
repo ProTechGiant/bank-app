@@ -15,11 +15,6 @@ export const useCroatia = [
     isSelected: false,
   },
   {
-    label: "Education",
-    value: "Education",
-    isSelected: true,
-  },
-  {
     label: "Receiving a salary",
     value: "Receiving a salary",
     isSelected: false,

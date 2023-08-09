@@ -4,11 +4,7 @@ export const occupations = [
     value: "Salary",
     isSelected: true,
   },
-  {
-    label: "1",
-    value: "1",
-    isSelected: true,
-  },
+
   {
     label: "Charity",
     value: "Charity",

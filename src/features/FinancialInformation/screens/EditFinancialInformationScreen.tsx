@@ -91,7 +91,6 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     width: "100%",
-    position: "absolute",
     bottom: theme.spacing["4p"],
     marginTop: theme.spacing["16p"],
   }));
@@ -177,20 +176,19 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
               />
             </View>
           </View>
+          <View style={buttonContainerStyle}>
+            <View style={buttonStyle}>
+              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+                {t("Settings.FinancialInformation.saveButton")}
+              </SubmitButton>
+            </View>
+            <View style={buttonStyle}>
+              <Button onPress={onBackPress} variant="tertiary">
+                {t("Settings.FinancialInformation.cancelButton")}
+              </Button>
+            </View>
+          </View>
         </ScrollView>
-
-        <View style={buttonContainerStyle}>
-          <View style={buttonStyle}>
-            <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-              {t("Settings.FinancialInformation.saveButton")}
-            </SubmitButton>
-          </View>
-          <View style={buttonStyle}>
-            <Button onPress={onBackPress} variant="tertiary">
-              {t("Settings.FinancialInformation.cancelButton")}
-            </Button>
-          </View>
-        </View>
       </View>
     </Page>
   );
