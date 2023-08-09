@@ -285,6 +285,17 @@
       "navHeaderTitle": "Passcode"
     }
   },
+  "ProxyAlias": {
+    "AliasManagementScreen": {
+      "AccountModal": {
+        "fullName": "Full Name",
+        "accountNumber": "Account Number",
+        "success": "{{dataCopied}} copied to clipboard"
+      },
+      "accountInformation": "Account Information",
+      "aliasManagement": "Alias management enables you to link your IBAN with your Mobile Number, National ID or Email."
+    }
+  },
   "TopSpending": {
     "SingleTagScreen": {
       "TransactionList": {
