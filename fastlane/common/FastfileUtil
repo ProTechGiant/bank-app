@@ -1,3 +1,4 @@
+# Deprecated
 lane :tag_build_git do
   version = load_json(json_path: File.join(Dir.pwd, "../src/", "version.json"))
 
@@ -9,6 +10,36 @@ lane :tag_build_git do
   )
 
   push_git_tags
+end
+
+platform :android do
+  lane :tag_build_git do
+    version = load_json(json_path: File.join(Dir.pwd, "../src/", "version.json"))
+
+    add_git_tag(
+      grouping: "builds/#{version["buildType"]}",
+      includes_lane: false,
+      prefix: "v",
+      build_number: "#{version["version"]}-android"
+    )
+
+    push_git_tags
+  end
+end
+
+platform :ios do
+  lane :tag_build_git do
+    version = load_json(json_path: File.join(Dir.pwd, "../src/", "version.json"))
+
+    add_git_tag(
+      grouping: "builds/#{version["buildType"]}",
+      includes_lane: false,
+      prefix: "v",
+      build_number: "#{version["version"]}-ios"
+    )
+
+    push_git_tags
+  end
 end
 
 private_lane :load_env do |options|

@@ -19,7 +19,7 @@ node scripts/update-build-info.js
 bundle exec fastlane ios install_signing
 bundle exec fastlane ios update_version
 bundle exec fastlane ios build "env:$BUILD_ENVIRONMENT"
-bundle exec fastlane tag_build_git
+bundle exec fastlane ios tag_build_git
 
 # Upload iOS build
 bundle exec fastlane ios deploy_appcenter "env:$BUILD_ENVIRONMENT"

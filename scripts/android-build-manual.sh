@@ -18,7 +18,7 @@ source ../secrets/set-env-vars.sh
 node scripts/update-build-info.js
 bundle exec fastlane android update_version
 bundle exec fastlane android build "env:$BUILD_ENVIRONMENT"
-bundle exec fastlane tag_build_git
+bundle exec fastlane android tag_build_git
 
 # Upload Android build
 bundle exec fastlane android deploy_appcenter "env:$BUILD_ENVIRONMENT"
