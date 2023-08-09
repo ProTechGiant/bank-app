@@ -1,3 +1,4 @@
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 
@@ -7,8 +8,9 @@ import { generateRandomId } from "@/utils";
 import { BillerCategory } from "../types";
 
 const queryKeys = {
-  all: () => ["data"] as const,
-  categoriesWithBillers: () => [...queryKeys.all()],
+  all: () => ["bills"] as const,
+  categoriesWithBillers: () => [...queryKeys.all(), "categories"],
+  paymentHistory: () => [...queryKeys.all(), "payment-history"] as const,
 };
 
 interface BillerCategoryResponse {
@@ -29,6 +31,98 @@ export function useBillerCategories() {
       }
     );
   });
+}
+
+interface SavedBill {
+  BillInfo: {
+    BillerId: string;
+    BillAmt: number;
+    BillDueDt: string;
+    BillNumber: string;
+    BillingAccount: string;
+    BillDescAr: string;
+    BillDescEn: string;
+    BillerLogoUrl: string;
+  };
+}
+interface SavedBills {
+  BillList: SavedBill[];
+}
+
+export function useSavedBills() {
+  const { i18n } = useTranslation();
+  return useQuery(
+    queryKeys.all(),
+    () => {
+      return api<SavedBills>("v1", "payments/sadad/bills/details", "GET", undefined, undefined, {
+        ["x-correlation-id"]: generateRandomId(),
+      });
+    },
+    {
+      select: React.useCallback(
+        (data: SavedBills) =>
+          data.BillList.map(({ BillInfo }) => {
+            return {
+              BillName: i18n.language === "en" ? BillInfo.BillDescEn : BillInfo.BillDescAr,
+              AccountNumber: BillInfo.BillingAccount,
+              Amount: BillInfo.BillAmt,
+              DueDate: BillInfo.BillDueDt,
+              iconUrl: BillInfo.BillerLogoUrl,
+              BillerId: BillInfo.BillerId,
+            };
+          }),
+        [i18n.language]
+      ),
+    }
+  );
+}
+
+interface BillPayment {
+  PmtInfo: {
+    BillDescriptionEn: string;
+    BillDescriptionAr: string;
+    PaymentId: string;
+    BillerId: string;
+    PaymentAmount: number;
+    PaymentAmountCurrency: string;
+    BillAmountCurrency: string;
+    BillAmount: number;
+    PaymentDate: string;
+    PaymentStatus: string;
+    BillerLogoUrl: string;
+    BillingAccount: string;
+  };
+}
+interface BillPayments {
+  PmtList: BillPayment[];
+}
+
+export function useBillPaymentHistory() {
+  const { i18n } = useTranslation();
+  return useQuery(
+    queryKeys.paymentHistory(),
+    () => {
+      return api<BillPayments>("v1", "payments/sadad/payment-history", "GET", undefined, undefined, {
+        ["x-correlation-id"]: generateRandomId(),
+      });
+    },
+    {
+      select: React.useCallback(
+        (data: BillPayments) =>
+          data.PmtList.map(({ PmtInfo }) => {
+            return {
+              BillName: i18n.language === "en" ? PmtInfo.BillDescriptionEn : PmtInfo.BillDescriptionAr,
+              AccountNumber: PmtInfo.BillingAccount,
+              Amount: PmtInfo.BillAmount,
+              DueDate: PmtInfo.PaymentDate,
+              iconUrl: PmtInfo.BillerLogoUrl,
+              BillerId: PmtInfo.BillerId,
+            };
+          }),
+        [i18n.language]
+      ),
+    }
+  );
 }
 
 export interface UpdateBillDescriptionProps {

@@ -1,12 +1,10 @@
-import { ImageURISource } from "react-native/types";
-
 export interface BillItem {
   BillerId: string;
   BillName: string;
   AccountNumber: string;
   Amount: number;
   DueDate: string;
-  icon: ImageURISource;
+  iconUrl: string;
 }
 
 export interface BillHistorySectionList {

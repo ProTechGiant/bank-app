@@ -31,7 +31,12 @@ export type SadadBillPaymentStackParams = {
   "SadadBillPayments.SelectBillerScreen": undefined;
   "SadadBillPayments.EnterAccountNoScreen": undefined;
   "SadadBillPayments.EnterBillDescScreen": undefined;
-  "SadadBillPayments.BillDescriptionScreen": undefined;
+  "SadadBillPayments.BillDescriptionScreen": {
+    category: string;
+    AccountNumber: string;
+    BillDescription: string;
+    biller: string;
+  };
   "SadadBillPayments.BillSavedSuccessScreen": undefined;
   "SadadBillPayments.EditBillDescModal": undefined;
   "SadadBillPayments.EnterBillAmountScreen": undefined;

@@ -13,7 +13,7 @@ import { useThemeStyles } from "@/theme";
 
 import BillItemCard from "../components/BillItemCard";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
-import { MockBillDetails } from "../mocks/MockBillDetails";
+import { useSavedBills } from "../hooks/query-hooks";
 import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 import { BillItem } from "../types";
 
@@ -21,21 +21,32 @@ export default function SaveBillsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { setNavigationType } = useSadadBillPaymentContext();
+  const { data: savedBills } = useSavedBills();
 
   const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.SaveBillsScreen">>();
 
-  const [searchedUsedBills, setSearchedUsedBills] = useState(MockBillDetails);
+  const [searchedUsedBills, setSearchedUsedBills] = useState<BillItem[]>([]);
   const [searchText, setSearchText] = useState<string>("");
 
   useEffect(() => {
+    if (savedBills === undefined) {
+      setSearchedUsedBills([]);
+      return;
+    }
     const debounceId = setTimeout(() => {
-      const filteredArray = MockBillDetails.filter(function (billObj) {
-        return billObj.AccountNumber.match(searchText) || billObj.BillName.match(searchText);
-      });
+      const filteredArray =
+        searchText !== ""
+          ? savedBills.filter(function (billObj) {
+              return (
+                billObj.AccountNumber?.toLowerCase().includes(searchText.toLowerCase()) ||
+                billObj.BillName?.toLowerCase().includes(searchText.toLowerCase())
+              );
+            })
+          : savedBills;
       setSearchedUsedBills(filteredArray);
     }, 500);
     return () => clearTimeout(debounceId);
-  }, [searchText]);
+  }, [savedBills, searchText]);
 
   const handleOnChangeText = (text: string) => {
     if (text === " " && searchText === "") return;
@@ -86,7 +97,7 @@ export default function SaveBillsScreen() {
             <FlatList
               data={searchedUsedBills}
               renderItem={({ item }) => (
-                <BillItemCard key={item.key} data={item} onPress={() => handleOnItemPress(item)} />
+                <BillItemCard key={item.BillerId} data={item} onPress={() => handleOnItemPress(item)} />
               )}
             />
           ) : (

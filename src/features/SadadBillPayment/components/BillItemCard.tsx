@@ -1,7 +1,10 @@
+import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
+import NetworkImage from "@/components/NetworkImage";
+import PlaceholderImage from "@/components/PlaceholderImage";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -29,7 +32,16 @@ export default function BillItemCard({ onPress, data }: BillItemCardProps) {
   return (
     <Pressable onPress={onPress}>
       <Stack direction="horizontal" style={containerStyle} gap="16p" align="center" justify="space-evenly">
-        <Image style={styles.iconStyle} resizeMode="contain" resizeMethod="scale" source={data.icon} />
+        {data.iconUrl !== undefined && data.iconUrl !== "" ? (
+          <NetworkImage
+            source={{ uri: data.iconUrl }}
+            style={styles.iconStyle}
+            resizeMode="contain"
+            resizeMethod="scale"
+          />
+        ) : (
+          <PlaceholderImage style={styles.iconStyle} resizeMode="contain" resizeMethod="scale" />
+        )}
         <Stack direction="vertical">
           <Typography.Text size="caption1" weight="regular" color="neutralBase+30">
             {data.BillName}
@@ -44,7 +56,7 @@ export default function BillItemCard({ onPress, data }: BillItemCardProps) {
             {data.Amount + t("SadadBillPayments.BillPaymentHomeScreen.SAR")}
           </Typography.Text>
           <Typography.Text size="caption2" color="neutralBase">
-            {t("SadadBillPayments.BillPaymentHomeScreen.due") + data.DueDate}
+            {t("SadadBillPayments.BillPaymentHomeScreen.due") + format(new Date(data.DueDate), "dd MMM yyy")}
           </Typography.Text>
         </Stack>
         <View style={styles.chevronContainer}>

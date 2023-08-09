@@ -16,7 +16,7 @@ import { useThemeStyles } from "@/theme";
 
 import BillItemCard from "../components/BillItemCard";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
-import { savedBillHistoryMockData } from "../mocks/MockBillDetails";
+import { useBillPaymentHistory } from "../hooks/query-hooks";
 import { BillHistorySectionList, BillItem } from "../types";
 
 export default function BillPaymentHistoryScreen() {
@@ -25,6 +25,8 @@ export default function BillPaymentHistoryScreen() {
   const [searchSavedGroupedBills, setSearchSavedGroupedBills] = useState<BillHistorySectionList[]>([]);
   const { setNavigationType, clearContext } = useSadadBillPaymentContext();
   const navigation = useNavigation();
+
+  const { data: billPayments } = useBillPaymentHistory();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["24p"],
@@ -37,14 +39,8 @@ export default function BillPaymentHistoryScreen() {
     marginTop: theme.spacing["12p"],
   }));
 
-  useEffect(() => {
-    // TODO: populating it with the mock data.
-    setSearchSavedGroupedBills(getGroupedBillsArrayByDate(savedBillHistoryMockData));
-  }, []);
-
   // grouping the data making it section list.
   const getGroupedBillsArrayByDate = (actualArray: BillItem[]) => {
-    // TODO: currently implemented with mock data.
     const items: BillHistorySectionList[] = Object.entries(
       groupBy(actualArray, bill => format(new Date(bill.DueDate), "d MMMM yyyy"))
     ).map(([title, entries]) => {
@@ -75,16 +71,23 @@ export default function BillPaymentHistoryScreen() {
 
   // applying search filter.
   useEffect(() => {
+    if (billPayments === undefined) {
+      setSearchSavedGroupedBills([]);
+      return;
+    }
     const debounceId = setTimeout(() => {
       // filtering the actual data
-      const filteredArray = savedBillHistoryMockData.filter(function (billObj) {
-        return billObj.AccountNumber.match(searchText) || billObj.BillName.match(searchText);
-      });
+      const filteredArray =
+        searchText !== ""
+          ? billPayments.filter(function (billObj) {
+              return billObj.AccountNumber.match(searchText) || billObj.BillName.match(searchText);
+            })
+          : billPayments;
       // grouping it to section list.
       setSearchSavedGroupedBills(getGroupedBillsArrayByDate(filteredArray));
     }, 500);
     return () => clearTimeout(debounceId);
-  }, [searchText]);
+  }, [billPayments, searchText]);
 
   return (
     <Page backgroundColor="neutralBase-60">
@@ -110,7 +113,7 @@ export default function BillPaymentHistoryScreen() {
             <SectionList
               sections={searchSavedGroupedBills}
               renderItem={({ item }) => (
-                <BillItemCard key={item.AccountNumber} data={item} onPress={() => handleOnItemPressed(item)} />
+                <BillItemCard key={item.BillerId} data={item} onPress={() => handleOnItemPressed(item)} />
               )}
               renderSectionHeader={({ section }) => (
                 <Typography.Text size="callout" weight="regular" color="neutralBase" style={sectionTitleStyle}>
