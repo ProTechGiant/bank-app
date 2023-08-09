@@ -52,6 +52,7 @@ export const MockBillDetails = [
 ];
 export const savedBillHistoryMockData = [
   {
+    BillerId: "c19cddee-3ae2-4754-9c39-ef2bd7bea094",
     key: 1,
     BillName: "Internet Bill",
     AccountNumber: "623234232",
@@ -60,6 +61,7 @@ export const savedBillHistoryMockData = [
     icon: require("../assets/icons/PhoneIcon.png"),
   },
   {
+    BillerId: "c19cddee-3ae2-4754-9c39-ef2bd7bea094",
     key: 2,
     BillName: "Gas",
     AccountNumber: "333234232",
@@ -68,6 +70,7 @@ export const savedBillHistoryMockData = [
     icon: require("../assets/icons/GasIcon.png"),
   },
   {
+    BillerId: "c19cddee-3ae2-4754-9c39-ef2bd7bea094",
     key: 3,
     BillName: "Phone Bill",
     AccountNumber: "62323423442",
@@ -76,6 +79,7 @@ export const savedBillHistoryMockData = [
     icon: require("../assets/icons/PhoneIcon.png"),
   },
   {
+    BillerId: "c19cddee-3ae2-4754-9c39-ef2bd7bea094",
     key: 4,
     BillName: "Internet Bill",
     AccountNumber: "6232342",
@@ -84,6 +88,7 @@ export const savedBillHistoryMockData = [
     icon: require("../assets/icons/BillIcon.png"),
   },
   {
+    BillerId: "c19cddee-3ae2-4754-9c39-ef2bd7bea094",
     key: 5,
     BillName: "Office Net",
     AccountNumber: "42343342767798",
@@ -92,6 +97,7 @@ export const savedBillHistoryMockData = [
     icon: require("../assets/icons/BillIcon.png"),
   },
   {
+    BillerId: "c19cddee-3ae2-4754-9c39-ef2bd7bea094",
     key: 6,
     BillName: "Office Net",
     AccountNumber: "42343342767798",

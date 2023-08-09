@@ -1,9 +1,10 @@
 import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Image, Pressable, StyleSheet, View } from "react-native";
+import { I18nManager, ImageStyle, Pressable, StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { EditIcon } from "@/assets/icons";
+import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -11,13 +12,15 @@ import { useThemeStyles } from "@/theme";
 interface BillDetailsViewProp {
   billDescription: string;
   serviceType: string;
-  billAmount: number;
-  dueDate: string;
+  billAmount: number | string;
+  dueDate?: string;
   billingAccount: string;
   billerID: string;
   billAmountCurrency: string;
   referenceNumber?: string;
-  paidAmount?: number;
+  paidAmount: number | string;
+  paymentDate: string;
+  billerLogoUrl: string;
   onEditBillDescription?: () => void; //setting this optional because this component is being used at other screens too
 }
 
@@ -31,11 +34,19 @@ export default function BillDetailsView({
   billAmountCurrency,
   referenceNumber,
   paidAmount,
+  paymentDate,
+  billerLogoUrl,
   onEditBillDescription,
 }: BillDetailsViewProp) {
   const { t } = useTranslation();
 
   const editIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+
+  const imageStyle = useThemeStyles<ImageStyle>(theme => ({
+    borderRadius: theme.radii.small,
+    height: theme.spacing["64p"],
+    width: theme.spacing["64p"],
+  }));
 
   return (
     <ScrollView style={styles.container}>
@@ -65,7 +76,7 @@ export default function BillDetailsView({
             </Typography.Text>
           </View>
           <View>
-            <Image source={require("../assets/images/stc-logo.png")} />
+            <NetworkImage style={imageStyle} source={{ uri: billerLogoUrl || "" }} />
           </View>
         </Stack>
         {paidAmount !== undefined ? (
@@ -92,9 +103,22 @@ export default function BillDetailsView({
           <Typography.Text color="neutralBase" weight="medium" size="callout">
             {t("SadadBillPayments.BillDetailsScreen.currentDueDate")}
           </Typography.Text>
-          <Typography.Text weight="regular" size="body">
-            {format(new Date(dueDate), "dd MMM YYY")}
-          </Typography.Text>
+
+          {paymentDate ? (
+            <Typography.Text weight="regular" size="body">
+              {format(new Date(paymentDate), "dd MMM yyyy") +
+                " " +
+                t("SadadBillPayments.BillDetailsScreen.atText") +
+                " " +
+                format(new Date(paymentDate), "H:MM")}
+            </Typography.Text>
+          ) : null}
+
+          {dueDate ? (
+            <Typography.Text weight="regular" size="body">
+              {format(new Date(dueDate), "dd MMM YYY")}
+            </Typography.Text>
+          ) : null}
         </View>
         <View>
           <Typography.Text color="neutralBase" weight="medium" size="callout">

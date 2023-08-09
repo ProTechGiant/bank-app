@@ -1,6 +1,7 @@
 import { ImageURISource } from "react-native/types";
 
 export interface BillItem {
+  BillerId: string;
   BillName: string;
   AccountNumber: string;
   Amount: number;
@@ -22,4 +23,4 @@ export interface BillDetail {
   billID: string;
 }
 
-export type NavigationType = "saveBill" | "payBill" | "oneTimePayment" | undefined;
+export type NavigationType = "saveBill" | "payBill" | "oneTimePayment" | "paymentHistory" | undefined;

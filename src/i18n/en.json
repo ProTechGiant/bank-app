@@ -2137,6 +2137,8 @@
       "billProvider": "Bill provider",
       "billAmount": "Bill amount",
       "currentDueDate": "Current due date",
+      "dateAndTime": "Date & time",
+      "atText": "at",
       "accountNumber": "Account number",
       "billerNumber": "Biller number",
       "referenceNumber": "Reference number",
@@ -2239,7 +2241,12 @@
       "searchPlaceholder": "Biller number, provider or description"
     },
     "PaymentHistoryDetailScreen": {
-      "shareButton": "Share"
+      "shareButton": "Share",
+      "errorModal": {
+        "title": "We’re sorry, something has gone wrong.",
+        "message": "Please try again later or contact Customer Care.",
+        "button": "OK"
+      }
     },
     "EnterBillAmountScreen": {
       "oneTimePaymentTitle": "One-time payment",

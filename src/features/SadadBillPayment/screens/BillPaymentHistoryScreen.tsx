@@ -11,9 +11,11 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import BillItemCard from "../components/BillItemCard";
+import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { savedBillHistoryMockData } from "../mocks/MockBillDetails";
 import { BillHistorySectionList, BillItem } from "../types";
 
@@ -21,6 +23,8 @@ export default function BillPaymentHistoryScreen() {
   const { t } = useTranslation();
   const [searchText, setSearchText] = useState("");
   const [searchSavedGroupedBills, setSearchSavedGroupedBills] = useState<BillHistorySectionList[]>([]);
+  const { setNavigationType, clearContext } = useSadadBillPaymentContext();
+  const navigation = useNavigation();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["24p"],
@@ -63,6 +67,12 @@ export default function BillPaymentHistoryScreen() {
     // Calender on press.
   };
 
+  const handleOnItemPressed = (item: BillItem) => {
+    clearContext();
+    setNavigationType("paymentHistory");
+    navigation.navigate("SadadBillPayments.PaymentHistoryDetailScreen", { BillerId: item.BillerId });
+  };
+
   // applying search filter.
   useEffect(() => {
     const debounceId = setTimeout(() => {
@@ -95,17 +105,12 @@ export default function BillPaymentHistoryScreen() {
             placeholder={t("SadadBillPayments.BillPaymentHistoryScreen.searchPlaceholder")}
             value={searchText}
           />
+
           {searchSavedGroupedBills.length > 0 ? (
             <SectionList
               sections={searchSavedGroupedBills}
               renderItem={({ item }) => (
-                <BillItemCard
-                  key={item.AccountNumber}
-                  data={item}
-                  onPress={() => {
-                    //TODO: will be implemented later on.
-                  }}
-                />
+                <BillItemCard key={item.AccountNumber} data={item} onPress={() => handleOnItemPressed(item)} />
               )}
               renderSectionHeader={({ section }) => (
                 <Typography.Text size="callout" weight="regular" color="neutralBase" style={sectionTitleStyle}>

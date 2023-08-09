@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
 import { generateRandomId } from "@/utils";
@@ -45,10 +45,33 @@ interface DeleteSavedBillParams {
   billId: string;
   accountNumber: string;
 }
-
+interface BillDetailsResponse {
+  BillDescriptionEn: string;
+  BillDescriptionAr: string;
+  BillerDescriptionEn: string;
+  BillerDescriptionAr: string;
+  BillerCode: string;
+  BillAmount: string;
+  BillAmountCurrency: string;
+  PaymentAmount: string;
+  PaymentAmountCurrency: string;
+  PaymentDate: string;
+  AccountNumber: string;
+  ReferenceNumber: string;
+  PaymentStatus: string;
+  BillerLogoUrl: string;
+}
 export function useDeleteSavedBill() {
   return useMutation(async ({ billId, accountNumber }: DeleteSavedBillParams) => {
     return api("v1", `payments/sadad/bills/${billId}/details`, "DELETE", undefined, accountNumber, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
+
+export function useBillPaymentHistoryDetail(paymentID: string) {
+  return useQuery(paymentID, () => {
+    return api<BillDetailsResponse>("v1", `payments/sadad/payment-history/${paymentID}`, "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });
