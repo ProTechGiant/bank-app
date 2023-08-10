@@ -7,6 +7,9 @@ import { AliasManagementWrapper, Confirmation } from "../components";
 
 export default function AliasManagementScreen() {
   const navigation = useNavigation();
+
+  //TODO : removed when API is ready
+  const isNotRegistered = false;
   const handleOnBackPress = () => {
     navigation.goBack();
   };
@@ -17,8 +20,7 @@ export default function AliasManagementScreen() {
 
       <ContentContainer>
         {/*TODO: when i connect to api i will render this component conditionally */}
-        <Confirmation />
-        <AliasManagementWrapper />
+        {isNotRegistered ? <Confirmation /> : <AliasManagementWrapper />}
       </ContentContainer>
     </Page>
   );

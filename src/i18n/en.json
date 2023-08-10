@@ -285,7 +285,17 @@
       "TermsAndConditions": "Terms and Conditions;",
       "Continue": "Continue",
       "accountInformation": "Account Information",
-      "aliasManagement": "Alias management enables you to link your IBAN with your Mobile Number, National ID or Email."
+      "aliasManagement": "Alias management enables you to link your IBAN with your Mobile Number, National ID or Email.",
+      "availableAliases":"Available aliases",
+      "linkYour": "Link your",
+      "linked": "Linked",
+      "mobileNumber": "Mobile Number",
+      "nationalID":"National ID",
+      "email":"Email",
+      "ARBLinked": "Already linked with your ARB account, ",
+      "linkToCroatia": "Link to Croatia instead",
+      "registerYourEmail": "Register your email",
+      "registerInfo":"Register your email so that it can be used as an alias"
     },
     "AccountModal": {
       "TermsAndConditionsFirstParagraph": "If you wish to activate all features provided by the Instant Payments System (sarie), and the rest of the related services, such as sending funds via aliases (such as: the mobile number), we hope that you agree to share some of your data with SARIE system for the instant payments owned by the Saudi Central Bank (IBAN number - No. Mobile phone - e-mail - national ID number).",

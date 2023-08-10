@@ -8,7 +8,9 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import AccountIcon from "../assets/AccountIcon";
+import { aliasCardType, userProxies } from "../mocks";
 import AccountModal from "./AccountModal";
+import AvailableAliasesCard from "./AvailableAliasesCard";
 
 export default function AliasManagementWrapper() {
   const { t } = useTranslation();
@@ -24,6 +26,13 @@ export default function AliasManagementWrapper() {
     marginTop: theme.spacing["24p"],
     justifyContent: "space-between",
     alignItems: "center",
+  }));
+
+  const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
+    height: theme.spacing["4p"],
+    backgroundColor: theme.palette["neutralBase-40"],
+    marginHorizontal: -theme.spacing["20p"],
+    marginVertical: theme.spacing["20p"],
   }));
 
   const accountIconColor = useThemeStyles(theme => theme.palette.complimentBase);
@@ -50,6 +59,23 @@ export default function AliasManagementWrapper() {
           </View>
         </Pressable>
       </View>
+      <View style={separatorStyle} />
+      <Stack direction="vertical" gap="16p">
+        <Typography.Text size="title3" weight="medium">
+          {t("ProxyAlias.AliasManagementScreen.availableAliases")}
+        </Typography.Text>
+        {userProxies.map(item => {
+          return (
+            <AvailableAliasesCard
+              proxyType={item.ProxyType}
+              isLinked={!!item.RegistrationId}
+              proxyValue={item.ProxyValue}
+              isARBLinked={item.ARBProxyFlag}
+              isEmailRegistered={item.ProxyType === aliasCardType.EMAIL ? !!item.ProxyValue : true}
+            />
+          );
+        })}
+      </Stack>
 
       <AccountModal visible={isAccountModalVisible} onClose={() => setIsAccountModalVisible(false)} />
     </>
