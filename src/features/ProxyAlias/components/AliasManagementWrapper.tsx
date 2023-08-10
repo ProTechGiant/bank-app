@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
@@ -11,11 +11,14 @@ import AccountIcon from "../assets/AccountIcon";
 import { aliasCardType, userProxies } from "../mocks";
 import AccountModal from "./AccountModal";
 import AvailableAliasesCard from "./AvailableAliasesCard";
+import OptOutModal from "./OptOutModal";
 
 export default function AliasManagementWrapper() {
   const { t } = useTranslation();
 
   const [isAccountModalVisible, setIsAccountModalVisible] = useState(false);
+
+  const [isOptOutModalVisible, setIsOptOutModalVisible] = useState(false);
 
   const accountInfoButtonStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
@@ -38,6 +41,11 @@ export default function AliasManagementWrapper() {
   const accountIconColor = useThemeStyles(theme => theme.palette.complimentBase);
 
   const chevronColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
+
+  const handleOptOut = (reason: string) => {
+    //will handle the output of opt out modal
+    Alert.alert("Selected Opt Out modal is : " + reason);
+  };
 
   return (
     <>
@@ -78,6 +86,11 @@ export default function AliasManagementWrapper() {
       </Stack>
 
       <AccountModal visible={isAccountModalVisible} onClose={() => setIsAccountModalVisible(false)} />
+      <OptOutModal
+        visible={isOptOutModalVisible}
+        onclose={() => setIsOptOutModalVisible(false)}
+        onOptOut={handleOptOut}
+      />
     </>
   );
 }

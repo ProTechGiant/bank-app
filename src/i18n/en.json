@@ -304,6 +304,22 @@
       "fullName": "Full Name",
       "accountNumber": "Account Number",
       "success": "{{dataCopied}} copied to clipboard"
+    },
+    "OptOutModal": {
+      "title": "Opt-out",
+      "reason1": "Unsatisfied with the service",
+      "reason2": "Privacy concerns",
+      "reason3": "Service is not easy to use",
+      "reason4": "Other",
+      "infoMessage": "It might take up to 10 minutes to complete",
+      "placeholderOther": "Other",
+      "validationErrors": {
+        "otherReason": {
+          "required": "Other is required",
+          "minimum": "Minimum character needs to be 10",
+          "maximum": "Minimum characters can be 50"
+        }
+      }
     }
   },
   "TopSpending": {
