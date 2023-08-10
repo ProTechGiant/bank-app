@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TextInput, ViewStyle } from "react-native";
 
@@ -21,23 +21,35 @@ export default function SelectBillerCategoryScreen() {
   const navigation = useNavigation();
 
   const { setBillDetails, navigationType } = useSadadBillPaymentContext();
-
-  const { data } = useBillerCategories();
+  const [page, setPage] = useState(0);
 
   const searchInputRef = useRef<TextInput>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  // maintaining two list one with actual paginated list and other one is search filtered list.
+  const [actualCategoryList, setActualCategoryList] = useState<BillerCategory[]>([]);
   const [categories, setCategories] = useState<BillerCategory[]>([]);
 
-  const categoriesList = useMemo(() => data?.CategoriesList ?? [], [data]);
+  const { data, isLoading, isFetching } = useBillerCategories(PAGE_SIZE, page);
 
   useEffect(() => {
-    setCategories(categoriesList);
-  }, [categoriesList]);
+    if (data !== undefined && data.CategoriesList !== undefined) {
+      // paginated list when newly data is fetched.
+      const array = [...actualCategoryList, ...data.CategoriesList];
+      setActualCategoryList(array);
+      setCategories(array);
+    }
+  }, [data]);
+
+  const handleOnEndReached = () => {
+    // checking if its the last data then no need to increment page.
+    if (page > 0 && data?.CategoriesList === undefined) return;
+    if (!isFetching && !isLoading) setPage(page + 1);
+  };
 
   const handleOnSearch = (query: string) => {
     setSearchQuery(query);
     const lowerCaseQuery = query.toLowerCase();
-    const searchResults = categoriesList.filter(billerCategory => {
+    const searchResults = actualCategoryList.filter(billerCategory => {
       return (
         billerCategory.NameEn?.toLowerCase().includes(lowerCaseQuery) ||
         billerCategory.NameAr?.toLowerCase().includes(lowerCaseQuery)
@@ -48,7 +60,7 @@ export default function SelectBillerCategoryScreen() {
 
   const handleOnSearchClear = () => {
     setSearchQuery("");
-    setCategories(categoriesList);
+    setCategories(actualCategoryList);
     searchInputRef.current?.blur();
   };
 
@@ -67,12 +79,13 @@ export default function SelectBillerCategoryScreen() {
 
   const listContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["12p"],
+    flex: 1,
   }));
 
   return (
     <Page>
       <NavHeader end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
-      <ContentContainer isScrollView style={mainContainerStyle}>
+      <ContentContainer style={mainContainerStyle}>
         <Typography.Text color="neutralBase+30" size="title1" weight="medium">
           {navigationType === "oneTimePayment"
             ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
@@ -91,9 +104,16 @@ export default function SelectBillerCategoryScreen() {
           />
         </Stack>
         <Stack style={listContainerStyle} direction="horizontal">
-          <CategoryList data={categories} onSelect={handleOnCategorySelect} />
+          <CategoryList
+            isFetching={isFetching}
+            data={categories}
+            onSelect={handleOnCategorySelect}
+            onEndReached={handleOnEndReached}
+          />
         </Stack>
       </ContentContainer>
     </Page>
   );
 }
+
+const PAGE_SIZE = 20;

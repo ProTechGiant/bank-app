@@ -10,7 +10,11 @@ import { BillerCategory } from "../types";
 
 const queryKeys = {
   all: () => ["bills"] as const,
-  categoriesWithBillers: () => [...queryKeys.all(), "categories"],
+  categoriesWithBillers: (pageSize: number, pageNumber: number) => [
+    ...queryKeys.all(),
+    "categories",
+    { pageSize, pageNumber },
+  ],
   paymentHistory: () => [...queryKeys.all(), "payment-history"] as const,
 };
 
@@ -18,14 +22,13 @@ interface BillerCategoryResponse {
   CategoriesList: Array<BillerCategory>;
 }
 
-export function useBillerCategories() {
-  return useQuery(queryKeys.categoriesWithBillers(), () => {
+export function useBillerCategories(pageSize: number, pageNumber: number) {
+  return useQuery(queryKeys.categoriesWithBillers(pageSize, pageNumber), () => {
     return api<BillerCategoryResponse>(
       "v1",
       "payments/sadad/billers",
       "GET",
-      // TODO: Pagination will be handled in separate PR
-      { pageSize: 1000, pageNumber: 0 },
+      { pageSize: pageSize, pageNumber: pageNumber },
       undefined,
       {
         ["x-correlation-id"]: generateRandomId(),
