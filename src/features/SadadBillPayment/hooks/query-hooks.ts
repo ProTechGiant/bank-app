@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "react-query";
 import api from "@/api";
 import { generateRandomId } from "@/utils";
 
+import { AddBillInterface } from "../types";
 import { BillerCategory } from "../types";
 
 const queryKeys = {
@@ -162,6 +163,19 @@ export function useEditBillDescription() {
   });
 }
 
+interface AddBillResponse {
+  OtpId: string;
+  OtpCode: string;
+  PhoneNumber: string;
+}
+
+export function useAddBill() {
+  return useMutation(async (values: AddBillInterface) => {
+    return api<AddBillResponse>("v1", "payments/sadad/bill/association", "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
 interface DeleteSavedBillParams {
   billId: string;
   accountNumber: string;

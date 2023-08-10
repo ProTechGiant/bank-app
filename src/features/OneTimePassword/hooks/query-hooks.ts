@@ -63,8 +63,10 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
 
   return useMutation(
     ({ OtpId, OtpCode, optionalParams }: ValidateOtpRequest<RequestT>) => {
-      // We have two endpoints here one is for Login Flow and other is related to cards and transaction flow.
-      const endpointPath = method === "card-actions" ? "cards" : "transfers";
+      // We have two endpoints here one is for Login Flow (customers/otps/validate) and other(/otp-validation) is related to cards and transaction flow.
+      // we are using method to get complete otherEndpoint for cards and transaction flow
+      const endpointPath =
+        method === "card-actions" ? "cards" : method === "payments/sadad" ? "payments/sadad" : "transfers";
       const otherEndpoint = `${endpointPath}/otp-validation`;
       const loginEndpoint = "customers/otps/validate";
 
@@ -74,9 +76,16 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
         method === "change-passcode" ||
         method === "create-passcode";
 
+      const isSadadFlow = method === "payments/sadad";
+
       const endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
       const requestParam = isLoginFlow
         ? { OtpId: OtpId, OtpCode: OtpCode, Reason: method }
+        : isSadadFlow
+        ? {
+            OtpId: OtpId,
+            OtpCode: OtpCode,
+          }
         : {
             data: {
               // TODO:- This will updated once IVR integrated.

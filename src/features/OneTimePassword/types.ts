@@ -32,7 +32,8 @@ export type OtpVerifyMethodType =
   | "reset-passcode"
   | "change-passcode"
   | "create-passcode"
-  | "customers/communication-details";
+  | "customers/communication-details"
+  | "payments/sadad";
 
 export interface OtpRequiredResponse {
   OtpId: string;

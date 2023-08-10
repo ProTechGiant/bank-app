@@ -47,7 +47,7 @@ export default function BillAmountDescriptionScreen() {
         title={
           navigationType === "oneTimePayment"
             ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
-            : t("SadadBillPayments.SelectBillerCategoryScreen.payBilltTitle")
+            : t("SadadBillPayments.SelectBillerCategoryScreen.payBillTitle")
         }
         subTitle={i18n.language === "en" ? billDetails.billIssuer?.NameEn : billDetails.billIssuer?.NameAr}
       />

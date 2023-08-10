@@ -9,17 +9,22 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
+import { useAddBill } from "../hooks/query-hooks";
 import { billDetailsMock } from "../mocks/billDetailsMock";
+import { AddBillInterface } from "../types";
 
 export default function BillDescriptionScreen() {
-  const { i18n, t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
 
   const { navigationType, billDetails } = useSadadBillPaymentContext();
+  const addBillAsync = useAddBill();
+  const otpFlow = useOtpFlow();
 
   const handleOnDescriptionEditPress = () => {
     navigation.navigate("SadadBillPayments.EditBillDescriptionModalScreen");
@@ -29,13 +34,57 @@ export default function BillDescriptionScreen() {
     if (navigationType === "oneTimePayment") {
       navigation.navigate("SadadBillPayments.EnterBillAmountScreen");
     } else {
-      navigation.navigate("SadadBillPayments.BillSavedSuccessScreen");
+      handleOtpFlow();
     }
   };
 
   const handleOnCancel = () => {
     navigation.navigate("SadadBillPayments.BillPaymentHomeScreen");
   };
+
+  const handleOtpFlow = async () => {
+    // Following bill detail values are not available in context as previous screen Api not implemented, to test the flow we need to use hard code value
+    // ServiceType: "LLIN",BillerId: "001", BillNumber: "00100100013", BillingAccount: "009668552251",
+    if (
+      billDetails.category?.Code === undefined ||
+      billDetails.billIssuer?.Id === undefined ||
+      billDetails.billNumber === undefined ||
+      billDetails.accountNumber === undefined ||
+      billDetails.description === undefined
+    ) {
+      return;
+    }
+    const addBillRequest: AddBillInterface = {
+      ServiceType: billDetails.category.Code,
+      BillerId: billDetails.billIssuer.Id,
+      BillNumber: billDetails.billNumber,
+      BillingAccount: billDetails.accountNumber,
+      BillDescriptionList: [
+        {
+          LanguagePreference: i18n.language === "en" ? "en-gb" : "ar-sa",
+          Text: billDetails.description,
+        },
+      ],
+    };
+
+    otpFlow.handle({
+      action: {
+        to: "SadadBillPayments.BillDescriptionScreen",
+      },
+      //Adding mock values(PhoneNumber)for passing the QA testing criteria.
+      //once logging in is handled properly, we will get this value from backend and we will replace this mock value with the value stored in local storage.
+      //TODO Replace with params once we get the value from backend response.
+      otpChallengeParams: {
+        PhoneNumber: "+961549845741",
+      },
+      otpVerifyMethod: "payments/sadad",
+
+      onOtpRequest: () => {
+        return addBillAsync.mutateAsync(addBillRequest);
+      },
+    });
+  };
+
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["24p"],
     marginBottom: theme.spacing["8p"],
@@ -52,7 +101,9 @@ export default function BillDescriptionScreen() {
         title={
           navigationType === "oneTimePayment"
             ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
-            : t("SadadBillPayments.SelectBillerCategoryScreen.payBilltTitle")
+            : navigationType === "saveBill"
+            ? t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")
+            : t("SadadBillPayments.SelectBillerCategoryScreen.payBillTitle")
         }
         subTitle={i18n.language === "en" ? billDetails.billIssuer?.NameEn : billDetails.billIssuer?.NameAr}
       />

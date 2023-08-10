@@ -1582,7 +1582,7 @@
     "SelectBillerCategoryScreen": {
       "addNewBillTitle": "Add a new bill",
       "oneTimePaymentTitle": "One-time payment",
-      "payBilltTitle": "Pay bill",
+      "payBillTitle": "Pay bill",
       "searchPlaceholder": "Search biller category by name",
       "selectBillerCategoryText": "Select biller category"
     },
