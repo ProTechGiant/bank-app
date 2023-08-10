@@ -26,14 +26,14 @@ export default function HeroSlide({ topElement, title, text, containerStyle, bot
     <View style={styles.container}>
       <Stack align="center" direction="vertical" justify="center" gap="24p" style={[contentStyle, containerStyle]}>
         {topElement}
-        <View style={bottomElementStyle}>
+        <Stack direction="vertical" gap="8p" align="center" style={bottomElementStyle}>
           <Typography.Header align="center" color="neutralBase+30" size={headerSize} weight="bold">
             {title}
           </Typography.Header>
           <Typography.Text align="center" color="neutralBase+10" size="callout" weight="regular">
             {text}
           </Typography.Text>
-        </View>
+        </Stack>
       </Stack>
     </View>
   );

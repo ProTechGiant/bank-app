@@ -1,8 +1,7 @@
-import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, useWindowDimensions, View } from "react-native";
+import { useWindowDimensions } from "react-native";
 
-import HeroSlider from "@/components/HeroSlider";
+import { createBrandHeroSlide, HeroSlider } from "@/components/HeroSlider";
 import { HeroSlideProps } from "@/components/HeroSlider/HeroSlide";
 import NavHeader from "@/components/NavHeader";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
@@ -29,36 +28,34 @@ export default function WelcomeCarouselScreen() {
   const svgWidth = svgHeight * 0.75; // Adjust the aspect ratio as needed
   const svgStyles = { top: height * 0.52 };
 
-  const createHeroSlide = (topElement: ReactNode, title: string, text: string) => {
-    return {
-      topElement: <View style={styles.topElementStyle}>{topElement}</View>,
-      title: title,
-      text: text,
-      containerStyle: styles.containerStyle,
-      bottomElementStyle: [styles.bottomElementStyle, svgStyles],
-    };
-  };
-
   const data: HeroSlideProps[] = [
-    createHeroSlide(
+    createBrandHeroSlide(
       <WelcomeCarouselOne height={svgHeight} width={svgWidth} />,
       t("Onboarding.WelcomeCarousel.titleOne"),
-      t("Onboarding.WelcomeCarousel.subTextOne")
+      t("Onboarding.WelcomeCarousel.subTextOne"),
+      undefined,
+      svgStyles
     ),
-    createHeroSlide(
+    createBrandHeroSlide(
       <WelcomeCarouselTwo height={svgHeight} width={svgWidth} />,
       t("Onboarding.WelcomeCarousel.titleTwo"),
-      t("Onboarding.WelcomeCarousel.subTextOne")
+      t("Onboarding.WelcomeCarousel.subTextOne"),
+      undefined,
+      svgStyles
     ),
-    createHeroSlide(
+    createBrandHeroSlide(
       <WelcomeCarouselThree height={svgHeight} width={svgWidth} />,
       t("Onboarding.WelcomeCarousel.titleThree"),
-      t("Onboarding.WelcomeCarousel.subTextThree")
+      t("Onboarding.WelcomeCarousel.subTextThree"),
+      undefined,
+      svgStyles
     ),
-    createHeroSlide(
+    createBrandHeroSlide(
       <WelcomeCarouselFour height={svgHeight} width={svgWidth} />,
       t("Onboarding.WelcomeCarousel.titleFour"),
-      t("Onboarding.WelcomeCarousel.subTextFour")
+      t("Onboarding.WelcomeCarousel.subTextFour"),
+      undefined,
+      svgStyles
     ),
   ];
   return (
@@ -73,20 +70,3 @@ export default function WelcomeCarouselScreen() {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  bottomElementStyle: {
-    position: "absolute",
-    width: "100%",
-  },
-  containerStyle: {
-    alignItems: "center",
-    height: "100%",
-    justifyContent: "space-between",
-    marginHorizontal: 20,
-  },
-  topElementStyle: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
