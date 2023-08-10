@@ -37,7 +37,9 @@ export default function SelectBillerScreen() {
     const lowerCaseQuery = query.toLowerCase();
     const searchResults = billIssuersList?.filter(biller => {
       return (
-        biller.NameEn?.toLowerCase().includes(lowerCaseQuery) || biller.NameAr?.toLowerCase().includes(lowerCaseQuery)
+        biller.NameEn?.toLowerCase().includes(lowerCaseQuery) ||
+        biller.NameAr?.toLowerCase().includes(lowerCaseQuery) ||
+        biller.Id.includes(lowerCaseQuery)
       );
     });
     setBillers(searchResults);

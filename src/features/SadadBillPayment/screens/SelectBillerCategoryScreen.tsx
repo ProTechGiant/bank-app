@@ -84,8 +84,8 @@ export default function SelectBillerCategoryScreen() {
 
   return (
     <Page>
-      <NavHeader end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
-      <ContentContainer style={mainContainerStyle}>
+      <NavHeader />
+      <ContentContainer isScrollView style={mainContainerStyle}>
         <Typography.Text color="neutralBase+30" size="title1" weight="medium">
           {navigationType === "oneTimePayment"
             ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
