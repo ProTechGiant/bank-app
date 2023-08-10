@@ -69,6 +69,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     setAuthenticationHeaders({
       ["UserId"]: state.userId as string,
       ["X-Api-Key"]: state.apiKey as string,
+      ["Authorization"]: "Bearer " + state.apiKey,
     });
   }, [state.userId, state.apiKey]);
 

@@ -121,6 +121,7 @@ export function useBillPaymentHistory() {
               DueDate: PmtInfo.PaymentDate,
               iconUrl: PmtInfo.BillerLogoUrl,
               BillerId: PmtInfo.BillerId,
+              PaymentId: PmtInfo.PaymentId,
             };
           }),
         [i18n.language]
@@ -212,5 +213,24 @@ export function useBillPaymentHistoryDetail(paymentID: string) {
     return api<BillDetailsResponse>("v1", `payments/sadad/payment-history/${paymentID}`, "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
+  });
+}
+
+interface BillPaymentReceiptResponse {
+  PmtReceipt: string;
+}
+
+export function useGetBillPaymentReceipt() {
+  return useMutation(({ paymentID }: { paymentID: string }) => {
+    return api<BillPaymentReceiptResponse>(
+      "v1",
+      `payments/sadad/bills/${paymentID}/receipt`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
   });
 }

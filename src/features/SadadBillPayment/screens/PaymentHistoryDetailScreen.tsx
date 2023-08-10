@@ -18,8 +18,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { BillDetailsView } from "../components";
-import { useBillPaymentHistoryDetail } from "../hooks/query-hooks";
-import { billPaymentPDFMock } from "../mocks/billPaymentPDFMock";
+import { useBillPaymentHistoryDetail, useGetBillPaymentReceipt } from "../hooks/query-hooks";
 import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 
 export default function PaymentHistoryDetailScreen() {
@@ -28,7 +27,8 @@ export default function PaymentHistoryDetailScreen() {
   const navigation = useNavigation();
   const [isAPIErrorVisible, setIsAPIErrorVisible] = useState(false);
 
-  const { status, data } = useBillPaymentHistoryDetail(route.params.BillerId);
+  const { status, data } = useBillPaymentHistoryDetail(route.params.PaymentId);
+  const { mutateAsync } = useGetBillPaymentReceipt();
 
   const billDescription = i18n.language === "en" ? data?.BillDescriptionEn : data?.BillDescriptionAr;
   const billerDescription = i18n.language === "en" ? data?.BillerDescriptionEn : data?.BillerDescriptionAr;
@@ -39,19 +39,13 @@ export default function PaymentHistoryDetailScreen() {
   }, [status]);
 
   const handleOnSharePress = async () => {
-    //TODO: replace this mock data with data from API
-    const { data, fileName, fileNameWithoutExtension } = billPaymentPDFMock;
-    const shareOptions: ShareOptions =
-      Platform.OS === "ios"
-        ? {
-            url: data,
-            filename: fileName,
-          }
-        : {
-            url: data,
-            filename: fileNameWithoutExtension,
-          };
     try {
+      const res = await mutateAsync({ paymentID: route.params.PaymentId });
+      const shareOptions: ShareOptions = {
+        //TODO: change this implementation from base64 to file url when backend is ready.
+        url: `data:application/pdf;base64,${res.PmtReceipt}`,
+        filename: Platform.OS === "ios" ? `${data?.AccountNumber}.pdf` : `${data?.AccountNumber}`,
+      };
       await Share.open(shareOptions);
     } catch (error) {
       warn("Cannot share payment receipt: ", JSON.stringify(error));

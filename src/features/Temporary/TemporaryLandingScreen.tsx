@@ -15,6 +15,7 @@ import useOpenLink from "@/hooks/use-open-link";
 import reloadApp from "@/i18n/reload-app";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
+import { generateRandomId } from "@/utils";
 import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import useNotificationHandler from "../../hooks/use-notification-handler";
@@ -105,7 +106,7 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnOpenInternalTransfers = async (values: TemporaryForm) => {
-    auth.authenticate(values.UserId);
+    auth.authenticate(values.UserId, generateRandomId());
     setInternalTransferEntryPoint("homepage");
     setImmediate(() => {
       navigation.navigate("InternalTransfers.InternalTransfersStack", {

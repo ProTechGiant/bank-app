@@ -66,7 +66,7 @@ export default function BillPaymentHistoryScreen() {
   const handleOnItemPressed = (item: BillItem) => {
     clearContext();
     setNavigationType("paymentHistory");
-    navigation.navigate("SadadBillPayments.PaymentHistoryDetailScreen", { BillerId: item.BillerId });
+    navigation.navigate("SadadBillPayments.PaymentHistoryDetailScreen", { PaymentId: item.PaymentId });
   };
 
   // applying search filter.

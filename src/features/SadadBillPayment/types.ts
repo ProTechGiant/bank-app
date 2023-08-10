@@ -5,6 +5,7 @@ export interface BillItem {
   Amount: number;
   DueDate: string;
   iconUrl: string;
+  PaymentId: string;
 }
 
 export interface BillHistorySectionList {
