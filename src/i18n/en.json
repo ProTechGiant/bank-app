@@ -2272,7 +2272,8 @@
     },
     "BillPaymentHistoryScreen": {
       "paymentHistory": "Payment histroy",
-      "searchPlaceholder": "Biller number, provider or description"
+      "searchPlaceholder": "Biller number, provider or description",
+      "filterBy": "Filtered by:"
     },
     "PaymentHistoryDetailScreen": {
       "shareButton": "Share",
@@ -2512,5 +2513,9 @@
   "DateUtility": {
     "today": "Today",
     "yesterday": "Yesterday"
+  },
+  "DateRangePicker": {
+    "title": "Select date",
+    "confirmButton": "Confirm"
   }
 }

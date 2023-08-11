@@ -1647,7 +1647,8 @@
     },
     "BillPaymentHistoryScreen": {
       "paymentHistory": "Payment histroy",
-      "searchPlaceholder": "Biller number, provider or description"
+      "searchPlaceholder": "Biller number, provider or description",
+      "filterBy": "Filtered by:"
     },
     "PaymentHistoryDetailScreen": {
       "shareButton": "Share",
@@ -1887,5 +1888,9 @@
         "content": "Visit absher.sa to change your details. Please restart the process when your Absher profile has been updated. This can take up to 72 hours."
       }
     }
+  },
+  "DateRangePicker": {
+    "title": "Select date",
+    "confirmButton": "Confirm"
   }
 }
