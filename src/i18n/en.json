@@ -830,6 +830,8 @@
       "biometricAuthenticationDescription": "Login with biometric ID",
       "myCasesTitle": "My Cases",
       "myCasesDescription": "View your cases",
+      "aliasManagment":"Alias management",
+      "aliasManagmentDescription":"Setup and link your aliases to your account",
       "signOutTitle": "Sign out",
       "signOutDescription": ""
     },

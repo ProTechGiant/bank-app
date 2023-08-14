@@ -56,6 +56,10 @@ export default function CustomerAccountManagement() {
     navigation.navigate("Settings.FinancialInformationScreen");
   };
 
+  const handleAliasManagmentPress = () => {
+    navigation.navigate("ProxyAlias.ProxyAliasStack", { screen: "ProxyAlias.AliasManagementScreen" });
+  };
+
   const handleOnSubscriptionManagementPress = () => {
     // TODO: TemporarySubscriptionManagementScreen will be removed from this Settings Stack when implemented by Smart Choices Domain team
     navigation.navigate("Settings.TemporarySubscriptionManagementScreen");
@@ -130,6 +134,12 @@ export default function CustomerAccountManagement() {
             description={t("Settings.CustomerAccountManagementScreen.myCasesDescription")}
             icon={<SettingsIcons.MyCasesIcon />}
             onPress={handleMyCasesPress}
+          />
+          <SettingSection
+            title={t("Settings.CustomerAccountManagementScreen.aliasManagment")}
+            description={t("Settings.CustomerAccountManagementScreen.aliasManagmentDescription")}
+            icon={<SettingsIcons.AliasManagmentIcon />}
+            onPress={handleAliasManagmentPress}
           />
         </SettingsCategoryContainer>
         <Divider color="neutralBase-10" height={1} />

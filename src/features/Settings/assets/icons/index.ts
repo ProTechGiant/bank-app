@@ -1,3 +1,4 @@
+export { default as AliasManagmentIcon } from "./AliasManagmentIcon";
 export { default as AppLanguageIcon } from "./AppLanguageIcon";
 export { default as BiometricAuthenticationIcon } from "./BiometricAuthenticationIcon";
 export { default as FinancialInformationIcon } from "./FinancialInformationIcon";
