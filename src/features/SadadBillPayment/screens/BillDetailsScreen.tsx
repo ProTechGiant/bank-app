@@ -21,7 +21,7 @@ export default function BillDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { mutateAsync: deleteSavedBillAsync } = useDeleteSavedBill();
-  const { setNavigationType } = useSadadBillPaymentContext();
+  const { setNavigationType, navigationType } = useSadadBillPaymentContext();
 
   const [isConfirmDeleteModalVisible, setIsConfirmDeleteModalVisible] = useState(false);
   const [isDeleteSuccessModalVisible, setIsDeleteSuccessModalVisible] = useState(false);
@@ -59,7 +59,13 @@ export default function BillDetailsScreen() {
   return (
     <SafeAreaProvider>
       <Page>
-        <NavHeader title={billDetailsMock.billDescription} />
+        <NavHeader
+          title={
+            navigationType === "payBill"
+              ? t("SadadBillPayments.SelectBillerCategoryScreen.payBillTitle")
+              : billDetailsMock.billDescription
+          }
+        />
         <ContentContainer>
           <Stack direction="vertical" justify="space-between" flex={1}>
             <BillDetailsView onEditBillDescription={handleOnEditDescriptionPress} {...billDetailsMock} />

@@ -2179,7 +2179,7 @@
       "quickActionItems": {
         "oneTimePayment": "One-time\npayment",
         "splitBills": "Split bills\n",
-        "paymentHistory": "Payment\nhistroy"
+        "paymentHistory": "Payment\nhistory"
       },
       "tabItems": {
         "paymentDue": "Payment due",
@@ -2255,10 +2255,10 @@
     },
     "EnterAccountNoScreen": {
       "enterAccountNoText": "Enter account number",
-      "enterAccountNoDescText": "Enter 2 line account number description here",
+      "enterAccountNoDescText": "Please enter the biller account number",
       "continueText": "Continue",
       "textInput": {
-        "validationText": "you can pay maximum double of actual bill amount",
+        "validationText": "Please enter the valid account number",
         "label": "Account number"
       }
     },
