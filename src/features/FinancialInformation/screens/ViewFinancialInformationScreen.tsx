@@ -9,6 +9,8 @@ import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import { useThemeStyles } from "@/theme";
 
 import { FinancialInformationSection, TouchableEditIcon } from "../components";
+import { expectedAmount } from "../mocks/mockExpectedAmount";
+import { occupations } from "../mocks/mockOccupation";
 
 interface ViewFinancialInformationProps {
   setIsEditable: (isViewing: boolean) => void;
@@ -27,6 +29,21 @@ export default function ViewFinancialInformationScreen({ setIsEditable, isEditab
   const handleOnEditable = () => {
     setIsEditable(!isEditable);
   };
+
+  function getOccupationLabel(occupationCode: string) {
+    const occupation = occupations.find(occupation => occupation.value === occupationCode);
+    return occupation ? occupation.label : "";
+  }
+
+  function getExpectedAmountLabel(monthlyLimit: string) {
+    const userLimit = parseFloat(monthlyLimit);
+    const expected = expectedAmount.find(item => {
+      const expectedValue = parseFloat(item.value);
+      return userLimit <= expectedValue;
+    });
+
+    return expected ? expected.label : "";
+  }
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-40"],
@@ -78,7 +95,7 @@ export default function ViewFinancialInformationScreen({ setIsEditable, isEditab
               <View style={styles.iconContainer}>
                 <FinancialInformationSection
                   label={t("Settings.FinancialInformation.occupation")}
-                  value={userInformation.FinancialInformation.OccupationCode}
+                  value={getOccupationLabel(userInformation.FinancialInformation.OccupationCode)}
                 />
                 <TouchableEditIcon onPress={handleOnEditable} />
               </View>
@@ -92,7 +109,7 @@ export default function ViewFinancialInformationScreen({ setIsEditable, isEditab
               />
               <FinancialInformationSection
                 label={t("Settings.FinancialInformation.spendEachMonth")}
-                value={userInformation.FinancialInformation.MonthlyLimit}
+                value={getExpectedAmountLabel(userInformation.FinancialInformation.MonthlyLimit)}
               />
             </View>
           </View>
