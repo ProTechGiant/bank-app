@@ -26,7 +26,7 @@ export default function AccountModal({ onClose, visible }: AccountModalProps) {
 
     addToast({
       variant: "confirm",
-      message: t("ProxyAlias.AliasManagementScreen.AccountModal.success", { dataCopied: label }),
+      message: t("ProxyAlias.AccountModal.success", { dataCopied: label }),
     });
 
     onClose();

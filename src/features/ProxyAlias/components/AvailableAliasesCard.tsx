@@ -1,13 +1,17 @@
 import { t } from "i18next";
+import { useState } from "react";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon, Email, Mobile, NationalID } from "@/assets/icons";
 import LinkIcon from "@/assets/icons/link.svg";
 import UnLinkIcon from "@/assets/icons/unLink.svg";
+import Button from "@/components/Button";
+import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import { useLinkProxyAlias, useUnLinkProxyAlias } from "../hooks/query-hooks";
 import { aliasCardType } from "../mocks";
 interface AliasCardProps {
   proxyType: string;
@@ -24,6 +28,71 @@ export default function AvailableAliasesCard({
   isARBLinked = false,
   isEmailRegistered = true,
 }: AliasCardProps) {
+  const [showSuccessModal, setShowSuccessModal] = useState<{ isVisible: boolean; title: string; message: string }>({
+    isVisible: false,
+    title: "",
+    message: "",
+  });
+  const [showErrorModal, setShowErrorModal] = useState<{ isVisible: boolean; title: string; message: string }>({
+    isVisible: false,
+    title: "",
+    message: "",
+  });
+  const [showWarningModal, setShowWarningModal] = useState(false);
+
+  const linkProxy = useLinkProxyAlias();
+  const unLinkProxy = useUnLinkProxyAlias();
+
+  const handleOnLinkProxy = async (proxyTypeId: string) => {
+    try {
+      const response = await linkProxy.mutateAsync(proxyTypeId);
+      if (response.linkResponeseStatus === "success") {
+        setShowSuccessModal({
+          isVisible: true,
+          title: t("ProxyAlias.SuccessModal.linkingSuccessed"),
+          message: t("ProxyAlias.SuccessModal.connectSuccessfully"),
+        });
+      } else {
+        setShowErrorModal({
+          isVisible: true,
+          title: t("ProxyAlias.ErrorModal.linkingFailed"),
+          message: t("ProxyAlias.ErrorModal.unableToConnect"),
+        });
+      }
+    } catch (error) {
+      setShowErrorModal({
+        isVisible: true,
+        title: t("ProxyAlias.ErrorModal.linkingFailed"),
+        message: t("ProxyAlias.ErrorModal.unableToConnect"),
+      });
+    }
+  };
+
+  const handleOnUnLinkProxy = async (proxyTypeId: string) => {
+    try {
+      const response = await unLinkProxy.mutateAsync(proxyTypeId);
+      if (response.unlinkResponeseStatus === "success") {
+        setShowSuccessModal({
+          isVisible: true,
+          title: t("ProxyAlias.SuccessModal.unLinkingSuccessed"),
+          message: t("ProxyAlias.SuccessModal.unConnectSuccessfully"),
+        });
+      } else {
+        setShowErrorModal({
+          isVisible: true,
+          title: t("ProxyAlias.ErrorModal.unLinkingFailed"),
+          message: t("ProxyAlias.ErrorModal.unableToDisable"),
+        });
+      }
+    } catch (error) {
+      setShowErrorModal({
+        isVisible: true,
+        title: t("ProxyAlias.ErrorModal.unLinkingFailed"),
+        message: t("ProxyAlias.ErrorModal.unableToDisable"),
+      });
+    }
+  };
+
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     flexDirection: "row",
@@ -147,12 +216,62 @@ export default function AvailableAliasesCard({
         </Stack>
       </Stack>
       {isLinked || isARBLinked ? (
-        <UnLinkIcon />
+        <Pressable onPress={() => setShowWarningModal(true)}>
+          <UnLinkIcon />
+        </Pressable>
       ) : !isEmailRegistered ? (
         <ChevronRightIcon color={neutralBaseColor} />
       ) : (
-        <LinkIcon />
+        <Pressable onPress={() => setShowWarningModal(true)}>
+          <LinkIcon />
+        </Pressable>
       )}
+
+      <NotificationModal
+        variant="error"
+        onClose={() => setShowErrorModal({ isVisible: false, title: "", message: "" })}
+        title={showErrorModal.title}
+        message={showErrorModal.message}
+        isVisible={showErrorModal.isVisible}
+      />
+
+      <NotificationModal
+        variant="success"
+        title={showSuccessModal.title}
+        message={showSuccessModal.message}
+        isVisible={showSuccessModal.isVisible}
+        buttons={{
+          primary: (
+            <Button onPress={() => setShowSuccessModal({ isVisible: false, title: "", message: "" })}>
+              {t("ProxyAlias.SuccessModal.continue")}
+            </Button>
+          ),
+        }}
+      />
+
+      {/* TODO when otp screen and API is ready */}
+      <NotificationModal
+        variant="warning"
+        title={isLinked ? t("ProxyAlias.WarningModal.unLinkingWarning") : t("ProxyAlias.WarningModal.linkingWarning")}
+        message={isLinked ? t("ProxyAlias.WarningModal.unWarningCheck") : t("ProxyAlias.WarningModal.warningCheck")}
+        isVisible={showWarningModal}
+        buttons={{
+          primary: (
+            <Button
+              onPress={() => {
+                if (isLinked) {
+                  handleOnUnLinkProxy(proxyType);
+                } else {
+                  handleOnLinkProxy(proxyType);
+                }
+                setShowWarningModal(false);
+              }}>
+              {t("ProxyAlias.WarningModal.pcoceed")}
+            </Button>
+          ),
+          secondary: <Button onPress={() => setShowWarningModal(false)}>{t("ProxyAlias.WarningModal.cancel")}</Button>,
+        }}
+      />
     </View>
   );
 }

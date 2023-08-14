@@ -286,16 +286,16 @@
       "Continue": "Continue",
       "accountInformation": "Account Information",
       "aliasManagement": "Alias management enables you to link your IBAN with your Mobile Number, National ID or Email.",
-      "availableAliases":"Available aliases",
+      "availableAliases": "Available aliases",
       "linkYour": "Link your",
       "linked": "Linked",
       "mobileNumber": "Mobile Number",
-      "nationalID":"National ID",
-      "email":"Email",
+      "nationalID": "National ID",
+      "email": "Email",
       "ARBLinked": "Already linked with your ARB account, ",
       "linkToCroatia": "Link to Croatia instead",
       "registerYourEmail": "Register your email",
-      "registerInfo":"Register your email so that it can be used as an alias"
+      "registerInfo": "Register your email so that it can be used as an alias"
     },
     "AccountModal": {
       "TermsAndConditionsFirstParagraph": "If you wish to activate all features provided by the Instant Payments System (sarie), and the rest of the related services, such as sending funds via aliases (such as: the mobile number), we hope that you agree to share some of your data with SARIE system for the instant payments owned by the Saudi Central Bank (IBAN number - No. Mobile phone - e-mail - national ID number).",
@@ -320,6 +320,28 @@
           "maximum": "Minimum characters can be 50"
         }
       }
+    },
+    "ErrorModal": {
+      "linkingFailed": "Linking Failed",
+      "unableToConnect": "We were unable to connect this alias to your bank account!",
+      "ok": "OK",
+      "unLinkingFailed": "unLinking Failed",
+      "unableToDisable": "We were unable to disconnect your alias from your bank account!"
+    },
+    "SuccessModal": {
+      "linkingSuccessed": "Alias Linked",
+      "connectSuccessfully": "Your new alias has been successfully linked, you can now start receiving instant payments with one click!",
+      "continue": "Continue",
+      "unLinkingSuccessed": "Unlinked Successfully",
+      "unConnectSuccessfully": "Your alias has been successfully disconnected from your bank account!"
+    },
+    "WarningModal": {
+      "linkingWarning": "Are you sure you want to link your alias?",
+      "warningCheck": "If you click proceed, it will link your alias to your bank account",
+      "cancel": "Cancel",
+      "pcoceed": "Proceed",
+      "unLinkingWarning": "Are you sure you want to unlink your alias?",
+      "unWarningCheck": "Unlinking your alias will have it removed, you can link it again later."
     }
   },
   "TopSpending": {
