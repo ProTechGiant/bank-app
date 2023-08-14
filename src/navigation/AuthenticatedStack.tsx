@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AddMoneyStack from "@/features/AddMoney/AddMoneyStack";
+import AppreciationStack from "@/features/Appreciation/AppreciationStack";
 import CardActionsStack from "@/features/CardActions/CardActionsStack";
 import FrequentlyAskedQuestionsStack from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
 import DetailedScreen from "@/features/FrequentlyAskedQuestions/screens/DetailedScreen";
@@ -60,6 +61,7 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen component={AddMoneyStack} name="AddMoney.AddMoneyStack" />
       <AuthStack.Screen component={PasscodeStack} name="Passcode.ChangePasscodeStack" />
       <AuthStack.Screen component={WhatsNextStack} name="WhatsNext.WhatsNextStack" />
+      <AuthStack.Screen component={AppreciationStack} name="Appreciation.AppreciationStack" />
       <AuthStack.Screen component={InternalTransfersStack} name="InternalTransfers.InternalTransfersStack" />
       <AuthStack.Screen component={SavingsGoalsStack} name="SavingsGoals.SavingsGoalsStack" />
       <AuthStack.Screen component={SectionScreen} name="FrequentlyAskedQuestions.SectionScreen" />

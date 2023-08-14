@@ -61,7 +61,7 @@ export default function DashboardScreen() {
   };
 
   const handleOnRewardsPress = () => {
-    // ..
+    navigation.navigate("Appreciation.AppreciationStack");
   };
 
   const handleOnWhatsNextPress = () => {

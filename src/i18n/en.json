@@ -2540,4 +2540,11 @@
     "title": "Select date",
     "confirmButton": "Confirm"
   }
+  ,"Appreciation":{
+    "HubScreen": {
+      "title": "Appreciations",
+      "all":"All",
+      "redeemed":"Redeemed"
+    }
+  }
 }

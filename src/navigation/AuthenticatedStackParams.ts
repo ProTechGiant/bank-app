@@ -86,6 +86,7 @@ type RootStackParams = {
   "NotificationManagement.HubScreen": undefined;
   "NotificationManagement.CategoryScreen": { categoryId: string; title: string };
   "WhatsNext.WhatsNextStack": undefined;
+  "Appreciation.AppreciationStack": undefined;
   "HelpAndSupport.HelpAndSupportStack":
     | {
         screen: keyof HelpAndSupportStackParams;
