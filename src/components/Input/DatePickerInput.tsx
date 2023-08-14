@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Keyboard, Platform } from "react-native";
 
 import DatePickerIOS from "@/components/DatePickerIOS";
-import { TableListCard } from "@/components/TableList";
+import List from "@/components/List";
 
 export interface DatePickerInputProps {
   buttonText: string;
@@ -94,13 +94,13 @@ export function DatePickerInput({
   const finalHelperText = undefined !== errorText ? errorText : resolvedHelperText;
 
   return (
-    <>
-      <TableListCard
+    <List isBordered>
+      <List.Item.DataTable
         label={label}
         onPress={handleOnOpen}
         helperText={finalHelperText}
-        isError={undefined !== errorText}
-        end={<TableListCard.Date format={format_} placeholder={placeholder} value={value} />}
+        isError={errorText !== undefined}
+        end={<List.End.Date format={format_} placeholder={placeholder} value={value} />}
       />
       {Platform.OS === "ios" ? (
         <DatePickerIOS
@@ -115,6 +115,6 @@ export function DatePickerInput({
           value={selectedValue ?? new Date()}
         />
       ) : null}
-    </>
+    </List>
   );
 }

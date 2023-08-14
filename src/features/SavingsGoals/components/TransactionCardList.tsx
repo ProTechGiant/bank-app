@@ -3,7 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
-import { TableListCard, TableListCardGroup } from "@/components/TableList";
+import List from "@/components/List";
 import Typography from "@/components/Typography";
 
 interface Transaction {
@@ -24,18 +24,18 @@ export default function TransactionCardList({ transactions }: TransactionCardLis
   return (
     <>
       {transactions.length > 0 ? (
-        <TableListCardGroup>
+        <List>
           {transactions.map(element => (
-            <TableListCard
+            <List.Item.TableCell
               key={element.id}
               label={element.title}
               helperText={format(new Date(element.date), "dd MMM yyyy")}
               end={
-                <TableListCard.Label bold>
+                <List.End.Label bold>
                   <Typography.Text
                     color={element.creditDebitIndicator !== "Debit" ? "successBase" : "neutralBase+30"}
                     size="callout"
-                    weight="semiBold">
+                    weight="regular">
                     <FormatTransactionAmount
                       amount={element.amount}
                       isPlusSignIncluded={element.creditDebitIndicator !== "Debit"}
@@ -45,11 +45,11 @@ export default function TransactionCardList({ transactions }: TransactionCardLis
                       isCurrencyIncluded={false}
                     />
                   </Typography.Text>
-                </TableListCard.Label>
+                </List.End.Label>
               }
             />
           ))}
-        </TableListCardGroup>
+        </List>
       ) : (
         <Typography.Text color="neutralBase" size="footnote" weight="regular">
           {t("SavingsGoals.GoalDetailsScreen.Transactions.showPayments")}

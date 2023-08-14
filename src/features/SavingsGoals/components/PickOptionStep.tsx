@@ -4,8 +4,8 @@ import { View, ViewStyle } from "react-native";
 import { LightningBoltIcon, RecurringEventIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import List from "@/components/List";
 import NavHeader from "@/components/NavHeader";
-import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -54,34 +54,36 @@ export default function PickOptionStep({
               <Typography.Text size="callout" weight="medium" style={subTitleStyle}>
                 {t("SavingsGoals.FundGoalModal.PickFundingMethodStep.recommended.title")}
               </Typography.Text>
-              <TableListCard
-                end={<TableListCard.Chevron />}
-                icon={<RecurringEventIcon />}
-                onPress={onRecommendedPaymentPress}
-                label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.recommended.amount", {
-                  amount: recommendedAmount?.toLocaleString("en-US", { style: "decimal" }),
-                })}
-              />
+              <List isBordered>
+                <List.Item.Primary
+                  end={<List.End.Chevron />}
+                  icon={<RecurringEventIcon />}
+                  onPress={onRecommendedPaymentPress}
+                  label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.recommended.amount", {
+                    amount: recommendedAmount?.toLocaleString("en-US", { style: "decimal" }),
+                  })}
+                />
+              </List>
             </View>
           )}
           <View>
             <Typography.Text size="callout" weight="medium" style={subTitleStyle}>
               {t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.title")}
             </Typography.Text>
-            <TableListCardGroup>
-              <TableListCard
-                end={<TableListCard.Chevron />}
+            <List isBordered>
+              <List.Item.Primary
+                end={<List.End.Chevron />}
                 onPress={onRecurringPaymentsPress}
                 icon={<RecurringEventIcon />}
                 label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.regularPayments")}
               />
-              <TableListCard
-                end={<TableListCard.Chevron />}
+              <List.Item.Primary
+                end={<List.End.Chevron />}
                 onPress={onOneOffPaymentPress}
                 icon={<LightningBoltIcon />}
                 label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.oneOffPayment")}
               />
-            </TableListCardGroup>
+            </List>
           </View>
         </View>
         <View>

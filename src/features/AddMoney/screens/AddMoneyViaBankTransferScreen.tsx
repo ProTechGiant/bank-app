@@ -5,10 +5,10 @@ import { View, ViewStyle } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
+import List from "@/components/List";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
@@ -80,17 +80,19 @@ export default function AddMoneyViaBankTransferScreen() {
           <Typography.Text color="neutralBase+30" weight="regular" size="callout">
             {t("AddMoneyInfo.description")}
           </Typography.Text>
-          <TableListCard icon={<BadgeIcon color={badgeIconColor} />} label={t("AddMoneyInfo.note")} />
+          <List isBordered>
+            <List.Item.Primary icon={<BadgeIcon color={badgeIconColor} />} label={t("AddMoneyInfo.note")} />
+          </List>
           <Typography.Text color="neutralBase+30" weight="semiBold" size="title3">
             {t("AddMoneyInfo.BankDetails.title")}
           </Typography.Text>
-          <TableListCardGroup>
+          <List isBordered>
             {details.map(element => (
-              <TableListCard
+              <List.Item.Primary
                 label={element.label}
                 helperText={element.value}
                 end={
-                  <TableListCard.Copy
+                  <List.End.Copy
                     onPress={() => {
                       if (element.value === null || element.value === undefined) return;
                       handleOnCopyPress(element.value, element.label);
@@ -99,7 +101,7 @@ export default function AddMoneyViaBankTransferScreen() {
                 }
               />
             ))}
-          </TableListCardGroup>
+          </List>
           <Divider color="neutralBase-30" />
         </Stack>
         <View style={historyContainerStyle}>

@@ -1,4 +1,4 @@
-import { TableListCard } from "@/components/TableList";
+import List from "@/components/List";
 
 interface AccountDestinationProps {
   balance: number;
@@ -8,10 +8,12 @@ interface AccountDestinationProps {
 
 export default function AccountDestination({ balance, accountName, destination }: AccountDestinationProps) {
   return (
-    <TableListCard
-      label={destination}
-      helperText={accountName}
-      end={<TableListCard.Label>{balance.toLocaleString("en-US", { style: "decimal" }) + " SAR"}</TableListCard.Label>}
-    />
+    <List isBordered>
+      <List.Item.Primary
+        label={destination}
+        helperText={accountName}
+        end={<List.End.Label>{balance.toLocaleString("en-US", { style: "decimal" }) + " SAR"}</List.End.Label>}
+      />
+    </List>
   );
 }

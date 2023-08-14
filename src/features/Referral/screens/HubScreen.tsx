@@ -6,10 +6,10 @@ import { Platform, SafeAreaView, ScrollView, Share, View, ViewStyle } from "reac
 import { CopyIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import List from "@/components/List";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
-import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { useReferralContext } from "@/contexts/ReferralContext";
 import { useToasts } from "@/contexts/ToastsContext";
@@ -165,19 +165,21 @@ export default function HubScreen() {
               </Typography.Text>
             </Typography.Text>
             <View style={linkCardStyle}>
-              {referralLink !== undefined ? (
-                <TableListCard
-                  label={referralLink}
-                  onPress={handleOnCopyPress}
-                  end={<TableListCard.Copy onPress={handleOnCopyPress} />}
-                />
-              ) : (
-                <TableListCard
-                  label={t("Referral.HubScreen.noLink")}
-                  isInactive={true}
-                  end={<CopyIcon color={inactiveIconColor} height={16} width={16} />}
-                />
-              )}
+              <List isBordered>
+                {referralLink !== undefined ? (
+                  <List.Item.Information
+                    label={referralLink}
+                    onPress={handleOnCopyPress}
+                    end={<List.End.Copy onPress={handleOnCopyPress} />}
+                  />
+                ) : (
+                  <List.Item.Information
+                    label={t("Referral.HubScreen.noLink")}
+                    disabled={true}
+                    end={<CopyIcon color={inactiveIconColor} height={16} width={16} />}
+                  />
+                )}
+              </List>
             </View>
           </View>
         </SafeAreaView>
@@ -187,28 +189,28 @@ export default function HubScreen() {
               {t("Referral.HubScreen.recommendations")}
             </Typography.Text>
             <View style={tableCardStyles}>
-              <TableListCardGroup>
-                <TableListCard
+              <List isBordered>
+                <List.Item.Table
                   label={t("Referral.HubScreen.earnt")}
                   end={
                     moneyEarned !== undefined ? (
-                      <TableListCard.Label bold>{moneyEarned}</TableListCard.Label>
+                      <List.End.Label bold>{moneyEarned}</List.End.Label>
                     ) : (
-                      <TableListCard.Label>{t("Referral.HubScreen.noData")}</TableListCard.Label>
+                      <List.End.Label>{t("Referral.HubScreen.noData")}</List.End.Label>
                     )
                   }
                 />
-                <TableListCard
+                <List.Item.Table
                   label={t("Referral.HubScreen.completed")}
                   end={
                     numberOfCompletedReferrals !== undefined ? (
-                      <TableListCard.Label bold>{numberOfCompletedReferrals}</TableListCard.Label>
+                      <List.End.Label bold>{numberOfCompletedReferrals}</List.End.Label>
                     ) : (
-                      <TableListCard.Label>{t("Referral.HubScreen.noData")}</TableListCard.Label>
+                      <List.End.Label>{t("Referral.HubScreen.noData")}</List.End.Label>
                     )
                   }
                 />
-              </TableListCardGroup>
+              </List>
             </View>
           </ScrollView>
           <Button

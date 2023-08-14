@@ -13,12 +13,12 @@ import CurrencyInput from "@/components/Form/CurrencyInput";
 import DatePickerInput from "@/components/Form/DatePickerInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
+import { List } from "@/components/List";
 import Modal from "@/components/Modal";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -179,21 +179,19 @@ export default function CreateGoalScreen() {
                     : undefined;
                 }}
               />
-              <TableListCardGroup>
-                <TableListCard
+              <List isBordered>
+                <List.Item.Primary
                   label={t("SavingsGoals.CreateGoalScreen.form.roundUps.label")}
                   helperText={t("SavingsGoals.CreateGoalScreen.form.roundUps.helperText")}
-                  onInfoPress={() => setIsInfoModalVisible(true)}
-                  end={
-                    <TableListCard.Toggle onPress={() => setValue("RoundupFlag", !RoundupFlag)} value={RoundupFlag} />
-                  }
+                  onMoreInfoPress={() => setIsInfoModalVisible(true)}
+                  end={<List.End.Toggle onPress={() => setValue("RoundupFlag", !RoundupFlag)} value={RoundupFlag} />}
                 />
-                <TableListCard
+                <List.Item.Primary
                   label={t("SavingsGoals.CreateGoalScreen.form.notification.label")}
                   helperText={t("SavingsGoals.CreateGoalScreen.form.notification.helperText")}
-                  end={<TableListCard.Toggle onPress={handleOnNotificationPress} value={NotificationFlag} />}
+                  end={<List.End.Toggle onPress={handleOnNotificationPress} value={NotificationFlag} />}
                 />
-              </TableListCardGroup>
+              </List>
             </Stack>
           </View>
           <View style={styles.buttonContainer}>

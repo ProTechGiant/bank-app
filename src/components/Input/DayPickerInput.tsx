@@ -1,8 +1,7 @@
 import { useState } from "react";
 
 import DayPicker from "@/components/DayPicker";
-
-import { TableListCard } from "../TableList";
+import List from "@/components/List";
 
 export interface DayPickerInputProps {
   buttonText: string;
@@ -59,12 +58,14 @@ export function DayPickerInput({
 
   return (
     <>
-      <TableListCard
-        onPress={handleOnOpen}
-        label={label}
-        helperText={resolvedHelperText}
-        end={<TableListCard.Day placeholder={placeholder} value={value} />}
-      />
+      <List isBordered>
+        <List.Item.DataTable
+          onPress={handleOnOpen}
+          label={label}
+          helperText={resolvedHelperText}
+          end={<List.End.Day placeholder={placeholder} value={value} />}
+        />
+      </List>
       <DayPicker
         buttonText={buttonText}
         headerText={headerText}

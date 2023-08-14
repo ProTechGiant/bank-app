@@ -15,7 +15,7 @@
     "close": "close",
     "remove": "remove"
   },
-  "TableList": {
+  "List": {
     "datePicker": {
       "placeholder": "Set",
       "headerText": "Set Date",

@@ -64,7 +64,7 @@ export default function Accordion({ children, title }: AccordionProps) {
         accessibilityRole="button"
         accessibilityLabel={accessibilityLabel}
         accessibilityState={{ expanded: isExpanded }}
-        onPress={() => setIsExpanded(c => !c)}>
+        onPress={() => setIsExpanded(prevIsExpanded => !prevIsExpanded)}>
         <GreyGradient>
           <View style={pressableContainerStyle}>
             <View style={iconContainer}>

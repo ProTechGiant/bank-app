@@ -3,9 +3,9 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { FlagIcon, ReportFraudIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
+import List from "@/components/List";
 import NavHeader from "@/components/NavHeader";
 import Stack from "@/components/Stack";
-import { TableListCard } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { PhoneBook } from "@/hooks/use-call-support";
 import { useThemeStyles } from "@/theme";
@@ -44,22 +44,26 @@ export default function LandingStep({ onProblemWithTransactionLink, onFraudLink,
           </Typography.Text>
         </View>
         <View style={linkCardContainerStyle}>
-          <TableListCard
-            label={t("PaymentDisputes.PaymentDisputesLandingModal.linkCards.scamLinkCardTitle")}
-            helperText={t("PaymentDisputes.PaymentDisputesLandingModal.linkCards.scamLinkCardMessage")}
-            end={<TableListCard.Chevron />}
-            icon={<ReportFraudIcon />}
-            onPress={onFraudLink}
-          />
+          <List isBordered>
+            <List.Item.Primary
+              label={t("PaymentDisputes.PaymentDisputesLandingModal.linkCards.scamLinkCardTitle")}
+              helperText={t("PaymentDisputes.PaymentDisputesLandingModal.linkCards.scamLinkCardMessage")}
+              end={<List.End.Chevron />}
+              icon={<ReportFraudIcon />}
+              onPress={onFraudLink}
+            />
+          </List>
         </View>
         <View style={linkCardContainerStyle}>
-          <TableListCard
-            label={t("PaymentDisputes.PaymentDisputesLandingModal.linkCards.disputeLinkCardTitle")}
-            helperText={t("PaymentDisputes.PaymentDisputesLandingModal.linkCards.disputeLinkCardMessage")}
-            end={<TableListCard.Chevron />}
-            icon={<FlagIcon />}
-            onPress={onProblemWithTransactionLink}
-          />
+          <List isBordered>
+            <List.Item.Primary
+              label={t("PaymentDisputes.PaymentDisputesLandingModal.linkCards.disputeLinkCardTitle")}
+              helperText={t("PaymentDisputes.PaymentDisputesLandingModal.linkCards.disputeLinkCardMessage")}
+              end={<List.End.Chevron />}
+              icon={<FlagIcon />}
+              onPress={onProblemWithTransactionLink}
+            />
+          </List>
         </View>
         <Stack direction="vertical" gap="8p" style={moreHelpContainerStyle}>
           <Typography.Text size="title3" weight="medium">

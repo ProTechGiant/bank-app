@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, View, ViewStyle } from "react-native";
 
 import { CalendarAltIcon, ChevronRightIcon, CopyIcon } from "@/assets/icons";
-import Toggle from "@/components/Toggle";
+import { default as ToggleComponent } from "@/components/Toggle";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -19,7 +19,7 @@ interface ToggleProps {
   value: boolean;
 }
 
-const Chevron = () => {
+export function Chevron() {
   const { infoColor } = useInfoStyles();
 
   return (
@@ -27,9 +27,9 @@ const Chevron = () => {
       <ChevronRightIcon color={infoColor} />
     </View>
   );
-};
+}
 
-const Copy = ({ onPress }: CopyProps) => {
+export function Copy({ onPress }: CopyProps) {
   const { iconColor } = useInfoStyles();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -43,9 +43,9 @@ const Copy = ({ onPress }: CopyProps) => {
       <CopyIcon color={iconColor} height={16} width={16} />
     </Pressable>
   );
-};
+}
 
-const Label = ({ bold = false, children }: { bold?: boolean; children: React.ReactNode }) => {
+export function Label({ bold = false, children }: { bold?: boolean; children: React.ReactNode }) {
   return (
     <Typography.Text
       color={bold ? "primaryBase-40" : "neutralBase"}
@@ -54,9 +54,9 @@ const Label = ({ bold = false, children }: { bold?: boolean; children: React.Rea
       {children}
     </Typography.Text>
   );
-};
+}
 
-const TableListDate = ({
+export function Date({
   placeholder,
   format,
   value,
@@ -64,7 +64,7 @@ const TableListDate = ({
   placeholder?: string;
   format: string;
   value: Date | undefined;
-}) => {
+}) {
   const { iconColor } = useInfoStyles();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -78,9 +78,9 @@ const TableListDate = ({
       <Label bold>{undefined !== value ? formatFn(value, format) : placeholder}</Label>
     </View>
   );
-};
+}
 
-const TableListDay = ({ placeholder, value }: { placeholder?: string; value: number | undefined }) => {
+export function Day({ placeholder, value }: { placeholder?: string; value: number | undefined }) {
   const { t } = useTranslation();
   const { iconColor } = useInfoStyles();
 
@@ -97,10 +97,8 @@ const TableListDay = ({ placeholder, value }: { placeholder?: string; value: num
       </Label>
     </View>
   );
-};
+}
 
-const TableListToggle = ({ disabled = false, onPress, value }: ToggleProps) => {
-  return <Toggle disabled={disabled} onPress={onPress} value={value} />;
-};
-
-export { Chevron, Copy, Label, TableListDate, TableListDay, TableListToggle };
+export function Toggle({ disabled = false, onPress, value }: ToggleProps) {
+  return <ToggleComponent disabled={disabled} onPress={onPress} value={value} />;
+}

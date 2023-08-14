@@ -5,9 +5,9 @@ import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { CheckCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import List from "@/components/List";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import useNavigation from "@/navigation/use-navigation";
@@ -107,26 +107,18 @@ export default function ConfirmationScreen() {
               : t("InternalTransfers.ConfirmationScreen.message")}
           </Typography.Text>
         </View>
-        <TableListCardGroup background="dark">
+        <List variant="dark" isBordered>
           {recipient.accountName !== undefined ? (
-            <TableListCard
-              isGrouped
+            <List.Item.Table
               caption={t("InternalTransfers.ConfirmationScreen.transferredTo")}
               label={recipient.accountName}
-              background="dark"
-              labelSize="title2"
-              labelWeight="regular"
             />
           ) : null}
-          <TableListCard
-            isGrouped
+          <List.Item.Table
             caption={t("InternalTransfers.ConfirmationScreen.amount")}
             label={`${formatCurrency(transferAmount ?? 0)} SAR`}
-            background="dark"
-            labelSize="title2"
-            labelWeight="regular"
           />
-        </TableListCardGroup>
+        </List>
         <Stack align="stretch" direction="vertical" gap="8p" style={styles.buttonContainer}>
           <Button color="dark" variant="primary" onPress={handleOnDonePress}>
             {t("InternalTransfers.ConfirmationScreen.buttons.done")}

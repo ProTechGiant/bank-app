@@ -9,12 +9,12 @@ import { ArrowCircleUpIcon, EditIcon, PlusIcon, RecurringEventIcon, WithdrawIcon
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import ContextualFAQModal from "@/components/ContextualFAQModal";
+import List from "@/components/List";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import ProgressWheel from "@/components/ProgressWheel";
 import Stack from "@/components/Stack";
-import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { useToasts } from "@/contexts/ToastsContext";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
@@ -313,19 +313,19 @@ export default function GoalDetailsScreen() {
                   {t("SavingsGoals.GoalDetailsScreen.Payments.title")}
                 </Typography.Text>
               </View>
-              <TableListCardGroup>
-                <TableListCard
+              <List gap="12p">
+                <List.Item.Primary
                   icon={<ArrowCircleUpIcon />}
-                  onInfoPress={handleOnShowRoundupsInfoModal}
+                  onMoreInfoPress={handleOnShowRoundupsInfoModal}
                   label={t("SavingsGoals.GoalDetailsScreen.RoundUp")}
-                  end={<TableListCard.Toggle onPress={handleOnToggleRoundUps} value={isRoundUpsOn} />}
+                  end={<List.End.Toggle onPress={handleOnToggleRoundUps} value={isRoundUpsOn} />}
                 />
                 {recurringFundData !== undefined ? (
-                  <TableListCard
+                  <List.Item.Primary
                     onPress={handleOnUpdatePaymentPress}
                     label={t("SavingsGoals.GoalDetailsScreen.RegularPayment.titleExistingRegular")}
                     icon={<RecurringEventIcon />}
-                    end={<TableListCard.Chevron />}
+                    end={<List.End.Chevron />}
                     helperText={t("SavingsGoals.GoalDetailsScreen.RegularPayment.text", {
                       amount: recurringFundData.PaymentAmount,
                       currency: recurringFundData.Currency,
@@ -337,14 +337,14 @@ export default function GoalDetailsScreen() {
                     })}
                   />
                 ) : (
-                  <TableListCard
+                  <List.Item.Primary
                     onPress={handleOnAddRecurringPaymentPress}
                     icon={<RecurringEventIcon />}
                     label={t("SavingsGoals.GoalDetailsScreen.RegularPayment.titleAddRegular")}
-                    end={<TableListCard.Chevron />}
+                    end={<List.End.Chevron />}
                   />
                 )}
-              </TableListCardGroup>
+              </List>
             </View>
             <View style={sectionTitleMargin}>
               <View style={sectionTitleStyle}>

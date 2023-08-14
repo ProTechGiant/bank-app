@@ -12,9 +12,9 @@ import CurrencyInput from "@/components/Form/CurrencyInput";
 import DatePickerInput from "@/components/Form/DatePickerInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
+import List from "@/components/List";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
-import { TableListCard } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import { alphaNumericSpaceRegExp } from "@/utils";
 
@@ -136,11 +136,13 @@ export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSav
               : undefined;
           }}
         />
-        <TableListCard
-          label={t("SavingsGoals.EditGoalScreen.notifications.label")}
-          helperText={t("SavingsGoals.EditGoalScreen.notifications.helperText")}
-          end={<TableListCard.Toggle onPress={handleOnNotificationToggleSwitch} value={watch("NotificationFlag")} />}
-        />
+        <List isBordered>
+          <List.Item.Primary
+            label={t("SavingsGoals.EditGoalScreen.notifications.label")}
+            helperText={t("SavingsGoals.EditGoalScreen.notifications.helperText")}
+            end={<List.End.Toggle onPress={handleOnNotificationToggleSwitch} value={watch("NotificationFlag")} />}
+          />
+        </List>
       </Stack>
       <View>
         <SubmitButton control={control} onSubmit={handleSubmit(onSubmit)}>

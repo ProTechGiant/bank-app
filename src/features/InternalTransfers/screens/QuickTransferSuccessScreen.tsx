@@ -7,9 +7,9 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { TickCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import List from "@/components/List";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import { TableListCard, TableListCardGroup } from "@/components/TableList";
 import Typography from "@/components/Typography";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -62,20 +62,16 @@ export default function QuickTransferSuccessScreen() {
               {t("InternalTransfers.QuickTransferSuccessScreen.message")}
             </Typography.Text>
           </View>
-          <TableListCardGroup background="dark">
-            <TableListCard
-              isGrouped
+          <List isBordered variant="dark">
+            <List.Item.Table
               caption={t("InternalTransfers.QuickTransferSuccessScreen.transferredTo")}
               label={route.params.BeneficiaryFullName}
-              background="dark"
             />
-            <TableListCard
-              isGrouped
+            <List.Item.Table
               caption={t("InternalTransfers.QuickTransferSuccessScreen.amount")}
               label={formatCurrency(route.params.PaymentAmount, "SAR")}
-              background="dark"
             />
-          </TableListCardGroup>
+          </List>
           <Stack align="stretch" direction="vertical" gap="8p" style={styles.buttonContainer}>
             <Button color="dark" variant="primary" onPress={handleOnDonePress}>
               {t("InternalTransfers.QuickTransferSuccessScreen.buttons.done")}
