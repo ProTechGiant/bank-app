@@ -1635,6 +1635,16 @@
       "textInput": {
         "validationText": "Please enter the valid account number",
         "label": "Account number"
+      },
+      "errorModal": {
+        "buttonRetryText": "Retry",
+        "message": "Please make sure you have entered the correct details or you have the right information",
+        "title": "Sorry, account not found"
+      },
+      "warningModal": {
+        "buttonCancelText": "Cancel",
+        "message": "You will not be able to undo this action, if you cancel now.",
+        "title": "Are you sure you want to cancel?"
       }
     },
     "EnterBillDescriptionScreen": {

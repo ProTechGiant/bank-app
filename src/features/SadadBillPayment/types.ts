@@ -28,13 +28,26 @@ export interface Biller {
   LogoUrl: string;
 }
 export interface BillDetail {
-  billNumber: string;
-  otherBillAmount: string | undefined;
-  billID: string;
-  category: BillerCategory | undefined;
-  billIssuer: Biller | undefined;
-  accountNumber: string | undefined;
-  description: string;
+  BillNumber: string;
+  OtherBillAmount: string | undefined;
+  BillID: string;
+  Category: BillerCategory | undefined;
+  BillIssuer: Biller;
+  AccountNumber: string | undefined;
+  Description: string;
+  BillingAccount: string;
+  BillAmount: string;
+  BillAmountCurrency: string;
+  BillerNumber: string;
+  BillStatusCode: string;
+  DueDate: string;
+  ExactPaymentRequired: boolean;
+  IsAdvancePaymentAllowed: boolean;
+  IsOverPaymentAllowed: boolean;
+  IsPartialPaymentAllowed: boolean;
+  PaidAmount: string;
+  PaidAmountCurrency: string;
+  ServiceType: string;
 }
 
 export interface AddBillInterface {

@@ -10,9 +10,9 @@ interface CategoryListProps {
   onSelect: (value: BillerCategory | Biller) => void;
   data?: Array<BillerCategory | Biller>;
   onEndReached: () => void;
-  isFetching: boolean;
+  isFetching?: boolean;
 }
-export default function CategoryList({ data, onSelect, onEndReached, isFetching }: CategoryListProps) {
+export default function CategoryList({ data, onSelect, onEndReached, isFetching = false }: CategoryListProps) {
   const { t } = useTranslation();
 
   const listEmptyComponent = () => {

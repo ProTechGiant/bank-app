@@ -13,11 +13,13 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { InfoContainer } from "../components";
-import { billDetailsMock } from "../mocks/billDetailsMock";
+import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 
 export default function BillSavedSuccessScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const { billDetails } = useSadadBillPaymentContext();
 
   const handleOnClosePress = () => {
     navigation.navigate("SadadBillPayments.BillPaymentHomeScreen");
@@ -86,7 +88,7 @@ export default function BillSavedSuccessScreen() {
                   {t("SadadBillPayments.BillSavedSuccessScreen.billDescriptionText")}
                 </Typography.Text>
                 <Typography.Text color="neutralBase-60" size="title2">
-                  {billDetailsMock.billDescription}
+                  {billDetails.Description}
                 </Typography.Text>
               </Stack>
               <View style={iconContainer}>
@@ -98,25 +100,25 @@ export default function BillSavedSuccessScreen() {
         <Stack style={marginLineStyle} direction="horizontal">
           <InfoContainer
             title={t("SadadBillPayments.BillSavedSuccessScreen.billAmountText")}
-            body={billDetailsMock.billAmount + " SAR"}
+            body={billDetails.BillAmount + " " + billDetails.BillAmountCurrency}
           />
         </Stack>
         <Stack style={marginLineStyle} direction="horizontal">
           <InfoContainer
             title={t("SadadBillPayments.BillSavedSuccessScreen.currentDueText")}
-            body={format(new Date(billDetailsMock.dueDate), "dd MMM YYY")}
+            body={format(new Date(billDetails.DueDate), "dd MMM YYY")}
           />
         </Stack>
         <Stack direction="horizontal">
           <InfoContainer
             title={t("SadadBillPayments.BillSavedSuccessScreen.accountNumberText")}
-            body={billDetailsMock.billingAccount}
+            body={billDetails.BillingAccount}
           />
         </Stack>
         <Stack style={marginLineStyle} direction="horizontal">
           <InfoContainer
             title={t("SadadBillPayments.BillSavedSuccessScreen.billerNumberText")}
-            body={billDetailsMock.billerID}
+            body={billDetails.BillIssuer.Id}
             hasBottomRadius
           />
         </Stack>

@@ -28,17 +28,17 @@ export default function EnterBillAmountScreen() {
   const [OtherBillAmountToPay, setOtherBillAmountToPay] = useState<string>("");
 
   useEffect(() => {
-    if (billDetails.otherBillAmount) {
+    if (billDetails.OtherBillAmount) {
       setSelectedCurrentBill(false);
-      setOtherBillAmountToPay(billDetails.otherBillAmount);
+      setOtherBillAmountToPay(billDetails.OtherBillAmount);
     }
-  }, [billDetails.otherBillAmount]);
+  }, [billDetails.OtherBillAmount]);
 
   const handleLinkPress = () => {
     //TODO link press will be implemnted in upcoming story
   };
   const handleContinuePress = () => {
-    setBillDetails({ ...billDetails, otherBillAmount: selectedCurrentBill ? undefined : OtherBillAmountToPay });
+    setBillDetails({ ...billDetails, OtherBillAmount: selectedCurrentBill ? undefined : OtherBillAmountToPay });
     navigation.goBack();
     navigation.navigate("SadadBillPayments.BillAmountDescriptionScreen");
   };
@@ -87,10 +87,10 @@ export default function EnterBillAmountScreen() {
               isSelected={selectedCurrentBill}
               onPress={() => setSelectedCurrentBill(true)}
             />
-            <Typography.Text color="neutralBase+30" weight="medium" size="title1">
+            <Typography.Text color="neutralBase+30" weight="medium" size="title2">
               {currentBillAmount}
-              <Typography.Text color="neutralBase+30" weight="medium" size="title3">
-                {t("Currency.sar")}
+              <Typography.Text color="neutralBase+30" weight="regular" size="callout">
+                {" " + t("Currency.sar")}
               </Typography.Text>
             </Typography.Text>
           </Stack>

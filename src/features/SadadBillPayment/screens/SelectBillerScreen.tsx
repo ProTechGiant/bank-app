@@ -26,7 +26,7 @@ export default function SelectBillerScreen() {
   const [billers, setBillers] = useState<Biller[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const billIssuersList = useMemo(() => billDetails?.category?.BillersList ?? [], [billDetails]);
+  const billIssuersList = useMemo(() => billDetails?.Category?.BillersList ?? [], [billDetails]);
 
   useEffect(() => {
     setBillers(billIssuersList);
@@ -52,7 +52,7 @@ export default function SelectBillerScreen() {
   };
 
   const handleOnSubCategorySelect = (value: Biller) => {
-    setBillDetails({ ...billDetails, billIssuer: value });
+    setBillDetails({ ...billDetails, BillIssuer: value });
     navigation.goBack();
     navigation.navigate("SadadBillPayments.EnterAccountNoScreen");
   };
@@ -75,7 +75,7 @@ export default function SelectBillerScreen() {
         <NavHeader />
         <ContentContainer isScrollView style={mainContainerStyle}>
           <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-            {i18n.language === "en" ? billDetails.category?.NameEn : billDetails.category?.NameAr}
+            {i18n.language === "en" ? billDetails.Category?.NameEn : billDetails.Category?.NameAr}
           </Typography.Text>
           <Typography.Text size="callout" color="neutralBase+10" weight="regular">
             {t("SadadBillPayments.SelectBillerScreen.selectBillerText")}

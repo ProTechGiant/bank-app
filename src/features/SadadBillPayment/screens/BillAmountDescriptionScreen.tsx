@@ -49,7 +49,7 @@ export default function BillAmountDescriptionScreen() {
             ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
             : t("SadadBillPayments.SelectBillerCategoryScreen.payBillTitle")
         }
-        subTitle={i18n.language === "en" ? billDetails.billIssuer?.NameEn : billDetails.billIssuer?.NameAr}
+        subTitle={i18n.language === "en" ? billDetails.BillIssuer?.NameEn : billDetails.BillIssuer?.NameAr}
       />
       <ContentContainer style={mainContainerStyle}>
         <View style={mainContainerStyle}>
@@ -74,7 +74,7 @@ export default function BillAmountDescriptionScreen() {
                   {t("SadadBillPayments.BillDescriptionScreen.billDescriptionText")}
                 </Typography.Text>
                 <Typography.Text weight="regular" size="body">
-                  {billDetails.description}
+                  {billDetails.Description}
                 </Typography.Text>
               </Stack>
             ) : null}
@@ -89,14 +89,17 @@ export default function BillAmountDescriptionScreen() {
               </Typography.Text>
             </View>
 
-            {billDetails.otherBillAmount !== undefined ? (
+            {billDetails.OtherBillAmount !== undefined ? (
               <Stack direction="vertical">
                 <Typography.Text color="neutralBase+10" size="callout" weight="regular">
                   {t("SadadBillPayments.BillDescriptionScreen.YouArePayingText")}
                 </Typography.Text>
                 <Stack direction="horizontal" justify="space-between" align="center">
-                  <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-                    {billDetails.otherBillAmount}
+                  <Typography.Text color="neutralBase+30" weight="medium" size="title2">
+                    {billDetails.OtherBillAmount}
+                    <Typography.Text color="neutralBase+30" weight="regular" size="callout">
+                      {" " + t("Currency.sar")}
+                    </Typography.Text>
                   </Typography.Text>
                   <View style={styles.editIconView}>
                     <Pressable onPress={handleOnAmountEditPress}>

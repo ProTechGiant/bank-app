@@ -10,12 +10,25 @@ interface SadadBillPaymentContextState {
   setNavigationType: (value: NavigationType) => void;
   navigationType: NavigationType;
   setBillDetails: (billDetails: {
-    category?: BillerCategory;
-    billIssuer?: Biller;
-    accountNumber?: string;
-    description?: string;
-    otherBillAmount?: string;
-    billNumber?: string;
+    Category?: BillerCategory;
+    BillIssuer?: Biller;
+    AccountNumber?: string;
+    Description?: string;
+    OtherBillAmount?: string;
+    BillingAccount?: string;
+    BillNumber?: string;
+    BillAmount?: string;
+    BillAmountCurrency?: string;
+    BillerNumber?: string;
+    BillStatusCode?: string;
+    DueDate?: string;
+    ExactPaymentRequired?: boolean;
+    IsAdvancePaymentAllowed?: boolean;
+    IsOverPaymentAllowed?: boolean;
+    IsPartialPaymentAllowed?: boolean;
+    PaidAmount?: string;
+    PaidAmountCurrency?: string;
+    ServiceType?: string;
   }) => void;
   billDetails: BillDetail;
   clearContext: () => void;
@@ -27,25 +40,38 @@ const SadadBillPaymentContext = createContext<SadadBillPaymentContextState>({
   clearContext: noop,
   setBillDetails: noop,
   billDetails: {
-    category: undefined,
-    billIssuer: undefined,
-    accountNumber: undefined,
-    description: undefined,
-    otherBillAmount: undefined,
-    billID: undefined,
-    billNumber: undefined,
+    Category: undefined,
+    BillIssuer: undefined,
+    AccountNumber: undefined,
+    Description: undefined,
+    OtherBillAmount: undefined,
+    BillID: undefined,
+    BillingAccount: undefined,
+    BillNumber: undefined,
+    BillAmount: undefined,
+    BillAmountCurrency: undefined,
+    BillerNumber: undefined,
+    BillStatusCode: undefined,
+    DueDate: undefined,
+    ExactPaymentRequired: undefined,
+    IsAdvancePaymentAllowed: undefined,
+    IsOverPaymentAllowed: undefined,
+    IsPartialPaymentAllowed: undefined,
+    PaidAmount: undefined,
+    PaidAmountCurrency: undefined,
+    ServiceType: undefined,
   },
 });
 
 const INITIAL_STATE = {
   navigationType: undefined,
   billDetails: {
-    category: undefined,
-    billIssuer: undefined,
-    accountNumber: undefined,
-    description: undefined,
-    otherBillAmount: undefined,
-    billNumber: undefined,
+    Category: undefined,
+    BillIssuer: undefined,
+    AccountNumber: undefined,
+    Description: undefined,
+    OtherBillAmount: undefined,
+    BillNumber: undefined,
   },
 };
 

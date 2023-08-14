@@ -25,7 +25,7 @@ export default function EditBillDescriptionModalScreen() {
 
   const { billDetails, setBillDetails } = useSadadBillPaymentContext();
 
-  const [billDescription, setBillDescription] = useState(billDetails.description);
+  const [billDescription, setBillDescription] = useState(billDetails.Description);
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
 
   const handleOnChangeText = (text: string) => {
@@ -41,11 +41,11 @@ export default function EditBillDescriptionModalScreen() {
       await updateBill.mutateAsync({
         //This BillID field will be set in context from the other flows once the Payment Dues API is ready.
         //In order to test this flow with API we need to harcode biller ID as "8e2cc876" and use 0000001890 as the userID
-        BillId: billDetails.billID,
+        BillId: billDetails.BillID,
         BillDescriptionEn: billDescription,
       });
 
-      setBillDetails({ ...billDetails, description: billDescription });
+      setBillDetails({ ...billDetails, Description: billDescription });
       navigation.goBack();
     } catch (error) {
       setIsGenericErrorModalVisible(true);

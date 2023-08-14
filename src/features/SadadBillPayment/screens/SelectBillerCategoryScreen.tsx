@@ -65,7 +65,7 @@ export default function SelectBillerCategoryScreen() {
   };
 
   const handleOnCategorySelect = (value: BillerCategory) => {
-    setBillDetails({ category: value });
+    setBillDetails({ Category: value });
     navigation.navigate("SadadBillPayments.SelectBillerScreen");
   };
 

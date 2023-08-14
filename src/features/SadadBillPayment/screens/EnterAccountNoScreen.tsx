@@ -6,12 +6,14 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import SimpleTextInput from "@/components/Input/SimpleTextInput";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
+import { useBillDetailsByAccountNumber } from "../hooks/query-hooks";
 
 export default function EnterAccountNoScreen() {
   const { i18n, t } = useTranslation();
@@ -20,14 +22,28 @@ export default function EnterAccountNoScreen() {
   const { billDetails, setBillDetails, navigationType } = useSadadBillPaymentContext();
 
   const [accountNumber, setAccountNumber] = useState<string>("");
+  const [errorModal, setErrorModal] = useState(false);
+  const [warningModal, setWarningModal] = useState(false);
+
+  const { data, refetch, status } = useBillDetailsByAccountNumber(accountNumber, billDetails.BillIssuer?.Id);
 
   const handleOnSubmit = () => {
-    setBillDetails({ ...billDetails, accountNumber });
-    navigation.navigate("SadadBillPayments.EnterBillDescScreen");
+    refetch();
+    if (status === "success") {
+      setBillDetails({ ...billDetails, ...data, AccountNumber: accountNumber });
+      navigation.navigate("SadadBillPayments.EnterBillDescScreen");
+    } else if (status === "error") {
+      setErrorModal(true);
+    }
   };
 
   const handleOnChangeText = (text: string) => {
     setAccountNumber(text);
+  };
+
+  const handleOnCancelAddBill = () => {
+    setWarningModal(false);
+    navigation.navigate("SadadBillPayments.BillPaymentHomeScreen");
   };
 
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -44,13 +60,13 @@ export default function EnterAccountNoScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
-        end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
+        end={<NavHeader.CloseEndButton onPress={() => setWarningModal(true)} />}
         title={
           navigationType === "oneTimePayment"
             ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
             : t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")
         }
-        subTitle={i18n.language === "en" ? billDetails.billIssuer?.NameEn : billDetails.billIssuer?.NameAr}
+        subTitle={i18n.language === "en" ? billDetails.BillIssuer?.NameEn : billDetails.BillIssuer?.NameAr}
       />
       <ContentContainer style={mainContainerStyle}>
         <Typography.Text color="neutralBase+30" size="title1" weight="medium">
@@ -78,6 +94,38 @@ export default function EnterAccountNoScreen() {
             </Typography.Text>
           </Button>
         </View>
+        <NotificationModal
+          onClose={() => {
+            setErrorModal(false);
+          }}
+          message={t("SadadBillPayments.EnterAccountNoScreen.errorModal.message")}
+          isVisible={errorModal}
+          title={t("SadadBillPayments.EnterAccountNoScreen.errorModal.title")}
+          variant="error"
+          buttons={{
+            primary: (
+              <Button onPress={() => setErrorModal(false)}>
+                {t("SadadBillPayments.EnterAccountNoScreen.errorModal.buttonRetryText")}
+              </Button>
+            ),
+          }}
+        />
+        <NotificationModal
+          onClose={() => {
+            setWarningModal(false);
+          }}
+          message={t("SadadBillPayments.EnterAccountNoScreen.warningModal.message")}
+          isVisible={warningModal}
+          title={t("SadadBillPayments.EnterAccountNoScreen.warningModal.title")}
+          variant="warning"
+          buttons={{
+            primary: (
+              <Button onPress={() => handleOnCancelAddBill()}>
+                {t("SadadBillPayments.EnterAccountNoScreen.warningModal.buttonCancelText")}
+              </Button>
+            ),
+          }}
+        />
       </ContentContainer>
     </Page>
   );

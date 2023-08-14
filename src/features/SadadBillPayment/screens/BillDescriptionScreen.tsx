@@ -1,12 +1,16 @@
 import { format } from "date-fns";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { ImageStyle, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { EditIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
+import NetworkImage from "@/components/NetworkImage";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import PlaceholderImage from "@/components/PlaceholderImage";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
@@ -15,7 +19,6 @@ import { useThemeStyles } from "@/theme";
 
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { useAddBill } from "../hooks/query-hooks";
-import { billDetailsMock } from "../mocks/billDetailsMock";
 import { AddBillInterface } from "../types";
 
 export default function BillDescriptionScreen() {
@@ -26,8 +29,15 @@ export default function BillDescriptionScreen() {
   const addBillAsync = useAddBill();
   const otpFlow = useOtpFlow();
 
+  const [warningModal, setWarningModal] = useState(false);
+
   const handleOnDescriptionEditPress = () => {
     navigation.navigate("SadadBillPayments.EditBillDescriptionModalScreen");
+  };
+
+  const handleOnCancelAddBill = () => {
+    setWarningModal(false);
+    navigation.navigate("SadadBillPayments.BillPaymentHomeScreen");
   };
 
   const handleOnAddBill = () => {
@@ -46,30 +56,30 @@ export default function BillDescriptionScreen() {
     // Following bill detail values are not available in context as previous screen Api not implemented, to test the flow we need to use hard code value
     // ServiceType: "LLIN",BillerId: "001", BillNumber: "00100100013", BillingAccount: "009668552251",
     if (
-      billDetails.category?.Code === undefined ||
-      billDetails.billIssuer?.Id === undefined ||
-      billDetails.billNumber === undefined ||
-      billDetails.accountNumber === undefined ||
-      billDetails.description === undefined
+      billDetails.Category?.Code === undefined ||
+      billDetails.BillIssuer?.Id === undefined ||
+      billDetails.BillNumber === undefined ||
+      billDetails.AccountNumber === undefined ||
+      billDetails.Description === undefined
     ) {
       return;
     }
     const addBillRequest: AddBillInterface = {
-      ServiceType: billDetails.category.Code,
-      BillerId: billDetails.billIssuer.Id,
-      BillNumber: billDetails.billNumber,
-      BillingAccount: billDetails.accountNumber,
+      ServiceType: billDetails.Category.Code,
+      BillerId: billDetails.BillIssuer.Id,
+      BillNumber: billDetails.BillNumber,
+      BillingAccount: billDetails.AccountNumber,
       BillDescriptionList: [
         {
           LanguagePreference: i18n.language === "en" ? "en-gb" : "ar-sa",
-          Text: billDetails.description,
+          Text: billDetails.Description,
         },
       ],
     };
 
     otpFlow.handle({
       action: {
-        to: "SadadBillPayments.BillDescriptionScreen",
+        to: "SadadBillPayments.BillSavedSuccessScreen",
       },
       //Adding mock values(PhoneNumber)for passing the QA testing criteria.
       //once logging in is handled properly, we will get this value from backend and we will replace this mock value with the value stored in local storage.
@@ -93,10 +103,15 @@ export default function BillDescriptionScreen() {
 
   const editIconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
 
+  const imageStyle = useThemeStyles<ImageStyle>(theme => ({
+    width: theme.spacing["24p"],
+    height: theme.spacing["24p"],
+  }));
+
   return (
     <Page>
       <NavHeader
-        end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
+        end={<NavHeader.CloseEndButton onPress={() => setWarningModal(true)} />}
         withBackButton={false}
         title={
           navigationType === "oneTimePayment"
@@ -105,7 +120,7 @@ export default function BillDescriptionScreen() {
             ? t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")
             : t("SadadBillPayments.SelectBillerCategoryScreen.payBillTitle")
         }
-        subTitle={i18n.language === "en" ? billDetails.billIssuer?.NameEn : billDetails.billIssuer?.NameAr}
+        subTitle={i18n.language === "en" ? billDetails.BillIssuer?.NameEn : billDetails.BillIssuer?.NameAr}
       />
       <ContentContainer style={mainContainerStyle}>
         <Stack direction="vertical">
@@ -114,7 +129,7 @@ export default function BillDescriptionScreen() {
           </Typography.Text>
           <Stack direction="horizontal" justify="space-between" align="center">
             <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-              {billDetails.description}
+              {billDetails.Description}
             </Typography.Text>
             <View style={styles.editIconView}>
               <Pressable onPress={handleOnDescriptionEditPress}>
@@ -131,11 +146,15 @@ export default function BillDescriptionScreen() {
                   {t("SadadBillPayments.BillDetailsScreen.billProvider")}
                 </Typography.Text>
                 <Typography.Text weight="regular" size="body">
-                  {billDetailsMock.serviceType}
+                  {billDetails.ServiceType}
                 </Typography.Text>
               </View>
               <View>
-                <Image source={require("../assets/images/stc-logo.png")} />
+                {billDetails.BillIssuer.LogoUrl !== undefined ? (
+                  <NetworkImage source={{ uri: billDetails.BillIssuer.LogoUrl }} style={imageStyle} />
+                ) : (
+                  <PlaceholderImage style={imageStyle} />
+                )}
               </View>
             </Stack>
             <View>
@@ -143,8 +162,8 @@ export default function BillDescriptionScreen() {
                 {t("SadadBillPayments.BillDetailsScreen.billAmount")}
               </Typography.Text>
               <Typography.Text weight="regular" size="body">
-                {billDetailsMock.billAmount}
-                <Typography.Text size="footnote"> {billDetailsMock.billAmountCurrency}</Typography.Text>
+                {billDetails.BillAmount}
+                <Typography.Text size="footnote"> {billDetails.BillAmountCurrency}</Typography.Text>
               </Typography.Text>
             </View>
             <View>
@@ -152,7 +171,7 @@ export default function BillDescriptionScreen() {
                 {t("SadadBillPayments.BillDetailsScreen.currentDueDate")}
               </Typography.Text>
               <Typography.Text weight="regular" size="body">
-                {format(new Date(billDetailsMock.dueDate), "dd MMM YYY")}
+                {format(new Date(billDetails.DueDate), "dd MMM YYY")}
               </Typography.Text>
             </View>
             <View>
@@ -160,7 +179,7 @@ export default function BillDescriptionScreen() {
                 {t("SadadBillPayments.BillDetailsScreen.accountNumber")}
               </Typography.Text>
               <Typography.Text weight="regular" size="body">
-                {billDetailsMock.billingAccount}
+                {billDetails.AccountNumber}
               </Typography.Text>
             </View>
             <View>
@@ -168,7 +187,7 @@ export default function BillDescriptionScreen() {
                 {t("SadadBillPayments.BillDetailsScreen.billerNumber")}
               </Typography.Text>
               <Typography.Text weight="regular" size="body">
-                {billDetailsMock.billerID}
+                {billDetails.BillIssuer.Id}
               </Typography.Text>
             </View>
           </Stack>
@@ -183,6 +202,22 @@ export default function BillDescriptionScreen() {
             {t("SadadBillPayments.BillDescriptionScreen.cancelText")}
           </Button>
         ) : null}
+        <NotificationModal
+          onClose={() => {
+            setWarningModal(false);
+          }}
+          message={t("SadadBillPayments.EnterAccountNoScreen.warningModal.message")}
+          isVisible={warningModal}
+          title={t("SadadBillPayments.EnterAccountNoScreen.warningModal.title")}
+          variant="warning"
+          buttons={{
+            primary: (
+              <Button onPress={() => handleOnCancelAddBill()}>
+                {t("SadadBillPayments.EnterAccountNoScreen.warningModal.buttonCancelText")}
+              </Button>
+            ),
+          }}
+        />
       </ContentContainer>
     </Page>
   );
