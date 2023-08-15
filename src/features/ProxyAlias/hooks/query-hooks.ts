@@ -1,10 +1,17 @@
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import sendApiRequest from "@/api";
 import api from "@/api";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
 
-import { RegisterEmailInputs, RegisterEmailResponse } from "../types";
+import {
+  RegisterCustomerResponseApi,
+  RegisterEmailInputs,
+  RegisterEmailResponse,
+  TermsAndConditionsResponseApi,
+  UserProxiesResponse,
+} from "../types";
 
 export function useRegisterEmail() {
   return useMutation(async (email: RegisterEmailInputs) => {
@@ -17,6 +24,52 @@ export function useRegisterEmail() {
 interface LinkProxyAliasResponse {
   status: string;
   message: string;
+}
+
+export function useRegisterCustomer() {
+  return useMutation(async () => {
+    return sendApiRequest<RegisterCustomerResponseApi>("v1", `ips/register`, "POST", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
+
+export function useGetTermsAndConditions() {
+  const account = useCurrentAccount();
+
+  const account_id = account.data?.id;
+
+  return useQuery(
+    ["terms-and-conditions"],
+    () =>
+      api<TermsAndConditionsResponseApi>("v1", `ips/terms-and-conditions`, "GET", undefined, undefined, {
+        ["x-correlation-id"]: generateRandomId(),
+      }),
+    {
+      // set staleTime to 10 seconds for caching
+      staleTime: 10000,
+      enabled: !!account_id,
+    }
+  );
+}
+
+export function useGetUserProxies() {
+  const account = useCurrentAccount();
+
+  const account_id = account.data?.id;
+
+  return useQuery(
+    ["terms-and-conditions"],
+    () =>
+      api<UserProxiesResponse>("v1", `ips/proxies`, "GET", undefined, undefined, {
+        ["x-correlation-id"]: generateRandomId(),
+      }),
+    {
+      // set staleTime to 10 seconds for caching
+      staleTime: 10000,
+      enabled: !!account_id,
+    }
+  );
 }
 
 export function useLinkProxyAlias() {

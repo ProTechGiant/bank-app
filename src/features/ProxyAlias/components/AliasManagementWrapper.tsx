@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Alert, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
+import Button from "@/components/Button";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -48,7 +49,7 @@ export default function AliasManagementWrapper() {
   };
 
   return (
-    <>
+    <View style={styles.container}>
       <View>
         <Typography.Text weight="regular" size="body">
           {t("ProxyAlias.AliasManagementScreen.aliasManagement")}
@@ -66,23 +67,31 @@ export default function AliasManagementWrapper() {
             <ChevronRightIcon color={chevronColor} />
           </View>
         </Pressable>
+        <View style={separatorStyle} />
+        <Stack direction="vertical" gap="16p">
+          <Typography.Text size="title3" weight="medium">
+            {t("ProxyAlias.AliasManagementScreen.availableAliases")}
+          </Typography.Text>
+          {userProxies.map(item => {
+            return (
+              <AvailableAliasesCard
+                proxyType={item.ProxyType}
+                isLinked={!!item.RegistrationId}
+                proxyValue={item.ProxyValue}
+                isARBLinked={item.ARBProxyFlag}
+                isEmailRegistered={item.ProxyType === aliasCardType.EMAIL ? !!item.ProxyValue : true}
+              />
+            );
+          })}
+        </Stack>
       </View>
-      <View style={separatorStyle} />
-      <Stack direction="vertical" gap="16p">
-        <Typography.Text size="title3" weight="medium">
-          {t("ProxyAlias.AliasManagementScreen.availableAliases")}
+      <Stack direction="vertical" align="stretch" gap="8p">
+        <Typography.Text size="caption2" color="neutralBase" weight="regular" align="center">
+          {t("ProxyAlias.AliasManagementScreen.optOutButtonDescription")}
         </Typography.Text>
-        {userProxies.map(item => {
-          return (
-            <AvailableAliasesCard
-              proxyType={item.ProxyType}
-              isLinked={!!item.RegistrationId}
-              proxyValue={item.ProxyValue}
-              isARBLinked={item.ARBProxyFlag}
-              isEmailRegistered={item.ProxyType === aliasCardType.EMAIL ? !!item.ProxyValue : true}
-            />
-          );
-        })}
+        <Button variant="secondary" onPress={() => setIsOptOutModalVisible(true)}>
+          {t("ProxyAlias.AliasManagementScreen.optOutButton")}
+        </Button>
       </Stack>
 
       <AccountModal visible={isAccountModalVisible} onClose={() => setIsAccountModalVisible(false)} />
@@ -91,12 +100,17 @@ export default function AliasManagementWrapper() {
         onclose={() => setIsOptOutModalVisible(false)}
         onOptOut={handleOptOut}
       />
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   chevronContainer: {
     transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
 });
