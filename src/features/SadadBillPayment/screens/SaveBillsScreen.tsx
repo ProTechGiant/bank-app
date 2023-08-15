@@ -66,6 +66,8 @@ export default function SaveBillsScreen() {
         BillDescription: item.BillName,
         biller: item.BillName,
       });
+    } else if (route.params.navigationFlow === "savedBills") {
+      navigation.navigate("SadadBillPayments.BillDetailsScreen");
     }
   };
 

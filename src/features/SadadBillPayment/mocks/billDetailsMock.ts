@@ -20,4 +20,6 @@ export const billDetailsMock = {
   idNumber: "1072587916",
   billCycle: "201705__151",
   billDescription: "Internet bill",
+  paymentDate: "2023-08-15T11:59:09",
+  billerLogoUrl: "",
 };

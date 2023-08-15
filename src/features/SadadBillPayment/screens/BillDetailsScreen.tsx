@@ -101,6 +101,9 @@ export default function BillDetailsScreen() {
         message={t("SadadBillPayments.BillDetailsScreen.deleteBill.message")}
         title={t("SadadBillPayments.BillDetailsScreen.deleteBill.title")}
         isVisible={isConfirmDeleteModalVisible}
+        onClose={() => {
+          setIsConfirmDeleteModalVisible(false);
+        }}
       />
       {/* Delete success modal */}
       <NotificationModal

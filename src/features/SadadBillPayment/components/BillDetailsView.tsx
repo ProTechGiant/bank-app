@@ -5,6 +5,7 @@ import { ScrollView } from "react-native-gesture-handler";
 
 import { EditIcon } from "@/assets/icons";
 import NetworkImage from "@/components/NetworkImage";
+import PlaceholderImage from "@/components/PlaceholderImage";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -76,7 +77,11 @@ export default function BillDetailsView({
             </Typography.Text>
           </View>
           <View>
-            <NetworkImage style={imageStyle} source={{ uri: billerLogoUrl || "" }} />
+            {billerLogoUrl !== undefined && billerLogoUrl !== "" ? (
+              <NetworkImage style={imageStyle} source={{ uri: billerLogoUrl }} />
+            ) : (
+              <PlaceholderImage style={imageStyle} />
+            )}
           </View>
         </Stack>
         {paidAmount !== undefined ? (
