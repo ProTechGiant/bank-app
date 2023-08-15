@@ -1,11 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { AliasManagementScreen } from "./screens";
+import { AliasManagementScreen, RegisterEmailScreen } from "./screens";
 
 export const Stack = createNativeStackNavigator();
 
 export type ProxyAliasStackParams = {
   "ProxyAlias.AliasManagementScreen": undefined;
+  "ProxyAlias.RegisterEmailScreen": undefined;
 };
 
 export default function ProxyAliasStack() {
@@ -15,6 +16,7 @@ export default function ProxyAliasStack() {
         headerShown: false,
       }}>
       <Stack.Screen component={AliasManagementScreen} name="ProxyAlias.AliasManagementScreen" />
+      <Stack.Screen component={RegisterEmailScreen} name="ProxyAlias.RegisterEmailScreen" />
     </Stack.Navigator>
   );
 }

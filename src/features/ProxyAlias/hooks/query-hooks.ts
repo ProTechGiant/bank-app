@@ -1,7 +1,18 @@
 import { useMutation } from "react-query";
 
+import sendApiRequest from "@/api";
 import api from "@/api";
 import { generateRandomId } from "@/utils";
+
+import { RegisterEmailInputs, RegisterEmailResponse } from "../types";
+
+export function useRegisterEmail() {
+  return useMutation(async (email: RegisterEmailInputs) => {
+    return sendApiRequest<RegisterEmailResponse>("v1", `ips/register-email`, "POST", undefined, email, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
 
 interface LinkProxyAliasResponse {
   status: string;

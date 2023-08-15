@@ -349,6 +349,22 @@
       "pcoceed": "Proceed",
       "unLinkingWarning": "Are you sure you want to unlink your alias?",
       "unWarningCheck": "Unlinking your alias will have it removed, you can link it again later."
+    },
+    "RegisterEmailScreen": {
+      "title": "Register your Email",
+      "subTitle": "Register your Email so that it can be used as an alias",
+      "emailPlaceholder": "Enter your Email Address",
+      "buttonContinue": "Continue",
+      "buttonCancel": "Cancel",
+      "errorEmailRegistrationFailedTitle": "Email registration Failed",
+      "errorEmailRegistrationFailedMessage": "We were unable to register your email!",
+      "erorPrimaryLabel":"Ok",
+      "validationErrors": {
+        "email": {
+          "required": "Email is required",
+          "email": "Please enter a valid Email address"
+        }
+      }
     }
   },
   "TopSpending": {
