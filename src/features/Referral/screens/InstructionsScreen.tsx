@@ -2,7 +2,7 @@ import { ReactNode, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
-import HeroSlider from "@/components/HeroSlider";
+import { HeroSlider } from "@/components/HeroSlider";
 import { HeroSlideProps } from "@/components/HeroSlider/HeroSlide";
 import NavHeader from "@/components/NavHeader";
 import { useReferralContext } from "@/contexts/ReferralContext";
