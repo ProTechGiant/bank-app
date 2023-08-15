@@ -17,6 +17,10 @@ interface UpdateCommunicationDetailsResponse {
   Email: string;
   LangCode: string;
 }
+interface RequestCustomerProfileOTPParameters {
+  OtpReasonCode: string;
+  MobileNumber: string;
+}
 
 export function useUpdateCustomerProfileDetails() {
   const queryClient = useQueryClient();
@@ -65,17 +69,17 @@ export function useUpdateCustomerProfileIdExpiryDate() {
   );
 }
 
-export function useUpdateCustomerProfileOTP(reasonCode: string, mobileNumber: string | undefined) {
+export function useUpdateCustomerProfileOTP() {
   const { i18n } = useTranslation();
 
-  return useMutation(async () => {
+  return useMutation(async (values: RequestCustomerProfileOTPParameters) => {
     return api<OtpChallengeParams>(
       "v1",
-      `customers/opts/${reasonCode}`,
+      `customers/opts/${values.OtpReasonCode}`,
       "PATCH",
       undefined,
       {
-        MobileNumber: mobileNumber,
+        MobileNumber: values.MobileNumber,
       },
       {
         ["x-correlation-id"]: generateRandomId(),

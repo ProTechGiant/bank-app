@@ -11,7 +11,11 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
-import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
+import {
+  getItemFromEncryptedStorage,
+  hasItemInStorage,
+  removeItemFromEncryptedStorage,
+} from "@/utils/encrypted-storage";
 
 import AppLockedPermanentImage from "../assets/AppLockedPermanentImage";
 import AppLockedTemporaryImage from "../assets/AppLockedTemporaryImage";
@@ -110,6 +114,9 @@ export default function UserBlockedScreen() {
 
   const handleNavigate = async () => {
     await removeItemFromEncryptedStorage("UserBlocked");
+    if (await hasItemInStorage("UserBlockedFromProfileDetails")) {
+      await removeItemFromEncryptedStorage("UserBlockedFromProfileDetails");
+    }
     if (params?.navigateTo !== undefined) {
       navigation.navigate(params.navigateTo);
     } else {

@@ -52,10 +52,7 @@ export default function ProfileDetailsScreen() {
 
   const { data: customerProfile, isFetching, refetch } = useCustomerProfile();
   const { mutateAsync: UpdateCustomerProfileDetails, isLoading } = useUpdateCustomerProfileDetails();
-  const { mutateAsync: UpdateCustomerProfileOTP } = useUpdateCustomerProfileOTP(
-    UPDATE_CUSTOMER_PROFILE_OTP_REASON_CODE,
-    customerProfile?.MobilePhone
-  );
+  const { mutateAsync: UpdateCustomerProfileOTP } = useUpdateCustomerProfileOTP();
   const UpdateIdExpiryDate = useUpdateCustomerProfileIdExpiryDate();
 
   const [showEditForm, setShowEditForm] = useState(false);
@@ -125,17 +122,28 @@ export default function ProfileDetailsScreen() {
             OtpReasonCode: UPDATE_CUSTOMER_PROFILE_OTP_REASON_CODE,
           },
           onOtpRequest: () => {
-            return UpdateCustomerProfileOTP();
+            return UpdateCustomerProfileOTP({
+              OtpReasonCode: UPDATE_CUSTOMER_PROFILE_OTP_REASON_CODE,
+              MobileNumber: values.MobileNumber,
+            });
           },
           onFinish: status => {
             refetch();
             setShowEditForm(false);
             if (status === "success") {
-              setAlertStatus({
-                isVisible: true,
-                variant: "success",
-                message: t("ProfileDetails.ProfileDetailsScreen.updateDetailsSuccessMessage"),
-              });
+              if (values.Email !== customerProfile.Email) {
+                setAlertStatus({
+                  isVisible: true,
+                  variant: "success",
+                  message: t("ProfileDetails.ProfileDetailsScreen.updateDetailsSuccessMessage"),
+                });
+              } else {
+                setAlertStatus({
+                  isVisible: true,
+                  variant: "success",
+                  message: t("ProfileDetails.ProfileDetailsScreen.updateMobileNumberSuccessMessage"),
+                });
+              }
               return;
             }
             if (status === "fail") {
@@ -166,7 +174,7 @@ export default function ProfileDetailsScreen() {
         setAlertStatus({
           isVisible: true,
           variant: "success",
-          message: t("ProfileDetails.ProfileDetailsScreen.updateDetailsSuccessMessage"),
+          message: t("ProfileDetails.ProfileDetailsScreen.updateEmailSuccessMessage"),
         });
         setShowEditForm(false);
       } catch (error) {
