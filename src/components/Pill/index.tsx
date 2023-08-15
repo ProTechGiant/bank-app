@@ -1,5 +1,6 @@
 import { Pressable, ViewStyle } from "react-native";
 
+import { CloseIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -11,24 +12,27 @@ interface PillProps {
 }
 
 export default function Pill({ children, isActive = false, onPress, testID }: PillProps) {
-  const containerStyles = useThemeStyles<ViewStyle>(
+  const pillStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: isActive ? theme.palette["neutralBase+30"] : undefined,
+      paddingHorizontal: theme.spacing["12p"],
+      paddingVertical: theme.spacing["4p"],
       borderColor: isActive ? theme.palette["neutralBase+30"] : theme.palette["neutralBase-30"],
-      borderRadius: theme.radii.xxlarge,
-      borderWidth: 1,
-      paddingHorizontal: theme.spacing["16p"],
-      paddingVertical: theme.spacing["8p"],
+      borderWidth: 2,
+      borderRadius: 100,
+      flexDirection: "row",
+      justifyContent: "space-between",
       alignItems: "center",
+      columnGap: theme.spacing["8p"],
     }),
     [isActive]
   );
 
   return (
-    <Pressable onPress={onPress} style={containerStyles} testID={testID}>
-      <Typography.Text color={isActive ? "neutralBase-60" : "neutralBase-10"} size="footnote" weight="medium">
+    <Pressable style={pillStyle} onPress={onPress} testID={testID}>
+      <Typography.Text weight="medium" size="footnote" color="neutralBase+30">
         {children}
       </Typography.Text>
+      {isActive ? <CloseIcon width={14} color="#2E2E2E" /> : null}
     </Pressable>
   );
 }

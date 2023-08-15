@@ -1,38 +1,122 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SafeAreaView, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Pressable, SafeAreaView, useWindowDimensions, ViewStyle } from "react-native";
 
+import { FilterIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import SegmentedControl from "@/components/SegmentedControl";
+import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { AccessCustomDateStatementList, AccessMonthlyStatmentsList } from "../components";
-import { TabsTypes } from "../types";
+import { AccessCustomDateStatementList, AccessMonthlyStatmentsList, LanguageFilterModal } from "../components";
+import {
+  CUSTOM_DATE_STATEMENT_LIMIT,
+  MONTHLY_STATEMENT_LIMIT,
+  PAGE_OFFSET,
+  StatementLanguageTypes,
+  StatementTypes,
+} from "../constants";
+import { useGetCustomerStatements } from "../hooks/query-hooks";
+import { PaginationInterface, StatementInterface } from "../types";
 
 export default function AccessStatementScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { height: screenHeight } = useWindowDimensions();
-  const [currentTab, setCurrentTab] = useState<TabsTypes>(TabsTypes.MONTHLY);
+  const [isFilterModalVisible, setIsFilterModalVisible] = useState<boolean>(false);
+  const [currentTab, setCurrentTab] = useState<StatementTypes>(StatementTypes.MONTHLY);
+  const [pagination, setPagination] = useState<PaginationInterface>({
+    limit: MONTHLY_STATEMENT_LIMIT,
+    offset: PAGE_OFFSET,
+  });
+  const [activeFilter, setActiveFilter] = useState<StatementLanguageTypes | null>(null);
+  const [statements, setStatements] = useState<StatementInterface[]>([]);
+  const {
+    data: statementsData,
+    refetch: refetchStatements,
+    isLoading: statementsLoading,
+  } = useGetCustomerStatements(pagination, currentTab);
 
   const handleOnRequestStatement = () => {
     navigation.navigate("Statements.AccessStatementScreen");
   };
 
+  const handleOnFilter = (language: StatementLanguageTypes) => {
+    setActiveFilter(language);
+    setIsFilterModalVisible(false);
+  };
+
+  useEffect(() => {
+    setStatements(pre => [...pre, ...(statementsData?.statements ?? [])]);
+  }, [statementsData]);
+
+  const filteredStatments = useMemo(() => {
+    let statementsCopy = [...statements];
+    if (activeFilter) {
+      statementsCopy = statements.filter(
+        ({ StatementLanguage }: StatementInterface) => StatementLanguage === activeFilter
+      );
+    }
+    return statementsCopy as unknown as StatementInterface[];
+  }, [activeFilter, statements]);
+
+  const handleOnFetchMoreStatements = async () => {
+    if (statementsData?.totalRecords === statements.length) return;
+    setPagination({ ...pagination, offset: pagination.offset + 1 });
+  };
+
+  const handleOnRefreshStatements = async () => {
+    setStatements([]);
+    if (currentTab === StatementTypes.MONTHLY) {
+      const result = await refetchStatements();
+      setStatements(result.data?.statements ?? []);
+    } else if (currentTab === StatementTypes.CUSTOM) {
+      setPagination({ limit: CUSTOM_DATE_STATEMENT_LIMIT, offset: PAGE_OFFSET });
+    }
+  };
+
+  const handleOnTabChange = (tab: StatementTypes) => {
+    setStatements([]);
+    if (tab === StatementTypes.MONTHLY) {
+      setPagination({ limit: MONTHLY_STATEMENT_LIMIT, offset: PAGE_OFFSET });
+    } else if (tab === StatementTypes.CUSTOM) {
+      setPagination({ limit: CUSTOM_DATE_STATEMENT_LIMIT, offset: PAGE_OFFSET });
+    }
+    setCurrentTab(tab);
+  };
+
   const renderScreen = () => {
-    if (currentTab === TabsTypes.MONTHLY) {
-      return <AccessMonthlyStatmentsList />;
-    } else if (currentTab === TabsTypes.CUSTOM_DATE) {
-      return <AccessCustomDateStatementList />;
+    if (currentTab === StatementTypes.MONTHLY) {
+      return (
+        <AccessMonthlyStatmentsList
+          statements={filteredStatments}
+          activeFilter={activeFilter}
+          onClearFilter={() => setActiveFilter(null)}
+          onRefresh={handleOnRefreshStatements}
+          isRefreshing={statementsLoading}
+        />
+      );
+    } else if (currentTab === StatementTypes.CUSTOM) {
+      return (
+        <AccessCustomDateStatementList
+          statements={filteredStatments}
+          activeFilter={activeFilter}
+          onEndReached={handleOnFetchMoreStatements}
+          onClearFilter={() => setActiveFilter(null)}
+          onRefresh={handleOnRefreshStatements}
+          isRefreshing={statementsLoading}
+        />
+      );
     }
   };
 
   const segmentedControlStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: -theme.spacing["20p"],
     marginTop: theme.spacing["24p"],
+    flexDirection: "row",
   }));
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -46,37 +130,50 @@ export default function AccessStatementScreen() {
   }));
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    bottom: theme.spacing["12p"],
+    bottom: 0,
     position: "absolute",
     width: "100%",
     paddingHorizontal: theme.spacing["12p"],
-    paddingVertical: 10,
+    paddingVertical: screenHeight * 0.02,
     backgroundColor: theme.palette["neutralBase-40"],
+  }));
+
+  const iconWraperStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginLeft: "auto",
+    marginRight: theme.spacing["20p"],
   }));
 
   return (
     <Page>
-      <View style={headerStyle}>
+      <Stack style={headerStyle} align="stretch" direction="vertical">
         <NavHeader title={t("Statements.AccessStatements.title")} />
-      </View>
+      </Stack>
       <SafeAreaView style={mainContainer}>
-        <View style={segmentedControlStyle}>
-          <SegmentedControl onPress={value => setCurrentTab(value)} value={currentTab}>
-            <SegmentedControl.Item value={TabsTypes.MONTHLY}>
+        <Stack style={segmentedControlStyle} direction="horizontal">
+          <SegmentedControl onPress={value => handleOnTabChange(value)} value={currentTab}>
+            <SegmentedControl.Item value={StatementTypes.MONTHLY}>
               {t("Statements.AccessStatements.monthly")}
             </SegmentedControl.Item>
-            <SegmentedControl.Item value={TabsTypes.CUSTOM_DATE}>
+            <SegmentedControl.Item value={StatementTypes.CUSTOM}>
               {t("Statements.AccessStatements.customDate")}
             </SegmentedControl.Item>
           </SegmentedControl>
-        </View>
+          <Pressable onPress={() => setIsFilterModalVisible(true)} style={iconWraperStyle}>
+            <FilterIcon />
+          </Pressable>
+        </Stack>
 
         {renderScreen()}
+        <LanguageFilterModal
+          isVisible={isFilterModalVisible}
+          onClose={() => setIsFilterModalVisible(false)}
+          onFilter={handleOnFilter}
+        />
       </SafeAreaView>
 
-      <View style={buttonContainerStyle}>
-        <Button onPress={handleOnRequestStatement}>{t("Statements.AccessStatements.RequestStatmentButtonText")}</Button>
-      </View>
+      <Stack style={buttonContainerStyle} align="stretch" direction="vertical">
+        <Button onPress={handleOnRequestStatement}>{t("Statements.AccessStatements.requestStatmentButtonText")}</Button>
+      </Stack>
     </Page>
   );
 }

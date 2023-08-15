@@ -521,14 +521,19 @@
       "customDate": "Custom Date",
       "englishPill": "English",
       "arabicPill": "العربية",
-      "FilterBy": "Filter by Language:",
-      "MonthlyStatementSubtitle": "Monthly statements are auto generated for the last two years.",
-      "CustomDateStatementSubtitle": "You can request a custom date statement in the previous five years.",
-      "RequestStatmentButtonText": "Request a new statement",
-      "NothingHereText": "Nothing Here!",
-      "NoStatementsText": "No statements have been generated yet!",
+      "monthlyStatementSubtitle": "Monthly statements are auto generated for the last two years.",
+      "customDateStatementSubtitle": "You can request a custom date statement in the previous five years.",
+      "requestStatmentButtonText": "Request a new statement",
+      "nothingHereText": "Nothing Here",
+      "noStatementsText": "No statements have been generated yet!",
+      "noStatementsTextForFilter": "No statements have been generated using this language yet!",
       "brandMomemt": "Brand Momemt",
-      "monthNames": {
+      "filteredByText": "Filtered By:",
+      "FilterModal": {
+        "buttonText": "Set",
+        "title": "Filter"
+      },
+      "MonthNames": {
         "january": "January",
         "february": "February",
         "march": "March",

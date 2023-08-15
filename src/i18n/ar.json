@@ -528,14 +528,19 @@
       "customDate": "تاريخ مخصص",
       "englishPill": "English",
       "arabicPill": "العربية",
-      "FilterBy": "تصفية حسب اللغة:",
-      "MonthlyStatementSubtitle": ".يتم إنشاء كشوف الحساب الشهرية تلقائيًا لآخر عامين",
-      "CustomDateStatementSubtitle": "يمكنك طلب بيان تاريخ مخصص في السنوات الخمس الماضية.",
-      "RequestStatmentButtonText": "اطلب كشف حساب جديد",
-      "NothingHereText": "لا شيء هنا!",
+      "monthlyStatementSubtitle": ".يتم إنشاء كشوف الحساب الشهرية تلقائيًا لآخر عامين",
+      "customDateStatementSubtitle": "يمكنك طلب بيان تاريخ مخصص في السنوات الخمس الماضية.",
+      "filteredByText": "مُصفى بواسطة:",
+      "requestStatmentButtonText": "اطلب كشف حساب جديد",
+      "FilterModal": {
+        "buttonText": "تعيين",
+        "title": "منقي"
+      },
+      "nothingHereText": "لا شيء هنا",
       "brandMomemt": "لحظة العلامة التجارية",
-      "NoStatementsText": "لم يتم إنشاء أي بيانات حتى الآن!",
-      "monthNames": {
+      "noStatementsText": "لم يتم إنشاء أي بيانات حتى الآن!",
+      "noStatementsTextForFilter": "لم يتم إنشاء أي بيانات باستخدام هذه اللغة حتى الآن!",
+      "MonthNames": {
         "january": "يناير",
         "february": "فبراير",
         "march": "مارس",
