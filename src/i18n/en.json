@@ -2261,7 +2261,8 @@
       "continueText": "Continue",
       "textInput": {
         "validationText": "Please enter the valid account number",
-        "label": "Account number"
+        "label": "Account number",
+        "errorText": "Please enter the correct account number"
       },
       "errorModal": {
         "buttonRetryText": "Retry",
@@ -2272,6 +2273,10 @@
         "buttonCancelText": "Cancel",
         "message": "You will not be able to undo this action, if you cancel now.",
         "title": "Are you sure you want to cancel?"
+      },
+      "genericError": {
+        "title": "We’re sorry, something has gone wrong.",
+        "message": "Please try again later or contact Customer Care."
       }
     },
     "EnterBillDescriptionScreen": {

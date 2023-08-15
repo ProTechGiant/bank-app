@@ -41,6 +41,7 @@ export default function InputBox({ addonStart, children, isError, isFocused, num
     alignItems: "center",
     justifyContent: "center",
     paddingStart: t.spacing["12p"],
+    paddingEnd: t.spacing["12p"],
   }));
 
   const animatedContainerStyle = useAnimatedStyle(() => {

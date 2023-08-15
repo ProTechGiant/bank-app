@@ -25,10 +25,10 @@ export default function EnterAccountNoScreen() {
   const [errorModal, setErrorModal] = useState(false);
   const [warningModal, setWarningModal] = useState(false);
 
-  const { data, refetch, status } = useBillDetailsByAccountNumber(accountNumber, billDetails.BillIssuer?.Id);
+  const { data, refetch, status, error } = useBillDetailsByAccountNumber(accountNumber, billDetails.BillIssuer?.Id);
 
-  const handleOnSubmit = () => {
-    refetch();
+  const handleOnSubmit = async () => {
+    await refetch();
     if (status === "success") {
       setBillDetails({ ...billDetails, ...data, AccountNumber: accountNumber });
       navigation.navigate("SadadBillPayments.EnterBillDescScreen");
@@ -39,6 +39,11 @@ export default function EnterAccountNoScreen() {
 
   const handleOnChangeText = (text: string) => {
     setAccountNumber(text);
+  };
+
+  const handleOnRetry = () => {
+    handleOnSubmit();
+    setErrorModal(false);
   };
 
   const handleOnCancelAddBill = () => {
@@ -84,6 +89,11 @@ export default function EnterAccountNoScreen() {
             keyboardType="number-pad"
             value={accountNumber}
             onChangeText={handleOnChangeText}
+            errorText={
+              accountNumber.length > 0 && accountNumber.length < 12
+                ? t("SadadBillPayments.EnterAccountNoScreen.textInput.errorText")
+                : undefined
+            }
           />
           <Button disabled={accountNumber.length < 11} onPress={handleOnSubmit}>
             <Typography.Text
@@ -104,7 +114,7 @@ export default function EnterAccountNoScreen() {
           variant="error"
           buttons={{
             primary: (
-              <Button onPress={() => setErrorModal(false)}>
+              <Button onPress={() => handleOnRetry()}>
                 {t("SadadBillPayments.EnterAccountNoScreen.errorModal.buttonRetryText")}
               </Button>
             ),
@@ -125,6 +135,15 @@ export default function EnterAccountNoScreen() {
               </Button>
             ),
           }}
+        />
+        <NotificationModal
+          onClose={() => {
+            navigation.goBack();
+          }}
+          message={t("SadadBillPayments.EnterAccountNoScreen.genericError.message")}
+          isVisible={error !== null}
+          title={t("SadadBillPayments.EnterAccountNoScreen.genericError.title")}
+          variant="error"
         />
       </ContentContainer>
     </Page>
