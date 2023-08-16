@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Alert, Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { CalendarAltIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -168,11 +167,6 @@ export default function TopSpendingScreen() {
     paddingTop: theme.spacing["16p"],
   }));
 
-  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
-    zIndex: 1,
-    marginBottom: theme.spacing["20p"],
-  }));
   const secttions = [];
   if (!isLoading && includedCategories) {
     secttions.push({
@@ -204,20 +198,18 @@ export default function TopSpendingScreen() {
   }
 
   return (
-    <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-      <SafeAreaView edges={["top"]} style={headerStyle}>
-        <NavHeader
-          variant="angled"
-          title={t("TopSpending.TopSpendingScreen.spendingInsights")}
-          subTitle={monthYearName}
-          onBackPress={handleOnBackPress}
-          end={
-            <Pressable onPress={() => setIsSelectMonthModalVisible(true)}>
-              <CalendarAltIcon />
-            </Pressable>
-          }
-        />
-      </SafeAreaView>
+    <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
+      <NavHeader
+        variant="angled"
+        title={t("TopSpending.TopSpendingScreen.spendingInsights")}
+        subTitle={monthYearName}
+        onBackPress={handleOnBackPress}
+        end={
+          <Pressable onPress={() => setIsSelectMonthModalVisible(true)}>
+            <CalendarAltIcon />
+          </Pressable>
+        }
+      />
       <Modal
         visible={isCreateMonthlyModalOpen}
         onBack={() => setCreateIsMonthlyModalOpen(false)}

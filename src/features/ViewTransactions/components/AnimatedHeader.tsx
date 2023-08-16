@@ -36,16 +36,11 @@ export default function AnimatedHeader({
   const formattedBalance = formatter.format(balance);
   const [dollars, cents] = formattedBalance.split(".");
 
-  const headerStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette["supportBase-15"],
-      paddingHorizontal: theme.spacing["20p"],
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-    }),
-    [height]
-  );
+  const headerStyle = useThemeStyles<ViewStyle>(() => ({
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  }));
 
   const currencyStyle = useThemeStyles<TextStyle>(
     theme => ({

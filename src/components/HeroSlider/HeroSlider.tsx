@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { I18nManager, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, StyleSheet, View, ViewStyle } from "react-native";
 import PagerView, { PagerViewOnPageSelectedEvent } from "react-native-pager-view";
 
 import Button from "@/components/Button";
@@ -82,7 +82,6 @@ export default function HeroSlider({
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       {variant === "prebrand" ? <BackgroundTopStartSvg style={styles.backgroundTopStart} /> : null}
       {variant === "prebrand" ? <BackgroundBottomSvg style={styles.backgroundBottom} /> : null}
       <NavHeader
@@ -104,13 +103,11 @@ export default function HeroSlider({
           ))}
         </PagerView>
         <Stack align="center" direction="horizontal" gap="8p" justify="center" style={paginationContainerStyle}>
-          {data.length > 1
-            ? data.map((element, index) => (
-                <View key={element.title} style={[styles.dot, step === index ? activeDotStyle : inactiveDotStyle]} />
-              ))
-            : null}
+          {data.map((element, index) => (
+            <View key={element.title} style={[styles.dot, step === index ? activeDotStyle : inactiveDotStyle]} />
+          ))}
         </Stack>
-        {children ? (
+        {children !== undefined ? (
           children
         ) : (
           <Button loading={loading} variant="primary" onPress={handleOnButtonPress}>

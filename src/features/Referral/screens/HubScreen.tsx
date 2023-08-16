@@ -1,7 +1,7 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, SafeAreaView, ScrollView, Share, View, ViewStyle } from "react-native";
+import { Platform, Share, View, ViewStyle } from "react-native";
 
 import { CopyIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -104,12 +104,6 @@ export default function HubScreen() {
     marginBottom: theme.spacing["8p"],
   }));
 
-  const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    flex: 1,
-    justifyContent: "space-between",
-    marginTop: theme.spacing["24p"],
-  }));
-
   const linkCardStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["20p"],
     marginTop: theme.spacing["24p"],
@@ -124,17 +118,6 @@ export default function HubScreen() {
     marginBottom: theme.spacing["16p"],
   }));
 
-  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
-    zIndex: 1,
-    paddingTop: theme.spacing["20p"],
-  }));
-
-  const titleStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["20p"],
-    paddingBottom: theme.spacing["8p"],
-  }));
-
   const tableCardStyles = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: -theme.spacing["16p"],
   }));
@@ -142,77 +125,72 @@ export default function HubScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-        <SafeAreaView style={headerStyle}>
-          <NavHeader variant="angled" />
-          <View style={titleStyle}>
-            <View style={iconContainerStyle}>
-              <ReferralsDashboard />
-            </View>
-            <Typography.Text weight="semiBold" size="title1" color="neutralBase+30">
-              {t("Referral.HubScreen.title")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase+30" weight="regular" size="callout" style={subtitleStyle}>
-              {t("Referral.HubScreen.subtitle")}
-              <Typography.Text
-                color="neutralBase+30"
-                weight="regular"
-                size="callout"
-                onPress={handleOnTermsAndConditionsPress}>
-                {t("Referral.HubScreen.termsAndConditions")}
-              </Typography.Text>
-              <Typography.Text color="neutralBase+30" weight="regular" size="callout">
-                {t("Referral.HubScreen.fullStop")}
-              </Typography.Text>
-            </Typography.Text>
-            <View style={linkCardStyle}>
-              <List isBordered>
-                {referralLink !== undefined ? (
-                  <List.Item.Information
-                    label={referralLink}
-                    onPress={handleOnCopyPress}
-                    end={<List.End.Copy onPress={handleOnCopyPress} />}
-                  />
-                ) : (
-                  <List.Item.Information
-                    label={t("Referral.HubScreen.noLink")}
-                    disabled={true}
-                    end={<CopyIcon color={inactiveIconColor} height={16} width={16} />}
-                  />
-                )}
-              </List>
-            </View>
+        <NavHeader variant="angled">
+          <View style={iconContainerStyle}>
+            <ReferralsDashboard />
           </View>
-        </SafeAreaView>
-        <ContentContainer isScrollView style={contentContainerStyle}>
-          <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false}>
-            <Typography.Text size="title3" weight="semiBold" style={headerTextWrapperStyle}>
-              {t("Referral.HubScreen.recommendations")}
+          <Typography.Text weight="semiBold" size="title1" color="neutralBase+30">
+            {t("Referral.HubScreen.title")}
+          </Typography.Text>
+          <Typography.Text color="neutralBase+30" weight="regular" size="callout" style={subtitleStyle}>
+            {t("Referral.HubScreen.subtitle")}
+            <Typography.Text
+              color="neutralBase+30"
+              weight="regular"
+              size="callout"
+              onPress={handleOnTermsAndConditionsPress}>
+              {t("Referral.HubScreen.termsAndConditions")}
             </Typography.Text>
-            <View style={tableCardStyles}>
-              <List isBordered>
-                <List.Item.Table
-                  label={t("Referral.HubScreen.earnt")}
-                  end={
-                    moneyEarned !== undefined ? (
-                      <List.End.Label bold>{moneyEarned}</List.End.Label>
-                    ) : (
-                      <List.End.Label>{t("Referral.HubScreen.noData")}</List.End.Label>
-                    )
-                  }
+            <Typography.Text color="neutralBase+30" weight="regular" size="callout">
+              {t("Referral.HubScreen.fullStop")}
+            </Typography.Text>
+          </Typography.Text>
+          <View style={linkCardStyle}>
+            <List isBordered>
+              {referralLink !== undefined ? (
+                <List.Item.Information
+                  label={referralLink}
+                  onPress={handleOnCopyPress}
+                  end={<List.End.Copy onPress={handleOnCopyPress} />}
                 />
-                <List.Item.Table
-                  label={t("Referral.HubScreen.completed")}
-                  end={
-                    numberOfCompletedReferrals !== undefined ? (
-                      <List.End.Label bold>{numberOfCompletedReferrals}</List.End.Label>
-                    ) : (
-                      <List.End.Label>{t("Referral.HubScreen.noData")}</List.End.Label>
-                    )
-                  }
+              ) : (
+                <List.Item.Information
+                  label={t("Referral.HubScreen.noLink")}
+                  disabled={true}
+                  end={<CopyIcon color={inactiveIconColor} height={16} width={16} />}
                 />
-              </List>
-            </View>
-          </ScrollView>
+              )}
+            </List>
+          </View>
+        </NavHeader>
+        <ContentContainer isScrollView>
+          <Typography.Text size="title3" weight="semiBold" style={headerTextWrapperStyle}>
+            {t("Referral.HubScreen.recommendations")}
+          </Typography.Text>
+          <View style={tableCardStyles}>
+            <List isBordered>
+              <List.Item.Table
+                label={t("Referral.HubScreen.earnt")}
+                end={
+                  moneyEarned !== undefined ? (
+                    <List.End.Label bold>{moneyEarned}</List.End.Label>
+                  ) : (
+                    <List.End.Label>{t("Referral.HubScreen.noData")}</List.End.Label>
+                  )
+                }
+              />
+              <List.Item.Table
+                label={t("Referral.HubScreen.completed")}
+                end={
+                  numberOfCompletedReferrals !== undefined ? (
+                    <List.End.Label bold>{numberOfCompletedReferrals}</List.End.Label>
+                  ) : (
+                    <List.End.Label>{t("Referral.HubScreen.noData")}</List.End.Label>
+                  )
+                }
+              />
+            </List>
+          </View>
           <Button
             variant="primary"
             color="light"

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { CalendarAltIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -119,13 +118,86 @@ export default function SingleTagScreen() {
     paddingLeft: theme.spacing["20p"],
   }));
 
-  const headerStyle = useThemeStyles(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
-    zIndex: 1,
-  }));
-
   return (
-    <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
+    <>
+      <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
+        <NavHeader
+          variant="angled"
+          onBackPress={handleOnBackPress}
+          end={
+            <Pressable onPress={() => setIsViewingFilter(true)}>
+              <CalendarAltIcon />
+            </Pressable>
+          }>
+          <TagHeader TotalAmount={notPendingTransactions.data?.TotalAmount ?? 0} />
+        </NavHeader>
+
+        <View style={textMargin}>
+          <Typography.Text size="title3" color="neutralBase+30">
+            {currentValue}
+          </Typography.Text>
+        </View>
+        <TagChart data={data} TotalAmount={notPendingTransactions.data?.TotalAmount ?? 0} />
+        <ContentContainer isScrollView>
+          <TransactionTitleAndCounter
+            handleOnOpenModal={handleOnOpenModal}
+            counter={Number(choosenCategories.length)}
+          />
+          <ChoosenCategories categories={choosenCategories} handleRemoveCategory={handleRemoveCategory} />
+          <View style={marginsStyle}>
+            <FlatList
+              data={notPendingTransactions.data?.Transaction ?? []}
+              renderItem={({ item }) => <TransactionCell transaction={item} />}
+              keyExtractor={item => item.TransactionId.toString()}
+            />
+          </View>
+          <Modal style={styles.modal} onClose={handleOnCloseModal} visible={isModalVisible} headerText="Filter">
+            <View>
+              <Typography.Text size="callout" color="neutralBase+30" weight="medium">
+                {t("TopSpending.SingleTagScreen.Modal.category")}:
+              </Typography.Text>
+
+              {!isLoading ? (
+                <View style={styles.checkbox}>
+                  <View>
+                    <FlatList
+                      data={categories}
+                      renderItem={({ item }) => (
+                        <CheckBoxCell
+                          category={item}
+                          choosenCategories={choosenCategories}
+                          handleOnUpdateCategories={handleOnUpdateCategories}
+                        />
+                      )}
+                      keyExtractor={item => item.categoryId.toString()}
+                    />
+                  </View>
+                </View>
+              ) : (
+                <FlexActivityIndicator />
+              )}
+
+              <View style={controlStyle}>
+                <Pressable onPress={handleOnToggleModal} style={setButtonStyle}>
+                  <Typography.Text color="neutralBase-60" weight="medium" size="body">
+                    {t("TopSpending.SingleTagScreen.Modal.set")}
+                  </Typography.Text>
+                </Pressable>
+                <Pressable
+                  style={resetStyle}
+                  onPress={() => {
+                    setIsModalVisible(false);
+                    setChoosenCategories([]);
+                  }}>
+                  <Typography.Text color="primaryBase" weight="medium" size="body">
+                    {t("TopSpending.SingleTagScreen.Modal.reset")}
+                  </Typography.Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </ContentContainer>
+      </Page>
       <SpendingsFilterModal
         isCompareModalIncluded={false}
         isVisible={isViewingFilter}
@@ -136,82 +208,7 @@ export default function SingleTagScreen() {
           setCurrentValue(`${format(parseISO(newFromDate), "dd")} - ${format(parseISO(newToDate), "dd MMMM yyyy")}`);
         }}
       />
-      <SafeAreaView edges={["top"]} style={headerStyle}>
-        <NavHeader
-          variant="angled"
-          onBackPress={handleOnBackPress}
-          end={
-            <Pressable onPress={() => setIsViewingFilter(true)}>
-              <CalendarAltIcon />
-            </Pressable>
-          }
-        />
-        <TagHeader TotalAmount={notPendingTransactions.data?.TotalAmount ?? 0} />
-      </SafeAreaView>
-
-      <View style={textMargin}>
-        <Typography.Text size="title3" color="neutralBase+30">
-          {currentValue}
-        </Typography.Text>
-      </View>
-      <TagChart data={data} TotalAmount={notPendingTransactions.data?.TotalAmount ?? 0} />
-      <ContentContainer isScrollView>
-        <TransactionTitleAndCounter handleOnOpenModal={handleOnOpenModal} counter={Number(choosenCategories.length)} />
-        <ChoosenCategories categories={choosenCategories} handleRemoveCategory={handleRemoveCategory} />
-        <View style={marginsStyle}>
-          <FlatList
-            data={notPendingTransactions.data?.Transaction ?? []}
-            renderItem={({ item }) => <TransactionCell transaction={item} />}
-            keyExtractor={item => item.TransactionId.toString()}
-          />
-        </View>
-        <Modal style={styles.modal} onClose={handleOnCloseModal} visible={isModalVisible} headerText="Filter">
-          <View>
-            <Typography.Text size="callout" color="neutralBase+30" weight="medium">
-              {t("TopSpending.SingleTagScreen.Modal.category")}:
-            </Typography.Text>
-
-            {!isLoading ? (
-              <View style={styles.checkbox}>
-                <View>
-                  <FlatList
-                    data={categories}
-                    renderItem={({ item }) => (
-                      <CheckBoxCell
-                        category={item}
-                        choosenCategories={choosenCategories}
-                        handleOnUpdateCategories={handleOnUpdateCategories}
-                      />
-                    )}
-                    keyExtractor={item => item.categoryId.toString()}
-                  />
-                </View>
-              </View>
-            ) : (
-              <FlexActivityIndicator />
-            )}
-
-            <View style={controlStyle}>
-              <Pressable onPress={handleOnToggleModal} style={setButtonStyle}>
-                <Typography.Text color="neutralBase-60" weight="medium" size="body">
-                  {t("TopSpending.SingleTagScreen.Modal.set")}
-                </Typography.Text>
-              </Pressable>
-              <Pressable
-                style={resetStyle}
-                onPress={() => {
-                  setIsModalVisible(false);
-                  setChoosenCategories([]);
-                }}>
-                <Typography.Text color="primaryBase" weight="medium" size="body">
-                  {t("TopSpending.SingleTagScreen.Modal.reset")}
-                </Typography.Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-      </ContentContainer>
-    </Page>
+    </>
   );
 }
 

@@ -1,6 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { cloneElement, isValidElement, useCallback } from "react";
 import { BackHandler, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import BackgroundBottom from "@/assets/BackgroundBottom";
 import { ArrowLeftIcon } from "@/assets/icons";
@@ -8,6 +9,7 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import BoldTitle from "./BoldTitle";
 import CloseEndButton, { CloseEndButtonProps } from "./CloseEndButton";
 import IconEndButton, { IconEndButtonProps } from "./IconEndButton";
 import StatusBar from "./StatusBar";
@@ -15,7 +17,7 @@ import TextEndButton, { TextEndButtonProps } from "./TextEndButton";
 
 export interface NavHeaderProps {
   onBackPress?: () => void;
-  children?: React.ReactElement;
+  children?: React.ReactElement | Array<React.ReactElement>;
   variant?: "black" | "white" | "background" | "angled";
   end?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
   testID?: string;
@@ -41,6 +43,7 @@ const NavHeader = ({
   backgroundBottomStyle,
 }: NavHeaderProps) => {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   const handleOnBackPress = () => {
     if (undefined === onBackPress) navigation.goBack();
@@ -53,18 +56,16 @@ const NavHeader = ({
         if (withBackButton) {
           handleOnBackPress();
         }
+
         return true;
       };
+
       BackHandler.addEventListener("hardwareBackPress", handleOnBackButtonClick);
 
       return () => BackHandler.removeEventListener("hardwareBackPress", handleOnBackButtonClick);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
   );
-
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["20p"],
-    paddingVertical: theme.spacing["16p"],
-  }));
 
   const childrenStyles = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["16p"],
@@ -83,14 +84,24 @@ const NavHeader = ({
   const backgroundAngledColorDefault = useThemeStyles(theme => theme.palette["supportBase-15"]);
   const backgroundAngledColorFinal = backgroundAngledColor ? backgroundAngledColor : backgroundAngledColorDefault;
 
+  const containerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: variant === "angled" ? backgroundAngledColorFinal : undefined,
+      paddingHorizontal: theme.spacing["20p"],
+      paddingBottom: theme.spacing["16p"],
+      paddingTop: theme.spacing["12p"] + (variant === "angled" ? insets.top : 0),
+    }),
+    [backgroundAngledColorFinal, variant]
+  );
+
   const backgroundBottomStyleDefault = useThemeStyles<ViewStyle>(theme => ({
     position: "absolute",
     bottom: -theme.spacing["24p"] + 1, // Small gap forms on iphone SE, 1 pixel added to remove this.
   }));
 
   return (
-    <>
-      <StatusBar barStyle={variant === "black" ? "dark-content" : "light-content"} />
+    <View style={styles.elevated}>
+      <StatusBar barStyle={variant === "black" || variant === "angled" ? "dark-content" : "light-content"} />
       <View style={containerStyle} testID={testID}>
         <View style={styles.title}>
           <View style={[styles.column, styles.columnStart]}>
@@ -138,7 +149,7 @@ const NavHeader = ({
           <BackgroundBottom color={backgroundAngledColorFinal} />
         </View>
       ) : null}
-    </>
+    </View>
   );
 };
 
@@ -162,6 +173,9 @@ const styles = StyleSheet.create({
   columnStart: {
     alignItems: "flex-start",
   },
+  elevated: {
+    zIndex: 1,
+  },
   title: {
     alignItems: "center",
     display: "flex",
@@ -173,5 +187,6 @@ const styles = StyleSheet.create({
 NavHeader.CloseEndButton = CloseEndButton;
 NavHeader.TextEndButton = TextEndButton;
 NavHeader.IconEndButton = IconEndButton;
+NavHeader.BoldTitle = BoldTitle;
 
 export default NavHeader;

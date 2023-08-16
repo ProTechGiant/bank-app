@@ -1,3 +1,4 @@
+import { StyleSheet } from "react-native";
 import Svg, { Circle, G, Mask, Path } from "react-native-svg";
 
 export default function ReferralsDashboard() {
@@ -20,16 +21,7 @@ export default function ReferralsDashboard() {
         fill="#BF0000"
       />
       <Path d="M10.582 69.197l24.035-.013 7.432-4.696v29.725l-31.467.011V69.197z" fill="#E50000" />
-      <Mask
-        id="a"
-        style={{
-          maskType: "luminance",
-        }}
-        maskUnits="userSpaceOnUse"
-        x={16}
-        y={72}
-        width={21}
-        height={20}>
+      <Mask id="a" style={styles.luminance} maskUnits="userSpaceOnUse" x={16} y={72} width={21} height={20}>
         <Path
           d="M26.599 91.71c5.442 0 9.854-4.412 9.854-9.855 0-5.443-4.412-9.855-9.855-9.855-5.442 0-9.854 4.412-9.854 9.855 0 5.443 4.412 9.855 9.855 9.855z"
           fill="#fff"
@@ -44,16 +36,7 @@ export default function ReferralsDashboard() {
         fill="#BF0000"
       />
       <Path d="M103.916 30.773l-24.66.009-5.326 3.365V4.009L103.916 4v26.773z" fill="#FF371E" />
-      <Mask
-        id="b"
-        style={{
-          maskType: "luminance",
-        }}
-        maskUnits="userSpaceOnUse"
-        x={78}
-        y={5}
-        width={23}
-        height={23}>
+      <Mask id="b" style={styles.luminance} maskUnits="userSpaceOnUse" x={78} y={5} width={23} height={23}>
         <Path
           d="M89.596 27.074c6.095 0 11.036-4.942 11.036-11.037C100.632 9.94 95.691 5 89.595 5 83.5 5 78.56 9.941 78.56 16.037c0 6.095 4.941 11.037 11.037 11.037z"
           fill="#fff"
@@ -66,3 +49,9 @@ export default function ReferralsDashboard() {
     </Svg>
   );
 }
+
+const styles = StyleSheet.create({
+  luminance: {
+    maskType: "luminance",
+  },
+});

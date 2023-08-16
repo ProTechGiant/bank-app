@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, SafeAreaView, View, ViewStyle } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Pressable, View, ViewStyle } from "react-native";
 
 import { PaymentHistoryIcon, PlusIcon, SadadBillPaymentIcon, TransferHorizontalIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -89,104 +88,95 @@ export default function BillPaymentHomeScreen() {
     alignSelf: "flex-end",
   }));
 
-  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
-    zIndex: 1,
-    paddingTop: theme.spacing["20p"],
-  }));
-
   const iconColor = useThemeStyles(theme => theme.palette.primaryBase);
 
   return (
-    <SafeAreaProvider>
-      <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-        <SafeAreaView style={headerStyle}>
-          <NavHeader variant="angled" title={t("SadadBillPayments.BillPaymentHomeScreen.navHeaderTitle")} />
-        </SafeAreaView>
-
-        <ContentContainer isScrollView style={contentContainerStyle}>
-          <Stack direction="vertical" gap="16p" align="stretch">
-            <Stack align="center" direction="horizontal" gap="12p">
-              <Pressable onPress={handleOnAddBillPress} style={addIconContainer}>
-                <PlusIcon color={iconColor} />
-              </Pressable>
-              <Stack align="baseline" direction="vertical" gap="4p">
-                <Typography.Text size="callout" weight="semiBold" color="neutralBase+30">
-                  {t("SadadBillPayments.BillPaymentHomeScreen.addBillText")}
-                </Typography.Text>
-                <Typography.Text
-                  numberOfLines={3}
-                  lineBreakMode="clip"
-                  style={addBillStyle}
-                  size="caption1"
-                  weight="regular"
-                  color="neutralBase">
-                  {t("SadadBillPayments.BillPaymentHomeScreen.addBillMessage")}
-                </Typography.Text>
-              </Stack>
-            </Stack>
-            <Stack direction="horizontal" style={QuickActionItemContainer} justify="center" align="center" gap="20p">
-              <QuickActionItem
-                title={t("SadadBillPayments.BillPaymentHomeScreen.quickActionItems.oneTimePayment")}
-                icon={<TransferHorizontalIcon />}
-                onPress={handleOnOneTimePaymentPress}
-              />
-              <QuickActionItem
-                title={t("SadadBillPayments.BillPaymentHomeScreen.quickActionItems.splitBills")}
-                icon={<SadadBillPaymentIcon />}
-                onPress={handleOnSplitPaymentPress}
-              />
-              <QuickActionItem
-                title={t("SadadBillPayments.BillPaymentHomeScreen.quickActionItems.paymentHistory")}
-                icon={<PaymentHistoryIcon />}
-                onPress={handleOnOnePaymentHistoryPress}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <View style={segmentedControlStyle}>
-                <SegmentedControl onPress={value => setCurrentTab(value)} value={currentTab}>
-                  <SegmentedControl.Item value="paymentDue">
-                    {t("SadadBillPayments.BillPaymentHomeScreen.tabItems.paymentDue")}
-                  </SegmentedControl.Item>
-                  <SegmentedControl.Item value="savedBills">
-                    {t("SadadBillPayments.BillPaymentHomeScreen.tabItems.savedBills")}
-                  </SegmentedControl.Item>
-                </SegmentedControl>
-              </View>
-            </Stack>
-            <Stack direction="vertical" gap="20p" align="stretch">
-              {numberOfBills > 5 ? (
-                <Pressable style={viewAllStyle} onPress={handleOnViewAllPress}>
-                  <Typography.Text color="primaryBase-30" size="footnote" weight="semiBold">
-                    {t("SadadBillPayments.BillPaymentHomeScreen.viewAll")}
-                  </Typography.Text>
-                </Pressable>
-              ) : null}
-              <View>
-                {numberOfBills > 0 ? (
-                  MockBillDetails.slice(0, 5).map(element => (
-                    <BillItemCard key={element.key} data={element} onPress={() => handleOnBiilItemPress()} />
-                  ))
-                ) : (
-                  <EmptyDataWarningCard
-                    title={
-                      currentTab === "paymentDue"
-                        ? t("SadadBillPayments.BillPaymentHomeScreen.noDueTitle")
-                        : t("SadadBillPayments.BillPaymentHomeScreen.noBillTitle")
-                    }
-                    description={
-                      currentTab === "paymentDue"
-                        ? t("SadadBillPayments.BillPaymentHomeScreen.noDueDescription")
-                        : t("SadadBillPayments.BillPaymentHomeScreen.noBillDescription")
-                    }
-                    onPress={handleOnAddBillPress}
-                  />
-                )}
-              </View>
+    <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
+      <NavHeader variant="angled">
+        <NavHeader.BoldTitle>{t("SadadBillPayments.BillPaymentHomeScreen.navHeaderTitle")}</NavHeader.BoldTitle>
+      </NavHeader>
+      <ContentContainer isScrollView style={contentContainerStyle}>
+        <Stack direction="vertical" gap="16p" align="stretch">
+          <Stack align="center" direction="horizontal" gap="12p">
+            <Pressable onPress={handleOnAddBillPress} style={addIconContainer}>
+              <PlusIcon color={iconColor} />
+            </Pressable>
+            <Stack align="baseline" direction="vertical" gap="4p">
+              <Typography.Text size="callout" weight="semiBold" color="neutralBase+30">
+                {t("SadadBillPayments.BillPaymentHomeScreen.addBillText")}
+              </Typography.Text>
+              <Typography.Text
+                numberOfLines={3}
+                lineBreakMode="clip"
+                style={addBillStyle}
+                size="caption1"
+                weight="regular"
+                color="neutralBase">
+                {t("SadadBillPayments.BillPaymentHomeScreen.addBillMessage")}
+              </Typography.Text>
             </Stack>
           </Stack>
-        </ContentContainer>
-      </Page>
-    </SafeAreaProvider>
+          <Stack direction="horizontal" style={QuickActionItemContainer} justify="center" align="center" gap="20p">
+            <QuickActionItem
+              title={t("SadadBillPayments.BillPaymentHomeScreen.quickActionItems.oneTimePayment")}
+              icon={<TransferHorizontalIcon />}
+              onPress={handleOnOneTimePaymentPress}
+            />
+            <QuickActionItem
+              title={t("SadadBillPayments.BillPaymentHomeScreen.quickActionItems.splitBills")}
+              icon={<SadadBillPaymentIcon />}
+              onPress={handleOnSplitPaymentPress}
+            />
+            <QuickActionItem
+              title={t("SadadBillPayments.BillPaymentHomeScreen.quickActionItems.paymentHistory")}
+              icon={<PaymentHistoryIcon />}
+              onPress={handleOnOnePaymentHistoryPress}
+            />
+          </Stack>
+          <Stack direction="horizontal">
+            <View style={segmentedControlStyle}>
+              <SegmentedControl onPress={value => setCurrentTab(value)} value={currentTab}>
+                <SegmentedControl.Item value="paymentDue">
+                  {t("SadadBillPayments.BillPaymentHomeScreen.tabItems.paymentDue")}
+                </SegmentedControl.Item>
+                <SegmentedControl.Item value="savedBills">
+                  {t("SadadBillPayments.BillPaymentHomeScreen.tabItems.savedBills")}
+                </SegmentedControl.Item>
+              </SegmentedControl>
+            </View>
+          </Stack>
+          <Stack direction="vertical" gap="20p" align="stretch">
+            {numberOfBills > 5 ? (
+              <Pressable style={viewAllStyle} onPress={handleOnViewAllPress}>
+                <Typography.Text color="primaryBase-30" size="footnote" weight="semiBold">
+                  {t("SadadBillPayments.BillPaymentHomeScreen.viewAll")}
+                </Typography.Text>
+              </Pressable>
+            ) : null}
+            <View>
+              {numberOfBills > 0 ? (
+                MockBillDetails.slice(0, 5).map(element => (
+                  <BillItemCard key={element.key} data={element} onPress={() => handleOnBiilItemPress()} />
+                ))
+              ) : (
+                <EmptyDataWarningCard
+                  title={
+                    currentTab === "paymentDue"
+                      ? t("SadadBillPayments.BillPaymentHomeScreen.noDueTitle")
+                      : t("SadadBillPayments.BillPaymentHomeScreen.noBillTitle")
+                  }
+                  description={
+                    currentTab === "paymentDue"
+                      ? t("SadadBillPayments.BillPaymentHomeScreen.noDueDescription")
+                      : t("SadadBillPayments.BillPaymentHomeScreen.noBillDescription")
+                  }
+                  onPress={handleOnAddBillPress}
+                />
+              )}
+            </View>
+          </Stack>
+        </Stack>
+      </ContentContainer>
+    </Page>
   );
 }

@@ -2,8 +2,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { compareAsc } from "date-fns";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, SafeAreaView, View, ViewStyle } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Alert, View, ViewStyle } from "react-native";
 
 import { PlusIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -39,7 +38,7 @@ export default function SavingsGoalsScreen() {
       ]);
     }
 
-    if (route.params !== undefined) {
+    if (route.params?.isGoalRemoved !== undefined) {
       addToast({ variant: "confirm", message: t("SavingsGoals.SavingsGoalsScreen.notifications.goalClosed") });
     }
   }, [error, navigation, route.params, t, addToast]);
@@ -65,65 +64,44 @@ export default function SavingsGoalsScreen() {
     navigation.navigate("SavingsGoals.GoalDetailsScreen", { PotId });
   };
 
-  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
-    zIndex: 1,
-    paddingTop: theme.spacing["20p"],
-  }));
-
-  const titleStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["20p"],
-    paddingBottom: theme.spacing["8p"],
-  }));
-
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["48p"],
   }));
 
   return (
-    <SafeAreaProvider>
-      <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-        <SafeAreaView style={headerStyle}>
-          <NavHeader onBackPress={handleOnBack} variant="angled" />
-          <View style={titleStyle}>
-            <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-              {savingsGoals?.length < MAX_GOALS
-                ? t("SavingsGoals.SavingsGoalsScreen.title")
-                : t("SavingsGoals.SavingsGoalsScreen.maxGoalsTitle")}
-            </Typography.Text>
+    <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
+      <NavHeader onBackPress={handleOnBack} variant="angled">
+        <NavHeader.BoldTitle>{t("SavingsGoals.SavingsGoalsScreen.title")}</NavHeader.BoldTitle>
+      </NavHeader>
+      <ContentContainer isScrollView style={contentContainerStyle}>
+        <Stack direction="vertical" gap="16p" align="stretch">
+          <View>
+            <Stack align="stretch" direction="vertical" gap="16p">
+              {savingsGoals.map(element => (
+                <GoalCard
+                  key={element.PotId}
+                  title={element.GoalName}
+                  amountSaved={Number(element.AvailableBalanceAmount)}
+                  totalAmount={Number(element.TargetAmount)}
+                  date={element.TargetDate}
+                  onPress={() => handleOnPress(element.PotId)}
+                />
+              ))}
+              {data !== undefined && savingsGoals.length <= MAX_GOALS - 1 ? (
+                <Stack direction="vertical" align="center" gap="24p">
+                  <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                    {t("SavingsGoals.SavingsGoalsScreen.instructionText")}
+                  </Typography.Text>
+                  <Button onPress={handleOnCreateGoal} iconLeft={<PlusIcon />} variant="secondary" size="small">
+                    {t("SavingsGoals.SavingsGoalsScreen.button")}
+                  </Button>
+                </Stack>
+              ) : null}
+            </Stack>
           </View>
-        </SafeAreaView>
-
-        <ContentContainer isScrollView style={contentContainerStyle}>
-          <Stack direction="vertical" gap="16p" align="stretch">
-            <View>
-              <Stack align="stretch" direction="vertical" gap="16p">
-                {savingsGoals.map(element => (
-                  <GoalCard
-                    key={element.PotId}
-                    title={element.GoalName}
-                    amountSaved={Number(element.AvailableBalanceAmount)}
-                    totalAmount={Number(element.TargetAmount)}
-                    date={element.TargetDate}
-                    onPress={() => handleOnPress(element.PotId)}
-                  />
-                ))}
-                {data !== undefined && savingsGoals.length <= MAX_GOALS - 1 ? (
-                  <Stack direction="vertical" align="center" gap="24p">
-                    <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                      {t("SavingsGoals.SavingsGoalsScreen.instructionText")}
-                    </Typography.Text>
-                    <Button onPress={handleOnCreateGoal} iconLeft={<PlusIcon />} variant="secondary" size="small">
-                      {t("SavingsGoals.SavingsGoalsScreen.button")}
-                    </Button>
-                  </Stack>
-                ) : null}
-              </Stack>
-            </View>
-          </Stack>
-        </ContentContainer>
-      </Page>
-    </SafeAreaProvider>
+        </Stack>
+      </ContentContainer>
+    </Page>
   );
 }
 

@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
-import { ScrollView, ScrollViewProps, StyleProp, View, ViewStyle } from "react-native";
+import { ScrollView, ScrollViewProps, StyleProp, View, ViewProps, ViewStyle } from "react-native";
 
 import { useThemeStyles } from "@/theme";
 
-interface ContentContainerProps {
+interface ContentContainerProps extends ViewProps {
   children?: ReactNode;
   style?: StyleProp<ViewStyle>;
   isScrollView?: boolean;
@@ -15,6 +15,7 @@ export default function ContentContainer({
   children,
   isScrollView = false,
   keyboardShouldPersistTaps,
+  ...restProps
 }: ContentContainerProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
@@ -23,10 +24,15 @@ export default function ContentContainer({
   }));
 
   return isScrollView ? (
-    <ScrollView contentContainerStyle={[containerStyle, style]} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
+    <ScrollView
+      {...restProps}
+      contentContainerStyle={[containerStyle, style]}
+      keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
       {children}
     </ScrollView>
   ) : (
-    <View style={[containerStyle, style]}>{children}</View>
+    <View {...restProps} style={[containerStyle, style]}>
+      {children}
+    </View>
   );
 }

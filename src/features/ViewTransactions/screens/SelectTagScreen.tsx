@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Alert, FlatList, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
@@ -154,18 +154,10 @@ export default function SelectTagScreen() {
     return false;
   };
 
-  const navHeaderStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
-    zIndex: 1,
-    marginBottom: theme.spacing["24p"],
-  }));
-
   return (
     <SafeAreaProvider>
-      <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-        <SafeAreaView edges={["top"]} style={navHeaderStyle}>
-          <NavHeader variant="angled" title={t("SelectTagScreen.selectTags")} withBackButton={true} />
-        </SafeAreaView>
+      <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
+        <NavHeader variant="angled" title={t("SelectTagScreen.selectTags")} withBackButton={true} />
         {isLoading ? (
           <View style={styles.activityIndicator}>
             <ActivityIndicator size="small" />

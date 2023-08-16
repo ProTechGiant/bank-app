@@ -1,8 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 interface TagHeaderProp {
@@ -11,15 +10,8 @@ interface TagHeaderProp {
 export default function TagHeader({ TotalAmount }: TagHeaderProp) {
   const { t } = useTranslation();
 
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    padding: theme.spacing["20p"],
-    backgroundColor: theme.palette["supportBase-15"],
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  }));
   return (
-    <View style={containerStyle}>
+    <View style={styles.container}>
       <Typography.Text color="neutralBase+30" size="title2" weight="medium">
         {t("TopSpending.SingleTagScreen.spendingSummary")}
       </Typography.Text>
@@ -33,3 +25,11 @@ export default function TagHeader({ TotalAmount }: TagHeaderProp) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+});

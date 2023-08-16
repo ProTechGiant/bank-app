@@ -13,7 +13,6 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, FlatList, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { CalendarAltIcon, ChevronRightIcon } from "@/assets/icons";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
@@ -38,7 +37,7 @@ import { convertDataToChartDataset } from "../utils/convert-graph-data-to-chart-
 export default function SpendSummaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "TopSpending.TopSpendingStack">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "TopSpending.SpendSummaryScreen">>();
 
   const SelectedTimeTypes = {
     WEEK: t("TopSpending.SpendSummaryScreen.week"),
@@ -100,7 +99,7 @@ export default function SpendSummaryScreen() {
         setChartData(data);
       }
     }
-  }, [categoryGraph, isGraphLoading]);
+  }, [categoryGraph, isGraphLoading, graphInterval]);
 
   const totalSum = useMemo(() => {
     if (Array.isArray(transactions?.data?.Transaction)) {
@@ -220,15 +219,6 @@ export default function SpendSummaryScreen() {
     }
   };
 
-  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
-    paddingHorizontal: theme.spacing["24p"],
-    paddingVertical: theme.spacing["8p"],
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  }));
-
   const timeFilter = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["16p"],
     marginHorizontal: theme.spacing["32p"],
@@ -261,11 +251,6 @@ export default function SpendSummaryScreen() {
 
   const intervalStyle = useThemeStyles(theme => ({
     paddingBottom: theme.spacing["8p"],
-  }));
-
-  const header = useThemeStyles(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
-    zIndex: 1,
   }));
 
   const itemStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -303,17 +288,15 @@ export default function SpendSummaryScreen() {
         }}
       />
 
-      <SafeAreaView edges={["top"]} style={header}>
-        <NavHeader
-          variant="angled"
-          onBackPress={handleOnBackPress}
-          end={
-            <Pressable onPress={() => setIsViewingFilter(true)}>
-              <CalendarAltIcon />
-            </Pressable>
-          }
-        />
-        <View style={headerStyle}>
+      <NavHeader
+        variant="angled"
+        onBackPress={handleOnBackPress}
+        end={
+          <Pressable onPress={() => setIsViewingFilter(true)}>
+            <CalendarAltIcon />
+          </Pressable>
+        }>
+        <View>
           <View>
             <Typography.Text color="neutralBase+30" size="title3" weight="medium">
               {categoryName}
@@ -339,7 +322,7 @@ export default function SpendSummaryScreen() {
             </Stack>
           )}
         </View>
-      </SafeAreaView>
+      </NavHeader>
       <View style={filterStyle}>
         {isCurrentMonth ? (
           <View style={timeFilter}>

@@ -13,9 +13,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-import BackgroundBottom from "@/assets/BackgroundBottom";
 import { ChevronRightIcon, CloseIcon, PendingIcon, SpendingInsightIcon } from "@/assets/icons";
 import { WithShadow } from "@/components";
 import Button from "@/components/Button";
@@ -132,15 +130,7 @@ export default function TransactionsScreen() {
 
   const spendingInsightIconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
-  const backgroundBottomStyle = useThemeStyles<ViewStyle>(theme => ({
-    position: "absolute",
-    bottom: -theme.spacing["24p"] + 1, // Small gap forms on iphone SE, 1 pixel added to remove this.
-  }));
-
-  const backgroundAngledColor = useThemeStyles(theme => theme.palette["supportBase-15"]);
-
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-60"],
     paddingHorizontal: theme.spacing["20p"],
   }));
 
@@ -153,15 +143,6 @@ export default function TransactionsScreen() {
 
   const errorMessageStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["4p"],
-  }));
-
-  const navHeaderStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
-  }));
-
-  const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
-    zIndex: 1,
   }));
 
   const filterContainerStyle = useThemeStyles(theme => ({
@@ -258,19 +239,14 @@ export default function TransactionsScreen() {
 
   return (
     <Page insets={["bottom", "left", "right"]} backgroundColor="neutralBase-60">
-      <SafeAreaView edges={["top"]} style={headerContainerStyle}>
-        <View style={navHeaderStyle}>
-          <NavHeader
-            variant="angled"
-            title={t("ViewTransactions.TransactionsScreen.title")}
-            end={
-              <Pressable style={spendingInsightContainerStyle} onPress={() => handleOnTopSpendingInsights()}>
-                <SpendingInsightIcon height={32} color={spendingInsightIconColor} />
-              </Pressable>
-            }
-          />
-        </View>
-
+      <NavHeader
+        variant="angled"
+        title={t("ViewTransactions.TransactionsScreen.title")}
+        end={
+          <Pressable style={spendingInsightContainerStyle} onPress={() => handleOnTopSpendingInsights()}>
+            <SpendingInsightIcon height={32} color={spendingInsightIconColor} />
+          </Pressable>
+        }>
         <AnimatedHeader
           onChangeIsViewingFilter={setIsViewingFilter}
           headerProps={{
@@ -283,10 +259,7 @@ export default function TransactionsScreen() {
           isFiltered={isFiltered}
           onPress={() => handleOnTopSpendingInsights()}
         />
-        <View style={backgroundBottomStyle}>
-          <BackgroundBottom color={backgroundAngledColor} />
-        </View>
-      </SafeAreaView>
+      </NavHeader>
 
       <ViewFilterModal
         selectedFilters={selectedFilters}

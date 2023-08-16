@@ -3,7 +3,6 @@ import { format } from "date-fns";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Pressable, StyleSheet, View, ViewStyle } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import { ArrowCircleUpIcon, EditIcon, PlusIcon, RecurringEventIcon, WithdrawIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -222,18 +221,9 @@ export default function GoalDetailsScreen() {
     paddingLeft: theme.typography.text.sizes.body * 2 + styles.currency.marginLeft,
   }));
 
-  const headerStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: isGoalNotCompleted ? theme.palette["primaryBase-70"] : theme.palette["secondary_mintBase-10"],
-      zIndex: 1,
-    }),
-    [isGoalNotCompleted]
-  );
-
   const headerContentStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     paddingHorizontal: theme.spacing["20p"],
-    paddingBottom: theme.spacing["32p"],
   }));
 
   const headerProgressInfoStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -250,182 +240,178 @@ export default function GoalDetailsScreen() {
   }));
 
   return (
-    <SafeAreaProvider>
-      <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-        <SafeAreaView edges={["top", "left", "right"]} style={headerStyle}>
-          <NavHeader
-            onBackPress={handleOnBackPress}
-            title={savingsPotData?.GoalName}
-            variant="angled"
-            end={<NavHeader.IconEndButton icon={<EditIcon />} onPress={handleOnEdit} />}
-            backgroundAngledColor={backgroundBottomColor}
+    <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
+      <NavHeader
+        onBackPress={handleOnBackPress}
+        title={savingsPotData?.GoalName}
+        variant="angled"
+        end={<NavHeader.IconEndButton icon={<EditIcon />} onPress={handleOnEdit} />}
+        backgroundAngledColor={backgroundBottomColor}>
+        <View style={headerContentStyle}>
+          <ProgressWheel
+            circleSize={120}
+            current={Number(savingsPotData?.AvailableBalanceAmount ?? 0)}
+            total={Number(savingsPotData?.TargetAmount ?? 0)}
+            textColor="neutralBase+30"
+            textSize="title2"
+            bigCheckIcon={true}
           />
-          <View style={headerContentStyle}>
-            <ProgressWheel
-              circleSize={120}
-              current={Number(savingsPotData?.AvailableBalanceAmount ?? 0)}
-              total={Number(savingsPotData?.TargetAmount ?? 0)}
-              textColor="neutralBase+30"
-              textSize="title2"
-              bigCheckIcon={true}
-            />
-            <View style={goalAmountStyle}>
-              <Typography.Header size="xxlarge" weight="medium">
-                {formatCurrency(Number(savingsPotData?.AvailableBalanceAmount ?? 0))}
-              </Typography.Header>
-              <Typography.Text size="title3" weight="medium" style={styles.currency}>
-                {t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.currency")}
-              </Typography.Text>
-            </View>
-            <Stack align="center" direction="vertical" gap="24p" style={headerProgressInfoStyle}>
-              <Typography.Text size="callout" align="center">
-                {t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.targetAmountDetails", {
-                  TargetAmount: formatCurrency(Number(savingsPotData?.TargetAmount ?? 0)),
-                })}
-              </Typography.Text>
-              <Typography.Text size="footnote" color="neutralBase+20" align="center">
-                {savingsPotData?.TargetDate !== undefined
-                  ? t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.targetDate", {
-                      TargetDate: format(new Date(savingsPotData?.TargetDate), "d MMM yyyy"),
-                    })
-                  : "-"}
-              </Typography.Text>
-            </Stack>
-            <Stack direction="horizontal" gap="12p" justify="space-between">
-              <View style={styles.button}>
-                <Button onPress={handleOnOpenWithdraw} variant="secondary" iconLeft={<WithdrawIcon />}>
-                  {t("SavingsGoals.GoalDetailsScreen.ActionButtons.withdrawButton")}
-                </Button>
-              </View>
-              <View style={styles.button}>
-                <Button variant="primary" onPress={handleOnOpenFunding} iconLeft={<PlusIcon />}>
-                  {t("SavingsGoals.GoalDetailsScreen.ActionButtons.addMoneyButton")}
-                </Button>
-              </View>
-            </Stack>
+          <View style={goalAmountStyle}>
+            <Typography.Header size="xxlarge" weight="medium">
+              {formatCurrency(Number(savingsPotData?.AvailableBalanceAmount ?? 0))}
+            </Typography.Header>
+            <Typography.Text size="title3" weight="medium" style={styles.currency}>
+              {t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.currency")}
+            </Typography.Text>
           </View>
-        </SafeAreaView>
-        <ContentContainer isScrollView style={contentContainerStyle}>
-          <Stack align="stretch" direction="vertical" gap="32p">
-            <View>
-              <View style={sectionTitleStyle}>
-                <Typography.Text size="callout" weight="medium">
-                  {t("SavingsGoals.GoalDetailsScreen.Payments.title")}
-                </Typography.Text>
-              </View>
-              <List gap="12p">
-                <List.Item.Primary
-                  icon={<ArrowCircleUpIcon />}
-                  onMoreInfoPress={handleOnShowRoundupsInfoModal}
-                  label={t("SavingsGoals.GoalDetailsScreen.RoundUp")}
-                  end={<List.End.Toggle onPress={handleOnToggleRoundUps} value={isRoundUpsOn} />}
-                />
-                {recurringFundData !== undefined ? (
-                  <List.Item.Primary
-                    onPress={handleOnUpdatePaymentPress}
-                    label={t("SavingsGoals.GoalDetailsScreen.RegularPayment.titleExistingRegular")}
-                    icon={<RecurringEventIcon />}
-                    end={<List.End.Chevron />}
-                    helperText={t("SavingsGoals.GoalDetailsScreen.RegularPayment.text", {
-                      amount: recurringFundData.PaymentAmount,
-                      currency: recurringFundData.Currency,
-                      //Currently CBS doesn't return "next payment date" or a date at all, this is being worked on right now and is a known bug, was told to push forward.
-                      // day: t("SavingsGoals.GoalDetailsScreen.RegularPayment.day", {
-                      //   count: getDayFromDate(recurringFundData.NextPaymentDate),
-                      //   ordinal: true,
-                      // }),
-                    })}
-                  />
-                ) : (
-                  <List.Item.Primary
-                    onPress={handleOnAddRecurringPaymentPress}
-                    icon={<RecurringEventIcon />}
-                    label={t("SavingsGoals.GoalDetailsScreen.RegularPayment.titleAddRegular")}
-                    end={<List.End.Chevron />}
-                  />
-                )}
-              </List>
+          <Stack align="center" direction="vertical" gap="24p" style={headerProgressInfoStyle}>
+            <Typography.Text size="callout" align="center">
+              {t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.targetAmountDetails", {
+                TargetAmount: formatCurrency(Number(savingsPotData?.TargetAmount ?? 0)),
+              })}
+            </Typography.Text>
+            <Typography.Text size="footnote" color="neutralBase+20" align="center">
+              {savingsPotData?.TargetDate !== undefined
+                ? t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.targetDate", {
+                    TargetDate: format(new Date(savingsPotData?.TargetDate), "d MMM yyyy"),
+                  })
+                : "-"}
+            </Typography.Text>
+          </Stack>
+          <Stack direction="horizontal" gap="12p" justify="space-between">
+            <View style={styles.button}>
+              <Button onPress={handleOnOpenWithdraw} variant="secondary" iconLeft={<WithdrawIcon />}>
+                {t("SavingsGoals.GoalDetailsScreen.ActionButtons.withdrawButton")}
+              </Button>
             </View>
-            <View style={sectionTitleMargin}>
-              <View style={sectionTitleStyle}>
-                <Typography.Text size="callout" weight="medium">
-                  {t("SavingsGoals.GoalDetailsScreen.Transactions.title")}
-                </Typography.Text>
-                {recentTransactions.length > 0 ? (
-                  <Pressable onPress={handleOnSeeAllTransactions}>
-                    <Typography.Text size="callout" weight="medium" color="primaryBase">
-                      {t("SavingsGoals.GoalDetailsScreen.Transactions.seeAll")}
-                    </Typography.Text>
-                  </Pressable>
-                ) : null}
-              </View>
-              <TransactionCardList transactions={recentTransactions} />
+            <View style={styles.button}>
+              <Button variant="primary" onPress={handleOnOpenFunding} iconLeft={<PlusIcon />}>
+                {t("SavingsGoals.GoalDetailsScreen.ActionButtons.addMoneyButton")}
+              </Button>
             </View>
           </Stack>
-        </ContentContainer>
-        {/* modal informing the user that the withdrawal was successful */}
-        <NotificationModal
-          variant="success"
-          onClose={handleOnCloseWithdrawConfirmationModal}
-          message={t("SavingsGoals.WithdrawModal.successfulWithdrawal.text")}
-          title={t("SavingsGoals.WithdrawModal.successfulWithdrawal.title", { amount: showAmountWithdrawn })}
-          isVisible={undefined !== amountWithdrawn}
-        />
-        {/* modal informing the user that he almost reached his goal when trying to withdraw */}
-        {showGoalAlmostReachedNotification && (
-          <NotificationModal
-            variant="confirmations"
-            message={t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.message", {
-              amount: differenceNeededToReachGoal,
-            })}
-            title={t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.title")}
-            isVisible={showGoalAlmostReachedNotification}
-            buttons={{
-              primary: (
-                <Button onPress={handleWithdrawAnyway}>
-                  {t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.withdrawButton")}
-                </Button>
-              ),
-              secondary: (
-                <Button onPress={() => setShowGoalAlmostReachedNotification(current => !current)}>
-                  {t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.cancelButton")}
-                </Button>
-              ),
-            }}
-          />
-        )}
-        {/* modal informing the user that round-ups is active for another goal already */}
+        </View>
+      </NavHeader>
+      <ContentContainer isScrollView style={contentContainerStyle}>
+        <Stack align="stretch" direction="vertical" gap="32p">
+          <View>
+            <View style={sectionTitleStyle}>
+              <Typography.Text size="callout" weight="medium">
+                {t("SavingsGoals.GoalDetailsScreen.Payments.title")}
+              </Typography.Text>
+            </View>
+            <List gap="12p">
+              <List.Item.Primary
+                icon={<ArrowCircleUpIcon />}
+                onMoreInfoPress={handleOnShowRoundupsInfoModal}
+                label={t("SavingsGoals.GoalDetailsScreen.RoundUp")}
+                end={<List.End.Toggle onPress={handleOnToggleRoundUps} value={isRoundUpsOn} />}
+              />
+              {recurringFundData !== undefined ? (
+                <List.Item.Primary
+                  onPress={handleOnUpdatePaymentPress}
+                  label={t("SavingsGoals.GoalDetailsScreen.RegularPayment.titleExistingRegular")}
+                  icon={<RecurringEventIcon />}
+                  end={<List.End.Chevron />}
+                  helperText={t("SavingsGoals.GoalDetailsScreen.RegularPayment.text", {
+                    amount: recurringFundData.PaymentAmount,
+                    currency: recurringFundData.Currency,
+                    //Currently CBS doesn't return "next payment date" or a date at all, this is being worked on right now and is a known bug, was told to push forward.
+                    // day: t("SavingsGoals.GoalDetailsScreen.RegularPayment.day", {
+                    //   count: getDayFromDate(recurringFundData.NextPaymentDate),
+                    //   ordinal: true,
+                    // }),
+                  })}
+                />
+              ) : (
+                <List.Item.Primary
+                  onPress={handleOnAddRecurringPaymentPress}
+                  icon={<RecurringEventIcon />}
+                  label={t("SavingsGoals.GoalDetailsScreen.RegularPayment.titleAddRegular")}
+                  end={<List.End.Chevron />}
+                />
+              )}
+            </List>
+          </View>
+          <View style={sectionTitleMargin}>
+            <View style={sectionTitleStyle}>
+              <Typography.Text size="callout" weight="medium">
+                {t("SavingsGoals.GoalDetailsScreen.Transactions.title")}
+              </Typography.Text>
+              {recentTransactions.length > 0 ? (
+                <Pressable onPress={handleOnSeeAllTransactions}>
+                  <Typography.Text size="callout" weight="medium" color="primaryBase">
+                    {t("SavingsGoals.GoalDetailsScreen.Transactions.seeAll")}
+                  </Typography.Text>
+                </Pressable>
+              ) : null}
+            </View>
+            <TransactionCardList transactions={recentTransactions} />
+          </View>
+        </Stack>
+      </ContentContainer>
+      {/* modal informing the user that the withdrawal was successful */}
+      <NotificationModal
+        variant="success"
+        onClose={handleOnCloseWithdrawConfirmationModal}
+        message={t("SavingsGoals.WithdrawModal.successfulWithdrawal.text")}
+        title={t("SavingsGoals.WithdrawModal.successfulWithdrawal.title", { amount: showAmountWithdrawn })}
+        isVisible={undefined !== amountWithdrawn}
+      />
+      {/* modal informing the user that he almost reached his goal when trying to withdraw */}
+      {showGoalAlmostReachedNotification && (
         <NotificationModal
           variant="confirmations"
-          icon={<RoundUpsIcon />}
-          message={t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.message")}
-          title={t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.title")}
-          isVisible={isSwitchRoundupsModalVisible}
+          message={t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.message", {
+            amount: differenceNeededToReachGoal,
+          })}
+          title={t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.title")}
+          isVisible={showGoalAlmostReachedNotification}
           buttons={{
             primary: (
-              <Button onPress={handleOnSwitchRoundUpButton}>
-                {t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.switchRoundUpButton")}
+              <Button onPress={handleWithdrawAnyway}>
+                {t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.withdrawButton")}
               </Button>
             ),
             secondary: (
-              <Button onPress={() => setIsSwitchRoundupsModalVisible(current => !current)}>
-                {t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.cancelButton")}
+              <Button onPress={() => setShowGoalAlmostReachedNotification(current => !current)}>
+                {t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.cancelButton")}
               </Button>
             ),
           }}
         />
+      )}
+      {/* modal informing the user that round-ups is active for another goal already */}
+      <NotificationModal
+        variant="confirmations"
+        icon={<RoundUpsIcon />}
+        message={t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.message")}
+        title={t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.title")}
+        isVisible={isSwitchRoundupsModalVisible}
+        buttons={{
+          primary: (
+            <Button onPress={handleOnSwitchRoundUpButton}>
+              {t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.switchRoundUpButton")}
+            </Button>
+          ),
+          secondary: (
+            <Button onPress={() => setIsSwitchRoundupsModalVisible(current => !current)}>
+              {t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.cancelButton")}
+            </Button>
+          ),
+        }}
+      />
 
-        {/* modal with information about rounds up */}
-        {/* @TODO put in correct FAQ id */}
-        <ContextualFAQModal
-          visible={showInfoRoundsUpsModal}
-          onClose={() => setInfoRoundsUpModal(!showInfoRoundsUpsModal)}
-          title={t("SavingsGoals.GoalDetailsScreen.InfoModal.title")}
-          content={t("SavingsGoals.GoalDetailsScreen.InfoModal.text")}
-          faqId="faq_1"
-        />
-      </Page>
-    </SafeAreaProvider>
+      {/* modal with information about rounds up */}
+      {/* @TODO put in correct FAQ id */}
+      <ContextualFAQModal
+        visible={showInfoRoundsUpsModal}
+        onClose={() => setInfoRoundsUpModal(!showInfoRoundsUpsModal)}
+        title={t("SavingsGoals.GoalDetailsScreen.InfoModal.title")}
+        content={t("SavingsGoals.GoalDetailsScreen.InfoModal.text")}
+        faqId="faq_1"
+      />
+    </Page>
   );
 }
 

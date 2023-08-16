@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { AccessTimeIcon, BookmarkIcon, ChatIcon, InfoIcon, PhoneUnFilledIcon } from "@/assets/icons";
 import { LinkList } from "@/components";
@@ -17,7 +16,6 @@ import { QuickActionLink } from "../components";
 export default function HubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { top: statusBarHeight } = useSafeAreaInsets();
   const { lookup, tryCall } = useCallSupport();
 
   const handleSearchFAQPress = () => {
@@ -68,23 +66,11 @@ export default function HubScreen() {
     gap: theme.spacing["16p"],
   }));
 
-  const navHeaderContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
-    marginTop: -statusBarHeight,
-    paddingTop: statusBarHeight,
-  }));
-
   return (
-    <Page backgroundColor="neutralBase-60">
-      <View style={navHeaderContainerStyle}>
-        <NavHeader
-          children={
-            <Typography.Text weight="medium" size="title1" style={styles?.title}>
-              {t("HelpAndSupport.HubScreen.title")}
-            </Typography.Text>
-          }
-        />
-      </View>
+    <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
+      <NavHeader variant="angled">
+        <NavHeader.BoldTitle>{t("HelpAndSupport.HubScreen.title")}</NavHeader.BoldTitle>
+      </NavHeader>
       <ContentContainer isScrollView style={contentContainerStyle}>
         <Typography.Text weight="medium" size="callout" color="neutralBase+30" style={helpQuestionTextStyle}>
           {t("HelpAndSupport.HubScreen.helpQuestion")}
@@ -142,9 +128,5 @@ const styles = StyleSheet.create({
   quickActionLink: {
     flex: 1,
     height: "100%",
-  },
-  title: {
-    marginBottom: 15,
-    marginTop: 14,
   },
 });
