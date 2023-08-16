@@ -104,9 +104,13 @@ export default function BillPaymentHistoryScreen() {
     )} - ${format(endDate, "do MMM yyyy")}`;
     setSelectedDateSearchRange(selectedDateRange);
 
-    const filteredArray = billPayments.filter(p =>
-      isWithinInterval(new Date(p.DueDate), { start: startDate, end: endDate })
-    );
+    const filteredArray = billPayments.filter(p => {
+      const paymentDate = new Date(p.DueDate);
+      return isWithinInterval(new Date(paymentDate.getFullYear(), paymentDate.getMonth(), paymentDate.getDate()), {
+        start: new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()),
+        end: new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()),
+      });
+    });
     setSearchSavedGroupedBills(getGroupedBillsArrayByDate(filteredArray));
   };
 
