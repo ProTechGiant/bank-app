@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
+import { ActivityIndicator, I18nManager, Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import { CheckIcon, ChevronRightIcon } from "@/assets/icons";
 import { WithShadow } from "@/components";
@@ -9,6 +9,8 @@ import Modal from "@/components/Modal";
 import Typography from "@/components/Typography";
 import { Theme, useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
+
+import { usePredefinedCategories } from "../hooks/query-hooks";
 
 interface ViewFilterModalProps {
   visible: boolean;
@@ -31,6 +33,8 @@ enum ModalScreens {
 
 export default function ViewFilterModal({ visible, onClose, onApplyFilter, selectedFilters }: ViewFilterModalProps) {
   const { t } = useTranslation();
+
+  const { categories } = usePredefinedCategories();
 
   const centerCont = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
@@ -185,19 +189,20 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
                   </View>
                 </View>
                 <View style={selectedFilter}>
-                  {selectedSpendingCategories.map(category => (
-                    <View style={optionContainer} key={category}>
-                      <Text style={selectedFilter}>
-                        {category === "1"
-                          ? t("ViewTransactions.FilterOptionsModal.SpendingCategories.Food")
-                          : category === "2"
-                          ? t("ViewTransactions.FilterOptionsModal.SpendingCategories.Transportation")
-                          : category === "3"
-                          ? t("ViewTransactions.FilterOptionsModal.SpendingCategories.Entertainment")
-                          : category}
-                      </Text>
-                    </View>
-                  ))}
+                  {selectedSpendingCategories.map(categoryId => {
+                    const selectedCategory = categories?.categories.find(
+                      category => category.categoryId.toString() === categoryId
+                    );
+                    if (selectedCategory) {
+                      return (
+                        <View style={optionContainer} key={categoryId}>
+                          <Text style={selectedFilter}>{selectedCategory.categoryName}</Text>
+                        </View>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
                 </View>
               </Pressable>
             </WithShadow>
@@ -279,21 +284,19 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
   const renderBySpendingCategoryScreen = () => {
     return (
       <View style={centerCont}>
-        {renderCategoryPressable({
-          categoryId: "1",
-          categoryName: t("ViewTransactions.FilterOptionsModal.SpendingCategories.Food"),
-          color: "primaryBase",
-        })}
-        {renderCategoryPressable({
-          categoryId: "2",
-          categoryName: t("ViewTransactions.FilterOptionsModal.SpendingCategories.Transportation"),
-          color: "primaryBase",
-        })}
-        {renderCategoryPressable({
-          categoryId: "3",
-          categoryName: t("ViewTransactions.FilterOptionsModal.SpendingCategories.Entertainment"),
-          color: "primaryBase",
-        })}
+        {categories ? (
+          categories.categories.map(category =>
+            renderCategoryPressable({
+              categoryId: category.categoryId.toString(),
+              categoryName: category.categoryName,
+              color: "primaryBase",
+            })
+          )
+        ) : (
+          <View style={styles.activityIndicator}>
+            <ActivityIndicator size="small" />
+          </View>
+        )}
       </View>
     );
   };
@@ -350,6 +353,11 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
 }
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
   alignOption: {
     flexDirection: "row",
     justifyContent: "space-between",

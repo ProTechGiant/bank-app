@@ -14,7 +14,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { IconContainer } from "../components";
-import usePredefinedCategories, { useUpdateCategory } from "../hooks/query-hooks";
+import { usePredefinedCategories, useUpdateCategory } from "../hooks/query-hooks";
 
 export default function CategoriesListScreen() {
   const { t } = useTranslation();

@@ -27,6 +27,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { AnimatedHeader, TransactionsList, ViewFilterModal } from "../components";
+import { usePredefinedCategories } from "../hooks/query-hooks";
 
 export default function TransactionsScreen() {
   const { t } = useTranslation();
@@ -36,6 +37,8 @@ export default function TransactionsScreen() {
 
   const cardId = route.params.cardId;
   const createDisputeUserId = route.params.createDisputeUserId;
+
+  const { categories: predefinedCategories } = usePredefinedCategories();
 
   const headerHeight = useRef(new Animated.Value(104)).current;
   const currFont = useRef(new Animated.Value(34)).current;
@@ -204,14 +207,14 @@ export default function TransactionsScreen() {
   type FilterType = "1" | "2" | "3" | "SINGLE_USE_CARD_TR" | "DEBIT_TR" | string;
 
   const getFilterName = (type: FilterType): string => {
-    const filterNames: Record<FilterType, string> = {
-      "1": "Food",
-      "2": "Transportation",
-      "3": "Entertainment",
-      SINGLE_USE_CARD_TR: "One-time card",
-      DEBIT_TR: "Debit card",
-    };
-    return filterNames[type];
+    if (type === "SINGLE_USE_CARD_TR") {
+      return "One-time card";
+    } else if (type === "DEBIT_TR") {
+      return "Debit card";
+    } else {
+      const category = predefinedCategories?.categories.find(categoryId => categoryId.categoryId.toString() === type);
+      return category ? category.categoryName : "";
+    }
   };
 
   const hasNoTransactionForFilters =

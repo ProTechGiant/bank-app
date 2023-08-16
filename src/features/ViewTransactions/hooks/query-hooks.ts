@@ -48,7 +48,7 @@ export const queryKeys = {
   transactionTags: (transactionId: string) => [...queryKeys.all, "transactionTags", { transactionId }] as const,
 };
 
-export default function usePredefinedCategories() {
+export function usePredefinedCategories() {
   const account = useCurrentAccount();
   const account_id = account.data?.id;
 
