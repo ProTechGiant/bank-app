@@ -321,14 +321,28 @@
       "reason3": "Service is not easy to use",
       "reason4": "Other",
       "infoMessage": "It might take up to 10 minutes to complete",
-      "placeholderOther": "Other",
+      "placeholderOther": "Input your reason here",
       "validationErrors": {
         "otherReason": {
           "required": "Other is required",
-          "minimum": "Minimum characters needs to be 10",
-          "maximum": "Maximum characters can be 50"
+          "minimum": "Minimum 5 characters",
+          "maximum": "Maximum 50 characters"
         }
       }
+    },
+    "OptOutConfirmModal": {
+      "title": "Are you sure you want to opt-out of this service?",
+      "subtitle": "You will no longer receive funds through your aliases if you proceed.",
+      "buttonYes": "Proceed",
+      "buttonNo": "Cancel"
+    },
+    "OptOutSuccessModal": {
+      "title": "Successful Opt-out",
+      "subtitle": "The Opt-out from IPS service was successful"
+    },
+    "OptOutFailureModal": {
+      "title": "Opt-out failed",
+      "subtitle": "The Opt-out from IPS service failed"
     },
     "ErrorModal": {
       "linkingFailed": "Linking Failed",

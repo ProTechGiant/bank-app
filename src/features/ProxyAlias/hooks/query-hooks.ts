@@ -6,6 +6,8 @@ import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
 
 import {
+  OptOutInputs,
+  OptOutResponse,
   RegisterCustomerResponseApi,
   RegisterEmailInputs,
   RegisterEmailResponse,
@@ -16,6 +18,14 @@ import {
 export function useRegisterEmail() {
   return useMutation(async (email: RegisterEmailInputs) => {
     return sendApiRequest<RegisterEmailResponse>("v1", `ips/register-email`, "POST", undefined, email, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
+
+export function useOptOut() {
+  return useMutation(async (input: OptOutInputs) => {
+    return sendApiRequest<OptOutResponse>("v1", `ips/opt-out`, "POST", undefined, input, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });

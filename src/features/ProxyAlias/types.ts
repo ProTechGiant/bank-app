@@ -29,6 +29,7 @@ export interface UserProxiesResponse {
   AccountNumber: string;
   UserProxies: UserProxy[];
 }
+
 export interface RegisterEmailInputs {
   email: string;
 }
@@ -36,4 +37,13 @@ export interface RegisterEmailInputs {
 export interface RegisterEmailResponse {
   Status: string;
   Message: string;
+}
+
+export interface OptOutResponse {
+  Status: string;
+  Message: string;
+}
+
+export interface OptOutInputs {
+  OptOutReason: string;
 }

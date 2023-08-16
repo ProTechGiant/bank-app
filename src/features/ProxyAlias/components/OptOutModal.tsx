@@ -2,12 +2,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { TextStyle, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
 import Button from "@/components/Button";
 import TextInput from "@/components/Form/TextInput";
 import Modal from "@/components/Modal";
+import { RadioButton, RadioButtonGroup } from "@/components/RadioButton";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -30,7 +31,7 @@ export interface OtherReason {
 }
 
 const MAX_LENGTH_OTHER_REASON = 50;
-const MIN_LENGTH_OTHER_REASON = 10;
+const MIN_LENGTH_OTHER_REASON = 5;
 
 export default function OptOutModal({ visible, onclose, onOptOut }: OptOutModalProps) {
   const { t } = useTranslation();
@@ -50,33 +51,19 @@ export default function OptOutModal({ visible, onclose, onOptOut }: OptOutModalP
   });
 
   const [reasons, setReasons] = useState(OPT_OUT_REASONS);
+  const [selectedReasonIndex, setSelectedReasonIndex] = useState<number>(-1);
 
   useEffect(() => {
     if (!visible) {
       unSelectReasons();
+      setSelectedReasonIndex(-1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
-  const chipStyle = useThemeStyles<TextStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-60"],
-    borderRadius: theme.radii.medium,
-    paddingHorizontal: theme.spacing["12p"],
-    paddingVertical: theme.spacing["4p"],
-    marginHorizontal: theme.spacing["4p"],
-    borderWidth: 1,
-    textAlign: "center",
-    borderColor: theme.palette["neutralBase-30"],
-  }));
-
-  const chipSelectedStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
-    borderWidth: 2,
-    borderColor: theme.palette["neutralBase+30"],
-  }));
-
   const chipContainerStyles = useThemeStyles<ViewStyle>(theme => ({
     paddingBottom: theme.spacing["12p"],
+    alignItems: "stretch",
   }));
 
   const infoIconColor = useThemeStyles(theme => theme.palette.neutralBase);
@@ -107,6 +94,10 @@ export default function OptOutModal({ visible, onclose, onOptOut }: OptOutModalP
   };
 
   const handleReasonSelection = (index: number) => {
+    setSelectedReasonIndex(index);
+    if (index !== reasons.length - 1) {
+      reset({ OtherReason: "" });
+    }
     const reasonsTemp = [...reasons];
     reasonsTemp.forEach(element => {
       element.isSelected = false;
@@ -123,8 +114,9 @@ export default function OptOutModal({ visible, onclose, onOptOut }: OptOutModalP
     setReasons(reasonsTemp);
   }
 
+  const isOtherReasonSelected = reasons[reasons.length - 1].isSelected;
+
   const isButtonEnabled = () => {
-    const otherReasonFilled = reasons[reasons.length - 1].isSelected && isValid;
     let reasonSelectedButOther = false;
     for (let index = 0; index < reasons.length - 1; index++) {
       if (reasons[index].isSelected) {
@@ -132,56 +124,30 @@ export default function OptOutModal({ visible, onclose, onOptOut }: OptOutModalP
         break;
       }
     }
-    return otherReasonFilled || reasonSelectedButOther;
+    return (isOtherReasonSelected && isValid) || reasonSelectedButOther;
   };
 
-  const renderReasons = () => {
-    const reasonElements = [];
-    const lastIndex = reasons.length - 1;
-    for (let index = 0; index < lastIndex; index++) {
-      if (index < lastIndex - 1) {
-        reasonElements.push(
-          <Pressable onPress={() => handleReasonSelection(index)}>
-            <Typography.Text style={[chipStyle, reasons[index].isSelected && chipSelectedStyle]}>
-              {reasons[index].reason}
-            </Typography.Text>
-          </Pressable>
-        );
-      } else {
-        const element = (
-          <Stack direction="vertical" gap="16p" align="stretch" style={styles.reasonsHorizontal}>
-            <Stack direction="horizontal" gap="4p">
-              <Pressable onPress={() => handleReasonSelection(index)}>
-                <Typography.Text style={[chipStyle, reasons[index].isSelected && chipSelectedStyle]}>
-                  {reasons[index].reason}
-                </Typography.Text>
-              </Pressable>
-              <Pressable
-                onPress={() => {
-                  reset();
-                  handleReasonSelection(index + 1);
-                }}>
-                <Typography.Text style={[chipStyle, reasons[index + 1].isSelected && chipSelectedStyle]}>
-                  {reasons[index + 1].reason}
-                </Typography.Text>
-              </Pressable>
-            </Stack>
-            {reasons[index + 1].isSelected ? (
-              <TextInput
-                control={control}
-                name="OtherReason"
-                label={t("ProxyAlias.OptOutModal.placeholderOther")}
-                showCharacterCount
-                maxLength={50}
-              />
-            ) : null}
-          </Stack>
-        );
-        reasonElements.push(element);
-      }
-    }
-    return reasonElements;
-  };
+  const renderReasons = () => (
+    <>
+      <RadioButtonGroup onPress={index => handleReasonSelection(index)} value={selectedReasonIndex}>
+        {reasons.map((item, index) => (
+          <RadioButton label={item.reason} value={index} />
+        ))}
+      </RadioButtonGroup>
+      {isOtherReasonSelected && (
+        <TextInput
+          control={control}
+          name="OtherReason"
+          label={t("ProxyAlias.OptOutModal.placeholderOther")}
+          showCharacterCount
+          maxLength={50}
+          multiline={true}
+          numberOfLines={2}
+          extraStart={t("ProxyAlias.OptOutModal.validationErrors.otherReason.minimum")}
+        />
+      )}
+    </>
+  );
 
   const isOtherInputVisible = reasons[reasons.length - 1].isSelected;
 
@@ -204,9 +170,3 @@ export default function OptOutModal({ visible, onclose, onOptOut }: OptOutModalP
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  reasonsHorizontal: {
-    alignSelf: "stretch",
-  },
-});
