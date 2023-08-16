@@ -88,16 +88,16 @@ export default function EnterBillAmountScreen() {
               onPress={() => setSelectedCurrentBill(true)}
             />
             <Typography.Text color="neutralBase+30" weight="medium" size="title2">
-              {currentBillAmount}
+              {billDetails.BillAmount}
               <Typography.Text color="neutralBase+30" weight="regular" size="callout">
-                {" " + t("Currency.sar")}
+                {" " + billDetails.BillAmountCurrency}
               </Typography.Text>
             </Typography.Text>
           </Stack>
           <PayBillRadioButton
             label={t("SadadBillPayments.EnterBillAmountScreen.otherAmount")}
             isSelected={!selectedCurrentBill}
-            onPress={() => setSelectedCurrentBill(false)}
+            onPress={() => (billDetails.ExactPaymentRequired ? null : setSelectedCurrentBill(false))}
           />
           <SimpleTextInput
             extraStart={t("SadadBillPayments.EnterBillAmountScreen.inputExtraText")}
@@ -110,7 +110,7 @@ export default function EnterBillAmountScreen() {
             isEditable={!selectedCurrentBill}
             onChangeText={setOtherBillAmountToPay}
             errorText={
-              Number(OtherBillAmountToPay) > currentBillAmount * 2
+              Number(OtherBillAmountToPay) > Number(billDetails.BillAmount ?? 0) * 2
                 ? t("SadadBillPayments.EnterBillAmountScreen.inputExtraText")
                 : undefined
             }
@@ -125,8 +125,8 @@ export default function EnterBillAmountScreen() {
               onPress={() => handleContinuePress()}
               variant="primary"
               disabled={
-                !selectedCurrentBill &&
-                (Number(OtherBillAmountToPay) > currentBillAmount * 2 || OtherBillAmountToPay.length < 1)
+                (!selectedCurrentBill || billDetails.BillAmount <= 0) &&
+                (Number(OtherBillAmountToPay) > billDetails.BillAmount * 2 || OtherBillAmountToPay.length < 1)
               }>
               {t("SadadBillPayments.EnterBillAmountScreen.continue")}
             </Button>
@@ -136,5 +136,3 @@ export default function EnterBillAmountScreen() {
     </SafeAreaProvider>
   );
 }
-const currentBillAmount = 310;
-// will be removed after Api implementation

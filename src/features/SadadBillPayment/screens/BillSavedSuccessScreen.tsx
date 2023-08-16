@@ -106,7 +106,7 @@ export default function BillSavedSuccessScreen() {
         <Stack style={marginLineStyle} direction="horizontal">
           <InfoContainer
             title={t("SadadBillPayments.BillSavedSuccessScreen.currentDueText")}
-            body={format(new Date(billDetails.DueDate), "dd MMM YYY")}
+            body={formatDateString(billDetails.DueDate)}
           />
         </Stack>
         <Stack direction="horizontal">
@@ -134,6 +134,15 @@ export default function BillSavedSuccessScreen() {
     </Page>
   );
 }
+
+const formatDateString = (date: string) => {
+  //At present from backend there is different date formats coming up, they will changing this in to a unique format.
+  //Once that change is implemented we will be removing this.
+  let formatDate = date.replaceAll(",", "");
+  formatDate = date.replaceAll("/", ":");
+  formatDate = Date(formatDate);
+  return format(new Date(formatDate), "dd MMM YYY ");
+};
 
 const styles = StyleSheet.create({
   buttonContainer: {

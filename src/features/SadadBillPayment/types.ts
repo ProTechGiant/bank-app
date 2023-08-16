@@ -63,4 +63,25 @@ export interface AddBillInterface {
   ];
 }
 
+export interface PayBillInterface {
+  TransactionType: string;
+  ServiceType: string;
+  BillerId: string;
+  BillAmount: string;
+  BillAmountCurrency: string;
+  PaidAmount: string;
+  PaidAmountCurrency: string;
+  ExactPaymentRequired: string;
+  BillCategory: string;
+  BillType: string;
+  BillNumber: string;
+  BillingAccount: string;
+  IdType: string;
+  IdNumber: string;
+  DisplayLabelEn: string;
+  DisplayLabelAr: string;
+  DescriptionEn: string;
+  DescriptionAr: string;
+}
+
 export type NavigationType = "saveBill" | "payBill" | "oneTimePayment" | "paymentHistory" | undefined;

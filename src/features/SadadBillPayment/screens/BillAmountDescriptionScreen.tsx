@@ -9,29 +9,68 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
-import { billDetailsMock } from "../mocks/billDetailsMock";
+import { usePayBill } from "../hooks/query-hooks";
+import { PayBillInterface } from "../types";
 
 export default function BillAmountDescriptionScreen() {
   const { i18n, t } = useTranslation();
   const navigation = useNavigation();
 
   const { navigationType, billDetails } = useSadadBillPaymentContext();
+  const payBillAsync = usePayBill();
+  const otpFlow = useOtpFlow();
 
   const handleOnAmountEditPress = () => {
     navigation.navigate("SadadBillPayments.EnterBillAmountScreen");
   };
 
   const handleOnAddBillPress = () => {
-    navigation.navigate("SadadBillPayments.BillSavedSuccessScreen");
+    const payBillRequest: PayBillInterface = {
+      TransactionType: "PAY",
+      ServiceType: billDetails.Category.Code,
+      BillerId: billDetails.BillIssuer.Id,
+      BillAmount: billDetails.BillAmount,
+      BillAmountCurrency: billDetails.BillAmountCurrency,
+      PaidAmount: billDetails.OtherBillAmount,
+      PaidAmountCurrency: billDetails.PaidAmountCurrency,
+      ExactPaymentRequired: billDetails.ExactPaymentRequired ? "Y" : "N",
+      BillCategory: billDetails.BillCategory,
+      BillType: billDetails.BillType,
+      BillNumber: billDetails.BillNumber,
+      BillingAccount: billDetails.AccountNumber,
+      DisplayLabelEn: billDetails.BillIssuer.NameEn,
+      DisplayLabelAr: billDetails.BillIssuer.NameAr,
+    };
+    const payBillDetailRequestParam = {
+      ...payBillRequest,
+      ...(i18n.language === "en"
+        ? { DescriptionEn: billDetails.Description }
+        : { DescriptionAr: billDetails.Description }),
+    };
+
+    otpFlow.handle({
+      action: {
+        to: "SadadBillPayments.BillSavedSuccessScreen",
+      },
+      //Adding mock values(PhoneNumber)for passing the QA testing criteria.
+      //once logging in is handled properly, we will get this value from backend and we will replace this mock value with the value stored in local storage.
+      //TODO Replace with params once we get the value from backend response.
+      otpChallengeParams: {
+        PhoneNumber: "+961549845741",
+      },
+      otpVerifyMethod: "payments/sadad",
+
+      onOtpRequest: () => {
+        return payBillAsync.mutateAsync(payBillDetailRequestParam);
+      },
+    });
   };
 
-  const handleOnCancelPress = () => {
-    navigation.navigate("SadadBillPayments.BillPaymentHomeScreen");
-  };
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["8p"],
     flex: 1,
@@ -54,13 +93,16 @@ export default function BillAmountDescriptionScreen() {
       <ContentContainer style={mainContainerStyle}>
         <View style={mainContainerStyle}>
           <Stack direction="vertical" gap="20p" align="stretch">
+            <Typography.Text color="neutralBase+30" weight="medium" size="title1">
+              {t("SadadBillPayments.BillAmountDescriptionScreen.confirmBillDetails")}
+            </Typography.Text>
             <Stack direction="horizontal" align="center" justify="space-between">
               <View>
                 <Typography.Text color="neutralBase" weight="medium" size="callout">
                   {t("SadadBillPayments.BillDetailsScreen.billProvider")}
                 </Typography.Text>
                 <Typography.Text weight="regular" size="body">
-                  {billDetailsMock.serviceType}
+                  {billDetails.ServiceType}
                 </Typography.Text>
               </View>
               <View>
@@ -84,8 +126,8 @@ export default function BillAmountDescriptionScreen() {
                 {t("SadadBillPayments.BillDetailsScreen.billAmount")}
               </Typography.Text>
               <Typography.Text weight="regular" size="body">
-                {billDetailsMock.billAmount}
-                <Typography.Text size="footnote"> {billDetailsMock.billAmountCurrency}</Typography.Text>
+                {billDetails.BillAmount}
+                <Typography.Text size="footnote"> {billDetails.BillAmountCurrency}</Typography.Text>
               </Typography.Text>
             </View>
 
@@ -114,7 +156,7 @@ export default function BillAmountDescriptionScreen() {
                 {t("SadadBillPayments.BillDetailsScreen.currentDueDate")}
               </Typography.Text>
               <Typography.Text weight="regular" size="body">
-                {format(new Date(billDetailsMock.dueDate), "dd MMM YYY")}
+                {formatDateString(billDetails.DueDate)}
               </Typography.Text>
             </View>
             <View>
@@ -122,7 +164,7 @@ export default function BillAmountDescriptionScreen() {
                 {t("SadadBillPayments.BillDetailsScreen.accountNumber")}
               </Typography.Text>
               <Typography.Text weight="regular" size="body">
-                {billDetailsMock.billingAccount}
+                {billDetails.BillingAccount}
               </Typography.Text>
             </View>
             <View>
@@ -130,21 +172,25 @@ export default function BillAmountDescriptionScreen() {
                 {t("SadadBillPayments.BillDetailsScreen.billerNumber")}
               </Typography.Text>
               <Typography.Text weight="regular" size="body">
-                {billDetailsMock.billerID}
+                {billDetails.BillIssuer.Id}
               </Typography.Text>
             </View>
           </Stack>
         </View>
-        <Button onPress={handleOnAddBillPress}>{t("SadadBillPayments.BillDescriptionScreen.payBillText")}</Button>
-        {navigationType === "payBill" ? (
-          <Button variant="tertiary" onPress={handleOnCancelPress}>
-            {t("SadadBillPayments.BillDescriptionScreen.cancelText")}
-          </Button>
-        ) : null}
+        <Button onPress={handleOnAddBillPress}>{t("SadadBillPayments.BillAmountDescriptionScreen.confirm")}</Button>
       </ContentContainer>
     </Page>
   );
 }
+
+const formatDateString = (date: string) => {
+  //At present from backend there is different date formats coming up, they will changing this in to a unique format.
+  //Once that change is implemented we will be removing this.
+  let formatDate = date.replaceAll(",", "");
+  formatDate = date.replaceAll("/", ":");
+  formatDate = Date(formatDate);
+  return format(new Date(formatDate), "dd MMM YYY ");
+};
 
 const styles = StyleSheet.create({
   editIconView: {

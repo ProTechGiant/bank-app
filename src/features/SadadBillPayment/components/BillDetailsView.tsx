@@ -97,7 +97,7 @@ export default function BillDetailsView({
               {t("SadadBillPayments.BillDetailsScreen.amountPaid")}
             </Typography.Text>
             <View style={styles.amountContainer}>
-              <Typography.Text weight="regular" size="title2">
+              <Typography.Text weight="regular" size="body">
                 {paidAmount}
               </Typography.Text>
               <Typography.Text size="footnote"> {billAmountCurrency}</Typography.Text>
@@ -109,7 +109,7 @@ export default function BillDetailsView({
             {t("SadadBillPayments.BillDetailsScreen.billAmount")}
           </Typography.Text>
           <View style={styles.amountContainer}>
-            <Typography.Text weight="regular" size="title2">
+            <Typography.Text weight="regular" size="body">
               {billAmount}
             </Typography.Text>
             <Typography.Text size="footnote"> {billAmountCurrency}</Typography.Text>

@@ -25,10 +25,10 @@ export default function EnterAccountNoScreen() {
   const [errorModal, setErrorModal] = useState(false);
   const [warningModal, setWarningModal] = useState(false);
 
-  const { data, refetch, status, error } = useBillDetailsByAccountNumber(accountNumber, billDetails.BillIssuer?.Id);
+  const { refetch, error } = useBillDetailsByAccountNumber(accountNumber, billDetails.BillIssuer?.Id);
 
   const handleOnSubmit = async () => {
-    await refetch();
+    const { status, data } = await refetch();
     if (status === "success") {
       setBillDetails({ ...billDetails, ...data, AccountNumber: accountNumber });
       navigation.navigate("SadadBillPayments.EnterBillDescScreen");

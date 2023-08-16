@@ -171,7 +171,7 @@ export default function BillDescriptionScreen() {
                 {t("SadadBillPayments.BillDetailsScreen.currentDueDate")}
               </Typography.Text>
               <Typography.Text weight="regular" size="body">
-                {format(new Date(billDetails.DueDate), "dd MMM YYY")}
+                {formatDateString(billDetails.DueDate)}
               </Typography.Text>
             </View>
             <View>
@@ -193,11 +193,11 @@ export default function BillDescriptionScreen() {
           </Stack>
         </View>
         <Button onPress={handleOnAddBill}>
-          {navigationType === "payBill"
+          {navigationType === "payBill" || navigationType === "oneTimePayment"
             ? t("SadadBillPayments.BillDescriptionScreen.payBillText")
             : t("SadadBillPayments.BillDescriptionScreen.buttonText")}
         </Button>
-        {navigationType === "payBill" ? (
+        {navigationType === "payBill" || navigationType === "oneTimePayment" ? (
           <Button variant="tertiary" onPress={handleOnCancel}>
             {t("SadadBillPayments.BillDescriptionScreen.cancelText")}
           </Button>
@@ -222,6 +222,15 @@ export default function BillDescriptionScreen() {
     </Page>
   );
 }
+
+const formatDateString = (date: string) => {
+  //At present from backend there is different date formats coming up, they will changing this in to a unique format.
+  //Once that change is implemented we will be removing this.
+  let formatDate = date.replaceAll(",", "");
+  formatDate = date.replaceAll("/", ":");
+  formatDate = Date(formatDate);
+  return format(new Date(formatDate), "dd MMM YYY ");
+};
 
 const styles = StyleSheet.create({
   editIconView: {

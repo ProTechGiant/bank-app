@@ -1759,6 +1759,10 @@
       "amountInputPlaceholder": "e.g 100.00 SAR",
       "linkText": "You may pay less or more than the bill amount",
       "continue": "Continue"
+    },
+    "BillAmountDescriptionScreen": {
+      "confirmBillDetails": "Confirm bill details",
+      "confirm": "Confirm"
     }
   },
   "PaymentDisputes": {
