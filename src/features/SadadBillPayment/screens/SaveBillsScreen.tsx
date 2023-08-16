@@ -12,6 +12,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import BillItemCard from "../components/BillItemCard";
+import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { useSavedBills } from "../hooks/query-hooks";
 import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 import { BillItem } from "../types";
@@ -19,6 +20,7 @@ import { BillItem } from "../types";
 export default function SaveBillsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { setNavigationType } = useSadadBillPaymentContext();
   const { data: savedBills } = useSavedBills();
 
   const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.SaveBillsScreen">>();
@@ -55,8 +57,19 @@ export default function SaveBillsScreen() {
     setSearchText("");
   };
 
-  const handleOnItemPress = () => {
-    navigation.navigate("SadadBillPayments.BillDetailsScreen");
+  const handleOnItemPress = (item: BillItem) => {
+    if (route.params.navigationFlow === "paymentDue") {
+      setNavigationType("payBill");
+      navigation.navigate("SadadBillPayments.BillDetailsScreen", {
+        AccountNumber: item.AccountNumber,
+        billerId: item.BillerId,
+      });
+    } else if (route.params.navigationFlow === "savedBills") {
+      navigation.navigate("SadadBillPayments.BillDetailsScreen", {
+        AccountNumber: item.AccountNumber,
+        billerId: item.BillerId,
+      });
+    }
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({

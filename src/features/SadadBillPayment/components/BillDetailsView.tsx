@@ -22,7 +22,7 @@ interface BillDetailsViewProp {
   paidAmount: number | string;
   paymentDate: string;
   billerLogoUrl: string;
-  isFromHistory: boolean;
+  isFromHistory?: boolean;
   onEditBillDescription?: () => void; //setting this optional because this component is being used at other screens too
 }
 
@@ -38,7 +38,7 @@ export default function BillDetailsView({
   paidAmount,
   paymentDate,
   billerLogoUrl,
-  isFromHistory,
+  isFromHistory = false,
   onEditBillDescription,
 }: BillDetailsViewProp) {
   const { t } = useTranslation();

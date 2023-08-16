@@ -190,6 +190,15 @@ interface DeleteSavedBillParams {
   billId: string;
   accountNumber: string;
 }
+
+export function useDeleteSavedBill() {
+  return useMutation(async ({ billId, accountNumber }: DeleteSavedBillParams) => {
+    return api("v1", `payments/sadad/bills/${billId}/details`, "DELETE", undefined, accountNumber, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
+
 interface BillDetailsResponse {
   BillDescriptionEn: string;
   BillDescriptionAr: string;
@@ -206,13 +215,6 @@ interface BillDetailsResponse {
   PaymentStatus: string;
   BillerLogoUrl: string;
 }
-export function useDeleteSavedBill() {
-  return useMutation(async ({ billId, accountNumber }: DeleteSavedBillParams) => {
-    return api("v1", `payments/sadad/bills/${billId}/details`, "DELETE", undefined, accountNumber, {
-      ["x-correlation-id"]: generateRandomId(),
-    });
-  });
-}
 
 export function useBillPaymentHistoryDetail(paymentID: string) {
   return useQuery(paymentID, () => {
@@ -222,33 +224,83 @@ export function useBillPaymentHistoryDetail(paymentID: string) {
   });
 }
 
-export function useBillDetailsByAccountNumber(accountNumber: string, billerId: string) {
-  return useQuery(
-    queryKeys.billDetails(accountNumber, billerId),
-    () => {
-      return api<BillDetailsResponse>(
-        "v1",
-        `payments/sadad/bill/details/`,
-        "GET",
-        {
-          billingAccount: accountNumber,
-          billerId: billerId,
-          includePaidBills: "N",
-          includeExactPayment: "Y",
-          includePayments: "Y",
-          includeBillSummaryAmount: "N",
-          includePaymentRanges: "Y",
-        },
-        undefined,
-        {
-          ["x-correlation-id"]: generateRandomId(),
-        }
-      );
-    },
-    { enabled: false }
-  );
+export interface SavedBillDetailsParams {
+  ServiceType: string;
+  BillerId: string;
+  BillId: string;
+  ExactPaymentRequired: true;
+  ExpiryDate: string;
+  BillStatusCode: string;
+  DisplayLabelList: [
+    {
+      LanguagePreference: string;
+      Text: string;
+    }
+  ];
+  BillCategory: string;
+  BillType: string;
+  DueDate: string;
+  PaymentRangesLower: number;
+  PaymentRangesUpper: number;
+  BillNumber: string;
+  BillingAccount: string;
+  BillAmount: number;
+  BillAmountCurrency: string;
+  PaidAmount: number;
+  PaidAmountCurrency: string;
+  BillCycle: string;
+  IsPartialPaymentAllowed: boolean;
+  IsOverPaymentAllowed: boolean;
+  IsAdvancePaymentAllowed: boolean;
+  BillerLogo: string;
+  BillDescriptionList: [
+    {
+      LanguagePreference: string;
+      Text: string;
+    }
+  ];
 }
 
+export function useBillDetailsByBillId(accountNumber: string, billerId: string) {
+  return useQuery(queryKeys.billDetails(accountNumber, billerId), () => {
+    return api<SavedBillDetailsParams>(
+      "v1",
+      `payments/sadad/bill/details/`,
+      "GET",
+      {
+        billingAccount: accountNumber,
+        billerId: billerId,
+      },
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}
+
+export function useBillDetailsByAccountNumber(accountNumber: string, billerId: string) {
+  return useQuery(queryKeys.billDetails(accountNumber, billerId), () => {
+    return api<BillDetailsResponse>(
+      "v1",
+      `payments/sadad/bill/details/`,
+      "GET",
+      {
+        billingAccount: accountNumber,
+        billerId: billerId,
+        includePaidBills: "N",
+        includeExactPayment: "Y",
+        includePayments: "Y",
+        includeBillSummaryAmount: "N",
+        includePaymentRanges: "Y",
+      },
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}
 interface BillPaymentReceiptResponse {
   PmtReceipt: string;
 }

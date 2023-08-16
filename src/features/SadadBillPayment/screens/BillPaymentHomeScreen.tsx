@@ -53,11 +53,14 @@ export default function BillPaymentHomeScreen() {
     });
   };
 
-  const handleOnBiilItemPress = () => {
+  const handleOnBiilItemPress = (accountNumber: string, billerId: string) => {
     clearContext();
     currentTab === "paymentDue" ? setNavigationType("payBill") : undefined;
 
-    navigation.navigate("SadadBillPayments.BillDetailsScreen");
+    navigation.navigate("SadadBillPayments.BillDetailsScreen", {
+      AccountNumber: accountNumber,
+      billerId: billerId,
+    });
   };
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -156,7 +159,11 @@ export default function BillPaymentHomeScreen() {
             <View>
               {numberOfBills > 0 ? (
                 MockBillDetails.slice(0, 5).map(element => (
-                  <BillItemCard key={element.key} data={element} onPress={() => handleOnBiilItemPress()} />
+                  <BillItemCard
+                    key={element.key}
+                    data={element}
+                    onPress={() => handleOnBiilItemPress(element.AccountNumber, element.billerNumber)}
+                  />
                 ))
               ) : (
                 <EmptyDataWarningCard

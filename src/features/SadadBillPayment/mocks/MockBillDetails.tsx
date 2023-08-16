@@ -4,7 +4,7 @@ export const MockBillDetails = [
   {
     key: 1,
     BillName: "Internet Bill",
-    AccountNumber: "623234232",
+    AccountNumber: "009668552251",
     Amount: 100.0,
     DueDate: "2023-08-06T13:27:01.994596",
     iconUrl: "",
@@ -13,7 +13,7 @@ export const MockBillDetails = [
   {
     key: 2,
     BillName: "Gas",
-    AccountNumber: "333234232",
+    AccountNumber: "009668552251",
     Amount: 300.0,
     DueDate: "2023-08-06T13:27:01.994596",
     iconUrl: "",
@@ -22,7 +22,7 @@ export const MockBillDetails = [
   {
     key: 3,
     BillName: "Phone Bill",
-    AccountNumber: "62323423442",
+    AccountNumber: "009668552251",
     Amount: 100.0,
     DueDate: "2023-08-06T13:27:01.994596",
     iconUrl: "",
@@ -31,7 +31,7 @@ export const MockBillDetails = [
   {
     key: 4,
     BillName: "Internet Bill",
-    AccountNumber: "6232342",
+    AccountNumber: "009668552251",
     Amount: 100.0,
     DueDate: "2023-08-06T13:27:01.994596",
     iconUrl: "",
@@ -40,7 +40,7 @@ export const MockBillDetails = [
   {
     key: 5,
     BillName: "Office Net",
-    AccountNumber: "42343342767798",
+    AccountNumber: "009668552251",
     Amount: 310.0,
     DueDate: "2023-08-06T13:27:01.994596",
     iconUrl: "",
@@ -49,7 +49,7 @@ export const MockBillDetails = [
   {
     key: 6,
     BillName: "Office Net",
-    AccountNumber: "42343342767798",
+    AccountNumber: "009668552251",
     Amount: 310.0,
     DueDate: "2023-08-06T13:27:01.994596",
     iconUrl: "",

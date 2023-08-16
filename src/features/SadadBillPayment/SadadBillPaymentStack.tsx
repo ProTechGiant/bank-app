@@ -21,7 +21,10 @@ import {
 
 export type SadadBillPaymentStackParams = {
   "SadadBillPayments.BillPaymentHomeScreen": undefined;
-  "SadadBillPayments.BillDetailsScreen": undefined;
+  "SadadBillPayments.BillDetailsScreen": {
+    billerId: string;
+    AccountNumber: string;
+  };
   "SadadBillPayments.SelectBillerCategoryScreen": undefined;
   "SadadBillPayments.EditBillDescriptionScreen": {
     billDescription: string;
