@@ -22,6 +22,7 @@ interface BillDetailsViewProp {
   paidAmount: number | string;
   paymentDate: string;
   billerLogoUrl: string;
+  isFromHistory: boolean;
   onEditBillDescription?: () => void; //setting this optional because this component is being used at other screens too
 }
 
@@ -37,6 +38,7 @@ export default function BillDetailsView({
   paidAmount,
   paymentDate,
   billerLogoUrl,
+  isFromHistory,
   onEditBillDescription,
 }: BillDetailsViewProp) {
   const { t } = useTranslation();
@@ -78,7 +80,12 @@ export default function BillDetailsView({
           </View>
           <View>
             {billerLogoUrl !== undefined && billerLogoUrl !== "" ? (
-              <NetworkImage style={imageStyle} source={{ uri: billerLogoUrl }} />
+              <NetworkImage
+                style={imageStyle}
+                source={{ uri: billerLogoUrl }}
+                resizeMode="contain"
+                resizeMethod="scale"
+              />
             ) : (
               <PlaceholderImage style={imageStyle} />
             )}
@@ -89,27 +96,33 @@ export default function BillDetailsView({
             <Typography.Text color="neutralBase" weight="medium" size="callout">
               {t("SadadBillPayments.BillDetailsScreen.amountPaid")}
             </Typography.Text>
-            <Typography.Text weight="regular" size="title2">
-              {paidAmount}
+            <View style={styles.amountContainer}>
+              <Typography.Text weight="regular" size="title2">
+                {paidAmount}
+              </Typography.Text>
               <Typography.Text size="footnote"> {billAmountCurrency}</Typography.Text>
-            </Typography.Text>
+            </View>
           </View>
         ) : null}
         <View>
           <Typography.Text color="neutralBase" weight="medium" size="callout">
             {t("SadadBillPayments.BillDetailsScreen.billAmount")}
           </Typography.Text>
-          <Typography.Text weight="regular" size="title2">
-            {billAmount}
+          <View style={styles.amountContainer}>
+            <Typography.Text weight="regular" size="title2">
+              {billAmount}
+            </Typography.Text>
             <Typography.Text size="footnote"> {billAmountCurrency}</Typography.Text>
-          </Typography.Text>
+          </View>
         </View>
         <View>
           <Typography.Text color="neutralBase" weight="medium" size="callout">
-            {t("SadadBillPayments.BillDetailsScreen.currentDueDate")}
+            {isFromHistory
+              ? t("SadadBillPayments.BillDetailsScreen.dateAndTime")
+              : t("SadadBillPayments.BillDetailsScreen.currentDueDate")}
           </Typography.Text>
 
-          {paymentDate ? (
+          {isFromHistory ? (
             <Typography.Text weight="regular" size="body">
               {format(new Date(paymentDate), "dd MMM yyyy") +
                 " " +
@@ -117,9 +130,7 @@ export default function BillDetailsView({
                 " " +
                 format(new Date(paymentDate), "H:MM")}
             </Typography.Text>
-          ) : null}
-
-          {dueDate ? (
+          ) : dueDate ? (
             <Typography.Text weight="regular" size="body">
               {format(new Date(dueDate), "dd MMM YYY")}
             </Typography.Text>
@@ -157,6 +168,7 @@ export default function BillDetailsView({
 }
 
 const styles = StyleSheet.create({
+  amountContainer: { alignItems: "baseline", flexDirection: "row" },
   container: {
     width: "100%",
   },

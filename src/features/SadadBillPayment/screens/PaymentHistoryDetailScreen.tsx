@@ -77,6 +77,7 @@ export default function PaymentHistoryDetailScreen() {
                   billerLogoUrl={data.BillerLogoUrl}
                   referenceNumber={data.ReferenceNumber}
                   billAmountCurrency={data.BillAmountCurrency}
+                  isFromHistory={true}
                 />
 
                 <Stack align="stretch" direction="vertical" style={buttonsContainerStyle}>
