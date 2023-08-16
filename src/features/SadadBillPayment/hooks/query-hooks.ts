@@ -88,6 +88,7 @@ export function useSavedBills() {
 
 interface BillPayment {
   PmtInfo: {
+    AccountNumber: string;
     BillDescriptionEn: string;
     BillDescriptionAr: string;
     PaymentId: string;
@@ -121,7 +122,7 @@ export function useBillPaymentHistory() {
           data.PmtList.map(({ PmtInfo }) => {
             return {
               BillName: i18n.language === "en" ? PmtInfo.BillDescriptionEn : PmtInfo.BillDescriptionAr,
-              AccountNumber: PmtInfo.BillingAccount,
+              AccountNumber: PmtInfo.AccountNumber,
               Amount: PmtInfo.BillAmount,
               DueDate: PmtInfo.PaymentDate,
               iconUrl: PmtInfo.BillerLogoUrl,
