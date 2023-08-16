@@ -3,7 +3,7 @@ import format from "date-fns/format";
 import { enUS } from "date-fns/locale";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, StyleSheet, TextStyle, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, TextStyle, TouchableOpacity, View } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import { CircleQuestionMarkIcon, CloseIcon } from "@/assets/icons";
@@ -137,6 +137,17 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
     setSimilarTransactionsCount(similarTransactionCount);
   };
 
+  const handleonNavigateFAQ = () => {
+    navigation.navigate("FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack", {
+      screen: "FrequentlyAskedQuestions.DetailedScreen",
+      params: {
+        faqId: "update-contact-faq",
+        // TODO: this is temporary till they provide us with the real IDs
+      },
+    });
+    setIsVisible(false);
+  };
+
   useEffect(() => {
     if (isFocused) {
       updateHeaderTitle(receivedData?.transactionDate);
@@ -185,12 +196,12 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
             <Typography.Text style={modalBody} color="neutralBase+30" size="callout" weight="regular">
               {t("ViewTransactions.AboutRoundUpsModal.bodyText")}
             </Typography.Text>
-            <View style={styles.modalFooter}>
+            <Pressable style={styles.modalFooter} onPress={handleonNavigateFAQ}>
               <CircleQuestionMarkIcon />
               <Typography.Text style={FAQs} color="primaryBase" size="footnote" weight="medium">
                 {t("ViewTransactions.AboutRoundUpsModal.note")}
               </Typography.Text>
-            </View>
+            </Pressable>
           </Modal>
         </Page>
       ) : (
