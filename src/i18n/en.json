@@ -1790,6 +1790,10 @@
         "sadadbillpayment": {
           "title": "Pay SADAD Bill",
           "helperText": "Manage your upcoming bills"
+        },
+        "aliasManagment": {
+          "title": "Alias Management",
+          "helperText": "Setup and link your aliases to your account"
         }
       }
     },

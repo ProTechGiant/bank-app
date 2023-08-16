@@ -1182,9 +1182,17 @@
           "title": "Local transfer",
           "helperText": "Transfer money to others"
         },
+        "sadadbillpayment": {
+          "title": "Pay SADAD Bill",
+          "helperText": "Manage your upcoming bills"
+        },
         "internalTransfer": {
           "title": "Internal transfer",
           "helperText": "Transfer money within Croatia"
+        },
+        "aliasManagment": {
+          "title": "Alias Management",
+          "helperText": "Setup and link your aliases to your account"
         }
       }
     },

@@ -3,7 +3,13 @@ import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { LocalTransferIcon, SadadBillPaymentIcon, SearchIcon, TransferHorizontalIcon } from "@/assets/icons";
+import {
+  LocalTransferIcon,
+  SadadBillPaymentIcon,
+  SearchIcon,
+  TransferHorizontalIcon,
+  WalletIcon,
+} from "@/assets/icons";
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -39,6 +45,12 @@ export default function PaymentsHubScreen() {
   const handleOnSadadBillPress = () => {
     navigation.navigate("SadadBillPayments.SadadBillPaymentStack", {
       screen: "SadadBillPayments.BillPaymentHomeScreen",
+    });
+  };
+
+  const handleOnAliasManagmentPress = () => {
+    navigation.navigate("ProxyAlias.ProxyAliasStack", {
+      screen: "ProxyAlias.AliasManagementScreen",
     });
   };
 
@@ -144,6 +156,12 @@ export default function PaymentsHubScreen() {
               icon={<SadadBillPaymentIcon />}
               title={t("InternalTransfers.PaymentsHubScreen.options.sadadbillpayment.title")}
               helperText={t("InternalTransfers.PaymentsHubScreen.options.sadadbillpayment.helperText")}
+            />
+            <PaymentOption
+              onPress={handleOnAliasManagmentPress}
+              icon={<WalletIcon />}
+              title={t("InternalTransfers.PaymentsHubScreen.options.aliasManagment.title")}
+              helperText={t("InternalTransfers.PaymentsHubScreen.options.aliasManagment.helperText")}
             />
           </Stack>
         </ScrollView>

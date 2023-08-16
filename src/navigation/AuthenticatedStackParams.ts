@@ -7,6 +7,7 @@ import { InternalTransfersStackParams } from "@/features/InternalTransfers/Inter
 import { NotificationManagementStackParams } from "@/features/NotificationManagement/NotificationManagementStack";
 import { PaymentDisputesStackParams } from "@/features/PaymentDisputes/PaymentDisputesStack";
 import { ProfileDetailsStackParams } from "@/features/ProfileDetails/ProfileDetailsStack";
+import { ProxyAliasStackParams } from "@/features/ProxyAlias/ProxyAliasStack";
 import { ReferralStackParams } from "@/features/Referral/ReferralStack";
 import { SadadBillPaymentStackParams } from "@/features/SadadBillPayment/SadadBillPaymentStack";
 import { SavingsGoalsStackParams } from "@/features/SavingsGoals/SavingsGoalsStack";
@@ -21,7 +22,7 @@ import { SignInStackParams } from "../features/SignIn/SignInStack";
 import OneTimePasswordModalParams from "./one-time-password-modal-params";
 
 type RootStackParams = {
-  "ProxyAlias.ProxyAliasStack": undefined;
+  "ProxyAlias.ProxyAliasStack": { screen: keyof ProxyAliasStackParams } | undefined;
   "TopSpending.TopSpendingStack":
     | {
         screen: keyof TopSpendingStackParams;
