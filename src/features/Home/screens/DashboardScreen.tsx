@@ -17,7 +17,15 @@ import { useThemeStyles } from "@/theme";
 
 import { ProfileIcon } from "../assets";
 import HeaderSvg from "../assets/Header-homepage.svg";
-import { BalanceCard, QuickActionsSection, RewardsSection, TasksPreviewer, WhatsNextSection } from "../components";
+import {
+  AppreciationFeedbackModal,
+  BalanceCard,
+  QuickActionsSection,
+  RewardsSection,
+  TasksPreviewer,
+  WhatsNextSection,
+} from "../components";
+import RateAppreciation from "../components/RateAppreciation";
 import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
 import { useRefetchHomepageLayout, useTasks } from "../hooks/query-hooks";
 
@@ -35,6 +43,7 @@ export default function DashboardScreen() {
   const [isInternalTransferTypeModalVisible, setIsInternalTransferTypeModalVisible] = useState<boolean>(false);
   const [isLocalTransferModalVisible, setIsLocalTransferModalVisible] = useState<boolean>(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
+  const [isAppreciationFeedbackModalVisible, setIsAppreciationFeedbackModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (homepageLayout?.isError === true) {
@@ -93,6 +102,14 @@ export default function DashboardScreen() {
     });
   };
 
+  const handleOnFeedbackDismissPress = () => {
+    //TODO backend call to dismiss
+  };
+
+  const handleOnFeedbackRatePress = () => {
+    setIsAppreciationFeedbackModalVisible(true);
+  };
+
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["20p"],
     paddingHorizontal: theme.spacing["20p"],
@@ -124,6 +141,10 @@ export default function DashboardScreen() {
         <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16}>
           <Stack align="stretch" direction="vertical" gap="32p">
             {tasks?.length > 0 ? <TasksPreviewer tasks={tasks} /> : null}
+            {/* //TODO there should be a condition from backend  */}
+            {true ? (
+              <RateAppreciation onDismissPress={handleOnFeedbackDismissPress} onRatePress={handleOnFeedbackRatePress} />
+            ) : null}
             {sections?.length !== 0 ? (
               <>
                 {sections.map(section => {
@@ -175,6 +196,10 @@ export default function DashboardScreen() {
           onAlrajhiPress={handleOnAlrajhiTransferPress}
         />
       ) : null}
+      <AppreciationFeedbackModal
+        visible={isAppreciationFeedbackModalVisible}
+        onClose={() => setIsAppreciationFeedbackModalVisible(false)}
+      />
     </Page>
   );
 }

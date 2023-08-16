@@ -23,13 +23,14 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ArrowLeftIcon, CloseIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
+import { Theme, useThemeStyles } from "@/theme";
 
 interface ModalProps extends Omit<RNModalProps, "animationType" | "onRequestClose" | "transparent"> {
   onClose?: () => void;
   onBack?: () => void;
   headerText?: string;
   hasHeaderDivider?: boolean;
+  padding?: keyof Theme["spacing"] | 0;
   style?: ViewStyle;
 }
 
@@ -41,6 +42,7 @@ export default function Modal({
   headerText,
   hasHeaderDivider = false,
   visible = false,
+  padding = "20p",
   style,
   ...nativeModalProps
 }: ModalProps) {
@@ -82,7 +84,7 @@ export default function Modal({
       const defaultPaddingBottom = insets.bottom > 0 ? insets.bottom : theme.spacing["16p"];
 
       return {
-        padding: theme.spacing["20p"],
+        padding: padding !== 0 ? theme.spacing[padding] : undefined,
         paddingBottom: !hasOverridenBottomPadding ? defaultPaddingBottom : undefined,
       };
     },

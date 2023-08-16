@@ -54,3 +54,19 @@ export interface QuickActionsType {
     };
   };
 }
+
+export enum FeedbackStatus {
+  idle = "idle",
+  positive = "positive",
+  negative = "negative",
+}
+
+export enum NotificationModalVariant {
+  success = "success",
+  error = "error",
+}
+
+export interface FeedbackType {
+  title: string;
+  imageUrl: string;
+}
