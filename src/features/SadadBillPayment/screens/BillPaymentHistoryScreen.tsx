@@ -125,12 +125,18 @@ export default function BillPaymentHistoryScreen() {
     }
     const debounceId = setTimeout(() => {
       // filtering the actual data
+      const lowerCaseQuery = searchText.toLowerCase();
+
       const filteredArray =
         searchText !== ""
           ? billPayments.filter(function (billObj) {
-              return billObj.AccountNumber.match(searchText) || billObj.BillName.match(searchText);
+              return (
+                billObj.AccountNumber?.toLowerCase().match(lowerCaseQuery) ||
+                billObj.BillName?.toLowerCase().match(lowerCaseQuery)
+              );
             })
           : billPayments;
+
       // grouping it to section list.
       setSearchSavedGroupedBills(getGroupedBillsArrayByDate(filteredArray));
     }, 500);
