@@ -1,2 +1,1 @@
-export { default as AllAppreciation } from "./AllAppreciation";
-export { default as RedeemedAppreciation } from "./RedeemedAppreciation";
+export { default as AppreciationCard } from "./AppreciationCard";

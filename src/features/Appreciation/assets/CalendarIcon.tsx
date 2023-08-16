@@ -1,0 +1,14 @@
+import Svg, { Path } from "react-native-svg";
+
+import type { IconProps } from "@/assets/icons";
+
+export const CalendarIcon = ({ width = 16, height = 16, color = "#2E2E2E" }: IconProps) => {
+  return (
+    <Svg width={width} height={height} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <Path
+        d="M4.66667 7.33398H6V8.66732H4.66667V7.33398ZM14 4.00065V13.334C14 14.0673 13.4 14.6673 12.6667 14.6673H3.33333C2.59333 14.6673 2 14.0673 2 13.334L2.00667 4.00065C2.00667 3.26732 2.59333 2.66732 3.33333 2.66732H4V1.33398H5.33333V2.66732H10.6667V1.33398H12V2.66732H12.6667C13.4 2.66732 14 3.26732 14 4.00065ZM3.33333 5.33398H12.6667V4.00065H3.33333V5.33398ZM12.6667 13.334V6.66732H3.33333V13.334H12.6667ZM10 8.66732H11.3333V7.33398H10V8.66732ZM7.33333 8.66732H8.66667V7.33398H7.33333V8.66732Z"
+        fill={color}
+      />
+    </Svg>
+  );
+};

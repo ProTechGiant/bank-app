@@ -1956,12 +1956,19 @@
   "DateRangePicker": {
     "title": "Select date",
     "confirmButton": "Confirm"
-  }
-  , "Appreciation":{
+  },
+  "Appreciation":{
     "HubScreen": {
-      "title": "Appreciations",  
+      "title": "Appreciations",
       "all":"All",
-      "redeemed":"Redeemed"
+      "redeemed":"Redeemed",
+      "recommended": "Recommended for you",
+      "promoted":"Promoted",
+      "explore":"Exprore" ,
+      "sellingFast":"Selling fast",
+      "new":"New",
+      "croatiaPlus":"Croatia Plus",
+      "endOnMessage":"Presale ends on"
     }
   }
 }
