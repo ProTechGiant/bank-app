@@ -2609,8 +2609,14 @@
   "Appreciation": {
     "HubScreen": {
       "title": "Appreciations",
-      "all": "All",
-      "redeemed": "Redeemed",
+      "all":"All",
+      "redeemed":"Redeemed",
+      "filter": "Filter",
+      "clearAll": "Clear all",
+      "location": "Location",
+      "category": "Category",
+      "apply": "Apply",
+      "filterBy": "Filtered by:",
       "recommended": "Recommended for you",
       "promoted": "Promoted",
       "explore": "Exprore",

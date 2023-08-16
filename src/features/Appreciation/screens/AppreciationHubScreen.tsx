@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { cloneDeep, isEqual } from "lodash";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
@@ -9,19 +10,57 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import SegmentedControl from "@/components/SegmentedControl";
 import Typography from "@/components/Typography";
+import { useFiltersList } from "@/hooks/use-appreciation";
 import { useThemeStyles } from "@/theme";
 
+import { FilterModal } from "../components";
 import { AppreciationCard } from "../components";
 import { AppreciationList } from "../mockData";
-import { TabsTypes } from "../types";
+import { FiltersType, TabsTypes } from "../types";
 
 export default function AppreciationHubScreen() {
   const { t } = useTranslation();
-
   const [currentTab, setCurrentTab] = useState<TabsTypes>(TabsTypes.ALL);
+  const [isFiltersModalVisible, setIsFiltersModalVisible] = useState<boolean>(false);
+  const [filters, setFilters] = useState<FiltersType[]>([]);
+  const [selectedModalFilters, setSelectedModalFilters] = useState<FiltersType[]>(filters);
+
+  const isApplyButtonFilterModalDisabled = isEqual(filters, selectedModalFilters);
+  const filtersData = useFiltersList();
+
+  useEffect(() => {
+    setFilters(filtersData.data);
+    setSelectedModalFilters(filtersData.data);
+  }, []);
+
+  const handleOnApplyButtonPressed = () => {
+    setFilters(cloneDeep(selectedModalFilters));
+    //TODO call the post request for the filtering with new data
+    handleOnFiltersModalVisiblePress();
+  };
 
   const handleOnFiltersModalVisiblePress = () => {
     //TODO Handle Filter Modal
+    setIsFiltersModalVisible(!isFiltersModalVisible);
+  };
+
+  const handleOnClearAllModalFiltersPressed = () => {
+    const updatedFilters = selectedModalFilters.map(filterCategory => {
+      return {
+        ...filterCategory,
+        filters: filterCategory.filters.map(item => {
+          return { ...item, isActive: false };
+        }),
+      };
+    });
+    setSelectedModalFilters(updatedFilters);
+  };
+
+  const handleOnModalFilterItemPressed = (categoryIndex: number, itemIndex: number) => {
+    const updatedFilters = cloneDeep(selectedModalFilters);
+    updatedFilters[categoryIndex].filters[itemIndex].isActive =
+      !updatedFilters[categoryIndex].filters[itemIndex].isActive;
+    setSelectedModalFilters(updatedFilters);
   };
 
   const segmentedControlStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -55,6 +94,15 @@ export default function AppreciationHubScreen() {
           </SegmentedControl.Item>
         </SegmentedControl>
       </View>
+      <FilterModal
+        onClose={handleOnFiltersModalVisiblePress}
+        onApplyButtonPress={handleOnApplyButtonPressed}
+        onClearAllPressed={handleOnClearAllModalFiltersPressed}
+        onFilterItemPressed={handleOnModalFilterItemPressed}
+        filters={selectedModalFilters}
+        isVisible={isFiltersModalVisible}
+        isApplyButtonDisabled={isApplyButtonFilterModalDisabled}
+      />
       <ContentContainer isScrollView>
         <View style={titleContainerStyle}>
           <Typography.Text color="neutralBase+30" size="title3" weight="medium">
