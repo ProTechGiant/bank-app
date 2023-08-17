@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { StyleSheet, View } from "react-native";
 
 import appLoaderAnimation from "@/assets/illustrations/app-intro.json";
 import AnimationView from "@/components/AnimationView";
@@ -27,5 +28,17 @@ export default function AppIntroAnimationScreen() {
     hasOpened();
   }, [navigation]);
 
-  return <AnimationView source={appLoaderAnimation} />;
+  return (
+    <View style={styles.container}>
+      <AnimationView source={appLoaderAnimation} />
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
+});

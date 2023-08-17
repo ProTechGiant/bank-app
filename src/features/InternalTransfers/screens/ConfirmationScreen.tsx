@@ -1,8 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { StatusBar, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
-import { CheckCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import List from "@/components/List";
@@ -14,12 +13,14 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
+import TransferCompleteIllustration from "../assets/TransferCompleteIllustration";
 import { TransferType } from "../types";
 
 export default function ConfirmationScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { internalTransferEntryPoint, recipient, transferAmount, transferType } = useInternalTransferContext();
+  const { height } = useWindowDimensions();
 
   const handleOnDonePress = () => {
     if (internalTransferEntryPoint === "payment-hub") {
@@ -59,67 +60,79 @@ export default function ConfirmationScreen() {
     });
   };
 
-  const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
-
-  const iconStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: 80,
+  const illustrationStyle = useThemeStyles<ViewStyle>(theme => ({
+    flexDirection: "column",
+    alignSelf: "center",
+    justifyContent: "center",
+    aspectRatio: 1,
+    height: height < 700 ? 200 : 305,
     marginBottom: theme.spacing["24p"],
   }));
 
   const titleStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["16p"],
+    marginBottom: theme.spacing["8p"],
   }));
 
   const messageStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["32p"],
+    marginBottom: theme.spacing["24p"],
   }));
 
   return (
     <Page backgroundColor="primaryBase">
       <StatusBar barStyle="light-content" />
-      <ContentContainer isScrollView style={styles.flex}>
-        <View style={styles.container}>
-          <View style={iconStyle}>
-            <CheckCircleIcon height={66} width={66} color={iconColor} />
-          </View>
-          <Typography.Text size="title1" weight="bold" color="neutralBase-60" align="center" style={titleStyle}>
-            {recipient.type === "new"
-              ? transferType === TransferType.CroatiaToArbTransferAction
-                ? t("InternalTransfers.ConfirmationScreen.title.newARB")
-                : transferType === TransferType.SarieTransferAction
-                ? t("InternalTransfers.ConfirmationScreen.title.newsarie")
-                : t("InternalTransfers.ConfirmationScreen.title.new")
-              : recipient.type === "inactive"
-              ? transferType === TransferType.CroatiaToArbTransferAction
-                ? t("InternalTransfers.ConfirmationScreen.title.inactiveARB")
-                : transferType === TransferType.SarieTransferAction
-                ? t("InternalTransfers.ConfirmationScreen.title.inactivesarie")
-                : t("InternalTransfers.ConfirmationScreen.title.inactive")
-              : transferType === TransferType.CroatiaToArbTransferAction
-              ? t("InternalTransfers.ConfirmationScreen.title.activeARB")
-              : transferType === TransferType.SarieTransferAction
-              ? t("InternalTransfers.ConfirmationScreen.title.activesarie")
-              : t("InternalTransfers.ConfirmationScreen.title.active")}
-          </Typography.Text>
-          <Typography.Text size="callout" color="neutralBase-20" align="center" style={messageStyle}>
-            {transferType === TransferType.SarieTransferAction
-              ? t("InternalTransfers.ConfirmationScreen.sarieTransferMessage")
-              : t("InternalTransfers.ConfirmationScreen.message")}
-          </Typography.Text>
+      <ContentContainer isScrollView alwaysBounceVertical={false} style={styles.container}>
+        <View style={illustrationStyle}>
+          {/* TODO: Add a conditional for another illustration when Payment send is displayed */}
+          <TransferCompleteIllustration />
         </View>
+        <Typography.Text size="xlarge" weight="bold" color="neutralBase-60" align="center" style={titleStyle}>
+          {recipient.type === "new"
+            ? transferType === TransferType.CroatiaToArbTransferAction
+              ? t("InternalTransfers.ConfirmationScreen.title.newARB")
+              : transferType === TransferType.SarieTransferAction
+              ? t("InternalTransfers.ConfirmationScreen.title.newsarie")
+              : t("InternalTransfers.ConfirmationScreen.title.new")
+            : recipient.type === "inactive"
+            ? transferType === TransferType.CroatiaToArbTransferAction
+              ? t("InternalTransfers.ConfirmationScreen.title.inactiveARB")
+              : transferType === TransferType.SarieTransferAction
+              ? t("InternalTransfers.ConfirmationScreen.title.inactivesarie")
+              : t("InternalTransfers.ConfirmationScreen.title.inactive")
+            : transferType === TransferType.CroatiaToArbTransferAction
+            ? t("InternalTransfers.ConfirmationScreen.title.activeARB")
+            : transferType === TransferType.SarieTransferAction
+            ? t("InternalTransfers.ConfirmationScreen.title.activesarie")
+            : t("InternalTransfers.ConfirmationScreen.title.active")}
+        </Typography.Text>
+        <Typography.Text size="callout" color="neutralBase-60" align="center" style={messageStyle}>
+          {transferType === TransferType.SarieTransferAction
+            ? t("InternalTransfers.ConfirmationScreen.sarieTransferMessage")
+            : t("InternalTransfers.ConfirmationScreen.message")}
+        </Typography.Text>
         <List variant="dark" isBordered>
           {recipient.accountName !== undefined ? (
             <List.Item.Table
               caption={t("InternalTransfers.ConfirmationScreen.transferredTo")}
               label={recipient.accountName}
+              end={
+                <Stack direction="vertical">
+                  <Typography.Text color="neutralBase-20" size="footnote">
+                    {t("InternalTransfers.ConfirmationScreen.amount")}
+                  </Typography.Text>
+                  <Typography.Text color="neutralBase-40">{formatCurrency(transferAmount ?? 0)} SAR</Typography.Text>
+                </Stack>
+              }
             />
-          ) : null}
-          <List.Item.Table
-            caption={t("InternalTransfers.ConfirmationScreen.amount")}
-            label={`${formatCurrency(transferAmount ?? 0)} SAR`}
-          />
+          ) : (
+            <List.Item.Table
+              caption={t("InternalTransfers.ConfirmationScreen.amount")}
+              label={`${formatCurrency(transferAmount ?? 0)} SAR`}
+            />
+          )}
         </List>
-        <Stack align="stretch" direction="vertical" gap="8p" style={styles.buttonContainer}>
+      </ContentContainer>
+      <ContentContainer style={styles.buttonContainer}>
+        <Stack align="stretch" direction="vertical" gap="8p">
           <Button color="dark" variant="primary" onPress={handleOnDonePress}>
             {t("InternalTransfers.ConfirmationScreen.buttons.done")}
           </Button>
@@ -134,12 +147,11 @@ export default function ConfirmationScreen() {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    marginTop: "auto",
+    bottom: 0,
+    position: "absolute",
+    width: "100%",
   },
   container: {
-    alignItems: "center",
-  },
-  flex: {
-    flex: 1,
+    paddingBottom: 148, // height of button container
   },
 });

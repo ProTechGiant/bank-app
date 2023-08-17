@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createElement } from "react";
 
-import { BankAccountIcon, SettingsIcon, TransferHorizontalIcon } from "@/assets/icons";
+import { AccountBalanceWalletIcon, ContactSupportIcon, HomeIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -15,14 +15,14 @@ function MockHomeComponent() {
 }
 
 const icons = {
-  Home: BankAccountIcon,
-  Payments: TransferHorizontalIcon,
-  Settings: SettingsIcon,
+  Home: HomeIcon,
+  Payments: AccountBalanceWalletIcon,
+  Support: ContactSupportIcon,
 };
 
 export default function PaymentsHubTabs() {
-  const activeIconColor = useThemeStyles(theme => theme.palette.primaryBase);
-  const inActiveIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
+  const activeIconColor = useThemeStyles(theme => theme.palette["complimentBase+10"]);
+  const inActiveIconColor = useThemeStyles(theme => theme.palette["neutralBase+10"]);
 
   return (
     <Tab.Navigator
@@ -36,7 +36,7 @@ export default function PaymentsHubTabs() {
       })}>
       <Tab.Screen name="Home" component={MockHomeComponent} />
       <Tab.Screen name="Payments" component={PaymentsHubScreen} />
-      <Tab.Screen name="Settings" component={HelpAndSupportStack} />
+      <Tab.Screen name="Support" component={HelpAndSupportStack} />
     </Tab.Navigator>
   );
 }

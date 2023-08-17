@@ -15,7 +15,7 @@ interface PaymentOptionProps {
 }
 
 export default function PaymentOption({ onPress, icon, title, helperText }: PaymentOptionProps) {
-  const iconColor = useThemeStyles(t => t.palette.primaryBase);
+  const iconColor = useThemeStyles(t => t.palette.complimentBase);
 
   const arrowColor = useThemeStyles(t => t.palette["neutralBase-20"]);
 

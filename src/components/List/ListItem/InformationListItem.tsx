@@ -67,7 +67,7 @@ export default function InformationListItem({
       ) : null}
       <Stack direction="vertical" gap="4p" flex={1}>
         {caption !== undefined ? (
-          <Typography.Text color={variant === "dark" ? "neutralBase+10" : "neutralBase"} size="footnote">
+          <Typography.Text color={variant === "dark" ? "neutralBase-20" : "neutralBase"} size="footnote">
             {caption}
           </Typography.Text>
         ) : null}

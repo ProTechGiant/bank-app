@@ -8,6 +8,7 @@ interface ContentContainerProps extends ViewProps {
   style?: StyleProp<ViewStyle>;
   isScrollView?: boolean;
   keyboardShouldPersistTaps?: ScrollViewProps["keyboardShouldPersistTaps"];
+  alwaysBounceVertical?: boolean;
 }
 
 export default function ContentContainer({

@@ -1,14 +1,17 @@
-import { Path, Svg } from "react-native-svg";
+import { G, Path, Svg } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
 export function SadadBillPaymentIcon({ color = "#FF7512", height = 24, width = 24 }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <Path
-        d="M19.5 3.5L18 2L16.5 3.5L15 2L13.5 3.5L12 2L10.5 3.5L9 2L7.5 3.5L6 2L4.5 3.5L3 2V22L4.5 20.5L6 22L7.5 20.5L9 22L10.5 20.5L12 22L13.5 20.5L15 22L16.5 20.5L18 22L19.5 20.5L21 22V2L19.5 3.5ZM19 19.09H5V4.91H19V19.09ZM6 15H18V17H6V15ZM6 11H18V13H6V11ZM6 7H18V9H6V7Z"
-        fill={color}
-      />
+      <G id="outlined_flag">
+        <Path
+          id="Vector"
+          d="M13.5 5.5L12.5 3.5H4.5V20.5H6.5V13.5H11.5L12.5 15.5H19.5V5.5H13.5ZM17.5 13.5H13.5L12.5 11.5H6.5V5.5H11.5L12.5 7.5H17.5V13.5Z"
+          fill={color}
+        />
+      </G>
     </Svg>
   );
 }

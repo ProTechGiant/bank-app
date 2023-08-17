@@ -302,7 +302,7 @@ export default function ReviewQuickTransferScreen() {
         </ContentContainer>
       </Page>
       <NotificationModal
-        variant="error"
+        variant="warning"
         buttons={{
           primary: (
             <Button onPress={handleOnCancel}>

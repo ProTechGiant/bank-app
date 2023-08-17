@@ -1,6 +1,8 @@
 import { ColorValue } from "react-native/types";
 
 export * from "./AccessTimeIcon";
+export * from "./AccountBalanceWalletIcon";
+export * from "./AccountBalanceWalletIcon";
 export * from "./AccountIcon";
 export * from "./AddBorderedIcon";
 export * from "./AngleDownIcon";
@@ -26,6 +28,7 @@ export * from "./ChevronRightIcon";
 export * from "./CircleQuestionMarkIcon";
 export * from "./ClockIcon";
 export * from "./CloseIcon";
+export * from "./ContactSupportIcon";
 export * from "./CopyIcon";
 export * from "./DeleteIcon";
 export * from "./DisabledPlusCircleIcon";
@@ -46,6 +49,7 @@ export * from "./GiftIcon";
 export * from "./GlobeIcon";
 export * from "./HamburgerIcon";
 export * from "./HideIcon";
+export * from "./HomeIcon";
 export * from "./InfoCircleIcon";
 export * from "./InfoFilledCircleIcon";
 export * from "./InfoFilledIcon";

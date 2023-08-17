@@ -19,7 +19,6 @@ export default function AnimationView({ source, speed = 1, autoplay = true, styl
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    height: "100%",
     justifyContent: "center",
   },
   lottie: {

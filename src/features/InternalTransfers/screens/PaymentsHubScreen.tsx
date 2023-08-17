@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Pressable, ScrollView, StatusBar, StyleSheet, ViewStyle } from "react-native";
 
 import {
   LocalTransferIcon,
@@ -11,6 +10,7 @@ import {
   WalletIcon,
 } from "@/assets/icons";
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
+import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SelectTransferTypeModal from "@/components/SelectTransferTypeModal";
@@ -66,34 +66,17 @@ export default function PaymentsHubScreen() {
     navigation.navigate("InternalTransfers.InternalTransferScreen");
   };
 
-  const headerBackground = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.primaryBase,
-  }));
-
-  const headerContainer = useThemeStyles<ViewStyle>(theme => ({
-    padding: theme.spacing["20p"],
-    paddingTop: theme.spacing["32p"],
-  }));
-
-  const mockCardStyle = useThemeStyles<ViewStyle>(theme => ({
-    // TODO: temporary card to be replace with small svg or mini card component
-    backgroundColor: theme.palette["neutralBase-50"],
-    borderRadius: 1,
-    height: 34,
-    width: 55,
-  }));
-
   const searchContainer = useThemeStyles<ViewStyle>(theme => ({
     // TODO: Temp background color as it's not found in core theme and design is not finished
-    backgroundColor: "rgba(242, 242, 242, 0.2)",
+    backgroundColor: theme.palette["neutralBase-60-60%"],
     padding: theme.spacing["8p"],
     borderRadius: 40,
   }));
 
-  const searchIconColor = useThemeStyles(theme => theme.palette["neutralBase-50"]);
+  const searchIconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: theme.spacing["20p"],
+    paddingTop: theme.spacing["48p"],
     paddingHorizontal: theme.spacing["20p"],
   }));
 
@@ -101,42 +84,28 @@ export default function PaymentsHubScreen() {
     <>
       <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
         <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-
-        <View style={headerBackground}>
-          <SafeAreaView edges={["top", "left", "right"]}>
-            <Stack direction="vertical" gap="32p" style={headerContainer}>
-              <Typography.Text size="large" weight="bold" color="neutralBase-50">
-                {t("InternalTransfers.PaymentsHubScreen.title")}
-              </Typography.Text>
-
-              <Stack direction="horizontal" gap="12p" align="center" justify="space-between">
-                {account.data !== undefined ? (
-                  <>
-                    {/* Card mock */}
-                    <View style={mockCardStyle} />
-                    <Stack direction="vertical" style={styles.expandText}>
-                      {/* TODO: replace mock account info */}
-                      <Typography.Text color="neutralBase-50" size="callout">
-                        {account.data.name}
-                      </Typography.Text>
-                      <Typography.Text color="neutralBase" size="footnote">
-                        {t("InternalTransfers.PaymentsHubScreen.balanceAvailable", {
-                          balance: formatCurrency(account.data.balance, "SAR"),
-                        })}
-                      </Typography.Text>
-                    </Stack>
-                  </>
-                ) : (
-                  <View />
-                )}
-                {/* TODO: not working on search functionality yet */}
-                <Pressable style={searchContainer}>
-                  <SearchIcon color={searchIconColor} />
-                </Pressable>
+        <NavHeader variant="angled" withBackButton={false}>
+          <NavHeader.BoldTitle>{t("InternalTransfers.PaymentsHubScreen.title")}</NavHeader.BoldTitle>
+          <Stack direction="horizontal" gap="12p" align="flex-end" justify="space-between">
+            {account.data !== undefined ? (
+              <Stack gap="8p" direction="vertical" style={styles.expandText}>
+                {/* TODO: replace mock account info */}
+                <Typography.Text color="neutralBase+30" size="title3" weight="medium">
+                  {account.data.name}
+                </Typography.Text>
+                <Typography.Text color="neutralBase+10" size="footnote">
+                  {t("InternalTransfers.PaymentsHubScreen.balanceAvailable", {
+                    balance: formatCurrency(account.data.balance, "SAR"),
+                  })}
+                </Typography.Text>
               </Stack>
-            </Stack>
-          </SafeAreaView>
-        </View>
+            ) : null}
+            {/* TODO: not working on search functionality yet */}
+            <Pressable style={searchContainer}>
+              <SearchIcon color={searchIconColor} />
+            </Pressable>
+          </Stack>
+        </NavHeader>
         <ScrollView contentContainerStyle={contentStyle}>
           <Stack direction="vertical" gap="32p" align="stretch">
             <PaymentOption
