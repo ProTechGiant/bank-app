@@ -6,7 +6,11 @@ import { CalendarAltIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { SetMonthRowCardType } from "../types";
+interface SetMonthRowCardType {
+  label: string;
+  onPressSetDate: () => void;
+  selectedMonth?: string | null;
+}
 
 export default function SetMonthRowCard({ label, onPressSetDate, selectedMonth }: SetMonthRowCardType) {
   const { t } = useTranslation();

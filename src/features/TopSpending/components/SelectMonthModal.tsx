@@ -5,6 +5,7 @@ import { Alert, Pressable, TextStyle, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
+import SetMonthRowCard from "@/components/SetMonthRowCard";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useAccount from "@/hooks/use-account";
@@ -15,7 +16,6 @@ import { UserTypes } from "../enum";
 import { PlusTierDateTypes } from "../types";
 import DateSelectorForPlusTier from "./DateSelectorForPlusTier";
 import DateSelectorForStandardTier from "./DateSelectorForStandardTier";
-import SetMonthRowCard from "./SetMonthRowCard";
 
 interface SelectMonthModalProps {
   isVisible: boolean;

@@ -570,6 +570,37 @@
         "november": "نوفمبر",
         "december": "ديسمبر"
       }
+    },
+    "RequestStatementScreen": {
+      "title": "Request a statement",
+      "subTitle": "Select custom date period",
+      "startingDate": "Starting date",
+      "set": "Set",
+      "endDate": "End date",
+      "chooseStatementLanguage": "Choose statement language:",
+      "language": "Language",
+      "english": "English",
+      "arabic": "العربية",
+      "includeHijriDate": "Include Hijri date",
+      "maximumStatement": "Maximum statement period is two years during the last five years.",
+      "requestLongerStatement": "Can I request a longer statement period?",
+      "requestStatement": "Request statement",
+      "pickDate": "Pick date",
+      "letsGo": "Let’s go",
+      "chooseTimeFrame": "Choose a time frame",
+      "cannotRequestAStatementLongerThan5Year": "You cannot request a statement older than five years.",
+      "statementRequestSuccessModal": "Your statement request was successfully sent",
+      "statementRequestSuccessModalSubTitle": "This might take a few minutes to be completed, you will get a notification once your statement is ready.",
+      "goBack": "Go back",
+      "weAreSorry": "We’re sorry something went wrong.",
+      "pleaseTryAgain": "Please try again later.",
+      "statementMightTakeFewMinute": "Your statement might take a few minutes to generate",
+      "or": "or",
+      "DateRanges": {
+        "last3Months": "Last 3 months",
+        "last6Months": "Last 6 months",
+        "last12Months": "Last 12 months"
+      }
     }
   },
   "ViewTransactions": {

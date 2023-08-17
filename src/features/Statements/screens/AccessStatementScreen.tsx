@@ -41,7 +41,7 @@ export default function AccessStatementScreen() {
   } = useGetCustomerStatements(pagination, currentTab);
 
   const handleOnRequestStatement = () => {
-    navigation.navigate("Statements.AccessStatementScreen");
+    navigation.navigate("Statements.RequestStatementScreen");
   };
 
   const handleOnFilter = (language: StatementLanguageTypes) => {

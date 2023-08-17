@@ -226,11 +226,6 @@ export interface LastSixMonthsApiResponse {
 export interface GraghApiResponse {
   Data: DWMGraghData & YGraghData;
 }
-export interface SetMonthRowCardType {
-  label: string;
-  onPressSetDate: () => void;
-  selectedMonth?: string | null;
-}
 
 export interface PlusTierDateTypes {
   month: number;

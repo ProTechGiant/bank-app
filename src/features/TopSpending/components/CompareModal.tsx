@@ -7,6 +7,7 @@ import { MarkedDates } from "react-native-calendars/src/types";
 import { ChevronRightIcon } from "@/assets/icons";
 import { WithShadow } from "@/components";
 import Button from "@/components/Button";
+import CustomCalendar from "@/components/CustomCalendar";
 import Modal from "@/components/Modal";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -16,7 +17,6 @@ import { CompareDurationTypes } from "../enum";
 import { CompareDatesTypes, DateInterface } from "../types";
 import dateFormatter from "../utils/date-formatter";
 import CompareByList from "./CompareByList";
-import CustomCalendar from "./CustomCalendar";
 import MonthPicker from "./MonthPicker";
 import YearPicker from "./YearPicker";
 
@@ -177,6 +177,10 @@ export default function CompareModel({ onCompare, onClose, isVisible, onBack }: 
     height: 660,
   }));
 
+  const calendarContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["16p"],
+  }));
+
   const primaryBaseColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
   const complimentBaseColor = useThemeStyles(theme => theme.palette.complimentBase);
   const neutralBaseColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
@@ -214,18 +218,22 @@ export default function CompareModel({ onCompare, onClose, isVisible, onBack }: 
             </Typography.Text>
           </View>
           {activeFilter === "Day" && (
-            <CustomCalendar
-              markedDates={basePeriod && { ...basePeriod, ...comparisonPeriod }}
-              onDayPress={handleOnDaySelection}
-              markingType="custom"
-            />
+            <View style={calendarContainerStyle}>
+              <CustomCalendar
+                markedDates={basePeriod && { ...basePeriod, ...comparisonPeriod }}
+                onDayPress={handleOnDaySelection}
+                markingType="custom"
+              />
+            </View>
           )}
           {activeFilter === "Week" && (
-            <CustomCalendar
-              markedDates={basePeriod && { ...basePeriod, ...comparisonPeriod }}
-              onDayPress={handleOnWeekSelection}
-              markingType="period"
-            />
+            <View style={calendarContainerStyle}>
+              <CustomCalendar
+                markedDates={basePeriod && { ...basePeriod, ...comparisonPeriod }}
+                onDayPress={handleOnWeekSelection}
+                markingType="period"
+              />
+            </View>
           )}
 
           {activeFilter === "Month" && (

@@ -1,10 +1,11 @@
 import { addDays, format, isBefore, isSameDay } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { TextStyle, ViewStyle } from "react-native";
+import { TextStyle, View, ViewStyle } from "react-native";
 import { MarkedDates } from "react-native-calendars/src/types";
 
 import Button from "@/components/Button";
+import CustomCalendar from "@/components/CustomCalendar";
 import Modal from "@/components/Modal";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -14,7 +15,6 @@ import DiamondIcon from "../assets/icons/DiamondIcon";
 import { userType } from "../mocks";
 import { CompareDatesTypes } from "../types";
 import CompareModel from "./CompareModal";
-import CustomCalendar from "./CustomCalendar";
 
 interface SpendingsFilterModalProps {
   isCompareModalIncluded: boolean;
@@ -112,6 +112,10 @@ export default function SpendingsFilterModal({
     minHeight: "75%",
   }));
 
+  const calendarContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["16p"],
+  }));
+
   const warningTextStyle = useThemeStyles<TextStyle>(theme => ({ padding: theme.spacing["16p"], textAlign: "center" }));
 
   return (
@@ -127,12 +131,14 @@ export default function SpendingsFilterModal({
       onClose={currentScreen !== ModalScreens.Main ? () => goBackTo(ModalScreens.Main) : onClose}>
       {currentScreen === ModalScreens.Main ? (
         <>
-          <CustomCalendar
-            hideArrows
-            markingType="period"
-            onDayPress={handleOnDayPressEvent}
-            markedDates={markedDates}
-          />
+          <View style={calendarContainerStyle}>
+            <CustomCalendar
+              hideArrows
+              markingType="period"
+              onDayPress={handleOnDayPressEvent}
+              markedDates={markedDates}
+            />
+          </View>
           <Typography.Text color="neutralBase" size="caption1" weight="regular" style={warningTextStyle}>
             {t("TopSpending.SpendingDateFilter.noTransactionWarning")}
           </Typography.Text>

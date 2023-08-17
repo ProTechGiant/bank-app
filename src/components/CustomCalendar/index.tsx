@@ -22,7 +22,6 @@ export default function CustomCalendar({ markingType, onDayPress, markedDates, h
     borderColor: theme.palette["neutralBase-30"],
     borderRadius: theme.radii.extraSmall,
     borderWidth: 1,
-    marginTop: theme.spacing["16p"],
   }));
 
   const [currentMonth, setCurrentMonth] = useState(new Date());

@@ -1,12 +1,196 @@
-import React from "react";
-import { Text } from "react-native";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { ScrollView, View, ViewStyle } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import { InfoCircleIcon } from "@/assets/icons";
+import Button from "@/components/Button";
+import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import Stack from "@/components/Stack";
+import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
+
+import {
+  SelectCustomDateModal,
+  SelectCustomDatePeriodSection,
+  SelectLanguageSection,
+  SelectTimeFrameSection,
+} from "../components";
+import { temporaryOnboardingDate } from "../constants";
+import { useCreateCustomDateStatement, useGetCustomerOnboardingDate } from "../hooks/query-hooks";
+import { SelectedLanguageType, TimeFrameInterface } from "../types";
+import { checkDateOlderThan3Months } from "../utils";
+
+interface CustomDatePeriodType {
+  startDate: string | null;
+  endDate: string | null;
+}
 
 export default function RequestStatementScreen() {
+  const { t } = useTranslation();
+  const navigation = useNavigation();
+
+  const [customDatePeriod, setCustomDatePeriod] = useState<CustomDatePeriodType>({ startDate: null, endDate: null });
+  const [selectedLanguage, setSelectedLanguage] = useState<SelectedLanguageType>("en");
+  const [selectedTimeFrame, setSelectedTimeFrame] = useState<TimeFrameInterface | null>(null);
+  const [isSelectingStartDate, setIsSelectingStartDate] = useState<boolean>(false); // This is how we will know if we are selecting start date or end date
+  const [isCustomDateModalVisible, setIsCustomDateModalVisible] = useState<boolean>(false); // Modal for selecting the custom date period for both start date and end date
+  const [isNotificationModalVisible, setIsNotificationModalVisible] = useState<{ success: boolean; error: boolean }>({
+    success: false,
+    error: false,
+  });
+
+  const { data: customerOnboardingDate } = useGetCustomerOnboardingDate();
+  const { mutateAsync: createCustomDateStatementAsync, isLoading: isCreateCustomStatementApiLoading } =
+    useCreateCustomDateStatement();
+
+  const handleOnPressSetDate = (isStartDate: boolean) => {
+    setIsCustomDateModalVisible(true);
+    setIsSelectingStartDate(isStartDate);
+  };
+
+  const handleOnPickDate = (isItStartDate: boolean, date: string) => {
+    setSelectedTimeFrame(null);
+    setIsCustomDateModalVisible(false);
+    if (isItStartDate) {
+      setCustomDatePeriod({ ...customDatePeriod, startDate: date });
+    } else {
+      setCustomDatePeriod({ ...customDatePeriod, endDate: date });
+    }
+  };
+
+  const handleOnSelectTimeFrame = (timeFrame: TimeFrameInterface) => {
+    // As we need to select just one time frame, so we need to reset the custom date period
+    setCustomDatePeriod({ startDate: null, endDate: null });
+    setSelectedTimeFrame(timeFrame);
+  };
+
+  const handleOnPressRequestStatement = async () => {
+    try {
+      const response = await createCustomDateStatementAsync({
+        OnboardingDate: customerOnboardingDate?.OnboardingDate || "2022-09-09", // TODO: Later will remove hardcoded and will check above
+        PredefinedTimeFrame: (selectedTimeFrame ? selectedTimeFrame : customDatePeriod.startDate) || "2022-09-09", // TODO: Later will remove hardcoded and will check above
+        StatementLanguage: selectedLanguage,
+      });
+
+      if (response.StatementRequestId) {
+        // Success Case Here
+        setIsNotificationModalVisible({ success: true, error: false });
+      } else {
+        // Here mean something went wrong
+        setIsNotificationModalVisible({ success: false, error: true });
+      }
+    } catch (err) {
+      setIsNotificationModalVisible({ success: false, error: true });
+    }
+  };
+
+  const handleOnCloseErrorNotificationModal = () => {
+    // TODO: Will go back to monthly tab from here.
+    setIsNotificationModalVisible({ success: false, error: false });
+    navigation.goBack();
+  };
+
+  const handleOnCloseSuccessNotificationModal = () => {
+    // TODO: Will go back to custom date tab from here.
+    setIsNotificationModalVisible({ success: false, error: false });
+    navigation.goBack();
+  };
+
+  const sectionBreakerStyle = useThemeStyles<ViewStyle>(theme => ({
+    width: "100%",
+    backgroundColor: theme.palette["neutralBase-40"],
+    height: 4,
+  }));
+
+  const bottomSectionStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing["20p"],
+    marginBottom: theme.spacing["16p"],
+  }));
+
+  const infoIconColor = useThemeStyles(theme => theme.palette.neutralBase);
+
   return (
-    <Page>
-      <Text>Request a new Statement</Text>
-    </Page>
+    <SafeAreaProvider>
+      <Page backgroundColor="neutralBase-60">
+        <NavHeader
+          title={t("Statements.RequestStatementScreen.title")}
+          withBackButton={true}
+          onBackPress={() => navigation.goBack()}
+        />
+        <Stack direction="vertical" align="stretch" justify="space-between" flex={1}>
+          <ScrollView>
+            <SelectLanguageSection selectedLanguage={selectedLanguage} onChangeLanguage={setSelectedLanguage} />
+            <View style={sectionBreakerStyle} />
+
+            {/* TODO: Later will remove temporaryOnboardingDate */}
+            {(customerOnboardingDate?.OnboardingDate || temporaryOnboardingDate) &&
+            checkDateOlderThan3Months(customerOnboardingDate?.OnboardingDate || temporaryOnboardingDate) ? (
+              <SelectTimeFrameSection
+                onSelectTimeFrame={handleOnSelectTimeFrame}
+                selectedTimeFrame={selectedTimeFrame}
+                onboardingDate={customerOnboardingDate?.OnboardingDate || temporaryOnboardingDate}
+              />
+            ) : null}
+
+            <SelectCustomDatePeriodSection
+              startDate={customDatePeriod?.startDate}
+              endDate={customDatePeriod?.endDate}
+              onPressSetDate={handleOnPressSetDate}
+            />
+          </ScrollView>
+
+          <Stack direction="vertical" style={bottomSectionStyle} align="stretch" gap="8p">
+            <Button
+              loading={isCreateCustomStatementApiLoading}
+              onPress={handleOnPressRequestStatement}
+              disabled={
+                !(customDatePeriod.startDate !== null && customDatePeriod.endDate !== null) &&
+                selectedTimeFrame === null
+              }>
+              {t("Statements.RequestStatementScreen.requestStatement")}
+            </Button>
+            <Stack direction="horizontal" align="center" justify="center" gap="4p">
+              <InfoCircleIcon color={infoIconColor} />
+              <Typography.Text size="caption1" weight="regular" color="neutralBase">
+                {t("Statements.RequestStatementScreen.statementMightTakeFewMinute")}
+              </Typography.Text>
+            </Stack>
+          </Stack>
+        </Stack>
+
+        <NotificationModal
+          isVisible={isNotificationModalVisible.error}
+          message={t("Statements.RequestStatementScreen.pleaseTryAgain")}
+          onClose={handleOnCloseErrorNotificationModal}
+          title={t("Statements.RequestStatementScreen.weAreSorry")}
+          variant="error"
+        />
+        <NotificationModal
+          buttons={{
+            primary: (
+              <Button onPress={handleOnCloseSuccessNotificationModal}>
+                {t("Statements.RequestStatementScreen.goBack")}
+              </Button>
+            ),
+          }}
+          isVisible={isNotificationModalVisible.success}
+          message={t("Statements.RequestStatementScreen.statementRequestSuccessModalSubTitle")}
+          title={t("Statements.RequestStatementScreen.statementRequestSuccessModal")}
+          variant="success"
+        />
+
+        <SelectCustomDateModal
+          isSelectingStartDate={isSelectingStartDate}
+          onClose={() => setIsCustomDateModalVisible(false)}
+          selectedDate={isSelectingStartDate ? customDatePeriod?.startDate || "" : customDatePeriod?.endDate || ""}
+          visible={isCustomDateModalVisible}
+          onPickDate={handleOnPickDate}
+        />
+      </Page>
+    </SafeAreaProvider>
   );
 }
