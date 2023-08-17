@@ -1091,6 +1091,10 @@
     }
   },
   "HelpAndSupport": {
+    "ChatScreen": {
+      "chatInputPlaceholder": "Type your message...",
+      "chatTypingIndicator": "Croatia Support Agent is typing"
+    },
     "HubScreen": {
       "title": "Help and Support",
       "helpQuestion": "How can we help?",
