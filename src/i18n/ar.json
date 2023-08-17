@@ -1042,6 +1042,9 @@
       "cancel": "إلغاء",
       "call": "اتصال"
     },
+    "LiveChatScreen": {
+      "waitingMessage": "!نحن سعداء جدا أنك هنا، الوكيل سيكون معك قريبا"
+    },
     "AgentInformation": {
       "online": "Online",
       "offline": "Offline",
