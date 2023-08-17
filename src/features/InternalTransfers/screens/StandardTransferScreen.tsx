@@ -181,7 +181,11 @@ export default function StandardTransferScreen() {
                 />
                 <WarningBanner
                   icon={<InfoFilledCircleIcon />}
-                  text={t("InternalTransfers.StandardTransferScreen.nonOperativeHoursWarning")}
+                  text={
+                    currentAmount > SARIE_MIN_TRANSFER_AMOUNT
+                      ? t("InternalTransfers.StandardTransferScreen.nonOperativeHoursWarning")
+                      : t("InternalTransfers.StandardTransferScreen.amountSentInstantlyMessage")
+                  }
                 />
               </View>
             </View>
