@@ -1,3 +1,5 @@
+import { SortingOptionType } from "./types";
+
 export const AppreciationList = [
   {
     isNew: true,
@@ -27,4 +29,10 @@ export const AppreciationList = [
     location: "Riyadh",
     endsAt: "02/02/2023",
   },
+];
+
+export const SORTING_OPTIONS: SortingOptionType[] = [
+  { id: "1", label: "Recommended for you" },
+  { id: "2", label: "Most Recent" },
+  { id: "3", label: "Expiring soonest" },
 ];

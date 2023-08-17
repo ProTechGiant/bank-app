@@ -3,6 +3,11 @@ export enum TabsTypes {
   REDEEMED = "Redeemed",
 }
 
+export interface SortingOptionType {
+  id: string;
+  label: string;
+}
+
 export interface FilterItemType {
   id: string;
   name: string;

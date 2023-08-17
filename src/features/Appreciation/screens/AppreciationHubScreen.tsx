@@ -1,7 +1,7 @@
 import { cloneDeep, isEqual } from "lodash";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { FilterIcon } from "@/assets/icons";
 import { AngleDownIcon } from "@/assets/icons";
@@ -13,17 +13,32 @@ import Typography from "@/components/Typography";
 import { useFiltersList } from "@/hooks/use-appreciation";
 import { useThemeStyles } from "@/theme";
 
+import { AppreciationCard, SortingModal } from "../components";
 import { FilterModal } from "../components";
-import { AppreciationCard } from "../components";
-import { AppreciationList } from "../mockData";
+import { AppreciationList, SORTING_OPTIONS } from "../mockData";
 import { FiltersType, TabsTypes } from "../types";
 
 export default function AppreciationHubScreen() {
   const { t } = useTranslation();
   const [currentTab, setCurrentTab] = useState<TabsTypes>(TabsTypes.ALL);
+  const [isSortingModalVisible, setIsSortingModalVisible] = useState<boolean>(false);
+  const [sortingModalCurrentOption, setSortingModalCurrentOption] = useState<string>(SORTING_OPTIONS[0].id);
+  const [currentSortingOption, setCurrentSortingOption] = useState<string>(SORTING_OPTIONS[0].id);
   const [isFiltersModalVisible, setIsFiltersModalVisible] = useState<boolean>(false);
   const [filters, setFilters] = useState<FiltersType[]>([]);
   const [selectedModalFilters, setSelectedModalFilters] = useState<FiltersType[]>(filters);
+
+  const isApplySortingButtonDisabled = currentSortingOption === sortingModalCurrentOption;
+
+  const handleOnApplySortingButtonPress = () => {
+    setCurrentSortingOption(sortingModalCurrentOption);
+    setIsSortingModalVisible(false);
+  };
+
+  const handleOnCloseSortingModal = () => {
+    setSortingModalCurrentOption(currentSortingOption);
+    setIsSortingModalVisible(false);
+  };
 
   const isApplyButtonFilterModalDisabled = isEqual(filters, selectedModalFilters);
   const filtersData = useFiltersList();
@@ -117,18 +132,27 @@ export default function AppreciationHubScreen() {
             </Typography.Text>
           </View>
           <View>
-            <View style={styles.dropdownContainer}>
+            <Pressable style={styles.dropdownContainer} onPress={() => setIsSortingModalVisible(true)}>
               <Typography.Text color="primaryBase" size="footnote" weight="medium" align="center">
-                {t("Appreciation.HubScreen.recommended")}
+                {SORTING_OPTIONS.find(option => option.id === currentSortingOption)?.label}
               </Typography.Text>
               <AngleDownIcon color={angleDownIconColor} />
-            </View>
+            </Pressable>
           </View>
         </View>
         {AppreciationList.map((appreciation, index) => {
           return <AppreciationCard appreciation={appreciation} key={index} />;
         })}
       </ContentContainer>
+      <SortingModal
+        isVisible={isSortingModalVisible}
+        onClose={handleOnCloseSortingModal}
+        options={SORTING_OPTIONS}
+        currentValue={sortingModalCurrentOption}
+        onChange={setSortingModalCurrentOption}
+        isApplyButtonDisabled={isApplySortingButtonDisabled}
+        onApplyButtonPressed={handleOnApplySortingButtonPress}
+      />
     </Page>
   );
 }

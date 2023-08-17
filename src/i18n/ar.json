@@ -2051,11 +2051,15 @@
       "filterBy": "Filtered by:",
       "recommended": "Recommended for you",
       "promoted": "Promoted",
-      "explore": "Exprore",
+      "explore": "Explore",
       "sellingFast": "Selling fast",
       "new": "New",
       "croatiaPlus": "Croatia Plus",
       "endOnMessage": "Presale ends on"
+    },
+    "SortingModal": {
+      "title": "Sort",
+      "applyButton": "Apply"
     }
   }
 }
