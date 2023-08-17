@@ -251,14 +251,7 @@ export default function ReviewQuickTransferScreen() {
                   )}
                 </Typography.Text>
               </View>
-              <View style={inlineText}>
-                <Typography.Text weight="medium" size="callout" color="neutralBase+30">
-                  {t("InternalTransfers.ReviewQuickTransferScreen.processingTime")}
-                </Typography.Text>
-                <Typography.Text color="neutralBase-10" weight="regular" size="callout">
-                  {t("InternalTransfers.ReviewQuickTransferScreen.sameDay")}
-                </Typography.Text>
-              </View>
+
               <View style={inlineText}>
                 <Typography.Text weight="medium" size="callout" color="neutralBase+30">
                   {transferType === "SARIE_TRANSFER_ACTION"

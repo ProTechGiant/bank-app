@@ -106,14 +106,7 @@ export default function ReviewTransferDetail({
           {reason}
         </Typography.Text>
       </View>
-      <View style={inlineText}>
-        <Typography.Text weight="medium" size="callout">
-          {t("InternalTransfers.ReviewTransferScreen.processingTime")}
-        </Typography.Text>
-        <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {t("InternalTransfers.ReviewTransferScreen.processingDay")}
-        </Typography.Text>
-      </View>
+
       <View style={inlineText}>
         <Typography.Text weight="semiBold" size="body">
           {t("InternalTransfers.ReviewTransferScreen.total")}

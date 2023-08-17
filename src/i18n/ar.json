@@ -1211,8 +1211,7 @@
       "from": "From",
       "to": "To",
       "reason": "Reason",
-      "processingTime": "Processing time",
-      "processingDay": "Same day",
+
       "total": "Total",
       "notes": "Attachments",
       "optional": "(Optional)",
@@ -1393,12 +1392,10 @@
       "reason": "Reason",
       "total": "Total",
       "bank": "Bank",
-      "processingTime": "Processing time",
       "fee": "Fee",
       "sendMoney": "Send money now",
       "cancel": "Cancel",
       "currency": "SAR",
-      "sameDay": "Same day",
       "notification": {
         "title": "Are you sure?",
         "message": "Do you want to cancel this transfer?",
