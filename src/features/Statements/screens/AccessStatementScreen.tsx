@@ -10,8 +10,9 @@ import SegmentedControl from "@/components/SegmentedControl";
 import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { generateRandomId } from "@/utils";
 
-import { AccessCustomDateStatementList, AccessMonthlyStatmentsList, LanguageFilterModal } from "../components";
+import { AccessCustomDateStatementList, AccessMonthlyStatementsList, LanguageFilterModal } from "../components";
 import {
   CUSTOM_DATE_STATEMENT_LIMIT,
   MONTHLY_STATEMENT_LIMIT,
@@ -19,6 +20,7 @@ import {
   StatementLanguageTypes,
   StatementTypes,
 } from "../constants";
+import { useStatementContext } from "../contexts/StatementContext";
 import { useGetCustomerStatements } from "../hooks/query-hooks";
 import { PaginationInterface, StatementInterface } from "../types";
 
@@ -32,6 +34,7 @@ export default function AccessStatementScreen() {
     limit: MONTHLY_STATEMENT_LIMIT,
     offset: PAGE_OFFSET,
   });
+  const { setCorrelationId } = useStatementContext();
   const [activeFilter, setActiveFilter] = useState<StatementLanguageTypes | null>(null);
   const [statements, setStatements] = useState<StatementInterface[]>([]);
   const {
@@ -50,10 +53,15 @@ export default function AccessStatementScreen() {
   };
 
   useEffect(() => {
+    setCorrelationId(generateRandomId());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     setStatements(pre => [...pre, ...(statementsData?.statements ?? [])]);
   }, [statementsData]);
 
-  const filteredStatments = useMemo(() => {
+  const filteredStatements = useMemo(() => {
     let statementsCopy = [...statements];
     if (activeFilter) {
       statementsCopy = statements.filter(
@@ -78,6 +86,15 @@ export default function AccessStatementScreen() {
     }
   };
 
+  const handleOnPressStatement = (documentId: string) => {
+    navigation.navigate("Statements.StatementsStack", {
+      screen: "Statements.PreviewStatementScreen",
+      params: {
+        documentId: documentId,
+      },
+    });
+  };
+
   const handleOnTabChange = (tab: StatementTypes) => {
     setStatements([]);
     if (tab === StatementTypes.MONTHLY) {
@@ -91,8 +108,9 @@ export default function AccessStatementScreen() {
   const renderScreen = () => {
     if (currentTab === StatementTypes.MONTHLY) {
       return (
-        <AccessMonthlyStatmentsList
-          statements={filteredStatments}
+        <AccessMonthlyStatementsList
+          onPressCard={handleOnPressStatement}
+          statements={filteredStatements}
           activeFilter={activeFilter}
           onClearFilter={() => setActiveFilter(null)}
           onRefresh={handleOnRefreshStatements}
@@ -102,7 +120,8 @@ export default function AccessStatementScreen() {
     } else if (currentTab === StatementTypes.CUSTOM) {
       return (
         <AccessCustomDateStatementList
-          statements={filteredStatments}
+          onPressCard={handleOnPressStatement}
+          statements={filteredStatements}
           activeFilter={activeFilter}
           onEndReached={handleOnFetchMoreStatements}
           onClearFilter={() => setActiveFilter(null)}
@@ -172,7 +191,9 @@ export default function AccessStatementScreen() {
       </SafeAreaView>
 
       <Stack style={buttonContainerStyle} align="stretch" direction="vertical">
-        <Button onPress={handleOnRequestStatement}>{t("Statements.AccessStatements.requestStatmentButtonText")}</Button>
+        <Button onPress={handleOnRequestStatement}>
+          {t("Statements.AccessStatements.requestStatementButtonText")}
+        </Button>
       </Stack>
     </Page>
   );

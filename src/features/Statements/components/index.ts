@@ -1,8 +1,9 @@
 export { default as AccessCustomDateStatementList } from "./AccessCustomDateStatementList";
-export { default as AccessMonthlyStatmentsList } from "./AccessMonthlyStatmentsList";
+export { default as AccessMonthlyStatementsList } from "./AccessMonthlyStatementsList";
 export { default as EmptyListView } from "./EmptyListView";
 export { default as FilterButton } from "./FilterButton";
 export { default as LanguageFilterModal } from "./LanguageFilterModal";
+export { default as PreviewStatementPDF } from "./PreviewStatementPDF";
 export { default as SelectCustomDateModal } from "./SelectCustomDateModal";
 export { default as SelectCustomDatePeriodSection } from "./SelectCustomDatePeriodSection";
 export { default as SelectLanguageSection } from "./SelectLanguageSection";

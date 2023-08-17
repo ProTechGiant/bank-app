@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, RefreshControl, useWindowDimensions, View, ViewStyle } from "react-native";
+import { FlatList, Pressable, RefreshControl, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
@@ -20,6 +20,7 @@ interface AccessCustomDateStatementsListProps {
   onEndReached: () => void;
   onRefresh: () => void;
   isRefreshing: boolean;
+  onPressCard: (documentId: string) => void;
 }
 
 export default function AccessCustomDateStatementList({
@@ -29,6 +30,7 @@ export default function AccessCustomDateStatementList({
   onEndReached,
   onRefresh,
   isRefreshing,
+  onPressCard,
 }: AccessCustomDateStatementsListProps) {
   const { t } = useTranslation();
   const { height: screenHeight } = useWindowDimensions();
@@ -51,18 +53,20 @@ export default function AccessCustomDateStatementList({
 
   const renderItem = ({ item }: { item: StatementInterface }) => {
     return (
-      <Stack direction="horizontal" style={renderItemStyle} align="center" justify="space-between">
-        <Stack direction="vertical">
-          {dateBadge(item.StatementEndDate)}
-          <Typography.Text style={renderItemDateStyle} color="neutralBase+30" size="callout" weight="medium">
-            {formatDateRange(item.StatementStartDate, item.StatementEndDate)}
-          </Typography.Text>
-          <Typography.Text style={renderItemDateStyle} color="neutralBase-10" size="footnote">
-            {item.StatementLanguage}
-          </Typography.Text>
+      <Pressable onPress={() => onPressCard(item.DocumentId)}>
+        <Stack direction="horizontal" style={renderItemStyle} align="center" justify="space-between">
+          <Stack direction="vertical">
+            {dateBadge(item.StatementEndDate)}
+            <Typography.Text style={renderItemDateStyle} color="neutralBase+30" size="callout" weight="medium">
+              {formatDateRange(item.StatementStartDate, item.StatementEndDate)}
+            </Typography.Text>
+            <Typography.Text style={renderItemDateStyle} color="neutralBase-10" size="footnote">
+              {item.StatementLanguage}
+            </Typography.Text>
+          </Stack>
+          <ChevronRightIcon color="#B3B3B3" />
         </Stack>
-        <ChevronRightIcon color="#B3B3B3" />
-      </Stack>
+      </Pressable>
     );
   };
 

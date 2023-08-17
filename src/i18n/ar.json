@@ -547,7 +547,7 @@
       "monthlyStatementSubtitle": ".يتم إنشاء كشوف الحساب الشهرية تلقائيًا لآخر عامين",
       "customDateStatementSubtitle": "يمكنك طلب بيان تاريخ مخصص في السنوات الخمس الماضية.",
       "filteredByText": "مُصفى بواسطة:",
-      "requestStatmentButtonText": "اطلب كشف حساب جديد",
+      "requestStatementButtonText": "اطلب كشف حساب جديد",
       "FilterModal": {
         "buttonText": "تعيين",
         "title": "منقي"
@@ -601,6 +601,10 @@
         "last6Months": "Last 6 months",
         "last12Months": "Last 12 months"
       }
+    },
+    "PreviewStatementScreen": {
+      "exportAsPDF": "تصدير كملف PDF",
+      "title": "معاينة البيان"
     }
   },
   "ViewTransactions": {

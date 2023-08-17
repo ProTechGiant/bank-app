@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { RefreshControl, SectionList, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Pressable, RefreshControl, SectionList, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
@@ -20,14 +20,16 @@ interface AccessMonthlyStatementsListProps {
   onClearFilter: () => void;
   onRefresh: () => void;
   isRefreshing: boolean;
+  onPressCard: (documentId: string) => void;
 }
 
-export default function AccessMonthlyStatmentsList({
+export default function AccessMonthlyStatementsList({
   statements,
   activeFilter,
   onClearFilter,
   onRefresh,
   isRefreshing,
+  onPressCard,
 }: AccessMonthlyStatementsListProps) {
   const { t } = useTranslation();
   const { height: screenHeight } = useWindowDimensions();
@@ -50,19 +52,21 @@ export default function AccessMonthlyStatmentsList({
   }) => {
     const isLastItem = index === section.data.length - 1;
     return (
-      <Stack
-        direction="horizontal"
-        justify="space-between"
-        align="center"
-        style={[renderItemStyle, !index ? topBorderRadiusStyle : null, isLastItem ? bottomBorderRadiusStyle : null]}>
-        <Typography.Text>{getMonthNameFromDateString(item.StatementEndDate)}</Typography.Text>
-        <Stack style={languageTextStyle} align="center" direction="horizontal">
-          <Typography.Text size="caption1" color="neutralBase">
-            {item.StatementLanguage}
-          </Typography.Text>
-          <ChevronRightIcon color="#D9D9D9" />
+      <Pressable onPress={() => onPressCard(item.DocumentId)}>
+        <Stack
+          direction="horizontal"
+          justify="space-between"
+          align="center"
+          style={[renderItemStyle, !index ? topBorderRadiusStyle : null, isLastItem ? bottomBorderRadiusStyle : null]}>
+          <Typography.Text>{getMonthNameFromDateString(item.StatementEndDate)}</Typography.Text>
+          <Stack style={languageTextStyle} align="center" direction="horizontal">
+            <Typography.Text size="caption1" color="neutralBase">
+              {item.StatementLanguage}
+            </Typography.Text>
+            <ChevronRightIcon color="#D9D9D9" />
+          </Stack>
         </Stack>
-      </Stack>
+      </Pressable>
     );
   };
 

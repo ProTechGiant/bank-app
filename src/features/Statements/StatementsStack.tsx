@@ -1,22 +1,28 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { AccessStatementScreen, RequestStatementScreen } from "./screens";
+import { StatementContextProvider } from "./contexts/StatementContext";
+import { AccessStatementScreen, PreviewStatementScreen, RequestStatementScreen } from "./screens";
 
 export const Stack = createNativeStackNavigator();
 
-export type StatmentsStackParams = {
+export type StatementsStackParams = {
   "Statements.AccessStatementScreen": undefined;
   "Statements.RequestStatementScreen": undefined;
+  "Statements.CustomDateStatementScreen": undefined;
+  "Statements.PreviewStatementScreen": { documentId: string };
 };
 
 export default function StatementsStack() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen component={AccessStatementScreen} name="Statements.AccessStatementScreen" />
-      <Stack.Screen component={RequestStatementScreen} name="Statements.RequestStatementScreen" />
-    </Stack.Navigator>
+    <StatementContextProvider>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen component={AccessStatementScreen} name="Statements.AccessStatementScreen" />
+        <Stack.Screen component={RequestStatementScreen} name="Statements.RequestStatementScreen" />
+        <Stack.Screen component={PreviewStatementScreen} name="Statements.PreviewStatementScreen" />
+      </Stack.Navigator>
+    </StatementContextProvider>
   );
 }

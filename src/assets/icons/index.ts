@@ -41,6 +41,7 @@ export * from "./FilterIcon";
 export * from "./FlagIcon";
 export * from "./FreezeIcon";
 export * from "./FriendsIcon";
+export * from "./FullScreenIcon";
 export * from "./GiftIcon";
 export * from "./GlobeIcon";
 export * from "./HamburgerIcon";

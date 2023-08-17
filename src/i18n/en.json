@@ -539,7 +539,7 @@
       "arabicPill": "العربية",
       "monthlyStatementSubtitle": "Monthly statements are auto generated for the last two years.",
       "customDateStatementSubtitle": "You can request a custom date statement in the previous five years.",
-      "requestStatmentButtonText": "Request a new statement",
+      "requestStatementButtonText": "Request a new statement",
       "nothingHereText": "Nothing Here",
       "noStatementsText": "No statements have been generated yet!",
       "noStatementsTextForFilter": "No statements have been generated using this language yet!",
@@ -594,6 +594,10 @@
         "last6Months": "Last 6 months",
         "last12Months": "Last 12 months"
       }
+    },
+    "PreviewStatementScreen": {
+      "exportAsPDF": "Export as PDF",
+      "title": "Statement preview"
     }
   },
   "ViewTransactions": {

@@ -25,3 +25,9 @@ export interface TimeFrameInterface {
   label: string;
   value: "last3Month" | "last6Month" | "last12Month";
 }
+
+export interface DownloadStatementResponse {
+  StatementName: string;
+  StatementType: string;
+  StatementContent: string;
+}
