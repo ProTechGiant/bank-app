@@ -233,7 +233,7 @@ export default function FundingStep({
             ),
           }
         }
-        onClose={onCompletePress}
+        onClose={shouldShowConfirmationWithActionButtons ? undefined : onCompletePress}
         title={t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.modalTitle`)}
         message={t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.modalText`, {
           amount: depositAmount.toLocaleString("en-US", { style: "decimal" }),
