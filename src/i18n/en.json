@@ -1115,6 +1115,12 @@
         "message": "Error type description. Alternative to reach out.",
         "requiredErrorMessage": "Please select your enquiry type."
       }
+    },
+    "AgentInformation": {
+      "online": "Online",
+      "offline": "Offline",
+      "agentName": "Croatia Support Agent",
+      "position": "Support Assistant"
     }
   },
   "FrequentlyAskedQuestions": {
@@ -2662,8 +2668,8 @@
   "Appreciation": {
     "HubScreen": {
       "title": "Appreciations",
-      "all":"All",
-      "redeemed":"Redeemed",
+      "all": "All",
+      "redeemed": "Redeemed",
       "filter": "Filter",
       "clearAll": "Clear all",
       "location": "Location",
