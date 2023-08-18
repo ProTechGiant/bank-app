@@ -77,6 +77,57 @@ export default function ConfirmationScreen() {
     marginBottom: theme.spacing["24p"],
   }));
 
+  const createTitleMessage = () => {
+    if (recipient.type === "new") {
+      if (
+        transferType === TransferType.CroatiaToArbTransferAction ||
+        transferType === TransferType.SarieTransferAction
+      ) {
+        return {
+          title: t("InternalTransfers.ConfirmationScreen.title.payment"),
+          message: t("InternalTransfers.ConfirmationScreen.message.beneficiaryAddedAndPending"),
+        };
+      }
+
+      return {
+        title: t("InternalTransfers.ConfirmationScreen.title.transfer"),
+        message: t("InternalTransfers.ConfirmationScreen.message.beneficiaryAdded"),
+      };
+    } else if (recipient.type === "inactive") {
+      if (
+        transferType === TransferType.CroatiaToArbTransferAction ||
+        transferType === TransferType.SarieTransferAction
+      ) {
+        return {
+          title: t("InternalTransfers.ConfirmationScreen.title.payment"),
+          message: t("InternalTransfers.ConfirmationScreen.message.transactionPending"),
+        };
+      }
+
+      return {
+        title: t("InternalTransfers.ConfirmationScreen.title.transfer"),
+        message: t("InternalTransfers.ConfirmationScreen.message.beneficiaryAdded"),
+      };
+    } else {
+      if (
+        transferType === TransferType.CroatiaToArbTransferAction ||
+        transferType === TransferType.SarieTransferAction
+      ) {
+        return {
+          title: t("InternalTransfers.ConfirmationScreen.title.payment"),
+          message: t("InternalTransfers.ConfirmationScreen.message.transactionPending"),
+        };
+      }
+
+      return {
+        title: t("InternalTransfers.ConfirmationScreen.title.transfer"),
+        message: t("InternalTransfers.ConfirmationScreen.message.transferComplete"),
+      };
+    }
+  };
+
+  const { title, message } = createTitleMessage();
+
   return (
     <Page backgroundColor="primaryBase">
       <StatusBar barStyle="light-content" />
@@ -86,28 +137,10 @@ export default function ConfirmationScreen() {
           <TransferCompleteIllustration />
         </View>
         <Typography.Text size="xlarge" weight="bold" color="neutralBase-60" align="center" style={titleStyle}>
-          {recipient.type === "new"
-            ? transferType === TransferType.CroatiaToArbTransferAction
-              ? t("InternalTransfers.ConfirmationScreen.title.newARB")
-              : transferType === TransferType.SarieTransferAction
-              ? t("InternalTransfers.ConfirmationScreen.title.newsarie")
-              : t("InternalTransfers.ConfirmationScreen.title.new")
-            : recipient.type === "inactive"
-            ? transferType === TransferType.CroatiaToArbTransferAction
-              ? t("InternalTransfers.ConfirmationScreen.title.inactiveARB")
-              : transferType === TransferType.SarieTransferAction
-              ? t("InternalTransfers.ConfirmationScreen.title.inactivesarie")
-              : t("InternalTransfers.ConfirmationScreen.title.inactive")
-            : transferType === TransferType.CroatiaToArbTransferAction
-            ? t("InternalTransfers.ConfirmationScreen.title.activeARB")
-            : transferType === TransferType.SarieTransferAction
-            ? t("InternalTransfers.ConfirmationScreen.title.activesarie")
-            : t("InternalTransfers.ConfirmationScreen.title.active")}
+          {title}
         </Typography.Text>
         <Typography.Text size="callout" color="neutralBase-60" align="center" style={messageStyle}>
-          {transferType === TransferType.SarieTransferAction
-            ? t("InternalTransfers.ConfirmationScreen.sarieTransferMessage")
-            : t("InternalTransfers.ConfirmationScreen.message")}
+          {message}
         </Typography.Text>
         <List variant="dark" isBordered>
           {recipient.accountName !== undefined ? (

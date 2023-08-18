@@ -1572,17 +1572,15 @@
     },
     "ConfirmationScreen": {
       "title": {
-        "active": "Transfer successful",
-        "inactive": "Beneficiary activation and transfer successful",
-        "new": "Beneficiary activation and transfer successful",
-        "activesarie": "Transfer pending",
-        "inactivesarie": "Beneficiary activated and Transfer pending",
-        "newsarie": "Beneficiary added and Transfer pending",
-        "newARB": "Beneficiary added and transfer pending",
-        "inactiveARB": "Beneficiary activation and transfer pending",
-        "activeARB": "Transfer pending"
+        "transfer": "Your transfer is complete",
+        "payment": "Payment sent"
       },
-      "message": "You can review individual transactions in your transaction history",
+      "message": {
+        "transferComplete": "You'll find the details in your transaction list",
+        "beneficiaryAdded": "Beneficiary was added and transaction was successful.",
+        "beneficiaryAddedAndPending": "Beneficiary was added and transaction is being processed. We will notify you of the payment outcome via SMS.",
+        "transactionPending": "We are processing this transaction and will be available to view soon. We will notify you of the payment outcome via SMS."
+      },
       "transferredTo": "Transferred to",
       "amount": "Amount",
       "buttons": {
