@@ -19,7 +19,7 @@ export default function BillSavedSuccessScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { billDetails } = useSadadBillPaymentContext();
+  const { billDetails, navigationType } = useSadadBillPaymentContext();
 
   const handleOnClosePress = () => {
     navigation.navigate("SadadBillPayments.BillPaymentHomeScreen");
@@ -27,6 +27,7 @@ export default function BillSavedSuccessScreen() {
 
   const handleOnPayNowPress = () => {
     //TODO: navigate to pay now
+    navigation.navigate("SadadBillPayments.BillPaymentHomeScreen");
   };
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
@@ -74,11 +75,15 @@ export default function BillSavedSuccessScreen() {
             <TickCircleIcon height={66} width={66} color={iconColor} />
           </View>
           <Typography.Text size="title1" weight="bold" color="neutralBase-60" align="center" style={titleStyle}>
-            {t("SadadBillPayments.BillSavedSuccessScreen.billAddedText")}
+            {navigationType === "oneTimePayment"
+              ? t("SadadBillPayments.BillSavedSuccessScreen.billPaidText")
+              : t("SadadBillPayments.BillSavedSuccessScreen.billAddedText")}
           </Typography.Text>
-          <Typography.Text size="callout" color="neutralBase-20" align="center" style={messageStyle}>
-            {t("SadadBillPayments.BillSavedSuccessScreen.viewBillText")}
-          </Typography.Text>
+          {navigationType === "oneTimePayment" ? null : (
+            <Typography.Text size="callout" color="neutralBase-20" align="center" style={messageStyle}>
+              {t("SadadBillPayments.BillSavedSuccessScreen.viewBillText")}
+            </Typography.Text>
+          )}
         </View>
         <Stack direction="horizontal">
           <View style={detailContainer}>
@@ -124,7 +129,9 @@ export default function BillSavedSuccessScreen() {
         </Stack>
         <Stack align="stretch" direction="vertical" gap="8p" style={styles.buttonContainer}>
           <Button color="dark" variant="primary" onPress={handleOnPayNowPress}>
-            {t("SadadBillPayments.BillSavedSuccessScreen.buttonTitle")}
+            {navigationType === "oneTimePayment"
+              ? t("SadadBillPayments.BillSavedSuccessScreen.buttonPayTitle")
+              : t("SadadBillPayments.BillSavedSuccessScreen.buttonSavedTitle")}
           </Button>
           <Button color="dark" variant="tertiary" onPress={handleOnClosePress}>
             {t("SadadBillPayments.BillSavedSuccessScreen.closeText")}

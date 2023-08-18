@@ -32,20 +32,21 @@ export default function BillAmountDescriptionScreen() {
   const handleOnAddBillPress = () => {
     const payBillRequest: PayBillInterface = {
       TransactionType: "PAY",
-      ServiceType: billDetails.Category.Code,
-      BillerId: billDetails.BillIssuer.Id,
+      ServiceType: billDetails.ServiceType,
+      BillerId: billDetails.BillerId,
       BillAmount: billDetails.BillAmount,
       BillAmountCurrency: billDetails.BillAmountCurrency,
-      PaidAmount: billDetails.OtherBillAmount,
+      PaidAmount: billDetails.OtherBillAmount === undefined ? billDetails.BillAmount : billDetails.OtherBillAmount,
       PaidAmountCurrency: billDetails.PaidAmountCurrency,
       ExactPaymentRequired: billDetails.ExactPaymentRequired ? "Y" : "N",
       BillCategory: billDetails.BillCategory,
       BillType: billDetails.BillType,
       BillNumber: billDetails.BillNumber,
       BillingAccount: billDetails.AccountNumber,
-      DisplayLabelEn: billDetails.BillIssuer.NameEn,
-      DisplayLabelAr: billDetails.BillIssuer.NameAr,
+      DisplayLabelEn: billDetails.BillIssuer?.NameEn,
+      DisplayLabelAr: billDetails.BillIssuer?.NameAr,
     };
+
     const payBillDetailRequestParam = {
       ...payBillRequest,
       ...(i18n.language === "en"
@@ -55,7 +56,7 @@ export default function BillAmountDescriptionScreen() {
 
     otpFlow.handle({
       action: {
-        to: "SadadBillPayments.BillSavedSuccessScreen",
+        to: "SadadBillPayments.BillAmountDescriptionScreen",
       },
       //Adding mock values(PhoneNumber)for passing the QA testing criteria.
       //once logging in is handled properly, we will get this value from backend and we will replace this mock value with the value stored in local storage.
@@ -67,6 +68,11 @@ export default function BillAmountDescriptionScreen() {
 
       onOtpRequest: () => {
         return payBillAsync.mutateAsync(payBillDetailRequestParam);
+      },
+      onFinish: status => {
+        if (status !== "cancel" && status !== "fail") {
+          navigation.navigate("SadadBillPayments.BillSavedSuccessScreen");
+        }
       },
     });
   };
@@ -172,7 +178,7 @@ export default function BillAmountDescriptionScreen() {
                 {t("SadadBillPayments.BillDetailsScreen.billerNumber")}
               </Typography.Text>
               <Typography.Text weight="regular" size="body">
-                {billDetails.BillIssuer.Id}
+                {billDetails.BillerId}
               </Typography.Text>
             </View>
           </Stack>

@@ -1807,8 +1807,10 @@
     },
     "BillSavedSuccessScreen": {
       "billAddedText": "Bill added successfully",
+      "billPaidText": "Bill paid successfully",
       "viewBillText": "You can view all your saved bills in the saved bills list or pay the bill below",
-      "buttonTitle": "Pay now",
+      "buttonPayTitle": "Make another payment",
+      "buttonSavedTitle": "Pay now",
       "closeText": "Close",
       "billDescriptionText": "Bill description",
       "billAmountText": "Bill Amount",

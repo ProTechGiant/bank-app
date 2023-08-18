@@ -37,6 +37,7 @@ export default function EnterBillAmountScreen() {
   const handleLinkPress = () => {
     //TODO link press will be implemnted in upcoming story
   };
+
   const handleContinuePress = () => {
     setBillDetails({ ...billDetails, OtherBillAmount: selectedCurrentBill ? undefined : OtherBillAmountToPay });
     navigation.goBack();
@@ -46,15 +47,18 @@ export default function EnterBillAmountScreen() {
   const limitsContainerStyle = useThemeStyles(theme => ({
     marginTop: theme.spacing["8p"],
   }));
+
   const radioButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["24p"],
     width: "100%",
   }));
+
   const accountFormContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "space-between",
     marginTop: theme.spacing["24p"],
     flex: 1,
   }));
+
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
     marginVertical: theme.spacing["24p"],

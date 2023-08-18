@@ -26,7 +26,7 @@ export default function BillDetailsScreen() {
   const { mutateAsync: deleteSavedBillAsync } = useDeleteSavedBill();
   const { data, status } = useBillDetailsByBillId(route.params.AccountNumber, route.params.billerId);
 
-  const { setNavigationType, navigationType } = useSadadBillPaymentContext();
+  const { billDetails, setBillDetails, setNavigationType, navigationType } = useSadadBillPaymentContext();
 
   const [isConfirmDeleteModalVisible, setIsConfirmDeleteModalVisible] = useState(false);
   const [isDeleteSuccessModalVisible, setIsDeleteSuccessModalVisible] = useState(false);
@@ -60,6 +60,7 @@ export default function BillDetailsScreen() {
   const handleOnPayBillPress = () => {
     navigation.goBack();
     setNavigationType("payBill");
+    setBillDetails({ ...billDetails, ...data });
     navigation.navigate("SadadBillPayments.EnterBillAmountScreen");
   };
 
