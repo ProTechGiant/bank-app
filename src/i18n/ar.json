@@ -1819,7 +1819,11 @@
       "billAmountText": "Bill Amount",
       "currentDueText": "Current due date",
       "accountNumberText": "Account number",
-      "billerNumberText": "Biller number"
+      "billerNumberText": "Biller number",
+      "referenceNumberText": "Reference number",
+      "dateTimeText": "Date & time",
+      "atText": "at",
+      "paidAmountText": "Amount paid"
     },
     "BillPaymentHistoryScreen": {
       "paymentHistory": "Payment histroy",

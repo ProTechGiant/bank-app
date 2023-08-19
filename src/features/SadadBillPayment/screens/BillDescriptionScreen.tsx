@@ -79,7 +79,7 @@ export default function BillDescriptionScreen() {
 
     otpFlow.handle({
       action: {
-        to: "SadadBillPayments.BillSavedSuccessScreen",
+        to: "SadadBillPayments.BillDescriptionScreen",
       },
       //Adding mock values(PhoneNumber)for passing the QA testing criteria.
       //once logging in is handled properly, we will get this value from backend and we will replace this mock value with the value stored in local storage.
@@ -91,6 +91,11 @@ export default function BillDescriptionScreen() {
 
       onOtpRequest: () => {
         return addBillAsync.mutateAsync(addBillRequest);
+      },
+      onFinish: status => {
+        if (status !== "cancel" && status !== "fail") {
+          navigation.navigate("SadadBillPayments.BillSavedSuccessScreen");
+        }
       },
     });
   };

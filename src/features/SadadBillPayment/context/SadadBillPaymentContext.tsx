@@ -60,6 +60,7 @@ const SadadBillPaymentContext = createContext<SadadBillPaymentContextState>({
     PaidAmount: undefined,
     PaidAmountCurrency: undefined,
     ServiceType: undefined,
+    BillDescriptionList: undefined,
   },
 });
 

@@ -48,8 +48,13 @@ export interface BillDetail {
   PaidAmount: string;
   PaidAmountCurrency: string;
   ServiceType: string;
+  BillDescriptionList: Array<BillDescriptionListInterface>;
 }
 
+export interface BillDescriptionListInterface {
+  LanguagePreference: string;
+  Text: string;
+}
 export interface AddBillInterface {
   ServiceType: string;
   BillerId: string;
