@@ -109,6 +109,7 @@ export * from "./ThumbsUpIcon";
 export * from "./TickCircleBorderIcon";
 export * from "./TickCircleIcon";
 export * from "./TickIcon";
+export * from "./TimerIcon";
 export * from "./TransferHorizontalIcon";
 export * from "./TransferVerticalIcon";
 export * from "./TrendingUpIcon";

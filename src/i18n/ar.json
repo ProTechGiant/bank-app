@@ -1047,6 +1047,10 @@
       "call": "اتصال"
     },
     "LiveChatScreen": {
+      "agentTimer": {
+        "estimatedWaitingTime": "الوقت المتوقع للانتظار",
+        "minute": "دقيقة"
+      },
       "waitingMessage": "!نحن سعداء جدا أنك هنا، الوكيل سيكون معك قريبا"
     },
     "AgentInformation": {
@@ -1056,6 +1060,7 @@
       "position": "Support Assistant"
     }
   },
+
   "CardActions": {
     "QuickMenu": {
       "freezeCard": "Freeze card",
@@ -1444,7 +1449,7 @@
       "scheduleButton": "Schedule",
       "switchToQuick": "Switch to Quick Transfer",
       "wantToSwitch": "Want to send an instant one time \ntransfer up to 2,500 SAR?",
-      "amountSentInstantlyMessage":"Amount upto 20,000 SAR delivered instantly",
+      "amountSentInstantlyMessage": "Amount upto 20,000 SAR delivered instantly",
       "nonOperativeHoursWarning": "If you transfer over 20,000 SAR on a weekend or holiday, we'll complete it on the next working day.",
       "amountExceedsDailyLimit": "Transfer amount exceeds the {{limit}} SAR daily limit by {{amount}} SAR",
       "amountExceedsBalance": "You have insufficient funds.",
