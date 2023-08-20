@@ -2106,5 +2106,8 @@
       "title": "Sort",
       "applyButton": "Apply"
     }
+  },
+  "AgentJoinedChat": {
+    "label": "Croatia Support Agent joined the chat!"
   }
 }

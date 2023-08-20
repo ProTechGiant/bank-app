@@ -1,3 +1,4 @@
+export { default as AgentJoinedChat } from "./AgentJoinedChat";
 export { default as ChatInputBox } from "./ChatInputBox";
 export { default as ChatMessageInput } from "./ChatMessageInput";
 export { default as ChatScrollToEndButton } from "./ChatScrollToEndButton";
