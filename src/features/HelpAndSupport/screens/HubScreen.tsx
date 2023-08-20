@@ -17,7 +17,6 @@ export default function HubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { lookup, tryCall } = useCallSupport();
-
   const handleSearchFAQPress = () => {
     navigation.navigate("FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack");
   };

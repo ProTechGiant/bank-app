@@ -2109,5 +2109,12 @@
   },
   "AgentJoinedChat": {
     "label": "Croatia Support Agent joined the chat!"
+  },
+  "CustmerFeedBack": {
+    "label": "Your opinion matters.\nPlease rate your live chat experience",
+    "Buttons": {
+      "submitRating": "Submit Rating",
+      "skip": "Skip"
+    }
   }
 }
