@@ -1123,6 +1123,12 @@
       "agentTimer": {
         "estimatedWaitingTime": "Estimated waiting time",
         "minute": "min"
+      },
+      "CloseChatModal": {
+        "title": "Are you sure?",
+        "message": "This live chat will be ended, do you want to end it right-now?",
+        "okButton": "ok",
+        "closeButton": "close"
       }
     },
     "AgentInformation": {
