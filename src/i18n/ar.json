@@ -1058,6 +1058,10 @@
       "offline": "Offline",
       "agentName": "Croatia Support Agent",
       "position": "Support Assistant"
+    },
+    "BubbleMessage": {
+      "croatiaAgent": "Croatia agent",
+      "you": "You"
     }
   },
 
