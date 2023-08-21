@@ -1,11 +1,13 @@
 export enum TabsTypes {
   ALL = "All",
   REDEEMED = "Redeemed",
+  LIKED = "Liked",
 }
 
-export interface SortingOptionType {
-  id: string;
-  label: string;
+export enum SortingOptions {
+  RECOMMENDED = "recommendedForYou",
+  MOST_RECENT = "mostRecent",
+  EXPIRING_SOONEST = "expiringSoonest",
 }
 
 export interface FilterItemType {

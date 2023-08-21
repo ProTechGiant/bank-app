@@ -6,16 +6,16 @@ import Modal from "@/components/Modal";
 import { RadioButton, RadioButtonGroup } from "@/components/RadioButton";
 import { useThemeStyles } from "@/theme";
 
-import { SortingOptionType } from "../types";
+import { SortingOptions } from "../types";
 
 interface SortingModalProps {
   isVisible: boolean;
   isApplyButtonDisabled: boolean;
   onApplyButtonPressed: () => void;
   onClose: () => void;
-  onChange: (nextValue: string) => void;
-  currentValue: string;
-  options: SortingOptionType[];
+  onChange: (nextValue: SortingOptions) => void;
+  currentValue: SortingOptions;
+  options: SortingOptions[];
 }
 
 export default function SortingModal({
@@ -37,7 +37,7 @@ export default function SortingModal({
     <Modal visible={isVisible} onClose={onClose} headerText={t("Appreciation.SortingModal.title")}>
       <RadioButtonGroup value={currentValue} onPress={newValue => onChange(newValue)} style={radioButtonGroupStyle}>
         {options.map(option => (
-          <RadioButton value={option.id} label={option.label} key={option.id} />
+          <RadioButton value={option} label={t(`Appreciation.HubScreen.FilterOptions.${option}`)} key={option} />
         ))}
       </RadioButtonGroup>
       <Button onPress={onApplyButtonPressed} disabled={isApplyButtonDisabled}>

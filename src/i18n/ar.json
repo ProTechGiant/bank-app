@@ -2097,6 +2097,7 @@
       "title": "Appreciations",
       "all": "All",
       "redeemed": "Redeemed",
+      "liked": "Liked",
       "filter": "Filter",
       "clearAll": "Clear all",
       "location": "Location",
@@ -2109,7 +2110,32 @@
       "sellingFast": "Selling fast",
       "new": "New",
       "croatiaPlus": "Croatia Plus",
-      "endOnMessage": "Presale ends on"
+      "endOnMessage": "Presale ends on",
+      "FilterOptions": {
+        "recommendedForYou": "Recommended for you",
+        "mostRecent": "Most Recent",
+        "expiringSoonest": "Expiring Soonest"
+      },
+      "EmptyList": {
+        "HasFilters": {
+          "title": "No appreciations found",
+          "subtitle": "We couldn’t find appreciations that match your search. Consider adapting your search and try again."
+        },
+        "AllTab": {
+          "title": "Appreciations will be here soon",
+          "subtitle": "We’re working hard to bring you interesting appreciations that promote your lifestyle. Stay tuned!",
+          "buttonText": "Read Whats Next"
+        },
+        "RedeemedTab": {
+          "title": "No Redeemed Appreciations",
+          "subtitle": "There are no available tickets or vouchers. We will only show appreciations that were purchased within Croatia app.",
+          "buttonText": "Appreciation History"
+        },
+        "LikedTab": {
+          "title": "No Liked Appreciations",
+          "subtitle": "You haven’t liked any Appreciations yet. Any appreciations you like can be accessed here."
+        }
+      }
     },
     "SortingModal": {
       "title": "Sort",

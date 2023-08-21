@@ -1,4 +1,4 @@
-import { SortingOptionType } from "./types";
+import { SortingOptions } from "./types";
 
 export const AppreciationList = [
   {
@@ -31,8 +31,13 @@ export const AppreciationList = [
   },
 ];
 
-export const SORTING_OPTIONS: SortingOptionType[] = [
-  { id: "1", label: "Recommended for you" },
-  { id: "2", label: "Most Recent" },
-  { id: "3", label: "Expiring soonest" },
+export const SORTING_OPTIONS_ALL_TAB: SortingOptions[] = [
+  SortingOptions.RECOMMENDED,
+  SortingOptions.MOST_RECENT,
+  SortingOptions.EXPIRING_SOONEST,
+];
+
+export const SORTING_OPTIONS_OTHER_TABS: SortingOptions[] = [
+  SortingOptions.MOST_RECENT,
+  SortingOptions.EXPIRING_SOONEST,
 ];
