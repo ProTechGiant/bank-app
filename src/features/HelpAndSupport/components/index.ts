@@ -7,4 +7,5 @@ export { default as ChatTypingIndicator } from "./ChatTypingIndicator";
 export { default as CustomerFeedback } from "./CustomerFeedback";
 export { default as LiveChatScreenHeader } from "./LiveChatScreenHeader";
 export { default as QuickActionLink } from "./QuickActionLink";
+export { default as SupportSection } from "./SupportSection";
 export { default as TypingIndicator } from "./TypingIndicator";

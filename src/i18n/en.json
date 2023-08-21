@@ -1110,6 +1110,7 @@
       "call": "Call"
     },
     "LiveChatScreen": {
+      "headerTitle": "Hello, How can we help you?",
       "navHeaderTitle": "Live chat",
       "firstLineTitle": "Welcome to Croatia",
       "secondLineTitle": "Live Chat Support",
