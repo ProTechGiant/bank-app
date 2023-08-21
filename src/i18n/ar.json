@@ -1792,7 +1792,14 @@
       },
       "genericError": {
         "title": "We’re sorry, something has gone wrong.",
-        "message": "Please try again later or contact Customer Care."
+        "message": "Please try again later or contact Customer Care.",
+        "globalLimitMessage": "You have exceeded the global limit"
+      },
+      "insufficientBalanceError":{
+        "message": "You have insufficient balance in your account to make this payment",
+        "title": "Insufficient balance",
+        "primaryButtonText": "Top-up balance",
+        "secondaryButtonText": "Cancel"
       }
     },
     "EnterBillDescriptionScreen": {
