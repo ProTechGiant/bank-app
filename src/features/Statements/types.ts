@@ -10,8 +10,8 @@ export interface StatementInterface {
   StatementGenerationDate: string;
 }
 export interface GetAccessStatementApiResponse {
-  statements: StatementInterface[];
-  totalRecords: number;
+  Statements: StatementInterface[];
+  count: number;
 }
 
 export interface PaginationInterface {
@@ -30,4 +30,8 @@ export interface DownloadStatementResponse {
   StatementName: string;
   StatementType: string;
   StatementContent: string;
+}
+
+export interface RetryRequestInterface {
+  StatementRequestId: string;
 }

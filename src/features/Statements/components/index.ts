@@ -1,5 +1,6 @@
 export { default as AccessCustomDateStatementList } from "./AccessCustomDateStatementList";
 export { default as AccessMonthlyStatementsList } from "./AccessMonthlyStatementsList";
+export { default as CustomStatementCardView } from "./CustomStatementCardView";
 export { default as EmptyListView } from "./EmptyListView";
 export { default as FilterButton } from "./FilterButton";
 export { default as LanguageFilterModal } from "./LanguageFilterModal";

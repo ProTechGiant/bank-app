@@ -33,8 +33,8 @@ export default function LanguageFilterModal({ onClose, isVisible, onFilter }: La
         style={radioButtonContainerStyle}
         onPress={value => setPreferredLanguage(value)}
         value={preferredLanguage}>
-        <RadioButton label={StatementLanguageTypes.English} value={StatementLanguageTypes.English} />
-        <RadioButton label={StatementLanguageTypes.Arabic} value={StatementLanguageTypes.Arabic} />
+        <RadioButton label={t("Statements.AccessStatements.EN")} value={StatementLanguageTypes.English} />
+        <RadioButton label={t("Statements.AccessStatements.AR")} value={StatementLanguageTypes.Arabic} />
       </RadioButtonGroup>
       <Button onPress={handleOnFilter}>{t("Statements.AccessStatements.FilterModal.buttonText")}</Button>
     </Modal>

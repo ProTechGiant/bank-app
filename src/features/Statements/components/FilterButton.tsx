@@ -7,14 +7,12 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { StatementLanguageTypes } from "../constants";
-
 interface FilterButtonProps {
-  lable: StatementLanguageTypes;
+  label: string;
   onClearFilter: () => void;
 }
 
-export default function FilterButton({ lable, onClearFilter }: FilterButtonProps) {
+export default function FilterButton({ label, onClearFilter }: FilterButtonProps) {
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -39,7 +37,7 @@ export default function FilterButton({ lable, onClearFilter }: FilterButtonProps
       </Typography.Text>
       <Pressable style={pillStyle} onPress={onClearFilter}>
         <Typography.Text weight="medium" size="footnote" color="neutralBase+30">
-          {lable}
+          {label}
         </Typography.Text>
         <CloseIcon width={14} color="#2E2E2E" />
       </Pressable>

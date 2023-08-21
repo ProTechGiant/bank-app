@@ -1,11 +1,11 @@
 import { StatementLanguageTypes, StatementStatus } from "../constants";
 import { GetAccessStatementApiResponse, PaginationInterface } from "../types";
 const getMockStatements = (pagination: PaginationInterface): GetAccessStatementApiResponse => {
-  const mockStatemets = [
+  const mockStatements = [
     {
       CBSReferenceNumber: "ref001",
       DocumentId: "doc001",
-      Status: StatementStatus.DOWNLOADED,
+      Status: StatementStatus.GENERATED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-08-01",
       StatementEndDate: "2023-08-31",
@@ -41,7 +41,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref008",
       DocumentId: "doc008",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.Arabic,
       StatementStartDate: "2020-07-15",
       StatementEndDate: "2020-08-15",
@@ -86,7 +86,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref016",
       DocumentId: "doc016",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-06-01",
       StatementEndDate: "2023-06-30",
@@ -122,7 +122,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref020",
       DocumentId: "doc020",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-10-01",
       StatementEndDate: "2023-10-31",
@@ -158,7 +158,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref024",
       DocumentId: "doc024",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-02-01",
       StatementEndDate: "2023-02-28",
@@ -194,7 +194,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref028",
       DocumentId: "doc028",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-06-01",
       StatementEndDate: "2023-06-30",
@@ -230,7 +230,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref032",
       DocumentId: "doc032",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-10-01",
       StatementEndDate: "2023-10-31",
@@ -266,7 +266,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref036",
       DocumentId: "doc036",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-02-01",
       StatementEndDate: "2023-02-28",
@@ -302,7 +302,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref040",
       DocumentId: "doc040",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-06-01",
       StatementEndDate: "2023-06-30",
@@ -311,7 +311,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref041",
       DocumentId: "doc041",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-07-01",
       StatementEndDate: "2023-07-31",
@@ -347,7 +347,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref045",
       DocumentId: "doc045",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-11-01",
       StatementEndDate: "2023-11-30",
@@ -383,7 +383,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref049",
       DocumentId: "doc049",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-03-01",
       StatementEndDate: "2023-03-31",
@@ -419,7 +419,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref053",
       DocumentId: "doc053",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-07-01",
       StatementEndDate: "2023-07-31",
@@ -455,7 +455,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref057",
       DocumentId: "doc057",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-11-01",
       StatementEndDate: "2023-11-30",
@@ -491,7 +491,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref061",
       DocumentId: "doc061",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-03-01",
       StatementEndDate: "2023-03-31",
@@ -527,7 +527,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref065",
       DocumentId: "doc065",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-07-01",
       StatementEndDate: "2023-07-31",
@@ -563,7 +563,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref069",
       DocumentId: "doc069",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-11-01",
       StatementEndDate: "2023-11-30",
@@ -599,7 +599,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref073",
       DocumentId: "doc073",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-03-01",
       StatementEndDate: "2023-03-31",
@@ -635,7 +635,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref077",
       DocumentId: "doc077",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-07-01",
       StatementEndDate: "2023-07-31",
@@ -671,7 +671,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref081",
       DocumentId: "doc081",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-11-01",
       StatementEndDate: "2023-11-30",
@@ -707,7 +707,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref085",
       DocumentId: "doc085",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-03-01",
       StatementEndDate: "2023-03-31",
@@ -743,7 +743,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref089",
       DocumentId: "doc089",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-07-01",
       StatementEndDate: "2023-07-31",
@@ -779,7 +779,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref093",
       DocumentId: "doc093",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-11-01",
       StatementEndDate: "2023-11-30",
@@ -815,7 +815,7 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     {
       CBSReferenceNumber: "ref097",
       DocumentId: "doc097",
-      Status: StatementStatus.GENERATED,
+      Status: StatementStatus.DOWNLOADED,
       StatementLanguage: StatementLanguageTypes.English,
       StatementStartDate: "2023-03-01",
       StatementEndDate: "2023-03-31",
@@ -851,11 +851,11 @@ const getMockStatements = (pagination: PaginationInterface): GetAccessStatementA
     // ... (continue adding more records)
   ];
   return {
-    statements: mockStatemets.slice(
+    Statements: mockStatements.slice(
       pagination.offset * pagination.limit,
       pagination.limit + pagination.offset * pagination.limit
     ),
-    totalRecords: mockStatemets.length,
+    count: mockStatements.length,
   };
 };
 

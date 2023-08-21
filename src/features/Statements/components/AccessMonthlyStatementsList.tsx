@@ -4,11 +4,12 @@ import { useTranslation } from "react-i18next";
 import { Pressable, RefreshControl, SectionList, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { MonthNameTypes, StatementLanguageTypes } from "../constants";
+import { MonthNameTypes, StatementLanguageTypes, StatementStatus } from "../constants";
 import { StatementInterface } from "../types";
 import { groupMonthlyStatementsByYear, SectionListDataTypes } from "../utils/group-monthly-statements-by-year";
 import EmptyListView from "./EmptyListView";
@@ -19,7 +20,7 @@ interface AccessMonthlyStatementsListProps {
   activeFilter: StatementLanguageTypes | null;
   onClearFilter: () => void;
   onRefresh: () => void;
-  isRefreshing: boolean;
+  isLoading: boolean;
   onPressCard: (documentId: string) => void;
 }
 
@@ -28,7 +29,7 @@ export default function AccessMonthlyStatementsList({
   activeFilter,
   onClearFilter,
   onRefresh,
-  isRefreshing,
+  isLoading,
   onPressCard,
 }: AccessMonthlyStatementsListProps) {
   const { t } = useTranslation();
@@ -58,10 +59,12 @@ export default function AccessMonthlyStatementsList({
           justify="space-between"
           align="center"
           style={[renderItemStyle, !index ? topBorderRadiusStyle : null, isLastItem ? bottomBorderRadiusStyle : null]}>
-          <Typography.Text>{getMonthNameFromDateString(item.StatementEndDate)}</Typography.Text>
+          <Typography.Text color={item.Status === StatementStatus.GENERATED ? "complimentBase" : "neutralBase+30"}>
+            {getMonthNameFromDateString(item.StatementEndDate)}
+          </Typography.Text>
           <Stack style={languageTextStyle} align="center" direction="horizontal">
             <Typography.Text size="caption1" color="neutralBase">
-              {item.StatementLanguage}
+              {t(`Statements.AccessStatements.${item.StatementLanguage}`)}
             </Typography.Text>
             <ChevronRightIcon color="#D9D9D9" />
           </Stack>
@@ -121,18 +124,20 @@ export default function AccessMonthlyStatementsList({
 
   return (
     <Stack style={mainContainerStyle} direction="vertical" align="stretch">
-      {activeFilter ? <FilterButton lable={activeFilter} onClearFilter={onClearFilter} /> : null}
+      {activeFilter ? (
+        <FilterButton label={t(`Statements.AccessStatements.${activeFilter}`)} onClearFilter={onClearFilter} />
+      ) : null}
       <Typography.Text style={statementTextStyle} color="neutralBase-10">
         {t("Statements.AccessStatements.monthlyStatementSubtitle")}
       </Typography.Text>
       <SectionList
-        ListEmptyComponent={<EmptyListView isFilterActive={!!activeFilter} />}
+        ListEmptyComponent={isLoading ? <FullScreenLoader /> : <EmptyListView isFilterActive={!!activeFilter} />}
         showsVerticalScrollIndicator={false}
         sections={groupMonthlyStatementsByYear(statements)}
         renderItem={renderItem}
-        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
+        refreshControl={<RefreshControl refreshing={isLoading} onRefresh={onRefresh} />}
         renderSectionHeader={renderSectionHeader}
-        keyExtractor={item => item.DocumentId}
+        keyExtractor={item => item.CBSReferenceNumber}
         ListFooterComponent={sectionListFooter}
       />
     </Stack>

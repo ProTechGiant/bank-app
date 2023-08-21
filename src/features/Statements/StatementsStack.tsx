@@ -1,9 +1,9 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { StatementContextProvider } from "./contexts/StatementContext";
 import { AccessStatementScreen, PreviewStatementScreen, RequestStatementScreen } from "./screens";
 
-export const Stack = createNativeStackNavigator();
+export const Stack = createNativeStackNavigator<StatementsStackParams>();
 
 export type StatementsStackParams = {
   "Statements.AccessStatementScreen": undefined;
@@ -11,6 +11,8 @@ export type StatementsStackParams = {
   "Statements.CustomDateStatementScreen": undefined;
   "Statements.PreviewStatementScreen": { documentId: string };
 };
+
+export type StatementsStackParamsNavigationProp = NativeStackNavigationProp<StatementsStackParams>;
 
 export default function StatementsStack() {
   return (

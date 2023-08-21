@@ -1,15 +1,16 @@
-import { format } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, Pressable, RefreshControl, useWindowDimensions, View, ViewStyle } from "react-native";
 
-import { ChevronRightIcon } from "@/assets/icons";
+import { InfoCircleIcon } from "@/assets/icons";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import { StatementLanguageTypes } from "../constants";
 import { StatementInterface } from "../types";
+import CustomStatementView from "./CustomStatementCardView";
 import EmptyListView from "./EmptyListView";
 import FilterButton from "./FilterButton";
 
@@ -19,8 +20,10 @@ interface AccessCustomDateStatementsListProps {
   onClearFilter: () => void;
   onEndReached: () => void;
   onRefresh: () => void;
-  isRefreshing: boolean;
+  isLoading: boolean;
   onPressCard: (documentId: string) => void;
+  onRetry: (documentId: string) => void;
+  onInfoIcon: () => void;
 }
 
 export default function AccessCustomDateStatementList({
@@ -29,94 +32,47 @@ export default function AccessCustomDateStatementList({
   activeFilter,
   onEndReached,
   onRefresh,
-  isRefreshing,
+  isLoading,
   onPressCard,
+  onInfoIcon,
+  onRetry,
 }: AccessCustomDateStatementsListProps) {
   const { t } = useTranslation();
   const { height: screenHeight } = useWindowDimensions();
-
-  const formatDateRange = (startDateString: string, endDateString: string) => {
-    const startDate = new Date(startDateString);
-    const endDate = new Date(endDateString);
-    const formattedStartDate = format(startDate, "dd MMM yyyy");
-    const formattedEndDate = format(endDate, "dd MMM yyyy");
-    return `${formattedStartDate} - ${formattedEndDate}`;
-  };
-
-  const dateBadge = (date: string) => {
-    return (
-      <Typography.Text size="footnote" weight="medium" style={dateBadgeStyle} color="neutralBase-60">
-        {format(new Date(date), "dd MMM yyyy")}
-      </Typography.Text>
-    );
-  };
-
-  const renderItem = ({ item }: { item: StatementInterface }) => {
-    return (
-      <Pressable onPress={() => onPressCard(item.DocumentId)}>
-        <Stack direction="horizontal" style={renderItemStyle} align="center" justify="space-between">
-          <Stack direction="vertical">
-            {dateBadge(item.StatementEndDate)}
-            <Typography.Text style={renderItemDateStyle} color="neutralBase+30" size="callout" weight="medium">
-              {formatDateRange(item.StatementStartDate, item.StatementEndDate)}
-            </Typography.Text>
-            <Typography.Text style={renderItemDateStyle} color="neutralBase-10" size="footnote">
-              {item.StatementLanguage}
-            </Typography.Text>
-          </Stack>
-          <ChevronRightIcon color="#B3B3B3" />
-        </Stack>
-      </Pressable>
-    );
-  };
-
   const sectionListFooter = () => <View style={{ marginBottom: screenHeight * 0.3 }} />;
-
-  const renderItemStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["20p"],
-    paddingHorizontal: theme.spacing["16p"],
-    marginBottom: theme.spacing["8p"],
-    borderWidth: 1,
-    borderRadius: theme.radii.small,
-    borderColor: theme.palette["neutralBase-30"],
-  }));
-
-  const dateBadgeStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.neutralBase,
-    paddingVertical: theme.spacing["4p"],
-    paddingHorizontal: theme.spacing["8p"],
-    marginBottom: theme.spacing["8p"],
-    alignItems: "center",
-  }));
 
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["20p"],
   }));
 
-  const renderItemDateStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["4p"],
-  }));
-
   const statementTextStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["16p"],
+    lineHeight: theme.spacing["4p"],
   }));
 
   return (
     <Stack style={mainContainerStyle} direction="vertical" align="stretch">
-      {activeFilter ? <FilterButton lable={activeFilter} onClearFilter={onClearFilter} /> : null}
-      <Typography.Text style={statementTextStyle} color="neutralBase-10">
-        {t("Statements.AccessStatements.customDateStatementSubtitle")}
-      </Typography.Text>
+      {activeFilter ? (
+        <FilterButton label={t(`Statements.AccessStatements.${activeFilter}`)} onClearFilter={onClearFilter} />
+      ) : null}
 
+      <Stack direction="horizontal">
+        <Typography.Text style={statementTextStyle} color="neutralBase-10">
+          {t("Statements.AccessStatements.customDateStatementSubtitle")}
+          <Pressable onPress={onInfoIcon}>
+            <InfoCircleIcon />
+          </Pressable>
+        </Typography.Text>
+      </Stack>
       <FlatList
-        ListEmptyComponent={<EmptyListView isFilterActive={!!activeFilter} />}
+        ListEmptyComponent={isLoading ? <FullScreenLoader /> : <EmptyListView isFilterActive={!!activeFilter} />}
         showsVerticalScrollIndicator={false}
         data={statements}
-        renderItem={renderItem}
-        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
-        onEndReachedThreshold={2}
+        renderItem={item => <CustomStatementView statement={item.item} onPressCard={onPressCard} onRetry={onRetry} />}
+        refreshControl={<RefreshControl refreshing={isLoading} onRefresh={onRefresh} />}
+        onEndReachedThreshold={0.1}
         onEndReached={onEndReached}
-        keyExtractor={item => item.DocumentId}
+        keyExtractor={item => item.CBSReferenceNumber}
         ListFooterComponent={sectionListFooter}
       />
     </Stack>
