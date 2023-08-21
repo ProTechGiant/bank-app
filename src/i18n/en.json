@@ -2439,7 +2439,9 @@
       "referenceNumberText": "Reference number",
       "dateTimeText": "Date & time",
       "atText": "at",
-      "paidAmountText": "Amount paid"
+      "paidAmountText": "Amount paid",
+      "viewSavedBillText": "View saved bills",
+      "doneText": "Done"
     },
     "BillPaymentHistoryScreen": {
       "paymentHistory": "Payment histroy",

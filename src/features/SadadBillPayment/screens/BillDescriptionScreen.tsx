@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageStyle, Pressable, StyleSheet, View, ViewStyle } from "react-native";
@@ -16,6 +15,7 @@ import Typography from "@/components/Typography";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import formatDateString from "@/utils/format-date-string";
 
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { useAddBill } from "../hooks/query-hooks";
@@ -155,7 +155,7 @@ export default function BillDescriptionScreen() {
                 </Typography.Text>
               </View>
               <View>
-                {billDetails.BillIssuer.LogoUrl !== undefined ? (
+                {billDetails.BillIssuer?.LogoUrl !== undefined ? (
                   <NetworkImage source={{ uri: billDetails.BillIssuer.LogoUrl }} style={imageStyle} />
                 ) : (
                   <PlaceholderImage style={imageStyle} />
@@ -192,7 +192,7 @@ export default function BillDescriptionScreen() {
                 {t("SadadBillPayments.BillDetailsScreen.billerNumber")}
               </Typography.Text>
               <Typography.Text weight="regular" size="body">
-                {billDetails.BillIssuer.Id}
+                {billDetails.BillIssuer?.Id}
               </Typography.Text>
             </View>
           </Stack>
@@ -227,15 +227,6 @@ export default function BillDescriptionScreen() {
     </Page>
   );
 }
-
-const formatDateString = (date: string) => {
-  //At present from backend there is different date formats coming up, they will changing this in to a unique format.
-  //Once that change is implemented we will be removing this.
-  let formatDate = date.replaceAll(",", "");
-  formatDate = date.replaceAll("/", ":");
-  formatDate = Date(formatDate);
-  return format(new Date(formatDate), "dd MMM YYY ");
-};
 
 const styles = StyleSheet.create({
   editIconView: {

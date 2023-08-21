@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -12,6 +11,7 @@ import Typography from "@/components/Typography";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import formatDateString from "@/utils/format-date-string";
 
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { usePayBill } from "../hooks/query-hooks";
@@ -188,15 +188,6 @@ export default function BillAmountDescriptionScreen() {
     </Page>
   );
 }
-
-const formatDateString = (date: string) => {
-  //At present from backend there is different date formats coming up, they will changing this in to a unique format.
-  //Once that change is implemented we will be removing this.
-  let formatDate = date.replaceAll(",", "");
-  formatDate = date.replaceAll("/", ":");
-  formatDate = Date(formatDate);
-  return format(new Date(formatDate), "dd MMM YYY ");
-};
 
 const styles = StyleSheet.create({
   editIconView: {

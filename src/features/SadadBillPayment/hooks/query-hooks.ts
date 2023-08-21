@@ -280,27 +280,34 @@ export function useBillDetailsByBillId(accountNumber: string, billerId: string) 
 }
 
 export function useBillDetailsByAccountNumber(accountNumber: string, billerId: string) {
-  return useQuery(queryKeys.billDetails(accountNumber, billerId), () => {
-    return api<BillDetailsResponse>(
-      "v1",
-      `payments/sadad/bill/details/`,
-      "GET",
-      {
-        billingAccount: accountNumber,
-        billerId: billerId,
-        includePaidBills: "N",
-        includeExactPayment: "Y",
-        includePayments: "Y",
-        includeBillSummaryAmount: "N",
-        includePaymentRanges: "Y",
-      },
-      undefined,
-      {
-        ["x-correlation-id"]: generateRandomId(),
-      }
-    );
-  });
+  return useQuery(
+    queryKeys.billDetails(accountNumber, billerId),
+    () => {
+      return api<BillDetailsResponse>(
+        "v1",
+        `payments/sadad/bill/details/`,
+        "GET",
+        {
+          billingAccount: accountNumber,
+          billerId: billerId,
+          includePaidBills: "N",
+          includeExactPayment: "Y",
+          includePayments: "Y",
+          includeBillSummaryAmount: "N",
+          includePaymentRanges: "Y",
+        },
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      );
+    },
+    {
+      enabled: false,
+    }
+  );
 }
+
 interface BillPaymentReceiptResponse {
   PmtReceipt: string;
 }

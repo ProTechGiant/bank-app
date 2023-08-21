@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
@@ -11,6 +10,8 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import formatDateString from "@/utils/format-date-string";
+import formatDateToTime from "@/utils/format-date-to-time";
 
 import { InfoContainer } from "../components";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
@@ -19,18 +20,45 @@ export default function BillSavedSuccessScreen() {
   const { i18n, t } = useTranslation();
   const navigation = useNavigation();
 
-  const { billDetails, navigationType } = useSadadBillPaymentContext();
+  const { billDetails, navigationType, setNavigationType } = useSadadBillPaymentContext();
 
-  const billDescriptionEn = billDetails.BillDescriptionList.find(bill => bill.LanguagePreference === "en-gb");
-  const billDescriptionAr = billDetails.BillDescriptionList.find(bill => bill.LanguagePreference === "en-gb");
+  const billDescriptionEn = billDetails?.BillDescriptionList?.find(bill => bill.LanguagePreference === "en-gb");
+  const billDescriptionAr = billDetails?.BillDescriptionList?.find(bill => bill.LanguagePreference === "en-gb");
 
   const handleOnClosePress = () => {
-    navigation.navigate("SadadBillPayments.BillPaymentHomeScreen");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "SadadBillPayments.BillPaymentHomeScreen" }],
+    });
+  };
+
+  const handleOnViewPress = () => {
+    navigation.reset({
+      index: 0,
+      routes: [
+        {
+          name: "SadadBillPayments.SaveBillsScreen",
+          params: {
+            navigationFlow: "savedBills",
+          },
+        },
+      ],
+    });
   };
 
   const handleOnPayNowPress = () => {
-    //TODO: navigate to pay now
-    navigation.navigate("SadadBillPayments.BillPaymentHomeScreen");
+    setNavigationType("payBill");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "SadadBillPayments.BillAmountDescriptionScreen" }],
+    });
+  };
+
+  const handleOnMakeAnotherPayment = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "SadadBillPayments.BillPaymentHomeScreen" }],
+    });
   };
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
@@ -146,7 +174,7 @@ export default function BillSavedSuccessScreen() {
               body={
                 formatDateString(billDetails.DueDate) +
                 ` ${t("SadadBillPayments.BillSavedSuccessScreen.atText")} ` +
-                formatDateStringToTime(billDetails.DueDate)
+                formatDateToTime(billDetails.DueDate)
               }
             />
           </Stack>
@@ -175,37 +203,32 @@ export default function BillSavedSuccessScreen() {
           </Stack>
         ) : null}
         <Stack align="stretch" direction="vertical" gap="8p" style={styles.buttonContainer}>
-          <Button color="dark" variant="primary" onPress={handleOnPayNowPress}>
-            {navigationType === "oneTimePayment" || navigationType === "payBill"
-              ? t("SadadBillPayments.BillSavedSuccessScreen.buttonPayTitle")
-              : t("SadadBillPayments.BillSavedSuccessScreen.buttonSavedTitle")}
-          </Button>
-          <Button color="dark" variant="tertiary" onPress={handleOnClosePress}>
-            {t("SadadBillPayments.BillSavedSuccessScreen.closeText")}
-          </Button>
+          {navigationType === "oneTimePayment" || navigationType === "payBill" ? (
+            <Button color="dark" variant="primary" onPress={handleOnMakeAnotherPayment}>
+              {navigationType === "oneTimePayment"
+                ? t("SadadBillPayments.BillSavedSuccessScreen.doneText")
+                : t("SadadBillPayments.BillSavedSuccessScreen.buttonPayTitle")}
+            </Button>
+          ) : (
+            <Button color="dark" variant="primary" onPress={handleOnPayNowPress}>
+              {t("SadadBillPayments.BillSavedSuccessScreen.buttonSavedTitle")}
+            </Button>
+          )}
+          {navigationType === "oneTimePayment" ? (
+            <Button color="dark" variant="tertiary" onPress={handleOnViewPress}>
+              {t("SadadBillPayments.BillSavedSuccessScreen.viewSavedBillText")}
+            </Button>
+          ) : (
+            <Button color="dark" variant="tertiary" onPress={handleOnClosePress}>
+              {t("SadadBillPayments.BillSavedSuccessScreen.closeText")}
+            </Button>
+          )}
         </Stack>
       </ContentContainer>
     </Page>
   );
 }
 
-const formatDateString = (date: string) => {
-  //At present from backend there is different date formats coming up, they will changing this in to a unique format.
-  //Once that change is implemented we will be removing this.
-  let formatDate = date.replaceAll(",", "");
-  formatDate = date.replaceAll("/", ":");
-  formatDate = Date(formatDate);
-  return format(new Date(formatDate), "dd MMM YYY");
-};
-
-const formatDateStringToTime = (date: string) => {
-  //At present from backend there is different date formats coming up, they will changing this in to a unique format.
-  //Once that change is implemented we will be removing this.
-  let formatDate = date.replaceAll(",", "");
-  formatDate = date.replaceAll("/", ":");
-  formatDate = Date(formatDate);
-  return format(new Date(formatDate), "hh:mm a");
-};
 const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 32,
