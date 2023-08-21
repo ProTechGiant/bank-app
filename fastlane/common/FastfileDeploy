@@ -12,6 +12,17 @@ platform :android do
     )
   end
 
+  lane :upload_browserstack do |options|
+    load_env(env: options[:env])
+
+    upload_to_browserstack_app_live(
+      browserstack_username: ENV["BROWSERSTACK_USERNAME"],
+      browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"],
+      file_path: "#{ENV["OUTPUT_DIRECTORY"]}/#{ENV["ANDROID_OUTPUT_NAME"]}",
+    )
+  end
+
+
   # lane :deploy_release do |options|
   #   load_env(env: options[:env])
 
