@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -77,6 +77,11 @@ export default function ConfirmationScreen() {
     marginBottom: theme.spacing["24p"],
   }));
 
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: "auto",
+    paddingTop: theme.spacing["32p"],
+  }));
+
   const createTitleMessage = () => {
     if (recipient.type === "new") {
       if (
@@ -131,7 +136,7 @@ export default function ConfirmationScreen() {
   return (
     <Page backgroundColor="primaryBase">
       <StatusBar barStyle="light-content" />
-      <ContentContainer isScrollView alwaysBounceVertical={false} style={styles.container}>
+      <ContentContainer isScrollView alwaysBounceVertical={false}>
         <View style={illustrationStyle}>
           {/* TODO: Add a conditional for another illustration when Payment send is displayed */}
           <TransferCompleteIllustration />
@@ -163,9 +168,8 @@ export default function ConfirmationScreen() {
             />
           )}
         </List>
-      </ContentContainer>
-      <ContentContainer style={styles.buttonContainer}>
-        <Stack align="stretch" direction="vertical" gap="8p">
+
+        <Stack align="stretch" direction="vertical" gap="8p" style={buttonContainerStyle}>
           <Button color="dark" variant="primary" onPress={handleOnDonePress}>
             {t("InternalTransfers.ConfirmationScreen.buttons.done")}
           </Button>
@@ -177,14 +181,3 @@ export default function ConfirmationScreen() {
     </Page>
   );
 }
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    bottom: 0,
-    position: "absolute",
-    width: "100%",
-  },
-  container: {
-    paddingBottom: 148, // height of button container
-  },
-});

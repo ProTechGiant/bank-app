@@ -23,7 +23,6 @@ export default function List({ isBordered = false, variant = "light", gap, child
   const elements = Children.toArray(children) as Array<React.ReactElement | null>;
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: variant === "dark" ? theme.palette["primaryBase-70-8%"] : "transparent",
     borderRadius: theme.radii.small,
   }));
 
@@ -33,7 +32,7 @@ export default function List({ isBordered = false, variant = "light", gap, child
   }));
 
   const borderStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderColor: variant === "dark" ? theme.palette.primaryBase : theme.palette["neutralBase-30"],
+    borderColor: variant === "dark" ? theme.palette["primaryBase-10"] : theme.palette["neutralBase-30"],
     borderWidth: 1,
   }));
 

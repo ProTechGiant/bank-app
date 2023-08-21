@@ -176,7 +176,7 @@ export default function ReviewTransferScreen() {
         </ContentContainer>
       </Page>
       <NotificationModal
-        variant="confirmations"
+        variant="warning"
         buttons={{
           primary: (
             <Button onPress={handleOnCancel}>{t("InternalTransfers.ReviewTransferScreen.notification.cancel")}</Button>

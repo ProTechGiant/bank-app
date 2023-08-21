@@ -1833,10 +1833,10 @@
       "cancel": "Cancel",
       "currency": "SAR",
       "notification": {
-        "title": "Cancel your transfer?",
-        "message": "Are you sure you want to cancel the transfer process? If yes, please click on \"Confirm Cancellation\" ",
-        "cancel": "Confirm cancellation",
-        "continue": "Close"
+        "title": "Are you sure?",
+        "message": "Do you want to cancel this transfer?",
+        "cancel": "Cancel transfer",
+        "continue": "Continue"
       }
     },
     "AddNoteScreen": {
