@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import Button from "@/components/Button";
@@ -11,10 +11,15 @@ import Modal from "@/components/Modal";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import { useGetTermsAndConditions, useRegisterCustomer } from "../hooks/query-hooks";
 import { ConfirmationInputs } from "../types";
 
 export default function Confirmation() {
   const { t } = useTranslation();
+
+  const { data } = useGetTermsAndConditions();
+
+  const registerCustomerMutation = useRegisterCustomer();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -40,9 +45,15 @@ export default function Confirmation() {
     marginBottom: theme.spacing["48p"],
   }));
 
-  const handleOnSubmitTermsAndConditions = (data: ConfirmationInputs) => {
-    // TODO: when the api is ready i will call the hook here
-    console.log(data);
+  const handleOnSubmitTermsAndConditions = async () => {
+    try {
+      const response = await registerCustomerMutation.mutateAsync();
+      // TODO when API is ready
+      console.log(response);
+    } catch (error) {
+      // TODO when API is ready
+      console.log(error);
+    }
   };
 
   return (
@@ -67,15 +78,16 @@ export default function Confirmation() {
         {t("ProxyAlias.AliasManagementScreen.Continue")}
       </Button>
       <Modal visible={isModalVisible} onClose={() => setIsModalVisible(false)} headerText="Terms & Conditions">
-        <Typography.Text size="callout" color="neutralBase+10" weight="regular">
-          {t("ProxyAlias.AccountModal.TermsAndConditionsFirstParagraph")}
-          {/* TODO this is a static i will remove it when i connct to API */}
-        </Typography.Text>
-        <Typography.Text>{"\n"}</Typography.Text>
-        <Typography.Text size="callout" color="neutralBase+10" weight="regular" style={modalCloseButtonStyle}>
-          {t("ProxyAlias.AccountModal.TermsAndConditionsSecondParagraph")}
-          {/* TODO this is a static i will remove it when i connct to API */}
-        </Typography.Text>
+        {data ? (
+          <Typography.Text size="callout" color="neutralBase+10" weight="regular" style={modalCloseButtonStyle}>
+            {data.TermsAndConditions}
+          </Typography.Text>
+        ) : (
+          <View style={styles.indicatorContainerStyle}>
+            <ActivityIndicator />
+          </View>
+        )}
+
         <Button onPress={() => setIsModalVisible(false)}> {t("ProxyAlias.AccountModal.Close")}</Button>
       </Modal>
     </View>
@@ -86,6 +98,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
+  },
+  indicatorContainerStyle: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   text: {
     flex: 1,
