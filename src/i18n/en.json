@@ -589,6 +589,8 @@
       "pleaseTryAgain": "Please try again later.",
       "statementMightTakeFewMinute": "Your statement might take a few minutes to generate",
       "or": "or",
+      "cannotRequestStatementLongerThan2Years": "You cannot request a statement period longer than two years.",
+      "selectStartDateFirst": "Please select a start date before selecting an end date.",
       "DateRanges": {
         "last3Months": "Last 3 months",
         "last6Months": "Last 6 months",

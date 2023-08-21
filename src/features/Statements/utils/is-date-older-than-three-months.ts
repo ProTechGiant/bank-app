@@ -1,6 +1,6 @@
 import { isBefore, subMonths } from "date-fns";
 
-export default function checkDateOlderThan3Months(date: string): boolean {
+export default function isDateOlderThanThreeMonths(date: string): boolean {
   const currentDate = new Date();
   const olderDate = new Date(date);
   const threeMonthsAgo = subMonths(currentDate, 3);

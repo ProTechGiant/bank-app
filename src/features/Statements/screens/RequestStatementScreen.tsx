@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, View, ViewStyle } from "react-native";
+import { Alert, ScrollView, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { InfoCircleIcon } from "@/assets/icons";
@@ -22,7 +22,7 @@ import {
 import { temporaryOnboardingDate } from "../constants";
 import { useCreateCustomDateStatement, useGetCustomerOnboardingDate } from "../hooks/query-hooks";
 import { SelectedLanguageType, TimeFrameInterface } from "../types";
-import { checkDateOlderThan3Months } from "../utils";
+import { isDateOlderThanThreeMonths, isDateValid } from "../utils";
 
 interface CustomDatePeriodType {
   startDate: string | null;
@@ -48,6 +48,11 @@ export default function RequestStatementScreen() {
     useCreateCustomDateStatement();
 
   const handleOnPressSetDate = (isStartDate: boolean) => {
+    if (!isStartDate && !customDatePeriod.startDate) {
+      // Here It's mean that user is selecting end Date before selecting the start date
+      Alert.alert(t("Statements.RequestStatementScreen.selectStartDateFirst"));
+      return;
+    }
     setIsCustomDateModalVisible(true);
     setIsSelectingStartDate(isStartDate);
   };
@@ -56,7 +61,10 @@ export default function RequestStatementScreen() {
     setSelectedTimeFrame(null);
     setIsCustomDateModalVisible(false);
     if (isItStartDate) {
-      setCustomDatePeriod({ ...customDatePeriod, startDate: date });
+      setCustomDatePeriod({
+        startDate: date,
+        endDate: isDateValid(date, customDatePeriod.endDate) ? customDatePeriod.endDate : null, // here in case of false it's mean that the difference between start date and end date is longer than the 2 years.
+      });
     } else {
       setCustomDatePeriod({ ...customDatePeriod, endDate: date });
     }
@@ -72,7 +80,7 @@ export default function RequestStatementScreen() {
     try {
       const response = await createCustomDateStatementAsync({
         OnboardingDate: customerOnboardingDate?.OnboardingDate || "2022-09-09", // TODO: Later will remove hardcoded and will check above
-        PredefinedTimeFrame: (selectedTimeFrame ? selectedTimeFrame : customDatePeriod.startDate) || "2022-09-09", // TODO: Later will remove hardcoded and will check above
+        PredefinedTimeFrame: (selectedTimeFrame ? selectedTimeFrame.label : customDatePeriod.startDate) || "2022-09-09", // TODO: Later will remove hardcoded and will check above
         StatementLanguage: selectedLanguage,
       });
 
@@ -128,7 +136,7 @@ export default function RequestStatementScreen() {
 
             {/* TODO: Later will remove temporaryOnboardingDate */}
             {(customerOnboardingDate?.OnboardingDate || temporaryOnboardingDate) &&
-            checkDateOlderThan3Months(customerOnboardingDate?.OnboardingDate || temporaryOnboardingDate) ? (
+            isDateOlderThanThreeMonths(customerOnboardingDate?.OnboardingDate || temporaryOnboardingDate) ? (
               <SelectTimeFrameSection
                 onSelectTimeFrame={handleOnSelectTimeFrame}
                 selectedTimeFrame={selectedTimeFrame}
@@ -185,6 +193,8 @@ export default function RequestStatementScreen() {
 
         <SelectCustomDateModal
           isSelectingStartDate={isSelectingStartDate}
+          startDate={customDatePeriod?.startDate}
+          endDate={customDatePeriod?.endDate}
           onClose={() => setIsCustomDateModalVisible(false)}
           selectedDate={isSelectingStartDate ? customDatePeriod?.startDate || "" : customDatePeriod?.endDate || ""}
           visible={isCustomDateModalVisible}

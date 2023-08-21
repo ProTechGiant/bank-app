@@ -1,4 +1,4 @@
-import { format, parseISO } from "date-fns";
+import { format, parseISO, subDays } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, View, ViewStyle } from "react-native";
@@ -10,10 +10,13 @@ import Modal from "@/components/Modal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-import { palette, radii } from "@/theme/values";
+
+import { isDateOlderThanFiveYears, isDateValid } from "../utils";
 
 interface SelectCustomDateModalType {
   isSelectingStartDate: boolean;
+  startDate: string | null;
+  endDate: string | null;
   selectedDate: string;
   visible: boolean;
   onClose: () => void;
@@ -22,6 +25,8 @@ interface SelectCustomDateModalType {
 
 export default function SelectCustomDateModal({
   isSelectingStartDate,
+  startDate,
+  endDate,
   selectedDate,
   visible,
   onClose,
@@ -31,12 +36,18 @@ export default function SelectCustomDateModal({
 
   const [date, setDate] = useState<string>(selectedDate);
 
+  const customCalendarMarkedDateStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderRadius: theme.radii.small,
+    backgroundColor: theme.palette.primaryBase,
+  }));
+
   const handleDayPress = (day: { dateString: string }) => {
+    if (format(new Date(), "yyyy-MM-dd") === day.dateString) return; // We don't want to select the todays Date
     setDate(day.dateString);
   };
 
   useEffect(() => {
-    setDate(selectedDate);
+    setDate(selectedDate ? selectedDate : format(subDays(new Date(), 1), "yyyy-MM-dd")); // setting the yesterday's date by default
   }, [selectedDate, visible]);
 
   return (
@@ -52,20 +63,35 @@ export default function SelectCustomDateModal({
         <Stack direction="vertical" align="stretch">
           <Header date={date} />
           <CustomCalendar
+            current={date}
             onDayPress={handleDayPress}
             markedDates={{
               [date]: {
                 selected: true,
-                customContainerStyle: {
-                  borderRadius: radii.small,
-                  backgroundColor: palette.primaryBase,
-                },
+                customContainerStyle: customCalendarMarkedDateStyle,
               },
             }}
             markingType="period"
           />
         </Stack>
-        <Button onPress={() => onPickDate(isSelectingStartDate, date)} disabled={!date}>
+        {!isDateOlderThanFiveYears(date) ? (
+          <Typography.Text size="footnote" weight="regular" color="errorBase" align="center">
+            {t("Statements.RequestStatementScreen.cannotRequestAStatementLongerThan5Year")}
+          </Typography.Text>
+        ) : null}
+        {!isSelectingStartDate &&
+        !isDateValid(isSelectingStartDate ? date : startDate, isSelectingStartDate ? endDate : date) ? (
+          <Typography.Text size="footnote" weight="regular" color="errorBase" align="center">
+            {t("Statements.RequestStatementScreen.cannotRequestStatementLongerThan2Years")}
+          </Typography.Text>
+        ) : null}
+        <Button
+          onPress={() => onPickDate(isSelectingStartDate, date)}
+          disabled={
+            !isDateOlderThanFiveYears(date) ||
+            (!isSelectingStartDate &&
+              !isDateValid(isSelectingStartDate ? date : startDate, isSelectingStartDate ? endDate : date))
+          }>
           {t("Statements.RequestStatementScreen.pickDate")}
         </Button>
       </Stack>

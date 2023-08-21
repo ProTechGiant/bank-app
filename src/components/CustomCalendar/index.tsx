@@ -1,5 +1,5 @@
-import { format } from "date-fns";
-import { useState } from "react";
+import { format, parseISO } from "date-fns";
+import { useEffect, useState } from "react";
 import { I18nManager, StyleSheet, View, ViewStyle } from "react-native";
 import { Calendar, CalendarProps, DateData } from "react-native-calendars";
 
@@ -16,7 +16,7 @@ interface RenderHeaderProps {
   hideArrows: boolean | undefined;
 }
 
-export default function CustomCalendar({ markingType, onDayPress, markedDates, hideArrows }: CalendarProps) {
+export default function CustomCalendar({ markingType, onDayPress, markedDates, hideArrows, current }: CalendarProps) {
   const calendarContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
     borderColor: theme.palette["neutralBase-30"],
@@ -30,8 +30,15 @@ export default function CustomCalendar({ markingType, onDayPress, markedDates, h
     setCurrentMonth(new Date(month.year, month.month - 1)); // subtract 1 because JavaScript months start from 0
   };
 
+  // Doing this in order to show the selected month
+  useEffect(() => {
+    if (!current) return;
+    setCurrentMonth(parseISO(current));
+  }, [current]);
+
   return (
     <Calendar
+      key={format(currentMonth, "yyyy-MM-dd")} // Reference https://stackoverflow.com/a/70545043/13666027
       style={calendarContainerStyle}
       current={format(currentMonth, "yyyy-MM-dd")}
       onMonthChange={handleOnMonthChange}
