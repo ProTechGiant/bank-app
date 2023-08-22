@@ -11,9 +11,10 @@ export interface CheckboxInputProps {
   isEditable?: boolean;
   label?: string;
   value?: boolean;
+  testID?: string;
 }
 
-export function CheckboxInput({ onBlur, onChange, isEditable = true, label, value }: CheckboxInputProps) {
+export function CheckboxInput({ onBlur, onChange, isEditable = true, label, value, testID }: CheckboxInputProps) {
   const handleOnChange = () => {
     onChange?.(!value);
     onBlur?.();
@@ -34,7 +35,7 @@ export function CheckboxInput({ onBlur, onChange, isEditable = true, label, valu
   );
 
   return (
-    <Pressable onPress={handleOnChange}>
+    <Pressable onPress={handleOnChange} testID={testID}>
       <Stack direction="horizontal" gap="8p">
         <View style={checkBoxStyles}>{value ? <CheckboxCheckmark /> : null}</View>
         <Typography.Text

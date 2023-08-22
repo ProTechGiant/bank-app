@@ -22,6 +22,7 @@ export interface DropdownInputProps<T extends string | number> extends Omit<Base
   label: string;
   placeholder?: string;
   variant?: "simple" | "small";
+  testID?: string;
 }
 
 export function DropdownInput<T extends string | number>({
@@ -37,6 +38,7 @@ export function DropdownInput<T extends string | number>({
   placeholder,
   value,
   variant,
+  testID,
   ...restProps
 }: DropdownInputProps<T>) {
   const pickerRef = useRef<Picker<T>>(null);
@@ -74,7 +76,12 @@ export function DropdownInput<T extends string | number>({
     <>
       {Platform.OS === "ios" || isFixedHeight ? (
         <>
-          <Stack as={Pressable} onPress={() => handleOnOpen()} gap="8p" direction="vertical">
+          <Stack
+            as={Pressable}
+            onPress={() => handleOnOpen()}
+            gap="8p"
+            direction="vertical"
+            testID={testID !== undefined ? `${testID}:InputBox` : undefined}>
             {variant === "small" ? (
               <Typography.Text color="neutralBase+30" size="callout" weight="medium">
                 {label}
@@ -102,12 +109,18 @@ export function DropdownInput<T extends string | number>({
             isFixedHeight={isFixedHeight}
             isVisible={isVisible}
             value={value}
+            testID={testID !== undefined ? `${testID}:DropdownInput` : undefined}
           />
         </>
       ) : (
         <>
           <View>
-            <Picker ref={pickerRef} onValueChange={handleOnChange} style={styles.pickerAndroid} selectedValue={value}>
+            <Picker
+              ref={pickerRef}
+              onValueChange={handleOnChange}
+              style={styles.pickerAndroid}
+              selectedValue={value}
+              testID={testID !== undefined ? `${testID}:DropdownInput` : undefined}>
               <Picker.Item enabled={false} label={placeholder} style={pickerAndroidPromptStyle} />
               {options.map(option => (
                 <Picker.Item
@@ -126,7 +139,8 @@ export function DropdownInput<T extends string | number>({
               onPress={() => {
                 setIsVisible(true);
                 pickerRef.current?.focus();
-              }}>
+              }}
+              testID={testID !== undefined ? `${testID}:InputBox` : undefined}>
               {variant === "small" ? (
                 <Typography.Text color="neutralBase+30" size="callout" weight="medium">
                   {label}

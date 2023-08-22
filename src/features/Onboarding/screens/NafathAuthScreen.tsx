@@ -9,6 +9,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
+import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -19,7 +20,7 @@ import { useRequestNumber } from "../hooks/query-hooks";
 export default function NafathAuthScreen() {
   const { t } = useTranslation();
   const { mutateAsync } = useRequestNumber();
-  const navigation = useNavigation();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [requestedOtpNumber, setRequestedOtpNumber] = useState<number | undefined>();
@@ -38,36 +39,40 @@ export default function NafathAuthScreen() {
     }
   };
 
-  const handleOpenNafathApp = (Url: string) => {
-    Linking.canOpenURL(Url)
-      .then(supported => {
-        if (supported) {
-          Linking.openURL(Url).then(() => handleNavigate());
-        } else {
-          Alert.alert(
-            t("Onboarding.NafathAuthScreen.alertModelTitle"),
-            t("Onboarding.NafathAuthScreen.alertModelMessage"),
-            [
-              {
-                text: t("Onboarding.NafathAuthScreen.alertModelCancelButton"),
-                onPress: () => warn("Cancel Pressed", ""),
-                style: "cancel",
+  const handleOpenNafathApp = async (url: string) => {
+    try {
+      if ((await Linking.canOpenURL(url)) === false) {
+        Alert.alert(
+          t("Onboarding.NafathAuthScreen.alertModelTitle"),
+          t("Onboarding.NafathAuthScreen.alertModelMessage"),
+          [
+            {
+              text: t("Onboarding.NafathAuthScreen.alertModelCancelButton"),
+              style: "cancel",
+            },
+            {
+              text:
+                Platform.OS === "android"
+                  ? t("Onboarding.NafathAuthScreen.alertModelPlayStoreButton")
+                  : t("Onboarding.NafathAuthScreen.alertModelAppStoreButton"),
+              onPress: async () => {
+                const storeURL = Platform.OS === "android" ? NAFATH_ANDROID_URL : NAFATH_APPLE_URL;
+
+                /* await */ Linking.openURL(storeURL);
+                handleNavigate();
               },
-              {
-                text:
-                  Platform.OS === "android"
-                    ? t("Onboarding.NafathAuthScreen.alertModelPlayStoreButton")
-                    : t("Onboarding.NafathAuthScreen.alertModelAppStoreButton"),
-                onPress: () => {
-                  const storeURL = Platform.OS === "android" ? NAFATH_ANDROID_URL : NAFATH_APPLE_URL;
-                  Linking.openURL(storeURL).then(() => handleNavigate());
-                },
-              },
-            ]
-          );
-        }
-      })
-      .catch(error => warn("ERROR", JSON.stringify(error)));
+            },
+          ]
+        );
+
+        return;
+      }
+
+      await Linking.openURL(url);
+      handleNavigate();
+    } catch (error) {
+      warn("nafath", "Could not open Nafath app: ", JSON.stringify(error));
+    }
   };
 
   const handleOnOpenNafathApp = () => {
@@ -111,7 +116,11 @@ export default function NafathAuthScreen() {
   }));
   return (
     <Page>
-      <NavHeader withBackButton={true} title={t("Onboarding.NafathAuthScreen.navHeaderTitle")} />
+      <NavHeader
+        withBackButton={true}
+        title={t("Onboarding.NafathAuthScreen.navHeaderTitle")}
+        testID="Onboarding.NafathAuthScreen:NavHeader"
+      />
       <View style={container}>
         {isIndicator ? (
           <FullScreenLoader />
@@ -150,7 +159,7 @@ export default function NafathAuthScreen() {
               </Typography.Text>
             </View>
             <Stack align="stretch" direction="vertical" gap="20p">
-              <LinkCard onNavigate={handleOnToggleModal}>
+              <LinkCard onNavigate={handleOnToggleModal} testID="Onboarding.NafathAuthScreen:SelectNafathAppButton">
                 <Typography.Text size="callout" weight="medium" color="neutralBase+30">
                   {t("Onboarding.NafathAuthScreen.appButtonTitle")}
                   <Typography.Text weight="regular" size="footnote">

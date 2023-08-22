@@ -3,7 +3,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, SafeAreaView, ScrollView, View, ViewStyle } from "react-native";
+import { Alert, StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import ApiError from "@/api/ApiError";
@@ -66,6 +66,7 @@ export default function FatcaDetailsScreen() {
         setOptions
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route.params]);
 
   const { control, handleSubmit, setValue, watch, formState } = useForm<FatcaFormInput>({
@@ -136,64 +137,64 @@ export default function FatcaDetailsScreen() {
       <NavHeader
         onBackPress={handleOnBackPress}
         title={t("Onboarding.FatcaDetailsScreen.navHeaderTitle")}
-        withBackButton={true}>
+        withBackButton={true}
+        testID="Onboarding.FatcaDetailsScreen:NavHeader">
         <ProgressIndicator currentStep={4} totalStep={6} />
       </NavHeader>
       {isLoading ? (
         <FullScreenLoader />
       ) : (
         <>
-          <ScrollView>
-            <ContentContainer>
-              <Stack direction="vertical" gap="16p" align="stretch">
-                <Typography.Header size="medium" weight="bold">
-                  {t("Onboarding.FatcaDetailsScreen.title")}
-                </Typography.Header>
-                <Typography.Text size="callout" weight="medium" color="primaryBase">
-                  {t("Onboarding.FatcaDetailsScreen.subHeader")}
-                </Typography.Text>
-                <Stack direction="horizontal" gap="32p" justify="space-evenly">
-                  <View style={{ flex: 1 }}>
-                    <Button
-                      variant={hasForeignTaxResidency === true ? "primary" : "secondary"}
-                      onPress={() => handleOnChangeHasForeignTaxResidency(true)}>
-                      {t("Onboarding.FatcaDetailsScreen.yes")}
-                    </Button>
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Button
-                      variant={hasForeignTaxResidency === false ? "primary" : "secondary"}
-                      onPress={() => handleOnChangeHasForeignTaxResidency(false)}>
-                      {t("Onboarding.FatcaDetailsScreen.no")}
-                    </Button>
-                  </View>
-                </Stack>
-                <Accordion title={t("Onboarding.FatcaDetailsScreen.moreInfoDropdownTitle")}>
-                  <Typography.Text color="neutralBase+10" size="footnote">
-                    {t("Onboarding.FatcaDetailsScreen.moreInfoDropdownBody")}
-                  </Typography.Text>
-                </Accordion>
-                {foreignTaxCountries.map((country, index) => (
-                  <SelectedForeignTaxCountryCard
-                    key={index}
-                    index={index}
-                    CountryName={country.CountryName}
-                    TaxReferenceNumber={country.TaxReferenceNumber}
-                    onPress={handleOnEditPress}
-                  />
-                ))}
-                {hasForeignTaxResidency && foreignTaxCountries.length < 3 && !formState.isSubmitting ? (
-                  <AddCountryTile onPress={handleOnAddPress} />
-                ) : null}
+          <ContentContainer isScrollView>
+            <Stack direction="vertical" gap="16p" align="stretch">
+              <Typography.Header size="medium" weight="bold">
+                {t("Onboarding.FatcaDetailsScreen.title")}
+              </Typography.Header>
+              <Typography.Text size="callout" weight="medium" color="primaryBase">
+                {t("Onboarding.FatcaDetailsScreen.subHeader")}
+              </Typography.Text>
+              <Stack direction="horizontal" gap="32p" justify="space-evenly">
+                <View style={styles.flex}>
+                  <Button
+                    variant={hasForeignTaxResidency === true ? "primary" : "secondary"}
+                    onPress={() => handleOnChangeHasForeignTaxResidency(true)}>
+                    {t("Onboarding.FatcaDetailsScreen.yes")}
+                  </Button>
+                </View>
+                <View style={styles.flex}>
+                  <Button
+                    variant={hasForeignTaxResidency === false ? "primary" : "secondary"}
+                    onPress={() => handleOnChangeHasForeignTaxResidency(false)}>
+                    {t("Onboarding.FatcaDetailsScreen.no")}
+                  </Button>
+                </View>
               </Stack>
-            </ContentContainer>
-          </ScrollView>
+              <Accordion title={t("Onboarding.FatcaDetailsScreen.moreInfoDropdownTitle")}>
+                <Typography.Text color="neutralBase+10" size="footnote">
+                  {t("Onboarding.FatcaDetailsScreen.moreInfoDropdownBody")}
+                </Typography.Text>
+              </Accordion>
+              {foreignTaxCountries.map((country, index) => (
+                <SelectedForeignTaxCountryCard
+                  key={index}
+                  index={index}
+                  CountryName={country.CountryName}
+                  TaxReferenceNumber={country.TaxReferenceNumber}
+                  onPress={handleOnEditPress}
+                />
+              ))}
+              {hasForeignTaxResidency && foreignTaxCountries.length < 3 && !formState.isSubmitting ? (
+                <AddCountryTile onPress={handleOnAddPress} />
+              ) : null}
+            </Stack>
+          </ContentContainer>
           <View style={footerStyle}>
-            <SafeAreaView>
-              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-                {t("Onboarding.FatcaDetailsScreen.continue")}
-              </SubmitButton>
-            </SafeAreaView>
+            <SubmitButton
+              control={control}
+              onSubmit={handleSubmit(handleOnSubmit)}
+              testID="Onboarding.FatcaDetailsScreen:ContinueButton">
+              {t("Onboarding.FatcaDetailsScreen.continue")}
+            </SubmitButton>
           </View>
         </>
       )}
@@ -216,4 +217,10 @@ const foreignTaxResidencySchema = yup.object().shape({
       ),
     otherwise: yup.array().max(0),
   }),
+});
+
+const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
 });

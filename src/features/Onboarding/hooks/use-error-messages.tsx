@@ -6,10 +6,10 @@ import Typography from "@/components/Typography";
 
 import { ErrorMessageType } from "../types";
 
-export function useErrorMessages(err: ApiError<ResponseError>) {
+export function useErrorMessages(error: ApiError<ResponseError> | undefined) {
   const { t } = useTranslation();
 
-  const getErrorMessages = (type: string) => {
+  const getMessageFromType = (type: string) => {
     const messages: { [key: string]: ErrorMessageType } = {
       "0061": {
         message: <></>,
@@ -53,13 +53,9 @@ export function useErrorMessages(err: ApiError<ResponseError>) {
         variant: "error",
       },
     };
+
     return messages[type] || messages.default;
   };
 
-  const errorMessages =
-    err && err.errorContent && err.errorContent.Errors
-      ? err.errorContent.Errors.map(({ ErrorId }: { ErrorId: string }) => getErrorMessages(ErrorId))
-      : [];
-
-  return { errorMessages };
+  return { errorMessages: error?.errorContent?.Errors.map(value => getMessageFromType(value.ErrorId)) ?? [] };
 }

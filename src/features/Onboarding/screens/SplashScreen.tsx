@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
-import { StatusBar, StyleSheet, TextStyle, useWindowDimensions, View, ViewStyle } from "react-native";
+import { StatusBar, StyleSheet, TextStyle, useWindowDimensions, View } from "react-native";
 
 import { NeraNamedLogo } from "@/assets/icons";
 import Button from "@/components/Button";
+import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -38,12 +39,6 @@ export default function SplashScreen() {
     navigation.navigate("Onboarding.Iqama");
   };
 
-  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["20p"],
-    flex: 1,
-    justifyContent: "space-between",
-  }));
-
   const headerStyle = useThemeStyles<TextStyle>(theme => ({
     alignItems: "center",
     paddingBottom: theme.spacing["24p"],
@@ -51,8 +46,8 @@ export default function SplashScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <View style={contentStyle}>
+      <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
+      <ContentContainer>
         <View>
           <Stack justify="flex-end" direction="horizontal">
             <LanguageToggle />
@@ -68,17 +63,17 @@ export default function SplashScreen() {
           </View>
         </View>
         <Stack align="stretch" direction="vertical" gap="8p">
-          <Button variant="primary" onPress={handleOnSignIn}>
+          <Button variant="primary" onPress={handleOnSignIn} testID="Onboarding.SplashScreen:SignInButton">
             {t("Onboarding.SplashScreen.buttons.signIn")}
           </Button>
-          <Button onPress={handleOnSignUp} variant="tertiary">
+          <Button onPress={handleOnSignUp} variant="tertiary" testID="Onboarding.SplashScreen:SignUpButton">
             {t("Onboarding.SplashScreen.buttons.notWithUs")}{" "}
             <Typography.Text style={styles.signIn} weight="medium" color="primaryBase-30">
               {t("Onboarding.SplashScreen.buttons.signUp")}
             </Typography.Text>
           </Button>
         </Stack>
-      </View>
+      </ContentContainer>
     </Page>
   );
 }

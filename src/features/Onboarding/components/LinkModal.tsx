@@ -46,7 +46,9 @@ const LinkModal = ({ modalVisible, toggleModal, onNavigate, children, linkText, 
           ) : null}
           {children}
           <View style={buttonContainerStyle}>
-            <Button onPress={handlePress}>{linkText}</Button>
+            <Button onPress={handlePress} testID="Onboarding.NafathAuthScreen:OpenNafathAppButton">
+              {linkText}
+            </Button>
           </View>
         </View>
       </View>

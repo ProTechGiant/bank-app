@@ -27,6 +27,7 @@ interface HeroSliderProps {
   end?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
   hasBackButton?: boolean;
   children?: React.ReactNode;
+  testID?: string;
 }
 
 export default function HeroSlider({
@@ -40,6 +41,7 @@ export default function HeroSlider({
   end,
   hasBackButton = true,
   children,
+  testID,
 }: HeroSliderProps) {
   const [step, setStep] = useState(0);
   const pagerViewRef = useRef<PagerView>(null);
@@ -110,7 +112,7 @@ export default function HeroSlider({
         {children !== undefined ? (
           children
         ) : (
-          <Button loading={loading} variant="primary" onPress={handleOnButtonPress}>
+          <Button loading={loading} variant="primary" onPress={handleOnButtonPress} testID={testID}>
             {nextStep !== data.length ? buttonText : lastButtonText}
           </Button>
         )}

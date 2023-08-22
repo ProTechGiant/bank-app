@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
 import Alert from "@/components/Alert";
@@ -67,7 +67,7 @@ export default function MobileAndNationalIdForm({
 
   return (
     <>
-      <ContentContainer isScrollView style={{ flex: 1 }}>
+      <ContentContainer isScrollView style={styles.container}>
         <View style={headerViewStyle}>
           <Typography.Text size="large" weight="bold" style={headerTitleStyle}>
             {t("Onboarding.IqamaInputScreen.title")}
@@ -76,54 +76,58 @@ export default function MobileAndNationalIdForm({
             {t("Onboarding.IqamaInputScreen.subTitle")}
           </Typography.Text>
         </View>
-        <View>
-          <View style={inputFieldsStyle}>
-            <Stack direction="vertical" align="stretch" gap="20p">
-              {errorMessages.map((err, index: number) =>
-                typeof err.message === "string" ? (
-                  <Alert key={`err_${index}`} variant={err.variant} message={err.message} />
-                ) : (
-                  <InfoBox key={`err_${index}`} variant="compliment" borderPosition="start">
-                    {err.link ? (
-                      <Pressable onPress={onSignInPress}>
-                        <Typography.Text size="footnote" weight="regular">
-                          {err.message}
-                        </Typography.Text>
-                      </Pressable>
-                    ) : (
+        <View style={inputFieldsStyle}>
+          <Stack direction="vertical" align="stretch" gap="20p">
+            {errorMessages.map((err, index: number) =>
+              typeof err.message === "string" ? (
+                <Alert key={`err_${index}`} variant={err.variant} message={err.message} />
+              ) : (
+                <InfoBox key={`err_${index}`} variant="compliment" borderPosition="start">
+                  {err.link ? (
+                    <Pressable onPress={onSignInPress}>
                       <Typography.Text size="footnote" weight="regular">
                         {err.message}
                       </Typography.Text>
-                    )}
-                  </InfoBox>
-                )
-              )}
-              <PhoneNumberInput
-                control={control}
-                name="MobileNumber"
-                label={t("Onboarding.IqamaInputScreen.mobileLabel")}
-              />
-              <TextInput
-                control={control}
-                name="NationalId"
-                label={t("Onboarding.IqamaInputScreen.iqamaLabel")}
-                keyboardType="number-pad"
-                showCharacterCount
-                maxLength={10}
-              />
-              <InfoBox variant="primary" borderPosition="start">
-                {t("Onboarding.IqamaInputScreen.notificationText.one")}
-                <Typography.Text color="neutralBase+30" size="caption1" weight="bold">
-                  {t("Onboarding.IqamaInputScreen.notificationText.two")}
-                </Typography.Text>
-                {t("Onboarding.IqamaInputScreen.notificationText.three")}
-              </InfoBox>
-            </Stack>
-          </View>
+                    </Pressable>
+                  ) : (
+                    <Typography.Text size="footnote" weight="regular">
+                      {err.message}
+                    </Typography.Text>
+                  )}
+                </InfoBox>
+              )
+            )}
+            <PhoneNumberInput
+              control={control}
+              name="MobileNumber"
+              label={t("Onboarding.IqamaInputScreen.mobileLabel")}
+              testID="Onboarding.IqamaInputScreen:PhoneNumberInput"
+            />
+            <TextInput
+              control={control}
+              name="NationalId"
+              label={t("Onboarding.IqamaInputScreen.iqamaLabel")}
+              keyboardType="number-pad"
+              showCharacterCount
+              maxLength={10}
+              testID="Onboarding.IqamaInputScreen:NationalIdInput"
+            />
+            <InfoBox variant="primary" borderPosition="start">
+              {t("Onboarding.IqamaInputScreen.notificationText.one")}
+              <Typography.Text color="neutralBase+30" size="caption1" weight="bold">
+                {t("Onboarding.IqamaInputScreen.notificationText.two")}
+              </Typography.Text>
+              {t("Onboarding.IqamaInputScreen.notificationText.three")}
+            </InfoBox>
+          </Stack>
         </View>
       </ContentContainer>
       <View style={submitButtonView}>
-        <SubmitButton block control={control} onSubmit={handleSubmit(onSubmit)}>
+        <SubmitButton
+          block
+          control={control}
+          onSubmit={handleSubmit(onSubmit)}
+          testID="Onboarding.IqamaInputScreen:ContinueButton">
           {t("Onboarding.IqamaInputScreen.continue")}
         </SubmitButton>
         <View style={accountSignInStyle}>
@@ -140,3 +144,9 @@ export default function MobileAndNationalIdForm({
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

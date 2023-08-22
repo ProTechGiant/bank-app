@@ -9,6 +9,7 @@ import Page from "@/components/Page";
 import PincodeInput from "@/components/PincodeInput";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
+import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { isSequential, maxRepeatThresholdMet } from "@/utils/is-valid-pin";
@@ -18,16 +19,15 @@ import { PASSCODE_LENGTH } from "../constants";
 
 export default function CreatePasscodeScreen() {
   const { t } = useTranslation();
-  const navigation = useNavigation();
-  const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
 
+  const [isErrorVisible, setIsErrorVisible] = useState(false);
   const [currentValue, setCurrentValue] = useState("");
 
   const handleOnChangeText = (input: string) => {
     setCurrentValue(input);
-    if (!input) {
-      return;
-    }
+    if (!input) return;
+
     const convertedInput = westernArabicNumerals(input);
 
     if (maxRepeatThresholdMet(convertedInput) || (input.length === PASSCODE_LENGTH && isSequential(convertedInput))) {
@@ -49,8 +49,8 @@ export default function CreatePasscodeScreen() {
   }));
 
   return (
-    <Page insets={["top"]} backgroundColor="neutralBase-60">
-      <NavHeader withBackButton={false}>
+    <Page backgroundColor="neutralBase-60">
+      <NavHeader withBackButton={false} testID="Onboarding.CreatePasscodeScreen:NavHeader">
         <ProgressIndicator currentStep={5} totalStep={6} />
       </NavHeader>
       <ContentContainer>
@@ -61,7 +61,13 @@ export default function CreatePasscodeScreen() {
           {t("Onboarding.CreatePasscode.subTitle")}
         </Typography.Text>
         <View style={inputContainerStyle}>
-          <PincodeInput autoFocus onChangeText={handleOnChangeText} length={PASSCODE_LENGTH} value={currentValue} />
+          <PincodeInput
+            autoFocus
+            onChangeText={handleOnChangeText}
+            length={PASSCODE_LENGTH}
+            value={currentValue}
+            testID="Onboarding.CreatePasscodeScreen:PasscodeInput"
+          />
           {isErrorVisible ? <Alert variant="error" message={t("Onboarding.CreatePasscode.needHelpInfo")} /> : null}
         </View>
       </ContentContainer>

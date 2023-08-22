@@ -19,6 +19,7 @@ export default function SmallTextInput({
   maxLength,
   numberOfLines = 1,
   showCharacterCount = false,
+  testID,
   value,
   ...restProps
 }: TextInputProps) {
@@ -62,6 +63,7 @@ export default function SmallTextInput({
           numberOfLines={numberOfLines}
           placeholderTextColor={useThemeStyles(theme => theme.palette["neutralBase-10"])}
           style={textInputStyle}
+          testID={testID}
           textAlign={I18nManager.isRTL ? "right" : "left"}
           value={value}
         />
@@ -70,6 +72,7 @@ export default function SmallTextInput({
         errorText={errorText}
         extraStart={extraStart}
         extraEnd={showCharacterCount && undefined !== maxLength ? `${value?.length ?? 0} / ${maxLength}` : undefined}
+        testID={testID}
       />
     </Stack>
   );

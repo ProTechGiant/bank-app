@@ -18,6 +18,7 @@ export interface DropdownIOSProps<T extends string | number> {
   isFixedHeight?: boolean;
   isVisible: boolean;
   value: T | undefined;
+  testID?: string;
 }
 
 export default function DropdownIOS<T extends string | number>({
@@ -30,6 +31,7 @@ export default function DropdownIOS<T extends string | number>({
   onClose,
   isVisible,
   value,
+  testID,
 }: DropdownIOSProps<T>) {
   const [selectedValue, setSelectedValue] = useState<T | undefined>();
 
@@ -69,7 +71,7 @@ export default function DropdownIOS<T extends string | number>({
       {isFixedHeight ? (
         <DropdownInputList options={options} onChange={handleOnChange} value={selectedValue} />
       ) : (
-        <Picker onValueChange={handleOnChange} itemStyle={styles.item} selectedValue={selectedValue}>
+        <Picker onValueChange={handleOnChange} itemStyle={styles.item} selectedValue={selectedValue} testID={testID}>
           {options.map(option => (
             <Picker.Item
               key={option.value}

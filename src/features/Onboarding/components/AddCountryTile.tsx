@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { PlusIcon } from "@/assets/icons";
 import { WithShadow } from "@/components";
@@ -25,9 +25,9 @@ export default function AddCountryTile({ onPress }: AddCountryTileProps) {
 
   return (
     <WithShadow backgroundColor="neutralBase-50" borderRadius="small" elevation={3}>
-      <Pressable onPress={onPress}>
+      <Pressable onPress={onPress} testID="Onboarding.FatcaDetailsScreen:ForeignTaxCountryAddButton">
         <View style={detailsCardStyle}>
-          <View style={{ flexDirection: "row" }}>
+          <View style={styles.row}>
             <PlusIcon color={iconColor} />
             <Typography.Text size="callout" weight="medium" color="primaryBase">
               {t("Onboarding.FatcaDetailsScreen.addCountry")}
@@ -42,3 +42,9 @@ export default function AddCountryTile({ onPress }: AddCountryTileProps) {
     </WithShadow>
   );
 }
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: "row",
+  },
+});

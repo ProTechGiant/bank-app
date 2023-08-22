@@ -8,9 +8,10 @@ interface LinkCardProps {
   onNavigate: () => void;
   children: JSX.Element | JSX.Element[];
   style?: StyleProp<ViewStyle>;
+  testID?: string;
 }
 
-export default function LinkCard({ onNavigate, children, style }: LinkCardProps) {
+export default function LinkCard({ onNavigate, children, style, testID }: LinkCardProps) {
   const container = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     display: "flex",
@@ -25,7 +26,7 @@ export default function LinkCard({ onNavigate, children, style }: LinkCardProps)
 
   return (
     <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall" elevation={3}>
-      <Pressable style={[container, style]} onPress={handlePress}>
+      <Pressable style={[container, style]} onPress={handlePress} testID={testID}>
         <View style={styles.textContainer}>{children}</View>
         <View style={styles.arrowContainer}>
           <ChevronRightIcon />

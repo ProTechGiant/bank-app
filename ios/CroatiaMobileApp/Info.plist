@@ -36,7 +36,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>itms-apps</string>
-		<string>nafath://home</string>
+		<string>nafath</string>
 		<string>tel</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>

@@ -11,21 +11,25 @@ export default function AppIntroAnimationScreen() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
 
   useEffect(() => {
-    async function hasOpened() {
+    async function continueAfterAnimation() {
       try {
         const hasOpenedBefore = await hasItemInStorage("hasSeenOnboarding");
-        // Navigate to the onboarding welcome carousel if this is the first time viewing the app
-        // Otherwise, navigate to the onboarding end splash screen
-        setTimeout(() => {
-          hasOpenedBefore
-            ? navigation.navigate("Onboarding.OnboardingStack", { screen: "Onboarding.SplashScreen" })
-            : navigation.navigate("Onboarding.WelcomeCarousel");
-        }, 2500); // Change the delay time as needed (depending on lottie view speed)
+
+        if (hasOpenedBefore) {
+          navigation.navigate("Onboarding.OnboardingStack", {
+            screen: "Onboarding.SplashScreen",
+          });
+        } else {
+          navigation.navigate("Onboarding.WelcomeCarousel");
+        }
       } catch (error) {
-        // ..
+        navigation.navigate("Onboarding.OnboardingStack", {
+          screen: "Onboarding.SplashScreen",
+        });
       }
     }
-    hasOpened();
+
+    setTimeout(() => continueAfterAnimation(), ANIMATION_DURATION_MS);
   }, [navigation]);
 
   return (
@@ -35,6 +39,7 @@ export default function AppIntroAnimationScreen() {
   );
 }
 
+const ANIMATION_DURATION_MS = 2500;
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",

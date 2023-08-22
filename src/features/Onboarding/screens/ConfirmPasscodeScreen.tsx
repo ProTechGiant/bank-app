@@ -13,6 +13,7 @@ import PincodeInput from "@/components/PincodeInput";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
+import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -23,7 +24,7 @@ import { OnboardingStackParams } from "../OnboardingStack";
 type ConfirmPasscodeScreenRouteProp = RouteProp<OnboardingStackParams, "Onboarding.ConfirmPasscode">;
 
 export function ConfirmPasscodeScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { t } = useTranslation();
   const { params } = useRoute<ConfirmPasscodeScreenRouteProp>();
   const { mutateAsync } = useCreatePasscode();
@@ -75,8 +76,11 @@ export function ConfirmPasscodeScreen() {
   }));
 
   return (
-    <Page insets={["top"]} backgroundColor="neutralBase-60">
-      <NavHeader withBackButton={true} title={t("Onboarding.ConfirmPasscode.navHeaderTitle")}>
+    <Page backgroundColor="neutralBase-60">
+      <NavHeader
+        withBackButton={true}
+        title={t("Onboarding.ConfirmPasscode.navHeaderTitle")}
+        testID="Onboarding.ConfirmPasscodeScreen:NavTitle">
         <ProgressIndicator currentStep={5} totalStep={6} />
       </NavHeader>
       <ContentContainer>
@@ -87,7 +91,13 @@ export function ConfirmPasscodeScreen() {
           {t("Onboarding.ConfirmPasscode.subTitle")}
         </Typography.Text>
         <View style={inputContainerStyle}>
-          <PincodeInput autoFocus onChangeText={handleOnChangeText} length={PASSCODE_LENGTH} value={currentValue} />
+          <PincodeInput
+            autoFocus
+            onChangeText={handleOnChangeText}
+            length={PASSCODE_LENGTH}
+            value={currentValue}
+            testID="Onboarding.ConfirmPasscodeScreen:PincodeInput"
+          />
           {hasValidationError ? (
             <Alert variant="error" message={t("Onboarding.ConfirmPasscode.notification")} />
           ) : hasAPIError ? (
@@ -105,4 +115,5 @@ export function ConfirmPasscodeScreen() {
     </Page>
   );
 }
+
 export default ConfirmPasscodeScreen;

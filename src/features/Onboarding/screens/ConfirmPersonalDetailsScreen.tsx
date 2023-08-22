@@ -15,6 +15,7 @@ import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
+import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { getCountryName } from "@/utils";
@@ -31,7 +32,7 @@ const schema = yup.object({
 });
 
 export default function ConfirmPersonalDetailsScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { data, mutateAsync, isLoading } = useNafathDetails();
   const { t } = useTranslation();
   const confirmPersonalDetailsAsync = useConfirmPersonalDetails();
@@ -41,7 +42,7 @@ export default function ConfirmPersonalDetailsScreen() {
   useEffect(() => {
     if (undefined !== data) return;
     mutateAsync();
-  }, []);
+  }, [data, mutateAsync]);
 
   useEffect(() => {
     validateData(data);
@@ -96,6 +97,7 @@ export default function ConfirmPersonalDetailsScreen() {
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
     paddingHorizontal: theme.spacing["20p"],
+    paddingTop: theme.spacing["8p"],
     paddingBottom: theme.spacing["32p"],
   }));
 
@@ -105,7 +107,7 @@ export default function ConfirmPersonalDetailsScreen() {
   }));
 
   return (
-    <Page insets={["top"]}>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader withBackButton={false} title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}>
         <ProgressIndicator currentStep={1} totalStep={6} />
       </NavHeader>
@@ -125,19 +127,23 @@ export default function ConfirmPersonalDetailsScreen() {
                       <InfoLine
                         label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineName")}
                         value={concatStr(" ", [data.EnglishFamilyName, data.EnglishFirstName])}
+                        testID="Onboarding.ConfirmPersonalDetailsScreen:InfoLineName"
                       />
                       <InfoLine
                         label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineNationality")}
                         //TODO: TO UPDATE IT WHEN WE WILL GET UPDATED DATA
                         value={getCountryName(data.NationalityCode) || undefined}
+                        testID="Onboarding.ConfirmPersonalDetailsScreen:InfoLineNationality"
                       />
                       <InfoLine
                         label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineExpiry")}
                         value={data.IqamaExpiryDateGregorian || data.IdExpiryDateGregorian}
+                        testID="Onboarding.ConfirmPersonalDetailsScreen:InfoLineExpiry"
                       />
                       <InfoLine
                         label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineAddress")}
                         value={formatAddress(data)}
+                        testID="Onboarding.ConfirmPersonalDetailsScreen:InfoLineAddress"
                       />
                     </Stack>
                   </View>
@@ -156,21 +162,20 @@ export default function ConfirmPersonalDetailsScreen() {
           )}
         </Stack>
       </ScrollView>
-      <View style={footerStyle}>
-        <Stack align="stretch" gap="8p" direction="vertical">
-          <View />
-          <CheckboxInput
-            control={control}
-            isEditable={true}
-            bordered={false}
-            name="confirmDetailsAreCorrect"
-            label={t("Onboarding.ConfirmPersonalDetailsScreen.CheckBoxLabel")}
-          />
-          <SubmitButton isDisabled={!dataAvailable} control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-            {t("Onboarding.ConfirmPersonalDetailsScreen.Continue")}
-          </SubmitButton>
-        </Stack>
-      </View>
+      <Stack align="stretch" gap="8p" direction="vertical" style={footerStyle}>
+        <CheckboxInput
+          control={control}
+          name="confirmDetailsAreCorrect"
+          label={t("Onboarding.ConfirmPersonalDetailsScreen.CheckBoxLabel")}
+        />
+        <SubmitButton
+          isDisabled={!dataAvailable}
+          control={control}
+          onSubmit={handleSubmit(handleOnSubmit)}
+          testID="Onboarding.ConfirmDetails:ContinueButton">
+          {t("Onboarding.ConfirmPersonalDetailsScreen.Continue")}
+        </SubmitButton>
+      </Stack>
     </Page>
   );
 }
@@ -199,13 +204,17 @@ function addSuffix(value: string | undefined | null, suffix: string): string {
   return value ? value + suffix : "";
 }
 
-function InfoLine({ label, value }: { label: string; value: string | undefined }) {
+function InfoLine({ label, value, testID }: { label: string; value?: string; testID: string }) {
   return (
     <View>
       <Typography.Text size="callout" weight="medium" color="primaryBase-40">
         {label}
       </Typography.Text>
-      <Typography.Text size="footnote" weight="regular" color={undefined === value ? "errorBase" : "neutralBase+10"}>
+      <Typography.Text
+        size="footnote"
+        weight="regular"
+        color={undefined === value ? "errorBase" : "neutralBase+10"}
+        testID={testID}>
         {value ?? "Missing from Absher"}
       </Typography.Text>
     </View>

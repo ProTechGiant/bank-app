@@ -104,7 +104,7 @@ export function PhoneNumberInput({
 
   return (
     <View>
-      <Pressable onPress={() => handleOnFocus()}>
+      <Pressable onPress={() => handleOnFocus()} testID={testID !== undefined ? `${testID}->InputBox` : undefined}>
         <InputBox isError={undefined !== errorText} isFocused={isFocused} numberOfLines={1}>
           <FloatingLabel containsValue={containsValue} isEditable={isEditable} isFocused={isFocused} label={label} />
           <Animated.View style={animatedContentStyle}>
@@ -130,7 +130,11 @@ export function PhoneNumberInput({
           </Animated.View>
         </InputBox>
       </Pressable>
-      <InputExtra errorText={errorText} extraEnd={`${filteredValue?.length ?? 0} / ${displayMaxLength}`} />
+      <InputExtra
+        errorText={errorText}
+        extraEnd={`${filteredValue?.length ?? 0} / ${displayMaxLength}`}
+        testID={testID}
+      />
     </View>
   );
 }

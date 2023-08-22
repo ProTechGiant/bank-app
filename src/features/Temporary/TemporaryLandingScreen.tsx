@@ -189,7 +189,7 @@ export default function TemporaryLandingScreen() {
   };
 
   return (
-    <Page backgroundColor="neutralBase-60">
+    <Page backgroundColor="neutralBase-60" testID="TemporaryLandingScreen">
       <ContentContainer isScrollView>
         <Stack direction="vertical" gap="12p" align="stretch">
           <TextInput
@@ -245,7 +245,9 @@ export default function TemporaryLandingScreen() {
           <Button onPress={handleSubmit(handleOnHomepage)}>Homepage</Button>
         </View>
         <View style={styles.margin20}>
-          <Button onPress={handleSubmit(handleOnOpenOnboarding)}>Onboarding</Button>
+          <Button onPress={handleSubmit(handleOnOpenOnboarding)} testID="TemporaryLandingScreen:OnboardingButton">
+            Onboarding
+          </Button>
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnCardsHomeSubmit)}>Cards Home</Button>

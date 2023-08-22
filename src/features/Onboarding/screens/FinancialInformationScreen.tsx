@@ -19,6 +19,7 @@ import { mockCroatiaPurpose } from "@/mocks/croatiaPurposeData";
 import { mockExpectedAmount } from "@/mocks/expectedAmount";
 import { mockOccupations } from "@/mocks/occupationData";
 import { mockSources } from "@/mocks/sourceOfIncomeData";
+import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
 import { useOnboardingContext } from "../contexts/OnboardingContext";
@@ -27,7 +28,7 @@ import { useSubmitFinancialDetails } from "../hooks/query-hooks";
 import { FinancialDetails } from "../types";
 
 export default function FinancialInformationScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
   const submitFinancialDetailsAsync = useSubmitFinancialDetails();
   const { t } = useTranslation();
   const handleOnBackPress = useOnboardingBackButton();
@@ -53,7 +54,8 @@ export default function FinancialInformationScreen() {
       <NavHeader
         onBackPress={handleOnBackPress}
         withBackButton={true}
-        title={t("Onboarding.FinancialInformationScreen.navHeaderTitle")}>
+        title={t("Onboarding.FinancialInformationScreen.navHeaderTitle")}
+        testID="Onboarding.FinancialInformationScreen:NavHeader">
         <ProgressIndicator currentStep={3} totalStep={6} />
       </NavHeader>
       {isLoading ? (
@@ -75,6 +77,7 @@ export default function FinancialInformationScreen() {
                 buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
                 variant="small"
                 autoselect
+                testID="Onboarding.FinancialInformationScreen:OccupationCodeInput"
               />
               <DropdownInput
                 control={control}
@@ -85,6 +88,7 @@ export default function FinancialInformationScreen() {
                 buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
                 variant="small"
                 autoselect
+                testID="Onboarding.FinancialInformationScreen:AccountPurposeInput"
               />
               <DropdownInput
                 control={control}
@@ -95,6 +99,7 @@ export default function FinancialInformationScreen() {
                 buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
                 variant="small"
                 autoselect
+                testID="Onboarding.FinancialInformationScreen:SourceOfIncomeInput"
               />
               <DropdownInput
                 control={control}
@@ -105,13 +110,17 @@ export default function FinancialInformationScreen() {
                 buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
                 variant="small"
                 autoselect
+                testID="Onboarding.FinancialInformationScreen:MonthlyLimitInput"
               />
               <Accordion title={t("Onboarding.FinancialInformationScreen.moreInfoDropdownTitle")}>
                 <Typography.Text color="neutralBase+10" size="footnote">
                   {t("Onboarding.FinancialInformationScreen.moreInfoDropdownBody")}
                 </Typography.Text>
               </Accordion>
-              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+              <SubmitButton
+                control={control}
+                onSubmit={handleSubmit(handleOnSubmit)}
+                testID="Onboarding.FinancialInformationScreen:ContinueButton">
                 {t("Onboarding.FinancialInformationScreen.continue")}
               </SubmitButton>
             </Stack>

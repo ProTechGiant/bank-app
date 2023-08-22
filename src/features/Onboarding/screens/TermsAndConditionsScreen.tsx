@@ -1,10 +1,13 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, ScrollView, View, ViewStyle } from "react-native";
+import { Alert, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
+import ApiError from "@/api/ApiError";
+import ResponseError from "@/api/ResponseError";
 import ContentContainer from "@/components/ContentContainer";
+import Divider from "@/components/Divider";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import CheckboxInput from "@/components/Form/CheckboxInput";
 import SubmitButton from "@/components/Form/SubmitButton";
@@ -16,6 +19,7 @@ import TermsAndConditionDetails from "@/components/TermsAndConditionDetails";
 import Typography from "@/components/Typography";
 import { useContentTermsAndCondition } from "@/hooks/use-content";
 import { warn } from "@/logger";
+import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -34,7 +38,7 @@ const validationSchema = yup.object({
 });
 
 const TermsAndConditionsScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { t } = useTranslation();
   const termsConditionsAsync = useConfirmTermsConditions();
   const handleOnBackPress = useOnboardingBackButton();
@@ -51,13 +55,17 @@ const TermsAndConditionsScreen = () => {
     try {
       await termsConditionsAsync.mutateAsync();
       navigation.navigate("Onboarding.CreatePasscode");
-    } catch (error: unknown) {
-      const hasMessage = error?.errorContent?.Message;
+    } catch (error) {
+      const hasMessage = (error as ApiError<ResponseError>)?.errorContent?.Message;
+
       if (hasMessage) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore need to sort this out?
         Alert.alert(t(hasMessage));
       } else {
         Alert.alert(t("Onboarding.TermsAndConditions.errorText.alert"));
       }
+
       warn("onboarding", "Could not confirm terms and conditions: ", JSON.stringify(error));
     }
   };
@@ -71,74 +79,76 @@ const TermsAndConditionsScreen = () => {
   }));
 
   return (
-    <>
-      <Page insets={["top"]}>
-        <NavHeader
-          onBackPress={handleOnBackPress}
-          title={t("Onboarding.TermsAndConditions.navHeaderTitle")}
-          withBackButton={true}>
-          <ProgressIndicator currentStep={5} totalStep={6} />
-        </NavHeader>
-        <ScrollView>
-          <ContentContainer>
-            <Stack direction="vertical" gap="32p" align="stretch">
-              <Typography.Header size="large" weight="bold">
-                {t("Onboarding.TermsAndConditions.title")}
-              </Typography.Header>
-              <Stack direction="vertical" gap="32p" align="stretch">
-                <Term
-                  title={t("Onboarding.TermsAndConditions.terms.sectionOne.title")}
-                  desc={t("Onboarding.TermsAndConditions.terms.sectionOne.desc")}
-                />
-                <Term
-                  title={t("Onboarding.TermsAndConditions.terms.sectionTwo.title")}
-                  desc={t("Onboarding.TermsAndConditions.terms.sectionTwo.desc")}
-                />
-                <Term
-                  title={t("Onboarding.TermsAndConditions.terms.sectionThree.title")}
-                  desc={t("Onboarding.TermsAndConditions.terms.sectionThree.desc")}
-                />
-              </Stack>
-              <View style={{ height: 1, backgroundColor: dividerColor }} />
-              {termsSections === undefined ? (
-                <FlexActivityIndicator />
-              ) : (
-                termsSections.map((term, index) => {
-                  return (
-                    <TermsAndConditionDetails
-                      key={index}
-                      title={term.Title}
-                      data={term.Bodies}
-                      typeOfTerms="onBoardingTerms"
-                    />
-                  );
-                })
-              )}
-            </Stack>
-          </ContentContainer>
-        </ScrollView>
-        <View style={footerStyle}>
-          <Stack align="stretch" gap="8p" direction="vertical">
-            <View />
-            <CheckboxInput
-              control={control}
-              isEditable={true}
-              name="termAndConditionsAreCorrect"
-              label={t("Onboarding.TermsAndConditions.checkBoxTermsLabel")}
+    <Page>
+      <NavHeader
+        onBackPress={handleOnBackPress}
+        title={t("Onboarding.TermsAndConditions.navHeaderTitle")}
+        withBackButton={true}
+        testID="Onboarding.TermsAndConditionsScreen:NavHeader">
+        <ProgressIndicator currentStep={5} totalStep={6} />
+      </NavHeader>
+      <ContentContainer isScrollView>
+        <Stack direction="vertical" gap="32p" align="stretch">
+          <Typography.Header size="large" weight="bold">
+            {t("Onboarding.TermsAndConditions.title")}
+          </Typography.Header>
+          <Stack direction="vertical" gap="32p" align="stretch">
+            <Term
+              title={t("Onboarding.TermsAndConditions.terms.sectionOne.title")}
+              desc={t("Onboarding.TermsAndConditions.terms.sectionOne.desc")}
             />
-            <CheckboxInput
-              control={control}
-              isEditable={true}
-              name="customerDeclarationAreCorrect"
-              label={t("Onboarding.TermsAndConditions.checkBoxDeclarationLabel")}
+            <Term
+              title={t("Onboarding.TermsAndConditions.terms.sectionTwo.title")}
+              desc={t("Onboarding.TermsAndConditions.terms.sectionTwo.desc")}
             />
-            <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-              {t("Onboarding.TermsAndConditions.continue")}
-            </SubmitButton>
+            <Term
+              title={t("Onboarding.TermsAndConditions.terms.sectionThree.title")}
+              desc={t("Onboarding.TermsAndConditions.terms.sectionThree.desc")}
+            />
           </Stack>
-        </View>
-      </Page>
-    </>
+          <Divider color={dividerColor} height={1} />
+          {termsSections === undefined ? (
+            <FlexActivityIndicator />
+          ) : (
+            termsSections.map((term, index) => {
+              return (
+                <TermsAndConditionDetails
+                  key={index}
+                  title={term.Title}
+                  data={term.Bodies}
+                  typeOfTerms="onBoardingTerms"
+                />
+              );
+            })
+          )}
+        </Stack>
+      </ContentContainer>
+      <View style={footerStyle}>
+        <Stack align="stretch" gap="8p" direction="vertical">
+          <View />
+          <CheckboxInput
+            control={control}
+            isEditable={true}
+            name="termAndConditionsAreCorrect"
+            label={t("Onboarding.TermsAndConditions.checkBoxTermsLabel")}
+            testID="Onboarding.TermsAndConditionsScreen:TermsAreCorrectInput"
+          />
+          <CheckboxInput
+            control={control}
+            isEditable={true}
+            name="customerDeclarationAreCorrect"
+            label={t("Onboarding.TermsAndConditions.checkBoxDeclarationLabel")}
+            testID="Onboarding.TermsAndConditionsScreen:CustomerDeclarationAreCorrectInput"
+          />
+          <SubmitButton
+            control={control}
+            onSubmit={handleSubmit(handleOnSubmit)}
+            testID="Onboarding.TermsAndConditionsScreen:ContinueButton">
+            {t("Onboarding.TermsAndConditions.continue")}
+          </SubmitButton>
+        </Stack>
+      </View>
+    </Page>
   );
 };
 

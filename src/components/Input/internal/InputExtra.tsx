@@ -7,9 +7,10 @@ interface InputExtraProps {
   errorText?: string;
   extraStart?: string;
   extraEnd?: string;
+  testID?: string;
 }
 
-export default function InputExtra({ errorText, extraStart, extraEnd }: InputExtraProps) {
+export default function InputExtra({ errorText, extraStart, extraEnd, testID }: InputExtraProps) {
   const isError = undefined !== errorText;
 
   const optionalLabelStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -21,11 +22,19 @@ export default function InputExtra({ errorText, extraStart, extraEnd }: InputExt
 
   return undefined !== extraStart || undefined !== extraEnd || isError ? (
     <View style={optionalLabelStyle}>
-      <Typography.Text color={isError ? "errorBase" : "neutralBase"} size="caption1" weight="regular">
+      <Typography.Text
+        color={isError ? "errorBase" : "neutralBase"}
+        size="caption1"
+        weight="regular"
+        testID={testID !== undefined ? `${testID}->ExtraStart` : undefined}>
         {isError ? errorText : extraStart}
       </Typography.Text>
       {undefined !== extraEnd ? (
-        <Typography.Text color={isError ? "errorBase" : "neutralBase"} size="caption1" weight="regular">
+        <Typography.Text
+          color={isError ? "errorBase" : "neutralBase"}
+          size="caption1"
+          weight="regular"
+          testID={testID !== undefined ? `${testID}->ExtraEnd` : undefined}>
           {extraEnd}
         </Typography.Text>
       ) : null}

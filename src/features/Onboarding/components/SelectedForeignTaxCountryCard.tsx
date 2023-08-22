@@ -40,7 +40,11 @@ export default function SelectedForeignTaxCountryCard({
               <Typography.Text size="callout" weight="medium" color="primaryBase">
                 {t("Onboarding.FatcaDetailsScreen.InfoBoxCountryTitle")}
               </Typography.Text>
-              <Typography.Text size="footnote" weight="regular" color="neutralBase">
+              <Typography.Text
+                size="footnote"
+                weight="regular"
+                color="neutralBase"
+                testID="Onboarding.FatcaDetailsScreen:SelectedForeignTaxCountryName">
                 {mockCountryList.find(v => v.value === CountryName)?.label}
               </Typography.Text>
             </View>
@@ -53,7 +57,9 @@ export default function SelectedForeignTaxCountryCard({
               </Typography.Text>
             </View>
           </Stack>
-          <Pressable onPress={() => onPress(index)}>
+          <Pressable
+            onPress={() => onPress(index)}
+            testID="Onboarding.FatcaDetailsScreen:SelectedForeignTaxCountryEditButton">
             <EditBorderedIcon color={iconColor} />
           </Pressable>
         </Stack>

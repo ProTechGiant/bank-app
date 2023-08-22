@@ -20,6 +20,7 @@ export default function SimpleTextInput({
   numberOfLines = 1,
   placeholder,
   showCharacterCount = false,
+  testID,
   value,
   ...restProps
 }: TextInputProps) {
@@ -69,6 +70,7 @@ export default function SimpleTextInput({
           numberOfLines={numberOfLines}
           placeholder={isFocused ? placeholder : undefined}
           style={textInputStyle}
+          testID={testID}
           textAlign={I18nManager.isRTL ? "right" : "left"}
           value={value}
         />
@@ -77,6 +79,7 @@ export default function SimpleTextInput({
         errorText={errorText}
         extraStart={extraStart}
         extraEnd={showCharacterCount && undefined !== maxLength ? `${value?.length ?? 0} / ${maxLength}` : undefined}
+        testID={testID}
       />
     </Pressable>
   );

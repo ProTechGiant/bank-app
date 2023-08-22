@@ -2,9 +2,11 @@ import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import ApiError from "@/api/ApiError";
+import ResponseError from "@/api/ResponseError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { warn } from "@/logger";
+import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
 import { MobileAndNationalIdForm } from "../components";
@@ -14,7 +16,7 @@ import { useIqama, usePreferredLanguage } from "../hooks/query-hooks";
 import { IqamaInputs } from "../types";
 
 function getActiveTask(activeTask: string) {
-  const tasks: { [key: string]: string } = {
+  const tasks = {
     MobileVerification: "Onboarding.Iqama",
     RetrievePersonalDetails: "Onboarding.Nafath",
     ConfirmPersonalDetails: "Onboarding.ConfirmDetails",
@@ -26,40 +28,45 @@ function getActiveTask(activeTask: string) {
     RetryCustomerScreening: "Onboarding.PendingAccount",
     RetrieveValidationStatus: "Onboarding.PendingAccount",
     RetryAccountCreation: "Onboarding.PendingAccount",
-    default: "Onboarding.Nafath",
   };
-  return tasks[activeTask] || tasks.default;
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore explicitly checked with `in` operator
+  return activeTask in tasks ? tasks[activeTask] : "Onboarding.Nafath";
 }
 
 export default function IqamaInputScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { mutateAsync, error, reset } = useIqama();
-  const navigation = useNavigation();
-  const iqamaError = error as ApiError;
   const userPreferredLanguage = usePreferredLanguage();
+  const iqamaError = error as ApiError<ResponseError> | undefined;
   const { errorMessages } = useErrorMessages(iqamaError);
   const { fetchLatestWorkflowTask, setNationalId } = useOnboardingContext();
 
   const handleContinueOboarding = useCallback(async () => {
     try {
       const workflowTask = await fetchLatestWorkflowTask();
-      if (workflowTask?.Name !== "MobileVerification") {
-        const activeTaskScreen = workflowTask && getActiveTask(workflowTask.Name);
+
+      if (workflowTask !== undefined && workflowTask.Name !== "MobileVerification") {
+        const activeTaskScreen = getActiveTask(workflowTask.Name);
         navigation.navigate(activeTaskScreen);
-        handlePreferredLanguage();
+
+        try {
+          //only calling userPreferredLanguage  in case customer has already started the onboarding process
+          await userPreferredLanguage.mutateAsync();
+        } catch (err) {
+          warn("language", "Could not update PreferredLanguage. Error: ", JSON.stringify(err));
+        }
       }
     } catch (err) {
       warn("tasks", "Could not get Task. Error: ", JSON.stringify(err));
     }
-  }, [fetchLatestWorkflowTask, navigation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
-    if (
-      iqamaError &&
-      iqamaError.errorContent &&
-      iqamaError.errorContent.Errors &&
-      iqamaError.errorContent.Errors.some(({ ErrorId }: { ErrorId: string }) => ErrorId === "0061")
-    ) {
+    if (iqamaError?.errorContent?.Errors.some(value => value.ErrorId === "0061")) {
       handleContinueOboarding();
       reset();
     }
@@ -67,15 +74,6 @@ export default function IqamaInputScreen() {
 
   const handleOnSignIn = () => {
     navigation.navigate("SignIn.SignInStack");
-  };
-
-  const handlePreferredLanguage = async () => {
-    try {
-      //only calling userPreferredLanguage  in case customer has already started the onboarding process
-      await userPreferredLanguage.mutateAsync();
-    } catch (err) {
-      warn("language", "Could not update PreferredLanguage. Error: ", JSON.stringify(err));
-    }
   };
 
   const handleOnSubmit = async (values: IqamaInputs) => {
@@ -93,7 +91,11 @@ export default function IqamaInputScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader withBackButton={true} title={t("Onboarding.IqamaInputScreen.navHeaderTitle")} />
+      <NavHeader
+        withBackButton
+        title={t("Onboarding.IqamaInputScreen.navHeaderTitle")}
+        testID="Onboarding.IqamaInputScreen:NavHeader"
+      />
       <MobileAndNationalIdForm onSubmit={handleOnSubmit} errorMessages={errorMessages} onSignInPress={handleOnSignIn} />
     </Page>
   );

@@ -43,7 +43,8 @@ export default function CountrySelector() {
           .required(t("Onboarding.FatcaDetailsScreen.CountrySelector.errorText.taxNumberRequired"))
           .matches(alphaNumericRegExp, t("Onboarding.FatcaDetailsScreen.CountrySelector.errorText.taxNumberInvalid")),
       }),
-    [i18n.language, t]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [i18n.language]
   );
 
   const { control, handleSubmit } = useForm<ForeignTaxCountry>({
@@ -92,6 +93,7 @@ export default function CountrySelector() {
           title={t("Onboarding.FatcaDetailsScreen.CountrySelector.navHeaderTitle")}
           withBackButton={false}
           end={<NavHeader.CloseEndButton onPress={() => navigation.navigate("Onboarding.Fatca")} />}
+          testID="Onboarding.CountrySelectorScreen:NavHeader"
         />
         <ContentContainer isScrollView>
           <Stack align="stretch" direction="vertical" gap="24p">
@@ -109,6 +111,7 @@ export default function CountrySelector() {
                 disabled: route.params.disabled?.includes(country.value) ?? false,
               }))}
               buttonLabel={t("Onboarding.FatcaDetailsScreen.CountrySelector.setButton")}
+              testID="Onboarding.CountrySelectorScreen:CountryName"
             />
             <TextInput
               control={control}
@@ -118,6 +121,7 @@ export default function CountrySelector() {
               keyboardType="default"
               label={t("Onboarding.FatcaDetailsScreen.CountrySelector.taxNumberLabel")}
               placeholder={t("Onboarding.FatcaDetailsScreen.CountrySelector.taxNumberPlaceholder")}
+              testID="Onboarding.CountrySelectorScreen:TaxReferenceNumber"
             />
           </Stack>
         </ContentContainer>
@@ -129,10 +133,18 @@ export default function CountrySelector() {
               </SubmitButton>
             ) : (
               <Stack align="stretch" direction="vertical" gap="8p">
-                <SubmitButton allowPristine control={control} onSubmit={handleSubmit(handleOnEdit)}>
+                <SubmitButton
+                  allowPristine
+                  control={control}
+                  onSubmit={handleSubmit(handleOnEdit)}
+                  testID="Onboarding.CountrySelectorScreen:UpdateButton">
                   {t("Onboarding.FatcaDetailsScreen.CountrySelector.updateButton")}
                 </SubmitButton>
-                <Button variant="warning" color="dark" onPress={handleOnRemove}>
+                <Button
+                  variant="warning"
+                  color="dark"
+                  onPress={handleOnRemove}
+                  testID="Onboarding.CountrySelectorScreen:RemoveButton">
                   {t("Onboarding.FatcaDetailsScreen.CountrySelector.removeButton")}
                 </Button>
               </Stack>

@@ -13,6 +13,7 @@ interface PincodeInputProps {
   onChangeText: (value: string) => void;
   length: number;
   value: string;
+  testID?: string;
 }
 
 type PincodeInputRef = React.ForwardedRef<{
@@ -21,7 +22,16 @@ type PincodeInputRef = React.ForwardedRef<{
 }>;
 
 function PincodeInput(
-  { autoComplete, autoFocus, isEditable = true, isError = false, onChangeText, length, value }: PincodeInputProps,
+  {
+    autoComplete,
+    autoFocus,
+    isEditable = true,
+    isError = false,
+    onChangeText,
+    length,
+    value,
+    testID,
+  }: PincodeInputProps,
   ref: PincodeInputRef
 ) {
   const textInputRef = useRef<TextInput>(null);
@@ -87,6 +97,7 @@ function PincodeInput(
         maxLength={length}
         style={styles.textInput}
         value={value}
+        testID={testID}
       />
       <Stack accessibilityRole="button" as={Pressable} direction="horizontal" gap="12p" onPress={() => handleOnFocus()}>
         {times(length).map(index => {

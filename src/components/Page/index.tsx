@@ -8,9 +8,10 @@ interface PageProps {
   backgroundColor?: keyof Theme["palette"];
   children: React.ReactNode;
   insets?: Edge[];
+  testID?: string;
 }
 
-export default function Page({ backgroundColor, children, insets = undefined }: PageProps) {
+export default function Page({ backgroundColor, children, insets = undefined, testID }: PageProps) {
   const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: undefined !== backgroundColor ? theme.palette[backgroundColor] : undefined,
@@ -20,7 +21,7 @@ export default function Page({ backgroundColor, children, insets = undefined }: 
   );
 
   return (
-    <SafeAreaView edges={insets} style={containerStyles}>
+    <SafeAreaView edges={insets} style={containerStyles} testID={testID}>
       {children}
     </SafeAreaView>
   );

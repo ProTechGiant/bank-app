@@ -16,7 +16,6 @@ import WelcomeCarouselTwo from "../assets/WelcomeCarouselTwo";
 export default function WelcomeCarouselScreen() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { height } = useWindowDimensions();
-
   const { t } = useTranslation();
 
   const handleOnFinish = async () => {
@@ -58,6 +57,7 @@ export default function WelcomeCarouselScreen() {
       svgStyles
     ),
   ];
+
   return (
     <HeroSlider
       onFinishPress={handleOnFinish}
@@ -67,6 +67,7 @@ export default function WelcomeCarouselScreen() {
       lastButtonText={t("Onboarding.WelcomeCarousel.nextButton")}
       data={data}
       variant="default"
+      testID="Onboarding.WelcomeCarouselScreen:NextButton"
     />
   );
 }
