@@ -338,7 +338,7 @@ interface PayBillResponse {
 
 export function usePayBill() {
   return useMutation(async (values: PayBillInterface) => {
-    return api<PayBillResponse>("v1", "payments/sadad/payment-create", "POST", undefined, values, {
+    return api<PayBillResponse>("v1", "payments/sadad/payment", "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });
