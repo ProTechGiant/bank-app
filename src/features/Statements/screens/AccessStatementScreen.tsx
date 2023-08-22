@@ -29,11 +29,14 @@ import { StatementsStackParamsNavigationProp } from "../StatementsStack";
 import { PaginationInterface, StatementInterface } from "../types";
 
 export default function AccessStatementScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation<StatementsStackParamsNavigationProp>();
   const { height: screenHeight } = useWindowDimensions();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "Statements.AccessStatementScreen">>();
 
+  const [preferredLanguage, setPreferredLanguage] = useState<StatementLanguageTypes>(
+    i18n.language.toUpperCase() as StatementLanguageTypes
+  );
   const [isFilterModalVisible, setIsFilterModalVisible] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<StatementTypes>(
     route?.params?.type === StatementTypes.CUSTOM ? StatementTypes.CUSTOM : StatementTypes.MONTHLY
@@ -131,6 +134,15 @@ export default function AccessStatementScreen() {
     navigation.navigate("Statements.RequestStatementScreen");
   };
 
+  const handleOnChangePreferredLanguage = (language: StatementLanguageTypes) => {
+    setPreferredLanguage(language);
+  };
+
+  const handleOnClearFilter = () => {
+    setActiveFilter(null);
+    setPreferredLanguage(i18n.language.toUpperCase() as StatementLanguageTypes);
+  };
+
   const filteredData = useMemo(() => {
     let statementsCopy = [...statements];
     if (activeFilter) {
@@ -203,7 +215,7 @@ export default function AccessStatementScreen() {
             onPressCard={handleOnPressStatement}
             statements={filteredData}
             activeFilter={activeFilter}
-            onClearFilter={() => setActiveFilter(null)}
+            onClearFilter={handleOnClearFilter}
             onRefresh={handleOnRefreshStatements}
             isLoading={statementsLoading}
           />
@@ -215,12 +227,14 @@ export default function AccessStatementScreen() {
             activeFilter={activeFilter}
             onInfoIcon={handleInfoModal}
             onEndReached={handleOnFetchMoreStatements}
-            onClearFilter={() => setActiveFilter(null)}
+            onClearFilter={handleOnClearFilter}
             onRefresh={handleOnRefreshStatements}
             isLoading={statementsLoading}
           />
         ) : null}
         <LanguageFilterModal
+          preferredLanguage={preferredLanguage}
+          onChangePreferredLanguage={handleOnChangePreferredLanguage}
           isVisible={isFilterModalVisible}
           onClose={() => setIsFilterModalVisible(false)}
           onFilter={handleOnFilter}
