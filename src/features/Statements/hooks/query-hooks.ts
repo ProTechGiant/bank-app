@@ -47,6 +47,7 @@ export function useDownloadStatement(documentID: string) {
 }
 
 export function useGetCustomerOnboardingDate() {
+  //  For this api user-id will be this: 0000001904
   return useQuery(["CustomerOnboardingDate"], () => {
     return api<{ OnboardingDate: string }>("v1", "statements/customers-onboarding-date", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
@@ -55,7 +56,9 @@ export function useGetCustomerOnboardingDate() {
 }
 
 interface CreateCustomDateStatementParams {
-  PredefinedTimeFrame: string;
+  StatementStartDate?: string;
+  StatementEndDate?: string;
+  PredefinedTimeFrame?: string;
   StatementLanguage: string;
   OnboardingDate: string;
 }
@@ -64,7 +67,7 @@ export function useCreateCustomDateStatement() {
   const { i18n } = useTranslation();
 
   return useMutation(async (body: CreateCustomDateStatementParams) => {
-    return api<{ StatementRequestId: string }>("v1", "statements/custom-date", "POST", undefined, body, {
+    return api<{ StatementRequestId: string }>("v1", "statements", "POST", undefined, body, {
       ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18n.language.toUpperCase(),
     });

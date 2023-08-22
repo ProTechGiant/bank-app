@@ -34,7 +34,5 @@ export const MONTHLY_STATEMENT_LIMIT = 24;
 export const CUSTOM_DATE_STATEMENT_LIMIT = 10;
 export const PAGE_OFFSET = 0;
 
-// TODO: Later will remove temporaryOnboardingDate
-export const temporaryOnboardingDate = "2021-01-01";
 export const maxStatementLongerYearPeriod = 2;
 export const maxStatementOlderPeriod = 5;

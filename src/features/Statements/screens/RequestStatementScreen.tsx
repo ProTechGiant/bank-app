@@ -1,3 +1,4 @@
+import { format, parseISO } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, ScrollView, View, ViewStyle } from "react-native";
@@ -19,9 +20,9 @@ import {
   SelectLanguageSection,
   SelectTimeFrameSection,
 } from "../components";
-import { temporaryOnboardingDate } from "../constants";
+import { StatementLanguageTypes } from "../constants";
 import { useCreateCustomDateStatement, useGetCustomerOnboardingDate } from "../hooks/query-hooks";
-import { SelectedLanguageType, TimeFrameInterface } from "../types";
+import { TimeFrameInterface } from "../types";
 import { isDateOlderThanThreeMonths, isDateValid } from "../utils";
 
 interface CustomDatePeriodType {
@@ -30,11 +31,13 @@ interface CustomDatePeriodType {
 }
 
 export default function RequestStatementScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
 
   const [customDatePeriod, setCustomDatePeriod] = useState<CustomDatePeriodType>({ startDate: null, endDate: null });
-  const [selectedLanguage, setSelectedLanguage] = useState<SelectedLanguageType>("en");
+  const [statementLanguage, setStatementLanguage] = useState<StatementLanguageTypes>(
+    i18n.language.toUpperCase() as StatementLanguageTypes
+  );
   const [selectedTimeFrame, setSelectedTimeFrame] = useState<TimeFrameInterface | null>(null);
   const [isSelectingStartDate, setIsSelectingStartDate] = useState<boolean>(false); // This is how we will know if we are selecting start date or end date
   const [isCustomDateModalVisible, setIsCustomDateModalVisible] = useState<boolean>(false); // Modal for selecting the custom date period for both start date and end date
@@ -77,11 +80,24 @@ export default function RequestStatementScreen() {
   };
 
   const handleOnPressRequestStatement = async () => {
+    if (!customerOnboardingDate?.OnboardingDate) {
+      // Don't want to proceed ahead if we dont have onboarding date
+      setIsNotificationModalVisible({ success: false, error: true });
+      return;
+    }
+
     try {
       const response = await createCustomDateStatementAsync({
-        OnboardingDate: customerOnboardingDate?.OnboardingDate || "2022-09-09", // TODO: Later will remove hardcoded and will check above
-        PredefinedTimeFrame: (selectedTimeFrame ? selectedTimeFrame.label : customDatePeriod.startDate) || "2022-09-09", // TODO: Later will remove hardcoded and will check above
-        StatementLanguage: selectedLanguage,
+        OnboardingDate: format(parseISO(customerOnboardingDate.OnboardingDate), "dd-MM-yyyy"),
+        StatementLanguage: statementLanguage,
+        ...(selectedTimeFrame
+          ? { PredefinedTimeFrame: selectedTimeFrame.value }
+          : customDatePeriod.startDate && customDatePeriod.endDate
+          ? {
+              StatementStartDate: format(parseISO(customDatePeriod.startDate), "dd-MM-yyyy"),
+              StatementEndDate: format(parseISO(customDatePeriod.endDate), "dd-MM-yyyy"),
+            }
+          : {}),
       });
 
       if (response.StatementRequestId) {
@@ -131,16 +147,15 @@ export default function RequestStatementScreen() {
         />
         <Stack direction="vertical" align="stretch" justify="space-between" flex={1}>
           <ScrollView>
-            <SelectLanguageSection selectedLanguage={selectedLanguage} onChangeLanguage={setSelectedLanguage} />
+            <SelectLanguageSection statementLanguage={statementLanguage} onChangeLanguage={setStatementLanguage} />
             <View style={sectionBreakerStyle} />
 
-            {/* TODO: Later will remove temporaryOnboardingDate */}
-            {(customerOnboardingDate?.OnboardingDate || temporaryOnboardingDate) &&
-            isDateOlderThanThreeMonths(customerOnboardingDate?.OnboardingDate || temporaryOnboardingDate) ? (
+            {customerOnboardingDate?.OnboardingDate &&
+            isDateOlderThanThreeMonths(customerOnboardingDate.OnboardingDate) ? (
               <SelectTimeFrameSection
                 onSelectTimeFrame={handleOnSelectTimeFrame}
                 selectedTimeFrame={selectedTimeFrame}
-                onboardingDate={customerOnboardingDate?.OnboardingDate || temporaryOnboardingDate}
+                onboardingDate={customerOnboardingDate.OnboardingDate}
               />
             ) : null}
 

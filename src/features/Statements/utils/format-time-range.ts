@@ -4,9 +4,16 @@ import { TimeFrameInterface } from "../types";
 
 export default function formatTimeRange(timeFrame: TimeFrameInterface): string {
   let numMonths;
-  if (timeFrame.value === "last3Month") numMonths = 3;
-  else if (timeFrame.value === "last6Month") numMonths = 6;
-  else numMonths = 12;
+  switch (timeFrame.value) {
+    case "THREE_MONTHS":
+      numMonths = 3;
+      break;
+    case "SIX_MONTHS":
+      numMonths = 6;
+      break;
+    default:
+      numMonths = 12;
+  }
 
   const currentDate = new Date();
   const endDate = subMonths(currentDate, 1);

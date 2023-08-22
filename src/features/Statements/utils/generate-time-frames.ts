@@ -11,13 +11,13 @@ export default function generateTimeFrames(onboardingDateString: string, t: TFun
   const dateRanges: Array<TimeFrameInterface> = [];
 
   if (monthsDiff >= 3) {
-    dateRanges.push({ label: t("Statements.RequestStatementScreen.DateRanges.last3Months"), value: "last3Month" });
+    dateRanges.push({ label: t("Statements.RequestStatementScreen.DateRanges.last3Months"), value: "THREE_MONTHS" });
   }
   if (monthsDiff >= 6) {
-    dateRanges.push({ label: t("Statements.RequestStatementScreen.DateRanges.last6Months"), value: "last6Month" });
+    dateRanges.push({ label: t("Statements.RequestStatementScreen.DateRanges.last6Months"), value: "SIX_MONTHS" });
   }
   if (monthsDiff >= 12) {
-    dateRanges.push({ label: t("Statements.RequestStatementScreen.DateRanges.last12Months"), value: "last12Month" });
+    dateRanges.push({ label: t("Statements.RequestStatementScreen.DateRanges.last12Months"), value: "YEAR" });
   }
 
   return dateRanges;

@@ -19,11 +19,9 @@ export interface PaginationInterface {
   offset: number;
 }
 
-export type SelectedLanguageType = "en" | "ar";
-
 export interface TimeFrameInterface {
   label: string;
-  value: "last3Month" | "last6Month" | "last12Month";
+  value: "THREE_MONTHS" | "SIX_MONTHS" | "YEAR";
 }
 
 export interface DownloadStatementResponse {

@@ -7,14 +7,14 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { SelectedLanguageType } from "../types";
+import { StatementLanguageTypes } from "../constants";
 
 interface SelectLanguageSectionProps {
-  selectedLanguage: string;
-  onChangeLanguage: (language: SelectedLanguageType) => void;
+  statementLanguage: StatementLanguageTypes;
+  onChangeLanguage: (language: StatementLanguageTypes) => void;
 }
 
-export default function SelectLanguageSection({ selectedLanguage, onChangeLanguage }: SelectLanguageSectionProps) {
+export default function SelectLanguageSection({ statementLanguage, onChangeLanguage }: SelectLanguageSectionProps) {
   const { t } = useTranslation();
 
   const selectLanguageSectionStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -38,10 +38,14 @@ export default function SelectLanguageSection({ selectedLanguage, onChangeLangua
           {t("Statements.RequestStatementScreen.language")}
         </Typography.Text>
         <Stack direction="horizontal" gap="8p">
-          <Pill isActive={selectedLanguage === "en"} onPress={() => onChangeLanguage("en")}>
+          <Pill
+            isActive={statementLanguage === StatementLanguageTypes.English}
+            onPress={() => onChangeLanguage(StatementLanguageTypes.English)}>
             {t("Statements.RequestStatementScreen.english")}
           </Pill>
-          <Pill isActive={selectedLanguage === "ar"} onPress={() => onChangeLanguage("ar")}>
+          <Pill
+            isActive={statementLanguage === StatementLanguageTypes.Arabic}
+            onPress={() => onChangeLanguage(StatementLanguageTypes.Arabic)}>
             {t("Statements.RequestStatementScreen.arabic")}
           </Pill>
         </Stack>
