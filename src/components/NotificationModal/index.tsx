@@ -66,22 +66,17 @@ export default function NotificationModal({
     marginHorizontal: theme.spacing["16p"],
   }));
 
-  const spacerStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: theme.spacing["24p"],
-  }));
-
   const buttonsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["24p"],
+    marginTop: theme.spacing["32p"],
     width: "100%",
   }));
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["16p"],
-    marginHorizontal: theme.spacing["16p"],
   }));
 
   return (
-    <Modal visible={isVisible} style={modalStyle} onClose={onClose}>
+    <Modal visible={isVisible} style={modalStyle} onClose={onClose} padding="24p">
       <View style={[containerStyle, onClose !== undefined && containerWithButtonStyle]}>
         {variant !== "confirmations" ? (
           <View>{cloneElement(VARIANT_ICONS[variant], variantIconStyles)}</View>
@@ -96,14 +91,12 @@ export default function NotificationModal({
             {message}
           </Typography.Text>
         </Stack>
-        {undefined !== buttons && buttons !== false ? (
+        {buttons !== undefined && buttons !== false ? (
           <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
             {cloneElement(buttons.primary, { variant: "primary" })}
             {buttons.secondary !== undefined ? cloneElement(buttons.secondary, { variant: "tertiary" }) : null}
           </Stack>
-        ) : (
-          <View style={spacerStyle} />
-        )}
+        ) : null}
       </View>
     </Modal>
   );
