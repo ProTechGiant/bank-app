@@ -18,29 +18,13 @@ export default function BubbleMessage({ isAgent, message, time }: BubbleMessageP
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     width: "100%",
-    margin: theme.spacing["16p"],
     display: "flex",
     alignItems: "flex-start",
-  }));
-
-  const agentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "row",
-    width: "100%",
-    alignItems: "flex-start",
-    paddingLeft: theme.spacing["12p"],
-    paddingRight: theme.spacing["32p"],
-  }));
-
-  const agentInfoStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing["8p"],
-    flex: 1,
+    marginBottom: theme.spacing["24p"],
   }));
 
   const agentMessageStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-30"],
-    minHeight: theme.spacing["48p"],
-    marginHorizontal: theme.spacing["4p"],
-    marginVertical: theme.spacing["20p"],
     borderBottomLeftRadius: theme.spacing["8p"],
     borderBottomRightRadius: theme.spacing["8p"],
     borderTopRightRadius: theme.spacing["8p"],
@@ -50,31 +34,23 @@ export default function BubbleMessage({ isAgent, message, time }: BubbleMessageP
 
   const customerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
-    width: "100%",
     alignItems: "flex-start",
-    paddingLeft: theme.spacing["32p"],
-    paddingRight: theme.spacing["16p"],
+    gap: theme.spacing["12p"],
   }));
 
   const customerMessageStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["primaryBase-30"],
-    minHeight: theme.spacing["64p"],
     padding: theme.spacing["8p"],
     borderTopLeftRadius: theme.spacing["8p"],
     borderBottomLeftRadius: theme.spacing["8p"],
     borderBottomRightRadius: theme.spacing["8p"],
-    marginVertical: theme.spacing["12p"],
-  }));
-
-  const senderSvgStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing["8p"],
   }));
 
   return (
     <View style={containerStyle}>
       {isAgent ? (
-        <View style={agentContainerStyle}>
-          <View style={agentInfoStyle}>
+        <View style={styles.agentContainerStyle}>
+          <View style={styles.agentInfoStyle}>
             <View style={styles.flexDirectionRow}>
               <AgentAvatarIcon />
               <View style={styles.contentStyle}>
@@ -113,24 +89,32 @@ export default function BubbleMessage({ isAgent, message, time }: BubbleMessageP
               </Typography.Text>
             </View>
           </View>
-          <View style={senderSvgStyle}>
-            <SenderAvatarIcon />
-          </View>
+          <SenderAvatarIcon />
         </View>
       )}
     </View>
   );
 }
 const styles = StyleSheet.create({
+  agentContainerStyle: {
+    alignItems: "flex-start",
+    flexDirection: "row",
+  },
+  agentInfoStyle: {
+    flex: 1,
+  },
   contentStyle: {
     flex: 1,
+    rowGap: 6,
   },
   customerInfoStyle: {
     flex: 1,
     justifyContent: "space-between",
+    rowGap: 6,
   },
   flexDirectionRow: {
     flexDirection: "row",
+    gap: 12,
   },
   justifyContentSpaceBetween: {
     justifyContent: "space-between",

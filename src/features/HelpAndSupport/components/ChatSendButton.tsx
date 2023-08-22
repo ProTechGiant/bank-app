@@ -2,7 +2,7 @@ import { I18nManager, Pressable, ViewStyle } from "react-native";
 
 import { useThemeStyles } from "@/theme";
 
-import { ChatSendIcon } from "../assets";
+import { ChatSendIcon } from "../assets/icons";
 
 interface ChatSendButtonProps {
   onPress: () => void;

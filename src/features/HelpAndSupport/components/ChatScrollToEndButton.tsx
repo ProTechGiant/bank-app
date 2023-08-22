@@ -2,7 +2,7 @@ import { Pressable, ViewStyle } from "react-native";
 
 import { useThemeStyles } from "@/theme";
 
-import { ChatScrollToEndIcon } from "../assets";
+import { ChatScrollToEndIcon } from "../assets/icons";
 
 interface ChatScrollToEndButtonProps {
   onPress: () => void;

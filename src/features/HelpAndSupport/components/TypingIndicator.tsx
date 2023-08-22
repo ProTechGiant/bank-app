@@ -3,7 +3,7 @@ import { Animated, Easing } from "react-native";
 
 import Stack from "@/components/Stack";
 
-import { ChatTypingIcon } from "../assets";
+import { ChatTypingIcon } from "../assets/icons";
 
 const DOT_MOVE_DISTANCE = 6;
 const STAGGER_DELAY = 250;

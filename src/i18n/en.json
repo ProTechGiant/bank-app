@@ -1104,6 +1104,7 @@
   },
   "HelpAndSupport": {
     "ChatScreen": {
+      "headerText": "Live Chat",
       "chatInputPlaceholder": "Type your message...",
       "chatTypingIndicator": "Croatia Support Agent is typing"
     },
