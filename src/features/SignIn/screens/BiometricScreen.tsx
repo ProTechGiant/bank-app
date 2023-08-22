@@ -11,7 +11,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { warn } from "@/logger";
-import biometricsService from "@/services/BiometricService";
+import biometricsService from "@/services/biometrics/biometricService";
 import { useThemeStyles } from "@/theme";
 
 import FaceIdBiometricsImage from "../assets/FaceIdBiometricsImage";

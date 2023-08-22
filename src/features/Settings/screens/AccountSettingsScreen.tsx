@@ -15,7 +15,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import useLogout from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
-import biometricsService from "@/services/BiometricService";
+import biometricsService from "@/services/biometrics/biometricService";
 import { useThemeStyles } from "@/theme";
 
 export default function AccountSettingsScreen() {

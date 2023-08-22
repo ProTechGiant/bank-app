@@ -38,7 +38,7 @@ export interface SimplePromptResult {
   error?: string;
 }
 
-export interface InitateParams {
+export interface InitiateParams {
   promptMessage: string;
   cancelButtonText?: string;
   requestFrom: string;

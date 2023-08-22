@@ -16,7 +16,7 @@ import { OTP_BLOCKED_TIME } from "@/constants";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
-import BiometricsService from "@/services/BiometricService";
+import BiometricsService from "@/services/biometrics/biometricService";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 import delayTransition from "@/utils/delay-transition";

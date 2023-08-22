@@ -5,7 +5,9 @@ import { AccessStatementScreen, PreviewStatementScreen, RequestStatementScreen }
 export const Stack = createNativeStackNavigator<StatementsStackParams>();
 
 export type StatementsStackParams = {
-  "Statements.AccessStatementScreen": undefined;
+  "Statements.AccessStatementScreen": {
+    type?: string;
+  };
   "Statements.RequestStatementScreen": undefined;
   "Statements.CustomDateStatementScreen": undefined;
   "Statements.PreviewStatementScreen": { documentId: string };

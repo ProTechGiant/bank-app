@@ -8,7 +8,7 @@ import {
   CreateSignatureOptions,
   CreateSignatureResult,
   DeleteKeysResult,
-  InitateParams,
+  InitiateParams,
   IsSensorAvailableResult,
   SimplePromptOptions,
   SimplePromptResult,
@@ -84,7 +84,7 @@ class BiometricsService {
     }
   }
 
-  async initiate({ promptMessage, cancelButtonText, requestFrom }: InitateParams): Promise<void> {
+  async initiate({ promptMessage, cancelButtonText, requestFrom }: InitiateParams): Promise<void> {
     try {
       await this.createKeys();
     } catch (error) {

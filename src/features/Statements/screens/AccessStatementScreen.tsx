@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, SafeAreaView, useWindowDimensions, ViewStyle } from "react-native";
@@ -12,6 +12,7 @@ import SegmentedControl from "@/components/SegmentedControl";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
 
 import { AccessCustomDateStatementList, AccessMonthlyStatementsList, LanguageFilterModal } from "../components";
@@ -31,9 +32,12 @@ export default function AccessStatementScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation<StatementsStackParamsNavigationProp>();
   const { height: screenHeight } = useWindowDimensions();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "Statements.AccessStatementScreen">>();
 
   const [isFilterModalVisible, setIsFilterModalVisible] = useState<boolean>(false);
-  const [currentTab, setCurrentTab] = useState<StatementTypes>(StatementTypes.MONTHLY);
+  const [currentTab, setCurrentTab] = useState<StatementTypes>(
+    route?.params?.type === StatementTypes.CUSTOM ? StatementTypes.CUSTOM : StatementTypes.MONTHLY
+  );
   const [pagination, setPagination] = useState<PaginationInterface>({
     limit: MONTHLY_STATEMENT_LIMIT,
     offset: PAGE_OFFSET,
