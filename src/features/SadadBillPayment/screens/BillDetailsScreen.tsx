@@ -61,7 +61,7 @@ export default function BillDetailsScreen() {
     navigation.goBack();
     setNavigationType("payBill");
     setBillDetails({ ...billDetails, ...data });
-    navigation.navigate("SadadBillPayments.EnterBillAmountScreen");
+    navigation.navigate("SadadBillPayments.EnterBillAmountScreen", { from: "PayBill" });
   };
 
   const handleOnEditDescriptionPress = () => {

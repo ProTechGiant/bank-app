@@ -26,7 +26,7 @@ export default function BillAmountDescriptionScreen() {
   const otpFlow = useOtpFlow();
 
   const handleOnAmountEditPress = () => {
-    navigation.navigate("SadadBillPayments.EnterBillAmountScreen");
+    navigation.navigate("SadadBillPayments.EnterBillAmountScreen", { from: "Edit" });
   };
 
   const handleOnAddBillPress = () => {
@@ -45,6 +45,11 @@ export default function BillAmountDescriptionScreen() {
       BillingAccount: billDetails.AccountNumber,
       DisplayLabelEn: billDetails.BillIssuer?.NameEn,
       DisplayLabelAr: billDetails.BillIssuer?.NameAr,
+      IsPartialPaymentAllowed: billDetails?.IsPartialPaymentAllowed ?? null,
+      IsOverPaymentAllowed: billDetails?.IsOverPaymentAllowed ?? null,
+      IsAdvancePaymentAllowed: billDetails?.IsAdvancePaymentAllowed ?? null,
+      PaymentRangesLower: billDetails?.PaymentRangesLower ?? null,
+      PaymentRangesUpper: billDetails?.PaymentRangesUpper ?? null,
     };
 
     const payBillDetailRequestParam = {
@@ -137,26 +142,24 @@ export default function BillAmountDescriptionScreen() {
               </Typography.Text>
             </View>
 
-            {billDetails.OtherBillAmount !== undefined ? (
-              <Stack direction="vertical">
-                <Typography.Text color="neutralBase+10" size="callout" weight="regular">
-                  {t("SadadBillPayments.BillDescriptionScreen.YouArePayingText")}
-                </Typography.Text>
-                <Stack direction="horizontal" justify="space-between" align="center">
-                  <Typography.Text color="neutralBase+30" weight="medium" size="title2">
-                    {billDetails.OtherBillAmount}
-                    <Typography.Text color="neutralBase+30" weight="regular" size="callout">
-                      {" " + t("Currency.sar")}
-                    </Typography.Text>
+            <Stack direction="vertical">
+              <Typography.Text color="neutralBase+10" size="callout" weight="regular">
+                {t("SadadBillPayments.BillDescriptionScreen.YouArePayingText")}
+              </Typography.Text>
+              <Stack direction="horizontal" justify="space-between" align="center">
+                <Typography.Text color="neutralBase+30" weight="medium" size="title2">
+                  {billDetails.OtherBillAmount === undefined ? billDetails.BillAmount : billDetails.OtherBillAmount}
+                  <Typography.Text color="neutralBase+30" weight="regular" size="callout">
+                    {" " + t("Currency.sar")}
                   </Typography.Text>
-                  <View style={styles.editIconView}>
-                    <Pressable onPress={handleOnAmountEditPress}>
-                      <EditIcon color={editIconColor} />
-                    </Pressable>
-                  </View>
-                </Stack>
+                </Typography.Text>
+                <View style={styles.editIconView}>
+                  <Pressable onPress={handleOnAmountEditPress}>
+                    <EditIcon color={editIconColor} />
+                  </Pressable>
+                </View>
               </Stack>
-            ) : null}
+            </Stack>
             <View>
               <Typography.Text color="neutralBase" weight="medium" size="callout">
                 {t("SadadBillPayments.BillDetailsScreen.currentDueDate")}

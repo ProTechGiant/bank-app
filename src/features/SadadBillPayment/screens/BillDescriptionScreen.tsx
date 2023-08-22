@@ -42,7 +42,7 @@ export default function BillDescriptionScreen() {
 
   const handleOnAddBill = () => {
     if (navigationType === "oneTimePayment") {
-      navigation.navigate("SadadBillPayments.EnterBillAmountScreen");
+      navigation.navigate("SadadBillPayments.EnterBillAmountScreen", { from: "PayBill" });
     } else {
       handleOtpFlow();
     }

@@ -42,7 +42,7 @@ export type SadadBillPaymentStackParams = {
   };
   "SadadBillPayments.BillSavedSuccessScreen": undefined;
   "SadadBillPayments.EditBillDescModal": undefined;
-  "SadadBillPayments.EnterBillAmountScreen": undefined;
+  "SadadBillPayments.EnterBillAmountScreen": { from: "Edit" | "PayBill" };
   "SadadBillPayments.EditBillDescriptionModalScreen": undefined;
   "SadadBillPayments.BillPaymentHistoryScreen": undefined;
   "SadadBillPayments.PaymentHistoryDetailScreen": { PaymentId: string };

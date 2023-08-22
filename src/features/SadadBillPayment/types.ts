@@ -48,7 +48,12 @@ export interface BillDetail {
   PaidAmount: string;
   PaidAmountCurrency: string;
   ServiceType: string;
+  BillType: string;
   BillDescriptionList: Array<BillDescriptionListInterface>;
+  PaymentRangesUpper?: string;
+  PaymentRangesLower?: string;
+  BillCategory?: string;
+  BillerId: string;
 }
 
 export interface BillDescriptionListInterface {
@@ -70,23 +75,26 @@ export interface AddBillInterface {
 
 export interface PayBillInterface {
   TransactionType: string;
-  ServiceType: string;
+  ServiceType?: string;
   BillerId: string;
   BillAmount: string;
   BillAmountCurrency: string;
   PaidAmount: string;
   PaidAmountCurrency: string;
   ExactPaymentRequired: string;
-  BillCategory: string;
+  BillCategory?: string;
   BillType: string;
   BillNumber: string;
-  BillingAccount: string;
-  IdType: string;
-  IdNumber: string;
+  BillingAccount?: string;
   DisplayLabelEn: string;
   DisplayLabelAr: string;
   DescriptionEn: string;
   DescriptionAr: string;
+  IsPartialPaymentAllowed: boolean;
+  IsOverPaymentAllowed?: boolean;
+  IsAdvancePaymentAllowed?: boolean;
+  PaymentRangesLower: string | null;
+  PaymentRangesUpper: string | null;
 }
 
 export type NavigationType = "saveBill" | "payBill" | "oneTimePayment" | "paymentHistory" | undefined;

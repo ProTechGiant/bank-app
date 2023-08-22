@@ -1,14 +1,13 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { ViewStyle } from "react-native/types";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { InfoCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import SimpleTextInput from "@/components/Input/SimpleTextInput";
-import RightIconLink from "@/components/Link/RightIconLink";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -18,8 +17,10 @@ import { useThemeStyles } from "@/theme";
 
 import { PayBillRadioButton } from "../components";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
+import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 
 export default function EnterBillAmountScreen() {
+  const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.EnterBillAmountScreen">>();
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { navigationType, setBillDetails, billDetails } = useSadadBillPaymentContext();
@@ -34,19 +35,33 @@ export default function EnterBillAmountScreen() {
     }
   }, [billDetails.OtherBillAmount]);
 
-  const handleLinkPress = () => {
-    //TODO link press will be implemnted in upcoming story
+  const handleOnCancel = () => {
+    navigation.navigate("SadadBillPayments.BillAmountDescriptionScreen");
   };
-
   const handleContinuePress = () => {
     setBillDetails({ ...billDetails, OtherBillAmount: selectedCurrentBill ? undefined : OtherBillAmountToPay });
     navigation.goBack();
     navigation.navigate("SadadBillPayments.BillAmountDescriptionScreen");
   };
 
-  const limitsContainerStyle = useThemeStyles(theme => ({
-    marginTop: theme.spacing["8p"],
-  }));
+  const handleErrorText = () => {
+    if (
+      OtherBillAmountToPay.length > 0 &&
+      billDetails.IsOverPaymentAllowed &&
+      billDetails?.PaymentRangesUpper &&
+      billDetails?.PaymentRangesUpper < OtherBillAmountToPay
+    ) {
+      return t("SadadBillPayments.EnterBillAmountScreen.overPayText");
+    } else if (
+      (Number(OtherBillAmountToPay) === 0 && OtherBillAmountToPay.length > 0) ||
+      (OtherBillAmountToPay.length > 0 &&
+        billDetails?.IsPartialPaymentAllowed &&
+        billDetails?.PaymentRangesLower &&
+        billDetails?.PaymentRangesLower > OtherBillAmountToPay)
+    ) {
+      return t("SadadBillPayments.EnterBillAmountScreen.underPayText");
+    }
+  };
 
   const radioButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["24p"],
@@ -101,39 +116,43 @@ export default function EnterBillAmountScreen() {
           <PayBillRadioButton
             label={t("SadadBillPayments.EnterBillAmountScreen.otherAmount")}
             isSelected={!selectedCurrentBill}
-            onPress={() => (billDetails.ExactPaymentRequired ? null : setSelectedCurrentBill(false))}
-          />
-          <SimpleTextInput
-            extraStart={t("SadadBillPayments.EnterBillAmountScreen.inputExtraText")}
-            label={t("SadadBillPayments.EnterBillAmountScreen.enterCustomAmount")}
-            maxLength={12}
-            keyboardType="number-pad"
-            placeholder={t("SadadBillPayments.EnterBillAmountScreen.amountInputPlaceholder")}
-            showCharacterCount={false}
-            value={OtherBillAmountToPay}
-            isEditable={!selectedCurrentBill}
-            onChangeText={setOtherBillAmountToPay}
-            errorText={
-              Number(OtherBillAmountToPay) > Number(billDetails.BillAmount ?? 0) * 2
-                ? t("SadadBillPayments.EnterBillAmountScreen.inputExtraText")
-                : undefined
+            onPress={() =>
+              billDetails.ExactPaymentRequired ||
+              !billDetails.IsPartialPaymentAllowed ||
+              (Number(billDetails.BillAmount) === 0 && !billDetails.IsAdvancePaymentAllowed)
+                ? null
+                : setSelectedCurrentBill(false)
             }
           />
           <View style={accountFormContainerStyle}>
-            <View style={limitsContainerStyle}>
-              <RightIconLink onPress={() => handleLinkPress()} icon={<InfoCircleIcon />} textSize="footnote">
-                {t("SadadBillPayments.EnterBillAmountScreen.linkText")}
-              </RightIconLink>
+            <SimpleTextInput
+              label={t("SadadBillPayments.EnterBillAmountScreen.enterCustomAmount")}
+              maxLength={12}
+              keyboardType="number-pad"
+              placeholder={t("SadadBillPayments.EnterBillAmountScreen.amountInputPlaceholder")}
+              showCharacterCount={false}
+              value={OtherBillAmountToPay}
+              isEditable={!selectedCurrentBill}
+              onChangeText={setOtherBillAmountToPay}
+              errorText={handleErrorText()}
+            />
+            <View>
+              <Button
+                onPress={() => handleContinuePress()}
+                variant="primary"
+                disabled={
+                  !selectedCurrentBill && handleErrorText() !== undefined && Number(billDetails.BillAmount) > 0
+                }>
+                {route.params?.from === "Edit"
+                  ? t("SadadBillPayments.EnterBillAmountScreen.save")
+                  : t("SadadBillPayments.EnterBillAmountScreen.continue")}
+              </Button>
+              {route.params?.from === "Edit" ? (
+                <Button variant="tertiary" onPress={handleOnCancel}>
+                  {t("SadadBillPayments.BillDescriptionScreen.cancelText")}
+                </Button>
+              ) : null}
             </View>
-            <Button
-              onPress={() => handleContinuePress()}
-              variant="primary"
-              disabled={
-                (!selectedCurrentBill || billDetails.BillAmount <= 0) &&
-                (Number(OtherBillAmountToPay) > billDetails.BillAmount * 2 || OtherBillAmountToPay.length < 1)
-              }>
-              {t("SadadBillPayments.EnterBillAmountScreen.continue")}
-            </Button>
           </View>
         </ContentContainer>
       </Page>

@@ -29,6 +29,11 @@ interface SadadBillPaymentContextState {
     PaidAmount?: string;
     PaidAmountCurrency?: string;
     ServiceType?: string;
+    BillDescriptionList?: string;
+    PaymentRangesUpper?: string;
+    PaymentRangesLower?: string;
+    BillCategory?: string;
+    BillType?: string;
   }) => void;
   billDetails: BillDetail;
   clearContext: () => void;
@@ -61,6 +66,10 @@ const SadadBillPaymentContext = createContext<SadadBillPaymentContextState>({
     PaidAmountCurrency: undefined,
     ServiceType: undefined,
     BillDescriptionList: undefined,
+    PaymentRangesUpper: undefined,
+    PaymentRangesLower: undefined,
+    BillCategory: undefined,
+    BillType: undefined,
   },
 });
 
