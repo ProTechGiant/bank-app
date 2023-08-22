@@ -8,7 +8,7 @@ interface ChatScrollToEndButtonProps {
   onPress: () => void;
 }
 
-const ChatScrollToEndButton = ({ onPress }: ChatScrollToEndButtonProps) => {
+export default function ChatScrollToEndButton({ onPress }: ChatScrollToEndButtonProps) {
   const scrollToEndButtonStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-30"],
     height: 36,
@@ -16,6 +16,9 @@ const ChatScrollToEndButton = ({ onPress }: ChatScrollToEndButtonProps) => {
     borderRadius: 36,
     alignItems: "center",
     justifyContent: "center",
+    position: "absolute",
+    bottom: theme.spacing["12p"],
+    right: theme.spacing["16p"],
   }));
 
   return (
@@ -23,6 +26,4 @@ const ChatScrollToEndButton = ({ onPress }: ChatScrollToEndButtonProps) => {
       <ChatScrollToEndIcon />
     </Pressable>
   );
-};
-
-export default ChatScrollToEndButton;
+}

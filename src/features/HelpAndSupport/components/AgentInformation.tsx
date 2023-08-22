@@ -21,6 +21,8 @@ export default function AgentInformation({ isOnline }: AgentInformationProps) {
     paddingHorizontal: theme.spacing["16p"],
     height: theme.spacing["64p"],
     gap: theme.spacing["4p"],
+    borderBottomColor: theme.palette["neutralBase-30"],
+    borderBottomWidth: 1,
   }));
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({

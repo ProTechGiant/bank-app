@@ -1,6 +1,7 @@
 export { default as AgentJoinedChat } from "./AgentJoinedChat";
 export { default as BubbleMessage } from "./BubbleMessage";
 export { default as ChatInputBox } from "./ChatInputBox";
+export { default as ChatList } from "./ChatList";
 export { default as ChatMessageInput } from "./ChatMessageInput";
 export { default as ChatScrollToEndButton } from "./ChatScrollToEndButton";
 export { default as ChatSendButton } from "./ChatSendButton";

@@ -5,7 +5,7 @@ import { View, ViewStyle } from "react-native";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-const AgentAwaitingMessage = () => {
+export default function AgentAwaitingMessage() {
   const { t } = useTranslation();
 
   const container = useThemeStyles<ViewStyle>(theme => ({
@@ -14,6 +14,7 @@ const AgentAwaitingMessage = () => {
     borderTopRightRadius: theme.radii.extraSmall,
     borderBottomRightRadius: theme.radii.extraSmall,
     padding: theme.spacing["16p"],
+    margin: theme.spacing["16p"],
     backgroundColor: theme.palette["supportBase-20"],
   }));
 
@@ -22,6 +23,4 @@ const AgentAwaitingMessage = () => {
       <Typography.Text size="caption2">{t("HelpAndSupport.LiveChatScreen.waitingMessage")}</Typography.Text>
     </View>
   );
-};
-
-export default AgentAwaitingMessage;
+}
