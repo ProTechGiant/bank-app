@@ -551,7 +551,7 @@
       },
       "InfoModal": {
         "title": "Why I can’t see my old requested statements?",
-        "description": "Your custom date requested statements will only appear for 30 days from its issue date, to preview any previous statement you will need to request it again. \nYour failed requests will only appear for one day.",
+        "description": "Your custom date requested statements will only appear for 30 days from its issue date, to preview any previous statement you will need to request it again. \n\nYour failed requests will only appear for one day.",
       },
       "pendingRequestLimit": "You can only have three pending requests,\nplease wait for one of the requests to be done.",
       "Status": {

@@ -1,6 +1,5 @@
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import { StatementContextProvider } from "./contexts/StatementContext";
 import { AccessStatementScreen, PreviewStatementScreen, RequestStatementScreen } from "./screens";
 
 export const Stack = createNativeStackNavigator<StatementsStackParams>();
@@ -16,15 +15,13 @@ export type StatementsStackParamsNavigationProp = NativeStackNavigationProp<Stat
 
 export default function StatementsStack() {
   return (
-    <StatementContextProvider>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Stack.Screen component={AccessStatementScreen} name="Statements.AccessStatementScreen" />
-        <Stack.Screen component={RequestStatementScreen} name="Statements.RequestStatementScreen" />
-        <Stack.Screen component={PreviewStatementScreen} name="Statements.PreviewStatementScreen" />
-      </Stack.Navigator>
-    </StatementContextProvider>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen component={AccessStatementScreen} name="Statements.AccessStatementScreen" />
+      <Stack.Screen component={RequestStatementScreen} name="Statements.RequestStatementScreen" />
+      <Stack.Screen component={PreviewStatementScreen} name="Statements.PreviewStatementScreen" />
+    </Stack.Navigator>
   );
 }

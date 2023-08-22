@@ -27,6 +27,7 @@ interface CustomStatementCardViewProps {
 export default function CustomStatementCardView({ statement, onPressCard, onRetry }: CustomStatementCardViewProps) {
   const { t } = useTranslation();
   const appTheme = useTheme();
+  const disabled = statement.Status !== StatementStatus.DOWNLOADED && statement.Status !== StatementStatus.GENERATED;
 
   const dateBadge = (date: string) => {
     return (
@@ -66,7 +67,7 @@ export default function CustomStatementCardView({ statement, onPressCard, onRetr
   }));
 
   return (
-    <Pressable onPress={() => onPressCard(statement.DocumentId)}>
+    <Pressable disabled={disabled} onPress={() => onPressCard(statement.DocumentId)}>
       <Stack direction="horizontal" style={renderItemStyle} align="center" justify="space-between">
         <Stack direction="vertical">
           {statement.Status !== StatementStatus.DOWNLOADED ? <StatementStatusView Status={statement.Status} /> : null}
@@ -114,6 +115,18 @@ const StatementStatusView = ({ Status }: StatementStatusViewProps) => {
       icon: <ThreeDotsCircleIcon width={20} height={20} />,
       color: theme.palette.interactionBase,
     },
+    //As there are 4 statuses adding DOWNLOADED for the type error
+    [StatementStatus.DOWNLOADED]: {
+      text: "",
+      icon: null,
+      color: "",
+    },
+    //To handle any of the status that do not exist adding a default type
+    default: {
+      text: "",
+      icon: null,
+      color: "",
+    },
   };
 
   const statusPillStyle = useThemeStyles<ViewStyle>(() => ({
@@ -121,14 +134,14 @@ const StatementStatusView = ({ Status }: StatementStatusViewProps) => {
     marginBottom: theme.spacing["8p"],
     paddingVertical: theme.spacing["4p"],
     paddingHorizontal: theme.spacing["8p"],
-    backgroundColor: statementStatusData[Status].color,
+    backgroundColor: statementStatusData[Status]?.color || statementStatusData.default.color,
   }));
 
   return (
     <Stack gap="4p" direction="horizontal" style={statusPillStyle}>
-      {statementStatusData[Status].icon}
+      {statementStatusData[Status]?.icon || statementStatusData.default.icon}
       <Typography.Text color="neutralBase-60" size="caption1">
-        {statementStatusData[Status].text}
+        {statementStatusData[Status]?.text || statementStatusData.default.text}
       </Typography.Text>
     </Stack>
   );

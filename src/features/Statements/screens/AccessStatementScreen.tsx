@@ -13,7 +13,6 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
-import { generateRandomId } from "@/utils";
 
 import { AccessCustomDateStatementList, AccessMonthlyStatementsList, LanguageFilterModal } from "../components";
 import {
@@ -24,7 +23,6 @@ import {
   StatementStatus,
   StatementTypes,
 } from "../constants";
-import { useStatementContext } from "../contexts/StatementContext";
 import { useGetCustomerStatements, useRetryFailedStatement } from "../hooks/query-hooks";
 import { StatementsStackParamsNavigationProp } from "../StatementsStack";
 import { PaginationInterface, StatementInterface } from "../types";
@@ -33,7 +31,6 @@ export default function AccessStatementScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation<StatementsStackParamsNavigationProp>();
   const { height: screenHeight } = useWindowDimensions();
-  const { setCorrelationId } = useStatementContext();
 
   const [isFilterModalVisible, setIsFilterModalVisible] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<StatementTypes>(StatementTypes.MONTHLY);
@@ -54,11 +51,6 @@ export default function AccessStatementScreen() {
   } = useGetCustomerStatements(pagination, currentTab);
 
   const retryFailedStatement = useRetryFailedStatement();
-
-  useEffect(() => {
-    setCorrelationId(generateRandomId());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     if (undefined === statementsData && !statementsLoading) {

@@ -2,9 +2,9 @@ import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
+import { generateRandomId } from "@/utils";
 
 import { StatementTypes } from "../constants";
-import { useStatementContext } from "../contexts/StatementContext";
 import {
   DownloadStatementResponse,
   GetAccessStatementApiResponse,
@@ -16,9 +16,6 @@ const queryKeys = { all: () => ["data"] as const, accessStatements: () => ["stat
 
 export function useGetCustomerStatements(pagination: PaginationInterface, statementType: StatementTypes) {
   const { i18n } = useTranslation();
-  const { correlationId } = useStatementContext();
-
-  if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
   return useQuery([queryKeys.accessStatements, pagination], () => {
     return api<GetAccessStatementApiResponse>(
@@ -28,7 +25,7 @@ export function useGetCustomerStatements(pagination: PaginationInterface, statem
       { pageSize: pagination.limit, offset: pagination.offset, statementType },
       undefined,
       {
-        ["x-correlation-id"]: correlationId,
+        ["x-correlation-id"]: generateRandomId(),
         ["Accept-Language"]: i18n.language.toUpperCase(),
       }
     );
@@ -37,13 +34,11 @@ export function useGetCustomerStatements(pagination: PaginationInterface, statem
 
 export function useDownloadStatement(documentID: string) {
   const { i18n } = useTranslation();
-  const { correlationId } = useStatementContext();
-  if (!correlationId) throw new Error("Need valid `correlationId` to be available");
   return useQuery(
     queryKeys.all(),
     () => {
       return api<DownloadStatementResponse>("v1", `statements/download/${documentID}`, "GET", undefined, undefined, {
-        ["x-correlation-id"]: correlationId,
+        ["x-correlation-id"]: generateRandomId(),
         ["Accept-Language"]: i18n.language.toUpperCase(),
       });
     },
@@ -52,12 +47,9 @@ export function useDownloadStatement(documentID: string) {
 }
 
 export function useGetCustomerOnboardingDate() {
-  const { correlationId } = useStatementContext();
-  if (!correlationId) throw new Error("Need valid `correlationId` to be available");
-
   return useQuery(["CustomerOnboardingDate"], () => {
     return api<{ OnboardingDate: string }>("v1", "statements/customers-onboarding-date", "GET", undefined, undefined, {
-      ["x-correlation-id"]: correlationId,
+      ["x-correlation-id"]: generateRandomId(),
     });
   });
 }
@@ -70,13 +62,10 @@ interface CreateCustomDateStatementParams {
 
 export function useCreateCustomDateStatement() {
   const { i18n } = useTranslation();
-  const { correlationId } = useStatementContext();
-
-  if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
   return useMutation(async (body: CreateCustomDateStatementParams) => {
     return api<{ StatementRequestId: string }>("v1", "statements/custom-date", "POST", undefined, body, {
-      ["x-correlation-id"]: correlationId,
+      ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18n.language.toUpperCase(),
     });
   });
@@ -84,8 +73,6 @@ export function useCreateCustomDateStatement() {
 
 export function useRetryFailedStatement() {
   const { i18n } = useTranslation();
-  const { correlationId } = useStatementContext();
-  if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
   return useMutation((documentId: string) => {
     return api<RetryRequestInterface>(
@@ -95,7 +82,7 @@ export function useRetryFailedStatement() {
       undefined,
       undefined,
       {
-        ["x-correlation-id"]: correlationId,
+        ["x-correlation-id"]: generateRandomId(),
         ["Accept-Language"]: i18n.language.toUpperCase(),
       }
     );
