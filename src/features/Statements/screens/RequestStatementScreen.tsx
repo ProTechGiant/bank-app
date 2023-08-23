@@ -20,7 +20,7 @@ import {
   SelectLanguageSection,
   SelectTimeFrameSection,
 } from "../components";
-import { StatementLanguageTypes } from "../constants";
+import { StatementLanguageTypes, StatementTypes } from "../constants";
 import { useCreateCustomDateStatement, useGetCustomerOnboardingDate } from "../hooks/query-hooks";
 import { TimeFrameInterface } from "../types";
 import { isDateOlderThanThreeMonths, isDateValid } from "../utils";
@@ -113,15 +113,17 @@ export default function RequestStatementScreen() {
   };
 
   const handleOnCloseErrorNotificationModal = () => {
-    // TODO: Will go back to monthly tab from here.
     setIsNotificationModalVisible({ success: false, error: false });
-    navigation.goBack();
+    navigation.navigate("Statements.AccessStatementScreen", {
+      type: StatementTypes.MONTHLY,
+    });
   };
 
   const handleOnCloseSuccessNotificationModal = () => {
-    // TODO: Will go back to custom date tab from here.
     setIsNotificationModalVisible({ success: false, error: false });
-    navigation.goBack();
+    navigation.navigate("Statements.AccessStatementScreen", {
+      type: StatementTypes.CUSTOM,
+    });
   };
 
   const sectionBreakerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -214,6 +216,7 @@ export default function RequestStatementScreen() {
           selectedDate={isSelectingStartDate ? customDatePeriod?.startDate || "" : customDatePeriod?.endDate || ""}
           visible={isCustomDateModalVisible}
           onPickDate={handleOnPickDate}
+          onboardingDate={customerOnboardingDate?.OnboardingDate}
         />
       </Page>
     </SafeAreaProvider>

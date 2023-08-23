@@ -60,6 +60,10 @@ export default function AccessStatementScreen() {
   const retryFailedStatement = useRetryFailedStatement();
 
   useEffect(() => {
+    setCurrentTab(route?.params?.type === StatementTypes.CUSTOM ? StatementTypes.CUSTOM : StatementTypes.MONTHLY);
+  }, [route?.params?.type]);
+
+  useEffect(() => {
     if (undefined === statementsData && !statementsLoading) {
       refetchStatementData();
       return; // Exit early to prevent the rest of the useEffect code from executing
