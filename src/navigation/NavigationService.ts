@@ -2,9 +2,11 @@ import { createNavigationContainerRef, ParamListBase } from "@react-navigation/n
 
 export const navigationRef = createNavigationContainerRef<ParamListBase>();
 
-function navigate(name: string, params: Record<string, any> = {}): void {
-  if (navigationRef.isReady()) {
-    navigationRef.navigate(name, params);
+function navigate(stack: string, screen: string | undefined, params: Record<string, unknown> | undefined) {
+  if (screen === undefined) {
+    navigationRef.navigate(stack, params);
+  } else {
+    navigationRef.navigate(stack, { screen, params });
   }
 }
 

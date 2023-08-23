@@ -1,3 +1,4 @@
+import queryString from "query-string";
 import { EmitterSubscription, Linking } from "react-native";
 
 import { warn } from "@/logger";
@@ -24,11 +25,8 @@ class DeepLinkService {
     this.isAuthenticated = isAuthenticated;
   }
 
-  navigate(stack: string, screenName: string, extraData?: object) {
-    Navigation?.navigate(stack, {
-      screenName,
-      params: extraData,
-    });
+  navigate(stack: string, screenName: string, extraData: object | undefined) {
+    Navigation?.navigate(stack, screenName, extraData);
   }
 
   async handleGoToLink() {
@@ -36,12 +34,14 @@ class DeepLinkService {
       const [navigationData, params] = this.deepLink.url.replace("goto/", "").split("?");
       const [stackName, screenName] = navigationData.split("/");
 
+      const allParams = queryString.parse(params);
+
       if (screenName) {
         if (!this.isAuthenticated) {
           setItemInEncryptedStorage("PUSH_NOTIFICATION_CONTENT", this.deepLink.url);
           Navigation?.navigate("SignIn.SignInStack");
         } else {
-          this.resetAndNavigate(stackName, screenName, params);
+          this.resetAndNavigate(stackName, screenName, allParams);
         }
       }
     } catch (e) {
@@ -54,7 +54,7 @@ class DeepLinkService {
     this.deepLink.url = "";
   }
 
-  resetAndNavigate(stackName: string, screenName: string, params?: any) {
+  resetAndNavigate(stackName: string, screenName: string, params?: object) {
     this.resetDeepLinkUrl();
     this.navigate(stackName, screenName, params);
   }
