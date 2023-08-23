@@ -20,7 +20,12 @@ import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
-import { useLocalTransfer, useTransferFees, useTransferReasonsByCode } from "../hooks/query-hooks";
+import {
+  useLocalTransferForIPS,
+  useLocalTransferForSarie,
+  useTransferFees,
+  useTransferReasonsByCode,
+} from "../hooks/query-hooks";
 import { LocalTransfer, TransferType, TransferTypeCode } from "../types";
 
 export default function ReviewQuickTransferScreen() {
@@ -37,7 +42,9 @@ export default function ReviewQuickTransferScreen() {
     route.params.ReasonCode,
     transferType === "SARIE_TRANSFER_ACTION" ? TransferType.SarieTransferAction : TransferType.IpsTransferAction
   );
-  const localTransferAsync = useLocalTransfer();
+  const localTransferForSarieAsync = useLocalTransferForSarie();
+  const localTransferForIPSAsync = useLocalTransferForIPS();
+
   const otpFlow = useOtpFlow();
 
   const [isVisible, setIsVisible] = useState(false);
@@ -64,20 +71,17 @@ export default function ReviewQuickTransferScreen() {
     }
 
     const localTransferRequest: LocalTransfer = {
-      Reason: transferType === "SARIE_TRANSFER_ACTION" ? "sarie" : "ips-payment",
-      data: {
-        transferAmount: route.params.PaymentAmount,
-        transferAmountCurrency: "SAR",
-        remitterIBAN: account.data.iban ?? "",
-        remitterName: account.data.owner ?? "",
-        beneficiaryIBAN: route.params.Beneficiary.IBAN,
-        beneficiaryName: route.params.Beneficiary.FullName,
-        clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        expressTransferFlag: transferType === "SARIE_TRANSFER_ACTION" ? "N" : "Y",
-        transferPurpose: route.params.ReasonCode,
-        transferType: "04",
-        customerRemarks: "Customer Remarks", // @todo update with correct value, as default for now is this
-      },
+      transferAmount: route.params.PaymentAmount,
+      transferAmountCurrency: "SAR",
+      remitterIBAN: account.data.iban ?? "",
+      remitterName: account.data.owner ?? "",
+      beneficiaryIBAN: route.params.Beneficiary.IBAN,
+      beneficiaryName: route.params.Beneficiary.FullName,
+      clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+      expressTransferFlag: transferType === "SARIE_TRANSFER_ACTION" ? "N" : "Y",
+      transferPurpose: route.params.ReasonCode,
+      transferType: "04",
+      customerRemarks: "Customer Remarks", // @todo update with correct value, as default for now is this
     };
 
     otpFlow.handle({
@@ -94,7 +98,9 @@ export default function ReviewQuickTransferScreen() {
       },
       otpVerifyMethod: transferType === "SARIE_TRANSFER_ACTION" ? "sarie" : "ips-payment",
       onOtpRequest: () => {
-        return localTransferAsync.mutateAsync(localTransferRequest);
+        return transferType === "SARIE_TRANSFER_ACTION"
+          ? localTransferForSarieAsync.mutateAsync(localTransferRequest)
+          : localTransferForIPSAsync.mutateAsync(localTransferRequest);
       },
       onFinish: status => {
         if (status === "cancel") {

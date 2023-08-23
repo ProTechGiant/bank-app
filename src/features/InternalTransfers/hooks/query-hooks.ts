@@ -167,7 +167,7 @@ export function useInternalTransfer() {
 
 export function useInternalTransferCroatiaToARB() {
   return useMutation(async (values: InternalTransferToARBRequest) => {
-    return api<OTPDetails>("v1", "transfers/outbound", "POST", undefined, values, {
+    return api<OTPDetails>("v1", "transfers/outbound/cro-to-arb/internal", "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });
@@ -289,14 +289,21 @@ interface LocalTransferResponse {
   PhoneNumber: string;
 }
 
-export function useLocalTransfer() {
+export function useLocalTransferForSarie() {
   return useMutation(async (values: LocalTransfer) => {
-    return api<LocalTransferResponse>("v1", "transfers/outbound", "POST", undefined, values, {
+    return api<LocalTransferResponse>("v1", "transfers/outbound/sarie/local", "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });
 }
 
+export function useLocalTransferForIPS() {
+  return useMutation(async (values: LocalTransfer) => {
+    return api<LocalTransferResponse>("v1", "transfers/outbound/ips/local", "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
 interface AddBeneficiaryLocalTranferResponse {
   Name: string;
   BankAccountNumber?: string;

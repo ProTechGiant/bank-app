@@ -67,19 +67,16 @@ export default function ReviewTransferScreen() {
     };
 
     const internalTransferCroatiaToARB: InternalTransferToARBRequest = {
-      Reason: "croatia-to-arb",
-      data: {
-        transferAmount: transferAmount.toString(),
-        transferAmountCurrency: account.data.currencyType,
-        remitterIBAN: account.data.iban,
-        remitterName: account.data.name,
-        beneficiaryIBAN: recipient.iban,
-        beneficiaryName: recipient.accountName,
-        clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        transferPurpose: reason,
-        transferType: "02",
-        expressTransferFlag: "N",
-      },
+      transferAmount: transferAmount.toString(),
+      transferAmountCurrency: account.data.currencyType,
+      remitterIBAN: account.data.iban,
+      remitterName: account.data.name,
+      beneficiaryIBAN: recipient.iban,
+      beneficiaryName: recipient.accountName,
+      clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+      transferPurpose: reason,
+      transferType: "02",
+      expressTransferFlag: "N",
     };
 
     try {
