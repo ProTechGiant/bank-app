@@ -363,8 +363,13 @@
       "warningCheck": "If you click proceed, it will link your alias to your bank account",
       "cancel": "Cancel",
       "pcoceed": "Proceed",
+      "register": "Register",
       "unLinkingWarning": "Are you sure you want to unlink your alias?",
-      "unWarningCheck": "Unlinking your alias will have it removed, you can link it again later."
+      "unWarningCheck": "Unlinking your alias will have it removed, you can link it again later.",
+      "overrideWarning": "Are you sure you want to override your Alias?",
+      "overrideCheck": "This alias is already used. If you proceed, it will be removed from ARB account, and linked to the Croatia account",
+      "registerEmailWarning": "Register your Email",
+      "registerEmailCheck": "Please register and validate your email address if you wish to use it as an alias."
     },
     "RegisterEmailScreen": {
       "title": "Register your Email",
@@ -1209,7 +1214,8 @@
   },
   "OneTimePasswordModal": {
     "title": "Enter one-time code",
-    "message": "Enter the one-time code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
+    "phoneNumberMessage": "Enter the one-time code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
+    "emailMessage": "Enter the one-time code we texted to your email, {{email}}. You have 2 minutes to do this.",
     "resendCodeDisabled": "Resend Code in {{minutes}}:{{seconds}}",
     "resendCodeEnabled": "Resend Code",
     "notification": "That OTP wasn't right. You have {{attempts}} attempts left.",

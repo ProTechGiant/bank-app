@@ -49,7 +49,10 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     params?.otpVerifyMethod === "login" ||
     params?.otpVerifyMethod === "reset-passcode" ||
     params?.otpVerifyMethod === "change-passcode" ||
-    params?.otpVerifyMethod === "create-passcode";
+    params?.otpVerifyMethod === "create-passcode" ||
+    params?.otpVerifyMethod === "register-email" ||
+    params?.otpVerifyMethod === "link-proxy-alias" ||
+    params?.otpVerifyMethod === "optout-proxy-alias";
 
   const isUpdateCustomerProfileFlow = params?.otpVerifyMethod === "customers/communication-details";
 
@@ -225,11 +228,20 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
               <Typography.Text size="title1" weight="semiBold">
                 {t("OneTimePasswordModal.title")}
               </Typography.Text>
-              <Typography.Text size="callout">
-                {t("OneTimePasswordModal.message", {
-                  phoneNumber: resolvedPhoneNumber ? maskPhoneNumber(resolvedPhoneNumber, 4) : null,
-                })}
-              </Typography.Text>
+              {otpParams.Email ? (
+                <Typography.Text size="callout">
+                  {t("OneTimePasswordModal.emailMessage", {
+                    email: otpParams.Email,
+                  })}
+                </Typography.Text>
+              ) : (
+                <Typography.Text size="callout">
+                  {t("OneTimePasswordModal.phoneNumberMessage", {
+                    phoneNumber: resolvedPhoneNumber ? maskPhoneNumber(resolvedPhoneNumber, 4) : null,
+                  })}
+                </Typography.Text>
+              )}
+
               <View style={otpContainerStyle}>
                 <PincodeInput
                   autoComplete="one-time-code"

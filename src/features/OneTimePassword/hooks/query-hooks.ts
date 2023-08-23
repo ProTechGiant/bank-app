@@ -74,7 +74,10 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
         method === "login" ||
         method === "reset-passcode" ||
         method === "change-passcode" ||
-        method === "create-passcode";
+        method === "create-passcode" ||
+        method === "register-email" ||
+        method === "link-proxy-alias" ||
+        method === "optout-proxy-alias";
 
       const isSadadFlow = method === "payments/sadad";
 

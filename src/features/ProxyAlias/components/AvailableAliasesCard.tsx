@@ -9,89 +9,29 @@ import Button from "@/components/Button";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { useLinkProxyAlias, useUnLinkProxyAlias } from "../hooks/query-hooks";
-import { aliasCardType } from "../mocks";
+import { aliasCardType, reasonOTP } from "../mocks";
+import { UserProxy } from "../types";
+
 interface AliasCardProps {
-  proxyType: string;
-  proxyValue: string;
-  isLinked?: boolean;
-  isARBLinked?: boolean;
-  isEmailRegistered?: boolean;
+  item: UserProxy;
+  onHandleOTP: (reason: reasonOTP, userProxy: UserProxy) => void;
+  onUnLinkProxy: (proxyTypeId: string) => void;
 }
 
-export default function AvailableAliasesCard({
-  proxyType,
-  proxyValue,
-  isLinked = false,
-  isARBLinked = false,
-  isEmailRegistered = true,
-}: AliasCardProps) {
-  const [showSuccessModal, setShowSuccessModal] = useState<{ isVisible: boolean; title: string; message: string }>({
+export default function AvailableAliasesCard({ item, onHandleOTP, onUnLinkProxy }: AliasCardProps) {
+  const navigation = useNavigation();
+  const { ProxyType, ProxyValue, ARBProxyFlag, RegistrationId } = item;
+  const isLinked = !!RegistrationId;
+  const isEmailRegistered = ProxyType === aliasCardType.EMAIL ? !!ProxyValue : true;
+
+  const [warningModal, setWarningModal] = useState({
     isVisible: false,
     title: "",
     message: "",
   });
-  const [showErrorModal, setShowErrorModal] = useState<{ isVisible: boolean; title: string; message: string }>({
-    isVisible: false,
-    title: "",
-    message: "",
-  });
-  const [showWarningModal, setShowWarningModal] = useState(false);
-
-  const linkProxy = useLinkProxyAlias();
-  const unLinkProxy = useUnLinkProxyAlias();
-
-  const handleOnLinkProxy = async (proxyTypeId: string) => {
-    try {
-      const response = await linkProxy.mutateAsync(proxyTypeId);
-      if (response.linkResponeseStatus === "success") {
-        setShowSuccessModal({
-          isVisible: true,
-          title: t("ProxyAlias.SuccessModal.linkingSuccessed"),
-          message: t("ProxyAlias.SuccessModal.connectSuccessfully"),
-        });
-      } else {
-        setShowErrorModal({
-          isVisible: true,
-          title: t("ProxyAlias.ErrorModal.linkingFailed"),
-          message: t("ProxyAlias.ErrorModal.unableToConnect"),
-        });
-      }
-    } catch (error) {
-      setShowErrorModal({
-        isVisible: true,
-        title: t("ProxyAlias.ErrorModal.linkingFailed"),
-        message: t("ProxyAlias.ErrorModal.unableToConnect"),
-      });
-    }
-  };
-
-  const handleOnUnLinkProxy = async (proxyTypeId: string) => {
-    try {
-      const response = await unLinkProxy.mutateAsync(proxyTypeId);
-      if (response.unlinkResponeseStatus === "success") {
-        setShowSuccessModal({
-          isVisible: true,
-          title: t("ProxyAlias.SuccessModal.unLinkingSuccessed"),
-          message: t("ProxyAlias.SuccessModal.unConnectSuccessfully"),
-        });
-      } else {
-        setShowErrorModal({
-          isVisible: true,
-          title: t("ProxyAlias.ErrorModal.unLinkingFailed"),
-          message: t("ProxyAlias.ErrorModal.unableToDisable"),
-        });
-      }
-    } catch (error) {
-      setShowErrorModal({
-        isVisible: true,
-        title: t("ProxyAlias.ErrorModal.unLinkingFailed"),
-        message: t("ProxyAlias.ErrorModal.unableToDisable"),
-      });
-    }
-  };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
@@ -121,21 +61,19 @@ export default function AvailableAliasesCard({
 
   const iconColor = useThemeStyles<string | undefined>(
     theme => {
-      let color;
-      if (isLinked && !isARBLinked) {
+      let color = theme.palette["neutralBase-20"];
+      if (isLinked && !ARBProxyFlag) {
         color = theme.palette.secondary_mintBase;
-      } else if (isARBLinked) {
+      } else if (ARBProxyFlag) {
         color = theme.palette["secondary_yellowBase-10"];
-      } else {
-        color = theme.palette["neutralBase-20"];
       }
       return color;
     },
-    [isLinked, isARBLinked]
+    [isLinked, ARBProxyFlag]
   );
 
   const renderIcon = () => {
-    switch (proxyType) {
+    switch (ProxyType) {
       case aliasCardType.MOBILE_NUMBER:
         return <Mobile color={iconColor} />;
       case aliasCardType.NATIONAL_ID:
@@ -148,7 +86,7 @@ export default function AvailableAliasesCard({
   };
 
   const renderAliasType = () => {
-    switch (proxyType) {
+    switch (ProxyType) {
       case aliasCardType.MOBILE_NUMBER:
         return t("ProxyAlias.AliasManagementScreen.mobileNumber");
       case aliasCardType.NATIONAL_ID:
@@ -160,28 +98,80 @@ export default function AvailableAliasesCard({
     }
   };
 
+  const handleOnPress = () => {
+    if (!isLinked) {
+      setWarningModal({
+        isVisible: true,
+        title: isEmailRegistered
+          ? t("ProxyAlias.WarningModal.linkingWarning")
+          : t("ProxyAlias.WarningModal.registerEmailWarning"),
+        message: isEmailRegistered
+          ? t("ProxyAlias.WarningModal.warningCheck")
+          : t("ProxyAlias.WarningModal.registerEmailCheck"),
+      });
+    }
+  };
+
+  const handleOnConfirm = () => {
+    if (isLinked && !ARBProxyFlag) {
+      onUnLinkProxy(ProxyType);
+    } else if (!isEmailRegistered) {
+      navigation.navigate("ProxyAlias.RegisterEmailScreen");
+    } else {
+      onHandleOTP(reasonOTP.LINK_ALIAS, item);
+    }
+    setWarningModal({
+      isVisible: false,
+      title: "",
+      message: "",
+    });
+  };
+
+  const handleOnCancel = () => {
+    setWarningModal({
+      isVisible: false,
+      title: "",
+      message: "",
+    });
+  };
+
+  const handleOnARBLink = () => {
+    setWarningModal({
+      isVisible: true,
+      title: t("ProxyAlias.WarningModal.overrideWarning"),
+      message: t("ProxyAlias.WarningModal.overrideCheck"),
+    });
+  };
+
+  const handleOnUnLink = () => {
+    if (!ARBProxyFlag) {
+      setWarningModal({
+        isVisible: true,
+        title: t("ProxyAlias.WarningModal.unLinkingWarning"),
+        message: t("ProxyAlias.WarningModal.unWarningCheck"),
+      });
+    }
+  };
+
   return (
-    <View style={containerStyle}>
+    <Pressable style={containerStyle} onPress={handleOnPress}>
       <Stack direction="horizontal" flex={1}>
         {renderIcon()}
         <Stack direction="vertical" gap="4p" flex={1} style={middleViewStyle}>
-          {isLinked || isARBLinked ? (
+          {isLinked || ARBProxyFlag ? (
             <>
-              <View style={[linkedContainerStyle, isARBLinked && { backgroundColor: yellowBaseColor }]}>
+              <View style={[linkedContainerStyle, ARBProxyFlag && { backgroundColor: yellowBaseColor }]}>
                 <Typography.Text color="neutralBase-60" size="caption2" weight="medium">
                   {`${t("ProxyAlias.AliasManagementScreen.linked")} ${renderAliasType()}`}
                 </Typography.Text>
               </View>
               <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-                {proxyValue}
+                {ProxyValue}
               </Typography.Text>
-              {isARBLinked && (
+              {ARBProxyFlag && (
                 <Typography.Text color="neutralBase-10" size="footnote" weight="regular">
                   {t("ProxyAlias.AliasManagementScreen.ARBLinked")}
-                  <Pressable
-                    onPress={() => {
-                      //TODO when API is ready
-                    }}>
+                  <Pressable onPress={handleOnARBLink}>
                     <Typography.Text
                       color="primaryBase-40"
                       align="center"
@@ -194,7 +184,7 @@ export default function AvailableAliasesCard({
                 </Typography.Text>
               )}
             </>
-          ) : proxyType === aliasCardType.EMAIL && !isEmailRegistered ? (
+          ) : ProxyType === aliasCardType.EMAIL && !isEmailRegistered ? (
             <>
               <Typography.Text size="callout" weight="medium">
                 {t("ProxyAlias.AliasManagementScreen.registerYourEmail")}
@@ -209,70 +199,38 @@ export default function AvailableAliasesCard({
                 {`${t("ProxyAlias.AliasManagementScreen.linkYour")} ${renderAliasType()}`}
               </Typography.Text>
               <Typography.Text color="neutralBase-10" size="footnote" weight="regular">
-                {proxyValue}
+                {ProxyValue}
               </Typography.Text>
             </>
           )}
         </Stack>
       </Stack>
-      {isLinked || isARBLinked ? (
-        <Pressable onPress={() => setShowWarningModal(true)}>
+      {isLinked || ARBProxyFlag ? (
+        <Pressable onPress={handleOnUnLink}>
           <UnLinkIcon />
         </Pressable>
       ) : !isEmailRegistered ? (
         <ChevronRightIcon color={neutralBaseColor} />
       ) : (
-        <Pressable onPress={() => setShowWarningModal(true)}>
-          <LinkIcon />
-        </Pressable>
+        <LinkIcon />
       )}
-
-      <NotificationModal
-        variant="error"
-        onClose={() => setShowErrorModal({ isVisible: false, title: "", message: "" })}
-        title={showErrorModal.title}
-        message={showErrorModal.message}
-        isVisible={showErrorModal.isVisible}
-      />
-
-      <NotificationModal
-        variant="success"
-        title={showSuccessModal.title}
-        message={showSuccessModal.message}
-        isVisible={showSuccessModal.isVisible}
-        buttons={{
-          primary: (
-            <Button onPress={() => setShowSuccessModal({ isVisible: false, title: "", message: "" })}>
-              {t("ProxyAlias.SuccessModal.continue")}
-            </Button>
-          ),
-        }}
-      />
 
       {/* TODO when otp screen and API is ready */}
       <NotificationModal
         variant="warning"
-        title={isLinked ? t("ProxyAlias.WarningModal.unLinkingWarning") : t("ProxyAlias.WarningModal.linkingWarning")}
-        message={isLinked ? t("ProxyAlias.WarningModal.unWarningCheck") : t("ProxyAlias.WarningModal.warningCheck")}
-        isVisible={showWarningModal}
+        title={warningModal.title}
+        message={warningModal.message}
+        isVisible={warningModal.isVisible}
         buttons={{
           primary: (
-            <Button
-              onPress={() => {
-                if (isLinked) {
-                  handleOnUnLinkProxy(proxyType);
-                } else {
-                  handleOnLinkProxy(proxyType);
-                }
-                setShowWarningModal(false);
-              }}>
-              {t("ProxyAlias.WarningModal.pcoceed")}
+            <Button onPress={handleOnConfirm}>
+              {isEmailRegistered ? t("ProxyAlias.WarningModal.pcoceed") : t("ProxyAlias.WarningModal.register")}
             </Button>
           ),
-          secondary: <Button onPress={() => setShowWarningModal(false)}>{t("ProxyAlias.WarningModal.cancel")}</Button>,
+          secondary: <Button onPress={handleOnCancel}>{t("ProxyAlias.WarningModal.cancel")}</Button>,
         }}
       />
-    </View>
+    </Pressable>
   );
 }
 

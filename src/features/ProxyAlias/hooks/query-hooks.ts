@@ -8,6 +8,7 @@ import { generateRandomId } from "@/utils";
 import {
   OptOutInputs,
   OptOutResponse,
+  OtpChallengeParams,
   RegisterCustomerResponseApi,
   RegisterEmailInputs,
   RegisterEmailResponse,
@@ -32,8 +33,8 @@ export function useOptOut() {
 }
 
 interface LinkProxyAliasResponse {
-  status: string;
-  message: string;
+  Status: string;
+  Message: string;
 }
 
 export function useRegisterCustomer() {
@@ -99,7 +100,7 @@ export function useLinkProxyAlias() {
       }
     );
 
-    return { linkResponeseStatus: response.status };
+    return { linkResponeseStatus: response.Status };
   });
 }
 
@@ -119,6 +120,26 @@ export function useUnLinkProxyAlias() {
       }
     );
 
-    return { unlinkResponeseStatus: response.status };
+    return { unlinkResponeseStatus: response.Status };
+  });
+}
+
+export function useSendProxiesOTP() {
+  const correlationId = generateRandomId();
+
+  //TODO: will change the reasons once we recicve it form the BE team.
+  return useMutation(async (reasonCode: "register-email" | "link-proxy-alias" | "optout-proxy-alias") => {
+    return sendApiRequest<OtpChallengeParams>(
+      "v1",
+      "customers/otps/send",
+      "POST",
+      undefined,
+      {
+        Reason: reasonCode,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
   });
 }

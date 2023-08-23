@@ -13,10 +13,11 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { useRegisterEmail } from "../hooks/query-hooks";
+import { useRegisterEmail, useSendProxiesOTP } from "../hooks/query-hooks";
 
 export interface Email {
   Email: string;
@@ -24,6 +25,8 @@ export interface Email {
 
 export default function RegisterEmailScreen() {
   const navigation = useNavigation();
+  const otpFlow = useOtpFlow();
+  const useSendProxiesOtpAsync = useSendProxiesOTP();
   const { t } = useTranslation();
   const registerEmail = useRegisterEmail();
   const [showError, setShowError] = useState<boolean>(false);
@@ -42,21 +45,47 @@ export default function RegisterEmailScreen() {
     mode: "onBlur",
   });
 
+  const handleOnSendOTP = async (values: Email) => {
+    try {
+      otpFlow.handle({
+        action: {
+          to: "ProxyAlias.RegisterEmailScreen",
+          params: {},
+        },
+        otpChallengeParams: {
+          Email: values.Email,
+        },
+        otpVerifyMethod: "register-email",
+        onOtpRequest: () => {
+          return useSendProxiesOtpAsync.mutateAsync("register-email");
+        },
+        onFinish: (status: string) => {
+          if (status === "success") {
+            handleOnSubmit(values);
+          }
+        },
+      });
+    } catch (responseError) {
+      warn("login-action", "Could not send login OTP: ", JSON.stringify(responseError));
+    }
+  };
+
   const handleRegisterEmailSuccess = () => {
     //we will handle the success case later when real api is there
     Alert.alert("Email got registered");
   };
 
   const handleOnSubmit = async (values: Email) => {
-    registerEmail.mutate(
-      { email: values.Email },
-      {
-        onSuccess: () => handleRegisterEmailSuccess(),
-        onError: () => {
-          setShowError(true);
-        },
+    try {
+      const response = await registerEmail.mutateAsync({ email: values.Email });
+      if (response.Status === "success") {
+        handleRegisterEmailSuccess();
+      } else {
+        setShowError(true);
       }
-    );
+    } catch (error) {
+      setShowError(true);
+    }
   };
 
   const handleOnBackPress = () => {
@@ -86,7 +115,7 @@ export default function RegisterEmailScreen() {
               showCharacterCount
             />
             <Stack direction="vertical" align="stretch" gap="4p" style={styles.buttonContainer}>
-              <Button onPress={handleSubmit(handleOnSubmit)}>
+              <Button onPress={handleSubmit(handleOnSendOTP)}>
                 {t("ProxyAlias.RegisterEmailScreen.buttonContinue")}
               </Button>
               <Button onPress={handleOnBackPress} variant="tertiary">

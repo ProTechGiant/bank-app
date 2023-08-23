@@ -11,7 +11,7 @@ export interface TermsAndConditionsResponseApi {
   TermsAndConditions: string;
 }
 
-interface UserProxy {
+export interface UserProxy {
   ProxyType: string;
   ProxyValue: string;
   RegistrationId: string;
@@ -39,6 +39,15 @@ export interface RegisterEmailResponse {
   Message: string;
 }
 
+export interface OtpChallengeParams {
+  OneTimePassword: OneTimePasswordParams;
+}
+
+interface OneTimePasswordParams {
+  Length: number;
+  TimeToLive: number;
+  AllowedAttempts: number;
+}
 export interface OptOutResponse {
   Status: string;
   Message: string;

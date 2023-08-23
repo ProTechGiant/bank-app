@@ -2,6 +2,7 @@ interface GenericOtpChallengeParams {
   OtpId: string;
   OtpCode: string;
   PhoneNumber: string;
+  Email?: string;
   Status: boolean;
   oneTimePassword: {
     Length: number;
@@ -33,7 +34,10 @@ export type OtpVerifyMethodType =
   | "change-passcode"
   | "create-passcode"
   | "customers/communication-details"
-  | "payments/sadad";
+  | "payments/sadad"
+  | "register-email"
+  | "link-proxy-alias"
+  | "optout-proxy-alias";
 
 export interface OtpRequiredResponse {
   OtpId: string;

@@ -19,8 +19,20 @@ export const userProxies = [
   },
   {
     ProxyType: "EMAIL",
-    ProxyValue: "customer@email.com",
+    ProxyValue: "email@email.com",
     RegistrationId: "",
     ARBProxyFlag: false,
   },
 ];
+
+export enum reasonOTP {
+  LINK_ALIAS = "link-proxy-alias",
+  OPT_OUT = "optout-proxy-alias",
+  REGISTER_EMAIL = "register-email",
+}
+
+export enum aliasTypeCode {
+  MSISDN = 1,
+  NATID = 2,
+  EMAIL = 3,
+}
