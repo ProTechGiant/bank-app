@@ -174,6 +174,16 @@ export default function TemporaryLandingScreen() {
       });
     });
   };
+
+  const handleOnFaqs = async (values: TemporaryForm) => {
+    auth.authenticate(values.UserId);
+    setImmediate(() => {
+      navigation.navigate("FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack", {
+        screen: "FrequentlyAskedQuestions.LandingScreen",
+      });
+    });
+  };
+
   const handleOnPressPaymentDisputesLanding = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     setImmediate(() => {
@@ -217,6 +227,9 @@ export default function TemporaryLandingScreen() {
             variant="simple"
           />
         </Stack>
+        <View style={styles.margin20}>
+          <Button onPress={handleSubmit(handleOnFaqs)}>Faqs</Button>
+        </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnProxyAlias)}>Proxy Alias Landing</Button>
         </View>
