@@ -614,7 +614,8 @@
     },
     "PreviewStatementScreen": {
       "exportAsPDF": "Export as PDF",
-      "title": "Statement preview"
+      "title": "Statement preview",
+      "nothingToShowText": "Nothing to show"
     }
   },
   "ViewTransactions": {

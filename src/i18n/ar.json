@@ -621,7 +621,8 @@
     },
     "PreviewStatementScreen": {
       "exportAsPDF": "تصدير كملف PDF",
-      "title": "معاينة البيان"
+      "title": "معاينة البيان",
+      "nothingToShowText": "لا شيء لعرضه"
     }
   },
   "ViewTransactions": {

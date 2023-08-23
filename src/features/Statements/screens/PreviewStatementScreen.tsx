@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Share, { ShareOptions } from "react-native-share";
@@ -9,14 +9,16 @@ import Share, { ShareOptions } from "react-native-share";
 import { CloseIcon, FullScreenIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 
 import { PreviewStatementPDF } from "../components";
 import { useDownloadStatement } from "../hooks/query-hooks";
-import { STATEMENT_BASE_64_STRING } from "../mocks/AccessStatementData";
+import { STATEMENT_BASE_64_PREFIX } from "../mocks/AccessStatementData";
 import { StatementsStackParams } from "../StatementsStack";
 
 export default function PreviewStatementScreen() {
@@ -24,21 +26,22 @@ export default function PreviewStatementScreen() {
   const route = useRoute<RouteProp<StatementsStackParams, "Statements.PreviewStatementScreen">>();
   const documentId = route.params?.documentId;
 
-  const { data } = useDownloadStatement(documentId);
+  const { data, isLoading } = useDownloadStatement(documentId);
   const { t } = useTranslation();
 
   const handleExportStatement = async () => {
-    const shareOptions: ShareOptions = {
-      title: "Statement",
-      //TODO: will change it to url once backend is ready
-      url: data?.StatementContent || STATEMENT_BASE_64_STRING,
-    };
+    if (data !== undefined) {
+      const shareOptions: ShareOptions = {
+        title: "Statement",
+        url: STATEMENT_BASE_64_PREFIX + data.StatementContent,
+      };
 
-    try {
-      const ShareResponse = await Share.open(shareOptions);
-      warn("Result =>", JSON.stringify(ShareResponse));
-    } catch (error) {
-      warn("sharePdfBase64 Error =>", JSON.stringify(error));
+      try {
+        const ShareResponse = await Share.open(shareOptions);
+        warn("Result =>", JSON.stringify(ShareResponse));
+      } catch (error) {
+        warn("sharePdfBase64 Error =>", JSON.stringify(error));
+      }
     }
   };
 
@@ -77,13 +80,21 @@ export default function PreviewStatementScreen() {
         </SafeAreaView>
 
         <ContentContainer>
-          {/* {data?.StatementContent !== undefined ? ( TODO: will uncomment once api starts working*/}
-          <PreviewStatementPDF
-            fullPreviewMode={fullPreviewMode}
-            source={{ uri: data?.StatementContent || STATEMENT_BASE_64_STRING }} //TODO: Will remove fallback when API will be available
-          />
-          {/* ) : null} */}
-          {!fullPreviewMode ? (
+          {isLoading ? (
+            <FullScreenLoader />
+          ) : data?.StatementContent === undefined ? (
+            <ContentContainer style={styles.container}>
+              <Typography.Text weight="regular" size="title3" align="center">
+                {t("Statements.PreviewStatementScreen.nothingToShowText")}
+              </Typography.Text>
+            </ContentContainer>
+          ) : (
+            <PreviewStatementPDF
+              fullPreviewMode={fullPreviewMode}
+              source={{ uri: STATEMENT_BASE_64_PREFIX + data.StatementContent }}
+            />
+          )}
+          {data?.StatementContent && !isLoading && !fullPreviewMode ? (
             <View style={bottomButtonContainerStyle}>
               <Button onPress={handleExportStatement}>{t("Statements.PreviewStatementScreen.exportAsPDF")}</Button>
             </View>
@@ -93,3 +104,10 @@ export default function PreviewStatementScreen() {
     </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  },
+});
