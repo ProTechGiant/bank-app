@@ -3,7 +3,6 @@ import { useMutation, useQuery } from "react-query";
 
 import sendApiRequest from "@/api";
 import api from "@/api";
-import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
 
 import {
@@ -71,12 +70,8 @@ export function useGetTermsAndConditions() {
 }
 
 export function useGetUserProxies() {
-  const account = useCurrentAccount();
-
-  const account_id = account.data?.id;
-
   return useQuery(
-    ["terms-and-conditions"],
+    ["proxyAliases"],
     () =>
       api<UserProxiesResponse>("v1", `ips/proxies`, "GET", undefined, undefined, {
         ["x-correlation-id"]: generateRandomId(),
@@ -84,7 +79,6 @@ export function useGetUserProxies() {
     {
       // set staleTime to 10 seconds for caching
       staleTime: 10000,
-      enabled: !!account_id,
     }
   );
 }

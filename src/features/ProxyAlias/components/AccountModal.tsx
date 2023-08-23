@@ -14,9 +14,15 @@ import AccountIcon from "../assets/AccountIcon";
 interface AccountModalProps {
   visible: boolean;
   onClose: () => void;
+  accountNumber: string;
+  fullName: {
+    FirstName: string;
+    SecondName: string;
+    LastName: string;
+  };
 }
 
-export default function AccountModal({ onClose, visible }: AccountModalProps) {
+export default function AccountModal({ onClose, visible, accountNumber, fullName }: AccountModalProps) {
   const { t } = useTranslation();
 
   const addToast = useToasts();
@@ -73,8 +79,7 @@ export default function AccountModal({ onClose, visible }: AccountModalProps) {
             {t("ProxyAlias.AccountModal.fullName")}
           </Typography.Text>
           <Typography.Text size="callout" weight="regular" color="neutralBase+30">
-            {/* TODO when backend api finished */}
-            Ahmad Tareq Ali Abdulaziz
+            {fullName.FirstName} {fullName.SecondName} {fullName.LastName}
           </Typography.Text>
         </Stack>
       </Stack>
@@ -85,7 +90,7 @@ export default function AccountModal({ onClose, visible }: AccountModalProps) {
             {t("ProxyAlias.AccountModal.accountNumber")}
           </Typography.Text>
           <Typography.Text size="callout" weight="regular" color="neutralBase+30">
-            {value}
+            {accountNumber}
           </Typography.Text>
         </Stack>
 

@@ -15,7 +15,7 @@ interface UserProxy {
   ProxyType: string;
   ProxyValue: string;
   RegistrationId: string;
-  ARBProxyFlag: string;
+  ARBProxyFlag: boolean;
 }
 
 interface UserName {

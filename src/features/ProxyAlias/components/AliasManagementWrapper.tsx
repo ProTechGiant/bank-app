@@ -11,12 +11,17 @@ import { useThemeStyles } from "@/theme";
 
 import AccountIcon from "../assets/AccountIcon";
 import { useOptOut } from "../hooks/query-hooks";
-import { aliasCardType, userProxies } from "../mocks";
+import { aliasCardType } from "../mocks";
+import { UserProxiesResponse } from "../types";
 import AccountModal from "./AccountModal";
 import AvailableAliasesCard from "./AvailableAliasesCard";
 import OptOutModal from "./OptOutModal";
 
-export default function AliasManagementWrapper() {
+interface ProxyAliasesProps {
+  data: UserProxiesResponse;
+}
+
+export default function AliasManagementWrapper({ data }: ProxyAliasesProps) {
   const { t } = useTranslation();
 
   const selectedReason = useRef<string>("");
@@ -44,6 +49,10 @@ export default function AliasManagementWrapper() {
     backgroundColor: theme.palette["neutralBase-40"],
     marginHorizontal: -theme.spacing["20p"],
     marginVertical: theme.spacing["20p"],
+  }));
+
+  const optOutStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["48p"],
   }));
 
   const accountIconColor = useThemeStyles(theme => theme.palette.complimentBase);
@@ -95,7 +104,7 @@ export default function AliasManagementWrapper() {
           <Typography.Text size="title3" weight="medium">
             {t("ProxyAlias.AliasManagementScreen.availableAliases")}
           </Typography.Text>
-          {userProxies.map(item => {
+          {data.UserProxies.map(item => {
             return (
               <AvailableAliasesCard
                 proxyType={item.ProxyType}
@@ -108,7 +117,7 @@ export default function AliasManagementWrapper() {
           })}
         </Stack>
       </View>
-      <Stack direction="vertical" align="stretch" gap="8p">
+      <Stack direction="vertical" align="stretch" gap="8p" style={optOutStyle}>
         <Typography.Text size="caption2" color="neutralBase" weight="regular" align="center">
           {t("ProxyAlias.AliasManagementScreen.optOutButtonDescription")}
         </Typography.Text>
@@ -117,7 +126,12 @@ export default function AliasManagementWrapper() {
         </Button>
       </Stack>
 
-      <AccountModal visible={isAccountModalVisible} onClose={() => setIsAccountModalVisible(false)} />
+      <AccountModal
+        fullName={data.UserName}
+        accountNumber={data.AccountNumber}
+        visible={isAccountModalVisible}
+        onClose={() => setIsAccountModalVisible(false)}
+      />
       <OptOutModal
         visible={isOptOutModalVisible}
         onclose={() => setIsOptOutModalVisible(false)}

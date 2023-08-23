@@ -1,15 +1,18 @@
+import { ActivityIndicator } from "react-native";
+
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 
 import { AliasManagementWrapper, Confirmation } from "../components";
+import { useGetUserProxies } from "../hooks/query-hooks";
 
 export default function AliasManagementScreen() {
   const navigation = useNavigation();
 
-  //TODO : removed when API is ready
-  const isNotRegistered = false;
+  const { data, isLoading } = useGetUserProxies();
+
   const handleOnBackPress = () => {
     navigation.goBack();
   };
@@ -18,9 +21,14 @@ export default function AliasManagementScreen() {
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
       <NavHeader title="Alias Management" onBackPress={handleOnBackPress} />
 
-      <ContentContainer>
-        {/*TODO: when i connect to api i will render this component conditionally */}
-        {isNotRegistered ? <Confirmation /> : <AliasManagementWrapper />}
+      <ContentContainer isScrollView alwaysBounceVertical={true}>
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : Object.keys(data).length !== 0 ? (
+          <AliasManagementWrapper data={data} />
+        ) : (
+          <Confirmation />
+        )}
       </ContentContainer>
     </Page>
   );
