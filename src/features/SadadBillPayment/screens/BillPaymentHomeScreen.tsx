@@ -55,7 +55,10 @@ export default function BillPaymentHomeScreen() {
 
   const handleOnBiilItemPress = (accountNumber: string, billerId: string) => {
     clearContext();
-    currentTab === "paymentDue" ? setNavigationType("payBill") : undefined;
+
+    if (currentTab === "paymentDue") {
+      setNavigationType("payBill");
+    }
 
     navigation.navigate("SadadBillPayments.BillDetailsScreen", {
       AccountNumber: accountNumber,
