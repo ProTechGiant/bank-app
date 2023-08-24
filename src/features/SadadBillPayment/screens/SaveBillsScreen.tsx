@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 import { FlatList, View, ViewStyle } from "react-native";
 
 import EmptySearchResult from "@/components/EmptySearchResult";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import { SearchInput } from "@/components/Input";
+import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -21,12 +23,13 @@ export default function SaveBillsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { setNavigationType } = useSadadBillPaymentContext();
-  const { data: savedBills } = useSavedBills();
+  const { data: savedBills, isLoading, isError, refetch } = useSavedBills();
 
   const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.SaveBillsScreen">>();
 
   const [searchedUsedBills, setSearchedUsedBills] = useState<BillItem[]>([]);
   const [searchText, setSearchText] = useState<string>("");
+  const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState(false);
 
   useEffect(() => {
     if (savedBills === undefined) {
@@ -47,6 +50,11 @@ export default function SaveBillsScreen() {
     }, 500);
     return () => clearTimeout(debounceId);
   }, [savedBills, searchText]);
+
+  // showing error if api failed to get response.
+  useEffect(() => {
+    setIsLoadingErrorVisible(isError);
+  }, [isError]);
 
   const handleOnChangeText = (text: string) => {
     if (text === " " && searchText === "") return;
@@ -96,16 +104,27 @@ export default function SaveBillsScreen() {
             placeholder={t("SadadBillPayments.SavedBillScreen.searchPlaceholder")}
             value={searchText}
           />
-          {searchedUsedBills.length > 0 ? (
-            <FlatList
-              data={searchedUsedBills}
-              renderItem={({ item }) => (
-                <BillItemCard key={item.BillerId} data={item} onPress={() => handleOnItemPress(item)} />
-              )}
-            />
+          {isLoading ? (
+            <FullScreenLoader />
           ) : (
-            <EmptySearchResult />
+            <>
+              {searchedUsedBills.length > 0 ? (
+                <FlatList
+                  data={searchedUsedBills}
+                  renderItem={({ item }) => (
+                    <BillItemCard key={item.BillerId} data={item} onPress={() => handleOnItemPress(item)} />
+                  )}
+                />
+              ) : (
+                <EmptySearchResult />
+              )}
+            </>
           )}
+          <LoadingErrorNotification
+            isVisible={isLoadingErrorVisible}
+            onClose={() => setIsLoadingErrorVisible(false)}
+            onRefresh={() => refetch()}
+          />
         </Stack>
       </View>
     </Page>

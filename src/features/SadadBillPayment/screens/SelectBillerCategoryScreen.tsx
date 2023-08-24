@@ -3,7 +3,9 @@ import { useTranslation } from "react-i18next";
 import { TextInput, ViewStyle } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import { SearchInput } from "@/components/Input";
+import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -28,8 +30,9 @@ export default function SelectBillerCategoryScreen() {
   // maintaining two list one with actual paginated list and other one is search filtered list.
   const [actualCategoryList, setActualCategoryList] = useState<BillerCategory[]>([]);
   const [categories, setCategories] = useState<BillerCategory[]>([]);
+  const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState(false);
 
-  const { data, isLoading, isFetching } = useBillerCategories(PAGE_SIZE, page);
+  const { data, isLoading, isFetching, isError, refetch } = useBillerCategories(PAGE_SIZE, page);
 
   useEffect(() => {
     if (data !== undefined && data.CategoriesList !== undefined) {
@@ -39,6 +42,11 @@ export default function SelectBillerCategoryScreen() {
       setCategories(array);
     }
   }, [data]);
+
+  // showing error if api failed to get response.
+  useEffect(() => {
+    setIsLoadingErrorVisible(isError);
+  }, [isError]);
 
   const handleOnEndReached = () => {
     // checking if its the last data then no need to increment page.
@@ -104,11 +112,20 @@ export default function SelectBillerCategoryScreen() {
           />
         </Stack>
         <Stack style={listContainerStyle} direction="horizontal">
-          <CategoryList
-            isFetching={isFetching}
-            data={categories}
-            onSelect={handleOnCategorySelect}
-            onEndReached={handleOnEndReached}
+          {isLoading ? (
+            <FullScreenLoader />
+          ) : (
+            <CategoryList
+              isFetching={isFetching}
+              data={categories}
+              onSelect={handleOnCategorySelect}
+              onEndReached={handleOnEndReached}
+            />
+          )}
+          <LoadingErrorNotification
+            isVisible={isLoadingErrorVisible}
+            onClose={() => setIsLoadingErrorVisible(false)}
+            onRefresh={() => refetch()}
           />
         </Stack>
       </ContentContainer>

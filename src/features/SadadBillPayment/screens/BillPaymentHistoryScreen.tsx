@@ -8,7 +8,9 @@ import { CloseIcon } from "@/assets/icons";
 import { CalendarIcon } from "@/assets/icons/CalendarIcon";
 import DateRangePickerModal from "@/components/DateRangePickerModal";
 import EmptySearchResult from "@/components/EmptySearchResult";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import { SearchInput } from "@/components/Input";
+import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -29,10 +31,11 @@ export default function BillPaymentHistoryScreen() {
   const [isDateFilterModalVisible, setIsDateFilterModalVisible] = useState(false);
   const [isFilteredResult, setIsFilteredResult] = useState(false);
   const [selectedDateSearchRange, setSelectedDateSearchRange] = useState("");
+  const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState(false);
   const { setNavigationType, clearContext } = useSadadBillPaymentContext();
   const navigation = useNavigation();
 
-  const { data: billPayments } = useBillPaymentHistory();
+  const { data: billPayments, isLoading, isError, refetch } = useBillPaymentHistory();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["24p"],
@@ -147,6 +150,11 @@ export default function BillPaymentHistoryScreen() {
     return () => clearTimeout(debounceId);
   }, [billPayments, searchText]);
 
+  // showing error if api failed to get response.
+  useEffect(() => {
+    setIsLoadingErrorVisible(isError);
+  }, [isError]);
+
   return (
     <>
       <Page backgroundColor="neutralBase-60">
@@ -181,22 +189,32 @@ export default function BillPaymentHistoryScreen() {
                 </Stack>
               </Stack>
             )}
-
-            {searchSavedGroupedBills.length > 0 ? (
-              <SectionList
-                sections={searchSavedGroupedBills}
-                renderItem={({ item }) => (
-                  <BillItemCard key={item.BillerId} data={item} onPress={() => handleOnItemPressed(item)} />
-                )}
-                renderSectionHeader={({ section }) => (
-                  <Typography.Text size="callout" weight="regular" color="neutralBase" style={sectionTitleStyle}>
-                    {section.title}
-                  </Typography.Text>
-                )}
-              />
+            {isLoading ? (
+              <FullScreenLoader />
             ) : (
-              <EmptySearchResult />
+              <>
+                {searchSavedGroupedBills.length > 0 ? (
+                  <SectionList
+                    sections={searchSavedGroupedBills}
+                    renderItem={({ item }) => (
+                      <BillItemCard key={item.BillerId} data={item} onPress={() => handleOnItemPressed(item)} />
+                    )}
+                    renderSectionHeader={({ section }) => (
+                      <Typography.Text size="callout" weight="regular" color="neutralBase" style={sectionTitleStyle}>
+                        {section.title}
+                      </Typography.Text>
+                    )}
+                  />
+                ) : (
+                  <EmptySearchResult />
+                )}
+              </>
             )}
+            <LoadingErrorNotification
+              isVisible={isLoadingErrorVisible}
+              onClose={() => setIsLoadingErrorVisible(false)}
+              onRefresh={() => refetch()}
+            />
           </Stack>
         </View>
       </Page>

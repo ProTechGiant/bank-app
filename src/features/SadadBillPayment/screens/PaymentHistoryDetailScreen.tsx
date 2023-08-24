@@ -28,7 +28,7 @@ export default function PaymentHistoryDetailScreen() {
   const [isAPIErrorVisible, setIsAPIErrorVisible] = useState(false);
 
   const { status, data } = useBillPaymentHistoryDetail(route.params.PaymentId);
-  const { mutateAsync } = useGetBillPaymentReceipt();
+  const { mutateAsync, isLoading: shareLoading } = useGetBillPaymentReceipt();
 
   const billDescription = i18n.language === "en" ? data?.BillDescriptionEn : data?.BillDescriptionAr;
   const billerDescription = i18n.language === "en" ? data?.BillerDescriptionEn : data?.BillerDescriptionAr;
@@ -81,7 +81,12 @@ export default function PaymentHistoryDetailScreen() {
                 />
 
                 <Stack align="stretch" direction="vertical" style={buttonsContainerStyle}>
-                  <Button variant="primary" iconLeft={<ShareIcon />} onPress={handleOnSharePress}>
+                  <Button
+                    loading={shareLoading}
+                    disabled={shareLoading}
+                    variant="primary"
+                    iconLeft={<ShareIcon />}
+                    onPress={handleOnSharePress}>
                     {t("SadadBillPayments.PaymentHistoryDetailScreen.shareButton")}
                   </Button>
                 </Stack>

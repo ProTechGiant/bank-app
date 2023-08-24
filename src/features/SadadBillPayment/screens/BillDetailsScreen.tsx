@@ -13,6 +13,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 
 import { BillDetailsView } from "../components";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
@@ -23,7 +24,7 @@ export default function BillDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.BillDetailsScreen">>();
-  const { mutateAsync: deleteSavedBillAsync } = useDeleteSavedBill();
+  const { mutateAsync: deleteSavedBillAsync, isLoading: deleteLoading } = useDeleteSavedBill();
   const { data, status } = useBillDetailsByBillId(route.params.AccountNumber, route.params.billerId);
 
   const { billDetails, setBillDetails, setNavigationType, navigationType } = useSadadBillPaymentContext();
@@ -45,15 +46,20 @@ export default function BillDetailsScreen() {
 
   const handleOnBillDelete = async () => {
     if (data === undefined) return;
-    setIsConfirmDeleteModalVisible(false);
     try {
       await deleteSavedBillAsync({
         billId: data.BillerId,
         accountNumber: data.BillingAccount,
       });
-      setIsDeleteSuccessModalVisible(true);
+      delayTransition(() => {
+        setIsDeleteSuccessModalVisible(true);
+      });
     } catch (error) {
-      setIsDeleteErrorModalVisible(true);
+      delayTransition(() => {
+        setIsDeleteErrorModalVisible(true);
+      });
+    } finally {
+      setIsConfirmDeleteModalVisible(false);
     }
   };
 
@@ -139,7 +145,7 @@ export default function BillDetailsScreen() {
         variant="warning"
         buttons={{
           primary: (
-            <Button onPress={handleOnBillDelete}>
+            <Button loading={deleteLoading} disabled={deleteLoading} onPress={handleOnBillDelete}>
               {t("SadadBillPayments.BillDetailsScreen.deleteBill.deleteButton")}
             </Button>
           ),
