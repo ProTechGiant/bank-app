@@ -372,6 +372,8 @@
       "buttonCancel": "Cancel",
       "errorEmailRegistrationFailedTitle": "Email registration Failed",
       "errorEmailRegistrationFailedMessage": "We were unable to register your email!",
+      "emailRegistrationSuccessTitle": "Registration Successful",
+      "emailRegistrationSuccessMessage": "Your email has been successfully registered!",
       "erorPrimaryLabel": "Ok",
       "validationErrors": {
         "email": {

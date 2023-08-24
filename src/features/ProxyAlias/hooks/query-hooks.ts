@@ -1,10 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import sendApiRequest from "@/api";
 import api from "@/api";
 import { generateRandomId } from "@/utils";
 
+import { aliasTypeCode } from "../mocks";
 import {
   OptOutInputs,
   OptOutResponse,
@@ -17,19 +18,35 @@ import {
 } from "../types";
 
 export function useRegisterEmail() {
-  return useMutation(async (email: RegisterEmailInputs) => {
-    return sendApiRequest<RegisterEmailResponse>("v1", `ips/register-email`, "POST", undefined, email, {
-      ["x-correlation-id"]: generateRandomId(),
-    });
-  });
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (email: RegisterEmailInputs) => {
+      return sendApiRequest<RegisterEmailResponse>("v1", `ips/register-email`, "POST", undefined, email, {
+        ["x-correlation-id"]: generateRandomId(),
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("proxyAliases");
+      },
+    }
+  );
 }
 
 export function useOptOut() {
-  return useMutation(async (input: OptOutInputs) => {
-    return sendApiRequest<OptOutResponse>("v1", `ips/opt-out`, "POST", undefined, input, {
-      ["x-correlation-id"]: generateRandomId(),
-    });
-  });
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (input: OptOutInputs) => {
+      return sendApiRequest<OptOutResponse>("v1", `ips/opt-out`, "POST", undefined, input, {
+        ["x-correlation-id"]: generateRandomId(),
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("proxyAliases");
+      },
+    }
+  );
 }
 
 interface LinkProxyAliasResponse {
@@ -38,11 +55,19 @@ interface LinkProxyAliasResponse {
 }
 
 export function useRegisterCustomer() {
-  return useMutation(async () => {
-    return sendApiRequest<RegisterCustomerResponseApi>("v1", `ips/register`, "POST", undefined, undefined, {
-      ["x-correlation-id"]: generateRandomId(),
-    });
-  });
+  const queryClient = useQueryClient();
+  return useMutation(
+    async () => {
+      return sendApiRequest<RegisterCustomerResponseApi>("v1", `ips/register`, "POST", undefined, undefined, {
+        ["x-correlation-id"]: generateRandomId(),
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("proxyAliases");
+      },
+    }
+  );
 }
 
 export function useGetTermsAndConditions() {
@@ -85,49 +110,64 @@ export function useGetUserProxies() {
 }
 
 export function useLinkProxyAlias() {
-  return useMutation(async (proxyTypeId: string) => {
-    const correlationId = generateRandomId();
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (proxyTypeId: string) => {
+      const correlationId = generateRandomId();
+      const proxyId = proxyTypeId === aliasTypeCode.MSISDN ? 1 : proxyTypeId === aliasTypeCode.NATID ? 2 : 3;
 
-    const response = await api<LinkProxyAliasResponse>(
-      "v1",
-      `ips/link/${proxyTypeId}`,
-      "POST",
-      undefined,
-      undefined,
+      const response = await api<LinkProxyAliasResponse>(
+        "v1",
+        `ips/link/${proxyId}`,
+        "POST",
+        undefined,
+        undefined,
 
-      {
-        ["x-correlation-id"]: correlationId,
-      }
-    );
+        {
+          ["x-correlation-id"]: correlationId,
+        }
+      );
 
-    return { linkResponeseStatus: response.Status };
-  });
+      return { linkResponeseStatus: response.Status };
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("proxyAliases");
+      },
+    }
+  );
 }
 
 export function useUnLinkProxyAlias() {
-  return useMutation(async (registerationId: string) => {
-    const correlationId = generateRandomId();
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (registerationId: string) => {
+      const correlationId = generateRandomId();
 
-    const response = await api<LinkProxyAliasResponse>(
-      "v1",
-      `ips/unlink/${registerationId}`,
-      "POST",
-      undefined,
-      undefined,
+      const response = await api<LinkProxyAliasResponse>(
+        "v1",
+        `ips/unlink/${registerationId}`,
+        "POST",
+        undefined,
+        undefined,
 
-      {
-        ["x-correlation-id"]: correlationId,
-      }
-    );
+        {
+          ["x-correlation-id"]: correlationId,
+        }
+      );
 
-    return { unlinkResponeseStatus: response.Status };
-  });
+      return { unlinkResponeseStatus: response.Status };
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("proxyAliases");
+      },
+    }
+  );
 }
 
 export function useSendProxiesOTP() {
   const correlationId = generateRandomId();
-
-  //TODO: will change the reasons once we recicve it form the BE team.
   return useMutation(async (reasonCode: "register-email" | "link-proxy-alias" | "optout-proxy-alias") => {
     return sendApiRequest<OtpChallengeParams>(
       "v1",

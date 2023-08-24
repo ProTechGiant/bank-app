@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Alert, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, StyleSheet, View, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
 import Button from "@/components/Button";
@@ -30,6 +30,7 @@ export default function RegisterEmailScreen() {
   const { t } = useTranslation();
   const registerEmail = useRegisterEmail();
   const [showError, setShowError] = useState<boolean>(false);
+  const [showSuccess, setShowSuccess] = useState<boolean>(false);
 
   const registerInfoLabelStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["8p"],
@@ -70,16 +71,11 @@ export default function RegisterEmailScreen() {
     }
   };
 
-  const handleRegisterEmailSuccess = () => {
-    //we will handle the success case later when real api is there
-    Alert.alert("Email got registered");
-  };
-
   const handleOnSubmit = async (values: Email) => {
     try {
       const response = await registerEmail.mutateAsync({ email: values.Email });
-      if (response.Status === "success") {
-        handleRegisterEmailSuccess();
+      if (response.Status === "204") {
+        setShowSuccess(true);
       } else {
         setShowError(true);
       }
@@ -90,6 +86,11 @@ export default function RegisterEmailScreen() {
 
   const handleOnBackPress = () => {
     navigation.goBack();
+  };
+
+  const handleOnClose = () => {
+    setShowSuccess(false);
+    handleOnBackPress();
   };
 
   return (
@@ -129,6 +130,15 @@ export default function RegisterEmailScreen() {
                 title={t("ProxyAlias.RegisterEmailScreen.errorEmailRegistrationFailedTitle")}
                 message={t("ProxyAlias.RegisterEmailScreen.errorEmailRegistrationFailedMessage")}
                 isVisible={showError}
+              />
+              <NotificationModal
+                variant="success"
+                title={t("ProxyAlias.RegisterEmailScreen.emailRegistrationSuccessTitle")}
+                message={t("ProxyAlias.RegisterEmailScreen.emailRegistrationSuccessMessage")}
+                isVisible={showSuccess}
+                buttons={{
+                  primary: <Button onPress={handleOnClose}>{t("ProxyAlias.SuccessModal.continue")}</Button>,
+                }}
               />
             </Stack>
           </>

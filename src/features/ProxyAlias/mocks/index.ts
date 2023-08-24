@@ -32,7 +32,7 @@ export enum reasonOTP {
 }
 
 export enum aliasTypeCode {
-  MSISDN = 1,
-  NATID = 2,
-  EMAIL = 3,
+  MSISDN = "MSISDN",
+  NATID = "NATID",
+  EMAIL = "EMAIL",
 }

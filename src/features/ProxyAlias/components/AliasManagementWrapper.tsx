@@ -14,7 +14,7 @@ import delayTransition from "@/utils/delay-transition";
 import AccountIcon from "../assets/AccountIcon";
 import { useLinkProxyAlias, useSendProxiesOTP, useUnLinkProxyAlias } from "../hooks/query-hooks";
 import { useOptOut } from "../hooks/query-hooks";
-import { aliasCardType, reasonOTP, userProxies } from "../mocks";
+import { aliasCardType, reasonOTP } from "../mocks";
 import { UserProxiesResponse, UserProxy } from "../types";
 import AccountModal from "./AccountModal";
 import AvailableAliasesCard from "./AvailableAliasesCard";
@@ -90,7 +90,7 @@ export default function AliasManagementWrapper({ data }: ProxyAliasesProps) {
   const handleOnConfirmOpt = async () => {
     try {
       const response = await optOutApi.mutateAsync({ OptOutReason: selectedReason.current });
-      if (response.Status === "success") {
+      if (response.Status === "200") {
         setShowModal({
           isVisible: true,
           type: "success",
@@ -183,7 +183,7 @@ export default function AliasManagementWrapper({ data }: ProxyAliasesProps) {
       setShowModal({
         isVisible: true,
         type: "error",
-        title: t("ProxyAlias.OptOutFailureModal.title"),
+        title: t("ProxyAlias.ErrorModal.linkingFailed"),
         message: t("ProxyAlias.ErrorModal.unableToConnect"),
       });
     }
@@ -192,7 +192,7 @@ export default function AliasManagementWrapper({ data }: ProxyAliasesProps) {
   const handleOnUnLinkProxy = async (proxyTypeId: string) => {
     try {
       const response = await unLinkProxy.mutateAsync(proxyTypeId);
-      if (response.unlinkResponeseStatus === "success") {
+      if (response.unlinkResponeseStatus === "200") {
         delayTransition(() =>
           setShowModal({
             isVisible: true,
@@ -256,7 +256,7 @@ export default function AliasManagementWrapper({ data }: ProxyAliasesProps) {
           <Typography.Text size="title3" weight="medium">
             {t("ProxyAlias.AliasManagementScreen.availableAliases")}
           </Typography.Text>
-          {userProxies.map(item => {
+          {data.UserProxies.map(item => {
             return <AvailableAliasesCard item={item} onHandleOTP={handleOnOtp} onUnLinkProxy={handleOnUnLinkProxy} />;
           })}
         </Stack>

@@ -24,7 +24,7 @@ export default function AliasManagementScreen() {
       <ContentContainer isScrollView alwaysBounceVertical={true}>
         {isLoading ? (
           <ActivityIndicator />
-        ) : Object.keys(data).length !== 0 ? (
+        ) : data?.UserProxies ? (
           <AliasManagementWrapper data={data} />
         ) : (
           <Confirmation />
