@@ -70,8 +70,8 @@ export default function AccessCustomDateStatementList({
         data={statements}
         renderItem={item => <CustomStatementView statement={item.item} onPressCard={onPressCard} onRetry={onRetry} />}
         refreshControl={<RefreshControl refreshing={isLoading} onRefresh={onRefresh} />}
-        onEndReachedThreshold={0.1}
-        onEndReached={onEndReached}
+        onEndReachedThreshold={1}
+        onEndReached={({ distanceFromEnd }) => (distanceFromEnd >= 1 ? onEndReached() : undefined)}
         keyExtractor={item => item.CBSReferenceNumber}
         ListFooterComponent={sectionListFooter}
       />

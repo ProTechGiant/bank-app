@@ -71,7 +71,7 @@ export default function CustomStatementCardView({ statement, onPressCard, onRetr
       <Stack direction="horizontal" style={renderItemStyle} align="center" justify="space-between">
         <Stack direction="vertical">
           {statement.Status !== StatementStatus.DOWNLOADED ? <StatementStatusView Status={statement.Status} /> : null}
-          {dateBadge(statement.StatementEndDate)}
+          {dateBadge(statement.StatementGenerationDate)}
           <Typography.Text style={renderItemDateStyle} color="neutralBase+30" size="callout" weight="medium">
             {formatDateRange(statement.StatementStartDate, statement.StatementEndDate)}
           </Typography.Text>

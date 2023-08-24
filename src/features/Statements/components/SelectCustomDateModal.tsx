@@ -21,7 +21,7 @@ interface SelectCustomDateModalType {
   visible: boolean;
   onClose: () => void;
   onPickDate: (isItStartDate: boolean, date: string) => void;
-  onboardingDate?: string; // yy-mm-dd
+  onboardingDate?: string;
 }
 
 export default function SelectCustomDateModal({

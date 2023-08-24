@@ -37,7 +37,7 @@ export default function AccessMonthlyStatementsList({
 
   const getMonthNameFromDateString = (dateString: string): string => {
     const [year, month] = dateString.split("-");
-    const date = new Date(+year, +month);
+    const date = new Date(+year, +month - 1);
     const monthName = format(date, "MMMM").toLowerCase() as MonthNameTypes;
     return t(`Statements.AccessStatements.MonthNames.${monthName}`);
   };
@@ -60,7 +60,7 @@ export default function AccessMonthlyStatementsList({
           align="center"
           style={[renderItemStyle, !index ? topBorderRadiusStyle : null, isLastItem ? bottomBorderRadiusStyle : null]}>
           <Typography.Text color={item.Status === StatementStatus.GENERATED ? "complimentBase" : "neutralBase+30"}>
-            {getMonthNameFromDateString(item.StatementEndDate)}
+            {getMonthNameFromDateString(item.StatementGenerationDate)}
           </Typography.Text>
           <Stack style={languageTextStyle} align="center" direction="horizontal">
             <Typography.Text size="caption1" color="neutralBase">

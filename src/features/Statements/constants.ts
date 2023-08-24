@@ -36,3 +36,5 @@ export const PAGE_OFFSET = 0;
 
 export const maxStatementLongerYearPeriod = 2;
 export const maxStatementOlderPeriod = 5;
+
+export const STATEMENT_BASE_64_PREFIX = "data:application/pdf;base64,";

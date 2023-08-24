@@ -17,8 +17,8 @@ import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 
 import { PreviewStatementPDF } from "../components";
+import { STATEMENT_BASE_64_PREFIX } from "../constants";
 import { useDownloadStatement } from "../hooks/query-hooks";
-import { STATEMENT_BASE_64_PREFIX } from "../mocks/AccessStatementData";
 import { StatementsStackParams } from "../StatementsStack";
 
 export default function PreviewStatementScreen() {

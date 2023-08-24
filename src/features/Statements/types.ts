@@ -11,7 +11,7 @@ export interface StatementInterface {
 }
 export interface GetAccessStatementApiResponse {
   Statements: StatementInterface[];
-  count: number;
+  TotalRecords: number;
 }
 
 export interface PaginationInterface {

@@ -60,21 +60,16 @@ export default function AccessStatementScreen() {
   const retryFailedStatement = useRetryFailedStatement();
 
   useEffect(() => {
-    setCurrentTab(route?.params?.type === StatementTypes.CUSTOM ? StatementTypes.CUSTOM : StatementTypes.MONTHLY);
-  }, [route?.params?.type]);
+    setCurrentTab(route.params?.type === StatementTypes.CUSTOM ? StatementTypes.CUSTOM : StatementTypes.MONTHLY);
+  }, [route.params?.type]);
 
   useEffect(() => {
-    if (undefined === statementsData && !statementsLoading) {
-      refetchStatementData();
-      return; // Exit early to prevent the rest of the useEffect code from executing
-    }
-
     if (pagination.offset > 0) {
       setStatements(prev => [...prev, ...(statementsData?.Statements || [])]);
     } else {
       setStatements(statementsData?.Statements || []);
     }
-  }, [pagination, refetchStatementData, statementsData, statementsLoading]);
+  }, [pagination, statementsData]);
 
   const handleOnFilter = (language: StatementLanguageTypes) => {
     setActiveFilter(language);
@@ -84,15 +79,13 @@ export default function AccessStatementScreen() {
   useEffect(() => {
     const moreThanThreePendingStatements =
       statements.filter(statement => statement.Status === StatementStatus.PENDING).length > 3;
-
     const hasNewGeneratedStatement = statements.some(statement => statement.Status === StatementStatus.GENERATED);
-
     setIsMoreThanThreePendingStatements(moreThanThreePendingStatements);
     setHasNewStatement(hasNewGeneratedStatement);
   }, [statements]);
 
   const handleOnFetchMoreStatements = () => {
-    if (statementsData?.count === statements.length || !statements.length) return;
+    if (statementsData?.TotalRecords === statements.length) return;
     setPagination({ ...pagination, offset: pagination.offset + 1 });
   };
 

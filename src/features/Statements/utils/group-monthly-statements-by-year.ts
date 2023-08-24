@@ -5,7 +5,7 @@ export const groupMonthlyStatementsByYear = (monthlyStatements: StatementInterfa
   const groupedData: SectionListDataTypes[] = [];
 
   for (const statement of monthlyStatements) {
-    const year = statement.StatementEndDate.split("-")[0];
+    const year = statement.StatementGenerationDate.split("-")[0];
     if (!groupedByYear[year]) {
       groupedByYear[year] = [];
       groupedData.push({ title: year, data: groupedByYear[year] });

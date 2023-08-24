@@ -17,19 +17,25 @@ const queryKeys = { all: () => ["data"] as const, accessStatements: () => ["stat
 export function useGetCustomerStatements(pagination: PaginationInterface, statementType: StatementTypes) {
   const { i18n } = useTranslation();
 
-  return useQuery([queryKeys.accessStatements, pagination], () => {
-    return api<GetAccessStatementApiResponse>(
-      "v1",
-      `statements`,
-      "GET",
-      { pageSize: pagination.limit, offset: pagination.offset, statementType },
-      undefined,
-      {
-        ["x-correlation-id"]: generateRandomId(),
-        ["Accept-Language"]: i18n.language.toUpperCase(),
-      }
-    );
-  });
+  return useQuery(
+    [queryKeys.accessStatements, pagination],
+    () => {
+      return api<GetAccessStatementApiResponse>(
+        "v1",
+        `statements`,
+        "GET",
+        { pageSize: pagination.limit, offset: pagination.offset, statementType },
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language.toUpperCase(),
+        }
+      );
+    },
+    {
+      retry: false,
+    }
+  );
 }
 
 export function useDownloadStatement(documentID: string) {
