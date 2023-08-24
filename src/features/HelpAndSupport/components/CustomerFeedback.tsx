@@ -11,9 +11,10 @@ import CustomStarRating from "./CustomStarRating";
 interface CustomerFeedbackProps {
   visible: boolean;
   onSkip: () => void;
+  onSubmit: () => void;
 }
 
-export default function CustomerFeedBack({ visible, onSkip }: CustomerFeedbackProps) {
+export default function CustomerFeedBack({ visible, onSkip, onSubmit }: CustomerFeedbackProps) {
   const { t } = useTranslation();
   const [feedbackRating, setFeedbackRating] = useState<number>(0);
 
@@ -23,6 +24,7 @@ export default function CustomerFeedBack({ visible, onSkip }: CustomerFeedbackPr
 
   const handleOnSubmitRating = () => {
     //TODO: Send Feedback using API
+    onSubmit();
   };
 
   return (
