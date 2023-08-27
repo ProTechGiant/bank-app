@@ -7,7 +7,7 @@ export { default as ChatScrollToEndButton } from "./ChatScrollToEndButton";
 export { default as ChatSendButton } from "./ChatSendButton";
 export { default as ChatTypingIndicator } from "./ChatTypingIndicator";
 export { default as CloseChattingModal } from "./CloseChattingModal";
-export { default as CustomerFeedback } from "./CustomerFeedback";
+export { default as CustomerFeedbackModal } from "./CustomerFeedbackModal";
 export { default as HeaderText } from "./HeaderText";
 export { default as LiveChatScreenHeader } from "./LiveChatScreenHeader";
 export { default as QuickActionLink } from "./QuickActionLink";

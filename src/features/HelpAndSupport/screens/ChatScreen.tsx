@@ -5,7 +5,7 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 
-import { ChatInputBox, ChatList, CloseChattingModal, CustomerFeedback, HeaderText } from "../components";
+import { ChatInputBox, ChatList, CloseChattingModal, CustomerFeedbackModal, HeaderText } from "../components";
 
 export default function ChatScreen() {
   const navigation = useNavigation();
@@ -46,8 +46,8 @@ export default function ChatScreen() {
         onClose={handleOnCloseChatModal}
         onPressOk={handleOnPressOk}
       />
-      <CustomerFeedback
-        visible={isCustomerFeedbackVisible}
+      <CustomerFeedbackModal
+        isVisible={isCustomerFeedbackVisible}
         onSkip={handleOnFeedbackExit}
         onSubmit={handleOnFeedbackExit}
       />

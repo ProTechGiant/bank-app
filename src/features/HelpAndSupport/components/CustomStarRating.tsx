@@ -1,6 +1,6 @@
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable } from "react-native";
 
-import { useThemeStyles } from "@/theme";
+import Stack from "@/components/Stack";
 
 import { FilledStar, OutLinedStar } from "../assets/icons";
 
@@ -10,16 +10,10 @@ interface CustomStarRatingProps {
 }
 
 export default function CustomStarRating({ rate, onChangeRating }: CustomStarRatingProps) {
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["20p"],
-    flexDirection: "row",
-    justifyContent: "center",
-  }));
-
   const ratingRange = [1, 2, 3, 4, 5];
 
   return (
-    <View style={containerStyle}>
+    <Stack direction="horizontal" align="center" gap="12p">
       {ratingRange.map(item => {
         return (
           <Pressable
@@ -31,6 +25,6 @@ export default function CustomStarRating({ rate, onChangeRating }: CustomStarRat
           </Pressable>
         );
       })}
-    </View>
+    </Stack>
   );
 }
