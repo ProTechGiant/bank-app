@@ -11,6 +11,9 @@
   "Loader": {
     "loadingText": "Loading"
   },
+  "InfoModal": {
+    "closeButtonText": "Close"
+  },
   "DayPicker": {
     "currentlyOnDay_one": "On {{count}}st",
     "currentlyOnDay_two": "On {{count}}nd",
@@ -618,7 +621,10 @@
     "PreviewStatementScreen": {
       "exportAsPDF": "Export as PDF",
       "title": "Statement preview",
-      "nothingToShowText": "Nothing to show"
+      "nothingToShowText": "Nothing to show",
+      "errorMessage": "An error occurred while downloading your file, please try again later.",
+      "errorMessageTitle": "Error",
+      "errorCancelText": "Close"
     }
   },
   "ViewTransactions": {

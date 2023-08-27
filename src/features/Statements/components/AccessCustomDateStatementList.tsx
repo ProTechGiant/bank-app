@@ -21,8 +21,9 @@ interface AccessCustomDateStatementsListProps {
   onEndReached: () => void;
   onRefresh: () => void;
   isLoading: boolean;
+  isRetryLoading: Array<boolean>;
   onPressCard: (documentId: string) => void;
-  onRetry: (documentId: string) => void;
+  onRetry: (requestId: string, index: number) => void;
   onInfoIcon: () => void;
 }
 
@@ -36,6 +37,7 @@ export default function AccessCustomDateStatementList({
   onPressCard,
   onInfoIcon,
   onRetry,
+  isRetryLoading,
 }: AccessCustomDateStatementsListProps) {
   const { t } = useTranslation();
   const { height: screenHeight } = useWindowDimensions();
@@ -68,7 +70,15 @@ export default function AccessCustomDateStatementList({
         ListEmptyComponent={isLoading ? <FullScreenLoader /> : <EmptyListView isFilterActive={!!activeFilter} />}
         showsVerticalScrollIndicator={false}
         data={statements}
-        renderItem={item => <CustomStatementView statement={item.item} onPressCard={onPressCard} onRetry={onRetry} />}
+        renderItem={item => (
+          <CustomStatementView
+            isRetryLoading={isRetryLoading[item.index]}
+            statement={item.item}
+            index={item.index}
+            onPressCard={onPressCard}
+            onRetry={onRetry}
+          />
+        )}
         refreshControl={<RefreshControl refreshing={isLoading} onRefresh={onRefresh} />}
         onEndReachedThreshold={1}
         onEndReached={({ distanceFromEnd }) => (distanceFromEnd >= 1 ? onEndReached() : undefined)}

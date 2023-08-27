@@ -1,8 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Alert, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Share, { ShareOptions } from "react-native-share";
 
@@ -25,14 +24,14 @@ export default function PreviewStatementScreen() {
   const [fullPreviewMode, setFullPreviewMode] = useState(false);
   const route = useRoute<RouteProp<StatementsStackParams, "Statements.PreviewStatementScreen">>();
   const documentId = route.params?.documentId;
-
   const { data, isLoading } = useDownloadStatement(documentId);
   const { t } = useTranslation();
 
   const handleExportStatement = async () => {
     if (data !== undefined) {
       const shareOptions: ShareOptions = {
-        title: "Statement",
+        title: data.StatementName,
+        type: "application/pdf",
         url: STATEMENT_BASE_64_PREFIX + data.StatementContent,
       };
 
@@ -41,13 +40,29 @@ export default function PreviewStatementScreen() {
         warn("Result =>", JSON.stringify(ShareResponse));
       } catch (error) {
         warn("sharePdfBase64 Error =>", JSON.stringify(error));
+        Alert.alert(
+          t("Statements.PreviewStatementScreen.errorMessageTitle"),
+          t("Statements.PreviewStatementScreen.errorMessage"),
+          [
+            {
+              text: t("Statements.PreviewStatementScreen.errorCancelText"),
+              style: "cancel",
+              onPress: () => {
+                // Handle close action
+              },
+            },
+          ],
+          {
+            cancelable: true,
+          }
+        );
       }
     }
   };
 
   const bottomButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["20p"],
-    marginBottom: theme.spacing["16p"],
+    marginVertical: theme.spacing["16p"],
   }));
 
   const fullIconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -59,25 +74,21 @@ export default function PreviewStatementScreen() {
     width: 32,
   }));
 
-  const headerFullStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: fullPreviewMode ? theme.palette.transparent : theme.palette["supportBase-15"],
-  }));
-
   return (
     <SafeAreaProvider>
-      <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-        <SafeAreaView style={headerFullStyle}>
-          <NavHeader
-            title={t("Statements.PreviewStatementScreen.title")}
-            withBackButton={!fullPreviewMode}
-            variant={fullPreviewMode ? "black" : "angled"}
-            end={
+      <Page backgroundColor="neutralBase-60" insets={["left", "right", fullPreviewMode ? "top" : ""]}>
+        <NavHeader
+          title={t("Statements.PreviewStatementScreen.title")}
+          withBackButton={!fullPreviewMode}
+          variant={fullPreviewMode ? "black" : "angled"}
+          end={
+            !isLoading && data?.StatementContent ? (
               <Pressable style={fullIconContainerStyle} onPress={() => setFullPreviewMode(!fullPreviewMode)}>
                 {fullPreviewMode ? <CloseIcon /> : <FullScreenIcon width={20} height={20} />}
               </Pressable>
-            }
-          />
-        </SafeAreaView>
+            ) : undefined
+          }
+        />
 
         <ContentContainer>
           {isLoading ? (

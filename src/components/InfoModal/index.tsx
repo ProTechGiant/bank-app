@@ -1,6 +1,9 @@
+import { t } from "i18next";
+
 import Modal from "@/components/Modal";
 import Stack from "@/components/Stack";
 
+import Button from "../Button";
 import Typography from "../Typography";
 
 interface InfoModalProps {
@@ -21,6 +24,7 @@ export default function InfoModal({ isVisible, onClose, headerText, title, descr
         <Typography.Text size="callout" weight="regular" color="neutralBase">
           {description}
         </Typography.Text>
+        <Button onPress={onClose}>{t("InfoModal.closeButtonText")}</Button>
       </Stack>
     </Modal>
   );

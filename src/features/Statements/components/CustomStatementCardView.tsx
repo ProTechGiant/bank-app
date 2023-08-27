@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ViewStyle } from "react-native";
+import { ActivityIndicator, Pressable, ViewStyle } from "react-native";
 
 import {
   ChevronRightIcon,
@@ -21,28 +21,40 @@ import { StatementInterface } from "../types";
 interface CustomStatementCardViewProps {
   statement: StatementInterface;
   onPressCard: (documentId: string) => void;
-  onRetry: (documentId: string) => void;
+  onRetry: (requestId: string, index: number) => void;
+  isRetryLoading: boolean;
+  index: number;
 }
 
-export default function CustomStatementCardView({ statement, onPressCard, onRetry }: CustomStatementCardViewProps) {
+export default function CustomStatementCardView({
+  statement,
+  onPressCard,
+  onRetry,
+  isRetryLoading,
+  index,
+}: CustomStatementCardViewProps) {
   const { t } = useTranslation();
   const appTheme = useTheme();
   const disabled = statement.Status !== StatementStatus.DOWNLOADED && statement.Status !== StatementStatus.GENERATED;
 
-  const dateBadge = (date: string) => {
-    return (
+  const dateBadge = (date: string, documentId: string) => {
+    return date && documentId ? (
       <Typography.Text size="footnote" weight="medium" style={dateBadgeStyle} color="neutralBase-60">
         {format(new Date(date), "dd MMM yyyy")}
       </Typography.Text>
-    );
+    ) : null;
   };
 
   const formatDateRange = (startDateString: string, endDateString: string) => {
-    const startDate = new Date(startDateString);
-    const endDate = new Date(endDateString);
-    const formattedStartDate = format(startDate, "dd MMM yyyy");
-    const formattedEndDate = format(endDate, "dd MMM yyyy");
-    return `${formattedStartDate} - ${formattedEndDate}`;
+    if (startDateString && endDateString) {
+      const startDate = new Date(startDateString);
+      const endDate = new Date(endDateString);
+      const formattedStartDate = format(startDate, "dd MMM yyyy");
+      const formattedEndDate = format(endDate, "dd MMM yyyy");
+      return `${formattedStartDate} - ${formattedEndDate}`;
+    } else {
+      return "";
+    }
   };
 
   const renderItemStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -71,7 +83,7 @@ export default function CustomStatementCardView({ statement, onPressCard, onRetr
       <Stack direction="horizontal" style={renderItemStyle} align="center" justify="space-between">
         <Stack direction="vertical">
           {statement.Status !== StatementStatus.DOWNLOADED ? <StatementStatusView Status={statement.Status} /> : null}
-          {dateBadge(statement.StatementGenerationDate)}
+          {dateBadge(statement.StatementGenerationDate, statement.DocumentId)}
           <Typography.Text style={renderItemDateStyle} color="neutralBase+30" size="callout" weight="medium">
             {formatDateRange(statement.StatementStartDate, statement.StatementEndDate)}
           </Typography.Text>
@@ -80,12 +92,16 @@ export default function CustomStatementCardView({ statement, onPressCard, onRetr
           </Typography.Text>
         </Stack>
         {statement.Status === StatementStatus.FAILED ? (
-          <Pressable onPress={() => onRetry(statement.DocumentId)}>
-            <RefreshIcon color={appTheme.theme.palette["neutralBase-20"]} />
-          </Pressable>
-        ) : (
+          isRetryLoading ? (
+            <ActivityIndicator size="small" />
+          ) : (
+            <Pressable onPress={() => onRetry(statement.StatementRequestId, index)}>
+              <RefreshIcon color={appTheme.theme.palette["neutralBase-20"]} />
+            </Pressable>
+          )
+        ) : !disabled ? (
           <ChevronRightIcon color={appTheme.theme.palette["neutralBase-20"]} />
-        )}
+        ) : null}
       </Stack>
     </Pressable>
   );

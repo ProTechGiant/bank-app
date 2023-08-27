@@ -10,6 +10,9 @@
       "cancel": "Cancel"
     }
   },
+  "InfoModal": {
+    "closeButtonText": "Close"
+  },
   "AccessibilityHelpers": {
     "open": "open",
     "close": "close",
@@ -625,7 +628,10 @@
     "PreviewStatementScreen": {
       "exportAsPDF": "تصدير كملف PDF",
       "title": "معاينة البيان",
-      "nothingToShowText": "لا شيء لعرضه"
+      "nothingToShowText": "لا شيء لعرضه",
+      "errorMessage": "حدث خطأ أثناء تنزيل ملفك، يرجى المحاولة مرة أخرى لاحقًا.",
+      "errorMessageTitle": "خطأ",
+      "errorCancelText":  "إغلاق"
     }
   },
   "ViewTransactions": {

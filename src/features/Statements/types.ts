@@ -8,6 +8,7 @@ export interface StatementInterface {
   StatementStartDate: string;
   StatementEndDate: string;
   StatementGenerationDate: string;
+  StatementRequestId: string;
 }
 export interface GetAccessStatementApiResponse {
   Statements: StatementInterface[];

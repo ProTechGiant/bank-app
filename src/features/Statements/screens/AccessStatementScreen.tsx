@@ -7,6 +7,7 @@ import { FilterIcon, InfoCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import InfoModal from "@/components/InfoModal";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SegmentedControl from "@/components/SegmentedControl";
 import Stack from "@/components/Stack";
@@ -32,6 +33,7 @@ export default function AccessStatementScreen() {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation<StatementsStackParamsNavigationProp>();
   const { height: screenHeight } = useWindowDimensions();
+  const [isNotificationModalVisible, setIsNotificationModalVisible] = useState<boolean>(false);
   const route = useRoute<RouteProp<AuthenticatedStackParams, "Statements.AccessStatementScreen">>();
 
   const [preferredLanguage, setPreferredLanguage] = useState<StatementLanguageTypes>(
@@ -51,13 +53,18 @@ export default function AccessStatementScreen() {
 
   const [activeFilter, setActiveFilter] = useState<StatementLanguageTypes | null>(null);
   const [statements, setStatements] = useState<StatementInterface[]>([]);
+
   const {
     data: statementsData,
     isLoading: statementsLoading,
     refetch: refetchStatementData,
   } = useGetCustomerStatements(pagination, currentTab);
 
-  const retryFailedStatement = useRetryFailedStatement();
+  const [retryLoadingStates, setRetryLoadingStates] = useState<boolean[]>(
+    new Array(statementsData?.length).fill(false)
+  );
+
+  const { mutateAsync: retryFailedStatement } = useRetryFailedStatement();
 
   useEffect(() => {
     setCurrentTab(route.params?.type === StatementTypes.CUSTOM ? StatementTypes.CUSTOM : StatementTypes.MONTHLY);
@@ -76,6 +83,23 @@ export default function AccessStatementScreen() {
     setIsFilterModalVisible(false);
   };
 
+  const handleRetryClick = async (requestId: string, index: number) => {
+    const isLoading = true;
+    const updatedIsRetryLoading = [...retryLoadingStates];
+    updatedIsRetryLoading[index] = isLoading;
+    setRetryLoadingStates(updatedIsRetryLoading);
+
+    try {
+      await retryFailedStatement(requestId);
+    } catch (error) {
+      warn("Retry failed:", JSON.stringify(error));
+      setIsNotificationModalVisible(true);
+    } finally {
+      updatedIsRetryLoading[index] = false;
+      setRetryLoadingStates(updatedIsRetryLoading);
+    }
+  };
+
   useEffect(() => {
     const moreThanThreePendingStatements =
       statements.filter(statement => statement.Status === StatementStatus.PENDING).length > 3;
@@ -89,12 +113,13 @@ export default function AccessStatementScreen() {
     setPagination({ ...pagination, offset: pagination.offset + 1 });
   };
 
-  const handleOnRetry = async (documentId: string) => {
+  const handleOnRetry = async (requestId: string, index: number) => {
     try {
-      await retryFailedStatement.mutateAsync(documentId);
+      await handleRetryClick(requestId, index);
       await refetchStatementData();
     } catch (err) {
-      warn("Retry Api:", `Error while retrying statement ${documentId + " " + err}`);
+      warn("Retry Api:", `Error while retrying statement ${requestId + " " + err}`);
+      setIsNotificationModalVisible(true);
     }
   };
 
@@ -150,12 +175,8 @@ export default function AccessStatementScreen() {
 
   const segmentedControlStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: -theme.spacing["20p"],
-    marginTop: theme.spacing["24p"],
+    marginTop: theme.spacing["48p"],
     flexDirection: "row",
-  }));
-
-  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
   }));
 
   const mainContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -167,7 +188,8 @@ export default function AccessStatementScreen() {
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     bottom: 0,
     position: "absolute",
-    width: "100%",
+    width: "95%",
+    alignSelf: "center",
     paddingHorizontal: theme.spacing["12p"],
     paddingVertical: screenHeight * 0.03,
     backgroundColor: theme.palette["neutralBase-60"],
@@ -185,10 +207,8 @@ export default function AccessStatementScreen() {
   const infoIconColor = useThemeStyles(theme => theme.palette.neutralBase);
 
   return (
-    <Page>
-      <Stack style={headerStyle} align="stretch" direction="vertical">
-        <NavHeader title={t("Statements.AccessStatements.title")} />
-      </Stack>
+    <Page insets={["left", "right"]}>
+      <NavHeader variant="angled" title={t("Statements.AccessStatements.title")} />
       <SafeAreaView style={mainContainer}>
         <Stack style={segmentedControlStyle} direction="horizontal">
           <SegmentedControl onPress={value => handleOnTabChange(value)} value={currentTab}>
@@ -221,6 +241,7 @@ export default function AccessStatementScreen() {
             onPressCard={handleOnPressStatement}
             statements={filteredData}
             onRetry={handleOnRetry}
+            isRetryLoading={retryLoadingStates}
             activeFilter={activeFilter}
             onInfoIcon={handleInfoModal}
             onEndReached={handleOnFetchMoreStatements}
@@ -250,6 +271,13 @@ export default function AccessStatementScreen() {
           </Stack>
         )}
       </Stack>
+      <NotificationModal
+        isVisible={isNotificationModalVisible}
+        message={t("Statements.RequestStatementScreen.pleaseTryAgain")}
+        onClose={() => setIsNotificationModalVisible(false)}
+        title={t("Statements.RequestStatementScreen.weAreSorry")}
+        variant="error"
+      />
       <InfoModal
         isVisible={isInfoModalVisible}
         onClose={handleInfoModal}
