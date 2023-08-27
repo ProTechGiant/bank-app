@@ -12,8 +12,7 @@ import {
 } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
-import { useTheme } from "@/theme";
+import { useTheme, useThemeStyles } from "@/theme";
 
 import { StatementStatus } from "../constants";
 import { StatementInterface } from "../types";

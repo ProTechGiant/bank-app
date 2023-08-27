@@ -1,8 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, Pressable, RefreshControl, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Pressable, RefreshControl, SectionList, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
+import Divider from "@/components/Divider";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -10,6 +11,7 @@ import { useThemeStyles } from "@/theme";
 
 import { StatementLanguageTypes } from "../constants";
 import { StatementInterface } from "../types";
+import { groupCustomStatmentsByStatus, SectionListDataTypes } from "../utils/group-monthly-statements-by-year";
 import CustomStatementView from "./CustomStatementCardView";
 import EmptyListView from "./EmptyListView";
 import FilterButton from "./FilterButton";
@@ -42,6 +44,11 @@ export default function AccessCustomDateStatementList({
   const { t } = useTranslation();
   const { height: screenHeight } = useWindowDimensions();
   const sectionListFooter = () => <View style={{ marginBottom: screenHeight * 0.3 }} />;
+  const sectionHeader = ({ section }: { section: SectionListDataTypes }) => {
+    return section.title === "Downloaded" && groupCustomStatmentsByStatus(statements).length > 1 ? (
+      <Divider style={dividerStyle} height={4} color="neutralBase-30" />
+    ) : null;
+  };
 
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["20p"],
@@ -50,6 +57,11 @@ export default function AccessCustomDateStatementList({
   const statementTextStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["16p"],
     lineHeight: theme.spacing["4p"],
+  }));
+
+  const dividerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["4p"],
+    marginBottom: theme.spacing["12p"],
   }));
 
   return (
@@ -66,9 +78,11 @@ export default function AccessCustomDateStatementList({
           </Pressable>
         </Typography.Text>
       </Stack>
-      <FlatList
+      <SectionList
         ListEmptyComponent={isLoading ? <FullScreenLoader /> : <EmptyListView isFilterActive={!!activeFilter} />}
         showsVerticalScrollIndicator={false}
+        sections={groupCustomStatmentsByStatus(statements)}
+        renderSectionHeader={sectionHeader}
         data={statements}
         renderItem={item => (
           <CustomStatementView

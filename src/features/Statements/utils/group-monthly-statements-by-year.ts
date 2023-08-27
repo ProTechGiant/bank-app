@@ -1,3 +1,4 @@
+import { StatementStatus } from "../constants";
 import { StatementInterface } from "../types";
 
 export const groupMonthlyStatementsByYear = (monthlyStatements: StatementInterface[]): SectionListDataTypes[] => {
@@ -20,3 +21,16 @@ export interface SectionListDataTypes {
   title: string;
   data: StatementInterface[];
 }
+
+export const groupCustomStatmentsByStatus = (monthlyStatements: StatementInterface[]): SectionListDataTypes[] => {
+  const downloaded: StatementInterface[] = [];
+  const nonDownloaded: StatementInterface[] = [];
+  monthlyStatements.forEach(statement => {
+    if (statement.Status === StatementStatus.DOWNLOADED) downloaded.push(statement);
+    else nonDownloaded.push(statement);
+  });
+  const result: SectionListDataTypes[] = [];
+  if (nonDownloaded.length) result.push({ title: "nonDownloaded", data: nonDownloaded });
+  if (downloaded.length) result.push({ title: "Downloaded", data: downloaded });
+  return result;
+};

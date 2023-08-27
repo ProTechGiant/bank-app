@@ -61,7 +61,7 @@ export default function AccessStatementScreen() {
   } = useGetCustomerStatements(pagination, currentTab);
 
   const [retryLoadingStates, setRetryLoadingStates] = useState<boolean[]>(
-    new Array(statementsData?.length).fill(false)
+    new Array(statementsData?.TotalRecords).fill(false)
   );
 
   const { mutateAsync: retryFailedStatement } = useRetryFailedStatement();
@@ -69,6 +69,10 @@ export default function AccessStatementScreen() {
   useEffect(() => {
     setCurrentTab(route.params?.type === StatementTypes.CUSTOM ? StatementTypes.CUSTOM : StatementTypes.MONTHLY);
   }, [route.params?.type]);
+
+  useEffect(() => {
+    navigation.addListener("focus", () => refetchStatementData());
+  }, [navigation]);
 
   useEffect(() => {
     if (pagination.offset > 0) {
