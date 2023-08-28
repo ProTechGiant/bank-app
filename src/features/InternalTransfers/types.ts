@@ -69,6 +69,7 @@ export interface InternalTransferToARBRequest {
   transferPurpose: string;
   transferType: string;
   expressTransferFlag: string;
+  customerRemarks: string;
 }
 
 export enum TransferTypeCode {

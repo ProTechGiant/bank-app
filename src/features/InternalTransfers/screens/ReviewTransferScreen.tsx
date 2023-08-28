@@ -77,6 +77,7 @@ export default function ReviewTransferScreen() {
       transferPurpose: reason,
       transferType: "02",
       expressTransferFlag: "N",
+      customerRemarks: "Customer Remarks", // @TODO: currently hardcode value will change it later.
     };
 
     try {
