@@ -61,7 +61,7 @@ export default function TemporaryLandingScreen() {
   const getSavingsGoalNumAsync = useSavingsGoalNumber();
   const { control, handleSubmit } = useForm<TemporaryForm>({
     defaultValues: {
-      UserId: "301", //TODO: use 301 as temporary user for temporary landing screen
+      UserId: "1000002357", //TODO: use 1000002357 as temporary user for temporary landing screen
       cardId: "",
       createDisputeUserId: "",
     },
