@@ -3,12 +3,15 @@ import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
 import { ChatInputBox, ChatList, CloseChattingModal, CustomerFeedbackModal, HeaderText } from "../components";
+import { useEndLiveChat } from "../hooks/query-hooks";
 
 export default function ChatScreen() {
   const navigation = useNavigation();
+  const { mutateAsync: endLiveChat, isLoading: isEndingChat } = useEndLiveChat();
   const [isCloseChattingModalVisible, setIsCloseChattingModalVisible] = useState(false); // State to control the visibility of the CloseChattingModal
   const [isCustomerFeedbackVisible, setIsCustomerFeedbackVisible] = useState(false); // State to control the visibility of the CustomerFeedback
 
@@ -20,10 +23,16 @@ export default function ChatScreen() {
     setIsCloseChattingModalVisible(false);
   };
 
-  const handleOnPressOk = () => {
-    setIsCloseChattingModalVisible(false);
-    setIsCustomerFeedbackVisible(true);
-    //TODO: calling endLiveChat api here
+  const handleOnPressOk = async () => {
+    try {
+      const response = await endLiveChat();
+      if (response.ChatEnded) {
+        setIsCloseChattingModalVisible(false);
+        setIsCustomerFeedbackVisible(true);
+      }
+    } catch (error) {
+      warn("Failed to disconnect the chat", JSON.stringify(error));
+    }
   };
 
   const handleOnFeedbackExit = () => {
@@ -45,6 +54,7 @@ export default function ChatScreen() {
         isVisible={isCloseChattingModalVisible}
         onClose={handleOnCloseChatModal}
         onPressOk={handleOnPressOk}
+        isLoading={isEndingChat}
       />
       <CustomerFeedbackModal
         isVisible={isCustomerFeedbackVisible}

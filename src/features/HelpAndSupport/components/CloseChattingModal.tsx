@@ -7,8 +7,14 @@ interface CloseChattingNotificationProps {
   isVisible: boolean;
   onClose: () => void;
   onPressOk: () => void;
+  isLoading?: boolean;
 }
-export default function CloseChattingModal({ isVisible, onClose, onPressOk }: CloseChattingNotificationProps) {
+export default function CloseChattingModal({
+  isVisible,
+  onClose,
+  onPressOk,
+  isLoading,
+}: CloseChattingNotificationProps) {
   const { t } = useTranslation();
 
   return (
@@ -19,7 +25,11 @@ export default function CloseChattingModal({ isVisible, onClose, onPressOk }: Cl
       isVisible={isVisible}
       onClose={onClose}
       buttons={{
-        primary: <Button onPress={onPressOk}>{t("HelpAndSupport.LiveChatScreen.CloseChatModal.okButton")}</Button>,
+        primary: (
+          <Button onPress={onPressOk} loading={isLoading}>
+            {t("HelpAndSupport.LiveChatScreen.CloseChatModal.okButton")}
+          </Button>
+        ),
         secondary: <Button onPress={onClose}>{t("HelpAndSupport.LiveChatScreen.CloseChatModal.closeButton")}</Button>,
       }}
     />

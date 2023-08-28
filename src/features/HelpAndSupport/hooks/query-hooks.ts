@@ -4,23 +4,13 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
-import { ChatEndParams, ChatEndResponse } from "../types";
+import { ChatEndResponse } from "../types";
 
 export function useEndLiveChat() {
-  const { userId } = useAuthContext();
-
-  return useMutation(({ serviceName, chatId, secureKey, alias }: ChatEndParams) => {
-    return api<ChatEndResponse>(
-      "v1",
-      `internal/v1/genesys/chat/${serviceName}/${chatId}/disconnect`,
-      "POST",
-      undefined,
-      {
-        secureKey,
-        alias,
-        userId,
-      }
-    );
+  return useMutation(() => {
+    return api<ChatEndResponse>("v1", `genesys/chat/disconnect`, "POST", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
   });
 }
 
