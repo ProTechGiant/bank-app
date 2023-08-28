@@ -6,6 +6,7 @@ import { TextStyle, View, ViewStyle } from "react-native";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import { useGetAwaitTimer } from "../hooks/query-hooks";
 import CircularProgress from "./CircularProgress";
 
 interface SupportAgentTimerProps {
@@ -14,14 +15,24 @@ interface SupportAgentTimerProps {
 
 export default function SupportAgentTimer({ timeInSeconds }: SupportAgentTimerProps) {
   const { t } = useTranslation();
+  const awaitTimerResponse = useGetAwaitTimer();
 
   const [remainingSeconds, setRemainingSeconds] = useState<number>(timeInSeconds);
+  const [maxTime, setMaxTime] = useState<number>(timeInSeconds);
+
+  const getWaitingTime = async () => {
+    const awaitTimer = await awaitTimerResponse.mutateAsync();
+    const totalTime = Math.floor(awaitTimer.Ewt);
+    setRemainingSeconds(totalTime);
+    setMaxTime(totalTime);
+  };
 
   useLayoutEffect(() => {
     const intervalId = setInterval(() => {
       setRemainingSeconds(prevSeconds => {
         if (prevSeconds <= 0) {
           clearInterval(intervalId);
+          getWaitingTime();
           return 0;
         }
         return prevSeconds - 1;
@@ -29,7 +40,7 @@ export default function SupportAgentTimer({ timeInSeconds }: SupportAgentTimerPr
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [remainingSeconds]);
 
   const formattedTime = format(new Date(remainingSeconds * 1000), "mm:ss");
 
@@ -50,7 +61,7 @@ export default function SupportAgentTimer({ timeInSeconds }: SupportAgentTimerPr
       <Typography.Text weight="regular" size="footnote" color="neutralBase+10" style={textLineHeightsStyle}>
         {t("HelpAndSupport.LiveChatScreen.agentTimer.estimatedWaitingTime")}
       </Typography.Text>
-      <CircularProgress text={formattedTime} percentage={remainingSeconds} max={timeInSeconds} />
+      <CircularProgress text={formattedTime} percentage={remainingSeconds} max={maxTime} />
     </View>
   );
 }

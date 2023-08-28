@@ -9,43 +9,42 @@ import * as yup from "yup";
 import ContentContainer from "@/components/ContentContainer";
 import SubmitButton from "@/components/Form/SubmitButton";
 import NotificationModal from "@/components/NotificationModal";
+import { warn } from "@/logger";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import * as SupportIcons from "../assets/icons";
 import { LiveChatScreenHeader } from "../components";
-import SupportSection from "../components/SupportSection";
-import { SUPPORTS } from "../mockSupport";
+import ReasonOptionSupportSection from "../components/ReasonOptionSupportSection";
+import { useGetAwaitTimer, useGetReasonsOptions, useStartChat } from "../hooks/query-hooks";
+import { ReasonOptionIconLookupProps, SubOptionProps } from "../types";
 
-interface RadioButtonProps {
-  EnquiryType: string;
-}
-
-interface TitleToIconMap {
-  [key: string]: React.ReactElement;
-}
-
-const titleToIcon: TitleToIconMap = {
-  Fraud: <SupportIcons.FraudIcon />,
-  Inquiry: <SupportIcons.InquiryIcon />,
-  Complaint: <SupportIcons.ComplaintIcon />,
+const iconLookup: ReasonOptionIconLookupProps = {
+  1: <SupportIcons.FraudIcon />,
+  2: <SupportIcons.InquiryIcon />,
+  3: <SupportIcons.ComplaintIcon />,
 };
 
 export default function LiveChatScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
+  const { data: reasonsOption } = useGetReasonsOptions();
+  const startChat = useStartChat();
+  const awaitTimer = useGetAwaitTimer();
 
   const validationSchema = useMemo(
     () =>
       yup.object().shape({
-        EnquiryType: yup.string().required(t("CardActions.SetTemporaryAddressScreen.form.city.validation.required")),
+        SubOptionId: yup.string().required(t("CardActions.SetTemporaryAddressScreen.form.city.validation.required")),
       }),
     [t]
   );
 
-  const { control, handleSubmit } = useForm<RadioButtonProps>({
+  const { control, handleSubmit } = useForm<SubOptionProps>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      EnquiryType: "",
+      SubOptionId: "",
     },
   });
 
@@ -53,7 +52,7 @@ export default function LiveChatScreen() {
     field: { onChange },
   } = useController({
     control,
-    name: "EnquiryType",
+    name: "SubOptionId",
     defaultValue: "",
   });
 
@@ -68,12 +67,19 @@ export default function LiveChatScreen() {
   */
   const [isHeaderHide, setIsHeaderHide] = useState(false);
 
-  const handleOnSubmit = (values: RadioButtonProps) => {
-    if (values) {
-      // *TODO - Open live chat
-    }
+  const handleOnSubmit = async (value: SubOptionProps) => {
+    try {
+      const chatResponse = await startChat.mutateAsync({ ReasonCode: value.SubOptionId });
+      const awaitTimerResponse = await awaitTimer.mutateAsync();
 
-    setIsError(true);
+      navigation.navigate("HelpAndSupport.ChatScreen", {
+        chatResponse: chatResponse,
+        awaitTimeData: awaitTimerResponse,
+        enquiryType: enquiryType,
+      });
+    } catch (error) {
+      warn(" init chat falied", JSON.stringify(error));
+    }
   };
 
   const updateExpandedSupportSectionCount = (value: number) => {
@@ -91,37 +97,38 @@ export default function LiveChatScreen() {
     flex: 1,
   }));
 
+  const paddingScrollViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["16p"],
+  }));
+
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
         <LiveChatScreenHeader isHide={isHeaderHide} />
-        <ContentContainer style={styles.contentContainer}>
-          <ContentContainer isScrollView style={styles.ScrollContainer}>
-            <View>
-              {SUPPORTS &&
-                SUPPORTS.map(el => {
-                  const iconComponent = titleToIcon[el.title];
-                  return (
-                    <SupportSection
-                      key={el.title}
-                      title={el.title}
-                      description={el.description}
-                      reasonsOptions={el.reasonsOptions}
-                      icon={iconComponent}
-                      onChange={onChange}
-                      enquiryType={enquiryType}
-                      setEnquiryType={setEnquiryType}
-                      updateExpandedSupportSectionCount={updateExpandedSupportSectionCount}
-                    />
-                  );
-                })}
-            </View>
-            <View style={submitButtonContainer}>
-              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-                {t("HelpAndSupport.LiveChatScreen.submitButton")}
-              </SubmitButton>
-            </View>
-          </ContentContainer>
+        <ContentContainer isScrollView style={paddingScrollViewStyle}>
+          <View>
+            {reasonsOption &&
+              reasonsOption.Reasons.map(reason => {
+                return (
+                  <ReasonOptionSupportSection
+                    key={reason.Name}
+                    name={reason.Name}
+                    description={reason.Description}
+                    subOptions={reason.SubOptions}
+                    icon={iconLookup[reason.Id]}
+                    onChange={onChange}
+                    enquiryType={enquiryType}
+                    setEnquiryType={setEnquiryType}
+                    updateExpandedSupportSectionCount={updateExpandedSupportSectionCount}
+                  />
+                );
+              })}
+          </View>
+          <View style={submitButtonContainer}>
+            <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+              {t("HelpAndSupport.LiveChatScreen.submitButton")}
+            </SubmitButton>
+          </View>
         </ContentContainer>
       </View>
       <NotificationModal
@@ -136,10 +143,8 @@ export default function LiveChatScreen() {
 }
 
 const styles = StyleSheet.create({
-  ScrollContainer: { paddingHorizontal: 0 },
   container: {
     backgroundColor: "#fff",
     flex: 1,
   },
-  contentContainer: { flex: 1, paddingVertical: 0 },
 });

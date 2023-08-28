@@ -24,10 +24,14 @@ export default function LiveChatScreenHeader({ isHide }: { isHide: boolean }) {
     currentOpacity.value = isHide ? 0 : 1;
   }, [isHide]);
 
+  const backgroundColorStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["supportBase-30"],
+  }));
+
   const animatedHeaderStyle = useAnimatedStyle(
     () => ({
       flex: 0,
-      height: withTiming(currentHeight.value, { duration: 1000 }),
+      height: withTiming(currentHeight.value, { duration: 300 }),
       overflow: "hidden",
     }),
     [isHide]
@@ -35,7 +39,7 @@ export default function LiveChatScreenHeader({ isHide }: { isHide: boolean }) {
 
   const animatedBackgroundImageStyle = useAnimatedStyle(
     () => ({
-      opacity: withTiming(currentOpacity.value, { duration: 1000 }),
+      opacity: withTiming(currentOpacity.value, { duration: 300 }),
     }),
     [isHide]
   );
@@ -53,7 +57,7 @@ export default function LiveChatScreenHeader({ isHide }: { isHide: boolean }) {
     <React.Fragment>
       <Animated.View style={[styles.container, animatedHeaderStyle]}>
         <StatusBar translucent={true} backgroundColor="transparent" />
-        <Animated.View style={[styles.backgroundImage, animatedBackgroundImageStyle]}>
+        <Animated.View style={[styles.backgroundImage, backgroundColorStyle, animatedBackgroundImageStyle]}>
           <View style={styles.backgroundLeftTop}>
             <BackgroundTopLeftSvg />
           </View>

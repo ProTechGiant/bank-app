@@ -3,17 +3,19 @@ import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-nativ
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { SvgProps } from "react-native-svg";
 
-import { ChevronRightIcon, IconProps } from "@/assets/icons";
-import Divider from "@/components/Divider";
+import { ChevronRightIcon } from "@/assets/icons";
+import { IconProps } from "@/assets/icons";
 import { RadioButton, RadioButtonGroup } from "@/components/RadioButton";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface SectionProps {
-  title: string;
+import { SubOption } from "../types";
+
+export interface ReasonOptionSectionProps {
+  name: string;
   description: string;
-  reasonsOptions?: string[];
+  subOptions: SubOption[];
   icon: React.ReactElement<SvgProps | IconProps>;
   onChange: (value: string) => void;
   enquiryType: string;
@@ -21,18 +23,18 @@ interface SectionProps {
   updateExpandedSupportSectionCount: (value: number) => void;
 }
 
-export default function SupportSection({
-  title,
+export default function ReasonOptionSupportSection({
+  name,
   description,
-  reasonsOptions,
+  subOptions,
   icon,
   onChange,
   enquiryType,
   setEnquiryType,
   updateExpandedSupportSectionCount,
-}: SectionProps) {
+}: ReasonOptionSectionProps) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [selectedIndexReason, setSelectedIndexReason] = useState<number>(reasonsOptions ? reasonsOptions.length : 0);
+  const [selectedIndexReason, setSelectedIndexReason] = useState<number>(subOptions.length);
   const currentHeight = useSharedValue(isExpanded === true ? 200 : 0);
 
   useEffect(() => {
@@ -79,7 +81,7 @@ export default function SupportSection({
           <Stack direction="horizontal" gap="16p" style={marginStyle}>
             <Stack direction="vertical" gap="4p" flex={1}>
               <Typography.Text color="neutralBase+30" size="title3" weight="medium">
-                {title}
+                {name}
               </Typography.Text>
               <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
                 {description}
@@ -90,23 +92,17 @@ export default function SupportSection({
             </View>
           </Stack>
           <Animated.View style={[styles.radioGroupContainer, animatedSectionOptionsStyle]}>
-            {reasonsOptions && (
-              <RadioButtonGroup
-                onPress={value => {
-                  setEnquiryType(title);
-                  onChange(reasonsOptions[value]);
-                  setSelectedIndexReason(value);
-                }}
-                value={enquiryType === title ? selectedIndexReason : reasonsOptions.length}>
-                {reasonsOptions &&
-                  reasonsOptions
-                    .map((el, index) => [
-                      <Divider key={`divider-${index}`} color="neutralBase-40" />,
-                      <RadioButton key={`radio-${el}`} label={el} value={index} />,
-                    ])
-                    .reduce((acc, components) => acc.concat(components), [])}
-              </RadioButtonGroup>
-            )}
+            <RadioButtonGroup
+              onPress={value => {
+                setEnquiryType(name);
+                onChange(`${value}`);
+                setSelectedIndexReason(value);
+              }}
+              value={enquiryType === name ? selectedIndexReason : subOptions.length}>
+              {subOptions.map(option => {
+                return <RadioButton key={`radio-${option.Id}`} label={option.Name} value={option.Id} />;
+              })}
+            </RadioButtonGroup>
           </Animated.View>
         </Stack>
       </Stack>

@@ -11,5 +11,5 @@ export { default as CustomerFeedbackModal } from "./CustomerFeedbackModal";
 export { default as HeaderText } from "./HeaderText";
 export { default as LiveChatScreenHeader } from "./LiveChatScreenHeader";
 export { default as QuickActionLink } from "./QuickActionLink";
-export { default as SupportSection } from "./SupportSection";
+export { default as ReasonOptionSupportSection } from "./ReasonOptionSupportSection";
 export { default as TypingIndicator } from "./TypingIndicator";
