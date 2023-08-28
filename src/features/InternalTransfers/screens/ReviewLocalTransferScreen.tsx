@@ -26,7 +26,7 @@ import {
   useTransferFees,
   useTransferReasonsByCode,
 } from "../hooks/query-hooks";
-import { LocalTransfer, TransferType, TransferTypeCode } from "../types";
+import { LocalTransfer, TransferType } from "../types";
 
 export default function ReviewQuickTransferScreen() {
   const { i18n, t } = useTranslation();
@@ -35,9 +35,7 @@ export default function ReviewQuickTransferScreen() {
 
   const { transferType } = useInternalTransferContext();
   const account = useCurrentAccount();
-  const transferFeesAsync = useTransferFees(
-    transferType === "SARIE_TRANSFER_ACTION" ? TransferTypeCode.LocalTransferSarie : TransferTypeCode.LocalTransferIPS
-  );
+  const transferFeesAsync = useTransferFees(transferType);
   const transferReason = useTransferReasonsByCode(
     route.params.ReasonCode,
     transferType === "SARIE_TRANSFER_ACTION" ? TransferType.SarieTransferAction : TransferType.IpsTransferAction
@@ -269,7 +267,7 @@ export default function ReviewQuickTransferScreen() {
                 ) : (
                   <Typography.Text color="neutralBase-10" weight="regular" size="callout">
                     {formatCurrency(
-                      Number(transferFeesAsync.data?.TransferFee),
+                      Number(transferFeesAsync.data.TransferFee + transferFeesAsync.data.VatFee),
                       t("InternalTransfers.ReviewQuickTransferScreen.currency")
                     )}
                   </Typography.Text>

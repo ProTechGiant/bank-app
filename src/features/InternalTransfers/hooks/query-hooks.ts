@@ -20,7 +20,7 @@ const queryKeys = {
   reasons: (transferType: TransferType) => [...queryKeys.all(), "reasons", { transferType }] as const,
   beneficiaries: (transferType: TransferType) => [...queryKeys.all(), "beneficiaries", { transferType }] as const,
   banks: () => [...queryKeys.all(), "banks"] as const,
-  transferFees: (transferType: string) => [...queryKeys.all(), "transfer-fees", { transferType }] as const,
+  transferFees: (transferType: TransferType) => [...queryKeys.all(), "transfer-fees", { transferType }] as const,
 };
 
 interface ReasonsResponse {
@@ -214,22 +214,14 @@ export function useConfirmQuickTransferTermsAndConditions() {
 
 interface TransferFeesResponse {
   TransferFee: string;
+  VatFee: string;
 }
 
-export function useTransferFees(transferType: string) {
+export function useTransferFees(transferType: TransferType) {
   return useQuery(queryKeys.transferFees(transferType), () => {
-    return api<TransferFeesResponse>(
-      "v1",
-      "transfers",
-      "POST",
-      undefined,
-      {
-        TransferType: transferType,
-      },
-      {
-        ["x-correlation-id"]: generateRandomId(),
-      }
-    );
+    return api<TransferFeesResponse>("v1", `transfers/fees`, "GET", { transferType: transferType }, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
   });
 }
 
