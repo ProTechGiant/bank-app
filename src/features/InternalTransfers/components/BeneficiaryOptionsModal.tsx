@@ -17,6 +17,7 @@ interface BeneficiaryOptionsModalProps {
   onDelete: () => void;
   onCloseConfirmDelete: () => void;
   isConfirmDeleteVisible: boolean;
+  isLoading?: boolean;
 }
 
 export default function BeneficiaryOptionsModal({
@@ -27,6 +28,7 @@ export default function BeneficiaryOptionsModal({
   onDelete,
   onCloseConfirmDelete,
   isConfirmDeleteVisible,
+  isLoading = false,
 }: BeneficiaryOptionsModalProps) {
   const { t } = useTranslation();
   const menuContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -51,7 +53,7 @@ export default function BeneficiaryOptionsModal({
         variant="confirmations"
         buttons={{
           primary: (
-            <Button onPress={onDelete}>
+            <Button loading={isLoading} disabled={isLoading} onPress={onDelete}>
               {t("InternalTransfers.SendToBeneficiaryScreen.menu.deleteModal.deleteButton")}
             </Button>
           ),

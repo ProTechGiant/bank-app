@@ -7,7 +7,9 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
 import EmptySearchResult from "@/components/EmptySearchResult";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import { SearchInput } from "@/components/Input";
+import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -35,8 +37,8 @@ export default function SendToBeneficiaryScreen() {
   if (transferType === undefined) {
     throw new Error('Cannot access beneficiary list without "transferType"');
   }
-  const { data, refetch } = useBeneficiaries(transferType);
-  const { mutateAsync } = useDeleteBeneficiary();
+  const { data, refetch, isLoading, isError } = useBeneficiaries(transferType);
+  const { mutateAsync, isLoading: isDeleteLoading } = useDeleteBeneficiary();
   const bankList = useBeneficiaryBanks();
 
   const searchInputRef = useRef<TextInput>(null);
@@ -45,6 +47,7 @@ export default function SendToBeneficiaryScreen() {
   const [currentBeneficiary, setCurrentBeneficiary] = useState<BeneficiaryType>();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isConfirmDeleteVisible, setIsConfirmDeleteVisible] = useState(false);
+  const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState(false);
   const [isConfirmActivationModalVisible, setIsConfirmActivationModalVisible] = useState(false);
 
   const beneficiaries = useMemo(
@@ -58,6 +61,11 @@ export default function SendToBeneficiaryScreen() {
   useEffect(() => {
     setFilteredBeneficiaries(beneficiaries);
   }, [beneficiaries]);
+
+  // showing error if api failed to get response.
+  useEffect(() => {
+    setIsLoadingErrorVisible(isError);
+  }, [isError]);
 
   const handleOnSearch = (query: string) => {
     setSearchQuery(query);
@@ -89,6 +97,7 @@ export default function SendToBeneficiaryScreen() {
         });
         refetch();
       } catch (err) {
+        setIsLoadingErrorVisible(true);
         warn("Beneficiary", "Could not process delete beneficiary: ", JSON.stringify(err));
       }
     } else {
@@ -216,7 +225,9 @@ export default function SendToBeneficiaryScreen() {
                   </Typography.Text>
                 </Stack>
               </Pressable>
-              {filteredBeneficiaries.length > 0 ? (
+              {isLoading ? (
+                <FullScreenLoader />
+              ) : filteredBeneficiaries.length > 0 ? (
                 <Stack direction="vertical" gap="20p" align="stretch">
                   {activeBeneficiaries.length > 0 ? (
                     <>
@@ -257,6 +268,11 @@ export default function SendToBeneficiaryScreen() {
           </ContentContainer>
         </KeyboardAvoidingView>
       </Page>
+      <LoadingErrorNotification
+        isVisible={isLoadingErrorVisible}
+        onClose={() => setIsLoadingErrorVisible(false)}
+        onRefresh={() => refetch()}
+      />
       {currentBeneficiary ? (
         <BeneficiaryOptionsModal
           name={currentBeneficiary.Name}
@@ -266,6 +282,7 @@ export default function SendToBeneficiaryScreen() {
           onOpenDeleteConfirm={handleOnOpenDeleteConfirm}
           onDelete={handleOnDelete}
           onCloseConfirmDelete={handleOnCloseConfirmDelete}
+          isLoading={isDeleteLoading}
         />
       ) : null}
       <NotificationModal
