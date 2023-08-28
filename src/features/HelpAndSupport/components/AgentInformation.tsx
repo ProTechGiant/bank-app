@@ -8,9 +8,10 @@ import { AvatarIcon } from "../assets/icons";
 
 interface AgentInformationProps {
   isOnline: boolean;
+  agentName: string;
 }
 
-export default function AgentInformation({ isOnline }: AgentInformationProps) {
+export default function AgentInformation({ isOnline, agentName }: AgentInformationProps) {
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -46,7 +47,7 @@ export default function AgentInformation({ isOnline }: AgentInformationProps) {
         <AvatarIcon />
         <View style={contentContainerStyle}>
           <Typography.Text weight="medium" color="neutralBase+30" size="callout">
-            {t("HelpAndSupport.AgentInformation.agentName")}
+            {agentName}
           </Typography.Text>
 
           <Typography.Text weight="regular" color="neutralBase+10" size="caption1">

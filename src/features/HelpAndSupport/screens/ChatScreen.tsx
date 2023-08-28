@@ -6,6 +6,7 @@ import Page from "@/components/Page";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
+import { EndChatIcon } from "../assets/icons";
 import { ChatInputBox, ChatList, CloseChattingModal, CustomerFeedbackModal, HeaderText } from "../components";
 import { useEndLiveChat } from "../hooks/query-hooks";
 
@@ -44,7 +45,7 @@ export default function ChatScreen() {
     <Page backgroundColor="neutralBase-60">
       <NavHeader
         title={<HeaderText categoryName="Fraud" />} //TODO: add header and translation as in figma
-        end={<NavHeader.CloseEndButton hasBackground={true} onPress={handleOnOpenCloseChatModal} />}
+        end={<NavHeader.IconEndButton icon={<EndChatIcon />} onPress={handleOnOpenCloseChatModal} />}
       />
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.containerStyle}>
         <ChatList />

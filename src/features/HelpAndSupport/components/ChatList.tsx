@@ -60,7 +60,8 @@ export default function ChatList() {
 
   return (
     <Stack direction="vertical" align="stretch" style={styles.containerStyle}>
-      <AgentInformation isOnline={false} />
+      {/* TODO: will change to dynamic name and dynamic status when the api ready  */}
+      <AgentInformation isOnline={true} agentName="Jane Baker" />
       <AgentAwaitingMessage />
       <FlatList
         ref={flatListRef}

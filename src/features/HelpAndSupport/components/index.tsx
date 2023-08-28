@@ -1,3 +1,4 @@
+export { default as AgentAvatar } from "./AgentAvatar";
 export { default as AgentJoinedChat } from "./AgentJoinedChat";
 export { default as BubbleMessage } from "./BubbleMessage";
 export { default as ChatInputBox } from "./ChatInputBox";

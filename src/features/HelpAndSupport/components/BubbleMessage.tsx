@@ -5,7 +5,8 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { AgentAvatarIcon, SenderAvatarIcon } from "../assets/icons";
+import { SenderAvatarIcon } from "../assets/icons";
+import { AgentAvatar } from "../components";
 
 interface BubbleMessageProps {
   isAgent: boolean;
@@ -52,7 +53,7 @@ export default function BubbleMessage({ isAgent, message, time }: BubbleMessageP
         <View style={styles.agentContainerStyle}>
           <View style={styles.agentInfoStyle}>
             <View style={styles.flexDirectionRow}>
-              <AgentAvatarIcon />
+              <AgentAvatar isOnline={true} />
               <View style={styles.contentStyle}>
                 <View style={[styles.flexDirectionRow, styles.justifyContentSpaceBetween]}>
                   <Typography.Text size="callout" weight="medium" color="neutralBase+30">
