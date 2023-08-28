@@ -1,5 +1,5 @@
 import * as React from "react";
-import Svg, { Defs, G, Path, Rect } from "react-native-svg";
+import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
 
 function AvatarIcon() {
   return (
@@ -13,9 +13,9 @@ function AvatarIcon() {
         />
       </G>
       <Defs>
-        <clipPath id="clip0_2871_12267">
+        <ClipPath id="clip0_2871_12267">
           <Rect width="14" height="16" fill="white" transform="translate(8 8)" />
-        </clipPath>
+        </ClipPath>
       </Defs>
     </Svg>
   );
