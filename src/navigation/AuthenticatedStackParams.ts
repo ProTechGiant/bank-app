@@ -1,5 +1,6 @@
 import { AddMoneyStackParams } from "@/features/AddMoney/AddMoneyStack";
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
+import { DocumentsStackParams } from "@/features/Documents/DocumentsStack";
 import { FrequentlyAskedQuestionsStackParams } from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
 import { HelpAndSupportStackParams } from "@/features/HelpAndSupport/HelpAndSupportStack";
 import { HomeStackParams } from "@/features/Home/HomeStack";
@@ -102,6 +103,7 @@ type RootStackParams = {
     | undefined;
   "ProfileDetails.ProfileDetailsStack": undefined;
   "Statements.StatementsStack": undefined;
+  "Documents.DocumentsStack": undefined;
 };
 
 type AuthenticatedStackParams = RootStackParams &
@@ -109,6 +111,7 @@ type AuthenticatedStackParams = RootStackParams &
   SavingsGoalsStackParams &
   ViewTransactionsStackParams &
   StatementsStackParams &
+  DocumentsStackParams &
   SadadBillPaymentStackParams &
   InternalTransfersStackParams &
   CardActionsStackParams &

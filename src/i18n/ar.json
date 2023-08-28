@@ -634,6 +634,16 @@
       "errorCancelText":  "إغلاق"
     }
   },
+  "Documents": {
+    "DocumentScreen": {
+      "title": "مستندات"
+    }
+  },
+  "Documents": {
+    "DocumentListScreen": {
+      "title": "مستندات"
+    }
+  },
   "ViewTransactions": {
     "TransactionsScreen": {
       "title": "Transactions",

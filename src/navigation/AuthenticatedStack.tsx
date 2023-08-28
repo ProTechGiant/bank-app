@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AddMoneyStack from "@/features/AddMoney/AddMoneyStack";
 import AppreciationStack from "@/features/Appreciation/AppreciationStack";
 import CardActionsStack from "@/features/CardActions/CardActionsStack";
+import DocumentsStack from "@/features/Documents/DocumentsStack";
 import FrequentlyAskedQuestionsStack from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
 import DetailedScreen from "@/features/FrequentlyAskedQuestions/screens/DetailedScreen";
 import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
@@ -72,6 +73,7 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen component={ProfileDetailsStack} name="ProfileDetails.ProfileDetailsStack" />
       <AuthStack.Screen component={SadadBillPaymentStack} name="SadadBillPayments.SadadBillPaymentStack" />
       <AuthStack.Screen component={StatementsStack} name="Statements.StatementsStack" />
+      <AuthStack.Screen component={DocumentsStack} name="Documents.DocumentsStack" />
       <AuthStack.Screen
         component={TermsAndConditionsScreen}
         name="Referral.TermsAndConditionsScreen"

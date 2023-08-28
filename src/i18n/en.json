@@ -627,6 +627,11 @@
       "errorCancelText": "Close"
     }
   },
+  "Documents": {
+    "DocumentScreen": {
+      "title": "Documents"
+    }
+  },
   "ViewTransactions": {
     "TransactionsScreen": {
       "title": "Transactions",
