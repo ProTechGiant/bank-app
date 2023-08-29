@@ -8,16 +8,16 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { FiltersType } from "../types";
+import { FilterItemType, FiltersType } from "../types";
 
 interface FilterModalProps {
   onClose: () => void;
   onApplyButtonPress: () => void;
   onClearAllPressed: () => void;
-  onFilterItemPressed: (categoryIndex: number, itemIndex: number) => void;
+  onFilterItemPressed: (filterCategory: FilterItemType, itemIndex: number, isActive: boolean) => void;
   isApplyButtonDisabled: boolean;
   isVisible: boolean;
-  filters: FiltersType[];
+  filters: FiltersType;
 }
 
 export default function FilterModal({
@@ -62,20 +62,20 @@ export default function FilterModal({
         </Typography.Text>
       </Pressable>
       <View style={categoryStyle}>
-        {filters.map((filterCategory, index) => {
+        {Object.keys(filters).map((filterCategory, index) => {
           return (
             <Stack direction="vertical" gap="16p" key={index}>
               <Typography.Text size="callout" color="neutralBase-10" weight="medium">
-                {filterCategory.filterName}
+                {t(`Appreciation.HubScreen.${filterCategory}FilterTitle`)}
               </Typography.Text>
               <Stack direction="horizontal" gap="12p" style={tagsContainerStyle}>
-                {filterCategory.filters.map((item, i) => {
+                {filters[filterCategory]?.map((item, itemIndex) => {
                   return (
                     <Chip
-                      onPress={() => onFilterItemPressed(index, i)}
-                      title={item.name}
+                      onPress={() => onFilterItemPressed(filterCategory, itemIndex, item.isActive)}
+                      title={item.Name}
                       isRemovable={false}
-                      key={i}
+                      key={itemIndex}
                       isSelected={item.isActive}
                     />
                   );

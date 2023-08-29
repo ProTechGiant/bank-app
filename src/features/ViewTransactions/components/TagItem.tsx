@@ -17,7 +17,7 @@ interface TagItemProps {
   onDeletePress?: () => void;
 }
 
-export default function TagItem({ item, isSelected, isSelectable, onPress, onDeletePress}: TagItemProps) {
+export default function TagItem({ item, isSelected, isSelectable, onPress, onDeletePress }: TagItemProps) {
   const tagRowFirtItemStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     alignItems: "center",

@@ -2743,6 +2743,10 @@
       "location": "Location",
       "category": "Category",
       "apply": "Apply",
+      "CategoriesFilterTitle":"Category",
+      "LocationsFilterTitle": "Location",
+      "SectionsFilterTitle":"Section",
+      "TypesFilterTitle": "Redeem",
       "filterBy": "Filtered by:",
       "recommended": "Recommended for you",
       "promoted": "Promoted",
@@ -2751,10 +2755,11 @@
       "new": "New",
       "croatiaPlus": "Croatia Plus",
       "endOnMessage": "Presale ends on",
-      "FilterOptions": {
-        "recommendedForYou": "Recommended for you",
-        "mostRecent": "Most Recent",
-        "expiringSoonest": "Expiring Soonest"
+      "FilterOptions" : {
+        "recommendedForYou" : "Recommended for you",
+        "mostRecent" : "Most Recent",
+        "expiringSoonest" : "Expiring Soonest",
+        "alphabetic":"Alphabetic"
       },
       "EmptyList": {
         "HasFilters": {

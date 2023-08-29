@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { cloneDeep, isEqual } from "lodash";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -9,12 +9,13 @@ import { AngleDownIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import Chip from "@/components/Chip";
 import ContentContainer from "@/components/ContentContainer";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
+import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import SegmentedControl from "@/components/SegmentedControl";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useFiltersList } from "@/hooks/use-appreciation";
 import { useThemeStyles } from "@/theme";
 
 import noAppreciationImage from "../assets/no-appreciation-image.png";
@@ -22,13 +23,13 @@ import noLikedAppreciationImage from "../assets/no-liked-appreciation-image.png"
 import { AppreciationCard, SortingModal } from "../components";
 import { FilterModal } from "../components";
 import EmptyAppreciationList from "../components/EmptyAppreciationList";
-import { AppreciationList, SORTING_OPTIONS_ALL_TAB, SORTING_OPTIONS_OTHER_TABS } from "../mockData";
-import { FiltersType, SortingOptions, TabsTypes } from "../types";
+import { SORTING_OPTIONS_ALL_TAB, SORTING_OPTIONS_OTHER_TABS } from "../constants";
+import { useAppreciationFilters, useAppreciationSearch } from "../hooks/query-hooks";
+import { FilterItemType, FiltersType, SortingOptions, TabsTypes } from "../types";
 
 export default function AppreciationHubScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
-  const filtersData = useFiltersList();
 
   const [currentTab, setCurrentTab] = useState<TabsTypes>(TabsTypes.ALL);
   const [isSortingModalVisible, setIsSortingModalVisible] = useState<boolean>(false);
@@ -36,51 +37,78 @@ export default function AppreciationHubScreen() {
   const [sortingModalCurrentOption, setSortingModalCurrentOption] = useState<SortingOptions>(sortingOptions[0]);
   const [currentSortingOption, setCurrentSortingOption] = useState<SortingOptions>(sortingOptions[0]);
   const [isFiltersModalVisible, setIsFiltersModalVisible] = useState<boolean>(false);
-  const [filters, setFilters] = useState<FiltersType[]>(filtersData.data);
-  const [selectedModalFilters, setSelectedModalFilters] = useState<FiltersType[]>(filtersData.data);
+  const [selectedFilters, setSelectedFilters] = useState<FiltersType | null>(null);
+  const [appreciationLoadingErrorModal, setAppreciationLoadingErrorModal] = useState<boolean>(false);
+  const [filtersLoadingErrorModal, setFiltersLoadingErrorModal] = useState<boolean>(false);
 
-  const isApplySortingButtonDisabled = currentSortingOption === sortingModalCurrentOption;
-  const isApplyButtonFilterModalDisabled = isEqual(filters, selectedModalFilters);
-  const hasFilters = filters.find(filterCategory => filterCategory.filters.find(filter => filter.isActive));
+  const {
+    data: filtersData,
+    refetch: refetchFilterHandler,
+    isError: filterError,
+  } = useAppreciationFilters(i18n.language);
+  const [filters, setFilters] = useState<FiltersType | null>(null);
+  const {
+    data: AppreciationList,
+    refetch,
+    isError,
+    isFetching,
+  } = useAppreciationSearch(selectedFilters, currentSortingOption, currentTab, i18n.language);
 
-  const emptyListTitle = hasFilters
-    ? t("Appreciation.HubScreen.EmptyList.HasFilters.title")
-    : currentTab === TabsTypes.ALL
-    ? t("Appreciation.HubScreen.EmptyList.AllTab.title")
-    : currentTab === TabsTypes.REDEEMED
-    ? t("Appreciation.HubScreen.EmptyList.RedeemedTab.title")
-    : t("Appreciation.HubScreen.EmptyList.LikedTab.title");
+  const hasFilters = useMemo(() => {
+    return !filters
+      ? false
+      : Object.values(filters)
+          .flat()
+          .some(item => item.isActive);
+  }, [filters]);
 
-  const emptyListSubtitle = hasFilters
-    ? t("Appreciation.HubScreen.EmptyList.HasFilters.subtitle")
-    : currentTab === TabsTypes.ALL
-    ? t("Appreciation.HubScreen.EmptyList.AllTab.subtitle")
-    : currentTab === TabsTypes.REDEEMED
-    ? t("Appreciation.HubScreen.EmptyList.RedeemedTab.subtitle")
-    : t("Appreciation.HubScreen.EmptyList.LikedTab.subtitle");
-
-  const emptyListImage = currentTab === TabsTypes.LIKED && !hasFilters ? noLikedAppreciationImage : noAppreciationImage;
-
-  const emptyListButtonText =
-    hasFilters || currentTab === TabsTypes.LIKED
-      ? undefined
-      : currentTab === TabsTypes.ALL
-      ? t("Appreciation.HubScreen.EmptyList.AllTab.buttonText")
-      : t("Appreciation.HubScreen.EmptyList.RedeemedTab.buttonText");
-
-  const handleOnShowHistoryPress = () => {
-    //TODO add the navigation to show history here
+  const emptyListMessage = {
+    [TabsTypes.ALL]: {
+      title: t("Appreciation.HubScreen.EmptyList.AllTab.title"),
+      subtitle: t("Appreciation.HubScreen.EmptyList.AllTab.subtitle"),
+      SuggestionButton: t("Appreciation.HubScreen.EmptyList.AllTab.buttonText"),
+      onSuggestionButtonPress: () => {
+        //TODO add the navigation to the target screen
+      },
+      image: noAppreciationImage,
+    },
+    [TabsTypes.REDEEMED]: {
+      title: t("Appreciation.HubScreen.EmptyList.RedeemedTab.title"),
+      subtitle: t("Appreciation.HubScreen.EmptyList.RedeemedTab.subtitle"),
+      SuggestionButton: "Appreciation.HubScreen.EmptyList.RedeemedTab.buttonText",
+      onSuggestionButtonPress: () => {
+        //TODO add the navigation to the target screen
+      },
+      image: noAppreciationImage,
+    },
+    [TabsTypes.LIKED]: {
+      title: t("Appreciation.HubScreen.EmptyList.LikedTab.title"),
+      subtitle: t("Appreciation.HubScreen.EmptyList.LikedTab.subtitle"),
+      image: noLikedAppreciationImage,
+    },
   };
-  const handleOnWhatsNextPress = () => {
-    //TODO add the navigation to show whats next here
-  };
 
-  const emptyListOnPressButton =
-    currentTab === TabsTypes.ALL
-      ? handleOnWhatsNextPress
-      : currentTab === TabsTypes.REDEEMED
-      ? handleOnShowHistoryPress
-      : undefined;
+  useEffect(() => {
+    if (isError) setAppreciationLoadingErrorModal(isError);
+    if (filterError) setFiltersLoadingErrorModal(filterError);
+  }, [isError, filterError]);
+
+  useEffect(() => {
+    setFilters(clearFilters());
+    setSelectedFilters(clearFilters());
+  }, [filtersData]);
+
+  const clearFilters = () => {
+    const updatedFilters = cloneDeep(filtersData);
+    for (const property in updatedFilters) {
+      if (Array.isArray(updatedFilters[property])) {
+        updatedFilters[property].forEach(item => {
+          item.isActive = false;
+        });
+      }
+    }
+    return updatedFilters;
+  };
 
   const handleOnTabChange = (tab: TabsTypes) => {
     if (tab === TabsTypes.ALL) {
@@ -96,8 +124,7 @@ export default function AppreciationHubScreen() {
   };
 
   const handleOnBackButtonPress = () => {
-    if (hasFilters) handleOnClearAllModalFiltersPressed(true);
-    else navigation.goBack();
+    navigation.goBack();
   };
 
   const handleOnApplySortingButtonPress = () => {
@@ -111,30 +138,18 @@ export default function AppreciationHubScreen() {
   };
 
   const handleOnApplyFilterModalButtonPressed = () => {
-    setFilters(cloneDeep(selectedModalFilters));
-    //TODO call the post request for the filtering with new data
     setIsFiltersModalVisible(false);
+    setSelectedFilters(filters);
   };
 
-  const handleOnClearAllModalFiltersPressed = (withApply = false) => {
-    const updatedFilters = selectedModalFilters.map(filterCategory => {
-      return {
-        ...filterCategory,
-        filters: filterCategory.filters.map(item => {
-          return { ...item, isActive: false };
-        }),
-      };
-    });
-    setSelectedModalFilters(updatedFilters);
-    if (withApply) setFilters(updatedFilters);
+  const handleOnClearAllModalFiltersPressed = () => {
+    setFilters(clearFilters());
   };
 
-  const handleOnModalFilterItemPressed = (categoryIndex: number, itemIndex: number, withApply = false) => {
-    const updatedFilters = cloneDeep(selectedModalFilters);
-    updatedFilters[categoryIndex].filters[itemIndex].isActive =
-      !updatedFilters[categoryIndex].filters[itemIndex].isActive;
-    setSelectedModalFilters(updatedFilters);
-    if (withApply) setFilters(updatedFilters);
+  const handleOnModalFilterItemPressed = (filterCategory: FilterItemType, index: number, isActive: boolean) => {
+    const updatedFilters = cloneDeep(filters);
+    updatedFilters[filterCategory][index].isActive = !isActive;
+    setFilters(updatedFilters);
   };
 
   const segmentedControlStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -161,99 +176,130 @@ export default function AppreciationHubScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader
-        title={t("Appreciation.HubScreen.title")}
-        onBackPress={handleOnBackButtonPress}
-        end={<NavHeader.IconEndButton icon={<FilterIcon />} onPress={() => setIsFiltersModalVisible(true)} />}
-      />
-      <View style={segmentedControlStyle}>
-        {hasFilters ? (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <Stack direction="horizontal" gap="8p" style={segmentedControlOnFilterStyle}>
-              <Typography.Text>{t("Appreciation.HubScreen.filterBy")} </Typography.Text>
-              {filters.map((filterCategory, categoryIndex) =>
-                filterCategory.filters.map((filter, itemIndex) => {
-                  if (filter.isActive)
-                    return (
-                      <Chip
-                        title={filter.name}
-                        isRemovable={true}
-                        isSelected={true}
-                        onPress={() => handleOnModalFilterItemPressed(categoryIndex, itemIndex, true)}
-                      />
-                    );
-                  return null;
-                })
-              )}
-              <Button variant="tertiary" onPress={() => handleOnClearAllModalFiltersPressed(true)} size="mini">
-                {t("Appreciation.HubScreen.clearAll")}
-              </Button>
-            </Stack>
-          </ScrollView>
-        ) : (
-          <SegmentedControl onPress={handleOnTabChange} value={currentTab}>
-            <SegmentedControl.Item value={TabsTypes.ALL}>{t("Appreciation.HubScreen.all")}</SegmentedControl.Item>
-            <SegmentedControl.Item value={TabsTypes.REDEEMED}>
-              {t("Appreciation.HubScreen.redeemed")}
-            </SegmentedControl.Item>
-            <SegmentedControl.Item value={TabsTypes.LIKED}>{t("Appreciation.HubScreen.liked")}</SegmentedControl.Item>
-          </SegmentedControl>
-        )}
-      </View>
-      {AppreciationList.length === 0 ? (
-        <EmptyAppreciationList
-          buttonText={emptyListButtonText}
-          onButtonPress={emptyListOnPressButton}
-          title={emptyListTitle}
-          subtitle={emptyListSubtitle}
-          image={emptyListImage}
-        />
+      {isFetching ? (
+        <FlexActivityIndicator />
       ) : (
-        <ContentContainer isScrollView>
-          <View style={titleContainerStyle}>
-            <Typography.Text color="neutralBase+30" size="title3" weight="medium">
-              {t("Appreciation.HubScreen.promoted")}
-            </Typography.Text>
+        <>
+          <NavHeader
+            title={t("Appreciation.HubScreen.title")}
+            onBackPress={handleOnBackButtonPress}
+            end={<NavHeader.IconEndButton icon={<FilterIcon />} onPress={() => setIsFiltersModalVisible(true)} />}
+          />
+          <View style={segmentedControlStyle}>
+            {!isFiltersModalVisible && hasFilters ? (
+              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                <Stack direction="horizontal" gap="8p" style={segmentedControlOnFilterStyle}>
+                  <Typography.Text>{t("Appreciation.HubScreen.filterBy")} </Typography.Text>
+                  {filters &&
+                    Object.keys(filters).map(filterCategory => {
+                      return filters[filterCategory]?.map((filter, itemIndex) => {
+                        return !filter.isActive ? null : (
+                          <Chip
+                            key={itemIndex}
+                            title={filter.Name}
+                            isRemovable={true}
+                            isSelected={filter.isActive}
+                            onPress={() => handleOnModalFilterItemPressed(filterCategory, itemIndex, filter.isActive)}
+                          />
+                        );
+                      });
+                    })}
+                  <Button variant="tertiary" onPress={handleOnClearAllModalFiltersPressed} size="mini">
+                    {t("Appreciation.HubScreen.clearAll")}
+                  </Button>
+                </Stack>
+              </ScrollView>
+            ) : (
+              <SegmentedControl onPress={handleOnTabChange} value={currentTab}>
+                <SegmentedControl.Item value={TabsTypes.ALL}>{t("Appreciation.HubScreen.all")}</SegmentedControl.Item>
+                <SegmentedControl.Item value={TabsTypes.REDEEMED}>
+                  {t("Appreciation.HubScreen.redeemed")}
+                </SegmentedControl.Item>
+                <SegmentedControl.Item value={TabsTypes.LIKED}>
+                  {t("Appreciation.HubScreen.liked")}
+                </SegmentedControl.Item>
+              </SegmentedControl>
+            )}
           </View>
-          <AppreciationCard appreciation={AppreciationList[0]} isPromoted={true} />
-          <View style={exploreContainerStyle}>
-            <View style={titleContainerStyle}>
-              <Typography.Text color="neutralBase+30" size="title3" weight="medium">
-                {t("Appreciation.HubScreen.explore")}
-              </Typography.Text>
-            </View>
-            <View>
-              <Pressable style={styles.dropdownContainer} onPress={() => setIsSortingModalVisible(true)}>
-                <Typography.Text color="primaryBase" size="footnote" weight="medium" align="center">
-                  {t(`Appreciation.HubScreen.FilterOptions.${currentSortingOption}`)}
-                </Typography.Text>
-                <AngleDownIcon color={angleDownIconColor} />
-              </Pressable>
-            </View>
-          </View>
-          {AppreciationList.map((appreciation, index) => {
-            return <AppreciationCard appreciation={appreciation} key={index} />;
-          })}
-        </ContentContainer>
+          {AppreciationList?.length === 0 ? (
+            <EmptyAppreciationList
+              buttonText={currentTab === TabsTypes.LIKED ? undefined : emptyListMessage[currentTab].SuggestionButton}
+              onButtonPress={
+                currentTab === TabsTypes.LIKED ? undefined : emptyListMessage[currentTab].onSuggestionButtonPress
+              }
+              title={emptyListMessage[currentTab].title}
+              subtitle={emptyListMessage[currentTab].subtitle}
+              image={currentTab === TabsTypes.LIKED ? noLikedAppreciationImage : noAppreciationImage}
+            />
+          ) : (
+            <ContentContainer isScrollView>
+              {currentTab === TabsTypes.ALL && AppreciationList && (
+                <>
+                  {AppreciationList?.filter(item => item.Ranking === 1).length ? (
+                    <View style={titleContainerStyle}>
+                      <Typography.Text color="neutralBase+30" size="title3" weight="medium">
+                        {t("Appreciation.HubScreen.promoted")}
+                      </Typography.Text>
+                    </View>
+                  ) : null}
+                  {AppreciationList &&
+                    AppreciationList?.filter(item => item.Ranking === 1).map((appreciation, index) => {
+                      return <AppreciationCard appreciation={appreciation} key={index} isPromoted />;
+                    })}
+                </>
+              )}
+              <View style={exploreContainerStyle}>
+                <View style={titleContainerStyle}>
+                  <Typography.Text color="neutralBase+30" size="title3" weight="medium">
+                    {t("Appreciation.HubScreen.explore")}
+                  </Typography.Text>
+                </View>
+                <View>
+                  <Pressable style={styles.dropdownContainer} onPress={() => setIsSortingModalVisible(true)}>
+                    <Typography.Text color="primaryBase" size="footnote" weight="medium" align="center">
+                      {t(`Appreciation.HubScreen.FilterOptions.${currentSortingOption}`)}
+                    </Typography.Text>
+                    <AngleDownIcon color={angleDownIconColor} />
+                  </Pressable>
+                </View>
+              </View>
+              {AppreciationList &&
+                AppreciationList?.filter(item => item.Ranking !== 1).map((appreciation, index) => {
+                  return <AppreciationCard appreciation={appreciation} key={index} />;
+                })}
+            </ContentContainer>
+          )}
+        </>
       )}
-
-      <FilterModal
-        onClose={() => setIsFiltersModalVisible(false)}
-        onApplyButtonPress={handleOnApplyFilterModalButtonPressed}
-        onClearAllPressed={handleOnClearAllModalFiltersPressed}
-        onFilterItemPressed={handleOnModalFilterItemPressed}
-        filters={selectedModalFilters}
-        isVisible={isFiltersModalVisible}
-        isApplyButtonDisabled={isApplyButtonFilterModalDisabled}
-      />
+      {filters ? (
+        <FilterModal
+          onClose={() => setIsFiltersModalVisible(false)}
+          onApplyButtonPress={handleOnApplyFilterModalButtonPressed}
+          onClearAllPressed={handleOnClearAllModalFiltersPressed}
+          onFilterItemPressed={handleOnModalFilterItemPressed}
+          filters={filters}
+          isVisible={isFiltersModalVisible}
+          isApplyButtonDisabled={isEqual(filters, selectedFilters)}
+        />
+      ) : null}
       <SortingModal
         isVisible={isSortingModalVisible}
         onClose={handleOnCloseSortingModal}
         options={sortingOptions}
         currentValue={sortingModalCurrentOption}
         onChange={setSortingModalCurrentOption}
-        isApplyButtonDisabled={isApplySortingButtonDisabled}
+        isApplyButtonDisabled={currentSortingOption === sortingModalCurrentOption}
         onApplyButtonPressed={handleOnApplySortingButtonPress}
+      />
+      <LoadingErrorNotification
+        isVisible={appreciationLoadingErrorModal}
+        onClose={() => setAppreciationLoadingErrorModal(false)}
+        onRefresh={refetch}
+      />
+      <LoadingErrorNotification
+        isVisible={filtersLoadingErrorModal}
+        onClose={() => setFiltersLoadingErrorModal(false)}
+        onRefresh={refetchFilterHandler}
       />
     </Page>
   );

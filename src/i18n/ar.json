@@ -2145,6 +2145,10 @@
       "location": "Location",
       "category": "Category",
       "apply": "Apply",
+      "CategoriesFilterTitle":"الصنف",
+      "LocationsFilterTitle": "الموقع",
+      "SectionsFilterTitle":"Section",
+      "TypesFilterTitle": "Redeem",
       "filterBy": "Filtered by:",
       "recommended": "Recommended for you",
       "promoted": "Promoted",
@@ -2156,7 +2160,8 @@
       "FilterOptions": {
         "recommendedForYou": "Recommended for you",
         "mostRecent": "Most Recent",
-        "expiringSoonest": "Expiring Soonest"
+        "expiringSoonest": "Expiring Soonest",
+        "alphabetic":"Alphabetic"
       },
       "EmptyList": {
         "HasFilters": {

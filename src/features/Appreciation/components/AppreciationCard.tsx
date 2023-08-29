@@ -6,22 +6,20 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { CalendarIcon, DiamondIcon, TrendingUpIcon, ZoomInIcon as DetailsIcon } from "../assets";
-import AppreciationCardImage from "../assets/appreciation-card-image.png";
+import { CalendarIcon, DiamondIcon, LikeIcon, TrendingUpIcon, ZoomInIcon as DetailsIcon } from "../assets";
 import PromotedImagedivider from "../assets/promoted-image-divider.png";
 import RectangleImagedivider from "../assets/rectangle-image-divider.png";
-
-// TODO
-// appreciation: unknown;  it will be replaced with actual type after BE gives us the keys of the object
+import { AppreciationType } from "../types";
 interface CardPropsTypes {
-  appreciation: unknown;
+  appreciation: AppreciationType;
   isPromoted?: boolean;
 }
 
 export default function ApreciationCard({ appreciation, isPromoted = false }: CardPropsTypes) {
   const { t } = useTranslation();
 
-  const { isNew, isRelatedToPlus, isTrending, title, date, location, endsAt, promotedDescription } = appreciation;
+  const { Tier, Ranking, VoucherName, PreSaleDateTime, Location, ExpiryDate, PreSaleDescription, ImageUrl } =
+    appreciation;
 
   const onAppreciationCardPress = () => {
     //TODO
@@ -66,17 +64,10 @@ export default function ApreciationCard({ appreciation, isPromoted = false }: Ca
     [isPromoted]
   );
 
-  const tagStyle = useThemeStyles(theme => ({
+  const croatiaPlusTagStyle = useThemeStyles(theme => ({
     paddingHorizontal: theme.spacing["8p"],
     paddingVertical: theme.spacing["4p"],
     marginEnd: theme.spacing["16p"],
-  }));
-
-  const newtagStyle = useThemeStyles(theme => ({
-    backgroundColor: theme.palette.complimentBase,
-  }));
-
-  const croatiaPlustagStyle = useThemeStyles(theme => ({
     backgroundColor: theme.palette["neutralBase+30"],
   }));
 
@@ -84,34 +75,31 @@ export default function ApreciationCard({ appreciation, isPromoted = false }: Ca
     marginHorizontal: theme.spacing["4p"],
   }));
 
+  const locationContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginVertical: theme.spacing["4p"],
+  }));
+
+  const descriptionContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginVertical: theme.spacing["4p"],
+  }));
+
   return (
     <Pressable onPress={onAppreciationCardPress}>
       <View style={containerStyle}>
         <View style={absoluteHeaderStyle}>
           <View style={styles.tagsContainer}>
-            {isNew && (
-              <View style={[tagStyle, newtagStyle]}>
-                <Typography.Text color="supportBase-10" size="caption2" weight="medium" align="center">
-                  {t("Appreciation.HubScreen.new")}
-                </Typography.Text>
-              </View>
-            )}
-            {isRelatedToPlus && (
-              <View style={[tagStyle, croatiaPlustagStyle]}>
+            {Tier === 2 && (
+              <View style={croatiaPlusTagStyle}>
                 <Typography.Text color="supportBase-10" size="caption2" weight="medium">
                   <DiamondIcon /> {t("Appreciation.HubScreen.croatiaPlus")}
                 </Typography.Text>
               </View>
             )}
           </View>
-          {isPromoted && (
-            <Pressable onPress={openPromotedHandler}>
-              <DetailsIcon />
-            </Pressable>
-          )}
+          <Pressable onPress={openPromotedHandler}>{isPromoted ? <DetailsIcon /> : <LikeIcon />}</Pressable>
         </View>
         <View style={styles.imageContainer}>
-          <Image source={AppreciationCardImage} style={styles.image} resizeMode="cover" />
+          <Image source={ImageUrl} style={styles.image} resizeMode="cover" />
           <View style={styles.RectangleImageContainer}>
             {isPromoted ? (
               <Image source={PromotedImagedivider} style={styles.image} />
@@ -121,7 +109,7 @@ export default function ApreciationCard({ appreciation, isPromoted = false }: Ca
           </View>
         </View>
         <View style={detailsContainerStyle}>
-          {isTrending && (
+          {Ranking === 1 && (
             <Stack direction="horizontal">
               <TrendingUpIcon />
               <View style={sellingFastContainerStyle}>
@@ -133,22 +121,26 @@ export default function ApreciationCard({ appreciation, isPromoted = false }: Ca
           )}
           <Stack direction="vertical" style={styles.titlelocationContainer}>
             <Typography.Text color="neutralBase+30" size="title2" weight="medium">
-              {title}
+              {VoucherName}
             </Typography.Text>
             {!isPromoted ? (
-              <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                {location} {" . "} {date}
-              </Typography.Text>
+              <View style={locationContainerStyle}>
+                <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                  {`${Location.Name} . ${PreSaleDateTime}`}
+                </Typography.Text>
+              </View>
             ) : (
-              <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                {promotedDescription}
-              </Typography.Text>
+              <View style={descriptionContainerStyle}>
+                <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                  {PreSaleDescription}
+                </Typography.Text>
+              </View>
             )}
           </Stack>
           <Stack direction="horizontal" gap="4p">
             <CalendarIcon />
             <Typography.Text color="neutralBase+30" size="caption2" weight="medium">
-              {t("Appreciation.HubScreen.endOnMessage")} {endsAt}
+              {t("Appreciation.HubScreen.endOnMessage")} {ExpiryDate}
             </Typography.Text>
           </Stack>
         </View>
@@ -177,6 +169,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   titlelocationContainer: {
-    height: 68,
+    flexShrink: 1,
   },
 });
