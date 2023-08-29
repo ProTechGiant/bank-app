@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 import ContentContainer from "@/components/ContentContainer";
@@ -9,24 +9,19 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import BackgroundBottomSvg from "../assets/background-bottom.svg";
-import BackgroundLeftBottomSvg from "../assets/background-left-bottom.svg";
-import BackgroundRightSvg from "../assets/background-right.svg";
-import BackgroundTopLeftSvg from "../assets/background-top-left.svg";
+import BackgroundSvgLTR from "../assets/BackgroundSvgLTR.svg";
+import BackgroundSvgRTL from "../assets/BackgroundSvgRTL.svg";
 
 export default function LiveChatScreenHeader({ isHide }: { isHide: boolean }) {
   const { t } = useTranslation();
   const currentHeight = useSharedValue(isHide ? 90 : 259);
   const currentOpacity = useSharedValue(isHide ? 0 : 1);
+  const isRTL = I18nManager.isRTL;
 
   useEffect(() => {
     currentHeight.value = isHide ? 90 : 259;
     currentOpacity.value = isHide ? 0 : 1;
   }, [isHide]);
-
-  const backgroundColorStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-30"],
-  }));
 
   const animatedHeaderStyle = useAnimatedStyle(
     () => ({
@@ -57,19 +52,8 @@ export default function LiveChatScreenHeader({ isHide }: { isHide: boolean }) {
     <React.Fragment>
       <Animated.View style={[styles.container, animatedHeaderStyle]}>
         <StatusBar translucent={true} backgroundColor="transparent" />
-        <Animated.View style={[styles.backgroundImage, backgroundColorStyle, animatedBackgroundImageStyle]}>
-          <View style={styles.backgroundLeftTop}>
-            <BackgroundTopLeftSvg />
-          </View>
-          <View style={styles.backgroundLeftBottom}>
-            <BackgroundLeftBottomSvg />
-          </View>
-          <View style={styles.backgroundRight}>
-            <BackgroundRightSvg />
-          </View>
-          <View style={styles.backgroundBottom}>
-            <BackgroundBottomSvg style={styles.backgroundBottom} />
-          </View>
+        <Animated.View style={[styles.backgroundImage, animatedBackgroundImageStyle]}>
+          {isRTL ? <BackgroundSvgRTL /> : <BackgroundSvgLTR />}
         </Animated.View>
         <View style={navHeaderContainer}>
           {!isHide ? (
@@ -97,29 +81,9 @@ export default function LiveChatScreenHeader({ isHide }: { isHide: boolean }) {
 }
 
 const styles = StyleSheet.create({
-  backgroundBottom: {
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-  },
   backgroundImage: {
     ...StyleSheet.absoluteFillObject,
     flex: 1,
-  },
-  backgroundLeftBottom: {
-    left: 0,
-    position: "absolute",
-    top: 82,
-  },
-  backgroundLeftTop: {
-    left: 0,
-    position: "absolute",
-    top: 0,
-  },
-  backgroundRight: {
-    position: "absolute",
-    right: 0,
-    top: 0,
   },
   container: {
     flex: 1,

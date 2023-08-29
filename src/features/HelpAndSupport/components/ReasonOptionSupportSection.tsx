@@ -34,7 +34,7 @@ export default function ReasonOptionSupportSection({
   updateExpandedSupportSectionCount,
 }: ReasonOptionSectionProps) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [selectedIndexReason, setSelectedIndexReason] = useState<number>(subOptions.length);
+  const [selectedIndexReason, setSelectedIndexReason] = useState<number>(0);
   const currentHeight = useSharedValue(isExpanded === true ? 200 : 0);
 
   useEffect(() => {
@@ -95,10 +95,15 @@ export default function ReasonOptionSupportSection({
             <RadioButtonGroup
               onPress={value => {
                 setEnquiryType(name);
-                onChange(`${value}`);
-                setSelectedIndexReason(value);
+                if (value === selectedIndexReason) {
+                  onChange("");
+                  setSelectedIndexReason(subOptions.length);
+                } else {
+                  onChange(`${value}`);
+                  setSelectedIndexReason(value);
+                }
               }}
-              value={enquiryType === name ? selectedIndexReason : subOptions.length}>
+              value={enquiryType === name ? selectedIndexReason : 0}>
               {subOptions.map(option => {
                 return <RadioButton key={`radio-${option.Id}`} label={option.Name} value={option.Id} />;
               })}
