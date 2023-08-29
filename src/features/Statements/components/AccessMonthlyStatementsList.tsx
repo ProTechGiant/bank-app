@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, RefreshControl, SectionList, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
+import { EmptyListView } from "@/components";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -12,7 +13,6 @@ import { useThemeStyles } from "@/theme";
 import { MonthNameTypes, StatementLanguageTypes, StatementStatus } from "../constants";
 import { StatementInterface } from "../types";
 import { groupMonthlyStatementsByYear, SectionListDataTypes } from "../utils/group-monthly-statements-by-year";
-import EmptyListView from "./EmptyListView";
 import FilterButton from "./FilterButton";
 
 interface AccessMonthlyStatementsListProps {

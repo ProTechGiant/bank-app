@@ -12,13 +12,16 @@ import {
   RetryRequestInterface,
 } from "../types";
 
-const queryKeys = { all: () => ["data"] as const, accessStatements: () => ["statements"] as const };
+const queryKeys = {
+  all: () => ["data"] as const,
+  accessStatements: (pagination: PaginationInterface) => ["statements", pagination] as const,
+};
 
 export function useGetCustomerStatements(pagination: PaginationInterface, statementType: StatementTypes) {
   const { i18n } = useTranslation();
 
   return useQuery(
-    [queryKeys.accessStatements, pagination],
+    queryKeys.accessStatements(pagination),
     () => {
       return api<GetAccessStatementApiResponse>(
         "v1",

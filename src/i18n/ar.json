@@ -645,8 +645,42 @@
     }
   },
   "Documents": {
-    "DocumentScreen": {
-      "title": "مستندات"
+    "DocumentListScreen": {
+      "title": "مستندات",
+      "SubTitle": {
+        "validUntil": "صالحة حتى {{date}}",
+        "requestedOn": "طلب على {{date}}",
+        "willAppear": "سيختفي هذا بعد {{hours}} ساعة"
+      },
+      "DocumentListComponent": {
+        "subTitle": "ستبقى مستنداتك مرئية حتى نهاية فترة صلاحيتها."
+      },
+      "InfoModal": {
+        "title": "ما هو تاريخ انتهاء المستندات الخاصة بي؟",
+        "description": "ستكون طلباتك المعتمدة صالحة لمدة 30 يومًا، ولن تظهر طلباتك الفاشلة إلا لمدة 24 ساعة.  \n\nجميع المستندات منتهية الصلاحية لن تكون مرئية بعد الآن."
+      },
+      "Status": {
+        "approved": "موافقة",
+        "pending": "قيد الانتظار",
+        "failed": "فشل"
+      },
+      "Language": {
+        "EN": "English",
+        "AR": "العربية"
+      },
+      "requestDocumentButtonText": "طلب وثيقة جديدة",
+      "Category": {
+        "01": "خطاب الآيبان",
+        "02": "شهادة البنك"
+      },
+      "filteredBy": "Filtered By:"
+    },
+    "FilterModal": {
+      "documentType": "Document Type",
+      "language": "Language",
+      "status": "Status",
+      "set": "Set",
+      "clearAll": "Clear all"
     },
     "RequestDocumentScreen": {
       "title": "Request a document",
@@ -675,6 +709,9 @@
       "documentRequestRejected": "Document request rejected",
       "youHaveAnotherPendingRequest": "you have another pending request for this document.",
       "cannotRequestStatementOlderThanOnboarding": "You cannot request a statement older than the onboarding date."
+    },
+    "PreviewDocumentScreen": {
+      "title": "معاينة البيان"
     }
   },
   "ViewTransactions": {

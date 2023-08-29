@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
@@ -13,6 +14,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { generateRandomId } from "@/utils";
 
 import {
   SelectDateModal,
@@ -20,7 +22,7 @@ import {
   SelectDocumentTypeSection,
   SelectLanguageSection,
 } from "../components";
-import { DocumentLanguageType, DocumentType } from "../constants";
+import { DocumentCategory, DocumentLanguageType, DocumentStatus, DocumentType } from "../constants";
 import { useGetCustomerOnboardingDate } from "../hooks/query-hooks";
 
 // TODO: will replace from api
@@ -55,7 +57,20 @@ export default function RequestDocumentScreen() {
 
   const handleOnCloseNotificationModal = () => {
     setIsNotificationModalVisible({ success: false, error: false, failure: false });
-    navigation.goBack();
+    // TODO: Later will remove this mock data
+    navigation.navigate("Documents.DocumentsScreen", {
+      doc: {
+        DocumentId: generateRandomId().toString(),
+        AdhocDocRequestId: generateRandomId().toString(),
+        Status: DocumentStatus.PENDING,
+        Category:
+          documentType === DocumentType.IBAN_LETTER ? DocumentCategory.IBAN_LETTER : DocumentCategory.BANK_CERTIFICATE,
+        ExpiryDate: "2024-12-31",
+        CreateDateTime: format(new Date(), "yyyy-MM-dd"),
+        DocumentStatusUpdateDateTime: format(new Date(), "dd-MM-yyyy hh:mm:ss a"),
+        DocumentLanguage: documentLanguage,
+      },
+    });
   };
 
   const sectionBreakerStyle = useThemeStyles<ViewStyle>(theme => ({

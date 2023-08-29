@@ -2,11 +2,10 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, useWindowDimensions, ViewStyle } from "react-native";
 
+import { ReferralCarouselIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-
-import { ReferralCarouselIcon } from "../assets";
 
 interface EmptyListViewProps {
   isFilterActive: boolean;

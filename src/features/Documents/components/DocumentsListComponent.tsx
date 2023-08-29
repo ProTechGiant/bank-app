@@ -10,45 +10,36 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { StatementLanguageTypes } from "../constants";
-import { StatementInterface } from "../types";
-import { groupCustomStatementsByStatus, SectionListDataTypes } from "../utils/group-monthly-statements-by-year";
-import CustomStatementView from "./CustomStatementCardView";
-import FilterButton from "./FilterButton";
+import { DocumentInterface } from "../types";
+import { groupDocumentsByStatus, SectionListDataTypes } from "../utils/group-by-status";
+import DocumentCardView from "./DocumentCardView";
 
-interface AccessCustomDateStatementsListProps {
-  statements: StatementInterface[];
-  activeFilter: StatementLanguageTypes | null;
-  onClearFilter: () => void;
+interface DocumentsListComponentProps {
   onEndReached: () => void;
   onRefresh: () => void;
   isLoading: boolean;
-  isRetryLoading: Array<boolean>;
   onPressCard: (documentId: string) => void;
   onRetry: (requestId: string, index: number) => void;
   onInfoIcon: () => void;
+  documents: DocumentInterface[];
 }
 
-export default function AccessCustomDateStatementList({
-  statements,
-  onClearFilter,
-  activeFilter,
+export default function DocumentsListComponent({
   onEndReached,
   onRefresh,
   isLoading,
   onPressCard,
   onInfoIcon,
   onRetry,
-  isRetryLoading,
-}: AccessCustomDateStatementsListProps) {
+  documents,
+}: DocumentsListComponentProps) {
   const { t } = useTranslation();
   const { height: screenHeight } = useWindowDimensions();
+  const groupedDocuments = groupDocumentsByStatus(documents);
 
   const sectionListFooter = () => <View style={{ marginBottom: screenHeight * 0.3 }} />;
-  const groupedStatementsByStatus = groupCustomStatementsByStatus(statements);
-
   const sectionHeader = ({ section }: { section: SectionListDataTypes }) => {
-    return section.title === "Downloaded" && groupedStatementsByStatus.length > 1 ? (
+    return section.title === "nonDownloaded" && groupedDocuments.length > 1 ? (
       <Divider style={dividerStyle} height={4} color="neutralBase-30" />
     ) : null;
   };
@@ -57,7 +48,7 @@ export default function AccessCustomDateStatementList({
     marginTop: theme.spacing["20p"],
   }));
 
-  const statementTextStyle = useThemeStyles<ViewStyle>(theme => ({
+  const documentTextStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["16p"],
     lineHeight: theme.spacing["4p"],
   }));
@@ -69,37 +60,32 @@ export default function AccessCustomDateStatementList({
 
   return (
     <Stack style={mainContainerStyle} direction="vertical" align="stretch">
-      {activeFilter ? (
-        <FilterButton label={t(`Statements.AccessStatements.${activeFilter}`)} onClearFilter={onClearFilter} />
-      ) : null}
-
       <Stack direction="horizontal">
-        <Typography.Text style={statementTextStyle} color="neutralBase-10">
-          {t("Statements.AccessStatements.customDateStatementSubtitle")}
+        <Typography.Text style={documentTextStyle} color="neutralBase-10">
+          {t("Documents.DocumentListScreen.DocumentListComponent.subTitle")}
           <Pressable onPress={onInfoIcon}>
             <InfoCircleIcon />
           </Pressable>
         </Typography.Text>
       </Stack>
       <SectionList
-        ListEmptyComponent={isLoading ? <FullScreenLoader /> : <EmptyListView isFilterActive={!!activeFilter} />}
+        ListEmptyComponent={isLoading ? <FullScreenLoader /> : <EmptyListView isFilterActive={false} />}
         showsVerticalScrollIndicator={false}
-        sections={groupedStatementsByStatus}
-        renderSectionHeader={sectionHeader}
-        data={statements}
+        sections={groupedDocuments}
+        renderSectionFooter={sectionHeader}
         renderItem={item => (
-          <CustomStatementView
-            isRetryLoading={isRetryLoading[item.index]}
-            statement={item.item}
+          <DocumentCardView
+            document={item.item}
             index={item.index}
             onPressCard={onPressCard}
             onRetry={onRetry}
+            isRetryLoading={false}
           />
         )}
         refreshControl={<RefreshControl refreshing={isLoading} onRefresh={onRefresh} />}
         onEndReachedThreshold={1}
         onEndReached={({ distanceFromEnd }) => (distanceFromEnd >= 1 ? onEndReached() : undefined)}
-        keyExtractor={item => item.CBSReferenceNumber}
+        keyExtractor={item => item.AdhocDocRequestId}
         ListFooterComponent={sectionListFooter}
       />
     </Stack>

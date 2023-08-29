@@ -29,4 +29,8 @@ export const iconMapping: IconMappingType = {
     edit: createElement(icons.ThreeDotsIcon),
     plus: createElement(icons.PlusIcon),
   },
+  adhocDocumnets: {
+    "01": createElement(icons.SummarizeIcon),
+    "02": createElement(icons.CardMemberShipIcon),
+  },
 };

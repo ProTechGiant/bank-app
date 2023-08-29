@@ -633,8 +633,42 @@
     }
   },
   "Documents": {
-    "DocumentScreen": {
-      "title": "Documents"
+    "DocumentListScreen": {
+      "title": "Documents",
+      "SubTitle": {
+        "validUntil": "Valid until {{date}}",
+        "requestedOn": "Requested on {{date}}",
+        "willAppear": "This will disappear after {{hours}} hours"
+      },
+      "DocumentListComponent": {
+        "subTitle": "Your documents will stay visible until the end of their validity period."
+      },
+      "InfoModal": {
+        "title": "What is my documents expiry date?",
+        "description": "Your approved requests will be valid for 30 days, and your failed requests will only appear for 24 hours.  \n\nAll expired documents will no longer be visible."
+      },
+      "Status": {
+        "approved": "Approved",
+        "pending": "Pending",
+        "failed": "Failed"
+      },
+      "Language": {
+        "EN": "English",
+        "AR": "العربية"
+      },
+      "requestDocumentButtonText": "Request a new document",
+      "Category": {
+        "01": "IBAN letter",
+        "02": "Bank certificate"
+      },
+      "filteredBy": "Filtered By:"
+    },
+    "FilterModal": {
+      "documentType": "Document Type",
+      "language": "Language",
+      "status": "Status",
+      "set": "Set",
+      "clearAll": "Clear all"
     },
     "RequestDocumentScreen": {
       "title": "Request a document",
@@ -663,6 +697,9 @@
       "documentRequestRejected": "Document request rejected",
       "youHaveAnotherPendingRequest": "you have another pending request for this document.",
       "cannotRequestStatementOlderThanOnboarding": "You cannot request a statement older than the onboarding date."
+    },
+    "PreviewDocumentScreen": {
+      "title": "Document preview"
     }
   },
   "ViewTransactions": {
