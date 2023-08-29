@@ -4,7 +4,7 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { InfoIcon, SearchIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
-import FlexActivityIndicator from "@/components/FlexActivityIndicator";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import { SearchInput } from "@/components/Input";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
@@ -86,7 +86,7 @@ export default function LandingScreen() {
     <Page>
       {!isFocused && <NavHeader />}
       {isFetching ? (
-        <FlexActivityIndicator />
+        <FullScreenLoader />
       ) : (
         <ContentContainer isScrollView>
           <Stack direction="vertical" gap="16p" align="stretch">

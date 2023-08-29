@@ -5,7 +5,7 @@ import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-nativ
 
 import { ChatIcon, ChevronRightIcon, PhoneIcon, ThumbsDownIcon, ThumbsUpIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
-import FlexActivityIndicator from "@/components/FlexActivityIndicator";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import HtmlWebView from "@/components/HtmlWebView/HtmlWebView";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
@@ -29,7 +29,7 @@ export default function DetailedScreen() {
   const { t, i18n } = useTranslation();
 
   const openLink = useOpenLink();
-  const { data, refetch, isError } = useDetailsFAQ(faqId, i18n.language);
+  const { data, refetch, isError, isLoading } = useDetailsFAQ(faqId, i18n.language);
   const updateFeedback = useFeedback(faqId, i18n.language);
   const { tryCall } = useCallSupport();
 
@@ -71,6 +71,7 @@ export default function DetailedScreen() {
 
   const handleOnDismissErrorLoadingPress = () => {
     setShowLoadingErrorModal(false);
+    navigation.goBack();
   };
 
   const handleOnRefreshErrorLoadingPress = () => {
@@ -111,7 +112,9 @@ export default function DetailedScreen() {
   return (
     <Page>
       <NavHeader />
-      {undefined !== data ? (
+      {isLoading ? (
+        <FullScreenLoader />
+      ) : undefined !== data ? (
         <ContentContainer isScrollView>
           <Typography.Text weight="semiBold" size="title1">
             {data.Query}
@@ -134,7 +137,7 @@ export default function DetailedScreen() {
               ) : null}
             </View>
           </View>
-          {data.RelatedFaqs?.length > 0 ? (
+          {undefined !== data.RelatedFaqs && data.RelatedFaqs?.length > 0 ? (
             <>
               <View style={sectionStyle}>
                 <Typography.Text size="title3" weight="semiBold">
@@ -178,17 +181,13 @@ export default function DetailedScreen() {
               </View>
             </View>
           ) : null}
-          {showLoadingErrorModal && (
-            <LoadingErrorNotification
-              isVisible={showLoadingErrorModal}
-              onClose={handleOnDismissErrorLoadingPress}
-              onRefresh={handleOnRefreshErrorLoadingPress}
-            />
-          )}
         </ContentContainer>
-      ) : (
-        <FlexActivityIndicator />
-      )}
+      ) : null}
+      <LoadingErrorNotification
+        isVisible={showLoadingErrorModal}
+        onClose={handleOnDismissErrorLoadingPress}
+        onRefresh={handleOnRefreshErrorLoadingPress}
+      />
     </Page>
   );
 }
