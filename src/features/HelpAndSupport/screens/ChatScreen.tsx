@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
@@ -7,10 +8,12 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
 import { EndChatIcon } from "../assets/icons";
-import { ChatInputBox, ChatList, CloseChattingModal, CustomerFeedbackModal, HeaderText } from "../components";
+import { ChatInputBox, ChatList, CloseChattingModal, CustomerFeedbackModal } from "../components";
 import { useEndLiveChat } from "../hooks/query-hooks";
 
 export default function ChatScreen() {
+  const { t } = useTranslation();
+
   const navigation = useNavigation();
   const { mutateAsync: endLiveChat, isLoading: isEndingChat } = useEndLiveChat();
   const [isCloseChattingModalVisible, setIsCloseChattingModalVisible] = useState(false); // State to control the visibility of the CloseChattingModal
@@ -44,7 +47,7 @@ export default function ChatScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
-        title={<HeaderText categoryName="Fraud" />} //TODO: add header and translation as in figma
+        title={t("HelpAndSupport.ChatScreen.headerText")}
         end={<NavHeader.IconEndButton icon={<EndChatIcon />} onPress={handleOnOpenCloseChatModal} />}
       />
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.containerStyle}>

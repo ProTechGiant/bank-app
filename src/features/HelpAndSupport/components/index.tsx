@@ -9,7 +9,6 @@ export { default as ChatSendButton } from "./ChatSendButton";
 export { default as ChatTypingIndicator } from "./ChatTypingIndicator";
 export { default as CloseChattingModal } from "./CloseChattingModal";
 export { default as CustomerFeedbackModal } from "./CustomerFeedbackModal";
-export { default as HeaderText } from "./HeaderText";
 export { default as LiveChatScreenHeader } from "./LiveChatScreenHeader";
 export { default as QuickActionLink } from "./QuickActionLink";
 export { default as ReasonOptionSupportSection } from "./ReasonOptionSupportSection";
