@@ -630,6 +630,34 @@
   "Documents": {
     "DocumentScreen": {
       "title": "Documents"
+    },
+    "RequestDocumentScreen": {
+      "title": "Request a document",
+      "letsGo": "Let’s go",
+      "chooseDocumentType": "Choose the document type:",
+      "ibanLetter": "IBAN Letter",
+      "ibanLetterDesc": "Official account description which includes IBAN information",
+      "bankCertificate": "Bank Certificate",
+      "bankCertificateDesc": "Official account description which includes account information",
+      "buttonTitle": "Request document",
+      "buttonTitleDesc": "Your document will take up to one business day to be generated",
+      "selectDocumentLang": "Select the Document language:",
+      "language": "Language",
+      "english": "English",
+      "arabic": "العربية",
+      "selectDocDate": "Select document date",
+      "selectDate": "Select date",
+      "selectDateWithinLast5Years": "You can select the document date within the last five years.",
+      "pickDate": "Pick Date",
+      "youCannotRequestDoc": "You cannot request a document older than five years.",
+      "yourDocumentRequestSuccessfullySent": "Your document request was successfully sent",
+      "normallyTakesUptoOneBusinessDay": "This normally takes up to one business day to be completed, you will get a notification once your document is ready.",
+      "goBack": "Go back",
+      "somethingWentWrong": "We’re sorry something went wrong.",
+      "pleaseTryAgain": "Please try again later.",
+      "documentRequestRejected": "Document request rejected",
+      "youHaveAnotherPendingRequest": "you have another pending request for this document.",
+      "cannotRequestStatementOlderThanOnboarding": "You cannot request a statement older than the onboarding date."
     }
   },
   "ViewTransactions": {

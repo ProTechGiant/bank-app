@@ -1,3 +1,4 @@
+import { differenceInYears, isBefore, parseISO } from "date-fns";
 import { CountryCode, getCountryCallingCode } from "libphonenumber-js";
 
 import { countryCodes } from "@/mocks/countryListDataWithCodes";
@@ -65,6 +66,20 @@ export const getInitials = (name: string | undefined | null) => {
     initials += names[names.length - 1].substring(0, 1).toUpperCase();
   }
   return initials;
+};
+
+export const isDateBeforeOnboardingDate = (onboardingDate: string, date: string) => {
+  const onboarding = parseISO(onboardingDate);
+  const selectedDate = parseISO(date);
+
+  return isBefore(selectedDate, onboarding);
+};
+
+export const isDateOlderThanFiveYears = (selectedDate: string): boolean => {
+  const currentDate = new Date();
+  const selectedParsedDate = parseISO(selectedDate);
+  const difference = differenceInYears(currentDate, selectedParsedDate);
+  return difference <= 5;
 };
 
 export { default as formatCurrency } from "./format-currency";

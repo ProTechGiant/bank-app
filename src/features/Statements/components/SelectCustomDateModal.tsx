@@ -10,8 +10,9 @@ import Modal from "@/components/Modal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+import { isDateBeforeOnboardingDate, isDateOlderThanFiveYears } from "@/utils";
 
-import { isDateBeforeOnboardingDate, isDateOlderThanFiveYears, isDateValid } from "../utils";
+import { isDateValid } from "../utils";
 
 interface SelectCustomDateModalType {
   isSelectingStartDate: boolean;
