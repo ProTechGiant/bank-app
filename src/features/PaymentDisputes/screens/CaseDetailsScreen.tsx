@@ -7,7 +7,7 @@ import { ViewStyle } from "react-native/types";
 
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
-import FlexActivityIndicator from "@/components/FlexActivityIndicator";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -15,6 +15,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { PhoneBook } from "@/hooks/use-call-support";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
@@ -25,14 +26,15 @@ import { formatDateTime } from "../utils";
 export default function CaseDetailsScreen() {
   const { t } = useTranslation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "PaymentDisputes.CaseDetailsScreen">>();
-  const caseDetailsResponse = useCaseDetails(route.params.transactionRef);
+  const { data, isError, refetch } = useCaseDetails(route.params.transactionRef);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
-    setIsErrorModalVisible(caseDetailsResponse.isError);
-  }, [caseDetailsResponse.isError]);
+    setIsErrorModalVisible(isError);
+  }, [isError]);
 
-  const caseDetails = caseDetailsResponse?.data;
+  const caseDetails = data;
 
   const moreHelpContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["20p"],
@@ -101,13 +103,16 @@ export default function CaseDetailsScreen() {
             </ContentContainer>
           </>
         ) : (
-          <FlexActivityIndicator />
+          <FullScreenLoader />
         )}
       </Page>
       <LoadingErrorNotification
-        onClose={() => setIsErrorModalVisible(false)}
+        onClose={() => {
+          setIsErrorModalVisible(false);
+          navigation.goBack();
+        }}
         onRefresh={() => {
-          caseDetailsResponse.refetch();
+          refetch();
           setIsErrorModalVisible(false);
         }}
         isVisible={isErrorModalVisible}

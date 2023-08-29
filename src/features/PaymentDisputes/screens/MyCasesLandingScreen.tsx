@@ -4,6 +4,7 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -21,13 +22,13 @@ export default function MyCasesLandingScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const cases = useMyCases();
+  const { data, isLoading, isError } = useMyCases();
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [currentTab, setCurrentTab] = useState<"active" | "resolved">("active");
 
   useEffect(() => {
-    setIsErrorModalVisible(cases.isError);
-  }, [cases.isError]);
+    setIsErrorModalVisible(isError);
+  }, [isError]);
 
   const handleOnPress = (transactionRef: string) => {
     navigation.navigate("PaymentDisputes.CaseDetailsScreen", {
@@ -50,52 +51,58 @@ export default function MyCasesLandingScreen() {
 
   const visibleItems = useMemo(
     () =>
-      cases.data?.DisputeCases.filter(element =>
+      data?.DisputeCases.filter(element =>
         currentTab === "active" ? isCaseActive(element.CaseStatus) : !isCaseActive(element.CaseStatus)
       ),
-    [cases.data, currentTab]
+    [data, currentTab]
   );
 
   return (
     <>
       <Page backgroundColor="neutralBase-60">
         <NavHeader />
-        <View style={headerStyle}>
-          <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-            {t("PaymentDisputes.MyCasesLandingScreen.title")}
-          </Typography.Text>
-          <View style={segmentedControlStyle}>
-            <SegmentedControl onPress={value => setCurrentTab(value)} value={currentTab}>
-              <SegmentedControl.Item value="active">
-                {t("PaymentDisputes.MyCasesLandingScreen.active")}
-              </SegmentedControl.Item>
-              <SegmentedControl.Item value="resolved">
-                {t("PaymentDisputes.MyCasesLandingScreen.resolved")}
-              </SegmentedControl.Item>
-            </SegmentedControl>
-          </View>
-        </View>
-        <ContentContainer isScrollView style={contentContainerStyle}>
-          {visibleItems === undefined ? (
-            <FlexActivityIndicator />
-          ) : visibleItems.length < 1 ? (
-            <View style={styles.empty}>
-              <Typography.Text color="neutralBase-20" size="title3" weight="medium">
-                {currentTab === "active"
-                  ? t("PaymentDisputes.MyCasesLandingScreen.noActiveCases")
-                  : t("PaymentDisputes.MyCasesLandingScreen.noResolvedCases")}
+        {isLoading ? (
+          <FullScreenLoader />
+        ) : (
+          <>
+            <View style={headerStyle}>
+              <Typography.Text color="neutralBase+30" size="title1" weight="medium">
+                {t("PaymentDisputes.MyCasesLandingScreen.title")}
               </Typography.Text>
+              <View style={segmentedControlStyle}>
+                <SegmentedControl onPress={value => setCurrentTab(value)} value={currentTab}>
+                  <SegmentedControl.Item value="active">
+                    {t("PaymentDisputes.MyCasesLandingScreen.active")}
+                  </SegmentedControl.Item>
+                  <SegmentedControl.Item value="resolved">
+                    {t("PaymentDisputes.MyCasesLandingScreen.resolved")}
+                  </SegmentedControl.Item>
+                </SegmentedControl>
+              </View>
             </View>
-          ) : (
-            visibleItems.map(element => (
-              <CaseListItem
-                key={element.CaseNumber}
-                data={element}
-                onPress={() => handleOnPress(element.Transaction.TransactionRef)}
-              />
-            ))
-          )}
-        </ContentContainer>
+            <ContentContainer isScrollView style={contentContainerStyle}>
+              {visibleItems === undefined ? (
+                <FlexActivityIndicator />
+              ) : visibleItems.length < 1 ? (
+                <View style={styles.empty}>
+                  <Typography.Text color="neutralBase-20" size="title3" weight="medium">
+                    {currentTab === "active"
+                      ? t("PaymentDisputes.MyCasesLandingScreen.noActiveCases")
+                      : t("PaymentDisputes.MyCasesLandingScreen.noResolvedCases")}
+                  </Typography.Text>
+                </View>
+              ) : (
+                visibleItems.map(element => (
+                  <CaseListItem
+                    key={element.CaseNumber}
+                    data={element}
+                    onPress={() => handleOnPress(element.Transaction.TransactionRef)}
+                  />
+                ))
+              )}
+            </ContentContainer>
+          </>
+        )}
       </Page>
       <NotificationModal
         variant="error"
