@@ -1,8 +1,9 @@
 import { format } from "date-fns";
-import React, { useLayoutEffect, useState } from "react";
+import React, { memo, useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { TextStyle, View, ViewStyle } from "react-native";
+import { TextStyle, ViewStyle } from "react-native";
 
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -13,7 +14,7 @@ interface SupportAgentTimerProps {
   timeInSeconds: number;
 }
 
-export default function SupportAgentTimer({ timeInSeconds }: SupportAgentTimerProps) {
+function SupportAgentTimer({ timeInSeconds }: SupportAgentTimerProps) {
   const { t } = useTranslation();
   const awaitTimerResponse = useGetAwaitTimer();
 
@@ -57,11 +58,15 @@ export default function SupportAgentTimer({ timeInSeconds }: SupportAgentTimerPr
   }));
 
   return (
-    <View style={containerStyle}>
-      <Typography.Text weight="regular" size="footnote" color="neutralBase+10" style={textLineHeightsStyle}>
-        {t("HelpAndSupport.LiveChatScreen.agentTimer.estimatedWaitingTime")}
-      </Typography.Text>
-      <CircularProgress text={formattedTime} percentage={remainingSeconds} max={maxTime} />
-    </View>
+    <Stack direction="vertical" align="center" style={containerStyle}>
+      <Stack direction="vertical" align="center" gap="8p">
+        <Typography.Text weight="regular" size="footnote" color="neutralBase+10" style={textLineHeightsStyle}>
+          {t("HelpAndSupport.LiveChatScreen.agentTimer.estimatedWaitingTime")}
+        </Typography.Text>
+        <CircularProgress text={formattedTime} percentage={remainingSeconds} max={maxTime} />
+      </Stack>
+    </Stack>
   );
 }
+
+export default memo(SupportAgentTimer);

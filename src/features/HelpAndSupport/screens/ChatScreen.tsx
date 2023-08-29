@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
@@ -8,20 +9,22 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
 import { EndChatIcon } from "../assets/icons";
-import { ChatInputBox, ChatList, CloseChattingModal, CustomerFeedbackModal } from "../components";
+import { ChatList, CloseChattingModal, CustomerFeedbackModal } from "../components";
+import { HelpAndSupportStackParams } from "../HelpAndSupportStack";
 import { useEndLiveChat } from "../hooks/query-hooks";
 
 export default function ChatScreen() {
   const { t } = useTranslation();
 
   const navigation = useNavigation();
+  const { params } = useRoute<RouteProp<HelpAndSupportStackParams, "HelpAndSupport.ChatScreen">>();
   const { mutateAsync: endLiveChat, isLoading: isEndingChat } = useEndLiveChat();
   const [isCloseChattingModalVisible, setIsCloseChattingModalVisible] = useState(false); // State to control the visibility of the CloseChattingModal
   const [isCustomerFeedbackVisible, setIsCustomerFeedbackVisible] = useState(false); // State to control the visibility of the CustomerFeedback
 
-  const handleOnOpenCloseChatModal = () => {
+  const handleOnOpenCloseChatModal = useCallback(() => {
     setIsCloseChattingModalVisible(true);
-  };
+  }, []);
 
   const handleOnCloseChatModal = () => {
     setIsCloseChattingModalVisible(false);
@@ -41,7 +44,7 @@ export default function ChatScreen() {
 
   const handleOnFeedbackExit = () => {
     setIsCustomerFeedbackVisible(false);
-    navigation.goBack();
+    navigation.navigate("Home.HomeStack");
   };
 
   return (
@@ -51,15 +54,21 @@ export default function ChatScreen() {
         end={<NavHeader.IconEndButton icon={<EndChatIcon />} onPress={handleOnOpenCloseChatModal} />}
       />
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.containerStyle}>
-        <ChatList />
-        <ChatInputBox />
+        <ChatList
+          onChatSessionEnd={handleOnOpenCloseChatModal}
+          initialChatData={params.chatResponse}
+          agentWaitingTime={params.awaitTimeData}
+          enquiryType={params.enquiryType}
+        />
       </KeyboardAvoidingView>
-      <CloseChattingModal
-        isVisible={isCloseChattingModalVisible}
-        onClose={handleOnCloseChatModal}
-        onPressOk={handleOnPressOk}
-        isLoading={isEndingChat}
-      />
+      {!isCustomerFeedbackVisible ? (
+        <CloseChattingModal
+          isVisible={isCloseChattingModalVisible}
+          onClose={handleOnCloseChatModal}
+          onPressOk={handleOnPressOk}
+          isLoading={isEndingChat}
+        />
+      ) : null}
       <CustomerFeedbackModal
         isVisible={isCustomerFeedbackVisible}
         onSkip={handleOnFeedbackExit}

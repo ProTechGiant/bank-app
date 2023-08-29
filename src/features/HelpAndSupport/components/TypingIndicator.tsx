@@ -1,5 +1,5 @@
 import React, { memo, useEffect } from "react";
-import { Animated, Easing } from "react-native";
+import { Animated, Easing, InteractionManager } from "react-native";
 
 import Stack from "@/components/Stack";
 
@@ -29,8 +29,10 @@ const TypingIndicator = () => {
       ])
     );
 
-    Animated.stagger(STAGGER_DELAY, animations).start(() => {
-      animateDots();
+    InteractionManager.runAfterInteractions(() => {
+      Animated.stagger(STAGGER_DELAY, animations).start(() => {
+        animateDots();
+      });
     });
   };
 

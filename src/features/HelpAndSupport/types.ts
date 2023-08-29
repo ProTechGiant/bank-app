@@ -39,25 +39,61 @@ export interface ReasonsOptionData {
   Reasons: Reason[];
 }
 
-interface ParticipantInformation {
+export interface AwaitTimeData {
+  Ewt: number;
+  Size: number;
+  Calls: number;
+  Pos: number;
+  Aqt: number;
+  Wpos: number;
+  Clc: string;
+  Wcalls: number;
+}
+
+export interface Party {
   Nickname: string;
-  Type: string;
   ParticipantId: number;
+  Type: "Agent" | "Client" | "External";
 }
 
-interface MessageObject {
-  From: ParticipantInformation;
+interface EventAttributes {
+  "general-properties": {
+    "reason-for-leave"?: "TRANSFER" | "HOLD";
+  };
+}
+
+export interface ChatEvent {
+  From: Party;
   Index: number;
+  Text: string;
+  MessageType?: string;
+  Type:
+    | "ParticipantJoined"
+    | "ParticipantLeft"
+    | "Message"
+    | "TypingStarted"
+    | "TypingStopped"
+    | "NicknameUpdated"
+    | "PushUrl"
+    | "FileUploaded"
+    | "FileDeleted"
+    | "CustomNotice"
+    | "Notice"
+    | "IdleAlert"
+    | "IdleClose";
+  UtcTime: number;
+  UserData?: Record<string, string>;
+  EventAttributes: EventAttributes;
 }
 
-export interface ChatData {
-  Messages: MessageObject[];
+export interface ChatResponse {
+  StatusCode: 0 | 1 | 2;
+  Alias?: string;
   ChatEnded: boolean;
-  StatusCode: number;
-  Alias: string;
+  ChatId: string;
+  Messages: ChatEvent[];
+  NextPosition: number;
   SecureKey: string;
   UserId: string;
-  ChatId: string;
-  NextPosition: number;
   Monitored: boolean;
 }

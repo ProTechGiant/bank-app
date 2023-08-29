@@ -14,7 +14,7 @@ export default function AgentAwaitingMessage() {
     borderTopRightRadius: theme.radii.extraSmall,
     borderBottomRightRadius: theme.radii.extraSmall,
     padding: theme.spacing["16p"],
-    margin: theme.spacing["16p"],
+    marginBottom: theme.spacing["24p"],
     backgroundColor: theme.palette["supportBase-20"],
   }));
 

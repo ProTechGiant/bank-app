@@ -191,6 +191,13 @@ export default function TemporaryLandingScreen() {
     });
   };
 
+  const handleOnHelpAndSupport = async (values: TemporaryForm) => {
+    auth.authenticate(values.UserId);
+    setImmediate(() => {
+      navigation.navigate("HelpAndSupport.HelpAndSupportStack");
+    });
+  };
+
   const handleOnPressPaymentDisputesLanding = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     setImmediate(() => {
@@ -234,6 +241,9 @@ export default function TemporaryLandingScreen() {
             variant="simple"
           />
         </Stack>
+        <View style={styles.margin20}>
+          <Button onPress={handleSubmit(handleOnHelpAndSupport)}>Help And Support Hub</Button>
+        </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnFaqs)}>Faqs</Button>
         </View>

@@ -5,7 +5,7 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
-import { AwaitTimeData, ChatData, ChatEndResponse, ReasonCode, ReasonsOptionData } from "../types";
+import { AwaitTimeData, ChatEndResponse, ChatResponse, ReasonCode, ReasonsOptionData } from "../types";
 
 export const queryKeys = {
   all: () => ["reasonOptions"] as const,
@@ -33,7 +33,7 @@ export function useStartChat() {
   const { userId } = useAuthContext();
 
   return useMutation(async (values: ReasonCode) => {
-    return api<ChatData>("v1", "genesys/chat", "POST", undefined, values, {
+    return api<ChatResponse>("v1", "genesys/chat", "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
       ["UserId"]: `${userId}`,
     });
@@ -62,6 +62,26 @@ export function useSubmitCustomerFeedback() {
       },
       {
         ["x-correlation-id"]: generateRandomId(),
+      }
+    )
+  );
+}
+
+export function useChatRefresh() {
+  const { i18n } = useTranslation();
+
+  return useMutation(async () =>
+    api<ChatResponse>(
+      "v1",
+      `genesys/chat/refresh`,
+      "POST",
+      undefined,
+      {
+        TranscriptPosition: "1", //TODO: maybe will change when integrate chat refresh api
+      },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language.toLocaleLowerCase(),
       }
     )
   );
