@@ -4,7 +4,6 @@ export { default as CustomStatementCardView } from "./CustomStatementCardView";
 export { default as EmptyListView } from "./EmptyListView";
 export { default as FilterButton } from "./FilterButton";
 export { default as LanguageFilterModal } from "./LanguageFilterModal";
-export { default as PreviewStatementPDF } from "./PreviewStatementPDF";
 export { default as SelectCustomDateModal } from "./SelectCustomDateModal";
 export { default as SelectCustomDatePeriodSection } from "./SelectCustomDatePeriodSection";
 export { default as SelectLanguageSection } from "./SelectLanguageSection";

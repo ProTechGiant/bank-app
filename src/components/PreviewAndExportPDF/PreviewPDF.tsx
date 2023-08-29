@@ -13,7 +13,7 @@ interface PreviewPDFProps {
   source: SourceProps;
 }
 
-export default function PreviewStatementPDF({ fullPreviewMode = false, source }: PreviewPDFProps) {
+export default function PreviewPDF({ fullPreviewMode = false, source }: PreviewPDFProps) {
   const pdfViewStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette.transparent,
     flex: 1,

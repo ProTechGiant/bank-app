@@ -44,6 +44,13 @@
     "copied": "Something went wrong. The phonenumber has been copied for you.",
     "failed": "Something went wrong."
   },
+  "PreviewPDF": {
+    "nothingToShowText": "Nothing to show",
+    "exportAsPDF": "Export as PDF",
+    "errorMessage": "An error occurred while downloading your file, please try again later.",
+    "errorMessageTitle": "Error",
+    "errorCancelText": "Close"
+  },
   "Currency": {
     "sar": "SAR"
   },
@@ -619,12 +626,7 @@
       }
     },
     "PreviewStatementScreen": {
-      "exportAsPDF": "Export as PDF",
-      "title": "Statement preview",
-      "nothingToShowText": "Nothing to show",
-      "errorMessage": "An error occurred while downloading your file, please try again later.",
-      "errorMessageTitle": "Error",
-      "errorCancelText": "Close"
+      "title": "Statement preview"
     }
   },
   "Documents": {
