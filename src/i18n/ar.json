@@ -13,6 +13,9 @@
   "InfoModal": {
     "closeButtonText": "Close"
   },
+  "NotificationBanner": {
+    "buttonText": "عرض"
+  },
   "AccessibilityHelpers": {
     "open": "open",
     "close": "close",

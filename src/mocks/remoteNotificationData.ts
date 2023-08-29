@@ -7,5 +7,7 @@ export const mockRemoteMessage: RemoteMessage = {
     //using this dummy link of type goto/StackName/ScreenName?param1=value1&param2=value2
     url: "goto/Statements.StatementsStack/Statements.AccessStatementScreen?type=CUSTOM",
     additionalParams: {},
+    message: "Your statement request is ready!",
+    messageType: "success",
   },
 };

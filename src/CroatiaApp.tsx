@@ -12,6 +12,8 @@ import { ToastsContextProvider } from "@/contexts/ToastsContext";
 import { useDeviceLanguage } from "@/i18n";
 import MainStack from "@/navigation/MainStack";
 
+import { NotificationContextProvider } from "./contexts/NotificationContext";
+
 const queryClient = new QueryClient();
 export default function CroatiaApp() {
   useDeviceLanguage();
@@ -24,10 +26,12 @@ export default function CroatiaApp() {
             <InternalTransferContextProvider>
               <SafeAreaProvider>
                 <ToastsContextProvider>
-                  <GestureHandlerRootView style={styles.container}>
-                    <StatusBar barStyle="dark-content" />
-                    <MainStack onReady={() => RNBootSplash.hide()} />
-                  </GestureHandlerRootView>
+                  <NotificationContextProvider>
+                    <GestureHandlerRootView style={styles.container}>
+                      <StatusBar barStyle="dark-content" />
+                      <MainStack onReady={() => RNBootSplash.hide()} />
+                    </GestureHandlerRootView>
+                  </NotificationContextProvider>
                 </ToastsContextProvider>
               </SafeAreaProvider>
             </InternalTransferContextProvider>

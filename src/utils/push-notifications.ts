@@ -7,9 +7,11 @@ import { mockRemoteMessage } from "@/mocks/remoteNotificationData";
 export interface RemoteMessage {
   notificationId: string;
   data: {
-    type: "saving-goal" | "edit-goal" | "withdraw-goal" | "fund-goal" | "statement-status"; // saving-goal, edit-goal, withdraw-goal, fund-goal, "statement-status"
+    type: "saving-goal" | "edit-goal" | "withdraw-goal" | "fund-goal" | "statement-status" | "document-status"; // saving-goal, edit-goal, withdraw-goal, fund-goal, "statement-status"
     additionalParams: object;
-    url: string;
+    url?: string;
+    message: string;
+    messageType: "success" | "negative";
   };
 }
 

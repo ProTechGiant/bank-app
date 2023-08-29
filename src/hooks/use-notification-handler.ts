@@ -3,8 +3,10 @@ import { useEffect } from "react";
 import { Alert } from "react-native";
 
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useNotification } from "@/contexts/NotificationContext";
 import { warn } from "@/logger";
 import deepLinkService from "@/services/deepLink/deepLinkService";
+import { removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 import notifications from "@/utils/push-notifications";
 
 import useSavingsGoalNumber from "../features/Temporary/use-savings-goal-number";
@@ -12,8 +14,9 @@ import useSavingsGoalNumber from "../features/Temporary/use-savings-goal-number"
 const useNotificationHandler = () => {
   const navigation = useNavigation();
   const auth = useAuthContext();
+  const addToast = useNotification();
 
-  const handleOnClickNotification = async (url: string | undefined) => {
+  const handleOnClickNotification = (url: string | undefined) => {
     try {
       if (!url) return;
       deepLinkService.handleDeepLink(url);
@@ -25,19 +28,18 @@ const useNotificationHandler = () => {
   const getSavingsGoalNumAsync = useSavingsGoalNumber();
 
   useEffect(() => {
+    removeItemFromEncryptedStorage("PUSH_NOTIFICATION_CONTENT");
+
     async function checkNotifications() {
       try {
         const notification = await notifications.onReceiveNotification();
-        if (notification?.data?.type === "statement-status") {
-          Alert.alert("", "Your statement request is ready!", [
-            {
-              text: "OK",
-              onPress: () => handleOnClickNotification(notification.data?.url),
-            },
-            {
-              text: "Cancel",
-            },
-          ]);
+        if (notification?.data?.type === "statement-status" || notification?.data?.type === "document-status") {
+          addToast({
+            variant: notification?.data?.messageType,
+            message: notification?.data?.message,
+            position: "top",
+            onClick: () => handleOnClickNotification(notification?.data?.url),
+          });
         }
 
         const response = await getSavingsGoalNumAsync.mutateAsync();

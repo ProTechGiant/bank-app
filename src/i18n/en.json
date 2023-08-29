@@ -54,6 +54,9 @@
   "Currency": {
     "sar": "SAR"
   },
+  "NotificationBanner": {
+    "buttonText": "View"
+  },
   "Onboarding": {
     "WelcomeCarousel": {
       "titleOne": "Welcome\nto Croatia",
