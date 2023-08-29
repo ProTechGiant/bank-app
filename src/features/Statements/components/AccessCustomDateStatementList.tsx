@@ -11,7 +11,7 @@ import { useThemeStyles } from "@/theme";
 
 import { StatementLanguageTypes } from "../constants";
 import { StatementInterface } from "../types";
-import { groupCustomStatmentsByStatus, SectionListDataTypes } from "../utils/group-monthly-statements-by-year";
+import { groupCustomStatementsByStatus, SectionListDataTypes } from "../utils/group-monthly-statements-by-year";
 import CustomStatementView from "./CustomStatementCardView";
 import EmptyListView from "./EmptyListView";
 import FilterButton from "./FilterButton";
@@ -43,9 +43,12 @@ export default function AccessCustomDateStatementList({
 }: AccessCustomDateStatementsListProps) {
   const { t } = useTranslation();
   const { height: screenHeight } = useWindowDimensions();
+
   const sectionListFooter = () => <View style={{ marginBottom: screenHeight * 0.3 }} />;
+  const groupedStatementsByStatus = groupCustomStatementsByStatus(statements);
+
   const sectionHeader = ({ section }: { section: SectionListDataTypes }) => {
-    return section.title === "Downloaded" && groupCustomStatmentsByStatus(statements).length > 1 ? (
+    return section.title === "Downloaded" && groupedStatementsByStatus.length > 1 ? (
       <Divider style={dividerStyle} height={4} color="neutralBase-30" />
     ) : null;
   };
@@ -81,7 +84,7 @@ export default function AccessCustomDateStatementList({
       <SectionList
         ListEmptyComponent={isLoading ? <FullScreenLoader /> : <EmptyListView isFilterActive={!!activeFilter} />}
         showsVerticalScrollIndicator={false}
-        sections={groupCustomStatmentsByStatus(statements)}
+        sections={groupedStatementsByStatus}
         renderSectionHeader={sectionHeader}
         data={statements}
         renderItem={item => (

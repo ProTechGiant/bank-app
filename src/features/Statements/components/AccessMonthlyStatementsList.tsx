@@ -36,6 +36,8 @@ export default function AccessMonthlyStatementsList({
   const { height: screenHeight } = useWindowDimensions();
 
   const getMonthNameFromDateString = (dateString: string): string => {
+    if (!dateString?.length) return "";
+
     const [year, month] = dateString.split("-");
     const date = new Date(+year, +month - 1);
     const monthName = format(date, "MMMM").toLowerCase() as MonthNameTypes;

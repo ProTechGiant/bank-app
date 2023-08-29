@@ -68,10 +68,11 @@ export default function AccessStatementScreen() {
 
   useEffect(() => {
     setCurrentTab(route.params?.type === StatementTypes.CUSTOM ? StatementTypes.CUSTOM : StatementTypes.MONTHLY);
+    handleOnRefreshStatements();
   }, [route.params?.type]);
 
   useEffect(() => {
-    navigation.addListener("focus", () => refetchStatementData());
+    navigation.addListener("focus", () => handleOnRefreshStatements());
   }, [navigation]);
 
   useEffect(() => {

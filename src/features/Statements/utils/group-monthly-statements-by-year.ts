@@ -6,15 +6,19 @@ export const groupMonthlyStatementsByYear = (monthlyStatements: StatementInterfa
   const groupedData: SectionListDataTypes[] = [];
 
   for (const statement of monthlyStatements) {
-    const year = statement.StatementGenerationDate.split("-")[0];
-    if (!groupedByYear[year]) {
-      groupedByYear[year] = [];
-      groupedData.push({ title: year, data: groupedByYear[year] });
+    const year = statement.StatementGenerationDate?.split("-")[0];
+    if (year) {
+      if (!groupedByYear[year]) {
+        groupedByYear[year] = [];
+        groupedData.push({ title: year, data: groupedByYear[year] });
+      }
+      groupedByYear[year].push(statement);
     }
-    groupedByYear[year].push(statement);
   }
 
-  return groupedData.sort((a, b) => b.title.localeCompare(a.title, undefined, { numeric: true }));
+  return groupedData.length
+    ? groupedData.sort((a, b) => b.title.localeCompare(a.title, undefined, { numeric: true }))
+    : [];
 };
 
 export interface SectionListDataTypes {
@@ -22,7 +26,7 @@ export interface SectionListDataTypes {
   data: StatementInterface[];
 }
 
-export const groupCustomStatmentsByStatus = (monthlyStatements: StatementInterface[]): SectionListDataTypes[] => {
+export const groupCustomStatementsByStatus = (monthlyStatements: StatementInterface[]): SectionListDataTypes[] => {
   const downloaded: StatementInterface[] = [];
   const nonDownloaded: StatementInterface[] = [];
   monthlyStatements.forEach(statement => {
