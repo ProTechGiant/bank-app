@@ -3,7 +3,6 @@ import { I18nManager, Pressable, ScrollView, ViewStyle } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
 import BankCard from "@/components/BankCard";
-import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import { PHYSICAL_CARD_TYPE, PLUS_TIER, SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { useThemeStyles } from "@/theme";
 
@@ -14,7 +13,6 @@ import QuickActionsMenu from "./QuickActionsMenu";
 
 interface CardsListProps {
   data: Card[];
-  isLoading: boolean;
   onActivatePhysicalCardPress: (cardId: string) => void;
   onCardPress: (cardId: string) => void;
   onCardSettingsPress: (cardId: string) => void;
@@ -27,7 +25,6 @@ interface CardsListProps {
 
 export default function CardsList({
   data,
-  isLoading,
   onActivatePhysicalCardPress,
   onCardPress,
   onCardSettingsPress,
@@ -135,9 +132,7 @@ export default function CardsList({
     paddingLeft: I18nManager.isRTL ? theme.spacing["20p"] : 0,
   }));
 
-  return isLoading ? (
-    <FlexActivityIndicator />
-  ) : (
+  return (
     <ScrollView contentContainerStyle={contentStyle} horizontal style={containerStyle}>
       {data.map(element => {
         if (!isSingleUseCard(element)) {

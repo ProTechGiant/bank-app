@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
+import FullScreenLoader from "@/components/FullScreenLoader";
+import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -32,6 +34,12 @@ export default function HomeScreen() {
   const [isViewingPin, setIsViewingPin] = useState(false);
   const [pin, setPin] = useState<string | undefined>();
   const [isCardBannerVisible, setIsCardBannerVisible] = useState(true);
+  const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState(false);
+
+  // display error if api failed to get response.
+  useEffect(() => {
+    setIsLoadingErrorVisible(cardsQuery.isError);
+  }, [cardsQuery.isError]);
 
   const handleOnFreezeCardPress = async (cardId: string) => {
     try {
@@ -163,17 +171,25 @@ export default function HomeScreen() {
       <Page backgroundColor="neutralBase-60">
         <NavHeader title={t("CardActions.HomeScreen.navTitle")} />
         {isCardBannerVisible ? renderNotificationBanner() : null}
-        <CardList
-          data={cardsQuery.data?.Cards ?? []}
-          isLoading={cardsQuery.isLoading}
-          onActivatePhysicalCardPress={handleOnActivatePhysicalCard}
-          onCardPress={handleOnCardPress}
-          onCardSettingsPress={handleOnCardSettingsPress}
-          onFreezeCardPress={handleOnFreezeCardPress}
-          onUnfreezeCardPress={handleOnUnfreezeCardPress}
-          onViewPinPress={handleOnViewPinPress}
-          onSingleUseCardAboutPress={handleOnSingleUseCardsAboutPress}
-          onSingleUseCardGeneratePress={handleOnSingleUseCardsGeneratePress}
+        {cardsQuery.isLoading ? (
+          <FullScreenLoader />
+        ) : (
+          <CardList
+            data={cardsQuery.data?.Cards ?? []}
+            onActivatePhysicalCardPress={handleOnActivatePhysicalCard}
+            onCardPress={handleOnCardPress}
+            onCardSettingsPress={handleOnCardSettingsPress}
+            onFreezeCardPress={handleOnFreezeCardPress}
+            onUnfreezeCardPress={handleOnUnfreezeCardPress}
+            onViewPinPress={handleOnViewPinPress}
+            onSingleUseCardAboutPress={handleOnSingleUseCardsAboutPress}
+            onSingleUseCardGeneratePress={handleOnSingleUseCardsGeneratePress}
+          />
+        )}
+        <LoadingErrorNotification
+          isVisible={isLoadingErrorVisible}
+          onClose={() => setIsLoadingErrorVisible(false)}
+          onRefresh={() => cardsQuery.refetch()}
         />
       </Page>
       {pin !== undefined ? (
