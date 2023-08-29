@@ -2,32 +2,30 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
+import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { CalendarIcon, DiamondIcon, LikeIcon, TrendingUpIcon, ZoomInIcon as DetailsIcon } from "../assets";
-import PromotedImagedivider from "../assets/promoted-image-divider.png";
-import RectangleImagedivider from "../assets/rectangle-image-divider.png";
-import { AppreciationType } from "../types";
+import { CalendarIcon, LikeIcon, TrendingUpIcon, ZoomInIcon as DetailsIcon } from "../assets";
+import PromotedImageDivider from "../assets/promoted-image-divider.png";
+import RectangleImageDivider from "../assets/rectangle-image-divider.png";
+import { AppreciationType, UserTypeEnum } from "../types";
+import Tags from "./Tags";
+
 interface CardPropsTypes {
   appreciation: AppreciationType;
-  isPromoted?: boolean;
+  userType: UserTypeEnum;
+  onPress: (appreciation: AppreciationType) => void;
+  onPromptedPress: (appreciation: AppreciationType) => void;
+  onLike: (appreciation: AppreciationType) => void;
 }
 
-export default function ApreciationCard({ appreciation, isPromoted = false }: CardPropsTypes) {
+export default function AppreciationCard({ appreciation, userType, onPress, onPromptedPress, onLike }: CardPropsTypes) {
   const { t } = useTranslation();
 
   const { Tier, Ranking, VoucherName, PreSaleDateTime, Location, ExpiryDate, PreSaleDescription, ImageUrl } =
     appreciation;
-
-  const onAppreciationCardPress = () => {
-    //TODO
-  };
-
-  const openPromotedHandler = () => {
-    //TODO
-  };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderWidth: 1,
@@ -56,20 +54,15 @@ export default function ApreciationCard({ appreciation, isPromoted = false }: Ca
   const detailsContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       borderColor: theme.palette["neutralBase-30"],
-      backgroundColor: isPromoted ? theme.palette["supportBase-10"] : theme.palette["neutralBase-60"],
+      backgroundColor: Ranking === 1 ? theme.palette["supportBase-10"] : theme.palette["neutralBase-60"],
       height: 151,
-      paddingVertical: theme.spacing["8p"],
+      paddingTop: theme.spacing["8p"],
+      paddingBottom: theme.spacing["24p"],
       paddingHorizontal: theme.spacing["16p"],
+      justifyContent: "space-between",
     }),
-    [isPromoted]
+    [Ranking]
   );
-
-  const croatiaPlusTagStyle = useThemeStyles(theme => ({
-    paddingHorizontal: theme.spacing["8p"],
-    paddingVertical: theme.spacing["4p"],
-    marginEnd: theme.spacing["16p"],
-    backgroundColor: theme.palette["neutralBase+30"],
-  }));
 
   const sellingFastContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["4p"],
@@ -84,27 +77,27 @@ export default function ApreciationCard({ appreciation, isPromoted = false }: Ca
   }));
 
   return (
-    <Pressable onPress={onAppreciationCardPress}>
+    <Pressable onPress={() => onPress(appreciation)}>
       <View style={containerStyle}>
         <View style={absoluteHeaderStyle}>
-          <View style={styles.tagsContainer}>
-            {Tier === 2 && (
-              <View style={croatiaPlusTagStyle}>
-                <Typography.Text color="supportBase-10" size="caption2" weight="medium">
-                  <DiamondIcon /> {t("Appreciation.HubScreen.croatiaPlus")}
-                </Typography.Text>
-              </View>
-            )}
-          </View>
-          <Pressable onPress={openPromotedHandler}>{isPromoted ? <DetailsIcon /> : <LikeIcon />}</Pressable>
+          <Tags isNew={true} isPlus={Tier === 1} userType={userType} />
+          {Ranking === 1 ? (
+            <Pressable onPress={() => onPromptedPress(appreciation)}>
+              <DetailsIcon />
+            </Pressable>
+          ) : (
+            <Pressable onPress={() => onLike(appreciation)}>
+              <LikeIcon />
+            </Pressable>
+          )}
         </View>
         <View style={styles.imageContainer}>
-          <Image source={ImageUrl} style={styles.image} resizeMode="cover" />
+          <NetworkImage source={{ uri: ImageUrl }} style={styles.image} resizeMode="cover" />
           <View style={styles.RectangleImageContainer}>
-            {isPromoted ? (
-              <Image source={PromotedImagedivider} style={styles.image} />
+            {Ranking === 1 ? (
+              <Image source={PromotedImageDivider} style={styles.image} />
             ) : (
-              <Image source={RectangleImagedivider} />
+              <Image source={RectangleImageDivider} />
             )}
           </View>
         </View>
@@ -123,24 +116,20 @@ export default function ApreciationCard({ appreciation, isPromoted = false }: Ca
             <Typography.Text color="neutralBase+30" size="title2" weight="medium">
               {VoucherName}
             </Typography.Text>
-            {!isPromoted ? (
-              <View style={locationContainerStyle}>
-                <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                  {`${Location.Name} . ${PreSaleDateTime}`}
-                </Typography.Text>
-              </View>
+            {Ranking !== 1 ? (
+              <Typography.Text color="neutralBase" size="footnote" weight="regular" style={locationContainerStyle}>
+                {`${Location.Name} . ${PreSaleDateTime}`}
+              </Typography.Text>
             ) : (
-              <View style={descriptionContainerStyle}>
-                <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                  {PreSaleDescription}
-                </Typography.Text>
-              </View>
+              <Typography.Text color="neutralBase" size="footnote" weight="regular" style={descriptionContainerStyle}>
+                {PreSaleDescription}
+              </Typography.Text>
             )}
           </Stack>
           <Stack direction="horizontal" gap="4p">
             <CalendarIcon />
             <Typography.Text color="neutralBase+30" size="caption2" weight="medium">
-              {t("Appreciation.HubScreen.endOnMessage")} {ExpiryDate}
+              {t("Appreciation.HubScreen.endsOnMessage")} {ExpiryDate}
             </Typography.Text>
           </Stack>
         </View>
@@ -164,9 +153,6 @@ const styles = StyleSheet.create({
   imageContainer: {
     height: 200,
     width: "100%",
-  },
-  tagsContainer: {
-    flexDirection: "row",
   },
   titlelocationContainer: {
     flexShrink: 1,

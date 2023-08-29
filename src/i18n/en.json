@@ -2743,9 +2743,9 @@
       "location": "Location",
       "category": "Category",
       "apply": "Apply",
-      "CategoriesFilterTitle":"Category",
+      "CategoriesFilterTitle": "Category",
       "LocationsFilterTitle": "Location",
-      "SectionsFilterTitle":"Section",
+      "SectionsFilterTitle": "Section",
       "TypesFilterTitle": "Redeem",
       "filterBy": "Filtered by:",
       "recommended": "Recommended for you",
@@ -2754,12 +2754,12 @@
       "sellingFast": "Selling fast",
       "new": "New",
       "croatiaPlus": "Croatia Plus",
-      "endOnMessage": "Presale ends on",
-      "FilterOptions" : {
-        "recommendedForYou" : "Recommended for you",
-        "mostRecent" : "Most Recent",
-        "expiringSoonest" : "Expiring Soonest",
-        "alphabetic":"Alphabetic"
+      "endsOnMessage": "Presale ends on",
+      "FilterOptions": {
+        "recommendedForYou": "Recommended for you",
+        "mostRecent": "Most Recent",
+        "expiringSoonest": "Expiring Soonest",
+        "alphabetic": "Alphabetic"
       },
       "EmptyList": {
         "HasFilters": {
@@ -2781,6 +2781,33 @@
           "subtitle": "You haven’t liked any Appreciations yet. Any appreciations you like can be accessed here."
         }
       }
+    },
+    "endsOnMessage": "Presale ends on",
+    "upgradeYourTier": "Upgrade Your Tier",
+    "redeemAppreciation": "Redeem Appreciation",
+    "ReadMoreInOur": "Read more in our",
+    "termsAndConditions": "Terms and Conditions",
+    "AppreciationDetailsSection": {
+      "termsAndConditions": "Terms & Conditions.",
+      "readMoreIn": "Read more in",
+      "eventDetails": "Details",
+      "eventDate": "Event date",
+      "addToCalendar": "add to calendar",
+      "PreSaleAvailability": "Pre-sale availability",
+      "AboutTheOrganizer": "About the organiser",
+      "location": "Location",
+      "openingHours": "Opening hours",
+      "validUntil": "valid Until",
+      "visitWebsite": "Visit website",
+      "redeemAppreciation": {
+        "errorTitle": "Couldn’t redeem appreciation",
+        "errorSubtitle": "Please try again.",
+        "tryAgainButton": "Try again",
+        "dismissButton": "Dismiss"
+      }
+    },
+    "TermsAndConditionsModal": {
+      "title": "Terms and conditions"
     },
     "SortingModal": {
       "title": "Sort",

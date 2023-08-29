@@ -25,11 +25,12 @@ import { FilterModal } from "../components";
 import EmptyAppreciationList from "../components/EmptyAppreciationList";
 import { SORTING_OPTIONS_ALL_TAB, SORTING_OPTIONS_OTHER_TABS } from "../constants";
 import { useAppreciationFilters, useAppreciationSearch } from "../hooks/query-hooks";
-import { FilterItemType, FiltersType, SortingOptions, TabsTypes } from "../types";
+import { AppreciationType, FilterItemType, FiltersType, SortingOptions, TabsTypes, UserTypeEnum } from "../types";
 
 export default function AppreciationHubScreen() {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
+  const userType = UserTypeEnum.STANDARD;
 
   const [currentTab, setCurrentTab] = useState<TabsTypes>(TabsTypes.ALL);
   const [isSortingModalVisible, setIsSortingModalVisible] = useState<boolean>(false);
@@ -137,6 +138,18 @@ export default function AppreciationHubScreen() {
     setIsSortingModalVisible(false);
   };
 
+  const handleOnAppreciationCardPress = (appreciation: AppreciationType) => {
+    navigation.navigate("Appreciation.AppreciationDetailsScreen", { appreciation, userType });
+  };
+
+  const handleOnPromotedAppreciationPress = () => {
+    //TODO
+  };
+
+  const handleOnLikeAppreciation = () => {
+    //TODO like an appreciation logic
+  };
+
   const handleOnApplyFilterModalButtonPressed = () => {
     setIsFiltersModalVisible(false);
     setSelectedFilters(filters);
@@ -242,10 +255,18 @@ export default function AppreciationHubScreen() {
                       </Typography.Text>
                     </View>
                   ) : null}
-                  {AppreciationList &&
-                    AppreciationList?.filter(item => item.Ranking === 1).map((appreciation, index) => {
-                      return <AppreciationCard appreciation={appreciation} key={index} isPromoted />;
-                    })}
+                  {AppreciationList?.filter(item => item.Ranking === 1).map((appreciation, index) => {
+                    return (
+                      <AppreciationCard
+                        appreciation={appreciation}
+                        userType={userType}
+                        key={index}
+                        onPress={handleOnAppreciationCardPress}
+                        onLike={handleOnLikeAppreciation}
+                        onPromptedPress={handleOnPromotedAppreciationPress}
+                      />
+                    );
+                  })}
                 </>
               )}
               <View style={exploreContainerStyle}>
@@ -265,7 +286,16 @@ export default function AppreciationHubScreen() {
               </View>
               {AppreciationList &&
                 AppreciationList?.filter(item => item.Ranking !== 1).map((appreciation, index) => {
-                  return <AppreciationCard appreciation={appreciation} key={index} />;
+                  return (
+                    <AppreciationCard
+                      appreciation={appreciation}
+                      userType={userType}
+                      key={index}
+                      onPress={handleOnAppreciationCardPress}
+                      onLike={handleOnLikeAppreciation}
+                      onPromptedPress={handleOnPromotedAppreciationPress}
+                    />
+                  );
                 })}
             </ContentContainer>
           )}

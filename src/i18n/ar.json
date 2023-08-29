@@ -631,7 +631,7 @@
       "nothingToShowText": "لا شيء لعرضه",
       "errorMessage": "حدث خطأ أثناء تنزيل ملفك، يرجى المحاولة مرة أخرى لاحقًا.",
       "errorMessageTitle": "خطأ",
-      "errorCancelText":  "إغلاق"
+      "errorCancelText": "إغلاق"
     }
   },
   "Documents": {
@@ -2156,7 +2156,7 @@
       "sellingFast": "Selling fast",
       "new": "New",
       "croatiaPlus": "Croatia Plus",
-      "endOnMessage": "Presale ends on",
+      "endsOnMessage": "Presale ends on",
       "FilterOptions": {
         "recommendedForYou": "Recommended for you",
         "mostRecent": "Most Recent",
@@ -2183,6 +2183,33 @@
           "subtitle": "You haven’t liked any Appreciations yet. Any appreciations you like can be accessed here."
         }
       }
+    },
+    "endsOnMessage": "Presale ends on",
+    "upgradeYourTier": "Upgrade Your Tier",
+    "redeemAppreciation": "Redeem Appreciation",
+    "ReadMoreInOur": "Read more in our",
+    "termsAndConditions": "Terms and Conditions",
+    "AppreciationDetailsSection": {
+      "termsAndConditions": "Terms & Conditions.",
+      "readMoreIn": "Read more in",
+      "eventDetails": "Details",
+      "eventDate": "Event date",
+      "addToCalendar": "add to calendar",
+      "PreSaleAvailability": "Pre-sale availability",
+      "AboutTheOrganizer": "About the organiser",
+      "location": "Location",
+      "openingHours": "Opening hours",
+      "validUntil": "valid Until",
+      "visitWebsite": "Visit website",
+      "redeemAppreciation": {
+        "errorTitle": "Couldn’t redeem appreciation",
+        "errorSubtitle": "Please try again.",
+        "tryAgainButton": "Try again",
+        "dismissButton": "Dismiss"
+      }
+    },
+    "TermsAndConditionsModal": {
+      "title": "Terms and conditions"
     },
     "SortingModal": {
       "title": "Sort",

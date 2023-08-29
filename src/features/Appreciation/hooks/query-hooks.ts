@@ -1,20 +1,21 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
 import { AppreciationResponceType, FiltersType, SortingOptions, TabsTypes } from "../types";
 
 export const queryKeys = {
   all: ["appreciation"] as const,
-  searchAppreciation: (filters: FiltersType | null, sortType: keyof typeof SortingOptions, language: string) =>
+  searchAppreciation: (filters: FiltersType | null, sortType: SortingOptions, language: string) =>
     [...queryKeys.all, "search", [filters, sortType, language]] as const,
   filters: (language: string) => [...queryKeys.all, "filters", language] as const,
 };
 
 export function useAppreciationSearch(
   filters: FiltersType | null,
-  sortType: keyof typeof SortingOptions,
+  sortType: SortingOptions,
   currentTab: TabsTypes,
   language: string
 ) {
@@ -53,5 +54,23 @@ export function useAppreciationFilters(language: string) {
       ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: language,
     });
+  });
+}
+
+export function useRedeemAppreciation() {
+  const { userId } = useAuthContext();
+  return useMutation((appreciationId: string) => {
+    return api<null>(
+      "v1",
+      "appreciations/redeem",
+      "PUT",
+      { AppreciationId: appreciationId, CustomerId: userId },
+      {
+        RedeemedFlag: "1",
+      },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
   });
 }

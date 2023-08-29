@@ -1,5 +1,3 @@
-import { ImageSourcePropType } from "react-native";
-
 export enum TabsTypes {
   ALL = "All",
   REDEEMED = "Redeemed",
@@ -10,6 +8,11 @@ export enum SortingOptions {
   RECOMMENDED = "recommendedForYou",
   MOST_RECENT = "mostRecent",
   ALPHABETIC = "alphabetic",
+}
+
+export enum UserTypeEnum {
+  STANDARD = "standard",
+  PLUS = "plus",
 }
 export interface FilterType {
   Name: string;
@@ -34,14 +37,14 @@ export interface FiltersType {
   Categories: CategoryType[];
   Locations: LocationType[];
   Sections?: SectionType[];
-  Types: RedeemType[];
+  Types: FilterItemType[];
 }
 export interface AppreciationType {
   ActiveFlag: number;
   Category: CategoryType;
   CreationDate: string;
   ExpiryDate: string;
-  ImageUrl: ImageSourcePropType;
+  ImageUrl: string;
   Location: LocationType;
   PartnerName: string;
   PreSaleDateTime: string;
