@@ -31,7 +31,7 @@ export interface UserProxiesResponse {
 }
 
 export interface RegisterEmailInputs {
-  email: string;
+  Email: string;
 }
 
 export interface RegisterEmailResponse {

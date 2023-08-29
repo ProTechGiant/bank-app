@@ -73,7 +73,7 @@ export default function RegisterEmailScreen() {
 
   const handleOnSubmit = async (values: Email) => {
     try {
-      const response = await registerEmail.mutateAsync({ email: values.Email });
+      const response = await registerEmail.mutateAsync({ Email: values.Email });
       if (response.Status === "204") {
         setShowSuccess(true);
       } else {

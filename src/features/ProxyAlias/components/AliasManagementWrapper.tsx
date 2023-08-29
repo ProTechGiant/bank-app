@@ -101,7 +101,7 @@ export default function AliasManagementWrapper({ data }: ProxyAliasesProps) {
         setShowModal({
           isVisible: true,
           type: "error",
-          title: t("ProxyAlias.ErrorModal.linkingFailed"),
+          title: t("ProxyAlias.OptOutFailureModal.title"),
           message: t("ProxyAlias.OptOutFailureModal.subtitle"),
         });
       }
@@ -109,7 +109,7 @@ export default function AliasManagementWrapper({ data }: ProxyAliasesProps) {
       setShowModal({
         isVisible: true,
         type: "error",
-        title: t("ProxyAlias.ErrorModal.linkingFailed"),
+        title: t("ProxyAlias.OptOutFailureModal.title"),
         message: t("ProxyAlias.OptOutFailureModal.subtitle"),
       });
     }

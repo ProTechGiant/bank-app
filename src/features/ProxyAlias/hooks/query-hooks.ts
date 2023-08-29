@@ -20,8 +20,8 @@ import {
 export function useRegisterEmail() {
   const queryClient = useQueryClient();
   return useMutation(
-    async (email: RegisterEmailInputs) => {
-      return sendApiRequest<RegisterEmailResponse>("v1", `ips/register-email`, "POST", undefined, email, {
+    (Email: RegisterEmailInputs) => {
+      return sendApiRequest<RegisterEmailResponse>("v1", `ips/register-email`, "POST", undefined, Email, {
         ["x-correlation-id"]: generateRandomId(),
       });
     },
