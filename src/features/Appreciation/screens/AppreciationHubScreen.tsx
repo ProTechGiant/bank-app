@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { cloneDeep, isEqual } from "lodash";
+import { cloneDeep } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
@@ -41,13 +41,11 @@ export default function AppreciationHubScreen() {
   const [selectedFilters, setSelectedFilters] = useState<FiltersType | null>(null);
   const [appreciationLoadingErrorModal, setAppreciationLoadingErrorModal] = useState<boolean>(false);
   const [filtersLoadingErrorModal, setFiltersLoadingErrorModal] = useState<boolean>(false);
-
   const {
     data: filtersData,
     refetch: refetchFilterHandler,
     isError: filterError,
   } = useAppreciationFilters(i18n.language);
-  const [filters, setFilters] = useState<FiltersType | null>(null);
   const {
     data: AppreciationList,
     refetch,
@@ -56,12 +54,12 @@ export default function AppreciationHubScreen() {
   } = useAppreciationSearch(selectedFilters, currentSortingOption, currentTab, i18n.language);
 
   const hasFilters = useMemo(() => {
-    return !filters
+    return !selectedFilters
       ? false
-      : Object.values(filters)
+      : Object.values(selectedFilters)
           .flat()
           .some(item => item.isActive);
-  }, [filters]);
+  }, [selectedFilters]);
 
   const emptyListMessage = {
     [TabsTypes.ALL]: {
@@ -95,20 +93,19 @@ export default function AppreciationHubScreen() {
   }, [isError, filterError]);
 
   useEffect(() => {
-    setFilters(clearFilters());
-    setSelectedFilters(clearFilters());
+    clearFilters();
   }, [filtersData]);
 
   const clearFilters = () => {
     const updatedFilters = cloneDeep(filtersData);
     for (const property in updatedFilters) {
       if (Array.isArray(updatedFilters[property])) {
-        updatedFilters[property].forEach(item => {
+        updatedFilters[property].forEach((item: FilterItemType) => {
           item.isActive = false;
         });
       }
     }
-    return updatedFilters;
+    setSelectedFilters(updatedFilters);
   };
 
   const handleOnTabChange = (tab: TabsTypes) => {
@@ -150,19 +147,19 @@ export default function AppreciationHubScreen() {
     //TODO like an appreciation logic
   };
 
-  const handleOnApplyFilterModalButtonPressed = () => {
+  const handleOnApplyFilterModalButtonPressed = (updatedFilters: FiltersType) => {
     setIsFiltersModalVisible(false);
-    setSelectedFilters(filters);
+    setSelectedFilters(updatedFilters);
   };
 
   const handleOnClearAllModalFiltersPressed = () => {
-    setFilters(clearFilters());
+    clearFilters();
   };
 
   const handleOnModalFilterItemPressed = (filterCategory: FilterItemType, index: number, isActive: boolean) => {
-    const updatedFilters = cloneDeep(filters);
+    const updatedFilters = cloneDeep(selectedFilters);
     updatedFilters[filterCategory][index].isActive = !isActive;
-    setFilters(updatedFilters);
+    setSelectedFilters(updatedFilters);
   };
 
   const segmentedControlStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -199,13 +196,13 @@ export default function AppreciationHubScreen() {
             end={<NavHeader.IconEndButton icon={<FilterIcon />} onPress={() => setIsFiltersModalVisible(true)} />}
           />
           <View style={segmentedControlStyle}>
-            {!isFiltersModalVisible && hasFilters ? (
+            {hasFilters ? (
               <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 <Stack direction="horizontal" gap="8p" style={segmentedControlOnFilterStyle}>
                   <Typography.Text>{t("Appreciation.HubScreen.filterBy")} </Typography.Text>
-                  {filters &&
-                    Object.keys(filters).map(filterCategory => {
-                      return filters[filterCategory]?.map((filter, itemIndex) => {
+                  {selectedFilters &&
+                    Object.keys(selectedFilters).map(filterCategory => {
+                      return selectedFilters[filterCategory]?.map((filter, itemIndex) => {
                         return !filter.isActive ? null : (
                           <Chip
                             key={itemIndex}
@@ -301,15 +298,12 @@ export default function AppreciationHubScreen() {
           )}
         </>
       )}
-      {filters ? (
+      {isFiltersModalVisible ? (
         <FilterModal
           onClose={() => setIsFiltersModalVisible(false)}
           onApplyButtonPress={handleOnApplyFilterModalButtonPressed}
-          onClearAllPressed={handleOnClearAllModalFiltersPressed}
-          onFilterItemPressed={handleOnModalFilterItemPressed}
-          filters={filters}
           isVisible={isFiltersModalVisible}
-          isApplyButtonDisabled={isEqual(filters, selectedFilters)}
+          selectedFilters={selectedFilters}
         />
       ) : null}
       <SortingModal

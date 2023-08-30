@@ -14,44 +14,30 @@ export enum UserTypeEnum {
   STANDARD = "standard",
   PLUS = "plus",
 }
-export interface FilterType {
+export interface FilterItemType {
   Name: string;
-  isActive: boolean;
-}
-export interface FilterItemType extends FilterType {
   Code: number;
-}
-export interface CategoryType extends FilterType {
-  CategoryCode: number;
-}
-export interface SectionType extends FilterType {
-  LocationCode: number;
-}
-export interface LocationType extends FilterType {
-  SectionCode: number;
-}
-export interface RedeemType extends FilterType {
-  TypeCode: number;
+  isActive?: boolean;
 }
 export interface FiltersType {
-  Categories: CategoryType[];
-  Locations: LocationType[];
-  Sections?: SectionType[];
+  Categories: FilterItemType[];
+  Locations: FilterItemType[];
+  Sections?: FilterItemType[];
   Types: FilterItemType[];
 }
 export interface AppreciationType {
   ActiveFlag: number;
-  Category: CategoryType;
+  Category: FilterItemType;
   CreationDate: string;
   ExpiryDate: string;
   ImageUrl: string;
-  Location: LocationType;
+  Location: FilterItemType;
   PartnerName: string;
   PreSaleDateTime: string;
   PreSaleDescription: string;
   Ranking: number;
   RedeemFlag: number;
-  Section: SectionType;
+  Section: FilterItemType;
   Tier: number;
   Type: AppreciationType;
   VoucherDescription: string;
