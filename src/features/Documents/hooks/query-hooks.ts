@@ -41,7 +41,7 @@ export function useDownloadDocument(documentId: string) {
   return useQuery(
     queryKeys.all(),
     () => {
-      return api<DownloadDocumentResponse>("v1", `/v1/adhoc-documents/${documentId}`, "GET", undefined, undefined, {
+      return api<DownloadDocumentResponse>("v1", `adhoc-documents/${documentId}`, "GET", undefined, undefined, {
         ["x-correlation-id"]: generateRandomId(),
 
         ["Accept-Language"]: i18n.language.toUpperCase(),

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { CloseIcon, FilterIcon } from "@/assets/icons";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -72,7 +73,11 @@ export default function DocumentsScreen() {
   const [pagination, setPagination] = useState<PaginationInterface>({ limit: 10, offset: 0 });
   const { data: documentsData, refetch: refetchDocumentData } = useGetDocuments(pagination);
   const [documents, setDocuments] = useState<DocumentInterface[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [isInfoModalVisible, setIsInfoModalVisible] = useState<boolean>(false);
+
+  const [retryLoadingStates, setRetryLoadingStates] = useState<boolean[]>(new Array(20).fill(false));
 
   const filterMappings: {
     documentType: { [key: string]: string };
@@ -90,9 +95,19 @@ export default function DocumentsScreen() {
     status: {
       Pending: "01",
       Approved: "02",
+      Downloaded: "03",
       Failed: "04",
     },
   };
+
+  //TODO: Mock implementation of document list, will be removed when apis will be available
+  useEffect(() => {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 5000);
+  }, []);
 
   // Create string parameters for filters using filterMappings
   const categoryParam =
@@ -105,7 +120,14 @@ export default function DocumentsScreen() {
       : "";
   const statusParam =
     selectedFilters.status.length > 0
-      ? selectedFilters.status.map(option => filterMappings.status[option]).join(", ")
+      ? selectedFilters.status
+          .map(option => {
+            if (option === "Approved") {
+              return [filterMappings.status.Approved, filterMappings.status.Downloaded];
+            }
+            return filterMappings.status[option];
+          })
+          .join(", ")
       : "";
 
   const filteredDocuments = documents.filter(document => {
@@ -144,12 +166,21 @@ export default function DocumentsScreen() {
     navigation.navigate("Documents.PreviewDocumentScreen", { documentId });
   };
 
-  const handleOnRetry = async (requestId: string) => {
+  const handleOnRetry = async (requestId: string, index: number) => {
+    const isRetryLoading = true;
+    const updatedIsRetryLoading = [...retryLoadingStates];
+    updatedIsRetryLoading[index] = isRetryLoading;
+    setRetryLoadingStates(updatedIsRetryLoading);
+
     try {
       await retryFailedAdHocDocument(requestId);
     } catch (error) {
       warn("Retry failed:", JSON.stringify(error));
+      updatedIsRetryLoading[index] = false;
       setIsNotificationModalVisible(true);
+    } finally {
+      updatedIsRetryLoading[index] = false;
+      setRetryLoadingStates(updatedIsRetryLoading);
     }
   };
 
@@ -171,7 +202,7 @@ export default function DocumentsScreen() {
     position: "absolute",
     width: "100%",
     alignSelf: "center",
-    paddingHorizontal: theme.spacing["12p"],
+    paddingHorizontal: theme.spacing["20p"],
     paddingVertical: screenHeight * 0.03,
     backgroundColor: theme.palette["neutralBase-60"],
   }));
@@ -224,40 +255,46 @@ export default function DocumentsScreen() {
           </Pressable>
         }
       />
-      {selectedFiltersLabels.length > 0 ? (
-        <Stack direction="horizontal" align="center" style={filterContainerStyle}>
-          <Typography.Text color="neutralBase" size="footnote" weight="regular">
-            {t("Documents.DocumentListScreen.filteredBy")}
-          </Typography.Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {selectedFiltersLabels.map(type => (
-              <View style={optionContainerStyle} key={type}>
-                <Typography.Text color="neutralBase+30" size="footnote" weight="medium">
-                  {type}
-                </Typography.Text>
-                <Pressable onPress={() => removeFilter(type)} style={filterSpacingStyle}>
-                  <CloseIcon width={14} height={18} />
-                </Pressable>
-              </View>
-            ))}
-          </ScrollView>
-        </Stack>
-      ) : null}
-      <ContentContainer style={styles.contentContainer}>
-        <DocumentsListComponent
-          onEndReached={handleOnEndReached}
-          onRefresh={handleOnRefresh}
-          isLoading={false}
-          onPressCard={handleOnPressCard}
-          onRetry={handleOnRetry}
-          onInfoIcon={handleOnToggleInfoModal}
-          documents={filteredDocuments}
-        />
-      </ContentContainer>
-      <Stack style={buttonContainerStyle} align="stretch" direction="vertical">
-        <Button onPress={handleOnPressButton}>{t("Documents.DocumentListScreen.requestDocumentButtonText")}</Button>
-      </Stack>
-
+      {isLoading ? (
+        <FullScreenLoader />
+      ) : (
+        <>
+          {selectedFiltersLabels.length > 0 ? (
+            <Stack direction="horizontal" align="center" style={filterContainerStyle}>
+              <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                {t("Documents.DocumentListScreen.filteredBy")}
+              </Typography.Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {selectedFiltersLabels.map(type => (
+                  <View style={optionContainerStyle} key={type}>
+                    <Typography.Text color="neutralBase+30" size="footnote" weight="medium">
+                      {type}
+                    </Typography.Text>
+                    <Pressable onPress={() => removeFilter(type)} style={filterSpacingStyle}>
+                      <CloseIcon width={14} height={18} />
+                    </Pressable>
+                  </View>
+                ))}
+              </ScrollView>
+            </Stack>
+          ) : null}
+          <ContentContainer style={styles.contentContainer}>
+            <DocumentsListComponent
+              onEndReached={handleOnEndReached}
+              onRefresh={handleOnRefresh}
+              isLoading={false}
+              onPressCard={handleOnPressCard}
+              onRetry={handleOnRetry}
+              onInfoIcon={handleOnToggleInfoModal}
+              documents={filteredDocuments}
+              isRetryLoading={retryLoadingStates}
+            />
+          </ContentContainer>
+          <Stack style={buttonContainerStyle} align="stretch" direction="vertical">
+            <Button onPress={handleOnPressButton}>{t("Documents.DocumentListScreen.requestDocumentButtonText")}</Button>
+          </Stack>
+        </>
+      )}
       <InfoModal
         isVisible={isInfoModalVisible}
         onClose={handleOnToggleInfoModal}

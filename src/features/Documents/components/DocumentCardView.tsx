@@ -93,7 +93,7 @@ export default function DocumentCardView({
         </Stack>
         {document.Status === DocumentStatus.FAILED ? (
           isRetryLoading ? (
-            <ActivityIndicator size="small" />
+            <ActivityIndicator color={appTheme.theme.palette["neutralBase-20"]} size="small" />
           ) : (
             <Pressable onPress={() => onRetry(document.AdhocDocRequestId, index)}>
               <RefreshIcon color={appTheme.theme.palette["neutralBase-20"]} />

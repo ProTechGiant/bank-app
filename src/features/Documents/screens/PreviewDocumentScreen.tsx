@@ -6,7 +6,6 @@ import PreviewAndExportPDF, { PDFDataInterface } from "@/components/PreviewAndEx
 
 import { DocumentsStackParams } from "../DocumentsStack";
 import { useDownloadDocument } from "../hooks/query-hooks";
-import { BASE64PDF } from "../mock/mock";
 
 export default function PreviewStatementScreen() {
   const route = useRoute<RouteProp<DocumentsStackParams, "Documents.PreviewDocumentScreen">>();
@@ -15,12 +14,14 @@ export default function PreviewStatementScreen() {
   const { data, isLoading } = useDownloadDocument(documentId);
 
   useEffect(() => {
-    const pdf = {
-      name: "DOCUMENT",
-      content: BASE64PDF,
-      type: "PDF",
-    };
-    setPdfData(pdf);
+    if (data !== undefined) {
+      const pdf = {
+        name: data.DocumentName,
+        content: data.DocumentContent,
+        type: data.DocumentType,
+      };
+      setPdfData(pdf);
+    }
   }, [data]);
 
   return (

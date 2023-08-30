@@ -94,7 +94,7 @@ export default function CustomStatementCardView({
         </Stack>
         {statement.Status === StatementStatus.FAILED ? (
           isRetryLoading ? (
-            <ActivityIndicator size="small" />
+            <ActivityIndicator color={appTheme.theme.palette["neutralBase-20"]} size="small" />
           ) : (
             <Pressable onPress={() => onRetry(statement.StatementRequestId, index)}>
               <RefreshIcon color={appTheme.theme.palette["neutralBase-20"]} />

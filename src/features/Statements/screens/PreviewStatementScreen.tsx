@@ -18,7 +18,7 @@ export default function PreviewStatementScreen() {
       const pdf = {
         name: data.StatementName,
         content: data.StatementContent,
-        type: data.StatementContent,
+        type: data.StatementType,
       };
       setPdfData(pdf);
     }

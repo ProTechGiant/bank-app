@@ -18,6 +18,7 @@ interface DocumentsListComponentProps {
   onEndReached: () => void;
   onRefresh: () => void;
   isLoading: boolean;
+  isRetryLoading: Array<boolean>;
   onPressCard: (documentId: string) => void;
   onRetry: (requestId: string, index: number) => void;
   onInfoIcon: () => void;
@@ -32,6 +33,7 @@ export default function DocumentsListComponent({
   onInfoIcon,
   onRetry,
   documents,
+  isRetryLoading,
 }: DocumentsListComponentProps) {
   const { t } = useTranslation();
   const { height: screenHeight } = useWindowDimensions();
@@ -79,7 +81,7 @@ export default function DocumentsListComponent({
             index={item.index}
             onPressCard={onPressCard}
             onRetry={onRetry}
-            isRetryLoading={false}
+            isRetryLoading={isRetryLoading[item.index]}
           />
         )}
         refreshControl={<RefreshControl refreshing={isLoading} onRefresh={onRefresh} />}
