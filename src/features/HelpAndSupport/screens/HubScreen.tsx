@@ -7,6 +7,7 @@ import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
+import useCallBank from "@/hooks/use-call-bank";
 import useCallSupport, { PhoneBook } from "@/hooks/use-call-support";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -17,6 +18,8 @@ export default function HubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { lookup, tryCall } = useCallSupport();
+  const { tryCallBank } = useCallBank();
+
   const handleSearchFAQPress = () => {
     navigation.navigate("FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack");
   };
@@ -26,7 +29,7 @@ export default function HubScreen() {
   };
 
   const handleCallUsPress = () => {
-    tryCall(PhoneBook.CALL_US);
+    tryCallBank();
   };
 
   const handleOnReportFraudPress = () => {

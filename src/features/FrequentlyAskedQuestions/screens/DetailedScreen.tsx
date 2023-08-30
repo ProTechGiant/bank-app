@@ -12,7 +12,7 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import useCallSupport, { PhoneBook } from "@/hooks/use-call-support";
+import useCallBank from "@/hooks/use-call-bank";
 import useOpenLink from "@/hooks/use-open-link";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -25,13 +25,15 @@ import { FAQListItem } from "../types";
 export default function DetailedScreen() {
   const navigation = useNavigation();
   // eslint-disable-next-line prettier/prettier
-  const { params: { faqId } } = useRoute<RouteProp<AuthenticatedStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
+  const {
+    params: { faqId },
+  } = useRoute<RouteProp<AuthenticatedStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
   const { t, i18n } = useTranslation();
 
   const openLink = useOpenLink();
   const { data, refetch, isError, isLoading } = useDetailsFAQ(faqId, i18n.language);
   const updateFeedback = useFeedback(faqId, i18n.language);
-  const { tryCall } = useCallSupport();
+  const { tryCallBank } = useCallBank();
 
   const [showLoadingErrorModal, setShowLoadingErrorModal] = useState(false);
   const [feedbackState, setFeedbackState] = useState<typeof DOWN_VOTE | typeof UP_VOTE | undefined>(undefined);
@@ -80,7 +82,7 @@ export default function DetailedScreen() {
   };
 
   const handleOnCallPress = () => {
-    tryCall(PhoneBook.CALL_US);
+    tryCallBank();
   };
 
   const handleOnChatPress = () => {
