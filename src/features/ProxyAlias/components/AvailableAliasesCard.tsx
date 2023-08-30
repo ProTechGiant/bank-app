@@ -114,7 +114,7 @@ export default function AvailableAliasesCard({ item, onHandleOTP, onUnLinkProxy 
 
   const handleOnConfirm = () => {
     if (isLinked && !ARBProxyFlag) {
-      onUnLinkProxy(ProxyType);
+      onUnLinkProxy(RegistrationId);
     } else if (!isEmailRegistered) {
       navigation.navigate("ProxyAlias.RegisterEmailScreen");
     } else {
