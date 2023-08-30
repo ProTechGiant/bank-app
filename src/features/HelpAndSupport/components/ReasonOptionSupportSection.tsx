@@ -21,6 +21,7 @@ export interface ReasonOptionSectionProps {
   enquiryType: string;
   setEnquiryType: (value: string) => void;
   updateExpandedSupportSectionCount: (value: number) => void;
+  setSubEnquiryType: (value: string) => void;
 }
 
 export default function ReasonOptionSupportSection({
@@ -32,6 +33,7 @@ export default function ReasonOptionSupportSection({
   enquiryType,
   setEnquiryType,
   updateExpandedSupportSectionCount,
+  setSubEnquiryType,
 }: ReasonOptionSectionProps) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [selectedIndexReason, setSelectedIndexReason] = useState<number>(0);
@@ -99,8 +101,10 @@ export default function ReasonOptionSupportSection({
                   onChange("");
                   setSelectedIndexReason(subOptions.length);
                 } else {
-                  onChange(`${value}`);
+                  const selectedOption = subOptions.find(option => option.Id === value.toString());
+                  setSubEnquiryType(selectedOption.Name);
                   setSelectedIndexReason(value);
+                  onChange(`${value.toString()}`);
                 }
               }}
               value={enquiryType === name ? selectedIndexReason : 0}>

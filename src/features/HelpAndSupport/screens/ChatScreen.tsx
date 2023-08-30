@@ -59,6 +59,7 @@ export default function ChatScreen() {
           initialChatData={params.chatResponse}
           agentWaitingTime={params.awaitTimeData}
           enquiryType={params.enquiryType}
+          subEnquiryType={params.subEnquiryType}
         />
       </KeyboardAvoidingView>
       {!isCustomerFeedbackVisible ? (

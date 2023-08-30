@@ -10,6 +10,7 @@ export type HelpAndSupportStackParams = {
     chatResponse: ChatResponse;
     awaitTimeData: AwaitTimeData;
     enquiryType: string;
+    subEnquiryType: string;
   };
 };
 

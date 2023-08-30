@@ -57,6 +57,8 @@ export default function LiveChatScreen() {
   });
 
   const [enquiryType, setEnquiryType] = useState<string>("");
+  const [subEnquiryType, setSubEnquiryType] = useState<string>("");
+
   const [isError, setIsError] = useState(false);
   // countExpandedSupportSection used for count how many SupportSection Component are Expanding
   const [countExpandedSupportSection, setCountExpandedSupportSection] = useState<number>(0);
@@ -76,6 +78,7 @@ export default function LiveChatScreen() {
         chatResponse: chatResponse,
         awaitTimeData: awaitTimerResponse,
         enquiryType: enquiryType,
+        subEnquiryType: subEnquiryType,
       });
     } catch (error) {
       warn(" init chat falied", JSON.stringify(error));
@@ -100,7 +103,6 @@ export default function LiveChatScreen() {
   const paddingScrollViewStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
   }));
-
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
@@ -119,6 +121,7 @@ export default function LiveChatScreen() {
                     onChange={onChange}
                     enquiryType={enquiryType}
                     setEnquiryType={setEnquiryType}
+                    setSubEnquiryType={setSubEnquiryType}
                     updateExpandedSupportSectionCount={updateExpandedSupportSectionCount}
                   />
                 );

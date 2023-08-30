@@ -43,7 +43,7 @@ function SupportAgentTimer({ timeInSeconds }: SupportAgentTimerProps) {
     return () => clearInterval(intervalId);
   }, [remainingSeconds]);
 
-  const formattedTime = format(new Date(remainingSeconds * 1000), "mm:ss");
+  const formattedTime = remainingSeconds > 0 ? format(new Date(remainingSeconds * 1000), "mm:ss") : "00:00";
 
   const textLineHeightsStyle = useThemeStyles<TextStyle>(theme => ({
     lineHeight: theme.typography.text._lineHeights.footnote,
