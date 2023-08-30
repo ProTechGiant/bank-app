@@ -56,17 +56,12 @@ export interface QuickActionsType {
 }
 
 export enum FeedbackStatus {
-  idle = "idle",
-  positive = "positive",
-  negative = "negative",
+  IDLE = "idle",
+  POSITIVE = "1",
+  NEGATIVE = "2",
 }
 
 export enum NotificationModalVariant {
   success = "success",
   error = "error",
-}
-
-export interface FeedbackType {
-  title: string;
-  imageUrl: string;
 }

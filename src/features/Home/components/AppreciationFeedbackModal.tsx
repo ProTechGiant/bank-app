@@ -16,19 +16,23 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { FeedbackStatus, FeedbackType, NotificationModalVariant } from "../types";
-
-const mockedData: FeedbackType = {
-  title: "Andy Pitcher Music Ticket",
-  imageUrl: "https://i.ibb.co/CV1JGGX/Adobe-Stock-575962456-1.png",
-};
+import { FeedbackStatus, NotificationModalVariant } from "../types";
 
 interface AppreciationFeedbackModalProps {
   visible: boolean;
   onClose: () => void;
+  onSubmitFeedback: (comment: string, status: FeedbackStatus) => void;
+  title: string;
+  imageUrl: string;
 }
 
-export default function AppreciationFeedbackModal({ visible, onClose }: AppreciationFeedbackModalProps) {
+export default function AppreciationFeedbackModal({
+  visible,
+  onClose,
+  onSubmitFeedback,
+  title,
+  imageUrl,
+}: AppreciationFeedbackModalProps) {
   const { height: windowHeight } = useWindowDimensions();
   const { t } = useTranslation();
 
@@ -36,17 +40,17 @@ export default function AppreciationFeedbackModal({ visible, onClose }: Apprecia
   const [notificationModalVariant, setNotificationModalVariant] = useState<NotificationModalVariant>(
     NotificationModalVariant.error
   );
-  const [feedbackStatus, setFeedbackStatus] = useState<FeedbackStatus>(FeedbackStatus.idle);
+  const [feedbackStatus, setFeedbackStatus] = useState<FeedbackStatus>(FeedbackStatus.IDLE);
   const [feedbackComment, setFeedbackComment] = useState<string>("");
 
   const handleOnCloseModal = () => {
     setFeedbackComment("");
-    setFeedbackStatus(FeedbackStatus.idle);
+    setFeedbackStatus(FeedbackStatus.IDLE);
     onClose();
   };
 
   const handleOnBackPress = () => {
-    if (feedbackStatus === FeedbackStatus.idle) {
+    if (feedbackStatus === FeedbackStatus.IDLE) {
       handleOnCloseModal();
     } else {
       openNotificationModal(NotificationModalVariant.error);
@@ -65,7 +69,7 @@ export default function AppreciationFeedbackModal({ visible, onClose }: Apprecia
 
   const handleOnFeedbackChipPress = (currentStatus: FeedbackStatus) => {
     if (feedbackStatus === currentStatus) {
-      setFeedbackStatus(FeedbackStatus.idle);
+      setFeedbackStatus(FeedbackStatus.IDLE);
     } else {
       setFeedbackStatus(currentStatus);
     }
@@ -74,7 +78,7 @@ export default function AppreciationFeedbackModal({ visible, onClose }: Apprecia
 
   const handleOnSubmitButtonPress = () => {
     if (feedbackComment.length === 0 || (feedbackComment.length >= 5 && feedbackComment.trim() !== "")) {
-      //TODO submit the feedback to the backend here
+      onSubmitFeedback(feedbackComment, feedbackStatus);
       openNotificationModal(NotificationModalVariant.success);
     }
   };
@@ -107,13 +111,13 @@ export default function AppreciationFeedbackModal({ visible, onClose }: Apprecia
         <View style={headerContainerStyle}>
           <SafeAreaView style={styles.headerStyle}>
             <NavHeader
-              title={mockedData.title}
-              onBackPress={handleOnBackPress}
+              title={title}
               end={<NavHeader.CloseEndButton onPress={handleOnBackPress} />}
               variant="background"
+              withBackButton={false}
             />
           </SafeAreaView>
-          <NetworkImage style={imageStyle} source={{ uri: mockedData.imageUrl }} />
+          <NetworkImage style={imageStyle} source={{ uri: imageUrl }} />
           <Image source={whiteTriangleHorizontal} style={styles.whiteTriangleImageStyle} resizeMode="stretch" />
         </View>
         <Stack direction="vertical" gap="16p" style={questionContainerStyle}>
@@ -123,20 +127,20 @@ export default function AppreciationFeedbackModal({ visible, onClose }: Apprecia
           <Stack direction="horizontal" gap="16p" style={answersContainerStyle}>
             <Chip
               title={t("Home.AppreciationFeedback.positiveAnswer")}
-              onPress={() => handleOnFeedbackChipPress(FeedbackStatus.positive)}
+              onPress={() => handleOnFeedbackChipPress(FeedbackStatus.POSITIVE)}
               isRemovable={false}
-              isSelected={feedbackStatus === FeedbackStatus.positive}
+              isSelected={feedbackStatus === FeedbackStatus.POSITIVE}
               leftIcon={<ThumbsUpIcon />}
             />
             <Chip
               title={t("Home.AppreciationFeedback.negativeAnswer")}
-              onPress={() => handleOnFeedbackChipPress(FeedbackStatus.negative)}
+              onPress={() => handleOnFeedbackChipPress(FeedbackStatus.NEGATIVE)}
               isRemovable={false}
-              isSelected={feedbackStatus === FeedbackStatus.negative}
+              isSelected={feedbackStatus === FeedbackStatus.NEGATIVE}
               leftIcon={<ThumbsDownIcon />}
             />
           </Stack>
-          {feedbackStatus !== FeedbackStatus.idle ? (
+          {feedbackStatus !== FeedbackStatus.IDLE ? (
             <SimpleTextInput
               label={t("Home.AppreciationFeedback.comments")}
               extraStart={t("Home.AppreciationFeedback.minNumberOfCharactersInComment")}
@@ -148,7 +152,7 @@ export default function AppreciationFeedbackModal({ visible, onClose }: Apprecia
               value={feedbackComment}
             />
           ) : null}
-          <Button disabled={feedbackStatus === FeedbackStatus.idle} onPress={handleOnSubmitButtonPress}>
+          <Button disabled={feedbackStatus === FeedbackStatus.IDLE} onPress={handleOnSubmitButtonPress}>
             {t("Home.AppreciationFeedback.continue")}
           </Button>
         </Stack>

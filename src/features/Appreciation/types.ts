@@ -62,3 +62,9 @@ export interface AppreciationResponceType {
   Appreciations: AppreciationType[];
   CustomerId: number;
 }
+
+export interface AppreciationFeedbackRequest {
+  appreciationId: string;
+  comment: string;
+  voteId: string;
+}

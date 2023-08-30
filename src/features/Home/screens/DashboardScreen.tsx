@@ -10,6 +10,7 @@ import Page from "@/components/Page";
 import SelectTransferTypeModal from "@/components/SelectTransferTypeModal";
 import Stack from "@/components/Stack";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
+import { useAppreciationFeedback, useAppreciationsWithNoFeedback } from "@/features/Appreciation/hooks/query-hooks";
 import { TransferType } from "@/features/InternalTransfers/types";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
@@ -25,12 +26,12 @@ import {
   TasksPreviewer,
   WhatsNextSection,
 } from "../components";
-import RateAppreciation from "../components/RateAppreciation";
 import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
 import { useRefetchHomepageLayout, useTasks } from "../hooks/query-hooks";
+import { FeedbackStatus } from "../types";
 
 export default function DashboardScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const { sections, homepageLayout } = useHomepageLayoutOrder();
 
@@ -40,10 +41,15 @@ export default function DashboardScreen() {
   const account = useCurrentAccount();
   const { setInternalTransferEntryPoint, clearContext, setTransferType } = useInternalTransferContext();
 
+  const appreciationFeedback = useAppreciationFeedback();
+  const { data: appreciationsWithNoFeedback } = useAppreciationsWithNoFeedback(i18n.language);
+
   const [isInternalTransferTypeModalVisible, setIsInternalTransferTypeModalVisible] = useState<boolean>(false);
   const [isLocalTransferModalVisible, setIsLocalTransferModalVisible] = useState<boolean>(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
-  const [isAppreciationFeedbackModalVisible, setIsAppreciationFeedbackModalVisible] = useState<boolean>(false);
+  const [feedbackIndex, setFeedbackIndex] = useState<number>(0);
+  const isAppreciationFeedbackModalVisible =
+    appreciationsWithNoFeedback !== undefined && feedbackIndex < appreciationsWithNoFeedback.length;
 
   useEffect(() => {
     if (homepageLayout?.isError === true) {
@@ -102,12 +108,16 @@ export default function DashboardScreen() {
     });
   };
 
-  const handleOnFeedbackDismissPress = () => {
-    //TODO backend call to dismiss
+  const handleOnSubmitAppreciationFeedback = (comment: string, status: FeedbackStatus) => {
+    appreciationFeedback.mutateAsync({
+      appreciationId: appreciationsWithNoFeedback[feedbackIndex].VoucherId,
+      comment,
+      voteId: status,
+    });
   };
 
-  const handleOnFeedbackRatePress = () => {
-    setIsAppreciationFeedbackModalVisible(true);
+  const handleOnCloseFeedbackModal = () => {
+    setFeedbackIndex(feedbackIndex + 1);
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -141,10 +151,6 @@ export default function DashboardScreen() {
         <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16}>
           <Stack align="stretch" direction="vertical" gap="32p">
             {tasks?.length > 0 ? <TasksPreviewer tasks={tasks} /> : null}
-            {/* //TODO there should be a condition from backend  */}
-            {true ? (
-              <RateAppreciation onDismissPress={handleOnFeedbackDismissPress} onRatePress={handleOnFeedbackRatePress} />
-            ) : null}
             {sections?.length !== 0 ? (
               <>
                 {sections.map(section => {
@@ -196,10 +202,15 @@ export default function DashboardScreen() {
           onAlrajhiPress={handleOnAlrajhiTransferPress}
         />
       ) : null}
-      <AppreciationFeedbackModal
-        visible={isAppreciationFeedbackModalVisible}
-        onClose={() => setIsAppreciationFeedbackModalVisible(false)}
-      />
+      {isAppreciationFeedbackModalVisible && (
+        <AppreciationFeedbackModal
+          visible={isAppreciationFeedbackModalVisible}
+          onClose={handleOnCloseFeedbackModal}
+          onSubmitFeedback={handleOnSubmitAppreciationFeedback}
+          title={appreciationsWithNoFeedback[feedbackIndex].VoucherName}
+          imageUrl={appreciationsWithNoFeedback[feedbackIndex].ImageUrl}
+        />
+      )}
     </Page>
   );
 }
