@@ -3,6 +3,7 @@ import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
+import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -62,6 +63,7 @@ export default function ChatScreen() {
       <NavHeader
         title={t("HelpAndSupport.ChatScreen.headerText")}
         end={<NavHeader.IconEndButton icon={<EndChatIcon />} onPress={handleOnOpenCloseChatModal} />}
+        onBackPress={handleOnOpenCloseChatModal}
       />
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.containerStyle}>
         <ChatList
@@ -92,6 +94,9 @@ export default function ChatScreen() {
         isVisible={isErrorModalVisible}
         variant="error"
         onClose={() => setIsErrorModalVisible(false)}
+        buttons={{
+          primary: <Button onPress={() => setIsErrorModalVisible(false)}>{t("errors.generic.button")}</Button>,
+        }}
       />
     </Page>
   );

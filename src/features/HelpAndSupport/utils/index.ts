@@ -11,5 +11,6 @@ export function formatUtcTimestampToTime(utcTimestamp: number) {
 export const combineAndFilterMessages = (previousChatData: ChatEvent[], newMessages: ChatEvent[]): ChatEvent[] => {
   const existingMessageIndexes = new Set(previousChatData.map(message => message.Index));
   const filteredNewMessages = newMessages.filter(message => !existingMessageIndexes.has(message.Index));
-  return [...filteredNewMessages, ...previousChatData];
+  const filteredPreviousMessages = previousChatData.filter(message => message.MessageType !== "pending");
+  return [...filteredNewMessages, ...filteredPreviousMessages];
 };

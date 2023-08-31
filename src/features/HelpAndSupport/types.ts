@@ -83,7 +83,7 @@ export interface ChatEvent {
     | "IdleClose";
   UtcTime: number;
   UserData?: Record<string, string>;
-  EventAttributes: EventAttributes;
+  EventAttributes?: EventAttributes;
 }
 
 export interface ChatResponse {

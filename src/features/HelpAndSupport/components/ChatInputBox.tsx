@@ -6,14 +6,16 @@ import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 
 import { useSendMessage } from "../hooks/use-send-message";
+import { ChatEvent } from "../types";
 import ChatMessageInput from "./ChatMessageInput";
 import ChatSendButton from "./ChatSendButton";
 
 interface ChatInputBoxProps {
-  onSendSuccess: () => void;
+  onSendSuccess: (ChatPendingMessage?: ChatEvent) => void;
+  connectionStatus: boolean | null;
 }
 
-function ChatInputBox({ onSendSuccess }: ChatInputBoxProps) {
+function ChatInputBox({ onSendSuccess, connectionStatus }: ChatInputBoxProps) {
   const submitMessage = useSendMessage();
   const [message, setMessage] = useState<string>("");
 
@@ -27,6 +29,26 @@ function ChatInputBox({ onSendSuccess }: ChatInputBoxProps) {
       Message: message,
       TranscriptPositionIncluding: "0",
     };
+
+    if (connectionStatus === false) {
+      // this is pending message, it's values will be ignored except " Text: message" once connection restored
+      // we added them here to not break ChatEvent typescript interface
+      // we can only send message text with the api
+      onSendSuccess({
+        Index: Date.now(),
+        Type: "Message",
+        MessageType: "pending",
+        Text: message,
+        UtcTime: Number(new Date()),
+        From: {
+          Type: "Client",
+          Nickname: "you",
+          ParticipantId: 1,
+        },
+      });
+      setMessage("");
+      return;
+    }
 
     try {
       await submitMessage.mutateAsync(requestBody);
