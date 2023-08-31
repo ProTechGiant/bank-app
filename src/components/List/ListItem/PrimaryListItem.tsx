@@ -17,6 +17,7 @@ export interface PrimaryListItemProps {
   end?: React.ReactNode;
   icon?: React.ReactElement<SvgProps | IconProps>;
   onPress?: () => void;
+  testID?: string;
 }
 
 export default function PrimaryListItem({
@@ -26,6 +27,7 @@ export default function PrimaryListItem({
   onMoreInfoPress,
   icon,
   end,
+  testID,
 }: PrimaryListItemProps) {
   const variant = useListContext();
   const { infoIconStyle, infoColor } = useInfoStyles();
@@ -49,7 +51,8 @@ export default function PrimaryListItem({
       gap="16p"
       as={Pressable}
       onPress={onPress}
-      style={containerStyle}>
+      style={containerStyle}
+      testID={testID}>
       {icon !== undefined ? cloneElement(icon, { ...iconProps, color: icon.props.color ?? iconColor }) : null}
       <Stack direction="vertical" gap="4p" flex={1}>
         <Stack direction="horizontal" align="center">

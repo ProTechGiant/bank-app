@@ -26,6 +26,7 @@ interface EditSavingsGoalFormProps {
   onClose: () => void;
   data: SavingsPotDetailsResponse;
 }
+
 export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSavingsGoalFormProps) {
   const { t } = useTranslation();
 
@@ -113,6 +114,7 @@ export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSav
           name="GoalName"
           placeholder={t("SavingsGoals.CreateGoalScreen.form.name.placeholder")}
           maxLength={50}
+          testID="SavingsGoals.EditGoalModal:GoalNameInput"
         />
         <CurrencyInput
           control={control}
@@ -120,6 +122,7 @@ export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSav
           label={t("SavingsGoals.CreateGoalScreen.form.amount.label")}
           name="TargetAmount"
           placeholder={t("SavingsGoals.CreateGoalScreen.form.amount.placeholder")}
+          testID="SavingsGoals.EditGoalModal:TargetAmountInput"
           maxLength={10}
         />
         <DatePickerInput
@@ -130,6 +133,7 @@ export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSav
           name="TargetDate"
           buttonText={t("SavingsGoals.CreateGoalScreen.form.targetDate.datePickerButton")}
           minimumDate={new Date()}
+          testID="SavingsGoals.EditGoalModal:TargetAmountInput"
           helperText={currentDate => {
             return differenceInDays(currentDate, new Date()) < 31
               ? t("SavingsGoals.CreateGoalScreen.form.targetDate.helperText")
@@ -141,14 +145,18 @@ export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSav
             label={t("SavingsGoals.EditGoalScreen.notifications.label")}
             helperText={t("SavingsGoals.EditGoalScreen.notifications.helperText")}
             end={<List.End.Toggle onPress={handleOnNotificationToggleSwitch} value={watch("NotificationFlag")} />}
+            testID="SavingsGoals.EditGoalModal:NotificationsActiveInput"
           />
         </List>
       </Stack>
       <View>
-        <SubmitButton control={control} onSubmit={handleSubmit(onSubmit)}>
+        <SubmitButton
+          control={control}
+          onSubmit={handleSubmit(onSubmit)}
+          testID="SavingsGoals.EditGoalModal:SaveButton">
           {t("SavingsGoals.EditGoalScreen.save")}
         </SubmitButton>
-        <Pressable onPress={onClose} style={styles.closeGoal}>
+        <Pressable onPress={onClose} style={styles.closeGoal} testID="SavingsGoals.EditGoalModal:CloseButton">
           <Typography.Text align="center" color="errorBase">
             {t("SavingsGoals.EditGoalScreen.closeGoal")}
           </Typography.Text>
@@ -160,12 +168,16 @@ export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSav
           icon={<TurnOnNotificationsIcon />}
           buttons={{
             primary: (
-              <Button onPress={handleNotificationsAlertAction}>
+              <Button
+                onPress={handleNotificationsAlertAction}
+                testID="SavingsGoals.EditGoalModal:NotificationsActiveButton">
                 {t("SavingsGoals.EditGoalScreen.turnOnNotificationsAlert.alertButtonTurnOn")}
               </Button>
             ),
             secondary: (
-              <Button onPress={() => setIsNotificationToggleOn(current => !current)}>
+              <Button
+                onPress={() => setIsNotificationToggleOn(current => !current)}
+                testID="SavingsGoals.EditGoalModal:NotificationsCancelButton">
                 {t("SavingsGoals.EditGoalScreen.turnOnNotificationsAlert.alertButtonCancel")}
               </Button>
             ),

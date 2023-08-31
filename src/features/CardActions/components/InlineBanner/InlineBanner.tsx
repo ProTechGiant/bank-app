@@ -53,7 +53,7 @@ function InlineBanner({ action, icon, text, title, testID, onClose, variant = "d
         {action}
       </Stack>
       {onClose !== undefined ? (
-        <Pressable onPress={onClose} testID={undefined !== testID ? `${testID}-->CloseButton` : undefined}>
+        <Pressable onPress={onClose} testID={undefined !== testID ? `${testID}-CloseButton` : undefined}>
           <CloseIcon color={iconColor} />
         </Pressable>
       ) : null}

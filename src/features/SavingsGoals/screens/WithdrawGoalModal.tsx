@@ -37,6 +37,7 @@ export default function WithdrawGoalModal() {
     if (route.params.withdrawAmount && data?.AvailableBalanceAmount !== undefined) {
       setValue("PaymentAmount", route.params.withdrawAmount, { shouldValidate: true, shouldDirty: true });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, route.params]);
 
   const validationSchema = useMemo(() => {
@@ -107,10 +108,16 @@ export default function WithdrawGoalModal() {
           withBackButton={false}
           title={t("SavingsGoals.WithdrawModal.title")}
           end={<NavHeader.CloseEndButton onPress={handleOnClose} />}
+          testID="SavingsGoals.WithdrawGoalModal:NavHeader"
         />
         <ContentContainer style={contentContainer}>
-          <LargeCurrencyInput autoFocus control={control} maxLength={10} name="PaymentAmount" />
-
+          <LargeCurrencyInput
+            autoFocus
+            control={control}
+            maxLength={10}
+            name="PaymentAmount"
+            testID="SavingsGoals.WithdrawGoalModal:PaymentAmountInput"
+          />
           <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={keyboardVerticalOffset}>
             <AccountDestination
               destination={t("SavingsGoals.Account.to")}
@@ -118,13 +125,15 @@ export default function WithdrawGoalModal() {
               balance={account.data?.balance || 0}
             />
             <View style={submitButtonStyle}>
-              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+              <SubmitButton
+                control={control}
+                onSubmit={handleSubmit(handleOnSubmit)}
+                testID="SavingsGoals.WithdrawGoalModal:WithdrawButton">
                 {t("SavingsGoals.WithdrawModal.WithdrawButton")}
               </SubmitButton>
             </View>
           </KeyboardAvoidingView>
         </ContentContainer>
-
         <NotificationModal
           buttons={{
             primary: (

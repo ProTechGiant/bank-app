@@ -12,9 +12,17 @@ export interface DataTableListItemProps {
   end?: React.ReactNode;
   onPress?: () => void;
   isError?: boolean;
+  testID?: string;
 }
 
-export default function DataTableListItem({ label, helperText, onPress, isError, end }: DataTableListItemProps) {
+export default function DataTableListItem({
+  label,
+  helperText,
+  onPress,
+  isError,
+  end,
+  testID,
+}: DataTableListItemProps) {
   const variant = useListContext();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -30,7 +38,8 @@ export default function DataTableListItem({ label, helperText, onPress, isError,
       gap="16p"
       as={Pressable}
       onPress={onPress}
-      style={containerStyle}>
+      style={containerStyle}
+      testID={testID}>
       <Stack direction="vertical" gap="4p" flex={1}>
         <Stack direction="horizontal" align="center">
           <Typography.Text

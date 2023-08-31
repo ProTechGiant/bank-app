@@ -44,6 +44,7 @@ export default function Modal({
   visible = false,
   padding = "20p",
   style,
+  testID,
   ...nativeModalProps
 }: ModalProps) {
   const insets = useSafeAreaInsets();
@@ -160,7 +161,10 @@ export default function Modal({
                 </View>
                 <View>
                   {undefined !== onClose && (
-                    <Pressable hitSlop={HIT_SLOP_RIGHT} onPress={onClose}>
+                    <Pressable
+                      hitSlop={HIT_SLOP_RIGHT}
+                      onPress={onClose}
+                      testID={testID !== undefined ? `${testID}-CloseButton` : undefined}>
                       <CloseIcon color={iconColor} />
                     </Pressable>
                   )}

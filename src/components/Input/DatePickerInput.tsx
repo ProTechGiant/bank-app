@@ -16,6 +16,7 @@ export interface DatePickerInputProps {
   label: string;
   minimumDate?: Date;
   placeholder: string;
+  testID?: string;
   value?: Date;
 }
 
@@ -30,6 +31,7 @@ export function DatePickerInput({
   placeholder,
   minimumDate,
   format: format_ = "d MMM yyyy",
+  testID,
   value,
 }: DatePickerInputProps) {
   const [isVisible, setIsVisible] = useState(false);
@@ -101,6 +103,7 @@ export function DatePickerInput({
         helperText={finalHelperText}
         isError={errorText !== undefined}
         end={<List.End.Date format={format_} placeholder={placeholder} value={value} />}
+        testID={testID !== undefined ? `${testID}-DatePickerButton` : undefined}
       />
       {Platform.OS === "ios" ? (
         <DatePickerIOS
@@ -113,6 +116,7 @@ export function DatePickerInput({
           onConfirm={handleOnConfirmIOS}
           helperText={resolvedHelperText}
           value={selectedValue ?? new Date()}
+          testID={testID !== undefined ? `${testID}-DatePicker` : undefined}
         />
       ) : null}
     </List>

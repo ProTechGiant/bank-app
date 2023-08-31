@@ -9,9 +9,10 @@ interface GoalHeaderProps {
   transactionName: string;
   goalName?: string;
   amount: string;
+  testID?: string;
 }
 
-export default function GoalHeader({ transactionName, goalName, amount }: GoalHeaderProps) {
+export default function GoalHeader({ transactionName, goalName, amount, testID }: GoalHeaderProps) {
   const headerContainer = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     padding: theme.spacing["20p"],
@@ -20,7 +21,7 @@ export default function GoalHeader({ transactionName, goalName, amount }: GoalHe
   }));
 
   return (
-    <View style={headerContainer}>
+    <View style={headerContainer} testID={testID}>
       <View>
         <Typography.Text color="neutralBase-50" size="title3" weight="bold">
           {transactionName}

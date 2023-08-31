@@ -17,6 +17,7 @@ interface ToggleProps {
   disabled?: boolean;
   onPress: () => void;
   value: boolean;
+  testID?: string;
 }
 
 export function Chevron() {
@@ -99,6 +100,6 @@ export function Day({ placeholder, value }: { placeholder?: string; value: numbe
   );
 }
 
-export function Toggle({ disabled = false, onPress, value }: ToggleProps) {
-  return <ToggleComponent disabled={disabled} onPress={onPress} value={value} />;
+export function Toggle({ disabled = false, onPress, value, testID }: ToggleProps) {
+  return <ToggleComponent disabled={disabled} onPress={onPress} value={value} testID={testID} />;
 }

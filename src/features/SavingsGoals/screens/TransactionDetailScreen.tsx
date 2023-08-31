@@ -28,17 +28,6 @@ export default function TransactionDetailScreen() {
   const cardId = route.params.cardId;
   const createDisputeUserId = route.params.createDisputeUserId;
 
-  // Function to update the header title
-  const updateHeaderTitle = (isoDate: number[]) => {
-    const [year, month, day, hours, minutes] = isoDate;
-
-    navigation.setOptions({
-      title: format(new Date(year, month - 1, day, hours ?? 0, minutes ?? 0), "EEE d MMM',' HH:mm", {
-        locale: enUS,
-      }),
-    });
-  };
-
   const handleOnReportTransactionPress = () => {
     navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
       screen: "PaymentDisputes.PaymentDisputeScreen",
@@ -51,10 +40,16 @@ export default function TransactionDetailScreen() {
   };
 
   useEffect(() => {
-    if (isFocused) {
-      updateHeaderTitle(data?.TransactionDate);
+    if (isFocused && data !== undefined) {
+      const [year, month, day, hours, minutes] = data.TransactionDate;
+
+      navigation.setOptions({
+        title: format(new Date(year, month - 1, day, hours ?? 0, minutes ?? 0), "EEE d MMM',' HH:mm", {
+          locale: enUS,
+        }),
+      });
     }
-  }, [isFocused]);
+  }, [data, navigation, isFocused]);
 
   return (
     <Page insets={["bottom", "left", "right"]}>
@@ -62,6 +57,7 @@ export default function TransactionDetailScreen() {
         transactionName={data.TransactionName}
         goalName={savingsPotData?.GoalName}
         amount={data.TransactionAmount}
+        testID="SavingsGoals.TransactionDetailScreen:NavHeader"
       />
       <ContentContainer>
         <DetailedRow
@@ -72,9 +68,14 @@ export default function TransactionDetailScreen() {
           <DetailedRow
             name={t("ViewTransactions.SingleTransactionDetailedScreen.paidTo")}
             value={t("ViewTransactions.SingleTransactionDetailedScreen.mainAccount")}
+            testID="SavingsGoals.TransactionDetailScreen:WithdrawalRow"
           />
         ) : data.TransactionName === "Round-up" ? (
-          <DetailedRow name={t("ViewTransactions.SingleTransactionDetailedScreen.category")} value={data.Category} />
+          <DetailedRow
+            name={t("ViewTransactions.SingleTransactionDetailedScreen.category")}
+            value={data.Category}
+            testID="SavingsGoals.TransactionDetailScreen:RoundUpRow"
+          />
         ) : null}
 
         <View style={styles.detailedButton}>

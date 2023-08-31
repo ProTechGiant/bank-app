@@ -145,11 +145,7 @@ export default function GoalDetailsScreen() {
   };
 
   const handleOnSeeAllTransactions = () => {
-    navigation.navigate("SavingsGoals.AllTransactionsScreen", {
-      goalName: savingsPotData?.GoalName,
-      availableBalanceAmount: savingsPotData?.AvailableBalanceAmount,
-      PotId: PotId,
-    });
+    navigation.navigate("SavingsGoals.AllTransactionsScreen", { PotId });
   };
 
   const handleOnToggleRoundUps = async () => {
@@ -246,7 +242,8 @@ export default function GoalDetailsScreen() {
         title={savingsPotData?.GoalName}
         variant="angled"
         end={<NavHeader.IconEndButton icon={<EditIcon />} onPress={handleOnEdit} />}
-        backgroundAngledColor={backgroundBottomColor}>
+        backgroundAngledColor={backgroundBottomColor}
+        testID="SavingsGoals.GoalDetailsScreen:NavHeader">
         <View style={headerContentStyle}>
           <ProgressWheel
             circleSize={120}
@@ -257,7 +254,10 @@ export default function GoalDetailsScreen() {
             bigCheckIcon={true}
           />
           <View style={goalAmountStyle}>
-            <Typography.Header size="xxlarge" weight="medium">
+            <Typography.Header
+              size="xxlarge"
+              weight="medium"
+              testID="SavingsGoals.GoalDetailsScreen:AvailableBalanceAmount">
               {formatCurrency(Number(savingsPotData?.AvailableBalanceAmount ?? 0))}
             </Typography.Header>
             <Typography.Text size="title3" weight="medium" style={styles.currency}>
@@ -265,12 +265,16 @@ export default function GoalDetailsScreen() {
             </Typography.Text>
           </View>
           <Stack align="center" direction="vertical" gap="24p" style={headerProgressInfoStyle}>
-            <Typography.Text size="callout" align="center">
+            <Typography.Text size="callout" align="center" testID="SavingsGoals.GoalDetailsScreen:TargetAmount">
               {t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.targetAmountDetails", {
                 TargetAmount: formatCurrency(Number(savingsPotData?.TargetAmount ?? 0)),
               })}
             </Typography.Text>
-            <Typography.Text size="footnote" color="neutralBase+20" align="center">
+            <Typography.Text
+              size="footnote"
+              color="neutralBase+20"
+              align="center"
+              testID="SavingsGoals.GoalDetailsScreen:TargetDate">
               {savingsPotData?.TargetDate !== undefined
                 ? t("SavingsGoals.GoalDetailsScreen.GoalDetailsHeader.targetDate", {
                     TargetDate: format(new Date(savingsPotData?.TargetDate), "d MMM yyyy"),
@@ -280,12 +284,20 @@ export default function GoalDetailsScreen() {
           </Stack>
           <Stack direction="horizontal" gap="12p" justify="space-between">
             <View style={styles.button}>
-              <Button onPress={handleOnOpenWithdraw} variant="secondary" iconLeft={<WithdrawIcon />}>
+              <Button
+                onPress={handleOnOpenWithdraw}
+                variant="secondary"
+                iconLeft={<WithdrawIcon />}
+                testID="SavingsGoals.GoalDetailsScreen:WithdrawButton">
                 {t("SavingsGoals.GoalDetailsScreen.ActionButtons.withdrawButton")}
               </Button>
             </View>
             <View style={styles.button}>
-              <Button variant="primary" onPress={handleOnOpenFunding} iconLeft={<PlusIcon />}>
+              <Button
+                variant="primary"
+                onPress={handleOnOpenFunding}
+                iconLeft={<PlusIcon />}
+                testID="SavingsGoals.GoalDetailsScreen:AddMoneyButton">
                 {t("SavingsGoals.GoalDetailsScreen.ActionButtons.addMoneyButton")}
               </Button>
             </View>
@@ -305,7 +317,13 @@ export default function GoalDetailsScreen() {
                 icon={<ArrowCircleUpIcon />}
                 onMoreInfoPress={handleOnShowRoundupsInfoModal}
                 label={t("SavingsGoals.GoalDetailsScreen.RoundUp")}
-                end={<List.End.Toggle onPress={handleOnToggleRoundUps} value={isRoundUpsOn} />}
+                end={
+                  <List.End.Toggle
+                    onPress={handleOnToggleRoundUps}
+                    value={isRoundUpsOn}
+                    testID="SavingsGoals.GoalDetailsScreen:SwitchRoundUpToggle"
+                  />
+                }
               />
               {recurringFundData !== undefined ? (
                 <List.Item.Primary
@@ -339,7 +357,9 @@ export default function GoalDetailsScreen() {
                 {t("SavingsGoals.GoalDetailsScreen.Transactions.title")}
               </Typography.Text>
               {recentTransactions.length > 0 ? (
-                <Pressable onPress={handleOnSeeAllTransactions}>
+                <Pressable
+                  onPress={handleOnSeeAllTransactions}
+                  testID="SavingsGoals.GoalDetailsScreen:TransactionsButton">
                   <Typography.Text size="callout" weight="medium" color="primaryBase">
                     {t("SavingsGoals.GoalDetailsScreen.Transactions.seeAll")}
                   </Typography.Text>
@@ -369,12 +389,14 @@ export default function GoalDetailsScreen() {
           isVisible={showGoalAlmostReachedNotification}
           buttons={{
             primary: (
-              <Button onPress={handleWithdrawAnyway}>
+              <Button onPress={handleWithdrawAnyway} testID="SavingsGoals.GoalDetailsScreen:WithdrawAnywayButton">
                 {t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.withdrawButton")}
               </Button>
             ),
             secondary: (
-              <Button onPress={() => setShowGoalAlmostReachedNotification(current => !current)}>
+              <Button
+                onPress={() => setShowGoalAlmostReachedNotification(current => !current)}
+                testID="SavingsGoals.GoalDetailsScreen:DontWithdrawButton">
                 {t("SavingsGoals.GoalDetailsScreen.GoalAlmostReachedModal.cancelButton")}
               </Button>
             ),
@@ -390,12 +412,14 @@ export default function GoalDetailsScreen() {
         isVisible={isSwitchRoundupsModalVisible}
         buttons={{
           primary: (
-            <Button onPress={handleOnSwitchRoundUpButton}>
+            <Button onPress={handleOnSwitchRoundUpButton} testID="SavingsGoals.GoalDetailsScreen:SwitchRoundUpButton">
               {t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.switchRoundUpButton")}
             </Button>
           ),
           secondary: (
-            <Button onPress={() => setIsSwitchRoundupsModalVisible(current => !current)}>
+            <Button
+              onPress={() => setIsSwitchRoundupsModalVisible(current => !current)}
+              testID="SavingsGoals.GoalDetailsScreen:CancelRoundUpButton">
               {t("SavingsGoals.GoalDetailsScreen.RoundUpAlreadyActiveModal.cancelButton")}
             </Button>
           ),

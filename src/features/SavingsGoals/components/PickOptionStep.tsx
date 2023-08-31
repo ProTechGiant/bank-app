@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { LightningBoltIcon, RecurringEventIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -40,8 +40,12 @@ export default function PickOptionStep({
 
   return (
     <>
-      <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={onCancelPress} />} />
-      <ContentContainer style={{ justifyContent: "space-between" }}>
+      <NavHeader
+        withBackButton={false}
+        end={<NavHeader.CloseEndButton onPress={onCancelPress} />}
+        testID="SavingsGoals.FundGoalModal:NavHeader-PickOptionStep"
+      />
+      <ContentContainer style={styles.container}>
         <View>
           <Typography.Text size="large" weight="bold" style={titleStyle}>
             {t("SavingsGoals.FundGoalModal.PickFundingMethodStep.title")}
@@ -62,6 +66,7 @@ export default function PickOptionStep({
                   label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.recommended.amount", {
                     amount: recommendedAmount?.toLocaleString("en-US", { style: "decimal" }),
                   })}
+                  testID="SavingsGoals.FundGoalModal:SelectRecommendedAmountButton"
                 />
               </List>
             </View>
@@ -76,22 +81,28 @@ export default function PickOptionStep({
                 onPress={onRecurringPaymentsPress}
                 icon={<RecurringEventIcon />}
                 label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.regularPayments")}
+                testID="SavingsGoals.FundGoalModal:RecurringPaymentsButton"
               />
               <List.Item.Primary
                 end={<List.End.Chevron />}
                 onPress={onOneOffPaymentPress}
                 icon={<LightningBoltIcon />}
                 label={t("SavingsGoals.FundGoalModal.PickFundingMethodStep.custom.oneOffPayment")}
+                testID="SavingsGoals.FundGoalModal:OneOffPaymentButton"
               />
             </List>
           </View>
         </View>
-        <View>
-          <Button variant="tertiary" onPress={onCancelPress}>
-            {t("SavingsGoals.FundGoalModal.PickFundingMethodStep.notNow")}
-          </Button>
-        </View>
+        <Button variant="tertiary" onPress={onCancelPress} testID="SavingsGoals.FundGoalModal:CancelButton">
+          {t("SavingsGoals.FundGoalModal.PickFundingMethodStep.notNow")}
+        </Button>
       </ContentContainer>
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: "space-between",
+  },
+});

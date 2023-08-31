@@ -58,6 +58,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### ios tag_build_git
+
+```sh
+[bundle exec] fastlane ios tag_build_git
+```
+
+
+
 ### ios install_signing
 
 ```sh
@@ -103,6 +111,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### android tag_build_git
+
+```sh
+[bundle exec] fastlane android tag_build_git
+```
+
+
+
 ### android build
 
 ```sh
@@ -115,6 +131,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ```sh
 [bundle exec] fastlane android deploy_appcenter
+```
+
+
+
+### android upload_browserstack
+
+```sh
+[bundle exec] fastlane android upload_browserstack
 ```
 
 

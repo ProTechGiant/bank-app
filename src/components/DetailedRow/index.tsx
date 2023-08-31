@@ -10,9 +10,10 @@ interface DetailedRowProps {
   roundup?: boolean;
   openModel?: (arg: boolean) => void;
   showIcon?: boolean;
+  testID?: string;
 }
 
-export default function DetailedRow({ name, openModel, value, roundup, showIcon }: DetailedRowProps) {
+export default function DetailedRow({ name, openModel, value, roundup, showIcon, testID }: DetailedRowProps) {
   const row = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "space-between",
     flexDirection: "row",
@@ -32,7 +33,7 @@ export default function DetailedRow({ name, openModel, value, roundup, showIcon 
   const infoColor = useThemeStyles(theme => theme.palette["neutralBase-10"]);
 
   return (
-    <View style={row}>
+    <View style={row} testID={testID}>
       <Typography.Text style={rowTitle} size="callout" weight="medium" color="neutralBase+30">
         {name}
       </Typography.Text>

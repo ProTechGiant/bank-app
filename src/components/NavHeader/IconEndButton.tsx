@@ -10,9 +10,16 @@ export interface IconEndButtonProps {
   onPress: () => void;
   icon: React.ReactElement<SvgProps | IconProps>;
   hasBackground?: boolean;
+  testID?: string;
 }
 
-export default function IconEndButton({ color = "primaryBase-10", onPress, icon, hasBackground }: IconEndButtonProps) {
+export default function IconEndButton({
+  color = "primaryBase-10",
+  onPress,
+  icon,
+  hasBackground,
+  testID,
+}: IconEndButtonProps) {
   const { iconColor } = useThemeStyles(
     theme => ({
       iconColor: theme.palette[color],
@@ -34,7 +41,8 @@ export default function IconEndButton({ color = "primaryBase-10", onPress, icon,
         { transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }] },
         styles.container,
         hasBackground === true ? iconBackgroundStyle : undefined,
-      ]}>
+      ]}
+      testID={testID !== undefined ? `${testID}-IconButton` : undefined}>
       {cloneElement(icon, {
         height: 18,
         width: 18,

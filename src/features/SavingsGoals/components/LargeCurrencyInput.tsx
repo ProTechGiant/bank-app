@@ -10,11 +10,12 @@ import { useThemeStyles } from "@/theme";
 interface LargeCurrencyInputProps<T extends FieldValues> {
   autoFocus?: boolean;
   control: Control<T>;
-  helperText?: string | ((value: number) => string | undefined) | Element;
+  helperText?: string | ((value: number) => string | undefined);
   maxLength?: number;
   name: Path<T>;
   returnKeyType?: ReturnKeyTypeOptions;
   isAmountExceedsBalance?: boolean;
+  testID?: string;
 }
 
 export default function LargeCurrencyInput<T extends FieldValues>({
@@ -25,6 +26,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
   name,
   returnKeyType,
   isAmountExceedsBalance = false,
+  testID,
 }: LargeCurrencyInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
   const textInputRef = useRef<TextInput>(null);
@@ -126,6 +128,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
             fontSize === "s" ? styles.smallText : fontSize === "m" ? styles.mediumText : styles.largeText,
             !field.value && fieldState.error === undefined && styles.disabledOpacity,
           ]}
+          testID={testID}
           value={field.value}
         />
         <View style={styles.buttonContainer}>

@@ -15,9 +15,10 @@ interface GoalCardProps {
   totalAmount: number;
   date: string;
   onPress: () => void;
+  testID?: string;
 }
 
-export default function GoalCard({ title, amountSaved, totalAmount, date, onPress }: GoalCardProps) {
+export default function GoalCard({ title, amountSaved, totalAmount, date, onPress, testID }: GoalCardProps) {
   const { t } = useTranslation();
 
   const isGoalCompleted = amountSaved >= totalAmount;
@@ -61,23 +62,39 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
   );
 
   return (
-    <Pressable onPress={onPress} style={containerStyle}>
+    <Pressable
+      onPress={onPress}
+      style={containerStyle}
+      testID={testID !== undefined ? `${testID}:GoalCard->${title}` : undefined}>
       <View style={detailsContainerStyle}>
-        <Typography.Text color="neutralBase+30" size="title3" weight="bold" style={goalTitleStyle}>
+        <Typography.Text
+          color="neutralBase+30"
+          size="title3"
+          weight="bold"
+          style={goalTitleStyle}
+          testID={testID !== undefined ? `${testID}:GoalCard->${title}->Title` : undefined}>
           {title}
         </Typography.Text>
-        <Typography.Text size="footnote" weight="regular" color="neutralBase+30">
+        <Typography.Text
+          size="footnote"
+          weight="regular"
+          color="neutralBase+30"
+          testID={testID !== undefined ? `${testID}:GoalCard-${title}->amount` : undefined}>
           {t("SavingsGoals.SavingsGoalsScreen.goalCard.amount", {
             amountSaved: formatCurrency(Number(amountSaved)),
             totalAmount: formatCurrency(Number(totalAmount)),
           })}
         </Typography.Text>
-        <Typography.Text color="neutralBase" size="caption2" weight="regular">
+        <Typography.Text
+          color="neutralBase"
+          size="caption2"
+          weight="regular"
+          testID={testID !== undefined ? `${testID}:GoalCard-${title}->date` : undefined}>
           {format(new Date(date), "d MMM yyyy")}
         </Typography.Text>
       </View>
       <View style={progressContainerStyle}>
-        <View style={styles.AngledBorderStyle}>
+        <View style={styles.angledBorderStyle}>
           <GoalAngledBorder color={angledBorderColor} />
         </View>
 
@@ -88,7 +105,7 @@ export default function GoalCard({ title, amountSaved, totalAmount, date, onPres
 }
 
 const styles = StyleSheet.create({
-  AngledBorderStyle: {
+  angledBorderStyle: {
     left: -24,
     position: "absolute",
   },

@@ -80,7 +80,7 @@ export function ConfirmPasscodeScreen() {
       <NavHeader
         withBackButton={true}
         title={t("Onboarding.ConfirmPasscode.navHeaderTitle")}
-        testID="Onboarding.ConfirmPasscodeScreen:NavTitle">
+        testID="Onboarding.ConfirmPasscodeScreen:NavHeader">
         <ProgressIndicator currentStep={5} totalStep={6} />
       </NavHeader>
       <ContentContainer>

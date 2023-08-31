@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { compareAsc } from "date-fns";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, View, ViewStyle } from "react-native";
+import { Alert, ViewStyle } from "react-native";
 
 import { PlusIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -70,35 +70,37 @@ export default function SavingsGoalsScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-      <NavHeader onBackPress={handleOnBack} variant="angled">
+      <NavHeader onBackPress={handleOnBack} variant="angled" testID="SavingsGoals.SavingsGoalsScreen:NavHeader">
         <NavHeader.BoldTitle>{t("SavingsGoals.SavingsGoalsScreen.title")}</NavHeader.BoldTitle>
       </NavHeader>
       <ContentContainer isScrollView style={contentContainerStyle}>
-        <Stack direction="vertical" gap="16p" align="stretch">
-          <View>
-            <Stack align="stretch" direction="vertical" gap="16p">
-              {savingsGoals.map(element => (
-                <GoalCard
-                  key={element.PotId}
-                  title={element.GoalName}
-                  amountSaved={Number(element.AvailableBalanceAmount)}
-                  totalAmount={Number(element.TargetAmount)}
-                  date={element.TargetDate}
-                  onPress={() => handleOnPress(element.PotId)}
-                />
-              ))}
-              {data !== undefined && savingsGoals.length <= MAX_GOALS - 1 ? (
-                <Stack direction="vertical" align="center" gap="24p">
-                  <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                    {t("SavingsGoals.SavingsGoalsScreen.instructionText")}
-                  </Typography.Text>
-                  <Button onPress={handleOnCreateGoal} iconLeft={<PlusIcon />} variant="secondary" size="small">
-                    {t("SavingsGoals.SavingsGoalsScreen.button")}
-                  </Button>
-                </Stack>
-              ) : null}
+        <Stack align="stretch" direction="vertical" gap="16p" testID="SavingsGoals.SavingsGoalsScreen:SavingsGoalsList">
+          {savingsGoals.map(element => (
+            <GoalCard
+              key={element.PotId}
+              title={element.GoalName}
+              amountSaved={Number(element.AvailableBalanceAmount)}
+              totalAmount={Number(element.TargetAmount)}
+              date={element.TargetDate}
+              onPress={() => handleOnPress(element.PotId)}
+              testID="SavingsGoals.SavingsGoalsScreen"
+            />
+          ))}
+          {data !== undefined && savingsGoals.length <= MAX_GOALS - 1 ? (
+            <Stack direction="vertical" align="center" gap="24p">
+              <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                {t("SavingsGoals.SavingsGoalsScreen.instructionText")}
+              </Typography.Text>
+              <Button
+                onPress={handleOnCreateGoal}
+                iconLeft={<PlusIcon />}
+                variant="secondary"
+                size="small"
+                testID="SavingsGoals.SavingsGoalsScreen:CreateButton">
+                {t("SavingsGoals.SavingsGoalsScreen.button")}
+              </Button>
             </Stack>
-          </View>
+          ) : null}
         </Stack>
       </ContentContainer>
     </Page>

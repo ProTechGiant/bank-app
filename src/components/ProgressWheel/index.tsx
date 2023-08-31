@@ -13,6 +13,7 @@ interface ProgressWheelProps {
   textSize?: keyof Theme["typography"]["text"]["sizes"];
   bigCheckIcon?: boolean;
   isbudgetProgress?: boolean;
+  testID?: string;
 }
 
 export default function ProgressWheel({
@@ -23,13 +24,12 @@ export default function ProgressWheel({
   textSize,
   bigCheckIcon,
   isbudgetProgress,
+  testID,
 }: ProgressWheelProps) {
   const strokeBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   const strokeProgressColor = useThemeStyles<string>(theme => theme.palette.primaryBase);
 
-  const checkIconStyle = useThemeStyles(theme => ({
-    color: theme.palette["neutralBase+30"],
-  }));
+  const checkIconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   const STROKE_WIDTH = 6;
   const RADIUS = (circleSize - STROKE_WIDTH) / 2;
@@ -37,9 +37,7 @@ export default function ProgressWheel({
   const progressPercentage = (current / total) * 100;
 
   // this is needed to fill the progress wheel when the goal balance its more than the goal target
-
   const progress = Math.max(100 - progressPercentage, 0);
-
   const strokeWidth = STROKE_WIDTH;
 
   return (
@@ -75,13 +73,16 @@ export default function ProgressWheel({
             !
           </Typography.Text>
         ) : progressPercentage >= 100 ? (
-          bigCheckIcon ? (
-            <BigCheckIcon color={checkIconStyle.color} />
-          ) : (
-            <CheckIcon color={checkIconStyle.color} />
-          )
+          <View testID={testID !== undefined ? `${testID}-Checkmark` : undefined}>
+            {bigCheckIcon ? <BigCheckIcon color={checkIconColor} /> : <CheckIcon color={checkIconColor} />}
+          </View>
         ) : (
-          <Typography.Text align="center" weight="medium" size={textSize} color={textColor}>
+          <Typography.Text
+            align="center"
+            weight="medium"
+            size={textSize}
+            color={textColor}
+            testID={testID !== undefined ? `${testID}-Percentage` : undefined}>
             {progressPercentage.toFixed(0)}%
           </Typography.Text>
         )}

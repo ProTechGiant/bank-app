@@ -9,9 +9,16 @@ export interface TextEndButtonProps {
   onPress: () => void;
   text: string;
   hasBackground?: boolean;
+  testID?: string;
 }
 
-export default function TextEndButton({ color = "primaryBase-10", onPress, text, hasBackground }: TextEndButtonProps) {
+export default function TextEndButton({
+  color = "primaryBase-10",
+  onPress,
+  text,
+  hasBackground,
+  testID,
+}: TextEndButtonProps) {
   const iconBackgroundStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
     opacity: 0.6,
@@ -19,7 +26,10 @@ export default function TextEndButton({ color = "primaryBase-10", onPress, text,
   }));
 
   return (
-    <Pressable onPress={onPress} style={[styles.container, hasBackground === true ? iconBackgroundStyle : undefined]}>
+    <Pressable
+      onPress={onPress}
+      style={[styles.container, hasBackground === true ? iconBackgroundStyle : undefined]}
+      testID={testID !== undefined ? `${testID}-TextButton` : undefined}>
       <Typography.Text color={color}>{text}</Typography.Text>
     </Pressable>
   );

@@ -22,6 +22,7 @@ interface NotificationModalProps {
   title: string;
   variant: "success" | "error" | "warning" | "confirmations";
   icon?: React.ReactElement<SvgProps | IconProps>;
+  testID?: string;
 }
 
 const VARIANT_ICONS = {
@@ -36,6 +37,7 @@ export default function NotificationModal({
   onClose,
   message,
   isVisible,
+  testID,
   title,
   variant,
   icon,
@@ -76,7 +78,7 @@ export default function NotificationModal({
   }));
 
   return (
-    <Modal visible={isVisible} style={modalStyle} onClose={onClose} padding="24p">
+    <Modal visible={isVisible} style={modalStyle} onClose={onClose} padding="24p" testID={testID}>
       <View style={[containerStyle, onClose !== undefined && containerWithButtonStyle]}>
         {variant !== "confirmations" ? (
           <View>{cloneElement(VARIANT_ICONS[variant], variantIconStyles)}</View>

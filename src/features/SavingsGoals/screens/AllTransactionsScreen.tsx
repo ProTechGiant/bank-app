@@ -101,10 +101,14 @@ export default function AllTransactionsScreen() {
   }));
 
   return (
-    <Page insets={["left", "right"]}>
+    <Page insets={["left", "right", "bottom"]}>
       <StatusBar barStyle="light-content" backgroundColor={palette.primaryBase} translucent />
       <SafeAreaView edges={["top"]} style={styles.header}>
-        <NavHeader onBackPress={handleOnBackPress} title={savingsPotData?.GoalName} />
+        <NavHeader
+          onBackPress={handleOnBackPress}
+          title={savingsPotData?.GoalName}
+          testID="SavingsGoals.AllTransactionsScreen:NavHeader"
+        />
         <View style={headerStyle}>
           <View>
             <Typography.Text style={balanceStyle} size="footnote" weight="regular" color="primaryBase-40">
@@ -138,7 +142,7 @@ export default function AllTransactionsScreen() {
               0
             );
             return (
-              <View>
+              <View testID={`SavingsGoals.AllTransactionsScreen:TransactionItem-${item.Key}`}>
                 <View style={firstRowStyle}>
                   <Typography.Text color="neutralBase" size="callout" weight="semiBold">
                     {formatDate(new Date(item.Value))}

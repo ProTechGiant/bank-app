@@ -15,6 +15,7 @@ interface DayPickerProps {
   headerText?: string;
   helperText?: string;
   isVisible: boolean;
+  testID?: string;
   value: number;
 }
 
@@ -26,6 +27,7 @@ export default function DayPicker({
   headerText,
   helperText,
   isVisible,
+  testID,
   value,
 }: DayPickerProps) {
   const { t } = useTranslation();
@@ -60,7 +62,7 @@ export default function DayPicker({
   }));
 
   return (
-    <Modal onClose={onClose} headerText={headerText} visible={isVisible} style={modalContainerStyle}>
+    <Modal onClose={onClose} headerText={headerText} visible={isVisible} style={modalContainerStyle} testID={testID}>
       <View style={containerStyles}>
         <Typography.Text color="neutralBase+30" size="callout" weight="medium" style={paddingStyle}>
           {t("DayPicker.currentlyOnDay", { count: value, ordinal: true })}
@@ -80,7 +82,8 @@ export default function DayPicker({
                   <Pressable
                     key={dayOfMonth}
                     onPress={() => onChange(dayOfMonth)}
-                    style={[styles.digit, isSelected && digitSelectedStyle]}>
+                    style={[styles.digit, isSelected && digitSelectedStyle]}
+                    testID={testID !== undefined ? `${testID}-DayButton-${dayOfMonth}` : undefined}>
                     <Typography.Text
                       color={isSelected ? "neutralBase-50" : "neutralBase+30"}
                       size="title3"
@@ -101,7 +104,9 @@ export default function DayPicker({
           </Typography.Text>
         )}
       </View>
-      <Button onPress={onConfirm}>{buttonText}</Button>
+      <Button onPress={onConfirm} testID={testID !== undefined ? `${testID}-ConfirmButton` : undefined}>
+        {buttonText}
+      </Button>
     </Modal>
   );
 }

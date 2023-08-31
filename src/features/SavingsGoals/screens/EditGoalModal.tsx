@@ -38,6 +38,7 @@ export default function EditGoalModal() {
       await removeGoal.mutateAsync({
         PotId: data.PotId,
       });
+
       navigation.navigate("SavingsGoals.SavingsGoalsScreen", {
         isGoalRemoved: true,
       });
@@ -97,6 +98,7 @@ export default function EditGoalModal() {
           withBackButton={false}
           title={t("SavingsGoals.EditModal.title")}
           end={<NavHeader.CloseEndButton onPress={handleOnCloseModal} />}
+          testID="SavingsGoals.EditGoalModal:NavHeader"
         />
         {data !== undefined ? (
           <EditSavingsGoalForm data={data} onSubmit={handleOnSubmit} onClose={handleOnClose} />
@@ -104,10 +106,14 @@ export default function EditGoalModal() {
         <NotificationModal
           buttons={{
             primary: (
-              <Button onPress={handleOnContinue}>{t("SavingsGoals.EditGoalScreen.modal.buttons.confirm")}</Button>
+              <Button onPress={handleOnContinue} testID="SavingsGoals.EditGoalModal:ConfirmButton">
+                {t("SavingsGoals.EditGoalScreen.modal.buttons.confirm")}
+              </Button>
             ),
             secondary: (
-              <Button onPress={handleOnCancel}> {t("SavingsGoals.EditGoalScreen.modal.buttons.cancel")}</Button>
+              <Button onPress={handleOnCancel} testID="SavingsGoals.EditGoalModal:CancelButton">
+                {t("SavingsGoals.EditGoalScreen.modal.buttons.cancel")}
+              </Button>
             ),
           }}
           title={t("SavingsGoals.EditGoalScreen.modal.title")}

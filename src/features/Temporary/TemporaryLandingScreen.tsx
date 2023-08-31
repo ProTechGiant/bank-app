@@ -269,7 +269,9 @@ export default function TemporaryLandingScreen() {
           <Button onPress={handleSubmit(handleOnOpenInternalTransfers)}>Internal Transfers</Button>
         </View>
         <View style={styles.margin20}>
-          <Button onPress={handleSubmit(handleOnSubmit)}>Savings Goals</Button>
+          <Button onPress={handleSubmit(handleOnSubmit)} testID="TemporaryLandingScreen:SavingsGoalsButton">
+            Savings Goals
+          </Button>
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnOpenApplyForCard)}>Order Card</Button>

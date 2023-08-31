@@ -15,6 +15,7 @@ interface DatePickerIOSProps {
   helperText?: string | false;
   isVisible: boolean;
   minimumDate?: Date;
+  testID?: string;
   value: Date;
 }
 
@@ -27,6 +28,7 @@ export default function DatePickerIOS({
   helperText,
   isVisible,
   value,
+  testID,
   minimumDate,
 }: DatePickerIOSProps) {
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
@@ -52,6 +54,7 @@ export default function DatePickerIOS({
           onChange={(_event, date) => onChange(date as Date)}
           minimumDate={minimumDate}
           value={value}
+          testID={testID}
         />
       </View>
       <View style={helperTextContainerStyle}>
@@ -61,7 +64,9 @@ export default function DatePickerIOS({
           </Typography.Text>
         ) : null}
       </View>
-      <Button onPress={() => onConfirm()}>{buttonText}</Button>
+      <Button onPress={() => onConfirm()} testID={testID !== undefined ? `${testID}ConfirmButton` : undefined}>
+        {buttonText}
+      </Button>
     </Modal>
   );
 }

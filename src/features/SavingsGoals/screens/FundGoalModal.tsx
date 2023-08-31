@@ -57,32 +57,30 @@ export default function FundGoalModal() {
   // TODO: once provided, please update accordingly.
 
   return (
-    <>
-      <SafeAreaProvider>
-        <Page>
-          {currentStep === "pick-funding-method" ? (
-            <PickOptionStep
-              onCancelPress={handleOnComplete}
-              onOneOffPaymentPress={() => setCurrentStep("one-off-payment")}
-              onRecommendedPaymentPress={() => setCurrentStep("recommended-payment")}
-              onRecurringPaymentsPress={() => setCurrentStep("recurring-payments")}
-              recommendedAmount={mockMissingSavingsPotDetails.RecommendedAmount}
-            />
-          ) : (
-            <FundingStep
-              // reset component state after the `onContinueWith<xxxx>` are called
-              key={currentStep}
-              data={data}
-              fundingType={currentStep}
-              onBackPress={handleOnBackPress}
-              onClosePress={handleOnClose}
-              onCompletePress={handleOnComplete}
-              onContinueWithOneTimePaymentPress={() => setCurrentStep("one-off-payment")}
-              onContinueWithRecurringPaymentsPress={() => setCurrentStep("recurring-payments")}
-            />
-          )}
-        </Page>
-      </SafeAreaProvider>
-    </>
+    <SafeAreaProvider>
+      <Page>
+        {currentStep === "pick-funding-method" ? (
+          <PickOptionStep
+            onCancelPress={handleOnComplete}
+            onOneOffPaymentPress={() => setCurrentStep("one-off-payment")}
+            onRecommendedPaymentPress={() => setCurrentStep("recommended-payment")}
+            onRecurringPaymentsPress={() => setCurrentStep("recurring-payments")}
+            recommendedAmount={mockMissingSavingsPotDetails.RecommendedAmount}
+          />
+        ) : (
+          <FundingStep
+            // reset component state after the `onContinueWith<xxxx>` are called
+            key={currentStep}
+            data={data}
+            fundingType={currentStep}
+            onBackPress={handleOnBackPress}
+            onClosePress={handleOnClose}
+            onCompletePress={handleOnComplete}
+            onContinueWithOneTimePaymentPress={() => setCurrentStep("one-off-payment")}
+            onContinueWithRecurringPaymentsPress={() => setCurrentStep("recurring-payments")}
+          />
+        )}
+      </Page>
+    </SafeAreaProvider>
   );
 }

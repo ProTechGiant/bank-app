@@ -161,6 +161,7 @@ export default function FundingStep({
         withBackButton
         title={t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.title`)}
         end={<NavHeader.CloseEndButton onPress={onClosePress} />}
+        testID="SavingsGoals.FundGoalModal:NavHeader-FundingStep"
       />
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
         <ContentContainer style={styles.content}>
@@ -174,6 +175,7 @@ export default function FundingStep({
             }}
             maxLength={10}
             name="PaymentAmount"
+            testID="SavingsGoals.FundGoalModal:CurrencyInput"
           />
           <Stack align="stretch" direction="vertical" gap="16p">
             {fundingType !== "one-off-payment" && (
@@ -201,6 +203,7 @@ export default function FundingStep({
                 label={t("SavingsGoals.FundGoalModal.FundingStep.monthly")}
                 name="DayOfMonth"
                 placeholder={t("SavingsGoals.FundGoalModal.FundingStep.dayPickerPlaceholder")}
+                testID="SavingsGoals.FundGoalModal:DayPickerInput"
               />
             )}
             {undefined !== data && (
@@ -211,7 +214,10 @@ export default function FundingStep({
               />
             )}
             <View style={buttonSpaceStyle}>
-              <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+              <SubmitButton
+                control={control}
+                onSubmit={handleSubmit(handleOnSubmit)}
+                testID="SavingsGoals.FundGoalModal:SubmitButton">
                 {t("SavingsGoals.FundGoalModal.FundingStep.continueButton")}
               </SubmitButton>
             </View>
@@ -222,12 +228,12 @@ export default function FundingStep({
         buttons={
           shouldShowConfirmationWithActionButtons && {
             primary: (
-              <Button onPress={handleOnContinuePress}>
+              <Button onPress={handleOnContinuePress} testID="SavingsGoals.FundGoalModal:ConfirmContinueButton">
                 {t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.continueButton`)}
               </Button>
             ),
             secondary: (
-              <Button onPress={onCompletePress}>
+              <Button onPress={onCompletePress} testID="SavingsGoals.FundGoalModal:ConfirmSkipButton">
                 {t(`SavingsGoals.FundGoalModal.FundingStep.${i18nKey}.skipButton`)}
               </Button>
             ),
@@ -243,6 +249,7 @@ export default function FundingStep({
               : "-",
         })}
         isVisible={isConfirmationVisible}
+        testID="SavingsGoals.FundGoalModal:ConfirmModal"
         variant="success"
       />
       <NotificationModal

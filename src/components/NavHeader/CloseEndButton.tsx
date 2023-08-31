@@ -7,9 +7,15 @@ export interface CloseEndButtonProps {
   color?: keyof Theme["palette"];
   onPress: () => void;
   hasBackground?: boolean;
+  testID?: string;
 }
 
-export default function CloseEndButton({ color = "primaryBase-10", onPress, hasBackground }: CloseEndButtonProps) {
+export default function CloseEndButton({
+  color = "primaryBase-10",
+  onPress,
+  hasBackground,
+  testID,
+}: CloseEndButtonProps) {
   const { iconColor } = useThemeStyles(
     theme => ({
       iconColor: theme.palette[color],
@@ -31,7 +37,8 @@ export default function CloseEndButton({ color = "primaryBase-10", onPress, hasB
         { transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }] },
         styles.container,
         hasBackground === true ? iconBackgroundStyle : undefined,
-      ]}>
+      ]}
+      testID={testID !== undefined ? `${testID}-CloseButton` : undefined}>
       <CloseIcon color={iconColor} />
     </Pressable>
   );

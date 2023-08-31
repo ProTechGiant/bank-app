@@ -11,6 +11,7 @@ export interface DayPickerInputProps {
   helperText?: string | false | ((value: number) => string | undefined);
   label: string;
   placeholder: string;
+  testID?: string;
   value?: number;
 }
 
@@ -22,6 +23,7 @@ export function DayPickerInput({
   headerText,
   helperText,
   placeholder,
+  testID,
   value,
 }: DayPickerInputProps) {
   const [isVisible, setIsVisible] = useState(false);
@@ -64,6 +66,7 @@ export function DayPickerInput({
           label={label}
           helperText={resolvedHelperText}
           end={<List.End.Day placeholder={placeholder} value={value} />}
+          testID={testID !== undefined ? `${testID}-OpenButton` : undefined}
         />
       </List>
       <DayPicker
@@ -74,6 +77,7 @@ export function DayPickerInput({
         onClose={handleOnCancel}
         onConfirm={handleOnConfirm}
         helperText={resolvedHelperText}
+        testID={testID !== undefined ? `${testID}-DayPicker` : undefined}
         value={selectedValue}
       />
     </>

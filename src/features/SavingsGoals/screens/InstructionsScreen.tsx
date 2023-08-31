@@ -62,6 +62,7 @@ export default function InstructionsScreen() {
       lastButtonText={t("SavingsGoals.InstructionsScreen.setGoalButton")}
       data={data}
       variant="default"
+      testID="SavinsGoals.InstructionsScreen:NextButton"
     />
   );
 }

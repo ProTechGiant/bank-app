@@ -13,7 +13,7 @@ import CurrencyInput from "@/components/Form/CurrencyInput";
 import DatePickerInput from "@/components/Form/DatePickerInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
-import { List } from "@/components/List";
+import List from "@/components/List";
 import Modal from "@/components/Modal";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -143,7 +143,7 @@ export default function CreateGoalScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader withBackButton />
+        <NavHeader withBackButton testID="SavingsGoals.CreateGoalScreen:NavHeader" />
         <ContentContainer isScrollView>
           <View style={formContainerStyle}>
             <Typography.Text size="large" weight="bold" style={titleStyle}>
@@ -156,6 +156,7 @@ export default function CreateGoalScreen() {
                 name="GoalName"
                 placeholder={t("SavingsGoals.CreateGoalScreen.form.name.placeholder")}
                 maxLength={50}
+                testID="SavingsGoals.CreateGoalScreen:GoalNameInput"
               />
               <CurrencyInput
                 control={control}
@@ -164,6 +165,7 @@ export default function CreateGoalScreen() {
                 placeholder={t("SavingsGoals.CreateGoalScreen.form.amount.placeholder")}
                 maxLength={10}
                 showCharacterCount={false}
+                testID="SavingsGoals.CreateGoalScreen:TargetAmountInput"
               />
               <DatePickerInput
                 control={control}
@@ -178,30 +180,46 @@ export default function CreateGoalScreen() {
                     ? t("SavingsGoals.CreateGoalScreen.form.targetDate.helperText")
                     : undefined;
                 }}
+                testID="SavingsGoals.CreateGoalScreen:TargetDateInput"
               />
               <List isBordered>
                 <List.Item.Primary
                   label={t("SavingsGoals.CreateGoalScreen.form.roundUps.label")}
                   helperText={t("SavingsGoals.CreateGoalScreen.form.roundUps.helperText")}
                   onMoreInfoPress={() => setIsInfoModalVisible(true)}
-                  end={<List.End.Toggle onPress={() => setValue("RoundupFlag", !RoundupFlag)} value={RoundupFlag} />}
+                  end={
+                    <List.End.Toggle
+                      onPress={() => setValue("RoundupFlag", !RoundupFlag)}
+                      testID="SavingsGoals.CreateGoalScreen:RoundupsActiveInput"
+                      value={RoundupFlag}
+                    />
+                  }
                 />
                 <List.Item.Primary
                   label={t("SavingsGoals.CreateGoalScreen.form.notification.label")}
                   helperText={t("SavingsGoals.CreateGoalScreen.form.notification.helperText")}
-                  end={<List.End.Toggle onPress={handleOnNotificationPress} value={NotificationFlag} />}
+                  end={
+                    <List.End.Toggle
+                      onPress={handleOnNotificationPress}
+                      testID="SavingsGoals.CreateGoalScreen:NotificationsActiveInput"
+                      value={NotificationFlag}
+                    />
+                  }
                 />
               </List>
             </Stack>
           </View>
           <View style={styles.buttonContainer}>
-            <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+            <SubmitButton
+              control={control}
+              onSubmit={handleSubmit(handleOnSubmit)}
+              testID="SavingsGoals.CreateGoalScreen:SubmitButton">
               {t("SavingsGoals.CreateGoalScreen.button")}
             </SubmitButton>
           </View>
         </ContentContainer>
       </Page>
-      <Modal visible={isInfoModalVisible} onClose={handleOnModalClose}>
+      <Modal visible={isInfoModalVisible} onClose={handleOnModalClose} testID="SavingsGoals.CreateGoalScreen:InfoModal">
         <View style={contentContainerStyle}>
           <Stack direction="vertical" gap="8p">
             <Typography.Text color="neutralBase+30" size="title2" weight="bold">
@@ -233,12 +251,14 @@ export default function CreateGoalScreen() {
         isVisible={isNotificationModalVisible}
         buttons={{
           primary: (
-            <Button onPress={handleTurnOnNotificationFlag}>
+            <Button onPress={handleTurnOnNotificationFlag} testID="SavingsGoals.CreateGoalScreen:TurnOnAlertButton">
               {t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.turnOn")}
             </Button>
           ),
           secondary: (
-            <Button onPress={() => setIsNotificationModalVisible(current => !current)}>
+            <Button
+              onPress={() => setIsNotificationModalVisible(current => !current)}
+              testID="SavingsGoals.CreateGoalScreen:CancelAlertButton">
               {t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.cancel")}
             </Button>
           ),
@@ -252,12 +272,14 @@ export default function CreateGoalScreen() {
         isVisible={isRoundUpsModalVisible}
         buttons={{
           primary: (
-            <Button onPress={() => setIsRoundUpsModalVisible(current => !current)}>
+            <Button
+              onPress={() => setIsRoundUpsModalVisible(current => !current)}
+              testID="SavingsGoals.CreateGoalScreen:SwitchRoundUpsButton">
               {t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.switch")}
             </Button>
           ),
           secondary: (
-            <Button onPress={handleTurnOffRoundupFlag}>
+            <Button onPress={handleTurnOffRoundupFlag} testID="SavingsGoals.CreateGoalScreen:DontSwitchRoundUpsButton">
               {t("SavingsGoals.CreateGoalScreen.roundUpsAlreadyActiveAlert.dontSwitch")}
             </Button>
           ),

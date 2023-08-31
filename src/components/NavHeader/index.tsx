@@ -112,7 +112,7 @@ const NavHeader = ({
                   styles.backButton,
                   variant === "background" || variant === "angled" ? iconBackgroundStyle : undefined,
                 ]}
-                testID={undefined !== testID ? `${testID}-->BackButton` : undefined}>
+                testID={undefined !== testID ? `${testID}-BackButton` : undefined}>
                 {backButton === undefined || !isValidElement(backButton) ? (
                   <ArrowLeftIcon color={iconColor} width={20} height={20} />
                 ) : (
@@ -138,7 +138,11 @@ const NavHeader = ({
 
           <View style={[styles.column, styles.columnEnd]}>
             {end !== undefined && isValidElement(end)
-              ? cloneElement(end, { color: textColor, hasBackground: variant === "background" || variant === "angled" })
+              ? cloneElement(end, {
+                  color: textColor,
+                  hasBackground: variant === "background" || variant === "angled",
+                  testID,
+                })
               : undefined}
           </View>
         </View>

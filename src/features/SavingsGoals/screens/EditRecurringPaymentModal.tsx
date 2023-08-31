@@ -149,6 +149,7 @@ export default function EditRecurringPaymentModal() {
           title={t("SavingsGoals.EditRegularPaymentModal.title")}
           withBackButton={false}
           end={<NavHeader.CloseEndButton onPress={handleOnCloseModal} />}
+          testID="SavingsGoals.EditRegularPaymentModal:NavHeader"
         />
         <ContentContainer style={styles.content}>
           <Stack align="stretch" direction="vertical" gap="16p">
@@ -162,6 +163,7 @@ export default function EditRecurringPaymentModal() {
                       {t("SavingsGoals.EditRegularPaymentModal.amountExceedsBalance")}
                     </Typography.Text>
                   );
+
                   return amountExceedsBalance;
                 }
               }}
@@ -169,6 +171,7 @@ export default function EditRecurringPaymentModal() {
               name="PaymentAmount"
               returnKeyType="done"
               isAmountExceedsBalance={undefined !== savingsPotData && Number(watch("PaymentAmount")) > accountBalance}
+              testID="SavingsGoals.EditRegularPaymentModal:PaymentAmountInput"
             />
             <DayPickerInput
               buttonText={t("SavingsGoals.EditRegularPaymentModal.dayPickerButton")}
@@ -194,6 +197,7 @@ export default function EditRecurringPaymentModal() {
               label={t("SavingsGoals.EditRegularPaymentModal.monthly")}
               name="DayOfMonth"
               placeholder={t("SavingsGoals.EditRegularPaymentModal.dayPickerPlaceholder")}
+              testID="SavingsGoals.EditRegularPaymentModal:DayOfMonthInput"
             />
 
             {savingsPotData !== undefined ? (
@@ -205,10 +209,16 @@ export default function EditRecurringPaymentModal() {
             ) : null}
           </Stack>
           <View style={buttonSpaceStyle}>
-            <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+            <SubmitButton
+              control={control}
+              onSubmit={handleSubmit(handleOnSubmit)}
+              testID="SavingsGoals.EditRegularPaymentModal:SaveButton">
               {t("SavingsGoals.EditRegularPaymentModal.saveButton")}
             </SubmitButton>
-            <Button onPress={handleOnShowRemoveRecurringPaymentModal} variant="warning">
+            <Button
+              onPress={handleOnShowRemoveRecurringPaymentModal}
+              variant="warning"
+              testID="SavingsGoals.EditRegularPaymentModal:RemoveButton">
               {t("SavingsGoals.EditRegularPaymentModal.removeButton")}
             </Button>
           </View>
@@ -221,12 +231,14 @@ export default function EditRecurringPaymentModal() {
         isVisible={removeRecurringPaymentModal}
         buttons={{
           primary: (
-            <Button onPress={handleOnPressRemoval}>
+            <Button onPress={handleOnPressRemoval} testID="SavingsGoals.EditRegularPaymentModal:RemoveConfirmButton">
               {t("SavingsGoals.EditRegularPaymentModal.removalModal.confirmButton")}
             </Button>
           ),
           secondary: (
-            <Button onPress={() => setRemoveRecurringPaymentModal(current => !current)}>
+            <Button
+              onPress={() => setRemoveRecurringPaymentModal(current => !current)}
+              testID="SavingsGoals.EditRegularPaymentModal:RemoveCancelButton">
               {t("SavingsGoals.EditRegularPaymentModal.removalModal.cancelButton")}
             </Button>
           ),
