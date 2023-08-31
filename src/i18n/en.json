@@ -146,7 +146,7 @@
     },
     "NafathAuthScreen": {
       "navHeaderTitle": "Authentication",
-      "modalLink": "Turn on",
+      "modalLink": "Open in Nafath App",
       "modalLoad": "Loading...",
       "modalBody": "Make a note of this number as you will be asked for it shortly",
       "title": "Authentication by Nafath",
