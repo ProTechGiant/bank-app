@@ -11,7 +11,7 @@ import { useGetUserProxies } from "../hooks/query-hooks";
 export default function AliasManagementScreen() {
   const navigation = useNavigation();
 
-  const { data, isLoading } = useGetUserProxies();
+  const { data, isFetching, isError } = useGetUserProxies();
 
   const handleOnBackPress = () => {
     navigation.goBack();
@@ -22,9 +22,9 @@ export default function AliasManagementScreen() {
       <NavHeader title="Alias Management" onBackPress={handleOnBackPress} />
 
       <ContentContainer isScrollView alwaysBounceVertical={true}>
-        {isLoading ? (
+        {isFetching ? (
           <ActivityIndicator />
-        ) : data?.UserProxies ? (
+        ) : data?.UserProxies && !isError ? (
           <AliasManagementWrapper data={data} />
         ) : (
           <Confirmation />
