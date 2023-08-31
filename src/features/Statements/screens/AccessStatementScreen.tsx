@@ -1,5 +1,5 @@
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, SafeAreaView, useWindowDimensions, ViewStyle } from "react-native";
 
@@ -34,12 +34,13 @@ export default function AccessStatementScreen() {
   const navigation = useNavigation<StatementsStackParamsNavigationProp>();
   const { height: screenHeight } = useWindowDimensions();
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState<boolean>(false);
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "Statements.AccessStatementScreen">>();
 
   const [preferredLanguage, setPreferredLanguage] = useState<StatementLanguageTypes>(
     i18n.language.toUpperCase() as StatementLanguageTypes
   );
   const [isFilterModalVisible, setIsFilterModalVisible] = useState<boolean>(false);
+
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "Statements.AccessStatementScreen">>();
   const [currentTab, setCurrentTab] = useState<StatementTypes>(
     route?.params?.type === StatementTypes.CUSTOM ? StatementTypes.CUSTOM : StatementTypes.MONTHLY
   );
@@ -58,7 +59,7 @@ export default function AccessStatementScreen() {
     data: statementsData,
     isLoading: statementsLoading,
     refetch: refetchStatementData,
-  } = useGetCustomerStatements(pagination, currentTab);
+  } = useGetCustomerStatements(pagination, currentTab, activeFilter);
 
   const [retryLoadingStates, setRetryLoadingStates] = useState<boolean[]>(
     new Array(statementsData?.TotalRecords).fill(false)
@@ -67,13 +68,13 @@ export default function AccessStatementScreen() {
   const { mutateAsync: retryFailedStatement } = useRetryFailedStatement();
 
   useEffect(() => {
-    setCurrentTab(route.params?.type === StatementTypes.CUSTOM ? StatementTypes.CUSTOM : StatementTypes.MONTHLY);
-    handleOnRefreshStatements();
-  }, [route.params?.type]);
-
-  useEffect(() => {
-    navigation.addListener("focus", () => handleOnRefreshStatements());
-  }, [navigation]);
+    navigation.addListener("focus", () => {
+      if (route.params?.type) {
+        setCurrentTab(route.params.type);
+      }
+      handleOnRefreshStatements();
+    });
+  }, [navigation, route.params?.type]);
 
   useEffect(() => {
     if (pagination.offset > 0) {
@@ -107,7 +108,7 @@ export default function AccessStatementScreen() {
 
   useEffect(() => {
     const moreThanThreePendingStatements =
-      statements.filter(statement => statement.Status === StatementStatus.PENDING).length > 3;
+      statements.filter(statement => statement.Status === StatementStatus.PENDING).length >= 3;
     const hasNewGeneratedStatement = statements.some(statement => statement.Status === StatementStatus.GENERATED);
     setIsMoreThanThreePendingStatements(moreThanThreePendingStatements);
     setHasNewStatement(hasNewGeneratedStatement);
@@ -170,14 +171,6 @@ export default function AccessStatementScreen() {
     setPreferredLanguage(i18n.language.toUpperCase() as StatementLanguageTypes);
   };
 
-  const filteredData = useMemo(() => {
-    let statementsCopy = [...statements];
-    if (activeFilter) {
-      statementsCopy = statements.filter(statement => statement.StatementLanguage === activeFilter);
-    }
-    return statementsCopy;
-  }, [activeFilter, statements]);
-
   const segmentedControlStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: -theme.spacing["20p"],
     marginTop: theme.spacing["48p"],
@@ -235,7 +228,7 @@ export default function AccessStatementScreen() {
         {currentTab === StatementTypes.MONTHLY ? (
           <AccessMonthlyStatementsList
             onPressCard={handleOnPressStatement}
-            statements={filteredData}
+            statements={statements}
             activeFilter={activeFilter}
             onClearFilter={handleOnClearFilter}
             onRefresh={handleOnRefreshStatements}
@@ -244,7 +237,7 @@ export default function AccessStatementScreen() {
         ) : currentTab === StatementTypes.CUSTOM ? (
           <AccessCustomDateStatementList
             onPressCard={handleOnPressStatement}
-            statements={filteredData}
+            statements={statements}
             onRetry={handleOnRetry}
             isRetryLoading={retryLoadingStates}
             activeFilter={activeFilter}

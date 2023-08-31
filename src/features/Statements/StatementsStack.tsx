@@ -1,12 +1,13 @@
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 
+import { StatementTypes } from "./constants";
 import { AccessStatementScreen, PreviewStatementScreen, RequestStatementScreen } from "./screens";
 
 export const Stack = createNativeStackNavigator<StatementsStackParams>();
 
 export type StatementsStackParams = {
   "Statements.AccessStatementScreen": {
-    type?: string;
+    type?: StatementTypes;
   };
   "Statements.RequestStatementScreen": undefined;
   "Statements.CustomDateStatementScreen": undefined;

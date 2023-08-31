@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Pressable, ViewStyle } from "react-native";
 
@@ -151,11 +151,12 @@ const StatementStatusView = ({ Status }: StatementStatusViewProps) => {
     marginBottom: theme.spacing["8p"],
     paddingVertical: theme.spacing["4p"],
     paddingHorizontal: theme.spacing["8p"],
-    backgroundColor: statementStatusData[Status]?.color || statementStatusData.default.color,
   }));
 
+  const backgroundColor = statementStatusData[Status]?.color || statementStatusData.default.color;
+
   return (
-    <Stack gap="4p" direction="horizontal" style={statusPillStyle}>
+    <Stack key={Status} gap="4p" direction="horizontal" style={[statusPillStyle, { backgroundColor }]}>
       {statementStatusData[Status]?.icon || statementStatusData.default.icon}
       <Typography.Text color="neutralBase-60" size="caption1">
         {statementStatusData[Status]?.text || statementStatusData.default.text}

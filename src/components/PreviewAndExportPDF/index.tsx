@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Share, { ShareOptions } from "react-native-share";
 
@@ -39,6 +39,7 @@ export default function PreviewAndExportPDF({ data, isLoading, title }: PreviewP
       const shareOptions: ShareOptions = {
         title: data.name,
         type: "application/pdf",
+        filename: Platform.OS === "ios" ? `${data?.name}.pdf` : `${data?.name}`,
         url: PDF_BASE_64_PREFIX + data.content,
       };
 

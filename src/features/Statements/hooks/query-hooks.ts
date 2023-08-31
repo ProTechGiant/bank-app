@@ -1,10 +1,11 @@
+import queryString from "query-string";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
 import { generateRandomId } from "@/utils";
 
-import { StatementTypes } from "../constants";
+import { StatementLanguageTypes, StatementTypes } from "../constants";
 import {
   DownloadStatementResponse,
   GetAccessStatementApiResponse,
@@ -14,26 +15,29 @@ import {
 
 const queryKeys = {
   all: () => ["data"] as const,
-  accessStatements: (pagination: PaginationInterface) => ["statements", pagination] as const,
+  accessStatements: (pagination: PaginationInterface, language: StatementLanguageTypes | null) =>
+    ["statements", pagination, language ?? ""] as const,
 };
 
-export function useGetCustomerStatements(pagination: PaginationInterface, statementType: StatementTypes) {
+export function useGetCustomerStatements(
+  pagination: PaginationInterface,
+  statementType: StatementTypes,
+  language: StatementLanguageTypes | null
+) {
   const { i18n } = useTranslation();
-
+  let queryParams: queryString.StringifiableRecord = {
+    pageSize: pagination.limit,
+    offset: pagination.offset,
+    statementType,
+  };
+  if (language) queryParams = { ...queryParams, language };
   return useQuery(
-    queryKeys.accessStatements(pagination),
+    queryKeys.accessStatements(pagination, language),
     () => {
-      return api<GetAccessStatementApiResponse>(
-        "v1",
-        `statements`,
-        "GET",
-        { pageSize: pagination.limit, offset: pagination.offset, statementType },
-        undefined,
-        {
-          ["x-correlation-id"]: generateRandomId(),
-          ["Accept-Language"]: i18n.language.toUpperCase(),
-        }
-      );
+      return api<GetAccessStatementApiResponse>("v1", `statements`, "GET", queryParams, undefined, {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language.toUpperCase(),
+      });
     },
     {
       retry: false,
