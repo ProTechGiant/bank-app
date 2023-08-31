@@ -42,7 +42,14 @@ export function useAppreciationSearch(
         "POST",
         undefined,
         {
-          SortBy: SortingOptions.RECOMMENDED === sortType ? 3 : SortingOptions.MOST_RECENT === sortType ? 1 : 2, // TODO  2 value will be replaced with  the actual value for like tab
+          SortBy:
+            SortingOptions.RECOMMENDED === sortType
+              ? 4
+              : SortingOptions.MOST_RECENT === sortType
+              ? 1
+              : SortingOptions.ALPHABETIC === sortType
+              ? 2
+              : 3,
           CategaoryCodes: !filters ? [] : filters.Categories.filter(item => item.isActive).map(item => item.Code),
           TypeCodes: !filters ? [] : filters.Types.filter(item => item.isActive).map(item => item.Code),
           SectionCodes: [],

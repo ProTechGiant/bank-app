@@ -8,6 +8,7 @@ export enum SortingOptions {
   RECOMMENDED = "recommendedForYou",
   MOST_RECENT = "mostRecent",
   ALPHABETIC = "alphabetic",
+  EXPIRING_SOONEST = "expiringSoonest",
 }
 
 export enum UserTypeEnum {
