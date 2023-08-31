@@ -117,7 +117,7 @@ function ChatList({ initialChatData, agentWaitingTime, enquiryType, subEnquiryTy
           data={chatData.Messages}
           renderItem={renderItem}
           contentContainerStyle={contentContainerStyle}
-          ListHeaderComponent={true ? <SupportAgentTimer timeInSeconds={agentWaitingTime.Ewt} /> : null} //TODO: add showWaitingTimer instead of true
+          ListHeaderComponent={true ? <SupportAgentTimer timeInSeconds={Math.ceil(agentWaitingTime.Ewt)} /> : null} //TODO: add showWaitingTimer instead of true
           keyExtractor={keyExtractor}
           onScroll={handleScroll}
           removeClippedSubviews={true}

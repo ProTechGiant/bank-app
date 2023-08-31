@@ -23,7 +23,7 @@ function SupportAgentTimer({ timeInSeconds }: SupportAgentTimerProps) {
 
   const getWaitingTime = async () => {
     const awaitTimer = await awaitTimerResponse.mutateAsync();
-    const totalTime = Math.floor(awaitTimer.Ewt);
+    const totalTime = Math.ceil(awaitTimer.Ewt);
     setRemainingSeconds(totalTime);
     setMaxTime(totalTime);
   };
@@ -43,7 +43,7 @@ function SupportAgentTimer({ timeInSeconds }: SupportAgentTimerProps) {
     return () => clearInterval(intervalId);
   }, [remainingSeconds]);
 
-  const formattedTime = remainingSeconds > 0 ? format(new Date(remainingSeconds * 1000), "mm:ss") : "00:00";
+  const formattedTime = format(new Date(remainingSeconds * 1000), "mm:ss");
 
   const textLineHeightsStyle = useThemeStyles<TextStyle>(theme => ({
     lineHeight: theme.typography.text._lineHeights.footnote,
