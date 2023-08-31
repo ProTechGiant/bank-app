@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { Keyboard, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
@@ -9,7 +9,11 @@ import { useSendMessage } from "../hooks/use-send-message";
 import ChatMessageInput from "./ChatMessageInput";
 import ChatSendButton from "./ChatSendButton";
 
-export default function ChatInputBox() {
+interface ChatInputBoxProps {
+  onSendSuccess: () => void;
+}
+
+function ChatInputBox({ onSendSuccess }: ChatInputBoxProps) {
   const submitMessage = useSendMessage();
   const [message, setMessage] = useState<string>("");
 
@@ -21,12 +25,13 @@ export default function ChatInputBox() {
     Keyboard.dismiss();
     const requestBody = {
       Message: message,
-      TranscriptPositionIncluding: "1", //ToDO: when linking with get chat api
+      TranscriptPositionIncluding: "0",
     };
 
     try {
       await submitMessage.mutateAsync(requestBody);
       setMessage("");
+      onSendSuccess();
     } catch (error) {
       warn("Live Chat", `Could not send a Message: ${(error as Error).message}`);
     }
@@ -45,3 +50,5 @@ export default function ChatInputBox() {
     </Stack>
   );
 }
+
+export default memo(ChatInputBox);

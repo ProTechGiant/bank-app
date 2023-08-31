@@ -10,7 +10,10 @@ export default function AgentJoinedChat() {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["secondary_yellowBase-20"],
     borderRadius: theme.radii.xlarge,
-    padding: theme.spacing["16p"],
+    paddingVertical: theme.spacing["8p"],
+    paddingHorizontal: theme.spacing["16p"],
+    marginBottom: theme.spacing["24p"],
+    alignSelf: "center",
   }));
 
   return (

@@ -96,4 +96,5 @@ export interface ChatResponse {
   SecureKey: string;
   UserId: string;
   Monitored: boolean;
+  InteractionId: number;
 }

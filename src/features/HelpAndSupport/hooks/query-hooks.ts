@@ -70,19 +70,31 @@ export function useSubmitCustomerFeedback() {
 export function useChatRefresh() {
   const { i18n } = useTranslation();
 
-  return useMutation(async () =>
-    api<ChatResponse>(
+  return useMutation(async (nextPosition: number) => {
+    return api<ChatResponse>(
       "v1",
       `genesys/chat/refresh`,
       "POST",
       undefined,
       {
-        TranscriptPosition: "1", //TODO: maybe will change when integrate chat refresh api
+        TranscriptPosition: nextPosition,
       },
       {
         ["x-correlation-id"]: generateRandomId(),
         ["Accept-Language"]: i18n.language.toLocaleLowerCase(),
       }
-    )
-  );
+    );
+  });
+}
+
+export function useChatHistory() {
+  const { i18n } = useTranslation();
+
+  return useMutation(async (limit: number) => {
+    return api<ChatResponse[]>("v1", `genesys/chat?limit=${limit}`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language.toLocaleLowerCase(),
+      ["Content-Type"]: "application/json",
+    });
+  });
 }

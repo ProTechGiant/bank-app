@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -19,8 +20,17 @@ export default function ChatScreen() {
   const navigation = useNavigation();
   const { params } = useRoute<RouteProp<HelpAndSupportStackParams, "HelpAndSupport.ChatScreen">>();
   const { mutateAsync: endLiveChat, isLoading: isEndingChat } = useEndLiveChat();
-  const [isCloseChattingModalVisible, setIsCloseChattingModalVisible] = useState(false); // State to control the visibility of the CloseChattingModal
-  const [isCustomerFeedbackVisible, setIsCustomerFeedbackVisible] = useState(false); // State to control the visibility of the CustomerFeedback
+  const [isCloseChattingModalVisible, setIsCloseChattingModalVisible] = useState(false);
+  const [isCustomerFeedbackVisible, setIsCustomerFeedbackVisible] = useState(false);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+
+  const handleOnChatSessionEnd = useCallback(() => {
+    setIsCustomerFeedbackVisible(true);
+  }, []);
+
+  const handleOnChatSessionError = useCallback(() => {
+    setIsErrorModalVisible(true);
+  }, []);
 
   const handleOnOpenCloseChatModal = useCallback(() => {
     setIsCloseChattingModalVisible(true);
@@ -55,7 +65,8 @@ export default function ChatScreen() {
       />
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.containerStyle}>
         <ChatList
-          onChatSessionEnd={handleOnOpenCloseChatModal}
+          onChatSessionError={handleOnChatSessionError}
+          onChatSessionEnd={handleOnChatSessionEnd}
           initialChatData={params.chatResponse}
           agentWaitingTime={params.awaitTimeData}
           enquiryType={params.enquiryType}
@@ -74,6 +85,13 @@ export default function ChatScreen() {
         isVisible={isCustomerFeedbackVisible}
         onSkip={handleOnFeedbackExit}
         onSubmit={handleOnFeedbackExit}
+      />
+      <NotificationModal
+        title={t("HelpAndSupport.LiveChatScreen.error.title")}
+        message={t("HelpAndSupport.LiveChatScreen.error.message")}
+        isVisible={isErrorModalVisible}
+        variant="error"
+        onClose={() => setIsErrorModalVisible(false)}
       />
     </Page>
   );

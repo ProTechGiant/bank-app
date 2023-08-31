@@ -81,6 +81,7 @@ export default function LiveChatScreen() {
         subEnquiryType: subEnquiryType,
       });
     } catch (error) {
+      setIsError(true);
       warn(" init chat falied", JSON.stringify(error));
     }
   };
