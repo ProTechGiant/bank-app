@@ -38,8 +38,8 @@ export default function SelectLanguageSection({ documentLanguage, onChangeLangua
             {t("Documents.RequestDocumentScreen.english")}
           </Pill>
           <Pill
-            isActive={documentLanguage === DocumentLanguageType.Arabic}
-            onPress={() => onChangeLanguage(DocumentLanguageType.Arabic)}>
+            isActive={documentLanguage === DocumentLanguageType.العربية}
+            onPress={() => onChangeLanguage(DocumentLanguageType.العربية)}>
             {t("Documents.RequestDocumentScreen.arabic")}
           </Pill>
         </Stack>

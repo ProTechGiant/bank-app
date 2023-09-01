@@ -1,12 +1,11 @@
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { DocumentsScreen, PreviewDocumentScreen, RequestDocumentScreen } from "./screens";
-import { DocumentInterface } from "./types";
 
 export const Stack = createNativeStackNavigator<DocumentsStackParams>();
 
 export type DocumentsStackParams = {
-  "Documents.DocumentsScreen": { doc?: DocumentInterface };
+  "Documents.DocumentsScreen": undefined;
   "Documents.RequestDocumentScreen": undefined;
   "Documents.PreviewDocumentScreen": { documentId: string };
 };

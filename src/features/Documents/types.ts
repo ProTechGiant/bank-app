@@ -5,7 +5,7 @@ export interface DocumentInterface {
   AdhocDocRequestId: string;
   Status: DocumentStatus;
   Category: DocumentCategory;
-  ExpiryDate: string;
+  ExpiryDateTime: string;
   CreateDateTime: string;
   DocumentStatusUpdateDateTime: string;
   DocumentLanguage: string;
@@ -29,8 +29,8 @@ export const DOCUMENT_LIMIT = 10;
 export const DOCUMENT_OFFSET = 0;
 
 export enum DocumentTypeOptions {
-  BankCertificate = "Bank Certificate",
-  IBANLetter = "IBAN Letter",
+  BANK_CERTIFICATE = "Bank Certificate",
+  IBAN_LETTER = "IBAN Letter",
 }
 
 export enum LanguageOptions {
@@ -47,4 +47,24 @@ export interface DownloadDocumentResponse {
   DocumentName: string;
   DocumentType: string;
   DocumentContent: string;
+}
+
+export interface RequestDocumentData {
+  BankCertificateDate?: string;
+  Certified: boolean;
+  Language: string;
+  OnboardingDate: string;
+  DocumentCategory: string;
+}
+
+export interface DocumentsFilterInterface {
+  documentType: string;
+  status: string;
+  language: string;
+}
+
+export interface FilterInterface {
+  documentType: string[];
+  status: string[];
+  language: string[];
 }

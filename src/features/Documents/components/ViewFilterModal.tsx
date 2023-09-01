@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 
@@ -13,15 +13,25 @@ import { DocumentTypeOptions, LanguageOptions, StatusOptions } from "../types";
 interface ViewFilterModalProps {
   visible: boolean;
   onClose: () => void;
+  selectedCategory: string[];
+  selectedLanguage: string[];
+  selectedStatus: string[];
   onApplyFilter: (filters: { status: string[]; language: string[]; documentType: string[] }) => void;
 }
 
-export default function ViewFilterModal({ visible, onClose, onApplyFilter }: ViewFilterModalProps) {
+export default function ViewFilterModal({
+  visible,
+  onClose,
+  onApplyFilter,
+  selectedCategory,
+  selectedLanguage,
+  selectedStatus,
+}: ViewFilterModalProps) {
   const { t } = useTranslation();
 
-  const [selectedStatusOptions, setSelectedStatusOptions] = useState<string[]>([]);
-  const [selectedLanguageOptions, setSelectedLanguageOptions] = useState<string[]>([]);
-  const [selectedDocumentTypeOptions, setSelectedDocumentTypeOptions] = useState<string[]>([]);
+  const [selectedStatusOptions, setSelectedStatusOptions] = useState<string[]>(selectedStatus);
+  const [selectedLanguageOptions, setSelectedLanguageOptions] = useState<string[]>(selectedLanguage);
+  const [selectedDocumentTypeOptions, setSelectedDocumentTypeOptions] = useState<string[]>(selectedCategory);
 
   const handleOptionSelect = (option: string, setSelectedOptions: React.Dispatch<React.SetStateAction<string[]>>) => {
     setSelectedOptions(prevOptions => {
@@ -32,6 +42,12 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter }: Vie
       }
     });
   };
+
+  useEffect(() => {
+    setSelectedStatusOptions(selectedStatus);
+    setSelectedLanguageOptions(selectedLanguage);
+    setSelectedDocumentTypeOptions(selectedCategory);
+  }, [selectedStatus, selectedLanguage, selectedCategory]);
 
   const handleOnApplyFilter = () => {
     onApplyFilter({

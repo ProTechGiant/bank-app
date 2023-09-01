@@ -1,26 +1,62 @@
-export enum DocumentTypes {
-  MONTHLY = "MONTHLY",
-  CUSTOM = "CUSTOM",
-}
-
 export enum DocumentStatus {
-  PENDING = "01",
-  APPROVED = "02",
-  DOWNLOADED = "03",
-  FAILED = "04",
+  Pending = "01",
+  Approved = "02",
+  Downloaded = "03",
+  Failed = "04",
 }
 
 export enum DocumentCategory {
-  IBAN_LETTER = "01",
-  BANK_CERTIFICATE = "02",
+  "IBAN Letter" = "01",
+  "Bank Certificate" = "02",
 }
 
 export enum DocumentLanguageType {
   English = "EN",
-  Arabic = "AR",
+  العربية = "AR",
+}
+
+export enum LanguageType {
+  English = "English",
+  العربية = "العربية",
+}
+
+export enum StatusType {
+  Pending = "Pending",
+  Approved = "Approved",
+  Downloaded = "Downloaded",
+  Failed = "Failed",
 }
 
 export enum DocumentType {
   IBAN_LETTER = "IBAN Letter",
   BANK_CERTIFICATE = "Bank Certificate",
+}
+
+export const FILTER_DEFAULT_VALUES = {
+  documentType: "01,02",
+  language: "EN,AR",
+  status: "01,02,03,04",
+};
+
+export const DocumentTypeMapping: Record<string, DocumentCategory> = {
+  [DocumentType.IBAN_LETTER]: DocumentCategory["IBAN Letter"],
+  [DocumentType.BANK_CERTIFICATE]: DocumentCategory["Bank Certificate"],
+};
+
+export const DocumentLanguageMapping: Record<string, DocumentLanguageType> = {
+  [LanguageType.English]: DocumentLanguageType.English,
+  [LanguageType.العربية]: DocumentLanguageType.العربية,
+};
+
+export const DocumentStatusMapping: Record<string, DocumentStatus> = {
+  [StatusType.Approved]: DocumentStatus.Approved,
+  [StatusType.Downloaded]: DocumentStatus.Downloaded,
+  [StatusType.Failed]: DocumentStatus.Failed,
+  [StatusType.Pending]: DocumentStatus.Pending,
+};
+
+export enum FilterParamsTypes {
+  DOCUMENT_TYPE = "documentType",
+  DOCUMENT_STATUS = "status",
+  DOCUMENT_LANGUAGE = "language",
 }

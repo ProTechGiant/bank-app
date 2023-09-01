@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
@@ -14,7 +13,6 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { generateRandomId } from "@/utils";
 
 import {
   SelectDateModal,
@@ -22,11 +20,8 @@ import {
   SelectDocumentTypeSection,
   SelectLanguageSection,
 } from "../components";
-import { DocumentCategory, DocumentLanguageType, DocumentStatus, DocumentType } from "../constants";
-import { useGetCustomerOnboardingDate } from "../hooks/query-hooks";
-
-// TODO: will replace from api
-const isCreateCustomDocumentApiLoading = false;
+import { DocumentCategory, DocumentLanguageType, DocumentType } from "../constants";
+import { useGetCustomerOnboardingDate, useRequestAdHocDocument } from "../hooks/query-hooks";
 
 export default function RequestDocumentScreen() {
   const { t, i18n } = useTranslation();
@@ -49,28 +44,41 @@ export default function RequestDocumentScreen() {
   });
 
   const { data: customerOnboardingDate } = useGetCustomerOnboardingDate();
+  const requestAdhocDocument = useRequestAdHocDocument();
 
   const handleOnPressRequestDocument = async () => {
-    // TODO: Later will call api here
-    setIsNotificationModalVisible({ success: true, error: false, failure: false });
+    try {
+      if (customerOnboardingDate?.OnboardingDate && documentLanguage) {
+        const documentData = {
+          ...(documentDate ? { BankCertificateDate: documentDate } : null),
+          Certified: true,
+          Language: documentLanguage,
+          OnboardingDate: customerOnboardingDate?.OnboardingDate,
+          DocumentCategory:
+            documentType === DocumentType.IBAN_LETTER
+              ? DocumentCategory["IBAN Letter"]
+              : DocumentCategory["Bank Certificate"],
+        };
+
+        await requestAdhocDocument.mutateAsync(documentData);
+        setIsNotificationModalVisible({ success: true, error: false, failure: false });
+      } else {
+        setIsNotificationModalVisible({ success: false, error: true, failure: false });
+      }
+    } catch (err) {
+      const errorId = err?.errorContent?.Errors[0]?.ErrorId;
+      //ErrorId = 0003, Old request with same data exists in pending status.
+      if (errorId === "0003") {
+        setIsNotificationModalVisible({ success: false, error: false, failure: true });
+      } else {
+        setIsNotificationModalVisible({ success: false, error: true, failure: false });
+      }
+    }
   };
 
   const handleOnCloseNotificationModal = () => {
     setIsNotificationModalVisible({ success: false, error: false, failure: false });
-    // TODO: Later will remove this mock data
-    navigation.navigate("Documents.DocumentsScreen", {
-      doc: {
-        DocumentId: generateRandomId().toString(),
-        AdhocDocRequestId: generateRandomId().toString(),
-        Status: DocumentStatus.PENDING,
-        Category:
-          documentType === DocumentType.IBAN_LETTER ? DocumentCategory.IBAN_LETTER : DocumentCategory.BANK_CERTIFICATE,
-        ExpiryDate: "2024-12-31",
-        CreateDateTime: format(new Date(), "yyyy-MM-dd"),
-        DocumentStatusUpdateDateTime: format(new Date(), "dd-MM-yyyy hh:mm:ss a"),
-        DocumentLanguage: documentLanguage,
-      },
-    });
+    navigation.navigate("Documents.DocumentsScreen");
   };
 
   const sectionBreakerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -116,7 +124,7 @@ export default function RequestDocumentScreen() {
 
           <Stack direction="vertical" style={bottomSectionStyle} align="stretch" gap="8p">
             <Button
-              loading={isCreateCustomDocumentApiLoading}
+              loading={requestAdhocDocument.isLoading}
               onPress={handleOnPressRequestDocument}
               disabled={documentType !== DocumentType.IBAN_LETTER && !documentDate}>
               {t("Documents.RequestDocumentScreen.buttonTitle")}

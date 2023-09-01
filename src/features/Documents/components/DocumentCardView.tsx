@@ -34,7 +34,7 @@ export default function DocumentCardView({
 }: DocumentCardViewProps) {
   const { t } = useTranslation();
   const appTheme = useTheme();
-  const disabled = document.Status !== DocumentStatus.DOWNLOADED && document.Status !== DocumentStatus.APPROVED;
+  const disabled = document.Status !== DocumentStatus.Downloaded && document.Status !== DocumentStatus.Approved;
   const dateFormat = parse(document.DocumentStatusUpdateDateTime, "dd-MM-yyyy h:mm:ss a", new Date());
 
   const dateFormatter = (date: string) => {
@@ -43,16 +43,16 @@ export default function DocumentCardView({
 
   const handleGetSubTitle = (status: DocumentInterface) => {
     switch (status.Status) {
-      case DocumentStatus.DOWNLOADED:
-      case DocumentStatus.APPROVED:
+      case DocumentStatus.Downloaded:
+      case DocumentStatus.Approved:
         return t("Documents.DocumentListScreen.SubTitle.validUntil", {
-          date: dateFormatter(document.ExpiryDate),
+          date: document?.ExpiryDateTime ? dateFormatter(document.ExpiryDateTime) : "",
         });
-      case DocumentStatus.PENDING:
+      case DocumentStatus.Pending:
         return t("Documents.DocumentListScreen.SubTitle.requestedOn", {
-          date: dateFormatter(document.CreateDateTime),
+          date: document.CreateDateTime ? dateFormatter(document.CreateDateTime) : "",
         });
-      case DocumentStatus.FAILED:
+      case DocumentStatus.Failed:
         return t("Documents.DocumentListScreen.SubTitle.willAppear", {
           hours: differenceInHours(addHours(dateFormat, 24), new Date()),
         });
@@ -80,9 +80,9 @@ export default function DocumentCardView({
     <Pressable disabled={disabled} onPress={() => onPressCard(document.DocumentId)}>
       <Stack direction="horizontal" style={renderItemStyle} align="center" justify="space-between">
         <Stack style={leftSideContainerStyle} direction="horizontal">
-          {iconMapping.adhocDocumnets[document.Category]}
+          {iconMapping.adhocDocuments[document.Category]}
           <Stack direction="vertical">
-            {document.Status !== DocumentStatus.DOWNLOADED ? <DocumentStatusView status={document.Status} /> : null}
+            {document.Status !== DocumentStatus.Downloaded ? <DocumentStatusView status={document.Status} /> : null}
             <Typography.Text style={renderItemDateStyle} color="neutralBase+30" size="callout" weight="medium">
               {t(`Documents.DocumentListScreen.Category.${document.Category}`)}
             </Typography.Text>
@@ -91,7 +91,7 @@ export default function DocumentCardView({
             </Typography.Text>
           </Stack>
         </Stack>
-        {document.Status === DocumentStatus.FAILED ? (
+        {document.Status === DocumentStatus.Failed ? (
           isRetryLoading ? (
             <ActivityIndicator color={appTheme.theme.palette["neutralBase-20"]} size="small" />
           ) : (
@@ -116,22 +116,22 @@ const DocumentStatusView = ({ status }: DocumentStatusViewProps) => {
   const { theme } = useTheme();
 
   const documentStatusData = {
-    [DocumentStatus.APPROVED]: {
+    [DocumentStatus.Approved]: {
       text: t("Documents.DocumentListScreen.Status.approved"),
       icon: <TickCircleOutlineIcon width={20} height={20} />,
       color: theme.palette.successBase,
     },
-    [DocumentStatus.FAILED]: {
+    [DocumentStatus.Failed]: {
       text: t("Documents.DocumentListScreen.Status.failed"),
       icon: <InfoCircleIcon color="white" width={20} height={20} />,
       color: theme.palette.errorBase,
     },
-    [DocumentStatus.PENDING]: {
+    [DocumentStatus.Pending]: {
       text: t("Documents.DocumentListScreen.Status.pending"),
       icon: <ThreeDotsCircleIcon width={20} height={20} />,
       color: theme.palette.interactionBase,
     },
-    [DocumentStatus.DOWNLOADED]: {
+    [DocumentStatus.Downloaded]: {
       text: "",
       icon: null,
       color: "",
@@ -148,11 +148,12 @@ const DocumentStatusView = ({ status }: DocumentStatusViewProps) => {
     marginBottom: theme.spacing["8p"],
     paddingVertical: theme.spacing["4p"],
     paddingHorizontal: theme.spacing["8p"],
-    backgroundColor: documentStatusData[status]?.color || documentStatusData.default.color,
   }));
 
+  const backgroundColor = documentStatusData[status]?.color || documentStatusData.default.color;
+
   return (
-    <Stack gap="4p" direction="horizontal" style={statusPillStyle}>
+    <Stack gap="4p" direction="horizontal" style={[statusPillStyle, { backgroundColor }]}>
       {documentStatusData[status]?.icon || documentStatusData.default.icon}
       <Typography.Text color="neutralBase-60" size="caption1">
         {documentStatusData[status]?.text || documentStatusData.default.text}
