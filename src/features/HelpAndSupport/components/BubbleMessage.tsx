@@ -10,11 +10,13 @@ import { AgentAvatar } from "../components";
 
 interface BubbleMessageProps {
   isAgent: boolean;
+  isAgentOnline: boolean;
   message: string;
   time: string;
+  agentName: string;
 }
 
-export default function BubbleMessage({ isAgent, message, time }: BubbleMessageProps) {
+export default function BubbleMessage({ isAgent, message, time, agentName, isAgentOnline }: BubbleMessageProps) {
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -53,11 +55,11 @@ export default function BubbleMessage({ isAgent, message, time }: BubbleMessageP
         <View style={styles.agentContainerStyle}>
           <View style={styles.agentInfoStyle}>
             <View style={styles.flexDirectionRow}>
-              <AgentAvatar isOnline={true} />
+              <AgentAvatar isOnline={isAgentOnline} />
               <View style={styles.contentStyle}>
                 <View style={[styles.flexDirectionRow, styles.justifyContentSpaceBetween]}>
                   <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                    {t("HelpAndSupport.BubbleMessage.croatiaAgent")}
+                    {agentName}
                   </Typography.Text>
 
                   <Typography.Text size="footnote" weight="regular" color="neutralBase+30">

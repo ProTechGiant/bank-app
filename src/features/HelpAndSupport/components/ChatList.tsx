@@ -24,6 +24,7 @@ import { combineAndFilterMessages, formatUtcTimestampToTime } from "../utils";
 import AgentAwaitingMessage from "./AgentAwaitingMessage";
 import AgentInformation from "./AgentInformation";
 import AgentJoinedChat from "./AgentJoinedChat";
+import AgentLeftChat from "./AgentLeftChat";
 import BubbleMessage from "./BubbleMessage";
 import ChatInputBox from "./ChatInputBox";
 import ChatScrollToEndButton from "./ChatScrollToEndButton";
@@ -63,6 +64,7 @@ function ChatList({
   const [flatListHeight, setFlatListHeight] = useState(0);
 
   const flatListRef = useRef<FlatList<ChatEvent> | null>(null);
+  const currentOnlineAgentRef = useRef<string>(t("HelpAndSupport.AgentInformation.agentName"));
   const nextPositionRef = useRef<number>(chatData.NextPosition);
   const pendingMessagesRef = useRef<ChatEvent[]>([]);
   const chatHistoryLimitRef = useRef(1);
@@ -136,6 +138,7 @@ function ChatList({
             case "ParticipantJoined":
               chatStatusRef.current.showWaitingTimer = false;
               chatStatusRef.current.isAgentOnline = true;
+              currentOnlineAgentRef.current = chatEvent.From.Nickname;
               break;
             case "ParticipantLeft":
               chatStatusRef.current.isAgentOnline = false;
@@ -148,6 +151,7 @@ function ChatList({
               break;
             default:
               chatStatusRef.current.isAgentTyping = false;
+              chatStatusRef.current.isAgentOnline = true;
               break;
           }
         }
@@ -226,11 +230,16 @@ function ChatList({
           message={item.Text}
           isAgent={item.From.Type === "Agent"}
           time={formatUtcTimestampToTime(item.UtcTime)}
+          isAgentOnline={currentOnlineAgentRef.current === item.From.Nickname}
+          agentName={item.From.Nickname}
         />
       );
     }
     if (item.Type === "ParticipantJoined" && item.From.Type === "Agent") {
-      return <AgentJoinedChat />;
+      return <AgentJoinedChat agentName={item.From.Nickname} />;
+    }
+    if (item.Type === "ParticipantLeft" && item.From.Type === "Agent") {
+      return <AgentLeftChat agentName={item.From.Nickname} />;
     }
     return null;
   }, []);
@@ -280,7 +289,7 @@ function ChatList({
     <>
       <Stack direction="vertical" align="stretch" style={styles.containerStyle}>
         <DismissKeyboardWrapper>
-          <AgentInformation isOnline={isAgentOnline} agentName={t("HelpAndSupport.AgentInformation.agentName")} />
+          <AgentInformation isOnline={isAgentOnline} agentName={currentOnlineAgentRef.current} />
         </DismissKeyboardWrapper>
         <FlatList
           inverted={true}
@@ -302,7 +311,7 @@ function ChatList({
         />
         {isAgentTyping ? (
           <DismissKeyboardWrapper>
-            <ChatTypingIndicator />
+            <ChatTypingIndicator agentName={currentOnlineAgentRef.current} />
           </DismissKeyboardWrapper>
         ) : null}
         {showScrollButton ? <ChatScrollToEndButton onPress={scrollListToEnd} /> : null}

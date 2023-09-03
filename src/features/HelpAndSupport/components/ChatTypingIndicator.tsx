@@ -7,7 +7,11 @@ import { useThemeStyles } from "@/theme";
 
 import TypingIndicator from "./TypingIndicator";
 
-const ChatTypingIndicator = () => {
+interface ChatTypingIndicatorProps {
+  agentName: string;
+}
+
+const ChatTypingIndicator = ({ agentName }: ChatTypingIndicatorProps) => {
   const { t } = useTranslation();
 
   const chatTypingIndicatorStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -19,7 +23,7 @@ const ChatTypingIndicator = () => {
     <Stack direction="horizontal" align="center" gap="8p" style={chatTypingIndicatorStyle}>
       <TypingIndicator />
       <Typography.Text weight="regular" size="caption1" color="neutralBase+20">
-        {t("HelpAndSupport.ChatScreen.chatTypingIndicator")}
+        {t("HelpAndSupport.ChatScreen.chatTypingIndicator", { agentName })}
       </Typography.Text>
     </Stack>
   );
