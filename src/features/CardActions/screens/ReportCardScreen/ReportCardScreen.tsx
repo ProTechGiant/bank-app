@@ -53,7 +53,7 @@ export default function ReportCardScreen() {
       setIsErrorModalVisible(true);
     } else {
       setReportReason(selectedReason);
-      setMode("address");
+      setIsConfirmationModalVisible(true);
     }
   };
 
@@ -72,7 +72,10 @@ export default function ReportCardScreen() {
   const handleOnConfirm = () => {
     if (reportReason === undefined) return;
     setIsConfirmationModalVisible(false);
+    setMode("address");
+  };
 
+  const handleOnConfirmAddressPressed = () => {
     delayTransition(() => {
       otpFlow.handle<{ CardCreateResponse: CardCreateResponse }, "CardActions.ReportCardScreen">({
         action: {
@@ -101,12 +104,10 @@ export default function ReportCardScreen() {
         },
         onFinish: (status, payload) => {
           if (status === "cancel") return;
-
           if (status === "fail" || payload.CardCreateResponse.Body === undefined) {
             setIsErrorModalVisible(true);
             return;
           }
-
           setCardId(payload.CardCreateResponse.Body.CardId);
           setMode("done");
         },
@@ -145,7 +146,7 @@ export default function ReportCardScreen() {
             <ConfirmDeliveryAddress
               onConfirm={alternativeAddress => {
                 setSelectedAlternativeAddress(alternativeAddress);
-                setIsConfirmationModalVisible(true);
+                handleOnConfirmAddressPressed();
               }}
               primaryAddress={primaryAddress.data}
             />
@@ -160,7 +161,7 @@ export default function ReportCardScreen() {
         onClose={() => setIsErrorModalVisible(false)}
       />
       <NotificationModal
-        variant="confirmations"
+        variant="warning"
         title={t("CardActions.ReportCardScreen.ConfirmDeliveryAddress.alertTitle")}
         message={t("CardActions.ReportCardScreen.ConfirmDeliveryAddress.alertMessage")}
         isVisible={isConfirmationModalVisible}

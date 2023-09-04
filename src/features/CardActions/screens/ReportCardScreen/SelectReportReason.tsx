@@ -4,10 +4,11 @@ import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import { RadioButton, RadioButtonGroup } from "@/components/RadioButton";
+import { RadioButtonGroup } from "@/components/RadioButton";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import { ReasonRadioButton } from "../../components";
 import { CardStatus } from "../../types";
 
 interface SelectReportReasonProps {
@@ -49,9 +50,21 @@ export default function SelectReportReason({ cardStatus, onContinuePress, onFree
         </Typography.Text>
         <View style={radioGroupStyle}>
           <RadioButtonGroup onPress={value => setSelectedReason(value)} value={selectedReason}>
-            <RadioButton label={t("CardActions.ReportCardScreen.SelectReportReason.cardStolen")} value="stolen" />
-            <RadioButton label={t("CardActions.ReportCardScreen.SelectReportReason.cardLost")} value="lost" />
-            <RadioButton label={t("CardActions.ReportCardScreen.SelectReportReason.cardDamaged")} value="damaged" />
+            <ReasonRadioButton
+              title={t("CardActions.ReportCardScreen.SelectReportReason.cardStolen")}
+              description={t("CardActions.ReportCardScreen.SelectReportReason.cardStolenDescription")}
+              value="stolen"
+            />
+            <ReasonRadioButton
+              title={t("CardActions.ReportCardScreen.SelectReportReason.cardLost")}
+              value="lost"
+              description={t("CardActions.ReportCardScreen.SelectReportReason.cardLostDescription")}
+            />
+            <ReasonRadioButton
+              title={t("CardActions.ReportCardScreen.SelectReportReason.cardDamaged")}
+              description={t("CardActions.ReportCardScreen.SelectReportReason.cardDamagedDescription")}
+              value="damaged"
+            />
           </RadioButtonGroup>
         </View>
       </View>
