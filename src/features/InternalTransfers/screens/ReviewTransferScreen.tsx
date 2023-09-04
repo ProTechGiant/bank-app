@@ -114,11 +114,7 @@ export default function ReviewTransferScreen() {
               screen: "InternalTransfers.PaymentsHubScreen",
             });
           } else {
-            if (recipient.type === "active") {
-              navigation.navigate("InternalTransfers.ConfirmationScreen");
-            } else {
-              navigation.navigate("InternalTransfers.IVRCheckScreen");
-            }
+            navigation.navigate("InternalTransfers.ConfirmationScreen");
           }
         },
       });

@@ -13,7 +13,8 @@ interface BeneficiaryListProps {
     accountNumber: string,
     phoneNumber: string | undefined,
     iban: string | undefined,
-    bankName: string | undefined
+    bankName: string | undefined,
+    beneficiaryId: string | undefined
   ) => void;
   onMenuPress: (beneficiary: BeneficiaryType) => void;
 }

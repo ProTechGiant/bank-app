@@ -21,6 +21,7 @@ const queryKeys = {
   beneficiaries: (transferType: TransferType) => [...queryKeys.all(), "beneficiaries", { transferType }] as const,
   banks: () => [...queryKeys.all(), "banks"] as const,
   transferFees: (transferType: TransferType) => [...queryKeys.all(), "transfer-fees", { transferType }] as const,
+  ivrValidation: (beneficiaryId: string) => [...queryKeys.all(), "ivr-validation", { beneficiaryId }] as const,
 };
 
 interface ReasonsResponse {
@@ -105,6 +106,7 @@ interface AddBeneficiaryResponse {
   BankAccountNumber?: string;
   IBAN?: string;
   PhoneNumber?: string;
+  BeneficiaryId?: string;
 }
 
 export function useAddBeneficiary() {
@@ -297,6 +299,7 @@ export function useLocalTransferForIPS() {
   });
 }
 interface AddBeneficiaryLocalTranferResponse {
+  BeneficiaryId: string | undefined;
   Name: string;
   BankAccountNumber?: string;
   IBAN?: string;
@@ -343,5 +346,20 @@ export function useBankDetailWithIBAN() {
     return api<GetBankNameFromIBANResponse>("v1", "transfers/beneficiaries/bank/" + iban, "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
+  });
+}
+
+export function useIVRValidations(BeneficiaryId: string) {
+  return useMutation(queryKeys.ivrValidation(BeneficiaryId), () => {
+    return api(
+      "v1",
+      `transfers/ivr-validation`,
+      "POST",
+      undefined,
+      { BeneficiaryId: BeneficiaryId },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
   });
 }

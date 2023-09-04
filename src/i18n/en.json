@@ -2374,7 +2374,12 @@
     },
     "WaitingVerificationScreen": {
       "waitingVerification": "Waiting verification",
-      "waitingMessage": "Please do not close the app or navigate away from this screen while we activate your beneficiary"
+      "waitingMessage": "Please do not close the app or navigate away from this screen while we activate your beneficiary",
+    "error": {
+        "message": "IVR activation failed and therefore we couldn’t process your transfer. We have saved beneficiary details in your beneficiary list and you can activate beneficiary later.",
+        "title": "Your transfer failed because of a failed beneficiary activation",
+        "buttonText": "Close"
+      }
     }
   },
   "LocalTransfers": {

@@ -111,10 +111,6 @@ export default function ReviewQuickTransferScreen() {
             delayTransition(() => setIsGenericErrorModalVisible(true));
           }
         } else {
-          if (route.params.Beneficiary.type === "inactive" || route.params.Beneficiary.type === "new") {
-            navigation.navigate("InternalTransfers.IVRCheckScreen");
-            return;
-          }
           navigation.navigate("InternalTransfers.ConfirmationScreen");
         }
       },

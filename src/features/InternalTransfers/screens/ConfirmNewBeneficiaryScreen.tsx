@@ -63,7 +63,9 @@ export default function ConfirmNewBeneficiaryScreen() {
   };
 
   const handleOnSubmit = () => {
-    if (transferType !== TransferType.SarieTransferAction) {
+    if (recipient.type === "inactive" || recipient.type === "new") {
+      return navigation.navigate("InternalTransfers.WaitingVerificationScreen");
+    } else if (transferType !== TransferType.SarieTransferAction) {
       return navigation.navigate("InternalTransfers.ReviewTransferScreen");
     }
 

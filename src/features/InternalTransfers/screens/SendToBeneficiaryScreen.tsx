@@ -121,7 +121,8 @@ export default function SendToBeneficiaryScreen() {
     accountNumber: string,
     phoneNumber: string | undefined,
     iban: string | undefined,
-    bankName: string | undefined
+    bankName: string | undefined,
+    beneficiaryId: string | undefined
   ) => {
     const selectedBank = bankList.data?.Banks.find(bankItem => bankItem.EnglishName === bankName);
     if (iban === undefined || transferAmount === undefined || reason === undefined) return;
@@ -132,6 +133,7 @@ export default function SendToBeneficiaryScreen() {
       iban,
       type,
       bankName,
+      beneficiaryId,
     });
     type === "active"
       ? transferType === TransferType.SarieTransferAction
@@ -236,8 +238,23 @@ export default function SendToBeneficiaryScreen() {
                         beneficiaries={activeBeneficiaries}
                         onDelete={handleOnDelete}
                         transferType={transferType}
-                        onBeneficiaryPress={(accountName, accountNumber, phoneNumber, iban, bankName) => {
-                          handleOnBeneficiaryPress("active", accountName, accountNumber, phoneNumber, iban, bankName);
+                        onBeneficiaryPress={(
+                          accountName,
+                          accountNumber,
+                          phoneNumber,
+                          iban,
+                          bankName,
+                          beneficiaryId
+                        ) => {
+                          handleOnBeneficiaryPress(
+                            "active",
+                            accountName,
+                            accountNumber,
+                            phoneNumber,
+                            iban,
+                            bankName,
+                            beneficiaryId
+                          );
                         }}
                         onMenuPress={handleOnMenuPress}
                       />
@@ -254,8 +271,16 @@ export default function SendToBeneficiaryScreen() {
                       beneficiaries={inactiveBeneficiaries}
                       onDelete={handleOnDelete}
                       transferType={transferType}
-                      onBeneficiaryPress={(accountName, accountNumber, phoneNumber, iban, bankName) => {
-                        handleOnBeneficiaryPress("inactive", accountName, accountNumber, phoneNumber, iban, bankName);
+                      onBeneficiaryPress={(accountName, accountNumber, phoneNumber, iban, bankName, beneficiaryId) => {
+                        handleOnBeneficiaryPress(
+                          "inactive",
+                          accountName,
+                          accountNumber,
+                          phoneNumber,
+                          iban,
+                          bankName,
+                          beneficiaryId
+                        );
                       }}
                       onMenuPress={handleOnMenuPress}
                     />

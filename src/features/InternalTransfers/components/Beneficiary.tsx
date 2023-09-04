@@ -17,7 +17,8 @@ interface BeneficiaryProps {
     accountNumber: string,
     phoneNumber: string | undefined,
     iban: string | undefined,
-    bankName: string | undefined
+    bankName: string | undefined,
+    beneficiaryId: string | undefined
   ) => void;
   onMenuPress: (beneficiary: BeneficiaryType) => void;
 }
@@ -45,7 +46,14 @@ export default function Beneficiary({ data, onBeneficiaryPress, onMenuPress, tra
     <Stack justify="space-between" align="center" direction="horizontal" gap="12p">
       <Pressable
         onPress={() => {
-          onBeneficiaryPress(data.Name, data.BankAccountNumber, data.PhoneNumber, data.IBAN, data.BankName);
+          onBeneficiaryPress(
+            data.Name,
+            data.BankAccountNumber,
+            data.PhoneNumber,
+            data.IBAN,
+            data.BankName,
+            data.BeneficiaryId
+          );
         }}>
         <Stack align="center" direction="horizontal" gap="12p">
           <View style={profileContainer}>
