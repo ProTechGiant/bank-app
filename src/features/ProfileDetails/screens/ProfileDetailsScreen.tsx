@@ -18,8 +18,10 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
+import useRegisterNotifications from "@/hooks/use-register-notifications";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -54,6 +56,8 @@ export default function ProfileDetailsScreen() {
   const { mutateAsync: UpdateCustomerProfileDetails, isLoading } = useUpdateCustomerProfileDetails();
   const { mutateAsync: UpdateCustomerProfileOTP } = useUpdateCustomerProfileOTP();
   const UpdateIdExpiryDate = useUpdateCustomerProfileIdExpiryDate();
+  const { updatePhoneNumber } = useAuthContext();
+  const registerForNotifications = useRegisterNotifications();
 
   const [showEditForm, setShowEditForm] = useState(false);
   const [showFAQModal, setShowFAQModal] = useState(false);
@@ -127,7 +131,7 @@ export default function ProfileDetailsScreen() {
               MobileNumber: values.MobileNumber,
             });
           },
-          onFinish: status => {
+          onFinish: async status => {
             refetch();
             setShowEditForm(false);
             if (status === "success") {
@@ -138,14 +142,19 @@ export default function ProfileDetailsScreen() {
                   message: t("ProfileDetails.ProfileDetailsScreen.updateDetailsSuccessMessage"),
                 });
               } else {
+                if (values.MobileNumber) {
+                  updatePhoneNumber(values.MobileNumber);
+                  registerForNotifications.register(values.MobileNumber);
+                }
+
                 setAlertStatus({
                   isVisible: true,
                   variant: "success",
                   message: t("ProfileDetails.ProfileDetailsScreen.updateMobileNumberSuccessMessage"),
                 });
               }
-              return;
             }
+
             if (status === "fail") {
               setAlertStatus({
                 isVisible: true,
@@ -156,6 +165,7 @@ export default function ProfileDetailsScreen() {
           },
           onUserBlocked: async () => {
             await markUserAsBlocked();
+
             navigation.navigate("Passcode.ChangePasscodeStack", {
               screen: "SignIn.UserBlocked",
               params: {

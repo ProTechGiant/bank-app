@@ -9,10 +9,12 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SelectTransferTypeModal from "@/components/SelectTransferTypeModal";
 import Stack from "@/components/Stack";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useAppreciationFeedback, useAppreciationsWithNoFeedback } from "@/features/Appreciation/hooks/query-hooks";
 import { TransferType } from "@/features/InternalTransfers/types";
 import { useCurrentAccount } from "@/hooks/use-accounts";
+import useRegisterNotifications from "@/hooks/use-register-notifications";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -40,6 +42,8 @@ export default function DashboardScreen() {
   const { refetchAll } = useRefetchHomepageLayout();
   const account = useCurrentAccount();
   const { setInternalTransferEntryPoint, clearContext, setTransferType } = useInternalTransferContext();
+  const { phoneNumber } = useAuthContext();
+  const registerForNotifications = useRegisterNotifications();
 
   const appreciationFeedback = useAppreciationFeedback();
   const { data: appreciationsWithNoFeedback } = useAppreciationsWithNoFeedback(i18n.language);
@@ -52,6 +56,19 @@ export default function DashboardScreen() {
     appreciationsWithNoFeedback !== undefined && feedbackIndex < appreciationsWithNoFeedback.length;
 
   useEffect(() => {
+    async function main() {
+      if (phoneNumber === undefined) {
+        return;
+      }
+
+      await registerForNotifications.register(phoneNumber);
+    }
+
+    main();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (homepageLayout?.isError === true) {
       setLayoutErrorIsVisible(true);
     }
@@ -61,7 +78,7 @@ export default function DashboardScreen() {
     navigation.navigate("Home.SectionsReordererModal");
   };
 
-  const handleOnQuickActionPressed = (screen: string, stack: keyof AuthenticatedStackParams) => {
+  const handleOnQuickActionPressed = (screen: string, stack: string) => {
     if (screen === undefined || screen === "") return;
     if (stack === "InternalTransfers.InternalTransfersStack") {
       setInternalTransferEntryPoint("homepage");

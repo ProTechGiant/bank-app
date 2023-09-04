@@ -15,11 +15,11 @@ import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useRegisterNotifications from "@/hooks/use-register-notifications";
 import { warn } from "@/logger";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import notifications from "@/utils/push-notifications";
 
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useEmail } from "../hooks/query-hooks";
@@ -30,22 +30,17 @@ interface OptionalEmailFormValues {
 
 export default function OptionalEmailScreen() {
   const { t } = useTranslation();
-  const { mobileNumber, isLoading } = useOnboardingContext();
+
+  const registerForNotifications = useRegisterNotifications();
+  const { isLoading } = useOnboardingContext();
   const navigation = useNavigation<UnAuthenticatedStackParams>();
   const emailAsync = useEmail();
 
   useEffect(() => {
     async function main() {
-      try {
-        const status = await notifications.requestPermissions();
-        if (status) {
-          await notifications.registerForNotifications();
-          if (mobileNumber !== undefined) await notifications.registerWithT2(mobileNumber);
-        }
-      } catch (error) {
-        Alert.alert(t("Onboarding.OptionalEmailScreen.errorText.notificationRegistrationFailure"));
-      }
+      await registerForNotifications.requestPermissions();
     }
+
     main();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
