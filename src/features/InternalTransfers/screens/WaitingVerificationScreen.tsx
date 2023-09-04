@@ -39,7 +39,7 @@ export default function WaitingVerificationScreen() {
       if (isIdle) {
         navigation.navigate("InternalTransfers.PaymentsHubScreen");
       }
-    }, 10000);
+    }, 60000);
   };
 
   const handleOnClose = () => {
