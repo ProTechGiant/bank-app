@@ -63,7 +63,7 @@ public class T2PushNotificationsModule extends ReactContextBaseJavaModule {
     });
   }
 
-  private Notify createT2Instance(@NonNull String deviceToken) {
+  private Notify createT2Instance(@NonNull String deviceToken) throws Exception {
     return new Notify.Builder(getReactApplicationContext(), "https://notificationrb.rich.sa/api/",
       new ApiConfig(
         BuildConfig.T2_CLIENT_SECRET,
@@ -95,6 +95,11 @@ public class T2PushNotificationsModule extends ReactContextBaseJavaModule {
 
       notify = createT2Instance(deviceToken);
       notify = Notify.Companion.getINSTANCE();
+
+      if (notify == null) {
+        promise.reject("T2NotificationsModule", "Tried to register on a null instance");
+        return;
+      }
 
       notify.register(phoneNumber, true, true, new ClientListener() {
         @Override public void onSuccess() {
