@@ -1,5 +1,5 @@
 import { cloneDeep, isEqual } from "lodash";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, TextStyle, View, ViewStyle } from "react-native";
 
@@ -23,6 +23,14 @@ export default function FilterModal({ onClose, onApplyButtonPress, selectedFilte
   const { t } = useTranslation();
 
   const [filtersData, setFiltersData] = useState<FiltersType | null>(null);
+
+  const hasFilters = useMemo(() => {
+    return !filtersData
+      ? false
+      : Object.values(filtersData)
+          .flat()
+          .some(item => item.isActive);
+  }, [filtersData]);
 
   useEffect(() => {
     setFiltersData(selectedFilters);
@@ -105,7 +113,9 @@ export default function FilterModal({ onClose, onApplyButtonPress, selectedFilte
             );
           })}
       </View>
-      <Button onPress={() => onApplyButtonPress(filtersData)} disabled={isEqual(filtersData, selectedFilters)}>
+      <Button
+        onPress={() => onApplyButtonPress(filtersData)}
+        disabled={!hasFilters ?? isEqual(filtersData, selectedFilters)}>
         {t("Appreciation.HubScreen.apply")}
       </Button>
     </Modal>
