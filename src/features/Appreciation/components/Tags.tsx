@@ -6,15 +6,15 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import { DiamondIcon } from "../assets";
-import { UserTypeEnum } from "../types";
+import { CustomerTierEnum } from "../types";
 
 interface TagsProps {
   isNew: boolean;
   isPlus: boolean;
-  userType: UserTypeEnum;
+  userTier: CustomerTierEnum;
 }
 
-export default function Tags({ isNew, isPlus, userType }: TagsProps) {
+export default function Tags({ isNew, isPlus, userTier }: TagsProps) {
   const { t } = useTranslation();
   const tagStyle = useThemeStyles(theme => ({
     paddingHorizontal: theme.spacing["8p"],
@@ -38,7 +38,7 @@ export default function Tags({ isNew, isPlus, userType }: TagsProps) {
           </Typography.Text>
         </View>
       )}
-      {isPlus && userType === UserTypeEnum.STANDARD && (
+      {isPlus && userTier === CustomerTierEnum.STANDARD && (
         <View style={[tagStyle, croatiaPlusTagStyle]}>
           <Typography.Text color="supportBase-10" size="caption2" weight="medium">
             <DiamondIcon /> {t("Appreciation.HubScreen.croatiaPlus")}

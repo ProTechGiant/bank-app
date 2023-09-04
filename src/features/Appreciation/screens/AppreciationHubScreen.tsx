@@ -16,6 +16,7 @@ import Page from "@/components/Page";
 import SegmentedControl from "@/components/SegmentedControl";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import { useThemeStyles } from "@/theme";
 
 import noAppreciationImage from "../assets/no-appreciation-image.png";
@@ -25,12 +26,11 @@ import { FilterModal } from "../components";
 import EmptyAppreciationList from "../components/EmptyAppreciationList";
 import { SORTING_OPTIONS_ALL_TAB, SORTING_OPTIONS_OTHER_TABS } from "../constants";
 import { useAppreciationFilters, useAppreciationSearch } from "../hooks/query-hooks";
-import { AppreciationType, FilterItemType, FiltersType, SortingOptions, TabsTypes, UserTypeEnum } from "../types";
+import { AppreciationType, CustomerTierEnum, FilterItemType, FiltersType, SortingOptions, TabsTypes } from "../types";
 
 export default function AppreciationHubScreen() {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
-  const userType = UserTypeEnum.STANDARD;
 
   const [currentTab, setCurrentTab] = useState<TabsTypes>(TabsTypes.ALL);
   const [isSortingModalVisible, setIsSortingModalVisible] = useState<boolean>(false);
@@ -52,6 +52,8 @@ export default function AppreciationHubScreen() {
     isError,
     isFetching,
   } = useAppreciationSearch(selectedFilters, currentSortingOption, currentTab, i18n.language);
+  const { data: userInfo } = useCustomerProfile();
+  const userTier = userInfo?.CustomerTier ?? CustomerTierEnum.STANDARD;
 
   const hasFilters = useMemo(() => {
     return !selectedFilters
@@ -136,7 +138,7 @@ export default function AppreciationHubScreen() {
   };
 
   const handleOnAppreciationCardPress = (appreciation: AppreciationType) => {
-    navigation.navigate("Appreciation.AppreciationDetailsScreen", { appreciation, userType });
+    navigation.navigate("Appreciation.AppreciationDetailsScreen", { appreciation, userTier });
   };
 
   const handleOnPromotedAppreciationPress = () => {
@@ -256,7 +258,7 @@ export default function AppreciationHubScreen() {
                     return (
                       <AppreciationCard
                         appreciation={appreciation}
-                        userType={userType}
+                        userTier={userTier}
                         key={index}
                         onPress={handleOnAppreciationCardPress}
                         onLike={handleOnLikeAppreciation}
@@ -286,7 +288,7 @@ export default function AppreciationHubScreen() {
                   return (
                     <AppreciationCard
                       appreciation={appreciation}
-                      userType={userType}
+                      userTier={userTier}
                       key={index}
                       onPress={handleOnAppreciationCardPress}
                       onLike={handleOnLikeAppreciation}

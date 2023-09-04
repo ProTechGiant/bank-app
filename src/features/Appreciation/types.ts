@@ -1,3 +1,6 @@
+import { CustomerTierEnum } from "@/types/CustomerProfile";
+export { CustomerTierEnum };
+
 export enum TabsTypes {
   ALL = "All",
   REDEEMED = "Redeemed",
@@ -11,10 +14,6 @@ export enum SortingOptions {
   EXPIRING_SOONEST = "expiringSoonest",
 }
 
-export enum UserTypeEnum {
-  STANDARD = "standard",
-  PLUS = "plus",
-}
 export interface FilterItemType {
   Name: string;
   Code: number;

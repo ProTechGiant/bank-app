@@ -13,11 +13,11 @@ import { useThemeStyles } from "@/theme";
 
 import { AboutOrganizerSection, AppreciationEventDetailsSection, ExploreAppreciationHeader, Tags } from "../components";
 import { useRedeemAppreciation } from "../hooks/query-hooks";
-import { AppreciationType, UserTypeEnum } from "./../types";
+import { AppreciationType, CustomerTierEnum } from "./../types";
 
 interface AppreciationDetailsScreenProps {
   appreciation: AppreciationType;
-  userType: UserTypeEnum;
+  userTier: CustomerTierEnum;
 }
 
 export default function AppreciationDetailsScreen({ route }) {
@@ -34,7 +34,7 @@ export default function AppreciationDetailsScreen({ route }) {
       PreSaleDateTime,
       Tier,
     },
-    userType,
+    userTier,
   }: AppreciationDetailsScreenProps = route.params;
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -43,7 +43,7 @@ export default function AppreciationDetailsScreen({ route }) {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
 
-  const canUserRedeem = !(Tier === 1 && userType === UserTypeEnum.STANDARD);
+  const canUserRedeem = !(Tier === 1 && userTier === CustomerTierEnum.STANDARD);
 
   const handleOnRedeemButtonPress = async () => {
     if (canUserRedeem) {
@@ -101,7 +101,7 @@ export default function AppreciationDetailsScreen({ route }) {
         />
         <ContentContainer style={scrollViewStyle}>
           <Stack direction="vertical" gap="16p">
-            <Tags isNew={true} isPlus={Tier === 1} userType={userType} />
+            <Tags isNew={true} isPlus={Tier === 1} userTier={userTier} />
             <Typography.Text color="neutralBase+30" weight="medium" size="title1" style={titleStyle}>
               {VoucherName}
             </Typography.Text>

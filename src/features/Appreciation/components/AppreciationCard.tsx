@@ -10,18 +10,18 @@ import { useThemeStyles } from "@/theme";
 import { CalendarIcon, LikeIcon, TrendingUpIcon, ZoomInIcon as DetailsIcon } from "../assets";
 import PromotedImageDivider from "../assets/promoted-image-divider.png";
 import RectangleImageDivider from "../assets/rectangle-image-divider.png";
-import { AppreciationType, UserTypeEnum } from "../types";
+import { AppreciationType, CustomerTierEnum } from "../types";
 import Tags from "./Tags";
 
 interface CardPropsTypes {
   appreciation: AppreciationType;
-  userType: UserTypeEnum;
+  userTier: CustomerTierEnum;
   onPress: (appreciation: AppreciationType) => void;
   onPromptedPress: (appreciation: AppreciationType) => void;
   onLike: (appreciation: AppreciationType) => void;
 }
 
-export default function AppreciationCard({ appreciation, userType, onPress, onPromptedPress, onLike }: CardPropsTypes) {
+export default function AppreciationCard({ appreciation, userTier, onPress, onPromptedPress, onLike }: CardPropsTypes) {
   const { t } = useTranslation();
 
   const { Tier, Ranking, VoucherName, PreSaleDateTime, Location, ExpiryDate, PreSaleDescription, ImageUrl } =
@@ -80,7 +80,7 @@ export default function AppreciationCard({ appreciation, userType, onPress, onPr
     <Pressable onPress={() => onPress(appreciation)}>
       <View style={containerStyle}>
         <View style={absoluteHeaderStyle}>
-          <Tags isNew={true} isPlus={Tier === 1} userType={userType} />
+          <Tags isNew={true} isPlus={Tier === 1} userTier={userTier} />
           {Ranking === 1 ? (
             <Pressable onPress={() => onPromptedPress(appreciation)}>
               <DetailsIcon />

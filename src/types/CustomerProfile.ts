@@ -26,7 +26,7 @@ export interface FetchCustomerProfileInterface {
   FinancialInformation: FinancialInformation;
   CustomerAddress: CustomerAddress;
   ReferralCode: string;
-  CustomerTier: number;
+  CustomerTier: CustomerTierEnum;
   CivilianIDType: number;
   CivilianID: string;
   IssueDate: string;
@@ -43,6 +43,11 @@ export interface FetchCustomerProfileInterface {
   ExpireSoon: boolean;
   IsExpired: boolean;
   NotificationLanguageCode: string;
+}
+
+export enum CustomerTierEnum {
+  PLUS = 1,
+  STANDARD = 2,
 }
 
 interface ForeignTaxResidency {
