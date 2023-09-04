@@ -98,7 +98,6 @@ export default function HubScreen() {
             icon={<PhoneUnFilledIcon />}
             topText={t("HelpAndSupport.HubScreen.twentyFourSeven")}
             text={t("HelpAndSupport.HubScreen.callUs")}
-            subText={lookup(PhoneBook.CALL_US)}
             style={styles.quickActionLink}
           />
           <View style={emptyViewStyle} />
