@@ -22,7 +22,7 @@ export default function ListItemLink({ icon, title, onPress, disabled = false }:
   }));
 
   const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
-  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+  const iconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
   const chevronColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
   return (

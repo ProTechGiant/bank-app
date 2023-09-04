@@ -1,9 +1,9 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Alert, View, ViewStyle } from "react-native";
 
-import { CardIcon, GlobeIcon, LockIcon } from "@/assets/icons";
+import { CardIcon, GlobeIcon, LockIcon, PointOfSaleIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -48,6 +48,11 @@ export default function CardSettingsScreen() {
     navigation.navigate("CardActions.ResetPincodeScreen", {
       cardId: route.params.cardId,
     });
+  };
+
+  const handleOnPOSTransactiionLimitPress = () => {
+    //TODO: replace with navigation of screen once its developed.
+    Alert.alert("POS Transaction Limit Pressed");
   };
 
   const handleOnChangeSettings = async (setting: keyof CardSettingsInput) => {
@@ -132,7 +137,7 @@ export default function CardSettingsScreen() {
       <Page backgroundColor="neutralBase-60">
         <NavHeader />
         <ContentContainer isScrollView>
-          <Typography.Header color="neutralBase+30" size="large" weight="semiBold" style={titleStyle}>
+          <Typography.Header color="neutralBase+30" size="medium" weight="regular" style={titleStyle}>
             {t("CardActions.CardSettingsScreen.title")}
           </Typography.Header>
           {settings.data !== undefined && card.data !== undefined ? (
@@ -163,6 +168,16 @@ export default function CardSettingsScreen() {
               </ListSection>
               <View style={separatorStyle} />
               <ListSection title={t("CardActions.CardSettingsScreen.subTitle2")}>
+                <ListItemLink
+                  icon={<PointOfSaleIcon />}
+                  title={t("CardActions.CardSettingsScreen.posTransactionLimit")}
+                  onPress={handleOnPOSTransactiionLimitPress}
+                  disabled={card.data.Status !== "unfreeze"}
+                />
+              </ListSection>
+              <View style={separatorStyle} />
+
+              <ListSection title={t("CardActions.CardSettingsScreen.subTitle3")}>
                 {card.data.Status === "pending-activation" ? (
                   <View style={cardInTransitBannerStyle}>
                     <Stack direction="vertical" gap="8p">

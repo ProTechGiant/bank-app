@@ -1705,7 +1705,9 @@
         "label": "International payments",
         "helperText": "Allow payments outside Saudi Arabia with your card."
       },
-      "subTitle2": "Physical card",
+      "subTitle2": "Transaction limit",
+      "posTransactionLimit": "POS transaction limit",
+      "subTitle3": "Physical card",
       "swipePayments": {
         "label": "Swipe payments",
         "helperText": "Enable payments using your card’s magnetic stripe."

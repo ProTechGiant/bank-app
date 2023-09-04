@@ -29,7 +29,7 @@ export default function SettingsToggle({ icon, helperText, onPress, label, disab
   }));
 
   const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
-  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+  const iconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
 
   return (
     <View style={containerStyles}>

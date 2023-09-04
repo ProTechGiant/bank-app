@@ -83,6 +83,7 @@ export * from "./PhoneIcon";
 export * from "./PhoneUnFilledIcon";
 export * from "./PlusCircleIcon";
 export * from "./PlusIcon";
+export * from "./PointOfSaleIcon";
 export * from "./PostcardIcon";
 export * from "./QuestionIcon";
 export * from "./RecurringEventIcon";
