@@ -37,13 +37,13 @@ export default function WaitingVerificationScreen() {
     }
     timerRef.current = setTimeout(() => {
       if (isIdle) {
-        navigation.navigate("InternalTransfers.PaymentsHubScreen");
+        navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
       }
     }, 60000);
   };
 
   const handleOnClose = () => {
-    navigation.navigate("InternalTransfers.PaymentsHubScreen");
+    navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
   };
 
   const handleOnNavigate = () => {
