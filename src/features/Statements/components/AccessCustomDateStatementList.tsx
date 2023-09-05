@@ -82,7 +82,20 @@ export default function AccessCustomDateStatementList({
         </Typography.Text>
       </Stack>
       <SectionList
-        ListEmptyComponent={isLoading ? <FullScreenLoader /> : <EmptyListView isFilterActive={!!activeFilter} />}
+        ListEmptyComponent={
+          isLoading ? (
+            <FullScreenLoader />
+          ) : (
+            <EmptyListView
+              header={t("Statements.AccessStatements.nothingHereText")}
+              message={
+                activeFilter
+                  ? t("Statements.AccessStatements.noStatementsTextForFilter")
+                  : t("Statements.AccessStatements.noStatementsText")
+              }
+            />
+          )
+        }
         showsVerticalScrollIndicator={false}
         sections={groupedStatementsByStatus}
         renderSectionHeader={sectionHeader}

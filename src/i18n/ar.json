@@ -653,7 +653,12 @@
         "willAppear": "سيختفي هذا بعد {{hours}} ساعة"
       },
       "DocumentListComponent": {
-        "subTitle": "ستبقى مستنداتك مرئية حتى نهاية فترة صلاحيتها."
+        "subTitle": "ستبقى مستنداتك مرئية حتى نهاية فترة صلاحيتها.",
+        "EmptyListView": {
+          "title": "لا شيء هنا",
+          "message": "لم يتم طلب أي وثائق حتى الآن!",
+          "filterMessage": "لم يتم العثور على نتائج"
+        }
       },
       "InfoModal": {
         "title": "ما هو تاريخ انتهاء المستندات الخاصة بي؟",
@@ -708,7 +713,7 @@
       "pleaseTryAgain": "Please try again later.",
       "documentRequestRejected": "Document request rejected",
       "youHaveAnotherPendingRequest": "you have another pending request for this document.",
-      "cannotRequestStatementOlderThanOnboarding": "You cannot request a statement older than the onboarding date."
+      "cannotRequestDocumentOlderThanOnboarding": "You cannot request a statement older than the onboarding date."
     },
     "PreviewDocumentScreen": {
       "title": "معاينة البيان"

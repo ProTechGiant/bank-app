@@ -16,7 +16,18 @@ interface RenderHeaderProps {
   hideArrows: boolean | undefined;
 }
 
-export default function CustomCalendar({ markingType, onDayPress, markedDates, hideArrows, current }: CalendarProps) {
+interface CustomCalendarInterface extends CalendarProps {
+  showDateRange?: boolean;
+}
+
+export default function CustomCalendar({
+  markingType,
+  onDayPress,
+  markedDates,
+  hideArrows,
+  current,
+  showDateRange = true,
+}: CustomCalendarInterface) {
   const calendarContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
     borderColor: theme.palette["neutralBase-30"],
@@ -43,7 +54,11 @@ export default function CustomCalendar({ markingType, onDayPress, markedDates, h
       current={format(currentMonth, "yyyy-MM-dd")}
       onMonthChange={handleOnMonthChange}
       renderHeader={date => (
-        <RenderHeader date={markedDates ?? date} currentMonth={currentMonth} hideArrows={hideArrows} />
+        <RenderHeader
+          date={(showDateRange ? markedDates : [markedDates?.[0]]) ?? date}
+          currentMonth={currentMonth}
+          hideArrows={hideArrows}
+        />
       )}
       renderArrow={direction => <RenderArrow direction={direction} />}
       markingType={markingType}

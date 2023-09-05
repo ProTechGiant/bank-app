@@ -641,7 +641,12 @@
         "willAppear": "This will disappear after {{hours}} hours"
       },
       "DocumentListComponent": {
-        "subTitle": "Your documents will stay visible until the end of their validity period."
+        "subTitle": "Your documents will stay visible until the end of their validity period.",
+        "EmptyListView": {
+          "title": "Nothing Here",
+          "message": "No documents have been requested yet!",
+          "filterMessage": "no results found"
+        }
       },
       "InfoModal": {
         "title": "What is my documents expiry date?",
@@ -696,7 +701,7 @@
       "pleaseTryAgain": "Please try again later.",
       "documentRequestRejected": "Document request rejected",
       "youHaveAnotherPendingRequest": "you have another pending request for this document.",
-      "cannotRequestStatementOlderThanOnboarding": "You cannot request a statement older than the onboarding date."
+      "cannotRequestDocumentOlderThanOnboarding": "You cannot request a document older than the onboarding date."
     },
     "PreviewDocumentScreen": {
       "title": "Document preview"

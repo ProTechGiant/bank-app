@@ -1,15 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
-import {
-  LayoutChangeEvent,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  useWindowDimensions,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { CloseIcon, FilterIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -40,13 +32,13 @@ import {
 export default function DocumentsScreen() {
   const navigation = useNavigation<DocumentParamsNavigationProp>();
   const { height: screenHeight } = useWindowDimensions();
-  const [buttonViewHeight, setButtonViewHeight] = useState<number>(0);
   const [pagination, setPagination] = useState<PaginationInterface>({ limit: 10, offset: 0 });
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState<boolean>(false);
   const [documents, setDocuments] = useState<DocumentInterface[]>([]);
   const [isInfoModalVisible, setIsInfoModalVisible] = useState<boolean>(false);
-  const [retryLoadingStates, setRetryLoadingStates] = useState<boolean[]>(new Array(20).fill(false));
   const [isFilterModalVisible, setIsFilterModalVisible] = useState<boolean>(false);
+  const [retryLoadingStates, setRetryLoadingStates] = useState<boolean[]>([]);
+
   const mappedFilters = {
     documentType: FILTER_DEFAULT_VALUES.documentType,
     language: FILTER_DEFAULT_VALUES.language,
@@ -80,11 +72,6 @@ export default function DocumentsScreen() {
   useEffect(() => {
     navigation.addListener("focus", () => refetchDocumentData());
   }, [navigation]);
-
-  const onLayout = (event: LayoutChangeEvent) => {
-    const { height } = event.nativeEvent.layout;
-    setButtonViewHeight(height);
-  };
 
   const handleApplyFilter = (filters: { documentType: string[]; language: string[]; status: string[] }) => {
     setSelectedFilters(filters);
@@ -181,25 +168,40 @@ export default function DocumentsScreen() {
     refetchDocumentData();
   };
 
+  useEffect(() => {
+    if (documentsData?.Documents?.length) {
+      const retryStates = new Array(documentsData.Documents.length).fill(false);
+      setRetryLoadingStates(retryStates);
+    }
+  }, [documentsData]);
+
   const handleOnPressCard = (documentId: string) => {
     navigation.navigate("Documents.PreviewDocumentScreen", { documentId });
   };
 
-  const handleOnRetry = async (requestId: string, index: number) => {
-    const isRetryLoading = true;
+  const updateFailedDocumentStatus = async (requestId: string, index: number) => {
     const updatedIsRetryLoading = [...retryLoadingStates];
-    updatedIsRetryLoading[index] = isRetryLoading;
+    updatedIsRetryLoading[index] = true;
     setRetryLoadingStates(updatedIsRetryLoading);
 
     try {
       await retryFailedAdHocDocument(requestId);
     } catch (error) {
       warn("Retry failed:", JSON.stringify(error));
-      updatedIsRetryLoading[index] = false;
       setIsNotificationModalVisible(true);
     } finally {
       updatedIsRetryLoading[index] = false;
       setRetryLoadingStates(updatedIsRetryLoading);
+    }
+  };
+
+  const handleOnRetry = async (requestId: string, index: number) => {
+    try {
+      await updateFailedDocumentStatus(requestId, index);
+      await refetchDocumentData();
+    } catch (err) {
+      warn("Retry Api:", `Error while retrying statement ${requestId + " " + err}`);
+      setIsNotificationModalVisible(true);
     }
   };
 
@@ -262,10 +264,6 @@ export default function DocumentsScreen() {
     right: -0,
   }));
 
-  const mainContainerPadding = useThemeStyles<ViewStyle>(theme => ({
-    // paddingBottom: theme.spacing["20p"] + buttonViewHeight,
-  }));
-
   return (
     <Page insets={["left", "right"]}>
       <NavHeader
@@ -311,6 +309,7 @@ export default function DocumentsScreen() {
               onInfoIcon={handleOnToggleInfoModal}
               documents={filteredDocuments}
               isRetryLoading={retryLoadingStates}
+              isFilterActive={selectedFiltersLabels?.length > 0 || false}
             />
           </ContentContainer>
           <Stack style={buttonContainerStyle} align="stretch" direction="vertical">
@@ -335,9 +334,9 @@ export default function DocumentsScreen() {
 
       <NotificationModal
         isVisible={isNotificationModalVisible}
-        message={t("Statements.RequestStatementScreen.pleaseTryAgain")}
+        message={t("Documents.RequestDocumentScreen.pleaseTryAgain")}
         onClose={() => setIsNotificationModalVisible(false)}
-        title={t("Statements.RequestStatementScreen.weAreSorry")}
+        title={t("Documents.RequestDocumentScreen.somethingWentWrong")}
         variant="error"
       />
     </Page>

@@ -1,4 +1,4 @@
-import { addHours, differenceInHours, format, parse, parseISO } from "date-fns";
+import { differenceInHours, format, parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Pressable, ViewStyle } from "react-native";
 
@@ -16,6 +16,7 @@ import { iconMapping } from "@/utils/icon-mapping";
 
 import { DocumentStatus } from "../constants";
 import { DocumentInterface } from "../types";
+import convertUTCDateToLocalDate from "../utils/convert-utc-date-to-local-date";
 
 interface DocumentCardViewProps {
   document: DocumentInterface;
@@ -35,10 +36,20 @@ export default function DocumentCardView({
   const { t } = useTranslation();
   const appTheme = useTheme();
   const disabled = document.Status !== DocumentStatus.Downloaded && document.Status !== DocumentStatus.Approved;
-  const dateFormat = parse(document.DocumentStatusUpdateDateTime, "dd-MM-yyyy h:mm:ss a", new Date());
 
   const dateFormatter = (date: string) => {
     return format(parseISO(date), "dd MMM yyyy");
+  };
+
+  const documentExpiryCountDown = (backendDate: string) => {
+    const currentDate = new Date();
+    const localTimeZone = convertUTCDateToLocalDate(backendDate);
+    const hoursDifference = differenceInHours(currentDate, localTimeZone);
+    if (hoursDifference > 24) {
+      return 0;
+    }
+    const remainingHours = 24 - hoursDifference;
+    return Math.max(0, remainingHours);
   };
 
   const handleGetSubTitle = (status: DocumentInterface) => {
@@ -54,7 +65,7 @@ export default function DocumentCardView({
         });
       case DocumentStatus.Failed:
         return t("Documents.DocumentListScreen.SubTitle.willAppear", {
-          hours: differenceInHours(addHours(dateFormat, 24), new Date()),
+          hours: documentExpiryCountDown(document.DocumentStatusUpdateDateTime),
         });
     }
   };

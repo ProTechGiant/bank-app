@@ -66,8 +66,10 @@ export default function SelectDateModal({ selectedDate, onPickDate, onboardingDa
               selected: true,
               customContainerStyle: customCalendarMarkedDateStyle,
             },
+            [new Date().toISOString().split("T")[0]]: { disabled: true },
           }}
           markingType="period"
+          showDateRange={false}
         />
       </Stack>
       {!isDateOlderThanFiveYears(date) ? (
@@ -77,7 +79,7 @@ export default function SelectDateModal({ selectedDate, onPickDate, onboardingDa
       ) : null}
       {onboardingDate && isDateBeforeOnboardingDate(onboardingDate, date) ? (
         <Typography.Text size="footnote" weight="regular" color="errorBase" align="center">
-          {t("Documents.RequestDocumentScreen.cannotRequestStatementOlderThanOnboarding")}
+          {t("Documents.RequestDocumentScreen.cannotRequestDocumentOlderThanOnboarding")}
         </Typography.Text>
       ) : null}
       <Button

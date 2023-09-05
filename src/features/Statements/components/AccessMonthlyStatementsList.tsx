@@ -133,7 +133,20 @@ export default function AccessMonthlyStatementsList({
         {t("Statements.AccessStatements.monthlyStatementSubtitle")}
       </Typography.Text>
       <SectionList
-        ListEmptyComponent={isLoading ? <FullScreenLoader /> : <EmptyListView isFilterActive={!!activeFilter} />}
+        ListEmptyComponent={
+          isLoading ? (
+            <FullScreenLoader />
+          ) : (
+            <EmptyListView
+              header={t("Statements.AccessStatements.nothingHereText")}
+              message={
+                activeFilter
+                  ? t("Statements.AccessStatements.noStatementsTextForFilter")
+                  : t("Statements.AccessStatements.noStatementsText")
+              }
+            />
+          )
+        }
         showsVerticalScrollIndicator={false}
         sections={groupMonthlyStatementsByYear(statements)}
         renderItem={renderItem}

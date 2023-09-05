@@ -1,6 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { cloneElement, isValidElement, useCallback } from "react";
-import { BackHandler, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { BackHandler, I18nManager, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import DeviceInfo from "react-native-device-info";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import BackgroundBottom from "@/assets/BackgroundBottom";
@@ -84,12 +85,16 @@ const NavHeader = ({
   const backgroundAngledColorDefault = useThemeStyles(theme => theme.palette["supportBase-15"]);
   const backgroundAngledColorFinal = backgroundAngledColor ? backgroundAngledColor : backgroundAngledColorDefault;
 
+  const getStatusBarHeight = (): number => {
+    return Platform.OS === "android" && !DeviceInfo.hasNotch() ? StatusBar.currentHeight ?? 0 : 0;
+  };
+
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: variant === "angled" ? backgroundAngledColorFinal : undefined,
       paddingHorizontal: theme.spacing["20p"],
       paddingBottom: theme.spacing["16p"],
-      paddingTop: theme.spacing["12p"] + (variant === "angled" ? insets.top : 0),
+      paddingTop: theme.spacing["12p"] + getStatusBarHeight() + (variant === "angled" ? insets.top : 0),
     }),
     [backgroundAngledColorFinal, variant]
   );

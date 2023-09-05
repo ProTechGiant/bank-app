@@ -23,6 +23,7 @@ interface DocumentsListComponentProps {
   onRetry: (requestId: string, index: number) => void;
   onInfoIcon: () => void;
   documents: DocumentInterface[];
+  isFilterActive: boolean;
 }
 
 export default function DocumentsListComponent({
@@ -34,6 +35,7 @@ export default function DocumentsListComponent({
   onRetry,
   documents,
   isRetryLoading,
+  isFilterActive,
 }: DocumentsListComponentProps) {
   const { t } = useTranslation();
   const { height: screenHeight } = useWindowDimensions();
@@ -71,7 +73,20 @@ export default function DocumentsListComponent({
         </Typography.Text>
       </Stack>
       <SectionList
-        ListEmptyComponent={isLoading ? <FullScreenLoader /> : <EmptyListView isFilterActive={false} />}
+        ListEmptyComponent={
+          isLoading ? (
+            <FullScreenLoader />
+          ) : (
+            <EmptyListView
+              header={t("Documents.DocumentListScreen.DocumentListComponent.EmptyListView.title")}
+              message={
+                isFilterActive
+                  ? t("Documents.DocumentListScreen.DocumentListComponent.EmptyListView.filterMessage")
+                  : t("Documents.DocumentListScreen.DocumentListComponent.EmptyListView.message")
+              }
+            />
+          )
+        }
         showsVerticalScrollIndicator={false}
         sections={groupedDocuments}
         renderSectionFooter={sectionHeader}

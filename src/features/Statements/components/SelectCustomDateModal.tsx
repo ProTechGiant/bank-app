@@ -79,8 +79,10 @@ export default function SelectCustomDateModal({
                 selected: true,
                 customContainerStyle: customCalendarMarkedDateStyle,
               },
+              [new Date().toISOString().split("T")[0]]: { disabled: true },
             }}
             markingType="period"
+            showDateRange={false}
           />
         </Stack>
         {!isDateOlderThanFiveYears(date) ? (
