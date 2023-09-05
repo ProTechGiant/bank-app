@@ -11,6 +11,7 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -22,10 +23,15 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
   const { i18n, t } = useTranslation();
   const navigation = useNavigation();
 
+  const { recipient } = useInternalTransferContext();
+
   const route =
     useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ConfirmLocalTransferBeneficiaryScreen">>();
 
   const handleOnSubmit = () => {
+    if (recipient.type === "inactive" || recipient.type === "new") {
+      return navigation.navigate("InternalTransfers.WaitingVerificationScreen");
+    }
     navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", route.params);
   };
 
