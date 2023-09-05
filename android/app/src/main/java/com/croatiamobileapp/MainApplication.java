@@ -1,6 +1,8 @@
 package com.croatiamobileapp;
 
 import android.app.Application;
+import android.media.RingtoneManager;
+import android.net.Uri;
 
 import com.croatiamobileapp.reloadapp.ReloadAppPackage;
 
@@ -12,6 +14,10 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
+import com.t2.t2notifysdk.Notify;
+import com.t2.t2notifysdk.data.ApiConfig;
+import com.t2.t2notifysdk.data.ProviderType;
+import com.t2.t2notifysdk.notification.NotificationManagerSDK;
 
 import java.util.List;
 
@@ -65,5 +71,35 @@ public class MainApplication extends Application implements ReactApplication {
       DefaultNewArchitectureEntryPoint.load();
     }
     ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+
+    try {
+      Notify notify = new Notify.Builder(this, "https://notificationrb.rich.sa/api/",
+        new ApiConfig(
+          BuildConfig.T2_CLIENT_SECRET,
+          BuildConfig.T2_CLIENT_ID,
+          "",
+          ProviderType.FCM,
+          "",
+          BuildConfig.APPLICATION_ID
+        ),
+        BuildConfig.DEBUG, // enable logging
+        false, // show error UI
+        new NotificationManagerSDK.Builder(
+          this,
+          getString(R.string.app_name),
+          000,
+          true, // enable lights
+          true, // enable vibration
+          true, // enable sound
+          false, // enable "Open" action
+          null,
+          getDefaultRingtone()).build()
+      ).build();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  private Uri getDefaultRingtone() {
+    return RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
   }
 }

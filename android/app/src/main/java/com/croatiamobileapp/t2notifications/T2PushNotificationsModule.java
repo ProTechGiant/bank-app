@@ -32,12 +32,6 @@ public class T2PushNotificationsModule extends ReactContextBaseJavaModule {
 
   public T2PushNotificationsModule(ReactApplicationContext reactApplicationContext) {
     super(reactApplicationContext);
-
-    try {
-      Notify notifyInstance = createT2Instance("");
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
   @NonNull @Override public String getName() {
@@ -63,44 +57,33 @@ public class T2PushNotificationsModule extends ReactContextBaseJavaModule {
     });
   }
 
-  private Notify createT2Instance(@NonNull String deviceToken) throws Exception {
-    return new Notify.Builder(getReactApplicationContext(), "https://notificationrb.rich.sa/api/",
-      new ApiConfig(
-        BuildConfig.T2_CLIENT_SECRET,
-        BuildConfig.T2_CLIENT_ID,
-        deviceToken,
-        ProviderType.FCM,
-        "",
-        BuildConfig.APPLICATION_ID
-      ),
-      BuildConfig.DEBUG, // enable logging
-      false, // show error UI
-      new NotificationManagerSDK.Builder(
-        getReactApplicationContext(),
-        getReactApplicationContext().getString(R.string.app_name),
-        000,
-        true, // enable lights
-        true, // enable vibration
-        true, // enable sound
-        false, // enable "Open" action
-        null,
-        getDefaultRingtone())
-        .build()
-    ).build();
-  }
-
   private void registerWithT2Exec(@NonNull String deviceToken, @NonNull String phoneNumber, Promise promise) {
     try {
       Log.d("T2NotificationsModule", String.format("Registering with device token '%s' and phone number '%s'", deviceToken, phoneNumber));
 
-      notify = createT2Instance(deviceToken);
-      notify = Notify.Companion.getINSTANCE();
-
-      if (notify == null) {
-        promise.reject("T2NotificationsModule", "Tried to register on a null instance");
-        return;
-      }
-
+      notify = new Notify.Builder(getReactApplicationContext(), "https://notificationrb.rich.sa/api/",
+        new ApiConfig(
+          BuildConfig.T2_CLIENT_SECRET,
+          BuildConfig.T2_CLIENT_ID,
+          deviceToken,
+          ProviderType.FCM,
+          "",
+          BuildConfig.APPLICATION_ID
+        ),
+        BuildConfig.DEBUG, // enable logging
+        false, // show error UI
+        new NotificationManagerSDK.Builder(
+          getReactApplicationContext(),
+          getReactApplicationContext().getString(R.string.app_name),
+          000,
+          true, // enable lights
+          true, // enable vibration
+          true, // enable sound
+          false, // enable "Open" action
+          null,
+          getDefaultRingtone()).build()
+      ).build();
+      notify=Notify.Companion.getINSTANCE();
       notify.register(phoneNumber, true, true, new ClientListener() {
         @Override public void onSuccess() {
           Log.d("T2NotificationsModule", "Successfully registered with T2");
