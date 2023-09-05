@@ -70,6 +70,7 @@ export default function PendingAccountScreen() {
       theme.spacing["20p"], // remove ContentContainer Padding
     marginBottom: theme.spacing["24p"],
     width: "100%",
+    paddingHorizontal: theme.spacing["32p"],
   }));
 
   const pendingCheckListContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -123,7 +124,7 @@ export default function PendingAccountScreen() {
                       <Typography.Text size="title1" weight="bold" color="neutralBase+30" align="center">
                         {t("Onboarding.LandingScreen.failed.title")}
                       </Typography.Text>
-                      <Typography.Text size="callout" weight="regular" color="primaryBase-10" align="center">
+                      <Typography.Text size="callout" weight="regular" color="neutralBase+10" align="center">
                         {t("Onboarding.LandingScreen.failed.subtitle")}
                       </Typography.Text>
                     </Stack>

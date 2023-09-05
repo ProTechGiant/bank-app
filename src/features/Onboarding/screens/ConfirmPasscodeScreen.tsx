@@ -106,9 +106,9 @@ export function ConfirmPasscodeScreen() {
         </View>
       </ContentContainer>
       <NotificationModal
-        message={t("Onboarding.ConfirmPasscode.notificationModelMessage")}
+        title={t("Onboarding.ConfirmPasscode.notificationModelTitle")}
         isVisible={showSuccessModal}
-        title=""
+        message={t("Onboarding.ConfirmPasscode.notificationModelMessage")}
         onClose={handleOnSuccessModalClose}
         variant="success"
       />
