@@ -25,6 +25,7 @@ interface TemporaryForm {
   UserId: string;
   cardId: string;
   createDisputeUserId: string;
+  phoneNumber: string;
 }
 export default function TemporaryLandingScreen() {
   const navigation = useNavigation();
@@ -61,9 +62,10 @@ export default function TemporaryLandingScreen() {
   const getSavingsGoalNumAsync = useSavingsGoalNumber();
   const { control, handleSubmit } = useForm<TemporaryForm>({
     defaultValues: {
-      UserId: "1000002357", //TODO: use 1000002357 as temporary user for temporary landing screen
+      UserId: "1000002357", //TODO: use 1000002357 as temporary user for temporary landing screen to get data in Home page
       cardId: "",
       createDisputeUserId: "",
+      phoneNumber: "01555266403", //TODO: use 01555266403 as temporary user phone  for testing to can register to T2 without go with login ,register path
     },
   });
 
@@ -116,6 +118,7 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnHomepage = async (values: TemporaryForm) => {
+    auth.updatePhoneNumber(values.phoneNumber);
     auth.authenticate(values.UserId);
   };
 
@@ -238,6 +241,14 @@ export default function TemporaryLandingScreen() {
             keyboardType="number-pad"
             blurOnSubmit={false}
             label="Change User ID for create dispute case"
+            variant="simple"
+          />
+          <TextInput
+            name="phoneNumber"
+            control={control}
+            keyboardType="default"
+            blurOnSubmit={false}
+            label="Change phone number"
             variant="simple"
           />
         </Stack>
