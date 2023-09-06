@@ -19,6 +19,7 @@ import Typography from "@/components/Typography";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import { useThemeStyles } from "@/theme";
 
+import noAppreciationFilter from "../assets/no-appreciation-filter.png";
 import noAppreciationImage from "../assets/no-appreciation-image.png";
 import noLikedAppreciationImage from "../assets/no-liked-appreciation-image.png";
 import { AppreciationCard, SortingModal } from "../components";
@@ -234,15 +235,23 @@ export default function AppreciationHubScreen() {
             )}
           </View>
           {AppreciationList?.length === 0 ? (
-            <EmptyAppreciationList
-              buttonText={currentTab === TabsTypes.LIKED ? undefined : emptyListMessage[currentTab].SuggestionButton}
-              onButtonPress={
-                currentTab === TabsTypes.LIKED ? undefined : emptyListMessage[currentTab].onSuggestionButtonPress
-              }
-              title={emptyListMessage[currentTab].title}
-              subtitle={emptyListMessage[currentTab].subtitle}
-              image={currentTab === TabsTypes.LIKED ? noLikedAppreciationImage : noAppreciationImage}
-            />
+            hasFilters ? (
+              <EmptyAppreciationList
+                title={t("Appreciation.HubScreen.FilterOptions.noAppreciationsFoundTitle")}
+                subtitle={t("Appreciation.HubScreen.FilterOptions.noAppreciationsFoundDescription")}
+                image={noAppreciationFilter}
+              />
+            ) : (
+              <EmptyAppreciationList
+                buttonText={currentTab === TabsTypes.LIKED ? undefined : emptyListMessage[currentTab].SuggestionButton}
+                onButtonPress={
+                  currentTab === TabsTypes.LIKED ? undefined : emptyListMessage[currentTab].onSuggestionButtonPress
+                }
+                title={emptyListMessage[currentTab].title}
+                subtitle={emptyListMessage[currentTab].subtitle}
+                image={currentTab === TabsTypes.LIKED ? noLikedAppreciationImage : noAppreciationImage}
+              />
+            )
           ) : (
             <ContentContainer isScrollView>
               {currentTab === TabsTypes.ALL && AppreciationList && (

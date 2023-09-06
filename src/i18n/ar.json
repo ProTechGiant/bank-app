@@ -2286,7 +2286,9 @@
         "recommendedForYou": "Recommended for you",
         "mostRecent": "Most Recent",
         "expiringSoonest": "Expiring Soonest",
-        "alphabetic": "Alphabetic"
+        "alphabetic": "Alphabetic",
+        "noAppreciationsFoundTitle": "لم يتم العثور على تقديرات",
+        "noAppreciationsFoundDescription": "لم نتمكن من العثور على تقديرات تتطابق مع بحثك. يُرجى مراجعة معايير البحث والمحاولة مرة أخرى."
       },
       "EmptyList": {
         "HasFilters": {

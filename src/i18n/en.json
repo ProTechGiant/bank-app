@@ -2854,7 +2854,9 @@
         "recommendedForYou": "Recommended for you",
         "mostRecent": "Most Recent",
         "expiringSoonest": "Expiring Soonest",
-        "alphabetic": "Alphabetic"
+        "alphabetic": "Alphabetic",
+        "noAppreciationsFoundTitle":"No appreciations found",
+        "noAppreciationsFoundDescription":"We couldn’t find appreciations that \n match your search. Consider adapting your search and try again."
       },
       "EmptyList": {
         "HasFilters": {
