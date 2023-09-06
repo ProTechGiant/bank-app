@@ -69,14 +69,14 @@ export default function AppreciationHubScreen() {
       subtitle: t("Appreciation.HubScreen.EmptyList.AllTab.subtitle"),
       SuggestionButton: t("Appreciation.HubScreen.EmptyList.AllTab.buttonText"),
       onSuggestionButtonPress: () => {
-        //TODO add the navigation to the target screen
+        navigation.navigate("WhatsNext.WhatsNextStack");
       },
       image: noAppreciationImage,
     },
     [TabsTypes.REDEEMED]: {
       title: t("Appreciation.HubScreen.EmptyList.RedeemedTab.title"),
       subtitle: t("Appreciation.HubScreen.EmptyList.RedeemedTab.subtitle"),
-      SuggestionButton: "Appreciation.HubScreen.EmptyList.RedeemedTab.buttonText",
+      SuggestionButton: t("Appreciation.HubScreen.EmptyList.RedeemedTab.buttonText"),
       onSuggestionButtonPress: () => {
         //TODO add the navigation to the target screen
       },

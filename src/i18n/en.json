@@ -2866,7 +2866,7 @@
         },
         "LikedTab": {
           "title": "No Liked Appreciations",
-          "subtitle": "You haven’t liked any Appreciations yet. Any appreciations you like can be accessed here."
+          "subtitle": "You haven’t liked any Appreciations yet .\n  Any appreciations you like can \n be accessed here."
         }
       }
     },
