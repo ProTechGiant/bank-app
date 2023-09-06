@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, View, ViewStyle } from "react-native";
 
 import { CardIcon, GlobeIcon, LockIcon, PointOfSaleIcon } from "@/assets/icons";
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -34,6 +35,7 @@ export default function CardSettingsScreen() {
   const addToast = useToasts();
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
   const isUpdatingRef = useRef(false);
 
   otpFlow.useOtpResponseEffect<{ ResetPinMessage: string }>((status, payload) => {
@@ -52,6 +54,14 @@ export default function CardSettingsScreen() {
 
   const handleOnPOSTransactiionLimitPress = () => {
     navigation.navigate("CardActions.POSLimitScreen");
+  };
+
+  const handleOnConfirmPress = () => {
+    // TODO: need to add OTP Flow here
+  };
+
+  const handleOnCancelCardPress = () => {
+    setIsConfirmationModalVisible(true);
   };
 
   const handleOnChangeSettings = async (setting: keyof CardSettingsInput) => {
@@ -129,6 +139,10 @@ export default function CardSettingsScreen() {
     borderRadius: theme.radii.small,
     padding: theme.spacing["20p"],
     marginBottom: theme.spacing["16p"],
+  }));
+
+  const cancelCardButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginVertical: theme.spacing["48p"],
   }));
 
   return (
@@ -210,6 +224,14 @@ export default function CardSettingsScreen() {
                   onPress={() => handleOnChangeSettings("AtmWithdrawals")}
                   value={card.data.Status === "pending-activation" ? false : settings.data.AtmWithdrawals}
                 />
+                <View style={cancelCardButtonContainerStyle}>
+                  <Button
+                    onPress={handleOnCancelCardPress}
+                    disabled={card.data.Status === "pending-activation"}
+                    variant="secondary">
+                    {t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCard")}
+                  </Button>
+                </View>
               </ListSection>
             </View>
           ) : (
@@ -223,6 +245,25 @@ export default function CardSettingsScreen() {
         message={t("errors.generic.message")}
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
+      />
+
+      <NotificationModal
+        variant="warning"
+        title={t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCard")}
+        message={t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCardDescription")}
+        isVisible={isConfirmationModalVisible}
+        buttons={{
+          primary: (
+            <Button onPress={handleOnConfirmPress}>
+              {t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCardTitle")}
+            </Button>
+          ),
+          secondary: (
+            <Button onPress={() => setIsConfirmationModalVisible(false)}>
+              {t("CardActions.CardSettingsScreen.cancelCardAlert.cancel")}
+            </Button>
+          ),
+        }}
       />
     </>
   );
