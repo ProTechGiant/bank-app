@@ -105,6 +105,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
           phoneNumber: response.PhoneNumber,
           type: "new",
           beneficiaryId: response.BeneficiaryId,
+          bankName: bankNameResponse.BankName,
         });
 
         navigation.navigate("InternalTransfers.ConfirmLocalTransferBeneficiaryScreen", {
