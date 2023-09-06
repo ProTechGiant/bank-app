@@ -12,6 +12,7 @@ import {
   CardSettingsScreen,
   EnterCardCVVScreen,
   HomeScreen,
+  POSLimitScreen,
   ReportCardScreen,
   ResetPinCodeScreen,
   SetTemporaryAddressScreen,
@@ -82,6 +83,7 @@ export type CardActionsStackParams = {
   "CardActions.CardActivatedScreen": {
     cardId: string;
   };
+  "CardActions.POSLimitScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<CardActionsStackParams>();
@@ -109,6 +111,7 @@ export default function CardActionsStack() {
       <Stack.Screen component={ApplePayActivatedScreen} name="CardActions.ApplePayActivated" />
       <Stack.Screen component={EnterCardCVVScreen} name="CardActions.EnterCardCVVScreen" />
       <Stack.Screen component={CardActivatedScreen} name="CardActions.CardActivatedScreen" />
+      <Stack.Screen component={POSLimitScreen} name="CardActions.POSLimitScreen" options={{ presentation: "modal" }} />
     </Stack.Navigator>
   );
 }

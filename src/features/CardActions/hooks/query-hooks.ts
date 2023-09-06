@@ -14,6 +14,8 @@ export const queryKeys = {
   settings: (cardId: string) => [...queryKeys.all(), "settings", { cardId }] as const,
   meawalletTokenization: (cardId: string) => [...queryKeys.all(), "meawallet-tokenization", { cardId }] as const,
   customerTier: () => ["customer-tier"] as const,
+  posLimits: () => [...queryKeys.all(), "posLimits"] as const,
+  currentPOSLimit: (cardId: string) => [...queryKeys.all(), "currentPOSLimit", { cardId }] as const,
 };
 
 interface CardsResponse {
@@ -261,5 +263,60 @@ export function useSubmitRenewCard() {
     });
 
     return { ...response, correlationId };
+  });
+}
+
+interface POSLimitsResponse {
+  MaxLimit: string;
+  MinLimit: string;
+  Banks: Array<string>;
+}
+
+export function usePOSLimits() {
+  const correlationId = generateRandomId();
+
+  return useQuery(
+    queryKeys.posLimits(),
+    () => {
+      return api<POSLimitsResponse>(
+        "v1",
+        "cards/limits",
+        "POST",
+        undefined,
+        {
+          LimitType: "online_pos_limit",
+        },
+        {
+          ["x-correlation-id"]: correlationId,
+        }
+      );
+    },
+    {
+      cacheTime: Infinity,
+    }
+  );
+}
+
+interface CurrentPOSLimitResponse {
+  LimitType: string;
+  Value: string;
+  Currency: string;
+}
+
+export function useCurrentPOSLimit(cardId: string) {
+  const correlationId = generateRandomId();
+  return useQuery(queryKeys.currentPOSLimit(cardId), () => {
+    return api<CurrentPOSLimitResponse>(
+      "v1",
+      `cards/${cardId}/limits`,
+      "GET",
+      {
+        limitType: "online_pos_limit",
+      },
+      undefined,
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
   });
 }

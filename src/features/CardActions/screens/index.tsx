@@ -5,6 +5,7 @@ export { default as CardDetailsScreen } from "./CardDetailsScreen";
 export { default as CardSettingsScreen } from "./CardSettingsScreen";
 export { default as EnterCardCVVScreen } from "./EnterCardCVVScreen";
 export { default as HomeScreen } from "./HomeScreen";
+export { default as POSLimitScreen } from "./POSLimitScreen";
 export { default as ReportCardScreen } from "./ReportCardScreen";
 export { default as ResetPinCodeScreen } from "./ResetPinCodeScreen";
 export { default as SetTemporaryAddressScreen } from "./SetTemporaryAddressScreen";

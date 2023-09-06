@@ -1896,6 +1896,13 @@
       "successMessage": "Your card’s ready to go",
       "successDescription": "It’s activated and ready for action - whatever you’re buying.",
       "button": "OK"
+    },
+    "POSLimitScreen":{
+      "title":"POS transaction limit",
+      "subTitle":"The limit will be incremented in 1000s: 6000, 7000, 8000, up to 20,000.",
+      "dropDownTitle":"Daily Limit",
+      "doneButton":"Done",
+      "cancelButton":"Cancel"
     }
   },
   "AddMoneyInfo": {

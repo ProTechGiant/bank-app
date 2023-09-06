@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Alert, View, ViewStyle } from "react-native";
+import { ActivityIndicator, View, ViewStyle } from "react-native";
 
 import { CardIcon, GlobeIcon, LockIcon, PointOfSaleIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -51,8 +51,7 @@ export default function CardSettingsScreen() {
   };
 
   const handleOnPOSTransactiionLimitPress = () => {
-    //TODO: replace with navigation of screen once its developed.
-    Alert.alert("POS Transaction Limit Pressed");
+    navigation.navigate("CardActions.POSLimitScreen");
   };
 
   const handleOnChangeSettings = async (setting: keyof CardSettingsInput) => {

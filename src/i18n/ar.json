@@ -1319,9 +1319,15 @@
         "description": "It’ll be with you in the next few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using {{device}}.",
         "okButton": "OK"
       }
-    }
+    
   },
-
+  "POSLimitScreen":{
+    "title":"حد حركات نقاط البيع",
+    "subTitle":"سيتم زيادة الحد بمقدار 1000: 6000, 7000, 8000, حتى 20,000",
+    "dropDownTitle":"الحد اليومي",
+    "doneButton":"تم",
+    "cancelButton":"الغاء"
+  },
   "CardExpiryNotification": {
     "title": "Your card will expire soon",
     "content": "You can renew it now to make sure you get a replacement before it expires, or we’ll send a new one automatically to your registered address.",
