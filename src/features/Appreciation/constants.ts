@@ -1,4 +1,4 @@
-import { SortingOptions } from "./types";
+import { SortingOptions } from "@/types/Appreciation";
 
 export const SORTING_OPTIONS_ALL_TAB: SortingOptions[] = [SortingOptions.MOST_RECENT, SortingOptions.ALPHABETIC];
 

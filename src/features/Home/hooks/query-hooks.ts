@@ -3,9 +3,11 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useAppreciationSearch } from "@/features/Appreciation/hooks/query-hooks";
+import { SortingOptions, TabsTypes } from "@/types/Appreciation";
 import { generateRandomId } from "@/utils";
 
-import { HomepageItemLayoutType, QuickActionsType, TaskType } from "../types";
+import { AppreciationFeedbackRequest, HomepageItemLayoutType, QuickActionsType, TaskType } from "../types";
 
 const queryKeys = {
   all: () => ["layout"],
@@ -126,4 +128,30 @@ export function useActionDismiss() {
       },
     }
   );
+}
+
+export function useAppreciationFeedback() {
+  const { userId } = useAuthContext();
+  return useMutation((appreciationFeedbackRequest: AppreciationFeedbackRequest) => {
+    return api<null>(
+      "v1",
+      "appreciations/feedback",
+      "PUT",
+      { CustomerId: userId },
+      {
+        AppreciationId: appreciationFeedbackRequest.appreciationId,
+        Comments: appreciationFeedbackRequest.comment,
+        VoteId: appreciationFeedbackRequest.voteId,
+      },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}
+
+export function useAppreciationsWithNoFeedback(language: string) {
+  return useAppreciationSearch(null, SortingOptions.ALPHABETIC, TabsTypes.ALL, language, {
+    FeedbackFlag: 2,
+  });
 }

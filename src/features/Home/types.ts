@@ -65,3 +65,9 @@ export enum NotificationModalVariant {
   success = "success",
   error = "error",
 }
+
+export interface AppreciationFeedbackRequest {
+  appreciationId: string;
+  comment: string;
+  voteId: string;
+}

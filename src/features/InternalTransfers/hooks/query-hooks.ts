@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
+import { TransferType } from "@/types/InternalTransfer";
 import { generateRandomId } from "@/utils";
 
 import {
@@ -12,7 +13,6 @@ import {
   LocalTransfer,
   TRANSFER_BENEFICIARY_MAP,
   TransferReason,
-  TransferType,
 } from "../types";
 
 const queryKeys = {

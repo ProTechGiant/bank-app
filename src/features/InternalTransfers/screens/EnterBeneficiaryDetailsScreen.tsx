@@ -15,6 +15,7 @@ import { useInternalTransferContext } from "@/contexts/InternalTransfersContext"
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TransferType } from "@/types/InternalTransfer";
 import { ibanRegExpForARB } from "@/utils";
 
 import {
@@ -24,7 +25,7 @@ import {
   SwitchToARBModal,
 } from "../components";
 import { useAddBeneficiary } from "../hooks/query-hooks";
-import { AddBeneficiary, TransferType } from "../types";
+import { AddBeneficiary } from "../types";
 
 export default function EnterBeneficiaryDetailsScreen() {
   const { t } = useTranslation();

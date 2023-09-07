@@ -4,9 +4,9 @@ import { View } from "react-native";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+import { CustomerTierEnum } from "@/types/CustomerProfile";
 
 import { DiamondIcon } from "../assets";
-import { CustomerTierEnum } from "../types";
 
 interface TagsProps {
   isNew: boolean;

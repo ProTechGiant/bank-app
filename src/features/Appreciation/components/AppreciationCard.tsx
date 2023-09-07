@@ -6,11 +6,12 @@ import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+import { CustomerTierEnum } from "@/types/CustomerProfile";
 
 import { CalendarIcon, LikeIcon, TrendingUpIcon, ZoomInIcon as DetailsIcon } from "../assets";
 import PromotedImageDivider from "../assets/promoted-image-divider.png";
 import RectangleImageDivider from "../assets/rectangle-image-divider.png";
-import { AppreciationType, CustomerTierEnum } from "../types";
+import { AppreciationType } from "../types";
 import Tags from "./Tags";
 
 interface CardPropsTypes {

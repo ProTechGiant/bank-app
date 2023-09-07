@@ -106,6 +106,7 @@ export * from "./SpendingInsightIcon";
 export * from "./SplitIcon";
 export * from "./SummarizeIcon";
 export * from "./SupportAgentIcon";
+export * from "./SwapIcon";
 export * from "./SyncIcon";
 export * from "./ThreeDotsCircleIcon";
 export * from "./ThreeDotsIcon";

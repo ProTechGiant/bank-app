@@ -10,10 +10,11 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { CustomerTierEnum } from "@/types/CustomerProfile";
 
 import { AboutOrganizerSection, AppreciationEventDetailsSection, ExploreAppreciationHeader, Tags } from "../components";
 import { useRedeemAppreciation } from "../hooks/query-hooks";
-import { AppreciationType, CustomerTierEnum } from "./../types";
+import { AppreciationType } from "./../types";
 
 interface AppreciationDetailsScreenProps {
   appreciation: AppreciationType;

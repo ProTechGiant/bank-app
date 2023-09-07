@@ -9,14 +9,14 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SelectTransferTypeModal from "@/components/SelectTransferTypeModal";
 import Stack from "@/components/Stack";
+import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
-import { useAppreciationFeedback, useAppreciationsWithNoFeedback } from "@/features/Appreciation/hooks/query-hooks";
-import { TransferType } from "@/features/InternalTransfers/types";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import useRegisterNotifications from "@/hooks/use-register-notifications";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TransferType } from "@/types/InternalTransfer";
 
 import { ProfileIcon } from "../assets";
 import HeaderSvg from "../assets/Header-homepage.svg";
@@ -29,7 +29,12 @@ import {
   WhatsNextSection,
 } from "../components";
 import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
-import { useRefetchHomepageLayout, useTasks } from "../hooks/query-hooks";
+import {
+  useAppreciationFeedback,
+  useAppreciationsWithNoFeedback,
+  useRefetchHomepageLayout,
+  useTasks,
+} from "../hooks/query-hooks";
 import { FeedbackStatus } from "../types";
 
 export default function DashboardScreen() {
@@ -148,6 +153,11 @@ export default function DashboardScreen() {
     flexDirection: "row-reverse",
   }));
 
+  const notificationEntryPointStyle = useThemeStyles<ViewStyle>(theme => ({
+    width: "100%",
+    height: theme.spacing["20p"],
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
       <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
@@ -155,6 +165,14 @@ export default function DashboardScreen() {
         <HeaderSvg />
       </View>
       <SafeAreaView edges={["top"]} style={styles.container}>
+        {/* TODO this is mock entry point for the notifications center */}
+        <Pressable
+          style={notificationEntryPointStyle}
+          onPress={() => {
+            navigation.navigate("Notifications.NotificationsStack");
+          }}>
+          <Typography.Text>{t("Notifications.NotificationHubScreen.title")}</Typography.Text>
+        </Pressable>
         <View style={profileSectionStyle}>
           <Pressable onPress={handleOnEditLayoutPress}>
             <ProfileIcon />

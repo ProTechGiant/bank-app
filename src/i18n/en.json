@@ -1919,12 +1919,12 @@
       "waitingVerificationTitle": "Waiting verification",
       "waitingVerificationMessage": "Please do not close the app or navigate away from the screen while we add your card to Apple Pay wallet"
     },
-    "POSLimitScreen":{
-      "title":"POS transaction limit",
-      "subTitle":"The limit will be incremented in 1000s: 6000, 7000, 8000, up to 20,000.",
-      "dropDownTitle":"Daily Limit",
-      "doneButton":"Done",
-      "cancelButton":"Cancel"
+    "POSLimitScreen": {
+      "title": "POS transaction limit",
+      "subTitle": "The limit will be incremented in 1000s: 6000, 7000, 8000, up to 20,000.",
+      "dropDownTitle": "Daily Limit",
+      "doneButton": "Done",
+      "cancelButton": "Cancel"
     }
   },
   "AddMoneyInfo": {
@@ -1986,7 +1986,7 @@
         "continue": "Continue"
       }
     },
-     "AddNoteScreen": {
+    "AddNoteScreen": {
       "title": "Add Note",
       "placeholder": "Write your note here",
       "done": "Done",
@@ -2877,8 +2877,8 @@
         "mostRecent": "Most Recent",
         "expiringSoonest": "Expiring Soonest",
         "alphabetic": "Alphabetic",
-        "noAppreciationsFoundTitle":"No appreciations found",
-        "noAppreciationsFoundDescription":"We couldn’t find appreciations that \n match your search. Consider adapting your search and try again."
+        "noAppreciationsFoundTitle": "No appreciations found",
+        "noAppreciationsFoundDescription": "We couldn’t find appreciations that \n match your search. Consider adapting your search and try again."
       },
       "EmptyList": {
         "HasFilters": {
@@ -2944,6 +2944,22 @@
     "Buttons": {
       "submitRating": "Submit Rating",
       "skip": "Skip"
+    }
+  },
+  "Notifications": {
+    "NotificationHubScreen": {
+      "title": "Notification Center",
+      "sections": {
+        "today": "Today",
+        "yesterday": "Yesterday",
+        "older": "Older"
+      },
+      "emptyPage": {
+        "title": "No Notifications found",
+        "subtitle": "We are crafting the best for you and your new notification should be on its way",
+        "buttonText": "Explore More"
+      },
+      "loadMore": "load more"
     }
   }
 }

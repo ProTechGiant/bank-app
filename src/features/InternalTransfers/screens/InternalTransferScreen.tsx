@@ -17,11 +17,11 @@ import { useCurrentAccount } from "@/hooks/use-accounts";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TransferType } from "@/types/InternalTransfer";
 import delayTransition from "@/utils/delay-transition";
 
 import { TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
 import { useTransferReasons } from "../hooks/query-hooks";
-import { TransferType } from "../types";
 
 interface InternalTransferInput {
   PaymentAmount: number;

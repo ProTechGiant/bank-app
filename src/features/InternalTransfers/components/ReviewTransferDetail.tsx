@@ -6,8 +6,9 @@ import { ChevronRightIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useThemeStyles } from "@/theme";
+import { TransferType } from "@/types/InternalTransfer";
 
-import { Note, TransferAccount, TransferType } from "../types";
+import { Note, TransferAccount } from "../types";
 
 interface ReviewTransferDetailProps {
   onAddNotePress: () => void;

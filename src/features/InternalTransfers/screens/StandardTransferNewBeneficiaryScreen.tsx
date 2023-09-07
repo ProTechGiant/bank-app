@@ -20,11 +20,11 @@ import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TransferType } from "@/types/InternalTransfer";
 import { ibanRegExpForARB } from "@/utils";
 
 import { SwitchToARBModal } from "../components";
 import { useAddBeneficiaryLocalTranfer, useBankDetailWithIBAN, useBeneficiaryBanks } from "../hooks/query-hooks";
-import { TransferType } from "../types";
 
 interface BeneficiaryInput {
   iban: string;

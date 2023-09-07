@@ -15,10 +15,11 @@ import { useCurrentAccount, useInvalidateBalances } from "@/hooks/use-accounts";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TransferType } from "@/types/InternalTransfer";
 
 import { ReviewTransferDetail } from "../components";
 import { useInternalTransfer, useInternalTransferCroatiaToARB, useTransferReasonsByCode } from "../hooks/query-hooks";
-import { InternalTransfer, InternalTransferToARBRequest, Note, TransferType } from "../types";
+import { InternalTransfer, InternalTransferToARBRequest, Note } from "../types";
 
 export default function ReviewTransferScreen() {
   const { t } = useTranslation();

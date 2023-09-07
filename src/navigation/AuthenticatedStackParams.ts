@@ -6,6 +6,7 @@ import { HelpAndSupportStackParams } from "@/features/HelpAndSupport/HelpAndSupp
 import { HomeStackParams } from "@/features/Home/HomeStack";
 import { InternalTransfersStackParams } from "@/features/InternalTransfers/InternalTransfersStack";
 import { NotificationManagementStackParams } from "@/features/NotificationManagement/NotificationManagementStack";
+import { NotificationsStackParams } from "@/features/Notifications/NotificationsStack";
 import { PaymentDisputesStackParams } from "@/features/PaymentDisputes/PaymentDisputesStack";
 import { ProfileDetailsStackParams } from "@/features/ProfileDetails/ProfileDetailsStack";
 import { ProxyAliasStackParams } from "@/features/ProxyAlias/ProxyAliasStack";
@@ -104,6 +105,12 @@ type RootStackParams = {
   "ProfileDetails.ProfileDetailsStack": undefined;
   "Statements.StatementsStack": undefined;
   "Documents.DocumentsStack": undefined;
+
+  "Notifications.NotificationsStack":
+    | {
+        screen: keyof NotificationsStackParams;
+      }
+    | undefined;
 };
 
 type AuthenticatedStackParams = RootStackParams &

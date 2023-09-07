@@ -20,12 +20,13 @@ import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TransferType } from "@/types/InternalTransfer";
 import { formatCurrency } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { TransferAmountInput, TransferErrorBox, TransferLimitsModal, TransferReasonInput } from "../components";
 import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
-import { TransferType, TransferTypeCode } from "../types";
+import { TransferTypeCode } from "../types";
 
 interface QuickTransferInput {
   PaymentAmount: number;

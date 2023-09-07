@@ -19,10 +19,11 @@ import { useInternalTransferContext } from "@/contexts/InternalTransfersContext"
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TransferType } from "@/types/InternalTransfer";
 
 import { BeneficiaryList, BeneficiaryOptionsModal } from "../components";
 import { useBeneficiaries, useBeneficiaryBanks, useDeleteBeneficiary } from "../hooks/query-hooks";
-import { BeneficiaryType, RecipientType, TransferType } from "../types";
+import { BeneficiaryType, RecipientType } from "../types";
 
 function activeFilterCheck(beneficiaries: BeneficiaryType[], isActive: boolean): BeneficiaryType[] {
   return beneficiaries.filter(beneficiary => beneficiary.IVRValidated === isActive);

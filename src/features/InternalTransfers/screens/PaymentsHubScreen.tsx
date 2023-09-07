@@ -20,10 +20,10 @@ import { useInternalTransferContext } from "@/contexts/InternalTransfersContext"
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TransferType } from "@/types/InternalTransfer";
 import { formatCurrency } from "@/utils";
 
 import { PaymentOption } from "../components";
-import { TransferType } from "../types";
 
 export default function PaymentsHubScreen() {
   const { t } = useTranslation();

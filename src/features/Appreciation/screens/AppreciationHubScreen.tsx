@@ -9,6 +9,7 @@ import { AngleDownIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import Chip from "@/components/Chip";
 import ContentContainer from "@/components/ContentContainer";
+import DefaultContent from "@/components/DefaultContent";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
@@ -18,16 +19,17 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import { useThemeStyles } from "@/theme";
+import { SortingOptions, TabsTypes } from "@/types/Appreciation";
+import { CustomerTierEnum } from "@/types/CustomerProfile";
 
 import noAppreciationFilter from "../assets/no-appreciation-filter.png";
 import noAppreciationImage from "../assets/no-appreciation-image.png";
 import noLikedAppreciationImage from "../assets/no-liked-appreciation-image.png";
 import { AppreciationCard, SortingModal } from "../components";
 import { FilterModal } from "../components";
-import EmptyAppreciationList from "../components/EmptyAppreciationList";
 import { SORTING_OPTIONS_ALL_TAB, SORTING_OPTIONS_OTHER_TABS } from "../constants";
 import { useAppreciationFilters, useAppreciationSearch } from "../hooks/query-hooks";
-import { AppreciationType, CustomerTierEnum, FilterItemType, FiltersType, SortingOptions, TabsTypes } from "../types";
+import { AppreciationType, FilterItemType, FiltersType } from "../types";
 
 export default function AppreciationHubScreen() {
   const { t, i18n } = useTranslation();
@@ -236,13 +238,13 @@ export default function AppreciationHubScreen() {
           </View>
           {AppreciationList?.length === 0 ? (
             hasFilters ? (
-              <EmptyAppreciationList
+              <DefaultContent
                 title={t("Appreciation.HubScreen.FilterOptions.noAppreciationsFoundTitle")}
                 subtitle={t("Appreciation.HubScreen.FilterOptions.noAppreciationsFoundDescription")}
                 image={noAppreciationFilter}
               />
             ) : (
-              <EmptyAppreciationList
+              <DefaultContent
                 buttonText={currentTab === TabsTypes.LIKED ? undefined : emptyListMessage[currentTab].SuggestionButton}
                 onButtonPress={
                   currentTab === TabsTypes.LIKED ? undefined : emptyListMessage[currentTab].onSuggestionButtonPress

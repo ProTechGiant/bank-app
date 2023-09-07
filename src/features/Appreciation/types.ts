@@ -1,19 +1,3 @@
-import { CustomerTierEnum } from "@/types/CustomerProfile";
-export { CustomerTierEnum };
-
-export enum TabsTypes {
-  ALL = "All",
-  REDEEMED = "Redeemed",
-  LIKED = "Liked",
-}
-
-export enum SortingOptions {
-  RECOMMENDED = "recommendedForYou",
-  MOST_RECENT = "mostRecent",
-  ALPHABETIC = "alphabetic",
-  EXPIRING_SOONEST = "expiringSoonest",
-}
-
 export interface FilterItemType {
   Name: string;
   Code: number;
@@ -47,10 +31,4 @@ export interface AppreciationType {
 export interface AppreciationResponceType {
   Appreciations: AppreciationType[];
   CustomerId: number;
-}
-
-export interface AppreciationFeedbackRequest {
-  appreciationId: string;
-  comment: string;
-  voteId: string;
 }

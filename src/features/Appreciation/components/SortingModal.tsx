@@ -5,8 +5,7 @@ import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import { RadioButton, RadioButtonGroup } from "@/components/RadioButton";
 import { useThemeStyles } from "@/theme";
-
-import { SortingOptions } from "../types";
+import { SortingOptions } from "@/types/Appreciation";
 
 interface SortingModalProps {
   isVisible: boolean;

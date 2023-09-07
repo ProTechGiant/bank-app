@@ -21,13 +21,14 @@ import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TransferType } from "@/types/InternalTransfer";
 import delayTransition from "@/utils/delay-transition";
 
 import { TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
 import TransferLimitsModal from "../components/TransferLimitsModal";
 import WarningBanner from "../components/WarningBanner";
 import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
-import { TransferType, TransferTypeCode } from "../types";
+import { TransferTypeCode } from "../types";
 
 interface StandardTransferInput {
   PaymentAmount: number;

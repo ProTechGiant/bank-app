@@ -26,12 +26,12 @@ import { useInternalTransferContext } from "@/contexts/InternalTransfersContext"
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TransferType } from "@/types/InternalTransfer";
 import { ibanRegExp, ibanRegExpForARB, numericRegExp, saudiPhoneRegExp } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { SwitchToARBModal } from "../components";
 import { useBeneficiaryBanks, useValidateQuickTransferBeneficiary } from "../hooks/query-hooks";
-import { TransferType } from "../types";
 
 interface BeneficiaryInput {
   bankCode: string;

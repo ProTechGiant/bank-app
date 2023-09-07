@@ -17,6 +17,7 @@ import { useCurrentAccount } from "@/hooks/use-accounts";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TransferType } from "@/types/InternalTransfer";
 import { formatCurrency } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
@@ -26,7 +27,7 @@ import {
   useTransferFees,
   useTransferReasonsByCode,
 } from "../hooks/query-hooks";
-import { LocalTransfer, TransferType } from "../types";
+import { LocalTransfer } from "../types";
 
 export default function ReviewQuickTransferScreen() {
   const { i18n, t } = useTranslation();

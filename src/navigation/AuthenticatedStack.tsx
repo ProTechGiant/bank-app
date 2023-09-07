@@ -11,6 +11,7 @@ import HelpAndSupportStack from "@/features/HelpAndSupport/HelpAndSupportStack";
 import HomeStack from "@/features/Home/HomeStack";
 import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfersStack";
 import NotificationManagementStack from "@/features/NotificationManagement/NotificationManagementStack";
+import NotificationsStack from "@/features/Notifications/NotificationsStack";
 import OneTimePasswordModal from "@/features/OneTimePassword/screens/OneTimePasswordModal";
 import PaymentDisputesStack from "@/features/PaymentDisputes/PaymentDisputesStack";
 import ProfileDetailsStack from "@/features/ProfileDetails/ProfileDetailsStack";
@@ -57,6 +58,7 @@ export const AuthenticatedScreens = () => {
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
       <AuthStack.Screen component={HomeStack} name="Home.HomeStack" />
       <AuthStack.Screen component={SettingsStack} name="Settings.SettingsStack" />
+      <AuthStack.Screen component={NotificationsStack} name="Notifications.NotificationsStack" />
       <AuthStack.Screen component={InstructionsScreen} name="Referral.InstructionsScreen" />
       <AuthStack.Screen component={CardActionsStack} name="CardActions.CardActionsStack" />
       <AuthStack.Screen component={AddMoneyStack} name="AddMoney.AddMoneyStack" />

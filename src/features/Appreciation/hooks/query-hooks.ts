@@ -2,15 +2,10 @@ import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { SortingOptions, TabsTypes } from "@/types/Appreciation";
 import { generateRandomId } from "@/utils";
 
-import {
-  AppreciationFeedbackRequest,
-  AppreciationResponceType,
-  FiltersType,
-  SortingOptions,
-  TabsTypes,
-} from "../types";
+import { AppreciationResponceType, FiltersType } from "../types";
 
 export const queryKeys = {
   all: ["appreciation"] as const,
@@ -22,9 +17,6 @@ export const queryKeys = {
   ) => [...queryKeys.all, "search", [filters, sortType, language, feedback]] as const,
   filters: (language: string) => [...queryKeys.all, "filters", language] as const,
 };
-export function useAppreciationsWithNoFeedback(language: string) {
-  return useAppreciationSearch(null, SortingOptions.ALPHABETIC, TabsTypes.ALL, language, { FeedbackFlag: 2 });
-}
 
 export function useAppreciationSearch(
   filters: FiltersType | null,
@@ -89,26 +81,6 @@ export function useRedeemAppreciation() {
       { AppreciationId: appreciationId, CustomerId: userId },
       {
         RedeemedFlag: "1",
-      },
-      {
-        ["x-correlation-id"]: generateRandomId(),
-      }
-    );
-  });
-}
-
-export function useAppreciationFeedback() {
-  const { userId } = useAuthContext();
-  return useMutation((appreciationFeedbackRequest: AppreciationFeedbackRequest) => {
-    return api<null>(
-      "v1",
-      "appreciations/feedback",
-      "PUT",
-      { CustomerId: userId },
-      {
-        AppreciationId: appreciationFeedbackRequest.appreciationId,
-        Comments: appreciationFeedbackRequest.comment,
-        VoteId: appreciationFeedbackRequest.voteId,
       },
       {
         ["x-correlation-id"]: generateRandomId(),

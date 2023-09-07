@@ -6,7 +6,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-interface EmptyAppreciationListProps {
+interface DefaultContentProps {
   title: string;
   subtitle: string;
   image: ImageSourcePropType;
@@ -14,13 +14,7 @@ interface EmptyAppreciationListProps {
   onButtonPress?: () => void;
 }
 
-export default function EmptyAppreciationList({
-  title,
-  subtitle,
-  image,
-  buttonText,
-  onButtonPress,
-}: EmptyAppreciationListProps) {
+export default function DefaultContent({ title, subtitle, image, buttonText, onButtonPress }: DefaultContentProps) {
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["64p"],
     alignItems: "center",

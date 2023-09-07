@@ -8,9 +8,9 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import useNavigation from "@/navigation/use-navigation";
+import { TransferType } from "@/types/InternalTransfer";
 
 import { useBeneficiaryBanks, useIVRValidations } from "../hooks/query-hooks";
-import { TransferType } from "../types";
 
 export default function WaitingVerificationScreen() {
   const { t } = useTranslation();

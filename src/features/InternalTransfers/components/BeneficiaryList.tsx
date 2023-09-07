@@ -1,6 +1,7 @@
 import Typography from "@/components/Typography";
+import { TransferType } from "@/types/InternalTransfer";
 
-import { BeneficiaryType, TransferType } from "../types";
+import { BeneficiaryType } from "../types";
 import Beneficiary from "./Beneficiary";
 
 interface BeneficiaryListProps {
