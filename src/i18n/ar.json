@@ -1384,7 +1384,8 @@
     "content": "You can renew it now to make sure you get a replacement before it expires, or we’ll send a new one automatically to your registered address.",
     "button": "Renew card",
     "isExpiringSoon": "Expires soon"
-  },
+  }
+},
   "AddMoneyInfo": {
     "title": "Add money by bank transfer",
     "description": "To add money to your Croatia account, use these details to set up a money transfer from another bank.",
@@ -2408,4 +2409,4 @@
     }
   }
 }
-}
+
