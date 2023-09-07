@@ -3,4 +3,3 @@ export { default as PendingTransactionsScreen } from "./PendingTransactionsScree
 export { default as SelectTagScreen } from "./SelectTagScreen";
 export { default as SingleTransactionDetailedScreen } from "./SingleTransactionDetailedScreen";
 export { default as TransactionsScreen } from "./TransactionsScreen";
-
