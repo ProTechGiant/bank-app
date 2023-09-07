@@ -4,6 +4,7 @@ import { AppState, NativeEventSubscription, Platform, StyleSheet, View, ViewStyl
 
 import { CardSettingsIcon, ReportIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NotificationModal from "@/components/NotificationModal";
 import { STANDARD_CARD_PRODUCT_ID } from "@/constants";
@@ -47,8 +48,8 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   const navigation = useNavigation();
 
   const otpFlow = useOtpFlow<AuthenticatedStackParams>();
-  const freezeCardAsync = useFreezeCard();
-  const changeCardStatusAsync = useChangeCardStatus();
+  const { mutateAsync: freezeCardAsync, isLoading: freezeLoading } = useFreezeCard();
+  const { mutateAsync: changeCardStatusAsync, isLoading: changeStatusLoading } = useChangeCardStatus();
   const requestViewPinOtpAsync = useRequestViewPinOtp();
   const requestUnmaskedCardDetailsAsync = useUnmaskedCardDetails();
   const { isAppleWalletAvailable, canAddCardToAppleWallet, addCardToAppleWallet } = useAppleWallet(card.CardId);
@@ -58,6 +59,8 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   const [cardDetails, setCardDetails] = useState<DetailedCardResponse>();
   const [isNotificationBannerVisible, setIsNotificationBannerVisible] = useState(true);
   const [isSucCreatedAlertVisible, setIsSucCreatedAlertVisible] = useState(false);
+  const [isLockConfirmModalVisible, setIsLockConfirmModalVisible] = useState(false);
+  const [isUnlockConfirmModalVisible, setIsUnlockConfirmModalVisible] = useState(false);
 
   useEffect(() => {
     delayTransition(() => setIsSucCreatedAlertVisible(isSingleUseCardCreated ?? false));
@@ -158,9 +161,9 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
 
   const handleOnFreezePress = () => {
     if (card.Status === "unfreeze") {
-      handleOnFreezeCardPress();
+      setIsLockConfirmModalVisible(true);
     } else {
-      handleOnUnfreezeCardPress();
+      setIsUnlockConfirmModalVisible(true);
     }
   };
 
@@ -168,15 +171,22 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
     setCardDetails(undefined);
 
     try {
-      const response = await freezeCardAsync.mutateAsync({ cardId: card.CardId });
+      const response = await freezeCardAsync({ cardId: card.CardId });
       if (response.Status !== "freeze") throw new Error("Received unexpected response from backend");
     } catch (error) {
       onError();
       warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
+    } finally {
+      setIsLockConfirmModalVisible(false);
     }
   };
 
-  const handleOnUnfreezeCardPress = async () => {
+  const handleOnUnfreezeCardPress = () => {
+    setIsUnlockConfirmModalVisible(false);
+    delayTransition(otpValidation);
+  };
+
+  const otpValidation = async () => {
     otpFlow.handle({
       action: {
         to: "CardActions.CardDetailsScreen",
@@ -187,7 +197,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
       },
       otpVerifyMethod: "card-actions",
       onOtpRequest: () => {
-        return changeCardStatusAsync.mutateAsync({ cardId: card.CardId, status: "unfreeze" });
+        return changeCardStatusAsync({ cardId: card.CardId, status: "unfreeze" });
       },
       onFinish: status => {
         if (status === "fail") {
@@ -266,6 +276,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
             onFreezePress={handleOnFreezePress}
             isShowingDetails={cardDetails !== undefined}
             isDisablePin={card.Status === "pending-activation"}
+            cardStatus={card.Status}
           />
         ) : null}
         <View style={separatorStyle} />
@@ -322,6 +333,50 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
       {pin !== undefined ? (
         <ViewPinModal pin={pin} visible={isViewingPin} onClose={() => setIsViewingPin(false)} />
       ) : null}
+      {/* Lock confirmation modal */}
+      <NotificationModal
+        variant="warning"
+        buttons={{
+          primary: (
+            <Button loading={freezeLoading} disabled={freezeLoading} onPress={handleOnFreezeCardPress}>
+              {t("CardActions.CardDetailsScreen.lockConfirmationModal.confirmButton")}
+            </Button>
+          ),
+          secondary: (
+            <Button onPress={() => setIsLockConfirmModalVisible(false)}>
+              {t("CardActions.CardDetailsScreen.lockConfirmationModal.cancelButton")}
+            </Button>
+          ),
+        }}
+        message={t("CardActions.CardDetailsScreen.lockConfirmationModal.message")}
+        title={t("CardActions.CardDetailsScreen.lockConfirmationModal.title")}
+        isVisible={isLockConfirmModalVisible}
+        onClose={() => {
+          setIsLockConfirmModalVisible(false);
+        }}
+      />
+      {/* Unlock confirmation modal */}
+      <NotificationModal
+        variant="warning"
+        buttons={{
+          primary: (
+            <Button loading={changeStatusLoading} disabled={changeStatusLoading} onPress={handleOnUnfreezeCardPress}>
+              {t("CardActions.CardDetailsScreen.unlockConfirmationModal.confirmButton")}
+            </Button>
+          ),
+          secondary: (
+            <Button onPress={() => setIsUnlockConfirmModalVisible(false)}>
+              {t("CardActions.CardDetailsScreen.unlockConfirmationModal.cancelButton")}
+            </Button>
+          ),
+        }}
+        message=""
+        title={t("CardActions.CardDetailsScreen.unlockConfirmationModal.title")}
+        isVisible={isUnlockConfirmModalVisible}
+        onClose={() => {
+          setIsUnlockConfirmModalVisible(false);
+        }}
+      />
     </>
   );
 }

@@ -1574,7 +1574,7 @@
     "standardCard": "Standard card",
     "plusCard": "Plus card",
     "singleUseCard": "One-time card",
-    "cardFrozen": "Card frozen",
+    "cardFrozen": "Card locked",
     "generateNew": "Generate New",
     "activatePhysicalCard": "Activate physical card",
     "comingSoon": "On the way",
@@ -1749,8 +1749,8 @@
       "iconButtonText": {
         "show": "Show details",
         "hide": "Hide details",
-        "freeze": "Freeze",
-        "unfreeze": "Defrost",
+        "freeze": "Lock",
+        "unfreeze": "Unlock",
         "viewPin": "View PIN",
         "showCredentials": "Show card credentials",
         "hideCredentials": "Hide card credentials",
@@ -1769,7 +1769,18 @@
         "button": "Explore Plus tier"
       },
       "copyClipboard": "Card number copied to clipboard.",
-      "errorCopyClipboard": "Couldn’t copy card number - try again."
+      "errorCopyClipboard": "Couldn’t copy card number - try again.",
+      "lockConfirmationModal": {
+        "title": "Lock the card ?",
+        "message": "Your transactions will be declined once your debit card is locked. You can unlock it anytime.",
+        "confirmButton": "Confirm",
+        "cancelButton": "Cancel"
+      },
+      "unlockConfirmationModal": {
+        "title": "Unlock the card ?",
+        "confirmButton": "Confirm",
+        "cancelButton": "Cancel"
+      }
     },
     "HomeScreen": {
       "navTitle": "Home"

@@ -120,6 +120,7 @@ export * from "./TimerIcon";
 export * from "./TransferHorizontalIcon";
 export * from "./TransferVerticalIcon";
 export * from "./TrendingUpIcon";
+export * from "./UnlockIcon";
 export * from "./UnreadNotificationIcon";
 export * from "./UploadIcon";
 export * from "./UserClockIcon";

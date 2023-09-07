@@ -1,9 +1,10 @@
 import { createElement } from "react";
 import { useTranslation } from "react-i18next";
 
-import { FreezeIcon, HideIcon, LockIcon, ShowIcon } from "@/assets/icons";
+import { HideIcon, LockIcon, ShowIcon, UnLockIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 
+import { CardStatus } from "../types";
 import IconButton from "./IconButton";
 
 interface CardButtonsProps {
@@ -13,6 +14,7 @@ interface CardButtonsProps {
   isCardFrozen: boolean;
   isViewingPin: boolean;
   isDisablePin: boolean;
+  cardStatus: CardStatus;
   onShowDetailsPress: () => void;
   onFreezePress: () => void;
   onViewPinPress: () => void;
@@ -25,6 +27,7 @@ export default function CardButtons({
   isCardFrozen,
   isViewingPin,
   isDisablePin,
+  cardStatus,
   onShowDetailsPress,
   onFreezePress,
   onViewPinPress,
@@ -44,7 +47,7 @@ export default function CardButtons({
         <IconButton
           active={isCardFrozen}
           onPress={onFreezePress}
-          icon={<FreezeIcon />}
+          icon={cardStatus === "freeze" ? <UnLockIcon /> : <LockIcon />}
           activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.unfreeze")}
           inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.freeze")}
         />

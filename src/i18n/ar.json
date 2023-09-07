@@ -1233,10 +1233,54 @@
         "cancel": "الغاء"
       }
     },
+    "CardDetailsScreen": {
+      "navTitleStandard": "Standard card",
+      "navTitlePlus": "Plus card",
+      "navTitleSingleUse": "One-time card",
+      "inactiveCard": {
+        "label": "On the way",
+        "actionButtonText": "Activate now"
+      },
+      "iconButtonText": {
+        "show": "Show details",
+        "hide": "Hide details",
+        "freeze": "قفل",
+        "unfreeze": "فك قفل",
+        "viewPin": "View PIN",
+        "showCredentials": "Show card credentials",
+        "hideCredentials": "Hide card credentials",
+        "about": "About"
+      },
+      "manageCardHeader": "Manage card",
+      "cardSettingsButton": "Card settings",
+      "reportButton": "Report stolen, lost or damaged",
+      "accountHeader": "Linked account",
+      "accountNumber": "Account number",
+      "accountName": "Account name",
+      "upgradeToCroatiaPlus": {
+        "breadcrumb": "Ultimate Experience",
+        "header": "Croatia Plus",
+        "content": "Upgrade your tier to get an exclusive card and enjoy priority support and other premium benefits.",
+        "button": "Explore Plus tier"
+      },
+      "copyClipboard": "Card number copied to clipboard.",
+      "errorCopyClipboard": "Couldn’t copy card number - try again.",
+      "lockConfirmationModal": {
+        "title": "قفل البطاقة",
+        "message": "سيتم رفض معاملاتك بمجرد قفل بطاقتك الخاصة. يمكنك فك القفل في أي وقت",
+        "confirmButton": "تأكيد",
+        "cancelButton": "الغاء"
+      },
+      "unlockConfirmationModal": {
+        "title": "قفل البطاقة",
+        "confirmButton": "تأكيد",
+        "cancelButton": "الغاء"
+      }
+    },
     "standardCard": "Standard card",
     "plusCard": "Plus card",
     "singleUseCard": "One-time card",
-    "cardFrozen": "Card frozen",
+    "cardFrozen": "بطاقة مقفلة",
     "generateNew": "Generate New",
     "HomeScreen": {
       "navTitle": "Home"
