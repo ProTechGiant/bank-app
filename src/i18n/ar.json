@@ -1042,7 +1042,17 @@
       "taskCount_two": "مهمتان",
       "taskCount_other": "{{count}} مهمات ",
       "leftToComplete": "لم تكتمل بعد",
-      "updating": "جار التحديث ..."
+      "updating": "جار التحديث ...",
+      "GoalGetter": {
+        "title": "منتجات محقق الأهداف",
+        "description": "تخيّل هدفًا وسنساعدك في الاقتصاد من أجل تحقيقه.",
+        "button": "إنشاء هدف"
+      },
+      "ReferFriend": {
+        "title": "قم بدعوة صديق ",
+        "description": "قم بدعوة أصدقائك واكسب  15 ريال سعودي لكل واحد منكم.",
+        "button": "ادعو الآن"
+      }
     },
     "RateAppreciation": {
       "question": "What do yo think about this appreciation?",

@@ -1064,7 +1064,17 @@
       "taskCount_one": "{{count}} task ",
       "taskCount_other": "{{count}} tasks ",
       "leftToComplete": "left to complete",
-      "updating": "Updating ..."
+      "updating": "Updating ...",
+      "GoalGetter": {
+        "title": "Goal getter products",
+        "description": "Imagine a goal and we’ll help you save for it.",
+        "button": "Create a goal"
+      },
+      "ReferFriend": {
+        "title": "Invite a friend",
+        "description": "Invite your friends and earn 15 SAR for each of you",
+        "button": "Invite now"
+      }
     },
     "HomepageReorderModal": {
       "cancel": "CANCEL",

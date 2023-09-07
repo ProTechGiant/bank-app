@@ -23,6 +23,7 @@ import HeaderSvg from "../assets/Header-homepage.svg";
 import {
   AppreciationFeedbackModal,
   BalanceCard,
+  CardSection,
   QuickActionsSection,
   RewardsSection,
   TasksPreviewer,
@@ -215,6 +216,24 @@ export default function DashboardScreen() {
               />
             ) : null}
           </Stack>
+          {/* TODO: When the API is ready  */}
+          <CardSection
+            isReferFriend={false}
+            onPress={function (): void {
+              throw new Error("Function not implemented.");
+            }}
+            title={t("Home.DashboardScreen.GoalGetter.title")}
+            description={t("Home.DashboardScreen.GoalGetter.description")}
+            buttonText={t("Home.DashboardScreen.GoalGetter.button")}
+          />
+          {/* TODO: When the API is ready  */}
+          <CardSection
+            onPress={() => navigation.navigate("Referral.ReferralStack", { screen: "Referral.HubScreen" })}
+            isReferFriend={true}
+            title={t("Home.DashboardScreen.ReferFriend.title")}
+            description={t("Home.DashboardScreen.ReferFriend.description")}
+            buttonText={t("Home.DashboardScreen.ReferFriend.button")}
+          />
         </ScrollView>
       </SafeAreaView>
       <SelectTransferTypeModal

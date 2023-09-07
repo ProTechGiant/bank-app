@@ -1,6 +1,7 @@
 export { default as ActiveReordererItem } from "./ActiveReordererItem";
 export { default as AppreciationFeedbackModal } from "./AppreciationFeedbackModal";
 export { default as BalanceCard } from "./BalanceCard";
+export { default as CardSection } from "./CardSection";
 export { default as HeaderButton } from "./HeaderButton";
 export { default as InactiveReordererItem } from "./InactiveReordererItem";
 export { default as PlaceholderGenerator } from "./PlaceholderGenerator";
