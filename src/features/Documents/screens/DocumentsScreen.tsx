@@ -276,7 +276,7 @@ export default function DocumentsScreen() {
           </Pressable>
         }
       />
-      {!isLoading ? (
+      {isLoading ? (
         <View style={styles.loading}>
           <FullScreenLoader />
         </View>
