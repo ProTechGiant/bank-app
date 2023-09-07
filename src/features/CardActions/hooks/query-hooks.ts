@@ -7,6 +7,7 @@ import { Address } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 import { tokenizeCardForAppleWalletAsync } from "@/utils/apple-wallet";
 
+import { MOCK_API_URL } from "../mocks/mockPOSTransactionLimits";
 import { Card, CardSettingsInput, CardStatus } from "../types";
 
 export const queryKeys = {
@@ -14,6 +15,7 @@ export const queryKeys = {
   settings: (cardId: string) => [...queryKeys.all(), "settings", { cardId }] as const,
   meawalletTokenization: (cardId: string) => [...queryKeys.all(), "meawallet-tokenization", { cardId }] as const,
   customerTier: () => ["customer-tier"] as const,
+  verificationStatus: (cardId: string) => [...queryKeys.all(), "verificationStatus", { cardId }],
   posLimits: () => [...queryKeys.all(), "posLimits"] as const,
   currentPOSLimit: (cardId: string) => [...queryKeys.all(), "currentPOSLimit", { cardId }] as const,
 };
@@ -266,6 +268,17 @@ export function useSubmitRenewCard() {
   });
 }
 
+export function useVerificationCardStatus(cardId: string, INTERVAL: number) {
+  return useQuery(
+    queryKeys.verificationStatus(cardId),
+    async () => {
+      const response = await fetch(MOCK_API_URL); //TODO: mock api later to be replaced with actual one
+      const content = await response.json();
+      return content;
+    },
+    { refetchInterval: INTERVAL }
+  );
+}
 interface POSLimitsResponse {
   MaxLimit: string;
   MinLimit: string;

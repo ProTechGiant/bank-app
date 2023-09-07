@@ -5,7 +5,7 @@ import { Platform, View, ViewStyle } from "react-native";
 import { ShippingIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
 import Button from "@/components/Button";
-import HeroSlider from "@/components/HeroSlider";
+import { HeroSlider } from "@/components/HeroSlider";
 import NavHeader from "@/components/NavHeader";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { warn } from "@/logger";
@@ -32,6 +32,14 @@ export default function CardOrderedScreen({ cardId }: CardOrderedScreenProps) {
     } catch (error) {
       warn("card-actions", `Could not add card "${cardId}" to Apple Wallet: `, JSON.stringify(error));
     }
+  };
+
+  const handleIVRService = () => {
+    navigation.navigate("CardActions.WaitingVerificationCard", {
+      title: t("CardActions.WaitingVerificationCard.waitingVerificationTitle"),
+      message: t("CardActions.WaitingVerificationCard.waitingVerificationMessage"),
+      callback: handleOnAddToWallet,
+    });
   };
 
   const handleOnClose = () => {
@@ -63,9 +71,7 @@ export default function CardOrderedScreen({ cardId }: CardOrderedScreenProps) {
       hasBackButton={false}
       onFinishPress={handleOnClose}
       end={<NavHeader.CloseEndButton onPress={handleOnClose} />}>
-      {isAppleWalletAvailable && canAddCardToAppleWallet ? (
-        <AddToAppleWalletButton onPress={handleOnAddToWallet} />
-      ) : null}
+      {isAppleWalletAvailable && canAddCardToAppleWallet ? <AddToAppleWalletButton onPress={handleIVRService} /> : null}
       {Platform.OS === "android" ? (
         <View style={madaPayContainerStyle}>
           <MadaPayBanner />

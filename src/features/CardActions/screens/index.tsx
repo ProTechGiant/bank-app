@@ -11,3 +11,4 @@ export { default as ResetPinCodeScreen } from "./ResetPinCodeScreen";
 export { default as SetTemporaryAddressScreen } from "./SetTemporaryAddressScreen";
 export { default as SingleUseCardAbout } from "./SingleUseCardAbout";
 export { default as SingleUseCardInfoScreen } from "./SingleUseCardInfoScreen";
+export { default as WaitingVerificationCardScreen } from "./WaitingVerificationCardScreen";

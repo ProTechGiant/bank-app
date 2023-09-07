@@ -64,3 +64,5 @@ export const mockPOSTransactionLimits = [
     value: "20000",
   },
 ];
+
+export const MOCK_API_URL = "https://2dm68.wiremockapi.cloud/ivrvalidation";

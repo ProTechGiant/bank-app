@@ -18,6 +18,7 @@ import {
   SetTemporaryAddressScreen,
   SingleUseCardAbout,
   SingleUseCardInfoScreen,
+  WaitingVerificationCardScreen,
 } from "./screens";
 import { CardStatus } from "./types";
 
@@ -25,6 +26,12 @@ export type CardActionsStackParams = {
   "CardActions.CardDetailsScreen": {
     cardId: string;
     isSingleUseCardCreated?: boolean;
+  };
+  "CardActions.WaitingVerificationCard": {
+    title: string;
+    message: string;
+    cardId: string;
+    callback: () => void;
   };
   "CardActions.CardSettingsScreen": {
     cardId: string;
@@ -92,6 +99,7 @@ export default function CardActionsStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen component={CardDetailsScreen} name="CardActions.CardDetailsScreen" />
+      <Stack.Screen component={WaitingVerificationCardScreen} name="CardActions.WaitingVerificationCard" />
       <Stack.Screen component={CardSettingsScreen} name="CardActions.CardSettingsScreen" />
       <Stack.Screen component={SingleUseCardInfoScreen} name="CardActions.SingleUseCardInfoScreen" />
       <Stack.Screen component={HomeScreen} name="CardActions.HomeScreen" />

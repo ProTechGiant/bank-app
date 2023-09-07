@@ -91,13 +91,21 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
 
   const handleOnAddToAppleWallet = async () => {
     if (!isAppleWalletAvailable || !canAddCardToAppleWallet) return;
-
     try {
       await addCardToAppleWallet();
       navigation.navigate("CardActions.ApplePayActivated");
     } catch (error) {
       warn("card-actions", "Could not add payment card to Apple Wallet: ", JSON.stringify(error));
     }
+  };
+
+  const handleIVRService = () => {
+    navigation.navigate("CardActions.WaitingVerificationCard", {
+      title: t("CardActions.WaitingVerificationCard.waitingVerificationTitle"),
+      message: t("CardActions.WaitingVerificationCard.waitingVerificationMessage"),
+      cardId: card.CardId,
+      callback: handleOnAddToAppleWallet,
+    });
   };
 
   const handleOnCardSettingsPress = () => {
@@ -284,7 +292,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
           <>
             {isAppleWalletAvailable && canAddCardToAppleWallet && !["freeze", "inactive"].includes(card.Status) ? (
               <View style={walletButtonContainer}>
-                <AddToAppleWalletButton onPress={handleOnAddToAppleWallet} />
+                <AddToAppleWalletButton onPress={handleIVRService} />
               </View>
             ) : null}
             {Platform.OS === "android" && !["freeze", "inactive"].includes(card.Status) ? (
