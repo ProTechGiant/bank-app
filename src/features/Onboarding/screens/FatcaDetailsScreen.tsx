@@ -142,7 +142,9 @@ export default function FatcaDetailsScreen() {
         <ProgressIndicator currentStep={4} totalStep={6} />
       </NavHeader>
       {isLoading ? (
-        <FullScreenLoader />
+        <View style={styles.loading}>
+          <FullScreenLoader />
+        </View>
       ) : (
         <>
           <ContentContainer isScrollView>
@@ -222,5 +224,9 @@ const foreignTaxResidencySchema = yup.object().shape({
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
+  },
+  loading: {
+    flex: 1,
+    marginTop: -69,
   },
 });

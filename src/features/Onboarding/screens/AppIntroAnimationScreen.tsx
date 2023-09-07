@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 import appLoaderAnimation from "@/assets/illustrations/app-intro.json";
 import AnimationView from "@/components/AnimationView";
+import Page from "@/components/Page";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { hasItemInStorage } from "@/utils/encrypted-storage";
@@ -33,9 +34,11 @@ export default function AppIntroAnimationScreen() {
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      <AnimationView source={appLoaderAnimation} />
-    </View>
+    <Page backgroundColor="neutralBase-60" insets={[]}>
+      <View style={styles.container}>
+        <AnimationView source={appLoaderAnimation} />
+      </View>
+    </Page>
   );
 }
 

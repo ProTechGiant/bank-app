@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Linking, Platform, View, ViewStyle } from "react-native";
+import { Alert, Linking, Platform, StyleSheet, View, ViewStyle } from "react-native";
 
 import Accordion from "@/components/Accordion";
 import FullScreenLoader from "@/components/FullScreenLoader";
@@ -90,7 +90,7 @@ export default function NafathAuthScreen() {
 
   const container = useThemeStyles<ViewStyle>(theme => ({
     margin: theme.spacing["24p"],
-    height: "100%",
+    flex: 1,
   }));
 
   const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -115,67 +115,68 @@ export default function NafathAuthScreen() {
     width: 60,
   }));
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader
         withBackButton={true}
         title={t("Onboarding.NafathAuthScreen.navHeaderTitle")}
         testID="Onboarding.NafathAuthScreen:NavHeader"
       />
-      <View style={container}>
-        {isIndicator ? (
+      {!isIndicator ? (
+        <View style={styles.loading}>
           <FullScreenLoader />
-        ) : (
-          <>
-            <LinkModal
-              modalVisible={isModalVisible}
-              linkText={t("Onboarding.NafathAuthScreen.modalLink")}
-              onNavigate={handleOnOpenNafathApp}
-              toggleModal={handleOnToggleModal}>
-              <Stack align="center" direction="vertical" justify="center">
-                {requestedOtpNumber !== undefined ? (
-                  <View style={numberContainerStyle}>
-                    <Typography.Text color="neutralBase-50" weight="bold" size="title1" align="center">
-                      {requestedOtpNumber}
-                    </Typography.Text>
-                  </View>
-                ) : (
-                  <View style={loadingContainerStyle}>
-                    <Typography.Text color="neutralBase" weight="bold" size="title1" align="center">
-                      {t("Onboarding.NafathAuthScreen.modalLoad")}
-                    </Typography.Text>
-                  </View>
-                )}
-                <Typography.Text color="neutralBase" size="callout" align="center">
-                  {t("Onboarding.NafathAuthScreen.modalBody")}
-                </Typography.Text>
-              </Stack>
-            </LinkModal>
-            <View style={headerContainerStyle}>
-              <Typography.Text size="title1" weight="bold">
-                {t("Onboarding.NafathAuthScreen.title")}
-              </Typography.Text>
-              <Typography.Text size="callout" weight="regular">
-                {t("Onboarding.NafathAuthScreen.subTitle")}
-              </Typography.Text>
-            </View>
-            <Stack align="stretch" direction="vertical" gap="20p">
-              <LinkCard onNavigate={handleOnToggleModal} testID="Onboarding.NafathAuthScreen:SelectNafathAppButton">
-                <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                  {t("Onboarding.NafathAuthScreen.appButtonTitle")}
-                  <Typography.Text weight="regular" size="footnote">
-                    {t("Onboarding.NafathAuthScreen.appButtonSubtitle")}
+        </View>
+      ) : (
+        <View style={container}>
+          <LinkModal
+            modalVisible={isModalVisible}
+            linkText={t("Onboarding.NafathAuthScreen.modalLink")}
+            onNavigate={handleOnOpenNafathApp}
+            toggleModal={handleOnToggleModal}>
+            <Stack align="center" direction="vertical" justify="center">
+              {requestedOtpNumber !== undefined ? (
+                <View style={numberContainerStyle}>
+                  <Typography.Text color="neutralBase-50" weight="bold" size="title1" align="center">
+                    {requestedOtpNumber}
                   </Typography.Text>
+                </View>
+              ) : (
+                <View style={loadingContainerStyle}>
+                  <Typography.Text color="neutralBase" weight="bold" size="title1" align="center">
+                    {t("Onboarding.NafathAuthScreen.modalLoad")}
+                  </Typography.Text>
+                </View>
+              )}
+              <Typography.Text color="neutralBase" size="callout" align="center">
+                {t("Onboarding.NafathAuthScreen.modalBody")}
+              </Typography.Text>
+            </Stack>
+          </LinkModal>
+          <View style={headerContainerStyle}>
+            <Typography.Text size="title1" weight="bold">
+              {t("Onboarding.NafathAuthScreen.title")}
+            </Typography.Text>
+            <Typography.Text size="callout" weight="regular">
+              {t("Onboarding.NafathAuthScreen.subTitle")}
+            </Typography.Text>
+          </View>
+          <Stack align="stretch" direction="vertical" gap="20p">
+            <LinkCard onNavigate={handleOnToggleModal} testID="Onboarding.NafathAuthScreen:SelectNafathAppButton">
+              <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+                {t("Onboarding.NafathAuthScreen.appButtonTitle")}
+                <Typography.Text weight="regular" size="footnote">
+                  {t("Onboarding.NafathAuthScreen.appButtonSubtitle")}
                 </Typography.Text>
-                <Typography.Text size="footnote" color="neutralBase">
-                  {t("Onboarding.NafathAuthScreen.appButtonBody")}
-                </Typography.Text>
-              </LinkCard>
-              <Accordion title={t("Onboarding.NafathAuthScreen.dropdownTitle")}>
-                <Typography.Text color="neutralBase+10" size="footnote">
-                  {t("Onboarding.NafathAuthScreen.dropdownBody")}
-                </Typography.Text>
-              </Accordion>
-              {/* <LinkCard onNavigate={handleOnOpenNafathWebsite}>
+              </Typography.Text>
+              <Typography.Text size="footnote" color="neutralBase">
+                {t("Onboarding.NafathAuthScreen.appButtonBody")}
+              </Typography.Text>
+            </LinkCard>
+            <Accordion title={t("Onboarding.NafathAuthScreen.dropdownTitle")}>
+              <Typography.Text color="neutralBase+10" size="footnote">
+                {t("Onboarding.NafathAuthScreen.dropdownBody")}
+              </Typography.Text>
+            </Accordion>
+            {/* <LinkCard onNavigate={handleOnOpenNafathWebsite}>
             <Typography.Text size="callout" weight="medium" color="neutralBase+30">
               {t("Onboarding.NafathAuthScreen.siteButtonTitle")}
             </Typography.Text>
@@ -184,10 +185,16 @@ export default function NafathAuthScreen() {
             </Typography.Text>
           </LinkCard>
           </LinkCard> */}
-            </Stack>
-          </>
-        )}
-      </View>
+          </Stack>
+        </View>
+      )}
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    marginTop: -49,
+  },
+});

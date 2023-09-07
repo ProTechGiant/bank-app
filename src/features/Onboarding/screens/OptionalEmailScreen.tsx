@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, View, ViewStyle } from "react-native";
+import { Alert, StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import Button from "@/components/Button";
@@ -81,7 +81,9 @@ export default function OptionalEmailScreen() {
         <ProgressIndicator currentStep={2} totalStep={6} />
       </NavHeader>
       {isLoading ? (
-        <FullScreenLoader />
+        <View style={styles.loading}>
+          <FullScreenLoader />
+        </View>
       ) : (
         <>
           <ContentContainer isScrollView>
@@ -129,4 +131,11 @@ export default function OptionalEmailScreen() {
 
 const validationSchema = yup.object().shape({
   emailAddress: yup.string().optional().email("Please check your email address"),
+});
+
+const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    marginTop: -68,
+  },
 });

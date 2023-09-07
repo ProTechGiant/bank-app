@@ -25,7 +25,7 @@ export default function LinkCard({ onNavigate, children, style, testID }: LinkCa
   };
 
   return (
-    <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall" elevation={3}>
+    <WithShadow backgroundColor="neutralBase-60" borderRadius="extraSmall" elevation={3}>
       <Pressable style={[container, style]} onPress={handlePress} testID={testID}>
         <View style={styles.textContainer}>{children}</View>
         <View style={styles.arrowContainer}>

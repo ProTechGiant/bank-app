@@ -24,7 +24,7 @@ import { FAQListItem } from "../types";
 
 export default function DetailedScreen() {
   const navigation = useNavigation();
-  // eslint-disable-next-line prettier/prettier
+
   const {
     params: { faqId },
   } = useRoute<RouteProp<AuthenticatedStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
@@ -115,7 +115,9 @@ export default function DetailedScreen() {
     <Page>
       <NavHeader />
       {isLoading ? (
-        <FullScreenLoader />
+        <View style={styles.loading}>
+          <FullScreenLoader />
+        </View>
       ) : undefined !== data ? (
         <ContentContainer isScrollView>
           <Typography.Text weight="semiBold" size="title1">
@@ -197,6 +199,10 @@ export default function DetailedScreen() {
 const styles = StyleSheet.create({
   chevronContainer: {
     transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
+  loading: {
+    flex: 1,
+    marginTop: -49,
   },
   row: {
     flexDirection: "row",

@@ -86,7 +86,9 @@ export default function LandingScreen() {
     <Page>
       {!isFocused && <NavHeader />}
       {isFetching ? (
-        <FullScreenLoader />
+        <View style={styles.loading}>
+          <FullScreenLoader />
+        </View>
       ) : (
         <ContentContainer isScrollView>
           <Stack direction="vertical" gap="16p" align="stretch">
@@ -154,5 +156,9 @@ export default function LandingScreen() {
 const styles = StyleSheet.create({
   errormessageContainerStyle: {
     alignItems: "center",
+  },
+  loading: {
+    flex: 1,
+    marginTop: -49,
   },
 });

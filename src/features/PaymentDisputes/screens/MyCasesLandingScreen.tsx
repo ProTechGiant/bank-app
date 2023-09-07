@@ -62,7 +62,9 @@ export default function MyCasesLandingScreen() {
       <Page backgroundColor="neutralBase-60">
         <NavHeader />
         {isLoading ? (
-          <FullScreenLoader />
+          <View style={styles.loading}>
+            <FullScreenLoader />
+          </View>
         ) : (
           <>
             <View style={headerStyle}>
@@ -123,5 +125,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
+  },
+  loading: {
+    flex: 1,
+    marginTop: -49,
   },
 });

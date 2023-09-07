@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import FullScreenLoader from "@/components/FullScreenLoader";
 import { LoadingErrorNotification } from "@/components/LoadingError";
@@ -172,7 +172,9 @@ export default function HomeScreen() {
         <NavHeader title={t("CardActions.HomeScreen.navTitle")} />
         {isCardBannerVisible ? renderNotificationBanner() : null}
         {cardsQuery.isLoading ? (
-          <FullScreenLoader />
+          <View style={styles.loading}>
+            <FullScreenLoader />
+          </View>
         ) : (
           <CardList
             data={cardsQuery.data?.Cards ?? []}
@@ -205,3 +207,10 @@ export default function HomeScreen() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    marginTop: -49,
+  },
+});

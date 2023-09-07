@@ -276,8 +276,10 @@ export default function DocumentsScreen() {
           </Pressable>
         }
       />
-      {isLoading ? (
-        <FullScreenLoader />
+      {!isLoading ? (
+        <View style={styles.loading}>
+          <FullScreenLoader />
+        </View>
       ) : (
         <>
           {selectedFiltersLabels.length > 0 ? (
@@ -346,5 +348,9 @@ export default function DocumentsScreen() {
 const styles = StyleSheet.create({
   contentContainer: {
     paddingBottom: 100,
+  },
+  loading: {
+    flex: 1,
+    marginTop: -49,
   },
 });

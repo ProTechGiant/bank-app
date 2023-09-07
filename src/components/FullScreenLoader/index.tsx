@@ -26,7 +26,7 @@ export default function FullScreenLoader({ title, message }: FullScreenLoaderPro
       direction="vertical"
       gap="24p"
       align="stretch"
-      style={title !== undefined || message !== undefined ? withTextContainerStyle : styles.noText}>
+      style={[title !== undefined || message !== undefined ? withTextContainerStyle : styles.noText]}>
       <AnimationView source={loaderAnimation} style={styles.animation} />
       {title !== undefined || message !== undefined ? (
         <Stack direction="vertical" align="center" gap="8p">
