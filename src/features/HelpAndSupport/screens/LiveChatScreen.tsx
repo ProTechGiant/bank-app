@@ -8,7 +8,7 @@ import * as yup from "yup";
 
 import ContentContainer from "@/components/ContentContainer";
 import SubmitButton from "@/components/Form/SubmitButton";
-import NotificationModal from "@/components/NotificationModal";
+import { LoadingErrorNotification } from "@/components/LoadingError";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -135,12 +135,10 @@ export default function LiveChatScreen() {
           </View>
         </ContentContainer>
       </View>
-      <NotificationModal
-        title={t("HelpAndSupport.LiveChatScreen.error.title")}
-        message={t("HelpAndSupport.LiveChatScreen.error.message")}
+      <LoadingErrorNotification
         isVisible={isError}
-        variant="error"
         onClose={() => setIsError(false)}
+        onRefresh={handleSubmit(handleOnSubmit)}
       />
     </SafeAreaProvider>
   );
