@@ -54,6 +54,19 @@ export default function EnterCardCVVScreen() {
     handleOnVerifyCVV(normalizedValue);
   };
 
+  const handleIVRService = (cardId: string) => {
+    navigation.navigate("CardActions.WaitingVerificationCard", {
+      title: t("CardActions.WaitingVerificationCard.waitingVerificationTitle"),
+      message: t("CardActions.WaitingVerificationCard.waitingVerificationMessage"),
+      callback: handleActivationSuccess,
+      cardId,
+    });
+  };
+
+  const handleActivationSuccess = () => {
+    navigation.navigate("CardActions.CardActivatedScreen", { cardId });
+  };
+
   const handleOnVerifyCVV = async (value: string) => {
     const cvv = encryptValue(value);
     try {
@@ -96,8 +109,9 @@ export default function EnterCardCVVScreen() {
             setIsErrorModalVisible(true);
             return;
           }
-
-          navigation.navigate("CardActions.CardActivatedScreen", { cardId });
+          // navigation.navigate("CardActions.CardActivatedScreen", { cardId });
+          // Adding the IVR status check before activation
+          handleIVRService(cardId);
         },
       });
     } catch (error) {
