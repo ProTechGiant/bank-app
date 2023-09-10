@@ -1052,7 +1052,8 @@
         "title": "قم بدعوة صديق ",
         "description": "قم بدعوة أصدقائك واكسب  15 ريال سعودي لكل واحد منكم.",
         "button": "ادعو الآن"
-      }
+      },
+      "welcomeMessageLabel": "مرحباً"
     },
     "RateAppreciation": {
       "question": "What do yo think about this appreciation?",

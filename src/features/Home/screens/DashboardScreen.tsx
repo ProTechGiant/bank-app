@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
@@ -9,10 +9,10 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SelectTransferTypeModal from "@/components/SelectTransferTypeModal";
 import Stack from "@/components/Stack";
-import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
+import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import useNotificationHandler from "@/hooks/use-notification-handler";
 import useRegisterNotifications from "@/hooks/use-register-notifications";
 import { mockRemoteMessageAppreciation } from "@/mocks/remoteNotificationData";
@@ -20,12 +20,12 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 
-import { ProfileIcon } from "../assets";
 import HeaderSvg from "../assets/Header-homepage.svg";
 import {
   AppreciationFeedbackModal,
   BalanceCard,
   CardSection,
+  HeaderHomePage,
   QuickActionsSection,
   RewardsSection,
   TasksPreviewer,
@@ -52,6 +52,7 @@ export default function DashboardScreen() {
   const { setInternalTransferEntryPoint, clearContext, setTransferType } = useInternalTransferContext();
   const { phoneNumber } = useAuthContext();
   const registerForNotifications = useRegisterNotifications();
+  const { data: customerProfile } = useCustomerProfile();
 
   const appreciationFeedback = useAppreciationFeedback();
   const { data: appreciationsWithNoFeedback } = useAppreciationsWithNoFeedback(i18n.language);
@@ -83,10 +84,6 @@ export default function DashboardScreen() {
       setLayoutErrorIsVisible(true);
     }
   }, [homepageLayout]);
-
-  const handleOnEditLayoutPress = () => {
-    navigation.navigate("Home.SectionsReordererModal");
-  };
 
   const handleOnQuickActionPressed = (screen: string, stack: string) => {
     if (screen === undefined || screen === "") return;
@@ -152,17 +149,6 @@ export default function DashboardScreen() {
     paddingHorizontal: theme.spacing["20p"],
   }));
 
-  const profileSectionStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["20p"],
-    height: 34,
-    flexDirection: "row-reverse",
-  }));
-
-  const notificationEntryPointStyle = useThemeStyles<ViewStyle>(theme => ({
-    width: "100%",
-    height: theme.spacing["20p"],
-  }));
-
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
       <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
@@ -170,19 +156,7 @@ export default function DashboardScreen() {
         <HeaderSvg />
       </View>
       <SafeAreaView edges={["top"]} style={styles.container}>
-        {/* TODO this is mock entry point for the notifications center */}
-        <Pressable
-          style={notificationEntryPointStyle}
-          onPress={() => {
-            navigation.navigate("Notifications.NotificationsStack");
-          }}>
-          <Typography.Text>{t("Notifications.NotificationHubScreen.title")}</Typography.Text>
-        </Pressable>
-        <View style={profileSectionStyle}>
-          <Pressable onPress={handleOnEditLayoutPress}>
-            <ProfileIcon />
-          </Pressable>
-        </View>
+        <HeaderHomePage firstName={customerProfile?.FirstName} />
         <BalanceCard
           balance={account.data?.balance}
           accountNumber={account.data?.id}

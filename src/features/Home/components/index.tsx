@@ -3,6 +3,7 @@ export { default as AppreciationFeedbackModal } from "./AppreciationFeedbackModa
 export { default as BalanceCard } from "./BalanceCard";
 export { default as CardSection } from "./CardSection";
 export { default as HeaderButton } from "./HeaderButton";
+export { default as HeaderHomePage } from "./HeaderHomePage";
 export { default as InactiveReordererItem } from "./InactiveReordererItem";
 export { default as PlaceholderGenerator } from "./PlaceholderGenerator";
 export { default as QuickAction } from "./QuickAction";

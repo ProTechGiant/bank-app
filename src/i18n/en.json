@@ -1074,7 +1074,8 @@
         "title": "Invite a friend",
         "description": "Invite your friends and earn 15 SAR for each of you",
         "button": "Invite now"
-      }
+      },
+      "welcomeMessageLabel": "Welcome"
     },
     "HomepageReorderModal": {
       "cancel": "CANCEL",
