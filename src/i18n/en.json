@@ -2959,6 +2959,7 @@
   "Notifications": {
     "NotificationHubScreen": {
       "title": "Notification Center",
+      "filterBy": "Filtered by:",
       "sections": {
         "today": "Today",
         "yesterday": "Yesterday",
@@ -2968,6 +2969,10 @@
         "title": "No Notifications found",
         "subtitle": "We are crafting the best for you and your new notification should be on its way",
         "buttonText": "Explore More"
+      },
+      "filterModal": {
+        "title": "Filter",
+        "applyButton": "Apply"
       },
       "loadMore": "load more"
     }

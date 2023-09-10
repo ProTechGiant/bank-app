@@ -13,6 +13,10 @@ export interface SubCategoryType {
   Name: string;
 }
 
+export interface FilterType extends SubCategoryType {
+  isActive: boolean;
+}
+
 export enum SectionEnum {
   TODAY = "today",
   YESTERDAY = "yesterday",

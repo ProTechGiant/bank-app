@@ -1,15 +1,47 @@
 const SubCategories: SubCategoryType[] = [
   {
     Id: 1,
-    Name: "category1",
+    Name: "Payments In",
   },
   {
     Id: 2,
-    Name: "category2",
+    Name: "Payments Out",
   },
   {
     Id: 3,
-    Name: "category3",
+    Name: "Beneficiary",
+  },
+  {
+    Id: 4,
+    Name: "Scheduled Payments",
+  },
+  {
+    Id: 5,
+    Name: "Bill Payments",
+  },
+  {
+    Id: 6,
+    Name: "Spending Summaries",
+  },
+  {
+    Id: 7,
+    Name: "Your Goals",
+  },
+  {
+    Id: 8,
+    Name: "Low Balance",
+  },
+  {
+    Id: 9,
+    Name: "Changes to your account",
+  },
+  {
+    Id: 10,
+    Name: "Statements",
+  },
+  {
+    Id: 11,
+    Name: "Changes to your card",
   },
 ];
 import { NotificationType, SubCategoryType } from "./types";
