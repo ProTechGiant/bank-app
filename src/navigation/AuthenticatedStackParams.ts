@@ -2,6 +2,7 @@ import { AddMoneyStackParams } from "@/features/AddMoney/AddMoneyStack";
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
 import { DocumentsStackParams } from "@/features/Documents/DocumentsStack";
 import { FrequentlyAskedQuestionsStackParams } from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
+import { GoalGetterStackParams } from "@/features/GoalGetter/GoalGetterStack";
 import { HelpAndSupportStackParams } from "@/features/HelpAndSupport/HelpAndSupportStack";
 import { HomeStackParams } from "@/features/Home/HomeStack";
 import { InternalTransfersStackParams } from "@/features/InternalTransfers/InternalTransfersStack";
@@ -60,6 +61,7 @@ type RootStackParams = {
   "Temporary.LandingScreen": undefined;
   "Temporary.DummyScreen": undefined;
   "Referral.ReferralStack": undefined;
+  "GoalGetter.GoalGetterStack": undefined;
   "SignIn.SignInStack": undefined;
   "Modal.QuickActionsReorderModal": undefined;
   "Modal.HomepageReorderModal": undefined;
@@ -131,6 +133,7 @@ type AuthenticatedStackParams = RootStackParams &
   SignInStackParams &
   HelpAndSupportStackParams &
   SettingsStackParams &
+  GoalGetterStackParams &
   ProfileDetailsStackParams;
 
 export default AuthenticatedStackParams;

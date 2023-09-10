@@ -7,6 +7,7 @@ import DocumentsStack from "@/features/Documents/DocumentsStack";
 import FrequentlyAskedQuestionsStack from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
 import DetailedScreen from "@/features/FrequentlyAskedQuestions/screens/DetailedScreen";
 import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
+import GoalGetterStack from "@/features/GoalGetter/GoalGetterStack";
 import HelpAndSupportStack from "@/features/HelpAndSupport/HelpAndSupportStack";
 import HomeStack from "@/features/Home/HomeStack";
 import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfersStack";
@@ -76,6 +77,8 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen component={SadadBillPaymentStack} name="SadadBillPayments.SadadBillPaymentStack" />
       <AuthStack.Screen component={StatementsStack} name="Statements.StatementsStack" />
       <AuthStack.Screen component={DocumentsStack} name="Documents.DocumentsStack" />
+      <AuthStack.Screen component={GoalGetterStack} name="GoalGetter.GoalGetterStack" />
+
       <AuthStack.Screen
         component={TermsAndConditionsScreen}
         name="Referral.TermsAndConditionsScreen"

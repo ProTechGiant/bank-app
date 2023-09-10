@@ -197,9 +197,7 @@ export default function DashboardScreen() {
           {/* TODO: When the API is ready  */}
           <CardSection
             isReferFriend={false}
-            onPress={function (): void {
-              throw new Error("Function not implemented.");
-            }}
+            onPress={() => navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalsAndProducts" })}
             title={t("Home.DashboardScreen.GoalGetter.title")}
             description={t("Home.DashboardScreen.GoalGetter.description")}
             buttonText={t("Home.DashboardScreen.GoalGetter.button")}
