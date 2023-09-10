@@ -8,7 +8,7 @@ import { generateRandomId } from "@/utils";
 import { tokenizeCardForAppleWalletAsync } from "@/utils/apple-wallet";
 
 import { MOCK_API_URL } from "../mocks/mockPOSTransactionLimits";
-import { Card, CardSettingsInput, CardStatus } from "../types";
+import { Card, CardSettingsInput, CardStatus, ChangePOSLimit } from "../types";
 
 export const queryKeys = {
   all: () => ["cards"] as const,
@@ -331,5 +331,13 @@ export function useCurrentPOSLimit(cardId: string) {
         ["x-correlation-id"]: correlationId,
       }
     );
+  });
+}
+
+export function useChangePOSLimit() {
+  return useMutation(async (values: ChangePOSLimit) => {
+    return api("v1", `cards/${values.CardId}/limits`, "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
   });
 }

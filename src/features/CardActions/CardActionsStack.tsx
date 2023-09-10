@@ -90,7 +90,7 @@ export type CardActionsStackParams = {
   "CardActions.CardActivatedScreen": {
     cardId: string;
   };
-  "CardActions.POSLimitScreen": undefined;
+  "CardActions.POSLimitScreen": { cardId: string };
 };
 
 export const Stack = createNativeStackNavigator<CardActionsStackParams>();

@@ -1935,7 +1935,9 @@
       "subTitle": "The limit will be incremented in 1000s: 6000, 7000, 8000, up to 20,000.",
       "dropDownTitle": "Daily Limit",
       "doneButton": "Done",
-      "cancelButton": "Cancel"
+      "cancelButton": "Cancel",
+      "notificationModelMessage": "Your transaction limit has been successfully updated.",
+      "notificationModelTitle": "Transaction limit updated"
     }
   },
   "AddMoneyInfo": {

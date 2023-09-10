@@ -53,7 +53,9 @@ export default function CardSettingsScreen() {
   };
 
   const handleOnPOSTransactiionLimitPress = () => {
-    navigation.navigate("CardActions.POSLimitScreen");
+    navigation.navigate("CardActions.POSLimitScreen", {
+      cardId: route.params.cardId,
+    });
   };
 
   const handleOnConfirmPress = () => {

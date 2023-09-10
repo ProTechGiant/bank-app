@@ -1391,7 +1391,9 @@
       "subTitle": "سيتم زيادة الحد بمقدار 1000: 6000, 7000, 8000, حتى 20,000",
       "dropDownTitle": "الحد اليومي",
       "doneButton": "تم",
-      "cancelButton": "الغاء"
+      "cancelButton": "الغاء",
+      "notificationModelMessage": "تم تحديث حد الحركات المالية بنجاح",
+      "notificationModelTitle": "تم تحديث حد الحركات المالية"
     },
     "CardExpiryNotification": {
       "title": "Your card will expire soon",

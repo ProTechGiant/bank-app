@@ -58,3 +58,13 @@ export interface DetailedCardResponse {
   CardNumber: string;
   Cvv: string;
 }
+
+export interface ChangePOSLimit {
+  CardIdType: typeof PHYSICAL_CARD_TYPE | typeof SINGLE_USE_CARD_TYPE | typeof VIRTUAL_CARD_TYPE;
+  CardId: string;
+  CardRole: string;
+  Reason: string;
+  Limits: Array<string>;
+  LimitType: string;
+  Value: string;
+}
