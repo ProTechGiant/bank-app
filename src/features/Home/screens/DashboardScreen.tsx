@@ -13,7 +13,9 @@ import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
+import useNotificationHandler from "@/hooks/use-notification-handler";
 import useRegisterNotifications from "@/hooks/use-register-notifications";
+import { mockRemoteMessageAppreciation } from "@/mocks/remoteNotificationData";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
@@ -60,6 +62,8 @@ export default function DashboardScreen() {
   const [feedbackIndex, setFeedbackIndex] = useState<number>(0);
   const isAppreciationFeedbackModalVisible =
     appreciationsWithNoFeedback !== undefined && feedbackIndex < appreciationsWithNoFeedback.length;
+  //TODO will be removed once t2 finish some issue
+  useNotificationHandler(mockRemoteMessageAppreciation);
 
   useEffect(() => {
     async function main() {

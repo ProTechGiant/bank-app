@@ -14,6 +14,7 @@ import useAppsFlyer from "@/hooks/use-appsflyer";
 import useOpenLink from "@/hooks/use-open-link";
 import reloadApp from "@/i18n/reload-app";
 import { warn } from "@/logger";
+import { mockRemoteMessageDocuments } from "@/mocks/remoteNotificationData";
 import useNavigation from "@/navigation/use-navigation";
 import { generateRandomId } from "@/utils";
 import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
@@ -35,7 +36,7 @@ export default function TemporaryLandingScreen() {
   const auth = useAuthContext();
   const { setInternalTransferEntryPoint } = useInternalTransferContext();
   const appsFlyer = useAppsFlyer();
-  useNotificationHandler();
+  useNotificationHandler(mockRemoteMessageDocuments);
 
   useEffect(() => {
     const focusListener = navigation.addListener("focus", () => checkUserIsBlocked());

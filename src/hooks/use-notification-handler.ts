@@ -7,11 +7,11 @@ import { useNotification } from "@/contexts/NotificationContext";
 import { warn } from "@/logger";
 import deepLinkService from "@/services/deepLink/deepLinkService";
 import { removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
-import notifications from "@/utils/push-notifications";
+import { RemoteMessage } from "@/utils/push-notifications";
 
 import useSavingsGoalNumber from "../features/Temporary/use-savings-goal-number";
 
-const useNotificationHandler = () => {
+const useNotificationHandler = (mockRemoteMessageAppreciation: RemoteMessage) => {
   const navigation = useNavigation();
   const auth = useAuthContext();
   const addToast = useNotification();
@@ -32,8 +32,13 @@ const useNotificationHandler = () => {
 
     async function checkNotifications() {
       try {
-        const notification = await notifications.onReceiveNotification();
-        if (notification?.data?.type === "statement-status" || notification?.data?.type === "document-status") {
+        // TODO will  refactor it once push notification work
+        const notification = mockRemoteMessageAppreciation;
+        if (
+          notification?.data?.type === "statement-status" ||
+          notification?.data?.type === "document-status" ||
+          notification?.data?.type === "Appreciation"
+        ) {
           addToast({
             variant: notification?.data?.messageType,
             message: notification?.data?.message,
