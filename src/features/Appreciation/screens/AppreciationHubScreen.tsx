@@ -144,10 +144,6 @@ export default function AppreciationHubScreen() {
     navigation.navigate("Appreciation.AppreciationDetailsScreen", { appreciation, userTier });
   };
 
-  const handleOnPromotedAppreciationPress = () => {
-    //TODO
-  };
-
   const handleOnLikeAppreciation = () => {
     //TODO like an appreciation logic
   };
@@ -273,7 +269,6 @@ export default function AppreciationHubScreen() {
                         key={index}
                         onPress={handleOnAppreciationCardPress}
                         onLike={handleOnLikeAppreciation}
-                        onPromptedPress={handleOnPromotedAppreciationPress}
                       />
                     );
                   })}
@@ -303,7 +298,6 @@ export default function AppreciationHubScreen() {
                       key={index}
                       onPress={handleOnAppreciationCardPress}
                       onLike={handleOnLikeAppreciation}
-                      onPromptedPress={handleOnPromotedAppreciationPress}
                     />
                   );
                 })}

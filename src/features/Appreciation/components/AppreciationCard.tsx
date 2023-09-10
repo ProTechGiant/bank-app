@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
@@ -8,7 +9,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { CustomerTierEnum } from "@/types/CustomerProfile";
 
-import { CalendarIcon, LikeIcon, TrendingUpIcon, ZoomInIcon as DetailsIcon } from "../assets";
+import { CalendarIcon, LikeIcon, TrendingUpIcon } from "../assets";
 import PromotedImageDivider from "../assets/promoted-image-divider.png";
 import RectangleImageDivider from "../assets/rectangle-image-divider.png";
 import { AppreciationType } from "../types";
@@ -18,11 +19,10 @@ interface CardPropsTypes {
   appreciation: AppreciationType;
   userTier: CustomerTierEnum;
   onPress: (appreciation: AppreciationType) => void;
-  onPromptedPress: (appreciation: AppreciationType) => void;
   onLike: (appreciation: AppreciationType) => void;
 }
 
-export default function AppreciationCard({ appreciation, userTier, onPress, onPromptedPress, onLike }: CardPropsTypes) {
+export default function AppreciationCard({ appreciation, userTier, onPress, onLike }: CardPropsTypes) {
   const { t } = useTranslation();
 
   const { Tier, Ranking, VoucherName, PreSaleDateTime, Location, ExpiryDate, PreSaleDescription, ImageUrl } =
@@ -82,15 +82,9 @@ export default function AppreciationCard({ appreciation, userTier, onPress, onPr
       <View style={containerStyle}>
         <View style={absoluteHeaderStyle}>
           <Tags isNew={true} isPlus={Tier === 1} userTier={userTier} />
-          {Ranking === 1 ? (
-            <Pressable onPress={() => onPromptedPress(appreciation)}>
-              <DetailsIcon />
-            </Pressable>
-          ) : (
-            <Pressable onPress={() => onLike(appreciation)}>
-              <LikeIcon />
-            </Pressable>
-          )}
+          <Pressable onPress={() => onLike(appreciation)}>
+            <LikeIcon />
+          </Pressable>
         </View>
         <View style={styles.imageContainer}>
           <NetworkImage source={{ uri: ImageUrl }} style={styles.image} resizeMode="cover" />
@@ -119,7 +113,7 @@ export default function AppreciationCard({ appreciation, userTier, onPress, onPr
             </Typography.Text>
             {Ranking !== 1 ? (
               <Typography.Text color="neutralBase" size="footnote" weight="regular" style={locationContainerStyle}>
-                {`${Location.Name} . ${PreSaleDateTime}`}
+                {`${Location.Name} . ${format(new Date(PreSaleDateTime), "dd/MM/yyyy · hh:mm")}`}
               </Typography.Text>
             ) : (
               <Typography.Text color="neutralBase" size="footnote" weight="regular" style={descriptionContainerStyle}>
@@ -130,7 +124,7 @@ export default function AppreciationCard({ appreciation, userTier, onPress, onPr
           <Stack direction="horizontal" gap="4p">
             <CalendarIcon />
             <Typography.Text color="neutralBase+30" size="caption2" weight="medium">
-              {t("Appreciation.HubScreen.endsOnMessage")} {ExpiryDate}
+              {t("Appreciation.HubScreen.endsOnMessage")} {format(new Date(ExpiryDate), "dd/MM/yyyy")}
             </Typography.Text>
           </Stack>
         </View>

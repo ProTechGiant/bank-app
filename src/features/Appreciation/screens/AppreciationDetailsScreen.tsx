@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, View, ViewStyle } from "react-native";
@@ -111,9 +112,9 @@ export default function AppreciationDetailsScreen({ route }) {
             </Typography.Text>
             <View style={sectionStyle}>
               <AppreciationEventDetailsSection
-                endDate={ExpiryDate}
+                endDate={format(new Date(ExpiryDate), "dd/MM/yyyy · hh:mm")}
                 location={Location.Name}
-                preSaleDate={PreSaleDateTime}
+                preSaleDate={format(new Date(PreSaleDateTime), "dd/MM/yyyy · hh:mm")}
                 preSaleDescription={PreSaleDescription}
               />
             </View>

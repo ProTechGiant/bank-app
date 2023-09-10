@@ -109,7 +109,7 @@ export function useContentTermsAndCondition() {
         "v1",
         "/contents/terms",
         "GET",
-        { Language: i18n.language, IncludeChildren: "true", ContentCategoryId: "terms" },
+        { Language: i18n.language, IncludeChildren: "true", ContentCategoryId: "TermsAndConditions" },
         undefined,
         {
           ["x-Correlation-Id"]: generateRandomId(),

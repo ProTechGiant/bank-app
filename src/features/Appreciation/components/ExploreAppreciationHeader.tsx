@@ -6,7 +6,7 @@ import NavHeader from "@/components/NavHeader";
 import NetworkImage from "@/components/NetworkImage";
 import { useThemeStyles } from "@/theme";
 
-import { LikeIcon } from "../assets";
+import { FavoriteIcon } from "../assets";
 import whiteTriangleHorizontal from "../assets/rectangle-image-divider.png";
 
 interface ExploreAppreciationHeaderProps {
@@ -52,7 +52,7 @@ export default function ExploreAppreciationHeader({
           variant="background"
           end={
             <NavHeader.IconEndButton
-              icon={<LikeIcon color={isLiked ? likedColor : unLikedColor} />}
+              icon={<FavoriteIcon color={isLiked ? likedColor : unLikedColor} />}
               onPress={onAppreciationFavoritePress}
             />
           }
