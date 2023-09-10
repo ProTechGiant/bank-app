@@ -12,7 +12,12 @@ import { useThemeStyles } from "@/theme";
 import BackgroundSvgLTR from "../assets/BackgroundSvgLTR.svg";
 import BackgroundSvgRTL from "../assets/BackgroundSvgRTL.svg";
 
-export default function LiveChatScreenHeader({ isHide }: { isHide: boolean }) {
+interface LiveChatScreenHeaderProps {
+  isHide: boolean;
+  onBackPress: () => void;
+}
+
+export default function LiveChatScreenHeader({ isHide, onBackPress }: LiveChatScreenHeaderProps) {
   const { t } = useTranslation();
   const currentHeight = useSharedValue(isHide ? 90 : 259);
   const currentOpacity = useSharedValue(isHide ? 0 : 1);
@@ -57,9 +62,9 @@ export default function LiveChatScreenHeader({ isHide }: { isHide: boolean }) {
         </Animated.View>
         <View style={navHeaderContainer}>
           {!isHide ? (
-            <NavHeader withBackButton={true} />
+            <NavHeader onBackPress={onBackPress} />
           ) : (
-            <NavHeader withBackButton={true} title={t("HelpAndSupport.LiveChatScreen.headerTitle")} />
+            <NavHeader onBackPress={onBackPress} title={t("HelpAndSupport.LiveChatScreen.headerTitle")} />
           )}
         </View>
         <ContentContainer style={titleContainer}>

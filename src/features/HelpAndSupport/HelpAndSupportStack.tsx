@@ -1,11 +1,11 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { ChatScreen, HubScreen, LiveChatScreen } from "./screens";
-import { AwaitTimeData, ChatResponse } from "./types";
+import { AwaitTimeData, ChatResponse, LiveChatScreenParams } from "./types";
 
 export type HelpAndSupportStackParams = {
   "HelpAndSupport.HubScreen": undefined;
-  "HelpAndSupport.LiveChatScreen": undefined;
+  "HelpAndSupport.LiveChatScreen": undefined | LiveChatScreenParams;
   "HelpAndSupport.ChatScreen": {
     chatResponse: ChatResponse;
     awaitTimeData: AwaitTimeData;

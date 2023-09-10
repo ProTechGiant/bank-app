@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useMemo, useState } from "react";
 import { useController, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -10,6 +11,7 @@ import ContentContainer from "@/components/ContentContainer";
 import SubmitButton from "@/components/Form/SubmitButton";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import { warn } from "@/logger";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -28,6 +30,8 @@ const iconLookup: ReasonOptionIconLookupProps = {
 export default function LiveChatScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "HelpAndSupport.LiveChatScreen">>();
+
   const { data: reasonsOption } = useGetReasonsOptions();
   const startChat = useStartChat();
   const awaitTimer = useGetAwaitTimer();
@@ -94,6 +98,17 @@ export default function LiveChatScreen() {
     setIsHeaderHide(countExpandedSupportSection > 0);
   }, [countExpandedSupportSection]);
 
+  const handleOnBackPress = () => {
+    if (route.params?.previousScreen === "FrequentlyAskedQuestions.DetailedScreen") {
+      navigation.navigate("FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack", {
+        screen: route.params?.previousScreen,
+        params: { faqId: route.params?.previousScreenParams?.faqId as string },
+      });
+    } else {
+      navigation.goBack();
+    }
+  };
+
   const submitButtonContainer = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["64p"],
     marginBottom: theme.spacing["32p"],
@@ -107,7 +122,7 @@ export default function LiveChatScreen() {
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-        <LiveChatScreenHeader isHide={isHeaderHide} />
+        <LiveChatScreenHeader isHide={isHeaderHide} onBackPress={handleOnBackPress} />
         <ContentContainer isScrollView style={paddingScrollViewStyle}>
           <View>
             {reasonsOption &&

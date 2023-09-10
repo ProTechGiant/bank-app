@@ -98,3 +98,8 @@ export interface ChatResponse {
   Monitored: boolean;
   InteractionId: number;
 }
+
+export interface LiveChatScreenParams {
+  previousScreen?: string;
+  previousScreenParams?: Record<string, unknown>;
+}

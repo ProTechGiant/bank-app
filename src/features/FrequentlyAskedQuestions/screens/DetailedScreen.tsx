@@ -27,6 +27,7 @@ export default function DetailedScreen() {
 
   const {
     params: { faqId },
+    name: routeName,
   } = useRoute<RouteProp<AuthenticatedStackParams, "FrequentlyAskedQuestions.DetailedScreen">>();
   const { t, i18n } = useTranslation();
 
@@ -86,8 +87,12 @@ export default function DetailedScreen() {
   };
 
   const handleOnChatPress = () => {
-    navigation.navigate("HelpAndSupport.HelpAndSupportStack", {
+    navigation.push("HelpAndSupport.HelpAndSupportStack", {
       screen: "HelpAndSupport.LiveChatScreen",
+      params: {
+        previousScreen: routeName,
+        previousScreenParams: { faqId },
+      },
     });
   };
 
