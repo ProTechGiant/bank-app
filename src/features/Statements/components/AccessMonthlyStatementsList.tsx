@@ -1,11 +1,12 @@
 import { format } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, RefreshControl, SectionList, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Pressable, RefreshControl, SectionList, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import { EmptyListView } from "@/components";
 import FullScreenLoader from "@/components/FullScreenLoader";
+import SectionListFooter from "@/components/SectionListFooter";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -33,8 +34,6 @@ export default function AccessMonthlyStatementsList({
   onPressCard,
 }: AccessMonthlyStatementsListProps) {
   const { t } = useTranslation();
-  const { height: screenHeight } = useWindowDimensions();
-
   const getMonthNameFromDateString = (dateString: string): string => {
     if (!dateString?.length) return "";
 
@@ -83,7 +82,7 @@ export default function AccessMonthlyStatementsList({
     </Stack>
   );
 
-  const sectionListFooter = () => <View style={{ marginBottom: screenHeight * 0.3 }} />;
+  const sectionFooter = () => <SectionListFooter isFilterActive={!!activeFilter} />;
 
   const renderSectionHeaderStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["16p"],
@@ -153,7 +152,7 @@ export default function AccessMonthlyStatementsList({
         refreshControl={<RefreshControl refreshing={isLoading} onRefresh={onRefresh} />}
         renderSectionHeader={renderSectionHeader}
         keyExtractor={item => item.CBSReferenceNumber}
-        ListFooterComponent={sectionListFooter}
+        ListFooterComponent={sectionFooter}
       />
     </Stack>
   );

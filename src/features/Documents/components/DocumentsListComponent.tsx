@@ -1,9 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, RefreshControl, SectionList, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Pressable, RefreshControl, SectionList, ViewStyle } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
-import { EmptyListView } from "@/components";
+import { EmptyListView, SectionListFooter } from "@/components";
 import Divider from "@/components/Divider";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import Stack from "@/components/Stack";
@@ -38,10 +38,10 @@ export default function DocumentsListComponent({
   isFilterActive,
 }: DocumentsListComponentProps) {
   const { t } = useTranslation();
-  const { height: screenHeight } = useWindowDimensions();
   const groupedDocuments = groupDocumentsByStatus(documents);
 
-  const sectionListFooter = () => <View style={{ marginBottom: screenHeight * 0.3 }} />;
+  const sectionFooter = () => <SectionListFooter isFilterActive={isFilterActive} />;
+
   const sectionHeader = ({ section }: { section: SectionListDataTypes }) => {
     return section.title === "nonDownloaded" && groupedDocuments.length > 1 ? (
       <Divider style={dividerStyle} height={4} color="neutralBase-30" />
@@ -103,7 +103,7 @@ export default function DocumentsListComponent({
         onEndReachedThreshold={1}
         onEndReached={({ distanceFromEnd }) => (distanceFromEnd >= 1 ? onEndReached() : undefined)}
         keyExtractor={item => item.AdhocDocRequestId}
-        ListFooterComponent={sectionListFooter}
+        ListFooterComponent={sectionFooter}
       />
     </Stack>
   );

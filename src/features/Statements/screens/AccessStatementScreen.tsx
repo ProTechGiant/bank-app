@@ -68,13 +68,24 @@ export default function AccessStatementScreen() {
   const { mutateAsync: retryFailedStatement } = useRetryFailedStatement();
 
   useEffect(() => {
-    navigation.addListener("focus", () => {
-      if (route.params?.type) {
-        setCurrentTab(route.params.type);
+    const paramsType = route.params?.type;
+    const onFocus = () => {
+      if (paramsType && paramsType !== currentTab) {
+        setCurrentTab(paramsType);
+        return;
       }
       handleOnRefreshStatements();
-    });
+    };
+    navigation.addListener("focus", onFocus);
+
+    return () => {
+      navigation.removeListener("focus", onFocus);
+    };
   }, [navigation, route.params?.type]);
+
+  useEffect(() => {
+    handleOnRefreshStatements();
+  }, [currentTab]);
 
   useEffect(() => {
     if (pagination.offset > 0) {

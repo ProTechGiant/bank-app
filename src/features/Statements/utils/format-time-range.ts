@@ -1,4 +1,4 @@
-import { endOfMonth, format, startOfMonth, subMonths } from "date-fns";
+import { format, subDays, subMonths } from "date-fns";
 
 import { TimeFrameInterface } from "../types";
 
@@ -16,10 +16,10 @@ export default function formatTimeRange(timeFrame: TimeFrameInterface): string {
   }
 
   const currentDate = new Date();
-  const endDate = subMonths(currentDate, 1);
-  const startDate = subMonths(endDate, numMonths - 1);
+  const endDate = subDays(currentDate, 1);
+  const startDate = subMonths(endDate, numMonths);
 
-  const startFormatted = format(startOfMonth(startDate), "dd MMMM yyyy");
-  const endFormatted = format(endOfMonth(endDate), "dd MMMM yyyy");
+  const startFormatted = format(startDate, "dd MMMM yyyy");
+  const endFormatted = format(endDate, "dd MMMM yyyy");
   return `${startFormatted} - ${endFormatted}`;
 }

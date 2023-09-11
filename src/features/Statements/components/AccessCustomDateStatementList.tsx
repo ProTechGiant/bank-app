@@ -1,11 +1,12 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, RefreshControl, SectionList, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Pressable, RefreshControl, SectionList, ViewStyle } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
 import { EmptyListView } from "@/components";
 import Divider from "@/components/Divider";
 import FullScreenLoader from "@/components/FullScreenLoader";
+import SectionListFooter from "@/components/SectionListFooter";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -42,9 +43,7 @@ export default function AccessCustomDateStatementList({
   isRetryLoading,
 }: AccessCustomDateStatementsListProps) {
   const { t } = useTranslation();
-  const { height: screenHeight } = useWindowDimensions();
 
-  const sectionListFooter = () => <View style={{ marginBottom: screenHeight * 0.3 }} />;
   const groupedStatementsByStatus = groupCustomStatementsByStatus(statements);
 
   const sectionHeader = ({ section }: { section: SectionListDataTypes }) => {
@@ -52,6 +51,7 @@ export default function AccessCustomDateStatementList({
       <Divider style={dividerStyle} height={4} color="neutralBase-30" />
     ) : null;
   };
+  const sectionFooter = () => <SectionListFooter isFilterActive={!!activeFilter} />;
 
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["20p"],
@@ -113,7 +113,7 @@ export default function AccessCustomDateStatementList({
         onEndReachedThreshold={1}
         onEndReached={({ distanceFromEnd }) => (distanceFromEnd >= 1 ? onEndReached() : undefined)}
         keyExtractor={item => item.CBSReferenceNumber}
-        ListFooterComponent={sectionListFooter}
+        ListFooterComponent={sectionFooter}
       />
     </Stack>
   );
