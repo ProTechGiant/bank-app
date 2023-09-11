@@ -276,6 +276,7 @@ interface RecurringPaymentResponse {
   PaymentFrequency: string;
   EndDate: string;
   E2EReference: string;
+  NextPaymentDate: string;
 }
 
 export function useRecurringPayments(PotId: string) {

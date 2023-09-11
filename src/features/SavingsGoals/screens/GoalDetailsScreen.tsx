@@ -23,7 +23,7 @@ import { formatCurrency } from "@/utils";
 
 import RoundUpsIcon from "../assets/round-ups";
 import { TransactionCardList } from "../components";
-import { calculateGoalBalanceOverThreeQuarters } from "../helpers";
+import { calculateGoalBalanceOverThreeQuarters, getDayFromDate } from "../helpers";
 import { useRecurringPayments, useRoundupFlag, useSavingsPot, useUpdateSavingsGoal } from "../hooks/query-hooks";
 import { recentTransactions } from "../mocks/mockMostTransactions";
 
@@ -334,11 +334,10 @@ export default function GoalDetailsScreen() {
                   helperText={t("SavingsGoals.GoalDetailsScreen.RegularPayment.text", {
                     amount: recurringFundData.PaymentAmount,
                     currency: recurringFundData.Currency,
-                    //Currently CBS doesn't return "next payment date" or a date at all, this is being worked on right now and is a known bug, was told to push forward.
-                    // day: t("SavingsGoals.GoalDetailsScreen.RegularPayment.day", {
-                    //   count: getDayFromDate(recurringFundData.NextPaymentDate),
-                    //   ordinal: true,
-                    // }),
+                    day: t("SavingsGoals.GoalDetailsScreen.RegularPayment.day", {
+                      count: getDayFromDate(recurringFundData.NextPaymentDate),
+                      ordinal: true,
+                    }),
                   })}
                 />
               ) : (

@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { format, isThisMonth, parse } from "date-fns";
+import { format, isThisMonth, parse, parseISO } from "date-fns";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -13,7 +13,7 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
-import { useCurrentAccount, useSavingsAccount } from "@/hooks/use-accounts";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -55,7 +55,6 @@ export default function FundingStep({
 
   const fundSavingPot = useFundSavingsPot();
   const account = useCurrentAccount();
-  const savingsAccount = useSavingsAccount();
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
 
   const today = useMemo(() => new Date(), []);
@@ -112,7 +111,7 @@ export default function FundingStep({
       : mockMissingSavingsPotDetails.HadOneTimeFund === false;
 
   const handleOnSubmit = async (values: FundingInput) => {
-    if (data === undefined || account.data === undefined || savingsAccount.data === undefined) return Promise.resolve();
+    if (data === undefined || account.data === undefined) return Promise.resolve();
     Keyboard.dismiss();
 
     // normally using async executors isn't a necessary. but in this case it is, because the Alert
@@ -128,7 +127,7 @@ export default function FundingStep({
         ...(fundingType === "recurring-payments"
           ? {
               StartingDate: setDateAndFormatRecurringPayment(values.DayOfMonth, "yyyy-MM-"),
-              CreditorAccount: savingsAccount.data.id,
+              CreditorAccount: data.AccountId,
               PaymentFrequency: `${setDateAndFormatRecurringPayment(values.DayOfMonth)} ${PAYMENT_FREQUENCY}`,
             }
           : {}),
@@ -245,7 +244,7 @@ export default function FundingStep({
           amount: depositAmount.toLocaleString("en-US", { style: "decimal" }),
           firstPaymentDate:
             undefined !== confirmationNextPaymentDate
-              ? format(parse(confirmationNextPaymentDate, "yyyy-MM-dd", new Date()), "d MMM yyyy")
+              ? format(parseISO(confirmationNextPaymentDate), "d MMM yyyy")
               : "-",
         })}
         isVisible={isConfirmationVisible}
