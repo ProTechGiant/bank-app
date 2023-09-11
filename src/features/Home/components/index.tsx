@@ -9,6 +9,7 @@ export { default as PlaceholderGenerator } from "./PlaceholderGenerator";
 export { default as QuickAction } from "./QuickAction";
 export { default as QuickActionsSection } from "./QuickActionsSection";
 export { default as QuickActionToggle } from "./QuickActionToggle";
+export { default as RefreshSection } from "./RefreshSection";
 export { default as ReordererHeader } from "./ReordererHeader";
 export { default as ReordererSection } from "./ReordererSection";
 export { default as RewardsSection } from "./RewardsSection";

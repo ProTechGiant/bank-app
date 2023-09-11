@@ -1062,6 +1062,9 @@
       "successModalMessage": "Thank you for your feedback!\nWe will use this to help us improve our rewards and offering to you.",
       "successModalButton": "Back to Home"
     },
+    "RefreshSection": {
+      "refreshButton": "تحديث",
+    },
     "TopSpendingCategories": {
       "currentSpending": "الإنفاق الحالي في",
       "SAR": "ر.س",

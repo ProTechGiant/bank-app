@@ -1121,6 +1121,9 @@
       "successModalMessage": "Thank you for your feedback!\nWe will use this to help us improve our rewards and offering to you.",
       "successModalButton": "Back to Home"
     },
+    "RefreshSection": {
+      "refreshButton": "Refresh",
+    },
     "TopSpendingCategories": {
       "currentSpending": "Current spending in",
       "SAR": "SAR",
