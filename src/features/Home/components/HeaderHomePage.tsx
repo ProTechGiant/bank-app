@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { NotificationIcon, PersonIcon, UnreadNotificationIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
@@ -49,7 +49,7 @@ export default function HeaderHomePage({ firstName }: UserFirstName) {
         style={circularIconContainer}>
         <NotificationIcon />
         {/* TODO : Hide notificationUnread icon when there is no notifications */}
-        <View style={style.notificationUnread}>
+        <View style={I18nManager.isRTL ? style.notificationUnreadArabic : style.notificationUnreadEnglish}>
           <UnreadNotificationIcon color={iconColor} />
         </View>
       </Pressable>
@@ -58,7 +58,12 @@ export default function HeaderHomePage({ firstName }: UserFirstName) {
 }
 
 const style = StyleSheet.create({
-  notificationUnread: {
+  notificationUnreadArabic: {
+    left: 3,
+    position: "absolute",
+    top: 3,
+  },
+  notificationUnreadEnglish: {
     position: "absolute",
     right: 3,
     top: 3,
