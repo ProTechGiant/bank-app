@@ -1120,7 +1120,15 @@
       "successModalTitle": "Feedback Submitted",
       "successModalMessage": "Thank you for your feedback!\nWe will use this to help us improve our rewards and offering to you.",
       "successModalButton": "Back to Home"
-    }
+    },
+    "TopSpendingCategories": {
+      "currentSpending": "Current spending in",
+      "SAR": "SAR",
+      "topCategories": "Top categories",
+      "viewAllSpending": "View all spendings",
+      "noSpending": "No spending insights yet",
+      "noSpendingInformation": "When you start making purchases your top spending categories will show up here."
+    },
   },
   "Referral": {
     "HubScreen": {

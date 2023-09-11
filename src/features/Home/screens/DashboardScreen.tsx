@@ -29,6 +29,7 @@ import {
   QuickActionsSection,
   RewardsSection,
   TasksPreviewer,
+  TopSpendingCategories,
   WhatsNextSection,
 } from "../components";
 import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
@@ -185,6 +186,7 @@ export default function DashboardScreen() {
                   }
                   return <Fragment key={section.type} />;
                 })}
+                {account.data?.id ? <TopSpendingCategories accountId={account.data.id} /> : null}
               </>
             ) : layoutErrorIsVisible === true ? (
               <LoadingErrorNotification

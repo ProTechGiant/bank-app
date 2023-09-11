@@ -65,7 +65,21 @@ export enum NotificationModalVariant {
   success = "success",
   error = "error",
 }
-
+interface IncludedTopCategory {
+  categoryId: string;
+  categoryName: string;
+  totalAmount: number;
+  percentage: string;
+  currency: string;
+  iconPath: string;
+  iconViewBox: string;
+}
+export interface TopSpendingCategoriesResponse {
+  categories: {
+    total: number;
+    includedCategories: IncludedTopCategory[];
+  };
+}
 export interface AppreciationFeedbackRequest {
   appreciationId: string;
   comment: string;

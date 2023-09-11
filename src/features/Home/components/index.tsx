@@ -14,4 +14,6 @@ export { default as ReordererSection } from "./ReordererSection";
 export { default as RewardsSection } from "./RewardsSection";
 export { default as Section } from "./Section";
 export { default as TasksPreviewer } from "./TasksPreviewer";
+export { default as TopCategoryItem } from "./TopCategoryItem";
+export { default as TopSpendingCategories } from "./TopSpendingCategories";
 export { default as WhatsNextSection } from "./WhatsNextSection";

@@ -1061,7 +1061,15 @@
       "successModalTitle": "Feedback Submitted",
       "successModalMessage": "Thank you for your feedback!\nWe will use this to help us improve our rewards and offering to you.",
       "successModalButton": "Back to Home"
-    }
+    },
+    "TopSpendingCategories": {
+      "currentSpending": "الإنفاق الحالي في",
+      "SAR": "ر.س",
+      "topCategories": "أعلى الإنفاق",
+      "viewAllSpending": "عرض جميع النفقات",
+      "noSpending": "لاتوجد معلومات عن الإنفاق حتى الآن",
+      "noSpendingInformation": ".عندما تبدأ في إجاراء عمليات الشراء ستظهر هنا فئات الإنفاق الأعلى"
+    },
   },
   "InstructionsScreen": {
     "skip": "تخطى",

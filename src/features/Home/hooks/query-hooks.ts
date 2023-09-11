@@ -7,7 +7,14 @@ import { useAppreciationSearch } from "@/features/Appreciation/hooks/query-hooks
 import { SortingOptions, TabsTypes } from "@/types/Appreciation";
 import { generateRandomId } from "@/utils";
 
-import { AppreciationFeedbackRequest, HomepageItemLayoutType, QuickActionsType, TaskType } from "../types";
+import {
+  AppreciationFeedbackRequest,
+  HomepageItemLayoutType,
+  QuickActionsType,
+  TaskType,
+  TopSpendingCategoriesResponse,
+} from "../types";
+import { getMonthDates } from "../utils";
 
 const queryKeys = {
   all: () => ["layout"],
@@ -128,6 +135,40 @@ export function useActionDismiss() {
       },
     }
   );
+}
+
+export function useCategories(accountId: string) {
+  const { fromDate, toDate } = getMonthDates();
+  const { i18n } = useTranslation();
+  const categories = useQuery(
+    ["topCategories", { fromDate: fromDate, toDate: toDate }],
+    () =>
+      api<TopSpendingCategoriesResponse>(
+        "v1",
+        `accounts/${accountId}/categories`,
+        "GET",
+        {
+          PageSize: 3, // pageSize = 3 because we need only 3 top categories
+          PageNumber: 0,
+          //TODO: Below hard coded dates should be removed later
+          fromDate: fromDate,
+          toDate: toDate,
+        },
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language,
+        }
+      ),
+    {
+      // set staleTime to 10 seconds for caching
+      staleTime: 10000,
+    }
+  );
+  const total = categories.data?.categories.total;
+  const includedTopCategories = categories.data?.categories.includedCategories;
+
+  return { includedTopCategories, total };
 }
 
 export function useAppreciationFeedback() {
