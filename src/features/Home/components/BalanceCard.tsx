@@ -1,174 +1,126 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, ViewStyle } from "react-native";
 
 import { WithShadow } from "@/components";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useThemeStyles } from "@/theme";
-import { formatCurrency } from "@/utils";
 
-import { AccountIcon, HideIcon, ShowIcon } from "../assets";
-import BrandDividerSvg from "../assets/brand-divider.svg";
+import { CardBrandDivider, CopyAccountIcon, EyeHideIcon, EyeShowIcon, NavigateToAccountIcon } from "../assets/icons";
+import { formatAccountNumber } from "../utils";
 
-interface CardProps {
+interface BalanceCardProps {
   balance?: number;
   accountNumber?: string;
-  currency?: string;
 }
-export default function BalanceCard({ balance, accountNumber, currency }: CardProps) {
+
+export default function BalanceCard({ balance, accountNumber }: BalanceCardProps) {
   const { t } = useTranslation();
   const addToast = useToasts();
 
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
 
-  const formattedBalance = formatCurrency(balance || 0, undefined, 2); // third parameter (optional) is the number of decimal digits with default value 0
-  const [balanceWholeNumber, balanceDecimalPart] = formattedBalance.split(".");
-
-  const handleOnAccountPress = () => {
-    //TODO
-    // wiating BA team to respond about the right functionality
+  const handleOnAccountDetailsPress = () => {
+    //TODO: will navigate to account details screen, which will be developed in future by More Control team
   };
 
-  const handleOnAccountNumberPress = () => {
-    if (undefined === accountNumber) return;
-    Clipboard.setString(accountNumber);
-    addToast({ variant: "confirm", message: t("Home.DashboardScreen.AccountNumberCopied"), position: "bottom" });
+  const handleOnCopyNumberPress = () => {
+    if (accountNumber) {
+      Clipboard.setString(accountNumber);
+      addToast({ variant: "confirm", message: t("Home.DashboardScreen.AccountNumberCopied"), position: "bottom" });
+    }
   };
 
-  const accountNumberFormatter = (accountNumberValue: string) => {
-    return accountNumberValue.replace(/.{1,3}/g, "$& ");
-  };
+  const handleOnShowBalancePress = () => setIsBalanceVisible(visible => !visible);
 
-  const balanceCardWrapperStyle = useThemeStyles<ViewStyle>(theme => ({
+  const balanceCardContainer = useThemeStyles<ViewStyle>(theme => ({
     margin: theme.spacing["20p"],
   }));
 
-  const balanceCardStyle = useThemeStyles<ViewStyle>(theme => ({
+  const balanceCardInnerContainer = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60"],
     borderRadius: theme.radii.small,
     overflow: "hidden",
-    width: "100%",
-    height: 162,
   }));
 
-  const cardHeaderStyle = useThemeStyles<ViewStyle>(theme => ({
+  const cardHeaderSectionStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
     paddingHorizontal: theme.spacing["16p"],
-    paddingTop: theme.spacing["16p"],
-    paddingBottom: theme.spacing["8p"],
-    borderTopLeftRadius: theme.radii.small,
-    borderTopRightRadius: theme.radii.small,
-    overflow: "hidden",
+    paddingTop: theme.spacing["24p"],
+    paddingBottom: theme.spacing["12p"],
   }));
 
-  const BrandDividerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: 32,
-    width: "100%",
-    backgroundColor: theme.palette["neutralBase-60"],
+  const showBalanceIconStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingVertical: theme.spacing["4p"],
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   }));
 
   const balanceCardFooterStyle = useThemeStyles<ViewStyle>(theme => ({
-    width: "100%",
-    backgroundColor: theme.palette["neutralBase-50"],
-    flex: 1,
+    backgroundColor: theme.palette["neutralBase-40"],
     paddingHorizontal: theme.spacing["16p"],
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomLeftRadius: theme.radii.small,
-    borderBottomRightRadius: theme.radii.small,
-  }));
-
-  const balanceHiddenTextContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["8p"],
+    paddingBottom: theme.spacing["16p"],
   }));
 
   return (
-    <View style={balanceCardWrapperStyle}>
+    <Stack direction="vertical" align="stretch" style={balanceCardContainer}>
       <WithShadow backgroundColor="neutralBase-50" borderRadius="small">
-        <View style={balanceCardStyle}>
-          <View style={cardHeaderStyle}>
-            <View>
-              <Typography.Text color="neutralBase+10" size="caption2" weight="regular">
-                {t("Home.DashboardScreen.totalbalance")}
-              </Typography.Text>
-              <View style={styles.headerBalanceStyle}>
-                {isBalanceVisible ? (
-                  <>
-                    {balance ? (
-                      <>
-                        <Typography.Text color="primaryBase-20" size="title1" weight="medium">
-                          {balanceWholeNumber}
-                        </Typography.Text>
-                        <Typography.Text color="primaryBase-20" size="title3" weight="medium">
-                          .{balanceDecimalPart}
-                        </Typography.Text>
-                        <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
-                          {" " + currency ?? "SAR"}
-                        </Typography.Text>
-                      </>
-                    ) : (
-                      <Typography.Text color="neutralBase-30" size="title3" weight="regular">
-                        {t("Home.DashboardScreen.updating")}
-                      </Typography.Text>
-                    )}
-                  </>
-                ) : (
-                  <View style={balanceHiddenTextContainerStyle}>
-                    <Typography.Text color="primaryBase-20" size="title3" weight="medium">
-                      {t("Home.DashboardScreen.balanceHidden")}
-                    </Typography.Text>
-                  </View>
-                )}
-              </View>
-            </View>
-            <View>
-              <Pressable onPress={() => setIsBalanceVisible(visible => !visible)}>
-                {isBalanceVisible ? <HideIcon /> : <ShowIcon />}
+        <Stack direction="vertical" align="stretch" style={balanceCardInnerContainer}>
+          <Stack direction="vertical" align="stretch" style={cardHeaderSectionStyle}>
+            <Typography.Text color="neutralBase+10" size="footnote">
+              {t("Home.DashboardScreen.totalSarBalance")}
+            </Typography.Text>
+            <Stack direction="horizontal" align="center" justify="space-between">
+              {balance ? (
+                <Typography.Text color="neutralBase+30" size="large" weight="bold">
+                  {isBalanceVisible ? balance.toLocaleString() : "********"}
+                </Typography.Text>
+              ) : (
+                <Typography.Text color="neutralBase+30" size="title1" weight="regular">
+                  {t("Home.DashboardScreen.updating")}
+                </Typography.Text>
+              )}
+              <Pressable style={showBalanceIconStyle} onPress={handleOnShowBalancePress}>
+                {isBalanceVisible ? <EyeShowIcon /> : <EyeHideIcon />}
               </Pressable>
-            </View>
-          </View>
-          <View style={BrandDividerContainerStyle}>
-            <BrandDividerSvg />
-          </View>
-          <View style={balanceCardFooterStyle}>
-            <View>
-              <Typography.Text color="neutralBase+10" size="caption2" weight="regular">
+            </Stack>
+          </Stack>
+          <Stack direction="vertical" style={styles.cardBrandDividerContainer}>
+            <CardBrandDivider width="100%" height="100%" />
+          </Stack>
+          <Stack direction="horizontal" align="center" gap="16p" style={balanceCardFooterStyle}>
+            <Stack direction="vertical" gap="4p" style={styles.accountTextContainer}>
+              <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
                 {t("Home.DashboardScreen.mainCroatiaAccount")}
               </Typography.Text>
-              <Pressable onPress={handleOnAccountNumberPress}>
-                <Typography.Text color="primaryBase-20" size="caption2" weight="medium">
-                  {accountNumber ? accountNumberFormatter(accountNumber) : null}
-                </Typography.Text>
-              </Pressable>
-            </View>
-            <Pressable onPress={handleOnAccountPress}>
-              <View style={styles.accountCountainer}>
-                <Typography.Text color="primaryBase-10" size="caption2" weight="medium">
-                  {t("Home.DashboardScreen.account")}
-                </Typography.Text>
-                <AccountIcon />
-              </View>
+              <Typography.Text color="neutralBase+20" size="footnote" weight="medium">
+                {accountNumber ? formatAccountNumber(accountNumber) : null}
+              </Typography.Text>
+            </Stack>
+            <Pressable style={styles.iconContainer} onPress={handleOnCopyNumberPress}>
+              <CopyAccountIcon />
             </Pressable>
-          </View>
-        </View>
+            <Pressable style={styles.iconContainer} onPress={handleOnAccountDetailsPress}>
+              <NavigateToAccountIcon />
+            </Pressable>
+          </Stack>
+        </Stack>
       </WithShadow>
-    </View>
+    </Stack>
   );
 }
 
 const styles = StyleSheet.create({
-  accountCountainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
+  accountTextContainer: {
+    flexGrow: 1,
   },
-  headerBalanceStyle: {
-    alignItems: "baseline",
-    flexDirection: "row",
+  cardBrandDividerContainer: {
+    aspectRatio: 14,
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
+  iconContainer: {
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   },
 });

@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { GoalGetterIconLTR, GoalGetterIconRTL, ReferFriendIconLTR, ReferFriendIconRTL } from "../assets/icon";
+import { GoalGetterIconLTR, GoalGetterIconRTL, ReferFriendIconLTR, ReferFriendIconRTL } from "../assets/icons";
 
 interface CardSectionProps {
   onPress: () => void;

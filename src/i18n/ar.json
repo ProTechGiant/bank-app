@@ -1011,7 +1011,7 @@
   },
   "Home": {
     "DashboardScreen": {
-      "AccountNumberCopied": "Account Number is copied in the clipboard.",
+      "AccountNumberCopied": "تم نسخ رقم الحساب في الحافظة",
       "balanceHidden": "Hidden balance",
       "hideBalanceButton": "Hide balance",
       "showBalanceButton": "Show balance",
@@ -1022,9 +1022,9 @@
       "dismiss": "Dismiss",
       "viewAll": "View all",
       "whatsNext": "What's Next",
-      "totalbalance": "Total balance",
+      "totalSarBalance": "الرصيد الاجمالي",
       "account": "Account    ",
-      "mainCroatiaAccount": "Main Croatia account",
+      "mainCroatiaAccount": "حسابي",
       "taskCount_one": "مهمه واحده ",
       "taskCount_two": "مهمتان",
       "taskCount_other": "{{count}} مهمات ",

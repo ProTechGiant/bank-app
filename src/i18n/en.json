@@ -1045,7 +1045,7 @@
       "dismiss": "Dismiss",
       "viewAll": "View all",
       "whatsNext": "What's Next",
-      "totalbalance": "Total balance",
+      "totalSarBalance": "Total SAR balance",
       "account": "Account    ",
       "mainCroatiaAccount": "Main Croatia account",
       "taskCount_one": "{{count}} task ",
