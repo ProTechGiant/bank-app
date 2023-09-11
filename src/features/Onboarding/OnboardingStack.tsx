@@ -14,6 +14,7 @@ import {
   OptionalEmailScreen,
   PendingAccountScreen,
   SplashScreen,
+  TermsAndConditionsDetailsScreen,
   TermsAndConditionsScreen,
   WelcomeCarouselScreen,
   WorkGuideModal,
@@ -49,6 +50,7 @@ export type OnboardingStackParams = {
   "Onboarding.CreatePasscode": undefined;
   "Onboarding.ConfirmPasscode": { passcode: string };
   "Onboarding.WorkGuideModal": undefined;
+  "Onboarding.TermsAndConditionsDetails": undefined;
 };
 
 export const Stack = createNativeStackNavigator<OnboardingStackParams>();
@@ -72,6 +74,7 @@ export default function OnboardingStack() {
           options={{ presentation: "modal" }}
         />
         <Stack.Screen component={TermsAndConditionsScreen} name="Onboarding.TermsAndConditions" />
+        <Stack.Screen component={TermsAndConditionsDetailsScreen} name="Onboarding.TermsAndConditionsDetails" />
         <Stack.Screen component={CreatePasscodeScreen} name="Onboarding.CreatePasscode" />
         <Stack.Screen component={ConfirmPasscodeScreen} name="Onboarding.ConfirmPasscode" />
         <Stack.Screen component={PendingAccountScreen} name="Onboarding.PendingAccount" />

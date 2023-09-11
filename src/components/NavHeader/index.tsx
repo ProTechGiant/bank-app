@@ -86,7 +86,9 @@ const NavHeader = ({
   const backgroundAngledColorFinal = backgroundAngledColor ? backgroundAngledColor : backgroundAngledColorDefault;
 
   const getStatusBarHeight = (): number => {
-    return Platform.OS === "android" && !DeviceInfo.hasNotch() ? StatusBar.currentHeight ?? 0 : 0;
+    return variant === "angled" && Platform.OS === "android" && !DeviceInfo.hasNotch()
+      ? StatusBar.currentHeight ?? 0
+      : 0;
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(

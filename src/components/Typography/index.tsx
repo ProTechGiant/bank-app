@@ -3,7 +3,7 @@ import { Text as RNText, TextProps as RNTextProps, TextStyle } from "react-nativ
 import { Theme, useThemeStyles } from "@/theme";
 
 interface TextProps extends RNTextProps {
-  align?: "left" | "right" | "center";
+  align?: "left" | "right" | "center" | "justify";
   color?: keyof Theme["palette"];
   size?: keyof Theme["typography"]["text"]["sizes"];
   weight?: keyof Theme["typography"]["text"]["weights"];

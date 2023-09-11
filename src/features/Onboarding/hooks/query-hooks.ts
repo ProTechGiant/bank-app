@@ -1,3 +1,4 @@
+import queryString from "query-string";
 import { useTranslation } from "react-i18next";
 import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery } from "react-query";
@@ -9,6 +10,7 @@ import { IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import {
   CustomerPendingAction,
+  CustomersTermsAndConditions,
   FatcaFormInput,
   FinancialDetails,
   IqamaInputs,
@@ -451,5 +453,20 @@ export function useUpdateActionStatus() {
         ["x-correlation-id"]: correlationId,
       }
     );
+  });
+}
+
+export function useGetCustomerTermsAndConditions(ContentCategoryId?: string) {
+  const { correlationId } = useOnboardingContext();
+  const { i18n } = useTranslation();
+  let queryParams: queryString.StringifiableRecord = { Language: i18n.language, IncludeChildren: true };
+  queryParams = ContentCategoryId ? { ...queryParams, ContentCategoryId } : queryParams;
+
+  return useQuery(["CustomersTermsAndConditions", ContentCategoryId], () => {
+    if (!correlationId) throw new Error("Need valid Correlation id");
+
+    return api<CustomersTermsAndConditions>("v1", `contents/terms`, "GET", queryParams, undefined, {
+      ["x-correlation-id"]: correlationId,
+    });
   });
 }

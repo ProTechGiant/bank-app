@@ -262,23 +262,10 @@
     "TermsAndConditions": {
       "navHeaderTitle": "TERMS",
       "title": "Terms of signup",
-      "checkBoxTermsLabel": "I agree to the Terms and Conditions",
-      "checkBoxDeclarationLabel": "I agree to the Customer Declaration",
+      "termsAndCondition": "Terms and Conditions",
+      "agreeTo": "I agree to the ",
+      "acknowledge": "I also acknowledge that all provided data and address information are correct and that I am the true beneficiary of the account.",
       "continue": "Continue",
-      "terms": {
-        "sectionOne": {
-          "title": "Summary heading 1",
-          "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat."
-        },
-        "sectionTwo": {
-          "title": "Summary heading 2",
-          "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat."
-        },
-        "sectionThree": {
-          "title": "Summary heading 3",
-          "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante dui, convallis nec consequat congue, ultricies sit amet mauris. Nullam aliquam neque in quam condimentum ornare. Sed ac dignissim lorem. Morbi quis ipsum erat."
-        }
-      },
       "errorText": {
         "alert": "Woops. Could not confirm T&Cs"
       }

@@ -97,3 +97,25 @@ export interface CustomerPendingAction {
 export type StatusId = 1 | 2 | 3;
 
 export type Status = "COMPLETED" | "PENDING" | "DECLINED";
+
+export interface CustomersTermsAndConditions {
+  TermsID: string;
+  TermsSections: TermsSection[];
+  ContentCategoryId: string;
+}
+
+export interface TermsSection {
+  TermsSectionId: string;
+  Title: string;
+  Bodies: Body[];
+  ContentCategoryId: string;
+  Order: number;
+}
+
+export interface Body {
+  TermsBodyId: string;
+  TermsSectionId: string;
+  Order: number;
+  Body: string;
+  ContentCategoryId: string;
+}
