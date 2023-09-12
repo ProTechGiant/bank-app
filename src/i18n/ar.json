@@ -1046,7 +1046,8 @@
         "description": "أرسل دعوة لاصدقائك واكسب  15 ريال سعودي لكل واحد منهم.",
         "button": "ادعو الآن"
       },
-      "welcomeMessageLabel": "مرحباً"
+      "welcomeMessageLabel": "مرحباً",
+      "AppreciationSectionTitle":"التقديرات"
     },
     "RateAppreciation": {
       "question": "What do yo think about this appreciation?",

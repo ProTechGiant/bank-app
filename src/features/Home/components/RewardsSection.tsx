@@ -1,4 +1,5 @@
 import times from "lodash/times";
+import { useTranslation } from "react-i18next";
 import { Image, ScrollView, View, ViewStyle } from "react-native";
 
 import { useThemeStyles } from "@/theme";
@@ -11,6 +12,8 @@ interface RewardsSectionProps {
 }
 
 export default function RewardsSection({ onViewAllPress }: RewardsSectionProps) {
+  const { t } = useTranslation();
+
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: -theme.spacing["20p"],
     paddingHorizontal: theme.spacing["20p"],
@@ -22,7 +25,7 @@ export default function RewardsSection({ onViewAllPress }: RewardsSectionProps) 
   }));
 
   return (
-    <Section title="Rewards" onViewAllPress={onViewAllPress}>
+    <Section title={t("Home.DashboardScreen.AppreciationSectionTitle")} onViewAllPress={onViewAllPress}>
       <ScrollView
         contentContainerStyle={contentStyle}
         horizontal

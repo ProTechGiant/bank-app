@@ -177,7 +177,7 @@ export default function DashboardScreen() {
                       />
                     );
                   }
-                  if (section.type === "rewards") {
+                  if (section.type === "appreciations") {
                     return <RewardsSection key={section.type} onViewAllPress={handleOnRewardsPress} />;
                   }
                   if (section.type === "articles") {

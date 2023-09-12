@@ -50,7 +50,7 @@ export function HomepageLayoutOrderContextProvider({ children }: React.PropsWith
   }, [quickActions.data]);
 
   useEffect(() => {
-    homepageLayout.data?.tabs.forEach(data => {
+    homepageLayout.data?.tabs?.forEach(data => {
       data.sections.forEach(section => {
         if (section.name === "Homepage Layout") {
           setState(prevState => ({
