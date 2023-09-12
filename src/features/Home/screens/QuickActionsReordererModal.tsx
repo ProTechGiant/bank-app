@@ -146,6 +146,7 @@ export default function QuickActionsReordererModal() {
               }
               title={t("title")}
               onBackPress={handleOnCloseModal}
+              showStatusBar={false}
             />
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>

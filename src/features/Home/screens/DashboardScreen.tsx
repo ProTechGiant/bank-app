@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
@@ -152,7 +152,6 @@ export default function DashboardScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
       <View style={styles.backgroundImage}>
         <HeaderSvg />
       </View>

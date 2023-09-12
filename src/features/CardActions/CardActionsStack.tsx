@@ -98,11 +98,11 @@ export const Stack = createNativeStackNavigator<CardActionsStackParams>();
 export default function CardActionsStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen component={HomeScreen} name="CardActions.HomeScreen" />
       <Stack.Screen component={CardDetailsScreen} name="CardActions.CardDetailsScreen" />
       <Stack.Screen component={WaitingVerificationCardScreen} name="CardActions.WaitingVerificationCard" />
       <Stack.Screen component={CardSettingsScreen} name="CardActions.CardSettingsScreen" />
       <Stack.Screen component={SingleUseCardInfoScreen} name="CardActions.SingleUseCardInfoScreen" />
-      <Stack.Screen component={HomeScreen} name="CardActions.HomeScreen" />
       <Stack.Screen component={ResetPinCodeScreen} name="CardActions.ResetPincodeScreen" />
       <Stack.Screen
         component={SingleUseCardAbout}

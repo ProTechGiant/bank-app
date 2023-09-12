@@ -1033,6 +1033,12 @@
     "okButtonMessage": "OK"
   },
   "Home": {
+    "HomeTabs": {
+      "tabHome": "Home",
+      "tabTransfer": "Transfer",
+      "tabCards": "Cards",
+      "tabSupport": "Support"
+    },
     "DashboardScreen": {
       "AccountNumberCopied": "Account Number is copied in the clipboard.",
       "balanceHidden": "Hidden balance",

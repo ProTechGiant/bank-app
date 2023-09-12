@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, StatusBar, StyleSheet, ViewStyle } from "react-native";
+import { Pressable, ScrollView, StyleSheet, ViewStyle } from "react-native";
 
 import {
   LocalTransferIcon,
@@ -83,7 +83,6 @@ export default function PaymentsHubScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
-        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
         <NavHeader variant="angled" withBackButton={false}>
           <NavHeader.BoldTitle>{t("InternalTransfers.PaymentsHubScreen.title")}</NavHeader.BoldTitle>
           <Stack direction="horizontal" gap="12p" align="flex-end" justify="space-between">

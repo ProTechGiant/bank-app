@@ -1,4 +1,4 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, StackActions, useRoute } from "@react-navigation/native";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
@@ -55,7 +55,7 @@ export default function ChatScreen() {
 
   const handleOnFeedbackExit = () => {
     setIsCustomerFeedbackVisible(false);
-    navigation.navigate("Home.HomeStack");
+    navigation.dispatch(StackActions.pop(2));
   };
 
   return (

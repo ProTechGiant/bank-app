@@ -9,7 +9,7 @@ import DetailedScreen from "@/features/FrequentlyAskedQuestions/screens/Detailed
 import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
 import GoalGetterStack from "@/features/GoalGetter/GoalGetterStack";
 import HelpAndSupportStack from "@/features/HelpAndSupport/HelpAndSupportStack";
-import HomeStack from "@/features/Home/HomeStack";
+import HomeTabs from "@/features/Home/HomeTabs";
 import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfersStack";
 import NotificationManagementStack from "@/features/NotificationManagement/NotificationManagementStack";
 import NotificationsStack from "@/features/Notifications/NotificationsStack";
@@ -57,7 +57,7 @@ export const AuthenticatedScreens = () => {
   useLogoutAfterInactivity();
   return (
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-      <AuthStack.Screen component={HomeStack} name="Home.HomeStack" />
+      <AuthStack.Screen component={HomeTabs} name="Home.HomeTabs" />
       <AuthStack.Screen component={SettingsStack} name="Settings.SettingsStack" />
       <AuthStack.Screen component={NotificationsStack} name="Notifications.NotificationsStack" />
       <AuthStack.Screen component={InstructionsScreen} name="Referral.InstructionsScreen" />

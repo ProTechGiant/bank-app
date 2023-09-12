@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, StyleSheet, View, ViewStyle } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 import ContentContainer from "@/components/ContentContainer";
@@ -26,6 +26,7 @@ export default function LiveChatScreenHeader({ isHide, onBackPress }: LiveChatSc
   useEffect(() => {
     currentHeight.value = isHide ? 90 : 259;
     currentOpacity.value = isHide ? 0 : 1;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isHide]);
 
   const animatedHeaderStyle = useAnimatedStyle(
@@ -56,15 +57,18 @@ export default function LiveChatScreenHeader({ isHide, onBackPress }: LiveChatSc
   return (
     <React.Fragment>
       <Animated.View style={[styles.container, animatedHeaderStyle]}>
-        <StatusBar translucent={true} backgroundColor="transparent" />
         <Animated.View style={[styles.backgroundImage, animatedBackgroundImageStyle]}>
           {isRTL ? <BackgroundSvgRTL /> : <BackgroundSvgLTR />}
         </Animated.View>
         <View style={navHeaderContainer}>
           {!isHide ? (
-            <NavHeader onBackPress={onBackPress} />
+            <NavHeader onBackPress={onBackPress} showStatusBar={false} />
           ) : (
-            <NavHeader onBackPress={onBackPress} title={t("HelpAndSupport.LiveChatScreen.headerTitle")} />
+            <NavHeader
+              onBackPress={onBackPress}
+              title={t("HelpAndSupport.LiveChatScreen.headerTitle")}
+              showStatusBar={false}
+            />
           )}
         </View>
         <ContentContainer style={titleContainer}>

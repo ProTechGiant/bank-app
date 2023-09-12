@@ -5,6 +5,7 @@ import { FrequentlyAskedQuestionsStackParams } from "@/features/FrequentlyAskedQ
 import { GoalGetterStackParams } from "@/features/GoalGetter/GoalGetterStack";
 import { HelpAndSupportStackParams } from "@/features/HelpAndSupport/HelpAndSupportStack";
 import { HomeStackParams } from "@/features/Home/HomeStack";
+import { BottomTabParamList } from "@/features/Home/HomeTabs";
 import { InternalTransfersStackParams } from "@/features/InternalTransfers/InternalTransfersStack";
 import { NotificationManagementStackParams } from "@/features/NotificationManagement/NotificationManagementStack";
 import { NotificationsStackParams } from "@/features/Notifications/NotificationsStack";
@@ -43,6 +44,7 @@ type RootStackParams = {
         screen: keyof HomeStackParams;
       }
     | undefined;
+  "Home.HomeTabs": undefined;
   "AddMoney.AddMoneyStack":
     | {
         screen: keyof AddMoneyStackParams;
@@ -134,6 +136,7 @@ type AuthenticatedStackParams = RootStackParams &
   HelpAndSupportStackParams &
   SettingsStackParams &
   GoalGetterStackParams &
-  ProfileDetailsStackParams;
+  ProfileDetailsStackParams &
+  BottomTabParamList;
 
 export default AuthenticatedStackParams;

@@ -28,6 +28,7 @@ export interface NavHeaderProps {
   backButton?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
   backgroundAngledColor?: string;
   backgroundBottomStyle?: ViewStyle;
+  showStatusBar?: boolean;
 }
 
 const NavHeader = ({
@@ -42,6 +43,7 @@ const NavHeader = ({
   children,
   backgroundAngledColor,
   backgroundBottomStyle,
+  showStatusBar = true,
 }: NavHeaderProps) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -108,7 +110,9 @@ const NavHeader = ({
 
   return (
     <View style={styles.elevated}>
-      <StatusBar barStyle={variant === "black" || variant === "angled" ? "dark-content" : "light-content"} />
+      {showStatusBar ? (
+        <StatusBar barStyle={variant === "black" || variant === "angled" ? "dark-content" : "light-content"} />
+      ) : null}
       <View style={containerStyle} testID={testID}>
         <View style={styles.title}>
           <View style={[styles.column, styles.columnStart]}>

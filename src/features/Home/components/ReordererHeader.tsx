@@ -1,4 +1,4 @@
-import { Platform, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -56,29 +56,26 @@ export default function ReordererHeader({
   );
 
   return (
-    <>
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
-      <View style={headerStyle}>
-        <View style={styles.background}>
-          <BackgroundCollapsedSvg />
-        </View>
-        <View style={styles.elements}>
-          <Pressable onPress={onCancelPress} style={[buttonContainerStyle, cancelButtonStyle]}>
-            <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-              {cancelText}
-            </Typography.Text>
-          </Pressable>
-          <Typography.Text color="primaryBase" weight="regular" size="body">
-            {title}
-          </Typography.Text>
-          <Pressable disabled={!isSaveable} onPress={onSavePress} style={[buttonContainerStyle, saveButtonStyle]}>
-            <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-              {saveText}
-            </Typography.Text>
-          </Pressable>
-        </View>
+    <View style={headerStyle}>
+      <View style={styles.background}>
+        <BackgroundCollapsedSvg />
       </View>
-    </>
+      <View style={styles.elements}>
+        <Pressable onPress={onCancelPress} style={[buttonContainerStyle, cancelButtonStyle]}>
+          <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
+            {cancelText}
+          </Typography.Text>
+        </Pressable>
+        <Typography.Text color="primaryBase" weight="regular" size="body">
+          {title}
+        </Typography.Text>
+        <Pressable disabled={!isSaveable} onPress={onSavePress} style={[buttonContainerStyle, saveButtonStyle]}>
+          <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
+            {saveText}
+          </Typography.Text>
+        </Pressable>
+      </View>
+    </View>
   );
 }
 

@@ -1010,6 +1010,12 @@
     "okButtonMessage": "موافق"
   },
   "Home": {
+    "HomeTabs": {
+      "tabHome": "الرئيسية",
+      "tabTransfer": "التحويل",
+      "tabCards": "البطاقات",
+      "tabSupport": "الدعم"
+    },
     "DashboardScreen": {
       "AccountNumberCopied": "تم نسخ رقم الحساب في الحافظة",
       "balanceHidden": "Hidden balance",
