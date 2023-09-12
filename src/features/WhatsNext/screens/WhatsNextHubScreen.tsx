@@ -13,10 +13,10 @@ import useNavigation from "@/navigation/use-navigation";
 import { Content } from "@/types/Content";
 
 import {
+  EmptyArticleListError,
   ExploreSection,
   FilterModal,
   FilterTopBar,
-  NoArticlesError,
   SortingContentModal,
   TopTenSection,
 } from "../components";
@@ -288,7 +288,7 @@ export default function WhatsNextHubScreen() {
                 onCategoryFilterItemRemovePress={handleOnCategoryFilterItemRemovePress}
                 onClearFiltersPress={() => handleOnClearFiltersPress(true)}
               />
-            ) : (
+            ) : whatsNextData.data.filter(data => data.ContentTag === TOP10_CONTENT_TAG).length > 0 ? (
               <TopTenSection
                 onPress={articleId => {
                   const article = whatsNextData.data.find(d => d.ContentId === articleId);
@@ -299,7 +299,7 @@ export default function WhatsNextHubScreen() {
                 }}
                 data={whatsNextData.data.filter(data => data.ContentTag === TOP10_CONTENT_TAG) as ArticleSectionType[]}
               />
-            )}
+            ) : null}
             {whatsNextData.data.filter(data => data.ContentTag === EXPLORE_CONTENT_TAG).length !== 0 ? (
               <ExploreSection
                 data={
@@ -312,7 +312,7 @@ export default function WhatsNextHubScreen() {
                 sortOrder={sortOrder}
               />
             ) : (
-              <NoArticlesError />
+              <EmptyArticleListError hasFilters={hasFilters} />
             )}
           </ContentContainer>
         ) : null}

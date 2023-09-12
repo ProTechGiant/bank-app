@@ -5,7 +5,11 @@ import NoArticlesIcon from "@/assets/icons/NoArticlesIcon";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-export default function NoArticlesError() {
+interface EmptyArticleListErrorProps {
+  hasFilters: boolean;
+}
+
+export default function EmptyArticleListError({ hasFilters }: EmptyArticleListErrorProps) {
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -24,11 +28,13 @@ export default function NoArticlesError() {
       <NoArticlesIcon />
       <View style={headingStyle}>
         <Typography.Text size="title3" weight="bold">
-          {t("WhatsNext.HubScreen.noArticlesTitle")}
+          {hasFilters ? t("WhatsNext.HubScreen.noArticlesTitle") : t("WhatsNext.HubScreen.articlesWillBeHerSoonTitle")}
         </Typography.Text>
       </View>
       <Typography.Text color="neutralBase-10" size="callout" align="center">
-        {t("WhatsNext.HubScreen.noArticlesDescription")}
+        {hasFilters
+          ? t("WhatsNext.HubScreen.noArticlesDescription")
+          : t("WhatsNext.HubScreen.articlesWillBeHerSoonDescription")}
       </Typography.Text>
     </View>
   );

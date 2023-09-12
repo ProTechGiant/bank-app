@@ -1184,7 +1184,9 @@
       "apply": "Apply",
       "filterBy": "Filtered by:",
       "noArticlesTitle": "No articles found",
-      "noArticlesDescription": "We couldn’t find articles that match your search. Consider adapting your search and try again."
+      "noArticlesDescription": "We couldn’t find articles that match your search. Consider adapting your search and try again.",
+      "articlesWillBeHerSoonTitle": "Articles will be here soon",
+      "articlesWillBeHerSoonDescription": "We 're working hard to bring you \n interesting articles that inspire your \n  Lifestyle . Stay tuned!"
     },
     "ExploreArticleScreen": {
       "eventDetails": "Event details",
