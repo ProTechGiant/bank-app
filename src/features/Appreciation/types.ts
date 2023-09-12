@@ -27,6 +27,15 @@ export interface AppreciationType {
   VoucherDescription: string;
   VoucherId: string;
   VoucherName: string;
+  VoucherCodeType: VoucherCodeEnum;
+  VoucherCode: string;
+  Pin_Password: string;
+}
+
+export enum VoucherCodeEnum {
+  COUPON = 0,
+  QR = 1,
+  BARCODE = 2,
 }
 export interface AppreciationResponceType {
   Appreciations: AppreciationType[];

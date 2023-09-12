@@ -1,12 +1,14 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { CustomerTierEnum } from "@/types/CustomerProfile";
+
 import { AppreciationDetailsScreen, AppreciationHubScreen, TermsAndConditionsModal } from "./screens";
-import { AppreciationType, UserTypeEnum } from "./types";
+import { AppreciationType } from "./types";
 
 export type AppreciationStackParams = {
   "Appreciation.HubScreen": undefined;
   "Appreciation.TermsAndConditionsScreen": undefined;
-  "Appreciation.AppreciationDetailsScreen": { appreciation: AppreciationType; userType: UserTypeEnum };
+  "Appreciation.AppreciationDetailsScreen": { appreciation: AppreciationType; userType: CustomerTierEnum };
 };
 
 export const Stack = createNativeStackNavigator<AppreciationStackParams>();

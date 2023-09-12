@@ -27,6 +27,7 @@ import { Theme, useThemeStyles } from "@/theme";
 
 interface ModalProps extends Omit<RNModalProps, "animationType" | "onRequestClose" | "transparent"> {
   onClose?: () => void;
+  closeHasBackground?: boolean;
   onBack?: () => void;
   headerText?: string;
   hasHeaderDivider?: boolean;
@@ -38,6 +39,7 @@ const NativeModal = Platform.OS === "web" ? View : RNModal;
 export default function Modal({
   children,
   onClose,
+  closeHasBackground = false,
   onBack,
   headerText,
   hasHeaderDivider = false,
@@ -125,6 +127,15 @@ export default function Modal({
 
   const iconColor = useThemeStyles(theme => theme.palette.neutralBase);
 
+  const closeIconStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60-60%"],
+    width: theme.spacing["32p"],
+    height: theme.spacing["32p"],
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: theme.spacing["16p"],
+  }));
+
   const handleStartTransitioning = () => {
     transitionPhase.value = withTiming(visible ? 1 : 0, {
       easing: Easing.bezier(0.42, 0, 0.58, 1),
@@ -162,6 +173,7 @@ export default function Modal({
                 <View>
                   {undefined !== onClose && (
                     <Pressable
+                      style={closeHasBackground ? closeIconStyle : undefined}
                       hitSlop={HIT_SLOP_RIGHT}
                       onPress={onClose}
                       testID={testID !== undefined ? `${testID}-CloseButton` : undefined}>

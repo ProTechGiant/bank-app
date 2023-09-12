@@ -57,6 +57,7 @@ export default function AppreciationHubScreen() {
   } = useAppreciationSearch(selectedFilters, currentSortingOption, currentTab, i18n.language);
   const { data: userInfo } = useCustomerProfile();
   const userTier = userInfo?.CustomerTier ?? CustomerTierEnum.STANDARD;
+  const userFullName = userInfo?.FullName;
 
   const hasFilters = useMemo(() => {
     return !selectedFilters
@@ -141,7 +142,10 @@ export default function AppreciationHubScreen() {
   };
 
   const handleOnAppreciationCardPress = (appreciation: AppreciationType) => {
-    navigation.navigate("Appreciation.AppreciationDetailsScreen", { appreciation, userTier });
+    navigation.navigate("Appreciation.AppreciationDetailsScreen", {
+      appreciation,
+      userInfo: { userTier, userFullName },
+    });
   };
 
   const handleOnLikeAppreciation = () => {

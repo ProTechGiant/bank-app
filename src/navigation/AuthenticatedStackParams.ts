@@ -23,6 +23,7 @@ import { ViewTransactionsStackParams } from "@/features/ViewTransactions/ViewTra
 import { WhatsNextStackParams } from "@/features/WhatsNext/WhatsNextStack";
 
 import { SignInStackParams } from "../features/SignIn/SignInStack";
+import { AppreciationStackParams } from "./../features/Appreciation/AppreciationStack";
 import OneTimePasswordModalParams from "./one-time-password-modal-params";
 
 type RootStackParams = {
@@ -137,6 +138,8 @@ type AuthenticatedStackParams = RootStackParams &
   SettingsStackParams &
   GoalGetterStackParams &
   ProfileDetailsStackParams &
+  AppreciationStackParams &
+  NotificationsStackParams &
   BottomTabParamList;
 
 export default AuthenticatedStackParams;

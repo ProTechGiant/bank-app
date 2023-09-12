@@ -2949,6 +2949,17 @@
     "SortingModal": {
       "title": "Sort",
       "applyButton": "Apply"
+    },
+    "RedeemModal": {
+      "validUntil": "Valid until",
+      "expiredOn": "Expired on",
+      "title": "presents",
+      "addToAppleWallet": "Add to Apple Wallet",
+      "viewDetails": "View Additional Details",
+      "name": "Name",
+      "location": "Location",
+      "time": "Time",
+      "passwordTitle": "Below is your PIN/Password"
     }
   },
   "AgentLeftChat": {

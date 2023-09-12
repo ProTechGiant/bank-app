@@ -2414,6 +2414,17 @@
     "SortingModal": {
       "title": "Sort",
       "applyButton": "Apply"
+    },
+    "RedeemModal": {
+      "validUntil": "صالحة حتى",
+      "expiredOn": "انتهت بتاريخ",
+      "title": "يقدم",
+      "addToAppleWallet": "أضف إلى محفظه أبل",
+      "viewDetails": "عرض تفاصيل إضافيه",
+      "name": "الاسم",
+      "location": "الموقع",
+      "time": "الوقت",
+      "passwordTitle": "Below is your PIN/Password"
     }
   },
   "AgentLeftChat": {

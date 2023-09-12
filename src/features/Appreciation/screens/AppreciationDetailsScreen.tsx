@@ -1,4 +1,5 @@
-import { format } from "date-fns";
+import { format, isBefore } from "date-fns";
+import { arSA, enUS } from "date-fns/esm/locale";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, View, ViewStyle } from "react-native";
@@ -13,16 +14,26 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { CustomerTierEnum } from "@/types/CustomerProfile";
 
-import { AboutOrganizerSection, AppreciationEventDetailsSection, ExploreAppreciationHeader, Tags } from "../components";
+import {
+  AboutOrganizerSection,
+  AppreciationEventDetailsSection,
+  ExploreAppreciationHeader,
+  RedeemAppreciationModal,
+  Tags,
+} from "../components";
 import { useRedeemAppreciation } from "../hooks/query-hooks";
+import { Pin_Password, VoucherCode, VoucherCodeType } from "../mock";
 import { AppreciationType } from "./../types";
 
 interface AppreciationDetailsScreenProps {
   appreciation: AppreciationType;
-  userTier: CustomerTierEnum;
+  userInfo: {
+    userTier: CustomerTierEnum;
+    userFullName: string;
+  };
 }
 
-export default function AppreciationDetailsScreen({ route }) {
+export default function AppreciationDetailsScreen({ route }: { route: any }) {
   const {
     appreciation: {
       ImageUrl,
@@ -35,15 +46,17 @@ export default function AppreciationDetailsScreen({ route }) {
       PartnerName,
       PreSaleDateTime,
       Tier,
+      CreationDate,
     },
-    userTier,
+    userInfo: { userTier, userFullName },
   }: AppreciationDetailsScreenProps = route.params;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const redeemAppreciation = useRedeemAppreciation();
 
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
+  const [isRedeemModalVisible, setIsRedeemModalVisible] = useState<boolean>(false);
 
   const canUserRedeem = !(Tier === 1 && userTier === CustomerTierEnum.STANDARD);
 
@@ -52,7 +65,7 @@ export default function AppreciationDetailsScreen({ route }) {
       try {
         setIsErrorModalVisible(false);
         await redeemAppreciation.mutateAsync(VoucherId);
-        navigation.goBack();
+        setIsRedeemModalVisible(true);
       } catch (error) {
         setIsErrorModalVisible(true);
       }
@@ -69,6 +82,15 @@ export default function AppreciationDetailsScreen({ route }) {
     setIsLiked(!isLiked);
     //TODO
   };
+
+  const handleOnAddToAppleWalletPress = () => {
+    //TODO apple wallet logic
+  };
+
+  const handleOnViewDetailsPress = () => {
+    //TODO view details logic
+  };
+
   const sectionStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["24p"],
   }));
@@ -112,7 +134,7 @@ export default function AppreciationDetailsScreen({ route }) {
             </Typography.Text>
             <View style={sectionStyle}>
               <AppreciationEventDetailsSection
-                endDate={format(new Date(ExpiryDate), "dd/MM/yyyy · hh:mm")}
+                endDate={format(new Date(CreationDate), "dd/MM/yyyy · hh:mm")}
                 location={Location.Name}
                 preSaleDate={format(new Date(PreSaleDateTime), "dd/MM/yyyy · hh:mm")}
                 preSaleDescription={PreSaleDescription}
@@ -161,6 +183,22 @@ export default function AppreciationDetailsScreen({ route }) {
         }}
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
+      />
+      <RedeemAppreciationModal
+        isVisible={isRedeemModalVisible}
+        setIsVisible={setIsRedeemModalVisible}
+        isExpired={isBefore(new Date(ExpiryDate), new Date())}
+        expiryDate={format(new Date(ExpiryDate), "dd/MM/yyyy", { locale: i18n.language === "en" ? enUS : arSA })}
+        code={VoucherCode}
+        codeType={VoucherCodeType}
+        password={Pin_Password}
+        title={VoucherName}
+        partnerName={PartnerName}
+        userFullName={userFullName}
+        location={Location.Name}
+        time={format(new Date(CreationDate), "p", { locale: i18n.language === "en" ? enUS : arSA })}
+        handleOnAddToAppleWalletPress={handleOnAddToAppleWalletPress}
+        handleOnViewDetailsPress={handleOnViewDetailsPress}
       />
     </Page>
   );
