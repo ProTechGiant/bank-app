@@ -1,6 +1,6 @@
-import { format, formatDistance, isToday, isYesterday, startOfToday } from "date-fns";
-import { flatten, uniqBy } from "lodash";
-import { createElement, useEffect, useState } from "react";
+import { format, formatDistance, isToday, isYesterday, startOfToday, subDays } from "date-fns";
+import { uniqBy } from "lodash";
+import { createElement, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SectionList, View, ViewStyle } from "react-native";
 
@@ -19,87 +19,109 @@ import { useThemeStyles } from "@/theme";
 
 import { LoadMoreIcon } from "../assets/LoadMoreIcon";
 import noNotificationImage from "../assets/no-notifications-image.png";
-import { FilterModal, NotificationItem } from "../components";
-import { Notifications } from "../mock";
-import { FilterType, NotificationType, PAGE_SIZE, SectionEnum } from "../types";
+import { FilterModal, NotificationError, NotificationItem } from "../components";
+import { useAllNotifications, useFilterNotifications } from "../hooks/query-hooks";
+import { FilterType, InfoIconValues, NotificationType, PAGE_SIZE, SectionEnum, SwapIconValues } from "../types";
 
 export default function NotificationsHubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const todayDate = startOfToday();
+  const from30DaysDate = subDays(new Date(todayDate), 31);
 
   const [isFiltersModalVisible, setIsFiltersModalVisible] = useState<boolean>(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
   const [isAllDataLoaded, setIsAllDataLoaded] = useState<boolean>(false);
-  const [notifications, setNotifications] = useState<NotificationType<Date>[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [filters, setFilters] = useState<FilterType[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<FilterType>();
+  const notificationsRef = useRef<NotificationType<Date>[]>([]);
 
-  //TODO-REMOVE Mock till api works
-  const refetch = () => {
-    //TODO refetch logic
-  };
-  const isError = false;
-  const isFetching = false;
-  const data = Notifications;
-  //TODO-Call const { data, isError, isLoading, refetch } = useAllNotifications(10, 0, new Date(), new Date());
+  const { data, isError, isFetching, refetch } = useAllNotifications(
+    PAGE_SIZE,
+    pageNumber,
+    format(from30DaysDate, "yyyy-MM-dd"),
+    format(todayDate, "yyyy-MM-dd")
+  );
+
+  const {
+    data: filteredData,
+    isError: isFilterDataError,
+    isFetching: isFetchingFilterData,
+    refetch: refetchFilteredData,
+  } = useFilterNotifications(
+    PAGE_SIZE,
+    0,
+    format(from30DaysDate, "yyyy-MM-dd"),
+    format(todayDate, "yyyy-MM-dd"),
+    selectedFilter?.Id ?? ""
+  );
+
+  if (data !== undefined)
+    notificationsRef.current = uniqBy([...notificationsRef.current, ...data.Notifications], "NotificationId");
+
+  useEffect(() => {
+    if (data?.SubCategories) {
+      setFilters(data.SubCategories);
+    }
+  }, [data]);
 
   const todaySection = {
     day: SectionEnum.TODAY,
     title: t(`Notifications.NotificationHubScreen.sections.${SectionEnum.TODAY}`),
-    data: notifications.filter(object => isToday(object.CreatedOn)),
+    data:
+      selectedFilter === undefined
+        ? notificationsRef.current.filter(object => isToday(object.CreatedOn))
+        : filteredData?.Notifications.filter(object => isToday(object.CreatedOn)) ?? [],
   };
   const yesterdaySection = {
     day: SectionEnum.YESTERDAY,
     title: t(`Notifications.NotificationHubScreen.sections.${SectionEnum.YESTERDAY}`),
-    data: notifications.filter(notification => isYesterday(notification.CreatedOn)),
+    data:
+      selectedFilter === undefined
+        ? notificationsRef.current.filter(notification => isYesterday(notification.CreatedOn))
+        : filteredData?.Notifications.filter(notification => isYesterday(notification.CreatedOn)) ?? [],
   };
   const olderSection = {
     day: SectionEnum.OLDER,
     title: t(`Notifications.NotificationHubScreen.sections.${SectionEnum.OLDER}`),
-    data: notifications.filter(
-      notification => !isToday(notification.CreatedOn) && !isYesterday(notification.CreatedOn)
-    ),
+    data:
+      selectedFilter === undefined
+        ? notificationsRef.current.filter(
+            notification => !isToday(notification.CreatedOn) && !isYesterday(notification.CreatedOn)
+          )
+        : filteredData?.Notifications.filter(
+            notification => !isToday(notification.CreatedOn) && !isYesterday(notification.CreatedOn)
+          ) ?? [],
   };
 
   useEffect(() => {
-    setIsErrorModalVisible(isError);
-  }, [isError]);
+    setIsErrorModalVisible(isError || isFilterDataError);
+  }, [isError, isFilterDataError]);
 
   useEffect(() => {
-    if (data?.length < PAGE_SIZE) setIsAllDataLoaded(true);
+    if (notificationsRef.current.length < PAGE_SIZE * pageNumber) {
+      setIsAllDataLoaded(true);
+    }
+  }, [data, pageNumber]);
 
-    if (selectedFilter === undefined)
-      setNotifications(notification => uniqBy([...notification, ...data], "NotificationId"));
-    else setNotifications(data);
-
-    const subCategoriesNested = data.map(d => [...d.SubCategories]);
-    const subCategories = uniqBy(flatten(subCategoriesNested), "Id").map(category => ({
-      ...category,
-      isActive: false,
-    }));
-    setFilters(f => uniqBy([...f, ...subCategories], "Id"));
-  }, [data]);
-
-  const loadMoreDate = () => {
+  const loadMoreData = () => {
     if (!isAllDataLoaded) {
       setPageNumber(pageNumber + 1);
-      //TODO call api to get more data
     }
   };
 
   const handleOnExploreMorePress = () => {
-    navigation.navigate("WhatsNext.WhatsNextStack", { screen: "WhatsNext.HubScreen" });
+    navigation.navigate("WhatsNext.WhatsNextStack");
   };
 
   const handleOnFilterApplyButtonPress = () => {
     setSelectedFilter(filters.find(filter => filter.isActive));
     setIsFiltersModalVisible(false);
-    //TODO call the api of filter here
+    refetchFilteredData();
   };
 
-  const handleOnFilterItemPress = (id: number) => {
+  const handleOnFilterItemPress = (id: string) => {
     setFilters(filters.map(filter => ({ ...filter, isActive: filter.Id === id ? !filter.isActive : false })));
   };
 
@@ -133,7 +155,7 @@ export default function NotificationsHubScreen() {
 
   return (
     <Page insets={["left"]}>
-      {isFetching ? (
+      {isFetching || isFetchingFilterData ? (
         <FlexActivityIndicator />
       ) : (
         <>
@@ -142,82 +164,88 @@ export default function NotificationsHubScreen() {
             title={t("Notifications.NotificationHubScreen.title")}
             end={<NavHeader.IconEndButton icon={<FilterIcon />} onPress={() => setIsFiltersModalVisible(true)} />}
           />
-          {selectedFilter && (
-            <Stack direction="horizontal" gap="8p" style={filteredOptionStyle}>
-              <Typography.Text>{t("Notifications.NotificationHubScreen.filterBy")}</Typography.Text>
-              <Chip title={selectedFilter.Name} isRemovable={true} isSelected={true} onPress={clearAllFilters} />
-            </Stack>
-          )}
-          {notifications !== undefined &&
-            (notifications.length === 0 ? (
-              <DefaultContent
-                title={t("Notifications.NotificationHubScreen.emptyPage.title")}
-                subtitle={t("Notifications.NotificationHubScreen.emptyPage.subtitle")}
-                image={noNotificationImage}
-                buttonText={t("Notifications.NotificationHubScreen.emptyPage.buttonText")}
-                onButtonPress={handleOnExploreMorePress}
-              />
-            ) : (
-              <SectionList
-                pagingEnabled={true}
-                style={sectionsStyle}
-                data={data}
-                sections={[todaySection, yesterdaySection, olderSection]}
-                renderSectionHeader={({ section }) => (
-                  <Typography.Text weight="medium" size="callout" color="neutralBase-10" style={sectionTitleStyle}>
-                    {section.title}
-                  </Typography.Text>
-                )}
-                ListFooterComponent={
-                  !isAllDataLoaded ? (
-                    <View style={loadMoreButtonStyle}>
-                      <LoadMoreIcon />
-                      <Typography.Text size="caption1" color="neutralBase">
-                        {t("Notifications.NotificationHubScreen.loadMore")}
+          {!isError ? (
+            <View>
+              {selectedFilter && (
+                <Stack direction="horizontal" gap="8p" style={filteredOptionStyle}>
+                  <Typography.Text>{t("Notifications.NotificationHubScreen.filterBy")}</Typography.Text>
+                  <Chip title={selectedFilter.Name} isRemovable={true} isSelected={true} onPress={clearAllFilters} />
+                </Stack>
+              )}
+              {(selectedFilter === undefined && notificationsRef.current.length === 0) ||
+              (selectedFilter !== undefined && filteredData?.Notifications.length === 0) ? (
+                <DefaultContent
+                  title={t("Notifications.NotificationHubScreen.emptyPage.title")}
+                  subtitle={t("Notifications.NotificationHubScreen.emptyPage.subtitle")}
+                  image={noNotificationImage}
+                  buttonText={t("Notifications.NotificationHubScreen.emptyPage.buttonText")}
+                  onButtonPress={handleOnExploreMorePress}
+                />
+              ) : (
+                <SectionList
+                  pagingEnabled={true}
+                  style={sectionsStyle}
+                  sections={[todaySection, yesterdaySection, olderSection]}
+                  renderSectionHeader={({ section }) =>
+                    section.data.length !== 0 ? (
+                      <Typography.Text weight="medium" size="callout" color="neutralBase-10" style={sectionTitleStyle}>
+                        {section.title}
                       </Typography.Text>
-                    </View>
-                  ) : null
-                }
-                onEndReached={loadMoreDate}
-                renderItem={({ item, section }) => {
-                  //TODO Mock condition till real conditions known
-                  const icon = item.SubCategories.find(category => category.Id === 1)
-                    ? ChatIcon
-                    : item.SubCategories.find(category => category.Id === 2)
-                    ? SwapIcon
-                    : InfoCircleIcon;
+                    ) : null
+                  }
+                  ListFooterComponent={
+                    !isAllDataLoaded ? (
+                      <View style={loadMoreButtonStyle}>
+                        <LoadMoreIcon />
+                        <Typography.Text size="caption1" color="neutralBase">
+                          {t("Notifications.NotificationHubScreen.loadMore")}
+                        </Typography.Text>
+                      </View>
+                    ) : null
+                  }
+                  onEndReached={loadMoreData}
+                  renderItem={({ item, section }) => {
+                    const icon = InfoIconValues.includes(item.SubCategoryName)
+                      ? InfoCircleIcon
+                      : SwapIconValues.includes(item.SubCategoryName)
+                      ? SwapIcon
+                      : ChatIcon;
 
-                  const time =
-                    section.day === SectionEnum.TODAY
-                      ? formatDistance(item.CreatedOn, todayDate)
-                      : section.day === SectionEnum.YESTERDAY
-                      ? format(item.CreatedOn, "p")
-                      : format(item.CreatedOn, "PPpp");
-                  return (
-                    <NotificationItem
-                      title={item.NotificationName}
-                      key={item.NotificationId}
-                      subtitle={item.MessageContent}
-                      time={time}
-                      icon={createElement(icon)}
-                    />
-                  );
-                }}
+                    const time =
+                      section.day === SectionEnum.TODAY
+                        ? formatDistance(item.CreatedOn, todayDate)
+                        : section.day === SectionEnum.YESTERDAY
+                        ? format(item.CreatedOn, "p")
+                        : format(item.CreatedOn, "PPpp");
+                    return (
+                      <NotificationItem
+                        title={item.NotificationName}
+                        key={item.NotificationId}
+                        subtitle={item.MessageContent}
+                        time={time}
+                        icon={createElement(icon)}
+                      />
+                    );
+                  }}
+                />
+              )}
+              <LoadingErrorNotification
+                isVisible={isErrorModalVisible}
+                onClose={() => setIsErrorModalVisible(false)}
+                onRefresh={selectedFilter !== undefined ? refetchFilteredData : refetch}
               />
-            ))}
-          <LoadingErrorNotification
-            isVisible={isErrorModalVisible}
-            onClose={() => setIsErrorModalVisible(false)}
-            onRefresh={refetch}
-          />
-          <FilterModal
-            isVisible={isFiltersModalVisible}
-            setIsVisible={setIsFiltersModalVisible}
-            filters={filters}
-            onItemPress={handleOnFilterItemPress}
-            onApplyButtonPress={handleOnFilterApplyButtonPress}
-            isApplyButtonDisabled={selectedFilter === filters.find(filter => filter.isActive)}
-          />
+              <FilterModal
+                isVisible={isFiltersModalVisible}
+                setIsVisible={setIsFiltersModalVisible}
+                filters={filters}
+                onItemPress={handleOnFilterItemPress}
+                onApplyButtonPress={handleOnFilterApplyButtonPress}
+                isApplyButtonDisabled={selectedFilter === filters.find(filter => filter.isActive)}
+              />
+            </View>
+          ) : (
+            <NotificationError onRefresh={refetch} />
+          )}
         </>
       )}
     </Page>

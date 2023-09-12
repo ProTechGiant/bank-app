@@ -13,7 +13,7 @@ interface FilterModalProps {
   isVisible: boolean;
   setIsVisible: (status: boolean) => void;
   filters: FilterType[];
-  onItemPress: (id: number) => void;
+  onItemPress: (id: string) => void;
   onApplyButtonPress: () => void;
   isApplyButtonDisabled: boolean;
 }

@@ -2991,6 +2991,11 @@
         "subtitle": "We are crafting the best for you and your new notification should be on its way",
         "buttonText": "Explore More"
       },
+      "LoadingError": {
+        "title": "We couldn’t load the data",
+        "description": "There was a minor issue, but not to \n  worry. We can re-try",
+        "reload":"Reload"
+      },
       "filterModal": {
         "title": "Filter",
         "applyButton": "Apply"
