@@ -1065,11 +1065,11 @@
       },
       "ReferFriend": {
         "title": "Invite a friend",
-        "description": "Invite your friends and earn 15 SAR for each of you",
+        "description": "Invite your friends and earn 15 SAR for each of you.",
         "button": "Invite now"
       },
       "welcomeMessageLabel": "Welcome",
-      "AppreciationSectionTitle":"Appreciations"
+      "AppreciationSectionTitle": "Appreciations"
     },
     "HomepageReorderModal": {
       "cancel": "CANCEL",
@@ -1129,7 +1129,7 @@
       "successModalButton": "Back to Home"
     },
     "RefreshSection": {
-      "refreshButton": "Refresh",
+      "refreshButton": "Refresh"
     },
     "TopSpendingCategories": {
       "currentSpending": "Current spending in",
@@ -1138,7 +1138,7 @@
       "viewAllSpending": "View all spendings",
       "noSpending": "No spending insights yet",
       "noSpendingInformation": "When you start making purchases your top spending categories will show up here."
-    },
+    }
   },
   "Referral": {
     "HubScreen": {

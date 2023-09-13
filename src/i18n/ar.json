@@ -1037,9 +1037,9 @@
       "leftToComplete": "لم تكتمل بعد",
       "updating": "جار التحديث ...",
       "GoalGetter": {
-        "title": "منتجات محقق الأهداف",
-        "description": "تخيّل هدفًا وسنساعدك في الاقتصاد من أجل تحقيقه.",
-        "button": "إنشاء هدف"
+        "title": "منتجات محقق الاهداف",
+        "description": "تخيل اهدافك و سوف نساعدك بالادخار لتحقيقهم.",
+        "button": "أنشئ هدف"
       },
       "ReferFriend": {
         "title": "أرسل دعوة",
@@ -1047,7 +1047,7 @@
         "button": "ادعو الآن"
       },
       "welcomeMessageLabel": "مرحباً",
-      "AppreciationSectionTitle":"التقديرات"
+      "AppreciationSectionTitle": "التقديرات"
     },
     "RateAppreciation": {
       "question": "What do yo think about this appreciation?",
@@ -1070,7 +1070,7 @@
       "successModalButton": "Back to Home"
     },
     "RefreshSection": {
-      "refreshButton": "تحديث",
+      "refreshButton": "تحديث"
     },
     "TopSpendingCategories": {
       "currentSpending": "الإنفاق الحالي في",
@@ -1079,7 +1079,7 @@
       "viewAllSpending": "عرض جميع النفقات",
       "noSpending": "لاتوجد معلومات عن الإنفاق حتى الآن",
       "noSpendingInformation": ".عندما تبدأ في إجاراء عمليات الشراء ستظهر هنا فئات الإنفاق الأعلى"
-    },
+    }
   },
   "InstructionsScreen": {
     "skip": "تخطى",
