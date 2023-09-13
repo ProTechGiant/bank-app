@@ -313,7 +313,9 @@
       "Close": "Close",
       "fullName": "Full Name",
       "accountNumber": "Account Number",
-      "success": "{{dataCopied}} copied to clipboard"
+      "success": "{{dataCopied}} copied to clipboard",
+      "PasscodeUpdateLimitMessage": "لقد وصلت إلى الحد الأقصى لتغيير الرمز السري اليوم والذي يبلغ ثلاث مرات. يرجى الانتظار 24 ساعة قبل محاولة أي تحديثات أخرى.",
+      "PasscodeUpdateLimitTitle": "لا يمكنك إجراء هذا الإجراء"
     },
     "OptOutModal": {
       "title": "Opt-out",
@@ -2458,8 +2460,8 @@
       "LoadingError": {
         "title": "لم نتمكن من تحميل البيانات",
         "description": "كان هناك مشكلة طفيفة، ولكن لا تقلق. يمكننا المحاولة مرة أخرى",
-        "reload":"إعادة التحميل"
-        },
+        "reload": "إعادة التحميل"
+      },
       "filterModal": {
         "title": "Filter",
         "applyButton": "Apply"

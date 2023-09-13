@@ -2,21 +2,26 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
 
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import * as SettingsIcons from "../assets/icons";
 import { SettingLanguagesSection, SettingsCategoryContainer, SettingSection, SignOutModal } from "../components";
+// import { useCheckDailyPasscodeLimit } from "../hooks/query-hooks";
 
 export default function CustomerAccountManagement() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  // const { data } = useCheckDailyPasscodeLimit();
 
   const [isSignOutModalVisible, setSignOutModalVisible] = useState(false);
+  const [hasReachedPasscodeUpdateLimit, setHasReachedPasscodeUpdateLimit] = useState(false);
 
   const handleOnBackPress = () => {
     navigation.goBack();
@@ -27,6 +32,10 @@ export default function CustomerAccountManagement() {
   };
 
   const handleOnPassCodePress = () => {
+    // TODO: When the api is ready, we will use the following code to navigate to the correct screen
+    // data?.UpdatePasscodeEnabled
+    //   ? navigation.navigate("Passcode.ChangePasscodeStack")
+    //   : setHasReachedPasscodeUpdateLimit(true);
     navigation.navigate("Passcode.ChangePasscodeStack");
   };
 
@@ -67,6 +76,10 @@ export default function CustomerAccountManagement() {
 
   const handleOnClose = () => {
     setSignOutModalVisible(false);
+  };
+
+  const handleReachedPasscodeUpdateLimit = () => {
+    setHasReachedPasscodeUpdateLimit(false);
   };
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({ paddingTop: theme.spacing["8p"] }));
@@ -152,6 +165,16 @@ export default function CustomerAccountManagement() {
           />
         </SettingsCategoryContainer>
       </ContentContainer>
+      <NotificationModal
+        message={t("ProxyAlias.AccountModal.PasscodeUpdateLimitMessage")}
+        isVisible={hasReachedPasscodeUpdateLimit}
+        title={t("ProxyAlias.AccountModal.PasscodeUpdateLimitTitle")}
+        onClose={handleReachedPasscodeUpdateLimit}
+        variant="error"
+        buttons={{
+          primary: <Button onPress={handleReachedPasscodeUpdateLimit}>{t("ProxyAlias.ErrorModal.ok")}</Button>,
+        }}
+      />
       <SignOutModal isVisible={isSignOutModalVisible} onClose={handleOnClose} />
     </Page>
   );

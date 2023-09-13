@@ -18,11 +18,15 @@ import useNavigation from "@/navigation/use-navigation";
 import biometricsService from "@/services/biometrics/biometricService";
 import { useThemeStyles } from "@/theme";
 
+import { useCheckDailyPasscodeLimit } from "../hooks/query-hooks";
+
 export default function AccountSettingsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const auth = useAuthContext();
   const signoutUser = useLogout();
+  const { data } = useCheckDailyPasscodeLimit();
+
   const [toggleStatus, setToggleStatus] = useState<boolean>(false);
 
   const [isBiometricSupported, setIsBiometricSupported] = useState<boolean>(false);
@@ -30,6 +34,7 @@ export default function AccountSettingsScreen() {
   const [_error, setError] = useState<string>("");
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [hasReachedPasscodeUpdateLimit, setHasReachedPasscodeUpdateLimit] = useState(false);
 
   useEffect(() => {
     if (toggleStatus) {
@@ -52,7 +57,9 @@ export default function AccountSettingsScreen() {
   };
 
   const handleChangePasscode = () => {
-    navigation.navigate("Passcode.ChangePasscodeStack");
+    data?.UpdatePasscodeEnabled
+      ? navigation.navigate("Passcode.ChangePasscodeStack")
+      : setHasReachedPasscodeUpdateLimit(true);
   };
 
   const authenticateWithBiometrics = async (isEnabled: boolean) => {
@@ -74,6 +81,10 @@ export default function AccountSettingsScreen() {
           warn("biometrics", `biometrics failed}`);
         });
     }
+  };
+
+  const handleReachedPasscodeUpdateLimit = () => {
+    setHasReachedPasscodeUpdateLimit(false);
   };
 
   const headerTitleStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -141,6 +152,16 @@ export default function AccountSettingsScreen() {
           secondary: (
             <Button onPress={() => setIsModalVisible(false)}>{t("Settings.AccountSettings.cancelButton")}</Button>
           ),
+        }}
+      />
+      <NotificationModal
+        message={t("ProxyAlias.AccountModal.PasscodeUpdateLimitMessage")}
+        isVisible={hasReachedPasscodeUpdateLimit}
+        title={t("ProxyAlias.AccountModal.PasscodeUpdateLimitTitle")}
+        onClose={handleReachedPasscodeUpdateLimit}
+        variant="error"
+        buttons={{
+          primary: <Button onPress={handleReachedPasscodeUpdateLimit}>{t("ProxyAlias.ErrorModal.ok")}</Button>,
         }}
       />
     </Page>

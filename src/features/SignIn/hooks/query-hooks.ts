@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import DeviceInfo from "react-native-device-info";
 import { useMutation } from "react-query";
 
 import sendApiRequest from "@/api";
@@ -10,6 +11,7 @@ import {
   LogInOtpChallengeParams,
   LoginUserType,
   RegistrationResponse,
+  SigninType,
   ValidateDeviceType,
 } from "../types";
 
@@ -33,33 +35,29 @@ export function useCheckUser() {
 }
 
 export function useLoginUser() {
-  const { updatePhoneNumber } = useAuthContext();
-  const { correlationId, setNationalId } = useSignInContext();
+  const { correlationId, nationalId } = useSignInContext();
 
-  return useMutation(
-    async (passCode: string) => {
-      if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+  return useMutation(async (passCode: string) => {
+    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-      return sendApiRequest<LoginUserType>(
-        "v1",
-        "customers/login",
-        "POST",
-        undefined,
-        {
-          Passcode: passCode,
-        },
-        {
-          ["x-correlation-id"]: correlationId,
-        }
-      );
-    },
-    {
-      onSuccess(data) {
-        setNationalId(data.NationalOrIqamaId);
-        updatePhoneNumber(data.MobileNumber);
+    const deviceName = await DeviceInfo.getDeviceName();
+
+    return sendApiRequest<LoginUserType>(
+      "v1",
+      "customers/sign-in",
+      "POST",
+      undefined,
+      {
+        NationalId: nationalId,
+        Passcode: passCode,
       },
-    }
-  );
+      {
+        ["x-correlation-id"]: correlationId,
+        ["DeviceName"]: deviceName,
+        ["DeviceId"]: DeviceInfo.getDeviceId(),
+      }
+    );
+  });
 }
 
 export function useValidateDevice() {
@@ -173,7 +171,7 @@ export function useSignIn() {
     (passcode: string) => {
       if (undefined === correlationId) throw new Error("Cannot fetch customers/sign-in without `correlationId`");
 
-      return sendApiRequest<LoginUserType>(
+      return sendApiRequest<SigninType>(
         "v1",
         "customers/sign-in",
         "POST",
@@ -215,3 +213,30 @@ export function useSendLoginOTP() {
     );
   });
 }
+
+export const useUpdatePasscode = () => {
+  const { userId } = useAuthContext();
+  const { correlationId } = useSignInContext();
+
+  return useMutation(async ({ newPasscode, currentPasscode }: { newPasscode: string; currentPasscode: string }) => {
+    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+    const deviceName = await DeviceInfo.getDeviceName();
+
+    return sendApiRequest<string>(
+      "v1",
+      `customers/passcode/update/${userId}`,
+      "PATCH",
+      undefined,
+      {
+        NewPasscode: newPasscode,
+        CurrentPasscode: currentPasscode,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+        ["DeviceName"]: deviceName,
+        ["DeviceId"]: DeviceInfo.getDeviceId(),
+      }
+    );
+  });
+};

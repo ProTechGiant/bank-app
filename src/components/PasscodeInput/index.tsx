@@ -111,7 +111,7 @@ const PasscodeInput = ({
       </View>
       <View style={alertWrapper}>
         {isError && !showModel && errorMessage?.[0]?.message ? (
-          <Alert message={errorMessage[0].message} variant={errorMessage[0].variant} />
+          <Alert message={errorMessage[0].message} variant="error" />
         ) : null}
       </View>
       {errorMessage?.[0]?.modalMessage && errorMessage?.[0]?.title && isError && showModel ? (

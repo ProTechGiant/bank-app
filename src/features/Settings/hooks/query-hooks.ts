@@ -1,5 +1,5 @@
 import DeviceInfo from "react-native-device-info";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
 import { queryKeys } from "@/hooks/use-customer-profile";
@@ -9,6 +9,14 @@ interface LanguagePreferred {
   PreferredLanguageCode: string;
   NotificationLanguageCode: string;
 }
+
+interface UpdatePasscodeStatus {
+  UpdatePasscodeEnabled: boolean;
+}
+
+const queryKey = {
+  all: () => ["update-passcode-limit"] as const,
+};
 
 export function useUpdateCustomerProfileLanguage() {
   const queryClient = useQueryClient();
@@ -37,3 +45,11 @@ export function useUpdateCustomerProfileLanguage() {
     }
   );
 }
+
+export const useCheckDailyPasscodeLimit = () => {
+  return useQuery(queryKey.all(), async () => {
+    return api<UpdatePasscodeStatus>("v1", "customers/passcode-update-flag", "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+};

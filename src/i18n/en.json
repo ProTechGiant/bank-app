@@ -306,7 +306,9 @@
       "Close": "Close",
       "fullName": "Full Name",
       "accountNumber": "Account Number",
-      "success": "{{dataCopied}} copied to clipboard"
+      "success": "{{dataCopied}} copied to clipboard",
+      "PasscodeUpdateLimitMessage": "Your request to update your passcode has reached the maximum limit of 3 changes today. Please wait for 24 hours before attempting any further updates.",
+      "PasscodeUpdateLimitTitle": "You can't do this action"
     },
     "OptOutModal": {
       "title": "Opt-out",
@@ -815,8 +817,8 @@
     },
     "IqamaInputScreen": {
       "errorText": {
-        "twoAttemptsLeft": "That passcode wasn't right. You have 2 attempts left.",
-        "oneAttemptsLeft": "That passcode wasn't right. You have 1 attempts left.",
+        "twoAttemptsLeft": "Tha passcode you  entered is not correct, You have 2 attempts left.",
+        "oneAttemptsLeft": "Tha passcode you  entered is not correct, You have 1 attempts left.",
         "modalTitle": "Try again later",
         "modalMessage": "You’ve entered the wrong passcode too many times. Please wait 30 mins and try again.",
         "resetLimitExceeded": "Please be informed that passcode resets are limited to three times per day.",
@@ -901,8 +903,8 @@
       "title": "Confirm Passcode",
       "subTitle": "Re-enter your 6 number passcode.",
       "notification": "Those passcodes were both different - try again.",
-      "updatePasscodeModalMessage": "Your new passcode is now set.",
-      "updatePasscodeModalTitle": "Passcode updated",
+      "updatePasscodeModalMessage": "Automated call will be received to confirm your action",
+      "updatePasscodeModalTitle": "Passcode reset request submitted",
       "createPasscodeModalMessage": "You'll use this passcode to log in to Croatia.",
       "createPasscodeModalTitle": "Passcode created"
     },
@@ -2995,7 +2997,7 @@
       "LoadingError": {
         "title": "We couldn’t load the data",
         "description": "There was a minor issue, but not to \n  worry. We can re-try",
-        "reload":"Reload"
+        "reload": "Reload"
       },
       "filterModal": {
         "title": "Filter",

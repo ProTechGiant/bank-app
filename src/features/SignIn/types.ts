@@ -29,7 +29,13 @@ interface LogInOneTimePasswordParams {
 
 export interface LoginUserType {
   AccessToken: string;
-  GrantId: string;
+  RefreshToken: string;
+  IdToken: string;
+  TokenType: string;
+}
+
+export interface SigninType {
+  AccessToken: string;
   ExpiresIn: number;
   TokenType: string;
   MobileNumber: string;

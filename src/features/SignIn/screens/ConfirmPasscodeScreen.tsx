@@ -6,6 +6,7 @@ import { StyleSheet, View } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import { ErrorFilledCircleIcon } from "@/assets/icons";
+import Button from "@/components/Button";
 import LoadingIndicatorModal from "@/components/LoadingIndicatorModal";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -61,7 +62,8 @@ export default function ConfirmPasscodeScreen() {
   const handleSuccessModal = () => {
     setIsPasscodeCreated(true);
     setShowSuccessModal(false);
-    if (isAuthenticated) navigation.navigate("Settings.AccountSettings");
+
+    if (isAuthenticated) navigation.navigate("Settings.CustomerAccountManagementScreen");
     else navigation.navigate("SignIn.Passcode");
   };
 
@@ -111,8 +113,10 @@ export default function ConfirmPasscodeScreen() {
             ? t("SignIn.ConfirmPasscodeScreen.createPasscodeModalTitle")
             : t("SignIn.ConfirmPasscodeScreen.updatePasscodeModalTitle")
         }
-        onClose={handleSuccessModal}
         variant="success"
+        buttons={{
+          primary: <Button onPress={handleSuccessModal}>{t("Statements.RequestStatementScreen.goBack")}</Button>,
+        }}
       />
     </Page>
   );
