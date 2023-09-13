@@ -78,13 +78,11 @@ export function convertDataToChartDataset(
       };
     case IntervalTypes.LAST_SIX_MONTH:
     default: {
-      const chartData: SingleBarChart[] = data.Months.map(item => {
-        return { interval: item.Month, value: item.Amount };
-      });
-      return {
-        total: data.Total,
-        chartData: chartData.reverse(),
-      };
+      const chartData: SingleBarChart[] =
+        data.Months && Array.isArray(data.Months)
+          ? data.Months.map(item => ({ interval: item.Month, value: item.Amount })).reverse()
+          : [];
+      return { total: data.Total, chartData };
     }
   }
 }
