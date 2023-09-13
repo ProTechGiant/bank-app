@@ -82,7 +82,8 @@ export default function TopSpendingCategories({ accountId }: TopSpendingCategori
             <RefreshSection hint={t("Home.RefreshSection.hintForSpendingSection")} onRefreshPress={refetch} />
           </View>
         ) : includedTopCategories && includedTopCategories.length > 0 ? (
-          includedTopCategories.map(topCategoryItem => {
+          //I added slice(0, 3) to disply data from first three top categories only that came from api
+          includedTopCategories.slice(0, 3).map(topCategoryItem => {
             const apiPercentageNumber = parseFloat(topCategoryItem.percentage.replace("%", ""));
             const formattedPercentage = `${apiPercentageNumber.toFixed(2)}%`;
             return (
