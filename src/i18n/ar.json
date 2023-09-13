@@ -1275,10 +1275,10 @@
       "accountNumber": "Account number",
       "accountName": "Account name",
       "upgradeToCroatiaPlus": {
-        "breadcrumb": "Ultimate Experience",
         "header": "Croatia Plus",
-        "content": "Upgrade your tier to get an exclusive card and enjoy priority support and other premium benefits.",
-        "button": "Explore Plus tier"
+        "subTitle": "٦٥ ريال سعودي / بالشهر",
+        "content": "ترقية حسابك",
+        "button": "اكتشف"
       },
       "copyClipboard": "Card number copied to clipboard.",
       "errorCopyClipboard": "Couldn’t copy card number - try again.",

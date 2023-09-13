@@ -2,7 +2,7 @@ import Svg, { G, Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export default function DiamondIcon({ width = 19, height = 19, color = "#00A0CC" }: IconProps) {
+export function DiamondIcon({ width = 19, height = 19, color = "#00A0CC" }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
       <G id="diamond">

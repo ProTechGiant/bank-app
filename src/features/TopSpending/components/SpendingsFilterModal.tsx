@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { TextStyle, View, ViewStyle } from "react-native";
 import { MarkedDates } from "react-native-calendars/src/types";
 
+import { DiamondIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import CustomCalendar from "@/components/CustomCalendar";
 import Modal from "@/components/Modal";
@@ -11,7 +12,6 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { palette, radii } from "@/theme/values";
 
-import DiamondIcon from "../assets/icons/DiamondIcon";
 import { userType } from "../mocks";
 import { CompareDatesTypes } from "../types";
 import CompareModel from "./CompareModal";

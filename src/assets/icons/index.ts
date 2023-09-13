@@ -32,6 +32,7 @@ export * from "./CloseIcon";
 export * from "./ContactSupportIcon";
 export * from "./CopyIcon";
 export * from "./DeleteIcon";
+export * from "./DiamondIcon";
 export * from "./DisabledPlusCircleIcon";
 export * from "./EditBorderedIcon";
 export * from "./EditIcon";
@@ -129,6 +130,7 @@ export * from "./UserIcon";
 export * from "./WalletIcon";
 export * from "./WarningFilledCircleIcon";
 export * from "./WithdrawIcon";
+
 export interface IconProps {
   color?: ColorValue;
   height?: number | string;

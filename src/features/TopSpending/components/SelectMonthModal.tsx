@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Pressable, TextStyle, View, ViewStyle } from "react-native";
 
+import { DiamondIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import SetMonthRowCard from "@/components/SetMonthRowCard";
@@ -11,7 +12,6 @@ import Typography from "@/components/Typography";
 import useAccount from "@/hooks/use-account";
 import { useThemeStyles } from "@/theme";
 
-import DiamondIcon from "../assets/icons/DiamondIcon";
 import { UserTypes } from "../enum";
 import { PlusTierDateTypes } from "../types";
 import DateSelectorForPlusTier from "./DateSelectorForPlusTier";
