@@ -12,6 +12,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { useCategories } from "../hooks/query-hooks";
+import RefreshSection from "./RefreshSection";
 import TopCategoryItem from "./TopCategoryItem";
 
 interface TopSpendingCategoriesProps {
@@ -24,12 +25,14 @@ export default function TopSpendingCategories({ accountId }: TopSpendingCategori
 
   const currentMonthName = isRTL ? format(new Date(), "MMMM", { locale: arLocale }) : format(new Date(), "MMMM");
 
-  const { includedTopCategories, total } = useCategories(accountId);
+  const { includedTopCategories, total, isError, refetch } = useCategories(accountId);
+
   const handleOnPress = () => {
     navigation.navigate("TopSpending.TopSpendingStack", {
       screen: "TopSpending.TopSpendingScreen",
     });
   };
+
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: 0,
     paddingVertical: 0,
@@ -37,21 +40,25 @@ export default function TopSpendingCategories({ accountId }: TopSpendingCategori
     borderColor: theme.palette["neutralBase-30"],
     borderRadius: theme.radii.small,
   }));
+
   const currectSpendingStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
     paddingTop: theme.spacing["16p"],
     paddingBottom: theme.spacing["12p"],
   }));
+
   const topCategoriesStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
     paddingTop: theme.spacing["12p"],
     paddingBottom: theme.spacing["24p"],
   }));
+
   const viewAllContainer = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
     paddingVertical: theme.spacing["12p"],
     width: "70%",
   }));
+
   return (
     <ContentContainer style={contentStyle}>
       <Stack direction="vertical" gap="4p" style={currectSpendingStyle}>
@@ -62,6 +69,7 @@ export default function TopSpendingCategories({ accountId }: TopSpendingCategori
           {total} {t("Home.TopSpendingCategories.SAR")}
         </Typography.Text>
       </Stack>
+
       <Divider height={4} color="neutralBase-40" />
       <Stack direction="vertical" gap="12p" style={topCategoriesStyle}>
         {includedTopCategories && includedTopCategories.length > 0 ? (
@@ -69,7 +77,11 @@ export default function TopSpendingCategories({ accountId }: TopSpendingCategori
             {t("Home.TopSpendingCategories.topCategories")}
           </Typography.Text>
         ) : null}
-        {includedTopCategories && includedTopCategories.length > 0 ? (
+        {isError ? (
+          <View style={styles.refreshContainerStyle}>
+            <RefreshSection hint={t("Home.RefreshSection.hintForSpendingSection")} onRefreshPress={refetch} />
+          </View>
+        ) : includedTopCategories && includedTopCategories.length > 0 ? (
           includedTopCategories.map(topCategoryItem => {
             const apiPercentageNumber = parseFloat(topCategoryItem.percentage.replace("%", ""));
             const formattedPercentage = `${apiPercentageNumber.toFixed(2)}%`;
@@ -100,6 +112,7 @@ export default function TopSpendingCategories({ accountId }: TopSpendingCategori
           </Stack>
         )}
       </Stack>
+
       {includedTopCategories && includedTopCategories.length > 0 ? (
         <View style={viewAllContainer}>
           <Button size="small" onPress={handleOnPress}>
@@ -120,4 +133,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
   },
+  refreshContainerStyle: { width: "100%" },
 });

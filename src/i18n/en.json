@@ -1129,7 +1129,8 @@
       "successModalButton": "Back to Home"
     },
     "RefreshSection": {
-      "refreshButton": "Refresh"
+      "refreshButton": "Refresh",
+      "hintForSpendingSection": "Couldn’t load Spending Insights"
     },
     "TopSpendingCategories": {
       "currentSpending": "Current spending in",

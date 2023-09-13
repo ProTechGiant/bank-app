@@ -140,7 +140,11 @@ export function useActionDismiss() {
 export function useCategories(accountId: string) {
   const { fromDate, toDate } = getMonthDates();
   const { i18n } = useTranslation();
-  const categories = useQuery(
+  const {
+    data: categories,
+    isError,
+    refetch,
+  } = useQuery(
     ["topCategories", { fromDate: fromDate, toDate: toDate }],
     () =>
       api<TopSpendingCategoriesResponse>(
@@ -150,7 +154,6 @@ export function useCategories(accountId: string) {
         {
           PageSize: 3, // pageSize = 3 because we need only 3 top categories
           PageNumber: 0,
-          //TODO: Below hard coded dates should be removed later
           fromDate: fromDate,
           toDate: toDate,
         },
@@ -165,10 +168,10 @@ export function useCategories(accountId: string) {
       staleTime: 10000,
     }
   );
-  const total = categories.data?.categories.total;
-  const includedTopCategories = categories.data?.categories.includedCategories;
+  const total = categories?.categories.total;
+  const includedTopCategories = categories?.categories.includedCategories;
 
-  return { includedTopCategories, total };
+  return { includedTopCategories, total, isError, refetch };
 }
 
 export function useAppreciationFeedback() {
