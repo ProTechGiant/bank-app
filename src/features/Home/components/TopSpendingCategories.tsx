@@ -16,16 +16,17 @@ import RefreshSection from "./RefreshSection";
 import TopCategoryItem from "./TopCategoryItem";
 
 interface TopSpendingCategoriesProps {
-  accountId: string;
+  account: any;
 }
-export default function TopSpendingCategories({ accountId }: TopSpendingCategoriesProps) {
+
+export default function TopSpendingCategories({ account }: TopSpendingCategoriesProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const isRTL = I18nManager.isRTL;
 
   const currentMonthName = isRTL ? format(new Date(), "MMMM", { locale: arLocale }) : format(new Date(), "MMMM");
 
-  const { includedTopCategories, total, isError, refetch } = useCategories(accountId);
+  const { includedTopCategories, total, isError, refetch } = useCategories(account.data?.id);
 
   const handleOnPress = () => {
     navigation.navigate("TopSpending.TopSpendingStack", {
@@ -77,7 +78,7 @@ export default function TopSpendingCategories({ accountId }: TopSpendingCategori
             {t("Home.TopSpendingCategories.topCategories")}
           </Typography.Text>
         ) : null}
-        {isError ? (
+        {account.data?.id === undefined || isError ? (
           <View style={styles.refreshContainerStyle}>
             <RefreshSection hint={t("Home.RefreshSection.hintForSpendingSection")} onRefreshPress={refetch} />
           </View>
@@ -98,7 +99,7 @@ export default function TopSpendingCategories({ accountId }: TopSpendingCategori
               />
             );
           })
-        ) : (
+        ) : includedTopCategories && includedTopCategories.length === 0 ? (
           <Stack direction="vertical">
             <View style={styles.notSpendingContainerStyle}>
               <Typography.Text align="center" color="neutralBase+30" size="callout" weight="medium">
@@ -111,7 +112,7 @@ export default function TopSpendingCategories({ accountId }: TopSpendingCategori
               </Typography.Text>
             </View>
           </Stack>
-        )}
+        ) : null}
       </Stack>
 
       {includedTopCategories && includedTopCategories.length > 0 ? (

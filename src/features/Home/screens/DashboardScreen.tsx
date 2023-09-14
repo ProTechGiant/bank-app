@@ -185,7 +185,6 @@ export default function DashboardScreen() {
                   }
                   return <Fragment key={section.type} />;
                 })}
-                {account.data?.id ? <TopSpendingCategories accountId={account.data.id} /> : null}
               </>
             ) : layoutErrorIsVisible === true ? (
               <LoadingErrorNotification
@@ -195,6 +194,10 @@ export default function DashboardScreen() {
               />
             ) : null}
           </Stack>
+          
+          {/* TODO: When the API is ready  */}
+          <TopSpendingCategories account={account} />
+          
           {/* TODO: When the API is ready  */}
           <CardSection
             isReferFriend={false}
