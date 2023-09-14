@@ -6,6 +6,7 @@ import ChangePasscodeScreen from "./screens/ChangePasscodeScreen";
 import ConfirmPasscodeScreen from "./screens/ConfirmPasscodeScreen";
 import CreatePasscodeScreen from "./screens/CreatePasscodeScreen";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
+import NafathAuthScreen from "./screens/NafathAuthScreen";
 
 export type SignInStackParams = {
   "SignIn.Iqama": undefined;
@@ -23,6 +24,7 @@ export type SignInStackParams = {
   "SignIn.CreatePasscode": undefined;
   "SignIn.ConfirmPasscode": { passCode: string };
   "SignIn.Biometric": undefined;
+  "SignIn.NafathAuthScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<SignInStackParams>();
@@ -42,6 +44,7 @@ export default function SignInStack() {
         <Stack.Screen component={CreatePasscodeScreen} name="SignIn.CreatePasscode" />
         <Stack.Screen component={ConfirmPasscodeScreen} name="SignIn.ConfirmPasscode" />
         <Stack.Screen component={BiometricScreen} name="SignIn.Biometric" />
+        <Stack.Screen component={NafathAuthScreen} name="SignIn.NafathAuthScreen" />
       </Stack.Navigator>
     </SignInContextProvider>
   );

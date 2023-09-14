@@ -10,3 +10,8 @@ export const USER_ID = "1000002357"; // // TODO: Replace hardcoded USER_ID with 
 
 export const ALRAJHI_BANK_CODE = "080"; //bankCode for al rajhi bank
 export const OTP_BLOCKED_TIME = 30;
+
+export const NAFATH_ANDROID_URL = "https://play.google.com/store/apps/details?id=sa.gov.nic.myid&hl=en&gl=US";
+export const NAFATH_APPLE_URL = "itms-apps://apps.apple.com/id/app/halojasa/id1598909871?l=id";
+export const NAFATH_DEEPLINK_IOS = "nafath://home";
+export const NAFATH_DEEPLINK_ANDROID = "nic://nafath";

@@ -28,6 +28,26 @@
       "buttonText": "Set"
     }
   },
+  "NafathAuthScreen": {
+    "navHeaderTitle": "Authentication",
+    "modalLink": "افتح تطبيق 'نفاذ'",
+    "modalLoad": "Loading...",
+    "modalBody": "تذكرهذا الرقم لأنك ستحتاجه بعملية التوثيق بعد قليل.",
+    "title": "Authentication by Nafath",
+    "subTitle": "Nafath enables Croatia to verify your identity.",
+    "appButtonTitle": "Nafath app ",
+    "appButtonSubtitle": "Your fastest experience",
+    "appButtonBody": "Select this option for a quick ID authentication",
+    "siteButtonTitle": "Nafath site",
+    "siteButtonBody": "You will be taken from this app to the Nafath site",
+    "dropdownTitle": "Why do I have to use Nafath?",
+    "dropdownBody": "Nafath enables Croatia to verify your identity",
+    "alertModelTitle": "App is not installed",
+    "alertModelMessage": "You are trying to open an app that's currently not installed",
+    "alertModelCancelButton": "Cancel",
+    "alertModelAppStoreButton": "App Store",
+    "alertModelPlayStoreButton": "Google Play"
+  },
   "PreviewPDF": {
     "nothingToShowText": "لا يوجد شيء للعرض",
     "exportAsPDF": "تصدير كملف PDF",
@@ -153,26 +173,6 @@
           "signIn": "sign in now"
         }
       }
-    },
-    "NafathAuthScreen": {
-      "navHeaderTitle": "Authentication",
-      "modalLink": "افتح تطبيق 'نفاذ'",
-      "modalLoad": "Loading...",
-      "modalBody": "تذكرهذا الرقم لأنك ستحتاجه بعملية التوثيق بعد قليل.",
-      "title": "Authentication by Nafath",
-      "subTitle": "Nafath enables Croatia to verify your identity.",
-      "appButtonTitle": "Nafath app ",
-      "appButtonSubtitle": "Your fastest experience",
-      "appButtonBody": "Select this option for a quick ID authentication",
-      "siteButtonTitle": "Nafath site",
-      "siteButtonBody": "You will be taken from this app to the Nafath site",
-      "dropdownTitle": "Why do I have to use Nafath?",
-      "dropdownBody": "Nafath enables Croatia to verify your identity",
-      "alertModelTitle": "App is not installed",
-      "alertModelMessage": "You are trying to open an app that's currently not installed",
-      "alertModelCancelButton": "Cancel",
-      "alertModelAppStoreButton": "App Store",
-      "alertModelPlayStoreButton": "Google Play"
     },
     "ConfirmPersonalDetailsScreen": {
       "navHeaderTitle": "CONFIRM",

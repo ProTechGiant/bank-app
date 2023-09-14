@@ -20,6 +20,26 @@
     "currentlyOnDay_few": "On {{count}}rd",
     "currentlyOnDay_other": "On {{count}}th"
   },
+  "NafathAuthScreen": {
+    "navHeaderTitle": "Authentication",
+    "modalLink": "Open in Nafath App",
+    "modalLoad": "Loading...",
+    "modalBody": "Make a note of this number as you will be asked for it shortly",
+    "title": "Authentication by Nafath",
+    "subTitle": "Nafath enables Croatia to verify your identity.",
+    "appButtonTitle": "Nafath app ",
+    "appButtonSubtitle": "Your fastest experience",
+    "appButtonBody": "Select this option for a quick ID authentication",
+    "siteButtonTitle": "Nafath site",
+    "siteButtonBody": "You will be taken from this app to the Nafath site",
+    "dropdownTitle": "Why do I have to use Nafath?",
+    "dropdownBody": "Nafath enables Croatia to verify your identity",
+    "alertModelTitle": "App is not installed",
+    "alertModelMessage": "You are trying to open an app that's currently not installed",
+    "alertModelCancelButton": "Cancel",
+    "alertModelAppStoreButton": "App Store",
+    "alertModelPlayStoreButton": "Google Play"
+  },
   "AssetInput": {
     "label": "Upload photo or document",
     "buttons": {
@@ -143,26 +163,6 @@
       "continue": "Continue",
       "subtext": "Already with us? ",
       "signIn": "Sign in"
-    },
-    "NafathAuthScreen": {
-      "navHeaderTitle": "Authentication",
-      "modalLink": "Open in Nafath App",
-      "modalLoad": "Loading...",
-      "modalBody": "Make a note of this number as you will be asked for it shortly",
-      "title": "Authentication by Nafath",
-      "subTitle": "Nafath enables Croatia to verify your identity.",
-      "appButtonTitle": "Nafath app ",
-      "appButtonSubtitle": "Your fastest experience",
-      "appButtonBody": "Select this option for a quick ID authentication",
-      "siteButtonTitle": "Nafath site",
-      "siteButtonBody": "You will be taken from this app to the Nafath site",
-      "dropdownTitle": "Why do I have to use Nafath?",
-      "dropdownBody": "Nafath enables Croatia to verify your identity",
-      "alertModelTitle": "App is not installed",
-      "alertModelMessage": "You are trying to open an app that's currently not installed",
-      "alertModelCancelButton": "Cancel",
-      "alertModelAppStoreButton": "App Store",
-      "alertModelPlayStoreButton": "Google Play"
     },
     "ConfirmPersonalDetailsScreen": {
       "navHeaderTitle": "CONFIRM",

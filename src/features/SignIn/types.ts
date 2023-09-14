@@ -53,6 +53,11 @@ export interface RegistrationInputs {
   Language: string;
 }
 
+export interface RequestNumberResponseType {
+  Header: { StatusCode: string; RequestID: string; StatusDescription: string };
+  Body: { transId: string; random: string };
+}
+
 export interface RegistrationResponse {
   Status: boolean;
 }

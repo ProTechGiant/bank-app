@@ -23,7 +23,7 @@ export default function IqamaInputScreen() {
   const { mutateAsync, error, reset } = useCheckUser();
   const iqamaError = error as ApiError;
   const { errorMessages } = useErrorMessages(iqamaError);
-  const { setSignInCorrelationId, setIsPasscodeCreated } = useSignInContext();
+  const { setSignInCorrelationId } = useSignInContext();
 
   useEffect(() => {
     const _correlationId = generateRandomId();
@@ -48,12 +48,8 @@ export default function IqamaInputScreen() {
   const handleOnSubmit = async (values: IqamaInputs) => {
     try {
       const { NationalId } = values;
-      const response = await mutateAsync({ NationalId });
-      if (response.HasPasscode) navigation.navigate("SignIn.Passcode");
-      else {
-        setIsPasscodeCreated(false);
-        navigation.navigate("SignIn.CreatePasscode");
-      }
+      await mutateAsync({ NationalId });
+      navigation.navigate("SignIn.Passcode");
     } catch (err) {
       warn("signIn", "Could not process iqama input. Error: ", JSON.stringify(err));
     }

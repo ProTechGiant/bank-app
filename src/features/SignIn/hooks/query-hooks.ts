@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
 import DeviceInfo from "react-native-device-info";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import sendApiRequest from "@/api";
+import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 
 import { useSignInContext } from "../contexts/SignInContext";
@@ -12,10 +13,14 @@ import {
   LogInOtpChallengeParams,
   LoginUserType,
   RegistrationResponse,
+  RequestNumberResponseType,
   SigninType,
   ValidateDeviceType,
 } from "../types";
 
+const queryKeys = {
+  all: () => ["data"],
+};
 export function useCheckUser() {
   const { correlationId } = useSignInContext();
   return useMutation(({ NationalId }: { NationalId: string }) => {
@@ -80,6 +85,51 @@ export function useValidateDevice() {
         ["x-device-id"]: "9898989", //TODO: for testing we are using this device id, will revert when done from BE side
       }
     );
+  });
+}
+
+export function useRequestNumber() {
+  const { correlationId, setTransactionId, nationalId } = useSignInContext();
+  const { i18n } = useTranslation();
+
+  if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+  return useMutation(
+    async () => {
+      return api<RequestNumberResponseType>(
+        "v1",
+        "customers/nafath/get-transaction-id",
+        "POST",
+        undefined,
+        {},
+        {
+          ["x-correlation-id"]: correlationId,
+          ["Accept-Language"]: i18n.language.toUpperCase(),
+          ["deviceId"]: DeviceInfo.getDeviceId(),
+          ["IDNumber"]: nationalId || "",
+        }
+      );
+    },
+    {
+      onSuccess(data) {
+        const transValue = data.Body.transId;
+        setTransactionId(transValue);
+      },
+    }
+  );
+}
+
+export function useGetCustomerDetails() {
+  const { correlationId } = useSignInContext();
+  const { i18n } = useTranslation();
+
+  if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+  return useQuery(queryKeys.all(), () => {
+    return api<{ OnboardingDate: string }>("v1", "customers/nafath/cust-info", "GET", undefined, undefined, {
+      ["x-correlation-id"]: correlationId,
+      ["Accept-Language"]: i18n.language.toUpperCase(),
+    });
   });
 }
 

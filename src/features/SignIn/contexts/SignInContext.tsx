@@ -9,6 +9,8 @@ function noop() {
 
 interface SignInContextState {
   setNationalId: (value: string) => void;
+  setTransactionId: (value: string) => void;
+  transactionId: string | undefined;
   nationalId: string | undefined;
   mobileNumber: string | undefined;
   setSignInCorrelationId: (value: string) => void;
@@ -30,11 +32,13 @@ const SignInContext = createContext<SignInContextState>({
   correlationId: SIGNIN_CORRELATION_ID,
   setCurrentTask: noop,
   currentTask: undefined,
+  transactionId: undefined,
   startSignInAsync: () => Promise.reject(),
   fetchLatestWorkflowTask: () => Promise.reject(),
   revertWorkflowTask: () => Promise.reject(),
   isPasscodeCreated: true,
   setIsPasscodeCreated: noop,
+  setTransactionId: noop,
 });
 
 function SignInContextProvider({ children }: { children: React.ReactNode }) {
@@ -43,12 +47,13 @@ function SignInContextProvider({ children }: { children: React.ReactNode }) {
   const SignInRevertTaskAsync = useSignInRevertTask();
 
   const [state, setState] = useState<
-    Pick<SignInContextState, "nationalId" | "correlationId" | "currentTask" | "isPasscodeCreated">
+    Pick<SignInContextState, "nationalId" | "correlationId" | "currentTask" | "isPasscodeCreated" | "transactionId">
   >({
     nationalId: undefined,
     correlationId: undefined,
     currentTask: undefined,
     isPasscodeCreated: true,
+    transactionId: undefined,
   });
 
   const setNationalId = (nationalId: string) => {
@@ -75,6 +80,10 @@ function SignInContextProvider({ children }: { children: React.ReactNode }) {
     const _currentTask = response.Tasks?.[0] ?? undefined;
     setCurrentTask(_currentTask);
     return _currentTask;
+  };
+
+  const setTransactionId = (transactionId: string) => {
+    setState({ ...state, transactionId });
   };
 
   const revertWorkflowTask = async (WorkflowTask: { Id: string; Name: string }) => {
@@ -112,6 +121,7 @@ function SignInContextProvider({ children }: { children: React.ReactNode }) {
           fetchLatestWorkflowTask,
           revertWorkflowTask,
           setIsPasscodeCreated,
+          setTransactionId,
         }),
         [state]
       )}>
