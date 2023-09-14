@@ -20,14 +20,20 @@ import { ErrorMessageType, IqamaInputs } from "../types";
 
 interface MobileAndNationalIdFormProps {
   onSubmit: (values: IqamaInputs) => Promise<void>;
-  onSignInPress: () => void;
+  onSignInPress?: () => void;
   errorMessages: ErrorMessageType[];
+  title: string;
+  subTitle: string;
+  buttonText: string;
 }
 
 export default function MobileAndNationalIdForm({
   onSubmit,
   onSignInPress,
   errorMessages,
+  title,
+  subTitle,
+  buttonText,
 }: MobileAndNationalIdFormProps) {
   const { t } = useTranslation();
 
@@ -41,6 +47,7 @@ export default function MobileAndNationalIdForm({
       .min(10, t("SignIn.IqamaInputScreen.validationErrors.iqamaId.exactLength"))
       .max(10, t("SignIn.IqamaInputScreen.validationErrors.iqamaId.exactLength")),
   });
+
   const { control, handleSubmit } = useForm<IqamaInputs>({
     resolver: yupResolver(iqamaValidationSchema),
     mode: "onBlur",
@@ -58,12 +65,6 @@ export default function MobileAndNationalIdForm({
     marginBottom: theme.spacing["16p"],
   }));
 
-  const accountSignInStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignSelf: "center",
-    flexDirection: "row",
-    marginVertical: theme.spacing["20p"],
-  }));
-
   const submitButtonView = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
   }));
@@ -72,11 +73,11 @@ export default function MobileAndNationalIdForm({
     <>
       <ContentContainer isScrollView style={styles.containerStyle}>
         <View style={headerViewStyle}>
-          <Typography.Text size="title1" weight="bold" style={headerTitleStyle}>
-            {t("SignIn.IqamaInputScreen.title")}
+          <Typography.Text size="title1" weight="medium" style={headerTitleStyle}>
+            {title}
           </Typography.Text>
           <Typography.Text size="callout" weight="regular">
-            {t("SignIn.IqamaInputScreen.subTitle")}
+            {subTitle}
           </Typography.Text>
         </View>
         <View>
@@ -122,18 +123,8 @@ export default function MobileAndNationalIdForm({
       </ContentContainer>
       <View style={submitButtonView}>
         <SubmitButton block control={control} onSubmit={handleSubmit(onSubmit)}>
-          {t("SignIn.IqamaInputScreen.continue")}
+          {buttonText}
         </SubmitButton>
-        <View style={accountSignInStyle}>
-          <Typography.Text size="body" weight="regular">
-            {t("SignIn.IqamaInputScreen.subtext")}
-          </Typography.Text>
-          <Pressable onPress={onSignInPress}>
-            <Typography.Text size="body" weight="medium" color="primaryBase">
-              {t("SignIn.IqamaInputScreen.signUp")}
-            </Typography.Text>
-          </Pressable>
-        </View>
       </View>
     </>
   );

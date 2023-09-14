@@ -1,4 +1,5 @@
 export { default as BiometricScreen } from "./BiometricScreen";
+export { default as CardPinScreen } from "./CardPinScreen";
 export { default as ChangePasscodeScreen } from "./ChangePasscodeScreen";
 export { default as ConfirmPasscodeScreen } from "./ConfirmPasscodeScreen";
 export { default as CreatePasscodeScreen } from "./CreatePasscodeScreen";

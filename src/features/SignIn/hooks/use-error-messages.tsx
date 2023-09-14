@@ -46,18 +46,18 @@ export function useErrorMessages(err: ApiError) {
       },
       // Below error codes is for validate pin api in forget password screen
       "0030": {
-        message: t("SignIn.ForgotPasscodeScreen.twoAttemptsLeft"),
+        message: t("SignIn.CardPinScreen.twoAttemptsLeft"),
         icon: <InfoFilledCircleIcon />,
-        variant: "default",
+        variant: "error",
       },
       "0031": {
-        message: t("SignIn.ForgotPasscodeScreen.oneAttemptLeft"),
+        message: t("SignIn.CardPinScreen.oneAttemptLeft"),
         icon: <InfoFilledCircleIcon />,
-        variant: "default",
+        variant: "error",
       },
       "0032": {
-        modalMessage: t("SignIn.ForgotPasscodeScreen.errorMessage"),
-        title: t("SignIn.ForgotPasscodeScreen.errorTitle"),
+        modalMessage: t("SignIn.CardPinScreen.errorMessage"),
+        title: t("SignIn.CardPinScreen.errorTitle"),
       },
       default: {
         message: t("SignIn.IqamaInputScreen.errorText.noAccount"),

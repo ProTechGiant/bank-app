@@ -6,6 +6,7 @@ import sendApiRequest from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 
 import { useSignInContext } from "../contexts/SignInContext";
+import { getMockData } from "../mock";
 import {
   CheckUserStatusResponse,
   LogInOtpChallengeParams,
@@ -109,18 +110,22 @@ export function useValidatePincode() {
   return useMutation(async (pinCode: string) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-    return sendApiRequest<{ Status: boolean }>(
+    return getMockData(pinCode); //TODO: MockData Function will be replaced by commented out API
+    /*  return sendApiRequest<{ Status: boolean }>(
       "v1",
-      "customers/validate-pin",
+      "customers/card-pin-verify",
       "POST",
       undefined,
       {
-        CardPin: pinCode,
+        PIN: pinCode,
       },
       {
         ["x-correlation-id"]: correlationId,
+        ["DeviceId"]: DeviceInfo.getDeviceId(),
+        ["DeviceName"]: await DeviceInfo.getDeviceName(),
+        ["Authorization"]: generateRandomId(),
       }
-    );
+    ); */
   });
 }
 

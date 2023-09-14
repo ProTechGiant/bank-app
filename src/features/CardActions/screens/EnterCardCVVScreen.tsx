@@ -12,13 +12,13 @@ import Page from "@/components/Page";
 import PincodeInput from "@/components/PincodeInput";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import encryptValue from "@/utils/encrypt-value";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
-import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
 import { CardActionsStackParams } from "../CardActionsStack";
 import ViewCVVModel from "../components/ViewCVVModel";
 import { useChangeCardStatus, useVerifyCVV } from "../hooks/query-hooks";

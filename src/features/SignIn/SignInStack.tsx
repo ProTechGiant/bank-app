@@ -1,7 +1,7 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { SignInContextProvider } from "./contexts/SignInContext";
-import { BiometricScreen, IqamaInputScreen, PasscodeScreen, UserBlockedScreen } from "./screens";
+import { BiometricScreen, CardPinScreen, IqamaInputScreen, PasscodeScreen, UserBlockedScreen } from "./screens";
 import ChangePasscodeScreen from "./screens/ChangePasscodeScreen";
 import ConfirmPasscodeScreen from "./screens/ConfirmPasscodeScreen";
 import CreatePasscodeScreen from "./screens/CreatePasscodeScreen";
@@ -18,6 +18,7 @@ export type SignInStackParams = {
   };
   "SignIn.OtpScreen": undefined;
   "SignIn.ForgotPassword": undefined;
+  "SignIn.CardPin": undefined;
   "SignIn.ChangePasscode": undefined;
   "SignIn.CreatePasscode": undefined;
   "SignIn.ConfirmPasscode": { passCode: string };
@@ -25,6 +26,8 @@ export type SignInStackParams = {
 };
 
 export const Stack = createNativeStackNavigator<SignInStackParams>();
+
+export type SignInStackParamsNavigationProp = NativeStackNavigationProp<SignInStackParams>;
 
 export default function SignInStack() {
   return (
@@ -34,6 +37,7 @@ export default function SignInStack() {
         <Stack.Screen component={PasscodeScreen} name="SignIn.Passcode" />
         <Stack.Screen component={UserBlockedScreen} name="SignIn.UserBlocked" />
         <Stack.Screen component={ForgotPasswordScreen} name="SignIn.ForgotPassword" />
+        <Stack.Screen component={CardPinScreen} name="SignIn.CardPin" />
         <Stack.Screen component={ChangePasscodeScreen} name="SignIn.ChangePasscode" />
         <Stack.Screen component={CreatePasscodeScreen} name="SignIn.CreatePasscode" />
         <Stack.Screen component={ConfirmPasscodeScreen} name="SignIn.ConfirmPasscode" />

@@ -12,13 +12,13 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useToasts } from "@/contexts/ToastsContext";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 
-import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
 import { ListItemLink, ListSection, SettingsToggle } from "../components";
 import { useCard, useCardSettings, useUpdateCardSettings } from "../hooks/query-hooks";
 import { CardSettingsInput } from "../types";

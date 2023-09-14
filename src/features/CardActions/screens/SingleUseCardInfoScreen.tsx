@@ -4,10 +4,10 @@ import { useTranslation } from "react-i18next";
 import HeroSlider from "@/components/HeroSlider";
 import NotificationModal from "@/components/NotificationModal";
 import { SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useNavigation from "@/navigation/use-navigation";
 import delayTransition from "@/utils/delay-transition";
 
-import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
 import PlaceholderCardSvg from "../assets/placeholder-card.svg";
 import { useSubmitOrderCard } from "../hooks/query-hooks";
 import { CardCreateResponse } from "../types";

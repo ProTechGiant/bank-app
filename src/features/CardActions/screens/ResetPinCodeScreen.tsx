@@ -12,6 +12,7 @@ import Page from "@/components/Page";
 import PincodeInput from "@/components/PincodeInput";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -19,7 +20,6 @@ import encryptValue from "@/utils/encrypt-value";
 import { isValidPincode } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
-import { useOtpFlow } from "../../OneTimePassword/hooks/query-hooks";
 import { useResetPincode } from "../hooks/query-hooks";
 
 export default function ResetPinCodeScreen() {

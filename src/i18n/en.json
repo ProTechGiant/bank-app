@@ -889,15 +889,22 @@
       "subTitle": "Enter the 6-number passcode you’ll use to log in to Croatia.",
       "notification": "Choose something harder to guess, without consecutive or repeated numbers."
     },
-    "ForgotPasscodeScreen": {
+    "CardPinScreen": {
       "errorTitle": "Try again later",
-      "title": "Enter Your card PIN",
-      "subTitle": "Enter you card PIN to authenticate. ",
+      "title": "Enter your debit card PIN",
+      "subTitle": "Enter you debit card PIN to authenticate.",
+      "forgotCardPin": "Forgot your card PIN?",
       "notification": "That passcode wasn't right. You have {{attempts}} attempts left.",
       "errorMessage": "You’ve entered the wrong PIN too many times. Please wait 30 min and try again.",
       "needHelpInfo": "If you need help, you can call us on\n+966 123 456 789.",
       "twoAttemptsLeft": "That PIN wasn't right. You have 2 attempts left.",
       "oneAttemptLeft": "That PIN wasn't right. You have 1 attempt left."
+    },
+    "ForgotPassword": {
+      "title": "Forgot your passcode?",
+      "subTitle": "No worries, we’ll send you the reset instructions.",
+      "submitButtonText": "Reset passcode",
+      "backToLoginButtonText": "Back to log in"
     },
     "ConfirmPasscodeScreen": {
       "title": "Confirm Passcode",

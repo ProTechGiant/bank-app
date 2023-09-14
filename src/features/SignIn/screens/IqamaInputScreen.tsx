@@ -1,11 +1,14 @@
 import { useEffect } from "react";
-import { KeyboardAvoidingView, ScrollView, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
+import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 
 import { MobileAndNationalIdForm } from "../components";
@@ -15,6 +18,7 @@ import { useCheckUser } from "../hooks/query-hooks";
 import { IqamaInputs } from "../types";
 
 export default function IqamaInputScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const { mutateAsync, error, reset } = useCheckUser();
   const iqamaError = error as ApiError;
@@ -55,6 +59,12 @@ export default function IqamaInputScreen() {
     }
   };
 
+  const accountSignInStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignSelf: "center",
+    flexDirection: "row",
+    marginVertical: theme.spacing["20p"],
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60">
       <KeyboardAvoidingView behavior="height" style={styles.component}>
@@ -64,7 +74,20 @@ export default function IqamaInputScreen() {
             onSubmit={handleOnSubmit}
             errorMessages={errorMessages}
             onSignInPress={handleOnSignUp}
+            title={t("SignIn.IqamaInputScreen.title")}
+            subTitle={t("SignIn.IqamaInputScreen.subTitle")}
+            buttonText={t("SignIn.IqamaInputScreen.continue")}
           />
+          <View style={accountSignInStyle}>
+            <Typography.Text size="body" weight="regular">
+              {t("SignIn.IqamaInputScreen.subtext")}
+            </Typography.Text>
+            <Pressable onPress={handleOnSignUp}>
+              <Typography.Text size="body" weight="medium" color="primaryBase">
+                {t("SignIn.IqamaInputScreen.signUp")}
+              </Typography.Text>
+            </Pressable>
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </Page>
