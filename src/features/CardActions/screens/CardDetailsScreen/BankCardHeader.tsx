@@ -64,6 +64,7 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress }: B
           cardType={card.CardType}
           productId={card.ProductId}
           isExpiringSoon={isCardExpiringSoon(card)}
+          label="Standard"
           actionButton={
             card.Status === "pending-activation" && isPhysicalCard(card) ? (
               <BankCard.ActionButton

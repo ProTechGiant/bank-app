@@ -42,19 +42,8 @@ export default function ActiveBankCard({
   const { t } = useTranslation();
 
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
-    paddingHorizontal: theme.spacing["12p"],
-    paddingTop: theme.spacing["12p"],
-    paddingBottom: 99,
+    padding: theme.spacing["20p"],
     ...StyleSheet.absoluteFillObject,
-  }));
-
-  const labelStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: "#00000014",
-    borderRadius: theme.radii.extraSmall,
-    borderWidth: 0,
-    paddingHorizontal: theme.spacing["12p"],
-    paddingVertical: theme.spacing["8p"],
   }));
 
   const dotStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -73,6 +62,12 @@ export default function ActiveBankCard({
     marginTop: theme.spacing["48p"],
   }));
 
+  const numberContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    position: "absolute",
+    bottom: theme.spacing["20p"],
+    left: theme.spacing["20p"],
+  }));
+
   return (
     <View style={styles.container}>
       {cardType === SINGLE_USE_CARD_TYPE ? (
@@ -85,11 +80,9 @@ export default function ActiveBankCard({
       <View style={[styles.container, contentStyles]}>
         <View style={styles.header}>
           {undefined !== label ? (
-            <View style={labelStyle}>
-              <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-                {label}
-              </Typography.Text>
-            </View>
+            <Typography.Text color="neutralBase-50" size="footnote" weight="medium">
+              {label}
+            </Typography.Text>
           ) : (
             <View />
           )}
@@ -102,16 +95,15 @@ export default function ActiveBankCard({
             </Typography.Text>
           </View>
         ) : null}
-        <View style={styles.numberContainer}>
+        <View style={numberContainerStyle}>
           <Stack align="center" direction="horizontal" gap="12p">
-            {times(3).map(dotSequenceIndex => (
-              <Stack direction="horizontal" key={dotSequenceIndex} gap="4p">
-                {times(4).map(currentDotIndex => (
-                  <View key={currentDotIndex} style={dotStyle} />
-                ))}
-              </Stack>
-            ))}
-            <Typography.Text color="neutralBase-50" size="callout">
+            <Stack direction="horizontal" gap="4p">
+              {times(4).map(currentDotIndex => (
+                <View key={currentDotIndex} style={dotStyle} />
+              ))}
+            </Stack>
+
+            <Typography.Text color="neutralBase-50" size="callout" weight="medium">
               {cardNumber}
             </Typography.Text>
           </Stack>
@@ -129,8 +121,8 @@ export default function ActiveBankCard({
   );
 }
 
-const CONTAINER_HEIGHT = 338;
-const CONTAINER_WIDTH = 224;
+const CONTAINER_HEIGHT = 205;
+const CONTAINER_WIDTH = 326;
 
 const TOP_END_BUTTON_WIDTH = 60;
 const PRESSABLE_TOP_AREA = 50;
@@ -149,10 +141,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-  },
-  numberContainer: {
-    bottom: 120,
-    position: "absolute",
   },
   pressableAreaBottom: {
     height: CONTAINER_HEIGHT - PRESSABLE_TOP_AREA,

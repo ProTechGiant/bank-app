@@ -17,12 +17,15 @@ export default function UpgradeToCroatiaPlus({ onPress }: UpgradeToCroatiaPlusPr
   const { t } = useTranslation();
 
   const croatiaPlusUpSellContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    margin: theme.spacing["16p"],
     paddingStart: theme.spacing["20p"],
     alignSelf: "center",
     borderRadius: theme.radii.small,
     borderWidth: 1,
     borderColor: theme.palette["neutralBase-30"],
+  }));
+
+  const croatiaPlusInfoContainerStyle = useThemeStyles(theme => ({
+    marginVertical: theme.spacing["20p"],
   }));
 
   const iconColor = useThemeStyles(theme => theme.palette.complimentBase);
@@ -33,8 +36,8 @@ export default function UpgradeToCroatiaPlus({ onPress }: UpgradeToCroatiaPlusPr
 
   return (
     <Stack direction="horizontal" style={croatiaPlusUpSellContainerStyle} justify="space-between" align="center">
-      <Stack direction="vertical" flex={1}>
-        <Stack direction="vertical" justify="space-around" flex={1} align="flex-start">
+      <Stack direction="vertical" flex={1} style={croatiaPlusInfoContainerStyle}>
+        <Stack direction="vertical" justify="space-between" flex={1} align="flex-start">
           <Typography.Text color="neutralBase+30" size="callout" weight="medium">
             <DiamondIcon color={iconColor} /> {t("CardActions.CardDetailsScreen.upgradeToCroatiaPlus.header")}
           </Typography.Text>

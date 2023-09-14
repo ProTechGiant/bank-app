@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AppState, NativeEventSubscription, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { AppState, NativeEventSubscription, Platform, View, ViewStyle } from "react-native";
 
 import { CardSettingsIcon, ReportIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
@@ -254,6 +254,11 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
     marginBottom: theme.spacing["20p"],
   }));
 
+  const upgradeContainer = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    marginTop: theme.spacing["16p"],
+  }));
+
   const walletButtonContainer = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["32p"],
   }));
@@ -324,8 +329,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         </ListSection>
         {card.ProductId === STANDARD_CARD_PRODUCT_ID && !isSingleUseCard(card) ? (
           <>
-            <View style={separatorStyle} />
-            <View style={styles.upgradeContainer}>
+            <View style={upgradeContainer}>
               <UpgradeToCroatiaPlus onPress={handleOnUpgradePress} />
             </View>
           </>
@@ -388,9 +392,3 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  upgradeContainer: {
-    alignItems: "center",
-  },
-});
