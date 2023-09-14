@@ -72,13 +72,6 @@
         "bankNameLabel": "Bank name",
         "bankName": "Croatia Bank"
       }
-    },
-    "QuickActionsReordererModal": {
-      "cancelButton": "CANCEL",
-      "title": "Your Shortcuts",
-      "saveButton": "SAVE",
-      "subtitle": "Select three shortcuts and deselect previous options before further modifications.",
-      "maxQuickActionsWarning": "Reached max limit of 3 shortcuts to choose!"
     }
   },
   "errors": {
@@ -1066,7 +1059,10 @@
         "button": "ادعو الآن"
       },
       "welcomeMessageLabel": "مرحباً",
-      "AppreciationSectionTitle": "التقديرات"
+      "yourShortcutsLabel": "اختصاراتك",
+      "editShortcutsButton": "تعديل",
+      "AppreciationSectionTitle": "التقديرات",
+      "QuickActionSectionRefreshSectionHint": "خطأ في تحميل الاختصارات"
     },
     "RateAppreciation": {
       "question": "What do yo think about this appreciation?",
@@ -1098,7 +1094,11 @@
       "topCategories": "أعلى الإنفاق",
       "viewAllSpending": "عرض جميع النفقات",
       "noSpending": "لاتوجد معلومات عن الإنفاق حتى الآن",
-      "noSpendingInformation": ".عندما تبدأ في إجراء عمليات الشراء ستظهر هنا فئات الإنفاق الأعلى"
+      "noSpendingInformation": ".عندما تبدأ في إجاراء عمليات الشراء ستظهر هنا فئات الإنفاق الأعلى"
+    },
+    "QuickActionsReordererModal": {
+      "yourShortcutsLabel": "اختصاراتك",
+      "saveButton": "حفظ"
     }
   },
   "InstructionsScreen": {

@@ -7,6 +7,7 @@ export { default as HeaderHomePage } from "./HeaderHomePage";
 export { default as InactiveReordererItem } from "./InactiveReordererItem";
 export { default as PlaceholderGenerator } from "./PlaceholderGenerator";
 export { default as QuickAction } from "./QuickAction";
+export { default as QuickActionsReordererModal } from "./QuickActionsReordererModal";
 export { default as QuickActionsSection } from "./QuickActionsSection";
 export { default as QuickActionToggle } from "./QuickActionToggle";
 export { default as RefreshSection } from "./RefreshSection";

@@ -1089,7 +1089,10 @@
         "button": "Invite now"
       },
       "welcomeMessageLabel": "Welcome",
-      "AppreciationSectionTitle": "Appreciations"
+      "yourShortcutsLabel": "Your Shortcuts",
+      "editShortcutsButton": "Edit",
+      "AppreciationSectionTitle": "Appreciations",
+      "QuickActionSectionRefreshSectionHint": "Shortcuts Loading Error"
     },
     "HomepageReorderModal": {
       "cancel": "CANCEL",
@@ -1102,11 +1105,8 @@
       "saveButton": "SAVE"
     },
     "QuickActionsReordererModal": {
-      "cancelButton": "CANCEL",
-      "title": "Your Shortcuts",
-      "saveButton": "SAVE",
-      "subtitle": "Select three shortcuts and deselect previous options before further modifications.",
-      "maxQuickActionsWarning": "Reached max limit of 3 shortcuts to choose!"
+      "yourShortcutsLabel": "Your Shortcuts",
+      "saveButton": "Save"
     },
     "QuickActionSection": {
       "editButton": "Edit"

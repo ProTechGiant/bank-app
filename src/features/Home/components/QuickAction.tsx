@@ -1,28 +1,23 @@
 import { cloneElement } from "react";
-import { ImageStyle, Pressable, View, ViewStyle } from "react-native";
-import { SvgProps } from "react-native-svg";
+import { Pressable, View, ViewStyle } from "react-native";
 
-import { IconProps } from "@/assets/icons";
-import { WithShadow } from "@/components";
-import NetworkImage from "@/components/NetworkImage";
 import Typography from "@/components/Typography";
 import { Theme, useThemeStyles } from "@/theme";
+import { iconMapping } from "@/utils/icon-mapping";
 
 interface QuickActionProps {
   color: keyof Theme["palette"];
   backgroundColor?: keyof Theme["palette"];
   title?: string;
-  icon?: React.ReactElement<SvgProps | IconProps>;
-  image?: string;
+  iconName?: string;
   onPress?: () => void;
 }
 
 export default function QuickAction({
   color,
-  icon,
-  image,
+  iconName,
   title,
-  backgroundColor = "neutralBase-60",
+  backgroundColor = "supportBase-10",
   onPress,
 }: QuickActionProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -38,27 +33,18 @@ export default function QuickAction({
     backgroundColor: iconBackgroundColor,
     borderRadius: theme.radii.xxlarge,
   }));
-  const rawColor = useThemeStyles(theme => theme.palette[color], [color]);
 
-  const imageStyle = useThemeStyles<ImageStyle>(theme => ({
-    width: theme.spacing["24p"],
-    height: theme.spacing["24p"],
-    tintColor: rawColor,
-  }));
+  const rawColor = useThemeStyles(theme => theme.palette[color], [color]);
 
   return (
     <Pressable onPress={onPress} style={containerStyle}>
-      <WithShadow backgroundColor="neutralBase-60" borderRadius="xxlarge">
-        <View style={iconStyle}>
-          {icon !== undefined ? (
-            cloneElement(icon, { color: rawColor, height: 24, width: 24 })
-          ) : image !== null && image !== undefined ? (
-            <NetworkImage source={{ uri: image }} style={imageStyle} />
-          ) : (
-            <View style={imageStyle} />
-          )}
-        </View>
-      </WithShadow>
+      <View style={iconStyle}>
+        {cloneElement(iconMapping.homepageQuickActions[`${iconName}`] ?? iconMapping.homepageQuickActions.croatiaIcon, {
+          color: rawColor,
+          height: 24,
+          width: 24,
+        })}
+      </View>
       {title !== undefined ? (
         <Typography.Text color="neutralBase+10" size="caption2" weight="medium" align="center">
           {title}

@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
@@ -9,6 +9,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SelectTransferTypeModal from "@/components/SelectTransferTypeModal";
 import Stack from "@/components/Stack";
+import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
@@ -26,6 +27,7 @@ import {
   BalanceCard,
   CardSection,
   HeaderHomePage,
+  QuickActionsReordererModal,
   QuickActionsSection,
   RewardsSection,
   TasksPreviewer,
@@ -36,6 +38,7 @@ import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
 import {
   useAppreciationFeedback,
   useAppreciationsWithNoFeedback,
+  useQuickActions,
   useRefetchHomepageLayout,
   useTasks,
 } from "../hooks/query-hooks";
@@ -54,10 +57,12 @@ export default function DashboardScreen() {
   const { phoneNumber } = useAuthContext();
   const registerForNotifications = useRegisterNotifications();
   const { data: customerProfile } = useCustomerProfile();
+  const { refetch: refetchQuickActions } = useQuickActions();
 
   const appreciationFeedback = useAppreciationFeedback();
   const { data: appreciationsWithNoFeedback } = useAppreciationsWithNoFeedback(i18n.language);
 
+  const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isInternalTransferTypeModalVisible, setIsInternalTransferTypeModalVisible] = useState<boolean>(false);
   const [isLocalTransferModalVisible, setIsLocalTransferModalVisible] = useState<boolean>(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
@@ -97,7 +102,7 @@ export default function DashboardScreen() {
   };
 
   const handleOnEditShortcutsPress = () => {
-    navigation.navigate("Home.QuickActionsReorderModal");
+    setIsVisible(true);
   };
 
   const handleOnRewardsPress = () => {
@@ -115,6 +120,10 @@ export default function DashboardScreen() {
   const handleOnLoadingErrorRefresh = () => {
     refetchAll();
     handleOnLoadingErrorClose();
+  };
+
+  const handleOnRefreshShortcutRefreshSection = () => {
+    refetchQuickActions();
   };
 
   const handleOnCroatiaTransferPress = () => {
@@ -150,6 +159,10 @@ export default function DashboardScreen() {
     paddingHorizontal: theme.spacing["20p"],
   }));
 
+  const shortcutSectionStackStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginBottom: theme.spacing["32p"],
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
       <View style={styles.backgroundImage}>
@@ -163,20 +176,27 @@ export default function DashboardScreen() {
           currency={account.data?.currencyType}
         />
         <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16}>
+          <Stack direction="vertical" gap="20p" align="stretch" style={shortcutSectionStackStyle}>
+            <Stack direction="horizontal" justify="space-between" align="center">
+              <Typography.Text size="title3" weight="medium" disabled={true}>
+                {t("Home.DashboardScreen.yourShortcutsLabel")}
+              </Typography.Text>
+              <Pressable onPress={handleOnEditShortcutsPress}>
+                <Typography.Text size="footnote" weight="medium">
+                  {t("Home.DashboardScreen.editShortcutsButton")}
+                </Typography.Text>
+              </Pressable>
+            </Stack>
+            <QuickActionsSection
+              onRefresh={handleOnRefreshShortcutRefreshSection}
+              onQuickActionPress={handleOnQuickActionPressed}
+            />
+          </Stack>
           <Stack align="stretch" direction="vertical" gap="32p">
             {tasks?.length > 0 ? <TasksPreviewer tasks={tasks} /> : null}
             {sections?.length !== 0 ? (
               <>
                 {sections.map(section => {
-                  if (section.type === "shortcuts" && section.isItemChecked) {
-                    return (
-                      <QuickActionsSection
-                        key={section.type}
-                        onViewAllPress={handleOnEditShortcutsPress}
-                        onQuickActionPress={handleOnQuickActionPressed}
-                      />
-                    );
-                  }
                   if (section.type === "appreciations" && section.isItemChecked) {
                     return <RewardsSection key={section.type} onViewAllPress={handleOnRewardsPress} />;
                   }
@@ -226,6 +246,7 @@ export default function DashboardScreen() {
           {/* TODO: When the API is ready  */}
         </ScrollView>
       </SafeAreaView>
+      <QuickActionsReordererModal isVisible={isVisible} onClose={() => setIsVisible(false)} />
       <SelectTransferTypeModal
         isVisible={isLocalTransferModalVisible}
         onClose={() => setIsLocalTransferModalVisible(false)}

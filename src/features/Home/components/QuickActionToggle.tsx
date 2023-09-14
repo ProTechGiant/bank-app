@@ -1,30 +1,28 @@
 import { Pressable, View, ViewStyle } from "react-native";
-import { SvgProps } from "react-native-svg";
 
-import { IconProps } from "@/assets/icons";
+import { CheckboxInput } from "@/components/Input";
 import Stack from "@/components/Stack";
-import Toggle from "@/components/Toggle";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import QuickAction from "./QuickAction";
 
 interface QuickActionToggleProps {
-  icon?: React.ReactElement<SvgProps | IconProps>;
-  image?: string;
   title: string;
+  iconName?: string;
   description: string;
   isActive: boolean;
   onPress: () => void;
+  numberOfActiveItems: number;
 }
 
 export default function QuickActionToggle({
   isActive,
-  icon,
-  image,
   title,
   description,
   onPress,
+  iconName,
+  numberOfActiveItems,
 }: QuickActionToggleProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["12p"],
@@ -44,28 +42,36 @@ export default function QuickActionToggle({
     paddingLeft: theme.spacing["12p"],
     alignItems: "flex-start",
   }));
+
+  const iconAndTitleColor =
+    numberOfActiveItems === REQUIRED_ACTIVE_ITEMS && !isActive ? "neutralBase-30" : "neutralBase+30";
+  const descriptionColor =
+    numberOfActiveItems === REQUIRED_ACTIVE_ITEMS && !isActive ? "neutralBase-30" : "neutralBase";
+
   return (
     <Pressable onPress={onPress}>
       <Stack direction="horizontal" style={containerStyle}>
         <View style={quickActionViewStyle}>
-          <QuickAction
-            backgroundColor="neutralBase-40"
-            color="neutralBase+30"
-            icon={icon}
-            image={image}
-            onPress={onPress}
-          />
+          <QuickAction color={iconAndTitleColor} iconName={iconName} backgroundColor="neutralBase-40" />
         </View>
         <Stack style={textContainerStyle} direction="vertical">
-          <Typography.Text size="callout">{title}</Typography.Text>
-          <Typography.Text size="footnote" color="neutralBase">
+          <Typography.Text color={iconAndTitleColor} size="callout">
+            {title}
+          </Typography.Text>
+          <Typography.Text size="footnote" color={descriptionColor}>
             {description}
           </Typography.Text>
         </Stack>
         <Stack direction="horizontal">
-          <Toggle value={isActive} onPress={onPress} />
+          <CheckboxInput
+            value={isActive}
+            onChange={onPress}
+            isEditable={numberOfActiveItems < REQUIRED_ACTIVE_ITEMS || isActive}
+          />
         </Stack>
       </Stack>
     </Pressable>
   );
 }
+
+const REQUIRED_ACTIVE_ITEMS = 4;

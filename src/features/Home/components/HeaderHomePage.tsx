@@ -40,7 +40,7 @@ export default function HeaderHomePage({ firstName }: UserFirstName) {
         <PersonIcon color={iconColor} />
       </Pressable>
       <Typography.Text color="neutralBase-60" weight="bold" size="callout">
-        {`${t("Home.DashboardScreen.welcomeMessageLabel")} ${firstName}`}
+        {`${t("Home.DashboardScreen.welcomeMessageLabel")} ${firstName ?? ""}`}
       </Typography.Text>
       <Pressable
         onPress={() => {

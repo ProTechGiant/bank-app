@@ -36,7 +36,7 @@ type CustomerConfigurationType =
   | { IsVisible: true; SectionIndex: number }
   | { IsVisible: false; SectionIndex?: number };
 
-export interface ShortcutType {
+export interface QuickActionType {
   Id: string;
   Name: string;
   "Shortcut Icon": string;
@@ -51,7 +51,7 @@ export interface ShortcutType {
 export interface QuickActionsType {
   Homepage: {
     Sections: {
-      Shortcuts: ShortcutType[];
+      Shortcuts: QuickActionType[];
     };
   };
 }

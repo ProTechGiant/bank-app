@@ -12,11 +12,11 @@ import {
   useQuickActions,
 } from "../hooks/query-hooks";
 import { HomepageItemLayoutType } from "../types";
-import { ShortcutType } from "./../types";
+import { QuickActionType } from "./../types";
 
 interface HomepageLayoutOrderContextProps {
-  quickActions: ShortcutType[];
-  setQuickActions: (value: ShortcutType[]) => void;
+  quickActions: QuickActionType[];
+  setQuickActions: (value: QuickActionType[]) => void;
   sections: HomepageItemLayoutType[];
   setSections: (value: HomepageItemLayoutType[]) => void;
   homepageLayout: UseQueryResult<HomepageLayoutType, unknown> | undefined;
@@ -62,7 +62,7 @@ export function HomepageLayoutOrderContextProvider({ children }: React.PropsWith
     });
   }, [homepageLayout.data]);
 
-  const handleOnSetQuickActions = async (value: ShortcutType[]) => {
+  const handleOnSetQuickActions = async (value: QuickActionType[]) => {
     setState(current => ({ ...current, quickActions: value }));
     try {
       await postQuickActions.mutateAsync({

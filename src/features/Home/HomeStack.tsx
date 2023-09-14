@@ -1,12 +1,11 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { HomepageLayoutOrderContextProvider } from "./contexts/HomepageLayoutOrderContext";
-import { AccountDetailsScreen, DashboardScreen, QuickActionsReordererModal, SectionsReordererModal } from "./screens";
+import { AccountDetailsScreen, DashboardScreen, SectionsReordererModal } from "./screens";
 
 export type HomeStackParams = {
   "Home.DashboardScreen": undefined;
   "Home.SectionsReordererModal": undefined;
-  "Home.QuickActionsReorderModal": undefined;
   "Home.AccountDetailsScreen": undefined;
 };
 
@@ -21,11 +20,6 @@ export default function HomeStack() {
           component={AccountDetailsScreen}
           name="Home.AccountDetailsScreen"
           options={{ presentation: "modal" }}
-        />
-        <Stack.Screen
-          component={QuickActionsReordererModal}
-          name="Home.QuickActionsReorderModal"
-          options={{ presentation: "transparentModal", statusBarTranslucent: true, animation: "slide_from_bottom" }}
         />
         <Stack.Screen
           component={SectionsReordererModal}
