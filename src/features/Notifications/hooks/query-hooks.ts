@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 
 import api from "@/api";
@@ -14,6 +15,7 @@ export const queryKeys = {
 
 export function useAllNotifications(pageSize: number, pageNumber: number, fromDate: string, toDate: string) {
   const { userId } = useAuthContext();
+  const { i18n } = useTranslation();
   return useQuery(
     queryKeys.notifications(pageSize, pageNumber, fromDate, toDate),
     () => {
@@ -31,6 +33,7 @@ export function useAllNotifications(pageSize: number, pageNumber: number, fromDa
         undefined,
         {
           ["x-correlation-id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language,
         }
       );
     },
@@ -55,6 +58,7 @@ export function useFilterNotifications(
   subCategoryId: string
 ) {
   const { userId } = useAuthContext();
+  const { i18n } = useTranslation();
   return useQuery(
     queryKeys.notifications(pageSize, pageNumber, fromDate, toDate),
     () => {
@@ -73,6 +77,7 @@ export function useFilterNotifications(
         undefined,
         {
           ["x-correlation-id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language,
         }
       );
     },

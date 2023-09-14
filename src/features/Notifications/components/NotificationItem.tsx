@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { ImageStyle, StyleSheet, View, ViewStyle } from "react-native";
+import { ImageStyle, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { IconProps } from "@/assets/icons";
 import Stack from "@/components/Stack";
@@ -11,8 +11,9 @@ interface NotificationItemProps {
   subtitle: string;
   time: string;
   icon: React.ReactElement<IconProps>;
+  onPress: () => void;
 }
-export default function NotificationItem({ title, subtitle, time, icon }: NotificationItemProps) {
+export default function NotificationItem({ title, subtitle, time, icon, onPress }: NotificationItemProps) {
   const itemStackStyle = useThemeStyles<ViewStyle>(theme => ({
     width: "100%",
     justifyContent: "space-between",
@@ -31,18 +32,20 @@ export default function NotificationItem({ title, subtitle, time, icon }: Notifi
   }));
 
   return (
-    <Stack direction="horizontal" style={itemStackStyle} gap="8p">
-      <View style={iconStyle}>{cloneElement(icon, { ...iconProps })}</View>
-      <Stack direction="vertical" style={styles.textStyles} gap="4p">
-        <Typography.Text align="left">{title}</Typography.Text>
-        <Typography.Text align="left" size="caption2">
-          {subtitle}
-        </Typography.Text>
-        <Typography.Text align="left" size="caption1">
-          {time}
-        </Typography.Text>
+    <Pressable onPress={onPress}>
+      <Stack direction="horizontal" style={itemStackStyle} gap="8p">
+        <View style={iconStyle}>{cloneElement(icon, { ...iconProps })}</View>
+        <Stack direction="vertical" style={styles.textStyles} gap="4p">
+          <Typography.Text align="left">{title}</Typography.Text>
+          <Typography.Text align="left" size="caption2">
+            {subtitle}
+          </Typography.Text>
+          <Typography.Text align="left" size="caption1">
+            {time}
+          </Typography.Text>
+        </Stack>
       </Stack>
-    </Stack>
+    </Pressable>
   );
 }
 const styles = StyleSheet.create({

@@ -153,6 +153,10 @@ export default function NotificationsHubScreen() {
     flexDirection: "row",
   }));
 
+  const handleOnItemPressed = (item: NotificationType<Date>) => {
+    navigation.navigate(item.SubCategoryStack, { screen: item.SubCategoryScreen });
+  };
+
   return (
     <Page insets={["left"]}>
       {isFetching || isFetchingFilterData ? (
@@ -216,9 +220,10 @@ export default function NotificationsHubScreen() {
                         ? formatDistance(item.CreatedOn, todayDate)
                         : section.day === SectionEnum.YESTERDAY
                         ? format(item.CreatedOn, "p")
-                        : format(item.CreatedOn, "PPpp");
+                        : format(item.CreatedOn, "PPp");
                     return (
                       <NotificationItem
+                        onPress={() => handleOnItemPressed(item)}
                         title={item.NotificationName}
                         key={item.NotificationId}
                         subtitle={item.MessageContent}
