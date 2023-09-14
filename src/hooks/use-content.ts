@@ -10,17 +10,23 @@ import { Article, Content, ContentCategories, FeedbackRequest, TermsAndCondition
 export const queryKeys = {
   all: () => ["content"] as const,
   contentList: () => [...queryKeys.all(), "contentList"] as const,
+  homeContentList: () => [...queryKeys.all(), "homeContentList"] as const,
   termsAndConditions: () => [...queryKeys.all(), "termsAndConditions"] as const,
   categories: () => [...queryKeys.all(), "categories"] as const,
   articles: (articleId: string) => [...queryKeys.all(), { articleId }] as const,
   images: (imageURL: string) => [...queryKeys.all(), { imageURL }] as const,
 };
 
-export function useContentArticleList(categoryId: string, includeChildren: boolean, params?: Record<string, string>) {
+export function useContentArticleList(
+  categoryId: string,
+  includeChildren: boolean,
+  isHomeArticles: boolean,
+  params?: Record<string, string | number>
+) {
   const { i18n } = useTranslation();
   const { userId } = useAuthContext();
 
-  return useQuery(queryKeys.contentList(), () => {
+  return useQuery(isHomeArticles ? queryKeys.homeContentList() : queryKeys.contentList(), () => {
     return sendApiRequest<Content[]>(
       "v1",
       "contents",

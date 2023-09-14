@@ -38,7 +38,7 @@ export default function WhatsNextHubScreen() {
   const [queryParams, setQueryParams] = useState<Record<string, string>>({ sort: sortOrder });
   const [isLoadingErrorModalVisible, setIsLoadingErrorModalVisible] = useState<boolean>(false);
 
-  const whatsNextData = useContentArticleList(WHATS_NEXT_CATEGORY_ID, true, queryParams);
+  const whatsNextData = useContentArticleList(WHATS_NEXT_CATEGORY_ID, true, false, queryParams);
 
   useEffect(() => {
     if (whatsNextData.data && whatsNextData.data.length > 0) {

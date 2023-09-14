@@ -20,6 +20,7 @@ import { StatementsStackParams } from "@/features/Statements/StatementsStack";
 import { TopSpendingStackParams } from "@/features/TopSpending/TopSpendingStack";
 import { SingleTagType, TransactionDetailed } from "@/features/ViewTransactions/types";
 import { ViewTransactionsStackParams } from "@/features/ViewTransactions/ViewTransactionsStack";
+import { ArticleSectionType } from "@/features/WhatsNext/types";
 import { WhatsNextStackParams } from "@/features/WhatsNext/WhatsNextStack";
 
 import { SignInStackParams } from "../features/SignIn/SignInStack";
@@ -93,7 +94,14 @@ type RootStackParams = {
   "FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack": undefined;
   "NotificationManagement.HubScreen": undefined;
   "NotificationManagement.CategoryScreen": { categoryId: string; title: string };
-  "WhatsNext.WhatsNextStack": undefined;
+  "WhatsNext.WhatsNextStack":
+    | {
+        screen: keyof WhatsNextStackParams;
+        params: {
+          topTenArticlesData?: ArticleSectionType;
+        };
+      }
+    | undefined;
   "Appreciation.AppreciationStack": undefined;
   "HelpAndSupport.HelpAndSupportStack":
     | {

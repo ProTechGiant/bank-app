@@ -1036,7 +1036,7 @@
       "editDashboard": "Edit",
       "dismiss": "Dismiss",
       "viewAll": "View all",
-      "whatsNext": "What's Next",
+      "whatsNext": "ما هو التالي في {{month}}",
       "totalSarBalance": "الرصيد الاجمالي",
       "account": "Account    ",
       "mainCroatiaAccount": "حسابي",
