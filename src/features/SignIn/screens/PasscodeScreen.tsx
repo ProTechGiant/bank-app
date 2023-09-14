@@ -82,7 +82,7 @@ export default function PasscodeScreen() {
         setShowSignInModal(true);
       }
     } catch (error: any) {
-      const errorId = error?.errorContent?.Errors[0].ErrorId;
+      const errorId = error?.errorContent?.Errors?.[0].ErrorId;
       if (errorId === "0009") handleBlocked(BLOCKED_TIME);
       if (errorId === "0010") handleBlocked();
       setPasscode("");
@@ -101,7 +101,7 @@ export default function PasscodeScreen() {
       setShowSignInModal(false);
       handleNavigate();
     } catch (error: any) {
-      const errorId = error?.errorContent?.Errors[0].ErrorId;
+      const errorId = error?.errorContent?.Errors?.[0].ErrorId;
       if (errorId === "0009") handleBlocked(BLOCKED_TIME);
       if (errorId === "0010") handleBlocked();
     }

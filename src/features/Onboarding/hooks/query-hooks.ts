@@ -4,10 +4,12 @@ import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { nationalIdRegEx } from "@/utils";
 
 import { IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
+import { RegistrationResponse } from "../types";
 import {
   CustomerPendingAction,
   CustomersTermsAndConditions,
@@ -401,25 +403,38 @@ export function useConfirmTermsConditions() {
 }
 
 export function useCreatePasscode() {
-  const { correlationId } = useOnboardingContext();
+  const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
+  const { setAuthToken, authenticateAnonymously } = useAuthContext();
 
-  return useMutation((passcode: string) => {
-    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+  return useMutation(
+    async (passcode: string) => {
+      if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-    return api<string>(
-      "v1",
-      "customers/update/passcode",
-      "PATCH",
-      undefined,
-      {
-        Passcode: passcode,
+      const workflowTask = await fetchLatestWorkflowTask();
+      if (!workflowTask || workflowTask.Name !== "CreatePasscode")
+        throw new Error("Available workflowTaskId is not applicable to customers/update/passcode");
+
+      return api<RegistrationResponse>(
+        "v1",
+        "customers/register",
+        "POST",
+        undefined,
+        {
+          Passcode: passcode,
+        },
+        {
+          ["x-correlation-id"]: correlationId,
+          ["x-device-id"]: DeviceInfo.getDeviceId(),
+        }
+      );
+    },
+    {
+      onSuccess(data) {
+        setAuthToken(data.AccessToken);
+        authenticateAnonymously(data.AuthUserId);
       },
-      {
-        ["x-correlation-id"]: correlationId,
-        ["x-device-id"]: DeviceInfo.getDeviceId(),
-      }
-    );
-  });
+    }
+  );
 }
 
 export function useGetCustomerPendingAction(statusId: StatusId) {
@@ -456,17 +471,23 @@ export function useUpdateActionStatus() {
   });
 }
 
-export function useGetCustomerTermsAndConditions(ContentCategoryId?: string) {
+export function useGetCustomerTermsAndConditions(ContentCategoryId: string) {
   const { correlationId } = useOnboardingContext();
   const { i18n } = useTranslation();
-  let queryParams: queryString.StringifiableRecord = { Language: i18n.language, IncludeChildren: true };
-  queryParams = ContentCategoryId ? { ...queryParams, ContentCategoryId } : queryParams;
+  const queryParams: queryString.StringifiableRecord = { language: i18n.language, includeChildren: true };
 
   return useQuery(["CustomersTermsAndConditions", ContentCategoryId], () => {
     if (!correlationId) throw new Error("Need valid Correlation id");
 
-    return api<CustomersTermsAndConditions>("v1", `contents/terms`, "GET", queryParams, undefined, {
-      ["x-correlation-id"]: correlationId,
-    });
+    return api<CustomersTermsAndConditions>(
+      "v1",
+      `customers/terms-and-conditions/${ContentCategoryId}`,
+      "GET",
+      queryParams,
+      undefined,
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
   });
 }

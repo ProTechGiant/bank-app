@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
 
+import { ErrorFilledCircleIcon } from "@/assets/icons";
 import Alert from "@/components/Alert";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
+import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
-import PincodeInput from "@/components/PincodeInput";
-import ProgressIndicator from "@/components/ProgressIndicator";
-import Typography from "@/components/Typography";
+import PasscodeInput from "@/components/PasscodeInput";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
 import { isSequential, maxRepeatThresholdMet } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
@@ -20,9 +18,15 @@ import { PASSCODE_LENGTH } from "../constants";
 export default function CreatePasscodeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation<UnAuthenticatedStackParams>();
-
   const [isErrorVisible, setIsErrorVisible] = useState(false);
   const [currentValue, setCurrentValue] = useState("");
+
+  const errorMessages = [
+    {
+      message: t("Onboarding.CreatePasscode.notification"),
+      icon: <ErrorFilledCircleIcon />,
+    },
+  ];
 
   const handleOnChangeText = (input: string) => {
     setCurrentValue(input);
@@ -41,36 +45,24 @@ export default function CreatePasscodeScreen() {
     }
   };
 
-  const inputContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
-    marginVertical: theme.spacing["32p"],
-    rowGap: theme.spacing["8p"],
-    width: "100%",
-  }));
-
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader withBackButton={false} testID="Onboarding.CreatePasscodeScreen:NavHeader">
-        <ProgressIndicator currentStep={5} totalStep={6} />
-      </NavHeader>
+      <NavHeader withBackButton={false} testID="Onboarding.CreatePasscodeScreen:NavHeader" />
       <ContentContainer>
-        <Typography.Text size="title1" weight="medium">
-          {t("Onboarding.CreatePasscode.title")}
-        </Typography.Text>
-        <Typography.Text size="callout" weight="regular">
-          {t("Onboarding.CreatePasscode.subTitle")}
-        </Typography.Text>
-        <View style={inputContainerStyle}>
-          <PincodeInput
-            autoFocus
-            onChangeText={handleOnChangeText}
-            length={PASSCODE_LENGTH}
-            value={currentValue}
-            testID="Onboarding.CreatePasscodeScreen:PasscodeInput"
-          />
-          {isErrorVisible ? <Alert variant="error" message={t("Onboarding.CreatePasscode.needHelpInfo")} /> : null}
-        </View>
+        <PasscodeInput
+          errorMessage={errorMessages}
+          title={t("Onboarding.CreatePasscode.title")}
+          subTitle={t("Onboarding.CreatePasscode.subTitle")}
+          isError={isErrorVisible}
+          length={6}
+          passcode={currentValue}
+          testID="Onboarding.CreatePasscodeScreen:PasscodeInput"
+        />
+
+        <Alert variant="default" message={t("SignIn.CreatePasscodeScreen.needHelpInfo")} />
       </ContentContainer>
+
+      <NumberPad passcode={currentValue} setPasscode={handleOnChangeText} />
     </Page>
   );
 }

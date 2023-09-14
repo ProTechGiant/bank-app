@@ -57,5 +57,5 @@ export function useErrorMessages(error: ApiError<ResponseError> | undefined) {
     return messages[type] || messages.default;
   };
 
-  return { errorMessages: error?.errorContent?.Errors.map(value => getMessageFromType(value.ErrorId)) ?? [] };
+  return { errorMessages: error?.errorContent?.Errors?.map(value => getMessageFromType(value.ErrorId)) ?? [] };
 }

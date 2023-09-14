@@ -4,14 +4,14 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
-import Alert from "@/components/Alert";
+import { ErrorFilledCircleIcon } from "@/assets/icons";
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
+import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
-import PincodeInput from "@/components/PincodeInput";
-import ProgressIndicator from "@/components/ProgressIndicator";
-import Typography from "@/components/Typography";
+import PasscodeInput from "@/components/PasscodeInput";
 import { warn } from "@/logger";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -24,20 +24,39 @@ import { OnboardingStackParams } from "../OnboardingStack";
 type ConfirmPasscodeScreenRouteProp = RouteProp<OnboardingStackParams, "Onboarding.ConfirmPasscode">;
 
 export function ConfirmPasscodeScreen() {
-  const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { t } = useTranslation();
   const { params } = useRoute<ConfirmPasscodeScreenRouteProp>();
   const { mutateAsync } = useCreatePasscode();
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
   const [hasValidationError, setValidationError] = useState<boolean>(false);
   const [hasAPIError, setAPIError] = useState<boolean>(false);
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
 
   const [currentValue, setCurrentValue] = useState("");
 
   const handleOnSuccessModalClose = () => {
     setShowSuccessModal(false);
-    navigation.navigate("Onboarding.PendingAccount");
+    navigation.navigate("Onboarding.SuccessScreen");
   };
+
+  const errorMessages = hasValidationError
+    ? [
+        {
+          message: t("Onboarding.ConfirmPasscode.notification"),
+          icon: <ErrorFilledCircleIcon />,
+          variant: "warning",
+        },
+      ]
+    : hasAPIError
+    ? [
+        {
+          modalMessage: t("Onboarding.ConfirmPasscode.pleaseTryAgain"),
+          icon: <ErrorFilledCircleIcon />,
+          title: t("Onboarding.ConfirmPasscode.weAreSorry"),
+          variant: "error",
+        },
+      ]
+    : [];
 
   const handleSubmit = async (value: string) => {
     try {
@@ -49,6 +68,12 @@ export function ConfirmPasscodeScreen() {
 
       warn("Error creating user passcode ", JSON.stringify(err)); // log the error for debugging purposes
     }
+  };
+
+  const resetError = () => {
+    setCurrentValue("");
+    setValidationError(false);
+    setAPIError(false);
   };
 
   const handleOnChangeText = (input: string) => {
@@ -77,39 +102,32 @@ export function ConfirmPasscodeScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader
-        withBackButton={true}
-        title={t("Onboarding.ConfirmPasscode.navHeaderTitle")}
-        testID="Onboarding.ConfirmPasscodeScreen:NavHeader">
-        <ProgressIndicator currentStep={5} totalStep={6} />
-      </NavHeader>
+      <NavHeader withBackButton={true} testID="Onboarding.ConfirmPasscodeScreen:NavHeader" />
       <ContentContainer>
-        <Typography.Text size="title1" weight="medium">
-          {t("Onboarding.ConfirmPasscode.title")}
-        </Typography.Text>
-        <Typography.Text size="callout" weight="regular">
-          {t("Onboarding.ConfirmPasscode.subTitle")}
-        </Typography.Text>
         <View style={inputContainerStyle}>
-          <PincodeInput
-            autoFocus
-            onChangeText={handleOnChangeText}
-            length={PASSCODE_LENGTH}
-            value={currentValue}
-            testID="Onboarding.ConfirmPasscodeScreen:PincodeInput"
+          <PasscodeInput
+            errorMessage={errorMessages}
+            title={t("Onboarding.ConfirmPasscode.title")}
+            subTitle={t("Onboarding.ConfirmPasscode.subTitle")}
+            isError={hasValidationError || hasAPIError}
+            showModel={hasAPIError}
+            length={6}
+            resetError={resetError}
+            passcode={currentValue}
+            testID="Onboarding.CreatePasscodeScreen:PasscodeInput"
           />
-          {hasValidationError ? (
-            <Alert variant="error" message={t("Onboarding.ConfirmPasscode.notification")} />
-          ) : hasAPIError ? (
-            <Alert variant="error" message={t("Onboarding.ConfirmPasscode.errorText")} />
-          ) : null}
         </View>
       </ContentContainer>
+      <NumberPad passcode={currentValue} setPasscode={handleOnChangeText} />
       <NotificationModal
+        buttons={{
+          primary: (
+            <Button onPress={handleOnSuccessModalClose}>{t("Onboarding.ConfirmPasscode.proceedToHomepage")}</Button>
+          ),
+        }}
         title={t("Onboarding.ConfirmPasscode.notificationModelTitle")}
         isVisible={showSuccessModal}
         message={t("Onboarding.ConfirmPasscode.notificationModelMessage")}
-        onClose={handleOnSuccessModalClose}
         variant="success"
       />
     </Page>

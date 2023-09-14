@@ -8,12 +8,10 @@ import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useAuthContext } from "@/contexts/AuthContext";
 import { useToasts } from "@/contexts/ToastsContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import AccountCreated from "../assets/account-created.svg";
 import AccountDeclined from "../assets/account-declined.svg";
 import AccountPending from "../assets/account-pending.svg";
 import { CheckAccountSetupPoint, WorkGuideCard } from "../components";
@@ -26,7 +24,6 @@ export default function PendingAccountScreen() {
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
 
-  const auth = useAuthContext();
   const { userName } = useOnboardingContext();
   const addToast = useToasts();
   const [isAccountSetupVisible, setIsAccountSetupVisible] = useState(false);
@@ -50,17 +47,16 @@ export default function PendingAccountScreen() {
   }, [accountStatus, refetch, t, addToast]);
 
   const handleOnGetStartedPress = () => {
-    if (auth.userId) auth.authenticate(auth.userId);
+    navigation.navigate("Onboarding.CreatePasscode");
+  };
+
+  const handleWorkGuidePress = () => {
+    navigation.navigate("Onboarding.WorkGuideModal");
   };
 
   const handleAccountSetupToggle = () => {
     setIsAccountSetupVisible(!isAccountSetupVisible);
   };
-
-  const headerSuccessStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
-    marginBottom: theme.spacing["16p"],
-  }));
 
   const headerPendingDeclineStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
@@ -86,36 +82,13 @@ export default function PendingAccountScreen() {
     paddingBottom: theme.spacing["20p"],
   }));
 
-  const svgHeight = height * 0.55; // Adjust the height as needed
-  const svgWidth = svgHeight * 0.75; // Adjust the aspect ratio as needed
-
-  const handleWorkGuidePress = () => {
-    navigation.navigate("Onboarding.WorkGuideModal");
-  };
-
   return (
     <>
       <Page backgroundColor={accountStatus === "COMPLETED" ? "primaryBase" : "neutralBase-60"}>
         <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
         <ContentContainer>
           <>
-            {accountStatus === "COMPLETED" ? (
-              <>
-                <Stack direction="vertical" flex={1} justify="space-between" gap="24p" align="stretch">
-                  <View style={headerSuccessStyle}>
-                    <AccountCreated height={svgHeight} width={svgWidth} />
-                    <Stack direction="vertical" align="center" gap="8p">
-                      <Typography.Text align="center" size="xlarge" weight="bold" color="neutralBase-60">
-                        {t("Onboarding.LandingScreen.success.title")}
-                      </Typography.Text>
-                      <Typography.Text align="center" size="callout" weight="regular" color="neutralBase-60">
-                        {t("Onboarding.LandingScreen.success.subtitle")}
-                      </Typography.Text>
-                    </Stack>
-                  </View>
-                </Stack>
-              </>
-            ) : accountStatus === "DECLINED" ? (
+            {accountStatus === "DECLINED" ? (
               <Stack direction="vertical" gap="16p" align="center" justify="center" flex={1}>
                 <Stack direction="vertical" flex={1} justify="flex-start" gap="24p" align="stretch">
                   <View style={headerPendingDeclineStyle}>

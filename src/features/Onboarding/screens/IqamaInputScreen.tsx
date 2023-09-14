@@ -28,6 +28,7 @@ function getActiveTask(activeTask: string) {
     RetryCustomerScreening: "Onboarding.PendingAccount",
     RetrieveValidationStatus: "Onboarding.PendingAccount",
     RetryAccountCreation: "Onboarding.PendingAccount",
+    CreatePasscode: "Onboarding.CreatePasscode",
   };
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -66,7 +67,7 @@ export default function IqamaInputScreen() {
   }, []);
 
   useEffect(() => {
-    if (iqamaError?.errorContent?.Errors.some(value => value.ErrorId === "0061")) {
+    if (iqamaError?.errorContent?.Errors?.some(value => value.ErrorId === "0061")) {
       handleContinueOboarding();
       reset();
     }

@@ -70,6 +70,11 @@ export interface FinancialDetails {
   MonthlyLimit: string;
 }
 
+export interface RegistrationResponse {
+  AuthUserId: string;
+  AccessToken: string;
+}
+
 export interface ErrorMessageType {
   message: string | JSX.Element;
   variant: AlertVariantType;

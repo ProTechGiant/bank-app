@@ -11,12 +11,14 @@ import { useThemeStyles } from "@/theme";
 interface PasscodeInputProps {
   isError?: boolean;
   showModel?: boolean;
+  testID?: string;
   resetError?: () => void;
   length: number;
   passcode: string;
   title?: string;
   user?: { name: string } | null;
   subTitle?: string;
+  //TODO: CHANGE IT JUST AND OBJECT ELSE THAN GETTING AN ARRAY AND THEN JUST SELECTING 1ST INDEX
   errorMessage?: any[];
 }
 const PasscodeInput = ({
@@ -29,6 +31,7 @@ const PasscodeInput = ({
   title,
   subTitle,
   errorMessage,
+  testID,
 }: PasscodeInputProps) => {
   const { t } = useTranslation();
   const titleStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -79,7 +82,7 @@ const PasscodeInput = ({
   }));
 
   return (
-    <View style={styles.container}>
+    <View testID={testID} style={styles.container}>
       {user ? (
         <View style={profilePicWraper}>
           <Typography.Text size="callout" weight="medium">
@@ -134,5 +137,6 @@ export default PasscodeInput;
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+    width: "100%",
   },
 });

@@ -9,6 +9,7 @@ export { default as NafathAuthScreen } from "./NafathAuthScreen";
 export { default as OptionalEmailScreen } from "./OptionalEmailScreen";
 export { default as PendingAccountScreen } from "./PendingAccountScreen";
 export { default as SplashScreen } from "./SplashScreen";
+export { default as SuccessScreen } from "./SuccessScreen";
 export { default as TermsAndConditionsDetailsScreen } from "./TermsAndConditionsDetailsScreen";
 export { default as TermsAndConditionsScreen } from "./TermsAndConditionsScreen";
 export { default as WelcomeCarouselScreen } from "./WelcomeCarouselScreen";

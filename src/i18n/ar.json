@@ -120,7 +120,8 @@
         },
         "workGuide": "How Croatia works for you",
         "finishLater": "You can finish this later",
-        "buttonTitle": "Get Started",
+        "buttonTitle": "Create App Passcode",
+        "successTitle": "Get Started",
         "footerMessage": "It can take up to X days for us to finalise this process. An SMS will be sent to you when your account has been created."
       },
       "buttons": {
@@ -261,7 +262,9 @@
       "continue": "Continue",
       "errorText": {
         "alert": "Woops. Could not confirm T&Cs"
-      }
+      }, 
+      "weAreSorry": "We’re sorry something went wrong.",
+      "pleaseTryAgain": "Please try again later."
     },
     "CreatePasscode": {
       "needHelpInfo": "Avoid a passcode that’s easy to guess, like 123456 or 111111.",
@@ -276,7 +279,8 @@
       "errorText": "Something went wrong, please try again.",
       "notificationModelMessage": "You can always update your Passcode in App Settings.",
       "notificationModelTitle": "Your passcode has been set",
-      "navHeaderTitle": "Passcode"
+      "navHeaderTitle": "Passcode",
+      "proceedToHomepage": "متابعة"
     }
   },
   "ProxyAlias": {

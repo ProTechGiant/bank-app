@@ -31,7 +31,7 @@ const TermsAndConditionsScreen = () => {
   const handleOnSubmit = async () => {
     try {
       await termsConditionsAsync.mutateAsync();
-      navigation.navigate("Onboarding.CreatePasscode");
+      navigation.navigate("Onboarding.PendingAccount");
     } catch (error) {
       const hasMessage = (error as ApiError<ResponseError>)?.errorContent?.Message;
 

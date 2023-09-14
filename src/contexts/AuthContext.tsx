@@ -14,6 +14,7 @@ interface AuthContextProps {
   phoneNumber: string | undefined;
   userId: string | undefined;
   authToken: string | undefined;
+  setAuthToken: (value: string) => void;
   logout: (stillPersistTheRegisteredUser?: boolean) => void;
   isUserLocked: boolean;
 }
@@ -33,10 +34,14 @@ const AuthContext = createContext<AuthContextProps>({
   authToken: undefined,
   logout: () => noop,
   isUserLocked: false,
+  setAuthToken: noop,
 });
 
 export function AuthContextProvider({ children }: React.PropsWithChildren) {
-  type State = Omit<AuthContextProps, "authenticate" | "logout" | "authenticateAnonymously" | "updatePhoneNumber">;
+  type State = Omit<
+    AuthContextProps,
+    "authenticate" | "logout" | "authenticateAnonymously" | "updatePhoneNumber" | "setAuthToken"
+  >;
 
   const [state, setState] = useState<State>({
     isAuthenticated: false,
@@ -127,6 +132,10 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     setState(current => ({ ...current, phoneNumber }));
   };
 
+  const setAuthToken = (authToken: string) => {
+    setState({ ...state, authToken });
+  };
+
   const contextValue = useMemo(
     () => ({
       ...state,
@@ -134,6 +143,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       logout: handleOnLogout,
       authenticateAnonymously: handleOnAuthenticateAnonymously,
       updatePhoneNumber: handleOnUpdatePhoneNumber,
+      setAuthToken: setAuthToken,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state]
