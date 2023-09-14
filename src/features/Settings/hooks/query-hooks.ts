@@ -2,14 +2,18 @@ import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
-import { queryKeys } from "@/hooks/use-customer-profile";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
 interface LanguagePreferred {
   PreferredLanguageCode: string;
   NotificationLanguageCode: string;
 }
-
+const queryKeys = {
+  homeLayout: () => ["layout", "getLayout"] as const,
+  all: () => ["customerProfileData"] as const,
+  getLayout: () => [...queryKeys.all(), "getLayout"],
+};
 interface UpdatePasscodeStatus {
   UpdatePasscodeEnabled: boolean;
 }
@@ -41,6 +45,34 @@ export function useUpdateCustomerProfileLanguage() {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(queryKeys.all());
+      },
+    }
+  );
+}
+
+export function useHomepageLayout() {
+  const { userId } = useAuthContext();
+
+  return useQuery(queryKeys.getLayout(), () => {
+    return api("v1", `customers/${userId}/homepage`, "GET", {
+      ["x-Correlation-Id"]: generateRandomId(),
+    });
+  });
+}
+
+export function usePostHomepageLayout() {
+  const { userId } = useAuthContext();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async ({ values }) => {
+      return api("v1", `customers/${userId}/homepage`, "POST", undefined, values, {
+        ["x-Correlation-Id"]: generateRandomId(),
+      });
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries(queryKeys.homeLayout());
       },
     }
   );

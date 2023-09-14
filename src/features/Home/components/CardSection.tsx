@@ -20,7 +20,6 @@ export default function CardSection({ onPress, isReferFriend, title, description
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["supportBase-15"],
-    marginBottom: theme.spacing["32p"],
     borderRadius: theme.radii.small,
     paddingBottom: theme.spacing["8p"],
     borderColor: theme.palette.supportBase,

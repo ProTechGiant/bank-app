@@ -14,6 +14,7 @@ export interface HomepageItemLayoutType {
   name: string;
   type: string;
   description: string;
+  isItemChecked: boolean;
 }
 
 export interface TaskType {

@@ -168,7 +168,7 @@ export default function DashboardScreen() {
             {sections?.length !== 0 ? (
               <>
                 {sections.map(section => {
-                  if (section.type === "quick-actions") {
+                  if (section.type === "shortcuts" && section.isItemChecked) {
                     return (
                       <QuickActionsSection
                         key={section.type}
@@ -177,12 +177,40 @@ export default function DashboardScreen() {
                       />
                     );
                   }
-                  if (section.type === "appreciations") {
+                  if (section.type === "appreciations" && section.isItemChecked) {
                     return <RewardsSection key={section.type} onViewAllPress={handleOnRewardsPress} />;
                   }
-                  if (section.type === "articles") {
+                  if (section.type === "articles" && section.isItemChecked) {
                     return <WhatsNextSection key={section.type} onViewAllPress={handleOnWhatsNextPress} />;
                   }
+                  if (section.type === "invite-friend" && section.isItemChecked) {
+                    return (
+                      <CardSection
+                        onPress={() => navigation.navigate("Referral.ReferralStack", { screen: "Referral.HubScreen" })}
+                        isReferFriend={true}
+                        title={t("Home.DashboardScreen.ReferFriend.title")}
+                        description={t("Home.DashboardScreen.ReferFriend.description")}
+                        buttonText={t("Home.DashboardScreen.ReferFriend.button")}
+                      />
+                    );
+                  }
+                  if (section.type === "goal-getter" && section.isItemChecked) {
+                    return (
+                      <CardSection
+                        isReferFriend={false}
+                        onPress={() =>
+                          navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalsAndProducts" })
+                        }
+                        title={t("Home.DashboardScreen.GoalGetter.title")}
+                        description={t("Home.DashboardScreen.GoalGetter.description")}
+                        buttonText={t("Home.DashboardScreen.GoalGetter.button")}
+                      />
+                    );
+                  }
+                  if (section.type === "money-spend" && section.isItemChecked) {
+                    return <TopSpendingCategories account={account} />;
+                  }
+
                   return <Fragment key={section.type} />;
                 })}
               </>
@@ -194,26 +222,8 @@ export default function DashboardScreen() {
               />
             ) : null}
           </Stack>
-          
+
           {/* TODO: When the API is ready  */}
-          <TopSpendingCategories account={account} />
-          
-          {/* TODO: When the API is ready  */}
-          <CardSection
-            isReferFriend={false}
-            onPress={() => navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalsAndProducts" })}
-            title={t("Home.DashboardScreen.GoalGetter.title")}
-            description={t("Home.DashboardScreen.GoalGetter.description")}
-            buttonText={t("Home.DashboardScreen.GoalGetter.button")}
-          />
-          {/* TODO: When the API is ready  */}
-          <CardSection
-            onPress={() => navigation.navigate("Referral.ReferralStack", { screen: "Referral.HubScreen" })}
-            isReferFriend={true}
-            title={t("Home.DashboardScreen.ReferFriend.title")}
-            description={t("Home.DashboardScreen.ReferFriend.description")}
-            buttonText={t("Home.DashboardScreen.ReferFriend.button")}
-          />
         </ScrollView>
       </SafeAreaView>
       <SelectTransferTypeModal

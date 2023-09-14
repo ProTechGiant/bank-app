@@ -12,7 +12,13 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import * as SettingsIcons from "../assets/icons";
-import { SettingLanguagesSection, SettingsCategoryContainer, SettingSection, SignOutModal } from "../components";
+import {
+  EditHomeConfiguration,
+  SettingLanguagesSection,
+  SettingsCategoryContainer,
+  SettingSection,
+  SignOutModal,
+} from "../components";
 // import { useCheckDailyPasscodeLimit } from "../hooks/query-hooks";
 
 export default function CustomerAccountManagement() {
@@ -21,6 +27,7 @@ export default function CustomerAccountManagement() {
   // const { data } = useCheckDailyPasscodeLimit();
 
   const [isSignOutModalVisible, setSignOutModalVisible] = useState(false);
+  const [isEditHomeConfigurationVisible, setIsEditHomeConfigurationVisible] = useState(false);
   const [hasReachedPasscodeUpdateLimit, setHasReachedPasscodeUpdateLimit] = useState(false);
 
   const handleOnBackPress = () => {
@@ -53,6 +60,10 @@ export default function CustomerAccountManagement() {
     setSignOutModalVisible(true);
   };
 
+  const handleEditHomePress = () => {
+    setIsEditHomeConfigurationVisible(true);
+  };
+
   const handleOnProfileDetailsPress = () => {
     navigation.navigate("ProfileDetails.ProfileDetailsStack");
   };
@@ -76,6 +87,9 @@ export default function CustomerAccountManagement() {
 
   const handleOnClose = () => {
     setSignOutModalVisible(false);
+  };
+  const handleOnCloseEditHomeConfiguration = () => {
+    setIsEditHomeConfigurationVisible(false);
   };
 
   const handleReachedPasscodeUpdateLimit = () => {
@@ -155,6 +169,16 @@ export default function CustomerAccountManagement() {
             onPress={handleAliasManagmentPress}
           />
         </SettingsCategoryContainer>
+
+        <Divider color="neutralBase-10" height={1} />
+        <SettingsCategoryContainer categoryName={t("Settings.HomeCustomization.customization")}>
+          <SettingSection
+            title={t("Settings.HomeCustomization.title")}
+            description={t("Settings.HomeCustomization.description")}
+            icon={<SettingsIcons.AliasManagmentIcon />}
+            onPress={handleEditHomePress}
+          />
+        </SettingsCategoryContainer>
         <Divider color="neutralBase-10" height={1} />
         <SettingsCategoryContainer>
           <SettingSection
@@ -176,6 +200,7 @@ export default function CustomerAccountManagement() {
         }}
       />
       <SignOutModal isVisible={isSignOutModalVisible} onClose={handleOnClose} />
+      <EditHomeConfiguration isVisible={isEditHomeConfigurationVisible} onClose={handleOnCloseEditHomeConfiguration} />
     </Page>
   );
 }

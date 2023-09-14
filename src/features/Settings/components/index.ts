@@ -1,3 +1,4 @@
+export { default as EditHomeConfiguration } from "./EditHomeConfiguration";
 export { default as LanguageOption } from "./LanguageOption";
 export { default as SelectingLanguageModal } from "./SelectingLanguageModal";
 export { default as SettingLanguagesSection } from "./SettingLanguagesSection";

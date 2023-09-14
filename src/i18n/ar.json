@@ -1016,7 +1016,17 @@
       }
     },
     "reloadAppMessage": "يجب اعاده تشغيل التطبيق للاستمرار",
-    "okButtonMessage": "موافق"
+    "okButtonMessage": "موافق",
+    "HomeCustomization": {
+      "customization": "تخصيص",
+      "title": "تخصيص الصفحة الرئيسية",
+      "description": "قم بادارة صفحتك الرئيسية",
+      "HeaderEditHome": {
+        "title": "تحرير الصفحة الرئيسية",
+        "saveButton": "حفظ"
+      },
+      "sections": "الاقسام"
+    }
   },
   "Home": {
     "HomeTabs": {

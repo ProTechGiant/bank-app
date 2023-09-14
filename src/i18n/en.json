@@ -1038,6 +1038,17 @@
       "EN": "English",
       "AR": "العربية"
     },
+    "HomeCustomization": {
+      "customization": "Customization",
+      "title": "Home Section Customization",
+      "description": "Manage your homepage sections",
+      "HeaderEditHome": {
+        "title": "Edit Home",
+        "saveButton": "Save"
+      },
+      "sections": "Sections"
+    },
+
     "reloadAppMessage": "We must restart the app to continue",
     "okButtonMessage": "OK"
   },
