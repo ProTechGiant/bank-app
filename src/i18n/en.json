@@ -872,6 +872,7 @@
       "errorMessage": "You’ve entered the wrong PIN too many times. Please wait {{time}} min and try again.",
       "errorTitle": "try again later",
       "forgotPassword": "Forgot your passcode?",
+      "signOut": "Sign out",
       "signInModal": {
         "title": "Sign in on this device",
         "message": "You are already signed in on another device. By signing in to this device you will be signed out on the other one.",
@@ -920,7 +921,8 @@
       "updatePasscodeModalMessage": "Automated call will be received to confirm your action",
       "updatePasscodeModalTitle": "Passcode reset request submitted",
       "createPasscodeModalMessage": "You'll use this passcode to log in to Croatia.",
-      "createPasscodeModalTitle": "Passcode created"
+      "createPasscodeModalTitle": "Passcode created",
+      "goBack": "Go back"
     },
     "OtpScreen": {
       "title": "Enter one-time code",

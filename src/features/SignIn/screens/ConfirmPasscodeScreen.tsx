@@ -20,7 +20,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
-import { useCreatePasscode } from "../hooks/query-hooks";
+import { useMockResetPasscode } from "../hooks/query-hooks";
 import { SignInStackParams } from "../SignInStack";
 
 type ConfirmPasscodeScreenRouteProp = RouteProp<SignInStackParams, "SignIn.ConfirmPasscode">;
@@ -29,7 +29,8 @@ export default function ConfirmPasscodeScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { params } = useRoute<ConfirmPasscodeScreenRouteProp>();
-  const { mutateAsync, error, isLoading } = useCreatePasscode();
+  // TODO will be updated when API is ready
+  const { resetPasscode, error, isLoading } = useMockResetPasscode(); // Use the mock API hook
   const loginUserError = error as ApiError;
   const { errorMessages } = useErrorMessages(loginUserError);
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
@@ -42,6 +43,7 @@ export default function ConfirmPasscodeScreen() {
     {
       message: t("SignIn.ConfirmPasscodeScreen.notification"),
       icon: <ErrorFilledCircleIcon />,
+      variant: "error",
     },
   ];
 
@@ -50,7 +52,7 @@ export default function ConfirmPasscodeScreen() {
 
     if (passcode.length === PASSCODE_LENGTH) {
       if (passcode === params.passCode) {
-        handleSubmit();
+        handleSubmit(passcode);
         setIsError(false);
       } else {
         setIsError(true);
@@ -71,13 +73,13 @@ export default function ConfirmPasscodeScreen() {
     setIsError(false);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (passcode: string) => {
     try {
-      await mutateAsync(passCode);
+      await resetPasscode(passcode);
       setShowSuccessModal(true);
     } catch (exception) {
       setIsError(true);
-      warn("Error updating user passcode ", JSON.stringify(exception)); // log the error for debugging purposes
+      warn("Error resetting user passcode ", JSON.stringify(exception)); // log the error for debugging purposes
     }
   };
 
@@ -115,7 +117,7 @@ export default function ConfirmPasscodeScreen() {
         }
         variant="success"
         buttons={{
-          primary: <Button onPress={handleSuccessModal}>{t("Statements.RequestStatementScreen.goBack")}</Button>,
+          primary: <Button onPress={handleSuccessModal}>{t("SignIn.ConfirmPasscodeScreen.goBack")}</Button>,
         }}
       />
     </Page>

@@ -183,8 +183,19 @@ export default function PasscodeScreen() {
     navigation.navigate("SignIn.Biometric");
   };
 
+  const handleOnSignOut = async () => {
+    // TODO when api ready
+  };
+
   const forgotPasscodeTextStyle = useThemeStyles<ViewStyle>(theme => ({
     position: "absolute",
+    bottom: theme.spacing["64p"],
+    width: "100%",
+    textAlign: "center",
+  }));
+
+  const signOutTextStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["8p"],
     bottom: theme.spacing["64p"],
     width: "100%",
     textAlign: "center",
@@ -226,6 +237,14 @@ export default function PasscodeScreen() {
           </Typography.Text>
         </Pressable>
       </View>
+      {user ? (
+        <Pressable style={signOutTextStyle} onPress={handleOnSignOut}>
+          <Typography.Text color="errorBase" align="center" weight="medium" size="body">
+            {t("SignIn.PasscodeScreen.signOut")}
+          </Typography.Text>
+        </Pressable>
+      ) : null}
+
       <NotificationModal
         variant="confirmations"
         title={t("SignIn.PasscodeScreen.signInModal.title")}

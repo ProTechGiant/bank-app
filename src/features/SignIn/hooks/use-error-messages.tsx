@@ -19,12 +19,12 @@ export function useErrorMessages(err: ApiError) {
       "0011": {
         message: t("SignIn.IqamaInputScreen.errorText.oneAttemptsLeft"),
         icon: <InfoFilledCircleIcon />,
-        variant: "default",
+        variant: "error",
       },
       "0012": {
         message: t("SignIn.IqamaInputScreen.errorText.twoAttemptsLeft"),
         icon: <InfoFilledCircleIcon />,
-        variant: "default",
+        variant: "error",
       },
       "0009": {
         title: t("SignIn.IqamaInputScreen.errorText.modalTitle"),

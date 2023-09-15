@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery } from "react-query";
@@ -152,6 +153,42 @@ export function useCreatePasscode() {
       }
     );
   });
+}
+
+// TODO will be removed when API is ready
+export function useMockResetPasscode() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const resetPasscode = async (passCode: string) => {
+    setIsLoading(true);
+
+    setError(null);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      if (passCode === "147258") {
+        setIsLoading(false);
+        return {
+          status: 200,
+          data: {
+            message: "Passcode reset successfully",
+          },
+        };
+      } else {
+        setIsLoading(false);
+        setError("Invalid passcode");
+        throw new Error("Invalid passcode");
+      }
+    } catch (exception) {
+      setIsLoading(false);
+      setError("Internal Server Error");
+      throw new Error("Internal Server Error");
+    }
+  };
+
+  return { resetPasscode, error, isLoading };
 }
 
 export function useValidatePincode() {
