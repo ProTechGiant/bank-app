@@ -140,3 +140,26 @@ export interface ArticleSectionType {
   EventDetails: EventDetails;
   ChildrenContents?: ArticleSectionType[];
 }
+
+export interface PendingTask {
+  ActionId: string;
+  ActionTypeId: string;
+  DueDate: string;
+  Description: string;
+  Persistent: boolean;
+  ServiceId: string;
+  MessageId: string;
+  MessageText: string;
+  RedirectDestinationLink: keyof ScreenRouteNameMappingType;
+  UpdatedBy: string;
+  ButtonName: string;
+  SecondaryButtonName: string;
+}
+
+export interface BulletinTasksResponse {
+  PendingTasks: PendingTask[];
+  total: string;
+  Completed: string;
+}
+
+export type ScreenRouteNameMappingType = Record<string, string>;

@@ -25,12 +25,12 @@ import HeaderSvg from "../assets/Header-homepage.svg";
 import {
   AppreciationFeedbackModal,
   BalanceCard,
+  BulletinBoardSection,
   CardSection,
   HeaderHomePage,
   QuickActionsReordererModal,
   QuickActionsSection,
   RewardsSection,
-  TasksPreviewer,
   TopSpendingCategories,
   WhatsNextSection,
 } from "../components";
@@ -40,7 +40,6 @@ import {
   useAppreciationsWithNoFeedback,
   useQuickActions,
   useRefetchHomepageLayout,
-  useTasks,
 } from "../hooks/query-hooks";
 import { FeedbackStatus } from "../types";
 
@@ -50,7 +49,6 @@ export default function DashboardScreen() {
   const { sections, homepageLayout } = useHomepageLayoutOrder();
 
   const [layoutErrorIsVisible, setLayoutErrorIsVisible] = useState(false);
-  const { data: tasks } = useTasks();
   const { refetchAll } = useRefetchHomepageLayout();
   const account = useCurrentAccount();
   const { setInternalTransferEntryPoint, clearContext, setTransferType } = useInternalTransferContext();
@@ -155,7 +153,7 @@ export default function DashboardScreen() {
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: theme.spacing["20p"],
+    paddingBottom: theme.spacing["20p"],
     paddingHorizontal: theme.spacing["20p"],
   }));
 
@@ -170,12 +168,9 @@ export default function DashboardScreen() {
       </View>
       <SafeAreaView edges={["top"]} style={styles.container}>
         <HeaderHomePage firstName={customerProfile?.FirstName} />
-        <BalanceCard
-          balance={account.data?.balance}
-          accountNumber={account.data?.id}
-          currency={account.data?.currencyType}
-        />
+        <BalanceCard balance={account.data?.balance} accountNumber={account.data?.id} />
         <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16}>
+          <BulletinBoardSection />
           <Stack direction="vertical" gap="20p" align="stretch" style={shortcutSectionStackStyle}>
             <Stack direction="horizontal" justify="space-between" align="center">
               <Typography.Text size="title3" weight="medium" disabled={true}>
@@ -193,7 +188,6 @@ export default function DashboardScreen() {
             />
           </Stack>
           <Stack align="stretch" direction="vertical" gap="32p">
-            {tasks?.length > 0 ? <TasksPreviewer tasks={tasks} /> : null}
             {sections?.length !== 0 ? (
               <>
                 {sections.map(section => {

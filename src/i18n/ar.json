@@ -1054,6 +1054,13 @@
       "taskCount_other": "{{count}} مهمات ",
       "leftToComplete": "لم تكتمل بعد",
       "updating": "جار التحديث ...",
+      "bulletinBoardSection": {
+        "loadTasksError": "تعذر تحميل المهام",
+        "tasksStatus": "تم إكمال {{completed}} من {{total}} مهام",
+        "viewTasks": "عرض المهام",
+        "pendingTasks": "المهام المعلقة",
+        "dismissTask": "رفض"
+      },
       "GoalGetter": {
         "title": "منتجات محقق الاهداف",
         "description": "تخيل اهدافك و سوف نساعدك بالادخار لتحقيقهم.",

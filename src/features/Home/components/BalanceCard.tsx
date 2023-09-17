@@ -38,6 +38,7 @@ export default function BalanceCard({ balance, accountNumber }: BalanceCardProps
 
   const balanceCardContainer = useThemeStyles<ViewStyle>(theme => ({
     margin: theme.spacing["20p"],
+    marginBottom: theme.spacing["24p"],
   }));
 
   const balanceCardInnerContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -75,7 +76,7 @@ export default function BalanceCard({ balance, accountNumber }: BalanceCardProps
             <Stack direction="horizontal" align="center" justify="space-between">
               {balance ? (
                 <Typography.Text color="neutralBase+30" size="large" weight="bold">
-                  {isBalanceVisible ? balance.toLocaleString() : "********"}
+                  {isBalanceVisible ? balance.toLocaleString("en-US") : "********"}
                 </Typography.Text>
               ) : (
                 <Typography.Text color="neutralBase+30" size="title1" weight="regular">

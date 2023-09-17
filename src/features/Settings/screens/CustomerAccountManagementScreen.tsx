@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
 
+import { FinancialInformationIcon, LifestyleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
@@ -11,7 +12,17 @@ import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import * as SettingsIcons from "../assets/icons";
+import {
+  AliasManagmentIcon,
+  BiometricAuthenticationIcon,
+  LanguageIcon,
+  MyCasesIcon,
+  NotificationsIcon,
+  PasscodeIcon,
+  ProfileDetailsIcon,
+  SignOutIcon,
+  YourSubscriptionIcon,
+} from "../assets/icons";
 import {
   EditHomeConfiguration,
   SettingLanguagesSection,
@@ -106,13 +117,13 @@ export default function CustomerAccountManagement() {
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.profileDetailsTitle")}
             description={t("Settings.CustomerAccountManagementScreen.profileDetailsDescription")}
-            icon={<SettingsIcons.ProfileDetailsIcon />}
+            icon={<ProfileDetailsIcon />}
             onPress={handleOnProfileDetailsPress}
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.financialInformationTitle")}
             description={t("Settings.CustomerAccountManagementScreen.financialInformationDescription")}
-            icon={<SettingsIcons.FinancialInformationIcon />}
+            icon={<FinancialInformationIcon />}
             onPress={handleOnFinancialInformationPress}
           />
         </SettingsCategoryContainer>
@@ -121,19 +132,19 @@ export default function CustomerAccountManagement() {
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.lifestyleTitle")}
             description={t("Settings.CustomerAccountManagementScreen.lifestyleDescription")}
-            icon={<SettingsIcons.LifestyleIcon />}
+            icon={<LifestyleIcon />}
             onPress={handleOnLifeStylePress}
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.notificationsTitle")}
             description={t("Settings.CustomerAccountManagementScreen.notificationsDescription")}
-            icon={<SettingsIcons.NotificationsIcon />}
+            icon={<NotificationsIcon />}
             onPress={handleNotificationPress}
           />
           <SettingLanguagesSection
             title={t("Settings.CustomerAccountManagementScreen.languageTitle")}
             description={t("Settings.CustomerAccountManagementScreen.languageDescription")}
-            icon={<SettingsIcons.LanguageIcon />}
+            icon={<LanguageIcon />}
           />
         </SettingsCategoryContainer>
         <Divider color="neutralBase-10" height={1} />
@@ -141,31 +152,31 @@ export default function CustomerAccountManagement() {
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.yourSubscriptionTitle")}
             description={t("Settings.CustomerAccountManagementScreen.yourSubscriptionDescription")}
-            icon={<SettingsIcons.YourSubscriptionIcon />}
+            icon={<YourSubscriptionIcon />}
             onPress={handleOnSubscriptionManagementPress}
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.passcodeTitle")}
             description={t("Settings.CustomerAccountManagementScreen.passcodeDescription")}
-            icon={<SettingsIcons.PasscodeIcon />}
+            icon={<PasscodeIcon />}
             onPress={handleOnPassCodePress}
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.biometricAuthenticationTitle")}
             description={t("Settings.CustomerAccountManagementScreen.biometricAuthenticationDescription")}
-            icon={<SettingsIcons.BiometricAuthenticationIcon />}
+            icon={<BiometricAuthenticationIcon />}
             onPress={handleBiometricPress}
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.myCasesTitle")}
             description={t("Settings.CustomerAccountManagementScreen.myCasesDescription")}
-            icon={<SettingsIcons.MyCasesIcon />}
+            icon={<MyCasesIcon />}
             onPress={handleMyCasesPress}
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.aliasManagment")}
             description={t("Settings.CustomerAccountManagementScreen.aliasManagmentDescription")}
-            icon={<SettingsIcons.AliasManagmentIcon />}
+            icon={<AliasManagmentIcon />}
             onPress={handleAliasManagmentPress}
           />
         </SettingsCategoryContainer>
@@ -175,7 +186,7 @@ export default function CustomerAccountManagement() {
           <SettingSection
             title={t("Settings.HomeCustomization.title")}
             description={t("Settings.HomeCustomization.description")}
-            icon={<SettingsIcons.AliasManagmentIcon />}
+            icon={<AliasManagmentIcon />}
             onPress={handleEditHomePress}
           />
         </SettingsCategoryContainer>
@@ -184,7 +195,7 @@ export default function CustomerAccountManagement() {
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.signOutTitle")}
             description={t("Settings.CustomerAccountManagementScreen.signOutDescription")}
-            icon={<SettingsIcons.SignOutIcon />}
+            icon={<SignOutIcon />}
             onPress={handleSignOutPress}
           />
         </SettingsCategoryContainer>

@@ -1087,6 +1087,13 @@
       "taskCount_other": "{{count}} tasks ",
       "leftToComplete": "left to complete",
       "updating": "Updating ...",
+      "bulletinBoardSection": {
+        "loadTasksError": "Couldn’t load tasks",
+        "tasksStatus": "{{completed}} of {{total}} tasks completed",
+        "viewTasks": "View Tasks",
+        "pendingTasks": "Pending Tasks",
+        "dismissTask": "Dismiss"
+      },
       "GoalGetter": {
         "title": "Goal getter products",
         "description": "Imagine a goal and we’ll help you save for it.",

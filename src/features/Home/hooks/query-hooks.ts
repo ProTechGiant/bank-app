@@ -9,9 +9,9 @@ import { generateRandomId } from "@/utils";
 
 import {
   AppreciationFeedbackRequest,
+  BulletinTasksResponse,
   HomepageItemLayoutType,
   QuickActionsType,
-  TaskType,
   TopSpendingCategoriesResponse,
 } from "../types";
 import { getMonthDates } from "../utils";
@@ -20,6 +20,7 @@ const queryKeys = {
   all: () => ["layout"],
   getLayout: () => [...queryKeys.all(), "getLayout"],
   getQuickActions: () => [...queryKeys.all(), "getShortcuts"],
+  getBulletinBoardTasks: () => ["bulletinBoardTasks"],
 };
 
 interface HomepageSectionLayoutType {
@@ -94,44 +95,44 @@ export function useRefetchHomepageLayout() {
   return { refetchAll: handleOnRefetch };
 }
 
-export function useTasks() {
-  const { userId } = useAuthContext();
-  const correlationId = generateRandomId();
-
-  return useQuery<TaskType[]>(["tasks", { userId }], () => {
-    return api<TaskType[]>("v1", `actions/1`, "GET", undefined, undefined, {
-      ["x-Correlation-Id"]: correlationId,
-      ["customerID"]: userId,
-    });
-  });
+export function useBulletinBoardTasks() {
+  const { i18n } = useTranslation();
+  return useQuery(
+    queryKeys.getBulletinBoardTasks(),
+    () => {
+      return api<BulletinTasksResponse>("v1", `mobile/homepage/actions`, "GET", undefined, undefined, {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language,
+      });
+    },
+    {
+      retry: false,
+    }
+  );
 }
 
-export function useActionDismiss() {
-  const { userId } = useAuthContext();
-  const correlationId = generateRandomId();
+export function useDismissBulletinBoardTask() {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (ActionTypeId: string) => {
-      return api<QuickActionsType>(
+    async (ActionTypeId: string) => {
+      return api(
         "v1",
         "actions",
         "PUT",
         undefined,
         {
           ActionTypeId,
-          // StatusId 2 indicates "Dismissed" as we utilize this API for dismissal and update.
           StatusId: "2",
         },
         {
-          ["x-Correlation-Id"]: correlationId,
-          ["customerID"]: userId,
+          ["x-correlation-id"]: generateRandomId(),
         }
       );
     },
     {
       onSettled: () => {
-        queryClient.invalidateQueries(["tasks", { userId }]);
+        queryClient.invalidateQueries(queryKeys.getBulletinBoardTasks());
       },
     }
   );
