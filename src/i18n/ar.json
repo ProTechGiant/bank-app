@@ -1030,9 +1030,9 @@
   "Home": {
     "HomeTabs": {
       "tabHome": "الرئيسية",
-      "tabTransfer": "التحويل",
+      "tabTransfer": "التحويلات",
       "tabCards": "البطاقات",
-      "tabSupport": "الدعم"
+      "tabSupport": "المساعدة"
     },
     "DashboardScreen": {
       "AccountNumberCopied": "تم نسخ رقم الحساب في الحافظة",
