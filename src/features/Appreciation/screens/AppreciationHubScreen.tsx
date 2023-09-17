@@ -25,7 +25,7 @@ import { CustomerTierEnum } from "@/types/CustomerProfile";
 import noAppreciationFilter from "../assets/no-appreciation-filter.png";
 import noAppreciationImage from "../assets/no-appreciation-image.png";
 import noLikedAppreciationImage from "../assets/no-liked-appreciation-image.png";
-import { AppreciationCard, SortingModal } from "../components";
+import { AppreciationCard, AppreciationError, SortingModal } from "../components";
 import { FilterModal } from "../components";
 import { SORTING_OPTIONS_ALL_TAB, SORTING_OPTIONS_OTHER_TABS } from "../constants";
 import { useAppreciationFilters, useAppreciationSearch } from "../hooks/query-hooks";
@@ -200,112 +200,124 @@ export default function AppreciationHubScreen() {
             onBackPress={handleOnBackButtonPress}
             end={<NavHeader.IconEndButton icon={<FilterIcon />} onPress={() => setIsFiltersModalVisible(true)} />}
           />
-          <View style={segmentedControlStyle}>
-            {hasFilters ? (
-              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                <Stack direction="horizontal" gap="8p" style={segmentedControlOnFilterStyle}>
-                  <Typography.Text>{t("Appreciation.HubScreen.filterBy")} </Typography.Text>
-                  {selectedFilters &&
-                    Object.keys(selectedFilters).map(filterCategory => {
-                      return selectedFilters[filterCategory]?.map((filter, itemIndex) => {
-                        return !filter.isActive ? null : (
-                          <Chip
-                            key={itemIndex}
-                            title={filter.Name}
-                            isRemovable={true}
-                            isSelected={filter.isActive}
-                            onPress={() => handleOnModalFilterItemPressed(filterCategory, itemIndex, filter.isActive)}
+          {!isError ? (
+            <View>
+              <View style={segmentedControlStyle}>
+                {hasFilters ? (
+                  <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <Stack direction="horizontal" gap="8p" style={segmentedControlOnFilterStyle}>
+                      <Typography.Text>{t("Appreciation.HubScreen.filterBy")} </Typography.Text>
+                      {selectedFilters &&
+                        Object.keys(selectedFilters).map(filterCategory => {
+                          return selectedFilters[filterCategory]?.map((filter, itemIndex) => {
+                            return !filter.isActive ? null : (
+                              <Chip
+                                key={itemIndex}
+                                title={filter.Name}
+                                isRemovable={true}
+                                isSelected={filter.isActive}
+                                onPress={() =>
+                                  handleOnModalFilterItemPressed(filterCategory, itemIndex, filter.isActive)
+                                }
+                              />
+                            );
+                          });
+                        })}
+                      <Button variant="tertiary" onPress={handleOnClearAllModalFiltersPressed} size="mini">
+                        {t("Appreciation.HubScreen.clearAll")}
+                      </Button>
+                    </Stack>
+                  </ScrollView>
+                ) : (
+                  <SegmentedControl onPress={handleOnTabChange} value={currentTab}>
+                    <SegmentedControl.Item value={TabsTypes.ALL}>
+                      {t("Appreciation.HubScreen.all")}
+                    </SegmentedControl.Item>
+                    <SegmentedControl.Item value={TabsTypes.REDEEMED}>
+                      {t("Appreciation.HubScreen.redeemed")}
+                    </SegmentedControl.Item>
+                    <SegmentedControl.Item value={TabsTypes.LIKED}>
+                      {t("Appreciation.HubScreen.liked")}
+                    </SegmentedControl.Item>
+                  </SegmentedControl>
+                )}
+              </View>
+              {AppreciationList?.length === 0 ? (
+                hasFilters ? (
+                  <DefaultContent
+                    title={t("Appreciation.HubScreen.FilterOptions.noAppreciationsFoundTitle")}
+                    subtitle={t("Appreciation.HubScreen.FilterOptions.noAppreciationsFoundDescription")}
+                    image={noAppreciationFilter}
+                  />
+                ) : (
+                  <DefaultContent
+                    buttonText={
+                      currentTab === TabsTypes.LIKED ? undefined : emptyListMessage[currentTab].SuggestionButton
+                    }
+                    onButtonPress={
+                      currentTab === TabsTypes.LIKED ? undefined : emptyListMessage[currentTab].onSuggestionButtonPress
+                    }
+                    title={emptyListMessage[currentTab].title}
+                    subtitle={emptyListMessage[currentTab].subtitle}
+                    image={currentTab === TabsTypes.LIKED ? noLikedAppreciationImage : noAppreciationImage}
+                  />
+                )
+              ) : (
+                <ContentContainer isScrollView>
+                  {currentTab === TabsTypes.ALL && AppreciationList && (
+                    <>
+                      {AppreciationList?.filter(item => item.Ranking === 1).length ? (
+                        <View style={titleContainerStyle}>
+                          <Typography.Text color="neutralBase+30" size="title3" weight="medium">
+                            {t("Appreciation.HubScreen.promoted")}
+                          </Typography.Text>
+                        </View>
+                      ) : null}
+                      {AppreciationList?.filter(item => item.Ranking === 1).map((appreciation, index) => {
+                        return (
+                          <AppreciationCard
+                            appreciation={appreciation}
+                            userTier={userTier}
+                            key={index}
+                            onPress={handleOnAppreciationCardPress}
+                            onLike={handleOnLikeAppreciation}
                           />
                         );
-                      });
-                    })}
-                  <Button variant="tertiary" onPress={handleOnClearAllModalFiltersPressed} size="mini">
-                    {t("Appreciation.HubScreen.clearAll")}
-                  </Button>
-                </Stack>
-              </ScrollView>
-            ) : (
-              <SegmentedControl onPress={handleOnTabChange} value={currentTab}>
-                <SegmentedControl.Item value={TabsTypes.ALL}>{t("Appreciation.HubScreen.all")}</SegmentedControl.Item>
-                <SegmentedControl.Item value={TabsTypes.REDEEMED}>
-                  {t("Appreciation.HubScreen.redeemed")}
-                </SegmentedControl.Item>
-                <SegmentedControl.Item value={TabsTypes.LIKED}>
-                  {t("Appreciation.HubScreen.liked")}
-                </SegmentedControl.Item>
-              </SegmentedControl>
-            )}
-          </View>
-          {AppreciationList?.length === 0 ? (
-            hasFilters ? (
-              <DefaultContent
-                title={t("Appreciation.HubScreen.FilterOptions.noAppreciationsFoundTitle")}
-                subtitle={t("Appreciation.HubScreen.FilterOptions.noAppreciationsFoundDescription")}
-                image={noAppreciationFilter}
-              />
-            ) : (
-              <DefaultContent
-                buttonText={currentTab === TabsTypes.LIKED ? undefined : emptyListMessage[currentTab].SuggestionButton}
-                onButtonPress={
-                  currentTab === TabsTypes.LIKED ? undefined : emptyListMessage[currentTab].onSuggestionButtonPress
-                }
-                title={emptyListMessage[currentTab].title}
-                subtitle={emptyListMessage[currentTab].subtitle}
-                image={currentTab === TabsTypes.LIKED ? noLikedAppreciationImage : noAppreciationImage}
-              />
-            )
-          ) : (
-            <ContentContainer isScrollView>
-              {currentTab === TabsTypes.ALL && AppreciationList && (
-                <>
-                  {AppreciationList?.filter(item => item.Ranking === 1).length ? (
+                      })}
+                    </>
+                  )}
+                  <View style={exploreContainerStyle}>
                     <View style={titleContainerStyle}>
                       <Typography.Text color="neutralBase+30" size="title3" weight="medium">
-                        {t("Appreciation.HubScreen.promoted")}
+                        {t("Appreciation.HubScreen.explore")}
                       </Typography.Text>
                     </View>
-                  ) : null}
-                  {AppreciationList?.filter(item => item.Ranking === 1).map((appreciation, index) => {
-                    return (
-                      <AppreciationCard
-                        appreciation={appreciation}
-                        userTier={userTier}
-                        key={index}
-                        onPress={handleOnAppreciationCardPress}
-                        onLike={handleOnLikeAppreciation}
-                      />
-                    );
-                  })}
-                </>
+                    <View>
+                      <Pressable style={styles.dropdownContainer} onPress={() => setIsSortingModalVisible(true)}>
+                        <Typography.Text color="primaryBase" size="footnote" weight="medium" align="center">
+                          {t(`Appreciation.HubScreen.FilterOptions.${currentSortingOption}`)}
+                        </Typography.Text>
+                        <AngleDownIcon color={angleDownIconColor} />
+                      </Pressable>
+                    </View>
+                  </View>
+                  {AppreciationList &&
+                    AppreciationList?.filter(item => item.Ranking !== 1).map((appreciation, index) => {
+                      return (
+                        <AppreciationCard
+                          appreciation={appreciation}
+                          userTier={userTier}
+                          key={index}
+                          onPress={handleOnAppreciationCardPress}
+                          onLike={handleOnLikeAppreciation}
+                        />
+                      );
+                    })}
+                </ContentContainer>
               )}
-              <View style={exploreContainerStyle}>
-                <View style={titleContainerStyle}>
-                  <Typography.Text color="neutralBase+30" size="title3" weight="medium">
-                    {t("Appreciation.HubScreen.explore")}
-                  </Typography.Text>
-                </View>
-                <View>
-                  <Pressable style={styles.dropdownContainer} onPress={() => setIsSortingModalVisible(true)}>
-                    <Typography.Text color="primaryBase" size="footnote" weight="medium" align="center">
-                      {t(`Appreciation.HubScreen.FilterOptions.${currentSortingOption}`)}
-                    </Typography.Text>
-                    <AngleDownIcon color={angleDownIconColor} />
-                  </Pressable>
-                </View>
-              </View>
-              {AppreciationList &&
-                AppreciationList?.filter(item => item.Ranking !== 1).map((appreciation, index) => {
-                  return (
-                    <AppreciationCard
-                      appreciation={appreciation}
-                      userTier={userTier}
-                      key={index}
-                      onPress={handleOnAppreciationCardPress}
-                      onLike={handleOnLikeAppreciation}
-                    />
-                  );
-                })}
-            </ContentContainer>
+            </View>
+          ) : (
+            <AppreciationError onRefresh={refetch} />
           )}
         </>
       )}

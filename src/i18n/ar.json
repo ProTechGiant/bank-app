@@ -2388,6 +2388,11 @@
       "new": "New",
       "croatiaPlus": "Croatia Plus",
       "endsOnMessage": "Presale ends on",
+      "LoadingError": {
+        "title": "لم نتمكن من تحميل البيانات",
+        "description": "كان هناك مشكلة طفيفة، ولكن لا تقلق. يمكننا المحاولة مرة أخرى",
+        "reload":"إعادة التحميل"
+        },
       "FilterOptions": {
         "recommendedForYou": "Recommended for you",
         "mostRecent": "Most Recent",
