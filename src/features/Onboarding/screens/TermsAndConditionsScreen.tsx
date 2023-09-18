@@ -104,7 +104,7 @@ const TermsAndConditionsScreen = () => {
         </Stack>
       </ContentContainer>
       <View style={footerStyle}>
-        <Button onPress={handleOnSubmit} disabled={!isTermsChecked}>
+        <Button loading={termsConditionsAsync.isLoading} onPress={handleOnSubmit} disabled={!isTermsChecked}>
           {t("Onboarding.TermsAndConditions.continue")}
         </Button>
       </View>
