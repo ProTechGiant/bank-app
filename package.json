@@ -66,6 +66,7 @@
     "react-native-svg": "^13.8.0",
     "react-native-svg-transformer": "^1.0.0",
     "react-native-tab-view": "^3.3.4",
+    "react-native-user-inactivity": "^1.2.0",
     "react-native-webview": "^11.26.1",
     "react-query": "^3.39.2",
     "victory-native": "^36.6.11",
