@@ -1105,8 +1105,8 @@
     "TopSpendingCategories": {
       "currentSpending": "الإنفاق الحالي في",
       "SAR": "ر.س",
-      "topCategories": "أعلى الإنفاق",
-      "viewAllSpending": "عرض جميع النفقات",
+      "topCategories": "الفئات العليا",
+      "viewAllSpending": "عرض جميع المصاريف",
       "noSpending": "لاتوجد معلومات عن الإنفاق حتى الآن",
       "noSpendingInformation": ".عندما تبدأ في إجاراء عمليات الشراء ستظهر هنا فئات الإنفاق الأعلى"
     },

@@ -21,6 +21,10 @@ const queryKeys = {
   getLayout: () => [...queryKeys.all(), "getLayout"],
   getQuickActions: () => [...queryKeys.all(), "getShortcuts"],
   getBulletinBoardTasks: () => ["bulletinBoardTasks"],
+  getTopCategories: (fromDate: string, toDate: string, accountId: string) => [
+    "topCategories",
+    { fromDate: fromDate, toDate: toDate, accountId },
+  ],
 };
 
 interface HomepageSectionLayoutType {
@@ -146,7 +150,7 @@ export function useCategories(accountId: string) {
     isError,
     refetch,
   } = useQuery(
-    ["topCategories", { fromDate: fromDate, toDate: toDate }],
+    [queryKeys.getTopCategories(fromDate, toDate, accountId)],
     () =>
       api<TopSpendingCategoriesResponse>(
         "v1",
