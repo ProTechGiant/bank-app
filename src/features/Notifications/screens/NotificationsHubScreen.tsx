@@ -1,4 +1,5 @@
 import { format, formatDistance, isToday, isYesterday, startOfToday, subDays } from "date-fns";
+import { arSA, enUS } from "date-fns/locale";
 import { uniqBy } from "lodash";
 import { createElement, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -24,7 +25,7 @@ import { useAllNotifications, useFilterNotifications } from "../hooks/query-hook
 import { FilterType, InfoIconValues, NotificationType, PAGE_SIZE, SectionEnum, SwapIconValues } from "../types";
 
 export default function NotificationsHubScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const todayDate = startOfToday();
   const from30DaysDate = subDays(new Date(todayDate), 31);
@@ -217,10 +218,18 @@ export default function NotificationsHubScreen() {
 
                     const time =
                       section.day === SectionEnum.TODAY
-                        ? formatDistance(item.CreatedOn, todayDate)
+                        ? formatDistance(item.CreatedOn, new Date(), {
+                            addSuffix: true,
+                            locale: i18n.language === "en" ? enUS : arSA,
+                          })
                         : section.day === SectionEnum.YESTERDAY
-                        ? format(item.CreatedOn, "p")
-                        : format(item.CreatedOn, "PPp");
+                        ? format(item.CreatedOn, "p", {
+                            locale: i18n.language === "en" ? enUS : arSA,
+                          })
+                        : format(item.CreatedOn, "PPpp", {
+                            locale: i18n.language === "en" ? enUS : arSA,
+                          });
+
                     return (
                       <NotificationItem
                         onPress={() => handleOnItemPressed(item)}
