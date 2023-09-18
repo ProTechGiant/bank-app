@@ -2010,10 +2010,10 @@
     "resendCodeEnabled": "Resend Code",
     "notification": "That OTP wasn't right. You have {{attempts}} attempts left.",
     "errors": {
-      "invalidPassword": "That code wasn't right - try again.",
+      "invalidPassword": "The code you entered was invalid. Please try again.",
       "maxAttemptsInvalidPasswordReached": "You have reached the maximum number of authentication attempts. Please try again later.",
-      "twoAttemptsLeft": "That code has expired. You can request 2 more codes.",
-      "oneAttemptLeft": "That code has expired. You can request 1 more code.",
+      "twoAttemptsLeft": "The code has expired. You can request 2 more codes.",
+      "oneAttemptLeft": "The code has expired. You can request 1 more code.",
       "noAttemptsLeftTitle": "Try again later",
       "noAttemptsLeftMessage": "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
       "button": "OK"
