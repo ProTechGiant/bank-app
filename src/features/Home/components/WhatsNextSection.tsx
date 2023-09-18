@@ -12,6 +12,7 @@ import { Content } from "@/types/Content";
 import { SORT_NEWEST, WHATS_NEXT_CATEGORY_ID } from "../constants";
 import { ArticleSectionType } from "../types";
 import HomeArticleSection from "./HomeArticleSection";
+import RefreshSection from "./RefreshSection";
 import Section from "./Section";
 
 interface WhatsNextSectionProps {
@@ -64,10 +65,12 @@ export default function WhatsNextSection({ onViewAllPress }: WhatsNextSectionPro
           data={data as ArticleSectionType[]}
         />
       ) : (
-        <View style={loadingContainerStyle}>
-          {/* TODO : this section will be replaced by refresh compnent */}
-          <Typography.Text align="center">Unable to Fetch Articles</Typography.Text>
-        </View>
+        <RefreshSection
+          hint={t("Home.RefreshSection.hintForWhatNextArticles")}
+          hasIcon={true}
+          hasBorder={true}
+          onRefreshPress={refetch}
+        />
       )}
     </Section>
   );

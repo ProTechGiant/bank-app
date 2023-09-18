@@ -1099,7 +1099,8 @@
     },
     "RefreshSection": {
       "refreshButton": "تحديث",
-      "hintForSpendingSection": "تعذر تحميل النفقات"
+      "hintForSpendingSection": "تعذر تحميل النفقات",
+      "hintForWhatNextArticles": "المقالات سوف تكون هنا قريبا"
     },
     "TopSpendingCategories": {
       "currentSpending": "الإنفاق الحالي في",

@@ -1166,7 +1166,8 @@
     },
     "RefreshSection": {
       "refreshButton": "Refresh",
-      "hintForSpendingSection": "Couldn’t load Spending Insights"
+      "hintForSpendingSection": "Couldn’t load Spending Insights",
+      "hintForWhatNextArticles": "Articles will be here soon"
     },
     "TopSpendingCategories": {
       "currentSpending": "Current spending in",
