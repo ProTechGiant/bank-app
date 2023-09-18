@@ -7,7 +7,6 @@ import Typography from "@/components/Typography";
 import { useContentArticleList } from "@/hooks/use-content";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { Content } from "@/types/Content";
 
 import { SORT_NEWEST, WHATS_NEXT_CATEGORY_ID } from "../constants";
 import { ArticleSectionType } from "../types";
@@ -41,10 +40,11 @@ export default function WhatsNextSection({ onViewAllPress }: WhatsNextSectionPro
     justifyContent: "center",
   }));
 
-  const handleOnTopTenArticlePress = (article: Content) => {
+  const handleOnExploreArticlePress = (articleId: string) => {
     navigation.navigate("WhatsNext.WhatsNextStack", {
-      screen: "WhatsNext.TopTenArticleScreen",
-      params: { topTenArticlesData: article },
+      screen: "WhatsNext.ExploreArticleScreen",
+
+      params: { articleId },
     });
   };
 
@@ -56,12 +56,7 @@ export default function WhatsNextSection({ onViewAllPress }: WhatsNextSectionPro
         </View>
       ) : data && data.length > 0 ? (
         <HomeArticleSection
-          onPress={articleId => {
-            const article = data.find(d => d.ContentId === articleId);
-            if (article !== undefined) {
-              handleOnTopTenArticlePress(article);
-            }
-          }}
+          onPress={articleId => handleOnExploreArticlePress(articleId)}
           data={data as ArticleSectionType[]}
         />
       ) : (
