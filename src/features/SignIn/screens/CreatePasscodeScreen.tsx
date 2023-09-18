@@ -76,7 +76,9 @@ export default function CreatePasscodeScreen() {
         <View style={bannerStyle}>
           <Alert variant="default" message={t("SignIn.CreatePasscodeScreen.needHelpInfo")} />
         </View>
-        <NumberPad passcode={passCode} setPasscode={handleOnChangeText} />
+        <View style={styles.bottomSpace}>
+          <NumberPad passcode={passCode} setPasscode={handleOnChangeText} />
+        </View>
       </View>
     </Page>
   );
@@ -85,5 +87,8 @@ export default function CreatePasscodeScreen() {
 const styles = StyleSheet.create({
   containerStyle: {
     height: "100%",
+  },
+  bottomSpace: {
+    bottom: 40
   },
 });

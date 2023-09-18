@@ -101,7 +101,9 @@ export default function ConfirmPasscodeScreen() {
           passcode={passCode}
           showModel={errorMessages.length}
         />
-        <NumberPad passcode={passCode} setPasscode={handleOnChangeText} />
+        <View style={styles.bottomSpace}>
+          <NumberPad passcode={passCode} setPasscode={handleOnChangeText} />
+        </View>
       </View>
       <NotificationModal
         message={
@@ -127,5 +129,8 @@ export default function ConfirmPasscodeScreen() {
 const styles = StyleSheet.create({
   containerStyle: {
     height: "100%",
+  },
+  bottomSpace: {
+    bottom: 40
   },
 });

@@ -73,7 +73,6 @@ export default function CardPinScreen() {
   const bannerStyle = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "flex-end",
     paddingHorizontal: theme.spacing["20p"],
-    height: screenHeight * 0.23,
   }));
 
   const forgotPinTextStyle = useThemeStyles<ViewStyle>(theme => ({

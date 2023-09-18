@@ -269,8 +269,8 @@ export default function PasscodeScreen() {
           resetError={handleNavigateToBlockScreen}
         />
         <NumberPad
-          handleBioMatric={handleBioMatric}
-          isBiomatric={biometricsKeyExist && isSensorAvailable}
+          handleBiometric={handleBioMatric}
+          isBiometric={biometricsKeyExist && isSensorAvailable}
           passcode={passCode}
           setPasscode={setPasscode}
         />
