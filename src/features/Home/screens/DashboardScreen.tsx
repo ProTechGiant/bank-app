@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
@@ -21,7 +21,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 
-import HeaderSvg from "../assets/Header-homepage.svg";
+import { DividerHeaderHomeIcon } from "../assets/icons";
 import {
   AppreciationFeedbackModal,
   BalanceCard,
@@ -160,12 +160,27 @@ export default function DashboardScreen() {
   const shortcutSectionStackStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["32p"],
   }));
+  const backgroundViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette.complimentBase,
+    height: 140,
+    width: "100%",
+  }));
+
+  const headerContentStyle = useThemeStyles<ViewStyle>(theme => ({
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: theme.palette.complimentBase,
+    height: 145,
+  }));
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
-      <View style={styles.backgroundImage}>
-        <HeaderSvg />
-      </View>
+      <StatusBar barStyle="dark-content" backgroundColor="#FF371E" translucent />
+      <Stack direction="vertical" flex={1} style={headerContentStyle}>
+        <View style={backgroundViewStyle} />
+        <Stack direction="vertical" style={styles.dividerHeaderStyle}>
+          <DividerHeaderHomeIcon width="100%" height="100%" />
+        </Stack>
+      </Stack>
       <SafeAreaView edges={["top"]} style={styles.container}>
         <HeaderHomePage firstName={customerProfile?.FirstName} />
         <BalanceCard balance={account.data?.balance} accountNumber={account.data?.id} />
@@ -275,10 +290,11 @@ export default function DashboardScreen() {
 }
 
 const styles = StyleSheet.create({
-  backgroundImage: {
-    ...StyleSheet.absoluteFillObject,
-  },
   container: {
     flex: 1,
+  },
+  dividerHeaderStyle: {
+    aspectRatio: 16.25,
+    width: "100%",
   },
 });
