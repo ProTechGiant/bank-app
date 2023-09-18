@@ -24,13 +24,13 @@ import { TransferType } from "@/types/InternalTransfer";
 import { DividerHeaderHomeIcon } from "../assets/icons";
 import {
   AppreciationFeedbackModal,
+  AppreciationSection,
   BalanceCard,
   BulletinBoardSection,
   CardSection,
   HeaderHomePage,
   QuickActionsReordererModal,
   QuickActionsSection,
-  RewardsSection,
   TopSpendingCategories,
   WhatsNextSection,
 } from "../components";
@@ -103,7 +103,7 @@ export default function DashboardScreen() {
     setIsVisible(true);
   };
 
-  const handleOnRewardsPress = () => {
+  const handleOnAppreciationsPress = () => {
     navigation.navigate("Appreciation.AppreciationStack");
   };
 
@@ -207,7 +207,7 @@ export default function DashboardScreen() {
               <>
                 {sections.map(section => {
                   if (section.type === "appreciations" && section.isItemChecked) {
-                    return <RewardsSection key={section.type} onViewAllPress={handleOnRewardsPress} />;
+                    return <AppreciationSection key={section.type} onViewAllPress={handleOnAppreciationsPress} />;
                   }
                   if (section.type === "articles" && section.isItemChecked) {
                     return <WhatsNextSection key={section.type} onViewAllPress={handleOnWhatsNextPress} />;

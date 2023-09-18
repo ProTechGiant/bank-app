@@ -10,3 +10,38 @@ export enum SortingOptions {
   ALPHABETIC = "alphabetic",
   EXPIRING_SOONEST = "expiringSoonest",
 }
+export interface FilterItemType {
+  Name: string;
+  Code: number;
+  isActive?: boolean;
+}
+export interface AppreciationType {
+  AppreciationId: string;
+  isFavourite: number;
+  VoucherCode: string;
+  Pin_Password: string;
+  Rank: number;
+  AppreciationName: string;
+  AppreciationDescription: string;
+  PartnerName: string;
+  PartnerDescription: string;
+  PartnerTermsAndConditionsId: string;
+  Tier: number;
+  Category: FilterItemType;
+  Section: FilterItemType;
+  Type: FilterItemType;
+  Location: FilterItemType;
+  RedeemFlag: number;
+  ActiveFlag: number;
+  ExpiryDate: string;
+  ImageUrl: string;
+  PresaleContent: string;
+  PresaleDate: string;
+  AppreciationTermsAndConditionsId: string;
+}
+export interface AppreciationResponseType {
+  PageSize: number;
+  Offset: number;
+  Appreciations: AppreciationType[];
+  CustomerId: number;
+}

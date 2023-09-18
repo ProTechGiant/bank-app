@@ -1,5 +1,6 @@
 export { default as ActiveReordererItem } from "./ActiveReordererItem";
 export { default as AppreciationFeedbackModal } from "./AppreciationFeedbackModal";
+export { default as AppreciationSection } from "./AppreciationSection";
 export { default as BalanceCard } from "./BalanceCard";
 export { default as BulletinBoardSection } from "./BulletinBoardSection";
 export { default as BulletinBoardSectionIcon } from "./BulletinBoardSectionIcon";
@@ -15,7 +16,6 @@ export { default as QuickActionToggle } from "./QuickActionToggle";
 export { default as RefreshSection } from "./RefreshSection";
 export { default as ReordererHeader } from "./ReordererHeader";
 export { default as ReordererSection } from "./ReordererSection";
-export { default as RewardsSection } from "./RewardsSection";
 export { default as Section } from "./Section";
 export { default as TopCategoryItem } from "./TopCategoryItem";
 export { default as TopSpendingCategories } from "./TopSpendingCategories";

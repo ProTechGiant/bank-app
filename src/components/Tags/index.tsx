@@ -1,12 +1,11 @@
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
+import { DiamondSmallIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { CustomerTierEnum } from "@/types/CustomerProfile";
-
-import { DiamondIcon } from "../assets";
 
 interface TagsProps {
   isNew: boolean;
@@ -41,7 +40,7 @@ export default function Tags({ isNew, isPlus, userTier }: TagsProps) {
       {isPlus && userTier === CustomerTierEnum.STANDARD && (
         <View style={[tagStyle, croatiaPlusTagStyle]}>
           <Typography.Text color="supportBase-10" size="caption2" weight="medium">
-            <DiamondIcon /> {t("Appreciation.HubScreen.croatiaPlus")}
+            <DiamondSmallIcon /> {t("Appreciation.HubScreen.croatiaPlus")}
           </Typography.Text>
         </View>
       )}

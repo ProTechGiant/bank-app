@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useAppreciationSearch } from "@/features/Appreciation/hooks/query-hooks";
-import { SortingOptions, TabsTypes } from "@/types/Appreciation";
+import { AppreciationResponseType, SortingOptions, TabsTypes } from "@/types/Appreciation";
 import { generateRandomId } from "@/utils";
 
 import {
@@ -20,6 +20,7 @@ const queryKeys = {
   all: () => ["layout"],
   getLayout: () => [...queryKeys.all(), "getLayout"],
   getQuickActions: () => [...queryKeys.all(), "getShortcuts"],
+  getAppreciations: () => [...queryKeys.all(), "getAppreciations"],
   getBulletinBoardTasks: () => ["bulletinBoardTasks"],
   getTopCategories: (fromDate: string, toDate: string, accountId: string) => [
     "topCategories",
@@ -202,5 +203,36 @@ export function useAppreciationFeedback() {
 export function useAppreciationsWithNoFeedback(language: string) {
   return useAppreciationSearch(null, SortingOptions.ALPHABETIC, TabsTypes.ALL, language, {
     FeedbackFlag: 2,
+  });
+}
+
+export function useTopAppreciations() {
+  const { i18n } = useTranslation();
+
+  return useQuery(queryKeys.getAppreciations(), () => {
+    return api<AppreciationResponseType>(
+      "v1",
+      "appreciations",
+      "POST",
+      undefined,
+      {
+        PageSize: 0,
+        PageOffset: 0,
+        SortBy: 0,
+        IsFavourite: 0,
+        ClassificationCodes: [],
+        CategoryCodes: [],
+        TypeCodes: [],
+        SectionCodes: [],
+        RedeemedFlag: [],
+        LocationCodes: [],
+        ActiveFlag: [],
+        FeedbackFlag: 0,
+      },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language,
+      }
+    );
   });
 }

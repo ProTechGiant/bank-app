@@ -1,11 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 
+import { CalendarSmallIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-
-import { CalendarIcon } from "../assets";
 
 interface AppreciationEventDetailsSectionProps {
   endDate: string;
@@ -48,7 +47,7 @@ export default function AppreciationEventDetailsSection({
         </View>
         <Pressable onPress={addDateToCalendar}>
           <Stack direction="horizontal" align="center">
-            <CalendarIcon />
+            <CalendarSmallIcon />
             <Typography.Text color="neutralBase" size="callout" style={addToCalendarStyle}>
               {t("Appreciation.AppreciationDetailsSection.addToCalendar")}
             </Typography.Text>

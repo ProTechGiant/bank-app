@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, View, ViewStyle } from "react-native";
 
+import { Tags } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NotificationModal from "@/components/NotificationModal";
@@ -19,7 +20,6 @@ import {
   AppreciationEventDetailsSection,
   ExploreAppreciationHeader,
   RedeemAppreciationModal,
-  Tags,
 } from "../components";
 import { useRedeemAppreciation } from "../hooks/query-hooks";
 import { Pin_Password, VoucherCode, VoucherCodeType } from "../mock";

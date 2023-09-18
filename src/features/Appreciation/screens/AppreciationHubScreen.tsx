@@ -6,6 +6,7 @@ import { Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native
 
 import { FilterIcon } from "@/assets/icons";
 import { AngleDownIcon } from "@/assets/icons";
+import { AppreciationCard } from "@/components";
 import Button from "@/components/Button";
 import Chip from "@/components/Chip";
 import ContentContainer from "@/components/ContentContainer";
@@ -25,7 +26,7 @@ import { CustomerTierEnum } from "@/types/CustomerProfile";
 import noAppreciationFilter from "../assets/no-appreciation-filter.png";
 import noAppreciationImage from "../assets/no-appreciation-image.png";
 import noLikedAppreciationImage from "../assets/no-liked-appreciation-image.png";
-import { AppreciationCard, AppreciationError, SortingModal } from "../components";
+import { AppreciationError, SortingModal } from "../components";
 import { FilterModal } from "../components";
 import { SORTING_OPTIONS_ALL_TAB, SORTING_OPTIONS_OTHER_TABS } from "../constants";
 import { useAppreciationFilters, useAppreciationSearch } from "../hooks/query-hooks";

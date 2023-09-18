@@ -2,7 +2,7 @@ import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export const CalendarIcon = ({ width = 16, height = 16, color = "#2E2E2E" }: IconProps) => {
+export function CalendarSmallIcon({ width = 16, height = 16, color = "#2E2E2E" }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path
@@ -11,4 +11,4 @@ export const CalendarIcon = ({ width = 16, height = 16, color = "#2E2E2E" }: Ico
       />
     </Svg>
   );
-};
+}

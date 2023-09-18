@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Image, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import whiteTriangleHorizontal from "@/assets/rectangle-image-divider.png";
 import NavHeader from "@/components/NavHeader";
 import NetworkImage from "@/components/NetworkImage";
 import { useThemeStyles } from "@/theme";
 
 import { FavoriteIcon } from "../assets";
-import whiteTriangleHorizontal from "../assets/rectangle-image-divider.png";
 
 interface ExploreAppreciationHeaderProps {
   onAppreciationFavoritePress: () => void;

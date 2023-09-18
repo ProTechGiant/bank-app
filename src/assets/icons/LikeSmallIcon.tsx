@@ -2,7 +2,7 @@ import Svg, { Path, Rect } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export function LikeIcon({ width = 36, height = 36, color = "#2E2E2E" }: IconProps) {
+export function LikeSmallIcon({ width = 36, height = 36, color = "#2E2E2E" }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Rect width={width} height={height} rx="18" fill="#FAFAFA" fill-opacity="0.6" />

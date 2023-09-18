@@ -2,7 +2,7 @@ import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export const TrendingUpIcon = ({ width = 16, height = 16, color = "#FF371E" }: IconProps) => {
+export function TrendingUpSmallIcon({ width = 16, height = 16, color = "#FF371E" }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path
@@ -11,4 +11,4 @@ export const TrendingUpIcon = ({ width = 16, height = 16, color = "#FF371E" }: I
       />
     </Svg>
   );
-};
+}
