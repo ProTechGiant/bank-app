@@ -8,14 +8,15 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 
 import { useSignInContext } from "../contexts/SignInContext";
-import { getMockData } from "../mock";
+import { getMockData, getMockSignIn, mockUserMatch, mockUserNotMatch, mockUserNotMatchDevice } from "../mock";
 import {
+  CheckCustomerStatusResponse,
   CheckUserStatusResponse,
   LogInOtpChallengeParams,
   LoginUserType,
   RegistrationResponse,
   RequestNumberResponseType,
-  SigninType,
+  UserType,
   ValidateDeviceType,
 } from "../types";
 
@@ -42,28 +43,30 @@ export function useCheckUser() {
 }
 
 export function useLoginUser() {
-  const { correlationId, nationalId } = useSignInContext();
+  const { correlationId } = useSignInContext();
 
-  return useMutation(async (passCode: string) => {
+  return useMutation(async ({ passCode, nationalId }: { passCode: string; nationalId: string }) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
-
-    const deviceName = await DeviceInfo.getDeviceName();
-
-    return sendApiRequest<LoginUserType>(
-      "v1",
-      "customers/sign-in",
-      "POST",
-      undefined,
-      {
-        NationalId: nationalId,
-        Passcode: passCode,
-      },
-      {
-        ["x-correlation-id"]: correlationId,
-        ["DeviceName"]: deviceName,
-        ["DeviceId"]: DeviceInfo.getDeviceId(),
-      }
-    );
+    //TODO: will be removed when API is ready
+    if (nationalId === "123") {
+      return sendApiRequest<LoginUserType>(
+        "v1",
+        "customers/sign-in",
+        "POST",
+        undefined,
+        {
+          Passcode: passCode,
+          NationalId: nationalId,
+        },
+        {
+          ["x-correlation-id"]: correlationId,
+          ["DeviceId"]: DeviceInfo.getDeviceId(),
+          ["DeviceName"]: await DeviceInfo.getDeviceName(),
+        }
+      );
+    } else {
+      return getMockSignIn(passCode);
+    }
   });
 }
 
@@ -191,6 +194,32 @@ export function useMockResetPasscode() {
   return { resetPasscode, error, isLoading };
 }
 
+export const useResetPasscode = () => {
+  const { userId } = useAuthContext();
+  const { correlationId } = useSignInContext();
+
+  return useMutation(async (Passcode: string) => {
+    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+    const deviceName = await DeviceInfo.getDeviceName();
+
+    return sendApiRequest<string>(
+      "v1",
+      `customers/passcode/reset/${userId}`,
+      "PATCH",
+      undefined,
+      {
+        Passcode,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+        ["DeviceName"]: deviceName,
+        ["DeviceId"]: DeviceInfo.getDeviceId(),
+      }
+    );
+  });
+};
+
 export function useValidatePincode() {
   const { correlationId } = useSignInContext();
 
@@ -210,7 +239,6 @@ export function useValidatePincode() {
         ["x-correlation-id"]: correlationId,
         ["DeviceId"]: DeviceInfo.getDeviceId(),
         ["DeviceName"]: await DeviceInfo.getDeviceName(),
-        ["Authorization"]: generateRandomId(),
       }
     ); */
   });
@@ -255,36 +283,6 @@ export function useCheckUserStatus() {
   });
 }
 
-export function useSignIn() {
-  const { correlationId, setNationalId } = useSignInContext();
-  const { updatePhoneNumber } = useAuthContext();
-
-  return useMutation(
-    (passcode: string) => {
-      if (undefined === correlationId) throw new Error("Cannot fetch customers/sign-in without `correlationId`");
-
-      return sendApiRequest<SigninType>(
-        "v1",
-        "customers/sign-in",
-        "POST",
-        undefined,
-        {
-          Passcode: passcode,
-        },
-        {
-          ["x-correlation-id"]: correlationId,
-        }
-      );
-    },
-    {
-      onSuccess(data) {
-        setNationalId(data.NationalOrIqamaId);
-        updatePhoneNumber(data.MobileNumber);
-      },
-    }
-  );
-}
-
 export function useSendLoginOTP() {
   const { correlationId } = useSignInContext();
 
@@ -306,8 +304,39 @@ export function useSendLoginOTP() {
   });
 }
 
+export function useSearchUserByNationalId() {
+  const { correlationId } = useSignInContext();
+  return useMutation(async ({ NationalId, MobileNumber }: { NationalId: string; MobileNumber: string }) => {
+    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+    //TODO: just for test , will remove switch when API is ready
+    switch (NationalId) {
+      case "1234567890":
+        return mockUserMatch;
+      case "1234567891":
+        return mockUserNotMatch;
+      case "1234567892":
+        return mockUserNotMatchDevice;
+      default:
+        return sendApiRequest<UserType>(
+          "v1",
+          "customers/search",
+          "POST",
+          undefined,
+          {
+            NationalId,
+            MobileNumber,
+          },
+          {
+            ["x-Correlation-Id"]: correlationId,
+            ["DeviceId"]: DeviceInfo.getDeviceId(),
+            ["DeviceName"]: await DeviceInfo.getDeviceName(),
+          }
+        );
+    }
+  });
+}
+
 export const useUpdatePasscode = () => {
-  const { userId } = useAuthContext();
   const { correlationId } = useSignInContext();
 
   return useMutation(async ({ newPasscode, currentPasscode }: { newPasscode: string; currentPasscode: string }) => {
@@ -317,7 +346,7 @@ export const useUpdatePasscode = () => {
 
     return sendApiRequest<string>(
       "v1",
-      `customers/passcode/update/${userId}`,
+      `customers/passcode/update`,
       "PATCH",
       undefined,
       {
@@ -332,3 +361,36 @@ export const useUpdatePasscode = () => {
     );
   });
 };
+
+export function useCheckCustomerStatus() {
+  const { correlationId } = useSignInContext();
+
+  return useMutation((customerId: string) => {
+    if (undefined === correlationId) throw new Error("Cannot fetch customers/registration without `correlationId`");
+
+    return sendApiRequest<CheckCustomerStatusResponse>(
+      "v1",
+      `customers/${customerId}/status`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+  });
+}
+
+export function useGetAuthenticationToken() {
+  const { correlationId } = useSignInContext();
+
+  return useMutation(async () => {
+    if (undefined === correlationId) throw new Error("Cannot fetch customers/registration without `correlationId`");
+
+    return sendApiRequest<LoginUserType>("v1", "api/authentication", "GET", undefined, undefined, {
+      ["x-correlation-id"]: correlationId,
+      ["DeviceId"]: DeviceInfo.getDeviceId(),
+      ["DeviceName"]: await DeviceInfo.getDeviceName(),
+    });
+  });
+}

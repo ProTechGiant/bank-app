@@ -46,7 +46,6 @@ export function PhoneNumberInput({
 
   const filteredValue = propsValue?.startsWith(countryCode) ? propsValue.substring(countryCode.length) : propsValue;
   const containsValue = filteredValue !== undefined && filteredValue.length > 0;
-  const displayMaxLength = COUNTRY_CONFIGURATION[countryCode].filter(v => v !== " ").length;
   const actualMaxLength = COUNTRY_CONFIGURATION[countryCode].length;
 
   const { onChangeText, placeholder, value } = useMaskedInputProps({
@@ -130,11 +129,7 @@ export function PhoneNumberInput({
           </Animated.View>
         </InputBox>
       </Pressable>
-      <InputExtra
-        errorText={errorText}
-        extraEnd={`${filteredValue?.length ?? 0} / ${displayMaxLength}`}
-        testID={testID}
-      />
+      <InputExtra errorText={errorText} testID={testID} />
     </View>
   );
 }

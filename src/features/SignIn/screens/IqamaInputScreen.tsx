@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -10,20 +10,22 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
+import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { MobileAndNationalIdForm } from "../components";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
-import { useCheckUser } from "../hooks/query-hooks";
-import { IqamaInputs } from "../types";
+import { useSearchUserByNationalId } from "../hooks/query-hooks";
+import { IqamaInputs, UserType } from "../types";
 
 export default function IqamaInputScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { mutateAsync, error, reset } = useCheckUser();
+  const { mutateAsync, error, reset } = useSearchUserByNationalId();
   const iqamaError = error as ApiError;
   const { errorMessages } = useErrorMessages(iqamaError);
   const { setSignInCorrelationId } = useSignInContext();
+  const [notMatchRecord, setNotMatchRecord] = useState(false);
 
   useEffect(() => {
     const _correlationId = generateRandomId();
@@ -45,12 +47,23 @@ export default function IqamaInputScreen() {
     navigation.navigate("Onboarding.OnboardingStack");
   };
 
+  const storeUserToLocalStorage = (user: UserType) => {
+    setItemInEncryptedStorage("tempUser", JSON.stringify(user));
+  };
+
   const handleOnSubmit = async (values: IqamaInputs) => {
     try {
-      const { NationalId } = values;
-      await mutateAsync({ NationalId });
-      navigation.navigate("SignIn.Passcode");
+      const { NationalId, MobileNumber } = values;
+      const response = await mutateAsync({ NationalId, MobileNumber });
+      if (response.TotalRecords === 1) {
+        setNotMatchRecord(false);
+        storeUserToLocalStorage(response);
+        navigation.navigate("SignIn.Passcode");
+      } else if (response.TotalRecords === 0) {
+        setNotMatchRecord(true);
+      }
     } catch (err) {
+      setNotMatchRecord(false);
       warn("signIn", "Could not process iqama input. Error: ", JSON.stringify(err));
     }
   };
@@ -70,16 +83,17 @@ export default function IqamaInputScreen() {
             onSubmit={handleOnSubmit}
             errorMessages={errorMessages}
             onSignInPress={handleOnSignUp}
+            notMatchRecord={notMatchRecord}
             title={t("SignIn.IqamaInputScreen.title")}
             subTitle={t("SignIn.IqamaInputScreen.subTitle")}
             buttonText={t("SignIn.IqamaInputScreen.continue")}
           />
           <View style={accountSignInStyle}>
-            <Typography.Text size="body" weight="regular">
+            <Typography.Text size="footnote" weight="regular">
               {t("SignIn.IqamaInputScreen.subtext")}
             </Typography.Text>
             <Pressable onPress={handleOnSignUp}>
-              <Typography.Text size="body" weight="medium" color="primaryBase">
+              <Typography.Text style={styles.signIn} size="footnote" weight="medium" color="primaryBase-30">
                 {t("SignIn.IqamaInputScreen.signUp")}
               </Typography.Text>
             </Pressable>
@@ -95,5 +109,8 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flexGrow: 1,
+  },
+  signIn: {
+    textDecorationLine: "underline",
   },
 });

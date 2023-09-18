@@ -32,14 +32,7 @@ export interface LoginUserType {
   RefreshToken: string;
   IdToken: string;
   TokenType: string;
-}
-
-export interface SigninType {
-  AccessToken: string;
-  ExpiresIn: number;
-  TokenType: string;
-  MobileNumber: string;
-  NationalOrIqamaId: string;
+  ExpiresIn?: number;
 }
 
 export interface ValidateDeviceType {
@@ -66,7 +59,31 @@ export interface CheckUserStatusResponse {
   UserStatus: "active" | "temporary-blocked" | "permanently-blocked";
 }
 
-// TODO:  Actions Ids (1→ Manual Sign-out, 2 → Automatic log-out)
+export interface UserType {
+  TotalRecords: number;
+  UserId: string;
+  NationalId: string;
+  AccountValid: boolean;
+  UserName: string;
+  DeviceId: string;
+  DeviceName: string;
+  DeviceStatus: string;
+  MobileNumber: string;
+  CustomerId: string;
+  CustomerName: string;
+  Email: string;
+}
+
+enum StatusTypes {
+  ACTIVE = 1,
+  TEMPORARILY_BLOCKED = 2,
+  PERMANENTLY_BLOCKED = 3,
+}
+export interface CheckCustomerStatusResponse {
+  StatusId: StatusTypes;
+  LastModifiedTime: string;
+}
+
 export enum logoutActionsIds {
   MANUALLY_ID = 1,
   AUTOMATIC_ID = 2,

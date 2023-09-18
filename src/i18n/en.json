@@ -824,6 +824,7 @@
     },
     "IqamaInputScreen": {
       "errorText": {
+        "noMatchRecord":"The details don’t match our records. Check carefully and try again.",
         "twoAttemptsLeft": "Tha passcode you  entered is not correct, You have 2 attempts left.",
         "oneAttemptsLeft": "Tha passcode you  entered is not correct, You have 1 attempts left.",
         "modalTitle": "Try again later",
@@ -867,7 +868,7 @@
     "PasscodeScreen": {
       "title": "Enter Passcode",
       "userTitle": "Welcome Back, {{username}}",
-      "subTitle": "Enter your passcode to login",
+      "subTitle": "Enter your 6-digit passcode.",
       "notification": "That passcode wasn't right. You have {{attempts}} attempts left.",
       "errorMessage": "You’ve entered the wrong PIN too many times. Please wait {{time}} min and try again.",
       "errorTitle": "try again later",

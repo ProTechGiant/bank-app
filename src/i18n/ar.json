@@ -156,6 +156,7 @@
       "subtext": "Already with us? ",
       "signIn": "تسجيل الدخول",
       "errorText": {
+        "noMatchRecord":"The details don’t match our records. Check carefully and try again.",
         "twoAttemptsLeft": "You have tried to sign up 3 times. You have 2 attempts remaining.",
         "oneAttemptsLeft": "You have tried to sign up 4 times. You have 1 attempts remaining.",
         "noAttemptsLeft": "You have tried 5 times to sign up.\n\n Please wait until tomorrow before retrying.",
@@ -811,6 +812,7 @@
   "SignIn": {
     "IqamaInputScreen": {
       "errorText": {
+        "noMatchRecord":"The details don’t match our records. Check carefully and try again.",
         "twoAttemptsLeft": "You have tried to sign up 3 times. You have 2 attempts remaining.",
         "oneAttemptsLeft": "You have tried to sign up 4 times. You have 1 attempts remaining.",
         "noAttemptsLeft": "You have tried 5 times to sign up.\n\n Please wait until tomorrow before retrying.",
@@ -857,7 +859,7 @@
     "PasscodeScreen": {
       "title": "Enter Passcode",
       "userTitle": "Welcome Back, {{username}}",
-      "subTitle": "Enter your passcode to login",
+      "subTitle": "Enter your 6-digit passcode.",
       "notification": "That passcode wasn't right. You have {{attempts}} attempts left.",
       "errorMessage": "You’ve entered the wrong PIN too many times. Please wait {{time}} min and try again.",
       "errorTitle": "try again later",

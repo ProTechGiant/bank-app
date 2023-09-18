@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
+import { InfoFilledCircleIcon } from "@/assets/icons";
 import Alert from "@/components/Alert";
 import ContentContainer from "@/components/ContentContainer";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
@@ -22,6 +23,7 @@ interface MobileAndNationalIdFormProps {
   onSubmit: (values: IqamaInputs) => Promise<void>;
   onSignInPress?: () => void;
   errorMessages: ErrorMessageType[];
+  notMatchRecord: boolean;
   title: string;
   subTitle: string;
   buttonText: string;
@@ -31,6 +33,7 @@ export default function MobileAndNationalIdForm({
   onSubmit,
   onSignInPress,
   errorMessages,
+  notMatchRecord,
   title,
   subTitle,
   buttonText,
@@ -69,6 +72,15 @@ export default function MobileAndNationalIdForm({
     paddingHorizontal: theme.spacing["16p"],
   }));
 
+  const warningStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["errorBase-40"],
+    borderRadius: theme.radii.small,
+    paddingVertical: theme.spacing["16p"],
+    paddingHorizontal: theme.spacing["12p"],
+  }));
+
+  const infoIconColor = useThemeStyles(theme => theme.palette["errorBase-10"]);
+
   return (
     <>
       <ContentContainer isScrollView style={styles.containerStyle}>
@@ -82,7 +94,7 @@ export default function MobileAndNationalIdForm({
         </View>
         <View>
           <View style={inputFieldsStyle}>
-            <Stack direction="vertical" align="stretch" gap="20p">
+            <Stack direction="vertical" align="stretch" gap="16p">
               <PhoneNumberInput<IqamaInputs>
                 control={control}
                 name="MobileNumber"
@@ -98,6 +110,14 @@ export default function MobileAndNationalIdForm({
                 maxLength={TOTAL_NATIONAL_ID_LENGTH}
                 showCharacterCount
               />
+              {notMatchRecord ? (
+                <Stack style={warningStyle} direction="horizontal" gap="12p">
+                  <InfoFilledCircleIcon width={16} height={16} color={infoIconColor} />
+                  <Typography.Text size="footnote" weight="regular" color="neutralBase+30">
+                    {t("SignIn.IqamaInputScreen.errorText.noMatchRecord")}
+                  </Typography.Text>
+                </Stack>
+              ) : null}
             </Stack>
           </View>
         </View>

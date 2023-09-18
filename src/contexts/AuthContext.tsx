@@ -60,7 +60,21 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
 
         const persistedUserObject = JSON.parse(persistedUser);
         if (persistedUserObject.phoneNumber) {
-          handleOnUpdatePhoneNumber(persistedUserObject.mobilePhone);
+          handleOnUpdatePhoneNumber(persistedUserObject.MobileNumber);
+        }
+      } catch (error) {
+        // ..
+      }
+    }
+
+    async function getAuthenticationToken() {
+      try {
+        const authenticationData = await getItemFromEncryptedStorage("authentication");
+        if (!authenticationData) return;
+
+        const authenticationObject = JSON.parse(authenticationData);
+        if (authenticationObject.AccessToken) {
+          setState(current => ({ ...current, authToken: authenticationObject.AccessToken }));
         }
       } catch (error) {
         // ..
@@ -68,15 +82,16 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     }
 
     main();
+    getAuthenticationToken();
   }, []);
 
   useEffect(() => {
     setAuthenticationHeaders({
       ["UserId"]: state.userId as string,
       ["X-Api-Key"]: state.apiKey as string,
-      ["Authorization"]: "Bearer " + state.apiKey,
+      ["Authorization"]: "Bearer " + state.authToken,
     });
-  }, [state.userId, state.apiKey]);
+  }, [state.userId, state.apiKey, state.authToken]);
 
   const handleOnLogout = (stillPersistTheRegisteredUser = false) => {
     if (stillPersistTheRegisteredUser) {
@@ -99,6 +114,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     });
 
     removeItemFromEncryptedStorage("user");
+    removeItemFromEncryptedStorage("authentication");
   };
 
   // TODO: This code will be removed when the onboarding and sign-in features are implemented.

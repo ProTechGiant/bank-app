@@ -16,7 +16,7 @@ interface PasscodeInputProps {
   length: number;
   passcode: string;
   title?: string;
-  user?: { name: string } | null;
+  user?: { CustomerName: string } | null;
   subTitle?: string;
   //TODO: CHANGE IT JUST AND OBJECT ELSE THAN GETTING AN ARRAY AND THEN JUST SELECTING 1ST INDEX
   errorMessage?: any[];
@@ -86,8 +86,7 @@ const PasscodeInput = ({
       {user ? (
         <View style={profilePicWraper}>
           <Typography.Text size="callout" weight="medium">
-            {user.name
-              .split(" ")
+            {user.CustomerName.split(" ")
               .map(value => value.charAt(0).toUpperCase())
               .join("")}
           </Typography.Text>

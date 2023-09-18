@@ -11,20 +11,25 @@ import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import delayTransition from "@/utils/delay-transition";
-import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useErrorMessages } from "../hooks";
 import { useLoginUser, useSendLoginOTP } from "../hooks/query-hooks";
+import { UserType } from "../types";
 
 export default function ChangePasscodeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { mutateAsync, error: loginError, isError } = useLoginUser();
-  const loginUserError = loginError as ApiError;
-  const { errorMessages } = useErrorMessages(loginUserError);
+  //TODO : will use it once API is ready
+  // const { mutateAsync, error: loginError , isError } = useLoginUser();
+  // const loginUserError = loginError as ApiError;
+  // const { errorMessages } = useErrorMessages(loginUserError);
+  const { mutateAsync, data } = useLoginUser();
+  const { errorMessages } = useErrorMessages(data as ApiError);
   const [showModel, setShowModel] = useState<boolean>(false);
   const [passCode, setPasscode] = useState<string>("");
+  const [user, setUser] = useState<UserType | null>(null);
   const otpFlow = useOtpFlow();
   const useSendLoginOtpAsync = useSendLoginOTP();
 
@@ -32,15 +37,33 @@ export default function ChangePasscodeScreen() {
     handleOnChange();
   }, [passCode]);
 
+  useEffect(() => {
+    (async () => {
+      const userData = await getItemFromEncryptedStorage("user");
+      if (userData) {
+        setUser(JSON.parse(userData));
+      } else {
+        setUser(null);
+      }
+    })();
+  }, []);
+
   const handleUserLogin = async () => {
     try {
-      await mutateAsync(passCode);
-      handleNavigate();
-    } catch (error: any) {
-      setPasscode("");
-      const errorId = error.errorContent.Errors[0].ErrorId;
+      const response = await mutateAsync({ passCode, nationalId: user?.NationalId });
+      if (response.AccessToken) {
+        handleNavigate();
+      }
+      //TODO: This logic will be removed once API is ready
+      const errorId = response?.errorContent?.Errors[0].ErrorId;
       if (errorId === "0009") handleBlocked(BLOCKED_TIME);
       if (errorId === "0010") handleBlocked();
+      setPasscode("");
+    } catch (error: any) {
+      // const errorId = error?.errorContent?.Errors[0].ErrorId;
+      // if (errorId === "0009") handleBlocked(BLOCKED_TIME);
+      // if (errorId === "0010") handleBlocked();
+      setPasscode("");
     }
   };
 
@@ -113,7 +136,7 @@ export default function ChangePasscodeScreen() {
           showModel={showModel}
           resetError={handleNavigateToBlockScreen}
           passcode={passCode}
-          isError={isError}
+          isError={true} //TODO: This will be handled by the isError state managing the API call
           length={PASSCODE_LENGTH}
         />
         <NumberPad passcode={passCode} setPasscode={setPasscode} />

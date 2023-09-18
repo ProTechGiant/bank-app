@@ -14,7 +14,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
-import { BLOCKED_TIME, PINCODE_LENGTH } from "../constants";
+import { PINCODE_LENGTH } from "../constants";
 import { useErrorMessages } from "../hooks";
 import { useValidatePincode } from "../hooks/query-hooks";
 
@@ -45,20 +45,16 @@ export default function CardPinScreen() {
         handleNavigate();
       }
       const errorId = response?.errorContent?.Errors[0]?.ErrorId;
-      if (errorId === "0032") handleBlocked(BLOCKED_TIME); //TODO: This logic will be removed once aPI will be working
+      if (errorId === "0032") handleBlocked(); //TODO: This logic will be removed once aPI will be working
     } catch (error: any) {
       setPinCode("");
     }
   };
 
-  const handleBlocked = async (blockTime?: number) => {
+  const handleBlocked = async () => {
     setShowModel(true);
-    if (!blockTime) {
-      await setItemInEncryptedStorage("UserBlocked", JSON.stringify(true));
-    } else {
-      const userBlockTime = new Date().getTime() + blockTime * 60 * 1000;
-      await setItemInEncryptedStorage("UserBlocked", JSON.stringify(userBlockTime));
-    }
+    const userBlockTime = new Date().getTime() + 30 * 60 * 1000;
+    await setItemInEncryptedStorage("UserBlockedPIN", JSON.stringify(userBlockTime));
   };
 
   const handleNavigate = async () => {
@@ -71,9 +67,7 @@ export default function CardPinScreen() {
 
   const handleNavigateToBlockScreen = () => {
     setShowModel(false);
-    navigation.navigate("SignIn.UserBlocked", {
-      type: "passcode",
-    });
+    navigation.navigate("SignIn.Passcode");
   };
 
   const bannerStyle = useThemeStyles<ViewStyle>(theme => ({
