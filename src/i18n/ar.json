@@ -989,6 +989,10 @@
       "applicationOptionTitle": "Application",
       "notificationsOptionTitle": "Notifications"
     },
+    "LogoutFailedModal": {
+      "title": "We’re sorry something went wrong.",
+      "message": "Please try again later."
+    },
     "language": {
       "EN": "English",
       "AR": "العربية"

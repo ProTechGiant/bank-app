@@ -14,6 +14,7 @@ import PasscodeInput from "@/components/PasscodeInput";
 import Typography from "@/components/Typography";
 import { OTP_BLOCKED_TIME } from "@/constants";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import useLogout from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import BiometricsService from "@/services/biometrics/biometricService";
@@ -26,6 +27,7 @@ import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
 import { useLoginUser, useRegistration, useSendLoginOTP, useSignIn, useValidateDevice } from "../hooks/query-hooks";
+import { logoutActionsIds } from "../types";
 
 export default function PasscodeScreen() {
   const { t } = useTranslation();
@@ -47,6 +49,9 @@ export default function PasscodeScreen() {
   const [showSignInModal, setShowSignInModal] = useState<boolean>(false);
   const { mobileNumber, setSignInCorrelationId } = useSignInContext();
 
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
+  const signoutUser = useLogout();
   useEffect(() => {
     (async () => {
       setBiometricsKeyExist((await BiometricsService.biometricKeysExist()).keysExist);
@@ -184,7 +189,14 @@ export default function PasscodeScreen() {
   };
 
   const handleOnSignOut = async () => {
-    // TODO when api ready
+    try {
+      await signoutUser(logoutActionsIds.MANUALLY_ID);
+    } catch (error) {
+      const typedError = error as Error;
+      warn("logout-api error: ", typedError.message);
+      setIsLogoutFailedModalVisible(true);
+    }
+    setIsModalVisible(false);
   };
 
   const forgotPasscodeTextStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -238,13 +250,32 @@ export default function PasscodeScreen() {
         </Pressable>
       </View>
       {user ? (
-        <Pressable style={signOutTextStyle} onPress={handleOnSignOut}>
+        <Pressable style={signOutTextStyle} onPress={() => setIsModalVisible(true)}>
           <Typography.Text color="errorBase" align="center" weight="medium" size="body">
             {t("SignIn.PasscodeScreen.signOut")}
           </Typography.Text>
         </Pressable>
       ) : null}
-
+      <NotificationModal
+        variant="warning"
+        title={t("Settings.AccountSettings.youSure")}
+        message={t("Settings.AccountSettings.message")}
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        buttons={{
+          primary: <Button onPress={handleOnSignOut}>{t("Settings.AccountSettings.button")}</Button>,
+          secondary: (
+            <Button onPress={() => setIsModalVisible(false)}>{t("Settings.AccountSettings.cancelButton")}</Button>
+          ),
+        }}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("Settings.LogoutFailedModal.title")}
+        message={t("Settings.LogoutFailedModal.message")}
+        isVisible={isLogoutFailedModalVisible}
+        onClose={() => setIsLogoutFailedModalVisible(false)}
+      />
       <NotificationModal
         variant="confirmations"
         title={t("SignIn.PasscodeScreen.signInModal.title")}

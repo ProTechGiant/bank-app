@@ -65,3 +65,9 @@ export interface RegistrationResponse {
 export interface CheckUserStatusResponse {
   UserStatus: "active" | "temporary-blocked" | "permanently-blocked";
 }
+
+// TODO:  Actions Ids (1→ Manual Sign-out, 2 → Automatic log-out)
+export enum logoutActionsIds {
+  MANUALLY_ID = 1,
+  AUTOMATIC_ID = 2,
+}

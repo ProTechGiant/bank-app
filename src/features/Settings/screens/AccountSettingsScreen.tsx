@@ -11,7 +11,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Toggle from "@/components/Toggle";
 import Typography from "@/components/Typography";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { logoutActionsIds } from "@/features/SignIn/types";
 import useLogout from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -23,7 +23,6 @@ import { useCheckDailyPasscodeLimit } from "../hooks/query-hooks";
 export default function AccountSettingsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const auth = useAuthContext();
   const signoutUser = useLogout();
   const { data } = useCheckDailyPasscodeLimit();
 
@@ -34,6 +33,7 @@ export default function AccountSettingsScreen() {
   const [_error, setError] = useState<string>("");
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
   const [hasReachedPasscodeUpdateLimit, setHasReachedPasscodeUpdateLimit] = useState(false);
 
   useEffect(() => {
@@ -48,12 +48,13 @@ export default function AccountSettingsScreen() {
 
   const handleSignOut = async () => {
     try {
-      await signoutUser.mutateAsync();
-      auth.logout();
+      await signoutUser(logoutActionsIds.MANUALLY_ID);
     } catch (error) {
       const typedError = error as Error;
       warn("logout-api error: ", typedError.message);
+      setIsLogoutFailedModalVisible(true);
     }
+    setIsModalVisible(false);
   };
 
   const handleChangePasscode = () => {
@@ -146,7 +147,6 @@ export default function AccountSettingsScreen() {
         title={t("Settings.AccountSettings.youSure")}
         message={t("Settings.AccountSettings.message")}
         isVisible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
         buttons={{
           primary: <Button onPress={handleSignOut}>{t("Settings.AccountSettings.button")}</Button>,
           secondary: (
@@ -154,6 +154,14 @@ export default function AccountSettingsScreen() {
           ),
         }}
       />
+      <NotificationModal
+        variant="error"
+        title={t("Settings.LogoutFailedModal.title")}
+        message={t("Settings.LogoutFailedModal.message")}
+        isVisible={isLogoutFailedModalVisible}
+        onClose={() => setIsLogoutFailedModalVisible(false)}
+      />
+
       <NotificationModal
         message={t("ProxyAlias.AccountModal.PasscodeUpdateLimitMessage")}
         isVisible={hasReachedPasscodeUpdateLimit}

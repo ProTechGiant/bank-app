@@ -1043,6 +1043,11 @@
       "signOutButton": "Sign Out",
       "cancelButton": "Cancel"
     },
+
+    "LogoutFailedModal": {
+      "title": "We’re sorry something went wrong.",
+      "message": "Please try again later."
+    },
     "language": {
       "EN": "English",
       "AR": "العربية"
