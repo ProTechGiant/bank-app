@@ -38,7 +38,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   const [otpResendsRequested, setOtpResendsRequested] = useState(0);
   const [isBalanceErrorVisible, setIsBalanceErrorVisible] = useState(false);
   const [genericErrorMessage, setGenericErrorMessage] = useState("");
-
+  const [dailyTransferLimitError, setDailyTransferLimitError] = useState(false);
   const [currentValue, setCurrentValue] = useState("");
 
   const isOtpExpired = otpResetCountSeconds <= 0;
@@ -149,7 +149,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
   const handleOnRequestResendErrorClose = () => {
     setIsGenericErrorVisible(false);
-
+    setDailyTransferLimitError(false);
     delayTransition(() => {
       // @ts-expect-error cannot type navigate call
       navigation.navigate(params.action.to, {
@@ -203,10 +203,14 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         return;
       }
     } catch (error) {
-      setIsOtpCodeInvalidErrorVisible(true);
-      setCurrentValue("");
+      if (error.errorContent?.Errors[0]?.ErrorId === "0125") {
+        setDailyTransferLimitError(true);
+      } else {
+        setIsOtpCodeInvalidErrorVisible(true);
+        setCurrentValue("");
 
-      warn("one-time-password", "Could not validate OTP-code with backend: ", JSON.stringify(error));
+        warn("one-time-password", "Could not validate OTP-code with backend: ", JSON.stringify(error));
+      }
     }
   };
 
@@ -264,6 +268,9 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                       <Alert variant="error" message={t("OneTimePasswordModal.errors.invalidPassword")} />
                     )}
                   </>
+                ) : null}
+                {dailyTransferLimitError ? (
+                  <Alert variant="error" message={t("OneTimePasswordModal.errors.dailyLimitExceeded")} />
                 ) : null}
                 {isOtpExpired ? (
                   <>
