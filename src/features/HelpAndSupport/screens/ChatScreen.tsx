@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
@@ -25,6 +25,13 @@ export default function ChatScreen() {
   const [isCloseChattingModalVisible, setIsCloseChattingModalVisible] = useState(false);
   const [isCustomerFeedbackVisible, setIsCustomerFeedbackVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+
+  useEffect(() => {
+    const setHasOngoingLiveChatToStorage = async () => {
+      await setItemInEncryptedStorage("hasOngoingLiveChat", JSON.stringify(params));
+    };
+    setHasOngoingLiveChatToStorage();
+  }, [params]);
 
   const handleOnChatSessionEnd = useCallback(() => {
     setIsCustomerFeedbackVisible(true);
@@ -68,12 +75,7 @@ export default function ChatScreen() {
     navigation.navigate("Home.DashboardScreen");
   };
 
-  const setHasOngoingLiveChatToStorage = async () => {
-    await setItemInEncryptedStorage("hasOngoingLiveChat", JSON.stringify(params));
-  };
-
   const handelOnBackPress = async () => {
-    await setHasOngoingLiveChatToStorage();
     navigation.navigate("Home.DashboardScreen");
   };
 
