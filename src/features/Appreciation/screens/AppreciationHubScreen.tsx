@@ -29,7 +29,7 @@ import noLikedAppreciationImage from "../assets/no-liked-appreciation-image.png"
 import { AppreciationError, SortingModal } from "../components";
 import { FilterModal } from "../components";
 import { SORTING_OPTIONS_ALL_TAB, SORTING_OPTIONS_OTHER_TABS } from "../constants";
-import { useAppreciationFilters, useAppreciationSearch } from "../hooks/query-hooks";
+import { useAppreciationFilters, useAppreciationSearch, useAppreciationWishlist } from "../hooks/query-hooks";
 import { AppreciationType, FilterItemType, FiltersType } from "../types";
 
 export default function AppreciationHubScreen() {
@@ -42,20 +42,28 @@ export default function AppreciationHubScreen() {
   const [sortingModalCurrentOption, setSortingModalCurrentOption] = useState<SortingOptions>(sortingOptions[0]);
   const [currentSortingOption, setCurrentSortingOption] = useState<SortingOptions>(sortingOptions[0]);
   const [isFiltersModalVisible, setIsFiltersModalVisible] = useState<boolean>(false);
-  const [selectedFilters, setSelectedFilters] = useState<FiltersType | null>(null);
+  const [selectedFilters, setSelectedFilters] = useState<FiltersType>({
+    Types: [],
+    Locations: [],
+    Categories: [],
+    Sections: [],
+  });
   const [appreciationLoadingErrorModal, setAppreciationLoadingErrorModal] = useState<boolean>(false);
   const [filtersLoadingErrorModal, setFiltersLoadingErrorModal] = useState<boolean>(false);
+
+  const appreciationWishlist = useAppreciationWishlist();
   const {
     data: filtersData,
     refetch: refetchFilterHandler,
     isError: filterError,
   } = useAppreciationFilters(i18n.language);
   const {
-    data: AppreciationList,
+    data: AppreciationListData,
     refetch,
     isError,
     isFetching,
   } = useAppreciationSearch(selectedFilters, currentSortingOption, currentTab, i18n.language);
+  const [appreciationList, setAppreciationList] = useState<AppreciationType<boolean>[] | undefined>(undefined);
   const { data: userInfo } = useCustomerProfile();
   const userTier = userInfo?.CustomerTier ?? CustomerTierEnum.STANDARD;
   const userFullName = userInfo?.FullName;
@@ -93,6 +101,10 @@ export default function AppreciationHubScreen() {
       image: noLikedAppreciationImage,
     },
   };
+
+  useEffect(() => {
+    setAppreciationList(AppreciationListData);
+  }, [AppreciationListData]);
 
   useEffect(() => {
     if (isError) setAppreciationLoadingErrorModal(isError);
@@ -142,15 +154,26 @@ export default function AppreciationHubScreen() {
     setIsSortingModalVisible(false);
   };
 
-  const handleOnAppreciationCardPress = (appreciation: AppreciationType) => {
+  const handleOnAppreciationCardPress = (appreciation: AppreciationType<boolean>) => {
     navigation.navigate("Appreciation.AppreciationDetailsScreen", {
       appreciation,
       userInfo: { userTier, userFullName },
+      handleOnLikeAppreciation,
     });
   };
 
-  const handleOnLikeAppreciation = () => {
-    //TODO like an appreciation logic
+  const handleOnLikeAppreciation = async (id: string, isFavorite: boolean) => {
+    try {
+      await appreciationWishlist.mutateAsync(id);
+      setAppreciationList(list =>
+        list?.map((appreciation: AppreciationType<boolean>) => {
+          if (appreciation.AppreciationId === id) return { ...appreciation, isFavourite: !isFavorite };
+          else {
+            return appreciation;
+          }
+        })
+      );
+    } catch (err) {}
   };
 
   const handleOnApplyFilterModalButtonPressed = (updatedFilters: FiltersType) => {
@@ -208,22 +231,23 @@ export default function AppreciationHubScreen() {
                   <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <Stack direction="horizontal" gap="8p" style={segmentedControlOnFilterStyle}>
                       <Typography.Text>{t("Appreciation.HubScreen.filterBy")} </Typography.Text>
-                      {selectedFilters &&
-                        Object.keys(selectedFilters).map(filterCategory => {
-                          return selectedFilters[filterCategory]?.map((filter, itemIndex) => {
-                            return !filter.isActive ? null : (
-                              <Chip
-                                key={itemIndex}
-                                title={filter.Name}
-                                isRemovable={true}
-                                isSelected={filter.isActive}
-                                onPress={() =>
-                                  handleOnModalFilterItemPressed(filterCategory, itemIndex, filter.isActive)
-                                }
-                              />
-                            );
-                          });
-                        })}
+                      {selectedFilters
+                        ? Object.keys(selectedFilters).map(filterCategory => {
+                            return selectedFilters[filterCategory]?.map((filter, itemIndex) => {
+                              return !filter.isActive ? null : (
+                                <Chip
+                                  key={itemIndex}
+                                  title={filter.Name}
+                                  isRemovable={true}
+                                  isSelected={filter.isActive}
+                                  onPress={() =>
+                                    handleOnModalFilterItemPressed(filterCategory, itemIndex, filter.isActive)
+                                  }
+                                />
+                              );
+                            });
+                          })
+                        : null}
                       <Button variant="tertiary" onPress={handleOnClearAllModalFiltersPressed} size="mini">
                         {t("Appreciation.HubScreen.clearAll")}
                       </Button>
@@ -243,7 +267,7 @@ export default function AppreciationHubScreen() {
                   </SegmentedControl>
                 )}
               </View>
-              {AppreciationList?.length === 0 ? (
+              {appreciationList?.length === 0 ? (
                 hasFilters ? (
                   <DefaultContent
                     title={t("Appreciation.HubScreen.FilterOptions.noAppreciationsFoundTitle")}
@@ -265,55 +289,62 @@ export default function AppreciationHubScreen() {
                 )
               ) : (
                 <ContentContainer isScrollView>
-                  {currentTab === TabsTypes.ALL && AppreciationList && (
+                  {currentTab === TabsTypes.ALL && appreciationList ? (
                     <>
-                      {AppreciationList?.filter(item => item.Ranking === 1).length ? (
+                      {appreciationList?.filter(item => item.Rank === 1).length ? (
                         <View style={titleContainerStyle}>
                           <Typography.Text color="neutralBase+30" size="title3" weight="medium">
                             {t("Appreciation.HubScreen.promoted")}
                           </Typography.Text>
                         </View>
                       ) : null}
-                      {AppreciationList?.filter(item => item.Ranking === 1).map((appreciation, index) => {
-                        return (
-                          <AppreciationCard
-                            appreciation={appreciation}
-                            userTier={userTier}
-                            key={index}
-                            onPress={handleOnAppreciationCardPress}
-                            onLike={handleOnLikeAppreciation}
-                          />
-                        );
-                      })}
+                      {appreciationList
+                        ?.filter(item => item.Rank === 1)
+                        .map((appreciation, index) => {
+                          return (
+                            <AppreciationCard
+                              appreciation={appreciation}
+                              userTier={userTier}
+                              key={index}
+                              onPress={handleOnAppreciationCardPress}
+                              onLike={handleOnLikeAppreciation}
+                            />
+                          );
+                        })}
                     </>
-                  )}
-                  <View style={exploreContainerStyle}>
-                    <View style={titleContainerStyle}>
-                      <Typography.Text color="neutralBase+30" size="title3" weight="medium">
-                        {t("Appreciation.HubScreen.explore")}
-                      </Typography.Text>
-                    </View>
-                    <View>
-                      <Pressable style={styles.dropdownContainer} onPress={() => setIsSortingModalVisible(true)}>
-                        <Typography.Text color="primaryBase" size="footnote" weight="medium" align="center">
-                          {t(`Appreciation.HubScreen.FilterOptions.${currentSortingOption}`)}
+                  ) : null}
+                  {!appreciationList?.every(item => item.Rank === 1) ? (
+                    <View style={exploreContainerStyle}>
+                      <View style={titleContainerStyle}>
+                        <Typography.Text color="neutralBase+30" size="title3" weight="medium">
+                          {t("Appreciation.HubScreen.explore")}
                         </Typography.Text>
-                        <AngleDownIcon color={angleDownIconColor} />
-                      </Pressable>
+                      </View>
+                      <View>
+                        <Pressable style={styles.dropdownContainer} onPress={() => setIsSortingModalVisible(true)}>
+                          <Typography.Text color="primaryBase" size="footnote" weight="medium" align="center">
+                            {t(`Appreciation.HubScreen.FilterOptions.${currentSortingOption}`)}
+                          </Typography.Text>
+                          <AngleDownIcon color={angleDownIconColor} />
+                        </Pressable>
+                      </View>
                     </View>
-                  </View>
-                  {AppreciationList &&
-                    AppreciationList?.filter(item => item.Ranking !== 1).map((appreciation, index) => {
-                      return (
-                        <AppreciationCard
-                          appreciation={appreciation}
-                          userTier={userTier}
-                          key={index}
-                          onPress={handleOnAppreciationCardPress}
-                          onLike={handleOnLikeAppreciation}
-                        />
-                      );
-                    })}
+                  ) : null}
+                  {appreciationList
+                    ? appreciationList
+                        ?.filter(item => item.Rank !== 1)
+                        .map((appreciation, index) => {
+                          return (
+                            <AppreciationCard
+                              appreciation={appreciation}
+                              userTier={userTier}
+                              key={index}
+                              onPress={handleOnAppreciationCardPress}
+                              onLike={handleOnLikeAppreciation}
+                            />
+                          );
+                        })
+                    : null}
                 </ContentContainer>
               )}
             </View>

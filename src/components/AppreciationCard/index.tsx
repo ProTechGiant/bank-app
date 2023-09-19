@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -16,16 +15,31 @@ import { CustomerTierEnum } from "@/types/CustomerProfile";
 import Tags from "../Tags";
 
 interface AppreciationCardProps {
-  appreciation: AppreciationType;
+  appreciation: AppreciationType<boolean>;
   userTier: CustomerTierEnum;
-  onPress: (appreciation: AppreciationType) => void;
-  onLike: (appreciation: AppreciationType) => void;
+  onPress: (appreciation: AppreciationType<boolean>) => void;
+  onLike: (id: string, isLiked: boolean) => void;
 }
 
 export default function AppreciationCard({ appreciation, userTier, onPress, onLike }: AppreciationCardProps) {
   const { t } = useTranslation();
 
-  const { Tier, Rank, AppreciationName, PresaleDate, Location, ExpiryDate, PresaleContent, ImageUrl } = appreciation;
+  const {
+    Tier,
+    Rank,
+    AppreciationName,
+    PresaleDate,
+    Location,
+    ExpiryDate,
+    AppreciationDescription,
+    ImageUrl,
+    isFavourite,
+    AppreciationId,
+  } = appreciation;
+
+  const handleOnLikeIconPress = () => {
+    onLike(AppreciationId, isFavourite);
+  };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderWidth: 1,
@@ -50,6 +64,19 @@ export default function AppreciationCard({ appreciation, userTier, onPress, onLi
     width: "100%",
     zIndex: 100,
   }));
+
+  const likeIconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60-60%"],
+    width: theme.spacing["32p"],
+    height: theme.spacing["32p"],
+    borderRadius: theme.spacing["64p"],
+    alignItems: "center",
+    justifyContent: "center",
+  }));
+
+  const likedColor = useThemeStyles(theme => theme.palette.complimentBase);
+
+  const notLikedColor = useThemeStyles(theme => theme.palette["neutralBase-60-60%"]);
 
   const detailsContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
@@ -81,8 +108,8 @@ export default function AppreciationCard({ appreciation, userTier, onPress, onLi
       <View style={containerStyle}>
         <View style={absoluteHeaderStyle}>
           <Tags isNew={true} isPlus={Tier === 1} userTier={userTier} />
-          <Pressable onPress={() => onLike(appreciation)}>
-            <LikeSmallIcon />
+          <Pressable onPress={handleOnLikeIconPress} style={likeIconContainerStyle}>
+            <LikeSmallIcon color={isFavourite ? likedColor : notLikedColor} />
           </Pressable>
         </View>
         <View style={styles.imageContainer}>
@@ -116,7 +143,7 @@ export default function AppreciationCard({ appreciation, userTier, onPress, onLi
               </Typography.Text>
             ) : (
               <Typography.Text color="neutralBase" size="footnote" weight="regular" style={descriptionContainerStyle}>
-                {PresaleContent}
+                {AppreciationDescription}
               </Typography.Text>
             )}
           </Stack>

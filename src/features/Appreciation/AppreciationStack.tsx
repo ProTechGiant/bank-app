@@ -8,7 +8,11 @@ import { AppreciationType } from "./types";
 export type AppreciationStackParams = {
   "Appreciation.HubScreen": undefined;
   "Appreciation.TermsAndConditionsScreen": undefined;
-  "Appreciation.AppreciationDetailsScreen": { appreciation: AppreciationType; userType: CustomerTierEnum };
+  "Appreciation.AppreciationDetailsScreen": {
+    appreciation: AppreciationType<boolean>;
+    userType: CustomerTierEnum;
+    handleOnLikeAppreciation: (id: string, isFavorite: boolean) => Promise<null>;
+  };
 };
 
 export const Stack = createNativeStackNavigator<AppreciationStackParams>();

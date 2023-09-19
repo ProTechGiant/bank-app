@@ -2,12 +2,11 @@ import { useState } from "react";
 import { Image, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { LikeSmallIcon } from "@/assets/icons";
 import whiteTriangleHorizontal from "@/assets/rectangle-image-divider.png";
 import NavHeader from "@/components/NavHeader";
 import NetworkImage from "@/components/NetworkImage";
 import { useThemeStyles } from "@/theme";
-
-import { FavoriteIcon } from "../assets";
 
 interface ExploreAppreciationHeaderProps {
   onAppreciationFavoritePress: () => void;
@@ -24,14 +23,17 @@ export default function ExploreAppreciationHeader({
 
   const [containerWidth, setContainerWidth] = useState(100);
 
-  const navHeaderWrapper = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: -theme.spacing["16p"],
-    position: "absolute",
-    width: "100%",
+  const likeIconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60-60%"],
+    width: theme.spacing["32p"],
+    height: theme.spacing["32p"],
+    borderRadius: theme.spacing["64p"],
+    alignItems: "center",
+    justifyContent: "center",
   }));
 
   const likedColor = useThemeStyles(theme => theme.palette.complimentBase);
-  const unLikedColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
+  const unLikedColor = useThemeStyles(theme => theme.palette["neutralBase-60-60%"]);
 
   const containerStyle = {
     height: height * 0.6,
@@ -47,13 +49,17 @@ export default function ExploreAppreciationHeader({
         }}
         style={styles.image}
       />
-      <SafeAreaView style={navHeaderWrapper}>
+      <SafeAreaView style={styles.navHeaderWrapper}>
         <NavHeader
           variant="background"
           end={
             <NavHeader.IconEndButton
-              icon={<FavoriteIcon color={isLiked ? likedColor : unLikedColor} />}
-              onPress={onAppreciationFavoritePress}
+              icon={
+                <View style={likeIconContainerStyle}>
+                  <LikeSmallIcon color={isLiked ? likedColor : unLikedColor} />
+                </View>
+              }
+              onPress={() => onAppreciationFavoritePress()}
             />
           }
         />
@@ -74,6 +80,10 @@ const styles = StyleSheet.create({
   },
   image: {
     height: "100%",
+    width: "100%",
+  },
+  navHeaderWrapper: {
+    position: "absolute",
     width: "100%",
   },
 });

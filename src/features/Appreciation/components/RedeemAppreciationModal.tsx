@@ -1,3 +1,4 @@
+import Barcode from "@kichiyaki/react-native-barcode-generator";
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
@@ -50,9 +51,15 @@ export default function RedeemAppreciationModal({
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const hasPassword = password !== undefined && password !== "";
   const qrCodeHeight = windowHeight * 0.15;
+  const barCodeHeight = windowHeight * 0.1;
+  const couponCodeHeight = windowHeight * 0.05;
   const codeHeight =
     (hasPassword ? windowHeight * 0.1 : 0) +
-    (codeType === VoucherCodeEnum.QR ? qrCodeHeight : codeType === VoucherCodeEnum.COUPON ? windowHeight * 0.05 : 0);
+    (codeType === VoucherCodeEnum.QR
+      ? qrCodeHeight
+      : codeType === VoucherCodeEnum.BARCODE
+      ? barCodeHeight + 0.02 * windowHeight
+      : couponCodeHeight);
 
   const fields = [
     {
@@ -82,6 +89,10 @@ export default function RedeemAppreciationModal({
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["20p"],
     paddingBottom: theme.spacing["20p"],
+  }));
+
+  const barCodeStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60"],
   }));
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -165,7 +176,9 @@ export default function RedeemAppreciationModal({
         <View style={contentStyle}>
           {codeType === VoucherCodeEnum.QR ? (
             <QRCode value={code} size={qrCodeHeight} />
-          ) : codeType === VoucherCodeEnum.BARCODE ? null : (
+          ) : codeType === VoucherCodeEnum.BARCODE ? (
+            <Barcode value={code} text={code} height={barCodeHeight} style={barCodeStyle} />
+          ) : (
             <Typography.Text size="xlarge" weight="medium" color="neutralBase+30">
               {code}
             </Typography.Text>

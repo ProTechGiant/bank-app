@@ -2448,6 +2448,7 @@
       "openingHours": "Opening hours",
       "validUntil": "valid Until",
       "visitWebsite": "Visit website",
+      "notAvailable": "This Appreciation is no longer available",
       "redeemAppreciation": {
         "errorTitle": "Couldn’t redeem appreciation",
         "errorSubtitle": "Please try again.",

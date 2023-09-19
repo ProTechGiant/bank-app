@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import Alert from "@/components/Alert";
@@ -21,7 +21,7 @@ import { useValidatePincode } from "../hooks/query-hooks";
 export default function CardPinScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { height: screenHeight } = useWindowDimensions();
+
   const { mutateAsync: validatePincode, data } = useValidatePincode();
   const { errorMessages } = useErrorMessages(data as ApiError);
   const [showModel, setShowModel] = useState<boolean>(false);

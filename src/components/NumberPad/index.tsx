@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { Dispatch, SetStateAction } from "react";
-import { Pressable, StyleSheet, View, ViewStyle, useWindowDimensions } from "react-native";
+import { Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { FaceIdIcon, RemoveIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
@@ -17,8 +17,8 @@ interface ButtonInterface {
   index: number;
 }
 const NumberPad = ({ passcode, setPasscode, isBiometric, handleBiometric }: NumberPadProps) => {
-  const { width: screenWidth } = useWindowDimensions()
-  const buttonSize = screenWidth * 0.20;
+  const { width: screenWidth } = useWindowDimensions();
+  const buttonSize = screenWidth * 0.2;
   const handleNumberPress = (number: string) => {
     if (passcode.length < 6) {
       const password = passcode + number;
@@ -49,8 +49,8 @@ const NumberPad = ({ passcode, setPasscode, isBiometric, handleBiometric }: Numb
           index === 11
             ? handleRemove()
             : index === 9
-              ? !!isBiometric && handleBiometric && handleBiometric()
-              : typeof children === "string" && handleNumberPress(children);
+            ? !!isBiometric && handleBiometric && handleBiometric()
+            : typeof children === "string" && handleNumberPress(children);
         }}>
         <Typography.Text size="title1" color="primaryBase">
           {children}

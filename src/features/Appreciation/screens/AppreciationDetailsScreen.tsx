@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, View, ViewStyle } from "react-native";
 
 import { Tags } from "@/components";
+import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NotificationModal from "@/components/NotificationModal";
@@ -22,41 +23,48 @@ import {
   RedeemAppreciationModal,
 } from "../components";
 import { useRedeemAppreciation } from "../hooks/query-hooks";
-import { Pin_Password, VoucherCode, VoucherCodeType } from "../mock";
-import { AppreciationType } from "./../types";
+import { ActiveEnum, AppreciationType } from "../types";
 
 interface AppreciationDetailsScreenProps {
-  appreciation: AppreciationType;
+  appreciation: AppreciationType<boolean>;
   userInfo: {
     userTier: CustomerTierEnum;
     userFullName: string;
   };
+  handleOnLikeAppreciation: (id: string, isFavorite: boolean) => Promise<null>;
 }
 
 export default function AppreciationDetailsScreen({ route }: { route: any }) {
   const {
     appreciation: {
-      ImageUrl,
-      ExpiryDate,
-      VoucherDescription,
-      PreSaleDescription,
-      VoucherName,
-      VoucherId,
-      Location,
-      PartnerName,
-      PreSaleDateTime,
+      AppreciationId,
+      isFavourite,
+      VoucherCodeType,
+      VoucherCode,
+      Pin_Password,
       Tier,
-      CreationDate,
+      AppreciationName,
+      AppreciationDescription,
+      AppreciationTime,
+      PartnerName,
+      PartnerDescription,
+      Location,
+      ActiveFlag,
+      ExpiryDate,
+      ImageUrl,
+      PresaleContent,
+      PresaleDate,
     },
     userInfo: { userTier, userFullName },
+    handleOnLikeAppreciation,
   }: AppreciationDetailsScreenProps = route.params;
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const redeemAppreciation = useRedeemAppreciation();
 
-  const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
   const [isRedeemModalVisible, setIsRedeemModalVisible] = useState<boolean>(false);
+  const [isLiked, setIsLiked] = useState<boolean>(isFavourite);
 
   const canUserRedeem = !(Tier === 1 && userTier === CustomerTierEnum.STANDARD);
 
@@ -64,13 +72,13 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
     if (canUserRedeem) {
       try {
         setIsErrorModalVisible(false);
-        await redeemAppreciation.mutateAsync(VoucherId);
+        await redeemAppreciation.mutateAsync(AppreciationId);
         setIsRedeemModalVisible(true);
       } catch (error) {
         setIsErrorModalVisible(true);
       }
     } else {
-      //call the screen of the subscribe
+      //TODO call the screen of the subscribe
     }
   };
 
@@ -78,9 +86,8 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
     navigation.navigate("Appreciation.TermsAndConditionsScreen");
   };
 
-  const handleOnAppreciationFavoritePress = () => {
-    setIsLiked(!isLiked);
-    //TODO
+  const handleOnLikeIconPress = () => {
+    handleOnLikeAppreciation(AppreciationId, isFavourite).then(() => setIsLiked(liked => !liked));
   };
 
   const handleOnAddToAppleWalletPress = () => {
@@ -119,7 +126,7 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
     <Page insets={["left", "right"]}>
       <ScrollView>
         <ExploreAppreciationHeader
-          onAppreciationFavoritePress={handleOnAppreciationFavoritePress}
+          onAppreciationFavoritePress={handleOnLikeIconPress}
           imageURL={ImageUrl}
           isLiked={isLiked}
         />
@@ -127,24 +134,30 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
           <Stack direction="vertical" gap="16p">
             <Tags isNew={true} isPlus={Tier === 1} userTier={userTier} />
             <Typography.Text color="neutralBase+30" weight="medium" size="title1" style={titleStyle}>
-              {VoucherName}
+              {AppreciationName}
             </Typography.Text>
             <Typography.Text color="neutralBase+30" weight="medium" size="title3">
-              {VoucherDescription}
+              {AppreciationDescription}
             </Typography.Text>
             <View style={sectionStyle}>
               <AppreciationEventDetailsSection
-                endDate={format(new Date(CreationDate), "dd/MM/yyyy · hh:mm")}
+                endDate={format(new Date(ExpiryDate), "dd/MM/yyyy · hh:mm")}
                 location={Location.Name}
-                preSaleDate={format(new Date(PreSaleDateTime), "dd/MM/yyyy · hh:mm")}
-                preSaleDescription={PreSaleDescription}
+                preSaleDate={format(new Date(PresaleDate), "dd/MM/yyyy · hh:mm")}
+                preSaleDescription={PresaleContent}
               />
             </View>
             <View style={sectionStyle}>
-              <AboutOrganizerSection image={ImageUrl} description={VoucherDescription} title={PartnerName} />
+              <AboutOrganizerSection image={ImageUrl} description={PartnerDescription} title={PartnerName} />
             </View>
+            {ActiveFlag === ActiveEnum.EXPIRED ? (
+              <Alert variant="error" message={t("Appreciation.AppreciationDetailsSection.notAvailable")} />
+            ) : null}
             <View style={buttonStyle}>
-              <Button variant="primary" onPress={handleOnRedeemButtonPress}>
+              <Button
+                variant="primary"
+                onPress={handleOnRedeemButtonPress}
+                disabled={ActiveFlag === ActiveEnum.EXPIRED}>
                 {canUserRedeem ? t("Appreciation.redeemAppreciation") : t("Appreciation.upgradeYourTier")}
               </Button>
             </View>
@@ -192,11 +205,11 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
         code={VoucherCode}
         codeType={VoucherCodeType}
         password={Pin_Password}
-        title={VoucherName}
+        title={AppreciationName}
         partnerName={PartnerName}
         userFullName={userFullName}
         location={Location.Name}
-        time={format(new Date(CreationDate), "p", { locale: i18n.language === "en" ? enUS : arSA })}
+        time={format(AppreciationTime ?? new Date(PresaleDate), "p", { locale: i18n.language === "en" ? enUS : arSA })}
         handleOnAddToAppleWalletPress={handleOnAddToAppleWalletPress}
         handleOnViewDetailsPress={handleOnViewDetailsPress}
       />

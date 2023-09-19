@@ -202,7 +202,7 @@ export function useAppreciationFeedback() {
 
 export function useAppreciationsWithNoFeedback(language: string) {
   return useAppreciationSearch(null, SortingOptions.ALPHABETIC, TabsTypes.ALL, language, {
-    FeedbackFlag: 2,
+    FeedbackFlag: 0,
   });
 }
 

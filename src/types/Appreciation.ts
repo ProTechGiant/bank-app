@@ -1,3 +1,5 @@
+import { FavoriteEnum } from "@/features/Appreciation/types";
+
 export enum TabsTypes {
   ALL = "All",
   REDEEMED = "Redeemed",
@@ -15,9 +17,9 @@ export interface FilterItemType {
   Code: number;
   isActive?: boolean;
 }
-export interface AppreciationType {
+export interface AppreciationType<FavoriteType> {
   AppreciationId: string;
-  isFavourite: number;
+  isFavourite: FavoriteType;
   VoucherCode: string;
   Pin_Password: string;
   Rank: number;
@@ -42,6 +44,6 @@ export interface AppreciationType {
 export interface AppreciationResponseType {
   PageSize: number;
   Offset: number;
-  Appreciations: AppreciationType[];
+  Appreciations: AppreciationType<FavoriteEnum>[];
   CustomerId: number;
 }

@@ -166,7 +166,7 @@ export default function DashboardScreen() {
 
   const handleOnSubmitAppreciationFeedback = (comment: string, status: FeedbackStatus) => {
     appreciationFeedback.mutateAsync({
-      appreciationId: appreciationsWithNoFeedback[feedbackIndex].VoucherId,
+      appreciationId: appreciationsWithNoFeedback[feedbackIndex].AppreciationId,
       comment,
       voteId: status,
     });
@@ -316,7 +316,7 @@ export default function DashboardScreen() {
           visible={isAppreciationFeedbackModalVisible}
           onClose={handleOnCloseFeedbackModal}
           onSubmitFeedback={handleOnSubmitAppreciationFeedback}
-          title={appreciationsWithNoFeedback[feedbackIndex].VoucherName}
+          title={appreciationsWithNoFeedback[feedbackIndex].AppreciationName}
           imageUrl={appreciationsWithNoFeedback[feedbackIndex].ImageUrl}
         />
       )}

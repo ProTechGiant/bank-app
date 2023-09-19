@@ -2734,6 +2734,13 @@
   resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.4.0.tgz#08d6c5e20cf7e4cc02fd181c4b0c225cd31dbb60"
   integrity sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==
 
+"@kichiyaki/react-native-barcode-generator@^0.6.7":
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/@kichiyaki/react-native-barcode-generator/-/react-native-barcode-generator-0.6.7.tgz#86a34213d271a653301907124fbc599be325d3bc"
+  integrity sha512-tBrL5rtOVYV1Y9vc6mUNFhC4J9KiWWwmo0yqb78dnVQ9Pn/r7OOwoWwbw1ZGA9OLbhEII83BQI0k8GmoDaU+BQ==
+  dependencies:
+    jsbarcode "^3.8.0"
+
 "@mdx-js/react@^2.1.5":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-2.3.0.tgz#4208bd6d70f0d0831def28ef28c26149b03180b3"
@@ -9874,6 +9881,11 @@ js-yaml@^4.1.0:
   integrity sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==
   dependencies:
     argparse "^2.0.1"
+
+jsbarcode@^3.8.0:
+  version "3.11.5"
+  resolved "https://registry.yarnpkg.com/jsbarcode/-/jsbarcode-3.11.5.tgz#390b3efd0271f35b9d68c7b8af6e972445969014"
+  integrity sha512-zv3KsH51zD00I/LrFzFSM6dst7rDn0vIMzaiZFL7qusTjPZiPtxg3zxetp0RR7obmjTw4f6NyGgbdkBCgZUIrA==
 
 jsc-android@^250231.0.0:
   version "250231.0.0"

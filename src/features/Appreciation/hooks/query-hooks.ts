@@ -5,7 +5,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { SortingOptions, TabsTypes } from "@/types/Appreciation";
 import { generateRandomId } from "@/utils";
 
-import { AppreciationResponceType, FiltersType } from "../types";
+import { AppreciationResponseType, FavoriteEnum, FiltersType } from "../types";
 
 export const queryKeys = {
   all: ["appreciation"] as const,
@@ -28,12 +28,15 @@ export function useAppreciationSearch(
   return useQuery(
     queryKeys.searchAppreciation(filters, sortType, language, feedback),
     () => {
-      return api<AppreciationResponceType>(
+      if (!filters) filters = { Categories: [], Locations: [], Sections: [], Types: [] };
+      return api<AppreciationResponseType>(
         "v1",
         "appreciations",
         "POST",
         undefined,
         {
+          PageSize: 0,
+          PageOffset: 0,
           SortBy:
             SortingOptions.RECOMMENDED === sortType
               ? 4
@@ -42,13 +45,14 @@ export function useAppreciationSearch(
               : SortingOptions.ALPHABETIC === sortType
               ? 2
               : 3,
-          CategaoryCodes: !filters ? [] : filters.Categories.filter(item => item.isActive).map(item => item.Code),
-          TypeCodes: !filters ? [] : filters.Types.filter(item => item.isActive).map(item => item.Code),
-          SectionCodes: [],
+          CategoryCodes: filters.Categories.filter(item => item.isActive).map(item => item.Code),
+          TypeCodes: filters.Types.filter(item => item.isActive).map(item => item.Code),
+          SectionCodes: filters.Sections.filter(item => item.isActive).map(item => item.Code),
           RedeemedFlag: currentTab === TabsTypes.ALL ? [] : ["1"],
-          LocationCodes: !filters ? [] : filters.Locations.filter(item => item.isActive).map(item => item.Code),
-          ActiveFlag: currentTab === TabsTypes.ALL ? ["1"] : ["2"],
-          ...feedback,
+          LocationCodes: filters.Locations.filter(item => item.isActive).map(item => item.Code),
+          ActiveFlag: currentTab === TabsTypes.ALL ? [0] : ["2"],
+          FeedbackFlag: feedback?.FeedbackFlag,
+          IsFavourite: currentTab === TabsTypes.LIKED ? FavoriteEnum.LIKED : 0,
         },
         {
           ["x-correlation-id"]: generateRandomId(),
@@ -57,7 +61,11 @@ export function useAppreciationSearch(
       );
     },
     {
-      select: res => res.Appreciations,
+      select: res =>
+        res.Appreciations.map(appreciation => ({
+          ...appreciation,
+          isFavourite: appreciation.isFavourite === FavoriteEnum.LIKED,
+        })),
     }
   );
 }
@@ -82,6 +90,22 @@ export function useRedeemAppreciation() {
       {
         RedeemedFlag: "1",
       },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}
+
+export function useAppreciationWishlist() {
+  const { userId } = useAuthContext();
+  return useMutation((appreciationId: string) => {
+    return api<null>(
+      "v1",
+      "appreciations/wishlist",
+      "POST",
+      undefined,
+      { AppreciationId: appreciationId, CustomerId: userId },
       {
         ["x-correlation-id"]: generateRandomId(),
       }
