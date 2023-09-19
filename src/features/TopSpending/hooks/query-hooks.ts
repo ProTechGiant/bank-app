@@ -88,7 +88,7 @@ export function useCategories(singleSelectedMonth: SingleSelectedMonthType | und
   const account = useCurrentAccount();
   const { fromDate, toDate } = getMonthDates();
 
-  const account_id = account.data?.id;
+  const accountId = account.data?.id;
 
   const categories = useQuery(
     [
@@ -98,7 +98,7 @@ export function useCategories(singleSelectedMonth: SingleSelectedMonthType | und
     () =>
       api<ApiResponse>(
         "v1",
-        `accounts/${account_id}/categories`,
+        `accounts/${accountId}/categories`,
         "GET",
         {
           PageSize: 1000,
@@ -115,7 +115,7 @@ export function useCategories(singleSelectedMonth: SingleSelectedMonthType | und
     {
       // set staleTime to 10 seconds for caching
       staleTime: 10000,
-      enabled: !!account_id,
+      enabled: !!accountId,
     }
   );
   const isLoading = categories.isLoading;
@@ -129,14 +129,14 @@ export function useCategories(singleSelectedMonth: SingleSelectedMonthType | und
 export function usePreDefinedCategories() {
   const account = useCurrentAccount();
 
-  const account_id = account.data?.id;
+  const accountId = account.data?.id;
 
   const PreDefinedCategories = useQuery(
     ["PreDefinedCategories"],
     () =>
       api<PreDefinedResponseCategories>(
         "v1",
-        `accounts/${account_id}/categories/predefined-categories`,
+        `accounts/${accountId}/categories/predefined-categories`,
         "GET",
         {
           PageSize: 1000,
@@ -150,7 +150,7 @@ export function usePreDefinedCategories() {
     {
       // set staleTime to 10 seconds for caching
       staleTime: 10000,
-      enabled: !!account_id,
+      enabled: !!accountId,
     }
   );
 
@@ -164,7 +164,7 @@ export function useTransactionTags(singleSelectedMonth: SingleSelectedMonthType 
   const account = useCurrentAccount();
   const { fromDate, toDate } = getMonthDates();
 
-  const account_id = account.data?.id;
+  const accountId = account.data?.id;
 
   const transactionTags = useQuery(
     [
@@ -174,7 +174,7 @@ export function useTransactionTags(singleSelectedMonth: SingleSelectedMonthType 
     () =>
       api<TransactionTagsResponse>(
         "v1",
-        `accounts/${account_id}/tags/transaction-tags`,
+        `accounts/${accountId}/tags/transaction-tags`,
         "GET",
         {
           PageSize: 1000,
@@ -191,7 +191,7 @@ export function useTransactionTags(singleSelectedMonth: SingleSelectedMonthType 
     {
       // set staleTime to 10 seconds for caching
       staleTime: 10000,
-      enabled: !!account_id,
+      enabled: !!accountId,
     }
   );
 
@@ -203,13 +203,13 @@ export function useTransactionTags(singleSelectedMonth: SingleSelectedMonthType 
 
 export function useCategoryGraph(categoryId: string, intervalState: string, startDate: string | null) {
   const account = useCurrentAccount();
-  const account_id = account.data?.id;
+  const accountId = account.data?.id;
   return useQuery(
     ["categoryGrap", { categoryId, intervalState }],
     () =>
       api<GraghApiResponse>(
         "v1",
-        `accounts/${account_id}/categories/${categoryId}/graph`,
+        `accounts/${accountId}/categories/${categoryId}/graph`,
         "GET",
         {
           intervalState,
@@ -223,20 +223,20 @@ export function useCategoryGraph(categoryId: string, intervalState: string, star
     {
       // set staleTime to 10 seconds for caching
       staleTime: 10000,
-      enabled: !!account_id,
+      enabled: !!accountId,
     }
   );
 }
 
 export function useLastSixMonthGraph() {
   const account = useCurrentAccount();
-  const account_id = account.data?.id;
+  const accountId = account.data?.id;
   return useQuery(
     ["LastSixMonthGraph"],
     () =>
       api<GraghApiResponse>(
         "v1",
-        `accounts/${account_id}/transactions/graph`,
+        `accounts/${accountId}/transactions/graph`,
         "GET",
         {
           timeFrame: IntervalTypes.LAST_SIX_MONTH,
@@ -249,7 +249,7 @@ export function useLastSixMonthGraph() {
     {
       // set staleTime to 10 seconds for caching
       staleTime: 10000,
-      enabled: !!account_id,
+      enabled: !!accountId,
     }
   );
 }
@@ -258,7 +258,7 @@ export function useBudgetSummary(singleSelectedMonth: SingleSelectedMonthType | 
   const account = useCurrentAccount();
   const { fromDate, toDate } = getMonthDates();
 
-  const account_id = account.data?.id;
+  const accountId = account.data?.id;
 
   const BudgetSummary = useQuery(
     [
@@ -268,7 +268,7 @@ export function useBudgetSummary(singleSelectedMonth: SingleSelectedMonthType | 
     () =>
       api<BudgetSummaryResponse>(
         "v1",
-        `accounts/${account_id}/transactions/budget`,
+        `accounts/${accountId}/transactions/budget`,
         "GET",
         {
           PageSize: 1000,
@@ -285,7 +285,7 @@ export function useBudgetSummary(singleSelectedMonth: SingleSelectedMonthType | 
     {
       // set staleTime to 10 seconds for caching
       staleTime: 10000,
-      enabled: !!account_id,
+      enabled: !!accountId,
     }
   );
 
@@ -298,10 +298,14 @@ export function useBudgetSummary(singleSelectedMonth: SingleSelectedMonthType | 
 export function useCreateBudgetSummary() {
   const queryClient = useQueryClient();
 
+  const account = useCurrentAccount();
+
+  const accountId = account.data?.id;
+
   return useMutation(
     async (requestBody: MonthlyBudgetInputs) => {
-      //TODO: Later will replace this accountId
-      const accountId = "100009269";
+      if (accountId === undefined) throw new Error("Cannot create budget without `account Id`");
+
       return sendApiRequest<CreateNewBudgetApiResponseType>(
         "v1",
         `accounts/${accountId}/transactions/budget`,
@@ -325,10 +329,14 @@ export function useCreateBudgetSummary() {
 export function useEditBudgetSummary() {
   const queryClient = useQueryClient();
 
+  const account = useCurrentAccount();
+
+  const accountId = account.data?.id;
+
   return useMutation(
     async (data: { UpdatedAmount: string; BudgetId: number }) => {
-      //TODO: Later will replace this accountId
-      const accountId = "100009269";
+      if (accountId === undefined) throw new Error("Cannot edit budget without `account Id`");
+
       return sendApiRequest<BudgetSummaryResponse>(
         "v1",
         `accounts/${accountId}/transactions/budget/${data.BudgetId}`,
@@ -353,10 +361,14 @@ export function useEditBudgetSummary() {
 
 export function useDeleteBudgetSummary() {
   const queryClient = useQueryClient();
+
+  const account = useCurrentAccount();
+
+  const accountId = account.data?.id;
   return useMutation(
     (BudgetId: number) => {
-      //TODO: Later will replace this accountId
-      const accountId = "100009269";
+      if (accountId === undefined) throw new Error("Cannot delete budget without `account Id`");
+
       return sendApiRequest<DeleteMonthlyBudgetResponse>(
         "v1",
         `accounts/${accountId}/transactions/budget/${BudgetId}`,
@@ -381,14 +393,14 @@ export const useGetMonthsSpendingsComparision = (comparisonDates: string) => {
   const { userId } = useAuthContext();
   if (!userId) throw new Error("Need valid `User Id` to be available");
   const account = useCurrentAccount();
-  const account_id = account.data?.id;
+  const accountId = account.data?.id;
 
   const monthSpendingsComparisonSummary = useQuery(
     ["MonthSpendingsComparisonSummary", { comparisonDates }],
     () =>
       api<GetMonthSpendingsComparisonSummary>(
         "v1",
-        `accounts/${account_id}/categories/comparison`,
+        `accounts/${accountId}/categories/comparison`,
         "GET",
         {
           comparisonDates: comparisonDates,
@@ -402,7 +414,7 @@ export const useGetMonthsSpendingsComparision = (comparisonDates: string) => {
     {
       // set staleTime to 10 seconds for caching
       staleTime: 10000,
-      enabled: !!account_id,
+      enabled: !!accountId,
     }
   );
 
