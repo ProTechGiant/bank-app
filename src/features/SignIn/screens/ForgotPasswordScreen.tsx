@@ -9,12 +9,13 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { OTP_BLOCKED_TIME } from "@/constants";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
 import { useThemeStyles } from "@/theme";
 import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { MobileAndNationalIdForm } from "../components";
 import { useErrorMessages } from "../hooks";
-import { useSearchUserByNationalId, useSendLoginOTP } from "../hooks/query-hooks";
+import { useSendLoginOTP } from "../hooks/query-hooks";
 import { SignInStackParamsNavigationProp } from "../SignInStack";
 import { IqamaInputs } from "../types";
 

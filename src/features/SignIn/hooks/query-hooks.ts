@@ -8,7 +8,7 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 
 import { useSignInContext } from "../contexts/SignInContext";
-import { getMockData, getMockSignIn, mockUserMatch, mockUserNotMatch, mockUserNotMatchDevice } from "../mock";
+import { getMockData, getMockSignIn } from "../mock";
 import {
   CheckCustomerStatusResponse,
   CheckUserStatusResponse,
@@ -16,7 +16,6 @@ import {
   LoginUserType,
   RegistrationResponse,
   RequestNumberResponseType,
-  UserType,
   ValidateDeviceType,
 } from "../types";
 
@@ -301,38 +300,6 @@ export function useSendLoginOTP() {
         ["x-correlation-id"]: correlationId,
       }
     );
-  });
-}
-
-export function useSearchUserByNationalId() {
-  const { correlationId } = useSignInContext();
-  return useMutation(async ({ NationalId, MobileNumber }: { NationalId: string; MobileNumber: string }) => {
-    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
-    //TODO: just for test , will remove switch when API is ready
-    switch (NationalId) {
-      case "1234567890":
-        return mockUserMatch;
-      case "1234567891":
-        return mockUserNotMatch;
-      case "1234567892":
-        return mockUserNotMatchDevice;
-      default:
-        return sendApiRequest<UserType>(
-          "v1",
-          "customers/search",
-          "POST",
-          undefined,
-          {
-            NationalId,
-            MobileNumber,
-          },
-          {
-            ["x-Correlation-Id"]: correlationId,
-            ["DeviceId"]: DeviceInfo.getDeviceId(),
-            ["DeviceName"]: await DeviceInfo.getDeviceName(),
-          }
-        );
-    }
   });
 }
 

@@ -6,6 +6,7 @@ import ApiError from "@/api/ApiError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
+import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -15,7 +16,6 @@ import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 import { MobileAndNationalIdForm } from "../components";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
-import { useSearchUserByNationalId } from "../hooks/query-hooks";
 import { IqamaInputs, UserType } from "../types";
 
 export default function IqamaInputScreen() {
