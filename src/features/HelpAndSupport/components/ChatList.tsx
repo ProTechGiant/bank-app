@@ -12,6 +12,7 @@ import {
   ViewStyle,
 } from "react-native";
 
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import Stack from "@/components/Stack";
 import { useToasts } from "@/contexts/ToastsContext";
 import { warn } from "@/logger";
@@ -71,6 +72,7 @@ function ChatList({
   const pendingMessagesRef = useRef<ChatEvent[]>([]);
   const chatHistoryLimitRef = useRef(1);
   const chatSessionErrorRef = useRef(false);
+  const chatSessionLoadingRef = useRef(true);
   const chatStatusRef = useRef({
     showWaitingTimer,
     isAgentOnline,
@@ -79,6 +81,7 @@ function ChatList({
 
   useEffect(() => {
     if (isConnected) {
+      refreshChatStatus();
       const refreshInterval = setInterval(refreshChatStatus, 3000);
       return () => {
         clearInterval(refreshInterval);
@@ -129,6 +132,7 @@ function ChatList({
     try {
       const nextPosition = nextPositionRef.current;
       const refreshChatDataResponse = await refreshChatData(nextPosition);
+      chatSessionLoadingRef.current = false;
       nextPositionRef.current = refreshChatDataResponse.NextPosition;
       const newMessages = refreshChatDataResponse?.Messages ? [...refreshChatDataResponse.Messages.reverse()] : [];
 
@@ -295,24 +299,28 @@ function ChatList({
         <DismissKeyboardWrapper>
           <AgentInformation isOnline={isAgentOnline} agentName={currentOnlineAgentRef.current} />
         </DismissKeyboardWrapper>
-        <FlatList
-          inverted={true}
-          ref={flatListRef}
-          data={chatData.Messages}
-          renderItem={renderItem}
-          contentContainerStyle={contentContainerStyle}
-          ListHeaderComponent={
-            showWaitingTimer ? <SupportAgentTimer timeInSeconds={Math.ceil(agentWaitingTime.Ewt)} /> : null
-          }
-          ListFooterComponent={getChatHistoryLoading ? <ActivityIndicator /> : null}
-          ListFooterComponentStyle={ListFooterComponentStyle}
-          keyExtractor={keyExtractor}
-          onScroll={handleScroll}
-          removeClippedSubviews={true}
-          scrollEventThrottle={66}
-          onMomentumScrollBegin={handleOnEndReached}
-          onLayout={Platform.OS === "android" ? handleOnFlatListLayout : undefined}
-        />
+        {chatSessionLoadingRef.current ? (
+          <FlexActivityIndicator />
+        ) : (
+          <FlatList
+            inverted={true}
+            ref={flatListRef}
+            data={chatData.Messages}
+            renderItem={renderItem}
+            contentContainerStyle={contentContainerStyle}
+            ListHeaderComponent={
+              showWaitingTimer ? <SupportAgentTimer timeInSeconds={Math.ceil(agentWaitingTime.Ewt)} /> : null
+            }
+            ListFooterComponent={getChatHistoryLoading ? <ActivityIndicator /> : null}
+            ListFooterComponentStyle={ListFooterComponentStyle}
+            keyExtractor={keyExtractor}
+            onScroll={handleScroll}
+            removeClippedSubviews={true}
+            scrollEventThrottle={66}
+            onMomentumScrollBegin={handleOnEndReached}
+            onLayout={Platform.OS === "android" ? handleOnFlatListLayout : undefined}
+          />
+        )}
         {isAgentTyping ? (
           <DismissKeyboardWrapper>
             <ChatTypingIndicator agentName={currentOnlineAgentRef.current} />
