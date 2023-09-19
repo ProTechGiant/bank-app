@@ -1093,6 +1093,7 @@
       "taskCount_other": "{{count}} tasks ",
       "leftToComplete": "left to complete",
       "updating": "Updating ...",
+      "ongoingChatButton": "Chat",
       "bulletinBoardSection": {
         "loadTasksError": "Couldn’t load tasks",
         "tasksStatus": "{{completed}} of {{total}} tasks completed",
@@ -2939,7 +2940,7 @@
       "LoadingError": {
         "title": "We couldn’t load the data",
         "description": "There was a minor issue, but not to \n  worry. We can re-try",
-        "reload":"Reload"
+        "reload": "Reload"
       },
       "FilterOptions": {
         "recommendedForYou": "Recommended for you",

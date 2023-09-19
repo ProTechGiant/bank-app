@@ -1,4 +1,4 @@
-import { RouteProp, StackActions, useRoute } from "@react-navigation/native";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
@@ -9,6 +9,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
+import { hasItemInStorage, removeItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { EndChatIcon } from "../assets/icons";
 import { ChatList, CloseChattingModal, CustomerFeedbackModal } from "../components";
@@ -41,9 +42,17 @@ export default function ChatScreen() {
     setIsCloseChattingModalVisible(false);
   };
 
+  const removeOngoingLiveChat = async () => {
+    const hasOngoingChat = await hasItemInStorage("hasOngoingLiveChat");
+    if (hasOngoingChat) {
+      await removeItemFromEncryptedStorage("hasOngoingLiveChat");
+    }
+  };
+
   const handleOnPressOk = async () => {
     try {
       const response = await endLiveChat();
+      await removeOngoingLiveChat();
       if (response.ChatEnded) {
         setIsCloseChattingModalVisible(false);
         setIsCustomerFeedbackVisible(true);
@@ -53,9 +62,19 @@ export default function ChatScreen() {
     }
   };
 
-  const handleOnFeedbackExit = () => {
+  const handleOnFeedbackExit = async () => {
+    await removeOngoingLiveChat();
     setIsCustomerFeedbackVisible(false);
-    navigation.dispatch(StackActions.pop(2));
+    navigation.navigate("Home.DashboardScreen");
+  };
+
+  const setHasOngoingLiveChatToStorage = async () => {
+    await setItemInEncryptedStorage("hasOngoingLiveChat", JSON.stringify(params));
+  };
+
+  const handelOnBackPress = async () => {
+    await setHasOngoingLiveChatToStorage();
+    navigation.navigate("Home.DashboardScreen");
   };
 
   return (
@@ -63,7 +82,7 @@ export default function ChatScreen() {
       <NavHeader
         title={t("HelpAndSupport.ChatScreen.headerText")}
         end={<NavHeader.IconEndButton icon={<EndChatIcon />} onPress={handleOnOpenCloseChatModal} />}
-        onBackPress={handleOnOpenCloseChatModal}
+        onBackPress={handelOnBackPress}
       />
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.containerStyle}>
         <ChatList
@@ -73,6 +92,7 @@ export default function ChatScreen() {
           agentWaitingTime={params.awaitTimeData}
           enquiryType={params.enquiryType}
           subEnquiryType={params.subEnquiryType}
+          isOngoingChat={params.isOngoingChat}
         />
       </KeyboardAvoidingView>
       {!isCustomerFeedbackVisible ? (

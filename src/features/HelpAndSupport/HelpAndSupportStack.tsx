@@ -11,6 +11,7 @@ export type HelpAndSupportStackParams = {
     awaitTimeData: AwaitTimeData;
     enquiryType: string;
     subEnquiryType: string;
+    isOngoingChat?: boolean;
   };
 };
 

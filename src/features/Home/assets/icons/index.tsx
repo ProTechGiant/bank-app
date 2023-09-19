@@ -1,5 +1,6 @@
 export { default as ActivateCardTaskIcon } from "./ActivateCardTaskIcon";
 export { default as CardBrandDivider } from "./CardBrandDivider";
+export { default as ChatIcon } from "./ChatIcon";
 export { default as CopyAccountIcon } from "./CopyAccountIcon";
 export { default as DividerHeaderHomeIcon } from "./DividerHeaderHomeIcon";
 export { default as EyeHideIcon } from "./EyeHideIcon";

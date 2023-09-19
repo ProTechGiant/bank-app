@@ -1,4 +1,5 @@
-import { Fragment, useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,6 +21,7 @@ import { mockRemoteMessageAppreciation } from "@/mocks/remoteNotificationData";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
+import { getItemFromEncryptedStorage, hasItemInStorage } from "@/utils/encrypted-storage";
 
 import { DividerHeaderHomeIcon } from "../assets/icons";
 import {
@@ -28,6 +30,7 @@ import {
   BalanceCard,
   BulletinBoardSection,
   CardSection,
+  ChatLiveButton,
   HeaderHomePage,
   QuickActionsReordererModal,
   QuickActionsSection,
@@ -65,6 +68,8 @@ export default function DashboardScreen() {
   const [isLocalTransferModalVisible, setIsLocalTransferModalVisible] = useState<boolean>(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
   const [feedbackIndex, setFeedbackIndex] = useState<number>(0);
+  const [hasOngoingLiveChat, setHasOngoingLiveChat] = useState<boolean>(false);
+  const [ongoingLiveChatParams, setOngoingLiveChatParams] = useState({});
   const isAppreciationFeedbackModalVisible =
     appreciationsWithNoFeedback !== undefined && feedbackIndex < appreciationsWithNoFeedback.length;
   //TODO will be removed once t2 finish some issue
@@ -78,16 +83,35 @@ export default function DashboardScreen() {
 
       await registerForNotifications.register(phoneNumber);
     }
-
     main();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      const hasOngoingLiveChatToStorage = async () => {
+        const hasOngoingChat = await hasItemInStorage("hasOngoingLiveChat");
+        handleOngoingLiveChat(hasOngoingChat);
+      };
+      hasOngoingLiveChatToStorage();
+    }, [])
+  );
 
   useEffect(() => {
     if (homepageLayout?.isError === true) {
       setLayoutErrorIsVisible(true);
     }
   }, [homepageLayout]);
+
+  const handleOngoingLiveChat = async (hasOngoingChat: boolean) => {
+    setHasOngoingLiveChat(hasOngoingChat);
+    if (hasOngoingChat) {
+      const ongoingChatParams = await getItemFromEncryptedStorage("hasOngoingLiveChat");
+      if (ongoingChatParams) {
+        setOngoingLiveChatParams(JSON.parse(ongoingChatParams));
+      }
+    }
+  };
 
   const handleOnQuickActionPressed = (screen: string, stack: string) => {
     if (screen === undefined || screen === "") return;
@@ -150,6 +174,16 @@ export default function DashboardScreen() {
 
   const handleOnCloseFeedbackModal = () => {
     setFeedbackIndex(feedbackIndex + 1);
+  };
+
+  const handleOnChatButtonPress = () => {
+    navigation.navigate("HelpAndSupport.HelpAndSupportStack", {
+      screen: "HelpAndSupport.ChatScreen",
+      params: {
+        isOngoingChat: true,
+        ...ongoingLiveChatParams,
+      },
+    });
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -254,6 +288,7 @@ export default function DashboardScreen() {
 
           {/* TODO: When the API is ready  */}
         </ScrollView>
+        {hasOngoingLiveChat ? <ChatLiveButton onPress={handleOnChatButtonPress} /> : null}
       </SafeAreaView>
       <QuickActionsReordererModal isVisible={isVisible} onClose={() => setIsVisible(false)} />
       <SelectTransferTypeModal

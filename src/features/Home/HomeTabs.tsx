@@ -74,7 +74,7 @@ export default function HomeTabs() {
       <Tab.Screen
         name="Support"
         component={HelpAndSupportStack}
-        options={{ tabBarLabel: t("Home.HomeTabs.tabSupport") }}
+        options={{ tabBarLabel: t("Home.HomeTabs.tabSupport"), unmountOnBlur: true }}
       />
     </Tab.Navigator>
   );

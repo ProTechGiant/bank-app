@@ -11,6 +11,7 @@ import useCallBank from "@/hooks/use-call-bank";
 import useCallSupport, { PhoneBook } from "@/hooks/use-call-support";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { QuickActionLink } from "../components";
 
@@ -24,8 +25,16 @@ export default function HubScreen() {
     navigation.navigate("FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack");
   };
 
-  const handleLiveChatPress = () => {
-    navigation.navigate("HelpAndSupport.LiveChatScreen");
+  const handleLiveChatPress = async () => {
+    const ongoingChatParams = await getItemFromEncryptedStorage("hasOngoingLiveChat");
+    if (ongoingChatParams) {
+      navigation.navigate("HelpAndSupport.ChatScreen", {
+        isOngoingChat: true,
+        ...JSON.parse(ongoingChatParams),
+      });
+    } else {
+      navigation.navigate("HelpAndSupport.LiveChatScreen");
+    }
   };
 
   const handleCallUsPress = () => {

@@ -263,7 +263,7 @@
       "continue": "Continue",
       "errorText": {
         "alert": "Woops. Could not confirm T&Cs"
-      }, 
+      },
       "weAreSorry": "We’re sorry something went wrong.",
       "pleaseTryAgain": "Please try again later."
     },
@@ -1060,6 +1060,7 @@
       "taskCount_other": "{{count}} مهمات ",
       "leftToComplete": "لم تكتمل بعد",
       "updating": "جار التحديث ...",
+      "ongoingChatButton": "دردشة",
       "bulletinBoardSection": {
         "loadTasksError": "تعذر تحميل المهام",
         "tasksStatus": "تم إكمال {{completed}} من {{total}} مهام",
@@ -2398,8 +2399,8 @@
       "LoadingError": {
         "title": "لم نتمكن من تحميل البيانات",
         "description": "كان هناك مشكلة طفيفة، ولكن لا تقلق. يمكننا المحاولة مرة أخرى",
-        "reload":"إعادة التحميل"
-        },
+        "reload": "إعادة التحميل"
+      },
       "FilterOptions": {
         "recommendedForYou": "Recommended for you",
         "mostRecent": "Most Recent",
