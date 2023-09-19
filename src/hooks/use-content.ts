@@ -11,7 +11,8 @@ export const queryKeys = {
   all: () => ["content"] as const,
   contentList: () => [...queryKeys.all(), "contentList"] as const,
   homeContentList: () => [...queryKeys.all(), "homeContentList"] as const,
-  termsAndConditions: () => [...queryKeys.all(), "termsAndConditions"] as const,
+  termsAndConditions: (contentCategoryId: string) =>
+    [...queryKeys.all(), { contentCategoryId }, "termsAndConditions"] as const,
   categories: () => [...queryKeys.all(), "categories"] as const,
   articles: (articleId: string) => [...queryKeys.all(), { articleId }] as const,
   images: (imageURL: string) => [...queryKeys.all(), { imageURL }] as const,
@@ -105,17 +106,17 @@ export function useContentArticleCategories() {
   );
 }
 
-export function useContentTermsAndCondition() {
+export function useContentTermsAndCondition(ContentCategoryId = "TermsAndConditions") {
   const { i18n } = useTranslation();
 
   return useQuery(
-    queryKeys.termsAndConditions(),
+    queryKeys.termsAndConditions(ContentCategoryId),
     () => {
       return sendApiRequest<TermsAndConditionContainer>(
         "v1",
         "/contents/terms",
         "GET",
-        { Language: i18n.language, IncludeChildren: "true", ContentCategoryId: "TermsAndConditions" },
+        { Language: i18n.language, IncludeChildren: "true", ContentCategoryId: ContentCategoryId },
         undefined,
         {
           ["x-Correlation-Id"]: generateRandomId(),

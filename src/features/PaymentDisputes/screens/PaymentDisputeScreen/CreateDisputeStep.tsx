@@ -192,11 +192,7 @@ export default function CreateDisputeStep({
   }));
 
   const checkBoxContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: -theme.spacing["24p"],
-  }));
-
-  const checkBoxTextStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["20p"],
+    marginStart: -theme.spacing["12p"],
   }));
 
   return (

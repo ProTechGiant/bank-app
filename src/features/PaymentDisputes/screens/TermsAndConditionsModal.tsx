@@ -17,7 +17,8 @@ export default function TermsAndConditionsModal() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const termsAndConditionData = useContentTermsAndCondition();
+  const termsAndConditionData = useContentTermsAndCondition("TermsAndConditions");
+  //TODO: change ContentCategoryId when ready from BE
   const termsSections = termsAndConditionData?.data?.TermsSections;
 
   const titleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -46,7 +47,7 @@ export default function TermsAndConditionsModal() {
           ) : (
             <>
               {termsSections.map((term, index) => (
-                <Typography.Text key={index} size="callout" color="primaryBase" weight="medium">
+                <Typography.Text key={index} size="callout" color="primaryBase-40" weight="medium">
                   {`${index + 1}. ${term.Title}`}
                 </Typography.Text>
               ))}
