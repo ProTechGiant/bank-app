@@ -147,12 +147,15 @@ export function useExcludeFromSummary() {
 }
 
 export function useCreateNewTag() {
+  const account = useCurrentAccount();
+  const account_id = account.data?.id;
+
   return useMutation(async (requestBody: CreateNewTagType) => {
-    //TODO: Later will replace this accountId
-    const accountId = "100009269";
+    if (account_id === undefined) throw new Error("Cannot create tags without `account_id`");
+
     return sendApiRequest<CreateNewTagApiResponseType>(
       "v1",
-      `accounts/${accountId}/tags`,
+      `accounts/${account_id}/tags`,
       "POST",
       undefined,
       requestBody,
@@ -164,23 +167,33 @@ export function useCreateNewTag() {
 }
 
 export function useGetCustomerTags() {
-  return useQuery(queryKeys.customerTags(), () => {
-    //TODO: Later will replace this accountId
-    const accountId = "100009269";
-    return sendApiRequest<GetCustomerTagsApiResponseType>(
-      "v1",
-      `accounts/${accountId}/tags/customer-tags`,
-      "GET",
-      {
-        PageSize: 1000,
-        PageNumber: 0,
-      },
-      undefined,
-      {
-        ["x-correlation-id"]: generateRandomId(),
-      }
-    );
-  });
+  const account = useCurrentAccount();
+
+  const account_id = account.data?.id;
+
+  return useQuery(
+    queryKeys.customerTags(),
+    () => {
+      if (account_id === undefined) throw new Error("Cannot fetch tags without `account_id`");
+
+      return sendApiRequest<GetCustomerTagsApiResponseType>(
+        "v1",
+        `accounts/${account_id}/tags/customer-tags`,
+        "GET",
+        {
+          PageSize: 1000,
+          PageNumber: 0,
+        },
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      );
+    },
+    {
+      enabled: !!account_id,
+    }
+  );
 }
 
 export function usePredefinedTags() {
@@ -221,12 +234,15 @@ export function useGetTransactionTags(transactionId: string) {
   });
 }
 export function useDeleteATag() {
+  const account = useCurrentAccount();
+  const account_id = account.data?.id;
+
   const queryClient = useQueryClient();
   return useMutation(
     (tagId: number) => {
-      //TODO: Later will replace this accountId
-      const accountId = "100009269";
-      return sendApiRequest("v1", `accounts/${accountId}/tags/${tagId}`, "DELETE", undefined, undefined, {
+      if (account_id === undefined) throw new Error("Cannot delete tag without `account_id`");
+
+      return sendApiRequest("v1", `accounts/${account_id}/tags/${tagId}`, "DELETE", undefined, undefined, {
         ["x-correlation-id"]: generateRandomId(),
       });
     },
