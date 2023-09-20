@@ -1,4 +1,7 @@
 {
+  "AddToAppleWalletButton": {
+    "label": "اضف الى Apple Wallet"
+  },
   "Alerts": {
     "LogoutDueToInactivity": "You have been locked due to inactivity."
   },
@@ -1301,21 +1304,21 @@
         "actionButtonText": "Activate now"
       },
       "iconButtonText": {
-        "show": "Show details",
-        "hide": "Hide details",
+        "show": "عرض التفاصيل",
+        "hide": "اخفاء التفاصيل",
         "freeze": "قفل",
         "unfreeze": "فك قفل",
-        "viewPin": "View PIN",
+        "viewPin": "عرض الرقم السري",
         "showCredentials": "Show card credentials",
         "hideCredentials": "Hide card credentials",
         "about": "About"
       },
-      "manageCardHeader": "Manage card",
-      "cardSettingsButton": "Card settings",
-      "reportButton": "Report stolen, lost or damaged",
-      "accountHeader": "Linked account",
-      "accountNumber": "Account number",
-      "accountName": "Account name",
+      "manageCardHeader": "إدارة البطاقة",
+      "cardSettingsButton": "اعدادات البطاقة",
+      "reportButton": "الإبلاغ عن سرقة، فقدان أو تلف",
+      "accountHeader": "الحساب المربوط",
+      "accountNumber": "رقم الحساب",
+      "accountName": "اسم الحساب",
       "upgradeToCroatiaPlus": {
         "header": "Croatia Plus",
         "subTitle": "٦٥ ريال سعودي / بالشهر",

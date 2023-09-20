@@ -60,11 +60,12 @@ export interface DetailedCardResponse {
 }
 
 export interface ChangePOSLimit {
-  CardIdType: typeof PHYSICAL_CARD_TYPE | typeof SINGLE_USE_CARD_TYPE | typeof VIRTUAL_CARD_TYPE;
+  CardIdType: string;
   CardId: string;
-  CardRole: string;
   Reason: string;
-  Limits: Array<string>;
-  LimitType: string;
-  Value: string;
+  Limits: {
+    LimitType: string;
+    Value: string;
+    Currency: string;
+  };
 }

@@ -282,7 +282,7 @@ export function useVerificationCardStatus(cardId: string, INTERVAL: number) {
 interface POSLimitsResponse {
   MaxLimit: string;
   MinLimit: string;
-  Banks: Array<string>;
+  Limits: Array<string>;
 }
 
 export function usePOSLimits() {
@@ -294,11 +294,11 @@ export function usePOSLimits() {
       return api<POSLimitsResponse>(
         "v1",
         "cards/limits",
-        "POST",
-        undefined,
+        "GET",
         {
           LimitType: "online_pos_limit",
         },
+        undefined,
         {
           ["x-correlation-id"]: correlationId,
         }
@@ -333,10 +333,17 @@ export function useCurrentPOSLimit(cardId: string) {
     );
   });
 }
+interface UpdatePOSLimitWithoutOtpResponse {
+  IsOtpRequired: false;
+}
 
+interface UpdatePOSLimitOtpRequiredResponse extends OtpRequiredResponse {
+  IsOtpRequired: true;
+}
+type UpdatePOSLimitResponse = UpdatePOSLimitWithoutOtpResponse | UpdatePOSLimitOtpRequiredResponse;
 export function useChangePOSLimit() {
   return useMutation(async (values: ChangePOSLimit) => {
-    return api("v1", `cards/${values.CardId}/limits`, "POST", undefined, values, {
+    return api<UpdatePOSLimitResponse>("v1", `cards/${values.CardId}/limits`, "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });

@@ -31,6 +31,7 @@ import {
   UserBlockedScreen,
 } from "@/features/SignIn/screens";
 import StatementsStack from "@/features/Statements/StatementsStack";
+import TemporaryDummyScreen from "@/features/Temporary/TemporaryDummyScreen";
 import TopSpendingStack from "@/features/TopSpending/TopSpendingStack";
 import ViewTransactionsStack from "@/features/ViewTransactions/ViewTransactionsStack";
 import WhatsNextStack from "@/features/WhatsNext/WhatsNextStack";
@@ -78,6 +79,7 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen component={StatementsStack} name="Statements.StatementsStack" />
       <AuthStack.Screen component={DocumentsStack} name="Documents.DocumentsStack" />
       <AuthStack.Screen component={GoalGetterStack} name="GoalGetter.GoalGetterStack" />
+      <AuthStack.Screen component={TemporaryDummyScreen} name="Temporary.DummyScreen" />
 
       <AuthStack.Screen
         component={TermsAndConditionsScreen}

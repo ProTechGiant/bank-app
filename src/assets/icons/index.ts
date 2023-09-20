@@ -93,6 +93,7 @@ export * from "./PersonIcon";
 export * from "./PhoneFilledIcon";
 export * from "./PhoneIcon";
 export * from "./PhoneUnFilledIcon";
+export * from "./PinIcon";
 export * from "./PlusCircleIcon";
 export * from "./PlusIcon";
 export * from "./PointOfSaleIcon";

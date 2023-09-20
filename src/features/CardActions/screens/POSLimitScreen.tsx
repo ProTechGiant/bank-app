@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -19,9 +19,9 @@ import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { formatCurrency } from "@/utils";
 
 import { useChangePOSLimit, useCurrentPOSLimit, usePOSLimits } from "../hooks/query-hooks";
-import { mockPOSTransactionLimits } from "../mocks/mockPOSTransactionLimits";
 import { ChangePOSLimit } from "../types";
 
 export default function POSLimitScreen() {
@@ -29,47 +29,69 @@ export default function POSLimitScreen() {
   const navigation = useNavigation();
   const { params } = useRoute<RouteProp<AuthenticatedStackParams, "CardActions.POSLimitScreen">>();
   const otpFlow = useOtpFlow<AuthenticatedStackParams>();
-  const { isError, isLoading, refetch } = usePOSLimits();
-  const { data, isError: currentPOSLimitError, isLoading: currentPOSLimitLoading } = useCurrentPOSLimit(params.cardId);
+  const { data: posLimits, isError, isLoading, refetch } = usePOSLimits();
+  const {
+    data: currentPosLimit,
+    isError: currentPOSLimitError,
+    isLoading: currentPOSLimitLoading,
+  } = useCurrentPOSLimit(params.cardId);
   const { mutateAsync, isLoading: changePOSLimitLoading } = useChangePOSLimit();
   const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState(false);
   const [isChangeLimitSuccessModalVisible, setIsChangeLimitSuccessModalVisible] = useState(false);
-  const [newPOSLimit, setNewPOSLimit] = useState("5000"); //TODO: replace with original pos limit
+  const [newPOSLimit, setNewPOSLimit] = useState("");
 
   useEffect(() => {
-    // setIsLoadingErrorVisible(isError); //TODO: un-comment this when api is developed.
+    setIsLoadingErrorVisible(isError || currentPOSLimitError);
   }, [isError, currentPOSLimitError]);
+
+  useEffect(() => {
+    if (currentPosLimit) setNewPOSLimit(`${currentPosLimit.Value}`);
+  }, [currentPosLimit]);
 
   const handleOnPOSLimitChange = (value: string) => {
     setNewPOSLimit(value);
   };
 
-  const changePOSLimit = async () => {
-    //TODO: replace mocked data with original data.
+  const handleOnDone = async () => {
     const reqData: ChangePOSLimit = {
       CardId: params.cardId,
-      CardIdType: "1",
-      CardRole: "",
-      Value: newPOSLimit,
-      Reason: "",
-      Limits: [""],
-      LimitType: "online_pos_limit",
+      CardIdType: "EXID",
+      Reason: "Increasing card limit",
+      Limits: {
+        LimitType: "online_pos_limit",
+        Currency: "SAR",
+        Value: newPOSLimit,
+      },
     };
     try {
-      await mutateAsync(reqData);
-      setIsChangeLimitSuccessModalVisible(true);
+      const response = await mutateAsync(reqData);
+      if (response.IsOtpRequired) {
+        otpFlow.handle({
+          action: {
+            to: "CardActions.POSLimitScreen",
+            params: { cardId: params.cardId },
+          },
+          otpOptionalParams: {
+            CardId: params.cardId,
+          },
+          otpChallengeParams: {
+            OtpId: response.OtpId,
+          },
+          otpVerifyMethod: "card-actions",
+          onOtpRequest: async () => {
+            return await mutateAsync(reqData);
+          },
+          onFinish: status => {
+            if (status === "fail") {
+              setIsLoadingErrorVisible(true);
+            } else {
+              setIsChangeLimitSuccessModalVisible(true);
+            }
+          },
+        });
+      } else setIsChangeLimitSuccessModalVisible(true);
     } catch (error) {
       warn("Card Actions", `Could not change POS limit: ${(error as Error).message}`);
-    }
-  };
-
-  const handleOnDone = () => {
-    if (data) {
-      if (Number(data.Value) > Number(newPOSLimit)) {
-        otpValidation();
-      } else {
-        changePOSLimit();
-      }
     }
   };
 
@@ -81,26 +103,15 @@ export default function POSLimitScreen() {
     setIsChangeLimitSuccessModalVisible(false);
   };
 
-  const otpValidation = async () => {
-    otpFlow.handle({
-      action: {
-        to: "CardActions.POSLimitScreen",
-        params: { cardId: params.cardId },
-      },
-      otpOptionalParams: {
-        CardId: params.cardId,
-      },
-      otpVerifyMethod: "card-actions",
-      onOtpRequest: async () => {
-        return await changePOSLimit();
-      },
-      onFinish: status => {
-        if (status === "fail") {
-          setIsLoadingErrorVisible(true);
-        }
-      },
-    });
-  };
+  const posTransactionLimits = useMemo(() => {
+    if (posLimits === undefined) return [];
+
+    return posLimits.Limits.map(element => ({
+      label: `SAR ${formatCurrency(Number(element))}`,
+      value: element,
+    }));
+  }, [posLimits]);
+
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
     marginVertical: theme.spacing["16p"],
@@ -134,7 +145,7 @@ export default function POSLimitScreen() {
                 buttonLabel={t("CardActions.POSLimitScreen.doneButton")}
                 isFixedHeight
                 headerText={t("CardActions.POSLimitScreen.dropDownTitle")}
-                options={mockPOSTransactionLimits}
+                options={posTransactionLimits}
                 variant="small"
                 label={t("CardActions.POSLimitScreen.dropDownTitle")}
                 value={newPOSLimit}

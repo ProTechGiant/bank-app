@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { useTranslation } from "react-i18next";
 
-import { HideIcon, LockIcon, ShowIcon, UnLockIcon } from "@/assets/icons";
+import { HideIcon, LockIcon, PinIcon, ShowIcon, UnLockIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 
 import { CardStatus } from "../types";
@@ -58,7 +58,7 @@ export default function CardButtons({
           onPress={onViewPinPress}
           activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.viewPin")}
           inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.viewPin")}
-          icon={<LockIcon />}
+          icon={<PinIcon />}
           disabled={isDisablePin}
         />
       ) : null}
