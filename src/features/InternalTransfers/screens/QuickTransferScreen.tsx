@@ -16,15 +16,21 @@ import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
+import { useTransferLimitAmount } from "@/hooks/use-transfer-limit";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
-import { formatCurrency } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
-import { TransferAmountInput, TransferErrorBox, TransferLimitsModal, TransferReasonInput } from "../components";
+import {
+  TransferAmountInput,
+  TransferErrorBox,
+  TransferLimitError,
+  TransferLimitsModal,
+  TransferReasonInput,
+} from "../components";
 import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
 import { TransferTypeCode } from "../types";
 
@@ -42,7 +48,7 @@ export default function QuickTransferScreen() {
   const account = useCurrentAccount();
   const currentBalance = account.data?.balance ?? 0;
   const dailyLimitAsync = useDailyLimitValidation();
-
+  const { transferLimitAmount } = useTransferLimitAmount(String(account?.data?.id));
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
   const [isTransferLimitsErrorVisible, setIsTransferLimitsErrorVisible] = useState(false);
   const [isTransferLimitsModalVisible, setIsTransferLimitsModalVisible] = useState(false);
@@ -121,7 +127,7 @@ export default function QuickTransferScreen() {
 
   const currentAmount = watch("PaymentAmount");
   const amountExceedsBalance = currentAmount > currentBalance;
-  const amountExceedsLimit = currentAmount > QUICK_TRANSFER_LIMIT;
+  const amountExceedsLimit = currentAmount > transferLimitAmount;
 
   const debouncedFunc = useCallback(debounce(handleOnValidateDailyLimit, 300), []);
 
@@ -167,12 +173,10 @@ export default function QuickTransferScreen() {
                     textEnd={t("InternalTransfers.QuickTransferScreen.addFunds")}
                   />
                 ) : amountExceedsLimit ? (
-                  <TransferErrorBox
-                    onPress={handleOnSwitchStandardTransferPress}
-                    textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsQuickTransferLimit", {
-                      amount: formatCurrency(QUICK_TRANSFER_LIMIT, "SAR"),
-                    })}
-                    textEnd={t("InternalTransfers.QuickTransferScreen.switchToStandardTransfer")}
+                  <TransferLimitError
+                    textStart={t("InternalTransfers.InternalTransferScreen.amountExceedsLimit")}
+                    textEnd={t("InternalTransfers.InternalTransferScreen.upgradeYourTierPlus")}
+                    // TODO: onPress navigate to screen where signature card can be upgraded (PC-14917, AC-3)
                   />
                 ) : null}
                 <TransferReasonInput
@@ -184,7 +188,7 @@ export default function QuickTransferScreen() {
               </View>
             </View>
             <Button
-              disabled={amountExceedsBalance || amountExceedsLimit || currentAmount < 0.01}
+              disabled={amountExceedsBalance || amountExceedsLimit || currentAmount < 0.01 || amountExceedsLimit}
               onPress={handleSubmit(handleOnContinue)}>
               {t("InternalTransfers.QuickTransferScreen.continueButton")}
             </Button>
@@ -238,5 +242,3 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 });
-
-const QUICK_TRANSFER_LIMIT = 2500;
