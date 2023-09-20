@@ -83,8 +83,3 @@ export interface CheckCustomerStatusResponse {
   StatusId: StatusTypes;
   LastModifiedTime: string;
 }
-
-export enum logoutActionsIds {
-  MANUALLY_ID = 1,
-  AUTOMATIC_ID = 2,
-}

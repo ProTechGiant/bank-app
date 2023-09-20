@@ -4,7 +4,7 @@ import UserInactivity from "react-native-user-inactivity";
 
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useDeepLinkHandler } from "@/hooks/use-deeplink-handler";
-import useLogout from "@/hooks/use-logout";
+import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
 import { navigationRef } from "@/navigation/NavigationService";
 
 import { AuthenticatedScreens } from "./AuthenticatedStack";
@@ -15,7 +15,7 @@ interface MainStackProps {
 const TIMEOUT_MS = 300000; // 5 minutes
 
 export default function MainStack({ onReady }: MainStackProps) {
-  const { isAuthenticated, logout } = useAuthContext();
+  const { isAuthenticated } = useAuthContext();
   const logoutUser = useLogout();
   useDeepLinkHandler();
   return (
@@ -27,8 +27,7 @@ export default function MainStack({ onReady }: MainStackProps) {
           onAction={async isActive => {
             if (!isActive) {
               try {
-                await logoutUser(2);
-                logout(true);
+                await logoutUser(logoutActionsIds.AUTOMATIC_ID);
               } catch (err) {}
             }
           }}

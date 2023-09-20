@@ -69,13 +69,10 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
 
     async function getAuthenticationToken() {
       try {
-        const authenticationData = await getItemFromEncryptedStorage("authentication");
-        if (!authenticationData) return;
+        const authToken = await getItemFromEncryptedStorage("authToken");
+        if (!authToken) return;
 
-        const authenticationObject = JSON.parse(authenticationData);
-        if (authenticationObject.AccessToken) {
-          setState(current => ({ ...current, authToken: authenticationObject.AccessToken }));
-        }
+        setState(current => ({ ...current, authToken }));
       } catch (error) {
         // ..
       }
@@ -114,7 +111,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     });
 
     removeItemFromEncryptedStorage("user");
-    removeItemFromEncryptedStorage("authentication");
+    removeItemFromEncryptedStorage("authToken");
   };
 
   // TODO: This code will be removed when the onboarding and sign-in features are implemented.

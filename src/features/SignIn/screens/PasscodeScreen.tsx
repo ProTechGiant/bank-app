@@ -17,7 +17,7 @@ import { OTP_BLOCKED_TIME } from "@/constants";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
-import useLogout from "@/hooks/use-logout";
+import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import BiometricsService from "@/services/biometrics/biometricService";
@@ -34,7 +34,7 @@ import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
 import { useLoginUser, useSendLoginOTP } from "../hooks/query-hooks";
-import { logoutActionsIds, UserType } from "../types";
+import { UserType } from "../types";
 
 export default function PasscodeScreen() {
   const { t } = useTranslation();

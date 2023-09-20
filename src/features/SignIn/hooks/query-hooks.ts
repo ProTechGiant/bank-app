@@ -347,17 +347,3 @@ export function useCheckCustomerStatus() {
     );
   });
 }
-
-export function useGetAuthenticationToken() {
-  const { correlationId } = useSignInContext();
-
-  return useMutation(async () => {
-    if (undefined === correlationId) throw new Error("Cannot fetch customers/registration without `correlationId`");
-
-    return sendApiRequest<LoginUserType>("v1", "api/authentication", "GET", undefined, undefined, {
-      ["x-correlation-id"]: correlationId,
-      ["DeviceId"]: DeviceInfo.getDeviceId(),
-      ["DeviceName"]: await DeviceInfo.getDeviceName(),
-    });
-  });
-}

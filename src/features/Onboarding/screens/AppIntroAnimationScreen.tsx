@@ -4,44 +4,68 @@ import { StyleSheet, View } from "react-native";
 import appLoaderAnimation from "@/assets/illustrations/app-intro.json";
 import AnimationView from "@/components/AnimationView";
 import Page from "@/components/Page";
-import { UserType, useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
+import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
+import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
-import { getItemFromEncryptedStorage, hasItemInStorage } from "@/utils/encrypted-storage";
+import { getItemFromEncryptedStorage, hasItemInStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 export default function AppIntroAnimationScreen() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
 
-  const { mutateAsync } = useSearchUserByNationalId();
+  const { mutateAsync: searchForUser } = useSearchUserByNationalId();
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
+
+  const goToOnboardingStack = () => {
+    navigation.navigate("Onboarding.OnboardingStack", {
+      screen: "Onboarding.SplashScreen",
+    });
+  };
+
+  const handleNavigation = async () => {
+    const userData = await getItemFromEncryptedStorage("user");
+    if (userData) {
+      const userDataObject = JSON.parse(userData);
+      try {
+        const res = await searchForUser({
+          NationalId: userDataObject.NationalId,
+          MobileNumber: userDataObject.MobileNumber,
+        });
+        if (res?.DeviceId === userDataObject.DeviceId && res?.DeviceStatus === "R") {
+          navigation.navigate("SignIn.SignInStack", { screen: "SignIn.Passcode" });
+          return;
+        }
+      } catch (err) {
+        goToOnboardingStack();
+      }
+    }
+    goToOnboardingStack();
+  };
 
   useEffect(() => {
     async function continueAfterAnimation() {
       try {
         const hasOpenedBefore = await hasItemInStorage("hasSeenOnboarding");
         if (hasOpenedBefore) {
-          const userData = (await getItemFromEncryptedStorage("user")) as UserType | null;
-          if (userData) {
+          const authToken = await getItemFromEncryptedStorage("authToken");
+          if (authToken) {
+            handleNavigation();
+          } else {
             try {
-              const res = await mutateAsync({
-                NationalId: userData.NationalId,
-                MobileNumber: userData.MobileNumber,
-              });
-              if (res?.DeviceId === userData.DeviceId && res?.DeviceStatus === "R") {
-                navigation.navigate("SignIn.SignInStack", { screen: "SignIn.Passcode" });
-                return;
+              const res = await getAuthenticationToken();
+              if (res?.AccessToken) {
+                setItemInEncryptedStorage("authToken", res.AccessToken);
               }
-            } catch (err) {}
+              handleNavigation();
+            } catch (err) {
+              goToOnboardingStack();
+            }
           }
-          navigation.navigate("Onboarding.OnboardingStack", {
-            screen: "Onboarding.SplashScreen",
-          });
         } else {
           navigation.navigate("Onboarding.WelcomeCarousel");
         }
       } catch (error) {
-        navigation.navigate("Onboarding.OnboardingStack", {
-          screen: "Onboarding.SplashScreen",
-        });
+        goToOnboardingStack();
       }
     }
 
