@@ -733,6 +733,8 @@
       "switchTitle": "Exclude from Summary",
       "switchDescription": "Hide this payment from Spending Insights, it will be added to Hidden Category",
       "tags": "Tags",
+      "notSelected": "Not selected",
+      "croatiaPlus": "Exclusive to Croatia Plus",
       "paidTo": "Paid To",
       "mainAccount": "Main Croatia account",
       "category": "Category",
@@ -824,7 +826,7 @@
     },
     "IqamaInputScreen": {
       "errorText": {
-        "noMatchRecord":"The details don’t match our records. Check carefully and try again.",
+        "noMatchRecord": "The details don’t match our records. Check carefully and try again.",
         "twoAttemptsLeft": "Tha passcode you  entered is not correct, You have 2 attempts left.",
         "oneAttemptsLeft": "Tha passcode you  entered is not correct, You have 1 attempts left.",
         "modalTitle": "Try again later",

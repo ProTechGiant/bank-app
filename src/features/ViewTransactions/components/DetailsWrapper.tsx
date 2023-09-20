@@ -6,6 +6,7 @@ import { Alert, Pressable, SectionList, StyleSheet, View, ViewStyle } from "reac
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import BackgroundBottom from "@/assets/BackgroundBottom";
+import { DiamondIcon } from "@/assets/icons";
 import CardButton from "@/components/CardButton";
 import ContentContainer from "@/components/ContentContainer";
 import DetailedRow from "@/components/DetailedRow";
@@ -19,6 +20,7 @@ import useTransactions from "@/hooks/use-not-pending-transactions";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { userType } from "../mocks";
 import { SingleTagType, TransactionDetailed } from "../types";
 import DetailedHeader from "./DetailedHeader";
 import ExcludeFromSummary from "./ExcludeFromSummary";
@@ -217,6 +219,12 @@ function DebitCardAndOneTimeCard({
 
   const iconColor = useThemeStyles(theme => theme.palette.complimentBase);
 
+  const tagsMarginStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing["8p"],
+  }));
+
+  const iconDiamondColor = useThemeStyles(theme => theme.palette.neutralBase);
+
   return (
     <>
       <SafeAreaView edges={["top"]} style={headerContainerStyle}>
@@ -289,9 +297,29 @@ function DebitCardAndOneTimeCard({
               />
             </Pressable>
           ) : null}
-          <Pressable onPress={handleOnPressTags}>
-            <DetailedRow name={t("ViewTransactions.SingleTransactionDetailedScreen.tags")} value={tagsValue} showIcon />
-          </Pressable>
+          {userType === "standard" ? (
+            <>
+              <DetailedRow
+                name={t("ViewTransactions.SingleTransactionDetailedScreen.tags")}
+                value={t("ViewTransactions.SingleTransactionDetailedScreen.notSelected")}
+                showIcon
+              />
+              <View style={styles.tagsText}>
+                <DiamondIcon color={iconDiamondColor} />
+                <Typography.Text style={tagsMarginStyle} size="footnote" weight="regular" color="neutralBase+30">
+                  {t("ViewTransactions.SingleTransactionDetailedScreen.croatiaPlus")}
+                </Typography.Text>
+              </View>
+            </>
+          ) : (
+            <Pressable onPress={handleOnPressTags}>
+              <DetailedRow
+                name={t("ViewTransactions.SingleTransactionDetailedScreen.tags")}
+                value={tagsValue}
+                showIcon
+              />
+            </Pressable>
+          )}
           {data?.location ? (
             <DetailedRow
               openModel={openModel}
@@ -391,6 +419,10 @@ const styles = StyleSheet.create({
   sarStyle: {
     alignItems: "baseline",
     flexDirection: "row",
+  },
+  tagsText: {
+    flexDirection: "row",
+    marginTop: -10,
   },
   transactionsContainer: {
     flex: 1,

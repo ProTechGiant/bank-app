@@ -68,3 +68,6 @@ export const createNewTag: PredefinedTagType = {
 };
 
 export const defaultViewBox = "0 0 20 20";
+
+//TODO: remove this mock when user type handel with api
+export const userType = "plusTier"; // or 'standard'

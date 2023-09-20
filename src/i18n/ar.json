@@ -156,7 +156,7 @@
       "subtext": "Already with us? ",
       "signIn": "تسجيل الدخول",
       "errorText": {
-        "noMatchRecord":"The details don’t match our records. Check carefully and try again.",
+        "noMatchRecord": "The details don’t match our records. Check carefully and try again.",
         "twoAttemptsLeft": "You have tried to sign up 3 times. You have 2 attempts remaining.",
         "oneAttemptsLeft": "You have tried to sign up 4 times. You have 1 attempts remaining.",
         "noAttemptsLeft": "You have tried 5 times to sign up.\n\n Please wait until tomorrow before retrying.",
@@ -737,6 +737,8 @@
       "switchTitle": "Exclude from Summary",
       "switchDescription": "Hide this payment from Spending Insights, it will be added to Hidden Category",
       "tags": "Tags",
+      "notSelected": "Not selected",
+      "croatiaPlus": "Exclusive to Croatia Plus",
       "paidTo": "Paid To",
       "mainAccount": "Main Croatia account",
       "category": "Category",
@@ -812,7 +814,7 @@
   "SignIn": {
     "IqamaInputScreen": {
       "errorText": {
-        "noMatchRecord":"The details don’t match our records. Check carefully and try again.",
+        "noMatchRecord": "The details don’t match our records. Check carefully and try again.",
         "twoAttemptsLeft": "You have tried to sign up 3 times. You have 2 attempts remaining.",
         "oneAttemptsLeft": "You have tried to sign up 4 times. You have 1 attempts remaining.",
         "noAttemptsLeft": "You have tried 5 times to sign up.\n\n Please wait until tomorrow before retrying.",
