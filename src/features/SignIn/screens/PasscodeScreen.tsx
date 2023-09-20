@@ -16,6 +16,7 @@ import Typography from "@/components/Typography";
 import { OTP_BLOCKED_TIME } from "@/constants";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
 import useLogout from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -52,13 +53,13 @@ export default function PasscodeScreen() {
   const [passCode, setPasscode] = useState<string>("");
   const [user, setUser] = useState<UserType | null>(null);
   const [tempUser, setTempUser] = useState<UserType | null>(null);
-  const [showModel, setShowModel] = useState<boolean>(false);
   const [biometricsKeyExist, setBiometricsKeyExist] = useState<boolean>(false);
   const [isSensorAvailable, setIsSensorAvailable] = useState<boolean>(false);
   const otpFlow = useOtpFlow();
   const useSendLoginOtpAsync = useSendLoginOTP();
   const [showSignInModal, setShowSignInModal] = useState<boolean>(false);
   const { setSignInCorrelationId } = useSignInContext();
+  const blockedUserFlow = useBlockedUserFlow();
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
@@ -132,13 +133,13 @@ export default function PasscodeScreen() {
       }
       //TODO: This logic will be removed once API is ready
       const errorId = response?.errorContent?.Errors[0].ErrorId;
-      if (errorId === "0009") handleBlocked(BLOCKED_TIME);
-      if (errorId === "0010") handleBlocked();
+      if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
+      if (errorId === "0010") blockedUserFlow.handle("passcode");
       setPasscode("");
     } catch (error: any) {
       const errorId = error?.errorContent?.Errors?.[0].ErrorId;
-      if (errorId === "0009") handleBlocked(BLOCKED_TIME);
-      if (errorId === "0010") handleBlocked();
+      if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
+      if (errorId === "0010") blockedUserFlow.handle("passcode");
       setPasscode("");
     }
   };
@@ -191,33 +192,12 @@ export default function PasscodeScreen() {
           }
         },
         onUserBlocked: () => {
-          handleBlocked(OTP_BLOCKED_TIME);
-          navigation.navigate("SignIn.UserBlocked", {
-            type: "otp",
-          });
+          blockedUserFlow.handle("otp", OTP_BLOCKED_TIME);
         },
       });
     } catch (responseError) {
       warn("login-action", "Could not send login OTP: ", JSON.stringify(responseError));
     }
-  };
-
-  const handleBlocked = async (blockTime?: number) => {
-    setShowModel(true);
-    if (!blockTime) {
-      await setItemInEncryptedStorage("UserBlocked", JSON.stringify(true));
-      handleNavigateToBlockScreen();
-    } else {
-      const userBlockTime = new Date().getTime() + blockTime * 60 * 1000; //TODO: replace with the value from API
-      await setItemInEncryptedStorage("UserBlocked", JSON.stringify(userBlockTime));
-    }
-  };
-
-  const handleNavigateToBlockScreen = () => {
-    setShowModel(false);
-    navigation.navigate("SignIn.UserBlocked", {
-      type: "passcode",
-    });
   };
 
   const handleBioMatric = async () => {
@@ -251,7 +231,7 @@ export default function PasscodeScreen() {
 
   return (
     <Page>
-      <NavHeader withBackButton={true} />
+      <NavHeader withBackButton={!user} />
       <View style={styles.containerStyle}>
         <PasscodeInput
           user={user}
@@ -262,11 +242,9 @@ export default function PasscodeScreen() {
           }
           errorMessage={errorMessages}
           isError={true} //TODO: This will be handled by the isError state managing the API call
-          showModel={showModel}
           subTitle={user ? t("SignIn.PasscodeScreen.subTitle") : ""}
           length={6}
           passcode={passCode}
-          resetError={handleNavigateToBlockScreen}
         />
         <NumberPad
           handleBiometric={handleBioMatric}

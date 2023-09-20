@@ -7,11 +7,13 @@ import NavHeader from "@/components/NavHeader";
 import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
+import { OTP_BLOCKED_TIME } from "@/constants";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import delayTransition from "@/utils/delay-transition";
-import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useErrorMessages } from "../hooks";
@@ -27,11 +29,11 @@ export default function ChangePasscodeScreen() {
   // const { errorMessages } = useErrorMessages(loginUserError);
   const { mutateAsync, data } = useLoginUser();
   const { errorMessages } = useErrorMessages(data as ApiError);
-  const [showModel, setShowModel] = useState<boolean>(false);
   const [passCode, setPasscode] = useState<string>("");
   const [user, setUser] = useState<UserType | null>(null);
   const otpFlow = useOtpFlow();
   const useSendLoginOtpAsync = useSendLoginOTP();
+  const blockedUserFlow = useBlockedUserFlow();
 
   useEffect(() => {
     handleOnChange();
@@ -56,24 +58,14 @@ export default function ChangePasscodeScreen() {
       }
       //TODO: This logic will be removed once API is ready
       const errorId = response?.errorContent?.Errors[0].ErrorId;
-      if (errorId === "0009") handleBlocked(BLOCKED_TIME);
-      if (errorId === "0010") handleBlocked();
+      if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
+      if (errorId === "0010") blockedUserFlow.handle("passcode");
       setPasscode("");
     } catch (error: any) {
       // const errorId = error?.errorContent?.Errors[0].ErrorId;
-      // if (errorId === "0009") handleBlocked(BLOCKED_TIME);
-      // if (errorId === "0010") handleBlocked();
+      // if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
+      // if (errorId === "0010") blockedUserFlow.handle("passcode");
       setPasscode("");
-    }
-  };
-
-  const handleBlocked = async (blockTime?: number) => {
-    setShowModel(true);
-    if (!blockTime) {
-      await setItemInEncryptedStorage("UserBlocked", JSON.stringify(true));
-    } else {
-      const userBlockTime = new Date().getTime() + blockTime * 60 * 1000;
-      await setItemInEncryptedStorage("UserBlocked", JSON.stringify(userBlockTime));
     }
   };
 
@@ -101,24 +93,12 @@ export default function ChangePasscodeScreen() {
           }
         },
         onUserBlocked: () => {
-          handleBlocked(BLOCKED_TIME);
-          navigation.navigate("SignIn.UserBlocked", {
-            type: "otp",
-            navigateTo: "SignIn.ChangePasscode",
-          });
+          blockedUserFlow.handle("otp", OTP_BLOCKED_TIME);
         },
       });
     } catch (responseError) {
       warn("login-action", "Could not send login OTP: ", JSON.stringify(responseError));
     }
-  };
-
-  const handleNavigateToBlockScreen = () => {
-    setShowModel(false);
-    navigation.navigate("SignIn.UserBlocked", {
-      type: "passcode",
-      navigateTo: "Settings.CustomerAccountManagementScreen",
-    });
   };
 
   const handleOtpVerification = async () => {
@@ -133,8 +113,6 @@ export default function ChangePasscodeScreen() {
           title={t("SignIn.ChangePasscodeScreen.title")}
           subTitle={t("SignIn.ChangePasscodeScreen.subTitle")}
           errorMessage={errorMessages}
-          showModel={showModel}
-          resetError={handleNavigateToBlockScreen}
           passcode={passCode}
           isError={true} //TODO: This will be handled by the isError state managing the API call
           length={PASSCODE_LENGTH}

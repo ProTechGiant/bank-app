@@ -9,6 +9,7 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { OTP_BLOCKED_TIME } from "@/constants";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
 import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
 import { useThemeStyles } from "@/theme";
 import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
@@ -27,6 +28,7 @@ export default function ForgotPasswordScreen() {
   const { mutateAsync, error, reset } = useSearchUserByNationalId();
   const userInfoError = error as ApiError;
   const { errorMessages } = useErrorMessages(userInfoError);
+  const blockedUserFlow = useBlockedUserFlow();
   const [notMatchRecord, setNotMatchRecord] = useState(false);
 
   useEffect(() => {
@@ -50,17 +52,9 @@ export default function ForgotPasswordScreen() {
         }
       },
       onUserBlocked: () => {
-        handleBlocked(OTP_BLOCKED_TIME);
-        navigation.navigate("SignIn.UserBlocked", {
-          type: "otp",
-        });
+        blockedUserFlow.handle("otp", OTP_BLOCKED_TIME);
       },
     });
-  };
-
-  const handleBlocked = async (blockTime: number) => {
-    const userBlockTime = new Date().getTime() + blockTime * 60 * 1000;
-    await setItemInEncryptedStorage("UserBlocked", JSON.stringify(userBlockTime));
   };
 
   const handleOnSubmit = async (values: IqamaInputs) => {

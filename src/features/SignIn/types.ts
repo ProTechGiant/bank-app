@@ -74,7 +74,7 @@ export interface UserType {
   Email: string;
 }
 
-enum StatusTypes {
+export enum StatusTypes {
   ACTIVE = 1,
   TEMPORARILY_BLOCKED = 2,
   PERMANENTLY_BLOCKED = 3,

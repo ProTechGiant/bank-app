@@ -21,8 +21,9 @@ import AppLockedPermanentImage from "../assets/AppLockedPermanentImage";
 import AppLockedTemporaryImage from "../assets/AppLockedTemporaryImage";
 import { BLOCKED_TIME } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
-import { useCheckUserStatus } from "../hooks/query-hooks";
+import { useCheckCustomerStatus } from "../hooks/query-hooks";
 import { SignInStackParams } from "../SignInStack";
+import { StatusTypes, UserType } from "../types";
 
 export default function UserBlockedScreen() {
   const { t } = useTranslation();
@@ -30,18 +31,25 @@ export default function UserBlockedScreen() {
   const { height } = useWindowDimensions();
   const { params } = useRoute<RouteProp<SignInStackParams, "SignIn.UserBlocked">>();
 
-  const { mutateAsync } = useCheckUserStatus();
+  const { mutateAsync } = useCheckCustomerStatus();
   const { setSignInCorrelationId } = useSignInContext();
   const [isItPermanentBlock, setIsItPermanentBlock] = useState(false);
   const [remainingSecs, setRemainingSecs] = useState<number>(0);
   const [userExist, setUserExist] = useState<boolean>(false);
+  const [user, setUser] = useState<UserType | null>(null);
 
   const timeoutRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     const getUser = async () => {
-      const user = await getItemFromEncryptedStorage("user");
-      setUserExist(!!user);
+      const userData = await getItemFromEncryptedStorage("user");
+      if (userData) {
+        setUser(JSON.parse(userData));
+      } else {
+        const tempUserData = await getItemFromEncryptedStorage("tempUser");
+        setUser(tempUserData ? JSON.parse(tempUserData) : null);
+      }
+      setUserExist(!!userData);
     };
     getUser();
   }, []);
@@ -82,17 +90,19 @@ export default function UserBlockedScreen() {
 
   const checkUserAccountStatus = async () => {
     try {
-      const response = await mutateAsync();
-      if (response) {
-        const { UserStatus } = response;
-        if (UserStatus === "active") {
-          handleNavigate();
-        } else {
-          if (UserStatus === "temporary-blocked") {
-            const userBlockTime = new Date().getTime() + BLOCKED_TIME * 60 * 1000; //TODO: replace with the value from API
-            handleTimeLogic(userBlockTime);
+      if (user) {
+        const response = await mutateAsync(user.CustomerId);
+        if (response) {
+          const { StatusId } = response;
+          if (StatusId === StatusTypes.ACTIVE) {
+            handleNavigate();
+          } else {
+            if (StatusId === StatusTypes.TEMPORARILY_BLOCKED) {
+              const userBlockTime = new Date().getTime() + BLOCKED_TIME * 60 * 1000; //TODO: replace with the value from API
+              handleTimeLogic(userBlockTime);
+            }
+            setIsItPermanentBlock(StatusId === StatusTypes.PERMANENTLY_BLOCKED);
           }
-          setIsItPermanentBlock(UserStatus === "permanently-blocked");
         }
       }
     } catch (err) {
@@ -117,10 +127,29 @@ export default function UserBlockedScreen() {
     if (await hasItemInStorage("UserBlockedFromProfileDetails")) {
       await removeItemFromEncryptedStorage("UserBlockedFromProfileDetails");
     }
-    if (params?.navigateTo !== undefined) {
-      navigation.navigate(params.navigateTo);
+    if (userExist) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "SignIn.Passcode" }],
+      });
     } else {
-      navigation.navigate("SignIn.Iqama");
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: "Onboarding.OnboardingStack",
+            params: {
+              screen: "Onboarding.SplashScreen",
+            },
+          },
+          {
+            name: "SignIn.SignInStack",
+            params: {
+              screen: "SignIn.Iqama",
+            },
+          },
+        ],
+      });
     }
   };
 
@@ -149,8 +178,6 @@ export default function UserBlockedScreen() {
               <Typography.Text size="title1" weight="bold" color="neutralBase+30" align="center">
                 {isItPermanentBlock
                   ? t("SignIn.UserPermanentBlockScreen.heading")
-                  : userExist
-                  ? t("SignIn.UserExistBlockedScreen.heading")
                   : t("SignIn.UserNotExistBlockedScreen.heading")}
               </Typography.Text>
               <Typography.Text color="neutralBase+10" size="callout" align="center">
