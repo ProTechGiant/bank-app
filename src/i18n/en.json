@@ -1106,7 +1106,21 @@
       "GoalGetter": {
         "title": "Goal getter products",
         "description": "Imagine a goal and we’ll help you save for it.",
-        "button": "Create a goal"
+        "button": "Create a goal",
+        "landingScreen": {
+          "skip": "Skip",
+          "next": "Next",
+          "title": "Goal getter",
+          "createGoal": "Create goal",
+          "titleOne": "Help me reach my goal",
+          "subTextOne": "If you have any doubts in how can you active your goal, we can help you",
+          "titleTwo": "Tell us what you dreaming?",
+          "subTextTwo": "Select from several option what are the type of goal you have",
+          "titleThree": "How you would like to start?",
+          "subTextThree": "Tell us how would you imagine starting saving for it",
+          "titleFour": "Best way to active it",
+          "subTextFour": "We will show you some recommendation in how to active you goal"
+        }
       },
       "ReferFriend": {
         "title": "Invite a friend",

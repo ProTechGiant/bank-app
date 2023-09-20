@@ -28,6 +28,7 @@ interface HeroSliderProps {
   hasBackButton?: boolean;
   children?: React.ReactNode;
   testID?: string;
+  title?: string;
 }
 
 export default function HeroSlider({
@@ -42,6 +43,7 @@ export default function HeroSlider({
   hasBackButton = true,
   children,
   testID,
+  title,
 }: HeroSliderProps) {
   const [step, setStep] = useState(0);
   const pagerViewRef = useRef<PagerView>(null);
@@ -90,6 +92,7 @@ export default function HeroSlider({
         onBackPress={onBackPress}
         end={!hasBackButton ? end : nextStep < data.length && end ? end : undefined}
         withBackButton={hasBackButton}
+        title={title}
       />
       <ContentContainer style={styles.content}>
         <PagerView style={pagerStyle} onPageSelected={handleOnPageSelected} ref={pagerViewRef}>
