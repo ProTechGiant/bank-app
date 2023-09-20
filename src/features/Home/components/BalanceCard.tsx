@@ -9,15 +9,23 @@ import Typography from "@/components/Typography";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useThemeStyles } from "@/theme";
 
-import { CardBrandDivider, CopyAccountIcon, EyeHideIcon, EyeShowIcon, NavigateToAccountIcon } from "../assets/icons";
+import {
+  CardBrandDivider,
+  CopyAccountIcon,
+  EyeHideIcon,
+  EyeShowIcon,
+  NavigateToAccountIcon,
+  RefreshBalanceIcon,
+} from "../assets/icons";
 import { formatAccountNumber } from "../utils";
 
 interface BalanceCardProps {
   balance?: number;
   accountNumber?: string;
+  onBalanceRefresh: () => void;
 }
 
-export default function BalanceCard({ balance, accountNumber }: BalanceCardProps) {
+export default function BalanceCard({ balance, accountNumber, onBalanceRefresh }: BalanceCardProps) {
   const { t } = useTranslation();
   const addToast = useToasts();
 
@@ -35,6 +43,10 @@ export default function BalanceCard({ balance, accountNumber }: BalanceCardProps
   };
 
   const handleOnShowBalancePress = () => setIsBalanceVisible(visible => !visible);
+
+  const handleOnRefreshBalancePress = () => {
+    onBalanceRefresh();
+  };
 
   const balanceCardContainer = useThemeStyles<ViewStyle>(theme => ({
     margin: theme.spacing["20p"],
@@ -75,17 +87,24 @@ export default function BalanceCard({ balance, accountNumber }: BalanceCardProps
             </Typography.Text>
             <Stack direction="horizontal" align="center" justify="space-between">
               {balance ? (
-                <Typography.Text color="neutralBase+30" size="large" weight="bold">
-                  {isBalanceVisible ? balance.toLocaleString("en-US") : "********"}
-                </Typography.Text>
+                <>
+                  <Typography.Text color="neutralBase+30" size="large" weight="bold">
+                    {isBalanceVisible ? balance.toLocaleString("en-US") : "********"}
+                  </Typography.Text>
+                  <Pressable style={showBalanceIconStyle} onPress={handleOnShowBalancePress}>
+                    {isBalanceVisible ? <EyeShowIcon /> : <EyeHideIcon />}
+                  </Pressable>
+                </>
               ) : (
-                <Typography.Text color="neutralBase+30" size="title1" weight="regular">
-                  {t("Home.DashboardScreen.updating")}
-                </Typography.Text>
+                <>
+                  <Typography.Text color="neutralBase+30" size="title1" weight="regular">
+                    {t("Home.DashboardScreen.updating")}
+                  </Typography.Text>
+                  <Pressable style={showBalanceIconStyle} onPress={handleOnRefreshBalancePress}>
+                    <RefreshBalanceIcon />
+                  </Pressable>
+                </>
               )}
-              <Pressable style={showBalanceIconStyle} onPress={handleOnShowBalancePress}>
-                {isBalanceVisible ? <EyeShowIcon /> : <EyeHideIcon />}
-              </Pressable>
             </Stack>
           </Stack>
           <Stack direction="vertical" style={styles.cardBrandDividerContainer}>

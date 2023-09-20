@@ -1064,7 +1064,7 @@
       "taskCount_two": "مهمتان",
       "taskCount_other": "{{count}} مهمات ",
       "leftToComplete": "لم تكتمل بعد",
-      "updating": "جار التحديث ...",
+      "updating": "جار التحديث",
       "ongoingChatButton": "دردشة",
       "bulletinBoardSection": {
         "loadTasksError": "تعذر تحميل المهام",

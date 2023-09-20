@@ -11,3 +11,4 @@ export { default as NavigateToAccountIcon } from "./NavigateToAccountIcon";
 export { default as PlaceholderRefreshIcon } from "./PlaceholderRefreshIcon";
 export { default as ReferFriendIconLTR } from "./ReferFriendIconLTR";
 export { default as ReferFriendIconRTL } from "./ReferFriendIconRTL";
+export { default as RefreshBalanceIcon } from "./RefreshBalanceIcon";

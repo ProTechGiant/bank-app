@@ -186,6 +186,10 @@ export default function DashboardScreen() {
     });
   };
 
+  const handleOnBalanceRefresh = () => {
+    account.refetch();
+  };
+
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingBottom: theme.spacing["20p"],
     paddingHorizontal: theme.spacing["20p"],
@@ -217,7 +221,11 @@ export default function DashboardScreen() {
       </Stack>
       <SafeAreaView edges={["top"]} style={styles.container}>
         <HeaderHomePage firstName={customerProfile?.FirstName} />
-        <BalanceCard balance={account.data?.balance} accountNumber={account.data?.id} />
+        <BalanceCard
+          balance={account.data?.balance}
+          accountNumber={account.data?.id}
+          onBalanceRefresh={handleOnBalanceRefresh}
+        />
         <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16}>
           <BulletinBoardSection />
           <Stack direction="vertical" gap="20p" align="stretch" style={shortcutSectionStackStyle}>

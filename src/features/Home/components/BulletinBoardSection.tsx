@@ -83,14 +83,14 @@ export default function BulletinBoardSection() {
     maxHeight: "100%",
   }));
 
-  if (!bulletinBoardTasks.PendingTasks || bulletinBoardTasks.PendingTasks.length === 0) {
-    return null;
-  }
-
   if (isError || isRefetchError) {
     return (
       <RefreshSection hint={t("Home.DashboardScreen.bulletinBoardSection.loadTasksError")} onRefreshPress={refetch} />
     );
+  }
+
+  if (!bulletinBoardTasks.PendingTasks || bulletinBoardTasks.PendingTasks.length === 0) {
+    return null;
   }
 
   return (
