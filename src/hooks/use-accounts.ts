@@ -8,7 +8,7 @@ import { generateRandomId, removeLeadingZeros } from "@/utils";
 export const queryKeys = {
   all: () => ["account"] as const,
   accounts: () => [...queryKeys.all(), "info"] as const,
-  balances: () => [...queryKeys.all(), "balances"] as const,
+  balances: (accountIds: string[]) => [...queryKeys.all(), "balances", ...accountIds] as const,
 };
 
 export function useAccounts() {
@@ -30,7 +30,7 @@ export function useAccounts() {
   );
 
   const balances = useQuery(
-    queryKeys.balances(),
+    queryKeys.balances(accounts.data ? accounts.data.map(a => a.AccountId) : []),
     async () => {
       if (accounts.data === undefined) return Promise.reject();
       return Promise.all(accounts.data.map(account => findAccountBalance(account.AccountId, sanitizedUserId)));
@@ -57,7 +57,7 @@ export function useInvalidateBalances() {
   const queryClient = useQueryClient();
 
   return function invalidate() {
-    queryClient.invalidateQueries(queryKeys.balances());
+    queryClient.invalidateQueries(queryKeys.balances([]));
   };
 }
 
