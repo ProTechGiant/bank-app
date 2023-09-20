@@ -1506,7 +1506,12 @@
         "title": "Are you sure?",
         "message": "Do you want to cancel this transfer?",
         "cancel": "Cancel transfer",
+        "done": "Done",
         "continue": "Continue"
+      },
+      "transferLimitError": {
+        "title": "Transaction Failed",
+        "message": "Sorry, You are exceeding global limit of transfer"
       }
     },
     "AddNoteScreen": {
@@ -1715,7 +1720,9 @@
     "InternalTransferScreen": {
       "title": "Send money",
       "amountExceedsBalance": "You have insufficient funds.",
+      "amountExceedsLimit": "You've exceeded the daily global transfer limit.",
       "addFunds": "Add funds",
+      "upgradeYourTierPlus": "Upgrade to tier plus",
       "screenTitle": "Internal transfer",
       "transferLimit": "Transfer limits"
     },

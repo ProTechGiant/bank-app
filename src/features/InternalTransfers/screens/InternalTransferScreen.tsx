@@ -14,13 +14,14 @@ import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
+import { useTransferLimitAmount } from "@/hooks/use-transfer-limit";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 import delayTransition from "@/utils/delay-transition";
 
-import { TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
+import { TransferAmountInput, TransferErrorBox, TransferLimitError, TransferReasonInput } from "../components";
 import { useTransferReasons } from "../hooks/query-hooks";
 
 interface InternalTransferInput {
@@ -44,6 +45,8 @@ export default function InternalTransferScreen() {
     throw new Error('Cannot access InternalTransferScreen without "transferType"');
   }
   const reasons = useTransferReasons(transferType);
+
+  const { transferLimitAmount } = useTransferLimitAmount(String(account?.data?.id));
 
   const currentBalance = account.data?.balance ?? 0;
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
@@ -100,6 +103,7 @@ export default function InternalTransferScreen() {
 
   const currentAmount = watch("PaymentAmount");
   const amountExceedsBalance = currentAmount > currentBalance;
+  const amountExceedsLimit = currentAmount > transferLimitAmount;
 
   return (
     <>
@@ -123,7 +127,7 @@ export default function InternalTransferScreen() {
                   autoFocus
                   control={control}
                   currentBalance={currentBalance}
-                  isError={amountExceedsBalance}
+                  isError={amountExceedsBalance || amountExceedsLimit}
                   maxLength={10}
                   name="PaymentAmount"
                 />
@@ -132,6 +136,12 @@ export default function InternalTransferScreen() {
                     onPress={handleOnAddFundsPress}
                     textStart={t("InternalTransfers.InternalTransferScreen.amountExceedsBalance")}
                     textEnd={t("InternalTransfers.InternalTransferScreen.addFunds")}
+                  />
+                ) : amountExceedsLimit ? (
+                  <TransferLimitError
+                    textStart={t("InternalTransfers.InternalTransferScreen.amountExceedsLimit")}
+                    textEnd={t("InternalTransfers.InternalTransferScreen.upgradeYourTierPlus")}
+                    // TODO: onPress navigate to screen where signature card can be upgraded (PC-14917, AC-3)
                   />
                 ) : null}
                 <TransferReasonInput
@@ -144,7 +154,7 @@ export default function InternalTransferScreen() {
             </View>
             <Button
               //isReasonAvailable remove to make default selection to reasons.
-              disabled={amountExceedsBalance || currentAmount < MINIMAL_AMOUNT}
+              disabled={amountExceedsBalance || currentAmount < MINIMAL_AMOUNT || amountExceedsLimit}
               onPress={handleSubmit(handleOnNextPress)}>
               Continue
             </Button>

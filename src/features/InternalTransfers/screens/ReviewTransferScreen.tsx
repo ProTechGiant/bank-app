@@ -12,6 +12,7 @@ import Stack from "@/components/Stack";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCurrentAccount, useInvalidateBalances } from "@/hooks/use-accounts";
+import { useTransferLimitAmount } from "@/hooks/use-transfer-limit";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -37,6 +38,7 @@ export default function ReviewTransferScreen() {
   const [note, setNote] = useState<Note>({ content: "", attachment: "" });
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const [isErrorTransferLimit, setIsErrorTransferLimit] = useState(false);
 
   const updateNote = (content: Note) => {
     setNote(content);
@@ -45,6 +47,8 @@ export default function ReviewTransferScreen() {
   const handleOnClose = () => {
     setIsVisible(true);
   };
+
+  const currentAccountBalance = (account && account.data && account.data.balance) ?? 0;
 
   const handleSendMoney = async () => {
     if (
@@ -55,6 +59,11 @@ export default function ReviewTransferScreen() {
     ) {
       return;
     }
+    if (transferAmount > transferLimitAmount || transferAmount > currentAccountBalance) {
+      setIsErrorTransferLimit(true);
+      return;
+    }
+    setIsErrorTransferLimit(false);
 
     const internalTransferDetails: InternalTransfer = {
       Reason: "internal-to-bank",
@@ -125,6 +134,8 @@ export default function ReviewTransferScreen() {
     }
   };
 
+  const { transferLimitAmount } = useTransferLimitAmount(String(account?.data?.id));
+
   const handleAddNote = () => {
     navigation.navigate("InternalTransfers.AddNoteScreen", { updateNote: updateNote, note: note });
   };
@@ -136,6 +147,11 @@ export default function ReviewTransferScreen() {
 
   const handleOnContinue = () => {
     setIsVisible(false);
+  };
+
+  const handleOnDone = () => {
+    setIsErrorTransferLimit(false);
+    navigation.navigate("InternalTransfers.InternalTransferScreen");
   };
 
   const buttonsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -192,6 +208,18 @@ export default function ReviewTransferScreen() {
         message={t("errors.generic.message")}
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("InternalTransfers.ReviewTransferScreen.transferLimitError.title")}
+        message={t("InternalTransfers.ReviewTransferScreen.transferLimitError.message")}
+        isVisible={isErrorTransferLimit}
+        onClose={() => setIsErrorTransferLimit(false)}
+        buttons={{
+          primary: (
+            <Button onPress={handleOnDone}>{t("InternalTransfers.ReviewTransferScreen.notification.done")}</Button>
+          ),
+        }}
       />
     </>
   );
