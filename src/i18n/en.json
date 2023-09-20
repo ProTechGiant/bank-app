@@ -858,11 +858,11 @@
       "validationErrors": {
         "mobileNumber": {
           "required": "Mobile Required",
-          "matches": "Phone numbers need 9 numbers."
+          "matches": "The number you entered is too short"
         },
         "iqamaId": {
           "required": "National ID/Iqama Number required",
-          "matches": "National IDs need 10 numbers.",
+          "matches": "The number you entered is too short",
           "exactLength": "Must be exactly {{length}} digits"
         }
       }
