@@ -59,6 +59,7 @@ export default function DashboardScreen() {
   const registerForNotifications = useRegisterNotifications();
   const { data: customerProfile } = useCustomerProfile();
   const { refetch: refetchQuickActions } = useQuickActions();
+  const auth = useAuthContext();
 
   const appreciationFeedback = useAppreciationFeedback();
   const { data: appreciationsWithNoFeedback } = useAppreciationsWithNoFeedback(i18n.language);
@@ -220,7 +221,10 @@ export default function DashboardScreen() {
         </Stack>
       </Stack>
       <SafeAreaView edges={["top"]} style={styles.container}>
-        <HeaderHomePage firstName={customerProfile?.FirstName} />
+        <HeaderHomePage
+          firstName={customerProfile?.FirstName}
+          isNotificationIconHighlighted={auth.notificationsReadStatus}
+        />
         <BalanceCard
           balance={account.data?.balance}
           accountNumber={account.data?.id}

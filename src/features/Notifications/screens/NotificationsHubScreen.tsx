@@ -15,6 +15,7 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -30,6 +31,7 @@ export default function NotificationsHubScreen() {
   const todayDate = startOfToday();
   const from30DaysDate = subDays(new Date(todayDate), 31);
 
+  const auth = useAuthContext();
   const [isFiltersModalVisible, setIsFiltersModalVisible] = useState<boolean>(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
   const [isAllDataLoaded, setIsAllDataLoaded] = useState<boolean>(false);
@@ -63,9 +65,13 @@ export default function NotificationsHubScreen() {
 
   useEffect(() => {
     if (data?.SubCategories) {
-      setFilters(data.SubCategories);
+      setFilters(categories => uniqBy([...categories, ...data.SubCategories], "Id"));
     }
-  }, [data]);
+  }, [data?.SubCategories]);
+
+  useEffect(() => {
+    auth.setNotificationsReadStatus(true);
+  }, []);
 
   const todaySection = {
     day: SectionEnum.TODAY,
@@ -101,7 +107,7 @@ export default function NotificationsHubScreen() {
   }, [isError, isFilterDataError]);
 
   useEffect(() => {
-    if (notificationsRef.current.length < PAGE_SIZE * pageNumber) {
+    if (notificationsRef.current.length < PAGE_SIZE * (pageNumber + 1)) {
       setIsAllDataLoaded(true);
     }
   }, [data, pageNumber]);

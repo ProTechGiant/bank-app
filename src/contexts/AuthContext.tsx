@@ -17,6 +17,8 @@ interface AuthContextProps {
   setAuthToken: (value: string) => void;
   logout: (stillPersistTheRegisteredUser?: boolean) => void;
   isUserLocked: boolean;
+  notificationsReadStatus: boolean;
+  setNotificationsReadStatus: (value: boolean) => void; // TODO will be  called inside EventListener which fired based on user clicks on notification
 }
 
 function noop() {
@@ -35,6 +37,8 @@ const AuthContext = createContext<AuthContextProps>({
   logout: () => noop,
   isUserLocked: false,
   setAuthToken: noop,
+  notificationsReadStatus: false,
+  setNotificationsReadStatus: noop,
 });
 
 export function AuthContextProvider({ children }: React.PropsWithChildren) {
@@ -149,6 +153,10 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     setState({ ...state, authToken });
   };
 
+  const handleonNotificationRead = (status: boolean) => {
+    setState({ ...state, notificationsReadStatus: status });
+  };
+
   const contextValue = useMemo(
     () => ({
       ...state,
@@ -157,6 +165,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       authenticateAnonymously: handleOnAuthenticateAnonymously,
       updatePhoneNumber: handleOnUpdatePhoneNumber,
       setAuthToken: setAuthToken,
+      setNotificationsReadStatus: handleonNotificationRead,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state]

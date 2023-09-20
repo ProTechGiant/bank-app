@@ -8,9 +8,10 @@ import { useThemeStyles } from "@/theme";
 
 interface UserFirstName {
   firstName: string | undefined;
+  isNotificationIconHighlighted: boolean;
 }
 
-export default function HeaderHomePage({ firstName }: UserFirstName) {
+export default function HeaderHomePage({ firstName, isNotificationIconHighlighted }: UserFirstName) {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
@@ -49,9 +50,11 @@ export default function HeaderHomePage({ firstName }: UserFirstName) {
         style={circularIconContainer}>
         <NotificationIcon />
         {/* TODO : Hide notificationUnread icon when there is no notifications */}
-        <View style={I18nManager.isRTL ? style.notificationUnreadArabic : style.notificationUnreadEnglish}>
-          <UnreadNotificationIcon color={iconColor} />
-        </View>
+        {!isNotificationIconHighlighted && (
+          <View style={I18nManager.isRTL ? style.notificationUnreadArabic : style.notificationUnreadEnglish}>
+            <UnreadNotificationIcon color={iconColor} />
+          </View>
+        )}
       </Pressable>
     </View>
   );
