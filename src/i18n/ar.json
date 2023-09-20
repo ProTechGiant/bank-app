@@ -1274,6 +1274,10 @@
       "title": "Card settings",
       "subTitle1": "Security",
       "changePin": "Change Pin",
+      "posTransactions": {
+        "label": "POS transactions",
+        "helperText": "POS transactions description pending..."
+      },
       "onlinePayment": {
         "label": "Online payments",
         "helperText": "Allow online payments with this card."
@@ -1284,6 +1288,7 @@
       },
       "subTitle2": "Transaction limit",
       "posTransactionLimit": "POS transaction limit",
+      "onlineTransactionLimit": "Online transaction limit",
       "subTitle3": "Physical card",
       "swipePayments": {
         "label": "Swipe payments",

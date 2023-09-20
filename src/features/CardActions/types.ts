@@ -18,23 +18,24 @@ export interface Card {
 }
 
 export interface CardSettingsInput {
-  ContactlessPayments: boolean;
-  OnlinePayments: boolean;
-  AtmWithdrawals: boolean;
-  SwipePayments: boolean;
-  InternationalPayments: boolean;
+  ContactlessPayments?: boolean;
+  OnlinePayments?: boolean;
+  AtmWithdrawals?: boolean;
+  SwipePayments?: boolean;
+  InternationalPayments?: boolean;
+  POSTransaction?: boolean;
 }
 
 export type CardStatus =
-  | "expired"
-  | "expired_report"
-  | "inactive"
-  | "unfreeze"
-  | "freeze"
-  | "lost"
-  | "damaged"
-  | "stolen"
-  | "pending-activation";
+  | "EXPIRED"
+  | "EXPIRED_REPORT"
+  | "INACTIVE"
+  | "UNLOCK"
+  | "LOCK"
+  | "LOST"
+  | "DAMAGED"
+  | "STOLEN"
+  | "PENDING-ACTIVATION";
 
 export interface CardCreateResponse {
   Header: {

@@ -84,6 +84,7 @@ export * from "./NeraNamedLogo";
 export * from "./NoArticlesIcon";
 export * from "./NotificationIcon";
 export * from "./NumbersIcon";
+export * from "./OnlineTransactionLimitIcon";
 export * from "./PaymentHistoryIcon";
 export * from "./PaymentsIcon";
 export * from "./PaySadadBillIcon";
@@ -122,6 +123,7 @@ export * from "./SplitIcon";
 export * from "./SummarizeIcon";
 export * from "./SupportAgentIcon";
 export * from "./SwapIcon";
+export * from "./SwipeIcon";
 export * from "./SyncIcon";
 export * from "./ThreeDotsCircleIcon";
 export * from "./ThreeDotsIcon";
@@ -146,6 +148,7 @@ export * from "./UserIcon";
 export * from "./WalletIcon";
 export * from "./WarningFilledCircleIcon";
 export * from "./WhatsNextIcon";
+export * from "./WifiIcon";
 export * from "./WithdrawIcon";
 
 export interface IconProps {

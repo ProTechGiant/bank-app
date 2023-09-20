@@ -3,7 +3,15 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, View, ViewStyle } from "react-native";
 
-import { CardIcon, GlobeIcon, LockIcon, PointOfSaleIcon } from "@/assets/icons";
+import {
+  CardIcon,
+  GlobeIcon,
+  LockIcon,
+  OnlineTransactionLimitIcon,
+  PointOfSaleIcon,
+  SwipeIcon,
+  WifiIcon,
+} from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
@@ -32,6 +40,7 @@ export default function CardSettingsScreen() {
   const updateCardSettingsAsync = useUpdateCardSettings();
   const settings = useCardSettings(route.params.cardId);
   const card = useCard(route.params.cardId);
+
   const addToast = useToasts();
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
@@ -52,12 +61,15 @@ export default function CardSettingsScreen() {
     });
   };
 
-  const handleOnPOSTransactiionLimitPress = () => {
+  const handleOnPOSTransactionLimitPress = () => {
     navigation.navigate("CardActions.POSLimitScreen", {
       cardId: route.params.cardId,
     });
   };
 
+  const handleOnOnlineTransactionlimitPress = () => {
+    // TODO: to handle online transaction limit press...
+  };
   const handleOnConfirmPress = () => {
     // TODO: need to add OTP Flow here
   };
@@ -162,14 +174,22 @@ export default function CardSettingsScreen() {
                   icon={<LockIcon />}
                   title={t("CardActions.CardSettingsScreen.changePin")}
                   onPress={handleOnChangePinCodePress}
-                  disabled={card.data.Status !== "unfreeze"}
+                  disabled={card.data.Status !== "UNLOCK"}
+                />
+                <SettingsToggle
+                  icon={<PointOfSaleIcon />}
+                  label={t("CardActions.CardSettingsScreen.posTransactions.label")}
+                  helperText={t("CardActions.CardSettingsScreen.posTransactions.helperText")}
+                  onPress={() => handleOnChangeSettings("POSTransaction")}
+                  value={settings.data.POSTransaction ?? true}
+                  disabled={!["unfreeze", "pending-activation"].includes(card.data.Status)}
                 />
                 <SettingsToggle
                   icon={<CardIcon />}
                   label={t("CardActions.CardSettingsScreen.onlinePayment.label")}
                   helperText={t("CardActions.CardSettingsScreen.onlinePayment.helperText")}
                   onPress={() => handleOnChangeSettings("OnlinePayments")}
-                  value={settings.data.OnlinePayments}
+                  value={settings.data.OnlinePayments ?? true}
                   disabled={!["unfreeze", "pending-activation"].includes(card.data.Status)}
                 />
                 <SettingsToggle
@@ -177,8 +197,25 @@ export default function CardSettingsScreen() {
                   label={t("CardActions.CardSettingsScreen.internationalPayment.label")}
                   helperText={t("CardActions.CardSettingsScreen.internationalPayment.helperText")}
                   onPress={() => handleOnChangeSettings("InternationalPayments")}
-                  value={settings.data.InternationalPayments}
-                  disabled={card.data.Status !== "unfreeze"}
+                  value={settings.data.InternationalPayments ?? false}
+                  disabled={card.data.Status !== "UNLOCK"}
+                />
+
+                <SettingsToggle
+                  icon={<SwipeIcon />}
+                  disabled={card.data.Status !== "UNLOCK"}
+                  label={t("CardActions.CardSettingsScreen.swipePayments.label")}
+                  helperText={t("CardActions.CardSettingsScreen.swipePayments.helperText")}
+                  onPress={() => handleOnChangeSettings("SwipePayments")}
+                  value={card.data.Status === "PENDING-ACTIVATION" ? false : settings.data.SwipePayments ?? false}
+                />
+                <SettingsToggle
+                  icon={<WifiIcon />}
+                  disabled={card.data.Status !== "UNLOCK"}
+                  label={t("CardActions.CardSettingsScreen.contactlessPayments.label")}
+                  helperText={t("CardActions.CardSettingsScreen.contactlessPayments.helperText")}
+                  onPress={() => handleOnChangeSettings("ContactlessPayments")}
+                  value={card.data.Status === "PENDING-ACTIVATION" ? false : settings.data.ContactlessPayments ?? false}
                 />
               </ListSection>
               <View style={separatorStyle} />
@@ -186,14 +223,20 @@ export default function CardSettingsScreen() {
                 <ListItemLink
                   icon={<PointOfSaleIcon />}
                   title={t("CardActions.CardSettingsScreen.posTransactionLimit")}
-                  onPress={handleOnPOSTransactiionLimitPress}
-                  disabled={card.data.Status !== "unfreeze"}
+                  onPress={handleOnPOSTransactionLimitPress}
+                  disabled={card.data.Status !== "UNLOCK"}
+                />
+                <ListItemLink
+                  icon={<OnlineTransactionLimitIcon />}
+                  title={t("CardActions.CardSettingsScreen.onlineTransactionLimit")}
+                  onPress={handleOnOnlineTransactionlimitPress}
+                  disabled={card.data.Status !== "UNLOCK"}
                 />
               </ListSection>
               <View style={separatorStyle} />
 
               <ListSection title={t("CardActions.CardSettingsScreen.subTitle3")}>
-                {card.data.Status === "pending-activation" ? (
+                {card.data.Status === "PENDING-ACTIVATION" ? (
                   <View style={cardInTransitBannerStyle}>
                     <Stack direction="vertical" gap="8p">
                       <Typography.Text color="neutralBase+30" size="callout" weight="medium">
@@ -205,31 +248,18 @@ export default function CardSettingsScreen() {
                     </Stack>
                   </View>
                 ) : null}
+
                 <SettingsToggle
-                  disabled={card.data.Status !== "unfreeze"}
-                  label={t("CardActions.CardSettingsScreen.swipePayments.label")}
-                  helperText={t("CardActions.CardSettingsScreen.swipePayments.helperText")}
-                  onPress={() => handleOnChangeSettings("SwipePayments")}
-                  value={card.data.Status === "pending-activation" ? false : settings.data.SwipePayments}
-                />
-                <SettingsToggle
-                  disabled={card.data.Status !== "unfreeze"}
-                  label={t("CardActions.CardSettingsScreen.contactlessPayments.label")}
-                  helperText={t("CardActions.CardSettingsScreen.contactlessPayments.helperText")}
-                  onPress={() => handleOnChangeSettings("ContactlessPayments")}
-                  value={card.data.Status === "pending-activation" ? false : settings.data.ContactlessPayments}
-                />
-                <SettingsToggle
-                  disabled={card.data.Status !== "unfreeze"}
+                  disabled={card.data.Status !== "UNLOCK"}
                   label={t("CardActions.CardSettingsScreen.atmWithdrawals.label")}
                   helperText={t("CardActions.CardSettingsScreen.atmWithdrawals.helperText")}
                   onPress={() => handleOnChangeSettings("AtmWithdrawals")}
-                  value={card.data.Status === "pending-activation" ? false : settings.data.AtmWithdrawals}
+                  value={card.data.Status === "PENDING-ACTIVATION" ? false : settings.data.AtmWithdrawals ?? false}
                 />
                 <View style={cancelCardButtonContainerStyle}>
                   <Button
                     onPress={handleOnCancelCardPress}
-                    disabled={card.data.Status === "pending-activation"}
+                    disabled={card.data.Status === "PENDING-ACTIVATION"}
                     variant="secondary">
                     {t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCard")}
                   </Button>
