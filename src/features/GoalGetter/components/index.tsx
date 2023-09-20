@@ -1,1 +1,1 @@
-// TODO:its temp for structure
+export { default as GalleryImage } from "./GalleryImage";

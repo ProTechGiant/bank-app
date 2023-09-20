@@ -1201,6 +1201,12 @@
       "noSpendingInformation": "When you start making purchases your top spending categories will show up here."
     }
   },
+  "GoalGetter": {
+    "imageGallery": {
+      "title": "Croatia Image Gallery",
+      "buttonSave": "Save"
+    }
+  },
   "Referral": {
     "HubScreen": {
       "title": "Invite friends",

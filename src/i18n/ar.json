@@ -1141,6 +1141,12 @@
       "saveButton": "حفظ"
     }
   },
+  "GoalGetter": {
+    "imageGallery": {
+      "title": "Croatia Image Gallery",
+      "buttonSave": "Save"
+    }
+  },
   "InstructionsScreen": {
     "skip": "تخطى",
     "continue": "متابعة",
