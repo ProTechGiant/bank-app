@@ -21,7 +21,7 @@ export default function TransferLimitError({ textStart, textEnd }: TransferLimit
   }));
 
   const rightWhiteButton = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["20p"],
+    paddingHorizontal: theme.spacing["16p"],
     paddingVertical: theme.spacing["8p"],
     borderRadius: theme.spacing["24p"],
     backgroundColor: theme.palette["neutralBase-60"],

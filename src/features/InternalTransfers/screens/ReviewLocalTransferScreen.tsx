@@ -14,6 +14,7 @@ import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCurrentAccount } from "@/hooks/use-accounts";
+import { useTransferLimitAmount } from "@/hooks/use-transfer-limit";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -34,7 +35,7 @@ export default function ReviewQuickTransferScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ReviewLocalTransferScreen">>();
 
-  const { transferType } = useInternalTransferContext();
+  const { transferType, transferAmount } = useInternalTransferContext();
   const account = useCurrentAccount();
   const transferFeesAsync = useTransferFees(transferType);
   const transferReason = useTransferReasonsByCode(
@@ -49,6 +50,9 @@ export default function ReviewQuickTransferScreen() {
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
+  const [isErrorTransferLimit, setIsErrorTransferLimit] = useState(false);
+
+  const currentAccountBalance = (account && account.data && account.data.balance) ?? 0;
 
   useEffect(() => {
     setIsErrorModalVisible(transferFeesAsync.isError);
@@ -58,16 +62,25 @@ export default function ReviewQuickTransferScreen() {
     setIsVisible(true);
   };
 
+  const { transferLimitAmount } = useTransferLimitAmount(String(account?.data?.id));
+
   const handleSendMoney = async () => {
     if (
       account.data === undefined ||
       route.params.ReasonCode === undefined ||
       route.params.PaymentAmount === undefined ||
       route.params.Beneficiary.FullName === undefined ||
-      transferFeesAsync.data?.TransferFee === undefined
+      transferFeesAsync.data?.TransferFee === undefined ||
+      transferAmount === undefined
     ) {
       return;
     }
+
+    if (transferAmount > transferLimitAmount || transferAmount > currentAccountBalance) {
+      setIsErrorTransferLimit(true);
+      return;
+    }
+    setIsErrorTransferLimit(false);
 
     const localTransferRequest: LocalTransfer = {
       transferAmount: route.params.PaymentAmount,
@@ -128,6 +141,14 @@ export default function ReviewQuickTransferScreen() {
 
   const handleOnContinue = () => {
     setIsVisible(false);
+  };
+
+  const handleOnDone = () => {
+    setIsErrorTransferLimit(false);
+
+    transferType === "SARIE_TRANSFER_ACTION"
+      ? navigation.navigate("InternalTransfers.StandardTransferScreen")
+      : navigation.navigate("InternalTransfers.QuickTransferScreen");
   };
 
   const buttonsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -326,6 +347,18 @@ export default function ReviewQuickTransferScreen() {
         message={t("errors.generic.message")}
         isVisible={isGenericErrorModalVisible}
         onClose={() => setIsGenericErrorModalVisible(false)}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("InternalTransfers.ReviewTransferScreen.transferLimitError.title")}
+        message={t("InternalTransfers.ReviewTransferScreen.transferLimitError.message")}
+        isVisible={isErrorTransferLimit}
+        onClose={() => setIsErrorTransferLimit(false)}
+        buttons={{
+          primary: (
+            <Button onPress={handleOnDone}>{t("InternalTransfers.ReviewTransferScreen.notification.done")}</Button>
+          ),
+        }}
       />
     </>
   );

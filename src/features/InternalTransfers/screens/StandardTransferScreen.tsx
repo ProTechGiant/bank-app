@@ -17,6 +17,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
+import { useTransferLimitAmount } from "@/hooks/use-transfer-limit";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -24,7 +25,7 @@ import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 import delayTransition from "@/utils/delay-transition";
 
-import { TransferAmountInput, TransferErrorBox, TransferReasonInput } from "../components";
+import { TransferAmountInput, TransferErrorBox, TransferLimitError, TransferReasonInput } from "../components";
 import TransferLimitsModal from "../components/TransferLimitsModal";
 import WarningBanner from "../components/WarningBanner";
 import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
@@ -57,6 +58,7 @@ export default function StandardTransferScreen() {
 
   const { setReason, setTransferAmount, setTransferType } = useInternalTransferContext();
 
+  const { transferLimitAmount } = useTransferLimitAmount(String(account?.data?.id));
   const handleOnValidateDailyLimit = async (transferAmount: number) => {
     try {
       await dailyLimitAsync.mutateAsync({
@@ -129,6 +131,7 @@ export default function StandardTransferScreen() {
   const currentAmount = watch("PaymentAmount");
   const amountExceedsBalance = currentAmount > currentBalance;
 
+  const amountExceedsLimit = currentAmount > transferLimitAmount;
   const debouncedFunc = useCallback(debounce(handleOnValidateDailyLimit, 300), []);
 
   useEffect(() => {
@@ -155,7 +158,9 @@ export default function StandardTransferScreen() {
                   autoFocus
                   control={control}
                   currentBalance={currentBalance}
-                  isError={(amountExceedsBalance || dailyLimitAsync.data?.IsLimitExceeded) ?? false}
+                  isError={
+                    (amountExceedsBalance || amountExceedsLimit || dailyLimitAsync.data?.IsLimitExceeded) ?? false
+                  }
                   hideBalanceError={!amountExceedsBalance}
                   maxLength={10}
                   name="PaymentAmount"
@@ -170,8 +175,14 @@ export default function StandardTransferScreen() {
                 ) : amountExceedsBalance ? (
                   <TransferErrorBox
                     onPress={handleOnAddFundsPress}
-                    textStart={t("InternalTransfers.StandardTransferScreen.amountExceedsBalance")}
-                    textEnd={t("InternalTransfers.StandardTransferScreen.addFunds")}
+                    textStart={t("InternalTransfers.InternalTransferScreen.amountExceedsBalance")}
+                    textEnd={t("InternalTransfers.InternalTransferScreen.addFunds")}
+                  />
+                ) : amountExceedsLimit ? (
+                  <TransferLimitError
+                    textStart={t("InternalTransfers.InternalTransferScreen.amountExceedsLimit")}
+                    textEnd={t("InternalTransfers.InternalTransferScreen.upgradeYourTierPlus")}
+                    // TODO: onPress navigate to screen where signature card can be upgraded (PC-14920, AC-3)
                   />
                 ) : null}
                 <TransferReasonInput
@@ -183,7 +194,7 @@ export default function StandardTransferScreen() {
                 <WarningBanner
                   icon={<InfoFilledCircleIcon />}
                   text={
-                    currentAmount > SARIE_MIN_TRANSFER_AMOUNT
+                    amountExceedsLimit
                       ? t("InternalTransfers.StandardTransferScreen.nonOperativeHoursWarning")
                       : t("InternalTransfers.StandardTransferScreen.amountSentInstantlyMessage")
                   }
@@ -194,11 +205,7 @@ export default function StandardTransferScreen() {
               <View style={styles.button}>
                 <Button
                   color="light"
-                  disabled={
-                    amountExceedsBalance ||
-                    currentAmount <= SARIE_MIN_TRANSFER_AMOUNT ||
-                    dailyLimitAsync.data?.IsLimitExceeded
-                  }
+                  disabled={amountExceedsBalance || dailyLimitAsync.data?.IsLimitExceeded}
                   variant="secondary"
                   iconLeft={<CalendarAltIcon />}>
                   {t("InternalTransfers.StandardTransferScreen.scheduleButton")}
@@ -208,11 +215,7 @@ export default function StandardTransferScreen() {
                 <Button
                   variant="primary"
                   color="light"
-                  disabled={
-                    amountExceedsBalance ||
-                    currentAmount <= SARIE_MIN_TRANSFER_AMOUNT ||
-                    dailyLimitAsync.data?.IsLimitExceeded
-                  }
+                  disabled={amountExceedsBalance || dailyLimitAsync.data?.IsLimitExceeded || amountExceedsLimit}
                   onPress={handleSubmit(handleOnContinue)}>
                   {t("InternalTransfers.StandardTransferScreen.continueButton")}
                 </Button>
@@ -271,5 +274,3 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 });
-
-const SARIE_MIN_TRANSFER_AMOUNT = 20000;
