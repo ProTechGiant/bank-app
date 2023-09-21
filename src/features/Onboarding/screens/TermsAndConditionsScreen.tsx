@@ -54,7 +54,7 @@ const TermsAndConditionsScreen = () => {
 
   const termsAndConditionLabelContainerStyle = useThemeStyles<TextStyle>(theme => ({
     borderBottomWidth: 1,
-    borderBottomColor: theme.palette.neutralBase,
+    borderBottomColor: theme.palette.primaryBase,
   }));
 
   const checkboxLabelContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -87,7 +87,7 @@ const TermsAndConditionsScreen = () => {
                 <Pressable
                   style={termsAndConditionLabelContainerStyle}
                   onPress={() => navigation.navigate("Onboarding.TermsAndConditionsDetails")}>
-                  <Typography.Text size="footnote" weight="medium" color="neutralBase">
+                  <Typography.Text size="footnote" weight="medium" color="primaryBase">
                     {t("Onboarding.TermsAndConditions.termsAndCondition")}
                   </Typography.Text>
                 </Pressable>
