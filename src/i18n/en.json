@@ -1190,7 +1190,8 @@
     "RefreshSection": {
       "refreshButton": "Refresh",
       "hintForSpendingSection": "Couldn’t load Spending Insights",
-      "hintForWhatNextArticles": "Articles will be here soon"
+      "hintForWhatNextArticles": "Articles will be here soon",
+      "hintForAppreciation": "Appreciations will be here soon"
     },
     "TopSpendingCategories": {
       "currentSpending": "Current spending in",

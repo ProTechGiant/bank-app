@@ -8,6 +8,7 @@ import { useThemeStyles } from "@/theme";
 import { CustomerTierEnum } from "@/types/CustomerProfile";
 
 import { useTopAppreciations } from "../hooks/query-hooks";
+import RefreshSection from "./RefreshSection";
 import Section from "./Section";
 
 interface AppreciationSectionProps {
@@ -17,7 +18,7 @@ interface AppreciationSectionProps {
 export default function AppreciationSection({ onViewAllPress }: AppreciationSectionProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { data: AppreciationList } = useTopAppreciations();
+  const { data: AppreciationList, refetch } = useTopAppreciations();
   const { data: userInfo } = useCustomerProfile();
   const userTier = userInfo?.CustomerTier ?? CustomerTierEnum.STANDARD;
   const userFullName = userInfo?.FullName;
@@ -45,25 +46,34 @@ export default function AppreciationSection({ onViewAllPress }: AppreciationSect
 
   return (
     <Section title={t("Home.DashboardScreen.AppreciationSectionTitle")} onViewAllPress={onViewAllPress}>
-      <ScrollView
-        contentContainerStyle={contentStyle}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={containerStyle}>
-        {AppreciationList?.Appreciations
-          ? AppreciationList.Appreciations.slice(0, 3).map((appreciation, index) => {
-              return (
-                <AppreciationCard
-                  appreciation={appreciation}
-                  userTier={userTier}
-                  key={index}
-                  onPress={handleOnAppreciationCardPress}
-                  onLike={handleOnLikeAppreciation}
-                />
-              );
-            })
-          : null}
-      </ScrollView>
+      {AppreciationList?.Appreciations && AppreciationList.Appreciations.length > 0 ? (
+        <ScrollView
+          contentContainerStyle={contentStyle}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={containerStyle}>
+          {AppreciationList?.Appreciations
+            ? AppreciationList.Appreciations.slice(0, 3).map((appreciation, index) => {
+                return (
+                  <AppreciationCard
+                    appreciation={appreciation}
+                    userTier={userTier}
+                    key={index}
+                    onPress={handleOnAppreciationCardPress}
+                    onLike={handleOnLikeAppreciation}
+                  />
+                );
+              })
+            : null}
+        </ScrollView>
+      ) : (
+        <RefreshSection
+          hint={t("Home.RefreshSection.hintForAppreciation")}
+          hasIcon={true}
+          hasBorder={true}
+          onRefreshPress={refetch}
+        />
+      )}
     </Section>
   );
 }
