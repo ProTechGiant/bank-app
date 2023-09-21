@@ -43,6 +43,7 @@ export interface OtpRequiredResponse {
   OtpId: string;
   OtpCode: string;
   PhoneNumber: string;
+  IsOtpRequired: boolean;
 }
 
 export interface ValidateOtpRequest<T> {

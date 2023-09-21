@@ -35,7 +35,10 @@ export type CardStatus =
   | "LOST"
   | "DAMAGED"
   | "STOLEN"
-  | "PENDING-ACTIVATION";
+  | "PENDING-ACTIVATION"
+  | "CANCELLED"
+  | "LOCK"
+  | "UNLOCK";
 
 export interface CardCreateResponse {
   Header: {

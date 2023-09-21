@@ -1826,7 +1826,9 @@
         "cancelCardTitle": "Cancel Card",
         "cancelCardDescription": "Are you sure you want to cancel your card? This action cannot be undone.",
         "confirm": "Confirm",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "cancelCardSuccessMessage": "Your card is cancelled successfully",
+        "Ok": "Ok"
       }
     },
     "CardDetailsScreen": {

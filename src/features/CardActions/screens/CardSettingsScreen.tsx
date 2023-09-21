@@ -28,7 +28,7 @@ import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 
 import { ListItemLink, ListSection, SettingsToggle } from "../components";
-import { useCard, useCardSettings, useUpdateCardSettings } from "../hooks/query-hooks";
+import { useCard, useCardSettings, useChangeCardStatus, useUpdateCardSettings } from "../hooks/query-hooks";
 import { CardSettingsInput } from "../types";
 
 export default function CardSettingsScreen() {
@@ -38,6 +38,7 @@ export default function CardSettingsScreen() {
 
   const otpFlow = useOtpFlow<AuthenticatedStackParams>();
   const updateCardSettingsAsync = useUpdateCardSettings();
+  const changeCardStatus = useChangeCardStatus();
   const settings = useCardSettings(route.params.cardId);
   const card = useCard(route.params.cardId);
 
@@ -45,6 +46,7 @@ export default function CardSettingsScreen() {
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
+  const [showCancelCardSuccessAlert, setShowCancelCardSuccessAlert] = useState(false);
   const isUpdatingRef = useRef(false);
 
   otpFlow.useOtpResponseEffect<{ ResetPinMessage: string }>((status, payload) => {
@@ -52,6 +54,8 @@ export default function CardSettingsScreen() {
       addToast({ variant: "confirm", message: t("CardActions.CardSettingsScreen.toast") });
     } else if (status === "fail") {
       delayTransition(() => setIsErrorModalVisible(true));
+    } else if (status === "success") {
+      delayTransition(() => setShowCancelCardSuccessAlert(true));
     }
   });
 
@@ -70,12 +74,62 @@ export default function CardSettingsScreen() {
   const handleOnOnlineTransactionlimitPress = () => {
     // TODO: to handle online transaction limit press...
   };
-  const handleOnConfirmPress = () => {
-    // TODO: need to add OTP Flow here
+
+  const handleOnConfirmPress = async () => {
+    setIsConfirmationModalVisible(false);
+    try {
+      const response = await changeCardStatus.mutateAsync({
+        cardId: route.params.cardId,
+        status: "CANCELLED",
+      });
+
+      if (response.IsOtpRequired) {
+        otpFlow.handle({
+          action: {
+            to: "CardActions.CardSettingsScreen",
+            params: {
+              cardId: route.params.cardId,
+            },
+          },
+          otpOptionalParams: {
+            CardId: route.params.cardId,
+          },
+          otpChallengeParams: {
+            OtpId: response.OtpId,
+            PhoneNumber: response.PhoneNumber,
+          },
+          otpVerifyMethod: "card-actions",
+          onOtpRequest: async () => {
+            const resendResponse = await changeCardStatus.mutateAsync({
+              cardId: route.params.cardId,
+              status: "CANCELLED",
+            });
+
+            return resendResponse;
+          },
+          onFinish: status => {
+            if (status === "cancel") {
+              return;
+            }
+            if (status === "fail") {
+              settings.refetch();
+            }
+          },
+        });
+      }
+    } catch (error) {
+      setIsErrorModalVisible(true);
+    }
   };
 
   const handleOnCancelCardPress = () => {
     setIsConfirmationModalVisible(true);
+  };
+
+  const handleSuccessOkPress = () => {
+    navigation.navigate("CardActions.CardActionsStack", {
+      screen: "CardActions.HomeScreen",
+    });
   };
 
   const handleOnChangeSettings = async (setting: keyof CardSettingsInput) => {
@@ -294,6 +348,18 @@ export default function CardSettingsScreen() {
             <Button onPress={() => setIsConfirmationModalVisible(false)}>
               {t("CardActions.CardSettingsScreen.cancelCardAlert.cancel")}
             </Button>
+          ),
+        }}
+      />
+
+      <NotificationModal
+        variant="success"
+        title={t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCardSuccessMessage")}
+        message=""
+        isVisible={showCancelCardSuccessAlert}
+        buttons={{
+          primary: (
+            <Button onPress={handleSuccessOkPress}>{t("CardActions.CardSettingsScreen.cancelCardAlert.Ok")}</Button>
           ),
         }}
       />

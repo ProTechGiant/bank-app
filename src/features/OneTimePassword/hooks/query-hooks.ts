@@ -80,11 +80,17 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
         method === "optout-proxy-alias";
 
       const isSadadFlow = method === "payments/sadad";
+      const isCardsFlow = method === "card-actions";
 
       const endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
       const requestParam = isLoginFlow
         ? { OtpId: OtpId, OtpCode: OtpCode, Reason: method }
         : isSadadFlow
+        ? {
+            OtpId: OtpId,
+            OtpCode: OtpCode,
+          }
+        : isCardsFlow
         ? {
             OtpId: OtpId,
             OtpCode: OtpCode,

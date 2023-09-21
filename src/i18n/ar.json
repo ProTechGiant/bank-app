@@ -1318,7 +1318,9 @@
         "cancelCardTitle": "إلغاء البطاقة",
         "cancelCardDescription": "هل أنت متأكد من رغبتك في إلغاء البطاقة؟ هذا الإجراء لا يمكن التراجع عنه.",
         "confirm": "تأكيد",
-        "cancel": "الغاء"
+        "cancel": "الغاء",
+        "cancelCardSuccessMessage": "تم إلغاء بطاقتك بنجاح",
+        "Ok": "حسنًا "
       }
     },
     "CardDetailsScreen": {
