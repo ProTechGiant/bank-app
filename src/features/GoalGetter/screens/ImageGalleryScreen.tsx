@@ -28,8 +28,12 @@ export default function ImageGalleryScreen() {
   };
 
   const handleImageSelectPress = () => {
-    // TODO : handle image selection  here
-    navigation.goBack();
+    const selectedImage = goalImages.find(item => item.id === selectedImageId);
+
+    if (selectedImage) {
+      const selectedImageURL = selectedImage.ImageURL;
+      navigation.navigate("GoalGetter.CreateGoalScreen", { selectedImageURL });
+    }
   };
 
   return (

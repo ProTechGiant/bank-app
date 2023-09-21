@@ -1206,6 +1206,16 @@
     "imageGallery": {
       "title": "Croatia Image Gallery",
       "buttonSave": "Save"
+    },
+    "CreateGoalGetter": {
+      "inputLabel": "Goal Name",
+      "extraStart": "Enter a new name or select a suggested one",
+      "suggestedNames": "Suggested goal names",
+      "continueButton": "Continue",
+      "validationError": {
+        "required": "The Goal Name is Required",
+        "maximum": "Maximum 50 characters"
+      }
     }
   },
   "Referral": {
