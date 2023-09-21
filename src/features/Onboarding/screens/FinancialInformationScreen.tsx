@@ -56,7 +56,7 @@ export default function FinancialInformationScreen() {
         withBackButton={true}
         title={t("Onboarding.FinancialInformationScreen.navHeaderTitle")}
         testID="Onboarding.FinancialInformationScreen:NavHeader">
-        <ProgressIndicator currentStep={3} totalStep={6} />
+        <ProgressIndicator currentStep={3} totalStep={5} />
       </NavHeader>
       {isLoading ? (
         <View style={styles.loading}>

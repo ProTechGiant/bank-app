@@ -3,12 +3,10 @@ import { useTranslation } from "react-i18next";
 import { StatusBar, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import Alert from "@/components/Alert";
-import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useToasts } from "@/contexts/ToastsContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -25,7 +23,6 @@ export default function PendingAccountScreen() {
   const { height } = useWindowDimensions();
 
   const { userName } = useOnboardingContext();
-  const addToast = useToasts();
   const [isAccountSetupVisible, setIsAccountSetupVisible] = useState(false);
   const [isfetchingAccountStatus, setIsfetchingAccountStatus] = useState(true);
   const { data, refetch } = useAccountStatus(isfetchingAccountStatus);
@@ -35,20 +32,12 @@ export default function PendingAccountScreen() {
   useEffect(() => {
     if (accountStatus === "COMPLETED") {
       setIsfetchingAccountStatus(false);
-      //TODO: Toast creates branding design system inconsistency that would need to be fixed in the future
-      addToast({
-        variant: "success",
-        message: t("Onboarding.LandingScreen.success.bannerMessage"),
-        closable: true,
-      });
+      navigation.navigate("Onboarding.CreatePasscode");
     } else if (accountStatus === "DECLINED") {
       setIsfetchingAccountStatus(false);
     }
-  }, [accountStatus, refetch, t, addToast]);
-
-  const handleOnGetStartedPress = () => {
-    navigation.navigate("Onboarding.CreatePasscode");
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accountStatus, refetch]);
 
   const handleWorkGuidePress = () => {
     navigation.navigate("Onboarding.WorkGuideModal");
@@ -78,13 +67,12 @@ export default function PendingAccountScreen() {
   }));
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["24p"],
-    paddingBottom: theme.spacing["20p"],
+    paddingBottom: theme.spacing["32p"],
   }));
 
   return (
     <>
-      <Page backgroundColor={accountStatus === "COMPLETED" ? "primaryBase" : "neutralBase-60"}>
+      <Page backgroundColor="neutralBase-60">
         <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
         <ContentContainer>
           <>
@@ -149,19 +137,11 @@ export default function PendingAccountScreen() {
                     </View>
                   </View>
                 </Stack>
-                <WorkGuideCard onPress={handleWorkGuidePress} />
+                <View style={buttonContainerStyle}>
+                  <WorkGuideCard onPress={handleWorkGuidePress} />
+                </View>
               </Stack>
             )}
-            {accountStatus !== "DECLINED" ? (
-              <View style={buttonContainerStyle}>
-                <Button
-                  color={accountStatus !== "COMPLETED" ? "light" : "dark"}
-                  onPress={handleOnGetStartedPress}
-                  disabled={accountStatus !== "COMPLETED"}>
-                  {t("Onboarding.LandingScreen.pending.buttonTitle")}
-                </Button>
-              </View>
-            ) : null}
           </>
         </ContentContainer>
       </Page>

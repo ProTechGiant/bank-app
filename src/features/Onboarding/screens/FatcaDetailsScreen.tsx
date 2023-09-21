@@ -139,7 +139,7 @@ export default function FatcaDetailsScreen() {
         title={t("Onboarding.FatcaDetailsScreen.navHeaderTitle")}
         withBackButton={true}
         testID="Onboarding.FatcaDetailsScreen:NavHeader">
-        <ProgressIndicator currentStep={4} totalStep={6} />
+        <ProgressIndicator currentStep={4} totalStep={5} />
       </NavHeader>
       {isLoading ? (
         <View style={styles.loading}>

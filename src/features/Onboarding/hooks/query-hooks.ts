@@ -351,6 +351,13 @@ export function useAccountStatus(fetchPosts: boolean) {
 
       const workflowTask = await fetchLatestWorkflowTask();
 
+      if (workflowTask?.Name === "CreatePasscode") {
+        return {
+          OnboardingStatus: "COMPLETED",
+          workflowTask,
+        };
+      }
+
       if (workflowTask?.Name !== "RetrieveValidationStatus") {
         return {
           OnboardingStatus: "PENDING",

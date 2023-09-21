@@ -22,7 +22,7 @@
   },
   "NafathAuthScreen": {
     "navHeaderTitle": "Authentication",
-    "modalLink": "Open in Nafath App",
+    "modalLink": "Open Nafath App",
     "modalLoad": "Loading...",
     "modalBody": "Make a note of this number as you will be asked for it shortly",
     "title": "Authentication by Nafath",

@@ -110,7 +110,7 @@ export default function ConfirmPersonalDetailsScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader withBackButton={false} title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}>
-        <ProgressIndicator currentStep={1} totalStep={6} />
+        <ProgressIndicator currentStep={1} totalStep={5} />
       </NavHeader>
       <ScrollView contentContainerStyle={mainContainerStyle}>
         <Stack align="stretch" direction="vertical" gap="16p">

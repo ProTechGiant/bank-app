@@ -68,7 +68,7 @@ const TermsAndConditionsScreen = () => {
         title={t("Onboarding.TermsAndConditions.navHeaderTitle")}
         withBackButton={true}
         testID="Onboarding.TermsAndConditionsScreen:NavHeader">
-        <ProgressIndicator currentStep={5} totalStep={6} />
+        <ProgressIndicator currentStep={5} totalStep={5} />
       </NavHeader>
       <ContentContainer isScrollView>
         <Stack direction="vertical" gap="32p" align="stretch">
