@@ -1190,6 +1190,11 @@
     "RefreshSection": {
       "refreshButton": "Refresh",
       "hintForSpendingSection": "Couldn’t load Spending Insights",
+      "hintForWhatNextArticles": "Articles loading error!",
+      "hintForAppreciation": "Appreciations loading error!"
+    },
+    "EmptySection": {
+      "stayTuned": "Stay tuned!",
       "hintForWhatNextArticles": "Articles will be here soon",
       "hintForAppreciation": "Appreciations will be here soon"
     },

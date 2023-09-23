@@ -29,9 +29,9 @@ export default function RefreshSection({
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      width: "30%",
       paddingTop: theme.spacing["12p"],
       paddingBottom: hasIcon ? theme.spacing["16p"] : 0,
+      minWidth: "30%",
     }),
     [hasIcon]
   );
@@ -59,7 +59,7 @@ export default function RefreshSection({
       </Typography.Text>
 
       <View style={buttonContainerStyle}>
-        <Button onPress={onRefreshPress} variant="secondary" size="small">
+        <Button onPress={onRefreshPress} variant="secondary" size="mini">
           {t("Home.RefreshSection.refreshButton")}
         </Button>
       </View>

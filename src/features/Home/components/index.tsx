@@ -6,6 +6,7 @@ export { default as BulletinBoardSection } from "./BulletinBoardSection";
 export { default as BulletinBoardSectionIcon } from "./BulletinBoardSectionIcon";
 export { default as CardSection } from "./CardSection";
 export { default as ChatLiveButton } from "./ChatLiveButton";
+export { default as EmptySection } from "./EmptySection";
 export { default as HeaderButton } from "./HeaderButton";
 export { default as HeaderHomePage } from "./HeaderHomePage";
 export { default as InactiveReordererItem } from "./InactiveReordererItem";

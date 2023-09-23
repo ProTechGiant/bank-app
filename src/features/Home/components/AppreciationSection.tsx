@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { ScrollView, ViewStyle } from "react-native";
+import { ActivityIndicator, ScrollView, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { AppreciationCard } from "@/components";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
@@ -8,6 +8,7 @@ import { useThemeStyles } from "@/theme";
 import { CustomerTierEnum } from "@/types/CustomerProfile";
 
 import { useTopAppreciations } from "../hooks/query-hooks";
+import EmptySection from "./EmptySection";
 import RefreshSection from "./RefreshSection";
 import Section from "./Section";
 
@@ -18,10 +19,12 @@ interface AppreciationSectionProps {
 export default function AppreciationSection({ onViewAllPress }: AppreciationSectionProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { data: AppreciationList, refetch } = useTopAppreciations();
+  const { data: AppreciationList, isLoading, isError, refetch } = useTopAppreciations();
   const { data: userInfo } = useCustomerProfile();
   const userTier = userInfo?.CustomerTier ?? CustomerTierEnum.STANDARD;
   const userFullName = userInfo?.FullName;
+
+  const { width } = useWindowDimensions();
 
   const handleOnAppreciationCardPress = (appreciation: AppreciationType) => {
     navigation.navigate("Appreciation.AppreciationStack", {
@@ -44,9 +47,27 @@ export default function AppreciationSection({ onViewAllPress }: AppreciationSect
     paddingRight: theme.spacing["20p"] * 2, // correct for padding twice
   }));
 
+  const loadingContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderRadius: theme.radii.small,
+    height: width - theme.spacing["64p"],
+    width: width - theme.spacing["64p"],
+    justifyContent: "center",
+  }));
+
   return (
     <Section title={t("Home.DashboardScreen.AppreciationSectionTitle")} onViewAllPress={onViewAllPress}>
-      {AppreciationList?.Appreciations && AppreciationList.Appreciations.length > 0 ? (
+      {isLoading ? (
+        <View style={loadingContainerStyle}>
+          <ActivityIndicator />
+        </View>
+      ) : isError ? (
+        <RefreshSection
+          hint={t("Home.RefreshSection.hintForAppreciation")}
+          hasIcon={true}
+          hasBorder={true}
+          onRefreshPress={refetch}
+        />
+      ) : AppreciationList?.Appreciations && AppreciationList.Appreciations.length > 0 ? (
         <ScrollView
           contentContainerStyle={contentStyle}
           horizontal
@@ -67,12 +88,7 @@ export default function AppreciationSection({ onViewAllPress }: AppreciationSect
             : null}
         </ScrollView>
       ) : (
-        <RefreshSection
-          hint={t("Home.RefreshSection.hintForAppreciation")}
-          hasIcon={true}
-          hasBorder={true}
-          onRefreshPress={refetch}
-        />
+        <EmptySection hint={t("Home.EmptySection.hintForAppreciation")} />
       )}
     </Section>
   );

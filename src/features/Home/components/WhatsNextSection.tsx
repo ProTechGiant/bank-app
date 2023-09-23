@@ -3,13 +3,13 @@ import arLocale from "date-fns/locale/ar";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, I18nManager, useWindowDimensions, View, ViewStyle } from "react-native";
 
-import Typography from "@/components/Typography";
 import { useContentArticleList } from "@/hooks/use-content";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { SORT_NEWEST, WHATS_NEXT_CATEGORY_ID } from "../constants";
 import { ArticleSectionType } from "../types";
+import EmptySection from "./EmptySection";
 import HomeArticleSection from "./HomeArticleSection";
 import RefreshSection from "./RefreshSection";
 import Section from "./Section";
@@ -28,7 +28,7 @@ export default function WhatsNextSection({ onViewAllPress }: WhatsNextSectionPro
   };
   //refetch will be used when refresh component take place
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data, refetch, isLoading } = useContentArticleList(WHATS_NEXT_CATEGORY_ID, true, true, paramsOther);
+  const { data, refetch, isLoading, isError } = useContentArticleList(WHATS_NEXT_CATEGORY_ID, true, true, paramsOther);
   const { width } = useWindowDimensions();
   const isRTL = I18nManager.isRTL;
   const currentMonthName = isRTL ? format(new Date(), "MMMM", { locale: arLocale }) : format(new Date(), "MMMM");
@@ -54,18 +54,20 @@ export default function WhatsNextSection({ onViewAllPress }: WhatsNextSectionPro
         <View style={loadingContainerStyle}>
           <ActivityIndicator />
         </View>
-      ) : data && data.length > 0 ? (
-        <HomeArticleSection
-          onPress={articleId => handleOnExploreArticlePress(articleId)}
-          data={data as ArticleSectionType[]}
-        />
-      ) : (
+      ) : isError ? (
         <RefreshSection
           hint={t("Home.RefreshSection.hintForWhatNextArticles")}
           hasIcon={true}
           hasBorder={true}
           onRefreshPress={refetch}
         />
+      ) : data && data.length > 0 ? (
+        <HomeArticleSection
+          onPress={articleId => handleOnExploreArticlePress(articleId)}
+          data={data as ArticleSectionType[]}
+        />
+      ) : (
+        <EmptySection hint={t("Home.EmptySection.hintForWhatNextArticles")} />
       )}
     </Section>
   );
