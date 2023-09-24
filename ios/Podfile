@@ -43,14 +43,22 @@ target 'CroatiaMobileApp' do
 
   # T2 dependencies
   pod 'Unrealm'
-
-  post_install do |installer|
-    react_native_post_install(installer)
-    __apply_Xcode_12_5_M1_post_install_workaround(installer)
-  end
 end
 
 target 'T2NotificationService' do
   # T2 dependencies
   pod 'Unrealm'
+end
+
+post_install do |installer|
+  react_native_post_install(installer)
+  __apply_Xcode_12_5_M1_post_install_workaround(installer)
+
+  installer.pods_project.targets.each do |target|
+    if target.name == 'Unrealm'
+      target.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+      end
+    end
+  end
 end
