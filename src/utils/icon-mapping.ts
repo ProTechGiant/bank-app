@@ -46,4 +46,14 @@ export const iconMapping: IconMappingType = {
     "01": createElement(icons.SummarizeIcon),
     "02": createElement(icons.CardMemberShipIcon),
   },
+  goalGetter: {
+    CanPurchase: createElement(icons.CanPurchaseIcon),
+    ImproveQuality: createElement(icons.ImproveQualityIcon),
+    SafetyNet: createElement(icons.SafetyNetIcon),
+    ImmediateCash: createElement(icons.RecurringPaymentIcon),
+    NoRisk: createElement(icons.NoRiskIcon),
+    LowRisk: createElement(icons.LowRiskIcon),
+    MediumRisk: createElement(icons.MediumRiskIcon),
+    HighRisk: createElement(icons.HighRiskIcon),
+  },
 };

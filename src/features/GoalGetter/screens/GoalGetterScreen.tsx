@@ -19,7 +19,7 @@ export default function GoalGetterScreen() {
   const svgStyles = { top: height * 0.52 };
 
   const handleOnFinish = () => {
-    //TODO: Implement this function when Create Goal and Select Name/Image screen is ready to navigate to it
+    navigation.navigate("GoalGetter.GoalMindScreen");
   };
 
   const handleOnBack = () => {

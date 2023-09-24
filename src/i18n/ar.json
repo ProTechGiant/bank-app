@@ -1161,6 +1161,17 @@
         "required": "اسم الهدف مطلوب",
         "maximum": "الحد الأقصى 50 حرفًا"
       }
+    },
+    "GoalMindScreen": {
+      "title": "تحقيق الهدف",
+      "headerText": "هل تفكر في تحقيق هدف؟",
+      "headerDescriptionText": "دعنا نساعدك على تحقيق هدفك.",
+      "buttonText": "انشاء الهدف"
+    },
+    "RisksAppetiteScreen": {
+      "headerText": "الرغبة في المخاطرة",
+      "headerDescriptionText": "حدد مستوى المخاطرة الذي ترغب في اتخاذه",
+      "buttonText": "التالي"
     }
   },
   "InstructionsScreen": {
