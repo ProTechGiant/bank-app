@@ -43,14 +43,14 @@ export default function Accordion({ children, title }: AccordionProps) {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: theme.palette["supportBase-20"],
+    backgroundColor: theme.palette["neutralBase-40"],
   }));
 
   const iconContainer = useThemeStyles<ViewStyle>(theme => ({
     marginRight: theme.spacing["12p"],
   }));
 
-  const infoIconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
+  const infoIconColor = useThemeStyles(theme => theme.palette.neutralBase);
   const anglesIconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   const titleStyles = useThemeStyles<ViewStyle>(theme => ({
