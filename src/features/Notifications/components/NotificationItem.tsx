@@ -1,10 +1,12 @@
-import { cloneElement } from "react";
+import { cloneElement, useState } from "react";
 import { ImageStyle, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { IconProps } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+
+import { SUBTITLE_MAX_LENGTH } from "../types";
 
 interface NotificationItemProps {
   title: string;
@@ -14,6 +16,15 @@ interface NotificationItemProps {
   onPress: () => void;
 }
 export default function NotificationItem({ title, subtitle, time, icon, onPress }: NotificationItemProps) {
+  const [subtitleText, setSubtitleText] = useState<string>(
+    subtitle.length > SUBTITLE_MAX_LENGTH ? `${subtitle.slice(0, SUBTITLE_MAX_LENGTH - 3)}...` : subtitle
+  );
+
+  const handleOnPress = () => {
+    if (subtitle !== subtitleText) setSubtitleText(subtitle);
+    else onPress();
+  };
+
   const itemStackStyle = useThemeStyles<ViewStyle>(theme => ({
     width: "100%",
     justifyContent: "space-between",
@@ -32,13 +43,13 @@ export default function NotificationItem({ title, subtitle, time, icon, onPress 
   }));
 
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={handleOnPress}>
       <Stack direction="horizontal" style={itemStackStyle} gap="8p">
         <View style={iconStyle}>{cloneElement(icon, { ...iconProps })}</View>
         <Stack direction="vertical" style={styles.textStyles} gap="4p">
           <Typography.Text align="left">{title}</Typography.Text>
           <Typography.Text align="left" size="caption2">
-            {subtitle}
+            {subtitleText}
           </Typography.Text>
           <Typography.Text align="left" size="caption1">
             {time}

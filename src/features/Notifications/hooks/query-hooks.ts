@@ -11,6 +11,8 @@ export const queryKeys = {
   all: ["notifications"] as const,
   notifications: (pageSize: number, pageNumber: number, fromDate: string, toDate: string) =>
     [...queryKeys.all, "notifications", pageSize, pageNumber, fromDate, toDate] as const,
+  filter: (pageSize: number, pageNumber: number, fromDate: string, toDate: string, notificationId: string) =>
+    [...queryKeys.all, "notifications", pageSize, pageNumber, fromDate, toDate, notificationId] as const,
 };
 
 export function useAllNotifications(pageSize: number, pageNumber: number, fromDate: string, toDate: string) {
@@ -60,7 +62,7 @@ export function useFilterNotifications(
   const { userId } = useAuthContext();
   const { i18n } = useTranslation();
   return useQuery(
-    queryKeys.notifications(pageSize, pageNumber, fromDate, toDate),
+    queryKeys.filter(pageSize, pageNumber, fromDate, toDate, subCategoryId),
     () => {
       return api<NotificationsResponseType>(
         "v1",
@@ -82,7 +84,6 @@ export function useFilterNotifications(
       );
     },
     {
-      enabled: false,
       select: notifications => ({
         ...notifications,
         Notifications:

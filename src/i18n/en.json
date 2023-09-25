@@ -3114,6 +3114,11 @@
         "description": "There was a minor issue, but not to \n  worry. We can re-try",
         "reload": "Reload"
       },
+      "NotificationError": {
+        "title": "We’re sorry something went wrong.",
+        "message": "It's Quite Unexpected but nothing to worry about, Please click below",
+        "button": "Reload"
+      },
       "filterModal": {
         "title": "Filter",
         "applyButton": "Apply"

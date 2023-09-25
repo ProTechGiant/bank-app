@@ -27,8 +27,11 @@ export enum SectionEnum {
   OLDER = "older",
 }
 
-//TODO change with the real values once known
-export const InfoIconValues = ["Changes to your account", "Changes to your card"];
-export const SwapIconValues = ["Payments in", "Payments out", "Scheduled Payments", "Bill payments"];
+export interface SectionType {
+  day: SectionEnum;
+  title: string;
+  data: NotificationType<Date>[];
+}
 
 export const PAGE_SIZE = 10;
+export const SUBTITLE_MAX_LENGTH = 50;
