@@ -17,7 +17,7 @@ interface NotificationModalProps {
       }
     | false;
   onClose?: () => void;
-  message: string;
+  message?: string;
   isVisible: boolean;
   title: string;
   variant: "success" | "error" | "warning" | "confirmations";
@@ -89,9 +89,11 @@ export default function NotificationModal({
           <Typography.Text color="neutralBase+30" weight="medium" size="title2" align="center">
             {title}
           </Typography.Text>
-          <Typography.Text color="neutralBase+10" weight="regular" size="callout" align="center">
-            {message}
-          </Typography.Text>
+          {message !== undefined ? (
+            <Typography.Text color="neutralBase+10" weight="regular" size="callout" align="center">
+              {message}
+            </Typography.Text>
+          ) : null}
         </Stack>
         {buttons !== undefined && buttons !== false ? (
           <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>

@@ -355,7 +355,6 @@ export default function CardSettingsScreen() {
       <NotificationModal
         variant="success"
         title={t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCardSuccessMessage")}
-        message=""
         isVisible={showCancelCardSuccessAlert}
         buttons={{
           primary: (
