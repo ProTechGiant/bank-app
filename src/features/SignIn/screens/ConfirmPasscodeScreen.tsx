@@ -88,7 +88,9 @@ export default function ConfirmPasscodeScreen() {
       {isLoading ? <LoadingIndicatorModal /> : null}
       <NavHeader
         withBackButton={true}
-        onBackPress={isAuthenticated ? () => navigation.navigate("Settings.AccountSettings") : undefined}
+        onBackPress={
+          isAuthenticated ? () => navigation.navigate("Settings.CustomerAccountManagementScreen") : undefined
+        }
       />
       <View style={styles.containerStyle}>
         <PasscodeInput
