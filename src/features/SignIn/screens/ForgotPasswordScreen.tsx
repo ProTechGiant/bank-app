@@ -37,10 +37,13 @@ export default function ForgotPasswordScreen() {
     }
   }, [userInfoError, reset]);
 
-  const handleOTP = () => {
+  const handleOTP = (PhoneNumber: string) => {
     otpFlow.handle({
       action: {
         to: "SignIn.ForgotPassword",
+      },
+      otpChallengeParams: {
+        PhoneNumber,
       },
       onOtpRequest: async () => {
         return useSendLoginOtpAsync.mutateAsync("reset-passcode");
@@ -64,7 +67,7 @@ export default function ForgotPasswordScreen() {
       if (response.TotalRecords === 1) {
         setNotMatchRecord(false);
         storeUserToLocalStorage(response);
-        handleOTP(values);
+        handleOTP(values.MobileNumber);
       } else if (response.TotalRecords === 0) {
         setNotMatchRecord(true);
       }

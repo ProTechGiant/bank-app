@@ -83,6 +83,9 @@ export default function ChangePasscodeScreen() {
           to: "SignIn.ChangePasscode",
           params: {},
         },
+        otpChallengeParams: {
+          PhoneNumber: user?.MobileNumber,
+        },
         otpVerifyMethod: "change-passcode",
         onOtpRequest: () => {
           return useSendLoginOtpAsync.mutateAsync("change-passcode");

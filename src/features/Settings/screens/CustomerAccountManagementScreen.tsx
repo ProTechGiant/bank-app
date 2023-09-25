@@ -9,8 +9,10 @@ import Divider from "@/components/Divider";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import SignOutModal from "@/components/SignOutModal";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 
 import {
   AliasManagmentIcon,
@@ -28,7 +30,6 @@ import {
   SettingLanguagesSection,
   SettingsCategoryContainer,
   SettingSection,
-  SignOutModal,
 } from "../components";
 // import { useCheckDailyPasscodeLimit } from "../hooks/query-hooks";
 
@@ -37,9 +38,13 @@ export default function CustomerAccountManagement() {
   const navigation = useNavigation();
   // const { data } = useCheckDailyPasscodeLimit();
 
-  const [isSignOutModalVisible, setSignOutModalVisible] = useState(false);
+  const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
   const [isEditHomeConfigurationVisible, setIsEditHomeConfigurationVisible] = useState(false);
   const [hasReachedPasscodeUpdateLimit, setHasReachedPasscodeUpdateLimit] = useState(false);
+  const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
+
+  //TODO: just for test , will remove when api is ready
+  const [hasReachedPasscodeUpdateLimitTest, setHasReachedPasscodeUpdateLimitTest] = useState(true);
 
   const handleOnBackPress = () => {
     navigation.goBack();
@@ -50,11 +55,15 @@ export default function CustomerAccountManagement() {
   };
 
   const handleOnPassCodePress = () => {
-    // TODO: When the api is ready, we will use the following code to navigate to the correct screen
-    // data?.UpdatePasscodeEnabled
-    //   ? navigation.navigate("Passcode.ChangePasscodeStack")
-    //   : setHasReachedPasscodeUpdateLimit(true);
-    navigation.navigate("Passcode.ChangePasscodeStack");
+    //TODO: will remove when API is ready
+    if (hasReachedPasscodeUpdateLimitTest) {
+      setHasReachedPasscodeUpdateLimit(true);
+    } else {
+      navigation.navigate("Passcode.ChangePasscodeStack");
+      // data?.UpdatePasscodeEnabled
+      //   ? navigation.navigate("Passcode.ChangePasscodeStack")
+      //   : setHasReachedPasscodeUpdateLimit(true);
+    }
   };
 
   const handleMyCasesPress = () => {
@@ -68,7 +77,7 @@ export default function CustomerAccountManagement() {
   };
 
   const handleSignOutPress = () => {
-    setSignOutModalVisible(true);
+    setIsSignOutModalVisible(true);
   };
 
   const handleEditHomePress = () => {
@@ -97,14 +106,23 @@ export default function CustomerAccountManagement() {
   };
 
   const handleOnClose = () => {
-    setSignOutModalVisible(false);
+    setIsSignOutModalVisible(false);
   };
+
+  const handleOnCloseError = () => {
+    setIsSignOutModalVisible(false);
+    delayTransition(() => {
+      setIsLogoutFailedModalVisible(true);
+    });
+  };
+
   const handleOnCloseEditHomeConfiguration = () => {
     setIsEditHomeConfigurationVisible(false);
   };
 
   const handleReachedPasscodeUpdateLimit = () => {
     setHasReachedPasscodeUpdateLimit(false);
+    setHasReachedPasscodeUpdateLimitTest(false);
   };
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({ paddingTop: theme.spacing["8p"] }));
@@ -210,7 +228,15 @@ export default function CustomerAccountManagement() {
           primary: <Button onPress={handleReachedPasscodeUpdateLimit}>{t("ProxyAlias.ErrorModal.ok")}</Button>,
         }}
       />
-      <SignOutModal isVisible={isSignOutModalVisible} onClose={handleOnClose} />
+      <NotificationModal
+        variant="error"
+        title={t("Settings.LogoutFailedModal.title")}
+        message={t("Settings.LogoutFailedModal.message")}
+        isVisible={isLogoutFailedModalVisible}
+        onClose={() => setIsLogoutFailedModalVisible(false)}
+      />
+
+      <SignOutModal isVisible={isSignOutModalVisible} onClose={handleOnClose} onCloseError={handleOnCloseError} />
       <EditHomeConfiguration isVisible={isEditHomeConfigurationVisible} onClose={handleOnCloseEditHomeConfiguration} />
     </Page>
   );

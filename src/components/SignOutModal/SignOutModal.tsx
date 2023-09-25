@@ -4,21 +4,38 @@ import Button from "@/components/Button";
 import NotificationModal from "@/components/NotificationModal";
 import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
 import { warn } from "@/logger";
+import useNavigation from "@/navigation/use-navigation";
+import delayTransition from "@/utils/delay-transition";
 
 interface SignOutModalProps {
   isVisible: boolean;
-  onClose: () => void;
+  onClose: (isError: boolean) => void;
 }
 
 export default function SignOutModal({ isVisible, onClose }: SignOutModalProps) {
   const { t } = useTranslation();
   const signOutUser = useLogout();
+  const navigation = useNavigation();
 
   const handleOnSignOut = async () => {
     try {
       await signOutUser(logoutActionsIds.MANUALLY_ID);
-      onClose();
+      onClose(false);
+      delayTransition(() => {
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: "Onboarding.OnboardingStack",
+              params: {
+                screen: "Onboarding.SplashScreen",
+              },
+            },
+          ],
+        });
+      });
     } catch (error) {
+      onClose(true);
       const typedError = error as Error;
       warn("logout-api error: ", typedError.message);
     }
@@ -32,7 +49,7 @@ export default function SignOutModal({ isVisible, onClose }: SignOutModalProps) 
       isVisible={isVisible}
       buttons={{
         primary: <Button onPress={handleOnSignOut}>{t("Settings.AccountSettings.button")}</Button>,
-        secondary: <Button onPress={onClose}>{t("Settings.SignOutModal.cancelButton")}</Button>,
+        secondary: <Button onPress={() => onClose(false)}>{t("Settings.SignOutModal.cancelButton")}</Button>,
       }}
     />
   );

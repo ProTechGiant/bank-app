@@ -44,7 +44,7 @@ export default function IqamaInputScreen() {
   }, [iqamaError, reset]);
 
   const handleOnSignUp = () => {
-    navigation.navigate("Onboarding.OnboardingStack");
+    navigation.navigate("Onboarding.Iqama");
   };
 
   const storeUserToLocalStorage = (user: UserType) => {

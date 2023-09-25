@@ -121,6 +121,7 @@ const PasscodeInput = ({
           message={errorMessage[0].modalMessage}
           title={errorMessage[0].title}
           isVisible={true}
+          onClose={resetError}
           buttons={{
             primary: <Button onPress={resetError}>{t("OneTimePasswordModal.errors.button")}</Button>,
           }}
