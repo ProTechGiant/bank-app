@@ -335,13 +335,13 @@ export default function CardSettingsScreen() {
 
       <NotificationModal
         variant="warning"
-        title={t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCard")}
+        title={t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCardTitle")}
         message={t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCardDescription")}
         isVisible={isConfirmationModalVisible}
         buttons={{
           primary: (
             <Button onPress={handleOnConfirmPress}>
-              {t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCardTitle")}
+              {t("CardActions.CardSettingsScreen.cancelCardAlert.confirm")}
             </Button>
           ),
           secondary: (

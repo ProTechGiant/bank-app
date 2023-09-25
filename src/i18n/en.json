@@ -1848,7 +1848,7 @@
         "paragraph": "These settings will be available once you have received and activated your physical card."
       },
       "cancelCardAlert": {
-        "cancelCard": "Cancel Card",
+        "cancelCard": "Cancel my card",
         "cancelCardTitle": "Cancel Card",
         "cancelCardDescription": "Are you sure you want to cancel your card? This action cannot be undone.",
         "confirm": "Confirm",
