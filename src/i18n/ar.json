@@ -2587,5 +2587,21 @@
       },
       "loadMore": "تحميل المزيد"
     }
+  },
+    "GoalGetter":{
+    "GoalDashboardScreen":{
+      "title":"الأهداف والمنتجات",
+      "tabs":{
+        "goal": "الأهداف",
+        "product": "المنتجات"
+      },
+      "goalCard":{
+        "of": "من",
+        "currency": "ر.س",
+        "endDate": "تاريخ الإنتهاء:"
+      },
+      "hint": "يمكنك تعيين ما مجموعه 4 أهداف.",
+      "setNewGoal": "هدف جديد"
+    }
   }
 }

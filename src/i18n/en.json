@@ -3125,5 +3125,21 @@
       },
       "loadMore": "load more"
     }
+  },
+  "GoalGetter":{
+    "GoalDashboardScreen":{
+      "title": "Goals and Products",
+      "tabs":{
+        "goal": "Goals",
+        "product": "Products"
+      },
+      "goalCard":{
+        "of": "of",
+        "currency": "SAR",
+        "endDate": "End date:"
+      },
+      "hint": "You can set a total of 4 goals.",
+      "setNewGoal": "Set new goal"
+    }
   }
 }
