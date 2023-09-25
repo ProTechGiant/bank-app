@@ -1304,35 +1304,35 @@
     },
     "CardSettingsScreen": {
       "toast": "Card PIN has been updated",
-      "title": "Card settings",
-      "subTitle1": "Security",
-      "changePin": "Change Pin",
+      "title": "اعدادات البطاقة",
+      "subTitle1": "الخصوصية",
+      "changePin": "تغيير الرقم السري",
       "posTransactions": {
-        "label": "POS transactions",
+        "label": "حركات نقاط البيع",
         "helperText": "POS transactions description pending..."
       },
       "onlinePayment": {
-        "label": "Online payments",
+        "label": "المدفوعات عبر الإنترنت ",
         "helperText": "Allow online payments with this card."
       },
       "internationalPayment": {
-        "label": "International payments",
+        "label": "المدفوعات الدولية",
         "helperText": "Allow payments outside Saudi Arabia with your card."
       },
-      "subTitle2": "Transaction limit",
-      "posTransactionLimit": "POS transaction limit",
-      "onlineTransactionLimit": "Online transaction limit",
-      "subTitle3": "Physical card",
+      "subTitle2": "ضبط الحركات المالية",
+      "posTransactionLimit": "حد حركات نقاط البيع",
+      "onlineTransactionLimit": "حد الحركات عبر الانترنت",
+      "subTitle3": "بطاقة بلاستيكية",
       "swipePayments": {
-        "label": "Swipe payments",
+        "label": "مدفوعات السحب المغناطيسي",
         "helperText": "Enable payments using your card’s magnetic stripe."
       },
       "contactlessPayments": {
-        "label": "Contactless payments",
+        "label": "الشراء باستخدام ",
         "helperText": "Enable contactless payments with your card."
       },
       "atmWithdrawals": {
-        "label": "ATM withdrawals",
+        "label": "عمليات الصراف الآلي",
         "helperText": "Enable ATM withdrawals with your card."
       },
       "onTheWay": {
