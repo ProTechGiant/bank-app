@@ -10,16 +10,28 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { HeaderTitle, PredefinedOptionsList } from "../components";
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { GOALS_IN_MIND } from "../mocks/mockGoalMind";
 //////TODO: Replace MockData with API response data
 
 export default function GoalMindScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const [selectedPredefinedGoalId, setSelectedPredefinedGoalId] = useState<number>(0);
+  const { predefinedGoalId, setGoalContextState } = useGoalGetterContext();
+  const [selectedPredefinedGoalId, setSelectedPredefinedGoalId] = useState<number>(predefinedGoalId);
 
   const handleOnSelectPredefinedGoal = (value: number) => {
     setSelectedPredefinedGoalId(value);
+  };
+
+  const handleOnPressCreateGoal = () => {
+    const index = GOALS_IN_MIND.findIndex(element => element.Id === selectedPredefinedGoalId);
+    setGoalContextState({
+      predefinedGoalId: selectedPredefinedGoalId,
+      //TODO: Replace this image from api
+      goalImage: GOALS_IN_MIND[index].Default_Image,
+    });
+    navigation.navigate("GoalGetter.CreateGoalScreen");
   };
 
   const handleOnBackPress = () => {
@@ -50,11 +62,7 @@ export default function GoalMindScreen() {
           onSelectPredefindOption={handleOnSelectPredefinedGoal}
           predefinedValue={selectedPredefinedGoalId}
         />
-        <Button
-          onPress={() => {
-            // TODO : Navigate to next screen after select goal
-          }}
-          disabled={selectedPredefinedGoalId === 0}>
+        <Button onPress={handleOnPressCreateGoal} disabled={selectedPredefinedGoalId === 0}>
           {t("GoalGetter.GoalMindScreen.buttonText")}
         </Button>
       </Stack>

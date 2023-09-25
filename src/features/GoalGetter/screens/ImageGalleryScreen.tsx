@@ -9,12 +9,15 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { GalleryImage } from "../components";
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { goalImages } from "../mocks/mockGoalImages";
 
 export default function ImageGalleryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [selectedImageId, setSelectedImageId] = useState<string | undefined>();
+
+  const { setGoalContextState } = useGoalGetterContext();
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
@@ -54,7 +57,10 @@ export default function ImageGalleryScreen() {
               id={item.id}
               imageURL={item.ImageURL}
               isSelected={selectedImageId === item.id}
-              onImageSelection={(id: string) => setSelectedImageId(id)}
+              onImageSelection={(id: string) => {
+                setSelectedImageId(id);
+                setGoalContextState({ goalImage: item.ImageURL });
+              }}
             />
           )}
         />

@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -15,7 +15,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import GoalGetterHeader from "../components/GoalGetterHeader";
-import { GoalGetterStackParams } from "../GoalGetterStack";
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { suggestedGoalNames } from "../mocks/suggestedGoalNames";
 
 interface GoalNameInput {
@@ -25,7 +25,7 @@ interface GoalNameInput {
 export default function CreateGoalScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.CreateGoalScreen">>();
+  const { goalImage, setGoalContextState } = useGoalGetterContext();
 
   const validationSchema = yup.object().shape({
     GoalName: yup
@@ -41,25 +41,16 @@ export default function CreateGoalScreen() {
 
   const goalNameValue = watch("GoalName");
 
-  const selectedImageURL =
-    route.params?.selectedImageURL ||
-    "https://media.istockphoto.com/id/1423273112/photo/goals-on-highway-road-of-empty-asphalt-road-at-beautiful-sunset.webp?b=1&s=170667a&w=0&k=20&c=FUlTDqjhmBwjwQCQnUHwpmRrCqIf5Ir0s1_44PBkzyw=";
-
   const handleSuggestedNamesPress = (purchase: string) => {
     setValue("GoalName", purchase, { shouldValidate: true, shouldDirty: true });
   };
 
   const handleOpenImagePicker = () => {
-    navigation.navigate("GoalGetter.ImageGallary", {
-      onSelectImage: (selectedImage: string) => {
-        setSelectedImageURL(selectedImage);
-      },
-    });
+    navigation.navigate("GoalGetter.ImageGallary");
   };
 
   const handleOnSubmit = async (data: GoalNameInput) => {
-    // TODO: when another screen is ready
-    console.log(data.GoalName);
+    setGoalContextState({ goalName: data.GoalName });
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -90,7 +81,7 @@ export default function CreateGoalScreen() {
 
   return (
     <View style={containerStyle}>
-      <GoalGetterHeader imageURL={selectedImageURL} handleChangeImage={handleOpenImagePicker} />
+      <GoalGetterHeader imageURL={goalImage} handleChangeImage={handleOpenImagePicker} />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <ScrollView style={contentStyle}>
           <Stack direction="vertical" gap="24p" align="stretch">

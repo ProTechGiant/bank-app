@@ -10,16 +10,23 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { HeaderTitle, PredefinedOptionsList } from "../components";
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { RISK_APPETITE } from "../mocks/mockRiskAppetite";
 //////TODO: Replace MockData with API response data
 
 export default function RisksAppetiteScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const [selectedPredefinedRiskId, setSelectedPredefinedRiskId] = useState<number>(0);
+  const { riskId, setGoalContextState } = useGoalGetterContext();
+  const [selectedPredefinedRiskId, setSelectedPredefinedRiskId] = useState<number>(riskId);
 
   const handleOnSelectPredefinedRisk = (value: number) => {
     setSelectedPredefinedRiskId(value);
+  };
+
+  const handleOnPressContinue = () => {
+    setGoalContextState({ riskId: selectedPredefinedRiskId });
+    //TODO: Navigate to next screen after select Risk
   };
 
   const handleOnBackPress = () => {
@@ -49,11 +56,7 @@ export default function RisksAppetiteScreen() {
           onSelectPredefindOption={handleOnSelectPredefinedRisk}
           predefinedValue={selectedPredefinedRiskId}
         />
-        <Button
-          onPress={() => {
-            // TODO : Navigate to next screen after select risk
-          }}
-          disabled={selectedPredefinedRiskId === 0}>
+        <Button onPress={handleOnPressContinue} disabled={selectedPredefinedRiskId === 0}>
           {t("GoalGetter.RisksAppetiteScreen.buttonText")}
         </Button>
       </Stack>

@@ -6,7 +6,7 @@ import { CreateGoalScreen, GoalGetterScreen, GoalMindScreen, ImageGalleryScreen,
 export const Stack = createNativeStackNavigator();
 
 export type GoalGetterStackParams = {
-  "GoalGetter.CreateGoalScreen": { selectedImageURL?: string };
+  "GoalGetter.CreateGoalScreen": undefined;
   "GoalGetter.GoalsAndProducts": undefined;
   "GoalGetter.ImageGallary": undefined;
   "GoalGetter.GoalMindScreen": undefined;
@@ -20,8 +20,8 @@ export default function GoalGetterStack() {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen component={CreateGoalScreen} name="GoalGetter.CreateGoalScreen" />
         <Stack.Screen component={GoalGetterScreen} name="GoalGetter.GoalsAndProducts" />
+        <Stack.Screen component={CreateGoalScreen} name="GoalGetter.CreateGoalScreen" />
         <Stack.Screen
           component={ImageGalleryScreen}
           name="GoalGetter.ImageGallary"

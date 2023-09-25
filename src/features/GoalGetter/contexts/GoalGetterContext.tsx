@@ -8,11 +8,11 @@ interface GoalGetterContextState {
   monthlyContribution?: number;
   recurringDay?: string;
   targetDate?: string;
-  riskId?: number;
+  riskId: number;
   productId?: string;
   roundUP: "Y" | "N";
-  goalImage?: string;
-  predefinedGoalId?: number;
+  goalImage: string;
+  predefinedGoalId: number;
   predefinedGoalDefaultImage?: string;
   startDate?: string;
   otpCode?: string;
@@ -24,13 +24,13 @@ interface GoalGetterContextState {
 const GoalGetterContext = createContext<GoalGetterContextState>({} as GoalGetterContextState);
 
 const initialState: Omit<GoalGetterContextState, "setGoalContextState" | "resetGoalContextState"> = {
-  predefinedGoalId: undefined,
+  predefinedGoalId: 0,
   predefinedGoalDefaultImage: undefined,
-  goalImage: undefined,
+  goalImage: "",
   goalName: "",
   targetAmount: 0,
   targetDate: undefined,
-  riskId: undefined,
+  riskId: 0,
   productId: undefined,
   initialContribution: 0,
   monthlyContribution: undefined,
