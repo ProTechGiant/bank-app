@@ -2044,8 +2044,11 @@
       "dropDownTitle": "Daily Limit",
       "doneButton": "Done",
       "cancelButton": "Cancel",
-      "notificationModelMessage": "Your transaction limit has been successfully updated.",
-      "notificationModelTitle": "Transaction limit updated"
+      "successModal":{
+        "title":"Transaction limit updated",
+        "message":"Your transaction limit has been successfully updated.",
+        "okButton":"Ok"
+      }
     }
   },
   "AddMoneyInfo": {

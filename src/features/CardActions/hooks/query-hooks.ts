@@ -333,17 +333,10 @@ export function useCurrentPOSLimit(cardId: string) {
     );
   });
 }
-interface UpdatePOSLimitWithoutOtpResponse {
-  IsOtpRequired: false;
-}
 
-interface UpdatePOSLimitOtpRequiredResponse extends OtpRequiredResponse {
-  IsOtpRequired: true;
-}
-type UpdatePOSLimitResponse = UpdatePOSLimitWithoutOtpResponse | UpdatePOSLimitOtpRequiredResponse;
 export function useChangePOSLimit() {
   return useMutation(async (values: ChangePOSLimit) => {
-    return api<UpdatePOSLimitResponse>("v1", `cards/${values.CardId}/limits`, "POST", undefined, values, {
+    return api<OtpRequiredResponse>("v1", `cards/${values.CardId}/limits`, "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });

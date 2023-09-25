@@ -79,8 +79,8 @@
   },
   "errors": {
     "generic": {
-      "title": "Sorry, something has gone wrong",
-      "message": "Try again later or get in touch with our customer care team."
+      "title": "عذرًا، حدث خطأ ما",
+      "message": "حاول مرة أخرى لاحقًا، او تواصل مع فريق خدمة العملاء"
     }
   },
   "Onboarding": {
@@ -1497,8 +1497,11 @@
       "dropDownTitle": "الحد اليومي",
       "doneButton": "تم",
       "cancelButton": "الغاء",
-      "notificationModelMessage": "تم تحديث حد الحركات المالية بنجاح",
-      "notificationModelTitle": "تم تحديث حد الحركات المالية"
+      "successModal":{
+        "title": "تم تحديث حد الحركات المالية",
+        "message": "تم تحديث حد الحركات المالية بنجاح",
+        "okButton":"حسنًا "
+      }
     },
     "CardExpiryNotification": {
       "title": "Your card will expire soon",

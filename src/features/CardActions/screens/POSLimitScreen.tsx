@@ -2,7 +2,6 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -38,6 +37,7 @@ export default function POSLimitScreen() {
   const { mutateAsync, isLoading: changePOSLimitLoading } = useChangePOSLimit();
   const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState(false);
   const [isChangeLimitSuccessModalVisible, setIsChangeLimitSuccessModalVisible] = useState(false);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [newPOSLimit, setNewPOSLimit] = useState("");
 
   useEffect(() => {
@@ -76,16 +76,17 @@ export default function POSLimitScreen() {
           },
           otpChallengeParams: {
             OtpId: response.OtpId,
+            PhoneNumber: response.PhoneNumber,
           },
           otpVerifyMethod: "card-actions",
           onOtpRequest: async () => {
             return await mutateAsync(reqData);
           },
           onFinish: status => {
-            if (status === "fail") {
-              setIsLoadingErrorVisible(true);
-            } else {
+            if (status === "success") {
               setIsChangeLimitSuccessModalVisible(true);
+            } else {
+              setIsErrorModalVisible(true);
             }
           },
         });
@@ -114,7 +115,7 @@ export default function POSLimitScreen() {
 
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
-    marginVertical: theme.spacing["16p"],
+    marginTop: theme.spacing["4p"],
   }));
 
   const posFieldContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -124,61 +125,71 @@ export default function POSLimitScreen() {
   }));
 
   return (
-    <SafeAreaProvider>
-      <Page backgroundColor="neutralBase-60">
-        <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
-        {isLoading || currentPOSLimitLoading ? (
-          <FullScreenLoader />
-        ) : (
-          <ContentContainer style={mainContainerStyle}>
-            <Stack direction="vertical" gap="8p">
-              <Typography.Text color="neutralBase+30" size="title1" weight="regular">
-                {t("CardActions.POSLimitScreen.title")}
-              </Typography.Text>
-              <Typography.Text size="callout" color="neutralBase+20" weight="regular">
-                {t("CardActions.POSLimitScreen.subTitle")}
-              </Typography.Text>
+    <Page backgroundColor="neutralBase-60">
+      <NavHeader withBackButton={true} />
+      {isLoading || currentPOSLimitLoading ? (
+        <FullScreenLoader />
+      ) : (
+        <ContentContainer style={mainContainerStyle}>
+          <Stack direction="vertical" gap="8p">
+            <Typography.Text color="neutralBase+30" size="title1" weight="regular">
+              {t("CardActions.POSLimitScreen.title")}
+            </Typography.Text>
+            <Typography.Text size="callout" color="neutralBase+20" weight="regular">
+              {t("CardActions.POSLimitScreen.subTitle")}
+            </Typography.Text>
+          </Stack>
+          <View style={posFieldContainerStyle}>
+            <DropdownInput
+              autoselect={false}
+              buttonLabel={t("CardActions.POSLimitScreen.doneButton")}
+              isFixedHeight
+              headerText={t("CardActions.POSLimitScreen.dropDownTitle")}
+              options={posTransactionLimits}
+              variant="small"
+              label={t("CardActions.POSLimitScreen.dropDownTitle")}
+              value={newPOSLimit}
+              onChange={handleOnPOSLimitChange}
+            />
+            <Stack align="stretch" direction="vertical">
+              <Button onPress={handleOnDone} loading={changePOSLimitLoading} disabled={changePOSLimitLoading}>
+                <Typography.Text color="neutralBase-60" size="body" weight="medium">
+                  {t("CardActions.POSLimitScreen.doneButton")}
+                </Typography.Text>
+              </Button>
+              <Button onPress={handleOnCancel} variant="tertiary">
+                <Typography.Text size="body" weight="medium">
+                  {t("CardActions.POSLimitScreen.cancelButton")}
+                </Typography.Text>
+              </Button>
             </Stack>
-            <View style={posFieldContainerStyle}>
-              <DropdownInput
-                autoselect={false}
-                buttonLabel={t("CardActions.POSLimitScreen.doneButton")}
-                isFixedHeight
-                headerText={t("CardActions.POSLimitScreen.dropDownTitle")}
-                options={posTransactionLimits}
-                variant="small"
-                label={t("CardActions.POSLimitScreen.dropDownTitle")}
-                value={newPOSLimit}
-                onChange={handleOnPOSLimitChange}
-              />
-              <Stack align="stretch" direction="vertical">
-                <Button onPress={handleOnDone} loading={changePOSLimitLoading} disabled={changePOSLimitLoading}>
-                  <Typography.Text color="neutralBase-60" size="body" weight="medium">
-                    {t("CardActions.POSLimitScreen.doneButton")}
-                  </Typography.Text>
-                </Button>
-                <Button onPress={handleOnCancel} variant="tertiary">
-                  <Typography.Text size="body" weight="medium">
-                    {t("CardActions.POSLimitScreen.cancelButton")}
-                  </Typography.Text>
-                </Button>
-              </Stack>
-            </View>
-          </ContentContainer>
-        )}
-      </Page>
+          </View>
+        </ContentContainer>
+      )}
       <LoadingErrorNotification
         isVisible={isLoadingErrorVisible}
         onClose={() => setIsLoadingErrorVisible(false)}
         onRefresh={() => refetch()}
       />
       <NotificationModal
-        title={t("CardActions.POSLimitScreen.notificationModelTitle")}
+        title={t("CardActions.POSLimitScreen.successModal.title")}
         isVisible={isChangeLimitSuccessModalVisible}
-        message={t("CardActions.POSLimitScreen.notificationModelMessage")}
+        message={t("CardActions.POSLimitScreen.successModal.message")}
         onClose={handleOnSuccessModalClose}
         variant="success"
+        buttons={{
+          primary: (
+            <Button onPress={handleOnSuccessModalClose}>{t("CardActions.POSLimitScreen.successModal.okButton")}</Button>
+          ),
+        }}
       />
-    </SafeAreaProvider>
+      <NotificationModal
+        variant="error"
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={isErrorModalVisible}
+        onClose={() => setIsErrorModalVisible(false)}
+      />
+    </Page>
   );
 }

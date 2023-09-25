@@ -30,8 +30,6 @@ export type CardStatus =
   | "EXPIRED"
   | "EXPIRED_REPORT"
   | "INACTIVE"
-  | "UNLOCK"
-  | "LOCK"
   | "LOST"
   | "DAMAGED"
   | "STOLEN"

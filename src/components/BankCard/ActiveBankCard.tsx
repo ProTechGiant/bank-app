@@ -1,6 +1,6 @@
 import { times } from "lodash";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -65,7 +65,8 @@ export default function ActiveBankCard({
   const numberContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     position: "absolute",
     bottom: theme.spacing["20p"],
-    left: theme.spacing["20p"],
+    left: I18nManager.isRTL ? undefined : theme.spacing["20p"],
+    right: I18nManager.isRTL ? theme.spacing["20p"] : undefined,
   }));
 
   return (
@@ -138,10 +139,11 @@ const styles = StyleSheet.create({
     width: CONTAINER_WIDTH,
   },
   header: {
-    flexDirection: "row",
+    flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
     justifyContent: "space-between",
     width: "100%",
   },
+
   pressableAreaBottom: {
     height: CONTAINER_HEIGHT - PRESSABLE_TOP_AREA,
     left: 0,
