@@ -127,10 +127,14 @@ export default function UserBlockedScreen() {
     if (await hasItemInStorage("UserBlockedFromProfileDetails")) {
       await removeItemFromEncryptedStorage("UserBlockedFromProfileDetails");
     }
-    if (userExist) {
+    if (await hasItemInStorage("user")) {
       navigation.reset({
         index: 0,
-        routes: [{ name: "SignIn.Passcode" }],
+        routes: [
+          {
+            name: "SignIn.Passcode",
+          },
+        ],
       });
     } else {
       navigation.reset({

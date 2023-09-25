@@ -78,7 +78,7 @@ export default function ForgotPasswordScreen() {
   };
 
   const storeUserToLocalStorage = (user: UserType) => {
-    setItemInEncryptedStorage("user", JSON.stringify(user));
+    setItemInEncryptedStorage("tempUser", JSON.stringify(user));
   };
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({

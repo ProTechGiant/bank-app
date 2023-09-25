@@ -12,7 +12,7 @@ import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import { hasItemInStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { PINCODE_LENGTH } from "../constants";
 import { useErrorMessages } from "../hooks";
@@ -65,9 +65,29 @@ export default function CardPinScreen() {
     }
   };
 
-  const handleNavigateToBlockScreen = () => {
+  const handleBlockedNavigate = async () => {
     setShowModel(false);
-    navigation.navigate("SignIn.Passcode");
+    if (await hasItemInStorage("user")) {
+      navigation.navigate("SignIn.Passcode");
+    } else {
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: "Onboarding.OnboardingStack",
+            params: {
+              screen: "Onboarding.SplashScreen",
+            },
+          },
+          {
+            name: "SignIn.SignInStack",
+            params: {
+              screen: "SignIn.Iqama",
+            },
+          },
+        ],
+      });
+    }
   };
 
   const bannerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -92,7 +112,7 @@ export default function CardPinScreen() {
           isError={true} //TODO: This will be handled by the isError state managing the API call
           showModel={showModel}
           subTitle={t("SignIn.CardPinScreen.subTitle")}
-          resetError={handleNavigateToBlockScreen}
+          resetError={handleBlockedNavigate}
           length={4}
           passcode={pinCode}
         />
