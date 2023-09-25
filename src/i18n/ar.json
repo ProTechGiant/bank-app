@@ -1529,21 +1529,21 @@
     }
   },
   "OneTimePasswordModal": {
-    "title": "Enter one-time code",
-    "phoneNumberMessage": "Enter the one-time code we texted to your mobile, {{phoneNumber}}. You have 2 minutes to do this.",
-    "emailMessage": "Enter the one-time code we texted to your email, {{email}}. You have 2 minutes to do this.",
-    "resendCodeDisabled": "Resend Code in {{minutes}}:{{seconds}}",
-    "resendCodeEnabled": "Resend Code",
-    "notification": "That OTP wasn't right. You have {{attempts}} attempts left.",
+    "title": "أدخل رمز المرة الواحدة",
+    "phoneNumberMessage": "أدخل الرمز المؤقت الذي أرسلناه إلى هاتفك المحمول, {{phoneNumber}}. لديك 2 دقيقة للقيام بذلك",
+    "emailMessage": "أدخل الرمز المؤقت الذي أرسلناه إلى بريدك الإلكتروني، {{email}}. لديك 2 دقيقة للقيام بذلك",
+    "resendCodeDisabled": "إعادة إرسال الرمز في {{minutes}}:{{seconds}}",
+    "resendCodeEnabled": "إعادة إرسال الرمز",
+    "notification": "هذا الرمز المؤقت لم يكن صحيحًا. لديك {{attempts}} محاولات متبقية",
     "errors": {
-      "invalidPassword": "The code you entered was invalid. Please try again.",
-      "maxAttemptsInvalidPasswordReached": "You have reached the maximum number of authentication attempts. Please try again later.",
-      "twoAttemptsLeft": "The code has expired. You can request 2 more codes.",
-      "oneAttemptLeft": "The code has expired. You can request 1 more code.",
-      "noAttemptsLeftTitle": "Try again later",
-      "noAttemptsLeftMessage": "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
-      "button": "OK",
-      "dailyLimitExceeded": "Transfer amount exceeds remaining daily transfer limit."
+      "invalidPassword": "الرمز الذي أدخلته غير صحيح. يرجى المحاولة مرة أخرى",
+      "maxAttemptsInvalidPasswordReached": "لقد وصلت إلى الحد الأقصى لعدد محاولات التحقق. يرجى المحاولة مرة أخرى لاحقًا",
+      "twoAttemptsLeft": "الرمز قد انتهت صلاحيته. يمكنك طلب 2 رمز إضافي",
+      "oneAttemptLeft": "الرمز قد انتهت صلاحيته. يمكنك طلب رمز واحد إضافي",
+      "noAttemptsLeftTitle": "حاول مرة أخرى لاحقًا",
+      "noAttemptsLeftMessage": "لقد أدخلت الرمز الخاطئ مرات عديدة. يرجى الانتظار 30 دقيقة ومن ثم المحاولة مرة أخرى",
+      "button": "حسنًا",
+      "dailyLimitExceeded": "مبلغ التحويل يتجاوز الحد اليومي المتبقي للتحويلات"
     }
   },
   "EmptySearchResult": {
