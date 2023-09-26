@@ -1,5 +1,4 @@
 import Clipboard from "@react-native-clipboard/clipboard";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
@@ -24,17 +23,12 @@ export default function AddMoneyViaBankTransferScreen() {
   const getPrimaryAddress = usePrimaryAddress();
   const addToast = useToasts();
 
-  const [isCopiedVisibleWithLabel, setIsCopiedVisibleWithLabel] = useState<string | undefined>();
-
   const handleOnCopyPress = (value: string, label: string) => {
     Clipboard.setString(value);
-
-    setIsCopiedVisibleWithLabel(label);
     addToast({
       variant: "confirm",
-      message: `${isCopiedVisibleWithLabel} ${t("AddMoneyInfo.BankDetails.copyInfo")}`,
+      message: `${label} ${t("AddMoneyInfo.BankDetails.copyInfo")}`,
     });
-    setTimeout(() => setIsCopiedVisibleWithLabel(undefined), 4000);
   };
 
   const historyContainerStyle = useThemeStyles<ViewStyle>(theme => ({
