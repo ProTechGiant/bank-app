@@ -49,7 +49,7 @@ export function useLoginUser() {
     //TODO: will be removed when API is ready
     if (nationalId === "123") {
       return sendApiRequest<LoginUserType>(
-        "v1",
+        "v2",
         "customers/sign-in",
         "POST",
         undefined,
@@ -59,8 +59,7 @@ export function useLoginUser() {
         },
         {
           ["x-correlation-id"]: correlationId,
-          ["DeviceId"]: DeviceInfo.getDeviceId(),
-          ["DeviceName"]: await DeviceInfo.getDeviceName(),
+          ["x-device-name"]: await DeviceInfo.getDeviceName(),
         }
       );
     } else {
@@ -212,8 +211,7 @@ export const useResetPasscode = () => {
       },
       {
         ["x-correlation-id"]: correlationId,
-        ["DeviceName"]: deviceName,
-        ["DeviceId"]: DeviceInfo.getDeviceId(),
+        ["x-device-name"]: deviceName,
       }
     );
   });
@@ -312,7 +310,7 @@ export const useUpdatePasscode = () => {
     const deviceName = await DeviceInfo.getDeviceName();
 
     return sendApiRequest<string>(
-      "v1",
+      "v2",
       `customers/passcode/update`,
       "PATCH",
       undefined,
@@ -322,8 +320,7 @@ export const useUpdatePasscode = () => {
       },
       {
         ["x-correlation-id"]: correlationId,
-        ["DeviceName"]: deviceName,
-        ["DeviceId"]: DeviceInfo.getDeviceId(),
+        ["x-device-name"]: deviceName,
       }
     );
   });

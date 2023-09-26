@@ -7,7 +7,7 @@ import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/u
 
 interface AuthContextProps {
   authenticate: (userId: string, authToken?: string) => void; // TODO: We will make "authToken" a required field once we begin implementing authentication based on the authToken.
-  authenticateAnonymously: (userId: string) => void;
+  authenticateAnonymously: (userId: string, authToken?: string) => void;
   updatePhoneNumber: (value: string) => void;
   isAuthenticated: boolean;
   apiKey: string | undefined;
@@ -119,12 +119,13 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   };
 
   // TODO: This code will be removed when the onboarding and sign-in features are implemented.
-  const handleOnAuthenticateAnonymously = (userId: string) => {
-    setState({ ...state, userId });
+  const handleOnAuthenticateAnonymously = (userId: string, authToken?: string) => {
+    setState({ ...state, userId, authToken });
 
     setAuthenticationHeaders({
       ["UserId"]: userId,
       ["X-Api-Key"]: state.apiKey as string,
+      ["Authorization"]: "Bearer " + authToken,
     });
   };
 

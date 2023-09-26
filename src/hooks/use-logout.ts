@@ -1,3 +1,4 @@
+import DeviceInfo from "react-native-device-info";
 import { useMutation } from "react-query";
 
 import sendApiRequest from "@/api";
@@ -20,13 +21,14 @@ export default function useLogout() {
       };
     } else {
       return sendApiRequest<boolean>(
-        "v1",
+        "v2",
         "customers/sign-out",
         "PATCH",
         undefined,
         { ActionId: ActionId },
         {
           ["x-correlation-id"]: generateRandomId(),
+          ["x-device-name"]: await DeviceInfo.getDeviceName(),
         }
       );
     }

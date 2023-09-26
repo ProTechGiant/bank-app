@@ -4,6 +4,7 @@ import { StyleSheet, View } from "react-native";
 import appLoaderAnimation from "@/assets/illustrations/app-intro.json";
 import AnimationView from "@/components/AnimationView";
 import Page from "@/components/Page";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
@@ -12,6 +13,7 @@ import { getItemFromEncryptedStorage, hasItemInStorage, setItemInEncryptedStorag
 
 export default function AppIntroAnimationScreen() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const auth = useAuthContext();
 
   const { mutateAsync: searchForUser } = useSearchUserByNationalId();
   const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
@@ -42,26 +44,32 @@ export default function AppIntroAnimationScreen() {
     goToOnboardingStack();
   };
 
+  const handleGetAuthenticationToken = async () => {
+    const res = await getAuthenticationToken();
+    if (typeof res?.AccessToken === "string") {
+      setItemInEncryptedStorage("authToken", res.AccessToken);
+      auth.authenticateAnonymously(auth.userId, res.AccessToken);
+    }
+  };
+
   useEffect(() => {
     async function continueAfterAnimation() {
       try {
         const hasOpenedBefore = await hasItemInStorage("hasSeenOnboarding");
         if (hasOpenedBefore) {
-          const authToken = await getItemFromEncryptedStorage("authToken");
-          if (authToken) {
+          const hasAuthToken = await hasItemInStorage("authToken");
+          if (hasAuthToken) {
             handleNavigation();
           } else {
             try {
-              const res = await getAuthenticationToken();
-              if (res?.AccessToken) {
-                setItemInEncryptedStorage("authToken", res.AccessToken);
-              }
+              handleGetAuthenticationToken();
               handleNavigation();
             } catch (err) {
               goToOnboardingStack();
             }
           }
         } else {
+          handleGetAuthenticationToken();
           navigation.navigate("Onboarding.WelcomeCarousel");
         }
       } catch (error) {

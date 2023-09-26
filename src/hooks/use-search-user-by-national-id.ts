@@ -70,7 +70,7 @@ export function useSearchUserByNationalId() {
         return mockUserNotMatchDevice;
       default:
         return sendApiRequest<UserType>(
-          "v1",
+          "v2",
           "customers/search",
           "POST",
           undefined,
@@ -80,8 +80,7 @@ export function useSearchUserByNationalId() {
           },
           {
             ["x-Correlation-Id"]: correlationId,
-            ["DeviceId"]: DeviceInfo.getDeviceId(),
-            ["DeviceName"]: await DeviceInfo.getDeviceName(),
+            ["x-device-name"]: await DeviceInfo.getDeviceName(),
           }
         );
     }
