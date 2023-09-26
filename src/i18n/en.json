@@ -1103,25 +1103,6 @@
         "pendingTasks": "Pending Tasks",
         "dismissTask": "Dismiss"
       },
-      "GoalGetter": {
-        "title": "Goal getter products",
-        "description": "Imagine a goal and we’ll help you save for it.",
-        "button": "Create a goal",
-        "landingScreen": {
-          "skip": "Skip",
-          "next": "Next",
-          "title": "Goal getter",
-          "createGoal": "Create goal",
-          "titleOne": "Help me reach my goal",
-          "subTextOne": "If you have any doubts in how can you active your goal, we can help you",
-          "titleTwo": "Tell us what you dreaming?",
-          "subTextTwo": "Select from several option what are the type of goal you have",
-          "titleThree": "How you would like to start?",
-          "subTextThree": "Tell us how would you imagine starting saving for it",
-          "titleFour": "Best way to active it",
-          "subTextFour": "We will show you some recommendation in how to active you goal"
-        }
-      },
       "ReferFriend": {
         "title": "Invite a friend",
         "description": "Invite your friends and earn 15 SAR for each of you.",
@@ -1205,33 +1186,6 @@
       "viewAllSpending": "View all spendings",
       "noSpending": "No spending insights yet",
       "noSpendingInformation": "When you start making purchases your top spending categories will show up here."
-    }
-  },
-  "GoalGetter": {
-    "imageGallery": {
-      "title": "Croatia Image Gallery",
-      "buttonSave": "Save"
-    },
-    "CreateGoalGetter": {
-      "inputLabel": "Goal Name",
-      "extraStart": "Enter a new name or select a suggested one",
-      "suggestedNames": "Suggested goal names",
-      "continueButton": "Continue",
-      "validationError": {
-        "required": "The Goal Name is Required",
-        "maximum": "Maximum 50 characters"
-      }
-    },
-    "GoalMindScreen": {
-      "title": "Goal Getter",
-      "headerText": "Have a goal in mind?",
-      "headerDescriptionText": "Let us help you to reach your goal.",
-      "buttonText": "Create Goal"
-    },
-    "RisksAppetiteScreen": {
-      "headerText": "Risk appetite ",
-      "headerDescriptionText": "Select the best option that describes you",
-      "buttonText": "Continue"
     }
   },
   "Referral": {
@@ -3126,7 +3080,73 @@
       "loadMore": "load more"
     }
   },
-  "GoalGetter":{
+  "GoalGetter": {
+    "title": "Goal getter products",
+    "description": "Imagine a goal and we’ll help you save for it.",
+    "button": "Create a goal",
+    "GoalReviewScreen": {
+      "reviewGoal": "Review goal",
+      "goalDetails": {
+        "goalName": "Goal name",
+        "targetAmount": "Target Amount",
+        "startDate": "Start date",
+        "initialContribution": "Initial Contribution",
+        "monthlyContribution": "Monthly Contribution",
+        "upcomingContributionDate": "Upcoming contribution date",
+        "endDate": "End date"
+      },
+      "goalReviewNotificationModal":{
+        "title": "Are you sure want to close?",
+        "description": "It looks like you’re about to exit Goal Getter. Any progress made will be lost and you will need to restart your goal from the beginning.",
+        "exitButton": "Exit Goal Getter",
+        "cancelButton": "Cancel"
+      },
+      "SAR": "SAR",
+      "Grams": "grams",
+      "extraConditionsCaption": "",
+      "termsAndConditionsText": "I have read and agreed to the",
+      "termsAndConditionsLink": "Terms and Conditions",
+      "confirm": "Confirm"
+    },
+    "landingScreen": {
+      "skip": "Skip",
+      "next": "Next",
+      "title": "Goal getter",
+      "createGoal": "Create goal",
+      "titleOne": "Help me reach my goal",
+      "subTextOne": "If you have any doubts in how can you active your goal, we can help you",
+      "titleTwo": "Tell us what you dreaming?",
+      "subTextTwo": "Select from several option what are the type of goal you have",
+      "titleThree": "How you would like to start?",
+      "subTextThree": "Tell us how would you imagine starting saving for it",
+      "titleFour": "Best way to active it",
+      "subTextFour": "We will show you some recommendation in how to active you goal"
+    },
+    "imageGallery": {
+      "title": "Croatia Image Gallery",
+      "buttonSave": "Save"
+    },
+    "CreateGoalGetter": {
+      "inputLabel": "Goal Name",
+      "extraStart": "Enter a new name or select a suggested one",
+      "suggestedNames": "Suggested goal names",
+      "continueButton": "Continue",
+      "validationError": {
+        "required": "The Goal Name is Required",
+        "maximum": "Maximum 50 characters"
+      }
+    },
+    "GoalMindScreen": {
+      "title": "Goal Getter",
+      "headerText": "Have a goal in mind?",
+      "headerDescriptionText": "Let us help you to reach your goal.",
+      "buttonText": "Create Goal"
+    },
+    "RisksAppetiteScreen": {
+      "headerText": "Risk appetite ",
+      "headerDescriptionText": "Select the best option that describes you",
+      "buttonText": "Continue"
+    },
     "GoalDashboardScreen":{
       "title": "Goals and Products",
       "tabs":{

@@ -7,6 +7,7 @@ import {
   GoalGetterScreen,
   GoalMindScreen,
   ImageGalleryScreen,
+  ReviewGoalScreen,
   RisksAppetiteScreen,
 } from "./screens";
 
@@ -19,6 +20,7 @@ export type GoalGetterStackParams = {
   "GoalGetter.ImageGallary": undefined;
   "GoalGetter.GoalMindScreen": undefined;
   "GoalGetter.RisksAppetiteScreen": undefined;
+  "GoalGetter.ReviewGoalScreen": undefined;
 };
 
 export default function GoalGetterStack() {
@@ -37,6 +39,7 @@ export default function GoalGetterStack() {
         />
         <Stack.Screen component={GoalMindScreen} name="GoalGetter.GoalMindScreen" />
         <Stack.Screen component={RisksAppetiteScreen} name="GoalGetter.RisksAppetiteScreen" />
+        <Stack.Screen component={ReviewGoalScreen} name="GoalGetter.ReviewGoalScreen" />
         <Stack.Screen component={GoalDashboardScreen} name="GoalGetter.GoalDashboardScreen" />
       </Stack.Navigator>
     </GoalGetterContextProvider>
