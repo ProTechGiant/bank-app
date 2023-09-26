@@ -101,13 +101,13 @@ export default function EditRecurringPaymentModal() {
     resolver: yupResolver(validationSchema),
   });
 
-  //     //Currently CBS doesn't return "PaymentFrequency" as a date or number, it is a string that says "Monthly", "daily" etc.
-  //     //so day picker currently shows on NaNth as the default value
-  //     //this is being worked on right now and is a known bug, was told to push forward.
   useEffect(() => {
     if (recurringFundData) {
+      const date = parseInt(recurringFundData.PaymentFrequency, 10).toString();
+      const dayOfMonth = parse(date, "yyyyMMdd", new Date()).getDate();
+
       setValue("PaymentAmount", Number(recurringFundData.PaymentAmount));
-      setValue("DayOfMonth", parseInt(recurringFundData.PaymentFrequency, 10));
+      setValue("DayOfMonth", dayOfMonth);
     } else {
       setValue("PaymentAmount", 0);
       setValue("DayOfMonth", new Date().getDate());
