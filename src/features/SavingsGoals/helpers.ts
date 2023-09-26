@@ -1,4 +1,4 @@
-import { addMonths, format } from "date-fns";
+import { addMonths, format, isValid, lastDayOfMonth } from "date-fns";
 
 import { SavingsPotDetailsResponse } from "./types";
 
@@ -45,11 +45,16 @@ export const setDateAndFormatRecurringPayment = (inputDay: number, dateFormat = 
     return "";
   }
 
-  const currentDate = new Date();
+  let currentDate = new Date();
   let newDate;
 
-  newDate = currentDate.getDate() >= inputDay ? addMonths(currentDate, 1) : currentDate;
-  newDate = format(newDate, dateFormat) + inputDay.toString().padStart(2, "0");
+  currentDate = currentDate.getDate() >= inputDay ? addMonths(currentDate, 1) : currentDate;
+  newDate = format(currentDate, dateFormat) + inputDay.toString().padStart(2, "0");
+
+  // check if its a valid end of month date
+  if (inputDay > 28 && !isValid(newDate)) {
+    newDate = format(lastDayOfMonth(currentDate), `${dateFormat}dd`);
+  }
 
   return newDate;
 };
