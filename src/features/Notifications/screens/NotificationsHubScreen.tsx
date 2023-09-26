@@ -3,7 +3,7 @@ import { arSA, enUS } from "date-fns/locale";
 import { uniqBy } from "lodash";
 import { createElement, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
 
 import { FilterIcon, InfoCircleIcon, SwapIcon } from "@/assets/icons";
 import Chip from "@/components/Chip";
@@ -18,7 +18,6 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { LoadMoreIcon } from "../assets/LoadMoreIcon";
 import noNotificationImage from "../assets/no-notifications-image.png";
 import { FilterModal, NotificationError, NotificationItem } from "../components";
 import { useAllNotifications, useFilterNotifications } from "../hooks/query-hooks";
@@ -195,6 +194,7 @@ export default function NotificationsHubScreen() {
 
   const loadMoreButtonStyle = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "center",
+    alignItems: "center",
     paddingVertical: theme.spacing["20p"],
     gap: theme.spacing["4p"],
     flexDirection: "row",
@@ -205,6 +205,8 @@ export default function NotificationsHubScreen() {
     alignItems: "center",
     paddingBottom: theme.spacing["24p"],
   }));
+
+  const loadMoreIconColor = useThemeStyles(theme => theme.palette.neutralBase);
 
   return (
     <Page insets={["left"]}>
@@ -248,7 +250,7 @@ export default function NotificationsHubScreen() {
                 (selectedFilter === undefined && !isAllDataLoaded) ||
                 (selectedFilter !== undefined && !isAllFilteredDataLoaded) ? (
                   <View style={loadMoreButtonStyle}>
-                    <LoadMoreIcon />
+                    <ActivityIndicator color={loadMoreIconColor} />
                     <Typography.Text size="caption1" color="neutralBase">
                       {t("Notifications.NotificationHubScreen.loadMore")}
                     </Typography.Text>
