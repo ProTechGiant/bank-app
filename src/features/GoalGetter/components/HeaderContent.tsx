@@ -6,7 +6,11 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { HeaderContentProps } from "../types";
+interface HeaderContentProps {
+  goalName: string;
+  contribution: string;
+  duration: string;
+}
 
 export default function HeaderContent({ goalName, contribution, duration }: HeaderContentProps) {
   const { t } = useTranslation();

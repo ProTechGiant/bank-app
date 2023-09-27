@@ -5,7 +5,9 @@ import { VictoryPie } from "victory-native";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { PieChartProps } from "../types";
+interface PieChartProps {
+  data: { x: string; y: number }[];
+}
 
 export default function PieChart({ data }: PieChartProps) {
   const maxValue = Math.max(...data.map(item => item.y));

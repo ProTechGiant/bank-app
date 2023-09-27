@@ -8,8 +8,12 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import { mockPieChartData } from "../mocks/mockPieChartData";
-import { DonutChartProps } from "../types";
 import PieChart from "./PieChart";
+
+interface DonutChartProps {
+  isVisible: boolean;
+  onClose: () => void;
+}
 
 export default function DonutChart({ isVisible, onClose }: DonutChartProps) {
   const { t } = useTranslation();
