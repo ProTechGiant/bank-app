@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { GoalGetterContextProvider } from "./contexts/GoalGetterContext";
 import {
   CreateGoalScreen,
+  EditGoalGetterScreen,
   GoalCreatedSuccessfullyScreen,
   GoalDashboardScreen,
   GoalGetterScreen,
@@ -26,6 +27,7 @@ export type GoalGetterStackParams = {
   "GoalGetter.MatchProductsScreen": undefined;
   "GoalGetter.GoalCreatedSuccessfullyScreen": undefined;
   "GoalGetter.ReviewGoalScreen": undefined;
+  "GoalGetter.EditGoalGetter": undefined;
 };
 
 export default function GoalGetterStack() {
@@ -49,6 +51,7 @@ export default function GoalGetterStack() {
         <Stack.Screen component={GoalDashboardScreen} name="GoalGetter.GoalDashboardScreen" />
         <Stack.Screen component={GoalCreatedSuccessfullyScreen} name="GoalGetter.GoalCreatedSuccessfullyScreen" />
         <Stack.Screen component={MatchProductsScreen} name="GoalGetter.MatchProductsScreen" />
+        <Stack.Screen component={EditGoalGetterScreen} name="GoalGetter.EditGoalGetter" />
       </Stack.Navigator>
     </GoalGetterContextProvider>
   );

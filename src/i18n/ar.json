@@ -1191,7 +1191,6 @@
           "okButton": "حسنًا"
         }
       },
-
       "temporaryValue": {
         "highRiskCard": {
           "title": "مخاطرة عالية",
@@ -1229,7 +1228,6 @@
           "Investments": "الاستثمار في صناديق الاستثمار المشترك تخضع لتقلبات السوق."
         }
       },
-
       "chooseButton": "اختيار المنتج"
     },
     "GoalDashboardScreen": {
@@ -1309,6 +1307,20 @@
       "subTextThree": "أخبرنا كيف تتخيل البدء في الادخار من اجل ذلك؟",
       "titleFour": "انشئ هدفاالآن",
       "subTextFour": "سنعرض لك بعض التوصيات حول كيفية تفعيل هدفك"
+    },
+    "EditGoalGetter": {
+      "label": "تعديل الهدف",
+      "InputsLabels": {
+        "goalName": "اسم الهدف",
+        "targetAmount": "المبلغ المستهدف",
+        "initialContribution": "المساهمة الأولية",
+        "monthlyContribuition": "المساهمة الشهرية",
+        "upcomingContribution": "تاريخ المساهمة القادمة",
+        "startDate": "تاريخ البدء",
+        "endDate": "تاريخ الانتهاء"
+      },
+      "DateModal": { "selectButton": "اختيار", "headerText": "اختر المدة" },
+      "ButtonsText": { "confirmChanges": "تأكيد التغييرات", "cancel": "الغاء" }
     }
   },
   "InstructionsScreen": {

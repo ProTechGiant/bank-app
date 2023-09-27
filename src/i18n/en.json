@@ -1275,7 +1275,6 @@
       "headerDescriptionText": "Select the best option that describes you",
       "buttonText": "Continue"
     },
-
     "targetAmountScreen": {
       "title": "Select duration",
       "select": "Select",
@@ -1366,6 +1365,20 @@
       },
       "hint": "You can set a total of 4 goals.",
       "setNewGoal": "Set new goal"
+    },
+    "EditGoalGetter": {
+      "label": "Edit Goal",
+      "InputsLabels": {
+        "goalName": "Goal name",
+        "targetAmount": "Target amount",
+        "initialContribution": "Initial contribution",
+        "monthlyContribuition": "Monthly contribuition",
+        "upcomingContribution": "Upcoming contribution",
+        "startDate": "Start date",
+        "endDate": "End date"
+      },
+      "DateModal": { "selectButton": "Select", "headerText": "Select day" },
+      "ButtonsText": { "confirmChanges": "Confirm changes", "cancel": "Cancel" }
     }
   },
   "Referral": {
