@@ -5,6 +5,7 @@ import { AppreciationCard } from "@/components";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { AppreciationType } from "@/types/Appreciation";
 import { CustomerTierEnum } from "@/types/CustomerProfile";
 
 import { useTopAppreciations } from "../hooks/query-hooks";
@@ -26,7 +27,7 @@ export default function AppreciationSection({ onViewAllPress }: AppreciationSect
 
   const { width } = useWindowDimensions();
 
-  const handleOnAppreciationCardPress = (appreciation: AppreciationType) => {
+  const handleOnAppreciationCardPress = (appreciation: AppreciationType<boolean>) => {
     navigation.navigate("Appreciation.AppreciationStack", {
       screen: "Appreciation.AppreciationDetailsScreen",
       params: { appreciation, userInfo: { userTier, userFullName } },
@@ -67,14 +68,14 @@ export default function AppreciationSection({ onViewAllPress }: AppreciationSect
           hasBorder={true}
           onRefreshPress={refetch}
         />
-      ) : AppreciationList?.Appreciations && AppreciationList.Appreciations.length > 0 ? (
+      ) : AppreciationList && AppreciationList.length > 0 ? (
         <ScrollView
           contentContainerStyle={contentStyle}
           horizontal
           showsHorizontalScrollIndicator={false}
           style={containerStyle}>
-          {AppreciationList?.Appreciations
-            ? AppreciationList.Appreciations.slice(0, 3).map((appreciation, index) => {
+          {AppreciationList
+            ? AppreciationList.slice(0, 3).map((appreciation, index) => {
                 return (
                   <AppreciationCard
                     appreciation={appreciation}

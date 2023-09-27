@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useAppreciationSearch } from "@/features/Appreciation/hooks/query-hooks";
+import { FavoriteEnum } from "@/features/Appreciation/types";
 import { AppreciationResponseType, SortingOptions, TabsTypes } from "@/types/Appreciation";
 import { generateRandomId } from "@/utils";
 
@@ -209,30 +210,40 @@ export function useAppreciationsWithNoFeedback(language: string) {
 export function useTopAppreciations() {
   const { i18n } = useTranslation();
 
-  return useQuery(queryKeys.getAppreciations(), () => {
-    return api<AppreciationResponseType>(
-      "v1",
-      "appreciations",
-      "POST",
-      undefined,
-      {
-        PageSize: 3,
-        PageOffset: 1,
-        SortBy: 1,
-        IsFavourite: 0,
-        ClassificationCodes: [],
-        CategoryCodes: [],
-        TypeCodes: [],
-        SectionCodes: [],
-        RedeemedFlag: [],
-        LocationCodes: [],
-        ActiveFlag: [],
-        FeedbackFlag: 1,
-      },
-      {
-        ["x-correlation-id"]: generateRandomId(),
-        ["Accept-Language"]: i18n.language,
-      }
-    );
-  });
+  return useQuery(
+    queryKeys.getAppreciations(),
+    () => {
+      return api<AppreciationResponseType>(
+        "v1",
+        "appreciations",
+        "POST",
+        undefined,
+        {
+          PageSize: 3,
+          PageOffset: 1,
+          SortBy: 1,
+          IsFavourite: 0,
+          ClassificationCodes: [],
+          CategoryCodes: [],
+          TypeCodes: [],
+          SectionCodes: [],
+          RedeemedFlag: [],
+          LocationCodes: [],
+          ActiveFlag: [],
+          FeedbackFlag: 0,
+        },
+        {
+          ["x-correlation-id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language,
+        }
+      );
+    },
+    {
+      select: res =>
+        res.Appreciations.map(appreciation => ({
+          ...appreciation,
+          isFavourite: appreciation.isFavourite === FavoriteEnum.LIKED,
+        })),
+    }
+  );
 }
