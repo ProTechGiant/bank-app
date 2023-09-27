@@ -1,6 +1,6 @@
 import type { RouteProp } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
@@ -16,12 +16,14 @@ import PasscodeInput from "@/components/PasscodeInput";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
+import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
-import { useMockResetPasscode } from "../hooks/query-hooks";
+import { useCreatePasscode, useResetPasscode } from "../hooks/query-hooks";
 import { SignInStackParams } from "../SignInStack";
+import { UserType } from "../types";
 
 type ConfirmPasscodeScreenRouteProp = RouteProp<SignInStackParams, "SignIn.ConfirmPasscode">;
 
@@ -29,15 +31,20 @@ export default function ConfirmPasscodeScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { params } = useRoute<ConfirmPasscodeScreenRouteProp>();
-  // TODO will be updated when API is ready
-  const { resetPasscode, error, isLoading } = useMockResetPasscode(); // Use the mock API hook
-  const loginUserError = error as ApiError;
+  const {
+    mutateAsync: resetPasscode,
+    error: errorResetPassCode,
+    isLoading: isLoadingResetPassCode,
+  } = useResetPasscode();
+  const { mutateAsync, error, isLoading } = useCreatePasscode();
+  const loginUserError = params.currentPassCode ? (error as ApiError) : (errorResetPassCode as ApiError);
   const { errorMessages } = useErrorMessages(loginUserError);
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
   const [passCode, setPasscode] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
   const { isAuthenticated } = useAuthContext();
   const { isPasscodeCreated, setIsPasscodeCreated } = useSignInContext();
+  const [user, setUser] = useState<UserType | null>(null);
 
   const errorMessage = [
     {
@@ -46,6 +53,17 @@ export default function ConfirmPasscodeScreen() {
       variant: "error",
     },
   ];
+
+  useEffect(() => {
+    (async () => {
+      const userData = await getItemFromEncryptedStorage("user");
+      if (userData) {
+        setUser(JSON.parse(userData));
+      } else {
+        setUser(null);
+      }
+    })();
+  }, []);
 
   const handleOnChangeText = (passcode: string) => {
     setPasscode(passcode);
@@ -75,17 +93,27 @@ export default function ConfirmPasscodeScreen() {
 
   const handleSubmit = async (passcode: string) => {
     try {
-      await resetPasscode(passcode);
+      if (params.currentPassCode) {
+        await mutateAsync({
+          passCode: passcode,
+          currentPasscode: params.currentPassCode,
+        });
+      } else {
+        await resetPasscode({
+          Passcode: passcode,
+          isvaUserId: user?.UserId,
+        });
+      }
       setShowSuccessModal(true);
     } catch (exception) {
       setIsError(true);
-      warn("Error resetting user passcode ", JSON.stringify(exception)); // log the error for debugging purposes
+      warn("Error update user passcode ", JSON.stringify(exception)); // log the error for debugging purposes
     }
   };
 
   return (
     <Page>
-      {isLoading ? <LoadingIndicatorModal /> : null}
+      {isLoading || isLoadingResetPassCode ? <LoadingIndicatorModal /> : null}
       <NavHeader
         withBackButton={true}
         onBackPress={

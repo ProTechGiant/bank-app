@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -11,8 +11,9 @@ import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
 import { useAuthContext } from "@/contexts/AuthContext";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
-import { isSequential, maxRepeatThresholdMet } from "@/utils/is-valid-pin";
+import { hasConsecutiveNumbers, isSequential, maxRepeatThresholdMet } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { PASSCODE_LENGTH } from "../constants";
@@ -26,6 +27,10 @@ export default function CreatePasscodeScreen() {
   const [passCode, setPasscode] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
   const { isAuthenticated } = useAuthContext();
+
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "SignIn.CreatePasscode">>();
+
+  const currentPassCode = route.params?.currentPassCode;
 
   const errorMessages = [
     {
@@ -45,14 +50,15 @@ export default function CreatePasscodeScreen() {
 
     if (
       maxRepeatThresholdMet(convertedInput) ||
-      (convertedInput.length === PASSCODE_LENGTH && isSequential(convertedInput))
+      (convertedInput.length === PASSCODE_LENGTH && isSequential(convertedInput)) ||
+      hasConsecutiveNumbers(convertedInput)
     ) {
       setIsError(true);
       setPasscode("");
     } else {
       setIsError(false);
       if (convertedInput.length === PASSCODE_LENGTH) {
-        navigation.navigate("SignIn.ConfirmPasscode", { passCode: passcode });
+        navigation.navigate("SignIn.ConfirmPasscode", { passCode: passcode, currentPassCode });
       }
     }
   };

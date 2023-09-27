@@ -21,8 +21,10 @@ export type SignInStackParams = {
   "SignIn.ForgotPassword": undefined;
   "SignIn.CardPin": undefined;
   "SignIn.ChangePasscode": undefined;
-  "SignIn.CreatePasscode": undefined;
-  "SignIn.ConfirmPasscode": { passCode: string };
+  "SignIn.CreatePasscode": {
+    currentPassCode?: string;
+  };
+  "SignIn.ConfirmPasscode": { passCode: string; currentPassCode?: string };
   "SignIn.Biometric": undefined;
   "SignIn.NafathAuthScreen": undefined;
 };

@@ -30,7 +30,15 @@ describe("is-valid-pincode", () => {
     expect(pincodeUtils.maxRepeatThresholdMet("23466190")).toBe(false);
     expect(pincodeUtils.maxRepeatThresholdMet("33333")).toBe(true);
     expect(pincodeUtils.maxRepeatThresholdMet("1122334444")).toBe(true);
-    expect(pincodeUtils.maxRepeatThresholdMet("111")).toBe(false);
+    expect(pincodeUtils.maxRepeatThresholdMet("11")).toBe(false);
+  });
+
+  it("recognizes passcode with consecutive numbers", () => {
+    expect(pincodeUtils.hasConsecutiveNumbers("12345")).toBe(true);
+    expect(pincodeUtils.hasConsecutiveNumbers("56789")).toBe(true);
+    expect(pincodeUtils.hasConsecutiveNumbers("21345")).toBe(true);
+    expect(pincodeUtils.hasConsecutiveNumbers("76678")).toBe(true);
+    expect(pincodeUtils.hasConsecutiveNumbers("24476")).toBe(false);
   });
 
   it("rejects invalid pincodes", () => {

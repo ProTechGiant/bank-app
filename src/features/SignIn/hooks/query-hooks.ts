@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery } from "react-query";
@@ -138,72 +137,39 @@ export function useGetCustomerDetails() {
 export function useCreatePasscode() {
   const { correlationId } = useSignInContext();
 
-  return useMutation(async (passCode: string) => {
-    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+  return useMutation(
+    async ({ passCode, currentPasscode }: { passCode: string; currentPasscode: string | undefined }) => {
+      if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-    return sendApiRequest<string>(
-      "v1",
-      "customers/update/passcode",
-      "PATCH",
-      undefined,
-      {
-        Passcode: passCode,
-      },
-      {
-        ["x-correlation-id"]: correlationId,
-      }
-    );
-  });
-}
-
-// TODO will be removed when API is ready
-export function useMockResetPasscode() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const resetPasscode = async (passCode: string) => {
-    setIsLoading(true);
-
-    setError(null);
-
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      if (passCode === "147258") {
-        setIsLoading(false);
-        return {
-          status: 200,
-          data: {
-            message: "Passcode reset successfully",
-          },
-        };
-      } else {
-        setIsLoading(false);
-        setError("Invalid passcode");
-        throw new Error("Invalid passcode");
-      }
-    } catch (exception) {
-      setIsLoading(false);
-      setError("Internal Server Error");
-      throw new Error("Internal Server Error");
+      return sendApiRequest<string>(
+        "v2",
+        "customers/passcode/update",
+        "PATCH",
+        undefined,
+        {
+          NewPasscode: passCode,
+          CurrentPasscode: currentPasscode,
+        },
+        {
+          ["x-correlation-id"]: correlationId,
+          ["x-device-name"]: await DeviceInfo.getDeviceName(),
+        }
+      );
     }
-  };
-
-  return { resetPasscode, error, isLoading };
+  );
 }
 
 export const useResetPasscode = () => {
-  const { userId } = useAuthContext();
   const { correlationId } = useSignInContext();
 
-  return useMutation(async (Passcode: string) => {
+  return useMutation(async ({ Passcode, isvaUserId }: { Passcode: string; isvaUserId: string | undefined }) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
     const deviceName = await DeviceInfo.getDeviceName();
 
     return sendApiRequest<string>(
-      "v1",
-      `customers/passcode/reset/${userId}`,
+      "v2",
+      `customers/passcode/reset/${isvaUserId}`,
       "PATCH",
       undefined,
       {

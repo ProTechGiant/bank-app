@@ -60,7 +60,6 @@ export default function ChangePasscodeScreen() {
       const errorId = response?.errorContent?.Errors[0].ErrorId;
       if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
       if (errorId === "0010") blockedUserFlow.handle("passcode");
-      setPasscode("");
     } catch (error: any) {
       // const errorId = error?.errorContent?.Errors[0].ErrorId;
       // if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
@@ -105,7 +104,8 @@ export default function ChangePasscodeScreen() {
   };
 
   const handleOtpVerification = async () => {
-    navigation.navigate("SignIn.CreatePasscode");
+    navigation.navigate("SignIn.CreatePasscode", { currentPassCode: passCode });
+    setPasscode("");
   };
 
   return (

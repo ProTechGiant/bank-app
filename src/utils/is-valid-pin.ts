@@ -7,6 +7,20 @@ export function isSequential(pincode: string): boolean {
   return !(numbers.indexOf(String(pincode)) === -1 && reversedNumbers.indexOf(String(pincode)) === -1);
 }
 
+export function hasConsecutiveNumbers(passcode: string): boolean {
+  for (let i = 0; i < passcode.length - 2; i++) {
+    const currentDigit = parseInt(passcode[i], 10);
+    const nextDigit = parseInt(passcode[i + 1], 10);
+    const nextNextDigit = parseInt(passcode[i + 2], 10);
+
+    if (currentDigit + 1 === nextDigit && nextDigit + 1 === nextNextDigit) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export function isContainingValidChars(pincode: string): boolean {
   return pincode.match(numericRegExp) !== null;
 }
@@ -27,7 +41,7 @@ export function maxRepeatThresholdMet(passcode: string): boolean {
     if (passcode[i] === passcode[i - 1]) {
       repeatingCount++;
 
-      if (repeatingCount > 3) {
+      if (repeatingCount > 2) {
         return true;
       }
     } else {
