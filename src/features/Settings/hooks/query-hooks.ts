@@ -80,7 +80,7 @@ export function usePostHomepageLayout() {
 
 export const useCheckDailyPasscodeLimit = () => {
   return useQuery(queryKey.all(), async () => {
-    return api<UpdatePasscodeStatus>("v1", "customers/passcode-update-flag", "GET", undefined, undefined, {
+    return api<UpdatePasscodeStatus>("v2", "customers/passcode-update-flag", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });

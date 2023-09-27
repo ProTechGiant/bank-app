@@ -31,20 +31,17 @@ import {
   SettingsCategoryContainer,
   SettingSection,
 } from "../components";
-// import { useCheckDailyPasscodeLimit } from "../hooks/query-hooks";
+import { useCheckDailyPasscodeLimit } from "../hooks/query-hooks";
 
 export default function CustomerAccountManagement() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  // const { data } = useCheckDailyPasscodeLimit();
+  const { data } = useCheckDailyPasscodeLimit();
 
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
   const [isEditHomeConfigurationVisible, setIsEditHomeConfigurationVisible] = useState(false);
   const [hasReachedPasscodeUpdateLimit, setHasReachedPasscodeUpdateLimit] = useState(false);
   const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
-
-  //TODO: just for test , will remove when api is ready
-  const [hasReachedPasscodeUpdateLimitTest, setHasReachedPasscodeUpdateLimitTest] = useState(true);
 
   const handleOnBackPress = () => {
     navigation.goBack();
@@ -55,14 +52,10 @@ export default function CustomerAccountManagement() {
   };
 
   const handleOnPassCodePress = () => {
-    //TODO: will remove when API is ready
-    if (hasReachedPasscodeUpdateLimitTest) {
-      setHasReachedPasscodeUpdateLimit(true);
-    } else {
+    if (data?.UpdatePasscodeEnabled) {
       navigation.navigate("Passcode.ChangePasscodeStack");
-      // data?.UpdatePasscodeEnabled
-      //   ? navigation.navigate("Passcode.ChangePasscodeStack")
-      //   : setHasReachedPasscodeUpdateLimit(true);
+    } else {
+      setHasReachedPasscodeUpdateLimit(true);
     }
   };
 
@@ -122,7 +115,6 @@ export default function CustomerAccountManagement() {
 
   const handleReachedPasscodeUpdateLimit = () => {
     setHasReachedPasscodeUpdateLimit(false);
-    setHasReachedPasscodeUpdateLimitTest(false);
   };
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({ paddingTop: theme.spacing["8p"] }));

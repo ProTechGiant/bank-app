@@ -103,7 +103,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     setState({
       userId: state.userId,
       isAuthenticated: false,
-      apiKey: undefined,
+      apiKey: state.apiKey,
       authToken: undefined,
       phoneNumber: undefined,
       isUserLocked: false,
@@ -120,7 +120,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
 
   // TODO: This code will be removed when the onboarding and sign-in features are implemented.
   const handleOnAuthenticateAnonymously = (userId: string, authToken?: string) => {
-    setState({ ...state, userId, authToken });
+    setState({ ...state, userId, authToken, isAuthenticated: false });
 
     setAuthenticationHeaders({
       ["UserId"]: userId,

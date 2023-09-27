@@ -42,14 +42,11 @@ export default function PasscodeScreen() {
   const isFocused = useIsFocused();
   const auth = useAuthContext();
   const { setNationalId } = useSignInContext();
-  //TODO : will use it once API is ready
-  /*
+
   const { mutateAsync, error: loginError, isError, isLoading: isLoadingLoginApi } = useLoginUser();
   const loginUserError = loginError as ApiError;
   const { errorMessages } = useErrorMessages(loginUserError);
-  */
-  const { mutateAsync, isLoading: isLoadingLoginApi, data } = useLoginUser();
-  const { errorMessages } = useErrorMessages(data as ApiError);
+
   const [passCode, setPasscode] = useState<string>("");
   const [user, setUser] = useState<UserType | null>(null);
   const [tempUser, setTempUser] = useState<UserType | null>(null);
@@ -112,28 +109,24 @@ export default function PasscodeScreen() {
     }
   };
 
-  const navigateToHome = () => {
+  const navigateToHome = (accessToken: string) => {
     if (tempUser) {
       setItemInEncryptedStorage("user", JSON.stringify(tempUser));
       removeItemFromEncryptedStorage("tempUser");
     }
-    auth.authenticate(auth.userId ?? "");
+    auth.authenticate(auth.userId ?? "", accessToken);
   };
 
   const handleUserLogin = async (isNewUser: boolean) => {
     try {
-      const response = await mutateAsync({ passCode, nationalId: isNewUser ? tempUser?.NationalId : user?.NationalId });
+      const response = await mutateAsync({ passCode, nationalId: tempUser ? tempUser.NationalId : user?.NationalId });
       if (response.AccessToken) {
         if (isNewUser) {
-          handleNavigate();
+          handleNavigate(response.AccessToken);
         } else {
-          navigateToHome();
+          navigateToHome(response.AccessToken);
         }
       }
-      //TODO: This logic will be removed once API is ready
-      const errorId = response?.errorContent?.Errors[0].ErrorId;
-      if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
-      if (errorId === "0010") blockedUserFlow.handle("passcode");
       setPasscode("");
     } catch (error: any) {
       const errorId = error?.errorContent?.Errors?.[0].ErrorId;
@@ -166,13 +159,13 @@ export default function PasscodeScreen() {
     if (passCode.length === PASSCODE_LENGTH) handleCheckUserDevice();
   };
 
-  const handleOtpVerification = async () => {
+  const handleOtpVerification = async (accessToken: string) => {
     storeUserToLocalStorage();
     setPasscode("");
-    navigateToHome();
+    navigateToHome(accessToken);
   };
 
-  const handleNavigate = () => {
+  const handleNavigate = (accessToken: string) => {
     try {
       otpFlow.handle({
         action: {
@@ -190,7 +183,7 @@ export default function PasscodeScreen() {
           if (status === "cancel") {
             return;
           } else if (status === "success") {
-            delayTransition(() => handleOtpVerification());
+            delayTransition(() => handleOtpVerification(accessToken));
           }
         },
         onUserBlocked: () => {
@@ -243,7 +236,7 @@ export default function PasscodeScreen() {
               : t("SignIn.PasscodeScreen.userTitle", { username: user.CustomerName.split(" ")[0] })
           }
           errorMessage={errorMessages}
-          isError={true} //TODO: This will be handled by the isError state managing the API call
+          isError={isError}
           subTitle={user ? t("SignIn.PasscodeScreen.subTitle") : ""}
           length={6}
           passcode={passCode}

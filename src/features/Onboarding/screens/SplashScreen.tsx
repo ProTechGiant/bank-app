@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StatusBar, StyleSheet, TextStyle, useWindowDimensions, View } from "react-native";
 
@@ -7,11 +8,13 @@ import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
-import { hasItemInStorage } from "@/utils/encrypted-storage";
+import { getItemFromEncryptedStorage, hasItemInStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import SplashScreenRocket from "../assets/SplashScreenRocket";
 import { LanguageToggle } from "../components";
@@ -22,11 +25,38 @@ export default function SplashScreen() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { setCorrelationId } = useOnboardingContext();
   const { height } = useWindowDimensions();
+  const auth = useAuthContext();
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
 
   const svgHeight = height * 0.5; // Adjust the height as needed
   const svgWidth = svgHeight * 0.75; // Adjust the aspect ratio as needed
 
   const headerSize = height > 735 ? "large" : "medium";
+
+  useEffect(() => {
+    async function checkAuthToken() {
+      try {
+        const authToken = await getItemFromEncryptedStorage("authToken");
+        if (authToken) {
+          auth.authenticateAnonymously(auth.userId, authToken);
+        } else {
+          handleGetAuthenticationToken();
+        }
+      } catch (error) {
+        warn("authentication api error: ", error);
+      }
+    }
+
+    checkAuthToken();
+  }, [navigation]);
+
+  const handleGetAuthenticationToken = async () => {
+    const res = await getAuthenticationToken();
+    if (typeof res?.AccessToken === "string") {
+      setItemInEncryptedStorage("authToken", res.AccessToken);
+      auth.authenticateAnonymously(auth.userId, res.AccessToken);
+    }
+  };
 
   const handleOnSignIn = async () => {
     const screenName = (await hasItemInStorage("user")) ? "SignIn.Passcode" : "SignIn.Iqama";

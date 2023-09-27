@@ -120,7 +120,7 @@ export default function TemporaryLandingScreen() {
 
   const handleOnHomepage = async (values: TemporaryForm) => {
     auth.updatePhoneNumber(values.phoneNumber);
-    auth.authenticate(values.UserId);
+    auth.authenticate(values.UserId, auth.authToken);
   };
 
   const handleOnViewTransactions = async (values: TemporaryForm) => {
@@ -162,7 +162,7 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnOpenOnboarding = (values: TemporaryForm) => {
-    auth.authenticateAnonymously(values.UserId);
+    auth.authenticateAnonymously(values.UserId, auth.authToken);
     navigation.navigate("Onboarding.OnboardingStack", {
       screen: "Onboarding.AppIntroAnimation",
     });

@@ -6,7 +6,7 @@ import { useSignInContext } from "@/features/SignIn/contexts/SignInContext";
 
 export interface UserType {
   TotalRecords: number;
-  UserId: string;
+  IsvaUserId: string;
   NationalId: string;
   AccountValid: boolean;
   UserName: string;

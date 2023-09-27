@@ -7,7 +7,6 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 
 import { useSignInContext } from "../contexts/SignInContext";
-import { getMockData, getMockSignIn } from "../mock";
 import {
   CheckCustomerStatusResponse,
   CheckUserStatusResponse,
@@ -45,25 +44,21 @@ export function useLoginUser() {
 
   return useMutation(async ({ passCode, nationalId }: { passCode: string; nationalId: string }) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
-    //TODO: will be removed when API is ready
-    if (nationalId === "123") {
-      return sendApiRequest<LoginUserType>(
-        "v2",
-        "customers/sign-in",
-        "POST",
-        undefined,
-        {
-          Passcode: passCode,
-          NationalId: nationalId,
-        },
-        {
-          ["x-correlation-id"]: correlationId,
-          ["x-device-name"]: await DeviceInfo.getDeviceName(),
-        }
-      );
-    } else {
-      return getMockSignIn(passCode);
-    }
+
+    return sendApiRequest<LoginUserType>(
+      "v2",
+      "customers/sign-in",
+      "POST",
+      undefined,
+      {
+        Passcode: passCode,
+        NationalId: nationalId,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+        ["x-device-name"]: await DeviceInfo.getDeviceName(),
+      }
+    );
   });
 }
 
@@ -189,9 +184,8 @@ export function useValidatePincode() {
   return useMutation(async (pinCode: string) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-    return getMockData(pinCode); //TODO: MockData Function will be replaced by commented out API
-    /*  return sendApiRequest<{ Status: boolean }>(
-      "v1",
+    return sendApiRequest<{ Status: boolean }>(
+      "v2",
       "customers/card-pin-verify",
       "POST",
       undefined,
@@ -200,10 +194,9 @@ export function useValidatePincode() {
       },
       {
         ["x-correlation-id"]: correlationId,
-        ["DeviceId"]: DeviceInfo.getDeviceId(),
-        ["DeviceName"]: await DeviceInfo.getDeviceName(),
+        ["x-device-name"]: await DeviceInfo.getDeviceName(),
       }
-    ); */
+    );
   });
 }
 
@@ -299,7 +292,7 @@ export function useCheckCustomerStatus() {
     if (undefined === correlationId) throw new Error("Cannot fetch customers/registration without `correlationId`");
 
     return sendApiRequest<CheckCustomerStatusResponse>(
-      "v1",
+      "v2",
       `customers/${customerId}/status`,
       "GET",
       undefined,

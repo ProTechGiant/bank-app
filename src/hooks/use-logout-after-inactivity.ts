@@ -24,7 +24,7 @@ export default function useLogoutAfterInactivity() {
 
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
       //We check for the app current state and we only want to handle case when app was previously in background mode
-      if ((appState === "inactive" || appState === "background") && nextAppState === "active") {
+      if (appState === "background" && nextAppState === "active") {
         handleLogout();
       }
       setAppState(nextAppState);
