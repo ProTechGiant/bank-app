@@ -81,7 +81,6 @@ export default function RedeemAppreciationModal({
   };
 
   const modalStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: "85%",
     backgroundColor: theme.palette["supportBase-10"],
     paddingBottom: theme.spacing["20p"],
   }));

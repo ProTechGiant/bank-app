@@ -142,11 +142,10 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
             </Typography.Text>
             <View style={sectionStyle}>
               <AppreciationEventDetailsSection
+                endDate={ExpiryDate}
                 appreciationName={AppreciationName}
-                endDate={format(new Date(ExpiryDate), "dd/MM/yyyy · hh:mm")}
-                startDate={format(new Date(ExpiryDate), "dd/MM/yyyy · hh:mm")}
                 location={Location.Name}
-                preSaleDate={format(new Date(PresaleDate), "dd/MM/yyyy · hh:mm")}
+                preSaleDate={PresaleDate}
                 preSaleDescription={PresaleContent}
               />
             </View>

@@ -11,7 +11,6 @@ import { useThemeStyles } from "@/theme";
 interface AppreciationEventDetailsSectionProps {
   appreciationName: string;
   endDate: string;
-  startDate: string;
   location: string;
   preSaleDate: string;
   preSaleDescription: string;
@@ -19,17 +18,17 @@ interface AppreciationEventDetailsSectionProps {
 export default function AppreciationEventDetailsSection({
   appreciationName,
   endDate,
-  startDate,
   location,
   preSaleDate,
   preSaleDescription,
 }: AppreciationEventDetailsSectionProps) {
   const { t } = useTranslation();
 
+  const formatedPreSaleDate = format(new Date(preSaleDate), "dd/MM/yyyy · hh:mm");
   const addDateToCalendar = () => {
     const eventConfig = {
       title: appreciationName,
-      startDate: format(new Date(startDate), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
+      startDate: format(new Date(preSaleDate), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
       endDate: format(new Date(endDate), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
       location,
     };
@@ -61,7 +60,7 @@ export default function AppreciationEventDetailsSection({
           <Typography.Text color="neutralBase" weight="regular" size="footnote">
             {t("Appreciation.AppreciationDetailsSection.eventDate")}
           </Typography.Text>
-          <Typography.Text size="callout">{endDate}</Typography.Text>
+          <Typography.Text size="callout">{formatedPreSaleDate}</Typography.Text>
         </View>
         <Pressable onPress={addDateToCalendar}>
           <Stack direction="horizontal" align="center">
