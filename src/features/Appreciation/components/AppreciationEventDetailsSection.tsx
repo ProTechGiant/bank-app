@@ -1,5 +1,7 @@
+import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
+import { presentEventCreatingDialog } from "react-native-add-calendar-event";
 
 import { CalendarSmallIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
@@ -7,13 +9,17 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface AppreciationEventDetailsSectionProps {
+  appreciationName: string;
   endDate: string;
+  startDate: string;
   location: string;
   preSaleDate: string;
   preSaleDescription: string;
 }
 export default function AppreciationEventDetailsSection({
+  appreciationName,
   endDate,
+  startDate,
   location,
   preSaleDate,
   preSaleDescription,
@@ -21,7 +27,19 @@ export default function AppreciationEventDetailsSection({
   const { t } = useTranslation();
 
   const addDateToCalendar = () => {
-    // TODO:intagrate react native add calendar event
+    const eventConfig = {
+      title: appreciationName,
+      startDate: format(new Date(startDate), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
+      endDate: format(new Date(endDate), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
+      location,
+    };
+    presentEventCreatingDialog(eventConfig)
+      .then((_eventInfo: unknown) => {
+        // TODO PA team will provide message success  to show
+      })
+      .catch((_error: string) => {
+        // TODO PA team will provide message error to show
+      });
   };
 
   const dateContainerStyle = useThemeStyles<ViewStyle>(theme => ({

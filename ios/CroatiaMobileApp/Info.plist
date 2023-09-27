@@ -84,5 +84,7 @@
 	<array>
 		<string>applinks:testcroatia.onelink.me</string>
 	</array>
+	<key>NSCalendarsUsageDescription</key>
+    <string>Your permission is required to add events to your calendar</string>
 </dict>
 </plist>

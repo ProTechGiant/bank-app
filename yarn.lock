@@ -12024,6 +12024,11 @@ react-is@^17.0.1:
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-add-calendar-event@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-add-calendar-event/-/react-native-add-calendar-event-4.2.2.tgz#c9b7a658358d39d9e577e22fb43ed74b0b34c201"
+  integrity sha512-y8Us+DDvSZL3ndWJhwKisLG3gml9Ju4FoHQ2rNQyysa9vPRZwfNXsk1tRlSjJ7ZIrxWUwOrVbXe98PN44N+qsQ==
+
 react-native-appsflyer@^6.9.4:
   version "6.10.3"
   resolved "https://registry.yarnpkg.com/react-native-appsflyer/-/react-native-appsflyer-6.10.3.tgz#2a6e77f4a02eb2a6f88a44c2f9d1b2e37c66f6df"

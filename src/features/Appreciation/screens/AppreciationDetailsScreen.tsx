@@ -2,7 +2,7 @@ import { format, isBefore } from "date-fns";
 import { arSA, enUS } from "date-fns/esm/locale";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, View, ViewStyle } from "react-native";
+import { Linking, Pressable, ScrollView, View, ViewStyle } from "react-native";
 
 import { Tags } from "@/components";
 import Alert from "@/components/Alert";
@@ -91,7 +91,8 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
   };
 
   const handleOnAddToAppleWalletPress = () => {
-    //TODO apple wallet logic
+    // TODO  will be remove once Apple wallet functionality finished
+    Linking.openURL("shoebox://");
   };
 
   const handleOnViewDetailsPress = () => {
@@ -141,7 +142,9 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
             </Typography.Text>
             <View style={sectionStyle}>
               <AppreciationEventDetailsSection
+                appreciationName={AppreciationName}
                 endDate={format(new Date(ExpiryDate), "dd/MM/yyyy · hh:mm")}
+                startDate={format(new Date(ExpiryDate), "dd/MM/yyyy · hh:mm")}
                 location={Location.Name}
                 preSaleDate={format(new Date(PresaleDate), "dd/MM/yyyy · hh:mm")}
                 preSaleDescription={PresaleContent}

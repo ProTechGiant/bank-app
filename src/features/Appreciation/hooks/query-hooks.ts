@@ -12,9 +12,10 @@ export const queryKeys = {
   searchAppreciation: (
     filters: FiltersType | null,
     sortType: SortingOptions,
+    currentTab: TabsTypes,
     language: string,
     feedback: object | undefined
-  ) => [...queryKeys.all, "search", [filters, sortType, language, feedback]] as const,
+  ) => [...queryKeys.all, "search", [filters, sortType, currentTab, language, feedback]] as const,
   filters: (language: string) => [...queryKeys.all, "filters", language] as const,
 };
 
@@ -26,7 +27,7 @@ export function useAppreciationSearch(
   feedback?: { FeedbackFlag: number }
 ) {
   return useQuery(
-    queryKeys.searchAppreciation(filters, sortType, language, feedback),
+    queryKeys.searchAppreciation(filters, sortType, currentTab, language, feedback),
     () => {
       if (!filters) filters = { Categories: [], Locations: [], Sections: [], Types: [] };
       return api<AppreciationResponseType>(
@@ -35,8 +36,8 @@ export function useAppreciationSearch(
         "POST",
         undefined,
         {
-          PageSize: 0,
-          PageOffset: 0,
+          PageSize: 1000, // TODO will handle pagination in next BC
+          PageOffset: 1,
           SortBy:
             SortingOptions.RECOMMENDED === sortType
               ? 4
@@ -48,9 +49,9 @@ export function useAppreciationSearch(
           CategoryCodes: filters.Categories.filter(item => item.isActive).map(item => item.Code),
           TypeCodes: filters.Types.filter(item => item.isActive).map(item => item.Code),
           SectionCodes: filters.Sections.filter(item => item.isActive).map(item => item.Code),
-          RedeemedFlag: currentTab === TabsTypes.ALL ? [] : ["1"],
+          RedeemedFlag: currentTab === TabsTypes.REDEEMED ? [1] : [],
           LocationCodes: filters.Locations.filter(item => item.isActive).map(item => item.Code),
-          ActiveFlag: currentTab === TabsTypes.ALL ? [0] : ["2"],
+          ActiveFlag: [], // TODO will be modified after discussion with BE
           FeedbackFlag: feedback?.FeedbackFlag,
           IsFavourite: currentTab === TabsTypes.LIKED ? FavoriteEnum.LIKED : 0,
         },

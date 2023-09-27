@@ -216,9 +216,9 @@ export function useTopAppreciations() {
       "POST",
       undefined,
       {
-        PageSize: 0,
-        PageOffset: 0,
-        SortBy: 0,
+        PageSize: 3,
+        PageOffset: 1,
+        SortBy: 1,
         IsFavourite: 0,
         ClassificationCodes: [],
         CategoryCodes: [],
@@ -227,7 +227,7 @@ export function useTopAppreciations() {
         RedeemedFlag: [],
         LocationCodes: [],
         ActiveFlag: [],
-        FeedbackFlag: 0,
+        FeedbackFlag: 1,
       },
       {
         ["x-correlation-id"]: generateRandomId(),

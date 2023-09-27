@@ -1,7 +1,7 @@
 import Barcode from "@kichiyaki/react-native-barcode-generator";
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Platform, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import QRCode from "react-native-qrcode-svg";
 
@@ -219,14 +219,18 @@ export default function RedeemAppreciationModal({
               </Typography.Text>
             </View>
           ))}
-          <View style={styles.addToAppleWalletButtonStyle}>
-            <Button
-              onPress={handleOnAddToAppleWalletPress}
-              iconLeft={<AppleWalletIcon width={37} height={28} />}
-              size="small">
-              <Typography.Text color="neutralBase-60">{t("Appreciation.RedeemModal.addToAppleWallet")}</Typography.Text>
-            </Button>
-          </View>
+          {Platform.OS === "ios" ? (
+            <View style={styles.addToAppleWalletButtonStyle}>
+              <Button
+                onPress={handleOnAddToAppleWalletPress}
+                iconLeft={<AppleWalletIcon width={37} height={28} />}
+                size="small">
+                <Typography.Text color="neutralBase-60">
+                  {t("Appreciation.RedeemModal.addToAppleWallet")}
+                </Typography.Text>
+              </Button>
+            </View>
+          ) : null}
           <Button variant="tertiary" onPress={handleOnViewDetailsPress}>
             <Typography.Text style={styles.viewDetailsTextStyle} color="primaryBase-30">
               {t("Appreciation.RedeemModal.viewDetails")}

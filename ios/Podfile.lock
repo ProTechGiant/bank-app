@@ -244,6 +244,8 @@ PODS:
   - React-jsinspector (0.71.12)
   - React-logger (0.71.12):
     - glog
+  - react-native-add-calendar-event (4.2.2):
+    - React-Core
   - react-native-appsflyer (6.10.3):
     - AppsFlyerFramework (= 6.10.1)
     - React
@@ -439,6 +441,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-add-calendar-event (from `../node_modules/react-native-add-calendar-event`)
   - react-native-appsflyer (from `../node_modules/react-native-appsflyer`)
   - react-native-biometrics (from `../node_modules/react-native-biometrics`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
@@ -533,6 +536,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-add-calendar-event:
+    :path: "../node_modules/react-native-add-calendar-event"
   react-native-appsflyer:
     :path: "../node_modules/react-native-appsflyer"
   react-native-biometrics:
@@ -634,6 +639,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: a78a0e415dc4b786a4308becf3e3bc6dbbc7b92e
   React-jsinspector: ec4dcbfb1f4e72f04f826a0301eceee5fa7ca540
   React-logger: 35538accacf2583693fbc3ee8b53e69a1776fcee
+  react-native-add-calendar-event: 34ad00f629187cbb97c2f04195e17803b2b3bc5e
   react-native-appsflyer: 153e96b97ecc0c26b14fc79911675e51cfd35b36
   react-native-biometrics: 352e5a794bfffc46a0c86725ea7dc62deb085bdc
   react-native-blob-util: 2b6627b288e3bd9874704ea9a153f0a179e4f3f5
@@ -676,6 +682,6 @@ SPEC CHECKSUMS:
   Unrealm: 78b89e8d57eee8a36ee91dbde14534ff274e8cfa
   Yoga: 39310a10944fc864a7550700de349183450f8aaa
 
-PODFILE CHECKSUM: 1e4e06bf8b6fd0b80ef507606545ae861c491846
+PODFILE CHECKSUM: 94464ee03cec3c2b5041b8f987940dd9a2a2e62f
 
 COCOAPODS: 1.12.1

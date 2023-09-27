@@ -332,7 +332,7 @@ export default function AppreciationHubScreen() {
                   ) : null}
                   {appreciationList
                     ? appreciationList
-                        ?.filter(item => item.Rank !== 1)
+                        ?.filter(item => (currentTab === TabsTypes.ALL ? item.Rank !== 1 : true))
                         .map((appreciation, index) => {
                           return (
                             <AppreciationCard
