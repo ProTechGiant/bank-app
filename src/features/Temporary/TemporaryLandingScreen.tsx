@@ -195,6 +195,13 @@ export default function TemporaryLandingScreen() {
     });
   };
 
+  const handleOnGoalGetter = async (values: TemporaryForm) => {
+    auth.authenticate(values.UserId);
+    setImmediate(() => {
+      navigation.navigate("GoalGetter.GoalDashboardScreen");
+    });
+  };
+
   const handleOnHelpAndSupport = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     setImmediate(() => {
@@ -253,6 +260,10 @@ export default function TemporaryLandingScreen() {
             variant="simple"
           />
         </Stack>
+        {/* Implemented for testing, navigate from temp landing screen to goal getter dashboard screen */}
+        <View style={styles.margin20}>
+          <Button onPress={handleSubmit(handleOnGoalGetter)}>Goal Getter</Button>
+        </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnHelpAndSupport)}>Help And Support Hub</Button>
         </View>

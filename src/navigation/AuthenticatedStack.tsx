@@ -7,7 +7,7 @@ import DocumentsStack from "@/features/Documents/DocumentsStack";
 import FrequentlyAskedQuestionsStack from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
 import DetailedScreen from "@/features/FrequentlyAskedQuestions/screens/DetailedScreen";
 import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
-import GoalGetterStack from "@/features/GoalGetter/GoalGetterStack";
+import { GoalDashboardScreen } from "@/features/GoalGetter/screens";
 import HelpAndSupportStack from "@/features/HelpAndSupport/HelpAndSupportStack";
 import HomeTabs from "@/features/Home/HomeTabs";
 import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfersStack";
@@ -78,7 +78,7 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen component={SadadBillPaymentStack} name="SadadBillPayments.SadadBillPaymentStack" />
       <AuthStack.Screen component={StatementsStack} name="Statements.StatementsStack" />
       <AuthStack.Screen component={DocumentsStack} name="Documents.DocumentsStack" />
-      <AuthStack.Screen component={GoalGetterStack} name="GoalGetter.GoalGetterStack" />
+      <AuthStack.Screen component={GoalDashboardScreen} name="GoalGetter.GoalDashboardScreen" />
       <AuthStack.Screen component={TemporaryDummyScreen} name="Temporary.DummyScreen" />
 
       <AuthStack.Screen
