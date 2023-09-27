@@ -44,7 +44,11 @@ export default function HomeScreen() {
   const handleOnFreezeCardPress = async (cardId: string) => {
     try {
       const response = await freezeCardAsync.mutateAsync({ cardId });
-      if (response.Status !== "freeze") throw new Error("Received unexpected response from back-end");
+      if (response.Status !== "lock") {
+        throw new Error("Received unexpected response from back-end");
+      } else {
+        cardsQuery.refetch();
+      }
     } catch (error) {
       setShowErrorModal(true);
       warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
@@ -52,7 +56,7 @@ export default function HomeScreen() {
   };
 
   const handleOnUnfreezeCardPress = async (cardId: string) => {
-    otpFlow.handle<undefined, "CardActions.HomeScreen">({
+    otpFlow.handle({
       action: {
         to: "CardActions.HomeScreen",
       },
@@ -60,8 +64,15 @@ export default function HomeScreen() {
         CardId: cardId,
       },
       otpVerifyMethod: "card-actions",
-      onOtpRequest: () => {
-        return changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "unfreeze" });
+      onOtpRequest: async () => {
+        return changeCardStatusAsync.mutateAsync({ cardId: cardId, status: "UNLOCK" });
+      },
+      onFinish: status => {
+        if (status === "fail") {
+          setShowErrorModal(true);
+        } else {
+          cardsQuery.refetch();
+        }
       },
     });
   };
@@ -130,7 +141,7 @@ export default function HomeScreen() {
 
   const renderNotificationBanner = () => {
     const cardsList = cardsQuery.data?.Cards ?? [];
-    const inactiveCard = cardsList.find(card => isPhysicalCard(card) && card.Status === "inactive");
+    const inactiveCard = cardsList.find(card => isPhysicalCard(card) && card.Status === "INACTIVE");
     const expiringCard = cardsList.find(card => isCardExpiringSoon(card));
 
     if (inactiveCard !== undefined) {

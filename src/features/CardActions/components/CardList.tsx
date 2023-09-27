@@ -42,6 +42,7 @@ export default function CardsList({
   const renderActiveCard = (card: Card) => {
     return (
       <BankCard.Active
+        status={card.Status}
         key={card.CardId}
         cardNumber={card.LastFourDigits}
         cardType={card.CardType}
@@ -59,7 +60,7 @@ export default function CardsList({
         onPress={() => onCardPress(card.CardId)}
         isExpiringSoon={isCardExpiringSoon(card)}
         actionButton={
-          card.Status === "pending-activation" && card.CardType === PHYSICAL_CARD_TYPE ? (
+          card.Status === "PENDING-ACTIVATION" && card.CardType === PHYSICAL_CARD_TYPE ? (
             <BankCard.ActionButton
               title={t("CardActions.activatePhysicalCard")}
               type="light"
@@ -75,11 +76,11 @@ export default function CardsList({
     return (
       <BankCard.Inactive
         key={card.CardId}
-        status={card.Status === "freeze" ? "freeze" : "inactive"}
+        status={card.Status === "LOCK" ? "LOCK" : "INACTIVE"}
         cardType={card.CardType}
         label={card.ProductId === STANDARD_CARD_PRODUCT_ID ? t("CardActions.standardCard") : t("CardActions.plusCard")}
         actionButton={
-          card.Status === "freeze" ? (
+          card.Status === "LOCK" ? (
             <BankCard.ActionButton type="dark" title={t("CardActions.cardFrozen")} />
           ) : (
             <BankCard.ActionButton
@@ -107,6 +108,7 @@ export default function CardsList({
   const renderSingleUseCard = (card: Card) => {
     return (
       <BankCard.Active
+        status={card.Status}
         key={card.CardId}
         cardNumber={card.LastFourDigits}
         cardType={card.CardType}
@@ -136,7 +138,7 @@ export default function CardsList({
     <ScrollView contentContainerStyle={contentStyle} horizontal style={containerStyle}>
       {data.map(element => {
         if (!isSingleUseCard(element)) {
-          return element.Status === "inactive" || element.Status === "freeze"
+          return element.Status === "INACTIVE" || element.Status === "LOCK"
             ? renderInactiveCard(element)
             : renderActiveCard(element);
         }
@@ -145,7 +147,7 @@ export default function CardsList({
       })}
       {customerTier.data?.Tier === PLUS_TIER && !hasSingleUseCard ? (
         <BankCard.Inactive
-          status="inactive"
+          status="INACTIVE"
           cardType={SINGLE_USE_CARD_TYPE}
           endButton={
             <Pressable onPress={onSingleUseCardAboutPress}>

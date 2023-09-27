@@ -53,7 +53,7 @@ export function useFreezeCard() {
         `cards/${cardId}`,
         "POST",
         undefined,
-        { Status: "freeze" },
+        { Status: "LOCK" },
         { ["x-correlation-id"]: generateRandomId() }
       );
     },

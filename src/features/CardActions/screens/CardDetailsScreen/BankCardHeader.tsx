@@ -39,16 +39,16 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress }: B
 
   return (
     <View style={containerStyle}>
-      {card.Status === "freeze" && cardDetails === undefined && !isSingleUseCard(card) ? (
+      {card.Status === "LOCK" && cardDetails === undefined && !isSingleUseCard(card) ? (
         <BankCard.Inactive
-          status="freeze"
+          status="LOCK"
           cardType={card.CardType}
           isExpiringSoon={isCardExpiringSoon(card)}
           actionButton={<BankCard.ActionButton title={t("CardActions.cardFrozen")} type="dark" />}
         />
-      ) : card.Status === "inactive" && isPhysicalCard(card) ? (
+      ) : card.Status === "INACTIVE" && isPhysicalCard(card) ? (
         <BankCard.Inactive
-          status="inactive"
+          status="INACTIVE"
           cardType={card.CardType}
           actionButton={
             <BankCard.ActionButton
@@ -60,13 +60,14 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress }: B
         />
       ) : cardDetails === undefined ? (
         <BankCard.Active
+          status={card.Status}
           cardNumber={card.LastFourDigits}
           cardType={card.CardType}
           productId={card.ProductId}
           isExpiringSoon={isCardExpiringSoon(card)}
           label="Standard"
           actionButton={
-            card.Status === "pending-activation" && isPhysicalCard(card) ? (
+            card.Status === "PENDING-ACTIVATION" && isPhysicalCard(card) ? (
               <BankCard.ActionButton
                 title={t("CardActions.activatePhysicalCard")}
                 type="light"

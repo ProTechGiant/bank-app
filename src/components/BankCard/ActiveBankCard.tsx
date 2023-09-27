@@ -78,6 +78,7 @@ export default function ActiveBankCard({
       ) : (
         <PlusCardActiveSvg />
       )}
+
       <View style={[styles.container, contentStyles]}>
         <View style={styles.header}>
           {undefined !== label ? (

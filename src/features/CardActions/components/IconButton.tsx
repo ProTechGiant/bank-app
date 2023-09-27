@@ -7,6 +7,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface IconButtonProps {
+  changeBackgroundColor?: boolean;
   active?: boolean;
   disabled?: boolean;
   activeLabel?: string;
@@ -16,6 +17,7 @@ interface IconButtonProps {
 }
 
 export default function IconButton({
+  changeBackgroundColor = true,
   active = false,
   disabled = false,
   activeLabel,
@@ -25,7 +27,11 @@ export default function IconButton({
 }: IconButtonProps) {
   const iconContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: active ? theme.palette.primaryBase : theme.palette["supportBase-10"],
+      backgroundColor: changeBackgroundColor
+        ? active
+          ? theme.palette.primaryBase
+          : theme.palette["supportBase-10"]
+        : theme.palette["supportBase-10"],
       height: 56,
       width: 56,
       borderRadius: 28,
@@ -44,7 +50,15 @@ export default function IconButton({
     <View style={styles.buttonContainer}>
       <Pressable onPress={onPress} disabled={disabled}>
         <View style={iconContainerStyle}>
-          {cloneElement(icon, { color: disabled ? disabledIconColor : active ? activeIconColor : iconColor })}
+          {cloneElement(icon, {
+            color: changeBackgroundColor
+              ? disabled
+                ? disabledIconColor
+                : active
+                ? activeIconColor
+                : iconColor
+              : iconColor,
+          })}
         </View>
       </Pressable>
       <Typography.Text size="footnote" weight="medium" color={disabled ? "neutralBase-30" : "neutralBase+30"}>
@@ -57,6 +71,5 @@ export default function IconButton({
 const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: "center",
-    width: 85,
   },
 });

@@ -1,19 +1,20 @@
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
+import { LockIcon } from "@/assets/icons";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { PHYSICAL_CARD_TYPE, SINGLE_USE_CARD_TYPE, VIRTUAL_CARD_TYPE } from "@/constants";
 import { useThemeStyles } from "@/theme";
 
 import { ActionButtonProps } from "./ActionButton";
-import CardFrozenSvg from "./card-frozen.svg";
 import CardInactiveSvg from "./card-inactive.svg";
 
 interface InactiveBankCardProps {
   actionButton: React.ReactElement<ActionButtonProps>;
   endButton?: React.ReactNode;
   label?: string;
-  status: "inactive" | "freeze";
+  status: "INACTIVE" | "LOCK";
   cardType: typeof PHYSICAL_CARD_TYPE | typeof SINGLE_USE_CARD_TYPE | typeof VIRTUAL_CARD_TYPE;
   onPress?: () => void;
   isExpiringSoon?: boolean;
@@ -39,7 +40,7 @@ export default function InactiveBankCard({
   }));
 
   const labelStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: "#00000014",
+    backgroundColor: theme.palette["neutralBase+30"],
     borderRadius: 4,
     borderWidth: 0,
     paddingHorizontal: theme.spacing["12p"],
@@ -47,28 +48,55 @@ export default function InactiveBankCard({
   }));
 
   const cardExpiryContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: "#00000066",
+    backgroundColor: theme.palette["neutralBase+30"],
     paddingVertical: theme.spacing["8p"],
     paddingHorizontal: theme.spacing["12p"],
     borderRadius: theme.radii.extraSmall,
     marginBottom: theme.spacing["48p"],
   }));
 
+  const lockCardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["interactionBase-30"],
+    flex: 1,
+    borderRadius: theme.spacing["12p"],
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: theme.spacing["24p"],
+  }));
+
+  const containerStyle = useThemeStyles<ViewStyle>(() => ({
+    height: status === "LOCK" ? CONTAINER_HEIGHT_HORIZONTALCARD : CONTAINER_HEIGHT,
+    width: status === "LOCK" ? CONTAINER_WIDTH_HORIZONTALCARD : CONTAINER_WIDTH,
+  }));
   return (
-    <View style={styles.container}>
-      {status === "inactive" ? <CardInactiveSvg /> : <CardFrozenSvg />}
-      <View style={[styles.container, contentStyles]}>
+    <View style={containerStyle}>
+      {status === "INACTIVE" ? (
+        <CardInactiveSvg />
+      ) : (
+        <View style={lockCardContainerStyle}>
+          <Stack direction="vertical" justify="center" align="center" gap="8p">
+            <LockIcon width={32} height={32} />
+            <Typography.Text size="title3" weight="medium">
+              {t("CardActions.CardDetailsScreen.lockCardView.cardLocked")}
+            </Typography.Text>
+            <Typography.Text size="footnote" weight="regular" align="center">
+              {t("CardActions.CardDetailsScreen.lockCardView.cardLockedDetail")}
+            </Typography.Text>
+          </Stack>
+        </View>
+      )}
+      <View style={[containerStyle, contentStyles]}>
         <View style={styles.header}>
-          {label ? (
+          {status !== "LOCK" && label ? (
             <View style={labelStyle}>
               <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
                 {label}
               </Typography.Text>
             </View>
           ) : null}
-          {endButton}
+          {status !== "LOCK" ? endButton : null}
         </View>
-        {status === "inactive" && cardType === PHYSICAL_CARD_TYPE ? (
+        {status === "INACTIVE" && cardType === PHYSICAL_CARD_TYPE ? (
           <View style={cardExpiryContainerStyle}>
             <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
               {isExpiringSoon ? t("CardActions.CardExpiryNotification.isExpiringSoon") : t("CardActions.comingSoon")}
@@ -87,7 +115,7 @@ export default function InactiveBankCard({
             <Pressable onPress={onPress} style={styles.pressableAreaBottom} />
           </>
         ) : null}
-        <View>{actionButton}</View>
+        {status !== "LOCK" ? <View>{actionButton}</View> : null}
       </View>
     </View>
   );
@@ -95,15 +123,13 @@ export default function InactiveBankCard({
 
 const CONTAINER_HEIGHT = 338;
 const CONTAINER_WIDTH = 224;
+const CONTAINER_HEIGHT_HORIZONTALCARD = 205;
+const CONTAINER_WIDTH_HORIZONTALCARD = 326;
 
 const TOP_END_BUTTON_WIDTH = 60;
 const PRESSABLE_TOP_AREA = 50;
 
 const styles = StyleSheet.create({
-  container: {
-    height: 338,
-    width: 224,
-  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",

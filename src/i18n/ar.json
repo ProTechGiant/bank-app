@@ -1516,6 +1516,10 @@
         "content": "ترقية حسابك",
         "button": "اكتشف"
       },
+      "lockCardView": {
+        "cardLocked": "بطاقة مقفلة",
+        "cardLockedDetail": "ولا يمكن استخدامه في عمليات الشراء من أي نوع. فك القفل للاستخدام مرة أخرى."
+      },
       "copyClipboard": "Card number copied to clipboard.",
       "errorCopyClipboard": "Couldn’t copy card number - try again.",
       "lockConfirmationModal": {
@@ -1528,6 +1532,10 @@
         "title": "قفل البطاقة",
         "confirmButton": "تأكيد",
         "cancelButton": "الغاء"
+      },
+      "lockSuccessFullModal": {
+        "title": "تم فك قفل البطاقة بنجاح",
+        "okButton": "تم"
       }
     },
     "standardCard": "Standard card",
@@ -1626,6 +1634,10 @@
         "title": "We’ve cancelled your card",
         "description": "It’ll be with you in the next few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using {{device}}.",
         "okButton": "OK"
+      },
+      "CardLockedSuccess": {
+        "title": "تم قفل البطاقة بنجاح",
+        "okButton": "تم"
       }
     },
     "POSLimitScreen": {

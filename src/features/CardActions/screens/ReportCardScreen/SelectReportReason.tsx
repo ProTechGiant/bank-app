@@ -77,7 +77,7 @@ export default function SelectReportReason({ cardStatus, onContinuePress, onFree
             {t("CardActions.ReportCardScreen.SelectReportReason.buttonTitle")}
           </Button>
         </View>
-        {cardStatus !== "freeze" ? (
+        {cardStatus !== "LOCK" ? (
           <Button variant="tertiary" onPress={onFreezePress}>
             {t("CardActions.ReportCardScreen.SelectReportReason.freezeCard")}
           </Button>

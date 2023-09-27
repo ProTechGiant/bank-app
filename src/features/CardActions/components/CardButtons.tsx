@@ -35,19 +35,22 @@ export default function CardButtons({
   const { t } = useTranslation();
 
   return (
-    <Stack direction="horizontal" justify="space-around">
-      <IconButton
-        active={isShowingDetails}
-        activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.hide")}
-        inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.show")}
-        onPress={onShowDetailsPress}
-        icon={createElement(isShowingDetails ? HideIcon : ShowIcon, { height: 24, width: 24 })}
-      />
+    <Stack direction="horizontal" align="center" justify="center" gap="24p">
+      {cardStatus !== "LOCK" ? (
+        <IconButton
+          active={isShowingDetails}
+          activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.hide")}
+          inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.show")}
+          onPress={onShowDetailsPress}
+          icon={createElement(isShowingDetails ? HideIcon : ShowIcon, { height: 24, width: 24 })}
+        />
+      ) : null}
       {isFreezeButtonVisible ? (
         <IconButton
+          changeBackgroundColor={false}
           active={isCardFrozen}
           onPress={onFreezePress}
-          icon={cardStatus === "freeze" ? <UnLockIcon /> : <LockIcon />}
+          icon={cardStatus === "LOCK" ? <UnLockIcon /> : <LockIcon />}
           activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.unfreeze")}
           inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.freeze")}
         />

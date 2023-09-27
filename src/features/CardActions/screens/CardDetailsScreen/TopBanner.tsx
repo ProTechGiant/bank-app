@@ -39,19 +39,19 @@ export default function TopBanner({ card, onClose, onRenewPress, isVisible }: To
     );
   }
 
-  if (card.Status === "pending-activation" || card.Status === "inactive") {
+  if (card.Status === "PENDING-ACTIVATION" || card.Status === "INACTIVE") {
     return (
       <View style={containerStyle}>
         <InlineBanner
           onClose={() => onClose()}
           icon={<ErrorFilledCircleIcon />}
           title={
-            card.Status === "inactive"
+            card.Status === "INACTIVE"
               ? t("CardActions.CardDeliveryNotification.inactiveTitle")
               : t("CardActions.CardDeliveryNotification.title")
           }
           text={
-            card.Status === "inactive"
+            card.Status === "INACTIVE"
               ? t("CardActions.CardDeliveryNotification.inactiveContent")
               : Platform.OS === "ios"
               ? t("CardActions.CardDeliveryNotification.content.ios")

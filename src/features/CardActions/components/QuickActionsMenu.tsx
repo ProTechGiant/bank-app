@@ -28,14 +28,12 @@ export default function QuickActionsMenu({
   const handleOnPress = () => {
     const options: string[] = [];
 
-    if (cardStatus !== "inactive") {
-      options.push(
-        cardStatus === "freeze" ? t("CardActions.QuickMenu.defrost") : t("CardActions.QuickMenu.freezeCard")
-      );
+    if (cardStatus !== "INACTIVE") {
+      options.push(cardStatus === "LOCK" ? t("CardActions.QuickMenu.defrost") : t("CardActions.QuickMenu.freezeCard"));
       options.push(t("CardActions.QuickMenu.viewPin"));
     }
 
-    if (cardStatus !== "freeze") options.push(t("CardActions.QuickMenu.settings"));
+    if (cardStatus !== "LOCK") options.push(t("CardActions.QuickMenu.settings"));
     options.push(t("CardActions.QuickMenu.cancel"));
 
     showActionSheetWithOptions({ options, cancelButtonIndex: options.length - 1 }, selectedIndex => {

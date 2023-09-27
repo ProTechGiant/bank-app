@@ -1828,8 +1828,8 @@
     "appleWallet": "Apple Wallet",
     "madaPay": "mada Pay",
     "QuickMenu": {
-      "freezeCard": "Freeze card",
-      "defrost": "Defrost",
+      "freezeCard": "Lock card",
+      "defrost": "Unlock card",
       "viewPin": "View PIN",
       "settings": "Settings",
       "cancel": "Cancel"
@@ -2021,6 +2021,10 @@
         "content": "Elevate your experience",
         "button": "Explore"
       },
+      "lockCardView": {
+        "cardLocked": "Card locked",
+        "cardLockedDetail": "It cannot be used for purchases of any kind. Unlock to use again."
+      },
       "copyClipboard": "Card number copied to clipboard.",
       "errorCopyClipboard": "Couldn’t copy card number - try again.",
       "lockConfirmationModal": {
@@ -2033,6 +2037,10 @@
         "title": "Unlock the card ?",
         "confirmButton": "Confirm",
         "cancelButton": "Cancel"
+      },
+      "lockSuccessFullModal": {
+        "title": "Card locked successfully",
+        "okButton": "Ok"
       }
     },
     "HomeScreen": {
@@ -2104,7 +2112,7 @@
         "cardLostDescription": "Lost cards can be locked, and later unlocked. Canceled cards cannot be reactivated.",
         "deliveryFee": "Delivery fee of 30 SAR",
         "buttonTitle": "Cancel my card and order another",
-        "freezeCard": "Freeze card"
+        "freezeCard": "Lock card"
       },
       "ConfirmDeliveryAddress": {
         "navTitle": "Confirm card delivery address",
@@ -2121,6 +2129,10 @@
         "title": "We’ve cancelled your card",
         "description": "It’ll be with you in the next few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using {{device}}.",
         "okButton": "OK"
+      },
+      "CardLockedSuccess": {
+        "title": "Card locked successfully",
+        "okButton": "Ok"
       }
     },
     "ResetPincodeScreen": {

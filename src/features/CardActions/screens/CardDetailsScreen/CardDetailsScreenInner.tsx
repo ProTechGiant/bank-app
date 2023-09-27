@@ -61,6 +61,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   const [isSucCreatedAlertVisible, setIsSucCreatedAlertVisible] = useState(false);
   const [isLockConfirmModalVisible, setIsLockConfirmModalVisible] = useState(false);
   const [isUnlockConfirmModalVisible, setIsUnlockConfirmModalVisible] = useState(false);
+  const [isLockedSuccess, setIsLockedSuccess] = useState(false);
 
   useEffect(() => {
     delayTransition(() => setIsSucCreatedAlertVisible(isSingleUseCardCreated ?? false));
@@ -168,24 +169,33 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   };
 
   const handleOnFreezePress = () => {
-    if (card.Status === "unfreeze") {
+    if (card.Status === "UNLOCK") {
       setIsLockConfirmModalVisible(true);
     } else {
       setIsUnlockConfirmModalVisible(true);
     }
   };
 
+  const handleOnOk = () => {
+    setIsLockedSuccess(false);
+    navigation.goBack();
+  };
+
   const handleOnFreezeCardPress = async () => {
     setCardDetails(undefined);
+    setIsLockConfirmModalVisible(false);
 
     try {
       const response = await freezeCardAsync({ cardId: card.CardId });
-      if (response.Status !== "freeze") throw new Error("Received unexpected response from backend");
+      if (response.Status !== "lock") {
+        setIsLockedSuccess(false);
+        throw new Error("Received unexpected response from back-end");
+      } else {
+        setIsLockedSuccess(true);
+      }
     } catch (error) {
       onError();
       warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
-    } finally {
-      setIsLockConfirmModalVisible(false);
     }
   };
 
@@ -205,7 +215,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
       },
       otpVerifyMethod: "card-actions",
       onOtpRequest: () => {
-        return changeCardStatusAsync({ cardId: card.CardId, status: "unfreeze" });
+        return changeCardStatusAsync({ cardId: card.CardId, status: "UNLOCK" });
       },
       onFinish: status => {
         if (status === "fail") {
@@ -278,29 +288,29 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
             onShowDetailsPress={handleOnShowDetailsPress}
             isShowingDetails={cardDetails !== undefined}
           />
-        ) : card.Status !== "inactive" ? (
+        ) : card.Status !== "INACTIVE" ? (
           <CardButtons
             isViewingPin={isViewingPin}
-            isCardFrozen={card.Status === "freeze"}
-            isFreezeButtonVisible={card.Status !== "pending-activation"}
-            isViewPinButtonVisible={card.Status !== "pending-activation"}
+            isCardFrozen={card.Status === "LOCK"}
+            isFreezeButtonVisible={card.Status !== "PENDING-ACTIVATION"}
+            isViewPinButtonVisible={card.Status !== "PENDING-ACTIVATION"}
             onShowDetailsPress={handleOnShowDetailsPress}
             onViewPinPress={handleOnViewPinPress}
             onFreezePress={handleOnFreezePress}
             isShowingDetails={cardDetails !== undefined}
-            isDisablePin={card.Status === "pending-activation"}
+            isDisablePin={card.Status === "PENDING-ACTIVATION"}
             cardStatus={card.Status}
           />
         ) : null}
         <View style={separatorStyle} />
         {!isSingleUseCard(card) ? (
           <>
-            {isAppleWalletAvailable && canAddCardToAppleWallet && !["freeze", "inactive"].includes(card.Status) ? (
+            {isAppleWalletAvailable && canAddCardToAppleWallet && !["LOCK", "INACTIVE"].includes(card.Status) ? (
               <View style={walletButtonContainer}>
                 <AddToAppleWalletButton onPress={handleIVRService} />
               </View>
             ) : null}
-            {Platform.OS === "android" && !["freeze", "inactive"].includes(card.Status) ? (
+            {Platform.OS === "android" && !["LOCK", "INACTIVE"].includes(card.Status) ? (
               <>
                 <MadaPayBanner />
                 <View style={separatorStyle} />
@@ -308,7 +318,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
             ) : null}
             <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
               <ListItemLink
-                disabled={["freeze", "inactive"].includes(card.Status)}
+                disabled={["LOCK", "INACTIVE"].includes(card.Status)}
                 icon={<CardSettingsIcon />}
                 onPress={handleOnCardSettingsPress}
                 title={t("CardActions.CardDetailsScreen.cardSettingsButton")}
@@ -317,7 +327,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
                 icon={<ReportIcon />}
                 onPress={handleOnReportPress}
                 title={t("CardActions.CardDetailsScreen.reportButton")}
-                disabled={card.Status === "pending-activation"}
+                disabled={card.Status === "PENDING-ACTIVATION"}
               />
             </ListSection>
             <View style={separatorStyle} />
@@ -387,6 +397,17 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         isVisible={isUnlockConfirmModalVisible}
         onClose={() => {
           setIsUnlockConfirmModalVisible(false);
+        }}
+      />
+
+      <NotificationModal
+        variant="success"
+        title={t("CardActions.CardDetailsScreen.lockSuccessFullModal.title")}
+        isVisible={isLockedSuccess}
+        buttons={{
+          primary: (
+            <Button onPress={handleOnOk}>{t("CardActions.CardDetailsScreen.lockSuccessFullModal.okButton")}</Button>
+          ),
         }}
       />
     </>

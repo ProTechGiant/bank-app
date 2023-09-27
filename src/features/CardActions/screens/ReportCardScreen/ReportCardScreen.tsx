@@ -42,6 +42,7 @@ export default function ReportCardScreen() {
   const [reportReason, setReportReason] = useState<"stolen" | "lost" | "damaged">();
   const [selectedAlternativeAddress, setSelectedAlternativeAddress] = useState<Address | undefined>();
   const [cardId, setCardId] = useState(route.params.cardId);
+  const [isLockedSuccess, setIsLockedSuccess] = useState(false);
 
   const currentStep = mode === "input" ? 1 : 2;
   useEffect(() => {
@@ -60,9 +61,12 @@ export default function ReportCardScreen() {
   const handleOnFreezePress = async () => {
     try {
       const response = await freezeCardAsync.mutateAsync({ cardId });
-      if (response.Status !== "freeze") throw new Error("Received unexpected response from back-end");
-
-      navigation.goBack();
+      if (response.Status !== "lock") {
+        setIsLockedSuccess(false);
+        throw new Error("Received unexpected response from back-end");
+      } else {
+        setIsLockedSuccess(true);
+      }
     } catch (error) {
       setIsErrorModalVisible(true);
       warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
@@ -73,6 +77,11 @@ export default function ReportCardScreen() {
     if (reportReason === undefined) return;
     setIsConfirmationModalVisible(false);
     setMode("address");
+  };
+
+  const handleOnOk = () => {
+    setIsLockedSuccess(false);
+    navigation.goBack();
   };
 
   const handleOnConfirmAddressPressed = () => {
@@ -160,6 +169,16 @@ export default function ReportCardScreen() {
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
       />
+
+      <NotificationModal
+        variant="success"
+        title={t("CardActions.ReportCardScreen.CardLockedSuccess.title")}
+        isVisible={isLockedSuccess}
+        buttons={{
+          primary: <Button onPress={handleOnOk}>{t("CardActions.ReportCardScreen.CardLockedSuccess.okButton")}</Button>,
+        }}
+      />
+
       <NotificationModal
         variant="warning"
         title={t("CardActions.ReportCardScreen.ConfirmDeliveryAddress.alertTitle")}
