@@ -411,12 +411,11 @@ export function useConfirmTermsConditions() {
 
 export function useCreatePasscode() {
   const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
-  const { setAuthToken, authenticateAnonymously } = useAuthContext();
+  const { setAuthToken } = useAuthContext();
 
   return useMutation(
     async (passcode: string) => {
       if (!correlationId) throw new Error("Need valid `correlationId` to be available");
-
       const workflowTask = await fetchLatestWorkflowTask();
       if (!workflowTask || workflowTask.Name !== "CreatePasscode")
         throw new Error("Available workflowTaskId is not applicable to customers/update/passcode");
@@ -431,14 +430,13 @@ export function useCreatePasscode() {
         },
         {
           ["x-correlation-id"]: correlationId,
-          ["x-device-id"]: DeviceInfo.getDeviceId(),
+          ["x-workflow-task-id"]: workflowTask.Id,
         }
       );
     },
     {
       onSuccess(data) {
         setAuthToken(data.AccessToken);
-        authenticateAnonymously(data.AuthUserId);
       },
     }
   );

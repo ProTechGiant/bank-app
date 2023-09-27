@@ -11,6 +11,12 @@ import {
   saudiPhoneRegExp,
 } from ".";
 
+jest.mock("react-native-device-info", () => {
+  return {
+    gwtUniqueId: jest.fn(() => "1.0.0"),
+  };
+});
+
 describe("alphaNumericSpaceRegExp", () => {
   it("String with alphabets, numbers or space", () => {
     const string = "abc 1234 xyz";

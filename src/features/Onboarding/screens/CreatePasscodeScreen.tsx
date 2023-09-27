@@ -10,7 +10,8 @@ import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
-import { isSequential, maxRepeatThresholdMet } from "@/utils/is-valid-pin";
+import { isPasscodeValid } from "@/utils/is-valid-passcode";
+import { maxRepeatThresholdMet } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { PASSCODE_LENGTH } from "../constants";
@@ -34,7 +35,10 @@ export default function CreatePasscodeScreen() {
 
     const convertedInput = westernArabicNumerals(input);
 
-    if (maxRepeatThresholdMet(convertedInput) || (input.length === PASSCODE_LENGTH && isSequential(convertedInput))) {
+    if (
+      maxRepeatThresholdMet(convertedInput) ||
+      (input.length === PASSCODE_LENGTH && !isPasscodeValid(convertedInput))
+    ) {
       setIsErrorVisible(true);
       setCurrentValue("");
     } else {

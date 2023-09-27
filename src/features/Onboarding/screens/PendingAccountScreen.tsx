@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { BackHandler, StatusBar, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import Alert from "@/components/Alert";
 import ContentContainer from "@/components/ContentContainer";
@@ -38,6 +39,19 @@ export default function PendingAccountScreen() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountStatus, refetch]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const handleOnBackButtonClick = () => {
+        //We do not want anything to happen here so we are returning, it was giving the default behavior and was going back
+        return true;
+      };
+
+      BackHandler.addEventListener("hardwareBackPress", handleOnBackButtonClick);
+
+      return () => BackHandler.removeEventListener("hardwareBackPress", handleOnBackButtonClick);
+    }, [])
+  );
 
   const handleWorkGuidePress = () => {
     navigation.navigate("Onboarding.WorkGuideModal");

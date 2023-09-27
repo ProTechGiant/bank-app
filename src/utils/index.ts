@@ -1,5 +1,6 @@
 import { differenceInYears, isBefore, parseISO } from "date-fns";
 import { CountryCode, getCountryCallingCode } from "libphonenumber-js";
+import DeviceInfo from "react-native-device-info";
 
 import { countryCodes } from "@/mocks/countryListDataWithCodes";
 
@@ -12,6 +13,15 @@ export const alphaNumericSpaceQuoteRegExp = /^[a-zA-Z0-9" ]+$/;
 export const alphaNumericRegExp = /^[a-zA-Z0-9]*$/;
 
 export const alphaNumericSpecialCharsRegExp = /^[a-zA-Z0-9-’/`~!#*$@_%+=.,^&(){}[\]|;:”<>?\\ ]+$/;
+
+export async function getUniqueDeviceId() {
+  try {
+    const uniqueId = await DeviceInfo.getUniqueId();
+    return uniqueId;
+  } catch (error) {
+    return "";
+  }
+}
 
 export const formatIban = (input: string) => {
   const textArray = input.match(/.{1,4}/g);

@@ -55,18 +55,13 @@ export default function AppIntroAnimationScreen() {
   useEffect(() => {
     async function continueAfterAnimation() {
       try {
+        handleGetAuthenticationToken();
         const hasOpenedBefore = await hasItemInStorage("hasSeenOnboarding");
         if (hasOpenedBefore) {
-          const hasAuthToken = await hasItemInStorage("authToken");
-          if (hasAuthToken) {
+          try {
             handleNavigation();
-          } else {
-            try {
-              handleGetAuthenticationToken();
-              handleNavigation();
-            } catch (err) {
-              goToOnboardingStack();
-            }
+          } catch (err) {
+            goToOnboardingStack();
           }
         } else {
           handleGetAuthenticationToken();

@@ -1,5 +1,11 @@
 import * as pincodeUtils from "./is-valid-pin";
 
+jest.mock("react-native-device-info", () => {
+  return {
+    gwtUniqueId: jest.fn(() => "1.0.0"),
+  };
+});
+
 describe("is-valid-pincode", () => {
   it("recognizes a sequential pincode", () => {
     expect(pincodeUtils.isSequential("12345")).toBe(true);

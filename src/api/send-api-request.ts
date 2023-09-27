@@ -4,6 +4,7 @@ import queryString from "query-string";
 import DeviceInfo from "react-native-device-info";
 
 import { info, warn } from "@/logger";
+import { getUniqueDeviceId } from "@/utils";
 
 import ApiError from "./ApiError";
 import ResponseError from "./ResponseError";
@@ -31,6 +32,8 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
   if (undefined !== body && typeof body === "object") {
     headers["Content-Type"] = "application/json";
   }
+  const deviceId = (await getUniqueDeviceId()) || "";
+  const deviceName = (await DeviceInfo.getDeviceName()) || "";
 
   info("api", `Starting request for ${method} ${fetchUrl} with body: ${JSON.stringify(body)}`);
 
@@ -39,7 +42,8 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     method,
     headers: {
       Host: API_BASE_URL,
-      ["x-device-id"]: DeviceInfo.getDeviceId(),
+      ["x-device-id"]: deviceId,
+      ["x-device-name"]: deviceName,
       ...authenticationHeaders,
       ...headers,
     },

@@ -30,6 +30,7 @@ export default function SuccessScreen() {
   useEffect(() => {
     if (accountStatus === "COMPLETED") {
       setIsfetchingAccountStatus(false);
+
       //TODO: Toast creates branding design system inconsistency that would need to be fixed in the future
       addToast({
         variant: "success",

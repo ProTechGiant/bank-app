@@ -7,6 +7,7 @@ import { View, ViewStyle } from "react-native";
 import { ErrorFilledCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import NumberPad from "@/components/NumberPad";
@@ -26,7 +27,7 @@ type ConfirmPasscodeScreenRouteProp = RouteProp<OnboardingStackParams, "Onboardi
 export function ConfirmPasscodeScreen() {
   const { t } = useTranslation();
   const { params } = useRoute<ConfirmPasscodeScreenRouteProp>();
-  const { mutateAsync } = useCreatePasscode();
+  const createPasscode = useCreatePasscode();
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
   const [hasValidationError, setValidationError] = useState<boolean>(false);
   const [hasAPIError, setAPIError] = useState<boolean>(false);
@@ -60,7 +61,7 @@ export function ConfirmPasscodeScreen() {
 
   const handleSubmit = async (value: string) => {
     try {
-      await mutateAsync(value);
+      await createPasscode.mutateAsync(value);
       setShowSuccessModal(true);
     } catch (err) {
       setAPIError(true);
@@ -103,33 +104,39 @@ export function ConfirmPasscodeScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader withBackButton={true} testID="Onboarding.ConfirmPasscodeScreen:NavHeader" />
-      <ContentContainer>
-        <View style={inputContainerStyle}>
-          <PasscodeInput
-            errorMessage={errorMessages}
-            title={t("Onboarding.ConfirmPasscode.title")}
-            subTitle={t("Onboarding.ConfirmPasscode.subTitle")}
-            isError={hasValidationError || hasAPIError}
-            showModel={hasAPIError}
-            length={6}
-            resetError={resetError}
-            passcode={currentValue}
-            testID="Onboarding.CreatePasscodeScreen:PasscodeInput"
+      {createPasscode.isLoading ? (
+        <FullScreenLoader />
+      ) : (
+        <>
+          <ContentContainer>
+            <View style={inputContainerStyle}>
+              <PasscodeInput
+                errorMessage={errorMessages}
+                title={t("Onboarding.ConfirmPasscode.title")}
+                subTitle={t("Onboarding.ConfirmPasscode.subTitle")}
+                isError={hasValidationError || hasAPIError}
+                showModel={hasAPIError}
+                length={6}
+                resetError={resetError}
+                passcode={currentValue}
+                testID="Onboarding.CreatePasscodeScreen:PasscodeInput"
+              />
+            </View>
+          </ContentContainer>
+          <NumberPad passcode={currentValue} setPasscode={handleOnChangeText} />
+          <NotificationModal
+            buttons={{
+              primary: (
+                <Button onPress={handleOnSuccessModalClose}>{t("Onboarding.ConfirmPasscode.proceedToHomepage")}</Button>
+              ),
+            }}
+            title={t("Onboarding.ConfirmPasscode.notificationModelTitle")}
+            isVisible={showSuccessModal}
+            message={t("Onboarding.ConfirmPasscode.notificationModelMessage")}
+            variant="success"
           />
-        </View>
-      </ContentContainer>
-      <NumberPad passcode={currentValue} setPasscode={handleOnChangeText} />
-      <NotificationModal
-        buttons={{
-          primary: (
-            <Button onPress={handleOnSuccessModalClose}>{t("Onboarding.ConfirmPasscode.proceedToHomepage")}</Button>
-          ),
-        }}
-        title={t("Onboarding.ConfirmPasscode.notificationModelTitle")}
-        isVisible={showSuccessModal}
-        message={t("Onboarding.ConfirmPasscode.notificationModelMessage")}
-        variant="success"
-      />
+        </>
+      )}
     </Page>
   );
 }
