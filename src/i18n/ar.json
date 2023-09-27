@@ -1073,6 +1073,11 @@
         "pendingTasks": "المهام المعلقة",
         "dismissTask": "رفض"
       },
+      "GoalGetter": {
+        "title": "منتجات محقق الاهداف",
+        "description": "تخيل اهدافك و سوف نساعدك بالادخار لتحقيقهم.",
+        "button": "أنشئ هدف"
+      },
       "ReferFriend": {
         "title": "أرسل دعوه",
         "description": "أرسل دعوه لاصدقائك و أكسب 15 ريال لكل واحد منهم.",
@@ -1126,6 +1131,70 @@
     "QuickActionsReordererModal": {
       "yourShortcutsLabel": "اختصاراتك",
       "saveButton": "حفظ"
+    }
+  },
+  "GoalGetter": {
+    "imageGallery": {
+      "title": "Croatia Image Gallery",
+      "buttonSave": "Save"
+    },
+    "targetAmountScreen": {
+      "title": "اختر المدة",
+      "select": "اختيار",
+      "confirm": "تأكيد",
+      "month_1": "شهر واحد",
+      "months_3": "3 أشهر",
+      "months_6": "6 أشهر",
+      "months_12": "12 شهر",
+      "months_24": "24 شهر",
+      "customDate": "تاريخ محدد",
+      "question": "ما هو المبلغ المطلوب لتحقيق هدفك؟",
+      "next": "التالي",
+      "currency": "ر.س",
+      "selectDuration": "اختر المدة",
+      "validation": {
+        "minAmount": "الحد الأدنى  500 ريال سعودي",
+        "maxAmount": " الحد الاعلى للمبلغ هو 10 ملايين ريال سعودي",
+        "amountRequired": "مبلغ الهدف مطلوب",
+        "minDuration": "التاريخ الأدنى هو شهر واحد",
+        "maxDuration": "الحد الأقصى للمدة هي 25 عامًا",
+        "dateRequired": "التاريخ المستهدف مطلوب"
+      }
+    },
+    "landingScreen": {
+      "skip": "تخطى",
+      "next": "التالي",
+      "title": "تحقيق الهدف",
+      "createGoal": "البدء",
+      "titleOne": "ساعدني لتحقيق هدفي",
+      "subTextOne": "إذا كانت لديك أي شكوك حول كيفية تفعيل هدفك، فيمكننا مساعدتك",
+      "titleTwo": "أخبرنا بماذا تحلم؟",
+      "subTextTwo": "يمكنك اختيار هدفك من بين عدة خيارات نتيحها لك",
+      "titleThree": "كيف تريد أن تبدأ؟",
+      "subTextThree": "أخبرنا كيف تتخيل البدء في الادخار من اجل ذلك؟",
+      "titleFour": "انشئ هدفاالآن",
+      "subTextFour": "سنعرض لك بعض التوصيات حول كيفية تفعيل هدفك"
+    },
+    "CreateGoalGetter": {
+      "inputLabel": "اسم الهدف",
+      "extraStart": "ادخل اسماً جديداً او حدد اسماً مقترحاً ",
+      "suggestedNames": "الاسماء المقترحة",
+      "continueButton": "استمرار",
+      "validationError": {
+        "required": "اسم الهدف مطلوب",
+        "maximum": "الحد الأقصى 50 حرفًا"
+      }
+    },
+    "GoalMindScreen": {
+      "title": "تحقيق الهدف",
+      "headerText": "هل تفكر في تحقيق هدف؟",
+      "headerDescriptionText": "دعنا نساعدك على تحقيق هدفك.",
+      "buttonText": "انشاء الهدف"
+    },
+    "RisksAppetiteScreen": {
+      "headerText": "الرغبة في المخاطرة",
+      "headerDescriptionText": "حدد مستوى المخاطرة الذي ترغب في اتخاذه",
+      "buttonText": "التالي"
     }
   },
   "InstructionsScreen": {
@@ -1451,10 +1520,10 @@
       "dropDownTitle": "الحد اليومي",
       "doneButton": "تم",
       "cancelButton": "الغاء",
-      "successModal":{
+      "successModal": {
         "title": "تم تحديث حد الحركات المالية",
         "message": "تم تحديث حد الحركات المالية بنجاح",
-        "okButton":"حسنًا "
+        "okButton": "حسنًا "
       }
     },
     "CardExpiryNotification": {
@@ -2530,9 +2599,9 @@
         "description": "كان هناك مشكلة طفيفة، ولكن لا تقلق. يمكننا المحاولة مرة أخرى",
         "reload": "إعادة التحميل"
       },
-      "NotificationError": { 
+      "NotificationError": {
         "title": "نأسف، حدث خطأ ما.",
-        "message": "هذا أمر غير متوقع تمامًا، ولكن ليس هناك ما يدعو للقلق، يرجى النقر أدناه", 
+        "message": "هذا أمر غير متوقع تمامًا، ولكن ليس هناك ما يدعو للقلق، يرجى النقر أدناه",
         "button": "إعادة التحميل"
       },
       "filterModal": {
@@ -2542,11 +2611,11 @@
       "loadMore": "تحميل المزيد"
     }
   },
-  "GoalGetter": {        
+  "GoalGetter": {
     "title": "منتجات محقق الاهداف",
     "description": "تخيل اهدافك و سوف نساعدك بالادخار لتحقيقهم.",
     "button": "أنشئ هدف",
-    "GoalReviewScreen":{
+    "GoalReviewScreen": {
       "reviewGoal": "مراجعة الهدف",
       "goalDetails": {
         "goalName": "اسم الهدف",
@@ -2559,16 +2628,16 @@
       },
       "SAR": "ر.س",
       "Grams": "غرام",
-      "goalReviewNotificationModal":{
-      "title": "هل آنت متاكد من الالغاء",
-      "description": "يبدو أنك على وشك الخروج من تحقيق الهدف سيتم فقدان أي تقدم تم إحرازه وستحتاج إلى إعادة تحقيق هدفك من البداية",
-      "exitButton": "اغلاق تحقيق الهدف",
-      "cancelButton": "الغاء"
-    },
+      "goalReviewNotificationModal": {
+        "title": "هل آنت متاكد من الالغاء",
+        "description": "يبدو أنك على وشك الخروج من تحقيق الهدف سيتم فقدان أي تقدم تم إحرازه وستحتاج إلى إعادة تحقيق هدفك من البداية",
+        "exitButton": "اغلاق تحقيق الهدف",
+        "cancelButton": "الغاء"
+      },
       "extraConditionsCaption": "ووافقت عليها",
       "termsAndConditionsText": " قد قرأت",
-      "termsAndConditionsLink": "الشروط والأحكام" ,
-      "confirm": "تأكيد" 
+      "termsAndConditionsLink": "الشروط والأحكام",
+      "confirm": "تأكيد"
     },
     "landingScreen": {
       "skip": "تخطى",
@@ -2609,13 +2678,13 @@
       "headerDescriptionText": "حدد مستوى المخاطرة الذي ترغب في اتخاذه",
       "buttonText": "التالي"
     },
-    "GoalDashboardScreen":{
-      "title":"الأهداف والمنتجات",
-      "tabs":{
+    "GoalDashboardScreen": {
+      "title": "الأهداف والمنتجات",
+      "tabs": {
         "goal": "الأهداف",
         "product": "المنتجات"
       },
-      "goalCard":{
+      "goalCard": {
         "of": "من",
         "currency": "ر.س",
         "endDate": "تاريخ الإنتهاء:"

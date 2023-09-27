@@ -3,6 +3,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 // TODO: check with BE team goal object type, maybe will be changed, for example roundUP to boolean
 interface GoalGetterContextState {
   goalName: string;
+  predefinedGoalName: string;
   targetAmount: number;
   initialContribution: number;
   monthlyContribution?: number;
@@ -25,6 +26,7 @@ const GoalGetterContext = createContext<GoalGetterContextState>({} as GoalGetter
 
 const initialState: Omit<GoalGetterContextState, "setGoalContextState" | "resetGoalContextState"> = {
   predefinedGoalId: 0,
+  predefinedGoalName: "",
   predefinedGoalDefaultImage: undefined,
   goalImage: "",
   goalName: "",

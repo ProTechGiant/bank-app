@@ -8,6 +8,7 @@ import { Alert, Keyboard, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as yup from "yup";
 
+import { LargeCurrencyInput } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import DayPickerInput from "@/components/Form/DayPickerInput";
@@ -16,13 +17,12 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import Typography from "@/components/Typography";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { AccountDestination, LargeCurrencyInput } from "../components";
+import { AccountDestination } from "../components";
 import { PAYMENT_FREQUENCY } from "../constants";
 import { isNextMonth, setDateAndFormatRecurringPayment } from "../helpers";
 import {
@@ -156,17 +156,6 @@ export default function EditRecurringPaymentModal() {
             <LargeCurrencyInput
               autoFocus
               control={control}
-              helperText={currentValue => {
-                if (undefined !== savingsPotData && currentValue > accountBalance) {
-                  const amountExceedsBalance = (
-                    <Typography.Text color="errorBase">
-                      {t("SavingsGoals.EditRegularPaymentModal.amountExceedsBalance")}
-                    </Typography.Text>
-                  );
-
-                  return amountExceedsBalance;
-                }
-              }}
               maxLength={10}
               name="PaymentAmount"
               returnKeyType="done"

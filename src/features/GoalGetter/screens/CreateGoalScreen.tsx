@@ -51,6 +51,7 @@ export default function CreateGoalScreen() {
 
   const handleOnSubmit = async (data: GoalNameInput) => {
     setGoalContextState({ goalName: data.GoalName });
+    navigation.navigate("GoalGetter.TargetAmountScreen");
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({

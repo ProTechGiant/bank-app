@@ -1103,6 +1103,11 @@
         "pendingTasks": "Pending Tasks",
         "dismissTask": "Dismiss"
       },
+      "GoalGetter": {
+        "title": "Goal getter products",
+        "description": "Imagine a goal and we’ll help you save for it.",
+        "button": "Create a goal"
+      },
       "ReferFriend": {
         "title": "Invite a friend",
         "description": "Invite your friends and earn 15 SAR for each of you.",
@@ -1186,6 +1191,111 @@
       "viewAllSpending": "View all spendings",
       "noSpending": "No spending insights yet",
       "noSpendingInformation": "When you start making purchases your top spending categories will show up here."
+    }
+  },
+  "GoalGetter": {
+    "title": "Goal getter products",
+    "description": "Imagine a goal and we’ll help you save for it.",
+    "button": "Create a goal",
+    "GoalReviewScreen": {
+      "reviewGoal": "Review goal",
+      "goalDetails": {
+        "goalName": "Goal name",
+        "targetAmount": "Target Amount",
+        "startDate": "Start date",
+        "initialContribution": "Initial Contribution",
+        "monthlyContribution": "Monthly Contribution",
+        "upcomingContributionDate": "Upcoming contribution date",
+        "endDate": "End date"
+      },
+      "goalReviewNotificationModal": {
+        "title": "Are you sure want to close?",
+        "description": "It looks like you’re about to exit Goal Getter. Any progress made will be lost and you will need to restart your goal from the beginning.",
+        "exitButton": "Exit Goal Getter",
+        "cancelButton": "Cancel"
+      },
+      "SAR": "SAR",
+      "Grams": "grams",
+      "extraConditionsCaption": "",
+      "termsAndConditionsText": "I have read and agreed to the",
+      "termsAndConditionsLink": "Terms and Conditions",
+      "confirm": "Confirm"
+    },
+    "GoalDashboardScreen": {
+      "title": "Goals and Products",
+      "tabs": {
+        "goal": "Goals",
+        "product": "Products"
+      },
+      "goalCard": {
+        "of": "of",
+        "currency": "SAR",
+        "endDate": "End date:"
+      },
+      "hint": "You can set a total of 4 goals.",
+      "setNewGoal": "Set new goal"
+    },
+    "imageGallery": {
+      "title": "Croatia Image Gallery",
+      "buttonSave": "Save"
+    },
+    "targetAmountScreen": {
+      "title": "Select duration",
+      "select": "Select",
+      "confirm": "Confirm",
+      "month_1": "1 month",
+      "months_3": "3 months",
+      "months_6": "6 months",
+      "months_12": "12 months",
+      "months_24": "24 months",
+      "customDate": "Custom date",
+      "question": "What is your target goal amount?",
+      "next": "Next",
+      "currency": "SAR",
+      "selectDuration": "Select duration",
+      "validation": {
+        "minAmount": "The minimum amount is 500 SARs",
+        "maxAmount": "The maximum amount is 10 million SARs",
+        "amountRequired": "Goal amount is required",
+        "minDuration": "The minimum duration is 1 month",
+        "maxDuration": "The maximum duration is 25 years",
+        "dateRequired": "Target date is required"
+      }
+    },
+    "landingScreen": {
+      "skip": "Skip",
+      "next": "Next",
+      "title": "Goal getter",
+      "createGoal": "Create goal",
+      "titleOne": "Help me reach my goal",
+      "subTextOne": "If you have any doubts in how can you active your goal, we can help you",
+      "titleTwo": "Tell us what you dreaming?",
+      "subTextTwo": "Select from several option what are the type of goal you have",
+      "titleThree": "How you would like to start?",
+      "subTextThree": "Tell us how would you imagine starting saving for it",
+      "titleFour": "Best way to active it",
+      "subTextFour": "We will show you some recommendation in how to active you goal"
+    },
+    "CreateGoalGetter": {
+      "inputLabel": "Goal Name",
+      "extraStart": "Enter a new name or select a suggested one",
+      "suggestedNames": "Suggested goal names",
+      "continueButton": "Continue",
+      "validationError": {
+        "required": "The Goal Name is Required",
+        "maximum": "Maximum 50 characters"
+      }
+    },
+    "GoalMindScreen": {
+      "title": "Goal Getter",
+      "headerText": "Have a goal in mind?",
+      "headerDescriptionText": "Let us help you to reach your goal.",
+      "buttonText": "Create Goal"
+    },
+    "RisksAppetiteScreen": {
+      "headerText": "Risk appetite ",
+      "headerDescriptionText": "Select the best option that describes you",
+      "buttonText": "Continue"
     }
   },
   "Referral": {
@@ -1998,10 +2108,10 @@
       "dropDownTitle": "Daily Limit",
       "doneButton": "Done",
       "cancelButton": "Cancel",
-      "successModal":{
-        "title":"Transaction limit updated",
-        "message":"Your transaction limit has been successfully updated.",
-        "okButton":"Ok"
+      "successModal": {
+        "title": "Transaction limit updated",
+        "message": "Your transaction limit has been successfully updated.",
+        "okButton": "Ok"
       }
     }
   },
@@ -3078,88 +3188,6 @@
         "applyButton": "Apply"
       },
       "loadMore": "load more"
-    }
-  },
-  "GoalGetter": {
-    "title": "Goal getter products",
-    "description": "Imagine a goal and we’ll help you save for it.",
-    "button": "Create a goal",
-    "GoalReviewScreen": {
-      "reviewGoal": "Review goal",
-      "goalDetails": {
-        "goalName": "Goal name",
-        "targetAmount": "Target Amount",
-        "startDate": "Start date",
-        "initialContribution": "Initial Contribution",
-        "monthlyContribution": "Monthly Contribution",
-        "upcomingContributionDate": "Upcoming contribution date",
-        "endDate": "End date"
-      },
-      "goalReviewNotificationModal":{
-        "title": "Are you sure want to close?",
-        "description": "It looks like you’re about to exit Goal Getter. Any progress made will be lost and you will need to restart your goal from the beginning.",
-        "exitButton": "Exit Goal Getter",
-        "cancelButton": "Cancel"
-      },
-      "SAR": "SAR",
-      "Grams": "grams",
-      "extraConditionsCaption": "",
-      "termsAndConditionsText": "I have read and agreed to the",
-      "termsAndConditionsLink": "Terms and Conditions",
-      "confirm": "Confirm"
-    },
-    "landingScreen": {
-      "skip": "Skip",
-      "next": "Next",
-      "title": "Goal getter",
-      "createGoal": "Create goal",
-      "titleOne": "Help me reach my goal",
-      "subTextOne": "If you have any doubts in how can you active your goal, we can help you",
-      "titleTwo": "Tell us what you dreaming?",
-      "subTextTwo": "Select from several option what are the type of goal you have",
-      "titleThree": "How you would like to start?",
-      "subTextThree": "Tell us how would you imagine starting saving for it",
-      "titleFour": "Best way to active it",
-      "subTextFour": "We will show you some recommendation in how to active you goal"
-    },
-    "imageGallery": {
-      "title": "Croatia Image Gallery",
-      "buttonSave": "Save"
-    },
-    "CreateGoalGetter": {
-      "inputLabel": "Goal Name",
-      "extraStart": "Enter a new name or select a suggested one",
-      "suggestedNames": "Suggested goal names",
-      "continueButton": "Continue",
-      "validationError": {
-        "required": "The Goal Name is Required",
-        "maximum": "Maximum 50 characters"
-      }
-    },
-    "GoalMindScreen": {
-      "title": "Goal Getter",
-      "headerText": "Have a goal in mind?",
-      "headerDescriptionText": "Let us help you to reach your goal.",
-      "buttonText": "Create Goal"
-    },
-    "RisksAppetiteScreen": {
-      "headerText": "Risk appetite ",
-      "headerDescriptionText": "Select the best option that describes you",
-      "buttonText": "Continue"
-    },
-    "GoalDashboardScreen":{
-      "title": "Goals and Products",
-      "tabs":{
-        "goal": "Goals",
-        "product": "Products"
-      },
-      "goalCard":{
-        "of": "of",
-        "currency": "SAR",
-        "endDate": "End date:"
-      },
-      "hint": "You can set a total of 4 goals.",
-      "setNewGoal": "Set new goal"
     }
   }
 }

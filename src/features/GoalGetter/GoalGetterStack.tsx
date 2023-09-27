@@ -9,6 +9,7 @@ import {
   ImageGalleryScreen,
   ReviewGoalScreen,
   RisksAppetiteScreen,
+  TargetAmountScreen,
 } from "./screens";
 
 export const Stack = createNativeStackNavigator();
@@ -31,6 +32,7 @@ export default function GoalGetterStack() {
           headerShown: false,
         }}>
         <Stack.Screen component={GoalGetterScreen} name="GoalGetter.GoalsAndProducts" />
+        <Stack.Screen component={TargetAmountScreen} name="GoalGetter.TargetAmountScreen" />
         <Stack.Screen component={CreateGoalScreen} name="GoalGetter.CreateGoalScreen" />
         <Stack.Screen
           component={ImageGalleryScreen}

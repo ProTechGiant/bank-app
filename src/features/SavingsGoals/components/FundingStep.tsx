@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Keyboard, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
+import { LargeCurrencyInput } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import DayPickerInput from "@/components/Form/DayPickerInput";
@@ -24,7 +25,6 @@ import { useFundSavingsPot } from "../hooks/query-hooks";
 import { mockMissingSavingsPotDetails } from "../mocks/mockMissingSavingsPotDetails";
 import { FundingType, SavingsPotDetailsResponse } from "../types";
 import AccountDestination from "./AccountDestination";
-import LargeCurrencyInput from "./LargeCurrencyInput";
 
 interface FundingInput {
   PaymentAmount: number;

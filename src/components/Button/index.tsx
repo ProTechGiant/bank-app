@@ -14,7 +14,7 @@ export interface ButtonProps extends Omit<PressableProps, "children" | "disabled
   iconLeft?: React.ReactElement<SvgProps | IconProps>;
   iconRight?: React.ReactElement<SvgProps | IconProps>;
   loading?: boolean;
-  variant?: "primary" | "secondary" | "tertiary" | "warning";
+  variant?: "primary" | "secondary" | "tertiary" | "warning" | "primary-warning";
   size?: "regular" | "small" | "mini";
 }
 
@@ -187,6 +187,23 @@ const VARIATIONS = {
         textColor: "neutralBase",
       },
     },
+    "primary-warning": {
+      enabled: {
+        backgroundColor: "transparent",
+        borderColor: "errorBase-10",
+        textColor: "errorBase-10",
+      },
+      pressed: {
+        backgroundColor: "primaryBase-10",
+        borderColor: "primaryBase-10",
+        textColor: "errorBase-10",
+      },
+      disabled: {
+        backgroundColor: "transparent",
+        borderColor: "transparent",
+        textColor: "neutralBase",
+      },
+    },
   },
   light: {
     primary: {
@@ -244,6 +261,23 @@ const VARIATIONS = {
       enabled: {
         backgroundColor: "transparent",
         borderColor: "transparent",
+        textColor: "errorBase",
+      },
+      pressed: {
+        backgroundColor: "neutralBase-50",
+        borderColor: "neutralBase-50",
+        textColor: "errorBase",
+      },
+      disabled: {
+        backgroundColor: "transparent",
+        borderColor: "transparent",
+        textColor: "neutralBase-20",
+      },
+    },
+    "primary-warning": {
+      enabled: {
+        backgroundColor: "transparent",
+        borderColor: "errorBase",
         textColor: "errorBase",
       },
       pressed: {

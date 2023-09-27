@@ -29,6 +29,7 @@ export default function GoalMindScreen() {
     setGoalContextState({
       predefinedGoalId: selectedPredefinedGoalId,
       //TODO: Replace this image from api
+      predefinedGoalName: GOALS_IN_MIND[index].Name,
       goalImage: GOALS_IN_MIND[index].Default_Image,
     });
     navigation.navigate("GoalGetter.CreateGoalScreen");

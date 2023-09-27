@@ -4,6 +4,26 @@ import { I18nManager } from "react-native";
 
 import { palette } from "@/theme/values";
 
+import { MINIMUM_TARGET_DURATION } from "../constants";
+
+export const numericValue = (goal: string) => {
+  return goal.replace(/[^0-9.]/g, "");
+};
+
+/**
+ * Returns a date roughly one month from the current date, adjusted by an hour earlier.
+ * This adjustment helps in scenarios where strict validation might flag exactly one month as invalid.
+ *
+ * @returns {Date} - The adjusted Date object for one month ahead.
+ */
+
+export function getMinimumValidDate(): Date {
+  const oneMonthFromNow = new Date();
+  oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + MINIMUM_TARGET_DURATION);
+  oneMonthFromNow.setHours(oneMonthFromNow.getHours() - 1);
+  return oneMonthFromNow;
+}
+
 export const getDateOfRecurringDay = (recurringDay: string) => {
   const recurringDayNumber = parseInt(recurringDay, 10);
 

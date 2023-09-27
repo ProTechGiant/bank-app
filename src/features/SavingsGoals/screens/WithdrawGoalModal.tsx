@@ -7,6 +7,7 @@ import { KeyboardAvoidingView, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as yup from "yup";
 
+import { LargeCurrencyInput } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import SubmitButton from "@/components/Form/SubmitButton";
@@ -19,7 +20,7 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { AccountDestination, LargeCurrencyInput } from "../components";
+import { AccountDestination } from "../components";
 import { useSavingsPot, useWithdrawSavingsPot, WithdrawValues } from "../hooks/query-hooks";
 
 export default function WithdrawGoalModal() {

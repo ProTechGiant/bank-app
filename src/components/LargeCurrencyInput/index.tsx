@@ -16,30 +16,26 @@ interface LargeCurrencyInputProps<T extends FieldValues> {
   returnKeyType?: ReturnKeyTypeOptions;
   isAmountExceedsBalance?: boolean;
   testID?: string;
+  currency?: string;
+  question?: string;
+  size?: "title1" | "title2" | "title3";
 }
 
 export default function LargeCurrencyInput<T extends FieldValues>({
   autoFocus,
   control,
-  helperText,
   maxLength,
   name,
   returnKeyType,
-  isAmountExceedsBalance = false,
+  currency,
   testID,
+  size,
+  question,
 }: LargeCurrencyInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
   const textInputRef = useRef<TextInput>(null);
   const [fontSize, setFontSize] = useState<"s" | "m" | "l">("l");
   const [isEditable, setIsEditable] = useState(autoFocus);
-  const isError = undefined !== fieldState.error;
-  const errorText = isError ? fieldState.error?.message : undefined;
-
-  const resolvedHelperText = isError
-    ? errorText
-    : typeof helperText === "function"
-    ? helperText(field.value)
-    : helperText;
 
   useEffect(() => {
     field.value !== undefined && String(field.value)?.length > 10
@@ -61,28 +57,16 @@ export default function LargeCurrencyInput<T extends FieldValues>({
   };
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
     justifyContent: "center",
     marginVertical: theme.spacing["24p"],
   }));
 
-  const textStyles = useThemeStyles<ViewStyle & TextStyle>(
-    theme => ({
-      color: isAmountExceedsBalance
-        ? theme.palette.errorBase
-        : isError && field.value > 0
-        ? theme.palette.errorBase
-        : theme.palette.primaryBase,
-      fontWeight: theme.typography.text.weights.medium,
-      padding: 0,
-      margin: 0,
-      alignSelf: "center",
-    }),
-    [isError, isAmountExceedsBalance]
-  );
-
-  const helperTextStyles = useThemeStyles<TextStyle>(theme => ({
-    marginTop: theme.spacing["16p"],
+  const textStyles = useThemeStyles<ViewStyle & TextStyle>(theme => ({
+    color: theme.palette.primaryBase,
+    fontWeight: theme.typography.text.weights.medium,
+    padding: 0,
+    margin: 0,
+    alignSelf: "center",
   }));
 
   const selectionStyles = useThemeStyles<string>(theme => theme.palette.complimentBase, []);
@@ -90,6 +74,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
   const currencyStyle = useThemeStyles<TextStyle>(theme => ({
     marginLeft: theme.spacing["4p"],
     marginVertical: theme.spacing["12p"],
+    transform: [{ translateY: 10 }],
   }));
 
   const largeCurrencyStyle = useThemeStyles<TextStyle>(theme => ({
@@ -104,15 +89,12 @@ export default function LargeCurrencyInput<T extends FieldValues>({
     marginTop: theme.spacing["16p"],
   }));
 
-  const inputStyles = useThemeStyles<ViewStyle>(theme => ({
-    // width of "SAR" plus the margin-left it has relative to the amount
-    paddingLeft: theme.typography.text.sizes.body * 2 + Number(currencyStyle.marginLeft),
-    height: 70,
-  }));
-
   return (
     <View style={containerStyles}>
-      <Pressable onPress={handleOnPress} style={[styles.container, inputStyles]}>
+      <Typography.Text size={size} weight="medium">
+        {question}
+      </Typography.Text>
+      <Pressable onPress={handleOnPress} style={[styles.container, styles.inputStyles]}>
         <UnstyledCurrencyInput
           ref={textInputRef}
           autoFocus={autoFocus}
@@ -133,27 +115,18 @@ export default function LargeCurrencyInput<T extends FieldValues>({
         />
         <View style={styles.buttonContainer}>
           <Typography.Text
-            color={(isError && field.value > 0) || isAmountExceedsBalance ? "errorBase" : "primaryBase"}
-            size="body"
+            color="primaryBase"
+            size="title1"
             weight="medium"
             style={[
               currencyStyle,
               fontSize === "s" ? smallCurrencyStyle : fontSize === "m" ? mediumCurrencyStyle : largeCurrencyStyle,
               !field.value && fieldState.error === undefined && styles.disabledOpacity,
             ]}>
-            SAR
+            {currency}
           </Typography.Text>
         </View>
       </Pressable>
-      {undefined !== resolvedHelperText && (
-        <Typography.Text
-          color={isError ? "errorBase" : "primaryBase"}
-          size="body"
-          weight="regular"
-          style={helperTextStyles}>
-          {resolvedHelperText}
-        </Typography.Text>
-      )}
     </View>
   );
 }
@@ -166,20 +139,24 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "flex-start",
     flexDirection: "row",
+    marginVertical: 24,
   },
   disabledOpacity: {
     opacity: 0.4,
   },
+  inputStyles: {
+    height: 70,
+  },
   largeText: {
-    fontSize: 56,
+    fontSize: 64,
     lineHeight: 67,
   },
   mediumText: {
-    fontSize: 38,
-    lineHeight: 48,
+    fontSize: 56,
+    lineHeight: 67,
   },
   smallText: {
     fontSize: 30,
-    lineHeight: 34,
+    lineHeight: 67,
   },
 });

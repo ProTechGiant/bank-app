@@ -39,23 +39,23 @@ export default function GoalGetterScreen() {
   const data: HeroSlideProps[] = [
     createHeroSlide(
       <LandingGoalGetter height={svgHeight} width={svgWidth} />,
-      t("Home.DashboardScreen.GoalGetter.landingScreen.titleOne"),
-      t("Home.DashboardScreen.GoalGetter.landingScreen.subTextOne")
+      t("GoalGetter.landingScreen.titleOne"),
+      t("GoalGetter.landingScreen.subTextOne")
     ),
     createHeroSlide(
       <LandingGoalGetter height={svgHeight} width={svgWidth} />,
-      t("Home.DashboardScreen.GoalGetter.landingScreen.titleTwo"),
-      t("Home.DashboardScreen.GoalGetter.landingScreen.subTextTwo")
+      t("GoalGetter.landingScreen.titleTwo"),
+      t("GoalGetter.landingScreen.subTextTwo")
     ),
     createHeroSlide(
       <LandingGoalGetter height={svgHeight} width={svgWidth} />,
-      t("Home.DashboardScreen.GoalGetter.landingScreen.titleThree"),
-      t("Home.DashboardScreen.GoalGetter.landingScreen.subTextThree")
+      t("GoalGetter.landingScreen.titleThree"),
+      t("GoalGetter.landingScreen.subTextThree")
     ),
     createHeroSlide(
       <LandingGoalGetter height={svgHeight} width={svgWidth} />,
-      t("Home.DashboardScreen.GoalGetter.landingScreen.titleFour"),
-      t("Home.DashboardScreen.GoalGetter.landingScreen.subTextFour")
+      t("GoalGetter.landingScreen.titleFour"),
+      t("GoalGetter.landingScreen.subTextFour")
     ),
   ];
 
@@ -64,16 +64,11 @@ export default function GoalGetterScreen() {
       variant="default"
       onFinishPress={handleOnFinish}
       onBackPress={handleOnBack}
-      end={
-        <NavHeader.TextEndButton
-          onPress={handleOnFinish}
-          text={t(`Home.DashboardScreen.GoalGetter.landingScreen.skip`)}
-        />
-      }
-      buttonText={t("Home.DashboardScreen.GoalGetter.landingScreen.next")}
-      lastButtonText={t("Home.DashboardScreen.GoalGetter.landingScreen.createGoal")}
+      end={<NavHeader.TextEndButton onPress={handleOnFinish} text={t(`GoalGetter.landingScreen.skip`)} />}
+      buttonText={t("GoalGetter.landingScreen.next")}
+      lastButtonText={t("GoalGetter.landingScreen.createGoal")}
       data={data}
-      title={t("Home.DashboardScreen.GoalGetter.landingScreen.title")}
+      title={t("GoalGetter.landingScreen.title")}
     />
   );
 }
