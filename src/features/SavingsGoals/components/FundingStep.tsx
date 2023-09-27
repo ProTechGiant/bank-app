@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { format, isThisMonth, parse, parseISO } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -20,7 +20,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { PAYMENT_FREQUENCY } from "../constants";
-import { isNextMonth, setDateAndFormatRecurringPayment } from "../helpers";
+import { setDateAndFormatRecurringPayment } from "../helpers";
 import { useFundSavingsPot } from "../hooks/query-hooks";
 import { mockMissingSavingsPotDetails } from "../mocks/mockMissingSavingsPotDetails";
 import { FundingType, SavingsPotDetailsResponse } from "../types";
@@ -59,10 +59,6 @@ export default function FundingStep({
 
   const today = useMemo(() => new Date(), []);
 
-  const targetDate = useMemo(
-    () => (data?.TargetDate ? parse(data?.TargetDate, "yyyy-MM-dd", today) : undefined),
-    [data?.TargetDate, today]
-  );
   const accountBalance = account.data?.balance || 0;
 
   // below details no longer exist on the new response
@@ -167,11 +163,6 @@ export default function FundingStep({
           <LargeCurrencyInput
             autoFocus
             control={control}
-            helperText={currentValue => {
-              if (undefined !== data && currentValue > accountBalance) {
-                return t("SavingsGoals.FundGoalModal.FundingStep.amountExceedsBalance");
-              }
-            }}
             maxLength={10}
             name="PaymentAmount"
             testID="SavingsGoals.FundGoalModal:CurrencyInput"
@@ -182,23 +173,6 @@ export default function FundingStep({
                 buttonText={t("SavingsGoals.FundGoalModal.FundingStep.dayPickerButton")}
                 control={control}
                 headerText={t("SavingsGoals.FundGoalModal.FundingStep.dayPickerHeader")}
-                helperText={currentValue => {
-                  if (undefined !== targetDate) {
-                    if (
-                      // payment will be scheduled after target date
-                      (isThisMonth(targetDate) &&
-                        (currentValue > targetDate.getDate() || currentValue < today.getDate())) ||
-                      // next month but will scheduled after target date
-                      (isNextMonth(targetDate, today) &&
-                        currentValue > targetDate.getDate() &&
-                        currentValue < today.getDate())
-                    ) {
-                      return t("SavingsGoals.FundGoalModal.FundingStep.helperIfDayIsAfterTarget");
-                    }
-                  }
-
-                  if (currentValue > 28) return t("SavingsGoals.FundGoalModal.FundingStep.helperIfDayExceeds28");
-                }}
                 label={t("SavingsGoals.FundGoalModal.FundingStep.monthly")}
                 name="DayOfMonth"
                 placeholder={t("SavingsGoals.FundGoalModal.FundingStep.dayPickerPlaceholder")}

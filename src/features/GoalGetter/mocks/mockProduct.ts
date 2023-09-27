@@ -1,0 +1,18 @@
+export const productData = {
+  ProductName: "Mutual Fund",
+  ProductType: "mutualFund",
+  Duration: 12,
+  UnitOfMeasurment: "SAR",
+  MonthlyContribution: 12.0,
+  MinimumInitial: 11.0,
+  MinimumMonthly: 12.0,
+  MinimumContribution: 1.0,
+  ProductRisk: "LOW",
+  ProductColor: "yellow",
+  ProductRiskColor: "yellow",
+  Description: "string",
+  Availability: "Y",
+  Rating: "High",
+  FetchStatus: "SUCESS",
+  ProductId: 1,
+};

@@ -1,5 +1,5 @@
 import times from "lodash/times";
-import { useTranslation } from "react-i18next";
+import { useState } from "react";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
@@ -30,7 +30,7 @@ export default function DayPicker({
   testID,
   value,
 }: DayPickerProps) {
-  const { t } = useTranslation();
+  const [isSelectButtonDisabled, setIsSelectButtonDisabled] = useState<boolean>(true);
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     borderColor: theme.palette["neutralBase-30"],
@@ -39,8 +39,8 @@ export default function DayPicker({
   }));
 
   const digitSelectedStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["primaryBase-40"],
-    borderRadius: DIGIT_SIZE / 2,
+    backgroundColor: theme.palette["primaryBase"],
+    borderRadius: theme.spacing["8p"],
   }));
 
   const paddingStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -64,15 +64,20 @@ export default function DayPicker({
   return (
     <Modal onClose={onClose} headerText={headerText} visible={isVisible} style={modalContainerStyle} testID={testID}>
       <View style={containerStyles}>
-        <Typography.Text color="neutralBase+30" size="callout" weight="medium" style={paddingStyle}>
-          {t("DayPicker.currentlyOnDay", { count: value, ordinal: true })}
-        </Typography.Text>
         <View style={[daysContainerStyle, paddingStyle]}>
           {times(NUMBER_OF_ROWS).map(rowIndex => (
             <View key={rowIndex} style={styles.row}>
               {times(NUMBER_OF_COLUMNS).map(columnIndex => {
-                const dayOfMonth = columnIndex + 1 + rowIndex * NUMBER_OF_COLUMNS;
+                // Adjust dayOfMonth calculation for the first row
+                const dayOfMonth =
+                  rowIndex === 0 ? columnIndex : columnIndex + 1 + (rowIndex - 1) * NUMBER_OF_COLUMNS + 6;
+
                 const isSelected = dayOfMonth === value;
+
+                // Return empty cell for the very first slot
+                if (rowIndex === 0 && columnIndex === 0) {
+                  return <Pressable key="empty-start" disabled style={styles.digit} />;
+                }
 
                 if (dayOfMonth < 1 || dayOfMonth > DAYS_PER_MONTH) {
                   return <Pressable key={dayOfMonth} disabled style={styles.digit} />;
@@ -81,7 +86,10 @@ export default function DayPicker({
                 return (
                   <Pressable
                     key={dayOfMonth}
-                    onPress={() => onChange(dayOfMonth)}
+                    onPress={() => {
+                      setIsSelectButtonDisabled(false);
+                      onChange(dayOfMonth);
+                    }}
                     style={[styles.digit, isSelected && digitSelectedStyle]}
                     testID={testID !== undefined ? `${testID}-DayButton-${dayOfMonth}` : undefined}>
                     <Typography.Text
@@ -104,7 +112,10 @@ export default function DayPicker({
           </Typography.Text>
         )}
       </View>
-      <Button onPress={onConfirm} testID={testID !== undefined ? `${testID}-ConfirmButton` : undefined}>
+      <Button
+        onPress={onConfirm}
+        testID={testID !== undefined ? `${testID}-ConfirmButton` : undefined}
+        disabled={isSelectButtonDisabled}>
         {buttonText}
       </Button>
     </Modal>
@@ -112,9 +123,9 @@ export default function DayPicker({
 }
 
 const DIGIT_SIZE = 40;
-const DAYS_PER_MONTH = 31;
+const DAYS_PER_MONTH = 28;
 const NUMBER_OF_COLUMNS = 7;
-const NUMBER_OF_ROWS = Math.ceil(DAYS_PER_MONTH / 7);
+const NUMBER_OF_ROWS = Math.ceil(DAYS_PER_MONTH / 7) + 1;
 
 const styles = StyleSheet.create({
   digit: {

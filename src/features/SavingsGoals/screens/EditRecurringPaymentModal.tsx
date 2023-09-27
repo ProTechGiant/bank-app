@@ -1,6 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { isThisMonth, parse } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -24,7 +23,7 @@ import { useThemeStyles } from "@/theme";
 
 import { AccountDestination } from "../components";
 import { PAYMENT_FREQUENCY } from "../constants";
-import { isNextMonth, setDateAndFormatRecurringPayment } from "../helpers";
+import { setDateAndFormatRecurringPayment } from "../helpers";
 import {
   useDeletePotRecurringPayment,
   useEditPotRecurringPayment,
@@ -61,10 +60,6 @@ export default function EditRecurringPaymentModal() {
   };
 
   const today = useMemo(() => new Date(), []);
-  const targetDate = useMemo(
-    () => (savingsPotData?.TargetDate ? parse(savingsPotData?.TargetDate, "yyyy-MM-dd", today) : undefined),
-    [savingsPotData?.TargetDate, today]
-  );
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -166,23 +161,6 @@ export default function EditRecurringPaymentModal() {
               buttonText={t("SavingsGoals.EditRegularPaymentModal.dayPickerButton")}
               control={control}
               headerText={t("SavingsGoals.EditRegularPaymentModal.dayPickerHeader")}
-              helperText={currentValue => {
-                if (undefined !== targetDate) {
-                  if (
-                    // payment will be scheduled after target date
-                    (isThisMonth(targetDate) &&
-                      (currentValue > targetDate.getDate() || currentValue < today.getDate())) ||
-                    // next month but will scheduled after target date
-                    (isNextMonth(targetDate, today) &&
-                      currentValue > targetDate.getDate() &&
-                      currentValue < today.getDate())
-                  ) {
-                    return t("SavingsGoals.EditRegularPaymentModal.helperIfDayIsAfterTarget");
-                  }
-                }
-
-                if (currentValue > 28) return t("SavingsGoals.EditRegularPaymentModal.helperIfDayExceeds28");
-              }}
               label={t("SavingsGoals.EditRegularPaymentModal.monthly")}
               name="DayOfMonth"
               placeholder={t("SavingsGoals.EditRegularPaymentModal.dayPickerPlaceholder")}

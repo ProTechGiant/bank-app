@@ -1208,6 +1208,33 @@
     }
   },
   "GoalGetter": {
+    "ContributionsScreen": {
+      "question_1": "What is your initial contribution?",
+      "question_2": "What is your monthly contribution?",
+      "buttonContent": "Monthly contribution day?",
+      "contributionButton": "{{day}} of each month",
+      "next": "Next",
+      "SAR": "SAR",
+      "select": "Select",
+      "selectDay": "Select day",
+      "grams": "grams",
+      "requiredInitialContribution": "Initial contribution is required for Mutual Fund.",
+      "insufficientBalance": "You have insufficient balance in your account",
+      "minGoldContribution": "Initial Contribution should not be less than {{minAmount}} grams",
+      "goldMonthlyLimit": "You cannot pay less than {{minAmount}} grams",
+      "goldMonthlyMinimum": "You cannot pay less than minimum monthly contribution amount",
+      "savingPotRecommend": "Recommended amount is: {{amount}} SAR ",
+      "incorrectMonthlyContribution": "Incorrect Monthly Contribution",
+      "minSubscriptionAmount": "You cannot pay less than the minimum subscription amount",
+      "minMonthlyContribution": "Minimum monthly contribution is: {{amount}} SAR",
+      "selectedDayRequired": "Selected day is required.",
+      "notificationModalTitle": "Round up is reserved",
+      "notificationModalMessage": "Round up is reserved for another saving pot would you like to switch it?",
+      "okButton": "OK",
+      "cancelButton": "Cancel",
+      "roundUp": "Round up"
+    },
+
     "title": "Goal getter products",
     "description": "Imagine a goal and we’ll help you save for it.",
     "button": "Create a goal",

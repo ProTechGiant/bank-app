@@ -1,3 +1,4 @@
+export { default as ContributionScreen } from "./ContributionScreen";
 export { default as CreateGoalScreen } from "./CreateGoalScreen";
 export { default as EditGoalGetterScreen } from "./EditGoalGetterScreen";
 export { default as GoalCreatedSuccessfullyScreen } from "./GoalCreatedSuccessfullyScreen";

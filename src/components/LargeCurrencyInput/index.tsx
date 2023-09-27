@@ -10,7 +10,7 @@ import { useThemeStyles } from "@/theme";
 interface LargeCurrencyInputProps<T extends FieldValues> {
   autoFocus?: boolean;
   control: Control<T>;
-  helperText?: string | ((value: number) => string | undefined);
+  helperText?: (value: number) => string | undefined;
   maxLength?: number;
   name: Path<T>;
   returnKeyType?: ReturnKeyTypeOptions;
@@ -58,7 +58,7 @@ export default function LargeCurrencyInput<T extends FieldValues>({
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "center",
-    marginVertical: theme.spacing["24p"],
+    marginVertical: theme.spacing["4p"],
   }));
 
   const textStyles = useThemeStyles<ViewStyle & TextStyle>(theme => ({
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "flex-start",
     flexDirection: "row",
-    marginVertical: 24,
+    marginTop: 24,
   },
   disabledOpacity: {
     opacity: 0.4,
