@@ -39,6 +39,10 @@ export default function GoalMindScreen() {
     navigation.goBack();
   };
 
+  const handleOnPressEndButton = () => {
+    navigation.navigate("Home.HomeTabs");
+  };
+
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["20p"],
     paddingHorizontal: theme.spacing["20p"],
@@ -50,7 +54,7 @@ export default function GoalMindScreen() {
       <NavHeader
         title={t("GoalGetter.GoalMindScreen.title")}
         onBackPress={handleOnBackPress}
-        end={<NavHeader.CloseEndButton onPress={handleOnBackPress} />}
+        end={<NavHeader.CloseEndButton onPress={handleOnPressEndButton} />}
         withBackButton={true}
       />
       <Stack direction="vertical" style={contentStyle} align="stretch" gap="16p" justify="space-between">
