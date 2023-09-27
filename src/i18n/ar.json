@@ -1320,6 +1320,10 @@
       "titleFour": "انشئ هدفاالآن",
       "subTextFour": "سنعرض لك بعض التوصيات حول كيفية تفعيل هدفك"
     },
+    "TermsAndConditionsScreen": {
+      "title": "الشروط و الأحكام",
+      "nothingToShowText": "لا شيء لعرضه"
+    },
     "EditGoalGetter": {
       "label": "تعديل الهدف",
       "InputsLabels": {

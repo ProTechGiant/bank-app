@@ -10,3 +10,4 @@ export { default as MatchProductsScreen } from "./MatchProductsScreen";
 export { default as ReviewGoalScreen } from "./ReviewGoalScreen";
 export { default as RisksAppetiteScreen } from "./RisksAppetiteScreen";
 export { default as TargetAmountScreen } from "./TargetAmountScreen";
+export { default as TermsAndConditionsScreen } from "./TermsAndConditionsScreen";

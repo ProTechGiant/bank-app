@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import Share, { ShareOptions } from "react-native-share";
 
 import { CloseIcon, FullScreenIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -11,16 +10,10 @@ import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
-import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
+import { handleExportStatement, PDFDataInterface } from "@/utils/export-pdf";
 
 import PreviewPDF from "./PreviewPDF";
-
-export interface PDFDataInterface {
-  name: string;
-  type: string;
-  content: string;
-}
 
 const PDF_BASE_64_PREFIX = "data:application/pdf;base64,";
 
@@ -33,40 +26,6 @@ interface PreviewPDFProps {
 export default function PreviewAndExportPDF({ data, isLoading, title }: PreviewPDFProps) {
   const [fullPreviewMode, setFullPreviewMode] = useState(false);
   const { t } = useTranslation();
-
-  const handleExportStatement = async () => {
-    if (data !== undefined) {
-      const shareOptions: ShareOptions = {
-        title: data.name,
-        type: "application/pdf",
-        filename: Platform.OS === "ios" ? `${data?.name}.pdf` : `${data?.name}`,
-        url: PDF_BASE_64_PREFIX + data.content,
-      };
-
-      try {
-        const ShareResponse = await Share.open(shareOptions);
-        warn("Result =>", JSON.stringify(ShareResponse));
-      } catch (error) {
-        warn("sharePdfBase64 Error =>", JSON.stringify(error));
-        Alert.alert(
-          t("PreviewPDF.errorMessageTitle"),
-          t("PreviewPDF.errorMessage"),
-          [
-            {
-              text: t("PreviewPDF.errorCancelText"),
-              style: "cancel",
-              onPress: () => {
-                // Handle close action
-              },
-            },
-          ],
-          {
-            cancelable: true,
-          }
-        );
-      }
-    }
-  };
 
   const bottomButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["20p"],
@@ -112,7 +71,9 @@ export default function PreviewAndExportPDF({ data, isLoading, title }: PreviewP
           )}
           {data?.content && !isLoading && !fullPreviewMode ? (
             <View style={bottomButtonContainerStyle}>
-              <Button onPress={handleExportStatement}>{t("PreviewPDF.exportAsPDF")}</Button>
+              <Button onPress={() => handleExportStatement(data, PDF_BASE_64_PREFIX)}>
+                {t("PreviewPDF.exportAsPDF")}
+              </Button>
             </View>
           ) : null}
         </ContentContainer>

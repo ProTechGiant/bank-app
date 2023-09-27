@@ -1,3 +1,8 @@
+export interface DocumentResponse {
+  DocumentName: string;
+  DocumentType: string;
+  DocumentContent: string;
+}
 interface Goal {
   GoalId: number;
   GoalName: string;

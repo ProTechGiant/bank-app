@@ -4,6 +4,7 @@ import { I18nManager, Pressable, StyleSheet } from "react-native";
 import { CheckboxInput } from "@/components/Input";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 
 interface TermsAndConditionsProps {
   conditionsCaption: string;
@@ -18,6 +19,7 @@ export default function TermsAndConditions({
   onCheckBoxPress,
   isChecked,
 }: TermsAndConditionsProps) {
+  const navigation = useNavigation();
   const { t } = useTranslation();
 
   return (
@@ -30,7 +32,7 @@ export default function TermsAndConditions({
           </Typography.Text>
           <Pressable
             onPress={() => {
-              /*TODO - add navigation here to terms and condition screen when it available */
+              navigation.navigate("GoalGetter.TermsAndConditionsScreen");
             }}>
             <Typography.Text
               color="primaryBase-40"

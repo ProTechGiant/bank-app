@@ -1393,6 +1393,10 @@
       "hint": "You can set a total of 4 goals.",
       "setNewGoal": "Set new goal"
     },
+    "TermsAndConditionsScreen": {
+      "title": "Terms & conditions",
+      "nothingToShowText":"Nothing to show"
+    },
     "EditGoalGetter": {
       "label": "Edit Goal",
       "InputsLabels": {
