@@ -1106,7 +1106,21 @@
       "GoalGetter": {
         "title": "Goal getter products",
         "description": "Imagine a goal and we’ll help you save for it.",
-        "button": "Create a goal"
+        "button": "Create a goal",
+        "landingScreen": {
+          "skip": "Skip",
+          "next": "Next",
+          "title": "Goal getter",
+          "createGoal": "Create goal",
+          "titleOne": "Help me reach my goal",
+          "subTextOne": "If you have any doubts in how can you active your goal, we can help you",
+          "titleTwo": "Tell us what you dreaming?",
+          "subTextTwo": "Select from several option what are the type of goal you have",
+          "titleThree": "How you would like to start?",
+          "subTextThree": "Tell us how would you imagine starting saving for it",
+          "titleFour": "Best way to active it",
+          "subTextFour": "We will show you some recommendation in how to active you goal"
+        }
       },
       "ReferFriend": {
         "title": "Invite a friend",
@@ -1221,24 +1235,47 @@
       "termsAndConditionsLink": "Terms and Conditions",
       "confirm": "Confirm"
     },
-    "GoalDashboardScreen": {
-      "title": "Goals and Products",
-      "tabs": {
-        "goal": "Goals",
-        "product": "Products"
-      },
-      "goalCard": {
-        "of": "of",
-        "currency": "SAR",
-        "endDate": "End date:"
-      },
-      "hint": "You can set a total of 4 goals.",
-      "setNewGoal": "Set new goal"
+    "landingScreen": {
+      "skip": "Skip",
+      "next": "Next",
+      "title": "Goal getter",
+      "createGoal": "Create goal",
+      "titleOne": "Help me reach my goal",
+      "subTextOne": "If you have any doubts in how can you active your goal, we can help you",
+      "titleTwo": "Tell us what you dreaming?",
+      "subTextTwo": "Select from several option what are the type of goal you have",
+      "titleThree": "How you would like to start?",
+      "subTextThree": "Tell us how would you imagine starting saving for it",
+      "titleFour": "Best way to active it",
+      "subTextFour": "We will show you some recommendation in how to active you goal"
     },
     "imageGallery": {
       "title": "Croatia Image Gallery",
       "buttonSave": "Save"
     },
+    "CreateGoalGetter": {
+      "inputLabel": "Goal Name",
+      "extraStart": "Enter a new name or select a suggested one",
+      "suggestedNames": "Suggested goal names",
+      "continueButton": "Continue",
+      "validationError": {
+        "required": "The Goal Name is Required",
+        "maximum": "Maximum 50 characters",
+        "minimum": "Minimum 5 characters"
+      }
+    },
+    "GoalMindScreen": {
+      "title": "Goal Getter",
+      "headerText": "Have a goal in mind?",
+      "headerDescriptionText": "Let us help you to reach your goal.",
+      "buttonText": "Create Goal"
+    },
+    "RisksAppetiteScreen": {
+      "headerText": "Risk appetite ",
+      "headerDescriptionText": "Select the best option that describes you",
+      "buttonText": "Continue"
+    },
+
     "targetAmountScreen": {
       "title": "Select duration",
       "select": "Select",
@@ -1262,40 +1299,73 @@
         "dateRequired": "Target date is required"
       }
     },
-    "landingScreen": {
-      "skip": "Skip",
-      "next": "Next",
-      "title": "Goal getter",
-      "createGoal": "Create goal",
-      "titleOne": "Help me reach my goal",
-      "subTextOne": "If you have any doubts in how can you active your goal, we can help you",
-      "titleTwo": "Tell us what you dreaming?",
-      "subTextTwo": "Select from several option what are the type of goal you have",
-      "titleThree": "How you would like to start?",
-      "subTextThree": "Tell us how would you imagine starting saving for it",
-      "titleFour": "Best way to active it",
-      "subTextFour": "We will show you some recommendation in how to active you goal"
+    "SelectProductsScreen": {
+      "title": "Your product match",
+
+      "headerContent": {
+        "title": "Your goal",
+        "achievedIn": "Achieved in"
+      },
+      "productMatchCard": {
+        "expectedTime": "Expected Time to achieve",
+        "monthlyContribution": "Monthly contribution",
+        "findOutMore": "Find out more.",
+        "DonutChart": {
+          "header": "Find out more",
+          "title": "Your portfolio match",
+          "okButton": "Ok"
+        }
+      },
+      "temporaryValue": {
+        "highRiskCard": {
+          "title": "High risk",
+          "header": "Al Rajih Growth Fund",
+          "content": "middle",
+          "basedOn": "based on performance in the past 3 years",
+          "expectedTime": "Best",
+          "monthlyContribution": "450 SAR"
+        },
+        "mediumRiskCard": {
+          "title": "Medium risk",
+          "header": "Al Rajih Growth Fund",
+          "content": "middle",
+          "basedOn": "based on performance in the past 3 years",
+          "expectedTime": "Best",
+          "monthlyContribution": "1,000 SAR"
+        },
+        "noRiskCard": {
+          "title": "No Risk",
+          "header": "Croatia Savings Pot",
+          "content": "middle",
+          "basedOn": "based on the profit rate",
+          "expectedTime": "Good",
+          "monthlyContribution": "500 SAR",
+          "Investments": "This savings pot achievement is guaranteed, as long as you make your monthly contributions."
+        },
+        "lowRiskCard": {
+          "title": "Low Risk",
+          "header": "Gold",
+          "content": "middle",
+          "basedOn": "based on the profit rate",
+          "expectedTime": "Better",
+          "monthlyContribution": "5 Grams"
+        }
+      },
+      "chooseButton": "Choose this product"
     },
-    "CreateGoalGetter": {
-      "inputLabel": "Goal Name",
-      "extraStart": "Enter a new name or select a suggested one",
-      "suggestedNames": "Suggested goal names",
-      "continueButton": "Continue",
-      "validationError": {
-        "required": "The Goal Name is Required",
-        "maximum": "Maximum 50 characters"
-      }
-    },
-    "GoalMindScreen": {
-      "title": "Goal Getter",
-      "headerText": "Have a goal in mind?",
-      "headerDescriptionText": "Let us help you to reach your goal.",
-      "buttonText": "Create Goal"
-    },
-    "RisksAppetiteScreen": {
-      "headerText": "Risk appetite ",
-      "headerDescriptionText": "Select the best option that describes you",
-      "buttonText": "Continue"
+    "GoalDashboardScreen": {
+      "title": "Goals and Products",
+      "tabs": {
+        "goal": "Goals",
+        "product": "Products"
+      },
+      "goalCard": {
+        "of": "of",
+        "currency": "SAR",
+        "endDate": "End date:"
+      },
+      "hint": "You can set a total of 4 goals.",
+      "setNewGoal": "Set new goal"
     }
   },
   "Referral": {

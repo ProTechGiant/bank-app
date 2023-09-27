@@ -1073,10 +1073,25 @@
         "pendingTasks": "المهام المعلقة",
         "dismissTask": "رفض"
       },
+
       "GoalGetter": {
         "title": "منتجات محقق الاهداف",
         "description": "تخيل اهدافك و سوف نساعدك بالادخار لتحقيقهم.",
-        "button": "أنشئ هدف"
+        "button": "أنشئ هدف",
+        "landingScreen": {
+          "skip": "تخطى",
+          "next": "التالي",
+          "title": "تحقيق الهدف",
+          "createGoal": "البدء",
+          "titleOne": "ساعدني لتحقيق هدفي",
+          "subTextOne": "إذا كانت لديك أي شكوك حول كيفية تفعيل هدفك، فيمكننا مساعدتك",
+          "titleTwo": "أخبرنا بماذا تحلم؟",
+          "subTextTwo": "يمكنك اختيار هدفك من بين عدة خيارات نتيحها لك",
+          "titleThree": "كيف تريد أن تبدأ؟",
+          "subTextThree": "أخبرنا كيف تتخيل البدء في الادخار من اجل ذلك؟",
+          "titleFour": "انشئ هدفاالآن",
+          "subTextFour": "سنعرض لك بعض التوصيات حول كيفية تفعيل هدفك"
+        }
       },
       "ReferFriend": {
         "title": "أرسل دعوه",
@@ -1135,8 +1150,128 @@
   },
   "GoalGetter": {
     "imageGallery": {
-      "title": "Croatia Image Gallery",
-      "buttonSave": "Save"
+      "title": "اختيار صورة",
+      "buttonSave": "حفظ"
+    },
+    "CreateGoalGetter": {
+      "inputLabel": "اسم الهدف",
+      "extraStart": "ادخل اسماً جديداً او حدد اسماً مقترحاً ",
+      "suggestedNames": "الاسماء المقترحة",
+      "continueButton": "استمرار",
+      "validationError": {
+        "required": "اسم الهدف مطلوب",
+        "maximum": "الحد الأقصى 50 حرفًا",
+        "minimum": "الحد الادني ٥ احرف"
+      }
+    },
+    "GoalMindScreen": {
+      "title": "تحقيق الهدف",
+      "headerText": "هل تفكر في تحقيق هدف؟",
+      "headerDescriptionText": "دعنا نساعدك على تحقيق هدفك.",
+      "buttonText": "انشاء الهدف"
+    },
+    "RisksAppetiteScreen": {
+      "headerText": "الرغبة في المخاطرة",
+      "headerDescriptionText": "حدد مستوى المخاطرة الذي ترغب في اتخاذه",
+      "buttonText": "التالي"
+    },
+    "SelectProductsScreen": {
+      "title": "المنتج المطابق للهدف",
+      "headerContent": {
+        "title": "هدفك",
+        "achievedIn": "يتحقق خلال"
+      },
+      "productMatchCard": {
+        "expectedTime": "الوقت المتوقع لتحقيقه",
+        "monthlyContribution": "المساهمة الشهرية",
+        "findOutMore": "اكتشف المزيد.",
+        "DonutChart": {
+          "header": "اكتشف المزيد",
+          "title": "تطابق ملفك الشخصي",
+          "okButton": "حسنًا"
+        }
+      },
+
+      "temporaryValue": {
+        "highRiskCard": {
+          "title": "مخاطرة عالية",
+          "header": "صندوق الراجحي للنمو",
+          "content": "متوسط",
+          "basedOn": "على أساس الأداء في السنوات الثلاث الماضية",
+          "expectedTime": "مفضل",
+          "monthlyContribution": "٤٥٠ ر.س",
+          "Investments": "الاستثمار في صناديق الاستثمار المشترك تخضع لتقلبات السوق."
+        },
+        "mediumRiskCard": {
+          "title": "مخاطرة متوسطة",
+          "header": "صندوق الراجحي للنمو",
+          "content": "متوسط",
+          "basedOn": "على أساس الأداء في السنوات الثلاث الماضية",
+          "expectedTime": "مفضل",
+          "monthlyContribution": "١٠٠٠ ر.س"
+        },
+        "noRiskCard": {
+          "title": "بدون مخاطرة",
+          "header": "صندوق التوفير",
+          "content": "متوسط",
+          "basedOn": "على أساس معدل الربح",
+          "expectedTime": "جيد",
+          "monthlyContribution": "٥٠٠ ر.س",
+          "Investments": "يعتبر تحقيق صندوق التوفير مضمون، طالما قمت بسداد مساهماتك الشهرية."
+        },
+        "lowRiskCard": {
+          "title": "مخاطرة منخفضة",
+          "header": "ذهب",
+          "content": "متوسط",
+          "basedOn": "على أساس الأداء في السنوات الثلاث الماضية",
+          "expectedTime": "أفضل",
+          "monthlyContribution": "٥  غرام",
+          "Investments": "الاستثمار في صناديق الاستثمار المشترك تخضع لتقلبات السوق."
+        }
+      },
+
+      "chooseButton": "اختيار المنتج"
+    },
+    "GoalDashboardScreen": {
+      "title": "الأهداف والمنتجات",
+      "tabs": {
+        "goal": "الأهداف",
+        "product": "المنتجات"
+      },
+      "goalCard": {
+        "of": "من",
+        "currency": "ر.س",
+        "endDate": "تاريخ الإنتهاء:"
+      },
+      "hint": "يمكنك تعيين ما مجموعه 4 أهداف.",
+      "setNewGoal": "هدف جديد"
+    },
+    "title": "منتجات محقق الاهداف",
+    "description": "تخيل اهدافك و سوف نساعدك بالادخار لتحقيقهم.",
+    "button": "أنشئ هدف",
+    "GoalReviewScreen": {
+      "reviewGoal": "مراجعة الهدف",
+      "goalDetails": {
+        "goalName": "اسم الهدف",
+        "targetAmount": "المبلغ المطلوب",
+        "startDate": "تاريخ البدء",
+        "initialContribution": "المساهمة الأولية",
+        "monthlyContribution": "المساهمة الشهرية",
+        "upcomingContributionDate": "موعد التسديد القادم",
+        "endDate": "تاريخ الانتهاء"
+      },
+      "SAR": "ر.س",
+      "Grams": "غرام",
+      "goalReviewNotificationModal": {
+        "title": "هل آنت متاكد من الالغاء",
+        "description": "يبدو أنك على وشك الخروج من تحقيق الهدف سيتم فقدان أي تقدم تم إحرازه وستحتاج إلى إعادة تحقيق هدفك من البداية",
+        "exitButton": "اغلاق تحقيق الهدف",
+        "cancelButton": "الغاء"
+      },
+      "extraConditionsCaption": "ووافقت عليها",
+      "termsAndConditionsText": " قد قرأت",
+      "termsAndConditionsLink": "الشروط والأحكام",
+      "confirm": "تأكيد"
     },
     "targetAmountScreen": {
       "title": "اختر المدة",
@@ -1174,27 +1309,6 @@
       "subTextThree": "أخبرنا كيف تتخيل البدء في الادخار من اجل ذلك؟",
       "titleFour": "انشئ هدفاالآن",
       "subTextFour": "سنعرض لك بعض التوصيات حول كيفية تفعيل هدفك"
-    },
-    "CreateGoalGetter": {
-      "inputLabel": "اسم الهدف",
-      "extraStart": "ادخل اسماً جديداً او حدد اسماً مقترحاً ",
-      "suggestedNames": "الاسماء المقترحة",
-      "continueButton": "استمرار",
-      "validationError": {
-        "required": "اسم الهدف مطلوب",
-        "maximum": "الحد الأقصى 50 حرفًا"
-      }
-    },
-    "GoalMindScreen": {
-      "title": "تحقيق الهدف",
-      "headerText": "هل تفكر في تحقيق هدف؟",
-      "headerDescriptionText": "دعنا نساعدك على تحقيق هدفك.",
-      "buttonText": "انشاء الهدف"
-    },
-    "RisksAppetiteScreen": {
-      "headerText": "الرغبة في المخاطرة",
-      "headerDescriptionText": "حدد مستوى المخاطرة الذي ترغب في اتخاذه",
-      "buttonText": "التالي"
     }
   },
   "InstructionsScreen": {
@@ -1579,7 +1693,6 @@
       "from": "From",
       "to": "To",
       "reason": "Reason",
-
       "total": "Total",
       "notes": "Attachments",
       "optional": "(Optional)",
@@ -2609,88 +2722,6 @@
         "applyButton": "تطبيق"
       },
       "loadMore": "تحميل المزيد"
-    }
-  },
-  "GoalGetter": {
-    "title": "منتجات محقق الاهداف",
-    "description": "تخيل اهدافك و سوف نساعدك بالادخار لتحقيقهم.",
-    "button": "أنشئ هدف",
-    "GoalReviewScreen": {
-      "reviewGoal": "مراجعة الهدف",
-      "goalDetails": {
-        "goalName": "اسم الهدف",
-        "targetAmount": "المبلغ المطلوب",
-        "startDate": "تاريخ البدء",
-        "initialContribution": "المساهمة الأولية",
-        "monthlyContribution": "المساهمة الشهرية",
-        "upcomingContributionDate": "موعد التسديد القادم",
-        "endDate": "تاريخ الانتهاء"
-      },
-      "SAR": "ر.س",
-      "Grams": "غرام",
-      "goalReviewNotificationModal": {
-        "title": "هل آنت متاكد من الالغاء",
-        "description": "يبدو أنك على وشك الخروج من تحقيق الهدف سيتم فقدان أي تقدم تم إحرازه وستحتاج إلى إعادة تحقيق هدفك من البداية",
-        "exitButton": "اغلاق تحقيق الهدف",
-        "cancelButton": "الغاء"
-      },
-      "extraConditionsCaption": "ووافقت عليها",
-      "termsAndConditionsText": " قد قرأت",
-      "termsAndConditionsLink": "الشروط والأحكام",
-      "confirm": "تأكيد"
-    },
-    "landingScreen": {
-      "skip": "تخطى",
-      "next": "التالي",
-      "title": "تحقيق الهدف",
-      "createGoal": "البدء",
-      "titleOne": "ساعدني لتحقيق هدفي",
-      "subTextOne": "إذا كانت لديك أي شكوك حول كيفية تفعيل هدفك، فيمكننا مساعدتك",
-      "titleTwo": "أخبرنا بماذا تحلم؟",
-      "subTextTwo": "يمكنك اختيار هدفك من بين عدة خيارات نتيحها لك",
-      "titleThree": "كيف تريد أن تبدأ؟",
-      "subTextThree": "أخبرنا كيف تتخيل البدء في الادخار من اجل ذلك؟",
-      "titleFour": "انشئ هدفاالآن",
-      "subTextFour": "سنعرض لك بعض التوصيات حول كيفية تفعيل هدفك"
-    },
-    "imageGallery": {
-      "title": "Croatia Image Gallery",
-      "buttonSave": "Save"
-    },
-    "CreateGoalGetter": {
-      "inputLabel": "اسم الهدف",
-      "extraStart": "ادخل اسماً جديداً او حدد اسماً مقترحاً ",
-      "suggestedNames": "الاسماء المقترحة",
-      "continueButton": "استمرار",
-      "validationError": {
-        "required": "اسم الهدف مطلوب",
-        "maximum": "الحد الأقصى 50 حرفًا"
-      }
-    },
-    "GoalMindScreen": {
-      "title": "تحقيق الهدف",
-      "headerText": "هل تفكر في تحقيق هدف؟",
-      "headerDescriptionText": "دعنا نساعدك على تحقيق هدفك.",
-      "buttonText": "انشاء الهدف"
-    },
-    "RisksAppetiteScreen": {
-      "headerText": "الرغبة في المخاطرة",
-      "headerDescriptionText": "حدد مستوى المخاطرة الذي ترغب في اتخاذه",
-      "buttonText": "التالي"
-    },
-    "GoalDashboardScreen": {
-      "title": "الأهداف والمنتجات",
-      "tabs": {
-        "goal": "الأهداف",
-        "product": "المنتجات"
-      },
-      "goalCard": {
-        "of": "من",
-        "currency": "ر.س",
-        "endDate": "تاريخ الإنتهاء:"
-      },
-      "hint": "يمكنك تعيين ما مجموعه 4 أهداف.",
-      "setNewGoal": "هدف جديد"
     }
   }
 }

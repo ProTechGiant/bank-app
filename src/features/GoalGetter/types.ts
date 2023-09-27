@@ -27,3 +27,24 @@ export interface PredefinedOption {
 export interface PredefinedOptionOptions {
   predefinedOptions: PredefinedOption[];
 }
+
+export interface DonutChartProps {
+  isVisible: boolean;
+  onClose: () => void;
+}
+export interface HeaderContentProps {
+  goalName: string;
+  contribution: string;
+  duration: string;
+}
+export interface CircleIconProps {
+  color: string;
+  text: string;
+  percentage: string;
+}
+export interface DonutChartIconProps {
+  data: number[];
+}
+export interface PieChartProps {
+  data: { x: string; y: number }[];
+}

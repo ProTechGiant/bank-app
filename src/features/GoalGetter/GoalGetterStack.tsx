@@ -3,10 +3,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { GoalGetterContextProvider } from "./contexts/GoalGetterContext";
 import {
   CreateGoalScreen,
+  GoalCreatedSuccessfullyScreen,
   GoalDashboardScreen,
   GoalGetterScreen,
   GoalMindScreen,
   ImageGalleryScreen,
+  MatchProductsScreen,
   ReviewGoalScreen,
   RisksAppetiteScreen,
   TargetAmountScreen,
@@ -21,6 +23,8 @@ export type GoalGetterStackParams = {
   "GoalGetter.ImageGallary": undefined;
   "GoalGetter.GoalMindScreen": undefined;
   "GoalGetter.RisksAppetiteScreen": undefined;
+  "GoalGetter.MatchProductsScreen": undefined;
+  "GoalGetter.GoalCreatedSuccessfullyScreen": undefined;
   "GoalGetter.ReviewGoalScreen": undefined;
 };
 
@@ -43,6 +47,8 @@ export default function GoalGetterStack() {
         <Stack.Screen component={RisksAppetiteScreen} name="GoalGetter.RisksAppetiteScreen" />
         <Stack.Screen component={ReviewGoalScreen} name="GoalGetter.ReviewGoalScreen" />
         <Stack.Screen component={GoalDashboardScreen} name="GoalGetter.GoalDashboardScreen" />
+        <Stack.Screen component={GoalCreatedSuccessfullyScreen} name="GoalGetter.GoalCreatedSuccessfullyScreen" />
+        <Stack.Screen component={MatchProductsScreen} name="GoalGetter.MatchProductsScreen" />
       </Stack.Navigator>
     </GoalGetterContextProvider>
   );
