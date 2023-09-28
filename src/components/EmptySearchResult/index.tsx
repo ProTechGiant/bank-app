@@ -6,7 +6,11 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-export default function EmptySearchResult() {
+interface EmptySearchResultProps {
+  testID?: string;
+}
+
+export default function EmptySearchResult({ testID }: EmptySearchResultProps) {
   const { t } = useTranslation();
 
   const noResultStyles = useThemeStyles<ViewStyle>(theme => ({
@@ -14,7 +18,7 @@ export default function EmptySearchResult() {
   }));
 
   return (
-    <Stack direction="vertical" justify="center" align="center" flex={1} style={noResultStyles}>
+    <Stack direction="vertical" justify="center" align="center" flex={1} style={noResultStyles} testID={testID}>
       <Typography.Text size="callout" weight="semiBold" align="center">
         {t("EmptySearchResult.title")}
       </Typography.Text>

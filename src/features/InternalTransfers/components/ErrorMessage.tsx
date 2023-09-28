@@ -7,9 +7,15 @@ interface ErrorMessageProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   forbiddenWords: string[];
+  testID?: string;
 }
 
-export default function ErrorMessage<T extends FieldValues>({ control, name, forbiddenWords }: ErrorMessageProps<T>) {
+export default function ErrorMessage<T extends FieldValues>({
+  control,
+  name,
+  forbiddenWords,
+  testID,
+}: ErrorMessageProps<T>) {
   const { t } = useTranslation();
   const { field } = useController({ control, name });
   const { isSubmitting, isValid } = useFormState({ control });
@@ -31,6 +37,7 @@ export default function ErrorMessage<T extends FieldValues>({ control, name, for
           ? t("InternalTransfers.AddNoteScreen.forbiddenWordsNotAllowed", { forbiddenWord: forbiddenError })
           : t("InternalTransfers.AddNoteScreen.noSpecialCharacters")
       }
+      testID={testID}
     />
   ) : null;
 }

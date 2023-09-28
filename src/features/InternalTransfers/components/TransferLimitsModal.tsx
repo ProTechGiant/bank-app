@@ -13,6 +13,7 @@ interface TransferLimitsModalProps {
   onClose: () => void;
   onSwitchStandardTransferPress: () => void;
   isVisible: boolean;
+  testID?: string;
   transferType: TransferTypeCode;
 }
 
@@ -20,6 +21,7 @@ export default function TransferLimitsModal({
   onClose,
   onSwitchStandardTransferPress,
   isVisible,
+  testID,
   transferType,
 }: TransferLimitsModalProps) {
   const { t } = useTranslation();
@@ -40,7 +42,7 @@ export default function TransferLimitsModal({
   const arrowIconColor = useThemeStyles(theme => theme.palette["neutralBase-30"]);
 
   return (
-    <Modal onClose={onClose} visible={isVisible}>
+    <Modal onClose={onClose} testID={testID} visible={isVisible}>
       <Stack direction="vertical" gap="20p">
         <Typography.Text color="neutralBase+30" size="title2" weight="medium">
           {t("InternalTransfers.TransferLimitsModal.title")}
@@ -69,7 +71,10 @@ export default function TransferLimitsModal({
             {t("InternalTransfers.TransferLimitsModal.nonWorkingDaysExplanation")}
           </Typography.Text>
         </Stack>
-        <Pressable onPress={onSwitchStandardTransferPress} style={standardTransferBoxStyle}>
+        <Pressable
+          onPress={onSwitchStandardTransferPress}
+          style={standardTransferBoxStyle}
+          testID={testID !== undefined ? `${testID}-SwitchButton` : undefined}>
           <InfoIcon color={infoIconColor} height={18} width={18} />
           <View>
             <Typography.Text color="neutralBase+30" size="callout" weight="medium">

@@ -170,10 +170,18 @@ export default function ConfirmationScreen() {
         </List>
 
         <Stack align="stretch" direction="vertical" gap="8p" style={buttonContainerStyle}>
-          <Button color="dark" variant="primary" onPress={handleOnDonePress}>
+          <Button
+            color="dark"
+            variant="primary"
+            onPress={handleOnDonePress}
+            testID="InternalTransfers.ConfirmationScreen:DoneButton">
             {t("InternalTransfers.ConfirmationScreen.buttons.done")}
           </Button>
-          <Button color="light" variant="primary" onPress={handleOnViewTransactionsPress}>
+          <Button
+            color="light"
+            variant="primary"
+            onPress={handleOnViewTransactionsPress}
+            testID="InternalTransfers.ConfirmationScreen:ViewTransactionsButton">
             {t("InternalTransfers.ConfirmationScreen.buttons.viewTransaction")}
           </Button>
         </Stack>

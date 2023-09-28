@@ -60,7 +60,7 @@ export default function AddNoteScreen() {
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader onBackPress={handleBack} />
+        <NavHeader onBackPress={handleBack} testID="InternalTransfers.AddNoteScreen:NavHeader" />
         <ContentContainer isScrollView style={styles.container}>
           <Stack direction="vertical" gap="24p" align="stretch">
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
@@ -75,16 +75,23 @@ export default function AddNoteScreen() {
               multiline
               numberOfLines={2}
               showCharacterCount
+              testID="InternalTransfers.AddNoteScreen:ContentInput"
             />
           </Stack>
           <View>
-            <ErrorMessage control={control} name="content" forbiddenWords={FORBIDDEN_WORDS} />
+            <ErrorMessage
+              control={control}
+              name="content"
+              forbiddenWords={FORBIDDEN_WORDS}
+              testID="InternalTransfers.AddNoteScreen:ErrorMessage"
+            />
             <View style={buttonContainerStyle}>
               <SubmitNoteButton
                 control={control}
                 name="content"
                 onSubmit={handleSubmit(handleOnSubmit)}
-                forbiddenWords={FORBIDDEN_WORDS}>
+                forbiddenWords={FORBIDDEN_WORDS}
+                testID="InternalTransfers.AddNoteScreen:SubmitButton">
                 {t("InternalTransfers.AddNoteScreen.done")}
               </SubmitNoteButton>
             </View>

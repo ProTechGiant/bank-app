@@ -112,7 +112,11 @@ export default function ConfirmNewBeneficiaryScreen() {
 
   return (
     <Page backgroundColor="neutralBase-50">
-      <NavHeader withBackButton title={t("InternalTransfers.ConfirmNewBeneficiaryScreen.navTitle")} />
+      <NavHeader
+        withBackButton
+        title={t("InternalTransfers.ConfirmNewBeneficiaryScreen.navTitle")}
+        testID="InternalTransfers.ConfirmNewBeneficiaryScreen:NavHeader"
+      />
       <ContentContainer isScrollView style={styles.contentContainer}>
         <Stack direction="vertical" gap="24p" align="stretch">
           <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
@@ -128,6 +132,7 @@ export default function ConfirmNewBeneficiaryScreen() {
                   : t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.name")
               }
               label={recipient.accountName}
+              testID="InternalTransfers.ConfirmNewBeneficiaryScreen:AccountName"
             />
           ) : null}
           {transferType === TransferType.CroatiaToArbTransferAction ||
@@ -137,6 +142,7 @@ export default function ConfirmNewBeneficiaryScreen() {
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.bank")}
               label={t("InternalTransfers.ConfirmNewBeneficiaryScreen.bankName")}
+              testID="InternalTransfers.ConfirmNewBeneficiaryScreen:BankName"
             />
           ) : null}
           {recipient.accountNumber !== undefined && transferType !== TransferType.SarieTransferAction ? (
@@ -145,6 +151,7 @@ export default function ConfirmNewBeneficiaryScreen() {
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.accountNumber")}
               label={recipient.accountNumber}
+              testID="InternalTransfers.ConfirmNewBeneficiaryScreen:AccountNumber"
             />
           ) : null}
           {recipient.type === "new" &&
@@ -155,6 +162,7 @@ export default function ConfirmNewBeneficiaryScreen() {
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
               label={parsePhoneNumber(addBeneficiary.SelectionValue).format("INTERNATIONAL")}
+              testID="InternalTransfers.ConfirmNewBeneficiaryScreen:PhoneNumber"
             />
           ) : (recipient.type === "new" && addBeneficiary?.SelectionType === "IBAN") ||
             (transferType !== TransferType.SarieTransferAction && addBeneficiary?.SelectionValue) ? (
@@ -163,6 +171,7 @@ export default function ConfirmNewBeneficiaryScreen() {
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.iban")}
               label={formatIban(addBeneficiary?.SelectionValue ?? "")}
+              testID="InternalTransfers.ConfirmNewBeneficiaryScreen:IbanNumber"
             />
           ) : null}
           {recipient.type === "inactive" &&
@@ -174,6 +183,7 @@ export default function ConfirmNewBeneficiaryScreen() {
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.mobile")}
                 label={recipient.phoneNumber}
+                testID="InternalTransfers.ConfirmNewBeneficiaryScreen:PhoneNumber"
               />
             ) : null
           ) : recipient.type === "inactive" && recipient.iban !== undefined ? (
@@ -182,6 +192,7 @@ export default function ConfirmNewBeneficiaryScreen() {
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.iban")}
               label={formatIban(recipient.iban)}
+              testID="InternalTransfers.ConfirmNewBeneficiaryScreen:IbanNumber"
             />
           ) : null}
           {recipient.type === "active" && recipient.iban !== undefined ? (
@@ -190,6 +201,7 @@ export default function ConfirmNewBeneficiaryScreen() {
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.iban")}
               label={formatIban(recipient.iban)}
+              testID="InternalTransfers.ConfirmNewBeneficiaryScreen:IbanNumber"
             />
           ) : null}
           <Alert
@@ -214,7 +226,12 @@ export default function ConfirmNewBeneficiaryScreen() {
                 <Divider color="neutralBase-30" />
               </View>
               <Stack direction="horizontal" style={checkBoxStackStyle}>
-                <CheckboxInput control={control} isEditable={true} name="confirmBeneficiaryDeclaration" />
+                <CheckboxInput
+                  control={control}
+                  isEditable={true}
+                  name="confirmBeneficiaryDeclaration"
+                  testID="InternalTransfers.ConfirmNewBeneficiaryScreen:ConfirmBeneficiaryDeclarationInput"
+                />
                 <View style={checkBoxTextStyle}>
                   <Typography.Text size="footnote" weight="medium" color="neutralBase">
                     {t("InternalTransfers.ConfirmNewBeneficiaryScreen.checkBoxMessage")}
@@ -230,7 +247,10 @@ export default function ConfirmNewBeneficiaryScreen() {
               </Stack>
             </View>
           ) : null}
-          <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+          <SubmitButton
+            control={control}
+            onSubmit={handleSubmit(handleOnSubmit)}
+            testID="InternalTransfers.ConfirmNewBeneficiaryScreen:ConfirmButton">
             {t("InternalTransfers.ConfirmNewBeneficiaryScreen.confirmButton")}
           </SubmitButton>
         </View>

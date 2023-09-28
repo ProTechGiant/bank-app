@@ -12,15 +12,15 @@ interface PaymentOptionProps {
   icon?: React.ReactElement<SvgProps>;
   title: string;
   helperText: string;
+  testID?: string;
 }
 
-export default function PaymentOption({ onPress, icon, title, helperText }: PaymentOptionProps) {
+export default function PaymentOption({ onPress, icon, title, helperText, testID }: PaymentOptionProps) {
   const iconColor = useThemeStyles(t => t.palette.complimentBase);
-
   const arrowColor = useThemeStyles(t => t.palette["neutralBase-20"]);
 
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} testID={testID}>
       <Stack direction="horizontal" gap="16p" align="center" justify="space-between">
         {icon !== undefined && cloneElement(icon, { color: iconColor })}
         <Stack direction="vertical" style={styles.expandText}>

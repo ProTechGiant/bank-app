@@ -18,6 +18,7 @@ interface BeneficiaryListProps {
     beneficiaryId: string | undefined
   ) => void;
   onMenuPress: (beneficiary: BeneficiaryType) => void;
+  testID?: string;
 }
 
 export default function BeneficiaryList({
@@ -27,6 +28,7 @@ export default function BeneficiaryList({
   onBeneficiaryPress,
   onMenuPress,
   transferType,
+  testID,
 }: BeneficiaryListProps) {
   return (
     <>
@@ -41,6 +43,7 @@ export default function BeneficiaryList({
           transferType={transferType}
           onBeneficiaryPress={onBeneficiaryPress}
           onMenuPress={onMenuPress}
+          testID={testID !== undefined ? `${testID}-${beneficiary.BeneficiaryId}` : undefined}
         />
       ))}
     </>

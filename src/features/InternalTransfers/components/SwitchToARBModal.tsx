@@ -7,9 +7,15 @@ interface SwitchToARBModalProps {
   isVisible: boolean;
   onSwitchToARBPress: () => void;
   onCancelPress: () => void;
+  testID?: string;
 }
 
-export default function SwitchToARBModal({ isVisible, onSwitchToARBPress, onCancelPress }: SwitchToARBModalProps) {
+export default function SwitchToARBModal({
+  isVisible,
+  onSwitchToARBPress,
+  onCancelPress,
+  testID,
+}: SwitchToARBModalProps) {
   const { t } = useTranslation();
 
   return (
@@ -20,12 +26,14 @@ export default function SwitchToARBModal({ isVisible, onSwitchToARBPress, onCanc
       isVisible={isVisible}
       buttons={{
         primary: (
-          <Button onPress={onSwitchToARBPress}>
+          <Button
+            onPress={onSwitchToARBPress}
+            testID={testID !== undefined ? `${testID}-SwitchInternalTransferButton` : undefined}>
             {t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.SwitchToARB.buttons.switchToInternalTransfer")}
           </Button>
         ),
         secondary: (
-          <Button onPress={onCancelPress}>
+          <Button onPress={onCancelPress} testID={testID !== undefined ? `${testID}-CancelButton` : undefined}>
             {t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.SwitchToARB.buttons.cancelButton")}
           </Button>
         ),

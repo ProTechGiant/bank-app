@@ -39,7 +39,11 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
 
   return (
     <Page backgroundColor="neutralBase-50">
-      <NavHeader withBackButton title={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.navTitle")} />
+      <NavHeader
+        withBackButton
+        title={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.navTitle")}
+        testID="InternalTransfers.ConfirmLocalTransferBeneficiaryScreen:NavHeader"
+      />
       <ContentContainer isScrollView style={styles.contentContainer}>
         <Stack direction="vertical" gap="24p" align="stretch">
           <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
@@ -50,6 +54,7 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
             iconBackground="neutralBase-40"
             caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.name")}
             label={route.params.Beneficiary.FullName}
+            testID="InternalTransfers.ConfirmLocalTransferBeneficiaryScreen:FullName"
           />
           <ConfirmBeneficiaryListCard
             icon={<BankAccountIcon color={iconColor} />}
@@ -60,6 +65,7 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
                 ? route.params.Beneficiary.Bank.EnglishName
                 : route.params.Beneficiary.Bank.ArabicName
             }
+            testID="InternalTransfers.ConfirmLocalTransferBeneficiaryScreen:BankName"
           />
           {route.params.Beneficiary.SelectionType === "mobileNo" ? (
             <ConfirmBeneficiaryListCard
@@ -67,6 +73,7 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.mobile")}
               label={parsePhoneNumber(route.params.Beneficiary.SelectionValue).format("INTERNATIONAL")}
+              testID="InternalTransfers.ConfirmLocalTransferBeneficiaryScreen:MobileNumber"
             />
           ) : route.params.Beneficiary.SelectionType === "IBAN" ? (
             <ConfirmBeneficiaryListCard
@@ -74,6 +81,7 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.iban")}
               label={formatIban(route.params.Beneficiary.SelectionValue)}
+              testID="InternalTransfers.ConfirmLocalTransferBeneficiaryScreen:IBAN"
             />
           ) : route.params.Beneficiary.SelectionType === "nationalId" ? (
             <ConfirmBeneficiaryListCard
@@ -81,6 +89,7 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.id")}
               label={route.params.Beneficiary.SelectionValue}
+              testID="InternalTransfers.ConfirmLocalTransferBeneficiaryScreen:NationalId"
             />
           ) : route.params.Beneficiary.SelectionType === "email" ? (
             <ConfirmBeneficiaryListCard
@@ -88,6 +97,7 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
               iconBackground="neutralBase-40"
               caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.email")}
               label={route.params.Beneficiary.SelectionValue}
+              testID="InternalTransfers.ConfirmLocalTransferBeneficiaryScreen:Email"
             />
           ) : null}
           <Alert
@@ -96,7 +106,9 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
           />
         </Stack>
         <View>
-          <Button onPress={handleOnSubmit}>
+          <Button
+            onPress={handleOnSubmit}
+            testID="InternalTransfers.ConfirmLocalTransferBeneficiaryScreen:ConfirmButton">
             {t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.confirmButton")}
           </Button>
         </View>

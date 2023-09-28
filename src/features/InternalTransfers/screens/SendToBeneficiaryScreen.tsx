@@ -197,7 +197,7 @@ export default function SendToBeneficiaryScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader />
+        <NavHeader testID="InternalTransfers.SendToBeneficiaryScreen:NavHeader" />
         <KeyboardAvoidingView
           style={styles.keyboardView}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -217,8 +217,11 @@ export default function SendToBeneficiaryScreen() {
                 }
                 onClear={handleOnSearchClear}
                 onSearch={handleOnSearch}
+                testID="InternalTransfers.SendToBeneficiaryScreen:SearchInput"
               />
-              <Pressable onPress={handleNavigateToAddBeneficiaries}>
+              <Pressable
+                onPress={handleNavigateToAddBeneficiaries}
+                testID="InternalTransfers.SendToBeneficiaryScreen:AddBeneficiaryButton">
                 <Stack align="center" direction="horizontal" gap="12p">
                   <View style={addIconContainer}>
                     <PlusIcon color={iconColor} />
@@ -258,6 +261,7 @@ export default function SendToBeneficiaryScreen() {
                           );
                         }}
                         onMenuPress={handleOnMenuPress}
+                        testID="InternalTransfers.SendToBeneficiaryScreen:ActiveBeneficiaries"
                       />
                     </>
                   ) : null}
@@ -284,11 +288,12 @@ export default function SendToBeneficiaryScreen() {
                         );
                       }}
                       onMenuPress={handleOnMenuPress}
+                      testID="InternalTransfers.SendToBeneficiaryScreen:InactiveBeneficiaries"
                     />
                   ) : null}
                 </Stack>
               ) : (
-                <EmptySearchResult />
+                <EmptySearchResult testID="InternalTransfers.SendToBeneficiaryScreen:EmptySearchResult" />
               )}
             </Stack>
           </ContentContainer>
@@ -309,18 +314,23 @@ export default function SendToBeneficiaryScreen() {
           onDelete={handleOnDelete}
           onCloseConfirmDelete={handleOnCloseConfirmDelete}
           isLoading={isDeleteLoading}
+          testID="InternalTransfers.SendToBeneficiaryScreen:BeneficiaryOptionsModal"
         />
       ) : null}
       <NotificationModal
         variant="confirmations"
         buttons={{
           primary: (
-            <Button onPress={handleOnConfirmActivation}>
+            <Button
+              onPress={handleOnConfirmActivation}
+              testID="InternalTransfers.SendToBeneficiaryScreen:ConfirmActivationButton">
               {t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.confirmButton")}
             </Button>
           ),
           secondary: (
-            <Button onPress={handleOnCloseConfirmActivation}>
+            <Button
+              onPress={handleOnCloseConfirmActivation}
+              testID="InternalTransfers.SendToBeneficiaryScreen:CancelActivationButton">
               {t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.cancelButton")}
             </Button>
           ),

@@ -83,16 +83,22 @@ export default function PaymentsHubScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
-        <NavHeader variant="angled" withBackButton={false}>
+        <NavHeader variant="angled" withBackButton={false} testID="InternalTransfers.PaymentsHubScreen:NavHeader">
           <NavHeader.BoldTitle>{t("InternalTransfers.PaymentsHubScreen.title")}</NavHeader.BoldTitle>
           <Stack direction="horizontal" gap="12p" align="flex-end" justify="space-between">
             {account.data !== undefined ? (
               <Stack gap="8p" direction="vertical" style={styles.expandText}>
-                {/* TODO: replace mock account info */}
-                <Typography.Text color="neutralBase+30" size="title3" weight="medium">
+                <Typography.Text
+                  color="neutralBase+30"
+                  size="title3"
+                  weight="medium"
+                  testID="InternalTransfers.PaymentsHubScreen:AccountName">
                   {account.data.name}
                 </Typography.Text>
-                <Typography.Text color="neutralBase+10" size="footnote">
+                <Typography.Text
+                  color="neutralBase+10"
+                  size="footnote"
+                  testID="InternalTransfers.PaymentsHubScreen:AccountBalanceAvailable">
                   {t("InternalTransfers.PaymentsHubScreen.balanceAvailable", {
                     balance: formatCurrency(account.data.balance, "SAR"),
                   })}
@@ -100,7 +106,7 @@ export default function PaymentsHubScreen() {
               </Stack>
             ) : null}
             {/* TODO: not working on search functionality yet */}
-            <Pressable style={searchContainer}>
+            <Pressable style={searchContainer} testID="InternalTransfers.PaymentsHubScreen:SearchButton">
               <SearchIcon color={searchIconColor} />
             </Pressable>
           </Stack>
@@ -112,24 +118,28 @@ export default function PaymentsHubScreen() {
               icon={<LocalTransferIcon />}
               title={t("InternalTransfers.PaymentsHubScreen.options.localTransfer.title")}
               helperText={t("InternalTransfers.PaymentsHubScreen.options.localTransfer.helperText")}
+              testID="InternalTransfers.PaymentsHubScreen:LocalTransferButton"
             />
             <PaymentOption
               onPress={handleOnInternalTransferPress}
               icon={<TransferHorizontalIcon />}
               title={t("InternalTransfers.PaymentsHubScreen.options.internalTransfer.title")}
               helperText={t("InternalTransfers.PaymentsHubScreen.options.internalTransfer.helperText")}
+              testID="InternalTransfers.PaymentsHubScreen:InternalTransferButton"
             />
             <PaymentOption
               onPress={handleOnSadadBillPress}
               icon={<SadadBillPaymentIcon />}
               title={t("InternalTransfers.PaymentsHubScreen.options.sadadbillpayment.title")}
               helperText={t("InternalTransfers.PaymentsHubScreen.options.sadadbillpayment.helperText")}
+              testID="InternalTransfers.PaymentsHubScreen:SadadBillButton"
             />
             <PaymentOption
               onPress={handleOnAliasManagmentPress}
               icon={<WalletIcon />}
               title={t("InternalTransfers.PaymentsHubScreen.options.aliasManagment.title")}
               helperText={t("InternalTransfers.PaymentsHubScreen.options.aliasManagment.helperText")}
+              testID="InternalTransfers.PaymentsHubScreen:AliasManagementButton"
             />
           </Stack>
         </ScrollView>
@@ -138,6 +148,7 @@ export default function PaymentsHubScreen() {
           onClose={() => setIsSelectTransferTypeVisible(false)}
           setIsErrorModalVisible={setIsErrorModalVisible}
           entryPoint="payment-hub"
+          testID="InternalTransfers.PaymentsHubScreen:SelectTransferTypeModal"
         />
         {isSelectInternalTransferTypeVisible ? (
           <InternalTransferTypeModal

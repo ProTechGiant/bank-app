@@ -35,8 +35,9 @@ export default function PaymentsHubTabs() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
+        // eslint-disable-next-line react/no-unstable-nested-components
         tabBarIcon: ({ color }) => {
-          return createElement(icons[route.name], { color });
+          return createElement(icons[route.name as keyof typeof icons], { color });
         },
         tabBarActiveTintColor: activeIconColor,
         tabBarInactiveTintColor: inActiveIconColor,
@@ -45,9 +46,21 @@ export default function PaymentsHubTabs() {
         },
         tabBarItemStyle: tabBarItemStyle,
       })}>
-      <Tab.Screen name="Home" component={MockHomeComponent} />
-      <Tab.Screen name="Payments" component={PaymentsHubScreen} />
-      <Tab.Screen name="Support" component={HelpAndSupportStack} />
+      <Tab.Screen
+        name="Home"
+        component={MockHomeComponent}
+        options={{ tabBarTestID: "InternalTransfers.PaymentsHub:HomeButton" }}
+      />
+      <Tab.Screen
+        name="Payments"
+        component={PaymentsHubScreen}
+        options={{ tabBarTestID: "InternalTransfers.PaymentsHub:PaymentsButton" }}
+      />
+      <Tab.Screen
+        name="Support"
+        component={HelpAndSupportStack}
+        options={{ tabBarTestID: "InternalTransfers.PaymentsHub:SupportButton" }}
+      />
     </Tab.Navigator>
   );
 }

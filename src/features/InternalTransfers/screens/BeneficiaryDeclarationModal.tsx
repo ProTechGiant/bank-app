@@ -29,7 +29,11 @@ export default function BeneficiaryDeclarationModal() {
   return (
     <SafeAreaProvider>
       <Page>
-        <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
+        <NavHeader
+          withBackButton={false}
+          end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
+          testID="InternalTransfers.BeneficiaryDeclarationModal:NavHeader"
+        />
         <ContentContainer isScrollView>
           <View style={titleContainerStyle}>
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">

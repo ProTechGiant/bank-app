@@ -15,6 +15,7 @@ interface TransferAmountInputProps<T extends FieldValues> {
   maxLength?: number;
   name: Path<T>;
   hideBalanceError?: boolean;
+  testID?: string;
 }
 
 export default function TransferAmountInput<T extends FieldValues>({
@@ -25,6 +26,7 @@ export default function TransferAmountInput<T extends FieldValues>({
   maxLength,
   name,
   hideBalanceError,
+  testID,
 }: TransferAmountInputProps<T>) {
   const { t } = useTranslation();
   const { field } = useController({ control, name });
@@ -62,7 +64,10 @@ export default function TransferAmountInput<T extends FieldValues>({
 
   return (
     <>
-      <Typography.Text color={isError && !hideBalanceError ? "errorBase" : "neutralBase-10"} size="callout">
+      <Typography.Text
+        color={isError && !hideBalanceError ? "errorBase" : "neutralBase-10"}
+        size="callout"
+        testID={testID !== undefined ? `${testID}-CurrentBalance` : undefined}>
         {t("InternalTransfers.TransferAmountInput.balance") + formatCurrency(currentBalance, "SAR")}
       </Typography.Text>
       <View style={containerStyles}>
@@ -76,6 +81,7 @@ export default function TransferAmountInput<T extends FieldValues>({
             textStyles,
             fontSize === "s" ? styles.smallText : fontSize === "m" ? styles.mediumText : styles.largeText,
           ]}
+          testID={testID !== undefined ? `${testID}-CurrencyInput` : undefined}
           value={field.value}
         />
         <Typography.Text

@@ -5,11 +5,12 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 interface TransferLimitErrorProps {
+  testID?: string;
   textStart: string;
   textEnd?: string;
 }
 
-export default function TransferLimitError({ textStart, textEnd }: TransferLimitErrorProps) {
+export default function TransferLimitError({ testID, textStart, textEnd }: TransferLimitErrorProps) {
   const errorBoxStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     backgroundColor: theme.palette["errorBase-30"],
@@ -31,7 +32,7 @@ export default function TransferLimitError({ textStart, textEnd }: TransferLimit
   }));
 
   return (
-    <Stack direction="horizontal" style={errorBoxStyle}>
+    <Stack direction="horizontal" style={errorBoxStyle} testID={testID}>
       <Typography.Text color="errorBase" size="footnote" weight="regular" style={styles.messageWidth}>
         {textStart}
       </Typography.Text>

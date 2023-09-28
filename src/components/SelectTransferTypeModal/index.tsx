@@ -16,6 +16,7 @@ interface SelectTransferTypeModalProps {
   onClose: () => void;
   setIsErrorModalVisible: (status: boolean) => void;
   entryPoint: InternalTransferEntryPoint;
+  testID?: string;
 }
 
 export default function SelectTransferTypeModal({
@@ -23,6 +24,7 @@ export default function SelectTransferTypeModal({
   onClose,
   setIsErrorModalVisible,
   entryPoint,
+  testID,
 }: SelectTransferTypeModalProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -60,17 +62,20 @@ export default function SelectTransferTypeModal({
     <Modal
       onClose={onClose}
       visible={isVisible}
-      headerText={t("LocalTransfers.SelectTransferTypeModal.selectTransferType")}>
+      headerText={t("LocalTransfers.SelectTransferTypeModal.selectTransferType")}
+      testID={testID}>
       <Stack direction="vertical" gap="32p" align="stretch">
         <TransferOption
           onPress={handleOnQuickTransferPress}
           title={t("LocalTransfers.SelectTransferTypeModal.quickTransfer")}
           helperText={t("LocalTransfers.SelectTransferTypeModal.quickTransferDescription")}
+          testID={testID !== undefined ? `${testID}-QuickTransferButton` : undefined}
         />
         <TransferOption
           onPress={handleStandardTransferPress}
           title={t("LocalTransfers.SelectTransferTypeModal.standardTransfer")}
           helperText={t("LocalTransfers.SelectTransferTypeModal.standardTransferDescription")}
+          testID={testID !== undefined ? `${testID}-StandardTransferButton` : undefined}
         />
       </Stack>
     </Modal>

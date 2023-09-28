@@ -22,12 +22,14 @@ interface BeneficiaryProps {
     beneficiaryId: string | undefined
   ) => void;
   onMenuPress: (beneficiary: BeneficiaryType) => void;
+  testID?: string;
 }
 
-export default function Beneficiary({ data, onBeneficiaryPress, onMenuPress, transferType }: BeneficiaryProps) {
+export default function Beneficiary({ data, onBeneficiaryPress, onMenuPress, transferType, testID }: BeneficiaryProps) {
   const handleOnMenuPress = () => {
     onMenuPress(data);
   };
+
   const profileContainer = useThemeStyles<ViewStyle>(
     theme => ({
       padding: theme.spacing["8p"],
@@ -55,10 +57,15 @@ export default function Beneficiary({ data, onBeneficiaryPress, onMenuPress, tra
             data.BankName,
             data.BeneficiaryId
           );
-        }}>
+        }}
+        testID={testID !== undefined ? `${testID}-ButtonPress` : undefined}>
         <Stack align="center" direction="horizontal" gap="12p">
           <View style={profileContainer}>
-            <Typography.Text size="footnote" color="neutralBase-50" align="center">
+            <Typography.Text
+              size="footnote"
+              color="neutralBase-50"
+              align="center"
+              testID={testID !== undefined ? `${testID}-Initials` : undefined}>
               {data.Name ? getInitials(data.Name) : null}
             </Typography.Text>
           </View>
@@ -84,7 +91,10 @@ export default function Beneficiary({ data, onBeneficiaryPress, onMenuPress, tra
           </Stack>
         </Stack>
       </Pressable>
-      <Pressable onPress={handleOnMenuPress} style={styles.menuIconContainer}>
+      <Pressable
+        onPress={handleOnMenuPress}
+        style={styles.menuIconContainer}
+        testID={testID !== undefined ? `${testID}-MorePress` : undefined}>
         <ThreeDotsVerticalIcon color={iconColor} />
       </Pressable>
     </Stack>

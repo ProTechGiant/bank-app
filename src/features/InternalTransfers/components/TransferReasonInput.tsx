@@ -15,6 +15,7 @@ import { TransferReason } from "../types";
 interface TransferReasonInputProps<T extends FieldValues> {
   isLoading: boolean;
   reasons: TransferReason[];
+  testID?: string;
   control: Control<T>;
   name: Path<T>;
 }
@@ -22,6 +23,7 @@ interface TransferReasonInputProps<T extends FieldValues> {
 export default function TransferReasonInput<T extends FieldValues>({
   isLoading,
   reasons,
+  testID,
   control,
   name,
 }: TransferReasonInputProps<T>) {
@@ -63,12 +65,22 @@ export default function TransferReasonInput<T extends FieldValues>({
 
   return Platform.OS === "ios" ? (
     <>
-      <Stack as={Pressable} direction="horizontal" gap="12p" style={buttonStyle} onPress={() => setIsVisible(true)}>
+      <Stack
+        as={Pressable}
+        direction="horizontal"
+        gap="12p"
+        style={buttonStyle}
+        onPress={() => setIsVisible(true)}
+        testID={testID !== undefined ? `${testID}-Box` : undefined}>
         {isLoading ? (
           <ActivityIndicator size="small" />
         ) : (
           <>
-            <Typography.Text color="neutralBase+30" weight="regular" size="callout">
+            <Typography.Text
+              color="neutralBase+30"
+              weight="regular"
+              size="callout"
+              testID={testID !== undefined ? `${testID}-CurrentValue` : undefined}>
               {field.value === undefined
                 ? reasons[0]?.Description
                 : reasons.find(element => element.Code === field.value)?.Description}
@@ -89,6 +101,7 @@ export default function TransferReasonInput<T extends FieldValues>({
         }}
         options={options}
         headerText={t("InternalTransfers.TransferReasonInput.reason")}
+        testID={testID !== undefined ? `${testID}-Dropdown` : undefined}
         isVisible={isVisible}
         value={field.value}
       />
@@ -124,12 +137,17 @@ export default function TransferReasonInput<T extends FieldValues>({
         onPress={() => {
           setIsVisible(true);
           pickerRef.current?.focus();
-        }}>
+        }}
+        testID={testID !== undefined ? `${testID}-Box` : undefined}>
         {isLoading ? (
           <ActivityIndicator size="small" />
         ) : (
           <>
-            <Typography.Text color="neutralBase+30" weight="regular" size="callout">
+            <Typography.Text
+              color="neutralBase+30"
+              weight="regular"
+              size="callout"
+              testID={testID !== undefined ? `${testID}-CurrentValue` : undefined}>
               {field.value === undefined
                 ? reasons[0]?.Description
                 : reasons.find(element => element.Code === field.value)?.Description}

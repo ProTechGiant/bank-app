@@ -1,4 +1,4 @@
-import { Pressable } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -6,13 +6,14 @@ import Typography from "@/components/Typography";
 interface TransferOptionProps {
   onPress: () => void;
   title: string;
+  testID?: string;
   helperText: string;
 }
 
-export default function TransferOption({ onPress, title, helperText }: TransferOptionProps) {
+export default function TransferOption({ onPress, title, testID, helperText }: TransferOptionProps) {
   return (
-    <Pressable onPress={onPress}>
-      <Stack direction="vertical" style={{ rowGap: 2 }}>
+    <Pressable onPress={onPress} testID={testID}>
+      <Stack direction="vertical" style={styles.stack}>
         <Typography.Text size="callout" weight="medium" color="neutralBase+30">
           {title}
         </Typography.Text>
@@ -23,3 +24,9 @@ export default function TransferOption({ onPress, title, helperText }: TransferO
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  stack: {
+    rowGap: 2,
+  },
+});

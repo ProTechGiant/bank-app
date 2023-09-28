@@ -44,7 +44,7 @@ interface StandardTransferInput {
 export default function StandardTransferScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.QuickTransferScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.StandardTransferScreen">>();
 
   const reasons = useTransferReasons(TransferType.IpsTransferAction);
   const account = useCurrentAccount();
@@ -141,7 +141,10 @@ export default function StandardTransferScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader title={t("InternalTransfers.StandardTransferScreen.navTitle")} />
+        <NavHeader
+          title={t("InternalTransfers.StandardTransferScreen.navTitle")}
+          testID="InternalTransfers.StandardTransferScreen:NavHeader"
+        />
         {undefined !== currentBalance ? (
           <ContentContainer isScrollView>
             <View style={styles.container}>
@@ -149,7 +152,11 @@ export default function StandardTransferScreen() {
                 {t("InternalTransfers.StandardTransferScreen.title")}
               </Typography.Text>
               <View style={limitsContainerStyle}>
-                <RightIconLink onPress={handleOnTransferLimitsPress} icon={<InfoCircleIcon />} textSize="footnote">
+                <RightIconLink
+                  onPress={handleOnTransferLimitsPress}
+                  icon={<InfoCircleIcon />}
+                  textSize="footnote"
+                  testID="InternalTransfers.StandardTransferScreen:TransferLimitsButton">
                   {t("InternalTransfers.StandardTransferScreen.transferLimits")}
                 </RightIconLink>
               </View>
@@ -164,9 +171,11 @@ export default function StandardTransferScreen() {
                   hideBalanceError={!amountExceedsBalance}
                   maxLength={10}
                   name="PaymentAmount"
+                  testID="InternalTransfers.StandardTransferScreen:TransferAmountInput"
                 />
                 {dailyLimitAsync.data?.IsLimitExceeded ? (
                   <TransferErrorBox
+                    testID="InternalTransfers.StandardTransferScreen:LimitExceededErrorBox"
                     textStart={t("InternalTransfers.StandardTransferScreen.amountExceedsDailyLimit", {
                       limit: dailyLimitAsync.data?.DailyLimit,
                       amount: dailyLimitAsync.data?.ExceededAmount,
@@ -175,11 +184,13 @@ export default function StandardTransferScreen() {
                 ) : amountExceedsBalance ? (
                   <TransferErrorBox
                     onPress={handleOnAddFundsPress}
-                    textStart={t("InternalTransfers.InternalTransferScreen.amountExceedsBalance")}
-                    textEnd={t("InternalTransfers.InternalTransferScreen.addFunds")}
+                    testID="InternalTransfers.StandardTransferScreen:BalanceExceededErrorBox"
+                    textStart={t("InternalTransfers.StandardTransferScreen.amountExceedsBalance")}
+                    textEnd={t("InternalTransfers.StandardTransferScreen.addFunds")}
                   />
                 ) : amountExceedsLimit ? (
                   <TransferLimitError
+                    testID="InternalTransfers.StandardTransferScreen:AmountExceededErrorBox"
                     textStart={t("InternalTransfers.InternalTransferScreen.amountExceedsLimit")}
                     textEnd={t("InternalTransfers.InternalTransferScreen.upgradeYourTierPlus")}
                     // TODO: onPress navigate to screen where signature card can be upgraded (PC-14920, AC-3)
@@ -207,7 +218,8 @@ export default function StandardTransferScreen() {
                   color="light"
                   disabled={amountExceedsBalance || dailyLimitAsync.data?.IsLimitExceeded}
                   variant="secondary"
-                  iconLeft={<CalendarAltIcon />}>
+                  iconLeft={<CalendarAltIcon />}
+                  testID="InternalTransfers.StandardTransferScreen:ScheduleButton">
                   {t("InternalTransfers.StandardTransferScreen.scheduleButton")}
                 </Button>
               </View>
@@ -215,8 +227,9 @@ export default function StandardTransferScreen() {
                 <Button
                   variant="primary"
                   color="light"
-                  disabled={amountExceedsBalance || dailyLimitAsync.data?.IsLimitExceeded || amountExceedsLimit}
-                  onPress={handleSubmit(handleOnContinue)}>
+                  disabled={amountExceedsBalance || dailyLimitAsync.data?.IsLimitExceeded}
+                  onPress={handleSubmit(handleOnContinue)}
+                  testID="InternalTransfers.StandardTransferScreen:ContinueButton">
                   {t("InternalTransfers.StandardTransferScreen.continueButton")}
                 </Button>
               </View>

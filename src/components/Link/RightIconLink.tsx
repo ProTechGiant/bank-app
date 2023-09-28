@@ -13,6 +13,7 @@ interface RightIconLinkProps {
   textSize?: keyof Theme["typography"]["text"]["sizes"];
   iconColor?: keyof Theme["palette"];
   linkColor?: keyof Theme["palette"];
+  testID?: string;
 }
 
 export default function RightIconLink({
@@ -22,6 +23,7 @@ export default function RightIconLink({
   textSize = "callout",
   linkColor,
   onPress,
+  testID,
 }: RightIconLinkProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
@@ -33,7 +35,7 @@ export default function RightIconLink({
   const iconStyleColor = useThemeStyles(theme => theme.palette[iconColor]);
 
   return (
-    <Pressable onPress={onPress} style={containerStyle}>
+    <Pressable onPress={onPress} style={containerStyle} testID={testID}>
       <Link onPress={onPress} linkColor={linkColor} textSize={textSize}>
         {children}
       </Link>

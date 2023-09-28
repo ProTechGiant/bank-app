@@ -12,6 +12,7 @@ interface ConfirmBeneficiaryListCardProps {
   label: string;
   icon: React.ReactElement<SvgProps | IconProps>;
   iconBackground?: keyof typeof palette;
+  testID?: string;
 }
 
 export default function ConfirmBeneficiaryListCard({
@@ -19,6 +20,7 @@ export default function ConfirmBeneficiaryListCard({
   label,
   icon,
   iconBackground,
+  testID,
 }: ConfirmBeneficiaryListCardProps) {
   const iconBackgroundStyle = useThemeStyles<ViewStyle>(
     theme => ({
@@ -50,7 +52,7 @@ export default function ConfirmBeneficiaryListCard({
             <Typography.Text color="neutralBase" size="footnote">
               {caption}
             </Typography.Text>
-            <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+            <Typography.Text color="neutralBase+30" size="callout" weight="regular" testID={testID}>
               {label}
             </Typography.Text>
           </View>

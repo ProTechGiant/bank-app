@@ -8,9 +8,10 @@ interface TransferErrorBoxProps {
   onPress?: () => void;
   textStart: string;
   textEnd?: string;
+  testID?: string;
 }
 
-export default function TransferErrorBox({ onPress, textStart, textEnd }: TransferErrorBoxProps) {
+export default function TransferErrorBox({ onPress, textStart, textEnd, testID }: TransferErrorBoxProps) {
   const errorBoxStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     backgroundColor: theme.palette["errorBase-30"],
@@ -24,7 +25,7 @@ export default function TransferErrorBox({ onPress, textStart, textEnd }: Transf
   const errorIconColor = useThemeStyles(theme => theme.palette.errorBase);
 
   return (
-    <Pressable onPress={onPress} style={errorBoxStyle}>
+    <Pressable onPress={onPress} style={errorBoxStyle} testID={testID}>
       <Typography.Text color="errorBase" size="footnote" weight="regular">
         {textStart}
       </Typography.Text>

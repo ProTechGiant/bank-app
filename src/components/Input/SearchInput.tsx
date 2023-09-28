@@ -16,10 +16,11 @@ interface SearchInputProps {
   value: string;
   onFocus?: () => void;
   onBlur?: () => void;
+  testID?: string;
 }
 
 function SearchInput_(
-  { isEditable = true, value, placeholder, onClear, onSearch, onFocus, onBlur }: SearchInputProps,
+  { isEditable = true, value, placeholder, onClear, onSearch, onFocus, onBlur, testID }: SearchInputProps,
   ref: React.ForwardedRef<TextInput>
 ) {
   const [isFocused, setIsFocused] = useState(false);
@@ -64,11 +65,12 @@ function SearchInput_(
             onChangeText={onSearch}
             placeholder={placeholder}
             style={textInputStyle}
+            testID={testID}
             value={value}
           />
           {/* removed clear text and added cross icon as according to new design. */}
           {value.length > 0 ? (
-            <Pressable onPress={onClear}>
+            <Pressable onPress={onClear} testID={testID !== undefined ? `${testID}-ClearButton` : undefined}>
               <CloseCircleFilledIcon />
             </Pressable>
           ) : null}

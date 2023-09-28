@@ -17,9 +17,10 @@ export interface AlertProps {
   endTestId?: string;
   isExpanded?: boolean;
   children?: React.ReactNode;
+  testID?: string;
 }
 
-function Alert({ variant, message, end, endTestId, isExpanded, children }: AlertProps) {
+function Alert({ variant, message, end, endTestId, isExpanded, children, testID }: AlertProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       flexDirection: "row",
@@ -56,7 +57,7 @@ function Alert({ variant, message, end, endTestId, isExpanded, children }: Alert
     variant === "success" ? <FilledCircleTickIcon /> : variant === "refresh" ? <SyncIcon /> : <InfoFilledCircleIcon />;
 
   return (
-    <View style={container}>
+    <View style={container} testID={testID}>
       {cloneElement(Icon, {
         height: 20,
         width: 20,

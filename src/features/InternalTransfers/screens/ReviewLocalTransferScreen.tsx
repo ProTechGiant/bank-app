@@ -187,13 +187,15 @@ export default function ReviewQuickTransferScreen() {
         <Typography.Text
           color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase" : "neutralBase+30"}
           weight="regular"
-          size="callout">
+          size="callout"
+          testID="InternalTransfers.ReviewLocalTransferScreen:FromOwner">
           {account.data?.owner}
         </Typography.Text>
         <Typography.Text
           color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase" : "neutralBase+30"}
           weight="regular"
-          size="callout">
+          size="callout"
+          testID="InternalTransfers.ReviewLocalTransferScreen:FromIban">
           {account.data?.iban}
         </Typography.Text>
       </View>
@@ -212,13 +214,15 @@ export default function ReviewQuickTransferScreen() {
         <Typography.Text
           color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase" : "neutralBase+30"}
           weight="regular"
-          size="callout">
+          size="callout"
+          testID="InternalTransfers.ReviewLocalTransferScreen:ToFullName">
           {route.params.Beneficiary.FullName}
         </Typography.Text>
         <Typography.Text
           color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase" : "neutralBase+30"}
           weight="regular"
-          size="callout">
+          size="callout"
+          testID="InternalTransfers.ReviewLocalTransferScreen:ToIban">
           {route.params.Beneficiary.IBAN}
         </Typography.Text>
       </View>
@@ -228,7 +232,7 @@ export default function ReviewQuickTransferScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader withBackButton />
+        <NavHeader withBackButton testID="InternalTransfers.ReviewLocalTransferScreen:NavHeader" />
         <ContentContainer isScrollView>
           <Stack direction="vertical" justify="space-between" flex={1}>
             <View>
@@ -279,7 +283,11 @@ export default function ReviewQuickTransferScreen() {
                 {transferFeesAsync.data === undefined ? (
                   <ActivityIndicator size="small" />
                 ) : (
-                  <Typography.Text color="neutralBase-10" weight="regular" size="callout">
+                  <Typography.Text
+                    color="neutralBase-10"
+                    weight="regular"
+                    size="callout"
+                    testID="InternalTransfers.ReviewLocalTransferScreen:TransferFee">
                     {formatCurrency(
                       Number(transferFeesAsync.data.TransferFee + transferFeesAsync.data.VatFee),
                       t("InternalTransfers.ReviewQuickTransferScreen.currency")
@@ -300,12 +308,18 @@ export default function ReviewQuickTransferScreen() {
               </View>
             </View>
             <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
-              <Button onPress={() => handleSendMoney()} variant="primary">
+              <Button
+                onPress={() => handleSendMoney()}
+                variant="primary"
+                testID="InternalTransfers.ReviewLocalTransferScreen:SubmitButton">
                 {transferType === TransferType.SarieTransferAction
                   ? t("InternalTransfers.ReviewQuickTransferScreen.transferNow")
                   : t("InternalTransfers.ReviewQuickTransferScreen.sendMoney")}
               </Button>
-              <Button onPress={() => handleOnClose()} variant="tertiary">
+              <Button
+                onPress={() => handleOnClose()}
+                variant="tertiary"
+                testID="InternalTransfers.ReviewLocalTransferScreen:CancelButton">
                 {t("InternalTransfers.ReviewQuickTransferScreen.cancel")}
               </Button>
             </Stack>
@@ -316,12 +330,12 @@ export default function ReviewQuickTransferScreen() {
         variant="warning"
         buttons={{
           primary: (
-            <Button onPress={handleOnCancel}>
+            <Button onPress={handleOnCancel} testID="InternalTransfers.ReviewLocalTransferScreen:ConfirmCancelButton">
               {t("InternalTransfers.ReviewQuickTransferScreen.notification.cancel")}
             </Button>
           ),
           secondary: (
-            <Button onPress={handleOnContinue}>
+            <Button onPress={handleOnContinue} testID="InternalTransfers.ReviewLocalTransferScreen:CancelCancelButton">
               {t("InternalTransfers.ReviewQuickTransferScreen.notification.continue")}
             </Button>
           ),

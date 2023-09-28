@@ -18,6 +18,7 @@ interface BeneficiaryOptionsModalProps {
   onCloseConfirmDelete: () => void;
   isConfirmDeleteVisible: boolean;
   isLoading?: boolean;
+  testID?: string;
 }
 
 export default function BeneficiaryOptionsModal({
@@ -29,8 +30,10 @@ export default function BeneficiaryOptionsModal({
   onCloseConfirmDelete,
   isConfirmDeleteVisible,
   isLoading = false,
+  testID,
 }: BeneficiaryOptionsModalProps) {
   const { t } = useTranslation();
+
   const menuContainer = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["32p"],
     borderTopWidth: 1,
@@ -38,9 +41,9 @@ export default function BeneficiaryOptionsModal({
   }));
 
   return (
-    <Modal onClose={onCloseMenu} headerText={name} visible={isMenuVisible}>
+    <Modal onClose={onCloseMenu} headerText={name} visible={isMenuVisible} testID={testID}>
       <View style={menuContainer}>
-        <Pressable onPress={onOpenDeleteConfirm}>
+        <Pressable onPress={onOpenDeleteConfirm} testID={testID !== undefined ? `${testID}-DeleteButton` : undefined}>
           <Stack direction="horizontal" align="center" gap="16p">
             <DeleteIcon />
             <Typography.Text size="callout" weight="medium" color="errorBase">
@@ -53,12 +56,18 @@ export default function BeneficiaryOptionsModal({
         variant="confirmations"
         buttons={{
           primary: (
-            <Button loading={isLoading} disabled={isLoading} onPress={onDelete}>
+            <Button
+              loading={isLoading}
+              disabled={isLoading}
+              onPress={onDelete}
+              testID={testID !== undefined ? `${testID}-ConfirmDeleteButton` : undefined}>
               {t("InternalTransfers.SendToBeneficiaryScreen.menu.deleteModal.deleteButton")}
             </Button>
           ),
           secondary: (
-            <Button onPress={onCloseConfirmDelete}>
+            <Button
+              onPress={onCloseConfirmDelete}
+              testID={testID !== undefined ? `${testID}-CancelDeleteButton` : undefined}>
               {t("InternalTransfers.SendToBeneficiaryScreen.menu.deleteModal.cancelButton")}
             </Button>
           ),

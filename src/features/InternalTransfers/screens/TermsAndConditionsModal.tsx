@@ -83,7 +83,11 @@ export default function TermsAndConditionsModal() {
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
+        <NavHeader
+          withBackButton={false}
+          end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
+          testID="InternalTransfers.TermsAndConditionsModal:NavHeader"
+        />
         {termsSections === undefined ? (
           <FlexActivityIndicator />
         ) : (
@@ -105,12 +109,14 @@ export default function TermsAndConditionsModal() {
               })}
             </ContentContainer>
             <Stack direction="horizontal" style={agreeAndDisagreeContainerStyle} justify="space-between">
-              <Pressable onPress={handleOnDisagreePress}>
+              <Pressable
+                onPress={handleOnDisagreePress}
+                testID="InternalTransfers.TermsAndConditionsModal:DisagreeButton">
                 <Typography.Text color="primaryBase-40" size="body" weight="regular">
                   {t("LocalTransfers.LocalTransfersTermsAndConditions.disagree")}
                 </Typography.Text>
               </Pressable>
-              <Pressable onPress={handleOnAgreePress}>
+              <Pressable onPress={handleOnAgreePress} testID="InternalTransfers.TermsAndConditionsModal:AgreeButton">
                 <Typography.Text color="primaryBase-40" size="body" weight="semiBold">
                   {t("LocalTransfers.LocalTransfersTermsAndConditions.agree")}
                 </Typography.Text>

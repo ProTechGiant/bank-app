@@ -31,6 +31,7 @@ interface BeneficiaryInput {
   firstName: string;
   lastName: string;
 }
+
 export default function StandardTransferNewBeneficiaryScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
@@ -167,26 +168,30 @@ export default function StandardTransferNewBeneficiaryScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader title={t("InternalTransfers.NewBeneficiaryScreen.navTitle")} />
+        <NavHeader
+          title={t("InternalTransfers.NewBeneficiaryScreen.navTitle")}
+          testID="InternalTransfers.NewBeneficiaryScreen:NavHeader"
+        />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.keyboard}>
           <ContentContainer isScrollView keyboardShouldPersistTaps="always" style={styles.container}>
             <Stack align="stretch" direction="vertical" gap="20p" style={formContainerStyle}>
               <Typography.Text color="neutralBase+30" size="title1" weight="medium">
                 {t("InternalTransfers.NewBeneficiaryScreen.title")}
               </Typography.Text>
-
               <Stack align="stretch" direction="vertical" gap="20p">
                 <TextInput
                   control={control}
                   label={t("InternalTransfers.NewBeneficiaryScreen.firstName")}
                   name="firstName"
                   placeholder={t("InternalTransfers.NewBeneficiaryScreen.firstName")}
+                  testID="InternalTransfers.NewBeneficiaryScreen:FirstNameInput"
                 />
                 <TextInput
                   control={control}
                   label={t("InternalTransfers.NewBeneficiaryScreen.lastName")}
                   name="lastName"
                   placeholder={t("InternalTransfers.NewBeneficiaryScreen.lastName")}
+                  testID="InternalTransfers.NewBeneficiaryScreen:LastNameInput"
                 />
                 <MaskedTextInput
                   autoCapitalize="characters"
@@ -194,10 +199,14 @@ export default function StandardTransferNewBeneficiaryScreen() {
                   label={t("InternalTransfers.NewBeneficiaryScreen.IBANnumber")}
                   name="iban"
                   mask={Masks.IBAN}
+                  testID="InternalTransfers.NewBeneficiaryScreen:IbanNumberInput"
                 />
               </Stack>
             </Stack>
-            <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+            <SubmitButton
+              control={control}
+              onSubmit={handleSubmit(handleOnSubmit)}
+              testID="InternalTransfers.NewBeneficiaryScreen:SubmitButton">
               {t("InternalTransfers.NewBeneficiaryScreen.continue")}
             </SubmitButton>
           </ContentContainer>
@@ -209,6 +218,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
         }}
         message={t("InternalTransfers.NewBeneficiaryScreen.iban.error.message")}
         title={t("InternalTransfers.NewBeneficiaryScreen.iban.error.title")}
+        testID="InternalTransfers.NewBeneficiaryScreen:IbanErrorModal"
         isVisible={isIbanRecognized}
         variant="error"
       />
@@ -229,7 +239,9 @@ export default function StandardTransferNewBeneficiaryScreen() {
         isVisible={exsistingBeneficiaryModalVisible}
         buttons={{
           primary: (
-            <Button onPress={() => handleOnExistingBeneficiarySubmit()}>
+            <Button
+              onPress={() => handleOnExistingBeneficiarySubmit()}
+              testID="InternalTransfers.NewBeneficiaryScreen:ExistingBeneficiaryButton">
               {t("InternalTransfers.NewBeneficiaryScreen.ExistingBeneficiaryModal.buttonText")}
             </Button>
           ),
@@ -239,10 +251,12 @@ export default function StandardTransferNewBeneficiaryScreen() {
         isVisible={isSwitchToARBModalVisible}
         onSwitchToARBPress={handleOnSwitchToARB}
         onCancelPress={handleOnCancel}
+        testID="InternalTransfers.NewBeneficiaryScreen:SwitchToArbModal"
       />
     </>
   );
 }
+
 const ERROR_BENEFICIARY_EXISTS = "beneficiary already exists";
 const ERROR_ACCOUNT_DOES_NOT_EXIST = "Account does not exist";
 const ERROR_BANK_NOT_FOUND = "This bank doesn't exist";
