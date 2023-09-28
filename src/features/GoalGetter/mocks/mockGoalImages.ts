@@ -12,3 +12,5 @@ export const goalImages = [
   { id: "11", ImageURL: "https://source.unsplash.com/user/c_v_r/1900×800" },
   { id: "12", ImageURL: "https://picsum.photos/id/237/200/300" },
 ];
+
+export const mockGoalDetailImage = "https://picsum.photos/seed/picsum/200/300";

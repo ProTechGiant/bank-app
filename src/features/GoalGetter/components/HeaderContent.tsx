@@ -17,7 +17,6 @@ export default function HeaderContent({ goalName, contribution, duration }: Head
 
   const headerTextPadding = useThemeStyles<TextStyle>(theme => ({
     paddingBottom: theme.spacing["12p"],
-    paddingTop: theme.spacing["12p"],
   }));
 
   const textPaddingBottom = useThemeStyles<TextStyle>(theme => ({

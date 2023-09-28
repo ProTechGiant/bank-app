@@ -1410,6 +1410,24 @@
       },
       "DateModal": { "selectButton": "Select", "headerText": "Select day" },
       "ButtonsText": { "confirmChanges": "Confirm changes", "cancel": "Cancel" }
+    },
+    "goalDetail": {
+      "buttonDeleteGoal": "Delete",
+      "buttonRedeem": "Redeem",
+      "buttonSubscribe": "Subscribe",
+      "paymentInstructions": "Payment instructions",
+      "monthlyContribution": "Monthly contribution",
+      "dateUpcoming": "Upcoming date: {{date_}}",
+      "detail": "Details",
+      "initialContribution": "Initial contribution",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "latestTransactions": "Latest transactions",
+      "mutualFund": "Mutual fund",
+      "highRisk": "High risk",
+      "of": "of {{amount}}",
+      "sar": "SAR",
+      "seeMore": "See more"
     }
   },
   "Referral": {

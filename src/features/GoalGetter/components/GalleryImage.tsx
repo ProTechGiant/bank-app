@@ -3,7 +3,7 @@ import { ImageStyle, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle
 import NetworkImage from "@/components/NetworkImage";
 import { useThemeStyles } from "@/theme";
 
-import { GallerySelectIcon } from "../assets/icons/GallerySelectIcon";
+import { GallerySelectIcon } from "../assets/icons";
 
 interface GalleryImageProps {
   id: string;

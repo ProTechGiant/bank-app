@@ -1,1 +1,13 @@
+export { default as BackGoalDetailIcon } from "./BackGoalDetailIcon";
+export { default as ButtonSubscribeIcon } from "./ButtonSubscribeIcon";
 export { default as ChangeImageIcon } from "./ChangeImageIcon";
+export { default as EditGoalIcon } from "./EditGoalIcon";
+export { default as EndDateIcon } from "./EndDateIcon";
+export { default as GallerySelectIcon } from "./GallerySelectIcon";
+export { default as GoalRedeemIcon } from "./GoalRedeemIcon";
+export { default as HighRiskGoalIcon } from "./HighRiskGoalIcon";
+export { default as InitialContributionIcon } from "./InitialContributionIcon";
+export { default as LandingGoalGetter } from "./LandingGoalGetter";
+export { default as MothlyContributionIcon } from "./MonthlyContributionIcon";
+export { default as MutualFundTag } from "./MutualFundTagIcon";
+export { default as StartDateIcon } from "./StartDateIcon";

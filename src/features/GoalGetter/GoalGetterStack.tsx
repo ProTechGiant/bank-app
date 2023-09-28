@@ -10,6 +10,7 @@ import {
   GoalGetterScreen,
   GoalMindScreen,
   ImageGalleryScreen,
+  ManageGoalScreen,
   MatchProductsScreen,
   ReviewGoalScreen,
   RisksAppetiteScreen,
@@ -23,10 +24,13 @@ export type GoalGetterStackParams = {
   "GoalGetter.CreateGoalScreen": undefined;
   "GoalGetter.GoalsAndProducts": undefined;
   "GoalGetter.GoalDashboardScreen": undefined;
-  "GoalGetter.ImageGallary": undefined;
+  "GoalGetter.ImageGallary": {
+    screen: string;
+  };
   "GoalGetter.TermsAndConditionsScreen": undefined;
   "GoalGetter.GoalMindScreen": undefined;
   "GoalGetter.RisksAppetiteScreen": undefined;
+  "GoalGetter.ManageGoal": { selectedImageURL?: string } | undefined;
   "GoalGetter.MatchProductsScreen": undefined;
   "GoalGetter.GoalCreatedSuccessfullyScreen": undefined;
   "GoalGetter.ReviewGoalScreen": undefined;
@@ -41,6 +45,8 @@ export default function GoalGetterStack() {
           headerShown: false,
         }}>
         <Stack.Screen component={GoalGetterScreen} name="GoalGetter.GoalsAndProducts" />
+        <Stack.Screen component={GoalDashboardScreen} name="GoalGetter.GoalDashboardScreen" />
+        <Stack.Screen component={ManageGoalScreen} name="GoalGetter.ManageGoal" />
         <Stack.Screen component={TargetAmountScreen} name="GoalGetter.TargetAmountScreen" />
         <Stack.Screen component={CreateGoalScreen} name="GoalGetter.CreateGoalScreen" />
         <Stack.Screen
@@ -51,7 +57,6 @@ export default function GoalGetterStack() {
         <Stack.Screen component={GoalMindScreen} name="GoalGetter.GoalMindScreen" />
         <Stack.Screen component={RisksAppetiteScreen} name="GoalGetter.RisksAppetiteScreen" />
         <Stack.Screen component={ReviewGoalScreen} name="GoalGetter.ReviewGoalScreen" />
-        <Stack.Screen component={GoalDashboardScreen} name="GoalGetter.GoalDashboardScreen" />
         <Stack.Screen component={TermsAndConditionsScreen} name="GoalGetter.TermsAndConditionsScreen" />
         <Stack.Screen component={ContributionScreen} name="GoalGetter.ContributionScreen" />
         <Stack.Screen component={GoalCreatedSuccessfullyScreen} name="GoalGetter.GoalCreatedSuccessfullyScreen" />

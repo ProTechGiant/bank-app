@@ -1,6 +1,7 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import Button from "@/components/Button";
@@ -14,6 +15,7 @@ import { HeaderContent, MatchProductCard } from "../components";
 
 export default function MatchProductsScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
@@ -73,8 +75,7 @@ export default function MatchProductsScreen() {
   ];
 
   const handleChooseProduct = () => {
-    //TODO: when api is ready
-    console.log("Selected Product:", selectedCard);
+    navigation.navigate("GoalGetter.ContributionScreen");
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -93,12 +94,18 @@ export default function MatchProductsScreen() {
   }));
 
   return (
-    <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
-      <NavHeader variant="angled" withBackButton={false}>
-        {/* TODO:data will be dynamic when api is ready */}
-        <ProgressIndicator currentStep={3} totalStep={5} />
+    <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
+      <NavHeader
+        variant="angled"
+        title={
+          <View style={styles.progressIndicator}>
+            <ProgressIndicator currentStep={4} totalStep={5} />
+          </View>
+        }
+        end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}>
         <HeaderContent goalName="phone" contribution="12,000 SAR" duration="24 months" />
       </NavHeader>
+
       <View style={titleContainerStyle}>
         <Typography.Text size="title2" weight="medium">
           {t("GoalGetter.SelectProductsScreen.title")}
@@ -122,3 +129,6 @@ export default function MatchProductsScreen() {
     </Page>
   );
 }
+const styles = StyleSheet.create({
+  progressIndicator: { width: "80%" },
+});

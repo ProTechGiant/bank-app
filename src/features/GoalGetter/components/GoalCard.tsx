@@ -3,6 +3,7 @@ import { ImageBackground, Pressable, StyleSheet, View, ViewStyle } from "react-n
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import ProgressBar from "./ProgressBar";
@@ -36,10 +37,11 @@ export default function GoalCard({
   goalPercentageStatus,
   goalPercentageAmount,
 }: GoalCardProps) {
+  const navigation = useNavigation();
   const { t } = useTranslation();
 
   const handleOnGoalCardPress = () => {
-    //TODO - handle navigation
+    navigation.navigate("GoalGetter.ManageGoal");
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({

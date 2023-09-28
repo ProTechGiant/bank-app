@@ -6,6 +6,7 @@ export { default as GoalDashboardScreen } from "./GoalDashboardScreen";
 export { default as GoalGetterScreen } from "./GoalGetterScreen";
 export { default as GoalMindScreen } from "./GoalMindScreen";
 export { default as ImageGalleryScreen } from "./ImageGalleryScreen";
+export { default as ManageGoalScreen } from "./ManageGoalScreen";
 export { default as MatchProductsScreen } from "./MatchProductsScreen";
 export { default as ReviewGoalScreen } from "./ReviewGoalScreen";
 export { default as RisksAppetiteScreen } from "./RisksAppetiteScreen";

@@ -67,3 +67,16 @@ export const getProgressColor = (goalTimeAchievePercentage: number, currentAmoun
     };
   }
 };
+
+export function formatAmount(amount: number, needDecimal = true) {
+  const formattedAmount = amount.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  if (needDecimal) {
+    return formattedAmount;
+  } else {
+    const [wholePart] = formattedAmount.split(".");
+    return wholePart;
+  }
+}

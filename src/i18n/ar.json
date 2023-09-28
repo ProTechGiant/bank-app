@@ -1337,6 +1337,24 @@
       },
       "DateModal": { "selectButton": "اختيار", "headerText": "اختر المدة" },
       "ButtonsText": { "confirmChanges": "تأكيد التغييرات", "cancel": "الغاء" }
+    },
+    "goalDetail": {
+      "buttonDeleteGoal": "حذف",
+      "buttonRedeem": "بيع",
+      "buttonSubscribe": "شراء",
+      "paymentInstructions": "تعليمات الدفع",
+      "monthlyContribution": "المساهمة الشهرية",
+      "dateUpcoming": "{{date_}}:موعد التسديد القادم",
+      "detail": "التفاصيل",
+      "initialContribution": "المساهمة الاولية",
+      "startDate": "تاريخ البدء",
+      "endDate": "تاريخ الإنتهاء",
+      "latestTransactions": "آخر المساهمات",
+      "mutualFund": "Mutual fund",
+      "highRisk": "High risk",
+      "of": "من {{amount}}",
+      "sar": "ر.س",
+      "seeMore": "المزيد"
     }
   },
   "InstructionsScreen": {

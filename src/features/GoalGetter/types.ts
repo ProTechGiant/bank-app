@@ -18,7 +18,8 @@ interface Goal {
   ShortFallStatus: string;
   ShortFallValue: number;
 }
-export interface CustomerGoal {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface CustomerGoal {
   Goals: Goal[];
   CreationGoalAvailability: string;
 }
@@ -52,4 +53,9 @@ export interface DonutChartIconProps {
 }
 export interface PieChartProps {
   data: { x: string; y: number }[];
+}
+export interface Transaction {
+  Title: string;
+  Date: string;
+  Amount: number;
 }

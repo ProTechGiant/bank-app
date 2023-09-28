@@ -59,7 +59,7 @@ export default function CreateGoalScreen() {
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.small,
-    paddingTop: theme.spacing["24p"],
+    paddingTop: theme.spacing["32p"],
     backgroundColor: theme.palette["neutralBase-60"],
     flex: 1,
   }));

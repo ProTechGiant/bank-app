@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, View, ViewStyle } from "react-native";
@@ -5,6 +6,7 @@ import { FlatList, View, ViewStyle } from "react-native";
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -15,6 +17,7 @@ import { goalImages } from "../mocks/mockGoalImages";
 export default function ImageGalleryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "GoalGetter.ImageGallary">>();
   const [selectedImageId, setSelectedImageId] = useState<string | undefined>();
 
   const { setGoalContextState } = useGoalGetterContext();
@@ -35,7 +38,8 @@ export default function ImageGalleryScreen() {
 
     if (selectedImage) {
       const selectedImageURL = selectedImage.ImageURL;
-      navigation.navigate("GoalGetter.CreateGoalScreen", { selectedImageURL });
+      if (route.params?.screen) navigation.navigate(route.params.screen, { selectedImageURL });
+      else navigation.goBack();
     }
   };
 
@@ -64,7 +68,9 @@ export default function ImageGalleryScreen() {
             />
           )}
         />
-        <Button onPress={handleImageSelectPress}>{t("GoalGetter.imageGallery.buttonSave")} </Button>
+        <Button disabled={selectedImageId === undefined} onPress={handleImageSelectPress}>
+          {t("GoalGetter.imageGallery.buttonSave")}
+        </Button>
       </View>
     </Page>
   );
