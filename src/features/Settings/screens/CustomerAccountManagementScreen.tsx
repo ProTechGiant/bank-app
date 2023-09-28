@@ -36,7 +36,7 @@ import { useCheckDailyPasscodeLimit } from "../hooks/query-hooks";
 export default function CustomerAccountManagement() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { data } = useCheckDailyPasscodeLimit();
+  const { refetch: checkDailyPasscodeLimit } = useCheckDailyPasscodeLimit();
 
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
   const [isEditHomeConfigurationVisible, setIsEditHomeConfigurationVisible] = useState(false);
@@ -51,7 +51,8 @@ export default function CustomerAccountManagement() {
     navigation.navigate("NotificationManagement.NotificationManagementStack");
   };
 
-  const handleOnPassCodePress = () => {
+  const handleOnPassCodePress = async () => {
+    const { data } = await checkDailyPasscodeLimit();
     if (data?.UpdatePasscodeEnabled) {
       navigation.navigate("Passcode.ChangePasscodeStack");
     } else {
