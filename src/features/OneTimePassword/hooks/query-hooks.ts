@@ -21,11 +21,15 @@ interface HandleOtpParams<Stack extends AnyStack, Route extends keyof Stack, Pay
   action: undefined extends Stack[Route]
     ? { to: Route }
     : { to: Route; params: Omit<Stack[Route], "otpResponseStatus" | "otpResponsePayload"> };
-  onFinish?: (status: OtpResponseStatus, payload: Payload) => void;
+  onFinish?: (status: OtpResponseStatus, payload: Payload, errorId?: string) => void;
 }
 
 export function useOtpFlow<Stack extends AnyStack>() {
-  type OtpCallbackResponse = { otpResponseStatus?: OtpResponseStatus; otpResponsePayload: unknown };
+  type OtpCallbackResponse = {
+    otpResponseStatus?: OtpResponseStatus;
+    otpResponsePayload: unknown;
+    otpResponseErrorId?: string;
+  };
 
   const navigation = useNavigation();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,17 +37,21 @@ export function useOtpFlow<Stack extends AnyStack>() {
   const params = route.params as unknown as OtpCallbackResponse;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const responseEffectRef = useRef<((status: OtpResponseStatus, payload: any) => void) | undefined>(undefined);
+  const responseEffectRef = useRef<((status: OtpResponseStatus, payload: any, errorId?: string) => void) | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     if (params?.otpResponseStatus === undefined) {
       return;
     }
 
-    responseEffectRef.current?.(params.otpResponseStatus, params.otpResponsePayload);
+    responseEffectRef.current?.(params.otpResponseStatus, params.otpResponsePayload, params.otpResponseErrorId);
   }, [params]);
 
-  const useOtpResponseEffect = <Payload>(fn: (status: OtpResponseStatus, payload: Payload) => void) => {
+  const useOtpResponseEffect = <Payload>(
+    fn: (status: OtpResponseStatus, payload: Payload, errorId?: string) => void
+  ) => {
     responseEffectRef.current = fn;
   };
 

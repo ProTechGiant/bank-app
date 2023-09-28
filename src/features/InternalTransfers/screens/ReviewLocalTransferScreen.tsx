@@ -14,7 +14,6 @@ import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCurrentAccount } from "@/hooks/use-accounts";
-import { useTransferLimitAmount } from "@/hooks/use-transfer-limit";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -52,8 +51,6 @@ export default function ReviewQuickTransferScreen() {
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
   const [isErrorTransferLimit, setIsErrorTransferLimit] = useState(false);
 
-  const currentAccountBalance = (account && account.data && account.data.balance) ?? 0;
-
   useEffect(() => {
     setIsErrorModalVisible(transferFeesAsync.isError);
   }, [transferFeesAsync]);
@@ -61,8 +58,6 @@ export default function ReviewQuickTransferScreen() {
   const handleOnClose = () => {
     setIsVisible(true);
   };
-
-  const { transferLimitAmount } = useTransferLimitAmount(String(account?.data?.id));
 
   const handleSendMoney = async () => {
     if (
@@ -75,12 +70,6 @@ export default function ReviewQuickTransferScreen() {
     ) {
       return;
     }
-
-    if (transferAmount > transferLimitAmount || transferAmount > currentAccountBalance) {
-      setIsErrorTransferLimit(true);
-      return;
-    }
-    setIsErrorTransferLimit(false);
 
     const localTransferRequest: LocalTransfer = {
       transferAmount: route.params.PaymentAmount,
@@ -114,10 +103,17 @@ export default function ReviewQuickTransferScreen() {
           ? localTransferForSarieAsync.mutateAsync(localTransferRequest)
           : localTransferForIPSAsync.mutateAsync(localTransferRequest);
       },
-      onFinish: status => {
+      onFinish: (status, _payload, errorId) => {
+        if (errorId === "0125") {
+          delayTransition(() => {
+            setIsErrorTransferLimit(true);
+          });
+        }
+
         if (status === "cancel") {
           return;
         }
+
         if (status === "fail") {
           if (transferType === TransferType.SarieTransferAction) {
             setIsGenericErrorModalVisible(false);

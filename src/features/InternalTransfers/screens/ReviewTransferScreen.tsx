@@ -12,11 +12,11 @@ import Stack from "@/components/Stack";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCurrentAccount, useInvalidateBalances } from "@/hooks/use-accounts";
-import { useTransferLimitAmount } from "@/hooks/use-transfer-limit";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
+import delayTransition from "@/utils/delay-transition";
 
 import { ReviewTransferDetail } from "../components";
 import { useInternalTransfer, useInternalTransferCroatiaToARB, useTransferReasonsByCode } from "../hooks/query-hooks";
@@ -48,8 +48,6 @@ export default function ReviewTransferScreen() {
     setIsVisible(true);
   };
 
-  const currentAccountBalance = (account && account.data && account.data.balance) ?? 0;
-
   const handleSendMoney = async () => {
     if (
       account.data === undefined ||
@@ -59,11 +57,6 @@ export default function ReviewTransferScreen() {
     ) {
       return;
     }
-    if (transferAmount > transferLimitAmount || transferAmount > currentAccountBalance) {
-      setIsErrorTransferLimit(true);
-      return;
-    }
-    setIsErrorTransferLimit(false);
 
     const internalTransferDetails: InternalTransfer = {
       Reason: "internal-to-bank",
@@ -111,7 +104,13 @@ export default function ReviewTransferScreen() {
             return internalTransferAsync.mutateAsync(internalTransferDetails);
           }
         },
-        onFinish: status => {
+        onFinish: (status, _payload, errorId) => {
+          if (errorId === "0125") {
+            delayTransition(() => {
+              setIsErrorTransferLimit(true);
+            });
+          }
+
           if (status === "cancel") {
             return;
           }
@@ -133,8 +132,6 @@ export default function ReviewTransferScreen() {
       warn("internal-transfer", "Could not request OTP: ", JSON.stringify(error));
     }
   };
-
-  const { transferLimitAmount } = useTransferLimitAmount(String(account?.data?.id));
 
   const handleAddNote = () => {
     navigation.navigate("InternalTransfers.AddNoteScreen", { updateNote: updateNote, note: note });
