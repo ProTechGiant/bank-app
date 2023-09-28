@@ -22,7 +22,7 @@ export default function GoalDashboardScreen() {
   const [currentTab, setCurrentTab] = useState<"Goals" | "Products">("Goals");
 
   const handleOnPress = () => {
-    //TODO - handle navigation
+    navigation.navigate("GoalGetter.GoalMindScreen");
   };
 
   const handleOnBackPress = () => {
