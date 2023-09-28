@@ -170,7 +170,6 @@ export default function ProfileDetailsScreen() {
               screen: "SignIn.UserBlocked",
               params: {
                 type: "otp",
-                navigateTo: "ProfileDetails.ProfileDetailsScreen",
               },
             });
           },

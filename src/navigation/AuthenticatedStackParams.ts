@@ -92,7 +92,6 @@ type RootStackParams = {
         screen: string;
         params: {
           type: string;
-          navigateTo: string;
         };
       };
   "FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack": undefined;

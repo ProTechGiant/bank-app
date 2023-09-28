@@ -21,7 +21,7 @@ interface HandleOtpParams<Stack extends AnyStack, Route extends keyof Stack, Pay
   action: undefined extends Stack[Route]
     ? { to: Route }
     : { to: Route; params: Omit<Stack[Route], "otpResponseStatus" | "otpResponsePayload"> };
-  onFinish?: (status: OtpResponseStatus, payload: Payload, errorId?: string) => void;
+  onFinish?: (status: OtpResponseStatus, payload: Payload, errorId?: string) => void | Promise<void>;
 }
 
 export function useOtpFlow<Stack extends AnyStack>() {
@@ -90,7 +90,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       const isSadadFlow = method === "payments/sadad";
       const isCardsFlow = method === "card-actions";
 
-      const endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
+      let endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
       const requestParam = isLoginFlow
         ? { OtpId: OtpId, OtpCode: OtpCode, Reason: method }
         : isSadadFlow
@@ -131,6 +131,15 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
             ["Authorization"]: generateRandomId(), // TODO: This should come from Auth Context
           }
         );
+      }
+
+      if (method === "goals/submit") {
+        endpoint = "goals/submit";
+        // TODO: remove this mock once api ready from BE team
+        return Promise.resolve({
+          Status: "OTP_MATCH_SUCCESS",
+          NumberOfAttempts: 0,
+        });
       }
 
       return api<ValidateOtpResponse & ResponseT>(

@@ -37,7 +37,8 @@ export type OtpVerifyMethodType =
   | "payments/sadad"
   | "register-email"
   | "link-proxy-alias"
-  | "optout-proxy-alias";
+  | "optout-proxy-alias"
+  | "goals/submit";
 
 export interface OtpRequiredResponse {
   OtpId: string;

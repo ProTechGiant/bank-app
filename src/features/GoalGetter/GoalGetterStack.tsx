@@ -17,6 +17,7 @@ import {
   TargetAmountScreen,
   TermsAndConditionsScreen,
 } from "./screens";
+import { GoalGetterStateType } from "./types";
 
 export const Stack = createNativeStackNavigator();
 
@@ -33,7 +34,7 @@ export type GoalGetterStackParams = {
   "GoalGetter.ManageGoal": { selectedImageURL?: string } | undefined;
   "GoalGetter.MatchProductsScreen": undefined;
   "GoalGetter.GoalCreatedSuccessfullyScreen": undefined;
-  "GoalGetter.ReviewGoalScreen": undefined;
+  "GoalGetter.ReviewGoalScreen": { pendingGoalAttributes?: GoalGetterStateType } | undefined;
   "GoalGetter.EditGoalGetter": undefined;
 };
 

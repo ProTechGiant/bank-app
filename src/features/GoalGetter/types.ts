@@ -59,3 +59,27 @@ export interface Transaction {
   Date: string;
   Amount: number;
 }
+
+// TODO: check with BE team goal object type, maybe will be changed, for example roundUP to boolean
+export interface GoalGetterContextState {
+  goalName: string;
+  predefinedGoalName: string;
+  targetAmount: number;
+  initialContribution: number;
+  monthlyContribution?: number;
+  recurringDay?: string;
+  targetDate?: string;
+  riskId: number;
+  productId?: string;
+  roundUP: "Y" | "N";
+  goalImage: string;
+  predefinedGoalId: number;
+  predefinedGoalDefaultImage?: string;
+  startDate?: string;
+  otpCode?: string;
+  productUnitOfMeasurement?: "Grams" | "SAR";
+  setGoalContextState: (newState: Partial<GoalGetterContextState>) => void;
+  resetGoalContextState: () => void;
+}
+
+export type GoalGetterStateType = Omit<GoalGetterContextState, "setGoalContextState" | "resetGoalContextState">;

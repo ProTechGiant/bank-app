@@ -1,30 +1,10 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
-// TODO: check with BE team goal object type, maybe will be changed, for example roundUP to boolean
-interface GoalGetterContextState {
-  goalName: string;
-  predefinedGoalName: string;
-  targetAmount: number;
-  initialContribution: number;
-  monthlyContribution?: number;
-  recurringDay?: string;
-  targetDate?: string;
-  riskId: number;
-  productId?: string;
-  roundUP: "Y" | "N";
-  goalImage: string;
-  predefinedGoalId: number;
-  predefinedGoalDefaultImage?: string;
-  startDate?: string;
-  otpCode?: string;
-  productUnitOfMeasurement?: "Grams" | "SAR";
-  setGoalContextState: (newState: Partial<GoalGetterContextState>) => void;
-  resetGoalContextState: () => void;
-}
+import { GoalGetterContextState, GoalGetterStateType } from "../types";
 
 const GoalGetterContext = createContext<GoalGetterContextState>({} as GoalGetterContextState);
 
-const initialState: Omit<GoalGetterContextState, "setGoalContextState" | "resetGoalContextState"> = {
+const initialState: GoalGetterStateType = {
   predefinedGoalId: 0,
   predefinedGoalName: "",
   predefinedGoalDefaultImage: undefined,

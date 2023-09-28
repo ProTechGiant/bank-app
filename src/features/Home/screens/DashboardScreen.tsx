@@ -114,8 +114,25 @@ export default function DashboardScreen() {
     }
   };
 
+  const handleGoalGetterNavigation = async () => {
+    const pendingGoalAttributes = await getItemFromEncryptedStorage("pendingGoalGetter");
+    if (pendingGoalAttributes) {
+      navigation.navigate("GoalGetter.GoalGetterStack", {
+        screen: "GoalGetter.ReviewGoalScreen",
+        params: { pendingGoalAttributes: JSON.parse(pendingGoalAttributes) },
+      });
+    } else {
+      // TODO: check goal onboarding flow
+      navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalGetterScreen" });
+    }
+  };
+
   const handleOnQuickActionPressed = (screen: string, stack: string) => {
     if (screen === undefined || screen === "") return;
+    if (stack === "GoalGetter.GoalGetterStack") {
+      handleGoalGetterNavigation();
+      return;
+    }
     if (stack === "InternalTransfers.InternalTransfersStack") {
       setInternalTransferEntryPoint("homepage");
       clearContext();

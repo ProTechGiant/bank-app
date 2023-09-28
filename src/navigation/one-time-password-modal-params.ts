@@ -12,5 +12,5 @@ export default interface OneTimePasswordModalParams<T extends AuthenticatedStack
   otpOptionalParams?: Record<string, unknown>;
   otpChallengeParams?: OtpChallengeParams;
   onOtpRequest: () => Promise<OtpChallengeParams>;
-  onUserBlocked?: () => void;
+  onUserBlocked?: () => void | Promise<void>;
 }
