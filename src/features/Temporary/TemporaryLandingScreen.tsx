@@ -198,7 +198,7 @@ export default function TemporaryLandingScreen() {
   const handleOnGoalGetter = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     setImmediate(() => {
-      navigation.navigate("GoalGetter.GoalDashboardScreen");
+      navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalDashboardScreen" });
     });
   };
 

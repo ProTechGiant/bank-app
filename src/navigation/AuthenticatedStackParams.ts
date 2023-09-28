@@ -65,7 +65,11 @@ type RootStackParams = {
   "Temporary.LandingScreen": undefined;
   "Temporary.DummyScreen": undefined;
   "Referral.ReferralStack": undefined;
-  "GoalGetter.GoalGetterStack": undefined;
+  "GoalGetter.GoalGetterStack":
+    | {
+        screen: keyof GoalGetterStackParams;
+      }
+    | undefined;
   "SignIn.SignInStack": undefined;
   "Modal.QuickActionsReorderModal": undefined;
   "Modal.HomepageReorderModal": undefined;
