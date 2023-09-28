@@ -1,4 +1,4 @@
-import { addMonths, format } from "date-fns";
+import { addDays, addMonths, format } from "date-fns";
 
 import { calculateGoalBalanceOverThreeQuarters, isNextMonth, setDateAndFormatRecurringPayment } from "./helpers";
 import { SavingsPotDetailsResponse } from "./types";
@@ -83,10 +83,9 @@ describe("setDateAndFormatRecurringPayment", () => {
 
   test("should return the correct date when inputDay is greater than the current day", () => {
     const currentDate = new Date();
-    const currentDay = currentDate.getDate();
-    const inputDay = currentDay + 3;
+    const inputDay = addDays(currentDate, 3).getDate();
 
-    const expectedResult = format(currentDate, "yyyyMM") + inputDay.toString().padStart(2, "0");
+    const expectedResult = format(addDays(currentDate, 3), "yyyyMMdd");
 
     expect(setDateAndFormatRecurringPayment(inputDay)).toBe(expectedResult);
   });
