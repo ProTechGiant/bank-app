@@ -22,8 +22,8 @@ export default function CardPinScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { mutateAsync: validatePincode, data } = useValidatePincode();
-  const { errorMessages } = useErrorMessages(data as ApiError);
+  const { mutateAsync: validatePincode, error: pinCodeError, isError } = useValidatePincode();
+  const { errorMessages } = useErrorMessages(pinCodeError as ApiError);
   const [showModel, setShowModel] = useState<boolean>(false);
   const [pinCode, setPinCode] = useState<string>("");
 
@@ -44,9 +44,9 @@ export default function CardPinScreen() {
       if (response.Status) {
         handleNavigate();
       }
-      const errorId = response?.errorContent?.Errors[0]?.ErrorId;
-      if (errorId === "0032") handleBlocked(); //TODO: This logic will be removed once aPI will be working
     } catch (error: any) {
+      const errorId = error?.errorContent?.Errors[0]?.ErrorId;
+      if (errorId === "0032") handleBlocked();
       setPinCode("");
     }
   };
@@ -109,7 +109,7 @@ export default function CardPinScreen() {
         <PasscodeInput
           title={t("SignIn.CardPinScreen.title")}
           errorMessage={errorMessages}
-          isError={true} //TODO: This will be handled by the isError state managing the API call
+          isError={isError}
           showModel={showModel}
           subTitle={t("SignIn.CardPinScreen.subTitle")}
           resetError={handleBlockedNavigate}

@@ -26,6 +26,11 @@ export function useErrorMessages(err: ApiError) {
         icon: <InfoFilledCircleIcon />,
         variant: "error",
       },
+      "0015": {
+        message: t("SignIn.IqamaInputScreen.errorText.noMatchRecord"),
+        icon: <InfoFilledCircleIcon />,
+        variant: "error",
+      },
       "0009": {
         title: t("SignIn.IqamaInputScreen.errorText.modalTitle"),
         modalMessage: t("SignIn.IqamaInputScreen.errorText.modalMessage"),

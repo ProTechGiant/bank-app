@@ -92,19 +92,11 @@ export function useRequestNumber() {
 
   return useMutation(
     async () => {
-      return api<RequestNumberResponseType>(
-        "v1",
-        "customers/nafath/get-transaction-id",
-        "POST",
-        undefined,
-        {},
-        {
-          ["x-correlation-id"]: correlationId,
-          ["Accept-Language"]: i18n.language.toUpperCase(),
-          ["deviceId"]: DeviceInfo.getDeviceId(),
-          ["IDNumber"]: nationalId || "",
-        }
-      );
+      return api<RequestNumberResponseType>("v2", "customers/nafath/get-transaction-id", "GET", undefined, undefined, {
+        ["x-correlation-id"]: correlationId,
+        ["Accept-Language"]: i18n.language.toUpperCase(),
+        ["IDNumber"]: nationalId || "",
+      });
     },
     {
       onSuccess(data) {
@@ -116,16 +108,25 @@ export function useRequestNumber() {
 }
 
 export function useGetCustomerDetails() {
-  const { correlationId } = useSignInContext();
+  const { correlationId, transactionId } = useSignInContext();
   const { i18n } = useTranslation();
 
   if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
   return useQuery(queryKeys.all(), () => {
-    return api<{ OnboardingDate: string }>("v1", "customers/nafath/cust-info", "GET", undefined, undefined, {
-      ["x-correlation-id"]: correlationId,
-      ["Accept-Language"]: i18n.language.toUpperCase(),
-    });
+    return api<{ OnboardingDate: string }>(
+      "v2",
+      "customers/nafath/cust-info",
+      "GET",
+      {
+        transactionId,
+      },
+      undefined,
+      {
+        ["x-correlation-id"]: correlationId,
+        ["Accept-Language"]: i18n.language.toUpperCase(),
+      }
+    );
   });
 }
 

@@ -1,4 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
+import { parseISO } from "date-fns";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BackHandler, useWindowDimensions, View, ViewStyle } from "react-native";
@@ -35,7 +36,6 @@ export default function UserBlockedScreen() {
   const { setSignInCorrelationId } = useSignInContext();
   const [isItPermanentBlock, setIsItPermanentBlock] = useState(false);
   const [remainingSecs, setRemainingSecs] = useState<number>(0);
-  const [userExist, setUserExist] = useState<boolean>(false);
   const [user, setUser] = useState<UserType | null>(null);
 
   const timeoutRef = useRef<NodeJS.Timeout>();
@@ -49,7 +49,6 @@ export default function UserBlockedScreen() {
         const tempUserData = await getItemFromEncryptedStorage("tempUser");
         setUser(tempUserData ? JSON.parse(tempUserData) : null);
       }
-      setUserExist(!!userData);
     };
     getUser();
   }, []);
@@ -68,8 +67,7 @@ export default function UserBlockedScreen() {
           checkUserAccountStatus();
           return;
         } else {
-          // Assuming isUserPermanentBlocked is a string representing the end time
-          handleTimeLogic(Number(isUserPermanentBlocked));
+          checkUserAccountStatus();
         }
       }
     })();
@@ -79,7 +77,7 @@ export default function UserBlockedScreen() {
       clearTimeout(timeoutRef.current);
       backHandler.remove();
     };
-  }, [userExist]);
+  }, [user]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -93,15 +91,15 @@ export default function UserBlockedScreen() {
       if (user) {
         const response = await mutateAsync(user.CustomerId);
         if (response) {
-          const { StatusId } = response;
-          if (StatusId === StatusTypes.ACTIVE) {
+          const lastModifiedTime = parseISO(response.LastModifiedTime);
+          if (response.StatusId === StatusTypes.ACTIVE) {
             handleNavigate();
           } else {
-            if (StatusId === StatusTypes.TEMPORARILY_BLOCKED) {
-              const userBlockTime = new Date().getTime() + BLOCKED_TIME * 60 * 1000; //TODO: replace with the value from API
+            if (response.StatusId === StatusTypes.TEMPORARILY_BLOCKED) {
+              const userBlockTime = lastModifiedTime.getTime() + BLOCKED_TIME * 60 * 1000;
               handleTimeLogic(userBlockTime);
             }
-            setIsItPermanentBlock(StatusId === StatusTypes.PERMANENTLY_BLOCKED);
+            setIsItPermanentBlock(response.StatusId === StatusTypes.PERMANENTLY_BLOCKED);
           }
         }
       }

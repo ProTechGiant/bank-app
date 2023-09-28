@@ -23,12 +23,9 @@ import { UserType } from "../types";
 export default function ChangePasscodeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  //TODO : will use it once API is ready
-  // const { mutateAsync, error: loginError , isError } = useLoginUser();
-  // const loginUserError = loginError as ApiError;
-  // const { errorMessages } = useErrorMessages(loginUserError);
-  const { mutateAsync, data } = useLoginUser();
-  const { errorMessages } = useErrorMessages(data as ApiError);
+  const { mutateAsync, error: loginError, isError } = useLoginUser();
+  const loginUserError = loginError as ApiError;
+  const { errorMessages } = useErrorMessages(loginUserError);
   const [passCode, setPasscode] = useState<string>("");
   const [user, setUser] = useState<UserType | null>(null);
   const otpFlow = useOtpFlow();
@@ -56,14 +53,10 @@ export default function ChangePasscodeScreen() {
       if (response.AccessToken) {
         handleNavigate();
       }
-      //TODO: This logic will be removed once API is ready
-      const errorId = response?.errorContent?.Errors[0].ErrorId;
+    } catch (error: any) {
+      const errorId = error?.errorContent?.Errors[0].ErrorId;
       if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
       if (errorId === "0010") blockedUserFlow.handle("passcode");
-    } catch (error: any) {
-      // const errorId = error?.errorContent?.Errors[0].ErrorId;
-      // if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
-      // if (errorId === "0010") blockedUserFlow.handle("passcode");
       setPasscode("");
     }
   };
@@ -117,7 +110,7 @@ export default function ChangePasscodeScreen() {
           subTitle={t("SignIn.ChangePasscodeScreen.subTitle")}
           errorMessage={errorMessages}
           passcode={passCode}
-          isError={true} //TODO: This will be handled by the isError state managing the API call
+          isError={isError}
           length={PASSCODE_LENGTH}
         />
         <NumberPad passcode={passCode} setPasscode={setPasscode} />

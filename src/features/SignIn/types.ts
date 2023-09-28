@@ -61,7 +61,7 @@ export interface CheckUserStatusResponse {
 
 export interface UserType {
   TotalRecords: number;
-  UserId: string;
+  IsvaUserId: string;
   NationalId: string;
   AccountValid: boolean;
   UserName: string;

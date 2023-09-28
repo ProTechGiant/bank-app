@@ -101,7 +101,7 @@ export default function ConfirmPasscodeScreen() {
       } else {
         await resetPasscode({
           Passcode: passcode,
-          isvaUserId: user?.UserId,
+          isvaUserId: user?.IsvaUserId,
         });
       }
       setShowSuccessModal(true);

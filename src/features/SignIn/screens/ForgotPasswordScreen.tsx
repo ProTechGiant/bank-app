@@ -18,7 +18,7 @@ import { MobileAndNationalIdForm } from "../components";
 import { useErrorMessages } from "../hooks";
 import { useSendLoginOTP } from "../hooks/query-hooks";
 import { SignInStackParamsNavigationProp } from "../SignInStack";
-import { IqamaInputs } from "../types";
+import { IqamaInputs, UserType } from "../types";
 
 export default function ForgotPasswordScreen() {
   const { t } = useTranslation();
