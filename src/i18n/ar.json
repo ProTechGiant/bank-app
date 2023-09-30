@@ -1355,6 +1355,10 @@
       "of": "من {{amount}}",
       "sar": "ر.س",
       "seeMore": "المزيد"
+    },
+    "GoalCreatedSuccessfullyScreen": {
+      "label": "تم إنشاء الهدف بنجاح",
+      "button": "تم"
     }
   },
   "InstructionsScreen": {

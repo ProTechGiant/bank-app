@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import { CloseIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -25,7 +25,7 @@ import { SAR } from "../constants";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { GoalGetterStackParams } from "../GoalGetterStack";
 import { useGoalGetterOTP } from "../hooks/query-hooks";
-import { getDateOfRecurringDay } from "../utils";
+import { formatGoalEndDate, getDateOfRecurringDay } from "../utils";
 
 export default function ReviewGoalScreen() {
   const { t } = useTranslation();
@@ -166,47 +166,53 @@ export default function ReviewGoalScreen() {
         }
       />
       <ContentContainer isScrollView>
-        <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-          {t("GoalGetter.GoalReviewScreen.reviewGoal")}
-        </Typography.Text>
+        <Stack direction="vertical" align="stretch" gap="24p">
+          <Typography.Text color="neutralBase+30" size="title1" weight="medium">
+            {t("GoalGetter.GoalReviewScreen.reviewGoal")}
+          </Typography.Text>
 
-        <Stack direction="vertical" style={styles.stackStyle} gap="4p">
-          <GoalDataRow label={t("GoalGetter.GoalReviewScreen.goalDetails.goalName")} value={goalName} />
-          <GoalDataRow
-            label={t("GoalGetter.GoalReviewScreen.goalDetails.targetAmount")}
-            value={`${targetAmount} ${
-              productUnitOfMeasurement === SAR
-                ? t("GoalGetter.GoalReviewScreen.SAR")
-                : t("GoalGetter.GoalReviewScreen.Grams")
-            }`}
-          />
-          <GoalDataRow label={t("GoalGetter.GoalReviewScreen.goalDetails.startDate")} value={startDate} />
+          <Stack direction="vertical" align="stretch" gap="4p">
+            <GoalDataRow label={t("GoalGetter.GoalReviewScreen.goalDetails.goalName")} value={goalName} />
+            <GoalDataRow
+              label={t("GoalGetter.GoalReviewScreen.goalDetails.targetAmount")}
+              value={`${targetAmount} ${
+                productUnitOfMeasurement === SAR
+                  ? t("GoalGetter.GoalReviewScreen.SAR")
+                  : t("GoalGetter.GoalReviewScreen.Grams")
+              }`}
+            />
+            <GoalDataRow label={t("GoalGetter.GoalReviewScreen.goalDetails.startDate")} value={startDate} />
+          </Stack>
+
+          <Stack direction="vertical" align="stretch" gap="4p">
+            <GoalDataRow
+              label={t("GoalGetter.GoalReviewScreen.goalDetails.initialContribution")}
+              value={`${initialContribution} ${
+                productUnitOfMeasurement === SAR
+                  ? t("GoalGetter.GoalReviewScreen.SAR")
+                  : t("GoalGetter.GoalReviewScreen.Grams")
+              }`}
+            />
+            <GoalDataRow
+              label={t("GoalGetter.GoalReviewScreen.goalDetails.monthlyContribution")}
+              value={`${monthlyContribution} ${
+                productUnitOfMeasurement === SAR
+                  ? t("GoalGetter.GoalReviewScreen.SAR")
+                  : t("GoalGetter.GoalReviewScreen.Grams")
+              }`}
+            />
+            <GoalDataRow
+              label={t("GoalGetter.GoalReviewScreen.goalDetails.upcomingContributionDate")}
+              value={upcomingContribution}
+            />
+            <GoalDataRow
+              label={t("GoalGetter.GoalReviewScreen.goalDetails.endDate")}
+              value={formatGoalEndDate(targetDate as string)}
+            />
+          </Stack>
         </Stack>
-
-        <Stack direction="vertical" style={styles.stackStyle} gap="4p">
-          <GoalDataRow
-            label={t("GoalGetter.GoalReviewScreen.goalDetails.initialContribution")}
-            value={`${initialContribution} ${
-              productUnitOfMeasurement === SAR
-                ? t("GoalGetter.GoalReviewScreen.SAR")
-                : t("GoalGetter.GoalReviewScreen.Grams")
-            }`}
-          />
-          <GoalDataRow
-            label={t("GoalGetter.GoalReviewScreen.goalDetails.monthlyContribution")}
-            value={`${monthlyContribution} ${
-              productUnitOfMeasurement === SAR
-                ? t("GoalGetter.GoalReviewScreen.SAR")
-                : t("GoalGetter.GoalReviewScreen.Grams")
-            }`}
-          />
-          <GoalDataRow
-            label={t("GoalGetter.GoalReviewScreen.goalDetails.upcomingContributionDate")}
-            value={upcomingContribution}
-          />
-          <GoalDataRow label={t("GoalGetter.GoalReviewScreen.goalDetails.endDate")} value={targetDate} />
-        </Stack>
-
+      </ContentContainer>
+      <ContentContainer style={{ flex: 1 }}>
         <Stack gap="16p" direction="vertical" align="stretch">
           <TermsAndConditions
             conditionsCaption={t("GoalGetter.GoalReviewScreen.termsAndConditionsText")}
@@ -242,10 +248,3 @@ export default function ReviewGoalScreen() {
     </Page>
   );
 }
-
-const styles = StyleSheet.create({
-  stackStyle: {
-    marginTop: 24,
-    width: "100%",
-  },
-});

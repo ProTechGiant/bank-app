@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import arLocale from "date-fns/locale/ar";
 import { I18nManager } from "react-native";
 
@@ -79,4 +79,10 @@ export function formatAmount(amount: number, needDecimal = true) {
     const [wholePart] = formattedAmount.split(".");
     return wholePart;
   }
+}
+
+export function formatGoalEndDate(timestamp: string) {
+  const dateObject = parseISO(timestamp);
+  const formattedDate = format(dateObject, "d MMM yyyy", { locale: I18nManager.isRTL ? arLocale : undefined });
+  return formattedDate;
 }

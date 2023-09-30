@@ -23,26 +23,23 @@ export default function TermsAndConditions({
   const { t } = useTranslation();
 
   return (
-    <Pressable onPress={onCheckBoxPress} style={styles.stackStyle}>
+    <Pressable onPress={onCheckBoxPress}>
       <Stack direction="horizontal" gap="8p">
         <CheckboxInput value={isChecked} onChange={onCheckBoxPress} />
         <Stack direction="horizontal" gap="4p">
           <Typography.Text color="neutralBase" size="footnote" weight="regular">
-            {conditionsCaption}
-          </Typography.Text>
-          <Pressable
-            onPress={() => {
-              navigation.navigate("GoalGetter.TermsAndConditionsScreen");
-            }}>
+            {conditionsCaption}&nbsp;
             <Typography.Text
               color="primaryBase-40"
               size="footnote"
               weight="medium"
-              style={styles.termsAndConditionsLink}>
+              style={styles.termsAndConditionsLink}
+              onPress={() => {
+                navigation.navigate("GoalGetter.TermsAndConditionsScreen");
+              }}>
               {conditionsLink}
             </Typography.Text>
-          </Pressable>
-
+          </Typography.Text>
           {I18nManager.isRTL ? (
             <Typography.Text color="neutralBase" size="footnote" weight="regular">
               {t("GoalGetter.GoalReviewScreen.extraConditionsCaption")}
@@ -55,9 +52,6 @@ export default function TermsAndConditions({
 }
 
 const styles = StyleSheet.create({
-  stackStyle: {
-    marginTop: 158,
-  },
   termsAndConditionsLink: {
     textDecorationLine: "underline",
   },

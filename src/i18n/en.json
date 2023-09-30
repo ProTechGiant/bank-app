@@ -1395,7 +1395,7 @@
     },
     "TermsAndConditionsScreen": {
       "title": "Terms & conditions",
-      "nothingToShowText":"Nothing to show"
+      "nothingToShowText": "Nothing to show"
     },
     "EditGoalGetter": {
       "label": "Edit Goal",
@@ -1428,6 +1428,10 @@
       "of": "of {{amount}}",
       "sar": "SAR",
       "seeMore": "See more"
+    },
+    "GoalCreatedSuccessfullyScreen": {
+      "label": "Goal created successfully",
+      "button": "Done"
     }
   },
   "Referral": {
