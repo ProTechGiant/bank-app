@@ -1146,6 +1146,7 @@
       "grams": "غرام",
       "requiredInitialContribution": "المساهمة الأولية مطلوبة للصندوق المشترك.",
       "insufficientBalance": "رصيدك غير كافي في حسابك",
+      "minimumInitialContribution": "الحد الأدنى للمساهمة الأولية هو {{minAmount}} ريال سعودي",
       "minGoldContribution": "لا يجب أن تكون المساهمة الأولية أقل من 5 غرامات",
       "goldMonthlyLimit": "لا يمكنك دفع أقل من 5 غرامات",
       "goldMonthlyMinimum": "لا يمكنك دفع أقل من الحد الأدنى للمساهمة الشهرية",

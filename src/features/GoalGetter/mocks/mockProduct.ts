@@ -1,7 +1,7 @@
 export const productData = {
-  ProductName: "Mutual Fund",
-  ProductType: "mutualFund",
+  ProductName: "Saving Pot",
   Duration: 12,
+  ProductType: "SAVING_POT",
   UnitOfMeasurment: "SAR",
   MonthlyContribution: 12.0,
   MinimumInitial: 11.0,
