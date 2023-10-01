@@ -14,7 +14,7 @@ import { useApplyCardsContext } from "../../context/ApplyCardsContext";
 interface PickCardTypeScreenProps {
   onCancel: () => void;
   onSelected: () => void;
-  variant: "apply" | "renew";
+  variant: "apply" | "renew" | "order";
 }
 
 export default function PickCardTypeScreen({ onCancel, onSelected, variant }: PickCardTypeScreenProps) {
@@ -29,30 +29,41 @@ export default function PickCardTypeScreen({ onCancel, onSelected, variant }: Pi
   };
 
   const tabBarIndicatorStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["primaryBase-40"],
+    backgroundColor: theme.palette["neutralBase+30"],
   }));
 
   const tabBarStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
-    borderBottomColor: theme.palette["neutralBase-20"],
-    borderBottomWidth: 0.5,
+    width: "50%",
+    alignSelf: "center",
   }));
 
   const tabLabelStyle = useThemeStyles<TextStyle>(theme => ({
     color: theme.palette["primaryBase-40"],
   }));
 
+  const titleLabelStyle = useThemeStyles<TextStyle>(theme => ({
+    margin: theme.spacing["32p"],
+  }));
+
   return (
     <>
-      <NavHeader
-        title={
-          variant === "apply"
-            ? t("CardActions.ApplyCardScreen.PickCardTypeScreen.navTitle")
-            : t("CardActions.ApplyCardScreen.CardRenewalScreen.title")
-        }
-        withBackButton={false}
-        end={<NavHeader.CloseEndButton onPress={onCancel} />}
-      />
+      {variant !== "order" ? (
+        <NavHeader
+          title={
+            variant === "apply"
+              ? t("CardActions.ApplyCardScreen.PickCardTypeScreen.navTitle")
+              : t("CardActions.ApplyCardScreen.CardRenewalScreen.title")
+          }
+          withBackButton={false}
+          end={<NavHeader.CloseEndButton onPress={onCancel} />}
+        />
+      ) : (
+        <Typography.Text style={titleLabelStyle} color="neutralBase+30" weight="semiBold" size="title1">
+          {t("CardActions.ApplyCardScreen.PickCardTypeScreen.navTitle")}
+        </Typography.Text>
+      )}
+
       <TabView
         navigationState={{
           index,
@@ -67,15 +78,7 @@ export default function PickCardTypeScreen({ onCancel, onSelected, variant }: Pi
           <TabBar
             {...props}
             renderIndicator={indicatorProps => {
-              const width = indicatorProps.getTabWidth(index);
-
-              return (
-                <TabBarIndicator
-                  {...indicatorProps}
-                  width={width / 2}
-                  style={[tabBarIndicatorStyle, { left: width / 4 }]}
-                />
-              );
+              return <TabBarIndicator {...indicatorProps} style={[tabBarIndicatorStyle]} />;
             }}
             style={tabBarStyle}
             labelStyle={tabLabelStyle}
@@ -104,6 +107,8 @@ export default function PickCardTypeScreen({ onCancel, onSelected, variant }: Pi
               title={
                 variant === "apply"
                   ? t("CardActions.ApplyCardScreen.PickCardTypeScreen.standard.button")
+                  : variant === "order"
+                  ? t("CardActions.ApplyCardScreen.PickCardTypeScreen.navTitle")
                   : t("CardActions.ApplyCardScreen.CardRenewalScreen.title")
               }
             />

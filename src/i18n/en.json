@@ -1963,6 +1963,18 @@
         "finishButton": "Finish"
       }
     },
+    "OrderNewCardSummaryScreen": {
+      "orderSummary": "Order Summary",
+      "chargedFrom": "Charged from",
+      "mainCrotiaAccount": "Main croatia account",
+      "issuanceFee": "Issuance fee",
+      "deliveryFee": "Delivery fee",
+      "totalFee": "Total fee",
+      "done": "Done",
+      "issuanceFeeAmount": "SAR 0.00",
+      "deliveryFeeAmount": "SAR 5.00",
+      "totalFeeAmount": "SAR 5.00"
+    },
     "SetTemporaryAddressScreen": {
       "navTitle": "Temporary address",
       "form": {
@@ -2193,8 +2205,8 @@
         "cancelButton": "Not now"
       },
       "ReportCardSuccessScreen": {
-        "title": "We’ve cancelled your card",
-        "description": "It’ll be with you in the next few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using {{device}}.",
+        "title": "Your new card is ready",
+        "description": "You’ll be able to use your new card online or on your phone immediately once you activate it.",
         "okButton": "OK"
       },
       "CardLockedSuccess": {

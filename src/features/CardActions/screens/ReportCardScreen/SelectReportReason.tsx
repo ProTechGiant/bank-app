@@ -33,6 +33,7 @@ export default function SelectReportReason({ cardStatus, onContinuePress, onFree
 
   const radioGroupStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["24p"],
+    marginBottom: theme.spacing["32p"],
   }));
 
   const descriptionStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -69,9 +70,6 @@ export default function SelectReportReason({ cardStatus, onContinuePress, onFree
         </View>
       </View>
       <View style={styles.bottom}>
-        <Typography.Text color="neutralBase" style={deliveryNote} weight="regular" size="caption1">
-          {t("CardActions.ReportCardScreen.SelectReportReason.deliveryFee")}
-        </Typography.Text>
         <View style={styles.button}>
           <Button disabled={selectedReason === undefined} onPress={handleOnContinuePress}>
             {t("CardActions.ReportCardScreen.SelectReportReason.buttonTitle")}

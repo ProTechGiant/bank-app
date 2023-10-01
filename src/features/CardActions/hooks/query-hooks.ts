@@ -66,7 +66,7 @@ export function useFreezeCard() {
 }
 
 export function useChangeCardStatus() {
-  return useMutation(async ({ cardId, status }: { cardId: string; status: CardStatus }) => {
+  return useMutation(async ({ cardId, status, Reason }: { cardId: string; status: CardStatus; Reason?: string }) => {
     const correlationId = generateRandomId();
 
     const response = await api<OtpRequiredResponse>(
@@ -74,7 +74,7 @@ export function useChangeCardStatus() {
       `cards/${cardId}`,
       "POST",
       undefined,
-      { Status: status },
+      { Status: status, Reason: Reason },
       {
         ["x-correlation-id"]: correlationId,
       }

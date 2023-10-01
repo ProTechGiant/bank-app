@@ -1490,6 +1490,124 @@
       "navTitle": "Your card PIN",
       "button": "Hide PIN"
     },
+    "ApplyCardScreen": {
+      "CardRenewalScreen": {
+        "title": "Renew card"
+      },
+      "PickCardTypeScreen": {
+        "navTitle": "Order Card",
+        "tabs": {
+          "standard": "Standard",
+          "lux": "Lux"
+        },
+        "standard": {
+          "remarks": "*Delivery fee from 80.99 SAR",
+          "button": "Get Standard Card for FREE"
+        },
+        "lux": {
+          "remarks": "Lux is FREE when you upgrade to Croatia Plus",
+          "button": "Get Lux Card with Croatia Plus"
+        }
+      },
+      "SetPinAndAddressScreen": {
+        "navTitle": "Order Card",
+        "SetPin": {
+          "title": "Set PIN",
+          "instruction": "Enter {{count}} unique numbers",
+          "avoidSimplePin": "Avoid a PIN that’s easy to guess, like 1234 or 1111.",
+          "errorPinTooEasy": "Avoid a PIN with simple number sequences and repeated numbers"
+        },
+        "ConfirmPin": {
+          "title": "Confirm PIN",
+          "instruction": "Re-enter your 4 numbers",
+          "pinNotMatch": "Your PINs didn’t match, please try again. {{count}} try remaining.",
+          "pinNotMatch_plural": "Your PINs didn’t match, please try again. {{count}} tries remaining.",
+          "errorModalTitle": "Try again",
+          "errorModalMessage": "You’ve entered different PINs too many times.",
+          "errorModalActionButton": "Set new pin"
+        },
+        "CardDeliveryDetails": {
+          "title": "Card delivery details",
+          "paragraph": {
+            "default": "Your card will be sent here:",
+            "checkHighlighted": "Check the correct delivery address is highlighted:"
+          },
+          "buttons": {
+            "confirm": "Confirm and continue",
+            "edit": "Edit temporary address",
+            "setAddress": "Set temporary address"
+          }
+        },
+        "errorModalTitle": "Try again",
+        "errorModalMessage": "You’ve entered different PINs too many times.",
+        "errorModalActionButton": "Set new pin"
+      },
+      "CardOrderedScreen": {
+        "title": "Your new card’s coming soon",
+        "paragraph": "It’ll be with you in a few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using {{device}}.",
+        "finishButton": "Finish"
+      }
+    },
+    "OrderNewCardSummaryScreen": {
+      "orderSummary": "ملخص الطلب",
+      "chargedFrom": "تم الخصم من",
+      "mainCrotiaAccount": "حساب كرواتيا الرئيسي",
+      "issuanceFee": "رسوم الإصدار",
+      "deliveryFee": "رسوم التوصيل",
+      "totalFee": "إجمالي الرسوم",
+      "done": "تم",
+      "issuanceFeeAmount": "0.00 ريال سعودي",
+      "deliveryFeeAmount": "5.00 ريال سعودي",
+      "totalFeeAmount": "5.00 ريال سعودي"
+    },
+    "SetTemporaryAddressScreen": {
+      "navTitle": "Temporary address",
+      "form": {
+        "optional": "Optional",
+        "addressLineOne": {
+          "label": "Address line 1",
+          "placeholder": "Address line 1",
+          "validation": {
+            "required": "Address line 1 is required",
+            "invalid": "Address line 1 is not valid",
+            "minLength": "Minimum 5 characters"
+          }
+        },
+        "addressLineTwo": {
+          "label": "Address line 2",
+          "placeholder": "Address line 2"
+        },
+        "district": {
+          "label": "District",
+          "placeholder": "District",
+          "validation": {
+            "required": "District is required"
+          }
+        },
+        "city": {
+          "label": "City",
+          "placeholder": "Select city",
+          "dropdownHeader": "Select city",
+          "validation": {
+            "required": "City is required"
+          },
+          "buttonLabel": "Confirm"
+        },
+        "postalCode": {
+          "label": "Postal Code",
+          "placeholder": "Postal Code",
+          "validation": {
+            "required": "Postal code is required",
+            "minLength": "Postal code is not valid"
+          }
+        },
+        "button": "Confirm and continue"
+      }
+    },
+    "ApplePayActivatedScreen": {
+      "title": "Apple Pay activated",
+      "button": "Finish"
+    },
     "CardSettingsScreen": {
       "toast": "Card PIN has been updated",
       "title": "اعدادات البطاقة",
@@ -1682,9 +1800,9 @@
         "cancelButton": "Not now"
       },
       "ReportCardSuccessScreen": {
-        "title": "We’ve cancelled your card",
-        "description": "It’ll be with you in the next few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using {{device}}.",
-        "okButton": "OK"
+        "title": "بطاقتك الجديدة جاهزة",
+        "description": "ستتمكن من استخدام بطاقتك الجديدة عبر الإنترنت أو على هاتفك مباشرةً بمجرد تفعيلها.",
+        "okButton": "حسنًا"
       },
       "CardLockedSuccess": {
         "title": "تم قفل البطاقة بنجاح",

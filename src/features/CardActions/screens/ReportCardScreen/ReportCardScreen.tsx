@@ -9,16 +9,12 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
-import usePrimaryAddress from "@/hooks/use-primary-address";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
-import { Address } from "@/types/Address";
 import delayTransition from "@/utils/delay-transition";
 
 import { useChangeCardStatus, useFreezeCard } from "../../hooks/query-hooks";
-import { CardCreateResponse } from "../../types";
-import ConfirmDeliveryAddress from "./ConfirmDeliveryAddress";
 import ReportCardSuccessScreen from "./ReportCardSuccessScreen";
 import SelectReportReason from "./SelectReportReason";
 
@@ -31,18 +27,16 @@ export default function ReportCardScreen() {
   const scrollViewRef = useRef<ScrollView>(null);
   const cardStatus = route.params.cardStatus;
 
-  const primaryAddress = usePrimaryAddress();
   const freezeCardAsync = useFreezeCard();
   const useReportCardAsync = useChangeCardStatus();
   const otpFlow = useOtpFlow<AuthenticatedStackParams>();
 
-  const [mode, setMode] = useState<"input" | "address" | "done">("input");
+  const [mode, setMode] = useState<"input" | "done">("input");
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
   const [reportReason, setReportReason] = useState<"stolen" | "lost" | "damaged">();
-  const [selectedAlternativeAddress, setSelectedAlternativeAddress] = useState<Address | undefined>();
-  const [cardId, setCardId] = useState(route.params.cardId);
   const [isLockedSuccess, setIsLockedSuccess] = useState(false);
+  const [cardId] = useState(route.params.cardId);
 
   const currentStep = mode === "input" ? 1 : 2;
   useEffect(() => {
@@ -50,12 +44,8 @@ export default function ReportCardScreen() {
   }, [currentStep, dimensions.width, mode]);
 
   const handleOnSelectReasonPress = (selectedReason: "stolen" | "lost" | "damaged") => {
-    if (primaryAddress.data === undefined || primaryAddress.isError) {
-      setIsErrorModalVisible(true);
-    } else {
-      setReportReason(selectedReason);
-      setIsConfirmationModalVisible(true);
-    }
+    setReportReason(selectedReason);
+    setIsConfirmationModalVisible(true);
   };
 
   const handleOnFreezePress = async () => {
@@ -73,10 +63,47 @@ export default function ReportCardScreen() {
     }
   };
 
-  const handleOnConfirm = () => {
+  const handleOnConfirm = async () => {
     if (reportReason === undefined) return;
     setIsConfirmationModalVisible(false);
-    setMode("address");
+    delayTransition(() => {
+      try {
+        otpFlow.handle({
+          action: {
+            to: "CardActions.ReportCardScreen",
+            params: {
+              cardId: cardId,
+            },
+          },
+          otpOptionalParams: {
+            CardId: cardId,
+          },
+
+          otpVerifyMethod: "card-actions",
+          onOtpRequest: async () => {
+            const resendResponse = await useReportCardAsync.mutateAsync({
+              cardId: cardId,
+              status: "CANCELLED",
+              Reason: reportReason,
+            });
+
+            return resendResponse;
+          },
+          onFinish: status => {
+            if (status === "cancel") {
+              return;
+            }
+            if (status === "fail") {
+              setIsErrorModalVisible(true);
+            } else {
+              setMode("done");
+            }
+          },
+        });
+      } catch (error) {
+        setIsErrorModalVisible(true);
+      }
+    });
   };
 
   const handleOnOk = () => {
@@ -84,48 +111,7 @@ export default function ReportCardScreen() {
     navigation.goBack();
   };
 
-  const handleOnConfirmAddressPressed = () => {
-    delayTransition(() => {
-      otpFlow.handle<{ CardCreateResponse: CardCreateResponse }, "CardActions.ReportCardScreen">({
-        action: {
-          to: "CardActions.ReportCardScreen",
-          params: {
-            cardId,
-            cardStatus,
-          },
-        },
-        otpOptionalParams: {
-          CardId: cardId,
-          alternativeAddress:
-            selectedAlternativeAddress === undefined
-              ? undefined
-              : {
-                  AddressLineOne: selectedAlternativeAddress.AddressLineOne,
-                  AddressLineTwo: selectedAlternativeAddress.AddressLineTwo,
-                  District: selectedAlternativeAddress.District,
-                  City: selectedAlternativeAddress.City,
-                  PostalCode: selectedAlternativeAddress.PostalCode,
-                },
-        },
-        otpVerifyMethod: "card-actions",
-        onOtpRequest: () => {
-          return useReportCardAsync.mutateAsync({ cardId, status: reportReason });
-        },
-        onFinish: (status, payload) => {
-          if (status === "cancel") return;
-          if (status === "fail" || payload.CardCreateResponse.Body === undefined) {
-            setIsErrorModalVisible(true);
-            return;
-          }
-          setCardId(payload.CardCreateResponse.Body.CardId);
-          setMode("done");
-        },
-      });
-    });
-  };
-
   const handleOnBackPress = () => {
-    if (mode === "address") return setMode("input");
     navigation.goBack();
   };
 
@@ -151,20 +137,21 @@ export default function ReportCardScreen() {
               onFreezePress={handleOnFreezePress}
             />
           </View>
-          <View style={{ width: dimensions.width }}>
-            <ConfirmDeliveryAddress
-              onConfirm={alternativeAddress => {
-                setSelectedAlternativeAddress(alternativeAddress);
-                handleOnConfirmAddressPressed();
+          {/* need to finalize this in next PR as confirmation need from POS */}
+          {/* <View style={{ width: dimensions.width }}>
+            <PickCardTypeScreen
+              onCancel={() => {
+                console.log("");
               }}
-              primaryAddress={primaryAddress.data}
+              onSelected={() => console.log("HEllo")}
+              variant="order"
             />
-          </View>
+          </View> */}
         </ScrollView>
       </Page>
       <NotificationModal
         variant="error"
-        title={primaryAddress.isError ? t("CardActions.ReportCardScreen.addressErrorTitle") : t("errors.generic.title")}
+        title={t("errors.generic.title")}
         message={t("errors.generic.message")}
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}

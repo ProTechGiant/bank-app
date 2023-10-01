@@ -1,10 +1,9 @@
 import { StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import ActiveBankCard from "@/components/BankCard/ActiveBankCard";
 import Button from "@/components/Button";
 import { useThemeStyles } from "@/theme";
-
-import CardPlaceholder from "./CardPlaceholder";
 
 interface SelectStandardCardProps {
   onPress: () => void;
@@ -12,19 +11,17 @@ interface SelectStandardCardProps {
 }
 
 export default function SelectStandardCard({ onPress, title }: SelectStandardCardProps) {
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "space-between",
-    margin: theme.spacing["16p"],
+  const bottomButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing["24p"],
+    alignSelf: "stretch",
   }));
 
   return (
-    <SafeAreaView style={containerStyle}>
-      <View style={styles.cardContainer}>
-        <CardPlaceholder variant="standard" width="100%" />
+    <SafeAreaView style={styles.containerStyle}>
+      <View>
+        <ActiveBankCard cardNumber="3232" cardType="1" productId="1356" />
       </View>
-      <View style={styles.bottom}>
+      <View style={bottomButtonContainerStyle}>
         <Button onPress={onPress}>{title}</Button>
       </View>
     </SafeAreaView>
@@ -32,10 +29,9 @@ export default function SelectStandardCard({ onPress, title }: SelectStandardCar
 }
 
 const styles = StyleSheet.create({
-  bottom: {
-    alignSelf: "stretch",
-  },
-  cardContainer: {
-    marginTop: 30,
+  containerStyle: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "space-between",
   },
 });

@@ -113,6 +113,7 @@ export * from "./ReferralCarouselIcon";
 export * from "./ReferralIcon";
 export * from "./ReferralsIcon";
 export * from "./RemoveIcon";
+export * from "./ReportCardSuccessIcon";
 export * from "./ReportFraudIcon";
 export * from "./ReportIcon";
 export * from "./RetryIcon";

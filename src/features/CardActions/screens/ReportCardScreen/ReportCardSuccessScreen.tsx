@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { Platform, View, ViewStyle } from "react-native";
 
+import { ReportCardSuccessIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
 import Button from "@/components/Button";
-import HeroSlider from "@/components/HeroSlider";
+import { HeroSlider } from "@/components/HeroSlider";
 import NavHeader from "@/components/NavHeader";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -31,27 +32,20 @@ export default function ReportCardSuccessScreen({ cardId }: ReportCardSuccessScr
   };
 
   const handleOnFinish = () => {
-    navigation.navigate("CardActions.CardDetailsScreen", { cardId });
+    navigation.navigate("CardActions.HomeScreen");
   };
 
   const madaPayContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["20p"],
   }));
 
-  const topElementStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.complimentBase,
-    borderRadius: 40,
-    height: 80,
-    width: 80,
-  }));
-
   return (
     <HeroSlider
-      variant="prebrand"
+      variant="default"
       buttonText=""
       data={[
         {
-          topElement: <View style={topElementStyle} />,
+          topElement: <ReportCardSuccessIcon />,
           title: t("CardActions.ReportCardScreen.ReportCardSuccessScreen.title"),
           text: t("CardActions.ReportCardScreen.ReportCardSuccessScreen.description", {
             device: Platform.OS === "android" ? t("CardActions.madaPay") : t("CardActions.appleWallet"),
@@ -72,6 +66,7 @@ export default function ReportCardSuccessScreen({ cardId }: ReportCardSuccessScr
       ) : null}
       <Button
         variant={!isAppleWalletAvailable || !canAddCardToAppleWallet ? "primary" : "tertiary"}
+        color={!isAppleWalletAvailable || !canAddCardToAppleWallet ? "dark" : "light"}
         onPress={handleOnFinish}>
         {t("CardActions.ReportCardScreen.ReportCardSuccessScreen.okButton")}
       </Button>

@@ -85,7 +85,8 @@ export default function HeroSlider({
   }));
 
   return (
-    <Page backgroundColor="neutralBase-60">
+    // according to new design
+    <Page backgroundColor="primaryBase">
       {variant === "prebrand" ? <BackgroundTopStartSvg style={styles.backgroundTopStart} /> : null}
       {variant === "prebrand" ? <BackgroundBottomSvg style={styles.backgroundBottom} /> : null}
       <NavHeader
@@ -107,11 +108,14 @@ export default function HeroSlider({
             />
           ))}
         </PagerView>
-        <Stack align="center" direction="horizontal" gap="8p" justify="center" style={paginationContainerStyle}>
-          {data.map((element, index) => (
-            <View key={element.title} style={[styles.dot, step === index ? activeDotStyle : inactiveDotStyle]} />
-          ))}
-        </Stack>
+        {/* // to hide dots if its only one item */}
+        {data.length > 1 ? (
+          <Stack align="center" direction="horizontal" gap="8p" justify="center" style={paginationContainerStyle}>
+            {data.map((element, index) => (
+              <View key={element.title} style={[styles.dot, step === index ? activeDotStyle : inactiveDotStyle]} />
+            ))}
+          </Stack>
+        ) : null}
         {children !== undefined ? (
           children
         ) : (

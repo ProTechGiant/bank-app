@@ -27,10 +27,10 @@ export default function HeroSlide({ topElement, title, text, containerStyle, bot
       <Stack align="center" direction="vertical" justify="center" gap="24p" style={[contentStyle, containerStyle]}>
         {topElement}
         <Stack direction="vertical" gap="8p" align="center" style={bottomElementStyle}>
-          <Typography.Header align="center" color="neutralBase+30" size={headerSize} weight="bold">
+          <Typography.Header align="center" color="neutralBase-60" size={headerSize} weight="bold">
             {title}
           </Typography.Header>
-          <Typography.Text align="center" color="neutralBase+10" size="callout" weight="regular">
+          <Typography.Text align="center" color="neutralBase-60" size="callout" weight="regular">
             {text}
           </Typography.Text>
         </Stack>
