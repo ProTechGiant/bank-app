@@ -1631,15 +1631,15 @@
       "changePin": "تغيير الرقم السري",
       "posTransactions": {
         "label": "حركات نقاط البيع",
-        "helperText": "POS transactions description pending..."
+        "helperText": "في انتظار وصف حركات المعاملات عبر نقاط البيع..."
       },
       "onlinePayment": {
         "label": "المدفوعات عبر الإنترنت ",
-        "helperText": "Allow online payments with this card."
+        "helperText": "السماح بالدفع عبر الإنترنت باستخدام هذه البطاقة."
       },
       "internationalPayment": {
         "label": "المدفوعات الدولية",
-        "helperText": "Allow payments outside Saudi Arabia with your card.",
+        "helperText": "السماح بالدفع خارج المملكة العربية السعودية باستخدام بطاقتك.",
         "toast": "تم تعطيل المدفوعات الدولية"
       },
       "subTitle2": "ضبط الحركات المالية",
@@ -1648,15 +1648,15 @@
       "subTitle3": "بطاقة بلاستيكية",
       "swipePayments": {
         "label": "مدفوعات السحب المغناطيسي",
-        "helperText": "Enable payments using your card’s magnetic stripe."
+        "helperText": "تمكين الدفع باستخدام المسار المغناطيسي لبطاقتك."
       },
       "contactlessPayments": {
         "label": "الشراء باستخدام ",
-        "helperText": "Enable contactless payments with your card."
+        "helperText": "تمكين الدفع اللاسلكي باستخدام بطاقتك."
       },
       "atmWithdrawals": {
         "label": "عمليات الصراف الآلي",
-        "helperText": "Enable ATM withdrawals with your card."
+        "helperText": "تمكين سحب النقود من أجهزة الصراف الآلي باستخدام بطاقتك."
       },
       "onTheWay": {
         "title": "Your card is on the way",
