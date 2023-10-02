@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -11,9 +11,16 @@ interface LatestGoalTransactionProps {
   title: string;
   subTitle: string;
   amount: number;
+  status: string;
 }
 
-export default function LatestGoalTransactionItem({ title, subTitle, onPress, amount }: LatestGoalTransactionProps) {
+export default function LatestGoalTransactionItem({
+  title,
+  subTitle,
+  onPress,
+  amount,
+  status,
+}: LatestGoalTransactionProps) {
   const itemStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["12p"],
   }));
@@ -31,15 +38,21 @@ export default function LatestGoalTransactionItem({ title, subTitle, onPress, am
             </Typography.Text>
           ) : null}
         </Stack>
-        <Typography.Text color="neutralBase+10" size="callout" weight="medium">
-          {FormatTransactionAmount(amount, true, "successBase", true)}
-        </Typography.Text>
+        <View style={styles.containerFormatStyle}>
+          <FormatTransactionAmount amount={amount} status={status} />
+        </View>
       </Stack>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
+  containerFormatStyle: {
+    alignItems: "center",
+    flexBasis: "30%",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
   expandText: {
     flex: 1,
   },

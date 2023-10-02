@@ -5,12 +5,12 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { Transaction } from "../types";
+import { TransactionItem } from "../types";
 import LatestGoalTransactionItem from "./LatestGoalTransactionItem";
 
 interface LatestTransactionSectionProps {
   onPressSeeMore: () => void;
-  transactions: Transaction[];
+  transactions: TransactionItem[];
 }
 
 export default function LatestTransactionSection({ onPressSeeMore, transactions }: LatestTransactionSectionProps) {
@@ -36,8 +36,16 @@ export default function LatestTransactionSection({ onPressSeeMore, transactions 
           {t("GoalGetter.goalDetail.seeMore")}
         </Typography.Text>
       </Stack>
-      {transactions.map(item => {
-        return <LatestGoalTransactionItem title={item.Title} amount={item.Amount} subTitle={item.Date} />;
+      {transactions.map((item, index) => {
+        return (
+          <LatestGoalTransactionItem
+            key={`${item.Title}-${index}`}
+            title={item.Title}
+            amount={item.Amount}
+            subTitle={item.Date}
+            status={item.Status}
+          />
+        );
       })}
     </Stack>
   );

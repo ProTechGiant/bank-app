@@ -1339,6 +1339,11 @@
       "DateModal": { "selectButton": "اختيار", "headerText": "اختر المدة" },
       "ButtonsText": { "confirmChanges": "تأكيد التغييرات", "cancel": "الغاء" }
     },
+    "LatestTransactionScreen":{
+      "title": "آخر التسديدات",
+      "SAR": "ر.س",
+      "Failed": "فشلت"
+    },
     "goalDetail": {
       "buttonDeleteGoal": "حذف",
       "buttonRedeem": "بيع",

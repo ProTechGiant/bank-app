@@ -1,31 +1,51 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { StyleSheet } from "react-native";
 
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { Theme } from "@/theme";
 
 import { formatAmount } from "../utils";
 
-export default function FormatTransactionAmount(
-  amount: number,
-  isPlusSignIncluded: boolean,
-  color: keyof Theme["palette"],
-  includeCurrency: boolean
-) {
+interface FormatTransactionAmountProps {
+  amount: number;
+  status: string;
+}
+
+export default function FormatTransactionAmount({ amount, status }: FormatTransactionAmountProps) {
   const { t } = useTranslation();
-  const sign = isPlusSignIncluded && amount > 0 ? "+" : "";
+  const sign = "+";
   const formattedAmount = formatAmount(amount);
-  const [wholePart, decimalPart] = formattedAmount.split(".");
+  const [wholePart] = formattedAmount.split(".");
 
   return (
     <>
-      <Typography.Text color={color} size="callout" weight="semiBold">
-        {sign}
-        {wholePart}
-      </Typography.Text>
-      <Typography.Text color={color} size="footnote" weight="semiBold">
-        .{decimalPart} {includeCurrency ? includeCurrency : t("GoalGetter.goalDetail.sar")}
-      </Typography.Text>
+      {status === "SUCCESS" ? (
+        <>
+          <Typography.Text color="successBase" size="callout" weight="semiBold">
+            {`${sign} ${wholePart} ${t("GoalGetter.LatestTransactionScreen.SAR")}`}
+          </Typography.Text>
+        </>
+      ) : (
+        <Stack direction="vertical">
+          <Stack direction="horizontal" style={styles.stackStyle} align="center" justify="flex-end">
+            <Typography.Text color="errorBase" size="callout" weight="semiBold">
+              {`${sign} ${wholePart} ${t("GoalGetter.LatestTransactionScreen.SAR")}`}
+            </Typography.Text>
+          </Stack>
+          <Stack direction="horizontal" style={styles.stackStyle} justify="flex-end">
+            <Typography.Text color="errorBase" size="caption1" weight="regular">
+              {t("GoalGetter.LatestTransactionScreen.Failed")}
+            </Typography.Text>
+          </Stack>
+        </Stack>
+      )}
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  stackStyle: {
+    width: "100%",
+  },
+});

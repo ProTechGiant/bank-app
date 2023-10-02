@@ -10,6 +10,7 @@ import {
   GoalGetterScreen,
   GoalMindScreen,
   ImageGalleryScreen,
+  LatestTransactionsScreen,
   ManageGoalScreen,
   MatchProductsScreen,
   ReviewGoalScreen,
@@ -17,7 +18,7 @@ import {
   TargetAmountScreen,
   TermsAndConditionsScreen,
 } from "./screens";
-import { GoalGetterStateType } from "./types";
+import { GoalGetterStateType, TransactionItem } from "./types";
 
 export const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,9 @@ export type GoalGetterStackParams = {
   "GoalGetter.ManageGoal": { selectedImageURL?: string } | undefined;
   "GoalGetter.MatchProductsScreen": undefined;
   "GoalGetter.GoalCreatedSuccessfullyScreen": undefined;
+  "GoalGetter.LatestTransactionsScreen": {
+    transactions: TransactionItem[];
+  };
   "GoalGetter.ReviewGoalScreen": { pendingGoalAttributes?: GoalGetterStateType } | undefined;
   "GoalGetter.EditGoalGetter": undefined;
 };
@@ -58,6 +62,7 @@ export default function GoalGetterStack() {
         <Stack.Screen component={GoalMindScreen} name="GoalGetter.GoalMindScreen" />
         <Stack.Screen component={RisksAppetiteScreen} name="GoalGetter.RisksAppetiteScreen" />
         <Stack.Screen component={ReviewGoalScreen} name="GoalGetter.ReviewGoalScreen" />
+        <Stack.Screen component={LatestTransactionsScreen} name="GoalGetter.LatestTransactionsScreen" />
         <Stack.Screen component={TermsAndConditionsScreen} name="GoalGetter.TermsAndConditionsScreen" />
         <Stack.Screen component={ContributionScreen} name="GoalGetter.ContributionScreen" />
         <Stack.Screen component={GoalCreatedSuccessfullyScreen} name="GoalGetter.GoalCreatedSuccessfullyScreen" />

@@ -1412,6 +1412,11 @@
       "DateModal": { "selectButton": "Select", "headerText": "Select day" },
       "ButtonsText": { "confirmChanges": "Confirm changes", "cancel": "Cancel" }
     },
+    "LatestTransactionScreen":{
+      "title": "Latest transactions",
+      "SAR": "SAR",
+      "Failed": "Failed"
+    },
     "goalDetail": {
       "buttonDeleteGoal": "Delete",
       "buttonRedeem": "Redeem",

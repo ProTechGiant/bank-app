@@ -20,16 +20,19 @@ export const mockGoalDetail = {
       Title: "Payment",
       Date: "Monday 3 March 2023, 9:09",
       Amount: 500,
+      Status: "SUCCESS",
     },
     {
       Title: "Payment",
       Date: "Monday 4 March 2023, 9:09",
       Amount: 1500,
+      Status: "SUCCESS",
     },
     {
       Title: "Payment",
       Date: "Monday 5 March 2023, 9:09",
       Amount: 1600,
+      Status: "FAILED",
     },
   ],
 };

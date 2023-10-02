@@ -33,7 +33,12 @@ export interface PredefinedOption {
 export interface PredefinedOptionOptions {
   predefinedOptions: PredefinedOption[];
 }
-
+export interface TransactionItem {
+  Title: string;
+  Date: string;
+  Amount: number;
+  Status: string;
+}
 export interface DonutChartProps {
   isVisible: boolean;
   onClose: () => void;
@@ -53,11 +58,6 @@ export interface DonutChartIconProps {
 }
 export interface PieChartProps {
   data: { x: string; y: number }[];
-}
-export interface Transaction {
-  Title: string;
-  Date: string;
-  Amount: number;
 }
 export interface PredefinedGoalNames {
   Predefined: { Id: number; Name: string }[];

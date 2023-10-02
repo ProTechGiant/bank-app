@@ -23,7 +23,7 @@ import {
 } from "../components";
 import { mockGoalDetail } from "../mocks/mockGoalDetail";
 import { mockGoalDetailImage } from "../mocks/mockGoalImages";
-import { Transaction } from "../types";
+import { TransactionItem } from "../types";
 
 export default function ManageGoalScreen() {
   const [selectedImage, setSelectedImage] = useState<string>(mockGoalDetailImage);
@@ -79,8 +79,7 @@ export default function ManageGoalScreen() {
   };
 
   const handleTransactionSeeMore = () => {
-    // TODO : handle it
-    return;
+    navigation.navigate("GoalGetter.LatestTransactionsScreen", { transactions: mockGoalDetail.Transactions });
   };
 
   const handleGoalEdit = () => {
@@ -144,7 +143,7 @@ export default function ManageGoalScreen() {
           />
           <LatestTransactionSection
             onPressSeeMore={handleTransactionSeeMore}
-            transactions={goalDetail.Transactions as Transaction[]}
+            transactions={goalDetail.Transactions as TransactionItem[]}
           />
           <Button variant="secondary" onPress={() => setIsDeleteConfirmationVisible(true)}>
             {t("GoalGetter.goalDetail.buttonDeleteGoal")}
