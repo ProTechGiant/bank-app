@@ -55,7 +55,8 @@ export default function ReportCardSuccessScreen({ cardId }: ReportCardSuccessScr
       lastButtonText=""
       onFinishPress={handleOnFinish}
       end={<NavHeader.CloseEndButton onPress={handleOnFinish} />}
-      hasBackButton={false}>
+      hasBackButton={false}
+      darkTheme>
       {isAppleWalletAvailable && canAddCardToAppleWallet ? (
         <AddToAppleWalletButton onPress={handleOnAddToWallet} />
       ) : null}

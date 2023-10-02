@@ -10,9 +10,17 @@ export interface HeroSlideProps {
   text: string;
   containerStyle?: StyleProp<ViewStyle>;
   bottomElementStyle?: StyleProp<ViewStyle>;
+  darkTheme: boolean;
 }
 
-export default function HeroSlide({ topElement, title, text, containerStyle, bottomElementStyle }: HeroSlideProps) {
+export default function HeroSlide({
+  topElement,
+  title,
+  text,
+  containerStyle,
+  bottomElementStyle,
+  darkTheme,
+}: HeroSlideProps) {
   const { height } = useWindowDimensions();
 
   const headerSize = height > 735 ? "large" : "medium";
@@ -27,10 +35,18 @@ export default function HeroSlide({ topElement, title, text, containerStyle, bot
       <Stack align="center" direction="vertical" justify="center" gap="24p" style={[contentStyle, containerStyle]}>
         {topElement}
         <Stack direction="vertical" gap="8p" align="center" style={bottomElementStyle}>
-          <Typography.Header align="center" color="neutralBase-60" size={headerSize} weight="bold">
+          <Typography.Header
+            align="center"
+            color={darkTheme ? "neutralBase-60" : "neutralBase+30"}
+            size={headerSize}
+            weight="bold">
             {title}
           </Typography.Header>
-          <Typography.Text align="center" color="neutralBase-60" size="callout" weight="regular">
+          <Typography.Text
+            align="center"
+            color={darkTheme ? "neutralBase-60" : "neutralBase+30"}
+            size="callout"
+            weight="regular">
             {text}
           </Typography.Text>
         </Stack>

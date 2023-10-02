@@ -29,6 +29,7 @@ interface HeroSliderProps {
   children?: React.ReactNode;
   testID?: string;
   title?: string;
+  darkTheme?: boolean;
 }
 
 export default function HeroSlider({
@@ -44,6 +45,7 @@ export default function HeroSlider({
   children,
   testID,
   title,
+  darkTheme = false,
 }: HeroSliderProps) {
   const [step, setStep] = useState(0);
   const pagerViewRef = useRef<PagerView>(null);
@@ -86,7 +88,7 @@ export default function HeroSlider({
 
   return (
     // according to new design
-    <Page backgroundColor="primaryBase">
+    <Page backgroundColor={darkTheme ? "primaryBase" : "neutralBase-60"}>
       {variant === "prebrand" ? <BackgroundTopStartSvg style={styles.backgroundTopStart} /> : null}
       {variant === "prebrand" ? <BackgroundBottomSvg style={styles.backgroundBottom} /> : null}
       <NavHeader
@@ -105,6 +107,7 @@ export default function HeroSlider({
               text={element.text}
               bottomElementStyle={element.bottomElementStyle}
               containerStyle={element.containerStyle}
+              darkTheme={darkTheme}
             />
           ))}
         </PagerView>
