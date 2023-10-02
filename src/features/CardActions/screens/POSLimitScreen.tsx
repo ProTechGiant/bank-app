@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { I18nManager, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -20,13 +20,14 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
+import { CardActionsStackParams } from "../CardActionsStack";
 import { useChangePOSLimit, useCurrentPOSLimit, usePOSLimits } from "../hooks/query-hooks";
 import { ChangePOSLimit } from "../types";
 
 export default function POSLimitScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { params } = useRoute<RouteProp<AuthenticatedStackParams, "CardActions.POSLimitScreen">>();
+  const { params } = useRoute<RouteProp<CardActionsStackParams, "CardActions.POSLimitScreen">>();
   const otpFlow = useOtpFlow<AuthenticatedStackParams>();
   const { data: posLimits, isError, isLoading, refetch } = usePOSLimits();
   const {
@@ -92,6 +93,7 @@ export default function POSLimitScreen() {
         });
       } else setIsChangeLimitSuccessModalVisible(true);
     } catch (error) {
+      setIsErrorModalVisible(true);
       warn("Card Actions", `Could not change POS limit: ${(error as Error).message}`);
     }
   };
@@ -108,10 +110,12 @@ export default function POSLimitScreen() {
     if (posLimits === undefined) return [];
 
     return posLimits.Limits.map(element => ({
-      label: `SAR ${formatCurrency(Number(element))}`,
+      label: I18nManager.isRTL
+        ? `${formatCurrency(Number(element))} ${t("CardActions.POSLimitScreen.currency")}`
+        : `${t("CardActions.POSLimitScreen.currency")} ${formatCurrency(Number(element))}`,
       value: element,
     }));
-  }, [posLimits]);
+  }, [posLimits, t]);
 
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,

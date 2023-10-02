@@ -1815,6 +1815,7 @@
       "dropDownTitle": "الحد اليومي",
       "doneButton": "تم",
       "cancelButton": "الغاء",
+      "currency":"ريال سعودي",
       "successModal": {
         "title": "تم تحديث حد الحركات المالية",
         "message": "تم تحديث حد الحركات المالية بنجاح",

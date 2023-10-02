@@ -2269,6 +2269,7 @@
       "dropDownTitle": "Daily Limit",
       "doneButton": "Done",
       "cancelButton": "Cancel",
+      "currency":"SAR",
       "successModal": {
         "title": "Transaction limit updated",
         "message": "Your transaction limit has been successfully updated.",
