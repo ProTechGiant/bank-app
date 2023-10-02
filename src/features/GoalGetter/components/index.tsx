@@ -1,5 +1,6 @@
 export { default as CollapsibleHeader } from "./CollapsibleHeader";
 export { default as DonutChart } from "./DonutChart";
+export { default as EmptyError } from "./EmptyError";
 export { default as FormatTransactionAmount } from "./FormatTransactionAmount";
 export { default as GalleryImage } from "./GalleryImage";
 export { default as GoalCard } from "./GoalCard";

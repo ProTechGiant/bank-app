@@ -2,14 +2,16 @@ import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
+import { useAuthContext } from "@/contexts/AuthContext";
 // TODO: remove comment when api ready from BE team
 // import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { generateRandomId } from "@/utils";
 
-import { DocumentResponse, PredefinedGoalNames } from "../types";
+import { DocumentResponse, ImageGalleryResponse, PredefinedGoalNames } from "../types";
 
 const queryKeys = {
   all: () => ["termsAndConditions"],
+  imageGallery: () => ["imageGallery"],
   predefined: (type: string, predefinedGoalId: number) => ["predefinedGoal", type, predefinedGoalId],
 };
 
@@ -21,6 +23,19 @@ export function useGetTermsAndConditions(documentId: string) {
     return api<DocumentResponse>("v1", `adhoc-documents/${documentId}`, "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18n.language.toUpperCase(), //TODO - remove toUpperCase() when api ready
+    });
+  });
+}
+
+export function useImageGallery() {
+  const { i18n } = useTranslation();
+  const { userId } = useAuthContext();
+  return useQuery(queryKeys.imageGallery(), () => {
+    return api<ImageGalleryResponse>("v1", `goals/gallery`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language.toUpperCase(), //TODO - remove toUpperCase() when api ready
+
+      ["UserId"]: userId ?? "",
     });
   });
 }

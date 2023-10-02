@@ -1190,7 +1190,12 @@
     },
     "imageGallery": {
       "title": "اختيار صورة",
-      "buttonSave": "حفظ"
+      "buttonSave": "حفظ",
+      "error": {
+        "title": "لم نتمكن من تحميل البيانات",
+        "message": "كان هناك مشكلة طفيفة، ولكن لا تقلق. يمكننا المحاولة مرة أخرى",
+        "buttonReload": "إعادة التحميل"
+      }
     },
     "CreateGoalGetter": {
       "inputLabel": "اسم الهدف",

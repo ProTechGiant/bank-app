@@ -1,4 +1,4 @@
-import { ImageStyle, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { ImageStyle, Pressable, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import NetworkImage from "@/components/NetworkImage";
 import { useThemeStyles } from "@/theme";
@@ -15,11 +15,16 @@ interface GalleryImageProps {
 export default function GalleryImage({ id, imageURL, isSelected, onImageSelection }: GalleryImageProps) {
   const { width } = useWindowDimensions();
 
-  const imageStyle = useThemeStyles<ImageStyle>(theme => ({
+  const contentStyle = useThemeStyles<ImageStyle>(theme => ({
     borderRadius: theme.radii.small,
     height: width / 3,
+    width: "48%",
     marginHorizontal: theme.spacing["4p"],
     marginVertical: theme.spacing["4p"],
+  }));
+
+  const imageStyle = useThemeStyles<ImageStyle>(theme => ({
+    borderRadius: theme.radii.small,
     flex: 1,
   }));
 
@@ -35,7 +40,7 @@ export default function GalleryImage({ id, imageURL, isSelected, onImageSelectio
   }));
 
   return (
-    <Pressable style={styles.pressable} onPress={() => onImageSelection(id)}>
+    <Pressable style={contentStyle} onPress={() => onImageSelection(id)}>
       <NetworkImage style={[imageStyle, isSelected && imageSelectedStyle]} source={{ uri: imageURL }} />
       {isSelected ? (
         <View style={checkIconStyle}>
@@ -45,9 +50,3 @@ export default function GalleryImage({ id, imageURL, isSelected, onImageSelectio
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  pressable: {
-    flex: 1,
-  },
-});

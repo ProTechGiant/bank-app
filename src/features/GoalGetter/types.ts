@@ -63,6 +63,14 @@ export interface PredefinedGoalNames {
   Predefined: { Id: number; Name: string }[];
 }
 
+export interface ImageGalleryResponse {
+  Gallery: Gallery[];
+}
+
+export interface Gallery {
+  ImageId: string;
+  ImageURL: string;
+}
 // TODO: check with BE team goal object type, maybe will be changed, for example roundUP to boolean
 export interface GoalGetterContextState {
   goalName: string;

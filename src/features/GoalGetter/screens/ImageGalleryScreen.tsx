@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, View, ViewStyle } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
@@ -10,9 +10,9 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { GalleryImage } from "../components";
+import { EmptyError, GalleryImage } from "../components";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
-import { goalImages } from "../mocks/mockGoalImages";
+import { useImageGallery } from "../hooks/query-hooks";
 
 export default function ImageGalleryScreen() {
   const { t } = useTranslation();
@@ -21,6 +21,7 @@ export default function ImageGalleryScreen() {
   const [selectedImageId, setSelectedImageId] = useState<string | undefined>();
 
   const { setGoalContextState } = useGoalGetterContext();
+  const { data, isLoading, refetch } = useImageGallery();
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
@@ -34,8 +35,7 @@ export default function ImageGalleryScreen() {
   };
 
   const handleImageSelectPress = () => {
-    const selectedImage = goalImages.find(item => item.id === selectedImageId);
-
+    const selectedImage = data?.Gallery.find(item => item.ImageId === selectedImageId);
     if (selectedImage) {
       const selectedImageURL = selectedImage.ImageURL;
       if (route.params?.screen) navigation.navigate(route.params.screen, { selectedImageURL });
@@ -51,27 +51,61 @@ export default function ImageGalleryScreen() {
         end={<NavHeader.CloseEndButton onPress={handleOnClose} />}
       />
       <View style={contentStyle}>
-        <FlatList
-          data={goalImages}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <GalleryImage
-              id={item.id}
-              imageURL={item.ImageURL}
-              isSelected={selectedImageId === item.id}
-              onImageSelection={(id: string) => {
-                setSelectedImageId(id);
-                setGoalContextState({ goalImage: item.ImageURL });
+        {isLoading ? (
+          <View style={styles.center}>
+            <ActivityIndicator />
+          </View>
+        ) : data?.Gallery ? (
+          <>
+            <FlatList
+              data={data.Gallery}
+              numColumns={2}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={item => item.ImageId}
+              renderItem={({ item }) => (
+                <GalleryImage
+                  id={item.ImageId}
+                  imageURL={item.ImageURL}
+                  isSelected={selectedImageId === item.ImageId}
+                  onImageSelection={(id: string) => {
+                    setSelectedImageId(id);
+                    setGoalContextState({ goalImage: item.ImageURL });
+                  }}
+                />
+              )}
+            />
+            <Button disabled={selectedImageId === undefined} onPress={handleImageSelectPress}>
+              {t("GoalGetter.imageGallery.buttonSave")}
+            </Button>
+          </>
+        ) : (
+          <View style={[styles.center, styles.bottomOffset]}>
+            <EmptyError
+              variant="error"
+              title={t("GoalGetter.imageGallery.error.title")}
+              message={t("GoalGetter.imageGallery.error.message")}
+              isVisible={true}
+              buttons={{
+                primary: (
+                  <Button variant="secondary" onPress={() => refetch()}>
+                    {t("GoalGetter.imageGallery.error.buttonReload")}
+                  </Button>
+                ),
               }}
             />
-          )}
-        />
-        <Button disabled={selectedImageId === undefined} onPress={handleImageSelectPress}>
-          {t("GoalGetter.imageGallery.buttonSave")}
-        </Button>
+          </View>
+        )}
       </View>
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  bottomOffset: {
+    marginBottom: 100,
+  },
+  center: {
+    flex: 1,
+    justifyContent: "center",
+  },
+});
