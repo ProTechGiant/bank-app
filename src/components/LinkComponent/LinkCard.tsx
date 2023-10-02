@@ -20,6 +20,8 @@ export default function LinkCard({ onNavigate, children, style, testID }: LinkCa
     padding: theme.spacing["24p"],
   }));
 
+  const chevronColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
+
   const handlePress = () => {
     onNavigate();
   };
@@ -29,7 +31,7 @@ export default function LinkCard({ onNavigate, children, style, testID }: LinkCa
       <Pressable style={[container, style]} onPress={handlePress} testID={testID}>
         <View style={styles.textContainer}>{children}</View>
         <View style={styles.arrowContainer}>
-          <ChevronRightIcon />
+          <ChevronRightIcon color={chevronColor} />
         </View>
       </Pressable>
     </WithShadow>

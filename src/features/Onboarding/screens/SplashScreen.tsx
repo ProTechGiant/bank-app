@@ -14,7 +14,7 @@ import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams"
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
-import { getItemFromEncryptedStorage, hasItemInStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import SplashScreenRocket from "../assets/SplashScreenRocket";
 import { LanguageToggle } from "../components";
@@ -59,8 +59,7 @@ export default function SplashScreen() {
   };
 
   const handleOnSignIn = async () => {
-    const screenName = (await hasItemInStorage("user")) ? "SignIn.Passcode" : "SignIn.Iqama";
-    navigation.navigate("SignIn.SignInStack", { screen: screenName });
+    navigation.navigate("SignIn.SignInStack", { screen: "SignIn.Iqama" });
   };
 
   const handleOnSignUp = () => {

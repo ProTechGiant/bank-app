@@ -40,10 +40,8 @@ export default function CardPinScreen() {
 
   const handleSubmit = async () => {
     try {
-      const response = await validatePincode(pinCode);
-      if (response.Status) {
-        handleNavigate();
-      }
+      await validatePincode(pinCode);
+      handleNavigate();
     } catch (error: any) {
       const errorId = error?.errorContent?.Errors[0]?.ErrorId;
       if (errorId === "0032") handleBlocked();

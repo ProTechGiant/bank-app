@@ -122,7 +122,7 @@ export default function PasscodeScreen() {
       const response = await mutateAsync({ passCode, nationalId: tempUser ? tempUser.NationalId : user?.NationalId });
       if (response.AccessToken) {
         if (isNewUser) {
-          handleNavigate(response.AccessToken);
+          delayTransition(() => handleNavigate(response.AccessToken));
         } else {
           navigateToHome(response.AccessToken);
         }
@@ -183,7 +183,7 @@ export default function PasscodeScreen() {
           if (status === "cancel") {
             return;
           } else if (status === "success") {
-            delayTransition(() => handleOtpVerification(accessToken));
+            handleOtpVerification(accessToken);
           }
         },
         onUserBlocked: () => {
