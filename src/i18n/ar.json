@@ -1355,7 +1355,13 @@
       "highRisk": "High risk",
       "of": "من {{amount}}",
       "sar": "ر.س",
-      "seeMore": "المزيد"
+      "seeMore": "المزيد",
+      "deleteGoal": {
+        "title": "هل أنت متأكد أنك تريد الحذف؟",
+        "message": "يمكنك اختيار سحب المبلغ الإجمالي او نقله الى حافظ اخرى",
+        "buttonDelete": "حذف",
+        "cancelButton": "الغاء"
+      }
     },
     "GoalCreatedSuccessfullyScreen": {
       "label": "تم إنشاء الهدف بنجاح",

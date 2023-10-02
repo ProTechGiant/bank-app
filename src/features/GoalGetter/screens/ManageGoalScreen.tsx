@@ -5,6 +5,7 @@ import { Animated, StyleSheet, View, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -22,6 +23,7 @@ import {
 } from "../components";
 import { mockGoalDetail } from "../mocks/mockGoalDetail";
 import { mockGoalDetailImage } from "../mocks/mockGoalImages";
+import { Transaction } from "../types";
 
 export default function ManageGoalScreen() {
   const [selectedImage, setSelectedImage] = useState<string>(mockGoalDetailImage);
@@ -29,6 +31,7 @@ export default function ManageGoalScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "GoalGetter.ManageGoal">>();
   const insets = useSafeAreaInsets();
+  const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
 
   const goalDetail = mockGoalDetail;
 
@@ -81,8 +84,7 @@ export default function ManageGoalScreen() {
   };
 
   const handleGoalEdit = () => {
-    // TODO : handle it
-    return;
+    navigation.navigate("GoalGetter.EditGoalGetter");
   };
 
   const handleRedeem = () => {
@@ -96,8 +98,9 @@ export default function ManageGoalScreen() {
   };
 
   const handleGoalDelete = () => {
-    // TODO : handle it
-    return;
+    //TODO : We still need to actually delete the goal here first by consuming api(not available at this moment).
+    setIsDeleteConfirmationVisible(false);
+    navigation.goBack();
   };
 
   return (
@@ -143,11 +146,31 @@ export default function ManageGoalScreen() {
             onPressSeeMore={handleTransactionSeeMore}
             transactions={goalDetail.Transactions as Transaction[]}
           />
-          <Button variant="secondary" onPress={handleGoalDelete}>
+          <Button variant="secondary" onPress={() => setIsDeleteConfirmationVisible(true)}>
             {t("GoalGetter.goalDetail.buttonDeleteGoal")}
           </Button>
         </View>
       </Animated.ScrollView>
+
+      <NotificationModal
+        variant="warning"
+        buttons={{
+          primary: (
+            <Button loading={false} disabled={false} onPress={handleGoalDelete}>
+              {t("GoalGetter.goalDetail.deleteGoal.buttonDelete")}
+            </Button>
+          ),
+          secondary: (
+            <Button onPress={() => setIsDeleteConfirmationVisible(false)}>
+              {t("GoalGetter.goalDetail.deleteGoal.cancelButton")}
+            </Button>
+          ),
+        }}
+        message={t("GoalGetter.goalDetail.deleteGoal.message")}
+        title={t("GoalGetter.goalDetail.deleteGoal.title")}
+        isVisible={isDeleteConfirmationVisible}
+        onClose={() => setIsDeleteConfirmationVisible(false)}
+      />
 
       <CollapsibleHeader
         backgroundImage={selectedImage}

@@ -1428,7 +1428,13 @@
       "highRisk": "High risk",
       "of": "of {{amount}}",
       "sar": "SAR",
-      "seeMore": "See more"
+      "seeMore": "See more",
+      "deleteGoal": {
+        "title": "Are you sure want to delete?",
+        "message": "You can select to withdraw the total amount",
+        "buttonDelete": "Delete",
+        "cancelButton": "Cancel"
+      }
     },
     "GoalCreatedSuccessfullyScreen": {
       "label": "Goal created successfully",
