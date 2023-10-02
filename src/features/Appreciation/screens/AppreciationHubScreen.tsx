@@ -280,7 +280,7 @@ export default function AppreciationHubScreen() {
               </View>
               {appreciationList?.length === 0 ||
               (currentTab === TabsTypes.LIKED &&
-                appreciationList?.filter(item => item.ActiveFlag === ActiveEnum.ACTIVE)) ? (
+                appreciationList?.every(item => item.ActiveFlag === ActiveEnum.EXPIRED)) ? (
                 hasFilters ? (
                   <DefaultContent
                     title={t("Appreciation.HubScreen.FilterOptions.noAppreciationsFoundTitle")}
