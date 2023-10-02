@@ -14,27 +14,7 @@ import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useErrorMessages } from "../hooks";
 import { useIqama, usePreferredLanguage } from "../hooks/query-hooks";
 import { IqamaInputs } from "../types";
-
-function getActiveTask(activeTask: string) {
-  const tasks = {
-    MobileVerification: "Onboarding.Iqama",
-    RetrievePersonalDetails: "Onboarding.Nafath",
-    ConfirmPersonalDetails: "Onboarding.ConfirmDetails",
-    PersistEmail: "Onboarding.OptionalEmail",
-    PersistFinancialInfo: "Onboarding.Financial",
-    "Fatca&Crs": "Onboarding.Fatca",
-    "T&C": "Onboarding.TermsAndConditions",
-    WaitingEDDResult: "Onboarding.PendingAccount",
-    RetryCustomerScreening: "Onboarding.PendingAccount",
-    RetrieveValidationStatus: "Onboarding.PendingAccount",
-    RetryAccountCreation: "Onboarding.PendingAccount",
-    CreatePasscode: "Onboarding.CreatePasscode",
-  };
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore explicitly checked with `in` operator
-  return activeTask in tasks ? tasks[activeTask] : "Onboarding.Nafath";
-}
+import { getActiveTask } from "../utils/get-active-task";
 
 export default function IqamaInputScreen() {
   const { t } = useTranslation();
@@ -80,10 +60,11 @@ export default function IqamaInputScreen() {
   const handleOnSubmit = async (values: IqamaInputs) => {
     try {
       setNationalId(String(values.NationalId));
-      await mutateAsync(values);
-      //TODO: TO IMPLEMENT THIS CHECK, COMMENTED FOR TESTING PURPOSE
-      // if (response.IsOwner) {
-      navigation.navigate("Onboarding.Nafath");
+      const response = await mutateAsync(values);
+      // if (response?.Name === "MobileVerification") {
+      //   navigation.navigate("Onboarding.Nafath");
+      // } else {
+      navigation.navigate(getActiveTask(response?.Name || ""));
       // }
     } catch (err) {
       warn("onboarding", "Could not process iqama input. Error: ", JSON.stringify(err));

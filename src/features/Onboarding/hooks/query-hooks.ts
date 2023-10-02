@@ -4,12 +4,13 @@ import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
+import ApiError from "@/api/ApiError";
+import ResponseError from "@/api/ResponseError";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { nationalIdRegEx } from "@/utils";
 
 import { IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
-import { RegistrationResponse } from "../types";
 import {
   CustomerPendingAction,
   CustomersTermsAndConditions,
@@ -17,6 +18,7 @@ import {
   FinancialDetails,
   IqamaInputs,
   NafathDetails,
+  RegistrationResponse,
   Status,
   StatusId,
 } from "../types";
@@ -35,6 +37,7 @@ interface IqamaResponse {
   CustomerId: string;
   CustomerType: string;
   Id: string;
+  TaskName: string;
   NationalId: string;
   MobileNumber: string;
   Mobile: string;
@@ -145,9 +148,9 @@ export function useNafathDetails() {
       );
     },
     {
-      onSuccess(data) {
+      onSuccess(data: NafathDetails) {
         const customerName = i18n.language === "en" ? data.EnglishFirstName : data.ArabicFirstName;
-        setCustomerName(customerName);
+        setCustomerName(customerName ?? "");
       },
     }
   );
@@ -198,8 +201,17 @@ export function useSubmitFinancialDetails() {
 export function useIqama() {
   const { i18n } = useTranslation();
 
-  const { startOnboardingAsync, fetchLatestWorkflowTask, correlationId, setNationalId, setMobileNumber, currentTask } =
-    useOnboardingContext();
+  const {
+    startOnboardingAsync,
+    fetchLatestWorkflowTask,
+    correlationId,
+    setNationalId,
+    setMobileNumber,
+    currentTask,
+    checkFobEligibility,
+  } = useOnboardingContext();
+
+  const { mutateAsync: mutateValidateMobileNumber } = useValidateMobileNo();
 
   const handleSignUp = async (values: IqamaInputs) => {
     if (!correlationId) {
@@ -212,22 +224,22 @@ export function useIqama() {
     const workflowTask = await fetchLatestWorkflowTask();
     assertWorkflowTask("customers/validate/mobile", "MobileVerification", workflowTask);
 
-    return api<IqamaResponse>(
-      "v1",
-      "customers/validate/mobile",
-      "POST",
-      undefined,
-      {
+    if (workflowTask.Id) {
+      const body = {
         NationalId: values.NationalId,
-        MobileNumber: values.MobileNumber,
-        NationalIdType: values.NationalId.match(nationalIdRegEx) ? NATIONAL_ID_TYPE : IQAMA_TYPE,
-      },
-      {
-        ["X-Workflow-Task-Id"]: workflowTask.Id,
-        ["x-correlation-id"]: correlationId,
-        ["Accept-Language"]: i18n.language.toUpperCase(),
+        IdType: values.NationalId.match(nationalIdRegEx) ? NATIONAL_ID_TYPE : IQAMA_TYPE,
+      };
+
+      await checkFobEligibility(body, workflowTask, i18n.language.toUpperCase());
+
+      setNationalId(String(values.NationalId));
+      setMobileNumber(String(values.MobileNumber));
+
+      if (workflowTask?.Name === "MobileVerification") {
+        await mutateValidateMobileNumber({ nationalId: values.NationalId, mobileNo: values.MobileNumber });
       }
-    );
+      return await fetchLatestWorkflowTask();
+    }
   };
 
   const handleRetrySignUp = async (values: IqamaInputs) => {
@@ -239,31 +251,11 @@ export function useIqama() {
     if (workflowTask && workflowTask?.Name === "MobileVerification") {
       assertWorkflowTask("customers/validate/mobile", "MobileVerification", workflowTask);
 
-      return api<IqamaResponse>(
-        "v1",
-        "customers/validate/mobile",
-        "POST",
-        undefined,
-        {
-          NationalId: values.NationalId,
-          MobileNumber: values.MobileNumber,
-          NationalIdType: values.NationalId.match(nationalIdRegEx) ? NATIONAL_ID_TYPE : IQAMA_TYPE,
-        },
-        {
-          ["X-Workflow-Task-Id"]: workflowTask.Id,
-          ["x-correlation-id"]: correlationId,
-          ["Accept-Language"]: i18n.language.toUpperCase(),
-        }
-      );
+      return await mutateValidateMobileNumber({ nationalId: values.NationalId, mobileNo: values.MobileNumber });
     }
   };
-
   return useMutation(handleSignUp, {
-    onSuccess(data, _variables, _context) {
-      setNationalId(String(data.Id));
-      setMobileNumber(String(data.MobileNumber));
-    },
-    onError(error, variables, _context) {
+    onError(error: ApiError<ResponseError>, variables, _context) {
       if (
         error &&
         error.errorContent &&
@@ -454,6 +446,34 @@ export function useGetCustomerPendingAction(statusId: StatusId) {
   });
 }
 
+export function useValidateMobileNo() {
+  const { correlationId, fetchLatestWorkflowTask } = useOnboardingContext();
+  const { i18n } = useTranslation();
+  return useMutation(async (data: { nationalId: string; mobileNo: string }) => {
+    if (!correlationId) throw new Error("Need valid Correlation id");
+
+    const workflowTask = await fetchLatestWorkflowTask();
+    if (!workflowTask || !workflowTask.Name) throw new Error("Need valid Work Flow Task id & Name");
+
+    return api<IqamaResponse>(
+      "v1",
+      "customers/validate/mobile",
+      "POST",
+      undefined,
+      {
+        NationalId: data.nationalId,
+        MobileNumber: data.mobileNo,
+        NationalIdType: data.nationalId.match(nationalIdRegEx) ? NATIONAL_ID_TYPE : IQAMA_TYPE,
+      },
+      {
+        ["X-Workflow-Task-Id"]: workflowTask.Id,
+        ["x-correlation-id"]: correlationId,
+        ["Accept-Language"]: i18n.language.toUpperCase(),
+      }
+    );
+  });
+}
+
 export function useUpdateActionStatus() {
   const { correlationId } = useOnboardingContext();
 
@@ -492,6 +512,66 @@ export function useGetCustomerTermsAndConditions(ContentCategoryId: string) {
       undefined,
       {
         ["x-correlation-id"]: correlationId,
+      }
+    );
+  });
+}
+
+export function useProceedToFob() {
+  const { correlationId, fetchLatestWorkflowTask } = useOnboardingContext();
+
+  return useMutation(async (body: { IsProceedFOB: string }) => {
+    if (!correlationId) throw new Error("Need valid Correlation id");
+    const workflowTask = await fetchLatestWorkflowTask();
+
+    if (!workflowTask || workflowTask.Name !== "")
+      throw new Error("Available workflowTaskId is not applicable to customers/confirm/data");
+
+    return api<string>("v1", "fob/proceed/", "POST", undefined, body, {
+      ["x-correlation-id"]: correlationId,
+      ["X-Workflow-Task-Id	"]: workflowTask?.Id,
+    });
+  });
+}
+
+export function useGetArbMicrositeUrl() {
+  const { correlationId } = useOnboardingContext();
+
+  return useQuery(
+    ["ArbMicrositeUrl"],
+    () => {
+      if (!correlationId) throw new Error("Need valid Correlation id");
+
+      return api<{ ArbMicrositeUrl: string }>("v1", `customers/fob/microsite`, "GET", undefined, undefined, {
+        ["x-correlation-id"]: correlationId,
+      });
+    },
+    { enabled: false }
+  );
+}
+
+export function useCheckCustomerSelectionForMobileNumber() {
+  const { correlationId, fetchLatestWorkflowTask, mobileNumber } = useOnboardingContext();
+
+  return useMutation(async (body: { IsSameMobileNumber: string }) => {
+    if (!correlationId) throw new Error("Need valid Correlation id");
+    const workflowTask = await fetchLatestWorkflowTask();
+
+    if (!workflowTask || workflowTask.Name !== "")
+      throw new Error("Available workflowTaskId is not applicable to customers/confirm/data");
+
+    return api(
+      "v1",
+      "customers/fob/mobile-number",
+      "POST",
+      undefined,
+      {
+        SelectedMobileNumber: mobileNumber,
+        ...body,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+        ["X-Workflow-Task-Id	"]: workflowTask?.Id,
       }
     );
   });

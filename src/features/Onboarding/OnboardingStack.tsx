@@ -7,6 +7,7 @@ import {
   ConfirmPasscodeScreen,
   ConfirmPersonalDetailsScreen,
   CreatePasscodeScreen,
+  FastOnboardingScreen,
   FatcaDetailsScreen,
   FinancialInformationScreen,
   IqamaInputScreen,
@@ -17,6 +18,7 @@ import {
   SuccessScreen,
   TermsAndConditionsDetailsScreen,
   TermsAndConditionsScreen,
+  UnmatchedArbNumberScreen,
   WelcomeCarouselScreen,
   WorkGuideModal,
 } from "./screens";
@@ -53,6 +55,8 @@ export type OnboardingStackParams = {
   "Onboarding.WorkGuideModal": undefined;
   "Onboarding.TermsAndConditionsDetails": undefined;
   "Onboarding.SuccessScreen": undefined;
+  "Onboarding.FastOnboardingScreen": undefined;
+  "Onboarding.UnmatchedArbNumberScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<OnboardingStackParams>();
@@ -62,10 +66,12 @@ export default function OnboardingStack() {
     <OnboardingContextProvider>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen component={AppIntroAnimationScreen} name="Onboarding.AppIntroAnimation" />
+        <Stack.Screen component={FastOnboardingScreen} name="Onboarding.FastOnboardingScreen" />
         <Stack.Screen component={SplashScreen} name="Onboarding.SplashScreen" />
         <Stack.Screen component={WelcomeCarouselScreen} name="Onboarding.WelcomeCarousel" />
         <Stack.Screen component={IqamaInputScreen} name="Onboarding.Iqama" />
         <Stack.Screen component={NafathAuthScreen} name="Onboarding.Nafath" />
+        <Stack.Screen component={UnmatchedArbNumberScreen} name="Onboarding.UnmatchedArbNumberScreen" />
         <Stack.Screen component={ConfirmPersonalDetailsScreen} name="Onboarding.ConfirmDetails" />
         <Stack.Screen component={OptionalEmailScreen} name="Onboarding.OptionalEmail" />
         <Stack.Screen component={FinancialInformationScreen} name="Onboarding.Financial" />

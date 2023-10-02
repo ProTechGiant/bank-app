@@ -78,7 +78,7 @@ export default function OptionalEmailScreen() {
         withBackButton={false}
         title={t("Onboarding.OptionalEmailScreen.navHeaderTitle")}
         testID="Onboarding.OptionalEmailScreen:NavHeader">
-        <ProgressIndicator currentStep={2} totalStep={6} />
+        <ProgressIndicator currentStep={2} totalStep={5} />
       </NavHeader>
       {isLoading ? (
         <View style={styles.loading}>

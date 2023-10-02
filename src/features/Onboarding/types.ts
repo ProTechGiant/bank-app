@@ -70,6 +70,15 @@ export interface FinancialDetails {
   MonthlyLimit: string;
 }
 
+export interface FobEligibilityRequest {
+  NationalId: string;
+  IdType: string;
+  EchoList?: {
+    Name: string;
+    Value: string;
+  }[];
+}
+
 export interface RegistrationResponse {
   AuthUserId: string;
   AccessToken: string;
@@ -123,4 +132,10 @@ export interface Body {
   Order: number;
   Body: string;
   ContentCategoryId: string;
+}
+
+export interface FobEligibilityResponse {
+  IsFOBEligibile: boolean;
+  IsSameMobileNumber: boolean;
+  ArbMobileNumber: string;
 }

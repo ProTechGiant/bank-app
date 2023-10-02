@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
 import { useOnboardingInstance, useOnboardingRevertTask, useOnboardingTasks } from "../hooks/context-hooks";
+import { FobEligibilityRequest, FobEligibilityResponse } from "../types";
 
 function noop() {
   return;
@@ -14,8 +15,10 @@ interface OnboardingContextState {
   setTransactionId: (value: string) => void;
   transactionId: string | undefined;
   setMobileNumber: (value: string) => void;
+  setFobMobileNumber: (value: string) => void;
   setIsLoading: (value: boolean) => void;
   mobileNumber: string | undefined;
+  fobMobileNumber: string | undefined;
   isLoading: boolean;
   setCorrelationId: (value: string) => void;
   correlationId: string | undefined;
@@ -24,6 +27,11 @@ interface OnboardingContextState {
   startOnboardingAsync: (NationalId: string, MobileNumber: string) => Promise<void>;
   fetchLatestWorkflowTask: () => Promise<{ Id: string; Name: string } | undefined>;
   revertWorkflowTask: (WorkflowTask: { Id: string; Name: string }) => Promise<void>;
+  checkFobEligibility: (
+    body: FobEligibilityRequest,
+    currentTask: { Id: string; Name: string },
+    lang: string
+  ) => Promise<FobEligibilityResponse>;
 }
 
 const OnboardingContext = createContext<OnboardingContextState>({
@@ -34,7 +42,9 @@ const OnboardingContext = createContext<OnboardingContextState>({
   nationalId: undefined,
   transactionId: undefined,
   setMobileNumber: noop,
+  setFobMobileNumber: noop,
   mobileNumber: undefined,
+  fobMobileNumber: undefined,
   isLoading: false,
   setCorrelationId: noop,
   setIsLoading: noop,
@@ -44,6 +54,7 @@ const OnboardingContext = createContext<OnboardingContextState>({
   startOnboardingAsync: () => Promise.reject(),
   fetchLatestWorkflowTask: () => Promise.reject(),
   revertWorkflowTask: () => Promise.reject(),
+  checkFobEligibility: () => Promise.reject(),
 });
 
 function OnboardingContextProvider({ children }: { children: React.ReactNode }) {
@@ -54,7 +65,7 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
   const [state, setState] = useState<
     Pick<
       OnboardingContextState,
-      "nationalId" | "correlationId" | "currentTask" | "transactionId" | "userName" | "mobileNumber"
+      "nationalId" | "correlationId" | "currentTask" | "transactionId" | "userName" | "mobileNumber" | "fobMobileNumber"
     >
   >({
     nationalId: undefined,
@@ -63,6 +74,7 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
     transactionId: undefined,
     userName: undefined,
     mobileNumber: undefined,
+    fobMobileNumber: undefined,
   });
 
   const setNationalId = (nationalId: string) => {
@@ -78,6 +90,10 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
   };
   const setMobileNumber = (mobileNumber: string) => {
     setState(v => ({ ...v, mobileNumber }));
+  };
+
+  const setFobMobileNumber = (fobMobileNumber: string) => {
+    setState(v => ({ ...v, fobMobileNumber }));
   };
 
   const setIsLoading = (isLoading: boolean) => {
@@ -125,6 +141,27 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
     return response;
   };
 
+  const checkFobEligibility = async () =>
+    // body: FobEligibilityRequest,
+    // currentTask: { Id: string; Name: string },
+    // lang: string
+    {
+      const { correlationId } = state;
+      if (!correlationId) throw new Error("Cannot start Onboarding without `correlationId`");
+      // TODO: This Moch data will be replaced by actual API call
+      // api<FobEligibilityResponse>("v1", "customers/fob/eligibility", "POST", undefined, body, {
+      //   ["x-correlation-id"]: correlationId,
+      //   ["X-Workflow-Task-Id"]: currentTask.Id,
+      //   ["Accept-Language"]: lang,
+      //   ["Authorization"]: generateRandomId(),
+      // });
+      return {
+        IsFOBEligibile: false,
+        IsSameMobileNumber: false,
+        ArbMobileNumber: "+966501008794",
+      };
+    };
+
   return (
     <OnboardingContext.Provider
       value={useMemo(
@@ -140,6 +177,8 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
           revertWorkflowTask,
           setMobileNumber,
           setIsLoading,
+          checkFobEligibility,
+          setFobMobileNumber,
         }),
         [state]
       )}>

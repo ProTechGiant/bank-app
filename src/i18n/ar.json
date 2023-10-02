@@ -84,6 +84,17 @@
     }
   },
   "Onboarding": {
+    "FastOnboardingScreen": {
+      "title": "أخبار رائعة!",
+      "subTitle": "رقم الهاتف والهوية الذين قدمتهما يتطابقان مع سجلاتنا في ARB. لتسريع عملية التسجيل الخاصة بك، هل ترغب في الانتقال إلى مسار التسجيل السريع لدينا؟",
+      "buttonText": "المتابعة إلى التسجيل السريع",
+      "continueWithText": "أو المتابعة مع",
+      "regularOnboardingText": "التسجيل العادي",
+      "modalTitle": "ما هو التسجيل السريع",
+      "modalMessage": "تم تصميم التسجيل السريع لتوفير تجربة أسرع وأكثر سلاسة. يتضمن أقل عدد من الخطوات وهو مثالي إذا كنت ترغب في البدء معنا في أقرب وقت ممكن.",
+      "errorMessage": "نعتذر، حدث خطأ ما.",
+      "tryAgain": "يرجى المحاولة مرة أخرى في وقت لاحق."
+    },
     "WelcomeCarousel": {
       "titleOne": "Welcome to Croatia",
       "subTextOne": "This is your gateway\nto What's Next",
@@ -285,6 +296,18 @@
       "notificationModelTitle": "Your passcode has been set",
       "navHeaderTitle": "Passcode",
       "proceedToHomepage": "متابعة"
+    },
+    "UnmatchedArbNumber": {
+      "buttonTitle": "استخدم رقم الهوية",
+      "buttonDescription": "أو استمر بالمضي قدمًا مع",
+      "regularOnboarding": "إجراءات التسجيل العادية",
+      "matchingIdFound": "تم العثور على هوية متطابقة",
+      "existingAccount": "تم التعرف على حساب قائم برقم الهوية الخاص بك\n\nهذا الحساب مرتبط برقم هاتف مختلف عما قدمته.",
+      "spotIllustration": "رسم توضيحي هنا",
+      "OnboardingOptionsModal": {
+        "title": "خيارات التسجيل",
+        "description": "تم العثور على حساب قائم برقم الهوية الخاص بك ولكنه مرتبط برقم هاتف مختلف. يمكنك اختيار متابعة التسجيل برقم الهوية الخاص بك للتسجيل السريع أو المتابعة بإجراءات التسجيل العادية."
+      }
     }
   },
   "ProxyAlias": {

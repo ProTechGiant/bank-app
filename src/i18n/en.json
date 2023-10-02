@@ -78,6 +78,17 @@
     "buttonText": "View"
   },
   "Onboarding": {
+    "FastOnboardingScreen": {
+      "title": "Great News!",
+      "subTitle": "The phone number and ID you provided match our records at ARB. To expedite your onboarding, would you like to move to our fast onboarding track? ",
+      "buttonText": "Proceed to Fast Onboarding",
+      "continueWithText": "Or Continue with",
+      "regularOnboardingText": "Regular Onboarding",
+      "modalTitle": "What is Fast Onboarding",
+      "modalMessage": "Fast Onboarding is designed to provide you with a quicker and more streamlined experience. It involves fewer steps and is ideal if you want to get started with us as soon as possible.",
+      "errorMessage": "We’re sorry something went wrong.",
+      "tryAgain": "Please try again later."
+    },
     "WelcomeCarousel": {
       "titleOne": "Welcome\nto Croatia",
       "subTextOne": "This is your gateway\nto What's Next",
@@ -284,6 +295,18 @@
       "proceedToHomepage": "Continue",
       "weAreSorry": "We’re sorry something went wrong.",
       "pleaseTryAgain": "Please try again later."
+    },
+    "UnmatchedArbNumber": {
+      "buttonTitle": "Use ARB Number",
+      "buttonDescription": "Or Continue with",
+      "regularOnboarding": "Regular Onboarding",
+      "matchingIdFound": "Matching ID Found",
+      "existingAccount": "An existing account with your ID number has been identified\n\nThis account is linked to a different phone number than the one you provided.",
+      "spotIllustration": "Spot illustration here",
+      "OnboardingOptionsModal": {
+        "title": "Onboarding Options",
+        "description": "We found an existing account with your ID but linked to a different phone number. You can choose to continue with your ARB phone number for faster onboarding or proceed with the Regular Onboarding"
+      }
     }
   },
   "ProxyAlias": {
