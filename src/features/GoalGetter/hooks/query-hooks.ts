@@ -6,10 +6,11 @@ import api from "@/api";
 // import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { generateRandomId } from "@/utils";
 
-import { DocumentResponse } from "../types";
+import { DocumentResponse, PredefinedGoalNames } from "../types";
 
 const queryKeys = {
   all: () => ["termsAndConditions"],
+  predefined: (type: string, predefinedGoalId: number) => ["predefinedGoal", type, predefinedGoalId],
 };
 
 export function useGetTermsAndConditions(documentId: string) {
@@ -38,5 +39,23 @@ export function useGoalGetterOTP() {
         AllowedAttempts: 0,
       },
     });
+  });
+}
+
+export function usePredefined(type: string, predefinedGoalId: number) {
+  const { i18n } = useTranslation();
+
+  return useQuery(queryKeys.predefined(type, predefinedGoalId), () => {
+    return api<PredefinedGoalNames>(
+      "v1",
+      `goals/predefined?type=${type}&predefinedGoalId=${predefinedGoalId}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language.toLowerCase(),
+      }
+    );
   });
 }

@@ -1,8 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { Animated, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
@@ -16,8 +16,16 @@ import { HeaderContent, MatchProductCard } from "../components";
 export default function MatchProductsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
+
+  const H_MIN_HEIGHT = Platform.OS === "android" ? 74 + insets.top + 23 : +52 + insets.top + 8;
+
+  const H_MAX_HEIGHT = Platform.OS === "android" ? 400 + insets.top : 360 + insets.top;
+
+  const H_SCROLL_DISTANCE = H_MAX_HEIGHT - H_MIN_HEIGHT;
 
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
+  const scrollOffsetY = useRef(new Animated.Value(0)).current;
 
   const highRiskColor = useThemeStyles(theme => theme.palette.complimentBase);
   const mediumRiskColor = useThemeStyles(theme => theme.palette.warningBase);
@@ -92,27 +100,37 @@ export default function MatchProductsScreen() {
     marginHorizontal: theme.spacing["12p"],
     marginTop: theme.spacing["32p"],
   }));
+  const headerScrollHeight = scrollOffsetY.interpolate({
+    inputRange: [0, H_SCROLL_DISTANCE],
+    outputRange: [H_MAX_HEIGHT, H_MIN_HEIGHT],
+    extrapolate: "clamp",
+  });
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
-      <NavHeader
-        variant="angled"
-        title={
-          <View style={styles.progressIndicator}>
-            <ProgressIndicator currentStep={4} totalStep={5} />
-          </View>
-        }
-        end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}>
-        <HeaderContent goalName="phone" contribution="12,000 SAR" duration="24 months" />
-      </NavHeader>
-
-      <View style={titleContainerStyle}>
-        <Typography.Text size="title2" weight="medium">
-          {t("GoalGetter.SelectProductsScreen.title")}
-        </Typography.Text>
-      </View>
-
-      <ScrollView style={containerStyle}>
+      <Animated.View style={[styles.animatedHeader, { height: headerScrollHeight }]}>
+        <NavHeader
+          variant="angled"
+          title={
+            <View style={styles.progressIndicator}>
+              <ProgressIndicator currentStep={4} totalStep={5} />
+            </View>
+          }
+          end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}>
+          <HeaderContent goalName="phone" contribution="12,000 SAR" duration="24 months" />
+        </NavHeader>
+        <View style={titleContainerStyle}>
+          <Typography.Text size="title2" weight="medium">
+            {t("GoalGetter.SelectProductsScreen.title")}
+          </Typography.Text>
+        </View>
+      </Animated.View>
+      <Animated.ScrollView
+        style={containerStyle}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }], {
+          useNativeDriver: false,
+        })}
+        scrollEventThrottle={12}>
         {productsData.map((product, index) => (
           <View style={cardContainerStyle} key={index}>
             <MatchProductCard
@@ -125,10 +143,18 @@ export default function MatchProductsScreen() {
         <Button onPress={handleChooseProduct} disabled={selectedCard === null}>
           {t("GoalGetter.SelectProductsScreen.chooseButton")}
         </Button>
-      </ScrollView>
+      </Animated.ScrollView>
     </Page>
   );
 }
 const styles = StyleSheet.create({
+  animatedHeader: {
+    left: 0,
+    overflow: "hidden",
+    right: 0,
+    top: 0,
+    width: "100%",
+    zIndex: 999,
+  },
   progressIndicator: { width: "80%" },
 });

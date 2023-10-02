@@ -59,6 +59,9 @@ export interface Transaction {
   Date: string;
   Amount: number;
 }
+export interface PredefinedGoalNames {
+  Predefined: { Id: number; Name: string }[];
+}
 
 // TODO: check with BE team goal object type, maybe will be changed, for example roundUP to boolean
 export interface GoalGetterContextState {

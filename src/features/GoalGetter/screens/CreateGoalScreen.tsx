@@ -18,7 +18,7 @@ import { useThemeStyles } from "@/theme";
 
 import GoalGetterHeader from "../components/GoalGetterHeader";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
-import { suggestedGoalNames } from "../mocks/suggestedGoalNames";
+import { usePredefined } from "../hooks/query-hooks";
 
 interface GoalNameInput {
   GoalName: string;
@@ -27,7 +27,8 @@ interface GoalNameInput {
 export default function CreateGoalScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { goalImage, setGoalContextState } = useGoalGetterContext();
+  const { goalImage, setGoalContextState, predefinedGoalId } = useGoalGetterContext();
+  const { data } = usePredefined("name", predefinedGoalId);
 
   const validationSchema = yup.object().shape({
     GoalName: yup
@@ -52,8 +53,8 @@ export default function CreateGoalScreen() {
     navigation.navigate("GoalGetter.ImageGallary");
   };
 
-  const handleOnSubmit = async (data: GoalNameInput) => {
-    setGoalContextState({ goalName: data.GoalName });
+  const handleOnSubmit = (formData: GoalNameInput) => {
+    setGoalContextState({ goalName: formData.GoalName });
     navigation.navigate("GoalGetter.TargetAmountScreen");
   };
 
@@ -105,19 +106,24 @@ export default function CreateGoalScreen() {
               label={t("GoalGetter.CreateGoalGetter.inputLabel")}
               extraStart={t("GoalGetter.CreateGoalGetter.extraStart")}
             />
-            <Typography.Text size="callout" weight="medium">
-              {t("GoalGetter.CreateGoalGetter.suggestedNames")}
-            </Typography.Text>
-            <View style={suggestNamesStyle}>
-              {suggestedGoalNames.map(item => (
-                <Pill
-                  key={item.value}
-                  isActive={item.value === goalNameValue}
-                  onPress={() => handleSuggestedNamesPress(item.value)}>
-                  {item.label}
-                </Pill>
-              ))}
-            </View>
+
+            {data?.Predefined ? (
+              <>
+                <Typography.Text size="callout" weight="medium">
+                  {t("GoalGetter.CreateGoalGetter.suggestedNames")}
+                </Typography.Text>
+                <View style={suggestNamesStyle}>
+                  {data.Predefined.map(item => (
+                    <Pill
+                      key={item.Id}
+                      isActive={item.Name === goalNameValue}
+                      onPress={() => handleSuggestedNamesPress(item.Name)}>
+                      {item.Name}
+                    </Pill>
+                  ))}
+                </View>
+              </>
+            ) : null}
           </Stack>
         </ScrollView>
         <View style={submitButtonStyle}>
@@ -129,6 +135,7 @@ export default function CreateGoalScreen() {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   progressIndicator: { width: "80%" },
 });
