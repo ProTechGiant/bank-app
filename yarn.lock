@@ -12128,10 +12128,10 @@ react-native-gradle-plugin@^0.71.19:
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.19.tgz#3379e28341fcd189bc1f4691cefc84c1a4d7d232"
   integrity sha512-1dVk9NwhoyKHCSxcrM6vY6cxmojeATsBobDicX0ZKr7DgUF2cBQRTKsimQFvzH8XhOVXyH8p4HyDSZNIFI8OlQ==
 
-react-native-image-picker@^5.3.1:
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-5.3.1.tgz#836ab13c228174728a0bd68293b27dc5e1affa0f"
-  integrity sha512-zRCjtlE3KOeaWDM8gXzTwXfvo3ZeF2XMkHceU7CVCtKRleKxna/E4XWIPu/lXO2qlMdnSx1WvfPSbqzAX0qxpA==
+react-native-image-picker@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-7.0.0.tgz#0a03b777751e7ae3f1a7190ddf33a6c9c52db135"
+  integrity sha512-eiDj0mJUPivranQJX/pwkGf/Ar9QrQ+BF3y0D8frHU3S7U86IGOnOzHN7Wh6ofXEnafRij0TpmRCdrSebBMV+Q==
 
 react-native-inappbrowser-reborn@^3.7.0:
   version "3.7.0"
@@ -12243,6 +12243,11 @@ react-native-tab-view@^3.3.4:
   integrity sha512-qdrS5t+AEhfuKQyuCXkwHu4IVppkuTvzWWlkSZKrPaSkjjIa32xrsGxt1UW9YDdro2w4AMw5hKn1hFmg/5mvzA==
   dependencies:
     use-latest-callback "^0.1.5"
+
+react-native-use-file-upload@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-use-file-upload/-/react-native-use-file-upload-0.2.0.tgz#e3035c7b24ee958c35db5de46b9334d8c99ef04c"
+  integrity sha512-DbbLaxa8MAIT2EjgOSGkHMKHmdMILV4R4kMKrkD4AtV+TmZn4E3zMK2SvHTWmQIcsZDmSGyeUORGlqFfvZ98zw==
 
 react-native-user-inactivity@^1.2.0:
   version "1.2.0"

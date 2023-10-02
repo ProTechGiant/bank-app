@@ -1,6 +1,9 @@
+import { API_BASE_URL } from "@env";
+import useFileUpload from "react-native-use-file-upload";
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
 import { CreateDisputeInput, DisputeCase, DisputeCaseListItem, DisputeReasonType, TransactionType } from "../types";
@@ -53,11 +56,13 @@ export function useCreateCase() {
       createDisputeUserId,
       isCardFrozen,
       reasonCode,
+      DocumentId,
       values,
     }: {
       createDisputeUserId: string;
       isCardFrozen: boolean;
       reasonCode: string | undefined;
+      DocumentId: string | undefined;
       values: CreateDisputeInput;
     }) => {
       return api<CreateCaseResponse>(
@@ -67,6 +72,7 @@ export function useCreateCase() {
         undefined,
         {
           ...values,
+          DocumentId,
           CaseReasonCode: reasonCode,
           TransactionReference: "trans-ref-1", // TODO: should be transaction ID but now only some transaction ref are valid. (BE issue)
           TransactionSource: "ATM", // TODO: hardcoded for now because we don't have it from transactions
@@ -94,4 +100,28 @@ export function useCaseDetails(transactionRef: string) {
     },
     { retry: false }
   );
+}
+
+interface useCaseUploadParams {
+  onProgress: (event: any) => void;
+  onDone: () => void;
+  onError: () => void;
+}
+
+export function useCaseUpload(params: useCaseUploadParams) {
+  const { userId, apiKey } = useAuthContext();
+
+  const headers = new Headers();
+  headers.append("X-Api-Key", apiKey || "");
+  headers.append("UserId", userId || "");
+  headers.append("x-correlation-id", generateRandomId());
+  const url = "https://" + API_BASE_URL + "/" + "v1" + "/" + "payments/case-detail/upload";
+
+  return useFileUpload({
+    url,
+    field: "document",
+    method: "POST",
+    headers: headers,
+    ...params,
+  });
 }

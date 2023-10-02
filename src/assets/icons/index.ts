@@ -30,6 +30,7 @@ export * from "./CheckCircleIcon";
 export * from "./CheckIcon";
 export * from "./ChevronRightIcon";
 export * from "./CircleQuestionMarkIcon";
+export * from "./CircularProgressIcon";
 export * from "./ClockIcon";
 export * from "./CloseIcon";
 export * from "./ContactSupportIcon";

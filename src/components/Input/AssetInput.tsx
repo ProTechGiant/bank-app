@@ -1,22 +1,24 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import truncate from "lodash/truncate";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import DocumentPicker, { DocumentPickerResponse, types } from "react-native-document-picker";
 import { Asset, launchImageLibrary } from "react-native-image-picker";
 
 import { DeleteIcon, UploadIcon } from "@/assets/icons";
+import { CircularProgressIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
-
 export interface AssetInputProps {
   errorText?: string;
   onBlur?: () => void;
   onChange?: (value: Asset | DocumentPickerResponse | null) => void;
   value?: Asset | DocumentPickerResponse;
+  progressPercent?: number;
 }
 
-export function AssetInput({ errorText, onBlur, onChange, value }: AssetInputProps) {
+export function AssetInput({ errorText, onBlur, onChange, value, progressPercent }: AssetInputProps) {
   const { t } = useTranslation();
   const { showActionSheetWithOptions } = useActionSheet();
 
@@ -32,6 +34,11 @@ export function AssetInput({ errorText, onBlur, onChange, value }: AssetInputPro
           t("AssetInput.buttons.cancel"),
         ],
         cancelButtonIndex: 2,
+        showSeparators: true,
+        containerStyle: {
+          backgroundColor: "white",
+          justifyContent: "center",
+        },
       },
       selectedIndex => {
         if (selectedIndex === 0) {
@@ -49,6 +56,7 @@ export function AssetInput({ errorText, onBlur, onChange, value }: AssetInputPro
     try {
       const result = await launchImageLibrary({
         mediaType: "photo",
+        selectionLimit: 1,
       });
 
       if (Array.isArray(result.assets) && result.assets?.length > 0) {
@@ -85,7 +93,7 @@ export function AssetInput({ errorText, onBlur, onChange, value }: AssetInputPro
   const deleteIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-50"],
+    backgroundColor: theme.palette["neutralBase-30"],
     borderRadius: theme.radii.small,
     padding: theme.spacing["20p"],
   }));
@@ -94,6 +102,7 @@ export function AssetInput({ errorText, onBlur, onChange, value }: AssetInputPro
     alignItems: "center",
     columnGap: theme.spacing["20p"],
     flexDirection: "row",
+    height: theme.spacing["24p"],
   }));
 
   const helperTextStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -108,14 +117,20 @@ export function AssetInput({ errorText, onBlur, onChange, value }: AssetInputPro
       <View style={containerStyle}>
         {isFileSelected ? (
           <View style={contentStyle}>
-            <Pressable onPress={handleOnPress} style={styles.label}>
-              <Typography.Text color="neutralBase+30" numberOfLines={2} size="callout">
-                {fileName}
+            <Pressable onPress={() => (progressPercent ? undefined : handleOnPress())} style={styles.label}>
+              <Typography.Text color="neutralBase+30" weight="semiBold" numberOfLines={2} size="callout">
+                {progressPercent
+                  ? `${progressPercent.toFixed(0)}% complete`
+                  : truncate(fileName || "", { length: 22 }) + (value.type ? `.${value.type}` : "")}
               </Typography.Text>
             </Pressable>
-            <Pressable onPress={handleOnDeletePress} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-              <DeleteIcon color={deleteIconColor} />
-            </Pressable>
+            {progressPercent ? (
+              <CircularProgressIcon percentage={progressPercent} />
+            ) : (
+              <Pressable onPress={handleOnDeletePress} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+                <DeleteIcon color={deleteIconColor} />
+              </Pressable>
+            )}
           </View>
         ) : (
           <Pressable onPress={handleOnPress} style={contentStyle}>
@@ -127,7 +142,7 @@ export function AssetInput({ errorText, onBlur, onChange, value }: AssetInputPro
         )}
       </View>
       <View style={helperTextStyle}>
-        <Typography.Text color={isError ? "errorBase" : "neutralBase+30"} size="caption1">
+        <Typography.Text color={isError ? "errorBase" : "neutralBase+30"} size="footnote">
           {errorText}
         </Typography.Text>
       </View>

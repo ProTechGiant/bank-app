@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     
+     <!-- required to support android v13+ devices -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <!-- required for react-native-share base64 sharing -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 

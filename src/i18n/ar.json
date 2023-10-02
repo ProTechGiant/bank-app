@@ -2589,7 +2589,8 @@
       },
       "file": {
         "fileTooBig": "File is too big, it must be smaller than {{maxFileSize}} MB",
-        "uploadFailed": "Upload failed, please try again"
+        "uploadFailed": "Upload failed, please try again",
+        "wrongFile":"File attached is wrong, you can delete the attachment and re-upload the correct file"
       },
       "checkBoxMessage": "By checking this box, you agree to our ",
       "termsAndConditions": "Terms and Conditions",

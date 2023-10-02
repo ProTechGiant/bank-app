@@ -3,6 +3,8 @@ import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
+import { DocumentPickerResponse } from "react-native-document-picker";
+import { Asset } from "react-native-image-picker";
 import * as yup from "yup";
 
 import Button from "@/components/Button";
@@ -12,6 +14,7 @@ import AssetInput from "@/components/Form/AssetInput";
 import CheckboxInput from "@/components/Form/CheckboxInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
+import { AssetInput as AssetPicker } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
@@ -23,7 +26,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 
-import { useCreateCase } from "../../hooks/query-hooks";
+import { useCaseUpload, useCreateCase } from "../../hooks/query-hooks";
 import { CaseType, CreateDisputeInput, TransactionType } from "../../types";
 import { formatDateTime } from "../../utils";
 
@@ -39,7 +42,6 @@ interface CreateDisputeStepProps {
   onBack: () => void;
   createDisputeUserId: string; // TODO: To be removed once we can use the same ID for freeze card and create case
 }
-
 export default function CreateDisputeStep({
   caseType,
   cardId,
@@ -57,6 +59,12 @@ export default function CreateDisputeStep({
 
   const createCase = useCreateCase();
 
+  const { startUpload } = useCaseUpload({
+    onProgress: ({ event }) => setPercentage((event.loaded / event.total) * 100),
+    onDone: () => setPercentage(undefined),
+    onError: () => setPercentage(undefined),
+  });
+
   const transactionDateTime = useMemo(() => {
     const [year, month, day, hours, minutes] = transactionDetails.transactionDate;
     return new Date(new Date(year, month - 1, day, hours ?? 0, minutes ?? 0));
@@ -64,6 +72,11 @@ export default function CreateDisputeStep({
 
   const [isCancelDisputeModalVisible, setIsCancelDisputeModalVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const [fileData, setFileData] = useState<Asset | DocumentPickerResponse | undefined>(undefined);
+  const [filePickerError, setFilePickerError] = useState<string>("");
+  const [percentage, setPercentage] = useState<number | undefined>(undefined);
+  const [documentID, setDocumentID] = useState<string | undefined>(undefined);
+
   const isMessageRequired =
     (caseType === "dispute" && reasonCode === IS_SOMETHING_ELSE_CODE[transactionType]) || caseType === "fraud";
 
@@ -114,6 +127,7 @@ export default function CreateDisputeStep({
         createDisputeUserId,
         isCardFrozen,
         reasonCode,
+        DocumentId: documentID,
         values: restValues,
       });
 
@@ -159,6 +173,78 @@ export default function CreateDisputeStep({
     setIsErrorModalVisible(false);
   };
 
+  const handleAssetUpload = async (fileObj: { uri: string; name: string; type: string }) => {
+    try {
+      setFilePickerError("");
+      // Sending uri to the API
+      const uploadResponse = await startUpload({
+        uri: fileObj.uri,
+        name: fileObj.name,
+        type: fileObj.type === "pdf" ? "application/pdf" : "image/jpg",
+      });
+      const parsedResponse = JSON.parse(uploadResponse.responseBody);
+
+      if (parsedResponse.DocumentId) {
+        setDocumentID(parsedResponse.DocumentId);
+        // success
+      } else {
+        setDocumentID(undefined);
+        throw Error;
+      }
+    } catch (error) {
+      setDocumentID(undefined);
+      setFilePickerError(t("PaymentDisputes.CreateDisputeModal.file.uploadFailed"));
+    }
+  };
+
+  const handleAssetPicker = (
+    data: {
+      type: string;
+      size: number;
+      fileSize: number;
+      name: string;
+      uri: string;
+      fileName: string;
+    } | null
+  ) => {
+    if (!data) {
+      setFilePickerError("");
+      setFileData(undefined);
+      setPercentage(undefined);
+      setDocumentID(undefined);
+      return;
+    }
+    try {
+      const assetInfo = {
+        size: 0,
+        name: "",
+        type: "",
+        uri: "",
+      };
+      const assetType = data.type?.includes("pdf") ? "pdf" : data.type?.includes("jpg") ? "jpg" : undefined;
+      if (!assetType) {
+        setFilePickerError(t("PaymentDisputes.CreateDisputeModal.file.wrongFile"));
+        return;
+      }
+
+      assetInfo.size = data[assetType === "pdf" ? "size" : "fileSize"] / 1024 ** 2;
+      assetInfo.type = assetType;
+      assetInfo.uri = data.uri;
+      assetInfo.name = data[assetType === "pdf" ? "name" : "fileName"];
+
+      if (assetInfo.size > MAX_FILE_SIZE_MB) {
+        setFilePickerError(t("PaymentDisputes.CreateDisputeModal.file.fileTooBig", { maxFileSize: MAX_FILE_SIZE_MB }));
+        return;
+      } else {
+        // Happy case
+        handleAssetUpload(assetInfo);
+        setFileData(assetInfo);
+      }
+    } catch (error) {
+      setFilePickerError(t("PaymentDisputes.CreateDisputeModal.file.uploadFailed"));
+    }
+  };
+
   const transactionContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderColor: theme.palette["neutralBase-30"],
     borderRadius: theme.radii.small,
@@ -193,6 +279,10 @@ export default function CreateDisputeStep({
 
   const checkBoxContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginStart: -theme.spacing["12p"],
+  }));
+
+  const checkBoxTextStyle = useThemeStyles<ViewStyle>(() => ({
+    alignItems: "center",
   }));
 
   return (
@@ -244,6 +334,12 @@ export default function CreateDisputeStep({
             />
             {caseType === "dispute" ? <AssetInput control={control} name="File" /> : null}
           </Stack>
+          <AssetPicker
+            progressPercent={percentage}
+            errorText={filePickerError}
+            value={fileData}
+            onChange={handleAssetPicker}
+          />
         </Stack>
         <View>
           <View style={[dividerStyle, bottomDividerMarginStyle]}>
