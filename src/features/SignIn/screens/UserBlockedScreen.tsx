@@ -35,6 +35,7 @@ export default function UserBlockedScreen() {
   const { mutateAsync } = useCheckCustomerStatus();
   const { setSignInCorrelationId } = useSignInContext();
   const [isItPermanentBlock, setIsItPermanentBlock] = useState(false);
+  const [isStatusChecked, setIsStatusChecked] = useState(false);
   const [remainingSecs, setRemainingSecs] = useState<number>(0);
   const [user, setUser] = useState<UserType | null>(null);
 
@@ -82,6 +83,9 @@ export default function UserBlockedScreen() {
   useEffect(() => {
     const interval = setInterval(() => {
       setRemainingSecs(prevCountdown => (prevCountdown > 0 ? prevCountdown - 1 : prevCountdown));
+      if (remainingSecs <= 0 && isStatusChecked) {
+        handleNavigate();
+      }
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -118,6 +122,7 @@ export default function UserBlockedScreen() {
       timeoutRef.current = setTimeout(handleNavigate, remainingTime);
     }
     setRemainingSecs(Math.floor(remainingTime / 1000));
+    setIsStatusChecked(true);
   };
 
   const handleNavigate = async () => {
