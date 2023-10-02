@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AppState, NativeEventSubscription, Platform, View, ViewStyle } from "react-native";
 
+import ApiError from "@/api/ApiError";
 import { CardSettingsIcon, ReportIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
 import Button from "@/components/Button";
@@ -62,6 +63,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   const [isLockConfirmModalVisible, setIsLockConfirmModalVisible] = useState(false);
   const [isUnlockConfirmModalVisible, setIsUnlockConfirmModalVisible] = useState(false);
   const [isLockedSuccess, setIsLockedSuccess] = useState(false);
+  const [isWaitPeriodModalVisible, setIsWaitPeriodModalVisible] = useState(false);
 
   useEffect(() => {
     delayTransition(() => setIsSucCreatedAlertVisible(isSingleUseCardCreated ?? false));
@@ -194,8 +196,14 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         setIsLockedSuccess(true);
       }
     } catch (error) {
-      onError();
-      warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
+      if (error instanceof ApiError) {
+        if (error.errorContent.Message.includes(ERROR_CARD_STATUS_WAIT_PERIOD)) {
+          setIsWaitPeriodModalVisible(true);
+        } else {
+          onError();
+          warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
+        }
+      }
     }
   };
 
@@ -205,24 +213,32 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   };
 
   const otpValidation = async () => {
-    otpFlow.handle({
-      action: {
-        to: "CardActions.CardDetailsScreen",
-        params: { cardId: card.CardId },
-      },
-      otpOptionalParams: {
-        CardId: card.CardId,
-      },
-      otpVerifyMethod: "card-actions",
-      onOtpRequest: () => {
-        return changeCardStatusAsync({ cardId: card.CardId, status: "UNLOCK" });
-      },
-      onFinish: status => {
-        if (status === "fail") {
-          onError();
-        }
-      },
-    });
+    try {
+      await changeCardStatusAsync({ cardId: card.CardId, status: "UNLOCK" });
+
+      otpFlow.handle({
+        action: {
+          to: "CardActions.CardDetailsScreen",
+          params: { cardId: card.CardId },
+        },
+        otpOptionalParams: {
+          CardId: card.CardId,
+        },
+        otpVerifyMethod: "card-actions",
+        onOtpRequest: () => {
+          return changeCardStatusAsync({ cardId: card.CardId, status: "UNLOCK" });
+        },
+        onFinish: status => {
+          if (status === "fail") {
+            onError();
+          }
+        },
+      });
+    } catch (error) {
+      if (error instanceof ApiError && error.errorContent.Message.includes(ERROR_CARD_STATUS_WAIT_PERIOD)) {
+        setIsWaitPeriodModalVisible(true);
+      }
+    }
   };
 
   const handleOnViewPinPress = async () => {
@@ -399,6 +415,25 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
           setIsUnlockConfirmModalVisible(false);
         }}
       />
+      {/* Card status change wait period notification modal */}
+      <NotificationModal
+        variant="warning"
+        buttons={{
+          primary: (
+            <Button onPress={() => setIsWaitPeriodModalVisible(false)}>
+              {t("CardActions.CardDetailsScreen.waitPeriodModal.okButton")}
+            </Button>
+          ),
+        }}
+        message={t("CardActions.CardDetailsScreen.waitPeriodModal.message")}
+        title={t("CardActions.CardDetailsScreen.waitPeriodModal.title", {
+          cardState:
+            card.Status === "LOCK"
+              ? t("CardActions.CardDetailsScreen.waitPeriodModal.unlockState")
+              : t("CardActions.CardDetailsScreen.waitPeriodModal.lockState"),
+        })}
+        isVisible={isWaitPeriodModalVisible}
+      />
 
       <NotificationModal
         variant="success"
@@ -413,3 +448,5 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
     </>
   );
 }
+
+const ERROR_CARD_STATUS_WAIT_PERIOD = "Cannot Update State Until 5 Minutes Pass";

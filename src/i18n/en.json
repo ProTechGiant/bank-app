@@ -2038,7 +2038,8 @@
       },
       "internationalPayment": {
         "label": "International payments",
-        "helperText": "Allow payments outside Saudi Arabia with your card."
+        "helperText": "Allow payments outside Saudi Arabia with your card.",
+        "toast": "International payments is enabled"
       },
       "subTitle2": "Transaction limit",
       "posTransactionLimit": "POS transaction limit",
@@ -2119,6 +2120,13 @@
       },
       "lockSuccessFullModal": {
         "title": "Card locked successfully",
+        "okButton": "Ok"
+      },
+      "waitPeriodModal": {
+        "lockState": "lock",
+        "unlockState": "unlock",
+        "title": "Card {{cardState}} wait period",
+        "message": "Please wait for 5 minutes from the last card locking/unlocking.",
         "okButton": "Ok"
       }
     },

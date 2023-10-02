@@ -49,9 +49,11 @@ export default function CardSettingsScreen() {
   const [showCancelCardSuccessAlert, setShowCancelCardSuccessAlert] = useState(false);
   const isUpdatingRef = useRef(false);
 
-  otpFlow.useOtpResponseEffect<{ ResetPinMessage: string }>((status, payload) => {
+  otpFlow.useOtpResponseEffect<{ ResetPinMessage: string; SettingsMessage: string }>((status, payload) => {
     if (status === "success" && "ResetPinMessage" in payload) {
       addToast({ variant: "confirm", message: t("CardActions.CardSettingsScreen.toast") });
+    } else if (status === "success" && "SettingsMessage" in payload) {
+      addToast({ variant: "confirm", message: t("CardActions.CardSettingsScreen.internationalPayment.toast") });
     } else if (status === "fail") {
       delayTransition(() => setIsErrorModalVisible(true));
     } else if (status === "success") {

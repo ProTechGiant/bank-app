@@ -1623,7 +1623,8 @@
       },
       "internationalPayment": {
         "label": "المدفوعات الدولية",
-        "helperText": "Allow payments outside Saudi Arabia with your card."
+        "helperText": "Allow payments outside Saudi Arabia with your card.",
+        "toast": "تم تعطيل المدفوعات الدولية"
       },
       "subTitle2": "ضبط الحركات المالية",
       "posTransactionLimit": "حد حركات نقاط البيع",
@@ -1705,6 +1706,13 @@
       "lockSuccessFullModal": {
         "title": "تم فك قفل البطاقة بنجاح",
         "okButton": "تم"
+      },
+      "waitPeriodModal": {
+        "lockState": "قفل",
+        "unlockState": "فك قفل",
+        "title": "فترة انتظار {{cardState}} البطاقة",
+        "message": "يرجى الانتظار لمدة ٥ دقائق من آخر عملية قفل/ فك القفل للبطاقة",
+        "okButton": "حسنًا"
       }
     },
     "standardCard": "Standard card",
