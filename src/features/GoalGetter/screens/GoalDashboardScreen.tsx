@@ -26,7 +26,7 @@ export default function GoalDashboardScreen() {
   };
 
   const handleOnBackPress = () => {
-    navigation.goBack();
+    navigation.navigate("Home.HomeTabs");
   };
 
   const segmentedControlStyle = useThemeStyles<ViewStyle>(theme => ({
