@@ -110,7 +110,7 @@ export default function AppreciationHubScreen() {
   };
 
   useEffect(() => {
-    setAppreciationList([]);
+    setAppreciationList(AppreciationListData);
   }, [AppreciationListData]);
 
   useEffect(() => {
@@ -169,12 +169,12 @@ export default function AppreciationHubScreen() {
     });
   };
 
-  const handleOnLikeAppreciation = async (id: string, isFavorite: boolean) => {
+  const handleOnLikeAppreciation = async (id: string, isFavourite: boolean) => {
     try {
       await appreciationWishlist.mutateAsync(id);
       setAppreciationList(list =>
         list?.map((appreciation: AppreciationType<boolean>) => {
-          if (appreciation.AppreciationId === id) return { ...appreciation, isFavourite: !isFavorite };
+          if (appreciation.AppreciationId === id) return { ...appreciation, isFavourite: !isFavourite };
           else {
             return appreciation;
           }

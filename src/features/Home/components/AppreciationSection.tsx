@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, ScrollView, useWindowDimensions, View, ViewStyle } from "react-native";
 
@@ -8,7 +9,7 @@ import { useThemeStyles } from "@/theme";
 import { AppreciationType } from "@/types/Appreciation";
 import { CustomerTierEnum } from "@/types/CustomerProfile";
 
-import { useTopAppreciations } from "../hooks/query-hooks";
+import { useAppreciationWishlist, useTopAppreciations } from "../hooks/query-hooks";
 import EmptySection from "./EmptySection";
 import RefreshSection from "./RefreshSection";
 import Section from "./Section";
@@ -20,22 +21,38 @@ interface AppreciationSectionProps {
 export default function AppreciationSection({ onViewAllPress }: AppreciationSectionProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { data: AppreciationList, isLoading, isError, refetch } = useTopAppreciations();
+  const { data: AppreciationListData, isLoading, isError, refetch } = useTopAppreciations();
   const { data: userInfo } = useCustomerProfile();
   const userTier = userInfo?.CustomerTier ?? CustomerTierEnum.STANDARD;
   const userFullName = userInfo?.FullName;
 
   const { width } = useWindowDimensions();
+  const appreciationWishlist = useAppreciationWishlist();
+  const [appreciationList, setAppreciationList] = useState<AppreciationType<boolean>[] | undefined>(undefined);
+
+  useEffect(() => {
+    setAppreciationList(AppreciationListData);
+  }, [AppreciationListData]);
 
   const handleOnAppreciationCardPress = (appreciation: AppreciationType<boolean>) => {
     navigation.navigate("Appreciation.AppreciationStack", {
       screen: "Appreciation.AppreciationDetailsScreen",
-      params: { appreciation, userInfo: { userTier, userFullName } },
+      params: { appreciation, userInfo: { userTier, userFullName }, handleOnLikeAppreciation },
     });
   };
 
-  const handleOnLikeAppreciation = () => {
-    //TODO like an appreciation logic
+  const handleOnLikeAppreciation = async (id: string, isFavourite: boolean) => {
+    try {
+      await appreciationWishlist.mutateAsync(id);
+      setAppreciationList(list =>
+        list?.map((appreciation: AppreciationType<boolean>) => {
+          if (appreciation.AppreciationId === id) return { ...appreciation, isFavourite: !isFavourite };
+          else {
+            return appreciation;
+          }
+        })
+      );
+    } catch (err) {}
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -68,20 +85,20 @@ export default function AppreciationSection({ onViewAllPress }: AppreciationSect
           hasBorder={true}
           onRefreshPress={refetch}
         />
-      ) : AppreciationList && AppreciationList.length > 0 ? (
+      ) : appreciationList && appreciationList.length > 0 ? (
         <ScrollView
           contentContainerStyle={contentStyle}
           horizontal
           showsHorizontalScrollIndicator={false}
           style={containerStyle}>
-          {AppreciationList
-            ? AppreciationList.slice(0, 3).map((appreciation, index) => {
+          {appreciationList
+            ? appreciationList.slice(0, 3).map((appreciation, index) => {
                 return (
                   <AppreciationCard
                     appreciation={appreciation}
                     userTier={userTier}
                     key={index}
-                    isPromoted={appreciation.Rank === 1}
+                    isPromoted={appreciation?.Rank === 1}
                     onPress={handleOnAppreciationCardPress}
                     onLike={handleOnLikeAppreciation}
                   />

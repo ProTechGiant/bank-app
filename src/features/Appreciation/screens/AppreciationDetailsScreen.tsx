@@ -32,7 +32,7 @@ interface AppreciationDetailsScreenProps {
     userTier: CustomerTierEnum;
     userFullName: string;
   };
-  handleOnLikeAppreciation: (id: string, isFavorite: boolean) => Promise<null>;
+  handleOnLikeAppreciation: (id: string, isFavourite: boolean) => Promise<null>;
 }
 
 export default function AppreciationDetailsScreen({ route }: { route: any }) {

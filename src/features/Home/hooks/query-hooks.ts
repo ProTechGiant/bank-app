@@ -246,3 +246,19 @@ export function useTopAppreciations() {
     }
   );
 }
+
+export function useAppreciationWishlist() {
+  const { userId } = useAuthContext();
+  return useMutation((appreciationId: string) => {
+    return api<null>(
+      "v1",
+      "appreciations/wishlist",
+      "POST",
+      undefined,
+      { AppreciationId: appreciationId, CustomerId: userId },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}

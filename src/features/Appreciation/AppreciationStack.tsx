@@ -11,7 +11,7 @@ export type AppreciationStackParams = {
   "Appreciation.AppreciationDetailsScreen": {
     appreciation: AppreciationType<boolean>;
     userType: CustomerTierEnum;
-    handleOnLikeAppreciation: (id: string, isFavorite: boolean) => Promise<null>;
+    handleOnLikeAppreciation: (id: string, isFavourite: boolean) => Promise<null>;
   };
 };
 
