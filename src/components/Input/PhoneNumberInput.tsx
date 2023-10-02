@@ -53,6 +53,7 @@ export function PhoneNumberInput({
     onChangeText: (_masked, unmasked) => propsOnChangeText?.(countryCode + unmasked),
     mask: COUNTRY_CONFIGURATION[countryCode],
     maskAutoComplete: true,
+    placeholderFillCharacter: "X",
   });
 
   const handleOnFocus = () => {
