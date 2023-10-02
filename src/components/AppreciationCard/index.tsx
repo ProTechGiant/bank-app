@@ -19,14 +19,20 @@ interface AppreciationCardProps {
   userTier: CustomerTierEnum;
   onPress: (appreciation: AppreciationType<boolean>) => void;
   onLike: (id: string, isLiked: boolean) => void;
+  isPromoted?: boolean;
 }
 
-export default function AppreciationCard({ appreciation, userTier, onPress, onLike }: AppreciationCardProps) {
+export default function AppreciationCard({
+  appreciation,
+  userTier,
+  onPress,
+  onLike,
+  isPromoted,
+}: AppreciationCardProps) {
   const { t } = useTranslation();
 
   const {
     Tier,
-    Rank,
     AppreciationName,
     PresaleDate,
     Location,
@@ -81,14 +87,14 @@ export default function AppreciationCard({ appreciation, userTier, onPress, onLi
   const detailsContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       borderColor: theme.palette["neutralBase-30"],
-      backgroundColor: Rank === 1 ? theme.palette["supportBase-10"] : theme.palette["neutralBase-60"],
+      backgroundColor: isPromoted ? theme.palette["supportBase-10"] : theme.palette["neutralBase-60"],
       height: 151,
       paddingTop: theme.spacing["8p"],
       paddingBottom: theme.spacing["24p"],
       paddingHorizontal: theme.spacing["16p"],
       justifyContent: "space-between",
     }),
-    [Rank]
+    [isPromoted]
   );
 
   const sellingFastContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -115,7 +121,7 @@ export default function AppreciationCard({ appreciation, userTier, onPress, onLi
         <View style={styles.imageContainer}>
           <NetworkImage source={{ uri: ImageUrl }} style={styles.image} resizeMode="cover" />
           <View style={styles.RectangleImageContainer}>
-            {Rank === 1 ? (
+            {isPromoted ? (
               <Image source={PromotedImageDivider} style={styles.image} />
             ) : (
               <Image source={RectangleImageDivider} />
@@ -123,7 +129,7 @@ export default function AppreciationCard({ appreciation, userTier, onPress, onLi
           </View>
         </View>
         <View style={detailsContainerStyle}>
-          {Rank === 1 ? (
+          {isPromoted && (
             <Stack direction="horizontal">
               <TrendingUpSmallIcon />
               <View style={sellingFastContainerStyle}>
@@ -132,20 +138,19 @@ export default function AppreciationCard({ appreciation, userTier, onPress, onLi
                 </Typography.Text>
               </View>
             </Stack>
-          ) : null}
+          )}
           <Stack direction="vertical" style={styles.titlelocationContainer}>
             <Typography.Text color="neutralBase+30" size="title2" weight="medium">
               {AppreciationName}
             </Typography.Text>
-            {Rank !== 1 ? (
-              <Typography.Text color="neutralBase" size="footnote" weight="regular" style={locationContainerStyle}>
-                {`${Location.Name} . ${format(new Date(PresaleDate), "dd/MM/yyyy · hh:mm")}`}
-              </Typography.Text>
-            ) : (
+            {!isPromoted && (
               <Typography.Text color="neutralBase" size="footnote" weight="regular" style={descriptionContainerStyle}>
                 {AppreciationDescription}
               </Typography.Text>
             )}
+            <Typography.Text color="neutralBase" size="footnote" weight="regular" style={locationContainerStyle}>
+              {`${Location.Name} . ${format(new Date(PresaleDate), "dd/MM/yyyy · hh:mm")}`}
+            </Typography.Text>
           </Stack>
           <Stack direction="horizontal" gap="4p">
             <CalendarSmallIcon />

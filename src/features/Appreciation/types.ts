@@ -55,3 +55,8 @@ export enum ActiveEnum {
   ACTIVE = 1,
   EXPIRED = 2,
 }
+
+export enum RedeemFlagEnum {
+  NOT_REDEEM = 0,
+  REDEEM = 1,
+}

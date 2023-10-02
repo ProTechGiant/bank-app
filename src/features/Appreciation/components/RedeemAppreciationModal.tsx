@@ -16,7 +16,6 @@ import { VoucherCodeEnum } from "../types";
 
 interface RedeemAppreciationModalProps {
   isVisible: boolean;
-  setIsVisible: (status: boolean) => void;
   isExpired: boolean;
   expiryDate: string;
   code: string;
@@ -29,12 +28,12 @@ interface RedeemAppreciationModalProps {
   password: string;
   handleOnViewDetailsPress: () => void;
   handleOnAddToAppleWalletPress: () => void;
+  handleOnBackButtonPress: () => void;
 }
 export default function RedeemAppreciationModal({
   isExpired,
   expiryDate,
   isVisible,
-  setIsVisible,
   code,
   title,
   userFullName,
@@ -45,6 +44,7 @@ export default function RedeemAppreciationModal({
   password,
   handleOnViewDetailsPress,
   handleOnAddToAppleWalletPress,
+  handleOnBackButtonPress,
 }: RedeemAppreciationModalProps) {
   const { t } = useTranslation();
 
@@ -166,7 +166,7 @@ export default function RedeemAppreciationModal({
       closeHasBackground={true}
       style={modalStyle}
       visible={isVisible}
-      onClose={() => setIsVisible(false)}
+      onClose={handleOnBackButtonPress}
       statusBarTranslucent={true}
       headerText={`${
         !isExpired ? t("Appreciation.RedeemModal.validUntil") : t("Appreciation.RedeemModal.expiredOn")

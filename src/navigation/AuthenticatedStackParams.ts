@@ -105,7 +105,7 @@ type RootStackParams = {
         };
       }
     | undefined;
-  "Appreciation.AppreciationStack": undefined;
+  "Appreciation.AppreciationStack": AppreciationStackParams;
   "HelpAndSupport.HelpAndSupportStack":
     | {
         screen: keyof HelpAndSupportStackParams;

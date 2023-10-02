@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { cloneDeep } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,6 +19,7 @@ import SegmentedControl from "@/components/SegmentedControl";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
 import { SortingOptions, TabsTypes } from "@/types/Appreciation";
 import { CustomerTierEnum } from "@/types/CustomerProfile";
@@ -30,12 +31,14 @@ import { AppreciationError, SortingModal } from "../components";
 import { FilterModal } from "../components";
 import { SORTING_OPTIONS_ALL_TAB, SORTING_OPTIONS_OTHER_TABS } from "../constants";
 import { useAppreciationFilters, useAppreciationSearch, useAppreciationWishlist } from "../hooks/query-hooks";
-import { AppreciationType, FilterItemType, FiltersType } from "../types";
+import { ActiveEnum, AppreciationType, FilterItemType, FiltersType } from "../types";
 
 export default function AppreciationHubScreen() {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
 
+  const { params } = useRoute<RouteProp<AuthenticatedStackParams, "Appreciation.HubScreen">>();
+  const tabScreen = params?.tab;
   const [currentTab, setCurrentTab] = useState<TabsTypes>(TabsTypes.ALL);
   const [isSortingModalVisible, setIsSortingModalVisible] = useState<boolean>(false);
   const [sortingOptions, setSortingOptions] = useState<SortingOptions[]>(SORTING_OPTIONS_ALL_TAB);
@@ -76,6 +79,10 @@ export default function AppreciationHubScreen() {
           .some(item => item.isActive);
   }, [selectedFilters]);
 
+  useEffect(() => {
+    if (tabScreen) setCurrentTab(tabScreen);
+  }, [tabScreen]);
+
   const emptyListMessage = {
     [TabsTypes.ALL]: {
       title: t("Appreciation.HubScreen.EmptyList.AllTab.title"),
@@ -103,7 +110,7 @@ export default function AppreciationHubScreen() {
   };
 
   useEffect(() => {
-    setAppreciationList(AppreciationListData);
+    setAppreciationList([]);
   }, [AppreciationListData]);
 
   useEffect(() => {
@@ -200,6 +207,10 @@ export default function AppreciationHubScreen() {
     padding: theme.spacing["8p"],
   }));
 
+  const listContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingBottom: theme.spacing["64p"],
+  }));
+
   const titleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["4p"],
   }));
@@ -267,7 +278,9 @@ export default function AppreciationHubScreen() {
                   </SegmentedControl>
                 )}
               </View>
-              {appreciationList?.length === 0 ? (
+              {appreciationList?.length === 0 ||
+              (currentTab === TabsTypes.LIKED &&
+                appreciationList?.filter(item => item.ActiveFlag === ActiveEnum.ACTIVE)) ? (
                 hasFilters ? (
                   <DefaultContent
                     title={t("Appreciation.HubScreen.FilterOptions.noAppreciationsFoundTitle")}
@@ -288,7 +301,7 @@ export default function AppreciationHubScreen() {
                   />
                 )
               ) : (
-                <ContentContainer isScrollView>
+                <ContentContainer isScrollView style={listContainerStyle}>
                   {currentTab === TabsTypes.ALL && appreciationList ? (
                     <>
                       {appreciationList?.filter(item => item.Rank === 1).length ? (
@@ -305,6 +318,7 @@ export default function AppreciationHubScreen() {
                             <AppreciationCard
                               appreciation={appreciation}
                               userTier={userTier}
+                              isPromoted={currentTab === TabsTypes.ALL ? appreciation.Rank === 1 : false}
                               key={index}
                               onPress={handleOnAppreciationCardPress}
                               onLike={handleOnLikeAppreciation}
@@ -332,12 +346,19 @@ export default function AppreciationHubScreen() {
                   ) : null}
                   {appreciationList
                     ? appreciationList
-                        ?.filter(item => (currentTab === TabsTypes.ALL ? item.Rank !== 1 : true))
+                        ?.filter(item =>
+                          currentTab === TabsTypes.ALL
+                            ? item.Rank !== 1
+                            : currentTab === TabsTypes.LIKED
+                            ? item.ActiveFlag === ActiveEnum.ACTIVE
+                            : true
+                        )
                         .map((appreciation, index) => {
                           return (
                             <AppreciationCard
                               appreciation={appreciation}
                               userTier={userTier}
+                              isPromoted={currentTab === TabsTypes.ALL ? appreciation.Rank === 1 : false}
                               key={index}
                               onPress={handleOnAppreciationCardPress}
                               onLike={handleOnLikeAppreciation}

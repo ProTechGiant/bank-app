@@ -230,7 +230,6 @@ export function useTopAppreciations() {
           RedeemedFlag: [],
           LocationCodes: [],
           ActiveFlag: [],
-          FeedbackFlag: 0,
         },
         {
           ["x-correlation-id"]: generateRandomId(),

@@ -14,6 +14,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TabsTypes } from "@/types/Appreciation";
 import { CustomerTierEnum } from "@/types/CustomerProfile";
 
 import {
@@ -23,7 +24,7 @@ import {
   RedeemAppreciationModal,
 } from "../components";
 import { useRedeemAppreciation } from "../hooks/query-hooks";
-import { ActiveEnum, AppreciationType } from "../types";
+import { ActiveEnum, AppreciationType, RedeemFlagEnum } from "../types";
 
 interface AppreciationDetailsScreenProps {
   appreciation: AppreciationType<boolean>;
@@ -54,14 +55,14 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
       ImageUrl,
       PresaleContent,
       PresaleDate,
+      RedeemFlag,
     },
     userInfo: { userTier, userFullName },
     handleOnLikeAppreciation,
   }: AppreciationDetailsScreenProps = route.params;
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
-  const redeemAppreciation = useRedeemAppreciation();
-
+  const { isLoading: isRedeeming, mutateAsync } = useRedeemAppreciation();
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
   const [isRedeemModalVisible, setIsRedeemModalVisible] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(isFavourite);
@@ -72,7 +73,7 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
     if (canUserRedeem) {
       try {
         setIsErrorModalVisible(false);
-        await redeemAppreciation.mutateAsync(AppreciationId);
+        await mutateAsync(AppreciationId);
         setIsRedeemModalVisible(true);
       } catch (error) {
         setIsErrorModalVisible(true);
@@ -80,6 +81,10 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
     } else {
       //TODO call the screen of the subscribe
     }
+  };
+
+  const handleOnCloseVocherPress = () => {
+    navigation.navigate("Appreciation.HubScreen", { tab: TabsTypes.REDEEMED });
   };
 
   const handleOnPressTermsAndConditions = () => {
@@ -158,8 +163,9 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
             <View style={buttonStyle}>
               <Button
                 variant="primary"
+                loading={isRedeeming}
                 onPress={handleOnRedeemButtonPress}
-                disabled={ActiveFlag === ActiveEnum.EXPIRED}>
+                disabled={ActiveFlag === ActiveEnum.EXPIRED || RedeemFlag === RedeemFlagEnum.REDEEM}>
                 {canUserRedeem ? t("Appreciation.redeemAppreciation") : t("Appreciation.upgradeYourTier")}
               </Button>
             </View>
@@ -201,7 +207,6 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
       />
       <RedeemAppreciationModal
         isVisible={isRedeemModalVisible}
-        setIsVisible={setIsRedeemModalVisible}
         isExpired={isBefore(new Date(ExpiryDate), new Date())}
         expiryDate={format(new Date(ExpiryDate), "dd/MM/yyyy", { locale: i18n.language === "en" ? enUS : arSA })}
         code={VoucherCode}
@@ -214,6 +219,7 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
         time={format(AppreciationTime ?? new Date(PresaleDate), "p", { locale: i18n.language === "en" ? enUS : arSA })}
         handleOnAddToAppleWalletPress={handleOnAddToAppleWalletPress}
         handleOnViewDetailsPress={handleOnViewDetailsPress}
+        handleOnBackButtonPress={handleOnCloseVocherPress}
       />
     </Page>
   );

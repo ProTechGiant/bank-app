@@ -63,7 +63,7 @@ export default function TemporaryLandingScreen() {
   const getSavingsGoalNumAsync = useSavingsGoalNumber();
   const { control, handleSubmit } = useForm<TemporaryForm>({
     defaultValues: {
-      UserId: "1000002358", //TODO: use 1000002357 as temporary user for temporary landing screen to get data in Home page
+      UserId: "1000001102", //TODO: use 1000002357 as temporary user for temporary landing screen to get data in Home page
       cardId: "",
       createDisputeUserId: "",
       phoneNumber: "01555266403", //TODO: use 01555266403 as temporary user phone  for testing to can register to T2 without go with login ,register path

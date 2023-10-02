@@ -81,6 +81,7 @@ export default function AppreciationSection({ onViewAllPress }: AppreciationSect
                     appreciation={appreciation}
                     userTier={userTier}
                     key={index}
+                    isPromoted={appreciation.Rank === 1}
                     onPress={handleOnAppreciationCardPress}
                     onLike={handleOnLikeAppreciation}
                   />
