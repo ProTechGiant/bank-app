@@ -268,14 +268,14 @@
     },
     "CreatePasscode": {
       "needHelpInfo": "Avoid a passcode that’s easy to guess, like 123456 or 111111.",
-      "title": "Create app passcode",
-      "subTitle": "This is 6-digit passcode you’ll use to get into your Croatia app.",
+      "title": "Create passcode",
+      "subTitle": "Enter the 6-number passcode you’ll use to log in to Croatia.",
       "navHeaderTitle": "Passcode",
       "notification": "Choose something harder to guess, without consecutive or repeated numbers."
     },
     "ConfirmPasscode": {
-      "title": "Confirm app passcode",
-      "subTitle": "This is 6-digit passcode you’ll use to get into your Croatia app.",
+      "title": "Confirm passcode",
+      "subTitle": "Re-enter your 6 number passcode.",
       "notification": "Those passcodes were both different - try again.",
       "errorText": "Something went wrong, please try again.",
       "notificationModelMessage": "You can always update your Passcode in App Settings.",

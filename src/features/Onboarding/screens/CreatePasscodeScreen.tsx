@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { View, ViewStyle } from "react-native";
 
 import { ErrorFilledCircleIcon } from "@/assets/icons";
 import Alert from "@/components/Alert";
@@ -8,8 +9,10 @@ import NavHeader from "@/components/NavHeader";
 import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
+import Stack from "@/components/Stack";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 import { isPasscodeValid } from "@/utils/is-valid-passcode";
 import { maxRepeatThresholdMet } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
@@ -49,6 +52,15 @@ export default function CreatePasscodeScreen() {
     }
   };
 
+  const alertStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["64p"] + theme.spacing["20p"],
+    marginHorizontal: theme.spacing["24p"],
+  }));
+
+  const tempViewHeight = useThemeStyles<ViewStyle>(theme => ({
+    height: theme.spacing["48p"] + theme.spacing["20p"],
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader withBackButton={false} testID="Onboarding.CreatePasscodeScreen:NavHeader" />
@@ -62,11 +74,12 @@ export default function CreatePasscodeScreen() {
           passcode={currentValue}
           testID="Onboarding.CreatePasscodeScreen:PasscodeInput"
         />
-
-        <Alert variant="default" message={t("SignIn.CreatePasscodeScreen.needHelpInfo")} />
+        {!isErrorVisible && <View style={tempViewHeight} />}
+        <Stack direction="vertical" style={alertStyle}>
+          <Alert variant="default" message={t("SignIn.CreatePasscodeScreen.needHelpInfo")} />
+        </Stack>
       </ContentContainer>
-
-      <NumberPad passcode={currentValue} setPasscode={handleOnChangeText} />
+      <NumberPad passcode={currentValue} setPasscode={handleOnChangeText} bottom={20} />
     </Page>
   );
 }

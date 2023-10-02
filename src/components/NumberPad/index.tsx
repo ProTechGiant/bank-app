@@ -11,12 +11,13 @@ interface NumberPadProps {
   setPasscode: Dispatch<SetStateAction<string>> | ((passcode: string) => void);
   isBiometric?: boolean;
   handleBiometric?: () => void;
+  bottom?: number;
 }
 interface ButtonInterface {
   children: string | number | JSX.Element;
   index: number;
 }
-const NumberPad = ({ passcode, setPasscode, isBiometric, handleBiometric }: NumberPadProps) => {
+const NumberPad = ({ passcode, setPasscode, isBiometric, handleBiometric, bottom }: NumberPadProps) => {
   const { width: screenWidth } = useWindowDimensions();
   const buttonSize = screenWidth * 0.2;
   const handleNumberPress = (number: string) => {
@@ -61,7 +62,7 @@ const NumberPad = ({ passcode, setPasscode, isBiometric, handleBiometric }: Numb
 
   const NumPad = () => {
     return (
-      <View style={styles.rowStyle}>
+      <View style={[styles.rowStyle, { bottom: bottom ? bottom : 80 }]}>
         {[
           "1",
           "2",
@@ -93,7 +94,6 @@ export default NumberPad;
 
 const styles = StyleSheet.create({
   rowStyle: {
-    bottom: 80,
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
