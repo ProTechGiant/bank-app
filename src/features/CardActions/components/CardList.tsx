@@ -42,7 +42,6 @@ export default function CardsList({
   const renderActiveCard = (card: Card) => {
     return (
       <BankCard.Active
-        status={card.Status}
         key={card.CardId}
         cardNumber={card.LastFourDigits}
         cardType={card.CardType}
@@ -108,7 +107,6 @@ export default function CardsList({
   const renderSingleUseCard = (card: Card) => {
     return (
       <BankCard.Active
-        status={card.Status}
         key={card.CardId}
         cardNumber={card.LastFourDigits}
         cardType={card.CardType}

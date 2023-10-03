@@ -1528,8 +1528,8 @@
   "CardActions": {
     "activateCard": "تفعيل البطاقة",
     "QuickMenu": {
-      "freezeCard": "Freeze card",
-      "defrost": "Defrost",
+      "freezeCard": "Lock card",
+      "defrost": "Unlock Card",
       "viewPin": "View PIN",
       "settings": "Settings",
       "cancel": "Cancel"

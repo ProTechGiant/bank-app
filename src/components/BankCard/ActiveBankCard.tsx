@@ -1,6 +1,6 @@
 import { times } from "lodash";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CroatiaLogoIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
@@ -128,7 +128,7 @@ const CONTAINER_HEIGHT = 205;
 const CONTAINER_WIDTH = 326;
 
 const TOP_END_BUTTON_WIDTH = 60;
-const PRESSABLE_TOP_AREA = 50;
+const PRESSABLE_TOP_AREA = 60;
 
 const styles = StyleSheet.create({
   actionContainer: {
@@ -160,8 +160,9 @@ const styles = StyleSheet.create({
   },
   pressableAreaTop: {
     height: PRESSABLE_TOP_AREA,
-    left: 0,
+    left: Platform.OS === "ios" ? 0 : undefined,
     position: "absolute",
+    right: Platform.OS === "android" ? 0 : undefined,
     top: 0,
     width: CONTAINER_WIDTH - TOP_END_BUTTON_WIDTH,
   },
