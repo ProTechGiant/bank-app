@@ -71,6 +71,10 @@ export default function ReviewGoalScreen() {
     setIsVisibleLeaveModal(true);
   };
 
+  const handleOnPressTermsAndConditions = () => {
+    navigation.navigate("GoalGetter.TermsAndConditionsScreen", { productId: productId });
+  };
+
   const handleOnLeaveModalFaqNavigation = () => {
     setIsVisibleLeaveModal(false);
     navigation.navigate("GoalGetter.GoalsAndProducts");
@@ -219,6 +223,7 @@ export default function ReviewGoalScreen() {
             conditionsLink={t("GoalGetter.GoalReviewScreen.termsAndConditionsLink")}
             onCheckBoxPress={handleOnCheckboxPress}
             isChecked={!isDisabled}
+            onPress={handleOnPressTermsAndConditions}
           />
           <Button disabled={isDisabled} onPress={handleOnConfirmPress}>
             {t("DateRangePicker.confirmButton")}

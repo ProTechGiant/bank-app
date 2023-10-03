@@ -4,13 +4,13 @@ import { I18nManager, Pressable, StyleSheet } from "react-native";
 import { CheckboxInput } from "@/components/Input";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import useNavigation from "@/navigation/use-navigation";
 
 interface TermsAndConditionsProps {
   conditionsCaption: string;
   conditionsLink: string;
   onCheckBoxPress: () => void;
   isChecked: boolean;
+  onPress?: () => void;
 }
 
 export default function TermsAndConditions({
@@ -18,8 +18,8 @@ export default function TermsAndConditions({
   conditionsLink,
   onCheckBoxPress,
   isChecked,
+  onPress,
 }: TermsAndConditionsProps) {
-  const navigation = useNavigation();
   const { t } = useTranslation();
 
   return (
@@ -34,9 +34,7 @@ export default function TermsAndConditions({
               size="footnote"
               weight="medium"
               style={styles.termsAndConditionsLink}
-              onPress={() => {
-                navigation.navigate("GoalGetter.TermsAndConditionsScreen");
-              }}>
+              onPress={onPress}>
               {conditionsLink}
             </Typography.Text>
           </Typography.Text>

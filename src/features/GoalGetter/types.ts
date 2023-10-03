@@ -1,7 +1,5 @@
 export interface DocumentResponse {
-  DocumentName: string;
-  DocumentType: string;
-  DocumentContent: string;
+  TermsAndConditions: string;
 }
 interface Goal {
   GoalId: number;

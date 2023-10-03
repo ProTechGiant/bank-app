@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
@@ -11,6 +12,7 @@ import PreviewPDF from "@/components/PreviewAndExportPDF/PreviewPDF";
 import Typography from "@/components/Typography";
 import { handleExportStatement, PDFDataInterface } from "@/utils/export-pdf";
 
+import { GoalGetterStackParams } from "../GoalGetterStack";
 import { useGetTermsAndConditions } from "../hooks/query-hooks";
 
 const PDF_BASE_64_PREFIX = "data:application/pdf;base64,";
@@ -18,16 +20,16 @@ const PDF_BASE_64_PREFIX = "data:application/pdf;base64,";
 export default function TermsAndConditionsScreen() {
   const { t } = useTranslation();
 
-  //TODO - when api will be ready for terms and condition useGetTermsAndConditions will be change depending on api
-  const { data, isLoading } = useGetTermsAndConditions("3121");
+  const { params } = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.TermsAndConditionsScreen">>();
+  const { data, isLoading } = useGetTermsAndConditions(params.productId);
   const [pdfData, setPdfData] = useState<PDFDataInterface | undefined>(undefined);
 
   useEffect(() => {
     if (data !== undefined) {
       const pdf = {
-        name: data.DocumentName,
-        content: data.DocumentContent,
-        type: data.DocumentType,
+        name: "terms and conditions",
+        content: data.TermsAndConditions,
+        type: "pdf",
       };
       setPdfData(pdf);
     }

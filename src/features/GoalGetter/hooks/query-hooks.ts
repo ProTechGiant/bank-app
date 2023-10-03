@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
@@ -15,14 +14,10 @@ const queryKeys = {
   predefined: (type: string, predefinedGoalId: number) => ["predefinedGoal", type, predefinedGoalId],
 };
 
-export function useGetTermsAndConditions(documentId: string) {
-  const { i18n } = useTranslation();
-
+export function useGetTermsAndConditions(productId?: string) {
   return useQuery(queryKeys.all(), () => {
-    //TODO - change Api when TermsAndConditions will be ready
-    return api<DocumentResponse>("v1", `adhoc-documents/${documentId}`, "GET", undefined, undefined, {
+    return api<DocumentResponse>("v1", `goals/product/${productId}/terms-and-conditions`, "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
-      ["Accept-Language"]: i18n.language.toUpperCase(), //TODO - remove toUpperCase() when api ready
     });
   });
 }

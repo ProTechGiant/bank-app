@@ -29,7 +29,7 @@ export type GoalGetterStackParams = {
   "GoalGetter.ImageGallary": {
     screen: string;
   };
-  "GoalGetter.TermsAndConditionsScreen": undefined;
+  "GoalGetter.TermsAndConditionsScreen": { productId?: string };
   "GoalGetter.GoalMindScreen": undefined;
   "GoalGetter.RisksAppetiteScreen": undefined;
   "GoalGetter.ManageGoal": { selectedImageURL?: string } | undefined;
