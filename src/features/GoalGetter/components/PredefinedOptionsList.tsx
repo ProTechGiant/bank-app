@@ -4,7 +4,6 @@ import { RadioButtonGroup } from "@/components/RadioButton";
 
 import { PredefinedOption } from "../types";
 import PredefinedOptionCard from "./PredefinedOptionCard";
-
 interface PredefinedOptionsListProps {
   predefinedOptionList: PredefinedOption[];
   onSelectPredefindOption: (value: number) => void;
@@ -19,16 +18,20 @@ export default function PredefinedOptionsList({
   return (
     <ScrollView>
       <RadioButtonGroup onPress={value => onSelectPredefindOption(value)} value={predefinedValue}>
-        {predefinedOptionList.map(predefinedElement => {
-          return (
-            <PredefinedOptionCard
-              key={predefinedElement.Id}
-              predefinedOption={predefinedElement}
-              value={predefinedElement.Id}
-              isSelected={predefinedElement.Id === predefinedValue}
-            />
-          );
-        })}
+        {predefinedOptionList?.length === 0 ? (
+          predefinedOptionList.map(predefinedElement => {
+            return (
+              <PredefinedOptionCard
+                key={predefinedElement.Id}
+                predefinedOption={predefinedElement}
+                value={predefinedElement.Id}
+                isSelected={predefinedElement.Id === predefinedValue}
+              />
+            );
+          })
+        ) : (
+          <></>
+        )}
       </RadioButtonGroup>
     </ScrollView>
   );

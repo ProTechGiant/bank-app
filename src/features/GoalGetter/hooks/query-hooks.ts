@@ -7,13 +7,15 @@ import { useAuthContext } from "@/contexts/AuthContext";
 // import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { generateRandomId } from "@/utils";
 
-import { CustomerGoal, DocumentResponse, ImageGalleryResponse, PredefinedGoalNames } from "../types";
+import { CustomerGoal, DocumentResponse, ImageGalleryResponse, PredefinedGoalNames, PredefinedOptions } from "../types";
 
 const queryKeys = {
   getTermsAndConditionsPdf: () => ["termsAndConditionsPdf"],
   imageGallery: () => ["imageGallery"],
   predefined: (type: string, predefinedGoalId: number) => ["predefinedGoal", type, predefinedGoalId],
   getCustomersGoals: () => ["getCustomersGoals"],
+  predefinedGoals: () => ["predefinedGoals"],
+  predefinedRisks: (predefinedGoalId: number) => ["predefinedRisks", predefinedGoalId],
 };
 
 export function useGetTermsAndConditions(productId?: string) {
@@ -78,6 +80,35 @@ export function usePredefined(type: string, predefinedGoalId: number) {
       {
         ["x-correlation-id"]: generateRandomId(),
         ["Accept-Language"]: i18n.language.toLowerCase(),
+      }
+    );
+  });
+}
+
+export function usePredfinedGoals() {
+  const { i18n } = useTranslation();
+
+  return useQuery(queryKeys.predefinedGoals(), () => {
+    return api<PredefinedOptions>("v1", `goals/predefined?type=goal&predefinedGoalId=0`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+    });
+  });
+}
+
+export function usePredfinedRisks(predefinedGoalId: number) {
+  const { i18n } = useTranslation();
+
+  return useQuery(queryKeys.predefinedRisks(predefinedGoalId), () => {
+    return api<PredefinedOptions>(
+      "v1",
+      `goals/predefined?type=risk&predefinedGoalId=${predefinedGoalId}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language,
       }
     );
   });

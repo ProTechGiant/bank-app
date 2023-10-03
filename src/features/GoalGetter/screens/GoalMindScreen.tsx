@@ -11,12 +11,12 @@ import { useThemeStyles } from "@/theme";
 
 import { HeaderTitle, PredefinedOptionsList } from "../components";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
-import { GOALS_IN_MIND } from "../mocks/mockGoalMind";
-//////TODO: Replace MockData with API response data
+import { usePredfinedGoals } from "../hooks/query-hooks";
 
 export default function GoalMindScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const { data } = usePredfinedGoals();
   const { predefinedGoalId, setGoalContextState } = useGoalGetterContext();
   const [selectedPredefinedGoalId, setSelectedPredefinedGoalId] = useState<number>(predefinedGoalId);
 
@@ -25,14 +25,15 @@ export default function GoalMindScreen() {
   };
 
   const handleOnPressCreateGoal = () => {
-    const index = GOALS_IN_MIND.findIndex(element => element.Id === selectedPredefinedGoalId);
-    setGoalContextState({
-      predefinedGoalId: selectedPredefinedGoalId,
-      //TODO: Replace this image from api
-      predefinedGoalName: GOALS_IN_MIND[index].Name,
-      goalImage: GOALS_IN_MIND[index].Default_Image,
-    });
-    navigation.navigate("GoalGetter.CreateGoalScreen");
+    const selectedPredefinedGoalIndex = data?.Predefined.findIndex(element => element.Id === selectedPredefinedGoalId);
+    if (selectedPredefinedGoalIndex !== undefined) {
+      setGoalContextState({
+        predefinedGoalId: selectedPredefinedGoalId,
+        predefinedGoalName: data?.Predefined[selectedPredefinedGoalIndex].Name,
+        goalImage: data?.Predefined[selectedPredefinedGoalIndex].Default_Image,
+      });
+      navigation.navigate("GoalGetter.CreateGoalScreen");
+    }
   };
 
   const handleOnBackPress = () => {
@@ -63,7 +64,7 @@ export default function GoalMindScreen() {
           headerDescriptionText={t("GoalGetter.GoalMindScreen.headerDescriptionText")}
         />
         <PredefinedOptionsList
-          predefinedOptionList={GOALS_IN_MIND}
+          predefinedOptionList={data?.Predefined}
           onSelectPredefindOption={handleOnSelectPredefinedGoal}
           predefinedValue={selectedPredefinedGoalId}
         />

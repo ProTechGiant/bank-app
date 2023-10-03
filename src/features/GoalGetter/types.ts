@@ -29,8 +29,8 @@ export interface PredefinedOption {
   Default_Image?: string;
   Icon: string;
 }
-export interface PredefinedOptionOptions {
-  predefinedOptions: PredefinedOption[];
+export interface PredefinedOptions {
+  Predefined: PredefinedOption[];
 }
 export interface TransactionItem {
   Title: string;

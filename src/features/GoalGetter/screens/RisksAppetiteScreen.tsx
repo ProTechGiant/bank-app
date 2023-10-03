@@ -12,14 +12,14 @@ import { useThemeStyles } from "@/theme";
 
 import { HeaderTitle, PredefinedOptionsList } from "../components";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
-import { RISK_APPETITE } from "../mocks/mockRiskAppetite";
-//////TODO: Replace MockData with API response data
+import { usePredfinedRisks } from "../hooks/query-hooks";
 
 export default function RisksAppetiteScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const { riskId, setGoalContextState } = useGoalGetterContext();
+  const { riskId, setGoalContextState, predefinedGoalId } = useGoalGetterContext();
   const [selectedPredefinedRiskId, setSelectedPredefinedRiskId] = useState<number>(riskId);
+  const { data } = usePredfinedRisks(predefinedGoalId);
 
   const handleOnSelectPredefinedRisk = (value: number) => {
     setSelectedPredefinedRiskId(value);
@@ -57,7 +57,7 @@ export default function RisksAppetiteScreen() {
           headerDescriptionText={t("GoalGetter.RisksAppetiteScreen.headerDescriptionText")}
         />
         <PredefinedOptionsList
-          predefinedOptionList={RISK_APPETITE}
+          predefinedOptionList={data?.Predefined}
           onSelectPredefindOption={handleOnSelectPredefinedRisk}
           predefinedValue={selectedPredefinedRiskId}
         />
