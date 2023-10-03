@@ -32,23 +32,23 @@
     }
   },
   "NafathAuthScreen": {
-    "navHeaderTitle": "Authentication",
+    "navHeaderTitle": "المصادقة",
     "modalLink": "افتح تطبيق 'نفاذ'",
     "modalLoad": "Loading...",
     "modalBody": "تذكرهذا الرقم لأنك ستحتاجه بعملية التوثيق بعد قليل.",
-    "title": "Authentication by Nafath",
-    "subTitle": "Nafath enables Croatia to verify your identity.",
-    "appButtonTitle": "Nafath app ",
-    "appButtonSubtitle": "Your fastest experience",
-    "appButtonBody": "Select this option for a quick ID authentication",
+    "title": "التصديق من قبل نفاذ",
+    "subTitle": "يتيح نفاذ لكرواتيا التحقق من هويتك.",
+    "appButtonTitle": "تطبيق نفاذ",
+    "appButtonSubtitle": "تجربتك الأسرع",
+    "appButtonBody": "حدد هذا الخيار لمصادقة الهوية السريعة",
     "siteButtonTitle": "Nafath site",
     "siteButtonBody": "You will be taken from this app to the Nafath site",
-    "dropdownTitle": "Why do I have to use Nafath?",
+    "dropdownTitle": "لماذا يجب علي استخدام نفاذ؟",
     "dropdownBody": "Nafath enables Croatia to verify your identity",
-    "alertModelTitle": "App is not installed",
-    "alertModelMessage": "You are trying to open an app that's currently not installed",
-    "alertModelCancelButton": "Cancel",
-    "alertModelAppStoreButton": "App Store",
+    "alertModelTitle": "لم يتم تثبيت التطبيق",
+    "alertModelMessage": "أنت تحاول فتح تطبيق غير مثبت حاليًا.",
+    "alertModelCancelButton": "إلغاء",
+    "alertModelAppStoreButton": "متجر التطبيقات",
     "alertModelPlayStoreButton": "Google Play"
   },
   "PreviewPDF": {
@@ -841,9 +841,9 @@
     "IqamaInputScreen": {
       "errorText": {
         "noMatchRecord": "The details don’t match our records. Check carefully and try again.",
-        "twoAttemptsLeft": "You have tried to sign up 3 times. You have 2 attempts remaining.",
-        "oneAttemptsLeft": "You have tried to sign up 4 times. You have 1 attempts remaining.",
-        "noAttemptsLeft": "You have tried 5 times to sign up.\n\n Please wait until tomorrow before retrying.",
+        "twoAttemptsLeft": "لم يكن هذا الرمز المروري صحيحًا. لديك 2 محاولة متبقية.",
+        "oneAttemptsLeft": "لم يكن هذا الرمز المروري صحيحًا. لديك 1 محاولة متبقية.",
+        "noAttemptsLeft": "رمز المرور الذي أدخلته غير صحيح.",
         "noMatch": "The mobile number and ID given aren’t linked to an Absher profile",
         "noAccount": "Those details don't match our records. Check carefully and try again.",
         "resetLimitExceeded": "Please be informed that passcode resets are limited to three times per day.",
@@ -854,9 +854,9 @@
       "navHeaderTitle": "SIGN IN",
       "title": "Sign in on this device",
       "subTitle": "You need to enable this device before you can use it with Croatia.",
-      "mobileLabel": "Mobile",
+      "mobileLabel": "الهاتف",
       "mobilePlaceholder": "Enter mobile",
-      "iqamaLabel": "National ID/Iqama",
+      "iqamaLabel": "الهوية الوطنية/الإقامة",
       "iqamaPlaceholder": "Enter your national ID/Iqama number",
       "notificationText": {
         "one": "To join Croatia, you must be over 18 and have an Absher profile. Register at ",
@@ -885,13 +885,13 @@
       "suggestion": " For help, call us on +966 123 456 789."
     },
     "PasscodeScreen": {
-      "title": "Enter Passcode",
-      "userTitle": "Welcome Back, {{username}}",
-      "subTitle": "Enter your 6-digit passcode.",
+      "title": "أدخل رمز المرور",
+      "userTitle": "مرحبًا بك مجددًا، {{username}} ",
+      "subTitle": "أدخل رمز المرور المكون من 6 أرقام",
       "notification": "That passcode wasn't right. You have {{attempts}} attempts left.",
       "errorMessage": "You’ve entered the wrong PIN too many times. Please wait {{time}} min and try again.",
       "errorTitle": "try again later",
-      "forgotPassword": "Forgot your passcode?",
+      "forgotPassword": "نسيت رمز المرور الخاص بك؟",
       "signOut": "تسجيل خروج",
       "signInModal": {
         "title": "Sign in on this device",
@@ -905,28 +905,28 @@
       "toLogin": "to login"
     },
     "ChangePasscodeScreen": {
-      "title": "Enter current passcode",
-      "subTitle": "Enter the 6-number passcode you use to log in.",
+      "title": "أدخل رمز المرور الحالي",
+      "subTitle": "أدخل رمز المرور المكون من 6 أرقام الذي تستخدمه لتسجيل الدخول.",
       "notification": "That passcode wasn't right - try again.",
-      "errorTitle": "Try again later",
+      "errorTitle": "حاول مرة أخرى لاحقًا.",
       "errorSubTitle": "You’ve entered the wrong code too many times. Please wait 30 min and try again."
     },
     "CreatePasscodeScreen": {
-      "needHelpInfo": "Avoid a passcode that’s easy to guess, like 123456 or 111111.",
-      "title": "Create Passcode",
-      "subTitle": "Enter the 6-number passcode you’ll use to log in to Croatia.",
+      "needHelpInfo": "تجنب اختيار رمز مرور سهل التخمين، مثل 123456 أو 111111.",
+      "title": "إنشاء رمز مرور",
+      "subTitle": "أدخل الرمز المكون من 6 أرقام الذي ستستخدمه لتسجيل الدخول إلى كرواتيا.",
       "notification": "Choose something harder to guess, without consecutive or repeated numbers."
     },
     "CardPinScreen": {
-      "errorTitle": "Try again later",
-      "title": "Enter your debit card PIN",
-      "subTitle": "Enter you debit card PIN to authenticate.",
+      "errorTitle": "حاول مرة أخرى لاحقًا.",
+      "title": "ادخل رمز بطاقتك البنكية",
+      "subTitle": "أدخل رقم التعريف الشخصي لبطاقة الخصم الخاصة بك للمصادقة.",
       "forgotCardPin": "Forgot your card PIN?",
       "notification": "That passcode wasn't right. You have {{attempts}} attempts left.",
-      "errorMessage": "You’ve entered the wrong PIN too many times. Please wait 30 min and try again.",
-      "needHelpInfo": "If you need help, you can call us on\n+966 123 456 789.",
-      "twoAttemptsLeft": "That PIN wasn't right. You have 2 attempts left.",
-      "oneAttemptLeft": "That PIN wasn't right. You have 1 attempt left."
+      "errorMessage": "لقد أدخلت الرمز بشكل خاطئ عدة مرات. يرجى الانتظار لمدة 30 دقيقة ومن ثم المحاولة مرة أخرى.",
+      "needHelpInfo": "إذا كنت بحاجة إلى مساعدة، يمكنك الاتصال بنا على +966 123 456 789.",
+      "twoAttemptsLeft": "لم يكن هذا الرمز المروري صحيحًا. لديك محاولتان متبقيتان.",
+      "oneAttemptLeft": "لم يكن هذا الرمز المروري صحيحًا. لديك محاولة متبقية واحدة."
     },
     "ForgotPassword": {
       "title": "هل نسيت رمز المرور الخاص بك؟",
@@ -935,9 +935,9 @@
       "backToLoginButtonText": "العودة لتسجيل الدخول"
     },
     "ConfirmPasscodeScreen": {
-      "title": "Confirm Passcode",
-      "subTitle": "Re-enter your 6 number passcode.",
-      "notification": "Those passcodes were both different - try again.",
+      "title": "تأكيد رمز المرور",
+      "subTitle": "أعد إدخال رمز المرور المكون من 6 أرقام.",
+      "notification": "الرموز المرورية غير متطابقة - حاول مرة أخرى.",
       "updatePasscodeModalMessage": "سيتم تلقي مكالمة تلقائية لتأكيد الإجراء الخاص بك",
       "updatePasscodeModalTitle": "تم إرسال طلب إعادة تعيين رمز المرور",
       "createPasscodeModalMessage": "You'll use this passcode to log in to Croatia.",
@@ -1315,8 +1315,8 @@
         "message": "لا داعي للقلق، هناك مشكلة بسيطة. يمكنك إعادة المحاولة",
         "buttonReload": "إعادة التحميل"
       },
-      "refreshSection":{
-        "hint": "“خطأ في تحميل هدف “{{goalName}}”!",
+      "refreshSection": {
+        "hint": "“خطأ في تحميل هدف “{{goalName}}”!"
       }
     },
 
@@ -1375,7 +1375,7 @@
       "DateModal": { "selectButton": "اختيار", "headerText": "اختر المدة" },
       "ButtonsText": { "confirmChanges": "تأكيد التغييرات", "cancel": "الغاء" }
     },
-    "LatestTransactionScreen":{
+    "LatestTransactionScreen": {
       "title": "آخر التسديدات",
       "SAR": "ر.س",
       "Failed": "فشلت"
@@ -1595,7 +1595,7 @@
         "paragraph": "It’ll be with you in a few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using {{device}}.",
         "finishButton": "Finish"
       },
-      "SetPinScreen":{
+      "SetPinScreen": {
         "SetPin": {
           "title": "قم بتعيين رمز سري جديد",
           "instruction": "يرجى إدخال {{count}} أرقام فريدة وتجنب استخدام رمز سري سهل التخمين، مثل 1234 أو 1111.",
@@ -1895,7 +1895,7 @@
       "dropDownTitle": "الحد اليومي",
       "doneButton": "تم",
       "cancelButton": "الغاء",
-      "currency":"ريال سعودي",
+      "currency": "ريال سعودي",
       "successModal": {
         "title": "تم تحديث حد الحركات المالية",
         "message": "تم تحديث حد الحركات المالية بنجاح",
@@ -1935,12 +1935,12 @@
     "resendCodeEnabled": "إعادة إرسال الرمز",
     "notification": "هذا الرمز المؤقت لم يكن صحيحًا. لديك {{attempts}} محاولات متبقية",
     "errors": {
-      "invalidPassword": "الرمز الذي أدخلته غير صحيح. يرجى المحاولة مرة أخرى",
+      "invalidPassword": "الرمز الذي أدخلته غير صالح. يرجى المحاولة مرة أخرى.",
       "maxAttemptsInvalidPasswordReached": "لقد وصلت إلى الحد الأقصى لعدد محاولات التحقق. يرجى المحاولة مرة أخرى لاحقًا",
-      "twoAttemptsLeft": "الرمز قد انتهت صلاحيته. يمكنك طلب 2 رمز إضافي",
-      "oneAttemptLeft": "الرمز قد انتهت صلاحيته. يمكنك طلب رمز واحد إضافي",
-      "noAttemptsLeftTitle": "حاول مرة أخرى لاحقًا",
-      "noAttemptsLeftMessage": "لقد أدخلت الرمز الخاطئ مرات عديدة. يرجى الانتظار 30 دقيقة ومن ثم المحاولة مرة أخرى",
+      "twoAttemptsLeft": "لقد انتهت مدة صلاحية الرمز، يمكنك طلب رمزين اضافيين",
+      "oneAttemptLeft": "لقد انتهت مدة صلاحية الرمز، يمكنك طلب رمز اضافي اخر",
+      "noAttemptsLeftTitle": ".حاول مرة أخرى لاحقًا",
+      "noAttemptsLeftMessage": "لقد أدخلت الرمز بشكل خاطئ عدة مرات. يرجى الانتظار لمدة 30 دقيقة ومن ثم المحاولة مرة أخرى.",
       "button": "حسنًا",
       "dailyLimitExceeded": "مبلغ التحويل يتجاوز الحد اليومي المتبقي للتحويلات"
     }
@@ -2671,7 +2671,7 @@
       "file": {
         "fileTooBig": "File is too big, it must be smaller than {{maxFileSize}} MB",
         "uploadFailed": "Upload failed, please try again",
-        "wrongFile":"File attached is wrong, you can delete the attachment and re-upload the correct file"
+        "wrongFile": "File attached is wrong, you can delete the attachment and re-upload the correct file"
       },
       "checkBoxMessage": "By checking this box, you agree to our ",
       "termsAndConditions": "Terms and Conditions",
