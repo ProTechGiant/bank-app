@@ -1,11 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
+import { PlaceholderRefreshIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-
-import { PlaceholderRefreshIcon } from "../assets/icons";
 
 interface RefreshSectionProps {
   hint: string;

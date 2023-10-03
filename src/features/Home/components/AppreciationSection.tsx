@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, ScrollView, useWindowDimensions, View, ViewStyle } from "react-native";
 
-import { AppreciationCard } from "@/components";
+import { AppreciationCard, RefreshSection } from "@/components";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -11,7 +11,6 @@ import { CustomerTierEnum } from "@/types/CustomerProfile";
 
 import { useAppreciationWishlist, useTopAppreciations } from "../hooks/query-hooks";
 import EmptySection from "./EmptySection";
-import RefreshSection from "./RefreshSection";
 import Section from "./Section";
 
 interface AppreciationSectionProps {

@@ -3,7 +3,7 @@ import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
 
 import { IconProps } from "@/assets/icons";
 
-export default function PlaceholderRefreshIcon({ width = 69, height = 62 }: IconProps) {
+export function PlaceholderRefreshIcon({ width = 69, height = 62 }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 69 62" fill="none" xmlns="http://www.w3.org/2000/svg">
       <G clip-Path="url(#clip0_5310_19427)">

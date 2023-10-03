@@ -3,10 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import Modal from "@/components/Modal";
-import ProgressIndicator from "@/components/ProgressIndicator";
-import Stack from "@/components/Stack";
-import Typography from "@/components/Typography";
+import { Modal, ProgressIndicator, RefreshSection, Stack, Typography } from "@/components";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -15,7 +12,6 @@ import { useBulletinBoardTasks, useDismissBulletinBoardTask } from "../hooks/que
 import { ScreenRouteNameMappingType } from "../types";
 import BulletinBoardSectionIcon from "./BulletinBoardSectionIcon";
 import BulletinBoardTaskItem from "./BulletinBoardTaskItem";
-import RefreshSection from "./RefreshSection";
 
 const screenRouteNameMapping: ScreenRouteNameMappingType = {
   "redirectdestinationlink/lifestylepreference": "Settings.SettingsStack/Settings.LifeStyleScreen",

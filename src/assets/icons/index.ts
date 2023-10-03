@@ -104,6 +104,7 @@ export * from "./PhoneFilledIcon";
 export * from "./PhoneIcon";
 export * from "./PhoneUnFilledIcon";
 export * from "./PinIcon";
+export * from "./PlaceholderRefreshIcon";
 export * from "./PlusCircleIcon";
 export * from "./PlusIcon";
 export * from "./PointOfSaleIcon";
@@ -161,7 +162,6 @@ export * from "./WarningFilledCircleIcon";
 export * from "./WhatsNextIcon";
 export * from "./WifiIcon";
 export * from "./WithdrawIcon";
-
 export interface IconProps {
   color?: ColorValue;
   height?: number | string;

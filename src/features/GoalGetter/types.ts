@@ -3,21 +3,22 @@ export interface DocumentResponse {
 }
 interface Goal {
   GoalId: number;
-  GoalName: string;
+  Name: string;
   TargetDate: string;
   TargetAmount: number;
   ProductRisk: string;
   ProductRiskColor: string;
   ProductName: string;
-  CurrentBalance: number;
+  CurrentBalance?: number;
   Image: string;
   ProductColor: string;
-  GoalPercentageStatus: number;
+  GoalPercentageStatus?: number;
   ShortFallStatus: string;
-  ShortFallValue: number;
+  ShortFallValue?: number;
+  FetchingStatus?: string;
+  Status: string;
 }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface CustomerGoal {
+export interface CustomerGoal {
   Goals: Goal[];
   CreationGoalAvailability: string;
 }

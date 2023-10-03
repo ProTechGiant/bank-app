@@ -1,12 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
+import { RefreshSection } from "@/components";
 import Stack from "@/components/Stack";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 
 import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
 import QuickAction from "./QuickAction";
-import RefreshSection from "./RefreshSection";
 
 interface QuickActionsSectionProps {
   onQuickActionPress: (screen: string, stack: keyof AuthenticatedStackParams) => void;

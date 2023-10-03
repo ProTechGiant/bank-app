@@ -1420,7 +1420,15 @@
         "endDate": "End date:"
       },
       "hint": "You can set a total of 4 goals.",
-      "setNewGoal": "Set new goal"
+      "setNewGoal": "Set new goal",
+      "errors": {
+        "title": "Couldn’t load the data",
+        "message": "There was a minor issue, but not to worry. We can re-try",
+        "buttonReload": "Reload"
+      },
+      "refreshSection":{
+        "hint": "“{{goalName}}” loading error!",
+      }
     },
     "TermsAndConditionsScreen": {
       "title": "Terms & conditions",

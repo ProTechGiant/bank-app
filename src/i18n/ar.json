@@ -1309,7 +1309,15 @@
         "endDate": "تاريخ الإنتهاء:"
       },
       "hint": "يمكنك تعيين ما مجموعه 4 أهداف.",
-      "setNewGoal": "هدف جديد"
+      "setNewGoal": "هدف جديد",
+      "errors": {
+        "title": "تعذر تحميل البيانات",
+        "message": "لا داعي للقلق، هناك مشكلة بسيطة. يمكنك إعادة المحاولة",
+        "buttonReload": "إعادة التحميل"
+      },
+      "refreshSection":{
+        "hint": "“خطأ في تحميل هدف “{{goalName}}”!",
+      }
     },
 
     "targetAmountScreen": {

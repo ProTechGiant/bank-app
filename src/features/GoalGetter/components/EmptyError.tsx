@@ -31,6 +31,7 @@ export default function EmptyError({ buttons, message, isVisible, title, variant
     alignItems: "center",
     marginTop: theme.spacing["16p"],
     marginHorizontal: theme.spacing["48p"],
+    width: "100%",
   }));
 
   const variantIconStyles = useThemeStyles<IconProps>(
@@ -42,7 +43,8 @@ export default function EmptyError({ buttons, message, isVisible, title, variant
   );
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["32p"],
+    marginTop: theme.spacing["16p"],
+    width: "80%",
   }));
 
   const buttonsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -54,8 +56,8 @@ export default function EmptyError({ buttons, message, isVisible, title, variant
     <View style={containerStyle}>
       <View>{cloneElement(VARIANT_ICONS[variant], variantIconStyles)}</View>
       {icon !== undefined ? <View>{cloneElement(icon)}</View> : null}
-      <Stack direction="vertical" gap="12p" align="center" style={contentStyle}>
-        <Typography.Text color="neutralBase+30" weight="bold" size="title3" align="center">
+      <Stack direction="vertical" gap="16p" align="center" style={contentStyle}>
+        <Typography.Text color="neutralBase+30" weight="bold" size="title1" align="center">
           {title}
         </Typography.Text>
         {message !== undefined ? (

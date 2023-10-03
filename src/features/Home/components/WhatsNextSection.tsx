@@ -3,6 +3,7 @@ import arLocale from "date-fns/locale/ar";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, I18nManager, useWindowDimensions, View, ViewStyle } from "react-native";
 
+import { RefreshSection } from "@/components";
 import { useContentArticleList } from "@/hooks/use-content";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -11,7 +12,6 @@ import { SORT_NEWEST, WHATS_NEXT_CATEGORY_ID } from "../constants";
 import { ArticleSectionType } from "../types";
 import EmptySection from "./EmptySection";
 import HomeArticleSection from "./HomeArticleSection";
-import RefreshSection from "./RefreshSection";
 import Section from "./Section";
 
 interface WhatsNextSectionProps {

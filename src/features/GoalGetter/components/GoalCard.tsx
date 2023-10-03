@@ -12,7 +12,7 @@ import TagsRisk from "./TagsRisk";
 
 interface GoalCardProps {
   goalName: string;
-  currentBalance: number;
+  currentBalance?: number;
   targetAmount: number;
   targetDate: string;
   goalImage: string;
@@ -20,8 +20,8 @@ interface GoalCardProps {
   productColor: string;
   productRisk: string;
   productRiskColor: string;
-  goalPercentageStatus: number;
-  goalPercentageAmount: number;
+  goalPercentageStatus?: number;
+  goalPercentageAmount?: number;
 }
 
 export default function GoalCard({
@@ -78,7 +78,10 @@ export default function GoalCard({
             {t("GoalGetter.GoalDashboardScreen.goalCard.endDate")} {targetDate}
           </Typography.Text>
 
-          <ProgressBar goalTimeAchievePercentage={goalPercentageStatus} goalPercentageAmount={goalPercentageAmount} />
+          <ProgressBar
+            goalTimeAchievePercentage={goalPercentageStatus ? goalPercentageStatus : 0}
+            goalPercentageAmount={goalPercentageAmount ? goalPercentageAmount : 0}
+          />
         </ImageBackground>
       </View>
     </Pressable>

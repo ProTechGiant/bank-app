@@ -3,6 +3,7 @@ import arLocale from "date-fns/locale/ar";
 import { useTranslation } from "react-i18next";
 import { I18nManager, StyleSheet, View, ViewStyle } from "react-native";
 
+import { RefreshSection } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
@@ -12,7 +13,6 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { useCategories } from "../hooks/query-hooks";
-import RefreshSection from "./RefreshSection";
 import TopCategoryItem from "./TopCategoryItem";
 
 interface TopSpendingCategoriesProps {
