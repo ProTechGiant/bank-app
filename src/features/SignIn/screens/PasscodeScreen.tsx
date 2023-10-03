@@ -2,7 +2,6 @@ import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
-import DeviceInfo from "react-native-device-info";
 
 import ApiError from "@/api/ApiError";
 import Button from "@/components/Button";
@@ -22,7 +21,7 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import BiometricsService from "@/services/biometrics/biometricService";
 import { useThemeStyles } from "@/theme";
-import { generateRandomId } from "@/utils";
+import { generateRandomId, getUniqueDeviceId } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 import {
   getItemFromEncryptedStorage,
@@ -99,7 +98,7 @@ export default function PasscodeScreen() {
 
   const handleCheckUserDevice = async () => {
     if (tempUser) {
-      if (tempUser.DeviceId !== DeviceInfo.getDeviceId()) {
+      if (tempUser.DeviceId !== (await getUniqueDeviceId())) {
         setShowSignInModal(true);
       } else {
         handleUserLogin(false);
@@ -109,9 +108,9 @@ export default function PasscodeScreen() {
     }
   };
 
-  const navigateToHome = (accessToken: string) => {
+  const navigateToHome = async (accessToken: string) => {
     if (tempUser) {
-      setItemInEncryptedStorage("user", JSON.stringify(tempUser));
+      setItemInEncryptedStorage("user", JSON.stringify({ ...tempUser, DeviceId: await getUniqueDeviceId() }));
       removeItemFromEncryptedStorage("tempUser");
     }
     auth.authenticate(auth.userId ?? "", accessToken);
