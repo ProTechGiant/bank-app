@@ -26,7 +26,7 @@ export default function AddMoneyViaBankTransferScreen() {
   const handleOnCopyPress = (value: string, label: string) => {
     Clipboard.setString(value);
     addToast({
-      variant: "confirm",
+      variant: "success",
       message: `${label} ${t("AddMoneyInfo.BankDetails.copyInfo")}`,
     });
   };
