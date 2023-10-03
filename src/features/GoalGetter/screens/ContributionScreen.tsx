@@ -20,9 +20,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import AlertInformMessage from "../components/AlertInformMessage";
-import { USER_BALANCE } from "../constants";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
-import { productData as PRODUCT_DATA } from "../mocks/mockProduct";
 
 interface FormInput {
   monthlyContribution: number;
@@ -32,27 +30,34 @@ interface FormInput {
 const CURRENT_STEP = 4;
 const TOTAL_STEPS = 5;
 
+const MUTUAL_FUNDS = ["LOW_RISK_MUTUAL_FUND", "MEDIUM_RISK_MUTUAL_FUND", "HIGH_RISK_MUTUAL_FUND"];
+
 export default function ContributionScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { setGoalContextState } = useGoalGetterContext();
+  const {
+    setGoalContextState,
+    product: productData,
+    AvailableContribution,
+    RecommendedMonthlyContribution,
+  } = useGoalGetterContext();
 
   const validationSchema = useMemo(() => {
     return Yup.object().shape({
       initialContribution: (() => {
         // For Mutual Fund, the initial contribution becomes mandatory.
-        if (PRODUCT_DATA.ProductType === "MUTUAL_FUND") {
+        if (MUTUAL_FUNDS.includes(productData.ProductType)) {
           return Yup.number()
             .required(t("GoalGetter.ContributionsScreen.requiredInitialContribution"))
             .positive(t("GoalGetter.ContributionsScreen.requiredInitialContribution"))
             .min(
-              PRODUCT_DATA.MinimumInitial,
-              t("GoalGetter.ContributionsScreen.minimumInitialContribution", { minAmount: PRODUCT_DATA.MinimumInitial })
+              productData.MinimumInitial!,
+              t("GoalGetter.ContributionsScreen.minimumInitialContribution", { minAmount: productData.MinimumInitial })
             )
             .test(
               "balanceCheck",
               t("GoalGetter.ContributionsScreen.insufficientBalance"),
-              value => USER_BALANCE >= (value || 0)
+              value => AvailableContribution! >= (value || 0)
             );
         }
         // For all other products, the initial contribution is optional but if a number greater than zero is entered,
@@ -62,14 +67,14 @@ export default function ContributionScreen() {
             .test(
               "nonZeroCheck",
               t("GoalGetter.ContributionsScreen.minimumInitialContribution", {
-                minAmount: PRODUCT_DATA.MinimumInitial,
+                minAmount: productData.MinimumInitial,
               }),
-              (value = 0) => value === 0 || value >= PRODUCT_DATA.MinimumInitial
+              (value = 0) => value === 0 || value >= productData.MinimumInitial!
             )
             .test(
               "balanceCheck",
               t("GoalGetter.ContributionsScreen.insufficientBalance"),
-              (value = 0) => value === 0 || USER_BALANCE >= value
+              (value = 0) => value === 0 || AvailableContribution! >= value
             );
         }
       })(),
@@ -77,30 +82,30 @@ export default function ContributionScreen() {
       monthlyContribution: (() => {
         // For Gold, we have a minimum buy quantity of 5 grams.
         // Monthly Contribution should not be less than the minimum purchase amount.
-        if (PRODUCT_DATA.ProductType === "GOLD") {
+        if (productData.ProductType === "GOLD") {
           return Yup.number()
-            .min(PRODUCT_DATA.MinimumMonthly, t("GoalGetter.ContributionsScreen.goldMonthlyMinimum"))
+            .min(productData.MinimumMonthly!, t("GoalGetter.ContributionsScreen.goldMonthlyMinimum"))
             .test(
               "goldMonthlyCheck",
               t("GoalGetter.ContributionsScreen.goldMonthlyMinimum"),
-              value => (value || 0) >= PRODUCT_DATA.MonthlyContribution
+              value => (value || 0) >= productData.MonthlyContribution!
             );
         }
         // For Saving Pot Calculation: Monthly contribution = Target Amount/number of months
-        else if (PRODUCT_DATA.ProductType === "SAVING_POT") {
+        else if (productData.ProductType === "SAVING_POT") {
           return Yup.number().test(
             "savingPotMonthlyCheck",
             t("GoalGetter.ContributionsScreen.savingPotRecommend", {
-              amount: PRODUCT_DATA.MonthlyContribution,
+              amount: productData.MonthlyContribution,
             }),
-            value => value === PRODUCT_DATA.MonthlyContribution
+            value => value === productData.MonthlyContribution
           );
         }
         // For Mutual Fund Calculation: Monthly contribution = Target amount/target number of months.
         // If the monthly contribution amount is less than the minimum subscription, show an error.
-        else if (PRODUCT_DATA.ProductType === "MUTUAL_FUND") {
+        else if (MUTUAL_FUNDS.includes(productData.ProductType)) {
           return Yup.number().min(
-            PRODUCT_DATA.MinimumMonthly,
+            productData.MinimumMonthly!,
             t("GoalGetter.ContributionsScreen.minSubscriptionAmount")
           );
         }
@@ -112,14 +117,14 @@ export default function ContributionScreen() {
 
       selectedDay: Yup.string().required(t("GoalGetter.ContributionsScreen.selectedDayRequired")),
     });
-  }, [PRODUCT_DATA, USER_BALANCE]);
+  }, [productData]);
 
   const { control, handleSubmit, getFieldState, formState } = useForm<FormInput>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
       initialContribution: 0,
-      monthlyContribution: PRODUCT_DATA.MonthlyContribution,
+      monthlyContribution: productData.MonthlyContribution,
       selectedDay: "",
     },
   });
@@ -169,7 +174,7 @@ export default function ContributionScreen() {
       return (
         <AlertInformMessage
           contentMessage={t("GoalGetter.ContributionsScreen.savingPotRecommend", {
-            amount: PRODUCT_DATA.MonthlyContribution,
+            amount: RecommendedMonthlyContribution,
           })}
         />
       );
@@ -177,18 +182,18 @@ export default function ContributionScreen() {
       return (
         <AlertInformMessage
           contentMessage={t("GoalGetter.ContributionsScreen.goldMonthlyLimit", {
-            minAmount: PRODUCT_DATA.MinimumMonthly,
+            minAmount: RecommendedMonthlyContribution,
           })}
         />
       );
-    } else if (ProductType === "MUTUAL_FUND") {
+    } else if (MUTUAL_FUNDS.includes(ProductType)) {
       if (!hasHadErrorBefore) {
         return;
       }
       return (
         <AlertInformMessage
           contentMessage={t("GoalGetter.ContributionsScreen.minMonthlyContribution", {
-            amount: PRODUCT_DATA.MinimumMonthly,
+            amount: RecommendedMonthlyContribution,
           })}
         />
       );
@@ -208,7 +213,7 @@ export default function ContributionScreen() {
     flex: 1,
   }));
   const headerViewStyle = useThemeStyles<ViewStyle>(() => ({
-    flexDirection: PRODUCT_DATA.ProductType !== "MUTUAL_FUND" ? "column-reverse" : "column",
+    flexDirection: MUTUAL_FUNDS.includes(productData.ProductType) ? "column" : "column-reverse",
   }));
   const monthlyContributionAlertViewStyle = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["24p"],
@@ -238,19 +243,18 @@ export default function ContributionScreen() {
         }
         end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
       />
-
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.containerFlex}>
         <ScrollView style={headerScrollStyle}>
           <View style={headerViewStyle}>
             <View style={inputContainerStyle}>
               <LargeCurrencyInput
-                autoFocus={PRODUCT_DATA.ProductType === "MUTUAL_FUND"}
+                autoFocus={MUTUAL_FUNDS.includes(productData.ProductType)}
                 name="initialContribution"
                 control={control}
                 question={t("GoalGetter.ContributionsScreen.question_1")}
                 size="title3"
                 currency={
-                  PRODUCT_DATA.UnitOfMeasurment === "SAR"
+                  productData.UnitOfMeasurement === "SAR"
                     ? t("GoalGetter.ContributionsScreen.SAR")
                     : t("GoalGetter.ContributionsScreen.grams")
                 }
@@ -258,13 +262,13 @@ export default function ContributionScreen() {
             </View>
             <View style={inputContainerStyle}>
               <LargeCurrencyInput
-                autoFocus={PRODUCT_DATA.ProductType !== "MUTUAL_FUND"}
+                autoFocus={!MUTUAL_FUNDS.includes(productData.ProductType)}
                 name="monthlyContribution"
                 control={control}
                 question={t("GoalGetter.ContributionsScreen.question_2")}
                 size="title3"
                 currency={
-                  PRODUCT_DATA.UnitOfMeasurment === "SAR"
+                  productData.UnitOfMeasurement === "SAR"
                     ? t("GoalGetter.ContributionsScreen.SAR")
                     : t("GoalGetter.ContributionsScreen.grams")
                 }
@@ -276,24 +280,24 @@ export default function ContributionScreen() {
                 headerText={t("GoalGetter.ContributionsScreen.selectDay")}
                 disabled={monthlyContribution.isTouched && !!monthlyContribution.error}
               />
-              {!monthlyContribution.error ? renderRecommendationAlert(PRODUCT_DATA.ProductType) : null}
+              {!monthlyContribution.error ? renderRecommendationAlert(productData.ProductType) : null}
             </View>
           </View>
           <View>
             <View style={monthlyContributionAlertViewStyle}>
               <View style={initialContributionAlertViewStyle}>
-                {initialContribution.isTouched && initialContribution.error?.message ? (
+                {initialContribution.error?.message ? (
                   <Alert message={initialContribution.error.message} variant="error" />
                 ) : null}
               </View>
-              {monthlyContribution.isTouched && monthlyContribution.error?.message ? (
+              {monthlyContribution.error?.message ? (
                 <Alert message={monthlyContribution.error.message} variant="error" />
               ) : null}
             </View>
           </View>
         </ScrollView>
 
-        {PRODUCT_DATA.ProductType === "SAVING_POT" && !monthlyContribution.error ? (
+        {productData.ProductType === "SAVING_POT" && !monthlyContribution.error ? (
           <View style={toggleViewStyle}>
             <Typography.Text color="primaryBase">{t("GoalGetter.ContributionsScreen.roundUp")}</Typography.Text>
             <Toggle onPress={handleOnTogglePress} value={isRoundUpEnabled} />

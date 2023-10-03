@@ -1,7 +1,25 @@
 export interface DocumentResponse {
   TermsAndConditions: string;
 }
-interface Goal {
+export interface GoalBalanceAndContributionResponse {
+  AvailableContribution: number;
+  RecommendedMonthlyContribution: number;
+  UnitOfMeasurement: "Grams" | "SAR";
+}
+export interface GoalBalanceAndContribution {
+  productId?: string;
+  targetAmount: number;
+  targetDate?: string;
+}
+
+export interface GoalRoundUpStatus {
+  Status: "ENABLED" | "DISABLED";
+}
+
+export interface GoalRoundUpStatusResponse {
+  Status: string;
+}
+export interface Goal {
   GoalId: number;
   Name: string;
   TargetDate: string;
@@ -62,6 +80,25 @@ export interface PredefinedGoalNames {
   Predefined: { Id: number; Name: string }[];
 }
 
+export interface Product {
+  ProductName: string;
+  ProductType: "SAVING_POT" | "GOLD" | "LOW_RISK_MUTUAL_FUND" | "MEDIUM_RISK_MUTUAL_FUND" | "HIGH_RISK_MUTUAL_FUND";
+  ProductRisk: string;
+  ProductColor: string;
+  ProductRiskColor: string;
+  Duration: number;
+  UnitOfMeasurement: "Grams" | "SAR";
+  MonthlyContribution?: number;
+  MinimumInitial?: number;
+  MinimumMonthly?: number;
+  MinimumContribution?: number;
+  Description: string;
+  Availability: "Y" | "N";
+  Rating: string;
+  FetchStatus: "SUCCESS" | "FAILURE";
+  ProductId: number;
+}
+
 export interface ImageGalleryResponse {
   Gallery: Gallery[];
 }
@@ -81,12 +118,15 @@ export interface GoalGetterContextState {
   targetDate?: string;
   riskId: number;
   productId?: string;
+  product: Product;
   roundUP: "Y" | "N";
   goalImage: string;
   predefinedGoalId: number;
   predefinedGoalDefaultImage?: string;
   startDate?: string;
   otpCode?: string;
+  AvailableContribution: number;
+  RecommendedMonthlyContribution: number;
   productUnitOfMeasurement?: "Grams" | "SAR";
   setGoalContextState: (newState: Partial<GoalGetterContextState>) => void;
   resetGoalContextState: () => void;

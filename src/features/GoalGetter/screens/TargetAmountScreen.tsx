@@ -197,9 +197,7 @@ export default function TargetAmountScreen() {
             </View>
           </View>
           <View style={alertViewStyle}>
-            {amountState.isTouched && amountState.error?.message ? (
-              <Alert message={amountState.error.message} variant="error" />
-            ) : null}
+            {amountState.error?.message ? <Alert message={amountState.error.message} variant="error" /> : null}
             {durationState.error?.message ? <Alert message={durationState.error.message} variant="error" /> : null}
           </View>
           <View style={primaryButtonStyle}>

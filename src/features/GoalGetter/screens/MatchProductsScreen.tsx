@@ -9,13 +9,18 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 
 import { HeaderContent, MatchProductCard } from "../components";
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
+import { useBalanceAndContribution } from "../hooks/query-hooks";
 
 export default function MatchProductsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { setGoalContextState, targetAmount, targetDate } = useGoalGetterContext();
+  const { mutateAsync: getTotalBalance, isLoading } = useBalanceAndContribution();
   const insets = useSafeAreaInsets();
 
   const H_MIN_HEIGHT = Platform.OS === "android" ? 74 + insets.top + 23 : +52 + insets.top + 8;
@@ -51,6 +56,7 @@ export default function MatchProductsScreen() {
       basedOn: t("GoalGetter.SelectProductsScreen.temporaryValue.highRiskCard.basedOn"),
       expectedTime: t("GoalGetter.SelectProductsScreen.temporaryValue.highRiskCard.expectedTime"),
       monthlyContribution: t("GoalGetter.SelectProductsScreen.temporaryValue.highRiskCard.monthlyContribution"),
+      id: "1",
     },
     {
       type: "no-risk",
@@ -61,6 +67,7 @@ export default function MatchProductsScreen() {
       expectedTime: t("GoalGetter.SelectProductsScreen.temporaryValue.noRiskCard.expectedTime"),
       monthlyContribution: t("GoalGetter.SelectProductsScreen.temporaryValue.noRiskCard.monthlyContribution"),
       Investments: t("GoalGetter.SelectProductsScreen.temporaryValue.noRiskCard.Investments"),
+      id: "2",
     },
     {
       type: "low-risk",
@@ -70,6 +77,7 @@ export default function MatchProductsScreen() {
       basedOn: t("GoalGetter.SelectProductsScreen.temporaryValue.lowRiskCard.basedOn"),
       expectedTime: t("GoalGetter.SelectProductsScreen.temporaryValue.lowRiskCard.expectedTime"),
       monthlyContribution: t("GoalGetter.SelectProductsScreen.temporaryValue.lowRiskCard.monthlyContribution"),
+      id: "3",
     },
     {
       type: "medium-risk",
@@ -79,11 +87,25 @@ export default function MatchProductsScreen() {
       basedOn: t("GoalGetter.SelectProductsScreen.temporaryValue.mediumRiskCard.basedOn"),
       expectedTime: t("GoalGetter.SelectProductsScreen.temporaryValue.mediumRiskCard.expectedTime"),
       monthlyContribution: t("GoalGetter.SelectProductsScreen.temporaryValue.mediumRiskCard.monthlyContribution"),
+      id: "4",
     },
   ];
 
-  const handleChooseProduct = () => {
-    navigation.navigate("GoalGetter.ContributionScreen");
+  const handleChooseProduct = async () => {
+    //TODO : When Api is ready this will work fine
+    try {
+      const selectedCardId = productsData.find(product => product.type === selectedCard)?.id;
+      const response = await getTotalBalance({ targetAmount, targetDate, productId: selectedCardId });
+      if (response) {
+        setGoalContextState({
+          AvailableContribution: response.AvailableContribution,
+          RecommendedMonthlyContribution: response.RecommendedMonthlyContribution,
+        });
+      }
+      navigation.navigate("GoalGetter.ContributionScreen");
+    } catch (error) {
+      warn("product-actions", "Could not freeze product: ", JSON.stringify(error));
+    }
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -140,7 +162,7 @@ export default function MatchProductsScreen() {
             />
           </View>
         ))}
-        <Button onPress={handleChooseProduct} disabled={selectedCard === null}>
+        <Button onPress={handleChooseProduct} disabled={selectedCard === null} loading={isLoading}>
           {t("GoalGetter.SelectProductsScreen.chooseButton")}
         </Button>
       </Animated.ScrollView>

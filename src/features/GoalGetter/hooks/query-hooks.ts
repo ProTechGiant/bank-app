@@ -7,7 +7,17 @@ import { useAuthContext } from "@/contexts/AuthContext";
 // import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { generateRandomId } from "@/utils";
 
-import { CustomerGoal, DocumentResponse, ImageGalleryResponse, PredefinedGoalNames, PredefinedOptions } from "../types";
+import {
+  CustomerGoal,
+  DocumentResponse,
+  GoalBalanceAndContribution,
+  GoalBalanceAndContributionResponse,
+  GoalRoundUpStatus,
+  GoalRoundUpStatusResponse,
+  ImageGalleryResponse,
+  PredefinedGoalNames,
+  PredefinedOptions,
+} from "../types";
 
 const queryKeys = {
   getTermsAndConditionsPdf: () => ["termsAndConditionsPdf"],
@@ -67,6 +77,29 @@ export function useGoalGetterOTP() {
   });
 }
 
+export function useBalanceAndContribution() {
+  const { userId } = useAuthContext();
+  const correlationId = generateRandomId();
+
+  return useMutation(async ({ productId, targetDate, targetAmount }: GoalBalanceAndContribution) => {
+    return api<GoalBalanceAndContributionResponse>(
+      "v1",
+      `goals/contribution`,
+      "PATCH",
+      undefined,
+      {
+        productId,
+        targetDate,
+        targetAmount,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+        ["UserId"]: `${userId}`,
+      }
+    );
+  });
+}
+
 export function usePredefined(type: string, predefinedGoalId: number) {
   const { i18n } = useTranslation();
 
@@ -85,6 +118,17 @@ export function usePredefined(type: string, predefinedGoalId: number) {
   });
 }
 
+export function useUpdateRoundUpStatus(goalId: string) {
+  const { userId } = useAuthContext();
+  const correlationId = generateRandomId();
+
+  return useMutation(async ({ values }: { values: GoalRoundUpStatus }) => {
+    return api<GoalRoundUpStatusResponse>("v1", `goals/${goalId}/round-up/status`, "PATCH", undefined, values, {
+      ["x-correlation-id"]: correlationId,
+      ["UserId"]: `${userId}`,
+    });
+  });
+}
 export function usePredfinedGoals() {
   const { i18n } = useTranslation();
 
