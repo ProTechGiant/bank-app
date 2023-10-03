@@ -2,6 +2,7 @@ import { times } from "lodash";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
+import { CroatiaLogoIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import {
@@ -90,10 +91,10 @@ export default function ActiveBankCard({
           )}
           {endButton}
         </View>
-        {isExpiringSoon || actionButton !== undefined ? (
+        {isExpiringSoon ? (
           <View style={cardExpiryContainerStyle}>
             <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-              {isExpiringSoon ? t("CardActions.CardExpiryNotification.isExpiringSoon") : t("CardActions.comingSoon")}
+              {t("CardActions.CardExpiryNotification.isExpiringSoon")}
             </Typography.Text>
           </View>
         ) : null}
@@ -111,6 +112,7 @@ export default function ActiveBankCard({
           </Stack>
         </View>
       </View>
+      <View style={styles.actionContainer}>{actionButton !== undefined ? actionButton : <CroatiaLogoIcon />}</View>
       {/* Pressable area for redirecting to card details page */}
       {onPress !== undefined ? (
         <>
@@ -118,7 +120,6 @@ export default function ActiveBankCard({
           <Pressable onPress={onPress} style={styles.pressableAreaBottom} />
         </>
       ) : null}
-      {actionButton ? <View style={styles.actionContainer}>{actionButton}</View> : null}
     </View>
   );
 }
@@ -131,9 +132,14 @@ const PRESSABLE_TOP_AREA = 50;
 
 const styles = StyleSheet.create({
   actionContainer: {
-    alignSelf: "center",
-    bottom: 100,
+    alignItems: "center",
+    bottom: 0,
     flexDirection: "row",
+    justifyContent: "center",
+    left: 0,
+    position: "absolute",
+    right: 0,
+    top: 0,
   },
   container: {
     height: CONTAINER_HEIGHT,

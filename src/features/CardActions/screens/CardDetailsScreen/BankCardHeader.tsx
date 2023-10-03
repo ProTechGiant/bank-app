@@ -60,19 +60,14 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress }: B
         />
       ) : cardDetails === undefined ? (
         <BankCard.Active
-          status={card.Status}
           cardNumber={card.LastFourDigits}
           cardType={card.CardType}
           productId={card.ProductId}
           isExpiringSoon={isCardExpiringSoon(card)}
           label="Standard"
           actionButton={
-            card.Status === "PENDING-ACTIVATION" && isPhysicalCard(card) ? (
-              <BankCard.ActionButton
-                title={t("CardActions.activatePhysicalCard")}
-                type="light"
-                onPress={onActivatePress}
-              />
+            card.Status === "NEW_CARD" ? (
+              <BankCard.ActionButton title={t("CardActions.activateCard")} type="light" onPress={onActivatePress} />
             ) : undefined
           }
         />

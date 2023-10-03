@@ -12,10 +12,12 @@ import {
   CardSettingsScreen,
   EnterCardCVVScreen,
   HomeScreen,
+  IVRCheckScreen,
   OrderNewCardSummaryScreen,
   POSLimitScreen,
   ReportCardScreen,
   ResetPinCodeScreen,
+  SetPinScreen,
   SetTemporaryAddressScreen,
   SingleUseCardAbout,
   SingleUseCardInfoScreen,
@@ -93,6 +95,15 @@ export type CardActionsStackParams = {
   };
   "CardActions.POSLimitScreen": { cardId: string };
   "CardActions.OrderNewCardSummaryScreen": undefined;
+  "CardActions.SetPinScreen": {
+    cardId: string;
+  };
+  "CardActions.IVRCheckScreen": {
+    title: string;
+    message: string;
+    cardId: string;
+    onVerificationComplete: () => void;
+  };
 };
 
 export const Stack = createNativeStackNavigator<CardActionsStackParams>();
@@ -122,11 +133,13 @@ export default function CardActionsStack() {
       <Stack.Screen component={EnterCardCVVScreen} name="CardActions.EnterCardCVVScreen" />
       <Stack.Screen component={CardActivatedScreen} name="CardActions.CardActivatedScreen" />
       <Stack.Screen component={POSLimitScreen} name="CardActions.POSLimitScreen" />
+      <Stack.Screen component={SetPinScreen} name="CardActions.SetPinScreen" />
       <Stack.Screen
         component={OrderNewCardSummaryScreen}
         name="CardActions.OrderNewCardSummaryScreen"
         options={{ presentation: "modal" }}
       />
+      <Stack.Screen component={IVRCheckScreen} name="CardActions.IVRCheckScreen" />
     </Stack.Navigator>
   );
 }

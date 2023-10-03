@@ -3,7 +3,7 @@ import { I18nManager, Pressable, ScrollView, ViewStyle } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
 import BankCard from "@/components/BankCard";
-import { PHYSICAL_CARD_TYPE, PLUS_TIER, SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
+import { PLUS_TIER, SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID, VIRTUAL_CARD_TYPE } from "@/constants";
 import { useThemeStyles } from "@/theme";
 
 import { hasActiveSingleUseCard, isCardExpiringSoon, isSingleUseCard, isSingleUseCardInactive } from "../helpers";
@@ -60,9 +60,9 @@ export default function CardsList({
         onPress={() => onCardPress(card.CardId)}
         isExpiringSoon={isCardExpiringSoon(card)}
         actionButton={
-          card.Status === "PENDING-ACTIVATION" && card.CardType === PHYSICAL_CARD_TYPE ? (
+          card.Status === "PENDING-ACTIVATION" && card.CardType === VIRTUAL_CARD_TYPE ? (
             <BankCard.ActionButton
-              title={t("CardActions.activatePhysicalCard")}
+              title={t("CardActions.activateCard")}
               type="light"
               onPress={() => onActivatePhysicalCardPress(card.CardId)}
             />

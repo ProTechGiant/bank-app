@@ -165,7 +165,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   };
 
   const handleOnPressActivate = () => {
-    navigation.navigate("CardActions.EnterCardCVVScreen", {
+    navigation.navigate("CardActions.SetPinScreen", {
       cardId: card.CardId,
     });
   };
@@ -308,13 +308,13 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
           <CardButtons
             isViewingPin={isViewingPin}
             isCardFrozen={card.Status === "LOCK"}
-            isFreezeButtonVisible={card.Status !== "PENDING-ACTIVATION"}
-            isViewPinButtonVisible={card.Status !== "PENDING-ACTIVATION"}
+            isFreezeButtonVisible={card.Status !== "NEW_CARD"}
+            isViewPinButtonVisible={card.Status !== "NEW_CARD"}
             onShowDetailsPress={handleOnShowDetailsPress}
             onViewPinPress={handleOnViewPinPress}
             onFreezePress={handleOnFreezePress}
             isShowingDetails={cardDetails !== undefined}
-            isDisablePin={card.Status === "PENDING-ACTIVATION"}
+            isDisablePin={card.Status === "NEW_CARD"}
             cardStatus={card.Status}
           />
         ) : null}
@@ -326,7 +326,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
                 <AddToAppleWalletButton onPress={handleIVRService} />
               </View>
             ) : null}
-            {Platform.OS === "android" && !["LOCK", "INACTIVE"].includes(card.Status) ? (
+            {Platform.OS === "android" && !["LOCK", "INACTIVE", "NEW_CARD"].includes(card.Status) ? (
               <>
                 <MadaPayBanner />
                 <View style={separatorStyle} />
@@ -334,7 +334,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
             ) : null}
             <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
               <ListItemLink
-                disabled={["LOCK", "INACTIVE"].includes(card.Status)}
+                disabled={["LOCK", "INACTIVE", "NEW_CARD"].includes(card.Status)}
                 icon={<CardSettingsIcon />}
                 onPress={handleOnCardSettingsPress}
                 title={t("CardActions.CardDetailsScreen.cardSettingsButton")}
@@ -343,7 +343,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
                 icon={<ReportIcon />}
                 onPress={handleOnReportPress}
                 title={t("CardActions.CardDetailsScreen.reportButton")}
-                disabled={card.Status === "PENDING-ACTIVATION"}
+                disabled={card.Status === "NEW_CARD"}
               />
             </ListSection>
             <View style={separatorStyle} />

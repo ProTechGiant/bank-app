@@ -35,6 +35,7 @@ export * from "./ClockIcon";
 export * from "./CloseIcon";
 export * from "./ContactSupportIcon";
 export * from "./CopyIcon";
+export * from "./CroatiaLogoIcon";
 export * from "./DeleteIcon";
 export * from "./DiamondIcon";
 export * from "./DiamondSmallIcon";

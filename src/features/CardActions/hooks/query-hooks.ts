@@ -18,6 +18,7 @@ export const queryKeys = {
   verificationStatus: (cardId: string) => [...queryKeys.all(), "verificationStatus", { cardId }],
   posLimits: () => [...queryKeys.all(), "posLimits"] as const,
   currentPOSLimit: (cardId: string) => [...queryKeys.all(), "currentPOSLimit", { cardId }] as const,
+  activateCard: (cardId: string) => [...queryKeys.all(), "activateCard", { cardId }] as const,
 };
 
 interface CardsResponse {
@@ -58,6 +59,36 @@ export function useFreezeCard() {
       );
     },
     {
+      onSettled: () => {
+        queryClient.invalidateQueries(queryKeys.all());
+      },
+    }
+  );
+}
+
+interface ActivateCardResponse extends OtpRequiredResponse {
+  Status: string;
+}
+
+export function useActivateCard(cardId: string, interval: number) {
+  const queryClient = useQueryClient();
+
+  return useQuery(
+    queryKeys.activateCard(cardId),
+    () => {
+      return api<ActivateCardResponse>(
+        "v1",
+        `cards/${cardId}`,
+        "POST",
+        undefined,
+        { Status: "ACTIVATE" },
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      );
+    },
+    {
+      refetchInterval: interval,
       onSettled: () => {
         queryClient.invalidateQueries(queryKeys.all());
       },

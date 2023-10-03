@@ -15,6 +15,7 @@ export interface Card {
   AccountName: string;
   AccountNumber: string;
   IsExpireSoon: boolean;
+  IsExpired: boolean;
 }
 
 export interface CardSettingsInput {
@@ -36,7 +37,9 @@ export type CardStatus =
   | "PENDING-ACTIVATION"
   | "CANCELLED"
   | "LOCK"
-  | "UNLOCK";
+  | "UNLOCK"
+  | "NEW_CARD"
+  | "ACTIVATE";
 
 export interface CardCreateResponse {
   Header: {

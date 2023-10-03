@@ -8,15 +8,15 @@ import useNavigation from "@/navigation/use-navigation";
 
 import { CardActionsStackParams } from "../CardActionsStack";
 import { INTERVAL, MAX_ALLOWED_RETRIES } from "../constants";
-import { useVerificationCardStatus } from "../hooks/query-hooks";
+import { useActivateCard } from "../hooks/query-hooks";
 
-export default function WaitingVerificationCard() {
+export default function IVRCheckScreen() {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.WaitingVerificationCard">>();
-  const handleCallback = route.params.callback;
+  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.IVRCheckScreen">>();
+  const handleVerification = route.params.onVerificationComplete;
   const params = route.params;
   const elapsedTimeInSeconds = useRef(0);
-  const { data: cardStatusData } = useVerificationCardStatus(params.cardId, INTERVAL);
+  const { data: cardStatusData } = useActivateCard(params.cardId, INTERVAL);
 
   useEffect(() => {
     function checkIsSuccessful() {
@@ -32,8 +32,8 @@ export default function WaitingVerificationCard() {
   }, []);
 
   useEffect(() => {
-    if (cardStatusData?.is_valid === false) {
-      handleCallback();
+    if (cardStatusData?.Status === "ACTIVATE") {
+      handleVerification();
       navigation.goBack();
     }
   }, [cardStatusData]);

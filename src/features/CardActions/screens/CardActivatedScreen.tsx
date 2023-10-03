@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
 
-import HeroSlider from "@/components/HeroSlider";
-import NavHeader from "@/components/NavHeader";
+import Button from "@/components/Button";
+import { HeroSlider } from "@/components/HeroSlider";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
+
+import CardActivatedSuccessIcon from "./../assets/card-activated-success.svg";
 
 export default function CardActivatedScreen() {
   const navigation = useNavigation();
@@ -14,28 +14,25 @@ export default function CardActivatedScreen() {
     navigation.navigate("CardActions.HomeScreen");
   };
 
-  const topElementStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.complimentBase,
-    borderRadius: 40,
-    height: 80,
-    width: 80,
-  }));
-
   return (
     <HeroSlider
-      variant="prebrand"
+      variant="default"
       buttonText=""
       data={[
         {
-          topElement: <View style={topElementStyle} />,
+          topElement: <CardActivatedSuccessIcon />,
           title: t("CardActions.ActivationScreen.successMessage"),
           text: t("CardActions.ActivationScreen.successDescription"),
+          darkTheme: true,
         },
       ]}
-      lastButtonText={t("CardActions.ActivationScreen.button")}
+      lastButtonText=""
       onFinishPress={handleOnFinish}
-      end={<NavHeader.CloseEndButton onPress={handleOnFinish} color="errorBase" />}
       hasBackButton={false}
-    />
+      darkTheme>
+      <Button variant="primary" color="dark" onPress={handleOnFinish}>
+        {t("CardActions.ActivationScreen.button")}
+      </Button>
+    </HeroSlider>
   );
 }

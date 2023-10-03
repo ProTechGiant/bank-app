@@ -1923,12 +1923,12 @@
     }
   },
   "CardActions": {
-    "standardCard": "Standard card",
+    "standardCard": "Standard",
     "plusCard": "Plus card",
     "singleUseCard": "One-time card",
     "cardFrozen": "Card locked",
     "generateNew": "Generate New",
-    "activatePhysicalCard": "Activate physical card",
+    "activateCard": "Activate card",
     "comingSoon": "On the way",
     "madaPayDescription": "Download <1>mada Pay</1> from the Google Play Store to pay with your phone instead of a card.",
     "appleWallet": "Apple Wallet",
@@ -2000,6 +2000,21 @@
         "title": "Your new card’s coming soon",
         "paragraph": "It’ll be with you in a few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using {{device}}.",
         "finishButton": "Finish"
+      },
+      "SetPinScreen":{
+        "SetPin": {
+          "title": "Set a new pin",
+          "instruction": "Enter {{count}} unique numbers and avoid a PIN that’s easy to guess, like 1234 or 1111.",
+          "errorPinTooEasy": "Avoid a PIN with simple number sequences and repeated numbers"
+        },
+        "ConfirmPin": {
+          "title": "Confirm new pin",
+          "instruction": "Confirm your PIN by re-entering selected {{count}} numbers.",
+          "pinNotMatch": "The code you entered was invalid. Please try again.",
+          "errorModalTitle": "Try again later",
+          "errorModalMessage": "You’ve entered different PINs too many times.",
+          "errorModalActionButton": "Set new pin"
+        }
       }
     },
     "OrderNewCardSummaryScreen": {
@@ -2309,6 +2324,10 @@
     "WaitingVerificationCard": {
       "waitingVerificationTitle": "Waiting verification",
       "waitingVerificationMessage": "Please do not close the app or navigate away from the screen while we add your card to Apple Pay wallet"
+    },
+    "IVRCheckScreen": {
+      "ivrCheckTitle": "Waiting verification",
+      "ivrCheckMessage": "Please do not close the app or navigate away from the screen while we activate your card"
     },
     "POSLimitScreen": {
       "title": "POS transaction limit",

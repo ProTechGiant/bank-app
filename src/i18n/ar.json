@@ -1518,6 +1518,7 @@
   },
 
   "CardActions": {
+    "activateCard": "تفعيل البطاقة",
     "QuickMenu": {
       "freezeCard": "Freeze card",
       "defrost": "Defrost",
@@ -1585,6 +1586,21 @@
         "title": "Your new card’s coming soon",
         "paragraph": "It’ll be with you in a few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using {{device}}.",
         "finishButton": "Finish"
+      },
+      "SetPinScreen":{
+        "SetPin": {
+          "title": "قم بتعيين رمز سري جديد",
+          "instruction": "يرجى إدخال {{count}} أرقام فريدة وتجنب استخدام رمز سري سهل التخمين، مثل 1234 أو 1111.",
+          "errorPinTooEasy": "تجنب الدبوس الذي يحتوي على تسلسلات رقمية بسيطة وأرقام متكررة"
+        },
+        "ConfirmPin": {
+          "title": "يرجى تأكيد الرقم السري الجديد",
+          "instruction": "يرجى تأكيد الرقم السري الخاص بك عن طريق إعادة إدخال الأرقام الأربعة المحددة                      ",
+          "pinNotMatch": "الرمز الذي أدخلته غير صحيح. يرجى المحاولة مرة أخرى",
+          "errorModalTitle": "يرجى المحاولة مرة أخرى لاحقًا.",
+          "errorModalMessage": "لقد أدخلت رموز سر مختلفة عدة مرات.",
+          "errorModalActionButton": "قم بتعيين رمز سري جديد"
+        }
       }
     },
     "OrderNewCardSummaryScreen": {
@@ -1754,7 +1770,7 @@
         "okButton": "حسنًا"
       }
     },
-    "standardCard": "Standard card",
+    "standardCard": "Standard",
     "plusCard": "Plus card",
     "singleUseCard": "One-time card",
     "cardFrozen": "بطاقة مقفلة",
@@ -1819,6 +1835,10 @@
       "waitingVerificationTitle": "Waiting verification",
       "waitingVerificationMessage": "Please do not close the app or navigate away from the screen while we add your card to Apple Pay wallet"
     },
+    "IVRCheckScreen": {
+      "ivrCheckTitle": "بانتظار التحقق",
+      "ivrCheckMessage": "يرجى عدم إغلاق التطبيق أو الانتقال بعيدًا عن الشاشة بينما نقوم بتفعيل بطاقتك."
+    },
     "ReportCardScreen": {
       "navTitle": "Cancel card",
       "addressErrorTitle": "Couldn’t load address",
@@ -1855,6 +1875,11 @@
         "title": "تم قفل البطاقة بنجاح",
         "okButton": "تم"
       }
+    },
+    "ActivationScreen": {
+      "successMessage": "بطاقتك جاهزة للإستخدام",
+      "successDescription": "تم تفعيلها وهي جاهزة للعمل - مهما كان ما تشتريه.",
+      "button": "حسنًا"
     },
     "POSLimitScreen": {
       "title": "حد حركات نقاط البيع",
