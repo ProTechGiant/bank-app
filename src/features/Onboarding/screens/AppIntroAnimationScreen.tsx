@@ -9,7 +9,12 @@ import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token"
 import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
-import { getItemFromEncryptedStorage, hasItemInStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import {
+  getItemFromEncryptedStorage,
+  hasItemInStorage,
+  removeItemFromEncryptedStorage,
+  setItemInEncryptedStorage,
+} from "@/utils/encrypted-storage";
 
 export default function AppIntroAnimationScreen() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
@@ -36,6 +41,9 @@ export default function AppIntroAnimationScreen() {
         if (res?.DeviceId === userDataObject.DeviceId && res?.DeviceStatus === "R") {
           navigation.navigate("SignIn.SignInStack", { screen: "SignIn.Passcode" });
           return;
+        } else {
+          await removeItemFromEncryptedStorage("user");
+          goToOnboardingStack();
         }
       } catch (err) {
         goToOnboardingStack();

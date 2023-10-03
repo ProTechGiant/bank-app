@@ -83,12 +83,15 @@ export default function UserBlockedScreen() {
   useEffect(() => {
     const interval = setInterval(() => {
       setRemainingSecs(prevCountdown => (prevCountdown > 0 ? prevCountdown - 1 : prevCountdown));
-      if (remainingSecs <= 0 && isStatusChecked) {
-        handleNavigate();
-      }
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (remainingSecs <= 0 && isStatusChecked) {
+      handleNavigate();
+    }
+  }, [remainingSecs]);
 
   const checkUserAccountStatus = async () => {
     try {
