@@ -334,7 +334,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
             ) : null}
             <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
               <ListItemLink
-                disabled={["LOCK", "INACTIVE", "NEW_CARD"].includes(card.Status)}
+                disabled={["LOCK", "INACTIVE", "NEW_CARD", "CANCELLED"].includes(card.Status)}
                 icon={<CardSettingsIcon />}
                 onPress={handleOnCardSettingsPress}
                 title={t("CardActions.CardDetailsScreen.cardSettingsButton")}
@@ -343,7 +343,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
                 icon={<ReportIcon />}
                 onPress={handleOnReportPress}
                 title={t("CardActions.CardDetailsScreen.reportButton")}
-                disabled={card.Status === "NEW_CARD"}
+                disabled={card.Status === "NEW_CARD" || card.Status === "CANCELLED"}
               />
             </ListSection>
             <View style={separatorStyle} />
