@@ -1,6 +1,7 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TextStyle, View } from "react-native";
+import { TextStyle, View } from "react-native";
 import { ViewStyle } from "react-native/types";
 
 import Button from "@/components/Button";
@@ -12,9 +13,14 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { CardActionsStackParams } from "../CardActionsStack";
+
 export default function OrderNewCardSummaryScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.OrderNewCardSummaryScreen">>();
+
+  const handleOnDonePress = route.params.onDonePress;
 
   const titleStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["24p"],
@@ -41,6 +47,11 @@ export default function OrderNewCardSummaryScreen() {
     paddingBottom: theme.spacing["8p"],
   }));
 
+  const orderSummaryItemStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing["12p"],
+    marginVertical: theme.spacing["12p"],
+  }));
+
   const orderSumarySpacingContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["12p"],
   }));
@@ -61,7 +72,7 @@ export default function OrderNewCardSummaryScreen() {
 
   const renderOrderSummaryItem = (title: string, value: string) => {
     return (
-      <Stack direction="horizontal" justify="space-between" style={styles.orderSummaryItemContainerStyle}>
+      <Stack direction="horizontal" justify="space-between" style={orderSummaryItemStyle}>
         <Typography.Text color="neutralBase" style={summaryTitleStyle} weight="regular" size="footnote">
           {title}
         </Typography.Text>
@@ -111,18 +122,9 @@ export default function OrderNewCardSummaryScreen() {
           </View>
         </ContentContainer>
         <View style={orderSummaryContainerStyle}>
-          <Button
-            onPress={() => {
-              // todo: hanlde on press done
-            }}>
-            {t("CardActions.OrderNewCardSummaryScreen.done")}
-          </Button>
+          <Button onPress={handleOnDonePress}>{t("CardActions.OrderNewCardSummaryScreen.done")}</Button>
         </View>
       </Page>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  orderSummaryItemContainerStyle: { marginHorizontal: 12, marginVertical: 12 },
-});

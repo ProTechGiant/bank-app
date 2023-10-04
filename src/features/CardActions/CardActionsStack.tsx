@@ -7,9 +7,11 @@ import { OtpResponseStatus } from "../OneTimePassword/types";
 import {
   ApplePayActivatedScreen,
   ApplyCardScreen,
+  ApplyPhysicalCardSuccessScreen,
   CardActivatedScreen,
   CardDetailsScreen,
   CardSettingsScreen,
+  ConfirmCardDeliveryAddress,
   EnterCardCVVScreen,
   HomeScreen,
   IVRCheckScreen,
@@ -51,7 +53,10 @@ export type CardActionsStackParams = {
   };
   "CardActions.SetTemporaryAddressScreen": {
     initialValue?: Address;
-    navigateTo: "CardActions.ApplyCardScreen" | "CardActions.ReportCardScreen";
+    navigateTo:
+      | "CardActions.ApplyCardScreen"
+      | "CardActions.ReportCardScreen"
+      | "CardActions.ConfirmCardDeliveryAddress";
   };
   "CardActions.ResetPincodeScreen": {
     cardId: string;
@@ -93,8 +98,6 @@ export type CardActionsStackParams = {
   "CardActions.CardActivatedScreen": {
     cardId: string;
   };
-  "CardActions.POSLimitScreen": { cardId: string };
-  "CardActions.OrderNewCardSummaryScreen": undefined;
   "CardActions.SetPinScreen": {
     cardId: string;
   };
@@ -104,6 +107,10 @@ export type CardActionsStackParams = {
     cardId: string;
     onVerificationComplete: () => void;
   };
+  "CardActions.OrderNewCardSummaryScreen": { onDonePress: () => void };
+  "CardActions.POSLimitScreen": { cardId: string };
+  "CardActions.ConfirmCardDeliveryAddress": undefined;
+  "CardActions.ApplyPhysicalCardSuccessScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<CardActionsStackParams>();
@@ -140,6 +147,8 @@ export default function CardActionsStack() {
         options={{ presentation: "modal" }}
       />
       <Stack.Screen component={IVRCheckScreen} name="CardActions.IVRCheckScreen" />
+      <Stack.Screen component={ConfirmCardDeliveryAddress} name="CardActions.ConfirmCardDeliveryAddress" />
+      <Stack.Screen component={ApplyPhysicalCardSuccessScreen} name="CardActions.ApplyPhysicalCardSuccessScreen" />
     </Stack.Navigator>
   );
 }

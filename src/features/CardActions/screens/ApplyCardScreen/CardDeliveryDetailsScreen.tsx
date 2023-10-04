@@ -25,9 +25,18 @@ interface CardDeliveryDetailsProps {
   onCancel: () => void;
   onSubmit: () => void;
   isSubmitting: boolean;
+  navigateTo?:
+    | "CardActions.ConfirmCardDeliveryAddress"
+    | "CardActions.ApplyCardScreen"
+    | "CardActions.ReportCardScreen";
 }
 
-export default function CardDeliveryDetails({ onCancel, onSubmit, isSubmitting }: CardDeliveryDetailsProps) {
+export default function CardDeliveryDetails({
+  onCancel,
+  onSubmit,
+  isSubmitting,
+  navigateTo,
+}: CardDeliveryDetailsProps) {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "CardActions.ApplyCardScreen">>();
   const { t } = useTranslation();
@@ -87,7 +96,7 @@ export default function CardDeliveryDetails({ onCancel, onSubmit, isSubmitting }
   const handleOnSetTemporaryAddress = () => {
     navigation.navigate("CardActions.SetTemporaryAddressScreen", {
       initialValue: addresses.find(value => value.id === TEMPORARY_ID),
-      navigateTo: "CardActions.ApplyCardScreen",
+      navigateTo: navigateTo !== undefined ? navigateTo : "CardActions.ApplyCardScreen",
     });
   };
 

@@ -1774,6 +1774,7 @@
       "manageCardHeader": "إدارة البطاقة",
       "cardSettingsButton": "اعدادات البطاقة",
       "reportButton": "الإبلاغ عن سرقة، فقدان أو تلف",
+      "requestPhysicalCard": "Request physical card",
       "accountHeader": "الحساب المربوط",
       "accountNumber": "رقم الحساب",
       "accountName": "اسم الحساب",
@@ -1811,6 +1812,11 @@
         "message": "يرجى الانتظار لمدة ٥ دقائق من آخر عملية قفل/ فك القفل للبطاقة",
         "okButton": "حسنًا"
       }
+    },
+    "applyForPhysicalCardConfirmationModal": {
+      "title": "هل أنت متأكد من رغبتك في التقديم للحصول على بطاقة فعلية؟",
+      "confirmButton": "نعم",
+      "cancelButton": "الغاء"
     },
     "standardCard": "Standard",
     "plusCard": "Plus card",
@@ -1911,6 +1917,11 @@
       "ReportCardSuccessScreen": {
         "title": "بطاقتك الجديدة جاهزة",
         "description": "ستتمكن من استخدام بطاقتك الجديدة عبر الإنترنت أو على هاتفك مباشرةً بمجرد تفعيلها.",
+        "okButton": "حسنًا"
+      },
+      "ApplyPhysicalCardSuccessScreen": {
+        "title": "سيتم وصول بطاقتك الفعلية قريبًا",
+        "description": "ستصلك خلال الخمسة أيام القادمة، إذا استغرق الأمر وقتًا أطول من ذلك، يرجى إعلامنا",
         "okButton": "حسنًا"
       },
       "CardLockedSuccess": {

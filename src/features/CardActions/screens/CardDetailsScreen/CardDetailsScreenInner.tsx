@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { AppState, NativeEventSubscription, Platform, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
-import { CardSettingsIcon, ReportIcon } from "@/assets/icons";
+import { CardIcon, CardSettingsIcon, ReportIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -62,6 +62,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   const [isSucCreatedAlertVisible, setIsSucCreatedAlertVisible] = useState(false);
   const [isLockConfirmModalVisible, setIsLockConfirmModalVisible] = useState(false);
   const [isUnlockConfirmModalVisible, setIsUnlockConfirmModalVisible] = useState(false);
+  const [isApplyPhysicalCardModalVisible, setIsApplyPhysicalCardModalVisible] = useState(false);
   const [isLockedSuccess, setIsLockedSuccess] = useState(false);
   const [isWaitPeriodModalVisible, setIsWaitPeriodModalVisible] = useState(false);
 
@@ -120,6 +121,15 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
       cardId: card.CardId,
       cardStatus: card.Status,
     });
+  };
+
+  const handleOnRequestPhysicalCard = () => {
+    setIsApplyPhysicalCardModalVisible(true);
+  };
+
+  const handleOnRequestPhysicalCardConfirmPress = () => {
+    setIsApplyPhysicalCardModalVisible(false);
+    navigation.navigate("CardActions.ConfirmCardDeliveryAddress");
   };
 
   const handleOnUpgradePress = () => {
@@ -345,6 +355,12 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
                 title={t("CardActions.CardDetailsScreen.reportButton")}
                 disabled={card.Status === "NEW_CARD" || card.Status === "CANCELLED"}
               />
+              <ListItemLink
+                icon={<CardIcon />}
+                onPress={handleOnRequestPhysicalCard}
+                title={t("CardActions.CardDetailsScreen.requestPhysicalCard")}
+                disabled={card.Status === "PENDING-ACTIVATION"}
+              />
             </ListSection>
             <View style={separatorStyle} />
           </>
@@ -433,6 +449,28 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
               : t("CardActions.CardDetailsScreen.waitPeriodModal.lockState"),
         })}
         isVisible={isWaitPeriodModalVisible}
+      />
+
+      {/* Apply for PhysicalCard confirmation modal */}
+      <NotificationModal
+        variant="warning"
+        buttons={{
+          primary: (
+            <Button loading={freezeLoading} disabled={freezeLoading} onPress={handleOnRequestPhysicalCardConfirmPress}>
+              {t("CardActions.CardDetailsScreen.applyForPhysicalCardConfirmationModal.confirmButton")}
+            </Button>
+          ),
+          secondary: (
+            <Button onPress={() => setIsApplyPhysicalCardModalVisible(false)}>
+              {t("CardActions.CardDetailsScreen.applyForPhysicalCardConfirmationModal.cancelButton")}
+            </Button>
+          ),
+        }}
+        title={t("CardActions.CardDetailsScreen.applyForPhysicalCardConfirmationModal.title")}
+        isVisible={isApplyPhysicalCardModalVisible}
+        onClose={() => {
+          setIsLockConfirmModalVisible(false);
+        }}
       />
 
       <NotificationModal

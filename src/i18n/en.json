@@ -1989,9 +1989,9 @@
           "errorModalActionButton": "Set new pin"
         },
         "CardDeliveryDetails": {
-          "title": "Card delivery details",
+          "title": "Confirm card delivery address",
           "paragraph": {
-            "default": "Your card will be sent here:",
+            "default": "Confirm where you’d like your new card to be delivered.",
             "checkHighlighted": "Check the correct delivery address is highlighted:"
           },
           "buttons": {
@@ -2154,6 +2154,7 @@
       "manageCardHeader": "Manage card",
       "cardSettingsButton": "Card settings",
       "reportButton": "Report stolen, lost or damaged",
+      "requestPhysicalCard": "Request physical card",
       "accountHeader": "Linked account",
       "accountNumber": "Account number",
       "accountName": "Account name",
@@ -2178,6 +2179,11 @@
       "unlockConfirmationModal": {
         "title": "Unlock the card ?",
         "confirmButton": "Confirm",
+        "cancelButton": "Cancel"
+      },
+      "applyForPhysicalCardConfirmationModal": {
+        "title": "Are you sure you want to apply for a physical card?",
+        "confirmButton": "Yes",
         "cancelButton": "Cancel"
       },
       "lockSuccessFullModal": {
@@ -2277,6 +2283,11 @@
       "ReportCardSuccessScreen": {
         "title": "Your new card is ready",
         "description": "You’ll be able to use your new card online or on your phone immediately once you activate it.",
+        "okButton": "OK"
+      },
+      "ApplyPhysicalCardSuccessScreen": {
+        "title": "Your physical card’s coming soon",
+        "description": "It'll be with you soon, if you didn’t receive the card, please let us know.",
         "okButton": "OK"
       },
       "CardLockedSuccess": {

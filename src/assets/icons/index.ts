@@ -8,6 +8,7 @@ export * from "./AddBorderedIcon";
 export * from "./AngleDownIcon";
 export * from "./AngleUpIcon";
 export { default as AppleWalletIcon } from "./apple-wallet.svg";
+export * from "./ApplyCardSuccessIcon";
 export * from "./AppreciationIcon";
 export * from "./ArrowCircleUpIcon";
 export * from "./ArrowForwardIcon";

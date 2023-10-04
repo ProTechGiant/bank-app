@@ -10,7 +10,7 @@ export interface HeroSlideProps {
   text: string;
   containerStyle?: StyleProp<ViewStyle>;
   bottomElementStyle?: StyleProp<ViewStyle>;
-  darkTheme: boolean;
+  darkTheme?: boolean;
 }
 
 export default function HeroSlide({

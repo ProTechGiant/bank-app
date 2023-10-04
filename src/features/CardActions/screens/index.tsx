@@ -1,5 +1,7 @@
 export { default as ApplePayActivatedScreen } from "./ApplePayActivatedScreen";
 export { default as ApplyCardScreen } from "./ApplyCardScreen";
+export { default as ApplyPhysicalCardSuccessScreen } from "./ApplyPhysicalCardScreen/ApplyPhysicalCardSuccessScreen";
+export { default as ConfirmCardDeliveryAddress } from "./ApplyPhysicalCardScreen/ConfirmCardDeliveryAddress";
 export { default as CardActivatedScreen } from "./CardActivatedScreen";
 export { default as CardDetailsScreen } from "./CardDetailsScreen";
 export { default as CardSettingsScreen } from "./CardSettingsScreen";

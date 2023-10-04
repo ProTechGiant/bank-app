@@ -238,7 +238,7 @@ export default function CardSettingsScreen() {
                   helperText={t("CardActions.CardSettingsScreen.posTransactions.helperText")}
                   onPress={() => handleOnChangeSettings("POSTransaction")}
                   value={settings.data.POSTransaction ?? true}
-                  disabled={!["unfreeze", "pending-activation"].includes(card.data.Status)}
+                  disabled={!["UNFREEZE", "PENDING-ACTIVATION"].includes(card.data.Status)}
                 />
                 <SettingsToggle
                   icon={<CardIcon />}
@@ -246,7 +246,7 @@ export default function CardSettingsScreen() {
                   helperText={t("CardActions.CardSettingsScreen.onlinePayment.helperText")}
                   onPress={() => handleOnChangeSettings("OnlinePayments")}
                   value={settings.data.OnlinePayments ?? true}
-                  disabled={!["unfreeze", "pending-activation"].includes(card.data.Status)}
+                  disabled={!["UNFREEZE", "PENDING-ACTIVATION"].includes(card.data.Status)}
                 />
                 <SettingsToggle
                   icon={<GlobeIcon />}
