@@ -838,9 +838,26 @@
     }
   },
   "SignIn": {
+    "UserExistBlockedScreen": {
+      "title": "Brand Moment",
+      "heading": "You have been blocked from entering the app",
+      "message": "تم تسجيل خروجك لأنك أدخلت {{type}} بشكل خاطئ عدة مرات. حاول مرة أخرى خلال",
+      "suggestion": " للحصول على مساعدة، اتصل بنا على الرقم +966 123 456 789."
+    },
+    "UserNotExistBlockedScreen": {
+      "title": "Brand Moment",
+      "heading": "عد في وقت لاحق",
+      "message": "تم تسجيل خروجك لأنك أدخلت {{type}} بشكل خاطئ عدة مرات. حاول مرة أخرى خلال",
+      "suggestion": " للحصول على مساعدة، اتصل بنا على الرقم +966 123 456 789."
+    },
+    "UserPermanentBlockScreen": {
+      "title": "Brand Moment",
+      "heading": "تم قفل التطبيق الخاص بك",
+      "message": "لقد تم قفل التطبيق الخاص بك للمساعدة في الحفاظ على أمان حسابك. لفتحه، يرجى الاتصال بنا على الرقم +966 123 456 789."
+    },
     "IqamaInputScreen": {
       "errorText": {
-        "noMatchRecord": "The details don’t match our records. Check carefully and try again.",
+        "noMatchRecord": "التفاصيل لا تتطابق مع سجلاتنا. تحقق بعناية وحاول مرة أخرى.",
         "twoAttemptsLeft": "لم يكن هذا الرمز المروري صحيحًا. لديك 2 محاولة متبقية.",
         "oneAttemptsLeft": "لم يكن هذا الرمز المروري صحيحًا. لديك 1 محاولة متبقية.",
         "noAttemptsLeft": "رمز المرور الذي أدخلته غير صحيح.",
@@ -852,28 +869,28 @@
         "somethingWentWrong": "Something went wrong, please try again."
       },
       "navHeaderTitle": "SIGN IN",
-      "title": "Sign in on this device",
-      "subTitle": "You need to enable this device before you can use it with Croatia.",
+      "title": "تسجيل الدخول على هذا الجهاز",
+      "subTitle": "يجب عليك تمكين هذا الجهاز قبل أن تتمكن من استخدامه مع كرواتيا. ",
       "mobileLabel": "الهاتف",
       "mobilePlaceholder": "Enter mobile",
       "iqamaLabel": "الهوية الوطنية/الإقامة",
-      "iqamaPlaceholder": "Enter your national ID/Iqama number",
+      "iqamaPlaceholder": "أدخل رقم الهوية الوطنية/الإقامة",
       "notificationText": {
         "one": "To join Croatia, you must be over 18 and have an Absher profile. Register at ",
         "two": "absher.sa",
         "three": " before joining us."
       },
-      "continue": "Sign in",
-      "subtext": "Don’t have an account? ",
-      "signUp": "Sign up",
+      "continue": "تسجيل الدخول",
+      "subtext": "ليس لديك حساب؟",
+      "signUp": "اشتراك",
       "validationErrors": {
         "mobileNumber": {
-          "required": "Mobile Required",
-          "matches": "The number you entered is too short"
+          "required": "الرجاء ادخال رقم الهاتف",
+          "matches": "الرقم الذي أدخلته قصير جدًا"
         },
         "iqamaId": {
-          "required": "National ID/Iqama Number required",
-          "matches": "The number you entered is too short",
+          "required": "الرجاء ادخال رقم الهوية الوطنية/الإقامة",
+          "matches": "الرقم الذي أدخلته قصير جدًا",
           "exactLength": "Must be exactly {{length}} digits"
         }
       }
@@ -894,10 +911,10 @@
       "forgotPassword": "نسيت رمز المرور الخاص بك؟",
       "signOut": "تسجيل خروج",
       "signInModal": {
-        "title": "Sign in on this device",
-        "message": "You are already signed in on another device. By signing in to this device you will be signed out on the other one.",
-        "signInButton": "Sign In",
-        "cancelButton": "Cancel"
+        "title": "تسجيل الدخول على هذا الجهاز؟",
+        "message": "أنت مسجل بالفعل على جهاز آخر. عند تسجيل الدخول على هذا الجهاز، سيتم تسجيل الخروج على الجهاز الآخر.",
+        "signInButton": "تسجيل الدخول",
+        "cancelButton": "إلغاء"
       }
     },
     "passcodeInput": {
@@ -974,6 +991,23 @@
       "notifications": "التنبيهات",
       "FAQs": "الأسئلة الشائعة"
     },
+    "AccountSettings": {
+      "title": "Account settings",
+      "subTitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend commodo.",
+      "changePasscode": "Change passcode",
+      "turnBiometricsOn": "Turn biometrics on",
+      "signOut": "Sign out",
+      "youSure": "هل أنت متأكد؟",
+      "cancelButton": "إلغاء",
+      "button": "تسجيل الخروج من هذا الجهاز",
+      "message": "إذا قمت بتسجيل الخروج على هذا الجهاز، ستحذف تفاصيل البصمات الخاصة بك وستحتاج إلى تسجيل الدخول مرة أخرى لاستخدام كرواتيا. يمكنك فقط تسجيل الدخول على جهاز واحد في وقت واحد."
+    },
+    "SignOutModal": {
+      "areYouSureSignOut": "Are you sure you want to\nSign out?",
+      "hintMessageSignOut": "By signing out some of your info\nwill be deleted.",
+      "signOutButton": "Sign Out",
+      "cancelButton": "إلغاء"
+    },
     "CustomerAccountManagementScreen": {
       "title": "Customer Account Management",
       "personal": "Personal",
@@ -1020,8 +1054,8 @@
       "notificationsOptionTitle": "Notifications"
     },
     "LogoutFailedModal": {
-      "title": "We’re sorry something went wrong.",
-      "message": "Please try again later."
+      "title": "نأسف، حدث خطأ ما",
+      "message": "يرجى المحاولة مرة أخرى لاحقًا"
     },
     "language": {
       "EN": "English",
