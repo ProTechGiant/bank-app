@@ -47,3 +47,8 @@ export interface AppreciationResponseType {
   Appreciations: AppreciationType<FavoriteEnum>[];
   CustomerId: number;
 }
+
+export enum PromotedEnum {
+  Code = "1",
+  Name = "Promotional",
+}

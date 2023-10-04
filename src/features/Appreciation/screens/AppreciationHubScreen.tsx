@@ -21,7 +21,7 @@ import Typography from "@/components/Typography";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
-import { SortingOptions, TabsTypes } from "@/types/Appreciation";
+import { PromotedEnum, SortingOptions, TabsTypes } from "@/types/Appreciation";
 import { CustomerTierEnum } from "@/types/CustomerProfile";
 
 import noAppreciationFilter from "../assets/no-appreciation-filter.png";
@@ -304,7 +304,7 @@ export default function AppreciationHubScreen() {
                 <ContentContainer isScrollView style={listContainerStyle}>
                   {currentTab === TabsTypes.ALL && appreciationList ? (
                     <>
-                      {appreciationList?.filter(item => item.Rank === 1).length ? (
+                      {appreciationList?.filter(item => item.Section.Code === PromotedEnum.Code).length ? (
                         <View style={titleContainerStyle}>
                           <Typography.Text color="neutralBase+30" size="title3" weight="medium">
                             {t("Appreciation.HubScreen.promoted")}
@@ -312,13 +312,15 @@ export default function AppreciationHubScreen() {
                         </View>
                       ) : null}
                       {appreciationList
-                        ?.filter(item => item.Rank === 1)
+                        ?.filter(item => item.Section.Code === PromotedEnum.Code)
                         .map((appreciation, index) => {
                           return (
                             <AppreciationCard
                               appreciation={appreciation}
                               userTier={userTier}
-                              isPromoted={currentTab === TabsTypes.ALL ? appreciation.Rank === 1 : false}
+                              isPromoted={
+                                currentTab === TabsTypes.ALL ? appreciation.Section.Code === PromotedEnum.Code : false
+                              }
                               key={index}
                               onPress={handleOnAppreciationCardPress}
                               onLike={handleOnLikeAppreciation}
@@ -327,7 +329,7 @@ export default function AppreciationHubScreen() {
                         })}
                     </>
                   ) : null}
-                  {!appreciationList?.every(item => item.Rank === 1) ? (
+                  {!appreciationList?.every(item => item.Section.Code === PromotedEnum.Code) ? (
                     <View style={exploreContainerStyle}>
                       <View style={titleContainerStyle}>
                         <Typography.Text color="neutralBase+30" size="title3" weight="medium">
@@ -348,7 +350,7 @@ export default function AppreciationHubScreen() {
                     ? appreciationList
                         ?.filter(item =>
                           currentTab === TabsTypes.ALL
-                            ? item.Rank !== 1
+                            ? item.Section.Code !== PromotedEnum.Code
                             : currentTab === TabsTypes.LIKED
                             ? item.ActiveFlag === ActiveEnum.ACTIVE
                             : true
@@ -358,7 +360,9 @@ export default function AppreciationHubScreen() {
                             <AppreciationCard
                               appreciation={appreciation}
                               userTier={userTier}
-                              isPromoted={currentTab === TabsTypes.ALL ? appreciation.Rank === 1 : false}
+                              isPromoted={
+                                currentTab === TabsTypes.ALL ? appreciation.Section.Code === PromotedEnum.Code : false
+                              }
                               key={index}
                               onPress={handleOnAppreciationCardPress}
                               onLike={handleOnLikeAppreciation}

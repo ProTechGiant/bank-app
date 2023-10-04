@@ -149,13 +149,13 @@ export default function AppreciationCard({
               </Typography.Text>
             )}
             <Typography.Text color="neutralBase" size="footnote" weight="regular" style={locationContainerStyle}>
-              {`${Location.Name} . ${format(new Date(PresaleDate), "dd/MM/yyyy · hh:mm")}`}
+              {`${Location.Name} . ${format(new Date(ExpiryDate), "dd/MM/yyyy · hh:mm")}`}
             </Typography.Text>
           </Stack>
           <Stack direction="horizontal" gap="4p">
             <CalendarSmallIcon />
             <Typography.Text color="neutralBase+30" size="caption2" weight="medium">
-              {t("Appreciation.HubScreen.endsOnMessage")} {ExpiryDate}
+              {t("Appreciation.HubScreen.endsOnMessage")} {PresaleDate}
             </Typography.Text>
           </Stack>
         </View>

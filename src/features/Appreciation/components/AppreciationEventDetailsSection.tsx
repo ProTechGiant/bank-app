@@ -24,7 +24,7 @@ export default function AppreciationEventDetailsSection({
 }: AppreciationEventDetailsSectionProps) {
   const { t } = useTranslation();
 
-  const formatedPreSaleDate = format(new Date(preSaleDate), "dd/MM/yyyy · hh:mm");
+  const formatedEndDate = format(new Date(endDate), "dd/MM/yyyy · hh:mm");
   const addDateToCalendar = () => {
     const eventConfig = {
       title: appreciationName,
@@ -60,7 +60,7 @@ export default function AppreciationEventDetailsSection({
           <Typography.Text color="neutralBase" weight="regular" size="footnote">
             {t("Appreciation.AppreciationDetailsSection.eventDate")}
           </Typography.Text>
-          <Typography.Text size="callout">{formatedPreSaleDate}</Typography.Text>
+          <Typography.Text size="callout">{formatedEndDate}</Typography.Text>
         </View>
         <Pressable onPress={addDateToCalendar}>
           <Stack direction="horizontal" align="center">

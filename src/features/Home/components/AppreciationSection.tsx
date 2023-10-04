@@ -6,7 +6,7 @@ import { AppreciationCard, RefreshSection } from "@/components";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { AppreciationType } from "@/types/Appreciation";
+import { AppreciationType, PromotedEnum } from "@/types/Appreciation";
 import { CustomerTierEnum } from "@/types/CustomerProfile";
 
 import { useAppreciationWishlist, useTopAppreciations } from "../hooks/query-hooks";
@@ -97,7 +97,7 @@ export default function AppreciationSection({ onViewAllPress }: AppreciationSect
                     appreciation={appreciation}
                     userTier={userTier}
                     key={index}
-                    isPromoted={appreciation?.Rank === 1}
+                    isPromoted={appreciation?.Section.Code === PromotedEnum.Code}
                     onPress={handleOnAppreciationCardPress}
                     onLike={handleOnLikeAppreciation}
                   />
