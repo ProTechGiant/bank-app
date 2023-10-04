@@ -186,6 +186,15 @@ export default function TemporaryLandingScreen() {
     });
   };
 
+  const handleOnOpenBanking = async (values: TemporaryForm) => {
+    auth.authenticate(values.UserId);
+    setImmediate(() => {
+      navigation.navigate("OpenBanking.OpenBankingStack", {
+        screen: "OpenBanking.OpenBankingScreen",
+      });
+    });
+  };
+
   const handleOnFaqs = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     setImmediate(() => {
@@ -282,6 +291,9 @@ export default function TemporaryLandingScreen() {
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnProxyAlias)}>Proxy Alias Landing</Button>
+        </View>
+        <View style={styles.margin20}>
+          <Button onPress={handleSubmit(handleOnOpenBanking)}>Open Banking</Button>
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnTopSpendingInsights)}>Top Spending</Button>

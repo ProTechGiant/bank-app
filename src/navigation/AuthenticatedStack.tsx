@@ -19,6 +19,7 @@ import MutualFundStack from "@/features/MutualFund/MutualFundStack";
 import NotificationManagementStack from "@/features/NotificationManagement/NotificationManagementStack";
 import NotificationsStack from "@/features/Notifications/NotificationsStack";
 import OneTimePasswordModal from "@/features/OneTimePassword/screens/OneTimePasswordModal";
+import OpenBankingStack from "@/features/OpenBanking/OpenBankingStack";
 import PaymentDisputesStack from "@/features/PaymentDisputes/PaymentDisputesStack";
 import ProfileDetailsStack from "@/features/ProfileDetails/ProfileDetailsStack";
 import ProxyAliasStack from "@/features/ProxyAlias/ProxyAliasStack";
@@ -114,6 +115,7 @@ export const AuthenticatedScreens = () => {
         name="FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack"
       />
       <AuthStack.Screen component={ProxyAliasStack} name="ProxyAlias.ProxyAliasStack" />
+      <AuthStack.Screen component={OpenBankingStack} name="OpenBanking.OpenBankingStack" />
       <AuthStack.Screen component={AllInCardStack} name="AllInOneCard.AllInOneCardStack" />
     </AuthStack.Navigator>
   );

@@ -11,6 +11,7 @@ import { InternalTransfersStackParams } from "@/features/InternalTransfers/Inter
 import { MutualFundStackParams } from "@/features/MutualFund/MutualFundStack";
 import { NotificationManagementStackParams } from "@/features/NotificationManagement/NotificationManagementStack";
 import { NotificationsStackParams } from "@/features/Notifications/NotificationsStack";
+import { OpenBankingStackParams } from "@/features/OpenBanking/OpenBankingStack";
 import { PaymentDisputesStackParams } from "@/features/PaymentDisputes/PaymentDisputesStack";
 import { ProfileDetailsStackParams } from "@/features/ProfileDetails/ProfileDetailsStack";
 import { ProxyAliasStackParams } from "@/features/ProxyAlias/ProxyAliasStack";
@@ -31,6 +32,7 @@ import OneTimePasswordModalParams from "./one-time-password-modal-params";
 
 type RootStackParams = {
   "ProxyAlias.ProxyAliasStack": { screen: keyof ProxyAliasStackParams } | undefined;
+  "OpenBanking.OpenBankingStack": { screen: keyof OpenBankingStackParams } | undefined;
   "TopSpending.TopSpendingStack":
     | {
         screen: keyof TopSpendingStackParams;
