@@ -1,5 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useEffect } from "react";
 
+import { useAuthContext } from "@/contexts/AuthContext";
 import AddMoneyStack from "@/features/AddMoney/AddMoneyStack";
 import AllInCardStack from "@/features/AllInOneCard/AllInOneCardStack";
 import AppreciationStack from "@/features/Appreciation/AppreciationStack";
@@ -59,6 +61,12 @@ export const PasscodeStack = () => {
 
 export const AuthenticatedScreens = () => {
   useLogoutAfterInactivity();
+  const { updateNavigationTarget } = useAuthContext();
+
+  useEffect(() => {
+    setTimeout(() => updateNavigationTarget(null), 1000);
+  }, []);
+
   return (
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
       <AuthStack.Screen component={HomeTabs} name="Home.HomeTabs" />

@@ -1,39 +1,42 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Alert, AppState, AppStateStatus } from "react-native";
+import { AppState, AppStateStatus, DeviceEventEmitter, NativeEventSubscription, Platform } from "react-native";
 
 import { useAuthContext } from "@/contexts/AuthContext";
+import { warn } from "@/logger";
 
 import useLogout, { logoutActionsIds } from "./use-logout";
 
 export default function useLogoutAfterInactivity() {
-  const { t } = useTranslation();
   const logoutUser = useLogout();
   const auth = useAuthContext();
   const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState);
 
+  const handleLogout = async () => {
+    try {
+      await logoutUser(logoutActionsIds.AUTOMATIC_ID);
+    } catch (error) {
+      warn("logout-api error: ", JSON.stringify(error));
+    }
+  };
+
+  const handleAppStateChange = (nextAppState: AppStateStatus) => {
+    if (appState === "background" && nextAppState === "active") {
+      handleLogout();
+    }
+    setAppState(nextAppState);
+  };
+
   useEffect(() => {
-    const handleLogout = async () => {
-      try {
-        await logoutUser(logoutActionsIds.AUTOMATIC_ID);
-      } catch (error) {
-        warn("logout-api error: ", error);
-      }
-      Alert.alert(t("Alerts.LogoutDueToInactivity"));
-    };
-
-    const handleAppStateChange = (nextAppState: AppStateStatus) => {
-      //We check for the app current state and we only want to handle case when app was previously in background mode
-      if (appState === "background" && nextAppState === "active") {
-        handleLogout();
-      }
-      setAppState(nextAppState);
-    };
-
-    const subscription = AppState.addEventListener("change", handleAppStateChange);
+    let subscription: NativeEventSubscription;
+    if (Platform.OS === "ios") {
+      subscription = AppState.addEventListener("change", handleAppStateChange);
+    } else {
+      subscription = DeviceEventEmitter.addListener("AppStateChange", handleAppStateChange);
+    }
 
     return () => {
       subscription.remove();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appState, auth]);
 }

@@ -6,6 +6,7 @@ import android.net.Uri;
 
 import com.croatiamobileapp.reloadapp.ReloadAppPackage;
 
+import com.croatiamobileapp.t2notifications.NotificationUtils;
 import com.croatiamobileapp.t2notifications.T2PushNotificationsPackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
@@ -20,6 +21,10 @@ import com.t2.t2notifysdk.data.ProviderType;
 import com.t2.t2notifysdk.notification.NotificationManagerSDK;
 
 import java.util.List;
+
+import android.util.Log;
+import androidx.core.content.ContextCompat;
+import com.t2.t2notifysdk.ClientMessageListener;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -37,7 +42,6 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           packages.add(new ReloadAppPackage());
           packages.add(new T2PushNotificationsPackage());
-
           return packages;
         }
 
@@ -65,6 +69,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    initRichSDK();
     SoLoader.init(this, /* native exopackage */ false);
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       // If you opted-in for the New Architecture, we load the native entry point for this app.
@@ -72,33 +77,47 @@ public class MainApplication extends Application implements ReactApplication {
     }
     ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
 
-    try {
-      Notify notify = new Notify.Builder(this, "https://notificationrb.rich.sa/api/",
-        new ApiConfig(
-          BuildConfig.T2_CLIENT_SECRET,
-          BuildConfig.T2_CLIENT_ID,
-          "",
-          ProviderType.FCM,
-          "",
-          BuildConfig.APPLICATION_ID
-        ),
-        BuildConfig.DEBUG, // enable logging
-        false, // show error UI
-        new NotificationManagerSDK.Builder(
-          this,
-          getString(R.string.app_name),
-          000,
-          true, // enable lights
-          true, // enable vibration
-          true, // enable sound
-          false, // enable "Open" action
-          null,
-          getDefaultRingtone()).build()
-      ).build();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
+    private void initRichSDK(){
+      try {
+        Notify notify = new Notify.Builder(this, "https://notificationrb.rich.sa/api/",
+          new ApiConfig(
+            BuildConfig.T2_CLIENT_SECRET,
+            BuildConfig.T2_CLIENT_ID,
+            "",
+            ProviderType.FCM,
+            "",
+            BuildConfig.APPLICATION_ID
+          ),
+          BuildConfig.DEBUG, // enable logging
+          false, // show error UI
+          new NotificationManagerSDK.Builder(
+            this,
+            getString(R.string.app_name),
+            000,
+            true, // enable lights
+            true, // enable vibration
+            true, // enable sound
+            false, // enable "Open" action
+            null,
+            getDefaultRingtone()
+            ).build(),
+            true,
+            new ClientMessageListener() {
+              @Override
+              public void onMessageReceived(String messageBody) {
+                NotificationUtils.handleIncomingNotification(getApplicationContext(),messageBody);
+              }
+              @Override
+              public void onFail(String errorMsg) {
+                  // handle message error here
+              }
+            }
+        ).build();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
   private Uri getDefaultRingtone() {
     return RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
   }

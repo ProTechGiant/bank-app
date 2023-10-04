@@ -2,7 +2,7 @@
 #import <React/RCTEventEmitter.h>
 #import "AppDelegate.h"
 
-@interface RCT_EXTERN_MODULE(T2PushNotificationsModule, NSObject)
+@interface RCT_EXTERN_MODULE(T2PushNotificationsModule, RCTEventEmitter)
   RCT_EXTERN_METHOD(
     registerForNotifications: (RCTPromiseResolveBlock)resolve
     rejecter: (RCTPromiseRejectBlock)reject

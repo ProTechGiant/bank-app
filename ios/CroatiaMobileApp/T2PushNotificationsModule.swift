@@ -26,34 +26,50 @@ class T2PushNotificationsModule: RCTEventEmitter {
       self.registerWithT2Exec(phoneNumber, resolver: resolve, rejecter: reject)
     }
   }
-  
+
   private func registerWithT2Exec(_ phoneNumber: String, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter reject: @escaping RCTPromiseRejectBlock) -> Void {
-     let deviceToken = self.getDeviceToken()
+    let deviceToken = self.getDeviceToken()
 
-     if (deviceToken == nil) {
-       reject("T2PushNotificationsModule", "Cannot register with T2 without a device token available", nil)
-     } else {
-       RiCHService().registerDevice(
-         token: deviceToken!,
-         deviceID: UUID().uuidString,
-         imeI1: UUID().uuidString,
-         imeI2: "",
-         mobileNumber: phoneNumber,
-         provider: .APNS
-       ) { result in
-         switch result {
-         case .success:
-           resolve([true])
+    if (deviceToken == nil) {
+      reject("T2PushNotificationsModule", "Cannot register with T2 without a device token available", nil)
+    } else {
+      RiCHService().registerDevice(
+        token: deviceToken!,
+        deviceID: deviceToken!,
+        imeI1: UUID().uuidString,
+        imeI2: "",
+        mobileNumber: phoneNumber,
+        provider: .APNS
+      ) { result in
+        switch result {
+        case .success:
+          resolve([true])
 
-         case .failure (let error):
-           reject("T2PushNotificationsModule", "Cannot register with T2", error)
-         }
-       }
-     }
+        case .failure (let error):
+          reject("T2PushNotificationsModule", "Cannot register with T2", error)
+        }
+      }
+    }
   }
 
   override func supportedEvents() -> [String] {
-    return []
+    return ["notificationTapped", "notificationReceived"]
+  }
+
+  @objc
+  func sendNotificationTappedEvent(_ notificationContent: NSDictionary) {
+    if let appWasClosed = notificationContent["appWasClosed"] as? Bool, appWasClosed {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        self.sendEvent(withName: "notificationTapped", body: notificationContent)
+      }
+    } else {
+      self.sendEvent(withName: "notificationTapped", body: notificationContent)
+    }
+  }
+
+  @objc
+  func sendNotificationReceivedEvent(_ notificationContent: NSDictionary) {
+    sendEvent(withName: "notificationReceived", body: notificationContent)
   }
 
   override static func requiresMainQueueSetup() -> Bool {

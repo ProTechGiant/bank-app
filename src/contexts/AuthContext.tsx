@@ -5,6 +5,12 @@ import { setAuthenticationHeaders } from "@/api/send-api-request";
 import { USER_ID } from "@/constants";
 import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
+interface NavigationTargetType {
+  stack: string;
+  screen: string;
+  params?: unknown;
+  appWasClosed?: boolean;
+}
 interface AuthContextProps {
   authenticate: (userId: string, authToken?: string) => void; // TODO: We will make "authToken" a required field once we begin implementing authentication based on the authToken.
   authenticateAnonymously: (userId: string, authToken?: string) => void;
@@ -18,6 +24,8 @@ interface AuthContextProps {
   logout: (stillPersistTheRegisteredUser?: boolean) => void;
   isUserLocked: boolean;
   notificationsReadStatus: boolean;
+  navigationTarget: NavigationTargetType | null;
+  updateNavigationTarget: (value: NavigationTargetType) => void;
   setNotificationsReadStatus: (value: boolean) => void; // TODO will be  called inside EventListener which fired based on user clicks on notification
 }
 
@@ -37,8 +45,10 @@ const AuthContext = createContext<AuthContextProps>({
   logout: () => noop,
   isUserLocked: false,
   setAuthToken: noop,
-  notificationsReadStatus: false,
+  notificationsReadStatus: true,
   setNotificationsReadStatus: noop,
+  updateNavigationTarget: noop,
+  navigationTarget: null,
 });
 
 export function AuthContextProvider({ children }: React.PropsWithChildren) {
@@ -54,6 +64,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     authToken: undefined,
     phoneNumber: undefined,
     isUserLocked: false,
+    notificationsReadStatus: true,
   });
 
   useEffect(() => {
@@ -107,6 +118,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       authToken: undefined,
       phoneNumber: undefined,
       isUserLocked: false,
+      notificationsReadStatus: true,
     });
 
     setAuthenticationHeaders({
@@ -158,6 +170,10 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     setState({ ...state, notificationsReadStatus: status });
   };
 
+  const updateNavigationTargetHandler = (navigationTarget: NavigationTargetType | null) => {
+    setState({ ...state, navigationTarget: navigationTarget });
+  };
+
   const contextValue = useMemo(
     () => ({
       ...state,
@@ -167,6 +183,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       updatePhoneNumber: handleOnUpdatePhoneNumber,
       setAuthToken: setAuthToken,
       setNotificationsReadStatus: handleonNotificationRead,
+      updateNavigationTarget: updateNavigationTargetHandler,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state]

@@ -5,8 +5,9 @@
 #import <React/RCTConvert.h>
 #import "RNBootSplash.h"
 #import <RNAppsFlyer.h>
+#import <UserNotifications/UserNotifications.h>
 
-#import "CroatiaMobileApp-Bridging-Header.h"
+#import "CroatiaMobileApp-Swift.h"
 
 // Deletes all Keychain items accessible by this app if this is the first time the user launches the app
 static void ClearKeychainIfNecessary() {
@@ -34,6 +35,10 @@ static void ClearKeychainIfNecessary() {
     }
 }
 
+@interface AppDelegate() <UNUserNotificationCenterDelegate>
+
+@end
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -48,7 +53,60 @@ static void ClearKeychainIfNecessary() {
   [super application:application didFinishLaunchingWithOptions:launchOptions];
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:self.window.rootViewController.view];
 
+  [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+
+    // Check if the app was launched due to a notification
+    if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+        NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+        NSString *stack = notificationPayload[@"stack"];
+        NSString *screen = notificationPayload[@"screen"];
+        NSString *params = notificationPayload[@"params"];
+        NSDictionary *notificationContent = @{
+          @"stack": stack,
+          @"screen": screen,
+          @"params": params,
+          @"appWasClosed": @YES
+        };
+    RCTBridge *bridge = ((AppDelegate *)UIApplication.sharedApplication.delegate).bridge;
+    T2PushNotificationsModule *notificationsModule = [bridge moduleForClass:[T2PushNotificationsModule class]];
+    [notificationsModule sendNotificationTappedEvent:notificationContent];
+  }
   return YES;
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
+{
+  RCTBridge *bridge = ((AppDelegate *)UIApplication.sharedApplication.delegate).bridge;
+  T2PushNotificationsModule *notificationsModule = [bridge moduleForClass:[T2PushNotificationsModule class]];
+  NSDictionary *notificationContent = @{
+    @"title": notification.request.content.title,
+    @"body": notification.request.content.body
+  }; 
+
+  [notificationsModule sendNotificationReceivedEvent:notificationContent];
+  completionHandler(UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionSound | UNNotificationPresentationOptionBadge);
+}
+
+// Handle notification when app is in background or terminated
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
+{
+  if ([response.actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
+    NSDictionary *userInfo = response.notification.request.content.userInfo;
+    NSString *stack = userInfo[@"stack"];
+    NSString *screen = userInfo[@"screen"];
+    NSString *params = userInfo[@"params"];
+
+    RCTBridge *bridge = ((AppDelegate *)UIApplication.sharedApplication.delegate).bridge;
+    T2PushNotificationsModule *notificationsModule = [bridge moduleForClass:[T2PushNotificationsModule class]];
+    NSDictionary *notificationContent = @{
+      @"stack": stack,
+      @"screen": screen,
+      @"params": params,
+      @"appWasClosed": @NO
+    };
+    [notificationsModule sendNotificationTappedEvent:notificationContent];
+    completionHandler();
+  }
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

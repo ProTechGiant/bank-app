@@ -1,7 +1,8 @@
 #import <RCTAppDelegate.h>
 #import <UIKit/UIKit.h>
+#import <UserNotifications/UserNotifications.h>
 
-@interface AppDelegate : RCTAppDelegate
+@interface AppDelegate : RCTAppDelegate <UNUserNotificationCenterDelegate>
 
 @property NSString * _Nullable deviceToken;
 @property _Nullable RCTPromiseRejectBlock registerPromiseRejecter;

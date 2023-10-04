@@ -114,6 +114,12 @@ export default function PasscodeScreen() {
       removeItemFromEncryptedStorage("tempUser");
     }
     auth.authenticate(auth.userId ?? "", accessToken);
+    if (auth.navigationTarget) {
+      const { stack, screen } = auth.navigationTarget;
+      setImmediate(() => {
+        navigation.navigate(stack, { screen }); // TODO will add params later navigation.navigate(stack, { screen , param });
+      });
+    }
   };
 
   const handleUserLogin = async (isNewUser: boolean) => {

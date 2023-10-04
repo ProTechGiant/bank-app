@@ -200,6 +200,7 @@ dependencies {
   }
 
   // T2 RiCH & dependencies
+  implementation 'com.google.code.gson:gson:2.10.1'
   implementation files("vendor/RichNotifySDK-release.aar")
   implementation platform('com.google.firebase:firebase-bom:31.3.0')
   implementation('com.google.firebase:firebase-messaging-ktx:23.1.2')

@@ -12,6 +12,7 @@ import com.croatiamobileapp.R;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
@@ -20,10 +21,12 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import com.t2.t2notifysdk.ClientListener;
+import com.t2.t2notifysdk.ClientMessageListener;
 import com.t2.t2notifysdk.Notify;
 import com.t2.t2notifysdk.data.ApiConfig;
 import com.t2.t2notifysdk.data.ProviderType;
 import com.t2.t2notifysdk.notification.NotificationManagerSDK;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.util.Objects;
 
@@ -81,7 +84,19 @@ public class T2PushNotificationsModule extends ReactContextBaseJavaModule {
           true, // enable sound
           false, // enable "Open" action
           null,
-          getDefaultRingtone()).build()
+          getDefaultRingtone()).build(),
+          true ,
+          new ClientMessageListener() {
+            @Override
+            public void onMessageReceived(String message) {
+              sendEvent(getReactApplicationContext(),"notificationReceived",message);
+              Log.e("T2NotificationsModule", "New Message has been recieved" + message);
+              NotificationUtils.handleIncomingNotification(getReactApplicationContext(),message);
+            }
+            @Override
+            public void onFail(String errorMsg) {
+              Log.e("T2NotificationsModule", "Failed to Listen to messages" + errorMsg);
+            }}
       ).build();
       notify=Notify.Companion.getINSTANCE();
       notify.register(phoneNumber, true, true, new ClientListener() {
@@ -103,5 +118,9 @@ public class T2PushNotificationsModule extends ReactContextBaseJavaModule {
 
   private Uri getDefaultRingtone() {
     return RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+  }
+
+  public static void sendEvent(ReactContext reactContext, String eventName, String params) {
+    reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, params);
   }
 }
