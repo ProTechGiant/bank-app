@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AddMoneyStack from "@/features/AddMoney/AddMoneyStack";
+import AllInCardStack from "@/features/AllInOneCard/AllInOneCardStack";
 import AppreciationStack from "@/features/Appreciation/AppreciationStack";
 import CardActionsStack from "@/features/CardActions/CardActionsStack";
 import DocumentsStack from "@/features/Documents/DocumentsStack";
@@ -104,6 +105,7 @@ export const AuthenticatedScreens = () => {
         name="FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack"
       />
       <AuthStack.Screen component={ProxyAliasStack} name="ProxyAlias.ProxyAliasStack" />
+      <AuthStack.Screen component={AllInCardStack} name="AllInOneCard.AllInOneCardStack" />
     </AuthStack.Navigator>
   );
 };

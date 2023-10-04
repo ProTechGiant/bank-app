@@ -195,6 +195,13 @@ export default function TemporaryLandingScreen() {
     });
   };
 
+  const handleAllInOneCard = async (values: TemporaryForm) => {
+    auth.authenticate(values.UserId);
+    setImmediate(() => {
+      navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.Dashboard" });
+    });
+  };
+
   const handleOnGoalGetter = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     setImmediate(() => {
@@ -261,6 +268,9 @@ export default function TemporaryLandingScreen() {
           />
         </Stack>
         {/* Implemented for testing, navigate from temp landing screen to goal getter dashboard screen */}
+        <View style={styles.margin20}>
+          <Button onPress={handleSubmit(handleAllInOneCard)}>All In One Card</Button>
+        </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnGoalGetter)}>Goal Getter</Button>
         </View>

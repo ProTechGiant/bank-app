@@ -1,4 +1,5 @@
 import { AddMoneyStackParams } from "@/features/AddMoney/AddMoneyStack";
+import { AllInOneCardParams } from "@/features/AllInOneCard/AllInOneCardStack";
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
 import { DocumentsStackParams } from "@/features/Documents/DocumentsStack";
 import { FrequentlyAskedQuestionsStackParams } from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
@@ -125,6 +126,11 @@ type RootStackParams = {
   "Notifications.NotificationsStack":
     | {
         screen: keyof NotificationsStackParams;
+      }
+    | undefined;
+  "AllInOneCard.AllInOneCardStack":
+    | {
+        screen: keyof AllInOneCardParams;
       }
     | undefined;
 };
