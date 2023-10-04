@@ -12,6 +12,7 @@ import DetailedScreen from "@/features/FrequentlyAskedQuestions/screens/Detailed
 import SectionScreen from "@/features/FrequentlyAskedQuestions/screens/SectionScreen";
 import GoalGetterStack from "@/features/GoalGetter/GoalGetterStack";
 import { GoalDashboardScreen } from "@/features/GoalGetter/screens";
+import GoldWalletStack from "@/features/GoldWallet/GoldWalletStack";
 import HelpAndSupportStack from "@/features/HelpAndSupport/HelpAndSupportStack";
 import HomeTabs from "@/features/Home/HomeTabs";
 import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfersStack";
@@ -117,6 +118,7 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen component={ProxyAliasStack} name="ProxyAlias.ProxyAliasStack" />
       <AuthStack.Screen component={OpenBankingStack} name="OpenBanking.OpenBankingStack" />
       <AuthStack.Screen component={AllInCardStack} name="AllInOneCard.AllInOneCardStack" />
+      <AuthStack.Screen component={GoldWalletStack} name="GoldWallet.GoldWalletStack" />
     </AuthStack.Navigator>
   );
 };

@@ -3446,6 +3446,11 @@
       "loadMore": "load more"
     }
   },
+  "GoldWallet":{
+    "TermsAndConditionsModal": {
+      "title": "Terms and conditions"
+    }
+  },
   "MutualFund": {
     "EntryPointScreen": {
       "title": "EntryPoint"

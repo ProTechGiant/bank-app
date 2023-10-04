@@ -3318,6 +3318,11 @@
       "loadMore": "تحميل المزيد"
     }
   },
+  "GoldWallet":{
+    "TermsAndConditionsModal": {
+      "title": "Terms and conditions"
+    }
+  },
   "MutualFund": {
     "EntryPointScreen": {
       "title": "نقطة البداية"

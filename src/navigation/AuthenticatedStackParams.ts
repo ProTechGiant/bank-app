@@ -4,6 +4,7 @@ import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack"
 import { DocumentsStackParams } from "@/features/Documents/DocumentsStack";
 import { FrequentlyAskedQuestionsStackParams } from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
 import { GoalGetterStackParams } from "@/features/GoalGetter/GoalGetterStack";
+import { GoldWalletStackParams } from "@/features/GoldWallet/GoldWalletStack";
 import { HelpAndSupportStackParams } from "@/features/HelpAndSupport/HelpAndSupportStack";
 import { HomeStackParams } from "@/features/Home/HomeStack";
 import { BottomTabParamList } from "@/features/Home/HomeTabs";
@@ -136,6 +137,7 @@ type RootStackParams = {
         screen: keyof AllInOneCardParams;
       }
     | undefined;
+  "GoldWallet.GoldWalletStack": undefined;
 };
 
 type AuthenticatedStackParams = RootStackParams &
@@ -161,6 +163,7 @@ type AuthenticatedStackParams = RootStackParams &
   AppreciationStackParams &
   NotificationsStackParams &
   MutualFundStackParams &
-  BottomTabParamList;
+  BottomTabParamList &
+  GoldWalletStackParams;
 
 export default AuthenticatedStackParams;
