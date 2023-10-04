@@ -1454,6 +1454,292 @@
     "titleThree": "المكافأة للطرفين",
     "subTextThree": "مرسل ومُستقبِل الدعوة راح يحصلون على مكافأة 15 ريال سعودي. وعملاء فئة بلس 25 ريال سعودي عن كل دعوة."
   },
+  "SavingsGoals": {
+    "Account": {
+      "from": "From",
+      "to": "To",
+      "mainAccount": "Main account"
+    },
+    "PermissionAlertModal": {
+      "nativeTitle": "تم تعطيل الإشعارات",
+      "nativeSubtitle": "هل ترغب في تفعيل الإشعارات؟",
+      "back": "إلغاء",
+      "settings": "تفعيل",
+      "appTitle": "تم تعطيل الإشعارات العالمية لديك",
+      "appSubtitle": "هل ترغب في تفعيل الإشعارات العالمية؟"
+    },
+    "LandingScreen": {
+      "success": {
+        "title": "Welcome\n \"{{userName}}\"",
+        "bannerMessage": "Your account was successfully created!"
+      },
+      "failed": {
+        "title": "Unfortunately, we can’t create an account for you",
+        "subtitle": "If you have any concerns, please contact XXXXXXX."
+      },
+      "pending": {
+        "title": "You're on your way\n \"{{userName}}\"",
+        "bannerMessage": "We’re completing your account setup ",
+        "accountChecks": {
+          "identity": "Confirm your identity",
+          "checks": "Running additional checks",
+          "creatingAccount": "Creating your account"
+        },
+        "footerMessage": "It can take up to X days for us to finalise this process. An SMS will be sent to you when your account has been created."
+      },
+      "buttons": {
+        "FinishLater": "Finish Later"
+      }
+    },
+    "InstructionsScreen": {
+      "skip": "Skip",
+      "nextButton": "Next",
+      "setGoalButton": "Set a goal",
+      "titleOne": "Where to next?",
+      "subTextOne": "What are the hopes and dreams you want to realise? Think big. Think small. Then let’s get to work together to make them happen.",
+      "titleTwo": "Use Goals to succeed",
+      "subTextTwo": "Use ‘Your Goals’ to make a record of what you want achieve and when. We’ll make it as easy as possible for you meet and surpass your targets.",
+      "titleThree": "Celebrate the wins",
+      "subTextThree": "That ‘Goal completed’ feeling is unbeatable! And we’ll be there to play back your achievement, and encourage you to embrace what’s next."
+    },
+    "SavingsGoalsScreen": {
+      "navTitle": "Savings Goals",
+      "goalCard": {
+        "amount": "{{amountSaved}} of {{totalAmount}} SAR"
+      },
+      "title": "Your goals",
+      "maxGoalsTitle": "Your Saving Goals",
+      "text": "Dream big or start small. They’re your goals and it’s your future - make it happen!",
+      "button": "Set new Goal",
+      "instructionText": "You can set a total of 4 goals.",
+      "notifications": {
+        "goalClosed": "Your goal has been closed."
+      }
+    },
+    "GoalDetailsScreen": {
+      "GoalDetailsHeader": {
+        "currency": "SAR",
+        "targetAmountDetails": "of {{TargetAmount}} SAR",
+        "targetDate": "Target date: {{TargetDate}}"
+      },
+      "Payments": {
+        "title": "Automatic payments"
+      },
+      "RegularPayment": {
+        "titleAddRegular": "Add a regular payment",
+        "titleExistingRegular": "Regular payment",
+        "text": "{{amount}} {{currency}} on {{day}} of the month",
+        "day_one": "{{count}}st",
+        "day_two": "{{count}}nd",
+        "day_few": "{{count}}rd",
+        "day_other": "{{count}}th"
+      },
+      "Transactions": {
+        "title": "Latest Transactions",
+        "seeAll": "See more",
+        "showPayments": "We'll show payments into and out of your goal here, as soon as you have any."
+      },
+      "AllTransactions": {
+        "today": "Today",
+        "yesterday": "Yesterday",
+        "balance": "Balance",
+        "roundUp": "Round up"
+      },
+      "RoundUp": "Round-ups",
+      "InfoModal": {
+        "title": "About round-ups",
+        "text": "Round-up every purchase to the nearest 5 SAR. The extra will go towards your choice of goal."
+      },
+      "GoalAlmostReachedModal": {
+        "title": "Are you sure you want to withdraw money?",
+        "message": "You’re only {{amount}} SAR away from your goal – and withdrawing money will move you further away.",
+        "withdrawButton": "Withdraw",
+        "cancelButton": "Cancel"
+      },
+      "RoundUpAlreadyActiveModal": {
+        "title": "Turn on round-ups for this goal?",
+        "message": "You’re already using round-ups for another goal. Do you want to switch to this one?",
+        "switchRoundUpButton": "Switch",
+        "cancelButton": "Don’t switch"
+      },
+      "ActionButtons": {
+        "withdrawButton": "Withdraw",
+        "addMoneyButton": "Add money"
+      }
+    },
+    "CreateGoalScreen": {
+      "title": "Goal details",
+      "form": {
+        "name": {
+          "label": "Goal name",
+          "placeholder": "Name",
+          "validation": {
+            "required": "Your goal needs a name*",
+            "invalid": "Please avoid special characters"
+          }
+        },
+        "amount": {
+          "label": "Goal amount",
+          "placeholder": "0 SAR",
+          "currency": "SAR",
+          "validation": {
+            "required": "Your goal needs an amount*",
+            "invalid": "The maximum amount is 9,999,999,999.99 SAR",
+            "positive": "Please use only positive numbers"
+          }
+        },
+        "targetDate": {
+          "label": "Complete by",
+          "headerText": "Complete by",
+          "openDatePickerButton": "Pick date",
+          "datePickerButton": "Pick date",
+          "validation": {
+            "required": "Required*"
+          },
+          "helperText": "Your date isn't very far away. Think about whether this is enough time to save for your goal."
+        },
+        "roundUps": {
+          "label": "Turn on round-ups",
+          "helperText": "For this goal only"
+        },
+        "notification": {
+          "label": "Turn on notifications",
+          "helperText": "For this goal only"
+        }
+      },
+      "roundUpsAlreadyActiveAlert": {
+        "title": "Turn on Round-Ups for this saving goal?",
+        "message": "Round-ups is already turned on for an other saving goal. Do you want to switch to this one?",
+        "dontSwitch": "Don't switch",
+        "switch": "Switch"
+      },
+      "notificationsTurnOnAlert": {
+        "title": "Notifications are disabled",
+        "message": "Would you like to turn on notifications?",
+        "cancel": "Cancel",
+        "turnOn": "Turn on"
+      },
+      "aboutRoundUpsPanel": {
+        "title": "About round-ups",
+        "content": "Round up every purchase to the nearest 5 SAR. The extra will go towards your choice of goal.",
+        "smallText": "For more details visit FAQs"
+      },
+      "button": "Continue"
+    },
+    "EditGoalScreen": {
+      "save": "Save",
+      "notifications": {
+        "label": "Turn on notifications",
+        "helperText": "Only for this goal"
+      },
+      "closeGoal": "Close goal",
+      "modal": {
+        "title": "Are you sure you want to close this goal?",
+        "content": "The money in this goal will go back into your main account",
+        "buttons": {
+          "confirm": "Confirm",
+          "cancel": "Cancel"
+        }
+      },
+      "turnOnNotificationsAlert": {
+        "globalNotificationsTitle": "Notifications are disabled",
+        "globalNotificationsMessage": "Would you like to turn on notifications?",
+        "globalSavingsGoalNotificationsTitle": "Your global notifications are disabled",
+        "globalSavingsGoalNotificationsMessage": "Would you like to turn on global notifications?",
+        "alertButtonCancel": "Cancel",
+        "alertButtonTurnOn": "Turn on"
+      }
+    },
+    "FundGoalModal": {
+      "goalCreatedBanner": "Your goal has been created",
+      "PickFundingMethodStep": {
+        "title": "How will you meet your goal?",
+        "subText": "Regular payments help bring your goal closer to reality. ",
+        "recommended": {
+          "title": "Recommended monthly amount",
+          "amount": "{{amount}} SAR / month"
+        },
+        "custom": {
+          "title": "Custom",
+          "regularPayments": "Regular Payments",
+          "oneOffPayment": "One-off payment"
+        },
+        "notNow": "Not Now"
+      },
+      "FundingStep": {
+        "amountExceedsBalance": "You don't have enough money in your account",
+        "monthly": "Monthly",
+        "dayPickerHeader": "Set a date",
+        "dayPickerButton": "Set",
+        "dayPickerPlaceholder": "Set",
+        "helperIfDayExceeds28": "If a month is too short for your date to exist, the payment will happen on the last day of the month.",
+        "helperIfDayIsAfterTarget": "Your date isn't very far away. Think about whether this is enough time to save for your goal.",
+        "continueButton": "Continue",
+        "regularPayments": {
+          "title": "Regular payments",
+          "modalTitle": "You have created a regular payment",
+          "modalText": "Your next payment will be {{amount}} SAR on {{firstPaymentDate}}.",
+          "continueButton": "Add one-off payment",
+          "skipButton": "Skip"
+        },
+        "oneOffPayment": {
+          "title": "One-off payment",
+          "modalTitle": "You sent a one-off payment",
+          "modalText": "{{amount}} SAR has been added to your goal.",
+          "continueButton": "Set up regular payment",
+          "skipButton": "Skip"
+        },
+        "errorTryAgain": "Try again",
+        "errorNotNow": "Not now"
+      }
+    },
+    "EditRegularPaymentModal": {
+      "amountExceedsBalance": "Amount is more than your balance",
+      "required": "Required",
+      "monthly": "Monthly",
+      "dayPickerHeader": "Select a date",
+      "dayPickerButton": "Set",
+      "dayPickerPlaceholder": "Set",
+      "helperIfDayExceeds28": "If a month is too short for your date to exist, the payment will happen on the last day of the month.",
+      "helperIfDayIsAfterTarget": "That's too late for your target date.\nYou might want to start your payments sooner.",
+      "continueButton": "Continue",
+      "title": "Edit regular payment",
+      "modalTitle": "You have edited a regular payment",
+      "modalText": "Your next payment will be {{amount}} SAR on {{firstPaymentDate}}.",
+      "saveButton": "Save",
+      "removeButton": "Remove regular payment",
+      "errorTryAgain": "Try again",
+      "errorNotNow": "Not now",
+      "removeBanner": "Your regular payment has been removed.",
+      "removalModal": {
+        "title": "Are you sure you want to remove this payment?",
+        "message": "If you remove it, no more automatic payments will happen. You can set up a new regular payment at any time.",
+        "confirmButton": "Remove",
+        "cancelButton": "Cancel"
+      }
+    },
+    "WithdrawModal": {
+      "title": "Withdraw from goal",
+      "WithdrawButton": "Withdraw",
+      "amountExceedsBalance": "Amount is more than your goal balance",
+      "zeroAmountError": "Amount must be greater than 0.01",
+      "successfulWithdrawal": {
+        "title": "You've withdrawn {{amount}} SAR",
+        "text": "It's been added to your main account."
+      },
+      "errors": {
+        "title": "We’re sorry - something has gone wrong",
+        "text": "No funds have been withdrawn, please try again later."
+      },
+      "buttons": {
+        "tryAgainButton": "Try again",
+        "cancelWithdrawalButton": "Cancel withdrawal"
+      }
+    },
+    "EditModal": {
+      "title": "Edit goal"
+    }
+  },
   "SavingsGoalsScreen": {
     "navTitle": "أهداف الادخار"
   },

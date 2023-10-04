@@ -1658,6 +1658,14 @@
       "to": "To",
       "mainAccount": "Main account"
     },
+    "PermissionAlertModal": {
+      "nativeTitle": "Notifications are disabled",
+      "nativeSubtitle": "Would you like to turn on notifications?",
+      "back": "Cancel", 
+      "settings": "Turn on",
+      "appTitle": "Your global notifications are disabled",
+      "appSubtitle": "Would you like to turn on global notifications?"
+    },
     "LandingScreen": {
       "success": {
         "title": "Welcome\n \"{{userName}}\"",

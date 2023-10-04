@@ -4,12 +4,13 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import api from "@/api";
 import { generateRandomId } from "@/utils";
 
-import { CreateGoalInput, SavingsPot, SavingsPotDetailsResponse } from "../types";
+import { CreateGoalInput, NotificationPreferencesResponse, SavingsPot, SavingsPotDetailsResponse } from "../types";
 
 const queryKeys = {
   all: ["savings-pots"] as const,
   roundupActive: () => [...queryKeys.all, "roundup-active"] as const,
   details: (PotId: string) => [...queryKeys.all, PotId] as const,
+  notificationPreferencesFlag: "notificationPreferencesFlag" as const,
   recurringPayments: (PotId: string) => [...queryKeys.all, PotId, "recurring-payments"] as const,
 };
 
@@ -46,6 +47,21 @@ export function useCreateGoal() {
       },
     }
   );
+}
+
+export function useSGNotificationPreferences() {
+  return useQuery(queryKeys.notificationPreferencesFlag, () => {
+    return api<NotificationPreferencesResponse>(
+      "v1",
+      `customers/savings-pots/notification-preferences`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        "X-Correlation-ID": generateRandomId(),
+      }
+    );
+  });
 }
 
 interface RoundUpActiveResponse {

@@ -1,24 +1,23 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { differenceInDays } from "date-fns";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Alert, Linking, Pressable, StyleSheet, View } from "react-native";
+import { checkNotifications } from "react-native-permissions";
 import * as Yup from "yup";
 
-import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import CurrencyInput from "@/components/Form/CurrencyInput";
 import DatePickerInput from "@/components/Form/DatePickerInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
 import List from "@/components/List";
-import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { alphaNumericSpaceRegExp } from "@/utils";
 
-import TurnOnNotificationsIcon from "../assets/NotificationsIcon";
+import { useSGNotificationPreferences } from "../hooks/query-hooks";
 import { EditGoalInput, SavingsPotDetailsResponse } from "../types";
 
 interface EditSavingsGoalFormProps {
@@ -30,12 +29,7 @@ interface EditSavingsGoalFormProps {
 export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSavingsGoalFormProps) {
   const { t } = useTranslation();
 
-  //Todo: these are static value to handle case of PC-5429, values will be replace from context.
-  const [isGlobalNotificationsOn, setIsGlobalNotificationsOn] = useState(true);
-  const [isGlobalSavingsNotificationsOn, setIsGlobalSavingsNotificationsOn] = useState(false);
-  const [isNotificationToggleOn, setIsNotificationToggleOn] = useState(false);
-  const [notificationTitle, setNotificationTitle] = useState<string | undefined>();
-  const [notificationMessage, setNotificationMessage] = useState<string | undefined>();
+  const { data: notificationPreferences } = useSGNotificationPreferences();
 
   const validationSchema = useMemo(
     () =>
@@ -68,32 +62,52 @@ export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSav
 
   const notificationToggleFlag = watch("NotificationFlag");
 
-  const handleOnNotificationToggleSwitch = () => {
-    // handling AC2 case of PC-5429
-    if (isGlobalNotificationsOn && !isGlobalSavingsNotificationsOn && !notificationToggleFlag) {
-      setNotificationTitle(
-        t("SavingsGoals.EditGoalScreen.turnOnNotificationsAlert.globalSavingsGoalNotificationsTitle")
+  const handleOnNotificationToggleSwitch = async () => {
+    const notificationPermission = await checkNotifications();
+    //TODO: ALERTS WILL BE REPLACED BY NOTIFICATION MODAL ONCE WE WILL HAVE UPDATED DESIGNS
+    if (notificationPermission.status !== "granted") {
+      Alert.alert(
+        t("SavingsGoals.PermissionAlertModal.nativeTitle"),
+        t("SavingsGoals.PermissionAlertModal.nativeSubtitle"),
+        [
+          {
+            text: t("SavingsGoals.PermissionAlertModal.back"),
+            style: "cancel",
+            onPress: () => null,
+          },
+          {
+            text: t("SavingsGoals.PermissionAlertModal.settings"),
+            onPress: () => {
+              Linking.openSettings().then;
+            },
+          },
+        ]
       );
-      setNotificationMessage(
-        t("SavingsGoals.EditGoalScreen.turnOnNotificationsAlert.globalSavingsGoalNotificationsMessage")
-      );
-      setIsNotificationToggleOn(true);
+      return;
     }
-    // handling AC3 case of PC-5429
-    else if (!isGlobalNotificationsOn && !isGlobalSavingsNotificationsOn && !notificationToggleFlag) {
-      setNotificationTitle(t("SavingsGoals.EditGoalScreen.turnOnNotificationsAlert.globalNotificationsTitle"));
-      setNotificationMessage(t("SavingsGoals.EditGoalScreen.turnOnNotificationsAlert.globalNotificationsMessage"));
-      setIsNotificationToggleOn(true);
+
+    if (notificationPreferences?.NotificationPreferencesFlag && notificationToggleFlag) {
+      setValue("NotificationFlag", false);
+    } else if (notificationPreferences?.NotificationPreferencesFlag && !notificationToggleFlag) {
+      setValue("NotificationFlag", true);
     } else {
-      setToggleValue();
+      Alert.alert(t("SavingsGoals.PermissionAlertModal.appTitle"), t("SavingsGoals.PermissionAlertModal.appSubtitle"), [
+        {
+          text: t("SavingsGoals.PermissionAlertModal.back"),
+          style: "cancel",
+          onPress: () => null,
+        },
+        {
+          text: t("SavingsGoals.PermissionAlertModal.settings"),
+          onPress: () => {
+            handleNotificationsAlertAction();
+          },
+        },
+      ]);
     }
   };
 
   const handleNotificationsAlertAction = () => {
-    //Todo: these are static value to handle cases of PC-5429, need to update it with the API.
-    setIsGlobalSavingsNotificationsOn(true);
-    setIsGlobalNotificationsOn(true);
-    setIsNotificationToggleOn(false);
     setToggleValue();
   };
 
@@ -162,31 +176,6 @@ export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSav
           </Typography.Text>
         </Pressable>
       </View>
-      {notificationMessage !== undefined && notificationTitle !== undefined ? (
-        <NotificationModal
-          variant="confirmations"
-          icon={<TurnOnNotificationsIcon />}
-          buttons={{
-            primary: (
-              <Button
-                onPress={handleNotificationsAlertAction}
-                testID="SavingsGoals.EditGoalModal:NotificationsActiveButton">
-                {t("SavingsGoals.EditGoalScreen.turnOnNotificationsAlert.alertButtonTurnOn")}
-              </Button>
-            ),
-            secondary: (
-              <Button
-                onPress={() => setIsNotificationToggleOn(current => !current)}
-                testID="SavingsGoals.EditGoalModal:NotificationsCancelButton">
-                {t("SavingsGoals.EditGoalScreen.turnOnNotificationsAlert.alertButtonCancel")}
-              </Button>
-            ),
-          }}
-          message={notificationMessage}
-          title={notificationTitle}
-          isVisible={isNotificationToggleOn}
-        />
-      ) : null}
     </ContentContainer>
   );
 }

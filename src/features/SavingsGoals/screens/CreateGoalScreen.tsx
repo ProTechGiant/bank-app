@@ -3,7 +3,8 @@ import { differenceInDays } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Linking, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { checkNotifications } from "react-native-permissions";
 import * as Yup from "yup";
 
 import { QuestionIcon } from "@/assets/icons";
@@ -25,9 +26,8 @@ import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 import { alphaNumericSpaceRegExp } from "@/utils";
 
-import TurnOnNotificationsIcon from "../assets/NotificationsIcon";
 import RoundUpsIcon from "../assets/round-ups";
-import { useCreateGoal, useRoundupFlag } from "../hooks/query-hooks";
+import { useCreateGoal, useRoundupFlag, useSGNotificationPreferences } from "../hooks/query-hooks";
 import { CreateGoalInput } from "../types";
 
 export default function CreateGoalScreen() {
@@ -35,8 +35,7 @@ export default function CreateGoalScreen() {
   const { t } = useTranslation();
   const createGoalAsync = useCreateGoal();
   const { data } = useRoundupFlag();
-
-  const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
+  const { data: notificationPreferences } = useSGNotificationPreferences();
   const [isRoundUpsModalVisible, setIsRoundUpsModalVisible] = useState(false);
 
   const validationSchema = useMemo(
@@ -75,11 +74,50 @@ export default function CreateGoalScreen() {
     setIsRoundUpsModalVisible(true);
   }, [RoundupFlag, t, data, setValue]);
 
-  const handleOnNotificationPress = () => {
-    if (NotificationFlag) {
+  const handleOnNotificationPress = async () => {
+    const notificationPermission = await checkNotifications();
+
+    //TODO: ALERTS WILL BE REPLACED BY NOTIFICATION MODAL ONCE WE WILL HAVE UPDATED DESIGNS
+    if (notificationPermission.status !== "granted") {
+      Alert.alert(
+        t("SavingsGoals.PermissionAlertModal.nativeTitle"),
+        t("SavingsGoals.PermissionAlertModal.nativeSubtitle"),
+        [
+          {
+            text: t("SavingsGoals.PermissionAlertModal.back"),
+            style: "cancel",
+            onPress: () => null,
+          },
+          {
+            text: t("SavingsGoals.PermissionAlertModal.settings"),
+            onPress: () => {
+              Linking.openSettings().then;
+            },
+          },
+        ]
+      );
+      //if permissions are not granted we are not going to execute the other code
+      return;
+    }
+
+    if (notificationPreferences?.NotificationPreferencesFlag && NotificationFlag) {
       setValue("NotificationFlag", false);
+    } else if (notificationPreferences?.NotificationPreferencesFlag && !NotificationFlag) {
+      setValue("NotificationFlag", true);
     } else {
-      setIsNotificationModalVisible(true);
+      Alert.alert(t("SavingsGoals.PermissionAlertModal.appTitle"), t("SavingsGoals.PermissionAlertModal.appSubtitle"), [
+        {
+          text: t("SavingsGoals.PermissionAlertModal.back"),
+          style: "cancel",
+          onPress: () => null,
+        },
+        {
+          text: t("SavingsGoals.PermissionAlertModal.settings"),
+          onPress: () => {
+            handleTurnOnNotificationFlag();
+          },
+        },
+      ]);
     }
   };
 
@@ -114,7 +152,6 @@ export default function CreateGoalScreen() {
 
   const handleTurnOnNotificationFlag = () => {
     setValue("NotificationFlag", true);
-    setIsNotificationModalVisible(current => !current);
   };
 
   const handleTurnOffRoundupFlag = () => {
@@ -243,27 +280,6 @@ export default function CreateGoalScreen() {
           </Stack>
         </View>
       </Modal>
-      <NotificationModal
-        variant="confirmations"
-        icon={<TurnOnNotificationsIcon />}
-        message={t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.message")}
-        title={t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.title")}
-        isVisible={isNotificationModalVisible}
-        buttons={{
-          primary: (
-            <Button onPress={handleTurnOnNotificationFlag} testID="SavingsGoals.CreateGoalScreen:TurnOnAlertButton">
-              {t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.turnOn")}
-            </Button>
-          ),
-          secondary: (
-            <Button
-              onPress={() => setIsNotificationModalVisible(current => !current)}
-              testID="SavingsGoals.CreateGoalScreen:CancelAlertButton">
-              {t("SavingsGoals.CreateGoalScreen.notificationsTurnOnAlert.cancel")}
-            </Button>
-          ),
-        }}
-      />
       <NotificationModal
         variant="confirmations"
         icon={<RoundUpsIcon />}

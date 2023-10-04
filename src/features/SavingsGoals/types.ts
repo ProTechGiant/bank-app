@@ -50,6 +50,10 @@ export interface SavingsPotDetailsResponse {
   PotStatus: string;
 }
 
+export interface NotificationPreferencesResponse {
+  NotificationPreferencesFlag: boolean;
+}
+
 export interface SavingGoalTransaction {
   TransactionName: string;
   TransactionDate: number[];
