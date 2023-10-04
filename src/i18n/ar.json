@@ -1456,292 +1456,291 @@
   },
   "SavingsGoals": {
     "Account": {
-      "from": "From",
-      "to": "To",
-      "mainAccount": "Main account"
-    },
-    "PermissionAlertModal": {
-      "nativeTitle": "تم تعطيل الإشعارات",
-      "nativeSubtitle": "هل ترغب في تفعيل الإشعارات؟",
-      "back": "إلغاء",
-      "settings": "تفعيل",
-      "appTitle": "تم تعطيل الإشعارات العالمية لديك",
-      "appSubtitle": "هل ترغب في تفعيل الإشعارات العالمية؟"
+      "from": "من",
+      "to": "إلى",
+      "mainAccount": "الحساب الرئيسي"
     },
     "LandingScreen": {
       "success": {
-        "title": "Welcome\n \"{{userName}}\"",
-        "bannerMessage": "Your account was successfully created!"
+        "title": "مرحبًا\n \"{{userName}}\"",
+        "bannerMessage": "تم إنشاء حسابك بنجاح!"
       },
       "failed": {
-        "title": "Unfortunately, we can’t create an account for you",
-        "subtitle": "If you have any concerns, please contact XXXXXXX."
+        "title": "عذرًا، لا يمكننا إنشاء حساب لك",
+        "subtitle": "إذا كان لديك أي مخاوف، يرجى الاتصال بـ XXXXXXX."
       },
       "pending": {
-        "title": "You're on your way\n \"{{userName}}\"",
-        "bannerMessage": "We’re completing your account setup ",
+        "title": "أنت في الطريق\n \"{{userName}}\"",
+        "bannerMessage": "نحن نكمل إعداد حسابك",
         "accountChecks": {
-          "identity": "Confirm your identity",
-          "checks": "Running additional checks",
-          "creatingAccount": "Creating your account"
+          "identity": "قم بتأكيد هويتك",
+          "checks": "تنفيذ فحوصات إضافية",
+          "creatingAccount": "إنشاء حسابك"
         },
-        "footerMessage": "It can take up to X days for us to finalise this process. An SMS will be sent to you when your account has been created."
+        "footerMessage": "يمكن أن يستغرق الأمر حتى X يومًا لإكمال هذه العملية. سيتم إرسال رسالة نصية إليك عند إنشاء حسابك."
       },
       "buttons": {
-        "FinishLater": "Finish Later"
+        "FinishLater": "انتهِ لاحقًا"
       }
     },
     "InstructionsScreen": {
-      "skip": "Skip",
-      "nextButton": "Next",
-      "setGoalButton": "Set a goal",
-      "titleOne": "Where to next?",
-      "subTextOne": "What are the hopes and dreams you want to realise? Think big. Think small. Then let’s get to work together to make them happen.",
-      "titleTwo": "Use Goals to succeed",
-      "subTextTwo": "Use ‘Your Goals’ to make a record of what you want achieve and when. We’ll make it as easy as possible for you meet and surpass your targets.",
-      "titleThree": "Celebrate the wins",
-      "subTextThree": "That ‘Goal completed’ feeling is unbeatable! And we’ll be there to play back your achievement, and encourage you to embrace what’s next."
+      "skip": "تخطي",
+      "nextButton": "التالي",
+      "setGoalButton": "تعيين هدف",
+      "titleOne": "إلى أين بعد؟",
+      "subTextOne": "ما هي الآمال والأحلام التي ترغب في تحقيقها؟ فكر بشكل كبير. فكر بشكل صغير. ثم دعنا نعمل معًا لتحقيقها.",
+      "titleTwo": "استخدم الأهداف للنجاح",
+      "subTextTwo": "استخدم 'أهدافك' لتسجيل ما تريد تحقيقه ومتى. سنجعل من السهل عليك تحقيق وتجاوز أهدافك.",
+      "titleThree": "احتفل بالانتصارات",
+      "subTextThree": "شعور 'تحقيق الهدف' لا يُقهر! وسنكون هنا لنعيد عرض إنجازك ونشجعك على اعتناق ما هو مقبل."
     },
     "SavingsGoalsScreen": {
-      "navTitle": "Savings Goals",
+      "navTitle": "أهداف التوفير",
       "goalCard": {
-        "amount": "{{amountSaved}} of {{totalAmount}} SAR"
+        "amount": "{{amountSaved}} من {{totalAmount}} ريال سعودي"
       },
-      "title": "Your goals",
-      "maxGoalsTitle": "Your Saving Goals",
-      "text": "Dream big or start small. They’re your goals and it’s your future - make it happen!",
-      "button": "Set new Goal",
-      "instructionText": "You can set a total of 4 goals.",
+      "title": "أهدافك",
+      "maxGoalsTitle": "أهداف التوفير الخاصة بك",
+      "text": "احلم بكبير أو ابدأ بصغير. هذه أهدافك وهذا مستقبلك - اجعلها تتحقق!",
+      "button": "تعيين هدف جديد",
+      "instructionText": "يمكنك تعيين ما يصل إلى 4 أهداف.",
       "notifications": {
-        "goalClosed": "Your goal has been closed."
+        "goalClosed": "تم إغلاق هدفك."
       }
     },
     "GoalDetailsScreen": {
       "GoalDetailsHeader": {
-        "currency": "SAR",
-        "targetAmountDetails": "of {{TargetAmount}} SAR",
-        "targetDate": "Target date: {{TargetDate}}"
+        "currency": "ريال سعودي",
+        "targetAmountDetails": "من {{TargetAmount}} ريال سعودي",
+        "targetDate": "تاريخ الهدف: {{TargetDate}}"
       },
       "Payments": {
-        "title": "Automatic payments"
+        "title": "المدفوعات التلقائية"
+      },
+      "FilterModal": {
+        "title": "تصفية",
+        "type": "نوع العملية",
+        "buttonText": "تعيين",
+        "clearAll": "مسح الكل"
       },
       "RegularPayment": {
-        "titleAddRegular": "Add a regular payment",
-        "titleExistingRegular": "Regular payment",
-        "text": "{{amount}} {{currency}} on {{day}} of the month",
+        "titleAddRegular": "إضافة مدفوعة منتظمة",
+        "titleExistingRegular": "مدفوعة منتظمة",
+        "text": "{{amount}} {{currency}} في {{day}} من الشهر",
         "day_one": "{{count}}st",
         "day_two": "{{count}}nd",
         "day_few": "{{count}}rd",
         "day_other": "{{count}}th"
       },
       "Transactions": {
-        "title": "Latest Transactions",
-        "seeAll": "See more",
-        "showPayments": "We'll show payments into and out of your goal here, as soon as you have any."
+        "title": "أحدث المعاملات",
+        "seeAll": "رؤية المزيد",
+        "showPayments": "سنقوم بعرض المدفوعات إلى ومن حساب هدفك هنا، بمجرد وجود مدفوعات."
       },
       "AllTransactions": {
-        "today": "Today",
-        "yesterday": "Yesterday",
-        "balance": "Balance",
-        "roundUp": "Round up"
+        "filteredBy": "مُصفى بواسطة:",
+        "today": "اليوم",
+        "yesterday": "أمس",
+        "balance": "الرصيد",
+        "roundUp": "تقريب القيمة",
+        "errorTitle": "نأسف، حدث خطأ ما.",
+        "errorMessage": "الرجاء المحاولة مرة أخرى لاحقًا."
       },
-      "RoundUp": "Round-ups",
+      "RoundUp": "تقريب القيمة",
       "InfoModal": {
-        "title": "About round-ups",
-        "text": "Round-up every purchase to the nearest 5 SAR. The extra will go towards your choice of goal."
+        "title": "حول تقريب القيمة",
+        "text": "قم بتقريب قيمة كل عملية شراء إلى أقرب 5 ريالات سعودية. الزيادة ستذهب إلى هدفك الذي اخترته."
       },
       "GoalAlmostReachedModal": {
-        "title": "Are you sure you want to withdraw money?",
-        "message": "You’re only {{amount}} SAR away from your goal – and withdrawing money will move you further away.",
-        "withdrawButton": "Withdraw",
-        "cancelButton": "Cancel"
+        "title": "هل أنت متأكد من رغبتك في سحب الأموال؟",
+        "message": "أنت بحاجة إلى {{amount}} ريال سعودي فقط لتحقيق هدفك - وسحب الأموال سيبعدك أكثر.",
+        "withdrawButton": "سحب",
+        "cancelButton": "إلغاء"
       },
       "RoundUpAlreadyActiveModal": {
-        "title": "Turn on round-ups for this goal?",
-        "message": "You’re already using round-ups for another goal. Do you want to switch to this one?",
-        "switchRoundUpButton": "Switch",
-        "cancelButton": "Don’t switch"
+        "title": "هل ترغب في تفعيل تقريب القيمة لهذا الهدف؟",
+        "message": "أنت بالفعل تستخدم تقريب القيمة لهدف آخر. هل ترغب في التبديل إلى هذا؟",
+        "switchRoundUpButton": "تبديل",
+        "cancelButton": "عدم التبديل"
       },
       "ActionButtons": {
-        "withdrawButton": "Withdraw",
-        "addMoneyButton": "Add money"
+        "withdrawButton": "سحب",
+        "addMoneyButton": "إضافة أموال"
       }
     },
     "CreateGoalScreen": {
-      "title": "Goal details",
+      "title": "تفاصيل الهدف",
       "form": {
         "name": {
-          "label": "Goal name",
-          "placeholder": "Name",
+          "label": "اسم الهدف",
+          "placeholder": "الاسم",
           "validation": {
-            "required": "Your goal needs a name*",
-            "invalid": "Please avoid special characters"
+            "required": "الهدف الخاص بك بحاجة إلى اسم*",
+            "invalid": "الرجاء تجنب الأحرف الخاصة"
           }
         },
         "amount": {
-          "label": "Goal amount",
-          "placeholder": "0 SAR",
-          "currency": "SAR",
+          "label": "مبلغ الهدف",
+          "placeholder": "0 ريال سعودي",
+          "currency": "ريال سعودي",
           "validation": {
-            "required": "Your goal needs an amount*",
-            "invalid": "The maximum amount is 9,999,999,999.99 SAR",
-            "positive": "Please use only positive numbers"
+            "required": "الهدف الخاص بك بحاجة إلى مبلغ*",
+            "invalid": "الحد الأقصى للمبلغ هو 9,999,999,999.99 ريال سعودي",
+            "positive": "الرجاء استخدام أرقام إيجابية فقط"
           }
         },
         "targetDate": {
-          "label": "Complete by",
-          "headerText": "Complete by",
-          "openDatePickerButton": "Pick date",
-          "datePickerButton": "Pick date",
+          "label": "اكتمال بحلول",
+          "headerText": "اكتمال بحلول",
+          "openDatePickerButton": "اختيار التاريخ",
+          "datePickerButton": "اختيار التاريخ",
+          "datePickerPlaceholder": "اختيار التاريخ",
           "validation": {
-            "required": "Required*"
+            "required": "مطلوب*"
           },
-          "helperText": "Your date isn't very far away. Think about whether this is enough time to save for your goal."
+          "helperText": "التاريخ الخاص بك ليس بعيدًا جدًا. فكر فيما إذا كان هذا وقتًا كافيًا لتوفير هدفك."
         },
         "roundUps": {
-          "label": "Turn on round-ups",
-          "helperText": "For this goal only"
+          "label": "تشغيل تقريب القيمة",
+          "helperText": "فقط لهذا الهدف"
         },
         "notification": {
-          "label": "Turn on notifications",
-          "helperText": "For this goal only"
+          "label": "تشغيل الإشعارات",
+          "helperText": "فقط لهذا الهدف"
         }
       },
       "roundUpsAlreadyActiveAlert": {
-        "title": "Turn on Round-Ups for this saving goal?",
-        "message": "Round-ups is already turned on for an other saving goal. Do you want to switch to this one?",
-        "dontSwitch": "Don't switch",
-        "switch": "Switch"
+        "title": "هل ترغب في تشغيل تقريب القيمة لهذا الهدف؟",
+        "message": "تم تشغيل تقريب القيمة بالفعل لهدف توفير آخر. هل ترغب في التبديل إلى هذا؟",
+        "dontSwitch": "عدم التبديل",
+        "switch": "تبديل"
       },
       "notificationsTurnOnAlert": {
-        "title": "Notifications are disabled",
-        "message": "Would you like to turn on notifications?",
-        "cancel": "Cancel",
-        "turnOn": "Turn on"
+        "title": "الإشعارات معطلة",
+        "message": "هل ترغب في تشغيل الإشعارات؟",
+        "cancel": "إلغاء",
+        "turnOn": "تشغيل"
       },
       "aboutRoundUpsPanel": {
-        "title": "About round-ups",
-        "content": "Round up every purchase to the nearest 5 SAR. The extra will go towards your choice of goal.",
-        "smallText": "For more details visit FAQs"
+        "title": "حول تقريب القيمة",
+        "content": "قم بتقريب قيمة كل عملية شراء إلى أقرب 5 ريالات سعودية. الزيادة ستذهب إلى هدفك الذي اخترته.",
+        "smallText": "لمزيد من التفاصيل، قم بزيارة الأسئلة الشائعة"
       },
-      "button": "Continue"
+      "button": "استمرار"
     },
     "EditGoalScreen": {
-      "save": "Save",
+      "save": "حفظ",
       "notifications": {
-        "label": "Turn on notifications",
-        "helperText": "Only for this goal"
+        "label": "تشغيل الإشعارات",
+        "helperText": "فقط لهذا الهدف"
       },
-      "closeGoal": "Close goal",
+      "closeGoal": "إغلاق الهدف",
       "modal": {
-        "title": "Are you sure you want to close this goal?",
-        "content": "The money in this goal will go back into your main account",
+        "title": "هل أنت متأكد من رغبتك في إغلاق هذا الهدف؟",
+        "content": "الأموال في هذا الهدف ستعود إلى الحساب الرئيسي الخاص بك",
         "buttons": {
-          "confirm": "Confirm",
-          "cancel": "Cancel"
+          "confirm": "تأكيد",
+          "cancel": "إلغاء"
         }
       },
       "turnOnNotificationsAlert": {
-        "globalNotificationsTitle": "Notifications are disabled",
-        "globalNotificationsMessage": "Would you like to turn on notifications?",
-        "globalSavingsGoalNotificationsTitle": "Your global notifications are disabled",
-        "globalSavingsGoalNotificationsMessage": "Would you like to turn on global notifications?",
-        "alertButtonCancel": "Cancel",
-        "alertButtonTurnOn": "Turn on"
+        "globalNotificationsTitle": "الإشعارات معطلة",
+        "globalNotificationsMessage": "هل ترغب في تشغيل الإشعارات؟",
+        "globalSavingsGoalNotificationsTitle": "الإشعارات العامة الخاصة بك معطلة",
+        "globalSavingsGoalNotificationsMessage": "هل ترغب في تشغيل الإشعارات العامة؟",
+        "alertButtonCancel": "إلغاء",
+        "alertButtonTurnOn": "تشغيل"
       }
     },
     "FundGoalModal": {
-      "goalCreatedBanner": "Your goal has been created",
+      "goalCreatedBanner": "تم إنشاء هدفك بنجاح",
       "PickFundingMethodStep": {
-        "title": "How will you meet your goal?",
-        "subText": "Regular payments help bring your goal closer to reality. ",
+        "title": "كيف ستحقق هدفك؟",
+        "subText": "المدفوعات الشهرية تساعد في تحقيق هدفك.",
         "recommended": {
-          "title": "Recommended monthly amount",
-          "amount": "{{amount}} SAR / month"
+          "title": "المبلغ الشهري الموصى به",
+          "amount": "{{amount}} ريال سعودي / شهر"
         },
         "custom": {
-          "title": "Custom",
-          "regularPayments": "Regular Payments",
-          "oneOffPayment": "One-off payment"
+          "title": "مخصص",
+          "regularPayments": "المدفوعات الشهرية",
+          "oneOffPayment": "مدفوعة واحدة"
         },
-        "notNow": "Not Now"
+        "notNow": "ليس الآن"
       },
       "FundingStep": {
-        "amountExceedsBalance": "You don't have enough money in your account",
-        "monthly": "Monthly",
-        "dayPickerHeader": "Set a date",
-        "dayPickerButton": "Set",
-        "dayPickerPlaceholder": "Set",
-        "helperIfDayExceeds28": "If a month is too short for your date to exist, the payment will happen on the last day of the month.",
-        "helperIfDayIsAfterTarget": "Your date isn't very far away. Think about whether this is enough time to save for your goal.",
-        "continueButton": "Continue",
+        "amountExceedsBalance": "ليس لديك ما يكفي من الأموال في حسابك",
+        "monthly": "شهريًا",
+        "dayPickerHeader": "تحديد تاريخ",
+        "dayPickerButton": "تعيين",
+        "dayPickerPlaceholder": "تعيين",
+        "helperIfDayExceeds28": "إذا كان شهرًا قصيرًا جدًا بحيث لا يمكن لتاريخك الوجود، ستحدث المدفوعة في اليوم الأخير من الشهر.",
+        "helperIfDayIsAfterTarget": "تاريخك ليس بعيدًا جدًا. فكر فيما إذا كان هذا وقتًا كافيًا لتوفير هدفك.",
+        "continueButton": "متابعة",
         "regularPayments": {
-          "title": "Regular payments",
-          "modalTitle": "You have created a regular payment",
-          "modalText": "Your next payment will be {{amount}} SAR on {{firstPaymentDate}}.",
-          "continueButton": "Add one-off payment",
-          "skipButton": "Skip"
+          "title": "المدفوعات الشهرية",
+          "modalTitle": "لقد قمت بإنشاء مدفوعة شهرية",
+          "modalText": "سيتم دفع المبلغ التالي {{amount}} ريال سعودي في {{firstPaymentDate}}.",
+          "continueButton": "إضافة مدفوعة واحدة",
+          "skipButton": "تخطي"
         },
         "oneOffPayment": {
-          "title": "One-off payment",
-          "modalTitle": "You sent a one-off payment",
-          "modalText": "{{amount}} SAR has been added to your goal.",
-          "continueButton": "Set up regular payment",
-          "skipButton": "Skip"
+          "title": "مدفوعة واحدة",
+          "modalTitle": "لقد قمت بإرسال مدفوعة واحدة",
+          "modalText": "تمت إضافة {{amount}} ريال سعودي إلى هدفك.",
+          "continueButton": "إعداد مدفوعة شهرية",
+          "skipButton": "تخطي"
         },
-        "errorTryAgain": "Try again",
-        "errorNotNow": "Not now"
+        "errorTryAgain": "حاول مرة أخرى",
+        "errorNotNow": "ليس الآن"
       }
     },
     "EditRegularPaymentModal": {
-      "amountExceedsBalance": "Amount is more than your balance",
-      "required": "Required",
-      "monthly": "Monthly",
-      "dayPickerHeader": "Select a date",
-      "dayPickerButton": "Set",
-      "dayPickerPlaceholder": "Set",
-      "helperIfDayExceeds28": "If a month is too short for your date to exist, the payment will happen on the last day of the month.",
-      "helperIfDayIsAfterTarget": "That's too late for your target date.\nYou might want to start your payments sooner.",
-      "continueButton": "Continue",
-      "title": "Edit regular payment",
-      "modalTitle": "You have edited a regular payment",
-      "modalText": "Your next payment will be {{amount}} SAR on {{firstPaymentDate}}.",
-      "saveButton": "Save",
-      "removeButton": "Remove regular payment",
-      "errorTryAgain": "Try again",
-      "errorNotNow": "Not now",
-      "removeBanner": "Your regular payment has been removed.",
+      "amountExceedsBalance": "المبلغ أكبر من رصيدك",
+      "required": "مطلوب",
+      "monthly": "شهريًا",
+      "dayPickerHeader": "تحديد تاريخ",
+      "dayPickerButton": "تعيين",
+      "dayPickerPlaceholder": "تعيين",
+      "helperIfDayExceeds28": "إذا كان شهرًا قصيرًا جدًا بحيث لا يمكن لتاريخك الوجود، ستحدث المدفوعة في اليوم الأخير من الشهر.",
+      "helperIfDayIsAfterTarget": "هذا متأخر جدًا بالنسبة لتاريخ هدفك. قد ترغب في بدء المدفوعات في وقت أبكر.",
+      "continueButton": "متابعة",
+      "title": "تحرير المدفوعة الشهرية",
+      "modalTitle": "لقد قمت بتحرير المدفوعة الشهرية",
+      "modalText": "سيتم دفع المبلغ التالي {{amount}} ريال سعودي في {{firstPaymentDate}}.",
+      "saveButton": "حفظ",
+      "removeButton": "إزالة المدفوعة الشهرية",
+      "errorTryAgain": "حاول مرة أخرى",
+      "errorNotNow": "ليس الآن",
+      "removeBanner": "تمت إزالة المدفوعة الشهرية الخاصة بك.",
       "removalModal": {
-        "title": "Are you sure you want to remove this payment?",
-        "message": "If you remove it, no more automatic payments will happen. You can set up a new regular payment at any time.",
-        "confirmButton": "Remove",
-        "cancelButton": "Cancel"
+        "title": "هل أنت متأكد من رغبتك في إزالة هذه المدفوعة؟",
+        "message": "إذا قمت بإزالتها، لن تحدث المزيد من المدفوعات التلقائية. يمكنك تعيين مدفوعة شهرية جديدة في أي وقت.",
+        "confirmButton": "إزالة",
+        "cancelButton": "إلغاء"
       }
     },
     "WithdrawModal": {
-      "title": "Withdraw from goal",
-      "WithdrawButton": "Withdraw",
-      "amountExceedsBalance": "Amount is more than your goal balance",
-      "zeroAmountError": "Amount must be greater than 0.01",
+      "title": "سحب من الهدف",
+      "WithdrawButton": "سحب",
+      "amountExceedsBalance": "المبلغ أكبر من رصيد هدفك",
+      "zeroAmountError": "يجب أن يكون المبلغ أكبر من 0.01",
       "successfulWithdrawal": {
-        "title": "You've withdrawn {{amount}} SAR",
-        "text": "It's been added to your main account."
+        "title": "لقد سحبت {{amount}} ريال سعودي",
+        "text": "تمت إضافته إلى الحساب الرئيسي الخاص بك."
       },
       "errors": {
-        "title": "We’re sorry - something has gone wrong",
-        "text": "No funds have been withdrawn, please try again later."
+        "title": "نعتذر - حدث خطأ ما",
+        "text": "لم يتم سحب أي أموال، يرجى المحاولة مرة أخرى في وقت لاحق."
       },
       "buttons": {
-        "tryAgainButton": "Try again",
-        "cancelWithdrawalButton": "Cancel withdrawal"
+        "tryAgainButton": "حاول مرة أخرى",
+        "cancelWithdrawalButton": "إلغاء السحب"
       }
     },
     "EditModal": {
-      "title": "Edit goal"
+      "title": "تحرير الهدف"
     }
-  },
-  "SavingsGoalsScreen": {
-    "navTitle": "أهداف الادخار"
   },
   "FrequentlyAskedQuestions": {
     "LandingScreen": {

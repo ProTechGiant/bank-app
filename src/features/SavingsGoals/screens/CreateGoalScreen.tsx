@@ -100,7 +100,7 @@ export default function CreateGoalScreen() {
       return;
     }
 
-    if (notificationPreferences?.NotificationPreferencesFlag && NotificationFlag) {
+    if (NotificationFlag) {
       setValue("NotificationFlag", false);
     } else if (notificationPreferences?.NotificationPreferencesFlag && !NotificationFlag) {
       setValue("NotificationFlag", true);

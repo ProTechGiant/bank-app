@@ -86,7 +86,7 @@ export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSav
       return;
     }
 
-    if (notificationPreferences?.NotificationPreferencesFlag && notificationToggleFlag) {
+    if (notificationToggleFlag) {
       setValue("NotificationFlag", false);
     } else if (notificationPreferences?.NotificationPreferencesFlag && !notificationToggleFlag) {
       setValue("NotificationFlag", true);

@@ -1,13 +1,27 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { format, isToday, isYesterday } from "date-fns";
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, I18nManager, Pressable, StatusBar, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import {
+  FlatList,
+  I18nManager,
+  Pressable,
+  RefreshControl,
+  StatusBar,
+  StyleSheet,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { FilterIcon } from "@/assets/icons";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -15,21 +29,43 @@ import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
 import { formatCurrency } from "@/utils";
 
-import { useSavingsPot } from "../hooks/query-hooks";
-import { savingsMocksData } from "../mocks/mockTransactionsSavingGoal";
-import { GoalTransaction, SavingGoalTransaction } from "../types";
+import FilterModal from "../components/FilterModal";
+import PillsContainer from "../components/PillsContainer";
+import { defaultTransactionApiParams, filterObject } from "../constants";
+import { useGetTransactionsByAccountId, useSavingsPot } from "../hooks/query-hooks";
+import { GoalTransaction, SavingGoalTransaction, SavingGoalTransactionsApiParams } from "../types";
 
 export default function AllTransactionsScreen() {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  let onEndReachedCalledDuringMomentum = true;
+  const filterOptions = Object.keys(filterObject);
+  const navigation = useNavigation<AuthenticatedStackParams>();
+  const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
   const route = useRoute<RouteProp<AuthenticatedStackParams, "SavingsGoals.AllTransactionsScreen">>();
-  const { data: savingsPotData } = useSavingsPot(route.params.PotId);
+
+  const [transactionApiParams, setTransactionApiParams] =
+    useState<SavingGoalTransactionsApiParams>(defaultTransactionApiParams);
+  const { data: savingsPotData } = useSavingsPot(route.params?.PotId ?? "Test ID");
+  const {
+    data: transactions,
+    isError,
+    isLoading,
+    refetch: refetchTransaction,
+  } = useGetTransactionsByAccountId(transactionApiParams);
 
   const availableBalance = savingsPotData?.AvailableBalanceAmount ?? 0;
   const formattedBalance = parseFloat(String(availableBalance)).toFixed(2);
   const [integerPart, decimalPart] = formattedBalance.split(".");
   const formattedIntegerPart = formatCurrency(Number.parseInt(integerPart, 10));
+
+  const appliedFilters = useMemo(() => {
+    return activeFilters.filter(opt => {
+      const actives = transactionApiParams.classifiedTransactionType?.split(",");
+      return actives?.includes(filterObject[opt]);
+    });
+  }, [activeFilters, transactionApiParams]);
 
   const formatDate = (date: Date): string => {
     if (isToday(date)) {
@@ -56,8 +92,52 @@ export default function AllTransactionsScreen() {
     });
   };
 
+  const handleOnEndReached = () => {
+    if (onEndReachedCalledDuringMomentum) return;
+    setTransactionApiParams({ ...transactionApiParams, PageNumber: transactionApiParams.PageNumber + 1 });
+  };
+
+  const handleOnRefresh = () => {
+    setTransactionApiParams(defaultTransactionApiParams);
+    refetchTransaction();
+  };
+
   const handleOnBackPress = () => {
     navigation.goBack();
+  };
+
+  const handleOptionSelect = (option: string) => {
+    setActiveFilters(prevOptions => {
+      if (prevOptions.includes(option)) {
+        return prevOptions.filter(item => item !== option);
+      } else {
+        return [...prevOptions, option];
+      }
+    });
+  };
+
+  const handleOnRemoveFilter = (filter: string) => {
+    const values = transactionApiParams.classifiedTransactionType
+      ?.split(",")
+      .filter(item => item !== filterObject[filter])
+      .join(",");
+    setTransactionApiParams({ ...transactionApiParams, classifiedTransactionType: values });
+    setActiveFilters(pre => pre.filter(item => item !== filter));
+  };
+
+  const handleOnFilterModalClose = () => {
+    setIsFilterModalVisible(!isFilterModalVisible);
+  };
+
+  const handleOnApplyFilter = (options: string[]) => {
+    const values = options.map(opt => filterObject[opt]).join(",");
+    setTransactionApiParams({ ...transactionApiParams, classifiedTransactionType: values });
+    handleOnFilterModalClose();
+  };
+
+  const handleOnClearAll = () => {
+    setTransactionApiParams({ ...transactionApiParams, classifiedTransactionType: "" });
+    setActiveFilters([]);
   };
 
   const contentStyle = useThemeStyles(theme => ({
@@ -71,9 +151,6 @@ export default function AllTransactionsScreen() {
     backgroundColor: theme.palette.primaryBase,
     paddingHorizontal: theme.spacing["12p"],
     paddingVertical: theme.spacing["8p"],
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
   }));
 
   const balanceStyle = useThemeStyles<TextStyle>(theme => ({
@@ -100,6 +177,10 @@ export default function AllTransactionsScreen() {
     paddingVertical: theme.spacing["12p"],
   }));
 
+  if (isLoading) {
+    return <FullScreenLoader />;
+  }
+
   return (
     <Page insets={["left", "right", "bottom"]}>
       <StatusBar barStyle="light-content" backgroundColor={palette.primaryBase} translucent />
@@ -110,29 +191,42 @@ export default function AllTransactionsScreen() {
           testID="SavingsGoals.AllTransactionsScreen:NavHeader"
         />
         <View style={headerStyle}>
-          <View>
-            <Typography.Text style={balanceStyle} size="footnote" weight="regular" color="primaryBase-40">
-              {t("SavingsGoals.GoalDetailsScreen.AllTransactions.balance")}
-            </Typography.Text>
+          <Typography.Text style={balanceStyle} size="footnote" weight="regular" color="primaryBase-40">
+            {t("SavingsGoals.GoalDetailsScreen.AllTransactions.balance")}
+          </Typography.Text>
+          <Stack style={styles.balanceContainer} direction="horizontal">
             <View style={styles.spliterStyle}>
               <Typography.Text color="neutralBase-50" size="large">
                 {formattedIntegerPart}
               </Typography.Text>
               <Typography.Text color="neutralBase-50" size="title2" weight="bold">
-                .{decimalPart ? decimalPart : "00"}
+                .{decimalPart ?? "00"}
               </Typography.Text>
               <Typography.Text style={styles.currency} color="primaryBase-40" size="title2">
                 {" "}
                 {t("Currency.sar")}
               </Typography.Text>
             </View>
-          </View>
+            <Pressable onPress={handleOnFilterModalClose}>
+              <FilterIcon />
+            </Pressable>
+          </Stack>
         </View>
       </SafeAreaView>
 
+      {appliedFilters.length ? (
+        <PillsContainer onRemoveFilter={handleOnRemoveFilter} appliedFilterLabels={appliedFilters} />
+      ) : null}
+
       <View style={contentStyle}>
         <FlatList
-          data={savingsMocksData.data?.GroupedTransactions}
+          data={transactions?.GroupedTransactions}
+          onEndReached={handleOnEndReached}
+          onEndReachedThreshold={1}
+          onMomentumScrollBegin={() => {
+            onEndReachedCalledDuringMomentum = false;
+          }}
+          refreshControl={<RefreshControl refreshing={isLoading} onRefresh={handleOnRefresh} />}
           renderItem={({ item }) => {
             const sum = item.Transactions.reduce(
               (total, current) =>
@@ -189,12 +283,31 @@ export default function AllTransactionsScreen() {
             );
           }}
         />
+        <NotificationModal
+          isVisible={isError}
+          title={t("SavingsGoals.GoalDetailsScreen.AllTransactions.errorTitle")}
+          variant="error"
+          message={t("SavingsGoals.GoalDetailsScreen.AllTransactions.errorMessage")}
+        />
+        <FilterModal
+          selectedOptions={activeFilters}
+          onSelectOption={handleOptionSelect}
+          visible={isFilterModalVisible}
+          onClose={handleOnFilterModalClose}
+          onApplyFilter={handleOnApplyFilter}
+          onClearAll={handleOnClearAll}
+          filterOptions={filterOptions}
+        />
       </View>
     </Page>
   );
 }
 
 const styles = StyleSheet.create({
+  balanceContainer: {
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   currency: {
     paddingStart: 2,
   },

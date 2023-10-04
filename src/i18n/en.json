@@ -1723,6 +1723,12 @@
       "Payments": {
         "title": "Automatic payments"
       },
+      "FilterModal": {
+        "title": "Filter",
+        "type": "Transaction Type",
+        "buttonText": "Set",
+        "clearAll": "Clear All"
+      },
       "RegularPayment": {
         "titleAddRegular": "Add a regular payment",
         "titleExistingRegular": "Regular payment",
@@ -1741,7 +1747,10 @@
         "today": "Today",
         "yesterday": "Yesterday",
         "balance": "Balance",
-        "roundUp": "Round up"
+        "roundUp": "Round up",
+        "filteredBy": "Filtered by: ",
+        "errorTitle": "We're sorry something went wrong.",
+        "errorMessage": "Please try again later."
       },
       "RoundUp": "Round-ups",
       "InfoModal": {

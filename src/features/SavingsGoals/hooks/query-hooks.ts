@@ -2,9 +2,17 @@ import { format } from "date-fns";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
 
-import { CreateGoalInput, NotificationPreferencesResponse, SavingsPot, SavingsPotDetailsResponse } from "../types";
+import {
+  CreateGoalInput,
+  NotificationPreferencesResponse,
+  SavingGoalTransactionsApiParams,
+  SavingGoalTransactionsApiResponse,
+  SavingsPot,
+  SavingsPotDetailsResponse,
+} from "../types";
 
 const queryKeys = {
   all: ["savings-pots"] as const,
@@ -12,6 +20,8 @@ const queryKeys = {
   details: (PotId: string) => [...queryKeys.all, PotId] as const,
   notificationPreferencesFlag: "notificationPreferencesFlag" as const,
   recurringPayments: (PotId: string) => [...queryKeys.all, PotId, "recurring-payments"] as const,
+  transactionList: (params: SavingGoalTransactionsApiParams, accountId: string) =>
+    [...queryKeys.all, params, accountId, "transactions-list"] as const,
 };
 
 interface CreateGoalResponse {
@@ -348,6 +358,31 @@ export function useWithdrawSavingsPot() {
         queryClient.invalidateQueries(queryKeys.all);
         queryClient.invalidateQueries(queryKeys.details(variables.PotId));
       },
+    }
+  );
+}
+
+export function useGetTransactionsByAccountId(params: SavingGoalTransactionsApiParams) {
+  const account = useCurrentAccount();
+
+  const accountId = account.data?.id;
+  if (!accountId) throw new Error("Account Id does not exist");
+  return useQuery(
+    queryKeys.transactionList(params, accountId),
+    () => {
+      return api<SavingGoalTransactionsApiResponse>(
+        "v1",
+        `accounts/${accountId}/transactions`,
+        "GET",
+        { ...params },
+        undefined,
+        {
+          "x-correlation-id": generateRandomId(),
+        }
+      );
+    },
+    {
+      retry: false,
     }
   );
 }
