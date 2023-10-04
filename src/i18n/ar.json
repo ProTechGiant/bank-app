@@ -2986,5 +2986,10 @@
       },
       "loadMore": "تحميل المزيد"
     }
+  },
+  "MutualFund": {
+    "EntryPointScreen": {
+      "title": "نقطة البداية"
+    }
   }
 }

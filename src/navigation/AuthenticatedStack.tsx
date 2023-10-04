@@ -13,6 +13,7 @@ import { GoalDashboardScreen } from "@/features/GoalGetter/screens";
 import HelpAndSupportStack from "@/features/HelpAndSupport/HelpAndSupportStack";
 import HomeTabs from "@/features/Home/HomeTabs";
 import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfersStack";
+import MutualFundStack from "@/features/MutualFund/MutualFundStack";
 import NotificationManagementStack from "@/features/NotificationManagement/NotificationManagementStack";
 import NotificationsStack from "@/features/Notifications/NotificationsStack";
 import OneTimePasswordModal from "@/features/OneTimePassword/screens/OneTimePasswordModal";
@@ -83,7 +84,7 @@ export const AuthenticatedScreens = () => {
       <AuthStack.Screen component={DocumentsStack} name="Documents.DocumentsStack" />
       <AuthStack.Screen component={GoalDashboardScreen} name="GoalGetter.GoalDashboardScreen" />
       <AuthStack.Screen component={TemporaryDummyScreen} name="Temporary.DummyScreen" />
-
+      <AuthStack.Screen component={MutualFundStack} name="MutualFund.MutualFundStack" />
       <AuthStack.Screen
         component={TermsAndConditionsScreen}
         name="Referral.TermsAndConditionsScreen"

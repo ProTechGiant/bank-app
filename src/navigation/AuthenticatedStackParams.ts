@@ -8,6 +8,7 @@ import { HelpAndSupportStackParams } from "@/features/HelpAndSupport/HelpAndSupp
 import { HomeStackParams } from "@/features/Home/HomeStack";
 import { BottomTabParamList } from "@/features/Home/HomeTabs";
 import { InternalTransfersStackParams } from "@/features/InternalTransfers/InternalTransfersStack";
+import { MutualFundStackParams } from "@/features/MutualFund/MutualFundStack";
 import { NotificationManagementStackParams } from "@/features/NotificationManagement/NotificationManagementStack";
 import { NotificationsStackParams } from "@/features/Notifications/NotificationsStack";
 import { PaymentDisputesStackParams } from "@/features/PaymentDisputes/PaymentDisputesStack";
@@ -122,7 +123,7 @@ type RootStackParams = {
   "ProfileDetails.ProfileDetailsStack": undefined;
   "Statements.StatementsStack": undefined;
   "Documents.DocumentsStack": undefined;
-
+  "MutualFund.MutualFundStack": undefined;
   "Notifications.NotificationsStack":
     | {
         screen: keyof NotificationsStackParams;
@@ -157,6 +158,7 @@ type AuthenticatedStackParams = RootStackParams &
   ProfileDetailsStackParams &
   AppreciationStackParams &
   NotificationsStackParams &
+  MutualFundStackParams &
   BottomTabParamList;
 
 export default AuthenticatedStackParams;

@@ -1426,8 +1426,8 @@
         "message": "There was a minor issue, but not to worry. We can re-try",
         "buttonReload": "Reload"
       },
-      "refreshSection":{
-        "hint": "“{{goalName}}” loading error!",
+      "refreshSection": {
+        "hint": "“{{goalName}}” loading error!"
       }
     },
     "TermsAndConditionsScreen": {
@@ -1448,7 +1448,7 @@
       "DateModal": { "selectButton": "Select", "headerText": "Select day" },
       "ButtonsText": { "confirmChanges": "Confirm changes", "cancel": "Cancel" }
     },
-    "LatestTransactionScreen":{
+    "LatestTransactionScreen": {
       "title": "Latest transactions",
       "SAR": "SAR",
       "Failed": "Failed"
@@ -2009,7 +2009,7 @@
         "paragraph": "It’ll be with you in a few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using {{device}}.",
         "finishButton": "Finish"
       },
-      "SetPinScreen":{
+      "SetPinScreen": {
         "SetPin": {
           "title": "Set a new pin",
           "instruction": "Enter {{count}} unique numbers and avoid a PIN that’s easy to guess, like 1234 or 1111.",
@@ -2343,7 +2343,7 @@
       "dropDownTitle": "Daily Limit",
       "doneButton": "Done",
       "cancelButton": "Cancel",
-      "currency":"SAR",
+      "currency": "SAR",
       "successModal": {
         "title": "Transaction limit updated",
         "message": "Your transaction limit has been successfully updated.",
@@ -3111,7 +3111,7 @@
       "file": {
         "fileTooBig": "File is too big, it must be smaller than {{maxFileSize}} MB",
         "uploadFailed": "Upload failed, please try again",
-        "wrongFile":"File attached is wrong, you can delete the attachment and re-upload the correct file"
+        "wrongFile": "File attached is wrong, you can delete the attachment and re-upload the correct file"
       },
       "checkBoxMessage": "By checking this box, you agree to our ",
       "termsAndConditions": "Terms and Conditions",
@@ -3425,6 +3425,11 @@
         "applyButton": "Apply"
       },
       "loadMore": "load more"
+    }
+  },
+  "MutualFund": {
+    "EntryPointScreen": {
+      "title": "EntryPoint"
     }
   }
 }
