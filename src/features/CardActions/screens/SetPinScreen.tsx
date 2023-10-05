@@ -23,6 +23,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 import { isValidPincode } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
@@ -106,7 +107,9 @@ export default function SetPinScreen() {
 
   const handleActivationSuccess = () => {
     //TODO: set pin through NI SDK method here
-    navigation.navigate("CardActions.CardActivatedScreen", { cardId });
+    delayTransition(() => {
+      navigation.navigate("CardActions.CardActivatedScreen", { cardId });
+    });
   };
 
   const handleOnCloseError = () => {
