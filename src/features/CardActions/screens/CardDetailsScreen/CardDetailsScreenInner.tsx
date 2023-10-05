@@ -64,6 +64,8 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   const [isUnlockConfirmModalVisible, setIsUnlockConfirmModalVisible] = useState(false);
   const [isApplyPhysicalCardModalVisible, setIsApplyPhysicalCardModalVisible] = useState(false);
   const [isLockedSuccess, setIsLockedSuccess] = useState(false);
+  const [isUnLockedSuccess, setIsUnLockedSuccess] = useState(false);
+
   const [isWaitPeriodModalVisible, setIsWaitPeriodModalVisible] = useState(false);
 
   useEffect(() => {
@@ -193,13 +195,18 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
     navigation.goBack();
   };
 
+  const handleOnUnLockedSuccess = () => {
+    setIsUnLockedSuccess(false);
+    navigation.goBack();
+  };
+
   const handleOnFreezeCardPress = async () => {
     setCardDetails(undefined);
     setIsLockConfirmModalVisible(false);
 
     try {
       const response = await freezeCardAsync({ cardId: card.CardId });
-      if (response.Status !== "lock") {
+      if (response.Status !== "LOCK") {
         setIsLockedSuccess(false);
         throw new Error("Received unexpected response from back-end");
       } else {
@@ -239,7 +246,9 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
           return changeCardStatusAsync({ cardId: card.CardId, status: "UNLOCK" });
         },
         onFinish: status => {
-          if (status === "fail") {
+          if (status === "success") {
+            setIsUnLockedSuccess(true);
+          } else {
             onError();
           }
         },
@@ -491,6 +500,19 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         buttons={{
           primary: (
             <Button onPress={handleOnOk}>{t("CardActions.CardDetailsScreen.lockSuccessFullModal.okButton")}</Button>
+          ),
+        }}
+      />
+
+      <NotificationModal
+        variant="success"
+        title={t("CardActions.CardDetailsScreen.unLockSuccessFullModal.title")}
+        isVisible={isUnLockedSuccess}
+        buttons={{
+          primary: (
+            <Button onPress={handleOnUnLockedSuccess}>
+              {t("CardActions.CardDetailsScreen.unLockSuccessFullModal.okButton")}
+            </Button>
           ),
         }}
       />

@@ -2210,6 +2210,10 @@
         "title": "Card locked successfully",
         "okButton": "Ok"
       },
+      "unLockSuccessFullModal": {
+        "title": "Card unlocked successfully",
+        "okButton": "Ok"
+      },
       "waitPeriodModal": {
         "lockState": "lock",
         "unlockState": "unlock",

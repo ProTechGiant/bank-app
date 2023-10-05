@@ -2085,11 +2085,15 @@
         "cancelButton": "الغاء"
       },
       "unlockConfirmationModal": {
-        "title": "قفل البطاقة",
+        "title": "فك قفل البطاقة",
         "confirmButton": "تأكيد",
         "cancelButton": "الغاء"
       },
       "lockSuccessFullModal": {
+        "title": "تم قفل البطاقة بنجاح",
+        "okButton": "تم"
+      },
+      "unLockSuccessFullModal": {
         "title": "تم فك قفل البطاقة بنجاح",
         "okButton": "تم"
       },
