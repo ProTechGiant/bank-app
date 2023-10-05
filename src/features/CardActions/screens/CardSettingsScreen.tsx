@@ -140,7 +140,6 @@ export default function CardSettingsScreen() {
 
     try {
       const updatedSettings = {
-        ...settings.data,
         [setting]: !settings.data[setting],
       };
 
