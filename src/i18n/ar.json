@@ -86,8 +86,8 @@
   "Onboarding": {
     "FastOnboardingScreen": {
       "title": "أخبار رائعة!",
-      "subTitle": "رقم الهاتف والهوية الذين قدمتهما يتطابقان مع سجلاتنا في ARB. لتسريع عملية التسجيل الخاصة بك، هل ترغب في الانتقال إلى مسار التسجيل السريع لدينا؟",
-      "buttonText": "المتابعة إلى التسجيل السريع",
+      "subTitle": "يتطابق رقم الهاتف والمعرف الذي قدمته مع سجلاتنا في ARB. لتسريع عملية الإعداد، هل ترغب في الانتقال إلى مسار الإعداد السريع الخاص بنا؟",
+      "buttonText": "انتقل إلى الإعداد السريع",
       "continueWithText": "أو المتابعة مع",
       "regularOnboardingText": "التسجيل العادي",
       "modalTitle": "ما هو التسجيل السريع",
@@ -96,69 +96,69 @@
       "tryAgain": "يرجى المحاولة مرة أخرى في وقت لاحق."
     },
     "WelcomeCarousel": {
-      "titleOne": "Welcome to Croatia",
-      "subTextOne": "This is your gateway\nto What's Next",
-      "titleTwo": "Exclusive Experiences",
-      "subTextTwo": "Boast-worthy experiences that put you at the heart of What’s Next in KSA ",
-      "titleThree": "Tailored content",
-      "subTextThree": "Your essential view on the best upcoming culture in KSA",
-      "titleFour": "Radically simple banking",
-      "subTextFour": "Get your money to get\nyou what you want.",
-      "nextButton": "Next"
+      "titleOne": "مرحبًا بك في كرواتيا",
+      "subTextOne": "هذه هي بوابتك\nإلى ما هو قادم",
+      "titleTwo": "تجارب حصرية",
+      "subTextTwo": "تجارب تستحق الفخر تضعك في قلب ما هو قادم في المملكة العربية السعودية",
+      "titleThree": "محتوى مصمم خصيصًا",
+      "subTextThree": "رؤيتك الأساسية لأفضل الثقافة القادمة في المملكة العربية السعودية",
+      "titleFour": "بنك بسيط بشكل جذري",
+      "subTextFour": "احصل على أموالك\nللحصول على ما تريد.",
+      "nextButton": "التالي"
     },
     "SplashScreen": {
       "title": "Your gateway\nto what’s next",
       "buttons": {
-        "signIn": "Sign in",
-        "notWithUs": "Don't have an account?",
-        "signUp": "Sign up"
+        "signIn": "تسجيل الدخول",
+        "notWithUs": "ليس لديك حساب؟",
+        "signUp": "سجل"
       }
     },
     "LandingScreen": {
       "success": {
-        "title": "Welcome to\n Croatia",
-        "subtitle": "You’re in control now",
-        "bannerMessage": "Your account was successfully created!"
+        "title": "مرحبًا في\n كرواتيا",
+        "subtitle": "أنت الآن في السيطرة",
+        "bannerMessage": "تم إنشاء حسابك بنجاح!"
       },
       "failed": {
-        "title": "Unfortunately, we can’t create an account for you",
-        "subtitle": "If you have any concerns, please contact XXXXXXX."
+        "title": "للأسف، لا يمكننا إنشاء حساب لك",
+        "subtitle": "إذا كان لديك أي مخاوف، يرجى الاتصال بXXXXXXX."
       },
       "pending": {
-        "title": "You're on your way\n \"{{userName}}\"",
-        "bannerMessage": "We’re completing your account setup ",
+        "title": "أنت في طريقك\n \"{{userName}}\"",
+        "bannerMessage": "نحن نكمل إعداد حسابك",
         "accountChecks": {
-          "identity": "Confirm your identity",
-          "checks": "Running additional checks",
-          "creatingAccount": "Creating your account"
+          "identity": "تأكيد هويتك",
+          "checks": "تشغيل فحوصات إضافية",
+          "creatingAccount": "إنشاء حسابك"
         },
-        "workGuide": "How Croatia works for you",
-        "finishLater": "You can finish this later",
-        "buttonTitle": "Create App Passcode",
-        "successTitle": "Get Started",
-        "footerMessage": "It can take up to X days for us to finalise this process. An SMS will be sent to you when your account has been created."
+        "workGuide": "كيف تعمل كرواتيا من أجلك",
+        "finishLater": "يمكنك الانتهاء من ذلك لاحقًا",
+        "buttonTitle": "إنشاء رمز المرور للتطبيق",
+        "successTitle": "البدء",
+        "footerMessage": "قد يستغرق الأمر حتى X يومًا لاستكمال هذه العملية. سيتم إرسال رسالة نصية إليك عند إنشاء حسابك."
       },
       "buttons": {
-        "FinishLater": "Finish Later"
+        "FinishLater": "انتهي لاحقًا"
       },
-      "notificationBannerTitle": "You got {{tasks}} due",
-      "alertOnFinishLater": "Finish Later process not implemented yet. Come back later!",
+      "notificationBannerTitle": "لديك {{tasks}} مستحقة",
+      "alertOnFinishLater": "عملية الانتهاء لاحقًا لم تُنفذ بعد. عد لاحقًا!",
       "lifeStylePreferenceModal": {
-        "title": "Tailor your experience",
-        "subTitle": "Unlock rewards and offers that matter the most to you",
-        "topTitle": "How Croatia works for you",
-        "selectLifeStyle": "Select your lifestyle preferences",
-        "letUsKnow": "Let us know what matters to you so we can tailor our rewards to your needs.",
-        "bottomTitle": "You can find lifestyle preferences in your account management.",
-        "finishLaterButton": "I’ll finish this later",
-        "closeButton": "Close",
-        "nextBuildCycle": "LifeStyle Preferences will come later in the next build cycle"
+        "title": "ضبط تجربتك",
+        "subTitle": "احصل على مكافآت وعروض تهمك أكثر",
+        "topTitle": "كيف تعمل كرواتيا من أجلك",
+        "selectLifeStyle": "اختر تفضيلات نمط حياتك",
+        "letUsKnow": "اخبرنا بما يهمك حتى نتمكن من تصميم مكافآتنا حسب احتياجاتك.",
+        "bottomTitle": "يمكنك العثور على تفضيلات نمط الحياة في إدارة حسابك.",
+        "finishLaterButton": "سأنهي هذا لاحقًا",
+        "closeButton": "إغلاق",
+        "nextBuildCycle": "تفضيلات نمط الحياة ستأتي لاحقًا في دورة البناء التالية"
       }
     },
     "IqamaInputScreen": {
-      "navHeaderTitle": "إنشاء حساب",
-      "title": "لننطلق",
-      "subTitle": "لنبدأ بتفاصيل الهوية الشخصية وبيانات التواصل:",
+      "navHeaderTitle": "التسجيل",
+      "title": "هيا بنا",
+      "subTitle": "لنبدأ بتفاصيل الاتصال والهوية الخاصة بك:",
       "mobileLabel": "الجوال",
       "iqamaLabel": "رقم هوية/الإقامة",
       "notificationText": {
@@ -184,58 +184,58 @@
       }
     },
     "ConfirmPersonalDetailsScreen": {
-      "navHeaderTitle": "CONFIRM",
-      "title": "Confirm your personal details",
-      "infoLineName": "Full name",
-      "infoLineNationality": "Nationality",
-      "infoLineExpiry": "ID/Iqama expiry",
-      "infoLineAddress": "KSA Address",
-      "moreInfoDropdownTitle": "I need to change my details",
-      "moreInfoDropdownBodyOne": "Visit ",
-      "moreInfoDropdownBodyTwo": "absher.sa ",
-      "moreInfoDropdownBodyThree": "to change your details. Please restart the process when your Absher profile has been updated. This can take up to 72 hours.",
-      "CheckBoxLabel": "I confirm my details are correct",
-      "Continue": "استمرار",
+      "navHeaderTitle": "تأكيد",
+      "title": "تأكيد تفاصيلك الشخصية",
+      "infoLineName": "الاسم الكامل",
+      "infoLineNationality": "الجنسية",
+      "infoLineExpiry": "انتهاء صلاحية الهوية/الإقامة",
+      "infoLineAddress": "عنوان السعودية",
+      "moreInfoDropdownTitle": "أحتاج إلى تغيير تفاصيلي",
+      "moreInfoDropdownBodyOne": "زيارة",
+      "moreInfoDropdownBodyTwo": "absher.sa",
+      "moreInfoDropdownBodyThree": "لتغيير تفاصيلك. يرجى إعادة بدء العملية عند تحديث ملفك في Absher. قد يستغرق ذلك ما يصل إلى 72 ساعة.",
+      "CheckBoxLabel": "أؤكد أن تفاصيلي صحيحة",
+      "Continue": "متابعة",
       "errorText": {
-        "alert": "Woops. Could not submit your email"
+        "alert": "عذرًا. تعذر إرسال بريدك الإلكتروني"
       }
     },
     "OptionalEmailScreen": {
-      "navHeaderTitle": "EMAIL",
-      "title": "Stay updated",
-      "subHeader": "Share your email and we’ll keep you up to date with what’s new.",
-      "inputEmailLabel": "Email",
-      "inputEmailPlaceholder": "Your address",
-      "continue": "استمرار",
-      "skip": "Skip",
+      "navHeaderTitle": "البريد الإلكتروني",
+      "title": "ابق محدثًا",
+      "subHeader": "شاركنا ببريدك الإلكتروني وسنبقيك على اطلاع دائم بآخر الأخبار والتحديثات.",
+      "inputEmailLabel": "البريد الإلكتروني",
+      "inputEmailPlaceholder": "عنوانك",
+      "continue": "متابعة",
+      "skip": "تخطي",
       "errorText": {
-        "alert": "Woops. Could not confirm your personal details",
-        "notificationRegistrationFailure": "Unable to register for push notifications"
+        "alert": "عذرًا. تعذر تأكيد تفاصيلك الشخصية",
+        "notificationRegistrationFailure": "تعذر تسجيلك لتلقي الإشعارات الفورية"
       }
     },
     "FinancialInformationScreen": {
-      "navHeaderTitle": "بيانات المُستخدم",
-      "title": "Your income and spending",
-      "inputOccupationLabel": "What's your occupation",
-      "inputOccupationPlaceholder": "Select your occupation",
-      "inputOccupationExtra": "If you registered an occupation on Absher it may show here, however you can change it",
-      "inputAccountPurposeLabel": "How will you use Croatia?",
-      "inputAccountPurposePlaceholder": "Select at least one option",
-      "inputSourceOfIncomeLabel": "What's your main source of income",
-      "inputSourceOfIncomePlaceholder": "Select at least one option",
-      "inputMonthlyLimitLabel": "After bills and expenses, how much do you have left to spend each month?",
-      "inputMonthlyLimitPlaceholder": "Select an amount",
-      "inputSetLabel": "Set",
-      "moreInfoDropdownTitle": "Why we need this information",
-      "moreInfoDropdownBody": "This information is used to complete validation checks as part of joining Croatia. If anything here changes you’ll be able to update it in the app.",
-      "continue": "Save and continue",
+      "navHeaderTitle": "بيانات المستخدم",
+      "title": "دخلك وإنفاقك",
+      "inputOccupationLabel": "ما هو مجال عملك",
+      "inputOccupationPlaceholder": "اختر مجال عملك",
+      "inputOccupationExtra": "إذا قمت بتسجيل مجال عمل في Absher، فقد يظهر هنا، ومع ذلك، يمكنك تغييره",
+      "inputAccountPurposeLabel": "كيف ستستخدم كرواتيا؟",
+      "inputAccountPurposePlaceholder": "حدد خيارًا واحدًا على الأقل",
+      "inputSourceOfIncomeLabel": "ما هو مصدر دخلك الرئيسي",
+      "inputSourceOfIncomePlaceholder": "حدد خيارًا واحدًا على الأقل",
+      "inputMonthlyLimitLabel": "بعد دفع الفواتير والنفقات، كم لديك من المال للإنفاق شهريًا؟",
+      "inputMonthlyLimitPlaceholder": "حدد المبلغ",
+      "inputSetLabel": "تعيين",
+      "moreInfoDropdownTitle": "لماذا نحتاج إلى هذه المعلومات",
+      "moreInfoDropdownBody": "تُستخدم هذه المعلومات لإجراء فحوصات التحقق كجزء من انضمامك إلى كرواتيا. إذا تغير أي شيء هنا، ستتمكن من تحديثه في التطبيق.",
+      "continue": "حفظ ومتابعة",
       "inputValidation": {
-        "accountPurpose": "Intended use of Croatia Required",
-        "sourceOfIncome": "Source of income required",
-        "monthlyLimit": "Expected amount required"
+        "accountPurpose": "الاستخدام المقصود لكرواتيا مطلوب",
+        "sourceOfIncome": "المصدر الرئيسي للدخل مطلوب",
+        "monthlyLimit": "المبلغ المتوقع مطلوب"
       },
       "errorText": {
-        "alert": "Woops. Could not submit financial details"
+        "alert": "عذرًا. تعذر إرسال تفاصيلك المالية"
       }
     },
     "FatcaDetailsScreen": {
@@ -282,10 +282,10 @@
       "pleaseTryAgain": "Please try again later."
     },
     "CreatePasscode": {
-      "needHelpInfo": "Avoid a passcode that’s easy to guess, like 123456 or 111111.",
-      "title": "Create app passcode",
-      "subTitle": "This is 6-digit passcode you’ll use to get into your Croatia app.",
-      "navHeaderTitle": "Passcode"
+      "needHelpInfo": "تجنب اختيار رمز مرور يسهل التخمين عليه، مثل 123456 أو 111111.",
+      "title": "إنشاء رمز مرور التطبيق",
+      "subTitle": "هذا هو الرمز المكون من 6 أرقام الذي ستستخدمه للدخول إلى تطبيق كرواتيا.",
+      "navHeaderTitle": "الرمز السري"
     },
     "ConfirmPasscode": {
       "title": "Confirm app passcode",
@@ -298,15 +298,15 @@
       "proceedToHomepage": "متابعة"
     },
     "UnmatchedArbNumber": {
-      "buttonTitle": "استخدم رقم الهوية",
-      "buttonDescription": "أو استمر بالمضي قدمًا مع",
-      "regularOnboarding": "إجراءات التسجيل العادية",
-      "matchingIdFound": "تم العثور على هوية متطابقة",
-      "existingAccount": "تم التعرف على حساب قائم برقم الهوية الخاص بك\n\nهذا الحساب مرتبط برقم هاتف مختلف عما قدمته.",
-      "spotIllustration": "رسم توضيحي هنا",
+      "buttonTitle": "استخدم رقم ARB",
+      "buttonDescription": "او اذهب إلى,",
+      "regularOnboarding": "الإعداد العادي",
+      "matchingIdFound": "تم العثور على هوية مطابقه",
+      "existingAccount": "تم التعرف على حساب موجود برقم هويتك هذا الحساب مرتبط برقم هاتف مختلف عن الرقم الذي قدمته.",
+      "spotIllustration": "Spot illustration here",
       "OnboardingOptionsModal": {
-        "title": "خيارات التسجيل",
-        "description": "تم العثور على حساب قائم برقم الهوية الخاص بك ولكنه مرتبط برقم هاتف مختلف. يمكنك اختيار متابعة التسجيل برقم الهوية الخاص بك للتسجيل السريع أو المتابعة بإجراءات التسجيل العادية."
+        "title": "خيارات الإعداد",
+        "description": "لقد عثرنا على حساب موجود به هويتك ولكنه مرتبط برقم هاتف مختلف. يمكنك اختيار الاستمرار باستخدام رقم هاتف ARB الخاص بك للذهاب إلى الإعداد السريع أو المتابعة إلى الإعداد العادي"
       }
     }
   },
