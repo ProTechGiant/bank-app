@@ -3335,5 +3335,8 @@
     "EntryPointScreen": {
       "title": "نقطة البداية"
     }
+  },
+  "AllInOneCard": {
+    "entryPoint": "مرحبًا بك في \nAll In One Card"
   }
 }

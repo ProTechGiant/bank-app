@@ -3473,5 +3473,8 @@
     "EntryPointScreen": {
       "title": "EntryPoint"
     }
+  },
+  "AllInOneCard": {
+    "entryPoint": "Welcome to The \nAll In One Card"
   }
 }
