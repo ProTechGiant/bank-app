@@ -14,10 +14,16 @@ import { useApplyCardsContext } from "../../context/ApplyCardsContext";
 interface PickCardTypeScreenProps {
   onCancel: () => void;
   onSelected: () => void;
+  isLoadingOnSelection?: boolean;
   variant: "apply" | "renew" | "order";
 }
 
-export default function PickCardTypeScreen({ onCancel, onSelected, variant }: PickCardTypeScreenProps) {
+export default function PickCardTypeScreen({
+  onCancel,
+  onSelected,
+  isLoadingOnSelection = false,
+  variant,
+}: PickCardTypeScreenProps) {
   const { t } = useTranslation();
 
   const applyCardsContext = useApplyCardsContext();
@@ -111,6 +117,7 @@ export default function PickCardTypeScreen({ onCancel, onSelected, variant }: Pi
                   ? t("CardActions.ApplyCardScreen.PickCardTypeScreen.navTitle")
                   : t("CardActions.ApplyCardScreen.CardRenewalScreen.title")
               }
+              isLoadingOnPress={isLoadingOnSelection}
             />
           ),
           lux: () => (

@@ -1,14 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
-import { LUX_CARD_PRODUCT_ID, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { OtpRequiredResponse } from "@/features/OneTimePassword/types";
 import { Address } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 import { tokenizeCardForAppleWalletAsync } from "@/utils/apple-wallet";
 
 import { MOCK_API_URL } from "../mocks/mockPOSTransactionLimits";
-import { Card, CardSettingsInput, CardStatus, ChangePOSLimit } from "../types";
+import { ActionType, Card, CardSettingsInput, CardStatus, ChangePOSLimit, RenewalReason } from "../types";
 
 export const queryKeys = {
   all: () => ["cards"] as const,
@@ -275,16 +274,18 @@ export function useVerifyCVV() {
 }
 
 export interface RenewCardInput {
-  CardType: string;
-  CardProductId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
-  Pin?: string;
-  AlternateAddress?: Address;
+  CardId: string;
+  ActionType: ActionType;
+  ExpiryDate?: string;
+  Reason?: RenewalReason;
 }
 
 interface RenewCardResponse {
-  OtpId: string;
-  OtpCode: string;
-  PhoneNumber: string;
+  NewCardDetails: {
+    CardId: string;
+    NewExpiryDate: string;
+    NewMaskedPan: string;
+  };
 }
 
 export function useSubmitRenewCard() {

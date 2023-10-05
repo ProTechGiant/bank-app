@@ -74,3 +74,12 @@ export interface ChangePOSLimit {
     Currency: string;
   };
 }
+
+export type ActionType =
+  | "ReissAsNew" // Used to issue the physical card for the first time.
+  | "Reissue" // Used to issue physical card after replacement of virtual card.
+  | "Replacement" // Used to replace the virtual card by new one with new card number and PIN.
+  | "Renewal" // Used to extend the expiry date of the card.
+  | "Convert"; // Convert virtual card to physical card.
+
+export type RenewalReason = "Cancellation" | "Expiration";

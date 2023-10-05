@@ -1974,7 +1974,11 @@
       "CardRenewalScreen": {
         "title": "Renew card",
         "renewSuccessTitle": "Your card is renewed",
-        "renewSuccessMessage": "You’ll be able to use your new card online or on your phone immediately once you activate it."
+        "renewSuccessMessage": "You’ll be able to use your new card online or on your phone immediately once you activate it.",
+        "RenewErrorModal": {
+          "title": "Sorry, something has gone wrong",
+          "message": "Try again later or get in touch with our customer care team."
+        }
       },
       "PickCardTypeScreen": {
         "navTitle": "Order Card",

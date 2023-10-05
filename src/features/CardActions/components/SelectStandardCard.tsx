@@ -7,10 +7,11 @@ import { useThemeStyles } from "@/theme";
 
 interface SelectStandardCardProps {
   onPress: () => void;
+  isLoadingOnPress?: boolean;
   title: string;
 }
 
-export default function SelectStandardCard({ onPress, title }: SelectStandardCardProps) {
+export default function SelectStandardCard({ onPress, isLoadingOnPress = false, title }: SelectStandardCardProps) {
   const bottomButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["24p"],
     alignSelf: "stretch",
@@ -22,7 +23,9 @@ export default function SelectStandardCard({ onPress, title }: SelectStandardCar
         <ActiveBankCard cardNumber="3232" cardType="1" productId="1356" />
       </View>
       <View style={bottomButtonContainerStyle}>
-        <Button onPress={onPress}>{title}</Button>
+        <Button onPress={onPress} loading={isLoadingOnPress} disabled={isLoadingOnPress}>
+          {title}
+        </Button>
       </View>
     </SafeAreaView>
   );

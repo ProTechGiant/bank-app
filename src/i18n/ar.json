@@ -1862,7 +1862,11 @@
       "CardRenewalScreen": {
         "title": "تجديد البطاقة",
         "renewSuccessTitle": "تم تجديد بطاقتك",
-        "renewSuccessMessage": "ستتمكن من استخدام بطاقتك الجديدة عبر الإنترنت أو على هاتفك مباشرةً بمجرد تفعيلها."
+        "renewSuccessMessage": "ستتمكن من استخدام بطاقتك الجديدة عبر الإنترنت أو على هاتفك مباشرةً بمجرد تفعيلها.",
+        "RenewErrorModal": {
+          "title": "عذرًا، حدث خطأ ما",
+          "message": "حاول مرة أخرى لاحقًا، او تواصل مع فريق خدمة العملاء"
+        }
       },
       "PickCardTypeScreen": {
         "navTitle": "Order Card",
