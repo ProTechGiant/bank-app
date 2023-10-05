@@ -35,7 +35,7 @@ export default function TransactionsList({ transactionsAll, cardId, createDisput
       cardType: transaction.CardType,
       status: transaction.Status,
       location: transaction.AddressLine ? transaction.AddressLine : false,
-      title: transaction.MerchantDetails.MerchantName,
+      title: transaction.MerchantDetails ? transaction.MerchantDetails.MerchantName : "",
       subTitle: transaction.TransactionInformation,
       amount: transaction.Amount.Amount,
       currency: transaction.Amount.Currency,

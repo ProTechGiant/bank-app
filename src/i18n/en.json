@@ -3151,8 +3151,8 @@
       "submitDisputeButton": "Submit dispute",
       "reportFraudButton": "Report Fraud",
       "ErrorModal": {
-        "title": "Sorry, something has gone wrong",
-        "message": "Your report couldn’t be submitted. Please try again or get in touch with our customer support team.",
+        "title": "Submit dispute failed",
+        "message": "The dispute was not successfully submitted",
         "primaryButtonText": "OK"
       }
     },

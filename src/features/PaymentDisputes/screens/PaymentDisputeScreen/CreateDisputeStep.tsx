@@ -186,7 +186,6 @@ export default function CreateDisputeStep({
 
       if (parsedResponse.DocumentId) {
         setDocumentID(parsedResponse.DocumentId);
-        // success
       } else {
         setDocumentID(undefined);
         throw Error;
@@ -221,7 +220,12 @@ export default function CreateDisputeStep({
         type: "",
         uri: "",
       };
-      const assetType = data.type?.includes("pdf") ? "pdf" : data.type?.includes("jpg") ? "jpg" : undefined;
+      const assetType = data.type?.includes("pdf")
+        ? "pdf"
+        : data.type?.includes("jpg") || data.type?.includes("jpeg")
+        ? "jpg"
+        : undefined;
+
       if (!assetType) {
         setFilePickerError(t("PaymentDisputes.CreateDisputeModal.file.wrongFile"));
         return;
