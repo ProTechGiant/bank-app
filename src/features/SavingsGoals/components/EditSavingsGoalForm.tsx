@@ -87,9 +87,9 @@ export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSav
     }
 
     if (notificationToggleFlag) {
-      setValue("NotificationFlag", false);
+      setToggleValue();
     } else if (notificationPreferences?.NotificationPreferencesFlag && !notificationToggleFlag) {
-      setValue("NotificationFlag", true);
+      setToggleValue();
     } else {
       Alert.alert(t("SavingsGoals.PermissionAlertModal.appTitle"), t("SavingsGoals.PermissionAlertModal.appSubtitle"), [
         {
