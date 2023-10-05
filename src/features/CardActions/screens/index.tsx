@@ -10,6 +10,7 @@ export { default as HomeScreen } from "./HomeScreen";
 export { default as IVRCheckScreen } from "./IVRCheckScreen";
 export { default as OrderNewCardSummaryScreen } from "./OrderNewCardSummaryScreen";
 export { default as POSLimitScreen } from "./POSLimitScreen";
+export { default as RenewCardScreen } from "./RenewCardScreen";
 export { default as ReportCardScreen } from "./ReportCardScreen";
 export { default as ResetPinCodeScreen } from "./ResetPinCodeScreen";
 export { default as SetPinScreen } from "./SetPinScreen";

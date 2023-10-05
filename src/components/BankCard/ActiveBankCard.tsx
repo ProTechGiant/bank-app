@@ -1,5 +1,4 @@
 import { times } from "lodash";
-import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CroatiaLogoIcon } from "@/assets/icons";
@@ -26,7 +25,6 @@ interface ActiveBankCardProps {
   label?: string;
   onPress?: () => void;
   productId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
-  isExpiringSoon?: boolean;
   actionButton?: React.ReactElement<ActionButtonProps>;
 }
 
@@ -37,11 +35,8 @@ export default function ActiveBankCard({
   label,
   productId,
   onPress,
-  isExpiringSoon,
   actionButton,
 }: ActiveBankCardProps) {
-  const { t } = useTranslation();
-
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["20p"],
     ...StyleSheet.absoluteFillObject,
@@ -53,14 +48,6 @@ export default function ActiveBankCard({
     borderWidth: 0,
     height: 4,
     width: 4,
-  }));
-
-  const cardExpiryContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: "#00000066",
-    paddingVertical: theme.spacing["8p"],
-    paddingHorizontal: theme.spacing["12p"],
-    borderRadius: theme.radii.extraSmall,
-    marginTop: theme.spacing["48p"],
   }));
 
   const numberContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -91,13 +78,6 @@ export default function ActiveBankCard({
           )}
           {endButton}
         </View>
-        {isExpiringSoon ? (
-          <View style={cardExpiryContainerStyle}>
-            <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
-              {t("CardActions.CardExpiryNotification.isExpiringSoon")}
-            </Typography.Text>
-          </View>
-        ) : null}
         <View style={numberContainerStyle}>
           <Stack align="center" direction="horizontal" gap="12p">
             <Stack direction="horizontal" gap="4p">

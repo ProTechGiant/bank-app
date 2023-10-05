@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { AppState, NativeEventSubscription, Platform, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
-import { CardIcon, CardSettingsIcon, ReportIcon } from "@/assets/icons";
+import { CardIcon, CardSettingsIcon, InfoFilledCircleIcon, ReportIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -18,6 +18,7 @@ import delayTransition from "@/utils/delay-transition";
 
 import {
   CardButtons,
+  InlineBanner,
   ListItemLink,
   ListItemText,
   ListSection,
@@ -26,7 +27,7 @@ import {
   UpgradeToCroatiaPlus,
   ViewPinModal,
 } from "../../components";
-import { isSingleUseCard } from "../../helpers";
+import { isCardExpiringSoon, isSingleUseCard } from "../../helpers";
 import {
   useChangeCardStatus,
   useFreezeCard,
@@ -36,7 +37,6 @@ import {
 import useAppleWallet from "../../hooks/use-apple-wallet";
 import { Card, DetailedCardResponse } from "../../types";
 import BankCardHeader from "./BankCardHeader";
-import TopBanner from "./TopBanner";
 
 interface CardDetailsScreenInnerProps {
   card: Card;
@@ -276,18 +276,21 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   const handleOnRenewCardPress = () => {
     if (card === undefined) return;
 
-    navigation.navigate("CardActions.ApplyCardScreen", {
-      replacingCardId: card.CardId,
-      productId: card.ProductId,
+    navigation.navigate("CardActions.RenewCardScreen", {
+      cardId: card.CardId,
     });
   };
 
   const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: 1,
+    height: 3,
     backgroundColor: theme.palette["neutralBase-40"],
     marginHorizontal: -theme.spacing["20p"],
-    marginTop: theme.spacing["16p"],
-    marginBottom: theme.spacing["20p"],
+    marginVertical: theme.spacing["20p"],
+  }));
+
+  const inlineBannerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["20p"],
+    marginBottom: theme.spacing["12p"],
   }));
 
   const upgradeContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -302,13 +305,12 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   return (
     <>
       <ContentContainer isScrollView>
-        <TopBanner
+        <BankCardHeader
           card={card}
-          onClose={() => setIsNotificationBannerVisible(false)}
-          onRenewPress={handleOnRenewCardPress}
-          isVisible={isNotificationBannerVisible}
+          cardDetails={cardDetails}
+          onActivatePress={handleOnPressActivate}
+          onRenewCardPress={handleOnRenewCardPress}
         />
-        <BankCardHeader card={card} cardDetails={cardDetails} onActivatePress={handleOnPressActivate} />
         {isSingleUseCard(card) ? (
           <SingleUseCardButtons
             onShowDetailsPress={handleOnShowDetailsPress}
@@ -327,6 +329,15 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
             isDisablePin={card.Status === "NEW_CARD"}
             cardStatus={card.Status}
           />
+        ) : null}
+        {isNotificationBannerVisible && isCardExpiringSoon(card) ? (
+          <View style={inlineBannerContainerStyle}>
+            <InlineBanner
+              icon={<InfoFilledCircleIcon />}
+              text={t("CardActions.CardExpiryNotification.content")}
+              onClose={() => setIsNotificationBannerVisible(false)}
+            />
+          </View>
         ) : null}
         <View style={separatorStyle} />
         {!isSingleUseCard(card) ? (

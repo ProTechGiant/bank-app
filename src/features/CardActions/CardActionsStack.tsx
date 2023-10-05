@@ -17,6 +17,7 @@ import {
   IVRCheckScreen,
   OrderNewCardSummaryScreen,
   POSLimitScreen,
+  RenewCardScreen,
   ReportCardScreen,
   ResetPinCodeScreen,
   SetPinScreen,
@@ -25,6 +26,7 @@ import {
   SingleUseCardInfoScreen,
   WaitingVerificationCardScreen,
 } from "./screens";
+import RenewCardSuccessScreen from "./screens/RenewCardScreen/RenewCardSuccessScreen";
 import { CardStatus } from "./types";
 
 export type CardActionsStackParams = {
@@ -111,6 +113,12 @@ export type CardActionsStackParams = {
   "CardActions.POSLimitScreen": { cardId: string };
   "CardActions.ConfirmCardDeliveryAddress": undefined;
   "CardActions.ApplyPhysicalCardSuccessScreen": undefined;
+  "CardActions.RenewCardScreen": {
+    cardId: string;
+  };
+  "CardActions.RenewCardSuccessScreen": {
+    cardId: string;
+  };
 };
 
 export const Stack = createNativeStackNavigator<CardActionsStackParams>();
@@ -149,6 +157,8 @@ export default function CardActionsStack() {
       <Stack.Screen component={IVRCheckScreen} name="CardActions.IVRCheckScreen" />
       <Stack.Screen component={ConfirmCardDeliveryAddress} name="CardActions.ConfirmCardDeliveryAddress" />
       <Stack.Screen component={ApplyPhysicalCardSuccessScreen} name="CardActions.ApplyPhysicalCardSuccessScreen" />
+      <Stack.Screen component={RenewCardScreen} name="CardActions.RenewCardScreen" />
+      <Stack.Screen component={RenewCardSuccessScreen} name="CardActions.RenewCardSuccessScreen" />
     </Stack.Navigator>
   );
 }

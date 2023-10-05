@@ -1846,6 +1846,7 @@
 
   "CardActions": {
     "activateCard": "تفعيل البطاقة",
+    "renewCard": "تجديد البطاقة",
     "QuickMenu": {
       "freezeCard": "Lock card",
       "defrost": "Unlock Card",
@@ -1859,7 +1860,9 @@
     },
     "ApplyCardScreen": {
       "CardRenewalScreen": {
-        "title": "Renew card"
+        "title": "تجديد البطاقة",
+        "renewSuccessTitle": "تم تجديد بطاقتك",
+        "renewSuccessMessage": "ستتمكن من استخدام بطاقتك الجديدة عبر الإنترنت أو على هاتفك مباشرةً بمجرد تفعيلها."
       },
       "PickCardTypeScreen": {
         "navTitle": "Order Card",
@@ -2233,9 +2236,7 @@
       }
     },
     "CardExpiryNotification": {
-      "title": "Your card will expire soon",
-      "content": "You can renew it now to make sure you get a replacement before it expires, or we’ll send a new one automatically to your registered address.",
-      "button": "Renew card",
+      "content": "سارع بتجديد بطاقتك قبل انتهائها، أو سنقوم تلقائيًا بإرسال بطاقة جديدة إلى عنوانك",
       "isExpiringSoon": "Expires soon"
     }
   },

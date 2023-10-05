@@ -1954,6 +1954,7 @@
     "cardFrozen": "Card locked",
     "generateNew": "Generate New",
     "activateCard": "Activate card",
+    "renewCard": "Renew card",
     "comingSoon": "On the way",
     "madaPayDescription": "Download <1>mada Pay</1> from the Google Play Store to pay with your phone instead of a card.",
     "appleWallet": "Apple Wallet",
@@ -1971,7 +1972,9 @@
     },
     "ApplyCardScreen": {
       "CardRenewalScreen": {
-        "title": "Renew card"
+        "title": "Renew card",
+        "renewSuccessTitle": "Your card is renewed",
+        "renewSuccessMessage": "You’ll be able to use your new card online or on your phone immediately once you activate it."
       },
       "PickCardTypeScreen": {
         "navTitle": "Order Card",
@@ -2326,9 +2329,7 @@
       "errorModalActionButton": "Set new pin"
     },
     "CardExpiryNotification": {
-      "title": "Your card will expire soon",
-      "content": "You can renew it now to make sure you get a replacement before it expires, or we’ll send a new one automatically to your registered address.",
-      "button": "Renew card",
+      "content": "Your card is expiring soon. Renew it now to make sure you get a replacement before it expires.",
       "isExpiringSoon": "Expires soon"
     },
     "CardDeliveryNotification": {

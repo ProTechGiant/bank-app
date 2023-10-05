@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import FullScreenLoader from "@/components/FullScreenLoader";
 import { LoadingErrorNotification } from "@/components/LoadingError";
@@ -11,13 +11,10 @@ import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 
-import { CardList, InlineBanner, ViewPinModal } from "../components";
-import { isCardExpiringSoon, isPhysicalCard } from "../helpers";
+import { CardList, ViewPinModal } from "../components";
 import { useCards, useChangeCardStatus, useFreezeCard, useRequestViewPinOtp } from "../hooks/query-hooks";
-import { Card } from "../types";
 
 export default function HomeScreen() {
   const { t } = useTranslation();
@@ -33,7 +30,6 @@ export default function HomeScreen() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [isViewingPin, setIsViewingPin] = useState(false);
   const [pin, setPin] = useState<string | undefined>();
-  const [isCardBannerVisible, setIsCardBannerVisible] = useState(true);
   const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState(false);
 
   // display error if api failed to get response.
@@ -120,68 +116,14 @@ export default function HomeScreen() {
     navigation.navigate("CardActions.SingleUseCardAbout");
   };
 
-  const handleOnCloseCardNotification = () => {
-    setIsCardBannerVisible(false);
-  };
-
   const handleOnActivatePhysicalCard = (cardId: string) => {
     navigation.navigate("CardActions.EnterCardCVVScreen", { cardId });
-  };
-
-  const handleOnRenewCardPress = (card: Card) => {
-    navigation.navigate("CardActions.ApplyCardScreen", {
-      replacingCardId: card.CardId,
-      productId: card.ProductId,
-    });
-  };
-
-  const notificationBannerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    margin: theme.spacing["20p"],
-  }));
-
-  const renderNotificationBanner = () => {
-    const cardsList = cardsQuery.data?.Cards ?? [];
-    const inactiveCard = cardsList.find(card => isPhysicalCard(card) && card.Status === "INACTIVE");
-    const expiringCard = cardsList.find(card => isCardExpiringSoon(card));
-
-    if (inactiveCard !== undefined) {
-      return (
-        <View style={notificationBannerContainerStyle}>
-          <InlineBanner
-            onClose={handleOnCloseCardNotification}
-            title={t("CardActions.CardDeliveryNotification.inactiveTitle")}
-            text={t("CardActions.CardDeliveryNotification.inactiveTitle")}
-          />
-        </View>
-      );
-    }
-
-    if (expiringCard !== undefined) {
-      return (
-        <View style={notificationBannerContainerStyle}>
-          <InlineBanner
-            action={
-              <InlineBanner.Button
-                onPress={() => handleOnRenewCardPress(expiringCard)}
-                text={t("CardActions.CardExpiryNotification.button")}
-              />
-            }
-            onClose={handleOnCloseCardNotification}
-            title={t("CardActions.CardExpiryNotification.title")}
-            text={t("CardActions.CardExpiryNotification.content")}
-          />
-        </View>
-      );
-    }
-
-    return null;
   };
 
   return (
     <>
       <Page backgroundColor="neutralBase-60">
         <NavHeader title={t("CardActions.HomeScreen.navTitle")} />
-        {isCardBannerVisible ? renderNotificationBanner() : null}
         {cardsQuery.isLoading ? (
           <View style={styles.loading}>
             <FullScreenLoader />

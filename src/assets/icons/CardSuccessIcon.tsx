@@ -2,7 +2,7 @@ import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export function ReportCardSuccessIcon({ width = 350, height = 370 }: IconProps) {
+export function CardSuccessIcon({ width = 350, height = 370 }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 350 370" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path opacity="0.08" d="M29.832 91.8408L174.527 175.633L94.9248 222.165L29.832 91.8408Z" fill="#DCECEE" />

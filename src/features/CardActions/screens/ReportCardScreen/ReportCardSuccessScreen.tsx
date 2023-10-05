@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Platform, View, ViewStyle } from "react-native";
 
-import { ReportCardSuccessIcon } from "@/assets/icons";
+import { CardSuccessIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
 import Button from "@/components/Button";
 import { HeroSlider } from "@/components/HeroSlider";
@@ -45,7 +45,7 @@ export default function ReportCardSuccessScreen({ cardId }: ReportCardSuccessScr
       buttonText=""
       data={[
         {
-          topElement: <ReportCardSuccessIcon />,
+          topElement: <CardSuccessIcon />,
           title: t("CardActions.ReportCardScreen.ReportCardSuccessScreen.title"),
           text: t("CardActions.ReportCardScreen.ReportCardSuccessScreen.description", {
             device: Platform.OS === "android" ? t("CardActions.madaPay") : t("CardActions.appleWallet"),

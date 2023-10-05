@@ -13,9 +13,10 @@ interface BankCardHeaderProps {
   card: Card;
   cardDetails: DetailedCardResponse | undefined;
   onActivatePress: () => void;
+  onRenewCardPress: () => void;
 }
 
-export default function BankCardHeader({ card, cardDetails, onActivatePress }: BankCardHeaderProps) {
+export default function BankCardHeader({ card, cardDetails, onActivatePress, onRenewCardPress }: BankCardHeaderProps) {
   const { t } = useTranslation();
   const addToast = useToasts();
 
@@ -63,11 +64,12 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress }: B
           cardNumber={card.LastFourDigits}
           cardType={card.CardType}
           productId={card.ProductId}
-          isExpiringSoon={isCardExpiringSoon(card)}
           label="Standard"
           actionButton={
             card.Status === "NEW_CARD" ? (
               <BankCard.ActionButton title={t("CardActions.activateCard")} type="light" onPress={onActivatePress} />
+            ) : isCardExpiringSoon(card) ? (
+              <BankCard.ActionButton title={t("CardActions.renewCard")} type="light" onPress={onRenewCardPress} />
             ) : undefined
           }
         />

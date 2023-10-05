@@ -23,7 +23,7 @@ InlineBanner.Button = InlineBannerButton;
 function InlineBanner({ action, icon, text, title, testID, onClose, variant = "default" }: InlineBannerProps) {
   const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
-      alignItems: "flex-start",
+      alignItems: "center",
       backgroundColor: variant === "error" ? theme.palette["errorBase-40"] : theme.palette["neutralBase-40"],
       borderRadius: theme.radii.small,
       columnGap: theme.spacing["12p"],

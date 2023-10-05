@@ -55,8 +55,8 @@ export default function PickCardTypeScreen({ onCancel, onSelected, variant }: Pi
               ? t("CardActions.ApplyCardScreen.PickCardTypeScreen.navTitle")
               : t("CardActions.ApplyCardScreen.CardRenewalScreen.title")
           }
-          withBackButton={false}
           end={<NavHeader.CloseEndButton onPress={onCancel} />}
+          onBackPress={onCancel}
         />
       ) : (
         <Typography.Text style={titleLabelStyle} color="neutralBase+30" weight="semiBold" size="title1">

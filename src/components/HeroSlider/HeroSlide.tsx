@@ -19,7 +19,7 @@ export default function HeroSlide({
   text,
   containerStyle,
   bottomElementStyle,
-  darkTheme,
+  darkTheme = false,
 }: HeroSlideProps) {
   const { height } = useWindowDimensions();
 
