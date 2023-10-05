@@ -18,6 +18,7 @@ import { useCurrentAccount } from "@/hooks/use-accounts";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { generateRandomId } from "@/utils";
 
 import { PAYMENT_FREQUENCY } from "../constants";
 import { setDateAndFormatRecurringPayment } from "../helpers";
@@ -119,6 +120,7 @@ export default function FundingStep({
         ...values,
         Currency: "SAR",
         DebtorAccount: account.data.id,
+        Reference: generateRandomId(),
         PotId: data.PotId,
         ...(fundingType === "recurring-payments"
           ? {

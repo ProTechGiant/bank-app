@@ -151,7 +151,7 @@ interface FundSavingsPotRecurringOptions {
   CreditorAccount: string;
   DebtorAccount: string;
   PaymentFrequency: string;
-  Reference?: string;
+  Reference: string;
   PaymentDetails?: string[];
   Description?: string[];
 }
