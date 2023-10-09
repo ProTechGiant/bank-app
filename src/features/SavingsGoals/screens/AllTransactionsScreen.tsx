@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { format, isToday, isYesterday } from "date-fns";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   FlatList,
@@ -54,6 +54,12 @@ export default function AllTransactionsScreen() {
     isLoading,
     refetch: refetchTransaction,
   } = useGetTransactionsByAccountId(transactionApiParams);
+
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(isError);
+
+  useEffect(() => {
+    setIsErrorModalVisible(isError);
+  }, [isError]);
 
   const availableBalance = savingsPotData?.AvailableBalanceAmount ?? 0;
   const formattedBalance = parseFloat(String(availableBalance)).toFixed(2);
@@ -284,7 +290,8 @@ export default function AllTransactionsScreen() {
           }}
         />
         <NotificationModal
-          isVisible={isError}
+          isVisible={isErrorModalVisible}
+          onClose={() => setIsErrorModalVisible(false)}
           title={t("SavingsGoals.GoalDetailsScreen.AllTransactions.errorTitle")}
           variant="error"
           message={t("SavingsGoals.GoalDetailsScreen.AllTransactions.errorMessage")}
