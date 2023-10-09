@@ -1661,7 +1661,7 @@
     "PermissionAlertModal": {
       "nativeTitle": "Notifications are disabled",
       "nativeSubtitle": "Would you like to turn on notifications?",
-      "back": "Cancel", 
+      "back": "Cancel",
       "settings": "Turn on",
       "appTitle": "Your global notifications are disabled",
       "appSubtitle": "Would you like to turn on global notifications?"
@@ -3464,7 +3464,7 @@
       "loadMore": "load more"
     }
   },
-  "GoldWallet":{
+  "GoldWallet": {
     "TermsAndConditionsModal": {
       "title": "Terms and conditions"
     }
@@ -3475,6 +3475,9 @@
     }
   },
   "AllInOneCard": {
-    "entryPoint": "Welcome to The \nAll In One Card"
+    "EntryPointScreen": {
+      "title": "Welcome to The \nAll In One Card",
+      "buttonExplore": "Explore"
+    }
   }
 }

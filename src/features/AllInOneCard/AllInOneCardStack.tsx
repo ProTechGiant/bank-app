@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 
+import { AllInOneCardContextProvider } from "./contexts/AllInOneCardContext";
 import { DashboardScreen, EntryPointScreen } from "./screens";
 
 export const Stack = createNativeStackNavigator();
@@ -12,12 +13,14 @@ export type AllInOneCardParams = {
 
 export default function AllInCardStack() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen component={DashboardScreen} name="AllInOneCard.Dashboard" />
-      <Stack.Screen component={EntryPointScreen} name="AllInOneCard.EntryPoint" />
-    </Stack.Navigator>
+    <AllInOneCardContextProvider>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen component={DashboardScreen} name="AllInOneCard.Dashboard" />
+        <Stack.Screen component={EntryPointScreen} name="AllInOneCard.EntryPoint" />
+      </Stack.Navigator>
+    </AllInOneCardContextProvider>
   );
 }

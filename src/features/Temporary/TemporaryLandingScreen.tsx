@@ -207,7 +207,7 @@ export default function TemporaryLandingScreen() {
   const handleAllInOneCard = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     setImmediate(() => {
-      navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.Dashboard" });
+      navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.EntryPoint" });
     });
   };
 

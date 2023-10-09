@@ -3326,7 +3326,7 @@
       "loadMore": "تحميل المزيد"
     }
   },
-  "GoldWallet":{
+  "GoldWallet": {
     "TermsAndConditionsModal": {
       "title": "Terms and conditions"
     }
@@ -3337,6 +3337,9 @@
     }
   },
   "AllInOneCard": {
-    "entryPoint": "مرحبًا بك في \nAll In One Card"
+    "EntryPointScreen": {
+      "title": "مرحبًا بك في \nAll In One Card",
+      "buttonExplore": "اكتشف"
+    }
   }
 }

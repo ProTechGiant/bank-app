@@ -33,18 +33,22 @@ export default function EntryPointScreen() {
     lineHeight: theme.typography.header._lineHeights.large,
   }));
 
+  const handleExplore = () => {
+    // TODO : handle button when new screens are made
+  };
+
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
       <View style={containerViewStyle}>
         <View style={containerTextStyle}>
           <Typography.Header size="large" weight="bold" align="center" style={titleStyle}>
-            {t("AllInOneCard.entryPoint")}
+            {t("AllInOneCard.EntryPointScreen.title")}
           </Typography.Header>
         </View>
         <CarouselImage data={data} />
         <CarouselText data={data} />
-        <Button onPress={() => navigation.navigate("AddMoney.AddMoneyStack")}>Continue</Button>
+        <Button onPress={handleExplore}>{t("AllInOneCard.EntryPointScreen.buttonExplore")}</Button>
       </View>
     </Page>
   );

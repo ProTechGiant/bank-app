@@ -10,7 +10,7 @@ import { CardIcon, ContactSupportIcon, WalletIcon } from "@/assets/icons";
 import { HomeTabIcon } from "@/assets/icons/HomeTabIcon";
 import { useThemeStyles } from "@/theme";
 
-import CardActionsStack from "../CardActions/CardActionsStack";
+import AllInCardStack from "../AllInOneCard/AllInOneCardStack";
 import HelpAndSupportStack from "../HelpAndSupport/HelpAndSupportStack";
 import { PaymentsHubScreen } from "../InternalTransfers/screens";
 import HomeStack from "./HomeStack";
@@ -70,7 +70,7 @@ export default function HomeTabs() {
         component={PaymentsHubScreen}
         options={{ tabBarLabel: t("Home.HomeTabs.tabTransfer") }}
       />
-      <Tab.Screen name="Cards" component={CardActionsStack} options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }} />
+      <Tab.Screen name="Cards" component={AllInCardStack} options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }} />
       <Tab.Screen
         name="Support"
         component={HelpAndSupportStack}
