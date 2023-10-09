@@ -3334,6 +3334,13 @@
   "MutualFund": {
     "EntryPointScreen": {
       "title": "نقطة البداية"
+    },
+    "MutualFundDashboardScreen": {
+      "headerTitle": "Dashboard",
+      "TotalPortfolioLabel": " Total portfolio value (SAR)",
+      "TotalCashBalanceLabel": "Total cash balance",
+      "TotalGainLossLabel": "Total Gain/loss",
+      "portfolioPerformanceSectionLabel": "Portfolio performance"
     }
   },
   "AllInOneCard": {

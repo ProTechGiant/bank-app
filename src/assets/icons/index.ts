@@ -42,6 +42,7 @@ export * from "./DeleteIcon";
 export * from "./DiamondIcon";
 export * from "./DiamondSmallIcon";
 export * from "./DisabledPlusCircleIcon";
+export * from "./DotIcon";
 export * from "./DownloadIcon";
 export * from "./EditBorderedIcon";
 export * from "./EditIcon";
