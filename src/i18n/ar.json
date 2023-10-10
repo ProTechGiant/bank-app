@@ -1136,6 +1136,12 @@
         "description": "تخيل اهدافك و سوف نساعدك بالادخار لتحقيقهم.",
         "button": "أنشئ هدف"
       },
+      "GoldSection": {
+        "title": "Gold Wallet",
+        "subtitle": "Safe investment SAR",
+        "caption": "Buy gold in a few steps",
+        "button": "Explore"
+      },
       "ReferFriend": {
         "title": "أرسل دعوه",
         "description": "أرسل دعوه لاصدقائك و أكسب 15 ريال لكل واحد منهم.",
@@ -3329,6 +3335,15 @@
   "GoldWallet": {
     "TermsAndConditionsModal": {
       "title": "Terms and conditions"
+    },
+    "OnBoardingScreen": {
+      "title": "Buy gold, invest today",
+      "agree": "I agree to Croatia’s",
+      "termsAndConditions": "Terms and Conditions",
+      "confirm": "Confirm",
+      "features": {
+        "lowRisk": "Reliable savings with low risk"
+      }
     }
   },
   "MutualFund": {

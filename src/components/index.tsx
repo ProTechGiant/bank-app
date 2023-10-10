@@ -11,5 +11,6 @@ export { default as RefreshSection } from "./RefreshSection";
 export { default as SectionListFooter } from "./SectionListFooter";
 export { default as Stack } from "./Stack";
 export { default as Tags } from "./Tags";
+export { default as TermsAndConditionsPage } from "./TermsAndConditionsPage";
 export { default as Typography } from "./Typography";
 export { default as WithShadow } from "./WithShadow/WithShadow";

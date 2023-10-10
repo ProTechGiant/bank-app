@@ -1145,6 +1145,12 @@
           "subTextFour": "We will show you some recommendation in how to active you goal"
         }
       },
+      "GoldSection": {
+        "title": "Gold Wallet",
+        "subtitle": "Safe investment SAR",
+        "caption": "Buy gold in a few steps",
+        "button": "Explore"
+      },
       "ReferFriend": {
         "title": "Invite a friend",
         "description": "Invite your friends and earn 15 SAR for each of you.",
@@ -3467,16 +3473,25 @@
   "GoldWallet": {
     "TermsAndConditionsModal": {
       "title": "Terms and conditions"
+    },
+    "OnBoardingScreen": {
+      "title": "Buy gold, invest today",
+      "agree": "I agree to Croatia’s",
+      "termsAndConditions": "Terms and Conditions",
+      "confirm": "Confirm",
+      "features": {
+        "lowRisk": "Reliable savings with low risk"
+      }
     }
   },
   "MutualFund": {
     "EntryPointScreen": {
       "title": "EntryPoint"
     },
-    "DiscoverProductsScreen":{
+    "DiscoverProductsScreen": {
       "title": "Discover mutual funds",
       "filterByRisk": "Filter by risk:",
-      "filterType":{
+      "filterType": {
         "all": "All",
         "low": "Low",
         "medium": "Medium",
@@ -3502,7 +3517,7 @@
       }
     },
     "MutualFundDashboardScreen": {
-      "headerTitle":"Dashboard",
+      "headerTitle": "Dashboard",
       "TotalPortfolioLabel": " Total portfolio value (SAR)",
       "TotalCashBalanceLabel": "Total cash balance",
       "TotalGainLossLabel": "Total Gain/loss",
@@ -3525,5 +3540,8 @@
         "CancelButton": "Cancel card request"
       }
     }
+  },
+  "TermsAndConditionsModal": {
+    "title": "Terms and conditions"
   }
 }

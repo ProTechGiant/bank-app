@@ -1,13 +1,10 @@
-import NavHeader from "@/components/NavHeader";
-import Page from "@/components/Page";
-import useNavigation from "@/navigation/use-navigation";
+import { TermsAndConditionsPage } from "@/components";
+import { useContentTermsAndCondition } from "@/hooks/use-content";
 
 export default function TermsAndConditionsModal() {
-  const navigation = useNavigation();
+  //TODO this is not the correct hook call the correct one once it is implemented
+  const termsAndConditionData = useContentTermsAndCondition();
+  const termsSections = termsAndConditionData?.data?.TermsSections;
 
-  return (
-    <Page backgroundColor="neutralBase-60">
-      <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
-    </Page>
-  );
+  return <TermsAndConditionsPage termsSections={termsSections} />;
 }

@@ -35,6 +35,7 @@ import {
   TopSpendingCategories,
   WhatsNextSection,
 } from "../components";
+import { GoldWalletSection } from "../components/GoldWalletSection";
 import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
 import {
   useAppreciationFeedback,
@@ -190,6 +191,10 @@ export default function DashboardScreen() {
     setFeedbackIndex(feedbackIndex + 1);
   };
 
+  const handleOnGoldWalletExplorePress = () => {
+    navigation.navigate("GoldWallet.GoldWalletStack");
+  };
+
   const handleOnChatButtonPress = () => {
     navigation.navigate("HelpAndSupport.HelpAndSupportStack", {
       screen: "HelpAndSupport.ChatScreen",
@@ -301,6 +306,8 @@ export default function DashboardScreen() {
 
                   return <Fragment key={section.type} />;
                 })}
+                {/* //TODO add the right condition to visualize this section while finished by backend*/}
+                <GoldWalletSection onPress={handleOnGoldWalletExplorePress} />
               </>
             ) : layoutErrorIsVisible === true ? (
               <LoadingErrorNotification

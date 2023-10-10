@@ -13,8 +13,8 @@ export const Stack = createNativeStackNavigator<GoldWalletStackParams>();
 export default function GoldWalletStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen component={TermsAndConditionsModal} name="GoldWalletStack.TermsAndConditions" />
       <Stack.Screen component={HubScreen} name="GoldWallet.HubScreen" />
+      <Stack.Screen component={TermsAndConditionsModal} name="GoldWalletStack.TermsAndConditions" />
       <Stack.Screen component={OnboardingScreen} name="GoldWallet.OnboardingScreen" />
     </Stack.Navigator>
   );

@@ -63,6 +63,7 @@ export * from "./FullScreenIcon";
 export * from "./GiftIcon";
 export * from "./GlobeIcon";
 export * from "./GoalGetterIcon";
+export * from "./GoldWalletIcon";
 export * from "./HamburgerIcon";
 export * from "./HideIcon";
 export * from "./HighRiskIcon";

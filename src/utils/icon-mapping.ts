@@ -29,6 +29,7 @@ export const iconMapping: IconMappingType = {
     edit: createElement(icons.ThreeDotsIcon),
     plus: createElement(icons.PlusIcon),
     "goal-getter": createElement(icons.GoalGetterIcon),
+    "gold-wallet": createElement(icons.GoldWalletIcon),
     "mutual-fund": createElement(icons.MutualFundIcon),
     payment: createElement(icons.PaymentsIcon),
     appreciations: createElement(icons.AppreciationIcon),
