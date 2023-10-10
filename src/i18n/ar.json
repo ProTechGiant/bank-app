@@ -1104,18 +1104,18 @@
     },
     "DashboardScreen": {
       "AccountNumberCopied": "تم نسخ رقم الحساب في الحافظة",
-      "balanceHidden": "Hidden balance",
-      "hideBalanceButton": "Hide balance",
-      "showBalanceButton": "Show balance",
-      "myAccountButton": "My account",
-      "notifications_one": "{{count}} notification",
-      "notifications_other": "{{count}} notifications",
-      "editDashboard": "Edit",
-      "dismiss": "Dismiss",
-      "viewAll": "View all",
+      "balanceHidden": "رصيد مخفي",
+      "hideBalanceButton": "إخفاء الرصيد",
+      "showBalanceButton": "اظهار الرصيد",
+      "myAccountButton": "حسابي",
+      "notifications_one": "{{count}} الاشعارات",
+      "notifications_other": "{{count}} الاشعارات",
+      "editDashboard": "تعديل",
+      "dismiss": "رفض",
+      "viewAll": "عرض الكل",
       "whatsNext": "ما هو التالي في {{month}}",
       "totalSarBalance": "الرصيد الاجمالي",
-      "account": "Account    ",
+      "account": "    الحساب",
       "mainCroatiaAccount": "حسابي",
       "taskCount_one": "مهمه واحده ",
       "taskCount_two": "مهمتان",
@@ -1154,24 +1154,24 @@
       "QuickActionSectionRefreshSectionHint": "خطأ في تحميل الاختصارات"
     },
     "RateAppreciation": {
-      "question": "What do yo think about this appreciation?",
-      "subtitle": "Help us improve by reviewing and giving feedback on our rewards and offerings.",
-      "rateButton": "Rate Now",
-      "dismissButton": "Dismiss"
+      "question": "ما رأيك في هذا التقدير؟",
+      "subtitle": "ساعدنا على التحسين من خلال مراجعة المكافآت والعروض التي نقدمها وإبداء الرأي بشأنها.",
+      "rateButton": "قيم الآن",
+      "dismissButton": "رفض"
     },
     "AppreciationFeedback": {
-      "question": "What do yo think about this appreciation?",
-      "positiveAnswer": "I enjoyed this",
-      "negativeAnswer": "Didn't like it",
-      "comments": "Comments",
-      "minNumberOfCharactersInComment": "Minimum 5 characters",
-      "continue": "Continue",
-      "errorModalTitle": "Are you Sure you want to cancel?",
-      "errorModalMessage": "All the entered data will be lost, are you sure to cancel the contest form?",
-      "errorModalButton": "Yes, Cancel",
-      "successModalTitle": "Feedback Submitted",
-      "successModalMessage": "Thank you for your feedback!\nWe will use this to help us improve our rewards and offering to you.",
-      "successModalButton": "Back to Home"
+      "question": "ما رأيك في هذا التقدير؟",
+      "positiveAnswer": "لقد استمتعت بهذا",
+      "negativeAnswer": "لم يعجبني",
+      "comments": "تعليقات",
+      "minNumberOfCharactersInComment": "الحد الأدنى 5 أحرف",
+      "continue": "استمرار",
+      "errorModalTitle": "هل أنت متأكد أنك تريد إلغاء؟",
+      "errorModalMessage": "سيتم فقدان كافة البيانات المدخلة، هل أنت متأكد من إلغاء نموذج المسابقة؟",
+      "errorModalButton": "نعم، إلغاء",
+      "successModalTitle": "تم إرسال التعليقات",
+      "successModalMessage": "شكرا لك على ملاحظاتك! \nسنستخدم هذا لمساعدتنا في تحسين مكافآتنا وعروضنا المقدمة لك.",
+      "successModalButton": "العودة إلى الصفحة الرئيسية"
     },
     "RefreshSection": {
       "refreshButton": "إعادة تحميل",
@@ -1268,7 +1268,7 @@
       "validationError": {
         "required": "اسم الهدف مطلوب",
         "maximum": "الحد الأقصى 50 حرفًا",
-        "minimum": "الحد الادني ٥ احرف"
+        "minimum": "الحد الادني 5 احرف"
       }
     },
     "GoalMindScreen": {
@@ -2778,7 +2778,7 @@
       "addBillMessage": "Add a bill to pay now or later",
       "SAR": ".00 SAR",
       "due": "Due: ",
-      "viewAll": "View All",
+      "viewAll": "عرض الكل",
       "addBill": "Add a bill",
       "noDueTitle": "No payments due",
       "noDueDescription": "We couldn’t find due payments that match your search. Consider adding your bill and use features.",
@@ -3189,92 +3189,92 @@
   },
   "Appreciation": {
     "HubScreen": {
-      "title": "Appreciations",
-      "all": "All",
-      "redeemed": "Redeemed",
-      "liked": "Liked",
-      "filter": "Filter",
-      "clearAll": "Clear all",
-      "location": "Location",
-      "category": "Category",
-      "apply": "Apply",
+      "title": "التقديرات",
+      "all": "الكل",
+      "redeemed": "المستردة",
+      "liked": "الاعحاب",
+      "filter": "تصنيف",
+      "clearAll": "امسح الكل",
+      "location": "الموقع",
+      "category": "الصنف",
+      "apply": "تقديم",
       "CategoriesFilterTitle": "الصنف",
       "LocationsFilterTitle": "الموقع",
-      "SectionsFilterTitle": "Section",
-      "TypesFilterTitle": "Redeem",
-      "filterBy": "Filtered by:",
-      "recommended": "Recommended for you",
-      "promoted": "Promoted",
-      "explore": "Explore",
-      "sellingFast": "Selling fast",
-      "new": "New",
+      "SectionsFilterTitle": "القسم",
+      "TypesFilterTitle": "استرداد",
+      "filterBy": "تمت التصفية حسب:",
+      "recommended": "موصى به لك",
+      "promoted": "الافضل",
+      "explore": "استكشاف",
+      "sellingFast": "بيع سريع",
+      "new": "جديد",
       "croatiaPlus": "Croatia Plus",
-      "endsOnMessage": "Presale ends on",
+      "endsOnMessage": "ينتهي البيع المسبق في",
       "LoadingError": {
         "title": "لم نتمكن من تحميل البيانات",
         "description": "كان هناك مشكلة طفيفة، ولكن لا تقلق. يمكننا المحاولة مرة أخرى",
         "reload": "إعادة التحميل"
       },
       "FilterOptions": {
-        "recommendedForYou": "Recommended for you",
-        "mostRecent": "Most Recent",
-        "expiringSoonest": "Expiring Soonest",
-        "alphabetic": "Alphabetic",
+        "recommendedForYou": "موصى به لك",
+        "mostRecent": "الأحدث",
+        "expiringSoonest": "تنتهي صلاحيته قريبا",
+        "alphabetic": "أبجدي",
         "noAppreciationsFoundTitle": "لم يتم العثور على تقديرات",
         "noAppreciationsFoundDescription": "لم نتمكن من العثور على تقديرات تتطابق مع بحثك. يُرجى مراجعة معايير البحث والمحاولة مرة أخرى."
       },
       "EmptyList": {
         "HasFilters": {
-          "title": "No appreciations found",
-          "subtitle": "We couldn’t find appreciations that match your search. Consider adapting your search and try again."
+          "title": "لم يتم العثور على التقديرات",
+          "subtitle": "لم نتمكن من العثور على التقديرات التي تطابق بحثك. فكر في تعديل بحثك وحاول مرة أخرى."
         },
         "AllTab": {
-          "title": "Appreciations will be here soon",
-          "subtitle": "We’re working hard to bring you interesting appreciations that promote your lifestyle. Stay tuned!",
-          "buttonText": "Read Whats Next"
+          "title": "التقديرات سيكون هنا قريبا",
+          "subtitle": "نحن نعمل بجد لنقدم لك تقديرات مثيرة للاهتمام تعزز نمط حياتك. ابقوا متابعين!",
+          "buttonText": "اقرأ ما هو التالي"
         },
         "RedeemedTab": {
-          "title": "No Redeemed Appreciations",
-          "subtitle": "There are no available tickets or vouchers. We will only show appreciations that were purchased within Croatia app.",
-          "buttonText": "Appreciation History"
+          "title": "لا يوجد تقديرات مستردة",
+          "subtitle": "لا توجد تذاكر أو قسائم متاحة. سنعرض فقط التقديرات التي تم شراؤها داخل تطبيق كرواتيا.",
+          "buttonText": "تاريخ التقدير"
         },
         "LikedTab": {
-          "title": "No Liked Appreciations",
-          "subtitle": "You haven’t liked any Appreciations yet.\n Any appreciations you like can be \n accessed here."
+          "title": "لا يوجد إعجابات تقدير",
+          "subtitle": "لم تعجبك أي تقديرات حتى الآن.\n يمكن الوصول إلى أي التقديرات التي تريدها هنا."
         }
       }
     },
-    "endsOnMessage": "Presale ends on",
-    "upgradeYourTier": "Upgrade Your Tier",
-    "redeemAppreciation": "Redeem Appreciation",
-    "ReadMoreInOur": "Read more in our",
-    "termsAndConditions": "Terms and Conditions",
+    "endsOnMessage": "ينتهي البيع المسبق في",
+    "upgradeYourTier": "قم بترقية مستواك",
+    "redeemAppreciation": "استرداد التقدير",
+    "ReadMoreInOur": "اقرأ المزيد في",
+    "termsAndConditions": "أحكام وشروط",
     "AppreciationDetailsSection": {
-      "termsAndConditions": "Terms & Conditions.",
-      "readMoreIn": "Read more in",
-      "eventDetails": "Details",
-      "eventDate": "Event date",
-      "addToCalendar": "add to calendar",
-      "PreSaleAvailability": "Pre-sale availability",
-      "AboutTheOrganizer": "About the organiser",
-      "location": "Location",
-      "openingHours": "Opening hours",
-      "validUntil": "valid Until",
-      "visitWebsite": "Visit website",
-      "notAvailable": "This Appreciation is no longer available",
+      "termsAndConditions": ".أحكام وشروط",
+      "readMoreIn": "اقرأ المزيد في",
+      "eventDetails": "التفاصيل",
+      "eventDate": "تاريخ الحدث",
+      "addToCalendar": "إضافة إلى التقويم",
+      "PreSaleAvailability": "توافر ما قبل البيع",
+      "AboutTheOrganizer": "عن المنظم",
+      "location": "الموقع",
+      "openingHours": "ساعات العمل",
+      "validUntil": "صالحة حتى",
+      "visitWebsite": "زيارة الموقع",
+      "notAvailable": "هذا التقدير لم يعد متوفرا",
       "redeemAppreciation": {
-        "errorTitle": "Couldn’t redeem appreciation",
-        "errorSubtitle": "Please try again.",
-        "tryAgainButton": "Try again",
-        "dismissButton": "Dismiss"
+        "errorTitle": "لا يمكن استرداد التقدير",
+        "errorSubtitle": "حاول مرة اخرى.",
+        "tryAgainButton": "حاول ثانية",
+        "dismissButton": "رفض"
       }
     },
     "TermsAndConditionsModal": {
-      "title": "Terms and conditions"
+      "title": "الأحكام والشروط"
     },
     "SortingModal": {
-      "title": "Sort",
-      "applyButton": "Apply"
+      "title": "ترتيب",
+      "applyButton": "تطبيق"
     },
     "RedeemModal": {
       "validUntil": "صالحة حتى",
@@ -3285,7 +3285,7 @@
       "name": "الاسم",
       "location": "الموقع",
       "time": "الوقت",
-      "passwordTitle": "Below is your PIN/Password"
+      "passwordTitle": "يوجد أدناه رقم التعريف الشخصي/كلمة المرور الخاصة بك"
     }
   },
   "AgentLeftChat": {
@@ -3295,10 +3295,10 @@
     "label": "{{agentName}} انضم إلى المحادثة!"
   },
   "CustomerFeedbackModal": {
-    "label": "Your opinion matters.\nPlease rate your live chat experience:",
+    "label": "رأيك مهم.\nيُرجى تقييم تجربة الدردشة المباشرة:",
     "Buttons": {
-      "submitRating": "Submit Rating",
-      "skip": "Skip"
+      "submitRating": "إرسال التقييم",
+      "skip": "تخطى"
     }
   },
   "Notifications": {
@@ -3386,7 +3386,6 @@
       "portfolioPerformanceSectionLabel": "Portfolio performance"
     }
   },
-
   "AllInOneCard": {
     "EntryPointScreen": {
       "title": "مرحبًا بك في \nAll In One Card",
