@@ -3485,6 +3485,17 @@
     "EntryPointScreen": {
       "title": "Welcome to The \nAll In One Card",
       "buttonExplore": "Explore"
+    },
+    "ChooseRedemptionMethodScreen": {
+      "title": "Choose rewards method",
+      "description": "You can earn your rewards through two methods. Choose the one that suits your preferences.",
+      "infoBoxDescription": "You can always change this later without loosing any existing rewards.",
+      "Continue": "Continue",
+      "warningModal": {
+        "title": "Are you sure to cancel card request ? ",
+        "message": "You will lose the data, and you will need to restart the journey from the beginning.",
+        "CancelButton": "Cancel card request"
+      }
     }
   }
 }

@@ -3343,10 +3343,22 @@
       "portfolioPerformanceSectionLabel": "Portfolio performance"
     }
   },
+
   "AllInOneCard": {
     "EntryPointScreen": {
       "title": "مرحبًا بك في \nAll In One Card",
       "buttonExplore": "اكتشف"
-    }
+    },
+    "ChooseRedemptionMethodScreen": {
+      "title": "اختر طريقة الاسترداد",
+      "description": "يمكنك استبدال مكافآتك من خلال طريقتين. اختر ما يناسب تفضيلاتك.",
+      "infoBoxDescription":"يمكنك دائمًا تغيير ذلك لاحقًا دون فقدان أي مكافآت حالية.",
+      "Continue": "استمرار",
+      "warningModal": {
+        "title": "هل أنت متأكد من إلغاء طلب البطاقة؟",
+        "message": "سوف تفقد البيانات، وسوف تحتاج إلى إعادة تشغيل الرحلة من البداية.",
+        "CancelButton": "الغاء طلب البطاقة"
+      }
   }
+}
 }

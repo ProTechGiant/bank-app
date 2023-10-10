@@ -1,3 +1,9 @@
+export interface RewardsMethods {
+  Id: number;
+  Name: string;
+  Description: string;
+}
+
 export enum Screens {
   ProductSelection,
   Redemption,

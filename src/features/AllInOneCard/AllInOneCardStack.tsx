@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 
 import { AllInOneCardContextProvider } from "./contexts/AllInOneCardContext";
-import { DashboardScreen, EntryPointScreen } from "./screens";
+import { ChooseRedemptionMethodScreen, DashboardScreen, EntryPointScreen } from "./screens";
 
 export const Stack = createNativeStackNavigator();
 
@@ -20,6 +20,7 @@ export default function AllInCardStack() {
         }}>
         <Stack.Screen component={DashboardScreen} name="AllInOneCard.Dashboard" />
         <Stack.Screen component={EntryPointScreen} name="AllInOneCard.EntryPoint" />
+        <Stack.Screen component={ChooseRedemptionMethodScreen} name="AllInOneCard.ChooseRedemptionMethod" />
       </Stack.Navigator>
     </AllInOneCardContextProvider>
   );
