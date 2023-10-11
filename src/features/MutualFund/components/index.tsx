@@ -5,4 +5,5 @@ export { default as MutualFundCustomChart } from "./MutualFundCustomChart";
 export { default as MutualFundDashboardHeaderContent } from "./MutualFundDashboardHeaderContent";
 export { default as MutualFundOffersItem } from "./MutualFundOffersItem";
 export { default as OfferInformationItem } from "./OfferInformationItem";
+export { default as PortfolioDetailsHeaderContent } from "./PortfolioDetailsHeaderContent";
 export { default as Tags } from "./Tags";

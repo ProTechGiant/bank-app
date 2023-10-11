@@ -3522,6 +3522,19 @@
       "TotalCashBalanceLabel": "Total cash balance",
       "TotalGainLossLabel": "Total Gain/loss",
       "portfolioPerformanceSectionLabel": "Portfolio performance"
+    },
+    "PortfolioDetailsScreen": {
+      "headerTitle": "Portfolio",
+      "subTitle": "Mutual Funds",
+      "discoverButton": "Discover Mutual Funds",
+      "viewFundButton": "View Fund Orders",
+      "DetailsCard": {
+        "investedValue": "Invested value: {{value}} SAR",
+        "NAV": "NAV",
+        "YTD": "YTD",
+        "Units": "Units",
+        "AverageCost": "Average cost"
+      }
     }
   },
   "AllInOneCard": {

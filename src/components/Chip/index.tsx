@@ -14,23 +14,32 @@ interface ChipProps {
   onPress: () => void;
   leftIcon?: React.ReactElement<SvgProps | IconProps>;
   testID?: string;
+  isDark?: boolean;
 }
 
-export default function Chip({ title, isRemovable, isSelected, onPress, leftIcon, testID }: ChipProps) {
+export default function Chip({ title, isRemovable, isSelected, onPress, leftIcon, testID, isDark = false }: ChipProps) {
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: isSelected ? theme.palette["neutralBase-40"] : undefined,
+      backgroundColor: isSelected
+        ? isDark
+          ? theme.palette["primaryBase-70"]
+          : theme.palette["neutralBase-40"]
+        : undefined,
       borderRadius: theme.radii.xlarge,
       paddingHorizontal: theme.spacing["16p"],
       paddingVertical: theme.spacing["8p"],
-      borderColor: isSelected ? theme.palette.primaryBase : theme.palette["neutralBase-30"],
+      borderColor: isSelected
+        ? theme.palette.primaryBase
+        : isDark
+        ? theme.palette["primaryBase-70"]
+        : theme.palette["neutralBase-30"],
       borderWidth: 2,
       flexDirection: "row",
       gap: theme.spacing["8p"],
     }),
-    [isSelected]
+    [isSelected, isDark]
   );
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
@@ -51,7 +60,9 @@ export default function Chip({ title, isRemovable, isSelected, onPress, leftIcon
           })}
         </View>
       ) : null}
-      <Typography.Text size="footnote">{title}</Typography.Text>
+      <Typography.Text size="footnote" color={isDark && !isSelected ? "neutralBase-60" : "neutralBase+30"}>
+        {title}
+      </Typography.Text>
       {isRemovable ? <CloseIcon width={18} height={18} /> : null}
     </Pressable>
   );

@@ -3350,10 +3350,10 @@
     "EntryPointScreen": {
       "title": "نقطة البداية"
     },
-    "DiscoverProductsScreen":{
+    "DiscoverProductsScreen": {
       "title": "اكتشف صناديق الاستثمار المشتركة",
       "filterByRisk": "التصفية حسب المخاطرة:",
-      "filterType":{
+      "filterType": {
         "all": "الكل",
         "low": "قليل",
         "medium": "متوسط",
@@ -3371,7 +3371,7 @@
         "dividend": "توزيعات ارباح"
       },
       "currency": "ر.س",
-      "buttonViewDetails": "عرض التفاصيل" ,
+      "buttonViewDetails": "عرض التفاصيل",
       "errorSection": {
         "title": "We couldn’t load the data",
         "description": "There was a minor issue, but not to worry. We can re-try",
@@ -3384,6 +3384,12 @@
       "TotalCashBalanceLabel": "Total cash balance",
       "TotalGainLossLabel": "Total Gain/loss",
       "portfolioPerformanceSectionLabel": "Portfolio performance"
+    },
+    "PortfolioDetailsScreen": {
+      "headerTitle": "محفظة",
+      "subTitle": "صناديق مشتركة",
+      "discoverButton": "اكتشف الصناديق المشتركة",
+      "viewFundButton": "عرض أوامر الصندوق"
     }
   },
   "AllInOneCard": {
@@ -3394,6 +3400,7 @@
     "ChooseRedemptionMethodScreen": {
       "title": "اختر طريقة الاسترداد",
       "description": "يمكنك استبدال مكافآتك من خلال طريقتين. اختر ما يناسب تفضيلاتك.",
+      "infoBoxDescription": "يمكنك دائمًا تغيير ذلك لاحقًا دون فقدان أي مكافآت حالية.",
       "infoBoxDescription": "يمكنك دائمًا تغيير ذلك لاحقًا دون فقدان أي مكافآت حالية.",
       "Continue": "استمرار",
       "warningModal": {
