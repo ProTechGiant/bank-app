@@ -4,6 +4,14 @@ export interface RewardsMethods {
   Description: string;
 }
 
+export interface PaymentOption {
+  Id: number;
+  Name: string;
+  Description: string;
+  isRecommended?: boolean;
+  discount?: number;
+}
+
 export enum Screens {
   ProductSelection,
   Redemption,

@@ -3539,6 +3539,18 @@
         "message": "You will lose the data, and you will need to restart the journey from the beginning.",
         "CancelButton": "Cancel card request"
       }
+    },
+    "SelectPaymentOptionScreen": {
+      "title": " Payment Option",
+      "description": " Get your nera Plus card with flexible payment",
+      "continue": "Continue",
+      "Recommended": "Recommended",
+      "off": "% OFF",
+      "warningModal": {
+        "title": "Are you sure to cancel card request ? ",
+        "message": "You will lose the data, and you will need to restart the journey from the beginning.",
+        "CancelButton": "Cancel card request"
+      }
     }
   },
   "TermsAndConditionsModal": {

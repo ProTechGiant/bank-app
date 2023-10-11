@@ -1,4 +1,19 @@
 // add your mock data here
+export const paymentOptions = [
+  {
+    Id: 1,
+    Name: "One Time Yearly Payment",
+    Description: "438.00 SAR / Year",
+    isRecommended: true,
+    discount: 17,
+  },
+  {
+    Id: 2,
+    Name: "Easy Monthly Installments",
+    Description: "50.00 SAR / Month",
+  },
+];
+
 export const rewardsMethods = [
   {
     Id: 1,
@@ -14,4 +29,4 @@ export const rewardsMethods = [
   },
 ];
 
-export const cardType = "nera";
+export const cardType = "neraPlus";

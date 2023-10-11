@@ -29,7 +29,7 @@ export default function ChooseRedemptionMethodScreen() {
     if (cardType.toLowerCase() === "nera".toLowerCase()) {
       // navigation.navigate("OrderSummaryScreen");
     } else if (cardType.toLowerCase() === "neraPlus".toLowerCase()) {
-      // navigation.navigate("PaymentOptionsScreen");
+      navigation.navigate("AllInOneCard.SelectPaymentOption");
     }
   };
 

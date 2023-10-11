@@ -164,6 +164,7 @@ type AuthenticatedStackParams = RootStackParams &
   NotificationsStackParams &
   MutualFundStackParams &
   BottomTabParamList &
-  GoldWalletStackParams;
+  GoldWalletStackParams &
+  AllInOneCardParams;
 
 export default AuthenticatedStackParams;
