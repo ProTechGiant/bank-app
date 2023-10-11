@@ -10,6 +10,7 @@ export interface SegmentedControlItemProps<T> {
   onPress?: () => void;
   value: T;
   hasUpdate?: boolean;
+  fontWeight?: "medium" | "bold" | "regular" | "semiBold";
 }
 
 export default function SegmentedControlItem<T>({
@@ -17,6 +18,7 @@ export default function SegmentedControlItem<T>({
   isActive,
   hasUpdate,
   onPress,
+  fontWeight = "medium",
 }: SegmentedControlItemProps<T>) {
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
@@ -30,7 +32,7 @@ export default function SegmentedControlItem<T>({
 
   return (
     <Pressable onPress={onPress} style={containerStyle}>
-      <Typography.Text color={isActive ? "neutralBase+30" : "neutralBase-20"} size="callout" weight="medium">
+      <Typography.Text color={isActive ? "neutralBase+30" : "neutralBase-20"} size="callout" weight={fontWeight}>
         {children}
       </Typography.Text>
       {hasUpdate ? <UnreadNotificationIcon /> : null}

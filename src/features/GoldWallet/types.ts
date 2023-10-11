@@ -1,3 +1,9 @@
+export enum TabsTypes {
+  Week = "Week",
+  Month = "Month",
+  Year = "Year",
+  FiveYears = "5 Years",
+}
 export enum MarketStatusEnum {
   OPEN = 1,
   CLOSED = 0,
