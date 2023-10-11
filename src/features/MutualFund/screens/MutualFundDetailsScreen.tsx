@@ -1,0 +1,38 @@
+import { Platform, View, ViewStyle } from "react-native";
+
+import { Stack, Typography } from "@/components";
+import Button from "@/components/Button";
+import Page from "@/components/Page";
+import { useThemeStyles } from "@/theme";
+
+import { HeaderContent, MutualFundDashboardHeaderContent } from "../components";
+
+export default function MutualFundDetailsScreen() {
+  //   const navigation = useNavigation();
+
+  const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: Platform.OS === "android" ? -theme.spacing["48p"] : -theme.spacing["24p"],
+  }));
+
+  return (
+    <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
+      <View style={headerContainerStyle}>
+        <HeaderContent headerTitle="Mutual Fund Details" showInfoIndicator={false}>
+          <Stack direction="vertical" gap="24p">
+            <Typography.Text color="neutralBase-60">TODO: this content just for test</Typography.Text>
+            <MutualFundDashboardHeaderContent />
+          </Stack>
+        </HeaderContent>
+      </View>
+      <Stack direction="vertical" style={{ marginTop: 48 }} gap="24p" align="center">
+        <Typography.Text>TODO: All this page's UI in progress</Typography.Text>
+        <Button
+          onPress={() => {
+            // navigation.navigate("");
+          }}>
+          Go to Subscription Screen
+        </Button>
+      </Stack>
+    </Page>
+  );
+}

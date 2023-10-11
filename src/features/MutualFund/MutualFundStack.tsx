@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   DiscoverProductsScreen,
   MutualFundDashboardScreen,
+  MutualFundDetailsScreen,
   MutualFundEntryPointScreen,
   PortfolioDetailsScreen,
 } from "./screens";
@@ -13,7 +14,10 @@ export type MutualFundStackParams = {
   "MutualFund.EntryPoint": undefined;
   "MutualFund.DiscoverProducts": undefined;
   "MutualFund.Dashboard": undefined;
-  "MutualFund.PortfolioDetails": undefined;
+  "MutualFund.PortfolioDetails": {
+    portfolioName: string;
+  };
+  "MutualFund.MutualFundDetailsScreen": undefined;
 };
 
 export default function MutualFundStack() {
@@ -26,6 +30,7 @@ export default function MutualFundStack() {
       <Stack.Screen component={DiscoverProductsScreen} name="MutualFund.DiscoverProducts" />
       <Stack.Screen component={MutualFundDashboardScreen} name="MutualFund.Dashboard" />
       <Stack.Screen component={PortfolioDetailsScreen} name="MutualFund.PortfolioDetails" />
+      <Stack.Screen component={MutualFundDetailsScreen} name="MutualFund.MutualFundDetailsScreen" />
     </Stack.Navigator>
   );
 }

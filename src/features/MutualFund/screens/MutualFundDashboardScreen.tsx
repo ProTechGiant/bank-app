@@ -1,6 +1,7 @@
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ViewStyle } from "react-native";
+import { Platform, Pressable, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { ChevronRightIcon, DotIcon } from "@/assets/icons";
@@ -16,8 +17,14 @@ import { CHART_DATA } from "../mocks/chartData";
 
 export default function MutualFundDashboardScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
+
   const [selectedDuration, setSelectedDuration] = useState("");
   const durationArray = ["1D", "7D", "1M", "3M", "1Y"];
+
+  const handleOnPressPortfolio = (portfolioName: string) => {
+    navigation.navigate("MutualFund.PortfolioDetails", { portfolioName: portfolioName });
+  };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
@@ -28,15 +35,17 @@ export default function MutualFundDashboardScreen() {
     paddingTop: theme.spacing["48p"],
   }));
 
-  const handleOnPressProtfolio = () => {
-    //TODO: navigate to selected portfolio screen
-  };
+  const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: Platform.OS === "android" ? -theme.spacing["48p"] : -theme.spacing["24p"],
+  }));
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
-      <HeaderContent headerTitle={t("MutualFund.MutualFundDashboardScreen.headerTitle")}>
-        <MutualFundDashboardHeaderContent />
-      </HeaderContent>
+      <View style={headerContainerStyle}>
+        <HeaderContent headerTitle={t("MutualFund.MutualFundDashboardScreen.headerTitle")} showInfoIndicator={false}>
+          <MutualFundDashboardHeaderContent />
+        </HeaderContent>
+      </View>
       <ScrollView>
         <Stack direction="vertical" gap="20p" style={portfolioPerformanceStackStyle} align="stretch">
           <Stack direction="vertical" style={contentStyle} gap="20p">
@@ -68,8 +77,12 @@ export default function MutualFundDashboardScreen() {
             <Stack direction="vertical" gap="32p" align="stretch">
               {CHART_DATA.map(portfolio => {
                 return (
-                  <Pressable onPress={handleOnPressProtfolio}>
-                    <Stack key={portfolio.name} direction="horizontal" justify="space-between" align="center">
+                  <Pressable
+                    key={portfolio.name}
+                    onPress={() => {
+                      handleOnPressPortfolio(portfolio.name);
+                    }}>
+                    <Stack direction="horizontal" justify="space-between" align="center">
                       <Stack direction="horizontal" gap="8p">
                         <DotIcon color={portfolio.color} />
                         <Typography.Text size="footnote" weight="medium">

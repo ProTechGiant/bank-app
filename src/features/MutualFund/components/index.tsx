@@ -1,6 +1,7 @@
 export { default as ErrorSection } from "./ErrorSection";
 export { default as FilterSection } from "./FilterSection";
 export { default as HeaderContent } from "./HeaderContent";
+export { default as InformationIndicatorsModal } from "./InformationIndicatorsModal";
 export { default as MutualFundCustomChart } from "./MutualFundCustomChart";
 export { default as MutualFundDashboardHeaderContent } from "./MutualFundDashboardHeaderContent";
 export { default as MutualFundOffersItem } from "./MutualFundOffersItem";

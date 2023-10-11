@@ -3394,6 +3394,11 @@
       "subTitle": "صناديق مشتركة",
       "discoverButton": "اكتشف الصناديق المشتركة",
       "viewFundButton": "عرض أوامر الصندوق"
+    },
+    "MutualFundEntryPointScreen": {
+      "title": "فتح حساب صندوق الاستثمار المشترك",
+      "description": "افتح صندوق الاستثمار المشترك الخاص بك وابدأ في الاستثمار في الصناديق الآن",
+      "button": "ابدأ"
     }
   },
   "AllInOneCard": {
