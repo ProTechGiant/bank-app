@@ -1,5 +1,5 @@
 import { StackActions } from "@react-navigation/native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, TextStyle, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -7,22 +7,27 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import { CheckboxInput } from "@/components/Input";
+import { NotificationModal } from "@/components/NotificationModal/index.stories";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { LowRiskIcon, OnboardingLogo } from "../assets";
 import { GoldWalletCreatingBenefit } from "../components";
+import { useCreateWallet } from "../hooks/query-hooks";
 
 export default function OnboardingScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const { mutateAsync: createWallet, isLoading: isCreatingWallet } = useCreateWallet();
 
   const goldWalletCreatingBenefit = [
     { icon: LowRiskIcon, description: t("GoldWallet.OnBoardingScreen.features.lowRisk") },
   ];
 
   const [isTermsAndConditionsAgreed, setIsTermsAndConditionsAgreed] = useState<boolean>(false);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
 
   const handleOnToggleTermsAndConditionsAgreeing = () => {
     setIsTermsAndConditionsAgreed(state => !state);
@@ -32,9 +37,13 @@ export default function OnboardingScreen() {
     navigation.navigate("GoldWalletStack.TermsAndConditions");
   };
 
-  const handleOnConfirmPress = () => {
-    //TODO call the create wallet API then on success navigate to the gold wallet hubScreen
-    navigation.dispatch(StackActions.replace("GoldWallet.HubScreen"));
+  const handleOnConfirmPress = async () => {
+    try {
+      await createWallet();
+      navigation.dispatch(StackActions.replace("GoldWallet.HubScreen"));
+    } catch (err) {
+      setIsErrorModalVisible(true);
+    }
   };
 
   const contentContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -102,10 +111,19 @@ export default function OnboardingScreen() {
             </Typography.Text>
           </Pressable>
         </Stack>
-        <Button disabled={!isTermsAndConditionsAgreed} onPress={handleOnConfirmPress}>
+        <Button disabled={!isTermsAndConditionsAgreed} onPress={handleOnConfirmPress} loading={isCreatingWallet}>
           {t("GoldWallet.OnBoardingScreen.confirm")}
         </Button>
       </View>
+      <NotificationModal
+        variant="error"
+        title={t("GoldWallet.OnBoardingScreen.error.title")}
+        buttons={{
+          primary: <Button onPress={handleOnConfirmPress}>{t("GoldWallet.OnBoardingScreen.error.tryAgain")}</Button>,
+        }}
+        onClose={() => setIsErrorModalVisible(false)}
+        isVisible={isErrorModalVisible}
+      />
     </Page>
   );
 }

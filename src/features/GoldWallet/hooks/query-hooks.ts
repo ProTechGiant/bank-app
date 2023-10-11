@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
 import { TermsAndConditionContainer } from "@/types/Content";
@@ -22,6 +22,24 @@ export function useWallet() {
       ["Accept-Language"]: i18n.language,
     });
   });
+}
+
+export function useCreateWallet() {
+  const { i18n } = useTranslation();
+  const queryClient = useQueryClient();
+  return useMutation(
+    () => {
+      return api<GetWalletResponseType>("v1", `gold/wallet`, "POST", undefined, undefined, {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language,
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(queryKeys.getWallet());
+      },
+    }
+  );
 }
 
 export function useTermsAndConditions() {

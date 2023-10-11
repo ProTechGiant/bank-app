@@ -3481,6 +3481,10 @@
       "confirm": "Confirm",
       "features": {
         "lowRisk": "Reliable savings with low risk"
+      },
+      "error": {
+        "title": "Error While creating the wallet",
+        "tryAgain": "try again."
       }
     }
   },

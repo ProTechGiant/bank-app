@@ -3343,6 +3343,10 @@
       "confirm": "Confirm",
       "features": {
         "lowRisk": "Reliable savings with low risk"
+      },
+      "error": {
+        "title": "Error While creating the wallet",
+        "tryAgain": "try again."
       }
     }
   },
@@ -3400,7 +3404,6 @@
     "ChooseRedemptionMethodScreen": {
       "title": "اختر طريقة الاسترداد",
       "description": "يمكنك استبدال مكافآتك من خلال طريقتين. اختر ما يناسب تفضيلاتك.",
-      "infoBoxDescription": "يمكنك دائمًا تغيير ذلك لاحقًا دون فقدان أي مكافآت حالية.",
       "infoBoxDescription": "يمكنك دائمًا تغيير ذلك لاحقًا دون فقدان أي مكافآت حالية.",
       "Continue": "استمرار",
       "warningModal": {

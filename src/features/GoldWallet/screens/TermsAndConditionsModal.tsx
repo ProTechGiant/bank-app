@@ -1,9 +1,9 @@
 import { TermsAndConditionsPage } from "@/components";
-import { useContentTermsAndCondition } from "@/hooks/use-content";
+
+import { useTermsAndConditions } from "../hooks/query-hooks";
 
 export default function TermsAndConditionsModal() {
-  //TODO this is not the correct hook call the correct one once it is implemented
-  const termsAndConditionData = useContentTermsAndCondition();
+  const termsAndConditionData = useTermsAndConditions();
   const termsSections = termsAndConditionData?.data?.TermsSections;
 
   return <TermsAndConditionsPage termsSections={termsSections} />;
