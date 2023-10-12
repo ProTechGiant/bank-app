@@ -57,35 +57,32 @@ export default function FastOnboardingScreen() {
       setIsLoading(true);
       await mutateAsync(fobConsent);
       const workflowTask = await fetchLatestWorkflowTask();
-      setIsLoading(false);
       if (workflowTask?.Name === "GetMicrositeAuthStep") {
-        setIsLoading(true);
         const { data: arbMicrositeUrl } = await refetchArbMicrositeUrl();
-        setIsLoading(false);
 
         if (arbMicrositeUrl?.ArbMicrositeUrl) {
           try {
-            openLink(arbMicrositeUrl.ArbMicrositeUrl)
-              .then(async () => {
-                await finalizeArbStep.mutateAsync({ IsFailedDetected: false, FailureDescription: "" });
-                setIsfetchingAccountStatus(true);
-              })
-              .catch(async e => {
-                await finalizeArbStep.mutateAsync({
-                  IsFailedDetected: true,
-                  FailureDescription: `${e}`,
-                });
-
-                setIsfetchingAccountStatus(true);
+            await openLink(arbMicrositeUrl.ArbMicrositeUrl);
+            await finalizeArbStep.mutateAsync({ IsFailedDetected: false, FailureDescription: "" });
+            setIsfetchingAccountStatus(true);
+          } catch (e) {
+            setIsLoading(false);
+            try {
+              await finalizeArbStep.mutateAsync({
+                IsFailedDetected: true,
+                FailureDescription: `${e}`,
               });
-          } catch (err) {
-            Alert.alert("Please try again later.");
+            } catch (err) {
+              Alert.alert("Please try again later.");
+            }
+            setIsfetchingAccountStatus(true);
           }
         }
       } else {
         navigation.navigate(getActiveTask(workflowTask?.Name ?? ""));
       }
     } catch (error) {
+      setIsLoading(false);
       setIsErrorModelVisible(true);
       warn("onboarding", "Could not process FOB Consent. Error: ", JSON.stringify(error));
     }
