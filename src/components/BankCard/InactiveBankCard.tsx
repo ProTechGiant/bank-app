@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { LockIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
@@ -94,7 +94,7 @@ export default function InactiveBankCard({
               </Typography.Text>
             </View>
           ) : null}
-          {status !== "LOCK" ? endButton : null}
+          {endButton}
         </View>
         {status === "INACTIVE" && cardType === PHYSICAL_CARD_TYPE ? (
           <View style={cardExpiryContainerStyle}>
@@ -131,22 +131,23 @@ const PRESSABLE_TOP_AREA = 50;
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: "row",
+    flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
     justifyContent: "space-between",
     width: "100%",
   },
   pressableAreaBottom: {
-    height: CONTAINER_HEIGHT - 100,
+    height: CONTAINER_HEIGHT_HORIZONTALCARD - PRESSABLE_TOP_AREA,
     left: 0,
     position: "absolute",
     top: PRESSABLE_TOP_AREA,
-    width: CONTAINER_WIDTH,
+    width: CONTAINER_WIDTH_HORIZONTALCARD,
   },
   pressableAreaTop: {
     height: PRESSABLE_TOP_AREA,
-    left: 0,
+    left: I18nManager.isRTL ? 0 : undefined,
     position: "absolute",
+    right: I18nManager.isRTL ? undefined : 0,
     top: 0,
-    width: CONTAINER_WIDTH - TOP_END_BUTTON_WIDTH,
+    width: CONTAINER_WIDTH_HORIZONTALCARD - TOP_END_BUTTON_WIDTH,
   },
 });
