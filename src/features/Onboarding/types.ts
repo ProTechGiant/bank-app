@@ -72,7 +72,8 @@ export interface FinancialDetails {
 
 export interface FobEligibilityRequest {
   NationalId: string;
-  IdType: string;
+  MobileNumber: string;
+  IdType: number;
   EchoList?: {
     Name: string;
     Value: string;

@@ -209,6 +209,7 @@ export function useIqama() {
     setMobileNumber,
     currentTask,
     checkFobEligibility,
+    setFobMobileNumber,
   } = useOnboardingContext();
 
   const { mutateAsync: mutateValidateMobileNumber } = useValidateMobileNo();
@@ -222,23 +223,27 @@ export function useIqama() {
     }
 
     const workflowTask = await fetchLatestWorkflowTask();
-    assertWorkflowTask("customers/validate/mobile", "MobileVerification", workflowTask);
+    assertWorkflowTask("customers/validate/mobile", "CheckCustomerEligibilityInFOB", workflowTask);
 
     if (workflowTask.Id) {
       const body = {
         NationalId: values.NationalId,
-        IdType: values.NationalId.match(nationalIdRegEx) ? NATIONAL_ID_TYPE : IQAMA_TYPE,
+        MobileNumber: values.MobileNumber,
+        IdType: values.NationalId.match(nationalIdRegEx) ? 1 : 2,
       };
 
-      await checkFobEligibility(body, workflowTask, i18n.language.toUpperCase());
+      const fobData = await checkFobEligibility(body, workflowTask, i18n.language.toUpperCase());
 
       setNationalId(String(values.NationalId));
       setMobileNumber(String(values.MobileNumber));
+      setFobMobileNumber(fobData.ArbMobileNumber);
 
-      if (workflowTask?.Name === "MobileVerification") {
+      const workflow = await fetchLatestWorkflowTask();
+
+      if (workflow?.Name === "MobileVerification") {
         await mutateValidateMobileNumber({ nationalId: values.NationalId, mobileNo: values.MobileNumber });
       }
-      return await fetchLatestWorkflowTask();
+      return workflow;
     }
   };
 
@@ -401,6 +406,36 @@ export function useConfirmTermsConditions() {
   });
 }
 
+export function useFOBStatus(isFetching: boolean) {
+  const { fetchLatestWorkflowTask } = useOnboardingContext();
+
+  return useQuery(
+    "FOBStatus",
+    async () => {
+      const workflowTask = await fetchLatestWorkflowTask();
+
+      if (
+        workflowTask?.Name === "T&C" ||
+        workflowTask?.Name === "RetrievePersonalDetails" ||
+        workflowTask?.Name === "MobileVerification"
+      ) {
+        const status = { OnboardingStatus: "COMPLETED" };
+
+        return {
+          ...status,
+          workflowTask,
+        };
+      }
+
+      return {
+        OnboardingStatus: "PENDING",
+        workflowTask,
+      };
+    },
+    { refetchInterval: 2000, enabled: isFetching }
+  );
+}
+
 export function useCreatePasscode() {
   const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
   const { setAuthToken } = useAuthContext();
@@ -519,46 +554,84 @@ export function useGetCustomerTermsAndConditions(ContentCategoryId: string) {
 
 export function useProceedToFob() {
   const { correlationId, fetchLatestWorkflowTask } = useOnboardingContext();
+  const { i18n } = useTranslation();
 
-  return useMutation(async (body: { IsProceedFOB: string }) => {
+  return useMutation(async (body: { IsProceedFOB: boolean }) => {
     if (!correlationId) throw new Error("Need valid Correlation id");
     const workflowTask = await fetchLatestWorkflowTask();
 
-    if (!workflowTask || workflowTask.Name !== "")
-      throw new Error("Available workflowTaskId is not applicable to customers/confirm/data");
+    if (!workflowTask || workflowTask.Name !== "CheckCustomeredAgreedOnFOB")
+      throw new Error("Available workflowTaskId is not applicable to customers/fob/proceed/");
 
-    return api<string>("v1", "fob/proceed/", "POST", undefined, body, {
+    return api<string>("v1", "customers/fob/proceed/", "POST", undefined, body, {
       ["x-correlation-id"]: correlationId,
-      ["X-Workflow-Task-Id	"]: workflowTask?.Id,
+      ["X-Workflow-Task-Id"]: workflowTask?.Id,
+      ["Accept-Language"]: i18n.language.toUpperCase(),
     });
   });
 }
 
 export function useGetArbMicrositeUrl() {
-  const { correlationId } = useOnboardingContext();
+  const { correlationId, fetchLatestWorkflowTask } = useOnboardingContext();
+  const { i18n } = useTranslation();
 
   return useQuery(
     ["ArbMicrositeUrl"],
-    () => {
+    async () => {
       if (!correlationId) throw new Error("Need valid Correlation id");
+      const workflowTask = await fetchLatestWorkflowTask();
+
+      if (!workflowTask || workflowTask.Name !== "GetMicrositeAuthStep")
+        throw new Error("Available workflowTaskId is not applicable to customers/fob/microsite");
 
       return api<{ ArbMicrositeUrl: string }>("v1", `customers/fob/microsite`, "GET", undefined, undefined, {
         ["x-correlation-id"]: correlationId,
+        ["X-Workflow-Task-Id"]: workflowTask?.Id,
+        ["Accept-Language"]: i18n.language.toUpperCase(),
       });
     },
     { enabled: false }
   );
 }
 
-export function useCheckCustomerSelectionForMobileNumber() {
-  const { correlationId, fetchLatestWorkflowTask, mobileNumber } = useOnboardingContext();
+export function useFinalizeArbStep() {
+  const { correlationId, fetchLatestWorkflowTask } = useOnboardingContext();
+  const { i18n } = useTranslation();
 
-  return useMutation(async (body: { IsSameMobileNumber: string }) => {
+  return useMutation(async (body: { IsFailedDetected: boolean; FailureDescription: string }) => {
     if (!correlationId) throw new Error("Need valid Correlation id");
     const workflowTask = await fetchLatestWorkflowTask();
 
-    if (!workflowTask || workflowTask.Name !== "")
-      throw new Error("Available workflowTaskId is not applicable to customers/confirm/data");
+    if (!workflowTask || workflowTask.Name !== "SubmitMicrositeAuthentication")
+      throw new Error("Available workflowTaskId is not applicable to customers/fob/microsite");
+
+    return api(
+      "v1",
+      "customers/fob/microsite",
+      "POST",
+      undefined,
+      {
+        ...body,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+        ["X-Workflow-Task-Id"]: workflowTask?.Id,
+        ["Accept-Language"]: i18n.language.toUpperCase(),
+      }
+    );
+  });
+}
+
+export function useCheckCustomerSelectionForMobileNumber() {
+  const { correlationId, fetchLatestWorkflowTask, fobMobileNumber, mobileNumber } = useOnboardingContext();
+  const { i18n } = useTranslation();
+
+  return useMutation(async (body: { IsSameMobileNumber: boolean }) => {
+    if (!correlationId) throw new Error("Need valid Correlation id");
+    const workflowTask = await fetchLatestWorkflowTask();
+
+    if (!workflowTask || workflowTask.Name !== "SelectARBMobileNumber")
+      throw new Error("Available workflowTaskId is not applicable to customers/fob/mobile-number");
 
     return api(
       "v1",
@@ -566,12 +639,13 @@ export function useCheckCustomerSelectionForMobileNumber() {
       "POST",
       undefined,
       {
-        SelectedMobileNumber: mobileNumber,
+        SelectedMobileNumber: body.IsSameMobileNumber ? fobMobileNumber : mobileNumber,
         ...body,
       },
       {
         ["x-correlation-id"]: correlationId,
-        ["X-Workflow-Task-Id	"]: workflowTask?.Id,
+        ["X-Workflow-Task-Id"]: workflowTask?.Id,
+        ["Accept-Language"]: i18n.language.toUpperCase(),
       }
     );
   });

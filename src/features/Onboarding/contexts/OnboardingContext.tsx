@@ -1,5 +1,7 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
+import api from "@/api";
+
 import { useOnboardingInstance, useOnboardingRevertTask, useOnboardingTasks } from "../hooks/context-hooks";
 import { FobEligibilityRequest, FobEligibilityResponse } from "../types";
 
@@ -141,26 +143,19 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
     return response;
   };
 
-  const checkFobEligibility = async () =>
-    // body: FobEligibilityRequest,
-    // currentTask: { Id: string; Name: string },
-    // lang: string
-    {
-      const { correlationId } = state;
-      if (!correlationId) throw new Error("Cannot start Onboarding without `correlationId`");
-      // TODO: This Moch data will be replaced by actual API call
-      // api<FobEligibilityResponse>("v1", "customers/fob/eligibility", "POST", undefined, body, {
-      //   ["x-correlation-id"]: correlationId,
-      //   ["X-Workflow-Task-Id"]: currentTask.Id,
-      //   ["Accept-Language"]: lang,
-      //   ["Authorization"]: generateRandomId(),
-      // });
-      return {
-        IsFOBEligibile: false,
-        IsSameMobileNumber: false,
-        ArbMobileNumber: "+966501008794",
-      };
-    };
+  const checkFobEligibility = async (
+    body: FobEligibilityRequest,
+    currentTask: { Id: string; Name: string },
+    lang: string
+  ) => {
+    const { correlationId } = state;
+    if (!correlationId) throw new Error("Cannot start Onboarding without `correlationId`");
+    return api<FobEligibilityResponse>("v1", "customers/fob/eligibility", "POST", undefined, body, {
+      ["x-correlation-id"]: correlationId,
+      ["X-Workflow-Task-Id"]: currentTask.Id,
+      ["Accept-Language"]: lang,
+    });
+  };
 
   return (
     <OnboardingContext.Provider

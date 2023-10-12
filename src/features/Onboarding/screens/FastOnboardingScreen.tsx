@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
@@ -19,7 +19,7 @@ import { useThemeStyles } from "@/theme";
 
 import RocketIllustration from "../assets/RocketIllustration";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
-import { useGetArbMicrositeUrl, useProceedToFob } from "../hooks/query-hooks";
+import { useFinalizeArbStep, useFOBStatus, useGetArbMicrositeUrl, useProceedToFob } from "../hooks/query-hooks";
 import { getActiveTask } from "../utils/get-active-task";
 
 export default function FastOnboardingScreen() {
@@ -28,8 +28,12 @@ export default function FastOnboardingScreen() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { fetchLatestWorkflowTask, setIsLoading, isLoading } = useOnboardingContext();
   const { mutateAsync } = useProceedToFob();
+  const finalizeArbStep = useFinalizeArbStep();
+  const [isfetchingAccountStatus, setIsfetchingAccountStatus] = useState(false);
   const [isInfoModalVisible, setIsInfoModelVisible] = useState(false);
   const [isErrorModelVisible, setIsErrorModelVisible] = useState(false);
+  const { data, refetch } = useFOBStatus(isfetchingAccountStatus);
+  const FOBStatus = data?.OnboardingStatus;
 
   const { refetch: refetchArbMicrositeUrl } = useGetArbMicrositeUrl();
   const openLink = useOpenLink();
@@ -38,7 +42,17 @@ export default function FastOnboardingScreen() {
     setIsInfoModelVisible(!isInfoModalVisible);
   };
 
-  const handleOnFastOnboarding = async (fobConsent: { IsProceedFOB: string }) => {
+  useEffect(() => {
+    if (FOBStatus === "COMPLETED") {
+      setIsfetchingAccountStatus(false);
+
+      navigation.navigate(getActiveTask(data?.workflowTask?.Name ?? ""));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [FOBStatus, refetch]);
+
+  const handleOnFastOnboarding = async (fobConsent: { IsProceedFOB: boolean }) => {
     try {
       setIsLoading(true);
       await mutateAsync(fobConsent);
@@ -51,11 +65,19 @@ export default function FastOnboardingScreen() {
 
         if (arbMicrositeUrl?.ArbMicrositeUrl) {
           try {
-            await openLink(arbMicrositeUrl.ArbMicrositeUrl);
-            setIsLoading(true);
-            const norWorkflowTask = await fetchLatestWorkflowTask();
-            setIsLoading(false);
-            navigation.navigate(getActiveTask(norWorkflowTask?.Name ?? ""));
+            openLink(arbMicrositeUrl.ArbMicrositeUrl)
+              .then(async () => {
+                await finalizeArbStep.mutateAsync({ IsFailedDetected: false, FailureDescription: "" });
+                setIsfetchingAccountStatus(true);
+              })
+              .catch(async e => {
+                await finalizeArbStep.mutateAsync({
+                  IsFailedDetected: true,
+                  FailureDescription: `${e}`,
+                });
+
+                setIsfetchingAccountStatus(true);
+              });
           } catch (err) {
             Alert.alert("Please try again later.");
           }
@@ -86,7 +108,7 @@ export default function FastOnboardingScreen() {
     backgroundColor: theme.palette["neutralBase-60"],
   }));
 
-  if (isLoading) {
+  if (isLoading || isfetchingAccountStatus) {
     return <FullScreenLoader />;
   }
 
@@ -108,10 +130,10 @@ export default function FastOnboardingScreen() {
         </Typography.Text>
 
         <Stack direction="vertical" style={buttonContainerStyle} align="stretch">
-          <Button onPress={() => handleOnFastOnboarding({ IsProceedFOB: "ture" })}>
+          <Button onPress={() => handleOnFastOnboarding({ IsProceedFOB: true })}>
             {t("Onboarding.FastOnboardingScreen.buttonText")}
           </Button>
-          <Pressable style={styles.continueText} onPress={() => handleOnFastOnboarding({ IsProceedFOB: "false" })}>
+          <Pressable style={styles.continueText} onPress={() => handleOnFastOnboarding({ IsProceedFOB: false })}>
             <Typography.Text size="footnote"> {t("Onboarding.FastOnboardingScreen.continueWithText")} </Typography.Text>
             <Typography.Text color="primaryBase-30" size="footnote" weight="medium" style={styles.underline}>
               {t("Onboarding.FastOnboardingScreen.regularOnboardingText")}

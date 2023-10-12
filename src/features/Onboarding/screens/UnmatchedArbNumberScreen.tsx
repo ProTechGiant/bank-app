@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
@@ -6,6 +6,7 @@ import { InfoCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import InfoModal from "@/components/InfoModal";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -16,7 +17,12 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { useOnboardingContext } from "../contexts/OnboardingContext";
-import { useCheckCustomerSelectionForMobileNumber, useGetArbMicrositeUrl } from "../hooks/query-hooks";
+import {
+  useCheckCustomerSelectionForMobileNumber,
+  useFinalizeArbStep,
+  useFOBStatus,
+  useGetArbMicrositeUrl,
+} from "../hooks/query-hooks";
 import { getActiveTask } from "../utils/get-active-task";
 
 export default function UnmatchedArbNumberScreen() {
@@ -24,41 +30,70 @@ export default function UnmatchedArbNumberScreen() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { nationalId, fetchLatestWorkflowTask, setIsLoading, isLoading } = useOnboardingContext();
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
+  const [isErrorModelVisible, setIsErrorModelVisible] = useState(false);
   const { mutateAsync: mutateCheckCustomerMobileNumber } = useCheckCustomerSelectionForMobileNumber();
   const { refetch: refetchArbMicrositeUrl } = useGetArbMicrositeUrl();
   const openLink = useOpenLink();
+  const finalizeArbStep = useFinalizeArbStep();
+  const [isfetchingAccountStatus, setIsfetchingAccountStatus] = useState(false);
+  const { data, refetch } = useFOBStatus(isfetchingAccountStatus);
+  const FOBStatus = data?.OnboardingStatus;
+
+  useEffect(() => {
+    if (FOBStatus === "COMPLETED") {
+      setIsfetchingAccountStatus(false);
+
+      navigation.navigate(getActiveTask(data?.workflowTask?.Name ?? ""));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [FOBStatus, refetch]);
 
   const handleOnValidateArbNo = async (type: "FOB" | "NORMAL") => {
     if (!nationalId) return;
     try {
       if (type === "FOB") {
         setIsLoading(true);
-        await mutateCheckCustomerMobileNumber({ IsSameMobileNumber: "false" });
+        await mutateCheckCustomerMobileNumber({ IsSameMobileNumber: true });
+        setIsLoading(false);
+      } else {
+        setIsLoading(true);
+        await mutateCheckCustomerMobileNumber({ IsSameMobileNumber: false });
         setIsLoading(false);
       }
       const workflowTask = await fetchLatestWorkflowTask();
-
+      setIsLoading(false);
       if (workflowTask?.Name === "GetMicrositeAuthStep") {
         setIsLoading(true);
         const { data: arbMicrositeUrl } = await refetchArbMicrositeUrl();
         setIsLoading(false);
+
         if (arbMicrositeUrl?.ArbMicrositeUrl) {
           try {
-            await openLink(arbMicrositeUrl.ArbMicrositeUrl);
-            setIsLoading(true);
-            const norWorkflowTask = await fetchLatestWorkflowTask();
-            setIsLoading(false);
-            navigation.navigate(getActiveTask(norWorkflowTask?.Name ?? ""));
+            openLink(arbMicrositeUrl.ArbMicrositeUrl)
+              .then(async () => {
+                await finalizeArbStep.mutateAsync({ IsFailedDetected: false, FailureDescription: "" });
+                setIsfetchingAccountStatus(true);
+              })
+              .catch(async e => {
+                await finalizeArbStep.mutateAsync({
+                  IsFailedDetected: true,
+                  FailureDescription: `${e}`,
+                });
+
+                setIsfetchingAccountStatus(true);
+              });
           } catch (err) {
             Alert.alert("Please try again later.");
           }
         }
       } else {
-        const normalOnboardingFlow = await fetchLatestWorkflowTask();
-        navigation.navigate(getActiveTask(normalOnboardingFlow?.Name ?? ""));
+        navigation.navigate(getActiveTask(workflowTask?.Name ?? ""));
       }
     } catch (error) {
-      warn("", JSON.stringify(error));
+      setIsErrorModelVisible(true);
+      setIsLoading(false);
+      warn("onboarding", "Could not process FOB Consent. Error: ", JSON.stringify(error));
     }
   };
 
@@ -83,7 +118,7 @@ export default function UnmatchedArbNumberScreen() {
 
   const infoIconColor = useThemeStyles(theme => theme.palette["primaryBase-30"]);
 
-  if (isLoading) {
+  if (isLoading || isfetchingAccountStatus) {
     return <FullScreenLoader />;
   }
 
@@ -136,6 +171,13 @@ export default function UnmatchedArbNumberScreen() {
         description={t("Onboarding.UnmatchedArbNumber.OnboardingOptionsModal.description")}
         isVisible={isInfoModalVisible}
         onClose={() => setIsInfoModalVisible(false)}
+      />
+      <NotificationModal
+        message={t("Onboarding.FastOnboardingScreen.tryAgain")}
+        isVisible={isErrorModelVisible}
+        onClose={() => setIsErrorModelVisible(false)}
+        title={t("Onboarding.FastOnboardingScreen.errorMessage")}
+        variant="error"
       />
     </Page>
   );
