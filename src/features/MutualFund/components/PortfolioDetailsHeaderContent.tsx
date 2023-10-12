@@ -11,7 +11,7 @@ import MutualFundCustomChart from "./MutualFundCustomChart";
 export default function PortfolioDetailsHeaderContent() {
   const { t } = useTranslation();
   const [selectedDuration, setSelectedDuration] = useState("");
-  const durationArray = ["1D", "7D", "1M", "3M", "1Y"];
+  const durationArray = ["1D", "7D", "1M", "3M", "6M", "1Y"];
 
   return (
     <Stack direction="vertical" gap="4p" align="stretch">
