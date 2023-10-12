@@ -29,6 +29,7 @@ interface MutualFundOffersItemProps {
   index: number;
   onToggleExpansion: (value: number) => void;
   isExpanded: boolean;
+  handleOnViewDetailsPress: () => void;
 }
 
 export default function MutualFundOffersItem({
@@ -46,6 +47,7 @@ export default function MutualFundOffersItem({
   index,
   onToggleExpansion,
   isExpanded,
+  handleOnViewDetailsPress,
 }: MutualFundOffersItemProps) {
   const { t } = useTranslation();
   const currentHeight = useSharedValue(isExpanded === true ? 550 : 0);
@@ -56,10 +58,6 @@ export default function MutualFundOffersItem({
 
   const handleOnExpandPress = () => {
     onToggleExpansion(index);
-  };
-
-  const handleOnPress = () => {
-    //TODO - add navigation here
   };
 
   const animatedInformationSectionStyle = useAnimatedStyle(() => ({
@@ -148,7 +146,10 @@ export default function MutualFundOffersItem({
             />
             <Stack direction="horizontal" align="center" justify="center" style={stackStyle}>
               <View style={styles.buttonContainerStyle}>
-                <Button onPress={handleOnPress} variant="secondary" size={I18nManager.isRTL ? "mini" : "regular"}>
+                <Button
+                  onPress={handleOnViewDetailsPress}
+                  variant="secondary"
+                  size={I18nManager.isRTL ? "mini" : "regular"}>
                   {t("MutualFund.DiscoverProductsScreen.buttonViewDetails")}
                 </Button>
               </View>

@@ -35,6 +35,10 @@ export default function DiscoverProductsScreen() {
     //TODO - add navigation here
   };
 
+  const handleOnViewDetailsPress = () => {
+    navigation.navigate("MutualFund.MutualFundDetailsScreen");
+  };
+
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
       <NavHeader
@@ -71,6 +75,7 @@ export default function DiscoverProductsScreen() {
                 index={index}
                 onToggleExpansion={handleToggleExpansion}
                 isExpanded={expandedIndex === index}
+                handleOnViewDetailsPress={handleOnViewDetailsPress}
               />
             );
           })

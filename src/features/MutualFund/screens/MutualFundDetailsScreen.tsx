@@ -3,15 +3,16 @@ import { Platform, View, ViewStyle } from "react-native";
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import Page from "@/components/Page";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { HeaderContent, MutualFundDashboardHeaderContent } from "../components";
 
 export default function MutualFundDetailsScreen() {
-  //   const navigation = useNavigation();
+  const navigation = useNavigation();
 
   const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: Platform.OS === "android" ? -theme.spacing["48p"] : -theme.spacing["24p"],
+    marginTop: Platform.OS === "android" ? -theme.spacing["16p"] : -theme.spacing["24p"],
   }));
 
   return (
@@ -28,7 +29,7 @@ export default function MutualFundDetailsScreen() {
         <Typography.Text>TODO: All this page's UI in progress</Typography.Text>
         <Button
           onPress={() => {
-            // navigation.navigate("");
+            navigation.navigate("MutualFund.Subscription");
           }}>
           Go to Subscription Screen
         </Button>

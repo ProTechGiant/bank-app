@@ -3418,6 +3418,29 @@
       "TotalGainLossLabel": "Total Gain/loss",
       "portfolioPerformanceSectionLabel": "Portfolio performance"
     },
+    "SubscriptionScreen":{
+      "title": "الاشتراك",
+      "selectAccount": "Select account",
+      "fromAccount": "من حساب",
+      "toAccount": "لحساب",
+      "selectButton": "Select",
+      "balance": "الرصيد: ",
+      "currency": "ر.س",
+      "enterAmount": "القيمة",
+      "keyInformation": "معلومات أساسية",
+      "informationItem": {
+        "riskLevel": "مستوى الخطر",
+        "inceptionDate" : "تاريخ الانشاء",
+        "fundCurrency": "عملة الصندوق",
+        "performanceFee":"رسوم الأداء",
+        "minimumSubscription":"الحد الأدنى للاشتراك",
+        "minimumAdditionalSubscription":"الحد الأدنى للاشتراك الإضافي",
+      },
+      "extraConditionsCaption": "واوافق عليها",
+      "termsAndConditionsText": "لقد قرأت",
+      "termsAndConditionsLink": "الشروط والأحكام",
+      "subscribeButton": "اشتراك"
+    },
     "PortfolioDetailsScreen": {
       "headerTitle": "محفظة",
       "subTitle": "صناديق مشتركة",

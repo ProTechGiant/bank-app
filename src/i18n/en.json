@@ -3556,6 +3556,29 @@
       "TotalGainLossLabel": "Total Gain/loss",
       "portfolioPerformanceSectionLabel": "Portfolio performance"
     },
+    "SubscriptionScreen":{
+      "title": "Subscription",
+      "selectAccount": "Select account",
+      "fromAccount": "From account",
+      "toAccount": "To account",
+      "selectButton": "Select",
+      "balance": "Balance: ",
+      "currency": "SAR",
+      "enterAmount": "Enter amount",
+      "keyInformation": "Key information",
+      "informationItem": {
+        "riskLevel": "Risk level",
+        "inceptionDate" : "Inception date",
+        "fundCurrency": "Fund currency",
+        "performanceFee":"Performance fee",
+        "minimumSubscription":"Minimum Subscription",
+        "minimumAdditionalSubscription":"Minimum additional subscription",
+      },
+      "extraConditionsCaption": "",
+      "termsAndConditionsText": "I have read and agreed to the",
+      "termsAndConditionsLink": "Terms & Conditions",
+      "subscribeButton": "Subscribe"
+    },
     "PortfolioDetailsScreen": {
       "headerTitle": "Portfolio",
       "subTitle": "Mutual Funds",

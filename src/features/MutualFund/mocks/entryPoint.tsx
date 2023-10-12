@@ -1,4 +1,4 @@
 export const ENTRY_POINT = {
-  numberOfProtfolios: 2,
+  numberOfProtfolios: 0,
   onboardedARCStatus: true,
 };

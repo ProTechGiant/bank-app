@@ -29,3 +29,31 @@ type Product = {
 export type OffersProducts = {
   productsList: Product[];
 };
+
+export interface Account {
+  AccountName: string;
+}
+
+type ProductInformation = {
+  productId: number;
+  productName: string;
+};
+
+export type PortfolioHolding = {
+  productInformation: ProductInformation;
+};
+
+export type Portfolio = {
+  portfolioId: number;
+  portfolioCode: string;
+  portfolioName: string;
+  portfolioHoldingList: PortfolioHolding[];
+};
+
+export type PortfolioData = {
+  TotalPortfoliosValue: number;
+  TotalCashBalance: number;
+  TotalGainLoss: number;
+  TotalGainLossPercentage: number;
+  portfolioList: Portfolio[];
+};

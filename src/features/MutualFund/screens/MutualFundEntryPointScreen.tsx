@@ -20,7 +20,7 @@ export default function MutualFundEntryPointScreen() {
   const svgStyles = { top: height * 0.52 };
 
   const handleOnFinish = () => {
-    //TODO: Implement this function when Create Goal and Select Name/Image screen is ready to navigate to it
+    navigation.navigate("MutualFund.DiscoverProducts");
   };
 
   const handleOnBack = () => {
@@ -51,7 +51,7 @@ export default function MutualFundEntryPointScreen() {
   useEffect(() => {
     if (ENTRY_POINT.onboardedARCStatus) {
       if (ENTRY_POINT.numberOfProtfolios === 0) {
-        navigation.navigate("MutualFund.DiscoverProducts");
+        // navigation.navigate("MutualFund.DiscoverProducts");
       } else if (ENTRY_POINT.numberOfProtfolios === 1) {
         navigation.navigate("MutualFund.PortfolioDetails", { portfolioName: "Portfolio" });
       } else {
