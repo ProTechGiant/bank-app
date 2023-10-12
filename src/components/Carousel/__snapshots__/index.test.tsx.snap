@@ -11,6 +11,7 @@ exports[`components/Carousel renders a Carousel 1`] = `
   }
 >
   <RCTScrollView
+    contentContainerStyle={{}}
     data={
       [
         {
@@ -61,6 +62,8 @@ exports[`components/Carousel renders a Carousel 1`] = `
         <View
           style={
             {
+              "marginLeft": 8,
+              "marginRight": 8,
               "width": undefined,
             }
           }
@@ -89,6 +92,8 @@ exports[`components/Carousel renders a Carousel 1`] = `
         <View
           style={
             {
+              "marginLeft": 8,
+              "marginRight": 8,
               "width": undefined,
             }
           }
@@ -117,6 +122,8 @@ exports[`components/Carousel renders a Carousel 1`] = `
         <View
           style={
             {
+              "marginLeft": 8,
+              "marginRight": 8,
               "width": undefined,
             }
           }

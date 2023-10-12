@@ -3431,6 +3431,18 @@
     }
   },
   "AllInOneCard": {
+    "SelectedCardScreen": {
+      "pickedCard": "اختر بطاقتك",
+      "apply": "تقديم طلب",
+      "showButton": "اظهار المزيد من الميزات",
+      "platinumButton": "تقديم للحصول على platinume card ",
+      "signatureButton": "تقديم للحصول على Signiture card ",
+      "recommended": "موصى به",
+      "freeBenefits": "فوائد مجانية",
+      "free": "مجانا",
+      "SARMonthly": " ريال/شهريا",
+      "SARYearly": " ريال/سنويا"
+    },
     "EntryPointScreen": {
       "title": "مرحبًا بك في \nAll In One Card",
       "buttonExplore": "اكتشف"

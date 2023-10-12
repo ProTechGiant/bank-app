@@ -3576,6 +3576,18 @@
     }
   },
   "AllInOneCard": {
+    "SelectedCardScreen": {
+      "pickedCard": "Pick Your Card",
+      "apply": "Apply",
+      "showButton": "Show more features",
+      "platinumButton": "Apply for Platinum card",
+      "signatureButton": "Apply for Signature card",
+      "recommended": "Recommended",
+      "freeBenefits": "Free Benefits",
+      "free": "Free",
+      "SARMonthly": ".00 SAR/Monthly",
+      "SARYearly": ".00 SAR/Yearly"
+    },
     "EntryPointScreen": {
       "title": "Welcome to The \nAll In One Card",
       "buttonExplore": "Explore"

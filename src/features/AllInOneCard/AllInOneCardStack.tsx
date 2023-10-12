@@ -2,13 +2,20 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 
 import { AllInOneCardContextProvider } from "./contexts/AllInOneCardContext";
-import { ChooseRedemptionMethodScreen, DashboardScreen, EntryPointScreen, SelectPaymentOptionScreen } from "./screens";
+import {
+  ChooseRedemptionMethodScreen,
+  DashboardScreen,
+  EntryPointScreen,
+  SelectCardScreen,
+  SelectPaymentOptionScreen,
+} from "./screens";
 
 export type AllInOneCardParams = {
   "AllInOneCard.Dashboard": undefined;
   "AllInOneCard.EntryPoint": undefined;
   "AllInOneCard.ChooseRedemptionMethod": undefined;
   "AllInOneCard.SelectPaymentOption": undefined;
+  "AllInOneCard.SelectCard": undefined;
 };
 const Stack = createNativeStackNavigator<AllInOneCardParams>();
 
@@ -23,6 +30,7 @@ export default function AllInCardStack() {
         <Stack.Screen component={DashboardScreen} name="AllInOneCard.Dashboard" />
         <Stack.Screen component={ChooseRedemptionMethodScreen} name="AllInOneCard.ChooseRedemptionMethod" />
         <Stack.Screen component={SelectPaymentOptionScreen} name="AllInOneCard.SelectPaymentOption" />
+        <Stack.Screen component={SelectCardScreen} name="AllInOneCard.SelectCard" />
       </Stack.Navigator>
     </AllInOneCardContextProvider>
   );

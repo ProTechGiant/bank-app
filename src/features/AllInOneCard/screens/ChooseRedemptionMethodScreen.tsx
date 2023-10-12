@@ -11,7 +11,7 @@ import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 
 import { InfoBox, OptionsList } from "../components";
-import { cardType, rewardsMethods } from "./../mocks/index";
+import { cardType, rewardsMethods } from "./../mocks";
 
 export default function ChooseRedemptionMethodScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);

@@ -18,7 +18,7 @@ export default function CarouselImage({ data }: CarouselImageProps) {
 
   // Interpolate opacity value based on translateY value.
   const opacity = translateY.interpolate({
-    inputRange: [0, 150],
+    inputRange: [0, 120],
     outputRange: [0, 1],
     extrapolate: "clamp",
   });

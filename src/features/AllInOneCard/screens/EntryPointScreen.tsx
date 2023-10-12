@@ -34,7 +34,7 @@ export default function EntryPointScreen() {
   }));
 
   const handleExplore = () => {
-    // TODO : handle button when new screens are made
+    navigation.navigate("AllInOneCard.SelectCard");
   };
 
   return (

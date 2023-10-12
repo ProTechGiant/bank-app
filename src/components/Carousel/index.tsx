@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import {
   Dimensions,
   FlatList,
+  I18nManager,
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
@@ -17,9 +18,19 @@ interface CarouselProps<T> {
   width?: number;
   pagination?: "overlay" | "under";
   loop?: boolean;
+  onChangeIndex?: (index: number) => void;
+  contentContainerStyle?: ViewStyle;
 }
 
-export function Carousel<T>({ pagination, data, Slide, width, loop }: CarouselProps<T>) {
+export function Carousel<T>({
+  pagination,
+  data,
+  Slide,
+  width,
+  loop,
+  onChangeIndex,
+  contentContainerStyle = {},
+}: CarouselProps<T>) {
   const activeDotStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette.complimentBase,
@@ -78,15 +89,21 @@ export function Carousel<T>({ pagination, data, Slide, width, loop }: CarouselPr
   indexRef.current = index;
   const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const slideSize = event.nativeEvent.layoutMeasurement.width;
-    const index = event.nativeEvent.contentOffset.x / slideSize;
+    let offsetX = event.nativeEvent.contentOffset.x;
+
+    if (I18nManager.isRTL) {
+      offsetX = event.nativeEvent.contentSize.width - event.nativeEvent.contentOffset.x - slideSize;
+    }
+
+    const index = offsetX / slideSize;
     const roundIndex = Math.round(index);
 
     const distance = Math.abs(roundIndex - index);
-
     const minDistance = distance > 0.4;
 
     if (roundIndex !== indexRef.current && !minDistance) {
       setIndex(roundIndex);
+      onChangeIndex && onChangeIndex(roundIndex);
     }
   }, []);
 
@@ -125,7 +142,7 @@ export function Carousel<T>({ pagination, data, Slide, width, loop }: CarouselPr
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function SlideRenderer({ item }: any) {
     return (
-      <View style={{ width }}>
+      <View style={{ width, marginRight: 8, marginLeft: 8 }}>
         <Slide data={item} />
       </View>
     );
@@ -182,6 +199,7 @@ export function Carousel<T>({ pagination, data, Slide, width, loop }: CarouselPr
         showsVerticalScrollIndicator={false}
         snapToAlignment="center"
         {...extraProps}
+        contentContainerStyle={contentContainerStyle}
       />
       {pagination && <Pagination />}
     </View>

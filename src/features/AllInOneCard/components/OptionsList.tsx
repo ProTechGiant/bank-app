@@ -7,7 +7,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import { CashbackIcon } from "../assets/icons";
-import mokafaaIcon from "../assets/MokafaaIcon.png";
+import mokafaaIcon from "../assets/images/MokafaaIcon.png";
 import { RewardsMethods } from "../types";
 
 interface OptionsListProps {
