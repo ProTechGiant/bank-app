@@ -1,6 +1,6 @@
 import { OffersProducts } from "../types";
 
-const mockOffersProducs: OffersProducts = {
+const mockOffersProducts: OffersProducts = {
   productsList: [
     {
       Id: "1234",
@@ -23,6 +23,48 @@ const mockOffersProducs: OffersProducts = {
       dividend: "SA",
       risk: "H",
     },
+    {
+      Id: "12346",
+      Name: "ABC Fund SAR",
+      YTD: 54,
+      NAV: 52.56,
+      isActive: true,
+      currency: "SAR",
+      fundAvailability: "A",
+      minimumSubscriptionAmount: 5000,
+      minimumAdditionalSubscriptionAmount: 5000,
+      subscriptionFees: 0.025,
+      riskLevel: "Medium",
+      isEndowment: true,
+      categoryArabic: "توزيعات",
+      categoryEnglish: "Dividend",
+      strategy: "Income",
+      dealingDaysFrequency: "Bi-Weekly",
+      dealingDays: "Sunday & Wednesday",
+      dividend: "SA",
+      risk: "M",
+    },
+    {
+      Id: "12345",
+      Name: "ABC Fund SAR",
+      YTD: 54,
+      NAV: 52.56,
+      isActive: true,
+      currency: "SAR",
+      fundAvailability: "A",
+      minimumSubscriptionAmount: 5000,
+      minimumAdditionalSubscriptionAmount: 5000,
+      subscriptionFees: 0.025,
+      riskLevel: "Low",
+      isEndowment: true,
+      categoryArabic: "توزيعات",
+      categoryEnglish: "Dividend",
+      strategy: "Income",
+      dealingDaysFrequency: "Bi-Weekly",
+      dealingDays: "Sunday & Wednesday",
+      dividend: "SA",
+      risk: "L",
+    },
   ],
 };
-export default mockOffersProducs;
+export default mockOffersProducts;

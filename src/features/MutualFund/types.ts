@@ -4,7 +4,7 @@ export interface lineDetails {
   data: { x: number; y: number }[];
 }
 
-type Product = {
+export type Product = {
   Id: string;
   Name: string;
   YTD: number;

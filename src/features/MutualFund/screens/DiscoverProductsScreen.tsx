@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { CloseIcon } from "@/assets/icons";
@@ -8,12 +8,28 @@ import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 
 import { ErrorSection, FilterSection, MutualFundOffersItem } from "../components";
-import mockOffersProducs from "../mocks/mockProductList";
+import mockOffersProducts from "../mocks/mockProductList";
+import { Product } from "../types";
 
 export default function DiscoverProductsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(
+    mockOffersProducts ? mockOffersProducts.productsList : []
+  );
+
+  useEffect(() => {
+    if (selectedFilters.length > 0) {
+      const filteredList = mockOffersProducts.productsList.filter(product =>
+        selectedFilters.includes(product.riskLevel)
+      );
+      setFilteredProducts(filteredList);
+    } else {
+      setFilteredProducts(mockOffersProducts.productsList);
+    }
+  }, [selectedFilters]);
 
   const handleToggleExpansion = (index: number) => {
     if (expandedIndex === index) {
@@ -32,7 +48,31 @@ export default function DiscoverProductsScreen() {
   };
 
   const handleGoBackPress = () => {
-    //TODO - add navigation here
+    navigation.navigate("Home.HomeTabs");
+  };
+
+  const handleOnFilterChange = (filter: string) => {
+    let updatedFilters: string[];
+
+    if (filter === t("MutualFund.DiscoverProductsScreen.filterType.all")) {
+      setFilteredProducts(mockOffersProducts.productsList);
+    } else {
+      if (selectedFilters.includes(filter)) {
+        updatedFilters = selectedFilters.filter(item => item !== filter);
+      } else {
+        updatedFilters = [...selectedFilters, filter];
+      }
+
+      if (updatedFilters.length === 0) {
+        setFilteredProducts(mockOffersProducts.productsList);
+      } else {
+        const filteredList = mockOffersProducts.productsList.filter(product =>
+          updatedFilters.some(filter => product.riskLevel === filter)
+        );
+        setFilteredProducts(filteredList);
+      }
+      setSelectedFilters(updatedFilters);
+    }
   };
 
   const handleOnViewDetailsPress = () => {
@@ -52,11 +92,11 @@ export default function DiscoverProductsScreen() {
         }
       />
 
-      <FilterSection />
+      <FilterSection onFilterChange={handleOnFilterChange} />
 
       <ContentContainer isScrollView>
-        {mockOffersProducs ? (
-          mockOffersProducs.productsList.map((product, index) => {
+        {filteredProducts && filteredProducts.length > 0 ? (
+          filteredProducts.map((product, index) => {
             return (
               <MutualFundOffersItem
                 key={product.Id}

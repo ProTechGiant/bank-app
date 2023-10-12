@@ -8,7 +8,10 @@ import Divider from "@/components/Divider";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-export default function FilterSection() {
+interface FilterSectionProps {
+  onFilterChange: (value: string) => void;
+}
+export default function FilterSection({ onFilterChange }: FilterSectionProps) {
   const { t } = useTranslation();
   const riskTypes = [
     t("MutualFund.DiscoverProductsScreen.filterType.all"),
@@ -20,6 +23,7 @@ export default function FilterSection() {
   const [selectedChips, setSelectedChips] = useState([riskTypes[0]]);
 
   const handleChipPress = (chipTitle: string) => {
+    onFilterChange(chipTitle);
     if (selectedChips.includes(chipTitle)) {
       setSelectedChips((prevState: any) => prevState.filter((chip: string) => chip !== chipTitle));
     } else {
