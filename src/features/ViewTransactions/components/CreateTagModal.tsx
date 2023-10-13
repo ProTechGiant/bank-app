@@ -100,6 +100,7 @@ export default function CreateTagModal({
         placeholder={t("SelectTagScreen.tagName")}
         value={tagName}
         onChangeText={setTagName}
+        testID="ViewTransactions.SelectTagScreen:CreateTagModalTextInput"
       />
       {rows.map((rowIcons, rowIndex) => (
         <View style={modalIconContainerStyle} key={rowIndex}>
@@ -112,7 +113,8 @@ export default function CreateTagModal({
                 },
               ]}
               key={item.id}
-              onPress={setSelectedTagId.bind(null, item.id)}>
+              onPress={setSelectedTagId.bind(null, item.id)}
+              testID={`ViewTransactions.SelectTagScreen:CreateTagModalSelectTag-${item.name}`}>
               <GenericSvgIcon
                 path={item.path}
                 viewBox={item.viewBox}
@@ -123,7 +125,9 @@ export default function CreateTagModal({
         </View>
       ))}
       <View style={modalButtonContainerStyle}>
-        <Button onPress={handleOnCreateTagPress}>{t("SelectTagScreen.createTag")}</Button>
+        <Button onPress={handleOnCreateTagPress} testID="ViewTransactions.SelectTagScreen:CreateTagModalConfirmButton">
+          {t("SelectTagScreen.createTag")}
+        </Button>
       </View>
       <NotificationModal
         title={t("SelectTagScreen.alreadyHaveATagName", { tagName })}
@@ -132,11 +136,22 @@ export default function CreateTagModal({
         onClose={() => onNotificationModalClose(false)}
         buttons={{
           primary: (
-            <Button children={t("SelectTagScreen.useExistingTag")} onPress={() => onNotificationModalClose(false)} />
+            <Button
+              children={t("SelectTagScreen.useExistingTag")}
+              onPress={() => onNotificationModalClose(false)}
+              testID="ViewTransactions.SelectTagScreen:CreateTagModal-AlreadyHaveTagModalUseExistingButton"
+            />
           ),
-          secondary: <Button children={t("SelectTagScreen.cancel")} onPress={() => onNotificationModalClose(false)} />,
+          secondary: (
+            <Button
+              children={t("SelectTagScreen.cancel")}
+              onPress={() => onNotificationModalClose(false)}
+              testID="ViewTransactions.SelectTagScreen:CreateTagModal-AlreadyHaveTagModalCancelButton"
+            />
+          ),
         }}
         message=""
+        testID="ViewTransactions.SelectTagScreen:CreateTagModal-AlreadyHaveTagModal"
       />
     </>
   );

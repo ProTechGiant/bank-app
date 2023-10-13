@@ -345,6 +345,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
               icon={<InfoFilledCircleIcon />}
               text={t("CardActions.CardExpiryNotification.content")}
               onClose={() => setIsNotificationBannerVisible(false)}
+              testID="CardActions.CardDetailsScreen:ExpiringSoonBanner"
             />
           </View>
         ) : null}
@@ -353,12 +354,15 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
           <>
             {isAppleWalletAvailable && canAddCardToAppleWallet && !["LOCK", "INACTIVE"].includes(card.Status) ? (
               <View style={walletButtonContainer}>
-                <AddToAppleWalletButton onPress={handleIVRService} />
+                <AddToAppleWalletButton
+                  onPress={handleIVRService}
+                  testID="CardActions.CardDetailsScreen:AddToAppleWalletButton"
+                />
               </View>
             ) : null}
             {Platform.OS === "android" && !["LOCK", "INACTIVE", "NEW_CARD"].includes(card.Status) ? (
               <>
-                <MadaPayBanner />
+                <MadaPayBanner testID="CardActions.CardDetailsScreen:MadaPaybanner" />
                 <View style={separatorStyle} />
               </>
             ) : null}
@@ -368,31 +372,45 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
                 icon={<CardSettingsIcon />}
                 onPress={handleOnCardSettingsPress}
                 title={t("CardActions.CardDetailsScreen.cardSettingsButton")}
+                testID="CardActions.CardDetailsScreen:CardSettingsButton"
               />
               <ListItemLink
                 icon={<ReportIcon />}
                 onPress={handleOnReportPress}
                 title={t("CardActions.CardDetailsScreen.reportButton")}
                 disabled={card.Status === "NEW_CARD" || card.Status === "CANCELLED"}
+                testID="CardActions.CardDetailsScreen:ReportCardButton"
               />
               <ListItemLink
                 icon={<CardIcon />}
                 onPress={handleOnRequestPhysicalCard}
                 title={t("CardActions.CardDetailsScreen.requestPhysicalCard")}
                 disabled={card.Status === "PENDING-ACTIVATION"}
+                testID="CardActions.CardDetailsScreen:RequestPhysicalCardButton"
               />
             </ListSection>
             <View style={separatorStyle} />
           </>
         ) : null}
         <ListSection title={t("CardActions.CardDetailsScreen.accountHeader")}>
-          <ListItemText title={t("CardActions.CardDetailsScreen.accountName")} value={card.AccountName} />
-          <ListItemText title={t("CardActions.CardDetailsScreen.accountNumber")} value={card.AccountNumber} />
+          <ListItemText
+            title={t("CardActions.CardDetailsScreen.accountName")}
+            value={card.AccountName}
+            testID="CardActions.CardDetailsScreen:AccountName"
+          />
+          <ListItemText
+            title={t("CardActions.CardDetailsScreen.accountNumber")}
+            value={card.AccountNumber}
+            testID="CardActions.CardDetailsScreen:AccountNumber"
+          />
         </ListSection>
         {card.ProductId === STANDARD_CARD_PRODUCT_ID && !isSingleUseCard(card) ? (
           <>
             <View style={upgradeContainer}>
-              <UpgradeToCroatiaPlus onPress={handleOnUpgradePress} />
+              <UpgradeToCroatiaPlus
+                onPress={handleOnUpgradePress}
+                testID="CardActions.CardDetailsScreen:UpgradeToPlusButton"
+              />
             </View>
           </>
         ) : null}
@@ -403,21 +421,33 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         message={t("CardActions.SingleUseCard.CardCreation.successMessage")}
         title={t("CardActions.SingleUseCard.CardCreation.successTitle")}
         isVisible={isSucCreatedAlertVisible}
+        testID="CardActions.CardDetailsScreen:SingleUseCardCreatedModal"
       />
       {pin !== undefined ? (
-        <ViewPinModal pin={pin} visible={isViewingPin} onClose={() => setIsViewingPin(false)} />
+        <ViewPinModal
+          pin={pin}
+          visible={isViewingPin}
+          onClose={() => setIsViewingPin(false)}
+          testID="CardActions.CardDetailsScreen:ViewPinModal"
+        />
       ) : null}
       {/* Lock confirmation modal */}
       <NotificationModal
         variant="warning"
         buttons={{
           primary: (
-            <Button loading={freezeLoading} disabled={freezeLoading} onPress={handleOnFreezeCardPress}>
+            <Button
+              loading={freezeLoading}
+              disabled={freezeLoading}
+              onPress={handleOnFreezeCardPress}
+              testID="CardActions.CardDetailsScreen:CardLockedModalConfirmButton">
               {t("CardActions.CardDetailsScreen.lockConfirmationModal.confirmButton")}
             </Button>
           ),
           secondary: (
-            <Button onPress={() => setIsLockConfirmModalVisible(false)}>
+            <Button
+              onPress={() => setIsLockConfirmModalVisible(false)}
+              testID="CardActions.CardDetailsScreen:CardLockedModalCancelButton">
               {t("CardActions.CardDetailsScreen.lockConfirmationModal.cancelButton")}
             </Button>
           ),
@@ -428,18 +458,25 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         onClose={() => {
           setIsLockConfirmModalVisible(false);
         }}
+        testID="CardActions.CardDetailsScreen:CardLockedModal"
       />
       {/* Unlock confirmation modal */}
       <NotificationModal
         variant="warning"
         buttons={{
           primary: (
-            <Button loading={changeStatusLoading} disabled={changeStatusLoading} onPress={handleOnUnfreezeCardPress}>
+            <Button
+              loading={changeStatusLoading}
+              disabled={changeStatusLoading}
+              onPress={handleOnUnfreezeCardPress}
+              testID="CardActions.CardDetailsScreen:CardUnlockedModalConfirmButton">
               {t("CardActions.CardDetailsScreen.unlockConfirmationModal.confirmButton")}
             </Button>
           ),
           secondary: (
-            <Button onPress={() => setIsUnlockConfirmModalVisible(false)}>
+            <Button
+              onPress={() => setIsUnlockConfirmModalVisible(false)}
+              testID="CardActions.CardDetailsScreen:CardUnlockedModalCancelButton">
               {t("CardActions.CardDetailsScreen.unlockConfirmationModal.cancelButton")}
             </Button>
           ),
@@ -450,6 +487,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         onClose={() => {
           setIsUnlockConfirmModalVisible(false);
         }}
+        testID="CardActions.CardDetailsScreen:CardUnlockedModal"
       />
       {/* Card status change wait period notification modal */}
       <NotificationModal
@@ -469,6 +507,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
               : t("CardActions.CardDetailsScreen.waitPeriodModal.lockState"),
         })}
         isVisible={isWaitPeriodModalVisible}
+        testID="CardActions.CardDetailsScreen:CardStatusChangeWaitModal"
       />
 
       {/* Apply for PhysicalCard confirmation modal */}
@@ -476,12 +515,18 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         variant="warning"
         buttons={{
           primary: (
-            <Button loading={freezeLoading} disabled={freezeLoading} onPress={handleOnRequestPhysicalCardConfirmPress}>
+            <Button
+              loading={freezeLoading}
+              disabled={freezeLoading}
+              onPress={handleOnRequestPhysicalCardConfirmPress}
+              testID="CardActions.CardDetailsScreen:RequestPhysicalCardModalConfirmButton">
               {t("CardActions.CardDetailsScreen.applyForPhysicalCardConfirmationModal.confirmButton")}
             </Button>
           ),
           secondary: (
-            <Button onPress={() => setIsApplyPhysicalCardModalVisible(false)}>
+            <Button
+              onPress={() => setIsApplyPhysicalCardModalVisible(false)}
+              testID="CardActions.CardDetailsScreen:RequestPhysicalCardModalCancelButton">
               {t("CardActions.CardDetailsScreen.applyForPhysicalCardConfirmationModal.cancelButton")}
             </Button>
           ),
@@ -491,6 +536,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         onClose={() => {
           setIsLockConfirmModalVisible(false);
         }}
+        testID="CardActions.CardDetailsScreen:RequestPhysicalCardModal"
       />
 
       <NotificationModal
@@ -499,9 +545,12 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         isVisible={isLockedSuccess}
         buttons={{
           primary: (
-            <Button onPress={handleOnOk}>{t("CardActions.CardDetailsScreen.lockSuccessFullModal.okButton")}</Button>
+            <Button onPress={handleOnOk} testID="CardActions.CardDetailsScreen:LockSuccessfulModalOkButton">
+              {t("CardActions.CardDetailsScreen.lockSuccessFullModal.okButton")}
+            </Button>
           ),
         }}
+        testID="CardActions.CardDetailsScreen:LockSuccessfulModal"
       />
 
       <NotificationModal
@@ -510,11 +559,14 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         isVisible={isUnLockedSuccess}
         buttons={{
           primary: (
-            <Button onPress={handleOnUnLockedSuccess}>
+            <Button
+              onPress={handleOnUnLockedSuccess}
+              testID="CardActions.CardDetailsScreen:UnlockSuccessfulModalOkButton">
               {t("CardActions.CardDetailsScreen.unLockSuccessFullModal.okButton")}
             </Button>
           ),
         }}
+        testID="CardActions.CardDetailsScreen:UnlockSuccessfulModal"
       />
     </>
   );

@@ -14,6 +14,7 @@ interface IconButtonProps {
   inactiveLabel: string;
   icon: React.ReactElement<SvgProps | IconProps>;
   onPress: () => void;
+  testID?: string;
 }
 
 export default function IconButton({
@@ -24,6 +25,7 @@ export default function IconButton({
   inactiveLabel,
   icon,
   onPress,
+  testID,
 }: IconButtonProps) {
   const iconContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
@@ -48,7 +50,7 @@ export default function IconButton({
 
   return (
     <View style={styles.buttonContainer}>
-      <Pressable onPress={onPress} disabled={disabled}>
+      <Pressable onPress={onPress} disabled={disabled} testID={testID}>
         <View style={iconContainerStyle}>
           {cloneElement(icon, {
             color: changeBackgroundColor

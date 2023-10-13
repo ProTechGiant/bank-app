@@ -11,9 +11,10 @@ interface ListItemLinkProps {
   icon?: React.ReactElement<SvgProps>;
   title: string;
   onPress: () => void;
+  testID?: string;
 }
 
-export default function ListItemLink({ icon, title, onPress, disabled = false }: ListItemLinkProps) {
+export default function ListItemLink({ icon, title, onPress, disabled = false, testID }: ListItemLinkProps) {
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     alignContent: "center",
     flexDirection: "row",
@@ -26,7 +27,7 @@ export default function ListItemLink({ icon, title, onPress, disabled = false }:
   const chevronColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
   return (
-    <Pressable style={containerStyles} onPress={onPress} disabled={disabled}>
+    <Pressable style={containerStyles} onPress={onPress} disabled={disabled} testID={testID}>
       {icon !== undefined && (
         <View style={styles.iconContainer}>
           {cloneElement(icon, { color: disabled ? disabledIconColor : iconColor })}

@@ -187,7 +187,10 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
             transactionTags={transactionTags.Tags}
           />
           <Modal style={styles.modal} onClose={onClose} visible={isVisible}>
-            <TouchableOpacity onPress={() => setIsVisible(false)} style={styles.closeButton}>
+            <TouchableOpacity
+              onPress={() => setIsVisible(false)}
+              style={styles.closeButton}
+              testID="ViewTransactions.SingleTransactionDetailedScreen:RoundUpsModalCloseButton">
               <CloseIcon />
             </TouchableOpacity>
             <Typography.Text style={modalHeader} color="neutralBase+30" size="title2" weight="bold">
@@ -196,7 +199,10 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
             <Typography.Text style={modalBody} color="neutralBase+30" size="callout" weight="regular">
               {t("ViewTransactions.AboutRoundUpsModal.bodyText")}
             </Typography.Text>
-            <Pressable style={styles.modalFooter} onPress={handleonNavigateFAQ}>
+            <Pressable
+              style={styles.modalFooter}
+              onPress={handleonNavigateFAQ}
+              testID="ViewTransactions.SingleTransactionDetailedScreen:RoundUpsModalFaqButton">
               <CircleQuestionMarkIcon />
               <Typography.Text style={FAQs} color="primaryBase" size="footnote" weight="medium">
                 {t("ViewTransactions.AboutRoundUpsModal.note")}
@@ -209,7 +215,6 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
           <ActivityIndicator color="primaryBase" size="small" />
         </View>
       )}
-
       {mutationStatus === "error" ? (
         <NotificationModal
           variant="error"
@@ -234,16 +239,20 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
                 onPress={() => {
                   setIsSimilarTransactionsModalVisible(true);
                   setIsSuccessNotificationModalVisible(false);
-                }}>
+                }}
+                testID="ViewTransactions.SingleTransactionDetailedScreen:SimilarTransactionsModalCategoryButton">
                 {t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.changeCategories")}
               </Button>
             ),
             secondary: (
-              <Button onPress={() => setIsSuccessNotificationModalVisible(false)}>
+              <Button
+                onPress={() => setIsSuccessNotificationModalVisible(false)}
+                testID="ViewTransactions.SingleTransactionDetailedScreen:SimilarTransactionsModalCategorySkipButton">
                 {t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.skip")}
               </Button>
             ),
           }}
+          testID="ViewTransactions.SingleTransactionDetailedScreen:SimilarTransactionsModal"
         />
       ) : (
         <SimilarTransactionsModal
@@ -264,6 +273,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
               isVisible={isUpdateErrorModalVisible}
               message={t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.categoryChangedSuccessfully")}
               title={t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.categoryChanged")}
+              testID="ViewTransactions.SingleTransactionDetailedScreen:CategoryChangedModal"
             />
           )
         : null}
@@ -276,18 +286,23 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
           count: similarTransactionsCount,
         })}
         title={t("ViewTransactions.SingleTransactionDetailedScreen.SuccessModal.categoryChanged")}
+        testID="ViewTransactions.SingleTransactionDetailedScreen:SimilarTransactionsChangedModal"
       />
 
       <NotificationModal
         variant="warning"
         buttons={{
           primary: (
-            <Button onPress={handleOnCaseLink}>
+            <Button
+              onPress={handleOnCaseLink}
+              testID="ViewTransactions.SingleTransactionDetailedScreen:CaseExistsModalViewCaseButton">
               {t("ViewTransactions.SingleTransactionDetailedScreen.caseExistsModal.viewCaseButton")}
             </Button>
           ),
           secondary: (
-            <Button onPress={handleOnCloseCaseExistModal}>
+            <Button
+              onPress={handleOnCloseCaseExistModal}
+              testID="ViewTransactions.SingleTransactionDetailedScreen:CaseExistsModalCancelButton">
               {t("ViewTransactions.SingleTransactionDetailedScreen.caseExistsModal.cancelButton")}
             </Button>
           ),
@@ -295,6 +310,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
         message={`${t("ViewTransactions.SingleTransactionDetailedScreen.caseExistsModal.message")} ${caseNumber}.`}
         title={t("ViewTransactions.SingleTransactionDetailedScreen.caseExistsModal.title")}
         isVisible={isCaseExistModalVisible}
+        testID="ViewTransactions.SingleTransactionDetailedScreen:CaseExistsModal"
       />
       <NotificationModal
         variant="error"

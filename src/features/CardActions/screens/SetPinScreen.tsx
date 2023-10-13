@@ -143,6 +143,7 @@ export default function SetPinScreen() {
               <ProgressIndicator currentStep={mode === "input" ? 1 : 2} totalStep={2} />
             </View>
           }
+          testID="CardActions.SetPinScreen:NavHeader"
         />
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -167,11 +168,13 @@ export default function SetPinScreen() {
                   onChangeText={handleOnChangeText}
                   length={PIN_INPUT_LENGTH}
                   value={currentValue}
+                  testID="CardActions.SetPinScreen:EnterPinCodeInput"
                 />
                 {isErrorVisible ? (
                   <Alert
                     message={t("CardActions.ApplyCardScreen.SetPinScreen.SetPin.errorPinTooEasy")}
                     variant="error"
+                    testID="CardActions.SetPinScreen:PinCodeTooEasyAlert"
                   />
                 ) : null}
               </View>
@@ -194,6 +197,7 @@ export default function SetPinScreen() {
                   onChangeText={handleOnChangeText}
                   length={PIN_INPUT_LENGTH}
                   value={currentValue}
+                  testID="CardActions.SetPinScreen:ConfirmPinCodeInput"
                 />
                 {isErrorVisible && remainingAttempts > 0 ? (
                   <Alert
@@ -201,6 +205,7 @@ export default function SetPinScreen() {
                       count: remainingAttempts,
                     })}
                     variant="error"
+                    testID="CardActions.SetPinScreen:PinCodeDoesNotMatchAlert"
                   />
                 ) : null}
               </View>
@@ -210,7 +215,7 @@ export default function SetPinScreen() {
         <NotificationModal
           buttons={{
             primary: (
-              <Button onPress={() => handleBack()}>
+              <Button onPress={() => handleBack()} testID="CardActions.SetPinScreen:ErrorModalBackButton">
                 {t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.errorModalActionButton")}
               </Button>
             ),
@@ -219,6 +224,7 @@ export default function SetPinScreen() {
           message={t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.errorModalMessage")}
           isVisible={isErrorVisible && remainingAttempts === 0}
           variant="error"
+          testID="CardActions.SetPinScreen:ErrorModal"
         />
       </Page>
 

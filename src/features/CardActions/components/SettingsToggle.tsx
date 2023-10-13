@@ -14,9 +14,18 @@ export interface SettingsToggleProps {
   onPress: () => void;
   disabled?: boolean;
   value: boolean;
+  testID?: string;
 }
 
-export default function SettingsToggle({ icon, helperText, onPress, label, disabled, value }: SettingsToggleProps) {
+export default function SettingsToggle({
+  icon,
+  helperText,
+  onPress,
+  label,
+  disabled,
+  value,
+  testID,
+}: SettingsToggleProps) {
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     alignContent: "center",
     flexDirection: "row",
@@ -32,7 +41,7 @@ export default function SettingsToggle({ icon, helperText, onPress, label, disab
   const iconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
 
   return (
-    <View style={containerStyles}>
+    <View style={containerStyles} testID={testID}>
       {icon !== undefined && (
         <View style={styles.iconContainer}>
           {cloneElement(icon, { color: disabled ? disabledIconColor : iconColor, height: 24, width: 24 })}
@@ -51,7 +60,12 @@ export default function SettingsToggle({ icon, helperText, onPress, label, disab
         )}
       </View>
       <View style={styles.switch}>
-        <Toggle disabled={disabled} onPress={onPress} value={value} />
+        <Toggle
+          disabled={disabled}
+          onPress={onPress}
+          value={value}
+          testID={testID !== undefined ? `${testID}Toggle` : undefined}
+        />
       </View>
     </View>
   );

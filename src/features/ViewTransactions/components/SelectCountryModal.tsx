@@ -79,7 +79,10 @@ export default function SelectCountryModal({ handleSelectCountry }: SelectCountr
   }));
 
   const renderItem = ({ item }: { item: string }) => (
-    <Pressable style={countryItemContainer} onPress={() => setSelectedCountry(item)}>
+    <Pressable
+      style={countryItemContainer}
+      onPress={() => setSelectedCountry(item)}
+      testID={`ViewTransactions.SelectTagScreen:SelectCountryModalCountry-${item}`}>
       <Typography.Text size="callout" style={styles.countryNameStyle}>
         {item}
       </Typography.Text>
@@ -103,6 +106,7 @@ export default function SelectCountryModal({ handleSelectCountry }: SelectCountr
       <SearchInput
         onSearch={handleOnSearch}
         placeholder={t("ViewTransactions.SingleTransactionDetailedScreen.tripToModal.searchPlaceholder")}
+        testID="ViewTransactions.SelectTagScreen:SelectCountryModalSearchInput"
         value={searchCountry}
       />
       <SectionList
@@ -112,7 +116,9 @@ export default function SelectCountryModal({ handleSelectCountry }: SelectCountr
         renderSectionHeader={renderSectionHeader}
         keyExtractor={(item, _index) => item.toString()}
       />
-      <Button onPress={() => handleSelectCountry(selectedCountry)}>
+      <Button
+        onPress={() => handleSelectCountry(selectedCountry)}
+        testID="ViewTransactions.SelectTagScreen:SelectCountryModalConfirmButton">
         {t("ViewTransactions.SingleTransactionDetailedScreen.tripToModal.buttonText")}
       </Button>
     </KeyboardAvoidingView>

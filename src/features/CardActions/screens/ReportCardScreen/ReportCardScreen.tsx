@@ -120,7 +120,10 @@ export default function ReportCardScreen() {
   ) : (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader title={t("CardActions.ReportCardScreen.navTitle")} onBackPress={handleOnBackPress}>
+        <NavHeader
+          title={t("CardActions.ReportCardScreen.navTitle")}
+          onBackPress={handleOnBackPress}
+          testID="CardActions.ReportCardScreen:NavHeader">
           <ProgressIndicator currentStep={currentStep} totalStep={2} />
         </NavHeader>
         <ScrollView
@@ -162,8 +165,13 @@ export default function ReportCardScreen() {
         title={t("CardActions.ReportCardScreen.CardLockedSuccess.title")}
         isVisible={isLockedSuccess}
         buttons={{
-          primary: <Button onPress={handleOnOk}>{t("CardActions.ReportCardScreen.CardLockedSuccess.okButton")}</Button>,
+          primary: (
+            <Button onPress={handleOnOk} testID="CardActions.ReportCardScreen:CardLockedSuccessModalOkButton">
+              {t("CardActions.ReportCardScreen.CardLockedSuccess.okButton")}
+            </Button>
+          ),
         }}
+        testID="CardActions.ReportCardScreen:CardLockedSuccessModal"
       />
 
       <NotificationModal
@@ -173,16 +181,21 @@ export default function ReportCardScreen() {
         isVisible={isConfirmationModalVisible}
         buttons={{
           primary: (
-            <Button onPress={handleOnConfirm}>
+            <Button
+              onPress={handleOnConfirm}
+              testID="CardActions.ReportCardScreen:ConfirmDeliveryAddressModalConfirmButton">
               {t("CardActions.ReportCardScreen.ConfirmDeliveryAddress.confirmButton")}
             </Button>
           ),
           secondary: (
-            <Button onPress={() => setIsConfirmationModalVisible(false)}>
+            <Button
+              onPress={() => setIsConfirmationModalVisible(false)}
+              testID="CardActions.ReportCardScreen:ConfirmDeliveryAddressModalCancelButton">
               {t("CardActions.ReportCardScreen.ConfirmDeliveryAddress.cancelButton")}
             </Button>
           ),
         }}
+        testID="CardActions.ReportCardScreen:ConfirmDeliveryAddressModal"
       />
     </>
   );

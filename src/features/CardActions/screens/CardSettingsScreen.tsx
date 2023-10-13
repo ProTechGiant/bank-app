@@ -217,7 +217,7 @@ export default function CardSettingsScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader />
+        <NavHeader testID="CardActions.CardSettingsScreen:NavHeader" />
         <ContentContainer isScrollView>
           <Typography.Header color="neutralBase+30" size="medium" weight="regular" style={titleStyle}>
             {t("CardActions.CardSettingsScreen.title")}
@@ -230,6 +230,7 @@ export default function CardSettingsScreen() {
                   title={t("CardActions.CardSettingsScreen.changePin")}
                   onPress={handleOnChangePinCodePress}
                   disabled={card.data.Status !== "UNLOCK"}
+                  testID="CardActions.CardSettingsScreen:ChangePincodeButton"
                 />
                 <SettingsToggle
                   icon={<PointOfSaleIcon />}
@@ -238,6 +239,7 @@ export default function CardSettingsScreen() {
                   onPress={() => handleOnChangeSettings("POSTransaction")}
                   value={settings.data.POSTransaction ?? true}
                   disabled={!["UNFREEZE", "PENDING-ACTIVATION"].includes(card.data.Status)}
+                  testID="CardActions.CardSettingsScreen:POSTransactionSetting"
                 />
                 <SettingsToggle
                   icon={<CardIcon />}
@@ -246,6 +248,7 @@ export default function CardSettingsScreen() {
                   onPress={() => handleOnChangeSettings("OnlinePayments")}
                   value={settings.data.OnlinePayments ?? true}
                   disabled={!["UNFREEZE", "PENDING-ACTIVATION"].includes(card.data.Status)}
+                  testID="CardActions.CardSettingsScreen:OnlinePaymentsSetting"
                 />
                 <SettingsToggle
                   icon={<GlobeIcon />}
@@ -254,6 +257,7 @@ export default function CardSettingsScreen() {
                   onPress={() => handleOnChangeSettings("InternationalPayments")}
                   value={settings.data.InternationalPayments ?? false}
                   disabled={card.data.Status !== "UNLOCK"}
+                  testID="CardActions.CardSettingsScreen:InternationalPaymentsSetting"
                 />
 
                 <SettingsToggle
@@ -263,6 +267,7 @@ export default function CardSettingsScreen() {
                   helperText={t("CardActions.CardSettingsScreen.swipePayments.helperText")}
                   onPress={() => handleOnChangeSettings("SwipePayments")}
                   value={card.data.Status === "PENDING-ACTIVATION" ? false : settings.data.SwipePayments ?? false}
+                  testID="CardActions.CardSettingsScreen:SwipePaymentsSetting"
                 />
                 <SettingsToggle
                   icon={<WifiIcon />}
@@ -271,6 +276,7 @@ export default function CardSettingsScreen() {
                   helperText={t("CardActions.CardSettingsScreen.contactlessPayments.helperText")}
                   onPress={() => handleOnChangeSettings("ContactlessPayments")}
                   value={card.data.Status === "PENDING-ACTIVATION" ? false : settings.data.ContactlessPayments ?? false}
+                  testID="CardActions.CardSettingsScreen:ContactlessPaymentsSetting"
                 />
               </ListSection>
               <View style={separatorStyle} />
@@ -280,12 +286,14 @@ export default function CardSettingsScreen() {
                   title={t("CardActions.CardSettingsScreen.posTransactionLimit")}
                   onPress={handleOnPOSTransactionLimitPress}
                   disabled={card.data.Status !== "UNLOCK"}
+                  testID="CardActions.CardSettingsScreen:POSTransactionLimitButton"
                 />
                 <ListItemLink
                   icon={<OnlineTransactionLimitIcon />}
                   title={t("CardActions.CardSettingsScreen.onlineTransactionLimit")}
                   onPress={handleOnOnlineTransactionlimitPress}
                   disabled={card.data.Status !== "UNLOCK"}
+                  testID="CardActions.CardSettingsScreen:OnlineTransactionLimitButton"
                 />
               </ListSection>
               <View style={separatorStyle} />
@@ -303,19 +311,20 @@ export default function CardSettingsScreen() {
                     </Stack>
                   </View>
                 ) : null}
-
                 <SettingsToggle
                   disabled={card.data.Status !== "UNLOCK"}
                   label={t("CardActions.CardSettingsScreen.atmWithdrawals.label")}
                   helperText={t("CardActions.CardSettingsScreen.atmWithdrawals.helperText")}
                   onPress={() => handleOnChangeSettings("AtmWithdrawals")}
                   value={card.data.Status === "PENDING-ACTIVATION" ? false : settings.data.AtmWithdrawals ?? false}
+                  testID="CardActions.CardSettingsScreen:AtmWithdrawalsSetting"
                 />
                 <View style={cancelCardButtonContainerStyle}>
                   <Button
                     onPress={handleOnCancelCardPress}
                     disabled={card.data.Status === "PENDING-ACTIVATION"}
-                    variant="secondary">
+                    variant="secondary"
+                    testID="CardActions.CardSettingsScreen:CancelCardButton">
                     {t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCard")}
                   </Button>
                 </View>
@@ -338,15 +347,18 @@ export default function CardSettingsScreen() {
         variant="warning"
         title={t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCardTitle")}
         message={t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCardDescription")}
+        testID="CardActions.CardSettingsScreen:CancelCardModal"
         isVisible={isConfirmationModalVisible}
         buttons={{
           primary: (
-            <Button onPress={handleOnConfirmPress}>
+            <Button onPress={handleOnConfirmPress} testID="CardActions.CardSettingsScreen:CancelCardModalConfirmButton">
               {t("CardActions.CardSettingsScreen.cancelCardAlert.confirm")}
             </Button>
           ),
           secondary: (
-            <Button onPress={() => setIsConfirmationModalVisible(false)}>
+            <Button
+              onPress={() => setIsConfirmationModalVisible(false)}
+              testID="CardActions.CardSettingsScreen:CancelCardModalCancelButton">
               {t("CardActions.CardSettingsScreen.cancelCardAlert.cancel")}
             </Button>
           ),
@@ -356,10 +368,15 @@ export default function CardSettingsScreen() {
       <NotificationModal
         variant="success"
         title={t("CardActions.CardSettingsScreen.cancelCardAlert.cancelCardSuccessMessage")}
+        testID="CardActions.CardSettingsScreen:CancelCardSuccessModal"
         isVisible={showCancelCardSuccessAlert}
         buttons={{
           primary: (
-            <Button onPress={handleSuccessOkPress}>{t("CardActions.CardSettingsScreen.cancelCardAlert.Ok")}</Button>
+            <Button
+              onPress={handleSuccessOkPress}
+              testID="CardActions.CardSettingsScreen:CancelCardSuccessModalOkButton">
+              {t("CardActions.CardSettingsScreen.cancelCardAlert.Ok")}
+            </Button>
           ),
         }}
       />

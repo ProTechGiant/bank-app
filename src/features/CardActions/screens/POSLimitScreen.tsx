@@ -80,8 +80,8 @@ export default function POSLimitScreen() {
             PhoneNumber: response.PhoneNumber,
           },
           otpVerifyMethod: "card-actions",
-          onOtpRequest: async () => {
-            return await mutateAsync(reqData);
+          onOtpRequest: () => {
+            return mutateAsync(reqData);
           },
           onFinish: status => {
             if (status === "success") {
@@ -130,7 +130,7 @@ export default function POSLimitScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader withBackButton={true} />
+      <NavHeader withBackButton={true} testID="CardActions.POSLimitScreen:NavHeader" />
       {isLoading || currentPOSLimitLoading ? (
         <FullScreenLoader />
       ) : (
@@ -154,14 +154,19 @@ export default function POSLimitScreen() {
               label={t("CardActions.POSLimitScreen.dropDownTitle")}
               value={newPOSLimit}
               onChange={handleOnPOSLimitChange}
+              testID="CardActions.POSLimitScreen:TransactionLimitInput"
             />
             <Stack align="stretch" direction="vertical">
-              <Button onPress={handleOnDone} loading={changePOSLimitLoading} disabled={changePOSLimitLoading}>
+              <Button
+                onPress={handleOnDone}
+                loading={changePOSLimitLoading}
+                disabled={changePOSLimitLoading}
+                testID="CardActions.POSLimitScreen:DoneButton">
                 <Typography.Text color="neutralBase-60" size="body" weight="medium">
                   {t("CardActions.POSLimitScreen.doneButton")}
                 </Typography.Text>
               </Button>
-              <Button onPress={handleOnCancel} variant="tertiary">
+              <Button onPress={handleOnCancel} variant="tertiary" testID="CardActions.POSLimitScreen:CancelButton">
                 <Typography.Text size="body" weight="medium">
                   {t("CardActions.POSLimitScreen.cancelButton")}
                 </Typography.Text>
@@ -183,9 +188,12 @@ export default function POSLimitScreen() {
         variant="success"
         buttons={{
           primary: (
-            <Button onPress={handleOnSuccessModalClose}>{t("CardActions.POSLimitScreen.successModal.okButton")}</Button>
+            <Button onPress={handleOnSuccessModalClose} testID="CardActions.POSLimitScreen:SuccessModalOkButton">
+              {t("CardActions.POSLimitScreen.successModal.okButton")}
+            </Button>
           ),
         }}
+        testID="CardActions.POSLimitScreen:SuccessModal"
       />
       <NotificationModal
         variant="error"

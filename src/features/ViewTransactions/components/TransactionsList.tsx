@@ -86,7 +86,9 @@ export default function TransactionsList({ transactionsAll, cardId, createDisput
           }
         });
         return (
-          <View key={`${transactionGroup.Value}-${index}`}>
+          <View
+            key={`${transactionGroup.Value}-${index}`}
+            testID={`ViewTransactions.TransactionsScreen:TransactionGroup-${transactionGroup.Value}`}>
             <View style={firstRow}>
               <Typography.Text color="neutralBase-10" size="callout" weight="medium">
                 {formatDate(new Date(transactionGroup.Value))}
@@ -97,7 +99,10 @@ export default function TransactionsList({ transactionsAll, cardId, createDisput
             </View>
             <View style={styles.roundUpContainer}>
               {transactionGroup.Transactions.map((transaction: Transaction) => (
-                <Pressable key={transaction.TransactionId} onPress={() => handleNavigation(transaction)}>
+                <Pressable
+                  key={transaction.TransactionId}
+                  onPress={() => handleNavigation(transaction)}
+                  testID={`ViewTransactions.TransactionsScreen:Transaction-${transaction.TransactionId}`}>
                   <View style={transactionRow}>
                     {transaction.CreditDebitIndicator === "Debit" ? (
                       <>

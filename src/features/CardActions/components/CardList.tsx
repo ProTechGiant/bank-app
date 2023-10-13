@@ -54,6 +54,7 @@ export default function CardsList({
             onUnfreezeCardPress={() => onUnfreezeCardPress(card.CardId)}
             onViewPinPress={() => onViewPinPress(card.CardId)}
             onCardSettingsPress={() => onCardSettingsPress(card.CardId)}
+            testID={`CardActions.HomeScreen:ActiveCard-${card.CardId}-QuickActions`}
           />
         }
         onPress={() => onCardPress(card.CardId)}
@@ -64,9 +65,11 @@ export default function CardsList({
               title={t("CardActions.activateCard")}
               type="light"
               onPress={() => onActivatePhysicalCardPress(card.CardId)}
+              testID={`CardActions.HomeScreen:ActiveCard-${card.CardId}-ActivateButton`}
             />
           ) : undefined
         }
+        testID={`CardActions.HomeScreen:ActiveCard-${card.CardId}`}
       />
     );
   };
@@ -86,6 +89,7 @@ export default function CardsList({
               type="light"
               title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
               onPress={() => onActivatePhysicalCardPress(card.CardId)}
+              testID={`CardActions.HomeScreen:InactiveCard-${card.CardId}-ActivateButton`}
             />
           )
         }
@@ -96,10 +100,12 @@ export default function CardsList({
             onUnfreezeCardPress={() => onUnfreezeCardPress(card.CardId)}
             onViewPinPress={() => onViewPinPress(card.CardId)}
             onCardSettingsPress={() => onCardSettingsPress(card.CardId)}
+            testID={`CardActions.HomeScreen:InactiveCard-${card.CardId}-QuickActions`}
           />
         }
         onPress={() => onCardPress(card.CardId)}
         isExpiringSoon={isCardExpiringSoon(card)}
+        testID={`CardActions.HomeScreen:InactiveCard-${card.CardId}`}
       />
     );
   };
@@ -118,6 +124,7 @@ export default function CardsList({
         }
         onPress={() => onCardPress(card.CardId)}
         label={t("CardActions.singleUseCard")}
+        testID={`CardActions.HomeScreen:SingleUseCard-${card.CardId}`}
       />
     );
   };
@@ -148,7 +155,9 @@ export default function CardsList({
           status="INACTIVE"
           cardType={SINGLE_USE_CARD_TYPE}
           endButton={
-            <Pressable onPress={onSingleUseCardAboutPress}>
+            <Pressable
+              onPress={onSingleUseCardAboutPress}
+              testID="CardActions.HomeScreen:SingleUseCardPlaceholderAboutButton">
               <BankCard.EndButton icon={<InfoCircleIcon />} />
             </Pressable>
           }
@@ -157,9 +166,11 @@ export default function CardsList({
               title={t("CardActions.generateNew")}
               type="light"
               onPress={onSingleUseCardGeneratePress}
+              testID="CardActions.HomeScreen:SingleUseCardPlaceholderGenerateButton"
             />
           }
           label={t("CardActions.singleUseCard")}
+          testID="CardActions.HomeScreen:SingleUseCardPlaceholder"
         />
       ) : null}
     </ScrollView>

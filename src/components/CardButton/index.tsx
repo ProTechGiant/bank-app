@@ -13,9 +13,10 @@ interface CardButtonProps {
   icon?: React.ReactNode;
   amount?: string;
   onPress: () => void;
+  testID?: string;
 }
 
-export default function CardButton({ label, text, icon, amount, onPress }: CardButtonProps) {
+export default function CardButton({ label, text, icon, amount, onPress, testID }: CardButtonProps) {
   const { t } = useTranslation();
 
   const button = useThemeStyles<ViewStyle>(theme => ({
@@ -41,7 +42,7 @@ export default function CardButton({ label, text, icon, amount, onPress }: CardB
   const chevronColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   return (
-    <Pressable onPress={onPress} style={marginsStyle}>
+    <Pressable onPress={onPress} style={marginsStyle} testID={testID}>
       <View style={button}>
         <View style={styles.iconContainer}>
           {icon}

@@ -31,7 +31,11 @@ export default function InactiveReordererItem({ disabled, onPress, item }: Inact
   }));
 
   return (
-    <Pressable disabled={disabled} onPress={onPress} style={containerStyle}>
+    <Pressable
+      disabled={disabled}
+      onPress={onPress}
+      style={containerStyle}
+      testID={`Home.SectionsReordererModal:Option-${item.name}`}>
       {disabled ? <DisabledPlusCircleIcon /> : <PlusCircleIcon />}
       <View style={contentStyle}>
         <Typography.Text color={disabled ? "neutralBase-20" : "primaryBase"} size="callout" weight="medium">

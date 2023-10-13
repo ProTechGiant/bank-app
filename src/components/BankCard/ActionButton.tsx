@@ -7,9 +7,10 @@ export interface ActionButtonProps {
   title: string;
   type: "dark" | "light";
   onPress?: () => void;
+  testID?: string;
 }
 
-export default function ActionButton({ title, type, onPress }: ActionButtonProps) {
+export default function ActionButton({ title, type, onPress, testID }: ActionButtonProps) {
   const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
@@ -24,7 +25,7 @@ export default function ActionButton({ title, type, onPress }: ActionButtonProps
   );
 
   return (
-    <Pressable onPress={onPress} style={containerStyles}>
+    <Pressable onPress={onPress} style={containerStyles} testID={testID}>
       <Typography.Text color={type === "light" ? "neutralBase+30" : "neutralBase-50"} size="callout" weight="medium">
         {title}
       </Typography.Text>

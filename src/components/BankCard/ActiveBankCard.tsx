@@ -26,6 +26,7 @@ interface ActiveBankCardProps {
   onPress?: () => void;
   productId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
   actionButton?: React.ReactElement<ActionButtonProps>;
+  testID?: string;
 }
 
 export default function ActiveBankCard({
@@ -36,6 +37,7 @@ export default function ActiveBankCard({
   productId,
   onPress,
   actionButton,
+  testID,
 }: ActiveBankCardProps) {
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["20p"],
@@ -58,7 +60,7 @@ export default function ActiveBankCard({
   }));
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={testID}>
       {cardType === SINGLE_USE_CARD_TYPE ? (
         <SingleUseCardActiveSvg />
       ) : productId === STANDARD_CARD_PRODUCT_ID ? (

@@ -61,7 +61,10 @@ export default function ReordererHeader({
         <BackgroundCollapsedSvg />
       </View>
       <View style={styles.elements}>
-        <Pressable onPress={onCancelPress} style={[buttonContainerStyle, cancelButtonStyle]}>
+        <Pressable
+          onPress={onCancelPress}
+          style={[buttonContainerStyle, cancelButtonStyle]}
+          testID="Home.SectionsReordererModal:CancelButton">
           <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
             {cancelText}
           </Typography.Text>
@@ -69,7 +72,11 @@ export default function ReordererHeader({
         <Typography.Text color="primaryBase" weight="regular" size="body">
           {title}
         </Typography.Text>
-        <Pressable disabled={!isSaveable} onPress={onSavePress} style={[buttonContainerStyle, saveButtonStyle]}>
+        <Pressable
+          disabled={!isSaveable}
+          onPress={onSavePress}
+          style={[buttonContainerStyle, saveButtonStyle]}
+          testID="Home.SectionsReordererModal:SaveButton">
           <Typography.Text color="neutralBase-50" size="caption1" weight="semiBold">
             {saveText}
           </Typography.Text>

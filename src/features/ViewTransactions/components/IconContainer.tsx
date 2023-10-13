@@ -13,9 +13,18 @@ type IconContainerProps = {
   onPress: () => void;
   containerStyle?: ViewStyle;
   viewBox: string;
+  testID?: string;
 };
 
-export default function IconContainer({ path, name, selected, onPress, containerStyle, viewBox }: IconContainerProps) {
+export default function IconContainer({
+  path,
+  name,
+  selected,
+  onPress,
+  containerStyle,
+  viewBox,
+  testID,
+}: IconContainerProps) {
   const categoryIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   const categoryTextStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -60,7 +69,7 @@ export default function IconContainer({ path, name, selected, onPress, container
   );
 
   return (
-    <Pressable style={[iconContainerStyle, containerStyle]} onPress={onPress}>
+    <Pressable style={[iconContainerStyle, containerStyle]} onPress={onPress} testID={testID}>
       {selected ? (
         <WithShadow backgroundColor="neutralBase-50" borderRadius="xxlarge">
           {renderIcon()}

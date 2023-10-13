@@ -123,9 +123,9 @@ export default function HomeScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader title={t("CardActions.HomeScreen.navTitle")} />
+        <NavHeader title={t("CardActions.HomeScreen.navTitle")} testID="CardActions.HomeScreen:NavHeader" />
         {cardsQuery.isLoading ? (
-          <View style={styles.loading}>
+          <View style={styles.loading} testID="CardActions.HomeScreen:LoadingIndicator">
             <FullScreenLoader />
           </View>
         ) : (
@@ -148,7 +148,12 @@ export default function HomeScreen() {
         />
       </Page>
       {pin !== undefined ? (
-        <ViewPinModal pin={pin} visible={isViewingPin} onClose={() => setIsViewingPin(false)} />
+        <ViewPinModal
+          pin={pin}
+          visible={isViewingPin}
+          onClose={() => setIsViewingPin(false)}
+          testID="CardActions.HomeScreen:ViewPinModal"
+        />
       ) : null}
       <NotificationModal
         variant="error"

@@ -7,9 +7,10 @@ import { formatCurrency } from "@/utils";
 
 interface NumberWithDifferentFontSizesProps {
   number: string;
+  testID?: string;
 }
 
-const NumberWithDifferentFontSizes: React.FC<NumberWithDifferentFontSizesProps> = ({ number }) => {
+const NumberWithDifferentFontSizes: React.FC<NumberWithDifferentFontSizesProps> = ({ number, testID }) => {
   const { t } = useTranslation();
 
   // Split the number into integer and decimal parts
@@ -17,7 +18,7 @@ const NumberWithDifferentFontSizes: React.FC<NumberWithDifferentFontSizesProps> 
   const formattedIntegerPart = formatCurrency(Number.parseInt(integerPart, 10));
 
   return (
-    <View style={styles.spliterStyle}>
+    <View style={styles.spliterStyle} testID={testID}>
       <Typography.Text color="neutralBase-50" size="title2" weight="bold">
         {formattedIntegerPart}
       </Typography.Text>

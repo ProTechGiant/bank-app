@@ -36,7 +36,7 @@ export default function ConfirmCardDeliveryAddress() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader />
+      <NavHeader testID="CardActions.ConfirmCardDeliveryAddress:NavHeader" />
       <ContentContainer>
         <CardDeliveryDetails
           isSubmitting={isSubmitting}

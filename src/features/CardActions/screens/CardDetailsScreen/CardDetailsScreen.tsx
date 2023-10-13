@@ -45,9 +45,10 @@ export default function CardDetailsScreen() {
               ? t("CardActions.CardDetailsScreen.navTitleStandard")
               : t("CardActions.CardDetailsScreen.navTitlePlus")
           }
+          testID="CardActions.CardDetailsScreen:NavHeader"
         />
         {selectedCard === undefined ? (
-          <FlexActivityIndicator />
+          <FlexActivityIndicator testID="CardActions.CardDetailsScreen:LoadingIndicator" />
         ) : (
           <CardDetailsScreenInner
             card={selectedCard}

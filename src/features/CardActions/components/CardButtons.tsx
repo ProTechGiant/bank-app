@@ -43,6 +43,7 @@ export default function CardButtons({
           inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.show")}
           onPress={onShowDetailsPress}
           icon={createElement(isShowingDetails ? HideIcon : ShowIcon, { height: 24, width: 24 })}
+          testID="CardActions.CardDetailsScreen:CardShowDetailsButton"
         />
       ) : null}
       {isFreezeButtonVisible ? (
@@ -53,6 +54,7 @@ export default function CardButtons({
           icon={cardStatus === "LOCK" ? <UnLockIcon /> : <LockIcon />}
           activeLabel={t("CardActions.CardDetailsScreen.iconButtonText.unfreeze")}
           inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.freeze")}
+          testID="CardActions.CardDetailsScreen:CardFreezeUnfreezeButton"
         />
       ) : null}
       {isViewPinButtonVisible ? (
@@ -63,6 +65,7 @@ export default function CardButtons({
           inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.viewPin")}
           icon={<PinIcon />}
           disabled={isDisablePin}
+          testID="CardActions.CardDetailsScreen:CardViewPinButton"
         />
       ) : null}
     </Stack>

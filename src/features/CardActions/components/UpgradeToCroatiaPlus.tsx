@@ -11,9 +11,10 @@ import CroatiaPlusUpSell from "../assets/croatia-plus-up-sell.png";
 
 interface UpgradeToCroatiaPlusProps {
   onPress: () => void;
+  testID?: string;
 }
 
-export default function UpgradeToCroatiaPlus({ onPress }: UpgradeToCroatiaPlusProps) {
+export default function UpgradeToCroatiaPlus({ onPress, testID }: UpgradeToCroatiaPlusProps) {
   const { t } = useTranslation();
 
   const croatiaPlusUpSellContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -49,7 +50,7 @@ export default function UpgradeToCroatiaPlus({ onPress }: UpgradeToCroatiaPlusPr
               {t("CardActions.CardDetailsScreen.upgradeToCroatiaPlus.content")}
             </Typography.Text>
           </Stack>
-          <Button variant="primary" size="mini" onPress={onPress}>
+          <Button variant="primary" size="mini" onPress={onPress} testID={testID}>
             {t("CardActions.CardDetailsScreen.upgradeToCroatiaPlus.button")}
           </Button>
         </Stack>

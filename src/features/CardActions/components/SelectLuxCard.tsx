@@ -12,9 +12,10 @@ interface SelectLuxCardProps {
   onPress: () => void;
   title: string;
   remark: string;
+  testID: string;
 }
 
-export default function SelectLuxCard({ onPress, title, remark }: SelectLuxCardProps) {
+export default function SelectLuxCard({ onPress, title, remark, testID }: SelectLuxCardProps) {
   const container = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     flex: 1,
@@ -38,7 +39,7 @@ export default function SelectLuxCard({ onPress, title, remark }: SelectLuxCardP
           <Typography.Text size="caption1" color="primaryBase-20" align="center" style={textStyle}>
             {remark}
           </Typography.Text>
-          <Button block onPress={onPress}>
+          <Button block onPress={onPress} testID={`${testID}:SelectLuxCardButton`}>
             {title}
           </Button>
         </View>

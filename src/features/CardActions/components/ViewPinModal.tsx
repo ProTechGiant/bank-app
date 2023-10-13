@@ -10,9 +10,10 @@ interface ViewPinModalProps {
   pin: string;
   visible: boolean;
   onClose: () => void;
+  testID?: string;
 }
 
-export default function ViewPinModal({ pin, visible, onClose }: ViewPinModalProps) {
+export default function ViewPinModal({ pin, visible, onClose, testID }: ViewPinModalProps) {
   const { t } = useTranslation();
 
   const pinStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -26,11 +27,18 @@ export default function ViewPinModal({ pin, visible, onClose }: ViewPinModalProp
   }));
 
   return (
-    <Modal style={modalStyle} onClose={onClose} visible={visible} headerText={t("CardActions.ViewPin.navTitle")}>
+    <Modal
+      style={modalStyle}
+      onClose={onClose}
+      visible={visible}
+      headerText={t("CardActions.ViewPin.navTitle")}
+      testID={testID}>
       <Typography.Header style={pinStyle} size="large" weight="semiBold" align="center">
         {pin}
       </Typography.Header>
-      <Button onPress={onClose}>{t("CardActions.ViewPin.button")}</Button>
+      <Button onPress={onClose} testID={testID !== undefined ? `${testID}CloseButton` : undefined}>
+        {t("CardActions.ViewPin.button")}
+      </Button>
     </Modal>
   );
 }

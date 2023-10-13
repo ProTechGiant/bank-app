@@ -135,6 +135,7 @@ export default function CategoriesListScreen() {
         variant="angled"
         onBackPress={handleOnBackPress}
         title={t("ViewTransactions.CategoriesListScreen.title")}
+        testID="ViewTransactions.CategoriesListScreen:NavHeader"
       />
       <View style={contentStyle}>
         <View style={searchContainerStyle}>
@@ -147,13 +148,15 @@ export default function CategoriesListScreen() {
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               value={searchQuery}
+              testID="ViewTransactions.CategoriesListScreen:SearchInput"
             />
           </View>
           {searchQuery ? (
             <Pressable
               onPress={() => {
                 setSearchQuery("");
-              }}>
+              }}
+              testID="ViewTransactions.CategoriesListScreen:ClearSearchButton">
               <CloseIcon color={searchIconColor} />
             </Pressable>
           ) : null}
@@ -172,6 +175,7 @@ export default function CategoriesListScreen() {
                   setSelectedCategory(item.categoryName);
                   setUpdatedCategoryId(toString(item.categoryId));
                 }}
+                testID={`ViewTransactions.CategoriesListScreen:CategoryIcon-${item.categoryName}`}
               />
             )}
             keyExtractor={item => toString(item.categoryId)}
@@ -185,7 +189,9 @@ export default function CategoriesListScreen() {
           </View>
         )}
         <View>
-          <Button onPress={handleUpdateCategory}>{t("ViewTransactions.CategoriesListScreen.title")}</Button>
+          <Button onPress={handleUpdateCategory} testID="ViewTransactions.CategoriesListScreen:UpdateCategoryButton">
+            {t("ViewTransactions.CategoriesListScreen.title")}
+          </Button>
         </View>
       </View>
     </Page>

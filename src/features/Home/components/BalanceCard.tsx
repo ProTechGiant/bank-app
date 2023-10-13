@@ -88,10 +88,17 @@ export default function BalanceCard({ balance, accountNumber, onBalanceRefresh }
             <Stack direction="horizontal" align="center" justify="space-between">
               {balance ? (
                 <>
-                  <Typography.Text color="neutralBase+30" size="large" weight="bold">
+                  <Typography.Text
+                    color="neutralBase+30"
+                    size="large"
+                    weight="bold"
+                    testID="Home.DashboardScreen:AccountBalance">
                     {isBalanceVisible ? balance.toLocaleString("en-US") : "********"}
                   </Typography.Text>
-                  <Pressable style={showBalanceIconStyle} onPress={handleOnShowBalancePress}>
+                  <Pressable
+                    style={showBalanceIconStyle}
+                    onPress={handleOnShowBalancePress}
+                    testID="Home.DashboardScreen:ToggleAccountBalanceButton">
                     {isBalanceVisible ? <EyeShowIcon /> : <EyeHideIcon />}
                   </Pressable>
                 </>
@@ -115,14 +122,24 @@ export default function BalanceCard({ balance, accountNumber, onBalanceRefresh }
               <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
                 {t("Home.DashboardScreen.mainCroatiaAccount")}
               </Typography.Text>
-              <Typography.Text color="neutralBase+20" size="footnote" weight="medium">
+              <Typography.Text
+                color="neutralBase+20"
+                size="footnote"
+                weight="medium"
+                testID="Home.DashboardScreen:AccountNumber">
                 {accountNumber ? formatAccountNumber(accountNumber) : null}
               </Typography.Text>
             </Stack>
-            <Pressable style={styles.iconContainer} onPress={handleOnCopyNumberPress}>
+            <Pressable
+              style={styles.iconContainer}
+              onPress={handleOnCopyNumberPress}
+              testID="Home.DashboardScreen:CopyAccountNumberButton">
               <CopyAccountIcon />
             </Pressable>
-            <Pressable style={styles.iconContainer} onPress={handleOnAccountDetailsPress}>
+            <Pressable
+              style={styles.iconContainer}
+              onPress={handleOnAccountDetailsPress}
+              testID="Home.DashboardScreen:NavigateToAccountButton">
               <NavigateToAccountIcon />
             </Pressable>
           </Stack>

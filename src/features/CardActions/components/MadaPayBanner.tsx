@@ -6,7 +6,11 @@ import { useThemeStyles } from "@/theme";
 
 import MadaPayLogoSvg from "../assets/madapay-logo.svg";
 
-export default function MadaPayBanner() {
+interface MadaPayBannerProps {
+  testID?: string;
+}
+
+export default function MadaPayBanner({ testID }: MadaPayBannerProps) {
   const textStyle = useThemeStyles<ViewStyle>(theme => ({
     marginLeft: theme.spacing["16p"],
     flex: 1,
@@ -18,7 +22,7 @@ export default function MadaPayBanner() {
   }));
 
   return (
-    <View style={containerStyle}>
+    <View style={containerStyle} testID={testID}>
       <MadaPayLogoSvg width={48} height={29} />
       <View style={textStyle}>
         <Typography.Text color="neutralBase" size="footnote" weight="regular">

@@ -18,6 +18,7 @@ interface InactiveBankCardProps {
   cardType: typeof PHYSICAL_CARD_TYPE | typeof SINGLE_USE_CARD_TYPE | typeof VIRTUAL_CARD_TYPE;
   onPress?: () => void;
   isExpiringSoon?: boolean;
+  testID?: string;
 }
 
 export default function InactiveBankCard({
@@ -28,8 +29,10 @@ export default function InactiveBankCard({
   cardType,
   onPress,
   isExpiringSoon,
+  testID,
 }: InactiveBankCardProps) {
   const { t } = useTranslation();
+
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     justifyContent: "space-between",
@@ -64,12 +67,16 @@ export default function InactiveBankCard({
     paddingHorizontal: theme.spacing["24p"],
   }));
 
-  const containerStyle = useThemeStyles<ViewStyle>(() => ({
-    height: status === "LOCK" ? CONTAINER_HEIGHT_HORIZONTALCARD : CONTAINER_HEIGHT,
-    width: status === "LOCK" ? CONTAINER_WIDTH_HORIZONTALCARD : CONTAINER_WIDTH,
-  }));
+  const containerStyle = useThemeStyles<ViewStyle>(
+    () => ({
+      height: status === "LOCK" ? CONTAINER_HEIGHT_HORIZONTALCARD : CONTAINER_HEIGHT,
+      width: status === "LOCK" ? CONTAINER_WIDTH_HORIZONTALCARD : CONTAINER_WIDTH,
+    }),
+    [status]
+  );
+
   return (
-    <View style={containerStyle}>
+    <View style={containerStyle} testID={testID}>
       {status === "INACTIVE" ? (
         <CardInactiveSvg />
       ) : (

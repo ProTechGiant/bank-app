@@ -47,7 +47,7 @@ export default function PendingTransactionsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "ViewTransactions.TransactionsScreen">>();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "ViewTransactions.PendingTransactionsScreen">>();
 
   const cardId = route.params.cardId;
   const createDisputeUserId = route.params.createDisputeUserId;
@@ -134,7 +134,10 @@ export default function PendingTransactionsScreen() {
 
   return (
     <Page>
-      <NavHeader title={t("ViewTransactions.PendingTransactionsScreen.title")} />
+      <NavHeader
+        title={t("ViewTransactions.PendingTransactionsScreen.title")}
+        testID="ViewTransactions.PendingTransactionsScreen:NavHeader"
+      />
       <AnimatedHeader
         headerProps={{
           height: headerHeight,
@@ -144,11 +147,12 @@ export default function PendingTransactionsScreen() {
           flexDir: flexDir,
         }}
         isFilterDisabled={true}
+        testID="ViewTransactions.PendingTransactionsScreen"
       />
       <Animated.ScrollView scrollEventThrottle={16} onScroll={handleScroll}>
         <View style={contentStyle}>
           {isLoading ? (
-            <View style={styles.activityIndicator}>
+            <View style={styles.activityIndicator} testID="ViewTransactions.PendingTransactionsScreen:LoadingIndicator">
               <ActivityIndicator color="secondary_blueBase-50" size="large" />
             </View>
           ) : (
@@ -159,7 +163,10 @@ export default function PendingTransactionsScreen() {
                     {transactions.map(transaction => {
                       const [year, month, day, hours, minutes] = transaction.SupplementaryData.FromDate || [];
                       return (
-                        <Pressable key={transaction.TransactionReference} onPress={() => handleNavigation()}>
+                        <Pressable
+                          key={transaction.TransactionReference}
+                          onPress={() => handleNavigation()}
+                          testID={`ViewTransactions.PendingTransactionsScreen:Transaction-${transaction.TransactionReference}`}>
                           <View key={transaction.TransactionReference} style={transactionRow}>
                             <View>
                               <Typography.Text color="neutralBase+30" size="callout" weight="semiBold">
@@ -186,7 +193,7 @@ export default function PendingTransactionsScreen() {
                     })}
                   </View>
                 ) : (
-                  <View style={emptyPending}>
+                  <View style={emptyPending} testID="ViewTransactions.PendingTransactionsScreen:NoTransactions">
                     <Typography.Text color="neutralBase" size="footnote" weight="regular">
                       {t("ViewTransactions.PendingTransactionsScreen.transactionsPending")}
                     </Typography.Text>

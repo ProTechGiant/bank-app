@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { palette } from "@/theme/values";
+import { useTheme } from "@/theme";
 
 import {
   CategoriesListScreen,
@@ -39,11 +39,13 @@ export type ViewTransactionsStackParams = {
 const Stack = createNativeStackNavigator<ViewTransactionsStackParams>();
 
 export default function ViewTransactionsStack() {
+  const { theme } = useTheme();
+
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: palette.primaryBase },
-        headerTintColor: palette["neutralBase-50"],
+        headerStyle: { backgroundColor: theme.palette.primaryBase },
+        headerTintColor: theme.palette["neutralBase-50"],
         headerTitleAlign: "center",
         headerShown: true,
       }}>

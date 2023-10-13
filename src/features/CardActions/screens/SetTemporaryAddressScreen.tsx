@@ -78,6 +78,7 @@ export default function SetTemporaryAddressScreen() {
           title={t("CardActions.SetTemporaryAddressScreen.navTitle")}
           withBackButton={false}
           end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
+          testID="CardActions.SetTemporaryAddressScreen:NavHeader"
         />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
           <ContentContainer isScrollView>
@@ -87,6 +88,7 @@ export default function SetTemporaryAddressScreen() {
                 label={t("CardActions.SetTemporaryAddressScreen.form.addressLineOne.label")}
                 name="AddressLineOne"
                 maxLength={100}
+                testID="CardActions.SetTemporaryAddressScreen:AddressLineOneInput"
               />
               <TextInput
                 control={control}
@@ -94,11 +96,13 @@ export default function SetTemporaryAddressScreen() {
                 name="AddressLineTwo"
                 placeholder={t("CardActions.SetTemporaryAddressScreen.form.optional")}
                 maxLength={100}
+                testID="CardActions.SetTemporaryAddressScreen:AddressLineTwoInput"
               />
               <TextInput
                 control={control}
                 label={t("CardActions.SetTemporaryAddressScreen.form.district.label")}
                 name="District"
+                testID="CardActions.SetTemporaryAddressScreen:DistrictInput"
               />
               <DropdownInput
                 control={control}
@@ -108,6 +112,7 @@ export default function SetTemporaryAddressScreen() {
                 placeholder={t("CardActions.SetTemporaryAddressScreen.form.city.placeholder")}
                 options={CITIES.map(city => ({ value: city, label: city }))}
                 buttonLabel={t("CardActions.SetTemporaryAddressScreen.form.city.buttonLabel")}
+                testID="CardActions.SetTemporaryAddressScreen:CityInput"
               />
               <TextInput
                 control={control}
@@ -116,11 +121,15 @@ export default function SetTemporaryAddressScreen() {
                 keyboardType="number-pad"
                 showCharacterCount
                 maxLength={5}
+                testID="CardActions.SetTemporaryAddressScreen:PostalCodeInput"
               />
             </Stack>
           </ContentContainer>
           <View style={buttonContainerStyle}>
-            <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+            <SubmitButton
+              control={control}
+              onSubmit={handleSubmit(handleOnSubmit)}
+              testID="CardActions.SetTemporaryAddressScreen:SubmitButton">
               {t("CardActions.SetTemporaryAddressScreen.form.button")}
             </SubmitButton>
           </View>

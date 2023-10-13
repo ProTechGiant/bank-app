@@ -86,7 +86,11 @@ export default function OrderNewCardSummaryScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={handleOnClose} />} />
+        <NavHeader
+          withBackButton={false}
+          end={<NavHeader.CloseEndButton onPress={handleOnClose} />}
+          testID="CardActions.OrderNewCardSummaryScreen:NavHeader"
+        />
         <ContentContainer>
           <Typography.Header color="neutralBase+30" size="medium" weight="medium" style={titleStyle}>
             {t("CardActions.OrderNewCardSummaryScreen.orderSummary")}
@@ -122,7 +126,9 @@ export default function OrderNewCardSummaryScreen() {
           </View>
         </ContentContainer>
         <View style={orderSummaryContainerStyle}>
-          <Button onPress={handleOnDonePress}>{t("CardActions.OrderNewCardSummaryScreen.done")}</Button>
+          <Button onPress={handleOnDonePress} testID="CardActions.OrderNewCardSummaryScreen:DoneButton">
+            {t("CardActions.OrderNewCardSummaryScreen.done")}
+          </Button>
         </View>
       </Page>
     </>

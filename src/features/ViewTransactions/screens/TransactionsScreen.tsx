@@ -227,7 +227,10 @@ export default function TransactionsScreen() {
       Object.keys(pendingTransactions.data).length > 0 &&
       selectedFilters.length === 0 ? (
       <>
-        <Pressable style={[margins, styles.pendingButton]} onPress={handlePendingTransactions}>
+        <Pressable
+          style={[margins, styles.pendingButton]}
+          onPress={handlePendingTransactions}
+          testID="ViewTransactions.TransactionsScreen:PendingTransactionsButton">
           <View style={pendingButtonStyle}>
             <PendingIcon color={pendingIconColor} />
             <Typography.Text color="neutralBase+30" weight="medium" size="callout" style={pendingButtonTextStyle}>
@@ -249,7 +252,8 @@ export default function TransactionsScreen() {
           <Pressable style={spendingInsightContainerStyle} onPress={() => handleOnTopSpendingInsights()}>
             <SpendingInsightIcon height={32} color={spendingInsightIconColor} />
           </Pressable>
-        }>
+        }
+        testID="ViewTransactions.TransactionsScreen:NavHeader">
         <AnimatedHeader
           onChangeIsViewingFilter={setIsViewingFilter}
           headerProps={{
@@ -261,6 +265,7 @@ export default function TransactionsScreen() {
           }}
           isFiltered={isFiltered}
           onPress={() => handleOnTopSpendingInsights()}
+          testID="ViewTransactions.TransactionsScreen"
         />
       </NavHeader>
 
@@ -280,13 +285,17 @@ export default function TransactionsScreen() {
               {selectedFilters.map(type => (
                 <View style={optionContainerStyle} key={type}>
                   <Text style={selectedFilter}>{getFilterName(type)}</Text>
-                  <Pressable onPress={() => removeFilter(type)}>
+                  <Pressable
+                    onPress={() => removeFilter(type)}
+                    testID={`ViewTransactions.TransactionsScreen:RemoveFilter-${type}`}>
                     <CloseIcon width={14} height={18} />
                   </Pressable>
                 </View>
               ))}
             </View>
-            <Pressable onPress={handleOnClearAllCategories}>
+            <Pressable
+              onPress={handleOnClearAllCategories}
+              testID="ViewTransactions.TransactionsScreen:ClearAllCategoriesButton">
               <Typography.Text> {t("ViewTransactions.TransactionsScreen.clearAll")}</Typography.Text>
             </Pressable>
           </Stack>
@@ -310,7 +319,9 @@ export default function TransactionsScreen() {
             </Typography.Text>
           </View>
           <View style={styles.clearFilterButton}>
-            <Button onPress={() => setSelectedFilters([])}>
+            <Button
+              onPress={() => setSelectedFilters([])}
+              testID="ViewTransactions.TransactionsScreen:ClearFiltersButton">
               {t("ViewTransactions.TransactionsScreen.clearFilter")}
             </Button>
           </View>
@@ -324,7 +335,7 @@ export default function TransactionsScreen() {
               <Typography.Text>{t("ViewTransactions.TransactionsScreen.pastTransactions")}</Typography.Text>
             </View>
             {isLoading ? (
-              <View style={styles.activityIndicator}>
+              <View style={styles.activityIndicator} testID="Viewtransactions.TransactionsScreen:LoadingIndicator">
                 <ActivityIndicator color="primaryBase" size="large" />
               </View>
             ) : transactions.data && Object.keys(transactions.data).length ? (
@@ -334,7 +345,7 @@ export default function TransactionsScreen() {
                 createDisputeUserId={createDisputeUserId}
               />
             ) : (
-              <View style={styles.activityIndicator}>
+              <View style={styles.activityIndicator} testID="Viewtransactions.TransactionsScreen:NoTransactionsYet">
                 <Typography.Text color="neutralBase" size="footnote" weight="regular">
                   {t("ViewTransactions.TransactionsScreen.noTransactionsYet")}
                 </Typography.Text>

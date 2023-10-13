@@ -15,9 +15,10 @@ interface TagItemProps {
   isSelectable: boolean;
   onPress?: () => void;
   onDeletePress?: () => void;
+  testID?: string;
 }
 
-export default function TagItem({ item, isSelected, isSelectable, onPress, onDeletePress }: TagItemProps) {
+export default function TagItem({ item, isSelected, isSelectable, onPress, onDeletePress, testID }: TagItemProps) {
   const tagRowFirtItemStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     alignItems: "center",
@@ -39,7 +40,7 @@ export default function TagItem({ item, isSelected, isSelectable, onPress, onDel
   }));
 
   const tagItem = () => (
-    <Pressable style={styles.tagRowStyle} key={item.id} onPress={onPress}>
+    <Pressable style={styles.tagRowStyle} key={item.id} onPress={onPress} testID={testID}>
       <View style={tagRowFirtItemStyle}>
         <View style={tagIconContainerStyle}>
           <GenericSvgIcon path={item.path} viewBox={item.viewBox} color={isSelected ? selectedTag : unselectedTag} />

@@ -39,7 +39,7 @@ export default function IVRCheckScreen() {
   }, [cardStatusData]);
 
   return (
-    <Page>
+    <Page testID="CardActions.IVRCheckScreen:Page">
       <ContentContainer>
         <FullScreenLoader title={params.title} message={params.message} />
       </ContentContainer>

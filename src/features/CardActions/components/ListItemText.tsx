@@ -6,9 +6,10 @@ import { useThemeStyles } from "@/theme";
 interface ListItemTextProps {
   title: string;
   value: string;
+  testID?: string;
 }
 
-export default function ListItemText({ title, value }: ListItemTextProps) {
+export default function ListItemText({ title, value, testID }: ListItemTextProps) {
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     flexDirection: "row",
@@ -19,7 +20,7 @@ export default function ListItemText({ title, value }: ListItemTextProps) {
   }));
 
   return (
-    <View style={containerStyles}>
+    <View style={containerStyles} testID={testID}>
       <Typography.Text size="callout" weight="medium">
         {title}
       </Typography.Text>

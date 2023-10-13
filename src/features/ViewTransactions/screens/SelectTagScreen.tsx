@@ -157,9 +157,14 @@ export default function SelectTagScreen() {
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
-        <NavHeader variant="angled" title={t("SelectTagScreen.selectTags")} withBackButton={true} />
+        <NavHeader
+          variant="angled"
+          title={t("SelectTagScreen.selectTags")}
+          withBackButton={true}
+          testID="ViewTransactions.SelectTagScreen:NavHeader"
+        />
         {isLoading ? (
-          <View style={styles.activityIndicator}>
+          <View style={styles.activityIndicator} testID="ViewTransactions.SelectTagScreen:LoadingIndicator">
             <ActivityIndicator size="small" />
           </View>
         ) : (
@@ -180,6 +185,7 @@ export default function SelectTagScreen() {
                     isSelected={false}
                     isSelectable={false}
                     onPress={() => handleOnPressTripToTag(tag.TagName, tag.TagIcon)}
+                    testID={`ViewTransactions.SelectTagScreen:Tag-${tag.TagName}`}
                   />
                 ) : (
                   <TagItem
@@ -192,6 +198,7 @@ export default function SelectTagScreen() {
                     isSelected={isSelectedTag(tag.TagId.toString())}
                     onPress={() => handleOnPressTag(tag.TagId.toString())}
                     isSelectable={true}
+                    testID={`ViewTransactions.SelectTagScreen:Tag-${tag.TagName}`}
                   />
                 )
               )}
@@ -203,6 +210,7 @@ export default function SelectTagScreen() {
                 isSelected={false}
                 isSelectable={false}
                 onPress={handleOnPressCreateNewTag}
+                testID="ViewTransactions.SelectTagScreen:CreateNewTagButton"
               />
               <FlatList
                 contentContainerStyle={flatListStyle}
@@ -222,6 +230,7 @@ export default function SelectTagScreen() {
                       selectedDeleteTagItem.current = item;
                       setIsDeleteNotificationModalVisible(true);
                     }}
+                    testID={`ViewTransactions.SelectTagScreen:Tag-${item.TagName}`}
                   />
                 )}
               />
@@ -229,13 +238,16 @@ export default function SelectTagScreen() {
           </ScrollView>
         )}
         <View style={buttonContainerStyle}>
-          <Button onPress={handleOnPressDone}>{t("SelectTagScreen.done")}</Button>
+          <Button onPress={handleOnPressDone} testID="ViewTransactions.SelectTagScreen:DoneButton">
+            {t("SelectTagScreen.done")}
+          </Button>
         </View>
         <Modal
           visible={isCreateNewTagModalVisible}
           onBack={() => setIsCreateNewTagModalVisible(false)}
           onClose={() => setIsCreateNewTagModalVisible(false)}
-          headerText={t("SelectTagScreen.createANewTag")}>
+          headerText={t("SelectTagScreen.createANewTag")}
+          testID="ViewTransactions.SelectTagScreen:CreateTagModal">
           <CreateTagModal
             onCreatePress={handleOnCreateTag}
             isNotificationModalVisible={isNotificationModalVisible}
@@ -245,20 +257,31 @@ export default function SelectTagScreen() {
         <NotificationModal
           title={t("SelectTagScreen.modalTitle")}
           message={t("SelectTagScreen.modalMessage")}
+          testID="ViewTransactions.SelectTagScreen:DeleteNotificationModal"
           variant="warning"
           isVisible={isDeleteNotificationModalVisible}
           onClose={() => setIsDeleteNotificationModalVisible(false)}
           buttons={{
-            primary: <Button children={t("SelectTagScreen.delete")} onPress={handleOnPressDelete} />,
+            primary: (
+              <Button
+                children={t("SelectTagScreen.delete")}
+                onPress={handleOnPressDelete}
+                testID="ViewTransactions.SelectTagScreen:DeleteNotificationModalConfirmButton"
+              />
+            ),
             secondary: (
               <Button
                 children={t("SelectTagScreen.cancel")}
                 onPress={() => setIsDeleteNotificationModalVisible(false)}
+                testID="ViewTransactions.SelectTagScreen:DeleteNotificationModalCancelButton"
               />
             ),
           }}
         />
-        <Modal visible={isTripToTagModalVisible} onClose={() => setIsTripToTagModalVisible(false)}>
+        <Modal
+          visible={isTripToTagModalVisible}
+          onClose={() => setIsTripToTagModalVisible(false)}
+          testID="ViewTransactions.SelectTagScreen:SelectCountryModal">
           <SelectCountryModal handleSelectCountry={handleSelectCountry} />
         </Modal>
       </Page>

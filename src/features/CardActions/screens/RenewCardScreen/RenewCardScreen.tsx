@@ -44,6 +44,7 @@ export default function RenewCardScreen() {
           onSelected={handleOnCardSelect}
           isLoadingOnSelection={isLoading}
           variant="renew"
+          testID="CardActions.RenewCardScreen"
         />
       </Page>
       <NotificationModal

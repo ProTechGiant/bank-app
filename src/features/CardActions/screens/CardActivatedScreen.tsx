@@ -29,8 +29,13 @@ export default function CardActivatedScreen() {
       lastButtonText=""
       onFinishPress={handleOnFinish}
       hasBackButton={false}
-      darkTheme>
-      <Button variant="primary" color="dark" onPress={handleOnFinish}>
+      darkTheme
+      testID="CardActions.CardActivatedScreen:HeroSlider">
+      <Button
+        variant="primary"
+        color="dark"
+        onPress={handleOnFinish}
+        testID="CardActions.CardActivatedScreen:FinishButton">
         {t("CardActions.ActivationScreen.button")}
       </Button>
     </HeroSlider>

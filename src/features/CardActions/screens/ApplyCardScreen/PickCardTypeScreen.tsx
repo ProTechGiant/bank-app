@@ -16,6 +16,7 @@ interface PickCardTypeScreenProps {
   onSelected: () => void;
   isLoadingOnSelection?: boolean;
   variant: "apply" | "renew" | "order";
+  testID: string;
 }
 
 export default function PickCardTypeScreen({
@@ -23,6 +24,7 @@ export default function PickCardTypeScreen({
   onSelected,
   isLoadingOnSelection = false,
   variant,
+  testID,
 }: PickCardTypeScreenProps) {
   const { t } = useTranslation();
 
@@ -63,6 +65,7 @@ export default function PickCardTypeScreen({
           }
           end={<NavHeader.CloseEndButton onPress={onCancel} />}
           onBackPress={onCancel}
+          testID={`${testID}:NavHeader`}
         />
       ) : (
         <Typography.Text style={titleLabelStyle} color="neutralBase+30" weight="semiBold" size="title1">
@@ -118,6 +121,7 @@ export default function PickCardTypeScreen({
                   : t("CardActions.ApplyCardScreen.CardRenewalScreen.title")
               }
               isLoadingOnPress={isLoadingOnSelection}
+              testID={testID}
             />
           ),
           lux: () => (
@@ -129,6 +133,7 @@ export default function PickCardTypeScreen({
                   : t("CardActions.ApplyCardScreen.CardRenewalScreen.title")
               }
               remark={t("CardActions.ApplyCardScreen.PickCardTypeScreen.lux.remarks")}
+              testID={testID}
             />
           ),
         })}

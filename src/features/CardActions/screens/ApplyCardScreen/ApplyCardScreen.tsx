@@ -124,6 +124,7 @@ export default function ApplyCardScreen() {
                 onCancel={handleOnCancel}
                 onSelected={() => setCurrentStep("pincode-address")}
                 variant={variant}
+                testID="CardActions.ApplyCardScreen"
               />
             ) : (
               <SetPinAndAddressScreen

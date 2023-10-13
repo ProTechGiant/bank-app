@@ -134,6 +134,7 @@ export default function EnterCardCVVScreen() {
           title={t("CardActions.EnterCardCVVScreen.navTitle")}
           withBackButton={false}
           end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
+          testID="CardActions.EnterCardCVVScreen:NavHeader"
         />
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={35} style={{ flex: 1 }}>
           <ContentContainer>
@@ -155,15 +156,20 @@ export default function EnterCardCVVScreen() {
                     onChangeText={handleOnChangeText}
                     length={INPUT_SIZE}
                     value={currentValue}
+                    testID="CardActions.EnterCardCVVScreen:PinCodeInput"
                   />
                   {isErrorVisible && remainingAttempts > 0 ? (
                     <Alert
                       message={t("CardActions.EnterCardCVVScreen.errorCVV", { count: remainingAttempts })}
                       variant="error"
+                      testID="CardActions.EnterCardCVVScreen:ErrorCVVAlert"
                     />
                   ) : null}
                 </View>
-                <Button variant="tertiary" onPress={() => setIsViewingCVVHint(true)}>
+                <Button
+                  variant="tertiary"
+                  onPress={() => setIsViewingCVVHint(true)}
+                  testID="CardActions.EnterCardCVVScreen:ViewHintButton">
                   {t("CardActions.EnterCardCVVScreen.hint")}
                 </Button>
               </Stack>
@@ -173,12 +179,17 @@ export default function EnterCardCVVScreen() {
       </Page>
       <NotificationModal
         buttons={{
-          primary: <Button onPress={() => handleOnBackPress()}>{t("CardActions.EnterCardCVVScreen.button")}</Button>,
+          primary: (
+            <Button onPress={() => handleOnBackPress()} testID="CardActions.EnterCardCVVScreen:ErrorModalBackButton">
+              {t("CardActions.EnterCardCVVScreen.button")}
+            </Button>
+          ),
         }}
         title={t("CardActions.EnterCardCVVScreen.errorTitle")}
         message={t("CardActions.EnterCardCVVScreen.errorMessage")}
         isVisible={isErrorVisible && remainingAttempts === 0}
         variant="error"
+        testID="CardActions.EnterCardCVVScreen:ErrorModal"
       />
       <NotificationModal
         title={t("errors.generic.title")}

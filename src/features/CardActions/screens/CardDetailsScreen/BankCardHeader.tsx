@@ -46,6 +46,7 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress, onR
           cardType={card.CardType}
           isExpiringSoon={isCardExpiringSoon(card)}
           actionButton={<BankCard.ActionButton title={t("CardActions.cardFrozen")} type="dark" />}
+          testID="CardActions.CardDetailsScreen:InactiveBankCard"
         />
       ) : card.Status === "INACTIVE" && isPhysicalCard(card) ? (
         <BankCard.Inactive
@@ -56,8 +57,10 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress, onR
               type="light"
               title={t("CardActions.CardDetailsScreen.inactiveCard.actionButtonText")}
               onPress={onActivatePress}
+              testID="CardActions.CardDetailsScreen:InactiveBankCardActivateButton"
             />
           }
+          testID="CardActions.CardDetailsScreen:InactiveBankCard"
         />
       ) : cardDetails === undefined ? (
         <BankCard.Active
@@ -67,11 +70,22 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress, onR
           label="Standard"
           actionButton={
             card.Status === "NEW_CARD" ? (
-              <BankCard.ActionButton title={t("CardActions.activateCard")} type="light" onPress={onActivatePress} />
+              <BankCard.ActionButton
+                title={t("CardActions.activateCard")}
+                type="light"
+                onPress={onActivatePress}
+                testID="CardActions.CardDetailsScreen:ActiveBankCardActivateButton"
+              />
             ) : isCardExpiringSoon(card) ? (
-              <BankCard.ActionButton title={t("CardActions.renewCard")} type="light" onPress={onRenewCardPress} />
+              <BankCard.ActionButton
+                title={t("CardActions.renewCard")}
+                type="light"
+                onPress={onRenewCardPress}
+                testID="CardActions.CardDetailsScreen:ActiveBankCardReactivateButton"
+              />
             ) : undefined
           }
+          testID="CardActions.CardDetailsScreen:ActiveBankCard"
         />
       ) : (
         <BankCard.Unmasked
@@ -81,6 +95,7 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress, onR
           onCopyPress={handleOnCopyCardNumberPress}
           productId={card.ProductId}
           cardStatus={card.Status}
+          testID="CardActions.CardDetailsScreen:UnmaskedBankCard"
         />
       )}
     </View>

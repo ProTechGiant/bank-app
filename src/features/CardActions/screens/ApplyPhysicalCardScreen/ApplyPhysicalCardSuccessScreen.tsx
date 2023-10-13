@@ -29,8 +29,13 @@ export default function ApplyPhysicalCardSuccessScreen() {
       lastButtonText=""
       onFinishPress={handleOnFinish}
       end={<NavHeader.CloseEndButton onPress={handleOnFinish} />}
-      hasBackButton={false}>
-      <Button variant="primary" color="dark" onPress={handleOnFinish}>
+      hasBackButton={false}
+      testID="CardActions.ApplyPhysicalCardSuccessScreen:HeroSlider">
+      <Button
+        variant="primary"
+        color="dark"
+        onPress={handleOnFinish}
+        testID="CardActions.ApplyPhysicalCardSuccessScreen:OkButton">
         {t("CardActions.ReportCardScreen.ApplyPhysicalCardSuccessScreen.okButton")}
       </Button>
     </HeroSlider>

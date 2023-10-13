@@ -35,11 +35,13 @@ export default function SingleUseCardButtons({ isShowingDetails, onShowDetailsPr
           inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.show")}
           onPress={onShowDetailsPress}
           icon={createElement(isShowingDetails ? HideIcon : ShowIcon, { height: 24, width: 24 })}
+          testID="CardActions.CardDetailsScreen:CardShowDetailsButton"
         />
         <IconButton
           onPress={handleOnPressAbout}
           inactiveLabel={t("CardActions.CardDetailsScreen.iconButtonText.about")}
           icon={<InfoCircleIcon />}
+          testID="CardActions.CardDetailsScreen:CardShowAboutButton"
         />
       </Stack>
     </View>

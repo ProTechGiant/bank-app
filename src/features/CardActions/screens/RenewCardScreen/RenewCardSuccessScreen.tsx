@@ -32,8 +32,13 @@ export default function RenewCardSuccessScreen() {
       lastButtonText=""
       onFinishPress={handleOnFinish}
       hasBackButton={false}
-      darkTheme>
-      <Button variant="primary" color="dark" onPress={handleOnFinish}>
+      darkTheme
+      testID="CardActions.RenewCardSuccessScreen:HeroSlider">
+      <Button
+        variant="primary"
+        color="dark"
+        onPress={handleOnFinish}
+        testID="CardActions.RenewCardSuccessScreen:OkButton">
         {t("CardActions.ReportCardScreen.ReportCardSuccessScreen.okButton")}
       </Button>
     </HeroSlider>

@@ -66,13 +66,23 @@ function PendingTransaction({
     <>
       <DetailedHeader data={data} />
       <ContentContainer>
-        <DetailedRow name="Status" value={data.status} />
-        {data.location ? <DetailedRow name="Location" value={data.location} /> : <></>}
-
+        <DetailedRow
+          name="Status"
+          value={data.status}
+          testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionStatus"
+        />
+        {data.location ? (
+          <DetailedRow
+            name="Location"
+            value={data.location}
+            testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionLocation"
+          />
+        ) : null}
         <CardButton
           label={t("ViewTransactions.SingleTransactionDetailedScreen.reportTransaction")}
           text={t("ViewTransactions.SingleTransactionDetailedScreen.somethingWrong")}
           onPress={onReportTransaction}
+          testID="ViewTransactions.SingleTransactionDetailedScreen:ReportTransactionButton"
         />
       </ContentContainer>
     </>
@@ -231,15 +241,23 @@ function DebitCardAndOneTimeCard({
         <NavHeader variant="background" onBackPress={handleOnBackPress} title={formattedDate} />
         <View style={headerStyle}>
           <View>
-            <Typography.Text color="neutralBase+30" size="title3" weight="bold">
+            <Typography.Text
+              color="neutralBase+30"
+              size="title3"
+              weight="bold"
+              testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionTitle">
               {data.title}
             </Typography.Text>
-            <Typography.Text color="neutralBase+10" weight="regular" size="caption2">
+            <Typography.Text
+              color="neutralBase+10"
+              weight="regular"
+              size="caption2"
+              testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionSubtitle">
               {data.subTitle}
             </Typography.Text>
           </View>
 
-          <View style={styles.sarStyle}>
+          <View style={styles.sarStyle} testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionAmount">
             <FormatTransactionAmount
               amount={parseFloat(data.amount)}
               isPlusSignIncluded={false}
@@ -271,6 +289,7 @@ function DebitCardAndOneTimeCard({
                 : data.status
             }
             roundup={false}
+            testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionStatus"
           />
           {data.subTitle !== "Incoming Payment" ? (
             <DetailedRow
@@ -278,6 +297,7 @@ function DebitCardAndOneTimeCard({
               openModel={openModel}
               value={parseFloat(data.roundUpsAmount).toFixed(0) + " " + data.currency}
               roundup={true}
+              testID="ViewTransactions.SingleTransactionDetailedScreen:RoundUpAmount"
             />
           ) : null}
           {data.cardType === "0" ? (
@@ -286,10 +306,13 @@ function DebitCardAndOneTimeCard({
               openModel={openModel}
               value={parseFloat(data.roundUpsAmount).toFixed(0) + " " + data.currency}
               roundup={true}
+              testID="ViewTransactions.SingleTransactionDetailedScreen:RoundUpAmount"
             />
           ) : null}
           {data.categoryName ? (
-            <Pressable onPress={data.categoryId !== "10" ? handleOnPressCategoriesList : undefined}>
+            <Pressable
+              onPress={data.categoryId !== "10" ? handleOnPressCategoriesList : undefined}
+              testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionCategory">
               <DetailedRow
                 name={t("ViewTransactions.SingleTransactionDetailedScreen.category")}
                 value={data.categoryName}
@@ -303,6 +326,7 @@ function DebitCardAndOneTimeCard({
                 name={t("ViewTransactions.SingleTransactionDetailedScreen.tags")}
                 value={t("ViewTransactions.SingleTransactionDetailedScreen.notSelected")}
                 showIcon
+                testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionTags"
               />
               <View style={styles.tagsText}>
                 <DiamondIcon color={iconDiamondColor} />
@@ -312,7 +336,9 @@ function DebitCardAndOneTimeCard({
               </View>
             </>
           ) : (
-            <Pressable onPress={handleOnPressTags}>
+            <Pressable
+              onPress={handleOnPressTags}
+              testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionTags">
               <DetailedRow
                 name={t("ViewTransactions.SingleTransactionDetailedScreen.tags")}
                 value={tagsValue}
@@ -326,6 +352,7 @@ function DebitCardAndOneTimeCard({
               name={t("ViewTransactions.SingleTransactionDetailedScreen.location")}
               value={data.location}
               roundup={false}
+              testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionLocation"
             />
           ) : null}
         </View>
@@ -351,12 +378,14 @@ function DebitCardAndOneTimeCard({
             }
             label={t("ViewTransactions.SingleTransactionDetailedScreen.reportTransaction")}
             text={t("ViewTransactions.SingleTransactionDetailedScreen.somethingWrong")}
+            testID="ViewTransactions.SingleTransactionDetailedScreen:ReportTransactionButton"
             onPress={onReportTransaction}
           />
           {data.cardType === "0" ? (
             <CardButton
               label={t("ViewTransactions.SingleTransactionDetailedScreen.downloadDetails")}
               text={t("ViewTransactions.SingleTransactionDetailedScreen.saveTransaction")}
+              testID="ViewTransactions.SingleTransactionDetailedScreen:DownloadDetailsButton"
               onPress={() => {
                 Alert.alert("Save transaction is pressed");
               }}
@@ -405,6 +434,7 @@ function DebitCardAndOneTimeCard({
                     // TODO after api is ready
                     console.log("Trigered!!");
                   }}
+                  testID={`ViewTransactions.SingleTransactionDetailedScreen:PastTransaction-${item.TransactionId}`}
                 />
               )}
             />

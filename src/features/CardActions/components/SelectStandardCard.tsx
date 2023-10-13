@@ -9,9 +9,15 @@ interface SelectStandardCardProps {
   onPress: () => void;
   isLoadingOnPress?: boolean;
   title: string;
+  testID: string;
 }
 
-export default function SelectStandardCard({ onPress, isLoadingOnPress = false, title }: SelectStandardCardProps) {
+export default function SelectStandardCard({
+  onPress,
+  isLoadingOnPress = false,
+  title,
+  testID,
+}: SelectStandardCardProps) {
   const bottomButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["24p"],
     alignSelf: "stretch",
@@ -23,7 +29,11 @@ export default function SelectStandardCard({ onPress, isLoadingOnPress = false, 
         <ActiveBankCard cardNumber="3232" cardType="1" productId="1356" />
       </View>
       <View style={bottomButtonContainerStyle}>
-        <Button onPress={onPress} loading={isLoadingOnPress} disabled={isLoadingOnPress}>
+        <Button
+          onPress={onPress}
+          loading={isLoadingOnPress}
+          disabled={isLoadingOnPress}
+          testID={`${testID}:SelectStandardCardButton`}>
           {title}
         </Button>
       </View>

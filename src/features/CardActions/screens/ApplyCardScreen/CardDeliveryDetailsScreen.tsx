@@ -152,18 +152,24 @@ export default function CardDeliveryDetails({
                   isSelected={address.isSelected}
                   isTemporary={address.id === TEMPORARY_ID}
                   onPress={() => handleOnAddressPress(address.id)}
+                  testID={`CardActions.ApplyCardScreen:SelectAddress-${address.id}`}
                 />
               );
             })}
           </Stack>
         </View>
-        <Button onPress={handleOnConfirm} loading={isSubmitting} variant="primary">
+        <Button
+          onPress={handleOnConfirm}
+          loading={isSubmitting}
+          variant="primary"
+          testID="CardActions.ApplyCardScreen:ConfirmAddressButton">
           {t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.CardDeliveryDetails.buttons.confirm")}
         </Button>
         <Button
           onPress={handleOnSetTemporaryAddress}
           variant="tertiary"
-          disabled={hasTemporaryAddress && !isTemporaryAddressSelected}>
+          disabled={hasTemporaryAddress && !isTemporaryAddressSelected}
+          testID="CardActions.ApplyCardScreen:SetOrEditAddressButon">
           {hasTemporaryAddress
             ? t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.CardDeliveryDetails.buttons.edit")
             : t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.CardDeliveryDetails.buttons.setAddress")}

@@ -32,9 +32,16 @@ export default function ActiveReordererItem({ onDeletePress, onPress, isActive, 
 
   return (
     <ScaleDecorator>
-      <Pressable disabled={isActive} onPressIn={onPress} style={containerStyle}>
+      <Pressable
+        disabled={isActive}
+        onPressIn={onPress}
+        style={containerStyle}
+        testID={`Home.SectionsReordererModal:Option-${item.name}`}>
         {undefined !== onDeletePress ? (
-          <Pressable onPress={onDeletePress} style={iconStyle}>
+          <Pressable
+            onPress={onDeletePress}
+            style={iconStyle}
+            testID={`Home.SectionsReordererModal:DeleteOption-${item.name}`}>
             <MinusIcon />
           </Pressable>
         ) : null}

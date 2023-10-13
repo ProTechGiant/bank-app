@@ -6,13 +6,14 @@ import Typography from "@/components/Typography";
 
 interface AddToAppleWalletButtonProps {
   onPress: () => void;
+  testID?: string;
 }
 
-export default function AddToAppleWalletButton({ onPress }: AddToAppleWalletButtonProps) {
+export default function AddToAppleWalletButton({ onPress, testID }: AddToAppleWalletButtonProps) {
   const { t } = useTranslation();
 
   return (
-    <Pressable onPress={onPress} style={styles.container}>
+    <Pressable onPress={onPress} style={styles.container} testID={testID}>
       <AppleWalletIcon height={28} width={37} />
       <Typography.Text color="neutralBase-60" size="body" weight="regular">
         {t("AddToAppleWalletButton.label")}

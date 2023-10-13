@@ -30,16 +30,29 @@ function DetailedHeader({ data }: DetailedHeaderProps) {
   return (
     <View style={HeaderContainer}>
       <View>
-        <Typography.Text style={textHeader} color="neutralBase-50" size="title3" weight="bold">
+        <Typography.Text
+          style={textHeader}
+          color="neutralBase-50"
+          size="title3"
+          weight="bold"
+          testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionTitle">
           {data.title}
         </Typography.Text>
-        <Typography.Text style={subText} color="primaryBase-40" weight="regular" size="caption2">
+        <Typography.Text
+          style={subText}
+          color="primaryBase-40"
+          weight="regular"
+          size="caption2"
+          testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionSubTitle">
           {data.subTitle}
         </Typography.Text>
       </View>
 
       <View>
-        <NumberWithDifferentFontSizes number={data.amount} />
+        <NumberWithDifferentFontSizes
+          number={data.amount}
+          testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionAmount"
+        />
       </View>
     </View>
   );

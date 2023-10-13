@@ -56,19 +56,24 @@ export default function ReportCardSuccessScreen({ cardId }: ReportCardSuccessScr
       onFinishPress={handleOnFinish}
       end={<NavHeader.CloseEndButton onPress={handleOnFinish} />}
       hasBackButton={false}
-      darkTheme>
+      darkTheme
+      testID="CardActions.ReportCardScreen:HeroSlider">
       {isAppleWalletAvailable && canAddCardToAppleWallet ? (
-        <AddToAppleWalletButton onPress={handleOnAddToWallet} />
+        <AddToAppleWalletButton
+          onPress={handleOnAddToWallet}
+          testID="CardActions.ReportCardScreen:AddToAppleWalletButton"
+        />
       ) : null}
       {Platform.OS === "android" ? (
         <View style={madaPayContainerStyle}>
-          <MadaPayBanner />
+          <MadaPayBanner testID="CardActions.ReportCardScreen:MadaPayBanner" />
         </View>
       ) : null}
       <Button
         variant={!isAppleWalletAvailable || !canAddCardToAppleWallet ? "primary" : "tertiary"}
         color={!isAppleWalletAvailable || !canAddCardToAppleWallet ? "dark" : "light"}
-        onPress={handleOnFinish}>
+        onPress={handleOnFinish}
+        testID="CardActions.ReportCardScreen:FinishButton">
         {t("CardActions.ReportCardScreen.ReportCardSuccessScreen.okButton")}
       </Button>
     </HeroSlider>

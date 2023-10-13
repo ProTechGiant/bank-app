@@ -13,6 +13,7 @@ interface QuickActionsMenuProps {
   onFreezeCardPress: () => void;
   onViewPinPress: () => void;
   onCardSettingsPress: () => void;
+  testID?: string;
 }
 
 export default function QuickActionsMenu({
@@ -21,6 +22,7 @@ export default function QuickActionsMenu({
   onFreezeCardPress,
   onViewPinPress,
   onCardSettingsPress,
+  testID,
 }: QuickActionsMenuProps) {
   const { t } = useTranslation();
   const { showActionSheetWithOptions } = useActionSheet();
@@ -59,7 +61,7 @@ export default function QuickActionsMenu({
   };
 
   return (
-    <Pressable onPress={handleOnPress}>
+    <Pressable onPress={handleOnPress} testID={testID}>
       <BankCard.EndButton icon={<ThreeDotsIcon />} />
     </Pressable>
   );

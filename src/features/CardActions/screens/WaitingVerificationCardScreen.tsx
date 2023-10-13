@@ -39,7 +39,7 @@ export default function WaitingVerificationCard() {
   }, [cardStatusData]);
 
   return (
-    <Page>
+    <Page testID="CardActions.WaitingVerificationCardScreen:Page">
       <ContentContainer>
         <FullScreenLoader title={params.title} message={params.message} />
       </ContentContainer>

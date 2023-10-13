@@ -146,7 +146,8 @@ export default function SetPinAndAddressScreen({
             : t("CardActions.ApplyCardScreen.CardRenewalScreen.title")
         }
         onBackPress={handleBack}
-        end={<NavHeader.CloseEndButton onPress={onCancel} />}>
+        end={<NavHeader.CloseEndButton onPress={onCancel} />}
+        testID="CardActions.ApplyCardScreen:NavHeader">
         <ProgressIndicator currentStep={mode === "input" ? 1 : mode === "confirm" ? 2 : 3} totalStep={3} />
       </NavHeader>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
@@ -170,11 +171,13 @@ export default function SetPinAndAddressScreen({
                     onChangeText={handleOnChangeText}
                     length={PIN_INPUT_LENGTH}
                     value={currentValue}
+                    testID="CardActions.ApplyCardScreen:EnterPinCodeInput"
                   />
                   {isErrorVisible ? (
                     <Alert
                       message={t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.SetPin.errorPinTooEasy")}
                       variant="error"
+                      testID="CardActions.ApplyCardScreen:PinCodeTooEasyAlert"
                     />
                   ) : null}
                 </View>
@@ -203,6 +206,7 @@ export default function SetPinAndAddressScreen({
                     onChangeText={handleOnChangeText}
                     length={PIN_INPUT_LENGTH}
                     value={currentValue}
+                    testID="CardActions.ApplyCardScreen:ConfirmPinCodeInput"
                   />
                   {isErrorVisible && remainingAttempts > 0 ? (
                     <Alert
@@ -210,6 +214,7 @@ export default function SetPinAndAddressScreen({
                         count: remainingAttempts,
                       })}
                       variant="error"
+                      testID="CardActions.ApplyCardScreen:PinCodeDoesNotMatchAlert"
                     />
                   ) : null}
                 </View>

@@ -125,7 +125,7 @@ export default function ResetPinCodeScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader onBackPress={handleOnBackPress} />
+        <NavHeader onBackPress={handleOnBackPress} testID="CardActions.ResetPinCodeScreen:NavHeader" />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
           <ScrollView ref={pagerViewRef} horizontal scrollEnabled={false} showsHorizontalScrollIndicator={false}>
             {/* Enter a new PIN-code */}
@@ -145,9 +145,14 @@ export default function ResetPinCodeScreen() {
                       onChangeText={handleOnChangeText}
                       length={INPUT_SIZE}
                       value={currentValue}
+                      testID="CardActions.ResetPinCodeScreen:PincodeInput"
                     />
                     {isErrorVisible ? (
-                      <Alert message={t("CardActions.ResetPincodeScreen.errorPincodeTooEasy")} variant="error" />
+                      <Alert
+                        message={t("CardActions.ResetPincodeScreen.errorPincodeTooEasy")}
+                        variant="error"
+                        testID="CardActions.ResetPinCodeScreen:PincodeTooEasyAlert"
+                      />
                     ) : null}
                   </View>
                 </Stack>
@@ -170,11 +175,13 @@ export default function ResetPinCodeScreen() {
                     onChangeText={handleOnChangeText}
                     length={INPUT_SIZE}
                     value={currentValue}
+                    testID="CardActions.ResetPinCodeScreen:ConfirmPincodeInput"
                   />
                   {isErrorVisible && remainingAttempts > 0 ? (
                     <Alert
                       message={t("CardActions.ResetPincodeScreen.errorPinDoesntMatch", { count: remainingAttempts })}
                       variant="error"
+                      testID="CardActions.ResetPinCodeScreen:PincodeDoesNotMatchAlert"
                     />
                   ) : null}
                 </View>
@@ -186,7 +193,7 @@ export default function ResetPinCodeScreen() {
       <NotificationModal
         buttons={{
           primary: (
-            <Button onPress={() => handleOnBackPress()}>
+            <Button onPress={() => handleOnBackPress()} testID="CardActions.ResetPinCodeScreen:ErrorModalBackButton">
               {t("CardActions.ResetPincodeScreen.errorModalActionButton")}
             </Button>
           ),
@@ -195,6 +202,7 @@ export default function ResetPinCodeScreen() {
         message={t("CardActions.ResetPincodeScreen.errorModalMessage")}
         isVisible={isErrorVisible && remainingAttempts === 0}
         variant="error"
+        testID="CardActions.ResetPinCodeScreen:ErrorModal"
       />
     </>
   );

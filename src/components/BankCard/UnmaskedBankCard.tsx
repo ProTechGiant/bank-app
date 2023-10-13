@@ -29,6 +29,7 @@ interface UnmaskedBankCardProps {
   onCopyPress: () => void;
   cardDetails: { endDate: string; securityCode: string };
   productId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
+  testID?: string;
 }
 
 export default function UnmaskedBankCard({
@@ -38,6 +39,7 @@ export default function UnmaskedBankCard({
   cardDetails,
   onCopyPress,
   productId,
+  testID,
 }: UnmaskedBankCardProps) {
   const { t } = useTranslation();
 
@@ -63,7 +65,7 @@ export default function UnmaskedBankCard({
   const cardNumberPieces = typeof cardNumber === "string" && cardNumber.length > 0 ? cardNumber.split("-") : [];
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={testID}>
       {cardType === SINGLE_USE_CARD_TYPE ? (
         <SingleUseCardUnmaskedSvg />
       ) : cardStatus === "freeze" ? (

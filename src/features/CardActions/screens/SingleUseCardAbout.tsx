@@ -38,7 +38,11 @@ export default function SingleUseCardAbout() {
   return (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
       <ScrollView>
-        <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
+        <NavHeader
+          withBackButton={false}
+          end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
+          testID="CardActions.SingleUseCardAboutScreen:NavHeader"
+        />
         <View style={containerStyle}>
           <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
             {t("CardActions.SingleUseCard.CardAbout.title")}

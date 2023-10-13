@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -26,11 +26,6 @@ export default function SelectReportReason({ cardStatus, onContinuePress, onFree
     onContinuePress(selectedReason);
   };
 
-  const deliveryNote = useThemeStyles<TextStyle>(theme => ({
-    marginBottom: theme.spacing["24p"],
-    marginTop: theme.spacing["32p"],
-  }));
-
   const radioGroupStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["24p"],
     marginBottom: theme.spacing["32p"],
@@ -55,28 +50,34 @@ export default function SelectReportReason({ cardStatus, onContinuePress, onFree
               title={t("CardActions.ReportCardScreen.SelectReportReason.cardStolen")}
               description={t("CardActions.ReportCardScreen.SelectReportReason.cardStolenDescription")}
               value="stolen"
+              testID="CardActions.ReportCardScreen:CardStolenRadioButton"
             />
             <ReasonRadioButton
               title={t("CardActions.ReportCardScreen.SelectReportReason.cardLost")}
               value="lost"
               description={t("CardActions.ReportCardScreen.SelectReportReason.cardLostDescription")}
+              testID="CardActions.ReportCardScreen:CardLostRadioButton"
             />
             <ReasonRadioButton
               title={t("CardActions.ReportCardScreen.SelectReportReason.cardDamaged")}
               description={t("CardActions.ReportCardScreen.SelectReportReason.cardDamagedDescription")}
               value="damaged"
+              testID="CardActions.ReportCardScreen:CardDamagedRadioButton"
             />
           </RadioButtonGroup>
         </View>
       </View>
       <View style={styles.bottom}>
         <View style={styles.button}>
-          <Button disabled={selectedReason === undefined} onPress={handleOnContinuePress}>
+          <Button
+            disabled={selectedReason === undefined}
+            onPress={handleOnContinuePress}
+            testID="CardActions.ReportCardScreen:SelectReasonContinueButton">
             {t("CardActions.ReportCardScreen.SelectReportReason.buttonTitle")}
           </Button>
         </View>
         {cardStatus !== "LOCK" ? (
-          <Button variant="tertiary" onPress={onFreezePress}>
+          <Button variant="tertiary" onPress={onFreezePress} testID="CardActions.ReportCardScreen:FreezeCardButton">
             {t("CardActions.ReportCardScreen.SelectReportReason.freezeCard")}
           </Button>
         ) : null}

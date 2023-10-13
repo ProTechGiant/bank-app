@@ -18,6 +18,7 @@ interface AnimatedHeaderProps {
   isFiltered?: boolean;
   isFilterDisabled?: boolean;
   onPress?: () => void;
+  testID: string;
 }
 
 const formatter = Intl.NumberFormat("en-US", { style: "decimal", minimumFractionDigits: 2 });
@@ -27,6 +28,7 @@ export default function AnimatedHeader({
   headerProps,
   isFiltered,
   isFilterDisabled,
+  testID,
 }: AnimatedHeaderProps) {
   const { t } = useTranslation();
   const account = useCurrentAccount();
@@ -152,7 +154,7 @@ export default function AnimatedHeader({
         <Typography.Text style={balanceStyle} color="neutralBase+10">
           {t("ViewTransactions.TransactionsScreen.balance")}
         </Typography.Text>
-        <View style={amountContainer}>
+        <View style={amountContainer} testID={`${testID}:AccountBalance`}>
           <Animated.Text style={[currencyStyle, { fontSize: currFont }]}>
             {dollars ?? 0}
             <Animated.Text style={[centStyle, { fontSize: sarFont }]}>{`.${cents}` ?? 0.0}</Animated.Text>
@@ -161,11 +163,15 @@ export default function AnimatedHeader({
             {" " + (account.data?.currencyType ?? t("Currency.sar"))}
           </Animated.Text>
         </View>
-        <Typography.Text color="neutralBase+10" size="footnote" weight="semiBold">
+        <Typography.Text color="neutralBase+10" size="footnote" weight="semiBold" testID={`${testID}:AccountName`}>
           {account.data?.name ?? "-"}
         </Typography.Text>
       </View>
-      <Pressable style={disabledFilterStyle} onPress={() => onChangeIsViewingFilter(true)} disabled={isFilterDisabled}>
+      <Pressable
+        style={disabledFilterStyle}
+        onPress={() => onChangeIsViewingFilter(true)}
+        disabled={isFilterDisabled}
+        testID={`${testID}:FiltersButton`}>
         <View style={filterButtonStyle}>
           <Animated.View style={[filterIconStyle, { width: iconSize, height: iconSize }]}>
             <Animated.View style={reSizeStyle}>

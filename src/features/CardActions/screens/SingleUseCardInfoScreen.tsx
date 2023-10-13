@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import HeroSlider from "@/components/HeroSlider";
+import { HeroSlider } from "@/components/HeroSlider";
 import NotificationModal from "@/components/NotificationModal";
 import { SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
@@ -76,6 +76,7 @@ export default function SingleUseCardInfoScreen() {
         lastButtonText={t("CardActions.SingleUseCard.SingleUseCardsInfo.generateButton")}
         onFinishPress={handleOnGenerateCard}
         loading={submitOrderCard.isLoading}
+        testID="CardActions.SingleUseCardInfoScreen:HeroSlider"
       />
       <NotificationModal
         variant="error"

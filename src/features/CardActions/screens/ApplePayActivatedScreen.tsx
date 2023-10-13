@@ -39,6 +39,7 @@ export default function ApplePayActivatedScreen() {
             }}
           />
         }
+        testID="CardActions.ApplePayActivatedScreen:NavHeader"
       />
       <ContentContainer>
         <Stack direction="vertical" justify="space-between" align="center">
@@ -50,7 +51,11 @@ export default function ApplePayActivatedScreen() {
           </Typography.Text>
         </Stack>
         <View style={styles.button}>
-          <Button variant="primary" block onPress={handleOnFinished}>
+          <Button
+            variant="primary"
+            block
+            onPress={handleOnFinished}
+            testID="CardActions.ApplePayActivatedScreen:FinishButton">
             {t("CardActions.ApplePayActivatedScreen.button")}
           </Button>
         </View>
