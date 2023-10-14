@@ -36,7 +36,7 @@ export default function MutualFundDashboardScreen() {
   }));
 
   const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: Platform.OS === "android" ? -theme.spacing["48p"] : -theme.spacing["24p"],
+    marginTop: Platform.OS === "android" ? -theme.spacing["4p"] : -theme.spacing["24p"],
   }));
 
   return (
