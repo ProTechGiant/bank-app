@@ -3471,35 +3471,6 @@
     }
   },
   "GoldWallet": {
-    "title":"Gold Wallet",
-    "yourGoldValue":"Your gold value",
-    "SAR":"SAR",
-    "originalInvestedValue":" Original invested value",
-    "goldWeight":"Gold weight",
-    "grams":"grams",
-    "week":"Week",
-    "month":"Month",
-    "year":"Year",
-    "fiveYears":"5 Years",
-    "sellGold":"Sell Gold",
-    "buyGold":"Buy Gold",
-    "goldMarketperformance":"Gold Market Performance",
-    "currentGoldPrice":"Current gold price",
-    "transactions":"Transactions",
-    "viewAll":"View All",
-    "transactionsDetails":"Transactions details",
-    "Grams":"grams",
-    "sell":"Sell",
-    "buy":"Buy",
-    "SARG":"SAR/G",
-    "done":"Done",
-    "chargedFrom":"Charged from",
-    "status":"Status",
-    "type":"Type",
-    "goldSerial":"Gold bar serial No.",
-    "goldPrice":"Gold price",
-    "noTransactionTitle":"ليس لديك أي معاملات حتى الآن",
-    "noTransactionSubtitle":"ابدأ إنشاءه محفظتك الذهبية",
     "TermsAndConditionsModal": {
       "title": "Terms and conditions"
     },
@@ -3510,10 +3481,6 @@
       "confirm": "Confirm",
       "features": {
         "lowRisk": "Reliable savings with low risk"
-      },
-      "error": {
-        "title": "Error While creating the wallet",
-        "tryAgain": "try again."
       }
     }
   },
@@ -3556,7 +3523,7 @@
       "TotalGainLossLabel": "Total Gain/loss",
       "portfolioPerformanceSectionLabel": "Portfolio performance"
     },
-    "SubscriptionScreen":{
+    "SubscriptionScreen": {
       "title": "Subscription",
       "selectAccount": "Select account",
       "fromAccount": "From account",
@@ -3568,11 +3535,11 @@
       "keyInformation": "Key information",
       "informationItem": {
         "riskLevel": "Risk level",
-        "inceptionDate" : "Inception date",
+        "inceptionDate": "Inception date",
         "fundCurrency": "Fund currency",
-        "performanceFee":"Performance fee",
-        "minimumSubscription":"Minimum Subscription",
-        "minimumAdditionalSubscription":"Minimum additional subscription",
+        "performanceFee": "Performance fee",
+        "minimumSubscription": "Minimum Subscription",
+        "minimumAdditionalSubscription": "Minimum additional subscription"
       },
       "extraConditionsCaption": "",
       "termsAndConditionsText": "I have read and agreed to the",
@@ -3596,7 +3563,18 @@
       "title": "Open mutual fund account",
       "description": "Open your Mutual Fund and start to invest in funds now",
       "button": "Start"
-    }
+    },
+    "MutualFundOrderSummaryScreen": {
+      "headerTitle": "Order summary",
+      "headerDescription": "You’ve selected to buy the following subscription of mutual fund",
+      "button": "Confirm",
+      "RiskConsentModal": { "AgreeButton": "I agree", "CancelButton": "Cancel" }
+    },
+    "MutualFundOrderDetailsScreen": {
+      "headerTitle": "Order Details",
+      "button": "Done"
+    },
+    "MutualFundSuccessfulSubscription": { "doneButton": "Done", "viewDetailsButton": "View Details" }
   },
   "AllInOneCard": {
     "SelectedCardScreen": {

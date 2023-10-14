@@ -3333,35 +3333,35 @@
     }
   },
   "GoldWallet": {
-    "title":"المحفظة الذهبية",
-    "yourGoldValue":"قيمة الذهب الخاصة بك",
-    "SAR":"ريال",
-    "originalInvestedValue":"القيمة الأصلية المستثمرة",
-    "goldWeight":"وزن الذهب",
-    "grams":"جرام",
-    "week":"اسبوع",
-    "month":"شهر",
-    "year":"سنه",
-    "fiveYears":"خمس سنوات",
-    "goldMarketperformance":"أداء سوق الذهب",
-    "sellGold":"بيع الذهب",
-    "buyGold":"اشتري ذهب",
-    "currentGoldPrice":"سعر الذهب الحالي",
-    "transactions":"المعاملات",
-    "viewAll":"عرض الكل",
-    "Grams":"غرام",
-    "sell":"بيع",
-    "buy":"شراء",
-    "SARG":"ريال/جرام",
-    "transactionsDetails":"تفاصيل المعاملات",
-    "done":"تم",
-    "chargedFrom":"التحويل من",
-    "status":"الحالة",
-    "type":"النوع",
-    "goldSerial":"الرقم التسلسلي لسبائك الذهب",
-    "goldPrice":"سعر الذهب",
-    "noTransactionTitle":"ليس لديك أي معاملات حتى الآن",
-    "noTransactionSubtitle":"ابدأ إنشاءه محفظتك الذهبية",
+    "title": "المحفظة الذهبية",
+    "yourGoldValue": "قيمة الذهب الخاصة بك",
+    "SAR": "ريال",
+    "originalInvestedValue": "القيمة الأصلية المستثمرة",
+    "goldWeight": "وزن الذهب",
+    "grams": "جرام",
+    "week": "اسبوع",
+    "month": "شهر",
+    "year": "سنه",
+    "fiveYears": "خمس سنوات",
+    "goldMarketperformance": "أداء سوق الذهب",
+    "sellGold": "بيع الذهب",
+    "buyGold": "اشتري ذهب",
+    "currentGoldPrice": "سعر الذهب الحالي",
+    "transactions": "المعاملات",
+    "viewAll": "عرض الكل",
+    "Grams": "غرام",
+    "sell": "بيع",
+    "buy": "شراء",
+    "SARG": "ريال/جرام",
+    "transactionsDetails": "تفاصيل المعاملات",
+    "done": "تم",
+    "chargedFrom": "التحويل من",
+    "status": "الحالة",
+    "type": "النوع",
+    "goldSerial": "الرقم التسلسلي لسبائك الذهب",
+    "goldPrice": "سعر الذهب",
+    "noTransactionTitle": "ليس لديك أي معاملات حتى الآن",
+    "noTransactionSubtitle": "ابدأ إنشاءه محفظتك الذهبية",
     "TermsAndConditionsModal": {
       "title": "Terms and conditions"
     },
@@ -3418,7 +3418,7 @@
       "TotalGainLossLabel": "Total Gain/loss",
       "portfolioPerformanceSectionLabel": "Portfolio performance"
     },
-    "SubscriptionScreen":{
+    "SubscriptionScreen": {
       "title": "الاشتراك",
       "selectAccount": "Select account",
       "fromAccount": "من حساب",
@@ -3430,11 +3430,11 @@
       "keyInformation": "معلومات أساسية",
       "informationItem": {
         "riskLevel": "مستوى الخطر",
-        "inceptionDate" : "تاريخ الانشاء",
+        "inceptionDate": "تاريخ الانشاء",
         "fundCurrency": "عملة الصندوق",
-        "performanceFee":"رسوم الأداء",
-        "minimumSubscription":"الحد الأدنى للاشتراك",
-        "minimumAdditionalSubscription":"الحد الأدنى للاشتراك الإضافي",
+        "performanceFee": "رسوم الأداء",
+        "minimumSubscription": "الحد الأدنى للاشتراك",
+        "minimumAdditionalSubscription": "الحد الأدنى للاشتراك الإضافي"
       },
       "extraConditionsCaption": "واوافق عليها",
       "termsAndConditionsText": "لقد قرأت",
@@ -3451,7 +3451,18 @@
       "title": "فتح حساب صندوق الاستثمار المشترك",
       "description": "افتح صندوق الاستثمار المشترك الخاص بك وابدأ في الاستثمار في الصناديق الآن",
       "button": "ابدأ"
-    }
+    },
+    "MutualFundOrderSummaryScreen": {
+      "headerTitle": "Order summary",
+      "headerDescription": "You’ve selected to buy the following subscription of mutual fund",
+      "button": "Confirm",
+      "RiskConsentModal": { "AgreeButton": "I agree", "CancelButton": "Cancel" }
+    },
+    "MutualFundOrderDetailsScreen": {
+      "headerTitle": "Order Details",
+      "button": "Done"
+    },
+    "MutualFundSuccessfulSubscription": { "doneButton": "Done", "viewDetailsButton": "View Details" }
   },
   "AllInOneCard": {
     "SelectedCardScreen": {

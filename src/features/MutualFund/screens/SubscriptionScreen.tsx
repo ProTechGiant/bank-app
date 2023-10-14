@@ -42,7 +42,7 @@ export default function SubscriptionScreen() {
   };
 
   const handleOnConfirmPress = () => {
-    //TODO - Add logic here whe api ready
+    navigation.navigate("MutualFund.MutualFundOrderSummaryScreen");
   };
 
   const handleChangePortfolio = (value: number) => {
