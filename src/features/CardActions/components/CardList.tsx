@@ -8,7 +8,7 @@ import { useThemeStyles } from "@/theme";
 
 import { hasActiveSingleUseCard, isCardExpiringSoon, isSingleUseCard, isSingleUseCardInactive } from "../helpers";
 import { useCustomerTier } from "../hooks/query-hooks";
-import { Card } from "../types";
+import { Card, CardStatus } from "../types";
 import QuickActionsMenu from "./QuickActionsMenu";
 
 interface CardsListProps {
@@ -16,8 +16,8 @@ interface CardsListProps {
   onActivatePhysicalCardPress: (cardId: string) => void;
   onCardPress: (cardId: string) => void;
   onCardSettingsPress: (cardId: string) => void;
-  onFreezeCardPress: (cardId: string) => void;
-  onUnfreezeCardPress: (cardId: string) => void;
+  onFreezeCardPress: (cardId: string, cardStatus: CardStatus) => void;
+  onUnfreezeCardPress: (cardId: string, cardStatus: CardStatus) => void;
   onViewPinPress: (cardId: string) => void;
   onSingleUseCardAboutPress: () => void;
   onSingleUseCardGeneratePress: () => void;
@@ -50,15 +50,14 @@ export default function CardsList({
         endButton={
           <QuickActionsMenu
             cardStatus={card.Status}
-            onFreezeCardPress={() => onFreezeCardPress(card.CardId)}
-            onUnfreezeCardPress={() => onUnfreezeCardPress(card.CardId)}
+            onFreezeCardPress={() => onFreezeCardPress(card.CardId, card.Status)}
+            onUnfreezeCardPress={() => onUnfreezeCardPress(card.CardId, card.Status)}
             onViewPinPress={() => onViewPinPress(card.CardId)}
             onCardSettingsPress={() => onCardSettingsPress(card.CardId)}
             testID={`CardActions.HomeScreen:ActiveCard-${card.CardId}-QuickActions`}
           />
         }
         onPress={() => onCardPress(card.CardId)}
-        isExpiringSoon={isCardExpiringSoon(card)}
         actionButton={
           card.Status === "PENDING-ACTIVATION" && card.CardType === VIRTUAL_CARD_TYPE ? (
             <BankCard.ActionButton
@@ -96,8 +95,8 @@ export default function CardsList({
         endButton={
           <QuickActionsMenu
             cardStatus={card.Status}
-            onFreezeCardPress={() => onFreezeCardPress(card.CardId)}
-            onUnfreezeCardPress={() => onUnfreezeCardPress(card.CardId)}
+            onFreezeCardPress={() => onFreezeCardPress(card.CardId, card.Status)}
+            onUnfreezeCardPress={() => onUnfreezeCardPress(card.CardId, card.Status)}
             onViewPinPress={() => onViewPinPress(card.CardId)}
             onCardSettingsPress={() => onCardSettingsPress(card.CardId)}
             testID={`CardActions.HomeScreen:InactiveCard-${card.CardId}-QuickActions`}
