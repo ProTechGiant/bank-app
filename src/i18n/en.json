@@ -2343,8 +2343,7 @@
       "errorModalActionButton": "Set new pin"
     },
     "CardExpiryNotification": {
-      "content": "Your card is expiring soon. Renew it now to make sure you get a replacement before it expires.",
-      "isExpiringSoon": "Expires soon"
+      "content": "Your card is expiring soon. Renew it now to make sure you get a replacement before it expires."
     },
     "CardDeliveryNotification": {
       "inactiveTitle": "Your new card is on the way",

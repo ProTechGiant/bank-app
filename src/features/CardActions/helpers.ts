@@ -17,7 +17,3 @@ export function isSingleUseCardInactive(card: Card) {
 export function hasActiveSingleUseCard(cardsList: Card[]) {
   return cardsList.some(card => isSingleUseCard(card) && card.Status === "unfreeze");
 }
-
-export function isCardExpiringSoon(card: Card) {
-  return card.IsExpireSoon && isPhysicalCard(card);
-}

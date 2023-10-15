@@ -27,7 +27,7 @@ import {
   UpgradeToCroatiaPlus,
   ViewPinModal,
 } from "../../components";
-import { isCardExpiringSoon, isSingleUseCard } from "../../helpers";
+import { isSingleUseCard } from "../../helpers";
 import {
   useChangeCardStatus,
   useFreezeCard,
@@ -339,7 +339,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
             cardStatus={card.Status}
           />
         ) : null}
-        {isNotificationBannerVisible && isCardExpiringSoon(card) ? (
+        {isNotificationBannerVisible && card.IsExpireSoon ? (
           <View style={inlineBannerContainerStyle}>
             <InlineBanner
               icon={<InfoFilledCircleIcon />}

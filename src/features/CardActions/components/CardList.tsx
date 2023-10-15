@@ -6,7 +6,7 @@ import BankCard from "@/components/BankCard";
 import { PLUS_TIER, SINGLE_USE_CARD_TYPE, STANDARD_CARD_PRODUCT_ID, VIRTUAL_CARD_TYPE } from "@/constants";
 import { useThemeStyles } from "@/theme";
 
-import { hasActiveSingleUseCard, isCardExpiringSoon, isSingleUseCard, isSingleUseCardInactive } from "../helpers";
+import { hasActiveSingleUseCard, isSingleUseCard, isSingleUseCardInactive } from "../helpers";
 import { useCustomerTier } from "../hooks/query-hooks";
 import { Card, CardStatus } from "../types";
 import QuickActionsMenu from "./QuickActionsMenu";
@@ -103,7 +103,6 @@ export default function CardsList({
           />
         }
         onPress={() => onCardPress(card.CardId)}
-        isExpiringSoon={isCardExpiringSoon(card)}
         testID={`CardActions.HomeScreen:InactiveCard-${card.CardId}`}
       />
     );

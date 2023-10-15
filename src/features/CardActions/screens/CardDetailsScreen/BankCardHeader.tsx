@@ -6,7 +6,7 @@ import BankCard from "@/components/BankCard";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useThemeStyles } from "@/theme";
 
-import { isCardExpiringSoon, isPhysicalCard, isSingleUseCard } from "../../helpers";
+import { isPhysicalCard, isSingleUseCard } from "../../helpers";
 import { Card, DetailedCardResponse } from "../../types";
 
 interface BankCardHeaderProps {
@@ -44,7 +44,6 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress, onR
         <BankCard.Inactive
           status="LOCK"
           cardType={card.CardType}
-          isExpiringSoon={isCardExpiringSoon(card)}
           actionButton={<BankCard.ActionButton title={t("CardActions.cardFrozen")} type="dark" />}
           testID="CardActions.CardDetailsScreen:InactiveBankCard"
         />
@@ -76,7 +75,7 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress, onR
                 onPress={onActivatePress}
                 testID="CardActions.CardDetailsScreen:ActiveBankCardActivateButton"
               />
-            ) : isCardExpiringSoon(card) ? (
+            ) : card.IsExpireSoon ? (
               <BankCard.ActionButton
                 title={t("CardActions.renewCard")}
                 type="light"
