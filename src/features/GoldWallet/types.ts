@@ -19,6 +19,7 @@ export interface GetWalletResponseType {
   AccountNumber: string;
   MarketSellPrice: number;
   MarketBuyPrice: number;
+  profitLoss: number;
   WalletDtls: [
     {
       FixedWeight: number;
@@ -38,6 +39,22 @@ export interface GetWalletResponseType {
       }
     ];
   };
+}
+export interface TransactionType {
+  Transaction_id: string;
+  Date: string;
+  Type: string;
+  Weight: number;
+  Price_per_unit: number;
+  Total_amount: number;
+  Status: string;
+  SerialNumber: string;
+}
+export interface getTransactionsResponse {
+  Offset: number;
+  Pagesize: number;
+  Transactions: TransactionType[];
+  WalletId: string;
 }
 
 export enum AlertConditionsEnum {

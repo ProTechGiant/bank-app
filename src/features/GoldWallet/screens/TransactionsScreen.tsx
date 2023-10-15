@@ -1,24 +1,39 @@
-import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ViewStyle } from "react-native";
+import { ActivityIndicator, ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
 import DefaultContent from "@/components/DefaultContent";
+import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
 
 import noTransactionImage from "../assets/no-transactions-image.png";
 import TransactionCard from "../components/TransactionCard";
+import { useWalletTransaction } from "../hooks/query-hooks";
+import { TransactionType } from "../types";
 
 export default function TransactionsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
+  const {
+    params: { walletId },
+  } = useRoute<RouteProp<AuthenticatedStackParams, "GoldWallet.TransactionsScreen">>();
+
+  const { data: TransactionsList, isError, isLoading, refetch } = useWalletTransaction(walletId);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isError) setIsErrorModalVisible(isError);
+  }, [isError]);
+
   const transactionsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing["20p"],
+    marginHorizontal: theme.spacing["16p"],
     marginVertical: theme.spacing["8p"],
   }));
 
@@ -26,8 +41,10 @@ export default function TransactionsScreen() {
     marginVertical: theme.spacing["32p"],
   }));
 
-  const openDetailsHandler = () => {
-    navigation.navigate("GoldWallet.TransactionsDetailsModal");
+  const openDetailsHandler = (transaction: TransactionType) => {
+    navigation.navigate("GoldWallet.TransactionsDetailsModal", {
+      transaction,
+    });
   };
 
   return (
@@ -41,22 +58,37 @@ export default function TransactionsScreen() {
           {t("GoldWallet.transactions")}
         </Typography.Text>
       </Stack>
-      <ContentContainer isScrollView>
-        {/*TODO will add condition once we start integrate with api */}
-        {true ? (
-          Array.from({ length: 29 }, () => {
-            return <TransactionCard isClickable openDetailsHandler={openDetailsHandler} />;
-          })
-        ) : (
-          <Stack direction="vertical" justify="center" align="center" style={defaultContentStyle}>
-            <DefaultContent
-              title={t("GoldWallet.noTransactionTitle")}
-              subtitle={t("GoldWallet.noTransactionSubtitle")}
-              image={noTransactionImage}
-            />
-          </Stack>
-        )}
-      </ContentContainer>
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <ContentContainer isScrollView>
+          {TransactionsList && TransactionsList.length ? (
+            TransactionsList.map((transaction, index) => {
+              return (
+                <TransactionCard
+                  key={index}
+                  transaction={transaction}
+                  isPressable
+                  openDetailsHandler={() => openDetailsHandler(transaction)}
+                />
+              );
+            })
+          ) : (
+            <Stack direction="vertical" justify="center" align="center" style={defaultContentStyle}>
+              <DefaultContent
+                title={t("GoldWallet.noTransactionTitle")}
+                subtitle={t("GoldWallet.noTransactionSubtitle")}
+                image={noTransactionImage}
+              />
+            </Stack>
+          )}
+        </ContentContainer>
+      )}
+      <LoadingErrorNotification
+        isVisible={isErrorModalVisible}
+        onClose={() => setIsErrorModalVisible(false)}
+        onRefresh={refetch}
+      />
     </Page>
   );
 }

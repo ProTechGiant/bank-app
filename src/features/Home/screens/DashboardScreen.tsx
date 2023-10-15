@@ -191,8 +191,18 @@ export default function DashboardScreen() {
     setFeedbackIndex(feedbackIndex + 1);
   };
 
-  const handleOnGoldWalletExplorePress = () => {
-    navigation.navigate("GoldWallet.GoldWalletStack");
+  const handleOnGoldWalletExplorePress = async () => {
+    // TODO  will be changed once BE  return flag to can know if terms  changed to navigate to terms screens
+    const isgoldWalletTermsAccepted = (await getItemFromEncryptedStorage("goldWalletTermsAcceptance")) === "1";
+    if (isgoldWalletTermsAccepted) {
+      navigation.navigate("GoldWallet.GoldWalletStack", {
+        screen: "GoldWallet.HubScreen",
+      });
+    } else {
+      navigation.navigate("GoldWallet.GoldWalletStack", {
+        screen: "GoldWallet.OnboardingScreen",
+      });
+    }
   };
 
   const handleOnChatButtonPress = () => {

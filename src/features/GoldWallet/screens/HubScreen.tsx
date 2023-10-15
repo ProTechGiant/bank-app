@@ -1,7 +1,7 @@
 import { StackActions } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Dimensions, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { NotificationIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
@@ -14,15 +14,34 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { AlertSettingsModal } from "../components";
+import EmptyTransactionsContent from "../components/EmptyTransactionsContent";
 import GoldBalanceCard from "../components/GoldBalanceCard";
 import GoldChart from "../components/GoldChart";
 import TransactionCard from "../components/TransactionCard";
-import { useAlertSettings, useWallet } from "../hooks/query-hooks";
+import { useAlertSettings, useWallet, useWalletTransaction } from "../hooks/query-hooks";
+import { TransactionType } from "../types";
 import { AlertConditionsEnum, AlertStatus, ConditionWithLabelsType } from "../types";
 
 export default function HubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { refetch, isLoading, isError, data: walletData, isFetching } = useWallet();
+  const {
+    data: transactionsList,
+    isLoading: isTransactionsLoading,
+    isError: isLoadingTransactionsError,
+    refetch: handleOnTransactionRefetch,
+  } = useWalletTransaction(walletData?.WalletId);
+
+  const {
+    data: alertSettingsData,
+    isError: isAlertSettingsError,
+    isLoading: isLoadingAlertSettings,
+  } = useAlertSettings();
+
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
+  const [isAlertSettingsModalVisible, setIsAlertSettingsModalVisible] = useState<boolean>(false);
+  const [isTransactionsErrorModalVisible, setIsTransactionsErrorModalVisible] = useState<boolean>(false);
 
   const conditionsWithLabels: ConditionWithLabelsType[] = [
     { label: t("GoldWallet.AlertSettingsModal.ConditionsModal.greaterThan"), value: AlertConditionsEnum.GREATER_THAN },
@@ -38,20 +57,11 @@ export default function HubScreen() {
     { label: t("GoldWallet.AlertSettingsModal.ConditionsModal.equal"), value: AlertConditionsEnum.EQUAL },
   ];
 
-  const { refetch, isLoading, isError, data: walletData } = useWallet();
-  const {
-    data: alertSettingsData,
-    isError: isAlertSettingsError,
-    isLoading: isLoadingAlertSettings,
-  } = useAlertSettings();
-
-  const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
-  const [isAlertSettingsModalVisible, setIsAlertSettingsModalVisible] = useState<boolean>(false);
-
-  //TODO change this condition to the correct one on integration
-  if (walletData === undefined) {
-    navigation.dispatch(StackActions.replace("GoldWallet.OnboardingScreen"));
-  }
+  useEffect(() => {
+    if (!isFetching && !walletData) {
+      navigation.dispatch(StackActions.replace("GoldWallet.OnboardingScreen"));
+    }
+  }, [walletData, isFetching]);
 
   const handleOnSellGoldPress = () => {
     //TODO
@@ -66,12 +76,29 @@ export default function HubScreen() {
   };
 
   const onViewAllTransactionsPress = () => {
-    navigation.navigate("GoldWallet.TransactionsScreen");
+    if (walletData) {
+      navigation.navigate("GoldWallet.TransactionsScreen", {
+        walletId: walletData.WalletId,
+      });
+    }
+  };
+
+  const handleOnInfoIconPress = () => {
+    if (walletData) {
+      navigation.navigate("GoldWallet.GoldWalletInfoModal", {
+        accountNumber: walletData.AccountNumber,
+        walletNumber: walletData.WalletId,
+      });
+    }
   };
 
   useEffect(() => {
     if (isError || isAlertSettingsError) setIsErrorModalVisible(isError);
   }, [isError, isAlertSettingsError]);
+
+  useEffect(() => {
+    if (isLoadingTransactionsError) setIsTransactionsErrorModalVisible(isLoadingTransactionsError);
+  }, [isLoadingTransactionsError]);
 
   const buttonsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
@@ -90,17 +117,24 @@ export default function HubScreen() {
 
   const circularIconContainer = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.spacing["48p"],
-    backgroundColor: "#000000",
+    backgroundColor: theme.palette["neutralBase+30"],
     padding: theme.spacing["8p"],
     marginHorizontal: theme.spacing["32p"],
   }));
 
   const transactionsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    margin: theme.spacing["16p"],
+    margin: theme.spacing["12p"],
+    marginTop: theme.spacing["20p"],
   }));
 
   const rowHorizontalStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["16p"],
+  }));
+
+  const buyButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    width: Dimensions.get("screen").width - theme.spacing["32p"],
+    marginHorizontal: theme.spacing["16p"],
+    marginVertical: theme.spacing["16p"],
   }));
 
   const alertBannerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -116,43 +150,58 @@ export default function HubScreen() {
       ) : (
         <ContentContainer isScrollView style={styles.contentContainer}>
           <Stack direction="vertical" align="stretch">
-            <GoldBalanceCard balance={0} />
-            <Stack direction="vertical" style={chartTitleContainerStyle}>
-              <Typography.Text color="neutralBase+30" size="title3" weight="bold">
-                {t("GoldWallet.goldMarketperformance")}
-              </Typography.Text>
-              <Stack
-                direction="horizontal"
-                align="center"
-                justify="space-between"
-                gap="16p"
-                style={ChartSubTitleContainerStyle}>
-                <Typography.Text color="neutralBase+30" size="footnote" weight="regular">
-                  {t("GoldWallet.currentGoldPrice")}
-                </Typography.Text>
-                <Typography.Text color="neutralBase+30" size="footnote" weight="bold">
-                  201 {t("GoldWallet.SARG")}
-                </Typography.Text>
-                <Typography.Text color="successBase" size="footnote" weight="regular">
-                  +10%
-                </Typography.Text>
-                <Pressable onPress={handleOnNotificationIconPress} style={circularIconContainer}>
-                  <NotificationIcon color={NotificationIconColor} />
-                </Pressable>
-              </Stack>
-            </Stack>
-            <Stack direction="horizontal" align="center" justify="space-between" style={buttonsContainerStyle}>
-              <View style={styles.buttonContainer}>
-                <Button variant="secondary" onPress={handleOnSellGoldPress}>
-                  {t("GoldWallet.sellGold")}
-                </Button>
-              </View>
-              <View style={styles.buttonContainer}>
+            <GoldBalanceCard
+              balance={walletData?.TotalBalance}
+              goldWeight={walletData?.TotalFixedWeight}
+              profitLoss={walletData?.profitLoss}
+              onInfoIconPress={handleOnInfoIconPress}
+            />
+            {walletData && walletData.TotalFixedWeight > 0 ? (
+              <>
+                <Stack direction="vertical" style={chartTitleContainerStyle}>
+                  <Typography.Text color="neutralBase+30" size="title3" weight="bold">
+                    {t("GoldWallet.goldMarketperformance")}
+                  </Typography.Text>
+                  <Stack
+                    direction="horizontal"
+                    align="center"
+                    justify="space-between"
+                    gap="16p"
+                    style={ChartSubTitleContainerStyle}>
+                    <Typography.Text color="neutralBase+30" size="footnote" weight="regular">
+                      {t("GoldWallet.currentGoldPrice")}
+                    </Typography.Text>
+                    <Typography.Text color="neutralBase+30" size="footnote" weight="bold">
+                      {walletData?.MarketSellPrice} {t("GoldWallet.SARG")}
+                    </Typography.Text>
+                    <Typography.Text color="successBase" size="footnote" weight="regular">
+                      {walletData?.profitLoss} %
+                    </Typography.Text>
+                    <Pressable onPress={handleOnNotificationIconPress} style={circularIconContainer}>
+                      <NotificationIcon color={NotificationIconColor} />
+                    </Pressable>
+                  </Stack>
+                </Stack>
+                <Stack direction="horizontal" align="center" justify="space-between" style={buttonsContainerStyle}>
+                  <View style={styles.buttonContainer}>
+                    <Button variant="secondary" onPress={handleOnSellGoldPress}>
+                      {t("GoldWallet.sellGold")}
+                    </Button>
+                  </View>
+                  <View style={styles.buttonContainer}>
+                    <Button color="light" variant="primary" onPress={handleOnBuyGoldPress}>
+                      {t("GoldWallet.buyGold")}
+                    </Button>
+                  </View>
+                </Stack>
+              </>
+            ) : (
+              <View style={buyButtonContainerStyle}>
                 <Button color="light" variant="primary" onPress={handleOnBuyGoldPress}>
                   {t("GoldWallet.buyGold")}
                 </Button>
               </View>
-            </Stack>
+            )}
             <View style={rowHorizontalStyle}>
               <GoldChart />
             </View>
@@ -167,11 +216,17 @@ export default function HubScreen() {
                   </Typography.Text>
                 </Pressable>
               </Stack>
-              <View style={rowHorizontalStyle}>
-                {new Array(5).fill("").map(() => {
-                  return <TransactionCard />;
-                })}
-              </View>
+              {isTransactionsLoading ? (
+                <ActivityIndicator />
+              ) : transactionsList && transactionsList.length > 0 ? (
+                <View style={rowHorizontalStyle}>
+                  {transactionsList.map((transaction: TransactionType, index: number) => {
+                    return <TransactionCard transaction={transaction} key={index} />;
+                  })}
+                </View>
+              ) : (
+                <EmptyTransactionsContent />
+              )}
             </Stack>
 
             {alertSettingsData !== undefined ? (
@@ -196,6 +251,11 @@ export default function HubScreen() {
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
         onRefresh={refetch}
+      />
+      <LoadingErrorNotification
+        isVisible={isTransactionsErrorModalVisible}
+        onClose={() => setIsTransactionsErrorModalVisible(false)}
+        onRefresh={handleOnTransactionRefetch}
       />
       {alertSettingsData !== undefined ? (
         <AlertSettingsModal

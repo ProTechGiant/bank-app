@@ -11,6 +11,7 @@ import { NotificationModal } from "@/components/NotificationModal/index.stories"
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { LowRiskIcon, OnboardingLogo } from "../assets";
 import { GoldWalletCreatingBenefit } from "../components";
@@ -40,6 +41,7 @@ export default function OnboardingScreen() {
   const handleOnConfirmPress = async () => {
     try {
       await createWallet();
+      await setItemInEncryptedStorage("goldWalletTermsAcceptance", "1");
       navigation.dispatch(StackActions.replace("GoldWallet.HubScreen"));
     } catch (err) {
       setIsErrorModalVisible(true);

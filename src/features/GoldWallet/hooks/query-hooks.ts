@@ -6,13 +6,14 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { TermsAndConditionContainer } from "@/types/Content";
 import { generateRandomId } from "@/utils";
 
-import { AlertSettingsResponseType, GetWalletResponseType } from "../types";
+import { AlertSettingsResponseType, getTransactionsResponse, GetWalletResponseType } from "../types";
 
 const queryKeys = {
-  all: () => ["layout"],
+  all: () => ["goldWallet"],
   getWallet: () => [...queryKeys.all(), "getWallet"],
   createWallet: () => [...queryKeys.all(), "createWallet"],
   getTermsAndConditions: () => [...queryKeys.all(), "getTermsAndConditions"],
+  getWalletTransactions: () => [...queryKeys.all(), "getTransactions"],
   getAlertSettings: () => [...queryKeys.all(), "getAlertSettings"],
 };
 
@@ -52,6 +53,30 @@ export function useTermsAndConditions() {
       ["Accept-Language"]: i18n.language,
     });
   });
+}
+
+export function useWalletTransaction(walletId: string) {
+  const { i18n } = useTranslation();
+  return useQuery(
+    queryKeys.getWalletTransactions(),
+    () => {
+      return api<getTransactionsResponse>(
+        "v1",
+        `gold/wallet/${walletId}/transactions`,
+        "GET",
+        {
+          PageSize: 3, //TODO will be repalce with real pagination once BE API be available
+          PageOffset: 1,
+        },
+        undefined,
+        {
+          ["x-Correlation-Id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language,
+        }
+      );
+    },
+    { enabled: !!walletId, select: response => response.Transactions }
+  );
 }
 
 export function useAlertSettings() {

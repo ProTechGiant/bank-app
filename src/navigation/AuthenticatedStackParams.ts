@@ -137,7 +137,7 @@ type RootStackParams = {
         screen: keyof AllInOneCardParams;
       }
     | undefined;
-  "GoldWallet.GoldWalletStack": undefined;
+  "GoldWallet.GoldWalletStack": GoldWalletStackParams;
 };
 
 type AuthenticatedStackParams = RootStackParams &

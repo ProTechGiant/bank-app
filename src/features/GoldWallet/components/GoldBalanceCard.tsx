@@ -8,6 +8,7 @@ import NavHeader from "@/components/NavHeader";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+import { formatCurrency } from "@/utils";
 
 import balancetranceparentBackground from "../assets/balance-background-image.png";
 import balanceCardImage from "../assets/balance-card-image.png";
@@ -15,9 +16,12 @@ import EmptyGoldIngot from "../assets/empty-ingot.svg";
 
 interface BalanceCardProps {
   balance?: number;
+  goldWeight?: number;
+  profitLoss?: number;
+  onInfoIconPress: () => void;
 }
 
-export default function BalanceCard({ balance }: BalanceCardProps) {
+export default function BalanceCard({ balance, goldWeight, profitLoss, onInfoIconPress }: BalanceCardProps) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
 
@@ -41,14 +45,7 @@ export default function BalanceCard({ balance }: BalanceCardProps) {
           <NavHeader
             title={t("GoldWallet.title")}
             variant="white"
-            end={
-              <NavHeader.IconEndButton
-                icon={<InfoCircleIcon />}
-                onPress={() => {
-                  //TODO
-                }}
-              />
-            }
+            end={<NavHeader.IconEndButton icon={<InfoCircleIcon />} onPress={onInfoIconPress} />}
           />
           <Stack direction="horizontal" justify="space-between" style={currentValueContainerStyle}>
             <Stack direction="vertical" gap="12p">
@@ -56,13 +53,15 @@ export default function BalanceCard({ balance }: BalanceCardProps) {
                 <Typography.Text color="neutralBase-60" size="footnote">
                   {t("GoldWallet.yourGoldValue")}
                 </Typography.Text>
-                <Typography.Text color="neutralBase-60" size="footnote">
-                  {/* TODO will replace actuall data once integrate with api */}
-                  00%
-                </Typography.Text>
+                {profitLoss && (
+                  <Typography.Text color="neutralBase-60" size="footnote">
+                    {/* TODO will replace actuall data once integrate with api */}
+                    {profitLoss} %
+                  </Typography.Text>
+                )}
               </Stack>
               <Typography.Text color="secondary_yellowBase-10" size="title1" weight="bold">
-                {balance ?? 0} {t("GoldWallet.SAR")}
+                {balance ? formatCurrency(balance, t("GoldWallet.SAR"), 2) : 0}
               </Typography.Text>
             </Stack>
             <Stack direction="vertical">
@@ -86,8 +85,7 @@ export default function BalanceCard({ balance }: BalanceCardProps) {
                 {t("GoldWallet.goldWeight")}
               </Typography.Text>
               <Typography.Text color="secondary_yellowBase-10" size="title1" weight="bold">
-                {/* TODO will replace actuall data once integrate with api */}
-                50
+                {goldWeight}
                 <Typography.Text color="secondary_yellowBase-10" size="title2" weight="regular">
                   {" "}
                   {t("GoldWallet.grams")}

@@ -1,19 +1,22 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
+  GoldWalletInfoModal,
   HubScreen,
   OnboardingScreen,
   TermsAndConditionsModal,
   TransactionsDetailsModal,
   TransactionsScreen,
 } from "./screens";
+import { TransactionType } from "./types";
 
 export type GoldWalletStackParams = {
   "GoldWalletStack.TermsAndConditions": undefined;
   "GoldWallet.HubScreen": undefined;
   "GoldWallet.OnboardingScreen": undefined;
-  "GoldWallet.TransactionsScreen": undefined;
-  "GoldWallet.TransactionsDetailsModal": undefined;
+  "GoldWallet.TransactionsScreen": { walletId: string };
+  "GoldWallet.TransactionsDetailsModal": { transaction: TransactionType };
+  "GoldWallet.GoldWalletInfoModal": { accountNumber: string; walletNumber: string };
 };
 
 export const Stack = createNativeStackNavigator<GoldWalletStackParams>();
@@ -28,7 +31,12 @@ export default function GoldWalletStack() {
       <Stack.Screen
         component={TransactionsDetailsModal}
         name="GoldWallet.TransactionsDetailsModal"
-        options={{ presentation: "modal" }}
+        options={{ presentation: "transparentModal" }}
+      />
+      <Stack.Screen
+        component={GoldWalletInfoModal}
+        name="GoldWallet.GoldWalletInfoModal"
+        options={{ presentation: "transparentModal" }}
       />
     </Stack.Navigator>
   );
