@@ -7,22 +7,46 @@ import { NotificationIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import InfoBox from "@/components/InfoBox";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { AlertSettingsModal } from "../components";
 import GoldBalanceCard from "../components/GoldBalanceCard";
 import GoldChart from "../components/GoldChart";
 import TransactionCard from "../components/TransactionCard";
-import { useWallet } from "../hooks/query-hooks";
+import { useAlertSettings, useWallet } from "../hooks/query-hooks";
+import { AlertConditionsEnum, AlertStatus, ConditionWithLabelsType } from "../types";
 
 export default function HubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+
+  const conditionsWithLabels: ConditionWithLabelsType[] = [
+    { label: t("GoldWallet.AlertSettingsModal.ConditionsModal.greaterThan"), value: AlertConditionsEnum.GREATER_THAN },
+    {
+      label: t("GoldWallet.AlertSettingsModal.ConditionsModal.greaterThanOrEqual"),
+      value: AlertConditionsEnum.GREATER_THAN_OR_EQUAL,
+    },
+    { label: t("GoldWallet.AlertSettingsModal.ConditionsModal.lessThan"), value: AlertConditionsEnum.LESS_THAN },
+    {
+      label: t("GoldWallet.AlertSettingsModal.ConditionsModal.lessThanOrEqual"),
+      value: AlertConditionsEnum.LESS_THAN_OR_EQUAL,
+    },
+    { label: t("GoldWallet.AlertSettingsModal.ConditionsModal.equal"), value: AlertConditionsEnum.EQUAL },
+  ];
+
   const { refetch, isLoading, isError, data: walletData } = useWallet();
+  const {
+    data: alertSettingsData,
+    isError: isAlertSettingsError,
+    isLoading: isLoadingAlertSettings,
+  } = useAlertSettings();
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
+  const [isAlertSettingsModalVisible, setIsAlertSettingsModalVisible] = useState<boolean>(false);
 
   //TODO change this condition to the correct one on integration
   if (walletData === undefined) {
@@ -38,7 +62,7 @@ export default function HubScreen() {
   };
 
   const handleOnNotificationIconPress = () => {
-    //TODO
+    setIsAlertSettingsModalVisible(true);
   };
 
   const onViewAllTransactionsPress = () => {
@@ -46,8 +70,8 @@ export default function HubScreen() {
   };
 
   useEffect(() => {
-    if (isError) setIsErrorModalVisible(isError);
-  }, [isError]);
+    if (isError || isAlertSettingsError) setIsErrorModalVisible(isError);
+  }, [isError, isAlertSettingsError]);
 
   const buttonsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
@@ -79,11 +103,15 @@ export default function HubScreen() {
     marginHorizontal: theme.spacing["16p"],
   }));
 
+  const alertBannerStyle = useThemeStyles<ViewStyle>(theme => ({
+    margin: theme.spacing["20p"],
+  }));
+
   const NotificationIconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
 
   return (
     <Page insets={["bottom", "left", "right"]} backgroundColor="neutralBase-60">
-      {isLoading ? (
+      {isLoading || isLoadingAlertSettings ? (
         <ActivityIndicator />
       ) : (
         <ContentContainer isScrollView style={styles.contentContainer}>
@@ -145,6 +173,22 @@ export default function HubScreen() {
                 })}
               </View>
             </Stack>
+
+            {alertSettingsData !== undefined ? (
+              <View style={alertBannerStyle}>
+                <InfoBox
+                  variant="compliment"
+                  title={
+                    alertSettingsData.ActiveFlag === AlertStatus.ACTIVE
+                      ? `${t("GoldWallet.alertInfoBoxOn")} ${
+                          conditionsWithLabels.find(alertSetting => alertSetting.value === alertSettingsData.Operator)
+                            ?.label
+                        } ${alertSettingsData.TargetPrice} ${t("GoldWallet.alertInfoBoxOnSecondHalf")}`
+                      : t("GoldWallet.alertInfoBoxOff")
+                  }
+                />
+              </View>
+            ) : null}
           </Stack>
         </ContentContainer>
       )}
@@ -153,6 +197,14 @@ export default function HubScreen() {
         onClose={() => setIsErrorModalVisible(false)}
         onRefresh={refetch}
       />
+      {alertSettingsData !== undefined ? (
+        <AlertSettingsModal
+          currentAlertSettings={alertSettingsData}
+          isVisible={isAlertSettingsModalVisible}
+          onChangeVisibility={setIsAlertSettingsModalVisible}
+          conditionsWithLabels={conditionsWithLabels}
+        />
+      ) : null}
     </Page>
   );
 }

@@ -3470,6 +3470,38 @@
     }
   },
   "GoldWallet": {
+    "title": "Gold Wallet",
+    "yourGoldValue": "Your gold value",
+    "SAR": "SAR",
+    "originalInvestedValue": " Original invested value",
+    "goldWeight": "Gold weight",
+    "grams": "grams",
+    "week": "Week",
+    "month": "Month",
+    "year": "Year",
+    "fiveYears": "5 Years",
+    "sellGold": "Sell Gold",
+    "buyGold": "Buy Gold",
+    "goldMarketperformance": "Gold Market Performance",
+    "currentGoldPrice": "Current gold price",
+    "transactions": "Transactions",
+    "viewAll": "View All",
+    "transactionsDetails": "Transactions details",
+    "Grams": "grams",
+    "sell": "Sell",
+    "buy": "Buy",
+    "SARG": "SAR/G",
+    "done": "Done",
+    "chargedFrom": "Charged from",
+    "status": "Status",
+    "type": "Type",
+    "goldSerial": "Gold bar serial No.",
+    "goldPrice": "Gold price",
+    "noTransactionTitle": "ليس لديك أي معاملات حتى الآن",
+    "noTransactionSubtitle": "ابدأ إنشاءه محفظتك الذهبية",
+    "alertInfoBoxOn": "Alert when gold price is",
+    "alertInfoBoxOnSecondHalf": "in the market",
+    "alertInfoBoxOff": "Alerts are turned off",
     "TermsAndConditionsModal": {
       "title": "Terms and conditions"
     },
@@ -3480,6 +3512,29 @@
       "confirm": "Confirm",
       "features": {
         "lowRisk": "Reliable savings with low risk"
+      }
+    },
+    "AlertSettingsModal": {
+      "title": "Alert Settings",
+      "subtitle": "Set up amount and if you want to receive notifications",
+      "toggle": "Turn on Alert",
+      "operation": "Operation",
+      "price": "Price",
+      "done": "Done",
+      "NotificationModal": {
+        "successTitle": "Price Alert created successfully",
+        "successMessage": "You’ve created a price alert at",
+        "successButton": "OK",
+        "errorTitle": "Sorry, something has gone wrong",
+        "errorMessage": "Try again later or get in touch with our customer care team."
+      },
+      "ConditionsModal": {
+        "title": "Conditions",
+        "greaterThan": "Greater than (>)",
+        "greaterThanOrEqual": "Greater than equal to (>=)",
+        "lessThan": "Less than (<)",
+        "lessThanOrEqual": "Less than equal to (<=)",
+        "equal": "Equal to (==)"
       }
     }
   },
