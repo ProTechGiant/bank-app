@@ -30,7 +30,7 @@ export default function OptionsList({ optionsList, onSelectOptions, predefinedVa
       {optionsList.map((predefinedElement: RewardsMethods) => {
         const backgroundColor = predefinedElement.Id === predefinedValue ? "#F2F2F2" : "transparent";
         return (
-          <Pressable onPress={() => onSelectOptions(predefinedElement.Id)}>
+          <Pressable onPress={() => onSelectOptions(predefinedElement.Id)} key={predefinedElement.Id}>
             <Stack
               direction="horizontal"
               justify="space-between"

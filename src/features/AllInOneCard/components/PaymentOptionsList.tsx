@@ -45,7 +45,7 @@ export default function PaymentOptionsList({ optionsList, onSelectOptions, prede
         const containerBackground = paymentOption.Id === predefinedValue ? "#D9D9D9" : "#F2F2F2";
         const rowMargin = paymentOption.isRecommended || paymentOption.discount ? rowContainerStyle : null;
         return (
-          <Pressable onPress={() => onSelectOptions(paymentOption.Id)}>
+          <Pressable onPress={() => onSelectOptions(paymentOption.Id)} key={paymentOption.Id}>
             <Stack
               direction="horizontal"
               justify="space-between"

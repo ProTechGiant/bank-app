@@ -1,3 +1,4 @@
+import { StackActions } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
@@ -30,7 +31,8 @@ export default function SelectPaymentOptionScreen() {
   };
 
   const handleOnCancelRedemption = () => {
-    navigation.navigate("Home.HomeTabs");
+    navigation.dispatch(StackActions.pop(3));
+    navigation.navigate("Home.DashboardScreen");
   };
 
   const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -42,7 +44,7 @@ export default function SelectPaymentOptionScreen() {
       <NavHeader
         title={
           <View style={styles.progressIndicator}>
-            <ProgressIndicator currentStep={1} totalStep={3} />
+            <ProgressIndicator currentStep={2} totalStep={3} />
           </View>
         }
         end={<NavHeader.CloseEndButton onPress={() => setIsWarningModalVisible(true)} />}

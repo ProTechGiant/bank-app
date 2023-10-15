@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import { Typography } from "@/components";
@@ -24,7 +24,7 @@ export default function SelectCardScreen() {
   const textContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "flex-start",
     paddingHorizontal: theme.spacing["20p"],
-    marginTop: theme.spacing["20p"],
+    marginTop: theme.spacing["4p"],
   }));
 
   const pressableStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -37,7 +37,7 @@ export default function SelectCardScreen() {
   const buttonsViewContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "space-between",
     paddingHorizontal: theme.spacing["20p"],
-    marginBottom: theme.spacing["20p"],
+    marginBottom: theme.spacing["16p"],
   }));
   const onApplyPress = () => {
     navigation.navigate("AllInOneCard.ChooseRedemptionMethod");
@@ -50,7 +50,6 @@ export default function SelectCardScreen() {
 
   return (
     <Page>
-      <StatusBar barStyle="dark-content" backgroundColor="#2E2A34" translucent />
       <View style={styles.container}>
         <View style={styles.header}>
           <NavHeader title="All in One" variant="white" />
@@ -95,7 +94,7 @@ export default function SelectCardScreen() {
 const styles = StyleSheet.create({
   carouselContainer: {
     position: "absolute",
-    top: 130,
+    top: 90,
   },
   container: {
     flex: 1,

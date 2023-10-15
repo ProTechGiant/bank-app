@@ -1,3 +1,4 @@
+import { StackActions } from "@react-navigation/native";
 import { t } from "i18next";
 import React, { useState } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
@@ -35,7 +36,8 @@ export default function ChooseRedemptionMethodScreen() {
 
   const totalStepProgressIndicator = cardType.toLowerCase() === "nera".toLowerCase() ? 3 : 2;
   const handleOnCancelRedemption = () => {
-    navigation.navigate("Home.HomeTabs");
+    navigation.dispatch(StackActions.pop(2));
+    navigation.navigate("Home.DashboardScreen");
   };
   const innerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["24p"],

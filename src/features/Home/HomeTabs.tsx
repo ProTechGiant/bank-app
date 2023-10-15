@@ -8,9 +8,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { CardIcon, ContactSupportIcon, WalletIcon } from "@/assets/icons";
 import { HomeTabIcon } from "@/assets/icons/HomeTabIcon";
+import { useAuthContext } from "@/contexts/AuthContext";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import AllInCardStack from "../AllInOneCard/AllInOneCardStack";
+import { DashboardScreen } from "../AllInOneCard/screens";
 import HelpAndSupportStack from "../HelpAndSupport/HelpAndSupportStack";
 import { PaymentsHubScreen } from "../InternalTransfers/screens";
 import HomeStack from "./HomeStack";
@@ -36,6 +38,8 @@ const tabHidddenRoutes = ["HelpAndSupport.ChatScreen"];
 export default function HomeTabs() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
+  const { userId } = useAuthContext();
 
   const activeIconColor = useThemeStyles(theme => theme.palette["complimentBase+10"]);
   const inActiveIconColor = useThemeStyles(theme => theme.palette["neutralBase+10"]);
@@ -70,7 +74,20 @@ export default function HomeTabs() {
         component={PaymentsHubScreen}
         options={{ tabBarLabel: t("Home.HomeTabs.tabTransfer") }}
       />
-      <Tab.Screen name="Cards" component={AllInCardStack} options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }} />
+      <Tab.Screen
+        name="Cards"
+        component={DashboardScreen}
+        options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }}
+        listeners={{
+          tabPress: e => {
+            //TODO : we need to have logic here( in next build cycle) to check if user already has All in one card or not. if not navigate to Apply card journey.below is just dummy logic
+            if (userId === "1000001102") {
+              navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.EntryPoint" });
+              e.preventDefault();
+            }
+          },
+        }}
+      />
       <Tab.Screen
         name="Support"
         component={HelpAndSupportStack}

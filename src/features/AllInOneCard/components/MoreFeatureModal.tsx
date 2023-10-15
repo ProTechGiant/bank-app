@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { FlatList, StyleSheet, View, ViewStyle } from "react-native";
+import { FlatList, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Modal, Typography } from "@/components";
 import Button from "@/components/Button";
@@ -19,6 +20,7 @@ interface MoreFeatureModalProps {
 export default function MoreFeatureModal({ isVisible, onClose, item }: MoreFeatureModalProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   const onApplyPress = () => {
     navigation.navigate("AllInOneCard.ChooseRedemptionMethod");
@@ -53,7 +55,11 @@ export default function MoreFeatureModal({ isVisible, onClose, item }: MoreFeatu
   );
 
   return (
-    <Modal visible={isVisible} closeHasBackground={true} padding={0} style={styles.container}>
+    <Modal
+      visible={isVisible}
+      closeHasBackground={true}
+      padding={0}
+      style={[styles.container, Platform.OS === "ios" && { paddingTop: insets.top }]}>
       <View style={styles.viewContainer}>
         <HeaderModal onClose={onClose} item={item} />
         <View style={containerViewStyle}>
