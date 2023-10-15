@@ -25,6 +25,13 @@ export interface AllInOneCardContextState {
   redeemptionMethodId?: string;
 }
 
+export interface TransactionItem {
+  Title: string;
+  Date: string;
+  Amount: string;
+  Status: string;
+  PaymentType: string;
+}
 interface Benefit {
   icon: JSX.Element;
   description: string;

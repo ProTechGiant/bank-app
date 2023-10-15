@@ -139,4 +139,35 @@ export const rewardsMethods = [
   },
 ];
 
+export const mockTransactions = [
+  {
+    Title: "Starbucks",
+    Date: "10-03-2023 | 20:45",
+    Amount: "-100.00",
+    Status: "SUCCESS",
+    PaymentType: "Cashback: 2 SAR",
+  },
+  {
+    Title: "Zara",
+    Date: "10-03-2023 | 20:45",
+    Amount: "-530.00",
+    Status: "SUCCESS",
+    PaymentType: "Card Deposit",
+  },
+  // {
+  //   Title: "Regular payment",
+  //   Date: "10-03-2023 | 20:45",
+  //   Amount: "+120.00 SAR",
+  //   Status: "FAILED",
+  //   PaymentType: "Transfer",
+  // },
+  {
+    Title: "Aldrees",
+    Date: "10-03-2023 | 20:45",
+    Amount: "-200.00",
+    Status: "FAILED",
+    PaymentType: "Cashback: 10 SAR",
+  },
+];
+
 export const cardType = "neraPlus";

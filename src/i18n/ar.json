@@ -3491,6 +3491,22 @@
         "CancelButton": "الغاء طلب البطاقة"
       }
     },
+    "Dashboard": {
+      "title": "All in One",
+      "totalBalance": "الرصيد الكلي",
+      "actionAddMoney": "اضافة رصيد",
+      "actionRefund": "استرداد",
+      "actionFreeze": "تجميد",
+      "addToAppleWallet": "اضافة الي محفظة ابل",
+      "feed": "الموجز",
+      "currencies": "العملات ",
+      "benefits": "الفوائد",
+      "rewards": "الاسترداد",
+      "transaction": "الحركات",
+      "viewAll": "اظهار الكل ",
+      "sar": "ر.س",
+      "activateCard": "تفعيل البطاقة"
+    },
     "SelectPaymentOptionScreen": {
       "title": "خيارات الدفع",
       "description": "احصل على بطاقة nera Plus الخاصة بك مع الدفع المرن.",

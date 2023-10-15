@@ -3603,6 +3603,22 @@
         "CancelButton": "Cancel card request"
       }
     },
+    "Dashboard": {
+      "title": "All in One",
+      "totalBalance": "Total Balance",
+      "actionAddMoney": "Add Money",
+      "actionRefund": "Refund",
+      "actionFreeze": "Freeze",
+      "addToAppleWallet": "Add to Apple Wallet",
+      "feed": "Feed",
+      "currencies": "Currencies",
+      "benefits": "Benefits",
+      "rewards": "Rewards",
+      "transaction": "Transactions",
+      "viewAll": "View All",
+      "sar": "SAR",
+      "activateCard": "Activate card"
+    },
     "SelectPaymentOptionScreen": {
       "title": " Payment Option",
       "description": " Get your nera Plus card with flexible payment",

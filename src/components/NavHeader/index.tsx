@@ -29,6 +29,7 @@ export interface NavHeaderProps {
   backgroundAngledColor?: string;
   backgroundBottomStyle?: ViewStyle;
   showStatusBar?: boolean;
+  backgroundColor?: string;
 }
 
 const NavHeader = ({
@@ -44,6 +45,7 @@ const NavHeader = ({
   backgroundAngledColor,
   backgroundBottomStyle,
   showStatusBar = true,
+  backgroundColor,
 }: NavHeaderProps) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -95,12 +97,12 @@ const NavHeader = ({
 
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: variant === "angled" ? backgroundAngledColorFinal : undefined,
+      backgroundColor: variant === "angled" ? backgroundAngledColorFinal : backgroundColor,
       paddingHorizontal: theme.spacing["20p"],
       paddingBottom: theme.spacing["16p"],
       paddingTop: theme.spacing["12p"] + getStatusBarHeight() + (variant === "angled" ? insets.top : 0),
     }),
-    [backgroundAngledColorFinal, variant]
+    [backgroundAngledColorFinal, backgroundColor, variant]
   );
 
   const backgroundBottomStyleDefault = useThemeStyles<ViewStyle>(theme => ({

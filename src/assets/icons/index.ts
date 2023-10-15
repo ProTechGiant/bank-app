@@ -51,6 +51,8 @@ export * from "./EditIcon";
 export * from "./Email";
 export * from "./EmailIcon";
 export * from "./ErrorFilledCircleIcon";
+export * from "./EyeHideIcon";
+export * from "./EyeShowIcon";
 export * from "./FaceIdIcon";
 export * from "./FilledCircleTickIcon";
 export * from "./FilledRefreshIcon";
