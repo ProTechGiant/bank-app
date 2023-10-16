@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "@env";
 import truncate from "lodash/truncate";
 import queryString from "query-string";
-import DeviceInfo from "react-native-device-info";
+import { getDeviceName } from "react-native-device-info";
 
 import { info, warn } from "@/logger";
 import { getUniqueDeviceId } from "@/utils";
@@ -15,6 +15,9 @@ let authenticationHeaders: Headers = {};
 export function setAuthenticationHeaders(value: Headers) {
   authenticationHeaders = value;
 }
+
+let memoizedDeviceId: string;
+let memoizedDeviceName: string;
 
 export default async function sendApiRequest<TResponse = unknown, TError = ResponseError>(
   version: string,
@@ -32,18 +35,27 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
   if (undefined !== body && typeof body === "object") {
     headers["Content-Type"] = "application/json";
   }
-  const deviceId = (await getUniqueDeviceId()) || "";
-  const deviceName = (await DeviceInfo.getDeviceName()) || "";
 
-  info("api", `Starting request for ${method} ${fetchUrl} with body: ${JSON.stringify(body)}`);
+  // eslint-disable-next-line prettier/prettier
+  const deviceId = memoizedDeviceId !== undefined
+    ? memoizedDeviceId
+    : (memoizedDeviceId = await getUniqueDeviceId());
+  // eslint-disable-next-line prettier/prettier
+  const deviceName = memoizedDeviceName !== undefined
+    ? memoizedDeviceName
+    : (memoizedDeviceName = await getDeviceName());
+
+  if (!__DEV) {
+    info("api", `Starting request for ${method} ${fetchUrl} with body: ${JSON.stringify(body)}`);
+  }
 
   const response = await fetch(fetchUrl, {
     body: undefined !== body ? (typeof body === "object" ? JSON.stringify(body) : body) : undefined,
     method,
     headers: {
       Host: API_BASE_URL,
-      ["x-device-id"]: deviceId,
-      ["x-device-name"]: deviceName,
+      ["X-Device-Id"]: deviceId,
+      ["X-Device-Name"]: deviceName,
       ...authenticationHeaders,
       ...headers,
     },
@@ -55,15 +67,57 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     const isJsonResponse = response.headers.get("content-type")?.toLowerCase().includes("application/json") ?? false;
     content = isJsonResponse ? await response.json() : await response.text();
   } catch (error) {
-    warn("api", `${method} ${fetchUrl}: Could not parse response content: ${(error as Error).message}`);
+    if (!__DEV) {
+      warn("api", `${method} ${fetchUrl}: Could not parse response content: ${(error as Error).message}`);
+    }
+
+    logGroup(false, { method, fetchUrl, error, path: `${version}/${path}` }, true);
   }
 
+  logGroup(response.status < 400, {
+    method,
+    fetchUrl,
+    body,
+    headers,
+    authenticationHeaders,
+    response,
+    error: content,
+    path: `${version}/${path}`,
+  });
+
   if (response.status >= 400) {
-    warn("api", `Received ${response.status} for ${fetchUrl}: `, JSON.stringify(content));
+    if (!__DEV) {
+      warn("api", `Received ${response.status} for ${fetchUrl}: `, JSON.stringify(content));
+    }
+
     throw new ApiError<TError>(response.statusText, response.status, content as TError);
   }
 
-  info("api", `Received content for ${method} ${fetchUrl}: `, truncate(JSON.stringify(content), { length: 100 }));
+  if (!__DEV) {
+    info("api", `Received content for ${method} ${fetchUrl}: `, truncate(JSON.stringify(content), { length: 100 }));
+  }
 
   return content as TResponse;
+}
+
+function logGroup(isSuccess: boolean, properties: any, isParseError?: boolean) {
+  const { method, fetchUrl, body, headers, authenticationHeaders, error, response, path } = properties;
+
+  if (isParseError) {
+    console.log(
+      `%c Failure `,
+      `background: red; color: white;`,
+      `${fetchUrl}: Could not parse response content: ${(error as Error).message}`
+    );
+    return;
+  }
+
+  console.group(
+    `%c ${isSuccess ? "Success " : "Failure "}`,
+    `background: ${isSuccess ? "green" : "red"}; color: white;`,
+    `${path}`
+  );
+  console.log("REQUEST", { method, fetchUrl, body, headers, authenticationHeaders });
+  console.log("RESPONSE", isSuccess ? response : { statusText: response.statusText, status: response.status, error });
+  console.groupEnd();
 }
