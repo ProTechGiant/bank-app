@@ -2131,7 +2131,8 @@
       "internationalPayment": {
         "label": "International payments",
         "helperText": "Allow payments outside Saudi Arabia with your card.",
-        "toast": "International payments is enabled"
+        "enableToast": "International payments is enabled",
+        "disableToast": "International payments is disabled"
       },
       "subTitle2": "Transaction limit",
       "posTransactionLimit": "POS transaction limit",

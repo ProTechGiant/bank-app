@@ -53,7 +53,11 @@ export default function CardSettingsScreen() {
     if (status === "success" && "ResetPinMessage" in payload) {
       addToast({ variant: "confirm", message: t("CardActions.CardSettingsScreen.toast") });
     } else if (status === "success" && "SettingsMessage" in payload) {
-      addToast({ variant: "confirm", message: t("CardActions.CardSettingsScreen.internationalPayment.toast") });
+      addToast({
+        variant: "success",
+        message: t("CardActions.CardSettingsScreen.internationalPayment.enableToast"),
+        position: "bottom",
+      });
     } else if (status === "fail") {
       delayTransition(() => setIsErrorModalVisible(true));
     } else if (status === "success") {
@@ -182,6 +186,12 @@ export default function CardSettingsScreen() {
               settings.refetch();
             }
           },
+        });
+      } else if (setting === "InternationalPayments") {
+        addToast({
+          variant: "success",
+          message: t("CardActions.CardSettingsScreen.internationalPayment.disableToast"),
+          position: "bottom",
         });
       }
     } catch (error) {
