@@ -156,7 +156,7 @@ export default function HomeScreen() {
     setSelectedCardStatus(cardStatus);
   };
 
-  const handleOnUnFreezeCardPress = () => (cardId: string, cardStatus: CardStatus) => {
+  const handleOnUnFreezeCardPress = (cardId: string, cardStatus: CardStatus) => {
     setIsUnlockConfirmModalVisible(true);
     setSelectedCardId(cardId);
     setSelectedCardStatus(cardStatus);
