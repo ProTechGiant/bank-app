@@ -289,15 +289,24 @@ interface RenewCardResponse {
 }
 
 export function useSubmitRenewCard() {
-  return useMutation(async ({ values }: { values: RenewCardInput }) => {
-    const correlationId = generateRandomId();
+  const queryClient = useQueryClient();
+  return useMutation(
+    async ({ values }: { values: RenewCardInput }) => {
+      const correlationId = generateRandomId();
 
-    const response = await api<RenewCardResponse>("v1", "cards/renew", "POST", undefined, values, {
-      ["x-correlation-id"]: correlationId,
-    });
+      const response = await api<RenewCardResponse>("v1", "cards/renew", "POST", undefined, values, {
+        ["x-correlation-id"]: correlationId,
+      });
 
-    return { ...response, correlationId };
-  });
+      return { ...response, correlationId };
+    },
+
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries(queryKeys.all());
+      },
+    }
+  );
 }
 
 export function useVerificationCardStatus(cardId: string, INTERVAL: number) {

@@ -20,6 +20,7 @@ export default function SelectStandardCard({
 }: SelectStandardCardProps) {
   const bottomButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["24p"],
+    marginBottom: theme.spacing["8p"],
     alignSelf: "stretch",
   }));
 

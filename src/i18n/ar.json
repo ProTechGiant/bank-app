@@ -2064,7 +2064,7 @@
       }
     },
     "CardDetailsScreen": {
-      "navTitleStandard": "Standard card",
+      "navTitleStandard": "بطاقة",
       "navTitlePlus": "Plus card",
       "navTitleSingleUse": "One-time card",
       "inactiveCard": {

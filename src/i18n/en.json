@@ -2176,7 +2176,7 @@
       }
     },
     "CardDetailsScreen": {
-      "navTitleStandard": "Standard card",
+      "navTitleStandard": "Cards",
       "navTitlePlus": "Plus card",
       "navTitleSingleUse": "One-time card",
       "inactiveCard": {
