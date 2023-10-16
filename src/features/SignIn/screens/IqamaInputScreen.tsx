@@ -6,12 +6,14 @@ import ApiError from "@/api/ApiError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
-import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { MobileAndNationalIdForm } from "../components";
 import { useSignInContext } from "../contexts/SignInContext";
@@ -26,6 +28,7 @@ export default function IqamaInputScreen() {
   const { errorMessages } = useErrorMessages(iqamaError);
   const { setSignInCorrelationId } = useSignInContext();
   const [notMatchRecord, setNotMatchRecord] = useState(false);
+  const [comingFromTPP, setComingFromTPP] = useState<string | null>(null);
 
   useEffect(() => {
     const _correlationId = generateRandomId();
@@ -42,6 +45,29 @@ export default function IqamaInputScreen() {
       reset();
     }
   }, [iqamaError, reset]);
+
+  const auth = useAuthContext();
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
+
+  const handleGetAuthenticationToken = async () => {
+    const res = await getAuthenticationToken();
+    if (typeof res?.AccessToken === "string") {
+      setItemInEncryptedStorage("authToken", res.AccessToken);
+      auth.authenticateAnonymously(auth.userId as string, res.AccessToken);
+    }
+  };
+
+  useEffect(() => {
+    async function checkTPPService() {
+      const comingFromTPP = await getItemFromEncryptedStorage("COMING_FROM_TPP");
+      setComingFromTPP(comingFromTPP);
+      if (comingFromTPP) {
+        handleGetAuthenticationToken();
+      }
+    }
+
+    checkTPPService();
+  }, [navigation, comingFromTPP]);
 
   const handleOnSignUp = () => {
     navigation.navigate("Onboarding.Iqama");
@@ -78,7 +104,7 @@ export default function IqamaInputScreen() {
     <Page backgroundColor="neutralBase-60">
       <KeyboardAvoidingView behavior="height" style={styles.component}>
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.contentContainer}>
-          <NavHeader withBackButton={true} />
+          <NavHeader withBackButton={!comingFromTPP} />
           <MobileAndNationalIdForm
             onSubmit={handleOnSubmit}
             errorMessages={errorMessages}
@@ -88,16 +114,18 @@ export default function IqamaInputScreen() {
             subTitle={t("SignIn.IqamaInputScreen.subTitle")}
             buttonText={t("SignIn.IqamaInputScreen.continue")}
           />
-          <View style={accountSignInStyle}>
-            <Typography.Text size="footnote" weight="regular">
-              {t("SignIn.IqamaInputScreen.subtext")}
-            </Typography.Text>
-            <Pressable onPress={handleOnSignUp}>
-              <Typography.Text style={styles.signIn} size="footnote" weight="medium" color="primaryBase-30">
-                {t("SignIn.IqamaInputScreen.signUp")}
+          {!comingFromTPP ? (
+            <View style={accountSignInStyle}>
+              <Typography.Text size="footnote" weight="regular">
+                {t("SignIn.IqamaInputScreen.subtext")}
               </Typography.Text>
-            </Pressable>
-          </View>
+              <Pressable onPress={handleOnSignUp}>
+                <Typography.Text style={styles.signIn} size="footnote" weight="medium" color="primaryBase-30">
+                  {t("SignIn.IqamaInputScreen.signUp")}
+                </Typography.Text>
+              </Pressable>
+            </View>
+          ) : null}
         </ScrollView>
       </KeyboardAvoidingView>
     </Page>

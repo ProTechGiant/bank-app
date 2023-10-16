@@ -17,7 +17,11 @@ import { warn } from "@/logger";
 import { mockRemoteMessageDocuments } from "@/mocks/remoteNotificationData";
 import useNavigation from "@/navigation/use-navigation";
 import { generateRandomId } from "@/utils";
-import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
+import {
+  getItemFromEncryptedStorage,
+  removeItemFromEncryptedStorage,
+  setItemInEncryptedStorage,
+} from "@/utils/encrypted-storage";
 
 import useNotificationHandler from "../../hooks/use-notification-handler";
 import useSavingsGoalNumber from "./use-savings-goal-number";
@@ -162,9 +166,22 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnOpenOnboarding = (values: TemporaryForm) => {
+    // TODO this is to handle TPP service , to be removed until it finished
+    removeItemFromEncryptedStorage("COMING_FROM_TPP");
+
     auth.authenticateAnonymously(values.UserId, auth.authToken);
     navigation.navigate("Onboarding.OnboardingStack", {
       screen: "Onboarding.AppIntroAnimation",
+    });
+  };
+
+  const handleOnOpenBanking = (values: TemporaryForm) => {
+    // TODO this is to handle TPP service
+    setItemInEncryptedStorage("COMING_FROM_TPP", "true");
+
+    auth.authenticateAnonymously(values.UserId, auth.authToken);
+    navigation.navigate("SignIn.SignInStack", {
+      screen: "SignIn.Iqama",
     });
   };
 
@@ -182,15 +199,6 @@ export default function TemporaryLandingScreen() {
     setImmediate(() => {
       navigation.navigate("ProxyAlias.ProxyAliasStack", {
         screen: "ProxyAlias.AliasManagementScreen",
-      });
-    });
-  };
-
-  const handleOnOpenBanking = async (values: TemporaryForm) => {
-    auth.authenticate(values.UserId);
-    setImmediate(() => {
-      navigation.navigate("OpenBanking.OpenBankingStack", {
-        screen: "OpenBanking.OpenBankingScreen",
       });
     });
   };
@@ -331,6 +339,11 @@ export default function TemporaryLandingScreen() {
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnOpenOnboarding)} testID="TemporaryLandingScreen:OnboardingButton">
             Onboarding
+          </Button>
+        </View>
+        <View style={styles.margin20}>
+          <Button onPress={handleSubmit(handleOnOpenBanking)} testID="TemporaryLandingScreen:OnboardingButton">
+            OpenBanking
           </Button>
         </View>
         <View style={styles.margin20}>

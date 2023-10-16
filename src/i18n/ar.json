@@ -310,6 +310,17 @@
       }
     }
   },
+  "OpenBanking": {
+    "OpenBankingScreen": {
+      "serviceProvider": "مقدم الخدمة",
+      "chooseAccpunts": "اختر الحسابات والبطاقات",
+      "chooseYourAccount": "اختر حساباتك التي تريد مشاركتها مع TPP:"
+    },
+    "LinkedSuccessfullyScreen": {
+      "accountLinkedSuccessfully": "تم ربط الحساب بنجاح",
+      "validityOfLink": "تمت الموافقة بنجاح على صلاحية الرابط المباشر والخدمات المصرفية المفتوحة لكرواتيا مع مقدمي الخدمات"
+    }
+  },
   "ProxyAlias": {
     "AliasManagementScreen": {
       "Confirmation": "Confirmation",

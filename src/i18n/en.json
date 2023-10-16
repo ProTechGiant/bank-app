@@ -309,6 +309,17 @@
       }
     }
   },
+  "OpenBanking": {
+    "OpenBankingScreen": {
+      "serviceProvider": "Service provider",
+      "chooseAccpunts": "Choose accounts & cards",
+      "chooseYourAccount": "Choose your accounts that you want to share with TPP:"
+    },
+    "LinkedSuccessfullyScreen": {
+      "accountLinkedSuccessfully": "Account linked successfully",
+      "validityOfLink": "The validity of the direct link & open banking of Croatia has been successfully approved \n with serviceproviders"
+    }
+  },
   "ProxyAlias": {
     "AliasManagementScreen": {
       "Confirmation": "Confirmation",

@@ -57,6 +57,8 @@ export default function PasscodeScreen() {
   const { setSignInCorrelationId } = useSignInContext();
   const blockedUserFlow = useBlockedUserFlow();
 
+  const [comingFromTPP, setComingFromTPP] = useState<string | null>(null);
+
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState<boolean>(false);
   const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
   useEffect(() => {
@@ -96,10 +98,23 @@ export default function PasscodeScreen() {
     }
   }, [isFocused]);
 
+  useEffect(() => {
+    async function checkTPPService() {
+      const comingFromTPP = await getItemFromEncryptedStorage("COMING_FROM_TPP");
+      setComingFromTPP(comingFromTPP);
+    }
+
+    checkTPPService();
+  }, [navigation]);
+
   const handleCheckUserDevice = async () => {
     if (tempUser) {
       if (tempUser.DeviceId !== (await getUniqueDeviceId())) {
-        setShowSignInModal(true);
+        if (comingFromTPP) {
+          handleUserLogin(true);
+        } else {
+          setShowSignInModal(true);
+        }
       } else {
         handleUserLogin(false);
       }
@@ -167,7 +182,17 @@ export default function PasscodeScreen() {
   const handleOtpVerification = async (accessToken: string) => {
     storeUserToLocalStorage();
     setPasscode("");
-    navigateToHome(accessToken);
+
+    if (comingFromTPP) {
+      auth.authenticate(auth.userId ?? "", accessToken);
+      setImmediate(() => {
+        navigation.navigate("OpenBanking.OpenBankingStack", {
+          screen: "OpenBanking.OpenBankingScreen",
+        });
+      });
+    } else {
+      navigateToHome(accessToken);
+    }
   };
 
   const handleNavigate = (accessToken: string) => {
@@ -252,16 +277,18 @@ export default function PasscodeScreen() {
           passcode={passCode}
           setPasscode={setPasscode}
         />
-        <Pressable style={forgotPasscodeTextStyle} onPress={() => navigation.navigate("SignIn.ForgotPassword")}>
-          <Typography.Text
-            color="primaryBase-30"
-            align="center"
-            weight="medium"
-            size="footnote"
-            style={styles.underline}>
-            {t("SignIn.PasscodeScreen.forgotPassword")}
-          </Typography.Text>
-        </Pressable>
+        {!comingFromTPP ? (
+          <Pressable style={forgotPasscodeTextStyle} onPress={() => navigation.navigate("SignIn.ForgotPassword")}>
+            <Typography.Text
+              color="primaryBase-30"
+              align="center"
+              weight="medium"
+              size="footnote"
+              style={styles.underline}>
+              {t("SignIn.PasscodeScreen.forgotPassword")}
+            </Typography.Text>
+          </Pressable>
+        ) : null}
       </View>
       {user ? (
         <Pressable style={signOutTextStyle} onPress={() => setIsSignOutModalVisible(true)}>
@@ -290,7 +317,7 @@ export default function PasscodeScreen() {
           ),
         }}
       />
-      {isLoadingLoginApi && <LoadingIndicatorModal />}
+      {isLoadingLoginApi && !comingFromTPP ? <LoadingIndicatorModal /> : null}
     </Page>
   );
 }
