@@ -5,10 +5,13 @@ import { InfoCircleIcon, TopUpIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import Chip from "@/components/Chip";
 
-import { PORTFOLIO_CHART_DATA } from "../mocks/mockData";
+import { lineDetails } from "../types";
 import MutualFundCustomChart from "./MutualFundCustomChart";
 
-export default function PortfolioDetailsHeaderContent() {
+interface PortfolioDetailsHeaderContentProps {
+  portfolioChartLine: lineDetails;
+}
+export default function PortfolioDetailsHeaderContent({ portfolioChartLine }: PortfolioDetailsHeaderContentProps) {
   const { t } = useTranslation();
   const [selectedDuration, setSelectedDuration] = useState("");
   const durationArray = ["1D", "7D", "1M", "3M", "6M", "1Y"];
@@ -70,7 +73,7 @@ export default function PortfolioDetailsHeaderContent() {
           gridStrokeColor="#F2F2F2"
           chartBorderColor="#00334C"
           chartBackgroundColor="#00334C"
-          mutualFundCustomChartList={PORTFOLIO_CHART_DATA}
+          mutualFundCustomChartList={[portfolioChartLine]}
         />
       </Stack>
     </Stack>

@@ -14,6 +14,7 @@ import { useThemeStyles } from "@/theme";
 import { HeaderContent, MutualFundCustomChart, MutualFundDashboardHeaderContent } from "../components";
 //TODO: This data will be repalced with data from API
 import { CHART_DATA } from "../mocks/chartData";
+import { lineDetails } from "../types";
 
 export default function MutualFundDashboardScreen() {
   const { t } = useTranslation();
@@ -22,8 +23,8 @@ export default function MutualFundDashboardScreen() {
   const [selectedDuration, setSelectedDuration] = useState("");
   const durationArray = ["1D", "7D", "1M", "3M", "6M", "1Y"];
 
-  const handleOnPressPortfolio = (portfolioName: string) => {
-    navigation.navigate("MutualFund.PortfolioDetails", { portfolioName: portfolioName });
+  const handleOnPressPortfolio = (PortfolioDetails: lineDetails) => {
+    navigation.navigate("MutualFund.PortfolioDetails", { portfolioChartLine: PortfolioDetails });
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -80,7 +81,7 @@ export default function MutualFundDashboardScreen() {
                   <Pressable
                     key={portfolio.name}
                     onPress={() => {
-                      handleOnPressPortfolio(portfolio.name);
+                      handleOnPressPortfolio(portfolio);
                     }}>
                     <Stack direction="horizontal" justify="space-between" align="center">
                       <Stack direction="horizontal" gap="8p">

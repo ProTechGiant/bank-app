@@ -56,9 +56,9 @@ export default function PortfolioDetailsScreen() {
     <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
       <Animated.View style={[styles.animatedHeader, { height: headerScrollHeight }]}>
         <HeaderContent
-          headerTitle={ENTRY_POINT.numberOfProtfolios === 1 ? "Portfolio" : params.portfolioName}
+          headerTitle={ENTRY_POINT.numberOfProtfolios === 1 ? "Portfolio" : params.portfolioChartLine.name}
           showInfoIndicator={true}>
-          <PortfolioDetailsHeaderContent />
+          <PortfolioDetailsHeaderContent portfolioChartLine={params.portfolioChartLine} />
         </HeaderContent>
         <View style={titleContainerStyle}>
           <Typography.Text size="title2" weight="medium">

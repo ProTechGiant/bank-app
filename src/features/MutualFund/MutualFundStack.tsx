@@ -12,6 +12,7 @@ import {
   SubscriptionScreen,
   TermsAndConditionsScreen,
 } from "./screens";
+import { lineDetails } from "./types";
 
 export const Stack = createNativeStackNavigator();
 
@@ -22,7 +23,7 @@ export type MutualFundStackParams = {
   "MutualFund.Subscription": undefined;
   "MutualFund.TermsAndConditions": undefined;
   "MutualFund.PortfolioDetails": {
-    portfolioName: string;
+    portfolioChartLine: lineDetails;
   };
   "MutualFund.MutualFundDetailsScreen": undefined;
   "MutualFund.MutualFundOrderSummaryScreen": undefined;

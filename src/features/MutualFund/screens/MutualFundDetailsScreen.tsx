@@ -18,7 +18,7 @@ export default function MutualFundDetailsScreen() {
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
       <View style={headerContainerStyle}>
-        <HeaderContent headerTitle="Mutual Fund Details" showInfoIndicator={false}>
+        <HeaderContent headerTitle="Mutual Fund Details" showInfoIndicator={true}>
           <Stack direction="vertical" gap="24p">
             <Typography.Text color="neutralBase-60">TODO: this content just for test</Typography.Text>
             <MutualFundDashboardHeaderContent />

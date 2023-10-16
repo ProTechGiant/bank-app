@@ -8,17 +8,56 @@ import { Modal, Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import { useToasts } from "@/contexts/ToastsContext";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import { warn } from "@/logger";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { MutualFundOrderDetailsTable } from "../components";
+import { useMutualFundOTP } from "../hooks/query-hooks";
 import { riskConsentText } from "../mocks/riskConsentText";
 
 export default function MutualFundOrderSummaryScreen() {
   const { t } = useTranslation();
+  const addToast = useToasts();
+  const navigation = useNavigation();
+  const otpFlow = useOtpFlow();
+  const { mutateAsync: sendMutualFundOTP } = useMutualFundOTP();
+
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const handleOnPressCloseIcon = () => {
     //TODO: Navigate to specific screen
+  };
+
+  const handleOnAgreePress = () => {
+    try {
+      otpFlow.handle({
+        action: {
+          to: "MutualFund.MutualFundOrderSummaryScreen",
+        },
+        otpVerifyMethod: "mutual-fund/otp-validation",
+        // TODO: Add otpOptionalParams when api finished from BE team
+        otpOptionalParams: {},
+        onOtpRequest: () => {
+          return sendMutualFundOTP();
+        },
+        onFinish: async status => {
+          if (status === "success") {
+            navigation.navigate("MutualFund.MutualFundSuccessfulSubscription");
+          }
+          if (status === "fail") {
+            addToast({
+              variant: "warning",
+              message: t("MutualFund.MutualFundOrderSummaryScreen.subscriptionFailed"),
+            });
+          }
+        },
+      });
+    } catch (error) {
+      warn("Mutual Fund", "error subscribing to Mutual Fund", JSON.stringify(error));
+    }
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({ padding: theme.spacing["20p"] }));
@@ -68,10 +107,7 @@ export default function MutualFundOrderSummaryScreen() {
         <Stack direction="vertical" align="stretch" gap="64p">
           <Typography.Text color="neutralBase+10">{riskConsentText}</Typography.Text>
           <Stack direction="vertical" align="stretch">
-            <Button
-              onPress={() => {
-                //TODO: Navigate to OTP Subscription flow
-              }}>
+            <Button onPress={handleOnAgreePress}>
               {t("MutualFund.MutualFundOrderSummaryScreen.RiskConsentModal.AgreeButton")}
             </Button>
             <Button

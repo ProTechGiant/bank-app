@@ -1,19 +1,3 @@
-export const PORTFOLIO_CHART_DATA = [
-  {
-    name: "Portfolio 1",
-    color: "#FEB24F",
-    data: [
-      { x: 1, y: 5 },
-      { x: 2, y: 12 },
-      { x: 3, y: 20 },
-      { x: 4, y: 15 },
-      { x: 5, y: 28 },
-      { x: 6, y: 10 },
-      { x: 7, y: 25 },
-    ],
-  },
-];
-
 export const Details_Data = [
   {
     title: "ARB growth fund",

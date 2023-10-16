@@ -3647,7 +3647,8 @@
       "headerTitle": "Order summary",
       "headerDescription": "You’ve selected to buy the following subscription of mutual fund",
       "button": "Confirm",
-      "RiskConsentModal": { "AgreeButton": "I agree", "CancelButton": "Cancel" }
+      "RiskConsentModal": { "AgreeButton": "I agree", "CancelButton": "Cancel" },
+      "subscriptionFailed": "Subscription to MutualFund failed"
     },
     "MutualFundOrderDetailsScreen": {
       "headerTitle": "Order Details",

@@ -38,7 +38,8 @@ export type OtpVerifyMethodType =
   | "register-email"
   | "link-proxy-alias"
   | "optout-proxy-alias"
-  | "goals/submit";
+  | "goals/submit"
+  | "mutual-fund/otp-validation";
 
 export interface OtpRequiredResponse {
   OtpId: string;
