@@ -3035,7 +3035,7 @@
       "reportFraudButton": "Report Fraud",
       "ErrorModal": {
         "title": "Submit dispute failed",
-        "message": "The dispute was not successfully submitted",
+        "message": "There's been a problem with your submission- Please try again",
         "primaryButtonText": "OK"
       }
     },

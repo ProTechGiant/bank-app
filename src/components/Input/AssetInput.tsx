@@ -93,7 +93,7 @@ export function AssetInput({ errorText, onBlur, onChange, value, progressPercent
   const deleteIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-30"],
+    backgroundColor: theme.palette["neutralBase-50"],
     borderRadius: theme.radii.small,
     padding: theme.spacing["20p"],
   }));
@@ -111,6 +111,10 @@ export function AssetInput({ errorText, onBlur, onChange, value, progressPercent
   }));
 
   const fileName = (value as Asset)?.fileName ?? (value as DocumentPickerResponse)?.name;
+  const truncatedFileName = truncate(fileName || "", { length: 22 });
+  const resultFileName = value?.type
+    ? truncatedFileName.replace(/\.(pdf|jpg|jpeg)$/, "") + `.${value.type}`
+    : truncatedFileName;
 
   return (
     <>
@@ -119,9 +123,7 @@ export function AssetInput({ errorText, onBlur, onChange, value, progressPercent
           <View style={contentStyle}>
             <Pressable onPress={() => (progressPercent ? undefined : handleOnPress())} style={styles.label}>
               <Typography.Text color="neutralBase+30" weight="semiBold" numberOfLines={2} size="callout">
-                {progressPercent
-                  ? `${progressPercent.toFixed(0)}% complete`
-                  : truncate(fileName || "", { length: 22 }) + (value.type ? `.${value.type}` : "")}
+                {progressPercent ? `${progressPercent.toFixed(0)}% complete` : resultFileName}
               </Typography.Text>
             </Pressable>
             {progressPercent ? (

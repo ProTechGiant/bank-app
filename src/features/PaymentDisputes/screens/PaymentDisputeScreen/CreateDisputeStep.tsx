@@ -220,14 +220,18 @@ export default function CreateDisputeStep({
         type: "",
         uri: "",
       };
+      const acceptedTypes = ["jpg", "pdf"];
+      const isDocument = !!data.name;
       const assetType = data.type?.includes("pdf")
         ? "pdf"
         : data.type?.includes("jpg") || data.type?.includes("jpeg")
         ? "jpg"
-        : undefined;
+        : data.type.split("/")[1];
 
-      if (!assetType) {
+      if (!acceptedTypes.includes(assetType)) {
+        // Just showing inValid filename & its type with the error message
         setFilePickerError(t("PaymentDisputes.CreateDisputeModal.file.wrongFile"));
+        setFileData({ type: assetType, name: data[isDocument ? "name" : "fileName"] });
         return;
       }
 
@@ -240,7 +244,6 @@ export default function CreateDisputeStep({
         setFilePickerError(t("PaymentDisputes.CreateDisputeModal.file.fileTooBig", { maxFileSize: MAX_FILE_SIZE_MB }));
         return;
       } else {
-        // Happy case
         handleAssetUpload(assetInfo);
         setFileData(assetInfo);
       }
