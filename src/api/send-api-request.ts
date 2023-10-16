@@ -36,16 +36,12 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     headers["Content-Type"] = "application/json";
   }
 
-  // eslint-disable-next-line prettier/prettier
-  const deviceId = memoizedDeviceId !== undefined
-    ? memoizedDeviceId
-    : (memoizedDeviceId = await getUniqueDeviceId());
-  // eslint-disable-next-line prettier/prettier
-  const deviceName = memoizedDeviceName !== undefined
-    ? memoizedDeviceName
-    : (memoizedDeviceName = await getDeviceName());
+  const deviceId = memoizedDeviceId !== undefined ? memoizedDeviceId : (memoizedDeviceId = await getUniqueDeviceId());
 
-  if (!__DEV) {
+  const deviceName =
+    memoizedDeviceName !== undefined ? memoizedDeviceName : (memoizedDeviceName = await getDeviceName());
+
+  if (__DEV__) {
     info("api", `Starting request for ${method} ${fetchUrl} with body: ${JSON.stringify(body)}`);
   }
 
@@ -67,7 +63,7 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     const isJsonResponse = response.headers.get("content-type")?.toLowerCase().includes("application/json") ?? false;
     content = isJsonResponse ? await response.json() : await response.text();
   } catch (error) {
-    if (!__DEV) {
+    if (__DEV__) {
       warn("api", `${method} ${fetchUrl}: Could not parse response content: ${(error as Error).message}`);
     }
 
@@ -80,20 +76,20 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     body,
     headers,
     authenticationHeaders,
-    response,
+    response: content,
     error: content,
     path: `${version}/${path}`,
   });
 
   if (response.status >= 400) {
-    if (!__DEV) {
+    if (__DEV__) {
       warn("api", `Received ${response.status} for ${fetchUrl}: `, JSON.stringify(content));
     }
 
     throw new ApiError<TError>(response.statusText, response.status, content as TError);
   }
 
-  if (!__DEV) {
+  if (__DEV__) {
     info("api", `Received content for ${method} ${fetchUrl}: `, truncate(JSON.stringify(content), { length: 100 }));
   }
 
