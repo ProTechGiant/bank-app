@@ -81,26 +81,34 @@ export default function HomeScreen() {
   };
 
   const otpValidation = async () => {
-    otpFlow.handle({
-      action: {
-        to: "CardActions.HomeScreen",
-      },
-      otpOptionalParams: {
-        CardId: selectedCardId,
-      },
-      otpVerifyMethod: "card-actions",
-      onOtpRequest: async () => {
-        return changeCardStatusAsync({ cardId: selectedCardId, status: "UNLOCK" });
-      },
-      onFinish: status => {
-        if (status === "fail") {
-          setShowErrorModal(true);
-        } else {
-          setIsUnLockedSuccess(true);
-          cardsQuery.refetch();
-        }
-      },
-    });
+    try {
+      await changeCardStatusAsync({ cardId: selectedCardId, status: "UNLOCK" });
+
+      otpFlow.handle({
+        action: {
+          to: "CardActions.HomeScreen",
+        },
+        otpOptionalParams: {
+          CardId: selectedCardId,
+        },
+        otpVerifyMethod: "card-actions",
+        onOtpRequest: async () => {
+          return changeCardStatusAsync({ cardId: selectedCardId, status: "UNLOCK" });
+        },
+        onFinish: status => {
+          if (status === "success") {
+            setIsUnLockedSuccess(true);
+            cardsQuery.refetch();
+          } else {
+            setShowErrorModal(true);
+          }
+        },
+      });
+    } catch (error) {
+      if (error instanceof ApiError && error.errorContent.Message.includes(ERROR_CARD_STATUS_WAIT_PERIOD)) {
+        delayTransition(() => setIsWaitPeriodModalVisible(true));
+      }
+    }
   };
 
   const handleOnErrorModalClose = () => {
