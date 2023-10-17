@@ -11,7 +11,7 @@ export function useErrorMessages(err: ApiError) {
   const getErrorMessages = (type: string) => {
     const messages: { [key: string]: ErrorMessageType } = {
       "0004": {
-        message: t("SignIn.IqamaInputScreen.errorText.somethingWentWrong"),
+        message: t("SignIn.IqamaInputScreen.errorText.userNotExist"),
         icon: <ErrorFilledCircleIcon />,
         variant: "error",
         link: "Sign In",

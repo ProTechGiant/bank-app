@@ -888,7 +888,8 @@
         "resetLimitExceeded": "Please be informed that passcode resets are limited to three times per day.",
         "resetLimitExceededTitle": "Reset Limit Exceeded",
         "regulatoryCheck": "Due to a regulatory check we can’t open an account for you right now ",
-        "somethingWentWrong": "Something went wrong, please try again."
+        "somethingWentWrong": "Something went wrong, please try again.",
+        "userNotExist":  "التفاصيل لا تتطابق مع سجلاتنا. تحقق بعناية وحاول مرة أخرى."
       },
       "navHeaderTitle": "SIGN IN",
       "title": "تسجيل الدخول على هذا الجهاز",

@@ -882,6 +882,7 @@
         "noAccount": "Those details don't match our records. Check carefully and try again.",
         "regulatoryCheck": "Due to a regulatory check we can’t open an account for you right now ",
         "somethingWentWrong": "Something went wrong, please try again.",
+        "userNotExist": "The details don't match our records. Check carefully and try again.",
         "somethingWentWrongModalTitle": "Oops! Error",
         "somethingWentWrongModalMessage": "Apologies for the inconvenience. try again later."
       },
