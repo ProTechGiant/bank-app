@@ -301,9 +301,6 @@ export default function TemporaryLandingScreen() {
           <Button onPress={handleSubmit(handleOnProxyAlias)}>Proxy Alias Landing</Button>
         </View>
         <View style={styles.margin20}>
-          <Button onPress={handleSubmit(handleOnOpenBanking)}>Open Banking</Button>
-        </View>
-        <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnTopSpendingInsights)}>Top Spending</Button>
         </View>
         <View style={styles.margin20}>

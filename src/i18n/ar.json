@@ -314,11 +314,22 @@
     "OpenBankingScreen": {
       "serviceProvider": "مقدم الخدمة",
       "chooseAccpunts": "اختر الحسابات والبطاقات",
-      "chooseYourAccount": "اختر حساباتك التي تريد مشاركتها مع TPP:"
+      "chooseYourAccount": "اختر حساباتك التي تريد مشاركتها مع TPP:",
+      "firstConnected": "تاريخ اول اتصال",
+      "connectionExpires": "تنتهي صلاحية الاتصال"
     },
     "LinkedSuccessfullyScreen": {
       "accountLinkedSuccessfully": "تم ربط الحساب بنجاح",
       "validityOfLink": "تمت الموافقة بنجاح على صلاحية الرابط المباشر والخدمات المصرفية المفتوحة لكرواتيا مع مقدمي الخدمات"
+    },
+    "AccountCard": {
+      "currentAccount": "الحساب الجاري",
+      "masterCard": "بطاقة ماستركارد",
+      "debitCard": "بطاقة ائتمان"
+    },
+    "buttons": {
+      "allow": "السماح",
+      "deny": "رفض"
     }
   },
   "ProxyAlias": {

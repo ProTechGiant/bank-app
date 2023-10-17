@@ -103,7 +103,6 @@ export default function PasscodeScreen() {
       const comingFromTPP = await getItemFromEncryptedStorage("COMING_FROM_TPP");
       setComingFromTPP(comingFromTPP);
     }
-
     checkTPPService();
   }, [navigation]);
 
@@ -141,7 +140,7 @@ export default function PasscodeScreen() {
     try {
       const response = await mutateAsync({ passCode, nationalId: tempUser ? tempUser.NationalId : user?.NationalId });
       if (response.AccessToken) {
-        if (isNewUser) {
+        if (isNewUser || comingFromTPP) {
           delayTransition(() => handleNavigate(response.AccessToken));
         } else {
           navigateToHome(response.AccessToken);
