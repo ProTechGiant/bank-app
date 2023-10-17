@@ -51,7 +51,7 @@ export default function MyCasesLandingScreen() {
 
   const visibleItems = useMemo(
     () =>
-      data?.DisputeCases.filter(element =>
+      data?.DisputeCases?.filter(element =>
         currentTab === "active" ? isCaseActive(element.CaseStatus) : !isCaseActive(element.CaseStatus)
       ),
     [data, currentTab]
@@ -83,9 +83,9 @@ export default function MyCasesLandingScreen() {
               </View>
             </View>
             <ContentContainer isScrollView style={contentContainerStyle}>
-              {visibleItems === undefined ? (
+              {isLoading ? (
                 <FlexActivityIndicator />
-              ) : visibleItems.length < 1 ? (
+              ) : visibleItems === undefined || visibleItems.length < 1 ? (
                 <View style={styles.empty}>
                   <Typography.Text color="neutralBase-20" size="title3" weight="medium">
                     {currentTab === "active"
