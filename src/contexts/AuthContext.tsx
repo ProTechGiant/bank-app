@@ -19,6 +19,7 @@ interface AuthContextProps {
   apiKey: string | undefined;
   phoneNumber: string | undefined;
   userId: string | undefined;
+  setUserId: (value: string) => void;
   authToken: string | undefined;
   setAuthToken: (value: string) => void;
   logout: (stillPersistTheRegisteredUser?: boolean) => void;
@@ -44,6 +45,7 @@ const AuthContext = createContext<AuthContextProps>({
   authToken: undefined,
   logout: () => noop,
   isUserLocked: false,
+  setUserId: () => noop,
   setAuthToken: noop,
   notificationsReadStatus: true,
   setNotificationsReadStatus: noop,
@@ -166,6 +168,10 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     setState({ ...state, authToken });
   };
 
+  const setUserId = (userId: string) => {
+    setState({ ...state, userId });
+  };
+
   const handleonNotificationRead = (status: boolean) => {
     setState({ ...state, notificationsReadStatus: status });
   };
@@ -182,6 +188,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       authenticateAnonymously: handleOnAuthenticateAnonymously,
       updatePhoneNumber: handleOnUpdatePhoneNumber,
       setAuthToken: setAuthToken,
+      setUserId: setUserId,
       setNotificationsReadStatus: handleonNotificationRead,
       updateNavigationTarget: updateNavigationTargetHandler,
     }),

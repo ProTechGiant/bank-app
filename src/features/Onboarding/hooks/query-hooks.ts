@@ -115,8 +115,15 @@ export function useConfirmPersonalDetails() {
 export function useNafathDetails() {
   const { i18n } = useTranslation();
 
-  const { fetchLatestWorkflowTask, setCustomerName, revertWorkflowTask, nationalId, transactionId, correlationId } =
-    useOnboardingContext();
+  const {
+    fetchLatestWorkflowTask,
+    setNationalId,
+    setCustomerName,
+    revertWorkflowTask,
+    nationalId,
+    transactionId,
+    correlationId,
+  } = useOnboardingContext();
   return useMutation(
     async () => {
       if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
@@ -151,6 +158,7 @@ export function useNafathDetails() {
       onSuccess(data: NafathDetails) {
         const customerName = i18n.language === "en" ? data.EnglishFirstName : data.ArabicFirstName;
         setCustomerName(customerName ?? "");
+        setNationalId(data.NationalId || "");
       },
     }
   );

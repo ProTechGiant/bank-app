@@ -42,6 +42,29 @@ export const generateRandomId = () => {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 };
 
+export const generateAutomaticUUID = () => {
+  const segmentLengths: number[] = [8, 4, 4, 4, 12];
+  const hexChars = "0123456789abcdef";
+
+  const randomHex = (length: number): string => {
+    let result = "";
+    for (let i = 0; i < length; i++) {
+      result += hexChars[Math.floor(Math.random() * 16)];
+    }
+    return result;
+  };
+
+  const uuid: string = segmentLengths
+    .map((length, index) => {
+      if (index === 2) return "4".padEnd(length, "0");
+      if (index === 3) return "a".padEnd(length, "0");
+      return randomHex(length);
+    })
+    .join("-");
+
+  return uuid;
+};
+
 export const removeLeadingZeros = (input: string) => {
   return input?.replace(/^0+/, "");
 };

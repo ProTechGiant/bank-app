@@ -2,7 +2,9 @@ import DeviceInfo from "react-native-device-info";
 import { useMutation } from "react-query";
 
 import sendApiRequest from "@/api";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useSignInContext } from "@/features/SignIn/contexts/SignInContext";
+import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 export interface AuthenticationApiResponse {
   AccessToken: string;
@@ -14,12 +16,20 @@ export interface AuthenticationApiResponse {
 
 export function useGetAuthenticationToken() {
   const { correlationId } = useSignInContext();
-
-  return useMutation(async () => {
-    if (correlationId === undefined) throw new Error("Cannot fetch api/authentication without `correlationId`");
-    return sendApiRequest<AuthenticationApiResponse>("v2", "api/authentication", "POST", undefined, undefined, {
-      ["x-correlation-id"]: correlationId,
-      ["x-device-name"]: await DeviceInfo.getDeviceName(),
-    });
-  });
+  const auth = useAuthContext();
+  return useMutation(
+    async () => {
+      if (correlationId === undefined) throw new Error("Cannot fetch api/authentication without `correlationId`");
+      return sendApiRequest<AuthenticationApiResponse>("v2", "api/authentication", "POST", undefined, undefined, {
+        ["x-correlation-id"]: correlationId,
+        ["x-device-name"]: await DeviceInfo.getDeviceName(),
+      });
+    },
+    {
+      onSuccess(data) {
+        setItemInEncryptedStorage("authToken", data.AccessToken);
+        auth.setAuthToken(data.AccessToken);
+      },
+    }
+  );
 }

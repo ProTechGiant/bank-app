@@ -5,9 +5,11 @@ import ApiError from "@/api/ApiError";
 import ResponseError from "@/api/ResponseError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { warn } from "@/logger";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
+import { generateAutomaticUUID } from "@/utils";
 
 import { MobileAndNationalIdForm } from "../components";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
@@ -20,6 +22,7 @@ export default function IqamaInputScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { mutateAsync, error, reset } = useIqama();
+  const auth = useAuthContext();
   const userPreferredLanguage = usePreferredLanguage();
   const iqamaError = error as ApiError<ResponseError> | undefined;
   const { errorMessages } = useErrorMessages(iqamaError);
@@ -59,13 +62,11 @@ export default function IqamaInputScreen() {
 
   const handleOnSubmit = async (values: IqamaInputs) => {
     try {
+      auth.setUserId(generateAutomaticUUID());
       setNationalId(String(values.NationalId));
       const response = await mutateAsync(values);
-      // if (response?.Name === "MobileVerification") {
-      //   navigation.navigate("Onboarding.Nafath");
-      // } else {
+
       navigation.navigate(getActiveTask(response?.Name || ""));
-      // }
     } catch (err) {
       warn("onboarding", "Could not process iqama input. Error: ", JSON.stringify(err));
     }

@@ -37,7 +37,7 @@ export function ConfirmPasscodeScreen() {
 
   const handleOnSuccessModalClose = () => {
     setShowSuccessModal(false);
-    navigation.navigate("Onboarding.SuccessScreen");
+    navigation.navigate("Onboarding.SuccessScreen", { passcode: currentValue });
   };
 
   const errorMessages = hasValidationError

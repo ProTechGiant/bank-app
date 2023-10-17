@@ -54,7 +54,9 @@ export type OnboardingStackParams = {
   "Onboarding.ConfirmPasscode": { passcode: string };
   "Onboarding.WorkGuideModal": undefined;
   "Onboarding.TermsAndConditionsDetails": undefined;
-  "Onboarding.SuccessScreen": undefined;
+  "Onboarding.SuccessScreen": {
+    passcode: string;
+  };
   "Onboarding.FastOnboardingScreen": undefined;
   "Onboarding.UnmatchedArbNumberScreen": undefined;
 };

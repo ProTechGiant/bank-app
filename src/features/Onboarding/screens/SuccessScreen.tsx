@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
@@ -10,11 +11,18 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useToasts } from "@/contexts/ToastsContext";
+import { useLoginUser } from "@/features/SignIn/hooks/query-hooks";
+import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
+import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
 import { useThemeStyles } from "@/theme";
 
 import AccountCreated from "../assets/account-created.svg";
+import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useAccountStatus } from "../hooks/query-hooks";
+import { OnboardingStackParams } from "../OnboardingStack";
 import { Status } from "../types";
+
+type SuccessScreen = RouteProp<OnboardingStackParams, "Onboarding.SuccessScreen">;
 
 export default function SuccessScreen() {
   const { t } = useTranslation();
@@ -24,8 +32,13 @@ export default function SuccessScreen() {
   const [isfetchingAccountStatus, setIsfetchingAccountStatus] = useState(true);
   const { data, refetch } = useAccountStatus(isfetchingAccountStatus);
   const auth = useAuthContext();
+  const { params } = useRoute<SuccessScreen>();
 
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
+  const { mutateAsync: searchForUser } = useSearchUserByNationalId();
+  const { nationalId, mobileNumber } = useOnboardingContext();
   const accountStatus: Status | undefined = data?.OnboardingStatus as Status;
+  const { mutateAsync, isLoading: isLoadingLoginApi } = useLoginUser();
 
   useEffect(() => {
     if (accountStatus === "COMPLETED") {
@@ -42,9 +55,13 @@ export default function SuccessScreen() {
     }
   }, [accountStatus, refetch, t, addToast]);
 
-  const handleOnGetStartedPress = () => {
-    //TODO: WILL JUST AUTHENTICATE THE USER WITHOUT USER ID AS WE STARTED SAVING AUTH TOKEN
-    if (auth.userId) auth.authenticate(auth.userId);
+  const handleOnGetStartedPress = async () => {
+    await getAuthenticationToken();
+    if (nationalId && mobileNumber) {
+      const customer = await searchForUser({ NationalId: nationalId, MobileNumber: mobileNumber });
+      const response = await mutateAsync({ passCode: params.passcode, nationalId: nationalId });
+      if (customer.CustomerId && response.AccessToken) auth.authenticate(customer.CustomerId, response.AccessToken);
+    }
   };
 
   const headerSuccessStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -80,7 +97,7 @@ export default function SuccessScreen() {
         </Stack>
 
         <View style={buttonContainerStyle}>
-          <Button color="dark" onPress={handleOnGetStartedPress}>
+          <Button loading={isLoadingLoginApi} color="dark" onPress={handleOnGetStartedPress}>
             {t("Onboarding.LandingScreen.pending.successTitle")}
           </Button>
         </View>

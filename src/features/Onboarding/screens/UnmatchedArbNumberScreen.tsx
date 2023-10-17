@@ -28,7 +28,7 @@ import { getActiveTask } from "../utils/get-active-task";
 export default function UnmatchedArbNumberScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation<UnAuthenticatedStackParams>();
-  const { nationalId, fetchLatestWorkflowTask, setIsLoading, isLoading } = useOnboardingContext();
+  const { nationalId, fetchLatestWorkflowTask } = useOnboardingContext();
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
   const [isErrorModelVisible, setIsErrorModelVisible] = useState(false);
   const { mutateAsync: mutateCheckCustomerMobileNumber } = useCheckCustomerSelectionForMobileNumber();
@@ -36,6 +36,7 @@ export default function UnmatchedArbNumberScreen() {
   const openLink = useOpenLink();
   const finalizeArbStep = useFinalizeArbStep();
   const [isfetchingAccountStatus, setIsfetchingAccountStatus] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { data, refetch } = useFOBStatus(isfetchingAccountStatus);
   const FOBStatus = data?.OnboardingStatus;
 

@@ -26,12 +26,14 @@ export default function FastOnboardingScreen() {
   const { t } = useTranslation();
   const { height: screenHeight } = useWindowDimensions();
   const navigation = useNavigation<UnAuthenticatedStackParams>();
-  const { fetchLatestWorkflowTask, setIsLoading, isLoading } = useOnboardingContext();
+  const { fetchLatestWorkflowTask } = useOnboardingContext();
   const { mutateAsync } = useProceedToFob();
   const finalizeArbStep = useFinalizeArbStep();
   const [isfetchingAccountStatus, setIsfetchingAccountStatus] = useState(false);
   const [isInfoModalVisible, setIsInfoModelVisible] = useState(false);
   const [isErrorModelVisible, setIsErrorModelVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const { data, refetch } = useFOBStatus(isfetchingAccountStatus);
   const FOBStatus = data?.OnboardingStatus;
 
