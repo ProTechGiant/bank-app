@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 apply plugin: "com.google.gms.google-services"
+apply plugin: 'kotlin-android'
 apply from: file("./dotenv.gradle");
 
 import com.android.build.OutputFile
@@ -198,7 +199,9 @@ dependencies {
   } else {
     implementation jscFlavor
   }
-
+  //Ni-sdk dependencies
+   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.0"
+   implementation("com.github.network-international:card-management-sdk-android:1.0.36")
   // T2 RiCH & dependencies
   implementation 'com.google.code.gson:gson:2.10.1'
   implementation files("vendor/RichNotifySDK-release.aar")

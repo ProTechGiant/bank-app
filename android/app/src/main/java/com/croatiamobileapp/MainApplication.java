@@ -4,8 +4,8 @@ import android.app.Application;
 import android.media.RingtoneManager;
 import android.net.Uri;
 
+import com.croatiamobileapp.niCards.NICardManagementAndroidModulePackage;
 import com.croatiamobileapp.reloadapp.ReloadAppPackage;
-
 import com.croatiamobileapp.t2notifications.NotificationUtils;
 import com.croatiamobileapp.t2notifications.T2PushNotificationsPackage;
 import com.facebook.react.PackageList;
@@ -15,6 +15,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
+import com.t2.t2notifysdk.ClientMessageListener;
 import com.t2.t2notifysdk.Notify;
 import com.t2.t2notifysdk.data.ApiConfig;
 import com.t2.t2notifysdk.data.ProviderType;
@@ -22,9 +23,13 @@ import com.t2.t2notifysdk.notification.NotificationManagerSDK;
 
 import java.util.List;
 
-import android.util.Log;
-import androidx.core.content.ContextCompat;
-import com.t2.t2notifysdk.ClientMessageListener;
+
+
+
+
+
+
+
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -42,6 +47,7 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           packages.add(new ReloadAppPackage());
           packages.add(new T2PushNotificationsPackage());
+          packages.add(new NICardManagementAndroidModulePackage());
           return packages;
         }
 
