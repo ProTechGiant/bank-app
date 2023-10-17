@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AngleDownIcon } from "@/assets/icons";
@@ -79,6 +79,17 @@ export default function AlertSettingsModal({
     borderRadius: theme.spacing["8p"],
   }));
 
+  const currencyContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      position: "absolute",
+      left: priceValue.toString().length * 10 + theme.spacing["16p"],
+      justifyContent: "center",
+      top: 0,
+      bottom: 0,
+    }),
+    [priceValue]
+  );
+
   return (
     <Modal onBack={() => onChangeVisibility(false)} visible={isVisible} headerText="" style={styles.modalStyle}>
       <SafeAreaView style={styles.safeAreaView}>
@@ -90,7 +101,7 @@ export default function AlertSettingsModal({
             <Toggle onPress={() => setIsToggleOn(status => !status)} value={isToggleOn} />
           </Stack>
           <Stack direction="vertical" style={styles.inputContainer} gap="8p">
-            <Typography.Text>{t("GoldWallet.AlertSettingsModal.operation")}</Typography.Text>
+            <Typography.Text weight="medium">{t("GoldWallet.AlertSettingsModal.operation")}</Typography.Text>
 
             <Pressable style={inputStyle} onPress={handleOnDropDownPress}>
               <Typography.Text color="neutralBase">
@@ -100,14 +111,21 @@ export default function AlertSettingsModal({
             </Pressable>
 
             <Stack direction="vertical" style={styles.inputContainer} gap="8p">
-              <Typography.Text>{t("GoldWallet.AlertSettingsModal.price")}</Typography.Text>
-              <UnstyledCurrencyInput
-                editable={isToggleOn}
-                style={inputStyle}
-                value={priceValue}
-                maxLength={15}
-                onChange={value => setPriceValue(value)}
-              />
+              <Typography.Text weight="medium">{t("GoldWallet.AlertSettingsModal.price")}</Typography.Text>
+              <Stack direction="vertical" style={styles.inputContainer}>
+                <UnstyledCurrencyInput
+                  editable={isToggleOn}
+                  style={inputStyle}
+                  value={priceValue}
+                  maxLength={15}
+                  onChange={value => setPriceValue(value)}
+                />
+                <View style={currencyContainerStyle}>
+                  <Typography.Text color="neutralBase+10">
+                    {t("GoldWallet.AlertSettingsModal.currency")}
+                  </Typography.Text>
+                </View>
+              </Stack>
             </Stack>
           </Stack>
         </Stack>

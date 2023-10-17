@@ -3415,10 +3415,11 @@
     "AlertSettingsModal": {
       "title": "Alert Settings",
       "subtitle": "Set up amount and if you want to receive notifications",
-      "toggle": "Turn on Alert",
-      "operation": "Operation",
+      "toggle": "Turn on alerts",
+      "operation": "Condition",
       "price": "Price",
       "done": "Done",
+      "currency": " SAR",
       "NotificationModal": {
         "successTitle": "Price Alert created successfully",
         "successMessage": "You’ve created a price alert at",
