@@ -2266,21 +2266,21 @@
     }
   },
   "AddMoneyInfo": {
-    "title": "Add money by bank transfer",
-    "description": "To add money to your Croatia account, use these details to set up a money transfer from another bank.",
-    "note": "The name you use for your transfer must exactly match your name here.",
-    "processingTime": "Processing time",
-    "processingTimeInfo": "Bank transfers will normally reach your Croatia account the same day or the next business day.",
+    "title": "إضافة الأموال عن طريق التحويل المصرفي",
+    "description": "لإضافة أموال إلى حسابك في كرواتيا، استخدم هذه التفاصيل لإعداد تحويل أموال من بنك آخر.",
+    "note": "يجب أن يتطابق الاسم الذي تستخدمه في عملية النقل مع اسمك هنا تمامًا.",
+    "processingTime": "وقت المعالجة",
+    "processingTimeInfo": "ستصل التحويلات المصرفية عادةً إلى حسابك في كرواتيا في نفس اليوم أو في يوم العمل التالي.",
 
     "BankDetails": {
-      "title": "Your Croatia bank details",
-      "recipientName": "Your name",
-      "recipientIBAN": "Your IBAN",
-      "bankName": "Bank name",
-      "recipientAddress": "Your address",
-      "copyInfo": "copied to clipboard",
-      "errorCopy": "Couldn’t copy",
-      "tryAgain": "try again"
+      "title": "التفاصيل المصرفية الخاصة بك في كرواتيا",
+      "recipientName": "اسمك",
+      "recipientIBAN": "الايبان",
+      "bankName": "اسم البنك",
+      "recipientAddress": "عنوانك",
+      "copyInfo": "تم النسخ إلى الحافظة",
+      "errorCopy": "لم يتم النسخ",
+      "tryAgain": "حاول مرة أخرى."
     }
   },
   "OneTimePasswordModal": {
@@ -3040,7 +3040,7 @@
       }
     },
     "TermsAndConditionsModal": {
-      "title": "Terms and conditions",
+      "title": "الشروط و الأحكام",
       "sections": {
         "sectionOneTitle": "1. General terms",
         "sectionOneContent": "If you wish to activate this feature provided by the Instant Payments System (SARIE) and the rest of the related services, such as sending funds via alias like (mobile number), we inform you that by confirming this feature you are agreeing to share some of your data with SARIE system for the instant payments owned by the Saudi Central Bank (IBAN number, Mobile number, email address, National/Iqama ID number). At any time in the future, you may disable sharing this data via all banking channels such as mobile banking or internet banking.",
@@ -3344,44 +3344,44 @@
     }
   },
   "GoldWallet": {
-    "title":"المحفظة الذهبية",
-    "yourGoldValue":"قيمة الذهب الخاصة بك",
-    "SAR":"ريال",
-    "originalInvestedValue":"القيمة الأصلية المستثمرة",
-    "goldWeight":"وزن الذهب",
-    "grams":"جرام",
-    "week":"اسبوع",
-    "month":"شهر",
-    "year":"سنه",
-    "fiveYears":"خمس سنوات",
-    "goldMarketperformance":"أداء سوق الذهب",
-    "sellGold":"بيع الذهب",
-    "buyGold":"اشتري ذهب",
-    "currentGoldPrice":"سعر الذهب الحالي",
-    "transactions":"المعاملات",
-    "viewAll":"عرض الكل",
-    "Grams":"غرام",
-    "sell":"بيع",
-    "buy":"شراء",
-    "SARG":"ريال/جرام",
-    "transactionsDetails":"تفاصيل المعاملات",
-    "done":"تم",
-    "chargedFrom":"التحويل من",
-    "status":"الحالة",
-    "type":"النوع",
-    "goldSerial":"الرقم التسلسلي لسبائك الذهب",
-    "goldPrice":"سعر الذهب",
-    "noTransactionTitle":"ليس لديك أي معاملات حتى الآن",
-    "noTransactionSubtitle":"ابدأ إنشاءه محفظتك الذهبية",
-    "GoldWalletInfoModal":{
-      "title":"معلومات المحفظة الذهبية",
-      "subtitle":"تفاصيل محفظتك الذهبية",
+    "title": "المحفظة الذهبية",
+    "yourGoldValue": "قيمة الذهب الخاصة بك",
+    "SAR": "ريال",
+    "originalInvestedValue": "القيمة الأصلية المستثمرة",
+    "goldWeight": "وزن الذهب",
+    "grams": "جرام",
+    "week": "اسبوع",
+    "month": "شهر",
+    "year": "سنه",
+    "fiveYears": "خمس سنوات",
+    "goldMarketperformance": "أداء سوق الذهب",
+    "sellGold": "بيع الذهب",
+    "buyGold": "اشتري ذهب",
+    "currentGoldPrice": "سعر الذهب الحالي",
+    "transactions": "المعاملات",
+    "viewAll": "عرض الكل",
+    "Grams": "غرام",
+    "sell": "بيع",
+    "buy": "شراء",
+    "SARG": "ريال/جرام",
+    "transactionsDetails": "تفاصيل المعاملات",
+    "done": "تم",
+    "chargedFrom": "التحويل من",
+    "status": "الحالة",
+    "type": "النوع",
+    "goldSerial": "الرقم التسلسلي لسبائك الذهب",
+    "goldPrice": "سعر الذهب",
+    "noTransactionTitle": "ليس لديك أي معاملات حتى الآن",
+    "noTransactionSubtitle": "ابدأ إنشاءه محفظتك الذهبية",
+    "GoldWalletInfoModal": {
+      "title": "معلومات المحفظة الذهبية",
+      "subtitle": "تفاصيل محفظتك الذهبية",
       "walletNumber": "رقم المحفظة",
-      "details":"التفاصيل",
-      "linkedAccount":"الحساب المرتبط",
-      "copyToastMessage":"نسخ إلى الحافظة."
+      "details": "التفاصيل",
+      "linkedAccount": "الحساب المرتبط",
+      "copyToastMessage": "نسخ إلى الحافظة."
     },
-    "gram":"جرام",
+    "gram": "جرام",
     "alertInfoBoxOn": "Alert when gold price is",
     "alertInfoBoxOnSecondHalf": "in the market",
     "alertInfoBoxOff": "Alerts are turned off",
@@ -3526,7 +3526,13 @@
     },
     "EntryPointScreen": {
       "title": "مرحبًا بك في \nAll In One Card",
-      "buttonExplore": "اكتشف"
+      "buttonExplore": "اكتشف",
+      "rewardMethodTitle": "طريقة المكافأة",
+      "rewardMethodDescription": "يمكنك تحديد طريقة استرداد المكافأة التي تفضلها لبرنامج الولاء.",
+      "multipleCurrenciesTitle": "العديد من العملات",
+      "multipleCurrenciesDescription": "أضف عملاتك المفضلة",
+      "streamingAppsTitle": "تطبيقات البث والفوائد الأخرى",
+      "streamingAppsDescription": "اختر اشتراكات تطبيقات متعددة مجانًا"
     },
     "ChooseRedemptionMethodScreen": {
       "title": "اختر طريقة الاسترداد",
@@ -3566,6 +3572,34 @@
         "message": "سوف تفقد البيانات، وسوف تحتاج إلى إعادة تشغيل الرحلة من البداية.",
         "CancelButton": "الغاء طلب البطاقة"
       }
+    },
+    "CardReviewScreen": {
+      "orderSummary": "مراجعة الطلب",
+      "card": "البطاقة",
+      "type": "نوع البطاقة",
+      "rewardMethode": "طريقة الاسترداد",
+      "currencies": "العملات",
+      "benefits": "الفوائد",
+      "freeSubscription": "اشتراكات مجانية",
+      "payment": "الدفع",
+      "monthlySubscription": "اشتراك شهري",
+      "yearlySubscription": "اشتراك سنوي",
+      "monthlyCharges": "رسوم شهرية",
+      "vat": "ضريبة (١٥٪)",
+      "total": "المجموع",
+      "confirm": "تأكيد",
+      "agree": "أوافق على",
+      "termsAndConditions": "الشروط والأحكام",
+      "ofCroatia": "الخاصة بكرواتيا",
+      "SAR": "ريال",
+      "months": "شهر",
+      "freeForLife": "مجانا مدى الحياة",
+      "message": "عذرًا، ليس لديك رصيد  كافي في حسابك. يمكنك تعبئة حسابك أو إلغاء هذه الدفعة.",
+      "title": "رصيد غير كاف",
+      "primaryButtonText": "اضافة رصيد"
     }
+  },
+  "TermsAndConditionsModal": {
+    "title": "الشروط والأحكام"
   }
 }

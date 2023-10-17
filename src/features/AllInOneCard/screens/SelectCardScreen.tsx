@@ -12,14 +12,24 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { Card, MoreFeatureModal } from "../components";
+import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
 import { cardData } from "../mocks";
 
 export default function SelectCardScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { setContextState } = useAllInOneCardContext();
 
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [showMoreFeaturesModal, setShowMoreFeaturesModal] = React.useState(false);
+
+  const handleOnApplyPress = () => {
+    setShowMoreFeaturesModal(false);
+    setContextState({
+      cardType: cardData[activeIndex].cardType,
+    });
+    navigation.navigate("AllInOneCard.ChooseRedemptionMethod");
+  };
 
   const textContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "flex-start",
@@ -39,9 +49,6 @@ export default function SelectCardScreen() {
     paddingHorizontal: theme.spacing["20p"],
     marginBottom: theme.spacing["16p"],
   }));
-  const onApplyPress = () => {
-    navigation.navigate("AllInOneCard.ChooseRedemptionMethod");
-  };
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: 70,
@@ -79,12 +86,13 @@ export default function SelectCardScreen() {
               <ChevronRightIcon color="#00AC86" />
             </View>
           </Pressable>
-          <Button onPress={onApplyPress}>{t("AllInOneCard.SelectedCardScreen.apply")}</Button>
+          <Button onPress={handleOnApplyPress}>{t("AllInOneCard.SelectedCardScreen.apply")}</Button>
         </View>
         <MoreFeatureModal
           isVisible={showMoreFeaturesModal}
           onClose={() => setShowMoreFeaturesModal(false)}
           item={cardData[activeIndex]}
+          onPress={handleOnApplyPress}
         />
       </View>
     </Page>

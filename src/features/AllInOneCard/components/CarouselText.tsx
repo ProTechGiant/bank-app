@@ -103,10 +103,10 @@ export default function CarouselText({ data }: CarouselTextProps) {
                 transform: [{ translateX: offsetX }],
               },
             ]}>
-            <Typography.Text size="body" weight="bold" align="center" style={{ marginBottom: 12 }}>
+            <Typography.Text size="title3" weight="bold" align="center" style={{ marginBottom: 12 }}>
               {item.title}
             </Typography.Text>
-            <Typography.Text size="callout" align="center">
+            <Typography.Text size="body" align="center">
               {item.description}
             </Typography.Text>
           </Animated.View>

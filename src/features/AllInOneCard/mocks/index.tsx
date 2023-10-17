@@ -1,12 +1,14 @@
 import { DiamondIcon } from "@/assets/icons";
+import { TermsAndConditionSection } from "@/types/Content";
 
 import { NetflixIcon, PhoneIcon } from "../assets/icons";
-import { CardData, neraData } from "../types";
+import { CardData, CardReview, neraData } from "../types";
 
 export const cardData: CardData[] = [
   {
     id: 1,
     title: "nera Plus",
+    cardType: "neraPlus",
     isDiamond: true,
     benefits: [
       {
@@ -43,6 +45,7 @@ export const cardData: CardData[] = [
   {
     id: 2,
     title: "nera",
+    cardType: "nera",
     isDiamond: false,
     benefits: [
       {
@@ -139,6 +142,36 @@ export const rewardsMethods = [
   },
 ];
 
+export const cardReview: CardReview = {
+  cardDetails: {
+    type: "Nera Plus",
+    rewardMethod: "Cash-back",
+  },
+  currencies: {
+    freeCurrencies: "Up to 6 free currencies",
+    description: "You can set up your free currencies after activation",
+  },
+  benefits: {
+    description: "Free subscriptions",
+    note: "You can set up your free subscriptions once your card is activated",
+    icons: [<NetflixIcon />, <NetflixIcon />, <NetflixIcon />, <NetflixIcon />, <NetflixIcon />],
+  },
+  payment: {
+    subscriptionType: "monthly", // or 'yearly'
+    subscription: {
+      monthly: {
+        duration: "12",
+        charges: "50.00",
+      },
+      yearly: {
+        duration: "1",
+        charges: "500.00",
+      },
+    },
+    vat: "7.50",
+    total: "57.50",
+  },
+};
 export const mockTransactions = [
   {
     Title: "Starbucks",
@@ -171,3 +204,72 @@ export const mockTransactions = [
 ];
 
 export const cardType = "neraPlus";
+
+export const termsSections: TermsAndConditionSection[] = [
+  {
+    TermsSectionId: "TSID101",
+    Title: "General Terms",
+    ContentCategoryId: "CCID101",
+    Order: 1,
+    Bodies: [
+      {
+        TermsBodyId: "TBID1011",
+        TermsSectionId: "TSID101",
+        Order: 1,
+        Body: "1.1 These general terms and conditions apply to the services provided to clients by Croatia Bank (individually and jointly ”Croatia”, ”we”, ”us” or ”our”). By engaging Croatia, you are deemed to have accepted these terms and conditions which, in addition to our engagement letter, therefore shall be regarded as contractual content between you and Croatia.",
+        ContentCategoryId: "CCID1011",
+      },
+      {
+        TermsBodyId: "TBID1012",
+        TermsSectionId: "TSID101",
+        Order: 2,
+        Body: "1.2 To the extent the engagement is extended or new engagements are submitted, these general terms and conditions shall apply irrespective of whether the terms and conditions once again have been sent to you or not.",
+        ContentCategoryId: "CCID1012",
+      },
+    ],
+  },
+  {
+    TermsSectionId: "TSID102",
+    Title: "Partnerships",
+    ContentCategoryId: "CCID102",
+    Order: 2,
+    Bodies: [
+      {
+        TermsBodyId: "TBID1021",
+        TermsSectionId: "TSID102",
+        Order: 1,
+        Body: "We respect the privacy of our users.",
+        ContentCategoryId: "CCID1021",
+      },
+      {
+        TermsBodyId: "TBID1022",
+        TermsSectionId: "TSID102",
+        Order: 2,
+        Body: "We do not share personal data with third parties.",
+        ContentCategoryId: "CCID1022",
+      },
+    ],
+  },
+  {
+    TermsSectionId: "TSID103",
+    Title: "Section name",
+    ContentCategoryId: "CCID103",
+    Order: 1,
+    Bodies: [
+      {
+        TermsBodyId: "TBID1031",
+        TermsSectionId: "TSID103",
+        Order: 1,
+        Body: "1.1 These general terms and conditions apply to the services provided to clients by Croatia Bank (individually and jointly ”Croatia”, ”we”, ”us” or ”our”). By engaging Croatia, you are deemed to have accepted these terms and conditions which, in addition to our engagement letter, therefore shall be regarded as contractual content between you and Croatia.",
+        ContentCategoryId: "CCID1011",
+      },
+      {
+        TermsBodyId: "TBID1032",
+        TermsSectionId: "TSID103",
+        Order: 2,
+        Body: "1.2 To the extent the engagement is extended or new engagements are submitted, these general terms and conditions shall apply irrespective of whether the terms and conditions once again have been sent to you or not.",
+        ContentCategoryId: "CCID1012",
+      },
+    ],
+  },
+];

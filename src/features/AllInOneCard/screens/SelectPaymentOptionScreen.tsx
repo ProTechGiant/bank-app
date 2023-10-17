@@ -1,5 +1,5 @@
 import { StackActions } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
@@ -13,21 +13,30 @@ import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 
 import { PaymentOptionsList } from "../components";
+import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
 import { paymentOptions } from "../mocks/index";
 
 export default function SelectPaymentOptionScreen() {
+  const { setContextState, paymentPlanId } = useAllInOneCardContext();
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [selectedPaymentOption, setSelectedPaymentOption] = useState<number>(0);
 
+  useEffect(() => {
+    if (paymentPlanId) setSelectedPaymentOption(paymentPlanId);
+  }, [paymentPlanId]);
+
   const handleOnSelectPredefinedRisk = (value: number) => {
     setSelectedPaymentOption(value);
   };
 
-  //TODO : navigate When page be ready
   const handleOnContinue = () => {
-    // navigation.navigate("OrderSummaryScreen");
+    setContextState({
+      paymentPlan: selectedPaymentOption === 1 ? "yearly" : "monthly",
+      paymentPlanId: selectedPaymentOption,
+    });
+    navigation.navigate("AllInOneCard.CardReview");
   };
 
   const handleOnCancelRedemption = () => {

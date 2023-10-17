@@ -21,8 +21,14 @@ export enum Screens {
 
 export interface AllInOneCardContextState {
   productId?: string;
-  paymentPlanId?: string;
-  redeemptionMethodId?: string;
+  paymentPlan?: string;
+  paymentPlanId?: number;
+  redemptionMethod?: string;
+  redemptionMethodId?: number;
+  cardType?: "nera" | "neraPlus";
+  setContextState: (newState: Partial<AllInOneCardContextState>) => void;
+  resetState: () => void;
+  setScreen: (screen: Screens) => void;
 }
 
 export interface TransactionItem {
@@ -46,6 +52,7 @@ interface FreeBenefits {
 export interface CardData {
   id: number;
   title: string;
+  cardType: "nera" | "neraPlus";
   isDiamond: boolean;
   benefits: Benefit[];
   freeBenefits: FreeBenefits;
@@ -55,4 +62,35 @@ export interface neraData {
   icon: JSX.Element;
   title: string;
   description: string;
+}
+
+export interface CardReview {
+  cardDetails: {
+    type: string;
+    rewardMethod: string;
+  };
+  currencies: {
+    freeCurrencies: string;
+    description: string;
+  };
+  benefits: {
+    description: string;
+    note: string;
+    icons: JSX.Element[]; // Assuming these are React components
+  };
+  payment: {
+    subscriptionType: "monthly" | "yearly";
+    subscription: {
+      monthly: {
+        duration: string;
+        charges: string;
+      };
+      yearly: {
+        duration: string;
+        charges: string;
+      };
+    };
+    vat: string;
+    total: string;
+  };
 }

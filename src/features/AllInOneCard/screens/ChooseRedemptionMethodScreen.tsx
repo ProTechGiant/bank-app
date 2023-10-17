@@ -1,6 +1,6 @@
 import { StackActions } from "@react-navigation/native";
 import { t } from "i18next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { ProgressIndicator, Stack, Typography } from "@/components";
@@ -12,29 +12,41 @@ import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 
 import { InfoBox, OptionsList } from "../components";
-import { cardType, rewardsMethods } from "./../mocks";
+import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
+import { rewardsMethods } from "./../mocks";
 
 export default function ChooseRedemptionMethodScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const { setContextState, cardType, redemptionMethodId } = useAllInOneCardContext();
+
+  const isNeraPlus = cardType === "neraPlus";
 
   const navigation = useNavigation();
 
   const [selectedRewardsMethod, setSelectedRewardsMethod] = useState<number>(0);
 
+  useEffect(() => {
+    if (redemptionMethodId) setSelectedRewardsMethod(redemptionMethodId);
+  }, [redemptionMethodId]);
+
   const handleOnSelectPredefinedRisk = (value: number) => {
     setSelectedRewardsMethod(value);
   };
 
-  //TODO : navigate When page be ready
   const handleOnContinue = () => {
-    if (cardType.toLowerCase() === "nera".toLowerCase()) {
-      // navigation.navigate("OrderSummaryScreen");
-    } else if (cardType.toLowerCase() === "neraPlus".toLowerCase()) {
+    setContextState({
+      redemptionMethod: rewardsMethods[selectedRewardsMethod - 1].Name,
+      redemptionMethodId: selectedRewardsMethod,
+    });
+    if (!isNeraPlus) {
+      navigation.navigate("AllInOneCard.CardReview");
+    } else {
       navigation.navigate("AllInOneCard.SelectPaymentOption");
     }
   };
 
-  const totalStepProgressIndicator = cardType.toLowerCase() === "nera".toLowerCase() ? 3 : 2;
+  const totalStepProgressIndicator = isNeraPlus ? 3 : 2;
   const handleOnCancelRedemption = () => {
     navigation.dispatch(StackActions.pop(2));
     navigation.navigate("Home.DashboardScreen");

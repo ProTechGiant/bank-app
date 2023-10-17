@@ -5,9 +5,12 @@ import { AllInOneCardContextState, Screens } from "../types";
 const AllInOneCardContext = createContext<AllInOneCardContextState>({} as AllInOneCardContextState);
 
 const initialState: AllInOneCardContextState = {
+  cardType: undefined,
   productId: undefined,
+  paymentPlan: undefined,
   paymentPlanId: undefined,
-  redeemptionMethodId: undefined,
+  redemptionMethod: undefined,
+  redemptionMethodId: undefined,
 };
 
 function AllInOneCardContextProvider({ children }: { children: React.ReactNode }) {

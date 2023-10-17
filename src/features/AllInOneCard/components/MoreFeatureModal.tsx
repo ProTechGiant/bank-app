@@ -4,7 +4,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Modal, Typography } from "@/components";
 import Button from "@/components/Button";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { neraDataModal } from "../mocks";
@@ -15,16 +14,12 @@ interface MoreFeatureModalProps {
   isVisible: boolean;
   onClose: () => void;
   item: CardData;
+  onPress: () => void;
 }
 
-export default function MoreFeatureModal({ isVisible, onClose, item }: MoreFeatureModalProps) {
+export default function MoreFeatureModal({ isVisible, onClose, item, onPress }: MoreFeatureModalProps) {
   const { t } = useTranslation();
-  const navigation = useNavigation();
   const insets = useSafeAreaInsets();
-
-  const onApplyPress = () => {
-    navigation.navigate("AllInOneCard.ChooseRedemptionMethod");
-  };
 
   const containerViewStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
@@ -64,7 +59,7 @@ export default function MoreFeatureModal({ isVisible, onClose, item }: MoreFeatu
         <HeaderModal onClose={onClose} item={item} />
         <View style={containerViewStyle}>
           <FlatList data={neraDataModal} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />
-          <Button onPress={onApplyPress}>
+          <Button onPress={onPress}>
             {item.id === 1
               ? t("AllInOneCard.SelectedCardScreen.platinumButton")
               : t("AllInOneCard.SelectedCardScreen.signatureButton")}

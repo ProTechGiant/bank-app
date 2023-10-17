@@ -9,12 +9,33 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { EntryPoint_1, EntryPoint_2, EntryPoint_3 } from "../assets/icons";
 import { CarouselImage, CarouselText } from "../components";
-import { data } from "../mocks/entryPointData";
 
 export default function EntryPointScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
+
+  const data = [
+    {
+      img: <EntryPoint_1 />,
+      title: t("AllInOneCard.EntryPointScreen.rewardMethodTitle"),
+      description: t("AllInOneCard.EntryPointScreen.rewardMethodDescription"),
+      id: 1,
+    },
+    {
+      img: <EntryPoint_2 />,
+      title: t("AllInOneCard.EntryPointScreen.multipleCurrenciesTitle"),
+      description: t("AllInOneCard.EntryPointScreen.multipleCurrenciesDescription"),
+      id: 2,
+    },
+    {
+      img: <EntryPoint_3 />,
+      title: t("AllInOneCard.EntryPointScreen.streamingAppsTitle"),
+      description: t("AllInOneCard.EntryPointScreen.streamingAppsDescription"),
+      id: 3,
+    },
+  ];
 
   const containerViewStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
