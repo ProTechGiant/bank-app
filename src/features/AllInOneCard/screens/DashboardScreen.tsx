@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import SegmentedControl from "@/components/SegmentedControl/SegmentedControl";
 import SegmentedControlItem from "@/components/SegmentedControl/SegmentedControlItem";
+import { useAuthContext } from "@/contexts/AuthContext";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { SettingIcon } from "../assets/icons";
-import { ActivateCard, Benefits, Rewards } from "../components";
+import { ActivateCard, Benefits, Rewards, UpgradeToNeraPlusCard } from "../components";
 import AllInCardPlaceholder from "../components/AllInCardPlaceholder";
 import TransactionSection from "../components/TransactionSection";
 import { mockTransactions } from "../mocks";
@@ -17,13 +19,15 @@ import { TransactionItem } from "../types";
 
 export default function DashboardScreen() {
   const { t } = useTranslation();
+  const { userId } = useAuthContext();
+  const navigation = useNavigation();
   const tabFeed = t("AllInOneCard.Dashboard.feed");
   const tabCurrencies = t("AllInOneCard.Dashboard.currencies");
   const [value, setValue] = useState(tabFeed);
   const { width } = useWindowDimensions();
   // TODO: activate card state will be managed from api in next build cycle
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [showCardActivation, setShowCardActivation] = useState<boolean>(false);
+  const [showCardActivation, setShowCardActivation] = useState<boolean>(userId === "0000002270");
 
   const dividerStyle = useThemeStyles<ViewStyle>(theme => ({
     height: theme.spacing["4p"],
@@ -32,12 +36,13 @@ export default function DashboardScreen() {
     marginTop: theme.spacing["16p"],
   }));
 
-  const activateCardStyle = useThemeStyles<ViewStyle>(() => ({
-    position: "absolute",
-    top: "20%",
-    start: width / 2.5,
-  }));
-
+  const styles = StyleSheet.create({
+    activateCardStyle: {
+      position: "absolute",
+      start: width / 2.9,
+      top: "20%",
+    },
+  });
   const scrollStyle = useThemeStyles<ViewStyle>(() => ({
     opacity: showCardActivation ? 0.5 : 1,
   }));
@@ -54,6 +59,10 @@ export default function DashboardScreen() {
     // TOOD : handle it when required screen is made
   };
 
+  const handleActivateCard = () => {
+    navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.CreatePINScreen" });
+  };
+
   const transactions = mockTransactions;
 
   return (
@@ -68,7 +77,7 @@ export default function DashboardScreen() {
         }
         backgroundColor="#EC5F48"
       />
-      <ScrollView style={scrollStyle}>
+      <ScrollView style={scrollStyle} pointerEvents={showCardActivation ? "none" : "auto"}>
         <AllInCardPlaceholder variant="nera" width="90%" />
         <View style={dividerStyle} />
         <View style={styleSegmentedControl}>
@@ -86,11 +95,12 @@ export default function DashboardScreen() {
           onPressSeeMore={handleTransactionSeeMore}
           transactions={transactions as TransactionItem[]}
         />
+        <UpgradeToNeraPlusCard />
       </ScrollView>
       {showCardActivation ? (
-        <View style={activateCardStyle}>
+        <Pressable style={styles.activateCardStyle} onPress={handleActivateCard}>
           <ActivateCard label={t("AllInOneCard.Dashboard.activateCard")} backgroundColor="neutralBase-60" />
-        </View>
+        </Pressable>
       ) : null}
     </Page>
   );

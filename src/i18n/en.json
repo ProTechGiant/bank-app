@@ -3704,11 +3704,17 @@
       "transaction": "Transactions",
       "viewAll": "View All",
       "sar": "SAR",
-      "activateCard": "Activate card"
+      "activateCard": "Activate card",
+      "UpgradeToNeraPlusCard": {
+        "title": "Upgrade to nera Plus",
+        "currency": "SAR / month",
+        "elevateExperience": "Elevate your experience",
+        "exploreButton": "Explore"
+      }
     },
     "SelectPaymentOptionScreen": {
-      "title": " Payment Option",
-      "description": " Get your nera Plus card with flexible payment",
+      "title": "Payment Option",
+      "description": "Get your nera Plus card with flexible payment",
       "continue": "Continue",
       "Recommended": "Recommended",
       "off": "% OFF",
@@ -3716,6 +3722,20 @@
         "title": "Are you sure to cancel card request ? ",
         "message": "You will lose the data, and you will need to restart the journey from the beginning.",
         "CancelButton": "Cancel card request"
+      }
+    },
+    "CreatePINScreen": {
+      "title": "Create PIN",
+      "description": "Enter 4 unique numbers and avoid a PIN that’s easy to guess, like 1234 or 1111.."
+    },
+    "ConfirmPINScreen": {
+      "title": "Confirm PIN",
+      "description": "Re-enter your 4 number PIN.",
+      "errorMessage": "The Pin you entered is not the match , please try again",
+      "errorModal": {
+        "title": "Try again later",
+        "content": "You’ve entered different PINs too many times.",
+        "setNewButton": "Set new pin"
       }
     },
     "CardReviewScreen": {

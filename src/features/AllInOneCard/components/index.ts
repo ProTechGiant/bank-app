@@ -15,3 +15,4 @@ export { default as OptionsList } from "./OptionsList";
 export { default as PaymentOptionsList } from "./PaymentOptionsList";
 export { default as Rewards } from "./Rewards";
 export { default as TransactionSection } from "./TransactionSection";
+export { default as UpgradeToNeraPlusCard } from "./UpgradeToNeraPlusCard";

@@ -1,5 +1,7 @@
 export { default as CardReviewScreen } from "./CardReviewScreen";
 export { default as ChooseRedemptionMethodScreen } from "./ChooseRedemptionMethodScreen";
+export { default as ConfirmPINScreen } from "./ConfirmPINScreen";
+export { default as CreatePINScreen } from "./CreatePINScreen";
 export { default as DashboardScreen } from "./DashboardScreen";
 export { default as EntryPointScreen } from "./EntryPointScreen";
 export { default as SelectCardScreen } from "./SelectCardScreen";

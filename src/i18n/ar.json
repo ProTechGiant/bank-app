@@ -3559,7 +3559,13 @@
       "transaction": "الحركات",
       "viewAll": "اظهار الكل ",
       "sar": "ر.س",
-      "activateCard": "تفعيل البطاقة"
+      "activateCard": "تفعيل البطاقة",
+      "UpgradeToNeraPlusCard": {
+        "title": "الترقية إلى nera Plus",
+        "currency": "ريال / شهريا ",
+        "elevateExperience": "ارفع مستوى تجربتك",
+        "exploreButton": "استكشف"
+      }
     },
     "SelectPaymentOptionScreen": {
       "title": "خيارات الدفع",
@@ -3573,6 +3579,19 @@
         "CancelButton": "الغاء طلب البطاقة"
       }
     },
+    "CreatePINScreen": {
+      "title": "إنشاء رمز المرور",
+      "description": "أدخل 4 أرقام فريدة وتجنب رقم التعريف الشخصي (PIN) الذي يسهل تخمينه، مثل 1234 أو 1111."
+    },
+    "ConfirmPINScreen": {
+      "title": "تأكيد رمز المرور",
+      "description": "أعد إدخال رمز المرور المكون من ٤ أرقام.",
+      "errorMessage": "رقم التعريف الشخصي الذي أدخلته ليس مطابقًا، يرجى المحاولة مرة أخرى",
+      "errorModal": {
+        "title": "حاول مرة أخرى في وقت لاحق",
+        "content": "لقد أدخلت أرقام تعريف شخصية مختلفة عدة مرات.",
+        "setNewButton": "تعين رمز  مرور جديد "
+      }},
     "CardReviewScreen": {
       "orderSummary": "مراجعة الطلب",
       "card": "البطاقة",
