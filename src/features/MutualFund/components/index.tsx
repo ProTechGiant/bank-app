@@ -12,4 +12,5 @@ export { default as OfferInformationItem } from "./OfferInformationItem";
 export { default as PortfolioCard } from "./PortfolioCard";
 export { default as PortfolioDetailsHeaderContent } from "./PortfolioDetailsHeaderContent";
 export { default as PortfolioHoldingCard } from "./PortfolioHoldingCard";
+export { default as SliderProgressBar } from "./SliderProgressBar";
 export { default as Tags } from "./Tags";

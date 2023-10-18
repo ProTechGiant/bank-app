@@ -3667,7 +3667,14 @@
       "headerTitle": "Order Details",
       "button": "Done"
     },
-    "MutualFundSuccessfulSubscription": { "doneButton": "Done", "viewDetailsButton": "View Details" }
+    "MutualFundSuccessfulSubscription": { "doneButton": "Done", "viewDetailsButton": "View Details" },
+    "MutualFundDetailsScreen": {
+      "ProgressBar": {
+        "titleText": "Estimated potential returns based on historical data and market conditions. Add an investment amount below andview expected calculation",
+        "investmentAmount": "Investment Amount",
+        "currency": "SAR"
+      }
+    }
   },
   "AllInOneCard": {
     "SelectedCardScreen": {

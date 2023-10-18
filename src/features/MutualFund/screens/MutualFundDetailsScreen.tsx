@@ -6,7 +6,7 @@ import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { HeaderContent, MutualFundDashboardHeaderContent } from "../components";
+import { HeaderContent, MutualFundDashboardHeaderContent, SliderProgressBar } from "../components";
 
 export default function MutualFundDetailsScreen() {
   const navigation = useNavigation();
@@ -26,11 +26,13 @@ export default function MutualFundDetailsScreen() {
         </HeaderContent>
       </View>
       <Stack direction="vertical" style={{ marginTop: 48 }} gap="24p" align="center">
+        <SliderProgressBar />
         <Typography.Text>TODO: All this page's UI in progress</Typography.Text>
         <Button
           onPress={() => {
             navigation.navigate("MutualFund.Subscription");
           }}>
+          {/* TODO: will be replaced from translation */}
           Go to Subscription Screen
         </Button>
       </Stack>

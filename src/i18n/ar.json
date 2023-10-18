@@ -889,7 +889,7 @@
         "resetLimitExceededTitle": "Reset Limit Exceeded",
         "regulatoryCheck": "Due to a regulatory check we can’t open an account for you right now ",
         "somethingWentWrong": "Something went wrong, please try again.",
-        "userNotExist":  "التفاصيل لا تتطابق مع سجلاتنا. تحقق بعناية وحاول مرة أخرى."
+        "userNotExist": "التفاصيل لا تتطابق مع سجلاتنا. تحقق بعناية وحاول مرة أخرى."
       },
       "navHeaderTitle": "SIGN IN",
       "title": "تسجيل الدخول على هذا الجهاز",
@@ -3522,7 +3522,14 @@
       "headerTitle": "Order Details",
       "button": "Done"
     },
-    "MutualFundSuccessfulSubscription": { "doneButton": "Done", "viewDetailsButton": "View Details" }
+    "MutualFundSuccessfulSubscription": { "doneButton": "Done", "viewDetailsButton": "View Details" },
+    "MutualFundDetailsScreen": {
+      "ProgressBar": {
+        "titleText": "العائدات المتوقعة بناءً على البيانات التاريخية والظروف السوقية. أضف مبلغ استثمار أدناه وعرض الحساب المتوقع.",
+        "investmentAmount": "مبلغ الاستثمار",
+        "currency": "ريال سعودي"
+      }
+    }
   },
   "AllInOneCard": {
     "SelectedCardScreen": {
@@ -3604,7 +3611,8 @@
         "title": "حاول مرة أخرى في وقت لاحق",
         "content": "لقد أدخلت أرقام تعريف شخصية مختلفة عدة مرات.",
         "setNewButton": "تعين رمز  مرور جديد "
-      }},
+      }
+    },
     "CardReviewScreen": {
       "orderSummary": "مراجعة الطلب",
       "card": "البطاقة",

@@ -271,6 +271,8 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
+  - react-native-slider (4.4.3):
+    - React-Core
   - react-native-webview (11.26.1):
     - React-Core
   - React-perflogger (0.71.12)
@@ -452,6 +454,7 @@ DEPENDENCIES:
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -558,6 +561,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-pdf"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-slider:
+    :path: "../node_modules/@react-native-community/slider"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-perflogger:
@@ -650,6 +655,7 @@ SPEC CHECKSUMS:
   react-native-pager-view: 0ccb8bf60e2ebd38b1f3669fa3650ecce81db2df
   react-native-pdf: 7c0e91ada997bac8bac3bb5bea5b6b81f5a3caae
   react-native-safe-area-context: 1d596539b05a78f2b346e954e7c577f6f9be7544
+  react-native-slider: 1cdd6ba29675df21f30544253bf7351d3c2d68c4
   react-native-webview: 9f111dfbcfc826084d6c507f569e5e03342ee1c1
   React-perflogger: 75b0e25075c67565a830985f3c373e2eae5389e0
   React-RCTActionSheet: a0c3e916b327e297d124d9ebe8b0c721840ee04d
@@ -684,4 +690,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 1e4e06bf8b6fd0b80ef507606545ae861c491846
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.13.0
