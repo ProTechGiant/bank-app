@@ -4,12 +4,14 @@ import { useTranslation } from "react-i18next";
 import { TextStyle, View } from "react-native";
 import { ViewStyle } from "react-native/types";
 
+import { TransferErrorBox } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -21,6 +23,9 @@ export default function OrderNewCardSummaryScreen() {
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.OrderNewCardSummaryScreen">>();
 
   const handleOnDonePress = route.params.onDonePress;
+
+  const account = useCurrentAccount();
+  const currentBalance = account.data?.balance ?? 0;
 
   const titleStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["24p"],
@@ -37,6 +42,10 @@ export default function OrderNewCardSummaryScreen() {
 
   const orderSummaryContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["12p"],
+  }));
+
+  const insufficientFundsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    margin: theme.spacing["24p"],
   }));
 
   const orderSummaryItemContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -64,6 +73,14 @@ export default function OrderNewCardSummaryScreen() {
 
   const handleOnClose = () => {
     navigation.goBack();
+  };
+
+  const handleOnAddFundsPress = () => {
+    navigation.goBack();
+
+    navigation.navigate("AddMoney.AddMoneyStack", {
+      screen: "AddMoney.AddMoneyInfoScreen",
+    });
   };
 
   const renderSeparator = () => {
@@ -124,9 +141,22 @@ export default function OrderNewCardSummaryScreen() {
               t("CardActions.OrderNewCardSummaryScreen.totalFeeAmount")
             )}
           </View>
+          {currentBalance <= 0 ? (
+            <View style={insufficientFundsContainerStyle}>
+              <TransferErrorBox
+                onPress={handleOnAddFundsPress}
+                textStart={t("CardActions.OrderNewCardSummaryScreen.insufficientFundsTitle")}
+                textEnd={t("CardActions.OrderNewCardSummaryScreen.addFunds")}
+              />
+            </View>
+          ) : null}
         </ContentContainer>
+
         <View style={orderSummaryContainerStyle}>
-          <Button onPress={handleOnDonePress} testID="CardActions.OrderNewCardSummaryScreen:DoneButton">
+          <Button
+            testID="CardActions.OrderNewCardSummaryScreen:DoneButton"
+            disabled={currentBalance <= 0}
+            onPress={handleOnDonePress}>
             {t("CardActions.OrderNewCardSummaryScreen.done")}
           </Button>
         </View>

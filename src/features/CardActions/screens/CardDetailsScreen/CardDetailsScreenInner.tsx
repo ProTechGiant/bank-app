@@ -131,7 +131,11 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
 
   const handleOnRequestPhysicalCardConfirmPress = () => {
     setIsApplyPhysicalCardModalVisible(false);
-    navigation.navigate("CardActions.ConfirmCardDeliveryAddress");
+    navigation.navigate("CardActions.ConfirmCardDeliveryAddress", {
+      cardId: card.CardId,
+      cardType: card.CardType,
+      cardHolderName: card.AccountName,
+    });
   };
 
   const handleOnUpgradePress = () => {

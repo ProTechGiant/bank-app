@@ -111,7 +111,13 @@ export type CardActionsStackParams = {
   };
   "CardActions.OrderNewCardSummaryScreen": { onDonePress: () => void };
   "CardActions.POSLimitScreen": { cardId: string };
-  "CardActions.ConfirmCardDeliveryAddress": undefined;
+  "CardActions.ConfirmCardDeliveryAddress": {
+    cardId: string;
+    cardType: string;
+    cardHolderName: string;
+    alternativeAddress?: Address;
+  };
+
   "CardActions.ApplyPhysicalCardSuccessScreen": undefined;
   "CardActions.RenewCardScreen": {
     cardId: string;

@@ -23,7 +23,7 @@ interface AddressDataType extends Address {
 
 interface CardDeliveryDetailsProps {
   onCancel: () => void;
-  onSubmit: () => void;
+  onSubmit: (isTemporaryAddresssSelected: boolean) => void;
   isSubmitting: boolean;
   navigateTo?:
     | "CardActions.ConfirmCardDeliveryAddress"
@@ -81,7 +81,6 @@ export default function CardDeliveryDetails({
 
   const handleOnConfirm = () => {
     if (addresses.length < 1) return;
-
     if (isTemporaryAddressSelected) {
       const selectedAddress = addresses.find(element => element.isSelected);
       if (selectedAddress === undefined) return;
@@ -89,8 +88,7 @@ export default function CardDeliveryDetails({
       const { id, isSelected, ...address } = selectedAddress;
       applyCardsContext.setValue("AlternateAddress", address);
     }
-
-    onSubmit();
+    onSubmit(isTemporaryAddressSelected);
   };
 
   const handleOnSetTemporaryAddress = () => {

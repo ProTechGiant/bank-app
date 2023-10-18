@@ -2049,8 +2049,8 @@
           },
           "buttons": {
             "confirm": "Confirm and continue",
-            "edit": "Edit temporary address",
-            "setAddress": "Set temporary address"
+            "edit": "Edit address",
+            "setAddress": "Delivery to different address"
           }
         },
         "errorModalTitle": "Try again",
@@ -2088,10 +2088,12 @@
       "done": "Done",
       "issuanceFeeAmount": "SAR 0.00",
       "deliveryFeeAmount": "SAR 5.00",
-      "totalFeeAmount": "SAR 5.00"
+      "totalFeeAmount": "SAR 5.00",
+      "insufficientFundsTitle": "You have insufficient funds to renew the physical card",
+      "addFunds": "Add funds"
     },
     "SetTemporaryAddressScreen": {
-      "navTitle": "Temporary address",
+      "navTitle": "Delivery address",
       "form": {
         "optional": "Optional",
         "addressLineOne": {
@@ -2131,7 +2133,7 @@
             "minLength": "Postal code is not valid"
           }
         },
-        "button": "Confirm and continue"
+        "button": "Confirm address"
       }
     },
     "ApplePayActivatedScreen": {
@@ -2331,7 +2333,7 @@
         "navTitle": "Confirm card delivery address",
         "description": "Confirm where you’d like your new card to be delivered.",
         "buttonTitle": "Confirm address",
-        "editAddressButton": "Edit temporary address",
+        "editAddressButton": "Edit address",
         "differentAddressButton": "Deliver to different address",
         "alertTitle": "Are you sure you want to cancel the card?",
         "alertMessage": "We’ll cancel your card straight away and you won’t be able to use it. While you wait for your physical card, you’ll be able to use your new card online or on your phone immediately.",

@@ -20,13 +20,14 @@ export default function TransferErrorBox({ onPress, textStart, textEnd, testID }
     marginHorizontal: -theme.spacing["20p"],
     marginBottom: theme.spacing["24p"],
     padding: theme.spacing["20p"],
+    borderRadius: theme.spacing["8p"],
   }));
 
   const errorIconColor = useThemeStyles(theme => theme.palette.errorBase);
 
   return (
     <Pressable onPress={onPress} style={errorBoxStyle} testID={testID}>
-      <Typography.Text color="errorBase" size="footnote" weight="regular">
+      <Typography.Text style={styles.textStyle} color="errorBase" size="footnote" weight="regular">
         {textStart}
       </Typography.Text>
       {textEnd !== undefined ? (
@@ -46,5 +47,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     columnGap: 8,
     flexDirection: "row",
+  },
+  textStyle: {
+    width: "70%",
   },
 });

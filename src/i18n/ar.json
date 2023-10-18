@@ -1930,15 +1930,15 @@
           "errorModalActionButton": "Set new pin"
         },
         "CardDeliveryDetails": {
-          "title": "Card delivery details",
+          "title": "يرجى تأكيد عنوان تسليم البطاقة.",
           "paragraph": {
-            "default": "Your card will be sent here:",
+            "default": "يرجى تأكيد مكان تسليم بطاقتك الجديدة.",
             "checkHighlighted": "Check the correct delivery address is highlighted:"
           },
           "buttons": {
-            "confirm": "Confirm and continue",
-            "edit": "Edit temporary address",
-            "setAddress": "Set temporary address"
+            "confirm": "تأكيد العنوان",
+            "edit": "Edit address",
+            "setAddress": "التوصيل إلى عنوان مختلف"
           }
         },
         "errorModalTitle": "Try again",
@@ -1976,15 +1976,17 @@
       "done": "تم",
       "issuanceFeeAmount": "0.00 ريال سعودي",
       "deliveryFeeAmount": "5.00 ريال سعودي",
-      "totalFeeAmount": "5.00 ريال سعودي"
+      "totalFeeAmount": "5.00 ريال سعودي",
+      "insufficientFundsTitle": "ليس لديك أموال كافية لتجديد البطاقة الفعلية",
+      "addFunds": "إضافة الأموال"
     },
     "SetTemporaryAddressScreen": {
-      "navTitle": "Temporary address",
+      "navTitle": "عنوان التوصيل",
       "form": {
-        "optional": "Optional",
+        "optional": "اختياري",
         "addressLineOne": {
-          "label": "Address line 1",
-          "placeholder": "Address line 1",
+          "label": "عنوان التوصيل ١",
+          "placeholder": "عنوان التوصيل ١",
           "validation": {
             "required": "Address line 1 is required",
             "invalid": "Address line 1 is not valid",
@@ -1992,34 +1994,34 @@
           }
         },
         "addressLineTwo": {
-          "label": "Address line 2",
-          "placeholder": "Address line 2"
+          "label": "عنوان التوصيل ٢",
+          "placeholder": "عنوان التوصيل ٢"
         },
         "district": {
-          "label": "District",
-          "placeholder": "District",
+          "label": "الحي",
+          "placeholder": "الحي",
           "validation": {
             "required": "District is required"
           }
         },
         "city": {
-          "label": "City",
-          "placeholder": "Select city",
-          "dropdownHeader": "Select city",
+          "label": "اختر المدينة",
+          "placeholder": "اختر المدينة",
+          "dropdownHeader": "اختر المدينة",
           "validation": {
             "required": "City is required"
           },
           "buttonLabel": "Confirm"
         },
         "postalCode": {
-          "label": "Postal Code",
-          "placeholder": "Postal Code",
+          "label": "الرقم البريدي",
+          "placeholder": "الرقم البريدي",
           "validation": {
             "required": "Postal code is required",
             "minLength": "Postal code is not valid"
           }
         },
-        "button": "Confirm and continue"
+        "button": "تأكيد العنوان"
       }
     },
     "ApplePayActivatedScreen": {
@@ -2096,7 +2098,7 @@
       "manageCardHeader": "إدارة البطاقة",
       "cardSettingsButton": "اعدادات البطاقة",
       "reportButton": "الإبلاغ عن سرقة، فقدان أو تلف",
-      "requestPhysicalCard": "Request physical card",
+      "requestPhysicalCard": "طلب بطاقة بلاستيكية",
       "accountHeader": "الحساب المربوط",
       "accountNumber": "رقم الحساب",
       "accountName": "اسم الحساب",
@@ -2137,12 +2139,12 @@
         "title": "فترة انتظار {{cardState}} البطاقة",
         "message": "يرجى الانتظار لمدة ٥ دقائق من آخر عملية قفل/ فك القفل للبطاقة",
         "okButton": "حسنًا"
+      },
+      "applyForPhysicalCardConfirmationModal": {
+        "title": "هل أنت متأكد من رغبتك في التقديم للحصول على بطاقة فعلية؟",
+        "confirmButton": "نعم",
+        "cancelButton": "الغاء"
       }
-    },
-    "applyForPhysicalCardConfirmationModal": {
-      "title": "هل أنت متأكد من رغبتك في التقديم للحصول على بطاقة فعلية؟",
-      "confirmButton": "نعم",
-      "cancelButton": "الغاء"
     },
     "standardCard": "Standard",
     "plusCard": "Plus card",

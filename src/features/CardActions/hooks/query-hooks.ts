@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { OtpRequiredResponse } from "@/features/OneTimePassword/types";
 import { Address } from "@/types/Address";
 import { generateRandomId } from "@/utils";
@@ -115,6 +116,58 @@ export function useChangeCardStatus() {
     );
 
     return { ...response, correlationId };
+  });
+}
+
+export function useApplyForPhysicalCard() {
+  return useMutation(async ({ cardId }: { cardId: string }) => {
+    const correlationId = generateRandomId();
+
+    const response = await api<OtpRequiredResponse>(
+      "v1",
+      `cards/renew`,
+      "POST",
+      undefined,
+      { CardId: cardId, ActionType: "ReissAsNew" },
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+
+    return { ...response, correlationId };
+  });
+}
+
+interface UpdateAddressInput {
+  cardId: string;
+  cardHolderName: string;
+  cardType: string;
+  addressOne: string | undefined;
+  addressTwo: string | undefined;
+  city: string | undefined;
+  postalCode: string | undefined;
+}
+
+export function useUpdateAddress() {
+  const { userId, phoneNumber } = useAuthContext();
+  return useMutation(({ cardId, cardHolderName, cardType, addressOne, addressTwo, city }: UpdateAddressInput) => {
+    const correlationId = generateRandomId();
+    const requestParam = {
+      CustomerId: userId,
+      CardHolderName: cardHolderName,
+      CardType: cardType,
+      CardId: cardId,
+      DeliveryAddressOne: addressOne,
+      DeliveryAddressTwo: addressTwo,
+      DeliveryCity: city,
+      DeliveryCountry: "SAU",
+      DeliveryEmail: "", //TODO: Needs to be replaced with email when available.
+      DeliveryMobileNumber: phoneNumber,
+    };
+
+    return api<null>("v1", `cards/delivery-address`, "POST", undefined, requestParam, {
+      ["x-correlation-id"]: correlationId,
+    });
   });
 }
 

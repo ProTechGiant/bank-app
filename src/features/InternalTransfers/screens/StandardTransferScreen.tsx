@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
 import { CalendarAltIcon, InfoCircleIcon, InfoFilledCircleIcon } from "@/assets/icons";
+import { TransferErrorBox } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
@@ -25,7 +26,7 @@ import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 import delayTransition from "@/utils/delay-transition";
 
-import { TransferAmountInput, TransferErrorBox, TransferLimitError, TransferReasonInput } from "../components";
+import { TransferAmountInput, TransferLimitError, TransferReasonInput } from "../components";
 import TransferLimitsModal from "../components/TransferLimitsModal";
 import WarningBanner from "../components/WarningBanner";
 import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";

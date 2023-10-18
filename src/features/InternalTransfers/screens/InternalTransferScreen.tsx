@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
-import { IconLink } from "@/components";
+import { IconLink, TransferErrorBox } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
@@ -21,7 +21,7 @@ import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 import delayTransition from "@/utils/delay-transition";
 
-import { TransferAmountInput, TransferErrorBox, TransferLimitError, TransferReasonInput } from "../components";
+import { TransferAmountInput, TransferLimitError, TransferReasonInput } from "../components";
 import { useTransferReasons } from "../hooks/query-hooks";
 
 interface InternalTransferInput {
