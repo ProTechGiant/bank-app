@@ -2692,8 +2692,8 @@
         "message": "{{bankName}} does not support quick transfers"
       },
       "validationError": {
-        "title": "Sorry - we couldn't check that",
-        "message": "Please try again later or get in touch if you’re still having problems."
+        "title":"عذرًا، حدث خطأ ما.",
+        "message": "حاول مرة أخرى لاحقًا أو اتصل بفريق خدمة العملاء لدينا."
       },
       "SwitchToARB": {
         "title": "Send money to Al Rajih bank account via internal transfer",
