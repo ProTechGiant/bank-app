@@ -1173,10 +1173,10 @@
         "button": "أنشئ هدف"
       },
       "GoldSection": {
-        "title": "Gold Wallet",
-        "subtitle": "Safe investment SAR",
-        "caption": "Buy gold in a few steps",
-        "button": "Explore"
+        "title": "محفظة الذهب",
+        "subtitle": "استثمار آمن ريال سعودي",
+        "caption": "اشترِ الذهب في بضع خطوات",
+        "button": "استكشاف"
       },
       "ReferFriend": {
         "title": "أرسل دعوه",
@@ -3371,9 +3371,9 @@
     }
   },
   "GoldWallet": {
-    "title": "المحفظة الذهبية",
+    "title": "محفظة الذهب",
     "yourGoldValue": "قيمة الذهب الخاصة بك",
-    "SAR": "ريال",
+    "SAR": "ر.س",
     "originalInvestedValue": "القيمة الأصلية المستثمرة",
     "goldWeight": "وزن الذهب",
     "grams": "جرام",
@@ -3387,11 +3387,11 @@
     "currentGoldPrice": "سعر الذهب الحالي",
     "transactions": "المعاملات",
     "viewAll": "عرض الكل",
-    "Grams": "غرام",
+    "Grams": "غ",
     "sell": "بيع",
     "buy": "شراء",
-    "SARG": "ريال/جرام",
-    "transactionsDetails": "تفاصيل المعاملات",
+    "SARG": "ر.س/غ",
+    "transactionsDetails": "تفاصيل محفظة الذهب",
     "done": "تم",
     "chargedFrom": "التحويل من",
     "status": "الحالة",
@@ -3399,16 +3399,16 @@
     "goldSerial": "الرقم التسلسلي لسبائك الذهب",
     "goldPrice": "سعر الذهب",
     "noTransactionTitle": "ليس لديك أي معاملات حتى الآن",
-    "noTransactionSubtitle": "ابدأ إنشاءه محفظتك الذهبية",
+    "noTransactionSubtitle": "ابدأ ببناء محفظتك الذهبية",
     "GoldWalletInfoModal": {
-      "title": "معلومات المحفظة الذهبية",
+      "title": "تفاصيل محفظة الذهب",
       "subtitle": "تفاصيل محفظتك الذهبية",
       "walletNumber": "رقم المحفظة",
       "details": "التفاصيل",
-      "linkedAccount": "الحساب المرتبط",
+      "linkedAccount": "الحساب المربوط",
       "copyToastMessage": "نسخ إلى الحافظة."
     },
-    "gram": "جرام",
+    "gram": "غ",
     "alertInfoBoxOn": "Alert when gold price is",
     "alertInfoBoxOnSecondHalf": "in the market",
     "alertInfoBoxOff": "Alerts are turned off",
@@ -3418,10 +3418,10 @@
     "OnBoardingScreen": {
       "title": "اشتري الذهب واستثمر اليوم",
       "agree": "أنا أوافق على",
-      "termsAndConditions": "الشروط والأحكام الخاصة بكرواتيا",
-      "confirm": "تأكيد",
+      "termsAndConditions": "الشروط والأحكام",
+      "confirm": "تم",
       "features": {
-        "lowRisk": "مدخرات موثوقة مع مخاطر منخفضة"
+        "lowRisk": "وفورات موثوقة مع خطر قليل"
       },
       "error": {
         "title": "حدث خطأ أثناء إنشاء المحفظة",
@@ -3429,27 +3429,27 @@
       }
     },
     "AlertSettingsModal": {
-      "title": "Alert Settings",
-      "subtitle": "Set up amount and if you want to receive notifications",
-      "toggle": "Turn on alerts",
-      "operation": "Condition",
-      "price": "Price",
-      "done": "Done",
-      "currency": " SAR",
+      "title": "إعدادات التنبيه",
+      "subtitle": "قم بإعداد المبلغ وإذا كنت ترغب في تلقي الإخطارات",
+      "toggle": "قم بتشغيل التنبيهات",
+      "operation": "الشرط",
+      "price": "السعر",
+      "done": "تم",
+      "currency": "ر.س",
       "NotificationModal": {
-        "successTitle": "Price Alert created successfully",
-        "successMessage": "You’ve created a price alert at",
-        "successButton": "OK",
-        "errorTitle": "Sorry, something has gone wrong",
-        "errorMessage": "Try again later or get in touch with our customer care team."
+        "successTitle": "تم إنشاء تنبيه السعر بنجاح",
+        "successMessage": "لقد قمت بإنشاء تنبيه للسعر بـ ",
+        "successButton": "حسناً",
+        "errorTitle": "نعتذر، حدث خطأ ما",
+        "errorMessage": "أعد المحاولة لاحقاً أو حاول الاتصال بفريق خدمة المستخدم"
       },
       "ConditionsModal": {
-        "title": "Conditions",
-        "greaterThan": "Greater than (>)",
-        "greaterThanOrEqual": "Greater than equal to (>=)",
-        "lessThan": "Less than (<)",
-        "lessThanOrEqual": "Less than equal to (<=)",
-        "equal": "Equal to (==)"
+        "title": "الشرط",
+        "greaterThan": "أكبر من (>)",
+        "greaterThanOrEqual": "أكبر من يساوي (>=)",
+        "lessThan": "أقل من (<)",
+        "lessThanOrEqual": "أقل من يساوي (<=)",
+        "equal": "يساوي (==)"
       }
     }
   },
