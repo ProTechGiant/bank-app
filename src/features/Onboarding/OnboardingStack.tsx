@@ -10,6 +10,7 @@ import {
   FastOnboardingScreen,
   FatcaDetailsScreen,
   FinancialInformationScreen,
+  HighRiskRequireDocumentScreen,
   IqamaInputScreen,
   NafathAuthScreen,
   OptionalEmailScreen,
@@ -19,6 +20,7 @@ import {
   TermsAndConditionsDetailsScreen,
   TermsAndConditionsScreen,
   UnmatchedArbNumberScreen,
+  UploadDocumentScreen,
   WelcomeCarouselScreen,
   WorkGuideModal,
 } from "./screens";
@@ -59,6 +61,8 @@ export type OnboardingStackParams = {
   };
   "Onboarding.FastOnboardingScreen": undefined;
   "Onboarding.UnmatchedArbNumberScreen": undefined;
+  "Onboarding.HighRiskRequireDocumentScreen": undefined;
+  "Onboarding.UploadDocumentScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<OnboardingStackParams>();
@@ -86,6 +90,8 @@ export default function OnboardingStack() {
         <Stack.Screen component={TermsAndConditionsScreen} name="Onboarding.TermsAndConditions" />
         <Stack.Screen component={TermsAndConditionsDetailsScreen} name="Onboarding.TermsAndConditionsDetails" />
         <Stack.Screen component={CreatePasscodeScreen} name="Onboarding.CreatePasscode" />
+        <Stack.Screen component={HighRiskRequireDocumentScreen} name="Onboarding.HighRiskRequireDocumentScreen" />
+        <Stack.Screen component={UploadDocumentScreen} name="Onboarding.UploadDocumentScreen" />
         <Stack.Screen component={ConfirmPasscodeScreen} name="Onboarding.ConfirmPasscode" />
         <Stack.Screen component={PendingAccountScreen} name="Onboarding.PendingAccount" />
         <Stack.Screen component={WorkGuideModal} name="Onboarding.WorkGuideModal" options={{ presentation: "modal" }} />

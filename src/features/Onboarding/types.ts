@@ -1,5 +1,7 @@
 import { AlertVariantType } from "@/components/Alert";
 
+import { UploadDocumentStatus } from "./constants";
+
 export interface NafathDetails {
   CustomerId?: string;
   CustomerType?: string;
@@ -111,7 +113,7 @@ export interface CustomerPendingAction {
 
 export type StatusId = 1 | 2 | 3;
 
-export type Status = "COMPLETED" | "PENDING" | "DECLINED";
+export type Status = "COMPLETED" | "PENDING" | "DECLINED" | "HIGH_RISK";
 
 export interface CustomersTermsAndConditions {
   TermsID: string;
@@ -139,4 +141,25 @@ export interface FobEligibilityResponse {
   IsFOBEligibile: boolean;
   IsSameMobileNumber: boolean;
   ArbMobileNumber: string;
+}
+export interface RetrieveUploadDocumentsListInterface {
+  CaseNumber: string;
+  Status: string;
+  ClassificationCode: string;
+  RequiredDocuments: RequiredDocumentInterface[];
+}
+
+export interface CheckHighRiskInterface {
+  HighRiskCustomerFlag: boolean;
+}
+
+export interface RequiredDocumentInterface {
+  DocumentGuid: string;
+  AnnotationGuid: string;
+  DocumentStatus: UploadDocumentStatus;
+  Reason: string;
+  Name: string;
+  NameAr: string;
+  DescriptionEn: string;
+  DescriptionAr: string;
 }

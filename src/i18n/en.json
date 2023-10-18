@@ -89,6 +89,19 @@
       "errorMessage": "We’re sorry something went wrong.",
       "tryAgain": "Please try again later."
     },
+    "HighRiskRequireDocumentScreen": {
+      "title": "Additional information required",
+      "subTitle": "in compliance with regulatory requirements we would like to ask you to upload some documents in order to proceed with your account creation",
+      "buttonText": "Upload Now"
+    },
+    "UploadDocumentScreen": {
+      "title": "Documents Upload",
+      "subTitle": "Below are the required documents to be uploaded from your side ",
+      "buttonText": "Submit Documents",
+      "todo": "To do",
+      "done": "Done",
+      "failed": "Failed"
+    },
     "WelcomeCarousel": {
       "titleOne": "Welcome\nto Croatia",
       "subTextOne": "This is your gateway\nto What's Next",

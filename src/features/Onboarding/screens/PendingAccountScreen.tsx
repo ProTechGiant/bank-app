@@ -36,6 +36,9 @@ export default function PendingAccountScreen() {
       navigation.navigate("Onboarding.CreatePasscode");
     } else if (accountStatus === "DECLINED") {
       setIsfetchingAccountStatus(false);
+    } else if (accountStatus === "HIGH_RISK") {
+      setIsfetchingAccountStatus(false);
+      navigation.navigate("Onboarding.HighRiskRequireDocumentScreen");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountStatus, refetch]);

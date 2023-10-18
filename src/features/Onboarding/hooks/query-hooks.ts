@@ -12,6 +12,7 @@ import { nationalIdRegEx } from "@/utils";
 import { IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import {
+  CheckHighRiskInterface,
   CustomerPendingAction,
   CustomersTermsAndConditions,
   FatcaFormInput,
@@ -19,6 +20,7 @@ import {
   IqamaInputs,
   NafathDetails,
   RegistrationResponse,
+  RetrieveUploadDocumentsListInterface,
   Status,
   StatusId,
 } from "../types";
@@ -267,6 +269,7 @@ export function useIqama() {
       return await mutateValidateMobileNumber({ nationalId: values.NationalId, mobileNo: values.MobileNumber });
     }
   };
+
   return useMutation(handleSignUp, {
     onError(error: ApiError<ResponseError>, variables, _context) {
       if (
@@ -291,22 +294,14 @@ export function useRequestNumber() {
 
       return api<OtpResponseType>(
         "v1",
-
         "customers/get-transaction-id",
-
         "POST",
-
         undefined,
-
         {},
-
         {
           ["x-correlation-id"]: correlationId,
-
           ["Accept-Language"]: i18n.language.toUpperCase(),
-
           ["deviceId"]: DeviceInfo.getDeviceId(),
-
           ["IDNumber"]: nationalId || "",
         }
       );
@@ -353,12 +348,18 @@ export function useAccountStatus(fetchPosts: boolean) {
     "AccountStatus",
     async () => {
       if (undefined === correlationId) throw new Error("Cannot fetch customers/status without `correlationId`");
-
       const workflowTask = await fetchLatestWorkflowTask();
 
       if (workflowTask?.Name === "CreatePasscode") {
         return {
           OnboardingStatus: "COMPLETED",
+          workflowTask,
+        };
+      }
+
+      if (workflowTask?.Name === "HighRiskCase") {
+        return {
+          OnboardingStatus: "HIGH_RISK",
           workflowTask,
         };
       }
@@ -384,7 +385,6 @@ export function useAccountStatus(fetchPosts: boolean) {
   );
 }
 
-//TODO: Update this function when BE is finished
 export function useConfirmTermsConditions() {
   const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
 
@@ -656,5 +656,35 @@ export function useCheckCustomerSelectionForMobileNumber() {
         ["Accept-Language"]: i18n.language.toUpperCase(),
       }
     );
+  });
+}
+
+export function useRetriveHighRiskDocumentListByCustomerId() {
+  const { correlationId } = useOnboardingContext();
+
+  return useQuery(["retrieveCustomerDetails"], () => {
+    if (!correlationId) throw new Error("Need valid Correlation id");
+
+    return api<RetrieveUploadDocumentsListInterface>(
+      "v1",
+      "customers/required-documents/high-risk",
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+  });
+}
+
+export function useCheckHighRisk() {
+  const { correlationId } = useOnboardingContext();
+
+  return useQuery(["CheckHighRisk"], () => {
+    if (!correlationId) throw new Error("Need valid Correlation id");
+    return api<CheckHighRiskInterface>("v1", "customers/check/high-risk", "GET", undefined, undefined, {
+      ["x-correlation-id"]: correlationId,
+    });
   });
 }

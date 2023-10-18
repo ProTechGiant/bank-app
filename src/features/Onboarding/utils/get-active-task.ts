@@ -14,6 +14,7 @@ export function getActiveTask(activeTask: string) {
     CreatePasscode: "Onboarding.CreatePasscode",
     CheckCustomeredAgreedOnFOB: "Onboarding.FastOnboardingScreen",
     SelectARBMobileNumber: "Onboarding.UnmatchedArbNumberScreen",
+    HighRiskCase: "Onboarding.HighRiskRequireDocumentScreen",
   };
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
