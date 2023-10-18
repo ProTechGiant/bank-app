@@ -3712,6 +3712,38 @@
         "CancelButton": "Cancel card request"
       }
     },
+    "CallBackVerificationScreen": {
+      "wellCallYouTitle": "We'll call you soon",
+      "callReceiveMessage": "You'll get a call from 'Croatia bank' to confirm that you want to send money to your new beneficiary.",
+      "callingYouTitle": "Calling you now",
+      "callingInMessage": "We'll call in",
+      "seconds": "seconds",
+      "dialInMessage": "Dial",
+      "toConfirmMessage": "to activate the All-in-one card",
+      "instructionMessage": "Your card will be activated short time after the call..",
+      "noCallReceived": "No call received? request a",
+      "newCall": "New Call",
+      "cancel": "Cancel",
+      "errorModal": {
+        "title": "Call back verification failed",
+        "content": "Get a new verification call to activate you card",
+        "newCallButton": "Request new Call"
+      },
+      "maximumCallErrorModal": {
+        "title": "Maximum call verification limit reached",
+        "content": "You can activate your card from dashboard",
+        "viewCardButton": "View Card"
+      }
+    },
+    "WaitingActivationScreen": {
+      "title": "Give us a minute",
+      "description": "Please keep this screen open while we activate your card - we won't be long"
+    },
+    "WelcomeScreen": {
+      "title": "Welcome to nera Subscription!",
+      "description": "You have successfully subscribed to nera Plus. You can manage your subscription from app settings.",
+      "viewCardButton": "View Card"
+    },
     "Dashboard": {
       "title": "All in One",
       "totalBalance": "Total Balance",
@@ -3745,6 +3777,11 @@
         "message": "You will lose the data, and you will need to restart the journey from the beginning.",
         "CancelButton": "Cancel card request"
       }
+    },
+    "CardReadyMessageScreen": {
+      "title": "You got All-In-One card",
+      "description": "Activate you card to use it now !",
+      "activateCardButton": "Activate card "
     },
     "CreatePINScreen": {
       "title": "Create PIN",

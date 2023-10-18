@@ -14,8 +14,8 @@ import { SettingIcon } from "../assets/icons";
 import { ActivateCard, Benefits, Rewards, UpgradeToNeraPlusCard } from "../components";
 import AllInCardPlaceholder from "../components/AllInCardPlaceholder";
 import TransactionSection from "../components/TransactionSection";
-import { mockTransactions } from "../mocks";
 import { TransactionItem } from "../types";
+import { mockTransactions } from "./../mocks/index";
 
 export default function DashboardScreen() {
   const { t } = useTranslation();

@@ -46,7 +46,7 @@ export default function ConfirmPINScreen() {
     setConfirmedPassCode(enteredPassCode);
     if (enteredPassCode.length === PASSCODE_LENGTH) {
       if (enteredPassCode === passCode) {
-        //TODO : Navigate to CheckIVRScreen
+        navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.CallBackVerification" });
       } else {
         if (numberOfAttempts < 2) {
           setIsError(true);
@@ -67,7 +67,7 @@ export default function ConfirmPINScreen() {
   };
 
   const handleOnClose = () => {
-    //TODO: Navigate to You got all in one card Screen
+    navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.CardReadyMessage" });
   };
   return (
     <Page>

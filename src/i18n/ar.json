@@ -3567,6 +3567,38 @@
         "CancelButton": "الغاء طلب البطاقة"
       }
     },
+    "CallBackVerificationScreen": {
+      "wellCallYouTitle": "سوف نتصل بك قريبا",
+      "callReceiveMessage": "ستتلقى مكالمة من 'بنك كرواتيا' لتأكيد رغبتك في تفعيل بطاقة الكل في واحد الخاصة بك",
+      "callingYouTitle": "سنتصل بك الان",
+      "callingInMessage": "سنتصل بك خلال",
+      "seconds": "ثانية",
+      "dialInMessage": "اطلب",
+      "toConfirmMessage": "لتفعيل البطاقة",
+      "instructionMessage": "سيتم تفعيل بطاقتك بعد وقت قصير من المكالمة.",
+      "noCallReceived": "لم تتلقي أي مكالمة؟ ",
+      "newCall": "اطلب مكالمة جديدة",
+      "cancel": "الغاء",
+      "errorModal": {
+        "title": "فشل التحقق من معاودة الاتصال",
+        "content": "اطلب مكالمة تحقق جديدة لتفعيل البطاقة الخاصة بكe",
+        "newCallButton": "طلب مكالمة تحقق جديدة"
+      },
+      "maximumCallErrorModal": {
+        "title": "تم الوصول إلى الحد الأقصى للتحقق من المكالمات",
+        "content": "يمكنك تفعيل بطاقتك من لوحة التحكم",
+        "viewCardButton": "عرض البطاقة"
+      }
+    },
+    "WaitingActivationScreen": {
+      "title": "لحظات من فضلك",
+      "description": "يرجى إبقاء هذه الشاشة مفتوحة بينما نقوم بتنشيط بطاقتك - لن يستغرق الأمر وقتًا طويلاً"
+    },
+    "WelcomeScreen": {
+      "title": "مرحبًا بك في اشتراك nera",
+      "description": "لقد قمت بالاشتراك بنجاح في نيرا بلس يمكنك إدارة اشتراكك من إعدادات التطبيق.",
+      "viewCardButton": "اظهار البطاقة"
+    },
     "Dashboard": {
       "title": "All in One",
       "totalBalance": "الرصيد الكلي",
@@ -3600,6 +3632,11 @@
         "message": "سوف تفقد البيانات، وسوف تحتاج إلى إعادة تشغيل الرحلة من البداية.",
         "CancelButton": "الغاء طلب البطاقة"
       }
+    },
+    "CardReadyMessageScreen": {
+      "title": "لقد حصلت على بطاقة all in one ",
+      "description": "قم بتفعيل بطاقتك الآن لتتمكن من استخدامها !",
+      "activateCardButton": "تفعيل البطاقة"
     },
     "CreatePINScreen": {
       "title": "إنشاء رمز المرور",

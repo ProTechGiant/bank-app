@@ -1,3 +1,5 @@
+export { default as CallBackVerificationScreen } from "./CallBackVerificationScreen";
+export { default as CardReadyMessageScreen } from "./CardReadyMessageScreen";
 export { default as CardReviewScreen } from "./CardReviewScreen";
 export { default as ChooseRedemptionMethodScreen } from "./ChooseRedemptionMethodScreen";
 export { default as ConfirmPINScreen } from "./ConfirmPINScreen";
@@ -7,3 +9,5 @@ export { default as EntryPointScreen } from "./EntryPointScreen";
 export { default as SelectCardScreen } from "./SelectCardScreen";
 export { default as SelectPaymentOptionScreen } from "./SelectPaymentOptionScreen";
 export { default as TermsAndConditionsScreen } from "./TermsAndConditionsScreen";
+export { default as WaitingActivationScreen } from "./WaitingActivationScreen";
+export { default as WelcomeScreen } from "./WelcomeScreen";

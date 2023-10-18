@@ -204,6 +204,7 @@ export const mockTransactions = [
 ];
 
 export const cardType = "neraPlus";
+export const DIAL_NUMBER = 1;
 
 export const termsSections: TermsAndConditionSection[] = [
   {
