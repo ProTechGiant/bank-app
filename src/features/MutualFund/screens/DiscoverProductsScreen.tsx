@@ -15,21 +15,19 @@ export default function DiscoverProductsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [selectedFilter, setSelectedFilter] = useState<string>("All");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(
     mockOffersProducts ? mockOffersProducts.productsList : []
   );
 
   useEffect(() => {
-    if (selectedFilters.length > 0) {
-      const filteredList = mockOffersProducts.productsList.filter(product =>
-        selectedFilters.includes(product.riskLevel)
-      );
+    if (selectedFilter !== "All") {
+      const filteredList = mockOffersProducts.productsList.filter(product => product.risk === selectedFilter);
       setFilteredProducts(filteredList);
     } else {
       setFilteredProducts(mockOffersProducts.productsList);
     }
-  }, [selectedFilters]);
+  }, [selectedFilter]);
 
   const handleToggleExpansion = (index: number) => {
     if (expandedIndex === index) {
@@ -40,39 +38,19 @@ export default function DiscoverProductsScreen() {
   };
 
   const handleOnBackPress = () => {
-    navigation.goBack();
-  };
-
-  const handleOnClosePress = () => {
-    //TODO - add navigation here
-  };
-
-  const handleGoBackPress = () => {
     navigation.navigate("Home.HomeTabs");
   };
 
+  const handleOnClosePress = () => {
+    navigation.navigate("Home.HomeTabs");
+  };
+
+  const handleGoBackPress = () => {
+    navigation.goBack();
+  };
+
   const handleOnFilterChange = (filter: string) => {
-    let updatedFilters: string[];
-
-    if (filter === t("MutualFund.DiscoverProductsScreen.filterType.all")) {
-      setFilteredProducts(mockOffersProducts.productsList);
-    } else {
-      if (selectedFilters.includes(filter)) {
-        updatedFilters = selectedFilters.filter(item => item !== filter);
-      } else {
-        updatedFilters = [...selectedFilters, filter];
-      }
-
-      if (updatedFilters.length === 0) {
-        setFilteredProducts(mockOffersProducts.productsList);
-      } else {
-        const filteredList = mockOffersProducts.productsList.filter(product =>
-          updatedFilters.some(filter => product.riskLevel === filter)
-        );
-        setFilteredProducts(filteredList);
-      }
-      setSelectedFilters(updatedFilters);
-    }
+    setSelectedFilter(filter);
   };
 
   const handleOnViewDetailsPress = () => {
@@ -111,7 +89,7 @@ export default function DiscoverProductsScreen() {
                 dividend={product.dividend}
                 frequency={product.dealingDaysFrequency}
                 strategy={product.strategy}
-                risk={product.risk}
+                risk={product.riskLevel}
                 index={index}
                 onToggleExpansion={handleToggleExpansion}
                 isExpanded={expandedIndex === index}
@@ -119,10 +97,16 @@ export default function DiscoverProductsScreen() {
               />
             );
           })
+        ) : selectedFilter === "All" ? (
+          <ErrorSection
+            title={t("MutualFund.DiscoverProductsScreen.errorSection.title")}
+            description={t("MutualFund.DiscoverProductsScreen.errorSection.descriptionCaseAll")}
+            onPress={handleGoBackPress}
+          />
         ) : (
           <ErrorSection
             title={t("MutualFund.DiscoverProductsScreen.errorSection.title")}
-            description={t("MutualFund.DiscoverProductsScreen.errorSection.description")}
+            description={t("MutualFund.DiscoverProductsScreen.errorSection.desciptopmCaseRisk")}
             onPress={handleGoBackPress}
           />
         )}

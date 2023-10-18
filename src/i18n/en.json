@@ -3589,8 +3589,9 @@
         "medium": "Medium",
         "high": "High"
       },
-      "NAV": "NAV: ",
-      "YTD": "YTD: ",
+      "NAV": "NAV",
+      "YTD": "YTD",
+      "twoDot": ":",
       "offerInformation": {
         "subscriptionFee": "Subscription Fee",
         "minimumSubscription": "Minimum subscription",
@@ -3603,8 +3604,9 @@
       "currency": "SAR",
       "buttonViewDetails": "View Details",
       "errorSection": {
-        "title": "We couldn’t load the data",
-        "description": "There was a minor issue, but not to worry. We can re-try",
+        "title": "No data is available to show!",
+        "descriptionCaseAll": "No data to show in all discover mutual funds. We can re-try",
+        "desciptopmCaseRisk": "There are no mutual fund present for selected criteria. We can re-try with other filters.",
         "buttonGoBack": "Go Back"
       }
     },

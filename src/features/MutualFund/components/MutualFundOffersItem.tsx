@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 import { ChevronBottomIcon, ChevronUpIcon } from "@/assets/icons";
@@ -98,18 +98,32 @@ export default function MutualFundOffersItem({
           <Tags riskName={risk} />
 
           <Stack direction="horizontal" justify="space-between">
-            <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
-              {`${t("MutualFund.DiscoverProductsScreen.NAV")} ${NAV.toFixed(2)} ${t(
-                "MutualFund.DiscoverProductsScreen.currency"
-              )}`}
-            </Typography.Text>
+            <Stack direction="horizontal" style={styles.stackStyle}>
+              <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
+                {t("MutualFund.DiscoverProductsScreen.NAV")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
+                {t("MutualFund.DiscoverProductsScreen.twoDot")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
+                {NAV.toFixed(2)}
+              </Typography.Text>
+              <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
+                {t("MutualFund.DiscoverProductsScreen.currency")}
+              </Typography.Text>
+            </Stack>
 
-            <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
-              {t("MutualFund.DiscoverProductsScreen.YTD")}
-              <Typography.Text color="secondary_mintBase" size="footnote">
+            <Stack direction="horizontal" style={styles.stackStyle}>
+              <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
+                {t("MutualFund.DiscoverProductsScreen.YTD")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
+                {t("MutualFund.DiscoverProductsScreen.twoDot")}
+              </Typography.Text>
+              <Typography.Text color="secondary_mintBase" size="footnote" weight="regular">
                 {YTD.toFixed(2)}%
               </Typography.Text>
-            </Typography.Text>
+            </Stack>
           </Stack>
         </View>
         <Animated.View style={[informationContainerStyle, animatedInformationSectionStyle]}>
@@ -146,10 +160,7 @@ export default function MutualFundOffersItem({
             />
             <Stack direction="horizontal" align="center" justify="center" style={stackStyle}>
               <View style={styles.buttonContainerStyle}>
-                <Button
-                  onPress={handleOnViewDetailsPress}
-                  variant="secondary"
-                  size={I18nManager.isRTL ? "mini" : "regular"}>
+                <Button onPress={handleOnViewDetailsPress} variant="secondary" size="regular">
                   {t("MutualFund.DiscoverProductsScreen.buttonViewDetails")}
                 </Button>
               </View>
@@ -172,5 +183,8 @@ const styles = StyleSheet.create({
   informationPaddingStyle: {
     paddingHorizontal: 17,
     paddingVertical: 15,
+  },
+  stackStyle: {
+    gap: 2,
   },
 });

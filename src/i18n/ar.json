@@ -3443,31 +3443,33 @@
       "title": "نقطة البداية"
     },
     "DiscoverProductsScreen": {
-      "title": "اكتشف صناديق الاستثمار المشتركة",
-      "filterByRisk": "التصفية حسب المخاطرة:",
+      "title": "اكتشاف صناديق الاستثمار",
+      "filterByRisk": "التصفية حسب المخاطر:",
       "filterType": {
         "all": "الكل",
-        "low": "قليل",
+        "low": "منخفضة",
         "medium": "متوسط",
-        "high": "عالي"
+        "high": "عالية"
       },
-      "NAV": "صافي قيمة الأصول: ",
-      "YTD": "منذ بداية العام: ",
+      "NAV": "NAV",
+      "YTD": "YTD",
+      "twoDot": ":",
       "offerInformation": {
-        "subscriptionFee": "العنوان",
-        "minimumSubscription": "الحد الأدنى للإشتراك",
-        "minimumAdditionalSubscription": "الحد الأدنى للإشتراك الإضافي",
-        "valuationDate": "Valuation Date",
+        "subscriptionFee": "رسوم الاشتراك",
+        "minimumSubscription": "الحد الادنى للاشتراك",
+        "minimumAdditionalSubscription": "الاشتراك الاضافي الادنى",
+        "valuationDate": "تاريخ التقييم",
         "frequency": "التكرار",
-        "strategy": "الإستراتيجية",
-        "dividend": "توزيعات ارباح"
+        "strategy": "الاستراتيجية",
+        "dividend": "توزيع الأرباح"
       },
-      "currency": "ر.س",
+      "currency": "ريال سعودي",
       "buttonViewDetails": "عرض التفاصيل",
       "errorSection": {
-        "title": "We couldn’t load the data",
-        "description": "There was a minor issue, but not to worry. We can re-try",
-        "buttonGoBack": "Go Back"
+        "title": "لا تتوفر بيانات للعرض!",
+        "descriptionCaseAll": "لا تتوفر بيانات للعرض في كل اكتشاف صناديق الاستثمار. يمكننا إعادة المحاولة.",
+        "desciptopmCaseRisk": "لا توجد صناديق استثمار متاحة بناءً على المعايير المختارة. يمكننا إعادة المحاولة باستخدام مرشحات أخرى.",
+        "buttonGoBack": "الرجوع"
       }
     },
     "MutualFundDashboardScreen": {

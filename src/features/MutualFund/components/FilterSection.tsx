@@ -11,6 +11,7 @@ import { useThemeStyles } from "@/theme";
 interface FilterSectionProps {
   onFilterChange: (value: string) => void;
 }
+
 export default function FilterSection({ onFilterChange }: FilterSectionProps) {
   const { t } = useTranslation();
   const riskTypes = [
@@ -20,15 +21,18 @@ export default function FilterSection({ onFilterChange }: FilterSectionProps) {
     t("MutualFund.DiscoverProductsScreen.filterType.high"),
   ];
 
-  const [selectedChips, setSelectedChips] = useState([riskTypes[0]]);
+  const riskCode = {
+    [t("MutualFund.DiscoverProductsScreen.filterType.all")]: "All",
+    [t("MutualFund.DiscoverProductsScreen.filterType.low")]: "L",
+    [t("MutualFund.DiscoverProductsScreen.filterType.medium")]: "M",
+    [t("MutualFund.DiscoverProductsScreen.filterType.high")]: "H",
+  };
+
+  const [selectedChips, setSelectedChips] = useState(riskTypes[0]);
 
   const handleChipPress = (chipTitle: string) => {
-    onFilterChange(chipTitle);
-    if (selectedChips.includes(chipTitle)) {
-      setSelectedChips((prevState: any) => prevState.filter((chip: string) => chip !== chipTitle));
-    } else {
-      setSelectedChips((prevState: any) => [...prevState, chipTitle]);
-    }
+    onFilterChange(riskCode[chipTitle]);
+    setSelectedChips(chipTitle);
   };
 
   const containerScrollStyle = useThemeStyles<ViewStyle>(theme => ({
