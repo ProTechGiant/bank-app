@@ -112,6 +112,7 @@ export default function HubScreen() {
   }));
 
   const ChartSubTitleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    width: "100%",
     marginBottom: theme.spacing["4p"],
   }));
 
@@ -119,7 +120,6 @@ export default function HubScreen() {
     borderRadius: theme.spacing["48p"],
     backgroundColor: theme.palette["neutralBase+30"],
     padding: theme.spacing["8p"],
-    marginHorizontal: theme.spacing["32p"],
   }));
 
   const transactionsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -139,6 +139,10 @@ export default function HubScreen() {
 
   const alertBannerStyle = useThemeStyles<ViewStyle>(theme => ({
     margin: theme.spacing["20p"],
+  }));
+
+  const currentGoldTextStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing["8p"],
   }));
 
   const NotificationIconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
@@ -168,15 +172,21 @@ export default function HubScreen() {
                     justify="space-between"
                     gap="16p"
                     style={ChartSubTitleContainerStyle}>
-                    <Typography.Text color="neutralBase+30" size="footnote" weight="regular">
-                      {t("GoldWallet.currentGoldPrice")}
-                    </Typography.Text>
-                    <Typography.Text color="neutralBase+30" size="footnote" weight="bold">
-                      {walletData?.MarketSellPrice} {t("GoldWallet.SARG")}
-                    </Typography.Text>
-                    <Typography.Text color="successBase" size="footnote" weight="regular">
-                      {walletData?.profitLoss} %
-                    </Typography.Text>
+                    <Stack direction="horizontal" align="center">
+                      <Typography.Text color="neutralBase+30" size="footnote" weight="regular">
+                        {t("GoldWallet.currentGoldPrice")}
+                      </Typography.Text>
+                      <Typography.Text
+                        color="neutralBase+30"
+                        size="footnote"
+                        weight="bold"
+                        style={currentGoldTextStyle}>
+                        {walletData?.MarketSellPrice} {t("GoldWallet.SARG")}
+                      </Typography.Text>
+                      <Typography.Text color="successBase" size="footnote" weight="regular">
+                        {walletData?.profitLoss} %
+                      </Typography.Text>
+                    </Stack>
                     <Pressable onPress={handleOnNotificationIconPress} style={circularIconContainer}>
                       <NotificationIcon color={NotificationIconColor} />
                     </Pressable>
@@ -184,13 +194,13 @@ export default function HubScreen() {
                 </Stack>
                 <Stack direction="horizontal" align="center" justify="space-between" style={buttonsContainerStyle}>
                   <View style={styles.buttonContainer}>
-                    <Button variant="secondary" onPress={handleOnSellGoldPress}>
-                      {t("GoldWallet.sellGold")}
+                    <Button color="light" variant="primary" onPress={handleOnBuyGoldPress}>
+                      {t("GoldWallet.buyGold")}
                     </Button>
                   </View>
                   <View style={styles.buttonContainer}>
-                    <Button color="light" variant="primary" onPress={handleOnBuyGoldPress}>
-                      {t("GoldWallet.buyGold")}
+                    <Button variant="secondary" onPress={handleOnSellGoldPress}>
+                      {t("GoldWallet.sellGold")}
                     </Button>
                   </View>
                 </Stack>

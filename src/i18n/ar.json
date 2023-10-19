@@ -3425,9 +3425,9 @@
       "copyToastMessage": "نسخ إلى الحافظة."
     },
     "gram": "غ",
-    "alertInfoBoxOn": "Alert when gold price is",
-    "alertInfoBoxOnSecondHalf": "in the market",
-    "alertInfoBoxOff": "Alerts are turned off",
+    "alertInfoBoxOn": "تنبيه عندما يكون سعر الذهب",
+    "alertInfoBoxOnSecondHalf": "في السوق",
+    "alertInfoBoxOff": "تم إيقاف التنبيهات",
     "TermsAndConditionsModal": {
       "title": "الشروط و الأحكام"
     },
