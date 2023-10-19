@@ -329,7 +329,23 @@
       "chooseAccpunts": "اختر الحسابات والبطاقات",
       "chooseYourAccount": "اختر حساباتك التي تريد مشاركتها مع TPP:",
       "firstConnected": "تاريخ اول اتصال",
-      "connectionExpires": "تنتهي صلاحية الاتصال"
+      "connectionExpires": "تنتهي صلاحية الاتصال",
+      "dataToBeShared":"البيانات التي سيتم مشاركتها",
+      "info":"تتطلب خدمة مدير التمويل الشخصي والبيانات الإلكترونية التي تقدمها TPP مشاركة معلومات البنك الكرواتي التالية الخاصة بك:",
+      "warningModal":{
+        "title":"هل أنت متأكد من أنك لا تريد منح الإذن؟",
+        "message":"إذا قمت بالنقر فوق تأكيد فسوف تفقد تقدمك",
+        "confirm":"تأكيد",
+        "cancel":"إلغاء"
+      },
+      "buttons": {
+        "allow": "السماح",
+        "deny": "رفض"
+      },
+      "errorModal":{
+        "title":"هناك خطأ ما",
+        "message":"الرجاء معاودة المحاولة في وقت لاحق."
+      }
     },
     "LinkedSuccessfullyScreen": {
       "accountLinkedSuccessfully": "تم ربط الحساب بنجاح",

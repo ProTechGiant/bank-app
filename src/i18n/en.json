@@ -332,6 +332,18 @@
       "buttons": {
         "allow": "Allow",
         "deny": "Deny"
+      },
+      "dataToBeShared":"Data to be shared",
+      "info":"The service offered by TPP requires sharing your following Croatia Bank information:",
+      "warningModal":{
+        "title":"Are you sure you don’t want to give permission?",
+        "message":"If you click on confirm you will loose your progress",
+        "confirm":"Confirm",
+        "cancel":"Cancel"
+      },
+      "errorModal":{
+        "title":"Something went wrong",
+        "message":"Please try again later."
       }
     },
     "LinkedSuccessfullyScreen": {

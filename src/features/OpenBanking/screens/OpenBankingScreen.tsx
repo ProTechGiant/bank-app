@@ -3,19 +3,25 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, ScrollView, View, ViewStyle } from "react-native";
 
+import { CheckIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
+import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
 import Divider from "@/components/Divider";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { AccountCardItem, ConnectionCard } from "../components";
 import { consentData } from "../mocks";
 
 export default function OpenBankingScreen() {
-  const { t } = useTranslation();
-
+  const { t, i18n } = useTranslation();
+  const navigation = useNavigation();
   const [selectedAccountCards, setSelectedAccountCards] = useState<Record<string, boolean>>({});
+  const [isDenyModalOpen, setIsDenyModalOpen] = useState(false);
+  const [isErorryModalOpen, setIsErorrModalOpen] = useState(false);
 
   const handleCheckboxChange = (accountCardId: string) => (value: boolean) => {
     setSelectedAccountCards(prev => ({ ...prev, [accountCardId]: value }));
@@ -45,17 +51,25 @@ export default function OpenBankingScreen() {
       Accounts: selectedAccountIds,
       Cards: selectedCardNumbers,
     };
+    // mocks for testing team
+    if (values.Accounts.length === 2) {
+      setIsErorrModalOpen(true);
+    } else {
+      navigation.navigate("OpenBanking.LinkedSuccessfullyScreen");
+    }
     // TODO handle it when api is ready
-    console.log(values);
   };
 
   const handleOnDeny = () => {
     // TODO handle it when api is ready
   };
 
+  const isConnectButtonDisabled = Object.values(selectedAccountCards).every(value => !value);
+
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["24p"],
     marginBottom: theme.spacing["20p"],
+    marginTop: theme.spacing["8p"],
   }));
 
   const containerAccountStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -71,6 +85,8 @@ export default function OpenBankingScreen() {
     marginVertical: theme.spacing["20p"],
     marginHorizontal: theme.spacing["24p"],
   }));
+
+  const checkIconColor = useThemeStyles(theme => theme.palette.complimentBase);
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
@@ -122,6 +138,31 @@ export default function OpenBankingScreen() {
 
         <Divider color="neutralBase-40" height={4} />
 
+        <Stack gap="12p" direction="vertical" style={containerStyle}>
+          <Typography.Text color="neutralBase+30" size="title2" weight="medium">
+            {t("OpenBanking.OpenBankingScreen.dataToBeShared")}
+          </Typography.Text>
+          <Typography.Text size="callout" weight="regular">
+            {t("OpenBanking.OpenBankingScreen.info")}
+          </Typography.Text>
+          {consentData.GroupsListData.map((item, index) => (
+            <Accordion
+              icon={<CheckIcon color={checkIconColor} width={16} height={16} />}
+              key={index}
+              title={i18n.language === "en" ? item.DataGroupNameEnglish : item.DataGroupNameArabic}
+              children={item.PermissionsList.map((Permission, dataIndex) => (
+                <Typography.Text size="footnote" color="neutralBase+10" weight="regular" key={dataIndex}>
+                  {dataIndex + 1}.{" "}
+                  {i18n.language === "en"
+                    ? Permission.PermissionDescriptionEnglish
+                    : Permission.PermissionDescriptionArabic}
+                </Typography.Text>
+              ))}
+            />
+          ))}
+        </Stack>
+        <Divider color="neutralBase-40" height={4} />
+
         <ConnectionCard
           connectionText={t("OpenBanking.OpenBankingScreen.firstConnected")}
           date={format(parseISO(consentData.CreationDateTime), "dd/MM/yyyy")}
@@ -131,14 +172,36 @@ export default function OpenBankingScreen() {
           date={format(parseISO(consentData.ExiprationDateTime), "dd/MM/yyyy")}
         />
         <View style={buttonsContainerStyle}>
-          <Button variant="primary" onPress={handleOnConnect}>
+          <Button variant="primary" disabled={isConnectButtonDisabled} onPress={handleOnConnect}>
             {t("OpenBanking.OpenBankingScreen.buttons.allow")}
           </Button>
-          <Button onPress={handleOnDeny} variant="tertiary">
+          <Button onPress={() => setIsDenyModalOpen(true)} variant="tertiary">
             {t("OpenBanking.OpenBankingScreen.buttons.deny")}
           </Button>
         </View>
       </ScrollView>
+
+      <NotificationModal
+        variant="warning"
+        title={t("OpenBanking.OpenBankingScreen.warningModal.title")}
+        message={t("OpenBanking.OpenBankingScreen.warningModal.message")}
+        buttons={{
+          primary: <Button onPress={handleOnDeny}>{t("OpenBanking.OpenBankingScreen.warningModal.confirm")}</Button>,
+          secondary: (
+            <Button onPress={() => setIsDenyModalOpen(false)}>
+              {t("OpenBanking.OpenBankingScreen.warningModal.cancel")}
+            </Button>
+          ),
+        }}
+        isVisible={isDenyModalOpen}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("OpenBanking.OpenBankingScreen.errorModal.title")}
+        message={t("OpenBanking.OpenBankingScreen.errorModal.message")}
+        isVisible={isErorryModalOpen}
+        onClose={() => setIsErorrModalOpen(false)}
+      />
     </Page>
   );
 }
