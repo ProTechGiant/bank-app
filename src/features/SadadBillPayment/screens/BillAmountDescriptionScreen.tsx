@@ -42,7 +42,7 @@ export default function BillAmountDescriptionScreen() {
       BillCategory: billDetails.BillCategory,
       BillType: billDetails.BillType,
       BillNumber: billDetails.BillNumber,
-      BillingAccount: billDetails.AccountNumber,
+      BillingAccount: billDetails.BillingAccount,
       DisplayLabelEn: billDetails.BillIssuer?.NameEn,
       DisplayLabelAr: billDetails.BillIssuer?.NameAr,
       IsPartialPaymentAllowed: billDetails?.IsPartialPaymentAllowed ?? null,
