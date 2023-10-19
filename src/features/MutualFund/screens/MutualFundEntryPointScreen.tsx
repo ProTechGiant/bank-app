@@ -8,12 +8,15 @@ import NavHeader from "@/components/NavHeader";
 import useNavigation from "@/navigation/use-navigation";
 
 import { MutualFundIllustrationIcon } from "../assets/icons";
+import { usePortfolioDetails, usePortfoliosPerformanceList } from "../hooks/query-hooks";
 import { ENTRY_POINT } from "../mocks/entryPoint";
 
 export default function MutualFundEntryPointScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { height } = useWindowDimensions();
+  const { data: PortfoliosPerformanceList } = usePortfoliosPerformanceList();
+  const { data: PortfolioDetails } = usePortfolioDetails();
 
   const svgHeight = height * 0.5;
   const svgWidth = svgHeight * 0.8;
@@ -44,23 +47,27 @@ export default function MutualFundEntryPointScreen() {
       t(`MutualFund.MutualFundEntryPointScreen.description`)
     ),
   ];
-
-  // TODO: In AC there is several possibilities when click on mutual fund shortcut
-  // so in this section I'm redirect to different pages depending on different scenarios just for test
-  // and this will be replaced and handled when the API is ready
+  // In AC there is several possibilities when click on mutual fund shortcut
+  // so in this section I'm redirect to different pages depending on different scenarios
   useEffect(() => {
-    if (ENTRY_POINT.onboardedARCStatus) {
-      if (ENTRY_POINT.numberOfProtfolios === 0) {
-        // navigation.navigate("MutualFund.DiscoverProducts");
-      } else if (ENTRY_POINT.numberOfProtfolios === 1) {
-        navigation.navigate("MutualFund.PortfolioDetails", { portfolioName: "Portfolio" });
+    if (PortfoliosPerformanceList !== undefined) {
+      if (ENTRY_POINT.onboardedARCStatus) {
+        if (PortfoliosPerformanceList?.PortfoliosPerformanceList.length === 0) {
+          navigation.navigate("MutualFund.DiscoverProducts");
+        } else if (PortfoliosPerformanceList?.PortfoliosPerformanceList.length === 1) {
+          navigation.navigate("MutualFund.PortfolioDetails", {
+            PortfolioPerformanceLineChartColorIndex: 0,
+            PortfolioPerformanceList: { PortfolioPerformanceList: PortfolioDetails?.PortfolioPerformanceList },
+            PortfolioPerformanceName: PortfolioDetails?.PortfolioName,
+          });
+        } else {
+          navigation.navigate("MutualFund.Dashboard");
+        }
       } else {
-        navigation.navigate("MutualFund.Dashboard");
+        // TODO: navigate to onboarding journey page which will be build in BC13.
       }
-    } else {
-      // TODO: navigate to onboarding journey page which will be build in BC13.
     }
-  }, [navigation]);
+  }, [PortfoliosPerformanceList, navigation, PortfolioDetails]);
 
   return (
     <HeroSlider
@@ -74,9 +81,9 @@ export default function MutualFundEntryPointScreen() {
         />
       }
       buttonText={t("next")}
-      lastButtonText={t("Start")}
+      lastButtonText={t(`MutualFund.MutualFundEntryPointScreen.button`)}
       data={data}
-      title={t("Mutual Funds")}
+      title={t(`MutualFund.MutualFundEntryPointScreen.button`)}
     />
   );
 }

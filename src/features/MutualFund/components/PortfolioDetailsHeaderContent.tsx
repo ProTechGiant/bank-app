@@ -1,19 +1,27 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { InfoCircleIcon, TopUpIcon } from "@/assets/icons";
+import { InfoCircleIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import Chip from "@/components/Chip";
 
-import { lineDetails } from "../types";
+import { ArrowDown, ArrowUp } from "../assets/icons";
+import { PortfolioDetails, PortfolioPerformanceList } from "../types";
 import MutualFundCustomChart from "./MutualFundCustomChart";
 
 interface PortfolioDetailsHeaderContentProps {
-  portfolioChartLine: lineDetails;
+  portfolioChartLine?: PortfolioPerformanceList;
+  PortfolioPerformanceLineChartColorIndex: number;
+  portfolioDetails?: PortfolioDetails;
 }
-export default function PortfolioDetailsHeaderContent({ portfolioChartLine }: PortfolioDetailsHeaderContentProps) {
+
+export default function PortfolioDetailsHeaderContent({
+  portfolioChartLine,
+  PortfolioPerformanceLineChartColorIndex,
+  portfolioDetails,
+}: PortfolioDetailsHeaderContentProps) {
   const { t } = useTranslation();
-  const [selectedDuration, setSelectedDuration] = useState("");
+  const [selectedDuration, setSelectedDuration] = useState("7D");
   const durationArray = ["1D", "7D", "1M", "3M", "6M", "1Y"];
 
   return (
@@ -26,8 +34,7 @@ export default function PortfolioDetailsHeaderContent({ portfolioChartLine }: Po
           <InfoCircleIcon color="#FFFFFF" />
         </Stack>
         <Typography.Text size="title1" weight="bold" color="neutralBase-60">
-          {/* TODO: This value will replace with data from API  */}
-          5,265.60
+          {portfolioDetails?.TotalPortfolioValue ?? ""}
         </Typography.Text>
       </Stack>
       <Stack direction="horizontal" justify="space-between">
@@ -36,21 +43,28 @@ export default function PortfolioDetailsHeaderContent({ portfolioChartLine }: Po
             {t("MutualFund.MutualFundDashboardScreen.TotalCashBalanceLabel")}
           </Typography.Text>
           <Typography.Text color="neutralBase-60" weight="bold">
-            {/* TODO: This value will replace with data from API  */}
-            4,500.00
+            {portfolioDetails?.TotalCashBalance ?? ""}
           </Typography.Text>
         </Stack>
         <Stack direction="vertical" align="flex-end">
           <Typography.Text size="footnote" color="neutralBase-60">
             {t("MutualFund.MutualFundDashboardScreen.TotalGainLossLabel")}
           </Typography.Text>
-          <Stack direction="horizontal" gap="4p">
-            <Typography.Text color="successBase">
-              {/* TODO: This value will replace with data from API  */}
-              3,455.00 (0.05%)
-            </Typography.Text>
-            <TopUpIcon color="#00AC86" />
-          </Stack>
+          {portfolioDetails !== undefined ? (
+            <Stack direction="horizontal" gap="4p" align="center">
+              <Typography.Text
+                color={
+                  portfolioDetails?.TotalGainLossPercentage >= 0 ? "successBase" : "errorBase"
+                }>{`${portfolioDetails?.TotalGainLoss} (${portfolioDetails?.TotalGainLossPercentage}%)`}</Typography.Text>
+              {portfolioDetails?.TotalGainLossPercentage >= 0 ? (
+                <ArrowUp color="#00AC86" />
+              ) : (
+                <ArrowDown color="#821717" />
+              )}
+            </Stack>
+          ) : (
+            <></>
+          )}
         </Stack>
       </Stack>
       <Stack direction="vertical" gap="8p">
@@ -68,13 +82,18 @@ export default function PortfolioDetailsHeaderContent({ portfolioChartLine }: Po
             );
           })}
         </Stack>
-        <MutualFundCustomChart
-          tickLabelsColor="#F2F2F2"
-          gridStrokeColor="#F2F2F2"
-          chartBorderColor="#00334C"
-          chartBackgroundColor="#00334C"
-          mutualFundCustomChartList={[portfolioChartLine]}
-        />
+        {portfolioChartLine !== undefined ? (
+          <MutualFundCustomChart
+            tickLabelsColor="#F2F2F2"
+            gridStrokeColor="#F2F2F2"
+            chartBorderColor="#00334C"
+            chartBackgroundColor="#00334C"
+            PortfolioPerformanceLineChartColorIndex={PortfolioPerformanceLineChartColorIndex}
+            mutualFundCustomChartList={[portfolioChartLine]}
+          />
+        ) : (
+          <></>
+        )}
       </Stack>
     </Stack>
   );

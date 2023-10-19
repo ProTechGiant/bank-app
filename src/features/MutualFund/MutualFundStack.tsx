@@ -12,7 +12,7 @@ import {
   SubscriptionScreen,
   TermsAndConditionsScreen,
 } from "./screens";
-import { lineDetails } from "./types";
+import { PortfolioPerformanceList } from "./types";
 
 export const Stack = createNativeStackNavigator();
 
@@ -23,7 +23,9 @@ export type MutualFundStackParams = {
   "MutualFund.Subscription": undefined;
   "MutualFund.TermsAndConditions": undefined;
   "MutualFund.PortfolioDetails": {
-    portfolioChartLine: lineDetails;
+    PortfolioPerformanceName?: string;
+    PortfolioPerformanceList?: PortfolioPerformanceList;
+    PortfolioPerformanceLineChartColorIndex: number;
   };
   "MutualFund.MutualFundDetailsScreen": undefined;
   "MutualFund.MutualFundOrderSummaryScreen": undefined;

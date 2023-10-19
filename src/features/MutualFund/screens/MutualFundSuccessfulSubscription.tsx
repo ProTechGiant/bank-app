@@ -18,7 +18,7 @@ export default function MutualFundSuccessfulSubscription() {
   const { height } = useWindowDimensions();
 
   const handleOnPressDone = () => {
-    navigation.navigate("MutualFund.Dashboard");
+    navigation.navigate("MutualFund.DiscoverProducts");
   };
 
   const handleOnPressViewDetails = () => {

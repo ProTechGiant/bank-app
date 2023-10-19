@@ -1,16 +1,21 @@
+import { format } from "date-fns";
+import { useMemo } from "react";
 import { View, ViewStyle } from "react-native";
 import { VictoryAxis, VictoryChart, VictoryLine } from "victory-native";
 
 import { useThemeStyles } from "@/theme";
 
-import { lineDetails } from "../types";
+import { usePortfoliosPerformanceList } from "../hooks/query-hooks";
+import { LINES_COLORS } from "../mocks/chartLinesColors";
+import { PortfolioPerformanceList } from "../types";
 
 interface MutualFundCustomChartProps {
   tickLabelsColor: string;
   gridStrokeColor: string;
   chartBorderColor: string;
   chartBackgroundColor?: string;
-  mutualFundCustomChartList: lineDetails[];
+  mutualFundCustomChartList?: PortfolioPerformanceList[];
+  PortfolioPerformanceLineChartColorIndex?: number;
 }
 
 export default function MutualFundCustomChart({
@@ -19,7 +24,10 @@ export default function MutualFundCustomChart({
   chartBorderColor,
   chartBackgroundColor,
   mutualFundCustomChartList,
+  PortfolioPerformanceLineChartColorIndex,
 }: MutualFundCustomChartProps) {
+  const { data } = usePortfoliosPerformanceList();
+
   const chartViewStyle = useThemeStyles<ViewStyle>(
     theme => ({
       borderRadius: theme.radii.small,
@@ -30,17 +38,21 @@ export default function MutualFundCustomChart({
     [chartBackgroundColor, chartBorderColor]
   );
 
-  return (
+  const x_axis_labels = useMemo(() => {
+    return data?.PortfoliosPerformanceList[0].PortfolioPerformanceList?.map(obj => format(new Date(obj.Date), "d MMM"));
+  }, [data]);
+
+  return mutualFundCustomChartList !== undefined ? (
     <View style={chartViewStyle}>
       <VictoryChart width={350} height={220} animate={{ duration: 1500 }}>
         <VictoryAxis
           style={{
             tickLabels: {
               fill: tickLabelsColor,
+              fontSize: 12,
             },
           }}
-          tickValues={[1, 2, 3, 4, 5, 6, 7]}
-          tickFormat={t => `${t}D`}
+          tickValues={x_axis_labels}
           standalone={false}
         />
         <VictoryAxis
@@ -64,11 +76,23 @@ export default function MutualFundCustomChart({
           }}
           standalone={false}
         />
-        {mutualFundCustomChartList.map(portfolio => {
+        {mutualFundCustomChartList.map((portfolio, index) => {
           return (
             <VictoryLine
-              style={{ data: { stroke: `${portfolio.color}`, strokeWidth: 4.5 } }}
-              data={portfolio.data}
+              style={{
+                data: {
+                  stroke: `${
+                    PortfolioPerformanceLineChartColorIndex !== undefined
+                      ? LINES_COLORS[PortfolioPerformanceLineChartColorIndex]
+                      : LINES_COLORS[index]
+                  }`,
+                  strokeWidth: 4.5,
+                },
+              }}
+              // Converts date and market value format for compatibility reasons
+              data={portfolio.PortfolioPerformanceList?.map(obj => {
+                return { x: format(new Date(obj.Date), "d MMM"), y: parseInt(obj.MarketValue, 10) };
+              })}
               domain={{
                 x: [1, 7],
                 y: [0, 30],
@@ -79,5 +103,7 @@ export default function MutualFundCustomChart({
         })}
       </VictoryChart>
     </View>
+  ) : (
+    <></>
   );
 }

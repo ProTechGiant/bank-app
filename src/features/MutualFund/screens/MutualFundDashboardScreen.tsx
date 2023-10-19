@@ -12,19 +12,29 @@ import Page from "@/components/Page";
 import { useThemeStyles } from "@/theme";
 
 import { HeaderContent, MutualFundCustomChart, MutualFundDashboardHeaderContent } from "../components";
-//TODO: This data will be repalced with data from API
-import { CHART_DATA } from "../mocks/chartData";
-import { lineDetails } from "../types";
+import { usePortfolios, usePortfoliosPerformanceList } from "../hooks/query-hooks";
+import { LINES_COLORS } from "../mocks/chartLinesColors";
+import { PortfolioPerformanceList } from "../types";
 
 export default function MutualFundDashboardScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { data: PortfoliosPerformanceList } = usePortfoliosPerformanceList();
+  const { data: portfolios } = usePortfolios();
 
-  const [selectedDuration, setSelectedDuration] = useState("");
+  const [selectedDuration, setSelectedDuration] = useState("7D");
   const durationArray = ["1D", "7D", "1M", "3M", "6M", "1Y"];
 
-  const handleOnPressPortfolio = (PortfolioDetails: lineDetails) => {
-    navigation.navigate("MutualFund.PortfolioDetails", { portfolioChartLine: PortfolioDetails });
+  const handleOnPressPortfolio = (
+    PortfolioDetails: PortfolioPerformanceList,
+    PortfolioPerformanceLineChartColorIndex: number,
+    PortfolioName: string
+  ) => {
+    navigation.navigate("MutualFund.PortfolioDetails", {
+      PortfolioPerformanceName: PortfolioName,
+      PortfolioPerformanceList: PortfolioDetails,
+      PortfolioPerformanceLineChartColorIndex: PortfolioPerformanceLineChartColorIndex,
+    });
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -44,7 +54,7 @@ export default function MutualFundDashboardScreen() {
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
       <View style={headerContainerStyle}>
         <HeaderContent headerTitle={t("MutualFund.MutualFundDashboardScreen.headerTitle")} showInfoIndicator={false}>
-          <MutualFundDashboardHeaderContent />
+          <MutualFundDashboardHeaderContent content={portfolios} />
         </HeaderContent>
       </View>
       <ScrollView>
@@ -70,31 +80,38 @@ export default function MutualFundDashboardScreen() {
               tickLabelsColor="#808080"
               gridStrokeColor="#F2F2F2"
               chartBorderColor="#E2E2E2"
-              mutualFundCustomChartList={CHART_DATA}
+              mutualFundCustomChartList={PortfoliosPerformanceList?.PortfoliosPerformanceList}
             />
           </Stack>
           <Divider color="neutralBase-40" height={3} />
           <Stack direction="vertical" style={contentStyle} align="stretch">
             <Stack direction="vertical" gap="32p" align="stretch">
-              {CHART_DATA.map(portfolio => {
-                return (
-                  <Pressable
-                    key={portfolio.name}
-                    onPress={() => {
-                      handleOnPressPortfolio(portfolio);
-                    }}>
-                    <Stack direction="horizontal" justify="space-between" align="center">
-                      <Stack direction="horizontal" gap="8p">
-                        <DotIcon color={portfolio.color} />
-                        <Typography.Text size="footnote" weight="medium">
-                          {portfolio.name}
-                        </Typography.Text>
+              {portfolios !== undefined ? (
+                portfolios?.PortfolioList.map((portfolio, index) => {
+                  return (
+                    <Pressable
+                      key={portfolio.PortfolioName}
+                      onPress={() => {
+                        if (PortfoliosPerformanceList !== undefined) {
+                          const portfolioList = PortfoliosPerformanceList?.PortfoliosPerformanceList[index];
+                          handleOnPressPortfolio(portfolioList, index, portfolio.PortfolioName);
+                        }
+                      }}>
+                      <Stack direction="horizontal" justify="space-between" align="center">
+                        <Stack direction="horizontal" gap="8p">
+                          <DotIcon color={LINES_COLORS[index]} />
+                          <Typography.Text size="footnote" weight="medium">
+                            {portfolio.PortfolioName}
+                          </Typography.Text>
+                        </Stack>
+                        <ChevronRightIcon color="#B3B3B3" />
                       </Stack>
-                      <ChevronRightIcon color="#B3B3B3" />
-                    </Stack>
-                  </Pressable>
-                );
-              })}
+                    </Pressable>
+                  );
+                })
+              ) : (
+                <></>
+              )}
             </Stack>
           </Stack>
         </Stack>

@@ -12,6 +12,7 @@ export default function MutualFundOrderDetailsTable() {
     borderColor: theme.palette["neutralBase-30"],
     borderWidth: 1,
   }));
+
   const orderDetailsTableContentStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["16p"],
   }));

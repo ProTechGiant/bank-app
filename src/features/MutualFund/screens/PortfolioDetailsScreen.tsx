@@ -1,33 +1,40 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Animated, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { Animated, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Typography } from "@/components";
 import Button from "@/components/Button";
 import Page from "@/components/Page";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { HeaderContent, PortfolioDetailsHeaderContent } from "../components";
 import DetailsCard from "../components/DetailsCard";
-import { ENTRY_POINT } from "../mocks/entryPoint";
-import { Details_Data } from "../mocks/mockData";
+import { usePortfolioDetails } from "../hooks/query-hooks";
 import { MutualFundStackParams } from "../MutualFundStack";
 
 export default function PortfolioDetailsScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const scrollOffsetY = useRef(new Animated.Value(0)).current;
   const { params } = useRoute<RouteProp<MutualFundStackParams, "MutualFund.PortfolioDetails">>();
+  const { data: PortfolioDetails } = usePortfolioDetails();
 
   const H_MIN_HEIGHT = 52 + insets.top + 8;
   const H_MAX_HEIGHT = Platform.OS === "android" ? 529 + insets.top : 480 + insets.top;
   const H_SCROLL_DISTANCE = H_MAX_HEIGHT - H_MIN_HEIGHT;
 
-  const handleOnDiscoverPress = () => {
-    //TODO: This page not ready yet, so i let it as a comment
+  const handleOnPressProduct = () => {
+    navigation.navigate("MutualFund.MutualFundDetailsScreen");
   };
+
+  const handleOnDiscoverMutualFund = () => {
+    navigation.navigate("MutualFund.DiscoverProducts");
+  };
+
   const handleOnViewFoundPress = () => {
     //TODO: This page not ready yet, so i let it as a comment
   };
@@ -55,10 +62,12 @@ export default function PortfolioDetailsScreen() {
   return (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
       <Animated.View style={[styles.animatedHeader, { height: headerScrollHeight }]}>
-        <HeaderContent
-          headerTitle={ENTRY_POINT.numberOfProtfolios === 1 ? "Portfolio" : params.portfolioChartLine.name}
-          showInfoIndicator={true}>
-          <PortfolioDetailsHeaderContent portfolioChartLine={params.portfolioChartLine} />
+        <HeaderContent headerTitle={params.PortfolioPerformanceName ?? "Portfolio"} showInfoIndicator={true}>
+          <PortfolioDetailsHeaderContent
+            portfolioDetails={PortfolioDetails}
+            portfolioChartLine={params.PortfolioPerformanceList}
+            PortfolioPerformanceLineChartColorIndex={params.PortfolioPerformanceLineChartColorIndex}
+          />
         </HeaderContent>
         <View style={titleContainerStyle}>
           <Typography.Text size="title2" weight="medium">
@@ -66,32 +75,40 @@ export default function PortfolioDetailsScreen() {
           </Typography.Text>
         </View>
       </Animated.View>
-      <Animated.ScrollView
-        style={containerStyle}
-        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }], {
-          useNativeDriver: false,
-        })}
-        scrollEventThrottle={16}
-        showsVerticalScrollIndicator={false}>
-        <View style={contentContainerStyle}>
-          {Details_Data.map((detail, index) => (
-            <DetailsCard
-              key={index}
-              title={detail.title}
-              investedValue={detail.investedValue}
-              isDown={detail.isDown}
-              navValue={detail.navValue}
-              ytdValue={detail.ytdValue}
-              averageCostValue={detail.averageCostValue}
-              unitsValue={detail.unitsValue}
-            />
-          ))}
-          <Button onPress={handleOnDiscoverPress}>{t("MutualFund.PortfolioDetailsScreen.discoverButton")}</Button>
-          <Button variant="tertiary" onPress={handleOnViewFoundPress}>
-            {t("MutualFund.PortfolioDetailsScreen.viewFundButton")}
-          </Button>
-        </View>
-      </Animated.ScrollView>
+      {PortfolioDetails !== undefined ? (
+        <Animated.ScrollView
+          style={containerStyle}
+          onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }], {
+            useNativeDriver: false,
+          })}
+          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}>
+          <Pressable onPress={handleOnPressProduct}>
+            <View style={contentContainerStyle}>
+              {PortfolioDetails.PortfolioHoldingList.map((PortfolioDetail, index) => (
+                <DetailsCard
+                  key={index}
+                  title={PortfolioDetail.ProductName}
+                  investedValue={PortfolioDetail.InvestedValue}
+                  isDown={PortfolioDetail.YTD > 0}
+                  navValue={PortfolioDetail.NAV}
+                  ytdValue={PortfolioDetail.YTD}
+                  averageCostValue={PortfolioDetail.AvargeCoast}
+                  unitsValue={PortfolioDetail.Units}
+                />
+              ))}
+              <Button onPress={handleOnDiscoverMutualFund}>
+                {t("MutualFund.PortfolioDetailsScreen.discoverButton")}
+              </Button>
+              <Button variant="tertiary" onPress={handleOnViewFoundPress}>
+                {t("MutualFund.PortfolioDetailsScreen.viewFundButton")}
+              </Button>
+            </View>
+          </Pressable>
+        </Animated.ScrollView>
+      ) : (
+        <></>
+      )}
     </Page>
   );
 }

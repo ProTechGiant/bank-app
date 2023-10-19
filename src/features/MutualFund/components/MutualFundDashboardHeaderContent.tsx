@@ -1,9 +1,16 @@
 import { useTranslation } from "react-i18next";
 
-import { InfoCircleIcon, TopUpIcon } from "@/assets/icons";
+import { InfoCircleIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 
-export default function MutualFundDashboardHeaderContent() {
+import { ArrowDown, ArrowUp } from "../assets/icons";
+import { Portfolios } from "../types";
+
+interface MutualFundDashboardHeaderContentProps {
+  content?: Portfolios;
+}
+
+export default function MutualFundDashboardHeaderContent({ content }: MutualFundDashboardHeaderContentProps) {
   const { t } = useTranslation();
 
   return (
@@ -16,8 +23,7 @@ export default function MutualFundDashboardHeaderContent() {
           <InfoCircleIcon color="#FFFFFF" />
         </Stack>
         <Typography.Text size="title1" weight="bold" color="neutralBase-60">
-          {/* TODO: This value will replace with data from API  */}
-          8,776.00
+          {content?.TotalPortfoliosValue ?? ""}
         </Typography.Text>
       </Stack>
       <Stack direction="horizontal" justify="space-between">
@@ -26,21 +32,24 @@ export default function MutualFundDashboardHeaderContent() {
             {t("MutualFund.MutualFundDashboardScreen.TotalCashBalanceLabel")}
           </Typography.Text>
           <Typography.Text color="neutralBase-60" weight="bold">
-            {/* TODO: This value will replace with data from API  */}
-            3,473 SAR
+            {content?.TotalCashBalance ?? ""}
           </Typography.Text>
         </Stack>
         <Stack direction="vertical" align="flex-end">
           <Typography.Text size="footnote" color="neutralBase-60">
             {t("MutualFund.MutualFundDashboardScreen.TotalGainLossLabel")}
           </Typography.Text>
-          <Stack direction="horizontal" gap="4p">
-            <Typography.Text color="successBase">
-              {/* TODO: This value will replace with data from API  */}
-              3,455.00 (0.05%)
-            </Typography.Text>
-            <TopUpIcon color="#00AC86" />
-          </Stack>
+          {content !== undefined ? (
+            <Stack direction="horizontal" gap="4p" align="center">
+              <Typography.Text
+                color={
+                  content?.TotalGainLossPercentage >= 0 ? "successBase" : "errorBase"
+                }>{`${content?.TotalGainLoss} (${content?.TotalGainLossPercentage}%)`}</Typography.Text>
+              {content?.TotalGainLossPercentage >= 0 ? <ArrowUp color="#00AC86" /> : <ArrowDown color="#821717" />}
+            </Stack>
+          ) : (
+            <></>
+          )}
         </Stack>
       </Stack>
     </Stack>

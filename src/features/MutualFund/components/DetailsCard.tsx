@@ -10,12 +10,12 @@ import { ArrowDown, ArrowUp, CircleIcon } from "../assets/icons";
 
 interface DetailsCardProps {
   title: string;
-  investedValue: string;
+  investedValue: number;
   isDown: boolean;
-  navValue: string;
-  ytdValue: string;
-  averageCostValue: string;
-  unitsValue: string;
+  navValue: number;
+  ytdValue: number;
+  averageCostValue: number;
+  unitsValue: number;
 }
 
 export default function DetailsCard({

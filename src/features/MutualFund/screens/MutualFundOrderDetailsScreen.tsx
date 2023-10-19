@@ -21,7 +21,7 @@ export default function MutualFundOrderDetailsScreen() {
   };
 
   const handleOnPressDone = () => {
-    navigation.navigate("MutualFund.Dashboard");
+    navigation.navigate("MutualFund.DiscoverProducts");
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({ padding: theme.spacing["20p"] }));

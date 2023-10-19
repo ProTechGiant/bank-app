@@ -3681,6 +3681,7 @@
       }
     },
     "MutualFundEntryPointScreen": {
+      "headerTitle":"Mutual Fund",
       "title": "Open mutual fund account",
       "description": "Open your Mutual Fund and start to invest in funds now",
       "button": "Start"
