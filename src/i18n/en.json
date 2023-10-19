@@ -3694,7 +3694,11 @@
     },
     "MutualFundOrderDetailsScreen": {
       "headerTitle": "Order Details",
-      "button": "Done"
+      "button": "Done",
+      "assetAllocation": {
+        "title": "Asset Allocation"
+      },
+      "investedAmount": "Invested Amount"
     },
     "MutualFundSuccessfulSubscription": { "doneButton": "Done", "viewDetailsButton": "View Details" },
     "MutualFundDetailsScreen": {

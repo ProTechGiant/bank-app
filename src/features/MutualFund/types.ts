@@ -57,3 +57,15 @@ export type PortfolioData = {
   TotalGainLossPercentage: number;
   portfolioList: Portfolio[];
 };
+
+export type Investment = {
+  assetName: string;
+  percentage: string;
+  investmentAmount: string;
+  color: string;
+};
+
+export type AssetInvestment = {
+  TotalInvesmtent: string;
+  Investments: Investment[];
+};

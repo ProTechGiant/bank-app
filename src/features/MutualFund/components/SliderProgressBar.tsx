@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TextInput, TextStyle, View, ViewStyle } from "react-native";
 
-import { Typography } from "@/components";
+import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
+
+import { InvestmentIcon } from "../assets/icons";
 
 export default function SliderProgressBar() {
   const [sliderValue, setSliderValue] = useState(0);
@@ -24,7 +26,6 @@ export default function SliderProgressBar() {
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
-    paddingHorizontal: theme.spacing["24p"],
   }));
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -61,6 +62,12 @@ export default function SliderProgressBar() {
 
   return (
     <View style={containerStyle}>
+      <Stack direction="horizontal" gap="8p">
+        <InvestmentIcon />
+        <Typography.Text color="neutralBase+30" size="title3" weight="medium">
+          {t("MutualFund.MutualFundOrderDetailsScreen.assetAllocation.title")}
+        </Typography.Text>
+      </Stack>
       <View style={contentContainerStyle}>
         <Typography.Text size="footnote" weight="medium" style={textStyle} color="neutralBase">
           {t("MutualFund.MutualFundDetailsScreen.ProgressBar.titleText")}

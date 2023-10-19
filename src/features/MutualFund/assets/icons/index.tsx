@@ -1,4 +1,9 @@
 export { default as ArrowDown } from "./ArrowDown";
 export { default as ArrowUp } from "./ArrowUp";
+export { default as AssetIcon } from "./AssetIcon";
+export { default as CashMarketIcon } from "./CashMarketIcon";
 export { default as CircleIcon } from "./CircleIcon";
+export { default as InvestmentIcon } from "./InvestmentIcon";
 export { default as MutualFundIllustrationIcon } from "./MutualFundIllustrationIcon";
+export { default as SharesFundIcon } from "./SharesFundIcon";
+export { default as SoukIcon } from "./SoukIcon";

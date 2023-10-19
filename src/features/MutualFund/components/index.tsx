@@ -1,3 +1,6 @@
+export { default as AssetSection } from "./AssetSection";
+export { default as ChartData } from "./ChartData";
+export { default as ChartDataItem } from "./ChartDataItem";
 export { default as CheckBoxTermsAndCondition } from "./CheckBoxTermsAndCondition";
 export { default as ErrorSection } from "./ErrorSection";
 export { default as FilterSection } from "./FilterSection";
@@ -9,6 +12,7 @@ export { default as MutualFundDashboardHeaderContent } from "./MutualFundDashboa
 export { default as MutualFundOffersItem } from "./MutualFundOffersItem";
 export { default as MutualFundOrderDetailsTable } from "./MutualFundOrderDetailsTable";
 export { default as OfferInformationItem } from "./OfferInformationItem";
+export { default as PieChart } from "./PieChart";
 export { default as PortfolioCard } from "./PortfolioCard";
 export { default as PortfolioDetailsHeaderContent } from "./PortfolioDetailsHeaderContent";
 export { default as PortfolioHoldingCard } from "./PortfolioHoldingCard";
