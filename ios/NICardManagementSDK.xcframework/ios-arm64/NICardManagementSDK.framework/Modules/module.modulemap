@@ -1,0 +1,4 @@
+framework module NICardManagementSDK {
+  header "NICardManagementSDK-Swift.h"
+  requires objc
+}

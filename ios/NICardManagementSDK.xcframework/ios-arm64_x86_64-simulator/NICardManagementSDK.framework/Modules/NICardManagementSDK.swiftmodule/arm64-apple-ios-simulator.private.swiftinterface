@@ -1,0 +1,284 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.8 (swiftlang-5.8.0.124.2 clang-1403.0.22.11.100)
+// swift-module-flags: -target arm64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name NICardManagementSDK
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import CommonCrypto
+import Foundation
+import Security
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class NIErrorResponse : ObjectiveC.NSObject {
+  public var errorCode: Swift.String
+  public var errorMessage: Swift.String
+  @objc deinit
+}
+extension Security.SecKey {
+  public func sign(data: [Swift.UInt8]) -> [Swift.UInt8]?
+}
+@objc public class NICardAttributes : ObjectiveC.NSObject {
+  public var shouldHide: Swift.Bool?
+  public var backgroundImage: UIKit.UIImage?
+  public var textPositioning: NICardManagementSDK.NICardDetailsTextPositioning?
+  @objc public init(shouldHide: Swift.Bool)
+  @objc public init(shouldHide: Swift.Bool, backgroundImage: UIKit.UIImage)
+  public init(shouldHide: Swift.Bool?, textPositioning: NICardManagementSDK.NICardDetailsTextPositioning?)
+  public init(shouldHide: Swift.Bool?, backgroundImage: UIKit.UIImage?, textPositioning: NICardManagementSDK.NICardDetailsTextPositioning?)
+  @objc deinit
+}
+@objc public class NIInput : ObjectiveC.NSObject {
+  public var bankCode: Swift.String
+  public var cardIdentifierId: Swift.String
+  public var cardIdentifierType: Swift.String
+  public var connectionProperties: NICardManagementSDK.NIConnectionProperties
+  public var displayAttributes: NICardManagementSDK.NIDisplayAttributes?
+  @objc public init(bankCode: Swift.String, cardIdentifierId: Swift.String, cardIdentifierType: Swift.String, connectionProperties: NICardManagementSDK.NIConnectionProperties, displayAttributes: NICardManagementSDK.NIDisplayAttributes? = nil)
+  @objc deinit
+}
+extension Security.SecKey {
+  public var keyData: [Swift.UInt8]? {
+    get
+  }
+  public static func create(withData data: [Swift.UInt8]) -> Security.SecKey?
+}
+@_inheritsConvenienceInitializers @objc public class NICardManagementAPI : ObjectiveC.NSObject {
+  @objc public static func displayCardDetailsForm(input: NICardManagementSDK.NIInput, viewController: UIKit.UIViewController, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @objc public static func setPinForm(input: NICardManagementSDK.NIInput, viewController: UIKit.UIViewController, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @objc public static func setPinForm(input: NICardManagementSDK.NIInput, type: NICardManagementSDK.NIPinFormType, viewController: UIKit.UIViewController, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @objc public static func verifyPinForm(input: NICardManagementSDK.NIInput, viewController: UIKit.UIViewController, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @objc public static func verifyPinForm(input: NICardManagementSDK.NIInput, type: NICardManagementSDK.NIPinFormType, viewController: UIKit.UIViewController, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @objc public static func changePinForm(input: NICardManagementSDK.NIInput, viewController: UIKit.UIViewController, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @objc public static func changePinForm(input: NICardManagementSDK.NIInput, type: NICardManagementSDK.NIPinFormType, viewController: UIKit.UIViewController, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @objc public static func getCardDetails(input: NICardManagementSDK.NIInput, completion: @escaping (NICardManagementSDK.NICardDetailsResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @objc public static func setPin(pin: Swift.String, input: NICardManagementSDK.NIInput, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @objc public static func verifyPin(pin: Swift.String, input: NICardManagementSDK.NIInput, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @objc public static func changePin(oldPin: Swift.String, newPin: Swift.String, input: NICardManagementSDK.NIInput, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @objc public static func getPin(input: NICardManagementSDK.NIInput, completion: @escaping (Swift.String?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension Security.SecIdentity {
+  public var certificate: Security.SecCertificate? {
+    get
+  }
+}
+@objc public class NICardDetailsResponse : ObjectiveC.NSObject {
+  public var clearPan: Swift.String?
+  public var maskedPan: Swift.String?
+  public var expiry: Swift.String?
+  public var clearCVV2: Swift.String?
+  public var cardholderName: Swift.String?
+  public init(clearPan: Swift.String?, maskedPan: Swift.String?, expiry: Swift.String?, clearCVV2: Swift.String?, cardholderName: Swift.String?)
+  @objc deinit
+}
+public enum Status : CommonCrypto.CCCryptorStatus, Swift.CustomStringConvertible, Swift.Error {
+  case success, paramError, bufferTooSmall, memoryFailure, alignmentError, decodeError, unimplemented, overflow, rngFailure
+  public func toRaw() -> CommonCrypto.CCCryptorStatus
+  public var description: Swift.String {
+    get
+  }
+  public static func fromRaw(status: CommonCrypto.CCCryptorStatus) -> NICardManagementSDK.Status?
+  public init?(rawValue: CommonCrypto.CCCryptorStatus)
+  public typealias RawValue = CommonCrypto.CCCryptorStatus
+  public var rawValue: CommonCrypto.CCCryptorStatus {
+    get
+  }
+}
+@objc public class NIFontLabelPair : ObjectiveC.NSObject {
+  public var font: UIKit.UIFont
+  public var label: NICardManagementSDK.NILabels
+  @objc public init(font: UIKit.UIFont, label: NICardManagementSDK.NILabels)
+  @objc deinit
+}
+@objc public enum NILabels : Swift.Int {
+  case cardNumberLabel
+  case cardNumberValueLabel
+  case expiryDateLabel
+  case expiryDateValueLabel
+  case cvvLabel
+  case cvvValueLabel
+  case cardholderNameLabel
+  case cardholderNameTagLabel
+  case setPinDescriptionLabel
+  case verifyPinDescriptionLabel
+  case changePinDescriptionLabel
+  case viewPinDescriptionLabel
+  case viewPinCountDownDescription
+  case pinDigitLabel
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) final public class NICardView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) @objc override final public func layoutSubviews()
+  @_Concurrency.MainActor(unsafe) public init(input: NICardManagementSDK.NIInput, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @_Concurrency.MainActor(unsafe) final public func setInput(input: NICardManagementSDK.NIInput, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @_Concurrency.MainActor(unsafe) final public func setBackgroundImage(image: UIKit.UIImage)
+  @objc deinit
+}
+extension Security.SecCertificate {
+  public static func create(derEncodedFile file: Swift.String) -> Security.SecCertificate?
+  public var data: Foundation.Data {
+    get
+  }
+  public var publicKey: Security.SecKey? {
+    get
+  }
+}
+extension Security.SecKey {
+  public var keychainTag: Swift.String? {
+    get
+  }
+  public static func keychainTag(forKeyData data: [Swift.UInt8]) -> Swift.String
+  public static func loadFromKeychain(tag: Swift.String) -> Security.SecKey?
+}
+extension Security.SecIdentity {
+  public static func create(ofSize bits: Swift.UInt = 4096, subjectCommonName name: Swift.String, subjectEmailAddress email: Swift.String, validFrom: Foundation.Date? = nil, validTo: Foundation.Date? = nil) -> Security.SecIdentity?
+  public static func find(withPublicKey pubKey: Security.SecKey) -> Security.SecIdentity?
+}
+@objc public enum NITheme : Swift.Int {
+  case light, dark
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public protocol Updateable {
+  var status: NICardManagementSDK.Status { get }
+  @discardableResult
+  func update(buffer: Swift.UnsafeRawPointer, byteCount: Darwin.size_t) -> Self?
+}
+extension NICardManagementSDK.Updateable {
+  public func update(data: Foundation.Data) -> Self?
+  public func update(byteArray: [Swift.UInt8]) -> Self?
+  public func update(string: Swift.String) -> Self?
+  public func update(_ data: Foundation.Data) -> Self?
+  public func update(_ byteArray: [Swift.UInt8]) -> Self?
+  public func update(_ string: Swift.String) -> Self?
+}
+public typealias KeyPair = (privateKey: Security.SecKey, publicKey: Security.SecKey)
+extension Security.SecKey {
+  public static func generateKeyPair(ofSize bits: Swift.UInt) throws -> NICardManagementSDK.KeyPair
+  public var blockSize: Swift.Int {
+    get
+  }
+}
+public enum SecKeyError : Swift.Error {
+  case generateKeyPairFailed(osStatus: Darwin.OSStatus?)
+}
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) final public class NIViewPinView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public init(input: NICardManagementSDK.NIInput, timer: Swift.Double, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @_Concurrency.MainActor(unsafe) final public func setInput(input: NICardManagementSDK.NIInput, timer: Swift.Double, completion: @escaping (NICardManagementSDK.NISuccessResponse?, NICardManagementSDK.NIErrorResponse?, @escaping () -> Swift.Void) -> Swift.Void)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc public class NISuccessResponse : ObjectiveC.NSObject {
+  public var message: Swift.String
+  @objc deinit
+}
+@objc public class NICardDetailsTextPositioning : ObjectiveC.NSObject {
+  @objc public init(leftAlignment: Swift.Double, cardNumberGroupTopAlignment: Swift.Double, dateCvvGroupTopAlignment: Swift.Double, cardHolderNameGroupTopAlignment: Swift.Double)
+  @objc deinit
+}
+open class Digest : NICardManagementSDK.Updateable {
+  open var status: NICardManagementSDK.Status
+  public enum Algorithm {
+    case md2, md4, md5, sha1, sha224, sha256, sha384, sha512
+    public static func == (a: NICardManagementSDK.Digest.Algorithm, b: NICardManagementSDK.Digest.Algorithm) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public init(algorithm: NICardManagementSDK.Digest.Algorithm)
+  open func update(buffer: Swift.UnsafeRawPointer, byteCount: Darwin.size_t) -> Self?
+  open func final() -> [Swift.UInt8]
+  @objc deinit
+}
+@objc public class NIDisplayAttributes : ObjectiveC.NSObject {
+  public var theme: NICardManagementSDK.NITheme
+  public var language: NICardManagementSDK.NILanguage?
+  public var fonts: [NICardManagementSDK.NIFontLabelPair]?
+  public var cardAttributes: NICardManagementSDK.NICardAttributes?
+  @objc public init(theme: NICardManagementSDK.NITheme)
+  @objc public init(theme: NICardManagementSDK.NITheme, language: NICardManagementSDK.NILanguage)
+  @objc public init(theme: NICardManagementSDK.NITheme, fonts: [NICardManagementSDK.NIFontLabelPair])
+  @objc public init(theme: NICardManagementSDK.NITheme, cardAttributes: NICardManagementSDK.NICardAttributes)
+  @objc public init(theme: NICardManagementSDK.NITheme, language: NICardManagementSDK.NILanguage, cardAttributes: NICardManagementSDK.NICardAttributes)
+  @objc public init(theme: NICardManagementSDK.NITheme, fonts: [NICardManagementSDK.NIFontLabelPair], cardAttributes: NICardManagementSDK.NICardAttributes)
+  @objc public init(theme: NICardManagementSDK.NITheme, language: NICardManagementSDK.NILanguage, fonts: [NICardManagementSDK.NIFontLabelPair])
+  @objc public init(theme: NICardManagementSDK.NITheme, language: NICardManagementSDK.NILanguage, fonts: [NICardManagementSDK.NIFontLabelPair], cardAttributes: NICardManagementSDK.NICardAttributes)
+  @objc deinit
+}
+@objc public class NIConnectionProperties : ObjectiveC.NSObject {
+  public var rootUrl: Swift.String
+  public var token: Swift.String
+  @objc public init(rootUrl: Swift.String, token: Swift.String)
+  @objc deinit
+}
+extension Swift.Sequence where Self.Element == Swift.UInt8 {
+  public func hexString() -> Swift.String
+}
+extension Swift.String {
+  public func hexByteArray() -> [Swift.UInt8]?
+}
+@objc public enum NIPinFormType : Swift.Int, Swift.CaseIterable {
+  case dynamic = 0
+  case fourDigits = 4
+  case fiveDigits = 5
+  case sixDigits = 6
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [NICardManagementSDK.NIPinFormType]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [NICardManagementSDK.NIPinFormType] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension Security.SecKey {
+  public func encrypt(_ bytes: [Swift.UInt8]) -> [Swift.UInt8]?
+  public func encrypt(_ utf8Text: Swift.String) -> [Swift.UInt8]?
+  public func decrypt(_ cypherText: [Swift.UInt8]) -> [Swift.UInt8]?
+  public func decryptUtf8(_ cypherText: [Swift.UInt8]) -> Swift.String?
+}
+@objc public enum NILanguage : Swift.Int {
+  case english
+  case arabic
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.Data {
+  public var bytes: [Swift.UInt8] {
+    get
+  }
+}
+extension Security.SecIdentity {
+  public var privateKey: Security.SecKey? {
+    get
+  }
+}
+extension NICardManagementSDK.Status : Swift.Equatable {}
+extension NICardManagementSDK.Status : Swift.Hashable {}
+extension NICardManagementSDK.Status : Swift.RawRepresentable {}
+extension NICardManagementSDK.NILabels : Swift.Equatable {}
+extension NICardManagementSDK.NILabels : Swift.Hashable {}
+extension NICardManagementSDK.NILabels : Swift.RawRepresentable {}
+extension NICardManagementSDK.NITheme : Swift.Equatable {}
+extension NICardManagementSDK.NITheme : Swift.Hashable {}
+extension NICardManagementSDK.NITheme : Swift.RawRepresentable {}
+extension NICardManagementSDK.Digest.Algorithm : Swift.Equatable {}
+extension NICardManagementSDK.Digest.Algorithm : Swift.Hashable {}
+extension NICardManagementSDK.NIPinFormType : Swift.Equatable {}
+extension NICardManagementSDK.NIPinFormType : Swift.Hashable {}
+extension NICardManagementSDK.NIPinFormType : Swift.RawRepresentable {}
+extension NICardManagementSDK.NILanguage : Swift.Equatable {}
+extension NICardManagementSDK.NILanguage : Swift.Hashable {}
+extension NICardManagementSDK.NILanguage : Swift.RawRepresentable {}

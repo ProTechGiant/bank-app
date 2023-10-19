@@ -11,6 +11,10 @@
 		1882536A2A0327CE00F96F05 /* RiCHNotificationService.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188253682A0327C300F96F05 /* RiCHNotificationService.xcframework */; };
 		1882536B2A0327CE00F96F05 /* RiCHNotificationService.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 188253682A0327C300F96F05 /* RiCHNotificationService.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		96801F825C5B58CE01C7266E /* Pods_T2NotificationService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5D57E8EEB643791A7BAA8C /* Pods_T2NotificationService.framework */; };
+		C0A5F9822ADFB72700BD9F62 /* NICardManagementIOSModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A5F9812ADFB72700BD9F62 /* NICardManagementIOSModule.swift */; };
+		C0A5F9852ADFB73700BD9F62 /* NICardManagementIOSModuleBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C0A5F9842ADFB73700BD9F62 /* NICardManagementIOSModuleBridge.m */; };
+		C0E177512ADFEC1100EC2649 /* NICardManagementSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0E1774F2ADFEB6700EC2649 /* NICardManagementSDK.xcframework */; };
+		C0E177522ADFEC1200EC2649 /* NICardManagementSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0E1774F2ADFEB6700EC2649 /* NICardManagementSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EF2B45F4F0D8B171D66FEF47 /* Pods_CroatiaMobileApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13785337348F8CCDAAF41371 /* Pods_CroatiaMobileApp.framework */; };
 		F115B2962A13747400A9B300 /* mea_config in Resources */ = {isa = PBXBuildFile; fileRef = F115B2952A13747400A9B300 /* mea_config */; };
 		F115B2982A13753700A9B300 /* ReloadAppModule.h in Sources */ = {isa = PBXBuildFile; fileRef = F18FC8C92A12C68E0080EF5C /* ReloadAppModule.h */; };
@@ -43,6 +47,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C0E177522ADFEC1200EC2649 /* NICardManagementSDK.xcframework in Embed Frameworks */,
 				1882536B2A0327CE00F96F05 /* RiCHNotificationService.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -76,6 +81,11 @@
 		78BEF8AE3E8B397C2BF3AED0 /* Pods-CroatiaMobileApp.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp.test.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp.test.xcconfig"; sourceTree = "<group>"; };
 		AE5D57E8EEB643791A7BAA8C /* Pods_T2NotificationService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_T2NotificationService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0B2E9DC5515C0892C594439 /* Pods-CroatiaMobileApp.sit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CroatiaMobileApp.sit.xcconfig"; path = "Target Support Files/Pods-CroatiaMobileApp/Pods-CroatiaMobileApp.sit.xcconfig"; sourceTree = "<group>"; };
+		C0A5F9812ADFB72700BD9F62 /* NICardManagementIOSModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NICardManagementIOSModule.swift; sourceTree = "<group>"; };
+		C0A5F9832ADFB73000BD9F62 /* NIWrapperCardManagementRN-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NIWrapperCardManagementRN-Bridging-Header.h"; sourceTree = "<group>"; };
+		C0A5F9842ADFB73700BD9F62 /* NICardManagementIOSModuleBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NICardManagementIOSModuleBridge.m; sourceTree = "<group>"; };
+		C0A5F9862ADFB79700BD9F62 /* NICardManagementSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = NICardManagementSDK.xcframework; path = "../../../Downloads/OneDrive_1_26-09-2023/NICardManagementSDK.xcframework"; sourceTree = "<group>"; };
+		C0E1774F2ADFEB6700EC2649 /* NICardManagementSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = NICardManagementSDK.xcframework; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F115B2952A13747400A9B300 /* mea_config */ = {isa = PBXFileReference; lastKnownFileType = file; path = mea_config; sourceTree = "<group>"; };
 		F115B29D2A13758A00A9B300 /* T2NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = T2NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +114,7 @@
 			files = (
 				1882536A2A0327CE00F96F05 /* RiCHNotificationService.xcframework in Frameworks */,
 				EF2B45F4F0D8B171D66FEF47 /* Pods_CroatiaMobileApp.framework in Frameworks */,
+				C0E177512ADFEC1100EC2649 /* NICardManagementSDK.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +151,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C0A5F9862ADFB79700BD9F62 /* NICardManagementSDK.xcframework */,
+				C0E1774F2ADFEB6700EC2649 /* NICardManagementSDK.xcframework */,
 				188253682A0327C300F96F05 /* RiCHNotificationService.xcframework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				13785337348F8CCDAAF41371 /* Pods_CroatiaMobileApp.framework */,
@@ -158,6 +171,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				C0A5F9842ADFB73700BD9F62 /* NICardManagementIOSModuleBridge.m */,
+				C0A5F9832ADFB73000BD9F62 /* NIWrapperCardManagementRN-Bridging-Header.h */,
+				C0A5F9812ADFB72700BD9F62 /* NICardManagementIOSModule.swift */,
 				13B07FAE1A68108700A75B9A /* CroatiaMobileApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				F115B29E2A13758A00A9B300 /* T2NotificationService */,
@@ -400,7 +416,7 @@
 		};
 		F147E4FB2A14EF3D009B59F6 /* Create settings for T2 SDK in RiCHService-Info.plist */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -413,7 +429,7 @@
 			outputPaths = (
 				"$(SRCROOT)/Resources/RiCHService-Info.plist",
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "# Remove existing file\nrm \"${SRCROOT}/Resources/RiCHService-Info.plist\"\n\n# Move to expected path\ncp \"${SRCROOT}/Resources/RiCHService-Info.template.plist\" \"${SRCROOT}/Resources/RiCHService-Info.plist\"\n\n# Expand environment into file\n\"${SRCROOT}/expand-plist.rb\" \"${SRCROOT}/../.env\" \"${SRCROOT}/Resources/RiCHService-Info.plist\"\n";
 		};
@@ -443,12 +459,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0A5F9852ADFB73700BD9F62 /* NICardManagementIOSModuleBridge.m in Sources */,
 				F115B2982A13753700A9B300 /* ReloadAppModule.h in Sources */,
 				F1D207332A137ECC00E1D09E /* T2PushNotificationsModuleBridge.m in Sources */,
 				F18FC8CF2A12C68E0080EF5C /* ReloadAppModule.m in Sources */,
 				F18FC8CE2A12C68E0080EF5C /* T2PushNotificationsModule.swift in Sources */,
 				F18FC8CC2A12C68E0080EF5C /* main.m in Sources */,
 				F18FC8BB2A12C6560080EF5C /* AppDelegate.mm in Sources */,
+				C0A5F9822ADFB72700BD9F62 /* NICardManagementIOSModule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
