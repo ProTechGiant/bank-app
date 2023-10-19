@@ -389,7 +389,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
                 icon={<CardIcon />}
                 onPress={handleOnRequestPhysicalCard}
                 title={t("CardActions.CardDetailsScreen.requestPhysicalCard")}
-                disabled={card.Status === "PENDING-ACTIVATION"}
+                disabled={["INACTIVE", "NEW_CARD", "CANCELLED"].includes(card.Status)}
                 testID="CardActions.CardDetailsScreen:RequestPhysicalCardButton"
               />
             </ListSection>
