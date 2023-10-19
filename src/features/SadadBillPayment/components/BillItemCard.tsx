@@ -1,4 +1,6 @@
 import { format } from "date-fns";
+import { isAfter } from "date-fns";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -19,6 +21,13 @@ interface BillItemCardProps {
 export default function BillItemCard({ onPress, data }: BillItemCardProps) {
   const { t } = useTranslation();
   const arrowColor = useThemeStyles(t => t.palette["neutralBase-20"]);
+
+  const isBillDatePassed = useMemo(() => {
+    const todayDate = new Date();
+    const billDate = new Date(data.DueDate);
+
+    return isAfter(todayDate, billDate);
+  }, [data.DueDate]);
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.small,
@@ -55,7 +64,7 @@ export default function BillItemCard({ onPress, data }: BillItemCardProps) {
           <Typography.Text size="caption1" weight="regular" color="neutralBase+30">
             {data.Amount + t("SadadBillPayments.BillPaymentHomeScreen.SAR")}
           </Typography.Text>
-          <Typography.Text size="caption2" color="neutralBase">
+          <Typography.Text size="caption2" color={isBillDatePassed ? "errorBase" : "neutralBase+30"}>
             {t("SadadBillPayments.BillPaymentHomeScreen.due") + format(new Date(data.DueDate), "dd MMM yyy")}
           </Typography.Text>
         </Stack>

@@ -57,13 +57,17 @@ export default function PaymentsHubScreen() {
   const handleOnCroatiaTransferPress = () => {
     setIsSelectInternalTransferTypeVisible(false);
     setTransferType(TransferType.InternalTransferAction);
-    navigation.navigate("InternalTransfers.InternalTransferScreen");
+    navigation.navigate("InternalTransfers.InternalTransfersStack", {
+      screen: "InternalTransfers.InternalTransferScreen",
+    });
   };
 
   const handleOnAlrajhiTransferPress = () => {
     setIsSelectInternalTransferTypeVisible(false);
     setTransferType(TransferType.CroatiaToArbTransferAction);
-    navigation.navigate("InternalTransfers.InternalTransferScreen");
+    navigation.navigate("InternalTransfers.InternalTransfersStack", {
+      screen: "InternalTransfers.InternalTransferScreen",
+    });
   };
 
   const searchContainer = useThemeStyles<ViewStyle>(theme => ({
