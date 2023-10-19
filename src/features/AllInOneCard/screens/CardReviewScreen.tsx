@@ -20,18 +20,25 @@ import { CheckboxInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import { useToasts } from "@/contexts/ToastsContext";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import NeraPlus from "../assets/images/neraCard.png";
 import NeraPlusCard from "../assets/images/neraPlusCard.png";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
+import { useAllInOneCardOTP } from "../hooks/query-hooks";
 import { cardReview } from "../mocks";
 import { BoxContainer, FormattedPrice } from "./../components";
 
 export default function CardReviewScreen() {
   const { t } = useTranslation();
+  const addToast = useToasts();
   const navigation = useNavigation();
+  const otpFlow = useOtpFlow();
+  const { mutateAsync: sendAllInOneCardOTP } = useAllInOneCardOTP();
   const { cardType, redemptionMethod, paymentPlan } = useAllInOneCardContext();
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
   const [addFundsModalVisible, setAddFundsModalVisible] = useState(false);
@@ -69,7 +76,32 @@ export default function CardReviewScreen() {
   };
   const onConfirm = () => {
     //TODO : CHECK IF USER HAS ENOUGH BALANCE
-    //TODO : navigate to OTP screen
+    try {
+      otpFlow.handle({
+        action: {
+          to: "AllInOneCard.CardReview",
+        },
+        otpVerifyMethod: "all-in-one-card/otp-validation",
+        // TODO: Add otpOptionalParams when api finished from BE team
+        otpOptionalParams: {},
+        onOtpRequest: () => {
+          return sendAllInOneCardOTP();
+        },
+        onFinish: async status => {
+          if (status === "success") {
+            navigation.navigate("AllInOneCard.ActivatedCardScreen");
+          }
+          if (status === "fail") {
+            addToast({
+              variant: "warning",
+              message: t("AllInOneCard.ActivatedCardScreen.subscriptionFailed"),
+            });
+          }
+        },
+      });
+    } catch (error) {
+      warn("All In One Card", "error subscribing to All In One Card", JSON.stringify(error));
+    }
   };
 
   const freeBenefitsViewStyle = useThemeStyles<ViewStyle>(theme => ({

@@ -6,6 +6,7 @@ const AllInOneCardContext = createContext<AllInOneCardContextState>({} as AllInO
 
 const initialState: AllInOneCardContextState = {
   cardType: undefined,
+  cardStatus: undefined,
   productId: undefined,
   paymentPlan: undefined,
   paymentPlanId: undefined,

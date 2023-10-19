@@ -1,3 +1,4 @@
+export { default as ActivatedCardIcon } from "./ActivatedCardIcon";
 export { default as AddMoneyIcon } from "./AddMoneyIcon";
 export { default as AllInCardIcon } from "./AllInCardIcon";
 export * from "./AllInCardIcon";

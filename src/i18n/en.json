@@ -3836,6 +3836,12 @@
       "message": "Sorry, You don’t have sufficient funds in your account. You may top-up your account or cancel this payment.",
       "title": "Insufficient balance",
       "primaryButtonText": "Top-up balance"
+    },
+    "ActivatedCardScreen": {
+      "title": "You got All-In-One card",
+      "description": "Activate you card to use it now !",
+      "button": "Activate card ",
+      "subscriptionFailed": "Subscription to AllInOneCard failed"
     }
   },
   "TermsAndConditionsModal": {

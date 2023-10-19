@@ -10,6 +10,7 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 
 import { Card, MoreFeatureModal } from "../components";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
@@ -24,13 +25,14 @@ export default function SelectCardScreen() {
   const [showMoreFeaturesModal, setShowMoreFeaturesModal] = React.useState(false);
 
   const handleOnApplyPress = () => {
-    setShowMoreFeaturesModal(false);
     setContextState({
       cardType: cardData[activeIndex].cardType,
     });
-    navigation.navigate("AllInOneCard.ChooseRedemptionMethod");
+    setShowMoreFeaturesModal(false);
+    delayTransition(() => {
+      navigation.navigate("AllInOneCard.ChooseRedemptionMethod");
+    });
   };
-
   const textContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "flex-start",
     paddingHorizontal: theme.spacing["20p"],

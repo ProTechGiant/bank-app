@@ -21,6 +21,7 @@ export enum Screens {
 
 export interface AllInOneCardContextState {
   productId?: string;
+  cardStatus?: "ACTIVATED" | "INACTIVE";
   paymentPlan?: string;
   paymentPlanId?: number;
   redemptionMethod?: string;

@@ -4,6 +4,7 @@ import React from "react";
 import { AllInOneCardContextProvider } from "./contexts/AllInOneCardContext";
 import {
   CallBackVerificationScreen,
+  CardActivatedScreen,
   CardReadyMessageScreen,
   CardReviewScreen,
   ChooseRedemptionMethodScreen,
@@ -30,6 +31,7 @@ export type AllInOneCardParams = {
   "AllInOneCard.WelcomeScreen": undefined;
   "AllInOneCard.CardReadyMessage": undefined;
   "AllInOneCard.CreatePINScreen": undefined;
+  "AllInOneCard.ActivatedCardScreen": undefined;
   "AllInOneCard.ConfirmPINScreen": {
     passCode: string;
   };
@@ -56,6 +58,7 @@ export default function AllInCardStack() {
         <Stack.Screen component={CardReadyMessageScreen} name="AllInOneCard.CardReadyMessage" />
         <Stack.Screen component={CreatePINScreen} name="AllInOneCard.CreatePINScreen" />
         <Stack.Screen component={ConfirmPINScreen} name="AllInOneCard.ConfirmPINScreen" />
+        <Stack.Screen component={CardActivatedScreen} name="AllInOneCard.ActivatedCardScreen" />
         <Stack.Screen
           component={TermsAndConditionsScreen}
           name="AllInOneCard.TermsAndConditions"

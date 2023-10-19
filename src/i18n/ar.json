@@ -3691,6 +3691,12 @@
       "message": "عذرًا، ليس لديك رصيد  كافي في حسابك. يمكنك تعبئة حسابك أو إلغاء هذه الدفعة.",
       "title": "رصيد غير كاف",
       "primaryButtonText": "اضافة رصيد"
+    },
+    "ActivatedCardScreen": {
+      "title": "لقد حصلت على بطاقة all in one ",
+      "description": "قم بتفعيل بطاقتك الآن لتتمكن من استخدامها !",
+      "button": "تفعيل البطاقة",
+      "subscriptionFailed": "فشل الاشتراك في البطاقة"
     }
   },
   "TermsAndConditionsModal": {

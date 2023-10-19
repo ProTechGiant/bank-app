@@ -1,4 +1,5 @@
 export { default as CallBackVerificationScreen } from "./CallBackVerificationScreen";
+export { default as CardActivatedScreen } from "./CardActivatedScreen";
 export { default as CardReadyMessageScreen } from "./CardReadyMessageScreen";
 export { default as CardReviewScreen } from "./CardReviewScreen";
 export { default as ChooseRedemptionMethodScreen } from "./ChooseRedemptionMethodScreen";
