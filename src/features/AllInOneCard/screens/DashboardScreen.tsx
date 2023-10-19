@@ -77,25 +77,27 @@ export default function DashboardScreen() {
         }
         backgroundColor="#EC5F48"
       />
-      <ScrollView style={scrollStyle} pointerEvents={showCardActivation ? "none" : "auto"}>
-        <AllInCardPlaceholder variant="nera" width="90%" />
-        <View style={dividerStyle} />
-        <View style={styleSegmentedControl}>
-          <SegmentedControl value={value} onPress={selectedValue => handleUserSegment(selectedValue)}>
-            <SegmentedControlItem value={tabFeed}>{tabFeed}</SegmentedControlItem>
-            {/* TODO : hasUpdate Will be managed from api in next build cycle.currently we are just making ui  */}
-            <SegmentedControlItem value={tabCurrencies} hasUpdate={true}>
-              {tabCurrencies}
-            </SegmentedControlItem>
-          </SegmentedControl>
+      <ScrollView style={scrollStyle}>
+        <View pointerEvents={showCardActivation ? "none" : "auto"}>
+          <AllInCardPlaceholder variant="nera" width="90%" />
+          <View style={dividerStyle} />
+          <View style={styleSegmentedControl}>
+            <SegmentedControl value={value} onPress={selectedValue => handleUserSegment(selectedValue)}>
+              <SegmentedControlItem value={tabFeed}>{tabFeed}</SegmentedControlItem>
+              {/* TODO : hasUpdate Will be managed from api in next build cycle.currently we are just making ui  */}
+              <SegmentedControlItem value={tabCurrencies} hasUpdate={true}>
+                {tabCurrencies}
+              </SegmentedControlItem>
+            </SegmentedControl>
+          </View>
+          <Benefits />
+          <Rewards />
+          <TransactionSection
+            onPressSeeMore={handleTransactionSeeMore}
+            transactions={transactions as TransactionItem[]}
+          />
+          <UpgradeToNeraPlusCard />
         </View>
-        <Benefits />
-        <Rewards />
-        <TransactionSection
-          onPressSeeMore={handleTransactionSeeMore}
-          transactions={transactions as TransactionItem[]}
-        />
-        <UpgradeToNeraPlusCard />
       </ScrollView>
       {showCardActivation ? (
         <Pressable style={styles.activateCardStyle} onPress={handleActivateCard}>

@@ -59,11 +59,7 @@ export default function MoreFeatureModal({ isVisible, onClose, item, onPress }: 
         <HeaderModal onClose={onClose} item={item} />
         <View style={containerViewStyle}>
           <FlatList data={neraDataModal} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />
-          <Button onPress={onPress}>
-            {item.id === 1
-              ? t("AllInOneCard.SelectedCardScreen.platinumButton")
-              : t("AllInOneCard.SelectedCardScreen.signatureButton")}
-          </Button>
+          <Button onPress={onPress}>{t("AllInOneCard.SelectedCardScreen.applyButton")}</Button>
         </View>
       </View>
     </Modal>

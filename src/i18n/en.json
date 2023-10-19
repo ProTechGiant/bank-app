@@ -3698,8 +3698,7 @@
       "pickedCard": "Pick Your Card",
       "apply": "Apply",
       "showButton": "Show more features",
-      "platinumButton": "Apply for Platinum card",
-      "signatureButton": "Apply for Signature card",
+      "applyButton": "Apply",
       "recommended": "Recommended",
       "freeBenefits": "Free Benefits",
       "free": "Free",
@@ -3787,6 +3786,7 @@
       "continue": "Continue",
       "Recommended": "Recommended",
       "off": "% OFF",
+      "infoBoxDescription":"Note : Fee is exclusive of VAT",
       "warningModal": {
         "title": "Are you sure to cancel card request ? ",
         "message": "You will lose the data, and you will need to restart the journey from the beginning.",

@@ -12,7 +12,7 @@ import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 
-import { PaymentOptionsList } from "../components";
+import { InfoBox, PaymentOptionsList } from "../components";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
 import { paymentOptions } from "../mocks/index";
 
@@ -48,6 +48,10 @@ export default function SelectPaymentOptionScreen() {
     marginVertical: theme.spacing["12p"],
   }));
 
+  const infoBoxStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["24p"],
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
@@ -80,7 +84,14 @@ export default function SelectPaymentOptionScreen() {
                   predefinedValue={selectedPaymentOption}
                 />
               </View>
+              <View style={infoBoxStyle}>
+                <InfoBox
+                  description={t("AllInOneCard.SelectPaymentOptionScreen.infoBoxDescription")}
+                  color="complimentBase-10"
+                />
+              </View>
             </View>
+
             <Button color="light" onPress={handleOnContinue} disabled={selectedPaymentOption === 0}>
               {t("AllInOneCard.SelectPaymentOptionScreen.continue")}
             </Button>

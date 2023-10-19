@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import EyeShowIcon from "@/assets/icons/EyeShowIcon";
-import { Stack } from "@/components";
+import { Stack, Typography } from "@/components";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
 import { useThemeStyles } from "@/theme";
 
@@ -15,9 +15,11 @@ import {
   FreezeIcon,
   RefundIcon,
 } from "../assets/icons";
+import EyeHideIcon from "../assets/icons/EyeHideIcon";
 import NeraCard from "../assets/NeraCardImg.png";
 import NeraCardPlus from "../assets/NeraCardPlus.png";
 import Triangle from "../assets/Traingle.png";
+import { hideBalance } from "../utils/hideBalance";
 import CardAction from "./CardAction";
 
 interface AllInCardPlaceholderProps {
@@ -33,8 +35,13 @@ const ASPECT_RATIOS: Record<AllInCardPlaceholderProps["variant"], number> = {
 };
 
 export default function AllInCardPlaceholder({ variant, height, width, style }: AllInCardPlaceholderProps) {
+  const [isBalanceVisible, setIsBalanceVisible] = useState<boolean>(true);
   const { t, i18n } = useTranslation();
   const [containerHeight, setContainerHeight] = useState(200);
+
+  const handleOnShowBalance = () => {
+    setIsBalanceVisible(visible => !visible);
+  };
 
   const cardOverlayActionsStyle = useThemeStyles<ViewStyle>(theme => ({
     position: "absolute",
@@ -79,22 +86,29 @@ export default function AllInCardPlaceholder({ variant, height, width, style }: 
         <CardAction text={t("AllInOneCard.Dashboard.actionFreeze")} icon={<FreezeIcon />} />
       </Stack>
       <Stack style={cardOverlayActionsStyle} direction="horizontal" gap="16p">
-        <EyeShowIcon />
+        <Pressable onPress={handleOnShowBalance}>{isBalanceVisible ? <EyeHideIcon /> : <EyeShowIcon />}</Pressable>
         <AllInCardIcon />
       </Stack>
       <Stack style={cardBalanceStyle} direction="vertical">
         <Text style={styles.balanceLabel}>{t("AllInOneCard.Dashboard.totalBalance")}</Text>
         <Stack direction="horizontal" align="baseline" style={balanceContainerStyle}>
           {/* TODO : need to remove 123.87 when api is available in next build cycle */}
-          <FormatTransactionAmount
-            amount={123.87}
-            isPlusSignIncluded={false}
-            integerSize="large"
-            decimalSize="body"
-            color="neutralBase-50"
-            isCurrencyIncluded={false}
-            currencyColor="primaryBase-40"
-          />
+          {isBalanceVisible ? (
+            <FormatTransactionAmount
+              amount={123.87}
+              isPlusSignIncluded={false}
+              integerSize="large"
+              decimalSize="body"
+              color="neutralBase-50"
+              isCurrencyIncluded={false}
+              currencyColor="primaryBase-40"
+            />
+          ) : (
+            <Typography.Text color="neutralBase-60" size="large" weight="bold">
+              {hideBalance(123.87)}
+            </Typography.Text>
+          )}
+
           <Text style={styles.currency}>{t("AllInOneCard.Dashboard.sar")}</Text>
         </Stack>
       </Stack>
