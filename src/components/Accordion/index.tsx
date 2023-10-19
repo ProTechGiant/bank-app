@@ -10,9 +10,10 @@ import { useThemeStyles } from "@/theme";
 interface AccordionProps {
   children: JSX.Element | JSX.Element[];
   title: string;
+  icon?: JSX.Element;
 }
 
-export default function Accordion({ children, title }: AccordionProps) {
+export default function Accordion({ children, title, icon }: AccordionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const { t } = useTranslation();
 
@@ -68,7 +69,7 @@ export default function Accordion({ children, title }: AccordionProps) {
         <GreyGradient>
           <View style={pressableContainerStyle}>
             <View style={iconContainer}>
-              <InfoFilledCircleIcon width={16} height={16} color={infoIconColor} />
+              {icon ? icon : <InfoFilledCircleIcon width={16} height={16} color={infoIconColor} />}
             </View>
 
             <Typography.Text color="neutralBase+30" weight="medium" size="footnote" style={titleStyles}>
