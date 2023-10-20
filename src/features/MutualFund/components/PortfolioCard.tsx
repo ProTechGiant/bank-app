@@ -11,29 +11,37 @@ import { useThemeStyles } from "@/theme";
 import { Portfolio } from "../types";
 
 interface PortfolioCardProps {
+  portfolioName: string;
   balance: number;
   portfolioList: Portfolio[];
-  handleChangePortfolio: (value: number) => void;
+  handlePortfolioChange: (value: string) => void;
 }
 
-export default function PortfolioCard({ balance, portfolioList, handleChangePortfolio }: PortfolioCardProps) {
+export default function PortfolioCard({
+  portfolioName,
+  balance,
+  portfolioList,
+  handlePortfolioChange,
+}: PortfolioCardProps) {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
-  const [selected, setSelected] = useState(0);
-  const portfolioName = portfolioList?.[selected]?.portfolioName ?? "";
-  const portfolioCode = portfolioList?.[selected]?.portfolioCode ?? "";
+  const [selected, setSelected] = useState(portfolioName);
+  const [portfolioCode, setPortfolioCode] = useState(portfolioList?.[0]?.portfolioCode ?? "");
 
   const handleOnClose = () => {
     setIsVisible(false);
+    setSelected(portfolioName);
   };
 
   const handleOnPress = () => {
-    setIsVisible(true);
+    if (portfolioList.length > 1) setIsVisible(true);
   };
 
   const handleOnSelectPortfolio = () => {
     setIsVisible(false);
-    handleChangePortfolio(selected);
+    handlePortfolioChange(selected);
+    const selectedPortfolio = portfolioList.find(portfolio => portfolio.portfolioName === selected);
+    setPortfolioCode(selectedPortfolio ? selectedPortfolio.portfolioCode : "");
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -82,8 +90,8 @@ export default function PortfolioCard({ balance, portfolioList, handleChangePort
       <Modal visible={isVisible} onClose={handleOnClose} headerText={t("MutualFund.SubscriptionScreen.selectAccount")}>
         {portfolioList ? (
           <RadioButtonGroup onPress={value => setSelected(value)} value={selected}>
-            {portfolioList.map((portfolio, index) => {
-              return <RadioButton label={portfolio.portfolioName} value={index} />;
+            {portfolioList.map(portfolio => {
+              return <RadioButton label={portfolio.portfolioName} value={portfolio.portfolioName} />;
             })}
           </RadioButtonGroup>
         ) : null}

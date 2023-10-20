@@ -3511,27 +3511,28 @@
       "portfolioPerformanceSectionLabel": "Portfolio performance"
     },
     "SubscriptionScreen": {
-      "title": "الاشتراك",
-      "selectAccount": "Select account",
-      "fromAccount": "من حساب",
-      "toAccount": "لحساب",
-      "selectButton": "Select",
+      "title": "الاشتراكات",
+      "selectAccount": "اختار الحساب",
+      "fromAccount": "من الحساب",
+      "toAccount": "الى حساب",
+      "selectButton": "اختيار",
       "balance": "الرصيد: ",
-      "currency": "ر.س",
+      "currency": "ريال سعودي",
       "enterAmount": "القيمة",
-      "keyInformation": "معلومات أساسية",
+      "keyInformation": "معلومات رئيسية",
       "informationItem": {
-        "riskLevel": "مستوى الخطر",
-        "inceptionDate": "تاريخ الانشاء",
+        "riskLevel": "مستوى المخاطرة",
+        "inceptionDate": "تاريخ الإنشاء",
         "fundCurrency": "عملة الصندوق",
-        "performanceFee": "رسوم الأداء",
-        "minimumSubscription": "الحد الأدنى للاشتراك",
-        "minimumAdditionalSubscription": "الحد الأدنى للاشتراك الإضافي"
+        "performanceFee": "رسم الأداء",
+        "minimumSubscription": "الاشتراك الأدنى",
+        "minimumAdditionalSubscription": "الاشتراك الإضافي الأدنى"
       },
-      "extraConditionsCaption": "واوافق عليها",
-      "termsAndConditionsText": "لقد قرأت",
+      "extraConditionsCaption": "",
+      "termsAndConditionsText": "لقد قرأت ووافقت على",
       "termsAndConditionsLink": "الشروط والأحكام",
-      "subscribeButton": "اشتراك"
+      "subscribeButton": "الاشتراك",
+      "note": "Note: You are using the same account for subscribing to this fund."
     },
     "PortfolioDetailsScreen": {
       "headerTitle": "محفظة",

@@ -3665,7 +3665,8 @@
       "extraConditionsCaption": "",
       "termsAndConditionsText": "I have read and agreed to the",
       "termsAndConditionsLink": "Terms & Conditions",
-      "subscribeButton": "Subscribe"
+      "subscribeButton": "Subscribe",
+      "note": "Note: You are using the same account for subscribing to this fund."
     },
     "PortfolioDetailsScreen": {
       "headerTitle": "Portfolio",

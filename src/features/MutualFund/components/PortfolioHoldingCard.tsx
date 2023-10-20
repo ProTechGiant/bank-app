@@ -11,36 +11,39 @@ import { useThemeStyles } from "@/theme";
 import { PortfolioHolding } from "../types";
 
 interface PortfolioHoldingCardProps {
-  selectedHoldingPortfolio: string;
+  selectedHoldingPortfolioName: string;
   portfolioHoldingList: PortfolioHolding[];
-  selectedPortfolio: number;
+  handleHoldingPortfolioChange: (value: string) => void;
 }
 
 export default function PortfolioHoldingCard({
-  selectedHoldingPortfolio,
+  selectedHoldingPortfolioName,
   portfolioHoldingList,
-  selectedPortfolio,
+  handleHoldingPortfolioChange,
 }: PortfolioHoldingCardProps) {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
-  const [selected, setSelected] = useState(0);
-  const [productName, setProductName] = useState(selectedHoldingPortfolio);
+  const [selected, setSelected] = useState("");
+  const [productName, setProductName] = useState(selectedHoldingPortfolioName);
 
   useEffect(() => {
-    setProductName(selectedHoldingPortfolio);
-  }, [selectedPortfolio]);
+    setProductName(selectedHoldingPortfolioName);
+    setSelected(selectedHoldingPortfolioName);
+  }, [selectedHoldingPortfolioName]);
 
   const handleOnClose = () => {
     setIsVisible(false);
+    setSelected(selectedHoldingPortfolioName);
   };
 
   const handleOnPress = () => {
-    setIsVisible(true);
+    if (portfolioHoldingList.length > 1) setIsVisible(true);
   };
 
   const handleOnSelectPortfolioHolding = () => {
-    setProductName(portfolioHoldingList[selected].productInformation.productName);
+    setProductName(selected);
     setIsVisible(false);
+    handleHoldingPortfolioChange(selected);
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -50,30 +53,48 @@ export default function PortfolioHoldingCard({
     paddingVertical: theme.spacing["16p"],
   }));
 
+  const labelStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginBottom: theme.spacing["8p"],
+  }));
+
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["32p"],
+  }));
+
+  const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["8p"],
   }));
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
   return (
     <>
+      <Typography.Text color="neutralBase+30" size="callout" weight="medium" style={labelStyle}>
+        {t("MutualFund.SubscriptionScreen.toAccount")}
+      </Typography.Text>
       <Pressable onPress={handleOnPress}>
         <View style={containerStyle}>
           <Stack direction="horizontal" gap="16p" justify="space-between" align="center">
             <Typography.Text color="neutralBase" size="callout" weight="regular">
               {productName}
             </Typography.Text>
-            <ChevronBottomIcon color={iconColor} />
+            <View style={iconContainerStyle}>
+              <ChevronBottomIcon color={iconColor} />
+            </View>
           </Stack>
         </View>
       </Pressable>
 
-      <Modal visible={isVisible} onClose={handleOnClose} headerText={t("MutualFund.SubscriptionScreen.selectAccount")}>
+      <Modal visible={isVisible} onClose={handleOnClose} headerText={t("MutualFund.SubscriptionScreen.toAccount")}>
         {portfolioHoldingList ? (
           <RadioButtonGroup onPress={value => setSelected(value)} value={selected}>
-            {portfolioHoldingList.map((portfolioHolding, index) => {
-              return <RadioButton label={portfolioHolding.productInformation.productName} value={index} />;
+            {portfolioHoldingList.map(portfolioHolding => {
+              return (
+                <RadioButton
+                  label={portfolioHolding.productInformation.productName}
+                  value={portfolioHolding.productInformation.productName}
+                />
+              );
             })}
           </RadioButtonGroup>
         ) : null}

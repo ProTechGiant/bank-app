@@ -18,8 +18,8 @@ export const mockPortfolioList: PortfolioData = {
   portfolioList: [
     {
       portfolioId: 1235,
-      portfolioCode: "PORT001",
-      portfolioName: "Portfolio A",
+      portfolioCode: "1122-001-0011223344555",
+      portfolioName: "Croatia account",
       portfolioHoldingList: [
         {
           productInformation: {
@@ -30,7 +30,13 @@ export const mockPortfolioList: PortfolioData = {
         {
           productInformation: {
             productId: 456,
-            productName: "SRC Fund A2",
+            productName: "Portfolio A",
+          },
+        },
+        {
+          productInformation: {
+            productId: 456,
+            productName: "Croatia account",
           },
         },
       ],
