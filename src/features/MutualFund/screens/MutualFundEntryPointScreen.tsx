@@ -80,10 +80,10 @@ export default function MutualFundEntryPointScreen() {
           text={t(`Home.DashboardScreen.GoalGetter.landingScreen.skip`)}
         />
       }
-      buttonText={t("next")}
+      buttonText=""
       lastButtonText={t(`MutualFund.MutualFundEntryPointScreen.button`)}
       data={data}
-      title={t(`MutualFund.MutualFundEntryPointScreen.button`)}
+      title={t(`MutualFund.MutualFundEntryPointScreen.headerTitle`)}
     />
   );
 }

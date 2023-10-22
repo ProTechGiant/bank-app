@@ -1,3 +1,0 @@
-export const riskConsentText = `You are responsible for specifying the amount you wish to invest in the chosen mutual fund(s). Your personal and financial information will be handled in accordance with our privacy policy to ensure confidentiality and security.
-
-By proceeding with your subscription, you acknowledge that you have read, understood, and agreed to these terms and conditions. The value of investments may fluctuate, and past performance is not necessarily indicative of future results. Therefore, it's crucial to carefully assess your risk tolerance and investment goals before making a decision.`;

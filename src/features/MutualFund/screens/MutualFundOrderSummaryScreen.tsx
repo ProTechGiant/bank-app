@@ -16,7 +16,6 @@ import { useThemeStyles } from "@/theme";
 
 import { MutualFundOrderDetailsTable } from "../components";
 import { useMutualFundOTP } from "../hooks/query-hooks";
-import { riskConsentText } from "../mocks/riskConsentText";
 
 export default function MutualFundOrderSummaryScreen() {
   const { t } = useTranslation();
@@ -93,7 +92,7 @@ export default function MutualFundOrderSummaryScreen() {
       </View>
       <Modal visible={isVisible}>
         <NavHeader
-          title="Risk Consent"
+          title={t("MutualFund.MutualFundOrderSummaryScreen.riskConsentModal.title")}
           end={
             <NavHeader.IconEndButton
               icon={<CloseIcon />}
@@ -105,17 +104,19 @@ export default function MutualFundOrderSummaryScreen() {
           withBackButton={false}
         />
         <Stack direction="vertical" align="stretch" gap="64p">
-          <Typography.Text color="neutralBase+10">{riskConsentText}</Typography.Text>
+          <Typography.Text color="neutralBase+10">
+            {t("MutualFund.MutualFundOrderSummaryScreen.riskConsentModal.text")}
+          </Typography.Text>
           <Stack direction="vertical" align="stretch">
             <Button onPress={handleOnAgreePress}>
-              {t("MutualFund.MutualFundOrderSummaryScreen.RiskConsentModal.AgreeButton")}
+              {t("MutualFund.MutualFundOrderSummaryScreen.riskConsentModal.confirmButton")}
             </Button>
             <Button
               onPress={() => {
                 setIsVisible(false);
               }}
               variant="tertiary">
-              {t("MutualFund.MutualFundOrderSummaryScreen.RiskConsentModal.CancelButton")}
+              {t("MutualFund.MutualFundOrderSummaryScreen.riskConsentModal.cancelButton")}
             </Button>
           </Stack>
         </Stack>

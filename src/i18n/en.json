@@ -3682,7 +3682,7 @@
       }
     },
     "MutualFundEntryPointScreen": {
-      "headerTitle":"Mutual Fund",
+      "headerTitle": "Mutual Fund",
       "title": "Open mutual fund account",
       "description": "Open your Mutual Fund and start to invest in funds now",
       "button": "Start"
@@ -3691,8 +3691,24 @@
       "headerTitle": "Order summary",
       "headerDescription": "You’ve selected to buy the following subscription of mutual fund",
       "button": "Confirm",
-      "RiskConsentModal": { "AgreeButton": "I agree", "CancelButton": "Cancel" },
-      "subscriptionFailed": "Subscription to MutualFund failed"
+      "subscriptionFailed": "Subscription to MutualFund failed",
+      "mutualFundOrderDetailsTableContent": {
+        "chargedFrom": "Charged from",
+        "fundName": "Fund Name",
+        "portfolio": "Portfolio",
+        "transaction": "Transaction",
+        "currentUnitPrice": "Current Unit Price",
+        "subscriptionAmount": "Subscription amount",
+        "minimumSubscription": "Minimum subscription",
+        "minimumAdditionalSubscription": "Minimum additional subscription",
+        "transactionFee": "Transaction fee"
+      },
+      "riskConsentModal": {
+        "text": "You are responsible for specifying the amount you wish to invest in the chosen mutual fund(s). Your personal and financial information will be handled in accordance with our privacy policy to ensure confidentiality and security. By proceeding with your subscription, you acknowledge that you have read, understood, and agreed to these terms and conditions. The value of investments may fluctuate, and past performance is not necessarily indicative of future results. Therefore, it's crucial to carefully assess your risk tolerance and investment goals before making a decision.",
+        "title": "Risk Consent",
+        "confirmButton": "I agree",
+        "cancelButton": "Cancel"
+      }
     },
     "MutualFundOrderDetailsScreen": {
       "headerTitle": "Order Details",
@@ -3702,13 +3718,46 @@
       },
       "investedAmount": "Invested Amount"
     },
-    "MutualFundSuccessfulSubscription": { "doneButton": "Done", "viewDetailsButton": "View Details" },
+    "MutualFundSuccessfulSubscription": {
+      "label": "Successful Subscription",
+      "doneButton": "Done",
+      "viewDetailsButton": "View Details"
+    },
     "MutualFundDetailsScreen": {
       "ProgressBar": {
         "titleText": "Estimated potential returns based on historical data and market conditions. Add an investment amount below andview expected calculation",
         "investmentAmount": "Investment Amount",
         "currency": "SAR"
-      }
+      },
+      "title": "Mutual fund details",
+      "NAV": "NAV",
+      "YTD": "YTD",
+      "inceptionDate": "Inception date",
+      "valuationDate": "Valuation Date",
+      "expectedPerformance": "Expected Performance",
+      "ReturnsAfterOneyear": "Returns after 1 year",
+      "ReturnsAfterFiveyear": "Returns after 5 year",
+      "warningText": "Calculations are built on last 3 years performance and is not guaranteed based on market fluctuations.",
+      "SubscriptionDetailsSubTitle": "Subscription Details",
+      "subscribeButton": "Subscribe",
+      "InvestmentDetails": {
+        "title": "Investment Details",
+        "units": "Units",
+        "averageCost": "Average cost",
+        "exchangeRate": "Exchange rate",
+        "unrealisedGainLoss": "Unrealised gain/loss"
+      },
+      "AssetAllocation": {
+        "investmentAmount": "Investment Amount",
+        "title": "Asset Allocation",
+        "sokuk": "Sokuk",
+        "sharesFund": "Shares Fund",
+        "cashMarketsFund": "Cash Markets Fund"
+      },
+      "view": "View",
+      "TermsAndConditions": "Terms & Conditions",
+      "additionalSubscriptionButtonText": "Additional Subscription",
+      "redeemButtonText": "Redeem"
     }
   },
   "AllInOneCard": {

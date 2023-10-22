@@ -48,7 +48,7 @@ export default function MutualFundSuccessfulSubscription() {
             <GoalGetterCreated height={svgHeight} width={svgWidth} />
             <Stack direction="vertical" align="center" gap="8p">
               <Typography.Text align="center" size="xlarge" weight="bold" color="neutralBase-60">
-                {t("GoalGetter.GoalCreatedSuccessfullyScreen.label")}
+                {t("MutualFund.MutualFundSuccessfulSubscription.label")}
               </Typography.Text>
             </Stack>
           </View>

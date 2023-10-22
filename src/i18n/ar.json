@@ -3504,11 +3504,11 @@
       }
     },
     "MutualFundDashboardScreen": {
-      "headerTitle": "Dashboard",
-      "TotalPortfolioLabel": " Total portfolio value (SAR)",
-      "TotalCashBalanceLabel": "Total cash balance",
-      "TotalGainLossLabel": "Total Gain/loss",
-      "portfolioPerformanceSectionLabel": "Portfolio performance"
+      "headerTitle": "لوحة التحكم",
+      "TotalPortfolioLabel": "قيمة المحفظة الإجمالية (بالريال السعودي)",
+      "TotalCashBalanceLabel": "إجمالي الرصيد النقدي",
+      "TotalGainLossLabel": "إجمالي الربح/الخسارة",
+      "portfolioPerformanceSectionLabel": "أداء المحفظة"
     },
     "SubscriptionScreen": {
       "title": "الاشتراكات",
@@ -3547,27 +3547,72 @@
       "button": "ابدأ"
     },
     "MutualFundOrderSummaryScreen": {
-      "headerTitle": "Order summary",
-      "headerDescription": "You’ve selected to buy the following subscription of mutual fund",
-      "button": "Confirm",
-      "RiskConsentModal": { "AgreeButton": "I agree", "CancelButton": "Cancel" },
-      "subscriptionFailed": "Subscription to MutualFund failed"
+      "headerTitle": "ملخص الطلب",
+      "headerDescription": "لقد اخترت شراء الاشتراك التالي في صندوق الاستثمار المشترك",
+      "button": "تأكيد",
+      "subscriptionFailed": "فشل الاشتراك في صناديق الاستثمار",
+      "mutualFundOrderDetailsTableContent": {
+        "chargedFrom": "مشحونة من",
+        "fundName": "اسم الصندوق",
+        "portfolio": "الحافظة",
+        "transaction": "الدفعات",
+        "currentUnitPrice": "العملة",
+        "subscriptionAmount": "مبلغ الاشتراك",
+        "minimumSubscription": "الحد الأدنى للاشتراك",
+        "minimumAdditionalSubscription": "الحد الأدنى للاشتراك الإضافي",
+        "transactionFee": "ضريبة القيمة المضافة"
+      },
+      "riskConsentModal": {
+        "text": "أنت مسؤول عن تحديد المبلغ الذي ترغب في استثماره في الصندوق (الصناديق) المشتركة المختارة. سيتم التعامل مع معلوماتك الشخصية والمالية وفقًا لسياسة الخصوصية الخاصة بنا لضمان السرية والأمان.من خلال متابعة اشتراكك، فإنك تقر بأنك قد قرأت هذه الشروط والأحكام وفهمتها ووافقت عليها. قد تتقلب قيمة الاستثمارات، ولا يعد الأداء السابق بالضرورة مؤشرا على النتائج المستقبلية. لذلك، من الضروري إجراء تقييم دقيق لقدرتك على تحمل المخاطر وأهدافك الاستثمارية قبل اتخاذ القرار.",
+        "title": "الموافقة على المخاطر",
+        "confirmButton": "موافق",
+        "cancelButton": "الغاء"
+      }
     },
     "MutualFundOrderDetailsScreen": {
-      "headerTitle": "Order Details",
-      "button": "Done",
-      "assetAllocation": {
-        "title": "Asset Allocation"
-      },
-      "investedAmount": "Invested Amount"
+      "headerTitle": "تفاصيل الطلب",
+      "button": "تم"
     },
-    "MutualFundSuccessfulSubscription": { "doneButton": "Done", "viewDetailsButton": "View Details" },
+    "MutualFundSuccessfulSubscription": {
+      "label": "تم استلام الاشتراك",
+      "doneButton": "تم",
+      "viewDetailsButton": "عرض التفاصيل"
+    },
     "MutualFundDetailsScreen": {
       "ProgressBar": {
         "titleText": "العائدات المتوقعة بناءً على البيانات التاريخية والظروف السوقية. أضف مبلغ استثمار أدناه وعرض الحساب المتوقع.",
         "investmentAmount": "مبلغ الاستثمار",
         "currency": "ريال سعودي"
-      }
+      },
+      "title": "تفاصيل صندوق الاستثمار",
+      "NAV": "NAV",
+      "YTD": "YTD",
+      "inceptionDate": "تاريخ الإنشاء",
+      "valuationDate": "تاريخ التقييم",
+      "expectedPerformance": "الأداء المتوقع",
+      "ReturnsAfterOneyear": "العائد بعد عام واحد",
+      "ReturnsAfterFiveyear": "العائد بعد 5 اعوام",
+      "warningText": "الحسابات تعتمد على أداء السنوات الثلاث الماضية ولا يتم ضمانها بناءً على تقلبات السوق.",
+      "SubscriptionDetailsSubTitle": "تفاصيل الاشتراك",
+      "subscribeButton": "اشتراك",
+      "InvestmentDetails": {
+        "title": "تفاصيل الاستثمار",
+        "units": "الوحدة",
+        "averageCost": "متوسط التكلفة",
+        "exchangeRate": "سعر الصرف",
+        "unrealisedGainLoss": "الربح/الخسارة غير المستحقة"
+      },
+      "AssetAllocation": {
+        "investmentAmount": "المبلغ المستثمر",
+        "title": "توزيع الأصول",
+        "sokuk": "صكوك",
+        "sharesFund": "صندوق الأسهم",
+        "cashMarketsFund": "صندوق أسواق النقد"
+      },
+      "view": "عرض",
+      "TermsAndConditions": "الشروط والاحكام",
+      "additionalSubscriptionButtonText": "الاشتراك الإضافي",
+      "redeemButtonText": "استرداد"
     }
   },
   "AllInOneCard": {

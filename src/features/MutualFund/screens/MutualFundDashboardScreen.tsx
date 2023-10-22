@@ -1,10 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, Pressable, View, ViewStyle } from "react-native";
+import { I18nManager, Platform, Pressable, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import { ChevronRightIcon, DotIcon } from "@/assets/icons";
+import { ChevronLeftIcon, ChevronRightIcon, DotIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import Chip from "@/components/Chip";
 import Divider from "@/components/Divider";
@@ -104,7 +104,7 @@ export default function MutualFundDashboardScreen() {
                             {portfolio.PortfolioName}
                           </Typography.Text>
                         </Stack>
-                        <ChevronRightIcon color="#B3B3B3" />
+                        {I18nManager.isRTL ? <ChevronLeftIcon color="#B3B3B3" /> : <ChevronRightIcon color="#B3B3B3" />}
                       </Stack>
                     </Pressable>
                   );

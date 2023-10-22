@@ -31,6 +31,7 @@ export * from "./CheckBoxIcon";
 export * from "./CheckCircleIcon";
 export * from "./CheckIcon";
 export * from "./ChevronBottomIcon";
+export * from "./ChevronLeftIcon";
 export * from "./ChevronRightIcon";
 export * from "./ChevronUpIcon";
 export * from "./CircleQuestionMarkIcon";
