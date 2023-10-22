@@ -87,13 +87,17 @@ export default function OrderNewCardSummaryScreen() {
     return <View style={separatorStyle} />;
   };
 
-  const renderOrderSummaryItem = (title: string, value: string) => {
+  const renderOrderSummaryItem = (title: string, value: string, isAmountBold: boolean) => {
     return (
       <Stack direction="horizontal" justify="space-between" style={orderSummaryItemStyle}>
         <Typography.Text color="neutralBase" style={summaryTitleStyle} weight="regular" size="footnote">
           {title}
         </Typography.Text>
-        <Typography.Text color="neutralBase" style={summaryTitleStyle} weight="regular" size="footnote">
+        <Typography.Text
+          color={isAmountBold ? "neutralBase+30" : "neutralBase"}
+          style={summaryTitleStyle}
+          weight={isAmountBold ? "semiBold" : "regular"}
+          size="footnote">
           {value}
         </Typography.Text>
       </Stack>
@@ -126,19 +130,22 @@ export default function OrderNewCardSummaryScreen() {
 
             {renderOrderSummaryItem(
               t("CardActions.OrderNewCardSummaryScreen.issuanceFee"),
-              t("CardActions.OrderNewCardSummaryScreen.issuanceFeeAmount")
+              t("CardActions.OrderNewCardSummaryScreen.issuanceFeeAmount"),
+              false
             )}
             {renderSeparator()}
 
             {renderOrderSummaryItem(
               t("CardActions.OrderNewCardSummaryScreen.deliveryFee"),
-              t("CardActions.OrderNewCardSummaryScreen.deliveryFeeAmount")
+              t("CardActions.OrderNewCardSummaryScreen.deliveryFeeAmount"),
+              false
             )}
             {renderSeparator()}
 
             {renderOrderSummaryItem(
               t("CardActions.OrderNewCardSummaryScreen.totalFee"),
-              t("CardActions.OrderNewCardSummaryScreen.totalFeeAmount")
+              t("CardActions.OrderNewCardSummaryScreen.totalFeeAmount"),
+              true
             )}
           </View>
           {currentBalance <= 0 ? (

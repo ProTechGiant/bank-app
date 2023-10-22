@@ -2073,9 +2073,9 @@
             "checkHighlighted": "Check the correct delivery address is highlighted:"
           },
           "buttons": {
-            "confirm": "Confirm and continue",
+            "confirm": "Confirm address",
             "edit": "Edit address",
-            "setAddress": "Delivery to different address"
+            "setAddress": "Deliver to different address"
           }
         },
         "errorModalTitle": "Try again",
@@ -3804,7 +3804,7 @@
       "continue": "Continue",
       "Recommended": "Recommended",
       "off": "% OFF",
-      "infoBoxDescription":"Note : Fee is exclusive of VAT",
+      "infoBoxDescription": "Note : Fee is exclusive of VAT",
       "warningModal": {
         "title": "Are you sure to cancel card request ? ",
         "message": "You will lose the data, and you will need to restart the journey from the beginning.",

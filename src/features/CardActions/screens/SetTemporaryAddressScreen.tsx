@@ -14,6 +14,7 @@ import TextInput from "@/components/Form/TextInput";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import Typography from "@/components/Typography";
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -71,6 +72,11 @@ export default function SetTemporaryAddressScreen() {
     paddingHorizontal: theme.spacing["16p"],
   }));
 
+  const optionLabelStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: -theme.spacing["16p"],
+    marginHorizontal: theme.spacing["4p"],
+  }));
+
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
@@ -98,6 +104,9 @@ export default function SetTemporaryAddressScreen() {
                 maxLength={100}
                 testID="CardActions.SetTemporaryAddressScreen:AddressLineTwoInput"
               />
+              <Typography.Text color="neutralBase" style={optionLabelStyle} weight="regular" size="footnote">
+                {t("CardActions.SetTemporaryAddressScreen.form.optional")}
+              </Typography.Text>
               <TextInput
                 control={control}
                 label={t("CardActions.SetTemporaryAddressScreen.form.district.label")}

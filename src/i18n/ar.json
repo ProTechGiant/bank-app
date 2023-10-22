@@ -2708,7 +2708,7 @@
         "message": "{{bankName}} does not support quick transfers"
       },
       "validationError": {
-        "title":"عذرًا، حدث خطأ ما.",
+        "title": "عذرًا، حدث خطأ ما.",
         "message": "حاول مرة أخرى لاحقًا أو اتصل بفريق خدمة العملاء لدينا."
       },
       "SwitchToARB": {
@@ -3664,7 +3664,7 @@
       "continue": "استمرار",
       "Recommended": "مُفضل",
       "off": "% خصم ",
-      "infoBoxDescription":"ملحوظة: الرسوم لا تشمل ضريبة القيمة المضافة",
+      "infoBoxDescription": "ملحوظة: الرسوم لا تشمل ضريبة القيمة المضافة",
       "warningModal": {
         "title": "هل أنت متأكد من إلغاء طلب البطاقة؟",
         "message": "سوف تفقد البيانات، وسوف تحتاج إلى إعادة تشغيل الرحلة من البداية.",
