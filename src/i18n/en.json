@@ -2653,7 +2653,12 @@
       "bannerMessageActiveBeneficiary": "You need to confirm this beneficiary's details before you can send any money.",
       "checkBoxMessage": "I agree to the ",
       "termsAndConditions": "Terms and Conditions",
-      "confirmButton": "Confirm"
+      "confirmButton": "Confirm",
+      "focalBeneficiaryError": {
+        "title": "Beneficiary was not added",
+        "message": "Unable to add the beneficiary, please try again later.",
+        "ok": "Ok"
+      }
     },
     "ConfirmQuickTransferBeneficiaryScreen": {
       "title": "Confirm beneficiary details",

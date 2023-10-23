@@ -69,6 +69,26 @@ export function useDailyLimitValidation() {
   });
 }
 
+interface FocalBeneficiaryStatusResponse {
+  Status: string;
+  BeneficiaryId: string;
+}
+
+export function useFocalBeneficiaryStatus() {
+  return useMutation(async ({ BeneficiaryId }: { BeneficiaryId: string }) => {
+    return await api<FocalBeneficiaryStatusResponse>(
+      "v1",
+      `transfers/focal/beneficiaries?BeneficiaryId=${BeneficiaryId}`,
+      "POST",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}
+
 export function useBeneficiaries(transferType: TransferType) {
   return useQuery(queryKeys.beneficiaries(transferType), () => {
     return api<BeneficiariesResponse>(

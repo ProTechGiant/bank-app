@@ -80,7 +80,8 @@
   "errors": {
     "generic": {
       "title": "عذرًا، حدث خطأ ما",
-      "message": "حاول مرة أخرى لاحقًا، او تواصل مع فريق خدمة العملاء"
+      "message": "حاول مرة أخرى لاحقًا، او تواصل مع فريق خدمة العملاء",
+      "button": "حسنًا"
     }
   },
   "Onboarding": {
@@ -2516,7 +2517,12 @@
       "bannerMessageActiveBeneficiary": "You need to confirm this beneficiary's details before you can send any money.",
       "checkBoxMessage": "I agree to the ",
       "termsAndConditions": "Terms and Conditions",
-      "confirmButton": "Confirm"
+      "confirmButton": "Confirm",
+      "focalBeneficiaryError": {
+        "title": "لم يتم إضافة المستفيد",
+        "message": "تعذرت إضافة المستفيد، يرجى المحاولة مرة أخرى لاحقًا",
+        "ok": "حسنًا "
+      }
     },
     "ConfirmQuickTransferBeneficiaryScreen": {
       "title": "Confirm beneficiary details",
