@@ -35,7 +35,6 @@ export default function TermsAndConditionsModal() {
       });
 
       if (response.CustomerTermsConditionsFlag === "1") {
-        navigation.goBack();
         delayTransition(() => navigation.navigate("InternalTransfers.QuickTransferScreen"));
       } else {
         setIsErrorModalVisible(true);
