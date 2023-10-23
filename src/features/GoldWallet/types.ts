@@ -84,3 +84,16 @@ export interface ConditionWithLabelsType {
   label: string;
   value: AlertConditionsEnum;
 }
+
+export interface GoldPerformanceDailyType {
+  Date: string;
+  SellPrice: number;
+  BuyPrice: number;
+  Month: string;
+  Day: string;
+}
+
+export interface GoldPerformanceMonthlyType {
+  Date: string;
+  Performance: number;
+}

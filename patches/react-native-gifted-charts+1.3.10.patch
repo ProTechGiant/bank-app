@@ -1,0 +1,124 @@
+diff --git a/node_modules/react-native-gifted-charts/src/LineChart/index.tsx b/node_modules/react-native-gifted-charts/src/LineChart/index.tsx
+index 8aa46ee..b4f89fc 100644
+--- a/node_modules/react-native-gifted-charts/src/LineChart/index.tsx
++++ b/node_modules/react-native-gifted-charts/src/LineChart/index.tsx
+@@ -14,6 +14,7 @@ import {
+   Dimensions,
+   Platform,
+   ColorValue,
++  I18nManager,
+ } from 'react-native';
+ import {styles} from './styles';
+ import Svg, {
+@@ -398,7 +399,7 @@ export const LineChart = (props: LineChartPropsType) => {
+   const textColor5 =
+     props.textColor5 ?? props.textColor ?? LineDefaults.textColor;
+ 
+-  const totalWidth = initialSpacing + spacing * data.length;
++  const totalWidth = initialSpacing + spacing * data.length + props.tooltipWidth ?? 0;
+ 
+   const {maxItem, minItem} = computeMaxAndMinItems(
+     data,
+@@ -1452,6 +1453,8 @@ export const LineChart = (props: LineChartPropsType) => {
+     label: String,
+     labelTextStyle: any,
+     labelComponent: Function | undefined,
++    showLabel: boolean,
++    labelWidth:number = 45,
+   ) => {
+     return (
+       <View
+@@ -1460,7 +1463,8 @@ export const LineChart = (props: LineChartPropsType) => {
+             position: 'absolute',
+             bottom: 30,
+             zIndex: 10,
+-            width: spacing + labelsExtraHeight,
++            // width: spacing + labelsExtraHeight,
++            width: showLabel ? labelWidth : 0,
+             left:
+               index === 0 && initialSpacing < 10
+                 ? initialSpacing / 2 + spacing * index - spacing / 2 + 4
+@@ -1487,6 +1491,8 @@ export const LineChart = (props: LineChartPropsType) => {
+     label: String,
+     labelTextStyle: any,
+     labelComponent: Function | undefined,
++    showLabel:boolean,
++    labelWidth:number = 45,
+   ) => {
+     return (
+       <Animated.View
+@@ -1496,7 +1502,8 @@ export const LineChart = (props: LineChartPropsType) => {
+             position: 'absolute',
+             bottom: rotateLabel ? 10 : 30,
+             zIndex: 10,
+-            width: spacing,
++            // width: spacing,
++            width: showLabel ? labelWidth : 0,
+             left:
+               index === 0 && initialSpacing < 10
+                 ? initialSpacing / 2 + spacing * index - spacing / 2 + 4
+@@ -1634,6 +1641,7 @@ export const LineChart = (props: LineChartPropsType) => {
+       const currentStripWidth = item.stripWidth ?? stripWidth;
+       const currentStripOpacity = item.stripOpacity ?? stripOpacity;
+       const currentStripColor = item.stripColor || stripColor;
++      const position=I18nManager.isRTL ?  "right" :"left";
+ 
+       return (
+         <Fragment key={index}>
+@@ -1694,7 +1702,8 @@ export const LineChart = (props: LineChartPropsType) => {
+                       height: dataPointsHeight,
+                       width: dataPointsWidth,
+                       top: getYOrSecondaryY(item.value),
+-                      left: initialSpacing - dataPointsWidth + spacing * index,
++                      [position]: initialSpacing - dataPointsWidth + spacing * index,
++                      transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+                     },
+                   ]}>
+                   {customDataPoint()}
+@@ -2758,6 +2767,7 @@ export const LineChart = (props: LineChartPropsType) => {
+         //   setTimeout(() => setPointerX(0), pointerVanishDelay);
+         // }}
+         style={{
++        transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+           position: 'absolute',
+           height:
+             containerHeightIncludingBelowXAxis +
+@@ -3064,6 +3074,8 @@ export const LineChart = (props: LineChartPropsType) => {
+                         : ''),
+                     item.labelTextStyle || props.xAxisLabelTextStyle,
+                     item.labelComponent,
++                    item.showLabel,
++                    item.labelWidth
+                   )
+                 : renderLabel(
+                     index,
+@@ -3073,6 +3085,8 @@ export const LineChart = (props: LineChartPropsType) => {
+                         : ''),
+                     item.labelTextStyle || props.xAxisLabelTextStyle,
+                     item.labelComponent,
++                    item.showLabel,
++                    item.labelWidth
+                   )}
+               {/* {renderLabel(index, item.label, item.labelTextStyle)} */}
+             </View>
+diff --git a/node_modules/react-native-gifted-charts/src/LineChart/types.ts b/node_modules/react-native-gifted-charts/src/LineChart/types.ts
+index dcd28c7..29f3869 100644
+--- a/node_modules/react-native-gifted-charts/src/LineChart/types.ts
++++ b/node_modules/react-native-gifted-charts/src/LineChart/types.ts
+@@ -279,6 +279,7 @@ export type LineChartPropsType = {
+   secondaryData?: Array<itemType>;
+   secondaryYAxis?: secondaryYAxisType;
+   secondaryLineConfig?: secondaryLineConfigType;
++  tooltipWidth: number;
+ };
+ 
+ type referenceConfigType = {
+@@ -338,6 +339,8 @@ export type itemType = {
+   pointerShiftY?: number;
+   onPress?: Function;
+   showXAxisIndex?: boolean;
++  showLabel: boolean,
++  labelWidth: number;
+ };
+ 
+ type sectionType = {
