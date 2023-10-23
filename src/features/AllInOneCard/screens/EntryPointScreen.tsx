@@ -58,9 +58,13 @@ export default function EntryPointScreen() {
     navigation.navigate("AllInOneCard.SelectCard");
   };
 
+  const handleOnClose = () => {
+    navigation.navigate("Home.DashboardScreen");
+  };
+
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
+      <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={handleOnClose} />} />
       <View style={containerViewStyle}>
         <View style={containerTextStyle}>
           <Typography.Header size="large" weight="bold" align="center" style={titleStyle}>

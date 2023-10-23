@@ -39,7 +39,7 @@ export const cardData: CardData[] = [
     freeBenefits: {
       description: "You can choose up to 2 free subscriptions.",
       subscriptions: [<NetflixIcon />, <NetflixIcon />, <NetflixIcon />, <NetflixIcon />, <NetflixIcon />],
-      subscription: [438, 50],
+      subscription: [480, 50],
     },
   },
   {
@@ -116,7 +116,7 @@ export const paymentOptions = [
   {
     Id: 1,
     Name: "One Time Yearly Payment",
-    Description: "438.00 SAR / Year",
+    Description: "480.00 SAR / Year",
     isRecommended: true,
     discount: 17,
   },
@@ -165,7 +165,7 @@ export const cardReview: CardReview = {
       },
       yearly: {
         duration: "1",
-        charges: "500.00",
+        charges: "480.00",
       },
     },
     vat: "7.50",
@@ -274,3 +274,7 @@ export const termsSections: TermsAndConditionSection[] = [
     ],
   },
 ];
+
+export const USER_WITH_ALL_IN_CARD = "1000002357";
+export const USER_WITHOUT_ALL_IN_CARD = "1000001102";
+export const USER_WITH_INACTIVE_ALL_IN_CARD = "0000002270";

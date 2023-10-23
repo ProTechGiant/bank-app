@@ -28,6 +28,7 @@ import { useThemeStyles } from "@/theme";
 
 import NeraPlus from "../assets/images/neraCard.png";
 import NeraPlusCard from "../assets/images/neraPlusCard.png";
+import { VAT_PERCENTAGE } from "../constants";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
 import { useAllInOneCardOTP } from "../hooks/query-hooks";
 import { cardReview } from "../mocks";
@@ -57,6 +58,8 @@ export default function CardReviewScreen() {
 
   const isMonthly = paymentPlan === "monthly";
   const subscription = isMonthly ? cardReview.payment.subscription.monthly : cardReview.payment.subscription.yearly;
+  const vat = (+subscription.charges * (VAT_PERCENTAGE / 100)).toFixed(2);
+  const total = (+subscription.charges + +vat).toFixed(2);
 
   const handleOnCancel = () => {
     setIsWarningModalVisible(false);
@@ -81,7 +84,7 @@ export default function CardReviewScreen() {
         action: {
           to: "AllInOneCard.CardReview",
         },
-        otpVerifyMethod: "all-in-one-card/otp-validation",
+        otpVerifyMethod: "aio-card/issuance/otp-validation",
         // TODO: Add otpOptionalParams when api finished from BE team
         otpOptionalParams: {},
         onOtpRequest: () => {
@@ -254,10 +257,10 @@ export default function CardReviewScreen() {
               {isNeraPlus ? (
                 <View style={styles.boxContent}>
                   <Typography.Text size="footnote" color="neutralBase-10">
-                    {t("AllInOneCard.CardReviewScreen.vat")}
+                    {t("AllInOneCard.CardReviewScreen.vat", { vat: VAT_PERCENTAGE })}
                   </Typography.Text>
 
-                  <FormattedPrice price={cardReview.payment.vat} />
+                  <FormattedPrice price={vat} />
                 </View>
               ) : null}
               <View style={styles.boxContent}>
@@ -265,7 +268,7 @@ export default function CardReviewScreen() {
                   {t("AllInOneCard.CardReviewScreen.total")}
                 </Typography.Text>
                 {isNeraPlus ? (
-                  <FormattedPrice price={cardReview.payment.total} />
+                  <FormattedPrice price={total} />
                 ) : (
                   <Typography.Text size="callout" color="neutralBase+20">
                     {t("AllInOneCard.CardReviewScreen.freeForLife")}

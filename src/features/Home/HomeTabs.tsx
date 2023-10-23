@@ -39,7 +39,7 @@ export default function HomeTabs() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-  const { userId } = useAuthContext();
+  const { allInOneCardStatus } = useAuthContext();
 
   const activeIconColor = useThemeStyles(theme => theme.palette["complimentBase+10"]);
   const inActiveIconColor = useThemeStyles(theme => theme.palette["neutralBase+10"]);
@@ -80,8 +80,7 @@ export default function HomeTabs() {
         options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }}
         listeners={{
           tabPress: e => {
-            //TODO : we need to have logic here( in next build cycle) to check if user already has All in one card or not. if not navigate to Apply card journey.below is just dummy logic
-            if (userId === "1000001102") {
+            if (allInOneCardStatus === "none") {
               navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.EntryPoint" });
               e.preventDefault();
             }

@@ -333,17 +333,17 @@
         "allow": "Allow",
         "deny": "Deny"
       },
-      "dataToBeShared":"Data to be shared",
-      "info":"The service offered by TPP requires sharing your following Croatia Bank information:",
-      "warningModal":{
-        "title":"Are you sure you don’t want to give permission?",
-        "message":"If you click on confirm you will loose your progress",
-        "confirm":"Confirm",
-        "cancel":"Cancel"
+      "dataToBeShared": "Data to be shared",
+      "info": "The service offered by TPP requires sharing your following Croatia Bank information:",
+      "warningModal": {
+        "title": "Are you sure you don’t want to give permission?",
+        "message": "If you click on confirm you will loose your progress",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       },
-      "errorModal":{
-        "title":"Something went wrong",
-        "message":"Please try again later."
+      "errorModal": {
+        "title": "Something went wrong",
+        "message": "Please try again later."
       }
     },
     "LinkedSuccessfullyScreen": {
@@ -3826,8 +3826,10 @@
       "description": "Please keep this screen open while we activate your card - we won't be long"
     },
     "WelcomeScreen": {
-      "title": "Welcome to nera Subscription!",
-      "description": "You have successfully subscribed to nera Plus. You can manage your subscription from app settings.",
+      "neraTitle": "Welcome to nera Subscription!",
+      "neraPlusTitle": "Welcome to nera Plus Subscription!",
+      "neraDescription": "You have successfully subscribed to nera. You can manage your subscription from app settings.",
+      "neraPlusDescription": "You have successfully subscribed to nera Plus. You can manage your subscription from app settings.",
       "viewCardButton": "View Card"
     },
     "Dashboard": {
@@ -3895,7 +3897,7 @@
       "payment": "Payment",
       "monthlySubscription": "Monthly Subscription",
       "yearlySubscription": "Yearly Subscription",
-      "vat": "VAT",
+      "vat": "VAT ({{vatPercentage}}%)",
       "total": "Total amont",
       "confirm": "Confirm",
       "agree": "I agree to Croatia’s",

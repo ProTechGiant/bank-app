@@ -151,8 +151,8 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
         });
       }
 
-      if (method === "all-in-one-card/otp-validation") {
-        endpoint = "all-in-one-card/otp-validation";
+      if (method === "aio-card/issuance/otp-validation") {
+        endpoint = "aio-card/issuance/otp-validation";
         // TODO: remove this mock once api ready from BE team
         return Promise.resolve({
           Status: "OTP_MATCH_SUCCESS",

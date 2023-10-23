@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { setAuthenticationHeaders } from "@/api/send-api-request";
 import { USER_ID } from "@/constants";
+import { USER_WITH_ALL_IN_CARD, USER_WITH_IN_ACTIVE_ALL_IN_CARD } from "@/features/AllInOneCard/mocks";
 import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 interface NavigationTargetType {
@@ -25,6 +26,8 @@ interface AuthContextProps {
   logout: (stillPersistTheRegisteredUser?: boolean) => void;
   isUserLocked: boolean;
   notificationsReadStatus: boolean;
+  allInOneCardStatus: "active" | "inActive" | "none";
+  setAllInOneCardStatus: (value: "active" | "inActive" | "none") => void;
   navigationTarget: NavigationTargetType | null;
   updateNavigationTarget: (value: NavigationTargetType) => void;
   setNotificationsReadStatus: (value: boolean) => void; // TODO will be  called inside EventListener which fired based on user clicks on notification
@@ -51,12 +54,19 @@ const AuthContext = createContext<AuthContextProps>({
   setNotificationsReadStatus: noop,
   updateNavigationTarget: noop,
   navigationTarget: null,
+  allInOneCardStatus: "none",
+  setAllInOneCardStatus: noop,
 });
 
 export function AuthContextProvider({ children }: React.PropsWithChildren) {
   type State = Omit<
     AuthContextProps,
-    "authenticate" | "logout" | "authenticateAnonymously" | "updatePhoneNumber" | "setAuthToken"
+    | "authenticate"
+    | "logout"
+    | "authenticateAnonymously"
+    | "updatePhoneNumber"
+    | "setAuthToken"
+    | "setAllInOneCardStatus"
   >;
 
   const [state, setState] = useState<State>({
@@ -67,6 +77,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     phoneNumber: undefined,
     isUserLocked: false,
     notificationsReadStatus: true,
+    allInOneCardStatus: "none",
   });
 
   useEffect(() => {
@@ -121,6 +132,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       phoneNumber: undefined,
       isUserLocked: false,
       notificationsReadStatus: true,
+      allInOneCardStatus: "none",
     });
 
     setAuthenticationHeaders({
@@ -151,6 +163,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       isAuthenticated: true,
       apiKey: state.apiKey,
       isUserLocked: false,
+      allInOneCardStatus: checkCardStatus(userId),
     }));
 
     setAuthenticationHeaders({
@@ -158,6 +171,15 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       ["Authorization"]: "Bearer " + authToken,
       ["X-Api-Key"]: state.apiKey as string,
     });
+  };
+
+  //TODO : only mocking at the moment . will be removed when we have actual way for checking if user have card or not
+  const checkCardStatus = (userId: string): "active" | "inActive" | "none" => {
+    if (userId === USER_WITH_IN_ACTIVE_ALL_IN_CARD) {
+      return "inActive";
+    } else if (userId === USER_WITH_ALL_IN_CARD) {
+      return "active";
+    } else return "none";
   };
 
   const handleOnUpdatePhoneNumber = (phoneNumber: string) => {
@@ -168,6 +190,9 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     setState({ ...state, authToken });
   };
 
+  const setAllInOneCardStatus = (allInOneCardStatus: "active" | "inActive" | "none") => {
+    setState({ ...state, allInOneCardStatus });
+  };
   const setUserId = (userId: string) => {
     setState({ ...state, userId });
   };
@@ -191,6 +216,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       setUserId: setUserId,
       setNotificationsReadStatus: handleonNotificationRead,
       updateNavigationTarget: updateNavigationTargetHandler,
+      setAllInOneCardStatus: setAllInOneCardStatus,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state]

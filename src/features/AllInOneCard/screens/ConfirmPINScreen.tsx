@@ -67,6 +67,7 @@ export default function ConfirmPINScreen() {
   };
 
   const handleOnClose = () => {
+    setIsErrorModalVisible(false);
     navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.CardReadyMessage" });
   };
   return (

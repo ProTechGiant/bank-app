@@ -1,5 +1,5 @@
 import { StackActions } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import { TextStyle } from "react-native";
@@ -8,14 +8,32 @@ import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
+import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import welcomeImage from "../assets/images/WelcomeImage.png";
+import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
 
 export default function WelcomeScreen() {
   const { t } = useTranslation();
+  const { setAllInOneCardStatus } = useAuthContext();
   const navigation = useNavigation();
+  const { cardType } = useAllInOneCardContext();
+
+  const title =
+    cardType === undefined || cardType === "neraPlus"
+      ? t("AllInOneCard.WelcomeScreen.neraPlusTitle")
+      : t("AllInOneCard.WelcomeScreen.neraTitle");
+
+  const description =
+    cardType === undefined || cardType === "neraPlus"
+      ? t("AllInOneCard.WelcomeScreen.neraPlusDescription")
+      : t("AllInOneCard.WelcomeScreen.neraDescription");
+
+  useEffect(() => {
+    setAllInOneCardStatus("active");
+  }, []);
 
   const containerStyle = useThemeStyles<TextStyle>(theme => ({
     marginVertical: theme.spacing["32p"],
@@ -23,7 +41,7 @@ export default function WelcomeScreen() {
 
   const handleShowCard = () => {
     navigation.dispatch(StackActions.pop(5));
-    navigation.navigate("Home.HomeTabs");
+    navigation.navigate("Home.HomeTabs", { screen: "Cards" });
   };
   return (
     <Page backgroundColor="neutralBase-60">
@@ -34,10 +52,10 @@ export default function WelcomeScreen() {
               <Image resizeMode="contain" source={welcomeImage} />
               <Stack direction="vertical" align="center" gap="24p" justify="space-between" style={containerStyle}>
                 <Typography.Header size="large" weight="bold" align="center" color="neutralBase+30">
-                  {t("AllInOneCard.WelcomeScreen.title")}
+                  {title}
                 </Typography.Header>
                 <Typography.Text size="callout" weight="regular" align="center" color="neutralBase+10">
-                  {t("AllInOneCard.WelcomeScreen.description")}
+                  {description}
                 </Typography.Text>
               </Stack>
             </Stack>

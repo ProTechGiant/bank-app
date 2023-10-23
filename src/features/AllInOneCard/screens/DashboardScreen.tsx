@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
@@ -19,7 +20,7 @@ import { mockTransactions } from "./../mocks/index";
 
 export default function DashboardScreen() {
   const { t } = useTranslation();
-  const { userId } = useAuthContext();
+  const { allInOneCardStatus } = useAuthContext();
   const navigation = useNavigation();
   const tabFeed = t("AllInOneCard.Dashboard.feed");
   const tabCurrencies = t("AllInOneCard.Dashboard.currencies");
@@ -27,7 +28,18 @@ export default function DashboardScreen() {
   const { width } = useWindowDimensions();
   // TODO: activate card state will be managed from api in next build cycle
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [showCardActivation, setShowCardActivation] = useState<boolean>(userId === "0000002270");
+  const [showCardActivation, setShowCardActivation] = useState<boolean>(allInOneCardStatus === "inActive");
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (allInOneCardStatus === "active") {
+      setShowCardActivation(false);
+    } else if (allInOneCardStatus === "inActive") {
+      setShowCardActivation(true);
+    } else {
+      navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.EntryPoint" });
+    }
+  }, [allInOneCardStatus, isFocused]);
 
   const dividerStyle = useThemeStyles<ViewStyle>(theme => ({
     height: theme.spacing["4p"],
@@ -44,7 +56,7 @@ export default function DashboardScreen() {
     },
   });
   const scrollStyle = useThemeStyles<ViewStyle>(() => ({
-    opacity: showCardActivation ? 0.5 : 1,
+    opacity: 0.5,
   }));
 
   const styleSegmentedControl = useThemeStyles<ViewStyle>(theme => ({
@@ -66,7 +78,7 @@ export default function DashboardScreen() {
   const transactions = mockTransactions;
 
   return (
-    <Page backgroundColor="neutralBase-60">
+    <Page insets={["left", "right", "top"]} backgroundColor="neutralBase-60">
       <NavHeader
         withBackButton={false}
         title={t("AllInOneCard.Dashboard.title")}
@@ -77,7 +89,7 @@ export default function DashboardScreen() {
         }
         backgroundColor="#EC5F48"
       />
-      <ScrollView style={scrollStyle}>
+      <ScrollView style={showCardActivation ? scrollStyle : {}}>
         <View pointerEvents={showCardActivation ? "none" : "auto"}>
           <AllInCardPlaceholder variant="nera" width="90%" />
           <View style={dividerStyle} />

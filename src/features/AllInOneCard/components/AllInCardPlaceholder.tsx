@@ -35,7 +35,7 @@ const ASPECT_RATIOS: Record<AllInCardPlaceholderProps["variant"], number> = {
 };
 
 export default function AllInCardPlaceholder({ variant, height, width, style }: AllInCardPlaceholderProps) {
-  const [isBalanceVisible, setIsBalanceVisible] = useState<boolean>(true);
+  const [isBalanceVisible, setIsBalanceVisible] = useState<boolean>(false);
   const { t, i18n } = useTranslation();
   const [containerHeight, setContainerHeight] = useState(200);
 

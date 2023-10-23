@@ -13,6 +13,7 @@ import { useThemeStyles } from "@/theme";
 
 import { DialIcon, PhoneCallBackIcon } from "../assets/icons";
 import { AlertBox } from "../components";
+import { MAXIMUM_CALL_VERIFICATION_LIMIT } from "../constants";
 import { DIAL_NUMBER } from "./../mocks/index";
 
 export default function CallBackVerificationScreen() {
@@ -30,7 +31,7 @@ export default function CallBackVerificationScreen() {
 
   const handleCalling = useCallback(() => {
     setIsCallCanceled(false);
-    if (numberOfCalls < 3) {
+    if (numberOfCalls < MAXIMUM_CALL_VERIFICATION_LIMIT) {
       setNumberOfCalls(numberOfCalls + 1);
     }
   }, [numberOfCalls, setNumberOfCalls, setIsCallCanceled]);
@@ -52,7 +53,7 @@ export default function CallBackVerificationScreen() {
       }
     }, 1000);
 
-    if (timeLeft === 0 && numberOfCalls < 3) {
+    if (timeLeft === 0 && numberOfCalls < 4) {
       setIsRunningNow(true);
     }
     return () => {
@@ -70,15 +71,12 @@ export default function CallBackVerificationScreen() {
   };
 
   const handleOnCancelPress = () => {
-    navigation.navigate("AllInOneCard.AllInOneCardStack", {
-      screen: "AllInOneCard.Dashboard",
-    });
+    navigation.navigate("Home.HomeTabs", { screen: "Cards" });
   };
 
   const handleViewCard = () => {
-    navigation.navigate("AllInOneCard.AllInOneCardStack", {
-      screen: "AllInOneCard.Dashboard",
-    });
+    setNumberOfCalls(0);
+    navigation.navigate("Home.HomeTabs", { screen: "Cards" });
   };
 
   const containerStyle = useThemeStyles<TextStyle>(theme => ({
@@ -141,7 +139,6 @@ export default function CallBackVerificationScreen() {
 
                         handleRequestNewCall();
                       }}>
-                      {" "}
                       {t("AllInOneCard.CallBackVerificationScreen.newCall")}
                     </Typography.Text>
                   </Typography.Text>
@@ -167,6 +164,16 @@ export default function CallBackVerificationScreen() {
               </Pressable>
             </Stack>
           </Stack>
+          {showAlert ? (
+            <TextInput
+              placeholder="Enter a number"
+              value={enteredNumber}
+              onChangeText={value => handlePressNumber(value)}
+              keyboardType="numeric"
+            />
+          ) : (
+            <></>
+          )}
         </ContentContainer>
       </Page>
       <NotificationModal
@@ -191,7 +198,7 @@ export default function CallBackVerificationScreen() {
           ),
         }}
         message={t("AllInOneCard.CallBackVerificationScreen.maximumCallErrorModal.content")}
-        isVisible={numberOfCalls === 3}
+        isVisible={numberOfCalls === 4}
         title={t("AllInOneCard.CallBackVerificationScreen.maximumCallErrorModal.title")}
         variant="error"
       />
@@ -223,16 +230,6 @@ export default function CallBackVerificationScreen() {
         title="New Call "
         variant="success"
       />
-      {showAlert ? (
-        <TextInput
-          placeholder="Enter a number"
-          value={enteredNumber}
-          onChangeText={value => handlePressNumber(value)}
-          keyboardType="numeric"
-        />
-      ) : (
-        <></>
-      )}
     </>
   );
 }
