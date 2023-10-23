@@ -10,13 +10,14 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import { useCards } from "@/hooks/use-cards";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import delayTransition from "@/utils/delay-transition";
 
 import { CardList, ViewPinModal } from "../components";
-import { useCards, useChangeCardStatus, useFreezeCard, useRequestViewPinOtp } from "../hooks/query-hooks";
+import { useChangeCardStatus, useFreezeCard, useRequestViewPinOtp } from "../hooks/query-hooks";
 import { CardStatus } from "../types";
 
 export default function HomeScreen() {

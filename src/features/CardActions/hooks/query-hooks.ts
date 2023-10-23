@@ -3,12 +3,13 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { OtpRequiredResponse } from "@/features/OneTimePassword/types";
+import { useCards } from "@/hooks/use-cards";
 import { Address } from "@/types/Address";
 import { generateRandomId } from "@/utils";
 import { tokenizeCardForAppleWalletAsync } from "@/utils/apple-wallet";
 
 import { MOCK_API_URL } from "../mocks/mockPOSTransactionLimits";
-import { ActionType, Card, CardSettingsInput, CardStatus, ChangePOSLimit, RenewalReason } from "../types";
+import { ActionType, CardSettingsInput, CardStatus, ChangePOSLimit, RenewalReason } from "../types";
 
 const NI_CLIENT_SECRET = "Q3HVEbgpY3";
 const NI_CLIENT_ID = "xzzy7tvwvvqy9v4f26xszkb9";
@@ -25,18 +26,6 @@ export const queryKeys = {
   activateCard: (cardId: string) => [...queryKeys.all(), "activateCard", { cardId }] as const,
   ivrValidation: (cardId: string) => [...queryKeys.all(), "ivr-validation", { cardId }] as const,
 };
-
-interface CardsResponse {
-  Cards: Card[];
-}
-
-export function useCards() {
-  return useQuery(queryKeys.all(), () => {
-    return api<CardsResponse>("v1", "cards", "GET", undefined, undefined, {
-      ["x-correlation-id"]: generateRandomId(),
-    });
-  });
-}
 
 export function useCard(cardId: string) {
   const cards = useCards();

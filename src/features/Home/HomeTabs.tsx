@@ -33,7 +33,7 @@ const icons = {
   Support: ContactSupportIcon,
 };
 
-const tabHidddenRoutes = ["HelpAndSupport.ChatScreen"];
+const tabHiddenRoutes = ["HelpAndSupport.ChatScreen", "Home.AccountDetailsScreen"];
 
 export default function HomeTabs() {
   const { t } = useTranslation();
@@ -49,7 +49,7 @@ export default function HomeTabs() {
 
   function displayTab(route: RouteProp<BottomTabParamList>): "none" | "flex" {
     const routeName = getFocusedRouteNameFromRoute(route) ?? "Home";
-    return tabHidddenRoutes.includes(routeName) ? "none" : "flex";
+    return tabHiddenRoutes.includes(routeName) ? "none" : "flex";
   }
 
   return (

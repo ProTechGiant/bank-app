@@ -60,10 +60,27 @@
   },
   "home": {
     "AccountDetails": {
-      "navHeader": "Account Details",
+      "navHeader": "الحساب الرئيسي في كرواتيا",
       "banner": {
         "success": "{{dataCopied}} copied to clipboard",
         "error": "Couldn't copy {{dataCopied}} - try again"
+      },
+      "Transactions": {
+        "title": "أحدث المعاملات",
+        "seeAll": "عرض الكل"
+      },
+      "navBar": {
+        "addMoney": "إيداع الأموال",
+        "transfers": "تحويل الأموال",
+        "statements": "كشوف الحساب",
+        "documents": "المستندات"
+    },
+      "Accounts": {
+        "balance": "الرصيد",
+        "SAR": "ريال سعودي"
+      },
+      "Cards": {
+        "title": "بطاقات"
       },
       "tableLabels": {
         "name": "Account name",

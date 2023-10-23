@@ -1236,10 +1236,27 @@
       "editButton": "Edit"
     },
     "AccountDetails": {
-      "navHeader": "Account Details",
+      "navHeader": "Main Croatia Account",
       "banner": {
         "success": "{{dataCopied}} copied to clipboard",
         "error": "Couldn't copy {{dataCopied}} - try again"
+      },
+      "navBar": {
+        "addMoney": "Add money",
+        "transfers": "Transfers",
+        "statements": "Statements",
+        "documents": "Documents"
+      },
+      "Transactions": {
+        "title": "Latest Transactions",
+        "seeAll":"See All"
+      },
+      "Accounts": {
+        "balance":"Balance",
+        "SAR": "SAR"
+      },
+      "Cards": {
+        "title": "Cards"
       },
       "tableLabels": {
         "name": "Account name",

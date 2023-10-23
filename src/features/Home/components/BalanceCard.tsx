@@ -1,4 +1,5 @@
 import Clipboard from "@react-native-clipboard/clipboard";
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, ViewStyle } from "react-native";
@@ -28,11 +29,11 @@ interface BalanceCardProps {
 export default function BalanceCard({ balance, accountNumber, onBalanceRefresh }: BalanceCardProps) {
   const { t } = useTranslation();
   const addToast = useToasts();
-
+  const navigation = useNavigation();
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
 
   const handleOnAccountDetailsPress = () => {
-    //TODO: will navigate to account details screen, which will be developed in future by More Control team
+    navigation.navigate("Home.AccountDetailsScreen");
   };
 
   const handleOnCopyNumberPress = () => {

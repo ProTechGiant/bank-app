@@ -16,11 +16,7 @@ export default function HomeStack() {
     <HomepageLayoutOrderContextProvider>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen component={DashboardScreen} name="Home.DashboardScreen" />
-        <Stack.Screen
-          component={AccountDetailsScreen}
-          name="Home.AccountDetailsScreen"
-          options={{ presentation: "modal" }}
-        />
+        <Stack.Screen component={AccountDetailsScreen} name="Home.AccountDetailsScreen" />
         <Stack.Screen
           component={SectionsReordererModal}
           name="Home.SectionsReordererModal"
