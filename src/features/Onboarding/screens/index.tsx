@@ -16,5 +16,6 @@ export { default as TermsAndConditionsDetailsScreen } from "./TermsAndConditions
 export { default as TermsAndConditionsScreen } from "./TermsAndConditionsScreen";
 export { default as UnmatchedArbNumberScreen } from "./UnmatchedArbNumberScreen";
 export { default as UploadDocumentScreen } from "./UploadDocumentScreen";
+export { default as VerifyingInformationScreen } from "./VerifyingInformationScreen";
 export { default as WelcomeCarouselScreen } from "./WelcomeCarouselScreen";
 export { default as WorkGuideModal } from "./WorkGuideModal";

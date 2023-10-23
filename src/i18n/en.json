@@ -92,7 +92,10 @@
     "HighRiskRequireDocumentScreen": {
       "title": "Additional information required",
       "subTitle": "in compliance with regulatory requirements we would like to ask you to upload some documents in order to proceed with your account creation",
-      "buttonText": "Upload Now"
+      "buttonText": "Upload Now",
+      "verificationFailed": "Document Verification Failed",
+      "reUploadDoc": "You can still re-upload your documents and verify them again within 5 business days",
+      "reUploadButtonTitle": "Re-Upload"
     },
     "UploadDocumentScreen": {
       "title": "Documents Upload",
@@ -222,14 +225,14 @@
     "FinancialInformationScreen": {
       "navHeaderTitle": "ABOUT YOU",
       "title": "Your income and spending",
-      "inputOccupationLabel": "What's your occupation",
+      "inputOccupationLabel": "What's your occupation?",
       "inputOccupationPlaceholder": "Select your occupation",
       "inputOccupationExtra": "If you registered an occupation on Absher it may show here, however you can change it",
       "inputAccountPurposeLabel": "How will you use Croatia?",
       "inputAccountPurposePlaceholder": "Select at least one option",
-      "inputSourceOfIncomeLabel": "What's your main source of income",
+      "inputSourceOfIncomeLabel": "What's your main source of income?",
       "inputSourceOfIncomePlaceholder": "Select at least one option",
-      "inputMonthlyLimitLabel": "After bills and expenses, how much do you have left to spend each month?",
+      "inputMonthlyLimitLabel": "What is your salary range?",
       "inputMonthlyLimitPlaceholder": "Select an amount",
       "inputSetLabel": "Set",
       "moreInfoDropdownTitle": "Why we need this information",
@@ -320,6 +323,11 @@
         "title": "Onboarding Options",
         "description": "We found an existing account with your ID but linked to a different phone number. You can choose to continue with your ARB phone number for faster onboarding or proceed with the Regular Onboarding"
       }
+    },
+    "VerifyingInformation": {
+      "spotIllustration":"Spot illustration here",
+      "title": "Verifying information",
+      "description": "Your documents are now being reviewed and verified this could take up to 5 business days.\n\nWe will notify you once this process is done."
     }
   },
   "OpenBanking": {

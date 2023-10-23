@@ -688,3 +688,20 @@ export function useCheckHighRisk() {
     });
   });
 }
+
+export function useCheckHighRiskStatus() {
+  const { correlationId } = useOnboardingContext();
+
+  return useQuery(
+    ["CheckHighRiskStatus"],
+    () => {
+      if (!correlationId) throw new Error("Need valid Correlation id");
+      return api<{ CaseStatus: string }>("v1", "customers/status/high-risk", "GET", undefined, undefined, {
+        ["x-correlation-id"]: correlationId,
+      });
+    },
+    {
+      retry: true,
+    }
+  );
+}

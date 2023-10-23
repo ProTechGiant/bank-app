@@ -21,6 +21,7 @@ import {
   TermsAndConditionsScreen,
   UnmatchedArbNumberScreen,
   UploadDocumentScreen,
+  VerifyingInformationScreen,
   WelcomeCarouselScreen,
   WorkGuideModal,
 } from "./screens";
@@ -63,6 +64,7 @@ export type OnboardingStackParams = {
   "Onboarding.UnmatchedArbNumberScreen": undefined;
   "Onboarding.HighRiskRequireDocumentScreen": undefined;
   "Onboarding.UploadDocumentScreen": undefined;
+  "Onboarding.VerifyingInformationScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<OnboardingStackParams>();
@@ -92,6 +94,7 @@ export default function OnboardingStack() {
         <Stack.Screen component={CreatePasscodeScreen} name="Onboarding.CreatePasscode" />
         <Stack.Screen component={HighRiskRequireDocumentScreen} name="Onboarding.HighRiskRequireDocumentScreen" />
         <Stack.Screen component={UploadDocumentScreen} name="Onboarding.UploadDocumentScreen" />
+        <Stack.Screen component={VerifyingInformationScreen} name="Onboarding.VerifyingInformationScreen" />
         <Stack.Screen component={ConfirmPasscodeScreen} name="Onboarding.ConfirmPasscode" />
         <Stack.Screen component={PendingAccountScreen} name="Onboarding.PendingAccount" />
         <Stack.Screen component={WorkGuideModal} name="Onboarding.WorkGuideModal" options={{ presentation: "modal" }} />

@@ -15,7 +15,8 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import UploadDocumentCardList from "../components/UploadDocumentCardList";
-import { useRetriveHighRiskDocumentListByCustomerId } from "../hooks/query-hooks";
+import { useCheckHighRiskStatus, useRetriveHighRiskDocumentListByCustomerId } from "../hooks/query-hooks";
+import { getHighRiskCaseStatusScreen } from "../utils/get-high-risk-case-status-screen";
 
 export default function UploadDocumentScreen() {
   const { t } = useTranslation();
@@ -24,6 +25,13 @@ export default function UploadDocumentScreen() {
   const { data, isLoading, isError } = useRetriveHighRiskDocumentListByCustomerId();
   const [isErrorModelVisible, setIsErrorModelVisible] = useState<boolean>(isError);
   const navigation = useNavigation();
+
+  const { data: highRiskStatus } = useCheckHighRiskStatus();
+
+  useEffect(() => {
+    if (!highRiskStatus?.CaseStatus) return;
+    navigation.navigate(getHighRiskCaseStatusScreen(highRiskStatus.CaseStatus));
+  }, [navigation, highRiskStatus]);
 
   useEffect(() => {
     setIsErrorModelVisible(isError);

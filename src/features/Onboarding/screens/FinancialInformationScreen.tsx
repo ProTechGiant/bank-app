@@ -17,7 +17,7 @@ import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import { mockCroatiaPurpose } from "@/mocks/croatiaPurposeData";
 import { mockExpectedAmount } from "@/mocks/expectedAmount";
-import { mockOccupations } from "@/mocks/occupationData";
+import { mockArbOccupations, mockEngOccupations } from "@/mocks/occupationData";
 import { mockSources } from "@/mocks/sourceOfIncomeData";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -30,7 +30,7 @@ import { FinancialDetails } from "../types";
 export default function FinancialInformationScreen() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
   const submitFinancialDetailsAsync = useSubmitFinancialDetails();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const handleOnBackPress = useOnboardingBackButton();
   const { isLoading } = useOnboardingContext();
 
@@ -74,7 +74,7 @@ export default function FinancialInformationScreen() {
               label={t("Onboarding.FinancialInformationScreen.inputOccupationLabel")}
               extra={t("Onboarding.FinancialInformationScreen.inputOccupationExtra")}
               placeholder={t("Onboarding.FinancialInformationScreen.inputOccupationPlaceholder")}
-              options={mockOccupations}
+              options={i18n.language.toUpperCase() === "EN" ? mockEngOccupations : mockArbOccupations}
               buttonLabel={t("Onboarding.FinancialInformationScreen.inputSetLabel")}
               variant="small"
               autoselect

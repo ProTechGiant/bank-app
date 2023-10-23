@@ -99,7 +99,10 @@
     "HighRiskRequireDocumentScreen": {
       "title": "المعلومات الإضافية المطلوبة",
       "subTitle": "وفقًا لمتطلبات الرقابة، نود أن نطلب منك تحميل بعض الوثائق من أجل المتابعة في إنشاء حسابك",
-      "buttonText": "قم بالتحميل الآن"
+      "buttonText": "قم بالتحميل الآن",
+      "verificationFailed": "فشل التحقق من المستندات",
+      "reUploadDoc": "لا يزال بإمكانك إعادة تحميل المستندات الخاصة بك والتحقق منها مرة أخرى في غضون 5 أيام عمل",
+      "reUploadButtonTitle": "إعادة التحميل"
     },
     "UploadDocumentScreen": {
       "title": "تحميل المستندات",
@@ -230,14 +233,14 @@
     "FinancialInformationScreen": {
       "navHeaderTitle": "بيانات المستخدم",
       "title": "دخلك وإنفاقك",
-      "inputOccupationLabel": "ما هو مجال عملك",
+      "inputOccupationLabel": "ما هو مجال عملك؟",
       "inputOccupationPlaceholder": "اختر مجال عملك",
       "inputOccupationExtra": "إذا قمت بتسجيل مجال عمل في Absher، فقد يظهر هنا، ومع ذلك، يمكنك تغييره",
       "inputAccountPurposeLabel": "كيف ستستخدم كرواتيا؟",
       "inputAccountPurposePlaceholder": "حدد خيارًا واحدًا على الأقل",
       "inputSourceOfIncomeLabel": "ما هو مصدر دخلك الرئيسي",
       "inputSourceOfIncomePlaceholder": "حدد خيارًا واحدًا على الأقل",
-      "inputMonthlyLimitLabel": "بعد دفع الفواتير والنفقات، كم لديك من المال للإنفاق شهريًا؟",
+      "inputMonthlyLimitLabel": "ما هو نطاق راتبك؟",
       "inputMonthlyLimitPlaceholder": "حدد المبلغ",
       "inputSetLabel": "تعيين",
       "moreInfoDropdownTitle": "لماذا نحتاج إلى هذه المعلومات",
@@ -322,6 +325,11 @@
         "title": "خيارات الإعداد",
         "description": "لقد عثرنا على حساب موجود به هويتك ولكنه مرتبط برقم هاتف مختلف. يمكنك اختيار الاستمرار باستخدام رقم هاتف ARB الخاص بك للذهاب إلى الإعداد السريع أو المتابعة إلى الإعداد العادي"
       }
+    },
+    "VerifyingInformation": {
+      "spotIllustration":"Spot illustration here",
+      "title": "التحقق من المعلومات",
+      "description": "سوف نقوم بإعلامك بمجرد الانتهاء من هذه العملية.\n\nتتم الآن مراجعة مستنداتك والتحقق منها، وقد يستغرق ذلك ما يصل إلى 5 أيام عمل."
     }
   },
   "OpenBanking": {

@@ -17,6 +17,7 @@ import { CheckAccountSetupPoint, WorkGuideCard } from "../components";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useAccountStatus } from "../hooks/query-hooks";
 import { Status } from "../types";
+import { getActiveTask } from "../utils/get-active-task";
 
 export default function PendingAccountScreen() {
   const { t } = useTranslation();
@@ -38,7 +39,7 @@ export default function PendingAccountScreen() {
       setIsfetchingAccountStatus(false);
     } else if (accountStatus === "HIGH_RISK") {
       setIsfetchingAccountStatus(false);
-      navigation.navigate("Onboarding.HighRiskRequireDocumentScreen");
+      navigation.navigate(getActiveTask("HighRiskCase"));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountStatus, refetch]);
