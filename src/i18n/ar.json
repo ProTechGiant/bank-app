@@ -1963,11 +1963,11 @@
           "title": "يرجى تأكيد عنوان تسليم البطاقة.",
           "paragraph": {
             "default": "يرجى تأكيد مكان تسليم بطاقتك الجديدة.",
-            "checkHighlighted": "Check the correct delivery address is highlighted:"
+            "checkHighlighted": "رجى تأكيد مكان تسليم بطاقتك الجديدة"
           },
           "buttons": {
             "confirm": "تأكيد العنوان",
-            "edit": "Edit address",
+            "edit": "تعديل العنوان",
             "setAddress": "التوصيل إلى عنوان مختلف"
           }
         },
