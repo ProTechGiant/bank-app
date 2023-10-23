@@ -53,7 +53,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   const { mutateAsync: changeCardStatusAsync, isLoading: changeStatusLoading } = useChangeCardStatus();
   const requestViewPinOtpAsync = useRequestViewPinOtp();
   const requestUnmaskedCardDetailsAsync = useUnmaskedCardDetails();
-  const { isAppleWalletAvailable, canAddCardToAppleWallet, addCardToAppleWallet } = useAppleWallet(card.CardId);
+  const { isAppleWalletAvailable, canAddCardToAppleWallet } = useAppleWallet(card.CardId);
 
   const [isViewingPin, setIsViewingPin] = useState(false);
   const [pin, setPin] = useState<string | undefined>();
@@ -95,22 +95,9 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
     };
   }, [navigation]);
 
-  const handleOnAddToAppleWallet = async () => {
-    if (!isAppleWalletAvailable || !canAddCardToAppleWallet) return;
-    try {
-      await addCardToAppleWallet();
-      navigation.navigate("CardActions.ApplePayActivated");
-    } catch (error) {
-      warn("card-actions", "Could not add payment card to Apple Wallet: ", JSON.stringify(error));
-    }
-  };
-
-  const handleIVRService = () => {
-    navigation.navigate("CardActions.WaitingVerificationCard", {
-      title: t("CardActions.WaitingVerificationCard.waitingVerificationTitle"),
-      message: t("CardActions.WaitingVerificationCard.waitingVerificationMessage"),
+  const handleOnAddToAppleWallet = () => {
+    navigation.navigate("CardActions.CardToWalletScreen", {
       cardId: card.CardId,
-      callback: handleOnAddToAppleWallet,
     });
   };
 
@@ -359,7 +346,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
             {isAppleWalletAvailable && canAddCardToAppleWallet && !["LOCK", "INACTIVE"].includes(card.Status) ? (
               <View style={walletButtonContainer}>
                 <AddToAppleWalletButton
-                  onPress={handleIVRService}
+                  onPress={handleOnAddToAppleWallet}
                   testID="CardActions.CardDetailsScreen:AddToAppleWalletButton"
                 />
               </View>

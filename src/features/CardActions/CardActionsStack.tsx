@@ -11,6 +11,8 @@ import {
   CardActivatedScreen,
   CardDetailsScreen,
   CardSettingsScreen,
+  CardToWalletScreen,
+  CardToWalletSuccessScreen,
   ConfirmCardDeliveryAddress,
   EnterCardCVVScreen,
   HomeScreen,
@@ -34,11 +36,11 @@ export type CardActionsStackParams = {
     cardId: string;
     isSingleUseCardCreated?: boolean;
   };
-  "CardActions.WaitingVerificationCard": {
-    title: string;
-    message: string;
+  "CardActions.CardToWalletScreen": {
     cardId: string;
-    callback: () => void;
+  };
+  "CardActions.WaitingVerificationCard": {
+    cardId: string;
   };
   "CardActions.CardSettingsScreen": {
     cardId: string;
@@ -47,6 +49,7 @@ export type CardActionsStackParams = {
   };
   "CardActions.SingleUseCardInfoScreen": undefined;
   "CardActions.SingleUseCardAbout": undefined;
+  "CardActions.CardToWalletSuccessScreen": undefined;
   "CardActions.HomeScreen": undefined;
   "CardActions.ReportCardScreen": {
     cardId: string;
@@ -136,6 +139,8 @@ export default function CardActionsStack() {
       <Stack.Screen component={CardDetailsScreen} name="CardActions.CardDetailsScreen" />
       <Stack.Screen component={WaitingVerificationCardScreen} name="CardActions.WaitingVerificationCard" />
       <Stack.Screen component={CardSettingsScreen} name="CardActions.CardSettingsScreen" />
+      <Stack.Screen component={CardToWalletScreen} name="CardActions.CardToWalletScreen" />
+      <Stack.Screen component={CardToWalletSuccessScreen} name="CardActions.CardToWalletSuccessScreen" />
       <Stack.Screen component={SingleUseCardInfoScreen} name="CardActions.SingleUseCardInfoScreen" />
       <Stack.Screen component={ResetPinCodeScreen} name="CardActions.ResetPincodeScreen" />
       <Stack.Screen

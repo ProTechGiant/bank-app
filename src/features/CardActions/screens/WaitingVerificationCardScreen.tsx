@@ -1,48 +1,78 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useRef } from "react";
+import { t } from "i18next";
+import { useEffect, useState } from "react";
 
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import FullScreenLoader from "@/components/FullScreenLoader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 
 import { CardActionsStackParams } from "../CardActionsStack";
-import { INTERVAL, MAX_ALLOWED_RETRIES } from "../constants";
-import { useVerificationCardStatus } from "../hooks/query-hooks";
+import { useIVRValidations } from "../hooks/query-hooks";
+
+const INTERVAL = 60;
 
 export default function WaitingVerificationCard() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.WaitingVerificationCard">>();
-  const handleCallback = route.params.callback;
   const params = route.params;
-  const elapsedTimeInSeconds = useRef(0);
-  const { data: cardStatusData } = useVerificationCardStatus(params.cardId, INTERVAL);
+  const { isSuccess, mutateAsync } = useIVRValidations(params.cardId);
+  const [isIVRFailure, setIVRFailure] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(INTERVAL);
 
   useEffect(() => {
-    function checkIsSuccessful() {
-      elapsedTimeInSeconds.current += 1;
-
-      if (elapsedTimeInSeconds.current > MAX_ALLOWED_RETRIES) {
-        navigation.goBack();
-      }
-    }
-
-    const timeoutId = setInterval(checkIsSuccessful, INTERVAL);
-    return () => clearInterval(timeoutId);
+    fetchIVRStatus();
   }, []);
 
-  useEffect(() => {
-    if (cardStatusData?.is_valid === false) {
-      handleCallback();
-      navigation.goBack();
+  const fetchIVRStatus = async () => {
+    try {
+      await mutateAsync();
+    } catch (error) {
+      setIVRFailure(true);
     }
-  }, [cardStatusData]);
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTimeLeft(timeLeft - 1);
+    }, 1000);
+
+    if (!timeLeft) {
+      setIVRFailure(true);
+    }
+    if (isSuccess) {
+      clearInterval(intervalId);
+      navigation.navigate("CardActions.CardToWalletSuccessScreen");
+    }
+    return () => clearInterval(intervalId);
+  }, [isSuccess, navigation, timeLeft]);
+
+  const handleOnClose = () => {
+    navigation.goBack();
+  };
 
   return (
     <Page testID="CardActions.WaitingVerificationCardScreen:Page">
       <ContentContainer>
-        <FullScreenLoader title={params.title} message={params.message} />
+        <FullScreenLoader
+          title={t("CardActions.WaitingVerificationCard.waitingVerificationTitle")}
+          message={t("CardActions.WaitingVerificationCard.waitingVerificationMessage")}
+        />
       </ContentContainer>
+      <NotificationModal
+        message={t("CardActions.WaitingVerificationCard.ivrFailureMessage")}
+        isVisible={isIVRFailure}
+        onClose={handleOnClose}
+        title={t("CardActions.WaitingVerificationCard.ivrFailureTitle")}
+        variant="error"
+        buttons={{
+          primary: (
+            <Button onPress={handleOnClose}>{t("InternalTransfers.WaitingVerificationScreen.error.buttonText")}</Button>
+          ),
+        }}
+      />
     </Page>
   );
 }

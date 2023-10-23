@@ -1917,6 +1917,16 @@
       "navTitle": "Your card PIN",
       "button": "Hide PIN"
     },
+    "CardToWalletScreen":{
+      "title": "أضف البطاقة إلى المحفظة",
+      "subtitle": "يمكنك استخدام تفاصيل بطاقتك الجديدة مباشرةً للشراء عبر الإنترنت أو الدفع باستخدام هاتفك باستخدام مدى باي.",
+      "continueButtonText": "انهاء "
+    }, 
+    "CardToWalletSuccessScreen":{
+      "title": "تمت إضافة بطاقتك إلى محفظة Apple الخاصة بك.",
+      "subtitle": "الآن يمكنك استخدام هاتفك للدفع بدلاً من استخدام بطاقتك.",
+      "okButtonText": "حسنًا  "
+    },
     "ApplyCardScreen": {
       "CardRenewalScreen": {
         "title": "تجديد البطاقة",
@@ -2239,7 +2249,9 @@
     },
     "WaitingVerificationCard": {
       "waitingVerificationTitle": "Waiting verification",
-      "waitingVerificationMessage": "Please do not close the app or navigate away from the screen while we add your card to Apple Pay wallet"
+      "waitingVerificationMessage": "Please do not close the app or navigate away from the screen while we add your card to Apple Pay wallet",
+      "ivrFailureMessage": "IVR activation failed and therefore we couldn’t add your card to the wallet",
+      "ivrFailureTitle": "Unable to Add the card to Apple Wallet"
     },
     "IVRCheckScreen": {
       "ivrCheckTitle": "بانتظار التحقق",

@@ -23,6 +23,7 @@ export const queryKeys = {
   posLimits: () => [...queryKeys.all(), "posLimits"] as const,
   currentPOSLimit: (cardId: string) => [...queryKeys.all(), "currentPOSLimit", { cardId }] as const,
   activateCard: (cardId: string) => [...queryKeys.all(), "activateCard", { cardId }] as const,
+  ivrValidation: (cardId: string) => [...queryKeys.all(), "ivr-validation", { cardId }] as const,
 };
 
 interface CardsResponse {
@@ -453,6 +454,15 @@ export function useGetToken() {
   return useMutation(async () => {
     return api<GetTokenResponse>("v1", `cards/token`, "POST", undefined, GetTokenParams, {
       ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
+
+export function useIVRValidations(cardId: string) {
+  return useMutation(queryKeys.ivrValidation(cardId), () => {
+    return api("v1", `cards/apply-pay/activate/`, "POST", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["cardId"]: cardId,
     });
   });
 }

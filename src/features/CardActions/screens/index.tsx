@@ -5,6 +5,8 @@ export { default as ConfirmCardDeliveryAddress } from "./ApplyPhysicalCardScreen
 export { default as CardActivatedScreen } from "./CardActivatedScreen";
 export { default as CardDetailsScreen } from "./CardDetailsScreen";
 export { default as CardSettingsScreen } from "./CardSettingsScreen";
+export { default as CardToWalletScreen } from "./CardToWalletScreen";
+export { default as CardToWalletSuccessScreen } from "./CardToWalletSuccessScreen";
 export { default as EnterCardCVVScreen } from "./EnterCardCVVScreen";
 export { default as HomeScreen } from "./HomeScreen";
 export { default as IVRCheckScreen } from "./IVRCheckScreen";
