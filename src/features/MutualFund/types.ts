@@ -81,30 +81,37 @@ export interface PortfolioDetails {
   PortfolioPerformanceList: PortfolioPerformanceList;
 }
 
+export interface AssetsAllocation {
+  SokukFund: number;
+  InvestmentFund: number;
+  SharesFund: number;
+  CashMarketsFund: number;
+}
+
 export type Product = {
   Id: string;
   Name: string;
   YTD: number;
   NAV: number;
-  isActive: boolean;
-  currency: string;
-  fundAvailability: string;
-  minimumSubscriptionAmount: number;
-  minimumAdditionalSubscriptionAmount: number;
-  subscriptionFees: number;
-  riskLevel: string;
-  isEndowment: boolean;
-  categoryArabic: string;
-  categoryEnglish: string;
-  strategy: string;
-  dealingDaysFrequency: string;
-  dealingDays: string;
-  dividend: string;
-  risk: string;
+  IsActive: boolean;
+  Currency: string;
+  FundAvailability: string;
+  MinimumSubscriptionAmount: number;
+  MinimumAdditionalSubscriptionAmount: number;
+  SubscriptionFees: number;
+  RiskLevel: string;
+  IsEndowment: boolean;
+  Category: string;
+  Strategy: string;
+  DealingDaysFrequency: string;
+  DealingDays: string;
+  Dividend: string;
+  Risk: string;
+  AssetsAllocation: AssetsAllocation;
 };
 
 export type OffersProducts = {
-  productsList: Product[];
+  ProductsList: Product[];
 };
 
 export interface Account {
@@ -112,19 +119,19 @@ export interface Account {
 }
 
 type ProductInformation = {
-  productId: number;
-  productName: string;
+  ProductId: number;
+  ProductName: string;
 };
 
 export type PortfolioHolding = {
-  productInformation: ProductInformation;
+  ProductInformation: ProductInformation;
 };
 
 export type Portfolio = {
-  portfolioId: number;
-  portfolioCode: string;
-  portfolioName: string;
-  portfolioHoldingList: PortfolioHolding[];
+  PortfolioId: number;
+  PortfolioCode: string;
+  PortfolioName: string;
+  PortfolioHoldingList: PortfolioHolding[];
 };
 
 export type PortfolioData = {
@@ -132,7 +139,18 @@ export type PortfolioData = {
   TotalCashBalance: number;
   TotalGainLoss: number;
   TotalGainLossPercentage: number;
-  portfolioList: Portfolio[];
+  PortfolioList: Portfolio[];
+};
+type HoldinInformation = {
+  RiskLevel: string;
+  InceptionDate: string;
+  ProductCurrency: string;
+  SubscriptionFees: string;
+  MinimumSubscriptionAmount: number;
+  MinimumAdditionalSubscriptionAmount: number;
+};
+export type PortfolioDetail = {
+  PortfolioHoldingList: HoldinInformation[];
 };
 
 export type Investment = {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 
@@ -11,26 +11,26 @@ import { useThemeStyles } from "@/theme";
 import { Portfolio } from "../types";
 
 interface PortfolioCardProps {
-  portfolioName: string;
+  portfolioId: string | number;
   balance: number;
   portfolioList: Portfolio[];
-  handlePortfolioChange: (value: string) => void;
+  onPortfolioChange: (value: string | number) => void;
 }
 
-export default function PortfolioCard({
-  portfolioName,
-  balance,
-  portfolioList,
-  handlePortfolioChange,
-}: PortfolioCardProps) {
+export default function PortfolioCard({ portfolioId, balance, portfolioList, onPortfolioChange }: PortfolioCardProps) {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
-  const [selected, setSelected] = useState(portfolioName);
-  const [portfolioCode, setPortfolioCode] = useState(portfolioList?.[0]?.portfolioCode ?? "");
+  const [selected, setSelected] = useState(() => portfolioId);
+  const [portfolioCode, setPortfolioCode] = useState(portfolioList?.[0]?.PortfolioCode ?? "");
+  const [portfolioName, setPortfolioName] = useState(portfolioList?.[0]?.PortfolioName ?? "");
+
+  useEffect(() => {
+    setSelected(portfolioId);
+  }, [portfolioId]);
 
   const handleOnClose = () => {
     setIsVisible(false);
-    setSelected(portfolioName);
+    setSelected(portfolioId);
   };
 
   const handleOnPress = () => {
@@ -39,9 +39,10 @@ export default function PortfolioCard({
 
   const handleOnSelectPortfolio = () => {
     setIsVisible(false);
-    handlePortfolioChange(selected);
-    const selectedPortfolio = portfolioList.find(portfolio => portfolio.portfolioName === selected);
-    setPortfolioCode(selectedPortfolio ? selectedPortfolio.portfolioCode : "");
+    onPortfolioChange(selected);
+    const selectedPortfolio = portfolioList.find(portfolio => portfolio.PortfolioId === selected);
+    setPortfolioCode(selectedPortfolio ? selectedPortfolio.PortfolioCode : "");
+    setPortfolioName(selectedPortfolio ? selectedPortfolio.PortfolioName : "");
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -91,7 +92,7 @@ export default function PortfolioCard({
         {portfolioList ? (
           <RadioButtonGroup onPress={value => setSelected(value)} value={selected}>
             {portfolioList.map(portfolio => {
-              return <RadioButton label={portfolio.portfolioName} value={portfolio.portfolioName} />;
+              return <RadioButton label={portfolio.PortfolioName} value={portfolio.PortfolioId} />;
             })}
           </RadioButtonGroup>
         ) : null}

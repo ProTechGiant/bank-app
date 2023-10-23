@@ -4,12 +4,22 @@ import { useMutation, useQuery } from "react-query";
 import api from "@/api";
 import { generateRandomId } from "@/utils";
 
-import { PortfolioDetails, Portfolios, PortfoliosPerformanceList } from "../types";
+import {
+  OffersProducts,
+  PortfolioData,
+  PortfolioDetail,
+  PortfolioDetails,
+  Portfolios,
+  PortfoliosPerformanceList,
+} from "../types";
 
 const queryKeys = {
   PortfoliosPerformanceList: () => ["PortfoliosPerformanceList"],
   Portfolios: () => ["Portfolios"],
   PortfolioDetails: () => ["PortfolioDetails"],
+  mutualFundProductList: () => ["mutualFundProductList"],
+  mutualFundPortfolios: () => ["mutualFundPortfolios"],
+  mutualFundPortfolioById: () => ["mutualFundPortfolioById"],
 };
 
 export function useMutualFundOTP() {
@@ -21,6 +31,15 @@ export function useMutualFundOTP() {
         TimeToLive: 0,
         AllowedAttempts: 0,
       },
+    });
+  });
+}
+
+export function useGetMutualFundProducts(riskLevel: string) {
+  return useQuery(queryKeys.mutualFundProductList(), () => {
+    return api<OffersProducts>("v1", "mutual-fund/products", "GET", { risk: riskLevel }, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18next.language,
     });
   });
 }
@@ -43,6 +62,24 @@ export function usePortfoliosPerformanceList() {
 export function usePortfolios() {
   return useQuery(queryKeys.Portfolios(), () => {
     return api<Portfolios>("v1", "mutual-fund/portfolios", "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18next.language,
+    });
+  });
+}
+
+export function useGetCustomerPortfolios() {
+  return useQuery(queryKeys.mutualFundPortfolios(), () => {
+    return api<PortfolioData>("v1", "mutual-fund/portfolios", "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18next.language,
+    });
+  });
+}
+
+export function useGetCustomerPortfoliosById(portfolioId: number) {
+  return useQuery(queryKeys.mutualFundPortfolioById(), () => {
+    return api<PortfolioDetail>("v1", `mutual-fund/portfolios/${portfolioId}`, "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18next.language,
     });

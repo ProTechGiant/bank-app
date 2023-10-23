@@ -1,32 +1,29 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ActivityIndicator, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { CloseIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 
 import { ErrorSection, FilterSection, MutualFundOffersItem } from "../components";
-import mockOffersProducts from "../mocks/mockProductList";
-import { Product } from "../types";
+import { useGetMutualFundProducts } from "../hooks/query-hooks";
+import { AssetsAllocation } from "../types";
 
 export default function DiscoverProductsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [selectedFilter, setSelectedFilter] = useState<string>("All");
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(
-    mockOffersProducts ? mockOffersProducts.productsList : []
-  );
+
+  const { data: filteredProducts, isLoading, isError, refetch } = useGetMutualFundProducts(selectedFilter);
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
-    if (selectedFilter !== "All") {
-      const filteredList = mockOffersProducts.productsList.filter(product => product.risk === selectedFilter);
-      setFilteredProducts(filteredList);
-    } else {
-      setFilteredProducts(mockOffersProducts.productsList);
-    }
+    refetch();
   }, [selectedFilter]);
 
   const handleToggleExpansion = (index: number) => {
@@ -53,9 +50,19 @@ export default function DiscoverProductsScreen() {
     setSelectedFilter(filter);
   };
 
-  const handleOnViewDetailsPress = () => {
-    navigation.navigate("MutualFund.MutualFundDetailsScreen");
+  const handleOnViewDetailsPress = (assetsAllocation: AssetsAllocation) => {
+    navigation.navigate("MutualFund.MutualFundDetailsScreen", { assetsAllocation });
   };
+
+  const loadingContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      borderRadius: theme.radii.small,
+      height: width - theme.spacing["64p"],
+      width: width - theme.spacing["64p"],
+      justifyContent: "center",
+    }),
+    [width]
+  );
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
@@ -73,8 +80,12 @@ export default function DiscoverProductsScreen() {
       <FilterSection onFilterChange={handleOnFilterChange} />
 
       <ContentContainer isScrollView>
-        {filteredProducts && filteredProducts.length > 0 ? (
-          filteredProducts.map((product, index) => {
+        {isLoading ? (
+          <View style={loadingContainerStyle}>
+            <ActivityIndicator />
+          </View>
+        ) : filteredProducts && filteredProducts.ProductsList.length > 0 ? (
+          filteredProducts.ProductsList.map((product, index) => {
             return (
               <MutualFundOffersItem
                 key={product.Id}
@@ -82,22 +93,23 @@ export default function DiscoverProductsScreen() {
                 name={product.Name}
                 YTD={product.YTD}
                 NAV={product.NAV}
-                subscriptionFee={product.subscriptionFees}
-                minimumSubscription={product.minimumSubscriptionAmount}
-                minimumAdditionalSubscription={product.minimumAdditionalSubscriptionAmount}
-                dealingDays={product.dealingDays}
-                dividend={product.dividend}
-                frequency={product.dealingDaysFrequency}
-                strategy={product.strategy}
-                risk={product.riskLevel}
+                subscriptionFee={product.SubscriptionFees}
+                minimumSubscription={product.MinimumSubscriptionAmount}
+                minimumAdditionalSubscription={product.MinimumAdditionalSubscriptionAmount}
+                dealingDays={product.DealingDays}
+                dividend={product.Dividend}
+                frequency={product.DealingDaysFrequency}
+                strategy={product.Strategy}
+                risk={product.RiskLevel}
                 index={index}
                 onToggleExpansion={handleToggleExpansion}
                 isExpanded={expandedIndex === index}
-                handleOnViewDetailsPress={handleOnViewDetailsPress}
+                onViewDetailsPress={handleOnViewDetailsPress}
+                assetsAllocation={product.AssetsAllocation}
               />
             );
           })
-        ) : selectedFilter === "All" ? (
+        ) : selectedFilter === "All" || isError ? (
           <ErrorSection
             title={t("MutualFund.DiscoverProductsScreen.errorSection.title")}
             description={t("MutualFund.DiscoverProductsScreen.errorSection.descriptionCaseAll")}

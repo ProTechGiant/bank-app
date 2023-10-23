@@ -10,6 +10,7 @@ import Divider from "@/components/Divider";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import { AssetsAllocation } from "../types";
 import OfferInformationItem from "./OfferInformationItem";
 import Tags from "./Tags";
 
@@ -29,7 +30,8 @@ interface MutualFundOffersItemProps {
   index: number;
   onToggleExpansion: (value: number) => void;
   isExpanded: boolean;
-  handleOnViewDetailsPress: () => void;
+  onViewDetailsPress: (value: AssetsAllocation) => void;
+  assetsAllocation: AssetsAllocation;
 }
 
 export default function MutualFundOffersItem({
@@ -47,7 +49,8 @@ export default function MutualFundOffersItem({
   index,
   onToggleExpansion,
   isExpanded,
-  handleOnViewDetailsPress,
+  onViewDetailsPress,
+  assetsAllocation,
 }: MutualFundOffersItemProps) {
   const { t } = useTranslation();
   const currentHeight = useSharedValue(isExpanded === true ? 550 : 0);
@@ -160,7 +163,7 @@ export default function MutualFundOffersItem({
             />
             <Stack direction="horizontal" align="center" justify="center" style={stackStyle}>
               <View style={styles.buttonContainerStyle}>
-                <Button onPress={handleOnViewDetailsPress} variant="secondary" size="regular">
+                <Button onPress={() => onViewDetailsPress(assetsAllocation)} variant="secondary" size="regular">
                   {t("MutualFund.DiscoverProductsScreen.buttonViewDetails")}
                 </Button>
               </View>

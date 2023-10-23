@@ -11,29 +11,32 @@ import { useThemeStyles } from "@/theme";
 import { PortfolioHolding } from "../types";
 
 interface PortfolioHoldingCardProps {
-  selectedHoldingPortfolioName: string;
+  selectedHoldingPortfolioId: string | number;
   portfolioHoldingList: PortfolioHolding[];
-  handleHoldingPortfolioChange: (value: string) => void;
+  onHoldingPortfolioChange: (value: string | number) => void;
 }
 
 export default function PortfolioHoldingCard({
-  selectedHoldingPortfolioName,
+  selectedHoldingPortfolioId,
   portfolioHoldingList,
-  handleHoldingPortfolioChange,
+  onHoldingPortfolioChange,
 }: PortfolioHoldingCardProps) {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
-  const [selected, setSelected] = useState("");
-  const [productName, setProductName] = useState(selectedHoldingPortfolioName);
+  const [selected, setSelected] = useState<string | number>(selectedHoldingPortfolioId);
+  const [productName, setProductName] = useState(portfolioHoldingList?.[0]?.ProductInformation.ProductName ?? "");
 
   useEffect(() => {
-    setProductName(selectedHoldingPortfolioName);
-    setSelected(selectedHoldingPortfolioName);
-  }, [selectedHoldingPortfolioName]);
+    const selectedPortfolio = portfolioHoldingList.find(
+      portfolio => portfolio.ProductInformation.ProductId === selectedHoldingPortfolioId
+    );
+    setProductName(selectedPortfolio ? selectedPortfolio.ProductInformation.ProductName : "");
+    setSelected(selectedHoldingPortfolioId);
+  }, [selectedHoldingPortfolioId, portfolioHoldingList]);
 
   const handleOnClose = () => {
     setIsVisible(false);
-    setSelected(selectedHoldingPortfolioName);
+    setSelected(selectedHoldingPortfolioId);
   };
 
   const handleOnPress = () => {
@@ -41,9 +44,12 @@ export default function PortfolioHoldingCard({
   };
 
   const handleOnSelectPortfolioHolding = () => {
-    setProductName(selected);
+    const selectedPortfolio = portfolioHoldingList.find(
+      portfolio => portfolio.ProductInformation.ProductId === selected
+    );
+    setProductName(selectedPortfolio ? selectedPortfolio.ProductInformation.ProductName : "");
     setIsVisible(false);
-    handleHoldingPortfolioChange(selected);
+    onHoldingPortfolioChange(selected);
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -91,8 +97,8 @@ export default function PortfolioHoldingCard({
             {portfolioHoldingList.map(portfolioHolding => {
               return (
                 <RadioButton
-                  label={portfolioHolding.productInformation.productName}
-                  value={portfolioHolding.productInformation.productName}
+                  label={portfolioHolding.ProductInformation.ProductName}
+                  value={portfolioHolding.ProductInformation.ProductId}
                 />
               );
             })}
