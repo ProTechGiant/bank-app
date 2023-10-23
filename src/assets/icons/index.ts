@@ -174,4 +174,5 @@ export interface IconProps {
   color?: ColorValue;
   height?: number | string;
   width?: number | string;
+  isRtl?: boolean;
 }

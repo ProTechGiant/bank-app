@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ArrowForwardIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
@@ -35,7 +35,7 @@ export default function TransferErrorBox({ onPress, textStart, textEnd, testID }
           <Typography.Text color="errorBase" size="footnote" weight="medium">
             {textEnd}
           </Typography.Text>
-          <ArrowForwardIcon color={errorIconColor} />
+          <ArrowForwardIcon color={errorIconColor} isRtl={I18nManager.isRTL} />
         </View>
       ) : null}
     </Pressable>
@@ -45,10 +45,9 @@ export default function TransferErrorBox({ onPress, textStart, textEnd, testID }
 const styles = StyleSheet.create({
   right: {
     alignItems: "center",
-    columnGap: 8,
     flexDirection: "row",
   },
   textStyle: {
-    width: "70%",
+    width: "68%",
   },
 });
