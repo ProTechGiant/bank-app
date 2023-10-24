@@ -92,7 +92,13 @@ export default function PortfolioCard({ portfolioId, balance, portfolioList, onP
         {portfolioList ? (
           <RadioButtonGroup onPress={value => setSelected(value)} value={selected}>
             {portfolioList.map(portfolio => {
-              return <RadioButton label={portfolio.PortfolioName} value={portfolio.PortfolioId} />;
+              return (
+                <RadioButton
+                  key={portfolio.PortfolioId}
+                  label={portfolio.PortfolioName}
+                  value={portfolio.PortfolioId}
+                />
+              );
             })}
           </RadioButtonGroup>
         ) : null}

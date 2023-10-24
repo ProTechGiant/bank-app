@@ -97,6 +97,7 @@ export default function PortfolioHoldingCard({
             {portfolioHoldingList.map(portfolioHolding => {
               return (
                 <RadioButton
+                  key={portfolioHolding.ProductInformation.ProductId}
                   label={portfolioHolding.ProductInformation.ProductName}
                   value={portfolioHolding.ProductInformation.ProductId}
                 />

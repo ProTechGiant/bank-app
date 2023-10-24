@@ -5,6 +5,8 @@ import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import useNavigation from "@/navigation/use-navigation";
 
+import { mockProductKeyInformation } from "../mocks/mockProductKeyInformation";
+
 export default function MutualFundBottomSection() {
   const navigation = useNavigation();
   const { t } = useTranslation();
@@ -26,14 +28,14 @@ export default function MutualFundBottomSection() {
 
       <Button
         onPress={() => {
-          navigation.navigate("MutualFund.Subscription");
+          navigation.navigate("MutualFund.Subscription", { ProductKeyInformation: mockProductKeyInformation }); //TODO - when API is ready replace it with actual data
         }}>
         {t("MutualFund.MutualFundDetailsScreen.additionalSubscriptionButtonText")}
       </Button>
       <Button
         variant="tertiary"
         onPress={() => {
-          navigation.navigate("MutualFund.Subscription");
+          navigation.navigate("MutualFund.Subscription", { ProductKeyInformation: mockProductKeyInformation }); //TODO - when API is ready replace it with actual data
         }}>
         {t("MutualFund.MutualFundDetailsScreen.redeemButtonText")}
       </Button>

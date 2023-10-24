@@ -168,3 +168,13 @@ export type AssetInvestment = {
 export interface PerformanceLastYearsInterface {
   Last3YearsPerformance: number;
 }
+
+export interface ProductKeyInformation {
+  mutualFundName: string;
+  inceptionDate: string;
+  fundCurrency: string;
+  performanceFee: string;
+  minimumSubscription: number;
+  minimumAdditionalSubscription: number;
+  riskLevel: string;
+}

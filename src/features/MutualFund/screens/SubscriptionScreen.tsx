@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -17,8 +18,8 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CheckBoxTermsAndCondition, InformationItem, PortfolioCard, PortfolioHoldingCard } from "../components";
-import { useGetCustomerPortfolios, useGetCustomerPortfoliosById } from "../hooks/query-hooks";
-import { mockPortfolioInformation } from "../mocks/mockPortfolio";
+import { useGetCustomerPortfolios } from "../hooks/query-hooks";
+import { MutualFundStackParams } from "../MutualFundStack";
 
 interface SubscriptionAmount {
   Amount: number;
@@ -31,7 +32,8 @@ interface SubscriptionAmount {
 export default function SubscriptionScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-
+  const { params } = useRoute<RouteProp<MutualFundStackParams, "MutualFund.Subscription">>();
+  const productInformation = params.ProductKeyInformation;
   const { data: customerPortfolioList, isLoading } = useGetCustomerPortfolios();
   const [selectedPortfolioId, setSelectedPortfolioId] = useState(
     customerPortfolioList ? customerPortfolioList.PortfolioList[0].PortfolioId : ""
@@ -53,12 +55,6 @@ export default function SubscriptionScreen() {
       ? customerPortfolioList.PortfolioList[0].PortfolioHoldingList[0].ProductInformation.ProductName
       : ""
   );
-  const [profileId, setProfileId] = useState(0);
-  const {
-    data: customerPortfolioInformation,
-    isLoading: isLoadingProfileInformation,
-    refetch,
-  } = useGetCustomerPortfoliosById(profileId);
   const { width } = useWindowDimensions();
 
   useEffect(() => {
@@ -67,14 +63,12 @@ export default function SubscriptionScreen() {
         ? selectedPortfolio.PortfolioHoldingList[0].ProductInformation.ProductId
         : ""
     );
-    setProfileId(selectedPortfolio ? selectedPortfolio.PortfolioId : 0);
     setFirstPortfolioName(selectedPortfolio ? selectedPortfolio.PortfolioName : "");
     setSecondPortfolioName(
       selectedPortfolio?.PortfolioHoldingList && selectedPortfolio?.PortfolioHoldingList.length > 0
         ? selectedPortfolio.PortfolioHoldingList[0].ProductInformation.ProductName
         : ""
     );
-    refetch();
   }, [selectedPortfolioId]);
 
   useEffect(() => {
@@ -90,7 +84,6 @@ export default function SubscriptionScreen() {
         ? customerPortfolioList.PortfolioList[0].PortfolioHoldingList[0].ProductInformation.ProductName
         : ""
     );
-    setProfileId(customerPortfolioList ? customerPortfolioList.PortfolioList[0].PortfolioId : 0);
   }, [customerPortfolioList]);
 
   const validationSchema = yup.object().shape({
@@ -180,7 +173,7 @@ export default function SubscriptionScreen() {
       ) : (
         <ContentContainer isScrollView>
           <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-            {mockPortfolioInformation.mutualFundName}
+            {productInformation.mutualFundName}
           </Typography.Text>
           <View style={accountSectionStyle}>
             <PortfolioCard
@@ -213,36 +206,34 @@ export default function SubscriptionScreen() {
           <Typography.Text color="neutralBase+30" size="title3" weight="medium" style={keyInformationStyle}>
             {t("MutualFund.SubscriptionScreen.keyInformation")}
           </Typography.Text>
-          {isLoadingProfileInformation ? (
-            <ActivityIndicator />
-          ) : customerPortfolioInformation ? (
-            <View style={styles.informationContainerStyle}>
-              <InformationItem
-                label={t("MutualFund.SubscriptionScreen.informationItem.riskLevel")}
-                value={customerPortfolioInformation.PortfolioHoldingList[0].RiskLevel}
-              />
-              <InformationItem
-                label={t("MutualFund.SubscriptionScreen.informationItem.inceptionDate")}
-                value={customerPortfolioInformation.PortfolioHoldingList[0].InceptionDate}
-              />
-              <InformationItem
-                label={t("MutualFund.SubscriptionScreen.informationItem.fundCurrency")}
-                value={customerPortfolioInformation.PortfolioHoldingList[0].ProductCurrency}
-              />
-              <InformationItem
-                label={t("MutualFund.SubscriptionScreen.informationItem.performanceFee")}
-                value={customerPortfolioInformation.PortfolioHoldingList[0].SubscriptionFees}
-              />
-              <InformationItem
-                label={t("MutualFund.SubscriptionScreen.informationItem.minimumSubscription")}
-                value={customerPortfolioInformation.PortfolioHoldingList[0].MinimumSubscriptionAmount}
-              />
-              <InformationItem
-                label={t("MutualFund.SubscriptionScreen.informationItem.minimumAdditionalSubscription")}
-                value={customerPortfolioInformation.PortfolioHoldingList[0].MinimumAdditionalSubscriptionAmount}
-              />
-            </View>
-          ) : null}
+          <View style={styles.informationContainerStyle}>
+            <InformationItem
+              label={t("MutualFund.SubscriptionScreen.informationItem.riskLevel")}
+              value={productInformation.riskLevel}
+            />
+            <InformationItem
+              label={t("MutualFund.SubscriptionScreen.informationItem.inceptionDate")}
+              value={productInformation.inceptionDate}
+            />
+            <InformationItem
+              label={t("MutualFund.SubscriptionScreen.informationItem.fundCurrency")}
+              value={productInformation.fundCurrency}
+            />
+            <InformationItem
+              label={t("MutualFund.SubscriptionScreen.informationItem.performanceFee")}
+              value={productInformation.performanceFee}
+            />
+            <InformationItem
+              label={t("MutualFund.SubscriptionScreen.informationItem.minimumSubscription")}
+              value={`${productInformation.minimumSubscription} ${t("MutualFund.SubscriptionScreen.currency")}`}
+            />
+            <InformationItem
+              label={t("MutualFund.SubscriptionScreen.informationItem.minimumAdditionalSubscription")}
+              value={`${productInformation.minimumAdditionalSubscription} ${t(
+                "MutualFund.SubscriptionScreen.currency"
+              )}`}
+            />
+          </View>
 
           <Stack gap="16p" direction="vertical" align="stretch">
             <CheckBoxTermsAndCondition

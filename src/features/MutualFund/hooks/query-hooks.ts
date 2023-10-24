@@ -8,7 +8,6 @@ import {
   OffersProducts,
   PerformanceLastYearsInterface,
   PortfolioData,
-  PortfolioDetail,
   PortfolioDetails,
   Portfolios,
   PortfoliosPerformanceList,
@@ -20,7 +19,6 @@ const queryKeys = {
   PortfolioDetails: () => ["PortfolioDetails"],
   mutualFundProductList: () => ["mutualFundProductList"],
   mutualFundPortfolios: () => ["mutualFundPortfolios"],
-  mutualFundPortfolioById: () => ["mutualFundPortfolioById"],
   performanceLastYears: () => ["performanceLastYears"],
 };
 
@@ -73,15 +71,6 @@ export function usePortfolios() {
 export function useGetCustomerPortfolios() {
   return useQuery(queryKeys.mutualFundPortfolios(), () => {
     return api<PortfolioData>("v1", "mutual-fund/portfolios", "GET", undefined, undefined, {
-      ["x-correlation-id"]: generateRandomId(),
-      ["Accept-Language"]: i18next.language,
-    });
-  });
-}
-
-export function useGetCustomerPortfoliosById(portfolioId: number) {
-  return useQuery(queryKeys.mutualFundPortfolioById(), () => {
-    return api<PortfolioDetail>("v1", `mutual-fund/portfolios/${portfolioId}`, "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18next.language,
     });
