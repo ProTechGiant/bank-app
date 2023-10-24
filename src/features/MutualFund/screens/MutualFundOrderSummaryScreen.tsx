@@ -78,7 +78,7 @@ export default function MutualFundOrderSummaryScreen() {
               {t("MutualFund.MutualFundOrderSummaryScreen.headerDescription")}
             </Typography.Text>
           </Stack>
-          <MutualFundOrderDetailsTable />
+          <MutualFundOrderDetailsTable hasHeader={true} />
         </Stack>
       </ScrollView>
       <View style={orderSummaryButtonStyle}>

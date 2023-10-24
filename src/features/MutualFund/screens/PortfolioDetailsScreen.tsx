@@ -45,7 +45,8 @@ export default function PortfolioDetailsScreen() {
 
   const titleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["12p"],
-    marginVertical: theme.spacing["20p"],
+    marginTop: theme.spacing["32p"],
+    marginBottom: theme.spacing["20p"],
   }));
 
   const headerScrollHeight = scrollOffsetY.interpolate({
@@ -59,16 +60,22 @@ export default function PortfolioDetailsScreen() {
     paddingBottom: theme.spacing["16p"],
   }));
 
+  const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: Platform.OS === "android" ? theme.spacing["24p"] : -theme.spacing["24p"],
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
       <Animated.View style={[styles.animatedHeader, { height: headerScrollHeight }]}>
-        <HeaderContent headerTitle={params.PortfolioPerformanceName ?? "Portfolio"} showInfoIndicator={true}>
-          <PortfolioDetailsHeaderContent
-            portfolioDetails={PortfolioDetails}
-            portfolioChartLine={params.PortfolioPerformanceList}
-            PortfolioPerformanceLineChartColorIndex={params.PortfolioPerformanceLineChartColorIndex}
-          />
-        </HeaderContent>
+        <View style={headerContainerStyle}>
+          <HeaderContent headerTitle={params.PortfolioPerformanceName ?? "Portfolio"} showInfoIndicator={true}>
+            <PortfolioDetailsHeaderContent
+              portfolioDetails={PortfolioDetails}
+              portfolioChartLine={params.PortfolioPerformanceList}
+              PortfolioPerformanceLineChartColorIndex={params.PortfolioPerformanceLineChartColorIndex}
+            />
+          </HeaderContent>
+        </View>
         <View style={titleContainerStyle}>
           <Typography.Text size="title2" weight="medium">
             {t("MutualFund.PortfolioDetailsScreen.subTitle")}

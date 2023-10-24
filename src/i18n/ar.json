@@ -74,7 +74,7 @@
         "transfers": "تحويل الأموال",
         "statements": "كشوف الحساب",
         "documents": "المستندات"
-    },
+      },
       "Accounts": {
         "balance": "الرصيد",
         "SAR": "ريال سعودي"
@@ -344,7 +344,7 @@
       }
     },
     "VerifyingInformation": {
-      "spotIllustration":"Spot illustration here",
+      "spotIllustration": "Spot illustration here",
       "title": "التحقق من المعلومات",
       "description": "سوف نقوم بإعلامك بمجرد الانتهاء من هذه العملية.\n\nتتم الآن مراجعة مستنداتك والتحقق منها، وقد يستغرق ذلك ما يصل إلى 5 أيام عمل."
     }
@@ -3589,8 +3589,8 @@
         "investedValue": "القيمة المستثمرة: {{value}} ريال سعودي",
         "NAV": "NAV",
         "YTD": "YTD",
-        "الوحدة": "الوحدة",
-        "متوسط التكلفة": "متوسط التكلفة"
+        "Units": "الوحدة",
+        "AverageCost": "متوسط التكلفة"
       },
       "currency": "ريال سعودي"
     },
