@@ -32,7 +32,7 @@ export default function MutualFundDashboardHeaderContent({ content }: MutualFund
             {t("MutualFund.MutualFundDashboardScreen.TotalCashBalanceLabel")}
           </Typography.Text>
           <Typography.Text color="neutralBase-60" weight="bold">
-            {content?.TotalCashBalance ?? ""}
+            {`${content?.TotalCashBalance ?? "0"} ${t("MutualFund.MutualFundDashboardScreen.currency")}`}
           </Typography.Text>
         </Stack>
         <Stack direction="vertical" align="flex-end">

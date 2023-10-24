@@ -3551,7 +3551,8 @@
       "TotalPortfolioLabel": "قيمة المحفظة الإجمالية (بالريال السعودي)",
       "TotalCashBalanceLabel": "إجمالي الرصيد النقدي",
       "TotalGainLossLabel": "إجمالي الربح/الخسارة",
-      "portfolioPerformanceSectionLabel": "أداء المحفظة"
+      "portfolioPerformanceSectionLabel": "أداء المحفظة",
+      "currency": "ريال سعودي"
     },
     "SubscriptionScreen": {
       "title": "الاشتراكات",
@@ -3579,9 +3580,17 @@
     },
     "PortfolioDetailsScreen": {
       "headerTitle": "محفظة",
-      "subTitle": "صناديق مشتركة",
+      "subTitle": "صناديق الاستثمار",
       "discoverButton": "اكتشف الصناديق المشتركة",
-      "viewFundButton": "عرض أوامر الصندوق"
+      "viewFundButton": "عرض أوامر الصندوق",
+      "DetailsCard": {
+        "investedValue": "القيمة المستثمرة: {{value}} ريال سعودي",
+        "NAV": "NAV",
+        "YTD": "YTD",
+        "الوحدة": "الوحدة",
+        "متوسط التكلفة": "متوسط التكلفة"
+      },
+      "currency": "ريال سعودي"
     },
     "MutualFundEntryPointScreen": {
       "headerTitle": "صناديق الاستثمار",
@@ -3656,6 +3665,14 @@
       "TermsAndConditions": "الشروط والاحكام",
       "additionalSubscriptionButtonText": "الاشتراك الإضافي",
       "redeemButtonText": "استرداد"
+    },
+    "InformationIndicatorsModal": {
+      "headerTitle": "مؤشرات المعلومات",
+      "nav": "1. صافي قيمة الأصول (NAV)",
+      "ytd": "2. العائد منذ بداية العام (YTD)",
+      "currentPrice": "3. السعر الحالي",
+      "lastYearPrice": "4. السعر في نهاية العام الماضي",
+      "description": "لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا . يوت انيم أد مينيم فينايم,كيواس نوستريد"
     }
   },
   "AllInOneCard": {

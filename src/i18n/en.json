@@ -3684,7 +3684,8 @@
       "TotalPortfolioLabel": " Total portfolio value (SAR)",
       "TotalCashBalanceLabel": "Total cash balance",
       "TotalGainLossLabel": "Total Gain/loss",
-      "portfolioPerformanceSectionLabel": "Portfolio performance"
+      "portfolioPerformanceSectionLabel": "Portfolio performance",
+      "currency": " SAR"
     },
     "SubscriptionScreen": {
       "title": "Subscription",
@@ -3721,7 +3722,8 @@
         "YTD": "YTD",
         "Units": "Units",
         "AverageCost": "Average cost"
-      }
+      },
+      "currency": " SAR"
     },
     "MutualFundEntryPointScreen": {
       "headerTitle": "Mutual Fund",
@@ -3800,6 +3802,14 @@
       "TermsAndConditions": "Terms & Conditions",
       "additionalSubscriptionButtonText": "Additional Subscription",
       "redeemButtonText": "Redeem"
+    },
+    "InformationIndicatorsModal": {
+      "headerTitle": "Information Indicators",
+      "nav": "1. NAV",
+      "ytd": "2. YTD",
+      "currentPrice": "3. Current Price",
+      "lastYearPrice": "4. Last Year Price",
+      "description": "Lorem Ipsumé um texto de preenchimento sem sentido gerado aleatoriamente, usado para compor parágrafos, títulos e texto geral para uso em"
     }
   },
   "AllInOneCard": {
