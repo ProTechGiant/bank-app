@@ -2365,11 +2365,11 @@
     }
   },
   "OneTimePasswordModal": {
-    "title": "أدخل رمز المرة الواحدة",
-    "phoneNumberMessage": "أدخل الرمز المؤقت الذي أرسلناه إلى هاتفك المحمول, {{phoneNumber}}. لديك 2 دقيقة للقيام بذلك",
+    "title": "أدخل كلمة المرور لمرة واحدة.",
+    "phoneNumberMessage": "  أدخل الرمز الذي أرسلناه إلى هاتفك المحمول لمرة واحدة, {{phoneNumber}}. لديك دقيقتين للقيام بذلك",
     "emailMessage": "أدخل الرمز المؤقت الذي أرسلناه إلى بريدك الإلكتروني، {{email}}. لديك 2 دقيقة للقيام بذلك",
     "resendCodeDisabled": "إعادة إرسال الرمز في {{minutes}}:{{seconds}}",
-    "resendCodeEnabled": "إعادة إرسال الرمز",
+    "resendCodeEnabled": "أعد إرسال الرمز",
     "notification": "هذا الرمز المؤقت لم يكن صحيحًا. لديك {{attempts}} محاولات متبقية",
     "errors": {
       "invalidPassword": "الرمز الذي أدخلته غير صالح. يرجى المحاولة مرة أخرى.",
