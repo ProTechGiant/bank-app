@@ -50,7 +50,7 @@ export default function MutualFundOffersItem({
   onToggleExpansion,
   isExpanded,
   onViewDetailsPress,
-  assetsAllocation,
+  id,
 }: MutualFundOffersItemProps) {
   const { t } = useTranslation();
   const currentHeight = useSharedValue(isExpanded === true ? 550 : 0);
@@ -163,7 +163,7 @@ export default function MutualFundOffersItem({
             />
             <Stack direction="horizontal" align="center" justify="center" style={stackStyle}>
               <View style={styles.buttonContainerStyle}>
-                <Button onPress={() => onViewDetailsPress(assetsAllocation)} variant="secondary" size="regular">
+                <Button onPress={() => onViewDetailsPress(id)} variant="secondary" size="regular">
                   {t("MutualFund.DiscoverProductsScreen.buttonViewDetails")}
                 </Button>
               </View>

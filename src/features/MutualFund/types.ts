@@ -164,3 +164,7 @@ export type AssetInvestment = {
   TotalInvesmtent: string;
   Investments: Investment[];
 };
+
+export interface PerformanceLastYearsInterface {
+  Last3YearsPerformance: number;
+}

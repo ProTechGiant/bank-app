@@ -3647,6 +3647,10 @@
       "warningText": "الحسابات تعتمد على أداء السنوات الثلاث الماضية ولا يتم ضمانها بناءً على تقلبات السوق.",
       "SubscriptionDetailsSubTitle": "تفاصيل الاشتراك",
       "subscribeButton": "اشتراك",
+      "investedValue": "القيمة المستثمرة",
+      "sar": "{{value}}  ريال سعودي",
+      "date": "التاريخ",
+      "value": "القيمة",
       "InvestmentDetails": {
         "title": "تفاصيل الاستثمار",
         "units": "الوحدة",
@@ -3661,7 +3665,7 @@
         "sharesFund": "صندوق الأسهم",
         "cashMarketsFund": "صندوق أسواق النقد"
       },
-      "view": "عرض",
+      "view": "عرض  ",
       "TermsAndConditions": "الشروط والاحكام",
       "additionalSubscriptionButtonText": "الاشتراك الإضافي",
       "redeemButtonText": "استرداد"

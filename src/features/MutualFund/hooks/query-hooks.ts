@@ -6,6 +6,7 @@ import { generateRandomId } from "@/utils";
 
 import {
   OffersProducts,
+  PerformanceLastYearsInterface,
   PortfolioData,
   PortfolioDetail,
   PortfolioDetails,
@@ -20,6 +21,7 @@ const queryKeys = {
   mutualFundProductList: () => ["mutualFundProductList"],
   mutualFundPortfolios: () => ["mutualFundPortfolios"],
   mutualFundPortfolioById: () => ["mutualFundPortfolioById"],
+  performanceLastYears: () => ["performanceLastYears"],
 };
 
 export function useMutualFundOTP() {
@@ -92,5 +94,21 @@ export function usePortfolioDetails() {
       ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18next.language,
     });
+  });
+}
+
+export function usePerformanceLast3Years(productId: string) {
+  return useQuery(queryKeys.performanceLastYears(), () => {
+    return api<PerformanceLastYearsInterface>(
+      "v1",
+      `mutual-fund/${productId}/last3years-performance`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: "en",
+      }
+    );
   });
 }

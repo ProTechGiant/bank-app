@@ -25,7 +25,7 @@ export default function AssetSection() {
       <Stack direction="horizontal" gap="12p">
         <AssetIcon />
         <Typography.Text color="neutralBase+30" size="title3" weight="medium">
-          {t("MutualFund.MutualFundOrderDetailsScreen.assetAllocation.title")}
+          {t("MutualFund.MutualFundDetailsScreen.AssetAllocation.title")}
         </Typography.Text>
       </Stack>
       <View style={containerStyle}>

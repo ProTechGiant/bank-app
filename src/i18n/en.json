@@ -3784,6 +3784,10 @@
       "warningText": "Calculations are built on last 3 years performance and is not guaranteed based on market fluctuations.",
       "SubscriptionDetailsSubTitle": "Subscription Details",
       "subscribeButton": "Subscribe",
+      "investedValue": "Invested value",
+      "sar": "{{value}} SAR",
+      "date": "Date",
+      "value": "Value",
       "InvestmentDetails": {
         "title": "Investment Details",
         "units": "Units",
@@ -3798,7 +3802,7 @@
         "sharesFund": "Shares Fund",
         "cashMarketsFund": "Cash Markets Fund"
       },
-      "view": "View",
+      "view": "View ",
       "TermsAndConditions": "Terms & Conditions",
       "additionalSubscriptionButtonText": "Additional Subscription",
       "redeemButtonText": "Redeem"

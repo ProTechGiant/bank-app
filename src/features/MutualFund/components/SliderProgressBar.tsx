@@ -4,13 +4,23 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, TextInput, TextStyle, View, ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import { useThemeStyles } from "@/theme";
 
 import { InvestmentIcon } from "../assets/icons";
+import { usePerformanceLast3Years } from "../hooks/query-hooks";
+import PerformanceChart from "./PerformanceChart";
 
-export default function SliderProgressBar() {
-  const [sliderValue, setSliderValue] = useState(0);
-  const [textInputValue, setTextInputValue] = useState("0");
+export interface SliderProgressBarProps {
+  productId: string;
+}
+
+export default function SliderProgressBar({ productId }: SliderProgressBarProps) {
+  const { t } = useTranslation();
+  const { data: performanceLastYears } = usePerformanceLast3Years(productId);
+
+  const [sliderValue, setSliderValue] = useState(500);
+  const [textInputValue, setTextInputValue] = useState("500");
 
   const handleSliderChange = (value: number) => {
     setSliderValue(value);
@@ -22,20 +32,18 @@ export default function SliderProgressBar() {
     setTextInputValue(value);
   };
 
-  const { t } = useTranslation();
-
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
+    marginTop: theme.spacing["16p"],
   }));
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.small,
-    paddingLeft: 22,
     borderColor: "lightgray",
     borderWidth: 0.5,
-    paddingRight: theme.spacing["12p"],
-    marginVertical: theme.spacing["12p"],
-    paddingVertical: theme.spacing["12p"],
+    marginTop: theme.spacing["12p"],
+    padding: theme.spacing["16p"],
+    backgroundColor: theme.palette["neutralBase-60"],
   }));
 
   const textInputContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -44,7 +52,6 @@ export default function SliderProgressBar() {
     borderWidth: 1,
     paddingHorizontal: theme.spacing["12p"],
     borderRadius: theme.spacing["8p"],
-    minWidth: 90,
     borderColor: theme.palette["supportBase-10"],
     alignItems: "center",
     height: 29,
@@ -52,6 +59,7 @@ export default function SliderProgressBar() {
 
   const rowBetweenStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
     paddingTop: theme.spacing["12p"],
   }));
@@ -65,7 +73,7 @@ export default function SliderProgressBar() {
       <Stack direction="horizontal" gap="8p">
         <InvestmentIcon />
         <Typography.Text color="neutralBase+30" size="title3" weight="medium">
-          {t("MutualFund.MutualFundOrderDetailsScreen.assetAllocation.title")}
+          {t("MutualFund.MutualFundDetailsScreen.expectedPerformance")}
         </Typography.Text>
       </Stack>
       <View style={contentContainerStyle}>
@@ -89,18 +97,25 @@ export default function SliderProgressBar() {
             {t("MutualFund.MutualFundDetailsScreen.ProgressBar.investmentAmount")}
           </Typography.Text>
           <View style={textInputContainerStyle}>
-            <TextInput
-              style={styles.textInputStyle}
-              value={textInputValue}
-              onChangeText={handleTextInputChange}
-              keyboardType="numeric"
-              maxLength={5}
-            />
+            <View>
+              <TextInput
+                style={styles.textInputStyle}
+                value={textInputValue}
+                onChangeText={handleTextInputChange}
+                keyboardType="numeric"
+                maxLength={5}
+              />
+            </View>
             <Typography.Text size="footnote" weight="bold">
               {t("MutualFund.MutualFundDetailsScreen.ProgressBar.currency")}
             </Typography.Text>
           </View>
         </View>
+        {performanceLastYears ? (
+          <PerformanceChart investmentAmount={sliderValue} performance={performanceLastYears.Last3YearsPerformance} />
+        ) : (
+          <FlexActivityIndicator />
+        )}
       </View>
     </View>
   );
@@ -109,7 +124,6 @@ export default function SliderProgressBar() {
 const styles = StyleSheet.create({
   slider: {
     height: 20,
-    width: "90%",
   },
   textInputStyle: { flex: 1, height: 40, padding: 0 },
 });

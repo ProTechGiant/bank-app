@@ -11,7 +11,6 @@ import { useThemeStyles } from "@/theme";
 
 import { ErrorSection, FilterSection, MutualFundOffersItem } from "../components";
 import { useGetMutualFundProducts } from "../hooks/query-hooks";
-import { AssetsAllocation } from "../types";
 
 export default function DiscoverProductsScreen() {
   const { t } = useTranslation();
@@ -50,8 +49,8 @@ export default function DiscoverProductsScreen() {
     setSelectedFilter(filter);
   };
 
-  const handleOnViewDetailsPress = (assetsAllocation: AssetsAllocation) => {
-    navigation.navigate("MutualFund.MutualFundDetailsScreen", { assetsAllocation });
+  const handleOnViewDetailsPress = (id: string) => {
+    navigation.navigate("MutualFund.MutualFundDetailsScreen", { id });
   };
 
   const loadingContainerStyle = useThemeStyles<ViewStyle>(
