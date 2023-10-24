@@ -20,6 +20,7 @@ import { CheckboxInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
@@ -31,7 +32,7 @@ import NeraPlusCard from "../assets/images/neraPlusCard.png";
 import { VAT_PERCENTAGE } from "../constants";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
 import { useAllInOneCardOTP } from "../hooks/query-hooks";
-import { cardReview } from "../mocks";
+import { cardReview, USER_WITH_ZERO_BALANCE } from "../mocks";
 import { BoxContainer, FormattedPrice } from "./../components";
 
 export default function CardReviewScreen() {
@@ -39,6 +40,7 @@ export default function CardReviewScreen() {
   const addToast = useToasts();
   const navigation = useNavigation();
   const otpFlow = useOtpFlow();
+  const { userId } = useAuthContext();
   const { mutateAsync: sendAllInOneCardOTP } = useAllInOneCardOTP();
   const { cardType, redemptionMethod, paymentPlan } = useAllInOneCardContext();
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
@@ -78,7 +80,11 @@ export default function CardReviewScreen() {
     });
   };
   const onConfirm = () => {
-    //TODO : CHECK IF USER HAS ENOUGH BALANCE
+    // Todo: remove this when api finished from BE team
+    if (userId === USER_WITH_ZERO_BALANCE) {
+      setAddFundsModalVisible(true);
+      return;
+    }
     try {
       otpFlow.handle({
         action: {
@@ -257,7 +263,7 @@ export default function CardReviewScreen() {
               {isNeraPlus ? (
                 <View style={styles.boxContent}>
                   <Typography.Text size="footnote" color="neutralBase-10">
-                    {t("AllInOneCard.CardReviewScreen.vat", { vat: VAT_PERCENTAGE })}
+                    {t("AllInOneCard.CardReviewScreen.vat", { vatPercentage: VAT_PERCENTAGE })}
                   </Typography.Text>
 
                   <FormattedPrice price={vat} />

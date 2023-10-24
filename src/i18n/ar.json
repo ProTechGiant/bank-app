@@ -1942,12 +1942,12 @@
       "navTitle": "Your card PIN",
       "button": "Hide PIN"
     },
-    "CardToWalletScreen":{
+    "CardToWalletScreen": {
       "title": "أضف البطاقة إلى المحفظة",
       "subtitle": "يمكنك استخدام تفاصيل بطاقتك الجديدة مباشرةً للشراء عبر الإنترنت أو الدفع باستخدام هاتفك باستخدام مدى باي.",
       "continueButtonText": "انهاء "
-    }, 
-    "CardToWalletSuccessScreen":{
+    },
+    "CardToWalletSuccessScreen": {
       "title": "تمت إضافة بطاقتك إلى محفظة Apple الخاصة بك.",
       "subtitle": "الآن يمكنك استخدام هاتفك للدفع بدلاً من استخدام بطاقتك.",
       "okButtonText": "حسنًا  "
@@ -3745,7 +3745,7 @@
     "WelcomeScreen": {
       "neraTitle": "مرحبًا بك في اشتراك nera",
       "neraPlusTitle": "مرحبًا بك في اشتراك nera Plus",
-      "neraDescription": "لقد قمت بالاشتراك بنجاح في نيرا بلس يمكنك إدارة اشتراكك من إعدادات التطبيق.",
+      "neraDescription": "لقد قمت بالاشتراك بنجاح في نيرا يمكنك إدارة اشتراكك من إعدادات التطبيق.",
       "neraPlusDescription": "لقد قمت بالاشتراك بنجاح في نيرا بلس يمكنك إدارة اشتراكك من إعدادات التطبيق.",
       "viewCardButton": "اظهار البطاقة"
     },

@@ -278,3 +278,4 @@ export const termsSections: TermsAndConditionSection[] = [
 export const USER_WITH_ALL_IN_CARD = "1000002357";
 export const USER_WITHOUT_ALL_IN_CARD = "1000001102";
 export const USER_WITH_INACTIVE_ALL_IN_CARD = "0000002270";
+export const USER_WITH_ZERO_BALANCE = "1000003001";

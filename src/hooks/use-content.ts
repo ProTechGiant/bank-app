@@ -16,6 +16,7 @@ export const queryKeys = {
   categories: () => [...queryKeys.all(), "categories"] as const,
   articles: (articleId: string) => [...queryKeys.all(), { articleId }] as const,
   images: (imageURL: string) => [...queryKeys.all(), { imageURL }] as const,
+  AllInOneCardTermsAndConditions: () => [...queryKeys.all(), "AllInOneCardTermsAndConditions"] as const,
 };
 
 export function useContentArticleList(
