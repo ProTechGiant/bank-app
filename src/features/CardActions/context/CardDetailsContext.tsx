@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useState } from "react";
-const NI_ROOT_URL = "https://api.sau-test.network.global:443";
+
+import { NI_ROOT_URL } from "../constants";
 function noop() {
   return;
 }
@@ -53,7 +54,7 @@ const CardDetailsContext = createContext<CardDetailsContextState>({
 const INITIAL_STATE = {
   niCardDetails: {
     cardIdentifierType: "EXID",
-    cardIdentifierId: "40545400192399314423",
+    cardIdentifierId: "40545400192399314423", //cf8d8f57-9063-4322-910e-ff090387a429
     bankCode: "CROAT",
     connectionProperties: {
       rootUrl: NI_ROOT_URL,

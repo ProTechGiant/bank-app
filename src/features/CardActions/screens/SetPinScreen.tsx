@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   KeyboardAvoidingView,
@@ -14,6 +14,7 @@ import {
 import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -28,6 +29,7 @@ import { isValidPincode } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { CardActionsStackParams } from "../CardActionsStack";
+import { useSetPin } from "../hooks/niHooks/use-set-pin";
 
 export default function SetPinScreen() {
   const dimensions = useWindowDimensions();
@@ -35,8 +37,10 @@ export default function SetPinScreen() {
   const { t } = useTranslation();
 
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.SetPinScreen">>();
-
   const cardId = route.params.cardId;
+
+  const { result: setPinResult, isLoading: setPinLoading } = useSetPin();
+
   const pagerViewRef = useRef<ScrollView>(null);
   const enterPinCodeRef = useRef<React.ElementRef<typeof PincodeInput>>(null);
   const confirmPinCodeRef = useRef<React.ElementRef<typeof PincodeInput>>(null);
@@ -49,14 +53,11 @@ export default function SetPinScreen() {
   const [remainingAttempts, setRemainingAttempts] = useState(PIN_MAX_TRIES);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
 
-  const handleOnSetPin = async () => {
-    navigation.navigate("CardActions.IVRCheckScreen", {
-      title: t("CardActions.IVRCheckScreen.ivrCheckTitle"),
-      message: t("CardActions.IVRCheckScreen.ivrCheckMessage"),
-      onVerificationComplete: handleActivationSuccess,
-      cardId,
-    });
-  };
+  useEffect(() => {
+    if (setPinResult !== null && setPinResult === "OK") {
+      delayTransition(() => handleIVRActivation());
+    }
+  }, [setPinResult]);
 
   const handleOnTransitionStep = () => {
     setCurrentValue("");
@@ -100,13 +101,22 @@ export default function SetPinScreen() {
 
       if (convertedInput === selectedPincode) {
         //TODO: check if sdk needs encrypted value for setting pin, encryptValue(convertedInput)
-        handleOnSetPin();
+        // handleOnSetPin(selectedPincode);
+        handleIVRActivation(); //TODO: remove this and uncomment above line when SDK is working properly
       }
     }
   };
 
-  const handleActivationSuccess = () => {
-    //TODO: set pin through NI SDK method here
+  const handleIVRActivation = () => {
+    navigation.navigate("CardActions.IVRCheckScreen", {
+      title: t("CardActions.IVRCheckScreen.ivrCheckTitle"),
+      message: t("CardActions.IVRCheckScreen.ivrCheckMessage"),
+      onVerificationComplete: () => handleActivationSuccess(),
+      cardId,
+    });
+  };
+
+  const handleActivationSuccess = async () => {
     delayTransition(() => {
       navigation.navigate("CardActions.CardActivatedScreen", { cardId });
     });
@@ -135,99 +145,102 @@ export default function SetPinScreen() {
 
   return (
     <>
-      <Page backgroundColor="neutralBase-60">
-        <NavHeader
-          onBackPress={handleBack}
-          title={
-            <View style={styles.progressIndicator}>
-              <ProgressIndicator currentStep={mode === "input" ? 1 : 2} totalStep={2} />
-            </View>
-          }
-          testID="CardActions.SetPinScreen:NavHeader"
-        />
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          style={keyboardAvoidingContainerStyle}>
-          <ScrollView ref={pagerViewRef} horizontal scrollEnabled={false}>
-            {/* Enter a PIN-code */}
-            <ContentContainer style={{ width: dimensions.width }}>
-              <Stack direction="vertical" gap="12p">
-                <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-                  {t("CardActions.ApplyCardScreen.SetPinScreen.SetPin.title")}
-                </Typography.Text>
-                <Typography.Text color="neutralBase+30" size="title3" weight="regular">
-                  {t("CardActions.ApplyCardScreen.SetPinScreen.SetPin.instruction", {
-                    count: PIN_INPUT_LENGTH,
-                  })}
-                </Typography.Text>
-              </Stack>
-              <View style={inputContainerStyle}>
-                <PincodeInput
-                  ref={enterPinCodeRef}
-                  autoFocus
-                  onChangeText={handleOnChangeText}
-                  length={PIN_INPUT_LENGTH}
-                  value={currentValue}
-                  testID="CardActions.SetPinScreen:EnterPinCodeInput"
-                />
-                {isErrorVisible ? (
-                  <Alert
-                    message={t("CardActions.ApplyCardScreen.SetPinScreen.SetPin.errorPinTooEasy")}
-                    variant="error"
-                    testID="CardActions.SetPinScreen:PinCodeTooEasyAlert"
-                  />
-                ) : null}
+      {setPinLoading ? (
+        <FullScreenLoader />
+      ) : (
+        <Page backgroundColor="neutralBase-60">
+          <NavHeader
+            onBackPress={handleBack}
+            title={
+              <View style={styles.progressIndicator}>
+                <ProgressIndicator currentStep={mode === "input" ? 1 : 2} totalStep={2} />
               </View>
-            </ContentContainer>
-            {/* Confirm PIN-code */}
-            <ContentContainer style={{ width: dimensions.width }}>
-              <Stack direction="vertical" gap="12p">
-                <Typography.Text color="neutralBase+30" size="large" weight="semiBold">
-                  {t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.title")}
-                </Typography.Text>
-                <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-                  {t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.instruction", {
-                    count: PIN_INPUT_LENGTH,
-                  })}
-                </Typography.Text>
-              </Stack>
-              <View style={inputContainerStyle}>
-                <PincodeInput
-                  ref={confirmPinCodeRef}
-                  onChangeText={handleOnChangeText}
-                  length={PIN_INPUT_LENGTH}
-                  value={currentValue}
-                  testID="CardActions.SetPinScreen:ConfirmPinCodeInput"
-                />
-                {isErrorVisible && remainingAttempts > 0 ? (
-                  <Alert
-                    message={t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.pinNotMatch", {
-                      count: remainingAttempts,
+            }
+            testID="CardActions.SetPinScreen:NavHeader"
+          />
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            style={keyboardAvoidingContainerStyle}>
+            <ScrollView ref={pagerViewRef} horizontal scrollEnabled={false}>
+              {/* Enter a PIN-code */}
+              <ContentContainer style={{ width: dimensions.width }}>
+                <Stack direction="vertical" gap="12p">
+                  <Typography.Text color="neutralBase+30" size="title1" weight="medium">
+                    {t("CardActions.ApplyCardScreen.SetPinScreen.SetPin.title")}
+                  </Typography.Text>
+                  <Typography.Text color="neutralBase+30" size="title3" weight="regular">
+                    {t("CardActions.ApplyCardScreen.SetPinScreen.SetPin.instruction", {
+                      count: PIN_INPUT_LENGTH,
                     })}
-                    variant="error"
-                    testID="CardActions.SetPinScreen:PinCodeDoesNotMatchAlert"
+                  </Typography.Text>
+                </Stack>
+                <View style={inputContainerStyle}>
+                  <PincodeInput
+                    ref={enterPinCodeRef}
+                    autoFocus
+                    onChangeText={handleOnChangeText}
+                    length={PIN_INPUT_LENGTH}
+                    value={currentValue}
+                    testID="CardActions.SetPinScreen:EnterPinCodeInput"
                   />
-                ) : null}
-              </View>
-            </ContentContainer>
-          </ScrollView>
-        </KeyboardAvoidingView>
-        <NotificationModal
-          buttons={{
-            primary: (
-              <Button onPress={() => handleBack()} testID="CardActions.SetPinScreen:ErrorModalBackButton">
-                {t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.errorModalActionButton")}
-              </Button>
-            ),
-          }}
-          title={t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.errorModalTitle")}
-          message={t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.errorModalMessage")}
-          isVisible={isErrorVisible && remainingAttempts === 0}
-          variant="error"
-          testID="CardActions.SetPinScreen:ErrorModal"
-        />
-      </Page>
-
+                  {isErrorVisible ? (
+                    <Alert
+                      message={t("CardActions.ApplyCardScreen.SetPinScreen.SetPin.errorPinTooEasy")}
+                      variant="error"
+                      testID="CardActions.SetPinScreen:PinCodeTooEasyAlert"
+                    />
+                  ) : null}
+                </View>
+              </ContentContainer>
+              {/* Confirm PIN-code */}
+              <ContentContainer style={{ width: dimensions.width }}>
+                <Stack direction="vertical" gap="12p">
+                  <Typography.Text color="neutralBase+30" size="large" weight="semiBold">
+                    {t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.title")}
+                  </Typography.Text>
+                  <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+                    {t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.instruction", {
+                      count: PIN_INPUT_LENGTH,
+                    })}
+                  </Typography.Text>
+                </Stack>
+                <View style={inputContainerStyle}>
+                  <PincodeInput
+                    ref={confirmPinCodeRef}
+                    onChangeText={handleOnChangeText}
+                    length={PIN_INPUT_LENGTH}
+                    value={currentValue}
+                    testID="CardActions.SetPinScreen:ConfirmPinCodeInput"
+                  />
+                  {isErrorVisible && remainingAttempts > 0 ? (
+                    <Alert
+                      message={t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.pinNotMatch", {
+                        count: remainingAttempts,
+                      })}
+                      variant="error"
+                      testID="CardActions.SetPinScreen:PinCodeDoesNotMatchAlert"
+                    />
+                  ) : null}
+                </View>
+              </ContentContainer>
+            </ScrollView>
+          </KeyboardAvoidingView>
+          <NotificationModal
+            buttons={{
+              primary: (
+                <Button onPress={() => handleBack()} testID="CardActions.SetPinScreen:ErrorModalBackButton">
+                  {t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.errorModalActionButton")}
+                </Button>
+              ),
+            }}
+            title={t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.errorModalTitle")}
+            message={t("CardActions.ApplyCardScreen.SetPinScreen.ConfirmPin.errorModalMessage")}
+            isVisible={isErrorVisible && remainingAttempts === 0}
+            variant="error"
+            testID="CardActions.SetPinScreen:ErrorModal"
+          />
+        </Page>
+      )}
       <NotificationModal
         variant="error"
         title={t("errors.generic.title")}
@@ -245,3 +258,5 @@ const PIN_MAX_TRIES = 3;
 const styles = StyleSheet.create({
   progressIndicator: { width: "80%" },
 });
+
+// not the issue, its related to flow of setpin, we have to change it a bit, earlier we were setting pin and then IVR activation was done, but now we shu
