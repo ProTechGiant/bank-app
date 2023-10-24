@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BUNDLE_ID</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<string>$(PARENT_BUNDLE_ID)</string>
 	<key>APP_GROUP</key>
 	<string>group.com.croatia.consumerapp</string>
 	<key>RICH_BASE_URL</key>
