@@ -2510,6 +2510,8 @@
       "maxAttemptsInvalidPasswordReached": "You have reached the maximum number of authentication attempts. Please try again later.",
       "twoAttemptsLeft": "The code has expired. You can request 2 more codes.",
       "oneAttemptLeft": "The code has expired. You can request 1 more code.",
+      "twoExpiredAttemptsLeft": "The code you entered has expired. You can request 2 more codes.",
+      "oneExpiredAttemptLeft": "The code you entered has expired. You can request 1 more code.",
       "noAttemptsLeftTitle": "Try again later",
       "noAttemptsLeftMessage": "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
       "button": "OK",

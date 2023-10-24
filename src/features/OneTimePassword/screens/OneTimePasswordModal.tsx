@@ -39,6 +39,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   const [isBalanceErrorVisible, setIsBalanceErrorVisible] = useState(false);
   const [genericErrorMessage, setGenericErrorMessage] = useState("");
   const [currentValue, setCurrentValue] = useState("");
+  const [expiredErrorMessage, setExpiredErrorMessage] = useState(false);
 
   const isOtpExpired = otpResetCountSeconds <= 0;
   const isReachedMaxAttempts = otpResendsRequested === OTP_MAX_RESENDS && isOtpExpired;
@@ -127,6 +128,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       setIsOtpCodeInvalidErrorVisible(false);
       setOtpResetCountSeconds(OTP_RESET_COUNT_SECONDS);
       setCurrentValue("");
+      setExpiredErrorMessage(false);
     } catch (error) {
       warn("one-time-password", "Could not re-request OTP-code: ", JSON.stringify(error));
       setIsGenericErrorVisible(true);
@@ -205,6 +207,8 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     } catch (error) {
       if (error.errorContent?.Errors[0]?.ErrorId === "0125") {
         handleOnCancel("0125");
+      } else if (error.errorContent?.Errors[0]?.ErrorId === "0102") {
+        setExpiredErrorMessage(true);
       } else {
         setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
@@ -267,8 +271,16 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                       <Alert variant="error" message={t("OneTimePasswordModal.errors.invalidPassword")} />
                     )}
                   </>
+                ) : expiredErrorMessage ? (
+                  <>
+                    {otpResendsRequested === 0 ? (
+                      <Alert variant="error" message={t("OneTimePasswordModal.errors.twoExpiredAttemptsLeft")} />
+                    ) : otpResendsRequested === 1 ? (
+                      <Alert variant="error" message={t("OneTimePasswordModal.errors.oneExpiredAttemptLeft")} />
+                    ) : null}
+                  </>
                 ) : null}
-                {isOtpExpired ? (
+                {!expiredErrorMessage && isOtpExpired ? (
                   <>
                     {otpResendsRequested === 0 ? (
                       <Alert variant="error" message={t("OneTimePasswordModal.errors.twoAttemptsLeft")} />
