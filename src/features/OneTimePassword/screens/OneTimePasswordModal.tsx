@@ -324,11 +324,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         title={t("OneTimePasswordModal.errors.noAttemptsLeftTitle")}
         message={t("OneTimePasswordModal.errors.noAttemptsLeftMessage")}
         isVisible={isReachedMaxAttempts}
-        buttons={{
-          primary: (
-            <Button onPress={handleOnRequestBlockUserErrorClose}>{t("OneTimePasswordModal.errors.button")}</Button>
-          ),
-        }}
+        onClose={handleOnRequestBlockUserErrorClose}
       />
       <NotificationModal
         variant="error"

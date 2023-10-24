@@ -28,34 +28,29 @@ export default function OpenBankingScreen() {
   };
 
   const handleOnConnect = () => {
-    // Create arrays to store selected account IDs and card account numbers
-    const selectedAccountIds = [];
-    const selectedCardNumbers = [];
+    // Create the values object with selected items
+    const selectedAccounts = consentData.Accounts.filter(account => selectedAccountCards[account.Id.toString()]).map(
+      account => ({ Id: account.Id, Type: account.Type })
+    );
 
-    // Iterate over selectedAccountCards to extract the selected items
-    for (const key in selectedAccountCards) {
-      if (selectedAccountCards[key]) {
-        // Check if the item is selected (value is true)
-        if (consentData.Accounts.some(account => account.Id.toString() === key)) {
-          selectedAccountIds.push({ Id: parseInt(key) });
-        }
-        if (consentData.Cards.some(card => card.AccountNumber === key)) {
-          selectedCardNumbers.push({ AccountNumber: key });
-        }
-      }
-    }
+    const selectedCards = consentData.Cards.filter(card => selectedAccountCards[card.AccountNumber.toString()]).map(
+      card => ({ AccountNumber: card.AccountNumber, Type: card.Type })
+    );
 
     const values = {
       ConsentId: consentData.ConsentId,
       DecisionId: 1,
-      Accounts: selectedAccountIds,
-      Cards: selectedCardNumbers,
+      Accounts: selectedAccounts,
+      Cards: selectedCards,
     };
+
     // mocks for testing team
     if (values.Accounts.length === 2) {
       setIsErorrModalOpen(true);
     } else {
-      navigation.navigate("OpenBanking.LinkedSuccessfullyScreen");
+      navigation.navigate("OpenBanking.OpenBankingStack", {
+        screen: "OpenBanking.LinkedSuccessfullyScreen",
+      });
     }
     // TODO handle it when api is ready
   };
