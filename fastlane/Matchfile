@@ -7,11 +7,14 @@ app_identifier([
   # development release
   "com.croatia.consumerapp.test",
   "com.croatia.consumerapp.test.T2NotificationService",
+  # uat release
+  "com.croatia.consumerapp.uat",
+  "com.croatia.consumerapp.uat.T2NotificationService",
   # sit release
   "com.croatia.consumerapp.sit",
   "com.croatia.consumerapp.sit.T2NotificationService"
 ])
-readonly(true)
+readonly(false)
 # username("user@fastlane.tools") # Your Apple Developer Portal username
 
 # For all available options run `fastlane match --help`

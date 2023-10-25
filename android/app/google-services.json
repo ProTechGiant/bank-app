@@ -7,6 +7,150 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:674317362236:android:5995e8a626bb6deda70f39",
+        "android_client_info": {
+          "package_name": "com.croatia.consumerapp.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaqLjTsDDRZ55NlGIkT1mbJX0FNSA5vTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "674317362236-bft2iqdsnf8g8no93jha9jaljlu10p8e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.croatia.consumerapp.dev"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674317362236:android:a18af24176619105a70f39",
+        "android_client_info": {
+          "package_name": "com.croatia.consumerapp.sit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaqLjTsDDRZ55NlGIkT1mbJX0FNSA5vTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "674317362236-bft2iqdsnf8g8no93jha9jaljlu10p8e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.croatia.consumerapp.dev"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674317362236:android:64f5cc1591d007c6a70f39",
+        "android_client_info": {
+          "package_name": "com.croatia.consumerapp.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaqLjTsDDRZ55NlGIkT1mbJX0FNSA5vTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "674317362236-bft2iqdsnf8g8no93jha9jaljlu10p8e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.croatia.consumerapp.dev"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674317362236:android:63c91c2b8b13f135a70f39",
+        "android_client_info": {
+          "package_name": "com.croatia.consumerapp.uat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaqLjTsDDRZ55NlGIkT1mbJX0FNSA5vTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "674317362236-bft2iqdsnf8g8no93jha9jaljlu10p8e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.croatia.consumerapp.dev"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:674317362236:android:2ff29310cec84d60a70f39",
         "android_client_info": {
           "package_name": "com.croatiamobileapp.develop"
@@ -29,6 +173,13 @@
             {
               "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "674317362236-bft2iqdsnf8g8no93jha9jaljlu10p8e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.croatia.consumerapp.dev"
+              }
             }
           ]
         }
@@ -58,6 +209,13 @@
             {
               "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "674317362236-bft2iqdsnf8g8no93jha9jaljlu10p8e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.croatia.consumerapp.dev"
+              }
             }
           ]
         }
@@ -87,6 +245,13 @@
             {
               "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "674317362236-bft2iqdsnf8g8no93jha9jaljlu10p8e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.croatia.consumerapp.dev"
+              }
             }
           ]
         }
