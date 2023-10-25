@@ -30,7 +30,7 @@ interface MutualFundOffersItemProps {
   index: number;
   onToggleExpansion: (value: number) => void;
   isExpanded: boolean;
-  onViewDetailsPress: (value: AssetsAllocation) => void;
+  onViewDetailsPress: (value: string) => void;
   assetsAllocation: AssetsAllocation;
 }
 

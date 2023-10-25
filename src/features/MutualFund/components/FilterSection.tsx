@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, StyleSheet, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -10,9 +10,10 @@ import { useThemeStyles } from "@/theme";
 
 interface FilterSectionProps {
   onFilterChange: (value: string) => void;
+  selectedFilter: string;
 }
 
-export default function FilterSection({ onFilterChange }: FilterSectionProps) {
+export default function FilterSection({ onFilterChange, selectedFilter }: FilterSectionProps) {
   const { t } = useTranslation();
   const riskTypes = [
     t("MutualFund.DiscoverProductsScreen.filterType.all"),
@@ -27,8 +28,37 @@ export default function FilterSection({ onFilterChange }: FilterSectionProps) {
     [t("MutualFund.DiscoverProductsScreen.filterType.medium")]: "M",
     [t("MutualFund.DiscoverProductsScreen.filterType.high")]: "H",
   };
-
+  const riskTypeTranslations = {
+    ["All"]: t("MutualFund.DiscoverProductsScreen.filterType.all"),
+    ["L"]: t("MutualFund.DiscoverProductsScreen.filterType.low"),
+    ["M"]: t("MutualFund.DiscoverProductsScreen.filterType.medium"),
+    ["H"]: t("MutualFund.DiscoverProductsScreen.filterType.high"),
+  };
   const [selectedChips, setSelectedChips] = useState(riskTypes[0]);
+
+  useEffect(() => {
+    const mappedChips = mapSelectedFilterToRiskType(selectedFilter);
+    if (mappedChips !== null) {
+      setSelectedChips(mappedChips);
+    } else {
+      setSelectedChips("All");
+    }
+  }, [selectedFilter]);
+
+  const mapSelectedFilterToRiskType = (value: string) => {
+    switch (value) {
+      case "All":
+        return riskTypeTranslations["All"];
+      case "L":
+        return riskTypeTranslations["L"];
+      case "M":
+        return riskTypeTranslations["M"];
+      case "H":
+        return riskTypeTranslations["H"];
+      default:
+        return null;
+    }
+  };
 
   const handleChipPress = (chipTitle: string) => {
     onFilterChange(riskCode[chipTitle]);

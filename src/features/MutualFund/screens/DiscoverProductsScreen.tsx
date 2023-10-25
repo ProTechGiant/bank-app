@@ -42,7 +42,7 @@ export default function DiscoverProductsScreen() {
   };
 
   const handleGoBackPress = () => {
-    navigation.goBack();
+    setSelectedFilter("All");
   };
 
   const handleOnFilterChange = (filter: string) => {
@@ -76,7 +76,7 @@ export default function DiscoverProductsScreen() {
         }
       />
 
-      <FilterSection onFilterChange={handleOnFilterChange} />
+      <FilterSection selectedFilter={selectedFilter} onFilterChange={handleOnFilterChange} />
 
       <ContentContainer isScrollView>
         {isLoading ? (
