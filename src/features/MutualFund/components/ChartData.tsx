@@ -47,7 +47,7 @@ export default function ChartData({ assets, selected }: ChartDataProps) {
               highlighted={asset.assetName === selected}
             />
             <ChartDataItem
-              assetName={t("MutualFund.MutualFundOrderDetailsScreen.investedAmount")}
+              assetName={t("MutualFund.MutualFundDetailsScreen.AssetAllocation.investmentAmount")}
               assetValue={asset.investmentAmount}
               highlighted={asset.assetName === selected}
             />

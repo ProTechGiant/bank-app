@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { I18nManager, Pressable, StyleSheet, View } from "react-native";
 import { VictoryPie } from "victory-native";
 
 import { Typography } from "@/components";
@@ -20,7 +21,6 @@ interface CustomLabelProps {
 }
 function CustomLabel({ x, y, datum }: CustomLabelProps) {
   let IconComponent;
-  //TODO: until the api is ready
   if (datum.x === "Cash Markets Fund") {
     IconComponent = CashMarketIcon;
   } else if (datum.x === "sharesFund") {
@@ -29,14 +29,36 @@ function CustomLabel({ x, y, datum }: CustomLabelProps) {
     IconComponent = SoukIcon;
   }
 
-  return (
-    <Pressable style={[styles.iconPressable, { left: x, top: y }]} onPress={() => console.log(datum.x)}>
-      <IconComponent />
-    </Pressable>
-  );
+  if (I18nManager.isRTL) {
+    const midpointAngle = (datum.startAngle + datum.endAngle) / 2;
+    const innerRadius = 55;
+    const outerRadius = 100;
+    const centroidRadius = (1 * innerRadius + outerRadius) / 8;
+    const iconX = x - 20 - centroidRadius * Math.cos(midpointAngle * (Math.PI / 180));
+    const iconY = y - centroidRadius * Math.sin(midpointAngle * (Math.PI / 180));
+
+    return (
+      <Pressable
+        style={[
+          styles.iconPressable,
+          { left: iconX, top: iconY, transform: [{ translateX: -12 }, { translateY: -12 }] },
+        ]}
+        onPress={() => console.log(datum.x)}>
+        <IconComponent />
+      </Pressable>
+    );
+  } else {
+    return (
+      <Pressable style={[styles.iconPressable, { left: x, top: y }]} onPress={() => console.log(datum.x)}>
+        <IconComponent />
+      </Pressable>
+    );
+  }
 }
 
 export default function PieChart() {
+  const { t } = useTranslation();
+
   const [selectedSlice, setSelectedSlice] = useState<string | null>(null);
 
   const handlePress = (datum: Datum) => {
@@ -91,7 +113,7 @@ export default function PieChart() {
         <View style={styles.labelView}>
           {/* TODO: this value will be changed when api is ready */}
           <Typography.Text style={styles.captionText} align="center">
-            Assets Allocation
+            {t("MutualFund.MutualFundDetailsScreen.AssetAllocation.title")}
           </Typography.Text>
           <Typography.Text style={styles.amountText} size="footnote" align="center">
             1500 SR

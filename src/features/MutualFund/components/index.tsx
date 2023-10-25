@@ -17,6 +17,8 @@ export { default as MutualFundInvestmentDetails } from "./MutualFundInvestmentDe
 export { default as MutualFundOffersItem } from "./MutualFundOffersItem";
 export { default as MutualFundOrderDetailsTable } from "./MutualFundOrderDetailsTable";
 export { default as MutualFundSubscriptionDetails } from "./MutualFundSubscriptionDetails";
+export { default as MutualFundSubscriptionDetails } from "./MutualFundSubscriptionDetails";
+export { default as MutualFundSubscriptionDetailsTable } from "./MutualFundSubscriptionDetailsTable";
 export { default as OfferInformationItem } from "./OfferInformationItem";
 export { default as PerformanceChart } from "./PerformanceChart";
 export { default as PerformanceChartPointBox } from "./PerformanceChartPointBox";

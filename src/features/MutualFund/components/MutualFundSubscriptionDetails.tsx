@@ -8,7 +8,7 @@ import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
 
 import { SubscriptionDetailsIcon } from "../assets/icons";
-import MutualFundOrderDetailsTable from "./MutualFundOrderDetailsTable";
+import MutualFundSubscriptionDetailsTable from "./MutualFundSubscriptionDetailsTable";
 
 export default function MutualFundSubscriptionDetails() {
   const { t } = useTranslation();
@@ -49,7 +49,7 @@ export default function MutualFundSubscriptionDetails() {
         </Stack>
       </Stack>
       <Animated.View style={animatedSubscriptionDetailsStyle}>
-        <MutualFundOrderDetailsTable hasHeader={false} />
+        <MutualFundSubscriptionDetailsTable />
       </Animated.View>
     </Pressable>
   );

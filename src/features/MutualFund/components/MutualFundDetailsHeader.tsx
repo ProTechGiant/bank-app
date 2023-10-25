@@ -27,7 +27,7 @@ export default function MutualFundDetailsHeader() {
           <Typography.Text color="supportBase-30" size="title3" weight="medium">
             Al Rajhi Conservative Fund
           </Typography.Text>
-          <Tags riskName="High Risk" />
+          <Tags riskName={t("MutualFund.MutualFundDetailsScreen.highRisk")} />
         </Stack>
         <Stack direction="vertical" gap="4p">
           <Stack direction="horizontal" gap="4p">

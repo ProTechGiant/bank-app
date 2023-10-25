@@ -1,5 +1,5 @@
 import Slider from "@react-native-community/slider";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TextInput, TextStyle, View, ViewStyle } from "react-native";
 
@@ -19,8 +19,15 @@ export default function SliderProgressBar({ productId }: SliderProgressBarProps)
   const { t } = useTranslation();
   const { data: performanceLastYears } = usePerformanceLast3Years(productId);
 
-  const [sliderValue, setSliderValue] = useState(500);
+  const [sliderValue, setSliderValue] = useState(0);
   const [textInputValue, setTextInputValue] = useState("500");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSliderValue(500);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSliderChange = (value: number) => {
     setSliderValue(value);
@@ -28,7 +35,7 @@ export default function SliderProgressBar({ productId }: SliderProgressBarProps)
   };
 
   const handleTextInputChange = (value: string) => {
-    setSliderValue(parseFloat(value));
+    setSliderValue(value === "" ? 0 : parseFloat(value));
     setTextInputValue(value);
   };
 

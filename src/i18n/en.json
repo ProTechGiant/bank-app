@@ -325,7 +325,7 @@
       }
     },
     "VerifyingInformation": {
-      "spotIllustration":"Spot illustration here",
+      "spotIllustration": "Spot illustration here",
       "title": "Verifying information",
       "description": "Your documents are now being reviewed and verified this could take up to 5 business days.\n\nWe will notify you once this process is done."
     }
@@ -1249,10 +1249,10 @@
       },
       "Transactions": {
         "title": "Latest Transactions",
-        "seeAll":"See All"
+        "seeAll": "See All"
       },
       "Accounts": {
-        "balance":"Balance",
+        "balance": "Balance",
         "SAR": "SAR"
       },
       "Cards": {
@@ -2190,12 +2190,12 @@
       "title": "Apple Pay activated",
       "button": "Finish"
     },
-    "CardToWalletScreen":{
+    "CardToWalletScreen": {
       "title": "Add card to wallet",
       "subtitle": "You can use your new card details straight away to buy online or pay with your phone using mada Pay.",
       "continueButtonText": "Continue"
     },
-    "CardToWalletSuccessScreen":{
+    "CardToWalletSuccessScreen": {
       "title": "Your card’s added to your Apple Wallet",
       "subtitle": "Now you can use your phone to pay instead of your card.",
       "okButtonText": "OK"
@@ -3771,7 +3771,7 @@
     },
     "MutualFundDetailsScreen": {
       "ProgressBar": {
-        "titleText": "Estimated potential returns based on historical data and market conditions. Add an investment amount below andview expected calculation",
+        "titleText": "Estimated potential returns based on historical data and market conditions. Add an investment amount below and view expected calculation",
         "investmentAmount": "Investment Amount",
         "currency": "SAR"
       },
@@ -3790,6 +3790,7 @@
       "sar": "{{value}} SAR",
       "date": "Date",
       "value": "Value",
+      "highRisk": "High Risk",
       "InvestmentDetails": {
         "title": "Investment Details",
         "units": "Units",
@@ -3803,6 +3804,15 @@
         "sokuk": "Sokuk",
         "sharesFund": "Shares Fund",
         "cashMarketsFund": "Cash Markets Fund"
+      },
+      "subscriptionDetails": {
+        "subscriptionFee": "Subscription Fee",
+        "minimumsubscription": "Minimum subscription",
+        "minimumAdditionalSubscription": "Minimum additional subscription",
+        "category": "Category",
+        "dividend": "Dividend",
+        "frequency": "Frequency",
+        "strategy": "Strategy"
       },
       "view": "View ",
       "TermsAndConditions": "Terms & Conditions",

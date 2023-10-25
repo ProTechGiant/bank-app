@@ -3653,6 +3653,7 @@
       "sar": "{{value}}  ريال سعودي",
       "date": "التاريخ",
       "value": "القيمة",
+      "highRisk": "مخاطرة مرتفعة",
       "InvestmentDetails": {
         "title": "تفاصيل الاستثمار",
         "units": "الوحدة",
@@ -3666,6 +3667,15 @@
         "sokuk": "صكوك",
         "sharesFund": "صندوق الأسهم",
         "cashMarketsFund": "صندوق أسواق النقد"
+      },
+      "subscriptionDetails": {
+        "subscriptionFee": "رسوم الاشتراك",
+        "minimumsubscription": "الحد الادنى للاشتراك",
+        "minimumAdditionalSubscription": "الاشتراك الاضافي الادنى",
+        "category": "الفئة",
+        "dividend": "توزيع الأرباح",
+        "frequency": "التكرار",
+        "strategy": "الاستراتيجية"
       },
       "view": "عرض  ",
       "TermsAndConditions": "الشروط والاحكام",
