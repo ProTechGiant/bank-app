@@ -12,7 +12,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { SettingIcon } from "../assets/icons";
-import { ActivateCard, Benefits, Rewards, UpgradeToNeraPlusCard } from "../components";
+import { ActivateCard, Benefits, Rewards } from "../components";
 import AllInCardPlaceholder from "../components/AllInCardPlaceholder";
 import TransactionSection from "../components/TransactionSection";
 import { TransactionItem } from "../types";
@@ -108,7 +108,8 @@ export default function DashboardScreen() {
             onPressSeeMore={handleTransactionSeeMore}
             transactions={transactions as TransactionItem[]}
           />
-          <UpgradeToNeraPlusCard />
+          {/* TODO : will be shown as per condition when api is available  */}
+          {/* <UpgradeToNeraPlusCard /> */}
         </View>
       </ScrollView>
       {showCardActivation ? (

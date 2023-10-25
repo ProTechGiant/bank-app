@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { setAuthenticationHeaders } from "@/api/send-api-request";
 import { USER_ID } from "@/constants";
-import { USER_WITH_ALL_IN_CARD, USER_WITH_IN_ACTIVE_ALL_IN_CARD } from "@/features/AllInOneCard/mocks";
+import { USER_WITH_ALL_IN_CARD, USER_WITH_INACTIVE_ALL_IN_CARD } from "@/features/AllInOneCard/mocks";
 import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 interface NavigationTargetType {
@@ -175,7 +175,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
 
   //TODO : only mocking at the moment . will be removed when we have actual way for checking if user have card or not
   const checkCardStatus = (userId: string): "active" | "inActive" | "none" => {
-    if (userId === USER_WITH_IN_ACTIVE_ALL_IN_CARD) {
+    if (userId === USER_WITH_INACTIVE_ALL_IN_CARD) {
       return "inActive";
     } else if (userId === USER_WITH_ALL_IN_CARD) {
       return "active";
