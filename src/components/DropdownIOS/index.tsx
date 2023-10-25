@@ -67,9 +67,14 @@ export default function DropdownIOS<T extends string | number>({
   }));
 
   return (
-    <Modal onClose={handleOnClose} headerText={headerText} visible={isVisible} hasHeaderDivider>
+    <Modal
+      onClose={handleOnClose}
+      headerText={headerText}
+      visible={isVisible}
+      hasHeaderDivider
+      testID={testID !== undefined ? `${testID}-Modal` : undefined}>
       {isFixedHeight ? (
-        <DropdownInputList options={options} onChange={handleOnChange} value={selectedValue} />
+        <DropdownInputList options={options} onChange={handleOnChange} value={selectedValue} testID={testID} />
       ) : (
         <Picker onValueChange={handleOnChange} itemStyle={styles.item} selectedValue={selectedValue} testID={testID}>
           {options.map(option => (
@@ -78,12 +83,16 @@ export default function DropdownIOS<T extends string | number>({
               label={option.label}
               value={option.value}
               style={option.disabled && styles.itemDisabled}
+              testID={testID !== undefined ? `${testID}-${option.value}` : undefined}
             />
           ))}
         </Picker>
       )}
       <View style={buttonContainer}>
-        <Button onPress={handleOnConfirm} disabled={selectedValue === undefined}>
+        <Button
+          onPress={handleOnConfirm}
+          disabled={selectedValue === undefined}
+          testID={testID !== undefined ? `${testID}-ConfirmButton` : undefined}>
           {buttonLabel}
         </Button>
       </View>

@@ -100,6 +100,7 @@ export default function MobileAndNationalIdForm({
                 name="MobileNumber"
                 label={t("SignIn.IqamaInputScreen.mobileLabel")}
                 placeholder={t("SignIn.IqamaInputScreen.mobilePlaceholder")}
+                testID="SignIn.IqamaInputScreen:PhoneNumberInput"
               />
               <TextInput
                 control={control}
@@ -109,6 +110,7 @@ export default function MobileAndNationalIdForm({
                 keyboardType="number-pad"
                 maxLength={TOTAL_NATIONAL_ID_LENGTH}
                 showCharacterCount
+                testID="SignIn.IqamaInputScreen:NationalIdInput"
               />
               {notMatchRecord ? (
                 <Stack style={warningStyle} direction="horizontal" gap="12p">
@@ -142,7 +144,11 @@ export default function MobileAndNationalIdForm({
         )}
       </ContentContainer>
       <View style={submitButtonView}>
-        <SubmitButton block control={control} onSubmit={handleSubmit(onSubmit)}>
+        <SubmitButton
+          block
+          control={control}
+          onSubmit={handleSubmit(onSubmit)}
+          testID="SignIn.IqamaInputScreen:ContinueButton">
           {buttonText}
         </SubmitButton>
       </View>

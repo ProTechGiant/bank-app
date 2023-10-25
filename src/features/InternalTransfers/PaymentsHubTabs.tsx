@@ -4,7 +4,6 @@ import { ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { AccountBalanceWalletIcon, ContactSupportIcon, HomeIcon } from "@/assets/icons";
-import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import HelpAndSupportStack from "../HelpAndSupport/HelpAndSupportStack";
@@ -13,7 +12,7 @@ import { PaymentsHubScreen } from "./screens";
 const Tab = createBottomTabNavigator();
 
 function MockHomeComponent() {
-  return <Typography.Text>Home</Typography.Text>;
+  return <></>;
 }
 
 const icons = {

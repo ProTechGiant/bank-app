@@ -154,13 +154,13 @@ export default function PaymentsHubScreen() {
           entryPoint="payment-hub"
           testID="InternalTransfers.PaymentsHubScreen:SelectTransferTypeModal"
         />
-        {isSelectInternalTransferTypeVisible ? (
-          <InternalTransferTypeModal
-            onClose={() => setIsSelectInternalTransferTypeVisible(false)}
-            onCroatiaPress={handleOnCroatiaTransferPress}
-            onAlrajhiPress={handleOnAlrajhiTransferPress}
-          />
-        ) : null}
+        <InternalTransferTypeModal
+          isVisible={isSelectInternalTransferTypeVisible}
+          onClose={() => setIsSelectInternalTransferTypeVisible(false)}
+          onCroatiaPress={handleOnCroatiaTransferPress}
+          onAlrajhiPress={handleOnAlrajhiTransferPress}
+          testID="InternalTransfers.PaymentsHubScreen:InternalTransferTypeModal"
+        />
         <NotificationModal
           variant="error"
           title={t("errors.generic.title")}

@@ -9,6 +9,7 @@ interface InternalTransferTypeModalProps {
   onClose: () => void;
   onCroatiaPress: () => void;
   onAlrajhiPress: () => void;
+  isVisible: boolean;
   testID?: string;
 }
 
@@ -16,6 +17,7 @@ export default function InternalTransferTypeModal({
   onClose,
   onCroatiaPress,
   onAlrajhiPress,
+  isVisible,
   testID,
 }: InternalTransferTypeModalProps) {
   const { t } = useTranslation();
@@ -24,7 +26,7 @@ export default function InternalTransferTypeModal({
     <Modal
       onClose={onClose}
       headerText={t("InternalTransfers.SelectTransferTypeModal.selectTransferType")}
-      visible
+      visible={isVisible}
       testID={testID}>
       <Stack direction="vertical" gap="32p" align="stretch">
         <TransferOption

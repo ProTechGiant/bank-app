@@ -133,7 +133,12 @@ export default function EnterBeneficiaryDetailsScreen() {
           {
             title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.mobile"),
             form: (
-              <EnterBeneficiaryByMobileForm selectionType="mobileNo" ref={mobileFormRef} onSubmit={handleOnSubmit} />
+              <EnterBeneficiaryByMobileForm
+                selectionType="mobileNo"
+                ref={mobileFormRef}
+                onSubmit={handleOnSubmit}
+                testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByMobileForm"
+              />
             ),
           },
         ]
@@ -145,12 +150,20 @@ export default function EnterBeneficiaryDetailsScreen() {
           selectionType="accountId"
           ref={accountNumberFormRef}
           onSubmit={handleOnSubmit}
+          testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByAccountNumberForm"
         />
       ),
     },
     {
       title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.iban"),
-      form: <EnterBeneficiaryByIBANForm selectionType="IBAN" ref={ibanFormRef} onSubmit={handleOnSubmit} />,
+      form: (
+        <EnterBeneficiaryByIBANForm
+          selectionType="IBAN"
+          ref={ibanFormRef}
+          onSubmit={handleOnSubmit}
+          testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByIBANForm"
+        />
+      ),
     },
   ];
 
@@ -194,7 +207,7 @@ export default function EnterBeneficiaryDetailsScreen() {
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader withBackButton />
+        <NavHeader withBackButton testID="InternalTransfers.EnterBeneficiaryDetailsScreen:NavHeader" />
         <ContentContainer isScrollView style={styles.flex}>
           <Stack direction="vertical" gap="24p" align="stretch">
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
@@ -203,6 +216,7 @@ export default function EnterBeneficiaryDetailsScreen() {
             <Stack direction="horizontal" gap="8p">
               {options.map((element, index) => (
                 <Pill
+                  testID={`InternalTransfers.EnterBeneficiaryDetailsScreen:TransferMethodPill-${element.title}`}
                   key={index}
                   isActive={index === activePillIndex}
                   onPress={() => {
@@ -229,6 +243,7 @@ export default function EnterBeneficiaryDetailsScreen() {
             isVisible={isErrorMessageModalVisible}
             variant="error"
             onClose={() => handleOnErrorMessagedModalClose()}
+            testID={`InternalTransfers.EnterBeneficiaryDetailsScreen:ValidationErrorModal-${i18nKey}`}
           />
           <NotificationModal
             title={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.title`)}
@@ -236,6 +251,7 @@ export default function EnterBeneficiaryDetailsScreen() {
             isVisible={isInUseErrorModalVisible}
             variant="warning"
             onClose={() => handleOnInUseErrorModalClose()}
+            testID={`InternalTransfers.EnterBeneficiaryDetailsScreen:ValidationWarningModal-${i18nKey}`}
           />
         </>
       ) : null}
@@ -245,11 +261,13 @@ export default function EnterBeneficiaryDetailsScreen() {
         isVisible={isGenericErrorModalVisible}
         variant="error"
         onClose={() => handleOnGenericErrorClose()}
+        testID="InternalTransfers.EnterBeneficiaryDetailsScreen:GenericErrorModal"
       />
       <SwitchToARBModal
         isVisible={isSwitchToARBModalVisible}
         onSwitchToARBPress={handleOnSwitchToARB}
         onCancelPress={handleOnCancel}
+        testID="InternalTransfers.EnterBeneficiaryDetailsScreen:SwitchToARBModal"
       />
     </SafeAreaProvider>
   );

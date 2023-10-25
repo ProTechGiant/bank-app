@@ -20,9 +20,15 @@ interface DropdownInputListProps<T extends string | number> {
   options: { icon?: React.ReactElement<SvgProps | IconProps>; label: string; value: T; disabled?: boolean }[];
   onChange: (value: T) => void;
   value: T | undefined;
+  testID?: string;
 }
 
-export function DropdownInputList<T extends string | number>({ options, onChange, value }: DropdownInputListProps<T>) {
+export function DropdownInputList<T extends string | number>({
+  options,
+  onChange,
+  value,
+  testID,
+}: DropdownInputListProps<T>) {
   const { height } = useWindowDimensions();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -34,7 +40,10 @@ export function DropdownInputList<T extends string | number>({ options, onChange
 
   const renderItem: ListRenderItem<(typeof options)[number]> = useCallback(
     ({ item }) => (
-      <Pressable disabled={item.disabled} onPress={() => onChange(item.value)}>
+      <Pressable
+        disabled={item.disabled}
+        onPress={() => onChange(item.value)}
+        testID={testID !== undefined ? `${testID}-${item.value}` : undefined}>
         <View style={[containerStyle, item.disabled && styles.itemDisabled]}>
           {item.icon}
           <Typography.Text color="neutralBase+30" size="callout" weight="regular" style={styles.text}>
@@ -56,6 +65,7 @@ export function DropdownInputList<T extends string | number>({ options, onChange
       keyExtractor={option => option.value.toString()}
       renderItem={renderItem}
       getItemLayout={(_data, index) => ({ length: 68, offset: 68 * index, index })}
+      testID={testID}
     />
   );
 }

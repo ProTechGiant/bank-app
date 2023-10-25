@@ -7,11 +7,12 @@ interface TransferOptionProps {
   onPress: () => void;
   title: string;
   helperText: string;
+  testID?: string;
 }
 
-export default function TransferOption({ onPress, title, helperText }: TransferOptionProps) {
+export default function TransferOption({ onPress, title, helperText, testID }: TransferOptionProps) {
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} testID={testID}>
       <Stack direction="vertical" gap="4p">
         <Typography.Text size="callout" weight="medium" color="neutralBase+30">
           {title}

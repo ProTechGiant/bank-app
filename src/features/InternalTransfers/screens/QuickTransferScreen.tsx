@@ -6,11 +6,10 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
-import { TransferErrorBox } from "@/components";
+import { RightIconLink, TransferErrorBox } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
-import RightIconLink from "@/components/Link/RightIconLink";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -133,7 +132,10 @@ export default function QuickTransferScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader title={t("InternalTransfers.StandardTransferScreen.navTitle")} />
+        <NavHeader
+          title={t("InternalTransfers.StandardTransferScreen.navTitle")}
+          testID="InternalTransfers.QuickTransferScreen:NavHeader"
+        />
         {undefined !== currentBalance ? (
           <ContentContainer isScrollView>
             <View style={styles.container}>
@@ -141,7 +143,11 @@ export default function QuickTransferScreen() {
                 {t("InternalTransfers.QuickTransferScreen.title")}
               </Typography.Text>
               <View style={limitsContainerStyle}>
-                <RightIconLink onPress={handleOnTransferLimitsPress} icon={<InfoCircleIcon />} textSize="footnote">
+                <RightIconLink
+                  onPress={handleOnTransferLimitsPress}
+                  icon={<InfoCircleIcon />}
+                  textSize="footnote"
+                  testID="InternalTransfers.QuickTransferScreen:TransferLimitsButton">
                   {t("InternalTransfers.QuickTransferScreen.transferLimits")}
                 </RightIconLink>
               </View>
@@ -153,9 +159,11 @@ export default function QuickTransferScreen() {
                   isError={amountExceedsLimit || amountExceedsBalance}
                   maxLength={10}
                   name="PaymentAmount"
+                  testID="InternalTransfers.QuickTransferScreen:TransferAmountInput"
                 />
                 {dailyLimitAsync.data?.IsLimitExceeded ? (
                   <TransferErrorBox
+                    testID="InternalTransfers.QuickTransferScreen:LimitExceededErrorBox"
                     textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsDailyLimit", {
                       limit: dailyLimitAsync.data?.DailyLimit,
                       amount: dailyLimitAsync.data?.ExceededAmount,
@@ -163,12 +171,14 @@ export default function QuickTransferScreen() {
                   />
                 ) : amountExceedsBalance ? (
                   <TransferErrorBox
+                    testID="InternalTransfers.QuickTransferScreen:BalanceExceededErrorBox"
                     onPress={handleOnAddFundsPress}
                     textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsBalance")}
                     textEnd={t("InternalTransfers.QuickTransferScreen.addFunds")}
                   />
                 ) : amountExceedsLimit ? (
                   <TransferLimitError
+                    testID="InternalTransfers.QuickTransferScreen:AmountExceededErrorBox"
                     textStart={t("InternalTransfers.InternalTransferScreen.amountExceedsLimit")}
                     textEnd={t("InternalTransfers.InternalTransferScreen.upgradeYourTierPlus")}
                     // TODO: onPress navigate to screen where signature card can be upgraded (PC-14917, AC-3)
@@ -179,10 +189,12 @@ export default function QuickTransferScreen() {
                   reasons={reasons.data?.TransferReason ?? []}
                   control={control}
                   name="ReasonCode"
+                  testID="InternalTransfers.QuickTransferScreen:TransferReasonInput"
                 />
               </View>
             </View>
             <Button
+              testID="InternalTransfers.QuickTransferScreen:ContinueButton"
               disabled={amountExceedsBalance || amountExceedsLimit || currentAmount < 0.01 || amountExceedsLimit}
               onPress={handleSubmit(handleOnContinue)}>
               {t("InternalTransfers.QuickTransferScreen.continueButton")}

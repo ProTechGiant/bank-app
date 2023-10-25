@@ -81,7 +81,7 @@ export function DropdownInput<T extends string | number>({
             onPress={() => handleOnOpen()}
             gap="8p"
             direction="vertical"
-            testID={testID !== undefined ? `${testID}:InputBox` : undefined}>
+            testID={testID !== undefined ? `${testID}-InputBox` : undefined}>
             {variant === "small" ? (
               <Typography.Text color="neutralBase+30" size="callout" weight="medium">
                 {label}
@@ -109,7 +109,7 @@ export function DropdownInput<T extends string | number>({
             isFixedHeight={isFixedHeight}
             isVisible={isVisible}
             value={value}
-            testID={testID !== undefined ? `${testID}:DropdownInput` : undefined}
+            testID={testID !== undefined ? `${testID}-DropdownInput` : undefined}
           />
         </>
       ) : (
@@ -120,7 +120,7 @@ export function DropdownInput<T extends string | number>({
               onValueChange={handleOnChange}
               style={styles.pickerAndroid}
               selectedValue={value}
-              testID={testID !== undefined ? `${testID}:DropdownInput` : undefined}>
+              testID={testID !== undefined ? `${testID}-DropdownInput` : undefined}>
               <Picker.Item enabled={false} label={placeholder} style={pickerAndroidPromptStyle} />
               {options.map(option => (
                 <Picker.Item
@@ -129,6 +129,7 @@ export function DropdownInput<T extends string | number>({
                   value={option.value}
                   enabled={!option.disabled}
                   style={pickerAndroidItemStyle}
+                  testID={testID !== undefined ? `${testID}-${option.value}` : undefined}
                 />
               ))}
             </Picker>
@@ -140,7 +141,7 @@ export function DropdownInput<T extends string | number>({
                 setIsVisible(true);
                 pickerRef.current?.focus();
               }}
-              testID={testID !== undefined ? `${testID}:InputBox` : undefined}>
+              testID={testID !== undefined ? `${testID}-InputBox` : undefined}>
               {variant === "small" ? (
                 <Typography.Text color="neutralBase+30" size="callout" weight="medium">
                   {label}

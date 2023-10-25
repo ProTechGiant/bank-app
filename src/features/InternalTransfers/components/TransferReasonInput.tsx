@@ -109,6 +109,7 @@ export default function TransferReasonInput<T extends FieldValues>({
   ) : (
     <View>
       <Picker
+        testID={testID !== undefined ? `${testID}-Dropdown` : undefined}
         ref={pickerRef}
         onValueChange={value => {
           if (!isVisible) return;
@@ -126,7 +127,13 @@ export default function TransferReasonInput<T extends FieldValues>({
           style={pickerAndroidPromptStyle}
         />
         {options.map(option => (
-          <Picker.Item key={option.value} label={option.label} value={option.value} style={pickerAndroidItemStyle} />
+          <Picker.Item
+            testID={testID !== undefined ? `${testID}-${option.value}` : undefined}
+            key={option.value}
+            label={option.label}
+            value={option.value}
+            style={pickerAndroidItemStyle}
+          />
         ))}
       </Picker>
       <Stack

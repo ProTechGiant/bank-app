@@ -297,6 +297,7 @@ export default function ConfirmNewBeneficiaryScreen() {
         buttons={{
           primary: <Button onPress={errorModalDismiss}>{t("errors.generic.button")}</Button>,
         }}
+        testID="InternalTransfers.ConfirmNewBeneficiaryScreen:ConfirmBeneficiaryErrorModal"
       />
       <NotificationModal
         variant="error"
@@ -311,6 +312,7 @@ export default function ConfirmNewBeneficiaryScreen() {
             </Button>
           ),
         }}
+        testID="InternalTransfers.ConfirmNewBeneficiaryScreen:FocalBeneficiaryErrorModal"
       />
     </>
   );

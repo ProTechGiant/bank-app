@@ -5,6 +5,7 @@ export { default as LargeCurrencyInput } from "./LargeCurrencyInput";
 export { default as IconLink } from "./Link/IconLink";
 export { default as Link } from "./Link/Link";
 export { default as LinkList } from "./Link/LinkList";
+export { default as RightIconLink } from "./Link/RightIconLink";
 export { default as Modal } from "./Modal";
 export { default as ProgressIndicator } from "./ProgressIndicator";
 export { default as RefreshSection } from "./RefreshSection";

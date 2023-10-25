@@ -12,7 +12,7 @@ import { saudiPhoneRegExp } from "@/utils";
 import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
 
 export default forwardRef(function EnterBeneficiaryByMobileForm(
-  { selectionType, onSubmit }: EnterBeneficiaryFormProps,
+  { selectionType, onSubmit, testID }: EnterBeneficiaryFormProps,
   ref: ForwardedRef<AddBeneficiaryFormForwardRef>
 ) {
   const { t } = useTranslation();
@@ -54,9 +54,13 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
           control={control}
           name="SelectionValue"
           label={t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.placeholder")}
+          testID={testID !== undefined ? `${testID}-PhoneNumberInput` : undefined}
         />
         <View style={styles.buttonContainer}>
-          <SubmitButton control={control} onSubmit={handleSubmit(onSubmit)}>
+          <SubmitButton
+            control={control}
+            onSubmit={handleSubmit(onSubmit)}
+            testID={testID !== undefined ? `${testID}-ContinueButton` : undefined}>
             {t("InternalTransfers.EnterBeneficiaryDetailsScreen.continueButton")}
           </SubmitButton>
         </View>

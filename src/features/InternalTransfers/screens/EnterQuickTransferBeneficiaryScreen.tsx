@@ -242,7 +242,10 @@ export default function EnterQuickTransferBeneficiaryScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader title={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.navTitle")} />
+        <NavHeader
+          title={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.navTitle")}
+          testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:NavHeader"
+        />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.keyboard}>
           <ContentContainer isScrollView keyboardShouldPersistTaps="always" style={styles.container}>
             <Stack align="stretch" direction="vertical" gap="20p" style={formContainerStyle}>
@@ -258,6 +261,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                 headerText={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.beneficiaryBankHeaderText")}
                 options={bankOptions}
                 label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.beneficiaryBankLabel")}
+                testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:BeneficiaryBankDropdown"
               />
               <Typography.Text color="neutralBase+30" size="title3" weight="medium">
                 {t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.transferBy")}
@@ -265,6 +269,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
               <Stack direction="horizontal" gap="8p">
                 {identifiers.map(element => (
                   <Pill
+                    testID={`InternalTransfers.EnterQuickTransferBeneficiaryScreen:TransferMethodPill-${element.value}`}
                     key={element.value}
                     isActive={transferMethod === element.value}
                     onPress={() => setValue("transferMethod", element.value, { shouldValidate: true })}>
@@ -277,6 +282,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                   control={control}
                   label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.mobile.label")}
                   name="phoneNumber"
+                  testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:PhoneNumberInput"
                 />
               ) : transferMethod === "email" ? (
                 <TextInput
@@ -286,6 +292,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                   label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.email.label")}
                   name="email"
                   placeholder={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.email.placeholder")}
+                  testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:EmailInput"
                 />
               ) : transferMethod === "nationalId" ? (
                 <MaskedTextInput
@@ -294,6 +301,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                   keyboardType="number-pad"
                   mask={Masks.NATIONAL_ID}
                   name="identifier"
+                  testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:NationalIDInput"
                 />
               ) : (
                 <Stack align="stretch" direction="vertical" gap="20p">
@@ -302,6 +310,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                     label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.iban.fullNameLabel")}
                     name="name"
                     placeholder={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.iban.fullNamePlacholder")}
+                    testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:FullNameInput"
                   />
                   <MaskedTextInput
                     autoCapitalize="characters"
@@ -309,11 +318,15 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                     label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.iban.ibanLabel")}
                     name="iban"
                     mask={Masks.IBAN}
+                    testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:IBANInput"
                   />
                 </Stack>
               )}
             </Stack>
-            <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+            <SubmitButton
+              control={control}
+              onSubmit={handleSubmit(handleOnSubmit)}
+              testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:ContinueButton">
               {t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.continue")}
             </SubmitButton>
           </ContentContainer>
@@ -328,6 +341,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
         title={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.beneficiaryBanksError.title")}
         isVisible={isBanksLoadingErrorVisible}
         variant="error"
+        testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:BeneficiaryBanksErrorModal"
       />
       {bankCode !== undefined ? (
         <NotificationModal
@@ -338,6 +352,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
           title={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.quickTransfersUnsupportedError.title")}
           isVisible={isNotSupportingQuickTransferErrorVisible}
           variant="error"
+          testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:QuickTransfersUnsupportedErrorModal"
           buttons={{
             primary: (
               <Button
@@ -368,6 +383,7 @@ export default function EnterQuickTransferBeneficiaryScreen() {
         title={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.validationError.title")}
         isVisible={isQuickTransferErrorVisible}
         variant="error"
+        testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:ValidationErrorModal"
       />
       {undefined !== i18nKey ? (
         <NotificationModal
@@ -380,12 +396,14 @@ export default function EnterQuickTransferBeneficiaryScreen() {
           title={t(`InternalTransfers.EnterQuickTransferBeneficiaryScreen.${i18nKey}.error.title`)}
           isVisible={isQuickTransferValidationErrorVisible}
           variant="error"
+          testID={`InternalTransfers.EnterQuickTransferBeneficiaryScreen:ValidationErrorModal-${i18nKey}`}
         />
       ) : null}
       <SwitchToARBModal
         isVisible={isSwitchToARBModalVisible}
         onSwitchToARBPress={handleOnSwitchToARB}
         onCancelPress={handleOnCancel}
+        testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:SwitchToARBModal"
       />
     </>
   );

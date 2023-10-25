@@ -6,11 +6,10 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
 import { CalendarAltIcon, InfoCircleIcon, InfoFilledCircleIcon } from "@/assets/icons";
-import { TransferErrorBox } from "@/components";
+import { RightIconLink, TransferErrorBox } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
-import RightIconLink from "@/components/Link/RightIconLink";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -202,6 +201,7 @@ export default function StandardTransferScreen() {
                   reasons={reasons.data?.TransferReason ?? []}
                   control={control}
                   name="ReasonCode"
+                  testID="InternalTransfers.StandardTransferScreen:TransferReasonInput"
                 />
                 <WarningBanner
                   icon={<InfoFilledCircleIcon />}

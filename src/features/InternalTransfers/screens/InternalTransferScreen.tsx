@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
-import { IconLink, TransferErrorBox } from "@/components";
+import { RightIconLink, TransferErrorBox } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
@@ -108,7 +108,10 @@ export default function InternalTransferScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader title={t("InternalTransfers.InternalTransferScreen.title")} />
+        <NavHeader
+          title={t("InternalTransfers.InternalTransferScreen.title")}
+          testID="InternalTransfers.InternalTransferScreen:NavHeader"
+        />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.container}>
           <ContentContainer isScrollView>
             <View style={styles.container}>
@@ -117,9 +120,13 @@ export default function InternalTransferScreen() {
               </Typography.Text>
               {transferType === TransferType.CroatiaToArbTransferAction ? (
                 <View style={transferLimitContainerStyle}>
-                  <IconLink onPress={handleOnTransferLimitsPress} icon={<InfoCircleIcon />} textSize="footnote">
+                  <RightIconLink
+                    onPress={handleOnTransferLimitsPress}
+                    icon={<InfoCircleIcon />}
+                    textSize="footnote"
+                    testID="InternalTransfers.InternalTransferScreen:TransferLimitsButton">
                     {t("InternalTransfers.InternalTransferScreen.transferLimit")}
-                  </IconLink>
+                  </RightIconLink>
                 </View>
               ) : null}
               <View style={amountContainerStyle}>
@@ -130,15 +137,18 @@ export default function InternalTransferScreen() {
                   isError={amountExceedsBalance || amountExceedsLimit}
                   maxLength={10}
                   name="PaymentAmount"
+                  testID="InternalTransfers.InternalTransferScreen:TransferAmountInput"
                 />
                 {amountExceedsBalance ? (
                   <TransferErrorBox
+                    testID="InternalTransfers.InternalTransferScreen:BalanceExceededErrorBox"
                     onPress={handleOnAddFundsPress}
                     textStart={t("InternalTransfers.InternalTransferScreen.amountExceedsBalance")}
                     textEnd={t("InternalTransfers.InternalTransferScreen.addFunds")}
                   />
                 ) : amountExceedsLimit ? (
                   <TransferLimitError
+                    testID="InternalTransfers.InternalTransferScreen:AmountExceededErrorBox"
                     textStart={t("InternalTransfers.InternalTransferScreen.amountExceedsLimit")}
                     textEnd={t("InternalTransfers.InternalTransferScreen.upgradeYourTierPlus")}
                     // TODO: onPress navigate to screen where signature card can be upgraded (PC-14917, AC-3)
@@ -149,10 +159,12 @@ export default function InternalTransferScreen() {
                   reasons={reasons.data?.TransferReason ?? []}
                   control={control}
                   name="ReasonCode"
+                  testID="InternalTransfers.InternalTransferScreen:TransferReasonInput"
                 />
               </View>
             </View>
             <Button
+              testID="InternalTransfers.InternalTransferScreen:ContinueButton"
               //isReasonAvailable remove to make default selection to reasons.
               disabled={amountExceedsBalance || currentAmount < MINIMAL_AMOUNT || amountExceedsLimit}
               onPress={handleSubmit(handleOnNextPress)}>
