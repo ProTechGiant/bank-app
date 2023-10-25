@@ -95,7 +95,8 @@
       "buttonText": "Upload Now",
       "verificationFailed": "Document Verification Failed",
       "reUploadDoc": "You can still re-upload your documents and verify them again within 5 business days",
-      "reUploadButtonTitle": "Re-Upload"
+      "reUploadButtonTitle": "Re-Upload",
+      "description": "Document description"
     },
     "UploadDocumentScreen": {
       "title": "Documents Upload",
@@ -103,7 +104,26 @@
       "buttonText": "Submit Documents",
       "todo": "To do",
       "done": "Done",
-      "failed": "Failed"
+      "failed": "Failed",
+      "previewDocument": "Document preview",
+      "cancel": "Cancel",
+      "selectDocument": "Select Document",
+      "takePhoto": "Take Photo",
+      "fileErrorTitle": "File Format Error",
+      "fileErrorMessage": "The selected file format is not supported. Please upload a file in one of the following formats: .pdf, .jpg, or .png and should not exceed a maximum size of 5 MB.",
+      "chooseFromLibrary": "Choose from Library...",
+      "InfoModal": {
+        "title": "Document Info",
+        "description": "All uploaded documents must be in PDF format with a maximum size of 5 mb.\n\nDocument issue date must be at least 5 working days. \n\nAll documents will be subjected to validation."
+      },
+      "havingTrouble": "Having trouble obtaining a certain document?",
+      "suggestion": "If you have any trouble obtaining a document of any issue with upload.Please ",
+      "contactService": "contact customer service"
+    },
+    "UploadDocumentCardList": {
+      "InfoModal": {
+        "title": "Document Description"
+      }
     },
     "WelcomeCarousel": {
       "titleOne": "Welcome\nto Croatia",

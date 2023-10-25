@@ -10,6 +10,7 @@ export { default as IqamaInputScreen } from "./IqamaInputScreen";
 export { default as NafathAuthScreen } from "./NafathAuthScreen";
 export { default as OptionalEmailScreen } from "./OptionalEmailScreen";
 export { default as PendingAccountScreen } from "./PendingAccountScreen";
+export { default as PreviewDocumentScreen } from "./PreviewDocumentScreen";
 export { default as SplashScreen } from "./SplashScreen";
 export { default as SuccessScreen } from "./SuccessScreen";
 export { default as TermsAndConditionsDetailsScreen } from "./TermsAndConditionsDetailsScreen";

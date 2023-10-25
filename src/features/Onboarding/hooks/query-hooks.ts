@@ -15,6 +15,7 @@ import {
   CheckHighRiskInterface,
   CustomerPendingAction,
   CustomersTermsAndConditions,
+  DownloadHighRiskDocumentResponse,
   FatcaFormInput,
   FinancialDetails,
   IqamaInputs,
@@ -23,6 +24,8 @@ import {
   RetrieveUploadDocumentsListInterface,
   Status,
   StatusId,
+  UploadDocumentHighRiskRequestInterface,
+  UploadDocumentHighRiskResponseInterface,
 } from "../types";
 
 interface ApiOnboardingStatusResponse {
@@ -704,4 +707,49 @@ export function useCheckHighRiskStatus() {
       retry: true,
     }
   );
+}
+
+export function useUploadDocumentHighRisk() {
+  const { correlationId } = useOnboardingContext();
+  return useMutation((body: UploadDocumentHighRiskRequestInterface) => {
+    if (!correlationId) throw new Error("Need valid Correlation id");
+    return api<UploadDocumentHighRiskResponseInterface>(
+      "v1",
+      `customers/upload-document/high-risk`,
+      "POST",
+      undefined,
+      body,
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+  });
+}
+
+export function useVerifyDocumentHighRisk() {
+  const { correlationId } = useOnboardingContext();
+  return useMutation(() => {
+    if (!correlationId) throw new Error("Need valid Correlation id");
+    return api("v1", `customers/verify-documents/high-risk`, "POST", undefined, undefined, {
+      ["x-correlation-id"]: correlationId,
+    });
+  });
+}
+
+export function useDownloadHighRiskDocument() {
+  const { correlationId } = useOnboardingContext();
+
+  return useMutation((caseAnnotationId: string) => {
+    if (!correlationId) throw new Error("Need valid Correlation id");
+    return api<DownloadHighRiskDocumentResponse>(
+      "v1",
+      `customers/download-document/${caseAnnotationId}/high-risk/`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+  });
 }

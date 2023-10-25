@@ -2,7 +2,8 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { t } from "i18next";
 import React, { useEffect, useState } from "react";
 
-import PreviewAndExportPDF, { PDFDataInterface } from "@/components/PreviewAndExportPDF";
+import PreviewAndExportPDF from "@/components/PreviewAndExportPDF";
+import { PDFDataInterface } from "@/utils/export-pdf";
 
 import { useDownloadStatement } from "../hooks/query-hooks";
 import { StatementsStackParams } from "../StatementsStack";

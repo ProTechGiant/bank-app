@@ -146,7 +146,7 @@ export interface RetrieveUploadDocumentsListInterface {
   CaseNumber: string;
   Status: string;
   ClassificationCode: string;
-  RequiredDocuments: RequiredDocumentInterface[];
+  RequiredDocs: RequiredDocumentInterface[];
 }
 
 export interface CheckHighRiskInterface {
@@ -162,4 +162,21 @@ export interface RequiredDocumentInterface {
   NameAr: string;
   DescriptionEn: string;
   DescriptionAr: string;
+}
+
+export interface UploadDocumentHighRiskRequestInterface {
+  DocumentGuid: string;
+  AnnotationGuid: string;
+  DocumentBodyBase64String: string;
+  DocumentType: string;
+  DocumentName: string;
+}
+
+export interface UploadDocumentHighRiskResponseInterface {
+  AnnotationId: string;
+}
+export interface DownloadHighRiskDocumentResponse {
+  DocumentBodyBase64String: string;
+  DocumentType: string;
+  DocumentName: string;
 }

@@ -1,4 +1,4 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { CountrySelector } from "./components";
 import { OnboardingContextProvider } from "./contexts/OnboardingContext";
@@ -15,6 +15,7 @@ import {
   NafathAuthScreen,
   OptionalEmailScreen,
   PendingAccountScreen,
+  PreviewDocumentScreen,
   SplashScreen,
   SuccessScreen,
   TermsAndConditionsDetailsScreen,
@@ -65,9 +66,14 @@ export type OnboardingStackParams = {
   "Onboarding.HighRiskRequireDocumentScreen": undefined;
   "Onboarding.UploadDocumentScreen": undefined;
   "Onboarding.VerifyingInformationScreen": undefined;
+  "Onboarding.PreviewDocumentScreen": {
+    base64File: { content: string; name: string; type: string } | undefined;
+    caseAnnotationId: string;
+  };
 };
 
 export const Stack = createNativeStackNavigator<OnboardingStackParams>();
+export type OnboardingStackParamsNavigationProp = NativeStackNavigationProp<OnboardingStackParams>;
 
 export default function OnboardingStack() {
   return (
@@ -84,6 +90,7 @@ export default function OnboardingStack() {
         <Stack.Screen component={OptionalEmailScreen} name="Onboarding.OptionalEmail" />
         <Stack.Screen component={FinancialInformationScreen} name="Onboarding.Financial" />
         <Stack.Screen component={FatcaDetailsScreen} name="Onboarding.Fatca" />
+        <Stack.Screen component={PreviewDocumentScreen} name="Onboarding.PreviewDocumentScreen" />
         <Stack.Screen
           component={CountrySelector}
           name="Onboarding.CountrySelector"

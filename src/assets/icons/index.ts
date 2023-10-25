@@ -122,6 +122,7 @@ export * from "./PlusCircleIcon";
 export * from "./PlusIcon";
 export * from "./PointOfSaleIcon";
 export * from "./PostcardIcon";
+export * from "./PreviewIcon";
 export * from "./QuestionIcon";
 export * from "./RecurringEventIcon";
 export * from "./RecurringPaymentIcon";
