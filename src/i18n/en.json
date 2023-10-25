@@ -1330,6 +1330,13 @@
     }
   },
   "GoalGetter": {
+    "GoalGetterScreen": {
+      "title": "Goal Getter",
+      "whereToNext": "Where to next?",
+      "hopesAndDreams": "What are the hopes and dreams you want to realise?",
+      "createGoalbutton": "Create Goal",
+      "exploreProductsbutton": "Explore Products"
+    },
     "ContributionsScreen": {
       "question_1": "What is your initial contribution?",
       "question_2": "What is your monthly contribution?",
