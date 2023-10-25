@@ -32,7 +32,7 @@ export function useCreateWallet() {
   const queryClient = useQueryClient();
   return useMutation(
     () => {
-      return api<GetWalletResponseType>("v1", `gold/wallet`, "POST", undefined, undefined, {
+      return api<GetWalletResponseType>("v1", `gold/wallet`, "POST", { acceptTCFlg: 1 }, undefined, {
         ["x-Correlation-Id"]: generateRandomId(),
         ["Accept-Language"]: i18n.language,
       });
