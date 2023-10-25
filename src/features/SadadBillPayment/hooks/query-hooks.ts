@@ -78,6 +78,59 @@ export function useSavedBills() {
               DueDate: BillInfo.BillDueDt,
               iconUrl: BillInfo.BillerLogoUrl,
               BillerId: BillInfo.BillerId,
+              BillNumber: BillInfo.BillNumber,
+            };
+          }),
+        [i18n.language]
+      ),
+    }
+  );
+}
+
+interface DueBill {
+  BillRecord: {
+    BillerId: string;
+    BillAmt: number;
+    DueDate: string;
+    BillNumber: string;
+    BillingAccount: string;
+    BillDescAr: string;
+    BillDescEn: string;
+    BillerLogoUrl: string;
+    BillAmount: string;
+    Currency: string;
+    LogoUrl: string;
+    ServiceType: string;
+  };
+}
+interface DueBills {
+  DuePayments: DueBill[];
+}
+
+export function useDueBills() {
+  const { i18n } = useTranslation();
+  return useQuery(
+    queryKeys.all(),
+    () => {
+      return api<DueBills>("v1", "payments/sadad/payment/due", "GET", undefined, undefined, {
+        ["x-correlation-id"]: generateRandomId(),
+      });
+    },
+    {
+      select: React.useCallback(
+        (data: DueBills) =>
+          data.DuePayments.map(({ BillRecord }) => {
+            return {
+              BillName: i18n.language === "en" ? BillRecord.BillDescEn : BillRecord.BillDescAr,
+              AccountNumber: BillRecord.BillingAccount,
+              Amount: BillRecord.BillAmount,
+              DueDate: BillRecord.DueDate,
+              iconUrl: BillRecord.LogoUrl,
+              BillerId: BillRecord.BillerId,
+              BillNumber: BillRecord.BillNumber,
+              BillAmount: BillRecord.BillAmount,
+              Currency: BillRecord.Currency,
+              ServiceType: BillRecord.ServiceType,
             };
           }),
         [i18n.language]
@@ -339,6 +392,13 @@ interface PayBillResponse {
 export function usePayBill() {
   return useMutation(async (values: PayBillInterface) => {
     return api<PayBillResponse>("v1", "payments/sadad/payment", "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
+export function useGetSavedBill() {
+  return useMutation(async () => {
+    return api<PayBillResponse>("v1", "payments/sadad/bills/details", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });

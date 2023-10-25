@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 
@@ -14,17 +14,28 @@ import { useThemeStyles } from "@/theme";
 
 import { BillItemCard, EmptyDataWarningCard, QuickActionItem } from "../components";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
-import { MockBillDetails } from "../mocks/MockBillDetails";
+import { useDueBills, useSavedBills } from "../hooks/query-hooks";
+import { BillItem } from "../types";
 
 export default function BillPaymentHomeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const numberOfBills = MockBillDetails.length;
-  //TODO MockBillDetails should be replaced with an API call.
+
+  const { data: dueBills, refetch: dueBillsRefetch } = useDueBills();
+  const { data: savedBills, refetch: savedBillsRefetch } = useSavedBills();
 
   const { setNavigationType, clearContext } = useSadadBillPaymentContext();
 
   const [currentTab, setCurrentTab] = useState<"paymentDue" | "savedBills">("paymentDue");
+
+  useEffect(() => {
+    if (currentTab === "paymentDue") {
+      dueBillsRefetch();
+    }
+    if (currentTab === "savedBills") {
+      savedBillsRefetch();
+    }
+  }, [currentTab]);
 
   const handleOnAddBillPress = () => {
     clearContext();
@@ -53,17 +64,19 @@ export default function BillPaymentHomeScreen() {
     });
   };
 
-  const handleOnBiilItemPress = (accountNumber: string, billerId: string) => {
-    clearContext();
-
+  const handleOnBillItemPress = (item: BillItem) => {
     if (currentTab === "paymentDue") {
       setNavigationType("payBill");
+      navigation.navigate("SadadBillPayments.BillDetailsScreen", {
+        AccountNumber: item.AccountNumber,
+        billerId: item.BillerId,
+      });
+    } else if (currentTab === "savedBills") {
+      navigation.navigate("SadadBillPayments.BillDetailsScreen", {
+        AccountNumber: item.AccountNumber,
+        billerId: item.BillerId,
+      });
     }
-
-    navigation.navigate("SadadBillPayments.BillDetailsScreen", {
-      AccountNumber: accountNumber,
-      billerId: billerId,
-    });
   };
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -152,38 +165,42 @@ export default function BillPaymentHomeScreen() {
             </View>
           </Stack>
           <Stack direction="vertical" gap="20p" align="stretch">
-            {numberOfBills > 5 ? (
+            {(savedBills?.length > 5 && currentTab === "savedBills") ||
+            (dueBills?.length > 5 && currentTab === "paymentDue") ? (
               <Pressable style={viewAllStyle} onPress={handleOnViewAllPress}>
                 <Typography.Text color="primaryBase-30" size="footnote" weight="semiBold">
                   {t("SadadBillPayments.BillPaymentHomeScreen.viewAll")}
                 </Typography.Text>
               </Pressable>
             ) : null}
-            <View>
-              {numberOfBills > 0 ? (
-                MockBillDetails.slice(0, 5).map(element => (
-                  <BillItemCard
-                    key={element.key}
-                    data={element}
-                    onPress={() => handleOnBiilItemPress(element.AccountNumber, element.billerNumber)}
-                  />
+
+            {savedBills?.length > 0 && currentTab === "savedBills" ? (
+              savedBills
+                ?.slice(0, 5)
+                .map(item => (
+                  <BillItemCard key={item.BillNumber} data={item} onPress={() => handleOnBillItemPress(item)} />
                 ))
-              ) : (
-                <EmptyDataWarningCard
-                  title={
-                    currentTab === "paymentDue"
-                      ? t("SadadBillPayments.BillPaymentHomeScreen.noDueTitle")
-                      : t("SadadBillPayments.BillPaymentHomeScreen.noBillTitle")
-                  }
-                  description={
-                    currentTab === "paymentDue"
-                      ? t("SadadBillPayments.BillPaymentHomeScreen.noDueDescription")
-                      : t("SadadBillPayments.BillPaymentHomeScreen.noBillDescription")
-                  }
-                  onPress={handleOnAddBillPress}
-                />
-              )}
-            </View>
+            ) : dueBills?.length > 0 && currentTab === "paymentDue" ? (
+              dueBills
+                ?.slice(0, 5)
+                .map(item => (
+                  <BillItemCard key={item.BillNumber} data={item} onPress={() => handleOnBillItemPress(item)} />
+                ))
+            ) : (
+              <EmptyDataWarningCard
+                title={
+                  currentTab === "paymentDue"
+                    ? t("SadadBillPayments.BillPaymentHomeScreen.noDueTitle")
+                    : t("SadadBillPayments.BillPaymentHomeScreen.noBillTitle")
+                }
+                description={
+                  currentTab === "paymentDue"
+                    ? t("SadadBillPayments.BillPaymentHomeScreen.noDueDescription")
+                    : t("SadadBillPayments.BillPaymentHomeScreen.noBillDescription")
+                }
+                onPress={handleOnAddBillPress}
+              />
+            )}
           </Stack>
         </Stack>
       </ContentContainer>

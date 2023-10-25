@@ -15,7 +15,7 @@ import { useThemeStyles } from "@/theme";
 
 import BillItemCard from "../components/BillItemCard";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
-import { useSavedBills } from "../hooks/query-hooks";
+import { useDueBills, useSavedBills } from "../hooks/query-hooks";
 import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 import { BillItem } from "../types";
 
@@ -23,38 +23,60 @@ export default function SaveBillsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { setNavigationType } = useSadadBillPaymentContext();
-  const { data: savedBills, isLoading, isError, refetch } = useSavedBills();
 
   const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.SaveBillsScreen">>();
+  const {
+    data: savedBillData,
+    isLoading: isSavedBillLoading,
+    isError: isSavedBillError,
+    refetch: savedBillRefetch,
+  } = useSavedBills();
+  const {
+    data: dueBillData,
+    isLoading: isDueBillLoading,
+    isError: isDueBillEroor,
+    refetch: dueBillRefetch,
+  } = useDueBills();
 
   const [searchedUsedBills, setSearchedUsedBills] = useState<BillItem[]>([]);
   const [searchText, setSearchText] = useState<string>("");
   const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState(false);
+  const [billData, setBillData] = useState<BillItem[]>([]);
 
   useEffect(() => {
-    if (savedBills === undefined) {
+    if (route.params.navigationFlow === "paymentDue") {
+      dueBillRefetch();
+      setBillData(dueBillData);
+    } else {
+      savedBillRefetch();
+      setBillData(savedBillData);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (billData === undefined) {
       setSearchedUsedBills([]);
       return;
     }
     const debounceId = setTimeout(() => {
       const filteredArray =
         searchText !== ""
-          ? savedBills.filter(function (billObj) {
+          ? billData.filter(function (billObject) {
               return (
-                billObj.AccountNumber?.toLowerCase().includes(searchText.toLowerCase()) ||
-                billObj.BillName?.toLowerCase().includes(searchText.toLowerCase())
+                billObject.AccountNumber?.toLowerCase().includes(searchText.toLowerCase()) ||
+                billObject.BillName?.toLowerCase().includes(searchText.toLowerCase())
               );
             })
-          : savedBills;
+          : billData;
       setSearchedUsedBills(filteredArray);
     }, 500);
     return () => clearTimeout(debounceId);
-  }, [savedBills, searchText]);
+  }, [billData, searchText]);
 
   // showing error if api failed to get response.
   useEffect(() => {
-    setIsLoadingErrorVisible(isError);
-  }, [isError]);
+    setIsLoadingErrorVisible(route.params.navigationFlow === "paymentDue" ? isDueBillEroor : isSavedBillError);
+  }, [isSavedBillError, isDueBillEroor]);
 
   const handleOnChangeText = (text: string) => {
     if (text === " " && searchText === "") return;
@@ -104,7 +126,7 @@ export default function SaveBillsScreen() {
             placeholder={t("SadadBillPayments.SavedBillScreen.searchPlaceholder")}
             value={searchText}
           />
-          {isLoading ? (
+          {isDueBillLoading || isSavedBillLoading ? (
             <FullScreenLoader />
           ) : (
             <>
@@ -123,7 +145,7 @@ export default function SaveBillsScreen() {
           <LoadingErrorNotification
             isVisible={isLoadingErrorVisible}
             onClose={() => setIsLoadingErrorVisible(false)}
-            onRefresh={() => refetch()}
+            onRefresh={() => (route.params.navigationFlow === "paymentDue" ? dueBillRefetch() : savedBillRefetch())}
           />
         </Stack>
       </View>
