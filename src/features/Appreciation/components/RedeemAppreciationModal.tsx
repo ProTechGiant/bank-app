@@ -26,7 +26,6 @@ interface RedeemAppreciationModalProps {
   partnerName: string;
   codeType: VoucherCodeEnum;
   password: string;
-  handleOnViewDetailsPress: () => void;
   handleOnAddToAppleWalletPress: () => void;
   handleOnBackButtonPress: () => void;
 }
@@ -42,7 +41,6 @@ export default function RedeemAppreciationModal({
   partnerName,
   codeType,
   password,
-  handleOnViewDetailsPress,
   handleOnAddToAppleWalletPress,
   handleOnBackButtonPress,
 }: RedeemAppreciationModalProps) {
@@ -230,11 +228,6 @@ export default function RedeemAppreciationModal({
               </Button>
             </View>
           ) : null}
-          <Button variant="tertiary" onPress={handleOnViewDetailsPress}>
-            <Typography.Text style={styles.viewDetailsTextStyle} color="primaryBase-30">
-              {t("Appreciation.RedeemModal.viewDetails")}
-            </Typography.Text>
-          </Button>
         </Stack>
       </ScrollView>
     </Modal>
@@ -243,8 +236,5 @@ export default function RedeemAppreciationModal({
 const styles = StyleSheet.create({
   addToAppleWalletButtonStyle: {
     width: "100%",
-  },
-  viewDetailsTextStyle: {
-    textDecorationLine: "underline",
   },
 });

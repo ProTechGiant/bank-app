@@ -100,10 +100,6 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
     Linking.openURL("shoebox://");
   };
 
-  const handleOnViewDetailsPress = () => {
-    //TODO view details logic
-  };
-
   const sectionStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["24p"],
   }));
@@ -218,7 +214,6 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
         location={Location.Name}
         time={format(AppreciationTime ?? new Date(PresaleDate), "p", { locale: i18n.language === "en" ? enUS : arSA })}
         handleOnAddToAppleWalletPress={handleOnAddToAppleWalletPress}
-        handleOnViewDetailsPress={handleOnViewDetailsPress}
         handleOnBackButtonPress={handleOnCloseVocherPress}
       />
     </Page>
