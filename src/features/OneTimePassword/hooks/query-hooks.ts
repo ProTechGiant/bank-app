@@ -117,7 +117,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       // TODO: also the NumOfAttempts is not returned with the response which used to disable keyboard when max attempts reached till user tap resend code. => (OneTimePasswordModal.tsx)
       if (method === "customers/communication-details") {
         return api<ValidateOtpResponse & ResponseT>(
-          "v1",
+          "v2",
           method,
           "PATCH",
           undefined,
@@ -161,7 +161,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       }
 
       return api<ValidateOtpResponse & ResponseT>(
-        "v1",
+        "v2",
         endpoint,
         "POST",
         undefined,

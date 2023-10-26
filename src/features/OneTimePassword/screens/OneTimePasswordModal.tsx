@@ -34,6 +34,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   const [otpParams, setOtpParams] = useState<OtpChallengeParams | undefined>(params.otpChallengeParams);
   const [isGenericErrorVisible, setIsGenericErrorVisible] = useState(false);
   const [isOtpCodeInvalidErrorVisible, setIsOtpCodeInvalidErrorVisible] = useState(false);
+  const [isTempBlockModalVisible, setIsTempBlockModalVisible] = useState(false);
   const [otpResetCountSeconds, setOtpResetCountSeconds] = useState(OTP_RESET_COUNT_SECONDS);
   const [otpResendsRequested, setOtpResendsRequested] = useState(0);
   const [isBalanceErrorVisible, setIsBalanceErrorVisible] = useState(false);
@@ -139,7 +140,10 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
   const handleOnRequestBlockUserErrorClose = () => {
     // on (login flow | updating customer Profile mobile number | Goal Getter Flow) we blocked the user otherwise we navigate the user with fail status and then navigate back to first stack.
-    if (isReachedMaxAttempts && (isLoginFlow || isUpdateCustomerProfileFlow || isGoalGetterFlow)) {
+    if (
+      (isReachedMaxAttempts && (isLoginFlow || isUpdateCustomerProfileFlow || isGoalGetterFlow)) ||
+      isTempBlockModalVisible
+    ) {
       params.onUserBlocked?.();
     } else {
       // @ts-expect-error unable to properly add types for this call
@@ -209,6 +213,8 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         handleOnCancel("0125");
       } else if (error.errorContent?.Errors[0]?.ErrorId === "0102") {
         setExpiredErrorMessage(true);
+      } else if (error.errorContent?.Errors[0]?.ErrorId === "0009") {
+        setIsTempBlockModalVisible(true);
       } else {
         setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
@@ -323,7 +329,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         variant="error"
         title={t("OneTimePasswordModal.errors.noAttemptsLeftTitle")}
         message={t("OneTimePasswordModal.errors.noAttemptsLeftMessage")}
-        isVisible={isReachedMaxAttempts}
+        isVisible={isReachedMaxAttempts || isTempBlockModalVisible}
         onClose={handleOnRequestBlockUserErrorClose}
       />
       <NotificationModal

@@ -247,7 +247,7 @@ export function useSendLoginOTP() {
     if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
 
     return sendApiRequest<LogInOtpChallengeParams>(
-      "v1",
+      "v2",
       "customers/otps/send",
       "POST",
       undefined,
