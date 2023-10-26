@@ -2386,11 +2386,11 @@
     }
   },
   "OneTimePasswordModal": {
-    "title": "أدخل كلمة المرور لمرة واحدة.",
-    "phoneNumberMessage": "  أدخل الرمز الذي أرسلناه إلى هاتفك المحمول لمرة واحدة, {{phoneNumber}}. لديك دقيقتين للقيام بذلك",
+    "title": "ادخال رمز التحقق",
+    "phoneNumberMessage": "يرجي ادخال رمز التحقق المرسل لرقم الهاتف {{phoneNumber}}, في خلال دقيقتين",
     "emailMessage": "أدخل الرمز المؤقت الذي أرسلناه إلى بريدك الإلكتروني، {{email}}. لديك 2 دقيقة للقيام بذلك",
     "resendCodeDisabled": "إعادة إرسال الرمز في {{minutes}}:{{seconds}}",
-    "resendCodeEnabled": "أعد إرسال الرمز",
+    "resendCodeEnabled": "اعادة ارسال رمز التحقق",
     "notification": "هذا الرمز المؤقت لم يكن صحيحًا. لديك {{attempts}} محاولات متبقية",
     "errors": {
       "invalidPassword": "الرمز الذي أدخلته غير صالح. يرجى المحاولة مرة أخرى.",
