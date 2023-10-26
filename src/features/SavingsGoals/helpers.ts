@@ -52,7 +52,7 @@ export const setDateAndFormatRecurringPayment = (inputDay: number, dateFormat = 
   newDate = format(currentDate, dateFormat) + inputDay.toString().padStart(2, "0");
 
   // check if its a valid end of month date
-  if (inputDay > 28 && !isValid(newDate)) {
+  if (inputDay > 28 && !isValid(new Date(currentDate.getFullYear(), currentDate.getMonth(), inputDay))) {
     newDate = format(lastDayOfMonth(currentDate), `${dateFormat}dd`);
   }
 

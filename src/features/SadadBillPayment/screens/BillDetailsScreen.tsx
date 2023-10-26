@@ -17,15 +17,16 @@ import delayTransition from "@/utils/delay-transition";
 
 import { BillDetailsView } from "../components";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
+import { getLanguagePreferredBillDescription } from "../helper";
 import { SavedBillDetailsParams, useBillDetailsByBillId, useDeleteSavedBill } from "../hooks/query-hooks";
 import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 
 export default function BillDetailsScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.BillDetailsScreen">>();
   const { mutateAsync: deleteSavedBillAsync, isLoading: deleteLoading } = useDeleteSavedBill();
-  const { data, status } = useBillDetailsByBillId(route.params.AccountNumber, route.params.billerId);
+  const { data, status, refetch } = useBillDetailsByBillId(route.params.AccountNumber, route.params.billerId);
 
   const { billDetails, setBillDetails, setNavigationType, navigationType } = useSadadBillPaymentContext();
 
@@ -38,6 +39,11 @@ export default function BillDetailsScreen() {
   useEffect(() => {
     setIsAPIErrorVisible(status === "error" ? true : false);
   }, [status]);
+
+  // refetch new changes after description update
+  useEffect(() => {
+    refetch();
+  }, [billDetails.Description, refetch]);
 
   const buttonsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["24p"],
@@ -71,9 +77,9 @@ export default function BillDetailsScreen() {
   };
 
   const handleOnEditDescriptionPress = () => {
-    const { BillCategory, BillId } = data as SavedBillDetailsParams;
+    const { BillDescriptionList, BillId } = data as SavedBillDetailsParams;
     navigation.navigate("SadadBillPayments.EditBillDescriptionScreen", {
-      billDescription: BillCategory,
+      billDescription: getLanguagePreferredBillDescription(i18n.language, BillDescriptionList),
       billId: BillId,
     });
   };
@@ -94,7 +100,7 @@ export default function BillDetailsScreen() {
               <Stack direction="vertical" justify="space-between" flex={1}>
                 <BillDetailsView
                   onEditBillDescription={handleOnEditDescriptionPress}
-                  billDescription={data.BillCategory}
+                  billDescription={getLanguagePreferredBillDescription(i18n.language, data.BillDescriptionList)}
                   serviceType={data.ServiceType}
                   billingAccount={data.BillingAccount}
                   billerID={data.BillerId}

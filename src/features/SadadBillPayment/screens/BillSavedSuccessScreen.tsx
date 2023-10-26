@@ -15,15 +15,13 @@ import formatDateToTime from "@/utils/format-date-to-time";
 
 import { InfoContainer } from "../components";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
+import { getLanguagePreferredBillDescription } from "../helper";
 
 export default function BillSavedSuccessScreen() {
   const { i18n, t } = useTranslation();
   const navigation = useNavigation();
 
   const { billDetails, navigationType, setNavigationType } = useSadadBillPaymentContext();
-
-  const billDescriptionEn = billDetails?.BillDescriptionList?.find(bill => bill.LanguagePreference === "en-gb");
-  const billDescriptionAr = billDetails?.BillDescriptionList?.find(bill => bill.LanguagePreference === "en-gb");
 
   const handleOnClosePress = () => {
     navigation.reset({
@@ -129,9 +127,7 @@ export default function BillSavedSuccessScreen() {
                 </Typography.Text>
                 <Typography.Text color="neutralBase-60" size="title2">
                   {billDetails.Description === undefined
-                    ? i18n.language === "en"
-                      ? billDescriptionEn?.Text
-                      : billDescriptionAr?.Text
+                    ? getLanguagePreferredBillDescription(i18n.language, billDetails.BillDescriptionList)
                     : billDetails.Description}
                 </Typography.Text>
               </Stack>

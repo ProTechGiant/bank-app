@@ -11,6 +11,7 @@ import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { numericRegExp } from "@/utils";
 
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { useBillDetailsByAccountNumber } from "../hooks/query-hooks";
@@ -85,19 +86,19 @@ export default function EnterAccountNoScreen() {
             showCharacterCount
             extraStart={t("SadadBillPayments.EnterAccountNoScreen.textInput.validationText")}
             label={t("SadadBillPayments.EnterAccountNoScreen.textInput.label")}
-            maxLength={12}
+            maxLength={32}
             keyboardType="number-pad"
             value={accountNumber}
             onChangeText={handleOnChangeText}
             errorText={
-              accountNumber.length > 0 && accountNumber.length < 12
+              accountNumber.length > 0 && !numericRegExp.test(accountNumber)
                 ? t("SadadBillPayments.EnterAccountNoScreen.textInput.errorText")
                 : undefined
             }
           />
-          <Button disabled={accountNumber.length < 11} onPress={handleOnSubmit}>
+          <Button disabled={!numericRegExp.test(accountNumber)} onPress={handleOnSubmit}>
             <Typography.Text
-              color={accountNumber.length < 11 ? "neutralBase-20" : "neutralBase-60"}
+              color={!numericRegExp.test(accountNumber) ? "neutralBase-20" : "neutralBase-60"}
               size="body"
               weight="medium">
               {t("SadadBillPayments.EnterAccountNoScreen.continueText")}

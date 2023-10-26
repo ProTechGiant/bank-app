@@ -17,6 +17,7 @@ import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 
+import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { useEditBillDescription } from "../hooks/query-hooks";
 import { SadadBillPaymentStackParams } from "../SadadBillPaymentStack";
 
@@ -29,6 +30,8 @@ export default function EditBillDescriptionScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<SadadBillPaymentStackParams, "SadadBillPayments.EditBillDescriptionScreen">>();
   const { mutateAsync } = useEditBillDescription();
+
+  const { billDetails, setBillDetails } = useSadadBillPaymentContext();
 
   const validationSchema = useMemo(
     () =>
@@ -45,6 +48,7 @@ export default function EditBillDescriptionScreen() {
         billId: billId,
         billDescription: _values.BillDescription,
       });
+      setBillDetails({ ...billDetails, Description: _values.BillDescription });
       navigation.goBack();
     } catch (err) {
       warn("SadadBill", "Could not update bill description: ", JSON.stringify(err));
