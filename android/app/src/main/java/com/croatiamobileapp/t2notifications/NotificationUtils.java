@@ -70,7 +70,8 @@ public class NotificationUtils {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("FromNotification", true);
         intent.putExtra("notificationData", NotificationBodyIntial);
-        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        int PendingIntentCode = (int) System.currentTimeMillis();
+        return PendingIntent.getActivity(context, PendingIntentCode, intent, PendingIntent.FLAG_IMMUTABLE);
     }
 }
 

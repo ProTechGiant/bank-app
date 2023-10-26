@@ -26,3 +26,7 @@
   @org.greenrobot.eventbus.Subscribe <methods>;
 }
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# T2 sdk
+-keep class com.t2.t2notifysdk.model.** { *; }
+-keep class com.croatiamobileapp.t2notifications.** { *; }
