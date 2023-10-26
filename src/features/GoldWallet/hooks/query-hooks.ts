@@ -110,10 +110,8 @@ export function useSetAlertSettings() {
         "v1",
         `gold/price-alert`,
         "POST",
-        {
-          customerId: userId,
-        },
-        { ...body },
+        undefined,
+        { ...body, CustomerId: userId },
         {
           ["x-Correlation-Id"]: generateRandomId(),
           ["Accept-Language"]: i18n.language,

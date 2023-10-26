@@ -58,15 +58,15 @@ export interface getTransactionsResponse {
 }
 
 export enum AlertConditionsEnum {
-  GREATER_THAN = 1,
-  GREATER_THAN_OR_EQUAL = 2,
-  LESS_THAN = 3,
-  LESS_THAN_OR_EQUAL = 4,
-  EQUAL = 5,
+  GREATER_THAN = "GREATER_THAN",
+  GREATER_THAN_OR_EQUAL = "STRICTLY_GREATER_THAN",
+  LESS_THAN = "LESS_THAN",
+  LESS_THAN_OR_EQUAL = "STRICTLY_LESS_THAN",
+  EQUAL = "EQUAL",
 }
 export enum AlertStatus {
-  ACTIVE = 1,
-  INACTIVE = 0,
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
 }
 export interface AlertSettingsResponseType {
   TargetPrice: number;
