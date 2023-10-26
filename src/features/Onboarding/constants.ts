@@ -3,9 +3,9 @@ export const IQAMA_TYPE = "02";
 export const PASSCODE_LENGTH = 6;
 
 export enum UploadDocumentStatus {
-  NEW = "new",
-  APPROVED = "approved",
-  REJECTED = "rejected",
+  NEW = "NEW",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
 }
 
 export enum HighRiskCaseStatus {

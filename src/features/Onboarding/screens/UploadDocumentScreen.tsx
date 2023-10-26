@@ -138,7 +138,7 @@ export default function UploadDocumentScreen() {
 
   const handleOnUploadDocument = async (name: string, base64: string, type: string) => {
     try {
-      const document = data?.RequiredDocs.find(d => d.DocumentGuid === selectedDocumentGuid);
+      const document = data?.RequiredDocuments.find(d => d.DocumentGuid === selectedDocumentGuid);
 
       if (!document || !base64) return;
 
@@ -208,7 +208,7 @@ export default function UploadDocumentScreen() {
             uploadedDocumentsGuidz={uploadedDocumentsGuidz}
             onViewDocument={onViewDocument}
             onPressUpload={handleOnPressUpload}
-            documents={data?.RequiredDocs ?? []}
+            documents={data?.RequiredDocuments ?? []}
           />
         </View>
         <Stack direction="vertical" style={buttonContainerStyle} align="stretch">

@@ -31,6 +31,9 @@ export default function HighRiskRequireDocumentScreen() {
       case HighRiskCaseStatus.DOCUMENTS_REQUIRED:
         setIsButtonDisabled(false);
         return;
+      case HighRiskCaseStatus.NEW:
+        setIsButtonDisabled(false);
+        return;
       case HighRiskCaseStatus.DOCUMENTS_RETURNED:
         setIsDocumentVerificationFailed(true);
         return;

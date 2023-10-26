@@ -146,7 +146,7 @@ export interface RetrieveUploadDocumentsListInterface {
   CaseNumber: string;
   Status: string;
   ClassificationCode: string;
-  RequiredDocs: RequiredDocumentInterface[];
+  RequiredDocuments: RequiredDocumentInterface[];
 }
 
 export interface CheckHighRiskInterface {
