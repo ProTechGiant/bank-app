@@ -378,6 +378,11 @@
       "accountLinkedSuccessfully": "Account linked successfully",
       "validityOfLink": "The validity of the direct link & open banking of Croatia has been successfully approved \n with serviceproviders"
     },
+    "SessionExpiredScreen": {
+      "sessionExpiredMessage": "Your session has expired",
+      "tryAgain": "Please try again.",
+      "transferToTpp": "You will be transferred to TPP"
+    },
     "AccountCard": {
       "currentAccount": "Current Account",
       "masterCard": "MasterCard",

@@ -391,6 +391,11 @@
       "accountLinkedSuccessfully": "تم ربط الحساب بنجاح",
       "validityOfLink": "تمت الموافقة بنجاح على صلاحية الرابط المباشر والخدمات المصرفية المفتوحة لكرواتيا مع مقدمي الخدمات"
     },
+    "SessionExpiredScreen": {
+      "sessionExpiredMessage": "انتهت صلاحية جلسة العمل الخاصة بك",
+      "tryAgain": "حاول مرة اخرى.",
+      "transferToTpp": "سيتم نقلك إلى TPP"
+    },
     "AccountCard": {
       "currentAccount": "الحساب الجاري",
       "masterCard": "بطاقة ماستركارد",

@@ -14,23 +14,27 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { AccountCardItem, ConnectionCard } from "../components";
-import { consentData } from "../mocks";
+import { useGetConsent, usePushConsent } from "../hooks/query-hooks";
+import { ConsentDataResponse } from "../types";
 
 export default function OpenBankingScreen() {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const [selectedAccountCards, setSelectedAccountCards] = useState<Record<string, boolean>>({});
   const [isDenyModalOpen, setIsDenyModalOpen] = useState(false);
-  const [isErorryModalOpen, setIsErorrModalOpen] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+
+  const consentData = useGetConsent().data ?? ({} as ConsentDataResponse);
+  const { mutateAsync: connectConsent } = usePushConsent();
 
   const handleCheckboxChange = (accountCardId: string) => (value: boolean) => {
     setSelectedAccountCards(prev => ({ ...prev, [accountCardId]: value }));
   };
 
-  const handleOnConnect = () => {
+  const handleOnConnect = async () => {
     // Create the values object with selected items
     const selectedAccounts = consentData.Accounts.filter(account => selectedAccountCards[account.Id.toString()]).map(
-      account => ({ Id: account.Id, Type: account.Type })
+      account => ({ Id: parseInt(account.Id, 10), Type: account.Type })
     );
 
     const selectedCards = consentData.Cards.filter(card => selectedAccountCards[card.AccountNumber.toString()]).map(
@@ -44,15 +48,23 @@ export default function OpenBankingScreen() {
       Cards: selectedCards,
     };
 
-    // mocks for testing team
-    if (values.Accounts.length === 2) {
-      setIsErorrModalOpen(true);
-    } else {
-      navigation.navigate("OpenBanking.OpenBankingStack", {
-        screen: "OpenBanking.LinkedSuccessfullyScreen",
-      });
+    try {
+      const response = await connectConsent(values);
+
+      if (response.Status === "200") {
+        navigation.navigate("OpenBanking.OpenBankingStack", {
+          screen: "OpenBanking.LinkedSuccessfullyScreen",
+        });
+      } else if (response.Status === "401") {
+        navigation.navigate("OpenBanking.OpenBankingStack", {
+          screen: "OpenBanking.SessionExpiredScreen",
+        });
+      } else {
+        setIsErrorModalOpen(true);
+      }
+    } catch (error) {
+      setIsErrorModalOpen(true);
     }
-    // TODO handle it when api is ready
   };
 
   const handleOnDeny = () => {
@@ -104,32 +116,36 @@ export default function OpenBankingScreen() {
           </Typography.Text>
         </View>
 
-        {consentData.Accounts.map(account => (
-          <View style={containerAccountStyle}>
-            <AccountCardItem
-              key={account.Id}
-              accountCardId={account.Id.toString()}
-              selected={selectedAccountCards[account.Id.toString()] || false}
-              onCheckboxChange={handleCheckboxChange(account.Id.toString())}
-              cardText={account.Type}
-            />
-          </View>
-        ))}
+        {consentData.Accounts
+          ? consentData.Accounts.map(account => (
+              <View style={containerAccountStyle}>
+                <AccountCardItem
+                  key={account.Id}
+                  accountCardId={account.Id.toString()}
+                  selected={selectedAccountCards[account.Id.toString()] || false}
+                  onCheckboxChange={handleCheckboxChange(account.Id.toString())}
+                  cardText={account.Type}
+                />
+              </View>
+            ))
+          : null}
 
-        {consentData.Cards.map(card => (
-          <AccountCardItem
-            key={card.AccountNumber}
-            cardImageSource={
-              card.Type === "Credit"
-                ? require("../assets/images/bank-card-1.png")
-                : require("../assets/images/bank-card-2.png")
-            }
-            accountCardId={card.AccountNumber}
-            selected={selectedAccountCards[card.AccountNumber] || false}
-            cardText={card.Type}
-            onCheckboxChange={handleCheckboxChange(card.AccountNumber.toString())}
-          />
-        ))}
+        {consentData.Cards
+          ? consentData.Cards.map(card => (
+              <AccountCardItem
+                key={card.AccountNumber}
+                cardImageSource={
+                  card.Type === "Credit"
+                    ? require("../assets/images/bank-card-1.png")
+                    : require("../assets/images/bank-card-2.png")
+                }
+                accountCardId={card.AccountNumber}
+                selected={selectedAccountCards[card.AccountNumber] || false}
+                cardText={card.Type}
+                onCheckboxChange={handleCheckboxChange(card.AccountNumber.toString())}
+              />
+            ))
+          : null}
 
         <Divider color="neutralBase-40" height={4} />
 
@@ -140,31 +156,39 @@ export default function OpenBankingScreen() {
           <Typography.Text size="callout" weight="regular">
             {t("OpenBanking.OpenBankingScreen.info")}
           </Typography.Text>
-          {consentData.GroupsListData.map((item, index) => (
-            <Accordion
-              icon={<CheckIcon color={checkIconColor} width={16} height={16} />}
-              key={index}
-              title={i18n.language === "en" ? item.DataGroupNameEnglish : item.DataGroupNameArabic}
-              children={item.PermissionsList.map((Permission, dataIndex) => (
-                <Typography.Text size="footnote" color="neutralBase+10" weight="regular" key={dataIndex}>
-                  {dataIndex + 1}.{" "}
-                  {i18n.language === "en"
-                    ? Permission.PermissionDescriptionEnglish
-                    : Permission.PermissionDescriptionArabic}
-                </Typography.Text>
-              ))}
-            />
-          ))}
+          {consentData.DataGroupsList
+            ? consentData.DataGroupsList.map((item, index) => (
+                <Accordion
+                  icon={<CheckIcon color={checkIconColor} width={16} height={16} />}
+                  key={index}
+                  title={i18n.language === "en" ? item.DataGroupNameEnglish : item.DataGroupNameArabic}
+                  children={item.PermissionsList.map((Permission, dataIndex) => (
+                    <Typography.Text size="footnote" color="neutralBase+10" weight="regular" key={dataIndex}>
+                      {dataIndex + 1}.{" "}
+                      {i18n.language === "en"
+                        ? Permission.PermissionDescriptionEnglish
+                        : Permission.PermissionDescriptionArabic}
+                    </Typography.Text>
+                  ))}
+                />
+              ))
+            : null}
         </Stack>
         <Divider color="neutralBase-40" height={4} />
 
         <ConnectionCard
           connectionText={t("OpenBanking.OpenBankingScreen.firstConnected")}
-          date={format(parseISO(consentData.CreationDateTime), "dd/MM/yyyy")}
+          date={
+            consentData.CreationDateTime ? format(parseISO(consentData.CreationDateTime), "dd/MM/yyyy") : "dd/MM/yyyy"
+          }
         />
         <ConnectionCard
           connectionText={t("OpenBanking.OpenBankingScreen.connectionExpires")}
-          date={format(parseISO(consentData.ExiprationDateTime), "dd/MM/yyyy")}
+          date={
+            consentData.ExpirationDateTime
+              ? format(parseISO(consentData.ExpirationDateTime), "dd/MM/yyyy")
+              : "dd/MM/yyyy"
+          }
         />
         <View style={buttonsContainerStyle}>
           <Button variant="primary" disabled={isConnectButtonDisabled} onPress={handleOnConnect}>
@@ -194,8 +218,8 @@ export default function OpenBankingScreen() {
         variant="error"
         title={t("OpenBanking.OpenBankingScreen.errorModal.title")}
         message={t("OpenBanking.OpenBankingScreen.errorModal.message")}
-        isVisible={isErorryModalOpen}
-        onClose={() => setIsErorrModalOpen(false)}
+        isVisible={isErrorModalOpen}
+        onClose={() => setIsErrorModalOpen(false)}
       />
     </Page>
   );
