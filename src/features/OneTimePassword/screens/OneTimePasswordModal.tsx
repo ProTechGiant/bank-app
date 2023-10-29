@@ -215,8 +215,12 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         setExpiredErrorMessage(true);
       } else if (error.errorContent?.Errors[0]?.ErrorId === "0009") {
         setIsTempBlockModalVisible(true);
-      } else {
+      } else if (error.errorContent?.Errors[0]?.ErrorId === "0013") {
         setIsOtpCodeInvalidErrorVisible(true);
+        setCurrentValue("");
+      } else {
+        setGenericErrorMessage("errors.generic.tryAgainLater");
+        setIsGenericErrorVisible(true);
         setCurrentValue("");
         warn("one-time-password", "Could not validate OTP-code with backend: ", JSON.stringify(error));
       }

@@ -57,7 +57,8 @@
     "generic": {
       "title": "Sorry, something has gone wrong",
       "message": "Try again later or get in touch with our customer care team.",
-      "button": "OK"
+      "button": "OK",
+      "tryAgainLater": "Please try again later."
     }
   },
   "CallSupportHelper": {

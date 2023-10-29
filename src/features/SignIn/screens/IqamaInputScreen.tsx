@@ -125,7 +125,9 @@ export default function IqamaInputScreen() {
                 </Typography.Text>
               </Pressable>
             </View>
-          ) : null}
+          ) : (
+            <View style={accountSignInStyle} />
+          )}
         </ScrollView>
       </KeyboardAvoidingView>
     </Page>

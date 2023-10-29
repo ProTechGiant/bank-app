@@ -245,9 +245,8 @@ export function useSendLoginOTP() {
 
   return useMutation(async (reasonCode: "login" | "reset-passcode" | "change-passcode" | "create-passcode") => {
     if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
-
     return sendApiRequest<LogInOtpChallengeParams>(
-      "v2",
+      "v1",
       "customers/otps/send",
       "POST",
       undefined,
