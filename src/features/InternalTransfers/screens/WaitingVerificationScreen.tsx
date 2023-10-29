@@ -73,7 +73,7 @@ export default function WaitingVerificationScreen() {
       return navigation.reset({
         index: 2,
         routes: [
-          // adding the screens to stack for navigating back while removing the IVR Validation screen
+          // adding the screens to stack for navigating back while removing the IVR Validation screens
           { name: "InternalTransfers.PaymentsHubScreen" },
           { name: "InternalTransfers.InternalTransferScreen" },
           { name: "InternalTransfers.SendToBeneficiaryScreen" },

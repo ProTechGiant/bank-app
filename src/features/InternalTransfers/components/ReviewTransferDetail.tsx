@@ -66,6 +66,33 @@ export default function ReviewTransferDetail({
     marginHorizontal: -theme.spacing["20p"],
   }));
 
+  const renderMaskedName = (fullName?: string) => {
+    if (fullName === undefined) return fullName;
+    let maskedName = "";
+    const nameParts = fullName.split(" ");
+
+    //Firstname 2, middle name 1 and last name 2 charcter visible only rest masked
+
+    nameParts.forEach((part, index) => {
+      maskedName += "" + maskString(part, nameParts.length === 3 && index === 1 ? 1 : 2);
+    });
+
+    return maskedName;
+  };
+
+  function maskString(input: string, toChars: number) {
+    if (typeof input !== "string" || input === undefined || input.length < toChars) {
+      return "";
+    }
+
+    return (
+      input.replace(
+        new RegExp(`^(.{${toChars}}).*`),
+        (match, thatManyChars) => thatManyChars + "*".repeat(input.length - toChars)
+      ) + " "
+    );
+  }
+
   const chevronRightIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
   const isNoteExists = note.attachment.length > 0 || note.content.length > 0;
 
@@ -80,7 +107,7 @@ export default function ReviewTransferDetail({
           {t("InternalTransfers.ReviewTransferScreen.from")}
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {sender.accountName}
+          {sender.accountName || ""}
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
           {sender.accountNumber}
@@ -92,7 +119,7 @@ export default function ReviewTransferDetail({
           {t("InternalTransfers.ReviewTransferScreen.to")}
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {recipient.accountName}
+          {renderMaskedName(recipient.accountName || "")}
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
           {recipient.accountNumber}

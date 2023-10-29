@@ -12,6 +12,7 @@ import Stack from "@/components/Stack";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCurrentAccount, useInvalidateBalances } from "@/hooks/use-accounts";
+import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -31,6 +32,7 @@ export default function ReviewTransferScreen() {
 
   const { transferAmount, reason, recipient, transferType } = useInternalTransferContext();
   const otpFlow = useOtpFlow();
+  const signOutUser = useLogout();
   const internalTransferAsync = useInternalTransfer();
   const internalTransferCroatiaToARBAsync = useInternalTransferCroatiaToARB();
   const transferReason = useTransferReasonsByCode(reason, transferType);
@@ -39,6 +41,15 @@ export default function ReviewTransferScreen() {
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isErrorTransferLimit, setIsErrorTransferLimit] = useState(false);
+  const [isSenderTransferRejected, setSenderTransferRejected] = useState(false);
+  const [isReceiverTransferRejected, setReceiverTransferRejected] = useState(false);
+  interface ErrorType {
+    errorContent: {
+      Errors: Array<{
+        ErrorId: string;
+      }>;
+    };
+  }
 
   const updateNote = (content: Note) => {
     setNote(content);
@@ -48,7 +59,30 @@ export default function ReviewTransferScreen() {
     setIsVisible(true);
   };
 
-  const handleSendMoney = async () => {
+  const handleError = (error: ErrorType) => {
+    if (error?.errorContent?.Errors[0].ErrorId) {
+      const errorCode = error.errorContent.Errors[0].ErrorId;
+      if (errorCode === "0106") {
+        delayTransition(() => {
+          setSenderTransferRejected(true);
+        });
+      } else if (errorCode === "0107") {
+        delayTransition(() => {
+          setReceiverTransferRejected(true);
+        });
+      } else {
+        delayTransition(() => {
+          setIsErrorModalVisible(true);
+        });
+      }
+    } else {
+      delayTransition(() => {
+        setIsErrorModalVisible(true);
+      });
+    }
+  };
+
+  const handleFocalCheck = async () => {
     if (
       account.data === undefined ||
       reason === undefined ||
@@ -66,6 +100,7 @@ export default function ReviewTransferScreen() {
         DebtorAccountCustomerAccountId: account.data.id,
         CreditorAccountCustomerAccountId: recipient.accountNumber,
         RemittanceInformation: reason,
+        BeneficiaryId: recipient.beneficiaryId,
       },
     };
 
@@ -81,8 +116,26 @@ export default function ReviewTransferScreen() {
       transferType: "02",
       expressTransferFlag: "N",
       customerRemarks: "Customer Remarks", // @TODO: currently hardcode value will change it later.
+      BeneficiaryId: recipient.beneficiaryId,
     };
 
+    try {
+      if (transferType === TransferType.CroatiaToArbTransferAction) {
+        await internalTransferCroatiaToARBAsync.mutateAsync(internalTransferCroatiaToARB);
+      } else {
+        await internalTransferAsync.mutateAsync(internalTransferDetails);
+      }
+
+      handleSendMoney(internalTransferCroatiaToARB, internalTransferDetails);
+    } catch (error: any) {
+      handleError(error);
+    }
+  };
+
+  const handleSendMoney = async (
+    internalTransferCroatiaToARB: InternalTransferToARBRequest,
+    internalTransferDetails: InternalTransfer
+  ) => {
     try {
       otpFlow.handle({
         action: {
@@ -128,7 +181,9 @@ export default function ReviewTransferScreen() {
         },
       });
     } catch (error) {
-      setIsErrorModalVisible(true);
+      delayTransition(() => {
+        setIsErrorModalVisible(true);
+      });
       warn("internal-transfer", "Could not request OTP: ", JSON.stringify(error));
     }
   };
@@ -147,8 +202,35 @@ export default function ReviewTransferScreen() {
   };
 
   const handleOnDone = () => {
+    setIsErrorModalVisible(false);
     setIsErrorTransferLimit(false);
+    setSenderTransferRejected(false);
+    setReceiverTransferRejected(false);
     navigation.navigate("InternalTransfers.InternalTransferScreen");
+  };
+
+  const handleOnLogout = async () => {
+    try {
+      await signOutUser(logoutActionsIds.MANUALLY_ID);
+      setSenderTransferRejected(false);
+      delayTransition(() => {
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: "Onboarding.OnboardingStack",
+              params: {
+                screen: "Onboarding.SplashScreen",
+              },
+            },
+          ],
+        });
+      });
+    } catch (error) {
+      setSenderTransferRejected(false);
+      const typedError = error as Error;
+      warn("logout-api error: ", typedError.message);
+    }
   };
 
   const buttonsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -173,7 +255,7 @@ export default function ReviewTransferScreen() {
               />
             ) : null}
             <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
-              <Button onPress={() => handleSendMoney()} variant="primary">
+              <Button onPress={() => handleFocalCheck()} variant="primary">
                 {t("InternalTransfers.ReviewTransferScreen.sendMoney")}
               </Button>
               <Button onPress={() => handleOnClose()} variant="tertiary">
@@ -205,6 +287,9 @@ export default function ReviewTransferScreen() {
         message={t("errors.generic.message")}
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
+        buttons={{
+          primary: <Button onPress={handleOnDone}>{t("errors.generic.button")}</Button>,
+        }}
       />
       <NotificationModal
         variant="error"
@@ -214,7 +299,37 @@ export default function ReviewTransferScreen() {
         onClose={() => setIsErrorTransferLimit(false)}
         buttons={{
           primary: (
-            <Button onPress={handleOnDone}>{t("InternalTransfers.ReviewTransferScreen.notification.done")}</Button>
+            <Button onPress={handleOnDone}>
+              {t("InternalTransfers.ReviewTransferScreen.transferLimitError.done")}
+            </Button>
+          ),
+        }}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("InternalTransfers.ReviewTransferScreen.senderTransferRejected.title")}
+        message={t("InternalTransfers.ReviewTransferScreen.senderTransferRejected.message")}
+        isVisible={isSenderTransferRejected}
+        onClose={() => setSenderTransferRejected(false)}
+        buttons={{
+          primary: (
+            <Button onPress={handleOnLogout}>
+              {t("InternalTransfers.ReviewTransferScreen.senderTransferRejected.Ok")}
+            </Button>
+          ),
+        }}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.title")}
+        message={t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.message")}
+        isVisible={isReceiverTransferRejected}
+        onClose={() => setReceiverTransferRejected(false)}
+        buttons={{
+          primary: (
+            <Button onPress={handleOnDone}>
+              {t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.Ok")}
+            </Button>
           ),
         }}
       />

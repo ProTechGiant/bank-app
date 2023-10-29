@@ -2416,27 +2416,38 @@
   },
   "InternalTransfers": {
     "ReviewTransferScreen": {
-      "title": "Review transfer",
-      "from": "From",
-      "to": "To",
-      "reason": "Reason",
-      "total": "Total",
-      "notes": "Attachments",
-      "optional": "(Optional)",
-      "addButton": "Add Note & GIF",
-      "sendMoney": "Transfer now",
-      "cancel": "Cancel",
-      "currency": "SAR",
+      "title": "مراجعة عملية التحويل",
+      "from": "من",
+      "to": "الى",
+      "reason": "السبب",
+      "total": "المجموع",
+      "notes": "مرفقات",
+      "optional": "(اختياري)",
+      "addButton": "إضافة ملاحظة ورموز تعبيرية",
+      "sendMoney": "ارسل الآن",
+      "cancel": "الغاء",
+      "currency": "ر.س",
       "notification": {
-        "title": "Are you sure?",
-        "message": "Do you want to cancel this transfer?",
-        "cancel": "Cancel transfer",
-        "done": "Done",
-        "continue": "Continue"
+        "title": "هل أنت متأكد؟",
+        "message": "هل تود الغاء عملية التحويل؟",
+        "cancel": "الغاء التحويل",
+        "done": "تم",
+        "continue": "متابعة"
       },
       "transferLimitError": {
-        "title": "Transaction Failed",
-        "message": "Sorry, You are exceeding global limit of transfer"
+        "title": "فشلت عملية التحويل",
+        "message": "نعتذر٫ لقد تجاوزت الحد التحويل العالمي",
+        "done": "تم"
+      },
+      "senderTransferRejected": {
+        "title": ".فشلت العملية",
+        "message": "عذرًا، يبدو أنك لم تكمل الاختبار بنجاح. سنقوم بتسجيل خروجك",
+        "Ok": "حسنًا "
+      },
+      "receiverTransferRejected": {
+        "title": ".فشلت العملية",
+        "message": ".عذرًا، يبدو أن المستلم لم يكمل الاختبار بنجاح",
+        "Ok": "حسنًا "
       }
     },
     "AddNoteScreen": {
@@ -2604,28 +2615,28 @@
       "confirmButton": "Confirm"
     },
     "ReviewQuickTransferScreen": {
-      "title": "Review transfer",
-      "from": "From",
-      "to": "To",
-      "reason": "Reason",
-      "total": "Total",
-      "bank": "Bank",
-      "fee": "Fee",
-      "sendMoney": "Send money now",
-      "cancel": "Cancel",
-      "currency": "SAR",
+      "title": "مراجعة عملية التحويل",
+      "from": "من",
+      "to": "الى",
+      "reason": "سبب التحويل",
+      "total": "المجموع",
+      "bank": "اسم البنك",
+      "fee": "الرسوم",
+      "sendMoney": "أرسل الأموال الآن",
+      "cancel": "الغاء",
+      "currency": "ر.س",
       "notification": {
-        "title": "Are you sure?",
-        "message": "Do you want to cancel this transfer?",
-        "cancel": "Cancel transfer",
-        "continue": "Continue"
+        "title": "هل أنت متأكد؟",
+        "message": "هل تود الغاء عملية التحويل؟",
+        "cancel": "الغاء التحويل",
+        "continue": "متابعة"
       },
       "feesError": {
-        "title": "Sorry - we couldn’t check that",
-        "message": "Please try again later or get in touch if you’re still having problems."
+        "title": "نعتذر- لن نتمكن من فحص ذلك",
+        "message": "الرجاء المحاولة مرة أخرى لاحقاً أو حاول التواصل مع فريقنا ان كنت ما زلت تواجه المشكلة"
       },
-      "feeInclVAT": "Fees incl. VAT",
-      "transferNow": "Transfer now"
+      "feeInclVAT": "الرسوم شاملة ضريبة القيمة المضافة",
+      "transferNow": "ارسل الآن"
     },
     "BeneficiaryDeclarationScreen": {
       "title": "Terms and conditions",

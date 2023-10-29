@@ -147,6 +147,7 @@ export default function SendToBeneficiaryScreen() {
               IBAN: iban,
               Bank: selectedBank,
               type: type,
+              beneficiaryId: beneficiaryId,
             },
           })
         : navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen")

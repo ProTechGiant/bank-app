@@ -2577,7 +2577,18 @@
       },
       "transferLimitError": {
         "title": "Transaction Failed",
-        "message": "Sorry, You are exceeding global limit of transfer"
+        "message": "Sorry, You are exceeding global limit of transfer",
+        "done": "Done"
+      },
+      "senderTransferRejected": {
+        "title": "Transaction Failed",
+        "message": "Sorry, but it appears you haven't successfully completed the screening test. We are logging you out",
+        "Ok": "Ok"
+      },
+      "receiverTransferRejected": {
+        "title": "Transaction Failed",
+        "message": "Sorry, but it appears the recipient haven't successfully completed the screening test.",
+        "Ok": "Ok"
       }
     },
     "AddNoteScreen": {

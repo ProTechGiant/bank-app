@@ -54,6 +54,7 @@ export interface InternalTransfer {
     DebtorAccountCustomerAccountId: string;
     CreditorAccountCustomerAccountId: string;
     RemittanceInformation: string;
+    BeneficiaryId?: string;
   };
 }
 
@@ -69,6 +70,7 @@ export interface InternalTransferToARBRequest {
   transferType: string;
   expressTransferFlag: string;
   customerRemarks: string;
+  BeneficiaryId?: string;
 }
 
 export enum TransferTypeCode {
@@ -116,4 +118,5 @@ export interface LocalTransfer {
   transferPurpose: string;
   transferType: string; // "01" – Own Account Transfer / "02" – Al Rajhi Transfer/ "04" – Local Transfer
   customerRemarks: string;
+  BeneficiaryId?: string;
 }
