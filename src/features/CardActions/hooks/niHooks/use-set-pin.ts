@@ -6,7 +6,7 @@ import { NIErrorResponse, NIInputInterface } from "../../types";
 
 export const useSetPin = () => {
   const [result, setResult] = useState<string | null>();
-  const [error, setError] = useState<NIErrorResponse | null>();
+  const [error, setError] = useState<NIErrorResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onSetPin = (pin: string, input: NIInputInterface) => {

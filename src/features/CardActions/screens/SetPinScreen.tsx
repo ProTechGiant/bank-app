@@ -22,14 +22,17 @@ import PincodeInput from "@/components/PincodeInput";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import delayTransition from "@/utils/delay-transition";
 import { isValidPincode } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { CardActionsStackParams } from "../CardActionsStack";
+import { NI_ROOT_URL } from "../constants";
 import { useSetPin } from "../hooks/niHooks/use-set-pin";
+import { useGetToken } from "../hooks/query-hooks";
+import { NIInputInterface } from "../types";
 
 export default function SetPinScreen() {
   const dimensions = useWindowDimensions();
@@ -39,7 +42,8 @@ export default function SetPinScreen() {
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.SetPinScreen">>();
   const cardId = route.params.cardId;
 
-  const { result: setPinResult, isLoading: setPinLoading } = useSetPin();
+  const { result: setPinResult, onSetPin, isLoading: setPinLoading, error: setPinError } = useSetPin();
+  const { mutateAsync, isLoading: getTokenLoading } = useGetToken();
 
   const pagerViewRef = useRef<ScrollView>(null);
   const enterPinCodeRef = useRef<React.ElementRef<typeof PincodeInput>>(null);
@@ -55,9 +59,36 @@ export default function SetPinScreen() {
 
   useEffect(() => {
     if (setPinResult !== null && setPinResult === "OK") {
-      delayTransition(() => handleIVRActivation());
+      navigation.navigate("CardActions.CardActivatedScreen", { cardId });
     }
   }, [setPinResult]);
+
+  useEffect(() => {
+    if (setPinError !== null) {
+      setIsSubmitErrorVisible(true);
+    }
+  }, [setPinError]);
+
+  const handleOnSetPin = async (pin: string) => {
+    try {
+      const response = await mutateAsync();
+      if (response) {
+        const niInput: NIInputInterface = {
+          cardIdentifierType: "EXID",
+          cardIdentifierId: cardId,
+          bankCode: "CROAT",
+          connectionProperties: {
+            rootUrl: NI_ROOT_URL,
+            token: response.AccessToken,
+          },
+        };
+        onSetPin(pin, niInput);
+      }
+    } catch (error) {
+      setIsSubmitErrorVisible(true);
+      warn("CARD-ACTIONS", `Error while getting token: ${JSON.stringify(error)}`);
+    }
+  };
 
   const handleOnTransitionStep = () => {
     setCurrentValue("");
@@ -100,9 +131,7 @@ export default function SetPinScreen() {
       }
 
       if (convertedInput === selectedPincode) {
-        //TODO: check if sdk needs encrypted value for setting pin, encryptValue(convertedInput)
-        // handleOnSetPin(selectedPincode);
-        handleIVRActivation(); //TODO: remove this and uncomment above line when SDK is working properly
+        handleIVRActivation();
       }
     }
   };
@@ -117,9 +146,9 @@ export default function SetPinScreen() {
   };
 
   const handleActivationSuccess = async () => {
-    delayTransition(() => {
-      navigation.navigate("CardActions.CardActivatedScreen", { cardId });
-    });
+    if (selectedPincode !== undefined) {
+      handleOnSetPin(selectedPincode);
+    }
   };
 
   const handleOnCloseError = () => {
@@ -145,7 +174,7 @@ export default function SetPinScreen() {
 
   return (
     <>
-      {setPinLoading ? (
+      {setPinLoading || getTokenLoading ? (
         <FullScreenLoader />
       ) : (
         <Page backgroundColor="neutralBase-60">
@@ -258,5 +287,3 @@ const PIN_MAX_TRIES = 3;
 const styles = StyleSheet.create({
   progressIndicator: { width: "80%" },
 });
-
-// not the issue, its related to flow of setpin, we have to change it a bit, earlier we were setting pin and then IVR activation was done, but now we shu
