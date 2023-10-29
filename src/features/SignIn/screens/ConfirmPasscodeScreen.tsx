@@ -84,7 +84,7 @@ export default function ConfirmPasscodeScreen() {
     setShowSuccessModal(false);
 
     if (isAuthenticated) navigation.navigate("Settings.CustomerAccountManagementScreen");
-    else navigation.navigate("SignIn.Passcode");
+    else navigation.navigate("SignIn.Iqama");
   };
 
   const resetError = () => {
