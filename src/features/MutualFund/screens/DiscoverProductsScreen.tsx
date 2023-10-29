@@ -83,8 +83,8 @@ export default function DiscoverProductsScreen() {
           <View style={loadingContainerStyle}>
             <ActivityIndicator />
           </View>
-        ) : filteredProducts && filteredProducts.ProductsList.length > 0 ? (
-          filteredProducts.ProductsList.map((product, index) => {
+        ) : filteredProducts && filteredProducts.mutualFundProductsList.length > 0 ? (
+          filteredProducts.mutualFundProductsList.map((product, index) => {
             return (
               <MutualFundOffersItem
                 key={product.Id}

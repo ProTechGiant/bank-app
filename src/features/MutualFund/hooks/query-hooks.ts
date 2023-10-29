@@ -54,6 +54,7 @@ export function usePortfoliosPerformanceList() {
       undefined,
       {
         ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18next.language,
       }
     );
   });

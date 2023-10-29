@@ -56,7 +56,7 @@ export interface PortfolioDetails {
       InvestedValue: number;
       NAV: number;
       YTD: number;
-      AvargeCoast: number;
+      AverageCost: number;
       Units: number;
       InceptionDate: string;
       ValuationDate: string;
@@ -71,10 +71,10 @@ export interface PortfolioDetails {
       Strategy: string;
       MutualFundInfo: string;
       AssetAllocation: {
-        Sukuk: number;
+        SokukFund: number;
         SharesFund: number;
-        CashMarketFund: number;
-        EIT: number;
+        CashMarketsFund: number;
+        InvestmentFund: number;
       };
     }
   ];
@@ -111,7 +111,7 @@ export type Product = {
 };
 
 export type OffersProducts = {
-  ProductsList: Product[];
+  mutualFundProductsList: Product[];
 };
 
 export interface Account {

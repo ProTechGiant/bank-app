@@ -100,7 +100,7 @@ export default function PortfolioDetailsScreen() {
                   isDown={PortfolioDetail.YTD > 0}
                   navValue={PortfolioDetail.NAV}
                   ytdValue={PortfolioDetail.YTD}
-                  averageCostValue={PortfolioDetail.AvargeCoast}
+                  averageCostValue={PortfolioDetail.AverageCost}
                   unitsValue={PortfolioDetail.Units}
                 />
               ))}
