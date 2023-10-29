@@ -3621,8 +3621,8 @@
     "PortfolioDetailsScreen": {
       "headerTitle": "محفظة",
       "subTitle": "صناديق الاستثمار",
-      "discoverButton": "اكتشف الصناديق المشتركة",
-      "viewFundButton": "عرض أوامر الصندوق",
+      "discoverButton": "اكتشاف صناديق الاستثمار",
+      "viewFundButton": "عرض طلبات الصندوق",
       "DetailsCard": {
         "investedValue": "القيمة المستثمرة: {{value}} ريال سعودي",
         "NAV": "NAV",
