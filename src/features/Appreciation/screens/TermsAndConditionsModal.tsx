@@ -4,7 +4,6 @@ import { useContentTermsAndCondition } from "@/hooks/use-content";
 export default function TermsAndConditionsModal() {
   //TODO this is not the correct hook call the correct one once it is implemented
   const termsAndConditionData = useContentTermsAndCondition();
-  const termsSections = termsAndConditionData?.data?.TermsSections;
 
-  return <TermsAndConditionsPage termsSections={termsSections} />;
+  return <TermsAndConditionsPage termsData={termsAndConditionData.data} />;
 }

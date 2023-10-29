@@ -1,7 +1,9 @@
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import { PrintIcon } from "@/assets/icons";
+import { ShareDocumentIcon } from "@/assets/icons/ShareDocumentIcon";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import NavHeader from "@/components/NavHeader";
@@ -10,15 +12,47 @@ import TermsAndConditionDetails from "@/components/TermsAndConditionDetails";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { TermsAndConditionSection } from "@/types/Content";
+import { TermsAndConditionContainer } from "@/types/Content";
+import { handleExportStatement } from "@/utils/export-pdf";
+
+import Stack from "../Stack";
+
+const PDF_BASE_64_PREFIX = "data:application/pdf;base64,";
 
 interface TermsAndConditionsModalProps {
-  termsSections: TermsAndConditionSection[] | undefined;
+  termsData: TermsAndConditionContainer | undefined;
 }
-export default function TermsAndConditionsPage({ termsSections }: TermsAndConditionsModalProps) {
+export default function TermsAndConditionsPage({ termsData }: TermsAndConditionsModalProps) {
   const { t } = useTranslation();
 
   const navigation = useNavigation();
+
+  const termsSections = termsData?.TermsSections;
+  const termsId = termsData?.TermsID;
+
+  const handleOnSharePress = async () => {
+    await shareTermsAndConditions("string");
+  };
+
+  const handleOnPrintPress = async () => {
+    await shareTermsAndConditions("pdf");
+  };
+
+  const shareTermsAndConditions = async (type: "pdf" | "string") => {
+    const termsAsString =
+      termsSections
+        ?.map((section, index) => `${index + 1} . ${section.Title}\n ${section.Bodies.map(body => body.Body)}\n`)
+        .join("\n") ?? "";
+
+    await handleExportStatement(
+      {
+        name: `Croatia Terms And Conditions ${termsId}`,
+        type: "pdf",
+        content: termsAsString,
+      },
+      type === "pdf" ? PDF_BASE_64_PREFIX : ""
+    );
+  };
 
   const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
     height: 1,
@@ -29,6 +63,15 @@ export default function TermsAndConditionsPage({ termsSections }: TermsAndCondit
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingBottom: theme.spacing["20p"],
+  }));
+
+  const footerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["20p"],
+    paddingVertical: theme.spacing["16p"],
+    width: "100%",
+    backgroundColor: theme.palette["neutralBase-60"],
+    bottom: 0,
+    justifyContent: "space-between",
   }));
 
   return (
@@ -59,6 +102,15 @@ export default function TermsAndConditionsPage({ termsSections }: TermsAndCondit
             })}
           </ContentContainer>
         )}
+
+        <Stack direction="horizontal" style={footerStyle}>
+          <Pressable onPress={handleOnPrintPress}>
+            <PrintIcon />
+          </Pressable>
+          <Pressable onPress={handleOnSharePress}>
+            <ShareDocumentIcon />
+          </Pressable>
+        </Stack>
       </Page>
     </SafeAreaProvider>
   );
