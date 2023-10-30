@@ -225,6 +225,13 @@ export default function TemporaryLandingScreen() {
     });
   };
 
+  const handleOnMutualFund = async (values: TemporaryForm) => {
+    auth.authenticate(values.UserId);
+    setImmediate(() => {
+      navigation.navigate("MutualFund.MutualFundStack", { screen: "MutualFund.EntryPoint" });
+    });
+  };
+
   const handleOnHelpAndSupport = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     setImmediate(() => {
@@ -289,6 +296,9 @@ export default function TemporaryLandingScreen() {
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnGoalGetter)}>Goal Getter</Button>
+        </View>
+        <View style={styles.margin20}>
+          <Button onPress={handleSubmit(handleOnMutualFund)}>Mutual fund</Button>
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnHelpAndSupport)}>Help And Support Hub</Button>

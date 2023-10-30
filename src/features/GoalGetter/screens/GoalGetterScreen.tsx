@@ -23,7 +23,7 @@ export default function GoalGetterScreen() {
   };
 
   const handleOnPressCreateGoal = () => {
-    //TODO: redirected to stage 1 of create goal page
+    navigation.navigate("GoalGetter.ShapeGoalScreen");
   };
 
   const handleOnPressExploreProducts = () => {

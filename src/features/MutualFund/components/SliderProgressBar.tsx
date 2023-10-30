@@ -35,8 +35,15 @@ export default function SliderProgressBar({ productId }: SliderProgressBarProps)
   };
 
   const handleTextInputChange = (value: string) => {
-    setSliderValue(value === "" ? 0 : parseFloat(value));
-    setTextInputValue(value);
+    let inputValue = value.replace(/[^0-9.]/g, "");
+    inputValue = inputValue.replace(/(\..*)\./g, "$1");
+
+    if (inputValue === ".") {
+      inputValue = "0.";
+    }
+
+    setSliderValue(inputValue === "" ? 0 : parseFloat(inputValue));
+    setTextInputValue(inputValue);
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
