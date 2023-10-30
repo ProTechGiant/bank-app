@@ -19,8 +19,9 @@ import GoldBalanceCard from "../components/GoldBalanceCard";
 import GoldChart from "../components/GoldChart";
 import TransactionCard from "../components/TransactionCard";
 import { useAlertSettings, useWallet, useWalletTransaction } from "../hooks/query-hooks";
-import { TransactionType } from "../types";
+import { MeasureUnitEnum, TransactionType, TransactionTypeEnum } from "../types";
 import { AlertConditionsEnum, AlertStatus, ConditionWithLabelsType } from "../types";
+import TransactionSummaryModal from "./TransactionSummaryModal";
 
 export default function HubScreen() {
   const { t } = useTranslation();
@@ -42,6 +43,9 @@ export default function HubScreen() {
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
   const [isAlertSettingsModalVisible, setIsAlertSettingsModalVisible] = useState<boolean>(false);
   const [isTransactionsErrorModalVisible, setIsTransactionsErrorModalVisible] = useState<boolean>(false);
+
+  //TODO remove it to the screen khaled will make
+  const [isTransactionSummaryModalVisible, setIsTransactionSummaryModalVisible] = useState<boolean>(true);
 
   const conditionsWithLabels: ConditionWithLabelsType[] = [
     { label: t("GoldWallet.AlertSettingsModal.ConditionsModal.greaterThan"), value: AlertConditionsEnum.GREATER_THAN },
@@ -273,6 +277,17 @@ export default function HubScreen() {
           isVisible={isAlertSettingsModalVisible}
           onChangeVisibility={setIsAlertSettingsModalVisible}
           conditionsWithLabels={conditionsWithLabels}
+        />
+      ) : null}
+      {isTransactionSummaryModalVisible && walletData !== undefined ? (
+        <TransactionSummaryModal
+          isVisible={isTransactionSummaryModalVisible}
+          changeVisibility={setIsTransactionSummaryModalVisible}
+          walletId={walletData.WalletId}
+          weight={10}
+          type={TransactionTypeEnum.BUY}
+          measureUnit={MeasureUnitEnum.GM}
+          marketStatus={walletData.MarketStatus}
         />
       ) : null}
     </Page>

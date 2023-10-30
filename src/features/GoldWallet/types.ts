@@ -97,3 +97,42 @@ export interface GoldPerformanceMonthlyType {
   Date: string;
   Performance: number;
 }
+
+export enum TransactionTypeEnum {
+  SELL = "SELL",
+  BUY = "BUY",
+}
+
+export enum MeasureUnitEnum {
+  KG = "KG",
+  GM = "GM",
+}
+
+export enum DealStatusEnum {
+  ACCEPT = 1,
+  REJECT = 0,
+}
+
+export interface GoldFinalDealResponseType {
+  TrxnId: string;
+  TransactionKey: string;
+  AccountNumber: string;
+  AccountBalance: number;
+  AutoRetryCount: number;
+  SourceRefNo: string;
+  Rate: number;
+  TimeToLive: number;
+  TotalAmount: number;
+  MeasureUnit: MeasureUnitEnum;
+  Weight: number;
+  SupplierName: string;
+  Qty: number;
+  Purity: string;
+}
+
+export enum TimerStatusEnum {
+  RUNNING = "running",
+  STOPPED = "stopped",
+  NOT_STARTED = "notStarted",
+  PAUSED = "paused",
+}

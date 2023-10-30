@@ -1600,7 +1600,7 @@
       "label": "Goal created successfully",
       "button": "Done"
     },
-    "ShapeGoalScreen":{
+    "ShapeGoalScreen": {
       "title": "Shape your goal",
       "buildGoal": "Build your own goal",
       "hint": "Complete at least one field below.",
@@ -1613,7 +1613,7 @@
       "monthlyContribution": "How much are you willing to pay monthly?",
       "continueButton": "Continue",
       "currency": "SAR",
-      "error":{
+      "error": {
         "errorTargetAmount": "Please enter amount within 6,000,000.00 SAR",
         "errorMonthlyAmount": "Please enter amount above 100.00 SAR"
       },
@@ -3727,6 +3727,35 @@
         "lessThanOrEqual": "Less than equal to (<=)",
         "equal": "Equal to (==)"
       }
+    },
+    "TransactionSummaryModal": {
+      "orderSummary": "Order Summary",
+      "youSelectedTo": "You’ve selected to",
+      "amountOfGold": "the following amount of gold",
+      "fundsTransferred": "Funds Transferred f0",
+      "currentAccount": "Current Acc",
+      "stars": "***",
+      "availableBalance": "Available Balance",
+      "goldPrice": "Gold price",
+      "per": "per",
+      "quantity": "Qty",
+      "total": "Total",
+      "times": "x",
+      "totalAmount": "Total Amount",
+      "marketClosed": "The market is closed now!",
+      "tryAgainWhenMarketOpen": "Try again when the market is open for trading gold.",
+      "goldPricesChanging": "Gold prices are changing due to the changes in the gold market.",
+      "continue": "Continue",
+      "whyPricesChange": "Why Prices Are Changing ?",
+      "priceWillExpireIn": "Price will expire in",
+      "priceExpired": "Price has expired",
+      "seconds": "seconds",
+      "refresh": "refresh",
+      "currency": "SAR",
+      "buy": "buy",
+      "sell": "sell",
+      "gram": "g",
+      "kiloGram": "kg"
     }
   },
   "MutualFund": {

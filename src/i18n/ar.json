@@ -1561,7 +1561,7 @@
       "label": "تم إنشاء الهدف بنجاح",
       "button": "تم"
     },
-    "ShapeGoalScreen":{
+    "ShapeGoalScreen": {
       "title": "تشكيل الهدف",
       "buildGoal": "ضع هدفك الخاص",
       "hint": "أكمل على الأقل حقل واحد أدناه.",
@@ -1574,7 +1574,7 @@
       "monthlyContribution": "ما مقدار الدفعة الشهرية؟",
       "continueButton": "المتابعة",
       "currency": "ر.س",
-      "error":{
+      "error": {
         "errorTargetAmount": "الرجاء إدخال المبلغ في حدود 20,000 ريال سعودي",
         "errorMonthlyAmount": "الرجاء إدخال مبلغ يتراوح بين 500 إلى 20,000 ريال سعودي"
       },
@@ -3589,6 +3589,35 @@
         "lessThanOrEqual": "أقل من يساوي (<=)",
         "equal": "يساوي (==)"
       }
+    },
+    "TransactionSummaryModal": {
+      "orderSummary": "ملخص الطلب",
+      "youSelectedTo": "لقد قمت باختيار",
+      "amountOfGold": "الكمية التالية من الذهب",
+      "fundsTransferred": "تم نقل الأموال بمقدار f0",
+      "currentAccount": "الحساب الحالي",
+      "stars": "***",
+      "availableBalance": "الرصيد المتاح",
+      "goldPrice": "سعر الذهب",
+      "per": "لكل",
+      "quantity": "الكمية",
+      "total": "المجموع",
+      "times": "مرات",
+      "totalAmount": "المجموع الكلي",
+      "marketClosed": "السوق مغلق الآن!",
+      "tryAgainWhenMarketOpen": "حاول مرة أخرى عندما يكون السوق مفتوحًا لتداول الذهب.",
+      "goldPricesChanging": "أسعار الذهب تتغير بسبب التغيرات في سوق الذهب.",
+      "continue": "متابعة",
+      "whyPricesChange": "لماذا الأسعار تتغير؟",
+      "priceWillExpireIn": "السعر سوف ينتهي في خلال",
+      "priceExpired": "السعر انتهت مدته",
+      "seconds": "ثواني",
+      "refresh": "اعاده التحميل",
+      "currency": "SAR",
+      "buy": "بيع",
+      "sell": "شراء",
+      "gram": "جرام",
+      "kiloGram": "كيلو جرام"
     }
   },
   "MutualFund": {

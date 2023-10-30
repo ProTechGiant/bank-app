@@ -6,7 +6,14 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { TermsAndConditionContainer } from "@/types/Content";
 import { generateRandomId } from "@/utils";
 
-import { AlertSettingsResponseType, getTransactionsResponse, GetWalletResponseType } from "../types";
+import {
+  AlertSettingsResponseType,
+  DealStatusEnum,
+  getTransactionsResponse,
+  GetWalletResponseType,
+  GoldFinalDealResponseType,
+} from "../types";
+import { MeasureUnitEnum, TransactionTypeEnum } from "./../types";
 
 const queryKeys = {
   all: () => ["goldWallet"],
@@ -15,6 +22,8 @@ const queryKeys = {
   getTermsAndConditions: () => [...queryKeys.all(), "getTermsAndConditions"],
   getWalletTransactions: () => [...queryKeys.all(), "getTransactions"],
   getAlertSettings: () => [...queryKeys.all(), "getAlertSettings"],
+  getFinalDeal: () => [queryKeys.all(), "getFinalDeal"],
+  acceptFinalDeal: () => [queryKeys.all(), "acceptFinalDeal"],
 };
 
 export function useWallet() {
@@ -122,6 +131,88 @@ export function useSetAlertSettings() {
       onSuccess: () => {
         queryClient.invalidateQueries(queryKeys.getAlertSettings());
       },
+    }
+  );
+}
+
+export function useFinalDeal({
+  walletId,
+  weight,
+  type,
+  measureUnit,
+}: {
+  walletId: string;
+  weight: number;
+  type: TransactionTypeEnum;
+  measureUnit: MeasureUnitEnum;
+}) {
+  const { userId } = useAuthContext();
+  return useQuery(queryKeys.getFinalDeal(), () => {
+    return api<GoldFinalDealResponseType>(
+      "v1",
+      "gold/final-deal",
+      "POST",
+      undefined,
+      {
+        CustomerId: userId,
+        WalletId: walletId,
+        Weight: weight,
+        Type: type,
+        MeasureUnit: measureUnit,
+      },
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+      }
+    );
+  });
+}
+
+export function useAcceptFinalDeal() {
+  const { userId } = useAuthContext();
+  return useMutation(
+    queryKeys.acceptFinalDeal(),
+    ({
+      TrxnId,
+      TransactionKey,
+      Status,
+      Weight,
+      SupplierName,
+      Qty,
+      Purity,
+      SourceRefNo,
+      walletId,
+    }: {
+      TrxnId?: string;
+      TransactionKey?: string;
+      Status?: DealStatusEnum;
+      Weight?: number;
+      SupplierName?: string;
+      Qty?: number;
+      Purity?: string;
+      SourceRefNo?: string;
+      walletId?: string;
+    }) => {
+      return api(
+        "v1",
+        "gold/final-deal-acceptance",
+        "POST",
+        undefined,
+        {
+          CustomerId: userId,
+          TrxnId,
+          TransactionKey,
+          Status,
+          Weight,
+          SupplierName,
+          Qty,
+          Purity,
+          SourceRefNo,
+          WalletId: walletId,
+        },
+        {
+          ["x-Correlation-Id"]: generateRandomId(),
+        }
+      );
     }
   );
 }
