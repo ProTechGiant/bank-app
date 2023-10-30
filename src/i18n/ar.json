@@ -1303,6 +1303,14 @@
       "createGoalbutton": "إنشاء الهدف",
       "exploreProductsbutton": "اكتشاف المنتجات"
     },
+    "DatePickerModal": {
+      "title": "تحديد التاريخ",
+      "setDateButton": "تحديد التاريخ",
+      "cancelButton": "إلغاء",
+      "sixMonth": "6 اشهر",
+      "twelveMonths": "12 شهر",
+      "twentyFourMonths": "24 شهر"
+    },
     "ContributionsScreen": {
       "question_1": "ما هو مقدار المساهمة الأولية الخاصة بك؟",
       "question_2": "ما هو مقدار المساهمة الشهرية الخاصة بك؟",

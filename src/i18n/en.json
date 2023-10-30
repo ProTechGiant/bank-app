@@ -1343,6 +1343,14 @@
       "createGoalbutton": "Create Goal",
       "exploreProductsbutton": "Explore Products"
     },
+    "DatePickerModal": {
+      "title": "Select date",
+      "setDateButton": "Set Date",
+      "cancelButton": "Cancel",
+      "sixMonth": "6 months",
+      "twelveMonths": "12 months",
+      "twentyFourMonths": "24 months"
+    },
     "ContributionsScreen": {
       "question_1": "What is your initial contribution?",
       "question_2": "What is your monthly contribution?",
@@ -1370,7 +1378,6 @@
       "cancelButton": "Cancel",
       "roundUp": "Round up"
     },
-
     "title": "Goal getter products",
     "description": "Imagine a goal and we’ll help you save for it.",
     "button": "Create a goal",
