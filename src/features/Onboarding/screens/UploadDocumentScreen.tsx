@@ -21,6 +21,7 @@ import { useThemeStyles } from "@/theme";
 
 import ChooseDocumentUploadOptionModel from "../components/ChooseDocumentUploadOptionModel";
 import UploadDocumentCardList from "../components/UploadDocumentCardList";
+import { HighRiskCaseStatus } from "../constants";
 import {
   useCheckHighRiskStatus,
   useRetriveHighRiskDocumentListByCustomerId,
@@ -53,6 +54,11 @@ export default function UploadDocumentScreen() {
 
   useEffect(() => {
     if (!highRiskStatus?.CaseStatus) return;
+    if (
+      highRiskStatus?.CaseStatus === HighRiskCaseStatus.DOCUMENTS_REQUIRED ||
+      highRiskStatus?.CaseStatus === HighRiskCaseStatus.NEW
+    )
+      return;
     navigation.navigate(getHighRiskCaseStatusScreen(highRiskStatus.CaseStatus));
   }, [navigation, highRiskStatus]);
 
@@ -143,9 +149,9 @@ export default function UploadDocumentScreen() {
       if (!document || !base64) return;
 
       const input: UploadDocumentHighRiskRequestInterface = {
-        AnnotationGuid: document.AnnotationGuid,
         DocumentBodyBase64String: base64,
         DocumentGuid: document.DocumentGuid,
+        AnnotationGuid: document.AnnotationGuid,
         DocumentName: name,
         DocumentType: type,
       };
