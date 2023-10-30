@@ -43,6 +43,8 @@ export default function ReviewTransferScreen() {
   const [isErrorTransferLimit, setIsErrorTransferLimit] = useState(false);
   const [isSenderTransferRejected, setSenderTransferRejected] = useState(false);
   const [isReceiverTransferRejected, setReceiverTransferRejected] = useState(false);
+  const [isSASCheckStatus, setSASCheckStatus] = useState(false);
+
   interface ErrorType {
     errorContent: {
       Errors: Array<{
@@ -70,6 +72,8 @@ export default function ReviewTransferScreen() {
         delayTransition(() => {
           setReceiverTransferRejected(true);
         });
+      } else if (errorCode === "0001") {
+        setSASCheckStatus(true);
       } else {
         delayTransition(() => {
           setIsErrorModalVisible(true);
@@ -206,6 +210,7 @@ export default function ReviewTransferScreen() {
     setIsErrorTransferLimit(false);
     setSenderTransferRejected(false);
     setReceiverTransferRejected(false);
+    setSASCheckStatus(false);
     navigation.navigate("InternalTransfers.InternalTransferScreen");
   };
 
@@ -330,6 +335,18 @@ export default function ReviewTransferScreen() {
             <Button onPress={handleOnDone}>
               {t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.Ok")}
             </Button>
+          ),
+        }}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.title")}
+        message={t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.message")}
+        isVisible={isSASCheckStatus}
+        onClose={() => setSASCheckStatus(false)}
+        buttons={{
+          primary: (
+            <Button onPress={handleOnDone}>{t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.Ok")}</Button>
           ),
         }}
       />

@@ -2623,6 +2623,11 @@
         "title": "Transaction Failed",
         "message": "Sorry, but it appears the recipient haven't successfully completed the screening test.",
         "Ok": "Ok"
+      },
+      "sasCheckStatusError": {
+        "title": "Transaction Failed",
+        "message": "Please try again later",
+        "Ok": "Ok"
       }
     },
     "AddNoteScreen": {
