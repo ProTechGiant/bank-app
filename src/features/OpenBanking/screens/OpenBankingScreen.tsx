@@ -25,7 +25,7 @@ export default function OpenBankingScreen() {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
   const consentData = useGetConsent().data ?? ({} as ConsentDataResponse);
-  const { mutateAsync: connectConsent } = usePushConsent();
+  const { mutateAsync: connectConsent, isLoading } = usePushConsent();
 
   const handleCheckboxChange = (accountCardId: string) => (value: boolean) => {
     setSelectedAccountCards(prev => ({ ...prev, [accountCardId]: value }));
@@ -37,7 +37,7 @@ export default function OpenBankingScreen() {
       account => ({ Id: parseInt(account.Id, 10), Type: account.Type })
     );
 
-    const selectedCards = consentData.Cards.filter(card => selectedAccountCards[card.AccountNumber.toString()]).map(
+    const selectedCards = consentData.Cards.filter(card => selectedAccountCards[card.MaskedNumber.toString()]).map(
       card => ({ AccountNumber: card.AccountNumber, Type: card.Type })
     );
 
@@ -125,6 +125,7 @@ export default function OpenBankingScreen() {
                   selected={selectedAccountCards[account.Id.toString()] || false}
                   onCheckboxChange={handleCheckboxChange(account.Id.toString())}
                   cardText={account.Type}
+                  maskedNumber={account.MaskedNumber}
                 />
               </View>
             ))
@@ -133,16 +134,17 @@ export default function OpenBankingScreen() {
         {consentData.Cards
           ? consentData.Cards.map(card => (
               <AccountCardItem
-                key={card.AccountNumber}
+                key={card.MaskedNumber}
                 cardImageSource={
                   card.Type === "Credit"
                     ? require("../assets/images/bank-card-1.png")
                     : require("../assets/images/bank-card-2.png")
                 }
                 accountCardId={card.AccountNumber}
-                selected={selectedAccountCards[card.AccountNumber] || false}
+                selected={selectedAccountCards[card.MaskedNumber] || false}
                 cardText={card.Type}
-                onCheckboxChange={handleCheckboxChange(card.AccountNumber.toString())}
+                onCheckboxChange={handleCheckboxChange(card.MaskedNumber.toString())}
+                maskedNumber={card.MaskedNumber}
               />
             ))
           : null}
@@ -191,7 +193,7 @@ export default function OpenBankingScreen() {
           }
         />
         <View style={buttonsContainerStyle}>
-          <Button variant="primary" disabled={isConnectButtonDisabled} onPress={handleOnConnect}>
+          <Button loading={isLoading} variant="primary" disabled={isConnectButtonDisabled} onPress={handleOnConnect}>
             {t("OpenBanking.OpenBankingScreen.buttons.allow")}
           </Button>
           <Button onPress={() => setIsDenyModalOpen(true)} variant="tertiary">

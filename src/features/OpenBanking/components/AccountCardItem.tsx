@@ -11,9 +11,16 @@ interface AccountCardItemProps {
   onCheckboxChange: (value: boolean) => void;
   cardImageSource?: ImageSourcePropType;
   cardText: string;
+  maskedNumber?: string;
 }
 
-const AccountCardItem: React.FC<AccountCardItemProps> = ({ selected, onCheckboxChange, cardImageSource, cardText }) => {
+const AccountCardItem: React.FC<AccountCardItemProps> = ({
+  selected,
+  onCheckboxChange,
+  cardImageSource,
+  cardText,
+  maskedNumber,
+}) => {
   const checkBoxStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["12p"],
   }));
@@ -27,8 +34,7 @@ const AccountCardItem: React.FC<AccountCardItemProps> = ({ selected, onCheckboxC
             {cardText}
           </Typography.Text>
           <Typography.Text size="caption2" weight="regular" color="neutralBase">
-            {/* TODO until the API is ready */}
-            **** **** **** 1234
+            {maskedNumber}
           </Typography.Text>
         </View>
       </Stack>
