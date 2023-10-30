@@ -165,11 +165,10 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnOpenOnboarding = (values: TemporaryForm) => {
+  const handleOnOpenOnboarding = () => {
     // TODO this is to handle TPP service , to be removed until it finished
     removeItemFromEncryptedStorage("COMING_FROM_TPP");
 
-    auth.authenticateAnonymously(values.UserId, auth.authToken);
     navigation.navigate("Onboarding.OnboardingStack", {
       screen: "Onboarding.AppIntroAnimation",
     });

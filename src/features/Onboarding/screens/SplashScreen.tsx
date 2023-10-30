@@ -10,6 +10,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
+import { warn } from "@/logger";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -43,11 +44,12 @@ export default function SplashScreen() {
           handleGetAuthenticationToken();
         }
       } catch (error) {
-        warn("authentication api error: ", error);
+        warn("authentication api error: ", JSON.stringify(error));
       }
     }
 
     checkAuthToken();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation]);
 
   const handleGetAuthenticationToken = async () => {

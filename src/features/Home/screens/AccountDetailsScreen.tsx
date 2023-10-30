@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, FlatList, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, FlatList, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -14,8 +14,9 @@ import { useCurrentAccount } from "@/hooks/use-accounts";
 import { useCards } from "@/hooks/use-cards";
 import useTransactions from "@/hooks/use-transactions";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
+import { useTheme, useThemeStyles } from "@/theme";
 
+import { RefreshBalanceIcon } from "../assets/icons";
 import TransactionCell from "../components/TransactionCell";
 import { Transaction, TransactionDetailed } from "../types";
 
@@ -24,7 +25,7 @@ export default function AccountDetailsScreen() {
   const account = useCurrentAccount();
   const { t } = useTranslation();
   const cardsQuery = useCards();
-
+  const appTheme = useTheme();
   const { transactions, isLoading } = useTransactions();
   const pressableIcons = [
     {
@@ -54,6 +55,10 @@ export default function AccountDetailsScreen() {
       title: t("Home.AccountDetails.navBar.documents"),
     },
   ];
+
+  const handleOnRefreshBalancePress = () => {
+    account.refetch();
+  };
 
   const handleOnSeeAllTransactions = () => {
     navigation.navigate("ViewTransactions.ViewTransactionsStack", {
@@ -138,6 +143,11 @@ export default function AccountDetailsScreen() {
     elevation: 5,
   }));
 
+  const showBalanceIconStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingVertical: theme.spacing["4p"],
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  }));
+
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
@@ -148,9 +158,19 @@ export default function AccountDetailsScreen() {
               {t("Home.AccountDetails.Accounts.balance")}
             </Typography.Text>
             <Stack direction="horizontal" style={{ right: -12 }}>
-              <Typography.Text color="neutralBase+30" weight="semiBold" size="xlarge">
-                {account.data?.balance?.toLocaleString("en-US")}
-              </Typography.Text>
+              {account.data?.balance ? (
+                <Typography.Text color="neutralBase+30" weight="semiBold" size="xlarge">
+                  {account.data?.balance?.toLocaleString("en-US")}
+                </Typography.Text>
+              ) : (
+                <Pressable style={showBalanceIconStyle} onPress={handleOnRefreshBalancePress}>
+                  {account.isLoading ? (
+                    <ActivityIndicator color={appTheme.theme.palette["neutralBase+30"]} size="large" />
+                  ) : (
+                    <RefreshBalanceIcon />
+                  )}
+                </Pressable>
+              )}
               <Typography.Text color="neutralBase+10" size="footnote">
                 {t("Home.AccountDetails.Accounts.SAR")}
               </Typography.Text>
