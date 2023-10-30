@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Animated, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Animated, Platform, StyleSheet, View, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Typography } from "@/components";
@@ -27,8 +27,8 @@ export default function PortfolioDetailsScreen() {
   const H_MAX_HEIGHT = Platform.OS === "android" ? 529 + insets.top : 480 + insets.top;
   const H_SCROLL_DISTANCE = H_MAX_HEIGHT - H_MIN_HEIGHT;
 
-  const handleOnPressProduct = () => {
-    navigation.navigate("MutualFund.MutualFundDetailsScreen");
+  const handleOnPressProduct = (id: string) => {
+    navigation.navigate("MutualFund.MutualFundDetailsScreen", { id });
   };
 
   const handleOnDiscoverMutualFund = () => {
@@ -90,28 +90,28 @@ export default function PortfolioDetailsScreen() {
           })}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}>
-          <Pressable onPress={handleOnPressProduct}>
-            <View style={contentContainerStyle}>
-              {PortfolioDetails.PortfolioHoldingList.map((PortfolioDetail, index) => (
-                <DetailsCard
-                  key={index}
-                  title={PortfolioDetail.ProductName}
-                  investedValue={PortfolioDetail.InvestedValue}
-                  isDown={PortfolioDetail.YTD > 0}
-                  navValue={PortfolioDetail.NAV}
-                  ytdValue={PortfolioDetail.YTD}
-                  averageCostValue={PortfolioDetail.AverageCost}
-                  unitsValue={PortfolioDetail.Units}
-                />
-              ))}
-              <Button onPress={handleOnDiscoverMutualFund}>
-                {t("MutualFund.PortfolioDetailsScreen.discoverButton")}
-              </Button>
-              <Button variant="tertiary" onPress={handleOnViewFoundPress}>
-                {t("MutualFund.PortfolioDetailsScreen.viewFundButton")}
-              </Button>
-            </View>
-          </Pressable>
+          <View style={contentContainerStyle}>
+            {PortfolioDetails.PortfolioHoldingList.map((PortfolioDetail, index) => (
+              <DetailsCard
+                key={index}
+                id={PortfolioDetail.ProductId}
+                title={PortfolioDetail.ProductName}
+                investedValue={PortfolioDetail.InvestedValue}
+                isDown={PortfolioDetail.YTD > 0}
+                navValue={PortfolioDetail.NAV}
+                ytdValue={PortfolioDetail.YTD}
+                averageCostValue={PortfolioDetail.AverageCost}
+                unitsValue={PortfolioDetail.Units}
+                onPress={handleOnPressProduct}
+              />
+            ))}
+            <Button onPress={handleOnDiscoverMutualFund}>
+              {t("MutualFund.PortfolioDetailsScreen.discoverButton")}
+            </Button>
+            <Button variant="tertiary" onPress={handleOnViewFoundPress}>
+              {t("MutualFund.PortfolioDetailsScreen.viewFundButton")}
+            </Button>
+          </View>
         </Animated.ScrollView>
       ) : (
         <></>

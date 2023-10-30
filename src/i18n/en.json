@@ -1599,6 +1599,32 @@
     "GoalCreatedSuccessfullyScreen": {
       "label": "Goal created successfully",
       "button": "Done"
+    },
+    "ShapeGoalScreen":{
+      "title": "Shape your goal",
+      "buildGoal": "Build your own goal",
+      "hint": "Complete at least one field below.",
+      "targetAmount": "How much do you need?",
+      "durationNeeded": "When do you need it by?",
+      "setDuration": "Set duration",
+      "immediately": "Immediately",
+      "unknown": "Unknown",
+      "monthAndYear": "Month & year",
+      "monthlyContribution": "How much are you willing to pay monthly?",
+      "continueButton": "Continue",
+      "currency": "SAR",
+      "error":{
+        "errorTargetAmount": "Please enter amount within 6,000,000.00 SAR",
+        "errorMonthlyAmount": "Please enter amount above 100.00 SAR"
+      },
+      "DatePickerModal": {
+        "title": "Select date",
+        "setDateButton": "Set Date",
+        "cancelButton": "Cancel",
+        "sixMonth": "6 months",
+        "twelveMonths": "12 months",
+        "twentyFourMonths": "24 months"
+      }
     }
   },
   "Referral": {

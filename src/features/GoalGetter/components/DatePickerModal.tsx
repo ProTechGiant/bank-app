@@ -25,9 +25,9 @@ export default function DatePickerModal({ onDateSelected, onClose, isVisible, cu
   const [selectedDuration, setSelectedDuration] = useState("");
 
   const durationList = [
-    { text: t("GoalGetter.DatePickerModal.sixMonth"), value: 6 },
-    { text: t("GoalGetter.DatePickerModal.twelveMonths"), value: 12 },
-    { text: t("GoalGetter.DatePickerModal.twentyFourMonths"), value: 24 },
+    { text: t("GoalGetter.ShapeGoalScreen.DatePickerModal.sixMonth"), value: 6 },
+    { text: t("GoalGetter.ShapeGoalScreen.DatePickerModal.twelveMonths"), value: 12 },
+    { text: t("GoalGetter.ShapeGoalScreen.DatePickerModal.twentyFourMonths"), value: 24 },
   ];
 
   const handleOnChangeDuration = (monthOffset: number) => {
@@ -67,7 +67,7 @@ export default function DatePickerModal({ onDateSelected, onClose, isVisible, cu
   const chevronIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   return (
-    <Modal onClose={onClose} headerText={t("GoalGetter.DatePickerModal.title")} visible={isVisible}>
+    <Modal onClose={onClose} headerText={t("GoalGetter.ShapeGoalScreen.DatePickerModal.title")} visible={isVisible}>
       <Stack direction="horizontal" gap="16p" justify="center">
         {durationList.map(durationItem => {
           return (
@@ -101,7 +101,7 @@ export default function DatePickerModal({ onDateSelected, onClose, isVisible, cu
           <></>
         )}
         <Typography.Text size="title3" weight="regular" color="neutralBase+30">
-          {format(new Date(selectedDate), "dd MMM yyyy")}
+          {format(new Date(selectedDate), "dd MMMM yyyy")}
         </Typography.Text>
         <Pressable
           onPress={() => {
@@ -150,10 +150,10 @@ export default function DatePickerModal({ onDateSelected, onClose, isVisible, cu
           },
         }}
       />
-      <Button onPress={handleOnPressSetDate}>{t("GoalGetter.DatePickerModal.setDateButton")}</Button>
+      <Button onPress={handleOnPressSetDate}>{t("GoalGetter.ShapeGoalScreen.DatePickerModal.setDateButton")}</Button>
       <Stack direction="vertical" gap="8p" align="stretch">
         <Button variant="tertiary" onPress={onClose}>
-          {t("GoalGetter.DatePickerModal.cancelButton")}
+          {t("GoalGetter.ShapeGoalScreen.DatePickerModal.cancelButton")}
         </Button>
       </Stack>
     </Modal>

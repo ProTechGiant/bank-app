@@ -1560,6 +1560,32 @@
     "GoalCreatedSuccessfullyScreen": {
       "label": "تم إنشاء الهدف بنجاح",
       "button": "تم"
+    },
+    "ShapeGoalScreen":{
+      "title": "تشكيل الهدف",
+      "buildGoal": "ضع هدفك الخاص",
+      "hint": "أكمل على الأقل حقل واحد أدناه.",
+      "targetAmount": "ما مقدار حاجتك؟",
+      "durationNeeded": "متى تحتاج إليها؟",
+      "setDuration": "تحديد المدة",
+      "immediately": "في الحال",
+      "unknown": "غير معروف",
+      "monthAndYear": "الشهر والسنة",
+      "monthlyContribution": "ما مقدار الدفعة الشهرية؟",
+      "continueButton": "المتابعة",
+      "currency": "ر.س",
+      "error":{
+        "errorTargetAmount": "الرجاء إدخال المبلغ في حدود 20,000 ريال سعودي",
+        "errorMonthlyAmount": "الرجاء إدخال مبلغ يتراوح بين 500 إلى 20,000 ريال سعودي"
+      },
+      "DatePickerModal": {
+        "title": "تحديد التاريخ",
+        "setDateButton": "تحديد التاريخ",
+        "cancelButton": "إلغاء",
+        "sixMonth": "6 اشهر",
+        "twelveMonths": "12 شهر",
+        "twentyFourMonths": "24 شهر"
+      }
     }
   },
   "InstructionsScreen": {
