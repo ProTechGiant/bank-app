@@ -37,8 +37,9 @@ export default function SessionExpiredScreen() {
             <Typography.Text color="neutralBase+10" size="callout" align="center">
               {t("OpenBanking.SessionExpiredScreen.tryAgain")}
             </Typography.Text>
+            <Alert variant="default" message={t("OpenBanking.SessionExpiredScreen.transferToTpp")} />
           </Stack>
-          <Alert variant="default" message={t("OpenBanking.SessionExpiredScreen.transferToTpp")} />
+          <View />
         </View>
       </ContentContainer>
     </Page>

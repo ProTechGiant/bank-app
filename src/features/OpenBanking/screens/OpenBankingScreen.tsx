@@ -55,15 +55,18 @@ export default function OpenBankingScreen() {
         navigation.navigate("OpenBanking.OpenBankingStack", {
           screen: "OpenBanking.LinkedSuccessfullyScreen",
         });
-      } else if (response.Status === "401") {
+      } else {
+        setIsErrorModalOpen(true);
+      }
+    } catch (error) {
+      // this is to handle Status "401"
+      if (error.errorContent?.Errors[0]?.ErrorId === "0005") {
         navigation.navigate("OpenBanking.OpenBankingStack", {
           screen: "OpenBanking.SessionExpiredScreen",
         });
       } else {
         setIsErrorModalOpen(true);
       }
-    } catch (error) {
-      setIsErrorModalOpen(true);
     }
   };
 
