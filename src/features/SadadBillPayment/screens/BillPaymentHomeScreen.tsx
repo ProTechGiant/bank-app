@@ -24,7 +24,11 @@ export default function BillPaymentHomeScreen() {
   const { data: dueBills, refetch: dueBillsRefetch } = useDueBills();
   const { data: savedBills, refetch: savedBillsRefetch } = useSavedBills();
 
-  const { setNavigationType, clearContext } = useSadadBillPaymentContext();
+  const {
+    setNavigationType,
+    clearContext,
+    billDetails: { Description },
+  } = useSadadBillPaymentContext();
 
   const [currentTab, setCurrentTab] = useState<"paymentDue" | "savedBills">("paymentDue");
 
@@ -35,7 +39,7 @@ export default function BillPaymentHomeScreen() {
     if (currentTab === "savedBills") {
       savedBillsRefetch();
     }
-  }, [currentTab]);
+  }, [currentTab, Description]);
 
   const handleOnAddBillPress = () => {
     clearContext();
