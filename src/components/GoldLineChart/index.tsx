@@ -5,12 +5,11 @@ import { CurveType, LineChart } from "react-native-gifted-charts";
 
 import SegmentedControl from "@/components/SegmentedControl";
 import Typography from "@/components/Typography";
+import { fiveYearsData, monthData, weekData, yearData } from "@/mocks/goldLineChartData";
 import { useThemeStyles } from "@/theme";
+import { GoldPerformanceDailyType, GoldPerformanceMonthlyType, TabsTypes } from "@/types/GoldChart";
 
-import { fiveYearsData, monthData, weekData, yearData } from "../mock";
-import { GoldPerformanceDailyType, GoldPerformanceMonthlyType, TabsTypes } from "../types";
-
-export default function GoldChart() {
+export default function GoldLineChart() {
   const [currentTab, setCurrentTab] = useState<TabsTypes>(TabsTypes.Week);
   const [list, setList] = useState<GoldPerformanceMonthlyType[] | GoldPerformanceDailyType[]>([]);
 
@@ -64,7 +63,7 @@ export default function GoldChart() {
     return () => {
       return (
         <View style={styles.tooltipContainer}>
-          <View style={focusedPointConstainerStyle}>
+          <View style={focusedPointConstrainerStyle}>
             <View style={focusedPointStyle} />
           </View>
           <View style={tooltipContainerStyle}>
@@ -88,7 +87,7 @@ export default function GoldChart() {
     overflow: "scroll",
   }));
 
-  const focusedPointConstainerStyle = useThemeStyles<ViewStyle>(theme => ({
+  const focusedPointConstrainerStyle = useThemeStyles<ViewStyle>(theme => ({
     width: 12,
     height: 12,
     backgroundColor: theme.palette["neutralBase-60"],
@@ -143,16 +142,16 @@ export default function GoldChart() {
           }}
           value={currentTab}>
           <SegmentedControl.Item value="Week" fontWeight="regular">
-            {t("GoldWallet.week")}
+            {t("GoalGetter.GoalSetupLineChartModal.lineChart.week")}
           </SegmentedControl.Item>
           <SegmentedControl.Item value="Month" fontWeight="regular">
-            {t("GoldWallet.month")}
+            {t("GoalGetter.GoalSetupLineChartModal.lineChart.month")}
           </SegmentedControl.Item>
           <SegmentedControl.Item value="Year" fontWeight="regular">
-            {t("GoldWallet.year")}
+            {t("GoalGetter.GoalSetupLineChartModal.lineChart.year")}
           </SegmentedControl.Item>
           <SegmentedControl.Item value="5 Years" fontWeight="regular">
-            {t("GoldWallet.fiveYears")}
+            {t("GoalGetter.GoalSetupLineChartModal.lineChart.fiveYears")}
           </SegmentedControl.Item>
         </SegmentedControl>
       </View>

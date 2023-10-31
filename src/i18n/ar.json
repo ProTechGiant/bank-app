@@ -1296,6 +1296,52 @@
     }
   },
   "GoalGetter": {
+    "GoalSetupLineChartModal": {
+      "title": "ذهب",
+      "goldMarketPerformance": "أداء سوق الذهب",
+      "currentGoldPrice": "سعر الذهب الحالي",
+      "currencyValue": "{{currencyValue}} ر.س",
+      "gram_few": "{{count}} غرام",
+
+      "gram_many": "{{count}} غرام",
+
+      "gram_other": "{{count}} غرام",
+      "gram_one": "{{count}} غرام",
+      "currencyRate": "{{amount}} ر.س/غرام",
+      "lineChart": { "week": "اسبوع", "month": "شهر", "year": "سنه", "fiveYears": "5سنوات" }
+    },
+    "GoalSetupPieChartModal": {
+      "title": "صندوق مشترك",
+      "ytd": "YTD",
+      "realEstate": "العقارات",
+      "investedAmount": "المبلغ المستثمر",
+      "gold": "ذهب",
+      "globalStocks": "الأسهم العالمية",
+      "unitPrice": "سعر الوحدة",
+      "subscriptionFee": "رسوم الاشتراك",
+      "minimumSubscriptionAmount": "الحد الأدنى لمبلغ الاشتراك",
+      "fundRisk": "الصندوق 1 {{risk}}",
+      "unitPriceValue": "{{value}} ر.س",
+      "subscriptionValue": "{{value}} %",
+      "minimumSubscriptionValue": "{{value}} ر.س",
+      "investmentAmount": "مبلغ الاستثمار",
+      "investmentAmountVAlue": "{{value}} ر.س"
+    },
+    "GoalSetupIllustration": {
+      "title": "وعاء الحفظ",
+      "descriptionSection": {
+        "title": "وصف",
+        "description": "  يعد لوريم إيبسوم نصًا نائبًا يستخدم عادةً للتوضيح"
+      },
+      "withdrawalSection": {
+        "title": "انسحاب",
+        "description": "  يعد لوريم إيبسوم نصًا نائبًا يستخدم عادةً للتوضيح"
+      },
+      "depositSection": {
+        "title": "إيداع",
+        "description": "  يعد لوريم إيبسوم نصًا نائبًا يستخدم عادةً للتوضيح"
+      }
+    },
     "GoalGetterScreen": {
       "title": "محقق الاهداف",
       "whereToNext": "إلى أين بعد؟",

@@ -7,6 +7,7 @@ import { NotificationIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import GoldLineChart from "@/components/GoldLineChart";
 import InfoBox from "@/components/InfoBox";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import Page from "@/components/Page";
@@ -16,7 +17,6 @@ import { useThemeStyles } from "@/theme";
 import { AlertSettingsModal } from "../components";
 import EmptyTransactionsContent from "../components/EmptyTransactionsContent";
 import GoldBalanceCard from "../components/GoldBalanceCard";
-import GoldChart from "../components/GoldChart";
 import TransactionCard from "../components/TransactionCard";
 import { useAlertSettings, useWallet, useWalletTransaction } from "../hooks/query-hooks";
 import { MeasureUnitEnum, TradeTypeEnum, TransactionType, TransactionTypeEnum } from "../types";
@@ -220,7 +220,7 @@ export default function HubScreen() {
               </View>
             )}
             <View style={rowHorizontalStyle}>
-              <GoldChart />
+              <GoldLineChart />
             </View>
             <Stack direction="vertical" align="stretch">
               <Stack direction="horizontal" align="center" justify="space-between" style={transactionsContainerStyle}>

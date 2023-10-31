@@ -1336,6 +1336,50 @@
     }
   },
   "GoalGetter": {
+    "GoalSetupLineChartModal": {
+      "title": "Gold",
+      "goldMarketPerformance": "Gold Market Performance",
+      "currentGoldPrice": "Current gold price",
+      "currencyValue": "{{currencyValue}} SAR",
+      "gram_other": "{{count}} grams",
+      "gram_few": "{{count}} gram",
+      "gram_many": "{{count}} gram",
+      "gram_one": "{{count}} gram",
+      "currencyRate": "{{amount}} SAR/G",
+      "lineChart": { "week": "Week", "month": "Month", "year": "Year", "fiveYears": "5 Year" }
+    },
+    "GoalSetupPieChartModal": {
+      "title": "Mutual fund",
+      "ytd": "YTD: {{value}}%",
+      "realEstate": "Real Estate",
+      "investedAmount": "Invested Amount",
+      "gold": "Gold",
+      "globalStocks": "Global Stocks",
+      "unitPrice": "Unit Price",
+      "subscriptionFee": "Subscription Fee",
+      "minimumSubscriptionAmount": "Minimum subscription amount",
+      "fundRisk": "Fund 2 {{risk}} ",
+      "unitPriceValue": "{{value}} SAR",
+      "subscriptionValue": "{{value}} %",
+      "minimumSubscriptionValue": "{{value}} SAR",
+      "investmentAmount": "Investment Amount",
+      "investmentAmountVAlue": "{{value}} SAR"
+    },
+    "GoalSetupIllustration": {
+      "title": "Saving pot",
+      "descriptionSection": {
+        "title": "Description",
+        "description": "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate"
+      },
+      "withdrawalSection": {
+        "title": "Withdrawal",
+        "description": "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate"
+      },
+      "depositSection": {
+        "title": "Deposit",
+        "description": "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate"
+      }
+    },
     "GoalGetterScreen": {
       "title": "Goal Getter",
       "whereToNext": "Where to next?",

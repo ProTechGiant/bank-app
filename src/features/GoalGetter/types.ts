@@ -131,5 +131,4 @@ export interface GoalGetterContextState {
   setGoalContextState: (newState: Partial<GoalGetterContextState>) => void;
   resetGoalContextState: () => void;
 }
-
 export type GoalGetterStateType = Omit<GoalGetterContextState, "setGoalContextState" | "resetGoalContextState">;
