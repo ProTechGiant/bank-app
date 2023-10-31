@@ -37,7 +37,7 @@ import { NIInputInterface } from "../types";
 export default function SetPinScreen() {
   const dimensions = useWindowDimensions();
   const navigation = useNavigation();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const route = useRoute<RouteProp<CardActionsStackParams, "CardActions.SetPinScreen">>();
   const cardId = route.params.cardId;
@@ -97,7 +97,7 @@ export default function SetPinScreen() {
     if (mode === "input") {
       setMode("confirm");
 
-      pagerViewRef.current?.scrollTo({ x: dimensions.width });
+      pagerViewRef.current?.scrollTo({ x: i18n.language === "en" ? dimensions.width : -dimensions.width });
       enterPinCodeRef.current?.blur();
       confirmPinCodeRef.current?.focus();
     }
