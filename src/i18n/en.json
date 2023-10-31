@@ -3728,6 +3728,15 @@
         "equal": "Equal to (==)"
       }
     },
+    "TradeGoldScreen":{
+      "buyTitle": "Buy gold",
+      "sellTitle": "Sell gold",
+      "entergrams": "Enter grams",
+      "goldPrice": "Gold price",
+      "preDefinedAmount": "Or select a pre defined amount",
+      "currentPriceIndicative": "This is the current price but its indicative.",
+      "insufficientFunds": "You have insufficient funds to buy the gold"
+    },
     "TransactionSummaryModal": {
       "orderSummary": "Order Summary",
       "youSelectedTo": "You’ve selected to",

@@ -19,7 +19,7 @@ import GoldBalanceCard from "../components/GoldBalanceCard";
 import GoldChart from "../components/GoldChart";
 import TransactionCard from "../components/TransactionCard";
 import { useAlertSettings, useWallet, useWalletTransaction } from "../hooks/query-hooks";
-import { MeasureUnitEnum, TransactionType, TransactionTypeEnum } from "../types";
+import { MeasureUnitEnum, TradeTypeEnum, TransactionType, TransactionTypeEnum } from "../types";
 import { AlertConditionsEnum, AlertStatus, ConditionWithLabelsType } from "../types";
 import TransactionSummaryModal from "./TransactionSummaryModal";
 
@@ -67,12 +67,15 @@ export default function HubScreen() {
     }
   }, [walletData, isFetching]);
 
-  const handleOnSellGoldPress = () => {
-    //TODO
-  };
-
-  const handleOnBuyGoldPress = () => {
-    //TODO
+  const tradeGoldHandler = (tradeType: keyof typeof TradeTypeEnum) => {
+    if (walletData) {
+      navigation.navigate("GoldWallet.TradeGoldScreen", {
+        walletId: walletData.WalletId,
+        totalBalance: walletData.TotalBalance,
+        marketPrice: walletData.MarketBuyPrice,
+        tradeType,
+      });
+    }
   };
 
   const handleOnNotificationIconPress = () => {
@@ -198,12 +201,12 @@ export default function HubScreen() {
                 </Stack>
                 <Stack direction="horizontal" align="center" justify="space-between" style={buttonsContainerStyle}>
                   <View style={styles.buttonContainer}>
-                    <Button color="light" variant="primary" onPress={handleOnBuyGoldPress}>
+                    <Button color="light" variant="primary" onPress={() => tradeGoldHandler(TradeTypeEnum.BUY)}>
                       {t("GoldWallet.buyGold")}
                     </Button>
                   </View>
                   <View style={styles.buttonContainer}>
-                    <Button variant="secondary" onPress={handleOnSellGoldPress}>
+                    <Button variant="secondary" onPress={() => tradeGoldHandler(TradeTypeEnum.SELL)}>
                       {t("GoldWallet.sellGold")}
                     </Button>
                   </View>
@@ -211,7 +214,7 @@ export default function HubScreen() {
               </>
             ) : (
               <View style={buyButtonContainerStyle}>
-                <Button color="light" variant="primary" onPress={handleOnBuyGoldPress}>
+                <Button color="light" variant="primary" onPress={() => tradeGoldHandler(TradeTypeEnum.BUY)}>
                   {t("GoldWallet.buyGold")}
                 </Button>
               </View>
@@ -224,11 +227,13 @@ export default function HubScreen() {
                 <Typography.Text color="neutralBase+30" size="title3" weight="bold">
                   {t("GoldWallet.transactions")}
                 </Typography.Text>
-                <Pressable onPress={onViewAllTransactionsPress}>
-                  <Typography.Text color="neutralBase+30" size="footnote" weight="regular">
-                    {t("GoldWallet.viewAll")}
-                  </Typography.Text>
-                </Pressable>
+                {transactionsList?.length ? (
+                  <Pressable onPress={onViewAllTransactionsPress}>
+                    <Typography.Text color="neutralBase+30" size="footnote" weight="regular">
+                      {t("GoldWallet.viewAll")}
+                    </Typography.Text>
+                  </Pressable>
+                ) : null}
               </Stack>
               {isTransactionsLoading ? (
                 <ActivityIndicator />
@@ -239,7 +244,7 @@ export default function HubScreen() {
                   })}
                 </View>
               ) : (
-                <EmptyTransactionsContent />
+                <EmptyTransactionsContent onBuyGoldPress={() => tradeGoldHandler(TradeTypeEnum.BUY)} />
               )}
             </Stack>
 

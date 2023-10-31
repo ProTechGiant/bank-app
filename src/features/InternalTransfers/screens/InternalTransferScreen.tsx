@@ -8,6 +8,7 @@ import { InfoCircleIcon } from "@/assets/icons";
 import { RightIconLink, TransferErrorBox } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import { AmountInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -21,7 +22,7 @@ import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 import delayTransition from "@/utils/delay-transition";
 
-import { TransferAmountInput, TransferLimitError, TransferReasonInput } from "../components";
+import { TransferLimitError, TransferReasonInput } from "../components";
 import { useTransferReasons } from "../hooks/query-hooks";
 
 interface InternalTransferInput {
@@ -130,7 +131,7 @@ export default function InternalTransferScreen() {
                 </View>
               ) : null}
               <View style={amountContainerStyle}>
-                <TransferAmountInput
+                <AmountInput
                   autoFocus
                   control={control}
                   currentBalance={currentBalance}

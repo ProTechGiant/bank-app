@@ -98,6 +98,18 @@ export interface GoldPerformanceMonthlyType {
   Performance: number;
 }
 
+export enum TradeTypeEnum {
+  BUY = "BUY",
+  SELL = "SELL",
+}
+
+export interface TradeGoldBodyType {
+  WalletId: string;
+  Weight: number;
+  Type: keyof typeof TradeTypeEnum;
+  MeasureUnit: number;
+}
+
 export enum TransactionTypeEnum {
   SELL = "SELL",
   BUY = "BUY",

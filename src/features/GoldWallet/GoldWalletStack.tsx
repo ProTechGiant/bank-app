@@ -5,10 +5,11 @@ import {
   HubScreen,
   OnboardingScreen,
   TermsAndConditionsModal,
+  TradeGoldScreen,
   TransactionsDetailsModal,
   TransactionsScreen,
 } from "./screens";
-import { TransactionType } from "./types";
+import { TradeTypeEnum, TransactionType } from "./types";
 
 export type GoldWalletStackParams = {
   "GoldWalletStack.TermsAndConditions": undefined;
@@ -17,6 +18,12 @@ export type GoldWalletStackParams = {
   "GoldWallet.TransactionsScreen": { walletId: string };
   "GoldWallet.TransactionsDetailsModal": { transaction: TransactionType };
   "GoldWallet.GoldWalletInfoModal": { accountNumber: string; walletNumber: string };
+  "GoldWallet.TradeGoldScreen": {
+    walletId: string;
+    totalBalance: number;
+    marketPrice: number;
+    tradeType: keyof typeof TradeTypeEnum;
+  };
 };
 
 export const Stack = createNativeStackNavigator<GoldWalletStackParams>();
@@ -38,6 +45,7 @@ export default function GoldWalletStack() {
         name="GoldWallet.GoldWalletInfoModal"
         options={{ presentation: "transparentModal" }}
       />
+      <Stack.Screen component={TradeGoldScreen} name="GoldWallet.TradeGoldScreen" />
     </Stack.Navigator>
   );
 }

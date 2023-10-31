@@ -1,5 +1,8 @@
+import { cloneElement } from "react";
 import { TextStyle, View, ViewStyle } from "react-native";
+import { SvgProps } from "react-native-svg";
 
+import { IconProps } from "@/assets/icons";
 import { WithShadow } from "@/components";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -9,9 +12,10 @@ interface InfoBoxProps {
   children?: React.ReactNode;
   title?: string;
   variant: "compliment" | "success" | "error" | "primary";
+  icon?: React.ReactElement<SvgProps | IconProps>;
 }
 
-export default function InfoBox({ borderPosition = "start", title, children, variant }: InfoBoxProps) {
+export default function InfoBox({ borderPosition = "start", title, children, variant, icon }: InfoBoxProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       borderColor:
@@ -25,27 +29,36 @@ export default function InfoBox({ borderPosition = "start", title, children, var
       borderStartWidth: borderPosition === "start" ? 4 : undefined,
       borderEndWidth: borderPosition === "end" ? 4 : undefined,
       borderRadius: theme.radii.extraSmall,
-      padding: theme.spacing["16p"],
+      width: "100%",
     }),
     [borderPosition, variant]
   );
 
-  const titleContainerStyle = useThemeStyles<TextStyle>(theme => ({
+  const titleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
     marginBottom: theme.spacing["8p"],
+    padding: theme.spacing["16p"],
+  }));
+
+  const titleStyle = useThemeStyles<TextStyle>(theme => ({
+    marginHorizontal: theme.spacing["4p"],
   }));
 
   return (
-    <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall" elevation={6}>
-      <View style={container}>
+    <View style={container}>
+      <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall" elevation={6}>
         {title && (
           <View style={titleContainerStyle}>
-            <Typography.Text size="footnote" weight="semiBold">
+            {icon ? cloneElement(icon) : null}
+            <Typography.Text size="footnote" weight="semiBold" style={titleStyle}>
               {title}
             </Typography.Text>
           </View>
         )}
-        <Typography.Text size="caption1">{children}</Typography.Text>
-      </View>
-    </WithShadow>
+        {children && <Typography.Text size="caption1">{children}</Typography.Text>}
+      </WithShadow>
+    </View>
   );
 }

@@ -5,20 +5,22 @@ import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import { UnstyledCurrencyInput } from "@/components/Input";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+import * as theme from "@/theme/values";
 import { formatCurrency } from "@/utils";
-
-interface TransferAmountInputProps<T extends FieldValues> {
+interface AmountInputProps<T extends FieldValues> {
   autoFocus?: boolean;
   control: Control<T>;
   currentBalance: number;
-  isError: boolean;
+  isError?: boolean;
   maxLength?: number;
   name: Path<T>;
   hideBalanceError?: boolean;
   testID?: string;
+  AmountType?: string;
+  inputColor?: keyof typeof theme.palette;
 }
 
-export default function TransferAmountInput<T extends FieldValues>({
+export function AmountInput<T extends FieldValues>({
   autoFocus,
   control,
   currentBalance,
@@ -27,7 +29,9 @@ export default function TransferAmountInput<T extends FieldValues>({
   name,
   hideBalanceError,
   testID,
-}: TransferAmountInputProps<T>) {
+  AmountType,
+  inputColor = "primaryBase-40",
+}: AmountInputProps<T>) {
   const { t } = useTranslation();
   const { field } = useController({ control, name });
 
@@ -46,7 +50,7 @@ export default function TransferAmountInput<T extends FieldValues>({
 
   const textStyles = useThemeStyles<ViewStyle & TextStyle>(
     theme => ({
-      color: isError ? theme.palette.errorBase : theme.palette["primaryBase-40"],
+      color: isError ? theme.palette.errorBase : theme.palette[inputColor],
       fontWeight: theme.typography.text.weights.medium,
       padding: 0,
       margin: 0,
@@ -85,7 +89,7 @@ export default function TransferAmountInput<T extends FieldValues>({
           value={field.value}
         />
         <Typography.Text
-          color={isError ? "errorBase" : "primaryBase-40"}
+          color={isError ? "errorBase" : inputColor}
           size="title1"
           weight="medium"
           style={[
@@ -96,7 +100,7 @@ export default function TransferAmountInput<T extends FieldValues>({
               ? styles.mediumCurrencyStyle
               : styles.largeCurrencyStyle,
           ]}>
-          {t("InternalTransfers.TransferAmountInput.currency")}
+          {AmountType ?? t("InternalTransfers.TransferAmountInput.currency")}
         </Typography.Text>
       </View>
     </>

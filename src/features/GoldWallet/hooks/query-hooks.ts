@@ -12,6 +12,7 @@ import {
   getTransactionsResponse,
   GetWalletResponseType,
   GoldFinalDealResponseType,
+  TradeGoldBodyType,
 } from "../types";
 import { MeasureUnitEnum, TransactionTypeEnum } from "./../types";
 
@@ -215,4 +216,23 @@ export function useAcceptFinalDeal() {
       );
     }
   );
+}
+
+export function useTradeGold() {
+  const { i18n } = useTranslation();
+  const { userId } = useAuthContext();
+
+  return useMutation((body: TradeGoldBodyType) => {
+    return api(
+      "v1",
+      "gold/final-deal",
+      "POST",
+      undefined,
+      { ...body, customerId: userId },
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language,
+      }
+    );
+  });
 }

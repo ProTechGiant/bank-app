@@ -10,6 +10,7 @@ import { RightIconLink, TransferErrorBox } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
+import { AmountInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -24,7 +25,7 @@ import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 import delayTransition from "@/utils/delay-transition";
 
-import { TransferAmountInput, TransferLimitError, TransferLimitsModal, TransferReasonInput } from "../components";
+import { TransferLimitError, TransferLimitsModal, TransferReasonInput } from "../components";
 import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
 import { TransferTypeCode } from "../types";
 
@@ -152,7 +153,7 @@ export default function QuickTransferScreen() {
                 </RightIconLink>
               </View>
               <View style={amountContainerStyle}>
-                <TransferAmountInput
+                <AmountInput
                   autoFocus
                   control={control}
                   currentBalance={currentBalance}

@@ -8,12 +8,12 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-export default function EmptyTransactionsContent() {
-  const { t } = useTranslation();
+interface EmptyTransactionsContentProps {
+  onBuyGoldPress: () => void;
+}
 
-  const onBuyGoldPress = () => {
-    //TODO  handle buy gold button
-  };
+export default function EmptyTransactionsContent({ onBuyGoldPress }: EmptyTransactionsContentProps) {
+  const { t } = useTranslation();
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["12p"],

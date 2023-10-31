@@ -1,3 +1,4 @@
+export * from "./AmountInput";
 export * from "./AssetInput";
 export * from "./CheckboxInput";
 export * from "./CurrencyInput";
