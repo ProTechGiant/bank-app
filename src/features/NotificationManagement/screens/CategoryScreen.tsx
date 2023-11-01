@@ -1,4 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, View, ViewStyle } from "react-native";
 
@@ -25,18 +26,20 @@ export default function CategoryScreen() {
 
   const updateNotificationPreferences = useUpdateNotificationPreferences();
   const { data: subCategories } = useNotificationPreferencesCategory(categoryId);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const mainToggleStatus = subCategories.some(
-    subCategory => subCategory.SelectedChannels.find(channel => channel.ChannelName === PUSH)?.IsSelected
+    subCategory => subCategory.SelectedChannels.find(channel => channel.ChannelName === PUSH)?.IsPreferred
   );
 
   const handleOnMainTogglePress = () => {
+    setIsSubmitting(true);
     const updatedValue = subCategories.map(subCategory => {
       return {
         ...subCategory,
         SelectedChannels: subCategory.SelectedChannels.map(channel => ({
           ...channel,
-          isSelected: channel.ChannelName === PUSH ? !mainToggleStatus : channel.IsSelected,
+          IsPreferred: channel.ChannelName === PUSH ? !mainToggleStatus : channel.IsPreferred,
         })),
       };
     });
@@ -47,6 +50,7 @@ export default function CategoryScreen() {
         SelectedChannels: subCategory.SelectedChannels,
       }))
     );
+    setIsSubmitting(false);
   };
 
   const handleOnSubTogglePress = (subCategoryId: string, value: boolean) => {
@@ -58,19 +62,12 @@ export default function CategoryScreen() {
       return {
         ...subCategory,
         SelectedChannels: subCategory.SelectedChannels.map(channel => {
-          return { ...channel, IsSelected: channel.ChannelName === PUSH ? value : channel.IsSelected };
+          return { ...channel, IsPreferred: channel.ChannelName === PUSH ? value : !channel.IsPreferred };
         }),
       };
     });
 
-    callUpdateNotficationPreferences(
-      updatedValue
-        .filter(subCategory => subCategory.SubCategoryId === subCategoryId)
-        .map(subCategory => ({
-          SubCategoryId: subCategory.SubCategoryId,
-          SelectedChannels: subCategory.SelectedChannels,
-        }))
-    );
+    callUpdateNotficationPreferences(updatedValue.filter(subCategory => subCategory.SubCategoryId === subCategoryId));
   };
 
   const callUpdateNotficationPreferences = async (requestBody: UpdatedSubCategories[]) => {
@@ -100,7 +97,7 @@ export default function CategoryScreen() {
             <Typography.Text weight="semiBold" size="title1">
               {title}
             </Typography.Text>
-            <Toggle onPress={handleOnMainTogglePress} value={mainToggleStatus} />
+            <Toggle onPress={handleOnMainTogglePress} value={mainToggleStatus} disabled={isSubmitting} />
           </Stack>
           <Typography.Text weight="regular" size="callout" style={subtitleContainerStyle}>
             {t("NotificationManagement.CategoryScreen.subtitle")}
@@ -113,9 +110,10 @@ export default function CategoryScreen() {
                     title={subCategory.SubCategoryName}
                     content={subCategory.SubCategoryDescription}
                     toggleStatus={
-                      subCategory.SelectedChannels.find(channel => channel.ChannelName === PUSH)?.IsSelected || false
+                      subCategory.SelectedChannels.find(channel => channel.ChannelName === PUSH)?.IsPreferred || false
                     }
                     onToggle={handleOnSubTogglePress.bind(null, subCategory.SubCategoryId)}
+                    disabled={!mainToggleStatus}
                   />
                 </View>
               );

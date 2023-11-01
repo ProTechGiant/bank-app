@@ -10,9 +10,16 @@ interface SubcategorySectionProps {
   content: string;
   toggleStatus: boolean;
   onToggle: (status: boolean) => void;
+  disabled: boolean;
 }
 
-export default function SubcategorySection({ title, content, toggleStatus, onToggle }: SubcategorySectionProps) {
+export default function SubcategorySection({
+  title,
+  content,
+  toggleStatus,
+  onToggle,
+  disabled,
+}: SubcategorySectionProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
   }));
@@ -27,7 +34,7 @@ export default function SubcategorySection({ title, content, toggleStatus, onTog
           {content}
         </Typography.Text>
       </Stack>
-      <Toggle onPress={() => onToggle(!toggleStatus)} value={toggleStatus} />
+      <Toggle onPress={() => onToggle(!toggleStatus)} value={toggleStatus} disabled={disabled} />
     </Stack>
   );
 }

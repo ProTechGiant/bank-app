@@ -22,5 +22,5 @@ export interface UpdatedSubCategories {
 export interface SelectedChannels {
   ChannelId: string;
   ChannelName: typeof PUSH | typeof SMS;
-  IsSelected: boolean;
+  IsPreferred: boolean;
 }
