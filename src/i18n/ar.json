@@ -115,6 +115,7 @@
       "tryAgain": "يرجى المحاولة مرة أخرى في وقت لاحق."
     },
     "HighRiskRequireDocumentScreen": {
+      "dummyDocumentTitle": "{{index}} وثيقة",
       "title": "المعلومات الإضافية المطلوبة",
       "subTitle": "وفقًا لمتطلبات الرقابة، نود أن نطلب منك تحميل بعض الوثائق من أجل المتابعة في إنشاء حسابك",
       "buttonText": "قم بالتحميل الآن",
@@ -178,8 +179,9 @@
         "bannerMessage": "نحن نكمل إعداد حسابك",
         "accountChecks": {
           "identity": "تأكيد هويتك",
-          "checks": "تشغيل فحوصات إضافية",
-          "creatingAccount": "إنشاء حسابك"
+          "pendingHighRiskChecks": "فحص عالي المخاطر قيد الانتظار",
+          "successHighRiskChecks": "فحص عالي المخاطر ناجح",
+          "creatingAccount": "تنفيذ فحوصات إضافية"
         },
         "workGuide": "كيف تعمل كرواتيا من أجلك",
         "finishLater": "يمكنك الانتهاء من ذلك لاحقًا",

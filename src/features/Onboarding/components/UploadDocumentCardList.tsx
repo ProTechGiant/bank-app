@@ -30,8 +30,9 @@ export default function UploadDocumentCardList({
       <FlatList
         data={documents}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <UploadDocumentCard
+            documentIndex={index + 1}
             isUploaded={uploadedDocumentsGuidz.includes(item.DocumentGuid)}
             onPressUpload={onPressUpload}
             onViewDocument={onViewDocument}
@@ -39,7 +40,7 @@ export default function UploadDocumentCardList({
             comments={item.Reason}
             description={i18n.language === "ar" ? item.DescriptionAr : item.DescriptionEn}
             status={item.DocumentStatus}
-            title={item.Name}
+            title={i18n.language === "ar" ? item.NameAr : item.Name}
             documentGuid={item.DocumentGuid}
           />
         )}

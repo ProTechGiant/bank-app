@@ -6,6 +6,7 @@ export function getHighRiskCaseStatusScreen(highRiskCaseStatus: string) {
     [HighRiskCaseStatus.DOCUMENTS_RETURNED]: "Onboarding.HighRiskRequireDocumentScreen",
     [HighRiskCaseStatus.DOCUMENTS_UPLOADED]: "Onboarding.VerifyingInformationScreen",
     [HighRiskCaseStatus.NEW]: "Onboarding.HighRiskRequireDocumentScreen",
+    [HighRiskCaseStatus.APPROVED]: "Onboarding.PendingAccount",
   };
   return highRiskCaseStatus in statusScreenMapper
     ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment

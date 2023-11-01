@@ -743,7 +743,7 @@ export function useDownloadHighRiskDocument() {
     if (!correlationId) throw new Error("Need valid Correlation id");
     return api<DownloadHighRiskDocumentResponse>(
       "v1",
-      `customers/download-document/${caseAnnotationId}/high-risk/`,
+      `customers/download-document/${caseAnnotationId}/high-risk`,
       "GET",
       undefined,
       undefined,

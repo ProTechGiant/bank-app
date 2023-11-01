@@ -91,6 +91,7 @@
       "tryAgain": "Please try again later."
     },
     "HighRiskRequireDocumentScreen": {
+      "dummyDocumentTitle": "Document {{index}}",
       "title": "Additional information required",
       "subTitle": "in compliance with regulatory requirements we would like to ask you to upload some documents in order to proceed with your account creation",
       "buttonText": "Upload Now",
@@ -160,8 +161,9 @@
         "bannerMessage": "We’re completing your account setup ",
         "accountChecks": {
           "identity": "Confirm your identity",
-          "checks": "Running additional checks",
-          "creatingAccount": "Creating your account"
+          "pendingHighRiskChecks": "Pending High Risk Check",
+          "successHighRiskChecks": "High Risk Check",
+          "creatingAccount": "Running Additional Checks"
         },
         "workGuide": "How Croatia works for you",
         "finishLater": "You can finish this later",

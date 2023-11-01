@@ -42,10 +42,23 @@ export default function UploadDocumentScreen() {
   const [isChecked, setIsChecked] = useState(false);
   const [isDocumentSelect, setIsDocumentSelect] = useState(false);
   const [uploadedDocumentsGuidz, setUploadedDocumentsGuidz] = useState<string[]>([]);
-  const { data, isLoading, isError } = useRetriveHighRiskDocumentListByCustomerId();
+  const {
+    data,
+    isLoading: isReceivingHighRiskDocuments,
+    isError,
+    refetch: refetchDocuments,
+  } = useRetriveHighRiskDocumentListByCustomerId();
   const [isInfoModalVisible, setIsInfoModalVisible] = useState<boolean>(false);
-  const { mutateAsync: uploadDocumentMutateAsync, isError: uploadDocumentError } = useUploadDocumentHighRisk();
-  const { mutateAsync: verifyDocumentMutateAsync, isError: verifyDocumentError } = useVerifyDocumentHighRisk();
+  const {
+    mutateAsync: uploadDocumentMutateAsync,
+    isError: uploadDocumentError,
+    isLoading: isDocumentUploading,
+  } = useUploadDocumentHighRisk();
+  const {
+    mutateAsync: verifyDocumentMutateAsync,
+    isError: verifyDocumentError,
+    isLoading: isVerifyingDocuments,
+  } = useVerifyDocumentHighRisk();
   const [isErrorModelVisible, setIsErrorModelVisible] = useState<boolean>(isError);
   const [selectedDocumentGuid, setSelectedDocumentGuid] = useState("");
   const navigation = useNavigation<OnboardingStackParamsNavigationProp>();
@@ -56,7 +69,8 @@ export default function UploadDocumentScreen() {
     if (!highRiskStatus?.CaseStatus) return;
     if (
       highRiskStatus?.CaseStatus === HighRiskCaseStatus.DOCUMENTS_REQUIRED ||
-      highRiskStatus?.CaseStatus === HighRiskCaseStatus.NEW
+      highRiskStatus?.CaseStatus === HighRiskCaseStatus.NEW ||
+      highRiskStatus?.CaseStatus === HighRiskCaseStatus.DOCUMENTS_RETURNED
     )
       return;
     navigation.navigate(getHighRiskCaseStatusScreen(highRiskStatus.CaseStatus));
@@ -97,8 +111,10 @@ export default function UploadDocumentScreen() {
   const handleOnChooseFromLibrary = async () => {
     try {
       const result = await DocumentPicker.pickSingle();
-      if (result?.uri && result?.name && result?.type && result?.size) {
-        const fileExtension = result.name.split(".").pop().toLowerCase();
+      if (result && result?.uri && result?.name && result?.type && result?.size) {
+        const lengthOfNameSplit = result.name.split(".").length;
+        if (lengthOfNameSplit === 1) return;
+        const fileExtension = result.name.split(".")[lengthOfNameSplit - 1].toLowerCase();
         if (!allowedExtensions.includes(fileExtension) || result.size > maxSize) {
           Alert.alert(
             t("Onboarding.UploadDocumentScreen.fileErrorTitle"),
@@ -158,6 +174,7 @@ export default function UploadDocumentScreen() {
       setFileBase64({ name, content: base64, type });
       setUploadedDocumentsGuidz(pre => [...pre, selectedDocumentGuid]);
       await uploadDocumentMutateAsync(input);
+      await refetchDocuments();
     } catch (error) {
       warn("Upload document Error", JSON.stringify(error));
     }
@@ -192,7 +209,7 @@ export default function UploadDocumentScreen() {
     backgroundColor: theme.palette["neutralBase-40"],
   }));
 
-  if (isLoading) {
+  if (isReceivingHighRiskDocuments || isDocumentUploading || isVerifyingDocuments) {
     return <FullScreenLoader />;
   }
 

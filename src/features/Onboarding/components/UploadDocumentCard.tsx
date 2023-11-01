@@ -21,6 +21,7 @@ interface UploadDocumentCardProps {
   onViewDocument: (guid: string) => void;
   isUploaded: boolean;
   annotationGuid: string;
+  documentIndex: number;
 }
 
 export default function UploadDocumentCard({
@@ -33,6 +34,7 @@ export default function UploadDocumentCard({
   documentGuid,
   isUploaded,
   annotationGuid,
+  documentIndex,
 }: UploadDocumentCardProps) {
   const appTheme = useTheme();
   const { t } = useTranslation();
@@ -74,13 +76,17 @@ export default function UploadDocumentCard({
           <Stack style={leftSideContainerStyle} direction="vertical">
             <UploadDocumentStatusView status={status} />
             <Typography.Text style={renderItemDateStyle} color="neutralBase+30" size="callout" weight="medium">
-              {title}
+              {title
+                ? title
+                : t("Onboarding.HighRiskRequireDocumentScreen.dummyDocumentTitle", { index: documentIndex })}
             </Typography.Text>
-            <Pressable onPress={handleOnToggleInfoModal}>
-              <Typography.Text style={styles.decription} weight="medium" color="primaryBase" size="footnote">
-                {t("Onboarding.HighRiskRequireDocumentScreen.description")}
-              </Typography.Text>
-            </Pressable>
+            {description ? (
+              <Pressable onPress={handleOnToggleInfoModal}>
+                <Typography.Text style={styles.decription} weight="medium" color="primaryBase" size="footnote">
+                  {t("Onboarding.HighRiskRequireDocumentScreen.description")}
+                </Typography.Text>
+              </Pressable>
+            ) : null}
             {comments ? (
               <Typography.Text color="errorBase" size="caption1" style={commentsStyle}>
                 {comments}

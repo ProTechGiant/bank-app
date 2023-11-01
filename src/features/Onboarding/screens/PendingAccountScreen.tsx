@@ -31,6 +31,13 @@ export default function PendingAccountScreen() {
 
   const accountStatus: Status | undefined = data?.OnboardingStatus as Status;
 
+  const isPassedHighRisk =
+    data &&
+    data.workflowTask &&
+    (data.workflowTask.Name === "WaitingEDDResult" ||
+      data.workflowTask.Name === "AccountCreation" ||
+      data.workflowTask.Name === "RetryAccountCreation");
+
   useEffect(() => {
     if (accountStatus === "COMPLETED") {
       setIsfetchingAccountStatus(false);
@@ -124,21 +131,20 @@ export default function PendingAccountScreen() {
                         completed={true}
                       />
                       <CheckAccountSetupPoint
-                        text={t("Onboarding.LandingScreen.pending.accountChecks.checks")}
-                        completed={
-                          data &&
-                          data.workflowTask &&
-                          (data.workflowTask.Name === "WaitingEDDResult" ||
-                            data.workflowTask.Name === "AccountCreation" ||
-                            data.workflowTask.Name === "RetryAccountCreation")
-                            ? true
-                            : false
+                        text={
+                          isPassedHighRisk
+                            ? t("Onboarding.LandingScreen.pending.accountChecks.successHighRiskChecks")
+                            : t("Onboarding.LandingScreen.pending.accountChecks.pendingHighRiskChecks")
                         }
+                        completed={isPassedHighRisk ? true : false}
                       />
-                      <CheckAccountSetupPoint
-                        text={t("Onboarding.LandingScreen.pending.accountChecks.creatingAccount")}
-                        completed={false}
-                      />
+                      {isPassedHighRisk ? (
+                        <CheckAccountSetupPoint
+                          text={t("Onboarding.LandingScreen.pending.accountChecks.creatingAccount")}
+                          completed={false}
+                        />
+                      ) : null}
+
                       <Typography.Text size="caption2" style={footerMessageContainerStyle} color="neutralBase+10">
                         {t("Onboarding.LandingScreen.pending.footerMessage")}
                       </Typography.Text>
