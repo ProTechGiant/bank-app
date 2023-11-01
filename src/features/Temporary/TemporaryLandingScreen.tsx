@@ -17,11 +17,7 @@ import { warn } from "@/logger";
 import { mockRemoteMessageDocuments } from "@/mocks/remoteNotificationData";
 import useNavigation from "@/navigation/use-navigation";
 import { generateRandomId } from "@/utils";
-import {
-  getItemFromEncryptedStorage,
-  removeItemFromEncryptedStorage,
-  setItemInEncryptedStorage,
-} from "@/utils/encrypted-storage";
+import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import useNotificationHandler from "../../hooks/use-notification-handler";
 import useSavingsGoalNumber from "./use-savings-goal-number";
@@ -166,9 +162,6 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnOpenOnboarding = () => {
-    // TODO this is to handle TPP service , to be removed until it finished
-    removeItemFromEncryptedStorage("COMING_FROM_TPP");
-
     navigation.navigate("Onboarding.OnboardingStack", {
       screen: "Onboarding.AppIntroAnimation",
     });
@@ -179,8 +172,8 @@ export default function TemporaryLandingScreen() {
     setItemInEncryptedStorage("COMING_FROM_TPP", "true");
 
     auth.authenticateAnonymously(values.UserId, auth.authToken);
-    navigation.navigate("SignIn.SignInStack", {
-      screen: "SignIn.Iqama",
+    navigation.navigate("Onboarding.OnboardingStack", {
+      screen: "Onboarding.AppIntroAnimation",
     });
   };
 

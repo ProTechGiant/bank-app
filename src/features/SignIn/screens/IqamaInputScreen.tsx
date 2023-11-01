@@ -9,11 +9,12 @@ import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
+import useCheckTPPService from "@/hooks/use-tpp-service";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
-import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { MobileAndNationalIdForm } from "../components";
 import { useSignInContext } from "../contexts/SignInContext";
@@ -28,7 +29,6 @@ export default function IqamaInputScreen() {
   const { errorMessages } = useErrorMessages(iqamaError);
   const { setSignInCorrelationId } = useSignInContext();
   const [notMatchRecord, setNotMatchRecord] = useState(false);
-  const [comingFromTPP, setComingFromTPP] = useState<string | null>(null);
 
   useEffect(() => {
     const _correlationId = generateRandomId();
@@ -57,16 +57,12 @@ export default function IqamaInputScreen() {
     }
   };
 
-  useEffect(() => {
-    async function checkTPPService() {
-      const comingFromTPP = await getItemFromEncryptedStorage("COMING_FROM_TPP");
-      setComingFromTPP(comingFromTPP);
-      if (comingFromTPP) {
-        handleGetAuthenticationToken();
-      }
-    }
+  const comingFromTPP = useCheckTPPService();
 
-    checkTPPService();
+  useEffect(() => {
+    if (comingFromTPP) {
+      handleGetAuthenticationToken();
+    }
   }, [navigation, comingFromTPP]);
 
   const handleOnSignUp = () => {

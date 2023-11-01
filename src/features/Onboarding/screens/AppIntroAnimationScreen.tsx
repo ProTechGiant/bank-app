@@ -7,6 +7,7 @@ import Page from "@/components/Page";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
+import useCheckTPPService from "@/hooks/use-tpp-service";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import {
@@ -60,20 +61,39 @@ export default function AppIntroAnimationScreen() {
     }
   };
 
+  const comingFromTPP = useCheckTPPService();
+
   useEffect(() => {
+    if (comingFromTPP) {
+      handleGetAuthenticationToken();
+    }
+
     async function continueAfterAnimation() {
       try {
         handleGetAuthenticationToken();
         const hasOpenedBefore = await hasItemInStorage("hasSeenOnboarding");
         if (hasOpenedBefore) {
           try {
-            handleNavigation();
+            if (comingFromTPP) {
+              navigation.navigate("SignIn.SignInStack", {
+                screen: "SignIn.Iqama",
+              });
+            } else {
+              handleNavigation();
+            }
           } catch (err) {
             goToOnboardingStack();
           }
         } else {
           handleGetAuthenticationToken();
-          navigation.navigate("Onboarding.WelcomeCarousel");
+
+          if (comingFromTPP) {
+            navigation.navigate("SignIn.SignInStack", {
+              screen: "SignIn.Iqama",
+            });
+          } else {
+            navigation.navigate("Onboarding.WelcomeCarousel");
+          }
         }
       } catch (error) {
         goToOnboardingStack();
@@ -81,7 +101,7 @@ export default function AppIntroAnimationScreen() {
     }
 
     setTimeout(() => continueAfterAnimation(), ANIMATION_DURATION_MS);
-  }, [navigation]);
+  }, [navigation, comingFromTPP]);
 
   return (
     <Page backgroundColor="neutralBase-60" insets={[]}>

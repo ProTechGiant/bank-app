@@ -75,6 +75,12 @@ class DeepLinkService {
   }
 
   handleDeepLink = (url: string | null, isAuthenticated?: boolean) => {
+    removeItemFromEncryptedStorage("COMING_FROM_TPP");
+
+    // TODO this to handle coming from tpp service
+    if (url === "croatia://app/tpp") {
+      setItemInEncryptedStorage("COMING_FROM_TPP", "true");
+    }
     if (url) {
       const deepLink = {
         url,

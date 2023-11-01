@@ -17,6 +17,7 @@ import { OTP_BLOCKED_TIME } from "@/constants";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
+import useCheckTPPService from "@/hooks/use-tpp-service";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import BiometricsService from "@/services/biometrics/biometricService";
@@ -57,8 +58,6 @@ export default function PasscodeScreen() {
   const { setSignInCorrelationId } = useSignInContext();
   const blockedUserFlow = useBlockedUserFlow();
 
-  const [comingFromTPP, setComingFromTPP] = useState<string | null>(null);
-
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState<boolean>(false);
   const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
   useEffect(() => {
@@ -98,13 +97,7 @@ export default function PasscodeScreen() {
     }
   }, [isFocused]);
 
-  useEffect(() => {
-    async function checkTPPService() {
-      const comingFromTPP = await getItemFromEncryptedStorage("COMING_FROM_TPP");
-      setComingFromTPP(comingFromTPP);
-    }
-    checkTPPService();
-  }, [navigation]);
+  const comingFromTPP = useCheckTPPService();
 
   const handleCheckUserDevice = async () => {
     if (tempUser) {
