@@ -132,7 +132,8 @@ export default function StandardTransferScreen() {
   const currentAmount = watch("PaymentAmount");
   const amountExceedsBalance = currentAmount > currentBalance;
 
-  const amountExceedsLimit = currentAmount > transferLimitAmount;
+  const amountExceedsAvailableLimit = currentAmount > transferLimitAmount;
+  const amountExceedsLimit = currentAmount > SARIE_MIN_TRANSFER_AMOUNT;
   const debouncedFunc = useCallback(debounce(handleOnValidateDailyLimit, 300), []);
 
   useEffect(() => {
@@ -167,7 +168,8 @@ export default function StandardTransferScreen() {
                   control={control}
                   currentBalance={currentBalance}
                   isError={
-                    (amountExceedsBalance || amountExceedsLimit || dailyLimitAsync.data?.IsLimitExceeded) ?? false
+                    (amountExceedsBalance || amountExceedsAvailableLimit || dailyLimitAsync.data?.IsLimitExceeded) ??
+                    false
                   }
                   hideBalanceError={!amountExceedsBalance}
                   maxLength={10}
@@ -189,7 +191,7 @@ export default function StandardTransferScreen() {
                     textStart={t("InternalTransfers.StandardTransferScreen.amountExceedsBalance")}
                     textEnd={t("InternalTransfers.StandardTransferScreen.addFunds")}
                   />
-                ) : amountExceedsLimit ? (
+                ) : amountExceedsAvailableLimit ? (
                   <TransferLimitError
                     testID="InternalTransfers.StandardTransferScreen:AmountExceededErrorBox"
                     textStart={t("InternalTransfers.InternalTransferScreen.amountExceedsLimit")}
@@ -207,7 +209,7 @@ export default function StandardTransferScreen() {
                 <WarningBanner
                   icon={<InfoFilledCircleIcon />}
                   text={
-                    amountExceedsLimit
+                    amountExceedsAvailableLimit || amountExceedsLimit
                       ? t("InternalTransfers.StandardTransferScreen.nonOperativeHoursWarning")
                       : t("InternalTransfers.StandardTransferScreen.amountSentInstantlyMessage")
                   }
@@ -289,3 +291,4 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 });
+const SARIE_MIN_TRANSFER_AMOUNT = 20000;

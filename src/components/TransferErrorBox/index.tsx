@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   textStyle: {
-    width: "68%",
+    width: "45%",
   },
 });

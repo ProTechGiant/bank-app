@@ -23,6 +23,7 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
+import { formatCurrency } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { TransferLimitError, TransferLimitsModal, TransferReasonInput } from "../components";
@@ -122,7 +123,9 @@ export default function QuickTransferScreen() {
 
   const currentAmount = watch("PaymentAmount");
   const amountExceedsBalance = currentAmount > currentBalance;
-  const amountExceedsLimit = currentAmount > transferLimitAmount;
+
+  const amountExceedsAvailableLimit = currentAmount > transferLimitAmount;
+  const amountExceedsLimit = currentAmount > QUICK_TRANSFER_LIMIT;
 
   const debouncedFunc = useCallback(debounce(handleOnValidateDailyLimit, 300), []);
 
@@ -178,6 +181,14 @@ export default function QuickTransferScreen() {
                     textEnd={t("InternalTransfers.QuickTransferScreen.addFunds")}
                   />
                 ) : amountExceedsLimit ? (
+                  <TransferErrorBox
+                    onPress={handleOnSwitchStandardTransferPress}
+                    textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsQuickTransferLimit", {
+                      amount: formatCurrency(QUICK_TRANSFER_LIMIT, "SAR"),
+                    })}
+                    textEnd={t("InternalTransfers.QuickTransferScreen.switchToStandardTransfer")}
+                  />
+                ) : amountExceedsAvailableLimit ? (
                   <TransferLimitError
                     testID="InternalTransfers.QuickTransferScreen:AmountExceededErrorBox"
                     textStart={t("InternalTransfers.InternalTransferScreen.amountExceedsLimit")}
@@ -196,7 +207,9 @@ export default function QuickTransferScreen() {
             </View>
             <Button
               testID="InternalTransfers.QuickTransferScreen:ContinueButton"
-              disabled={amountExceedsBalance || amountExceedsLimit || currentAmount < 0.01 || amountExceedsLimit}
+              disabled={
+                amountExceedsBalance || amountExceedsAvailableLimit || currentAmount < 0.01 || amountExceedsLimit
+              }
               onPress={handleSubmit(handleOnContinue)}>
               {t("InternalTransfers.QuickTransferScreen.continueButton")}
             </Button>
@@ -250,3 +263,4 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 });
+const QUICK_TRANSFER_LIMIT = 2500;
