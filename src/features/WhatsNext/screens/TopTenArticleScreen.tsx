@@ -11,6 +11,7 @@ import { useThemeStyles } from "@/theme";
 
 import { TopTenSingleArticle } from "../components";
 import { ArticleSectionType } from "../types";
+import { MAX_ARTICLES_IN_TOP_TEN } from "../utils";
 
 export default function TopTenArticleScreen() {
   const { width } = useWindowDimensions();
@@ -84,7 +85,11 @@ export default function TopTenArticleScreen() {
             <View style={progressBarStyle}>
               <ProgressIndicator
                 currentStep={currentItem}
-                totalStep={topTenArticlesData?.ChildrenContents?.length ?? 0}
+                totalStep={
+                  topTenArticlesData?.ChildrenContents?.length > MAX_ARTICLES_IN_TOP_TEN
+                    ? MAX_ARTICLES_IN_TOP_TEN
+                    : topTenArticlesData?.ChildrenContents?.length ?? 0
+                }
               />
             </View>
           }
@@ -92,7 +97,11 @@ export default function TopTenArticleScreen() {
       </View>
       <Animated.FlatList
         ref={flatListRef}
-        data={topTenArticlesData.ChildrenContents ?? []}
+        data={
+          topTenArticlesData.ChildrenContents?.length > MAX_ARTICLES_IN_TOP_TEN
+            ? topTenArticlesData.ChildrenContents.slice(0, MAX_ARTICLES_IN_TOP_TEN)
+            : topTenArticlesData.ChildrenContents ?? []
+        }
         renderItem={({ item }) => (
           <TopTenSingleArticle
             item={item}
