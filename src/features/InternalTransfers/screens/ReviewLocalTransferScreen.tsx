@@ -55,6 +55,7 @@ export default function ReviewQuickTransferScreen() {
   const [isErrorTransferLimit, setIsErrorTransferLimit] = useState(false);
   const [isSenderTransferRejected, setSenderTransferRejected] = useState(false);
   const [isReceiverTransferRejected, setReceiverTransferRejected] = useState(false);
+  const [isSASCheckStatus, setSASCheckStatus] = useState(false);
   interface ErrorType {
     errorContent: {
       Errors: Array<{
@@ -81,6 +82,10 @@ export default function ReviewQuickTransferScreen() {
       } else if (errorCode === "0107") {
         delayTransition(() => {
           setReceiverTransferRejected(true);
+        });
+      } else if (errorCode === "0001") {
+        delayTransition(() => {
+          setSASCheckStatus(true);
         });
       } else {
         delayTransition(() => {
@@ -202,6 +207,7 @@ export default function ReviewQuickTransferScreen() {
     setIsErrorTransferLimit(false);
     setSenderTransferRejected(false);
     setReceiverTransferRejected(false);
+    setSASCheckStatus(false);
     transferType === "SARIE_TRANSFER_ACTION"
       ? navigation.navigate("InternalTransfers.StandardTransferScreen")
       : navigation.navigate("InternalTransfers.QuickTransferScreen");
@@ -514,6 +520,18 @@ export default function ReviewQuickTransferScreen() {
             <Button onPress={handleOnDone}>
               {t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.Ok")}
             </Button>
+          ),
+        }}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.title")}
+        message={t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.message")}
+        isVisible={isSASCheckStatus}
+        onClose={() => setSASCheckStatus(false)}
+        buttons={{
+          primary: (
+            <Button onPress={handleOnDone}>{t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.Ok")}</Button>
           ),
         }}
       />
