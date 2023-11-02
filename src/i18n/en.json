@@ -124,7 +124,8 @@
     },
     "UploadDocumentCardList": {
       "InfoModal": {
-        "title": "Document Description"
+        "title": "Document Description",
+        "noDescriptionFound": "No Desciription Found"
       }
     },
     "WelcomeCarousel": {

@@ -145,6 +145,12 @@
       "suggestion": "إذا كنت تواجه أي صعوبة في الحصول على وثيقة أو أي مشكلة أثناء التحميل.الرجاء ",
       "contactService": " التواصل مع خدمة العملاء"
     },
+    "UploadDocumentCardList": {
+      "InfoModal": {
+        "title": "وصف المستند",
+        "noDescriptionFound": "لم يتم العثور على وصف"
+      }
+    },
     "WelcomeCarousel": {
       "titleOne": "مرحبًا بك في كرواتيا",
       "subTextOne": "هذه هي بوابتك\nإلى ما هو قادم",

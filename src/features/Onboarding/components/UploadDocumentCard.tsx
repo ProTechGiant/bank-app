@@ -22,6 +22,7 @@ interface UploadDocumentCardProps {
   isUploaded: boolean;
   annotationGuid: string;
   documentIndex: number;
+  isSuccessFullyUploaded: boolean;
 }
 
 export default function UploadDocumentCard({
@@ -35,6 +36,7 @@ export default function UploadDocumentCard({
   isUploaded,
   annotationGuid,
   documentIndex,
+  isSuccessFullyUploaded,
 }: UploadDocumentCardProps) {
   const appTheme = useTheme();
   const { t } = useTranslation();
@@ -74,19 +76,17 @@ export default function UploadDocumentCard({
       <Stack as={Pressable} align="stretch" direction="vertical">
         <Stack direction="horizontal" style={renderItemStyle} align="center" justify="space-between">
           <Stack style={leftSideContainerStyle} direction="vertical">
-            <UploadDocumentStatusView status={status} />
+            <UploadDocumentStatusView status={status} isDone={isSuccessFullyUploaded} />
             <Typography.Text style={renderItemDateStyle} color="neutralBase+30" size="callout" weight="medium">
               {title
                 ? title
                 : t("Onboarding.HighRiskRequireDocumentScreen.dummyDocumentTitle", { index: documentIndex })}
             </Typography.Text>
-            {description ? (
-              <Pressable onPress={handleOnToggleInfoModal}>
-                <Typography.Text style={styles.decription} weight="medium" color="primaryBase" size="footnote">
-                  {t("Onboarding.HighRiskRequireDocumentScreen.description")}
-                </Typography.Text>
-              </Pressable>
-            ) : null}
+            <Pressable onPress={handleOnToggleInfoModal}>
+              <Typography.Text style={styles.decription} weight="medium" color="primaryBase" size="footnote">
+                {t("Onboarding.HighRiskRequireDocumentScreen.description")}
+              </Typography.Text>
+            </Pressable>
             {comments ? (
               <Typography.Text color="errorBase" size="caption1" style={commentsStyle}>
                 {comments}
@@ -109,7 +109,7 @@ export default function UploadDocumentCard({
         isVisible={isInfoModalVisible}
         onClose={handleOnToggleInfoModal}
         title={t("Onboarding.UploadDocumentCardList.InfoModal.title")}
-        description={description}
+        description={description ? description : t("Onboarding.UploadDocumentCardList.InfoModal.noDescriptionFound")}
       />
     </>
   );

@@ -42,6 +42,7 @@ export default function UploadDocumentScreen() {
   const [isChecked, setIsChecked] = useState(false);
   const [isDocumentSelect, setIsDocumentSelect] = useState(false);
   const [uploadedDocumentsGuidz, setUploadedDocumentsGuidz] = useState<string[]>([]);
+  const [successfullyUploadedAnnotationGuidz, setSuccessfullyUploadedAnnotationGuidz] = useState<string[]>([]);
   const {
     data,
     isLoading: isReceivingHighRiskDocuments,
@@ -63,7 +64,11 @@ export default function UploadDocumentScreen() {
   const [selectedDocumentGuid, setSelectedDocumentGuid] = useState("");
   const navigation = useNavigation<OnboardingStackParamsNavigationProp>();
   const [base64File, setFileBase64] = useState<{ content: string; name: string; type: string } | undefined>(undefined);
-  const { data: highRiskStatus } = useCheckHighRiskStatus();
+  const {
+    data: highRiskStatus,
+    isLoading: isChekHighRiskStatusLoading,
+    refetch: refetchHighRiskDocumentStatus,
+  } = useCheckHighRiskStatus();
 
   useEffect(() => {
     if (!highRiskStatus?.CaseStatus) return;
@@ -173,7 +178,8 @@ export default function UploadDocumentScreen() {
       };
       setFileBase64({ name, content: base64, type });
       setUploadedDocumentsGuidz(pre => [...pre, selectedDocumentGuid]);
-      await uploadDocumentMutateAsync(input);
+      const result = await uploadDocumentMutateAsync(input);
+      setSuccessfullyUploadedAnnotationGuidz(pre => [...pre, result.AnnotationId]);
       await refetchDocuments();
     } catch (error) {
       warn("Upload document Error", JSON.stringify(error));
@@ -183,6 +189,7 @@ export default function UploadDocumentScreen() {
   const handleOnVerifyDocument = async () => {
     try {
       await verifyDocumentMutateAsync();
+      await refetchHighRiskDocumentStatus();
       navigation.navigate("Onboarding.VerifyingInformationScreen");
     } catch (err) {
       setIsErrorModelVisible(true);
@@ -209,7 +216,7 @@ export default function UploadDocumentScreen() {
     backgroundColor: theme.palette["neutralBase-40"],
   }));
 
-  if (isReceivingHighRiskDocuments || isDocumentUploading || isVerifyingDocuments) {
+  if (isReceivingHighRiskDocuments || isDocumentUploading || isVerifyingDocuments || isChekHighRiskStatusLoading) {
     return <FullScreenLoader />;
   }
 
@@ -232,6 +239,7 @@ export default function UploadDocumentScreen() {
             onViewDocument={onViewDocument}
             onPressUpload={handleOnPressUpload}
             documents={data?.RequiredDocuments ?? []}
+            successfullyUploadedAnnotationGuidz={successfullyUploadedAnnotationGuidz}
           />
         </View>
         <Stack direction="vertical" style={buttonContainerStyle} align="stretch">

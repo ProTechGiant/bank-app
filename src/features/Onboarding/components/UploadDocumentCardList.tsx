@@ -12,6 +12,7 @@ interface UploadDocumentCardListProps {
   onPressUpload: (guid: string) => void;
   onViewDocument: (guid: string) => void;
   uploadedDocumentsGuidz: string[];
+  successfullyUploadedAnnotationGuidz: string[];
 }
 
 export default function UploadDocumentCardList({
@@ -19,6 +20,7 @@ export default function UploadDocumentCardList({
   onViewDocument,
   onPressUpload,
   uploadedDocumentsGuidz,
+  successfullyUploadedAnnotationGuidz,
 }: UploadDocumentCardListProps) {
   const { i18n } = useTranslation();
 
@@ -34,6 +36,7 @@ export default function UploadDocumentCardList({
           <UploadDocumentCard
             documentIndex={index + 1}
             isUploaded={uploadedDocumentsGuidz.includes(item.DocumentGuid)}
+            isSuccessFullyUploaded={successfullyUploadedAnnotationGuidz.includes(item.AnnotationGuid)}
             onPressUpload={onPressUpload}
             onViewDocument={onViewDocument}
             annotationGuid={item.AnnotationGuid}

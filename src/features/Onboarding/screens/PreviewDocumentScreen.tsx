@@ -1,8 +1,8 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { t } from "i18next";
 import React, { useEffect, useState } from "react";
-import { Image } from "react-native";
 
+import NotificationModal from "@/components/NotificationModal";
 import PreviewAndExportImage from "@/components/PreviewAndExportImage";
 import PreviewAndExportPDF from "@/components/PreviewAndExportPDF";
 import { warn } from "@/logger";
@@ -13,8 +13,13 @@ import { OnboardingStackParams } from "../OnboardingStack";
 
 export default function PreviewDocumentScreen() {
   const route = useRoute<RouteProp<OnboardingStackParams, "Onboarding.PreviewDocumentScreen">>();
-  const { data: documentData, isLoading, mutateAsync } = useDownloadHighRiskDocument();
+  const { data: documentData, isLoading, mutateAsync, isError } = useDownloadHighRiskDocument();
+  const [isErrorModelVisible, setIsErrorModelVisible] = useState<boolean>(isError);
   const [pdfData, setPdfData] = useState<PDFDataInterface | undefined>(undefined);
+
+  useEffect(() => {
+    setIsErrorModelVisible(isError);
+  }, [isError]);
 
   useEffect(() => {
     if (!documentData) {
@@ -40,17 +45,28 @@ export default function PreviewDocumentScreen() {
     }
   };
 
-  return pdfData?.type.includes("image") && pdfData?.content !== undefined ? (
-    <PreviewAndExportImage
-      data={pdfData}
-      title={t("Onboarding.UploadDocumentScreen.previewDocument")}
-      isLoading={isLoading}
-    />
-  ) : (
-    <PreviewAndExportPDF
-      data={pdfData}
-      title={t("Onboarding.UploadDocumentScreen.previewDocument")}
-      isLoading={isLoading}
-    />
+  return (
+    <>
+      {pdfData?.type.includes("image") && pdfData?.content !== undefined ? (
+        <PreviewAndExportImage
+          data={pdfData}
+          title={t("Onboarding.UploadDocumentScreen.previewDocument")}
+          isLoading={isLoading}
+        />
+      ) : (
+        <PreviewAndExportPDF
+          data={pdfData}
+          title={t("Onboarding.UploadDocumentScreen.previewDocument")}
+          isLoading={isLoading}
+        />
+      )}
+      <NotificationModal
+        message={t("Onboarding.FastOnboardingScreen.tryAgain")}
+        isVisible={isErrorModelVisible}
+        onClose={() => setIsErrorModelVisible(false)}
+        title={t("Onboarding.FastOnboardingScreen.errorMessage")}
+        variant="error"
+      />
+    </>
   );
 }

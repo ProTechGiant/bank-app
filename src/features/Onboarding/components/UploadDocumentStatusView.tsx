@@ -11,9 +11,10 @@ import { UploadDocumentStatus } from "../constants";
 
 interface UploadDocumentStatusViewProps {
   status: UploadDocumentStatus;
+  isDone: boolean;
 }
 
-export default function UploadDocumentStatusView({ status }: UploadDocumentStatusViewProps) {
+export default function UploadDocumentStatusView({ status, isDone }: UploadDocumentStatusViewProps) {
   const { t } = useTranslation();
   const {
     theme: { palette },
@@ -45,13 +46,13 @@ export default function UploadDocumentStatusView({ status }: UploadDocumentStatu
     },
   };
 
-  const backgroundColor = documentStatusData[status]?.color;
+  const backgroundColor = documentStatusData[isDone ? UploadDocumentStatus.APPROVED : status]?.color;
 
   return (
     <Stack direction="horizontal" style={[badgeStyle, { backgroundColor }]}>
-      {documentStatusData[status].icon}
+      {documentStatusData[isDone ? UploadDocumentStatus.APPROVED : status].icon}
       <Typography.Text size="caption1" color="neutralBase-60">
-        {documentStatusData[status].title}
+        {documentStatusData[isDone ? UploadDocumentStatus.APPROVED : status].title}
       </Typography.Text>
     </Stack>
   );

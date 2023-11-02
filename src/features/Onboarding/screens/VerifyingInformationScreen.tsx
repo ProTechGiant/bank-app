@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { TextStyle, View, ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import Page from "@/components/Page";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -14,7 +15,7 @@ import { getHighRiskCaseStatusScreen } from "../utils/get-high-risk-case-status-
 export default function VerifyingInformationScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation<UnAuthenticatedStackParams>();
-  const { data: highRiskStatus } = useCheckHighRiskStatus();
+  const { data: highRiskStatus, isLoading } = useCheckHighRiskStatus();
 
   useEffect(() => {
     if (!highRiskStatus?.CaseStatus) return;
@@ -38,7 +39,9 @@ export default function VerifyingInformationScreen() {
   const VerifyingInformationTextStyle = useThemeStyles<TextStyle>(theme => ({
     marginBottom: theme.spacing["32p"],
   }));
-
+  if (isLoading) {
+    return <FullScreenLoader />;
+  }
   return (
     <Page backgroundColor="neutralBase-60">
       <Stack direction="vertical" align="stretch" justify="space-between" flex={1}>
