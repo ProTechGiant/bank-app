@@ -1672,6 +1672,21 @@
         "twelveMonths": "12 months",
         "twentyFourMonths": "24 months"
       }
+    },
+    "ShapeYourGoalScreen": {
+      "monthlyContributions": "Monthly Contributions",
+      "productPerformance": "Product Performance",
+      "riskType": "Risk Type",
+      "bestMatch": "Best Match",
+      "productsTitle": "Products to help you reach your goal",
+      "continue": "Continue",
+      "productItemTitle": "Based on the product’s performance in the past 3 years",
+      "timeToAchieve": "Time to achieve",
+      "profitRate": "based on the profit rate",
+      "expectedProfit": "Expected profit",
+      "goalAmount": "Goal Amount",
+      "goalDuration": "Goal Duration",
+      "shapeYourGoal": "Shape your goal"
     }
   },
   "Referral": {

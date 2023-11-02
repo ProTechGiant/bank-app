@@ -1,3 +1,4 @@
+export { default as BalanceCard } from "./BalanceCard";
 export { default as CalendarButton } from "./CalendarButton";
 export { default as CollapsibleHeader } from "./CollapsibleHeader";
 export { default as DatePickerModal } from "./DatePickerModal";
@@ -21,7 +22,9 @@ export { default as MatchProductCard } from "./MatchProductCard";
 export { default as PaymentInstructions } from "./PaymentInstructions";
 export { default as PieChart } from "./PieChart";
 export { default as PredefinedOptionsList } from "./PredefinedOptionsList";
+export { default as ProductList } from "./ProductList";
 export { default as ProgressBar } from "./ProgressBar";
+export { default as SliderProgressBar } from "./SliderProgressBar";
 export { default as TagsProduct } from "./TagsProduct";
 export { default as TagsRisk } from "./TagsRisk";
 export { default as TermsAndConditions } from "./TermsAndConditions";

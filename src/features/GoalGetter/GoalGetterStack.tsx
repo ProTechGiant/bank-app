@@ -16,6 +16,7 @@ import {
   ReviewGoalScreen,
   RisksAppetiteScreen,
   ShapeGoalScreen,
+  ShapeYourGoalScreen,
   TargetAmountScreen,
   TermsAndConditionsScreen,
 } from "./screens";
@@ -42,6 +43,7 @@ export type GoalGetterStackParams = {
   "GoalGetter.ReviewGoalScreen": { pendingGoalAttributes?: GoalGetterStateType } | undefined;
   "GoalGetter.EditGoalGetter": undefined;
   "GoalGetter.ShapeGoalScreen": undefined;
+  "GoalGetter.ShapeYourGoalScreen": undefined;
 };
 
 export default function GoalGetterStack() {
@@ -71,6 +73,7 @@ export default function GoalGetterStack() {
         <Stack.Screen component={GoalCreatedSuccessfullyScreen} name="GoalGetter.GoalCreatedSuccessfullyScreen" />
         <Stack.Screen component={MatchProductsScreen} name="GoalGetter.MatchProductsScreen" />
         <Stack.Screen component={EditGoalGetterScreen} name="GoalGetter.EditGoalGetter" />
+        <Stack.Screen component={ShapeYourGoalScreen} name="GoalGetter.ShapeYourGoalScreen" />
       </Stack.Navigator>
     </GoalGetterContextProvider>
   );

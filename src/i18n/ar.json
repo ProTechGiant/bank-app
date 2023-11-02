@@ -1640,6 +1640,21 @@
         "twelveMonths": "12 شهر",
         "twentyFourMonths": "24 شهر"
       }
+    },
+    "ShapeYourGoalScreen": {
+      "monthlyContributions": "المساهمات الشهرية",
+      "productPerformance": "أداء المنتج",
+      "riskType": "نوع الخطر",
+      "bestMatch": "أفضل تطابق",
+      "productsTitle": "المنتجات التي تساعدك على تحقيق هدفك",
+      "continue": "استمر",
+      "productItemTitle": "بناءً على أداء المنتج خلال السنوات الثلاث الماضية",
+      "timeToAchieve": "الوقت لتحقيق الهدف",
+      "profitRate": "بناءً على معدل الربح",
+      "expectedProfit": "الربح المتوقع",
+      "goalAmount": "مبلغ الهدف",
+      "goalDuration": "مدة الهدف",
+      "shapeYourGoal": "شكل هدفك"
     }
   },
   "InstructionsScreen": {
