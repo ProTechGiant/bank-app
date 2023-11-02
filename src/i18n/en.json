@@ -2618,7 +2618,7 @@
     "resendCodeEnabled": "Resend Code",
     "notification": "That OTP wasn't right. You have {{attempts}} attempts left.",
     "errors": {
-      "invalidPassword": "The code you entered was invalid. Please try again.",
+      "invalidPassword": "The code you entered was invalid, please try again later.",
       "maxAttemptsInvalidPasswordReached": "You have reached the maximum number of authentication attempts. Please try again later.",
       "twoAttemptsLeft": "The code has expired. You can request 2 more codes.",
       "oneAttemptLeft": "The code has expired. You can request 1 more code.",
@@ -3774,7 +3774,7 @@
         "equal": "Equal to (==)"
       }
     },
-    "TradeGoldScreen":{
+    "TradeGoldScreen": {
       "buyTitle": "Buy gold",
       "sellTitle": "Sell gold",
       "entergrams": "Enter grams",

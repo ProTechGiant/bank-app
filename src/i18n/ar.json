@@ -2481,12 +2481,12 @@
     "resendCodeEnabled": "اعادة ارسال رمز التحقق",
     "notification": "هذا الرمز المؤقت لم يكن صحيحًا. لديك {{attempts}} محاولات متبقية",
     "errors": {
-      "invalidPassword": "الرمز الذي أدخلته غير صالح. يرجى المحاولة مرة أخرى.",
+      "invalidPassword": "خطأ في ادخال الرمز. يرجي المحاولة لاحقا",
       "maxAttemptsInvalidPasswordReached": "لقد وصلت إلى الحد الأقصى لعدد محاولات التحقق. يرجى المحاولة مرة أخرى لاحقًا",
-      "twoAttemptsLeft": "لقد انتهت مدة صلاحية الرمز، يمكنك طلب رمزين اضافيين",
-      "oneAttemptLeft": "لقد انتهت مدة صلاحية الرمز، يمكنك طلب رمز اضافي اخر",
-      "twoExpiredAttemptsLeft": " انتهت صلاحية ادخال هذا الرمز؛ متبقي لك محاولتين اخرتين ",
-      "oneExpiredAttemptLeft": " انتهت صلاحية ادخال هذا الرمز؛ متبقي لك محاولة اخري ",
+      "twoAttemptsLeft": " انتهت صلاحية الرمز؛ متبقي لك محاولتين أخرتين ",
+      "oneAttemptLeft": "انتهت صلاحية الرمز؛ متبقي لك محاولة اخرى",
+      "twoExpiredAttemptsLeft": " انتهت صلاحية إدخال هذا الرمز؛ متبقي لك محاولتين أخرتين ",
+      "oneExpiredAttemptLeft": "انتهت صلاحية ادخال هذا الرمز؛ متبقي لك محاولة اخرى ",
       "noAttemptsLeftTitle": ".حاول مرة أخرى لاحقًا",
       "noAttemptsLeftMessage": "لقد أدخلت الرمز بشكل خاطئ عدة مرات. يرجى الانتظار لمدة 30 دقيقة ومن ثم المحاولة مرة أخرى.",
       "button": "حسنًا",
@@ -3638,14 +3638,14 @@
         "equal": "يساوي (==)"
       }
     },
-    "TradeGoldScreen":{
-      "buyTitle":"اشتري ذهب",
-      "sellTitle":"بيع الذهب",
-      "entergrams":"أدخل غرامات",
-      "goldPrice":"سعر الذهب",
-      "preDefinedAmount":"أواختر مبلغًا محددًا مسبقًا",
-      "currentPriceIndicative":"هذا هو السعر الحالي ولكنه مؤشر.",
-      "insufficientFunds":"ليس لديك أموال كافية لشراء الذهب"
+    "TradeGoldScreen": {
+      "buyTitle": "اشتري ذهب",
+      "sellTitle": "بيع الذهب",
+      "entergrams": "أدخل غرامات",
+      "goldPrice": "سعر الذهب",
+      "preDefinedAmount": "أواختر مبلغًا محددًا مسبقًا",
+      "currentPriceIndicative": "هذا هو السعر الحالي ولكنه مؤشر.",
+      "insufficientFunds": "ليس لديك أموال كافية لشراء الذهب"
     },
     "TransactionSummaryModal": {
       "orderSummary": "ملخص الطلب",
