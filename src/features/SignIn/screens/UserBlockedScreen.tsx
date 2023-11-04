@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { parseISO } from "date-fns";
+import { addMinutes, differenceInMilliseconds, parseISO } from "date-fns";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BackHandler, useWindowDimensions, View, ViewStyle } from "react-native";
@@ -99,12 +99,13 @@ export default function UserBlockedScreen() {
         const response = await mutateAsync(user.CustomerId);
         if (response) {
           const lastModifiedTime = parseISO(response.LastModifiedTime);
+
           if (response.StatusId === StatusTypes.ACTIVE) {
             handleNavigate();
           } else {
             if (response.StatusId === StatusTypes.TEMPORARILY_BLOCKED) {
-              const userBlockTime = lastModifiedTime.getTime() + BLOCKED_TIME * 60 * 1000;
-              handleTimeLogic(userBlockTime);
+              const userBlockTime = addMinutes(lastModifiedTime, BLOCKED_TIME);
+              handleTimeLogic(userBlockTime, lastModifiedTime);
             }
             setIsItPermanentBlock(response.StatusId === StatusTypes.PERMANENTLY_BLOCKED);
           }
@@ -115,11 +116,10 @@ export default function UserBlockedScreen() {
     }
   };
 
-  const handleTimeLogic = (endTime: number) => {
-    const currentDateTime = new Date();
-    const endDateTime = new Date(endTime);
-    const remainingTime = endDateTime.getTime() - currentDateTime.getTime();
-    if (remainingTime === 0) {
+  const handleTimeLogic = (endTime: Date, startTime: Date) => {
+    const remainingTime = differenceInMilliseconds(endTime, startTime);
+
+    if (remainingTime <= 0) {
       handleNavigate();
     } else {
       timeoutRef.current = setTimeout(handleNavigate, remainingTime);
