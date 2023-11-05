@@ -37,7 +37,7 @@ export default function ConfirmationScreen() {
 
     //TODO: remove this hardcoded transaction data when transaction details are fetched from transactionDetail API in SingleTransactionDetailedScreen
     const obj = {
-      amount: transferAmount ?? "",
+      amount: transferAmount ? `${transferAmount}` : "0",
       cardType: "1",
       categoryId: "2",
       categoryName: "Food and Drinks",
@@ -48,6 +48,8 @@ export default function ConfirmationScreen() {
       subTitle: "Online Transaction",
       title: "Nuba",
       transactionDate: [2023, 6, 25, 2, 31, 31, 202971000],
+      transactionId: "123",
+      hiddenIndicator: "12",
     };
 
     navigation.navigate("ViewTransactions.ViewTransactionsStack", {
