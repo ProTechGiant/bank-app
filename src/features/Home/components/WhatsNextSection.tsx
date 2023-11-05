@@ -16,9 +16,10 @@ import Section from "./Section";
 
 interface WhatsNextSectionProps {
   onViewAllPress: () => void;
+  testID?: string;
 }
 
-export default function WhatsNextSection({ onViewAllPress }: WhatsNextSectionProps) {
+export default function WhatsNextSection({ onViewAllPress, testID }: WhatsNextSectionProps) {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const paramsOther: Record<string, string | number> = {
@@ -27,7 +28,7 @@ export default function WhatsNextSection({ onViewAllPress }: WhatsNextSectionPro
     PageOffset: 0,
   };
   //refetch will be used when refresh component take place
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const { data, refetch, isLoading, isError } = useContentArticleList(WHATS_NEXT_CATEGORY_ID, true, true, paramsOther);
   const { width } = useWindowDimensions();
   const isRTL = I18nManager.isRTL;
@@ -49,13 +50,17 @@ export default function WhatsNextSection({ onViewAllPress }: WhatsNextSectionPro
   };
 
   return (
-    <Section title={t("Home.DashboardScreen.whatsNext", { month: currentMonthName })} onViewAllPress={onViewAllPress}>
+    <Section
+      testID={testID}
+      title={t("Home.DashboardScreen.whatsNext", { month: currentMonthName })}
+      onViewAllPress={onViewAllPress}>
       {isLoading ? (
         <View style={loadingContainerStyle}>
           <ActivityIndicator />
         </View>
       ) : isError ? (
         <RefreshSection
+          testID={testID !== undefined ? `${testID}:RefreshSection` : undefined}
           hint={t("Home.RefreshSection.hintForWhatNextArticles")}
           hasIcon={true}
           hasBorder={true}
@@ -63,11 +68,15 @@ export default function WhatsNextSection({ onViewAllPress }: WhatsNextSectionPro
         />
       ) : data && data.length > 0 ? (
         <HomeArticleSection
+          testID={testID !== undefined ? `${testID}:HomeArticleSection` : undefined}
           onPress={articleId => handleOnExploreArticlePress(articleId)}
           data={data as ArticleSectionType[]}
         />
       ) : (
-        <EmptySection hint={t("Home.EmptySection.hintForWhatNextArticles")} />
+        <EmptySection
+          testID={testID !== undefined ? `${testID}:EmptySection` : undefined}
+          hint={t("Home.EmptySection.hintForWhatNextArticles")}
+        />
       )}
     </Section>
   );

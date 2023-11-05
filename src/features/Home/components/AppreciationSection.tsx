@@ -15,9 +15,10 @@ import Section from "./Section";
 
 interface AppreciationSectionProps {
   onViewAllPress: () => void;
+  testID?: string;
 }
 
-export default function AppreciationSection({ onViewAllPress }: AppreciationSectionProps) {
+export default function AppreciationSection({ onViewAllPress, testID }: AppreciationSectionProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { data: AppreciationListData, isLoading, isError, refetch } = useTopAppreciations();
@@ -72,13 +73,14 @@ export default function AppreciationSection({ onViewAllPress }: AppreciationSect
   }));
 
   return (
-    <Section title={t("Home.DashboardScreen.AppreciationSectionTitle")} onViewAllPress={onViewAllPress}>
+    <Section testID={testID} title={t("Home.DashboardScreen.AppreciationSectionTitle")} onViewAllPress={onViewAllPress}>
       {isLoading ? (
         <View style={loadingContainerStyle}>
           <ActivityIndicator />
         </View>
       ) : isError ? (
         <RefreshSection
+          testID={testID !== undefined ? `${testID}:RefreshSection` : undefined}
           hint={t("Home.RefreshSection.hintForAppreciation")}
           hasIcon={true}
           hasBorder={true}
@@ -100,6 +102,7 @@ export default function AppreciationSection({ onViewAllPress }: AppreciationSect
                     isPromoted={appreciation?.Section.Code === PromotedEnum.Code}
                     onPress={handleOnAppreciationCardPress}
                     onLike={handleOnLikeAppreciation}
+                    testID={testID !== undefined ? `${testID}:AppreciationCard` : undefined}
                   />
                 );
               })

@@ -7,21 +7,36 @@ interface LoadingErrorNotificationProps {
   isVisible: boolean;
   onClose: () => void;
   onRefresh: () => void;
+  testID?: string;
 }
 
-export default function LoadingErrorNotification({ isVisible, onClose, onRefresh }: LoadingErrorNotificationProps) {
+export default function LoadingErrorNotification({
+  isVisible,
+  onClose,
+  onRefresh,
+  testID,
+}: LoadingErrorNotificationProps) {
   const { t } = useTranslation();
 
   return (
     <NotificationModal
+      testID={testID !== undefined ? `${testID}:NotificationModal` : undefined}
       variant="error"
       title={t("LoadingError.NotificationModal.errorTitle")}
       message={t("LoadingError.NotificationModal.errorMessage")}
       isVisible={isVisible}
       onClose={onClose}
       buttons={{
-        primary: <Button onPress={onRefresh}>{t("LoadingError.NotificationModal.refresh")}</Button>,
-        secondary: <Button onPress={onClose}>{t("LoadingError.NotificationModal.dismiss")}</Button>,
+        primary: (
+          <Button testID={testID !== undefined ? `${testID}-ModalRefreshButton` : undefined} onPress={onRefresh}>
+            {t("LoadingError.NotificationModal.refresh")}
+          </Button>
+        ),
+        secondary: (
+          <Button testID={testID !== undefined ? `${testID}-ModalRefreshClose` : undefined} onPress={onClose}>
+            {t("LoadingError.NotificationModal.dismiss")}
+          </Button>
+        ),
       }}
     />
   );

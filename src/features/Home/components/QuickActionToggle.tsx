@@ -14,6 +14,7 @@ interface QuickActionToggleProps {
   isActive: boolean;
   onPress: () => void;
   numberOfActiveItems: number;
+  testID?: string;
 }
 
 export default function QuickActionToggle({
@@ -23,6 +24,7 @@ export default function QuickActionToggle({
   onPress,
   iconName,
   numberOfActiveItems,
+  testID,
 }: QuickActionToggleProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["12p"],
@@ -49,7 +51,7 @@ export default function QuickActionToggle({
     numberOfActiveItems === REQUIRED_ACTIVE_ITEMS && !isActive ? "neutralBase-30" : "neutralBase";
 
   return (
-    <Pressable onPress={onPress}>
+    <Pressable testID={testID !== undefined ? `${testID}-Pressed}` : undefined} onPress={onPress}>
       <Stack direction="horizontal" style={containerStyle}>
         <View style={quickActionViewStyle}>
           <QuickAction color={iconAndTitleColor} iconName={iconName} backgroundColor="neutralBase-40" />
@@ -64,6 +66,7 @@ export default function QuickActionToggle({
         </Stack>
         <Stack direction="horizontal">
           <CheckboxInput
+            testID={testID !== undefined ? `${testID}-${title}-checkbox}` : undefined}
             value={isActive}
             onChange={onPress}
             isEditable={numberOfActiveItems < REQUIRED_ACTIVE_ITEMS || isActive}

@@ -11,6 +11,7 @@ interface QuickActionProps {
   title?: string;
   iconName?: string;
   onPress?: () => void;
+  testID?: string;
 }
 
 export default function QuickAction({
@@ -19,6 +20,7 @@ export default function QuickAction({
   title,
   backgroundColor = "supportBase-10",
   onPress,
+  testID,
 }: QuickActionProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     gap: theme.spacing["12p"],
@@ -37,7 +39,10 @@ export default function QuickAction({
   const rawColor = useThemeStyles(theme => theme.palette[color], [color]);
 
   return (
-    <Pressable onPress={onPress} style={containerStyle}>
+    <Pressable
+      testID={testID !== undefined ? `${testID}-QuickActionPressed` : undefined}
+      onPress={onPress}
+      style={containerStyle}>
       <View style={iconStyle}>
         {cloneElement(iconMapping.homepageQuickActions[`${iconName}`] ?? iconMapping.homepageQuickActions.croatiaIcon, {
           color: rawColor,

@@ -9,9 +9,10 @@ import ArticleCard from "./ArticleCard";
 interface HomeArticleSectionProps {
   onPress: (articleId: string) => void;
   data: ArticleSectionType[];
+  testID?: string;
 }
 
-export default function HomeArticleSection({ data, onPress }: HomeArticleSectionProps) {
+export default function HomeArticleSection({ data, onPress, testID }: HomeArticleSectionProps) {
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     columnGap: theme.spacing["12p"],
     paddingHorizontal: theme.spacing["20p"],
@@ -25,6 +26,7 @@ export default function HomeArticleSection({ data, onPress }: HomeArticleSection
 
   return (
     <ScrollView
+      testID={testID}
       contentContainerStyle={contentStyle}
       horizontal
       showsHorizontalScrollIndicator={false}
@@ -32,6 +34,7 @@ export default function HomeArticleSection({ data, onPress }: HomeArticleSection
       {data.map(item => {
         return (
           <ArticleCard
+            testID={testID !== undefined ? `${testID}:ArticleCard` : undefined}
             key={item.ContentId}
             imageURL={item?.Media && item.Media[0].SourceFileURL}
             category={item.ContentTag}

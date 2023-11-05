@@ -12,6 +12,7 @@ export interface TopCategoryItemProps {
   currency: string;
   iconPath: string;
   iconViewBox: string;
+  testID?: string;
 }
 
 export default function TopCategoryItem({
@@ -21,6 +22,7 @@ export default function TopCategoryItem({
   currency,
   iconPath,
   iconViewBox,
+  testID,
 }: TopCategoryItemProps) {
   const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["12p"],
@@ -31,7 +33,7 @@ export default function TopCategoryItem({
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   return (
-    <Stack direction="horizontal" gap="12p" style={styles.alignStyle}>
+    <Stack testID={testID} direction="horizontal" gap="12p" style={styles.alignStyle}>
       <View style={iconContainerStyle}>
         <IconGenerator
           width={22}

@@ -11,9 +11,10 @@ interface TopTenCardProps {
   description: string;
   imageURL: string | undefined;
   onPress: () => void;
+  testID?: string;
 }
 
-export default function ArticleCard({ category, title, description, imageURL, onPress }: TopTenCardProps) {
+export default function ArticleCard({ category, title, description, imageURL, onPress, testID }: TopTenCardProps) {
   const { width } = useWindowDimensions();
 
   const imageStyle = useThemeStyles<ImageStyle>(theme => ({
@@ -46,7 +47,7 @@ export default function ArticleCard({ category, title, description, imageURL, on
   }));
 
   return (
-    <Pressable onPress={onPress}>
+    <Pressable testID={testID !== undefined ? `${testID}-Press` : undefined} onPress={onPress}>
       <NetworkImage style={imageStyle} source={{ uri: imageURL || "" }} />
       <View style={textStyle}>
         <Stack direction="vertical" gap="4p">

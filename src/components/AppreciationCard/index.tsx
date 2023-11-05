@@ -20,6 +20,7 @@ interface AppreciationCardProps {
   onPress: (appreciation: AppreciationType<boolean>) => void;
   onLike: (id: string, isLiked: boolean) => void;
   isPromoted?: boolean;
+  testID?: string;
 }
 
 export default function AppreciationCard({
@@ -28,6 +29,7 @@ export default function AppreciationCard({
   onPress,
   onLike,
   isPromoted,
+  testID,
 }: AppreciationCardProps) {
   const { t } = useTranslation();
 
@@ -110,11 +112,16 @@ export default function AppreciationCard({
   }));
 
   return (
-    <Pressable onPress={() => onPress(appreciation)}>
+    <Pressable
+      testID={testID !== undefined ? `${testID}-AppreciationPress` : undefined}
+      onPress={() => onPress(appreciation)}>
       <View style={containerStyle}>
         <View style={absoluteHeaderStyle}>
           <Tags isNew={true} isPlus={Tier === 1} userTier={userTier} />
-          <Pressable onPress={handleOnLikeIconPress} style={likeIconContainerStyle}>
+          <Pressable
+            testID={testID !== undefined ? `${testID}-AppreciationLikeButton` : undefined}
+            onPress={handleOnLikeIconPress}
+            style={likeIconContainerStyle}>
             <LikeSmallIcon color={isFavourite ? likedColor : notLikedColor} />
           </Pressable>
         </View>

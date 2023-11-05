@@ -8,9 +8,10 @@ import { useThemeStyles } from "@/theme";
 
 interface EmptySectionProps {
   hint: string;
+  testID?: string;
 }
 
-export default function EmptySection({ hint }: EmptySectionProps) {
+export default function EmptySection({ hint, testID }: EmptySectionProps) {
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -26,7 +27,7 @@ export default function EmptySection({ hint }: EmptySectionProps) {
   }));
 
   return (
-    <View style={containerStyle}>
+    <View testID={testID} style={containerStyle}>
       <View style={iconStyle}>
         <PlaceholderRefreshIcon />
       </View>

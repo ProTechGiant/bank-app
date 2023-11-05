@@ -24,9 +24,10 @@ interface BalanceCardProps {
   balance?: number;
   accountNumber?: string;
   onBalanceRefresh: () => void;
+  testID?: string;
 }
 
-export default function BalanceCard({ balance, accountNumber, onBalanceRefresh }: BalanceCardProps) {
+export default function BalanceCard({ balance, accountNumber, onBalanceRefresh, testID }: BalanceCardProps) {
   const { t } = useTranslation();
   const addToast = useToasts();
   const navigation = useNavigation();
@@ -79,7 +80,7 @@ export default function BalanceCard({ balance, accountNumber, onBalanceRefresh }
   }));
 
   return (
-    <Stack direction="vertical" align="stretch" style={balanceCardContainer}>
+    <Stack testID={testID} direction="vertical" align="stretch" style={balanceCardContainer}>
       <WithShadow backgroundColor="neutralBase-50" borderRadius="small">
         <Stack direction="vertical" align="stretch" style={balanceCardInnerContainer}>
           <Stack direction="vertical" align="stretch" style={cardHeaderSectionStyle}>
@@ -93,13 +94,13 @@ export default function BalanceCard({ balance, accountNumber, onBalanceRefresh }
                     color="neutralBase+30"
                     size="large"
                     weight="bold"
-                    testID="Home.DashboardScreen:AccountBalance">
+                    testID={testID !== undefined ? `${testID}-AccountBalance` : undefined}>
                     {isBalanceVisible ? balance.toLocaleString("en-US") : "********"}
                   </Typography.Text>
                   <Pressable
                     style={showBalanceIconStyle}
                     onPress={handleOnShowBalancePress}
-                    testID="Home.DashboardScreen:ToggleAccountBalanceButton">
+                    testID={testID !== undefined ? `${testID}-ToggleAccountBalanceButton` : undefined}>
                     {isBalanceVisible ? <EyeShowIcon /> : <EyeHideIcon />}
                   </Pressable>
                 </>
@@ -108,7 +109,10 @@ export default function BalanceCard({ balance, accountNumber, onBalanceRefresh }
                   <Typography.Text color="neutralBase+30" size="title1" weight="regular">
                     {t("Home.DashboardScreen.updating")}
                   </Typography.Text>
-                  <Pressable style={showBalanceIconStyle} onPress={handleOnRefreshBalancePress}>
+                  <Pressable
+                    style={showBalanceIconStyle}
+                    onPress={handleOnRefreshBalancePress}
+                    testID={testID !== undefined ? `${testID}-RefreshBalancePress` : undefined}>
                     <RefreshBalanceIcon />
                   </Pressable>
                 </>
@@ -134,13 +138,13 @@ export default function BalanceCard({ balance, accountNumber, onBalanceRefresh }
             <Pressable
               style={styles.iconContainer}
               onPress={handleOnCopyNumberPress}
-              testID="Home.DashboardScreen:CopyAccountNumberButton">
+              testID={testID !== undefined ? `${testID}-CopyNumberButton` : undefined}>
               <CopyAccountIcon />
             </Pressable>
             <Pressable
               style={styles.iconContainer}
               onPress={handleOnAccountDetailsPress}
-              testID="Home.DashboardScreen:NavigateToAccountButton">
+              testID={testID !== undefined ? `${testID}-NavigateToAccountButton` : undefined}>
               <NavigateToAccountIcon />
             </Pressable>
           </Stack>

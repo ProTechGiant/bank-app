@@ -11,14 +11,15 @@ import QuickAction from "./QuickAction";
 interface QuickActionsSectionProps {
   onQuickActionPress: (screen: string, stack: keyof AuthenticatedStackParams) => void;
   onRefresh: () => void;
+  testID?: string;
 }
 
-export default function QuickActionsSection({ onQuickActionPress, onRefresh }: QuickActionsSectionProps) {
+export default function QuickActionsSection({ onQuickActionPress, onRefresh, testID }: QuickActionsSectionProps) {
   const { t } = useTranslation();
   const { quickActions } = useHomepageLayoutOrder();
 
   return (
-    <Stack direction="vertical" align="stretch" gap="12p">
+    <Stack testID={testID} direction="vertical" align="stretch" gap="12p">
       <Stack align="stretch" direction="horizontal" justify="space-between">
         {quickActions.length !== 0 ? (
           <>
@@ -33,6 +34,7 @@ export default function QuickActionsSection({ onQuickActionPress, onRefresh }: Q
               .map(item =>
                 item.CustomerConfiguration.IsVisible ? (
                   <QuickAction
+                    testID={testID !== undefined ? `${testID}:QuickAction` : undefined}
                     key={item.Id}
                     color="neutralBase+30"
                     iconName={item["Shortcut Icon"]}
@@ -46,6 +48,7 @@ export default function QuickActionsSection({ onQuickActionPress, onRefresh }: Q
         ) : (
           <View style={styles.quickActionRefreshSectionView}>
             <RefreshSection
+              testID={testID !== undefined ? `${testID}:RefreshSection` : undefined}
               hint={t("Home.DashboardScreen.QuickActionSectionRefreshSectionHint")}
               onRefreshPress={onRefresh}
               hasBorder={true}

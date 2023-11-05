@@ -10,9 +10,10 @@ import { ChatIcon } from "../assets/icons";
 
 interface ChatLiveButtonProps {
   onPress: () => void;
+  testID?: string;
 }
 
-export default function ChatLiveButton({ onPress }: ChatLiveButtonProps) {
+export default function ChatLiveButton({ onPress, testID }: ChatLiveButtonProps) {
   const { t } = useTranslation();
 
   const rotatedViewStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -31,7 +32,10 @@ export default function ChatLiveButton({ onPress }: ChatLiveButtonProps) {
   }));
 
   return (
-    <Pressable style={containerStyle} onPress={onPress}>
+    <Pressable
+      testID={testID !== undefined ? `${testID}-ButtonPress` : undefined}
+      style={containerStyle}
+      onPress={onPress}>
       <Stack direction="horizontal" align="center" gap="4p" style={rotatedViewStyle}>
         <ChatIcon />
         <Typography.Text align="center" color="neutralBase-60" size="callout" weight="regular">

@@ -11,6 +11,7 @@ interface RefreshSectionProps {
   hasIcon?: boolean;
   hasBorder?: boolean;
   onRefreshPress: () => void;
+  testID?: string;
 }
 
 export default function RefreshSection({
@@ -18,6 +19,7 @@ export default function RefreshSection({
   hasIcon = false,
   hasBorder = false,
   onRefreshPress,
+  testID,
 }: RefreshSectionProps) {
   const { t } = useTranslation();
 
@@ -46,7 +48,7 @@ export default function RefreshSection({
   }));
 
   return (
-    <View style={[containerStyle, hasBorder && borderStyle]}>
+    <View testID={testID} style={[containerStyle, hasBorder && borderStyle]}>
       {hasIcon && (
         <View style={iconStyle}>
           <PlaceholderRefreshIcon />
@@ -58,7 +60,11 @@ export default function RefreshSection({
       </Typography.Text>
 
       <View style={buttonContainerStyle}>
-        <Button onPress={onRefreshPress} variant="secondary" size="mini">
+        <Button
+          testID={testID !== undefined ? `${testID}-RefreshButton` : undefined}
+          onPress={onRefreshPress}
+          variant="secondary"
+          size="mini">
           {t("Home.RefreshSection.refreshButton")}
         </Button>
       </View>

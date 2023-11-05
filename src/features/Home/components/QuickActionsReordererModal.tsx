@@ -16,9 +16,10 @@ import { QuickActionType } from "../types";
 interface QuickActionsReordererModalProps {
   isVisible: boolean;
   onClose: () => void;
+  testID?: string;
 }
 
-export default function QuickActionsReordererModal({ isVisible, onClose }: QuickActionsReordererModalProps) {
+export default function QuickActionsReordererModal({ isVisible, onClose, testID }: QuickActionsReordererModalProps) {
   const { t } = useTranslation();
 
   const { quickActions, setQuickActions } = useHomepageLayoutOrder();
@@ -89,16 +90,20 @@ export default function QuickActionsReordererModal({ isVisible, onClose }: Quick
   const iconColor = useThemeStyles(theme => theme.palette.neutralBase);
 
   return (
-    <Modal visible={isVisible} style={style.quickActionsReordererModalStyle}>
+    <Modal
+      testID={testID !== undefined ? `${testID}-Modal` : undefined}
+      visible={isVisible}
+      style={style.quickActionsReordererModalStyle}>
       <Stack direction="vertical" align="stretch" gap="32p">
         <Stack direction="horizontal" justify="space-between">
-          <Pressable onPress={onClose}>
+          <Pressable testID={testID !== undefined ? `${testID}-IconColorButton` : undefined} onPress={onClose}>
             <CloseIcon color={iconColor} />
           </Pressable>
           <Typography.Text color="neutralBase+20" size="callout" weight="medium">
             {t("Home.QuickActionsReordererModal.yourShortcutsLabel")}
           </Typography.Text>
           <Pressable
+            testID={testID !== undefined ? `${testID}-SaveButton` : undefined}
             accessibilityState={{ disabled: numberOfActiveItems !== REQUIRED_ACTIVE_ITEMS }}
             onPress={handleOnSavePress}
             disabled={numberOfActiveItems !== REQUIRED_ACTIVE_ITEMS}>
@@ -115,6 +120,7 @@ export default function QuickActionsReordererModal({ isVisible, onClose }: Quick
             return selectedQuickActions.map(item => {
               return item.CustomerConfiguration.IsVisible && index === item.CustomerConfiguration.SectionIndex ? (
                 <QuickAction
+                  testID={testID !== undefined ? `${testID}:QuictionAction` : undefined}
                   key={item.Id}
                   backgroundColor="neutralBase-40"
                   color="neutralBase+30"
@@ -130,6 +136,7 @@ export default function QuickActionsReordererModal({ isVisible, onClose }: Quick
                 key={`id-${index}`}
                 color="neutralBase-30"
                 iconName="croatiaIcon"
+                testID={testID !== undefined ? `${testID}:QuickAction` : undefined}
               />
             );
           })}
@@ -142,6 +149,7 @@ export default function QuickActionsReordererModal({ isVisible, onClose }: Quick
           renderItem={({ item }) => {
             return (
               <QuickActionToggle
+                testID={testID !== undefined ? `${testID}-QuickActionToggle}` : undefined}
                 key={item.Id}
                 iconName={item["Shortcut Icon"]}
                 title={item.Name}

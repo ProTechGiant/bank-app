@@ -13,9 +13,17 @@ interface CardSectionProps {
   title: string;
   description: string;
   buttonText: string;
+  testID?: string;
 }
 
-export default function CardSection({ onPress, isReferFriend, title, description, buttonText }: CardSectionProps) {
+export default function CardSection({
+  onPress,
+  isReferFriend,
+  title,
+  description,
+  buttonText,
+  testID,
+}: CardSectionProps) {
   const isRTL = I18nManager.isRTL;
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -48,7 +56,7 @@ export default function CardSection({ onPress, isReferFriend, title, description
   }));
 
   return (
-    <View style={containerStyle}>
+    <View testID={testID} style={containerStyle}>
       <View style={contentContainerStyle}>
         <Typography.Text size="title3" weight="bold">
           {title}
@@ -59,7 +67,9 @@ export default function CardSection({ onPress, isReferFriend, title, description
           </Typography.Text>
         </View>
         <View style={buttonStyle}>
-          <Button onPress={onPress}>{buttonText}</Button>
+          <Button testID={testID !== undefined ? `${testID}-InviteNowButton` : undefined} onPress={onPress}>
+            {buttonText}
+          </Button>
         </View>
       </View>
       <View style={styles.iconBackGroundContainer}>

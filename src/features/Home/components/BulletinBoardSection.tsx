@@ -13,13 +13,17 @@ import { ScreenRouteNameMappingType } from "../types";
 import BulletinBoardSectionIcon from "./BulletinBoardSectionIcon";
 import BulletinBoardTaskItem from "./BulletinBoardTaskItem";
 
+interface BulletInBoardProps {
+  testID?: string;
+}
+
 const screenRouteNameMapping: ScreenRouteNameMappingType = {
   "redirectdestinationlink/lifestylepreference": "Settings.SettingsStack/Settings.LifeStyleScreen",
   "redirectdestinationlink/accounttopup": "AddMoney.AddMoneyStack/AddMoney.AddMoneyInfoScreen",
   "redirectdestinationlink/cardelevatelife": "CardActions.CardActionsStack/CardActions.HomeScreen",
 };
 
-export default function BulletinBoardSection() {
+export default function BulletinBoardSection({ testID }: BulletInBoardProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const {
@@ -90,7 +94,7 @@ export default function BulletinBoardSection() {
   }
 
   return (
-    <Stack direction="vertical" align="stretch">
+    <Stack testID={testID} direction="vertical" align="stretch">
       <Stack direction="horizontal" align="center" gap="8p" style={sectionContainer}>
         <BulletinBoardSectionIcon />
         <Stack direction="vertical" align="stretch" gap="8p" flex={1}>
@@ -105,7 +109,9 @@ export default function BulletinBoardSection() {
                 completed: bulletinBoardTasks.Completed,
               })}
             </Typography.Text>
-            <Pressable onPress={handleOnViewTasksPress}>
+            <Pressable
+              onPress={handleOnViewTasksPress}
+              testID={testID !== undefined ? `${testID}-ViewTasksButton` : undefined}>
               <Typography.Text size="caption2" color="primaryBase-40">
                 {t("Home.DashboardScreen.bulletinBoardSection.viewTasks")}
               </Typography.Text>
@@ -114,6 +120,7 @@ export default function BulletinBoardSection() {
         </Stack>
       </Stack>
       <Modal
+        testID={testID !== undefined ? `${testID}:ViewTaskModal` : undefined}
         visible={isTasksModalVisible}
         onClose={handleOnModalClosePress}
         headerText={t("Home.DashboardScreen.bulletinBoardSection.pendingTasks")}
@@ -122,6 +129,7 @@ export default function BulletinBoardSection() {
           {bulletinBoardTasks.PendingTasks.map((item, index) => {
             return (
               <BulletinBoardTaskItem
+                testID={testID !== undefined ? `${testID}:BulletBoardTaskItem` : undefined}
                 item={item}
                 index={index}
                 key={item.ActionId}

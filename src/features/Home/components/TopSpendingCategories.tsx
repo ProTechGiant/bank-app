@@ -17,9 +17,10 @@ import TopCategoryItem from "./TopCategoryItem";
 
 interface TopSpendingCategoriesProps {
   account: any;
+  testID?: string;
 }
 
-export default function TopSpendingCategories({ account }: TopSpendingCategoriesProps) {
+export default function TopSpendingCategories({ account, testID }: TopSpendingCategoriesProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const isRTL = I18nManager.isRTL;
@@ -61,7 +62,7 @@ export default function TopSpendingCategories({ account }: TopSpendingCategories
   }));
 
   return (
-    <ContentContainer style={contentStyle}>
+    <ContentContainer testID={testID} style={contentStyle}>
       <Stack direction="vertical" gap="4p" style={currectSpendingStyle}>
         <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
           {t("Home.TopSpendingCategories.currentSpending")} {currentMonthName}
@@ -80,7 +81,11 @@ export default function TopSpendingCategories({ account }: TopSpendingCategories
         ) : null}
         {account.data?.id === undefined || isError ? (
           <View style={styles.refreshContainerStyle}>
-            <RefreshSection hint={t("Home.RefreshSection.hintForSpendingSection")} onRefreshPress={refetch} />
+            <RefreshSection
+              testID={testID !== undefined ? `${testID}:RefreshSection` : undefined}
+              hint={t("Home.RefreshSection.hintForSpendingSection")}
+              onRefreshPress={refetch}
+            />
           </View>
         ) : includedTopCategories && includedTopCategories.length > 0 ? (
           //I added slice(0, 3) to disply data from first three top categories only that came from api
@@ -89,6 +94,7 @@ export default function TopSpendingCategories({ account }: TopSpendingCategories
             const formattedPercentage = `${apiPercentageNumber.toFixed(2)}%`;
             return (
               <TopCategoryItem
+                testID={testID !== undefined ? `${testID}:TopCategoryItem` : undefined}
                 key={topCategoryItem.categoryId}
                 name={topCategoryItem.categoryName}
                 percent={formattedPercentage}
@@ -117,7 +123,10 @@ export default function TopSpendingCategories({ account }: TopSpendingCategories
 
       {includedTopCategories && includedTopCategories.length > 0 ? (
         <View style={viewAllContainer}>
-          <Button size="small" onPress={handleOnPress}>
+          <Button
+            testID={testID !== undefined ? `${testID}-ViewAllSpending` : undefined}
+            size="small"
+            onPress={handleOnPress}>
             {t("Home.TopSpendingCategories.viewAllSpending")}
           </Button>
         </View>

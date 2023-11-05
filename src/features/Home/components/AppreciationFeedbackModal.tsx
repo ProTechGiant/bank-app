@@ -24,6 +24,7 @@ interface AppreciationFeedbackModalProps {
   onSubmitFeedback: (comment: string, status: FeedbackStatus) => void;
   title: string;
   imageUrl: string;
+  testID?: string;
 }
 
 export default function AppreciationFeedbackModal({
@@ -32,6 +33,7 @@ export default function AppreciationFeedbackModal({
   onSubmitFeedback,
   title,
   imageUrl,
+  testID,
 }: AppreciationFeedbackModalProps) {
   const { height: windowHeight } = useWindowDimensions();
   const { t } = useTranslation();
@@ -106,11 +108,16 @@ export default function AppreciationFeedbackModal({
   }));
 
   return (
-    <Modal visible={visible} style={styles.modalStyle} padding={0}>
+    <Modal
+      testID={testID !== undefined ? `${testID}-Modal` : undefined}
+      visible={visible}
+      style={styles.modalStyle}
+      padding={0}>
       <ScrollView style={styles.containerStyle} showsVerticalScrollIndicator={false}>
         <View style={headerContainerStyle}>
           <SafeAreaView style={styles.headerStyle}>
             <NavHeader
+              testID={testID !== undefined ? `${testID}:NavHeader` : undefined}
               title={title}
               end={<NavHeader.CloseEndButton onPress={handleOnBackPress} />}
               variant="background"
@@ -126,6 +133,7 @@ export default function AppreciationFeedbackModal({
           </Typography.Header>
           <Stack direction="horizontal" gap="16p" style={answersContainerStyle}>
             <Chip
+              testID={testID !== undefined ? `${testID}:PositiveAnswerChip` : undefined}
               title={t("Home.AppreciationFeedback.positiveAnswer")}
               onPress={() => handleOnFeedbackChipPress(FeedbackStatus.POSITIVE)}
               isRemovable={false}
@@ -133,6 +141,7 @@ export default function AppreciationFeedbackModal({
               leftIcon={<ThumbsUpIcon />}
             />
             <Chip
+              testID={testID !== undefined ? `${testID}:NegativeAnswerChip` : undefined}
               title={t("Home.AppreciationFeedback.negativeAnswer")}
               onPress={() => handleOnFeedbackChipPress(FeedbackStatus.NEGATIVE)}
               isRemovable={false}
@@ -142,6 +151,7 @@ export default function AppreciationFeedbackModal({
           </Stack>
           {feedbackStatus !== FeedbackStatus.IDLE ? (
             <SimpleTextInput
+              testID={testID !== undefined ? `${testID}:SimpleTextInput` : undefined}
               label={t("Home.AppreciationFeedback.comments")}
               extraStart={t("Home.AppreciationFeedback.minNumberOfCharactersInComment")}
               numberOfLines={5}
@@ -152,12 +162,16 @@ export default function AppreciationFeedbackModal({
               value={feedbackComment}
             />
           ) : null}
-          <Button disabled={feedbackStatus === FeedbackStatus.IDLE} onPress={handleOnSubmitButtonPress}>
+          <Button
+            testID={testID !== undefined ? `${testID}-ModalAppreciationFeedbackContinueButton` : undefined}
+            disabled={feedbackStatus === FeedbackStatus.IDLE}
+            onPress={handleOnSubmitButtonPress}>
             {t("Home.AppreciationFeedback.continue")}
           </Button>
         </Stack>
 
         <NotificationModal
+          testID={testID !== undefined ? `${testID}:NotificationModal` : undefined}
           variant={notificationModalVariant}
           title={
             notificationModalVariant === NotificationModalVariant.error

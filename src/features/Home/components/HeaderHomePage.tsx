@@ -9,9 +9,10 @@ import { useThemeStyles } from "@/theme";
 interface UserFirstName {
   firstName: string | undefined;
   isNotificationIconHighlighted: boolean;
+  testID?: string;
 }
 
-export default function HeaderHomePage({ firstName, isNotificationIconHighlighted }: UserFirstName) {
+export default function HeaderHomePage({ firstName, isNotificationIconHighlighted, testID }: UserFirstName) {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
@@ -32,8 +33,9 @@ export default function HeaderHomePage({ firstName, isNotificationIconHighlighte
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   return (
-    <View style={profileSectionStyle}>
+    <View testID={testID} style={profileSectionStyle}>
       <Pressable
+        testID={testID !== undefined ? `${testID}-PersonButton` : undefined}
         onPress={() => {
           navigation.navigate("Settings.SettingsStack");
         }}
@@ -44,6 +46,7 @@ export default function HeaderHomePage({ firstName, isNotificationIconHighlighte
         {`${t("Home.DashboardScreen.welcomeMessageLabel")} ${firstName ?? ""}`}
       </Typography.Text>
       <Pressable
+        testID={testID !== undefined ? `${testID}-NotificationButton` : undefined}
         onPress={() => {
           navigation.navigate("Notifications.NotificationsStack");
         }}

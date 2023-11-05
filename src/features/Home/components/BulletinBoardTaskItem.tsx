@@ -16,6 +16,7 @@ interface BulletinBoardTaskItemProps {
   showBottomDivider: boolean;
   onTaskActionPress: (targetScreen: keyof ScreenRouteNameMappingType) => () => void;
   onTaskDismissPress: (ActionTypeId: string) => () => void;
+  testID?: string;
 }
 
 interface TaskItemIconLookupType {
@@ -34,6 +35,7 @@ export default function BulletinBoardTaskItem({
   showBottomDivider,
   onTaskActionPress,
   onTaskDismissPress,
+  testID,
 }: BulletinBoardTaskItemProps) {
   const { t } = useTranslation();
 
@@ -79,13 +81,19 @@ export default function BulletinBoardTaskItem({
             </Stack>
             <Stack direction="horizontal" gap="16p" align="center" justify="flex-end">
               {!item.Persistent ? (
-                <Pressable onPress={onTaskDismissPress(item.ActionTypeId)} style={taskDismissButtonStyle}>
+                <Pressable
+                  testID={testID !== undefined ? `${testID}-DismissButton` : undefined}
+                  onPress={onTaskDismissPress(item.ActionTypeId)}
+                  style={taskDismissButtonStyle}>
                   <Typography.Text color="primaryBase" size="footnote" weight="medium">
                     {item.SecondaryButtonName || t("Home.DashboardScreen.bulletinBoardSection.dismissTask")}
                   </Typography.Text>
                 </Pressable>
               ) : null}
-              <Pressable onPress={onTaskActionPress(item.RedirectDestinationLink)} style={taskActionButtonStyle}>
+              <Pressable
+                testID={testID !== undefined ? `${testID}-TaskActionButton` : undefined}
+                onPress={onTaskActionPress(item.RedirectDestinationLink)}
+                style={taskActionButtonStyle}>
                 <Typography.Text color="primaryBase" size="footnote" weight="medium">
                   {item.ButtonName}
                 </Typography.Text>

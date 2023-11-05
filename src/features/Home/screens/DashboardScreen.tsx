@@ -250,28 +250,33 @@ export default function DashboardScreen() {
       </Stack>
       <SafeAreaView edges={["top"]} style={styles.container}>
         <HeaderHomePage
+          testID="Home.DashboardScreen:HeaderHomePage"
           firstName={customerProfile?.FirstName}
           isNotificationIconHighlighted={auth.notificationsReadStatus}
         />
         <BalanceCard
+          testID="Home.DashboardScreen:BalanceCard"
           balance={account.data?.balance}
           accountNumber={account.data?.id}
           onBalanceRefresh={handleOnBalanceRefresh}
         />
         <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16}>
-          <BulletinBoardSection />
+          <BulletinBoardSection testID="Home.DashboardScreen:BulletinBoardSection" />
           <Stack direction="vertical" gap="20p" align="stretch" style={shortcutSectionStackStyle}>
             <Stack direction="horizontal" justify="space-between" align="center">
               <Typography.Text size="title3" weight="medium" disabled={true}>
                 {t("Home.DashboardScreen.yourShortcutsLabel")}
               </Typography.Text>
-              <Pressable onPress={handleOnEditShortcutsPress}>
+              <Pressable
+                testID="Home.DashboardScreens:EditShortcutButton-Pressable"
+                onPress={handleOnEditShortcutsPress}>
                 <Typography.Text size="footnote" weight="medium">
                   {t("Home.DashboardScreen.editShortcutsButton")}
                 </Typography.Text>
               </Pressable>
             </Stack>
             <QuickActionsSection
+              testID="Home.DashboardScreen:QuickActionsSection"
               onRefresh={handleOnRefreshShortcutRefreshSection}
               onQuickActionPress={handleOnQuickActionPressed}
             />
@@ -281,14 +286,27 @@ export default function DashboardScreen() {
               <>
                 {sections.map(section => {
                   if (section.type === "appreciations" && section.isItemChecked) {
-                    return <AppreciationSection key={section.type} onViewAllPress={handleOnAppreciationsPress} />;
+                    return (
+                      <AppreciationSection
+                        testID="Home.DashboardScreen:AppreciationSection"
+                        key={section.type}
+                        onViewAllPress={handleOnAppreciationsPress}
+                      />
+                    );
                   }
                   if (section.type === "articles" && section.isItemChecked) {
-                    return <WhatsNextSection key={section.type} onViewAllPress={handleOnWhatsNextPress} />;
+                    return (
+                      <WhatsNextSection
+                        testID="Home.DashboardScreen:WhatsNextSection"
+                        key={section.type}
+                        onViewAllPress={handleOnWhatsNextPress}
+                      />
+                    );
                   }
                   if (section.type === "invite-friend" && section.isItemChecked) {
                     return (
                       <CardSection
+                        testID="Home.DashboardScreen:ReferFriendCard"
                         onPress={() => navigation.navigate("Referral.ReferralStack", { screen: "Referral.HubScreen" })}
                         isReferFriend={true}
                         title={t("Home.DashboardScreen.ReferFriend.title")}
@@ -300,6 +318,7 @@ export default function DashboardScreen() {
                   if (section.type === "goal-getter" && section.isItemChecked) {
                     return (
                       <CardSection
+                        testID="Home.DashboardScreen:GoalGetterCard"
                         isReferFriend={false}
                         onPress={() =>
                           navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalsAndProducts" })
@@ -311,16 +330,20 @@ export default function DashboardScreen() {
                     );
                   }
                   if (section.type === "money-spend" && section.isItemChecked) {
-                    return <TopSpendingCategories account={account} />;
+                    return <TopSpendingCategories testID="Home.DashboardScreen:MoneySpendCategory" account={account} />;
                   }
 
                   return <Fragment key={section.type} />;
                 })}
                 {/* //TODO add the right condition to visualize this section while finished by backend*/}
-                <GoldWalletSection onPress={handleOnGoldWalletExplorePress} />
+                <GoldWalletSection
+                  testID="Home.DashboardScreen:MoneySpendCategory"
+                  onPress={handleOnGoldWalletExplorePress}
+                />
               </>
             ) : layoutErrorIsVisible === true ? (
               <LoadingErrorNotification
+                testID="Home.DashboardScreen:LoadingErrorNotificationModal"
                 isVisible={layoutErrorIsVisible}
                 onClose={handleOnLoadingErrorClose}
                 onRefresh={handleOnLoadingErrorRefresh}
@@ -330,16 +353,24 @@ export default function DashboardScreen() {
 
           {/* TODO: When the API is ready  */}
         </ScrollView>
-        {hasOngoingLiveChat ? <ChatLiveButton onPress={handleOnChatButtonPress} /> : null}
+        {hasOngoingLiveChat ? (
+          <ChatLiveButton testID="Home.DashboardScreen:ChatLiveButton" onPress={handleOnChatButtonPress} />
+        ) : null}
       </SafeAreaView>
-      <QuickActionsReordererModal isVisible={isVisible} onClose={() => setIsVisible(false)} />
+      <QuickActionsReordererModal
+        testID="Home.DashboardScreen:QuickActionsReordererModal"
+        isVisible={isVisible}
+        onClose={() => setIsVisible(false)}
+      />
       <SelectTransferTypeModal
+        testID="Home.DashboardScreen:SelectTransferTypeModal"
         isVisible={isLocalTransferModalVisible}
         onClose={() => setIsLocalTransferModalVisible(false)}
         setIsErrorModalVisible={setIsErrorModalVisible}
         entryPoint="homepage"
       />
       <NotificationModal
+        testID="Home.DashboardScreen:NotificationModal"
         variant="error"
         title={t("errors.generic.title")}
         message={t("errors.generic.message")}
@@ -348,6 +379,7 @@ export default function DashboardScreen() {
       />
       {isInternalTransferTypeModalVisible ? (
         <InternalTransferTypeModal
+          testID="Home.DashboardScreen:InternalTransferTypeModal"
           onClose={() => setIsInternalTransferTypeModalVisible(false)}
           onCroatiaPress={handleOnCroatiaTransferPress}
           onAlrajhiPress={handleOnAlrajhiTransferPress}
@@ -355,6 +387,7 @@ export default function DashboardScreen() {
       ) : null}
       {isAppreciationFeedbackModalVisible && (
         <AppreciationFeedbackModal
+          testID="Home.DashboardScreen:AppreciationFeedbackModal"
           visible={isAppreciationFeedbackModalVisible}
           onClose={handleOnCloseFeedbackModal}
           onSubmitFeedback={handleOnSubmitAppreciationFeedback}

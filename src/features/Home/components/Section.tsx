@@ -8,9 +8,10 @@ interface SectionProps {
   children: React.ReactNode;
   onViewAllPress: () => void;
   title: string;
+  testID?: string;
 }
 
-export default function Section({ children, onViewAllPress, title }: SectionProps) {
+export default function Section({ children, onViewAllPress, title, testID }: SectionProps) {
   const { t } = useTranslation();
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
@@ -20,12 +21,14 @@ export default function Section({ children, onViewAllPress, title }: SectionProp
   }));
 
   return (
-    <View>
+    <View testID={testID}>
       <View style={headerStyle}>
         <Typography.Text color="primaryBase-10" size="callout" weight="semiBold">
           {title}
         </Typography.Text>
-        <Pressable onPress={onViewAllPress}>
+        <Pressable
+          onPress={onViewAllPress}
+          testID={testID !== undefined ? `${testID}-SectionViewAllButton` : undefined}>
           <Typography.Text color="primaryBase-30" size="footnote" weight="semiBold">
             {t("Home.DashboardScreen.viewAll")}
           </Typography.Text>
