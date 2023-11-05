@@ -1611,9 +1611,10 @@
         "cancelButton": "الغاء"
       }
     },
-    "GoalCreatedSuccessfullyScreen": {
-      "label": "تم إنشاء الهدف بنجاح",
-      "button": "تم"
+    "GoalCreatedSuccessfullyScreen": {   
+      "label":"تهانينا",
+      "subLabel":"تم إنشاء هدفك بنجاح!",
+      "button": "تحقق منه!"
     },
     "ShapeGoalScreen": {
       "title": "تشكيل الهدف",

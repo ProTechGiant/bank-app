@@ -9,6 +9,7 @@ export { default as EstateIcon } from "./EstateIcon";
 export { default as FileIcon } from "./FileIcon";
 export { default as GallerySelectIcon } from "./GallerySelectIcon";
 export { default as GoalEditIcon } from "./GoalEditIcon";
+export { default as GoalGetterSuccessIcon } from "./GoalGetterSuccessIcon";
 export { default as GoalRedeemIcon } from "./GoalRedeemIcon";
 export { default as GoldIcon } from "./GoldIcon";
 export { default as HighRiskGoalIcon } from "./HighRiskGoalIcon";

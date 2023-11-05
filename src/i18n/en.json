@@ -1643,9 +1643,10 @@
         "cancelButton": "Cancel"
       }
     },
-    "GoalCreatedSuccessfullyScreen": {
-      "label": "Goal created successfully",
-      "button": "Done"
+    "GoalCreatedSuccessfullyScreen": { 
+      "label":"Congratulations",
+      "subLabel":"Your Goal is successfully created!",
+      "button": "Check it out!"
     },
     "ShapeGoalScreen": {
       "title": "Shape your goal",
