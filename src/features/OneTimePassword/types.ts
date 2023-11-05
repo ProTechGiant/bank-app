@@ -40,7 +40,8 @@ export type OtpVerifyMethodType =
   | "optout-proxy-alias"
   | "goals/submit"
   | "mutual-fund/otp-validation"
-  | "aio-card/issuance/otp-validation";
+  | "aio-card/issuance/otp-validation"
+  | "gold/otps/validate";
 
 export interface OtpRequiredResponse {
   OtpId: string;

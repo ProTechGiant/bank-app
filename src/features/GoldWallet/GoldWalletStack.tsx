@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
+  CompleteTransactionScreen,
   GoldWalletInfoModal,
   HubScreen,
   OnboardingScreen,
@@ -25,6 +26,7 @@ export type GoldWalletStackParams = {
     tradeType: TransactionTypeEnum;
     marketStatus: MarketStatusEnum;
   };
+  "GoldWallet.CompleteTransactionScreen": { transactionType: TransactionTypeEnum; walletId: string };
 };
 
 export const Stack = createNativeStackNavigator<GoldWalletStackParams>();
@@ -36,6 +38,7 @@ export default function GoldWalletStack() {
       <Stack.Screen component={TermsAndConditionsModal} name="GoldWalletStack.TermsAndConditions" />
       <Stack.Screen component={OnboardingScreen} name="GoldWallet.OnboardingScreen" />
       <Stack.Screen component={TransactionsScreen} name="GoldWallet.TransactionsScreen" />
+      <Stack.Screen component={CompleteTransactionScreen} name="GoldWallet.CompleteTransactionScreen" />
       <Stack.Screen
         component={TransactionsDetailsModal}
         name="GoldWallet.TransactionsDetailsModal"

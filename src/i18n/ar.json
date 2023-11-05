@@ -3696,6 +3696,15 @@
       "sell": "شراء",
       "gram": "جرام",
       "kiloGram": "كيلو جرام"
+    },
+    "CompletedTransactionScreen": {
+      "gold": "ذهب",
+      "successfully": "بنجاح",
+      "transactionHistory": "يمكنك رؤيه تاريخ المعاملات الخاصه بك",
+      "done": "انتهي",
+      "viewTransactions": "رؤيه المعاملات",
+      "purchased": "شراء",
+      "sold": "بيع"
     }
   },
   "MutualFund": {

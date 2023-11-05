@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { TermsAndConditionContainer } from "@/types/Content";
 import { generateRandomId } from "@/utils";
 
@@ -215,4 +216,20 @@ export function useAcceptFinalDeal() {
       );
     }
   );
+}
+
+export function useOtpGeneration() {
+  return useMutation(() => {
+    //TODO remove this once api ended
+    return Promise.resolve({
+      OneTimePassword: {
+        Length: 0,
+        TimeToLive: 0,
+        AllowedAttempts: 0,
+      },
+    });
+    return api<OtpChallengeParams>("v1", "gold/otps/send", "POST", undefined, undefined, {
+      ["x-Correlation-Id"]: generateRandomId(),
+    });
+  });
 }

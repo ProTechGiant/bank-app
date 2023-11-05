@@ -3827,6 +3827,15 @@
       "sell": "sell",
       "gram": "g",
       "kiloGram": "kg"
+    },
+    "CompletedTransactionScreen": {
+      "gold": "Gold",
+      "successfully": "Successfully",
+      "transactionHistory": "You can review individual transaction in your transactions history",
+      "done": "Done",
+      "viewTransactions": "View Transactions",
+      "purchased": "Purchased",
+      "sold": "Sold"
     }
   },
   "MutualFund": {

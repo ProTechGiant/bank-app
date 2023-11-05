@@ -1,5 +1,4 @@
 import { toInteger } from "lodash";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -8,14 +7,19 @@ import { IconProps, InfoCircleIcon } from "@/assets/icons";
 import { Modal, Stack, Typography } from "@/components";
 import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
-import { LoadingErrorNotification } from "@/components/LoadingError";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import { ClockIcon } from "../assets";
-import { useAcceptFinalDeal, useFinalDeal } from "../hooks/query-hooks";
+import { useFinalDeal } from "../hooks/query-hooks";
 import useTimer from "../hooks/timer-hook";
-import { DealStatusEnum, MarketStatusEnum, MeasureUnitEnum, TimerStatusEnum, TransactionTypeEnum } from "../types";
+import {
+  GoldFinalDealResponseType,
+  MarketStatusEnum,
+  MeasureUnitEnum,
+  TimerStatusEnum,
+  TransactionTypeEnum,
+} from "../types";
 
 interface TransactionSummaryModalProps {
   isVisible: boolean;
@@ -25,6 +29,8 @@ interface TransactionSummaryModalProps {
   type: TransactionTypeEnum;
   measureUnit: MeasureUnitEnum;
   marketStatus: MarketStatusEnum;
+  onAcceptDeal: (finalDealData: GoldFinalDealResponseType) => void;
+  isAcceptingTheDeal: boolean;
 }
 export default function TransactionSummaryModal({
   isVisible,
@@ -34,18 +40,16 @@ export default function TransactionSummaryModal({
   type,
   measureUnit,
   marketStatus,
+  onAcceptDeal,
+  isAcceptingTheDeal,
 }: TransactionSummaryModalProps) {
   const { t } = useTranslation();
   const {
     data: finalDealData,
     isFetching: isFetchingFinalDeal,
-    isError,
     refetch,
   } = useFinalDeal({ walletId, weight, type, measureUnit });
 
-  const { mutateAsync, isLoading, isError: isAcceptDealError } = useAcceptFinalDeal();
-
-  const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
   const { timer, startTimer, resumeTimer, timerStatus } = useTimer();
 
   const measureUnitText =
@@ -57,15 +61,6 @@ export default function TransactionSummaryModal({
       ? t("GoldWallet.TransactionSummaryModal.buy")
       : t("GoldWallet.TransactionSummaryModal.sell");
   const isContinueButtonDisabled = marketStatus === MarketStatusEnum.CLOSED || timerStatus !== TimerStatusEnum.RUNNING;
-
-  const handleOnContinueButtonPress = async () => {
-    try {
-      await mutateAsync({ ...finalDealData, Status: DealStatusEnum.ACCEPT, walletId });
-      //TODO navigation to the otp page
-    } catch (error) {
-      setIsErrorModalVisible(true);
-    }
-  };
 
   const handleOnRefreshTimerPress = () => {
     refetch();
@@ -147,7 +142,7 @@ export default function TransactionSummaryModal({
       style={styles.modalStyle}>
       {isFetchingFinalDeal ? (
         <ActivityIndicator />
-      ) : finalDealData !== undefined && !isError && !isAcceptDealError ? (
+      ) : finalDealData !== undefined ? (
         <ScrollView showsVerticalScrollIndicator={false} style={scrollViewStyle}>
           <Stack direction="vertical" gap="8p">
             <Typography.Text size="title1" weight="medium">
@@ -270,7 +265,10 @@ export default function TransactionSummaryModal({
               </Typography.Text>
             </Accordion>
             <View style={continueButtonContainerStyle}>
-              <Button disabled={isContinueButtonDisabled} onPress={handleOnContinueButtonPress} loading={isLoading}>
+              <Button
+                disabled={isContinueButtonDisabled}
+                onPress={() => onAcceptDeal(finalDealData)}
+                loading={isAcceptingTheDeal}>
                 <Typography.Text color="neutralBase-60" align="center">
                   {t("GoldWallet.TransactionSummaryModal.continue")}
                 </Typography.Text>
@@ -278,13 +276,7 @@ export default function TransactionSummaryModal({
             </View>
           </Stack>
         </ScrollView>
-      ) : (
-        <LoadingErrorNotification
-          isVisible={isErrorModalVisible}
-          onClose={() => setIsErrorModalVisible(false)}
-          onRefresh={refetch}
-        />
-      )}
+      ) : null}
     </Modal>
   );
 }
