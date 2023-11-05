@@ -1,4 +1,5 @@
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import ContentContainer from "@/components/ContentContainer";
@@ -7,26 +8,22 @@ import Page from "@/components/Page";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 
 import GoldTradeContent from "../components/GoldTradeContent";
-import { useTradeGold } from "../hooks/query-hooks";
-import { TradeTypeEnum } from "../types";
+import { MeasureUnitEnum, TransactionTypeEnum } from "../types";
+import TransactionSummaryModal from "./TransactionSummaryModal";
 
 export default function TradeGoldScreen() {
   const {
-    params: { walletId, totalBalance, marketPrice, tradeType },
+    params: { walletId, totalBalance, marketPrice, tradeType, marketStatus },
   } = useRoute<RouteProp<AuthenticatedStackParams, "GoldWallet.TradeGoldScreen">>();
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { mutateAsync, isLoading: isSubmitting } = useTradeGold();
+  const [isTransactionSummaryModalVisible, setIsTransactionSummaryModalVisible] = useState<boolean>(false);
+  const [selectedWeight, setSelectedWeight] = useState<number>(0);
 
   const handleOnContinuePress = async (weight: number) => {
-    const data = {
-      WalletId: walletId,
-      Weight: weight,
-      Type: tradeType,
-      MeasureUnit: 1,
-    };
     try {
-      await mutateAsync(data);
+      setSelectedWeight(weight);
+      setIsTransactionSummaryModalVisible(true);
     } catch (error) {}
   };
 
@@ -34,7 +31,7 @@ export default function TradeGoldScreen() {
     <Page backgroundColor="neutralBase-60">
       <NavHeader
         title={
-          tradeType === TradeTypeEnum.BUY
+          tradeType === TransactionTypeEnum.BUY
             ? t("GoldWallet.TradeGoldScreen.buyTitle")
             : t("GoldWallet.TradeGoldScreen.sellTitle")
         }
@@ -42,13 +39,20 @@ export default function TradeGoldScreen() {
       />
       <ContentContainer>
         <GoldTradeContent
-          //    type={TradeTypeEnum.BUY}
           handleOnContinuePress={handleOnContinuePress}
           totalBalance={totalBalance}
           marketPrice={marketPrice}
-          isSubmitting={isSubmitting}
         />
       </ContentContainer>
+      <TransactionSummaryModal
+        isVisible={isTransactionSummaryModalVisible}
+        changeVisibility={setIsTransactionSummaryModalVisible}
+        walletId={walletId}
+        weight={selectedWeight}
+        type={tradeType}
+        measureUnit={MeasureUnitEnum.GM}
+        marketStatus={marketStatus}
+      />
     </Page>
   );
 }

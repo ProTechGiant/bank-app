@@ -18,14 +18,8 @@ interface GoldTradeContentProps {
   totalBalance: number;
   handleOnContinuePress: (values: any) => void;
   marketPrice: number;
-  isSubmitting: boolean;
 }
-export default function GoldTradeContent({
-  totalBalance,
-  handleOnContinuePress,
-  marketPrice,
-  isSubmitting,
-}: GoldTradeContentProps) {
+export default function GoldTradeContent({ totalBalance, handleOnContinuePress, marketPrice }: GoldTradeContentProps) {
   const { t } = useTranslation();
   const [selectedWeight, setSelectedWeight] = useState(0);
   const { control, handleSubmit, watch, reset } = useForm({
@@ -127,10 +121,7 @@ export default function GoldTradeContent({
           {t("GoldWallet.TradeGoldScreen.currentPriceIndicative")}
         </Typography.Text>
       )}
-      <Button
-        testID="InternalTransfers.QuickTransferScreen:ContinueButton"
-        onPress={handleSubmit(handleOnSubmitPress)}
-        loading={isSubmitting}>
+      <Button testID="InternalTransfers.QuickTransferScreen:ContinueButton" onPress={handleSubmit(handleOnSubmitPress)}>
         {t("InternalTransfers.QuickTransferScreen.continueButton")}
       </Button>
     </>

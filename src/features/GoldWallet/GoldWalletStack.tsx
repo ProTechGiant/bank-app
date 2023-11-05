@@ -9,7 +9,7 @@ import {
   TransactionsDetailsModal,
   TransactionsScreen,
 } from "./screens";
-import { TradeTypeEnum, TransactionType } from "./types";
+import { MarketStatusEnum, TransactionType, TransactionTypeEnum } from "./types";
 
 export type GoldWalletStackParams = {
   "GoldWalletStack.TermsAndConditions": undefined;
@@ -22,7 +22,8 @@ export type GoldWalletStackParams = {
     walletId: string;
     totalBalance: number;
     marketPrice: number;
-    tradeType: keyof typeof TradeTypeEnum;
+    tradeType: TransactionTypeEnum;
+    marketStatus: MarketStatusEnum;
   };
 };
 

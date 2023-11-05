@@ -19,9 +19,8 @@ import EmptyTransactionsContent from "../components/EmptyTransactionsContent";
 import GoldBalanceCard from "../components/GoldBalanceCard";
 import TransactionCard from "../components/TransactionCard";
 import { useAlertSettings, useWallet, useWalletTransaction } from "../hooks/query-hooks";
-import { MeasureUnitEnum, TradeTypeEnum, TransactionType, TransactionTypeEnum } from "../types";
+import { TransactionType, TransactionTypeEnum } from "../types";
 import { AlertConditionsEnum, AlertStatus, ConditionWithLabelsType } from "../types";
-import TransactionSummaryModal from "./TransactionSummaryModal";
 
 export default function HubScreen() {
   const { t } = useTranslation();
@@ -44,9 +43,6 @@ export default function HubScreen() {
   const [isAlertSettingsModalVisible, setIsAlertSettingsModalVisible] = useState<boolean>(false);
   const [isTransactionsErrorModalVisible, setIsTransactionsErrorModalVisible] = useState<boolean>(false);
 
-  //TODO remove it to the screen khaled will make
-  const [isTransactionSummaryModalVisible, setIsTransactionSummaryModalVisible] = useState<boolean>(true);
-
   const conditionsWithLabels: ConditionWithLabelsType[] = [
     { label: t("GoldWallet.AlertSettingsModal.ConditionsModal.greaterThan"), value: AlertConditionsEnum.GREATER_THAN },
     {
@@ -61,19 +57,18 @@ export default function HubScreen() {
     { label: t("GoldWallet.AlertSettingsModal.ConditionsModal.equal"), value: AlertConditionsEnum.EQUAL },
   ];
 
-  useEffect(() => {
-    if (!isFetching && !walletData) {
-      navigation.dispatch(StackActions.replace("GoldWallet.OnboardingScreen"));
-    }
-  }, [walletData, isFetching]);
+  if (!isFetching && !walletData) {
+    navigation.dispatch(StackActions.replace("GoldWallet.OnboardingScreen"));
+  }
 
-  const tradeGoldHandler = (tradeType: keyof typeof TradeTypeEnum) => {
+  const tradeGoldHandler = (tradeType: TransactionTypeEnum) => {
     if (walletData) {
       navigation.navigate("GoldWallet.TradeGoldScreen", {
         walletId: walletData.WalletId,
         totalBalance: walletData.TotalBalance,
         marketPrice: walletData.MarketBuyPrice,
         tradeType,
+        marketStatus: walletData.MarketStatus,
       });
     }
   };
@@ -201,12 +196,12 @@ export default function HubScreen() {
                 </Stack>
                 <Stack direction="horizontal" align="center" justify="space-between" style={buttonsContainerStyle}>
                   <View style={styles.buttonContainer}>
-                    <Button color="light" variant="primary" onPress={() => tradeGoldHandler(TradeTypeEnum.BUY)}>
+                    <Button color="light" variant="primary" onPress={() => tradeGoldHandler(TransactionTypeEnum.BUY)}>
                       {t("GoldWallet.buyGold")}
                     </Button>
                   </View>
                   <View style={styles.buttonContainer}>
-                    <Button variant="secondary" onPress={() => tradeGoldHandler(TradeTypeEnum.SELL)}>
+                    <Button variant="secondary" onPress={() => tradeGoldHandler(TransactionTypeEnum.SELL)}>
                       {t("GoldWallet.sellGold")}
                     </Button>
                   </View>
@@ -214,7 +209,7 @@ export default function HubScreen() {
               </>
             ) : (
               <View style={buyButtonContainerStyle}>
-                <Button color="light" variant="primary" onPress={() => tradeGoldHandler(TradeTypeEnum.BUY)}>
+                <Button color="light" variant="primary" onPress={() => tradeGoldHandler(TransactionTypeEnum.BUY)}>
                   {t("GoldWallet.buyGold")}
                 </Button>
               </View>
@@ -244,7 +239,7 @@ export default function HubScreen() {
                   })}
                 </View>
               ) : (
-                <EmptyTransactionsContent onBuyGoldPress={() => tradeGoldHandler(TradeTypeEnum.BUY)} />
+                <EmptyTransactionsContent onBuyGoldPress={() => tradeGoldHandler(TransactionTypeEnum.BUY)} />
               )}
             </Stack>
 
@@ -282,17 +277,6 @@ export default function HubScreen() {
           isVisible={isAlertSettingsModalVisible}
           onChangeVisibility={setIsAlertSettingsModalVisible}
           conditionsWithLabels={conditionsWithLabels}
-        />
-      ) : null}
-      {isTransactionSummaryModalVisible && walletData !== undefined ? (
-        <TransactionSummaryModal
-          isVisible={isTransactionSummaryModalVisible}
-          changeVisibility={setIsTransactionSummaryModalVisible}
-          walletId={walletData.WalletId}
-          weight={10}
-          type={TransactionTypeEnum.BUY}
-          measureUnit={MeasureUnitEnum.GM}
-          marketStatus={walletData.MarketStatus}
         />
       ) : null}
     </Page>
