@@ -1416,8 +1416,15 @@
     "description": "تخيل اهدافك و سوف نساعدك بالادخار لتحقيقهم.",
     "button": "أنشئ هدف",
     "GoalReviewScreen": {
+      "title": "هدفك",
       "reviewGoal": "مراجعة الهدف",
-      "goalDetails": {
+      "goalDetails": { 
+        "ProductName":"اسم المنتج",
+        "duration":"المدة",
+        "contributionMethod":"طريقة الإسهام",
+        "recurringFrequency":"تكرار التحويل",
+        "recurringContribution":"الإسهام المتكرر",
+        "recurringDate":"تاريخ التحويل المتكرر",
         "goalName": "اسم الهدف",
         "targetAmount": "المبلغ المطلوب",
         "startDate": "تاريخ البدء",
@@ -1435,7 +1442,7 @@
         "cancelButton": "الغاء"
       },
       "extraConditionsCaption": "ووافقت عليها",
-      "termsAndConditionsText": " قد قرأت",
+      "termsAndConditionsText": " أوافق على  ",
       "termsAndConditionsLink": "الشروط والأحكام",
       "confirm": "تأكيد"
     },

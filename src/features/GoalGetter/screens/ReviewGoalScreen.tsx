@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { StatusBar, View, ViewStyle } from "react-native";
 
 import { CloseIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -20,12 +20,11 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { hasItemInStorage, removeItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
-import { GoalDataRow, TermsAndConditions } from "../components";
+import { DetailSection, DetailSectionsContainer, TermsAndConditions } from "../components";
 import { SAR } from "../constants";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { GoalGetterStackParams } from "../GoalGetterStack";
 import { useGoalGetterOTP } from "../hooks/query-hooks";
-import { formatGoalEndDate, getDateOfRecurringDay } from "../utils";
 
 export default function ReviewGoalScreen() {
   const { t } = useTranslation();
@@ -61,8 +60,6 @@ export default function ReviewGoalScreen() {
     }
   }, [params, setGoalContextState]);
 
-  const upcomingContribution = recurringDay ? getDateOfRecurringDay(recurringDay) : null;
-
   const handleOnBackPress = () => {
     navigation.goBack();
   };
@@ -78,6 +75,14 @@ export default function ReviewGoalScreen() {
   const handleOnLeaveModalFaqNavigation = () => {
     setIsVisibleLeaveModal(false);
     navigation.navigate("GoalGetter.GoalsAndProducts");
+  };
+
+  const handleOnPressGoalName = () => {
+    navigation.navigate("GoalGetter.ShapeGoalScreen");
+  };
+
+  const handleOnPressTargetAmount = () => {
+    navigation.navigate("GoalGetter.TargetAmountScreen");
   };
 
   const handleOnLeaveModalDismiss = () => {
@@ -153,14 +158,20 @@ export default function ReviewGoalScreen() {
     width: "100%",
   }));
 
+  const goalGetterTitleStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["16p"],
+    paddingBottom: theme.spacing["24p"],
+  }));
+
+  const termsAndConditionSectionStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["24p"],
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
+      <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
       <NavHeader
-        title={
-          <View style={progressBarStyle}>
-            <ProgressIndicator currentStep={5} totalStep={5} />
-          </View>
-        }
+        title={t("GoalGetter.GoalReviewScreen.title")}
         onBackPress={handleOnBackPress}
         end={
           <NavHeader.IconEndButton
@@ -169,87 +180,93 @@ export default function ReviewGoalScreen() {
           />
         }
       />
+      <View style={progressBarStyle}>
+        <ProgressIndicator currentStep={5} totalStep={5} />
+      </View>
       <ContentContainer isScrollView>
-        <Stack direction="vertical" align="stretch" gap="24p">
-          <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-            {t("GoalGetter.GoalReviewScreen.reviewGoal")}
-          </Typography.Text>
+        <Typography.Text color="neutralBase+30" size="title1" weight="medium" style={goalGetterTitleStyle}>
+          {t("GoalGetter.GoalReviewScreen.reviewGoal")}
+        </Typography.Text>
 
-          <Stack direction="vertical" align="stretch" gap="4p">
-            <GoalDataRow label={t("GoalGetter.GoalReviewScreen.goalDetails.goalName")} value={goalName} />
-            <GoalDataRow
-              label={t("GoalGetter.GoalReviewScreen.goalDetails.targetAmount")}
-              value={`${targetAmount} ${
-                productUnitOfMeasurement === SAR
-                  ? t("GoalGetter.GoalReviewScreen.SAR")
-                  : t("GoalGetter.GoalReviewScreen.Grams")
-              }`}
-            />
-            <GoalDataRow label={t("GoalGetter.GoalReviewScreen.goalDetails.startDate")} value={startDate} />
-          </Stack>
+        <Stack direction="vertical" gap="16p" align="stretch">
+          <DetailSectionsContainer>
+            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.ProductName")} value="Fund 2" />
+          </DetailSectionsContainer>
 
-          <Stack direction="vertical" align="stretch" gap="4p">
-            <GoalDataRow
-              label={t("GoalGetter.GoalReviewScreen.goalDetails.initialContribution")}
-              value={`${initialContribution} ${
+          <DetailSectionsContainer showEditIcon onPress={handleOnPressGoalName}>
+            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.goalName")} value="Rainy Day" />
+          </DetailSectionsContainer>
+
+          <DetailSectionsContainer showEditIcon onPress={handleOnPressTargetAmount}>
+            <DetailSection
+              title={t("GoalGetter.GoalReviewScreen.goalDetails.targetAmount")}
+              value={`${"5,000.00"} ${
                 productUnitOfMeasurement === SAR
                   ? t("GoalGetter.GoalReviewScreen.SAR")
                   : t("GoalGetter.GoalReviewScreen.Grams")
               }`}
             />
-            <GoalDataRow
-              label={t("GoalGetter.GoalReviewScreen.goalDetails.monthlyContribution")}
-              value={`${monthlyContribution} ${
+            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.duration")} value="12 Months" />
+          </DetailSectionsContainer>
+
+          <DetailSectionsContainer>
+            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.contributionMethod")} value="Recurring" />
+            <DetailSection
+              title={t("GoalGetter.GoalReviewScreen.goalDetails.initialContribution")}
+              value={`${"150.00"} ${
                 productUnitOfMeasurement === SAR
                   ? t("GoalGetter.GoalReviewScreen.SAR")
                   : t("GoalGetter.GoalReviewScreen.Grams")
               }`}
             />
-            <GoalDataRow
-              label={t("GoalGetter.GoalReviewScreen.goalDetails.upcomingContributionDate")}
-              value={upcomingContribution}
+            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringFrequency")} value="Monthly" />
+            <DetailSection
+              title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringContribution")}
+              value={`${"500.00"} ${
+                productUnitOfMeasurement === SAR
+                  ? t("GoalGetter.GoalReviewScreen.SAR")
+                  : t("GoalGetter.GoalReviewScreen.Grams")
+              }`}
             />
-            <GoalDataRow
-              label={t("GoalGetter.GoalReviewScreen.goalDetails.endDate")}
-              value={formatGoalEndDate(targetDate as string)}
+            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringDate")} value="28th" />
+          </DetailSectionsContainer>
+          <View style={termsAndConditionSectionStyle}>
+            <TermsAndConditions
+              conditionsCaption={t("GoalGetter.GoalReviewScreen.termsAndConditionsText")}
+              conditionsLink={t("GoalGetter.GoalReviewScreen.termsAndConditionsLink")}
+              onCheckBoxPress={handleOnCheckboxPress}
+              isChecked={!isDisabled}
+              onPress={handleOnPressTermsAndConditions}
             />
-          </Stack>
+          </View>
+          <View style={termsAndConditionSectionStyle}>
+            <Button disabled={isDisabled} onPress={handleOnConfirmPress}>
+              {t("DateRangePicker.confirmButton")}
+            </Button>
+          </View>
+
+          {isVisibleLeaveModal ? (
+            <NotificationModal
+              variant="warning"
+              title={t("GoalGetter.GoalReviewScreen.goalReviewNotificationModal.title")}
+              message={t("GoalGetter.GoalReviewScreen.goalReviewNotificationModal.description")}
+              isVisible={isVisibleLeaveModal}
+              buttons={{
+                primary: (
+                  <Button onPress={handleOnLeaveModalFaqNavigation}>
+                    {t("GoalGetter.GoalReviewScreen.goalReviewNotificationModal.exitButton")}
+                  </Button>
+                ),
+                secondary: (
+                  <Button onPress={handleOnLeaveModalDismiss}>
+                    {t("GoalGetter.GoalReviewScreen.goalReviewNotificationModal.cancelButton")}
+                  </Button>
+                ),
+              }}
+            />
+          ) : null}
         </Stack>
       </ContentContainer>
-      <ContentContainer style={{ flex: 1 }}>
-        <Stack gap="16p" direction="vertical" align="stretch">
-          <TermsAndConditions
-            conditionsCaption={t("GoalGetter.GoalReviewScreen.termsAndConditionsText")}
-            conditionsLink={t("GoalGetter.GoalReviewScreen.termsAndConditionsLink")}
-            onCheckBoxPress={handleOnCheckboxPress}
-            isChecked={!isDisabled}
-            onPress={handleOnPressTermsAndConditions}
-          />
-          <Button disabled={isDisabled} onPress={handleOnConfirmPress}>
-            {t("DateRangePicker.confirmButton")}
-          </Button>
-        </Stack>
-      </ContentContainer>
-      {isVisibleLeaveModal ? (
-        <NotificationModal
-          variant="warning"
-          title={t("GoalGetter.GoalReviewScreen.goalReviewNotificationModal.title")}
-          message={t("GoalGetter.GoalReviewScreen.goalReviewNotificationModal.description")}
-          isVisible={isVisibleLeaveModal}
-          buttons={{
-            primary: (
-              <Button onPress={handleOnLeaveModalFaqNavigation}>
-                {t("GoalGetter.GoalReviewScreen.goalReviewNotificationModal.exitButton")}
-              </Button>
-            ),
-            secondary: (
-              <Button onPress={handleOnLeaveModalDismiss}>
-                {t("GoalGetter.GoalReviewScreen.goalReviewNotificationModal.cancelButton")}
-              </Button>
-            ),
-          }}
-        />
-      ) : null}
     </Page>
   );
 }

@@ -2,6 +2,8 @@ export { default as BalanceCard } from "./BalanceCard";
 export { default as CalendarButton } from "./CalendarButton";
 export { default as CollapsibleHeader } from "./CollapsibleHeader";
 export { default as DatePickerModal } from "./DatePickerModal";
+export { default as DetailSection } from "./DetailSection";
+export { default as DetailSectionsContainer } from "./DetailSectionsContainer";
 export { default as DonutChart } from "./DonutChart";
 export { default as EmptyError } from "./EmptyError";
 export { default as FormatTransactionAmount } from "./FormatTransactionAmount";

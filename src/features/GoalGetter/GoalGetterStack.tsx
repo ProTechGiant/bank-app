@@ -36,6 +36,7 @@ export type GoalGetterStackParams = {
   "GoalGetter.GoalMindScreen": undefined;
   "GoalGetter.RisksAppetiteScreen": undefined;
   "GoalGetter.ManageGoal": { selectedImageURL?: string } | undefined;
+  "GoalGetter.TargetAmountScreen": undefined;
   "GoalGetter.MatchProductsScreen": undefined;
   "GoalGetter.GoalCreatedSuccessfullyScreen": undefined;
   "GoalGetter.LatestTransactionsScreen": {

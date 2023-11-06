@@ -1450,8 +1450,15 @@
     "description": "Imagine a goal and we’ll help you save for it.",
     "button": "Create a goal",
     "GoalReviewScreen": {
+      "title":"You goal",
       "reviewGoal": "Review goal",
       "goalDetails": {
+        "ProductName":"Product Name",
+        "duration":"Duration",
+        "contributionMethod":"Contribution Method",
+        "recurringFrequency":"Recurring Frequency",
+        "recurringContribution":"Recurring Contribution",
+        "recurringDate":"Recurring Date",
         "goalName": "Goal name",
         "targetAmount": "Target Amount",
         "startDate": "Start date",
@@ -1469,7 +1476,7 @@
       "SAR": "SAR",
       "Grams": "grams",
       "extraConditionsCaption": "",
-      "termsAndConditionsText": "I have read and agreed to the",
+      "termsAndConditionsText": "I agree to Croatia’s",
       "termsAndConditionsLink": "Terms and Conditions",
       "confirm": "Confirm"
     },

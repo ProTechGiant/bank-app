@@ -111,6 +111,7 @@ export * from "./PaymentHistoryIcon";
 export * from "./PaymentsIcon";
 export * from "./PaySadadBillIcon";
 export * from "./PendingIcon";
+export * from "./PenIcon";
 export * from "./PersonFilledIcon";
 export * from "./PersonIcon";
 export * from "./PhoneFilledIcon";
