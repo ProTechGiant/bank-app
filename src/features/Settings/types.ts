@@ -1,3 +1,5 @@
+import { ConnectedServicesStatus } from "./constants";
+
 export enum LanguageOptionType {
   Application = "APPLICATION",
   Notifications = "NOTIFICATIONS",
@@ -31,4 +33,16 @@ export interface ReOrderSectionProps {
   onPress: () => void;
   isActive: boolean;
   handleItemPress: (name: string) => void;
+}
+
+export interface ConnectedServicesInterface {
+  title: string;
+  status: ConnectedServicesStatus;
+  accountsCount: number;
+  firstConnected: string;
+  lastDataShared?: string;
+  connectionExpiry?: string;
+  rejectionDate?: string;
+  expiryDate?: string;
+  disconnectionDate?: string;
 }

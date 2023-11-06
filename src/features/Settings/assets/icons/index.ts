@@ -1,6 +1,8 @@
 export { default as AliasManagmentIcon } from "./AliasManagmentIcon";
 export { default as AppLanguageIcon } from "./AppLanguageIcon";
 export { default as BiometricAuthenticationIcon } from "./BiometricAuthenticationIcon";
+export { default as ConnectedServicesIcon } from "./ConnectedServicesIcon";
+export { default as ConnnectedServicesCardIcon } from "./ConnnectedServicesCardIcon";
 export { default as LanguageIcon } from "./LanguageIcon";
 export { default as MyCasesIcon } from "./MyCasesIcon";
 export { default as NotificationsIcon } from "./NotificationsIcon";

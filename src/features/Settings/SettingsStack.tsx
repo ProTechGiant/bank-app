@@ -5,6 +5,7 @@ import LifeStyleScreen from "../LifeStyle/screens/LifeStyleScreen";
 import {
   AccountSettingsScreen,
   BiometricSettingScreen,
+  ConnectedServicesScreen,
   CustomerAccountManagementScreen,
   TemporarySubscriptionManagementScreen,
 } from "./screens";
@@ -18,6 +19,7 @@ export type SettingsStackParams = {
   "Settings.LifeStyleScreen": undefined;
   // TODO: TemporarySubscriptionManagementScreen will be removed from this Stack when implemented by Smart Choices Domain team
   "Settings.TemporarySubscriptionManagementScreen": undefined;
+  "Settings.ConnectedServicesScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<SettingsStackParams>();
@@ -30,6 +32,7 @@ export default function SettingsStack() {
       <Stack.Screen component={LifeStyleScreen} name="Settings.LifeStyleScreen" />
       <Stack.Screen component={BiometricSettingScreen} name="Settings.BiometricScreen" />
       <Stack.Screen component={AccountSettingsScreen} name="Settings.AccountSettings" />
+      <Stack.Screen component={ConnectedServicesScreen} name="Settings.ConnectedServicesScreen" />
       {/* TODO: TemporarySubscriptionManagementScreen will be removed from this Stack when implemented by Smart Choices domain team */}
       <Stack.Screen
         component={TemporarySubscriptionManagementScreen}

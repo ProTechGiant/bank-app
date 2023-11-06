@@ -10,6 +10,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SignOutModal from "@/components/SignOutModal";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
@@ -17,6 +18,7 @@ import delayTransition from "@/utils/delay-transition";
 import {
   AliasManagmentIcon,
   BiometricAuthenticationIcon,
+  ConnectedServicesIcon,
   LanguageIcon,
   MyCasesIcon,
   NotificationsIcon,
@@ -92,6 +94,15 @@ export default function CustomerAccountManagement() {
 
   const handleAliasManagmentPress = () => {
     navigation.navigate("ProxyAlias.ProxyAliasStack", { screen: "ProxyAlias.AliasManagementScreen" });
+  };
+
+  const handleConnectedServicesPress = () => {
+    try {
+      navigation.navigate("Settings.ConnectedServicesScreen");
+    } catch (error) {
+      setIsLogoutFailedModalVisible(true);
+      warn("connected-services", "Could not navigate to connected services", JSON.stringify(error));
+    }
   };
 
   const handleOnSubscriptionManagementPress = () => {
@@ -189,6 +200,12 @@ export default function CustomerAccountManagement() {
             description={t("Settings.CustomerAccountManagementScreen.aliasManagmentDescription")}
             icon={<AliasManagmentIcon />}
             onPress={handleAliasManagmentPress}
+          />
+          <SettingSection
+            title={t("Settings.CustomerAccountManagementScreen.connectedServices")}
+            description={t("Settings.CustomerAccountManagementScreen.connectedServicesDescription")}
+            icon={<ConnectedServicesIcon />}
+            onPress={handleConnectedServicesPress}
           />
         </SettingsCategoryContainer>
 
