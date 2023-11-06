@@ -109,25 +109,21 @@ export interface Gallery {
 }
 // TODO: check with BE team goal object type, maybe will be changed, for example roundUP to boolean
 export interface GoalGetterContextState {
-  goalName: string;
-  predefinedGoalName: string;
-  targetAmount: number;
-  initialContribution: number;
-  monthlyContribution?: number;
-  recurringDay?: string;
-  targetDate?: string;
-  riskId: number;
-  productId?: string;
-  product: Product;
-  roundUP: "Y" | "N";
-  goalImage: string;
-  predefinedGoalId: number;
-  predefinedGoalDefaultImage?: string;
-  startDate?: string;
-  otpCode?: string;
-  AvailableContribution: number;
-  RecommendedMonthlyContribution: number;
-  productUnitOfMeasurement?: "Grams" | "SAR";
+  GoalName: string;
+  TargetAmount?: string;
+  MonthlyContribution?: string;
+  InitialContribution?: string;
+  TargetDate?: string;
+  RiskId?: string;
+  ProductId?: string;
+  GoalImage?: string;
+  UploadGoalImage?: string;
+  RecurringContribution?: string;
+  RecurringAmount?: string;
+  RecurringFrequency?: "Monthly" | "Weekly" | "Daily";
+  RecurringDate?: string;
+  ContributionMethod?: string;
+  ProductType?: string;
   setGoalContextState: (newState: Partial<GoalGetterContextState>) => void;
   resetGoalContextState: () => void;
 }

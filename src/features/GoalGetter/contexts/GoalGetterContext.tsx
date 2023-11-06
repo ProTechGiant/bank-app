@@ -1,47 +1,25 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
-import { GoalGetterContextState, GoalGetterStateType, Product } from "../types";
+import { GoalGetterContextState, GoalGetterStateType } from "../types";
 
 const GoalGetterContext = createContext<GoalGetterContextState>({} as GoalGetterContextState);
 
-const initialProduct: Product = {
-  ProductName: "",
-  ProductType: "SAVING_POT",
-  ProductRisk: "",
-  ProductColor: "",
-  ProductRiskColor: "",
-  Duration: 0,
-  UnitOfMeasurement: "Grams",
-  MonthlyContribution: undefined,
-  MinimumInitial: undefined,
-  MinimumMonthly: undefined,
-  MinimumContribution: undefined,
-  Description: "",
-  Availability: "Y",
-  Rating: "",
-  FetchStatus: "SUCCESS",
-  ProductId: 0,
-};
-
 const initialState: GoalGetterStateType = {
-  predefinedGoalId: 0,
-  predefinedGoalName: "",
-  predefinedGoalDefaultImage: undefined,
-  goalImage: "",
-  goalName: "",
-  targetAmount: 0,
-  targetDate: undefined,
-  riskId: 0,
-  productId: undefined,
-  initialContribution: 0,
-  monthlyContribution: undefined,
-  recurringDay: undefined,
-  productUnitOfMeasurement: undefined,
-  roundUP: "N",
-  startDate: undefined,
-  AvailableContribution: 0,
-  RecommendedMonthlyContribution: 0,
-  product: initialProduct,
+  GoalName: "",
+  TargetAmount: undefined,
+  MonthlyContribution: undefined,
+  InitialContribution: undefined,
+  TargetDate: undefined,
+  RiskId: undefined,
+  ProductId: undefined,
+  GoalImage: undefined,
+  UploadGoalImage: undefined,
+  RecurringContribution: undefined,
+  RecurringAmount: undefined,
+  RecurringFrequency: undefined,
+  RecurringDate: undefined,
+  ContributionMethod: undefined,
+  ProductType: undefined,
 };
 
 function GoalGetterContextProvider({ children }: { children: React.ReactNode }) {
