@@ -10,9 +10,9 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import { ProgressIndicator, Stack, Typography } from "@/components";
-import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import CurrencyInput from "@/components/Form/CurrencyInput";
+import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Pill from "@/components/Pill";
@@ -55,7 +55,7 @@ export default function ShapeGoalScreen() {
       .max(data?.MaximumMonthlyAmount, t("GoalGetter.ShapeGoalScreen.error.errorMonthlyAmount")),
   });
 
-  const { control, formState } = useForm<GoalAmount>({
+  const { control, handleSubmit } = useForm<GoalAmount>({
     resolver: yupResolver(validationAmountSchema),
     mode: "onChange",
     defaultValues: { TargetAmount: 0, MonthlyAmount: 0 },
@@ -127,14 +127,6 @@ export default function ShapeGoalScreen() {
     }
   };
 
-  const handleValidation = () => {
-    return formState.dirtyFields.TargetAmount || formState.dirtyFields.MonthlyAmount
-      ? formState.errors?.TargetAmount || formState.errors?.MonthlyAmount
-        ? false
-        : true
-      : false;
-  };
-
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
@@ -198,9 +190,9 @@ export default function ShapeGoalScreen() {
           </View>
         </Stack>
         <View style={{ marginTop: 200 }}>
-          <Button disabled={!(isSelectedOption && handleValidation())} onPress={handleOnSubmit}>
+          <SubmitButton isDisabled={!isSelectedOption} control={control} onSubmit={handleSubmit(handleOnSubmit)}>
             {t("GoalGetter.ShapeGoalScreen.continueButton")}
-          </Button>
+          </SubmitButton>
         </View>
       </ContentContainer>
       <DatePickerModal

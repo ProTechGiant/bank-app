@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { GoalGetterContextProvider } from "./contexts/GoalGetterContext";
 import {
+  ContributionSavingPotScreen,
   ContributionScreen,
   CreateGoalScreen,
   EditGoalGetterScreen,
@@ -47,6 +48,7 @@ export type GoalGetterStackParams = {
   "GoalGetter.ShapeGoalScreen": undefined;
   "GoalGetter.ShapeYourGoalScreen": undefined;
   "GoalGetter.SetGoldContributionScreen": undefined;
+  "GoalGetter.ContributionSavingPotScreen": undefined;
 };
 
 export default function GoalGetterStack() {
@@ -78,6 +80,7 @@ export default function GoalGetterStack() {
         <Stack.Screen component={EditGoalGetterScreen} name="GoalGetter.EditGoalGetter" />
         <Stack.Screen component={ShapeYourGoalScreen} name="GoalGetter.ShapeYourGoalScreen" />
         <Stack.Screen component={SetGoldContributionScreen} name="GoalGetter.SetGoldContributionScreen" />
+        <Stack.Screen component={ContributionSavingPotScreen} name="GoalGetter.ContributionSavingPotScreen" />
       </Stack.Navigator>
     </GoalGetterContextProvider>
   );

@@ -87,7 +87,6 @@ export default function PortfolioCard({ portfolioId, balance, portfolioList, onP
           <ChevronBottomIcon color={iconColor} />
         </Stack>
       </Pressable>
-
       <Modal visible={isVisible} onClose={handleOnClose} headerText={t("MutualFund.SubscriptionScreen.selectAccount")}>
         {portfolioList ? (
           <RadioButtonGroup onPress={value => setSelected(value)} value={selected}>

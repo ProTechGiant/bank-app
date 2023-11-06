@@ -1518,7 +1518,7 @@
         "buttons": {
           "photoPhoneGalary": "Photo Phone Gallery",
           "predefinedPhoto": "Predefined Photo",
-          "camera":"Camera",
+          "camera": "Camera",
           "cancel": "Cancel"
         }
       }
@@ -1680,9 +1680,9 @@
         "cancelButton": "Cancel"
       }
     },
-    "GoalCreatedSuccessfullyScreen": { 
-      "label":"Congratulations",
-      "subLabel":"Your Goal is successfully created!",
+    "GoalCreatedSuccessfullyScreen": {
+      "label": "Congratulations",
+      "subLabel": "Your Goal is successfully created!",
       "button": "Check it out!"
     },
     "ShapeGoalScreen": {
@@ -1738,6 +1738,36 @@
       "skipForNow": "Skip for now",
       "convertedAmount": "Converted amount:",
       "sar": "{{value}} SAR"
+    },
+    "ShapeYourGoalContributions": {
+      "title": "Set up contribution",
+      "subTitle": "Select the method you want to contribute to achieve this goal",
+      "contributionMethod": "Contribution method",
+      "Percentage": "Percentage",
+      "initialContribution": "Initial Contribution",
+      "recurringContribution": "Recurring Contribution",
+      "recurringFrequency": "Recurring Frequency",
+      "selectFrequency": "Select frequency",
+      "continue": "Continue",
+      "recurringDay": "Recurring Day",
+      "skipNow": "Skip for now",
+      "Weekly": "Weekly",
+      "Monthly": "Monthly",
+      "goalAmount": "Goal Amount",
+      "Sunday": "Sunday",
+      "Monday": "Monday",
+      "Tuesday": "Tuesday",
+      "Wednesday": "Wednesday",
+      "Thursday": "Thursday",
+      "selectDay": "Select Day",
+      "selectMethods": "Select methods",
+      "DatePickerModal": "Select date",
+      "selectDate": "Confirm",
+      "selectYourMethods": "Select your contribution methods",
+      "error": {
+        "min": "The value should be more than 0",
+        "max": "The value should be less than 100"
+      }
     }
   },
   "Referral": {

@@ -17,6 +17,7 @@ import {
 } from "react-native";
 import * as yup from "yup";
 
+import { AngleDownIcon } from "@/assets/icons";
 import { Stack } from "@/components";
 import Button from "@/components/Button";
 import CurrencyInput from "@/components/Form/CurrencyInput";
@@ -27,25 +28,33 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { BottomSheetModal, CalendarButton, CalenderDayModalModal, RecurringFrequencyModal } from "../components";
+import {
+  BottomSheetModal,
+  CalendarButton,
+  CalenderDayModalModal,
+  ContributionMethodModal,
+  RecurringFrequencyModal,
+} from "../components";
 import { mockSettings } from "../mocks/mockContribution";
 
 interface GoalAmount {
   selectedDay: string;
   InitialContribution: number;
   RecurringFrequency: number;
+  PercentageInput: number;
 }
 
-export default function ContributionScreen() {
+export default function ContributionSavingPotScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [contributionMethodsIsVisible, setContributionMethodsIsVisible] = useState<boolean>(false);
+
   const [daysCalenderIsVisible, setDaysCalenderIsVisible] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>("");
-
-  const handleValueChange = (newValue: string) => {
-    setSelectedValue(newValue);
-  };
+  const [methodsContribution, setMethodsContribution] = useState<string>("");
+  const [recurringFrequencyValue, setRecurringFrequencyValue] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
 
   const recurringContribution = [
     {
@@ -81,27 +90,24 @@ export default function ContributionScreen() {
     },
   ];
 
-  const [recurringFrequencyValue, setRecurringFrequencyValue] = useState("");
-  const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
-
   const validationAmountSchema = yup.object().shape({
-    InitialContribution: yup
+    InitialContribution: yup.number(),
+    RecurringFrequency: yup.number(),
+    PercentageInput: yup
       .number()
       .nullable()
-      .min(mockSettings.MinInitialContribution, t("GoalGetter.ShapeYourGoalContributions.error.min"))
-      .max(mockSettings.MaxInitialContribution, t("GoalGetter.ShapeYourGoalContributions.error.min")),
-
-    RecurringFrequency: yup
-      .number()
-      .nullable()
-      .min(mockSettings.MinRecurringFrequency, t("GoalGetter.ShapeYourGoalContributions.error.min"))
-      .max(mockSettings.MaxRecurringFrequency, t("GoalGetter.ShapeYourGoalContributions.error.min")),
+      .min(mockSettings.MinPercentageInput, t("GoalGetter.ShapeYourGoalContributions.error.min"))
+      .max(mockSettings.MaxPercentageInput, t("GoalGetter.ShapeYourGoalContributions.error.max")),
   });
+
+  const handleValueChange = (newValue: string) => {
+    setSelectedValue(newValue);
+  };
 
   const { control, formState, handleSubmit } = useForm<GoalAmount>({
     resolver: yupResolver(validationAmountSchema),
     mode: "onBlur",
-    defaultValues: { InitialContribution: 150, RecurringFrequency: 1000 },
+    defaultValues: { InitialContribution: 150, RecurringFrequency: 1000, PercentageInput: 0 },
   });
 
   const handleOnSubmit = () => {
@@ -119,11 +125,11 @@ export default function ContributionScreen() {
   };
 
   const handleValidation = () => {
-    return formState.dirtyFields.InitialContribution || formState.dirtyFields.RecurringFrequency
-      ? formState.errors?.InitialContribution || formState.errors?.RecurringFrequency
-        ? false
-        : true
-      : false;
+    return !(
+      formState.errors?.InitialContribution ||
+      formState.errors?.RecurringFrequency ||
+      formState.errors?.PercentageInput
+    );
   };
 
   const handleOnCloseRecurringFrequencyModal = () => {
@@ -150,9 +156,8 @@ export default function ContributionScreen() {
 
   const headerScrollStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
-    paddingTop: theme.spacing["24p"],
-    gap: theme.spacing["32p"],
     flex: 1,
+    marginBottom: theme.spacing["12p"],
   }));
 
   const stackAmountStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -174,10 +179,6 @@ export default function ContributionScreen() {
     marginBottom: theme.spacing["12p"],
   }));
 
-  const subTitleMarginBottom = useThemeStyles<TextStyle>(theme => ({
-    marginBottom: theme.spacing["16p"],
-  }));
-
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
@@ -189,14 +190,25 @@ export default function ContributionScreen() {
       </NavHeader>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.containerFlex}>
         <ScrollView style={headerScrollStyle}>
-          <Stack direction="vertical" gap="8p">
-            <Typography.Text color="primaryBase" size="title3" weight="bold">
-              {t("GoalGetter.ShapeYourGoalContributions.title")}
-            </Typography.Text>
-            <Typography.Text style={subTitleMarginBottom}>
-              {t("GoalGetter.ShapeYourGoalContributions.subTitle")}
-            </Typography.Text>
+          <Stack direction="vertical" gap="12p" style={stackAmountStyle}>
+            <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.contributionMethod")}</Typography.Text>
+            <Pressable style={recurringFrequencyModalStyle} onPress={() => setContributionMethodsIsVisible(true)}>
+              <Typography.Text>
+                {methodsContribution.length > 0
+                  ? methodsContribution.join(", ")
+                  : t("GoalGetter.ShapeYourGoalContributions.selectMethods")}
+              </Typography.Text>
+              <AngleDownIcon />
+            </Pressable>
           </Stack>
+          {methodsContribution.includes("percentage") ? (
+            <Stack direction="vertical" gap="12p" style={stackAmountStyle}>
+              <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.Percentage")}</Typography.Text>
+              <View style={styles.containerInputStyle}>
+                <CurrencyInput name="PercentageInput" control={control} label="" currency="%" />
+              </View>
+            </Stack>
+          ) : null}
 
           <Stack direction="vertical" gap="12p" style={stackAmountStyle}>
             <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.initialContribution")}</Typography.Text>
@@ -263,11 +275,18 @@ export default function ContributionScreen() {
               />
             </>
           )}
+          <ContributionMethodModal
+            onClose={() => setContributionMethodsIsVisible(false)}
+            isVisible={contributionMethodsIsVisible}
+            onValueChange={(value: string) => {
+              setMethodsContribution(value);
+            }}
+          />
         </ScrollView>
 
         <View style={primaryButtonStyle}>
           <Button disabled={!handleValidation()} onPress={handleSubmit(handleOnSubmit)}>
-            {t("GoalGetter.ContributionsScreen.next")}
+            {t("GoalGetter.ShapeYourGoalContributions.continue")}
           </Button>
         </View>
         <View style={primaryButtonStyle}>

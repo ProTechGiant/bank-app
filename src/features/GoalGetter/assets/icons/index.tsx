@@ -19,6 +19,8 @@ export { default as InvestmentIcon } from "./InvestmentIcon";
 export { default as LandingGoalGetter } from "./LandingGoalGetter";
 export { default as MothlyContributionIcon } from "./MonthlyContributionIcon";
 export { default as MutualFundTag } from "./MutualFundTagIcon";
+export { default as RecurringIcon } from "./RecurringIcon";
+export { default as RoundsIcon } from "./RoundsIcon";
 export { default as StartDateIcon } from "./StartDateIcon";
 export { default as TriangleIcon } from "./TriangleIcon";
 export { default as WithdrawalIcon } from "./WithdrawalIcon";
