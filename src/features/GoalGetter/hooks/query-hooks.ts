@@ -26,6 +26,7 @@ const queryKeys = {
   getCustomersGoals: () => ["getCustomersGoals"],
   predefinedGoals: () => ["predefinedGoals"],
   predefinedRisks: (predefinedGoalId: number) => ["predefinedRisks", predefinedGoalId],
+  goalsSettings: () => ["goalsSettings"],
 };
 
 export function useGetTermsAndConditions(productId?: string) {
@@ -155,5 +156,16 @@ export function usePredfinedRisks(predefinedGoalId: number) {
         ["Accept-Language"]: i18n.language,
       }
     );
+  });
+}
+
+export function useGoalsSetting() {
+  const { i18n } = useTranslation();
+
+  return useQuery(queryKeys.goalsSettings(), () => {
+    return api<PredefinedOptions>("v1", `goals/settings`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+    });
   });
 }

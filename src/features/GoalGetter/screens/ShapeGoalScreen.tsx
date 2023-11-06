@@ -20,11 +20,11 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CalendarButton, DatePickerModal } from "../components";
-import { mockSettings } from "../mocks/mockSettings";
+import { useGoalsSetting } from "../hooks/query-hooks";
 
 interface GoalAmount {
   TargetAmount: number;
-  MonthlyContributiont: number;
+  MonthlyAmount: number;
 }
 
 export default function ShapeGoalScreen() {
@@ -33,6 +33,7 @@ export default function ShapeGoalScreen() {
   const [selectedGoalDurationOption, setSelectedGoalDurationOption] = useState<number | null>();
   const [isSelectedOption, setIsSelectedOption] = useState(false);
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const { data } = useGoalsSetting();
 
   const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const goalDurationOptions = [
@@ -45,19 +46,19 @@ export default function ShapeGoalScreen() {
     TargetAmount: yup
       .number()
       .nullable()
-      .min(mockSettings.MinTargetAmount, t("GoalGetter.ShapeGoalScreen.error.errorTargetAmount"))
-      .max(mockSettings.MaxTargetAmount, t("GoalGetter.ShapeGoalScreen.error.errorTargetAmount")),
+      .min(data?.MinimumTargetAmount, t("GoalGetter.ShapeGoalScreen.error.errorTargetAmount"))
+      .max(data?.MaximumTargetAmount, t("GoalGetter.ShapeGoalScreen.error.errorTargetAmount")),
     MonthlyAmount: yup
       .number()
       .nullable()
-      .min(mockSettings.MinMonthlyContribution, t("GoalGetter.ShapeGoalScreen.error.errorMonthlyAmount"))
-      .max(mockSettings.MaxMonthlyContribution, t("GoalGetter.ShapeGoalScreen.error.errorMonthlyAmount")),
+      .min(data?.MinimumMonthlyAmount, t("GoalGetter.ShapeGoalScreen.error.errorMonthlyAmount"))
+      .max(data?.MaximumMonthlyAmount, t("GoalGetter.ShapeGoalScreen.error.errorMonthlyAmount")),
   });
 
   const { control, formState } = useForm<GoalAmount>({
     resolver: yupResolver(validationAmountSchema),
     mode: "onChange",
-    defaultValues: { TargetAmount: 0, MonthlyContributiont: 0 },
+    defaultValues: { TargetAmount: 0, MonthlyAmount: 0 },
   });
 
   useEffect(() => {
@@ -101,12 +102,10 @@ export default function ShapeGoalScreen() {
   };
 
   const handleOnSubmit = () => {
+    // TODO: data will store in context inside the if statement when context is ready
     if (selectedGoalDurationOption === 1) {
-      // this first scenario immediately
-      //TODO - navigate when screen is ready
+      navigation.navigate("GoalGetter.ShapeYourGoalScreen");
     } else if (selectedGoalDurationOption === 2) {
-      //this is second scenario choosen unknown
-      //TODO - navigate when screen is ready and send No Risk value
     } else {
       const currentDate = new Date();
       const sixMonthsLater = addDays(currentDate, 6.03 * 30.44);
@@ -115,19 +114,22 @@ export default function ShapeGoalScreen() {
       if (isBefore(parsedSelectedDate, sixMonthsLater)) {
         // Selected date is less than 6 months
         //TODO - navigate when screen is ready
+        navigation.navigate("GoalGetter.ShapeYourGoalScreen");
       } else if (isBefore(parsedSelectedDate, twentyFourMonthsLater)) {
         // Selected date is between 6.03 and 24 months
         //TODO - navigate when screen is ready
+
+        navigation.navigate("GoalGetter.ShapeYourGoalScreen");
       } else {
-        // Selected date is more than 24.03 months
-        //TODO - navigate when screen is ready
+        navigation.navigate("GoalGetter.ShapeYourGoalScreen");
       }
+      navigation.navigate("GoalGetter.ShapeYourGoalScreen");
     }
   };
 
   const handleValidation = () => {
-    return formState.dirtyFields.TargetAmount || formState.dirtyFields.MonthlyContributiont
-      ? formState.errors?.TargetAmount || formState.errors?.MonthlyContributiont
+    return formState.dirtyFields.TargetAmount || formState.dirtyFields.MonthlyAmount
+      ? formState.errors?.TargetAmount || formState.errors?.MonthlyAmount
         ? false
         : true
       : false;
@@ -188,7 +190,7 @@ export default function ShapeGoalScreen() {
           </Typography.Text>
           <View style={styles.containerInputStyle}>
             <CurrencyInput
-              name="MonthlyContributiont"
+              name="MonthlyAmount"
               control={control}
               currency={t("GoalGetter.ShapeGoalScreen.currency")}
               label=""
