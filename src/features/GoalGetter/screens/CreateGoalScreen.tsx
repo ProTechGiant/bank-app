@@ -4,9 +4,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StyleSheet, View, ViewStyle } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import * as yup from "yup";
 
+import Chip from "@/components/Chip";
+import ContentContainer from "@/components/ContentContainer";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
 import NavHeader from "@/components/NavHeader";
@@ -16,9 +17,10 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import GoalGetterHeader from "../components/GoalGetterHeader";
+import { PhotoInput } from "../components/PhotoInput";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { usePredefined } from "../hooks/query-hooks";
+import { tags } from "./mock";
 
 interface GoalNameInput {
   GoalName: string;
@@ -27,7 +29,7 @@ interface GoalNameInput {
 export default function CreateGoalScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { goalImage, setGoalContextState, predefinedGoalId } = useGoalGetterContext();
+  const { setGoalContextState, predefinedGoalId } = useGoalGetterContext();
   const { data } = usePredefined("name", predefinedGoalId);
 
   const validationSchema = yup.object().shape({
@@ -49,7 +51,7 @@ export default function CreateGoalScreen() {
     setValue("GoalName", purchase, { shouldValidate: true, shouldDirty: true });
   };
 
-  const handleOpenImagePicker = () => {
+  const handleOnPredefinedPress = () => {
     navigation.navigate("GoalGetter.ImageGallary");
   };
 
@@ -65,13 +67,6 @@ export default function CreateGoalScreen() {
     flex: 1,
   }));
 
-  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["24p"],
-    marginBottom: theme.spacing["12p"],
-    marginHorizontal: theme.spacing["12p"],
-    flex: 1,
-  }));
-
   const suggestNamesStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     flexWrap: "wrap",
@@ -79,24 +74,38 @@ export default function CreateGoalScreen() {
     marginBottom: theme.spacing["32p"],
   }));
 
-  const submitButtonStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing["12p"],
-    marginBottom: theme.spacing["12p"],
+  const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    flex: 1,
+    marginVertical: theme.spacing["16p"],
   }));
+
+  const submitButtonStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginVertical: theme.spacing["32p"],
+  }));
+
+  const progressIndicatorColor = useThemeStyles(theme => theme.palette.secondary_mintBase);
+
+  const tagsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    gap: theme.spacing["12p"],
+    marginVertical: theme.spacing["16p"],
+    flexWrap: "wrap",
+  }));
+
+  const handleUploadPhoto = () => {
+    // TODO will be integrated with Api once finished
+  };
 
   return (
     <View style={containerStyle}>
       <NavHeader
-        title={
-          <View style={styles.progressIndicator}>
-            <ProgressIndicator currentStep={1} totalStep={5} />
-          </View>
-        }
+        title={t("GoalGetter.CreateGoalGetter.photoInput.buttons.predefinedPhoto")}
         end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
       />
-      <GoalGetterHeader imageURL={goalImage} handleChangeImage={handleOpenImagePicker} />
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-        <ScrollView style={contentStyle}>
+      <ContentContainer isScrollView={true}>
+        <Stack direction="horizontal" style={styles.progressIndicator}>
+          <ProgressIndicator currentStep={1} totalStep={5} color={progressIndicatorColor} />
+        </Stack>
+        <KeyboardAvoidingView style={contentContainerStyle} behavior={Platform.OS === "ios" ? "padding" : undefined}>
           <Stack direction="vertical" gap="24p" align="stretch">
             <TextInput
               name="GoalName"
@@ -106,7 +115,6 @@ export default function CreateGoalScreen() {
               label={t("GoalGetter.CreateGoalGetter.inputLabel")}
               extraStart={t("GoalGetter.CreateGoalGetter.extraStart")}
             />
-
             {data?.Predefined ? (
               <>
                 <Typography.Text size="callout" weight="medium">
@@ -125,17 +133,34 @@ export default function CreateGoalScreen() {
               </>
             ) : null}
           </Stack>
-        </ScrollView>
-        <View style={submitButtonStyle}>
-          <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
-            {t("GoalGetter.CreateGoalGetter.continueButton")}
-          </SubmitButton>
-        </View>
-      </KeyboardAvoidingView>
+          {/* TODO will be integrated after api finished */}
+          <Stack direction="horizontal" gap="12p" style={tagsContainerStyle}>
+            {tags.map((item, itemIndex) => {
+              return (
+                <Chip
+                  onPress={() => {
+                    // TODO will be integrated after api finished
+                  }}
+                  title={item}
+                  isRemovable={false}
+                  key={itemIndex}
+                  isSelected={false}
+                />
+              );
+            })}
+          </Stack>
+          <PhotoInput onChange={handleUploadPhoto} handleOnPredefinedPress={handleOnPredefinedPress} />
+          <View style={submitButtonStyle}>
+            <SubmitButton control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+              {t("GoalGetter.CreateGoalGetter.continueButton")}
+            </SubmitButton>
+          </View>
+        </KeyboardAvoidingView>
+      </ContentContainer>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  progressIndicator: { width: "80%" },
+  progressIndicator: { width: "100%" },
 });

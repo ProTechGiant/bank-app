@@ -1419,7 +1419,7 @@
       "confirm": "تأكيد"
     },
     "imageGallery": {
-      "title": "اختيار صورة",
+      "title": "صورة محددة مسبقًا",
       "buttonSave": "حفظ",
       "error": {
         "title": "لم نتمكن من تحميل البيانات",
@@ -1436,6 +1436,16 @@
         "required": "اسم الهدف مطلوب",
         "maximum": "الحد الأقصى 50 حرفًا",
         "minimum": "الحد الادني 5 احرف"
+      },
+      "photoInput": {
+        "label": "تحميل صورة",
+        "buttons": {
+          "photoPhoneGalary": "معرض صور الهاتف",
+          "predefinedPhoto": "صورة محددة مسبقًا",
+          "camera":"الكاميرا",
+          "cancel": "الغاء"
+        }
+      }
       }
     },
     "GoalMindScreen": {

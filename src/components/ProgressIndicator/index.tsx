@@ -4,14 +4,16 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+import * as themeValues from "@/theme/values";
 
 type ProgressIndicatorProps = {
   currentStep: number;
   totalStep: number;
   withEndStep?: boolean;
+  color?: keyof typeof themeValues.palette;
 };
 
-export default function ProgressIndicator({ currentStep, totalStep, withEndStep }: ProgressIndicatorProps) {
+export default function ProgressIndicator({ currentStep, totalStep, withEndStep, color }: ProgressIndicatorProps) {
   const progressBarStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-20"],
     flex: 1,
@@ -19,7 +21,7 @@ export default function ProgressIndicator({ currentStep, totalStep, withEndStep 
   }));
 
   const progressBarActiveStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.complimentBase,
+    backgroundColor: color ?? theme.palette.complimentBase,
   }));
 
   const columnEndStyle = useThemeStyles<ViewStyle>(theme => ({

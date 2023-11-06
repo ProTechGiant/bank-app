@@ -1,4 +1,4 @@
-import { ImageStyle, Pressable, useWindowDimensions, View, ViewStyle } from "react-native";
+import { ImageStyle, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import NetworkImage from "@/components/NetworkImage";
 import { useThemeStyles } from "@/theme";
@@ -13,35 +13,30 @@ interface GalleryImageProps {
 }
 
 export default function GalleryImage({ id, imageURL, isSelected, onImageSelection }: GalleryImageProps) {
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
 
-  const contentStyle = useThemeStyles<ImageStyle>(theme => ({
-    borderRadius: theme.radii.small,
-    height: width / 3,
-    width: "48%",
-    marginHorizontal: theme.spacing["4p"],
-    marginVertical: theme.spacing["4p"],
-  }));
-
-  const imageStyle = useThemeStyles<ImageStyle>(theme => ({
-    borderRadius: theme.radii.small,
-    flex: 1,
-  }));
-
-  const imageSelectedStyle = useThemeStyles<ImageStyle>(theme => ({
-    borderColor: theme.palette["complimentBase+10"],
-    borderWidth: 3,
+  const contentStyle = useThemeStyles<ImageStyle>(() => ({
+    height: height / 6,
+    width: width / 3,
   }));
 
   const checkIconStyle = useThemeStyles<ViewStyle>(theme => ({
+    height: 14,
+    width: 14,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: theme.radii.small,
+    borderWidth: 1,
+    borderColor: theme.palette["neutralBase-60"],
+    backgroundColor: theme.palette["neutralBase-60"],
     position: "absolute",
     top: theme.spacing["8p"],
-    right: theme.spacing["8p"],
+    right: width / 2 - 14,
   }));
 
   return (
     <Pressable style={contentStyle} onPress={() => onImageSelection(id)}>
-      <NetworkImage style={[imageStyle, isSelected && imageSelectedStyle]} source={{ uri: imageURL }} />
+      <NetworkImage style={styles.imageStyle} source={{ uri: imageURL }} />
       {isSelected ? (
         <View style={checkIconStyle}>
           <GallerySelectIcon />
@@ -50,3 +45,9 @@ export default function GalleryImage({ id, imageURL, isSelected, onImageSelectio
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  imageStyle: {
+    flex: 1,
+  },
+});

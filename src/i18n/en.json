@@ -1484,6 +1484,15 @@
         "required": "The Goal Name is Required",
         "maximum": "Maximum 50 characters",
         "minimum": "Minimum 5 characters"
+      },
+      "photoInput": {
+        "label": "Upload photo",
+        "buttons": {
+          "photoPhoneGalary": "Photo Phone Gallery",
+          "predefinedPhoto": "Predefined Photo",
+          "camera":"Camera",
+          "cancel": "Cancel"
+        }
       }
     },
     "GoalMindScreen": {

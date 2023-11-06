@@ -1,27 +1,16 @@
 import { useState } from "react";
-import { I18nManager, Image, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { I18nManager, Image, StyleSheet, useWindowDimensions, View } from "react-native";
 
 import whiteTriangleHorizontal from "@/assets/rectangle-image-divider.png";
 import NetworkImage from "@/components/NetworkImage";
-import { useThemeStyles } from "@/theme";
-
-import { ChangeImageIcon } from "../assets/icons";
 
 interface GoalGetterSectionProps {
-  handleChangeImage: () => void;
   imageURL: string;
 }
 
-export default function GoalGetterSection({ handleChangeImage, imageURL }: GoalGetterSectionProps) {
+export default function GoalGetterSection({ imageURL }: GoalGetterSectionProps) {
   const { height } = useWindowDimensions();
-
   const [containerWidth, setContainerWidth] = useState(100);
-
-  const handleImageStyle = useThemeStyles<ViewStyle>(theme => ({
-    position: "absolute",
-    right: theme.spacing["8p"],
-    bottom: I18nManager.isRTL ? theme.spacing["20p"] : theme.spacing["20p"],
-  }));
 
   const containerStyle = {
     height: height * 0.37,
@@ -37,15 +26,11 @@ export default function GoalGetterSection({ handleChangeImage, imageURL }: GoalG
         }}
         style={styles.image}
       />
-
       <Image
         source={whiteTriangleHorizontal}
         style={[styles.imageBackGround, { width: containerWidth }]}
         resizeMode="stretch"
       />
-      <Pressable onPress={handleChangeImage} style={handleImageStyle}>
-        <ChangeImageIcon />
-      </Pressable>
     </View>
   );
 }
