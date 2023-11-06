@@ -1656,6 +1656,19 @@
       "goalAmount": "مبلغ الهدف",
       "goalDuration": "مدة الهدف",
       "shapeYourGoal": "شكل هدفك"
+    },
+    "SetGoldContributionScreen": {
+      "setUpContribution": "إعداد المساهمة",
+      "initialAmount": "أدخل مبلغ المساهمة الأولي:",
+      "grams": "غرامات",
+      "minimumGrams": "الحد الأدنى 5 غرامات",
+      "pleaseNote": "يرجى ملاحظة:",
+      "minimumGramsInfo": "• الحد الأدنى 5 غرامات.",
+      "setUpLaterInfo": "• يمكنك تحديد مبلغ المساهمة لاحقًا.",
+      "continue": "المتابعة",
+      "skipForNow": "تخطى للآن",
+      "convertedAmount": "المبلغ المحول:",
+      "sar": "{{value}} ر.س"
     }
   },
   "InstructionsScreen": {

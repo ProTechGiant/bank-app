@@ -13,6 +13,7 @@ export { default as GoalGetterSuccessIcon } from "./GoalGetterSuccessIcon";
 export { default as GoalRedeemIcon } from "./GoalRedeemIcon";
 export { default as GoldIcon } from "./GoldIcon";
 export { default as HighRiskGoalIcon } from "./HighRiskGoalIcon";
+export { default as InfoBoxIcon } from "./InfoBoxIcon";
 export { default as InitialContributionIcon } from "./InitialContributionIcon";
 export { default as InvestmentIcon } from "./InvestmentIcon";
 export { default as LandingGoalGetter } from "./LandingGoalGetter";

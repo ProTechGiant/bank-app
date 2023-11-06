@@ -1688,6 +1688,19 @@
       "goalAmount": "Goal Amount",
       "goalDuration": "Goal Duration",
       "shapeYourGoal": "Shape your goal"
+    },
+    "SetGoldContributionScreen": {
+      "setUpContribution": "Set up contribution",
+      "initialAmount": "Enter initial contribution amount:",
+      "grams": "Grams",
+      "minimumGrams": "Minimum 5 Grams",
+      "pleaseNote": "Please note:",
+      "minimumGramsInfo": "• Minimum 5 Grams.",
+      "setUpLaterInfo": "• You can set up the contribution amount later.",
+      "continue": "Continue",
+      "skipForNow": "Skip for now",
+      "convertedAmount": "Converted amount:",
+      "sar": "{{value}} SAR"
     }
   },
   "Referral": {

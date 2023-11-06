@@ -15,6 +15,7 @@ interface AmountInputProps<T extends FieldValues> {
   maxLength?: number;
   name: Path<T>;
   hideBalanceError?: boolean;
+  showConvertedBalance?: boolean;
   testID?: string;
   AmountType?: string;
   inputColor?: keyof typeof theme.palette;
@@ -31,6 +32,7 @@ export function AmountInput<T extends FieldValues>({
   testID,
   AmountType,
   inputColor = "primaryBase-40",
+  showConvertedBalance = true,
 }: AmountInputProps<T>) {
   const { t } = useTranslation();
   const { field } = useController({ control, name });
@@ -68,12 +70,14 @@ export function AmountInput<T extends FieldValues>({
 
   return (
     <>
-      <Typography.Text
-        color={isError && !hideBalanceError ? "errorBase" : "neutralBase-10"}
-        size="callout"
-        testID={testID !== undefined ? `${testID}-CurrentBalance` : undefined}>
-        {t("InternalTransfers.TransferAmountInput.balance") + formatCurrency(currentBalance, "SAR")}
-      </Typography.Text>
+      {showConvertedBalance ? (
+        <Typography.Text
+          color={isError && !hideBalanceError ? "errorBase" : "neutralBase-10"}
+          size="callout"
+          testID={testID !== undefined ? `${testID}-CurrentBalance` : undefined}>
+          {t("InternalTransfers.TransferAmountInput.balance") + formatCurrency(currentBalance, "SAR")}
+        </Typography.Text>
+      ) : null}
       <View style={containerStyles}>
         <UnstyledCurrencyInput
           autoFocus={autoFocus}
