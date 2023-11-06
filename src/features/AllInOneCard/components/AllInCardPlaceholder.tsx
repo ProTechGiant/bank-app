@@ -17,7 +17,7 @@ import {
 } from "../assets/icons";
 import EyeHideIcon from "../assets/icons/EyeHideIcon";
 import NeraCard from "../assets/NeraCardImg.png";
-import NeraCardPlus from "../assets/NeraCardPlus.png";
+import NeraCardPlus from "../assets/NeraCardPlusImg.png";
 import Triangle from "../assets/Traingle.png";
 import { hideBalance } from "../utils/hideBalance";
 import CardAction from "./CardAction";
@@ -70,7 +70,7 @@ export default function AllInCardPlaceholder({ variant, height, width, style }: 
         <Image
           resizeMode="contain"
           style={{ aspectRatio: ASPECT_RATIOS[variant], height, width }}
-          source={variant === "nera" ? NeraCard : NeraCardPlus}
+          source={variant === "neraPlus" ? NeraCardPlus : NeraCard}
           onLayout={event => {
             const { height: viewHeight } = event.nativeEvent.layout;
             setContainerHeight(viewHeight);

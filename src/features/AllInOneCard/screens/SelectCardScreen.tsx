@@ -8,6 +8,7 @@ import Button from "@/components/Button";
 import { Carousel } from "@/components/Carousel";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
@@ -20,6 +21,7 @@ export default function SelectCardScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { setContextState } = useAllInOneCardContext();
+  const { setAllInOneCardType } = useAuthContext();
 
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [showMoreFeaturesModal, setShowMoreFeaturesModal] = React.useState(false);
@@ -28,6 +30,7 @@ export default function SelectCardScreen() {
     setContextState({
       cardType: cardData[activeIndex].cardType,
     });
+    setAllInOneCardType(cardData[activeIndex].cardType);
     setShowMoreFeaturesModal(false);
     delayTransition(() => {
       navigation.navigate("AllInOneCard.ChooseRedemptionMethod");

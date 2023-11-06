@@ -33,6 +33,8 @@ interface AuthContextProps {
   notificationsReadStatus: boolean;
   allInOneCardStatus: "active" | "inActive" | "none";
   setAllInOneCardStatus: (value: "active" | "inActive" | "none") => void;
+  allInOneCardType: "nera" | "neraPlus";
+  setAllInOneCardType: (value: "nera" | "neraPlus") => void;
   navigationTarget: NavigationTargetType | null;
   updateNavigationTarget: (value: NavigationTargetType) => void;
   setNotificationsReadStatus: (value: boolean) => void; // TODO will be  called inside EventListener which fired based on user clicks on notification
@@ -61,6 +63,8 @@ const AuthContext = createContext<AuthContextProps>({
   navigationTarget: null,
   allInOneCardStatus: "none",
   setAllInOneCardStatus: noop,
+  allInOneCardType: "nera",
+  setAllInOneCardType: noop,
 });
 
 export function AuthContextProvider({ children }: React.PropsWithChildren) {
@@ -72,6 +76,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     | "updatePhoneNumber"
     | "setAuthToken"
     | "setAllInOneCardStatus"
+    | "setAllInOneCardType"
   >;
 
   const [state, setState] = useState<State>({
@@ -83,6 +88,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     isUserLocked: false,
     notificationsReadStatus: true,
     allInOneCardStatus: "none",
+    allInOneCardType: "nera",
   });
 
   useEffect(() => {
@@ -140,6 +146,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       isUserLocked: false,
       notificationsReadStatus: true,
       allInOneCardStatus: "none",
+      allInOneCardType: "nera",
     });
 
     setAuthenticationHeaders({
@@ -212,6 +219,11 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   const setAllInOneCardStatus = (allInOneCardStatus: "active" | "inActive" | "none") => {
     setState({ ...state, allInOneCardStatus });
   };
+
+  const setAllInOneCardType = (allInOneCardType: "nera" | "neraPlus") => {
+    setState({ ...state, allInOneCardType });
+  };
+
   const setUserId = (userId: string) => {
     setState({ ...state, userId });
   };
@@ -236,6 +248,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       setNotificationsReadStatus: handleonNotificationRead,
       updateNavigationTarget: updateNavigationTargetHandler,
       setAllInOneCardStatus: setAllInOneCardStatus,
+      setAllInOneCardType: setAllInOneCardType,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state]

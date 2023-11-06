@@ -12,7 +12,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { SettingIcon } from "../assets/icons";
-import { ActivateCard, Benefits, Rewards } from "../components";
+import { ActivateCard, Benefits, Rewards, UpgradeToNeraPlusCard } from "../components";
 import AllInCardPlaceholder from "../components/AllInCardPlaceholder";
 import TransactionSection from "../components/TransactionSection";
 import { TransactionItem } from "../types";
@@ -20,7 +20,7 @@ import { mockTransactions } from "./../mocks/index";
 
 export default function DashboardScreen() {
   const { t } = useTranslation();
-  const { allInOneCardStatus } = useAuthContext();
+  const { allInOneCardStatus, allInOneCardType } = useAuthContext();
   const navigation = useNavigation();
   const tabFeed = t("AllInOneCard.Dashboard.feed");
   const tabCurrencies = t("AllInOneCard.Dashboard.currencies");
@@ -91,7 +91,7 @@ export default function DashboardScreen() {
       />
       <ScrollView style={showCardActivation ? scrollStyle : {}}>
         <View pointerEvents={showCardActivation ? "none" : "auto"}>
-          <AllInCardPlaceholder variant="nera" width="90%" />
+          <AllInCardPlaceholder variant={allInOneCardType} width="90%" />
           <View style={dividerStyle} />
           <View style={styleSegmentedControl}>
             <SegmentedControl value={value} onPress={selectedValue => handleUserSegment(selectedValue)}>
@@ -108,8 +108,7 @@ export default function DashboardScreen() {
             onPressSeeMore={handleTransactionSeeMore}
             transactions={transactions as TransactionItem[]}
           />
-          {/* TODO : will be shown as per condition when api is available  */}
-          {/* <UpgradeToNeraPlusCard /> */}
+          {allInOneCardType === "nera" ? <UpgradeToNeraPlusCard /> : null}
         </View>
       </ScrollView>
       {showCardActivation ? (
