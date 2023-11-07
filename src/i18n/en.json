@@ -931,6 +931,10 @@
       "heading": "Your app has been locked",
       "message": "We've locked your app to help keep your account secure. To unlock it, please call us on +966 123 456 789."
     },
+    "Modal":{
+      "title": "You are not authorized to sign into this account",
+      "subTitle":"Try signing in to a different account."
+    },
     "IqamaInputScreen": {
       "errorText": {
         "noMatchRecord": "The details don’t match our records. Check carefully and try again.",

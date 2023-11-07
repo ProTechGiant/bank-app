@@ -4,6 +4,7 @@ import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, View, ViewStyl
 
 import ApiError from "@/api/ApiError";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -29,6 +30,7 @@ export default function IqamaInputScreen() {
   const { errorMessages } = useErrorMessages(iqamaError);
   const { setSignInCorrelationId } = useSignInContext();
   const [notMatchRecord, setNotMatchRecord] = useState(false);
+  const [isDeceased, setIsDeceased] = useState(false);
 
   useEffect(() => {
     const _correlationId = generateRandomId();
@@ -77,7 +79,10 @@ export default function IqamaInputScreen() {
     try {
       const { NationalId, MobileNumber } = values;
       const response = await mutateAsync({ NationalId, MobileNumber });
-      if (response.TotalRecords === 1) {
+
+      if (!response.AccountValid) {
+        setIsDeceased(true);
+      } else if (response.TotalRecords === 1) {
         setNotMatchRecord(false);
         storeUserToLocalStorage(response);
         navigation.navigate("SignIn.Passcode");
@@ -88,6 +93,10 @@ export default function IqamaInputScreen() {
       setNotMatchRecord(false);
       warn("signIn", "Could not process iqama input. Error: ", JSON.stringify(err));
     }
+  };
+
+  const handleOnCloseUnauthorizedModal = () => {
+    setIsDeceased(false);
   };
 
   const accountSignInStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -126,6 +135,13 @@ export default function IqamaInputScreen() {
           )}
         </ScrollView>
       </KeyboardAvoidingView>
+      <NotificationModal
+        variant="error"
+        title={t("SignIn.Modal.title")}
+        message={t("SignIn.Modal.subTitle")}
+        isVisible={isDeceased}
+        onClose={handleOnCloseUnauthorizedModal}
+      />
     </Page>
   );
 }
