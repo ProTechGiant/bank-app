@@ -2865,7 +2865,8 @@
         "accountNumber": {
           "validation": {
             "required": "Required*",
-            "invalid": "Account number need 9 numbers"
+            "invalid": "Account number need 9 numbers",
+            "invalidArbAccount": "Account number need 21 numbers"
           }
         },
         "accountNumberInUseModal": {

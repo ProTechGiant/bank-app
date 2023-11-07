@@ -8,6 +8,8 @@ import * as Yup from "yup";
 import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import { Masks } from "@/components/Input";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
+import { TransferType } from "@/types/InternalTransfer";
 import { numericRegExp } from "@/utils";
 
 import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
@@ -17,6 +19,7 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
   ref: ForwardedRef<AddBeneficiaryFormForwardRef>
 ) {
   const { t } = useTranslation();
+  const { transferType } = useInternalTransferContext();
 
   useImperativeHandle(ref, () => ({
     reset() {
@@ -36,8 +39,12 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.required")
           )
           .min(
-            9,
-            t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.invalid")
+            transferType === TransferType.CroatiaToArbTransferAction ? 21 : 9,
+            transferType === TransferType.CroatiaToArbTransferAction
+              ? t(
+                  "InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.invalidArbAccount"
+                )
+              : t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.invalid")
           ),
       }),
     [t]
@@ -59,7 +66,9 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
           control={control}
           keyboardType="number-pad"
           name="SelectionValue"
-          mask={Masks.ACCOUNT_NUMBER}
+          mask={
+            transferType === TransferType.CroatiaToArbTransferAction ? Masks.ACCOUNT_NUMBER_ARB : Masks.ACCOUNT_NUMBER
+          }
           label={t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.accountNumber")}
         />
       </View>
