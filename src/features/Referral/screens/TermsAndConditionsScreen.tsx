@@ -2,7 +2,7 @@ import { TermsAndConditionsPage } from "@/components";
 import { useContentTermsAndCondition } from "@/hooks/use-content";
 
 export default function TermsAndConditionsScreen() {
-  const termsAndConditionData = useContentTermsAndCondition();
+  const { data, isLoading, refetch } = useContentTermsAndCondition();
 
-  return <TermsAndConditionsPage termsData={termsAndConditionData.data} />;
+  return <TermsAndConditionsPage termsData={data} isLoading={isLoading} refetch={refetch} />;
 }

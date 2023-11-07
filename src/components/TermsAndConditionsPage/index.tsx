@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -15,17 +16,26 @@ import { useThemeStyles } from "@/theme";
 import { TermsAndConditionContainer } from "@/types/Content";
 import { handleExportStatement } from "@/utils/export-pdf";
 
+import { LoadingErrorNotification } from "../LoadingError";
 import Stack from "../Stack";
 
 const PDF_BASE_64_PREFIX = "data:application/pdf;base64,";
 
 interface TermsAndConditionsModalProps {
   termsData: TermsAndConditionContainer | undefined;
+  isLoading: boolean;
+  refetch: () => void;
 }
-export default function TermsAndConditionsPage({ termsData }: TermsAndConditionsModalProps) {
+export default function TermsAndConditionsPage({ termsData, isLoading, refetch }: TermsAndConditionsModalProps) {
   const { t } = useTranslation();
 
   const navigation = useNavigation();
+
+  const [isLoadingErrorNotificationVisible, setIsLoadingErrorNotificationVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (termsData === undefined && !isLoading) setIsLoadingErrorNotificationVisible(true);
+  }, [termsData, isLoading]);
 
   const termsSections = termsData?.TermsSections;
   const termsId = termsData?.TermsID;
@@ -79,9 +89,9 @@ export default function TermsAndConditionsPage({ termsData }: TermsAndConditions
       <Page backgroundColor="neutralBase-60">
         <NavHeader withBackButton={false} end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
 
-        {termsSections === undefined ? (
+        {isLoading ? (
           <FlexActivityIndicator />
-        ) : (
+        ) : termsSections !== undefined ? (
           <ContentContainer isScrollView>
             <View style={containerStyle}>
               <Typography.Text color="neutralBase+30" weight="medium" size="title1">
@@ -101,8 +111,13 @@ export default function TermsAndConditionsPage({ termsData }: TermsAndConditions
               return <TermsAndConditionDetails key={index} title={term.Title} data={term.Bodies} index={index + 1} />;
             })}
           </ContentContainer>
+        ) : (
+          <LoadingErrorNotification
+            isVisible={isLoadingErrorNotificationVisible}
+            onClose={() => setIsLoadingErrorNotificationVisible(false)}
+            onRefresh={refetch}
+          />
         )}
-
         <Stack direction="horizontal" style={footerStyle}>
           <Pressable onPress={handleOnPrintPress}>
             <PrintIcon />
