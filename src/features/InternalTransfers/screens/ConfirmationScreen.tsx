@@ -26,7 +26,7 @@ export default function ConfirmationScreen() {
     if (internalTransferEntryPoint === "payment-hub") {
       navigation.navigate("InternalTransfers.PaymentsHubScreen");
     } else {
-      navigation.navigate("Home.HomeStack", { screen: "Home.DashboardScreen" });
+      navigation.navigate("Home.HomeTabs");
     }
   };
 

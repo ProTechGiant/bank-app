@@ -38,8 +38,8 @@ export default function PaymentsHubScreen() {
 
   const handleOnInternalTransferPress = () => {
     setIsSelectInternalTransferTypeVisible(true);
-    setInternalTransferEntryPoint("payment-hub");
     clearContext();
+    setInternalTransferEntryPoint("payment-hub");
   };
 
   const handleOnSadadBillPress = () => {
