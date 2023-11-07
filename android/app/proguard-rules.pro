@@ -30,3 +30,7 @@
 # T2 sdk
 -keep class com.t2.t2notifysdk.model.** { *; }
 -keep class com.croatiamobileapp.t2notifications.** { *; }
+
+# NI sdk
+-keep class org.bouncycastle.** { *; }
+-keepclassmembers class ae.network.nicardmanagementsdk.** { *; }
