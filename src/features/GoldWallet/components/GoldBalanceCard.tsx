@@ -1,5 +1,15 @@
 import { useTranslation } from "react-i18next";
-import { Dimensions, Image, ImageBackground, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  Dimensions,
+  I18nManager,
+  Image,
+  ImageBackground,
+  Platform,
+  StyleSheet,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { InfoCircleIcon } from "@/assets/icons";
@@ -12,7 +22,7 @@ import { formatCurrency } from "@/utils";
 
 import balancetranceparentBackground from "../assets/balance-background-image.png";
 import balanceCardImage from "../assets/balance-card-image.png";
-import EmptyGoldIngot from "../assets/empty-ingot.svg";
+import FullGoldIngot from "../assets/full-gold-ingot.svg";
 
 interface BalanceCardProps {
   balance?: number;
@@ -24,7 +34,7 @@ interface BalanceCardProps {
 export default function BalanceCard({ balance, goldWeight, profitLoss, onInfoIconPress }: BalanceCardProps) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-
+  const direction = I18nManager.isRTL ? "right" : "left";
   const balanceCardContainer = useThemeStyles<ViewStyle>(() => ({
     position: "relative",
     height: Platform.OS === "android" ? 300 : 300 + insets.top,
@@ -35,6 +45,20 @@ export default function BalanceCard({ balance, goldWeight, profitLoss, onInfoIco
     paddingBottom: 0,
     width: "100%",
     marginBottom: theme.spacing["32p"],
+  }));
+
+  const ingotPersentageStyle = useThemeStyles<TextStyle>(() => ({
+    [direction]: 20,
+    position: "absolute",
+    top: 35,
+    transform: [{ rotateZ: "-33deg" }],
+    zIndex: 100000,
+  }));
+
+  const ingotTextStyle = useThemeStyles<TextStyle>(() => ({
+    bottom: 25,
+    [direction]: 80,
+    position: "absolute",
   }));
 
   return (
@@ -65,7 +89,13 @@ export default function BalanceCard({ balance, goldWeight, profitLoss, onInfoIco
               </Typography.Text>
             </Stack>
             <Stack direction="vertical">
-              <EmptyGoldIngot />
+              <Typography.Text color="neutralBase+30" size="callout" weight="bold" style={ingotPersentageStyle}>
+                {goldWeight ? (goldWeight / 10).toFixed(0) : null} %
+              </Typography.Text>
+              <FullGoldIngot />
+              <Typography.Text color="neutralBase-60" size="footnote" style={ingotTextStyle}>
+                1 kg
+              </Typography.Text>
             </Stack>
           </Stack>
           <Stack direction="horizontal" justify="space-between" style={currentValueContainerStyle}>
