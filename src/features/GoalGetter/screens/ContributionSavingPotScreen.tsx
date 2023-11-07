@@ -35,6 +35,7 @@ import {
   ContributionMethodModal,
   RecurringFrequencyModal,
 } from "../components";
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { mockSettings } from "../mocks/mockContribution";
 
 interface GoalAmount {
@@ -55,6 +56,7 @@ export default function ContributionSavingPotScreen() {
   const [methodsContribution, setMethodsContribution] = useState<string>("");
   const [recurringFrequencyValue, setRecurringFrequencyValue] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
+  const { setGoalContextState } = useGoalGetterContext();
 
   const recurringContribution = [
     {
@@ -110,7 +112,16 @@ export default function ContributionSavingPotScreen() {
     defaultValues: { InitialContribution: 150, RecurringFrequency: 1000, PercentageInput: 0 },
   });
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = (data: GoalAmount) => {
+    setGoalContextState({
+      ContributionMethod: methodsContribution,
+      InitialContribution: data.InitialContribution,
+      RecurringFrequency: recurringContribution.find(portfolio => portfolio.PortfolioId === recurringFrequencyValue)
+        ?.PortfolioName,
+      RecurringContribution: data.RecurringFrequency,
+      RecurringDate: selectedDate,
+    });
+
     // TODO: add navigation when another screen is ready
   };
 
@@ -233,7 +244,7 @@ export default function ContributionSavingPotScreen() {
             </View>
           </Stack>
           <Stack direction="vertical" gap="12p" style={stackAmountStyle}>
-            <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringContribution")}</Typography.Text>
+            <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringFrequency")}</Typography.Text>
             <Pressable style={recurringFrequencyModalStyle} onPress={() => setIsVisible(true)}>
               <Typography.Text>
                 {recurringFrequencyValue

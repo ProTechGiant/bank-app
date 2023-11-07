@@ -3,13 +3,12 @@ import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
-// TODO: remove comment when api ready from BE team
-// import { OtpChallengeParams } from "@/features/OneTimePassword/types";
+import { OtpChallengeParams } from "@/features/OneTimePassword/types";
+import { TermsAndConditionContainer } from "@/types/Content";
 import { generateRandomId } from "@/utils";
 
 import {
   CustomerGoal,
-  DocumentResponse,
   GoalBalanceAndContribution,
   GoalBalanceAndContributionResponse,
   GoalRoundUpStatus,
@@ -30,10 +29,19 @@ const queryKeys = {
 };
 
 export function useGetTermsAndConditions(productId?: string) {
+  const { i18n } = useTranslation();
   return useQuery(queryKeys.getTermsAndConditionsPdf(), () => {
-    return api<DocumentResponse>("v1", `goals/product/${productId}/terms-and-conditions`, "GET", undefined, undefined, {
-      ["x-correlation-id"]: generateRandomId(),
-    });
+    return api<{ TermsAndConditions: TermsAndConditionContainer }>(
+      "v1",
+      `goals/product/${productId}/terms-and-conditions`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language,
+      }
+    );
   });
 }
 
@@ -63,17 +71,8 @@ export function useImageGallery() {
 
 export function useGoalGetterOTP() {
   return useMutation(async () => {
-    // return api<OtpChallengeParams>("v1", "goals/otp", "POST", undefined, undefined, {
-    //   ["x-correlation-id"]: generateRandomId(),
-    // });
-
-    // TODO: remove this mock when api delivered from BE
-    return Promise.resolve({
-      OneTimePassword: {
-        Length: 0,
-        TimeToLive: 0,
-        AllowedAttempts: 0,
-      },
+    return api<OtpChallengeParams>("v1", "goals/otp", "POST", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
     });
   });
 }

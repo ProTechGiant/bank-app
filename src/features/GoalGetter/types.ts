@@ -110,20 +110,22 @@ export interface Gallery {
 // TODO: check with BE team goal object type, maybe will be changed, for example roundUP to boolean
 export interface GoalGetterContextState {
   GoalName: string;
-  TargetAmount?: string;
-  MonthlyContribution?: string;
-  InitialContribution?: string;
+  ProductName: string;
+  TargetAmount?: number;
+  MonthlyContribution?: number;
+  InitialContribution?: number;
   TargetDate?: string;
-  RiskId?: string;
-  ProductId?: string;
+  RiskId?: number;
+  ProductId?: number;
   GoalImage?: string;
   UploadGoalImage?: string;
-  RecurringContribution?: string;
-  RecurringAmount?: string;
-  RecurringFrequency?: "Monthly" | "Weekly" | "Daily";
+  RecurringContribution?: number;
+  RecurringAmount?: number;
+  RecurringFrequency?: "Monthly" | "Weekly";
   RecurringDate?: string;
   ContributionMethod?: string;
   ProductType?: string;
+  Duration?: string;
   setGoalContextState: (newState: Partial<GoalGetterContextState>) => void;
   resetGoalContextState: () => void;
 }

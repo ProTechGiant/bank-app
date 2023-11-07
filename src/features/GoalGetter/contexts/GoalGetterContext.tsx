@@ -5,20 +5,23 @@ import { GoalGetterContextState, GoalGetterStateType } from "../types";
 const GoalGetterContext = createContext<GoalGetterContextState>({} as GoalGetterContextState);
 
 const initialState: GoalGetterStateType = {
-  GoalName: "",
-  TargetAmount: undefined,
-  MonthlyContribution: undefined,
-  InitialContribution: undefined,
-  TargetDate: undefined,
-  RiskId: undefined,
-  ProductId: undefined,
-  GoalImage: undefined,
-  UploadGoalImage: undefined,
+  GoalName: "goalTest",
+  ProductName: "",
+  TargetAmount: 5000,
+  MonthlyContribution: 5000,
+  InitialContribution: 5000,
+  TargetDate: "2023-11-05T16:34:01.092Z",
+  RiskId: 1,
+  ProductId: 1,
+  GoalImage: "",
+  UploadGoalImage: "",
   RecurringContribution: undefined,
-  RecurringAmount: undefined,
-  RecurringFrequency: undefined,
-  RecurringDate: undefined,
+  RecurringAmount: 0,
+  RecurringFrequency: "Monthly",
+  RecurringDate: "",
   ContributionMethod: undefined,
+  Duration: undefined,
+  //TODO check the type values
   ProductType: undefined,
 };
 

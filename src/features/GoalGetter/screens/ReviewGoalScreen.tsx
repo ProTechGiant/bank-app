@@ -21,7 +21,6 @@ import { useThemeStyles } from "@/theme";
 import { hasItemInStorage, removeItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { DetailSection, DetailSectionsContainer, TermsAndConditions } from "../components";
-import { SAR } from "../constants";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { GoalGetterStackParams } from "../GoalGetterStack";
 import { useGoalGetterOTP } from "../hooks/query-hooks";
@@ -35,19 +34,22 @@ export default function ReviewGoalScreen() {
 
   const { mutateAsync: sendGoalGetterOTP } = useGoalGetterOTP();
   const {
-    goalName,
-    targetAmount,
-    startDate,
-    initialContribution,
-    monthlyContribution,
-    recurringDay,
-    targetDate,
-    productUnitOfMeasurement,
-    riskId,
-    productId,
-    predefinedGoalId,
-    goalImage,
-    roundUP,
+    GoalName: goalName,
+    TargetAmount: targetAmount,
+    TargetDate: targetDate,
+    InitialContribution: initialContribution,
+    MonthlyContribution: monthlyContribution,
+    RiskId: riskId,
+    ProductId: productId,
+    GoalImage: goalImage,
+    RecurringAmount,
+    RecurringFrequency,
+    RecurringDate,
+    ProductType,
+    ProductName,
+    RecurringContribution,
+    Duration,
+    ContributionMethod,
     setGoalContextState,
   } = useGoalGetterContext();
 
@@ -100,20 +102,27 @@ export default function ReviewGoalScreen() {
           to: "GoalGetter.ReviewGoalScreen",
         },
         otpVerifyMethod: "goals/submit",
-        // TODO: the name of attributes in PascalCase Based on LLD may be changed when api finished from BE team
         otpOptionalParams: {
           GoalName: goalName,
           TargetAmount: targetAmount,
-          InitialContribution: initialContribution,
-          MonthlyContribution: monthlyContribution,
-          RecurringDay: recurringDay,
           TargetDate: targetDate,
           RiskId: riskId,
           ProductId: productId,
-          RoundUP: roundUP,
           GoalImage: goalImage,
-          PredefinedGoalId: predefinedGoalId,
-          StartDate: startDate,
+          InitialContribution: initialContribution,
+          //TODO check with backend the Active
+          RoundUpContribution: {
+            Active: "ACTIVE",
+          },
+          //TODO check with backend the Value
+          PercentageContribution: {
+            Value: 0,
+          },
+          RecurringContribution: {
+            Amount: RecurringAmount,
+            Frequency: RecurringFrequency?.toUpperCase(),
+            Date: RecurringDate,
+          },
         },
         onOtpRequest: () => {
           return sendGoalGetterOTP();
@@ -132,17 +141,12 @@ export default function ReviewGoalScreen() {
             JSON.stringify({
               goalName,
               targetAmount,
-              startDate,
+              targetDate,
               initialContribution,
               monthlyContribution,
-              recurringDay,
-              targetDate,
-              productUnitOfMeasurement,
               riskId,
               productId,
-              predefinedGoalId,
               goalImage,
-              roundUP,
             })
           );
           blockedUserFlow.handle("otp", OTP_BLOCKED_TIME);
@@ -190,45 +194,48 @@ export default function ReviewGoalScreen() {
 
         <Stack direction="vertical" gap="16p" align="stretch">
           <DetailSectionsContainer>
-            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.ProductName")} value="Fund 2" />
+            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.ProductName")} value={ProductName} />
           </DetailSectionsContainer>
 
           <DetailSectionsContainer showEditIcon onPress={handleOnPressGoalName}>
-            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.goalName")} value="Rainy Day" />
+            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.goalName")} value={goalName} />
           </DetailSectionsContainer>
 
           <DetailSectionsContainer showEditIcon onPress={handleOnPressTargetAmount}>
             <DetailSection
               title={t("GoalGetter.GoalReviewScreen.goalDetails.targetAmount")}
-              value={`${"5,000.00"} ${
-                productUnitOfMeasurement === SAR
-                  ? t("GoalGetter.GoalReviewScreen.SAR")
-                  : t("GoalGetter.GoalReviewScreen.Grams")
+              value={`${targetAmount} ${
+                ProductType !== "Gold" ? t("GoalGetter.GoalReviewScreen.SAR") : t("GoalGetter.GoalReviewScreen.Grams")
               }`}
             />
-            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.duration")} value="12 Months" />
+            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.duration")} value={Duration ?? ""} />
           </DetailSectionsContainer>
 
           <DetailSectionsContainer>
-            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.contributionMethod")} value="Recurring" />
+            <DetailSection
+              title={t("GoalGetter.GoalReviewScreen.goalDetails.contributionMethod")}
+              value={ContributionMethod ?? ""}
+            />
             <DetailSection
               title={t("GoalGetter.GoalReviewScreen.goalDetails.initialContribution")}
-              value={`${"150.00"} ${
-                productUnitOfMeasurement === SAR
-                  ? t("GoalGetter.GoalReviewScreen.SAR")
-                  : t("GoalGetter.GoalReviewScreen.Grams")
+              value={`${initialContribution} ${
+                ProductType !== "Gold" ? t("GoalGetter.GoalReviewScreen.SAR") : t("GoalGetter.GoalReviewScreen.Grams")
               }`}
             />
-            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringFrequency")} value="Monthly" />
+            <DetailSection
+              title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringFrequency")}
+              value={RecurringFrequency ?? ""}
+            />
             <DetailSection
               title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringContribution")}
-              value={`${"500.00"} ${
-                productUnitOfMeasurement === SAR
-                  ? t("GoalGetter.GoalReviewScreen.SAR")
-                  : t("GoalGetter.GoalReviewScreen.Grams")
+              value={`${RecurringContribution} ${
+                ProductType !== "Gold" ? t("GoalGetter.GoalReviewScreen.SAR") : t("GoalGetter.GoalReviewScreen.Grams")
               }`}
             />
-            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringDate")} value="28th" />
+            <DetailSection
+              title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringDate")}
+              value={RecurringDate?.toString() ?? ""}
+            />
           </DetailSectionsContainer>
           <View style={termsAndConditionSectionStyle}>
             <TermsAndConditions
