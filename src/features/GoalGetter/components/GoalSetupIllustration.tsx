@@ -5,10 +5,11 @@ import { Image, Modal, StyleSheet, View, ViewStyle } from "react-native";
 import { CloseIcon } from "@/assets/icons";
 import { Stack } from "@/components";
 import NavHeader from "@/components/NavHeader";
+import { useSavingPotDetails } from "@/hooks/use-content";
 import { useThemeStyles } from "@/theme";
 
-import { CircleCurrencyIcon, FileIcon, WithdrawalIcon } from "../assets/icons";
 import Illustrations from "../assets/Illustrations.png";
+import { useSavingPotCategoryId } from "../hooks/query-hooks";
 import SavingPotSection from "./SavingPotSection";
 
 interface GoalSetupIllustrationModalProps {
@@ -18,7 +19,8 @@ interface GoalSetupIllustrationModalProps {
 
 export default function GoalSetupIllustration({ isVisible, onClose }: GoalSetupIllustrationModalProps) {
   const { t } = useTranslation();
-  const iconColor = useThemeStyles(theme => theme.palette["complimentBase-10"]);
+  const { data: ContentCategoryId } = useSavingPotCategoryId();
+  const { data: SavingPotDetails } = useSavingPotDetails(ContentCategoryId?.DescriptionId);
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
@@ -53,21 +55,14 @@ export default function GoalSetupIllustration({ isVisible, onClose }: GoalSetupI
             <Image source={Illustrations} style={styles.IllustrationsStyle} />
           </View>
           <Stack direction="vertical" gap="16p">
-            <SavingPotSection
-              title={t("GoalGetter.GoalSetupIllustration.descriptionSection.title")}
-              description={t("GoalGetter.GoalSetupIllustration.descriptionSection.description")}
-              icon={<FileIcon color={iconColor} />}
-            />
-            <SavingPotSection
-              title={t("GoalGetter.GoalSetupIllustration.withdrawalSection.title")}
-              description={t("GoalGetter.GoalSetupIllustration.withdrawalSection.description")}
-              icon={<WithdrawalIcon color={iconColor} />}
-            />
-            <SavingPotSection
-              title={t("GoalGetter.GoalSetupIllustration.depositSection.title")}
-              description={t("GoalGetter.GoalSetupIllustration.depositSection.description")}
-              icon={<CircleCurrencyIcon color={iconColor} />}
-            />
+            {SavingPotDetails?.map((item, index) => (
+              <SavingPotSection
+                key={index}
+                title={item.Title}
+                description={item.ContentDescription}
+                imageUrl={item.Media[0]?.SourceFileURL}
+              />
+            )) ?? null}
           </Stack>
         </View>
       </View>

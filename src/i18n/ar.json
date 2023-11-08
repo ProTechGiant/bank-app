@@ -949,9 +949,9 @@
       "message": "تم تسجيل خروجك لأنك أدخلت {{type}} بشكل خاطئ عدة مرات. حاول مرة أخرى خلال",
       "suggestion": " للحصول على مساعدة، اتصل بنا على الرقم +966 123 456 789."
     },
-    "Modal":{
+    "Modal": {
       "title": "غير مصرح لك بتسجيل الدخول إلى هذا الحساب",
-      "subTitle":"حاول تسجيل الدخول إلى حساب مختلف.."
+      "subTitle": "حاول تسجيل الدخول إلى حساب مختلف.."
     },
     "UserNotExistBlockedScreen": {
       "title": "Brand Moment",
@@ -1422,13 +1422,13 @@
     "GoalReviewScreen": {
       "title": "هدفك",
       "reviewGoal": "مراجعة الهدف",
-      "goalDetails": { 
-        "ProductName":"اسم المنتج",
-        "duration":"المدة",
-        "contributionMethod":"طريقة الإسهام",
-        "recurringFrequency":"تكرار التحويل",
-        "recurringContribution":"الإسهام المتكرر",
-        "recurringDate":"تاريخ التحويل المتكرر",
+      "goalDetails": {
+        "ProductName": "اسم المنتج",
+        "duration": "المدة",
+        "contributionMethod": "طريقة الإسهام",
+        "recurringFrequency": "تكرار التحويل",
+        "recurringContribution": "الإسهام المتكرر",
+        "recurringDate": "تاريخ التحويل المتكرر",
         "goalName": "اسم الهدف",
         "targetAmount": "المبلغ المطلوب",
         "startDate": "تاريخ البدء",
@@ -1478,8 +1478,41 @@
           "cancel": "الغاء"
         }
       }
+    },
+    "ShapeYourGoalContributions": {
+      "title": "إعداد المساهمة",
+      "subTitle": "حدد الطريقة التي تريد المساهمة بها في تحقيق هذا الهدف.",
+      "contributionMethod": "طريقة المساهمة",
+      "initialContribution": "المساهمة الأولية",
+      "recurringContribution": "المساهمة المتكررة",
+      "recurringFrequency": "التردد المتكرر",
+      "selectFrequency": "اختر التكرار",
+      "continue": "استمر",
+      "recurringDay": "يوم متكرر",
+      "skipNow": "تخطى للآن",
+      "Weekly": "أسبوعيًا",
+      "Monthly": "شهريًا",
+      "goalAmount": "مبلغ الهدف",
+      "Sunday": "الأحد",
+      "Monday": "الاثنين",
+      "Tuesday": "الثلاثاء",
+      "Wednesday": "الأربعاء",
+      "Thursday": "الخميس",
+      "selectDay": "اختر يوم",
+      "selectMethods": "اختار طريقه المساهمة",
+      "Percentage": "المساهمة المئوية",
+      "DatePickerModal": "اختر يوم",
+      "selectDate": "تحديد",
+      "selectYourMethods": "اختر طرق المساهمة الخاصة بك",
+      "error": {
+        "min": "يجب أن تكون القيمة أكثر من 0",
+        "max": "يجب أن تكون القيمة أقل من 100"
+      },
+      "Recurring": "متكرر",
+      "RoundsUp": "يستدير"
     }
   },
+
   "GoalMindScreen": {
     "title": "تحقيق الهدف",
     "headerText": "هل تفكر في تحقيق هدف؟",

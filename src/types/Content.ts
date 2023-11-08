@@ -95,9 +95,18 @@ export interface TermsAndConditionSection {
   ContentCategoryId: string;
   Order: number;
 }
-
 export interface TermsAndConditionContainer {
   TermsID: string;
   TermsSections: TermsAndConditionSection[];
   ContentCategoryId: string;
+}
+
+export interface Media {
+  SourceFileURL: string;
+  SourceFileName: string;
+}
+export interface SavingPotDetails {
+  Title: string;
+  contentDescription: TermsAndConditionSection[];
+  Media: Media;
 }

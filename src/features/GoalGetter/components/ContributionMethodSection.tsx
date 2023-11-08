@@ -33,6 +33,7 @@ export default function ContributionMethodSection({
     paddingVertical: theme.spacing["12p"],
     marginVertical: theme.spacing["12p"],
   }));
+  const iconColor = useThemeStyles(theme => theme.palette.complimentBase);
 
   return (
     <Pressable onPress={() => toggleOption(optionKey)} style={optionContainerStyle}>
@@ -44,7 +45,7 @@ export default function ContributionMethodSection({
           ))}
         </View>
       </View>
-      {isSelected ? <CheckBoxCheckedIcon /> : <CheckBoxIcon />}
+      {isSelected ? <CheckBoxCheckedIcon color={iconColor} /> : <CheckBoxIcon />}
     </Pressable>
   );
 }

@@ -931,9 +931,9 @@
       "heading": "Your app has been locked",
       "message": "We've locked your app to help keep your account secure. To unlock it, please call us on +966 123 456 789."
     },
-    "Modal":{
+    "Modal": {
       "title": "You are not authorized to sign into this account",
-      "subTitle":"Try signing in to a different account."
+      "subTitle": "Try signing in to a different account."
     },
     "IqamaInputScreen": {
       "errorText": {
@@ -1454,15 +1454,15 @@
     "description": "Imagine a goal and we’ll help you save for it.",
     "button": "Create a goal",
     "GoalReviewScreen": {
-      "title":"You goal",
+      "title": "You goal",
       "reviewGoal": "Review goal",
       "goalDetails": {
-        "ProductName":"Product Name",
-        "duration":"Duration",
-        "contributionMethod":"Contribution Method",
-        "recurringFrequency":"Recurring Frequency",
-        "recurringContribution":"Recurring Contribution",
-        "recurringDate":"Recurring Date",
+        "ProductName": "Product Name",
+        "duration": "Duration",
+        "contributionMethod": "Contribution Method",
+        "recurringFrequency": "Recurring Frequency",
+        "recurringContribution": "Recurring Contribution",
+        "recurringDate": "Recurring Date",
         "goalName": "Goal name",
         "targetAmount": "Target Amount",
         "startDate": "Start date",
@@ -1768,10 +1768,13 @@
       "DatePickerModal": "Select date",
       "selectDate": "Confirm",
       "selectYourMethods": "Select your contribution methods",
+
       "error": {
         "min": "The value should be more than 0",
         "max": "The value should be less than 100"
-      }
+      },
+      "Recurring": "Recurring",
+      "RoundsUp": "Rounds Up"
     }
   },
   "Referral": {

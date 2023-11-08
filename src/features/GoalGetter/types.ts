@@ -129,4 +129,31 @@ export interface GoalGetterContextState {
   setGoalContextState: (newState: Partial<GoalGetterContextState>) => void;
   resetGoalContextState: () => void;
 }
+export interface GoalSetting {
+  MinimumTargetAmount: number;
+  MaximumTargetAmount: number;
+  MinimumDuration: number;
+  MaximumDuration: number;
+  MinimumMonthlyAmount: number;
+  MaximumMonthlyAmount: number;
+  DatePicker: string;
+}
+export interface Distribution {
+  Name: number;
+  Amount: number;
+  Percentage: number;
+  Icon: number;
+}
+export interface MutualFund {
+  Name: string;
+  Ytd: number;
+  UnitPrice: number;
+  SubscriptionFee: number;
+  MinimumSubscription: number;
+  InvestmentAmount: number;
+  Distribution: Distribution[];
+}
+export interface SavingPotCategoryId {
+  DescriptionId: string;
+}
 export type GoalGetterStateType = Omit<GoalGetterContextState, "setGoalContextState" | "resetGoalContextState">;

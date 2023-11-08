@@ -13,9 +13,12 @@ import {
   GoalBalanceAndContributionResponse,
   GoalRoundUpStatus,
   GoalRoundUpStatusResponse,
+  GoalSetting,
   ImageGalleryResponse,
+  MutualFund,
   PredefinedGoalNames,
   PredefinedOptions,
+  SavingPotCategoryId,
 } from "../types";
 
 const queryKeys = {
@@ -26,6 +29,8 @@ const queryKeys = {
   predefinedGoals: () => ["predefinedGoals"],
   predefinedRisks: (predefinedGoalId: number) => ["predefinedRisks", predefinedGoalId],
   goalsSettings: () => ["goalsSettings"],
+  mutualFund: () => ["mutualFund"],
+  savingPotCategoryId: () => ["savingPotCategoryId"],
 };
 
 export function useGetTermsAndConditions(productId?: string) {
@@ -162,7 +167,27 @@ export function useGoalsSetting() {
   const { i18n } = useTranslation();
 
   return useQuery(queryKeys.goalsSettings(), () => {
-    return api<PredefinedOptions>("v1", `goals/settings`, "GET", undefined, undefined, {
+    return api<GoalSetting>("v1", `goals/settings`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+    });
+  });
+}
+export function useMutualFund(productId?: string) {
+  const { i18n } = useTranslation();
+
+  return useQuery(queryKeys.mutualFund(), () => {
+    return api<MutualFund>("v1", `goals/mutual-details/${productId}`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+    });
+  });
+}
+export function useSavingPotCategoryId() {
+  const { i18n } = useTranslation();
+
+  return useQuery(queryKeys.savingPotCategoryId(), () => {
+    return api<SavingPotCategoryId>("v1", `goals/saving-pot-details`, "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18n.language,
     });

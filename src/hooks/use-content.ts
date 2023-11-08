@@ -5,7 +5,14 @@ import sendApiRequest from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
-import { Article, Content, ContentCategories, FeedbackRequest, TermsAndConditionContainer } from "../types/Content";
+import {
+  Article,
+  Content,
+  ContentCategories,
+  FeedbackRequest,
+  SavingPotDetails,
+  TermsAndConditionContainer,
+} from "../types/Content";
 
 export const queryKeys = {
   all: () => ["content"] as const,
@@ -129,4 +136,30 @@ export function useContentTermsAndCondition(ContentCategoryId = "TermsAndConditi
       cacheTime: 1 * 60 * 60 * 24 * 2 * 1000, //two days
     }
   );
+}
+
+export function useSavingPotDetails(ContentCategoryId = "SavingPotDetails") {
+  const { i18n } = useTranslation();
+  const { userId } = useAuthContext();
+
+  return useQuery(queryKeys.termsAndConditions(ContentCategoryId), () => {
+    return sendApiRequest<SavingPotDetails>(
+      "v1",
+      "/contents/",
+      "GET",
+      {
+        Language: i18n.language,
+        IncludeChildren: "true",
+        ContentCategoryId: ContentCategoryId,
+        sort: "asc",
+      },
+      undefined,
+
+      {
+        ["CustomerId"]: userId ?? "",
+
+        ["x-Correlation-Id"]: generateRandomId(),
+      }
+    );
+  });
 }

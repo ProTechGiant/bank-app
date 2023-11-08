@@ -1,10 +1,9 @@
 import React from "react";
 import { Pressable, View, ViewStyle } from "react-native";
 
+import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-
-import SvgIcon from "./SvgIcon";
 
 interface Category {
   CategoryId: string;

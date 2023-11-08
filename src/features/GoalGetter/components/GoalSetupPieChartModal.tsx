@@ -8,6 +8,8 @@ import NavHeader from "@/components/NavHeader";
 import { useThemeStyles } from "@/theme";
 
 import { YTDIcon } from "../assets/icons";
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
+import { useMutualFund } from "../hooks/query-hooks";
 import PieChart from "./PieChart";
 
 interface GoalSetupPieChartModalProps {
@@ -15,9 +17,11 @@ interface GoalSetupPieChartModalProps {
   onClose: () => void;
 }
 
-//  TODO: all this value will change when api is ready
 export default function GoalSetupPieChartModal({ isVisible, onClose }: GoalSetupPieChartModalProps) {
   const { t } = useTranslation();
+  const { ProductId } = useGoalGetterContext();
+
+  const { data } = useMutualFund(ProductId);
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
@@ -76,11 +80,11 @@ export default function GoalSetupPieChartModal({ isVisible, onClose }: GoalSetup
 
           <View style={styles.flexDirectionRowSpaceBetween}>
             <Typography.Text weight="medium" size="title3">
-              {t("GoalGetter.GoalSetupPieChartModal.fundRisk", { risk: "(low risk)" })}
+              {data?.Name}
             </Typography.Text>
             <View style={ytdContentContainerStyle}>
               <Typography.Text weight="regular" size="footnote">
-                {t("GoalGetter.GoalSetupPieChartModal.ytd", { value: "8.11" })}
+                {t("GoalGetter.GoalSetupPieChartModal.ytd", { value: data?.Ytd })}
               </Typography.Text>
               <View style={iconContainerStyle}>
                 <YTDIcon />
@@ -97,7 +101,7 @@ export default function GoalSetupPieChartModal({ isVisible, onClose }: GoalSetup
               {t("GoalGetter.GoalSetupPieChartModal.unitPrice")}
             </Typography.Text>
             <Typography.Text weight="regular" size="footnote">
-              {t("GoalGetter.GoalSetupPieChartModal.unitPriceValue", { value: "503.82" })}
+              {t("GoalGetter.GoalSetupPieChartModal.unitPriceValue", { value: data?.UnitPrice })}
             </Typography.Text>
           </View>
           <View style={detailsContainerStyle}>
@@ -105,7 +109,7 @@ export default function GoalSetupPieChartModal({ isVisible, onClose }: GoalSetup
               {t("GoalGetter.GoalSetupPieChartModal.subscriptionFee")}
             </Typography.Text>
             <Typography.Text weight="regular" size="footnote" color="neutralBase+10">
-              {t("GoalGetter.GoalSetupPieChartModal.subscriptionValue", { value: "2" })}
+              {t("GoalGetter.GoalSetupPieChartModal.subscriptionValue", { value: data?.SubscriptionFee })}
             </Typography.Text>
           </View>
           <View style={detailsContainerStyle}>
@@ -113,7 +117,7 @@ export default function GoalSetupPieChartModal({ isVisible, onClose }: GoalSetup
               {t("GoalGetter.GoalSetupPieChartModal.minimumSubscriptionAmount")}
             </Typography.Text>
             <Typography.Text weight="regular" size="footnote" color="neutralBase+10">
-              {t("GoalGetter.GoalSetupPieChartModal.minimumSubscriptionValue", { value: "503.82" })}
+              {t("GoalGetter.GoalSetupPieChartModal.minimumSubscriptionValue", { value: data?.MinimumSubscription })}
             </Typography.Text>
           </View>
         </View>

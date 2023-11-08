@@ -11,23 +11,28 @@ import ContributionMethodSection from "./ContributionMethodSection";
 interface ContributionMethodModalProps {
   isVisible: boolean;
   onClose: () => void;
-  onValueChange?: (selectedValue: string) => void;
+  onValueChange?: (selectedValue: string[]) => void;
 }
 
 export default function ContributionMethodModal({ isVisible, onClose, onValueChange }: ContributionMethodModalProps) {
   const { t } = useTranslation();
-
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-
+  const optionAbbreviations = {
+    recurring: t("GoalGetter.ShapeYourGoalContributions.Percentage"),
+    roundsUp: t("GoalGetter.ShapeYourGoalContributions.RoundsUp"),
+    percentage: t("GoalGetter.ShapeYourGoalContributions.Recurring"),
+  };
   useEffect(() => {
     onValueChange?.(selectedOptions);
   }, [selectedOptions, onValueChange]);
 
-  const toggleOption = (option: string) => {
-    if (selectedOptions.includes(option)) {
-      setSelectedOptions(selectedOptions.filter(item => item !== option));
+  const toggleOption = (optionKey: string) => {
+    const optionAbbreviation = optionAbbreviations[optionKey];
+
+    if (selectedOptions.includes(optionAbbreviation)) {
+      setSelectedOptions(selectedOptions.filter(item => item !== optionAbbreviation));
     } else {
-      setSelectedOptions([...selectedOptions, option]);
+      setSelectedOptions([...selectedOptions, optionAbbreviation]);
     }
   };
 
@@ -59,13 +64,12 @@ export default function ContributionMethodModal({ isVisible, onClose, onValueCha
             end={<NavHeader.CloseEndButton onPress={onClose} />}
           />
         </View>
-        {/* TODO: this section not been translated yet*/}
         <View style={contentStyle}>
           <ContributionMethodSection
             icon={<RecurringIcon />}
             optionKey="recurring"
             texts={["Recurring", "To contribute the same amount scheduled repeatedly monthly or weekly"]}
-            isSelected={selectedOptions.includes("recurring")}
+            isSelected={selectedOptions.includes(optionAbbreviations.recurring)}
             toggleOption={toggleOption}
           />
 
@@ -73,7 +77,7 @@ export default function ContributionMethodModal({ isVisible, onClose, onValueCha
             icon={<RoundsIcon />}
             optionKey="roundsUp"
             texts={["Rounds up", "To contribute the rounds of your transactions (only one savings at a time)"]}
-            isSelected={selectedOptions.includes("roundsUp")}
+            isSelected={selectedOptions.includes(optionAbbreviations.roundsUp)}
             toggleOption={toggleOption}
           />
 
@@ -81,7 +85,7 @@ export default function ContributionMethodModal({ isVisible, onClose, onValueCha
             icon={<RoundsIcon />}
             optionKey="percentage"
             texts={["Percentage", "To contribute a specified percentage of your earnings."]}
-            isSelected={selectedOptions.includes("percentage")}
+            isSelected={selectedOptions.includes(optionAbbreviations.percentage)}
             toggleOption={toggleOption}
           />
         </View>
