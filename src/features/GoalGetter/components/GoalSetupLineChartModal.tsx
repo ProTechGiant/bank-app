@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Modal, View, ViewStyle } from "react-native";
 
@@ -6,16 +6,23 @@ import { CloseIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import GoldLineChart from "@/components/GoldLineChart";
 import NavHeader from "@/components/NavHeader";
+import useGoldPerformance from "@/hooks/use-gold-performance";
 import { useThemeStyles } from "@/theme";
+import { TabsTypes } from "@/types/GoldChart";
 
 interface GoalSetupLineChartModalProps {
   isVisible: boolean;
   onClose: () => void;
 }
 
-//  TODO: all this value will change when api is ready
 export default function GoalSetupLineChartModal({ isVisible, onClose }: GoalSetupLineChartModalProps) {
   const { t } = useTranslation();
+  const [chartType, setChartType] = useState(TabsTypes.Week);
+  const { data } = useGoldPerformance(chartType);
+
+  const updateChartType = (type: any) => {
+    setChartType(type);
+  };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
@@ -69,9 +76,8 @@ export default function GoalSetupLineChartModal({ isVisible, onClose }: GoalSetu
               </Typography.Text>
             </Stack>
           </Stack>
-
           <View style={pieChartContainerStyle}>
-            <GoldLineChart />
+            <GoldLineChart updateChartType={updateChartType} data={data?.DailyData} hasFiveYears={false} />
           </View>
           <View>
             <View style={detailsContainerStyle}>
@@ -79,7 +85,7 @@ export default function GoalSetupLineChartModal({ isVisible, onClose }: GoalSetu
                 {t("GoalGetter.GoalSetupLineChartModal.gram", { count: 5 })}
               </Typography.Text>
               <Typography.Text weight="regular" size="footnote">
-                {t("GoalGetter.GoalSetupLineChartModal.currencyValue", { currencyValue: "1,100.00" })}
+                {t("GoalGetter.GoalSetupLineChartModal.currencyValue", { currencyValue: 5 * data?.CurrentGoldPrice })}
               </Typography.Text>
             </View>
             <View style={detailsContainerStyle}>
@@ -87,7 +93,7 @@ export default function GoalSetupLineChartModal({ isVisible, onClose }: GoalSetu
                 {t("GoalGetter.GoalSetupLineChartModal.gram", { count: 10 })}
               </Typography.Text>
               <Typography.Text weight="regular" size="footnote" color="neutralBase+10">
-                {t("GoalGetter.GoalSetupLineChartModal.currencyValue", { currencyValue: "2,248.00" })}
+                {t("GoalGetter.GoalSetupLineChartModal.currencyValue", { currencyValue: 10 * data?.CurrentGoldPrice })}
               </Typography.Text>
             </View>
             <View style={detailsContainerStyle}>
@@ -95,7 +101,7 @@ export default function GoalSetupLineChartModal({ isVisible, onClose }: GoalSetu
                 {t("GoalGetter.GoalSetupLineChartModal.gram", { count: 40 })}
               </Typography.Text>
               <Typography.Text weight="regular" size="footnote" color="neutralBase+10">
-                {t("GoalGetter.GoalSetupLineChartModal.currencyValue", { currencyValue: "8,699.00" })}
+                {t("GoalGetter.GoalSetupLineChartModal.currencyValue", { currencyValue: 40 * data?.CurrentGoldPrice })}
               </Typography.Text>
             </View>
             <View style={detailsContainerStyle}>
@@ -103,7 +109,7 @@ export default function GoalSetupLineChartModal({ isVisible, onClose }: GoalSetu
                 {t("GoalGetter.GoalSetupLineChartModal.gram", { count: 50 })}
               </Typography.Text>
               <Typography.Text weight="regular" size="footnote" color="neutralBase+10">
-                {t("GoalGetter.GoalSetupLineChartModal.currencyValue", { currencyValue: "10,899.00" })}
+                {t("GoalGetter.GoalSetupLineChartModal.currencyValue", { currencyValue: 50 * data?.CurrentGoldPrice })}
               </Typography.Text>
             </View>
           </View>

@@ -1450,6 +1450,20 @@
       "termsAndConditionsLink": "الشروط والأحكام",
       "confirm": "تأكيد"
     },
+    "landingScreen": {
+      "skip": "تخطى",
+      "next": "التالي",
+      "title": "تحقيق الهدف",
+      "createGoal": "البدء",
+      "titleOne": "ساعدني لتحقيق هدفي",
+      "subTextOne": "إذا كانت لديك أي شكوك حول كيفية تفعيل هدفك، فيمكننا مساعدتك",
+      "titleTwo": "أخبرنا بماذا تحلم؟",
+      "subTextTwo": "يمكنك اختيار هدفك من بين عدة خيارات نتيحها لك",
+      "titleThree": "كيف تريد أن تبدأ؟",
+      "subTextThree": "أخبرنا كيف تتخيل البدء في الادخار من اجل ذلك؟",
+      "titleFour": "انشئ هدفاالآن",
+      "subTextFour": "سنعرض لك بعض التوصيات حول كيفية تفعيل هدفك"
+    },
     "imageGallery": {
       "title": "صورة محددة مسبقًا",
       "buttonSave": "حفظ",
@@ -1464,6 +1478,7 @@
       "extraStart": "ادخل اسماً جديداً او حدد اسماً مقترحاً ",
       "suggestedNames": "الاسماء المقترحة",
       "continueButton": "استمرار",
+      "skipNow": "تخطى للآن",
       "validationError": {
         "required": "اسم الهدف مطلوب",
         "maximum": "الحد الأقصى 50 حرفًا",
@@ -1478,6 +1493,169 @@
           "cancel": "الغاء"
         }
       }
+    },
+    "GoalMindScreen": {
+      "title": "تحقيق الهدف",
+      "headerText": "هل تفكر في تحقيق هدف؟",
+      "headerDescriptionText": "دعنا نساعدك على تحقيق هدفك.",
+      "buttonText": "انشاء الهدف"
+    },
+    "RisksAppetiteScreen": {
+      "headerText": "الرغبة في المخاطرة",
+      "headerDescriptionText": "حدد مستوى المخاطرة الذي ترغب في اتخاذه",
+      "buttonText": "التالي"
+    },
+    "targetAmountScreen": {
+      "title": "اختر المدة",
+      "select": "اختيار",
+      "confirm": "تأكيد",
+      "month_1": "شهر واحد",
+      "months_3": "3 أشهر",
+      "months_6": "6 أشهر",
+      "months_12": "12 شهر",
+      "months_24": "24 شهر",
+      "customDate": "تاريخ محدد",
+      "question": "ما هو المبلغ المطلوب لتحقيق هدفك؟",
+      "next": "التالي",
+      "currency": "ر.س",
+      "selectDuration": "اختر المدة",
+      "validation": {
+        "minAmount": "الحد الأدنى  500 ريال سعودي",
+        "maxAmount": " الحد الاعلى للمبلغ هو 10 ملايين ريال سعودي",
+        "amountRequired": "مبلغ الهدف مطلوب",
+        "minDuration": "التاريخ الأدنى هو شهر واحد",
+        "maxDuration": "الحد الأقصى للمدة هي 25 عامًا",
+        "dateRequired": "التاريخ المستهدف مطلوب"
+      }
+    },
+    "SelectProductsScreen": {
+      "title": "المنتج المطابق للهدف",
+      "headerContent": {
+        "title": "هدفك",
+        "achievedIn": "يتحقق خلال"
+      },
+      "productMatchCard": {
+        "expectedTime": "الوقت المتوقع لتحقيقه",
+        "monthlyContribution": "المساهمة الشهرية",
+        "findOutMore": "اكتشف المزيد.",
+        "DonutChart": {
+          "header": "اكتشف المزيد",
+          "title": "تطابق ملفك الشخصي",
+          "okButton": "حسنًا"
+        }
+      },
+      "temporaryValue": {
+        "highRiskCard": {
+          "title": "مخاطرة عالية",
+          "header": "صندوق الراجحي للنمو",
+          "content": "متوسط",
+          "basedOn": "على أساس الأداء في السنوات الثلاث الماضية",
+          "expectedTime": "مفضل",
+          "monthlyContribution": "٤٥٠ ر.س",
+          "Investments": "الاستثمار في صناديق الاستثمار المشترك تخضع لتقلبات السوق."
+        },
+        "mediumRiskCard": {
+          "title": "مخاطرة متوسطة",
+          "header": "صندوق الراجحي للنمو",
+          "content": "متوسط",
+          "basedOn": "على أساس الأداء في السنوات الثلاث الماضية",
+          "expectedTime": "مفضل",
+          "monthlyContribution": "١٠٠٠ ر.س"
+        },
+        "noRiskCard": {
+          "title": "بدون مخاطرة",
+          "header": "صندوق التوفير",
+          "content": "متوسط",
+          "basedOn": "على أساس معدل الربح",
+          "expectedTime": "جيد",
+          "monthlyContribution": "٥٠٠ ر.س",
+          "Investments": "يعتبر تحقيق صندوق التوفير مضمون، طالما قمت بسداد مساهماتك الشهرية."
+        },
+        "lowRiskCard": {
+          "title": "مخاطرة منخفضة",
+          "header": "ذهب",
+          "content": "متوسط",
+          "basedOn": "على أساس الأداء في السنوات الثلاث الماضية",
+          "expectedTime": "أفضل",
+          "monthlyContribution": "٥  غرام",
+          "Investments": "الاستثمار في صناديق الاستثمار المشترك تخضع لتقلبات السوق."
+        }
+      },
+      "chooseButton": "اختيار المنتج"
+    },
+    "GoalDashboardScreen": {
+      "title": "الأهداف والمنتجات",
+      "tabs": {
+        "goal": "الأهداف",
+        "product": "المنتجات"
+      },
+      "goalCard": {
+        "of": "من",
+        "currency": "ر.س",
+        "endDate": "تاريخ الإنتهاء:"
+      },
+      "hint": "يمكنك تعيين ما مجموعه 4 أهداف.",
+      "setNewGoal": "هدف جديد",
+      "errors": {
+        "title": "تعذر تحميل البيانات",
+        "message": "لا داعي للقلق، هناك مشكلة بسيطة. يمكنك إعادة المحاولة",
+        "buttonReload": "إعادة التحميل"
+      },
+      "refreshSection": {
+        "hint": "“خطأ في تحميل هدف “{{goalName}}”!"
+      }
+    },
+    "TermsAndConditionsScreen": {
+      "title": "الشروط و الأحكام",
+      "nothingToShowText": "لا شيء لعرضه"
+    },
+    "EditGoalGetter": {
+      "label": "تعديل الهدف",
+      "InputsLabels": {
+        "goalName": "اسم الهدف",
+        "targetAmount": "المبلغ المستهدف",
+        "initialContribution": "المساهمة الأولية",
+        "monthlyContribuition": "المساهمة الشهرية",
+        "upcomingContribution": "تاريخ المساهمة القادمة",
+        "startDate": "تاريخ البدء",
+        "endDate": "تاريخ الانتهاء"
+      },
+      "DateModal": { "selectButton": "اختيار", "headerText": "اختر المدة" },
+      "ButtonsText": { "confirmChanges": "تأكيد التغييرات", "cancel": "الغاء" }
+    },
+    "LatestTransactionScreen": {
+      "title": "آخر التسديدات",
+      "SAR": "ر.س",
+      "Failed": "فشلت"
+    },
+    "goalDetail": {
+      "buttonDeleteGoal": "حذف",
+      "buttonRedeem": "بيع",
+      "buttonSubscribe": "شراء",
+      "paymentInstructions": "تعليمات الدفع",
+      "monthlyContribution": "المساهمة الشهرية",
+      "dateUpcoming": "{{date_}}:موعد التسديد القادم",
+      "detail": "التفاصيل",
+      "initialContribution": "المساهمة الاولية",
+      "startDate": "تاريخ البدء",
+      "endDate": "تاريخ الإنتهاء",
+      "latestTransactions": "آخر المساهمات",
+      "mutualFund": "Mutual fund",
+      "highRisk": "High risk",
+      "of": "من {{amount}}",
+      "sar": "ر.س",
+      "seeMore": "المزيد",
+      "deleteGoal": {
+        "title": "هل أنت متأكد أنك تريد الحذف؟",
+        "message": "يمكنك اختيار سحب المبلغ الإجمالي او نقله الى حافظ اخرى",
+        "buttonDelete": "حذف",
+        "cancelButton": "الغاء"
+      }
+    },
+    "GoalCreatedSuccessfullyScreen": {
+      "label": "تهانينا",
+      "subLabel": "تم إنشاء هدفك بنجاح!",
+      "button": "تحقق منه!"
     },
     "ShapeYourGoalContributions": {
       "title": "إعداد المساهمة",
@@ -1510,240 +1688,61 @@
       },
       "Recurring": "متكرر",
       "RoundsUp": "يستدير"
-    }
-  },
-
-  "GoalMindScreen": {
-    "title": "تحقيق الهدف",
-    "headerText": "هل تفكر في تحقيق هدف؟",
-    "headerDescriptionText": "دعنا نساعدك على تحقيق هدفك.",
-    "buttonText": "انشاء الهدف"
-  },
-  "RisksAppetiteScreen": {
-    "headerText": "الرغبة في المخاطرة",
-    "headerDescriptionText": "حدد مستوى المخاطرة الذي ترغب في اتخاذه",
-    "buttonText": "التالي"
-  },
-  "SelectProductsScreen": {
-    "title": "المنتج المطابق للهدف",
-    "headerContent": {
-      "title": "هدفك",
-      "achievedIn": "يتحقق خلال"
     },
-    "productMatchCard": {
-      "expectedTime": "الوقت المتوقع لتحقيقه",
-      "monthlyContribution": "المساهمة الشهرية",
-      "findOutMore": "اكتشف المزيد.",
-      "DonutChart": {
-        "header": "اكتشف المزيد",
-        "title": "تطابق ملفك الشخصي",
-        "okButton": "حسنًا"
-      }
-    },
-    "temporaryValue": {
-      "highRiskCard": {
-        "title": "مخاطرة عالية",
-        "header": "صندوق الراجحي للنمو",
-        "content": "متوسط",
-        "basedOn": "على أساس الأداء في السنوات الثلاث الماضية",
-        "expectedTime": "مفضل",
-        "monthlyContribution": "٤٥٠ ر.س",
-        "Investments": "الاستثمار في صناديق الاستثمار المشترك تخضع لتقلبات السوق."
-      },
-      "mediumRiskCard": {
-        "title": "مخاطرة متوسطة",
-        "header": "صندوق الراجحي للنمو",
-        "content": "متوسط",
-        "basedOn": "على أساس الأداء في السنوات الثلاث الماضية",
-        "expectedTime": "مفضل",
-        "monthlyContribution": "١٠٠٠ ر.س"
-      },
-      "noRiskCard": {
-        "title": "بدون مخاطرة",
-        "header": "صندوق التوفير",
-        "content": "متوسط",
-        "basedOn": "على أساس معدل الربح",
-        "expectedTime": "جيد",
-        "monthlyContribution": "٥٠٠ ر.س",
-        "Investments": "يعتبر تحقيق صندوق التوفير مضمون، طالما قمت بسداد مساهماتك الشهرية."
-      },
-      "lowRiskCard": {
-        "title": "مخاطرة منخفضة",
-        "header": "ذهب",
-        "content": "متوسط",
-        "basedOn": "على أساس الأداء في السنوات الثلاث الماضية",
-        "expectedTime": "أفضل",
-        "monthlyContribution": "٥  غرام",
-        "Investments": "الاستثمار في صناديق الاستثمار المشترك تخضع لتقلبات السوق."
-      }
-    },
-    "chooseButton": "اختيار المنتج"
-  },
-  "GoalDashboardScreen": {
-    "title": "الأهداف والمنتجات",
-    "tabs": {
-      "goal": "الأهداف",
-      "product": "المنتجات"
-    },
-    "goalCard": {
-      "of": "من",
+    "ShapeGoalScreen": {
+      "title": "تشكيل الهدف",
+      "buildGoal": "ضع هدفك الخاص",
+      "hint": "أكمل على الأقل حقل واحد أدناه.",
+      "targetAmount": "ما مقدار حاجتك؟",
+      "durationNeeded": "متى تحتاج إليها؟",
+      "setDuration": "تحديد المدة",
+      "immediately": "في الحال",
+      "unknown": "غير معروف",
+      "monthAndYear": "الشهر والسنة",
+      "monthlyContribution": "ما مقدار الدفعة الشهرية؟",
+      "continueButton": "المتابعة",
       "currency": "ر.س",
-      "endDate": "تاريخ الإنتهاء:"
+      "error": {
+        "errorTargetAmount": "الرجاء إدخال المبلغ في حدود 20,000 ريال سعودي",
+        "errorMonthlyAmount": "الرجاء إدخال مبلغ يتراوح بين 500 إلى 20,000 ريال سعودي"
+      },
+      "DatePickerModal": {
+        "title": "تحديد التاريخ",
+        "setDateButton": "تحديد التاريخ",
+        "cancelButton": "إلغاء",
+        "sixMonth": "6 اشهر",
+        "twelveMonths": "12 شهر",
+        "twentyFourMonths": "24 شهر"
+      }
     },
-    "hint": "يمكنك تعيين ما مجموعه 4 أهداف.",
-    "setNewGoal": "هدف جديد",
-    "errors": {
-      "title": "تعذر تحميل البيانات",
-      "message": "لا داعي للقلق، هناك مشكلة بسيطة. يمكنك إعادة المحاولة",
-      "buttonReload": "إعادة التحميل"
+    "ShapeYourGoalScreen": {
+      "monthlyContributions": "المساهمات الشهرية",
+      "productPerformance": "أداء المنتج",
+      "riskType": "نوع الخطر",
+      "bestMatch": "أفضل تطابق",
+      "productsTitle": "المنتجات التي تساعدك على تحقيق هدفك",
+      "continue": "استمر",
+      "productItemTitle": "بناءً على أداء المنتج خلال السنوات الثلاث الماضية",
+      "timeToAchieve": "الوقت لتحقيق الهدف",
+      "profitRate": "بناءً على معدل الربح",
+      "expectedProfit": "الربح المتوقع",
+      "goalAmount": "مبلغ الهدف",
+      "goalDuration": "مدة الهدف",
+      "shapeYourGoal": "شكل هدفك"
     },
-    "refreshSection": {
-      "hint": "“خطأ في تحميل هدف “{{goalName}}”!"
+    "SetGoldContributionScreen": {
+      "setUpContribution": "إعداد المساهمة",
+      "initialAmount": "أدخل مبلغ المساهمة الأولي:",
+      "grams": "غرامات",
+      "minimumGrams": "الحد الأدنى 5 غرامات",
+      "pleaseNote": "يرجى ملاحظة:",
+      "minimumGramsInfo": "• الحد الأدنى 5 غرامات.",
+      "setUpLaterInfo": "• يمكنك تحديد مبلغ المساهمة لاحقًا.",
+      "continue": "المتابعة",
+      "skipForNow": "تخطى للآن",
+      "convertedAmount": "المبلغ المحول:",
+      "sar": "{{value}} ر.س"
     }
-  },
-
-  "targetAmountScreen": {
-    "title": "اختر المدة",
-    "select": "اختيار",
-    "confirm": "تأكيد",
-    "month_1": "شهر واحد",
-    "months_3": "3 أشهر",
-    "months_6": "6 أشهر",
-    "months_12": "12 شهر",
-    "months_24": "24 شهر",
-    "customDate": "تاريخ محدد",
-    "question": "ما هو المبلغ المطلوب لتحقيق هدفك؟",
-    "next": "التالي",
-    "currency": "ر.س",
-    "selectDuration": "اختر المدة",
-    "validation": {
-      "minAmount": "الحد الأدنى  500 ريال سعودي",
-      "maxAmount": " الحد الاعلى للمبلغ هو 10 ملايين ريال سعودي",
-      "amountRequired": "مبلغ الهدف مطلوب",
-      "minDuration": "التاريخ الأدنى هو شهر واحد",
-      "maxDuration": "الحد الأقصى للمدة هي 25 عامًا",
-      "dateRequired": "التاريخ المستهدف مطلوب"
-    }
-  },
-  "landingScreen": {
-    "skip": "تخطى",
-    "next": "التالي",
-    "title": "تحقيق الهدف",
-    "createGoal": "البدء",
-    "titleOne": "ساعدني لتحقيق هدفي",
-    "subTextOne": "إذا كانت لديك أي شكوك حول كيفية تفعيل هدفك، فيمكننا مساعدتك",
-    "titleTwo": "أخبرنا بماذا تحلم؟",
-    "subTextTwo": "يمكنك اختيار هدفك من بين عدة خيارات نتيحها لك",
-    "titleThree": "كيف تريد أن تبدأ؟",
-    "subTextThree": "أخبرنا كيف تتخيل البدء في الادخار من اجل ذلك؟",
-    "titleFour": "انشئ هدفاالآن",
-    "subTextFour": "سنعرض لك بعض التوصيات حول كيفية تفعيل هدفك"
-  },
-  "TermsAndConditionsScreen": {
-    "title": "الشروط و الأحكام",
-    "nothingToShowText": "لا شيء لعرضه"
-  },
-  "EditGoalGetter": {
-    "label": "تعديل الهدف",
-    "InputsLabels": {
-      "goalName": "اسم الهدف",
-      "targetAmount": "المبلغ المستهدف",
-      "initialContribution": "المساهمة الأولية",
-      "monthlyContribuition": "المساهمة الشهرية",
-      "upcomingContribution": "تاريخ المساهمة القادمة",
-      "startDate": "تاريخ البدء",
-      "endDate": "تاريخ الانتهاء"
-    },
-    "DateModal": { "selectButton": "اختيار", "headerText": "اختر المدة" },
-    "ButtonsText": { "confirmChanges": "تأكيد التغييرات", "cancel": "الغاء" }
-  },
-  "LatestTransactionScreen": {
-    "title": "آخر التسديدات",
-    "SAR": "ر.س",
-    "Failed": "فشلت"
-  },
-  "goalDetail": {
-    "buttonDeleteGoal": "حذف",
-    "buttonRedeem": "بيع",
-    "buttonSubscribe": "شراء",
-    "paymentInstructions": "تعليمات الدفع",
-    "monthlyContribution": "المساهمة الشهرية",
-    "dateUpcoming": "{{date_}}:موعد التسديد القادم",
-    "detail": "التفاصيل",
-    "initialContribution": "المساهمة الاولية",
-    "startDate": "تاريخ البدء",
-    "endDate": "تاريخ الإنتهاء",
-    "latestTransactions": "آخر المساهمات",
-    "mutualFund": "Mutual fund",
-    "highRisk": "High risk",
-    "of": "من {{amount}}",
-    "sar": "ر.س",
-    "seeMore": "المزيد",
-    "deleteGoal": {
-      "title": "هل أنت متأكد أنك تريد الحذف؟",
-      "message": "يمكنك اختيار سحب المبلغ الإجمالي او نقله الى حافظ اخرى",
-      "buttonDelete": "حذف",
-      "cancelButton": "الغاء"
-    }
-  },
-  "GoalCreatedSuccessfullyScreen": {
-    "label": "تهانينا",
-    "subLabel": "تم إنشاء هدفك بنجاح!",
-    "button": "تحقق منه!"
-  },
-  "ShapeGoalScreen": {
-    "title": "تشكيل الهدف",
-    "buildGoal": "ضع هدفك الخاص",
-    "hint": "أكمل على الأقل حقل واحد أدناه.",
-    "targetAmount": "ما مقدار حاجتك؟",
-    "durationNeeded": "متى تحتاج إليها؟",
-    "setDuration": "تحديد المدة",
-    "immediately": "في الحال",
-    "unknown": "غير معروف",
-    "monthAndYear": "الشهر والسنة",
-    "monthlyContribution": "ما مقدار الدفعة الشهرية؟",
-    "continueButton": "المتابعة",
-    "currency": "ر.س",
-    "error": {
-      "errorTargetAmount": "الرجاء إدخال المبلغ في حدود 20,000 ريال سعودي",
-      "errorMonthlyAmount": "الرجاء إدخال مبلغ يتراوح بين 500 إلى 20,000 ريال سعودي"
-    },
-    "DatePickerModal": {
-      "title": "تحديد التاريخ",
-      "setDateButton": "تحديد التاريخ",
-      "cancelButton": "إلغاء",
-      "sixMonth": "6 اشهر",
-      "twelveMonths": "12 شهر",
-      "twentyFourMonths": "24 شهر"
-    }
-  },
-  "ShapeYourGoalScreen": {
-    "monthlyContributions": "المساهمات الشهرية",
-    "productPerformance": "أداء المنتج",
-    "riskType": "نوع الخطر",
-    "bestMatch": "أفضل تطابق",
-    "productsTitle": "المنتجات التي تساعدك على تحقيق هدفك",
-    "continue": "استمر",
-    "productItemTitle": "بناءً على أداء المنتج خلال السنوات الثلاث الماضية",
-    "timeToAchieve": "الوقت لتحقيق الهدف",
-    "profitRate": "بناءً على معدل الربح",
-    "expectedProfit": "الربح المتوقع",
-    "goalAmount": "مبلغ الهدف",
-    "goalDuration": "مدة الهدف",
-    "shapeYourGoal": "شكل هدفك"
-  },
-  "SetGoldContributionScreen": {
-    "setUpContribution": "إعداد المساهمة",
-    "initialAmount": "أدخل مبلغ المساهمة الأولي:",
-    "grams": "غرامات",
-    "minimumGrams": "الحد الأدنى 5 غرامات",
-    "pleaseNote": "يرجى ملاحظة:",
-    "minimumGramsInfo": "• الحد الأدنى 5 غرامات.",
-    "setUpLaterInfo": "• يمكنك تحديد مبلغ المساهمة لاحقًا.",
-    "continue": "المتابعة",
-    "skipForNow": "تخطى للآن",
-    "convertedAmount": "المبلغ المحول:",
-    "sar": "{{value}} ر.س"
   },
   "InstructionsScreen": {
     "skip": "تخطى",

@@ -106,6 +106,7 @@ export default function ShapeGoalScreen() {
     if (selectedGoalDurationOption === 1) {
       navigation.navigate("GoalGetter.ShapeYourGoalScreen");
     } else if (selectedGoalDurationOption === 2) {
+      navigation.navigate("GoalGetter.ShapeYourGoalScreen");
     } else {
       const currentDate = new Date();
       const sixMonthsLater = addDays(currentDate, 6.03 * 30.44);

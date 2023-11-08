@@ -32,6 +32,7 @@ export type GoalGetterStackParams = {
   "GoalGetter.GoalDashboardScreen": undefined;
   "GoalGetter.ImageGallary": {
     screen: string;
+    images: unknown;
   };
   "GoalGetter.TermsAndConditionsScreen": { productId?: string };
   "GoalGetter.GoalMindScreen": undefined;

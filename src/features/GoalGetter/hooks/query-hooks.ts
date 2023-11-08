@@ -30,6 +30,7 @@ const queryKeys = {
   predefinedGoals: () => ["predefinedGoals"],
   predefinedRisks: (predefinedGoalId: number) => ["predefinedRisks", predefinedGoalId],
   goalsSettings: () => ["goalsSettings"],
+  goalsDetails: () => ["goalsDetails"],
   mutualFund: () => ["mutualFund"],
   savingPotCategoryId: () => ["savingPotCategoryId"],
   goalGetterProducts: () => ["goalGetterProducts"],
@@ -175,6 +176,18 @@ export function useGoalsSetting() {
     });
   });
 }
+
+export function useGoalsDetails() {
+  const { i18n } = useTranslation();
+
+  return useQuery(queryKeys.goalsDetails(), () => {
+    return api("v1", `goals/goal-details`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+    });
+  });
+}
+
 export function useMutualFund(productId?: string) {
   const { i18n } = useTranslation();
 
@@ -185,6 +198,7 @@ export function useMutualFund(productId?: string) {
     });
   });
 }
+
 export function useSavingPotCategoryId() {
   const { i18n } = useTranslation();
 

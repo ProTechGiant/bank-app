@@ -105,11 +105,11 @@ export default function ContributionScreen() {
   });
 
   const handleOnSubmit = () => {
-    // TODO: add navigation when another screen is ready
+    navigation.navigate("GoalGetter.CreateGoalScreen");
   };
 
   const handleOnSkip = () => {
-    // TODO: add navigation when another screen is ready
+    navigation.navigate("GoalGetter.CreateGoalScreen");
   };
 
   const handleSelectRecurringFrequencyValue = (value: string | null) => {

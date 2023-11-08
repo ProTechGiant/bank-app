@@ -121,12 +121,11 @@ export default function ContributionSavingPotScreen() {
       RecurringContribution: data.RecurringFrequency,
       RecurringDate: selectedDate,
     });
-
-    // TODO: add navigation when another screen is ready
+    navigation.navigate("GoalGetter.CreateGoalScreen");
   };
 
   const handleOnSkip = () => {
-    // TODO: add navigation when another screen is ready
+    navigation.navigate("GoalGetter.CreateGoalScreen");
   };
 
   const handleSelectRecurringFrequencyValue = (value: string | null) => {

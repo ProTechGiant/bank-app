@@ -24,6 +24,8 @@ export const queryKeys = {
   articles: (articleId: string) => [...queryKeys.all(), { articleId }] as const,
   images: (imageURL: string) => [...queryKeys.all(), { imageURL }] as const,
   AllInOneCardTermsAndConditions: () => [...queryKeys.all(), "AllInOneCardTermsAndConditions"] as const,
+  goalNamesContentList: (type: string) => [...queryKeys.all(), type] as const,
+  goalImagesContentList: (type: string) => [...queryKeys.all(), type] as const,
   Nera: () => [...queryKeys.all(), "Nera"] as const,
   NeraPlus: () => [...queryKeys.all(), "NeraPlus"] as const,
 };
@@ -177,6 +179,52 @@ export function useSavingPotDetails(ContentCategoryId = "SavingPotDetails") {
         ["CustomerId"]: userId ?? "",
 
         ["x-Correlation-Id"]: generateRandomId(),
+      }
+    );
+  });
+}
+
+export function useGoalNamesContent() {
+  const { i18n } = useTranslation();
+  const { userId } = useAuthContext();
+
+  return useQuery("goals-Names", () => {
+    return sendApiRequest<Content[]>(
+      "v1",
+      "contents",
+      "GET",
+      {
+        Language: i18n.language,
+        IncludeChildren: true,
+        ContentCategoryId: "GoalNames",
+      },
+      undefined,
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["CustomerId"]: userId ?? "",
+      }
+    );
+  });
+}
+
+export function useGoalImagesContent() {
+  const { i18n } = useTranslation();
+  const { userId } = useAuthContext();
+
+  return useQuery("goals-images", () => {
+    return sendApiRequest<Content[]>(
+      "v1",
+      "contents",
+      "GET",
+      {
+        Language: i18n.language,
+        IncludeChildren: true,
+        ContentCategoryId: "GoalImages",
+      },
+      undefined,
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["CustomerId"]: userId ?? "",
       }
     );
   });

@@ -5,15 +5,20 @@ import { CurveType, LineChart } from "react-native-gifted-charts";
 
 import SegmentedControl from "@/components/SegmentedControl";
 import Typography from "@/components/Typography";
-import { fiveYearsData, monthData, weekData, yearData } from "@/mocks/goldLineChartData";
 import { useThemeStyles } from "@/theme";
 import { GoldPerformanceDailyType, GoldPerformanceMonthlyType, TabsTypes } from "@/types/GoldChart";
 
-export default function GoldLineChart() {
+interface GoldLineChartProps {
+  updateChartType: (data: keyof TabsTypes) => void;
+  data?: GoldPerformanceMonthlyType[] | GoldPerformanceDailyType[];
+  hasFiveYears: boolean;
+}
+
+export default function GoldLineChart({ updateChartType, data, hasFiveYears = true }: GoldLineChartProps) {
   const [currentTab, setCurrentTab] = useState<TabsTypes>(TabsTypes.Week);
   const [list, setList] = useState<GoldPerformanceMonthlyType[] | GoldPerformanceDailyType[]>([]);
-
   const { t } = useTranslation();
+
   const customizedList = (listData: any) => {
     return listData.map((item, index) => ({
       value: currentTab === TabsTypes.FiveYears ? item.Performance : item.SellPrice,
@@ -46,18 +51,11 @@ export default function GoldLineChart() {
   };
 
   useEffect(() => {
-    let updatedData = [];
-    if (TabsTypes.FiveYears === currentTab) {
-      updatedData = customizedList(fiveYearsData);
-    } else if (TabsTypes.Year === currentTab) {
-      updatedData = customizedList(yearData);
-    } else if (TabsTypes.Month === currentTab) {
-      updatedData = customizedList(monthData);
-    } else {
-      updatedData = customizedList(weekData);
+    if (data) {
+      const updatedData = customizedList(data);
+      setList(updatedData);
     }
-    setList(updatedData);
-  }, [currentTab]);
+  }, [currentTab, data]);
 
   function createFocusedCustomDataPoint(label: string, value: number) {
     return () => {
@@ -138,6 +136,7 @@ export default function GoldLineChart() {
       <View style={tabsContainerStyle}>
         <SegmentedControl
           onPress={item => {
+            updateChartType(item);
             setCurrentTab(item);
           }}
           value={currentTab}>
@@ -150,16 +149,17 @@ export default function GoldLineChart() {
           <SegmentedControl.Item value="Year" fontWeight="regular">
             {t("GoalGetter.GoalSetupLineChartModal.lineChart.year")}
           </SegmentedControl.Item>
-          <SegmentedControl.Item value="5 Years" fontWeight="regular">
-            {t("GoalGetter.GoalSetupLineChartModal.lineChart.fiveYears")}
-          </SegmentedControl.Item>
+          {hasFiveYears ? (
+            <SegmentedControl.Item value="5 Years" fontWeight="regular">
+              {t("GoalGetter.GoalSetupLineChartModal.lineChart.fiveYears")}
+            </SegmentedControl.Item>
+          ) : null}
         </SegmentedControl>
       </View>
       <View style={chartContainerStyle}>
         {list.length > 0 ? (
           <LineChart
             yAxisLabelSuffix=" SAR "
-            isAnimated
             thickness={2}
             spacing={
               currentTab === TabsTypes.FiveYears
@@ -176,9 +176,6 @@ export default function GoldLineChart() {
             yAxisThickness={0}
             maxValue={300}
             noOfSections={6}
-            animateOnDataChange
-            animationDuration={1000}
-            onDataChangeAnimationDuration={300}
             areaChart
             yAxisLabelWidth={50}
             yAxisTextStyle={yAxisTextStyle}

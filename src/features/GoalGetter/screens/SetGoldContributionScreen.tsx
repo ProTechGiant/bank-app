@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigation } from "@react-navigation/native";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -22,6 +23,7 @@ interface GoldWeightInput {
 
 export default function SetGoldContributionScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const validationSchema = useMemo(
     () =>
@@ -42,13 +44,13 @@ export default function SetGoldContributionScreen() {
   const goldWeight = watch("goldWeight");
 
   const handleOnClosePress = () => {
-    // TODO: add navigation based on LLD
+    navigation.goBack();
     return;
   };
 
-  const handleOnContinuePress = (value: GoldWeightInput) => {
-    // TODO: store value within goal context & remove log
-    console.log(value);
+  const handleOnContinuePress = (_value: GoldWeightInput) => {
+    //TODO will use Value with context API
+    navigation.navigate("GoalGetter.CreateGoalScreen");
     return;
   };
 

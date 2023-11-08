@@ -31,7 +31,7 @@ export default function GalleryImage({ id, imageURL, isSelected, onImageSelectio
     backgroundColor: theme.palette["neutralBase-60"],
     position: "absolute",
     top: theme.spacing["8p"],
-    right: width / 2 - 14,
+    right: "50%",
   }));
 
   return (

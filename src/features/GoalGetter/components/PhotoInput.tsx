@@ -10,6 +10,7 @@ import { CircularProgressIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
+
 export interface AssetInputProps {
   errorText?: string;
   onBlur?: () => void;
@@ -54,7 +55,7 @@ export function PhotoInput({
           handleOnOpenPhotosPress();
         } else if (selectedIndex === 1) {
           handleOnPredefinedPress();
-        } else if (selectedIndex === 2) {
+        } else if (selectedIndex === 3) {
           handleOnOpenCameraPress();
         }
       }

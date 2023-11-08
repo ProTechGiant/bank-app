@@ -15,3 +15,14 @@ export interface GoldPerformanceDailyType {
   Month: string;
   Day: string;
 }
+
+export enum periodEnum {
+  WEEK = "week",
+  MONTH = "month",
+  YEAR = "year",
+}
+
+export enum groupingByEnum {
+  daily = "DAILY",
+  monthly = "MONTHLY",
+}
