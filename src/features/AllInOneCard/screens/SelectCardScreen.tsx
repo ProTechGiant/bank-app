@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -6,20 +6,63 @@ import { ChevronRightIcon } from "@/assets/icons";
 import { Typography } from "@/components";
 import Button from "@/components/Button";
 import { Carousel } from "@/components/Carousel";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useContentArticleList } from "@/hooks/use-content";
 import useNavigation from "@/navigation/use-navigation";
-import { useThemeStyles } from "@/theme";
+import { useTheme, useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 
 import { Card, MoreFeatureModal } from "../components";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
+import { useGetProducts } from "../hooks/query-hooks";
 import { cardData } from "../mocks";
+import { CardData, CardTypes, ContentCardType } from "../types";
 
 export default function SelectCardScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { theme } = useTheme();
+  const { data: products, isLoading: productsIsLoading } = useGetProducts();
+
+  const neraCategoryId = products?.ProductList?.ProductCodesList.find(
+    item => item.ProductName === CardTypes.NERA
+  )?.ProductCode;
+  const neraPlusCategoryId = products?.ProductList?.ProductCodesList.find(
+    item => item.ProductName === CardTypes.NERA_PLUS
+  )?.ProductCode;
+
+  const { data: neraData, isLoading: neraIsLoading } = useContentArticleList(neraCategoryId || "", true, true);
+  const { data: neraPlusData, isLoading: neraPlusIsLoading } = useContentArticleList(
+    neraPlusCategoryId || "",
+    true,
+    true
+  );
+
+  const [visaData, setVisaData] = useState<CardData[]>(cardData);
+
+  useEffect(() => {
+    const extractTitleAndSubtitle = (dataArray: ContentCardType[]) => {
+      return dataArray.map(item => ({
+        title: item.Title,
+        subTitle: item.SubTitle,
+        iconUrl: item.Media[0].SourceFileURL,
+      }));
+    };
+
+    if (neraPlusData && neraData) {
+      // TOTO: some of the data is missing, so we need to use mock data for now
+      const newAllInOneCard = [
+        { ...cardData[0], benefits: extractTitleAndSubtitle(neraPlusData) },
+        { ...cardData[1], benefits: extractTitleAndSubtitle(neraData) },
+      ];
+
+      setVisaData(newAllInOneCard);
+    }
+  }, [neraData, neraPlusData]);
+
   const { setContextState } = useAllInOneCardContext();
   const { setAllInOneCardType } = useAuthContext();
 
@@ -71,32 +114,39 @@ export default function SelectCardScreen() {
             </Typography.Header>
           </View>
         </View>
-        <View style={styles.carouselContainer}>
-          <Carousel
-            width={326}
-            data={cardData}
-            Slide={data => <Card data={data.data} />}
-            onChangeIndex={setActiveIndex}
-            contentContainerStyle={contentContainerStyle}
-          />
-        </View>
-        <View style={buttonsViewContainerStyle}>
-          <Pressable
-            onPress={() => setShowMoreFeaturesModal(true)}
-            style={({ pressed }) => [{ opacity: pressed ? 0.6 : 1 }, pressableStyle]}>
-            <Typography.Text size="body" weight="medium" color="successBase">
-              {t("AllInOneCard.SelectedCardScreen.showButton")}
-            </Typography.Text>
-            <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-              <ChevronRightIcon color="#00AC86" />
+        {neraPlusIsLoading || neraIsLoading || productsIsLoading ? (
+          <FullScreenLoader />
+        ) : (
+          <>
+            <View style={styles.carouselContainer}>
+              <Carousel
+                width={326}
+                data={visaData}
+                Slide={data => <Card data={data.data} />}
+                onChangeIndex={setActiveIndex}
+                contentContainerStyle={contentContainerStyle}
+              />
             </View>
-          </Pressable>
-          <Button onPress={handleOnApplyPress}>{t("AllInOneCard.SelectedCardScreen.apply")}</Button>
-        </View>
+            <View style={buttonsViewContainerStyle}>
+              <Pressable
+                onPress={() => setShowMoreFeaturesModal(true)}
+                style={({ pressed }) => [{ opacity: pressed ? 0.6 : 1 }, pressableStyle]}>
+                <Typography.Text size="body" weight="medium" color="successBase">
+                  {t("AllInOneCard.SelectedCardScreen.showButton")}
+                </Typography.Text>
+                <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
+                  <ChevronRightIcon color={theme.palette.successBase} />
+                </View>
+              </Pressable>
+              <Button onPress={handleOnApplyPress}>{t("AllInOneCard.SelectedCardScreen.apply")}</Button>
+            </View>
+          </>
+        )}
+
         <MoreFeatureModal
           isVisible={showMoreFeaturesModal}
           onClose={() => setShowMoreFeaturesModal(false)}
-          item={cardData[activeIndex]}
+          item={visaData[activeIndex]}
           onPress={handleOnApplyPress}
         />
       </View>

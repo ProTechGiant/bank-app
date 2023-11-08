@@ -24,8 +24,22 @@ export const queryKeys = {
   articles: (articleId: string) => [...queryKeys.all(), { articleId }] as const,
   images: (imageURL: string) => [...queryKeys.all(), { imageURL }] as const,
   AllInOneCardTermsAndConditions: () => [...queryKeys.all(), "AllInOneCardTermsAndConditions"] as const,
+  Nera: () => [...queryKeys.all(), "Nera"] as const,
+  NeraPlus: () => [...queryKeys.all(), "NeraPlus"] as const,
 };
 
+const getQueryKey = ({ categoryId, isHomeArticles }: { categoryId: string; isHomeArticles: boolean }) => {
+  if (categoryId === "AIO_Nera") {
+    return queryKeys.Nera();
+  }
+  if (categoryId === "AIO_Nera_Plus") {
+    return queryKeys.NeraPlus();
+  }
+  if (isHomeArticles) {
+    return queryKeys.homeContentList();
+  }
+  return queryKeys.contentList();
+};
 export function useContentArticleList(
   categoryId: string,
   includeChildren: boolean,
@@ -35,24 +49,28 @@ export function useContentArticleList(
   const { i18n } = useTranslation();
   const { userId } = useAuthContext();
 
-  return useQuery(isHomeArticles ? queryKeys.homeContentList() : queryKeys.contentList(), () => {
-    return sendApiRequest<Content[]>(
-      "v1",
-      "contents",
-      "GET",
-      {
-        Language: i18n.language,
-        IncludeChildren: includeChildren,
-        ContentCategoryId: categoryId,
-        ...params,
-      },
-      undefined,
-      {
-        ["x-Correlation-Id"]: generateRandomId(),
-        ["CustomerId"]: userId ?? "",
-      }
-    );
-  });
+  return useQuery(
+    getQueryKey({ categoryId, isHomeArticles }),
+    () => {
+      return sendApiRequest<Content[]>(
+        "v1",
+        "contents",
+        "GET",
+        {
+          Language: i18n.language,
+          IncludeChildren: includeChildren,
+          ContentCategoryId: categoryId,
+          ...params,
+        },
+        undefined,
+        {
+          ["x-Correlation-Id"]: generateRandomId(),
+          ["CustomerId"]: userId ?? "",
+        }
+      );
+    },
+    { enabled: categoryId !== "" }
+  );
 }
 
 export function useContentArticle(articleId: string) {

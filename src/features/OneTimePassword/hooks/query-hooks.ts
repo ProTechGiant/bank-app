@@ -89,6 +89,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
 
       const isSadadFlow = method === "payments/sadad";
       const isCardsFlow = method === "card-actions";
+      const isAllOneCardFlow = method === "aio-card/issuance/otp-validation";
 
       let endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
       const requestParam = isLoginFlow
@@ -99,6 +100,11 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
             OtpCode: OtpCode,
           }
         : isCardsFlow
+        ? {
+            OtpId: OtpId,
+            OtpCode: OtpCode,
+          }
+        : isAllOneCardFlow
         ? {
             OtpId: OtpId,
             OtpCode: OtpCode,
@@ -157,11 +163,6 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
 
       if (method === "aio-card/issuance/otp-validation") {
         endpoint = "aio-card/issuance/otp-validation";
-        // TODO: remove this mock once api ready from BE team
-        return Promise.resolve({
-          Status: "OTP_MATCH_SUCCESS",
-          NumberOfAttempts: 0,
-        });
       }
 
       return api<ValidateOtpResponse & ResponseT>(

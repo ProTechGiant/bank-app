@@ -31,8 +31,8 @@ import NeraPlus from "../assets/images/neraCard.png";
 import NeraPlusCard from "../assets/images/neraPlusCard.png";
 import { VAT_PERCENTAGE } from "../constants";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
-import { useAllInOneCardOTP } from "../hooks/query-hooks";
-import { cardReview, USER_WITH_ZERO_BALANCE } from "../mocks";
+import { useIssueCard } from "../hooks/query-hooks";
+import { cardRequestData, cardReview, USER_WITH_ZERO_BALANCE } from "../mocks";
 import { BoxContainer, FormattedPrice } from "./../components";
 
 export default function CardReviewScreen() {
@@ -41,7 +41,7 @@ export default function CardReviewScreen() {
   const navigation = useNavigation();
   const otpFlow = useOtpFlow();
   const { userId } = useAuthContext();
-  const { mutateAsync: sendAllInOneCardOTP } = useAllInOneCardOTP();
+  const { mutateAsync: sendIssueCard, isLoading } = useIssueCard();
   const { cardType, redemptionMethod, paymentPlan } = useAllInOneCardContext();
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
   const [addFundsModalVisible, setAddFundsModalVisible] = useState(false);
@@ -79,22 +79,24 @@ export default function CardReviewScreen() {
       screen: "AddMoney.AddMoneyInfoScreen",
     });
   };
-  const onConfirm = () => {
+  const onConfirm = async () => {
     // Todo: remove this when api finished from BE team
     if (userId === USER_WITH_ZERO_BALANCE) {
       setAddFundsModalVisible(true);
       return;
     }
     try {
+      const { OtpId } = await sendIssueCard(cardRequestData);
+
       otpFlow.handle({
         action: {
           to: "AllInOneCard.CardReview",
         },
         otpVerifyMethod: "aio-card/issuance/otp-validation",
         // TODO: Add otpOptionalParams when api finished from BE team
-        otpOptionalParams: {},
-        onOtpRequest: () => {
-          return sendAllInOneCardOTP();
+
+        otpChallengeParams: {
+          OtpId: OtpId,
         },
         onFinish: async status => {
           if (status === "success") {
@@ -304,7 +306,7 @@ export default function CardReviewScreen() {
             </View>
           </View>
         </ScrollView>
-        <Button onPress={onConfirm} disabled={!hasAgreedToTerms}>
+        <Button onPress={onConfirm} disabled={!hasAgreedToTerms} loading={isLoading}>
           {t("AllInOneCard.CardReviewScreen.confirm")}
         </Button>
         <NotificationModal

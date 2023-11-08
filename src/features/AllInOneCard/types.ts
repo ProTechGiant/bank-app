@@ -39,9 +39,10 @@ export interface TransactionItem {
   Status: string;
   PaymentType: string;
 }
-interface Benefit {
-  icon: JSX.Element;
-  description: string;
+export interface Benefit {
+  title: string;
+  subTitle: string;
+  iconUrl: string;
 }
 
 interface FreeBenefits {
@@ -55,7 +56,7 @@ export interface CardData {
   title: string;
   cardType: "nera" | "neraPlus";
   isDiamond: boolean;
-  benefits: Benefit[];
+  benefits?: Benefit[];
   freeBenefits: FreeBenefits;
 }
 
@@ -93,5 +94,70 @@ export interface CardReview {
     };
     vat: string;
     total: string;
+  };
+}
+
+export enum CardTypes {
+  NERA = "nera",
+  NERA_PLUS = "neraPlus",
+}
+
+export interface FeesResponse {
+  FeesAmount: number;
+  VatAmount: number;
+  TotalAmount: number;
+}
+export interface CardIssuanceParams {
+  CustomerId: string;
+  CardHolderName: string;
+  CardType: string; // Should only be 'All-in-one card' as per your description
+  CardProductCode: string;
+  CardHolderTitle?: string;
+  VirtualCardIndicator: "P" | "V";
+  Currency?: string;
+  ExpiryDate?: string;
+  WalletList?: string;
+  PaymentPlanId?: string;
+  RedeemptionMethodId: string;
+  FeesAmount: string;
+  VatAmount: string;
+  TotalAmount: string;
+}
+
+export interface CardIssuanceResponse {
+  OtpId: string;
+}
+
+export interface ProductInfo {
+  ProductName: string;
+  ProductCode: string;
+  ProductDescription?: string;
+}
+
+export interface ProductsResponse {
+  CardTypeCode: string;
+  ProductList?: {
+    ProductCodesList: ProductInfo[];
+  };
+}
+
+export interface ContentCardType {
+  ContentId: string;
+  ContentCategoryId: string;
+  ContentTag: string;
+  ContentPublishDateTime?: string; // Optional because not all objects have this property
+  Title: string;
+  SubTitle: string;
+  ContentDescription?: string; // Optional because not all objects have this property
+  Media: {
+    SourceFileName: string;
+    SourceFileURL: string;
+  }[];
+  WhatsNextCategoryId?: string; // Optional because not all objects have this property
+  WhatsNextTypeId?: string; // Optional because not all objects have this property
+  ReadDuration?: number;
+  AuthorSocialMedia: Record<string, any>; // Assuming it can have any key-value pairs
+  EventDetails: {
+    Price: number;
   };
 }
