@@ -11,9 +11,10 @@ interface AccordionProps {
   children: JSX.Element | JSX.Element[];
   title: string;
   icon?: JSX.Element;
+  showIcon?: boolean;
 }
 
-export default function Accordion({ children, title, icon }: AccordionProps) {
+export default function Accordion({ children, title, icon, showIcon = true }: AccordionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const { t } = useTranslation();
 
@@ -68,9 +69,11 @@ export default function Accordion({ children, title, icon }: AccordionProps) {
         onPress={() => setIsExpanded(prevIsExpanded => !prevIsExpanded)}>
         <GreyGradient>
           <View style={pressableContainerStyle}>
-            <View style={iconContainer}>
-              {icon ? icon : <InfoFilledCircleIcon width={16} height={16} color={infoIconColor} />}
-            </View>
+            {showIcon ? (
+              <View style={iconContainer}>
+                {icon ? icon : <InfoFilledCircleIcon width={16} height={16} color={infoIconColor} />}
+              </View>
+            ) : null}
 
             <Typography.Text color="neutralBase+30" weight="medium" size="footnote" style={titleStyles}>
               {title}
