@@ -147,6 +147,7 @@ export function useFinalDeal({
   type: TransactionTypeEnum;
   measureUnit: MeasureUnitEnum;
 }) {
+  const { i18n } = useTranslation();
   const { userId } = useAuthContext();
   return useQuery(queryKeys.getFinalDeal(), () => {
     return api<GoldFinalDealResponseType>(
@@ -162,6 +163,7 @@ export function useFinalDeal({
         MeasureUnit: measureUnit,
       },
       {
+        ["Accept-Language"]: i18n.language,
         ["x-Correlation-Id"]: generateRandomId(),
       }
     );
