@@ -11,6 +11,7 @@ import {
   CustomerGoal,
   GoalBalanceAndContribution,
   GoalBalanceAndContributionResponse,
+  GoalGetterProductResponse,
   GoalRoundUpStatus,
   GoalRoundUpStatusResponse,
   GoalSetting,
@@ -31,6 +32,7 @@ const queryKeys = {
   goalsSettings: () => ["goalsSettings"],
   mutualFund: () => ["mutualFund"],
   savingPotCategoryId: () => ["savingPotCategoryId"],
+  goalGetterProducts: () => ["goalGetterProducts"],
 };
 
 export function useGetTermsAndConditions(productId?: string) {
@@ -191,5 +193,23 @@ export function useSavingPotCategoryId() {
       ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18n.language,
     });
+  });
+}
+
+export function useGoalGetterProducts(goalDuration: string, targetAmount: string, monthlyContribution: string) {
+  const { i18n } = useTranslation();
+
+  return useQuery(queryKeys.goalGetterProducts(), () => {
+    return api<GoalGetterProductResponse>(
+      "v1",
+      `goals/products?targetAmount=${targetAmount}&duration=${goalDuration}&monthlyContribution=${monthlyContribution}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language,
+      }
+    );
   });
 }

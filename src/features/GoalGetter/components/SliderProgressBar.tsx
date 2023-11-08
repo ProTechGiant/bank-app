@@ -7,13 +7,14 @@ import { Typography } from "@/components";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import { useThemeStyles } from "@/theme";
 
+import { GoalGetterProduct } from "../types";
 import PerformanceChart from "./PerformanceChart";
 
 export interface SliderProgressBarProps {
-  productId: string;
+  productList: GoalGetterProduct[];
 }
 
-export default function SliderProgressBar() {
+export default function SliderProgressBar({ productList }: SliderProgressBarProps) {
   const { t } = useTranslation();
 
   const [sliderValue, setSliderValue] = useState(0);
@@ -112,7 +113,11 @@ export default function SliderProgressBar() {
         </View>
 
         {/* TODO: These values will be changed when the API is ready */}
-        {true ? <PerformanceChart investmentAmount={sliderValue} performance={0.7} /> : <FlexActivityIndicator />}
+        {true ? (
+          <PerformanceChart investmentAmount={sliderValue} productList={productList} />
+        ) : (
+          <FlexActivityIndicator />
+        )}
       </View>
     </View>
   );

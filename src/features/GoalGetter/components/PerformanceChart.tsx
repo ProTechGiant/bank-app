@@ -6,16 +6,17 @@ import LineChart from "react-native-simple-line-chart";
 import ChartYearsBox from "@/components/ChartYearsBox";
 import { useThemeStyles } from "@/theme";
 
+import { GoalGetterProduct } from "../types";
 import { calculateExpectedReturn, formatChartDate } from "../utils";
 import ChartHorizontalLines from "./ChartHorizontalLines";
 import PerformanceChartPointBox from "./PerformanceChartPointBox";
 
 interface PerformanceChartProps {
   investmentAmount: number;
-  performance: number;
+  productList: GoalGetterProduct[];
 }
 
-export default function PerformanceChart({ investmentAmount, performance = 0.5 }: PerformanceChartProps) {
+export default function PerformanceChart({ investmentAmount, productList }: PerformanceChartProps) {
   const ActivePointComponent = (point: { x: string; y: number }) => {
     return <PerformanceChartPointBox yValue={point.y} xValue={formatChartDate(point.x)} />;
   };
@@ -44,6 +45,8 @@ export default function PerformanceChart({ investmentAmount, performance = 0.5 }
 
   const borderColorStyle = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
 
+  const lineColorLookUp = ["rgba(236, 95, 72, 0.7)", "rgba(215, 55, 152, 0.2)"];
+
   return (
     <View style={containerStyle}>
       <GestureHandlerRootView>
@@ -59,46 +62,24 @@ export default function PerformanceChart({ investmentAmount, performance = 0.5 }
               initialActivePoint: 50,
               endSpacing: 1,
             }}
-            lines={[
-              {
-                // TODO: add performance value from api integration instead of static value 0.7
-                data: calculateExpectedReturn(investmentAmount, performance, 5),
-                activePointConfig: {
-                  color: "#EC5F48",
-                  borderColor: borderColorStyle,
-                  radius: 4,
-                  showVerticalLine: true,
-                  verticalLineColor: lineColorStyle,
-                  verticalLineOpacity: 1,
-                  verticalLineWidth: 1,
-                  verticalLineDashArray: [10, 3],
-                },
-                lineWidth: 2,
-                lineColor: ["#EC5F48", "#EC5F48"],
-                fillColor: "rgba(236, 95, 72, 0.7)",
-                curve: "linear",
-                activePointComponent: ActivePointComponent,
+            lines={productList.map((product, index) => ({
+              data: calculateExpectedReturn(investmentAmount, product?.ProfitPercentage || 0, 5),
+              activePointConfig: {
+                color: "#EC5F48",
+                borderColor: borderColorStyle,
+                radius: 4,
+                showVerticalLine: true,
+                verticalLineColor: lineColorStyle,
+                verticalLineOpacity: 1,
+                verticalLineWidth: 1,
+                verticalLineDashArray: [10, 3],
               },
-              {
-                // TODO: add performance value from api integration instead of static value 0.7
-                data: calculateExpectedReturn(investmentAmount, 0.9, 5),
-                activePointConfig: {
-                  color: "#EC5F48",
-                  borderColor: borderColorStyle,
-                  radius: 4,
-                  showVerticalLine: true,
-                  verticalLineColor: lineColorStyle,
-                  verticalLineOpacity: 1,
-                  verticalLineWidth: 1,
-                  verticalLineDashArray: [10, 3],
-                },
-                lineWidth: 2,
-                lineColor: ["#EC5F48", "#EC5F48"],
-                fillColor: "rgba(215, 55, 152, 0.2)",
-                curve: "linear",
-                activePointComponent: ActivePointComponent,
-              },
-            ]}
+              lineWidth: 2,
+              lineColor: ["#EC5F48", "#EC5F48"],
+              fillColor: lineColorLookUp[index],
+              curve: "linear",
+              activePointComponent: ActivePointComponent,
+            }))}
           />
         </View>
       </GestureHandlerRootView>

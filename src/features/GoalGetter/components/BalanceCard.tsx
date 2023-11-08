@@ -3,6 +3,7 @@ import { Pressable, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { GoalEditIcon } from "../assets/icons";
@@ -14,9 +15,10 @@ interface BalanceCardProps {
 
 export default function BalanceCard({ goalAmount, goalDuration }: BalanceCardProps) {
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const handleOnEditPress = () => {
-    // TODO: add navigations
+    navigation.navigate("GoalGetter.ShapeGoalScreen");
   };
 
   const balanceCardContainer = useThemeStyles<ViewStyle>(theme => ({

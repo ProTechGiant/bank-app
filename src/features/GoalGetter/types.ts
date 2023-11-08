@@ -124,7 +124,7 @@ export interface GoalGetterContextState {
   RecurringFrequency?: "Monthly" | "Weekly";
   RecurringDate?: string;
   ContributionMethod?: string;
-  ProductType?: string;
+  ProductType: string;
   Duration?: string;
   setGoalContextState: (newState: Partial<GoalGetterContextState>) => void;
   resetGoalContextState: () => void;
@@ -157,3 +157,39 @@ export interface SavingPotCategoryId {
   DescriptionId: string;
 }
 export type GoalGetterStateType = Omit<GoalGetterContextState, "setGoalContextState" | "resetGoalContextState">;
+
+export interface GoalGetterProduct {
+  ProductName: string;
+  ProductType: string;
+  Available: string;
+  Description: string;
+  ProductId: number;
+  ProductInfoUrl: string;
+  ProfitPercentage?: number;
+}
+
+export interface GoalGetterRisk {
+  Id: number;
+  Name: string;
+  Icon: string;
+  Description: string;
+  Products: GoalGetterProduct[];
+}
+
+export interface GoalGetterProductResponse {
+  TargetAmount: number;
+  Duration: number;
+  MonthlyContribution: number;
+  BestMatchRisk: number;
+  Variable: string;
+  ValidCalculation: boolean;
+  Risks: GoalGetterRisk[];
+}
+
+export enum ProductTypeName {
+  SAVING_POT = "SAVING_POT",
+  GOLD = "GOLD",
+  LOW_RISK_MUTUAL_FUND = "LOW_RISK_MUTUAL_FUND",
+  MEDIUM_RISK_MUTUAL_FUND = "MEDIUM_RISK_MUTUAL_FUND",
+  HIGH_RISK_MUTUAL_FUND = "HIGH_RISK_MUTUAL_FUND",
+}
