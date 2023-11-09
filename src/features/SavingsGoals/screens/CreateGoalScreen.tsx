@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useIsFocused } from "@react-navigation/native";
 import { differenceInDays } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -66,13 +67,16 @@ export default function CreateGoalScreen() {
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
   const NotificationFlag = watch("NotificationFlag");
   const RoundupFlag = watch("RoundupFlag");
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (!RoundupFlag) return;
-    if (data?.IsRoundUpActive === false) return;
+    if (isFocused) {
+      if (!RoundupFlag) return;
+      if (data?.IsRoundUpActive === false) return;
 
-    setIsRoundUpsModalVisible(true);
-  }, [RoundupFlag, t, data, setValue]);
+      setIsRoundUpsModalVisible(true);
+    }
+  }, [RoundupFlag, t, data, setValue, isFocused]);
 
   const handleOnNotificationPress = async () => {
     const notificationPermission = await checkNotifications();

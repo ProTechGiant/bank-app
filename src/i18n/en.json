@@ -2062,7 +2062,7 @@
       "RoundUpAlreadyActiveModal": {
         "title": "Turn on round-ups for this goal?",
         "message": "You’re already using round-ups for another goal. Do you want to switch to this one?",
-        "switchRoundUpButton": "Switch",
+        "switchRoundUpButton": "Switch to this goal",
         "cancelButton": "Don’t switch"
       },
       "ActionButtons": {
@@ -2114,7 +2114,7 @@
         "title": "Turn on Round-Ups for this saving goal?",
         "message": "Round-ups is already turned on for an other saving goal. Do you want to switch to this one?",
         "dontSwitch": "Don't switch",
-        "switch": "Switch"
+        "switch": "Switch to this goal"
       },
       "notificationsTurnOnAlert": {
         "title": "Notifications are disabled",
