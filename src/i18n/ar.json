@@ -2755,7 +2755,7 @@
         "iban": {
           "validation": {
             "required": "Required*",
-            "minLength": "Minimum 22 digits",
+            "minLength": "Minimum 24 digits",
             "invalid": "Incorrect IBAN format"
           }
         },
