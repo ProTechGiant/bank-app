@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 
@@ -32,14 +33,16 @@ export default function BillPaymentHomeScreen() {
 
   const [currentTab, setCurrentTab] = useState<"paymentDue" | "savedBills">("paymentDue");
 
-  useEffect(() => {
-    if (currentTab === "paymentDue") {
-      dueBillsRefetch();
-    }
-    if (currentTab === "savedBills") {
-      savedBillsRefetch();
-    }
-  }, [currentTab, Description]);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (currentTab === "paymentDue") {
+        dueBillsRefetch();
+      }
+      if (currentTab === "savedBills") {
+        savedBillsRefetch();
+      }
+    }, [currentTab, Description])
+  );
 
   const handleOnAddBillPress = () => {
     clearContext();
