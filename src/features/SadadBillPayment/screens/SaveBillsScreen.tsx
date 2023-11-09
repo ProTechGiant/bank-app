@@ -64,7 +64,8 @@ export default function SaveBillsScreen() {
           ? billData.filter(function (billObject) {
               return (
                 billObject.AccountNumber?.toLowerCase().includes(searchText.toLowerCase()) ||
-                billObject.BillName?.toLowerCase().includes(searchText.toLowerCase())
+                billObject.BillName?.toLowerCase().includes(searchText.toLowerCase()) ||
+                billObject.BillerId?.toLowerCase().includes(searchText.toLowerCase())
               );
             })
           : billData;
