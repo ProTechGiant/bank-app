@@ -158,7 +158,9 @@ export default function SelectMonthModal({ isVisible, onClose, onContinue }: Sel
             </Pressable>
           )}
           <View style={buttonsContainerStyle}>
-            <Button onPress={handleOnApplyPress}>{t("TopSpending.TopSpendingScreen.SelectMonthModal.apply")}</Button>
+            <Button disabled={comparisonDateState.length < 2} onPress={handleOnApplyPress}>
+              {t("TopSpending.TopSpendingScreen.SelectMonthModal.apply")}
+            </Button>
             {isCompare ? (
               <Button variant="tertiary" onPress={() => setIsCompare(false)}>
                 {t("TopSpending.TopSpendingScreen.SelectMonthModal.cancel")}
