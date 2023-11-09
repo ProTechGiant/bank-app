@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
@@ -8,32 +9,34 @@ import { useThemeStyles } from "@/theme";
 
 import { ConnnectedServicesCardIcon } from "../assets/icons";
 import { ConnectedServicesStatus } from "../constants";
+import { TppInfoInterface } from "../types";
+import { getTimeDifference } from "../utils/getTimeDifference";
 import ConnectedServicesStatusView from "./ConnectedServicesStatusView";
 
 interface ConnectedServicesCardProps {
-  title: string;
+  tPPInfo: Omit<TppInfoInterface, "TPPId">;
   status: ConnectedServicesStatus;
-  accountsCount: number;
-  firstConnected: string;
-  lastDataShared?: string;
-  connectionExpiry?: string;
-  rejectionDate?: string;
-  expiryDate?: string;
-  disconnectionDate?: string;
+  accountsNumber: number;
+  creationDateTime: string;
+  lastDataSharedDateTime: string;
+  expirationDateTime: string;
 }
 
 export default function ConnectedServicesCard({
-  title,
+  tPPInfo,
   status,
-  accountsCount,
-  firstConnected,
-  connectionExpiry,
-  lastDataShared,
-  disconnectionDate,
-  expiryDate,
-  rejectionDate,
+  accountsNumber,
+  creationDateTime,
+  expirationDateTime,
+  lastDataSharedDateTime,
 }: ConnectedServicesCardProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const dateFormater = (date?: string) => {
+    if (!date) return;
+    const validDate = new Date(date);
+    return format(validDate, "dd/MM/yyyy");
+  };
 
   const renderItemStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["20p"],
@@ -59,46 +62,48 @@ export default function ConnectedServicesCard({
         <Stack direction="vertical">
           <ConnectedServicesStatusView status={status} />
           <Typography.Text style={titleStyle} size="callout" weight="medium">
-            {title}
+            {i18n.language === "ar" ? tPPInfo.TPPNameArabic : tPPInfo.TPPNameEnglish}
           </Typography.Text>
           <Typography.Text size="footnote" color="neutralBase-10">
-            {accountsCount}
-            {accountsCount > 1
+            {accountsNumber}
+            {accountsNumber > 1
               ? t("Settings.ConnectedServicesScreen.accounts")
               : t("Settings.ConnectedServicesScreen.account")}
             {t("Settings.ConnectedServicesScreen.connected")}
           </Typography.Text>
           <Typography.Text size="footnote" color="neutralBase-10">
             {t("Settings.ConnectedServicesScreen.firstConnected")}
-            {firstConnected}
+            {dateFormater(creationDateTime)}
           </Typography.Text>
 
-          {status === ConnectedServicesStatus.ACTIVE ? (
+          {status === ConnectedServicesStatus.AUTHORIZED ? (
             <Typography.Text size="footnote" color="neutralBase-10">
               {t("Settings.ConnectedServicesScreen.connectionExpiry")}
-              {connectionExpiry}
+              {dateFormater(expirationDateTime)}
             </Typography.Text>
           ) : status === ConnectedServicesStatus.REVOKED ? (
             <Typography.Text size="footnote" color="neutralBase-10">
               {t("Settings.ConnectedServicesScreen.disconnectedOn")}
-              {disconnectionDate}
+              {dateFormater(expirationDateTime)}
             </Typography.Text>
           ) : status === ConnectedServicesStatus.EXPIRED ? (
             <Typography.Text size="footnote" color="neutralBase-10">
               {t("Settings.ConnectedServicesScreen.expiredOn")}
-              {expiryDate}
+              {dateFormater(expirationDateTime)}
             </Typography.Text>
           ) : null}
 
           {status === ConnectedServicesStatus.REJECTED ? (
             <Typography.Text size="footnote" color="neutralBase-10">
               {t("Settings.ConnectedServicesScreen.rejectedOn")}
-              {rejectionDate}
+              {dateFormater(expirationDateTime)}
             </Typography.Text>
           ) : (
             <Typography.Text size="footnote" color="neutralBase-10">
               {t("Settings.ConnectedServicesScreen.lastDataShared")}
-              {lastDataShared}
+
+              {getTimeDifference(lastDataSharedDateTime)}
+              {t("Settings.ConnectedServicesScreen.ago")}
             </Typography.Text>
           )}
         </Stack>

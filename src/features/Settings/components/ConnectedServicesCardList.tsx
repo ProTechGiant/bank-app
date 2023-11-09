@@ -4,11 +4,12 @@ import { FlatList, ViewStyle } from "react-native";
 import { Stack } from "@/components";
 import { useThemeStyles } from "@/theme";
 
-import { ConnectedServicesInterface } from "../types";
+import { ConnectedServicesDataListInterface } from "../types";
 import ConnectedServicesCard from "./ConnectedServicesCard";
+import ConnectedServicesNotFound from "./ConnectedServicesNotFound";
 
 interface ConnectedServicesCardListProps {
-  connectedAccounts: ConnectedServicesInterface[];
+  connectedAccounts: ConnectedServicesDataListInterface[];
 }
 
 export default function ConnectedServicesCardList({ connectedAccounts }: ConnectedServicesCardListProps) {
@@ -20,18 +21,16 @@ export default function ConnectedServicesCardList({ connectedAccounts }: Connect
     <Stack direction="vertical" style={listContainerStyle} align="stretch">
       <FlatList
         data={connectedAccounts}
+        ListEmptyComponent={<ConnectedServicesNotFound />}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <ConnectedServicesCard
-            title={item.title}
-            status={item.status}
-            accountsCount={item.accountsCount}
-            firstConnected={item.firstConnected}
-            connectionExpiry={item.connectionExpiry}
-            lastDataShared={item.lastDataShared}
-            disconnectionDate={item.disconnectionDate}
-            expiryDate={item.expiryDate}
-            rejectionDate={item.rejectionDate}
+            tPPInfo={item.TPPInfo}
+            status={item.ConsentStatus}
+            accountsNumber={item.AccountsNumber}
+            creationDateTime={item.CreationDateTime}
+            expirationDateTime={item.ExpirationDateTime}
+            lastDataSharedDateTime={item.LastDataSharedDateTime}
           />
         )}
       />

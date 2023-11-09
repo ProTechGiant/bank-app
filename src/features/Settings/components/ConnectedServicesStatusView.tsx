@@ -26,7 +26,7 @@ export default function ConnectedServicesStatusView({ status }: ConnectedService
   }));
 
   const documentStatusData = {
-    [ConnectedServicesStatus.ACTIVE]: {
+    [ConnectedServicesStatus.AUTHORIZED]: {
       title: t("Settings.ConnectedServicesScreen.active"),
       color: palette.successBase,
     },

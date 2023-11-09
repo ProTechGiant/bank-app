@@ -5,6 +5,8 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
+import { getConnectedServicesMock, getMockTppList } from "../mock/ConnectedServices.mock";
+
 interface LanguagePreferred {
   PreferredLanguageCode: string;
   NotificationLanguageCode: string;
@@ -83,5 +85,41 @@ export const useCheckDailyPasscodeLimit = () => {
     return api<UpdatePasscodeStatus>("v2", "customers/passcode-update-flag", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
+  });
+};
+
+export const useGetAccountAccessConsents = () => {
+  return useQuery([], () => {
+    return getConnectedServicesMock();
+    // return api<GetUserConnectedServicesInterface>(
+    //   "v1",
+    //   "open-banking/account-access-consents/list",
+    //   "GET",
+    //   undefined,
+    //   undefined,
+    //   {
+    //     ["x-correlation-id"]: generateRandomId(),
+    //     ["Authorization"]: generateRandomId(),
+    //     ["Accept-Language"]: i18n.language,
+    //   }
+    // );
+  });
+};
+
+export const useGetTppList = () => {
+  return useQuery([], () => {
+    return getMockTppList();
+    // const { i18n } = useTranslation();
+    //   "v1",
+    //   "open-banking/account-access-consents/tpps",
+    //   "GET",
+    //   undefined,
+    //   undefined,
+    //   {
+    //     ["x-correlation-id"]: generateRandomId(),
+    //     ["Authorization"]: generateRandomId(),
+    //     ["Accept-Language"]: i18n.language,
+    //   }
+    // );
   });
 };

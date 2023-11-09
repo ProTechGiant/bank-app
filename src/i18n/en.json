@@ -1154,7 +1154,35 @@
       "rejected": "Rejected",
       "disconnectedOn": "Disconnected on: ",
       "expiredOn": "Expired on: ",
-      "rejectedOn": "Rejected on: "
+      "rejectedOn": "Rejected on: ",
+      "noResultsFound": "No results found",
+      "notConnectionYet": "You haven’t connected any accounts yet.",
+      "ago": " ago",
+      "reload": "Reload",
+      "goBack": "Go back",
+      "1month": "1 month",
+      "3months": "3 months",
+      "6months": "6 months",
+      "12months": "12 months",
+      "moreThanYear": "More than a year",
+      "loadingResults": "Loading results...",
+      "set": "Set",
+      "clearAll": "Clear all",
+      "ErrorModal": {
+        "title": "Something went wrong",
+        "description": "We could not load your connected accounts, please try again."
+      },
+      "InfoModal": {
+        "title": "This page gives you an overview of all the accounts you have connected.",
+        "description": "You can click on the Manage button to find out more. You can disconnect the account at any time if you change your mind."
+      },
+      "FilterModal": {
+        "providerName": "Provider name",
+        "description": "You can click on the Manage button to find out more. You can disconnect the account at any time if you change your mind.",
+        "creationDateInPast": "Creation date in the past:",
+        "select": "Select",
+        "status": "Status"
+      }
     },
     "ChangeLanguageModal": {
       "title": "Language selection",

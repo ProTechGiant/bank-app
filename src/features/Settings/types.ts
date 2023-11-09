@@ -35,14 +35,29 @@ export interface ReOrderSectionProps {
   handleItemPress: (name: string) => void;
 }
 
-export interface ConnectedServicesInterface {
-  title: string;
-  status: ConnectedServicesStatus;
-  accountsCount: number;
-  firstConnected: string;
-  lastDataShared?: string;
-  connectionExpiry?: string;
-  rejectionDate?: string;
-  expiryDate?: string;
-  disconnectionDate?: string;
+export interface GetUserConnectedServicesInterface {
+  PageCount: number;
+  RowCount: number;
+  DataList: ConnectedServicesDataListInterface[];
+}
+
+export interface ConnectedServicesDataListInterface {
+  ConsentId: string;
+  ConsentStatus: ConnectedServicesStatus;
+  TPPInfo: Omit<TppInfoInterface, "TPPId">;
+  AccountsNumber: number;
+  CreationDateTime: string;
+  ExpirationDateTime: string;
+  LastDataSharedDateTime: string;
+}
+
+export interface TppInfoInterface {
+  TPPNameEnglish: string;
+  TPPNameArabic: string;
+  TPPLogo: string;
+  TPPId: string;
+}
+
+export interface GetTppListApiResponseInterface {
+  TPPList: Omit<TppInfoInterface, "TPPLogo">[];
 }
