@@ -32,8 +32,8 @@ const performanceQueryParams = {
     groupingBy: groupingByEnum.daily,
   },
   [TabsTypes.FiveYears]: {
-    duration: 1,
-    period: periodEnum.MONTH,
+    duration: 5,
+    period: periodEnum.YEAR,
     groupingBy: groupingByEnum.monthly,
   },
 };

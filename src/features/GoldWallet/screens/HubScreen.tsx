@@ -11,8 +11,10 @@ import GoldLineChart from "@/components/GoldLineChart";
 import InfoBox from "@/components/InfoBox";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import Page from "@/components/Page";
+import useGoldPerformance from "@/hooks/use-gold-performance";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TabsTypes } from "@/types/GoldChart";
 
 import { AlertSettingsModal } from "../components";
 import EmptyTransactionsContent from "../components/EmptyTransactionsContent";
@@ -42,6 +44,12 @@ export default function HubScreen() {
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
   const [isAlertSettingsModalVisible, setIsAlertSettingsModalVisible] = useState<boolean>(false);
   const [isTransactionsErrorModalVisible, setIsTransactionsErrorModalVisible] = useState<boolean>(false);
+  const [chartType, setChartType] = useState(TabsTypes.Week);
+  const { data: chartData } = useGoldPerformance(chartType);
+
+  const updateChartType = (type: any) => {
+    setChartType(type);
+  };
 
   const conditionsWithLabels: ConditionWithLabelsType[] = [
     { label: t("GoldWallet.AlertSettingsModal.ConditionsModal.greaterThan"), value: AlertConditionsEnum.GREATER_THAN },
@@ -215,7 +223,11 @@ export default function HubScreen() {
               </View>
             )}
             <View style={rowHorizontalStyle}>
-              <GoldLineChart />
+              <GoldLineChart
+                updateChartType={updateChartType}
+                data={chartType === TabsTypes.FiveYears ? chartData?.MonthlyData : chartData?.DailyData}
+                hasFiveYears={true}
+              />
             </View>
             <Stack direction="vertical" align="stretch">
               <Stack direction="horizontal" align="center" justify="space-between" style={transactionsContainerStyle}>
