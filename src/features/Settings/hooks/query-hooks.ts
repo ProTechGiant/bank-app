@@ -6,6 +6,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
 import { getConnectedServicesMock, getMockTppList } from "../mock/ConnectedServices.mock";
+import { GetUserConsentAPIParamsInterface } from "../types";
 
 interface LanguagePreferred {
   PreferredLanguageCode: string;
@@ -15,6 +16,12 @@ const queryKeys = {
   homeLayout: () => ["layout", "getLayout"] as const,
   all: () => ["customerProfileData"] as const,
   getLayout: () => [...queryKeys.all(), "getLayout"],
+  getUserConsent: (queryParams: GetUserConsentAPIParamsInterface) => [
+    ...queryKeys.all(),
+    "getUserConsents",
+    queryParams,
+  ],
+  getTppList: () => [...queryKeys.all(), "getUserConsents"],
 };
 interface UpdatePasscodeStatus {
   UpdatePasscodeEnabled: boolean;
@@ -88,9 +95,9 @@ export const useCheckDailyPasscodeLimit = () => {
   });
 };
 
-export const useGetAccountAccessConsents = () => {
-  return useQuery([], () => {
-    return getConnectedServicesMock();
+export const useGetAccountAccessConsents = (queryParams: GetUserConsentAPIParamsInterface) => {
+  return useQuery(queryKeys.getUserConsent(queryParams), () => {
+    return getConnectedServicesMock(queryParams);
     // return api<GetUserConnectedServicesInterface>(
     //   "v1",
     //   "open-banking/account-access-consents/list",
@@ -107,7 +114,7 @@ export const useGetAccountAccessConsents = () => {
 };
 
 export const useGetTppList = () => {
-  return useQuery([], () => {
+  return useQuery(queryKeys.getTppList(), () => {
     return getMockTppList();
     // const { i18n } = useTranslation();
     //   "v1",

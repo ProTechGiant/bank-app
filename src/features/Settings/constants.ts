@@ -10,16 +10,21 @@ export enum ConnectedServicesTabTypes {
   HISTORY = "History",
 }
 
-export const ConnectedServicesCurrentFilterOptions = {
-  "1month": "1",
-  "3months": "3",
-  "6months": "6",
-  "12months": "12",
-  moreThanYear: "more",
+export const ConnectedServicesCurrentFilterOptions = ["1", "3", "6", "12", "more"];
+
+export const ConnectedServicesHistoryFilterOptions = ["revoked", "expired", "rejected"];
+
+export const DefaultPageSize = 10;
+export const DefaultOffset = 0;
+
+export const currentTabDefaultUserConsentApiParams = {
+  PageSize: DefaultPageSize,
+  Offset: DefaultOffset,
+  Status: [ConnectedServicesStatus.AUTHORIZED],
 };
 
-export const ConnectedServicesHistoryFilterOptions = {
-  revoked: "Revoked",
-  expired: "Expired",
-  rejected: "Rejected",
+export const historyTabDefaultUserConsentApiParams = {
+  PageSize: DefaultPageSize,
+  Offset: DefaultOffset,
+  Status: [ConnectedServicesStatus.EXPIRED, ConnectedServicesStatus.REJECTED, ConnectedServicesStatus.REVOKED],
 };

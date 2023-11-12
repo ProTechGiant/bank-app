@@ -1,8 +1,7 @@
 import React from "react";
-import { FlatList, ViewStyle } from "react-native";
+import { FlatList, RefreshControl } from "react-native";
 
-import { Stack } from "@/components";
-import { useThemeStyles } from "@/theme";
+import { SectionListFooter, Stack } from "@/components";
 
 import { ConnectedServicesDataListInterface } from "../types";
 import ConnectedServicesCard from "./ConnectedServicesCard";
@@ -10,15 +9,23 @@ import ConnectedServicesNotFound from "./ConnectedServicesNotFound";
 
 interface ConnectedServicesCardListProps {
   connectedAccounts: ConnectedServicesDataListInterface[];
+  onEndReached: () => void;
+  onRefresh: () => void;
+  isLoading: boolean;
+  isFilterActive: boolean;
 }
 
-export default function ConnectedServicesCardList({ connectedAccounts }: ConnectedServicesCardListProps) {
-  const listContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["16p"],
-  }));
+export default function ConnectedServicesCardList({
+  connectedAccounts,
+  onEndReached,
+  isLoading,
+  onRefresh,
+  isFilterActive,
+}: ConnectedServicesCardListProps) {
+  const sectionFooter = () => <SectionListFooter isFilterActive={isFilterActive} />;
 
   return (
-    <Stack direction="vertical" style={listContainerStyle} align="stretch">
+    <Stack direction="vertical" align="stretch">
       <FlatList
         data={connectedAccounts}
         ListEmptyComponent={<ConnectedServicesNotFound />}
@@ -34,6 +41,11 @@ export default function ConnectedServicesCardList({ connectedAccounts }: Connect
             lastDataSharedDateTime={item.LastDataSharedDateTime}
           />
         )}
+        ListFooterComponent={sectionFooter}
+        refreshControl={<RefreshControl refreshing={isLoading} onRefresh={onRefresh} />}
+        onEndReachedThreshold={0.1}
+        onEndReached={({ distanceFromEnd }) => (distanceFromEnd >= 0.1 ? onEndReached() : undefined)}
+        keyExtractor={item => item.ConsentId}
       />
     </Stack>
   );

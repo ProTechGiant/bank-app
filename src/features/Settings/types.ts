@@ -62,6 +62,28 @@ export interface GetTppListApiResponseInterface {
   TPPList: Omit<TppInfoInterface, "TPPLogo">[];
 }
 
+export interface UserConsentQueryParamsInterface {
+  PageSize: number;
+  Offset: number;
+  Status: ConnectedServicesStatus[];
+  FromCreationDate?: string;
+  ToCreationDate?: string;
+  TPPId?: string;
+}
+
+export interface GetUserConsentAPIParamsInterface extends Omit<UserConsentQueryParamsInterface, "Status"> {
+  Status: string;
+}
+
+export interface GetUserConsentAPIResponse {
+  connectedAccounts: ConnectedServicesDataListInterface[];
+  totalRecords: number;
+}
+
+export interface ConnectedServicesFilterInterface {
+  creationDateFilter?: string;
+  statusFilters: ConnectedServicesStatus[];
+}
 export interface ConsentDetailedInterface {
   ConsentId: string;
   TPPInfo: {

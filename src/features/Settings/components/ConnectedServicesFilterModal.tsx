@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { TextStyle } from "react-native"; // Make sure to import View
+import { TextStyle } from "react-native";
 
 import { Modal, Stack, Typography } from "@/components";
 import Button from "@/components/Button";
@@ -11,45 +11,92 @@ import { useThemeStyles } from "@/theme";
 import {
   ConnectedServicesCurrentFilterOptions,
   ConnectedServicesHistoryFilterOptions,
+  ConnectedServicesStatus,
   ConnectedServicesTabTypes,
 } from "../constants";
-import { TppInfoInterface } from "../types";
+import { ConnectedServicesFilterInterface, TppInfoInterface } from "../types";
 
 interface ConnectedServicesInfoModalProps {
   isVisible: boolean;
-  selectedTpp: Omit<TppInfoInterface, "TPPLogo"> | null;
-  onSelectTpp: (value: string) => void;
+  preSelectedTppId?: string;
   onClose: () => void;
-  status: ConnectedServicesTabTypes;
-  onApplyFilter: (tppId: string) => void;
-  onSelectFilter: (filter: string) => void;
+  appliedFilters: ConnectedServicesFilterInterface | null;
   onClearAll: () => void;
-  selectedFilters: string[];
+  currentTab: ConnectedServicesTabTypes;
+  onApplyFilter: (status?: ConnectedServicesStatus[], createDate?: string, tppId?: string) => void;
   tppList: Omit<TppInfoInterface, "TPPLogo">[];
 }
 
 export default function ConnectedServicesFilterModal({
+  onClearAll,
   isVisible,
   onClose,
-  status,
   onApplyFilter,
-  onSelectFilter,
-  onClearAll,
-  selectedFilters,
   tppList,
-  onSelectTpp,
-  selectedTpp,
+  preSelectedTppId,
+  appliedFilters,
+  currentTab,
 }: ConnectedServicesInfoModalProps) {
   const { t, i18n } = useTranslation();
+  const [selectedTppId, setSelectedTppId] = useState<string | undefined>();
+  const [selectedFilters, setSelectedFilters] = useState<ConnectedServicesFilterInterface | null>(null);
 
-  const selectBoxOptions = useMemo(() => {
-    return tppList.map(tpp => {
-      return {
+  useEffect(() => {
+    setSelectedFilters(appliedFilters ?? null);
+  }, [appliedFilters, currentTab, isVisible]);
+
+  useEffect(() => {
+    setSelectedTppId(preSelectedTppId);
+  }, [preSelectedTppId]);
+
+  const selectBoxOptions = useMemo(
+    () =>
+      tppList.map(tpp => ({
         label: i18n.language === "ar" ? tpp.TPPNameArabic : tpp.TPPNameEnglish,
         value: tpp.TPPId,
-      };
+      })),
+    [tppList, i18n.language]
+  );
+
+  const handleOnSelectFilter = (creationDateFilter?: string, statusFilter?: ConnectedServicesStatus) => {
+    setSelectedFilters(prevFilters => {
+      if (!prevFilters) {
+        return {
+          creationDateFilter: creationDateFilter ?? "",
+          statusFilters: statusFilter ? [statusFilter] : [],
+        };
+      }
+
+      const selectedFiltersCopy = { ...prevFilters };
+
+      if (creationDateFilter !== undefined) {
+        const isSelected = selectedFiltersCopy.creationDateFilter === creationDateFilter;
+        selectedFiltersCopy.creationDateFilter = isSelected ? undefined : creationDateFilter;
+      } else if (statusFilter) {
+        const filterIndex = selectedFiltersCopy.statusFilters.indexOf(statusFilter);
+        if (filterIndex > -1) {
+          selectedFiltersCopy.statusFilters.splice(filterIndex, 1);
+        } else {
+          selectedFiltersCopy.statusFilters.push(statusFilter as ConnectedServicesStatus);
+        }
+      }
+      return selectedFiltersCopy;
     });
-  }, [tppList]);
+  };
+
+  const handleOnClearAll = () => {
+    setSelectedFilters(null);
+    onClearAll();
+    setSelectedTppId(undefined);
+  };
+
+  const handleOnApplyFilter = () => {
+    if (currentTab === ConnectedServicesTabTypes.CURRENT) {
+      onApplyFilter(undefined, selectedFilters?.creationDateFilter, selectedTppId);
+    } else {
+      onApplyFilter(selectedFilters?.statusFilters, undefined, selectedTppId);
+    }
+  };
 
   const titleStyle = useThemeStyles<TextStyle>(theme => ({
     marginBottom: theme.spacing["8p"],
@@ -72,41 +119,43 @@ export default function ConnectedServicesFilterModal({
   }));
 
   const renderFilterOptions = () => {
-    if (status === ConnectedServicesTabTypes.CURRENT) {
-      return (
-        <Stack direction="vertical" style={pillContainerStyle} align="stretch">
-          <Typography.Text size="callout" weight="medium" color="neutralBase-10">
-            {t("Settings.ConnectedServicesScreen.FilterModal.creationDateInPast")}
-          </Typography.Text>
-          <Stack direction="horizontal" style={pillRowStyle}>
-            {Object.entries(ConnectedServicesCurrentFilterOptions).map(([key, value]) => {
-              return (
-                <Pill isActive={selectedFilters.includes(value)} onPress={() => onSelectFilter(value)}>
-                  {t(`Settings.ConnectedServicesScreen.${key}`)}
-                </Pill>
-              );
-            })}
-          </Stack>
+    const filterOptions =
+      currentTab === ConnectedServicesTabTypes.CURRENT
+        ? ConnectedServicesCurrentFilterOptions
+        : ConnectedServicesHistoryFilterOptions;
+
+    return (
+      <Stack direction="vertical" style={pillContainerStyle} align="stretch">
+        <Typography.Text size="callout" weight="medium" color="neutralBase-10">
+          {t(
+            `Settings.ConnectedServicesScreen.FilterModal.${
+              currentTab === ConnectedServicesTabTypes.CURRENT ? "creationDateInPast" : "status"
+            }`
+          )}
+        </Typography.Text>
+        <Stack direction="horizontal" style={pillRowStyle}>
+          {filterOptions.map(value => (
+            <Pill
+              key={value}
+              isActive={
+                currentTab === ConnectedServicesTabTypes.CURRENT
+                  ? selectedFilters?.creationDateFilter === value
+                  : selectedFilters?.statusFilters?.includes(value as ConnectedServicesStatus)
+              }
+              onPress={() =>
+                handleOnSelectFilter(
+                  currentTab === ConnectedServicesTabTypes.CURRENT ? value : undefined,
+                  currentTab === ConnectedServicesTabTypes.HISTORY ? (value as ConnectedServicesStatus) : undefined
+                )
+              }>
+              {currentTab === ConnectedServicesTabTypes.CURRENT
+                ? t(`Settings.ConnectedServicesScreen.Months.${value}`)
+                : t(`Settings.ConnectedServicesScreen.${value}`)}
+            </Pill>
+          ))}
         </Stack>
-      );
-    } else {
-      return (
-        <Stack direction="vertical" style={pillContainerStyle}>
-          <Typography.Text size="callout" weight="medium" color="neutralBase-10">
-            {t("Settings.ConnectedServicesScreen.FilterModal.status")}
-          </Typography.Text>
-          <Stack direction="horizontal" style={pillRowStyle}>
-            {Object.entries(ConnectedServicesHistoryFilterOptions).map(([key, value]) => {
-              return (
-                <Pill isActive={selectedFilters.includes(value)} onPress={() => onSelectFilter(value)}>
-                  {t(`Settings.ConnectedServicesScreen.${key}`)}
-                </Pill>
-              );
-            })}
-          </Stack>
-        </Stack>
-      );
-    }
+      </Stack>
+    );
   };
 
   return (
@@ -117,16 +166,14 @@ export default function ConnectedServicesFilterModal({
       <DropdownInput
         label={t("Settings.ConnectedServicesScreen.FilterModal.select")}
         buttonLabel=""
-        onChange={tpp => onSelectTpp(tpp)}
+        onChange={tpp => setSelectedTppId(tpp)}
         options={selectBoxOptions}
-        value={selectedTpp?.TPPId}
+        value={selectedTppId}
       />
       {renderFilterOptions()}
       <Stack direction="vertical" align="stretch" style={buttonContainerStyle}>
-        <Button onPress={() => onApplyFilter(selectedTpp?.TPPId ?? "")}>
-          {t("Settings.ConnectedServicesScreen.set")}
-        </Button>
-        <Button onPress={onClearAll} variant="tertiary">
+        <Button onPress={handleOnApplyFilter}>{t("Settings.ConnectedServicesScreen.set")}</Button>
+        <Button onPress={handleOnClearAll} variant="tertiary">
           {t("Settings.ConnectedServicesScreen.clearAll")}
         </Button>
       </Stack>
