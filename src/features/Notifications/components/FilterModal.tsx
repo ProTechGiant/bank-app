@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 import Button from "@/components/Button";
 import Chip from "@/components/Chip";
@@ -27,6 +28,10 @@ export default function FilterModal({
 }: FilterModalProps) {
   const { t } = useTranslation();
 
+  const applyButtonStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginBottom: theme.spacing["48p"],
+  }));
+
   const tagsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     gap: theme.spacing["12p"],
     flexWrap: "wrap",
@@ -35,25 +40,36 @@ export default function FilterModal({
 
   return (
     <Modal
+      style={styles.modalStyle}
       headerText={t("Notifications.NotificationHubScreen.filterModal.title")}
       onClose={() => setIsVisible(false)}
       visible={isVisible}>
-      <Stack direction="horizontal" gap="12p" style={tagsContainerStyle}>
-        {filters.map(item => {
-          return (
-            <Chip
-              onPress={() => onItemPress(item.Id)}
-              title={item.Name}
-              isRemovable={false}
-              key={item.Id}
-              isSelected={item.isActive}
-            />
-          );
-        })}
-      </Stack>
-      <Button onPress={onApplyButtonPress} disabled={isApplyButtonDisabled}>
-        {t("Notifications.NotificationHubScreen.filterModal.applyButton")}
-      </Button>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Stack direction="horizontal" gap="12p" style={tagsContainerStyle}>
+          {filters.map(item => {
+            return (
+              <Chip
+                onPress={() => onItemPress(item.Id)}
+                title={item.Name}
+                isRemovable={false}
+                key={item.Id}
+                isSelected={item.isActive}
+              />
+            );
+          })}
+        </Stack>
+        <View style={applyButtonStyle}>
+          <Button onPress={onApplyButtonPress} disabled={isApplyButtonDisabled}>
+            {t("Notifications.NotificationHubScreen.filterModal.applyButton")}
+          </Button>
+        </View>
+      </ScrollView>
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  modalStyle: {
+    maxHeight: "80%",
+  },
+});
