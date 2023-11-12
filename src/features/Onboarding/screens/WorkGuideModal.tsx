@@ -65,7 +65,7 @@ export default function WorkGuideModal() {
     Alert.alert(t("Onboarding.LandingScreen.lifeStylePreferenceModal.nextBuildCycle")); //TODO: Navigate to lifestyle later instead of alert
   };
 
-  const lifeStyleItem = customerPendingActionData?.find(pendingAction => Number(pendingAction?.ActionTypeId) === 1);
+  const lifeStyleItem = customerPendingActionData?.find(pendingAction => Number(pendingAction?.ActionTypeId) === 3);
 
   return (
     <SafeAreaProvider>

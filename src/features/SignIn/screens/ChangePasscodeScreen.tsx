@@ -84,7 +84,7 @@ export default function ChangePasscodeScreen() {
         },
         onFinish: (status: string) => {
           if (status === "success") {
-            delayTransition(() => handleOtpVerification());
+            handleOtpVerification();
           }
         },
         onUserBlocked: () => {
