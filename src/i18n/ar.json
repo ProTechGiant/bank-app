@@ -1195,6 +1195,24 @@
         "status": "الحالة"
       }
     },
+    "ConsentDetailedScreen": {
+      "sharedData": "البيانات المشاركة",
+      "firstConnected": "الاتصال الأول",
+      "expiryDate": "تاريخ الانتهاء",
+      "disconnect": "قطع الاتصال",
+      "ongoing": "مستمر"
+    },
+    "ConsentDetailedConfirmModal": {
+      "title": "هل أنت متأكد أنك تريد قطع اتصال مزود الخدمة هذا؟",
+      "subtitle": "يجب عليك الاتصال بـ (شركة ABC المحدودة) لفهم الآثار المترتبة على توقف المشاركة بشكل كامل.",
+      "cancel": "إلغاء",
+      "confirm": "تأكيد",
+      "successMessage": "مكتمل",
+      "subSuccessMessage": "لم تعد تقوم بمشاركة البيانات مع (شركة ABC المحدودة)",
+      "errorMessage": "حاول مرة أخرى في وقت لاحق",
+      "subErrorMessage": "لا يمكنك قطع اتصال مزود الخدمة هذا.",
+      "goBack": "الرجوع"
+    },
     "ChangeLanguageModal": {
       "title": "اختيار اللغة",
       "subtitle": "الرجاء اختيار لغتك المفضلة من الخيارات أدناه.",

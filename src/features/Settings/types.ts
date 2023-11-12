@@ -61,3 +61,30 @@ export interface TppInfoInterface {
 export interface GetTppListApiResponseInterface {
   TPPList: Omit<TppInfoInterface, "TPPLogo">[];
 }
+
+export interface ConsentDetailedInterface {
+  ConsentId: string;
+  TPPInfo: {
+    TPPNameEnglish: string;
+    TPPNameArabic: string;
+    TPPNickName: string;
+    GroupsListData: {
+      DataGroupNameEnglish: string;
+      DataGroupNameArabic: string;
+      PermissionsList: {
+        PermissionDescriptionEnglish: string;
+        PermissionDescriptionArabic: string;
+      }[];
+    }[];
+    CreationDateTime: string;
+    ExiprationDateTime: string;
+    Accounts: {
+      Id: number;
+      Type: string;
+    }[];
+    Cards: {
+      AccountNumber: string;
+      Type: string;
+    }[];
+  };
+}

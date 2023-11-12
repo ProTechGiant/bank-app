@@ -1,5 +1,5 @@
 import { ConnectedServicesStatus } from "../constants";
-import { ConnectedServicesDataListInterface } from "../types";
+import { ConnectedServicesDataListInterface, ConsentDetailedInterface } from "../types";
 
 export const getConnectedServicesMock = (): ConnectedServicesDataListInterface[] => {
   return [
@@ -294,4 +294,73 @@ export const getMockTppList = () => {
       TPPNameArabic: "محاكي الطرف الثالث",
     },
   ];
+};
+
+export const consetntDetailed: ConsentDetailedInterface = {
+  ConsentId: "37723632420474186464855715465",
+  TPPInfo: {
+    TPPNameEnglish: "Darahem",
+    TPPNameArabic: "دراهم",
+    TPPNickName: "My TPP",
+    GroupsListData: [
+      {
+        DataGroupNameEnglish: "Your account details",
+        DataGroupNameArabic: "المعلومات الشخصية",
+        PermissionsList: [
+          {
+            PermissionDescriptionEnglish:
+              "The name of the account and the full legal name(s) of all parties.\nOptionally this can also include their address or addresses, telephone",
+            PermissionDescriptionArabic: "اسم ومعلومات صاحب الحساب والعنوان البريدي",
+          },
+          {
+            PermissionDescriptionEnglish:
+              "The name of the account and your full legal name.\nOptionally this can also include your address, telephone numbers and email",
+            PermissionDescriptionArabic: "اسم الحساب والاسم الكامل لصاحب الحساب، بالإضافة إلى العنوان البريدي",
+          },
+        ],
+      },
+      {
+        DataGroupNameEnglish: "Your account transactions",
+        DataGroupNameArabic: "بيانات عمليات الحولات",
+        PermissionsList: [
+          {
+            PermissionDescriptionEnglish: "Transactions you have set up",
+            PermissionDescriptionArabic: "الحولات",
+          },
+        ],
+      },
+      {
+        DataGroupNameEnglish: "Your Regular Payments",
+        DataGroupNameArabic: "بيانات عمليات المدفوعات",
+        PermissionsList: [
+          {
+            PermissionDescriptionEnglish: "Payee agreements you have set up",
+            PermissionDescriptionArabic: "اسماء المعرفيين والمستفيدين بحسابك",
+          },
+        ],
+      },
+    ],
+    CreationDateTime: "2023-09-18T11:07:11.677+03:00",
+    ExiprationDateTime: "2024-06-30T13:40:00.000+03:00",
+    Accounts: [
+      {
+        Id: 1265485126,
+        Type: "Current Account",
+      },
+      {
+        Id: 1265485324,
+        Type: "Savings Account",
+      },
+    ],
+    Cards: [
+      {
+        AccountNumber: "0003332220000000023",
+        Type: "Debit",
+      },
+      {
+        AccountNumber: "0003332220000000022",
+        Type: "Credit",
+      },
+    ],
+  },
 };

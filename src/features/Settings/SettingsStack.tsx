@@ -2,10 +2,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { FinancialInformationScreen } from "../FinancialInformation/screens";
 import LifeStyleScreen from "../LifeStyle/screens/LifeStyleScreen";
+import { ConnectedServicesStatus } from "./constants";
 import {
   AccountSettingsScreen,
   BiometricSettingScreen,
   ConnectedServicesScreen,
+  ConsentDetailedScreen,
   CustomerAccountManagementScreen,
   TemporarySubscriptionManagementScreen,
 } from "./screens";
@@ -20,6 +22,10 @@ export type SettingsStackParams = {
   // TODO: TemporarySubscriptionManagementScreen will be removed from this Stack when implemented by Smart Choices Domain team
   "Settings.TemporarySubscriptionManagementScreen": undefined;
   "Settings.ConnectedServicesScreen": undefined;
+  "Settings.ConsentDetailedScreen": {
+    consentId?: string;
+    consentStatus: ConnectedServicesStatus;
+  };
 };
 
 export const Stack = createNativeStackNavigator<SettingsStackParams>();
@@ -38,6 +44,7 @@ export default function SettingsStack() {
         component={TemporarySubscriptionManagementScreen}
         name="Settings.TemporarySubscriptionManagementScreen"
       />
+      <Stack.Screen component={ConsentDetailedScreen} name="Settings.ConsentDetailedScreen" />
     </Stack.Navigator>
   );
 }

@@ -1184,6 +1184,24 @@
         "status": "Status"
       }
     },
+    "ConsentDetailedScreen": {
+      "sharedData": "Shared data",
+      "firstConnected": "First connected",
+      "expiryDate": "Expiry date",
+      "disconnect": "Disconnect",
+      "ongoing": "Ongoing"
+    },
+    "ConsentDetailedConfirmModal": {
+      "title": "Are you sure you want to disconnect this service provider?",
+      "subtitle": "You should contact (ABC Company Ltd) to fully understand the implications when you stop sharing.",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "successMessage": "Complete",
+      "subSuccessMessage": "You are no longer sharing data with (ABC Company Ltd)",
+      "errorMessage": "Try again later",
+      "subErrorMessage": "You are not able to disconnect this service provider.",
+      "goBack": "Go back"
+    },
     "ChangeLanguageModal": {
       "title": "Language selection",
       "subtitle": "Please choose your preferred language from the options below.",

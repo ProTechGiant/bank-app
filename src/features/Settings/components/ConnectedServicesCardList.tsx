@@ -25,6 +25,7 @@ export default function ConnectedServicesCardList({ connectedAccounts }: Connect
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <ConnectedServicesCard
+            consentId={item.ConsentId}
             tPPInfo={item.TPPInfo}
             status={item.ConsentStatus}
             accountsNumber={item.AccountsNumber}

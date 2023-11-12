@@ -1,10 +1,11 @@
 import { format } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { ConnnectedServicesCardIcon } from "../assets/icons";
@@ -14,6 +15,7 @@ import { getTimeDifference } from "../utils/getTimeDifference";
 import ConnectedServicesStatusView from "./ConnectedServicesStatusView";
 
 interface ConnectedServicesCardProps {
+  consentId: string;
   tPPInfo: Omit<TppInfoInterface, "TPPId">;
   status: ConnectedServicesStatus;
   accountsNumber: number;
@@ -23,6 +25,7 @@ interface ConnectedServicesCardProps {
 }
 
 export default function ConnectedServicesCard({
+  consentId,
   tPPInfo,
   status,
   accountsNumber,
@@ -31,6 +34,17 @@ export default function ConnectedServicesCard({
   lastDataSharedDateTime,
 }: ConnectedServicesCardProps) {
   const { t, i18n } = useTranslation();
+  const navigation = useNavigation();
+
+  const handleOnNavigateToConsent = () => {
+    navigation.navigate("Settings.SettingsStack", {
+      screen: "Settings.ConsentDetailedScreen",
+      params: {
+        consentId: consentId,
+        consentStatus: status,
+      },
+    });
+  };
 
   const dateFormater = (date?: string) => {
     if (!date) return;
@@ -51,6 +65,10 @@ export default function ConnectedServicesCard({
   const titleStyle = useThemeStyles<TextStyle>(theme => ({
     marginTop: theme.spacing["8p"],
     marginBottom: theme.spacing["4p"],
+  }));
+
+  const marginStyle = useThemeStyles<TextStyle>(theme => ({
+    marginEnd: theme.spacing["48p"],
   }));
 
   return (
@@ -107,7 +125,13 @@ export default function ConnectedServicesCard({
             </Typography.Text>
           )}
         </Stack>
-        <ChevronRightIcon color="#ACABBA" />
+        {status === ConnectedServicesStatus.AUTHORIZED ? (
+          <Pressable onPress={handleOnNavigateToConsent}>
+            <ChevronRightIcon color="#ACABBA" />
+          </Pressable>
+        ) : (
+          <View style={marginStyle} />
+        )}
       </Stack>
     </>
   );
