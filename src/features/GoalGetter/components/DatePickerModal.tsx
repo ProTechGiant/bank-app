@@ -14,11 +14,18 @@ import { useThemeStyles } from "@/theme";
 interface DatePickerModalProps {
   onDateSelected: (date: Date) => void;
   onClose: () => void;
+  onDurationSelect: (durationItem: { text: string; value: number }) => void;
   isVisible: boolean;
   currentDate: string;
 }
 
-export default function DatePickerModal({ onDateSelected, onClose, isVisible, currentDate }: DatePickerModalProps) {
+export default function DatePickerModal({
+  onDateSelected,
+  onClose,
+  onDurationSelect,
+  isVisible,
+  currentDate,
+}: DatePickerModalProps) {
   const { t } = useTranslation();
   const todayDate = new Date();
   const [selectedDate, setSelectedDate] = useState(currentDate);
@@ -40,6 +47,12 @@ export default function DatePickerModal({ onDateSelected, onClose, isVisible, cu
   const handleOnPressSetDate = () => {
     onDateSelected(new Date(selectedDate));
     onClose();
+  };
+
+  const handleDurationSelect = (durationItem: { text: string; value: number }) => {
+    setSelectedDuration(durationItem.text);
+    handleOnChangeDuration(durationItem.value);
+    onDurationSelect(durationItem);
   };
 
   const calenderStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -73,10 +86,7 @@ export default function DatePickerModal({ onDateSelected, onClose, isVisible, cu
           return (
             <Pill
               key={durationItem.text}
-              onPress={() => {
-                setSelectedDuration(durationItem.text);
-                handleOnChangeDuration(durationItem.value);
-              }}
+              onPress={() => handleDurationSelect(durationItem)}
               isActive={durationItem.text === selectedDuration}>
               {durationItem.text}
             </Pill>

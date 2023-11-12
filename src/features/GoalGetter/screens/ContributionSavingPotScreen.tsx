@@ -109,7 +109,7 @@ export default function ContributionSavingPotScreen() {
   const { control, formState, handleSubmit } = useForm<GoalAmount>({
     resolver: yupResolver(validationAmountSchema),
     mode: "onBlur",
-    defaultValues: { InitialContribution: 150, RecurringFrequency: 1000, PercentageInput: 0 },
+    defaultValues: { InitialContribution: 0, RecurringFrequency: 0, PercentageInput: 0 },
   });
 
   const handleOnSubmit = (data: GoalAmount) => {
@@ -211,9 +211,9 @@ export default function ContributionSavingPotScreen() {
               <AngleDownIcon />
             </Pressable>
           </Stack>
-          {methodsContribution.includes("percentage") ? (
+          {methodsContribution.includes(t("GoalGetter.ShapeYourGoalContributions.Percentage")) ? (
             <Stack direction="vertical" gap="12p" style={stackAmountStyle}>
-              <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.Percentage")}</Typography.Text>
+              <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.percentageLabel")}</Typography.Text>
               <View style={styles.containerInputStyle}>
                 <CurrencyInput name="PercentageInput" control={control} label="" currency="%" />
               </View>

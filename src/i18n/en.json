@@ -1750,8 +1750,10 @@
       "continueButton": "Continue",
       "currency": "SAR",
       "error": {
-        "errorTargetAmount": "Please enter amount within 6,000,000.00 SAR",
-        "errorMonthlyAmount": "Please enter amount above 100.00 SAR"
+        "maxTargetAmount": "The maximum value {{value}} SAR",
+        "minTargetAmount": "The minimum value {{value}} SAR",
+        "maxMonthlyAmount": "The maximum value {{value}} SAR",
+        "minMonthlyAmount": "The minimum value {{value}} SAR"
       },
       "DatePickerModal": {
         "title": "Select date",
@@ -1821,7 +1823,11 @@
         "max": "The value should be less than 100"
       },
       "Recurring": "Recurring",
-      "RoundsUp": "Rounds Up"
+      "RoundsUp": "Rounds Up",
+      "recurringDiscretion": "To contribute the same amount scheduled repeatedly monthly or weekly",
+      "roundsUpDiscretion": "To contribute the rounds of your transactions (only one savings at a time)",
+      "percentageDiscretion": "To contribute a specified percentage.",
+      "percentageLabel": "Percentage"
     }
   },
   "Referral": {

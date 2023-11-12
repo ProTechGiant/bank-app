@@ -10,9 +10,9 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import { ProgressIndicator, Stack, Typography } from "@/components";
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import CurrencyInput from "@/components/Form/CurrencyInput";
-import SubmitButton from "@/components/Form/SubmitButton";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Pill from "@/components/Pill";
@@ -20,6 +20,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CalendarButton, DatePickerModal } from "../components";
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { useGoalsSetting } from "../hooks/query-hooks";
 
 interface GoalAmount {
@@ -34,6 +35,7 @@ export default function ShapeGoalScreen() {
   const [isSelectedOption, setIsSelectedOption] = useState(false);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const { data } = useGoalsSetting();
+  const { setGoalContextState } = useGoalGetterContext();
 
   const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const goalDurationOptions = [
@@ -46,20 +48,58 @@ export default function ShapeGoalScreen() {
     TargetAmount: yup
       .number()
       .nullable()
-      .min(data?.MinimumTargetAmount, t("GoalGetter.ShapeGoalScreen.error.errorTargetAmount"))
-      .max(data?.MaximumTargetAmount, t("GoalGetter.ShapeGoalScreen.error.errorTargetAmount")),
+      .min(
+        data?.MinimumTargetAmount,
+        t("GoalGetter.ShapeGoalScreen.error.minTargetAmount", { value: data?.MinimumTargetAmount })
+      )
+      .max(
+        data?.MaximumTargetAmount,
+        t("GoalGetter.ShapeGoalScreen.error.maxTargetAmount", { value: data?.MaximumTargetAmount })
+      ),
     MonthlyAmount: yup
       .number()
       .nullable()
-      .min(data?.MinimumMonthlyAmount, t("GoalGetter.ShapeGoalScreen.error.errorMonthlyAmount"))
-      .max(data?.MaximumMonthlyAmount, t("GoalGetter.ShapeGoalScreen.error.errorMonthlyAmount")),
+      .min(
+        data?.MinimumMonthlyAmount,
+        t("GoalGetter.ShapeGoalScreen.error.minMonthlyAmount", { value: data?.MinimumMonthlyAmount })
+      )
+      .max(
+        data?.MaximumMonthlyAmount,
+        t("GoalGetter.ShapeGoalScreen.error.maxMonthlyAmount", { value: data?.MaximumMonthlyAmount })
+      ),
   });
 
-  const { control, handleSubmit } = useForm<GoalAmount>({
+  const {
+    control,
+    watch,
+    formState: { errors },
+  } = useForm<GoalAmount>({
     resolver: yupResolver(validationAmountSchema),
     mode: "onChange",
     defaultValues: { TargetAmount: 0, MonthlyAmount: 0 },
   });
+
+  const watchedValues = watch();
+
+  const isSubmitButtonEnabled = () => {
+    const isTargetAmountValidOrEmpty = watchedValues.TargetAmount ? !errors.TargetAmount : true;
+    const isMonthlyAmountValidOrEmpty = watchedValues.MonthlyAmount ? !errors.MonthlyAmount : true;
+
+    const isOneFieldFilledCorrectly =
+      (watchedValues.TargetAmount && !errors.TargetAmount) || (watchedValues.MonthlyAmount && !errors.MonthlyAmount);
+
+    const isDateSelectedWithoutErrors =
+      isSelectedOption &&
+      isTargetAmountValidOrEmpty &&
+      isMonthlyAmountValidOrEmpty &&
+      !errors.TargetAmount &&
+      !errors.MonthlyAmount;
+
+    return (
+      (isTargetAmountValidOrEmpty && isMonthlyAmountValidOrEmpty && isOneFieldFilledCorrectly) ||
+      isDateSelectedWithoutErrors
+    );
+  };
 
   useEffect(() => {
     if (selectedGoalDurationOption === 0) setSelectedDate(format(new Date(), "yyyy-MM-dd"));
@@ -128,6 +168,12 @@ export default function ShapeGoalScreen() {
     }
   };
 
+  const handleDurationSelect = (durationItem: { text: string; value: number }) => {
+    console.log("Duration selected:", durationItem.text, "Value:", durationItem.value);
+    // You can now use durationItem as needed, for example:
+    // setSomeState(durationItem.value);
+    setGoalContextState({ Duration: durationItem.text });
+  };
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
@@ -191,9 +237,9 @@ export default function ShapeGoalScreen() {
           </View>
         </Stack>
         <View style={{ marginTop: 200 }}>
-          <SubmitButton isDisabled={!isSelectedOption} control={control} onSubmit={handleSubmit(handleOnSubmit)}>
+          <Button disabled={!isSubmitButtonEnabled()} onPress={handleOnSubmit}>
             {t("GoalGetter.ShapeGoalScreen.continueButton")}
-          </SubmitButton>
+          </Button>
         </View>
       </ContentContainer>
       <DatePickerModal
@@ -201,6 +247,7 @@ export default function ShapeGoalScreen() {
         onDateSelected={handleOnSelectDate}
         currentDate={selectedDate}
         onClose={() => setIsVisible(false)}
+        onDurationSelect={handleDurationSelect}
       />
     </Page>
   );

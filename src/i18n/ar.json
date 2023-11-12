@@ -1724,7 +1724,7 @@
       "Thursday": "الخميس",
       "selectDay": "اختر يوم",
       "selectMethods": "اختار طريقه المساهمة",
-      "Percentage": "المساهمة المئوية",
+      "Percentage": "طريقةالنسبة مئوية",
       "DatePickerModal": "اختر يوم",
       "selectDate": "تحديد",
       "selectYourMethods": "اختر طرق المساهمة الخاصة بك",
@@ -1732,8 +1732,12 @@
         "min": "يجب أن تكون القيمة أكثر من 0",
         "max": "يجب أن تكون القيمة أقل من 100"
       },
-      "Recurring": "متكرر",
-      "RoundsUp": "يستدير"
+      "Recurring": "طريقة دورية",
+      "RoundsUp": "طريقة التقريب لأعلى",
+      "recurringDiscretion": "للمساهمة بنفس المبلغ المقرر بشكل متكرر شهريًا أو أسبوعيًا.",
+      "roundsUpDiscretion": "للمساهمة في جولات معاملاتك (توفير واحد فقط في كل مرة)",
+      "percentageDiscretion": "للمساهمة بنسبة محددة.",
+      "percentageLabel": "النسبة المئوية"
     },
     "ShapeGoalScreen": {
       "title": "تشكيل الهدف",
@@ -1749,8 +1753,10 @@
       "continueButton": "المتابعة",
       "currency": "ر.س",
       "error": {
-        "errorTargetAmount": "الرجاء إدخال المبلغ في حدود 20,000 ريال سعودي",
-        "errorMonthlyAmount": "الرجاء إدخال مبلغ يتراوح بين 500 إلى 20,000 ريال سعودي"
+        "maxTargetAmount": "القيمة القصوى {{value}} ريال سعودي",
+        "minTargetAmount": "القيمة الدنيا {{value}} ريال سعودي",
+        "maxMonthlyAmount": "القيمة القصوى الشهرية {{value}} ريال سعودي",
+        "minMonthlyAmount": "القيمة الدنيا الشهرية {{value}} ريال سعودي"
       },
       "DatePickerModal": {
         "title": "تحديد التاريخ",

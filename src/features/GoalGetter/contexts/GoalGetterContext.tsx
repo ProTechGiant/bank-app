@@ -19,7 +19,7 @@ const initialState: GoalGetterStateType = {
   RecurringAmount: 0,
   RecurringFrequency: "Monthly",
   RecurringDate: "",
-  ContributionMethod: undefined,
+  ContributionMethod: "Recurring",
   Duration: undefined,
   //TODO check the type values
   ProductType: undefined,

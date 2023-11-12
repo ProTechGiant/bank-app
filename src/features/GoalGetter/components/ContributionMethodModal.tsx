@@ -17,10 +17,11 @@ interface ContributionMethodModalProps {
 export default function ContributionMethodModal({ isVisible, onClose, onValueChange }: ContributionMethodModalProps) {
   const { t } = useTranslation();
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
   const optionAbbreviations = {
-    recurring: t("GoalGetter.ShapeYourGoalContributions.Percentage"),
+    percentage: t("GoalGetter.ShapeYourGoalContributions.Percentage"),
     roundsUp: t("GoalGetter.ShapeYourGoalContributions.RoundsUp"),
-    percentage: t("GoalGetter.ShapeYourGoalContributions.Recurring"),
+    recurring: t("GoalGetter.ShapeYourGoalContributions.Recurring"),
   };
   useEffect(() => {
     onValueChange?.(selectedOptions);
@@ -68,7 +69,10 @@ export default function ContributionMethodModal({ isVisible, onClose, onValueCha
           <ContributionMethodSection
             icon={<RecurringIcon />}
             optionKey="recurring"
-            texts={["Recurring", "To contribute the same amount scheduled repeatedly monthly or weekly"]}
+            texts={[
+              t("GoalGetter.ShapeYourGoalContributions.Recurring"),
+              t("GoalGetter.ShapeYourGoalContributions.recurringDiscretion"),
+            ]}
             isSelected={selectedOptions.includes(optionAbbreviations.recurring)}
             toggleOption={toggleOption}
           />
@@ -76,7 +80,10 @@ export default function ContributionMethodModal({ isVisible, onClose, onValueCha
           <ContributionMethodSection
             icon={<RoundsIcon />}
             optionKey="roundsUp"
-            texts={["Rounds up", "To contribute the rounds of your transactions (only one savings at a time)"]}
+            texts={[
+              t("GoalGetter.ShapeYourGoalContributions.RoundsUp"),
+              t("GoalGetter.ShapeYourGoalContributions.roundsUpDiscretion"),
+            ]}
             isSelected={selectedOptions.includes(optionAbbreviations.roundsUp)}
             toggleOption={toggleOption}
           />
@@ -84,7 +91,10 @@ export default function ContributionMethodModal({ isVisible, onClose, onValueCha
           <ContributionMethodSection
             icon={<RoundsIcon />}
             optionKey="percentage"
-            texts={["Percentage", "To contribute a specified percentage of your earnings."]}
+            texts={[
+              t("GoalGetter.ShapeYourGoalContributions.Percentage"),
+              t("GoalGetter.ShapeYourGoalContributions.percentageDiscretion"),
+            ]}
             isSelected={selectedOptions.includes(optionAbbreviations.percentage)}
             toggleOption={toggleOption}
           />

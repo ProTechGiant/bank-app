@@ -80,11 +80,11 @@ export default function ReviewGoalScreen() {
   };
 
   const handleOnPressGoalName = () => {
-    navigation.navigate("GoalGetter.ShapeGoalScreen");
+    navigation.navigate("GoalGetter.CreateGoalScreen");
   };
 
   const handleOnPressTargetAmount = () => {
-    navigation.navigate("GoalGetter.TargetAmountScreen");
+    navigation.navigate("GoalGetter.ShapeGoalScreen");
   };
 
   const handleOnLeaveModalDismiss = () => {

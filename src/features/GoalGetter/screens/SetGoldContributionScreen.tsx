@@ -59,7 +59,9 @@ export default function SetGoldContributionScreen() {
     const convertedValue = goldWeight * 24;
     return convertedValue.toLocaleString("en-US");
   };
-
+  const handleOnSkip = () => {
+    navigation.navigate("GoalGetter.CreateGoalScreen");
+  };
   const errorAlertContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     // TODO: change color with new design system
     borderRadius: theme.radii.small,
@@ -143,11 +145,7 @@ export default function SetGoldContributionScreen() {
               <SubmitButton control={control} onSubmit={handleSubmit(handleOnContinuePress)}>
                 {t("GoalGetter.SetGoldContributionScreen.continue")}
               </SubmitButton>
-              <Button
-                onPress={() => {
-                  return;
-                }}
-                variant="tertiary">
+              <Button onPress={handleOnSkip} variant="tertiary">
                 {t("GoalGetter.SetGoldContributionScreen.skipForNow")}
               </Button>
             </Stack>

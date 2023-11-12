@@ -28,6 +28,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { BottomSheetModal, CalendarButton, CalenderDayModalModal, RecurringFrequencyModal } from "../components";
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { mockSettings } from "../mocks/mockContribution";
 
 interface GoalAmount {
@@ -42,6 +43,7 @@ export default function ContributionScreen() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [daysCalenderIsVisible, setDaysCalenderIsVisible] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>("");
+  const { setGoalContextState } = useGoalGetterContext();
 
   const handleValueChange = (newValue: string) => {
     setSelectedValue(newValue);
@@ -88,26 +90,46 @@ export default function ContributionScreen() {
     InitialContribution: yup
       .number()
       .nullable()
-      .min(mockSettings.MinInitialContribution, t("GoalGetter.ShapeYourGoalContributions.error.min"))
-      .max(mockSettings.MaxInitialContribution, t("GoalGetter.ShapeYourGoalContributions.error.min")),
+      .min(
+        mockSettings.MinInitialContribution,
+        t("GoalGetter.ShapeGoalScreen.error.minTargetAmount", { value: mockSettings.MinInitialContribution })
+      )
+      .max(
+        mockSettings.MaxInitialContribution,
+        t("GoalGetter.ShapeGoalScreen.error.maxTargetAmount", { value: mockSettings.MaxInitialContribution })
+      ),
 
     RecurringFrequency: yup
       .number()
       .nullable()
-      .min(mockSettings.MinRecurringFrequency, t("GoalGetter.ShapeYourGoalContributions.error.min"))
-      .max(mockSettings.MaxRecurringFrequency, t("GoalGetter.ShapeYourGoalContributions.error.min")),
+      .min(
+        mockSettings.MinRecurringFrequency,
+        t("GoalGetter.ShapeGoalScreen.error.minTargetAmount", {
+          value: mockSettings.MinRecurringFrequency,
+        })
+      )
+      .max(
+        mockSettings.MaxRecurringFrequency,
+        t("GoalGetter.ShapeGoalScreen.error.maxTargetAmount", { value: mockSettings.MaxRecurringFrequency })
+      ),
   });
 
   const { control, formState, handleSubmit } = useForm<GoalAmount>({
     resolver: yupResolver(validationAmountSchema),
     mode: "onBlur",
-    defaultValues: { InitialContribution: 150, RecurringFrequency: 1000 },
+    defaultValues: { InitialContribution: 0, RecurringFrequency: 0 },
   });
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = (data: GoalAmount) => {
+    setGoalContextState({
+      InitialContribution: data.InitialContribution,
+      RecurringFrequency: recurringContribution.find(portfolio => portfolio.PortfolioId === recurringFrequencyValue)
+        ?.PortfolioName,
+      RecurringContribution: data.RecurringFrequency,
+      RecurringDate: selectedDate,
+    });
     navigation.navigate("GoalGetter.CreateGoalScreen");
   };
-
   const handleOnSkip = () => {
     navigation.navigate("GoalGetter.CreateGoalScreen");
   };

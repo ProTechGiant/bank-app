@@ -68,8 +68,8 @@ export default function CreateGoalScreen() {
   };
 
   const handleOnSubmit = (formData: GoalNameInput) => {
-    setGoalContextState({ goalName: formData.GoalName });
-    navigation.navigate("GoalGetter.TargetAmountScreen");
+    setGoalContextState({ GoalName: formData.GoalName });
+    navigation.navigate("GoalGetter.ReviewGoalScreen");
   };
 
   const suggestNamesStyle = useThemeStyles<ViewStyle>(theme => ({
