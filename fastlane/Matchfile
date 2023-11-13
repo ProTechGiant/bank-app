@@ -12,7 +12,10 @@ app_identifier([
   "com.croatia.consumerapp.uat.T2NotificationService",
   # sit release
   "com.croatia.consumerapp.sit",
-  "com.croatia.consumerapp.sit.T2NotificationService"
+  "com.croatia.consumerapp.sit.T2NotificationService",
+  # nft release
+  "com.croatia.consumerapp.nft",
+  "com.croatia.consumerapp.nft.T2NotificationService"
 ])
 readonly(false)
 # username("user@fastlane.tools") # Your Apple Developer Portal username

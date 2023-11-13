@@ -43,6 +43,42 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:674317362236:android:10d0b41fd2be9b47a70f39",
+        "android_client_info": {
+          "package_name": "com.croatia.consumerapp.nft"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaqLjTsDDRZ55NlGIkT1mbJX0FNSA5vTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674317362236-mthqhkr4nh641tfv52vgi1jo9mavc456.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "674317362236-bft2iqdsnf8g8no93jha9jaljlu10p8e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.croatia.consumerapp.dev"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:674317362236:android:a18af24176619105a70f39",
         "android_client_info": {
           "package_name": "com.croatia.consumerapp.sit"

@@ -6,6 +6,7 @@
       <certificates src="@raw/apps_dev_dmz_ingress_npnbank_local_chain"/>
       <certificates src="@raw/apps_sit_dmz_ingress_npnbank_local_chain"/>
       <certificates src="@raw/apps_uat_dmz_ingress_npnbank_local_chain"/>
+      <certificates src="@raw/apps_nft_dmz_ingress_npnbank_local_chain"/>
     </trust-anchors>
   </base-config>
 </network-security-config>
