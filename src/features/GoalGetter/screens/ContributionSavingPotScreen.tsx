@@ -159,7 +159,7 @@ export default function ContributionSavingPotScreen() {
   };
 
   const primaryButtonStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingBottom: theme.spacing["20p"],
+    paddingBottom: theme.spacing["12p"],
     justifyContent: "flex-end",
     paddingHorizontal: theme.spacing["20p"],
   }));
@@ -167,6 +167,7 @@ export default function ContributionSavingPotScreen() {
   const headerScrollStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
     flex: 1,
+    paddingTop: theme.spacing["4p"],
     marginBottom: theme.spacing["12p"],
   }));
 
@@ -189,6 +190,10 @@ export default function ContributionSavingPotScreen() {
     marginBottom: theme.spacing["12p"],
   }));
 
+  const subTitleMarginBottom = useThemeStyles<TextStyle>(theme => ({
+    marginBottom: theme.spacing["16p"],
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
@@ -200,6 +205,14 @@ export default function ContributionSavingPotScreen() {
       </NavHeader>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.containerFlex}>
         <ScrollView style={headerScrollStyle}>
+          <Stack direction="vertical" gap="4p">
+            <Typography.Text color="primaryBase" size="title3" weight="bold">
+              {t("GoalGetter.ShapeYourGoalContributions.title")}
+            </Typography.Text>
+            <Typography.Text style={subTitleMarginBottom}>
+              {t("GoalGetter.ShapeYourGoalContributions.subTitle")}
+            </Typography.Text>
+          </Stack>
           <Stack direction="vertical" gap="12p" style={stackAmountStyle}>
             <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.contributionMethod")}</Typography.Text>
             <Pressable style={recurringFrequencyModalStyle} onPress={() => setContributionMethodsIsVisible(true)}>
@@ -293,7 +306,6 @@ export default function ContributionSavingPotScreen() {
             }}
           />
         </ScrollView>
-
         <View style={primaryButtonStyle}>
           <Button disabled={!handleValidation()} onPress={handleSubmit(handleOnSubmit)}>
             {t("GoalGetter.ShapeYourGoalContributions.continue")}

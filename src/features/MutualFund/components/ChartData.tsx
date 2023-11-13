@@ -48,7 +48,9 @@ export default function ChartData({ assets, selected }: ChartDataProps) {
             />
             <ChartDataItem
               assetName={t("MutualFund.MutualFundDetailsScreen.AssetAllocation.investmentAmount")}
-              assetValue={asset.investmentAmount}
+              assetValue={t("GoalGetter.GoalSetupPieChartModal.investmentAmountVAlue", {
+                value: asset.investmentAmount,
+              })}
               highlighted={asset.assetName === selected}
             />
           </Stack>

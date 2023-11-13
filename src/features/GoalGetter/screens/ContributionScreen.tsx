@@ -243,7 +243,7 @@ export default function ContributionScreen() {
             </View>
           </Stack>
           <Stack direction="vertical" gap="12p" style={stackAmountStyle}>
-            <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringContribution")}</Typography.Text>
+            <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringFrequency")}</Typography.Text>
             <Pressable style={recurringFrequencyModalStyle} onPress={() => setIsVisible(true)}>
               <Typography.Text>
                 {recurringFrequencyValue

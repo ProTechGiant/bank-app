@@ -1394,7 +1394,7 @@
     },
     "GoalSetupPieChartModal": {
       "title": "صندوق مشترك",
-      "ytd": "YTD",
+      "ytd": "YTD: {{value}}%",
       "realEstate": "العقارات",
       "investedAmount": "المبلغ المستثمر",
       "gold": "ذهب",

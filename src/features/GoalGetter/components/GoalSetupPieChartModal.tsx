@@ -16,12 +16,28 @@ interface GoalSetupPieChartModalProps {
   isVisible: boolean;
   onClose: () => void;
 }
-
+interface DistributionProps {
+  Name: string;
+  Amount: number;
+  Percentage: number;
+  Icon: string;
+}
 export default function GoalSetupPieChartModal({ isVisible, onClose }: GoalSetupPieChartModalProps) {
   const { t } = useTranslation();
   const { ProductId } = useGoalGetterContext();
 
   const { data } = useMutualFund(ProductId);
+
+  const mapDistributionToInvestments = (Distribution: DistributionProps[]) => {
+    return Distribution.map(item => ({
+      assetName: item.Name,
+      percentage: `${item.Percentage}%`,
+      investmentAmount: `${item.Amount}`,
+      color: item.Icon,
+    }));
+  };
+
+  const transformedInvestments = data ? mapDistributionToInvestments(data.Distribution) : [];
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
@@ -37,7 +53,7 @@ export default function GoalSetupPieChartModal({ isVisible, onClose }: GoalSetup
 
   const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["4p"],
-    paddingLeft: theme.spacing["4p"],
+    position: "absolute",
   }));
 
   const ytdContentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -45,6 +61,8 @@ export default function GoalSetupPieChartModal({ isVisible, onClose }: GoalSetup
     paddingHorizontal: theme.spacing["12p"],
     flexDirection: "row",
     borderRadius: theme.radii.medium,
+    position: "relative",
+    paddingLeft: theme.spacing["20p"],
   }));
 
   const pieChartContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -93,7 +111,7 @@ export default function GoalSetupPieChartModal({ isVisible, onClose }: GoalSetup
           </View>
 
           <View style={pieChartContainerStyle}>
-            <PieChart />
+            <PieChart assets={transformedInvestments} />
           </View>
 
           <View style={detailsContainerStyle}>

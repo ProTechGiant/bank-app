@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { eachDayOfInterval, endOfMonth, format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
@@ -23,12 +23,35 @@ export default function CalenderDayModalModal({
   currentDate,
 }: CalenderDayModalProps) {
   const { t } = useTranslation();
-  const todayDate = new Date();
   const [selectedDate, setSelectedDate] = useState(currentDate);
 
   const handleOnPressSetDate = () => {
     onDateSelected(new Date(selectedDate));
     onClose();
+  };
+
+  const getDisabledDates = (date: Date) => {
+    const endOfTheMonth = endOfMonth(date);
+    return eachDayOfInterval({
+      start: new Date(endOfTheMonth.getFullYear(), endOfTheMonth.getMonth(), 29),
+      end: endOfTheMonth,
+    }).map(date => format(date, "yyyy-MM-dd"));
+  };
+  const disabledDates = getDisabledDates(new Date(selectedDate));
+
+  const disabledMarkedDates = disabledDates.reduce((acc, date) => {
+    acc[date] = { disabled: true, disableTouchEvent: true };
+    return acc;
+  }, {});
+
+  disabledMarkedDates[selectedDate] = {
+    customStyles: {
+      container: {
+        borderRadius: 8,
+      },
+    },
+    selected: true,
+    selectedColor: "#EC5F48",
   };
 
   const calenderStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -50,7 +73,7 @@ export default function CalenderDayModalModal({
       visible={isVisible}>
       <Calendar
         key={selectedDate}
-        minDate={format(todayDate, "yyyy-MM-dd")}
+        markedDates={disabledMarkedDates}
         current={selectedDate}
         scrollEnabled={true}
         showScrollIndicator={true}
@@ -70,17 +93,6 @@ export default function CalenderDayModalModal({
         hideArrows={true}
         hideExtraDays={true}
         markingType="custom"
-        markedDates={{
-          [selectedDate]: {
-            customStyles: {
-              container: {
-                borderRadius: 8,
-              },
-            },
-            selected: true,
-            selectedColor: "#EC5F48",
-          },
-        }}
       />
       <Button onPress={handleOnPressSetDate}>{t("GoalGetter.ShapeYourGoalContributions.selectDate")}</Button>
       <Stack direction="vertical" gap="8p" align="stretch">

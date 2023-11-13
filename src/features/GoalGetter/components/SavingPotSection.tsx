@@ -14,7 +14,7 @@ interface SavingPotSectionProps {
 export default function SavingPotSection({ title, description, imageUrl }: SavingPotSectionProps) {
   const iconColor = useThemeStyles(theme => theme.palette["complimentBase-10"]);
   const paddingValue = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["16p"],
+    paddingHorizontal: theme.spacing["24p"],
   }));
 
   return (

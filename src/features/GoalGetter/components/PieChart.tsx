@@ -7,7 +7,7 @@ import { Typography } from "@/components";
 import { ChartData } from "@/features/MutualFund/components";
 
 import { EstateIcon, GoldIcon, InvestmentIcon } from "../assets/icons";
-import { mockChartData, mockInvestment } from "../mocks/mockPieChart";
+import { mockChartData } from "../mocks/mockPieChart";
 
 interface Datum {
   x: string;
@@ -56,7 +56,7 @@ function CustomLabel({ x, y, datum }: CustomLabelProps) {
   }
 }
 
-export default function PieChart() {
+export default function PieChart({ assets }) {
   const { t } = useTranslation();
 
   const [selectedSlice, setSelectedSlice] = useState<string | null>(null);
@@ -125,7 +125,7 @@ export default function PieChart() {
           <InvestmentIcon />
         </View>
       </View>
-      <ChartData assets={mockInvestment.Investments} selected={selectedSlice} />
+      <ChartData assets={assets} selected={selectedSlice} />
     </>
   );
 }
