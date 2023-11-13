@@ -17,8 +17,8 @@ interface PerformanceChartProps {
 }
 
 export default function PerformanceChart({ investmentAmount, productList }: PerformanceChartProps) {
-  const ActivePointComponent = (point: { x: string; y: number }) => {
-    return <PerformanceChartPointBox yValue={point.y} xValue={formatChartDate(point.x)} />;
+  const ActivePointComponent = (productName: string) => (point: { x: string; y: number }) => {
+    return <PerformanceChartPointBox yValue={point.y} xValue={formatChartDate(point.x)} productName={productName} />;
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -78,7 +78,7 @@ export default function PerformanceChart({ investmentAmount, productList }: Perf
               lineColor: ["#EC5F48", "#EC5F48"],
               fillColor: lineColorLookUp[index],
               curve: "linear",
-              activePointComponent: ActivePointComponent,
+              activePointComponent: ActivePointComponent(product.ProductName),
             }))}
           />
         </View>

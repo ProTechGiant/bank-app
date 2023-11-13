@@ -111,9 +111,7 @@ export default function SliderProgressBar({ productList }: SliderProgressBarProp
             {t("GoalGetter.ShapeYourGoalScreen.productPerformance")}
           </Typography.Text>
         </View>
-
-        {/* TODO: These values will be changed when the API is ready */}
-        {true ? (
+        {productList ? (
           <PerformanceChart investmentAmount={sliderValue} productList={productList} />
         ) : (
           <FlexActivityIndicator />
