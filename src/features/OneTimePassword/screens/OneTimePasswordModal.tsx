@@ -215,7 +215,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         setExpiredErrorMessage(true);
       } else if (error.errorContent?.Errors[0]?.ErrorId === "0009") {
         setIsTempBlockModalVisible(true);
-      } else if (error.errorContent?.Errors[0]?.ErrorId === "0013") {
+      } else if (error.errorContent?.Errors[0]?.ErrorId === "0023") {
         setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
       } else {
