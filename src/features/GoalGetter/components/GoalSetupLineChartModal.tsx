@@ -77,7 +77,7 @@ export default function GoalSetupLineChartModal({ isVisible, onClose }: GoalSetu
             </Stack>
           </Stack>
           <View style={pieChartContainerStyle}>
-            <GoldLineChart updateChartType={updateChartType} data={data?.DailyData} hasFiveYears={false} />
+            <GoldLineChart updateChartType={updateChartType} data={data?.DailyData} hasFiveYears={true} />
           </View>
           <View>
             <View style={detailsContainerStyle}>

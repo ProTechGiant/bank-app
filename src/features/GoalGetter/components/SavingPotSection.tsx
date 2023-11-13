@@ -1,3 +1,5 @@
+import { ViewStyle } from "react-native";
+
 import Stack from "@/components/Stack";
 import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import Typography from "@/components/Typography";
@@ -11,9 +13,12 @@ interface SavingPotSectionProps {
 
 export default function SavingPotSection({ title, description, imageUrl }: SavingPotSectionProps) {
   const iconColor = useThemeStyles(theme => theme.palette["complimentBase-10"]);
+  const paddingValue = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["16p"],
+  }));
 
   return (
-    <Stack direction="horizontal" gap="8p">
+    <Stack direction="horizontal" gap="8p" style={paddingValue}>
       <SvgIcon uri={imageUrl} width={20} height={20} color={iconColor} />
 
       <Stack direction="vertical" gap="8p">
