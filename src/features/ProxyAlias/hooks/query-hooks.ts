@@ -110,60 +110,44 @@ export function useGetUserProxies() {
 }
 
 export function useLinkProxyAlias() {
-  const queryClient = useQueryClient();
-  return useMutation(
-    async (proxyTypeId: string) => {
-      const correlationId = generateRandomId();
-      const proxyId = proxyTypeId === aliasTypeCode.MSISDN ? 1 : proxyTypeId === aliasTypeCode.NATID ? 2 : 3;
+  return useMutation(async (proxyTypeId: string) => {
+    const correlationId = generateRandomId();
+    const proxyId = proxyTypeId === aliasTypeCode.MSISDN ? 1 : proxyTypeId === aliasTypeCode.NATID ? 2 : 3;
 
-      const response = await api<LinkProxyAliasResponse>(
-        "v1",
-        `ips/link/${proxyId}`,
-        "POST",
-        undefined,
-        undefined,
+    const response = await api<LinkProxyAliasResponse>(
+      "v1",
+      `ips/link/${proxyId}`,
+      "POST",
+      undefined,
+      undefined,
 
-        {
-          ["x-correlation-id"]: correlationId,
-        }
-      );
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
 
-      return { linkResponeseStatus: response.Status };
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("proxyAliases");
-      },
-    }
-  );
+    return { linkResponeseStatus: response.Status };
+  });
 }
 
 export function useUnLinkProxyAlias() {
-  const queryClient = useQueryClient();
-  return useMutation(
-    async (registerationId: string) => {
-      const correlationId = generateRandomId();
+  return useMutation(async (registerationId: string) => {
+    const correlationId = generateRandomId();
 
-      const response = await api<LinkProxyAliasResponse>(
-        "v1",
-        `ips/unlink/${registerationId}`,
-        "POST",
-        undefined,
-        undefined,
+    const response = await api<LinkProxyAliasResponse>(
+      "v1",
+      `ips/unlink/${registerationId}`,
+      "POST",
+      undefined,
+      undefined,
 
-        {
-          ["x-correlation-id"]: correlationId,
-        }
-      );
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
 
-      return { unlinkResponeseStatus: response.Status };
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("proxyAliases");
-      },
-    }
-  );
+    return { unlinkResponeseStatus: response.Status };
+  });
 }
 
 export function useSendProxiesOTP() {

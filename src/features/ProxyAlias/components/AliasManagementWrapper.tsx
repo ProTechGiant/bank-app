@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { useQueryClient } from "react-query";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -30,6 +31,8 @@ export default function AliasManagementWrapper({ data }: ProxyAliasesProps) {
   const useSendProxiesOtpAsync = useSendProxiesOTP();
   const linkProxy = useLinkProxyAlias();
   const unLinkProxy = useUnLinkProxyAlias();
+
+  const queryClient = useQueryClient();
 
   const selectedReason = useRef<string>("");
   const [isAccountModalVisible, setIsAccountModalVisible] = useState(false);
@@ -229,6 +232,7 @@ export default function AliasManagementWrapper({ data }: ProxyAliasesProps) {
   };
 
   const handleOnClose = () => {
+    queryClient.invalidateQueries("proxyAliases");
     setShowModal({ isVisible: false, type: "success", title: "", message: "" });
   };
 
