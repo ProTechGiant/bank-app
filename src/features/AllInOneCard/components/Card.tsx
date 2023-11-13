@@ -1,11 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, ImageStyle, StyleSheet, View, ViewStyle } from "react-native";
+import { Image, StyleSheet, View, ViewStyle } from "react-native";
 
 import { DiamondIcon } from "@/assets/icons";
 import { Typography } from "@/components";
 import Divider from "@/components/Divider";
-import NetworkImage from "@/components/NetworkImage";
+import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import { useThemeStyles } from "@/theme";
 
 import { NeraPlusCard } from "../assets/icons";
@@ -65,11 +65,6 @@ export default function Card({ data }: CardProps) {
     marginVertical: theme.spacing["12p"],
   }));
 
-  const imageStyle = useThemeStyles<ImageStyle>(theme => ({
-    width: theme.spacing["16p"],
-    height: theme.spacing["16p"],
-  }));
-
   return (
     <View style={containerViewStyle}>
       <View style={styles.imageContainer}>
@@ -93,13 +88,7 @@ export default function Card({ data }: CardProps) {
           <View style={{ width: isNeraPlus ? "25%" : "35%", alignItems: "center" }} key={index}>
             <View style={styles.gridItem}>
               <View style={styles.iconContainer}>
-                {/* TODO : below static image will be removed when getting right image from api */}
-                <NetworkImage
-                  source={{
-                    uri: "https://media.istockphoto.com/id/481365786/photo/diamond.jpg?s=612x612&w=0&k=20&c=niuZ5_KvgJrK08y-bjpXEsninUBf83ha-44_yrPmqpk=",
-                  }}
-                  style={imageStyle}
-                />
+                <SvgIcon uri={item.iconUrl} width={16} height={16} color="#F6371F" />
               </View>
               <Typography.Text size="caption1" align="center">
                 {item.title}

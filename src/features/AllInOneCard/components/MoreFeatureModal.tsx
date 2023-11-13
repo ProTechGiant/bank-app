@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { FlatList, ImageStyle, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { FlatList, Platform, StyleSheet, View, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Modal, Typography } from "@/components";
 import Button from "@/components/Button";
-import NetworkImage from "@/components/NetworkImage";
+import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import { useThemeStyles } from "@/theme";
 
 import { Benefit, CardData } from "../types";
@@ -35,19 +35,9 @@ export default function MoreFeatureModal({ isVisible, onClose, item, onPress }: 
     flexDirection: "row",
   }));
 
-  const imageStyle = useThemeStyles<ImageStyle>(theme => ({
-    width: theme.spacing["24p"],
-    height: theme.spacing["24p"],
-  }));
-
   const renderItem = ({ item }: { item: Benefit }) => (
     <View style={itemContainerStyle}>
-      <NetworkImage
-        source={{
-          uri: "https://media.istockphoto.com/id/481365786/photo/diamond.jpg?s=612x612&w=0&k=20&c=niuZ5_KvgJrK08y-bjpXEsninUBf83ha-44_yrPmqpk=",
-        }}
-        style={imageStyle}
-      />
+      <SvgIcon uri={item.iconUrl} width={24} height={24} color="#F6371F" />
       <View style={styles.flex}>
         <Typography.Text weight="medium" size="callout" color="neutralBase+30">
           {item.title}
