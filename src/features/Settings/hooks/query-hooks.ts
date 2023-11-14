@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -5,8 +6,8 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
-import { getConnectedServicesMock, getMockTppList } from "../mock/ConnectedServices.mock";
-import { GetUserConsentAPIParamsInterface } from "../types";
+import { getConnectedServicesMock } from "../mock/ConnectedServices.mock";
+import { GetTppListApiResponseInterface, GetUserConsentAPIParamsInterface } from "../types";
 
 interface LanguagePreferred {
   PreferredLanguageCode: string;
@@ -114,19 +115,19 @@ export const useGetAccountAccessConsents = (queryParams: GetUserConsentAPIParams
 };
 
 export const useGetTppList = () => {
+  const { i18n } = useTranslation();
   return useQuery(queryKeys.getTppList(), () => {
-    return getMockTppList();
-    // const { i18n } = useTranslation();
-    //   "v1",
-    //   "open-banking/account-access-consents/tpps",
-    //   "GET",
-    //   undefined,
-    //   undefined,
-    //   {
-    //     ["x-correlation-id"]: generateRandomId(),
-    //     ["Authorization"]: generateRandomId(),
-    //     ["Accept-Language"]: i18n.language,
-    //   }
-    // );
+    return api<GetTppListApiResponseInterface>(
+      "v1",
+      "open-banking/account-access-consents/tpps",
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Authorization"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language.toUpperCase(),
+      }
+    );
   });
 };

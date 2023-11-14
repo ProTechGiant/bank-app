@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, SafeAreaView, ViewStyle } from "react-native";
+import { Pressable, SafeAreaView, View, ViewStyle } from "react-native";
 
 import { FilterIcon, InfoCircleIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
@@ -192,7 +192,19 @@ const ConnectedServicesScreen = () => {
     marginRight: theme.spacing["20p"],
   }));
 
-  const selectedTpp = tppList?.find(item => item.TPPId === selectedTppId);
+  const redCircleStyle = useThemeStyles<ViewStyle>(theme => ({
+    position: "absolute",
+    width: 8,
+    height: 8,
+    flexDirection: "row-reverse",
+    borderRadius: theme.radii.extraSmall,
+    borderWidth: 1,
+    borderColor: theme.palette["neutralBase-40"],
+    backgroundColor: theme.palette.complimentBase,
+    right: -0,
+  }));
+
+  const selectedTpp = tppList?.TPPList.find(item => item.TPPInfo.TPPId === selectedTppId);
   return (
     <Page>
       <NavHeader withBackButton={true} />
@@ -217,6 +229,7 @@ const ConnectedServicesScreen = () => {
           </SegmentedControl>
           <Pressable onPress={handleOnToggleFilterModal} style={iconWrapperStyle}>
             <FilterIcon />
+            {selectedFilters && <View style={redCircleStyle} />}
           </Pressable>
         </Stack>
 
@@ -225,7 +238,7 @@ const ConnectedServicesScreen = () => {
             currentTab={currentTab}
             appliedFilters={selectedFilters}
             onRemove={handleOnRemoveFilter}
-            selectedTpp={selectedTpp ?? null}
+            selectedTpp={selectedTpp?.TPPInfo ?? null}
           />
         ) : null}
 
@@ -241,7 +254,7 @@ const ConnectedServicesScreen = () => {
       </ContentContainer>
       <ConnectedServicesInfoModal isVisible={isInfoModalVisible} onClose={handleOnToggleInfoModal} />
       <ConnectedServicesFilterModal
-        tppList={tppList ?? []}
+        tppList={tppList?.TPPList ?? []}
         isVisible={isFilterModalVisible}
         onClose={handleOnToggleFilterModal}
         currentTab={currentTab}

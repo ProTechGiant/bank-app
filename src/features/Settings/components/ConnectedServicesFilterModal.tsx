@@ -24,7 +24,7 @@ interface ConnectedServicesInfoModalProps {
   onClearAll: () => void;
   currentTab: ConnectedServicesTabTypes;
   onApplyFilter: (status?: ConnectedServicesStatus[], createDate?: string, tppId?: string) => void;
-  tppList: Omit<TppInfoInterface, "TPPLogo">[];
+  tppList: { TPPInfo: Omit<TppInfoInterface, "TPPLogo"> }[];
 }
 
 export default function ConnectedServicesFilterModal({
@@ -52,8 +52,8 @@ export default function ConnectedServicesFilterModal({
   const selectBoxOptions = useMemo(
     () =>
       tppList.map(tpp => ({
-        label: i18n.language === "ar" ? tpp.TPPNameArabic : tpp.TPPNameEnglish,
-        value: tpp.TPPId,
+        label: i18n.language === "ar" ? tpp.TPPInfo.TPPNameArabic : tpp.TPPInfo.TPPNameEnglish,
+        value: tpp.TPPInfo.TPPId,
       })),
     [tppList, i18n.language]
   );

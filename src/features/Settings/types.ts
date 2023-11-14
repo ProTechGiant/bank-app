@@ -59,7 +59,17 @@ export interface TppInfoInterface {
 }
 
 export interface GetTppListApiResponseInterface {
-  TPPList: Omit<TppInfoInterface, "TPPLogo">[];
+  TPPList: Tpplist[];
+}
+
+export interface Tpplist {
+  TPPInfo: Tppinfo;
+}
+
+export interface Tppinfo {
+  TPPId: string;
+  TPPNameEnglish: string;
+  TPPNameArabic: string;
 }
 
 export interface UserConsentQueryParamsInterface {

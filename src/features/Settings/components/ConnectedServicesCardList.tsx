@@ -22,7 +22,9 @@ export default function ConnectedServicesCardList({
   onRefresh,
   isFilterActive,
 }: ConnectedServicesCardListProps) {
-  const sectionFooter = () => <SectionListFooter isFilterActive={isFilterActive} />;
+  const sectionFooter = () => (
+    <SectionListFooter isFilterActive={isFilterActive} activeFilterHeight={0.55} height={0.4} />
+  );
 
   return (
     <Stack direction="vertical" align="stretch">

@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { Image, Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
@@ -75,7 +75,11 @@ export default function ConnectedServicesCard({
     <>
       <Stack direction="horizontal" style={renderItemStyle} align="center" justify="space-between">
         <View style={styles.iconContainer}>
-          <ConnnectedServicesCardIcon />
+          {tPPInfo.TPPLogo ? (
+            <Image source={{ uri: `data:image/png;base64,${tPPInfo.TPPLogo}` }} style={styles.cardIconStyle} />
+          ) : (
+            <ConnnectedServicesCardIcon />
+          )}
         </View>
         <Stack direction="vertical">
           <ConnectedServicesStatusView status={status} />
@@ -138,6 +142,10 @@ export default function ConnectedServicesCard({
 }
 
 const styles = StyleSheet.create({
+  cardIconStyle: {
+    height: 47,
+    width: 46,
+  },
   iconContainer: {
     alignSelf: "flex-start",
   },
