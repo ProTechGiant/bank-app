@@ -1666,16 +1666,30 @@
       "chooseButton": "Choose this product"
     },
     "GoalDashboardScreen": {
-      "title": "Goals and Products",
+      "title": "Goals Getter",
       "tabs": {
         "goal": "Goals",
         "product": "Products"
       },
       "goalCard": {
-        "of": "of",
-        "currency": "SAR",
-        "endDate": "End date:"
+        "toAchieve": "left to achieve in",
+        "achieved": "successfully achieved"
       },
+      "pendingGoalCard": {
+        "moreStep": "More step",
+        "towardsYour": "towards your",
+        "of": "of",
+        "viewTasks": "View Tasks",
+        "task": "Task",
+        "completed": "completed"
+      },
+      "mutualFund": {
+        "title": "Mutual fund",
+        "portfolioValue": "Portfolio Value"
+      },
+      "header": "Lets Get Closer To Your Goals,",
+      "exclamationMark": "!",
+      "otherProducts": "Other Products",
       "hint": "You can set a total of 4 goals.",
       "setNewGoal": "Set new goal",
       "errors": {

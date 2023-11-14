@@ -10,7 +10,7 @@ interface GoldWalletSectionProps {
   onPress: () => void;
   testID?: string;
 }
-export function GoldWalletSection({ onPress, testID }: GoldWalletSectionProps) {
+export default function GoldWalletSection({ onPress, testID }: GoldWalletSectionProps) {
   const { t } = useTranslation();
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -18,9 +18,14 @@ export function GoldWalletSection({ onPress, testID }: GoldWalletSectionProps) {
     padding: theme.spacing["16p"],
     borderRadius: theme.radii.small,
     borderColor: theme.palette["neutralBase-30"],
-    borderWidth: 1,
     justifyContent: "space-between",
     alignItems: "center",
+    shadowColor: "black",
+    backgroundColor: "white",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06,
+    shadowRadius: 1,
+    elevation: 5,
   }));
   return (
     <Stack testID={testID} direction="horizontal" style={contentContainerStyle}>

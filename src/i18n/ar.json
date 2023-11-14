@@ -1639,10 +1639,24 @@
         "product": "المنتجات"
       },
       "goalCard": {
-        "of": "من",
-        "currency": "ر.س",
-        "endDate": "تاريخ الإنتهاء:"
+        "toAchieve": "باقي لتحقيق",
+        "achieved": "تم تحقيقه بنجاح"
       },
+      "pendingGoalCard": {
+        "moreStep": "خطوه اخري",
+        "towardsYour": "تجاه",
+        "of": "الخاص ب",
+        "viewTasks": "رؤيه المهام",
+        "task": "مهمه",
+        "completed": "انتهت"
+      },
+      "mutualFund": {
+        "title": "صندوق الاستثمار المشترك",
+        "portfolioValue": "قيمة المحفظة"
+      },
+      "header": "هيا نقترب من اهدافك",
+      "exclamationMark": "!",
+      "otherProducts": "منتجات اخري",
       "hint": "يمكنك تعيين ما مجموعه 4 أهداف.",
       "setNewGoal": "هدف جديد",
       "errors": {

@@ -1,56 +1,59 @@
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
-import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { Theme, useThemeStyles } from "@/theme";
-
-import { getProgressColor } from "../utils";
+import { useThemeStyles } from "@/theme";
 
 interface ProgressBarProps {
-  goalTimeAchievePercentage: number;
-  goalPercentageAmount: number;
-  textColor?: keyof Theme["palette"];
-  style?: StyleProp<ViewStyle>;
-  secondaryProgressColor?: keyof Theme["palette"];
+  percentage: number;
 }
 
-export default function ProgressBar({
-  goalTimeAchievePercentage,
-  goalPercentageAmount,
-  textColor,
-  style,
-  secondaryProgressColor,
-}: ProgressBarProps) {
-  const containerStyle = useThemeStyles<ViewStyle>(
-    theme => ({
-      backgroundColor: theme.palette[secondaryProgressColor || "neutralBase-60-60%"],
-      height: 6,
-      flexBasis: "90%",
-      borderRadius: theme.radii.small,
-    }),
-    [secondaryProgressColor]
-  );
-
+export default function ProgressBar({ percentage }: ProgressBarProps) {
   const progressBarStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      ...getProgressColor(goalTimeAchievePercentage, goalPercentageAmount),
-      height: "100%",
+      backgroundColor: percentage === 100 ? theme.palette["successBase-10"] : theme.palette["secondary_purpleBase-20"],
+      height: theme.spacing["4p"],
       borderRadius: theme.radii.small,
     }),
-    [goalTimeAchievePercentage, goalPercentageAmount]
+    [percentage]
+  );
+
+  const progressBarEndStyle = useThemeStyles<ViewStyle>(theme => ({
+    height: theme.spacing["4p"],
+    backgroundColor: theme.palette["neutralBase-60-60%"],
+    borderRadius: theme.radii.small,
+  }));
+
+  const progressTextStyle = useThemeStyles<TextStyle>(
+    theme => ({
+      position: "absolute",
+      left: `${percentage - 10 > 0 ? percentage - 15 : 0}%`,
+      borderRadius: theme.radii.medium,
+      zIndex: 1,
+      paddingHorizontal: theme.spacing["12p"],
+      backgroundColor: percentage === 100 ? theme.palette.successBase : theme.palette["secondary_purpleBase-20"],
+    }),
+    [percentage]
   );
 
   return (
-    <Stack direction="horizontal" align="center" gap="4p" style={[styles.stackStyle, style]}>
-      <View style={containerStyle}>
-        <View style={[progressBarStyle, { width: `${goalTimeAchievePercentage}%` }]} />
-      </View>
+    <View style={styles.container}>
+      <View style={[progressBarStyle, { width: `${percentage}%` }]} />
 
-      <Typography.Text color={textColor ? textColor : "neutralBase-60"} size="footnote" weight="semiBold">
-        {goalTimeAchievePercentage}%
+      <Typography.Text
+        align="center"
+        color={percentage === 100 ? "neutralBase-60" : "neutralBase+30"}
+        size="footnote"
+        weight="semiBold"
+        style={progressTextStyle}>
+        {percentage}%
       </Typography.Text>
-    </Stack>
+      <View style={[progressBarEndStyle, { width: `${100 - percentage}%` }]} />
+    </View>
   );
 }
-
-const styles = StyleSheet.create({ stackStyle: { marginTop: 17 } });
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    flexDirection: "row",
+  },
+});

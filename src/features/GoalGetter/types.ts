@@ -193,3 +193,17 @@ export enum ProductTypeName {
   MEDIUM_RISK_MUTUAL_FUND = "MEDIUM_RISK_MUTUAL_FUND",
   HIGH_RISK_MUTUAL_FUND = "HIGH_RISK_MUTUAL_FUND",
 }
+
+export interface GoalCardType {
+  name: string;
+  percentage: number;
+  totalAmount: number;
+  dueDate: Date;
+  imageUri: string;
+}
+
+export interface PendingGoalCardType {
+  name: string;
+  total: number;
+  completed: number;
+}

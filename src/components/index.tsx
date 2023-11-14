@@ -1,6 +1,7 @@
 export { default as AppreciationCard } from "./AppreciationCard";
 export { default as EmptyListView } from "./EmptyListView";
 export { default as FeedbackButton } from "./FeedbackButton/FeedbackButton";
+export { default as GoldWalletSection } from "./GoldWalletSection";
 export { default as LargeCurrencyInput } from "./LargeCurrencyInput";
 export { default as IconLink } from "./Link/IconLink";
 export { default as Link } from "./Link/Link";

@@ -10,9 +10,10 @@ interface SegmentedControlProps<T> {
   children: React.ReactElement<SegmentedControlItemProps<T>>[] | React.ReactElement<SegmentedControlItemProps<T>>;
   onPress: (value: T) => void;
   value: T | undefined;
+  style?: ViewStyle;
 }
 
-export default function SegmentedControl<T>({ children, onPress, value }: SegmentedControlProps<T>) {
+export default function SegmentedControl<T>({ children, onPress, value, style }: SegmentedControlProps<T>) {
   const elements = React.Children.toArray(children) as React.ReactElement<SegmentedControlItemProps<T>>[];
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -24,7 +25,7 @@ export default function SegmentedControl<T>({ children, onPress, value }: Segmen
   }));
 
   return (
-    <Stack direction="horizontal" style={containerStyle} gap="32p">
+    <Stack direction="horizontal" style={style ? style : containerStyle} gap="32p">
       {elements.map(element => {
         return (
           <React.Fragment key={element.key}>

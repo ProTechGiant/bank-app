@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { GoldWalletSection } from "@/components";
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NotificationModal from "@/components/NotificationModal";
@@ -35,7 +36,6 @@ import {
   TopSpendingCategories,
   WhatsNextSection,
 } from "../components";
-import { GoldWalletSection } from "../components/GoldWalletSection";
 import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
 import {
   useAppreciationFeedback,
@@ -120,7 +120,7 @@ export default function DashboardScreen() {
       });
     } else {
       // TODO: check goal onboarding flow
-      navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalGetterScreen" });
+      navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalDashboardScreen" });
     }
   };
 
