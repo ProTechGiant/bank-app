@@ -5,6 +5,7 @@ import { Image, Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from "
 import EyeShowIcon from "@/assets/icons/EyeShowIcon";
 import { Stack, Typography } from "@/components";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import {
@@ -35,12 +36,23 @@ const ASPECT_RATIOS: Record<AllInCardPlaceholderProps["variant"], number> = {
 };
 
 export default function AllInCardPlaceholder({ variant, height, width, style }: AllInCardPlaceholderProps) {
+  const navigation = useNavigation();
   const [isBalanceVisible, setIsBalanceVisible] = useState<boolean>(false);
   const { t, i18n } = useTranslation();
   const [containerHeight, setContainerHeight] = useState(200);
 
   const handleOnShowBalance = () => {
     setIsBalanceVisible(visible => !visible);
+  };
+  const handleOnCardControl = () => {
+    navigation.navigate("AllInOneCard.AllInOneCardStack", {
+      screen: "AllInOneCard.CardPinScreen",
+    });
+  };
+  const handlerOnCardPress = () => {
+    navigation.navigate("AllInOneCard.AllInOneCardStack", {
+      screen: "AllInOneCard.CardControlScreen",
+    });
   };
 
   const cardOverlayActionsStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -66,7 +78,7 @@ export default function AllInCardPlaceholder({ variant, height, width, style }: 
 
   return (
     <View style={styles.content}>
-      <View style={[styles.card, style]}>
+      <Pressable style={[styles.card, style]} onPress={handlerOnCardPress}>
         <Image
           resizeMode="contain"
           style={{ aspectRatio: ASPECT_RATIOS[variant], height, width }}
@@ -76,7 +88,7 @@ export default function AllInCardPlaceholder({ variant, height, width, style }: 
             setContainerHeight(viewHeight);
           }}
         />
-      </View>
+      </Pressable>
       <View style={{ marginTop: -containerHeight / 2 }}>
         <Image style={styles.content} source={Triangle} resizeMode="stretch" />
       </View>
@@ -87,7 +99,9 @@ export default function AllInCardPlaceholder({ variant, height, width, style }: 
       </Stack>
       <Stack style={cardOverlayActionsStyle} direction="horizontal" gap="16p">
         <Pressable onPress={handleOnShowBalance}>{isBalanceVisible ? <EyeHideIcon /> : <EyeShowIcon />}</Pressable>
-        <AllInCardIcon />
+        <Pressable onPress={handleOnCardControl}>
+          <AllInCardIcon />
+        </Pressable>
       </Stack>
       <Stack style={cardBalanceStyle} direction="vertical">
         <Text style={styles.balanceLabel}>{t("AllInOneCard.Dashboard.totalBalance")}</Text>

@@ -1,4 +1,5 @@
 // add your hooks here
+import i18next from "i18next";
 import { useMutation, useQuery } from "react-query";
 
 import sendApiRequest from "@/api";
@@ -6,10 +7,12 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
 import {
+  CardInformation,
   CardIssuanceParams,
   CardIssuanceResponse,
   FeesResponse,
   ProductsResponse,
+  Restriction,
   RewardTypeSwitchRequest,
 } from "../types";
 
@@ -18,6 +21,8 @@ export const queryKeys = {
   fees: (productId: string, paymentPlanId: string) =>
     [...queryKeys.all(), { productId, paymentPlanId }, "fees"] as const,
   products: () => ["aio-card", "products"] as const,
+  settings: () => ["aio-card", "settings"] as const,
+  cardInformation: () => ["aio-card", "cardInformation"] as const,
 };
 
 export function useAllInOneCardOTP() {
@@ -72,6 +77,35 @@ export function useIssueCard() {
   );
 }
 
+export function useGetSettings({ cardId }: { cardId: string }) {
+  const { userId } = useAuthContext();
+
+  return useQuery<Restriction[]>(queryKeys.settings(), () => {
+    return sendApiRequest<Restriction[]>("v1", `aio-card/${cardId}/settings`, "GET", undefined, undefined, {
+      ["x-Correlation-Id"]: generateRandomId(),
+      ["UserId"]: userId ?? "",
+      ["Accept-Language"]: i18next.language.toUpperCase(),
+    });
+  });
+}
+
+export function useGetCardDetails({ id, type }: { id: string; type: string }) {
+  const { userId } = useAuthContext();
+
+  return useQuery<CardInformation>(queryKeys.cardInformation(), () => {
+    return sendApiRequest<CardInformation>(
+      "v1",
+      `aio-card/balance?CardIdentifierId=${id}&CardIdentifierType=${type}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["UserId"]: userId ?? "",
+      }
+    );
+  });
+}
 export function useSwitchRewardsType() {
   //TODO : UserId need to be made dynamic when api starts working for all userids
   return useMutation(async (request: RewardTypeSwitchRequest) =>

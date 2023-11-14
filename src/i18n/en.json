@@ -4166,6 +4166,39 @@
     }
   },
   "AllInOneCard": {
+    "CardPinScreen": {
+      "title": "Enter the card PIN",
+      "subTitle": "Enter the 4-digit card PIN.",
+      "errorTitle": "Wrong PIN code",
+      "errorMessage": "You have entered an incorrect PIN. Please reenter the correct PIN",
+      "closeButton": "Close",
+      "primaryButton": "Try again"
+    },
+    "CardControlScreen": {
+      "AccountUserNameCopied": "Account User Name is copied in the clipboard.",
+      "AccountNumberCopied": "Account Number is copied in the clipboard.",
+      "getCard": "Get Your Physical Card",
+      "cardControl": "Card Control",
+      "options": {
+        "choice_1": {
+          "title": "Online transaction",
+          "description": "allow any transaction conducted over the internet"
+        },
+        "choice_2": {
+          "title": "ATM withdrawal",
+          "description": "allow any use of ATM withdraw or deposit money"
+        },
+        "choice_3": {
+          "title": "Point of sale transaction",
+          "description": "allow payment made at cashier counters in the stores"
+        },
+        "choice_4": {
+          "title": "Contactless",
+          "description": "allow payments by phone or card without swiping the card, For Example: Apple pay / Mada pay"
+        }
+      }
+    },
+
     "SelectedCardScreen": {
       "pickedCard": "Pick Your Card",
       "apply": "Apply",

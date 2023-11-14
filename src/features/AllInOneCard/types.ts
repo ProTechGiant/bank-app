@@ -97,6 +97,20 @@ export interface CardReview {
   };
 }
 
+export interface CardControlOptionType {
+  id: number;
+  title: string;
+  description: string;
+  isToggled: boolean;
+}
+
+export interface visaDetails {
+  cardNumber: string;
+  expMonth: string;
+  expYear: string;
+  cvv: string;
+  userName: string;
+}
 export interface Rewards {
   id: string;
   date: string;
@@ -167,6 +181,28 @@ export interface ContentCardType {
   };
 }
 
+export interface Restriction {
+  RestrictionType: string;
+  RestrictionFlag: boolean;
+  RestrictionDescription: string;
+  RestrictionDisplayName: string;
+}
+
+interface Balance {
+  Type: string;
+  Currency: string;
+  Amount: string;
+}
+
+export interface CardInformation {
+  CustomerId: string;
+  CardIdentifierId: string;
+  CardIdentifierType: string;
+  CardExpiryDate: string;
+  CardHolderName: string;
+  AccountNumber: string;
+  Balances: Balance[];
+}
 export interface RewardTypeSwitchRequest {
   AccountNumber: string;
   RewardType: string;

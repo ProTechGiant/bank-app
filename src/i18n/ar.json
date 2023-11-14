@@ -4029,6 +4029,38 @@
     }
   },
   "AllInOneCard": {
+    "CardPinScreen": {
+      "title": "ادخل رمز بطاقتك البنكية",
+      "subTitle": "أدخل رمز المرور المكون من 4 أرقام.",
+      "errorTitle": "خطأ في رمز المرور",
+      "errorMessage": "تأكد من إدخال رمز المرور الصحيح. يرجى المحاولة مرة أخرى.",
+      "closeButton": "إغلاق",
+      "primaryButton": "حاول مرة أخرى"
+    },
+    "CardControlScreen": {
+      "AccountNumberCopied": "تم نسخ رقم الحساب في الحافظة",
+      "AccountUserNameCopied": "تم نسخ اسم المستخدم في الحافظة",
+      "getCard": "احصل على بطاقة فعلية",
+      "cardControl": "التحكم بالبطاقة",
+      "options": {
+        "choice_1": {
+          "title": "المعاملات عبر الإنترنت",
+          "description": "السماح بأي معاملة تتم عبر الإنترنت"
+        },
+        "choice_2": {
+          "title": "السحب من أجهزة الصراف الآلي",
+          "description": "السماح بأي استخدام لأجهزة الصراف الآلي لسحب أو إيداع الأموال"
+        },
+        "choice_3": {
+          "title": "الدفع عند نقاط البيع",
+          "description": "السماح بالدفع عند المحاسب في المتاجر"
+        },
+        "choice_4": {
+          "title": "الدفع بدون تلامس",
+          "description": "السماح بالدفع عن طريق الهاتف أو البطاقة دون تمرير البطاقة، على سبيل المثال: Apple pay / Mada pay"
+        }
+      }
+    },
     "SelectedCardScreen": {
       "pickedCard": "اختر بطاقتك",
       "apply": "تقديم طلب",

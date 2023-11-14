@@ -1,5 +1,5 @@
 import { NetflixIcon } from "../assets/icons";
-import { CardData, CardIssuanceParams, CardReview } from "../types";
+import { CardControlOptionType, CardData, CardIssuanceParams, CardReview, visaDetails } from "../types";
 
 export const cardData: CardData[] = [
   {
@@ -151,7 +151,43 @@ export const cardRequestData: CardIssuanceParams = {
 export const cardType = "neraPlus";
 export const DIAL_NUMBER = 1;
 
+export const cardControlOptions: CardControlOptionType[] = [
+  {
+    id: 1,
+    title: "Online transaction",
+    description: "allow any transaction conducted over the internet",
+    isToggled: false,
+  },
+  {
+    id: 2,
+    title: "ATM withdrawal",
+    description: "allow any use of ATM withdraw or deposit money",
+    isToggled: false,
+  },
+  {
+    id: 3,
+    title: "Point of sale transaction",
+    description: "allow payment made at cashier counters in the stores",
+    isToggled: false,
+  },
+  {
+    id: 4,
+    title: "Contactless",
+    description: "allow payments by phone or card without swiping the card, For Example: Apple pay / Mada pay",
+    isToggled: false,
+  },
+];
+
+export const visaCardData: visaDetails = {
+  cardNumber: "5678567856785678",
+  expMonth: "11",
+  expYear: "28",
+  cvv: "321",
+  userName: "Ahmad A AL SAEED",
+};
+
 export const USER_WITH_ALL_IN_CARD = "1000002357";
 export const USER_WITHOUT_ALL_IN_CARD = "1000001102";
 export const USER_WITH_INACTIVE_ALL_IN_CARD = "0000002270";
 export const USER_WITH_ZERO_BALANCE = "1000003001";
+export const passcode = "1111";

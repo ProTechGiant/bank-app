@@ -5,6 +5,8 @@ import { AllInOneCardContextProvider } from "./contexts/AllInOneCardContext";
 import {
   CallBackVerificationScreen,
   CardActivatedScreen,
+  CardControlScreen,
+  CardPinScreen,
   CardReadyMessageScreen,
   CardReviewScreen,
   ChooseRedemptionMethodScreen,
@@ -33,6 +35,10 @@ export type AllInOneCardParams = {
   "AllInOneCard.CardReadyMessage": undefined;
   "AllInOneCard.CreatePINScreen": undefined;
   "AllInOneCard.ActivatedCardScreen": undefined;
+  "AllInOneCard.CardPinScreen": undefined;
+  "AllInOneCard.CardControlScreen": {
+    pinVerified: boolean;
+  };
   "AllInOneCard.ConfirmPINScreen": {
     passCode: string;
   };
@@ -61,12 +67,14 @@ export default function AllInCardStack() {
         <Stack.Screen component={CreatePINScreen} name="AllInOneCard.CreatePINScreen" />
         <Stack.Screen component={ConfirmPINScreen} name="AllInOneCard.ConfirmPINScreen" />
         <Stack.Screen component={CardActivatedScreen} name="AllInOneCard.ActivatedCardScreen" />
+        <Stack.Screen component={CardControlScreen} name="AllInOneCard.CardControlScreen" />
         <Stack.Screen component={RewardsScreen} name="AllInOneCard.Rewards" />
         <Stack.Screen
           component={TermsAndConditionsScreen}
           name="AllInOneCard.TermsAndConditions"
           options={{ presentation: "modal" }}
         />
+        <Stack.Screen component={CardPinScreen} name="AllInOneCard.CardPinScreen" />
       </Stack.Navigator>
     </AllInOneCardContextProvider>
   );
