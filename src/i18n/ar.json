@@ -3805,6 +3805,7 @@
     "TradeGoldScreen": {
       "buyTitle": "اشتري ذهب",
       "sellTitle": "بيع الذهب",
+      "invalidgoldWeightMessage":"لا يمكنك شراء أو بيع أقل من 5 جرام",
       "entergrams": "أدخل غرامات",
       "goldPrice": "سعر الذهب",
       "preDefinedAmount": "أواختر مبلغًا محددًا مسبقًا",

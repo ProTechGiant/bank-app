@@ -7,6 +7,7 @@ import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import InfoBox from "@/components/InfoBox";
 import { AmountInput } from "@/components/Input";
+import { useToasts } from "@/contexts/ToastsContext";
 import { useThemeStyles } from "@/theme";
 
 import { TollIcon } from "../assets";
@@ -21,6 +22,7 @@ interface GoldTradeContentProps {
 }
 export default function GoldTradeContent({ totalBalance, handleOnContinuePress, marketPrice }: GoldTradeContentProps) {
   const { t } = useTranslation();
+  const addToast = useToasts();
   const [selectedWeight, setSelectedWeight] = useState(0);
   const { control, handleSubmit, watch, reset } = useForm({
     mode: "onChange",
@@ -42,8 +44,17 @@ export default function GoldTradeContent({ totalBalance, handleOnContinuePress, 
   }, [selectedWeight]);
 
   const handleOnSubmitPress = (values: any) => {
-    const weight = values.goldWeight ?? selectedWeight;
-    handleOnContinuePress(weight);
+    if (goldWeight < predefinedWeights[0].value) {
+      // TODO message will be replace when BA team give us the text of it
+      addToast({
+        variant: "negative",
+        message: t("GoldWallet.TradeGoldScreen.invalidgoldWeightMessage"),
+        position: "top",
+      });
+    } else {
+      const weight = values.goldWeight ?? selectedWeight;
+      handleOnContinuePress(weight);
+    }
   };
 
   const TextStyle = useThemeStyles(theme => ({
@@ -121,7 +132,10 @@ export default function GoldTradeContent({ totalBalance, handleOnContinuePress, 
           {t("GoldWallet.TradeGoldScreen.currentPriceIndicative")}
         </Typography.Text>
       )}
-      <Button testID="InternalTransfers.QuickTransferScreen:ContinueButton" onPress={handleSubmit(handleOnSubmitPress)}>
+      <Button
+        testID="InternalTransfers.QuickTransferScreen:ContinueButton"
+        disabled={goldWeight === 0}
+        onPress={handleSubmit(handleOnSubmitPress)}>
         {t("InternalTransfers.QuickTransferScreen.continueButton")}
       </Button>
     </>

@@ -3938,6 +3938,7 @@
     "TradeGoldScreen": {
       "buyTitle": "Buy gold",
       "sellTitle": "Sell gold",
+      "invalidgoldWeightMessage":"You can not buy or sell less than 5 grams",
       "entergrams": "Enter grams",
       "goldPrice": "Gold price",
       "preDefinedAmount": "Or select a pre defined amount",

@@ -172,6 +172,7 @@ export function useFinalDeal({
 
 export function useAcceptFinalDeal() {
   const { userId } = useAuthContext();
+  const { i18n } = useTranslation();
   return useMutation(
     queryKeys.acceptFinalDeal(),
     ({
@@ -184,6 +185,7 @@ export function useAcceptFinalDeal() {
       Purity,
       SourceRefNo,
       walletId,
+      TotalAmount,
     }: {
       TrxnId?: string;
       TransactionKey?: string;
@@ -194,6 +196,7 @@ export function useAcceptFinalDeal() {
       Purity?: string;
       SourceRefNo?: string;
       walletId?: string;
+      TotalAmount: number;
     }) => {
       return api(
         "v1",
@@ -211,9 +214,12 @@ export function useAcceptFinalDeal() {
           Purity,
           SourceRefNo,
           WalletId: walletId,
+          TotalAmount,
+          LinkedAccount: "100001403", // TODO will be replaced when BE finish integrate with market place
         },
         {
           ["x-Correlation-Id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language,
         }
       );
     }
