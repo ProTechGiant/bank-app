@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { KeyboardAvoidingView, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import Button from "@/components/Button";
@@ -87,20 +87,33 @@ export default function ForgotPasswordScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader />
-      <MobileAndNationalIdForm
-        onSubmit={handleOnSubmit}
-        errorMessages={errorMessages}
-        notMatchRecord={notMatchRecord}
-        title={t("SignIn.ForgotPassword.title")}
-        subTitle={t("SignIn.ForgotPassword.subTitle")}
-        buttonText={t("SignIn.ForgotPassword.submitButtonText")}
-      />
-      <View style={buttonContainerStyle}>
-        <Button variant="tertiary" onPress={() => navigation.goBack()}>
-          {t("SignIn.ForgotPassword.backToLoginButtonText")}
-        </Button>
-      </View>
+      <KeyboardAvoidingView behavior="height" style={styles.keyboardAvoidingContainerStyle}>
+        <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.contentContainerStyle}>
+          <NavHeader />
+          <MobileAndNationalIdForm
+            onSubmit={handleOnSubmit}
+            errorMessages={errorMessages}
+            notMatchRecord={notMatchRecord}
+            title={t("SignIn.ForgotPassword.title")}
+            subTitle={t("SignIn.ForgotPassword.subTitle")}
+            buttonText={t("SignIn.ForgotPassword.submitButtonText")}
+          />
+          <View style={buttonContainerStyle}>
+            <Button variant="tertiary" onPress={() => navigation.goBack()}>
+              {t("SignIn.ForgotPassword.backToLoginButtonText")}
+            </Button>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  contentContainerStyle: {
+    flexGrow: 1,
+  },
+  keyboardAvoidingContainerStyle: {
+    flex: 1,
+  },
+});

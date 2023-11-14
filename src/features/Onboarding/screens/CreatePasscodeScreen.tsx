@@ -4,12 +4,10 @@ import { View, ViewStyle } from "react-native";
 
 import { ErrorFilledCircleIcon } from "@/assets/icons";
 import Alert from "@/components/Alert";
-import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
-import Stack from "@/components/Stack";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -53,7 +51,6 @@ export default function CreatePasscodeScreen() {
   };
 
   const alertStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["64p"] + theme.spacing["20p"],
     marginHorizontal: theme.spacing["24p"],
   }));
 
@@ -64,21 +61,19 @@ export default function CreatePasscodeScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader withBackButton={false} testID="Onboarding.CreatePasscodeScreen:NavHeader" />
-      <ContentContainer>
-        <PasscodeInput
-          errorMessage={errorMessages}
-          title={t("Onboarding.CreatePasscode.title")}
-          subTitle={t("Onboarding.CreatePasscode.subTitle")}
-          isError={isErrorVisible}
-          length={6}
-          passcode={currentValue}
-          testID="Onboarding.CreatePasscodeScreen:PasscodeInput"
-        />
-        {!isErrorVisible && <View style={tempViewHeight} />}
-        <Stack direction="vertical" style={alertStyle}>
-          <Alert variant="default" message={t("SignIn.CreatePasscodeScreen.needHelpInfo")} />
-        </Stack>
-      </ContentContainer>
+      <PasscodeInput
+        errorMessage={errorMessages}
+        title={t("Onboarding.CreatePasscode.title")}
+        subTitle={t("Onboarding.CreatePasscode.subTitle")}
+        isError={isErrorVisible}
+        length={6}
+        passcode={currentValue}
+        testID="Onboarding.CreatePasscodeScreen:PasscodeInput"
+      />
+      {!isErrorVisible && <View style={tempViewHeight} />}
+      <View style={alertStyle}>
+        <Alert variant="default" message={t("SignIn.CreatePasscodeScreen.needHelpInfo")} />
+      </View>
       <NumberPad passcode={currentValue} setPasscode={handleOnChangeText} bottom={20} />
     </Page>
   );

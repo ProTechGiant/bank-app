@@ -49,6 +49,7 @@ export default function OptionalEmailScreen() {
     control,
     handleSubmit,
     formState: { isSubmitting },
+    setValue,
   } = useForm<OptionalEmailFormValues>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
@@ -71,6 +72,11 @@ export default function OptionalEmailScreen() {
     paddingTop: theme.spacing["20p"],
     paddingHorizontal: theme.spacing["20p"],
   }));
+
+  const handleOnSkipPress = async () => {
+    setValue("emailAddress", undefined);
+    await handleSubmit(handleOnSubmit)();
+  };
 
   return (
     <Page backgroundColor="neutralBase-60">
@@ -116,7 +122,7 @@ export default function OptionalEmailScreen() {
               </SubmitButton>
               <Button
                 loading={isSubmitting}
-                onPress={handleSubmit(handleOnSubmit)}
+                onPress={handleOnSkipPress}
                 variant="tertiary"
                 testID="Onboarding.OptionalEmailScreen:SkipButton">
                 {t("Onboarding.OptionalEmailScreen.skip")}

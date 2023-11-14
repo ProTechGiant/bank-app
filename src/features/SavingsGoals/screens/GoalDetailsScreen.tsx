@@ -283,24 +283,20 @@ export default function GoalDetailsScreen() {
             </Typography.Text>
           </Stack>
           <Stack direction="horizontal" gap="12p" justify="space-between">
-            <View style={styles.button}>
-              <Button
-                onPress={handleOnOpenWithdraw}
-                variant="secondary"
-                iconLeft={<WithdrawIcon />}
-                testID="SavingsGoals.GoalDetailsScreen:WithdrawButton">
-                {t("SavingsGoals.GoalDetailsScreen.ActionButtons.withdrawButton")}
-              </Button>
-            </View>
-            <View style={styles.button}>
-              <Button
-                variant="primary"
-                onPress={handleOnOpenFunding}
-                iconLeft={<PlusIcon />}
-                testID="SavingsGoals.GoalDetailsScreen:AddMoneyButton">
-                {t("SavingsGoals.GoalDetailsScreen.ActionButtons.addMoneyButton")}
-              </Button>
-            </View>
+            <Button
+              onPress={handleOnOpenWithdraw}
+              variant="secondary"
+              iconLeft={<WithdrawIcon />}
+              testID="SavingsGoals.GoalDetailsScreen:WithdrawButton">
+              {t("SavingsGoals.GoalDetailsScreen.ActionButtons.withdrawButton")}
+            </Button>
+            <Button
+              variant="primary"
+              onPress={handleOnOpenFunding}
+              iconLeft={<PlusIcon />}
+              testID="SavingsGoals.GoalDetailsScreen:AddMoneyButton">
+              {t("SavingsGoals.GoalDetailsScreen.ActionButtons.addMoneyButton")}
+            </Button>
           </Stack>
         </View>
       </NavHeader>
@@ -439,9 +435,6 @@ export default function GoalDetailsScreen() {
 }
 
 const styles = StyleSheet.create({
-  button: {
-    flex: 1,
-  },
   currency: {
     marginBottom: 8,
     marginLeft: 4,
