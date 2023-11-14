@@ -88,7 +88,7 @@ export default function BalanceCard({ balance, accountNumber, onBalanceRefresh, 
               {t("Home.DashboardScreen.totalSarBalance")}
             </Typography.Text>
             <Stack direction="horizontal" align="center" justify="space-between">
-              {balance ? (
+              {balance !== undefined ? (
                 <>
                   <Typography.Text
                     color="neutralBase+30"
