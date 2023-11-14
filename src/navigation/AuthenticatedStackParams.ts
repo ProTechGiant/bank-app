@@ -135,6 +135,9 @@ type RootStackParams = {
   "AllInOneCard.AllInOneCardStack":
     | {
         screen: keyof AllInOneCardParams;
+        params?: {
+          cardType: string;
+        };
       }
     | undefined;
   "GoldWallet.GoldWalletStack": GoldWalletStackParams;

@@ -1,6 +1,6 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { cloneElement, isValidElement, useCallback } from "react";
-import { BackHandler, I18nManager, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { BackHandler, ColorValue, I18nManager, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import DeviceInfo from "react-native-device-info";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -29,7 +29,7 @@ export interface NavHeaderProps {
   backgroundAngledColor?: string;
   backgroundBottomStyle?: ViewStyle;
   showStatusBar?: boolean;
-  backgroundColor?: string;
+  backgroundColor?: ColorValue;
 }
 
 const NavHeader = ({

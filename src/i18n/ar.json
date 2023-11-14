@@ -4179,6 +4179,38 @@
       "description": "قم بتفعيل بطاقتك الآن لتتمكن من استخدامها !",
       "button": "تفعيل البطاقة",
       "subscriptionFailed": "فشل الاشتراك في البطاقة"
+    },
+    "Rewards": {
+      "title": "المكافآت",
+      "labelEarnedCashback": "الاسترداد النقدي المتكسب",
+      "labelLastMonth": "الشهر الماضي",
+      "labelTotalCashBack": "إجمالي الاسترداد النقدي",
+      "buttonSwitchToMokafaa": "التبديل إلى مكافأة",
+      "buttonSwitchToCashBack": "التحويل الى الاستبدال التنقدي",
+      "sar": "ر.س",
+      "pts": "نقطة",
+      "exploreYourPoints": "استكشف نقاطك",
+      "earnedMokafaaPoints": "نقاط برنامج مكافأة المكتسبة",
+      "labelYouWouldHaveEarnedPart1": " كنت ستكسب ",
+      "labelYouWouldHaveEarnedPart2": "ريال سعودي لو كنت مشتركًا في",
+      "labelYouWouldHaveEarnedPart3": "",
+      "labelYouWouldHaveEarnedPart4": "+nera Plus",
+      "labelYouWouldHaveEarnedPart5": "",
+      "labelYouWouldHaveEarnedPart6": "قم بالترقية الآن.",
+      "noRewardsEarned": "لم تكسب أي استرداد نقدي بعد",
+      "startEarningRewards": "ابدأ بكسب الاسترداد النقدي. تسوق الآن لتحصل على مكافأة!",
+      "confirmationModal": {
+        "titleSwitchToMokafaa": "التحويل الى برنامج مكافأة",
+        "titleSwitchToCashback": "تحويل الى الاسترداد النقدي",
+        "messageSwitchToMokafaa": "هل أنت متأكد أنك تريد تغيير طريقة الاستبدال إلى مكافأة؟",
+        "messageSwitchToCashback": "هل أنت متأكد أنك تريد تغيير طريقة الاستبدال إلى الاسترداد النقدي؟",
+        "buttonSwitch": "تحويل"
+      },
+      "successModal": {
+        "titleSwitchToCashback": "تم التبديل بنجاح إلى الاسترداد النقدي",
+        "titleSwitchToMokafaa": "تم التبديل بنجاح إلى الاسترداد النقدي",
+        "buttonDone": "تم"
+      }
     }
   },
   "TermsAndConditionsModal": {

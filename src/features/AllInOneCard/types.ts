@@ -97,6 +97,11 @@ export interface CardReview {
   };
 }
 
+export interface Rewards {
+  id: string;
+  date: string;
+  value: string;
+}
 export enum CardTypes {
   NERA = "nera",
   NERA_PLUS = "neraPlus",
@@ -160,4 +165,9 @@ export interface ContentCardType {
   EventDetails: {
     Price: number;
   };
+}
+
+export interface RewardTypeSwitchRequest {
+  AccountNumber: string;
+  RewardType: string;
 }

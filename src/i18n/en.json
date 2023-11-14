@@ -4315,6 +4315,38 @@
       "description": "Activate you card to use it now !",
       "button": "Activate card ",
       "subscriptionFailed": "Subscription to AllInOneCard failed"
+    },
+    "Rewards": {
+      "title": "Rewards",
+      "labelEarnedCashback": "Earned Cashback",
+      "labelLastMonth": "Last month",
+      "labelTotalCashBack": "Total Cashback",
+      "buttonSwitchToMokafaa": "Switch to Mokafaa",
+      "buttonSwitchToCashBack": "Switch to Cash Back",
+      "sar": "SAR",
+      "pts": "Pts",
+      "exploreYourPoints": "Explore your points",
+      "earnedMokafaaPoints": "Earned Mokafaa Points",
+      "labelYouWouldHaveEarnedPart1": "You would have earned ",
+      "labelYouWouldHaveEarnedPart2": "if you were ",
+      "labelYouWouldHaveEarnedPart3": "subscribed to ",
+      "labelYouWouldHaveEarnedPart4": "+nera",
+      "labelYouWouldHaveEarnedPart5": "Plus ",
+      "labelYouWouldHaveEarnedPart6": "Upgrade Now",
+      "noRewardsEarned": "You haven't earned any Cashback yet",
+      "startEarningRewards": "Start earning Cashback Shop now to /n get rewarded!",
+      "confirmationModal": {
+        "titleSwitchToMokafaa": "Switch to Mokafaa",
+        "titleSwitchToCashback": "Switch to Cash Back",
+        "messageSwitchToMokafaa": "Are you sure you want to change the redemption method to Mokafaa?",
+        "messageSwitchToCashback": "Are you sure you want to change the redemption method to Cash Back?",
+        "buttonSwitch": "Switch"
+      },
+      "successModal": {
+        "titleSwitchToCashback": "Switched to Cash Back successfully",
+        "titleSwitchToMokafaa": "Switched to Mokafaa successfully",
+        "buttonDone": "Done"
+      }
     }
   },
   "TermsAndConditionsModal": {

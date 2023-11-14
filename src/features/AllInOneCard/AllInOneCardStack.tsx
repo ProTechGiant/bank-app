@@ -12,6 +12,7 @@ import {
   CreatePINScreen,
   DashboardScreen,
   EntryPointScreen,
+  RewardsScreen,
   SelectCardScreen,
   SelectPaymentOptionScreen,
   TermsAndConditionsScreen,
@@ -36,6 +37,7 @@ export type AllInOneCardParams = {
     passCode: string;
   };
   "AllInOneCard.TermsAndConditions": undefined;
+  "AllInOneCard.Rewards": { cardType: string };
 };
 const Stack = createNativeStackNavigator<AllInOneCardParams>();
 
@@ -59,6 +61,7 @@ export default function AllInCardStack() {
         <Stack.Screen component={CreatePINScreen} name="AllInOneCard.CreatePINScreen" />
         <Stack.Screen component={ConfirmPINScreen} name="AllInOneCard.ConfirmPINScreen" />
         <Stack.Screen component={CardActivatedScreen} name="AllInOneCard.ActivatedCardScreen" />
+        <Stack.Screen component={RewardsScreen} name="AllInOneCard.Rewards" />
         <Stack.Screen
           component={TermsAndConditionsScreen}
           name="AllInOneCard.TermsAndConditions"

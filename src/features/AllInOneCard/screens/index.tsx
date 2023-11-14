@@ -7,6 +7,7 @@ export { default as ConfirmPINScreen } from "./ConfirmPINScreen";
 export { default as CreatePINScreen } from "./CreatePINScreen";
 export { default as DashboardScreen } from "./DashboardScreen";
 export { default as EntryPointScreen } from "./EntryPointScreen";
+export { default as RewardsScreen } from "./RewardsScreen";
 export { default as SelectCardScreen } from "./SelectCardScreen";
 export { default as SelectPaymentOptionScreen } from "./SelectPaymentOptionScreen";
 export { default as TermsAndConditionsScreen } from "./TermsAndConditionsScreen";

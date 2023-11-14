@@ -5,7 +5,13 @@ import sendApiRequest from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
-import { CardIssuanceParams, CardIssuanceResponse, FeesResponse, ProductsResponse } from "../types";
+import {
+  CardIssuanceParams,
+  CardIssuanceResponse,
+  FeesResponse,
+  ProductsResponse,
+  RewardTypeSwitchRequest,
+} from "../types";
 
 export const queryKeys = {
   all: () => ["aio-card", "all"] as const,
@@ -62,6 +68,16 @@ export function useIssueCard() {
     sendApiRequest<CardIssuanceResponse>("v1", `aio-card/issuance`, "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
       ["UserId"]: userId ?? "",
+    })
+  );
+}
+
+export function useSwitchRewardsType() {
+  //TODO : UserId need to be made dynamic when api starts working for all userids
+  return useMutation(async (request: RewardTypeSwitchRequest) =>
+    sendApiRequest<CardIssuanceResponse>("v1", `aio-card/rewards`, "POST", undefined, request, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["UserId"]: "1000001199",
     })
   );
 }

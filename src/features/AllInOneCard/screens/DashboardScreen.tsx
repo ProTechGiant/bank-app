@@ -71,6 +71,13 @@ export default function DashboardScreen() {
     // TOOD : handle it when required screen is made
   };
 
+  const handleOnRewardsPress = () => {
+    navigation.navigate("AllInOneCard.AllInOneCardStack", {
+      screen: "AllInOneCard.Rewards",
+      params: { cardType: allInOneCardType },
+    });
+  };
+
   const handleActivateCard = () => {
     navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.CreatePINScreen" });
   };
@@ -103,7 +110,7 @@ export default function DashboardScreen() {
             </SegmentedControl>
           </View>
           <Benefits />
-          <Rewards />
+          <Rewards onPress={handleOnRewardsPress} />
           <TransactionSection
             onPressSeeMore={handleTransactionSeeMore}
             transactions={transactions as TransactionItem[]}
