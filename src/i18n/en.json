@@ -1569,6 +1569,8 @@
       },
       "photoInput": {
         "label": "Upload photo",
+        "title": "Customize your goal",
+        "subTitle": "Write your goal’s name or select one",
         "buttons": {
           "photoPhoneGalary": "Photo Phone Gallery",
           "predefinedPhoto": "Predefined Photo",

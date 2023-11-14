@@ -1535,9 +1535,11 @@
       },
       "photoInput": {
         "label": "تحميل صورة",
+        "title": "قم بتخصيص هدفك",
+        "subTitle": "اكتب اسم هدفك أو اختر واحدًا",
         "buttons": {
           "photoPhoneGalary": "معرض صور الهاتف",
-          "predefinedPhoto": "صورة محددة مسبقًا",
+          "predefinedPhoto": "تشكيل الهدف",
           "camera": "الكاميرا",
           "cancel": "الغاء"
         }

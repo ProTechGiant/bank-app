@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import Button from "@/components/Button";
@@ -95,6 +95,10 @@ export default function CreateGoalScreen() {
     paddingHorizontal: theme.spacing["20p"],
   }));
 
+  const subTitleMarginBottom = useThemeStyles<TextStyle>(theme => ({
+    marginBottom: theme.spacing["16p"],
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
@@ -107,6 +111,14 @@ export default function CreateGoalScreen() {
         </Stack>
         <KeyboardAvoidingView style={contentContainerStyle} behavior={Platform.OS === "ios" ? "padding" : undefined}>
           <Stack direction="vertical" gap="24p" align="stretch">
+            <Stack direction="vertical" gap="8p">
+              <Typography.Text color="primaryBase" size="title1" weight="bold">
+                {t("GoalGetter.CreateGoalGetter.photoInput.title")}
+              </Typography.Text>
+              <Typography.Text style={subTitleMarginBottom} size="callout">
+                {t("GoalGetter.CreateGoalGetter.photoInput.subTitle")}
+              </Typography.Text>
+            </Stack>
             <TextInput
               name="GoalName"
               control={control}

@@ -89,7 +89,7 @@ export default function CalenderDayModalModal({
         onDayPress={day => {
           setSelectedDate(day.dateString);
         }}
-        enableSwipeMonths={true}
+        enableSwipeMonths={false}
         hideArrows={true}
         hideExtraDays={true}
         markingType="custom"

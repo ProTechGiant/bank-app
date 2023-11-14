@@ -141,7 +141,7 @@ export default function ContributionScreen() {
   };
 
   const handleValidation = () => {
-    return formState.dirtyFields.InitialContribution || formState.dirtyFields.RecurringFrequency
+    return formState.dirtyFields.InitialContribution && formState.dirtyFields.RecurringFrequency
       ? formState.errors?.InitialContribution || formState.errors?.RecurringFrequency
         ? false
         : true
@@ -289,7 +289,7 @@ export default function ContributionScreen() {
 
         <View style={primaryButtonStyle}>
           <Button disabled={!handleValidation()} onPress={handleSubmit(handleOnSubmit)}>
-            {t("GoalGetter.ContributionsScreen.next")}
+            {t("GoalGetter.ShapeYourGoalContributions.continue")}
           </Button>
         </View>
         <View style={primaryButtonStyle}>

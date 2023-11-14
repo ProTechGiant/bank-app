@@ -135,11 +135,11 @@ export default function ContributionSavingPotScreen() {
   };
 
   const handleValidation = () => {
-    return !(
-      formState.errors?.InitialContribution ||
-      formState.errors?.RecurringFrequency ||
-      formState.errors?.PercentageInput
-    );
+    return formState.dirtyFields.InitialContribution && formState.dirtyFields.RecurringFrequency
+      ? formState.errors?.InitialContribution || formState.errors?.RecurringFrequency
+        ? false
+        : true
+      : false;
   };
 
   const handleOnCloseRecurringFrequencyModal = () => {
