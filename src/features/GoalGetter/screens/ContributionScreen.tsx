@@ -139,13 +139,25 @@ export default function ContributionScreen() {
       setRecurringFrequencyValue(value);
     }
   };
+  const currentDate = new Date().toISOString().split("T")[0];
 
   const handleValidation = () => {
-    return formState.dirtyFields.InitialContribution && formState.dirtyFields.RecurringFrequency
-      ? formState.errors?.InitialContribution || formState.errors?.RecurringFrequency
-        ? false
-        : true
-      : false;
+    const isInitialAndRecurringValid =
+      formState.dirtyFields.InitialContribution &&
+      formState.dirtyFields.RecurringFrequency &&
+      !formState.errors?.InitialContribution &&
+      !formState.errors?.RecurringFrequency;
+
+    const isFrequencySelected = recurringFrequencyValue !== "";
+
+    let isDayOrDateSelected = false;
+    if (recurringFrequencyValue === "002") {
+      isDayOrDateSelected = selectedValue !== "";
+    } else if (recurringFrequencyValue === "001") {
+      isDayOrDateSelected = selectedDate !== "" && selectedDate !== currentDate;
+    }
+
+    return isInitialAndRecurringValid && isFrequencySelected && isDayOrDateSelected;
   };
 
   const handleOnCloseRecurringFrequencyModal = () => {

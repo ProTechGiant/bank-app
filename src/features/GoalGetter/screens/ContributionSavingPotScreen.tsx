@@ -134,12 +134,29 @@ export default function ContributionSavingPotScreen() {
     }
   };
 
+  const currentDate = new Date().toISOString().split("T")[0];
+
   const handleValidation = () => {
-    return formState.dirtyFields.InitialContribution && formState.dirtyFields.RecurringFrequency
-      ? formState.errors?.InitialContribution || formState.errors?.RecurringFrequency
-        ? false
-        : true
-      : false;
+    const isContributionMethodSelected = methodsContribution !== "";
+
+    const isInitialContributionValid =
+      formState.dirtyFields.InitialContribution && !formState.errors?.InitialContribution;
+
+    const isRecurringFrequencyValid =
+      recurringFrequencyValue !== "" &&
+      formState.dirtyFields.RecurringFrequency &&
+      !formState.errors?.RecurringFrequency;
+
+    let isDayOrDateSelected = false;
+    if (recurringFrequencyValue === "002") {
+      isDayOrDateSelected = selectedValue !== "";
+    } else if (recurringFrequencyValue === "001") {
+      isDayOrDateSelected = selectedDate !== "" && selectedDate !== currentDate;
+    }
+
+    return (
+      isContributionMethodSelected && isInitialContributionValid && isRecurringFrequencyValid && isDayOrDateSelected
+    );
   };
 
   const handleOnCloseRecurringFrequencyModal = () => {
