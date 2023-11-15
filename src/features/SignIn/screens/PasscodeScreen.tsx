@@ -136,6 +136,7 @@ export default function PasscodeScreen() {
         if (isNewUser || comingFromTPP) {
           delayTransition(() => handleNavigate(response.AccessToken));
         } else {
+          storeUserToLocalStorage();
           navigateToHome(response.AccessToken);
         }
       }
@@ -149,8 +150,8 @@ export default function PasscodeScreen() {
   };
 
   const storeUserToLocalStorage = () => {
-    setNationalId(tempUser?.NationalId);
-    auth.updatePhoneNumber(tempUser?.MobileNumber);
+    setNationalId(tempUser?.NationalId || user?.NationalId);
+    auth.updatePhoneNumber(tempUser?.MobileNumber || user?.MobileNumber);
     setItemInEncryptedStorage("user", JSON.stringify(tempUser));
   };
 

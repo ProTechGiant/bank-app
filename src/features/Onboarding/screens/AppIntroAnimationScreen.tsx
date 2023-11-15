@@ -10,7 +10,9 @@ import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-i
 import useCheckTPPService from "@/hooks/use-tpp-service";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
+import { generateAutomaticUUID } from "@/utils";
 import {
+  clearStorage,
   getItemFromEncryptedStorage,
   hasItemInStorage,
   removeItemFromEncryptedStorage,
@@ -57,20 +59,17 @@ export default function AppIntroAnimationScreen() {
     const res = await getAuthenticationToken();
     if (typeof res?.AccessToken === "string") {
       setItemInEncryptedStorage("authToken", res.AccessToken);
-      auth.authenticateAnonymously(auth.userId, res.AccessToken);
+      auth.setAuthToken(res.AccessToken);
     }
   };
 
   const comingFromTPP = useCheckTPPService();
 
-  useEffect(() => {
-    if (comingFromTPP) {
-      handleGetAuthenticationToken();
-    }
-
+  const setFirstStackForUser = async () => {
     async function continueAfterAnimation() {
       try {
         handleGetAuthenticationToken();
+
         const hasOpenedBefore = await hasItemInStorage("hasSeenOnboarding");
         if (hasOpenedBefore) {
           try {
@@ -85,14 +84,15 @@ export default function AppIntroAnimationScreen() {
             goToOnboardingStack();
           }
         } else {
-          handleGetAuthenticationToken();
-
           if (comingFromTPP) {
             navigation.navigate("SignIn.SignInStack", {
               screen: "SignIn.Iqama",
             });
           } else {
             navigation.navigate("Onboarding.WelcomeCarousel");
+            await clearStorage();
+            await setCustomerId();
+            await handleGetAuthenticationToken();
           }
         }
       } catch (error) {
@@ -101,7 +101,31 @@ export default function AppIntroAnimationScreen() {
     }
 
     setTimeout(() => continueAfterAnimation(), ANIMATION_DURATION_MS);
+  };
+
+  useEffect(() => {
+    if (comingFromTPP) {
+      handleGetAuthenticationToken();
+    }
+
+    navigation.addListener("focus", setFirstStackForUser);
+
+    return () => {
+      navigation.removeListener("focus", setFirstStackForUser);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, comingFromTPP]);
+
+  const setCustomerId = async () => {
+    const userId = await getItemFromEncryptedStorage("userId");
+    if (!userId) {
+      const id = generateAutomaticUUID();
+      await setItemInEncryptedStorage("userId", id);
+      await auth.setUserId(id);
+    } else {
+      auth.setUserId(userId);
+    }
+  };
 
   return (
     <Page backgroundColor="neutralBase-60" insets={[]}>

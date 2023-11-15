@@ -21,7 +21,7 @@ export default function useLogout() {
     const res = await getAuthenticationToken();
     if (typeof res?.AccessToken === "string") {
       setItemInEncryptedStorage("authToken", res.AccessToken);
-      auth.authenticateAnonymously(auth.userId as string, res.AccessToken);
+      auth.setAuthToken(res.AccessToken);
     }
   };
 

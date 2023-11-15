@@ -36,6 +36,7 @@ export default function SplashScreen() {
 
   useEffect(() => {
     async function checkAuthToken() {
+      setCustomerId();
       try {
         const authToken = await getItemFromEncryptedStorage("authToken");
         if (authToken) {
@@ -52,11 +53,19 @@ export default function SplashScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation]);
 
+  const setCustomerId = async () => {
+    const userId = await getItemFromEncryptedStorage("userId");
+
+    if (!userId) return;
+
+    auth.setUserId(userId);
+  };
+
   const handleGetAuthenticationToken = async () => {
     const res = await getAuthenticationToken();
     if (typeof res?.AccessToken === "string") {
       setItemInEncryptedStorage("authToken", res.AccessToken);
-      auth.authenticateAnonymously(auth.userId, res.AccessToken);
+      auth.setAuthToken(res.AccessToken);
     }
   };
 

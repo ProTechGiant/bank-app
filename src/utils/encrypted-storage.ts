@@ -17,3 +17,7 @@ export async function hasItemInStorage(key: string) {
   const data = await EncryptedStorage.getItem(key);
   return data ? true : false;
 }
+
+export async function clearStorage() {
+  await EncryptedStorage.clear();
+}

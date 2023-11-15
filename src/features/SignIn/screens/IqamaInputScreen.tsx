@@ -55,7 +55,7 @@ export default function IqamaInputScreen() {
     const res = await getAuthenticationToken();
     if (typeof res?.AccessToken === "string") {
       setItemInEncryptedStorage("authToken", res.AccessToken);
-      auth.authenticateAnonymously(auth.userId as string, res.AccessToken);
+      auth.setAuthToken(res.AccessToken);
     }
   };
 
@@ -65,6 +65,7 @@ export default function IqamaInputScreen() {
     if (comingFromTPP) {
       handleGetAuthenticationToken();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, comingFromTPP]);
 
   const handleOnSignUp = () => {

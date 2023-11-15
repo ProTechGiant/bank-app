@@ -2,7 +2,6 @@ import { API_TOKEN } from "@env";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { setAuthenticationHeaders } from "@/api/send-api-request";
-import { USER_ID } from "@/constants";
 import { USER_WITH_ALL_IN_CARD, USER_WITH_INACTIVE_ALL_IN_CARD } from "@/features/AllInOneCard/mocks";
 import { generateAutomaticUUID } from "@/utils";
 import {
@@ -82,7 +81,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   const [state, setState] = useState<State>({
     isAuthenticated: false,
     apiKey: API_TOKEN,
-    userId: USER_ID, //TODO: to be replaced with dynamic value from API.
+    userId: undefined, //TODO: to be replaced with dynamic value from API.
     authToken: undefined,
     phoneNumber: undefined,
     isUserLocked: false,
