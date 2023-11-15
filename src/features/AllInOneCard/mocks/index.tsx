@@ -190,4 +190,14 @@ export const USER_WITH_ALL_IN_CARD = "1000002357";
 export const USER_WITHOUT_ALL_IN_CARD = "1000001102";
 export const USER_WITH_INACTIVE_ALL_IN_CARD = "0000002270";
 export const USER_WITH_ZERO_BALANCE = "1000003001";
+
+export const mockSettings = [
+  "Change Card PIN",
+  "Order Physical Card",
+  "Statements",
+  "Card Close & Replacement",
+  "Add to Apple Wallet",
+  "Permanent Card Closure",
+  "FAQs",
+];
 export const passcode = "1111";

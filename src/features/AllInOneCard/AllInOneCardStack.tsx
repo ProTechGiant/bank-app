@@ -17,6 +17,7 @@ import {
   RewardsScreen,
   SelectCardScreen,
   SelectPaymentOptionScreen,
+  SettingsScreen,
   TermsAndConditionsScreen,
   WaitingActivationScreen,
   WelcomeScreen,
@@ -43,6 +44,7 @@ export type AllInOneCardParams = {
     passCode: string;
   };
   "AllInOneCard.TermsAndConditions": undefined;
+  "AllInOneCard.SettingsScreen": undefined;
   "AllInOneCard.Rewards": { cardType: string };
 };
 const Stack = createNativeStackNavigator<AllInOneCardParams>();
@@ -74,6 +76,7 @@ export default function AllInCardStack() {
           name="AllInOneCard.TermsAndConditions"
           options={{ presentation: "modal" }}
         />
+        <Stack.Screen component={SettingsScreen} name="AllInOneCard.SettingsScreen" />
         <Stack.Screen component={CardPinScreen} name="AllInOneCard.CardPinScreen" />
       </Stack.Navigator>
     </AllInOneCardContextProvider>

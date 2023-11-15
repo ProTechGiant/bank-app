@@ -3821,7 +3821,7 @@
     "TradeGoldScreen": {
       "buyTitle": "اشتري ذهب",
       "sellTitle": "بيع الذهب",
-      "invalidgoldWeightMessage":"لا يمكنك شراء أو بيع أقل من 5 جرام",
+      "invalidgoldWeightMessage": "لا يمكنك شراء أو بيع أقل من 5 جرام",
       "entergrams": "أدخل غرامات",
       "goldPrice": "سعر الذهب",
       "preDefinedAmount": "أواختر مبلغًا محددًا مسبقًا",
@@ -4150,6 +4150,8 @@
       "actionAddMoney": "اضافة رصيد",
       "actionRefund": "استرداد",
       "actionFreeze": "تجميد",
+      "actionDefrost": "فك تجميد",
+      "cardFrozenButton":"البطاقة مُجمّدة",
       "addToAppleWallet": "اضافة الي محفظة ابل",
       "feed": "الموجز",
       "currencies": "العملات ",
@@ -4164,6 +4166,27 @@
         "currency": "ريال / شهريا ",
         "elevateExperience": "ارفع مستوى تجربتك",
         "exploreButton": "استكشف"
+      },
+      "FreezeCardModal": {
+        "title": "هل أنت متأكد أنك ترغب في تجميد بطاقتك؟",
+        "subtitle": "ستتم رفض معاملاتك بمجرد تجميد بطاقتك. يمكنك إلغاء التجميده في أي وقت.",
+        "freezeButton": "جمد بطاقتي",
+        "noFreezeButton": "لا",
+        "freezeModal": {
+          "title": "تم تجميد بطاقتك بنجاح.",
+          "message": "يمكنك إلغاء التجميد في أي وقت",
+          "button": "حسناً"
+        }
+      },
+      "DefrostCardModal": {
+        "title": "إلغاء التجميد.",
+        "subtitle": "هل أنت متأكد أنك ترغب في تذويب بطاقتك All in One؟",
+        "defrostButton": "قم بالغاء تجميد بطاقتي",
+        "noButton": "لا",
+        "defrostModal": {
+          "title": "تم الغاء تجميد بطاقتك بنجاح",
+          "button": "حسناً"
+        }
       }
     },
     "SelectPaymentOptionScreen": {
@@ -4228,6 +4251,16 @@
       "description": "قم بتفعيل بطاقتك الآن لتتمكن من استخدامها !",
       "button": "تفعيل البطاقة",
       "subscriptionFailed": "فشل الاشتراك في البطاقة"
+    },
+    "SettingsScreen": {
+      "title": "الاعدادات",
+      "changeCardPIN": "تغيير رقم البطاقة السري",
+      "orderPhysicalCard": "طلب البطاقة",
+      "statements": "كشوف الحساب",
+      "cardClose": "إغلاق البطاقة واستبدالها",
+      "addToWallet": "أضف الى Apple Wallet",
+      "permanentCardClosure": "إغلاق البطاقة  بشكل دائم",
+      "FAQs": "الأسئلة الشائعة"
     },
     "Rewards": {
       "title": "المكافآت",

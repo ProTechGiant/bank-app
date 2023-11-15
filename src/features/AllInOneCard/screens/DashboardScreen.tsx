@@ -41,6 +41,10 @@ export default function DashboardScreen() {
     }
   }, [allInOneCardStatus, isFocused]);
 
+  const handleNavigateToSettings = () => {
+    navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.SettingsScreen" });
+  };
+
   const dividerStyle = useThemeStyles<ViewStyle>(theme => ({
     height: theme.spacing["4p"],
     backgroundColor: theme.palette["neutralBase-40"],
@@ -90,7 +94,7 @@ export default function DashboardScreen() {
         withBackButton={false}
         title={t("AllInOneCard.Dashboard.title")}
         end={
-          <Pressable>
+          <Pressable onPress={handleNavigateToSettings}>
             <SettingIcon />
           </Pressable>
         }

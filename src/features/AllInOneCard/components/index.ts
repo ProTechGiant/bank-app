@@ -21,6 +21,7 @@ export { default as RewardsAction } from "./rewards/RewardsAction";
 export { default as RewardsEmpty } from "./rewards/RewardsEmpty";
 export { default as RewardsItem } from "./rewards/RewardsItem";
 export { default as RewardUpgradeText } from "./rewards/RewardUpgradeText";
+export { default as SettingItem } from "./SettingItem";
 export { default as TransactionSection } from "./TransactionSection";
 export { default as UpgradeToNeraPlusCard } from "./UpgradeToNeraPlusCard";
 export { default as VisaCard } from "./VisaCard";

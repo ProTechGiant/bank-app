@@ -1,14 +1,21 @@
 import { View, ViewStyle } from "react-native";
 
-import { Typography } from "@/components";
+import { Stack, Typography } from "@/components";
 import { Theme, useThemeStyles } from "@/theme";
 
 interface ActivateCardProps {
   label: string;
   backgroundColor: keyof Theme["palette"];
+  color?: keyof Theme["palette"];
+  icon?: JSX.Element;
 }
 
-export default function ActivateCard({ label, backgroundColor: tagBackgroundColor }: ActivateCardProps) {
+export default function ActivateCard({
+  label,
+  backgroundColor: tagBackgroundColor,
+  icon,
+  color = "neutralBase+30",
+}: ActivateCardProps) {
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette[tagBackgroundColor],
     borderRadius: theme.radii.xlarge,
@@ -18,9 +25,12 @@ export default function ActivateCard({ label, backgroundColor: tagBackgroundColo
 
   return (
     <View style={contentStyle}>
-      <Typography.Text size="caption1" weight="semiBold">
-        {label}
-      </Typography.Text>
+      <Stack direction="horizontal" gap="8p">
+        {icon}
+        <Typography.Text size="callout" weight="semiBold" color={color}>
+          {label}
+        </Typography.Text>
+      </Stack>
     </View>
   );
 }

@@ -3954,7 +3954,7 @@
     "TradeGoldScreen": {
       "buyTitle": "Buy gold",
       "sellTitle": "Sell gold",
-      "invalidgoldWeightMessage":"You can not buy or sell less than 5 grams",
+      "invalidgoldWeightMessage": "You can not buy or sell less than 5 grams",
       "entergrams": "Enter grams",
       "goldPrice": "Gold price",
       "preDefinedAmount": "Or select a pre defined amount",
@@ -4287,6 +4287,8 @@
       "actionAddMoney": "Add Money",
       "actionRefund": "Refund",
       "actionFreeze": "Freeze",
+      "actionDefrost": "Defrost",
+      "cardFrozenButton":"Card frozen",
       "addToAppleWallet": "Add to Apple Wallet",
       "feed": "Feed",
       "currencies": "Currencies",
@@ -4301,6 +4303,27 @@
         "currency": "SAR / month",
         "elevateExperience": "Elevate your experience",
         "exploreButton": "Explore"
+      },
+      "FreezeCardModal": {
+        "title": "Are You sure that you want to freeze your card?",
+        "subtitle": "Your transactions will be declined once your card is is frozen. You can unfreeze it anytime",
+        "freezeButton": "Freeze My Card",
+        "noFreezeButton": "NO",
+        "freezeModal": {
+          "title": "Your card has been frozen successfully ",
+          "message": "You can defrost it anytime",
+          "button": "OK"
+        }
+      },
+      "DefrostCardModal": {
+        "title": "Card Defrost",
+        "subtitle": "Are you sure that you want to Defrost your All in One Card ?",
+        "defrostButton": "Defrost My Card ",
+        "noButton": "NO",
+        "defrostModal": {
+          "title": "Your card has been defrosted successfully ",
+          "button": "OK"
+        }
       }
     },
     "SelectPaymentOptionScreen": {
@@ -4365,6 +4388,16 @@
       "description": "Activate you card to use it now !",
       "button": "Activate card ",
       "subscriptionFailed": "Subscription to AllInOneCard failed"
+    },
+    "SettingsScreen": {
+      "title": "Settings",
+      "changeCardPIN": "Change Card PIN",
+      "orderPhysicalCard": "Order Physical Card",
+      "statements": "Statements",
+      "cardClose": "Card Close & Replacement",
+      "addToWallet": "Add to Apple Wallet",
+      "permanentCardClosure": "Permanent Card Closure",
+      "FAQs": "FAQs"
     },
     "Rewards": {
       "title": "Rewards",

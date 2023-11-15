@@ -2,10 +2,10 @@ import Svg, { G, Mask, Path, Rect } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export default function RefundIcon({ width = 56, height = 56 }: IconProps) {
+export default function RefundIcon({ width = 56, height = 56, color = "#1E1A25" }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <Rect width={width} height={height} rx={16} fill="#1E1A25" />
+      <Rect width={width} height={height} rx={16} fill={color} />
       <Mask id="mask0_5419_157350" maskUnits="userSpaceOnUse" x={16} y={16} width={24} height={24}>
         <Rect x={16} y={16} width={24} height={24} fill="#D9D9D9" />
       </Mask>
